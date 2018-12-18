@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FeedBackService } from './feedback.service';
 import { UserService } from '../openmrs-api/user.service';
@@ -20,20 +22,20 @@ export class FeedBackComponent implements OnInit, OnDestroy {
     public department: string;
     public selectedDepartment: string;
     public departmentIsSelected = false;
-    private payload = {
+    public payload = {
         name: '',
         phone: '',
         message: '',
         location: '',
         department: ''
     };
-    private busy: Subscription;
-    private errorMessage: string = '';
-    private hasError: boolean = false;
-    private r1 = /^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,3})|(\(?\d{2,3}\)?))/;
-    private r2 = /(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$/;
-    private patterns = new RegExp(this.r1.source + this.r2.source);
-    private departmentConf: any[];
+    public busy: Subscription;
+    public errorMessage: string = '';
+    public hasError: boolean = false;
+    public r1 = /^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,3})|(\(?\d{2,3}\)?))/;
+    public r2 = /(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$/;
+    public patterns = new RegExp(this.r1.source + this.r2.source);
+    public departmentConf: any[];
     constructor(private feedBackService: FeedBackService,
                 private userService: UserService,
                 private userDefaultPropertiesService: UserDefaultPropertiesService,
@@ -56,7 +58,7 @@ export class FeedBackComponent implements OnInit, OnDestroy {
             || {};
         this.payload.location = location.display || 'Default location not set';
         this.payload.department = this.selectedDepartment || 'Department not selected';
-        this.busy = this.feedBackService.postFeedback(this.payload).subscribe((res) => {
+        this.busy = this.feedBackService.postFeedback(this.payload).pipe(take(1)).subscribe((res) => {
             this.success = true;
             console.log('this.payload', this.payload.phone);
             this.payload = {
@@ -84,8 +86,8 @@ export class FeedBackComponent implements OnInit, OnDestroy {
         this.error = false;
     }
     public getDepartmentConf() {
-      this.departmentProgramService.getDartmentProgramsConfig()
-        .subscribe((results) => {
+      this.departmentProgramService.getDartmentProgramsConfig().pipe(
+        take(1)).subscribe((results) => {
           console.log('results===', results); if (results) {
             this.departmentConf = results;
             this._filterDepartmentConfigByName();

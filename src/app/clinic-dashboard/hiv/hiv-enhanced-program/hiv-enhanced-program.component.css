@@ -1,0 +1,34 @@
+.nav-tabs {
+    overflow-x: auto;
+    overflow-y: hidden;
+    display: -webkit-box;
+    display: -moz-box;
+}
+
+.tablink {
+    display: inline-block;
+    background-color: white;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 17px;
+    width: 25%;
+}
+
+.tablink.active {
+    border-bottom-color : #673ab7;
+    border-bottom-style: solid;
+    background-color: #ddd;
+    border-bottom-width: 2px;
+}
+.tablink:hover {
+    background-color: #dbdbdb;
+}
+.nav-tabs >li.active > a {
+    border-style: none;
+    background-color: #dbdbdb;
+}
+.center {
+    text-align: center;
+}

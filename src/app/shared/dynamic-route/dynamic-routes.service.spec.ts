@@ -1,4 +1,4 @@
-import { TestBed, fakeAsync, inject } from '@angular/core/testing';
+import { TestBed, fakeAsync, inject, tick } from '@angular/core/testing';
 import { DynamicRoutesService } from './dynamic-routes.service';
 import { DynamicRouteModel } from './dynamic-route.model';
 
@@ -51,11 +51,11 @@ describe('Service: DynamicRoutesService', () => {
       routes: []
     };
 
-    service.routes.subscribe((routes) => {
+    service.routes.subscribe(routes => {
         expect(routes).toEqual(dynamicRouteMock);
         done();
       },
-      (err) => console.log(err),
+      err => console.log(err),
       () => console.log('Completed'));
     service.setRoutes(dynamicRouteMock);
   });
@@ -73,6 +73,7 @@ describe('Service: DynamicRoutesService', () => {
         routes: []
       };
       let stringParams = service.extractParameter('patientUuid', dynamicRouteModel);
+      tick(50);
       expect(stringParams).toEqual('/patient-uuid');
 
     })));

@@ -16,7 +16,7 @@ import { NavigationService } from '../../navigation.service';
 import { UserService } from '../../../openmrs-api/user.service';
 import { MockBackend } from '@angular/http/testing';
 import { BaseRequestOptions, Http } from '@angular/http';
-import { AppSettingsService } from '../../../app-settings';
+import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { SessionStorageService } from '../../../utils/session-storage.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
 
@@ -57,6 +57,10 @@ describe('ClinicSideNavComponent:', () => {
             comp = fixture.componentInstance;
         });
     }));
+
+    afterAll(() => {
+        TestBed.resetTestingModule();
+    });
 
     it('should be injected', () => {
         fixture.detectChanges();

@@ -4,12 +4,12 @@ import {
     BaseRequestOptions, XHRBackend, Http, RequestMethod,
     ResponseOptions, Response
 } from '@angular/http';
-import { Observable, BehaviorSubject } from 'rxjs/Rx';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 import { CacheModule, CacheService } from 'ionic-cache';
 
 import { LocalStorageService } from '../utils/local-storage.service';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Moh731ResourceService } from './moh-731-resource.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
 describe('Moh731ResourceService Tests', () => {
@@ -37,6 +37,10 @@ describe('Moh731ResourceService Tests', () => {
                 Moh731ResourceService
             ]
         });
+    });
+
+    afterAll(() => {
+        TestBed.resetTestingModule();
     });
 
     it('should be defined',

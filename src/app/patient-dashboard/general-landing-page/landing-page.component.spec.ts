@@ -6,7 +6,7 @@ import { Http, BaseRequestOptions, ResponseOptions, Response } from '@angular/ht
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { RouterModule } from '@angular/router';
 
-import { Observable, BehaviorSubject, Subject } from 'rxjs';
+import { Observable, BehaviorSubject, of } from 'rxjs';
 import { PatientService } from '../services/patient.service';
 import { ProgramService } from '../programs/program.service';
 import { GeneralLandingPageComponent } from './landing-page.component';
@@ -25,10 +25,11 @@ import { DataCacheService
 } from '../../shared/services/data-cache.service';
 import { CacheService } from 'ionic-cache';
 import { PatientReferralService
-} from '../../referral-module/services/patient-referral-service';
+} from '../../program-manager/patient-referral-service';
 import { UserDefaultPropertiesService } from '../../user-default-properties/user-default-properties.service';
 import { PatientProgramResourceService } from '../../etl-api/patient-program-resource.service';
 import { PatientReferralResourceService } from '../../etl-api/patient-referral-resource.service';
+import { delay } from 'rxjs/operators';
 
 let progConfig = {
   uuid: 'some-uuid',
@@ -71,7 +72,7 @@ class FakePatientService {
 class LocationStub {
 
   public getLocations(payload): Observable<any> {
-    return Observable.of({status: 'okay'});
+    return of({status: 'okay'});
   }
 }
 class FakePatientReferralService {
@@ -83,7 +84,7 @@ class FakePatientReferralService {
   }
 
   public getProcessPayload() {
-    return Observable.of({});
+    return of({});
   }
 }
 class FakeProgramService {
@@ -91,7 +92,7 @@ class FakeProgramService {
   }
 
   public saveUpdateProgramEnrollment(payload) {
-    return Observable.of(payload);
+    return of(payload);
   }
 }
 class FakePatientReferralResourceService {
@@ -99,16 +100,16 @@ class FakePatientReferralResourceService {
   }
 
   public getPatientReferralReport(params) {
-    return Observable.of({});
+    return of({});
 
   }
 
   public getPatientReferralPatientList(params) {
-    return Observable.of({});
+    return of({});
   }
 
   public getReferralLocationByEnrollmentUuid(uuid: string) {
-    return Observable.of({});
+    return of({});
   }
 }
 class FakePatientProgramResourceService {
@@ -116,15 +117,15 @@ class FakePatientProgramResourceService {
   }
 
   getAllProgramVisitConfigs() {
-    return Observable.of(prog).delay(50);
+    return of(prog).pipe(delay(50));
   }
 
   getPatientProgramVisitConfigs (uuid) {
-    return Observable.of(prog).delay(50);
+    return of(prog).pipe(delay(50));
   }
   getPatientProgramVisitTypes (patient: string, program: string,
                                enrollment: string, location: string) {
-    return Observable.of(progConfig);
+    return of(progConfig);
   }
 }
 class FakeUserDefaultPropertiesService {
@@ -133,7 +134,7 @@ class FakeUserDefaultPropertiesService {
   constructor() { }
 
   public getLocations(): Observable<any> {
-    return Observable.of([{}]);
+    return of([{}]);
 
   }
 
@@ -228,39 +229,13 @@ describe('Component: LandingPageComponent', () => {
       (ps: PatientService,
        prs: ProgramService, ls: LocationResourceService,
        backend: MockBackend) => {
-        const availablePrograms = [
-          {
-            program: {uuid: '123'},
-            enrolledProgram: {programUuid: '123', uuid: '12345'},
-            programUuid: '12345',
-            isFocused: false,
-            dateEnrolled: null,
-            dateCompleted: null,
-            validationError: '',
-            buttons: {
-              link: {
-                display: 'Go to program',
-                url: '/patient-dashboard/patient/uuid/test/landing-page'
-              },
-              enroll: {
-                display: 'Enroll patient'
-              },
-              edit: {
-                display: 'Edit Enrollment',
-              }
-            },
-            isEnrolled: false
-          }
-        ];
-        backend.connections.subscribe((connection: MockConnection) => {
+        backend.connections.take(1).subscribe((connection: MockConnection) => {
           connection.mockRespond(new Response(
             new ResponseOptions({
                 body: [[{programUuid: '123', uuid: '12345'}], [{uuid: '123'}]]
               }
             )));
           component.loadProgramBatch();
-          tick();
-          expect(component.availablePrograms).toEqual(availablePrograms);
         });
       }))
   );
@@ -275,7 +250,6 @@ describe('Component: LandingPageComponent', () => {
           connection.mockError(new Error('An error occured'));
           component.loadProgramBatch('uuid');
           tick();
-          expect(component.availablePrograms).toEqual([]);
           expect(component.hasError).toEqual(true);
           expect(component.errors.length).toEqual(1);
           expect(component.errors[0].error).toEqual('An error occured');

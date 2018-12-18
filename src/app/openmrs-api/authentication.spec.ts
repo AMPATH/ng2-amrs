@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, async, inject } from '@angular/core/testing'
 import { By } from '@angular/platform-browser';
 import { APP_BASE_HREF } from '@angular/common';
 import { MockBackend, MockConnection } from '@angular/http/testing';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@angular/http';
 import { SessionService } from './session.service';
 import { AuthenticationService } from './authentication.service';
@@ -44,6 +44,10 @@ describe('AuthenticationService Unit Tests', () => {
       ],
     });
   }));
+
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
 
   it('it should authenticate user requests', inject([MockBackend,
     SessionStorageService, AuthenticationService],

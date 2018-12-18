@@ -1,7 +1,8 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit , OnDestroy , AfterViewInit, OnChanges , Output ,
   EventEmitter, Input , ChangeDetectorRef, ViewChild , SimpleChanges } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
+import { Subject ,  Observable } from 'rxjs';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
@@ -181,7 +182,6 @@ export class DataEntryStatisticsFiltersComponent
                   this.location = [];
                   let locations = this.loadFilterFromMap(params.locationUuids, this.locationMap);
                   this.location = locations;
-                  this.loadSelectedLocation();
                   newParams.locationUuids = params.locationUuids;
               }
               if (params.startDate) {
@@ -197,7 +197,6 @@ export class DataEntryStatisticsFiltersComponent
                   let encounterTypes =
                   this.loadFilterFromMap(params.encounterTypeUuids, this.encounterMap);
                   this.encounterType = encounterTypes;
-                  this.loadSelectedEncounterType();
                   newParams.encounterTypeUuids = params.encounterTypeUuids;
               }
               if (params.groupBy) {
@@ -256,8 +255,8 @@ export class DataEntryStatisticsFiltersComponent
 
   public loadProvider(providerUuid) {
 
-    this._providerResourceService.getProviderByUuid(providerUuid)
-    .subscribe((provider) => {
+    this._providerResourceService.getProviderByUuid(providerUuid).pipe(
+    take(1)).subscribe((provider) => {
          this.provider = provider.display;
          this.selectedProviderUuid = provider.uuid;
     });
@@ -272,8 +271,8 @@ export class DataEntryStatisticsFiltersComponent
     if (!isString) {
 
       _.each(creatorUuids, (creatorUuid) => {
-         this._userService.getUserByUuid(creatorUuid)
-         .subscribe((result) => {
+         this._userService.getUserByUuid(creatorUuid).pipe(
+         take(1)).subscribe((result) => {
             let specificCreator = {
                'id': result.uuid,
                'itemName': result.person.display
@@ -285,8 +284,8 @@ export class DataEntryStatisticsFiltersComponent
 
     } else {
 
-      this._userService.getUserByUuid(creatorUuids)
-         .subscribe((result) => {
+      this._userService.getUserByUuid(creatorUuids).pipe(
+         take(1)).subscribe((result) => {
             let specificCreator = {
                'id': result.uuid,
                'itemName': result.person.display
@@ -304,8 +303,8 @@ export class DataEntryStatisticsFiltersComponent
 
   public getDataEntryEncounterTypes() {
     this._dataEntryStatisticsService
-      .getDataEntryStatisticsTypes()
-      .subscribe((result) => {
+      .getDataEntryStatisticsTypes().pipe(
+      take(1)).subscribe((result) => {
         if (result) {
           let viewTypes = result;
           this.processViewTypes(viewTypes);
@@ -314,8 +313,8 @@ export class DataEntryStatisticsFiltersComponent
   }
 
   public getLocations() {
-    this._locationResourceService.getLocations()
-    .subscribe((result) => {
+    this._locationResourceService.getLocations().pipe(
+    take(1)).subscribe((result) => {
          let locations = result;
          this.processLocations(locations);
     });
@@ -394,8 +393,8 @@ export class DataEntryStatisticsFiltersComponent
   }
 
   public getEncounterTypes() {
-    let encounters = this._encounterResourceService.getEncounterTypes('all')
-    .subscribe((results) => {
+    let encounters = this._encounterResourceService.getEncounterTypes('all').pipe(
+    take(1)).subscribe((results) => {
       if (results) {
             this.processEncounterTypes(results);
       }
@@ -531,8 +530,8 @@ export class DataEntryStatisticsFiltersComponent
   public searchProvider(providerSearchTerm) {
      if (providerSearchTerm.length > 3) {
      this._providerResourceService
-       .searchProvider(providerSearchTerm)
-       .subscribe((results) => {
+       .searchProvider(providerSearchTerm).pipe(
+       take(1)).subscribe((results) => {
          if (results) {
             this.processProviders(results);
          }
@@ -581,8 +580,8 @@ export class DataEntryStatisticsFiltersComponent
 
   public searchCreator(creatorSearchTerm) {
     this._userService
-      .searchUsers(creatorSearchTerm)
-      .subscribe((results) => {
+      .searchUsers(creatorSearchTerm).pipe(
+      take(1)).subscribe((results) => {
         if (results) {
            this.processCreators(results);
         }

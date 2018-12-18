@@ -4,7 +4,7 @@ import {  BaseRequestOptions, Http, HttpModule, Response,
     ResponseOptions, RequestMethod } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { LocalStorageService } from '../utils/local-storage.service';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 
 describe('Service : Motd Notification Service Unit Tests', () => {
 
@@ -29,6 +29,10 @@ describe('Service : Motd Notification Service Unit Tests', () => {
 
 
       });
+
+      afterAll(() => {
+        TestBed.resetTestingModule();
+    });
 
   let motdNotificationsResponse = {
     'results': [{

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, EventEmitter, Output, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription ,  BehaviorSubject } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { VisitResourceService } from '../../../../openmrs-api/visit-resource.service';
 import * as _ from 'lodash';
@@ -225,18 +225,19 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
   }
 
   private setVisit(visit) {
-    let retroSettings = this.retrospectiveDataEntryService.retroSettings.value;
-    this.stopDatetime = visit.stopDatetime;
-    this.startDatetime = visit.startDatetime;
-    this.currentVisit = visit ? visit : '';
-    this.locationUuid = visit ? {value: visit.location.uuid, label: visit.location.display} : null;
-    this.locationName = visit ? visit.location.display : null;
-    this.encounterVisitUuid = visit ? visit.uuid : null;
-    if (retroSettings && retroSettings.enabled) {
-      this.retroProviderAttribute = retroSettings.provider;
-    }
-    this.currentVisitType = visit && visit.visitType ? visit.visitType.name : null;
-    this.loadingVisit = false;
+    this.retrospectiveDataEntryService.retroSettings.subscribe((retroSettings) => {
+        this.stopDatetime = visit.stopDatetime;
+        this.startDatetime = visit.startDatetime;
+        this.currentVisit = visit ? visit : '';
+        this.locationUuid = visit ? {value: visit.location.uuid, label: visit.location.display} : null;
+        this.locationName = visit ? visit.location.display : null;
+        this.encounterVisitUuid = visit ? visit.uuid : null;
+        if (retroSettings && retroSettings.enabled) {
+          this.retroProviderAttribute = retroSettings.provider;
+        }
+        this.currentVisitType = visit && visit.visitType ? visit.visitType.name : null;
+        this.loadingVisit = false;
+    });
   }
 
   private resetVariables() {

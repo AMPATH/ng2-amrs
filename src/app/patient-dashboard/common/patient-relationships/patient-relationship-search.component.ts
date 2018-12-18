@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import {
     Component, OnInit, ViewEncapsulation,
     ViewChild, EventEmitter, Output, OnDestroy
@@ -35,7 +37,7 @@ export class PatientRelationshipSearchComponent implements OnInit, OnDestroy {
 
     public ngOnInit() {
         // load cached result
-        this.patientSearchService.patientsToBindRelationshipSearchResults.subscribe(
+        this.patientSearchService.patientsToBindRelationshipSearchResults.pipe(take(1)).subscribe(
             (patients) => {
                 this.patients = patients;
                 this.searchString = this.patientSearchService.relationshipSearchString;
@@ -60,8 +62,8 @@ export class PatientRelationshipSearchComponent implements OnInit, OnDestroy {
             this.isLoading = true;
             this.patients = [];
             this.subscription = this.patientSearchService
-                .searchPatientToBindRelationship(this.searchString, false)
-                .subscribe(
+                .searchPatientToBindRelationship(this.searchString, false).pipe(
+                take(1)).subscribe(
                 (data) => {
                     if (data.length > 0) {
                         this.patients = data;

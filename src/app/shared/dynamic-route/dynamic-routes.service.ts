@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, ReplaySubject } from 'rxjs/Rx';
+import { Observable, ReplaySubject } from 'rxjs';
 import { DynamicRouteModel } from './dynamic-route.model';
 import { ProgramEnrollment } from '../../models/program-enrollment.model';
 import { DashboardModel } from './dashboard.model';
@@ -9,6 +9,7 @@ export class DynamicRoutesService {
   public routes = new ReplaySubject(1);
   public patientRoutes = new ReplaySubject<Array<RouteModel>>(1);
   public clinicRoutes = new ReplaySubject<Array<RouteModel>>(1);
+  public selectedDepartment = 'HIV';
   public routesModel = {};
   public dashboardConfig: DashboardModel = null;
   public analyticsDashboardConfig: object = require('./schema/analytics.dashboard.conf.json');
@@ -73,6 +74,7 @@ export class DynamicRoutesService {
           icon: nonProgramRoute['icon'],
           menuStartLetter: this.getMenuStartLetter(nonProgramRoute['label']),
           isSideBarOpen: nonProgramRoute['isSideBarOpen'],
+          isDistinct: nonProgramRoute['isDistinct'] ? true : false,
           onClick: this.hideSidebar
         }
       );
@@ -92,6 +94,7 @@ export class DynamicRoutesService {
               icon: programRoute['icon'],
               menuStartLetter: this.getMenuStartLetter(programRoute['label']),
               isSideBarOpen: programRoute['isSideBarOpen'],
+              isDistinct: programRoute['isDistinct'] ? true : false,
               onClick: this.hideSidebar
             };
             let index = routes.findIndex((x) => x['url'] === url);
@@ -115,6 +118,7 @@ export class DynamicRoutesService {
           icon: departmentRoute['icon'],
           menuStartLetter: this.getMenuStartLetter(departmentRoute['label']),
           isSideBarOpen: departmentRoute['isSideBarOpen'],
+          isDistinct: departmentRoute['isDistinct'] ? true : false,
           onClick: this.hideSidebar
         };
         routes.push(singleRoute);

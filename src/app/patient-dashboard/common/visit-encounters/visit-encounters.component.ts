@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+
+import {take} from 'rxjs/operators';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PatientService } from '../../services/patient.service';
 import { PatientEncounterService } from '../patient-encounters/patient-encounters.service';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
 import { VisitResourceService } from '../../../openmrs-api/visit-resource.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'visit-encounters',
@@ -10,7 +13,7 @@ import { VisitResourceService } from '../../../openmrs-api/visit-resource.servic
     styleUrls : ['./visit-encounters.component.css']
 })
 
-export class VisitEncountersComponent implements OnInit {
+export class VisitEncountersComponent implements OnInit, OnDestroy {
 
   public title: string = 'Patient Visits';
   public patientUuid: string = '';
@@ -23,6 +26,8 @@ export class VisitEncountersComponent implements OnInit {
     busy: false,
     message: '' // default message
   };
+
+  private subs: Subscription[] = [];
 
    constructor(private _patientService: PatientService,
                private _patientEncountersService: PatientEncounterService,
@@ -37,8 +42,14 @@ export class VisitEncountersComponent implements OnInit {
 
     }
 
+    public ngOnDestroy() {
+        this.subs.forEach(sub => {
+            sub.unsubscribe();
+        });
+    }
+
      public getPatientUuid() {
-        this._patientService.currentlyLoadedPatient.subscribe(
+        const sub = this._patientService.currentlyLoadedPatient.subscribe(
             (patient) => {
                 if (patient !== null) {
                     this.patientUuid = patient.uuid;
@@ -46,11 +57,13 @@ export class VisitEncountersComponent implements OnInit {
 
                 }
             });
+
+        this.subs.push(sub);
      }
 
      public getPatientEncounters(patientUuid) {
          this._encounterResourceService.getEncountersByPatientUuid(patientUuid ,
-          false, null).subscribe((resp) => {
+          false, null).pipe(take(1)).subscribe((resp) => {
                 this.patientEncounters = resp.reverse();
 
           });

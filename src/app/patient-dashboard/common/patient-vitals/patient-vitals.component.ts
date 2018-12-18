@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { Helpers } from '../../../utils/helpers';
@@ -44,13 +46,12 @@ export class PatientVitalsComponent implements OnInit, OnDestroy {
   }
 
   public getPatient() {
-    this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
+    this.subscription = this.patientService.currentlyLoadedPatient.take(1).subscribe(
       (patient) => {
         if (patient !== null) {
           this.patient = patient;
           this.loadVitals(patient.person.uuid, this.nextStartIndex);
           this.patientUuid = patient.person.uuid;
-          console.log('patient received', this.patient);
         }
       }
       , (err) => {
@@ -64,16 +65,15 @@ export class PatientVitalsComponent implements OnInit, OnDestroy {
   public loadVitals(patientUuid, nextStartIndex): void {
     this.loadingVitals = true;
 
-    let request = this.patientVitalsService.getvitals(patientUuid, this.nextStartIndex)
-      .subscribe((data) => {
+    this.patientVitalsService.getvitals(this.patient, this.nextStartIndex).subscribe((data) => {
         if (data) {
           if (data.length > 0) {
 
-            let membersToCheck = ['weight', 'height', 'temp', 'oxygen_sat', 'systolic_bp',
+            const membersToCheck = ['weight', 'height', 'temp', 'oxygen_sat', 'systolic_bp',
               'diastolic_bp', 'pulse'];
-            for (let r in data) {
+            for (const r in data) {
               if (data.hasOwnProperty(r)) {
-                let encounter = data[r];
+                const encounter = data[r];
                 if (!Helpers.hasAllMembersUndefinedOrNull(encounter, membersToCheck)) {
 
                   this.vitals.push(encounter);
@@ -83,7 +83,7 @@ export class PatientVitalsComponent implements OnInit, OnDestroy {
               }
 
             }
-            let size: number = data.length;
+            const size: number = data.length;
             this.nextStartIndex = this.nextStartIndex + size;
             this.isLoading = false;
             this.loadingVitals = false;

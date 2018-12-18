@@ -6,7 +6,7 @@ import {
 import { MockBackend, MockConnection } from '@angular/http/testing';
 
 import { LocalStorageService } from '../utils/local-storage.service';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import {
   PatientRelationshipTypeResourceService
 } from './patient-relationship-type-resource.service';
@@ -30,6 +30,10 @@ describe('Service: Pratient Relationship ResourceService', () => {
         HttpModule
       ]
     });
+  });
+
+  afterAll(() => {
+    TestBed.resetTestingModule();
   });
 
   it('should be defined', async(inject(

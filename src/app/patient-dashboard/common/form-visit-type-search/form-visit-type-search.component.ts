@@ -23,6 +23,7 @@ export class FormVisitTypeSearchComponent implements OnInit, OnDestroy {
     public showFormResults: boolean = false;
     public visitTypeResult: any = [];
     public formTypeResult: any = [];
+    public secondaryFilter: any;
 
      constructor(
      private _formListService: FormListService,

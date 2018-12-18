@@ -6,7 +6,7 @@ import {
   Router
 } from '@angular/router';
 import { Location } from '@angular/common';
-import { BehaviorSubject, Observable } from 'rxjs/Rx';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { SpyLocation } from '@angular/common/testing';
 import { FormentryComponent } from './formentry.component';
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
@@ -14,7 +14,7 @@ import { FakeAppFeatureAnalytics } from '../../../shared/app-analytics/app-featu
 import { FormSchemaService } from './form-schema.service';
 import { FormentryHelperService } from './formentry-helper.service';
 import { FormsResourceService } from '../../../openmrs-api/forms-resource.service';
-import { AppSettingsService } from '../../../app-settings';
+import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
 import { FakeFormFactory } from './mock/form-factory.service.mock';
 import { FakeUserFactory } from './mock/user-factory.service.mock';
@@ -28,7 +28,7 @@ import {
 import {
   FormFactory, EncounterAdapter, OrderValueAdapter, Form,
   ObsValueAdapter, PersonAttribuAdapter, FormSchemaCompiler, ObsAdapterHelper
-} from 'ng2-openmrs-formentry';
+} from 'ngx-openmrs-formentry/dist/ngx-formentry';
 import { FakeFormSchemaCompiler } from './mock/form-schema-compiler.service.mock';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
 import { FormCreationDataResolverService } from './form-creation-data-resolver.service';
@@ -46,7 +46,7 @@ import { FormSubmissionService } from './form-submission.service';
 import { PersonResourceService } from '../../../openmrs-api/person-resource.service';
 import { Patient } from '../../../models/patient.model';
 import { FormDataSourceService } from './form-data-source.service';
-import { DataSources } from 'ng2-openmrs-formentry/dist/form-entry/data-sources/data-sources';
+import { DataSources } from 'ngx-openmrs-formentry/dist/ngx-formentry';
 import { CacheModule, CacheService } from 'ionic-cache';
 import { ProviderResourceService } from '../../../openmrs-api/provider-resource.service';
 import { LocationResourceService } from '../../../openmrs-api/location-resource.service';
@@ -69,7 +69,7 @@ import { PatientProgramResourceService } from '../../../etl-api/patient-program-
 import { VisitResourceService } from '../../../openmrs-api/visit-resource.service';
 import { HivSummaryResourceService } from '../../../etl-api/hiv-summary-resource.service';
 import { ReferralModule } from '../../../referral-module/referral-module';
-import { PatientReferralService } from '../../../referral-module/services/patient-referral-service';
+import { PatientReferralService } from '../../../program-manager/patient-referral-service';
 import { RetrospectiveDataEntryModule
 } from '../../../retrospective-data-entry/retrospective-data-entry.module';
 import { FakeRetrospectiveDataEntryService
@@ -85,7 +85,7 @@ export class FakeConceptResourceService {
   public getConceptByUuid(uuid: string, cached: boolean = false, v: string = null):
   Observable<any> {
 
-    return Observable.of({});
+    return of({});
   }
 
 }
@@ -240,9 +240,9 @@ describe('Component: FormentryComponent', () => {
         {
           provide: ActivatedRoute,
           useValue: {
-            queryParams: Observable.of({ encounter: 'encounter-uuid' }),
-            params: Observable.of({ formUuid: 'form-uuid' }),
-            data: Observable.of({
+            queryParams: of({ encounter: 'encounter-uuid' }),
+            params: of({ formUuid: 'form-uuid' }),
+            data: of({
               compiledSchemaWithEncounter: {
                 encounter: {},
                 schema: schema
@@ -375,9 +375,9 @@ describe('Component: FormentryComponent', () => {
           return renderableForm;
         });
         // providing required dependancies like historical encounter
-        activatedRoute.queryParams = Observable.of({ encounter: '' });
-        activatedRoute.params = Observable.of({ formUuid: 'form-uuid' });
-        activatedRoute.data = Observable.of({
+        activatedRoute.queryParams = of({ encounter: '' });
+        activatedRoute.params = of({ formUuid: 'form-uuid' });
+        activatedRoute.data = of({
           compiledSchemaWithEncounter: {
             encounter: previousEncounter,
             schema: schema
@@ -413,9 +413,9 @@ describe('Component: FormentryComponent', () => {
           return renderableForm;
         });
         // providing required dependancies like historical encounter
-        activatedRoute.queryParams = Observable.of({ encounter: 'encounte-uuid' });
-        activatedRoute.params = Observable.of({ formUuid: 'form-uuid' });
-        activatedRoute.data = Observable.of({
+        activatedRoute.queryParams = of({ encounter: 'encounte-uuid' });
+        activatedRoute.params = of({ formUuid: 'form-uuid' });
+        activatedRoute.data = of({
           compiledSchemaWithEncounter: {
             encounter: previousEncounter,
             schema: schema
@@ -447,12 +447,12 @@ describe('Component: FormentryComponent', () => {
           return renderableForm;
         });
         // providing required dependancies like historical encounter
-        activatedRoute.queryParams = Observable.of({
+        activatedRoute.queryParams = of({
           encounter: '',
           visitUuid: 'visit-uuid'
         });
-        activatedRoute.params = Observable.of({ formUuid: 'form-uuid' });
-        activatedRoute.data = Observable.of({
+        activatedRoute.params = of({ formUuid: 'form-uuid' });
+        activatedRoute.data = of({
           compiledSchemaWithEncounter: {
             encounter: previousEncounter,
             schema: schema
@@ -483,12 +483,12 @@ describe('Component: FormentryComponent', () => {
           return renderableForm;
         });
         // providing required dependancies like historical encounter
-        activatedRoute.queryParams = Observable.of({
+        activatedRoute.queryParams = of({
           visitUuid: 'visit-uuid',
           encounter: 'encounetr-uuid'
         });
-        activatedRoute.params = Observable.of({ formUuid: 'form-uuid' });
-        activatedRoute.data = Observable.of({
+        activatedRoute.params = of({ formUuid: 'form-uuid' });
+        activatedRoute.data = of({
           compiledSchemaWithEncounter: {
             encounter: previousEncounter,
             schema: schema
@@ -539,11 +539,11 @@ describe('Component: FormentryComponent', () => {
           return renderableForm;
         });
         // providing required dependancies like historical encounter
-        activatedRoute.queryParams = Observable.of({
+        activatedRoute.queryParams = of({
           encounter: '' // --> this means we are creating new form
         });
-        activatedRoute.params = Observable.of({ formUuid: 'form-uuid' });
-        activatedRoute.data = Observable.of({
+        activatedRoute.params = of({ formUuid: 'form-uuid' });
+        activatedRoute.data = of({
           compiledSchemaWithEncounter: {
             encounter: previousEncounter,
             schema: schema
@@ -598,11 +598,11 @@ describe('Component: FormentryComponent', () => {
           return renderableForm;
         });
         // providing required dependancies like historical encounter
-        activatedRoute.queryParams = Observable.of({
+        activatedRoute.queryParams = of({
           encounter: 'encounter-uuid' // --> this means we are editting existing form
         });
-        activatedRoute.params = Observable.of({ formUuid: 'form-uuid' });
-        activatedRoute.data = Observable.of({
+        activatedRoute.params = of({ formUuid: 'form-uuid' });
+        activatedRoute.data = of({
           compiledSchemaWithEncounter: {
             encounter: previousEncounter,
             schema: schema
@@ -638,12 +638,12 @@ describe('Component: FormentryComponent', () => {
           return renderableForm;
         });
         // providing required dependancies like historical encounter
-        activatedRoute.queryParams = Observable.of({
+        activatedRoute.queryParams = of({
           encounter: 'encounetr-uuid',
           visitUuid: 'visit-uuid'
         });
-        activatedRoute.params = Observable.of({ formUuid: 'form-uuid' });
-        activatedRoute.data = Observable.of({
+        activatedRoute.params = of({ formUuid: 'form-uuid' });
+        activatedRoute.data = of({
           compiledSchemaWithEncounter: {
             encounter: previousEncounter,
             schema: schema
@@ -677,9 +677,9 @@ describe('Component: FormentryComponent', () => {
           return renderableForm;
         });
         // providing required dependancies like historical encounter
-        activatedRoute.queryParams = Observable.of({ encounter: 'encounter-uuid' });
-        activatedRoute.params = Observable.of({ formUuid: 'form-uuid' });
-        activatedRoute.data = Observable.of({
+        activatedRoute.queryParams = of({ encounter: 'encounter-uuid' });
+        activatedRoute.params = of({ formUuid: 'form-uuid' });
+        activatedRoute.data = of({
           compiledSchemaWithEncounter: {
             encounter: previousEncounter,
             schema: schema
@@ -722,7 +722,7 @@ class EncounterResourceServiceMock {
   }
 
   public getEncounterByUuid(formSchema: object): any {
-    let subject = Observable.of({
+    let subject = of({
       uuid: 'encounter-uuid',
       display: 'encounter'
     });
@@ -758,7 +758,7 @@ export class FakePatientReferralService {
   }
 
   public getProcessPayload() {
-    return Observable.of({});
+    return of({});
   }
 
 }

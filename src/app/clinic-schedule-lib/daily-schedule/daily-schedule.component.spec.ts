@@ -8,9 +8,9 @@ import { ClinicFlowCacheService } from '../../hiv-care-lib/clinic-flow/clinic-fl
 
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 import { FakeAppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytcis.mock';
-import { AppSettingsService } from '../../app-settings';
+import { AppSettingsService } from '../../app-settings/app-settings.service';
 import { LocalStorageService } from './../../utils/local-storage.service';
-import { BusyModule, BusyConfig } from 'angular2-busy';
+import { NgBusyModule } from 'ng-busy';
 import {
   Router, ActivatedRoute, Params,
   RouterModule, ChildrenOutletContexts,
@@ -30,12 +30,12 @@ import { CacheService } from 'ionic-cache';
 import { DataCacheService } from '../../shared/services/data-cache.service';
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
-import { MdProgressSpinnerModule, MdProgressBarModule, MdTabsModule,
-  MdSlideToggleModule, MdDatepickerModule, MdNativeDateModule, MdDatepickerToggle
+import { MatProgressSpinnerModule, MatProgressBarModule, MatTabsModule,
+  MatSlideToggleModule, MatDatepickerModule, MatNativeDateModule, MatDatepickerToggle
 } from '@angular/material';
 import { CommonModule } from '@angular/common';
 import { Angulartics2Module } from 'angulartics2';
-import { DateTimePickerModule } from 'ng2-openmrs-formentry/dist/components/date-time-picker';
+import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
 import {
     ProgramVisitEncounterSearchComponent
 } from './../../program-visit-encounter-search/program-visit-encounter-search.component';
@@ -101,24 +101,23 @@ describe('Component: DailySchedule', () => {
 
       ],
       declarations: [DailyScheduleBaseComponent, ProgramVisitEncounterSearchComponent],
-      imports: [BusyModule,
+      imports: [NgBusyModule,
         FormsModule,
         DialogModule,
         CalendarModule,
         DataListsModule,
         NgamrsSharedModule,
-        NgxMyDatePickerModule,
-        NgxMyDatePickerModule,
+        NgxMyDatePickerModule.forRoot(),
         CommonModule, Angulartics2Module,
         RouterModule,
         DateTimePickerModule,
         AngularMultiSelectModule,
-        MdTabsModule,
-        MdProgressSpinnerModule,
-        MdProgressBarModule,
-        MdDatepickerModule,
-        MdNativeDateModule,
-        MdSlideToggleModule
+        MatTabsModule,
+        MatProgressSpinnerModule,
+        MatProgressBarModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatSlideToggleModule
       ]
     });
   });

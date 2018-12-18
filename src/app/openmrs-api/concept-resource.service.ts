@@ -1,15 +1,19 @@
+
+import {take} from 'rxjs/operators';
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { AppSettingsService } from '../app-settings';
-import { Http, Response, Headers, URLSearchParams } from '@angular/http';
-import { Observable, Subject, ReplaySubject } from 'rxjs/Rx';
+import { AppSettingsService } from '../app-settings/app-settings.service';
+import { Observable } from 'rxjs';
 import * as _ from 'lodash';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable()
 export class ConceptResourceService {
 
   public v: string = 'custom:(uuid,name,conceptClass,answers)';
 
-  constructor(protected http: Http,
+  constructor(protected http: HttpClient,
               protected appSettingsService: AppSettingsService) {
   }
 
@@ -22,18 +26,16 @@ export class ConceptResourceService {
   Observable<any> {
 
     let url = this.getUrl();
-    let params: URLSearchParams = new URLSearchParams();
+    let params: HttpParams = new HttpParams()
+    .set('q', searchText)
+    .set('v', (v && v.length > 0) ? v : this.v);
 
-    params.set('q', searchText);
-
-    params.set('v', (v && v.length > 0) ? v : this.v);
-
-    return this.http.get(url, {
-      search: params
-    })
-      .map((response: Response) => {
-        return response.json().results;
-      });
+    return this.http.get<any>(url, {
+      params: params
+    }).pipe(
+      map((response) => {
+        return response.results;
+      }));
   }
 
   public getConceptByUuid(uuid: string, cached: boolean = false, v: string = null):
@@ -41,19 +43,16 @@ export class ConceptResourceService {
 
     let url = this.getUrl();
     url += '/' + uuid;
-    let params: URLSearchParams = new URLSearchParams();
-
-    params.set('v', (v && v.length > 0) ? v : this.v);
+    let params: HttpParams = new HttpParams()
+    .set('v', (v && v.length > 0) ? v : this.v);
     return this.http.get(url, {
-      search: params
-    }).map((response: Response) => {
-      return response.json();
+      params: params
     });
   }
   public getConceptByConceptClassesUuid(searchText, conceptClassesUuidArray) {
     let filteredConceptResults = [];
     let response = this.searchConcept(searchText);
-    response.subscribe(
+    response.pipe(take(1)).subscribe(
       (concepts) => {
         filteredConceptResults =
           this.filterResultsByConceptClassesUuid(concepts, conceptClassesUuidArray);

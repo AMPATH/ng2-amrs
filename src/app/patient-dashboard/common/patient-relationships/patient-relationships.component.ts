@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators/take';
 import { PatientService } from '../../services/patient.service';
 import { PatientRelationshipService } from './patient-relationship.service';
 import { OnInit, Component, OnDestroy } from '@angular/core';
@@ -44,8 +46,8 @@ export class PatientRelationshipsComponent implements OnInit, OnDestroy {
         if (patient !== null) {
           this.patientUuid = patient.person.uuid;
           let request = this.patientRelationshipService.getRelationships(this.patientUuid);
-          request
-            .subscribe(
+          request.pipe(
+            take(1)).subscribe(
             (relationships) => {
               if (relationships) {
                 this.relationships = relationships;
@@ -68,11 +70,9 @@ export class PatientRelationshipsComponent implements OnInit, OnDestroy {
     if (this.selectedRelationshipUuid) {
       this.patientRelationshipService.voidRelationship(this.selectedRelationshipUuid).subscribe(
         (success) => {
-          if (success) {
-            this.patientService.fetchPatientByUuid(this.patientUuid);
+            this.patientService.reloadCurrentPatient();
             this.displayConfirmDialog = false;
             this.displaySuccessAlert('Relationship deleted successfully');
-          }
         },
         (error) => {
           console.error('The request failed because of the following ', error);

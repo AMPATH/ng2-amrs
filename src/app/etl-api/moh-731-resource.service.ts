@@ -1,10 +1,14 @@
+
+import {of as observableOf,  Observable } from 'rxjs';
+
+import {catchError, map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, URLSearchParams } from '@angular/http';
 import { DatePipe } from '@angular/common';
-import { Observable, Subject } from 'rxjs/Rx';
-
-import { AppSettingsService } from '../app-settings';
+import { Subject } from 'rxjs/Rx';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
+import { HttpParams, HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class Moh731ResourceService {
@@ -14,7 +18,7 @@ export class Moh731ResourceService {
     return this.appSettingsService.getEtlRestbaseurl().trim() + this._url;
   }
 
-  constructor(public http: Http,
+  constructor(public http: HttpClient,
               public appSettingsService: AppSettingsService,
               public cacheService: DataCacheService) {
   }
@@ -23,25 +27,41 @@ export class Moh731ResourceService {
                          isLegacyReport: boolean,
                          isAggregated: boolean, cacheTtl: number = 0): Observable<any> {
 
-    let urlParams: URLSearchParams = new URLSearchParams();
-
-    urlParams.set('locationUuids', locationUuids);
-    urlParams.set('startDate', startDate);
-    urlParams.set('endDate', endDate);
+    let report = '';
+    let aggregated = 'false';
+    if(isAggregated){
+          aggregated = 'true';
+    }
 
     if (isLegacyReport) {
-      urlParams.set('reportName', 'MOH-731-report');
+         report = 'MOH-731-report';
     } else {
-      urlParams.set('reportName', 'MOH-731-report-2017');
+         report = 'MOH-731-report-2017';
     }
-    urlParams.set('isAggregated', isAggregated ? 'true' : 'false');
 
-    let request = this.http.get(this.url, {
-      search: urlParams
-    })
-      .map((response: Response) => {
-        return response.json();
-      });
+
+    let urlParams: HttpParams = new HttpParams()
+    .set('locationUuids', locationUuids)
+    .set('startDate', startDate)
+    .set('endDate', endDate)
+    .set('reportName', report)
+    .set('isAggregated', aggregated);
+
+
+    let request = this.http.get(this.url, { 
+       params: urlParams
+    }).pipe(
+      map((response: Response) => {
+        return response;
+      }),catchError((err: any) => {
+         console.log('Err', err);
+         let error: any = err;
+         let errorObj = {
+           'error': error.status,
+           'message': error.statusText
+         };
+         return observableOf(errorObj);
+      }),);
 
     return cacheTtl === 0 ?
       request : this.cacheService.cacheSingleRequest(this.url, urlParams, request, cacheTtl);

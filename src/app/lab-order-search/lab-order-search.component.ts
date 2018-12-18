@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, Output, OnInit, EventEmitter, Input } from '@angular/core';
 import { OrderResourceService } from '../openmrs-api/order-resource.service';
 
@@ -88,8 +90,8 @@ export class LabOrderSearchComponent implements OnInit {
     this.hasBeenSearched = true;
     this.isLoading = true;
     this.orderResourceService.searchOrdersById(this.orderId, false,
-      this.customOrderObjectDefinition)
-      .subscribe((resp) => {
+      this.customOrderObjectDefinition).pipe(
+      take(1)).subscribe((resp) => {
         if (resp && resp.orderVoided) {
           this.orderDeleted = true;
         } else {

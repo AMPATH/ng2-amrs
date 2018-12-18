@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
+import { Observable, Subject, BehaviorSubject } from 'rxjs';
 
 import { PatientResourceService } from '../../../openmrs-api/patient-resource.service';
 import { Patient } from '../../../models/patient.model';
@@ -50,7 +50,9 @@ export class PatientIdentifierService {
       'AMRS Medical Record Number',
       'AMRS Universal ID',
       'CCC Number',
-      'MTRH Hospital Number'];
+      'MTRH Hospital Number',
+      'HEI'
+    ];
   }
   public patientIdentifierTypeFormat() {
     return [
@@ -63,7 +65,9 @@ export class PatientIdentifierService {
         {label: 'CCC Number', format: '^\\d{5}-\\d{5}$', checkdigit: null,
         val: 'f2d6ff1a-8440-4d35-a150-1d4b5a930c5e'},
         {label: 'MTRH Hospital Number', format: null, checkdigit: 0,
-        val: '43f78399-ca5d-4c1e-acb7-b30fc327283f'}
+        val: '43f78399-ca5d-4c1e-acb7-b30fc327283f'},
+        {label: 'HEI', format: '^HEI-\\d{5}-\\d{4}-\\d{4}$', checkdigit: 0,
+        val: 'ead42a8f-203e-4b11-a942-df03a460d617'}
     ];
 }
 }

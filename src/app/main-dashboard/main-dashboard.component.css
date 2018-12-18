@@ -62,11 +62,10 @@ body .ui-tabview.ui-tabview-top .ui-tabview-nav li.ui-state-active a,
   color: #fff !important;
 }
 
-[class^="icon-"],
-[class*=" icon-"] {
+[class^="icon-"] {
   display: inline-block;
   height: 43px;
-  line-height: 43px !important;
+  line-height: 43px;
 }
 
 [class^="icon-menu-letter"] {
@@ -99,7 +98,7 @@ body .ui-tabview.ui-tabview-top .ui-tabview-nav li.ui-state-active a,
   background: #fff;
   box-shadow: 0 1px 2px 0 rgba(34, 36, 38, .15);
   margin-bottom: 30px;
-  padding: 1em 1em;
+  padding: 1em;
   font-size: 14px;
   border: 1px solid rgba(34, 36, 38, .15);
 }
@@ -188,10 +187,6 @@ footer p {
 .skin-black-light .main-header .navbar .nav .open>a:focus,
 .skin-black-light .main-header .navbar .nav>.active>a {
   line-height: 50px;
-}
-
-.box-body .component-wrapper {
-  margin-bottom: 40px;
 }
 
 .clear {
@@ -294,6 +289,10 @@ a img {
   color: #fff !important;
 }
 
+.box-body .component-wrapper {
+  padding-bottom: 140px;
+}
+
 .banner-top {
   display: block;
   height: 9px;
@@ -388,10 +387,6 @@ lab-order-search-container {
 
 location-filter.edit label {
   display: block;
-}
-
-.box-body .component-wrapper {
-  padding-bottom: 140px;
 }
 
 location-filter.no-padding .col-md-12 {
@@ -713,4 +708,8 @@ ng-select.form-control {
   text-align: center;
   padding: 20px;
   background-color: #fff;
+}
+
+.icon-menu-icon {
+  margin-left: 5px;
 }

@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 
 import * as moment from 'moment';
 import *  as _ from 'lodash';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, of, Subscription } from 'rxjs';
+import { flatMap, delay } from 'rxjs/operators';
 
 import { PatientProgramResourceService } from '../../../etl-api/patient-program-resource.service';
 import { VisitResourceService } from '../../../openmrs-api/visit-resource.service';
@@ -19,7 +20,7 @@ export enum VisitsEvent {
 }
 
 @Injectable()
-export class TodayVisitService {// SERVICE PROCESSES VISITS PER PATIENT
+export class TodayVisitService implements OnDestroy {// SERVICE PROCESSES VISITS PER PATIENT
   public patient: any;
 
   public patientProgramVisitConfigs: any = {};
@@ -38,11 +39,20 @@ export class TodayVisitService {// SERVICE PROCESSES VISITS PER PATIENT
   public visitsEvents: Subject<VisitsEvent> = new Subject<VisitsEvent>();
   private isLoading = false;
 
+  private subs: Subscription[] = [];
+
   constructor(private patientProgramResourceService: PatientProgramResourceService,
               private visitResourceService: VisitResourceService,
               private retrospectiveDataEntryService: RetrospectiveDataEntryService,
               private patientService: PatientService) {
     this.subscribeToPatientChanges();
+  }
+
+  public ngOnDestroy() {
+    this.subs.forEach(sub => {
+      sub.unsubscribe();
+    });
+    this.subs = [];
   }
 
   public activateVisitStartedMsg() {
@@ -58,7 +68,7 @@ export class TodayVisitService {// SERVICE PROCESSES VISITS PER PATIENT
   }
 
   public subscribeToPatientChanges() {
-    this.patientService.currentlyLoadedPatient.subscribe(
+    const sub = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         if (patient !== null) {
           this.patient = patient;
@@ -77,6 +87,8 @@ export class TodayVisitService {// SERVICE PROCESSES VISITS PER PATIENT
         });
         console.error('Error on published patient', err);
       });
+
+      this.subs.push(sub);
   }
 
   public fetchPatientProgramVisitConfigs(): Observable<any> {
@@ -136,7 +148,7 @@ export class TodayVisitService {// SERVICE PROCESSES VISITS PER PATIENT
           subject.error(error);
         });
     }
-    return subject.delay(100);
+    return subject.pipe(delay(100));
   }
 
   public filterVisitsByVisitTypes(visits: Array<any>, visitTypes: Array<string>): Array<any> {
@@ -198,24 +210,25 @@ export class TodayVisitService {// SERVICE PROCESSES VISITS PER PATIENT
 
   public filterVisitsAndCurrentVisits(programVisitObj, visits) {
     // Filter out visits not in the program
-    let retroSettings = this.retrospectiveDataEntryService.retroSettings.value;
-    let filterVisitDate = moment();
-    if (retroSettings && retroSettings.enabled) {
-      filterVisitDate = moment(retroSettings.visitDate);
-    }
-    let todaysVisits = this.filterVisitsByDate(visits, filterVisitDate.toDate());
-    let programVisits = this.filterVisitsByVisitTypes(todaysVisits,
-      this.getProgramVisitTypesUuid(programVisitObj.config));
-    let orderedVisits = this.sortVisitsByVisitStartDateTime(programVisits);
+    this.retrospectiveDataEntryService.retroSettings.subscribe((retroSettings) => {
+      let filterVisitDate = moment();
+      if (retroSettings && retroSettings.enabled) {
+        filterVisitDate = moment(retroSettings.visitDate);
+      }
+      let todaysVisits = this.filterVisitsByDate(visits, filterVisitDate.toDate());
+      let programVisits = this.filterVisitsByVisitTypes(todaysVisits,
+        this.getProgramVisitTypesUuid(programVisitObj.config));
+      let orderedVisits = this.sortVisitsByVisitStartDateTime(programVisits);
 
-    programVisitObj.visits = orderedVisits;
+      programVisitObj.visits = orderedVisits;
 
-    if (orderedVisits.length > 0 &&
-      moment(orderedVisits[0].startDatetime).isSame(filterVisitDate, 'days')) {
-      programVisitObj.currentVisit = orderedVisits[0];
-    } else {
-      programVisitObj.currentVisit = null;
-    }
+      if (orderedVisits.length > 0 &&
+        moment(orderedVisits[0].startDatetime).isSame(filterVisitDate, 'days')) {
+        programVisitObj.currentVisit = orderedVisits[0];
+      } else {
+        programVisitObj.currentVisit = null;
+      }
+    });
   }
 
   public processVisitsForPrograms() {
@@ -285,7 +298,7 @@ export class TodayVisitService {// SERVICE PROCESSES VISITS PER PATIENT
 
   public getProgramVisits(): Observable<any> {
     if (this.isLoading) {
-      return Observable.of({ loading: true });
+      return of({ loading: true });
     }
     this.isLoading = true;
     // clear errors and visits

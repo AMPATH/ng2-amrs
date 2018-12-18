@@ -1,16 +1,19 @@
+
+import {take} from 'rxjs/operators';
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { Http, Response, URLSearchParams } from '@angular/http';
-import { ReplaySubject, Observable } from 'rxjs/Rx';
-import 'rxjs/add/operator/toPromise';
-import { AppSettingsService } from '../app-settings';
+import { ReplaySubject, Observable } from 'rxjs';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import * as locationIds from '../shared/locations/location_data.json';
 @Injectable()
 export class LocationResourceService {
   private locations = new ReplaySubject(1);
-  private locationIds = require('../shared/locations/location_data.json');
   private v: string = 'full';
 
-  constructor(protected http: Http, protected appSettingsService: AppSettingsService,
+  constructor(protected http: HttpClient, protected appSettingsService: AppSettingsService,
               private cacheService: DataCacheService) {
   }
 
@@ -25,18 +28,15 @@ export class LocationResourceService {
   public getLocations(forceRefresh?: boolean) {
     // If the Subject was NOT subscribed before OR if forceRefresh is requested
 
-    let params = new URLSearchParams();
-    params.set('v', 'full');
+    let params = new HttpParams().set('v', 'full');
 
     if (!this.locations.observers.length || forceRefresh) {
-      this.http.get(
+      this.http.get<any>(
         this.appSettingsService.getOpenmrsRestbaseurl().trim() + 'location',
         {
-          search: params
+          params: params
         }
-      )
-        .map((res: Response) => res.json())
-        .subscribe(
+      ).pipe(take(1)).subscribe(
         (data) => this.locations.next(data.results),
         (error) => this.locations.error(error)
         );
@@ -51,18 +51,14 @@ export class LocationResourceService {
     let url = this.appSettingsService.getOpenmrsRestbaseurl().trim() + 'location';
     url += '/' + uuid;
 
-    let params: URLSearchParams = new URLSearchParams();
-
-    params.set('v', (v && v.length > 0) ? v : this.v);
-    let request = this.http.get(url, { search: params }).map((response: Response) => {
-      return response.json();
-    });
-
+    let params: HttpParams = new HttpParams()
+    .set('v', (v && v.length > 0) ? v : this.v);
+    let request = this.http.get(url, { params: params });
     return this.cacheService.cacheRequest(url, params, request);
   }
 
   public getLocationIdByUuid(uuid: string): any {
-    let _location = this.locationIds.locations.filter((location) => {
+    let _location = locationIds.locations.filter((location) => {
       return location.uuid === uuid;
     });
     if (_location.length > 0) {
@@ -75,18 +71,16 @@ export class LocationResourceService {
   Observable<any> {
 
     let url = this.appSettingsService.getOpenmrsRestbaseurl().trim() + 'location';
-    let params: URLSearchParams = new URLSearchParams();
+    let params: HttpParams = new HttpParams()
+    .set('q', searchText)
+    .set('v', (v && v.length > 0) ? v : this.v);
 
-    params.set('q', searchText);
-
-    params.set('v', (v && v.length > 0) ? v : this.v);
-
-    return this.http.get(url, {
-      search: params
-    })
-      .map((response: Response) => {
-        return response.json().results;
-      });
+    return this.http.get<any>(url, {
+      params: params
+    }).pipe(
+      map((response) => {
+        return response.results;
+      }));
   }
 
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 // analytics
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 import { Angulartics2 } from 'angulartics2';
-import { Angulartics2Piwik } from  'angulartics2/dist/providers';
+import { Angulartics2Piwik } from 'angulartics2/piwik';
 /**
  * FakeAppFeatureAnalytics
  */

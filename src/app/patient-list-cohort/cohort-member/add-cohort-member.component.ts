@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators/take';
 import { Component, OnInit, Input, Output, ViewChild, EventEmitter } from '@angular/core';
 
 import { Patient } from '../../models/patient.model';
@@ -113,7 +115,7 @@ export class AddCohortMemberComponent implements OnInit {
 
         this.cohortMemberResource.addCohortMember(cohortUuid, {
             patient: patientUuid
-        }).subscribe(
+        }).pipe(take(1)).subscribe(
             (saved) => {
                 this.isBusy = false;
                 this.saved.next();
@@ -142,8 +144,8 @@ export class AddCohortMemberComponent implements OnInit {
     }
 
     public resolveCohortUuidToCohort() {
-        this.cohortResourceService.getCohort(this._cohortUuid, 'ref')
-            .subscribe((cohort) => {
+        this.cohortResourceService.getCohort(this._cohortUuid, 'ref').pipe(
+            take(1)).subscribe((cohort) => {
                 this.cohort = cohort;
             },
             (error) => {
@@ -154,8 +156,8 @@ export class AddCohortMemberComponent implements OnInit {
     }
 
     public resolvePatientUuidToPatient() {
-        this.patientResourceService.getPatientByUuid(this._patientUuid, true)
-            .subscribe((patient) => {
+        this.patientResourceService.getPatientByUuid(this._patientUuid, true).pipe(
+            take(1)).subscribe((patient) => {
                 this.patient = new Patient(patient);
             }, (error) => {
                 console.error('Error occured while resolving patient', error);

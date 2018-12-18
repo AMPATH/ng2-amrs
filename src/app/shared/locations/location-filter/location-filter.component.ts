@@ -1,10 +1,11 @@
+
+import {take} from 'rxjs/operators';
 import {
   Component, Output, Input, OnInit, EventEmitter,
   ViewEncapsulation, ChangeDetectorRef, AfterViewInit
 } from '@angular/core';
 import { LocationResourceService } from '../../../openmrs-api/location-resource.service';
 import * as _ from 'lodash';
-import { Dictionary } from 'lodash';
 
 @Component({
   selector: 'location-filter',
@@ -25,16 +26,12 @@ import { Dictionary } from 'lodash';
     .ng-select .ng-arrow-zone {
       display: none;
     }
-    .location-filter ng-select>div>div.multiple {
-      max-height: 100px;
-      overflow: scroll;
-    }
   `],
   encapsulation: ViewEncapsulation.None
 })
 export class LocationFilterComponent implements OnInit, AfterViewInit {
 
-  public locations: Dictionary<any> = {};
+  public locations = {};
   public counties: any;
   public loading: boolean = false;
   public locationDropdownOptions: Array<any> = [];
@@ -45,13 +42,17 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
   public allFromCounty: boolean = false;
   public allLocations: boolean = true;
 
-  @Input('disable-county') public disableCounty: boolean;
-  @Input('multiple') public multiple: boolean;
+  @Input('disable-county')
+  public disableCounty: boolean = false;
+
+  @Input('multiple')
+  public multiple: boolean = false;
+
   @Input('showLabel') public showLabel: boolean = true;
   @Input() public county: string;
   @Output() public onLocationChange = new EventEmitter<any>();
 
-  public _locationUuids: any;
+  private _locationUuids: any | Array<any>;
   @Input()
   public get locationUuids(): any {
     return this._locationUuids;
@@ -153,7 +154,7 @@ private allEncounterLocations: Array<any> = [];
 
   public resolveLocationDetails(): void {
     this.loading = true;
-    this.locationResourceService.getLocations().subscribe((locations: any[]) => {
+    this.locationResourceService.getLocations().pipe(take(1)).subscribe((locations: any[]) => {
       let locs = locations.map((location) => {
         return {
           value: location.uuid,
@@ -178,6 +179,14 @@ private allEncounterLocations: Array<any> = [];
         this.onCountyChanged(this.selectedCounty);
       }
       if (this.locationUuids) {
+        if (typeof this.locationUuids === 'string') {
+          this.selectedLocations = _.first(_.filter(this.locationDropdownOptions,
+            (location) => {
+            return location.value === this.locationUuids
+          }));
+        } else {
+          this.selectedLocations = this.locationUuids;
+        }
         this.onLocationSelected(this.selectedLocations);
       }
       this.loading = false;
@@ -198,7 +207,7 @@ private allEncounterLocations: Array<any> = [];
   public getCountyByLocations(): Promise<any> {
     return new Promise((resolve) => {
       // filter the locations
-      let filteredCounties = _.filter(this.locations, (location) => {
+      let filteredCounties = _.filter(this.locations, (location: any) => {
         let mappedLocations = this.multiple ? _.map(this.selectedLocations, 'value')
           : [this.selectedLocations.value];
         return _.includes(mappedLocations, location.uuid);

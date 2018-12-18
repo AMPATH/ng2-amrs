@@ -1,6 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Response } from '@angular/http';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+
+import {take} from 'rxjs/operators/take';
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../openmrs-api/user.service';
 import { CohortResourceService } from '../openmrs-api/cohort-resource.service';
 import { CohortListService } from './cohort-list.service';
@@ -48,7 +49,7 @@ export class CohortListComponent implements OnInit {
     this.fetchingResults = true;
     let sub = this.userCohortResourceService.getUserCohorts(this.user.uuid);
     if ( sub ) {
-       sub.subscribe(
+       sub.pipe(take(1)).subscribe(
          (cohorts) => {
             if (cohorts) {
            this.cohortList = cohorts.result;
@@ -78,7 +79,7 @@ export class CohortListComponent implements OnInit {
   }
   public voidCohortList() {
     if (this.selectedCohortListUuid) {
-      this.cohortResourceService.retireCohort(this.selectedCohortListUuid).subscribe(
+      this.cohortResourceService.retireCohort(this.selectedCohortListUuid).pipe(take(1)).subscribe(
         (success) => {
           this.displayConfirmDialog = false;
           this.displaySuccessAlert('Cohort list deleted successfully');

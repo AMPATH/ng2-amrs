@@ -1,14 +1,14 @@
-import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
-import { Http } from '@angular/http';
-import { AppSettingsService } from '../app-settings';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { ProgramEnrollmentResourceService } from './program-enrollment-resource.service';
+import { HttpClient } from '@angular/common/http';
 /**
  * FakeProgramEnrollmentResourceService
  */
 export class FakeProgramEnrollmentResourceService extends ProgramEnrollmentResourceService {
   public returnErrorOnNext: boolean = false;
 
-  constructor(protected http: Http, protected appSettingsService: AppSettingsService) {
+  constructor(protected http: HttpClient, protected appSettingsService: AppSettingsService) {
     super(http, appSettingsService);
   }
 

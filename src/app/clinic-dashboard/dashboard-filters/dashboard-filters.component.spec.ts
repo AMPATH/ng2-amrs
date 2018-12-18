@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import * as moment from 'moment';
 
-import { DateTimePickerModule } from 'ng2-openmrs-formentry/dist/components/date-time-picker';
+import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
 import { NgSelectModule } from '@ng-select/ng-select';
 
 import { DashboardFiltersComponent } from './dashboard-filters.component';
@@ -12,14 +12,14 @@ import { DateRangeComponent } from './date-range/date-range.component';
 import { GenderSelectComponent } from './gender-selector/gender-selector.component';
 import { IndicatorSelectComponent } from './indicator-selector/indicator-selector.component';
 import { RangeSliderComponent } from './range-slider/range-slider.component';
-import {
-  VisualizationComponent
-} from '../hiv/clinical-summary-visualization/visualization-component';
+// import {
+//   VisualizationComponent
+// } from '../hiv/clinical-summary-visualization/visualization-component';
 import { ClinicDashboardCacheService } from '../services/clinic-dashboard-cache.service';
 import {
   ClinicalSummaryVisualizationResourceService
 } from '../../etl-api/clinical-summary-visualization-resource.service';
-import { AppSettingsService } from '../../app-settings';
+import { AppSettingsService } from '../../app-settings/app-settings.service';
 import { DataCacheService } from '../../shared/services/data-cache.service';
 import { Http } from '@angular/http';
 import {
@@ -62,7 +62,7 @@ export class FakeClinicalSummaryVisualizationResourceService {
 
 }
 
-describe('Component: DashboardFiltersComponent', () => {
+ describe('Component: DashboardFiltersComponent', () => {
   let parentComponent: DashboardFiltersComponent;
   let parentFixture;
   beforeEach(() => {
@@ -92,7 +92,7 @@ describe('Component: DashboardFiltersComponent', () => {
         DashboardFiltersComponent,
         DateRangeComponent,
         GenderSelectComponent,
-        VisualizationComponent,
+        // VisualizationComponent,
         FakeHivCareOverview,
         FakeArtOverviewChart,
         FakepatientStatusOverviewChart,
@@ -102,6 +102,10 @@ describe('Component: DashboardFiltersComponent', () => {
     });
     parentFixture = TestBed.createComponent(DashboardFiltersComponent);
     parentComponent = parentFixture.componentInstance;
+  });
+
+  afterAll(() => {
+    TestBed.resetTestingModule();
   });
 
   it('should have a defined component', () => {

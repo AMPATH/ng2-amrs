@@ -1,8 +1,9 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { ClinicDashboardCacheService } from '../../services/clinic-dashboard-cache.service';
 import { ClinicLabOrdersResourceService
 } from '../../../etl-api/clinic-lab-orders-resource.service';
-import { MdDatepickerModule } from '@angular/material';
 import { Subscription } from 'rxjs';
 import * as Moment from 'moment';
 import { GridOptions } from 'ag-grid/main';
@@ -28,11 +29,12 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
   public totalSampleNotCollected: any;
   public startDate: any;
   public endDate: any;
-  public isLoadingReport: boolean = false;
+  public filterCollapsed: any;
+  public isLoadingReport = false;
+  public parentIsBusy = false;
   public totalCounts: any;
   @Input() public selectedDate: any;
   public errors: any = [];
-  private response: Subscription = new Subscription();
   private _datePipe: DatePipe;
   private locationName: string = '';
 
@@ -98,17 +100,16 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.response.unsubscribe();
   }
 
   public onClickedGenerate() {
     this.isLoadingReport = true;
-    this.response = this.clinicLabOrdersResourceService.getClinicLabOrders({
+    this.clinicLabOrdersResourceService.getClinicLabOrders({
       locationUuids: this.location,
       startDate: this.startDate,
       endDate: this.endDate
 
-    }).subscribe((results) => {
+    }).pipe(take(1)).subscribe((results) => {
         if (results) {
           this.orders = results;
           this.selectedVisitType = 'Total Ordered';

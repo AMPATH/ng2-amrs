@@ -2,10 +2,10 @@
 
 import { TestBed, async , fakeAsync } from '@angular/core/testing';
 import { DatePipe } from '@angular/common';
-import { ReplaySubject, BehaviorSubject, Observable } from 'rxjs/Rx';
+import { ReplaySubject, BehaviorSubject, Observable } from 'rxjs';
 import { Http, BaseRequestOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
-import { AppSettingsService } from '../../../app-settings';
+import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import {
   VisitResourceService
 } from '../../../openmrs-api/visit-resource.service';
@@ -14,8 +14,8 @@ import { TodaysVitalsService } from './todays-vitals.service';
 import { FakeVisitResourceService } from '../../../openmrs-api/fake-visit-resource.service';
 import { ProgramWorkFlowResourceService
 } from '../../../openmrs-api/program-workflow-resource.service';
-import { ProgramWorkFlowStateResourceService
-} from '../../../openmrs-api/program-workflow-state-resource.service';
+import { ProgramWorkFlowStateResourceService } from '../../../openmrs-api/program-workflow-state-resource.service';
+import { Patient } from '../../../models/patient.model';
 describe('Service: TodaysVitalsService', () => {
   beforeEach(fakeAsync (() => {
     TestBed.configureTestingModule({
@@ -31,8 +31,7 @@ describe('Service: TodaysVitalsService', () => {
 
         {
           provide: Http,
-          useFactory: (
-            backendInstance: MockBackend,
+          useFactory: (backendInstance: MockBackend,
             defaultOptions: BaseRequestOptions) => {
             return new Http(backendInstance, defaultOptions);
           },
@@ -57,6 +56,12 @@ describe('Service: TodaysVitalsService', () => {
   });
 
   it('should get todays vitals based on todays triage encounters', (done) => {
+    const mockPatient = new Patient({
+      'patient': {
+        'person': {uuid: 'bad1e162-cd75-45c6-97f8-13a6a4d6ce01', age: 9, birthdate: '2009-01-10'},
+      }
+    });
+
     let mockCdmTriageEncounterDetails: any = [
       {
         'uuid': '61720d43-c94b-4db7-8616-58c2075e847f',
@@ -162,7 +167,7 @@ describe('Service: TodaysVitalsService', () => {
     fakeRes.returnErrorOnNext = false;
     // let vitals = service.getTodaysVitals(mockCdmTriageEncounterDetails);
 
-    service.getTodaysVitals(mockCdmTriageEncounterDetails).then((results: any) => {
+    service.getTodaysVitals( mockPatient, {mockCdmTriageEncounterDetails).then((results: any) => {
       expect(results.length).toBeGreaterThan(0);
       expect(results[0].diastolic).toEqual(71);
       expect(results[0].weight).toEqual(68.8);

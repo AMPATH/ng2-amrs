@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import * as Moment from 'moment';
@@ -55,7 +57,7 @@ export class PatientMonthlyStatusComponent implements OnInit, OnDestroy {
                 getMonthlyPatientCareStatus({
                     startDate: startDate,
                     endDate: endDate, patient_uuid: this.patient.uuid
-                }).subscribe((result) => {
+                }).pipe(take(1)).subscribe((result) => {
                     this.loadingHistory = false;
                     this.careStatusHistory = result.result;
 

@@ -1,13 +1,13 @@
 
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { Http, URLSearchParams, Response } from '@angular/http';
-
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable()
 export class MedicationHistoryResourceService {
 
-  constructor(private http: Http, private appSettingsService: AppSettingsService) { }
+  constructor(private http: HttpClient, private appSettingsService: AppSettingsService) { }
 
   public getUrl(): string {
     return this.appSettingsService.getEtlRestbaseurl().trim() + 'patient';
@@ -22,24 +22,22 @@ export class MedicationHistoryResourceService {
       report = 'medical-history-report';
     }
 
-    let params: URLSearchParams = new URLSearchParams();
+    let params: HttpParams = new HttpParams();
 
-    return this.http.get(api, { search: params }).map((response: Response) => {
-      return response.json();
-    });
+    return this.http.get<any>(api, { params: params });
   }
 
   public getCdmMedicationHistory(patientUuid) {
     let url = this.getUrl();
     url += '/' + patientUuid + '/medication-change';
 
-    let params: URLSearchParams = new URLSearchParams();
+    let params: HttpParams = new HttpParams();
 
-    return this.http.get(url, {
-      search: params
-    }).map((response: Response) => {
-        return response.json().result;
-    });
+    return this.http.get<any>(url, {
+      params: params
+    }).pipe(map((response: any) => {
+        return response.result;
+    }));
 
   }
 }

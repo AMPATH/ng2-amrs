@@ -1,12 +1,13 @@
+
 import { Injectable } from '@angular/core';
-import { Http, Response, URLSearchParams } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import { AppSettingsService } from '../app-settings';
+import { Observable } from 'rxjs';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
+import { HttpParams, HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class PatientStatusVisualizationResourceService {
-    constructor(private http: Http, protected appSettingsService: AppSettingsService,
+    constructor(private http: HttpClient, protected appSettingsService: AppSettingsService,
                 private cacheService: DataCacheService) {
     }
 
@@ -15,10 +16,10 @@ export class PatientStatusVisualizationResourceService {
         startDate: string, endDate: string, locationUuids: string,
         analysis: string
     }): Observable<any> {
-          let api: string = this.appSettingsService.getEtlServer() +
+          const api: string = this.appSettingsService.getEtlServer() +
             '/patient-status-change-tracking';
-          let params: URLSearchParams = this.getUrlRequestParams(options);
-          let request =  this.http.get(api, { search: params }).map((data) => data.json());
+          const params: HttpParams = this.getUrlRequestParams(options);
+          const request =  this.http.get(api, { params: params });
           return this.cacheService.cacheRequest(api, params, request);
 
     }
@@ -27,11 +28,11 @@ export class PatientStatusVisualizationResourceService {
         startIndex?: string, limit?: string, analysis: string,
         startDate: string, endDate: string, locationUuids: string, indicator: string
     }): Observable<any> {
-        let api: string = this.appSettingsService.getEtlServer() +
+        const api: string = this.appSettingsService.getEtlServer() +
             '/patient-status-change-tracking/patient-list';
 
-        let params: URLSearchParams = this.getUrlPatientListRequestParams(options);
-        let request = this.http.get(api, { search: params }).map((data) => data.json());
+        const params: HttpParams = this.getUrlPatientListRequestParams(options);
+        const request = this.http.get(api, { params: params });
         return this.cacheService.cacheRequest(api, params, request);
 
     }
@@ -39,18 +40,18 @@ export class PatientStatusVisualizationResourceService {
     private getUrlRequestParams(options: {
         startIndex?: string, limit?: string, analysis: string,
         startDate: string, endDate: string, locationUuids: string
-    }): URLSearchParams {
-        let urlParams: URLSearchParams = new URLSearchParams();
+    }): HttpParams {
         if (!options.startIndex) {
             options.startIndex = '0';
         }
         if (!options.limit) {
             options.limit = '300';
         }
-        urlParams.set('startDate', options.startDate);
-        urlParams.set('analysis', options.analysis);
-        urlParams.set('endDate', options.endDate);
-        urlParams.set('locationUuids', options.locationUuids);
+        const urlParams: HttpParams = new HttpParams()
+        .set('startDate', options.startDate)
+        .set('analysis', options.analysis)
+        .set('endDate', options.endDate)
+        .set('locationUuids', options.locationUuids);
         return urlParams;
     }
 
@@ -58,21 +59,21 @@ export class PatientStatusVisualizationResourceService {
         startIndex?: string, limit?: string, analysis: string,
         startDate: string, endDate: string, locationUuids: string,
         indicator: string
-    }): URLSearchParams {
-        let urlParams: URLSearchParams = new URLSearchParams();
+    }): HttpParams {
         if (!options.startIndex) {
             options.startIndex = '0';
         }
         if (!options.limit) {
             options.limit = '300';
         }
-        urlParams.set('startDate', options.startDate);
-        urlParams.set('endDate', options.endDate);
-        urlParams.set('locationUuids', options.locationUuids);
-        urlParams.set('indicator', options.indicator);
-        urlParams.set('startIndex', options.startIndex);
-        urlParams.set('analysis', options.analysis);
-        urlParams.set('limit', options.limit);
+        const urlParams: HttpParams = new HttpParams()
+        .set('startDate', options.startDate)
+        .set('endDate', options.endDate)
+        .set('locationUuids', options.locationUuids)
+        .set('indicator', options.indicator)
+        .set('startIndex', options.startIndex)
+        .set('analysis', options.analysis)
+        .set('limit', options.limit);
         return urlParams;
     }
 }

@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -66,7 +68,7 @@ implements OnInit {
     this.location.replaceState(path.toString());
   }
   public getLocationsSelected() {
-    this.dataAnalyticsDashboardService.getSelectedLocations().subscribe(
+    this.dataAnalyticsDashboardService.getSelectedLocations().pipe(take(1)).subscribe(
         (data)  => {
           if (data) {
             this.locationUuids = data.locations;

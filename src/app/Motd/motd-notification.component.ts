@@ -9,6 +9,8 @@
 
  */
 
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MOTDNotificationService } from './../etl-api/motd.notification.service';
 import { CookieService } from 'ngx-cookie';
@@ -51,8 +53,8 @@ export class MOTDNotificationComponent implements OnInit {
   }
 
   public getMotdNotifications() {
-    this._motdSservice.getMotdNotification()
-      .subscribe((res) => {
+    this._motdSservice.getMotdNotification().pipe(
+      take(1)).subscribe((res) => {
         this.notifications = res;
 
         if (res.length > 0) {

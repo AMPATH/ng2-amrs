@@ -1,12 +1,14 @@
+
+import {take} from 'rxjs/operators';
 import { LocalStorageService } from './../../utils/local-storage.service';
-import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import {
   ClinicDashboardCacheService
 } from '../../clinic-dashboard/services/clinic-dashboard-cache.service';
 import { DailyScheduleResourceService } from '../../etl-api/daily-scheduled-resource.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import * as Moment from 'moment';
-import { Router, ActivatedRoute, ActivatedRouteSnapshot, Params } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'daily-schedule-appointments',
@@ -23,14 +25,23 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
      'encounterType': []
   };
   public encodedParams: string =  encodeURI(JSON.stringify(this.filter));
+  public params: any = {
+    'programType': [],
+    'visitType': [],
+    'encounterType': []
+  };
   public errors: any[] = [];
   public dailyAppointmentsPatientList: any[] = [];
-  public loadingDailyAppointments: boolean = false;
-  public dataLoaded: boolean = false;
-  public dataAppLoaded: boolean = true;
+  public loadingDailyAppointments = false;
+  public dataLoaded = false;
+  public dataAppLoaded  = true;
   public selectedClinic: any;
-  public nextStartIndex: number = 0;
-  public fetchCount: number = 0;
+  public nextStartIndex  = 0;
+  public fetchCount  = 0;
+  public busyIndicator: any = {
+    busy: false,
+    message: 'Please wait...' // default message
+  };
   @Input() public tab: any;
   @Input()
   set options(value) {
@@ -40,93 +51,72 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
     return this._data.getValue();
   }
   private _data = new BehaviorSubject<any>([]);
-  private currentClinicSubscription: Subscription;
-  private selectedDateSubscription: Subscription;
-  private appointmentSubscription: Subscription;
+  private subs: Subscription[] = [];
   constructor(private clinicDashboardCacheService: ClinicDashboardCacheService,
               private dailyScheduleResource: DailyScheduleResourceService,
-              private localStorageService: LocalStorageService,
               private route: ActivatedRoute) {
   }
 
   public ngOnInit() {
-    this.filterSelected();
     this.selectedDate = Moment().format('YYYY-MM-DD');
 
-    this.currentClinicSubscription = this.clinicDashboardCacheService.getCurrentClinic()
+    const sub = this.clinicDashboardCacheService.getCurrentClinic()
       .subscribe((location) => {
         this.selectedClinic = location;
-        if (this.selectedClinic) {
-          this.selectedDateSubscription = this.clinicDashboardCacheService.
-            getDailyTabCurrentDate().subscribe((date) => {
-            if ( this.loadingDailyAppointments === false) {
-              this.selectedDate = date;
-              this.initParams();
-              let params = this.getQueryParams();
-              this.getDailyAppointments(params);
-            }
-
-          });
-        }
 
       });
+
+    this.subs.push(sub);
 
     // get the current page url and params
-    this.route
+    const routeSub = this.route
       .queryParams
-      .subscribe((params) => {
-        if (params) {
-          if (this.fetchCount === 0 ) {
-            /*
-            for intial page load do not fetch daily visits as
-            it has been already fetched
-            */
-
-          }else {
-            this.initParams();
-            let searchParams = this.getQueryParams();
-            this.getDailyAppointments(searchParams);
-          }
-          this.fetchCount++;
+      .subscribe((params: any) => {
+        if (params.programType) {
+            this.params = params;
+            if (params.resetFilter && params.resetFilter === 'true') {
+              this.dailyAppointmentsPatientList = [];
+            } else {
+              this.initParams();
+              const searchParams = this.getQueryParams();
+              this.getDailyAppointments(searchParams);
+              this.clinicDashboardCacheService.setDailyTabCurrentDate(params.startDate);
+            }
+        } else {
+            this.dailyAppointmentsPatientList = [];
         }
       });
+
+      this.subs.push(routeSub);
   }
 
   public ngOnDestroy(): void {
-    if (this.currentClinicSubscription) {
-      this.currentClinicSubscription.unsubscribe();
-    }
-    if (this.selectedDateSubscription) {
-      this.selectedDateSubscription.unsubscribe();
-    }
-    if (this.appointmentSubscription) {
-      this.appointmentSubscription.unsubscribe();
-    }
-
+    this.subs.forEach((sub) => {
+      sub.unsubscribe();
+    });
   }
 
   public getDailyAppointments(params) {
+    this.setBusy();
     this.loadingDailyAppointments = true;
     this.clinicDashboardCacheService.setIsLoading(this.loadingDailyAppointments);
 
-    let result = this.dailyScheduleResource.
+    const result = this.dailyScheduleResource.
       getDailyAppointments(params);
     if (result === null) {
       throw new Error('Null daily appointments observable');
     } else {
-      this.appointmentSubscription = result.subscribe(
+      result.pipe(take(1)).subscribe(
         (patientList) => {
-          if (patientList.length > 0) {
-            this.dailyAppointmentsPatientList = this.dailyAppointmentsPatientList.concat(
-              patientList);
-            let size: number = patientList.length;
-            this.nextStartIndex = this.nextStartIndex + size;
+          if (patientList) {
+            this.dailyAppointmentsPatientList = patientList;
+            this.dataLoaded = true;
           } else {
             this.dataLoaded = true;
           }
           this.loadingDailyAppointments = false;
           this.clinicDashboardCacheService.setIsLoading(this.loadingDailyAppointments);
-
+          this.setFree();
         }
         ,
         (error) => {
@@ -145,7 +135,7 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
   public loadMoreAppointments() {
     this.loadingDailyAppointments = true;
     this.clinicDashboardCacheService.setIsLoading(this.loadingDailyAppointments);
-    let params = this.getQueryParams();
+    const params = this.getQueryParams();
     this.getDailyAppointments(params);
 
   }
@@ -160,34 +150,44 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
   }
 
   private getQueryParams() {
-    this.filterSelected();
+    let programType: any = [];
+    let visitType: any = [];
+    let encounterType: any = [];
+    if (this.params.programType.length > 0) {
+        programType = this.params.programType;
+    }
+    if (this.params.visitType && this.params.visitType.length > 0) {
+      visitType = this.params.visitType;
+    }
+    if (this.params.encounterType && this.params.encounterType.length > 0) {
+      encounterType = this.params.encounterType;
+    }
     return {
-      startDate: this.selectedDate,
+      startDate: this.params.startDate,
       startIndex: this.nextStartIndex,
       locationUuids: this.selectedClinic,
-      programVisitEncounter: this.encodedParams,
-      limit: undefined
+      programType: programType,
+      visitType: visitType,
+      encounterType: encounterType,
+      limit: 1000
     };
 
   }
 
-  private filterSelected() {
-      let cookieKey = 'programVisitEncounterFilter';
+  private setBusy() {
 
-      let cookieVal =  encodeURI(JSON.stringify(this.encodedParams));
+    this.busyIndicator = {
+      busy: true,
+      message: 'Please wait...Loading'
+    };
 
-      let programVisitStored = this.localStorageService.getItem(cookieKey);
+  }
+  private setFree() {
 
-      if (programVisitStored === null) {
-
-      } else {
-
-         cookieVal =  this.localStorageService.getItem(cookieKey);
-
-         // this._cookieService.put(cookieKey, cookieVal);
-      }
-
-      this.encodedParams = cookieVal;
+    this.busyIndicator = {
+      busy: false,
+      message: ''
+    };
 
   }
 }

@@ -1,7 +1,7 @@
 <div>
 <h4 class="component-title"><span class="fa fa-heartbeat"></span> Patient Vitals</h4>
 <div >
-  <div [ngBusy]="{busy:loadingVitals,message:'Please Wait...'}"></div>
+  <!-- <div [ngBusy]="{busy:loadingVitals,message:'Please Wait...'}"></div> -->
 
   <table class='table table-hover table-striped table-responsive'>
   <thead>
@@ -14,7 +14,10 @@
     <th>Oxygen Sat</th>
     <th>Height</th>
     <th>Weight</th>
-    <th>BMI</th>
+    <th *ngIf="patient && patient?.person.age >= 18 ">BMI</th>
+    <th *ngIf="patient && patient?.person.age < 18 ">Height For Age</th>
+    <th *ngIf="patient && patient?.person.age < 5 ">Weight For Height</th>
+    <th *ngIf="patient && patient?.person.age < 18 && patient?.person.age >= 5 ">BMI For Age</th>
   </tr>
   </thead>
   <tr *ngFor="let vitals of vitals; let i = index; ">
@@ -41,8 +44,17 @@
     </td>
     <td>{{vitals.height  || '&nbsp;'}}</td>
     <td>{{vitals.weight  || '&nbsp;'}}</td>
-    <td>
-      <span [style.color]="(vitals.BMI && (vitals.BMI <= 18 || vitals.BMI >= 30))? 'red':''" >{{vitals?.BMI || '&nbsp;'}}</span>
+    <td *ngIf="patient && patient?.person.age >= 18">
+      <span  [style.color]="(vitals.BMI && (vitals.BMI <= 18 || vitals.BMI >= 30))? 'red':''" >{{vitals?.BMI || '&nbsp;'}}</span>
+    </td>
+    <td *ngIf="patient && patient?.person.age<18"> 
+      <span  [style.color]="vitals.heightForAge && (vitals.heightForAge < 0 )? 'red':''" >{{vitals?.heightForAge || '&nbsp;'}}</span>
+    </td>
+    <td *ngIf="patient && patient?.person.age<5 ">
+      <span  [style.color]="vitals.weightForHeight && (vitals.weightForHeight < 0 )? 'red':''" >{{vitals?.weightForHeight || '&nbsp;'}}</span>
+    </td>
+    <td *ngIf="patient && patient?.person.age<18  && patient?.person.age>4" >
+      <span [style.color]="vitals.bmiForAge && (vitals.bmiForAge < 0 )? 'red':''" >{{vitals?.bmiForAge || '&nbsp;'}}</span>
     </td>
   </tr>
 </table>

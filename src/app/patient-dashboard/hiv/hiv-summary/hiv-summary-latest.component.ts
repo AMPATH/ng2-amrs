@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+
+import {take} from 'rxjs/operators/take';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { PatientService } from '../../services/patient.service';
 import { HivSummaryService } from './hiv-summary.service';
@@ -11,10 +13,10 @@ import * as _ from 'lodash';
   templateUrl: './hiv-summary-latest.component.html',
   styleUrls: ['./hiv-summary.component.css']
 })
-export class HivSummaryLatestComponent implements OnInit {
+export class HivSummaryLatestComponent implements OnInit, OnDestroy {
   public loadingHivSummary: boolean = false;
   public hivSummary: any;
-  public subscription: Subscription;
+  public subscription: Subscription[] =  [];
   public patient: Patient;
   public patientUuid: any;
   public errors: any = [];
@@ -28,7 +30,7 @@ export class HivSummaryLatestComponent implements OnInit {
 
   public getPatient() {
     this.loadingHivSummary = true;
-    this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
+    const patientSub = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         if (patient) {
           this.patient = patient;
@@ -42,12 +44,12 @@ export class HivSummaryLatestComponent implements OnInit {
           message: 'error fetching patient'
         });
       });
+    this.subscription.push(patientSub);
   }
 
   public loadHivSummary(patientUuid) {
-    this.hivSummaryService.getHivSummary(
-      patientUuid, 0, 1, false)
-      .subscribe((data) => {
+    const summarySub = this.hivSummaryService.getHivSummary(
+      patientUuid, 0, 1, false).subscribe((data) => {
         if (data) {
 
           for (let summary of data){
@@ -56,6 +58,7 @@ export class HivSummaryLatestComponent implements OnInit {
             if ( summary.is_clinical_encounter === 1) {
 
               this.hivSummary = summary;
+              console.log(this.hivSummary);
               let artStartDate =
               new Date(this.hivSummary.arv_first_regimen_start_date).getFullYear();
               if (isNaN(artStartDate) || artStartDate === 1899 || artStartDate === 1900) {
@@ -95,6 +98,7 @@ export class HivSummaryLatestComponent implements OnInit {
           message: 'An error occured while loading Hiv Summary. Please try again.'
         });
       });
+    this.subscription.push(summarySub);
   }
 
   public endDateIsBeforeStartDate(startDate: any, endDate: any) {
@@ -107,6 +111,13 @@ export class HivSummaryLatestComponent implements OnInit {
       return Moment(date).isValid();
     }
     return false;
+  }
+
+  public ngOnDestroy() {
+    this.subscription.forEach((sub) => {
+      sub.unsubscribe();
+    });
+
   }
 
   private getLatestVlDate(data) {

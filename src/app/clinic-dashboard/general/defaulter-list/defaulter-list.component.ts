@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit, OnChanges, Input, OnDestroy } from '@angular/core';
 import { ClinicDashboardCacheService } from '../../services/clinic-dashboard-cache.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -25,7 +27,7 @@ export class DefaulterListComponent implements OnInit, OnDestroy {
   public selectedClinic: any;
   public nextStartIndex: number = 0;
   private _datePipe: DatePipe;
-  private subscription: Subscription = new Subscription();
+  private subs: Subscription[] = [];
 
   constructor(private clinicDashboardCacheService: ClinicDashboardCacheService,
               private defaulterListResource: DefaulterListResourceService,
@@ -92,7 +94,9 @@ export class DefaulterListComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.subs.forEach((sub) => {
+      sub.unsubscribe();
+    });
   }
 
   public loadMoreDefaulterList() {
@@ -103,9 +107,11 @@ export class DefaulterListComponent implements OnInit, OnDestroy {
   }
 
   private getLocation() {
-    this.route.parent.parent.params.subscribe((params) => {
+    const routeSub = this.route.parent.parent.params.subscribe((params) => {
       this.clinicDashboardCacheService.setCurrentClinic(params['location_uuid']);
     });
+
+    this.subs.push(routeSub);
   }
 
   private loadDefaulterListFromCachedParams(cachedParams) {
@@ -115,13 +121,15 @@ export class DefaulterListComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToLocationChangeEvent() {
-  this.clinicDashboardCacheService.getCurrentClinic()
+  const sub = this.clinicDashboardCacheService.getCurrentClinic()
       .subscribe((location) => {
       this.selectedClinic = location;
       if (this.minDefaultPeriod) {
         this.loadDefaulterList();
       }
     });
+
+  this.subs.push(sub);
   }
 
   private getDatePart(datetime: string) {
@@ -194,7 +202,7 @@ export class DefaulterListComponent implements OnInit, OnDestroy {
     if (result === null) {
       throw new Error('Null Defaulter List observable');
     } else {
-      result.subscribe(
+      result.pipe(take(1)).subscribe(
         (patientList) => {
           if (patientList.length > 0) {
             this.defaulterList = this.defaulterList.concat(

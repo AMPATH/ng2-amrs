@@ -6,7 +6,7 @@ import {
 } from '@angular/http';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { CacheModule, CacheService } from 'ionic-cache';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
 import { PatientReferralResourceService } from './patient-referral-resource.service';
 
@@ -83,6 +83,10 @@ describe('PatientReferralResourceService Tests', () => {
         }
       ]
     });
+  });
+
+  afterAll(() => {
+    TestBed.resetTestingModule();
   });
 
   it('should be defined',

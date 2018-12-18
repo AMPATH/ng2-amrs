@@ -7,7 +7,7 @@ import { MockBackend } from '@angular/http/testing';
 
 import { VisitResourceService } from './visit-resource.service';
 import { LocalStorageService } from '../utils/local-storage.service';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 class MockError extends Response implements Error {
     public name: any;
     public message: any;
@@ -31,6 +31,10 @@ describe('VisitResourceService', () => {
                 HttpModule
             ]
         });
+    });
+
+    afterAll(() => {
+        TestBed.resetTestingModule();
     });
 
     it('should be defined', async(inject(

@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { PatientService } from './patient.service';
 import  *  as _  from 'lodash';
@@ -14,7 +16,7 @@ export class PatientPreviousEncounterService {
 
     return new Promise((resolve, reject) => {
 
-      this.patientService.currentlyLoadedPatient.subscribe(
+      this.patientService.currentlyLoadedPatient.pipe(take(1)).subscribe(
         (patient) => {
           if (patient) {
             let search = _.find(patient.encounters, (e) => {
@@ -22,7 +24,7 @@ export class PatientPreviousEncounterService {
             });
 
             if (search) {
-              this.encounterResource.getEncounterByUuid(search.uuid).subscribe((_encounter) => {
+              this.encounterResource.getEncounterByUuid(search.uuid).pipe(take(1)).subscribe((_encounter) => {
                 resolve(_encounter);
               }, (err) => {
                 reject(err);
@@ -31,6 +33,8 @@ export class PatientPreviousEncounterService {
               resolve({});
             }
           }
+        }, (error) => {
+          console.error('Previous encounter error', error);
         });
 
     });

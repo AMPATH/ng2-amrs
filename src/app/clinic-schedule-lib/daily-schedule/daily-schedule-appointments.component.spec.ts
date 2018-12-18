@@ -16,9 +16,9 @@ import {
 import { DailyScheduleAppointmentsComponent } from './daily-schedule-appointments.component';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 import { FakeAppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytcis.mock';
-import { AppSettingsService } from '../../app-settings';
+import { AppSettingsService } from '../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../utils/local-storage.service';
-import { BusyModule, BusyConfig } from 'angular2-busy';
+import { NgBusyModule, BusyConfig } from 'ng-busy';
 import {
     AccordionModule, DataTableModule, SharedModule, TabViewModule,
     GrowlModule, PanelModule, ConfirmDialogModule, ConfirmationService,
@@ -83,7 +83,7 @@ describe('Component: DailyScheduleAppointmentsComponent', () => {
             ],
             declarations: [DailyScheduleAppointmentsComponent,
              ProgramVisitEncounterSearchComponent],
-            imports: [BusyModule,
+            imports: [NgBusyModule,
                 FormsModule,
                 DialogModule,
                 CalendarModule,

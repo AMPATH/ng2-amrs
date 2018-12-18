@@ -382,7 +382,7 @@ export class PatientStatuChangeVisualizationService {
         }
         let column = {
           headerName: rowData.columnTitle,
-          tooltip: rowData.tooltip || '',
+          tooltipTitle: rowData.tooltip || '',
           color: rowData.color || 'deepskyblue',
           analysisType: renderType,
           pinned: rowData.pinned,

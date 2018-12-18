@@ -1,5 +1,6 @@
 landing-page {
   display: block;
+  margin-bottom: 60px;
 }
 @media screen and (min-width:600px) {
     .program-header {
@@ -13,13 +14,13 @@ landing-page {
 }
 
 .program .program-header, .program .program-footer{
-  margin: 10px 20px 10px 20px;
+  margin: 0 20px 0 20px;
   font-size: 1.72rem;
   border: none;
   padding: 0 0;
   font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif;
   font-weight: 700;
-  line-height: 1.29em;
+  line-height: 36px;
   text-transform: none;
   color: #fff;
   opacity: 0.9;
@@ -66,7 +67,6 @@ landing-page {
   padding-bottom: 8px;
   border-bottom: 1px solid rgba(34,36,38,.15);
   margin-bottom: 20px;
-  margin-top:40px;
 }
 
 .program hr {
@@ -90,7 +90,6 @@ landing-page {
 
 .clear {
   clear: both;
-  height:1px;
 }
 
 .dropdown a.edit-toggle {
@@ -158,18 +157,6 @@ h3 {
   color: #ccc;
 }
 
-.program .program-header, .program .program-footer{
-  margin: 10px 20px 10px 20px;
-  font-size: 1.72rem;
-  border: none;
-  padding: 0 0;
-  font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif;
-  font-weight: 700;
-  line-height: 1.29em;
-  text-transform: none;
-  color: #fff;
-}
-
 .program.non-enrolled .program-body{
   padding: 12px;
 }
@@ -221,7 +208,6 @@ h3 {
 
 .clear {
   clear: both;
-  height:1px;
 }
 
 .edit-dropdown {

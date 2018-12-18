@@ -109,7 +109,7 @@ export class HivSummaryIndicatorComponent extends HivSummaryIndicatorBaseCompone
         value: id, // indicator
         label: text
       };
-      this.selectedIndicators.push(data.value);
+      this.selectedIndicators.push(data);
     });
   }
 
@@ -120,23 +120,17 @@ export class HivSummaryIndicatorComponent extends HivSummaryIndicatorBaseCompone
   }
 
   public formatGenderToSelectArray(genderParam: string) {
-    if (genderParam.length > 1) {
-      let arr = genderParam.split(',');
-      _.each(arr, (gender) => {
-        let id = gender;
-        let text = gender === 'M' ? 'Male' : 'Female';
-        let data = {
-          value: id,
-          label: text
-        };
-        this.selectedGender.push(data);
-      });
-    } else {
+    let arr = genderParam.split(',');
+    _.each(arr, (indicator) => {
+      let text = indicator;
+      let id = indicator;
+
       let data = {
-        value: genderParam,
-        label: genderParam === 'M' ? 'Male' : 'Female'
+        value: id, // indicator
+        label: text
       };
       this.selectedGender.push(data);
-    }
+    });
   }
+
 }

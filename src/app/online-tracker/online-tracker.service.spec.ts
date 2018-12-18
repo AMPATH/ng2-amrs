@@ -1,13 +1,13 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async } from '@angular/core/testing';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 import {  BaseRequestOptions, Http, HttpModule, Response,
   ResponseOptions, RequestMethod } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { SessionService } from '../openmrs-api/session.service';
 import { OnlineTrackerService } from './online-tracker.service';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 
 describe('Service: OnlineTracker', () => {
@@ -35,6 +35,10 @@ describe('Service: OnlineTracker', () => {
     });
     onlineTrackerService = TestBed.get(OnlineTrackerService);
     sessionServiceSpy = TestBed.get(SessionService);
+  });
+
+  afterAll(() => {
+    TestBed.resetTestingModule();
   });
 
   it('should create an instance', () => {

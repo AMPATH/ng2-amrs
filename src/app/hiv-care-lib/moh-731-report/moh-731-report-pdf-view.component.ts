@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { MOHReportService } from './moh-731-report-pdf-view.service';
 import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
@@ -5,6 +7,7 @@ import { LocationResourceService } from '../../openmrs-api/location-resource.ser
 import * as _ from 'lodash';
 import { Subscription, BehaviorSubject } from 'rxjs';
 import * as Moment from 'moment';
+import { PDFDocumentProxy } from 'ng2-pdf-viewer';
 @Component({
     selector: 'moh-731-pdf',
     templateUrl: 'moh-731-report-pdf-view.component.html'
@@ -79,7 +82,7 @@ export class MOHReportComponent implements OnInit, OnDestroy {
         if (params && rowData && sectionDefinitions) {
             this.isBusy = true;
             // console.log('making pdf', rowData);
-            this.mohReportService.generatePdf(params, rowData, sectionDefinitions).subscribe(
+            this.mohReportService.generatePdf(params, rowData, sectionDefinitions).pipe(take(1)).subscribe(
                 (pdf) => {
                     this.pdfSrc = pdf.pdfSrc;
                     this.pdfMakeProxy = pdf.pdfProxy;
@@ -150,7 +153,6 @@ export class MOHReportComponent implements OnInit, OnDestroy {
                 console.error(error);
             }
         );
-
     }
 
     private moh731Report(reportsData, sectionDefinitions) {
@@ -161,8 +163,8 @@ export class MOHReportComponent implements OnInit, OnDestroy {
             let paramsArray = this.getLocationHeaders(reportsData);
             let rowsArray = this.getJoinLocations(reportsData);
 
-            this.mohReportService.generateMultiplePdfs(paramsArray, rowsArray, sectionDefinitions)
-                .subscribe(
+            this.mohReportService.generateMultiplePdfs(paramsArray, rowsArray, sectionDefinitions).pipe(
+                take(1)).subscribe(
                     (pdf) => {
                         this.pdfSrc = pdf.pdfSrc;
                         this.pdfMakeProxy = pdf.pdfProxy;

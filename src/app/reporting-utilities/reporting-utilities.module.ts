@@ -10,10 +10,20 @@ import { OpenmrsApi } from '../openmrs-api/openmrs-api.module';
 import { EtlApi } from '../etl-api/etl-api.module';
 import { ReportFilterComponent } from './report-filter/report-filter.component';
 import { ChartModule } from 'angular2-highcharts';
+import { HighchartsStatic } from 'angular2-highcharts/dist/HighchartsService';
 
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
  */
+
+export function highchartsFactory() {
+  const hc = require('highcharts');
+  const hcm = require('highcharts/highcharts-more');
+  const hce =   require('highcharts/modules/exporting');
+  hcm(hc);
+  hce(hc);
+  return hc;
+}
 
 @NgModule({
   imports: [
@@ -22,13 +32,13 @@ import { ChartModule } from 'angular2-highcharts';
     GrowlModule, InputTextareaModule, DropdownModule,
     ButtonModule, FormsModule, ReactiveFormsModule, MultiSelectModule,
     CalendarModule, OpenmrsApi, EtlApi,
-    ChartModule.forRoot(require('highcharts'),
-      require('highcharts/highcharts-more'),
-      require('highcharts/modules/exporting')
-    ),
+    ChartModule
   ],
   declarations: [ReportFilterComponent],
-  providers: [],
+  providers: [{
+    provide: HighchartsStatic,
+    useFactory: highchartsFactory
+  }],
   exports: [ReportFilterComponent]
 })
 export class ReportingUtilitiesModule {

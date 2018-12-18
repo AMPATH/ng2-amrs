@@ -1,10 +1,11 @@
+
+import {take} from 'rxjs/operators';
 import { Component,
   OnInit , OnDestroy , AfterViewInit, OnChanges ,
   Output , EventEmitter, Input , ChangeDetectorRef,
   ViewChild , SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router , Params } from '@angular/router';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
+import { Subject ,  Observable } from 'rxjs';
 import { Location } from '@angular/common';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
@@ -148,8 +149,8 @@ implements OnInit , AfterViewInit {
         busy: true,
         message: 'Fetching patient list..please wait'
       };
-      this._dataEntryStatisticsService.getDataEntrySatisticsPatientList(params)
-      .subscribe((results) => {
+      this._dataEntryStatisticsService.getDataEntrySatisticsPatientList(params).pipe(
+      take(1)).subscribe((results) => {
          if (results) {
             this.processPatientList(results);
             this.busyIndicator = {

@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MdProgressSpinnerModule, MdProgressBarModule, MdTabsModule,
-MdSlideToggleModule, MdDatepickerModule, MdNativeDateModule, MdDatepickerToggle
+import { MatProgressSpinnerModule, MatProgressBarModule, MatTabsModule,
+MatSlideToggleModule, MatDatepickerModule, MatNativeDateModule, MatDatepickerToggle
 } from '@angular/material';
 import {
     TabViewModule, FieldsetModule, ButtonModule, GrowlModule,
@@ -11,7 +11,7 @@ import {
 import { AgGridModule } from 'ag-grid-angular/main';
 import {
     DateTimePickerModule
-} from 'ng2-openmrs-formentry/dist/components/date-time-picker';
+} from 'ngx-openmrs-formentry/dist/ngx-formentry/';
 import { CalendarModule } from 'angular-calendar';
 import { ChartModule } from 'angular2-highcharts';
 import { Moh731ReportComponent } from './moh-731/moh-731-report.component';
@@ -19,21 +19,19 @@ import { clinicDashboardHivRouting } from './hiv-program.routes';
 import { HivCareLibModule } from '../../hiv-care-lib/hiv-care-lib.module';
 import { EtlApi } from '../../etl-api/etl-api.module';
 import { HivModuleComponent } from './hiv-program.component';
-import { DepartmentProgramFilterModule } from
-'./../../department-program-filter/department-program-filter.module';
+import { DepartmentProgramFilterModule
+} from './../../department-program-filter/department-program-filter.module';
 import {
     PatientStatusChangeVisualizationContainerComponent
-} from
-'./patient-status-change-visualization/patient-status-change-visualization.container.component';
+} from './patient-status-change-visualization/patient-status-change-visualization.container.component';
 import {
     PatientStatusChangeVisualizationComponent
-} from
-'./patient-status-change-visualization/patient-status-change-visualization.component';
+} from './patient-status-change-visualization/patient-status-change-visualization.component';
 import {
     PatientStatusDatalistCellComponent
 } from './patient-status-change-visualization/patient-status-data-list-cell.component';
-import { PatientStatusChangeListComponent } from
-'./patient-status-change-visualization/patient-status-change-list.component';
+import { PatientStatusChangeListComponent
+} from './patient-status-change-visualization/patient-status-change-list.component';
 import {
     HivSummaryIndicatorComponent
 } from './hiv-summary-indicators/hiv-summary-indicator.component';
@@ -63,9 +61,7 @@ import {
 } from './clinical-summary-visualization/patient-status-overview/patient-status-overview.component';
 import {
     VisualizationPatientListComponent
-} from
-// tslint:disable-next-line:max-line-length
-'./clinical-summary-visualization/visualization-patient-list/visualization.patient-list.component';
+} from './clinical-summary-visualization/visualization-patient-list/visualization.patient-list.component';
 import { DashboardFiltersComponent } from '../dashboard-filters/dashboard-filters.component';
 import { DateRangeComponent } from '../dashboard-filters/date-range/date-range.component';
 import { RangeSliderComponent } from '../dashboard-filters/range-slider/range-slider.component';
@@ -84,7 +80,18 @@ import {
 import {
     ProgramVisitEncounterSearchModule
 } from '../../program-visit-encounter-search/program-visit-encounter-search.module';
+import { RouterModule } from '@angular/router';
 
+import { HivEnhancedComponent } from './hiv-enhanced-program/hiv-enhanced-program.component';
+import {
+    HivEnhancedFiltersComponent
+} from './hiv-enhanced-program/hiv-enhanced-program-filters/hiv-enhanced-program-filters.component';
+import {
+    HivEnhancedPatientListComponent
+} from './hiv-enhanced-program/hiv-enhanced-patient-list/hiv-enhanced-patient-list.component';
+import { DepartSelectModule } from '../department-select/department-select.module';
+import { DefaulterListComponent } from '../general/defaulter-list/defaulter-list.component';
+import { GeneralModule } from '../general/general.module';
 @NgModule({
     imports: [
         clinicDashboardHivRouting,
@@ -95,12 +102,12 @@ import {
         DataListsModule,
         CommonModule,
         FormsModule,
-        MdTabsModule,
-        MdProgressSpinnerModule,
-        MdProgressBarModule,
-        MdDatepickerModule,
-        MdNativeDateModule,
-        MdSlideToggleModule,
+        MatTabsModule,
+        MatProgressSpinnerModule,
+        MatProgressBarModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatSlideToggleModule,
         CalendarModule,
         TabViewModule,
         FieldsetModule,
@@ -110,7 +117,9 @@ import {
         ChartModule,
         ProgramVisitEncounterSearchModule,
         ClinicScheduleLibModule,
-        DepartmentProgramFilterModule
+        DepartmentProgramFilterModule,
+        DepartSelectModule,
+        GeneralModule
     ],
     exports: [
         HivSummaryIndicatorComponent,
@@ -125,6 +134,7 @@ import {
         IndicatorSelectComponent,
         DateRangeComponent,
         RangeSliderComponent,
+        RouterModule
     ],
     declarations: [
         Moh731ReportComponent,
@@ -149,6 +159,10 @@ import {
         IndicatorSelectComponent,
         DateRangeComponent,
         RangeSliderComponent,
+        HivEnhancedComponent,
+        HivEnhancedFiltersComponent,
+        HivEnhancedPatientListComponent,
+        DefaulterListComponent
     ],
     providers: [
         ClinicalSummaryVisualizationService

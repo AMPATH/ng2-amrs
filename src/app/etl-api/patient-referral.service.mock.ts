@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs/Rx';
-
-import { AppSettingsService } from '../app-settings';
+import { Observable, Subject } from 'rxjs';
 
 import {
   PatientReferralResourceService

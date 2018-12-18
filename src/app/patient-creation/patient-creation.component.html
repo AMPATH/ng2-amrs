@@ -302,6 +302,18 @@
                 <input type="text" id="cityVillage" class="form-control" [(ngModel)]="cityVillage" name="cityVillage">
               </div>
           </div>
+          <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+            <div class="form-group">
+              <label for="latitude" class="control-label">Latitude</label>
+              <input type="text" id="latitude" class="form-control" [(ngModel)]="latitude" name="latitude">
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+            <div class="form-group">
+              <label for="longitude" class="control-label">Longitude</label>
+              <input type="text" id="longitude" class="form-control" [(ngModel)]="longitude" name="longitude">
+            </div>
+          </div>
         </div>
 
         <div class="row">
@@ -398,6 +410,7 @@
           You have successfully registered the patient <strong>{{ createdPatient?.person.display | uppercase }}</strong>
         </div>
         <button type="button" class="btn btn-primary" (click)="loadDashboard(createdPatient)">Load Patient Dashboard</button>
+        <button style="margin-left: 20px;" class="btn btn-primary" (click)="loadProgramManager(createdPatient)">Enroll into Program</button>
         <button type="button" class="btn btn-danger pull-right" (click)="close()">Close</button>
       </div>
     </ng-template>

@@ -10,10 +10,8 @@ import {
   DialogModule, InputTextModule, MessagesModule, InputTextareaModule,
   DropdownModule, ButtonModule, CalendarModule
 } from 'primeng/primeng';
-import { MdProgressSpinnerModule, MdProgressBarModule } from '@angular/material';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { Angulartics2Module } from 'angulartics2';
-import { Ng2PaginationModule } from 'ng2-pagination';
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
 import { PatientInfoComponent } from './patient-info/patient-info.component';
 import {
@@ -54,7 +52,7 @@ import { FormDataSourceService } from './formentry/form-data-source.service';
 import { FormentryComponent } from './formentry/formentry.component';
 import { PrettyEncounterViewerComponent } from './formentry/pretty-encounter-viewer.component';
 import { FormentryHelperService } from './formentry/formentry-helper.service';
-import { FormEntryModule } from 'ng2-openmrs-formentry';
+import { FormEntryModule } from 'ngx-openmrs-formentry/dist/ngx-formentry';
 import { FromentryGuard } from './formentry/formentry.guard';
 import { PatientPreviousEncounterService } from '../services/patient-previous-encounter.service';
 import {
@@ -67,7 +65,6 @@ import { DraftedFormsService } from './formentry/drafted-forms.service';
 import { DraftedFormNavComponent } from './formentry/drafted-form-nav.component';
 import { TodaysVitalsComponent } from './todays-vitals/todays-vitals.component';
 import { TodaysVitalsService } from './todays-vitals/todays-vitals.service';
-import { ToastrModule } from 'ngx-toastr';
 import { PatientRemindersComponent } from './patient-reminders/patient-reminders.component';
 import { OrderListComponent } from './formentry/order-list.component';
 import {
@@ -103,7 +100,7 @@ import {
   HivPatientClinicalSummaryService
 } from '../hiv/patient-clinical-summaries/hiv-patient-clinical-summary.service';
 import { EditDemographicsComponent } from './patient-info/edit-demographics.component';
-import { DateTimePickerModule } from 'ng2-openmrs-formentry/dist/components/date-time-picker';
+import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
 import { VisitPeriodComponent } from './visit/visit-period/visit-period.component';
 import { LocatorMapComponent } from './locator-map/locator-map.component';
 import { SecurePipe } from './locator-map/secure.pipe';
@@ -119,8 +116,7 @@ import {
   OrderByAlphabetPipe
 } from './visit-encounters/visit-encounter.component.order.pipe';
 import { OrderByEncounterTimeAscPipe } from './visit-encounters/orderByEncounterTime.pipe';
-import { EncounterTypeFilter } from
-  './patient-encounters/encounter-list.component.filterByEncounterType.pipe';
+import { EncounterTypeFilter } from './patient-encounters/encounter-list.component.filterByEncounterType.pipe';
 import { ZeroVlPipe } from './../../shared/pipes/zero-vl-pipe';
 import { HivCareLibModule } from '../../hiv-care-lib/hiv-care-lib.module';
 import { LabOrderSearchModule } from '../../lab-order-search/lab-order-search.module';
@@ -133,17 +129,17 @@ import { VisitStarterComponent } from './visit/visit-starter/visit-starter.compo
 import { TodayVisitService } from './visit/today-visit.service';
 import { TodayVisitsComponent } from './visit/today-visits/today-visits.component';
 import { VisitSummaryComponent } from './visit/visit-summary/visit-summary.component';
-import { UnenrollPatientProgramsComponent } from './programs/unenroll-patient-programs.component';
-import { ProgramTransferCareModule } from '../programs/transfer-care/transfer-care.module';
 import { FormUpdaterService } from './formentry/form-updater.service';
-import { ReferralModule } from '../../referral-module/referral-module';
 
 import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
 import { SessionStorageService } from '../../utils/session-storage.service';
 import { HttpClient } from '../../shared/services/http-client.service';
-import { NgSelectModule } from '@ng-select/ng-select';
 import { PatientImagingComponent } from './imaging/patient-imaging.component';
+import { ProgramManagerModule } from '../../program-manager/program-manager.module';
+import { ZscoreService } from '../../shared/services/zscore.service';
+import { GroupEnrollmentModule } from '../group-enrollment/group-enrollment.module';
+import { VitalsDatasource } from './todays-vitals/vitals.datasource';
 
 @NgModule({
   imports: [
@@ -160,23 +156,17 @@ import { PatientImagingComponent } from './imaging/patient-imaging.component';
     ButtonModule,
     CalendarModule,
     NgamrsSharedModule,
-    Ng2PaginationModule,
     Ng2Bs3ModalModule,
     OpenmrsApi,
     UtilsModule,
     TabViewModule,
     GrowlModule, PanelModule,
-    Angulartics2Module.forChild(),
-    MdProgressSpinnerModule,
-    MdProgressBarModule,
     FormEntryModule,
     ReactiveFormsModule,
     ConfirmDialogModule, DialogModule,
-    ToastrModule.forRoot(),
     EtlApi,
     ButtonModule,
     DateTimePickerModule,
-    ReferralModule,
     AgGridModule.withComponents([
 
     ]),
@@ -186,7 +176,8 @@ import { PatientImagingComponent } from './imaging/patient-imaging.component';
     HivCareLibModule,
     PatientSearchModule,
     PatientReferralsModule,
-    ProgramTransferCareModule
+    ProgramManagerModule,
+    GroupEnrollmentModule
   ],
   exports: [
     PatientInfoComponent,
@@ -285,7 +276,6 @@ import { PatientImagingComponent } from './imaging/patient-imaging.component';
     EncounterTypeFilter,
     // ZeroVlPipe,
     PatientImagingComponent],
-
   providers: [
     FormUpdaterService,
     PatientEncounterService,
@@ -316,13 +306,15 @@ import { PatientImagingComponent } from './imaging/patient-imaging.component';
     PatientRelationshipTypeService,
     FormentryReferralsHandlerService,
     PatientCareStatusResourceService,
+    ZscoreService,
     {
       provide: Http,
       useFactory: (xhrBackend: XHRBackend, requestOptions: RequestOptions,
-                   router: Router, sessionStorageService: SessionStorageService) =>
+        router: Router, sessionStorageService: SessionStorageService) =>
         new HttpClient(xhrBackend, requestOptions, router, sessionStorageService),
       deps: [XHRBackend, RequestOptions, Router, SessionStorageService]
     },
+    VitalsDatasource,
     TodayVisitService],
 })
 export class PatientDashboardCommonModule { }

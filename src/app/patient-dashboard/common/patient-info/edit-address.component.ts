@@ -1,4 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+
+import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 
 import { PatientService } from '../../services/patient.service';
 import { Patient } from '../../../models/patient.model';
@@ -11,12 +14,18 @@ import { Subscription } from 'rxjs';
   styleUrls: [],
 })
 export class EditAddressComponent implements OnInit, OnDestroy {
+  @ViewChild('staticModal')
+  public staticModal: ModalDirective;
+  @ViewChild('modal')
+  public modal: ModalComponent;
   public patients: Patient = new Patient({});
   public subscription: Subscription;
   public display: boolean = false;
   public address1: string;
   public address2: string;
   public address3: string;
+  public latitude: string;
+  public longitude: string;
   public cityVillage: string;
   public preferredAddressUuid: string;
   public errors: any = [];
@@ -49,6 +58,8 @@ export class EditAddressComponent implements OnInit, OnDestroy {
             this.address2 = (this.patients.person.preferredAddress as any).address2;
             this.address3 = (this.patients.person.preferredAddress as any).address3;
             this.cityVillage = (this.patients.person.preferredAddress as any).cityVillage;
+            this.latitude = (this.patients.person.preferredAddress as any).latitude;
+            this.longitude = (this.patients.person.preferredAddress as any).longitude;
             this.preferredAddressUuid = (this.patients.person.preferredAddress as any).uuid;
           }
         }
@@ -57,10 +68,10 @@ export class EditAddressComponent implements OnInit, OnDestroy {
   }
 
   public showDialog() {
-    this.display = true;
+    this.staticModal.show();
   }
   public dismissDialog() {
-    this.display = false;
+    this.staticModal.hide();
   }
   public updatePersonAddress() {
     let person = {
@@ -72,6 +83,8 @@ export class EditAddressComponent implements OnInit, OnDestroy {
         address2: this.address2,
         address3: this.address3,
         cityVillage: this.cityVillage,
+        latitude: this.latitude,
+        longitude: this.longitude,
         uuid: this.preferredAddressUuid,
       }]
     };
@@ -79,7 +92,10 @@ export class EditAddressComponent implements OnInit, OnDestroy {
       (success) => {
         if (success) {
           this.displaySuccessAlert('Address saved successfully');
-          this.patientService.fetchPatientByUuid(this.patients.person.uuid);
+          setTimeout(() => {
+            this.display = false;
+            this.patientService.reloadCurrentPatient();
+          }, 2000);
         }
       },
       (error) => {
@@ -90,9 +106,6 @@ export class EditAddressComponent implements OnInit, OnDestroy {
         });
       }
     );
-    setTimeout(() => {
-      this.display = false;
-    }, 1000);
   }
   private displaySuccessAlert(message) {
     this.showErrorAlert = false;

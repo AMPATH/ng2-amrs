@@ -9,8 +9,7 @@ import { HivSummaryComponent } from './hiv/hiv-summary/hiv-summary.component';
 import { CdmSummaryComponent } from './cdm/cdm-summary/cdm-summary.component';
 import { ClinicalNotesComponent } from './common/clinical-notes/clinical-notes.component';
 import { FormentryComponent } from './common/formentry/formentry.component';
-import { PatientMonthlyStatusComponent } from
-  './hiv/patient-status-change/patient-monthly-status.component';
+import { PatientMonthlyStatusComponent } from './hiv/patient-status-change/patient-monthly-status.component';
 import { FromentryGuard } from './common/formentry/formentry.guard';
 import {
   FormCreationDataResolverService
@@ -22,22 +21,18 @@ import {
   PatientSearchContainerComponent
 } from '../patient-search/patient-search-container.component';
 import { TodayVisitsComponent } from './common/visit/today-visits/today-visits.component';
-import { ProgramsContainerComponent } from './programs/programs-container.component';
-import { ProgramsTransferCareFormWizardComponent
-} from './programs/transfer-care/transfer-care-form-wizard.component';
-import { ProgramsTransferCareGuard } from './programs/transfer-care/transfer-care.guard';
-import { ProgramsComponent } from './programs/programs.component';
-import { ProgramsTransferCareComponent } from './programs/transfer-care/transfer-care.component';
-import { ProgramsTransferCareFormWizardGuard
-} from './programs/transfer-care/transfer-care-forms.guard';
-import { ProgramEnrollmentComponent } from './programs/program-enrollment.component';
-import { EnrollmentManagerComponent
-} from '../referral-module/components/enrollment-manager/enrollment-manager.component';
-import { EnrollmentManagerFormWizardComponent
-} from '../referral-module/components/enrollment-manager/enrollment-manager-form-wizard.component';
-import { PATIENTS } from './services/patient.mock';
+import { PatientDashboardResolver } from './services/patient-dashboard.resolver';
 import { PatientCreationComponent } from '../patient-creation/patient-creation.component';
 import { PatientImagingComponent } from './common/imaging/patient-imaging.component';
+import { ProgramManagerContainerComponent
+} from '../program-manager/container/program-manager-container.component';
+import { ProgramSummaryComponent
+} from '../program-manager/program-summary/program-summary.component';
+import { NewProgramComponent } from '../program-manager/new-program/new-program.component';
+import { EditProgramComponent } from '../program-manager/edit-program/edit-program.component';
+import { GroupEnrollmentSummaryComponent } from './group-enrollment/group-enrollment-summary.component';
+
+
 
 export const routes = [
   {
@@ -51,6 +46,9 @@ export const routes = [
         canDeactivate: [
           PatientDashboardGuard
         ],
+        resolve: {
+          patient: PatientDashboardResolver
+        },
         children: [
           { path: 'general/:program/landing-page', component: GeneralLandingPageComponent },
           {
@@ -74,14 +72,25 @@ export const routes = [
             path: 'dermatology/:program/landing-page', // CDM Landing Page
             component: PatientInfoComponent
           },
-          { path: ':programClass/:program/patient-info',
-          component: PatientInfoComponent },
-          { path: ':programClass/:program/patient-encounters',
-          component: VisitEncountersComponent },
-          { path: ':programClass/:program/patient-vitals',
-          component: PatientVitalsComponent },
-          { path: ':programClass/:program/forms',
-          component: FormsComponent },
+          {
+            path: ':programClass/:program/patient-info',
+            component: PatientInfoComponent
+          },
+          {
+            path: ':programClass/:program/patient-encounters',
+            component: VisitEncountersComponent
+          },
+          {
+            path: ':programClass/:program/patient-vitals',
+            component: PatientVitalsComponent
+          },
+          { path: ':programClass/:program/group-enrollment',
+            component: GroupEnrollmentSummaryComponent
+          },
+          {
+            path: ':programClass/:program/forms',
+            component: FormsComponent
+          },
           {
             path: ':programClass/:program/formentry/:formUuid',
             component: FormentryComponent,
@@ -99,53 +108,45 @@ export const routes = [
           { path: ':programClass/:program/lab-data-summary', component: LabDataSummaryComponent },
           { path: ':programClass/:program/patient-imaging', component: PatientImagingComponent },
           { path: ':programClass/:program/lab-orders', component: LabOrdersComponent },
+          { path: ':programClass/:program/clinical-notes', component: ClinicalNotesComponent },
+          { path: ':programClass/:program/visit', component: TodayVisitsComponent },
+          { path: ':programClass/:program/locator-map', component: LocatorMapComponent },
           {
-            path: ':programClass/:program/programs',
-            component: ProgramsContainerComponent,
+            path: ':programClass/:program/program-manager',
+            component: ProgramManagerContainerComponent,
             children: [
               {
                 path: '',
-                redirectTo: 'enrollment-manager', pathMatch: 'full'
+                redirectTo: 'program-summary', pathMatch: 'full',
+                canActivate: []
               },
               {
-                path: 'enrollment-manager',
-                children: [
-                  {
-                    path: '',
-                    component: EnrollmentManagerComponent,
-                    canActivate: []
-                  },
-                  {
-                    path: 'forms',
-                    component: EnrollmentManagerFormWizardComponent,
-                    canDeactivate: []
-                  }
-                ]
+                path: 'program-summary',
+                component: ProgramSummaryComponent,
+                canDeactivate: []
               },
               {
-                path: 'enrollment-history',
-                component: ProgramsComponent
+                path: 'new-program',
+                component: NewProgramComponent,
+                canDeactivate: []
               },
               {
-                path: 'transfer-care',
-                children: [
-                  {
-                    path: '',
-                    component: ProgramsTransferCareComponent,
-                    canActivate: [ProgramsTransferCareGuard]
-                  },
-                  {
-                    path: 'forms',
-                    component: ProgramsTransferCareFormWizardComponent,
-                    canDeactivate: [ProgramsTransferCareFormWizardGuard]
-                  }
-                ]
+                path: 'new-program/step/:step',
+                component: NewProgramComponent,
+                canDeactivate: []
+              },
+              {
+                path: 'edit-program',
+                component: EditProgramComponent,
+                canDeactivate: []
+              },
+              {
+                path: 'edit-program/step/:step',
+                component: EditProgramComponent,
+                canDeactivate: []
               }
-            ],
+            ]
           },
-          { path: ':programClass/:program/clinical-notes', component: ClinicalNotesComponent },
-          { path: ':programClass/:program/visit', component: TodayVisitsComponent },
-          { path: ':programClass/:program/locator-map', component: LocatorMapComponent }
         ]
       }
     ]

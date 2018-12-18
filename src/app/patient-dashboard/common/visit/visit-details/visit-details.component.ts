@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable ,  forkJoin } from 'rxjs';
 import * as moment from 'moment';
 
 import { VisitResourceService } from
@@ -215,7 +215,7 @@ export class VisitDetailsComponent implements OnInit {
 
       // forkjoin all requests
       this.isBusy = true;
-      Observable.forkJoin(
+     forkJoin(
         observableBatch
       ).subscribe(
         (data) => {

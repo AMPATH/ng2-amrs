@@ -4,7 +4,6 @@ import * as _ from 'lodash';
 import { PatientService } from '../../services/patient.service';
 import { Patient } from '../../../models/patient.model';
 import { Subscription } from 'rxjs';
-import { ProgramsTransferCareService } from '../../programs/transfer-care/transfer-care.service';
 
 @Component({
   selector: 'patient-banner',
@@ -15,20 +14,16 @@ import { ProgramsTransferCareService } from '../../programs/transfer-care/transf
 
 export class PatientBannerComponent implements OnInit, OnDestroy {
   public showingAddToCohort: boolean = false;
-  public manageProgramEnrollment: boolean = false;
   public patient: Patient = new Patient({});
   public searchIdentifiers: object;
   public attributes: any;
   public birthdate;
+  public formattedPatientAge;
   private subscription: Subscription;
 
-  constructor(private patientService: PatientService,
-              private transferCareService: ProgramsTransferCareService) { }
+  constructor(private patientService: PatientService) { }
 
   public ngOnInit() {
-    this.transferCareService.getModalOpenState().subscribe((status) => {
-      this.manageProgramEnrollment = status;
-    });
     this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         this.patient = new Patient({});
@@ -44,6 +39,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy {
           });
 
           this.birthdate = Moment(patient.person.birthdate).format('l');
+          this.formattedPatientAge = this.getPatientAge(patient.person.birthdate);
         } else {
           this.searchIdentifiers = undefined;
           this.birthdate = undefined;
@@ -61,16 +57,22 @@ export class PatientBannerComponent implements OnInit, OnDestroy {
     this.showingAddToCohort = true;
   }
 
-  public showTransferCareModal() {
-    this.manageProgramEnrollment = true;
-  }
-
-  public closeDialog() {
-    this.manageProgramEnrollment = false;
-  }
-
   public onAddingToCohortClosed() {
     this.showingAddToCohort = false;
+  }
+
+  private getPatientAge(birthdate) {
+    if (birthdate) {
+      const todayMoment: any = Moment();
+      const birthDateMoment: any = Moment(birthdate);
+      const years = todayMoment.diff(birthDateMoment, 'year');
+      birthDateMoment.add(years, 'years');
+      const months = todayMoment.diff(birthDateMoment, 'months');
+      birthDateMoment.add(months, 'months');
+      const days = todayMoment.diff(birthDateMoment, 'days');
+      return years + ' y ' + months + ' m ' + days + ' d';
+    }
+    return null;
   }
 
 }

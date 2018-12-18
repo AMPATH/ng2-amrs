@@ -1,4 +1,5 @@
-import { Component, OnInit, trigger, transition, style, animate, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { trigger, transition, style, animate } from '@angular/animations';
 import { Router, NavigationEnd } from '@angular/router';
 import { RouteModel } from '../../../shared/dynamic-route/route.model';
 import { DynamicRoutesService } from '../../../shared/dynamic-route/dynamic-routes.service';
@@ -8,6 +9,7 @@ import { NavigationService } from '../../navigation.service';
 @Component({
     selector: 'clinic-side-nav',
     templateUrl: './clinic-side-nav.component.html',
+    styleUrls: ['./clinic-side-nav.component.css'],
     animations: [
         trigger('enterChild', [
             transition(':enter', [
@@ -28,7 +30,7 @@ export class ClinicSideNavComponent implements OnInit, OnDestroy {
     public viewingChildRoutes = false;
     public changingRoutesSub: Subscription;
     constructor(private dynamicRoutesService: DynamicRoutesService,
-                private navigationService: NavigationService) {
+        private navigationService: NavigationService) {
         this.subscribeToRoutesChangeEvents();
     }
 
@@ -54,6 +56,7 @@ export class ClinicSideNavComponent implements OnInit, OnDestroy {
     public subscribeToRoutesChangeEvents() {
         this.changingRoutesSub =
             this.dynamicRoutesService.clinicRoutes.subscribe((next) => {
+                console.log('Clinic routes', next);
                 this.routes = next;
                 if (this.routes && this.routes.length > 0) {
                     this.selectedRoute = this.routes[0];

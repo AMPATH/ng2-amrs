@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit, Input, ViewChild,
   ViewEncapsulation, EventEmitter, Output, OnChanges, SimpleChange } from '@angular/core';
 import { Encounter } from '../../../models/encounter.model';
@@ -76,7 +78,7 @@ export class PatientEncounterObservationsComponent implements OnInit, OnChanges 
 
   public showPlainObsView(encounter) {
     this.selectedEncounter = encounter;
-    this.encounterResource.getEncounterByUuid(encounter.uuid).subscribe((_encounter) => {
+    this.encounterResource.getEncounterByUuid(encounter.uuid).pipe(take(1)).subscribe((_encounter) => {
       // this.modal.dismiss();
       // console.log(this.modal);
       // this.modal.visible = true;

@@ -1,14 +1,12 @@
-
 import { Injectable } from '@angular/core';
-import { Http, URLSearchParams, Response, Headers, RequestOptions } from '@angular/http';
-
-import { AppSettingsService } from '../app-settings';
-import { Observable } from 'rxjs/Rx';
+import { AppSettingsService } from '../app-settings/app-settings.service';
+import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class CohortUserResourceService {
 
-  constructor(private http: Http, private appSettingsService: AppSettingsService) { }
+  constructor(private http: HttpClient, private appSettingsService: AppSettingsService) { }
   public getUrl(): string {
 
     return this.appSettingsService.getEtlRestbaseurl().trim() + 'cohort';
@@ -19,44 +17,26 @@ export class CohortUserResourceService {
     }
     let url = this.getUrl();
     url += '/' + cohortUuid + '/cohort-users';
-    let params: URLSearchParams = new URLSearchParams();
-
-    return this.http.get(url, {
-      search: params
-    }).map((response: Response) => {
-      return response.json();
-    });
+    return this.http.get(url);
   }
   public voidCohortUser(cohortUserId) {
     let url = this.appSettingsService.getEtlRestbaseurl().trim() + 'cohort-user';
     url += '/' + cohortUserId ;
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
-    return this.http.delete(url, options)
-      .map(( response) => {
-        return response;
-      });
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.delete(url, {headers});
 
   }
   public createCohortUser(payload) {
     let url = this.appSettingsService.getEtlRestbaseurl().trim() + 'cohort-user';
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
-    return this.http.post(url, JSON.stringify(payload), options)
-      .map((response: Response) => {
-        return response.json();
-      });
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
+    return this.http.post(url, JSON.stringify(payload), {headers})
   }
   public updateCohortUser(cohortUserId,  payload) {
     let url = this.appSettingsService.getEtlRestbaseurl().trim() + 'cohort-user';
     url += '/' + cohortUserId ;
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
-    return this.http.post(url, JSON.stringify(payload), options)
-      .map((response: Response) => {
-        return response.json();
-      });
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post(url, JSON.stringify(payload), {headers});
 
   }
 }

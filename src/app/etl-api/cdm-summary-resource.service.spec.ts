@@ -4,7 +4,7 @@ import { Http, Response, Headers, BaseRequestOptions,
    ResponseOptions, RequestMethod } from '@angular/http';
 import { LocalStorageService } from '../utils/local-storage.service';
 
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { CdmSummaryResourceService } from './cdm-summary-resource.service';
 
 describe('CdmSummaryService Unit Tests', () => {

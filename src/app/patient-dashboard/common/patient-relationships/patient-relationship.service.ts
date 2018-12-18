@@ -1,7 +1,8 @@
+
+import {take, map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { ReplaySubject, BehaviorSubject, Observable } from 'rxjs/Rx';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Patient } from '../../../models/patient.model';
-import { PatientService } from '../../services/patient.service';
 import { Relationship } from '../../../models/relationship.model';
 import {
   PatientRelationshipResourceService
@@ -10,21 +11,19 @@ import * as _ from 'lodash';
 
 @Injectable()
 export class PatientRelationshipService {
-  public relationshipsSubject: BehaviorSubject<any> = new BehaviorSubject(null);
   public patientToBindRelationship: Patient;
 
-  constructor(private patientService: PatientService,
-              private patientRelationshipResourceService: PatientRelationshipResourceService) {
+  constructor(private patientRelationshipResourceService: PatientRelationshipResourceService) {
   }
 
   public getRelationships(uuid) {
-    let relationshipsArr = [];
-    this.patientRelationshipResourceService.getPatientRelationships(uuid).subscribe(
-      (relationships) => {
+    const relationshipsArr = [];
+    return this.patientRelationshipResourceService.getPatientRelationships(uuid).pipe(
+      map((relationships) => {
         if (relationships) {
-          for (let relationship of relationships) {
+          for (const relationship of relationships) {
             if (uuid === relationship.personA.uuid) {
-              let relation = {
+              const relation = {
                 uuid: relationship.uuid,
                 display: relationship.personB.display,
                 relative: relationship.personB.display,
@@ -35,7 +34,7 @@ export class PatientRelationshipService {
               };
               relationshipsArr.push(new Relationship(relation));
             } else {
-              let relation = {
+              const relation = {
                 uuid: relationship.uuid,
                 display: relationship.personA.display,
                 relative: relationship.personA.display,
@@ -47,19 +46,15 @@ export class PatientRelationshipService {
               relationshipsArr.push(new Relationship(relation));
             }
           }
-          let orderedRelationshipsArr = this.addOrderProperty(relationshipsArr);
+          const orderedRelationshipsArr = this.addOrderProperty(relationshipsArr);
           orderedRelationshipsArr.sort(this.sortRelationships);
-          this.relationshipsSubject.next(orderedRelationshipsArr);
+          return orderedRelationshipsArr;
         }
-      }, (error) => {
-        this.relationshipsSubject.error(error);
-        console.error(error);
-      });
-    return this.relationshipsSubject.asObservable();
+      }));
   }
 
   public addOrderProperty(relationships): any {
-    let relationshipMap = new Map();
+    const relationshipMap = new Map();
     relationshipMap.set('Parent', 1);
     relationshipMap.set('Spouse', 2);
     relationshipMap.set('Guardian', 3);

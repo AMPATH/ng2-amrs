@@ -1,16 +1,18 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { AppSettingsService } from '../app-settings';
-import { Http, Response, Headers, URLSearchParams, RequestOptions } from '@angular/http';
-import { Observable, Subject } from 'rxjs/Rx';
+import { AppSettingsService } from '../app-settings/app-settings.service';
+import { Observable } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 // TODO inject service
 
 @Injectable()
 export class PatientIdentifierTypeResService {
 
-  public v: string = 'full';
+  public v = 'full';
 
-  constructor(protected http: Http, protected appSettingsService: AppSettingsService) {
+  constructor(protected http: HttpClient, protected appSettingsService: AppSettingsService) {
   }
 
   public getUrl(): string {
@@ -20,16 +22,16 @@ export class PatientIdentifierTypeResService {
 
   public getPatientIdentifierTypes(v: string = null): Observable<any> {
 
-    let url = this.getUrl();
-    let params: URLSearchParams = new URLSearchParams();
-    params.set('v', (v && v.length > 0) ? v : this.v);
+    const url = this.getUrl();
+    const params: HttpParams = new HttpParams()
+    .set('v', (v && v.length > 0) ? v : this.v);
 
-    return this.http.get(url, {
-      search: params
-    })
-      .map((response: Response) => {
-        return response.json().results;
-      });
+    return this.http.get<any>(url, {
+      params: params
+    }).pipe(
+      map((response) => {
+        return response.results;
+      }));
   }
 
 }

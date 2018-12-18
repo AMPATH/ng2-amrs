@@ -1,7 +1,7 @@
 import { TestBed, async, ComponentFixture, fakeAsync } from '@angular/core/testing';
 import { MockBackend } from '@angular/http/testing';
 import { Http, BaseRequestOptions } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
+import { Observable, of } from 'rxjs';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OrderResourceService } from '../openmrs-api/order-resource.service';
@@ -15,13 +15,13 @@ import { HivSummaryResourceService } from '../etl-api/hiv-summary-resource.servi
 import { ConceptResourceService  } from '../openmrs-api/concept-resource.service';
 import { LabOrderResourceService } from '../etl-api/lab-order-resource.service';
 import { LabOrderPostService } from './lab-order-post.service';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 
 class FakeOrderResourceService {
   searchOrdersById(orderId: string, cached: boolean = false,
                    v: string = null): Observable<any> {
-    return Observable.of({_body: {
+    return of({_body: {
       'orderNumber': 'ORD-34557',
       'accessionNumber': null
     }});
@@ -80,6 +80,10 @@ describe('LabOrderSearchContainerComponent', () => {
         currentComp = fixture.componentInstance;
       });
   }));
+
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
 
   it('should render lab-order-search component', (done) => {
     fixture.componentInstance.ngOnInit();

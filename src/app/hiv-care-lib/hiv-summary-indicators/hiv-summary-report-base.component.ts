@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit, ViewChild, Output, EventEmitter, Input } from '@angular/core';
 
 import * as Moment from 'moment';
@@ -19,10 +21,10 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
   public data = [];
   public sectionsDef = [];
   public isAggregated: boolean;
-  public startAge: number;
-  public endAge: number;
-  public indicators: string ;
-  public selectedIndicators  = [];
+  public startAge = 0;
+  public endAge = 120;
+  public indicators: string;
+  public selectedIndicators = [];
   public selectedGender = [];
   public enabledControls = 'indicatorsControl,datesControl,' +
     'ageControl,genderControl,locationControl';
@@ -59,18 +61,18 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
   public set locationUuids(v: Array<string>) {
     this._locationUuids = v;
   }
-  private _gender: Array<string>;
-  public get gender(): Array<string> {
+  private _gender: string;
+  public get gender(): string {
     return this._gender;
   }
-  public set gender(v: Array<string>) {
+  public set gender(v: string) {
     this._gender = v;
   }
 
   constructor(public hivSummaryIndicatorsResourceService: HivSummaryIndicatorsResourceService,
-              public dataAnalyticsDashboardService: DataAnalyticsDashboardService) { }
+    public dataAnalyticsDashboardService: DataAnalyticsDashboardService) { }
 
-  public ngOnInit() {}
+  public ngOnInit() { }
   public generateReport() {
     // set busy indications variables
     // clear error
@@ -82,22 +84,33 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
       startAge: this.startAge,
       endAge: this.endAge
     };
-    this.encounteredError = false;
-    this.errorMessage = '';
-    this.isLoadingReport = true;
-    this.hivSummaryIndicatorsResourceService
-      .getHivSummaryIndicatorsReport({
-          endDate: this.toDateString(this.endDate),
-          gender: this.gender ? this.gender : 'F,M',
-          startDate: this.toDateString(this.startDate),
-          indicators: this.indicators,
-          locationUuids: this.getSelectedLocations(this.locationUuids),
-          startAge: this.startAge,
-          endAge: this.endAge
-       }).subscribe(
-      (data) => {
+
+    let uuids = this.getSelectedLocations(this.locationUuids);
+    if (!this.indicators || this.indicators === undefined) {
+      this.isLoadingReport = false;
+      this.encounteredError = true;
+      this.errorMessage = 'Please select Indicator(s) to generate data!';
+    } else if (!uuids) {
+      this.isLoadingReport = false;
+      this.encounteredError = true;
+      this.errorMessage = 'Please select Location(s) to generate data!';
+    } else {
+      this.encounteredError = false;
+      this.errorMessage = '';
+      this.isLoadingReport = true;
+      let params = {
+        endDate: this.toDateString(this.endDate),
+        gender: this.gender ? this.gender : 'F,M',
+        startDate: this.toDateString(this.startDate),
+        indicators: this.indicators,
+        locationUuids: uuids,
+        startAge: this.startAge,
+        endAge: this.endAge
+      };
+      this.hivSummaryIndicatorsResourceService
+      .getHivSummaryIndicatorsReport(params).pipe(take(1)).subscribe((data) => {
         this.isLoadingReport = false;
-        this.sectionsDef =   data.indicatorDefinitions;
+        this.sectionsDef = data.indicatorDefinitions;
 
         this.data = data.result;
       }, (error) => {
@@ -105,6 +118,7 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
         this.errorMessage = error;
         this.encounteredError = true;
       });
+    }
   }
 
   public onAgeChangeFinished($event) {

@@ -2,10 +2,11 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { MatRadioModule } from '@angular/material';
 
 import { USER_DEFAULT_PROPERTIES_ROUTE } from './user-default-properties.routes';
 import { UtilsModule } from '../utils/utils.module';
-import { BusyModule, BusyConfig } from 'angular2-busy';
+import { NgBusyModule, BusyConfig } from 'ng-busy';
 import { UserDefaultPropertiesComponent } from './user-default-properties.component';
 import { UserDefaultPropertiesService } from './user-default-properties.service';
 import { DepartmentProgramsConfigService } from './../etl-api/department-programs-config.service';
@@ -15,20 +16,10 @@ import { RetrospectiveDataEntryModule
 @NgModule({
   imports: [
     CommonModule,
+    MatRadioModule,
     FormsModule,
     UtilsModule,
-    BusyModule.forRoot(
-      {
-        message: 'Please Wait...',
-        backdrop: false,
-        delay: 200,
-        minDuration: 600,
-        wrapperClass: 'my-class',
-        template: `
-                      <div class="loader" ><span><i class="fa fa-spinner fa-spin">
-      </i>{{message}}</span></div>`,
-      }
-    ),
+    NgBusyModule,
     RetrospectiveDataEntryModule,
     RouterModule.forChild(USER_DEFAULT_PROPERTIES_ROUTE)
   ],
@@ -39,7 +30,7 @@ import { RetrospectiveDataEntryModule
   ],
   exports: [
     RouterModule,
-    BusyModule
+    NgBusyModule
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

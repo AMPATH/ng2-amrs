@@ -1,5 +1,8 @@
+
+import {take} from 'rxjs/operators';
 import { Component, ViewEncapsulation, Input, OnInit, ChangeDetectorRef,
-  AfterViewInit } from '@angular/core';
+  AfterViewInit,
+  OnDestroy} from '@angular/core';
 import * as _ from 'lodash';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
@@ -14,7 +17,7 @@ import { ClinicDashboardCacheService } from '../../../services/clinic-dashboard-
   templateUrl: './patient-status-overview.component.html',
   encapsulation: ViewEncapsulation.None
 })
-export class PatientStatusOverviewComponent implements OnInit, AfterViewInit {
+export class PatientStatusOverviewComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() public data: any;
   @Input() public indicatorDef: any;
   public loadingPatientStatus: boolean = false;
@@ -24,11 +27,12 @@ export class PatientStatusOverviewComponent implements OnInit, AfterViewInit {
   private location: any;
   private startIndex: any = 0;
   private limit: any = 0;
-  private fetchError: boolean = false;
+  private fetchError = false;
   private patientList: any;
   private patientCounts: any;
   private chartTitle = 'A comparative chart showing patient care status statistics';
   private _data = new BehaviorSubject<any>([]);
+  private subs: Subscription[] = [];
   constructor(private visualizationResourceService: ClinicalSummaryVisualizationResourceService,
               private router: Router,
               private route: ActivatedRoute,
@@ -59,10 +63,11 @@ export class PatientStatusOverviewComponent implements OnInit, AfterViewInit {
               if (this.loadingPatientStatus === false) {
                 this.startDate = this.options.filtered.startDate._i;
                 this.endDate = this.options.filtered.endDate._i;
-                this.clinicDashboardCacheService.getCurrentClinic().subscribe((clinic) => {
+                const sub = this.clinicDashboardCacheService.getCurrentClinic().subscribe((clinic) => {
                   this.location = clinic;
                   this.getPatientStatusOverviewData();
                 });
+                this.subs.push(sub);
               }
             }
 
@@ -74,6 +79,12 @@ export class PatientStatusOverviewComponent implements OnInit, AfterViewInit {
   }
   public ngAfterViewInit(): void {
     this.changeDetectionRef.detectChanges();
+  }
+
+  public ngOnDestroy(): void {
+    this.subs.forEach((sub) => {
+      sub.unsubscribe();
+    });
   }
 
   public getPatientStatusOverviewData() {
@@ -89,8 +100,8 @@ export class PatientStatusOverviewComponent implements OnInit, AfterViewInit {
         groupBy: '',
         indicators: '',
         order: 'encounter_datetime%257Casc'
-      })
-      .subscribe(
+      }).pipe(
+      take(1)).subscribe(
         (data) => {
 
           this.patientStatusData = data.result;

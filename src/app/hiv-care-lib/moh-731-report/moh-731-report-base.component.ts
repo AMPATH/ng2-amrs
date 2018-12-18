@@ -1,6 +1,8 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute , Params } from '@angular/router';
-// import { Observable, Subject } from 'rxjs/Rx';
+// import { Observable, Subject } from 'rxjs';
 
 import * as Moment from 'moment';
 import * as _ from 'lodash';
@@ -18,6 +20,7 @@ export class Moh731ReportBaseComponent implements OnInit {
   public pdfView: any;
   public data = [];
   public sectionsDef = [];
+  public statusError = false;
 
   public showLocationsControl: boolean = false;
   public showIsAggregateControl: boolean = false;
@@ -26,7 +29,7 @@ export class Moh731ReportBaseComponent implements OnInit {
   public showTabularView: boolean = true;
   public showPatientListLoader: boolean = false;
   public isLoadingReport: boolean = false;
-  public encounteredError: boolean = false;
+  public showInfoMessage: boolean = false;
   public errorMessage: string = '';
   public currentView: string = 'pdf'; // can be pdf or tabular or patientList
   public currentIndicator: string = '';
@@ -101,7 +104,8 @@ export class Moh731ReportBaseComponent implements OnInit {
   public generateReport() {
     // set busy indications variables
     // clear error
-    this.encounteredError = false;
+    this.showInfoMessage = false;
+    this.statusError = false;
     this.errorMessage = '';
     this.isLoadingReport = true;
     this.data = [];
@@ -110,15 +114,29 @@ export class Moh731ReportBaseComponent implements OnInit {
     this.moh731Resource
       .getMoh731Report(this.getSelectedLocations(this.locationUuids),
         this.toDateString(this.startDate), this.toDateString(this.endDate),
-        this.isLegacyReport, this.isAggregated, 1 * 60 * 1000).subscribe(
+        this.isLegacyReport, this.isAggregated, 1 * 60 * 1000).pipe(take(1)).subscribe(
           (data) => {
+            if (data.error) {
+                // if there is an error
+                this.processInfoMsg(data);
+                this.showInfoMessage = true;
+            } else {
+              this.sectionsDef = data.sectionDefinitions;
+              this.data = data.result;
+                // // simple way to avoid a report with dashes. If this columnm exists, the report is full
+                // if (data.result[0] && data.result[0]['current_in_care'] === undefined) {
+                //   this.showInfoMessage = true;
+                //   this.processInfoMsg(data, true);
+                // } else {
+                //   this.sectionsDef = data.sectionDefinitions;
+                //   this.data = data.result;
+                // }
+            }
             this.isLoadingReport = false;
-            this.sectionsDef = data.sectionDefinitions;
-            this.data = data.result;
           }, (error) => {
             this.isLoadingReport = false;
             this.errorMessage = error;
-            this.encounteredError = true;
+            this.showInfoMessage = true;
           });
   }
 
@@ -207,5 +225,16 @@ export class Moh731ReportBaseComponent implements OnInit {
 
   private toDateString(date: Date): string {
     return Moment(date).utcOffset('+03:00').format();
+  }
+  private processInfoMsg(message: any, isEmpty: boolean = false) {
+
+    if (message.error === 404 || isEmpty) {
+      this.errorMessage =
+      'The MOH 731 Report cannot be viewed at the moment, awaiting M & E verification';
+      this.statusError = true;
+    } else {
+      this.errorMessage = 'There was a problem generating MOH 731 Report';
+    }
+
   }
 }

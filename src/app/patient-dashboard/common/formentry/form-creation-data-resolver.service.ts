@@ -39,7 +39,6 @@ export class FormCreationDataResolverService implements Resolve<any> {
         (compiledFormSchema) => {
           if (compiledFormSchema) {
             this.upgradeConflictingValidations(compiledFormSchema);
-            // console.log('compiledFormSchema', compiledFormSchema);
 
             let dataRequiredToLoadForm = {
               encounter: undefined,
@@ -51,7 +50,6 @@ export class FormCreationDataResolverService implements Resolve<any> {
             };
 
             dataRequiredToLoadForm.user = this.userService.getLoggedInUser();
-
             if (dataRequiredToLoadForm.user) {
               this.getUserProviderDetails(dataRequiredToLoadForm.user)
                 .then((provider) => {
@@ -115,6 +113,7 @@ export class FormCreationDataResolverService implements Resolve<any> {
       // console.log('Data required to load forms', dataRequiredToLoadForm);
       finalAcceptFunc(dataRequiredToLoadForm);
     } else {
+      finalAcceptFunc(dataRequiredToLoadForm);
       // console.log('waiting for data to load ...', dataRequiredToLoadForm);
     }
   }

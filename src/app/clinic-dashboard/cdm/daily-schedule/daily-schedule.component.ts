@@ -17,9 +17,16 @@ import {
 })
 export class CdmDailyScheduleComponent extends
 DailyScheduleBaseComponent implements OnInit, OnDestroy {
-
-  public subscription: Subscription = new Subscription();
   public myDepartment = 'CDM';
+  public routeSub: Subscription;
+  public paramsSub: Subscription;
+  public activeLinkIndex = 0;
+  public tabLinks = [
+    { label: 'Appointments', link: 'daily-appointments' },
+    { label: 'Visits', link: 'daily-visits' },
+    { label: 'Clinic Flow', link: 'clinic-flow' },
+    { label: 'Has not returned', link: 'daily-not-returned' },
+  ];
 
   constructor(
     public clinicDashboardCacheService: ClinicDashboardCacheService,
@@ -32,8 +39,18 @@ DailyScheduleBaseComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
+    console.log('cdm schedule loaded');
+    this.setActiveTab();
+    this.route
+    .queryParams
+    .subscribe((params) => {
+       if (params.startDate) {
+        this.selectedDate = params.startDate;
+        this.clinicFlowCache.setSelectedDate(this.selectedDate);
+       }
+    });
     this.selectDepartmentService.setDepartment(this.myDepartment);
-    this.route.parent.parent.params.subscribe((params) => {
+    this.routeSub = this.route.parent.parent.params.subscribe((params) => {
       this.clinicDashboardCacheService.setCurrentClinic(params['location_uuid']);
     });
     if (this.clinicFlowCache.lastClinicFlowSelectedDate) {
@@ -45,7 +62,20 @@ DailyScheduleBaseComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy() {
-    this.subscription.unsubscribe();
+    if (this.routeSub) {
+      this.routeSub.unsubscribe();
+    }
+  }
+
+  public setActiveTab() {
+    if (this.router.url) {
+      let path = this.router.url;
+      const n = this.router.url.indexOf('?');
+      path = this.router.url.substring(0, n !== -1 ? n : path.length);
+      path = path.substr(this.router.url.lastIndexOf('/') + 1);
+      this.activeLinkIndex = this.tabLinks.findIndex((x) => x.link === path);
+
+    }
   }
 
 }

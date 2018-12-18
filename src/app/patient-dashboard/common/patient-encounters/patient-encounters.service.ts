@@ -1,9 +1,10 @@
+
+import {take} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs/Rx';
+import { Observable, BehaviorSubject ,  Subscription } from 'rxjs';
 
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
 import { Encounter } from '../../../models/encounter.model';
-import { Subscription } from 'rxjs';
 
 @Injectable()
 export class PatientEncounterService {
@@ -18,7 +19,7 @@ export class PatientEncounterService {
     let encounterResults: BehaviorSubject<Encounter[]> = new BehaviorSubject<Encounter[]>([]);
     let encounterObservable = this.encounterService.getEncountersByPatientUuid(patientUuid);
 
-    this.busy = encounterObservable.subscribe(
+    this.busy = encounterObservable.pipe(take(1)).subscribe(
       (encounters) => {
         let mappedEncounters: Encounter[] = new Array<Encounter>();
         // tslint:disable-next-line:prefer-for-of

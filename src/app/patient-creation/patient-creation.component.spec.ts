@@ -7,16 +7,23 @@ import { SpyLocation } from '@angular/common/testing';
 
 import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytics.service';
 import { FakeAppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytcis.mock';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { PatientCreationComponent } from './patient-creation.component';
 import { PatientCreationService } from './patient-creation.service';
 import { Observable } from 'rxjs';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import {
-  MdSnackBar, OVERLAY_PROVIDERS, ScrollStrategyOptions, ScrollDispatcher, Platform, LiveAnnouncer
+  MatSnackBar
 
 } from '@angular/material';
+
+import { OVERLAY_PROVIDERS , ScrollStrategyOptions, ScrollDispatcher } from '@angular/cdk/overlay';
+
+import { Platform } from '@angular/cdk/platform';
+
+// import {  LiveAnnouncer } from '@angular/core';
+
 import {
   PatientCreationResourceService
 } from '../openmrs-api/patient-creation-resource.service';
@@ -71,13 +78,13 @@ describe('Component: Patient Creation Unit Tests', () => {
         AppSettingsService,
         LocalStorageService,
         PatientCreationComponent,
-        MdSnackBar,
+        MatSnackBar,
         BsModalService,
         OVERLAY_PROVIDERS,
         ScrollStrategyOptions,
         ScrollDispatcher,
         Platform,
-        LiveAnnouncer,
+        // LiveAnnouncer,
         PatientCreationService,
         PatientCreationResourceService,
         PatientIdentifierTypeResService,

@@ -1,6 +1,8 @@
-import { Component, OnInit, Input, Output, OnDestroy, ViewChild, EventEmitter }
-from '@angular/core';
-import { Subscription } from 'rxjs';
+
+import {take} from 'rxjs/operators';
+import { Component, OnInit, Input, Output, OnDestroy, ViewChild, EventEmitter
+} from '@angular/core';
+import { Subscription ,  of } from 'rxjs';
 import * as moment from 'moment';
 import * as _ from 'lodash';
 import * as Fuse from 'fuse.js';
@@ -20,13 +22,10 @@ import {
   PatientIdentifierTypeResService
 } from '../openmrs-api/patient-identifierTypes-resource.service';
 import { constants } from 'os';
-import { of } from 'rxjs/observable/of';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap';
-import {
-  MdSnackBar
-} from '@angular/material';
 import { SessionStorageService } from '../utils/session-storage.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'patient-creation',
@@ -80,6 +79,8 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public address2: string;
   public address3: string;
   public cityVillage: string;
+  public longitude: string;
+  public latitude: string;
   public stateProvince: string;
   public others = false;
 
@@ -123,7 +124,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public preferredIdentifier;
 
   constructor(
-    public snackbar: MdSnackBar,
+    public toastrService: ToastrService,
     private patientCreationService: PatientCreationService,
     private patientCreationResourceService: PatientCreationResourceService,
     private locationResourceService: LocationResourceService,
@@ -150,7 +151,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       this.ageEstimate =  this.getAge(this.person.birthdate);
       this.birthdateEstimated =  this.person.birthdateEstimated;
     }
-    this.patientCreationService.getpatientResults().subscribe((res) => {
+    this.patientCreationService.getpatientResults().pipe(take(1)).subscribe((res) => {
       if (res.length > 0) {
         this.patientResults = res;
         this.found = true;
@@ -207,8 +208,8 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       };
       this.sessionStorageService.setObject('person', this.person);
       let searchString = this.givenName;
-      this.patientCreationService.searchPatient(searchString, false)
-      .subscribe((results) => {
+      this.patientCreationService.searchPatient(searchString, false).pipe(
+      take(1)).subscribe((results) => {
         this.loaderStatus = false;
         if (results.length > 0) {
           let birthdate = this.getAge(this.birthDate);
@@ -507,13 +508,15 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
             address2: this.address2,
             address3: this.address3,
             cityVillage: this.cityVillage,
+            latitude: this.latitude,
+            longitude: this.longitude,
             stateProvince: this.stateProvince
           }]
         },
         identifiers: ids
       };
-      this.patientCreationResourceService.savePatient(payload)
-      .subscribe((success) => {
+      this.patientCreationResourceService.savePatient(payload).pipe(
+      take(1)).subscribe((success) => {
         this.loaderStatus = false;
         this.sessionStorageService.remove('person');
         this.createdPatient = success;
@@ -523,7 +526,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         }
       }, (err) => {
         this.loaderStatus = false;
-        const error = err.json();
+        const error = err;
         this.errorAlert = error.error.globalErrors[0].code;
       });
 
@@ -537,7 +540,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   }
   public close() {
     this.modalRef.hide();
-    this.router.navigate(['/clinic-dashboard/']);
+    this.router.navigate(['/patient-dashboard/patient-search']);
     this.errorAlert = '';
   }
   public reset() {
@@ -559,7 +562,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   }
 
   public generatePatientIdentifier() {
-    this.patientCreationService.generateIdentifier(this.userId).subscribe((data) => {
+    this.patientCreationService.generateIdentifier(this.userId).pipe(take(1)).subscribe((data: any) => {
       this.patientIdentifier = data.identifier;
       this.generate = false;
       this.editText = true;
@@ -576,8 +579,14 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     }
   }
 
+  public loadProgramManager(createdPatient) {
+    this.modalRef.hide();
+    this.router.navigate(['/patient-dashboard/patient/' + createdPatient.person.uuid +
+    '/general/general/program-manager/new-program']);
+  }
+
   private getPatientIdentifiers() {
-    this.patientCreationResourceService.getPatientIdentifierTypes().subscribe((data) => {
+    this.patientCreationResourceService.getPatientIdentifierTypes().pipe(take(1)).subscribe((data) => {
       this.patientIdentifierTypes = data;
     });
   }
@@ -613,7 +622,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   }
 
   private getCommonIdentifierTypes() {
-    this.patientIdentifierTypeResService.getPatientIdentifierTypes().subscribe(
+    this.patientIdentifierTypeResService.getPatientIdentifierTypes().pipe(take(1)).subscribe(
     (data) => {
       // tslint:disable-next-line:prefer-for-of
       for (let i = 0; i < data.length; i++) {
@@ -645,14 +654,15 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
 
     },
     (error) => {
-      this.snackbar.open('Error retrieving common patient identifier types', '', {
-        duration: 1200
+      this.toastrService.error('Error retrieving common patient identifier types', '', {
+        timeOut: 2000,
+        positionClass: 'toast-bottom-center'
       });
     });
   }
 
   private getLocations(): void {
-    this.locationResourceService.getLocations().subscribe(
+    this.locationResourceService.getLocations().pipe(take(1)).subscribe(
       (locations: any[]) => {
         this.locations = [];
         let counties = [];

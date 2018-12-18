@@ -1,7 +1,9 @@
+
+import {of as observableOf,  Observable, Subject } from 'rxjs';
+import {map,  flatMap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { AppSettingsService } from '../app-settings';
-import { Http, Response, Headers, URLSearchParams, RequestOptions } from '@angular/http';
-import { Observable, Subject } from 'rxjs/Rx';
+import { AppSettingsService } from '../app-settings/app-settings.service';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class EncounterResourceService {
@@ -11,7 +13,7 @@ export class EncounterResourceService {
             ',visitType:(uuid,name)),' +
     'location:ref,encounterType:ref,encounterProviders:(uuid,display,provider:(uuid,display)))';
 
-    constructor(protected http: Http, protected appSettingsService: AppSettingsService) { }
+    constructor(protected http: HttpClient, protected appSettingsService: AppSettingsService) { }
     public getUrl(): string {
 
         return this.appSettingsService.getOpenmrsRestbaseurl().trim();
@@ -23,31 +25,30 @@ export class EncounterResourceService {
         return null;
       }
       let url = this.getUrl() + 'encounter';
-      const params = new URLSearchParams();
-      params.set('patient', patientUuid);
-      params.set('v', this.v);
+      let params = new HttpParams()
+      .set('patient', patientUuid)
+      .set('v', this.v);
 
       return this.http.get(url, {
-        search: params
-      }).map((response: Response) =>
-        response.json()).flatMap((encounters: any) => {
+        params: params
+      }).pipe(flatMap((encounters: any) => {
 
         if (encounters.results.length >= 500) {
-          params.set('startIndex', '500');
-          return this.http.get(url, {
-            search: params
-          }).map((res: Response) => {
+          params = params.set('startIndex', '500');
+          return this.http.get<any>(url, {
+            params: params
+          }).pipe(map((res) => {
 
-            return encounters.results.concat(res.json().results);
+            return encounters.results.concat(res.results);
 
-          });
+          }));
 
         } else {
 
-          return Observable.of(encounters.results);
+          return observableOf(encounters.results);
         }
 
-      });
+      }));
     }
     public getEncounterByUuid(uuid: string): Observable<any> {
         if (!uuid) {
@@ -59,21 +60,19 @@ export class EncounterResourceService {
             'location:ref,encounterType:ref,' +
           'encounterProviders:(uuid,display,provider:(uuid,display)),orders:full,' +
             'obs:(uuid,obsDatetime,concept:(uuid,uuid,name:(display)),value:ref,groupMembers))';
-        let params = new URLSearchParams();
-        params.set('v', _customDefaultRep);
+        let params = new HttpParams()
+        .set('v', _customDefaultRep);
         let url = this.getUrl() + 'encounter/' + uuid;
-        return this.http.get(url, { search: params }).map((response: Response) => {
-            return response.json();
-        });
+        return this.http.get(url, { params: params });
     }
     public getEncounterTypes(v: string) {
         if (!v) {
             return null;
         }
         let url = this.getUrl() + 'encountertype';
-        return this.http.get(url).map((response: Response) => {
-            return response.json().results;
-        });
+        return this.http.get(url).pipe(map((response: any) => {
+            return response.results;
+        }));
     }
 
     public saveEncounter(payload) {
@@ -82,12 +81,8 @@ export class EncounterResourceService {
             return null;
         }
       let url = this.getUrl() + 'encounter';
-      let headers = new Headers({ 'Content-Type': 'application/json' });
-      let options = new RequestOptions({ headers: headers });
-      return this.http.post(url, JSON.stringify(payload), options)
-            .map((response: Response) => {
-                return response.json();
-            });
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      return this.http.post(url, JSON.stringify(payload), {headers});
     }
 
     public updateEncounter(uuid, payload) {
@@ -95,12 +90,8 @@ export class EncounterResourceService {
             return null;
         }
         let url = this.getUrl() + 'encounter/' + uuid;
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
-        return this.http.post(url, JSON.stringify(payload), options)
-            .map((response: Response) => {
-                return response.json();
-            });
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        return this.http.post(url, JSON.stringify(payload), {headers});
     }
 
     public voidEncounter(uuid) {
@@ -108,11 +99,8 @@ export class EncounterResourceService {
             return null;
         }
         let url = this.getUrl() + 'encounter/' + uuid + '?!purge';
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
-        return this.http.delete(url, new RequestOptions({
-            headers: headers
-        }));
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        return this.http.delete(url, {headers});
     }
 
 }

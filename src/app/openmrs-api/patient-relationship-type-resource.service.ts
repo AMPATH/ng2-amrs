@@ -1,12 +1,15 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { AppSettingsService } from '../app-settings';
-import { Http, Response, Headers, URLSearchParams, RequestOptions } from '@angular/http';
-import { Observable, Subject } from 'rxjs/Rx';
+import { AppSettingsService } from '../app-settings/app-settings.service';
+import { Response } from '@angular/http';
+import { Observable } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable()
 export class PatientRelationshipTypeResourceService {
 
-  constructor(protected http: Http, protected appSettingsService: AppSettingsService) {
+  constructor(protected http: HttpClient, protected appSettingsService: AppSettingsService) {
   }
 
   public getUrl(): string {
@@ -18,13 +21,12 @@ export class PatientRelationshipTypeResourceService {
 
     let url = this.getUrl();
     let v: string = 'full';
-    let params: URLSearchParams = new URLSearchParams();
-
-    params.set('v', v);
-    return this.http.get(url, {
-      search: params
-    }).map((response: Response) => {
-      return response.json().results;
-    });
+    let params: HttpParams = new HttpParams()
+    .set('v', v);
+    return this.http.get<any>(url, {
+      params: params
+    }).pipe(map((response) => {
+      return response.results;
+    }));
   }
 }

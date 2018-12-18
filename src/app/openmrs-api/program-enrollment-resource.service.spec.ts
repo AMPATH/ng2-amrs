@@ -6,7 +6,7 @@ import {
 import { MockBackend } from '@angular/http/testing';
 
 import { LocalStorageService } from '../utils/local-storage.service';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { ProgramEnrollmentResourceService } from './program-enrollment-resource.service';
 
 describe('Service: ProgramEnrollmentResourceService', () => {
@@ -28,6 +28,10 @@ describe('Service: ProgramEnrollmentResourceService', () => {
         HttpModule
       ]
     });
+  });
+
+  afterAll(() => {
+    TestBed.resetTestingModule();
   });
 
   let programEnrollmentResponse = {

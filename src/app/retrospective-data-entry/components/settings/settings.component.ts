@@ -1,9 +1,15 @@
+
+import {switchMap} from 'rxjs/operators';
+
+import {debounceTime} from 'rxjs/operators';
+
+import {take} from 'rxjs/operators';
 import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit,
   Output
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { MdCheckboxChange } from '@angular/material';
+import { MatCheckboxChange } from '@angular/material';
 
 import * as _ from 'lodash';
 import * as moment from 'moment';
@@ -16,7 +22,7 @@ import { User } from '../../../models/user.model';
 import { ProviderResourceService } from '../../../openmrs-api/provider-resource.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
 import { RetrospectiveDataEntryService } from '../../services/retrospective-data-entry.service';
-import { PatientService } from '../../../patient-dashboard/services/patient.service';
+// import { PatientService } from '../../../patient-dashboard/services/patient.service';
 import { Subject, Observable } from 'rxjs';
 
 @Component({
@@ -51,7 +57,6 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
               private providerResourceService: ProviderResourceService,
               private localStorageService: LocalStorageService,
               private retrospectiveDataEntryService: RetrospectiveDataEntryService,
-              private patientService: PatientService,
               private cdRef: ChangeDetectorRef,
               private userService: UserService) {
     this.user = this.userService.getLoggedInUser();
@@ -71,9 +76,8 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
   }
 
   public fetchLocationOptions() {
-    this.propertyLocationService.getLocations().map((response: Response) => {
-      return response.json();
-    }).subscribe((locations: any) => {
+    this.propertyLocationService.getLocations().pipe(
+    take(1)).subscribe((locations: any) => {
       this.locations = locations.results.map((location: any) => {
         if (!_.isNil(location.display)) {
           return this.retrospectiveDataEntryService.mappedLocation(location);
@@ -82,14 +86,14 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
     });
   }
 
-  public fetchProviderOptions(term: string = null) {
+  public fetchProviderOptions(term: string = '') {
     if (!_.isNull(term)) {
       this.providers = [];
       this.providerLoading = true;
     }
 
     let findProvider = this.providerResourceService.searchProvider(term, false);
-    findProvider.subscribe(
+    findProvider.pipe(take(1)).subscribe(
       (providers) => {
         this.processProviders(providers);
       },
@@ -100,7 +104,7 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
     return findProvider;
   }
 
-  public saveRetroState(state: MdCheckboxChange) {
+  public saveRetroState(state: MatCheckboxChange) {
     this.enableRetro = state.checked;
     this.retrospectiveDataEntryService.updateProperty('enableRetro', state.checked);
     if (!this.enableRetro) {
@@ -168,7 +172,6 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
 
   public saveProvider(provider) {
     this.providerLoading = false;
-    // this.suggest.next('');
     this.retrospectiveDataEntryService.updateProperty('retroProvider',
       JSON.stringify(provider));
     this.updateErrorState({provider : false});
@@ -195,60 +198,60 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
 
   private _init() {
     this.isLoading = false;
-    this.propertyLocationService.locationSubject.subscribe((item: any) => {
+    this.propertyLocationService.locationSubject.pipe(take(1)).subscribe((item: any) => {
       if (item) {
         if (this.enableRetro) {
-          let retroLocation = this.retrospectiveDataEntryService
-            .mappedLocation(this.currentLocation);
-          this.retrospectiveDataEntryService.updateProperty('retroLocation',
-            JSON.stringify(retroLocation));
-          this.location = retroLocation;
+          this.setLocation();
         }
         this.currentLocation = JSON.parse(item);
       }
     });
     this.retrospectiveDataEntryService.retroSettings.subscribe((retroSettings) => {
       if (retroSettings && retroSettings.enabled) {
-        if (!_.isNull(retroSettings.error)) {
-          this.error = JSON.parse(retroSettings.error);
-        } else {
-          this.error = null;
-        }
-        this.location = retroSettings.location;
-        this.provider = retroSettings.provider;
-
-        this.visitDate = retroSettings.visitDate;
-        this.visitTime = retroSettings.visitTime;
-        this.visitTimeState = retroSettings.visitTimeState;
-        this.localStorageService.setItem('retroVisitDate',
-          this.visitDate);
-        let retroLocation = this.retrospectiveDataEntryService
-          .mappedLocation(this.currentLocation);
-        if (!_.isNull(this.location) && !_.isEmpty(this.location)) {
-          retroLocation = this.location;
-        }
-        this.localStorageService.setItem('retroLocation',
-          JSON.stringify(retroLocation));
+        this.setRetroSettings(retroSettings);
       }
       this.fetchProviderOptions();
       this.fetchLocationOptions();
-
-      this.suggest.debounceTime(500)
-        .switchMap((term) => this.providerResourceService.searchProvider(term))
-        .subscribe((data) => {
-          this.processProviders(data);
-          this.cdRef.detectChanges();
-        });
-
-      /*this.suggest.debounceTime(200).distinctUntilChanged().subscribe((term) => {
-        if (!_.isNull(term)) {
-            this.fetchProviderOptions(term);
-        }
-      }, () => {}, () => {
-        console.log('============>');
-        this.suggest.complete();
-      });*/
+      if (this.suggest) {
+        this.suggest.pipe(debounceTime(500),
+          switchMap((term) => this.providerResourceService.searchProvider(term)))
+          .subscribe((data) => {
+            this.processProviders(data);
+            this.cdRef.detectChanges();
+          });
+      }
     });
+  }
+
+  private setLocation() {
+    let retroLocation = this.retrospectiveDataEntryService
+      .mappedLocation(this.currentLocation);
+    this.retrospectiveDataEntryService.updateProperty('retroLocation',
+      JSON.stringify(retroLocation));
+    this.location = retroLocation;
+  }
+
+  private setRetroSettings(retroSettings) {
+    if (!_.isNull(retroSettings.error)) {
+      this.error = JSON.parse(retroSettings.error);
+    } else {
+      this.error = null;
+    }
+    this.location = retroSettings.location;
+    this.provider = retroSettings.provider;
+
+    this.visitDate = retroSettings.visitDate;
+    this.visitTime = retroSettings.visitTime;
+    this.visitTimeState = retroSettings.visitTimeState;
+    this.localStorageService.setItem('retroVisitDate',
+      this.visitDate);
+    let retroLocation = this.retrospectiveDataEntryService
+      .mappedLocation(this.currentLocation);
+    if (!_.isNull(this.location) && !_.isEmpty(this.location)) {
+      retroLocation = this.location;
+    }
+    this.localStorageService.setItem('retroLocation',
+      JSON.stringify(retroLocation));
   }
 
 }

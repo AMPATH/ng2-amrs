@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators/take';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Patient } from '../../../models/patient.model';
 import { HivPatientClinicalSummaryService } from './hiv-patient-clinical-summary.service';
@@ -7,6 +9,7 @@ import {
   HivPatientClinicalSummaryResourceService
 } from '../../../etl-api/hiv-patient-clinical-summary-resource.service';
 import { Subscription } from 'rxjs';
+import { PDFDocumentProxy } from 'pdfjs-dist';
 
 @Component({
   selector: 'hiv-patient-clinical-summaries',
@@ -50,11 +53,11 @@ export class HivPatientClinicalSummaryComponent implements OnInit, OnDestroy {
         this.patient = new Patient({});
         if (patient) {
           this.patient = patient;
-          this.patientClinicalSummaryResource.fetchPatientSummary(patient.uuid).subscribe(
+          this.patientClinicalSummaryResource.fetchPatientSummary(patient.uuid).pipe(take(1)).subscribe(
             (pdfDependencies) => {
               if (pdfDependencies) {
                 pdfDependencies.patient = patient;
-                this.patientClinicalSummary.generatePdf(pdfDependencies).subscribe(
+                this.patientClinicalSummary.generatePdf(pdfDependencies).pipe(take(1)).subscribe(
                   (pdf) => {
                     this.pdfSrc = pdf.pdfSrc;
                     this.pdfMakeProxy = pdf.pdfProxy;

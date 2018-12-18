@@ -6,7 +6,7 @@ import {
 import { MockBackend } from '@angular/http/testing';
 
 import { LocalStorageService } from '../utils/local-storage.service';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { ProgramWorkFlowStateResourceService } from './program-workflow-state-resource.service';
 
 describe('Service: ProgramWorkFlowStateResourceService', () => {
@@ -28,6 +28,10 @@ describe('Service: ProgramWorkFlowStateResourceService', () => {
         HttpModule
       ]
     });
+  });
+
+  afterAll(() => {
+    TestBed.resetTestingModule();
   });
 
   let programWorkFlowStateResponse = {

@@ -18,12 +18,12 @@ import {
 import { IMyOptions, IMyDateModel } from 'ngx-mydatepicker';
 import * as Moment from 'moment';
 import { MonthlyScheduleResourceService } from '../../etl-api/monthly-scheduled-resource.service';
-import { ClinicDashboardCacheService }
-  from '../../clinic-dashboard/services/clinic-dashboard-cache.service';
+import { ClinicDashboardCacheService } from '../../clinic-dashboard/services/clinic-dashboard-cache.service';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 import * as _ from 'lodash';
 import { PatientProgramResourceService } from '../../etl-api/patient-program-resource.service';
 import { LocalStorageService } from '../../utils/local-storage.service';
+import { take } from 'rxjs/operators';
 const colors: any = {
   red: {
     primary: '#ad2121',
@@ -48,120 +48,158 @@ const colors: any = {
   styleUrls: ['./monthly-schedule.component.css']
 })
 export class MonthlyScheduleBaseComponent implements OnInit, OnDestroy {
-  public viewDate: Date = new Date();
+  public viewDate = Moment().format('MMMM YYYY');
   public view = 'month';
   public filter: any = {
      'programType': [],
      'visitType': [],
      'encounterType': []
   };
-  public encodedParams: string =  encodeURI(JSON.stringify(this.filter));
+  public busyIndicator: any = {
+    busy: false,
+    message: 'Please wait...' // default message
+  };
+  public params: any;
   public events: CalendarEvent[] = [];
-  public activeDayIsOpen: boolean = false;
-  public location: string = '';
+  public activeDayIsOpen = false;
+  public location  = '';
   public busy: Subscription;
   public fetchError = false;
   public programVisitsEncounters: any = [];
   public encounterTypes: any [];
+  public monthControl  = true;
   public trackEncounterTypes: any = [];
-  public subscription: Subscription = new Subscription();
+  private subs: Subscription[] = [];
   private _datePipe: DatePipe;
 
   constructor(public monthlyScheduleResourceService: MonthlyScheduleResourceService,
               public clinicDashboardCacheService: ClinicDashboardCacheService,
               public router: Router,
-              public route: ActivatedRoute,
+              public _route: ActivatedRoute,
               public appFeatureAnalytics: AppFeatureAnalytics,
               public _localstorageService: LocalStorageService,
               public _patientProgramService: PatientProgramResourceService) {
-    this._datePipe = new DatePipe('en-US');
-    this.getSavedFilter();
-    this.getCurrentLocation();
-    this.appFeatureAnalytics
-      .trackEvent('Monthly Schedule', 'Monthly Schedule loaded', 'ngOnInit');
-    let date = this.route.snapshot.queryParams['date'];
-    if (date) {
-      this.viewDate = new Date(date);
-    }
-    if (this.location) {
-      this.getAppointments();
-    }
   }
 
   public ngOnInit() {
-    this.getAppointments();
+    this.getCurrentLocation();
+    // this.getAppointments();
+  }
+
+  public getParams() {
+
   }
 
   public ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
-
-  public filterSelected($event) {
-         this.filter = $event;
-         this.encodedParams = encodeURI(JSON.stringify($event));
-         this.getAppointments();
-  }
-
-  public getCurrentLocation() {
-    this.clinicDashboardCacheService.getCurrentClinic().subscribe((location) => {
-      this.location = location;
+    this.subs.forEach((sub) => {
+      sub.unsubscribe();
     });
   }
 
+  public filterSelected($event: any) {
+         this.getCurrentLocation();
+         this.params = $event;
+         if ($event.resetFilter && $event.resetFilter === true) {
+           this.events = [];
+         } else {
+           this.getAppointments();
+         }
+  }
+
+  public getCurrentLocation() {
+    const sub = this.clinicDashboardCacheService.getCurrentClinic().pipe(
+    take(1)).subscribe((location) => {
+      this.location = location;
+      const params = this.params;
+      if (params && params.hasOwnProperty('programType')) {
+        this.getAppointments();
+      }
+    });
+    this.subs.push(sub);
+  }
+
   public navigateToMonth() {
-    let date = Moment(this.viewDate).format('YYYY-MM-DD');
-    this.viewDate = new Date(date);
+    const date = this.viewDate;
+    this.viewDate = Moment().format('YYYY-MM');
     this.router.navigate(['./'], {
       queryParams: {date: date},
-      relativeTo: this.route
+      relativeTo: this._route
     });
     this.getAppointments();
   }
 
   public getAppointments() {
       this.fetchError = false;
-      this.busy = this.monthlyScheduleResourceService.getMonthlySchedule({
-      endDate: Moment(endOfMonth(this.viewDate)).format('YYYY-MM-DD'),
-      startDate: Moment(startOfMonth(this.viewDate)).format('YYYY-MM-DD'),
-      programVisitEncounter: this.encodedParams,
+      this.setBusy();
+      this.viewDate = Moment(this.params.startDate, 'YYYY-MM-DD').format('MMMM YYYY');
+      this.monthlyScheduleResourceService.getMonthlySchedule({
+      endDate: this.params.endDate,
+      startDate: this.params.startDate,
+      programType: this.params.programType,
+      visitType: this.params.visitType,
+      encounterType: this.params.encounterType,
       locationUuids: this.location, limit: 10000
-    }).subscribe((results) => {
+    }).pipe(take(1)).subscribe((results) => {
       this.events = this.processEvents(results);
+      this.setFree();
     }, (error) => {
       this.fetchError = true;
+      this.setFree();
     });
   }
 
-  public addBadgeTotal(day: CalendarMonthViewDay): void {
-    day.badgeTotal = 0;
-  }
+  public beforeMonthViewRender(days: CalendarMonthViewDay[]): void {
+    if (_.isArray(days)) {
 
-  public navigateToDaily(event) {
-    switch (event.type) {
-      case 'scheduled':
-        this.router.navigate(['clinic-dashboard',
-            this.location, 'general', 'daily-schedule', 'daily-appointments'],
-          {queryParams: {date: Moment(event.start).format('YYYY-MM-DD')}});
-        break;
-      case 'attended':
-        this.router.navigate(['clinic-dashboard',
-            this.location, 'general', 'daily-schedule', 'daily-visits'],
-          {queryParams: {date: Moment(event.start).format('YYYY-MM-DD')}});
-        break;
-      case 'has_not_returned':
-        this.router.navigate(['clinic-dashboard',
-            this.location, 'general', 'daily-schedule', 'daily-not-returned'],
-          {queryParams: {date: Moment(event.start).format('YYYY-MM-DD')}});
-        break;
-      default:
+      days.forEach(day => {
+        day.badgeTotal = 0;
+      });
+
     }
   }
 
+  public navigateToDaily(event) {
+    const scheduleDate = Moment(event.start).format('YYYY-MM-DD');
+    const params: any = {
+    };
+    const currentQueryParams: any = this._route.snapshot.queryParams;
+    // only key to be changed is endDate which is readonly in queryparams
+    Object.keys(currentQueryParams).forEach((key) => {
+      if (key === 'startDate') {
+         params['startDate'] = scheduleDate;
+      } else if (key === 'endDate') {
+        params['endDate'] = scheduleDate;
+      } else {
+        params[key] = currentQueryParams[key];
+      }
+    });
+    let link = '';
+
+    switch (event.type) {
+      case 'scheduled':
+        link = 'daily-appointments';
+        break;
+      case 'attended':
+        link = 'daily-visits';
+        break;
+      case 'has_not_returned':
+        link = 'daily-not-returned';
+        break;
+      default:
+    }
+
+    this.router.navigate(['../daily-schedule/' + link],
+          {
+            queryParams: params,
+            relativeTo : this._route
+          });
+  }
+
   public processEvents(results) {
-    let processed = [];
-    for (let e of results) {
+    const processed = [];
+    for (const e of results) {
       /* tslint:disable forin*/
-      for (let key in e.count) {
+      for (const key in e.count) {
 
         switch (key) {
           case 'scheduled':
@@ -211,25 +249,20 @@ export class MonthlyScheduleBaseComponent implements OnInit, OnDestroy {
     this.navigateToMonth();
   }
 
-  // get filter saved
+  public setBusy() {
 
-  public getSavedFilter() {
-      let cookieKey = 'programVisitEncounterFilter';
+    this.busyIndicator = {
+      busy: true,
+      message: 'Please wait...Loading'
+    };
 
-      let cookieVal =  encodeURI(JSON.stringify(this.encodedParams));
+  }
+  public setFree() {
 
-      let programVisitStored = this._localstorageService.getItem(cookieKey);
-
-      if (programVisitStored === null) {
-
-      } else {
-
-         cookieVal =  this._localstorageService.getItem(cookieKey);
-
-         // this._cookieService.put(cookieKey, cookieVal);
-      }
-
-      this.encodedParams = cookieVal;
+    this.busyIndicator = {
+      busy: false,
+      message: ''
+    };
 
   }
 }

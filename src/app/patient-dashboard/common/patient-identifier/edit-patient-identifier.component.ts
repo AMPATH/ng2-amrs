@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators/take';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PatientService } from '../../services/patient.service';
 import { Patient } from '../../../models/patient.model';
@@ -53,6 +55,8 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
   public newLocation = '';
   private subscription: Subscription;
   private initialPatientIdentifier: string = '';
+  public isPreferred: boolean = false;
+  public isNewlocation: boolean = false;
   constructor(private patientService: PatientService,
               private locationResourceService: LocationResourceService,
               private patientIdentifierService: PatientIdentifierService,
@@ -137,11 +141,13 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
   }
   public setPreferredIdentifier(preferredIdentifier) {
     this.preferredIdentifier = preferredIdentifier;
+    this.isPreferred = true;
   }
   public seIdentifierLocation(location) {
     // this.identifierLocation = location.value;
     this.newLocation = location.value;
     this.invalidLocationCheck = '';
+    this.isNewlocation = true;
   }
 
   public setIdentifierType(identifierType) {
@@ -192,6 +198,8 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
       this.patientIdentifier = '';
       this.patientIdentifierUuid = '';
       this.preferredIdentifier = '';
+      this.isPreferred = false;
+      this.isNewlocation = false;
     }
   }
 
@@ -221,9 +229,15 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
 
     this.checkIdentifierFormat();
     if (this.isValidIdentifier === true) {
-      this.patientResourceService.searchPatient(this.patientIdentifier).subscribe(
+      this.patientResourceService.searchPatient(this.patientIdentifier).pipe(take(1)).subscribe(
         (result) => {
           if (result <= 0 && this.newLocation !== this.identifierLocation) {
+            if (personIdentifierPayload.uuid === undefined || personIdentifierPayload.uuid === '' ||
+              personIdentifierPayload.uuid === null) {
+              delete personIdentifierPayload.uuid;
+            }
+            this.saveIdentifier(personIdentifierPayload, person);
+          } else if (result.length > 0 && this.isPreferred || this.isNewlocation) {
             if (personIdentifierPayload.uuid === undefined || personIdentifierPayload.uuid === '' ||
               personIdentifierPayload.uuid === null) {
               delete personIdentifierPayload.uuid;
@@ -252,7 +266,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
   }
 
   public generatePatientIdentifier() {
-    this.patientCreationResourceService.generateIdentifier(this.userId).subscribe((data) => {
+    this.patientCreationResourceService.generateIdentifier(this.userId).subscribe((data: any) => {
       this.patientIdentifier = data.identifier;
       this.checkUniversal = false;
     }, ((err) => {
@@ -263,14 +277,16 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
 private saveIdentifier(personIdentifierPayload, person) {
   this.patientResourceService.saveUpdatePatientIdentifier(person.uuid,
               this.patientIdentifierUuid,
-              personIdentifierPayload)
-              .subscribe(
+              personIdentifierPayload).pipe(
+              take(1)).subscribe(
                 (success) => {
                   this.displaySuccessAlert('Identifiers saved successfully');
                   this.patientIdentifier = '';
                   this.identifierLocation = '';
                   this.preferredIdentifier = '';
                   this.identifierType = '';
+                  this.isPreferred = false;
+                  this.isNewlocation = false;
                   this.patientService.fetchPatientByUuid(this.patients.person.uuid);
                   setTimeout(() => {
                     this.display = false;
@@ -290,7 +306,7 @@ private saveIdentifier(personIdentifierPayload, person) {
     return existingIdentifier;
   }
   private fetchLocations(): void {
-    this.locationResourceService.getLocations().subscribe(
+    this.locationResourceService.getLocations().pipe(take(1)).subscribe(
       (locations: any[]) => {
         this.locations = [];
         // tslint:disable-next-line:prefer-for-of
@@ -397,7 +413,10 @@ private saveIdentifier(personIdentifierPayload, person) {
       if ((id as any).identifier === identifier) {
         return true;
       }
+    } else if (this.isPreferred) {
+      return false;
+    } else {
+      return false;
     }
-    return false;
   }
 }

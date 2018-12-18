@@ -7,7 +7,7 @@ import {
     RequestMethod
   } from '@angular/http';
 import { LocalStorageService } from '../utils/local-storage.service';
-import { AppSettingsService } from '../app-settings';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { PatientCreationService } from './patient-creation.service';
 import { PatientResourceService } from '../openmrs-api/patient-resource.service';

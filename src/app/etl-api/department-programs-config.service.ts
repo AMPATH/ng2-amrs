@@ -1,11 +1,13 @@
+
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, URLSearchParams } from '@angular/http';
-import { AppSettingsService } from '../app-settings';
-import { Observable } from 'rxjs/Observable';
+import { AppSettingsService } from '../app-settings/app-settings.service';
+import { Observable } from 'rxjs';
+import {map} from 'rxjs/operators';
 import { DataCacheService } from '../shared/services/data-cache.service';
+import { HttpClient, HttpParams } from '@angular/common/http';
 @Injectable()
 export class DepartmentProgramsConfigService {
-  constructor(protected http: Http,
+  constructor(protected http: HttpClient,
               protected appSettingsService: AppSettingsService,
               private cacheService: DataCacheService) {
   }
@@ -16,13 +18,26 @@ export class DepartmentProgramsConfigService {
 
   public getDartmentProgramsConfig(): Observable<any> {
 
-    let url = this.getBaseUrl() + 'departments-programs-config';
-    let request = this.http.get(url)
-      .map((response: Response) => {
-        return response.json();
-      });
+    const url = this.getBaseUrl() + 'departments-programs-config';
+    const request = this.http.get(url);
 
     return this.cacheService.cacheRequest(url, '' , request);
+
+  }
+
+  public getDepartmentPrograms(department): Observable<any> {
+    const url = this.getBaseUrl() + 'department-programs';
+    const urlParams: HttpParams = new HttpParams()
+    .set('department', department);
+    urlParams.set('department', department);
+
+    const request = this.http.get<any>(url, {
+      params: urlParams
+    }).pipe(
+      map((response) => {
+          return response;
+      }));
+    return this.cacheService.cacheRequest(url, urlParams, request);
 
   }
 

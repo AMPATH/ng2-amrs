@@ -24,7 +24,7 @@
 		</p>
 		<div *ngIf="hasPDashLink">
 			<a href="#/patient-dashboard/patient/{{ patient?.person.uuid}}/general/landing-page" class="btn btn-primary btn-pdash-link">
-				<span class="icon-i-administration">View Patient</span>
+				<span class="icon-i-administration"></span> View Patient
 			</a>
 		</div>
 		<div class="{{ patient.person.dead ? 'banner-danger' : 'banner-info' }}" *ngIf="patient">
@@ -155,8 +155,8 @@
 						</div>
 					</div>
 				</div>
-				<div *ngIf="error != null">
-					<span class="text-danger">
+				<div *ngIf="error != null" class="alert alert-danger">
+					<span class="text-danger text-bold">
 						<i class="glyphicon glyphicon-exclamation-sign"></i> {{error}}
 					</span>
 				</div>

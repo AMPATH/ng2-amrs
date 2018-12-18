@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute , Params } from '@angular/router';
 import * as _ from 'lodash';
@@ -47,8 +49,8 @@ export class PatientsProgramEnrollmentComponent implements OnInit {
 
     public getDepartmentConfig() {
 
-        this._departmentProgramService.getDartmentProgramsConfig()
-          .subscribe((results) => {
+        this._departmentProgramService.getDartmentProgramsConfig().pipe(
+          take(1)).subscribe((results) => {
             if (results) {
               this.departmentProgConfig = results;
             }
@@ -84,8 +86,8 @@ export class PatientsProgramEnrollmentComponent implements OnInit {
 
         if (typeof params !== 'undefined') {
 
-                this._patientProgramEnrollmentService.getActivePatientEnrollmentSummary(params)
-                .subscribe((enrollmentSummary) => {
+                this._patientProgramEnrollmentService.getActivePatientEnrollmentSummary(params).pipe(
+                take(1)).subscribe((enrollmentSummary) => {
                     if (enrollmentSummary) {
                         this.processEnrollmentSummary(enrollmentSummary);
                     }

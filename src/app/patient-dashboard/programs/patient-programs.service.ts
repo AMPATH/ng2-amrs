@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { DatePipe } from '@angular/common';
 
+
 import * as _ from 'lodash';
-import { Subject, Observable } from 'rxjs/Rx';
+import { Subject, Observable, forkJoin, combineLatest, Subscription, BehaviorSubject } from 'rxjs';
 import { RoutesProviderService } from '../../shared/dynamic-route/route-config-provider.service';
 import { ProgramService } from './program.service';
-import { Subscription } from 'rxjs/Subscription';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ProgramEnrollment } from '../../models/program-enrollment.model';
 import { Program } from '../../models/program.model';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class PatientProgramService {
@@ -16,123 +16,81 @@ export class PatientProgramService {
   private subscription: Subscription;
   private _datePipe: DatePipe;
   constructor(private routesProviderService: RoutesProviderService,
-              private programService: ProgramService) {
+    private programService: ProgramService) {
     this._datePipe = new DatePipe('en-US');
   }
 
   public getCurrentlyEnrolledPatientPrograms(uuid): Observable<any> {
-    this.loadProgramBatch(uuid);
-    return Observable.create((observer: BehaviorSubject<any[]>) => {
-      this.enrolledPrograms.subscribe(
-        (data) => {
-          if (data) {
-            observer.next(data);
-          }
-        },
-        (error) => {
-          observer.error(error);
-        }
-      );
-    }).first();
+    return this.loadProgramBatch(uuid);
   }
 
-  private loadProgramsPatientIsEnrolledIn(patientUuid: string) {
-    return Observable.create((observer: Subject<Array<ProgramEnrollment>>) => {
-      if (patientUuid) {
-        this.programService.getPatientEnrolledProgramsByUuid(patientUuid).subscribe(
-          (data) => {
-            if (data) {
-              observer.next(data);
-            }
-          },
-          (error) => {
-            observer.error(error);
-          }
-        );
-      } else {
-        observer.error('patientUuid is required');
-      }
-    }).first();
+  public loadProgramsPatientIsEnrolledIn(patientUuid: string): Observable<any> {
+    return this.programService.getPatientEnrolledProgramsByUuid(patientUuid);
   }
 
-  private getAvailablePrograms() {
-    return Observable.create((observer: Subject<Array<Program>>) => {
-      this.programService.getAvailablePrograms().subscribe(
-        (programs) => {
-          if (programs) {
-            observer.next(programs);
-          }
-        },
-        (error) => {
-          observer.error(error);
-        }
-      );
-    }).first();
+  private getAvailablePrograms(): Observable<any> {
+    return this.programService.getAvailablePrograms();
   }
 
-  private loadProgramBatch(patientUuid: string): void {
-    let dashboardRoutesConfig: any = this.routesProviderService.patientDashboardConfig;
-    let programBatch: Array<Observable<any>> = [];
-    programBatch.push(this.loadProgramsPatientIsEnrolledIn(patientUuid));
-    programBatch.push(this.getAvailablePrograms());
-    this.subscription = Observable.forkJoin(programBatch).subscribe((data) => {
-      let enrolledProgrames = data[0];
-      let _programs = [];
-      // data[1] = availablePrograms
-      _.each(data[1], (program: any) => {
-        let _enrolledPrograms: Array<any> = _.filter(enrolledProgrames,
-          (enrolledProgram: any) => {
-            return enrolledProgram.programUuid === program.uuid &&
-              _.isNil(enrolledProgram.dateCompleted) && !enrolledProgram.voided;
-          });
-        let _enrolledProgram: any;
-        if (_enrolledPrograms.length > 0) {
-          _enrolledProgram = _.last(_enrolledPrograms);
-        }
+  private loadProgramBatch(patientUuid: string): Observable<any> {
+    let allAvailablePrograms = [];
+    const dashboardRoutesConfig: any = this.routesProviderService.patientDashboardConfig;
+    return this.getAvailablePrograms().flatMap((programs) => {
+      allAvailablePrograms = programs;
+      return this.loadProgramsPatientIsEnrolledIn(patientUuid);
+    }).pipe(
+      map((data) => {
+        if (data) {
+        // data[0] = enrolledPrograms
+        // data[1] = availablePrograms
+        const enrolledPrograms = data;
+        const _programs = [];
+        _.each(allAvailablePrograms, (program: any) => {
+          let _enrolledProgram: any;
+          const _enrolledPrograms = _.filter(enrolledPrograms, (enrolledProgram: any) =>
+           enrolledProgram.programUuid === program.uuid && !enrolledProgram.voided);
 
-        let route: any = _.find(dashboardRoutesConfig.programs, (_route: any) => {
-          return _route['requiresPatientEnrollment'] && _route['programUuid'] === program.uuid;
-        });
-
-        _programs.push({
-          program: program,
-          concept: program.concept,
-          enrolledProgram: _enrolledProgram,
-          programUuid: program.uuid,
-          isFocused: false,
-          isEdit: false,
-          dateEnrolled: (!_.isNil(_enrolledProgram) && _.isNil(_enrolledProgram.dateCompleted)) ?
-            this._datePipe.transform(_enrolledProgram.dateEnrolled, 'yyyy-MM-dd') : null,
-          dateEnrolledView: (!_.isNil(_enrolledProgram)
-            && _.isNil(_enrolledProgram.dateCompleted)) ?
-            this._datePipe.transform(_enrolledProgram.dateEnrolled, 'dd-MM-yyyy') : null,
-          dateCompleted: null,
-          validationError: '',
-          baseRoute: route ? route.alias : '',
-          buttons: {
-            landing: {
-              display: 'Go to Program',
-              url: route ? '/patient-dashboard/patient/' + patientUuid + '/' + route.alias + '/' +
-                route.baseRoute + '/landing-page' : null
+          const route: any = _.find(dashboardRoutesConfig.programs, (_route: any) =>
+            _route['requiresPatientEnrollment'] && _route['programUuid'] === program.uuid
+          );
+          if (_enrolledPrograms.length > 0) {
+            _enrolledProgram = _.last(_enrolledPrograms);
+          }
+          _programs.push({
+            program: program,
+            concept: program.concept,
+            enrolledProgram: _enrolledProgram || null,
+            programUuid: program.uuid,
+            isFocused: false,
+            isEdit: false,
+            dateEnrolled: (!_.isNil(_enrolledProgram) && _.isNil(_enrolledProgram.dateCompleted)) ?
+              this._datePipe.transform(_enrolledProgram.dateEnrolled, 'yyyy-MM-dd') : null,
+            dateEnrolledView: (!_.isNil(_enrolledProgram)
+              && _.isNil(_enrolledProgram.dateCompleted)) ?
+              this._datePipe.transform(_enrolledProgram.dateEnrolled, 'dd-MM-yyyy') : null,
+            dateCompleted: (!_.isNil(_enrolledProgram) && !_.isNil(_enrolledProgram.dateCompleted))
+              ? this._datePipe.transform(_enrolledProgram.dateCompleted, 'yyyy-MM-dd') : null,
+            validationError: '',
+            baseRoute: route ? route.alias : '',
+            buttons: {
+              landing: {
+                display: 'Go to Program',
+                url: route ? '/patient-dashboard/patient/' + patientUuid + '/' + route.alias + '/' +
+                  route.baseRoute + '/landing-page' : null
+              },
+              visit: {
+                display: 'Program Visit',
+                url: route ? '/patient-dashboard/patient/' + patientUuid + '/' + route.alias + '/' +
+                  route.baseRoute + '/visit' : null
+              }
             },
-            visit: {
-              display: 'Program Visit',
-              url: route ? '/patient-dashboard/patient/' + patientUuid + '/' + route.alias + '/' +
-                route.baseRoute + '/visit' : null
-            }
-          },
-          isEnrolled: !_.isNil(_enrolledProgram) && _.isNil(_enrolledProgram.dateCompleted)
+            isEnrolled: !_.isNil(_enrolledProgram) && _.isNull(_enrolledProgram.dateCompleted)
+          });
         });
-      });
-      this.enrolledPrograms.next(_programs);
-    },
-      (err) => {
-        this.enrolledPrograms.error(err);
-      },
-      () => {
-        this.subscription.unsubscribe();
+        return _programs;
       }
-    );
+    }));
+
   }
 
 }

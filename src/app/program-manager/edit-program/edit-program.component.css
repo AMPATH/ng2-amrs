@@ -1,0 +1,12 @@
+blockquote {
+  border-left: 0;
+  margin-bottom: 0;
+  padding-top: 0;
+}
+blockquote footer:before {
+  padding-left:20px;
+}
+hr {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}

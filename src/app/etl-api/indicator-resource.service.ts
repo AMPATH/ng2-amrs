@@ -1,16 +1,16 @@
 
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, URLSearchParams } from '@angular/http';
-import { ReplaySubject } from 'rxjs/Rx';
-import 'rxjs/add/operator/toPromise';
-import { AppSettingsService } from '../app-settings';
+import { ReplaySubject } from 'rxjs';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable()
 export class IndicatorResourceService {
 
   private reportIndicators = new ReplaySubject(1);
-  constructor(private http: Http, private appSettingsService: AppSettingsService,
+  constructor(private http: HttpClient, private appSettingsService: AppSettingsService,
               private cacheService: DataCacheService) {
   }
   /**
@@ -25,23 +25,21 @@ export class IndicatorResourceService {
     return this.appSettingsService.getEtlRestbaseurl().trim() + `indicators-schema`;
   }
 
-  public getUrlRequestParams(params): URLSearchParams {
-    let urlParams: URLSearchParams = new URLSearchParams();
-
-    urlParams.set('report', params.report);
-
+  public getUrlRequestParams(params): HttpParams {
+    let urlParams: HttpParams = new HttpParams()
+    .set('report', params.report);
     return urlParams;
   }
 
   public getReportIndicators(params) {
     let urlParams = this.getUrlRequestParams(params);
     let url = this.getUrl();
-    let request = this.http.get(url, {
-      search: urlParams
-    })
-      .map((response: Response) => {
-        return response.json().result;
-      });
+    let request = this.http.get<any>(url, {
+      params: urlParams
+    }).pipe(
+      map((response) => {
+        return response.result;
+      }));
 
     return this.cacheService.cacheRequest(url, urlParams, request);
 

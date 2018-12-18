@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators/take';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CohortResourceService } from '../openmrs-api/cohort-resource.service';
@@ -51,7 +53,7 @@ export class AddCohortListComponent implements OnInit, OnDestroy {
             description: this.description,
             memberIds: []
       };
-      this.cohortResourceService.addCohort( cohortListPayload).subscribe(
+      this.cohortResourceService.addCohort( cohortListPayload).pipe(take(1)).subscribe(
         (success) => {
           this.displaySuccessAlert('Successfully added cohort');
           if ( success ) {

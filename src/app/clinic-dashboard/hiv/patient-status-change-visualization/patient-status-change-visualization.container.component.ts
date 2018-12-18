@@ -1,3 +1,5 @@
+
+import {mergeMap} from 'rxjs/operators';
 import { Component, OnInit, OnDestroy, ViewEncapsulation, ViewChild } from '@angular/core';
 import {
   PatientStatusVisualizationResourceService
@@ -31,7 +33,7 @@ export class PatientStatusChangeVisualizationContainerComponent implements OnIni
   public cumulativeAnalysis: any = {};
   public monthlyAnalysisResults = this.results;
   public monthlyAnalysis: any = {};
-  public subscription = new Subscription();
+  public subs: Subscription[] = [];
   public cohortAnalysisResults = this.results;
   public cohortAnalysis: any = {};
 
@@ -50,7 +52,6 @@ export class PatientStatusChangeVisualizationContainerComponent implements OnIni
   }
 
   public ngOnInit() {
-
     this.route.params.forEach((params) => {
       if (params['view']) {
         switch (params['view']) {
@@ -68,11 +69,14 @@ export class PatientStatusChangeVisualizationContainerComponent implements OnIni
 
         }
       }
+      this.clinicDashboardCacheService.setCurrentClinic(params['location_uuid']);
     });
   }
 
   public ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.subs.forEach(element => {
+      element.unsubscribe();
+    });
   }
 
   public handleTabChange(e) {
@@ -117,8 +121,8 @@ export class PatientStatusChangeVisualizationContainerComponent implements OnIni
 
   public loadCumulativeAnalysis(event) {
     let analysisType = 'cumulativeAnalysis';
-    this.subscription = this.clinicDashboardCacheService.getCurrentClinic()
-      .flatMap((location: any) => {
+    const sub = this.clinicDashboardCacheService.getCurrentClinic().pipe(
+      mergeMap((location: any) => {
         if (location && event.startDate) {
           let params: any = {};
           params['startDate'] = event.startDate.format('YYYY-MM-DD');
@@ -129,18 +133,19 @@ export class PatientStatusChangeVisualizationContainerComponent implements OnIni
           this.cumulativeAnalysis = params;
           return this.patientStatusResourceService.getAggregates(params);
         }
-      }).subscribe((result) => {
+      })).subscribe((result) => {
         this.triggerBusyIndicators(analysisType, false, false);
         this.cumulativeAnalysisResults = result;
       }, (error) => {
         this.triggerBusyIndicators(analysisType, false, true);
       });
+    this.subs.push(sub);
   }
 
   public loadMonthlyAnalysis(event) {
     let analysisType = 'monthlyAnalysis';
-    this.subscription = this.clinicDashboardCacheService.getCurrentClinic()
-      .flatMap((location: any) => {
+    const sub = this.clinicDashboardCacheService.getCurrentClinic().pipe(
+      mergeMap((location: any) => {
         if (location && event.startDate) {
           let params: any = {};
           params['startDate'] = event.startDate.format('YYYY-MM-DD');
@@ -151,18 +156,19 @@ export class PatientStatusChangeVisualizationContainerComponent implements OnIni
           this.triggerBusyIndicators(analysisType, true, false);
           return this.patientStatusResourceService.getAggregates(params);
         }
-      }).subscribe((result) => {
+      })).subscribe((result) => {
         this.triggerBusyIndicators(analysisType, false, false);
         this.monthlyAnalysisResults = result;
       }, (error) => {
         this.triggerBusyIndicators(analysisType, false, true);
       });
+      this.subs.push(sub);
   }
 
   public loadCohortAnalysis(event) {
     let analysisType = 'cohortAnalysis';
-    this.subscription = this.clinicDashboardCacheService.getCurrentClinic()
-      .flatMap((location: any) => {
+    const sub = this.clinicDashboardCacheService.getCurrentClinic().pipe(
+      mergeMap((location: any) => {
         if (location && event.startDate) {
           let params: any = {};
           params['startDate'] = event.startDate.endOf('month').format('YYYY-MM-DD');
@@ -173,12 +179,13 @@ export class PatientStatusChangeVisualizationContainerComponent implements OnIni
           this.triggerBusyIndicators(analysisType, true, false);
           return this.patientStatusResourceService.getAggregates(params);
         }
-      }).subscribe((result) => {
+      })).subscribe((result) => {
         this.triggerBusyIndicators(analysisType, false, false);
         this.cohortAnalysisResults = result;
       }, (error) => {
         this.triggerBusyIndicators(analysisType, false, true);
       });
+    this.subs.push(sub);
   }
 
   private triggerBusyIndicators(view, showBusyIndicator, hasError: boolean): void {

@@ -1,11 +1,10 @@
+
 import { Injectable } from '@angular/core';
-import { Http, Response, URLSearchParams } from '@angular/http';
-
-import { AppSettingsService } from '../app-settings';
-
+import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
 import { ClinicFlowResource } from './clinic-flow-resource-interface';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable()
 export class HivClinicFlowResourceService implements ClinicFlowResource {
@@ -13,7 +12,7 @@ export class HivClinicFlowResourceService implements ClinicFlowResource {
   public result = new BehaviorSubject(null);
   private requestUrl = '';
 
-  constructor(protected http: Http,
+  constructor(protected http: HttpClient,
               protected appSettingsService: AppSettingsService,
               private cacheService: DataCacheService) {
   }
@@ -23,16 +22,13 @@ export class HivClinicFlowResourceService implements ClinicFlowResource {
   }
 
   public getClinicFlow(dateStarted, locations) {
-    let urlParams: URLSearchParams = new URLSearchParams();
-    urlParams.set('dateStarted', dateStarted);
-    urlParams.set('locationUuids', locations);
+    let urlParams: HttpParams = new HttpParams()
+    .set('dateStarted', dateStarted)
+    .set('locationUuids', locations);
     let url = this.getUrl('patient-flow-data');
     let request = this.http.get(url, {
-      search: urlParams
-    })
-      .map((response: Response) => {
-        return response.json();
-      });
+      params: urlParams
+    });
     let key = url + '?' + urlParams.toString();
     /** This is a workaround to avoid multiple calls to server by the respective
      * clinic flow components

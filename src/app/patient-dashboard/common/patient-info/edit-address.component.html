@@ -1,48 +1,54 @@
-<p-dialog header="Edit Address" [(visible)]="display" styleClass="edit-address-dialog">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+<app-modal [title]="'Edit Address'" [display]="display" (onClose)="dismissDialog()">
+  <div id="modal-body">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
           <div class="alert alert-success" *ngIf="showSuccessAlert" style="margin-top:10px">
             <strong>Done!</strong> {{successAlert}}
           </div>
           <div class="alert alert-danger" *ngIf="showErrorAlert" style="margin-top:10px">
             <strong>{{errorTitle}}</strong> {{errorAlert}}
           </div>
+        </div>
+      </div>
+      <div class="row">
+        <form name="personForm">
+          <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+            <div class="form-group">
+              <label for="address1" class="control-label">County</label>
+              <input type="text" id="address1" class="form-control" [(ngModel)]="address1"
+                     name="address1">
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+            <div class="form-group">
+              <label for="address2" class="control-label">Sub County</label>
+              <input type="text" id="address2" class="form-control" [(ngModel)]="address2"
+                     name="address2">
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+            <div class="form-group">
+              <label for="address3" class="control-label">Estate</label>
+              <input type="text" id="address3" class="form-control" [(ngModel)]="address3"
+                     name="address3">
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+            <div class="form-group">
+              <label for="cityVillage" class="control-label">City</label>
+              <input type="text" id="cityVillage" class="form-control" [(ngModel)]="cityVillage"
+                     name="cityVillage">
+            </div>
+          </div>
+        </form>
       </div>
     </div>
-    <div class="row">
-      <form name="personForm">
-        <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-            <div class="form-group">
-                <label for="address1" class="control-label">County</label>
-                <input type="text" id="address1" class="form-control" [(ngModel)]="address1" name="address1">
-            </div>
-        </div>
-        <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-           <div class="form-group">
-            <label for="address2" class="control-label">Sub County</label>
-            <input type="text" id="address2" class="form-control" [(ngModel)]="address2" name="address2">
-           </div>
-        </div>
-        <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-           <div class="form-group">
-            <label for="address3" class="control-label">Estate</label>
-            <input type="text" id="address3" class="form-control" [(ngModel)]="address3" name="address3">
-           </div>
-        </div>
-        <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-           <div class="form-group">
-              <label for="cityVillage" class="control-label">City</label>
-              <input type="text" id="cityVillage" class="form-control" [(ngModel)]="cityVillage" name="cityVillage">
-           </div>
-        </div>
-        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-          <button class="btn btn-primary" type="button" (click)="updatePersonAddress()"><span>Save</span></button>
-          <button class="btn btn-danger pull-right" type="button" (click)="dismissDialog()">
-            <span>Cancel</span></button>
-
-        </div>
-      </form>
-    </div>
   </div>
-</p-dialog>
+  <div id="modal-footer" class="modal-footer">
+    <button class="btn btn-primary" type="button" (click)="updatePersonAddress()"><span>Save</span>
+    </button>
+    <button class="btn btn-danger pull-right" type="button" (click)="dismissDialog()">
+      <span>Cancel</span></button>
+  </div>
+</app-modal>

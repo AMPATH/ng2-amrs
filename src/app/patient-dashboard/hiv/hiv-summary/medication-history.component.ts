@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators/take';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { MedicationHistoryResourceService } from
@@ -22,8 +24,8 @@ export class MedicationHistoryComponent implements OnInit, OnDestroy {
   }
 
   public fetchMedicationHistory(report, patientUuid): void {
-    this.medicationHistoryResourceService.getReport(report, patientUuid)
-      .subscribe(
+    this.medicationHistoryResourceService.getReport(report, patientUuid).pipe(
+      take(1)).subscribe(
       (medication) => {
         this.encounters = this.convertPreviousVlValueTostring(medication.result);
       }

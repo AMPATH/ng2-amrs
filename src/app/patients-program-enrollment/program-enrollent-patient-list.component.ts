@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import { Component, OnInit, OnDestroy , Output, EventEmitter, Input } from '@angular/core';
 import { Router, ActivatedRoute , Params } from '@angular/router';
 import { Location } from '@angular/common';
@@ -37,7 +39,7 @@ export class ProgramEnrollmentPatientListComponent implements OnInit, OnDestroy 
         { headerName: 'Name', field: 'name' , minWidth: 200},
         { headerName: 'Program', field: 'program',   minWidth: 600,
         cellRenderer : (params) => {
-            return '<div>' + params.value + '</div>';
+            return '<span>' + params.value + '</span>';
         },
         cellStyle: {
             'white-space': 'normal',
@@ -115,8 +117,8 @@ export class ProgramEnrollmentPatientListComponent implements OnInit, OnDestroy 
 
         if (typeof params !== 'undefined') {
 
-                this._patientProgramEnrollmentService.getActivePatientEnrollmentPatientList(params)
-                .subscribe((enrollments) => {
+                this._patientProgramEnrollmentService.getActivePatientEnrollmentPatientList(params).pipe(
+                take(1)).subscribe((enrollments) => {
                     if (enrollments) {
                         this.processEnrollments(enrollments);
                     }

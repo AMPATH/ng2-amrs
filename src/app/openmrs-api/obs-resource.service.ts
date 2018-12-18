@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import { AppSettingsService } from '../app-settings';
-import { Http, Response, Headers, URLSearchParams, RequestOptions } from '@angular/http';
-import { Observable, Subject } from 'rxjs/Rx';
+import { AppSettingsService } from '../app-settings/app-settings.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class ObsResourceService {
 
-  constructor(protected http: Http, protected appSettingsService: AppSettingsService) { }
+  constructor(protected http: HttpClient, protected appSettingsService: AppSettingsService) { }
   public getUrl(): string {
 
     return this.appSettingsService.getOpenmrsRestbaseurl().trim();
@@ -18,12 +17,8 @@ export class ObsResourceService {
       return null;
     }
     let url = this.getUrl() + 'obs';
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
-    return this.http.post(url, JSON.stringify(payload), options)
-      .map((response: Response) => {
-        return response.json();
-      });
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post(url, JSON.stringify(payload), {headers});
   }
 
   public updateObs(uuid, payload) {
@@ -31,12 +26,8 @@ export class ObsResourceService {
       return null;
     }
     let url = this.getUrl() + 'obs/' + uuid;
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
-    return this.http.post(url, JSON.stringify(payload), options)
-      .map((response: Response) => {
-        return response.json();
-      });
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post(url, JSON.stringify(payload), {headers});
   }
 
   public voidObs(uuid) {
@@ -44,11 +35,8 @@ export class ObsResourceService {
       return null;
     }
     let url = this.getUrl() + 'obs/' + uuid + '?!purge';
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
-    return this.http.delete(url, new RequestOptions({
-      headers: headers
-    }));
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.delete(url, {headers});
   }
 
 }
