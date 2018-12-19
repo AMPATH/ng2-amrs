@@ -17,9 +17,9 @@ export class EditCohortListComponent implements OnInit, OnDestroy {
   public selectedCohortName: string;
   public selectedCohortDescription: string;
   public selectedCohortUuid: string;
-  public display: boolean = false;
+  public display = false;
   public errors: any = [];
-  public successAlert: string = '';
+  public successAlert = '';
 
   constructor(private cohortResourceService: CohortResourceService,
               private cohortListService: CohortListService,
@@ -54,7 +54,7 @@ export class EditCohortListComponent implements OnInit, OnDestroy {
     this.successAlert = '';
 
     if (this.errors.length === 0) {
-      let cohortListPayload = {
+      const cohortListPayload = {
         name: this.selectedCohortName,
         description: this.selectedCohortDescription,
         // memberIds: []

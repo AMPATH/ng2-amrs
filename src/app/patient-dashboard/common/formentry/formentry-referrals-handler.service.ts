@@ -5,8 +5,7 @@ import { Injectable } from '@angular/core';
 import { Observable ,  Subject } from 'rxjs';
 import { Form } from 'ngx-openmrs-formentry/dist/ngx-formentry';
 
-import { DifferentiatedCareReferralService } from
-  '../patient-referrals/differentiated-care-referral.service';
+import { DifferentiatedCareReferralService } from '../patient-referrals/differentiated-care-referral.service';
 import { Patient } from '../../../models/patient.model';
 
 @Injectable()
@@ -16,8 +15,8 @@ export class FormentryReferralsHandlerService {
   constructor(public diffCareReferralService: DifferentiatedCareReferralService) { }
 
   public handleFormReferals(patient: Patient, form: Form): Observable<any> {
-    let values = this.extractRequiredValues(form);
-    let subject = new Subject<any>();
+    const values = this.extractRequiredValues(form);
+    const subject = new Subject<any>();
 
     if (values.hasDifferentiatedCareReferal) {
       this.handleDifferentiatedCareReferal(patient, values).pipe(
@@ -64,7 +63,7 @@ export class FormentryReferralsHandlerService {
     'locationUuid': string
   } {
 
-    let returnValue = {
+    const returnValue = {
       'hasDifferentiatedCareReferal': false,
       'rtcDate': null,
       'encounterDatetime': null,
@@ -73,7 +72,7 @@ export class FormentryReferralsHandlerService {
     };
 
     // has differentiaded care referal;
-    let referrals = this.getQuestionValue(form, 'referrals');
+    const referrals = this.getQuestionValue(form, 'referrals');
     if (Array.isArray(referrals) &&
       referrals.indexOf(this.differentiatedCareConceptUuid) >= 0) {
       returnValue.hasDifferentiatedCareReferal = true;
@@ -89,7 +88,7 @@ export class FormentryReferralsHandlerService {
   }
 
   private getQuestionValue(form: Form, quesitonId: string) {
-    let nodes = form.searchNodeByQuestionId(quesitonId);
+    const nodes = form.searchNodeByQuestionId(quesitonId);
     if (nodes.length > 0) {
       return nodes[0].control.value;
     }

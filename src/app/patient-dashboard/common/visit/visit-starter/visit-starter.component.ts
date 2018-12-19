@@ -5,10 +5,8 @@ import * as moment from 'moment';
 import { isEqual } from 'lodash';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 
-import { UserDefaultPropertiesService } from
-  '../../../../user-default-properties/index';
-import { PatientProgramResourceService } from
-  '../../../../etl-api/patient-program-resource.service';
+import { UserDefaultPropertiesService } from '../../../../user-default-properties/index';
+import { PatientProgramResourceService } from '../../../../etl-api/patient-program-resource.service';
 import { VisitResourceService } from '../../../../openmrs-api/visit-resource.service';
 import { TodayVisitService } from '../today-visit.service';
 import {
@@ -123,6 +121,7 @@ export class VisitStarterComponent implements OnInit, OnDestroy {
     this.setUserDefaultLocation();
     this.route.queryParams.subscribe((queryParams) => {
       if (queryParams['groupUuid']) {
+        console.log('DDDDDDDDDDDDDD', queryParams['groupUuid']);
         this._patientEnrolledInGroup = true;
         this.groupVisitStartedFromClinicDashboard = true;
       }

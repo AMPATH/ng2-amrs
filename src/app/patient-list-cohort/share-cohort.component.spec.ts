@@ -3,8 +3,6 @@
 
 import { TestBed, async, fakeAsync, ComponentFixture, tick } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
-import { MockBackend, MockConnection } from '@angular/http/testing';
-import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@angular/http';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -26,6 +24,7 @@ import { ShareCohortListComponent } from './share-cohort-list.component';
 import { CohortUserResourceService } from '../etl-api/cohort-list-user-resource.service';
 import { UserSearchComponent } from './user-search.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 class DataStub {
 
@@ -44,26 +43,27 @@ class DataStubUser {
   }
 
 }
+
 class DummyComponent {
 }
 class MockActivatedRoute {
- // params = of([{ 'id': 1 }]);
   snapshot = {
     params: { cohort_uuid: 'uuid' }
   };
 }
 
-let expectedResults = [
-    {
-      uuid: 'uuid',
-      username: 'Test Defaulter List',
-      cohort_id: 2,
-      role: 'admin',
-    }
+const expectedResults = [
+  {
+    uuid: 'uuid',
+    username: 'Test Defaulter List',
+    cohort_id: 2,
+    role: 'admin',
+  }
 
-  ];
-let expectedPayload = {
+];
+const expectedPayload = {
   role: 'edit',
+  user: 'uuid20',
   cohort: 'cohortUuid',
 
 };
@@ -72,14 +72,14 @@ describe('ShareCohortListComponent', () => {
   let fixture: ComponentFixture<ShareCohortListComponent>;
   let comp: ShareCohortListComponent;
   let dataStub: CohortUserResourceService;
-  let mockRouter = {
+  const mockRouter = {
     navigate: jasmine.createSpy('navigate')
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ NgamrsSharedModule, ConfirmDialogModule, DialogModule, CommonModule,
-        FormsModule, NgxPaginationModule,
+      imports: [NgamrsSharedModule, ConfirmDialogModule, DialogModule, CommonModule,
+        FormsModule, NgxPaginationModule, BrowserAnimationsModule,
         RouterTestingModule.withRoutes([
           { path: 'add-cohort-list', component: DummyComponent }
         ])],
@@ -89,19 +89,11 @@ describe('ShareCohortListComponent', () => {
         providers: [
           { provide: CohortUserResourceService, useClass: DataStub },
           { provide: UserService, useClass: DataStubUser },
-          {
-            provide: Http, useFactory: (backend, options) => {
-            return new Http(backend, options);
-          },
-            deps: [MockBackend, BaseRequestOptions]
-          },
           { provide: Router, useValue: mockRouter },
           {
             provide: ActivatedRoute,
-            useValue: MockActivatedRoute
+            useValue: { snapshot: { params: { 'cohort_uuid': 'uuid' } } }
           },
-          MockBackend,
-          BaseRequestOptions,
           CohortListService,
           CohortResourceService
         ]
@@ -118,8 +110,12 @@ describe('ShareCohortListComponent', () => {
     TestBed.resetTestingModule();
   });
 
-  /*it('should hit the success callback when getCohortUser returns success',
-    (done)  => {
+  it('should be defined', () => {
+    expect(comp).toBeDefined();
+  });
+
+  it('should hit the success callback when getCohortUser returns success',
+    (done) => {
       const spy = spyOn(dataStub, 'getCohortUser').and.returnValue(
         of(expectedResults)
       );
@@ -127,9 +123,9 @@ describe('ShareCohortListComponent', () => {
       fixture.detectChanges();
       expect(spy.calls.any()).toEqual(true);
       done();
-    });*/
-  /*it('should hit the success callback when createCohortUser returns success',
-    (done)  => {
+    });
+  xit('should hit the success callback when createCohortUser returns success',
+    (done) => {
       const spy = spyOn(dataStub, 'createCohortUser').and.returnValue(
         of(expectedPayload)
       );
@@ -138,6 +134,5 @@ describe('ShareCohortListComponent', () => {
       expect(spy.calls.any()).toEqual(true);
       done();
     });
-*/
 });
 

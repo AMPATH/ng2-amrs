@@ -7,14 +7,14 @@ import { HttpClient } from '@angular/common/http';
  * FakeProgramEnrollmentResourceService
  */
 export class FakeProviderResourceService {
-  public returnErrorOnNext: boolean = false;
+  public returnErrorOnNext = false;
 
   constructor(protected http: HttpClient, protected appSettingsService: AppSettingsService,
               protected personService: PersonResourceService) {
   }
 
   public getProviderByUuid(uuid: string): Observable<any> {
-    let subject = new BehaviorSubject<any>(null);
+    const subject = new BehaviorSubject<any>(null);
     subject.next(
       [
         {
@@ -30,7 +30,7 @@ export class FakeProviderResourceService {
     return subject;
   }
   public getProviderByPersonUuid(uuid: string): Observable<any> {
-    let subject = new BehaviorSubject<any>(null);
+    const subject = new BehaviorSubject<any>(null);
     subject.next(
       [
         {
@@ -51,8 +51,8 @@ export class FakeProviderResourceService {
   }
   public searchProvider(searchText: string,
                         cached: boolean = false, v: string = null): Observable<any> {
-    let test: BehaviorSubject<any> = new BehaviorSubject<any>([]);
-    let provider = [
+    const test: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+    const provider = [
       {
         uuid: 'uuid',
         display: 'john',

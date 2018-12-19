@@ -14,7 +14,7 @@ import * as _ from 'lodash';
 @Injectable()
 export class FormSubmissionService {
   private payloadTypes: Array<string> = ['encounter', 'personAttribute'];
-  private submitStatus: boolean = false;
+  private submitStatus = false;
   constructor(private encounterAdapter: EncounterAdapter,
               private personAttributeAdapter: PersonAttribuAdapter,
               private formentryHelperService: FormentryHelperService,
@@ -27,12 +27,12 @@ export class FormSubmissionService {
   public submitPayload(form: Form,
                        payloadTypes: Array<string> = this.payloadTypes): Observable<any> {
     // create payload batch to be submitted on concurrently
-    let payloadBatch: Array<Observable<any>> = this.createPayloadBatch(form, payloadTypes);
+    const payloadBatch: Array<Observable<any>> = this.createPayloadBatch(form, payloadTypes);
     return Observable.create((observer: Subject<any>) => {
       return forkJoin(payloadBatch).subscribe(
         (responses: Array<any>) => {
           if (responses) {
-            let response: any = this.processFormSubmissionResponse(responses);
+            const response: any = this.processFormSubmissionResponse(responses);
             response.hasError ? observer.error(response) : observer.next(response);
           }
         },
@@ -53,21 +53,21 @@ export class FormSubmissionService {
       return this.submitStatus;
   }
   private createPayloadBatch(form: Form, payloadTypes: Array<string>): Array<Observable<any>> {
-    let payloadBatch: Array<Observable<any>> = [];
+    const payloadBatch: Array<Observable<any>> = [];
     if (Array.isArray(payloadTypes) && payloadTypes.length > 0) {
       payloadTypes.forEach((payloadType: any, key) => {
 
         switch (payloadType) {
           case 'encounter':
 
-            let providers = this.formDataSourceService.getCachedProviderSearchResults();
+            const providers = this.formDataSourceService.getCachedProviderSearchResults();
 
             if (providers && providers.length > 0 && !form.valueProcessingInfo.providerUuid) {
-              let providerUuid = this.getProviderUuid(providers, form);
+              const providerUuid = this.getProviderUuid(providers, form);
               form = this.setProviderUuid(form, providerUuid);
             }
 
-            let encounterPayload: any = this.encounterAdapter.generateFormPayload(form);
+            const encounterPayload: any = this.encounterAdapter.generateFormPayload(form);
             if (!_.isEmpty(encounterPayload)) {
               payloadBatch.push(
                 this.submitEncounterPayload(form, encounterPayload).pipe(
@@ -83,7 +83,7 @@ export class FormSubmissionService {
             break;
           case 'personAttribute':
 
-            let personAttrPayload: Array<any> =
+            const personAttrPayload: Array<any> =
               this.personAttributeAdapter.generateFormPayload(form);
             if (!_.isEmpty(personAttrPayload)) { // this should be > 0
               payloadBatch.push(
@@ -117,7 +117,7 @@ export class FormSubmissionService {
   }
 
   private submitPersonAttributePayload(form: Form, payload: any): Observable<any> {
-    let personAttributePayload: any = {
+    const personAttributePayload: any = {
       attributes: payload
     };
     if (form.valueProcessingInfo.personUuid) {
@@ -129,7 +129,7 @@ export class FormSubmissionService {
   }
 
   private processFormSubmissionResponse(responses: Array<any>): any {
-    let arrayOfErrors: Array<any> = [];
+    const arrayOfErrors: Array<any> = [];
     responses.forEach((response: any, key) => {
       if (!_.isUndefined(response)) {
         if (response.hasError) {
@@ -138,7 +138,7 @@ export class FormSubmissionService {
       }
     });
     if (arrayOfErrors.length > 1) { // all payloads failed
-      let responseObject: any = {
+      const responseObject: any = {
         hasError: true,
         payloadType: this.payloadTypes,
         response: responses,
@@ -154,7 +154,7 @@ export class FormSubmissionService {
       });
       return responseObject;
     } else if (arrayOfErrors.length === 1) { // only one payload failed
-      let response: any = arrayOfErrors[0];
+      const response: any = arrayOfErrors[0];
       return response;
     } else { // none of the payloads failed to save : success
       return responses;
@@ -164,7 +164,7 @@ export class FormSubmissionService {
 
   private processFormSubmissionErrors(response: any, payloadType: string,
                                       payload: any): Array<any> {
-    let errors: Array<any> = [];
+    const errors: Array<any> = [];
     switch (payloadType) {
       case 'encounter':
         errors.push('Encounter Error: '
@@ -203,7 +203,7 @@ export class FormSubmissionService {
   }
 
   private generateUserFriendlyErrorMessage(response: any): string {
-    let message: string = 'An error occurred, please try again';
+    let message = 'An error occurred, please try again';
     if (_.isEmpty(response.error)) {
       message = 'Please check your internet connection, you seem to be offline.';
     } else {
@@ -217,8 +217,8 @@ export class FormSubmissionService {
         message = JSON.stringify(arrayErrors);
       } else if (!_.isEmpty(response.error.detail)) { // process internal server errors
         message = response.error.detail.split('\n')[0]; // gets the first line
-        let startPos = message.indexOf(': ') + 1;
-        let endPos = message.length;
+        const startPos = message.indexOf(': ') + 1;
+        const endPos = message.length;
         message = message.substring(startPos, endPos);
       }
     }
@@ -227,13 +227,13 @@ export class FormSubmissionService {
   }
 
   private getProviderUuid(providers, form: Form): string {
-    let encounterProvider = form.searchNodeByQuestionId('provider');
+    const encounterProvider = form.searchNodeByQuestionId('provider');
     let personUuid = '';
     if (encounterProvider.length > 0) {
       personUuid = encounterProvider[0].control.value;
     }
 
-    let filtered = _.filter(providers, (p: any) => {
+    const filtered = _.filter(providers, (p: any) => {
       if (p.id === personUuid) {
         return true;
       } else {

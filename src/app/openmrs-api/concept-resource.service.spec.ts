@@ -39,13 +39,13 @@ describe('Service : ConceptResourceService Unit Tests', () => {
 
   it('should return a concept when the correct uuid is provided with v', () => {
 
-    let conceptUuid = 'a8945ba0-1350-11df-a1f1-0026b9348838';
+    const conceptUuid = 'a8945ba0-1350-11df-a1f1-0026b9348838';
 
     conceptResourceService.getConceptByUuid(conceptUuid, false, '9').subscribe(
       (res) => {
         expect(res).toEqual('concept');
       }
-    )
+    );
 
     const request = httpMock.expectOne(conceptResourceService.getUrl() + '/' + conceptUuid + '?v=9');
     expect(request.request.url).toContain('concept/' + conceptUuid);
@@ -56,13 +56,13 @@ describe('Service : ConceptResourceService Unit Tests', () => {
 
   it('should return a concept when the correct uuid is provided without v', () => {
 
-    let conceptUuid = 'a8945ba0-1350-11df-a1f1-0026b9348838';
+    const conceptUuid = 'a8945ba0-1350-11df-a1f1-0026b9348838';
 
     conceptResourceService.getConceptByUuid(conceptUuid).subscribe(
       (res) => {
         expect(res).toEqual('concept');
       }
-    )
+    );
 
     const request = httpMock.expectOne(conceptResourceService.getUrl() + '/' + conceptUuid + '?v=custom:(uuid,name,conceptClass,answers)');
     expect(request.request.url).toContain('concept/' + conceptUuid);
@@ -73,11 +73,8 @@ describe('Service : ConceptResourceService Unit Tests', () => {
 
   it('should return a list of concepts a matching search string  provided without v', (done) => {
 
-    let conceptResourceService: ConceptResourceService = TestBed.get(ConceptResourceService);
-    let httpMock: HttpTestingController = TestBed.get(HttpTestingController);
-
-    let searchText = 'test';
-    let res = [
+    const searchText = 'test';
+    const res = [
       {
         uuid: 'uuid',
         conceptClass: {
@@ -90,7 +87,7 @@ describe('Service : ConceptResourceService Unit Tests', () => {
           display: 'BRUCELLA TEST'
         }
       }
-    ]
+    ];
     conceptResourceService.searchConcept(searchText)
       .subscribe((data) => {
         expect(res.length).toBeGreaterThan(0);
@@ -106,11 +103,8 @@ describe('Service : ConceptResourceService Unit Tests', () => {
   });
   it('should return a list of concepts a matching search string  provided with v', (done) => {
 
-    let conceptResourceService: ConceptResourceService = TestBed.get(ConceptResourceService);
-    let httpMock: HttpTestingController = TestBed.get(HttpTestingController);
-
-    let searchText = 'test';
-    let res = [
+    const searchText = 'test';
+    const res = [
       {
         uuid: 'uuid',
         conceptClass: {
@@ -123,7 +117,7 @@ describe('Service : ConceptResourceService Unit Tests', () => {
           display: 'BRUCELLA TEST'
         }
       }
-    ]
+    ];
     conceptResourceService.searchConcept(searchText, false, '9')
       .subscribe((data) => {
         expect(res.length).toBeGreaterThan(0);

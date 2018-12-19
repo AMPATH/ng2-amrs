@@ -27,30 +27,30 @@ describe('Drafted Forms Service:', () => {
     });
 
     it('should be injected ', () => {
-        let service = TestBed.get(DraftedFormsService);
+        const service = TestBed.get(DraftedFormsService);
         expect(service).toBeTruthy();
     });
 
-    it('should have all the required functions defined and callable', () =>{
-        let service = TestBed.get(DraftedFormsService);
-        spyOn(service, 'getRouteSnapshot').and.callFake(() => {})
-        service.getRouteSnapshot()
+    it('should have all the required functions defined and callable', () => {
+        const service = TestBed.get(DraftedFormsService);
+        spyOn(service, 'getRouteSnapshot').and.callFake(() => { });
+        service.getRouteSnapshot();
         expect(service.getRouteSnapshot).toHaveBeenCalled();
 
-        spyOn(service, 'setCancelState').and.callFake(() => {})
-        service.setCancelState()
+        spyOn(service, 'setCancelState').and.callFake(() => { });
+        service.setCancelState();
         expect(service.setCancelState).toHaveBeenCalled();
 
-        let sampleForm: Form = new Form(null, null, null);
-        spyOn(service, 'setDraftedForm').and.callFake(() => {})
-        service.setDraftedForm(sampleForm)
+        const sampleForm: Form = new Form(null, null, null);
+        spyOn(service, 'setDraftedForm').and.callFake(() => { });
+        service.setDraftedForm(sampleForm);
         expect(service.setDraftedForm).toHaveBeenCalled();
-    })
+    });
 
     it('should notify subscribers when a drafted form is set', (done) => {
-        let service = TestBed.get(DraftedFormsService);
+        const service = TestBed.get(DraftedFormsService);
 
-        let sampleForm: Form = new Form(null, null, null);
+        const sampleForm: Form = new Form(null, null, null);
         service.draftedForm.subscribe(form => {
             if (form) {
                 expect(service.lastDraftedForm).toBe(sampleForm);

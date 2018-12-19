@@ -11,7 +11,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 @Injectable()
 export class ConceptResourceService {
 
-  public v: string = 'custom:(uuid,name,conceptClass,answers)';
+  public v = 'custom:(uuid,name,conceptClass,answers)';
 
   constructor(protected http: HttpClient,
               protected appSettingsService: AppSettingsService) {
@@ -25,8 +25,8 @@ export class ConceptResourceService {
   public searchConcept(searchText: string, cached: boolean = false, v: string = null):
   Observable<any> {
 
-    let url = this.getUrl();
-    let params: HttpParams = new HttpParams()
+    const url = this.getUrl();
+    const params: HttpParams = new HttpParams()
     .set('q', searchText)
     .set('v', (v && v.length > 0) ? v : this.v);
 
@@ -43,7 +43,7 @@ export class ConceptResourceService {
 
     let url = this.getUrl();
     url += '/' + uuid;
-    let params: HttpParams = new HttpParams()
+    const params: HttpParams = new HttpParams()
     .set('v', (v && v.length > 0) ? v : this.v);
     return this.http.get(url, {
       params: params
@@ -51,7 +51,7 @@ export class ConceptResourceService {
   }
   public getConceptByConceptClassesUuid(searchText, conceptClassesUuidArray) {
     let filteredConceptResults = [];
-    let response = this.searchConcept(searchText);
+    const response = this.searchConcept(searchText);
     response.pipe(take(1)).subscribe(
       (concepts) => {
         filteredConceptResults =
@@ -64,7 +64,7 @@ export class ConceptResourceService {
     return filteredConceptResults;
   }
   public filterResultsByConceptClassesUuid(results, conceptClassesUuidArray) {
-    let res = _.filter(results, (result: any) => {
+    const res = _.filter(results, (result: any) => {
       return _.find(conceptClassesUuidArray, (uuid) => {
         return result.conceptClass.uuid === uuid;
       });

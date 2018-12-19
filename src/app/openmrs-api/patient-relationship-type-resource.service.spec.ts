@@ -34,8 +34,8 @@ describe('Service: Pratient Relationship ResourceService', () => {
 
   it('should be defined', () => {
     expect(service).toBeDefined();
-  })
-  let relationshipTypesResponse = {
+  });
+  const relationshipTypesResponse = {
     results: [{
       uuid: '7878d348-1359-11df-a1f1-0026b9348838',
       display: 'Parent/Child',

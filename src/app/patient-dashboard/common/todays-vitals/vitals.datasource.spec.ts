@@ -1,6 +1,6 @@
 /* tslint:disable:no-unused-variable */
 
-import { TestBed, async , fakeAsync } from '@angular/core/testing';
+import { TestBed, async, fakeAsync } from '@angular/core/testing';
 import {
   VisitResourceService
 } from '../../../openmrs-api/visit-resource.service';
@@ -14,6 +14,7 @@ fdescribe('Datasource: VitalsDatasource', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
+        VitalsDatasource
       ]
     });
     source = TestBed.get(VitalsDatasource);
@@ -27,12 +28,12 @@ fdescribe('Datasource: VitalsDatasource', () => {
     expect(source).toBeTruthy();
   });
 
-  /*it('should get todays vitals based on todays triage encounters', (done) => {
+  it('should get todays vitals based on todays triage encounters', () => {
     const mockPatient = new Patient({
       'patient': {
-        'person': {uuid: 'bad1e162-cd75-45c6-97f8-13a6a4d6ce01', age: 9, birthdate: '2009-01-10'},
+        'person': { uuid: 'bad1e162-cd75-45c6-97f8-13a6a4d6ce01', age: 9, birthdate: '2009-01-10' },
       }
     });
-  });*/
+  });
 
 });

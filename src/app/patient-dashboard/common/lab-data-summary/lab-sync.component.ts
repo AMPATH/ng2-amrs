@@ -61,8 +61,8 @@ export class LabSyncComponent implements OnInit, OnDestroy {
   }
 
   public getCombinedResult(): Observable<any[]> {
-    let startDate = Moment('2006-01-01').startOf('day').format('YYYY-MM-DDTHH:mm:ss.SSSZZ');
-    let endDate = Moment().startOf('day').format('YYYY-MM-DDTHH:mm:ss.SSSZZ');
+    const startDate = Moment('2006-01-01').startOf('day').format('YYYY-MM-DDTHH:mm:ss.SSSZZ');
+    const endDate = Moment().startOf('day').format('YYYY-MM-DDTHH:mm:ss.SSSZZ');
     const batch: Observable<any>[] = [];
     batch.push(this.labsResourceService.getNewPatientLabResults({
       startDate: startDate,
@@ -77,16 +77,16 @@ export class LabSyncComponent implements OnInit, OnDestroy {
 
   public processResult(results: any) {
 
-    let data: any = [];
+    const data: any = [];
 
-    for (let result of results) {
+    for (const result of results) {
       if (result && result.concept && result.concept.display === 'CD4 PANEL') {
-        let cd4Result: any = {
+        const cd4Result: any = {
           isCd4Result: true,
           groupMembers: result.groupMembers
         };
 
-        for (let member of result.groupMembers) {
+        for (const member of result.groupMembers) {
           switch (member.concept.uuid) {
             case 'a8a8bb18-1350-11df-a1f1-0026b9348838':
               cd4Result.cd4 = member.value;

@@ -1,5 +1,5 @@
 /* tslint:disable:no-unused-variable */
-
+// tslint:disable:directive-selector
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Directive, DebugElement } from '@angular/core';
@@ -40,7 +40,7 @@ describe('Component: PatientIdentifier', () => {
 
   });
 
-  let identifiers = [
+  const identifiers = [
     {
       identifier: '16061-02511',
       identifierType: {

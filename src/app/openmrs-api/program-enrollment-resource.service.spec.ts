@@ -32,21 +32,21 @@ describe('Service: ProgramEnrollmentResourceService', () => {
     TestBed.resetTestingModule();
   });
 
-  let programEnrollmentResponse = {
+  const programEnrollmentResponse = {
     results: [
       {
         'uuid': '927d9d1f-44ce-471e-a77b-d1f1342f43f6',
         'display': 'HIV Program',
         'name': 'HIV Program',
         'dateEnrolled': '2011-02-09T00:00:00.000+0300',
-        'dateCompleted': '2011-02-09T00:00:00.000+0300',
+        'dateCompconsted': '2011-02-09T00:00:00.000+0300',
         'program': {
           'uuid': '922fc86d-ad42-4c50-98a6-b1f310863c07'
         }
       }]
   };
 
-  let programEnrollmentStateResponse = {
+  const programEnrollmentStateResponse = {
     'uuid': 'bfede778-de9e-4551-b4f0-633c8a27ef28',
     'display': 'HIV Treatment',
     'states': [{
@@ -57,7 +57,7 @@ describe('Service: ProgramEnrollmentResourceService', () => {
     }]
   };
 
-  let stateUpdateResponse = {
+  const stateUpdateResponse = {
     'state': {
       'uuid': 'sddsdsfsdsff',
       'description': null,
@@ -79,7 +79,7 @@ describe('Service: ProgramEnrollmentResourceService', () => {
 
   it('should be defined', async(() => {
     expect(service).toBeDefined();
-  }))
+  }));
 
   it('should return null when PatientUuid not specified', async(() => {
 
@@ -89,13 +89,13 @@ describe('Service: ProgramEnrollmentResourceService', () => {
     expect(result).toBeNull();
   }));
   it('should call the right endpoint when fetching program enrollment', async(() => {
-    let patientUuid = 'uuid';
+    const patientUuid = 'uuid';
 
     service.getProgramEnrollmentByPatientUuid(patientUuid).subscribe();
 
     const req = httpMock.expectOne(service.getUrl() +
       '?v=custom:(uuid,display,voided' +
-      ',dateEnrolled,dateCompleted,location,program:(uuid),states:(uuid,startDate,endDate,' +
+      ',dateEnrolled,dateCompconsted,location,program:(uuid),states:(uuid,startDate,endDate,' +
       'state:(uuid,initial,terminal,concept:(uuid,display))))&patient=uuid');
     expect(req.request.urlWithParams).toContain('&patient=uuid');
     expect(req.request.method).toBe('GET');
@@ -111,8 +111,8 @@ describe('Service: ProgramEnrollmentResourceService', () => {
   }));
 
   it('should call the right endpoint when fetching program enrollment states', async(() => {
-    let programEnrollmentUuid = 'program-enrollment-uuid';
-    let serverUrl = 'http://example.url.com/';
+    const programEnrollmentUuid = 'program-enrollment-uuid';
+    const serverUrl = 'http://example.url.com/';
 
     service.getProgramEnrollmentStates(programEnrollmentUuid).subscribe();
 
@@ -132,8 +132,8 @@ describe('Service: ProgramEnrollmentResourceService', () => {
   }));
 
   it('should call the right endpoint when saving the patient enrollment state', async(() => {
-    let programEnrollmentUuid = 'programenrollment-uuid';
-    let payload = {
+    const programEnrollmentUuid = 'programenrollment-uuid';
+    const payload = {
       'uuid': 'uuid-1', 'state': 'state-uuid',
       'startDate': '2011-02-06', 'endDate': '2011-02-08'
     };
@@ -158,7 +158,7 @@ describe('Service: ProgramEnrollmentResourceService', () => {
 
     httpMock.expectNone({});
     let result;
-    let payload = {
+    const payload = {
       'uuid': '', 'state': 'state-uuid',
       'startDate': '2011-02-06', 'endDate': '2011-02-08'
     };
@@ -169,8 +169,8 @@ describe('Service: ProgramEnrollmentResourceService', () => {
   }));
 
   it('should call the right endpoint when updating the patient enrollment state', async(() => {
-    let programEnrollmentUuid = 'programenrollment-uuid';
-    let payload = {
+    const programEnrollmentUuid = 'programenrollment-uuid';
+    const payload = {
       'uuid': 'uuid-1', 'state': 'state-uuid',
       'startDate': '2011-02-06', 'endDate': '2011-02-08'
     };
