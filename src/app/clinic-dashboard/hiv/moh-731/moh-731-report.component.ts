@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
-import { Moh731ReportBaseComponent }
-    from '../../../hiv-care-lib/moh-731-report/moh-731-report-base.component';
+import { Moh731ReportBaseComponent } from '../../../hiv-care-lib/moh-731-report/moh-731-report-base.component';
 import { Moh731ResourceService } from '../../../etl-api/moh-731-resource.service';
 
 @Component({
@@ -25,7 +24,7 @@ export class Moh731ReportComponent extends Moh731ReportBaseComponent implements 
     public ngOnInit() {
 
         this.route.parent.parent.url.subscribe((url) => {
-          let data = {};
+          const data = {};
           data['value'] = url[0].path;
           this.locationUuids = [];
           this.locationUuids.push(data as any);
@@ -39,8 +38,8 @@ export class Moh731ReportComponent extends Moh731ReportBaseComponent implements 
     }
 
     public loadReportParamsFromUrl() {
-        let path = this.router.parseUrl(this.location.path());
-        let pathHasHistoricalValues = path.queryParams['startDate'] &&
+        const path = this.router.parseUrl(this.location.path());
+        const pathHasHistoricalValues = path.queryParams['startDate'] &&
             path.queryParams['endDate'];
 
         if (path.queryParams['startDate']) {
@@ -66,7 +65,7 @@ export class Moh731ReportComponent extends Moh731ReportBaseComponent implements 
     }
 
     public storeReportParamsInUrl() {
-        let path = this.router.parseUrl(this.location.path());
+        const path = this.router.parseUrl(this.location.path());
         path.queryParams = {
             'startDate': this.startDate.toUTCString(),
             'endDate': this.endDate.toUTCString(),

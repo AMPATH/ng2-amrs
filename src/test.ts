@@ -15,7 +15,11 @@ getTestBed().initTestEnvironment(
   platformBrowserDynamicTesting()
 );
 // Then we find all the tests.
-const context = require.context('./', true, /app\/patient-dashboard\/common\/formentry\/form-submission\.service\.spec\.ts$/);
+const context = require
+.context('./', true, /app\/clinic-dashboard\/oncology\/clinic-flow\/daily-schedule-clinic-flow\.component\.spec.ts$/);
 // const context = require.context('./', true, /\.spec\.ts$/);
 // And load the modules.
 context.keys().map(context);
+// F:\POC\ng2-amrs\src\app\clinic-dashboard\dashboard-filters\dashboard-filters.component.spec.ts
+// F:\POC\ng2-amrs\src\app\clinic-dashboard\cdm\clinic-flow\daily-schedule-clinic-flow.component.spec.ts
+// F:\POC\ng2-amrs\src\app\clinic-dashboard\oncology\clinic-flow\daily-schedule-clinic-flow.component.spec.ts

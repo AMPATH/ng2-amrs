@@ -1,6 +1,4 @@
 
-import { MockBackend } from '@angular/http/testing';
-import { Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 import { TestBed, inject, async } from '@angular/core/testing';
 
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
@@ -18,10 +16,11 @@ import { PatientProgramService } from '../../programs/patient-programs.service';
 import { RoutesProviderService } from '../../../shared/dynamic-route/route-config-provider.service';
 import { ProgramService } from '../../programs/program.service';
 import { ProgramResourceService } from '../../../openmrs-api/program-resource.service';
-import { ProgramWorkFlowResourceService }
- from '../../../openmrs-api/program-workflow-resource.service';
-import { ProgramWorkFlowStateResourceService
+import { ProgramWorkFlowResourceService } from '../../../openmrs-api/program-workflow-resource.service';
+import {
+  ProgramWorkFlowStateResourceService
 } from '../../../openmrs-api/program-workflow-state-resource.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('Component: Address Unit Tests', () => {
 
@@ -30,13 +29,12 @@ describe('Component: Address Unit Tests', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [ HttpClientTestingModule ],
       providers: [
-        MockBackend,
         ProgramEnrollmentResourceService,
         ProgramWorkFlowResourceService,
         ProgramWorkFlowStateResourceService,
         EncounterResourceService,
-        BaseRequestOptions,
         FakeAppFeatureAnalytics,
         PatientService,
         ProgramResourceService,
@@ -44,13 +42,6 @@ describe('Component: Address Unit Tests', () => {
         ProgramService,
         RoutesProviderService,
         AddressComponent,
-        {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
         {
           provide: AppFeatureAnalytics,
           useClass: FakeAppFeatureAnalytics

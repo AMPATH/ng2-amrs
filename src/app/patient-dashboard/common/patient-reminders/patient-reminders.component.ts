@@ -1,5 +1,5 @@
 
-import {take} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PatientReminderService } from './patient-reminders.service';
@@ -57,18 +57,18 @@ export class PatientRemindersComponent implements OnInit, OnDestroy {
         if (patient) {
           this.patientUuid = patient.person.uuid;
           this.patientReminderService.getPatientReminders(this.patientUuid).subscribe(
-              (data) => {
-                this.reminders = [];
-                if (!patient.person.dead && data && data.personUuid === this.patientUuid) {
-                  this.reminders = data.generatedReminders;
-                  this.constructReminders(this.reminders);
-                }
-              },
-              (error) => {
-                // console.error('error', error);
-                this.errorMessage = error;
+            (data) => {
+              this.reminders = [];
+              if (!patient.person.dead && data && data.personUuid === this.patientUuid) {
+                this.reminders = data.generatedReminders;
+                this.constructReminders(this.reminders);
               }
-            );
+            },
+            (error) => {
+              // console.error('error', error);
+              this.errorMessage = error;
+            }
+          );
         }
       }
     );

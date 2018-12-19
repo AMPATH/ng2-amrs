@@ -32,9 +32,9 @@ describe('SessionService Unit Tests', () => {
     TestBed.resetTestingModule();
   });
 
-  it("should be defined", () => {
+  it('should be defined', () => {
     expect(sessionService).toBeDefined();
-  })
+  });
 
   it('it should return a server url', () => {
     expect(sessionService.getUrl()).toBeTruthy();
@@ -42,12 +42,12 @@ describe('SessionService Unit Tests', () => {
 
   it('It should return a session', () => {
 
-    let res = {
+    const res = {
       authenticated: true,
       user: {}
-    }
+    };
 
-    let credentials: Object = {
+    const credentials: Object = {
       username: 'test',
       password: 'test'
     };
@@ -64,10 +64,10 @@ describe('SessionService Unit Tests', () => {
   });
 
   it('should delete a session', () => {
-    let res = {
+    const res = {
       authenticated: false,
       user: {}
-    }
+    };
     sessionService.deleteSession()
       .subscribe((response) => {
         expect(res.authenticated).toBe(false);
@@ -77,6 +77,6 @@ describe('SessionService Unit Tests', () => {
     const req = httpMock.expectOne(sessionService.getUrl());
     expect(req.request.method).toBe('DELETE');
     req.flush(res);
-  })
+  });
 
 });

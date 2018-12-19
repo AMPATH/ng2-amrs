@@ -24,13 +24,13 @@ export class SessionService {
       headers = headers.append('Authorization', 'Basic ' + base64);
     }
 
-    let url = this.getUrl();
+    const url = this.getUrl();
     return this.http.get(url, {headers: headers});
   }
 
   public deleteSession() {
 
-    let url = this.getUrl();
+    const url = this.getUrl();
     return this.http.delete(url, {});
   }
 }

@@ -18,7 +18,7 @@ export class VitalsDatasource {
 
   addToSource(dataSource: VitalView | VitalView[]) {
     if (_.isArray(dataSource)) {
-        this._dataSources = _.concat(this._dataSources, dataSource);
+      this._dataSources = _.concat(this._dataSources, dataSource);
     } else {
       this._dataSources.push(dataSource as VitalView);
     }

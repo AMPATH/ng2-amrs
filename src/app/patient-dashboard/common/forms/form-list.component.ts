@@ -9,15 +9,16 @@ import { FormOrderMetaDataService } from './form-order-metadata.service';
   styleUrls: ['./form-list.component.css']
 })
 export class FormListComponent implements OnInit {
+  // tslint:disable-next-line:no-output-on-prefix
   @Output()
   public onFormSelected = new EventEmitter();
   public forms: Array<Form>;
   public allForms: Array<Form>;
   public selectedForm: Form;
-  public filterTerm: string = '';
+  public filterTerm = '';
 
   @Input()
-  public showFilter: boolean = true;
+  public showFilter = true;
 
   private _excludedForms: Array<string>;
   @Input()

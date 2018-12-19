@@ -37,7 +37,7 @@ export class HivSummaryIndicatorComponent extends HivSummaryIndicatorBaseCompone
     this.route.parent.parent.parent.params.subscribe((params: any) => {
       this.locationUuids = [];
       if (params.location_uuid) {
-        let data = {};
+        const data = {};
         data['value'] = params.location_uuid;
         this.locationUuids.push(data as any);
       }
@@ -51,8 +51,8 @@ export class HivSummaryIndicatorComponent extends HivSummaryIndicatorBaseCompone
   }
 
   public loadReportParamsFromUrl() {
-    let path = this.router.parseUrl(this.location.path());
-    let pathHasHistoricalValues = path.queryParams['startDate'] &&
+    const path = this.router.parseUrl(this.location.path());
+    const pathHasHistoricalValues = path.queryParams['startDate'] &&
       path.queryParams['endDate'];
 
     if (path.queryParams['startDate']) {
@@ -85,7 +85,7 @@ export class HivSummaryIndicatorComponent extends HivSummaryIndicatorBaseCompone
   }
 
   public storeReportParamsInUrl() {
-    let path = this.router.parseUrl(this.location.path());
+    const path = this.router.parseUrl(this.location.path());
     path.queryParams = {
       'endDate': this.endDate.toUTCString(),
       'startDate': this.startDate.toUTCString(),
@@ -100,12 +100,12 @@ export class HivSummaryIndicatorComponent extends HivSummaryIndicatorBaseCompone
   }
 
   public formatIndicatorsToSelectArray(indicatorParam: string) {
-    let arr = indicatorParam.split(',');
+    const arr = indicatorParam.split(',');
     _.each(arr, (indicator) => {
-      let text = this.translateIndicator(indicator);
-      let id = indicator;
+      const text = this.translateIndicator(indicator);
+      const id = indicator;
 
-      let data = {
+      const data = {
         value: id, // indicator
         label: text
       };
@@ -120,12 +120,12 @@ export class HivSummaryIndicatorComponent extends HivSummaryIndicatorBaseCompone
   }
 
   public formatGenderToSelectArray(genderParam: string) {
-    let arr = genderParam.split(',');
+    const arr = genderParam.split(',');
     _.each(arr, (indicator) => {
-      let text = indicator;
-      let id = indicator;
+      const text = indicator;
+      const id = indicator;
 
-      let data = {
+      const data = {
         value: id, // indicator
         label: text
       };

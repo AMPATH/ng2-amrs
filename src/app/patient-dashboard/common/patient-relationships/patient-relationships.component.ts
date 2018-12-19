@@ -13,14 +13,14 @@ import { Subscription } from 'rxjs';
 
 export class PatientRelationshipsComponent implements OnInit, OnDestroy {
   public subscription: Subscription;
-  public displayConfirmDialog: boolean = false;
+  public displayConfirmDialog = false;
   public patientUuid: string;
-  public loadingRelationships: boolean = false;
+  public loadingRelationships = false;
   public errors: any;
   public relationships: any = [];
   public selectedRelationshipUuid: string;
-  public showSuccessAlert: boolean = false;
-  public showErrorAlert: boolean = false;
+  public showSuccessAlert = false;
+  public showErrorAlert = false;
   public successAlert: string;
   public errorAlert: string;
   public errorTitle: string;
@@ -45,7 +45,7 @@ export class PatientRelationshipsComponent implements OnInit, OnDestroy {
       (patient) => {
         if (patient !== null) {
           this.patientUuid = patient.person.uuid;
-          let request = this.patientRelationshipService.getRelationships(this.patientUuid);
+          const request = this.patientRelationshipService.getRelationships(this.patientUuid);
           request.pipe(
             take(1)).subscribe(
             (relationships) => {

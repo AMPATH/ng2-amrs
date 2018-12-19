@@ -1,14 +1,12 @@
 
 import { MockBackend } from '@angular/http/testing';
-import { Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 import { TestBed, inject, async } from '@angular/core/testing';
 import { CdmMedicationHistoryComponent } from './medication-history.component';
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
 import { FakeAppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytcis.mock';
 import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
-import { MedicationHistoryResourceService } from
-  '../../../etl-api/medication-history-resource.service';
+import { MedicationHistoryResourceService } from '../../../etl-api/medication-history-resource.service';
 import { PatientService } from '../../services/patient.service';
 import { PatientResourceService } from '../../../openmrs-api/patient-resource.service';
 import {
@@ -35,7 +33,6 @@ describe('Component: CDM Medication History Unit Tests', () => {
         MockBackend,
         PatientService,
         PatientResourceService,
-        BaseRequestOptions,
         FakeAppFeatureAnalytics,
         CdmMedicationHistoryComponent,
         PatientProgramService,
@@ -46,13 +43,6 @@ describe('Component: CDM Medication History Unit Tests', () => {
         ProgramWorkFlowStateResourceService,
         ProgramService,
         ProgramResourceService,
-        {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
         {
           provide: AppFeatureAnalytics,
           useClass: FakeAppFeatureAnalytics

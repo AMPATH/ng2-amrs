@@ -39,7 +39,7 @@ describe('FormResourceService Unit Tests', () => {
   });
 
   it('should make API call with correct URL', () => {
-    formsResourceService.getForms(true).subscribe()
+    formsResourceService.getForms(true).subscribe();
 
     const req = httpMock.expectOne(appSettingsService.getOpenmrsRestbaseurl().trim() + 'form' + '?v=custom:(uuid,name,encounterType:' +
       '(uuid,name),version,published,retired,' +
@@ -52,17 +52,18 @@ describe('FormResourceService Unit Tests', () => {
   });
   it('It should return an array of form object when getForms is invoked without v', () => {
 
-    let res = [
+    const res = [
       { name: 'form1' },
       { name: 'form2' }
-    ]
+    ];
     formsResourceService.getForms()
       .subscribe((response) => {
         expect(res).toContain({ name: 'form1' });
         expect(res).toBeDefined();
       });
 
-    const req = httpMock.expectOne(appSettingsService.getOpenmrsRestbaseurl().trim() + 'form' + '?v=custom:(uuid,name,encounterType:(uuid,name),version,' +
+    const req = httpMock.expectOne(appSettingsService.getOpenmrsRestbaseurl()
+    .trim() + 'form' + '?v=custom:(uuid,name,encounterType:(uuid,name),version,' +
       'published,retired,resources:(uuid,name,dataType,valueReference))&q=POC');
     expect(req.request.method).toBe('GET');
     expect(req.request.urlWithParams)
@@ -71,7 +72,7 @@ describe('FormResourceService Unit Tests', () => {
   });
 
   it('should make API call with correct URL when getFormClobDataByUuid is invoked without v', fakeAsync(() => {
-    let uuid = 'form-uuid';
+    const uuid = 'form-uuid';
     tick(50);
     formsResourceService.getFormClobDataByUuid(uuid).subscribe();
 
@@ -82,7 +83,7 @@ describe('FormResourceService Unit Tests', () => {
   }));
 
   it('should make API call with correct URL when getFormClobDataByUuid is invoked with v', fakeAsync(() => {
-    let uuid = 'form-uuid';
+    const uuid = 'form-uuid';
     tick(50);
     formsResourceService.getFormClobDataByUuid(uuid, '9').subscribe();
 
@@ -94,12 +95,12 @@ describe('FormResourceService Unit Tests', () => {
 
   it('should return a form object when getFormClobDataByUuid is invoked without v', (done) => {
 
-    let options = {
+    const options = {
       uuid: 'xxx-xxx-xxx-xxx',
       display: 'form resource'
-    }
+    };
 
-    let uuid = 'form-uuid';
+    const uuid = 'form-uuid';
 
     formsResourceService.getFormClobDataByUuid(uuid)
       .subscribe((data) => {
@@ -114,12 +115,12 @@ describe('FormResourceService Unit Tests', () => {
 
   it('should return a form object when getFormClobDataByUuid is invoked with v', (done) => {
 
-    let options = {
+    const options = {
       uuid: 'xxx-xxx-xxx-xxx',
       display: 'form resource'
-    }
+    };
 
-    let uuid = 'form-uuid';
+    const uuid = 'form-uuid';
 
     formsResourceService.getFormClobDataByUuid(uuid, '9')
       .subscribe((data) => {
@@ -133,7 +134,7 @@ describe('FormResourceService Unit Tests', () => {
   });
 
   it('should make API call with correct URL when getFormMetaDataByUuid is invoked without v', fakeAsync(() => {
-    let uuid = 'form-uuid';
+    const uuid = 'form-uuid';
     tick(50);
 
     formsResourceService.getFormMetaDataByUuid(uuid).subscribe();
@@ -145,7 +146,7 @@ describe('FormResourceService Unit Tests', () => {
   }));
 
   it('should make API call with correct URL when getFormMetaDataByUuid is invoked with v', fakeAsync(() => {
-    let uuid = 'form-uuid';
+    const uuid = 'form-uuid';
     tick(50);
 
     formsResourceService.getFormMetaDataByUuid(uuid, '9').subscribe();
@@ -157,11 +158,11 @@ describe('FormResourceService Unit Tests', () => {
   }));
 
   it('should return a form object when getFormMetaDataByUuid is invoked without v', (done) => {
-    let uuid = 'form-uuid'
-    let options = {
+    const uuid = 'form-uuid';
+    const options = {
       uuid: 'xxx-xxx-xxx-xxx',
       display: 'form resource'
-    }
+    };
 
     formsResourceService.getFormMetaDataByUuid(uuid)
       .subscribe((data) => {
@@ -176,11 +177,11 @@ describe('FormResourceService Unit Tests', () => {
   });
 
   it('should return a form object when getFormMetaDataByUuid is invoked with v', (done) => {
-    let uuid = 'form-uuid'
-    let options = {
+    const uuid = 'form-uuid';
+    const options = {
       uuid: 'xxx-xxx-xxx-xxx',
       display: 'form resource'
-    }
+    };
 
     formsResourceService.getFormMetaDataByUuid(uuid, '9')
       .subscribe((data) => {
