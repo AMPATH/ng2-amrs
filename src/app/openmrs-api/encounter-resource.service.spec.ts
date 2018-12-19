@@ -21,7 +21,6 @@ describe('EncounterResourceService', () => {
         });
 
         service = TestBed.get(EncounterResourceService);
-        
         httpMock = TestBed.get(HttpTestingController);
     });
 
@@ -34,7 +33,7 @@ describe('EncounterResourceService', () => {
         expect(service).toBeDefined();
     });
     describe('get Encounters by PatientUuid', () => {
-        let encountersResponse = {
+        const encountersResponse = {
             results: [
                 {
                     'uuid': '927d9d1f-44ce-471e-a77b-d1f1342f43f6',
@@ -60,8 +59,8 @@ describe('EncounterResourceService', () => {
         };
 
         it('should return null when PatientUuid not specified', () => {
-            let uuid = '08feb5b6-1352-11df-a1f1-0026b9348838';
-            httpMock.expectNone({})
+            const uuid = '08feb5b6-1352-11df-a1f1-0026b9348838';
+            httpMock.expectNone({});
 
             const result = service.getEncountersByPatientUuid(null);
 
@@ -69,8 +68,8 @@ describe('EncounterResourceService', () => {
         });
 
         it('should call the right endpoint', () => {
-            let patientUuid = 'uuid';
-            service.getEncountersByPatientUuid(patientUuid).subscribe()
+            const patientUuid = 'uuid';
+            service.getEncountersByPatientUuid(patientUuid).subscribe();
 
             const request = httpMock.expectOne(service.getUrl() + 'encounter' + '?patient=uuid&v=custom:(uuid,encounterDatetime,' +
             'patient:(uuid,uuid),form:(uuid,name),' +
@@ -84,7 +83,7 @@ describe('EncounterResourceService', () => {
 
     });
     describe('get Encounter by uuid', () => {
-        let encounterResponse = {
+        const encounterResponse = {
             'uuid': 'd9ad587c-1350-11df-a1f1-0026b9348838',
             'encounterDatetime': '2009-07-26T00:00:00.000+0300',
             'patient': {
@@ -118,22 +117,22 @@ describe('EncounterResourceService', () => {
         };
 
         it('should return null when params are not specified', () => {
-            let patientUuid = 'uuid';
-            let _customDefaultRep = 'custom:(uuid,encounterDatetime,' +
+            const patientUuid = 'uuid';
+            const _customDefaultRep = 'custom:(uuid,encounterDatetime,' +
                 'patient:(uuid,uuid,identifiers),form:(uuid,name),' +
                 'visit:(uuid,visitType,display,startDatetime,stopDatetime),' +
                 'location:ref,encounterType:ref,encounterProviders:(uuid,display' +
                 ',provider:(uuid,display)),orders:full,obs:(uuid,obsDatetime,' +
                 'concept:(uuid,uuid,name:(display)),value:ref,groupMembers))';
 
-            httpMock.expectNone({})
+            httpMock.expectNone({});
             const result = service.getEncounterByUuid(null);
 
             expect(result).toBeNull();
         });
         it('should call the right endpoint', () => {
-            let patientUuid = 'uuid';
-            let _customDefaultRep = 'custom:(uuid,encounterDatetime,' +
+            const patientUuid = 'uuid';
+            const _customDefaultRep = 'custom:(uuid,encounterDatetime,' +
                 'patient:(uuid,uuid,identifiers),form:(uuid,name),' +
                 'visit:(uuid,visitType,display,startDatetime,stopDatetime),' +
                 'location:ref,encounterType:ref,encounterProviders:(uuid,display' +
@@ -143,7 +142,7 @@ describe('EncounterResourceService', () => {
             service.getEncounterByUuid(patientUuid).subscribe((res) => {
                 expect(res).toEqual(encounterResponse);
             });
-            const request = httpMock.expectOne(service.getUrl() + 'encounter/' + patientUuid + '?v=' +_customDefaultRep);
+            const request = httpMock.expectOne(service.getUrl() + 'encounter/' + patientUuid + '?v=' + _customDefaultRep);
             expect(request.request.method).toBe('GET');
             request.flush(encounterResponse);
 
@@ -151,7 +150,7 @@ describe('EncounterResourceService', () => {
 
     });
     describe('get Encounter types', () => {
-        let encounterTypeResponse = {
+        const encounterTypeResponse = {
             'results': [
                 {
                     'uuid': 'df5549ce-1350-11df-a1f1-0026b9348838',
@@ -186,7 +185,7 @@ describe('EncounterResourceService', () => {
 
         it('should call the right endpoint', () => {
 
-            service.getEncounterTypes('all').subscribe()
+            service.getEncounterTypes('all').subscribe();
 
             const request = httpMock.expectOne(service.getUrl() + 'encountertype');
             expect(request.request.url)
@@ -197,13 +196,13 @@ describe('EncounterResourceService', () => {
     });
 
     describe('save new Encounter', () => {
-        let newEncounterMock = {
+        const newEncounterMock = {
             location: '08feb5b6-1352-11df-a1f1-0026b9348838',
             patient: '922fc86d-ad42-4c50-98a6-b1f310863c07',
             encounterDatetime: '2010-11-23T00:00:00.000+0300',
             encounterType: '927d9d1f-44ce-471e-a77b-d1f1342f43f6'
         };
-        let newEncounterResponse = {
+        const newEncounterResponse = {
             'uuid': '927d9d1f-44ce-471e-a77b-d1f1342f43f6',
             'display': 'PEDSRETURN 23/11/2010',
             'encounterDatetime': '2010-11-23T00:00:00.000+0300',
@@ -247,13 +246,13 @@ describe('EncounterResourceService', () => {
         });
     });
     describe('update encounters', () => {
-        let encounterMock = {
+        const encounterMock = {
             location: '08feb5b6-1352-11df-a1f1-0026b9348838',
             patient: '922fc86d-ad42-4c50-98a6-b1f310863c07',
             encounterDatetime: '2010-11-23T00:00:00.000+0300',
             encounterType: '927d9d1f-44ce-471e-a77b-d1f1342f43f6'
         };
-        let encounterResponse = {
+        const encounterResponse = {
             'uuid': '927d9d1f-44ce-471e-a77b-d1f1342f43f6',
             'display': 'PEDSRETURN 23/11/2010',
             'encounterDatetime': '2010-11-23T00:00:00.000+0300',
@@ -278,7 +277,7 @@ describe('EncounterResourceService', () => {
                 ]
             }
         };
-        let uuid = 'uuid';
+        const uuid = 'uuid';
         it('should return null when params are not specified', () => {
             httpMock.expectNone({});
             const result = service.updateEncounter(null, null);
@@ -296,8 +295,8 @@ describe('EncounterResourceService', () => {
         });
     });
 
-    describe('Should Delete encounters', () => {
-        let uuid = 'uuid';
+    describe('Should Deconste encounters', () => {
+        const uuid = 'uuid';
         it('should return null when params are not specified', () => {
 
             httpMock.expectNone(service.getUrl() + 'encounter/' + uuid + '?!purge');
@@ -310,12 +309,12 @@ describe('EncounterResourceService', () => {
         it('should call the right endpoint', () => {
 
             service.voidEncounter(uuid).subscribe((res) => {
-                expect(res).toBe('deleted');
-            })
+                expect(res).toBe('deconsted');
+            });
 
             const request = httpMock.expectOne(service.getUrl() + 'encounter/' + uuid + '?!purge');
             expect(request.request.method).toBe('DELETE');
-            request.flush('deleted');
+            request.flush('deconsted');
         });
     });
 });

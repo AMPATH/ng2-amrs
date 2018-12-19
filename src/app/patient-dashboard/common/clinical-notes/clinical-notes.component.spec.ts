@@ -8,8 +8,7 @@ import { FakeAppFeatureAnalytics } from '../../../shared/app-analytics/app-featu
 import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
 import { ClinicalNotesResourceService } from '../../../etl-api/clinical-notes-resource.service';
-import { MockClinicalNotesResourceService }
-  from '../../../etl-api/clinical-notes-resource.service.mock';
+import { MockClinicalNotesResourceService } from '../../../etl-api/clinical-notes-resource.service.mock';
 import { ClinicalNotesComponent } from './clinical-notes.component';
 import { ClinicalNotesHelperService } from './clinical-notes.helper';
 import { HttpClient } from 'selenium-webdriver/http';
@@ -18,13 +17,12 @@ import { of } from 'rxjs';
 
 describe('Component: Clinical notes Unit Tests', () => {
 
-  let notesResourceService: ClinicalNotesResourceService,
-    fakeAppFeatureAnalytics: AppFeatureAnalytics, component, notesStub: ClinicalNotesResourceService;
+  let fakeAppFeatureAnalytics: AppFeatureAnalytics, component, notesStub: ClinicalNotesResourceService;
 
   class FakeClinicalNotesResourceService {
     public getClinicalNotes(patientUuid: string, startIndex: number, limit: number) {
       return of({ status: 'success' },
-        { res: 'clinical notes' })
+        { res: 'clinical notes' });
     }
 
   }
@@ -104,12 +102,11 @@ describe('Component: Clinical notes Unit Tests', () => {
   });
 
   it('should subscribe to service method to get the notes', () => {
-    let res = ({ status: 'success', res: 'clinical notes' })
-    
-    let notesServiceSpy = spyOn(notesStub, 'getClinicalNotes').and.returnValue(of(res));
+    const res = ({ status: 'success', res: 'clinical notes' });
+    const notesServiceSpy = spyOn(notesStub, 'getClinicalNotes').and.returnValue(of(res));
     component.getNotes(0, 10, (data, err) => {});
-    expect(notesServiceSpy.calls.any()).toEqual(true)
+    expect(notesServiceSpy.calls.any()).toEqual(true);
     expect(notesStub.getClinicalNotes).toHaveBeenCalled();
-  })
+  });
 
 });

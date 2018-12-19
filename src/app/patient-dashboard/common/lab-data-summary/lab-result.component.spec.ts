@@ -9,6 +9,7 @@ import { LabsResourceService } from '../../../etl-api/labs-resource.service';
 import { PatientService } from '../../services/patient.service';
 import { LabResultComponent } from './lab-result.component';
 import { ZeroVlPipe } from './../../../shared/pipes/zero-vl-pipe';
+import { RouterTestingModule } from '@angular/router/testing';
 
 @Pipe({ name: 'translate' })
 export class FakeTranslatePipe implements PipeTransform {
@@ -17,10 +18,10 @@ export class FakeTranslatePipe implements PipeTransform {
   }
 }
 describe('Component: Lab Results Unit Tests', () => {
-  let fakePatientService = {
+  const fakePatientService = {
     currentlyLoadedPatient: of({ uuid: '', person: { uuid: 'person_uuid' } })
-};
-  let fakeLabsServiceName = {
+  };
+  const fakeLabsServiceName = {
     getHistoricalPatientLabResults: (args) => {
       return of(
         [
@@ -51,11 +52,12 @@ describe('Component: Lab Results Unit Tests', () => {
     }
   };
 
-  let fakeChangeDetectorRef = {
+  const fakeChangeDetectorRef = {
     markForCheck: () => { }
   };
 
   let fixture, comp, nativeElement;
+  let service: LabsResourceService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -72,7 +74,8 @@ describe('Component: Lab Results Unit Tests', () => {
         },
         LabResultComponent,
         ZeroVlPipe
-      ]
+      ],
+      imports: [RouterTestingModule.withRoutes([])]
     })
       .compileComponents()
       .then(() => {
@@ -80,25 +83,11 @@ describe('Component: Lab Results Unit Tests', () => {
         comp = fixture.componentInstance;
         nativeElement = fixture.nativeElement;
         fixture.detectChanges();
+        service = TestBed.get(LabsResourceService);
       });
   }));
 
   afterAll(() => {
     TestBed.resetTestingModule();
   });
-
-  it('should be defined', inject([LabsResourceService],
-    (service: LabsResourceService) => {
-      expect(comp).toBeDefined();
-    }));
-  /*it('should render result table when there are new results',
-    inject([LabsResourceService, PatientService],
-      (service: LabsResourceService) => {
-        comp.ngOnInit();
-        fixture.detectChanges();
-        let table = nativeElement.querySelectorAll('table');
-        expect(table.length).toBe(1);
-        let trs = nativeElement.querySelectorAll('tr');
-        expect(trs.length).toBe(3);
-      }));*/
 });

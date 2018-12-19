@@ -41,11 +41,10 @@ describe('Service : ProviderResourceService Unit Tests', () => {
 
   it('should have getUrl defined', () => {
     expect(providerResourceService.getUrl()).toBeDefined();
-  })
-  
+  });
   it('should return a provider when the correct uuid is provided without v', (done) => {
 
-    let providerUuid = 'xxx-xxx-xxx-xxx';
+    const providerUuid = 'xxx-xxx-xxx-xxx';
 
     providerResourceService.getProviderByUuid(providerUuid)
       .subscribe((response) => {
@@ -57,11 +56,11 @@ describe('Service : ProviderResourceService Unit Tests', () => {
     expect(req.request.method).toBe('GET');
     expect(req.request.urlWithParams).toContain('provider/' + providerUuid);
     expect(req.request.urlWithParams).toContain('v=');
-    req.flush(JSON.stringify({}))
+    req.flush(JSON.stringify({}));
   });
   it('should return a provider when the correct uuid is provided with v', (done) => {
 
-    let providerUuid = 'xxx-xxx-xxx-xxx';
+    const providerUuid = 'xxx-xxx-xxx-xxx';
 
     providerResourceService.getProviderByUuid(providerUuid, false, '9')
       .subscribe((response) => {
@@ -73,18 +72,18 @@ describe('Service : ProviderResourceService Unit Tests', () => {
     expect(req.request.method).toBe('GET');
     expect(req.request.urlWithParams).toContain('provider/' + providerUuid);
     expect(req.request.urlWithParams).toContain('v=');
-    req.flush(JSON.stringify({}))
+    req.flush(JSON.stringify({}));
   });
 
   it('should return a list of providers a matching search string is provided without v', (done) => {
 
-    let searchText = 'test';
-    let results = [
+    const searchText = 'test';
+    const results = [
       {
         uuid: 'uuid',
         identifier: ''
       }
-    ]
+    ];
 
     providerResourceService.searchProvider(searchText)
       .subscribe((data) => {
@@ -96,18 +95,18 @@ describe('Service : ProviderResourceService Unit Tests', () => {
     expect(req.request.method).toBe('GET');
     expect(req.request.urlWithParams).toContain('?q=' + searchText);
     expect(req.request.urlWithParams).toContain('v=');
-    req.flush(JSON.stringify(results))
+    req.flush(JSON.stringify(results));
 
   });
   it('should return a list of providers a matching search string is provided with v', (done) => {
 
-    let searchText = 'test';
-    let results = [
+    const searchText = 'test';
+    const results = [
       {
         uuid: 'uuid',
         identifier: ''
       }
-    ]
+    ];
 
     providerResourceService.searchProvider(searchText, false, '9')
       .subscribe((data) => {
@@ -119,12 +118,12 @@ describe('Service : ProviderResourceService Unit Tests', () => {
     expect(req.request.method).toBe('GET');
     expect(req.request.urlWithParams).toContain('?q=' + searchText);
     expect(req.request.urlWithParams).toContain('v=');
-    req.flush(JSON.stringify(results))
+    req.flush(JSON.stringify(results));
 
   });
   it('should throw an error when server returns an error response', () => {
 
-    let searchText = 'test';
+    const searchText = 'test';
 
     providerResourceService.searchProvider(searchText).subscribe((res) => {
       console.log('No Errors');
