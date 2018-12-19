@@ -29,14 +29,14 @@ import 'rxjs/add/observable/of';
 class MockActivatedRoute {
     public params = Observable.of([{ 'id': 1 }]);
     public snapshot = {
-       queryParams: { filter: '' }
-     };
-   }
-   class MockCacheStorageService {
-       constructor(a, b) {
+        queryParams: { filter: '' }
+    };
+}
+class MockCacheStorageService {
+    constructor(a, b) {
 
-       }
-   }
+    }
+}
 
 describe('Component: DefaulterListComponent', () => {
     let component, defaulterResource: DefaulterListResourceService, route, router,

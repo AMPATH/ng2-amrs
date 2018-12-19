@@ -136,6 +136,3 @@ describe('Component : MOTD Notification', () => {
   }));
 
 });
-
-
-

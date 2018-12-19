@@ -15,7 +15,7 @@ describe('Component: AddCohortList Unit Tests', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ HttpClientTestingModule],
+      imports: [ HttpClientTestingModule ],
       providers: [
         CohortResourceService,
         CohortListService,
@@ -73,8 +73,6 @@ describe('Component: AddCohortList Unit Tests', () => {
     component.displayErrorAlert((err, data) => {
     });
     expect(component.displayErrorAlert).toHaveBeenCalled();
-
-    done();
 
     done();
 

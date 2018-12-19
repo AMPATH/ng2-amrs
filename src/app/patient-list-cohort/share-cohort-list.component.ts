@@ -19,8 +19,8 @@ export class ShareCohortListComponent implements OnInit, OnDestroy {
   public selectedCohortName: string;
   public selectedCohortDescription: string;
   public selectedCohortUuid: string;
-  public isCreateNewUser: boolean = true;
-  public isUseList: boolean = false;
+  public isCreateNewUser = true;
+  public isUseList = false;
   public selectedUser: any;
   public selectedUserToBind: any;
   public preferredRole: string;
@@ -28,13 +28,13 @@ export class ShareCohortListComponent implements OnInit, OnDestroy {
   public selectedCohortUserName: string;
   public userRole: string;
   public cohortUsers: any;
-  public filterTerm: string = '';
-  public fetchingResults: boolean = true;
+  public filterTerm = '';
+  public fetchingResults = true;
   public userAssignedRole: string;
-  public successAlert: string = '';
-  public displayConfirmDialog: boolean = false;
-  public showSuccessAlert: boolean = false;
-  public showErrorAlert: boolean = false;
+  public successAlert = '';
+  public displayConfirmDialog = false;
+  public showSuccessAlert = false;
+  public showErrorAlert = false;
   public errorAlert: string;
   public errorTitle: string;
 
