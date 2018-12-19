@@ -1,10 +1,11 @@
-import { ProgramEnrollment } from './program-enrollment.model';
+import {ProgramEnrollment} from './program-enrollment.model';
 
-import { DatePipe } from '@angular/common';
-import { TitleCasePipe } from '../shared/pipes/title-case.pipe';
+import {DatePipe} from '@angular/common';
+import {TitleCasePipe} from '../shared/pipes/title-case.pipe';
+
 describe('Model: ProgramEnrollment', () => {
 
-  let existingProgramEnrollment: any = {
+  const existingProgramEnrollment: any = {
     uuid: 'uuid',
     display: 'THe program Enrollment',
     program: {
@@ -14,12 +15,12 @@ describe('Model: ProgramEnrollment', () => {
     dateCompleted: '2016-01-01 0:00z'
 
   };
-  let datePipe = new DatePipe('en-US');
-  let titleCasePipe = new TitleCasePipe();
-  let dateFormat: string = 'MMM dd, yyyy';
+  const datePipe = new DatePipe('en-US');
+  const titleCasePipe = new TitleCasePipe();
+  const dateFormat = 'MMM dd, yyyy';
 
   it('should wrap openmrs programEnrollment for display correctly', () => {
-    let wrappedProgramEnrollment: ProgramEnrollment
+    const wrappedProgramEnrollment: ProgramEnrollment
       = new ProgramEnrollment(existingProgramEnrollment);
     expect(wrappedProgramEnrollment.uuid).toEqual(existingProgramEnrollment.uuid);
     expect(wrappedProgramEnrollment.display).toEqual(
@@ -27,7 +28,7 @@ describe('Model: ProgramEnrollment', () => {
     expect(wrappedProgramEnrollment.program.uuid).toEqual(existingProgramEnrollment.program.uuid);
     expect(wrappedProgramEnrollment.dateEnrolled as any)
       .toEqual(
-      datePipe.transform(existingProgramEnrollment.dateEnrolled, dateFormat));
+        datePipe.transform(existingProgramEnrollment.dateEnrolled, dateFormat));
     expect(wrappedProgramEnrollment.dateCompleted as any)
       .toEqual(datePipe.transform(existingProgramEnrollment.dateCompleted, dateFormat));
     // datePipe.transform(existingProgramEnrollment.dateCompleted, dateFormat)

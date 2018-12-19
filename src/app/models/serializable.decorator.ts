@@ -2,7 +2,7 @@
 /* tslint:disable:forin */
 declare var Reflect: any;
 
-import { BaseModel } from './base-model.model';
+import {BaseModel} from './base-model.model';
 import './date.extensions';
 
 export const METADATA_KEY_SERIALIZABLE = 'SERIALIZABLE';
@@ -34,11 +34,11 @@ export function serializable(addToNewPayload: boolean = true,
 
 export function getSerializables(target: any): Array<SerializableProperty> {
 
-  let serializables: Array<any> = [];
+  const serializables: Array<any> = [];
 
-  for (let key in target) {
+  for (const key in target) {
 
-    let metadata = Reflect.getMetadata(METADATA_KEY_SERIALIZABLE, target, key);
+    const metadata = Reflect.getMetadata(METADATA_KEY_SERIALIZABLE, target, key);
 
     if (metadata) {
       serializables.push(metadata);
