@@ -19,8 +19,8 @@ export class ShareCohortListComponent implements OnInit, OnDestroy {
   public selectedCohortName: string;
   public selectedCohortDescription: string;
   public selectedCohortUuid: string;
-  public isCreateNewUser: boolean = true;
-  public isUseList: boolean = false;
+  public isCreateNewUser = true;
+  public isUseList = false;
   public selectedUser: any;
   public selectedUserToBind: any;
   public preferredRole: string;
@@ -28,13 +28,13 @@ export class ShareCohortListComponent implements OnInit, OnDestroy {
   public selectedCohortUserName: string;
   public userRole: string;
   public cohortUsers: any;
-  public filterTerm: string = '';
-  public fetchingResults: boolean = true;
+  public filterTerm = '';
+  public fetchingResults = true;
   public userAssignedRole: string;
-  public successAlert: string = '';
-  public displayConfirmDialog: boolean = false;
-  public showSuccessAlert: boolean = false;
-  public showErrorAlert: boolean = false;
+  public successAlert = '';
+  public displayConfirmDialog = false;
+  public showSuccessAlert = false;
+  public showErrorAlert = false;
   public errorAlert: string;
   public errorTitle: string;
 
@@ -48,7 +48,7 @@ export class ShareCohortListComponent implements OnInit, OnDestroy {
               private cohortUserResourceService: CohortUserResourceService,
               private route: ActivatedRoute) { }
   public ngOnInit() {
-    let cohortUuid = this.route.snapshot.params['cohort_uuid'];
+    const cohortUuid = this.route.snapshot.params['cohort_uuid'];
     if (cohortUuid) {
       this.selectedCohortUuid = cohortUuid;
     }
@@ -78,7 +78,7 @@ export class ShareCohortListComponent implements OnInit, OnDestroy {
   }
   public getCohortUsers() {
     this.fetchingResults = true;
-    let sub = this.cohortUserResourceService.getCohortUser(this.selectedCohortUuid);
+    const sub = this.cohortUserResourceService.getCohortUser(this.selectedCohortUuid);
     if (sub) {
       sub.pipe(take(1)).subscribe(
 
@@ -118,7 +118,7 @@ export class ShareCohortListComponent implements OnInit, OnDestroy {
 
   }
   public ShareCohortWithNewUser() {
-    let cohortUserPayload = {
+    const cohortUserPayload = {
       role: this.preferredRole,
       user: this.selectedUser.value,
       cohort: this.selectedCohortUuid
@@ -187,7 +187,7 @@ export class ShareCohortListComponent implements OnInit, OnDestroy {
 
   }
   public updateCohortUserRole(userId, role) {
-    let cohortUserPayload = {
+    const cohortUserPayload = {
       role : role
     };
 

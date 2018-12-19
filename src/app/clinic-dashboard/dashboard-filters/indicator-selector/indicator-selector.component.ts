@@ -8,6 +8,7 @@ export class IndicatorSelectComponent implements OnInit {
   public selectedIndicators: Array<any> = [];
   public indicatorOptions: Array<any>;
   @Input() public indicators: Array<any>;
+  // tslint:disable-next-line:no-output-on-prefix
   @Output() public onIndicatorChange = new EventEmitter<any>();
 
   constructor() {

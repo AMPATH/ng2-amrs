@@ -49,7 +49,7 @@ export class LocatorMapComponent implements OnInit, OnDestroy {
 
   public onFileChange(file) {
     this.subscriptions.push(this.fileUploadResourceService.upload(file).pipe(flatMap((result: any) => {
-      let updatePayload = {
+      const updatePayload = {
         attributes: [{
           attributeType: this.attributeType,
           value: result.image
@@ -73,7 +73,7 @@ export class LocatorMapComponent implements OnInit, OnDestroy {
 
   public clearPhoto() {
     this.dataModel = null;
-    let updatePayload = {
+    const updatePayload = {
       attributes: [{
         attributeType: this.attributeType,
         voided: true
@@ -90,7 +90,7 @@ export class LocatorMapComponent implements OnInit, OnDestroy {
   }
 
   public setPhoto() {
-    let photo = this.patient.person.getPersonAttribute(this.attributeType);
+    const photo = this.patient.person.getPersonAttribute(this.attributeType);
     if (photo) {
       this.dataModel = photo;
     } else {

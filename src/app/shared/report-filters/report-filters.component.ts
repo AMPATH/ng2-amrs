@@ -47,11 +47,12 @@ require('ion-rangeslider');
 export class ReportFiltersComponent implements OnInit, ControlValueAccessor, AfterViewInit {
   @Input() public start: number;
   @Input() public end: number;
+  /* tslint:disable:no-output-on-prefix */
   @Output() public onAgeChange = new EventEmitter<any>();
   @Output() public onAgeChangeFinish = new EventEmitter<any>();
   public sliderElt;
-  public filterCollapsed: boolean = false;
-  public initialized: boolean = false;
+  public filterCollapsed = false;
+  public initialized = false;
   public indicatorOptions: Array<any>;
   public programOptions: Array<any>;
   @Output() public onProgramChange = new EventEmitter<any>();
@@ -67,22 +68,22 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
       label: 'M'
     }
   ];
-  public selectedIndicatorTagsSelectedAll: boolean = false;
-  public selectedProgramTagsSelectedAll: boolean = false;
+  public selectedIndicatorTagsSelectedAll = false;
+  public selectedProgramTagsSelectedAll = false;
   @Output() public onGenderChange = new EventEmitter<any>();
-  public disableGenerateReportBtn: boolean = false;
+  public disableGenerateReportBtn = false;
   @Output()
   public generateReport = new EventEmitter();
   @Output()
   public ageRange = new EventEmitter();
   @Input()
-  public parentIsBusy: boolean = false;
+  public parentIsBusy = false;
   @Output()
   public startDateChange = new EventEmitter<Date>();
   @Input()
-  public isShown: boolean = false;
+  public isShown = false;
   @Input()
-  public disableGenerateButton: boolean = false;
+  public disableGenerateButton = false;
   @Input() public enabledControls: string[];
   @Output()
   public locationChange = new EventEmitter<any>();
@@ -112,6 +113,7 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
     this.startDateChange.emit(this.startDate);
   }
 
+  // tslint:disable:no-shadowed-variable
   public onChange = (_) => {};
   public onTouched = () => {};
 
@@ -182,7 +184,7 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
     }
     if (this._programs.length > 0) {
       this.selectedProgramTagsSelectedAll = true;
-    }else {
+    } else {
       this._programs = this.programOptions;
     }
     this.getCachedLocations();
@@ -231,17 +233,17 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
   }
 
   public getIndicators() {
-    let indicators = [];
+    const indicators = [];
     this.indicatorResourceService.getReportIndicators({
      report: this.reportName
    }).pipe(take(1)).subscribe(
      (results: any[]) => {
 
-       for (let data of results) {
-         for (let r in data) {
+       for (const data of results) {
+         for (const r in data) {
            if (data.hasOwnProperty(r)) {
-             let id = data.name;
-             let text = data.label;
+             const id = data.name;
+             const text = data.label;
              data['value'] = id;
              data['label'] = text;
            }
@@ -289,7 +291,7 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
     }
   }
   public getSelectedLocations(locs: any) {
-    console.log('Selected Locations',this._report,locs);
+    console.log('Selected Locations', this._report, locs);
     if (this._report === 'hiv-summary-report') {
       this.dataAnalyticsDashboardService.setSelectedIndicatorLocations(locs);
       return;

@@ -4,8 +4,7 @@ import {
 } from '@angular/core';
 import {
   PatientStatuChangeVisualizationService
-}
-from './patient-status-change-visualization.service';
+} from './patient-status-change-visualization.service';
 import * as _ from 'lodash';
 import { Location } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -29,7 +28,7 @@ export class PatientStatusChangeVisualizationComponent implements OnInit, OnChan
   @Input()
   public renderType: string;
   @Input()
-  public showAnalysisTypeSelector: boolean = false;
+  public showAnalysisTypeSelector = false;
   @Input()
   public data: Array<any> = [];
   @Input()
@@ -50,11 +49,11 @@ export class PatientStatusChangeVisualizationComponent implements OnInit, OnChan
   public options: any = {
     date_range: true
   };
-  public showIndicatorDefinitions: boolean = false;
-  public showTable: boolean = true;
+  public showIndicatorDefinitions = false;
+  public showTable = true;
   public error = false;
   public loading;
-  public progressBarTick: number = 30;
+  public progressBarTick = 30;
   public timerSubscription: Subscription;
 
   constructor(private patientStatusService: PatientStatuChangeVisualizationService,
@@ -92,7 +91,7 @@ export class PatientStatusChangeVisualizationComponent implements OnInit, OnChan
   public onAnalysisTypeChange($event) {
     if ($event) {
       this.selectedAnalysisType = $event;
-      let path = this.router.parseUrl(this.location.path());
+      const path = this.router.parseUrl(this.location.path());
       path.queryParams['analysis'] = $event;
       this.location.replaceState(path.toString());
       this.renderView();
@@ -100,10 +99,10 @@ export class PatientStatusChangeVisualizationComponent implements OnInit, OnChan
   }
 
   public onFilterModelChange(event) {
-    let params = {};
+    const params = {};
     params['startDate'] = event.startDate.format('YYYY-MM-DD');
     params['endDate'] = event.endDate.format('YYYY-MM-DD');
-    let path = this.router.parseUrl(this.location.path());
+    const path = this.router.parseUrl(this.location.path());
     path.queryParams = params;
     this.location.replaceState(path.toString());
     this.filterModelChange.emit(event);
@@ -111,8 +110,8 @@ export class PatientStatusChangeVisualizationComponent implements OnInit, OnChan
 
   public renderChart(): void {
     this.chartOptions = {};
-    let immutableData = [...this.data]; // making sure it is immutable
-    let data = this.patientStatusService.processData(
+    const immutableData = [...this.data]; // making sure it is immutable
+    const data = this.patientStatusService.processData(
       this.selectedAnalysisType, immutableData, this.renderType,
       true);
     this.chartOptions = this.patientStatusService.generateChart({
@@ -123,11 +122,11 @@ export class PatientStatusChangeVisualizationComponent implements OnInit, OnChan
   }
 
   public renderDataTable(): void {
-    let immutableData = [...this.data]; // making sure it is immutable
+    const immutableData = [...this.data]; // making sure it is immutable
     this.dataTable = this.patientStatusService.processData(
       this.selectedAnalysisType, immutableData, this.renderType,
       false);
-    let indicatorDefinitions = _.keyBy(this.indicatorDefinitions, 'name');
+    const indicatorDefinitions = _.keyBy(this.indicatorDefinitions, 'name');
     this.columns = this.patientStatusService
       .generateColumnDefinitions(this.renderType, this.selectedAnalysisType, indicatorDefinitions);
     this.gridOptions = {} as GridOptions;
@@ -159,7 +158,7 @@ export class PatientStatusChangeVisualizationComponent implements OnInit, OnChan
   }
 
   public initRoutesParam(): void {
-    let path = this.router.parseUrl(this.location.path());
+    const path = this.router.parseUrl(this.location.path());
     // init analysis
     if (path.queryParams['analysis']) {
       this.selectedAnalysisType = path.queryParams['analysis'];
@@ -210,20 +209,20 @@ export class PatientStatusChangeVisualizationComponent implements OnInit, OnChan
   }
 
   private getStartDate() {
-    let d = new Date();
-    let year = d.getFullYear();
-    let month = d.getMonth();
-    let day = d.getDate();
-    let c = new Date(year, month - 5, 0);
+    const d = new Date();
+    const year = d.getFullYear();
+    const month = d.getMonth();
+    const day = d.getDate();
+    const c = new Date(year, month - 5, 0);
     return c;
   }
 
   private getEndDate() {
-    let d = new Date();
-    let year = d.getFullYear();
-    let month = d.getMonth();
-    let day = d.getDate();
-    let c = new Date(year, month - 1, 0);
+    const d = new Date();
+    const year = d.getFullYear();
+    const month = d.getMonth();
+    const day = d.getDate();
+    const c = new Date(year, month - 1, 0);
     return c;
   }
 

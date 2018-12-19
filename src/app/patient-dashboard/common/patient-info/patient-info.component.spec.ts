@@ -1,6 +1,4 @@
 /* tslint:disable:no-unused-variable */
-import { MockBackend } from '@angular/http/testing';
-import { Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 import { TestBed, async } from '@angular/core/testing';
 
 import { PatientInfoComponent } from './patient-info.component';
@@ -23,14 +21,14 @@ import { ProgramWorkFlowResourceService
 } from '../../../openmrs-api/program-workflow-resource.service';
 import { ProgramWorkFlowStateResourceService
 } from '../../../openmrs-api/program-workflow-state-resource.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('Component: PatientInfo', () => {
   let component;
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [ HttpClientTestingModule ],
       providers: [
-        MockBackend,
-        BaseRequestOptions,
         PatientInfoComponent,
         PatientService,
         ProgramService,
@@ -44,13 +42,6 @@ describe('Component: PatientInfo', () => {
         AppSettingsService,
         LocalStorageService,
         PatientResourceService,
-        {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
         {
           provide: AppFeatureAnalytics, useFactory: () => {
             return new FakeAppFeatureAnalytics();
@@ -67,7 +58,6 @@ describe('Component: PatientInfo', () => {
   });
 
   it('should create an instance', () => {
-
     expect(component).toBeTruthy();
   });
 });

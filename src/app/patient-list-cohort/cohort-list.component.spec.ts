@@ -2,22 +2,14 @@
 /* tslint:disable:no-unused-variable */
 
 
-import {throwError as observableThrowError,  Observable, of } from 'rxjs';
+import { throwError as observableThrowError, Observable, of } from 'rxjs';
 import { TestBed, async, fakeAsync, ComponentFixture, tick } from '@angular/core/testing';
-import { MockBackend, MockConnection } from '@angular/http/testing';
-import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@angular/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule } from '@angular/forms';
 //
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {
-  AccordionModule, DataTableModule, SharedModule, TabViewModule,
-  GrowlModule, PanelModule, ConfirmDialogModule, ConfirmationService,
-  DialogModule, InputTextModule, MessagesModule, InputTextareaModule,
-  DropdownModule, ButtonModule, CalendarModule
-} from 'primeng/primeng';
 
 import { CohortListComponent } from './cohort-list.component';
 import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
@@ -25,6 +17,8 @@ import { CohortListService } from './cohort-list.service';
 import { UserCohortResourceService } from '../etl-api/user-cohort-resource.service';
 import { UserService } from '../openmrs-api/user.service';
 import { CohortResourceService } from '../openmrs-api/cohort-resource.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ConfirmDialogModule, DialogModule } from 'primeng/primeng';
 
 class DataStub {
 
@@ -43,7 +37,7 @@ class DataStubUser {
 class DummyComponent {
 }
 
-let expectedResults = {
+const expectedResults = {
   results: [
     {
       uuid: 'uuid',
@@ -62,14 +56,14 @@ describe('CohortListComponent', () => {
   let fixture: ComponentFixture<CohortListComponent>;
   let comp: CohortListComponent;
   let dataStub: UserCohortResourceService;
-  let mockRouter = {
+  const mockRouter = {
     navigate: jasmine.createSpy('navigate')
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ NgamrsSharedModule, ConfirmDialogModule, DialogModule, CommonModule, FormsModule,
-        BrowserAnimationsModule,
+      imports: [NgamrsSharedModule, ConfirmDialogModule, DialogModule, CommonModule, FormsModule,
+        BrowserAnimationsModule, HttpClientTestingModule,
         RouterTestingModule.withRoutes([
           { path: 'add-cohort-list', component: DummyComponent }
         ])],
@@ -79,19 +73,11 @@ describe('CohortListComponent', () => {
         providers: [
           { provide: UserCohortResourceService, useClass: DataStub },
           { provide: UserService, useClass: DataStubUser },
-          {
-            provide: Http, useFactory: (backend, options) => {
-            return new Http(backend, options);
-          },
-            deps: [MockBackend, BaseRequestOptions]
-          },
           { provide: Router, useValue: mockRouter },
           {
             provide: ActivatedRoute,
-            useValue: { parent: { params: of({id: 'testId'}) }}
+            useValue: { parent: { params: of({ id: 'testId' }) } }
           },
-          MockBackend,
-          BaseRequestOptions,
           CohortListService,
           CohortResourceService
         ]
@@ -109,7 +95,7 @@ describe('CohortListComponent', () => {
   });
 
   it('should hit the success callback when getAllCohorts returns success',
-    (done)  => {
+    (done) => {
       const spy = spyOn(dataStub, 'getUserCohorts').and.returnValue(
         of(expectedResults)
       );

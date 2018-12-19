@@ -1,20 +1,16 @@
 import { TestBed, inject } from '@angular/core/testing';
-import {
-  BaseRequestOptions, Http, HttpModule
-} from '@angular/http';
 import { BehaviorSubject } from 'rxjs';
 import { FormsResourceService } from '../../../openmrs-api/forms-resource.service';
 import { FormSchemaService } from './form-schema.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
 import { FormSchemaCompiler } from 'ngx-openmrs-formentry/dist/ngx-formentry';
-import { MockBackend } from '@angular/http/testing';
 import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('Service: FormSchemaService', () => {
 
   // mock data for formMetaData
-  let formMetaData: any = {
+  const formMetaData: any = {
     uuid: 'adult-return-formMetaData-uuid',
     display: 'Adult Return Visit Form v0.01',
     resources: [
@@ -28,7 +24,7 @@ describe('Service: FormSchemaService', () => {
   };
 
   // mock data for formClobData
-  let formClobData: any = {
+  const formClobData: any = {
     uuid: 'adult-return-formClobData-uuid',
     name: 'Adult Return Visit Form v0.01',
     referencedForms: [
@@ -52,7 +48,7 @@ describe('Service: FormSchemaService', () => {
   };
 
   // mock data for compiledSchema
-  let compiledSchema: any = {
+  const compiledSchema: any = {
     uuid: 'form-uuid',
     formMetaData: formMetaData,
     formClobData: formClobData
@@ -67,18 +63,10 @@ describe('Service: FormSchemaService', () => {
         LocalStorageService,
         FormSchemaCompiler,
         FormsResourceService,
-        BaseRequestOptions,
-        MockBackend,
         AppSettingsService,
-        {
-          provide: Http,
-          useFactory: (backend, options) => new Http(backend, options),
-          deps: [MockBackend, BaseRequestOptions]
-        },
         AppSettingsService
       ],
       imports: [
-        HttpModule,
         HttpClientTestingModule
       ]
 
@@ -90,22 +78,22 @@ describe('Service: FormSchemaService', () => {
   });
 
   it('should create an instance of FormSchemaService', () => {
-    let service: FormSchemaService = TestBed.get(FormSchemaService);
+    const service: FormSchemaService = TestBed.get(FormSchemaService);
     expect(service).toBeTruthy();
   });
 
   it('should have all required methods defined and exposed as a public member ' +
     'for the first time', () => {
-    let service: FormSchemaService = TestBed.get(FormSchemaService);
+    const service: FormSchemaService = TestBed.get(FormSchemaService);
     expect(service.getFormSchemaByUuid).toBeTruthy();
   });
 
   it('should hit the server to fetch Form Metadata when getFormSchemaByUuid is called for the ' +
     'the first time(**Not cached)', inject([FormsResourceService, FormSchemaService],
     (formsResourceService: FormsResourceService, formSchemaService: FormSchemaService) => {
-      let uuid: string = 'form-uuid';
+      const uuid = 'form-uuid';
       spyOn(formsResourceService, 'getFormMetaDataByUuid').and.callFake(function (params) {
-        let subject = new BehaviorSubject<any>({});
+        const subject = new BehaviorSubject<any>({});
         subject.next(formMetaData);
         return subject;
       });
@@ -115,9 +103,9 @@ describe('Service: FormSchemaService', () => {
   it('should hit the server to fetch Form Clobdata when getFormSchemaByUuid is called for the ' +
     'the first time(**Not cached)', inject([FormsResourceService, FormSchemaService],
     (formsResourceService: FormsResourceService, formSchemaService: FormSchemaService) => {
-      let uuid: string = 'form-uuid';
+      const uuid = 'form-uuid';
       spyOn(formsResourceService, 'getFormMetaDataByUuid').and.callFake(function (params) {
-        let subject = new BehaviorSubject<any>({});
+        const subject = new BehaviorSubject<any>({});
         subject.next(formMetaData);
         return subject;
       });
@@ -130,11 +118,11 @@ describe('Service: FormSchemaService', () => {
     'when getFormSchemaByUuid is called for the first time(**Not cached)',
     inject([FormsResourceService, FormSchemaService],
       (formsResourceService: FormsResourceService, formSchemaService: FormSchemaService) => {
-        let uuid: string = 'form-uuid';
-        let numberOfMetaDataCalls: number = 0;
-        let numberOfClobDataCalls: number = 0;
+        const uuid = 'form-uuid';
+        let numberOfMetaDataCalls = 0;
+        let numberOfClobDataCalls = 0;
         spyOn(formsResourceService, 'getFormMetaDataByUuid').and.callFake(function (params) {
-          let subject = new BehaviorSubject<any>({});
+          const subject = new BehaviorSubject<any>({});
           switch (params) {
             case'form-uuid':
               subject.next(formMetaData);
@@ -177,7 +165,7 @@ describe('Service: FormSchemaService', () => {
         });
 
         spyOn(formsResourceService, 'getFormClobDataByUuid').and.callFake(function (params) {
-          let subject = new BehaviorSubject<any>({});
+          const subject = new BehaviorSubject<any>({});
           switch (params) {
             case'adult-return-formClobData-uuid':
               subject.next(formClobData);
@@ -223,12 +211,12 @@ describe('Service: FormSchemaService', () => {
         LocalStorageService],
       (formsResourceService: FormsResourceService, formSchemaService: FormSchemaService,
        localStorageService: LocalStorageService) => {
-        let uuid: string = 'form-uuid';
+        const uuid = 'form-uuid';
         spyOn(localStorageService, 'getObject').and.callFake(function (params) {
           return compiledSchema; // return cached & compiled schema
         });
         spyOn(formsResourceService, 'getFormMetaDataByUuid').and.callFake(function (params) {
-          let subject = new BehaviorSubject<any>({});
+          const subject = new BehaviorSubject<any>({});
           subject.next(formMetaData);
           return subject;
         });

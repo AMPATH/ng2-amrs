@@ -6,7 +6,7 @@ export class ZeroVlPipe implements PipeTransform {
   public transform(vl) {
     if (vl === 0 || vl === '0') {
            return 'LDL';
-       }else {
+       } else {
            return vl;
     }
   }

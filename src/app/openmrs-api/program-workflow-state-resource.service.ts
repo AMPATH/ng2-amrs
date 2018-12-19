@@ -24,10 +24,10 @@ export class ProgramWorkFlowStateResourceService {
       return null;
     }
 
-    let url = this.getUrl() + '/' + workFlowUuid + '/' + 'state';
-    let v: string = 'custom:(uuid,initial,terminal,concept:(uuid,retired,display))';
+    const url = this.getUrl() + '/' + workFlowUuid + '/' + 'state';
+    const v = 'custom:(uuid,initial,terminal,concept:(uuid,retired,display))';
 
-    let params: HttpParams = new HttpParams()
+    const params: HttpParams = new HttpParams()
     .set('v', v);
     return this.http.get<any>(url, {
       params: params

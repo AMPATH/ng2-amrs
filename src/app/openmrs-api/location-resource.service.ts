@@ -11,7 +11,7 @@ import * as locationIds from '../shared/locations/location_data.json';
 @Injectable()
 export class LocationResourceService {
   private locations = new ReplaySubject(1);
-  private v: string = 'full';
+  private v = 'full';
 
   constructor(protected http: HttpClient, protected appSettingsService: AppSettingsService,
               private cacheService: DataCacheService) {
@@ -28,7 +28,7 @@ export class LocationResourceService {
   public getLocations(forceRefresh?: boolean) {
     // If the Subject was NOT subscribed before OR if forceRefresh is requested
 
-    let params = new HttpParams().set('v', 'full');
+    const params = new HttpParams().set('v', 'full');
 
     if (!this.locations.observers.length || forceRefresh) {
       this.http.get<any>(
@@ -51,14 +51,14 @@ export class LocationResourceService {
     let url = this.appSettingsService.getOpenmrsRestbaseurl().trim() + 'location';
     url += '/' + uuid;
 
-    let params: HttpParams = new HttpParams()
+    const params: HttpParams = new HttpParams()
     .set('v', (v && v.length > 0) ? v : this.v);
-    let request = this.http.get(url, { params: params });
+    const request = this.http.get(url, { params: params });
     return this.cacheService.cacheRequest(url, params, request);
   }
 
   public getLocationIdByUuid(uuid: string): any {
-    let _location = locationIds.locations.filter((location) => {
+    const _location = locationIds.locations.filter((location) => {
       return location.uuid === uuid;
     });
     if (_location.length > 0) {
@@ -70,8 +70,8 @@ export class LocationResourceService {
   public searchLocation(searchText: string, cached: boolean = false, v: string = null):
   Observable<any> {
 
-    let url = this.appSettingsService.getOpenmrsRestbaseurl().trim() + 'location';
-    let params: HttpParams = new HttpParams()
+    const url = this.appSettingsService.getOpenmrsRestbaseurl().trim() + 'location';
+    const params: HttpParams = new HttpParams()
     .set('q', searchText)
     .set('v', (v && v.length > 0) ? v : this.v);
 

@@ -1,5 +1,5 @@
-import { Injectable }     from '@angular/core';
-import { Router, CanActivate }    from '@angular/router';
+import { Injectable } from '@angular/core';
+import { Router, CanActivate } from '@angular/router';
 
 import { Constants } from '../../utils/constants';
 
@@ -12,13 +12,13 @@ export class LoginGuard implements CanActivate {
 
   public canActivate() {
 
-    let credentials = sessionStorage.getItem(Constants.CREDENTIALS_KEY);
+    const credentials = sessionStorage.getItem(Constants.CREDENTIALS_KEY);
 
     if (credentials && window.location.hash.match('#/login')) {
 
       this.router.navigate(['patient-dashboard/patient-search']);
 
-    }else {
+    } else {
       return true;
     }
 

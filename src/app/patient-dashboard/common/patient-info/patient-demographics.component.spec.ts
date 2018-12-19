@@ -19,7 +19,7 @@ export class FakeTranslatePipe implements PipeTransform {
   }
 }
 describe('Component: Patient Demographics Unit Tests', () => {
-  let fakePatientService = {
+  const fakePatientService = {
     currentlyLoadedPatient: of({
       uuid: '',
       person: {
@@ -29,7 +29,7 @@ describe('Component: Patient Demographics Unit Tests', () => {
     })
 };
 
-  let fakeChangeDetectorRef = {
+  const fakeChangeDetectorRef = {
     markForCheck: () => { }
   };
 
@@ -72,8 +72,8 @@ describe('Component: Patient Demographics Unit Tests', () => {
   });
 
   it('should create an instance', () => {
-    let fakeAppFeatureAnalytics: AppFeatureAnalytics = TestBed.get(AppFeatureAnalytics);
-    let component = new PatientDemographicsComponent(null, fakeAppFeatureAnalytics);
+    const fakeAppFeatureAnalytics: AppFeatureAnalytics = TestBed.get(AppFeatureAnalytics);
+    const component = new PatientDemographicsComponent(null, fakeAppFeatureAnalytics);
     expect(component).toBeTruthy();
   });
   it('should render demographics correctly',
@@ -81,8 +81,8 @@ describe('Component: Patient Demographics Unit Tests', () => {
       () => {
         comp.ngOnInit();
         fixture.detectChanges();
-        let tr = nativeElement.querySelectorAll('tr');
-        let length: number = tr.length;
+        const tr = nativeElement.querySelectorAll('tr');
+        const length: number = tr.length;
         expect(tr[1].innerHTML).toContain('Name');
         expect(length).toBeGreaterThan(0);
       }));
