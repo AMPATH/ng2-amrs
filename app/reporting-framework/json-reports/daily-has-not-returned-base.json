@@ -69,7 +69,7 @@
             "alias": "has_not_returned",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(t7.next_clinical_encounter_datetime IS NULL  AND t2.next_program_clinical_datetime IS NULL AND t8.person_id is null, 1, null)"
+                "expression": "if(date(t2.rtc_date) < DATE(NOW()) and t2.rtc_date = t7.max_rtc_date AND t7.next_clinical_encounter_datetime IS NULL  AND t2.next_program_clinical_datetime IS NULL AND t8.person_id is null, 1, null)"
             }
         },
         {
@@ -132,6 +132,16 @@
             {
                 "filterType": "tableColumns",
                 "conditionExpression":  "t2.is_clinical = 1",
+                "parameterName": ""
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "DATE(max_rtc_date) < DATE(NOW())",
+                "parameterName": ""
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "t2.rtc_date = max_rtc_date",
                 "parameterName": ""
             }
         ]
