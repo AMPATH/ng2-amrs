@@ -12,7 +12,7 @@ getTestBed().initTestEnvironment(
   platformBrowserDynamicTesting()
 );
 // Then we find all the tests.
-const context = require.context('./', true, /app\/models\/program-enrollment\.model\.spec\.ts$/);
+const context = require.context('./', true, /app\/feedback\/feedback\.component\.spec\.ts$/);
 // const context = require.context('./', true, /\.spec\.ts$/);
 // And load the modules.
 context.keys().map(context);

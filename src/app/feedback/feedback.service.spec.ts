@@ -1,75 +1,62 @@
-import { TestBed, async, inject } from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 import { FeedBackService } from './feedback.service';
-import { MockBackend, MockConnection } from '@angular/http/testing';
-import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@angular/http';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { LocalStorageService } from '../utils/local-storage.service';
-import { UserDefaultPropertiesService }
-    from '../user-default-properties/user-default-properties.service';
-import * as _ from 'lodash';
+import { UserDefaultPropertiesService } from '../user-default-properties';
 import { UserService } from '../openmrs-api/user.service';
+import { HttpClient } from '@angular/common/http';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+
 class UserServiceStub {
-    person = {
-        display: 'test persion'
+  person = {
+    display: 'test person'
+  };
+
+  getLoggedInUser() {
+    return {
+      person: this.person
     };
-    getLoggedInUser() {
-        return {
-            person: this.person
-        };
-    }
+  }
 }
+
 describe('FeedBackService', () => {
-    let service;
 
-    beforeEach(() => {
-        TestBed.configureTestingModule({
-            providers: [
-                FeedBackService,
-                UserService,
-                AppSettingsService,
-                UserDefaultPropertiesService,
-                LocalStorageService,
-                { provide: UserService, useClass: UserServiceStub },
-                {
-                    provide: Http, useFactory: (backend, options) => {
-                        return new Http(backend, options);
-                    },
-                    deps: [MockBackend, BaseRequestOptions]
-                },
-                MockBackend,
-                BaseRequestOptions
-            ]
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [
+        FeedBackService,
+        UserService,
+        AppSettingsService,
+        UserDefaultPropertiesService,
+        LocalStorageService,
+        HttpClient,
+        { provide: UserService, useClass: UserServiceStub }
+      ]
+    });
+  });
+
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
+
+  it('should be defined',
+    inject([FeedBackService], (feedbackService: FeedBackService) => {
+      expect(feedbackService).toBeDefined();
+    })
+  );
+  it('should call the right url when postFeedback is called',
+    inject([FeedBackService, AppSettingsService, HttpTestingController],
+      (feedbackService, appSettingsService, httpMock) => {
+        const samplePayload = { phone: '070000000', message: 'message' };
+        feedbackService.postFeedback(samplePayload).subscribe((response) => {
+          expect(response).toBe([{ status: 'okay' }]);
         });
-    });
+        const url = appSettingsService.getEtlServer() + '/user-feedback';
+        const request = httpMock.expectOne(url);
+        expect(request.request.url).toBe(url);
+        httpMock.verify();
 
-    afterAll(() => {
-        TestBed.resetTestingModule();
-    });
-
-
-    it('should be defined',
-        inject([FeedBackService], (s: FeedBackService) => {
-            expect(s).toBeDefined();
-        })
-    );
-    it('should call the right url when postFeedback is called',
-        inject([FeedBackService, AppSettingsService,
-            MockBackend, Http], (feedbackService, appSettingsService, backend, http) => {
-                let samplePayload = { phone: '070000000', message: 'message' };
-                backend.connections.subscribe((connection: MockConnection) => {
-                    let url = appSettingsService.getEtlServer() +
-                        '/user-feedback';
-                    expect(connection.request.url).toEqual(url);
-                    let payload = JSON.parse(connection.request.getBody());
-                    expect(payload).toEqual(samplePayload);
-                    let mockResponse = new Response(new ResponseOptions({
-                        body: [{ status: 'okay' }]
-                    }));
-                    connection.mockRespond(mockResponse);
-                });
-
-                feedbackService.postFeedback(samplePayload).subscribe(response => {
-                    expect(response).toEqual([{ status: 'okay' }]);
-                });
-            }));
+      }));
 });

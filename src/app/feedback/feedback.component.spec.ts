@@ -1,22 +1,18 @@
 
-import {throwError as observableThrowError,  Observable, of } from 'rxjs';
+import { throwError as observableThrowError, Observable, of } from 'rxjs';
 
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { TestBed, async, ComponentFixture, inject, fakeAsync, tick } from '@angular/core/testing';
-import { MockBackend, MockConnection } from '@angular/http/testing';
-import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@angular/http';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
 import { FeedBackService } from './feedback.service';
 import { FeedBackComponent } from './feedback.component';
-import { NgBusyModule, BusyConfig } from 'ng-busy';
+import { NgBusyModule } from 'ng-busy';
 import { UserService } from '../openmrs-api/user.service';
-import { UserDefaultPropertiesService }
-    from '../user-default-properties/user-default-properties.service';
+import { UserDefaultPropertiesService } from '../user-default-properties/user-default-properties.service';
 
 import { FormsModule } from '@angular/forms';
-import { DepartmentProgramsConfigService
+import {
+    DepartmentProgramsConfigService
 } from '../etl-api/department-programs-config.service';
+import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+
 class DataStub {
 
     public postFeedback(payload): Observable<any> {
@@ -44,9 +40,9 @@ class UserDefaultPropertiesServiceStub {
 
 class FakeDepartmentProgramsConfigService {
 
-  getDartmentProgramsConfig(): Observable<any> {
-    return of({ status: 'okay' });
-  }
+    getDartmentProgramsConfig(): Observable<any> {
+        return of({ status: 'okay' });
+    }
 
 }
 
@@ -68,19 +64,11 @@ describe('FeedBackComponent', () => {
                         useClass: UserDefaultPropertiesServiceStub
                     },
                     {
-                      provide: DepartmentProgramsConfigService,
-                      useClass: FakeDepartmentProgramsConfigService
+                        provide: DepartmentProgramsConfigService,
+                        useClass: FakeDepartmentProgramsConfigService
                     },
-                      { provide: FeedBackService, useClass: DataStub },
-                    { provide: UserService, useClass: UserServiceStub },
-                    {
-                        provide: Http, useFactory: (backend, options) => {
-                            return new Http(backend, options);
-                        },
-                        deps: [MockBackend, BaseRequestOptions]
-                    },
-                    MockBackend,
-                    BaseRequestOptions
+                    { provide: FeedBackService, useClass: DataStub },
+                    { provide: UserService, useClass: UserServiceStub }
                 ]
             }
         }).compileComponents()

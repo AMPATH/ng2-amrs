@@ -10,7 +10,7 @@ export class FeedBackService {
     constructor(private http: HttpClient, private appSettingsService: AppSettingsService,
                 private userDefaultPropertiesService: UserDefaultPropertiesService) { }
     public postFeedback(payload) {
-        let url = this.appSettingsService.getEtlServer() +
+        const url = this.appSettingsService.getEtlServer() +
             '/user-feedback';
         return this.http.post(url, payload);
     }
