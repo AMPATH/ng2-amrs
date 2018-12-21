@@ -1,28 +1,16 @@
-import { MockBackend } from '@angular/http/testing';
-import { Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 import { TestBed, inject, async } from '@angular/core/testing';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { SpyLocation } from '@angular/common/testing';
+import { MatSnackBar } from '@angular/material';
 
 import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytics.service';
 import { FakeAppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytcis.mock';
-import { AppSettingsService } from '../app-settings/app-settings.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { PatientCreationComponent } from './patient-creation.component';
 import { PatientCreationService } from './patient-creation.service';
 import { Observable } from 'rxjs';
 import { BsModalService } from 'ngx-bootstrap/modal';
-import {
-  MatSnackBar
-
-} from '@angular/material';
-
-import { OVERLAY_PROVIDERS , ScrollStrategyOptions, ScrollDispatcher } from '@angular/cdk/overlay';
-
-import { Platform } from '@angular/cdk/platform';
-
-// import {  LiveAnnouncer } from '@angular/core';
 
 import {
   PatientCreationResourceService
@@ -39,9 +27,13 @@ import { PatientResourceService } from '../openmrs-api/patient-resource.service'
 import { UserService } from '../openmrs-api/user.service';
 import { SessionStorageService } from '../utils/session-storage.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
-import { CacheService } from 'ionic-cache';
+import { CacheModule } from 'ionic-cache/dist/cache.module';
 import { Storage } from '@ionic/storage';
 import { ModalModule } from 'ngx-bootstrap';
+import { AppSettingsModule } from '../app-settings/app-settings.module';
+import { ToastrModule} from 'ngx-toastr';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 
 describe('Component: Patient Creation Unit Tests', () => {
 
@@ -49,19 +41,13 @@ describe('Component: Patient Creation Unit Tests', () => {
   beforeEach( async(() => {
     TestBed.configureTestingModule({
       imports: [
-        ModalModule.forRoot()
+        ModalModule.forRoot(),
+        CacheModule.forRoot(),
+        ToastrModule.forRoot(),
+        HttpClientTestingModule
       ],
       providers: [
-        MockBackend,
-        BaseRequestOptions,
         FakeAppFeatureAnalytics,
-        {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
         {
           provide: AppFeatureAnalytics,
           useClass: FakeAppFeatureAnalytics
@@ -79,12 +65,7 @@ describe('Component: Patient Creation Unit Tests', () => {
         LocalStorageService,
         PatientCreationComponent,
         MatSnackBar,
-        BsModalService,
-        OVERLAY_PROVIDERS,
-        ScrollStrategyOptions,
-        ScrollDispatcher,
-        Platform,
-        // LiveAnnouncer,
+        BsModalService, 
         PatientCreationService,
         PatientCreationResourceService,
         PatientIdentifierTypeResService,
@@ -93,8 +74,7 @@ describe('Component: Patient Creation Unit Tests', () => {
         LocationResourceService,
         PatientResourceService,
         UserService,
-        DataCacheService,
-        CacheService
+        DataCacheService
       ]
     });
 
@@ -111,5 +91,19 @@ describe('Component: Patient Creation Unit Tests', () => {
     expect(component).toBeTruthy();
     done();
   });
+  it('form should be valid', () => {
+    expect(component.identifierValidity).toBeFalsy();
+  });
+  it('form should have an age less than 116 years ',()=>{
+    expect(component.birthError).toBeFalsy();
+  });
+ 
+ 
+ 
+  
+  
+
+
+  
 
 });
