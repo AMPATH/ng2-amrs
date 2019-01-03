@@ -11,30 +11,30 @@ export class MOHReportService {
     constructor() { }
 
     public generateMultiplePdfs(params: any, rows: Array<any>,
-                                sectionDefinitions: any): Observable<any> {
+        sectionDefinitions: any): Observable<any> {
 
         return Observable.create((observer: Subject<any>) => {
             if (Array.isArray(rows) && rows.length > 0) {
 
-                let pdfStructure = this.generatePdfReportObject(
+                const pdfStructure = this.generatePdfReportObject(
                     params[0], rows[0], sectionDefinitions);
                 for (let i = 1; i < rows.length; i++) {
-                    let doc = this.generatePdfReportObject(
+                    const doc = this.generatePdfReportObject(
                         params[i], rows[i], sectionDefinitions);
                     pdfStructure.content[pdfStructure.content.length - 1].pageBreak = 'after';
                     pdfStructure.content = pdfStructure.content.concat(doc.content);
                 }
 
                 // JSON stringify and parse was done to handle a potential bug in pdfMake
-                let p = JSON.stringify(pdfStructure);
-                let x = JSON.parse(p);
+                const p = JSON.stringify(pdfStructure);
+                const x = JSON.parse(p);
 
-                let pdfProxy = pdfMake.createPdf(x
+                const pdfProxy = pdfMake.createPdf(x
                 );
                 pdfProxy.getBase64((output) => {
-                    let int8Array: Uint8Array =
+                    const int8Array: Uint8Array =
                         this._base64ToUint8Array(output);
-                    let blob = new Blob([int8Array], {
+                    const blob = new Blob([int8Array], {
                         type: 'application/pdf'
                     });
                     observer.next({
@@ -55,20 +55,20 @@ export class MOHReportService {
 
         return Observable.create((observer: Subject<any>) => {
             if (rowData) {
-                let testP = [];
-                let pdfStructure = this.generatePdfReportObject(
+                const testP = [];
+                const pdfStructure = this.generatePdfReportObject(
                     params, rowData, sectionDefinitions);
 
                 // JSON stringify and parse was done to handle a potential bug in pdfMake
-                let p = JSON.stringify(pdfStructure);
-                let x = JSON.parse(p);
+                const p = JSON.stringify(pdfStructure);
+                const x = JSON.parse(p);
 
-                let pdfProxy = pdfMake.createPdf(x
+                const pdfProxy = pdfMake.createPdf(x
                 );
                 pdfProxy.getBase64((output) => {
-                    let int8Array: Uint8Array =
+                    const int8Array: Uint8Array =
                         this._base64ToUint8Array(output);
-                    let blob = new Blob([int8Array], {
+                    const blob = new Blob([int8Array], {
                         type: 'application/pdf'
                     });
                     observer.next({
@@ -87,14 +87,14 @@ export class MOHReportService {
 
     public generatePdfReportObject(params: any, rowData: any, pdfReportSections: any) {
 
-        let mainReportObject = this.generateReportHeaders(params);
+        const mainReportObject = this.generateReportHeaders(params);
         _.each(pdfReportSections, (section: any, sectionIndex) => {
-            let sectionIndicatorLabels = [];
-            let sectionIndicatorValues = [];
+            const sectionIndicatorLabels = [];
+            const sectionIndicatorValues = [];
             _.each(section.indicators, (sectionIndicator: any, index) => {
                 sectionIndicatorLabels.push([sectionIndicator.label]);
                 let indicatorValue = '-';
-                let indicatorDefinition = sectionIndicator.indicator;
+                const indicatorDefinition = sectionIndicator.indicator;
 
                 if (rowData[indicatorDefinition] || rowData[indicatorDefinition] === 0) {
                     indicatorValue = rowData[indicatorDefinition];
@@ -102,13 +102,13 @@ export class MOHReportService {
                 sectionIndicatorValues.push([sectionIndicator.ref, indicatorValue + '']);
             });
 
-            let sectionData = {
+            const sectionData = {
                 sectionHead: section.sectionTitle,
                 sectionLabels: sectionIndicatorLabels,
                 sectionDataValues: sectionIndicatorValues
             };
 
-            let reportSection = this.generateReportSection(sectionData);
+            const reportSection = this.generateReportSection(sectionData);
             mainReportObject.content.push(reportSection);
 
         });
@@ -116,8 +116,8 @@ export class MOHReportService {
     }
 
     private _base64ToUint8Array(base64: any): Uint8Array {
-        let raw = atob(base64);
-        let uint8Array = new Uint8Array(raw.length);
+        const raw = atob(base64);
+        const uint8Array = new Uint8Array(raw.length);
         for (let i = 0; i < raw.length; i++) {
             uint8Array[i] = raw.charCodeAt(i);
         }
@@ -125,9 +125,9 @@ export class MOHReportService {
     }
 
     private _getLogo(url: string, callback: any): void {
-        let image: any = new Image();
-        image.onload = function() {
-            let canvas: any = document.createElement('canvas');
+        const image: any = new Image();
+        image.onload = function () {
+            const canvas: any = document.createElement('canvas');
             canvas.width = this.naturalWidth; // or 'width' if you want a special/scaled size
             canvas.height = this.naturalHeight; // or 'height' if you want a special/scaled size
 

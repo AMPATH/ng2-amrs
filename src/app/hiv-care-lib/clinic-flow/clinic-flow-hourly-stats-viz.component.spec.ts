@@ -16,9 +16,8 @@ import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
 describe('ClinicFlowHourlyStatsVizComponent:', () => {
     let fixture: ComponentFixture<ClinicFlowHourlyStatsVizComponent>;
     let comp: ClinicFlowHourlyStatsVizComponent;
-    let el;
 
-    let testData: Array<any> = [
+    const testData: Array<any> = [
         {
             'time': '8',
             'triaged': 9,
@@ -123,7 +122,7 @@ describe('ClinicFlowHourlyStatsVizComponent:', () => {
             fixture.detectChanges();
             comp = fixture.componentInstance;
 
-            let generatedAxis: any = comp.generateXaxisHighChartObject(testData);
+            const generatedAxis: any = comp.generateXaxisHighChartObject(testData);
 
             expect(generatedAxis).toEqual(
                 {
@@ -148,9 +147,9 @@ describe('ClinicFlowHourlyStatsVizComponent:', () => {
         fixture.detectChanges();
         comp = fixture.componentInstance;
 
-        let generatedAxis: any = comp.generateXaxisHighChartObject(testData);
+        const generatedAxis: any = comp.generateXaxisHighChartObject(testData);
 
-        let generatedSeries: Array<any> =
+        const generatedSeries: Array<any> =
             comp.generateHighChartBarChartSeries(generatedAxis.categories, testData);
 
         expect(generatedSeries).toEqual(

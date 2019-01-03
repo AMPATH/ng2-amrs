@@ -27,7 +27,6 @@ class MockActivatedRoute {
 describe('PatientsRequiringVLBaseComponent:', () => {
     let fixture: ComponentFixture<PatientsRequiringVLBaseComponent>;
     let comp: PatientsRequiringVLBaseComponent;
-    let el;
     beforeEach(() => {
         TestBed.configureTestingModule({
             declarations: [
@@ -72,7 +71,7 @@ describe('PatientsRequiringVLBaseComponent:', () => {
 
     it('should generate patients requiring vl patient list using paramaters supplied',
         (done) => {
-            let fakeReply: any = {
+            const fakeReply: any = {
                 result: [
                    {
                     'person_id': 800302,
@@ -119,10 +118,10 @@ describe('PatientsRequiringVLBaseComponent:', () => {
             };
 
             comp = fixture.componentInstance;
-            let service = fixture.componentInstance.patientsRequiringVLResourceService;
-            let hivSpy = spyOn(service, 'getPatientList')
+            const service = fixture.componentInstance.patientsRequiringVLResourceService;
+            const hivSpy = spyOn(service, 'getPatientList')
                 .and.callFake((startDate, endDate, locationUuids) => {
-                    let subject = new Subject<any>();
+                    const subject = new Subject<any>();
 
                     // check for params conversion accuracy
                     expect(endDate).toEqual('2017-07-31T03:00:00+03:00');
@@ -163,10 +162,10 @@ describe('PatientsRequiringVLBaseComponent:', () => {
     it('should report errors when generating patients requiring vl patient list fails',
         (done) => {
             comp = fixture.componentInstance;
-            let service = fixture.componentInstance.patientsRequiringVLResourceService;
-            let hivSpy = spyOn(service, 'getPatientList')
+            const service = fixture.componentInstance.patientsRequiringVLResourceService;
+            const hivSpy = spyOn(service, 'getPatientList')
                 .and.callFake((startDate, endDate, locationUuids) => {
-                    let subject = new Subject<any>();
+                    const subject = new Subject<any>();
 
                     setTimeout(() => {
                         subject.error('some error');

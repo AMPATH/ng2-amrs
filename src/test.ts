@@ -15,7 +15,13 @@ getTestBed().initTestEnvironment(
   platformBrowserDynamicTesting()
 );
 // Then we find all the tests.
-const context = require.context('./', true, /app\/patient-dashboard\/common\/formentry\/form-submission\.service\.spec\.ts$/);
+const context = require
+.context('./', true, /app\/hiv-care-lib\/clinic-flow\/clinic-flow\.component\.spec\.ts$/);
 // const context = require.context('./', true, /\.spec\.ts$/);
 // And load the modules.
 context.keys().map(context);
+
+
+// clinic-flow-provider-stats 1
+// clinic-flow-summary 3
+// clinic-flow.component
