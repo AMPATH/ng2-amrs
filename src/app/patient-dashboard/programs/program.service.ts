@@ -1,30 +1,30 @@
 
-import {take, map} from 'rxjs/operators';
+import { take, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { ReplaySubject, Subject, Observable } from 'rxjs';
 import {
   ProgramEnrollmentResourceService
-} from
-  '../../openmrs-api/program-enrollment-resource.service';
+} from '../../openmrs-api/program-enrollment-resource.service';
 
 import {
   ProgramResourceService
-} from
-  '../../openmrs-api/program-resource.service';
+} from '../../openmrs-api/program-resource.service';
 import { Program } from '../../models/program.model';
 import { ProgramEnrollment } from '../../models/program-enrollment.model';
 import * as _ from 'lodash';
-import { ProgramWorkFlowStateResourceService
+import {
+  ProgramWorkFlowStateResourceService
 } from '../../openmrs-api/program-workflow-state-resource.service';
-import { ProgramWorkFlowResourceService
+import {
+  ProgramWorkFlowResourceService
 } from '../../openmrs-api/program-workflow-resource.service';
 import { first } from 'rxjs/operators';
 @Injectable()
 export class ProgramService {
   constructor(private programEnrollmentResourceService: ProgramEnrollmentResourceService,
-              private programWorkFlowResourceService: ProgramWorkFlowResourceService,
-              private programWorkFlowStateResourceService: ProgramWorkFlowStateResourceService,
-              private programResourceService: ProgramResourceService) { }
+    private programWorkFlowResourceService: ProgramWorkFlowResourceService,
+    private programWorkFlowStateResourceService: ProgramWorkFlowStateResourceService,
+    private programResourceService: ProgramResourceService) { }
 
   public getPatientEnrolledProgramsByUuid(uuid): Observable<ProgramEnrollment[]> {
     const patientsObservable = this.programEnrollmentResourceService.getProgramEnrollmentByPatientUuid(uuid);
@@ -44,7 +44,7 @@ export class ProgramService {
             return [];
           }
         })
-      )
+      );
     }
   }
 
@@ -71,8 +71,8 @@ export class ProgramService {
   }
 
   public createEnrollmentPayload(program, patient, dateEnrolled, dateCompleted,
-                                 locationUuid, enrollmentUuid): any {
-    let payLoad = {
+    locationUuid, enrollmentUuid): any {
+    const payLoad = {
       patient: patient.person.uuid,
       program: program,
       dateEnrolled: dateEnrolled,
@@ -126,8 +126,8 @@ export class ProgramService {
   }
 
   public getSelectedProgram(programs, programUuid) {
-    let uuid = programUuid.split(':')[1].trim();
-    let filtered = _.filter(programs, (p: any) => {
+    const uuid = programUuid.split(':')[1].trim();
+    const filtered = _.filter(programs, (p: any) => {
       if (p.uuid === uuid) {
         return true;
       } else {
