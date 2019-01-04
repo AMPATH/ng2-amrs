@@ -66,6 +66,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public page: number = 1;
   public idKey;
   public selectId;
+  public today = new Date();
 
   public patientPhoneNumber: number;
   public alternativePhoneNumber: number;
@@ -245,7 +246,8 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   }
 
   public getAge(dateString) {
-    let today = new Date();
+    console.log('datestring', dateString);
+    let today = this.today;
     let birthDate = new Date(dateString);
     let age = today.getFullYear() - birthDate.getFullYear();
     let m = today.getMonth() - birthDate.getMonth();
@@ -300,6 +302,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   }
 
   public setIdentifierType(identifierType) {
+    console.log('identifierType', identifierType)
     this.patientIdentifierType = identifierType;
     this.commonIdentifier = '';
     this.identifierValidity = '';
@@ -309,6 +312,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
 
   public setPreferred(identifier) {
     this.preferredIdentifier = identifier;
+    console.log('prefered identifier', identifier)
   }
 
   public setIdentifierLocation(location) {

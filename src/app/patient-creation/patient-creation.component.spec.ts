@@ -94,9 +94,41 @@ describe('Component: Patient Creation Unit Tests', () => {
   it('form should be valid', () => {
     expect(component.identifierValidity).toBeFalsy();
   });
-  it('form should have an age less than 116 years ',()=>{
+  it('form should be filled with age less than 116 years ',()=>{
     expect(component.birthError).toBeFalsy();
   });
+  // it('should return the correct age ',()=>{
+  //   const dateString = "2010-08-28T11:43:41+03:00";
+  //   component.today = new Date(2019,08,28); 
+  //   const age = component.getAge(dateString);
+  //   expect(age).toBe(9);
+  // });
+
+  it('should set the correct identifier type ',()=>{
+    const mockIdentifierType = {
+      'label': 'MTCT Plus ID',
+       'val': '58a46d20-1359-11df-a1f1-0026b9348838'
+    };
+    component.setIdentifierType(mockIdentifierType);
+    const identifierType =  component.patientIdentifierType;
+    expect(JSON.stringify(identifierType)).toBe(JSON.stringify(mockIdentifierType));
+     });
+     it('should set the preffered identifier ',()=>{
+      const mockPreferedIdentifierType = {
+        'identifier': '7364732',
+​        'identifierType': '58a48706-1359-11df-a1f1-0026b9348838',
+        'identifierTypeName': 'MTRH CARE Number'
+       
+      };
+      component.setPreferred(mockPreferedIdentifierType);
+      const preferedidentifierType =  component.preferredIdentifier ;
+      expect(JSON.stringify(preferedidentifierType)).toBe(JSON.stringify(mockPreferedIdentifierType ));
+       });
+       it('should filter patients ',()=>{
+       
+        
+       });
+    
  
  
  
