@@ -1,4 +1,5 @@
-
+/* tslint:disable:no-inferrable-types */
+/* tslint:disable:no-output-on-prefix */
 import {take} from 'rxjs/operators/take';
 import {
   Component, OnInit, ViewEncapsulation,
@@ -62,7 +63,7 @@ export class UserSearchComponent implements OnInit, OnDestroy {
           (data) => {
             if (data.length > 0) {
               this.users = [];
-              for (let user of data ) {
+              for (const user of data ) {
                 this.users.push({label: user.person.display, value: user.uuid,
                   username: user.username});
               }
