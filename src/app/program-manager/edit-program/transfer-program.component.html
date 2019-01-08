@@ -34,8 +34,8 @@
   <button type="button" class="btn btn-danger pull-left"
           (click)="goBack()">Back
   </button>
-  <button class="btn btn-primary pull-right"
-          (click)="showExitForms()">Transfer Out of AMPATH
+  <button *ngIf="!showForms" class="btn btn-primary pull-right"
+          (click)="showExitForms()">Confirm Transfer Out
   </button>
   <span class="clear">&nbsp;</span>
 </div>
