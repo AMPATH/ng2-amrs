@@ -12,6 +12,7 @@ import { MockBackend } from '@angular/http/testing';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import * as Moment from 'moment';
 import { CookieModule } from 'ngx-cookie';
+import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
 
 class MockRouter {
   navigate = jasmine.createSpy('navigate');
@@ -66,21 +67,22 @@ let motdNotifications = [
 ];
 
 
-describe('Component : MOTD Notification', () => {
+fdescribe('Component : MOTD Notification', () => {
 
   let comp: MOTDNotificationComponent;
   let fixture: ComponentFixture<MOTDNotificationComponent>;
   let de: DebugElement;
   let el: HTMLElement;
   let nativeElement: any;
+  let httpMock : HttpTestingController;
 
   // async beforeEach
   beforeEach(async(() => {
 
-
     TestBed.configureTestingModule({
       imports: [
         CookieModule.forRoot(),
+        HttpClientTestingModule,
       ],
       declarations: [MOTDNotificationComponent], // declare the test component
       providers: [
@@ -93,6 +95,7 @@ describe('Component : MOTD Notification', () => {
         AppSettingsService,
         MockRouter,
         MockActivatedRoute,
+         HttpClientTestingModule,
         {
           provide: Http,
           useFactory: (backendInstance: MockBackend,
@@ -117,7 +120,7 @@ describe('Component : MOTD Notification', () => {
     fixture = TestBed.createComponent(MOTDNotificationComponent);
     comp = fixture.componentInstance;
     nativeElement = fixture.nativeElement;
-    let spy = spyOn(comp, 'getMotdNotifications');
+
 
     // Service from the root injector
     let cookieService = fixture.debugElement.injector.get(CookieService);
@@ -129,13 +132,24 @@ describe('Component : MOTD Notification', () => {
 
   afterAll(() => {
     TestBed.resetTestingModule();
+    httpMock.verify();
   });
 
-  it('Should be create an instance of the component', async(() => {
-    expect(comp).toBeDefined();
+  fit('Should be create an instance of the component', async(() => {
+     expect(comp).toBeDefined();
   }));
 
+  fit('Should call the get notification method ', async(() => {
+        let spy = spyOn(comp, 'getMotdNotifications');
+        fixture.detectChanges();
+        expect(comp.getMotdNotifications) .toHaveBeenCalled();
+  }));
+  fit('Should dismiss notifications ', async(() => {
+        let spy = spyOn(comp, 'dissmissNotification');
+        fixture.detectChanges();
+        expect(comp.displayNotifications.length).toEqual(0);
+  }));
+
+
+
 });
-
-
-
