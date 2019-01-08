@@ -31,4 +31,4 @@ import { CookieService } from 'ngx-cookie';
     CUSTOM_ELEMENTS_SCHEMA
   ]
 })
-export class AppSettingsModule {}
+export class AppSettingsModule { }

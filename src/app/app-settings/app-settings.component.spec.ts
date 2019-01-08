@@ -9,15 +9,14 @@ import { AppSettingsComponent } from './app-settings.component';
 import { AppSettingsService } from './app-settings.service';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { Http, BaseRequestOptions } from '@angular/http';
-import { MockBackend } from '@angular/http/testing';
-
 import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { AuthenticationService } from '../openmrs-api/authentication.service';
 import { SessionService } from '../openmrs-api/session.service';
 import { CookieModule } from 'ngx-cookie';
 import { CookieService } from 'ngx-cookie';
+import { HttpClient, HttpHandler } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('AppSettingsComponent Tests', () => {
   let comp: AppSettingsComponent;
@@ -26,20 +25,18 @@ describe('AppSettingsComponent Tests', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [FormsModule, ModalModule.forRoot(), UtilsModule,
-        RouterTestingModule, CookieModule.forRoot()],
+      imports: [
+        FormsModule,
+        HttpClientTestingModule,
+        ModalModule.forRoot(),
+        UtilsModule,
+        RouterTestingModule,
+        CookieModule.forRoot()],
       declarations: [AppSettingsComponent],
       providers: [
-        MockBackend,
-        BaseRequestOptions,
         { provide: APP_BASE_HREF, useValue: '/' },
-        {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
+        HttpClient,
+        HttpHandler,
         AppSettingsService,
         AuthenticationService,
         SessionService,
@@ -70,13 +67,13 @@ describe('AppSettingsComponent Tests', () => {
 
   it('Should display default ETL server url', () => {
     fixture.autoDetectChanges();
-    let formElements = fixture.debugElement.queryAll(By.css('div .form-group'));
+    const formElements = fixture.debugElement.queryAll(By.css('div .form-group'));
     expect(formElements[1].nativeElement.textContent).toContain(comp.etlServerUrls[0]);
   });
 
   it('Should display the Debug Mode Option', () => {
     fixture.autoDetectChanges();
-    let debugEl = fixture.debugElement.queryAll(By.css('#debugMode'));
+    const debugEl = fixture.debugElement.queryAll(By.css('#debugMode'));
     expect(debugEl.length).toEqual(1);
   });
 
