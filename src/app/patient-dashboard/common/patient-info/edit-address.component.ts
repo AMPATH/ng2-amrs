@@ -1,8 +1,4 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-
-import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
-import { ModalDirective } from 'ngx-bootstrap/modal';
-
 import { PatientService } from '../../services/patient.service';
 import { Patient } from '../../../models/patient.model';
 import { PersonResourceService } from '../../../openmrs-api/person-resource.service';
@@ -14,10 +10,7 @@ import { Subscription } from 'rxjs';
   styleUrls: [],
 })
 export class EditAddressComponent implements OnInit, OnDestroy {
-  @ViewChild('staticModal')
-  public staticModal: ModalDirective;
-  @ViewChild('modal')
-  public modal: ModalComponent;
+
   public patients: Patient = new Patient({});
   public subscription: Subscription;
   public display: boolean = false;
@@ -36,7 +29,7 @@ export class EditAddressComponent implements OnInit, OnDestroy {
   public successAlert: string = '';
 
   constructor(private patientService: PatientService,
-              private personResourceService: PersonResourceService) { }
+    private personResourceService: PersonResourceService) { }
   public ngOnInit(): void {
     this.getPatient();
   }
@@ -68,10 +61,10 @@ export class EditAddressComponent implements OnInit, OnDestroy {
   }
 
   public showDialog() {
-    this.staticModal.show();
+    this.display = true;
   }
   public dismissDialog() {
-    this.staticModal.hide();
+    this.display = false;
   }
   public updatePersonAddress() {
     let person = {
