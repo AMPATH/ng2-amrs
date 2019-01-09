@@ -26,6 +26,16 @@
         },
         {
             "type": "simple_column",
+            "alias": "birthdate",
+            "column": "hmsd.birthdate"
+        },
+        {
+            "type": "simple_column",
+            "alias": "age",
+            "column": "hmsd.age"
+        },
+        {
+            "type": "simple_column",
             "alias": "person_id",
             "column": "hmsd.person_id"
         },

@@ -25,6 +25,21 @@
             "column": "fhs.person_id"
         },
         {
+            "type": "simple_column",
+            "alias": "gender",
+            "column": "fhs.gender"
+        },
+        {
+            "type": "simple_column",
+            "alias": "birthdate",
+            "column": "fhs.birthdate"
+        },
+        {
+            "type": "simple_column",
+            "alias": "age",
+            "column": "fhs.age"
+        },
+        {
             "type": "derived_column",
             "alias": "active_in_care",
             "expressionType": "simple_expression",

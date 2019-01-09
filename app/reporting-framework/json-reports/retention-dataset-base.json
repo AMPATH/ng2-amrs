@@ -40,6 +40,21 @@
             "column": "hmsd.person_id"
         },
         {
+            "type": "simple_column",
+            "alias": "gender",
+            "column": "hmsd.gender"
+        },
+        {
+            "type": "simple_column",
+            "alias": "birthdate",
+            "column": "hmsd.birthdate"
+        },
+        {
+            "type": "simple_column",
+            "alias": "age",
+            "column": "hmsd.age"
+        },
+        {
             "type": "derived_column",
             "alias": "enrollment_date",
             "expressionType": "simple_expression",
