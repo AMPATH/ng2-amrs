@@ -35,6 +35,21 @@
             "column": "fhs.person_id"
         },
         {
+            "type": "simple_column",
+            "alias": "birthdate",
+            "column": "fhs.birthdate"
+        },
+        {
+            "type": "simple_column",
+            "alias": "age",
+            "column": "fhs.age"
+        },
+        {
+            "type": "simple_column",
+            "alias": "gender",
+            "column": "fhs.gender"
+        },
+        {
             "type": "derived_column",
             "alias": "currently_in_care_total",
             "expressionType": "simple_expression",

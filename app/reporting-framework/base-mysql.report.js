@@ -27,6 +27,7 @@ import * as retention_dataset_base from './json-reports/retention-dataset-base.j
 import * as pep_dataset_aggregate from './json-reports/pep-dataset-aggregate.json';
 import * as pep_dataset_base from './json-reports/pep-dataset-base.json';
 import * as patient_list_template from './json-reports/patient-list-template.json';
+import * as patient_list_frozen_template from './json-reports/patient-list-frozen-template.json';
 import * as ever_on_art_aggregate from './json-reports/ever-on-art-aggregate.json';
 import * as ever_on_art_disaggregation from './json-reports/ever-on-art-disaggregation.json';
 import * as ever_on_art_base from './json-reports/ever-on-art-base.json';
@@ -159,7 +160,12 @@ export class BaseMysqlReport {
                     break;
                 case 'patient-list-template':
                     resolve({
-                        main: patient_list_template
+                        main: patient_list_template //patient_list_frozen_template
+                    });
+                    break;
+                case 'patient-list-frozen-template':
+                    resolve({
+                        main: patient_list_frozen_template //patient_list_frozen_template
                     });
                     break;
                 case 'patient-list-with-contacts-template':
