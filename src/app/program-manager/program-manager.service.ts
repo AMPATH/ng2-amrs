@@ -51,7 +51,7 @@ export class ProgramManagerService {
     _.each(programs, (program: any) => {
       let location = program.enrolledProgram._openmrsModel.location.uuid;
       let unenrollPayload = this.programService.createEnrollmentPayload(
-        program.programUuid, patient, this.toOpenmrsDateFormat(program.dateCompleted),
+        program.programUuid, patient, this.toOpenmrsDateFormat(program.dateEnrolled || program.enrolledProgram.dateEnrolled),
         this.toOpenmrsDateFormat(program.dateCompleted), location ,
         program.enrolledProgram._openmrsModel.uuid);
       // if intra-ampath, unenroll and enroll in the new location
