@@ -166,7 +166,6 @@ export class FormentryComponent implements OnInit, OnDestroy {
   }
 
   public wireDataSources() {
-    console.log('Wiring Data Souces');
     this.dataSources.registerDataSource('location',
       this.formDataSourceService.getDataSources()['location']);
     this.dataSources.registerDataSource('provider',
@@ -391,12 +390,25 @@ export class FormentryComponent implements OnInit, OnDestroy {
   public handleProgramManagerRedirects(data: any): void {
     // check if patient status was filled
     const patientCareStatus = this.getPatientStatusQuestion();
+    let step = [];
     if (this.shouldRedirectToProgramManager(patientCareStatus)) {
       this.preserveFormAsDraft = false;
+      const queryParams = {
+        'notice': 'outreach'
+      };
+      // MCH/PMTCT
+      if (_.first(patientCareStatus).control.value === 'a8a17d80-1350-11df-a1f1-0026b9348838') {
+        // PMTCT Uuid
+        _.merge(queryParams, {
+          program: '781d897a-1359-11df-a1f1-0026b9348838',
+          notice: 'pmtct'
+        });
+        step = ['step', 3];
+      }
       this.saveTransferLocationIfSpecified();
-      this.router.navigate(['/patient-dashboard/patient/' +
-      this.patient.uuid + '/general/general/program-manager/edit-program'], {
-        queryParams: {'notice': 'outreach'}
+      this.router.navigate(_.concat(['/patient-dashboard/patient/' +
+      this.patient.uuid + '/general/general/program-manager/edit-program'], step), {
+        queryParams: queryParams
       });
     }
   }
@@ -417,7 +429,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
     if (answer.length > 0) {
       return _.includes([
         'a89c2f42-1350-11df-a1f1-0026b9348838', // AMPATH
-        'a89c301e-1350-11df-a1f1-0026b9348838' // Non-AMPATH
+        'a89c301e-1350-11df-a1f1-0026b9348838', // Non-AMPATH
+        'a8a17d80-1350-11df-a1f1-0026b9348838' // MCH/PMTCT
       ], _.first(answer).control.value);
     }
     return false;
@@ -425,23 +438,23 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
   private getPatientStatusQuestion() {
     // (questionId is patstat in Outreach Field Follow-Up Form V1.0)
-    // (questionId is careStatus in Transfer Out Form v0.01
+    // (questionId is careStatus in Transfer Out Form v0.01 and other forms
     let patientCareStatus = this.form.searchNodeByQuestionId('patstat');
-    if (patientCareStatus.length == 0) {
+    if (patientCareStatus.length === 0) {
       patientCareStatus = this.form.searchNodeByQuestionId('careStatus');
     }
     return patientCareStatus;
   }
 
   private saveTransferLocationIfSpecified() {
-    let transferLocation = this.form.searchNodeByQuestionId('transfered_out_to_ampath');
+    const transferLocation = this.form.searchNodeByQuestionId('transfered_out_to_ampath');
     if (transferLocation.length > 0) {
       localStorage.setItem('transferLocation', _.first(transferLocation).control.value);
     }
   }
 
   private searchReferralConcepts(concepts) {
-    let searchBatch: Array<Observable<any>> = [];
+    const searchBatch: Array<Observable<any>> = [];
     _.each(concepts, (concept: any) => {
       searchBatch.push(this.conceptResourceService.getConceptByUuid(concept));
     });

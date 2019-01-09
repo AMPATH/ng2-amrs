@@ -26,7 +26,6 @@ import { RoutesProviderService } from '../../shared/dynamic-route/route-config-p
 })
 export class NewProgramComponent extends ProgramManagerBaseComponent implements OnInit {
   public newlyEnrolledGroup: any;
-  public incompatibleProgrames: any[] = [];
   public unenrolledProgrames: any[] = [];
   public unenrollmentForms: string[] = [];
   public today: Date = new Date();
@@ -476,9 +475,6 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
       this.filterStateChangeEncounterTypes();
       this.serializeStepInfo();
       this.unenrollExpressely = true;
-      /*if (this.currentStep < 3) {
-        this.currentStep++;
-      }*/
     } else {
       this.skipIncompatibilityStep();
     }
@@ -488,47 +484,6 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
     this.currentStep = this.currentStep + 2;
     this.jumpStep = this.currentStep;
     this.title = 'Start';
-  }
-
-  private isIncompatibleChoice() {
-    this.incompatibleCount = 0;
-    this.incompatibleMessage = [];
-    const patientPrograms = this.enrolledProgrames;
-    // get programs patient has enrolled in
-    let incompatibleList: Array<any> = [];
-    const enrolledList: Array<any> = _.map(patientPrograms, (program: any) => {
-      return {
-        uuid: program.programUuid,
-        enrolledDate: program.dateEnrolled,
-        enrollmentUuid: program.enrolledProgram._openmrsModel.uuid,
-        name: program.enrolledProgram._openmrsModel.display
-      };
-    });
-    /* for the selected program.Check if it has compatibilty
-       issues with any of the enrolled programs
-    */
-    if (this.programVisitConfig && this.programVisitConfig.incompatibleWith) {
-      incompatibleList = this.programVisitConfig.incompatibleWith;
-    }
-    /* With the list of incompatible programs for selected
-       program and enrolled programs we can check if there is a match
-       i.e an enrolled program should not be in an incompatibility list
-       for the selected program
-    */
-    if (this.incompatibleProgrames.length > 0) {
-      this.programIncompatible = true;
-      this.incompatibleCount = this.incompatibleProgrames.length;
-    } else {
-      _.each(enrolledList, (enrolled) => {
-        if (_.includes(incompatibleList, enrolled.uuid)) {
-          this.programIncompatible = true;
-          this.incompatibleProgrames.push(enrolled);
-          this.incompatibleCount++;
-        }
-      });
-    }
-
-    return this.incompatibleCount > 0;
   }
 
   private checkIfEnrollmentIsAllowed(): void {
