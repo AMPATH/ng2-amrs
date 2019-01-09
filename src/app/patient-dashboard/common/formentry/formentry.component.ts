@@ -77,6 +77,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
   private encounterUuid: string = null;
   private encounter: any = null;
   private visitUuid: string = null;
+  private visitTypeUuid: string = null;
   private failedPayloadTypes: Array<string> = null;
   private compiledSchemaWithEncounter: any = null;
   private submitDuplicate: boolean = false;
@@ -117,6 +118,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     // get visitUuid & encounterUuid then load form
     this.route.queryParams.subscribe((params) => {
       componentRef.visitUuid = params['visitUuid'];
+      componentRef.visitTypeUuid = params['visitTypeUuid'];
       componentRef.encounterUuid = params['encounter'];
       componentRef.programEncounter = params['programEncounter'];
       componentRef.step = params['step'] ? parseInt(params['step'], 10) :  null;
@@ -177,6 +179,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
       this.formDataSourceService.getDataSources()['location']);
     this.dataSources.registerDataSource('conceptAnswers',
       this.formDataSourceService.getDataSources()['conceptAnswers']);
+    this.dataSources.registerDataSource('patient',
+      this.formDataSourceService.getDataSources()['visitTypeUuid']);
   }
 
   public onSubmit(): void {
@@ -561,6 +565,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
         this.formDataSourceService.getPatientObject(this.patient), true);
       this.dataSources.registerDataSource('monthlyScheduleResourceService',
         this.monthlyScheduleResourceService);
+      this.dataSources.registerDataSource('patient',
+          {visitTypeUuid: this.visitTypeUuid  }, true);
       this.dataSources.registerDataSource('userLocation',
         this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject());
       this.dataSources.registerDataSource('file', {
@@ -573,6 +579,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
       // for the case of hiv, set-up the hiv summary
       this.setUpHivSummaryDataObject();
+
 
       if (this.encounter) { // editing existing form
         this.form = this.formFactory.createForm(schema, this.dataSources.dataSources);
@@ -588,6 +595,12 @@ export class FormentryComponent implements OnInit, OnDestroy {
         // add visit uuid if present
         if (this.visitUuid && this.visitUuid !== '') {
           this.form.valueProcessingInfo.visitUuid = this.visitUuid;
+        }
+        // add visit type if present
+        if (this.visitTypeUuid && this.visitTypeUuid !== '') {
+          this.dataSources.registerDataSource('patient',
+          {visitTypeUuid: this.visitTypeUuid  }, true);
+          this.form.valueProcessingInfo.visitTypeUuid = this.visitTypeUuid;
         }
         // now set default value
         this.loadDefaultValues();
