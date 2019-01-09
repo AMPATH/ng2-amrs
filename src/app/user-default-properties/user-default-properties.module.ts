@@ -10,7 +10,8 @@ import { NgBusyModule, BusyConfig } from 'ng-busy';
 import { UserDefaultPropertiesComponent } from './user-default-properties.component';
 import { UserDefaultPropertiesService } from './user-default-properties.service';
 import { DepartmentProgramsConfigService } from './../etl-api/department-programs-config.service';
-import { RetrospectiveDataEntryModule
+import {
+  RetrospectiveDataEntryModule
 } from '../retrospective-data-entry/retrospective-data-entry.module';
 
 @NgModule({
@@ -36,4 +37,4 @@ import { RetrospectiveDataEntryModule
     CUSTOM_ELEMENTS_SCHEMA
   ]
 })
-export class UserDefaultPropertiesModule {}
+export class UserDefaultPropertiesModule { }

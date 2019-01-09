@@ -19,16 +19,16 @@ import * as _ from 'lodash';
 })
 export class UserDefaultPropertiesComponent implements OnInit {
 
-  public isBusy: boolean = false;
-  public query: string = '';
+  public isBusy = false;
+  public query = '';
   public user: User;
   public filteredList: Array<any> = [];
   public departments = [];
-  public selectedDepartment: string = '';
-  public selectedIdx: number = -1;
+  public selectedDepartment = '';
+  public selectedIdx = -1;
   public location: any;
-  public confirming: boolean = false;
-  public isLoading: boolean = false;
+  public confirming = false;
+  public isLoading = false;
   public locations: Array<any> = [];
   public currentLocation: any;
   public disable = false;
@@ -72,7 +72,7 @@ export class UserDefaultPropertiesComponent implements OnInit {
       this.isBusy = false;
     });
 
-    let department = JSON.parse(this.localStorageService.getItem('userDefaultDepartment'));
+    const department = JSON.parse(this.localStorageService.getItem('userDefaultDepartment'));
     if (department !== null) {
       this.selectedDepartment = department[0].itemName;
     } else {
@@ -102,7 +102,7 @@ export class UserDefaultPropertiesComponent implements OnInit {
         if (results) {
           _.each(results, (department, key) => {
             if (key !== 'uud4') {
-              let dept = {
+              const dept = {
                 'itemName': department.name,
                 'id': key
               };
@@ -117,18 +117,18 @@ export class UserDefaultPropertiesComponent implements OnInit {
   }
 
   public selectDepartment(event) {
-    let deptObject = _.find(this.departments, (el) => {
+    const deptObject = _.find(this.departments, (el) => {
       return el.itemName === event;
     });
 
-    let department = [deptObject];
+    const department = [deptObject];
     this.selectedDepartment = event;
     this.localStorageService.setItem('userDefaultDepartment', JSON.stringify(department));
   }
 
   public select(item) {
     this.disable = false;
-    let location = JSON.stringify({ uuid: item.value, display: item.label });
+    const location = JSON.stringify({ uuid: item.value, display: item.label });
     this.propertyLocationService.setUserProperty('userDefaultLocation', location);
     this.propertyLocationService.setUserProperty('retroLocation', JSON.stringify(item));
   }
