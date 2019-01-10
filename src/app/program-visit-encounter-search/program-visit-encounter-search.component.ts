@@ -4,17 +4,13 @@ import {take} from 'rxjs/operators';
 import {
   Component,
   OnInit , OnDestroy , AfterViewInit,
-  Output , EventEmitter, Input , ChangeDetectorRef,
-  ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { Router, ActivatedRoute, ActivatedRouteSnapshot, Params } from '@angular/router';
+  Output , EventEmitter, Input } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
 import { PatientProgramResourceService } from './../etl-api/patient-program-resource.service';
-import { LocalStorageService } from '../utils/local-storage.service';
 import { DepartmentProgramsConfigService } from './../etl-api/department-programs-config.service';
 import { SelectDepartmentService } from './program-visit-encounter-search.service';
-import { ItemsList } from '@ng-select/ng-select/ng-select/items-list';
 
 @Component({
   selector: 'program-visit-encounter-search',
@@ -78,7 +74,6 @@ export class ProgramVisitEncounterSearchComponent implements OnInit, OnDestroy ,
     @Input() public dateControl: boolean;
 
     constructor(
-      private cd: ChangeDetectorRef,
       private router: Router,
       private route: ActivatedRoute,
       private _patientProgramService: PatientProgramResourceService,
@@ -179,9 +174,6 @@ export class ProgramVisitEncounterSearchComponent implements OnInit, OnDestroy ,
           const selectedEncounterType =
           this.loadFilterFromMap(params.encounterType, this.encounterMaps);
           this.encounterType = selectedEncounterType;
-      }
-      if (params.startDate) {
-          newParams.startDate = params.startDate;
       }
       if (params.startDate) {
           newParams.startDate = params.startDate;

@@ -1,18 +1,14 @@
-
-import {take} from 'rxjs/operators';
-import { Component, OnInit , OnDestroy , AfterViewInit, OnChanges , Output ,
-  EventEmitter, Input , ChangeDetectorRef, ViewChild , SimpleChanges } from '@angular/core';
-import { Subject ,  Observable } from 'rxjs';
-import { ActivatedRoute, Router, Params } from '@angular/router';
+import { take } from 'rxjs/operators';
+import { Component, OnInit , OnDestroy , AfterViewInit , Output ,
+  EventEmitter, ChangeDetectorRef } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
-import { LocationResourceService } from
-'../../openmrs-api/location-resource.service';
+import { LocationResourceService } from '../../openmrs-api/location-resource.service';
 import { ProviderResourceService } from '../../openmrs-api/provider-resource.service';
 import { UserService } from '../../openmrs-api/user.service';
 import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
-import { DataEntryStatisticsService } from
-'../../etl-api/data-entry-statistics-resource.service';
+import { DataEntryStatisticsService } from '../../etl-api/data-entry-statistics-resource.service';
 
 @Component({
   selector: 'data-entry-statistics-filters',
@@ -25,7 +21,7 @@ export class DataEntryStatisticsFiltersComponent
   @Output() public filterParams: any = new EventEmitter<string>();
   @Output() public viewSelected: any = new EventEmitter<string>();
   @Output() public filterReset: any = new EventEmitter<boolean>();
-  public sendRequest: boolean = true;
+  public sendRequest = true;
   public today: any = Moment().format();
   public params: any  = [];
   public gridOptions: any = {
@@ -38,10 +34,10 @@ export class DataEntryStatisticsFiltersComponent
   };
   public views: any = [];
   public view: any = [];
-  public showFilters: boolean = true;
+  public showFilters = true;
   public locations: any  = [];
   public location: any = [];
-  public filtersCount: number = 0;
+  public filtersCount = 0;
   public locationMap = new Map();
   public creators: any [];
   public creator: any = [];
@@ -49,14 +45,14 @@ export class DataEntryStatisticsFiltersComponent
   public encounterTypes: any = [];
   public encounterMap = new Map();
   public providers: any  = [];
-  public provider: string = '';
+  public provider = '';
   public selectedStartDate: any = Moment().format();
   public selectedEndDate: any =  Moment(this.selectedStartDate).add(6, 'days' ).format();
-  public subType: string = '';
+  public subType = '';
   public groupBy: any = ['groupByLocationId', 'groupByDate', 'groupByEncounterTypeId'];
   public selectedLocation: any = [];
   public selectedCreatorUuid: any = [];
-  public selectedProviderUuid: string = '';
+  public selectedProviderUuid = '';
   public selectedEncounterTypes: any = [];
   public selectedView = {
     encounterTypePerDay: false,
@@ -64,7 +60,7 @@ export class DataEntryStatisticsFiltersComponent
     encounterTypePerProvider: false,
     encounterTypePerCreator: false
   };
-  public selectedViewType: string = '';
+  public selectedViewType = '';
   public viewMap = new Map();
   public locationDropdownSettings: any = {
     'singleSelection': false,
@@ -114,7 +110,7 @@ export class DataEntryStatisticsFiltersComponent
   public dataEntryCreatorColdef: any = [];
   public creatorStats: any = [];
   public creatorRowData: any[];
-  public filterCount: number  = 0;
+  public filterCount = 0;
 
   constructor(
     private _cd: ChangeDetectorRef,
@@ -161,7 +157,7 @@ export class DataEntryStatisticsFiltersComponent
 
     if (params.startDate && params.view) {
 
-              let newParams: any = {
+              const newParams: any = {
                 'view': '',
                 'locationUuids': [],
                 'startDate': '',
@@ -173,14 +169,14 @@ export class DataEntryStatisticsFiltersComponent
 
               if (params.view) {
                     this.view = [];
-                    let views = this.loadFilterFromMap(params.view, this.viewMap);
+                    const views = this.loadFilterFromMap(params.view, this.viewMap);
                     this.view = views;
                     newParams.view = params.view;
                     this.toggleSelectedView(params.view);
               }
               if (params.locationUuids) {
                   this.location = [];
-                  let locations = this.loadFilterFromMap(params.locationUuids, this.locationMap);
+                  const locations = this.loadFilterFromMap(params.locationUuids, this.locationMap);
                   this.location = locations;
                   newParams.locationUuids = params.locationUuids;
               }
@@ -194,7 +190,7 @@ export class DataEntryStatisticsFiltersComponent
               }
               if (params.encounterTypeUuids) {
                   this.encounterType = [];
-                  let encounterTypes =
+                  const encounterTypes =
                   this.loadFilterFromMap(params.encounterTypeUuids, this.encounterMap);
                   this.encounterType = encounterTypes;
                   newParams.encounterTypeUuids = params.encounterTypeUuids;
@@ -235,15 +231,15 @@ export class DataEntryStatisticsFiltersComponent
   }
 
   public loadFilterFromMap(values: any , map) {
-    let filterArray = [];
+    const filterArray = [];
 
     if (this.isString(values)) {
-      let selectedType = map.get(values);
+      const selectedType = map.get(values);
       filterArray.push(selectedType);
 
-      }else {
-        for (let value of values){
-          let selectedType = map.get(value);
+      } else {
+        for (const value of values) {
+          const selectedType = map.get(value);
           filterArray.push(selectedType);
         }
 
@@ -265,15 +261,15 @@ export class DataEntryStatisticsFiltersComponent
 
   public loadCreator(creatorUuids) {
 
-    let isString = this.isString(creatorUuids);
-    let creatorArray = [];
+    const isString = this.isString(creatorUuids);
+    const creatorArray = [];
 
     if (!isString) {
 
       _.each(creatorUuids, (creatorUuid) => {
          this._userService.getUserByUuid(creatorUuid).pipe(
          take(1)).subscribe((result) => {
-            let specificCreator = {
+            const specificCreator = {
                'id': result.uuid,
                'itemName': result.person.display
             };
@@ -286,7 +282,7 @@ export class DataEntryStatisticsFiltersComponent
 
       this._userService.getUserByUuid(creatorUuids).pipe(
          take(1)).subscribe((result) => {
-            let specificCreator = {
+            const specificCreator = {
                'id': result.uuid,
                'itemName': result.person.display
             };
@@ -306,7 +302,7 @@ export class DataEntryStatisticsFiltersComponent
       .getDataEntryStatisticsTypes().pipe(
       take(1)).subscribe((result) => {
         if (result) {
-          let viewTypes = result;
+          const viewTypes = result;
           this.processViewTypes(viewTypes);
         }
       });
@@ -315,7 +311,7 @@ export class DataEntryStatisticsFiltersComponent
   public getLocations() {
     this._locationResourceService.getLocations().pipe(
     take(1)).subscribe((result) => {
-         let locations = result;
+         const locations = result;
          this.processLocations(locations);
     });
 
@@ -331,7 +327,7 @@ export class DataEntryStatisticsFiltersComponent
 
   public loadSelectedCreator() {
 
-    let creatorArray = [];
+    const creatorArray = [];
     this.selectedCreatorUuid = [];
     _.each(this.creator, (creator: any) => {
           creatorArray.push(creator.id);
@@ -342,10 +338,10 @@ export class DataEntryStatisticsFiltersComponent
   }
 
   public processViewTypes(viewTypes) {
-    let viewsArray = [];
+    const viewsArray = [];
 
     _.each(viewTypes, (view: any) => {
-      let specificView = { id: view.id, itemName: view.subType };
+      const specificView = { id: view.id, itemName: view.subType };
       this.viewMap.set(view.id, specificView);
       viewsArray.push(specificView);
     });
@@ -354,9 +350,9 @@ export class DataEntryStatisticsFiltersComponent
 
   public processLocations(locations) {
 
-    let locationArray = [];
+    const locationArray = [];
     _.each(locations, (location: any) => {
-      let specificLocation = { id: location.uuid, itemName: location.display };
+      const specificLocation = { id: location.uuid, itemName: location.display };
       this.locationMap.set(location.uuid, specificLocation);
       locationArray.push(specificLocation);
     });
@@ -367,7 +363,7 @@ export class DataEntryStatisticsFiltersComponent
 
   public selectView($event: any) {
     this.resetViews();
-    let view = $event.id;
+    const view = $event.id;
     this.toggleViewParams(view);
     this.selectedViewType = view;
     this.showFilters = true;
@@ -385,7 +381,7 @@ export class DataEntryStatisticsFiltersComponent
     this.loadSelectedLocation();
   }
   public loadSelectedLocation() {
-       let locationsArray = this.location;
+       const locationsArray = this.location;
        this.selectedLocation = [];
        _.each(locationsArray, (locationItem: any) => {
            this.selectedLocation.push(locationItem.id);
@@ -393,7 +389,7 @@ export class DataEntryStatisticsFiltersComponent
   }
 
   public getEncounterTypes() {
-    let encounters = this._encounterResourceService.getEncounterTypes('all').pipe(
+    this._encounterResourceService.getEncounterTypes('all').pipe(
     take(1)).subscribe((results) => {
       if (results) {
             this.processEncounterTypes(results);
@@ -403,10 +399,10 @@ export class DataEntryStatisticsFiltersComponent
 
   public processEncounterTypes(encounterTypes) {
 
-    let encounterTypesArray = [];
+    const encounterTypesArray = [];
 
     _.each(encounterTypes, (encounterType: any) => {
-         let specificEncounterType = {
+         const specificEncounterType = {
              'id': encounterType.uuid,
              'itemName': encounterType.display
          };
@@ -442,17 +438,17 @@ export class DataEntryStatisticsFiltersComponent
   }
 
   public getSelectedStartDate($event) {
-      let selectedDate = $event;
+      const selectedDate = $event;
       this.selectedEndDate = Moment(selectedDate).add(6, 'days' ).toISOString();
       this.selectedStartDate = Moment(selectedDate).toISOString();
   }
   public getSelectedEndDate($event) {
-      let selectedDate = $event;
+      const selectedDate = $event;
       this.selectedEndDate = Moment(selectedDate).toISOString();
   }
   public getSelectedStartMonth($event) {
 
-    let selectedDate = Moment($event).format('YYYY-MM-DD');
+    const selectedDate = Moment($event).format('YYYY-MM-DD');
     this.selectedStartDate = Moment(selectedDate).startOf('month').toISOString();
     this.selectedEndDate = Moment(this.selectedStartDate).add(12, 'months' ).toISOString();
   }
@@ -546,12 +542,12 @@ export class DataEntryStatisticsFiltersComponent
 
   public processProviders(providers) {
 
-      let providersArray = [];
+      const providersArray = [];
 
       _.each(providers, (provider: any) => {
-         let providerPerson = provider.person;
+         const providerPerson = provider.person;
          if (providerPerson !== null) {
-           let specificProvider = {
+           const specificProvider = {
                'name': provider.display,
                'uuid': provider.uuid
            };
@@ -591,12 +587,12 @@ export class DataEntryStatisticsFiltersComponent
 
   public processCreators(creators) {
 
-    let creatorsArray = [];
+    const creatorsArray = [];
 
     _.each(creators, (creator: any) => {
-       let providerPerson = creator.person;
+       const providerPerson = creator.person;
        if (providerPerson !== null) {
-         let specificCreator = {
+         const specificCreator = {
              'itemName': creator.person.display,
              'id': creator.uuid
          };
@@ -637,13 +633,13 @@ public setQueryParams() {
     };
 
     const currentParams = this.route.snapshot.queryParams;
-    let navigationData = {
+    const navigationData = {
         queryParams: this.params,
         replaceUrl: true
     };
 
-    let currentUrl = this.router.url;
-    let routeUrl = currentUrl.split('?')[0];
+    const currentUrl = this.router.url;
+    const routeUrl = currentUrl.split('?')[0];
     this.router.navigate([routeUrl], navigationData);
 
 }

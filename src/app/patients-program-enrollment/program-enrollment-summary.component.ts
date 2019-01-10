@@ -15,8 +15,8 @@ export class ProgramEnrollmentSummaryComponent implements OnInit {
     @Input() public enrolledSummary: any = [];
     @Input() public hide: boolean;
     @Input() public locationSelected: any = [];
-    @Input() public startDate: string = '';
-    @Input() public endDate: string = '';
+    @Input() public startDate = '';
+    @Input() public endDate = '';
     @Output() public programSelected: EventEmitter<any> = new EventEmitter();
 
     public summaryGridOptions: GridOptions = {
@@ -42,7 +42,7 @@ export class ProgramEnrollmentSummaryComponent implements OnInit {
         cellRenderer: (column) => {
             if (typeof column.value !== 'undefined') {
                 return '<a href="javascript:void(0);" title="Identifiers">' + column.value + '</a>';
-            }else {
+            } else {
                 return '';
             }
         },

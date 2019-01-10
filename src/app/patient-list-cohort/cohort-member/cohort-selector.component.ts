@@ -43,7 +43,7 @@ export class CohortSelectorComponent implements OnInit {
     }
 
     public selectCohort(selectedItem) {
-        let selctedCohort = {
+        const selctedCohort = {
             uuid: selectedItem.id,
             display: selectedItem.text
         };
@@ -51,10 +51,10 @@ export class CohortSelectorComponent implements OnInit {
     }
 
     public getUserCohorts() {
-        let obs = this.userCohortResourceService.getUserCohorts(this.user.uuid);
+        const obs = this.userCohortResourceService.getUserCohorts(this.user.uuid);
         if (obs) {
             this.loadingList = true;
-            let sub = obs.pipe(take(1)).subscribe(
+            const sub = obs.pipe(take(1)).subscribe(
                 (cohorts) => {
                     if (cohorts) {
                         this.cohortList = this.filterOutViewOnlyCohorts(cohorts.result);
@@ -74,7 +74,7 @@ export class CohortSelectorComponent implements OnInit {
     }
 
     public filterOutViewOnlyCohorts(cohortsArray: Array<any>) {
-        let cohorts = [];
+        const cohorts = [];
         if (cohortsArray) {
             cohortsArray.forEach(
                 (item) => {
