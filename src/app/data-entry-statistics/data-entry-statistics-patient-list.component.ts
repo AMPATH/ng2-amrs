@@ -1,16 +1,11 @@
 
-import {take} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { Component,
-  OnInit , OnDestroy , AfterViewInit, OnChanges ,
-  Output , EventEmitter, Input , ChangeDetectorRef,
-  ViewChild , SimpleChanges } from '@angular/core';
-import { ActivatedRoute, Router , Params } from '@angular/router';
-import { Subject ,  Observable } from 'rxjs';
+  OnInit , AfterViewInit, Input , ChangeDetectorRef } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import * as _ from 'lodash';
-import * as Moment from 'moment';
-import { DataEntryStatisticsService } from
-'./../etl-api/data-entry-statistics-resource.service';
+import { DataEntryStatisticsService } from './../etl-api/data-entry-statistics-resource.service';
 import { GridOptions } from 'ag-grid/main';
 @Component({
   selector: 'data-entry-statistics-patient-list',
@@ -21,8 +16,7 @@ import { GridOptions } from 'ag-grid/main';
 export class DataEntryStatisticsPatientListComponent
 implements OnInit , AfterViewInit {
 
-    public title: string = 'Patient List';
-
+    public title = 'Patient List';
     public busyIndicator: any = {
      busy: false,
      message: 'Please wait...' // default message
@@ -50,8 +44,8 @@ implements OnInit , AfterViewInit {
    public rowData: any = [];
 
    @Input() public patientList: any = [];
-   @Input() public startDate: string = '';
-   @Input() public endDate: string = '';
+   @Input() public startDate = '';
+   @Input() public endDate = '';
 
    public dataEntryPatientListColdef: any = [
     {
@@ -112,11 +106,11 @@ implements OnInit , AfterViewInit {
     }
     public processPatientList(patientList) {
 
-      let patientArray = [];
+      const patientArray = [];
       let patientCount = 1;
 
       _.each(patientList, (list: any) => {
-         let specificPatient = {
+         const specificPatient = {
             'patient_no': patientCount,
             'identifiers': list.identifiers,
             'person_name': list.person_name,

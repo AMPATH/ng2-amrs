@@ -1,15 +1,9 @@
 
-import {take} from 'rxjs/operators';
-import { Component,
-    OnInit , OnDestroy , AfterViewInit,
-    Output , EventEmitter, Input , ChangeDetectorRef,
-    ViewChild } from '@angular/core';
-import { Subject ,  Observable } from 'rxjs';
-import { DataEntryStatisticsService } from
-'../etl-api/data-entry-statistics-resource.service';
+import { take } from 'rxjs/operators';
+import { Component, OnInit , OnDestroy , AfterViewInit , ChangeDetectorRef} from '@angular/core';
+import { Subject } from 'rxjs';
+import { DataEntryStatisticsService } from '../etl-api/data-entry-statistics-resource.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import * as _ from 'lodash';
-import * as Moment from 'moment';
 
 @Component({
   selector: 'data-entry-statistics',
@@ -26,8 +20,8 @@ export class DataEntryStatisticsComponent
   public params: any = [];
 
   public providerResult = new Subject<string>();
-  public showDataEntryStats: boolean = false;
-  public showPatientList: boolean = false;
+  public showDataEntryStats = false;
+  public showPatientList = false;
   public patientListParams: any;
 
   public dataEntryEncounters: any = [];
