@@ -11,7 +11,7 @@ import { AgGridNg2 } from 'ag-grid-angular';
   templateUrl: './generic-list.component.html'
 })
 export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
-
+  /*  tslint:disable:no-output-on-prefix */
   public gridOptions: GridOptions;
   @Input() public columns: any;
   @Input() public data: any = [];
@@ -19,7 +19,7 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
   @Output() public onSelectedTab = new EventEmitter();
   @Input() public newList: any;
   public selected: any;
-  public refresh: boolean = false;
+  public refresh = false;
   @ViewChild('agGrid')
   public agGrid: AgGridNg2;
 
@@ -48,9 +48,9 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
-    for (let propName in changes) {
+    for (const propName in changes) {
       if (propName === 'options') {
-        let changedProp = changes[propName];
+        const changedProp = changes[propName];
         if (!changedProp.isFirstChange()) {
           // this.dataSource = changedProp.currentValue;
           this.refresh = true;
@@ -94,7 +94,6 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
     this.gridOptions.onRowSelected = (event) => {
       this.rowSelectedFunc(event);
     };
-    let tthis: any = this;
     this.gridOptions.onGridReady = (event) => {
       if (window.innerWidth > 768) {
        // this.gridOptions.api.sizeColumnsToFit();

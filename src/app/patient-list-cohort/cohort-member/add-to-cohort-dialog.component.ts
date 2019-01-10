@@ -23,10 +23,10 @@ export class AddToCohortDialogComponent implements OnInit {
     public cohort: any;
 
     @Input()
-    public allowPatientEdit: boolean = false;
+    public allowPatientEdit = false;
 
     @Input()
-    public allowCohortEdit: boolean = false;
+    public allowCohortEdit = false;
 
     @ViewChild('addCohortComp')
     public cohortComponent: AddCohortMemberComponent;
@@ -34,7 +34,7 @@ export class AddToCohortDialogComponent implements OnInit {
     @ViewChild('addCohortDialog')
     public addCohortDialog: ElementRef;
 
-    private _display: boolean = true;
+    private _display = true;
     public get display(): boolean {
         return this._display;
     }

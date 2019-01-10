@@ -5,8 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as _ from 'lodash';
 import {
   PatientStatusVisualizationResourceService
-} from
-  '../../../etl-api/patient-status-change-visualization-resource.service';
+} from '../../../etl-api/patient-status-change-visualization-resource.service';
 import {
   ClinicDashboardCacheService
 } from '../../services/clinic-dashboard-cache.service';
@@ -27,7 +26,7 @@ export class PatientStatusChangeListComponent implements OnInit, OnDestroy {
   public extraColumns: Array<any> = [];
   public columns = [];
   public filterParams: any;
-  public startIndex: number = 0;
+  public startIndex = 0;
   public startDate = new Date();
   public endDate = new Date();
   public data = [];
@@ -37,9 +36,9 @@ export class PatientStatusChangeListComponent implements OnInit, OnDestroy {
   public loading = false;
   public error = false;
   public filterModel: any;
-  public dataLoaded: boolean = false;
+  public dataLoaded = false;
   public overrideColumns: Array<any> = [];
-  public progressBarTick: number = 30;
+  public progressBarTick = 30;
   private subs: Subscription[] = [];
   private timerSubscription: Subscription;
 
@@ -73,7 +72,7 @@ export class PatientStatusChangeListComponent implements OnInit, OnDestroy {
   }
 
   public filtersChanged(event) {
-    let params = {};
+    const params = {};
     this.startDate = new Date(event.startDate.format('YYYY-MM-DD'));
     this.endDate = new Date(event.endDate.format('YYYY-MM-DD'));
     params['startDate'] = event.startDate.format('YYYY-MM-DD');
@@ -111,7 +110,7 @@ export class PatientStatusChangeListComponent implements OnInit, OnDestroy {
   }
 
   private getFilters() {
-    let params = {};
+    const params = {};
     params['startDate'] = moment(this.startDate).format('YYYY-MM-DD');
     params['endDate'] = moment(this.endDate).format('YYYY-MM-DD');
     params['indicator'] = this.indicator;

@@ -95,7 +95,7 @@ export class ClinicFlowHourlyStatsVizComponent implements OnInit {
     }
 
     public redrawGraph(data: Array<any>) {
-        let graphOptions: any = {
+        const graphOptions: any = {
             chart: {
                 type: 'column'
             },
@@ -105,7 +105,7 @@ export class ClinicFlowHourlyStatsVizComponent implements OnInit {
             tooltip: {
                 headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                 pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                    '<td style="padding:0"><b>{point.y}</b></td></tr>',
                 footerFormat: '</table>',
                 shared: true,
                 useHTML: true
@@ -141,7 +141,7 @@ export class ClinicFlowHourlyStatsVizComponent implements OnInit {
 
     public generateXaxisHighChartObject(data: Array<any>) {
 
-        let xAxis = {
+        const xAxis = {
             categories: []
         };
 
@@ -149,7 +149,7 @@ export class ClinicFlowHourlyStatsVizComponent implements OnInit {
         let minTime: any;
 
         _.each(data, (item) => {
-            let time = moment(item.time, 'H');
+            const time = moment(item.time, 'H');
 
             if (maxTime === undefined) {
                 maxTime = time;
@@ -181,16 +181,16 @@ export class ClinicFlowHourlyStatsVizComponent implements OnInit {
     }
 
     public generateHighChartBarChartSeries(categories: Array<string>,
-                                           data: Array<any>): Array<any> {
-        let series = [];
+        data: Array<any>): Array<any> {
+        const series = [];
 
-        let registered = [];
-        let triaged = [];
-        let seen = [];
+        const registered = [];
+        const triaged = [];
+        const seen = [];
 
         _.each(categories, (category) => {
             let found = false;
-            for (let i of data) {
+            for (const i of data) {
                 if (moment(i.time, 'H').isSame(moment(category, 'HH:mm'))) {
                     found = true;
 

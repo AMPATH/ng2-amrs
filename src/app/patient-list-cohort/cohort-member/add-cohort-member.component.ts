@@ -15,9 +15,9 @@ import { CohortSelectorComponent } from './cohort-selector.component';
 
 export class AddCohortMemberComponent implements OnInit {
 
-    public isBusy: boolean = false;
-    public hasError: boolean = false;
-    public errorMessage: string = '';
+    public isBusy = false;
+    public hasError = false;
+    public errorMessage = '';
     public hideResult = true;
 
     @Output()
@@ -39,10 +39,10 @@ export class AddCohortMemberComponent implements OnInit {
     public cohort: any;
 
     @Input()
-    public allowPatientEdit: boolean = false;
+    public allowPatientEdit = false;
 
     @Input()
-    public allowCohortEdit: boolean = false;
+    public allowCohortEdit = false;
 
     private _cohortUuid: string;
     @Input()

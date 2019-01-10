@@ -1,12 +1,10 @@
 /* tslint:disable:no-unused-variable */
+/* tslint:disable:import-blacklist */
 
 import {
   TestBed, async, fakeAsync, tick, ComponentFixture, ComponentFixtureAutoDetect
 } from '@angular/core/testing';
 import { Observable } from 'rxjs/Rx';
-import { MockBackend, MockConnection } from '@angular/http/testing';
-import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@angular/http';
-import { ActivatedRoute, Router } from '@angular/router';
 import { AccordionModule, TabViewModule } from 'primeng/primeng';
 import {
   ClinicalSummaryVisualizationResourceService
@@ -22,7 +20,7 @@ class DataStub {
 
 }
 
-let results = {
+const results = {
   'results': [
     {
       location_uuid: 'location-uuid',
@@ -48,7 +46,7 @@ let results = {
   ]
 };
 
-let indicatorDefinitions = [
+const indicatorDefinitions = [
   {
     'on_raltegravir': 'A patient is considered to be on \"Raltegravir\" if ',
   }
@@ -59,9 +57,6 @@ describe('ArtOverviewIndicatorDefComponent', () => {
   let fixture: ComponentFixture<ArtOverviewIndicatorDefComponent>;
   let comp: ArtOverviewIndicatorDefComponent;
   let dataStub: ClinicalSummaryVisualizationResourceService;
-  let router = {
-    navigate: jasmine.createSpy('navigate')
-  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -71,15 +66,7 @@ describe('ArtOverviewIndicatorDefComponent', () => {
       set: {
         providers: [
           { provide: ClinicalSummaryVisualizationResourceService, useClass: DataStub },
-          { provide: ComponentFixtureAutoDetect, useValue: true },
-          {
-            provide: Http, useFactory: (backend, options) => {
-              return new Http(backend, options);
-            },
-            deps: [MockBackend, BaseRequestOptions]
-          },
-          MockBackend,
-          BaseRequestOptions
+          { provide: ComponentFixtureAutoDetect, useValue: true }
         ]
       }
     }).compileComponents()
@@ -92,6 +79,10 @@ describe('ArtOverviewIndicatorDefComponent', () => {
 
   afterAll(() => {
     TestBed.resetTestingModule();
+  });
+
+  it('should be instantiated', () => {
+    expect(comp).toBeTruthy();
   });
 
   it('should return an object dictionary for indicatorDefinitions', fakeAsync(() => {

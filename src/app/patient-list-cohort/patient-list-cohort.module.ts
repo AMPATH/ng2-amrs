@@ -2,13 +2,6 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import {
-  AccordionModule, DataTableModule, SharedModule, TabViewModule,
-  GrowlModule, PanelModule, ConfirmDialogModule, ConfirmationService,
-  DialogModule, InputTextModule, MessagesModule, InputTextareaModule,
-  DropdownModule, ButtonModule, CalendarModule
-} from 'primeng/primeng';
 
 import { UtilsModule } from '../utils/utils.module';
 import { CohortMemberModule } from './cohort-member/cohort-member.module';
@@ -25,6 +18,7 @@ import { UserSearchComponent } from './user-search.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { EtlApi } from '../etl-api/etl-api.module';
 import { AddCohortMemberContainerComponent } from './add-cohort-member-container.component';
+import { ConfirmDialogModule, DialogModule } from 'primeng/primeng';
 
 // patientListCohort,
 @NgModule({

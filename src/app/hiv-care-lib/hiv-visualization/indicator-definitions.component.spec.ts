@@ -4,8 +4,6 @@ import {
   TestBed, async, fakeAsync, ComponentFixture, ComponentFixtureAutoDetect, tick
 } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
-import { MockBackend, MockConnection } from '@angular/http/testing';
-import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@angular/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccordionModule, TabViewModule } from 'primeng/primeng';
 
@@ -23,7 +21,7 @@ class DataStub {
 
 }
 
-let results = {
+const results = {
   'results': [
     {
       location_uuid: 'location-uuid',
@@ -49,7 +47,7 @@ let results = {
   ]
 };
 
-let indicatorDefinitions = [
+const indicatorDefinitions = [
   {
     'on_raltegravir': 'A patient is considered to be on \"Raltegravir\" if ',
   }
@@ -60,7 +58,7 @@ describe('HivCareIndicatorDefComponent', () => {
   let fixture: ComponentFixture<HivCareIndicatorDefComponent>;
   let comp: HivCareIndicatorDefComponent;
   let dataStub: ClinicalSummaryVisualizationResourceService;
-  let router = {
+  const router = {
     navigate: jasmine.createSpy('navigate')
   };
 
@@ -73,14 +71,6 @@ describe('HivCareIndicatorDefComponent', () => {
         providers: [
           { provide: ClinicalSummaryVisualizationResourceService, useClass: DataStub },
           { provide: ComponentFixtureAutoDetect, useValue: true },
-          {
-            provide: Http, useFactory: (backend, options) => {
-            return new Http(backend, options);
-          },
-            deps: [MockBackend, BaseRequestOptions]
-          },
-          MockBackend,
-          BaseRequestOptions
         ]
       }
     }).compileComponents()

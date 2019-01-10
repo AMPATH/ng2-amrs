@@ -1,5 +1,4 @@
 /* tslint:disable:no-unused-variable */
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { throwError as observableThrowError, Observable, of } from 'rxjs';
 import { TestBed, async, fakeAsync, ComponentFixture, tick } from '@angular/core/testing';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -7,13 +6,14 @@ import { CommonModule } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ConfirmDialogModule, DialogModule } from 'primeng/primeng';
 import { CohortListComponent } from './cohort-list.component';
 import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 import { CohortListService } from './cohort-list.service';
 import { UserCohortResourceService } from '../etl-api/user-cohort-resource.service';
 import { UserService } from '../openmrs-api/user.service';
 import { CohortResourceService } from '../openmrs-api/cohort-resource.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ConfirmDialogModule, DialogModule } from 'primeng/primeng';
 
 class DataStub {
 

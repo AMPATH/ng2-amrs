@@ -1,5 +1,5 @@
 
-import {map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { URLSearchParams } from '@angular/http';
 
@@ -13,7 +13,7 @@ export class ClinicalNotesResourceService {
 
   public getClinicalNotes(patientUuid: string, startIndex: number, limit: number) {
 
-    let api = this.appSettingsService.getEtlServer() +
+    const api = this.appSettingsService.getEtlServer() +
       '/patient/' + patientUuid + '/clinical-notes';
 
     if (!startIndex) {
@@ -23,10 +23,10 @@ export class ClinicalNotesResourceService {
       limit = 10;
     }
 
-    let params: HttpParams = new HttpParams()
-    .set('startIndex', startIndex as any as string)
-    .set('limit', limit as any as string);
+    const params: HttpParams = new HttpParams()
+      .set('startIndex', startIndex as any as string)
+      .set('limit', limit as any as string);
 
-    return this.http.get(api, {params: params});
+    return this.http.get(api, { params: params });
   }
 }
