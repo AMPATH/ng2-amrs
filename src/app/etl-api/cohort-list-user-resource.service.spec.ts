@@ -1,28 +1,21 @@
 import { TestBed, async, inject } from '@angular/core/testing';
-import { MockBackend, MockConnection } from '@angular/http/testing';
-import { Http, BaseRequestOptions, ResponseOptions, Response, RequestMethod } from '@angular/http';
 
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { CohortUserResourceService } from './cohort-list-user-resource.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpClient } from '@angular/common/http';
 
 
 describe('CohortUserResourceService Unit Tests', () => {
 
-  let backend: MockBackend, cohortUuid = 'de662c03-b9af-4f00-b10e-2bda0440b03b';
+  const cohortUuid = 'de662c03-b9af-4f00-b10e-2bda0440b03b';
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
       providers: [
-        MockBackend,
-        BaseRequestOptions,
-        {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
+        HttpClient,
         CohortUserResourceService,
         AppSettingsService,
         LocalStorageService
@@ -42,26 +35,12 @@ describe('CohortUserResourceService Unit Tests', () => {
 
   it('should make API call with the correct url parameters', () => {
 
-    backend = TestBed.get(MockBackend);
-
-    backend.connections.subscribe((connection: MockConnection) => {
-
-      expect(connection.request.method).toBe(RequestMethod.Get);
-      /*expect(connection.request.url).toMatch('/patient/(*)/vitals');
-      expect(connection.request.url).toContain('startIndex=');
-      expect(connection.request.url).toContain('limit=20');*/
-
-    });
-
 
   });
 
   it('should return the correct parameters from the api',
-    async(inject([CohortUserResourceService, MockBackend],
-      (cohortUserResourceService: CohortUserResourceService, mockBackend: MockBackend) => {
-
-        mockBackend.connections.subscribe(c =>
-          c.mockError(new Error('An error occured while processing the request')));
+    async(inject([CohortUserResourceService],
+      (cohortUserResourceService: CohortUserResourceService) => {
 
         cohortUserResourceService.getCohortUser(cohortUuid).subscribe((data) => { },
           (error: Error) => {

@@ -20,10 +20,10 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
   @Input() public newList: any;
   public errors: any[] = [];
   public notReturnedPatientList: any[] = [];
-  public loadingDailyNotReturned: boolean = false;
-  public currentTabLoaded: boolean = false;
-  public dataLoaded: boolean = false;
-  public nextStartIndex: number = 0;
+  public loadingDailyNotReturned = false;
+  public currentTabLoaded = false;
+  public dataLoaded = false;
+  public nextStartIndex = 0;
   public selectedNotReturnedTab: any;
   public filter: any = {
      'programType': [],
@@ -45,7 +45,7 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
     width: 80,
     field: 'phone_number'
   };
-  public fetchCount: number = 0;
+  public fetchCount = 0;
   private subs: Subscription[] = [];
   @Input()
   set options(value) {

@@ -20,6 +20,7 @@ export class ClinicRoutesFactory {
     let selectedDepartment: any;
     const setDepartment: any = JSON.parse(this._localStorageService.getItem('userDefaultDepartment'));
     selectedDepartment = setDepartment[0].itemName;
+    console.log('bbdajkbcdjbndj', selectedDepartment);
     this.selectedDepartment = selectedDepartment;
 
     let clinicRoutesConfig: any = this.routesProvider.clinicDashboardConfig;
@@ -44,7 +45,7 @@ export class ClinicRoutesFactory {
 
   public processSharedRoutes(routesConfig) {
     if (routesConfig.sharedRoutes) {
-      for (let prog of routesConfig.programs) {
+      for (const prog of routesConfig.programs) {
         if (prog['shared-routes-class']) {
           prog.routes = routesConfig.sharedRoutes[prog['shared-routes-class']];
         }

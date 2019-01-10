@@ -137,6 +137,4 @@ describe('Component : MOTD Notification', () => {
     expect(comp.displayNotifications.length).toEqual(0);
   }));
 
-
-
 });

@@ -1,10 +1,10 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { DataAnalyticsDashboardService } from
-'../../../services/data-analytics-dashboard.services';
+import { DataAnalyticsDashboardService
+} from '../../../services/data-analytics-dashboard.services';
 import * as Moment from 'moment';
-import { AppFeatureAnalytics } from
-'../../../../shared/app-analytics/app-feature-analytics.service';
+import { AppFeatureAnalytics
+} from '../../../../shared/app-analytics/app-feature-analytics.service';
 import * as _ from 'lodash';
 
 @Component({
@@ -14,23 +14,23 @@ import * as _ from 'lodash';
 })
 export class OncologySummaryFiltersComponent implements OnInit, OnChanges {
 
-  public tittle: string  = 'Filters';
+  public tittle  = 'Filters';
   public data = [];
   public sectionsDef = [];
   public isAggregated: boolean;
   public selectedIndicators  = [];
   public enabledControls = 'datesControl,' +
     'ageControl,genderControl,locationControl';
-  public isLoadingReport: boolean = false;
-  public encounteredError: boolean = false;
-  public errorMessage: string = '';
-  public reportName: string = 'oncology-summary-monthly-report';
+  public isLoadingReport = false;
+  public encounteredError = false;
+  public errorMessage = '';
+  public reportName = 'oncology-summary-monthly-report';
   public dates: any;
   public age: any;
   @Input() public startDate;
   @Input() public endDate;
-  @Input() public reportType: string = '';
-  @Input() public indicators: string = '';
+  @Input() public reportType = '';
+  @Input() public indicators = '';
   @Input() public ageRangeStart: number;
   @Input() public ageRangeEnd: number;
   @Input() public reportIndex: number;
@@ -75,7 +75,7 @@ export class OncologySummaryFiltersComponent implements OnInit, OnChanges {
   }
 
   public formatGenderFilter(genderArray) {
-       let selectedGender = [];
+       const selectedGender = [];
        _.each(genderArray, (gender) => {
            selectedGender.push({
              'label': gender,
@@ -97,8 +97,8 @@ export class OncologySummaryFiltersComponent implements OnInit, OnChanges {
   }
 
   public storeReportParamsInUrl() {
-    let urlParams = this.route.snapshot.queryParams;
-    let queryParams = {
+    const urlParams = this.route.snapshot.queryParams;
+    const queryParams = {
       'endDate': Moment(this.endDate).format('YYYY-MM-DD'),
       'startDate': Moment(this.startDate).format('YYYY-MM-DD'),
       'indicators': this.indicators,
@@ -138,12 +138,12 @@ export class OncologySummaryFiltersComponent implements OnInit, OnChanges {
   }
 
   public formatDateField(result) {
-    let dates = [];
+    const dates = [];
     for (const item of result) {
-      let data = item;
-      for (let r in data) {
+      const data = item;
+      for (const r in data) {
         if (data.hasOwnProperty(r)) {
-          let month = Moment(data.month).format('MMM, YYYY');
+          const month = Moment(data.month).format('MMM, YYYY');
           data['reporting_month'] = month;
         }
       }
@@ -157,11 +157,11 @@ export class OncologySummaryFiltersComponent implements OnInit, OnChanges {
     this.ageRangeEnd = $event.ageTo;
   }
   public getSelectedGender(selectedGender) {
-    let gender: any = [];
+    const gender: any = [];
     _.each(selectedGender, (specGender: any) => {
       if (typeof specGender === 'string') {
         gender.push(specGender);
-      }else {
+      } else {
         gender.push(specGender.value);
       }
     });
@@ -172,12 +172,12 @@ export class OncologySummaryFiltersComponent implements OnInit, OnChanges {
   }
 
   public formatIndicatorsToSelectArray(indicatorParam: string) {
-    let arr = indicatorParam.split(',');
+    const arr = indicatorParam.split(',');
     _.each(arr, (indicator) => {
-      let text = this.translateIndicator(indicator);
-      let id = indicator;
+      const text = this.translateIndicator(indicator);
+      const id = indicator;
 
-      let data = {
+      const data = {
         value: id,
         label: text
       };
@@ -193,18 +193,18 @@ export class OncologySummaryFiltersComponent implements OnInit, OnChanges {
 
   public formatGenderToSelectArray(genderParam: string) {
     if (genderParam.length > 1) {
-      let arr = genderParam.split(',');
+      const arr = genderParam.split(',');
       _.each(arr, (gender) => {
-        let id = gender;
-        let text = gender === 'M' ? 'Male' : 'Female';
-        let data = {
+        const id = gender;
+        const text = gender === 'M' ? 'Male' : 'Female';
+        const data = {
           id: id,
           text: text
         };
         this.selectedGender.push(data);
       });
     } else {
-      let data = {
+      const data = {
         id: genderParam,
         text: genderParam === 'M' ? 'Male' : 'Female'
       };
