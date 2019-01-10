@@ -7,8 +7,6 @@ import { Subscription } from 'rxjs';
 import {
   PatientReferralResourceService
 } from '../../etl-api/patient-referral-resource.service';
-import { DataAnalyticsDashboardService
-} from '../../data-analytics-dashboard/services/data-analytics-dashboard.services';
 
 @Component({
   selector: 'patient-referral-tabular',
@@ -24,12 +22,13 @@ export class PatientReferralTabularComponent implements OnInit {
   public extraColumns: Array<any> = [];
   public patientData: any;
   public programName: any;
-  public startIndex: number = 0;
-  public isLoading: boolean = false;
-  public dataLoaded: boolean = false;
+  public startIndex = 0;
+  public isLoading = false;
+  public dataLoaded = false;
   public gridOptions: any = {
     columnDefs: []
   };
+  /* tslint:disable:no-input-rename */
   @Input('rowData')
   public data: Array<any> = [];
 
@@ -80,7 +79,7 @@ export class PatientReferralTabularComponent implements OnInit {
   }
 
   public setColumns(sectionsData: Array<any>) {
-    let defs = [];
+    const defs = [];
     defs.push({
         headerName: 'Location',
         field: 'location',
@@ -136,7 +135,7 @@ export class PatientReferralTabularComponent implements OnInit {
 
   public generatePatientListReport(data) {
     this.isLoading = true;
-    let filterLocation =  data.data.locationUuids ? data.data.locationUuids : null;
+    const filterLocation =  data.data.locationUuids ? data.data.locationUuids : null;
 
     this.resourceService.getPatientReferralPatientList({
       endDate: this.toDateString(this._dates.endDate),

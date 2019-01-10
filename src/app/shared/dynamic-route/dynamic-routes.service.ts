@@ -43,7 +43,7 @@ export class DynamicRoutesService {
 
   public setRoutes(route: DynamicRouteModel) {
     if (this.dashboardConfig) {
-      let routes: Array<object> = this.extractRoutes(route, this.dashboardConfig);
+      const routes: Array<object> = this.extractRoutes(route, this.dashboardConfig);
       route.routes = routes;
       Object.assign(this.routesModel, route);
       this.routes.next(this.routesModel);
@@ -59,12 +59,11 @@ export class DynamicRoutesService {
   }
 
   public extractRoutes(route: DynamicRouteModel, dashboardConfig: object): Array<object> {
-    let dashboard: object = dashboardConfig[route.dashboardId];
-    let routes: Array<object> = [];
-    let routeParameter: string;
+    const dashboard: object = dashboardConfig[route.dashboardId];
+    const routes: Array<object> = [];
     // extract routes that is common to all programs
     dashboard['nonProgramRoutes'].forEach((nonProgramRoute: object) => {
-      let url = dashboard['baseRoute'] +
+      const url = dashboard['baseRoute'] +
         this.extractParameter(dashboard['routeParameter'], route)
         + '/' + nonProgramRoute['url'];
       routes.push(
@@ -85,10 +84,10 @@ export class DynamicRoutesService {
       route.programs.forEach((enrolledProgram: ProgramEnrollment) => {
         if (enrolledProgram.program.uuid === program['programUuid']) {
           program['routes'].forEach((programRoute: object) => {
-            let url = dashboard['baseRoute'] +
+            const url = dashboard['baseRoute'] +
               this.extractParameter(dashboard['routeParameter'], route)
               + '/' + programRoute['url'];
-            let singleRoute = {
+            const singleRoute = {
               url,
               label: programRoute['label'],
               icon: programRoute['icon'],
@@ -97,7 +96,7 @@ export class DynamicRoutesService {
               isDistinct: programRoute['isDistinct'] ? true : false,
               onClick: this.hideSidebar
             };
-            let index = routes.findIndex((x) => x['url'] === url);
+            const index = routes.findIndex((x) => x['url'] === url);
             if (index === -1) {
               routes.push(singleRoute);
             }
@@ -109,10 +108,10 @@ export class DynamicRoutesService {
     // extract routes that is deparment specific
     dashboard['departments'].forEach((department: Array<object>) => {
       department['routes'].forEach((departmentRoute: object) => {
-        let url = dashboard['baseRoute'] +
+        const url = dashboard['baseRoute'] +
           this.extractParameter(dashboard['routeParameter'], route)
           + '/' + departmentRoute['url'];
-        let singleRoute = {
+        const singleRoute = {
           url,
           label: departmentRoute['label'],
           icon: departmentRoute['icon'],

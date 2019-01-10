@@ -17,8 +17,8 @@ export class AddCohortListComponent implements OnInit, OnDestroy {
   public name: string;
   public description: string;
   public errors: any = [];
-  public showSuccessAlert: boolean = false;
-  public showErrorAlert: boolean = false;
+  public showSuccessAlert = false;
+  public showErrorAlert = false;
   public successAlert: string;
   public errorAlert: string;
   public errorTitle: string;
