@@ -2,15 +2,15 @@
   <ul class="list-group">
     <li class="list-group-item" [ngClass]="{'show-more': !showAll, 'row': showAll}">
   <ng-container *ngFor="let vital of todaysVitals; index as i">
-          <span [ngClass]="{'col-sm-6 col-xs-6': showAll}" *ngIf="vital.show && !vital.isCompoundedWith" [style.color]="vital.color">
+          <span [ngClass]="{'col-sm-6 col-xs-6': showAll}" *ngIf="!vital.isCompoundedWith" [style.color]="vital.color">
             <strong class="text-primary">
               {{vital.label}}
             </strong>
-            <span class="value">{{vital.value}}</span>
+            <span class="value"><strong>{{vital.value}}</strong></span>
             <ng-container *ngIf="vital.compoundValue">
-              /<span [style.color]="vital.compoundValue.color">{{vital.compoundValue.value}} </span>
+              /<span [style.color]="vital.compoundValue.color"><strong>{{vital.compoundValue.value}}</strong> </span>
             </ng-container>
-            <span *ngIf="!showAll && i < todaysVitals.length-1" style="color: #444;">|</span>
+            <span *ngIf="!showAll && i < (todaysVitals.length-1)" style="color: #444;">&nbsp;|</span>
           </span>
   </ng-container>
       <i (click)="toggleMore()" class="fa fa-ellipsis-h" aria-hidden="true"></i></li>
