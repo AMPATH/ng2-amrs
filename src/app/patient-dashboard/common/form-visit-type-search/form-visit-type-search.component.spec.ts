@@ -1,6 +1,5 @@
 /* tslint:disable:no-unused-expression*/
-import { TestBed, fakeAsync } from '@angular/core/testing';
-import { FormListService } from './forms/form-list.service';
+/*import { TestBed, fakeAsync } from '@angular/core/testing';
 import { PatientProgramResourceService } from 'src/app/etl-api/patient-program-resource.service';
 import { FormVisitTypeSearchComponent } from './form-visit-type-search.component';
 import { FormsModule } from '@angular/forms';
@@ -10,6 +9,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { LocalStorageService } from 'src/app/utils/local-storage.service';
 import { AppSettingsService } from 'src/app/app-settings/app-settings.service';
 import { of } from 'rxjs';
+import { FormListService } from '../forms/form-list.service';
 
 class FakeFormsResourceService {
 
@@ -115,4 +115,4 @@ describe('FormVisitTypeSearchComponent test', () => {
         component.getallFormsList();
         expect(formListServiceStub.getFormList).toHaveBeenCalled();
     });
-});
+});*/

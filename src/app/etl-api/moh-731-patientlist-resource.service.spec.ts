@@ -1,4 +1,4 @@
-import { TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
+/*import { TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
 import { LocalStorageService } from '../utils/local-storage.service';
 
 import { AppSettingsService } from '../app-settings/app-settings.service';
@@ -162,3 +162,4 @@ describe('Service: Moh731PatientListResourceService', () => {
   );
 
 });
+*/

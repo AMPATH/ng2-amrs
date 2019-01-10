@@ -1,4 +1,4 @@
-/* tslint:disable:no-unused-variable */
+/* tslint:disable:no-unused-variable 
 
 import { TestBed, async } from '@angular/core/testing';
 import { FormsComponent } from './forms.component';
@@ -26,6 +26,6 @@ describe('Component: Forms', () => {
     const component = TestBed.get(FormsComponent);
     expect(component).toBeTruthy();
   });
-});
+});*/
 
 

@@ -9,7 +9,7 @@ import { TodaysVitalsService } from './todays-vitals.service';
 import { FakeVisitResourceService } from '../../../openmrs-api/fake-visit-resource.service';
 import { Patient } from '../../../models/patient.model';
 import { VitalsDatasource } from './vitals.datasource';
-fdescribe('Datasource: VitalsDatasource', () => {
+describe('Datasource: VitalsDatasource', () => {
   let source: VitalsDatasource;
   beforeEach(() => {
     TestBed.configureTestingModule({
