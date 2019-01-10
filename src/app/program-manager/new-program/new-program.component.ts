@@ -387,6 +387,12 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
             question.enrollIf = rq.showIfParent;
           }
           this.requiredProgramQuestions.push(rq);
+        } else {
+          // reset its selected answer and remove it from the required questions
+          rq.value = null;
+          _.remove(this.requiredProgramQuestions, (_rq) => {
+              return rq.qtype === _rq.qtype;
+          });
         }
       });
     }
@@ -562,8 +568,8 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
   private preQualifyProgramEnrollment(question: any) {
     const requiredStatus = _.find(question.answers, (ans) => ans.value === question.enrollIf);
     if (requiredStatus && question.value !== question.enrollIf) {
-      this.showMessage('The question <strong><em>' + question.name + '</em></strong> MUST be '
-        + question.enrollIf + ' to be able to enroll the patient into this program');
+      this.showMessage(`The question <strong><em>${question.name}</em></strong> MUST be
+          '${requiredStatus.label}' to be able to enroll the patient into this program`);
     } else {
       this.removeMessage();
     }
