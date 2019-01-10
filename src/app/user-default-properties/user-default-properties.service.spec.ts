@@ -1,7 +1,7 @@
-import { TestBed, async, inject, flush, fakeAsync } from '@angular/core/testing';
+import { TestBed, async, inject, flush, fakeAsync, tick } from '@angular/core/testing';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Http, BaseRequestOptions, ResponseOptions, Response, RequestMethod } from '@angular/http';
-
+import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { UserService } from '../openmrs-api/user.service';
@@ -9,32 +9,28 @@ import { SessionStorageService } from '../utils/session-storage.service';
 import { UserDefaultPropertiesMockService } from './user-default-properties.service.mock';
 import { DataCacheService } from '../shared/services/data-cache.service';
 import { CacheModule, CacheService } from 'ionic-cache';
-import { FakeRetrospectiveDataEntryService
+import {
+  FakeRetrospectiveDataEntryService
 } from '../retrospective-data-entry/services/retrospective-data-entry-mock.service';
-import { RetrospectiveDataEntryService
+import {
+  RetrospectiveDataEntryService
 } from '../retrospective-data-entry/services/retrospective-data-entry.service';
 
 describe('User Default Service Unit Tests', () => {
 
-  let backend: MockBackend;
+  let httpMock: HttpTestingController;
+  let userSettings: UserDefaultPropertiesMockService;
+  let appSettings: AppSettingsService;
+  const getUrl = 'https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/location?v=default';
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        MockBackend,
-        BaseRequestOptions,
-        {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
         UserDefaultPropertiesMockService,
         {
           provide: RetrospectiveDataEntryService, useFactory: () => {
-          return new FakeRetrospectiveDataEntryService();
-        }
+            return new FakeRetrospectiveDataEntryService();
+          }
         },
         AppSettingsService,
         LocalStorageService,
@@ -44,84 +40,54 @@ describe('User Default Service Unit Tests', () => {
         UserService
       ],
       imports: [
-        CacheModule
+        CacheModule,
+        HttpClientTestingModule,
       ]
     });
 
+    httpMock = TestBed.get(HttpTestingController);
+    userSettings = TestBed.get(UserDefaultPropertiesMockService);
+    appSettings = TestBed.get(AppSettingsService);
   });
 
   afterEach(() => {
+    httpMock.verify();
     TestBed.resetTestingModule();
     new LocalStorageService().remove('test');
   });
 
   it('should be injected with all dependencies',
-    inject([UserService
-      , LocalStorageService
-      , Http
-      , AppSettingsService
-    ], (user: UserService
-      , localStore: LocalStorageService
-      , http: Http
-      , appSettings: AppSettingsService) => {
-      expect(user).toBeDefined();
-      expect(localStore).toBeDefined();
-      expect(http).toBeDefined();
-      expect(appSettings).toBeDefined();
-    }));
+    inject([UserService, LocalStorageService, AppSettingsService],
+      (user: UserService, localStore: LocalStorageService, appSettingsServ: AppSettingsService) => {
+        expect(user).toBeDefined();
+        expect(localStore).toBeDefined();
+        expect(appSettingsServ).toBeDefined();
+      }));
 
-  // it('should make API call with the correct url parameters', () => {
+  it('It should return an array of locations object when getLocations is invoked', () => {
 
-  //   backend = TestBed.get(MockBackend);
+    const results = [
+      {
+        uuid: 'uuid',
+        display: 'location'
+      }, {
+        uuid: 'uuid',
+        display: 'location'
+      }
+    ];
+    userSettings.getLocations()
+      .subscribe((result) => {
+        expect(results).toContain({ uuid: 'uuid', display: 'location' });
+        expect(results).toBeDefined();
 
-  //   backend.connections.subscribe((connection: MockConnection) => {
+      });
 
-  //     expect(connection.request.method).toBe(RequestMethod.Get);
-  //     expect(connection.request.url).toContain('/ws/rest/v1/location?v=default');
-
-  //   });
-
-
-  // });
-
-  it('should return the correct parameters from the api',
-    inject([UserDefaultPropertiesMockService, MockBackend],
-      fakeAsync((propertiesResourceService: UserDefaultPropertiesMockService, mockBackend: MockBackend) => {
-
-        let mockResponse = new Response(new ResponseOptions({
-          body: {
-            results: []
-          }
-        }));
-
-        mockBackend.connections.subscribe(c => c.mockRespond(mockResponse));
-
-        propertiesResourceService.getLocations().subscribe((response: Response) => {
-
-          let data = response.json();
-
-          expect(data).toBeTruthy();
-          expect(data.results).toBeDefined();
-          expect(data.results.length).toEqual(0);
-        });
-
-        flush();
-
-      })));
-
-  it('should return an error from the api',
-   inject([UserDefaultPropertiesMockService, MockBackend],
-      fakeAsync((propertiesResourceService: UserDefaultPropertiesMockService, mockBackend: MockBackend) => {
-        mockBackend.connections.take(1).subscribe(c =>
-          c.mockError(new Error('An error occured while processing the request')));
-
-        propertiesResourceService.getLocations().subscribe((response: Response) => {
-          },
-          (error: Error) => {
-            expect(error).toBeTruthy();
-          });
-          flush();
-      })));
+    const req = httpMock.expectOne(appSettings.getOpenmrsRestbaseurl().trim() + 'location' + '?v=default');
+    expect(req.request.method).toBe('GET');
+    expect(req.request.urlWithParams)
+      .toContain('/ws/rest/v1/location?v=default');
+    req.flush(results);
+  });
 
   it('should set and get location property',
     inject([UserDefaultPropertiesMockService, LocalStorageService],

@@ -1,10 +1,7 @@
 import { Component,
-    OnInit , OnDestroy , AfterViewInit, OnChanges ,
-    Output , EventEmitter, Input , ChangeDetectorRef,
-    ViewChild , SimpleChanges } from '@angular/core';
-import { Subject ,  Observable } from 'rxjs';
+    OnInit , AfterViewInit, OnChanges ,
+    Output , EventEmitter, Input , ChangeDetectorRef, SimpleChanges } from '@angular/core';
 import * as _ from 'lodash';
-import * as Moment from 'moment';
 
 @Component({
   selector: 'data-entry-statistics-provider-list',
@@ -13,8 +10,8 @@ import * as Moment from 'moment';
 })
 export class DataEntryStatisticsProviderListComponent
   implements OnInit , OnChanges , AfterViewInit {
-  public title: string = 'Encounters Per Type Per Provider';
-  public totalProviderEncounters: number = 0;
+  public title = 'Encounters Per Type Per Provider';
+  public totalProviderEncounters  = 0;
   public pinnedBottomRowData: any = [];
   public allClicalEncounters: any = [];
 
@@ -51,16 +48,14 @@ export class DataEntryStatisticsProviderListComponent
   public ngOnChanges(changes: SimpleChanges) {
        if (changes.dataEntryEncounters && this.dataEntryEncounters.length > 0) {
           this.processProviderData();
-       }else {
+       } else {
         this.providerRowData = [];
        }
   }
 
   public processProviderData() {
-    let dataEntryArray = [];
-    let columnArray = [];
-    let trackColumns = [];
-    let dataEntryStats = this.dataEntryEncounters;
+    const trackColumns = [];
+    const dataEntryStats = this.dataEntryEncounters;
     this.dataEntryEncounterColdef = [];
     this.pinnedBottomRowData = [];
 
@@ -86,19 +81,18 @@ export class DataEntryStatisticsProviderListComponent
         headerName: 'Total',
         field: 'total',
         onCellClicked: (column) => {
-          let patientListParams = {
+          const patientListParams = {
              'providerUuid': column.data.providerUuid,
              'locationUuids': column.data.locationUuid,
              'startDate': this.params.startDate,
              'endDate': this.params.endDate
              };
-          console.log('Columns', column);
           this.patientListParams.emit(patientListParams);
         },
         cellRenderer: (column) => {
           if (typeof column.value === 'undefined' || column.value === 0) {
              return '';
-           }else {
+           } else {
             return '<a href="javascript:void(0);" title="Total Encounters">'
            + column.value + '</a>';
           }
@@ -108,7 +102,7 @@ export class DataEntryStatisticsProviderListComponent
         headerName: 'Total Clinical Encounters',
         field: 'total_clinical',
         onCellClicked: (column) => {
-          let patientListParams = {
+        const patientListParams = {
              'providerUuid': column.data.providerUuid,
              'locationUuids': this.params.locationUuids,
              'encounterTypeUuids': column.data.clinicalEncounters,
@@ -120,7 +114,7 @@ export class DataEntryStatisticsProviderListComponent
         cellRenderer: (column) => {
                     if (typeof column.value === 'undefined' || column.value === 0) {
                       return '';
-                    }else {
+                    } else {
                       return '<a href="javascript:void(0);" title="Total Clinical Encounters">'
                     + column.value + '</a>';
                     }
@@ -130,14 +124,12 @@ export class DataEntryStatisticsProviderListComponent
     );
     this.gridOptions.groupDefaultExpanded = -1;
 
-    let providerMap =  new Map();
+    const providerMap =  new Map();
 
     _.each(dataEntryStats, (stat: any) => {
-          let form = stat.encounter_type;
-          let formId = stat.encounter_type_id;
-          let providerId = stat.provider_id;
-          let providerUuid = stat.provider_uuid;
-          let encounterTypeUuid = stat.encounter_type_uuid;
+          const formId = stat.encounter_type_id;
+          const providerId = stat.provider_id;
+          const encounterTypeUuid = stat.encounter_type_uuid;
 
           if (_.includes(trackColumns, formId) === false) {
 
@@ -146,20 +138,19 @@ export class DataEntryStatisticsProviderListComponent
                   headerName: stat.encounter_type,
                   field: stat.encounter_type,
                   onCellClicked: (column) => {
-                    let patientListParams = {
+                    const patientListParams = {
                        'providerUuid': column.data.providerUuid,
                        'encounterTypeUuids': encounterTypeUuid,
                        'locationUuids': column.data.locationUuid,
                        'startDate': this.params.startDate,
                        'endDate':  this.params.endDate
                     };
-                    // console.log('column', column);
                     this.patientListParams.emit(patientListParams);
                   },
                   cellRenderer: (column) => {
                     if (typeof column.value === 'undefined') {
                        return '';
-                     }else {
+                     } else {
                       return '<a href="javascript:void(0);" title="providercount">'
                      + column.value + '</a>';
                      }
@@ -169,7 +160,7 @@ export class DataEntryStatisticsProviderListComponent
 
             trackColumns.push(formId);
           }
-          let providerObj = {
+          const providerObj = {
             'encounters': [
              {
                'encounterUuid': stat.encounter_type_uuid,
@@ -184,7 +175,7 @@ export class DataEntryStatisticsProviderListComponent
             'locationUuid': stat.location_uuid
           };
 
-          let providerSaved = providerMap.get(providerId);
+          const providerSaved = providerMap.get(providerId);
 
           if (typeof providerSaved !== 'undefined') {
 
@@ -197,7 +188,7 @@ export class DataEntryStatisticsProviderListComponent
                 'locationUuid': stat.location_uuid
                });
 
-          }else {
+          } else {
               providerMap.set(providerId, providerObj);
           }
 
@@ -207,18 +198,17 @@ export class DataEntryStatisticsProviderListComponent
   }
 
   public generateProviderRowData(providerMap) {
-
-    let rowArray = [];
-    let colSumMap = new Map();
-    let totalProvidersEncounters: number = 0;
-    let totalProviderClinicalEncounters: number = 0;
+    const rowArray = [];
+    const colSumMap = new Map();
+    let totalProvidersEncounters  = 0;
+    let totalProviderClinicalEncounters = 0;
     this.allClicalEncounters = [];
 
     providerMap.forEach( (providerItem: any) => {
-      let forms = providerItem.encounters;
+      const forms = providerItem.encounters;
       let totalEncounters = 0;
       let totalClinical = 0;
-      let specificProvider: any = {
+      const specificProvider: any = {
         providers: providerItem.providerName,
         location: providerItem.location,
         locationUuid: providerItem.locationUuid,
@@ -234,11 +224,11 @@ export class DataEntryStatisticsProviderListComponent
           specificProvider.clinicalEncounters.push(form.encounterUuid);
           this.allClicalEncounters.push(form.encounterUuid);
         }
-        let colTotal = colSumMap.get(form.encounter_type);
+        const colTotal = colSumMap.get(form.encounter_type);
         if (typeof colTotal === 'undefined') {
               colSumMap.set(form.encounter_type, form.encounters_count);
-        }else {
-                let newTotal = colTotal + form.encounters_count;
+        } else {
+                const newTotal = colTotal + form.encounters_count;
                 colSumMap.set(form.encounter_type, newTotal);
         }
       });
@@ -250,11 +240,10 @@ export class DataEntryStatisticsProviderListComponent
       rowArray.push(specificProvider);
     });
 
-    let totalRow = this.createTotalsRow(colSumMap, totalProvidersEncounters,
+    const totalRow = this.createTotalsRow(colSumMap, totalProvidersEncounters,
       totalProviderClinicalEncounters);
-    let totalRowArray = [];
+    const totalRowArray = [];
     totalRowArray.push(totalRow);
-    console.log('Totals Row', totalRow);
     this.totalProviderEncounters = totalProvidersEncounters;
     this.providerRowData = rowArray;
     this.pinnedBottomRowData = totalRowArray;
@@ -263,7 +252,7 @@ export class DataEntryStatisticsProviderListComponent
 
   public createTotalsRow(totalsMap, totalProvidersEncounters, totalProviderClinicalEncounters) {
 
-    let rowTotalObj = {
+    const rowTotalObj = {
       'providers': 'Total',
       'providerUuid': this.params.providerUuid,
       'total': totalProvidersEncounters,

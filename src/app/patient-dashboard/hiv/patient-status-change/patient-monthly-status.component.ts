@@ -1,10 +1,9 @@
 
-import {take} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import * as Moment from 'moment';
-import { PatientCareStatusResourceService } from
-  '../../../etl-api/patient-care-status-resource.service';
+import { PatientCareStatusResourceService } from '../../../etl-api/patient-care-status-resource.service';
 import { PatientService } from '../../services/patient.service';
 import { Patient } from '../../../models/patient.model';
 
@@ -32,7 +31,7 @@ export class PatientMonthlyStatusComponent implements OnInit, OnDestroy {
     };
     public error = false;
     constructor(private patientService: PatientService,
-                private patientCareStatusResourceService: PatientCareStatusResourceService) { }
+        private patientCareStatusResourceService: PatientCareStatusResourceService) { }
 
     public ngOnInit() {
         this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
@@ -50,8 +49,8 @@ export class PatientMonthlyStatusComponent implements OnInit, OnDestroy {
     }
     public getCareStatusHistory() {
         if (this.patient) {
-            let endDate = Moment().format('YYYY-MM-DD');
-            let startDate = Moment().subtract(12, 'months').format('YYYY-MM-DD');
+            const endDate = Moment().format('YYYY-MM-DD');
+            const startDate = Moment().subtract(12, 'months').format('YYYY-MM-DD');
             this.loadingHistory = true;
             this.historySubscription = this.patientCareStatusResourceService.
                 getMonthlyPatientCareStatus({

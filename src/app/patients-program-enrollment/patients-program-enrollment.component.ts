@@ -1,13 +1,10 @@
 
 import {take} from 'rxjs/operators';
 import { Component, OnInit, Input } from '@angular/core';
-import { Router, ActivatedRoute , Params } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash';
-import * as Moment from 'moment';
-import { PatientProgramEnrollmentService } from
-    './../etl-api/patient-program-enrollment.service';
-import { DepartmentProgramsConfigService } from
-'./../etl-api/department-programs-config.service';
+import { PatientProgramEnrollmentService } from './../etl-api/patient-program-enrollment.service';
+import { DepartmentProgramsConfigService } from './../etl-api/department-programs-config.service';
 
 @Component({
     selector: 'patients-program-enrollment',
@@ -17,9 +14,9 @@ import { DepartmentProgramsConfigService } from
 
 export class PatientsProgramEnrollmentComponent implements OnInit {
 
-    public title: string = 'Active patient Program Enrollment';
+    public title = 'Active patient Program Enrollment';
     public params: any;
-    public showSummary: boolean = false;
+    public showSummary = false;
     @Input() public filterSelected: any[];
 
     public busyIndicator: any = {
@@ -27,10 +24,10 @@ export class PatientsProgramEnrollmentComponent implements OnInit {
         message: '' // default message
     };
 
-    public startDate: string = '';
-    public endDate: string = '';
+    public startDate  = '';
+    public endDate = '';
     public selectedLocation: any;
-    public replaceSummary: boolean = true;
+    public replaceSummary = true;
     public departmentProgConfig: any = [];
     public enrolledPatientList: any = [];
     public enrolledSummary: any = [];
@@ -63,7 +60,7 @@ export class PatientsProgramEnrollmentComponent implements OnInit {
         this.enrolledPatientList = [];
         this.replaceSummary = true;
         this.setQueryParams($event);
-        let queryParams = this.getQueryParams();
+        const queryParams = this.getQueryParams();
         this.showSummary = true;
         this.getEnrollmentSummary(queryParams);
 
@@ -104,25 +101,23 @@ export class PatientsProgramEnrollmentComponent implements OnInit {
 
 public processEnrollmentSummary(enrollmentSummary: any) {
 
-    let i = 1;
-    let enrolledSummaryList = [];
-    let programMap = new Map();
+    const enrolledSummaryList = [];
     let totalCount = 0;
 
     _.each(enrollmentSummary, (summary: any) => {
 
-         let programUuid = summary.program_uuid;
-         let programName = summary.program_name;
-         let programCount = summary.enrollment_count;
+         const programUuid = summary.program_uuid;
+         const programName = summary.program_name;
+         const programCount = summary.enrollment_count;
 
          _.each(this.departmentProgConfig, (department: any) => {
-            let programs = department.programs;
-            let departmentName = department.name;
+            const programs = department.programs;
+            const departmentName = department.name;
             _.each(programs, (program: any) => {
-                let uuid = program.uuid;
+                const uuid = program.uuid;
                 if (uuid === programUuid) {
 
-                    let summaryObj = {
+                    const summaryObj = {
                         'dept': departmentName,
                         'program': programName,
                         'enrolled': programCount,
@@ -138,7 +133,7 @@ public processEnrollmentSummary(enrollmentSummary: any) {
 
     });
 
-    let totalObj = {
+    const totalObj = {
         'dept': 'Total',
         'program': '#Total',
         'enrolled': totalCount,
@@ -164,7 +159,7 @@ public processEnrollmentSummary(enrollmentSummary: any) {
             typeof params.locationUuids === 'undefined' &&
             typeof params.programType === 'undefined') {
             this.params = params;
-        }else {
+        } else {
 
             this.endDate = params.endDate;
             this.startDate = params.startDate;

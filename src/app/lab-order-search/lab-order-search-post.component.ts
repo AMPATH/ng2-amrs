@@ -34,10 +34,10 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
   }
 
   @Input()
-  public reset: boolean = false;
+  public reset = false;
 
   @Input()
-  public hasPDashLink: boolean = false;
+  public hasPDashLink = false;
 
   @Output()  public resetEvent = new EventEmitter();
   @Output()  public orderPostSuccessfulEvent = new EventEmitter();
@@ -59,7 +59,7 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
    public patientIdentifers = [];
    public sampleTypes: any;
    public orderTypes: any;
-   public isBusy: boolean = true;
+   public isBusy = true;
 
    public selectedLabLocation: any;
    public selectedIdentifier: string;
@@ -78,6 +78,7 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
   }
 
 public ngOnInit() {
+        // tslint:disable-next-line:no-console
         console.info('Init LabOrderSearchPostComponent');
 }
    public ngOnChanges(changes: SimpleChanges) {
