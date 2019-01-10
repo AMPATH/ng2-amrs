@@ -9,16 +9,18 @@ import { OrderResourceService } from '../openmrs-api/order-resource.service';
   styleUrls: ['./lab-order-search.component.css']
 })
 export class LabOrderSearchComponent implements OnInit {
+  // tslint:disable-next-line:no-output-on-prefix
   @Output() public onOrderRecieved = new EventEmitter<any>();
+  // tslint:disable-next-line:no-output-on-prefix
   @Output() public onReset = new EventEmitter<any>();
-  public orderId: string = '';
-  public isResetButton: boolean = true;
-  public adjustedInputMargin: string = '240px';
-  public isLoading: boolean = false;
-  public hasError: boolean = false;
-  public orderDeleted: boolean = false;
-  private _reset: boolean = false;
-  private _orderPostSuccessful: boolean = false;
+  public orderId = '';
+  public isResetButton = true;
+  public adjustedInputMargin = '240px';
+  public isLoading = false;
+  public hasError = false;
+  public orderDeleted = false;
+  private _reset = false;
+  private _orderPostSuccessful = false;
 
   @Input()
   set reset(value) {
