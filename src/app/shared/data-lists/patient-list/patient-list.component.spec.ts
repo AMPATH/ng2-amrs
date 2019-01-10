@@ -21,14 +21,14 @@ describe('Component: GenericList', () => {
   });
 
   it('should create an instance', () => {
-    let router: Router = TestBed.get(Router);
-    let component = new PatientListComponent(router);
+    const router: Router = TestBed.get(Router);
+    const component = new PatientListComponent(router);
     expect(component).toBeTruthy();
   });
 
   it('should have required variables', () => {
-    let router: Router = TestBed.get(Router);
-    let component = new PatientListComponent(router);
+    const router: Router = TestBed.get(Router);
+    const component = new PatientListComponent(router);
     expect(component.extraColumns).toBeUndefined();
     expect(component.data).toBeTruthy();
   });

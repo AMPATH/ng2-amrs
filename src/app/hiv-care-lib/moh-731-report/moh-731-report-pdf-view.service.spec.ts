@@ -1,6 +1,4 @@
 import { TestBed, fakeAsync, inject } from '@angular/core/testing';
-import { Http, BaseRequestOptions } from '@angular/http';
-import { MockBackend } from '@angular/http/testing';
 import { BehaviorSubject } from 'rxjs';
 import { MOHReportService } from './moh-731-report-pdf-view.service';
 require('pdfmake/build/pdfmake.js');
@@ -9,10 +7,12 @@ require('pdfmake/build/vfs_fonts.js');
 import {
   Moh731ResourceServiceMock
 } from '../../etl-api/moh-731-resource.service.mock';
+import { HttpClient, HttpHandler } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 declare let pdfMake: any;
 
 describe('Service: MOHReportService', () => {
-  let params = {
+  const params = {
     county: 'Kakamega',
     district: 'dsit',
     endDate: '2017-04-10',
@@ -22,16 +22,17 @@ describe('Service: MOHReportService', () => {
     location_uuid: 'Location-uuid',
     startDate: '2017-03-10'
   };
-  let mock = new Moh731ResourceServiceMock();
-  let data = mock.getTestData();
-  let rowData = data.result;
-  let sectionDefinitions = data.sectionDefinitions;
+  const mock = new Moh731ResourceServiceMock();
+  const data = mock.getTestData();
+  const rowData = data.result;
+  const sectionDefinitions = data.sectionDefinitions;
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
       providers: [
         MOHReportService,
-        MockBackend,
-        BaseRequestOptions
+        HttpClient,
+        HttpHandler
       ]
     });
   });
@@ -41,20 +42,20 @@ describe('Service: MOHReportService', () => {
   });
 
   it('should create an instance of MOHReportService', () => {
-    let service: MOHReportService = TestBed.get(MOHReportService);
+    const service: MOHReportService = TestBed.get(MOHReportService);
     expect(service).toBeTruthy();
   });
 
   it('should initialize correctly when ' +
     'MOHReportService is instantiated', () => {
-      let service: MOHReportService = TestBed.get(MOHReportService);
+      const service: MOHReportService = TestBed.get(MOHReportService);
       expect(service.generatePdf).toBeTruthy();
     });
 
 
   it('should return correct pdf source (blob object URL), pdf definition, and  pdfProxy',
     (done) => {
-      let service: MOHReportService = TestBed.get(MOHReportService);
+      const service: MOHReportService = TestBed.get(MOHReportService);
 
       service.generatePdf(params, rowData, sectionDefinitions).subscribe(
         (pdf) => {
@@ -73,7 +74,7 @@ describe('Service: MOHReportService', () => {
 
   it('should return correct pdf definition with the correct object structure needed by pdfMake',
     (done) => {
-      let service: MOHReportService = TestBed.get(MOHReportService);
+      const service: MOHReportService = TestBed.get(MOHReportService);
 
       service.generatePdf(params, rowData, sectionDefinitions).subscribe(
         (pdf) => {
@@ -100,7 +101,7 @@ describe('Service: MOHReportService', () => {
 
   it('should create pdf url successfully of correct blob type: blob:http://',
     (done) => {
-      let service: MOHReportService = TestBed.get(MOHReportService);
+      const service: MOHReportService = TestBed.get(MOHReportService);
       service.generatePdf(params, rowData, sectionDefinitions).subscribe(
         (pdf) => {
           expect(pdf.pdfSrc).toBeDefined();
@@ -120,7 +121,7 @@ describe('Service: MOHReportService', () => {
 
   it('should throw error when pdf dependencies is null or undefined',
     (done) => {
-      let service: MOHReportService = TestBed.get(MOHReportService);
+      const service: MOHReportService = TestBed.get(MOHReportService);
       service.generatePdf(null, null, null).subscribe(
         (pdf) => {
           expect(pdf).not.toBeDefined(); // this means it has errored, we don't expect this!!!!

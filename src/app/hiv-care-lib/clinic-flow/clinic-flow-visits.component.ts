@@ -25,15 +25,15 @@ export class ClinicFlowVisitsComponent implements OnInit, OnDestroy {
     private filteredData: any;
     private selectedLocation: any;
     private selectedDate: any;
-    private loadingClinicFlow: boolean = false;
-    private dataLoaded: boolean = false;
+    private loadingClinicFlow = false;
+    private dataLoaded = false;
     private currentLocationSubscription: Subscription;
     private selectedDateSubscription: Subscription;
     private clinicFlowSubscription: Subscription;
 
     constructor(private clinicFlowCacheService: ClinicFlowCacheService,
-                private router: Router,
-                @Inject('ClinicFlowResource') private clinicFlowResource: ClinicFlowResource) { }
+        private router: Router,
+        @Inject('ClinicFlowResource') private clinicFlowResource: ClinicFlowResource) { }
 
     public ngOnInit() {
         this.currentLocationSubscription = this.clinicFlowCacheService.getSelectedLocation()
@@ -96,7 +96,7 @@ export class ClinicFlowVisitsComponent implements OnInit, OnDestroy {
         this.initParams();
         this.loadingClinicFlow = true;
         this.clinicFlowCacheService.setIsLoading(this.loadingClinicFlow);
-        let result = this.clinicFlowResource.
+        const result = this.clinicFlowResource.
             getClinicFlow(dateStated, locations);
         if (result === null) {
             throw new Error('Null clinic flow observable');
@@ -113,7 +113,7 @@ export class ClinicFlowVisitsComponent implements OnInit, OnDestroy {
 
                         this.encounters = this.AddEncounterSeenByClinician(dataList.result);
                         this.filteredData = this.clinicFlowCacheService.formatData(this.encounters);
-                        let formatted = this.clinicFlowCacheService.formatData(this.encounters);
+                        const formatted = this.clinicFlowCacheService.formatData(this.encounters);
                         this.clinicFlowData = this.clinicFlowData.concat(formatted);
                     } else {
                         this.dataLoaded = true;
@@ -136,10 +136,10 @@ export class ClinicFlowVisitsComponent implements OnInit, OnDestroy {
     public incompletedVisits() {
         this.selectedVisitType = 'Incomplete Visits';
         this.visitCounts = this.incompleteVisitsCount + '/' + this.totalVisitsCount;
-        let results = this.filteredData.filter((obj) => {
+        const results = this.filteredData.filter((obj) => {
             return obj.seen_by_clinician === null;
         });
-        let orderedResults = this.renumberRowsOnFilter(results);
+        const orderedResults = this.renumberRowsOnFilter(results);
 
         this.clinicFlowData = orderedResults;
 
@@ -147,11 +147,11 @@ export class ClinicFlowVisitsComponent implements OnInit, OnDestroy {
     public completedVisits() {
         this.selectedVisitType = 'Completed Visits';
         this.visitCounts = this.completeVisitsCount + '/' + this.totalVisitsCount;
-        let results = this.filteredData.filter((obj) => {
+        const results = this.filteredData.filter((obj) => {
             return obj.seen_by_clinician !== null;
         });
 
-        let orderedResults = this.renumberRowsOnFilter(results);
+        const orderedResults = this.renumberRowsOnFilter(results);
 
         this.clinicFlowData = orderedResults;
 
@@ -163,18 +163,18 @@ export class ClinicFlowVisitsComponent implements OnInit, OnDestroy {
     }
 
     private getTriageLocation(obj) {
-            let result = obj.encounters.filter((encounter) => {
-                return encounter.encounter_type_name === 'HIVTRIAGE';
-            });
-            return result.length > 0 ? result[0].location : null;
+        const result = obj.encounters.filter((encounter) => {
+            return encounter.encounter_type_name === 'HIVTRIAGE';
+        });
+        return result.length > 0 ? result[0].location : null;
     }
 
     private getClinicianLocation(obj) {
-        let encounterType = this.getClinicianEncounterTypeLocation(obj);
-        let encounters = obj.encounters;
-        let result = encounters.filter((encounter) => {
-                    return encounter.encounter_type_name === encounterType;
-                });
+        const encounterType = this.getClinicianEncounterTypeLocation(obj);
+        const encounters = obj.encounters;
+        const result = encounters.filter((encounter) => {
+            return encounter.encounter_type_name === encounterType;
+        });
         return result.length > 0 ? result[0].location : null;
     }
 
@@ -191,29 +191,29 @@ export class ClinicFlowVisitsComponent implements OnInit, OnDestroy {
         this.visitCounts = '';
     }
     private AddEncounterSeenByClinician(result) {
-        let encounters = [];
+        const encounters = [];
         let encounter;
-        for (let i of result) {
-            let data = i;
-            for (let r in data) {
+        for (const i of result) {
+            const data = i;
+            for (const r in data) {
                 if (data.hasOwnProperty(r)) {
-                    for (let j of data.encounters) {
-                        let datas = j;
-                        for (let k in datas) {
+                    for (const j of data.encounters) {
+                        const datas = j;
+                        for (const k in datas) {
                             if (datas.hasOwnProperty(k)) {
                                 encounter = datas.encounter_type_name;
                             }
                         }
                     }
 
-                    let seenByClinician = { time: data.seen_by_clinician, encounters: encounter };
+                    const seenByClinician = { time: data.seen_by_clinician, encounters: encounter };
                     data['seenByClinician'] = seenByClinician;
                     if (data.seen_by_clinician) {
-                                    let triageLoc = this.getTriageLocation(data);
-                                    let clinicianLoc = this.getClinicianLocation(data);
-                                    if (triageLoc && clinicianLoc !== triageLoc) {
-                                      data['location'] = '-';
-                                    }
+                        const triageLoc = this.getTriageLocation(data);
+                        const clinicianLoc = this.getClinicianLocation(data);
+                        if (triageLoc && clinicianLoc !== triageLoc) {
+                            data['location'] = '-';
+                        }
                     }
                 }
             }
@@ -224,10 +224,10 @@ export class ClinicFlowVisitsComponent implements OnInit, OnDestroy {
     }
 
     private renumberRowsOnFilter(result) {
-        let numbers = [];
+        const numbers = [];
         for (let i = 0; i < result.length; ++i) {
-            let data = result[i];
-            for (let r in data) {
+            const data = result[i];
+            for (const r in data) {
                 if (data.hasOwnProperty(r)) {
                     data['#'] = i + 1;
                 }

@@ -21,7 +21,7 @@ export class PatientReminderResourceService {
   }
 
   public getPatientLevelReminders(patientUuid: string): Observable<any> {
-    let url = this.getUrl(patientUuid)  + '/' + this.referenceDate;
+    const url = this.getUrl(patientUuid)  + '/' + this.referenceDate;
     return this.http.get<any>(url).pipe(map((response) => {
         return response.result;
     }));

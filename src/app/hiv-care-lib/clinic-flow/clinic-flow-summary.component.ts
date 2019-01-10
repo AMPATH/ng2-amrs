@@ -16,18 +16,18 @@ export class ClinicFlowSummaryComponent implements OnInit, OnDestroy {
     public errors: any[] = [];
     public clinicFlowData: any[] = [];
     public hourlyStats: any[] = [];
-    public loadingClinicFlow: boolean = false;
-    public summarydataLoaded: boolean = false;
+    public loadingClinicFlow = false;
+    public summarydataLoaded = false;
     public averageWaitingTime: any;
     public medianWaitingTime: any;
     public incompleteVisitsCount: any;
     public selectedLocation: any;
     public selectedDate: any;
-    public dataLoaded: boolean = false;
+    public dataLoaded = false;
     private subs: Subscription[] = [];
     constructor(private clinicFlowCacheService: ClinicFlowCacheService,
-                private router: Router,
-                @Inject('ClinicFlowResource') private clinicFlowResource: ClinicFlowResource) { }
+        private router: Router,
+        @Inject('ClinicFlowResource') private clinicFlowResource: ClinicFlowResource) { }
 
     public ngOnInit() {
         const sub = this.clinicFlowCacheService.getSelectedLocation()
@@ -60,7 +60,7 @@ export class ClinicFlowSummaryComponent implements OnInit, OnDestroy {
         this.initParams();
         this.loadingClinicFlow = true;
         this.clinicFlowCacheService.setIsLoading(this.loadingClinicFlow);
-        let result = this.clinicFlowResource.
+        const result = this.clinicFlowResource.
             getClinicFlow(dateStated, locations);
         if (result === null) {
             throw new Error('Null clinic flow observable');
@@ -68,7 +68,7 @@ export class ClinicFlowSummaryComponent implements OnInit, OnDestroy {
             result.take(1).subscribe(
                 (data) => {
                     if (data && data.result.length > 0) {
-                        let formatted = this.clinicFlowCacheService.formatData(
+                        const formatted = this.clinicFlowCacheService.formatData(
                             data.result);
                         this.hourlyStats = data.hourlyStats;
                         this.clinicFlowData = this.clinicFlowData.concat(formatted);

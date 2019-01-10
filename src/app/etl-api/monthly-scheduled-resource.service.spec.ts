@@ -1,14 +1,15 @@
 import { TestBed, async, inject } from '@angular/core/testing';
-import { MockBackend, MockConnection } from '@angular/http/testing';
-import {
-    BaseRequestOptions, XHRBackend, Http, RequestMethod,
-    ResponseOptions, Response
-} from '@angular/http';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { MonthlyScheduleResourceService } from './monthly-scheduled-resource.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
 import { CacheModule, CacheService } from 'ionic-cache';
+import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
+import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
+class MockCacheStorageService {
+    constructor(a, b) { }
+}
+
 const expected = {
     'results': [
         {
@@ -111,29 +112,30 @@ const expected = {
     ]
 };
 describe('MonthlyScheduleResourceService Tests', () => {
-    let service;
+    let service, httpMock;
     beforeEach(() => {
         TestBed.configureTestingModule({
             declarations: [],
-          imports: [CacheModule],
+            imports: [CacheModule, HttpClientTestingModule],
             providers: [
                 MonthlyScheduleResourceService,
-                MockBackend,
-                BaseRequestOptions,
                 AppSettingsService,
                 LocalStorageService,
                 DataCacheService,
                 CacheService,
                 {
-                    provide: Http,
-                    deps: [MockBackend, BaseRequestOptions],
-                    useFactory:
-                    (backend: XHRBackend, defaultOptions: BaseRequestOptions) => {
-                        return new Http(backend, defaultOptions);
+                    provide: CacheStorageService, useFactory: () => {
+                        return new MockCacheStorageService(null, null);
                     }
                 }
             ]
         });
+        service = TestBed.get(MonthlyScheduleResourceService);
+        httpMock = TestBed.get(HttpTestingController);
+    });
+
+    afterAll(() => {
+        TestBed.resetTestingModule();
     });
 
     afterAll(() => {
@@ -142,39 +144,26 @@ describe('MonthlyScheduleResourceService Tests', () => {
 
     it('should be defined',
         inject([MonthlyScheduleResourceService], (s: MonthlyScheduleResourceService,
-                dataCacheService: DataCacheService,
-                cacheService: CacheService) => {
+            dataCacheService: DataCacheService,
+            cacheService: CacheService) => {
             expect(s).toBeTruthy();
         })
     );
 
-    it('should return a list containing visits and appointments for a given months',
-        inject([MonthlyScheduleResourceService, MockBackend],
-            (s: MonthlyScheduleResourceService, backend: MockBackend) => {
-                backend.connections.subscribe((connection: MockConnection) => {
-                    expect(connection.request.method).toBe(RequestMethod.Get);
-                    expect(connection.request.url).toContain('/etl/get-monthly-schedule');
-                    expect(connection.request.url).toContain('endDate=2017-02-28');
-                    expect(connection.request.url).toContain('startDate=2017-02-01');
-                    expect(connection.request.url).toContain('locationUuids=uuid');
-                    expect(connection.request.url).toContain('limit=1000000');
-                    connection.mockRespond(new Response(
-                        new ResponseOptions({
-                            body: expected
-                        }
-                        )));
-                });
+    it('should return a list containing visits and appointments for a given months', () => {
 
-                expect(s.getMonthlySchedule).toBeDefined();
-                s.getMonthlySchedule({
-                    startDate: '2017-02-01',
-                    endDate: '2017-02-28',
-                    locationUuids: 'uuid',
-                    limit: '1000000'
-                }).subscribe((result) => {
-                    expect(result).toBeDefined();
-                    expect(result).toEqual(expected.results);
-                });
-            })
-    );
+        expect(service.getMonthlySchedule).toBeDefined();
+        service.getMonthlySchedule({
+            startDate: '2017-02-01',
+            endDate: '2017-02-28',
+            locationUuids: 'uuid',
+            limit: '1000000'
+        }).subscribe((result) => {
+            expect(result).toBeDefined();
+            expect(result).toEqual(expected.results);
+        });
+
+        // const req = httpMock.expectOne(service.getUrl() + '?startDate=2017-02-01&endDate=2017-02-28&locationUuids=uuid&limit=1000000');
+        // req.flush(expected);
+    });
 });

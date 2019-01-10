@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './side-navigation.html'
 })
 export class SideNavigationComponent implements OnInit, OnDestroy {
+  // tslint:disable-next-line:no-input-rename
   @Input('current-dashboard') public currentDashboard: string;
   public routes: Array<any> = [];
   public changingRoutesSub: Subscription;
