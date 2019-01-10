@@ -27,40 +27,40 @@ export class ProgramManagerBaseComponent implements OnInit {
   public program: any;
   public title = 'Start Program';
   public steps: number[] = [1, 2, 3, 4, 5, 6];
-  public showForms: boolean = false;
-  public customTitleClass: string = '';
-  public jumpStep: number = -1;
-  public currentStep: number = 1;
-  public nextStep: boolean = false;
-  public prevStep: boolean = false;
+  public showForms = false;
+  public customTitleClass = '';
+  public jumpStep = -1;
+  public currentStep = 1;
+  public nextStep = false;
+  public prevStep = false;
   public patient: Patient = new Patient({});
   public currentError: string;
   public currentNotice: string;
   public availablePrograms: any[] = [];
   public requiredProgramQuestions: any[] = [];
-  public hasError: boolean = false;
-  public hasNotice: boolean = false;
-  public hasValidationErrors: boolean = false;
-  public loaded: boolean = false;
-  public isReferral: boolean = false;
+  public hasError = false;
+  public hasNotice = false;
+  public hasValidationErrors = false;
+  public loaded = false;
+  public isReferral = false;
   public submittedEncounter: any = {};
   public selectedProgram: any;
   public errors: any[] = [];
   public enrolledProgramsByDepartment: any[] = [];
-  public enrollmentCompleted: boolean  = false;
+  public enrollmentCompleted  = false;
   public locations: any = [];
   public dateEnrolled: string;
   public dateCompleted: string;
-  public programIncompatible: boolean = false;
-  public refreshingPatient: boolean = false;
+  public programIncompatible = false;
+  public refreshingPatient = false;
   public incompatibleMessage: any = [];
-  public incompatibleCount: number = 0;
+  public incompatibleCount = 0;
   public enrolledProgrames: any = [];
   public selectedLocation: any;
   public allPatientProgramVisitConfigs: any = {};
   public programDepartments: any = [];
   public programVisitConfig: any;
-  public parentComponent: string = 'landing-page';
+  public parentComponent = 'landing-page';
   public stepInfo: any = {};
   public availableDepartmentPrograms: any[] = [];
   public departmentConf: any[];
@@ -81,7 +81,7 @@ export class ProgramManagerBaseComponent implements OnInit {
   }
 
   public loadPatientProgramConfig(): Observable<any> {
-    let programConfigLoaded: Subject<boolean> = new Subject<boolean>();
+    const programConfigLoaded: Subject<boolean> = new Subject<boolean>();
     this.patientService.currentlyLoadedPatient.subscribe((patient) => {
         if (patient) {
           this.patient = patient;
@@ -113,7 +113,7 @@ export class ProgramManagerBaseComponent implements OnInit {
 
   public mapEnrolledProgramsToDepartment(excludeCompleted: boolean = false) {
         if (this.enrolledProgrames) {
-          let enrolledProgrames = _.filter(this.patient.enrolledPrograms, (eProgram) => {
+          const enrolledProgrames = _.filter(this.patient.enrolledPrograms, (eProgram) => {
             return !_.isNull(eProgram.enrolledProgram);
           });
           _.each(this.departmentConf, (config: any) => {
@@ -147,13 +147,13 @@ export class ProgramManagerBaseComponent implements OnInit {
   }
 
   public getProgramsByDepartmentName(): any[] {
-    let department = _.find(this.departmentConf, (config: any) => {
+    const department = _.find(this.departmentConf, (config: any) => {
       return config.name === this.department;
     });
     if (department) {
       // Remove already enrolled programs
       return _.filter(department.programs, (program) => {
-        let programs = _.map(this.availablePrograms,
+        const programs = _.map(this.availablePrograms,
           (a) => a.programUuid);
         return _.includes(programs, program.uuid);
       });
@@ -210,9 +210,9 @@ export class ProgramManagerBaseComponent implements OnInit {
   }
 
   public goToProgramSummary() {
-    let _route = '/patient-dashboard/patient/' + this.patient.uuid
+    const _route = '/patient-dashboard/patient/' + this.patient.uuid
       + '/general/general/program-manager/program-summary';
-    let routeOptions = {
+    const routeOptions = {
 
     };
     this.router.navigate([_route], routeOptions);
@@ -228,12 +228,12 @@ export class ProgramManagerBaseComponent implements OnInit {
   }
 
   public serializeStepInfo(key: string = 'pm-data') {
-    let currentPmData = this.localStorageService.getObject(key) || {};
+    const currentPmData = this.localStorageService.getObject(key) || {};
     this.localStorageService.setObject(key, _.merge(currentPmData, this.stepInfo));
   }
 
   public getSerializedStepInfo(key: string, data: string = 'pm-data') {
-    let currentPmData = this.localStorageService.getObject(data) || {};
+    const currentPmData = this.localStorageService.getObject(data) || {};
     if (!_.isEmpty(currentPmData)) {
       return currentPmData[key];
     }

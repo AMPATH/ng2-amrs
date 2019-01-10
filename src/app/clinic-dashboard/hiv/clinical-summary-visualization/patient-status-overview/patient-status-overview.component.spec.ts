@@ -3,7 +3,7 @@
  /* tslint:disable:import-blacklist */
 
  import { TestBed, async, fakeAsync, ComponentFixture, tick } from '@angular/core/testing';
- import { Observable } from 'rxjs/Rx';
+ import { Observable, throwError } from 'rxjs';
  import { ClinicDashboardCacheService } from '../../../services/clinic-dashboard-cache.service';
  import {
  ClinicalSummaryVisualizationResourceService
@@ -102,7 +102,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
  it('should hit the error callback when getPatientCareStatusReport returns an error',
    fakeAsync(() => {
    const spy = spyOn(dataStub, 'getPatientCareStatusReport').and.returnValue(
-   Observable.throw({ error: '' })
+    throwError({ error: '' })
    );
    comp.getPatientStatusOverviewData();
    tick(50);
