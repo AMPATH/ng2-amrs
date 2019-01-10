@@ -1,4 +1,5 @@
-
+/* tslint:disable:no-inferrable-types */
+/* tslint:disable:no-output-on-prefix */
 import {take} from 'rxjs/operators/take';
 import {
   Component, OnInit, ViewEncapsulation,

@@ -26,13 +26,13 @@ describe('Service: LabOrderPostService', () => {
     });
 
     it('should create an instance', () => {
-        let service: LabOrderPostService = TestBed.get(LabOrderPostService);
+        const service: LabOrderPostService = TestBed.get(LabOrderPostService);
         expect(service).toBeTruthy();
     });
 
     it('should post orders to eid', (done) => {
-        let service: LabOrderPostService = TestBed.get(LabOrderPostService);
-        let payload = {
+        const service: LabOrderPostService = TestBed.get(LabOrderPostService);
+        const payload = {
           'type': 'VL',
           'locationUuid': 'xxxxxx',
           'orderNumber': 'ORD-1',
@@ -50,7 +50,7 @@ describe('Service: LabOrderPostService', () => {
           'dateReceived': '2017-01-05'
         };
 
-        let result = service.postOrderToEid(location, payload);
+        const result = service.postOrderToEid(location, payload);
 
         result.subscribe((results) => {
             expect(results).toBeTruthy();

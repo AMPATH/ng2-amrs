@@ -1,4 +1,4 @@
-
+/* tslint:disable:no-inferrable-types */
 import {take} from 'rxjs/operators/take';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';

@@ -1,30 +1,22 @@
-
 /* tslint:disable:no-unused-variable */
-
-import { TestBed, async, fakeAsync, ComponentFixture, tick } from '@angular/core/testing';
+/* tslint:disable:no-unused-variable */
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule } from '@angular/forms';
-
-import {
-  AccordionModule, DataTableModule, SharedModule, TabViewModule,
-  GrowlModule, PanelModule, ConfirmDialogModule, ConfirmationService,
-  DialogModule, InputTextModule, MessagesModule, InputTextareaModule,
-  DropdownModule, ButtonModule, CalendarModule
-} from 'primeng/primeng';
-
+import { ConfirmDialogModule, DialogModule } from 'primeng/primeng';
 import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 import { CohortListService } from './cohort-list.service';
-// import { UserCohortResourceService } from '../etl-api/user-cohort-resource.service';
 import { UserService } from '../openmrs-api/user.service';
 import { CohortResourceService } from '../openmrs-api/cohort-resource.service';
 import { ShareCohortListComponent } from './share-cohort-list.component';
 import { CohortUserResourceService } from '../etl-api/cohort-list-user-resource.service';
 import { UserSearchComponent } from './user-search.component';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 class DataStub {
 
@@ -79,7 +71,7 @@ describe('ShareCohortListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [NgamrsSharedModule, ConfirmDialogModule, DialogModule, CommonModule,
-        FormsModule, NgxPaginationModule, BrowserAnimationsModule,
+        FormsModule, NgxPaginationModule, HttpClientTestingModule, BrowserAnimationsModule,
         RouterTestingModule.withRoutes([
           { path: 'add-cohort-list', component: DummyComponent }
         ])],
@@ -129,10 +121,13 @@ describe('ShareCohortListComponent', () => {
       const spy = spyOn(dataStub, 'createCohortUser').and.returnValue(
         of(expectedPayload)
       );
+      comp.getSelectedUser({ value: 'test' });
+      spyOn(dataStub, 'getCohortUser').and.returnValue(
+        of(expectedResults)
+      );
+      comp.getCohortUsers();
       comp.ShareCohortWithNewUser();
-      fixture.detectChanges();
-      expect(spy.calls.any()).toEqual(true);
+      expect(spy.calls.any()).toBe(true);
       done();
     });
 });
-

@@ -1,4 +1,4 @@
-
+/* tslint:disable:no-inferrable-types */
 import {take} from 'rxjs/operators/take';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
