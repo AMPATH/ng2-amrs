@@ -23,11 +23,11 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
   public sidebarOpen = true;
   public isMobile = false;
   public appSubscription: Subscription;
-  public currentDashboard: string = '';
+  public currentDashboard = '';
   public user: User;
   public version: string;
   public buildDate: Date;
-  public userLocation: string = '';
+  public userLocation = '';
   public busyIndicator: Subscription;
   public active = false;
   public interval;

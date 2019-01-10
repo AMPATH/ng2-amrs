@@ -1,5 +1,3 @@
-import { MockBackend } from '@angular/http/testing';
-import { Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 import { TestBed, inject, async } from '@angular/core/testing';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
@@ -18,8 +16,7 @@ import {
 import { UserService } from '../../../openmrs-api/user.service';
 import {
   UserDefaultPropertiesService
-} from
-  '../../../user-default-properties/user-default-properties.service';
+} from '../../../user-default-properties/user-default-properties.service';
 import { PersonResourceService } from '../../../openmrs-api/person-resource.service';
 import { Patient } from '../../../models/patient.model';
 import { HivPatientClinicalSummaryComponent } from './hiv-patient-clinical-summary.component';
@@ -28,14 +25,19 @@ import {
 } from '../../../etl-api/hiv-patient-clinical-summary-resource.service';
 import { HivPatientClinicalSummaryService } from './hiv-patient-clinical-summary.service';
 import { PatientProgramService } from '../../programs/patient-programs.service';
+import { HttpClient, HttpHandler } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('Component: HivPatientClinicalSummaryComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [
+        HttpClientTestingModule
+      ],
       providers: [
-        MockBackend,
-        BaseRequestOptions,
+        HttpClient,
+        HttpHandler,
         HivPatientClinicalSummaryComponent,
         HivPatientClinicalSummaryService,
         AppSettingsService,
@@ -48,30 +50,23 @@ describe('Component: HivPatientClinicalSummaryComponent', () => {
         ProgramEnrollmentResourceService,
         {
           provide: PatientService, useFactory: () => {
-          return new PatientServiceMock();
-        }, deps: []
-        },
-        {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
+            return new PatientServiceMock();
+          }, deps: []
         },
         {
           provide: UserService, useFactory: () => {
-          return new FakeUserFactory();
-        }, deps: []
+            return new FakeUserFactory();
+          }, deps: []
         },
         {
           provide: UserDefaultPropertiesService, useFactory: () => {
-          return new FakeDefaultUserPropertiesFactory();
-        }, deps: []
+            return new FakeDefaultUserPropertiesFactory();
+          }, deps: []
         },
         {
           provide: AppFeatureAnalytics, useFactory: () => {
-          return new FakeAppFeatureAnalytics();
-        }, deps: []
+            return new FakeAppFeatureAnalytics();
+          }, deps: []
         }
       ]
     });
@@ -82,14 +77,14 @@ describe('Component: HivPatientClinicalSummaryComponent', () => {
   });
 
   it('should create an instance of HivPatientClinicalSummaryComponent', () => {
-    let patientClinicalSummaryComponent: HivPatientClinicalSummaryComponent
+    const patientClinicalSummaryComponent: HivPatientClinicalSummaryComponent
       = TestBed.get(HivPatientClinicalSummaryComponent);
     expect(patientClinicalSummaryComponent).toBeTruthy();
   });
 
   it('should have all required properties declared and initialized as public property / method',
     () => {
-      let component: HivPatientClinicalSummaryComponent
+      const component: HivPatientClinicalSummaryComponent
         = TestBed.get(HivPatientClinicalSummaryComponent);
       // properties
       expect(component.pdfSrc).toBeNull();
@@ -110,15 +105,15 @@ describe('Component: HivPatientClinicalSummaryComponent', () => {
 
   it('should generate pdf when the component initializes',
     (done) => {
-      let component: HivPatientClinicalSummaryComponent
+      const component: HivPatientClinicalSummaryComponent
         = TestBed.get(HivPatientClinicalSummaryComponent);
-      let hivPatientClinicalSummaryService: HivPatientClinicalSummaryService
+      const hivPatientClinicalSummaryService: HivPatientClinicalSummaryService
         = TestBed.get(HivPatientClinicalSummaryService);
-      let patientClinicalSummaryResource: HivPatientClinicalSummaryResourceService
+      const patientClinicalSummaryResource: HivPatientClinicalSummaryResourceService
         = TestBed.get(HivPatientClinicalSummaryResourceService);
 
       spyOn(patientClinicalSummaryResource, 'fetchPatientSummary').and.callFake((uuid) => {
-        let subject = new BehaviorSubject<any>({});
+        const subject = new BehaviorSubject<any>({});
         subject.next(
           {
             patientUuid: uuid,
@@ -141,15 +136,15 @@ describe('Component: HivPatientClinicalSummaryComponent', () => {
 
   it('should fetch patient summaries from server when the component initializes',
     (done) => {
-      let component: HivPatientClinicalSummaryComponent
+      const component: HivPatientClinicalSummaryComponent
         = TestBed.get(HivPatientClinicalSummaryComponent);
-      let hivPatientClinicalSummaryService: HivPatientClinicalSummaryService
+      const hivPatientClinicalSummaryService: HivPatientClinicalSummaryService
         = TestBed.get(HivPatientClinicalSummaryService);
-      let patientClinicalSummaryResource: HivPatientClinicalSummaryResourceService
+      const patientClinicalSummaryResource: HivPatientClinicalSummaryResourceService
         = TestBed.get(HivPatientClinicalSummaryResourceService);
 
       spyOn(patientClinicalSummaryResource, 'fetchPatientSummary').and.callFake((uuid) => {
-        let subject = new BehaviorSubject<any>({});
+        const subject = new BehaviorSubject<any>({});
         subject.next(
           {
             patientUuid: uuid,
@@ -172,15 +167,15 @@ describe('Component: HivPatientClinicalSummaryComponent', () => {
   );
   it('should generate pdf when the component generatePdf() is invoked',
     (done) => {
-      let component: HivPatientClinicalSummaryComponent
+      const component: HivPatientClinicalSummaryComponent
         = TestBed.get(HivPatientClinicalSummaryComponent);
-      let hivPatientClinicalSummaryService: HivPatientClinicalSummaryService
+      const hivPatientClinicalSummaryService: HivPatientClinicalSummaryService
         = TestBed.get(HivPatientClinicalSummaryService);
-      let patientClinicalSummaryResource: HivPatientClinicalSummaryResourceService
+      const patientClinicalSummaryResource: HivPatientClinicalSummaryResourceService
         = TestBed.get(HivPatientClinicalSummaryResourceService);
 
       spyOn(patientClinicalSummaryResource, 'fetchPatientSummary').and.callFake((uuid) => {
-        let subject = new BehaviorSubject<any>({});
+        const subject = new BehaviorSubject<any>({});
         subject.next(
           {
             patientUuid: uuid,
@@ -204,15 +199,15 @@ describe('Component: HivPatientClinicalSummaryComponent', () => {
 
   it('should fetch patient summaries from server when the generatePdf() is invoked',
     (done) => {
-      let component: HivPatientClinicalSummaryComponent
+      const component: HivPatientClinicalSummaryComponent
         = TestBed.get(HivPatientClinicalSummaryComponent);
-      let hivPatientClinicalSummaryService: HivPatientClinicalSummaryService
+      const hivPatientClinicalSummaryService: HivPatientClinicalSummaryService
         = TestBed.get(HivPatientClinicalSummaryService);
-      let patientClinicalSummaryResource: HivPatientClinicalSummaryResourceService
+      const patientClinicalSummaryResource: HivPatientClinicalSummaryResourceService
         = TestBed.get(HivPatientClinicalSummaryResourceService);
 
       spyOn(patientClinicalSummaryResource, 'fetchPatientSummary').and.callFake((uuid) => {
-        let subject = new BehaviorSubject<any>({});
+        const subject = new BehaviorSubject<any>({});
         subject.next(
           {
             patientUuid: uuid,
@@ -236,15 +231,15 @@ describe('Component: HivPatientClinicalSummaryComponent', () => {
 
   it('should throw an error when generatePdf fails',
     (done) => {
-      let component: HivPatientClinicalSummaryComponent
+      const component: HivPatientClinicalSummaryComponent
         = TestBed.get(HivPatientClinicalSummaryComponent);
-      let hivPatientClinicalSummaryService: HivPatientClinicalSummaryService
+      const hivPatientClinicalSummaryService: HivPatientClinicalSummaryService
         = TestBed.get(HivPatientClinicalSummaryService);
-      let patientClinicalSummaryResource: HivPatientClinicalSummaryResourceService
+      const patientClinicalSummaryResource: HivPatientClinicalSummaryResourceService
         = TestBed.get(HivPatientClinicalSummaryResourceService);
 
       spyOn(patientClinicalSummaryResource, 'fetchPatientSummary').and.callFake((uuid) => {
-        let subject = new BehaviorSubject<any>({});
+        const subject = new BehaviorSubject<any>({});
         subject.next(
           {
             patientUuid: uuid,
@@ -258,7 +253,7 @@ describe('Component: HivPatientClinicalSummaryComponent', () => {
         return subject;
       });
       spyOn(hivPatientClinicalSummaryService, 'generatePdf').and.callFake((uuid) => {
-        let subject = new BehaviorSubject<any>({});
+        const subject = new BehaviorSubject<any>({});
         subject.error('throwing an error intentionally');
         return subject;
       });
@@ -273,15 +268,15 @@ describe('Component: HivPatientClinicalSummaryComponent', () => {
 
   it('should throw an error when fetchPatientSummary encounters an error',
     (done) => {
-      let component: HivPatientClinicalSummaryComponent
+      const component: HivPatientClinicalSummaryComponent
         = TestBed.get(HivPatientClinicalSummaryComponent);
-      let hivPatientClinicalSummaryService: HivPatientClinicalSummaryService
+      const hivPatientClinicalSummaryService: HivPatientClinicalSummaryService
         = TestBed.get(HivPatientClinicalSummaryService);
-      let patientClinicalSummaryResource: HivPatientClinicalSummaryResourceService
+      const patientClinicalSummaryResource: HivPatientClinicalSummaryResourceService
         = TestBed.get(HivPatientClinicalSummaryResourceService);
 
       spyOn(patientClinicalSummaryResource, 'fetchPatientSummary').and.callFake((uuid) => {
-        let subject = new BehaviorSubject<any>({});
+        const subject = new BehaviorSubject<any>({});
         subject.error('throwing an error intentionally');
         return subject;
       });
@@ -297,7 +292,7 @@ describe('Component: HivPatientClinicalSummaryComponent', () => {
 
   it('should navigate to the next page when nextPage is invoked',
     (done) => {
-      let component: HivPatientClinicalSummaryComponent
+      const component: HivPatientClinicalSummaryComponent
         = TestBed.get(HivPatientClinicalSummaryComponent);
 
       component.ngOnInit();
@@ -309,7 +304,7 @@ describe('Component: HivPatientClinicalSummaryComponent', () => {
 
   it('should navigate to the previous page when prevPage() is invoked',
     (done) => {
-      let component: HivPatientClinicalSummaryComponent
+      const component: HivPatientClinicalSummaryComponent
         = TestBed.get(HivPatientClinicalSummaryComponent);
 
       component.ngOnInit();
@@ -324,15 +319,15 @@ describe('Component: HivPatientClinicalSummaryComponent', () => {
 class PatientServiceMock {
   public currentlyLoadedPatient: BehaviorSubject<Patient>
     = new BehaviorSubject(
-    new Patient({
-      uuid: 'patient-uuid',
-      display: 'patient name',
-      person: {
-        uuid: 'person-uuid',
-        display: 'person name'
-      }
-    })
-  );
+      new Patient({
+        uuid: 'patient-uuid',
+        display: 'patient name',
+        person: {
+          uuid: 'person-uuid',
+          display: 'person name'
+        }
+      })
+    );
 
   constructor() {
   }
