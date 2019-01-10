@@ -1,18 +1,18 @@
-import {Component, OnInit, OnDestroy, TemplateRef, ViewChild} from '@angular/core';
+import { Component, OnInit, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
 import { PatientService } from '../services/patient.service';
 import { CommunityGroupMemberService } from '../../openmrs-api/community-group-member-resource.service';
 import { CommunityGroupService } from '../../openmrs-api/community-group-resource.service';
 import { Subscription, of } from 'rxjs';
 import * as _ from 'lodash';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
-import {SuccessModalComponent} from '../../group-manager/modals/success-modal.component';
+import { SuccessModalComponent } from '../../group-manager/modals/success-modal.component';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserDefaultPropertiesService } from '../../user-default-properties';
 
 @Component({
-    selector: 'group-enrollment-summary-component',
-    templateUrl: './group-enrollment-summary.component.html',
-    styleUrls: ['./group-enrollment-summary.component.css']
+  selector: 'group-enrollment-summary-component',
+  templateUrl: './group-enrollment-summary.component.html',
+  styleUrls: ['./group-enrollment-summary.component.css']
 })
 export class GroupEnrollmentSummaryComponent implements OnInit, OnDestroy {
 
@@ -40,7 +40,7 @@ export class GroupEnrollmentSummaryComponent implements OnInit, OnDestroy {
     private modalService: BsModalService,
     private propertiesDefaultService: UserDefaultPropertiesService,
     private router: Router,
-    private route: ActivatedRoute) {}
+    private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.loadData();
@@ -146,9 +146,9 @@ export class GroupEnrollmentSummaryComponent implements OnInit, OnDestroy {
   }
 
   public onEnroll(group) {
-      console.log(group, 'on enroll');
-      this.loadData();
-      this.showSuccessModal(`Successfully enrolled to ${group.name}`);
+    console.log(group, 'on enroll');
+    this.loadData();
+    this.showSuccessModal(`Successfully enrolled to ${group.name}`);
   }
 
 
@@ -162,7 +162,7 @@ export class GroupEnrollmentSummaryComponent implements OnInit, OnDestroy {
     });
   }
 
-  public showUnEnrollModal(modal: TemplateRef < any > , group: any) {
+  public showUnEnrollModal(modal: TemplateRef<any>, group: any) {
     this.groupToUnenroll = group;
     this.modalRef = this.modalService.show(modal, {
       backdrop: 'static'
