@@ -1,4 +1,4 @@
-
+/* tslint:disable:no-inferrable-types */
 import {take} from 'rxjs/operators/take';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -47,7 +47,7 @@ export class CohortListComponent implements OnInit {
   }
   public getCohortList() {
     this.fetchingResults = true;
-    let sub = this.userCohortResourceService.getUserCohorts(this.user.uuid);
+    const sub = this.userCohortResourceService.getUserCohorts(this.user.uuid);
     if ( sub ) {
        sub.pipe(take(1)).subscribe(
          (cohorts) => {

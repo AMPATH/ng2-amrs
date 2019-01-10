@@ -1,5 +1,5 @@
 
-import {take} from 'rxjs/operators/take';
+import { take } from 'rxjs/operators/take';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { PatientService } from '../../services/patient.service';
@@ -13,19 +13,19 @@ import { Subscription } from 'rxjs';
     styleUrls: ['./hiv-summary.component.css']
 })
 export class HivSummaryHistoricalComponent implements OnInit, OnDestroy {
-    public loadingHivSummary: boolean = false;
+    public loadingHivSummary = false;
     public hivSummaries: Array<any> = [];
     public patient: Patient;
     public patientUuid: any;
     public subscription: Subscription[] = [];
-    public experiencedLoadingError: boolean = false;
-    public dataLoaded: boolean = false;
+    public experiencedLoadingError = false;
+    public dataLoaded = false;
     public errors: any = [];
     public isLoading: boolean;
-    public nextStartIndex: number = 0;
+    public nextStartIndex = 0;
 
     constructor(private hivSummaryService: HivSummaryService,
-                private patientService: PatientService) {
+        private patientService: PatientService) {
     }
 
     public ngOnInit() {
@@ -33,9 +33,9 @@ export class HivSummaryHistoricalComponent implements OnInit, OnDestroy {
     }
 
     public ngOnDestroy(): void {
-      this.subscription.forEach((sub) => {
-        sub.unsubscribe();
-      });
+        this.subscription.forEach((sub) => {
+            sub.unsubscribe();
+        });
     }
 
     public getPatient() {
@@ -45,7 +45,7 @@ export class HivSummaryHistoricalComponent implements OnInit, OnDestroy {
                 if (patient) {
                     this.patient = patient;
                     this.patientUuid = this.patient.person.uuid;
-                    this.loadHivSummary(this.patientUuid, this.nextStartIndex );
+                    this.loadHivSummary(this.patientUuid, this.nextStartIndex);
                 }
                 this.loadingHivSummary = false;
             }
@@ -61,26 +61,26 @@ export class HivSummaryHistoricalComponent implements OnInit, OnDestroy {
 
     public loadHivSummary(patientUuid, nextStartIndexs) {
         const summarySub = this.hivSummaryService.getHivSummary(
-          patientUuid, this.nextStartIndex, 20, false).subscribe((data) => {
+            patientUuid, this.nextStartIndex, 20, false).subscribe((data) => {
                 if (data) {
-                  if (data.length > 0) {
-                    for (let r in data) {
-                      if (data.hasOwnProperty(r)) {
-                        let hivsum = data[r];
-                        this.hivSummaries.push(hivsum);
-                      }
+                    if (data.length > 0) {
+                        for (const r in data) {
+                            if (data.hasOwnProperty(r)) {
+                                const hivsum = data[r];
+                                this.hivSummaries.push(hivsum);
+                            }
+                        }
+                        const size: number = data.length;
+                        this.nextStartIndex = this.nextStartIndex + size;
+                        this.isLoading = false;
+                    } else {
+                        this.dataLoaded = true;
                     }
-                    let size: number = data.length;
-                    this.nextStartIndex = this.nextStartIndex + size;
-                    this.isLoading = false;
-                  } else {
-                     this.dataLoaded = true;
-                  }
                 }
             }, (err) => {
                 this.loadingHivSummary = false;
                 // all data loaded
-               // this.dataLoaded = true;
+                // this.dataLoaded = true;
                 this.errors.push({
                     id: 'Hiv Summary',
                     message: 'An error occured while loading Hiv Summary. Please try again.'
@@ -91,8 +91,8 @@ export class HivSummaryHistoricalComponent implements OnInit, OnDestroy {
         this.subscription.push(summarySub);
     }
     public loadMoreHivSummary() {
-      this.isLoading = true;
-      this.loadHivSummary(this.patientUuid, this.nextStartIndex);
+        this.isLoading = true;
+        this.loadHivSummary(this.patientUuid, this.nextStartIndex);
     }
 
 }

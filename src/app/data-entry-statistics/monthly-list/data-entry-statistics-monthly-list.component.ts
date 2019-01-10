@@ -1,9 +1,5 @@
-import {
-  Component,
-  OnInit, OnDestroy, AfterViewInit, OnChanges,
-  Output, EventEmitter, Input, ChangeDetectorRef,
-  SimpleChanges
-} from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnChanges, Output, EventEmitter,
+  Input, ChangeDetectorRef, SimpleChanges } from '@angular/core';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
 import { GridOptions } from 'ag-grid/main';
@@ -17,6 +13,7 @@ export class DataEntryStatisticsMonthlyListComponent
   implements OnInit, OnChanges, AfterViewInit {
   public title = 'Encounters Per Type Per Month';
   public pinnedBottomRowData: any = [];
+  public rowData = [];
   @Input() public params: any;
 
   public gridOptions: GridOptions = {
@@ -33,7 +30,7 @@ export class DataEntryStatisticsMonthlyListComponent
   public monthlyStats: any = [];
   public monthlyRowData: any[];
   public dataEntryEncounterColdef: any = [];
-  public totalMonthlyEncounters: number = 0;
+  public totalMonthlyEncounters = 0;
 
   constructor(
     private _cd: ChangeDetectorRef
@@ -54,9 +51,9 @@ export class DataEntryStatisticsMonthlyListComponent
   }
 
   public procesMonthlyData() {
-    let trackColumns = [];
-    let dataEntryEncounters = this.dataEntryEncounters;
-    let encounterMap = new Map();
+    const trackColumns = [];
+    const dataEntryEncounters = this.dataEntryEncounters;
+    const encounterMap = new Map();
 
     this.dataEntryEncounterColdef = [];
     this.pinnedBottomRowData = [];
@@ -77,7 +74,7 @@ export class DataEntryStatisticsMonthlyListComponent
         headerName: 'Total',
         field: 'rowTotals', // 'rowTotals',
         onCellClicked: (column) => {
-          let patientListParams = {
+          const patientListParams = {
             'providerUuid': this.params.providerUuid,
             'locationUuids': column.data.locationUuid,
             'encounterTypeUuids': column.data.encounterTypeUuid,
@@ -99,13 +96,9 @@ export class DataEntryStatisticsMonthlyListComponent
     this.gridOptions.groupDefaultExpanded = -1;
 
     _.each(dataEntryEncounters, (stat: any) => {
-      let encounterId = stat.encounter_type_id;
-      let month = stat.month;
-      let monthStart = Moment(month).startOf('month').format('YYYY-MM-DD');
-      let monthEnd = Moment(month).endOf('month').format('YYYY-MM-DD');
-      let location = stat.location;
-      // console.log('Stat', stat);
-
+      const month = stat.month;
+      const monthStart = Moment(month).startOf('month').format('YYYY-MM-DD');
+      const monthEnd = Moment(month).endOf('month').format('YYYY-MM-DD');
       if (_.includes(trackColumns, month) === false) {
 
         this.dataEntryEncounterColdef.push(
@@ -113,7 +106,7 @@ export class DataEntryStatisticsMonthlyListComponent
             headerName: month,
             field: month,
             onCellClicked: (column) => {
-              let patientListParams = {
+              const patientListParams = {
                 'startDate': monthStart,
                 'encounterTypeUuids': column.data.encounterTypeUuid,
                 'locationUuids': column.data.locationUuid,
@@ -141,15 +134,14 @@ export class DataEntryStatisticsMonthlyListComponent
 
       }
 
-      let encounterTypes = [];
 
-      let monthlyObj: any = {
+      const monthlyObj: any = {
         'location': stat.location,
         'locationUuid': stat.locationUuid,
         'encounterTypes': []
       };
 
-      let e = {
+      const e = {
         'encounterTypeUuid': stat.encounter_type_uuid,
         'encounterName': stat.encounter_type,
         'encounterCounts': [
@@ -160,11 +152,11 @@ export class DataEntryStatisticsMonthlyListComponent
         ]
       };
 
-      let savedEncounter = encounterMap.get(stat.location);
+      const savedEncounter = encounterMap.get(stat.location);
       if (typeof savedEncounter !== 'undefined') {
 
-        let savedEncounterTypes: any = savedEncounter.encounterTypes;
-        let savedSpecificEncounter = savedEncounterTypes[stat.encounter_type];
+        const savedEncounterTypes: any = savedEncounter.encounterTypes;
+        const savedSpecificEncounter = savedEncounterTypes[stat.encounter_type];
 
         if (typeof savedSpecificEncounter !== 'undefined') {
 
@@ -195,27 +187,23 @@ export class DataEntryStatisticsMonthlyListComponent
   }
 
   public processMonthlyRows(encounterMap) {
-
-    let allRows = [];
+    const allRows = [];
     let totalEncounters = 0;
-    let colSumMap = new Map();
-    let encountersRows = [];
     encounterMap.forEach((encounterItem: any, encounterIndex) => {
-      let locationName = encounterItem.location;
-      let locationUuid = encounterItem.locationUuid;
-      let encounterTypes = encounterItem.encounterTypes;
+      const locationName = encounterItem.location;
+      const locationUuid = encounterItem.locationUuid;
+      const encounterTypes = encounterItem.encounterTypes;
 
       Object.keys(encounterTypes).forEach((key) => {
-        // console.log(key);
-        let encounterRow = {
+        const encounterRow = {
           'rowTotals': 0
         };
         encounterRow['location'] = locationName;
         encounterRow['locationUuid'] = locationUuid;
         encounterRow['encounter_type'] = key;
         encounterRow['encounterTypeUuid'] = encounterTypes[key].encounterTypeUuid;
-        let encounterType = encounterTypes[key];
-        let encounterCounts = encounterType.encounterCounts;
+        const encounterType = encounterTypes[key];
+        const encounterCounts = encounterType.encounterCounts;
         let rowTotal = 0;
         _.each(encounterCounts, (encounterCount) => {
           encounterRow[encounterCount.encounterMonth] = encounterCount.encounterCount;
@@ -230,18 +218,13 @@ export class DataEntryStatisticsMonthlyListComponent
     });
 
     this.totalMonthlyEncounters = totalEncounters;
-
-    // let totalsRow = this.createTotalsRow(colSumMap, totalEncounters);
-    // let totalRowArray = [];
-    // totalRowArray.push(totalsRow);
-    // this.pinnedBottomRowData = totalRowArray;
     this.monthlyRowData = allRows;
     this.setPinnedRow();
 
   }
   public createTotalsRow(totalsMap, totalEncounters) {
 
-    let rowTotalObj = {
+    const rowTotalObj = {
       'encounterUuid': '',
       'encounterType': 'Total',
       'rowTotals': totalEncounters

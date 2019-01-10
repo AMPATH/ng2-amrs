@@ -1,4 +1,4 @@
-
+/* tslint:disable:no-inferrable-types */
 import {take} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Observable, Subject, BehaviorSubject } from 'rxjs';
@@ -18,12 +18,12 @@ export class PatientSearchService {
   }
 
   public searchPatient(searchText: string, cached: boolean): Observable<Patient[]> {
-    let patientsSearchResults: Subject<Patient[]> = new Subject<Patient[]>();
+    const patientsSearchResults: Subject<Patient[]> = new Subject<Patient[]>();
     this.resouceService.searchPatient(searchText.trim(), false).pipe(
       take(1)).subscribe(
       (patients) => {
-        let mappedPatients: Patient[] = new Array<Patient>();
-        for (let patient of patients) {
+        const mappedPatients: Patient[] = new Array<Patient>();
+        for (const patient of patients) {
           mappedPatients.push(new Patient(patient));
         }
         this.searchString = searchText.trim();
@@ -31,7 +31,6 @@ export class PatientSearchService {
         this.patientsSearchResults.next(mappedPatients);
       },
       (error) => {
-        console.error('Error', error);
         this.patientsSearchResults.error(error); // test case that returns error
         patientsSearchResults.error(error);
 
@@ -42,12 +41,12 @@ export class PatientSearchService {
 
   public searchPatientToBindRelationship(searchText: string, cached: boolean):
   Observable<Patient[]> {
-    let patientsSearchResults: Subject<Patient[]> = new Subject<Patient[]>();
+    const patientsSearchResults: Subject<Patient[]> = new Subject<Patient[]>();
     this.resouceService.searchPatient(searchText.trim(), false).pipe(
       take(1)).subscribe(
       (patients) => {
-        let mappedPatients: Patient[] = new Array<Patient>();
-        for (let patient of patients) {
+        const mappedPatients: Patient[] = new Array<Patient>();
+        for (const patient of patients) {
           mappedPatients.push(new Patient(patient));
         }
         this.relationshipSearchString = searchText.trim();

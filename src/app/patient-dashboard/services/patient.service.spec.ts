@@ -1,33 +1,33 @@
 import { TestBed, fakeAsync, inject, tick } from '@angular/core/testing';
-import { Http, BaseRequestOptions } from '@angular/http';
-import { MockBackend } from '@angular/http/testing';
 import { PatientResourceService } from '../../openmrs-api/patient-resource.service';
 import { Patient } from '../../models/patient.model';
 import { FakePatientResourceService } from '../../openmrs-api/fake-patient-resource';
 import { PatientService } from './patient.service';
-import { BehaviorSubject ,  Observable ,  Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import {
   ProgramEnrollmentResourceService
-}
-  from '../../openmrs-api/program-enrollment-resource.service';
+} from '../../openmrs-api/program-enrollment-resource.service';
 import { first } from 'rxjs/operators';
 import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
 import { FakeEncounterResourceService } from '../../openmrs-api/fake-encounter-resource.service';
 import { PatientProgramService } from '../programs/patient-programs.service';
-import { FakeProgramEnrollmentResourceService
+import {
+  FakeProgramEnrollmentResourceService
 } from '../../openmrs-api/program-enrollment-resource.service.mock';
 import { doesNotThrow } from 'assert';
+import { HttpClient } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 class FakePatientProgramService {
   public getCurrentlyEnrolledPatientPrograms(uuid): Observable<any> {
     return Observable.create((observer: Subject<any[]>) => {
       observer.next([{
-        program: {uuid: '123'},
-        enrolledProgram: {programUuid: '123', uuid: '12345'},
+        program: { uuid: '123' },
+        enrolledProgram: { programUuid: '123', uuid: '12345' },
         programUuid: '12345',
         isFocused: false,
         dateEnrolled: null,
-        dateCompleted: null,
+        dateCompconsted: null,
         validationError: '',
         buttons: {
           link: {
@@ -52,9 +52,9 @@ describe('Service: PatientService', () => {
     TestBed.configureTestingModule({
       providers: [
         PatientService,
+        HttpClient,
+        HttpClientTestingModule,
         PatientProgramService,
-        MockBackend,
-        BaseRequestOptions,
         {
           provide: EncounterResourceService, useFactory: () => {
             return new FakeEncounterResourceService(null, null);
@@ -62,18 +62,18 @@ describe('Service: PatientService', () => {
         },
         {
           provide: ProgramEnrollmentResourceService, useFactory: () => {
-          return new FakeProgramEnrollmentResourceService(null, null);
-        }
+            return new FakeProgramEnrollmentResourceService(null, null);
+          }
         },
         {
           provide: PatientProgramService, useFactory: () => {
-          return new FakePatientProgramService();
-        }, deps: []
+            return new FakePatientProgramService();
+          }, deps: []
         },
         {
           provide: PatientResourceService, useFactory: () => {
-          return new FakePatientResourceService(null, null);
-        }, deps: []
+            return new FakePatientResourceService(null, null);
+          }, deps: []
         },
       ]
     });
@@ -84,43 +84,43 @@ describe('Service: PatientService', () => {
   });
 
   it('should create an instance of PatientService', () => {
-    let service: PatientService = TestBed.get(PatientService);
+    const service: PatientService = TestBed.get(PatientService);
     expect(service).toBeTruthy();
   });
 
   it('should initialized currently loaded patient observable when Patient service is injected ' +
     'for the first time', () => {
-    let service: PatientService = TestBed.get(PatientService);
-    expect(service.currentlyLoadedPatient).toBeTruthy();
-    expect(service.currentlyLoadedPatientUuid).toBeTruthy();
-  });
+      const service: PatientService = TestBed.get(PatientService);
+      expect(service.currentlyLoadedPatient).toBeTruthy();
+      expect(service.currentlyLoadedPatientUuid).toBeTruthy();
+    });
 
 
   it('should not hit the server when setCurrentlyLoadedPatientByUuid is called' +
     ' with a uuid of an existing loaded patient of same uuid', inject([PatientResourceService],
-    fakeAsync((patientResourceService: PatientResourceService) => {
-      let service: PatientService = TestBed.get(PatientService);
-      let uuid: string = 'patient-uuid-1';
-      let patientObject: Patient = new Patient({uuid: uuid, encounters: []});
-      spyOn(patientResourceService, 'getPatientByUuid');
+      fakeAsync((patientResourceService: PatientResourceService) => {
+        const service: PatientService = TestBed.get(PatientService);
+        const uuid = 'patient-uuid-1';
+        const patientObject: Patient = new Patient({ uuid: uuid, encounters: [] });
+        spyOn(patientResourceService, 'getPatientByUuid');
 
-      // setting currentlyLoadedPatient and currentlyLoadedPatientUuid for the first time
-      service.currentlyLoadedPatient.next(patientObject);
-      service.currentlyLoadedPatientUuid.next(uuid);
-      // setting currentlyLoadedPatient and currentlyLoadedPatientUuid for the second time
-      service.setCurrentlyLoadedPatientByUuid(uuid);
-      tick(50);
-      expect(patientResourceService.getPatientByUuid).not.toHaveBeenCalled();
+        // setting currentlyLoadedPatient and currentlyLoadedPatientUuid for the first time
+        service.currentlyLoadedPatient.next(patientObject);
+        service.currentlyLoadedPatientUuid.next(uuid);
+        // setting currentlyLoadedPatient and currentlyLoadedPatientUuid for the second time
+        service.setCurrentlyLoadedPatientByUuid(uuid);
+        tick(50);
+        expect(patientResourceService.getPatientByUuid).not.toHaveBeenCalled();
 
-    })));
+      })));
 
   it('should fetch patient object from server if currentlyLoadedPatient uuid is not set',
     inject([PatientResourceService],
       fakeAsync((patientResourceService: PatientResourceService) => {
-        let service: PatientService = TestBed.get(PatientService);
-        let uuid: string = 'patient-uuid-1';
+        const service: PatientService = TestBed.get(PatientService);
+        const uuid = 'patient-uuid-1';
         spyOn(patientResourceService, 'getPatientByUuid').and.callFake((params) => {
-          let subject = new BehaviorSubject<any>({});
+          const subject = new BehaviorSubject<any>({});
           subject.next({
             uuid: 'uuid',
             display: 'display'
@@ -136,32 +136,32 @@ describe('Service: PatientService', () => {
 
   it('should fetch patient object afresh from server if currentlyLoadedPatient uuid is not  ' +
     'the same as uuid supplied to setCurrentlyLoadedPatientByUuid', inject([PatientResourceService],
-    fakeAsync((patientResourceService: PatientResourceService) => {
-      let service: PatientService = TestBed.get(PatientService);
-      let uuid1: string = 'patient-uuid-1';
-      let uuid2: string = 'patient-uuid-2';
-      let patientObject: Patient = new Patient({uuid: uuid1, encounters: []});
-      spyOn(patientResourceService, 'getPatientByUuid').and.callFake((params) => {
-        let subject = new BehaviorSubject<any>({});
-        subject.next({
-          uuid: 'uuid',
-          display: 'display'
+      fakeAsync((patientResourceService: PatientResourceService) => {
+        const service: PatientService = TestBed.get(PatientService);
+        const uuid1 = 'patient-uuid-1';
+        const uuid2 = 'patient-uuid-2';
+        const patientObject: Patient = new Patient({ uuid: uuid1, encounters: [] });
+        spyOn(patientResourceService, 'getPatientByUuid').and.callFake((params) => {
+          const subject = new BehaviorSubject<any>({});
+          subject.next({
+            uuid: 'uuid',
+            display: 'display'
+          });
+          return subject;
         });
-        return subject;
-      });
-      // setting currentlyLoadedPatient and currentlyLoadedPatientUuid for the first time
-      service.currentlyLoadedPatient.next(patientObject);
-      service.currentlyLoadedPatientUuid.next(patientObject.uuid);
-      // now try to set with a different uuid i.e @{uuid2}
-      service.setCurrentlyLoadedPatientByUuid(uuid2);
-      tick(50);
-      // check to ensure patientResourceService.getPatientByUuid was hit
-      expect(patientResourceService.getPatientByUuid).toHaveBeenCalled();
+        // setting currentlyLoadedPatient and currentlyLoadedPatientUuid for the first time
+        service.currentlyLoadedPatient.next(patientObject);
+        service.currentlyLoadedPatientUuid.next(patientObject.uuid);
+        // now try to set with a different uuid i.e @{uuid2}
+        service.setCurrentlyLoadedPatientByUuid(uuid2);
+        tick(50);
+        // check to ensure patientResourceService.getPatientByUuid was hit
+        expect(patientResourceService.getPatientByUuid).toHaveBeenCalled();
 
-    })));
+      })));
 
   it('should notify all subscribers when patient object changes', (done) => {
-    let patientService = TestBed.get(PatientService);
+    const patientService = TestBed.get(PatientService);
     expect(patientService).toBeDefined();
     patientService.currentlyLoadedPatient.next(new Patient({
       uuid: 'init uuid',
@@ -180,16 +180,16 @@ describe('Service: PatientService', () => {
       });
 
     patientService.currentlyLoadedPatient.next(new Patient({
-        uuid: 'next uuid',
-        display: 'some display',
-        encounters: []
-      })
+      uuid: 'next uuid',
+      display: 'some display',
+      encounters: []
+    })
     );
 
   });
 
   it('should notify all subscribers when current patient uuid changes', (done) => {
-    let patientService = TestBed.get(PatientService);
+    const patientService = TestBed.get(PatientService);
     expect(patientService).toBeDefined();
     patientService.currentlyLoadedPatientUuid.next('init uuid');
     patientService.currentlyLoadedPatientUuid.subscribe(
@@ -212,50 +212,50 @@ describe('Service: PatientService', () => {
     ' is called', inject([PatientResourceService,
       PatientProgramService,
       EncounterResourceService],
-    fakeAsync((patientResourceService: PatientResourceService,
-               patientProgramService: PatientProgramService,
-               encounterResourceService: EncounterResourceService) => {
-      let service: PatientService = TestBed.get(PatientService);
-      let uuid1: string = 'patient-uuid-1';
-      let uuid2: string = 'patient-uuid-2';
-      let patientObject: Patient = new Patient({uuid: uuid1, encounters: []});
-      spyOn(patientProgramService, 'getCurrentlyEnrolledPatientPrograms')
-      .and.callFake((params) => {
-        let subject = new BehaviorSubject<any>({});
-        subject.next([{
-          uuid: 'uuid',
-          display: 'display'
-        }]);
-        return subject;
-      });
+      fakeAsync((patientResourceService: PatientResourceService,
+        patientProgramService: PatientProgramService,
+        encounterResourceService: EncounterResourceService) => {
+        const service: PatientService = TestBed.get(PatientService);
+        const uuid1 = 'patient-uuid-1';
+        const uuid2 = 'patient-uuid-2';
+        const patientObject: Patient = new Patient({ uuid: uuid1, encounters: [] });
+        spyOn(patientProgramService, 'getCurrentlyEnrolledPatientPrograms')
+          .and.callFake((params) => {
+            const subject = new BehaviorSubject<any>({});
+            subject.next([{
+              uuid: 'uuid',
+              display: 'display'
+            }]);
+            return subject;
+          });
 
-      // setting currentlyLoadedPatient and currentlyLoadedPatientUuid for the first time
-      service.currentlyLoadedPatient.next(patientObject);
-      service.currentlyLoadedPatientUuid.next(patientObject.uuid);
-      // now try to set with a different uuid i.e @{uuid2}
-      service.setCurrentlyLoadedPatientByUuid(uuid2);
-      // check to ensure programEnrollmentResourceService.getProgramEnrollmentByPatientUuid was hit
-      tick(1000);
-      expect(patientProgramService.getCurrentlyEnrolledPatientPrograms).toHaveBeenCalled();
+        // setting currentlyLoadedPatient and currentlyLoadedPatientUuid for the first time
+        service.currentlyLoadedPatient.next(patientObject);
+        service.currentlyLoadedPatientUuid.next(patientObject.uuid);
+        // now try to set with a different uuid i.e @{uuid2}
+        service.setCurrentlyLoadedPatientByUuid(uuid2);
+        // check to ensure programEnrollmentResourceService.getProgramEnrollmentByPatientUuid was hit
+        tick(1000);
+        expect(patientProgramService.getCurrentlyEnrolledPatientPrograms).toHaveBeenCalled();
 
-    })));
+      })));
 
   it('should fetch patient object when fetchPatientByPatientUuid is called with a' +
     ' valid patient uuid', inject([PatientResourceService, PatientService],
-    fakeAsync((patientResourceService: PatientResourceService,
-               patientService: PatientService) => {
-      let uuid: string = 'patient-uuid-1';
-      spyOn(patientResourceService, 'getPatientByUuid').and.callFake((params) => {
-        let subject = new BehaviorSubject<any>({});
-        subject.next({
-          uuid: 'uuid',
-          display: 'display'
+      fakeAsync((patientResourceService: PatientResourceService,
+        patientService: PatientService) => {
+        const uuid = 'patient-uuid-1';
+        spyOn(patientResourceService, 'getPatientByUuid').and.callFake((params) => {
+          const subject = new BehaviorSubject<any>({});
+          subject.next({
+            uuid: 'uuid',
+            display: 'display'
+          });
+          return subject;
         });
-        return subject;
-      });
-      patientService.fetchPatientByUuid(uuid);
-      tick(50);
-      expect(patientResourceService.getPatientByUuid).toHaveBeenCalled();
+        patientService.fetchPatientByUuid(uuid);
+        tick(50);
+        expect(patientResourceService.getPatientByUuid).toHaveBeenCalled();
 
-    })));
+      })));
 });

@@ -1,4 +1,4 @@
-
+/* tslint:disable:no-inferrable-types */
 import {take} from 'rxjs/operators/take';
 import { Component, OnInit, Input, Output, ViewChild, EventEmitter } from '@angular/core';
 

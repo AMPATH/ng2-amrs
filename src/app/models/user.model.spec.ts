@@ -1,8 +1,8 @@
-import { User } from './user.model';
+import {User} from './user.model';
 
 describe('Model: Person', () => {
 
-  let userObject: any = {
+  const userObject: any = {
     uuid: 'uuid',
     display: 'the user',
     roles: [
@@ -21,7 +21,7 @@ describe('Model: Person', () => {
     ]
   };
   it('should wrap openmrs person for display correctly', () => {
-    let wrappedUser: User = new User(userObject);
+    const wrappedUser: User = new User(userObject);
     expect(wrappedUser.uuid).toEqual(userObject.uuid);
     expect(wrappedUser.roleDisplay).toEqual('System Developer, Tester');
     expect(wrappedUser.roles).toEqual(userObject.roles);
