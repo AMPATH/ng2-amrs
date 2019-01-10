@@ -16,8 +16,7 @@ getTestBed().initTestEnvironment(
 );
 // Then we find all the tests.
 const context = require
-.context('./', true, /app\/etl-api\/user-cohort-resource\.service\.spec.ts$/);
+.context('./', true, /app\/department-program-filter\/department-program-filter.component\.spec.ts$/);
 // const context = require.context('./', true, /\.spec\.ts$/);
-// And load the modules.
+// And load the modules.  src/app/department-program-filter/department-program-filter.component.spec.ts
 context.keys().map(context);
-
