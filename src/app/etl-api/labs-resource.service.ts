@@ -11,7 +11,7 @@ export class LabsResourceService {
     constructor(private http: HttpClient, private appSettingsService: AppSettingsService) { }
     public getNewPatientLabResults(params: { startDate: string, endDate: string,
       patientUuId: string }) {
-        let urlParams: HttpParams = new HttpParams()
+        const urlParams: HttpParams = new HttpParams()
         .set('startDate', params.startDate)
         .set('endDate', params.endDate)
         .set('patientUuId', params.patientUuId);
@@ -21,7 +21,7 @@ export class LabsResourceService {
     }
 
   public getUpgradePatientLabResults(params: { patientUuid: string}) {
-    let urlParams: HttpParams = new HttpParams()
+    const urlParams: HttpParams = new HttpParams()
       .set('patientUuid', params.patientUuid);
     return this.http.get(this.getUpgradeUrl(),
       { params: urlParams }).pipe(map(this.parseNewLabResults),
@@ -39,7 +39,7 @@ export class LabsResourceService {
         if (!params.limit) {
             params.limit = '20';
         }
-        let urlParams: HttpParams = new HttpParams()
+        const urlParams: HttpParams = new HttpParams()
         .set('startIndex', params.startIndex)
         .set('limit', params.limit);
         return this.http.get(this.appSettingsService.getEtlRestbaseurl().trim()

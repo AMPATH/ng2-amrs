@@ -2,17 +2,14 @@
 
 import { TestBed, async } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { Http, BaseRequestOptions } from '@angular/http';
 import { Observable } from 'rxjs';
-import { MockBackend } from '@angular/http/testing';
 import { DataListsModule } from '../../../shared/data-lists/data-lists.module';
 import { ClinicDashboardCacheService } from '../../services/clinic-dashboard-cache.service';
 import { CacheService } from 'ionic-cache';
 import { DataCacheService } from '../../../shared/services/data-cache.service';
 import {
     DefaulterListResourceService
-} from
-'../../../etl-api/defaulter-list-resource.service';
+} from '../../../etl-api/defaulter-list-resource.service';
 
 import { DefaulterListComponent } from './defaulter-list.component';
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
@@ -22,26 +19,31 @@ import { LocalStorageService } from '../../../utils/local-storage.service';
 import { NgBusyModule } from 'ng-busy';
 import { NgamrsSharedModule } from '../../../shared/ngamrs-shared.module';
 import {
-    AccordionModule, DataTableModule, SharedModule, TabViewModule,
-    GrowlModule, PanelModule, ConfirmDialogModule, ConfirmationService,
-    DialogModule, InputTextModule, MessagesModule, InputTextareaModule,
-    DropdownModule, ButtonModule, CalendarModule
+    DialogModule, CalendarModule
 } from 'primeng/primeng';
 import { Router, ActivatedRoute } from '@angular/router';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
+import 'rxjs/add/observable/of';
+
 class MockActivatedRoute {
     public params = Observable.of([{ 'id': 1 }]);
     public snapshot = {
-       queryParams: { filter: '' }
-     };
-   }
+        queryParams: { filter: '' }
+    };
+}
+class MockCacheStorageService {
+    constructor(a, b) {
+
+    }
+}
 
 describe('Component: DefaulterListComponent', () => {
-    let fakeAppFeatureAnalytics: AppFeatureAnalytics, component,
-        defaulterResource: DefaulterListResourceService, route, router,
+    let component, defaulterResource: DefaulterListResourceService, route, router,
         clinicDashBoardCacheService: ClinicDashboardCacheService,
-        fixture, componentInstance, activatedRoute;
+        fixture, activatedRoute;
 
-    let testData = [
+    const testData = [
         {
             patient_uuid: 'patient-uuid',
             person_id: 102322,
@@ -83,12 +85,15 @@ describe('Component: DefaulterListComponent', () => {
                 LocalStorageService,
                 DefaulterListResourceService,
                 ClinicDashboardCacheService,
-                MockBackend,
-                BaseRequestOptions,
                 AppSettingsService,
                 LocalStorageService,
                 CacheService,
                 DataCacheService,
+                {
+                    provide: CacheStorageService, useFactory: () => {
+                        return new MockCacheStorageService(null, null);
+                    }, deps: []
+                },
                 {
                     provide: ActivatedRoute,
                     useClass: MockActivatedRoute
@@ -96,14 +101,6 @@ describe('Component: DefaulterListComponent', () => {
                 {
                     provide: Router,
                     useClass: class { public navigate = jasmine.createSpy('navigate'); }
-                },
-                {
-                    provide: Http,
-                    useFactory: (
-                        backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-                        return new Http(backendInstance, defaultOptions);
-                    },
-                    deps: [MockBackend, BaseRequestOptions]
                 },
                 {
                     provide: AppFeatureAnalytics, useFactory: () => {
@@ -115,6 +112,7 @@ describe('Component: DefaulterListComponent', () => {
             declarations: [DefaulterListComponent],
             imports: [NgBusyModule,
                 FormsModule,
+                HttpClientTestingModule,
                 DialogModule,
                 CalendarModule,
                 DataListsModule,
@@ -138,7 +136,7 @@ describe('Component: DefaulterListComponent', () => {
         defaulterResource = TestBed.get(DefaulterListResourceService);
         route = TestBed.get(ActivatedRoute);
         router = TestBed.get(Router);
-        let appointmentsComponent = new DefaulterListComponent(clinicDashBoardCacheService,
+        const appointmentsComponent = new DefaulterListComponent(clinicDashBoardCacheService,
             defaulterResource, route, router);
         expect(appointmentsComponent).toBeTruthy();
     });
@@ -166,7 +164,7 @@ describe('Component: DefaulterListComponent', () => {
 
     it('should add extraColumns when extraColumns method is called', (done) => {
         spyOn(component, 'extraColumns').and.callThrough();
-        let columns = component.extraColumns();
+        const columns = component.extraColumns();
         expect(component.extraColumns).toHaveBeenCalled();
         expect(columns.length).toEqual(4);
         expect(columns[0].field).toEqual('rtc_date');
@@ -179,7 +177,7 @@ describe('Component: DefaulterListComponent', () => {
     it('should format list data  when formatDefaulterListData method is called', (done) => {
         spyOn(component, 'formatDefaulterListData').and.callThrough();
 
-        let formatted = component.formatDefaulterListData(testData);
+        const formatted = component.formatDefaulterListData(testData);
         expect(component.formatDefaulterListData).toHaveBeenCalled();
         expect(formatted.length).toEqual(1);
         expect(formatted[0].rtc_date).toEqual('16-12-2017 (30 days ago)');
@@ -227,7 +225,7 @@ describe('Component: DefaulterListComponent', () => {
     it('should get date without time part when  getDatePart '
         + 'method is called', (done) => {
             spyOn(component, 'getDatePart').and.callThrough();
-            let newDate = component.getDatePart('2017-12-16T21:00:00.000Z');
+            const newDate = component.getDatePart('2017-12-16T21:00:00.000Z');
             expect(component.getDatePart).toHaveBeenCalled();
             expect(newDate).toEqual('2017-12-16');
             done();
@@ -236,7 +234,7 @@ describe('Component: DefaulterListComponent', () => {
     it('should return null when  getDatePart '
         + 'method is called with null values', (done) => {
             spyOn(component, 'getDatePart').and.callThrough();
-            let newDate = component.getDatePart(null);
+            const newDate = component.getDatePart(null);
             expect(component.getDatePart).toHaveBeenCalled();
             expect(newDate).toEqual(null);
             done();
@@ -245,7 +243,7 @@ describe('Component: DefaulterListComponent', () => {
     it('should get cached defaulter list parameters when  getCachedDefaulterListParam '
         + 'method is called', (done) => {
             spyOn(component, 'getCachedDefaulterListParam').and.callThrough();
-            let params = component.getCachedDefaulterListParam('defaulterListParam');
+            const params = component.getCachedDefaulterListParam('defaulterListParam');
             expect(component.getCachedDefaulterListParam).toHaveBeenCalled();
             done();
         });
@@ -253,7 +251,7 @@ describe('Component: DefaulterListComponent', () => {
     it('should load defaulter list when loadDefaulterList method is called', (done) => {
         spyOn(component, 'loadDefaulterList').and.callThrough();
         component.selectedClinic = 'clinic-uuid';
-        let columns = component.loadDefaulterList();
+        const columns = component.loadDefaulterList();
         expect(component.loadDefaulterList).toHaveBeenCalled();
         expect(component.loadDefaulterList).toHaveBeenCalled();
         done();
@@ -263,7 +261,7 @@ describe('Component: DefaulterListComponent', () => {
         clinicDashBoardCacheService = TestBed.get(ClinicDashboardCacheService);
         activatedRoute = TestBed.get(ActivatedRoute);
         router = TestBed.get(Router);
-        let components = new DefaulterListComponent(clinicDashBoardCacheService,
+        const components = new DefaulterListComponent(clinicDashBoardCacheService,
             defaulterResource, activatedRoute, router);
         spyOn(component, 'getDefaulterList').and.callThrough();
         component.getDefaulterList({

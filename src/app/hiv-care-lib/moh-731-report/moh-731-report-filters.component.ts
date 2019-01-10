@@ -35,12 +35,12 @@ export class Moh731ReportFiltersComponent implements OnInit {
     public locationUuidsChange = new EventEmitter<any>();
 
     @Input()
-    public parentIsBusy: boolean = false;
+    public parentIsBusy = false;
 
     @Input()
-    public isMonthMode: boolean = true;
+    public isMonthMode = true;
 
-    private _showIsAggregateControl: boolean = false;
+    private _showIsAggregateControl = false;
     public get showIsAggregateControl(): boolean {
         return this._showIsAggregateControl;
     }
@@ -49,7 +49,7 @@ export class Moh731ReportFiltersComponent implements OnInit {
         this._showIsAggregateControl = v;
     }
 
-    private _showLocationsControl: boolean = false;
+    private _showLocationsControl = false;
     public get showLocationsControl(): boolean {
         return this._showLocationsControl;
     }
@@ -126,7 +126,7 @@ export class Moh731ReportFiltersComponent implements OnInit {
         this.isAggregatedChange.emit(this.isAggregated);
     }
 
-    private _isLegacyVersion: boolean = true;
+    private _isLegacyVersion = true;
     public get isLegacyVersion(): boolean {
         return this._isLegacyVersion;
     }

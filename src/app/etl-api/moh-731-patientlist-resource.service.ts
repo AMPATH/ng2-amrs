@@ -21,7 +21,7 @@ export class Moh731PatientListResourceService {
     if (!params.limit) {
       params.limit = '300';
     }
-    let urlParams: HttpParams = new HttpParams()
+    const urlParams: HttpParams = new HttpParams()
     .set('startIndex', params.startIndex)
     .set('endDate', params.endDate)
     .set('startDate', params.startDate)
@@ -33,9 +33,9 @@ export class Moh731PatientListResourceService {
   }
 
   public getMoh731PatientListReport(params) {
-    let urlParams = this.getUrlRequestParams(params);
-    let url = this.getPatientListUrl('MOH-731-report');
-    let request = this.http.get<any>(url, {
+    const urlParams = this.getUrlRequestParams(params);
+    const url = this.getPatientListUrl('MOH-731-report');
+    const request = this.http.get<any>(url, {
       params: urlParams
     });
     return request;

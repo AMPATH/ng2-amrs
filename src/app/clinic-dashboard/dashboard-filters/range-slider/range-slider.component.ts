@@ -1,3 +1,4 @@
+  // tslint:disable:no-output-on-prefix
 import {
   Component, Input, Output, OnInit,
   EventEmitter, ElementRef, forwardRef, AfterViewInit
@@ -26,7 +27,7 @@ export class RangeSliderComponent implements OnInit, ControlValueAccessor, After
   @Output() public onAgeChange = new EventEmitter<any>();
   @Output() public onAgeChangeFinish = new EventEmitter<any>();
   public sliderElt;
-  public initialized: boolean = false;
+  public initialized = false;
 
   constructor(private elementRef: ElementRef) {}
 

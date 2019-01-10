@@ -1,6 +1,7 @@
 
 import {take} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
+// tslint:disable-next-line:import-blacklist
 import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
 import { PatientResourceService } from '../openmrs-api/patient-resource.service';
 import {
@@ -13,7 +14,7 @@ import { HttpClient } from '@angular/common/http';
 @Injectable()
 export class PatientCreationService {
     public patientsSearchResults: BehaviorSubject<Patient[]> = new BehaviorSubject<Patient[]>([]);
-    public searchString: string = '';
+    public searchString = '';
     public patientsResults: BehaviorSubject<Patient[]> = new BehaviorSubject<Patient[]>([]);
 
     constructor(private resouceService: PatientResourceService,
@@ -22,12 +23,12 @@ export class PatientCreationService {
     ) {}
 
     public searchPatient(searchText: string, cached: boolean): Observable<Patient[]> {
-        let patientsSearchResults: Subject<Patient[]> = new Subject<Patient[]>();
+        const patientsSearchResults: Subject<Patient[]> = new Subject<Patient[]>();
         this.resouceService.searchPatient(searchText.trim(), false).pipe(
         take(1)).subscribe(
         (patients) => {
-        let mappedPatients: Patient[] = new Array<Patient>();
-        for (let patient of patients) {
+        const mappedPatients: Patient[] = new Array<Patient>();
+        for (const patient of patients) {
             mappedPatients.push(new Patient(patient));
         }
         this.searchString = searchText.trim();
@@ -43,9 +44,9 @@ export class PatientCreationService {
     }
 
     public patientResults(patients) {
-        let patientsSearchResults: Subject<Patient[]> = new Subject<Patient[]>();
-        let mappedPatients: Patient[] = new Array<Patient>();
-        for (let patient of patients) {
+        const patientsSearchResults: Subject<Patient[]> = new Subject<Patient[]>();
+        const mappedPatients: Patient[] = new Array<Patient>();
+        for (const patient of patients) {
             mappedPatients.push(patient);
         }
         patientsSearchResults.next(mappedPatients);
@@ -57,18 +58,19 @@ export class PatientCreationService {
     }
 
     public getLuhnCheckDigit(numbers) {
-        let validChars = '0123456789ABCDEFGHIJKLMNOPQRSTUVYWXZ_';
+        const validChars = '0123456789ABCDEFGHIJKLMNOPQRSTUVYWXZ_';
         numbers = numbers.toUpperCase().trim();
         let sum = 0;
         for (let i = 0; i < numbers.length; i++) {
-            let ch = numbers.charAt(numbers.length - i - 1);
+            const ch = numbers.charAt(numbers.length - i - 1);
             if (validChars.indexOf(ch) < 0) {
             return false;
             }
-            let digit = ch.charCodeAt(0) - 48;
+            // tslint:disable-next-line:no-shadowed-variable
+            const digit = ch.charCodeAt(0) - 48;
             let weight;
             if (i % 2 === 0) {
-            let res = digit / 5;
+            const res = digit / 5;
             weight = (2 * digit) - parseInt( res.toString() , 10) * 9;
             } else {
             weight = digit;
@@ -76,14 +78,14 @@ export class PatientCreationService {
             sum += weight;
         }
         sum = Math.abs(sum) + 10;
-        let digit = (10 - (sum % 10)) % 10;
+        const digit = (10 - (sum % 10)) % 10;
         console.log('Required check digit', digit);
         return digit;
 
     }
 
     public checkRegexValidity(expression, identifier) {
-        let identifierRegex = new RegExp(expression);
+        const identifierRegex = new RegExp(expression);
         return (identifierRegex.test(identifier));
     }
 
@@ -101,7 +103,7 @@ export class PatientCreationService {
     }
 
     public getIdentifierTypeFormat(identifierType) {
-        let formatRestrictedIdentifiers = this.identifierTypeFormat();
+        const formatRestrictedIdentifiers = this.identifierTypeFormat();
         return _.filter(formatRestrictedIdentifiers, (identifierTypeFormat) => {
           if (identifierTypeFormat.val === identifierType) {
             return true;

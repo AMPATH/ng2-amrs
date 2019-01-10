@@ -1,14 +1,11 @@
 import { TestBed, async, inject, fakeAsync } from '@angular/core/testing';
-import { MockBackend, MockConnection } from '@angular/http/testing';
-import {
-    BaseRequestOptions, XHRBackend, Http, RequestMethod,
-    ResponseOptions, Response
-} from '@angular/http';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DepartmentProgramsConfigService } from './department-programs-config.service';
 import { CacheModule, CacheService } from 'ionic-cache';
 import { DataCacheService } from '../shared/services/data-cache.service';
 import { LocalStorageService } from '../utils/local-storage.service';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
 
 const mockResponse = {
     'uud1': {
@@ -90,29 +87,34 @@ const mockResponse = {
     }
 };
 
+class MockCacheStorageService {
+    constructor(a, b) { }
+}
+
 describe('Service :  Department Programs Configuration Service', () => {
-    let service;
+    let s, httpMock;
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [CacheModule],
+            imports: [CacheModule, HttpClientTestingModule],
             providers: [
                 DepartmentProgramsConfigService,
-                MockBackend,
-                BaseRequestOptions,
                 AppSettingsService,
                 CacheService,
                 LocalStorageService,
                 DataCacheService,
                 {
-                    provide: Http,
-                    deps: [MockBackend, BaseRequestOptions],
-                    useFactory:
-                    (backend: XHRBackend, defaultOptions: BaseRequestOptions) => {
-                        return new Http(backend, defaultOptions);
+                    provide: CacheStorageService, useFactory: () => {
+                        return new MockCacheStorageService(null, null);
                     }
-                }
+                },
             ]
         });
+        httpMock = TestBed.get(HttpTestingController);
+        s = TestBed.get(DepartmentProgramsConfigService);
+    });
+
+    afterAll(() => {
+        TestBed.resetTestingModule();
     });
 
     afterAll(() => {
@@ -126,25 +128,16 @@ describe('Service :  Department Programs Configuration Service', () => {
     );
 
 
-    it('Should return a list of department programs ',
-        inject([DepartmentProgramsConfigService, MockBackend],
-            (d: DepartmentProgramsConfigService, backend: MockBackend) => {
-                backend.connections.subscribe((connection: MockConnection) => {
-                    expect(connection.request.method).toBe(RequestMethod.Get);
-                    expect(connection.request.url).toContain('/etl/departments-programs-config');
-                    connection.mockRespond(new Response(
-                        new ResponseOptions({
-                            body: mockResponse
-                        }
-                        )));
-                    d.getDartmentProgramsConfig().subscribe((result) => {
-                        expect(result).toBeDefined();
-                        expect(result).toEqual(mockResponse);
-                    });
-                });
-            })
-    );
+    it('Should return a list of department programs ', () => {
+        s.getDartmentProgramsConfig().subscribe((result) => {
+            expect(result).toBeDefined();
+            expect(result).toEqual(mockResponse);
+        });
 
-
+        const req = httpMock.expectOne(s.getBaseUrl() + 'departments-programs-config');
+        expect(req.request.method).toBe('GET');
+        expect(req.request.url).toContain('/etl/departments-programs-config');
+        req.flush(mockResponse);
+    });
 });
 

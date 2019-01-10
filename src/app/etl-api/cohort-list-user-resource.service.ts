@@ -21,22 +21,22 @@ export class CohortUserResourceService {
   }
   public voidCohortUser(cohortUserId) {
     let url = this.appSettingsService.getEtlRestbaseurl().trim() + 'cohort-user';
-    url += '/' + cohortUserId ;
+    url += '/' + cohortUserId;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.delete(url, {headers});
+    return this.http.delete(url, { headers });
 
   }
   public createCohortUser(payload) {
-    let url = this.appSettingsService.getEtlRestbaseurl().trim() + 'cohort-user';
+    const url = this.appSettingsService.getEtlRestbaseurl().trim() + 'cohort-user';
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    return this.http.post(url, JSON.stringify(payload), {headers})
+    return this.http.post(url, JSON.stringify(payload), { headers });
   }
-  public updateCohortUser(cohortUserId,  payload) {
+  public updateCohortUser(cohortUserId, payload) {
     let url = this.appSettingsService.getEtlRestbaseurl().trim() + 'cohort-user';
-    url += '/' + cohortUserId ;
+    url += '/' + cohortUserId;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post(url, JSON.stringify(payload), {headers});
+    return this.http.post(url, JSON.stringify(payload), { headers });
 
   }
 }

@@ -38,9 +38,9 @@ export class HivSummaryIndicatorsResourceService {
     }
 
     public getHivSummaryIndicatorsReport(params) {
-        let urlParams = this.getUrlRequestParams(params);
-        let url = this.getUrl();
-        let request = this.http.get(url, {
+        const urlParams = this.getUrlRequestParams(params);
+        const url = this.getUrl();
+        const request = this.http.get(url, {
             params: urlParams
         });
 
@@ -58,8 +58,8 @@ export class HivSummaryIndicatorsResourceService {
         }
         urlParams = urlParams.set('startIndex', params.startIndex);
         urlParams = urlParams.set('limit', params.limit);
-        let url = this.getPatientListUrl();
-        let request = this.http.get<any>(url, {
+        const url = this.getPatientListUrl();
+        const request = this.http.get<any>(url, {
             params: urlParams
         }).pipe(
             map((response) => {
