@@ -8,10 +8,10 @@ import { takeWhile } from 'rxjs/operators';
   templateUrl: './online-tracker.component.html'
 })
 export class OnlineTrackerComponent implements OnInit, OnDestroy {
-  public isOnline: boolean = false;
-  public isUpdating: boolean = false;
+  public isOnline = false;
+  public isUpdating = false;
   public timer: Observable<any>;
-  public subscribeToTimer: boolean = true;
+  public subscribeToTimer = true;
 
   constructor(private _onlineTrackerService: OnlineTrackerService) {
   }
