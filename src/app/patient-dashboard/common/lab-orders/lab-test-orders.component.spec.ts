@@ -1,6 +1,4 @@
 
-import { MockBackend } from '@angular/http/testing';
-import { Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 import { TestBed, inject, async } from '@angular/core/testing';
 
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
@@ -30,6 +28,7 @@ import { ClinicLabOrdersResourceService
 } from '../../../etl-api/clinic-lab-orders-resource.service';
 import { DataCacheService } from '../../../shared/services/data-cache.service';
 import { CacheService } from 'ionic-cache';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('Component: Lab Test Orders Unit Tests', () => {
 
@@ -39,8 +38,6 @@ describe('Component: Lab Test Orders Unit Tests', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        MockBackend,
-        BaseRequestOptions,
         FakeAppFeatureAnalytics,
         LabTestOrdersComponent,
         PatientService,
@@ -60,13 +57,6 @@ describe('Component: Lab Test Orders Unit Tests', () => {
         ObsResourceService,
         LabelService,
         {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
-        {
           provide: AppFeatureAnalytics,
           useClass: FakeAppFeatureAnalytics
         },
@@ -74,7 +64,8 @@ describe('Component: Lab Test Orders Unit Tests', () => {
           provide: OrderResourceService,
         },
         AppSettingsService
-      ]
+      ],
+      imports: [ HttpClientTestingModule ]
     });
 
     orderResourceService = TestBed.get(OrderResourceService);
@@ -105,7 +96,6 @@ describe('Component: Lab Test Orders Unit Tests', () => {
     spyOn(component, 'getCurrentlyLoadedPatient').and.callFake((err, data) => { });
     component.getCurrentlyLoadedPatient((err, data) => { });
     expect(component.getCurrentlyLoadedPatient).toHaveBeenCalled();
-
 
     done();
 

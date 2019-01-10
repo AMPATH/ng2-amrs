@@ -47,7 +47,7 @@ export class FormsResourceService {
     let url = this.appSettingsService.getOpenmrsRestbaseurl().trim() + 'clobdata';
     url += '/' + uuid;
 
-    let params: HttpParams = new HttpParams()
+    const params: HttpParams = new HttpParams()
     .set('v', (v && v.length > 0) ? v : 'full');
 
     return this.http.get(url, {
@@ -60,7 +60,7 @@ export class FormsResourceService {
     let url = this.appSettingsService.getOpenmrsRestbaseurl().trim() + 'form';
     url += '/' + uuid;
 
-    let params: HttpParams = new HttpParams()
+    const params: HttpParams = new HttpParams()
     .set('v', (v && v.length > 0) ? v : 'full');
 
     return this.http.get(url, {

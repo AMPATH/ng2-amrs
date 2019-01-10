@@ -1,7 +1,5 @@
 import { TestBed, async } from '@angular/core/testing';
 import { PatientService } from '../../services/patient.service';
-import { MockBackend } from '@angular/http/testing';
-import { BaseRequestOptions, Http } from '@angular/http';
 import { Observable } from 'rxjs';
 import {
     ProgramEnrollmentResourceService
@@ -19,44 +17,39 @@ import {
 import { PatientRelationshipsComponent } from './patient-relationships.component';
 import { ConfirmationService } from 'primeng/primeng';
 import { PatientProgramService } from '../../programs/patient-programs.service';
-import { RoutesProviderService
+import {
+    RoutesProviderService
 } from '../../../shared/dynamic-route/route-config-provider.service';
 import { ProgramService } from '../../programs/program.service';
 import { ProgramResourceService } from '../../../openmrs-api/program-resource.service';
-import { ProgramWorkFlowResourceService
+import {
+    ProgramWorkFlowResourceService
 } from '../../../openmrs-api/program-workflow-resource.service';
-import { ProgramWorkFlowStateResourceService
+import {
+    ProgramWorkFlowStateResourceService
 } from '../../../openmrs-api/program-workflow-state-resource.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('Component: PatientRelationships', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
+            imports: [HttpClientTestingModule],
             providers: [
-                MockBackend,
                 PatientRelationshipService,
-                BaseRequestOptions,
                 PatientService,
                 PatientProgramService,
-              ProgramWorkFlowResourceService,
-              ProgramWorkFlowStateResourceService,
-              RoutesProviderService,
-              ProgramService,
-              ProgramResourceService,
+                ProgramWorkFlowResourceService,
+                ProgramWorkFlowStateResourceService,
+                RoutesProviderService,
+                ProgramService,
+                ProgramResourceService,
                 PatientResourceService,
                 LocalStorageService,
                 PatientRelationshipResourceService,
                 ProgramEnrollmentResourceService,
                 EncounterResourceService,
                 PatientRelationshipsComponent,
-                {
-                    provide: Http,
-                    useFactory: (backendInstance: MockBackend,
-                        defaultOptions: BaseRequestOptions) => {
-                        return new Http(backendInstance, defaultOptions);
-                    },
-                    deps: [MockBackend, BaseRequestOptions]
-                },
                 AppSettingsService,
                 ConfirmationService
             ]
@@ -69,15 +62,15 @@ describe('Component: PatientRelationships', () => {
     });
 
     it('should instantiate the component', (done) => {
-        let component: PatientRelationshipsComponent = TestBed.get(PatientRelationshipsComponent);
+        const component: PatientRelationshipsComponent = TestBed.get(PatientRelationshipsComponent);
         expect(component).toBeTruthy();
         done();
 
     });
 
     it('should have all the required functions defined and callable', (done) => {
-        let component: PatientRelationshipsComponent = TestBed.get(PatientRelationshipsComponent);
-        let reminders = [];
+        const component: PatientRelationshipsComponent = TestBed.get(PatientRelationshipsComponent);
+        const reminders = [];
         spyOn(component, 'ngOnInit').and.callThrough();
         component.ngOnInit();
         expect(component.ngOnInit).toHaveBeenCalled();

@@ -11,7 +11,7 @@ import { HttpParams, HttpClient, HttpHeaders } from '@angular/common/http';
 @Injectable()
 export class UserService {
   public baseOpenMrsUrl: string = this.getOpenMrsBaseUrl();
-  public v: string = 'default';
+  public v = 'default';
 
   constructor(
     private sessionStorageService: SessionStorageService,
@@ -19,15 +19,15 @@ export class UserService {
     protected appSettingsService: AppSettingsService) { }
 
   public getLoggedInUser(): User {
-    let userObject = this.sessionStorageService.getObject(Constants.USER_KEY);
+    const userObject = this.sessionStorageService.getObject(Constants.USER_KEY);
     return new User(userObject);
   }
   // get all users
 
   public getAllUsers(): Observable <any> {
 
-    let baseUrl = this.getOpenMrsBaseUrl();
-    let url = baseUrl + 'user?v=custom:(uuid,display,person)';
+    const baseUrl = this.getOpenMrsBaseUrl();
+    const url = baseUrl + 'user?v=custom:(uuid,display,person)';
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this._http.get<any>(url, {headers}).pipe(
       map((response) => {
@@ -40,11 +40,11 @@ export class UserService {
   }
 
   public searchUsers(searchText: string) {
-    let params: HttpParams = new HttpParams()
+    const params: HttpParams = new HttpParams()
     .set('q', searchText)
     .set('v', 'default');
 
-    let allCohortMembersUrl: string = this.baseOpenMrsUrl + 'user' ;
+    const allCohortMembersUrl: string = this.baseOpenMrsUrl + 'user' ;
 
     return this._http.get<any>(allCohortMembersUrl, {
       params: params
@@ -60,12 +60,12 @@ export class UserService {
     if (!uuid) {
         return null;
      }
-    let c = 'custom:(uuid,display,person)';
+    const c = 'custom:(uuid,display,person)';
     console.log('getUserByUuid', uuid);
-    let params: HttpParams = new HttpParams()
+    const params: HttpParams = new HttpParams()
     .set('v', c);
 
-    let userUrl: string = this.baseOpenMrsUrl + 'user/' + uuid ;
+    const userUrl: string = this.baseOpenMrsUrl + 'user/' + uuid ;
 
     return this._http.get<any>(userUrl, {
       params: params

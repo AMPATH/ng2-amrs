@@ -31,12 +31,12 @@ export class FormListService {
             }
         });
 
-        let sortedArray = [];
+        const sortedArray = [];
 
         // add items to the list of sorted array by using the metadata provided
         _.each(sortingMetadataArrays, (sortingMetadata) => {
             _.each(sortingMetadata, (metadata: any) => {
-                let found = this._findItemByName(metadata.name, unsortArray);
+                const found = this._findItemByName(metadata.name, unsortArray);
                 if (found) {
                     this._addMemberToArray(found, sortedArray);
                 }
@@ -45,9 +45,9 @@ export class FormListService {
 
         // add missing items that weren't in the sorting metadata
         _.each(unsortArray, (item) => {
-            let found = this._findItemByName(item.name, sortedArray);
+            const found = this._findItemByName(item.name, sortedArray);
             if (_.isEmpty(found)) {
-                let toAdd = this._findItemByName(item.name, unsortArray);
+                const toAdd = this._findItemByName(item.name, unsortArray);
                 this._addMemberToArray(toAdd, sortedArray);
             }
         });
@@ -60,7 +60,7 @@ export class FormListService {
             throw new Error('Input must be an array');
         }
         // comment out /*item.published && */ for all unretired forms (NOTE : ng-forms build)
-        let publishedOpenmrsForms = _.filter(unsortArray, (item) => {
+        const publishedOpenmrsForms = _.filter(unsortArray, (item) => {
           // return item.published && !item.retired;
           return !item.retired;
         });
@@ -92,13 +92,13 @@ export class FormListService {
 
     public removeVersionInformation(formName) {
         if (typeof formName !== 'string') { throw new Error('formName should be a string'); }
-        let trimmed = formName.trim();
+        const trimmed = formName.trim();
         // minimum form length is 5 characters
         if (trimmed.length < 5) {
             return trimmed;
         }
-        let lastFiveCharacters = trimmed.substr(trimmed.length - 5);
-        let indexOfV = lastFiveCharacters.search('v') === -1 ? lastFiveCharacters
+        const lastFiveCharacters = trimmed.substr(trimmed.length - 5);
+        const indexOfV = lastFiveCharacters.search('v') === -1 ? lastFiveCharacters
             .search('V') : lastFiveCharacters.search('v');
         if (indexOfV === -1 || indexOfV === (lastFiveCharacters.length - 1)) {
             return trimmed;
@@ -111,11 +111,11 @@ export class FormListService {
     }
 
     public getFormList() {
-        let formList = new BehaviorSubject([]);
-        let favouriteForms = this.formOrderMetaDataService.getFavouriteForm();
+        const formList = new BehaviorSubject([]);
+        const favouriteForms = this.formOrderMetaDataService.getFavouriteForm();
         this.formsResourceService.getForms().subscribe((forms) => {
             this.formOrderMetaDataService.getDefaultFormOrder().subscribe((defaultOrder) => {
-                let formlist = this.processFavouriteForms(this._getFormList(forms,
+                const formlist = this.processFavouriteForms(this._getFormList(forms,
                     [favouriteForms, defaultOrder]), favouriteForms);
                 formList.next(formlist);
             });
@@ -125,9 +125,9 @@ export class FormListService {
 
     private _getFormList(pocForms, formOrderArray) {
         // first filter out unpublished forms
-        let effectiveForms = this.removeVersionInformationFromForms(pocForms);
-        let publishedForms = this.filterPublishedOpenmrsForms(effectiveForms);
-        let sortedList = this.sortFormList(publishedForms, formOrderArray);
+        const effectiveForms = this.removeVersionInformationFromForms(pocForms);
+        const publishedForms = this.filterPublishedOpenmrsForms(effectiveForms);
+        const sortedList = this.sortFormList(publishedForms, formOrderArray);
         return sortedList;
     }
     private _isVersionInformation(subString) {
@@ -142,7 +142,7 @@ export class FormListService {
     }
 
     private _findItemByName(name, array) {
-        let foundItems = [];
+        const foundItems = [];
         // tslint:disable-next-line:prefer-for-of
         for (let i = 0; i < array.length; i++) {
             // TODO: find a way to compare strings by first eliminating the spaces
@@ -155,7 +155,7 @@ export class FormListService {
     }
 
     private _findItemByUuid(uuid, array) {
-        let foundItems = [];
+        const foundItems = [];
         // tslint:disable-next-line:prefer-for-of
         for (let i = 0; i < array.length; i++) {
             // TODO: find a way to compare strings by first eliminating the spaces

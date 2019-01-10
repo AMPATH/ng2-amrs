@@ -1,3 +1,4 @@
+  // tslint:disable:no-output-on-prefix
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Encounter } from '../../../models/encounter.model';
 import { NgModel } from '@angular/forms';
@@ -9,7 +10,7 @@ import { PatientEncounterProviderPipe } from './patient-encounter-provider.pipe'
 
 })
 export class EncounterListComponent implements OnInit {
-  @Input() public encountersLoading: boolean = false;
+  @Input() public encountersLoading = false;
   @Input() public encounters: Encounter[];
   @Input('messageType') public messageType: string;
   @Input('message') public message: string;
@@ -19,8 +20,8 @@ export class EncounterListComponent implements OnInit {
   @Output() public onShowPrettyEncounterViewer = new EventEmitter();
   @Output() public onEncounterObservations = new EventEmitter();
   @Input() public encounterTypes: any [];
-  @Input() public showPagination: boolean = true;
-  @Input() public showFilterers: boolean = true;
+  @Input() public showPagination = true;
+  @Input() public showFilterers = true;
   public selectedEncounterType: any = [];
   public encounterFilterTypeArray: any = [];
 

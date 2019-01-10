@@ -23,11 +23,11 @@ export class ProgramWorkFlowResourceService {
       return null;
     }
 
-    let url = this.getUrl() + '/' + uuid;
-    let v: string = 'custom:(uuid,display,allWorkflows:(uuid,retired,concept:(uuid,display)' +
+    const url = this.getUrl() + '/' + uuid;
+    const v: string = 'custom:(uuid,display,allWorkflows:(uuid,retired,concept:(uuid,display)' +
       ',states:(uuid,initial,terminal,concept:(uuid,display))))';
 
-    let params: HttpParams = new HttpParams()
+    const params: HttpParams = new HttpParams()
     .set('v', v);
     return this.http.get(url, {
       params: params

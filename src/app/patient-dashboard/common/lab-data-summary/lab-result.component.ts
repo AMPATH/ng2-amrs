@@ -23,9 +23,9 @@ export class LabResultComponent implements OnInit, OnDestroy {
   public fetchingResults: boolean;
   public isLoading: boolean;
   public patientUuId: any;
-  public nextStartIndex: number = 0;
-  public dataLoaded: boolean = false;
-  public loadingLabSummary: boolean = false;
+  public nextStartIndex = 0;
+  public dataLoaded = false;
+  public loadingLabSummary = false;
   public currentDepartment = '';
   public labResults = [];
   public subscription: Subscription;
@@ -276,7 +276,7 @@ export class LabResultComponent implements OnInit, OnDestroy {
           this.labResults = this.formatDateField(result);
           this.createColumnDefs();
           if (this.labResults.length > 0) {
-            let size: number = this.labResults.length;
+            const size: number = this.labResults.length;
             this.nextStartIndex = +(params.startIndex) + size;
             this.isLoading = false;
           } else {
@@ -292,12 +292,11 @@ export class LabResultComponent implements OnInit, OnDestroy {
 
   }
   public formatDateField(result) {
-    let tests = [];
-    for (let  data of result) {
-      let testDatetime;
-      for (let r in data) {
+    const tests = [];
+    for (const  data of result) {
+      for (const r in data) {
         if (data.hasOwnProperty(r)) {
-          let lab = Moment(data.test_datetime).format('DD-MM-YYYY');
+          const lab = Moment(data.test_datetime).format('DD-MM-YYYY');
           data['testDatetime'] = lab;
         }
       }

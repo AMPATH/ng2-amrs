@@ -1,7 +1,3 @@
-
-
-import { MockBackend } from '@angular/http/testing';
-import { Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 import { TestBed, inject, async } from '@angular/core/testing';
 
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
@@ -12,7 +8,8 @@ import { PatientService } from '../../services/patient.service';
 import { EditPatientRelationshipComponent } from './edit-patient-relationship.component';
 import { PatientRelationshipService } from './patient-relationship.service';
 import { PatientRelationshipTypeService } from './patient-relation-type.service';
-import { ProgramWorkFlowResourceService
+import {
+    ProgramWorkFlowResourceService
 } from '../../../openmrs-api/program-workflow-resource.service';
 import { ProgramWorkFlowStateResourceService } from '../../../openmrs-api/program-workflow-state-resource.service';
 
@@ -25,19 +22,9 @@ describe('Component: EditRelationship Unit Tests', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [
-                MockBackend,
-                BaseRequestOptions,
                 FakeAppFeatureAnalytics,
-              ProgramWorkFlowResourceService,
-              ProgramWorkFlowStateResourceService,
-                {
-                    provide: Http,
-                    useFactory: (backendInstance: MockBackend,
-                        defaultOptions: BaseRequestOptions) => {
-                        return new Http(backendInstance, defaultOptions);
-                    },
-                    deps: [MockBackend, BaseRequestOptions]
-                },
+                ProgramWorkFlowResourceService,
+                ProgramWorkFlowStateResourceService,
                 {
                     provide: AppFeatureAnalytics,
                     useClass: FakeAppFeatureAnalytics

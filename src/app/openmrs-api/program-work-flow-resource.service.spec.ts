@@ -1,4 +1,4 @@
-import { async, TestBed } from '@angular/core/testing';;
+import { async, TestBed } from '@angular/core/testing';
 
 import { LocalStorageService } from '../utils/local-storage.service';
 import { AppSettingsService } from '../app-settings/app-settings.service';
@@ -30,7 +30,7 @@ describe('Service: ProgramWorkFlowResourceService', () => {
     TestBed.resetTestingModule();
   });
 
-  let programWorkFlowResponse = {
+  const programWorkFlowResponse = {
     results: [
       {
         'uuid': 'fc15ac01-5381-4854-bf5e-917c907aa77f',
@@ -56,11 +56,11 @@ describe('Service: ProgramWorkFlowResourceService', () => {
 
   it('should be defined', async(() => {
     expect(service).toBeDefined();
-  }))
+  }));
 
   it('should haave getUrl defined', () => {
     expect(service.getUrl()).toBeTruthy();
-  })
+  });
 
   it('should return null when programUuid not specified', async(() => {
 
@@ -72,7 +72,7 @@ describe('Service: ProgramWorkFlowResourceService', () => {
   }));
 
   it('should call the right endpoint', async(() => {
-    let programUuid = 'uuid';
+    const programUuid = 'uuid';
 
     service.getProgramWorkFlows(programUuid).subscribe();
 

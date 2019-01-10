@@ -53,7 +53,7 @@ export class VisitResourceService {
             .get(`${this.appSettingsService.getOpenmrsRestbaseurl().trim()}visittype`, {
             }).pipe(
             map(this.parseVisitTypesResponse),
-            catchError(this.handleError),);
+            catchError(this.handleError));
     }
 
     public saveVisit(payload) {
@@ -92,7 +92,7 @@ export class VisitResourceService {
                 params: params
             }).pipe(
             map(this.parseVisitEncounters),
-            catchError(this.handleError),);
+            catchError(this.handleError));
     }
     private getUrl() {
         return this.appSettingsService.getOpenmrsRestbaseurl().trim() + 'visit';

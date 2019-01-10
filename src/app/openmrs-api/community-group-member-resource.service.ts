@@ -29,7 +29,7 @@ export class CommunityGroupMemberService {
 
   public endMembership(memberUuid: any, date: any): Observable < any > {
     const url = this.getOpenMrsBaseUrl() + 'cohortm/cohortmember/' + memberUuid;
-    const headers = new HttpHeaders({'Content-Type': 'application/json'})
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
     const body = {
       endDate: date,
       voided: true
