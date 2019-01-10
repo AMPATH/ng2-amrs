@@ -17,7 +17,7 @@ export class DataCacheService {
     }
 
     public cacheRequest(url, params, request) {
-        let cacheKey = url + params.toString();
+        const cacheKey = url + params.toString();
         return this.cache.loadFromObservable(cacheKey, request);
     }
     public clearAll() {
@@ -28,8 +28,8 @@ export class DataCacheService {
         this.cache.enableCache(false);
     }
     public cacheSingleRequest(url, params, request, time) {
-        let ttl = time;
-        let cacheKey = url + params.toString();
+        const ttl = time;
+        const cacheKey = url + params.toString();
         return this.cache.loadFromObservable(cacheKey, request, ttl);
     }
 

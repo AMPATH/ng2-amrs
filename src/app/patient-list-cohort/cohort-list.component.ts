@@ -15,19 +15,19 @@ import { UserCohortResourceService } from '../etl-api/user-cohort-resource.servi
 })
 export class CohortListComponent implements OnInit {
 
-  public isBusy: boolean = false;
+  public isBusy = false;
   public selectedCohortListUuid: any;
   public selectedCohortListName: any;
-  public fetchingResults: boolean = false;
-  public isLoading: boolean = false;
-  public filterTerm: string = '';
+  public fetchingResults = false;
+  public isLoading = false;
+  public filterTerm = '';
   public cohortList: any;
   public user: User;
-  public fetchError: boolean = false;
+  public fetchError = false;
   public isSelectedCohort: any;
-  public displayConfirmDialog: boolean = false;
-  public showSuccessAlert: boolean = false;
-  public showErrorAlert: boolean = false;
+  public displayConfirmDialog = false;
+  public showSuccessAlert = false;
+  public showErrorAlert = false;
   public successAlert: string;
   public errorAlert: string;
   public errorTitle: string;

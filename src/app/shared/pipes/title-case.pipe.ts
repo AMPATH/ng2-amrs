@@ -9,7 +9,7 @@ export class TitleCasePipe implements PipeTransform {
     } else {
       return input.replace(/\w\S*/g, (
         (txt) => {
-          let lower = txt.toLowerCase();
+          const lower = txt.toLowerCase();
           if (lower === 'hiv' || lower === 'cdm' || lower === 'pep') {
             return txt.toUpperCase();
           }

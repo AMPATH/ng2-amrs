@@ -12,20 +12,17 @@ import { DateRangeComponent } from './date-range/date-range.component';
 import { GenderSelectComponent } from './gender-selector/gender-selector.component';
 import { IndicatorSelectComponent } from './indicator-selector/indicator-selector.component';
 import { RangeSliderComponent } from './range-slider/range-slider.component';
-// import {
-//   VisualizationComponent
-// } from '../hiv/clinical-summary-visualization/visualization-component';
 import { ClinicDashboardCacheService } from '../services/clinic-dashboard-cache.service';
 import {
   ClinicalSummaryVisualizationResourceService
 } from '../../etl-api/clinical-summary-visualization-resource.service';
 import { AppSettingsService } from '../../app-settings/app-settings.service';
 import { DataCacheService } from '../../shared/services/data-cache.service';
-import { Http } from '@angular/http';
 import {
   ClinicalSummaryVisualizationService
 } from '../../hiv-care-lib/services/clinical-summary-visualization.service';
-/* tslint:disable */
+// tslint:disable:component-class-suffix
+
 @Component({
   selector: 'hiv-care-overview',
   template: `<p></p>`
@@ -84,15 +81,14 @@ export class FakeClinicalSummaryVisualizationResourceService {
         },
         {
           provide: ClinicalSummaryVisualizationResourceService,
-          useFactory: (http, appSettingsService, cacheService) =>
+          useFactory: (appSettingsService, cacheService) =>
             new FakeClinicalSummaryVisualizationResourceService(),
-          deps: [Http, AppSettingsService, DataCacheService]
+          deps: [AppSettingsService, DataCacheService]
         }],
       declarations: [
         DashboardFiltersComponent,
         DateRangeComponent,
         GenderSelectComponent,
-        // VisualizationComponent,
         FakeHivCareOverview,
         FakeArtOverviewChart,
         FakepatientStatusOverviewChart,
@@ -113,8 +109,8 @@ export class FakeClinicalSummaryVisualizationResourceService {
   });
 
   it('should update parent model when date changes', (done) => {
-    let fixture = TestBed.createComponent(DateRangeComponent);
-    let component = fixture.componentInstance;
+    const fixture = TestBed.createComponent(DateRangeComponent);
+    const component = fixture.componentInstance;
     expect(component.startDate).toBeUndefined();
     expect(component.endDate).toBeUndefined();
     component.updateStartDate(moment([2016, 2, 22]).format());
@@ -145,9 +141,9 @@ export class FakeClinicalSummaryVisualizationResourceService {
     done();
   });
 
-  xit('should update parent model when gender changes', (done) => {
-    let fixture = TestBed.createComponent(GenderSelectComponent);
-    let component = fixture.componentInstance;
+  it('should update parent model when gender changes', (done) => {
+    const fixture = TestBed.createComponent(GenderSelectComponent);
+    const component = fixture.componentInstance;
     expect(component.selectedGender.length).toEqual(0);
     component.onGenderSelected(['F']);
     component.onGenderChange.subscribe((gender) => {
@@ -175,9 +171,9 @@ export class FakeClinicalSummaryVisualizationResourceService {
     done();
   });
 
-  xit('should update parent model when indicators change', (done) => {
-    let fixture = TestBed.createComponent(IndicatorSelectComponent);
-    let component = fixture.componentInstance;
+  it('should update parent model when indicators change', (done) => {
+    const fixture = TestBed.createComponent(IndicatorSelectComponent);
+    const component = fixture.componentInstance;
     expect(component.selectedIndicators.length).toEqual(0);
     component.onIndicatorSelected(['indicator']);
     component.onIndicatorChange.subscribe((indicators) => {
@@ -205,8 +201,8 @@ export class FakeClinicalSummaryVisualizationResourceService {
   });
 
   it('should update parent model when age range changes', (done) => {
-    let fixture = TestBed.createComponent(RangeSliderComponent);
-    let component = fixture.componentInstance;
+    const fixture = TestBed.createComponent(RangeSliderComponent);
+    const component = fixture.componentInstance;
     component.start = 11;
     component.end = 13;
     component.onAgeChangeFinish.subscribe((age) => {
