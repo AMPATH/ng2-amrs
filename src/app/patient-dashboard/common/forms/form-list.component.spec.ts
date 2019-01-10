@@ -4,11 +4,6 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { Pipe, PipeTransform } from '@angular/core';
 import { of } from 'rxjs';
-import {
-    BaseRequestOptions, Http, HttpModule, Response,
-    ResponseOptions, RequestMethod, ResponseType
-} from '@angular/http';
-import { MockBackend } from '@angular/http/testing';
 
 import { Ng2FilterPipe } from '../../../shared/pipes/ng2-filter.pipe';
 
@@ -19,6 +14,7 @@ import { FormOrderMetaDataService } from './form-order-metadata.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
 import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { forms } from './forms';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 @Pipe({ name: 'translate' })
 export class FakeTranslatePipe implements PipeTransform {
@@ -28,7 +24,7 @@ export class FakeTranslatePipe implements PipeTransform {
 }
 
 describe('FormList Component', () => {
-    let fakeChangeDetectorRef = {
+    const fakeChangeDetectorRef = {
         markForCheck: () => { }
     };
 
@@ -43,22 +39,15 @@ describe('FormList Component', () => {
                 Ng2FilterPipe
             ],
             providers: [
-                MockBackend,
-                BaseRequestOptions,
                 LocalStorageService,
                 AppSettingsService,
                 { provide: ChangeDetectorRef, useValue: fakeChangeDetectorRef },
-                {
-                    provide: Http,
-                    useFactory: (backend, options) => new Http(backend, options),
-                    deps: [MockBackend, BaseRequestOptions]
-                },
                 FormsResourceService,
                 FormOrderMetaDataService,
                 FormListService
             ],
             imports: [
-                HttpModule
+                HttpClientTestingModule
             ]
         })
             .compileComponents()
@@ -82,19 +71,19 @@ describe('FormList Component', () => {
             FormsResourceService], (service: FormListService,
                 formOrderMetaDataService: FormOrderMetaDataService,
                 formsResourceService: FormsResourceService) => {
-                let favourite = [{
+                const favourite = [{
                     name: 'form 5'
                 }, {
                     name: 'form 3'
                 }];
 
-                let defualtOrdering = [{
+                const defualtOrdering = [{
                     name: 'form 2'
                 }, {
                     name: 'form 3'
                 }];
 
-                let expectedFormsList = [{
+                const expectedFormsList = [{
                     name: 'form 2',
                     display: 'form 2',
                     published: true,
@@ -133,12 +122,12 @@ describe('FormList Component', () => {
                     'getFormList').and.returnValue(
                     of(forms)
                     );
-                let toggleFavouriteSpy = spyOn(comp, 'toggleFavourite');
-                let formSelectedSypy = spyOn(comp, 'formSelected');
+                const toggleFavouriteSpy = spyOn(comp, 'toggleFavourite');
+                const formSelectedSypy = spyOn(comp, 'formSelected');
 
                 comp.ngOnInit();
                 fixture.detectChanges();
-                let formList = nativeElement.querySelectorAll('.list-group-item');
+                const formList = nativeElement.querySelectorAll('.list-group-item');
                 expect(comp.forms).toBeTruthy();
                 expect(comp.forms.length).toEqual(6);
                 expect(formList).toBeTruthy();

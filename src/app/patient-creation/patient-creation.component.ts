@@ -39,7 +39,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
 
   public patients: Patient = new Patient({});
   public person: any;
-  public display: boolean = false;
+  public display = false;
   public subscription: Subscription;
   public userId;
   public givenName: string;
@@ -47,7 +47,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public middleName: string;
   public preferred: any;
   public ispreferred: boolean;
-  public loaderStatus: boolean = false;
+  public loaderStatus = false;
   public preferredOptions = [
     { label: 'Yes', val: true },
     { label: 'No', val: false }
@@ -59,11 +59,11 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public patientExists = true;
   public preferredNameuuid: string;
   public birthDate: any;
-  public birthdateEstimated: boolean = false;
-  public dead: boolean = false;
+  public birthdateEstimated;
+  public dead = false;
   public gender: any;
   public createdPatient;
-  public page: number = 1;
+  public page = 1;
   public idKey;
   public selectId;
 
@@ -89,38 +89,38 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public commonIdentifier;
   public patientIdentifierTypes: any;
   public patientIdentifierType: any;
-  public identifierAdded: boolean = false;
-  public commonAdded: boolean = false;
+  public identifierAdded = false;
+  public commonAdded = false;
   public locations = [];
   public counties: any;
   public identifiers = [];
   public patientResults: Patient[];
   public found = false;
   public selectedLocation: string;
-  public identifierLocation: string = '';
-  public invalidLocationCheck: string = '';
+  public identifierLocation = '';
+  public invalidLocationCheck = '';
   public commonIdentifierTypes: any = [];
   public commonIdentifierTypeFormats: any = [];
-  public identifierValidity: string = '';
-  public isValidIdentifier: boolean = false;
+  public identifierValidity = '';
+  public isValidIdentifier = false;
   public ageEstimate: number;
 
-  public errors: boolean = false;
+  public errors = false;
   public successAlert: any = '';
-  public showSuccessAlert: boolean = false;
-  public showErrorAlert: boolean = false;
+  public showSuccessAlert = false;
+  public showErrorAlert = false;
   public errorAlert: string;
   public errorTitle: string;
-  public editText: boolean = false;
-  public errorMessage: string = '';
-  public hasError: boolean = false;
-  public isError: boolean = false;
-  public disable: boolean = false;
-  public errorMessages: string = '';
-  public birthError: string = '';
+  public editText = false;
+  public errorMessage = '';
+  public hasError = false;
+  public isError = false;
+  public disable = false;
+  public errorMessages = '';
+  public birthError = '';
   public modalRef: BsModalRef;
   public universal: any;
-  public generate: boolean = true;
+  public generate = true;
   public preferredIdentifier;
 
   constructor(
@@ -207,18 +207,18 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         birthdateEstimated: this.birthdateEstimated
       };
       this.sessionStorageService.setObject('person', this.person);
-      let searchString = this.givenName;
+      const searchString = this.givenName;
       this.patientCreationService.searchPatient(searchString, false).pipe(
       take(1)).subscribe((results) => {
         this.loaderStatus = false;
         if (results.length > 0) {
-          let birthdate = this.getAge(this.birthDate);
+          const birthdate = this.getAge(this.birthDate);
           results = _.filter(results, (o) => {
             return (o.person.age === birthdate - 1 ||
             o.person.age === birthdate ||
             o.person.age === birthdate + 1);
           });
-          let res = this.filterPatients(results);
+          const res = this.filterPatients(results);
           if (res.length > 0) {
             this.patientResults = res;
             this.patientCreationService.patientResults(this.patientResults);
@@ -235,20 +235,20 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   }
 
   public filterPatients(results) {
-    let options = {
+    const options = {
       keys: ['person.gender']
     };
-    let fuse = new Fuse(results, options);
+    const fuse = new Fuse(results, options);
     results = fuse.search(this.gender);
     return results;
 
   }
 
   public getAge(dateString) {
-    let today = new Date();
-    let birthDate = new Date(dateString);
+    const today = new Date();
+    const birthDate = new Date(dateString);
     let age = today.getFullYear() - birthDate.getFullYear();
-    let m = today.getMonth() - birthDate.getMonth();
+    const m = today.getMonth() - birthDate.getMonth();
     if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
       age--;
     }
@@ -398,7 +398,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public createPatient() {
     this.loaderStatus = false;
     this.errors = false;
-    let ids = [];
+    const ids = [];
     this.successAlert = '';
     if (this.getAge(this.birthDate) > 116) {
       this.birthError = 'Please select a valid birthdate or age';
@@ -434,7 +434,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     } else if (this.identifiers.length === 0 ) {
       this.errors = true;
     } else if (this.identifiers.length === 1) {
-      let value = this.identifiers[0];
+      const value = this.identifiers[0];
       this.preferredIdentifier = value;
       ids.push({
         identifierType: value.identifierType,
@@ -466,7 +466,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       this.loaderStatus = true;
       this.birthError = '';
       this.errorAlert = '';
-      let attributes = [];
+      const attributes = [];
       if (this.patientPhoneNumber) {
         attributes.push({
           value:  this.patientPhoneNumber,
@@ -665,7 +665,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     this.locationResourceService.getLocations().pipe(take(1)).subscribe(
       (locations: any[]) => {
         this.locations = [];
-        let counties = [];
+        const counties = [];
         // tslint:disable-next-line:prefer-for-of
         for (let i = 0; i < locations.length; i++) {
           this.locations.push({label: locations[i].name, value: locations[i].uuid});
@@ -701,8 +701,8 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   private checkIdentifierFormat() {
     this.isValidIdentifier = false;
     this.identifierValidity = '';
-    let identifierType = this.patientIdentifierType;
-    let identifierTypeSpecifiedFormat = this.patientCreationService.getIdentifierTypeFormat(
+    const identifierType = this.patientIdentifierType;
+    const identifierTypeSpecifiedFormat = this.patientCreationService.getIdentifierTypeFormat(
       (identifierType as any).val);
     let identifierHasCheckDigit = null;
     let identifierHasRegex = null;
@@ -731,8 +731,8 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   }
 
   private checkLuhnCheckDigit() {
-    let checkDigit = this.commonIdentifier.split('-')[1];
-    let expectedCheckDigit =
+    const checkDigit = this.commonIdentifier.split('-')[1];
+    const expectedCheckDigit =
       this.patientCreationService.getLuhnCheckDigit(this.commonIdentifier.split('-')[0]);
     if (checkDigit === 'undefined' || checkDigit === undefined) {
       this.identifierValidity = 'Invalid Check Digit';
@@ -767,7 +767,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       date = (yearDiff - baseYear) * 31556926000;
     }
 
-    let estimateDate = new Date(date).toISOString();
+    const estimateDate = new Date(date).toISOString();
 
     return estimateDate;
   }

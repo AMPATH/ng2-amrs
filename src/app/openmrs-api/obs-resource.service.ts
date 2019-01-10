@@ -16,7 +16,7 @@ export class ObsResourceService {
     if (!payload) {
       return null;
     }
-    let url = this.getUrl() + 'obs';
+    const url = this.getUrl() + 'obs';
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post(url, JSON.stringify(payload), {headers});
   }
@@ -25,7 +25,7 @@ export class ObsResourceService {
     if (!payload || !uuid) {
       return null;
     }
-    let url = this.getUrl() + 'obs/' + uuid;
+    const url = this.getUrl() + 'obs/' + uuid;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post(url, JSON.stringify(payload), {headers});
   }
@@ -34,7 +34,7 @@ export class ObsResourceService {
     if (!uuid) {
       return null;
     }
-    let url = this.getUrl() + 'obs/' + uuid + '?!purge';
+    const url = this.getUrl() + 'obs/' + uuid + '?!purge';
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.delete(url, {headers});
   }

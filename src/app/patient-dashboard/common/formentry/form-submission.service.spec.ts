@@ -1,5 +1,5 @@
 
-import {throwError as observableThrowError, of,  Observable, Subject } from 'rxjs';
+import { throwError as observableThrowError, of, Observable, Subject } from 'rxjs';
 import { TestBed, async, fakeAsync, inject } from '@angular/core/testing';
 import { LocalStorageService } from '../../../utils/local-storage.service';
 import { FormSubmissionService } from './form-submission.service';
@@ -24,7 +24,7 @@ import { ZscoreService } from 'src/app/shared/services/zscore.service';
 describe('Service: FormSubmissionService', () => {
 
   // sample field error
-  let sampleFieldError: any = {
+  const sampleFieldError: any = {
     error: {
       message: 'Invalid Submission',
       code: 'webservices.rest.error.invalid.submission',
@@ -41,7 +41,7 @@ describe('Service: FormSubmissionService', () => {
   };
 
   // sample payload
-  let sampleEncounterPayload: any = {
+  const sampleEncounterPayload: any = {
     encounterType: '8d5b2be0-c2cc-11de-8d13-0010c6dffd0f',
     form: '81f92a8a-ff5c-415d-a34c-b5bdca2406be',
     obs: [],
@@ -52,7 +52,7 @@ describe('Service: FormSubmissionService', () => {
   };
 
   // sample schema
-  let schema: any = {
+  const schema: any = {
     uuid: 'form-uuid',
     display: 'form',
     encounterType: {
@@ -62,7 +62,7 @@ describe('Service: FormSubmissionService', () => {
   };
 
   // previous encs
-  let renderableForm = {
+  const renderableForm = {
     valid: true,
     schema: schema,
     valueProcessingInfo: {
@@ -82,7 +82,7 @@ describe('Service: FormSubmissionService', () => {
   } as Form;
 
   // sample submission error
-  let sampleSubmissionError: any = {
+  const sampleSubmissionError: any = {
     code: 'org.openmrs.module.webservices.rest.web.resource.impl.BaseDelegatingResource:748',
     // tslint:disable-next-line:max-line-length
     detail: 'org.openmrs.module.webservices.rest.web.response.ConversionException: unknown provider ↵',
@@ -90,7 +90,7 @@ describe('Service: FormSubmissionService', () => {
   };
 
   class StorageService {
-    
+
   }
 
   beforeEach(() => {
@@ -116,7 +116,7 @@ describe('Service: FormSubmissionService', () => {
         DataCacheService,
         CacheService,
         ZscoreService,
-        {provide: CacheStorageService, useClass: StorageService}
+        { provide: CacheStorageService, useClass: StorageService }
       ],
       imports: [
         CacheModule, HttpClientTestingModule
@@ -129,18 +129,18 @@ describe('Service: FormSubmissionService', () => {
   });
 
   it('should create an instance of FormSubmissionService', () => {
-    let service: FormSubmissionService = TestBed.get(FormSubmissionService);
+    const service: FormSubmissionService = TestBed.get(FormSubmissionService);
     expect(service).toBeTruthy();
   });
 
   it('should submit payload when supplied with a valid form object:: New Form',
     inject([FormSubmissionService, EncounterResourceService, PersonAttribuAdapter,
-        EncounterAdapter, PersonResourceService],
+      EncounterAdapter, PersonResourceService],
       (formSchemaService: FormSubmissionService,
-       encounterResourceService: EncounterResourceService,
-       personAttribuAdapter: PersonAttribuAdapter,
-       encounterAdapter: EncounterAdapter,
-       personResourceService: PersonResourceService) => {
+        encounterResourceService: EncounterResourceService,
+        personAttribuAdapter: PersonAttribuAdapter,
+        encounterAdapter: EncounterAdapter,
+        personResourceService: PersonResourceService) => {
 
         // spy encounterResourceService
         spyOn(encounterResourceService, 'saveEncounter').and.callFake(
@@ -179,12 +179,12 @@ describe('Service: FormSubmissionService', () => {
 
   it('should submit payload when supplied with a valid form object:: Editting Form',
     inject([FormSubmissionService, EncounterResourceService, PersonAttribuAdapter,
-        EncounterAdapter, PersonResourceService],
+      EncounterAdapter, PersonResourceService],
       (formSchemaService: FormSubmissionService,
-       encounterResourceService: EncounterResourceService,
-       personAttribuAdapter: PersonAttribuAdapter,
-       encounterAdapter: EncounterAdapter,
-       personResourceService: PersonResourceService) => {
+        encounterResourceService: EncounterResourceService,
+        personAttribuAdapter: PersonAttribuAdapter,
+        encounterAdapter: EncounterAdapter,
+        personResourceService: PersonResourceService) => {
 
         // spy encounterResourceService
         spyOn(encounterResourceService, 'saveEncounter').and.callFake(
@@ -223,12 +223,12 @@ describe('Service: FormSubmissionService', () => {
 
   it('should not submit personAttribute payload if generated payload is null or empty',
     inject([FormSubmissionService, EncounterResourceService, PersonAttribuAdapter,
-        EncounterAdapter, PersonResourceService],
+      EncounterAdapter, PersonResourceService],
       (formSchemaService: FormSubmissionService,
-       encounterResourceService: EncounterResourceService,
-       personAttribuAdapter: PersonAttribuAdapter,
-       encounterAdapter: EncounterAdapter,
-       personResourceService: PersonResourceService) => {
+        encounterResourceService: EncounterResourceService,
+        personAttribuAdapter: PersonAttribuAdapter,
+        encounterAdapter: EncounterAdapter,
+        personResourceService: PersonResourceService) => {
 
         // spy encounterResourceService
         spyOn(personResourceService, 'saveUpdatePerson').and.callFake(
@@ -255,12 +255,12 @@ describe('Service: FormSubmissionService', () => {
   it('should not submit encounter payload if generated payload is null or empty' +
     ' :: Case when creating new form',
     inject([FormSubmissionService, EncounterResourceService, PersonAttribuAdapter,
-        EncounterAdapter, PersonResourceService],
+      EncounterAdapter, PersonResourceService],
       (formSchemaService: FormSubmissionService,
-       encounterResourceService: EncounterResourceService,
-       personAttribuAdapter: PersonAttribuAdapter,
-       encounterAdapter: EncounterAdapter,
-       personResourceService: PersonResourceService) => {
+        encounterResourceService: EncounterResourceService,
+        personAttribuAdapter: PersonAttribuAdapter,
+        encounterAdapter: EncounterAdapter,
+        personResourceService: PersonResourceService) => {
 
         // case when creating new encounter
         spyOn(encounterResourceService, 'saveEncounter').and.callFake(
@@ -294,12 +294,12 @@ describe('Service: FormSubmissionService', () => {
   it('should not submit encounter payload if generated payload is null or empty' +
     ' :: Case when editting existing form',
     inject([FormSubmissionService, EncounterResourceService, PersonAttribuAdapter,
-        EncounterAdapter, PersonResourceService],
+      EncounterAdapter, PersonResourceService],
       (formSchemaService: FormSubmissionService,
-       encounterResourceService: EncounterResourceService,
-       personAttribuAdapter: PersonAttribuAdapter,
-       encounterAdapter: EncounterAdapter,
-       personResourceService: PersonResourceService) => {
+        encounterResourceService: EncounterResourceService,
+        personAttribuAdapter: PersonAttribuAdapter,
+        encounterAdapter: EncounterAdapter,
+        personResourceService: PersonResourceService) => {
 
         // case when creating new encounter
         spyOn(encounterResourceService, 'saveEncounter').and.callFake(
@@ -334,12 +334,12 @@ describe('Service: FormSubmissionService', () => {
 
   it('should throw error when encounter payload fails to save',
     inject([FormSubmissionService, EncounterResourceService, PersonAttribuAdapter,
-        EncounterAdapter, PersonResourceService],
+      EncounterAdapter, PersonResourceService],
       (formSchemaService: FormSubmissionService,
-       encounterResourceService: EncounterResourceService,
-       personAttribuAdapter: PersonAttribuAdapter,
-       encounterAdapter: EncounterAdapter,
-       personResourceService: PersonResourceService) => {
+        encounterResourceService: EncounterResourceService,
+        personAttribuAdapter: PersonAttribuAdapter,
+        encounterAdapter: EncounterAdapter,
+        personResourceService: PersonResourceService) => {
 
         // spy encounterResourceService
         spyOn(encounterResourceService, 'saveEncounter').and.callFake(
@@ -372,12 +372,13 @@ describe('Service: FormSubmissionService', () => {
           });
 
         // spy on
-        let formSubmissionSuccesIndicator: boolean = false;
+        let formSubmissionSuccesIndicator = false;
         let submissionError: any = null;
         formSchemaService.submitPayload(renderableForm as Form).subscribe(
           (responses: Array<any>) => {
             formSubmissionSuccesIndicator = true;
             submissionError = null;
+            // tslint:disable-next-line:no-unused-expression
             expect(formSubmissionSuccesIndicator).toBeFalsy;
           },
           (err) => {
@@ -388,19 +389,21 @@ describe('Service: FormSubmissionService', () => {
         expect(encounterResourceService.saveEncounter).toHaveBeenCalled();
         expect(personResourceService.saveUpdatePerson).toHaveBeenCalled();
         // we expect it to throw error
+        // tslint:disable-next-line:no-unused-expression
         expect(formSubmissionSuccesIndicator).toBeFalsy;
+        // tslint:disable-next-line:no-unused-expression
         expect(submissionError).not.toBeNull;
       })
   );
 
   it('should throw error when personAttribute payload fails to save',
     inject([FormSubmissionService, EncounterResourceService, PersonAttribuAdapter,
-        EncounterAdapter, PersonResourceService],
+      EncounterAdapter, PersonResourceService],
       (formSchemaService: FormSubmissionService,
-       encounterResourceService: EncounterResourceService,
-       personAttribuAdapter: PersonAttribuAdapter,
-       encounterAdapter: EncounterAdapter,
-       personResourceService: PersonResourceService) => {
+        encounterResourceService: EncounterResourceService,
+        personAttribuAdapter: PersonAttribuAdapter,
+        encounterAdapter: EncounterAdapter,
+        personResourceService: PersonResourceService) => {
 
         // spy encounterResourceService
         spyOn(encounterResourceService, 'saveEncounter').and.callFake(
@@ -433,12 +436,13 @@ describe('Service: FormSubmissionService', () => {
           });
 
         // spy on
-        let formSubmissionSuccesIndicator: boolean = false;
+        let formSubmissionSuccesIndicator = false;
         let submissionError: any = null;
         formSchemaService.submitPayload(renderableForm as Form).subscribe(
           (responses: Array<any>) => {
             formSubmissionSuccesIndicator = true;
             submissionError = null;
+            // tslint:disable-next-line:no-unused-expression
             expect(formSubmissionSuccesIndicator).toBeFalsy;
           },
           err => {
@@ -449,19 +453,21 @@ describe('Service: FormSubmissionService', () => {
         expect(encounterResourceService.saveEncounter).toHaveBeenCalled();
         expect(personResourceService.saveUpdatePerson).toHaveBeenCalled();
         // we expect it to throw error
+        // tslint:disable-next-line:no-unused-expression
         expect(formSubmissionSuccesIndicator).toBeFalsy;
+        // tslint:disable-next-line:no-unused-expression
         expect(submissionError).not.toBeNull;
       })
   );
 
   it('should throw error when all payloads fail to save',
     inject([FormSubmissionService, EncounterResourceService, PersonAttribuAdapter,
-        EncounterAdapter, PersonResourceService],
+      EncounterAdapter, PersonResourceService],
       (formSchemaService: FormSubmissionService,
-       encounterResourceService: EncounterResourceService,
-       personAttribuAdapter: PersonAttribuAdapter,
-       encounterAdapter: EncounterAdapter,
-       personResourceService: PersonResourceService) => {
+        encounterResourceService: EncounterResourceService,
+        personAttribuAdapter: PersonAttribuAdapter,
+        encounterAdapter: EncounterAdapter,
+        personResourceService: PersonResourceService) => {
 
         // spy encounterResourceService
         spyOn(encounterResourceService, 'saveEncounter').and.callFake(
@@ -495,12 +501,13 @@ describe('Service: FormSubmissionService', () => {
           });
 
         // spy on
-        let formSubmissionSuccesIndicator: boolean = false;
+        let formSubmissionSuccesIndicator = false;
         let submissionError: any = null;
         formSchemaService.submitPayload(renderableForm as Form).subscribe(
           (responses: Array<any>) => {
             formSubmissionSuccesIndicator = true;
             submissionError = null;
+            // tslint:disable-next-line:no-unused-expression
             expect(formSubmissionSuccesIndicator).toBeFalsy;
           },
           (err) => {
@@ -511,6 +518,7 @@ describe('Service: FormSubmissionService', () => {
         expect(encounterResourceService.saveEncounter).toHaveBeenCalled();
         expect(personResourceService.saveUpdatePerson).toHaveBeenCalled();
         // we expect it to throw error
+        /* tslint:disable:no-unused-expression */
         expect(formSubmissionSuccesIndicator).toBeFalsy;
         expect(submissionError).not.toBeNull;
       })

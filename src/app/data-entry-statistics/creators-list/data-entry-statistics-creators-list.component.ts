@@ -1,11 +1,6 @@
-import { Component,
-    OnInit , OnDestroy , AfterViewInit, OnChanges ,
-    Output , EventEmitter, Input , ChangeDetectorRef,
-    ViewChild , SimpleChanges } from '@angular/core';
-import { Subject ,  Observable } from 'rxjs';
+import { Component, OnInit , AfterViewInit, OnChanges , Output ,
+  EventEmitter, Input , ChangeDetectorRef, SimpleChanges } from '@angular/core';
 import * as _ from 'lodash';
-import * as Moment from 'moment';
-
 @Component({
   selector: 'data-entry-statistics-creators-list',
   templateUrl: './data-entry-statistics-creators-list.component.html',
@@ -13,10 +8,10 @@ import * as Moment from 'moment';
 })
 export class DataEntryStatisticsCreatorsListComponent
   implements OnInit , OnChanges , AfterViewInit {
-  public title: string = 'Encounters Per Type Per Creator';
+  public title = 'Encounters Per Type Per Creator';
   public pinnedBottomRowData: any = [];
   public allClicalEncounters: any  = [];
-  public totalEncounters: number = 0;
+  public totalEncounters = 0;
 
   public gridOptions: any = {
     enableColResize: true,
@@ -55,10 +50,8 @@ export class DataEntryStatisticsCreatorsListComponent
 
   public processCreatorData() {
 
-    let dataEntryArray = [];
-    let columnArray = [];
-    let trackColumns = [];
-    let dataEntryStats = this.dataEntryEncounters;
+    const trackColumns = [];
+    const dataEntryStats = this.dataEntryEncounters;
     this.dataEntryEncounterColdef = [];
     this.pinnedBottomRowData = [];
     this.dataEntryEncounterColdef.push(
@@ -77,7 +70,7 @@ export class DataEntryStatisticsCreatorsListComponent
         headerName: 'Total',
         field: 'total',
         onCellClicked: (column) => {
-                    let patientListParams = {
+                    const patientListParams = {
                        'creatorUuid': column.data.creatorUuid,
                        'locationUuids': column.data.locationUuid,
                        'startDate': this.params.startDate,
@@ -88,7 +81,7 @@ export class DataEntryStatisticsCreatorsListComponent
         cellRenderer: (column) => {
                     if (typeof column.value === 'undefined') {
                        return '';
-                     }else {
+                     } else {
                       return '<a href="javascript:void(0);" title="providercount">'
                      + column.value + '</a>';
                     }
@@ -98,7 +91,7 @@ export class DataEntryStatisticsCreatorsListComponent
         headerName: 'Total Clinical Encounters',
         field: 'total_clinical',
         onCellClicked: (column) => {
-          let patientListParams = {
+          const patientListParams = {
              'creatorUuid': column.data.creatorUuid,
              'locationUuids': column.data.locationUuid,
              'encounterTypeUuids': column.data.clinicalEncounters,
@@ -110,7 +103,7 @@ export class DataEntryStatisticsCreatorsListComponent
         cellRenderer: (column) => {
                     if (typeof column.value === 'undefined' || column.value === 0) {
                       return '';
-                    }else {
+                    } else {
                       return '<a href="javascript:void(0);" title="providercount">'
                     + column.value + '</a>';
                     }
@@ -118,13 +111,11 @@ export class DataEntryStatisticsCreatorsListComponent
       }
     );
     this.gridOptions.groupDefaultExpanded = -1;
-    let creatorMap =  new Map();
+    const creatorMap =  new Map();
     _.each(dataEntryStats, (stat: any) => {
-          let form = stat.encounter_type;
-          let formId = stat.encounter_type_id;
-          let creatorId = stat.creator_id;
-          let creatorUuid = stat.user_uuid;
-          let encounterTypeUuid = stat.encounter_type_uuid;
+          const formId = stat.encounter_type_id;
+          const creatorId = stat.creator_id;
+          const encounterTypeUuid = stat.encounter_type_uuid;
 
           if (_.includes(trackColumns, formId) === false) {
 
@@ -133,7 +124,7 @@ export class DataEntryStatisticsCreatorsListComponent
                   headerName: stat.encounter_type,
                   field: stat.encounter_type,
                   onCellClicked: (column) => {
-                    let patientListParams = {
+                    const patientListParams = {
                        'creatorUuid': column.data.creatorUuid,
                        'encounterTypeUuids': encounterTypeUuid,
                        'locationUuids': column.data.locationUuid,
@@ -145,7 +136,7 @@ export class DataEntryStatisticsCreatorsListComponent
                   cellRenderer: (column) => {
                     if (typeof column.value === 'undefined' || column.value === 0) {
                        return '';
-                     }else {
+                     } else {
                       return '<a href="javascript:void(0);" title="providercount">'
                      + column.value + '</a>';
                      }
@@ -155,7 +146,7 @@ export class DataEntryStatisticsCreatorsListComponent
 
             trackColumns.push(formId);
           }
-          let creatorObj = {
+          const creatorObj = {
             'encounters': [
              {
                'encounter_type' : stat.encounter_type,
@@ -170,7 +161,7 @@ export class DataEntryStatisticsCreatorsListComponent
             'locationUuid' : stat.location_uuid
           };
 
-          let creatorSaved = creatorMap.get(creatorId);
+          const creatorSaved = creatorMap.get(creatorId);
 
           if (typeof creatorSaved !== 'undefined') {
 
@@ -183,7 +174,7 @@ export class DataEntryStatisticsCreatorsListComponent
                 'locationUuid': stat.location_uuid
                });
 
-          }else {
+          } else {
               creatorMap.set(creatorId, creatorObj);
           }
 
@@ -195,17 +186,17 @@ export class DataEntryStatisticsCreatorsListComponent
 
   public generatecreatorRowData(creatorMap) {
 
-    let rowArray = [];
-    let colSumMap = new Map();
-    let totalCreatorEncounters: number = 0;
-    let totalCreatorClinicalEncounters: number = 0;
+    const rowArray = [];
+    const colSumMap = new Map();
+    let totalCreatorEncounters = 0;
+    let totalCreatorClinicalEncounters = 0;
     this.allClicalEncounters = [];
     creatorMap.forEach( (creatorItem: any) => {
 
-      let forms = creatorItem.encounters;
+      const forms = creatorItem.encounters;
       let totalEncounters = 0;
       let totalClinical = 0;
-      let specificcreator: any = {
+      const specificcreator: any = {
         creators: creatorItem.creatorName,
         creatorUuid: creatorItem.creatorUuid,
         location: creatorItem.location,
@@ -223,11 +214,11 @@ export class DataEntryStatisticsCreatorsListComponent
           specificcreator.clinicalEncounters.push(form.encounterUuid);
           this.allClicalEncounters.push(form.encounterUuid);
         }
-        let colTotal = colSumMap.get(form.encounter_type);
+        const colTotal = colSumMap.get(form.encounter_type);
         if (typeof colTotal === 'undefined') {
               colSumMap.set(form.encounter_type, form.encounters_count);
-        }else {
-                let newTotal = colTotal + form.encounters_count;
+        } else {
+                const newTotal = colTotal + form.encounters_count;
                 colSumMap.set(form.encounter_type, newTotal);
         }
       });
@@ -238,9 +229,9 @@ export class DataEntryStatisticsCreatorsListComponent
       rowArray.push(specificcreator);
     });
     this.totalEncounters = totalCreatorEncounters;
-    let totalRow = this.createTotalsRow(colSumMap, totalCreatorEncounters,
+    const totalRow = this.createTotalsRow(colSumMap, totalCreatorEncounters,
       totalCreatorClinicalEncounters);
-    let totalRowArray = [];
+    const totalRowArray = [];
     totalRowArray.push(totalRow);
     this.creatorRowData = rowArray;
     this.pinnedBottomRowData = totalRowArray;
@@ -248,7 +239,7 @@ export class DataEntryStatisticsCreatorsListComponent
   }
   public createTotalsRow(totalsMap, totalCreatorEncounters, totalCreatorClinicalEncounters) {
 
-    let rowTotalObj = {
+    const rowTotalObj = {
       'creators': 'Totals',
       'creatorUuid': '',
       'total': totalCreatorEncounters,

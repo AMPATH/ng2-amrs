@@ -20,7 +20,7 @@ export class AuthGuard implements CanActivate {
 
     sessionStorage.setItem('previousRoute', previousRoute);
 
-    let credentials = sessionStorage.getItem(Constants.CREDENTIALS_KEY);
+    const credentials = sessionStorage.getItem(Constants.CREDENTIALS_KEY);
 
     if (credentials) {
       return true;

@@ -15,22 +15,22 @@ import { Patient } from '../../../models/patient.model';
 })
 export class PatientVitalsComponent implements OnInit, OnDestroy {
 
-  public loadingVitals: boolean = false;
+  public loadingVitals = false;
 
   public vitals: Array<any> = [];
 
   public patient: Patient;
 
-  public dataLoaded: boolean = false;
+  public dataLoaded = false;
 
   public errors: any = [];
-  public page: number = 1;
+  public page = 1;
 
   public patientUuid: any;
   public subscription: Subscription;
 
-  public nextStartIndex: number = 0;
-  public isLoading: boolean = false;
+  public nextStartIndex = 0;
+  public isLoading = false;
 
   constructor(private patientVitalsService: PatientVitalsService,
               private patientService: PatientService) { }

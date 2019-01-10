@@ -1,6 +1,4 @@
 import { TestBed, async, ComponentFixture, fakeAsync } from '@angular/core/testing';
-import { MockBackend } from '@angular/http/testing';
-import { Http, BaseRequestOptions } from '@angular/http';
 import { Observable, of } from 'rxjs';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -12,19 +10,22 @@ import { LabOrderSearchPostComponent } from './lab-order-search-post.component';
 import { LabOrdersSearchHelperService } from './lab-order-search-helper.service';
 import { HivSummaryService } from '../patient-dashboard/hiv/hiv-summary/hiv-summary.service';
 import { HivSummaryResourceService } from '../etl-api/hiv-summary-resource.service';
-import { ConceptResourceService  } from '../openmrs-api/concept-resource.service';
+import { ConceptResourceService } from '../openmrs-api/concept-resource.service';
 import { LabOrderResourceService } from '../etl-api/lab-order-resource.service';
 import { LabOrderPostService } from './lab-order-post.service';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { LocalStorageService } from '../utils/local-storage.service';
+import { HttpHandler, HttpClientModule, HttpClient } from '@angular/common/http';
 
 class FakeOrderResourceService {
   searchOrdersById(orderId: string, cached: boolean = false,
-                   v: string = null): Observable<any> {
-    return of({_body: {
-      'orderNumber': 'ORD-34557',
-      'accessionNumber': null
-    }});
+    v: string = null): Observable<any> {
+    return of({
+      _body: {
+        'orderNumber': 'ORD-34557',
+        'accessionNumber': null
+      }
+    });
   }
 }
 describe('LabOrderSearchContainerComponent', () => {
@@ -45,15 +46,9 @@ describe('LabOrderSearchContainerComponent', () => {
         LabOrderPostService,
         LocalStorageService,
         AppSettingsService,
-        MockBackend,
-        BaseRequestOptions,
-        {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
+        HttpClient,
+        HttpHandler,
+        HttpClientModule
       ],
       declarations: [
         LabOrderSearchContainerComponent,
@@ -64,21 +59,14 @@ describe('LabOrderSearchContainerComponent', () => {
       set: {
         providers: [
           { provide: OrderResourceService, useClass: FakeOrderResourceService },
-          {
-            provide: Http, useFactory: (backend, options) => {
-            return new Http(backend, options);
-          },
-            deps: [MockBackend, BaseRequestOptions]
-          },
-          MockBackend,
-          BaseRequestOptions
+          HttpClient
         ]
       }
     }).compileComponents().then(() => {
-        fixture = TestBed.createComponent(LabOrderSearchContainerComponent);
-        labOrderFixture = TestBed.createComponent(LabOrderSearchComponent);
-        currentComp = fixture.componentInstance;
-      });
+      fixture = TestBed.createComponent(LabOrderSearchContainerComponent);
+      labOrderFixture = TestBed.createComponent(LabOrderSearchComponent);
+      currentComp = fixture.componentInstance;
+    });
   }));
 
   afterAll(() => {
@@ -102,7 +90,7 @@ describe('LabOrderSearchContainerComponent', () => {
   });
 
   it('should call orderReceieved() when searched order is emitted by searchOrderId()', async(() => {
-    let searchButton = fixture.nativeElement.querySelector('#search');
+    const searchButton = fixture.nativeElement.querySelector('#search');
     labOrderComp = labOrderFixture.componentInstance;
     expect(searchButton).toBeDefined();
     spyOn(labOrderComp, 'searchOrderId');

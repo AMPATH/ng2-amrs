@@ -1,5 +1,5 @@
 
-import {take} from 'rxjs/operators/take';
+import { take } from 'rxjs/operators/take';
 import { Observable, Subject } from 'rxjs';
 import { Patient } from '../../../models/patient.model';
 import * as _ from 'lodash';
@@ -13,8 +13,8 @@ export class HivPatientClinicalSummaryService {
 
   public static constructPdfStructure(): Observable<any> {
     return Observable.create((observer: Subject<any>) => {
-      let data: any = this.data;
-      let patient: Patient = data.patient;
+      const data: any = this.data;
+      const patient: Patient = data.patient;
       this._getLogo('./assets/img/ampath.png', (letterHead) => {
         observer.next({
           pageSize: 'LETTER',
@@ -356,7 +356,7 @@ export class HivPatientClinicalSummaryService {
   }
 
   private static _getProviders(providers: any): string {
-    let p: string = '';
+    let p = '';
     _.each(providers, (provider: any) => {
       p = p + ' ' + provider.name + ' (' + provider.encounterType + '), ';
     });
@@ -727,7 +727,7 @@ export class HivPatientClinicalSummaryService {
     let notes: Array<Array<any>> = [['Patient has no clinical notes ']];
     try {
       if (allNotes.length > 0) {
-        let clinicalNotes: any = allNotes[0];
+        const clinicalNotes: any = allNotes[0];
         notes = [
           [{
             columns: [{
@@ -977,8 +977,8 @@ export class HivPatientClinicalSummaryService {
   }
 
   private static _base64ToUint8Array(base64: any): Uint8Array {
-    let raw = atob(base64);
-    let uint8Array = new Uint8Array(raw.length);
+    const raw = atob(base64);
+    const uint8Array = new Uint8Array(raw.length);
     for (let i = 0; i < raw.length; i++) {
       uint8Array[i] = raw.charCodeAt(i);
     }
@@ -986,9 +986,9 @@ export class HivPatientClinicalSummaryService {
   }
 
   private static _getLogo(url: string, callback: any): void {
-    let image: any = new Image();
+    const image: any = new Image();
     image.onload = function () {
-      let canvas: any = document.createElement('canvas');
+      const canvas: any = document.createElement('canvas');
       canvas.width = this.naturalWidth; // or 'width' if you want a special/scaled size
       canvas.height = this.naturalHeight; // or 'height' if you want a special/scaled size
 
@@ -1023,11 +1023,11 @@ export class HivPatientClinicalSummaryService {
         HivPatientClinicalSummaryService.data = data;
         HivPatientClinicalSummaryService.constructPdfStructure().pipe(take(1)).subscribe(
           (pdfStructure) => {
-            let pdfProxy = pdfMake.createPdf(pdfStructure);
+            const pdfProxy = pdfMake.createPdf(pdfStructure);
             pdfProxy.getBase64((output) => {
-              let int8Array: Uint8Array =
+              const int8Array: Uint8Array =
                 HivPatientClinicalSummaryService._base64ToUint8Array(output);
-              let blob = new Blob([int8Array], {
+              const blob = new Blob([int8Array], {
                 type: 'application/pdf'
               });
               observer.next({

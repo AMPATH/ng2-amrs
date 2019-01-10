@@ -1,4 +1,3 @@
-
 import {take} from 'rxjs/operators';
 import {
   Component, Output, Input, OnInit, EventEmitter,
@@ -33,23 +32,25 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
 
   public locations = {};
   public counties: any;
-  public loading: boolean = false;
+  public loading = false;
   public locationDropdownOptions: Array<any> = [];
   public countyDropdownOptions: Array<any> = [];
   public selectedLocations: any | Array<any>;
   public selectedCounty: string;
-  public showReset: boolean = false;
-  public allFromCounty: boolean = false;
-  public allLocations: boolean = true;
+  public showReset = false;
+  public allFromCounty = false;
+  public allLocations = true;
 
+  // tslint:disable-next-line:no-input-rename
   @Input('disable-county')
-  public disableCounty: boolean = false;
+  public disableCounty = false;
 
   @Input('multiple')
-  public multiple: boolean = false;
+  public multiple = false;
 
-  @Input('showLabel') public showLabel: boolean = true;
+  @Input('showLabel') public showLabel = true;
   @Input() public county: string;
+  // tslint:disable-next-line:no-output-on-prefix
   @Output() public onLocationChange = new EventEmitter<any>();
 
   private _locationUuids: any | Array<any>;
@@ -84,7 +85,7 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
           };
       });
       }
-    }else {
+    } else {
       this.locationDropdownOptions = this.allEncounterLocations;
     }
   }
@@ -155,7 +156,7 @@ private allEncounterLocations: Array<any> = [];
   public resolveLocationDetails(): void {
     this.loading = true;
     this.locationResourceService.getLocations().pipe(take(1)).subscribe((locations: any[]) => {
-      let locs = locations.map((location) => {
+      const locs = locations.map((location) => {
         return {
           value: location.uuid,
           label: location.display
@@ -166,7 +167,7 @@ private allEncounterLocations: Array<any> = [];
       this.counties = _.groupBy(locations, 'stateProvince');
       this.countyDropdownOptions = _.compact(_.keys(this.counties));
       _.each(locations, (location) => {
-        let details = {
+        const details = {
           uuid: location.uuid,
           district: location.countyDistrict ? location.countyDistrict : 'N/A',
           county: location.stateProvince ? location.stateProvince : 'N/A',
@@ -182,7 +183,7 @@ private allEncounterLocations: Array<any> = [];
         if (typeof this.locationUuids === 'string') {
           this.selectedLocations = _.first(_.filter(this.locationDropdownOptions,
             (location) => {
-            return location.value === this.locationUuids
+            return location.value === this.locationUuids;
           }));
         } else {
           this.selectedLocations = this.locationUuids;
@@ -207,13 +208,13 @@ private allEncounterLocations: Array<any> = [];
   public getCountyByLocations(): Promise<any> {
     return new Promise((resolve) => {
       // filter the locations
-      let filteredCounties = _.filter(this.locations, (location: any) => {
-        let mappedLocations = this.multiple ? _.map(this.selectedLocations, 'value')
+      const filteredCounties = _.filter(this.locations, (location: any) => {
+        const mappedLocations = this.multiple ? _.map(this.selectedLocations, 'value')
           : [this.selectedLocations.value];
         return _.includes(mappedLocations, location.uuid);
       });
       // group them by county
-      let groupedByCounty = _.groupBy(filteredCounties, 'county');
+      const groupedByCounty = _.groupBy(filteredCounties, 'county');
       // if more than one county, don't select a county
       if (_.keys(groupedByCounty).length > 1) {
         resolve(null);

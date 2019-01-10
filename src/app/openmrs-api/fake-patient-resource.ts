@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
  * FakePatientResourceService
  */
 export class FakePatientResourceService extends PatientResourceService {
-  public returnErrorOnNext: boolean = false;
+  public returnErrorOnNext = false;
 
   constructor(protected http: HttpClient, protected appSettingsService: AppSettingsService) {
     super(http, appSettingsService);
@@ -15,8 +15,8 @@ export class FakePatientResourceService extends PatientResourceService {
 
   public searchPatient(searchText: string,
                        cached: boolean = false, v: string = null): Observable<any> {
-    let test: BehaviorSubject<any> = new BehaviorSubject<any>([]);
-    let patients = [
+    const test: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+    const patients = [
       {
         uuid: 'uuid',
         display: 'display'
@@ -81,7 +81,7 @@ export class FakePatientResourceService extends PatientResourceService {
 
   public getPatientByUuid(uuid: string, cached: boolean = false, v: string = null):
   Observable<any> {
-    let subject = new BehaviorSubject<any>({});
+    const subject = new BehaviorSubject<any>({});
     subject.next(new Patient({
       uuid: uuid,
       display: 'display'

@@ -47,7 +47,7 @@ describe('LocationResourceService Unit Tests', () => {
 
   it('should have getLocations defined', () => {
     expect(service).toBeDefined();
-  })
+  });
 
   it('should make API call with correct URL', fakeAsync(() => {
     tick(50);
@@ -61,7 +61,7 @@ describe('LocationResourceService Unit Tests', () => {
 
   it('It should return an array of location object when getLocation is invoked', () => {
 
-    let results = [
+    const results = [
       {
         uuid: 'uuid',
         display: 'location'
@@ -69,7 +69,7 @@ describe('LocationResourceService Unit Tests', () => {
         uuid: 'uuid',
         display: 'location'
       }
-    ]
+    ];
     service.getLocations()
       .subscribe((result) => {
         expect(results).toContain({ uuid: 'uuid', display: 'location' });
@@ -86,13 +86,13 @@ describe('LocationResourceService Unit Tests', () => {
 
 
   it('should return a location when the correct uuid is provided without v', () => {
-    let locationUuid = 'xxx-xxx-xxx-xxx';
-    let results = [
+    const locationUuid = 'xxx-xxx-xxx-xxx';
+    const results = [
       {
         uuid: 'xxx-xxx-xxx-xxx',
         display: 'location'
       }
-    ]
+    ];
 
     service.getLocationByUuid(locationUuid)
       .subscribe((result) => {
@@ -107,13 +107,13 @@ describe('LocationResourceService Unit Tests', () => {
     req.flush(results);
   });
   it('should return a location when the correct uuid is provided with v', (done) => {
-    let locationUuid = 'xxx-xxx-xxx-xxx';
-    let results = [
+    const locationUuid = 'xxx-xxx-xxx-xxx';
+    const results = [
       {
         uuid: 'xxx-xxx-xxx-xxx',
         display: 'location'
       }
-    ]
+    ];
 
     service.getLocationByUuid(locationUuid, false, '9')
       .subscribe((response) => {
@@ -129,8 +129,8 @@ describe('LocationResourceService Unit Tests', () => {
   });
 
   it('should return a list of locations matching search string provided without v', () => {
-    let searchText = 'test';
-    let results = [
+    const searchText = 'test';
+    const results = [
       {
         uuid: 'uuid',
         display: ''
@@ -139,7 +139,7 @@ describe('LocationResourceService Unit Tests', () => {
         uuid: 'uuid',
         display: ''
       }
-    ]
+    ];
     service.searchLocation(searchText)
       .subscribe((data) => {
         // expect(data.length).toBeGreaterThan(0);
@@ -152,8 +152,8 @@ describe('LocationResourceService Unit Tests', () => {
     req.flush(results);
   });
   it('should return a list of locations matching search string provided with v', (done) => {
-    let searchText = 'test';
-    let results = [
+    const searchText = 'test';
+    const results = [
       {
         uuid: 'uuid',
         display: ''
@@ -162,7 +162,7 @@ describe('LocationResourceService Unit Tests', () => {
         uuid: 'uuid',
         display: ''
       }
-    ]
+    ];
     service.searchLocation(searchText, false, '9')
       .subscribe((data) => {
         done();

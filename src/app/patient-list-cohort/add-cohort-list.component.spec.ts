@@ -1,12 +1,11 @@
-import { MockBackend } from '@angular/http/testing';
-import { Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
-import { TestBed, inject, async } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
 import { CohortResourceService } from '../openmrs-api/cohort-resource.service';
 import { AddCohortListComponent } from './add-cohort-list.component';
 import { CohortListService } from './cohort-list.service';
-import { Router } from '@angular/router';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { LocalStorageService } from './../utils/local-storage.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('Component: AddCohortList Unit Tests', () => {
 
@@ -17,17 +16,8 @@ describe('Component: AddCohortList Unit Tests', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [ HttpClientTestingModule ],
       providers: [
-        MockBackend,
-        BaseRequestOptions,
-        {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend,
-                       defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
         CohortResourceService,
         CohortListService,
         AppSettingsService,
@@ -58,7 +48,6 @@ describe('Component: AddCohortList Unit Tests', () => {
     expect(component.showErrorAlert).toBe(false);
     expect(component.successAlert).toBeUndefined();
     expect(component.errorAlert).toBeUndefined();
-   // expect(component.selectedRelationshipType).toBeUndefined();
     expect(component.errors.length).toBe(0);
 
     done();
@@ -85,8 +74,6 @@ describe('Component: AddCohortList Unit Tests', () => {
     component.displayErrorAlert((err, data) => {
     });
     expect(component.displayErrorAlert).toHaveBeenCalled();
-
-    done();
 
     done();
 

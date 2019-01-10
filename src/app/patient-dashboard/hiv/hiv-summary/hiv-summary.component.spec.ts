@@ -24,8 +24,8 @@ describe('Component: Hiv Summary', () => {
   });
 
   it('should create an instance', () => {
-    let fakeAppFeatureAnalytics: AppFeatureAnalytics = TestBed.get(AppFeatureAnalytics);
-    let component = new HivSummaryComponent(fakeAppFeatureAnalytics);
+    const fakeAppFeatureAnalytics: AppFeatureAnalytics = TestBed.get(AppFeatureAnalytics);
+    const component = new HivSummaryComponent(fakeAppFeatureAnalytics);
     expect(component).toBeTruthy();
   });
 });

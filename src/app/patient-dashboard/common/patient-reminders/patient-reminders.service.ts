@@ -14,7 +14,7 @@ export class PatientReminderService {
       map(
       (data) => {
         if (data && data.reminders.length > 0) {
-          let remindersObj = {
+          const remindersObj = {
             personUuid: data.person_uuid,
             generatedReminders : data.reminders
           };

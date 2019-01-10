@@ -15,7 +15,6 @@ import { Moh731TabularComponent } from './moh-731-tabular.component';
 describe('Moh731TabularComponent: ', () => {
     let fixture: ComponentFixture<Moh731TabularComponent>;
     let comp: Moh731TabularComponent;
-    let el;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -57,7 +56,7 @@ describe('Moh731TabularComponent: ', () => {
 
     it('should convert moh section definition object to ag-grid column definition object',
         () => {
-            let sectionsDef = [
+            const sectionsDef = [
                 {
                     'sectionTitle': '3.2 Enrolled in Care',
                     'indicators': [
@@ -79,7 +78,7 @@ describe('Moh731TabularComponent: ', () => {
                 },
                 {
                     'sectionTitle': '3.3 Currently in Care' +
-                    ' -(from the total sheet-this month only and from last 2 months)',
+                        ' -(from the total sheet-this month only and from last 2 months)',
                     'indicators': [
                         {
                             'label': 'Currently in care Below 1yr(M)',
@@ -95,10 +94,10 @@ describe('Moh731TabularComponent: ', () => {
             ];
 
             fixture.detectChanges();
-            let component = fixture.componentInstance;
+            const component = fixture.componentInstance;
             component.setColumns(sectionsDef);
 
-            let expected = [
+            const expected = [
                 {
                     headerName: 'Location',
                     field: 'location',
@@ -109,41 +108,41 @@ describe('Moh731TabularComponent: ', () => {
                     children: [
                         {
                             headerName: 'Enrolled in care Below 1yr(M)',
-                            onCellClicked: (c) => {},
+                            onCellClicked: (c) => { },
                             field: 'enrolled_in_care_males_lt_one'
                         },
                         {
                             headerName: 'Enrolled in care Below 1yr(F)',
-                            onCellClicked: (c) => {},
+                            onCellClicked: (c) => { },
                             field: 'enrolled_in_care_females_lt_one'
                         },
                         {
                             headerName: 'Enrolled in care Below 15yrs(M)',
-                            onCellClicked: (c) => {},
+                            onCellClicked: (c) => { },
                             field: 'enrolled_in_care_males_below_15'
                         }
                     ]
                 },
                 {
                     headerName: '3.3 Currently in Care' +
-                    ' -(from the total sheet-this month only and from last 2 months)',
+                        ' -(from the total sheet-this month only and from last 2 months)',
                     children: [
                         {
                             headerName: 'Currently in care Below 1yr(M)',
-                            onCellClicked: (c) => {},
+                            onCellClicked: (c) => { },
                             field: 'currently_in_care_males_lt_one'
                         },
                         {
                             headerName: 'Currently in care Below 1yr(F)',
-                            onCellClicked: (c) => {},
+                            onCellClicked: (c) => { },
                             field: 'currently_in_care_females_lt_one'
                         }
                     ]
                 },
             ];
 
-          expect(JSON.stringify(component.gridOptions.columnDefs))
-            .toEqual(JSON.stringify(expected));
+            expect(JSON.stringify(component.gridOptions.columnDefs))
+                .toEqual(JSON.stringify(expected));
 
             // should also create columns when setter is set
             component.gridOptions = { columnDefs: [] };
@@ -152,7 +151,7 @@ describe('Moh731TabularComponent: ', () => {
             component.sectionDefs = sectionsDef;
             fixture.detectChanges();
             expect(JSON.stringify(component.gridOptions.columnDefs))
-              .toEqual(JSON.stringify(expected));
+                .toEqual(JSON.stringify(expected));
 
         });
 });

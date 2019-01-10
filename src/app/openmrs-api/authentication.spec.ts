@@ -40,21 +40,21 @@ describe('AuthenticationService Unit Tests', () => {
 
   it('should be defined', () => {
     expect(authenticatiService).toBeDefined();
-  })
+  });
 
   it('it should authenticate user requests', () => {
-    let username = 'test';
-    let password = 'test';
-    let res = {
+    const username = 'test';
+    const password = 'test';
+    const res = {
       authenticated: true,
       user: {}
-    }
+    };
     authenticatiService.authenticate(username, password)
       .subscribe((response) => {
         expect(res.authenticated).toEqual(true);
         expect(res.user).toBeTruthy();
 
-        let expectedCredentials = btoa(username + ':' + password);
+        const expectedCredentials = btoa(username + ':' + password);
         expect(sessionStorageService.getItem(Constants.CREDENTIALS_KEY))
           .toEqual(expectedCredentials);
         expect(sessionStorageService.getItem(Constants.USER_KEY))
