@@ -1,20 +1,22 @@
 
-import {forkJoin as observableForkJoin,  Subscription , Observable , Subject ,  BehaviorSubject } from 'rxjs';
+import { forkJoin as observableForkJoin, Subscription, Observable, Subject, BehaviorSubject } from 'rxjs';
 
-import {take, map,  first } from 'rxjs/operators';
+import { take, map, first } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy, Input, ViewEncapsulation, ViewChild } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import * as _ from 'lodash';
 import * as moment from 'moment';
-import { Router} from '@angular/router';
+import { Router } from '@angular/router';
 import { ProgramService } from '../programs/program.service';
 import { PatientService } from '../services/patient.service';
 import { Patient } from '../../models/patient.model';
 import { PatientProgramResourceService } from '../../etl-api/patient-program-resource.service';
-import { DepartmentProgramsConfigService
+import {
+  DepartmentProgramsConfigService
 } from '../../etl-api/department-programs-config.service';
 import { PatientReferralService } from '../../program-manager/patient-referral-service';
-import { UserDefaultPropertiesService
+import {
+  UserDefaultPropertiesService
 } from '../../user-default-properties/user-default-properties.service';
 import { PatientReferralResourceService } from '../../etl-api/patient-referral-resource.service';
 import { Encounter } from '../../models/encounter.model';
@@ -29,31 +31,31 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 })
 export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   @Input()
-  public hideList: boolean = false;
+  public hideList = false;
   @ViewChild('staticModal')
   public staticModal: ModalDirective;
   @ViewChild('modal')
   public modal: ModalComponent;
   public patient: Patient = new Patient({});
-  public hasError: boolean = false;
-  public programsBusy: boolean = false;
+  public hasError = false;
+  public programsBusy = false;
   public errors: any[] = [];
   public addBackground: any;
   public enrolledProgrames: any = [];
   public allProgramVisitConfigs: any = {};
   public selectedEncounter: Encounter;
   public selectedVisitEncounter: Encounter;
-  public showReferralEncounterDetail: boolean = false;
-  public showVisitEncounterDetail: boolean = false;
-  public loadingEncounter: boolean = false;
-  public encounterViewed: boolean = false;
+  public showReferralEncounterDetail = false;
+  public showVisitEncounterDetail = false;
+  public loadingEncounter = false;
+  public encounterViewed = false;
   private _datePipe: DatePipe;
   private subscriptions: Subscription[] = [];
   constructor(private patientService: PatientService,
-              private patientReferralService: PatientReferralService,
-              private userDefaultPropertiesService: UserDefaultPropertiesService,
-              private patientProgramResourceService: PatientProgramResourceService,
-              private router: Router) {
+    private patientReferralService: PatientReferralService,
+    private userDefaultPropertiesService: UserDefaultPropertiesService,
+    private patientProgramResourceService: PatientProgramResourceService,
+    private router: Router) {
     this._datePipe = new DatePipe('en-US');
   }
 
@@ -74,7 +76,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
     });
 
     const enrollmentForms = this.filterRequiredEnrollmentForms(row);
-    let referralEncounter = _.find(this.patient.encounters, (encounter) => {
+    const referralEncounter = _.find(this.patient.encounters, (encounter) => {
       return encounter.location.uuid === row.referred_from_location_uuid
         && _.includes(enrollmentForms, encounter.encounterType.uuid);
     });
@@ -97,10 +99,10 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   public patientHasBeenSeenInProgram(program) {
     if (!_.isUndefined(program.referred_to_location_uuid)) {
       const patientEncounters = this.patient.encounters;
-      let location = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
+      const location = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
       // patient was referred to this location
       if (location.uuid === program.referred_to_location_uuid) {
-        let referralEncounter = _.find(patientEncounters, (encounter) => {
+        const referralEncounter = _.find(patientEncounters, (encounter) => {
           return encounter.location.uuid === program.referred_from_location_uuid
             && program.encounter_uuid === encounter.uuid;
         });
@@ -133,8 +135,8 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   }
 
   public getReferralLocation(enrolledPrograms: any[]) {
-    let programBatch: Array<Observable<any>> = [];
-    let location = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
+    const programBatch: Array<Observable<any>> = [];
+    const location = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
     _.each(enrolledPrograms, (program) => {
       programBatch.push(this.getReferralByLocation(location.uuid, program.enrolledProgram.uuid));
     });
@@ -158,21 +160,21 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   public fetchPatientProgramVisitConfigs() {
     this.allProgramVisitConfigs = {};
     this.patientProgramResourceService.
-    getPatientProgramVisitConfigs(this.patient.uuid).pipe(take(1)).subscribe(
-      (programConfigs) => {
-        this.allProgramVisitConfigs = programConfigs;
-      },
-      (error) => {
-        this.errors.push({
-          id: 'program configs',
-          message: 'There was an error fetching all the program configs'
+      getPatientProgramVisitConfigs(this.patient.uuid).pipe(take(1)).subscribe(
+        (programConfigs) => {
+          this.allProgramVisitConfigs = programConfigs;
+        },
+        (error) => {
+          this.errors.push({
+            id: 'program configs',
+            message: 'There was an error fetching all the program configs'
+          });
+          console.error('Error fetching program configs', error);
         });
-        console.error('Error fetching program configs', error);
-      });
   }
 
   public filterRequiredEnrollmentForms(program): string[] {
-    let _program: any = this.allProgramVisitConfigs[program.programUuid];
+    const _program: any = this.allProgramVisitConfigs[program.programUuid];
     if (_program && !_.isUndefined(_program.enrollmentOptions)
       && !_.isUndefined(_program.enrollmentOptions.stateChangeEncounterTypes)) {
       const encounterTypes = _program.enrollmentOptions.stateChangeEncounterTypes.referral;
@@ -183,11 +185,11 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
 
   public loadProgramManager() {
     this.router.navigate(['/patient-dashboard/patient/' + this.patient.uuid +
-    '/general/general/program-manager/new-program']);
+      '/general/general/program-manager/new-program']);
   }
 
-  private hasValidVisitInReferredLocation(referralEncounter: any , encounters: any[],
-                                          locationUuid: string) {
+  private hasValidVisitInReferredLocation(referralEncounter: any, encounters: any[],
+    locationUuid: string) {
     // search for visit encounters who's location is the referred to location
     const encounterWithVisit = _.find(encounters, (encounter) => {
       return !_.isNull(encounter.visit) && encounter.visit.location.uuid === locationUuid;
@@ -209,23 +211,23 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
           this.programsBusy = false;
           this.patient = patient;
           this.enrolledProgrames = _.filter(patient.enrolledPrograms, 'isEnrolled');
-          this.getReferralLocation(this.enrolledProgrames).pipe(take(1)).subscribe( (reply: any) => {
+          this.getReferralLocation(this.enrolledProgrames).pipe(take(1)).subscribe((reply: any) => {
             if (reply) {
               _.each(this.enrolledProgrames, (program, index) => {
-                let referral = reply[index];
+                const referral = reply[index];
                 if (referral) {
-                  _.extend(program , referral, {
-                    referral_completed : !_.isNil(referral.notification_status)
+                  _.extend(program, referral, {
+                    referral_completed: !_.isNil(referral.notification_status)
                   });
                   if (this.patientHasBeenSeenInProgram(program)) {
                     console.log('Patient seen');
                     program.referral_completed = true;
-                    this.updateReferalNotificationStatus(program).pipe(take(1)).subscribe(() => {});
+                    this.updateReferalNotificationStatus(program).pipe(take(1)).subscribe(() => { });
                   }
                 }
               });
             }
-          }, (err)=> {
+          }, (err) => {
             console.log(err);
             this.errors.push({
               id: 'Patient Care Programs',
@@ -246,7 +248,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
         this.programsBusy = false;
       });
 
-      this.subscriptions.push(sub);
+    this.subscriptions.push(sub);
   }
 
   private updateReferalNotificationStatus(program) {

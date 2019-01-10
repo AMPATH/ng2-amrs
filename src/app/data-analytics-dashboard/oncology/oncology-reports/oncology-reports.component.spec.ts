@@ -1,19 +1,14 @@
-import { Observable, of } from 'rxjs';
-import { ChangeDetectorRef } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { TestBed, async, tick, fakeAsync, ComponentFixture, flush } from '@angular/core/testing';
-import * as _ from 'lodash';
-import * as Moment from 'moment';
+import { of } from 'rxjs';
+import { TestBed, fakeAsync, ComponentFixture, flush } from '@angular/core/testing';
 import { AgGridModule } from 'ag-grid-angular';
-import { OncologyReportsComponent } from
-'./oncology-reports.component';
+import { OncologyReportsComponent } from './oncology-reports.component';
 import { OncologyReportService } from '../../../etl-api/oncology-reports.service';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 const getOncologyReportsService =
 jasmine.createSpyObj('OncologyReportService', ['getOncologyReports', 'getSpecificOncologyReport']);
 
-let mockReportsResponse: any = [
+const mockReportsResponse: any = [
     {
         'program': 'Test program 1',
         'uuid': 'uuid1',
@@ -57,7 +52,6 @@ const mockActivatedRoute = {
 
 describe('Component: Oncology Reports', () => {
   let fixture: ComponentFixture<OncologyReportsComponent>;
-  let cd: ChangeDetectorRef;
   let comp: any;
   let route: Router;
   let router: ActivatedRoute;

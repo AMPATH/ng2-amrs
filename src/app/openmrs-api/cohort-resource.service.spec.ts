@@ -31,7 +31,7 @@ describe('Service : CohortResourceService Unit Tests', () => {
         httpMock.verify();
     });
 
-    let mockAllCohortsResponse = {
+    const mockAllCohortsResponse = {
         'uuid': 'uuid',
         'display': 'adult',
         'links': [
@@ -42,10 +42,10 @@ describe('Service : CohortResourceService Unit Tests', () => {
         ]
     };
 
-    let uuid = 'uuid';
-    let parentUuid = 'parentUuid';
+    const uuid = 'uuid';
+    const parentUuid = 'parentUuid';
 
-    let mockCohortResponse = {
+    const mockCohortResponse = {
         'uuid': 'uuid',
         'name': 'Test Defaulter List',
         'description': 'Test Defaulter List',
@@ -71,13 +71,13 @@ describe('Service : CohortResourceService Unit Tests', () => {
         'resourceversion': '1.8'
     };
 
-    let addCohortPayload = {
+    const addCohortPayload = {
         'name': 'Test Defaulter List',
         'description': 'Test Defaulter List',
         'memberIds': [1234, 1234]
     };
 
-    let addCohortResponse = {
+    const addCohortResponse = {
         'uuid': 'cd29a1fa-896e-4ef5-b97f-e13c1490aa07',
         'display': 'Test Defaulter List',
         'name': 'Test Defaulter List',
@@ -99,12 +99,12 @@ describe('Service : CohortResourceService Unit Tests', () => {
 
 
 
-    let editCohortPayload = {
+    const editCohortPayload = {
         'name': 'Test Defaulter List',
         'description': 'Test Defaulter List'
     };
 
-    let editCohortResponse = {
+    const editCohortResponse = {
         'uuid': 'cd29a1fa-896e-4ef5-b97f-e13c1490aa07',
         'display': 'Test Defaulter List',
         'name': 'Test Defaulter List',
@@ -124,7 +124,7 @@ describe('Service : CohortResourceService Unit Tests', () => {
         'resourceVersion': '1.8'
     };
 
-    let retireCohortResponse = {
+    const retireCohortResponse = {
     };
 
     it('should construct Cohort Service', () => {
@@ -133,7 +133,7 @@ describe('Service : CohortResourceService Unit Tests', () => {
 
     it('should have getOpenMrsBaseUrl() defined', () => {
         expect(cohortResorceService.getOpenMrsBaseUrl()).toBeTruthy();
-    })
+    });
 
     describe('Get All Cohorts', () => {
 
@@ -152,7 +152,7 @@ describe('Service : CohortResourceService Unit Tests', () => {
         it('Should return null in get cohort with no parameter', () => {
 
             httpMock.expectNone({});
-            let response = cohortResorceService.getCohort(null, null);
+            const response = cohortResorceService.getCohort(null, null);
 
             expect(response).toBeNull();
 
@@ -194,7 +194,7 @@ describe('Service : CohortResourceService Unit Tests', () => {
 
             httpMock.expectNone({});
 
-            let response = cohortResorceService.addCohort(null);
+            const response = cohortResorceService.addCohort(null);
 
             expect(response).toBeNull();
         });
@@ -205,7 +205,7 @@ describe('Service : CohortResourceService Unit Tests', () => {
                 expect(res).toBe(addCohortResponse);
             });
 
-            const postReq = httpMock.expectOne(cohortResorceService.baseOpenMrsUrl + 'cohort')
+            const postReq = httpMock.expectOne(cohortResorceService.baseOpenMrsUrl + 'cohort');
             expect(postReq.request.url).toContain('ws/rest/v1/cohort');
             expect(postReq.request.method).toBe('POST');
             postReq.flush(addCohortResponse);
@@ -218,7 +218,7 @@ describe('Service : CohortResourceService Unit Tests', () => {
         it('Should return null in edit cohort with no parameter', () => {
             httpMock.expectNone({});
 
-            let response = cohortResorceService.addCohort(null);
+            const response = cohortResorceService.addCohort(null);
 
             expect(response).toBeNull();
         });
@@ -242,7 +242,7 @@ describe('Service : CohortResourceService Unit Tests', () => {
         it('Should return null in retire cohort with no parameter', () => {
             httpMock.expectNone({});
 
-            let response = cohortResorceService.addCohort(null);
+            const response = cohortResorceService.addCohort(null);
 
             expect(response).toBeNull();
         });
@@ -253,10 +253,10 @@ describe('Service : CohortResourceService Unit Tests', () => {
                 expect(res).toBe(retireCohortResponse);
             });
 
-            const deleteRequest = httpMock.expectOne(cohortResorceService.baseOpenMrsUrl + 'cohort/' + uuid + '?!purge');
-            expect(deleteRequest.request.url).toContain('ws/rest/v1/cohort/' + uuid + '?!purge');
-            expect(deleteRequest.request.method).toBe('DELETE');
-            deleteRequest.flush(retireCohortResponse);
+            const deconsteRequest = httpMock.expectOne(cohortResorceService.baseOpenMrsUrl + 'cohort/' + uuid + '?!purge');
+            expect(deconsteRequest.request.url).toContain('ws/rest/v1/cohort/' + uuid + '?!purge');
+            expect(deconsteRequest.request.method).toBe('DELETE');
+            deconsteRequest.flush(retireCohortResponse);
         });
 
     });

@@ -17,10 +17,10 @@ export class FileUploadResourceService {
         return this.http.post(url, formData);
     }
     public getFile(url: string): Observable<any> {
-        let fullUrl = this.appSettingsService.getEtlRestbaseurl().trim() + 'files/' + url;
+        const fullUrl = this.appSettingsService.getEtlRestbaseurl().trim() + 'files/' + url;
         return new Observable((observer: Subscriber<any>) => {
             let objectUrl: string = null;
-            let headers = new HttpHeaders({ 'Accept': 'image/png,image/jpeg,image/gif' });
+            const headers = new HttpHeaders({ 'Accept': 'image/png,image/jpeg,image/gif' });
             this.http
                 .get(fullUrl, {
                     headers,

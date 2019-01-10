@@ -5,24 +5,25 @@ import { Injectable } from '@angular/core';
 import { Location } from '@angular/common';
 import { SpyLocation } from '@angular/common/testing';
 
-// analytics
-import { Angulartics2 } from 'angulartics2';
+import { Angulartics2, RouterlessTracking } from 'angulartics2';
 import { Angulartics2Piwik } from 'angulartics2/piwik';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
+import { RouterTestingModule } from '@angular/router/testing';
 
 declare var window: any;
 
 describe('App Feature Analytics Service', () => {
   let appFeatureAnalytics: AppFeatureAnalytics;
   let _paq: Array<any>;
-  let fixture: ComponentFixture<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [ RouterTestingModule],
       providers: [
         AppFeatureAnalytics,
         Angulartics2,
         Angulartics2Piwik,
+        RouterlessTracking,
         {
           provide: Location,
           useClass: SpyLocation
@@ -37,6 +38,10 @@ describe('App Feature Analytics Service', () => {
 
   afterAll(() => {
     TestBed.resetTestingModule();
+  });
+
+  xit('should be defined', () => {
+    expect(appFeatureAnalytics).toBeDefined();
   });
 
 });

@@ -16,6 +16,7 @@ export class Moh731TabularComponent implements OnInit {
 
     @Output() public indicatorSelected = new EventEmitter<any>();
 
+    // tslint:disable-next-line:no-input-rename
     @Input('rowData')
     public data: Array<any> = [];
 
@@ -42,7 +43,7 @@ export class Moh731TabularComponent implements OnInit {
     }
 
     public setColumns(sectionsData: Array<any>) {
-        let defs = [];
+        const defs = [];
         defs.push({
             headerName: 'Location',
             field: 'location',
@@ -50,13 +51,13 @@ export class Moh731TabularComponent implements OnInit {
         });
         // tslint:disable-next-line:prefer-for-of
         for (let i = 0; i < sectionsData.length; i++) {
-            let section = sectionsData[i];
-            let created: any = {};
+            const section = sectionsData[i];
+            const created: any = {};
             created.headerName = section.sectionTitle;
             created.children = [];
             // tslint:disable-next-line:prefer-for-of
             for (let j = 0; j < section.indicators.length; j++) {
-                let child: any = {
+                const child: any = {
                     headerName: section.indicators[j].label,
                     field: section.indicators[j].indicator
                 };
@@ -75,7 +76,7 @@ export class Moh731TabularComponent implements OnInit {
         this.gridOptions.rowSelection = 'single';
         this.gridOptions.onCellClicked = (e) => {
             if (e.data.location_uuid) {
-                let selectedIndicator = {
+                const selectedIndicator = {
                     indicator: e.colDef.field,
                     value: e.value,
                     location: e.data.location_uuid

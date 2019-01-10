@@ -1,4 +1,4 @@
-
+/* tslint:disable:no-inferrable-types */
 import {take} from 'rxjs/operators/take';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -17,8 +17,8 @@ export class AddCohortListComponent implements OnInit, OnDestroy {
   public name: string;
   public description: string;
   public errors: any = [];
-  public showSuccessAlert: boolean = false;
-  public showErrorAlert: boolean = false;
+  public showSuccessAlert = false;
+  public showErrorAlert = false;
   public successAlert: string;
   public errorAlert: string;
   public errorTitle: string;
@@ -48,7 +48,7 @@ export class AddCohortListComponent implements OnInit, OnDestroy {
     }
 
     if ( this.name && this.description) {
-      let cohortListPayload = {
+      const cohortListPayload = {
             name: this.name,
             description: this.description,
             memberIds: []

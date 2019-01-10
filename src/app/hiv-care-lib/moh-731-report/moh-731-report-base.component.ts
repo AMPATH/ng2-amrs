@@ -1,7 +1,7 @@
 
-import {take} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router, ActivatedRoute , Params } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 // import { Observable, Subject } from 'rxjs';
 
 import * as Moment from 'moment';
@@ -22,17 +22,17 @@ export class Moh731ReportBaseComponent implements OnInit {
   public sectionsDef = [];
   public statusError = false;
 
-  public showLocationsControl: boolean = false;
-  public showIsAggregateControl: boolean = false;
+  public showLocationsControl = false;
+  public showIsAggregateControl = false;
 
-  public showPatientList: boolean = false;
-  public showTabularView: boolean = true;
-  public showPatientListLoader: boolean = false;
-  public isLoadingReport: boolean = false;
-  public showInfoMessage: boolean = false;
-  public errorMessage: string = '';
-  public currentView: string = 'pdf'; // can be pdf or tabular or patientList
-  public currentIndicator: string = '';
+  public showPatientList = false;
+  public showTabularView = true;
+  public showPatientListLoader = false;
+  public isLoadingReport = false;
+  public showInfoMessage = false;
+  public errorMessage = '';
+  public currentView = 'pdf'; // can be pdf or tabular or patientList
+  public currentIndicator = '';
   private _startDate: Date = Moment().subtract(1, 'months').startOf('month').toDate();
   public get startDate(): Date {
     return this._startDate;
@@ -57,11 +57,11 @@ export class Moh731ReportBaseComponent implements OnInit {
   }
 
   public set locationUuids(v: Array<string>) {
-    let locationUuids = [];
-    _.each( v , (location: any) => {
-        if (location.value) {
-           locationUuids.push(location);
-        }
+    const locationUuids = [];
+    _.each(v, (location: any) => {
+      if (location.value) {
+        locationUuids.push(location);
+      }
     });
     this._locationUuids = locationUuids;
   }
@@ -75,7 +75,7 @@ export class Moh731ReportBaseComponent implements OnInit {
     this._patientListLocationUuids = v;
   }
 
-  private _isLegacyReport: boolean = false;
+  private _isLegacyReport = false;
   public get isLegacyReport(): boolean {
     return this._isLegacyReport;
   }
@@ -117,20 +117,20 @@ export class Moh731ReportBaseComponent implements OnInit {
         this.isLegacyReport, this.isAggregated, 1 * 60 * 1000).pipe(take(1)).subscribe(
           (data) => {
             if (data.error) {
-                // if there is an error
-                this.processInfoMsg(data);
-                this.showInfoMessage = true;
+              // if there is an error
+              this.processInfoMsg(data);
+              this.showInfoMessage = true;
             } else {
               this.sectionsDef = data.sectionDefinitions;
               this.data = data.result;
-                // // simple way to avoid a report with dashes. If this columnm exists, the report is full
-                // if (data.result[0] && data.result[0]['current_in_care'] === undefined) {
-                //   this.showInfoMessage = true;
-                //   this.processInfoMsg(data, true);
-                // } else {
-                //   this.sectionsDef = data.sectionDefinitions;
-                //   this.data = data.result;
-                // }
+              // // simple way to avoid a report with dashes. If this columnm exists, the report is full
+              // if (data.result[0] && data.result[0]['current_in_care'] === undefined) {
+              //   this.showInfoMessage = true;
+              //   this.processInfoMsg(data, true);
+              // } else {
+              //   this.sectionsDef = data.sectionDefinitions;
+              //   this.data = data.result;
+              // }
             }
             this.isLoadingReport = false;
           }, (error) => {
@@ -162,7 +162,7 @@ export class Moh731ReportBaseComponent implements OnInit {
       this.patientListLocationUuids.length > 0 && this.currentIndicator) {
       this.showTabularView = false;
       this.showPatientListLoader = true;
-      let params = {
+      const params = {
         startDate: this.toDateString(this.startDate),
         endDate: this.toDateString(this.endDate),
         locations: this.getSelectedLocations(this.patientListLocationUuids),
@@ -173,9 +173,9 @@ export class Moh731ReportBaseComponent implements OnInit {
       // console.log('loading pl for', this.currentIndicator);
       this.router.navigate(['patient-list']
         , {
-           relativeTo: this.route,
+          relativeTo: this.route,
           queryParams: params
-       });
+        });
     }
   }
 
@@ -215,7 +215,7 @@ export class Moh731ReportBaseComponent implements OnInit {
 
     for (let i = 0; i < locationUuids.length; i++) {
       if (i === 0) {
-        selectedLocations = selectedLocations + (locationUuids[0]as any).value;
+        selectedLocations = selectedLocations + (locationUuids[0] as any).value;
       } else {
         selectedLocations = selectedLocations + ',' + (locationUuids[i] as any).value;
       }
@@ -230,7 +230,7 @@ export class Moh731ReportBaseComponent implements OnInit {
 
     if (message.error === 404 || isEmpty) {
       this.errorMessage =
-      'The MOH 731 Report cannot be viewed at the moment, awaiting M & E verification';
+        'The MOH 731 Report cannot be viewed at the moment, awaiting M & E verification';
       this.statusError = true;
     } else {
       this.errorMessage = 'There was a problem generating MOH 731 Report';

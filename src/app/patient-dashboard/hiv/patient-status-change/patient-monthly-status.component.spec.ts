@@ -4,15 +4,14 @@
  */
 
 
-import {throwError as observableThrowError,  Observable, of } from 'rxjs';
+import { throwError as observableThrowError, Observable, of } from 'rxjs';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { PatientResourceService } from '../../../openmrs-api/patient-resource.service';
 import { PatientMonthlyStatusComponent } from './patient-monthly-status.component';
-import { PatientCareStatusResourceService } from
-  '../../../etl-api/patient-care-status-resource.service';
+import { PatientCareStatusResourceService } from '../../../etl-api/patient-care-status-resource.service';
 import { PatientService } from '../../services/patient.service';
 class MockPatientService {
     currentlyLoadedPatient = of({ uuid: '', person: { uuid: 'persion_uui' } });
@@ -23,14 +22,13 @@ class MockPatientCareStatusResourceService {
 describe('PatientMonthlyStatusComponent', () => {
     let fixture: ComponentFixture<PatientMonthlyStatusComponent>;
     let comp: PatientMonthlyStatusComponent;
-    let el;
     let dataStub;
 
-    let fakePatientService = {
+    const fakePatientService = {
         currentlyLoadedPatient: of({ uuid: '', person: { uuid: 'persion_uui' } })
     };
 
-    let fakeMonthlyStatus = {
+    const fakeMonthlyStatus = {
         getMonthlyPatientCareStatus: of({ month: '' })
     };
     beforeEach(async(() => {

@@ -4,8 +4,8 @@ import { ActivatedRouteSnapshot } from '@angular/router';
 
 export class DraftedFormsService {
     public lastDraftedForm: Form;
-    public loadDraftOnNextFormLoad: boolean = false;
-    public hasBeenCancelled: boolean = false;
+    public loadDraftOnNextFormLoad = false;
+    public hasBeenCancelled = false;
     public routeSnapshot: ActivatedRouteSnapshot;
     private _draftedForm: BehaviorSubject<Form>;
     constructor() { }

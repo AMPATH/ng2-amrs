@@ -1,83 +1,67 @@
-
 /* tslint:disable:no-unused-variable */
 import { TestBed, async } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { Http, BaseRequestOptions } from '@angular/http';
-import { Observable } from 'rxjs';
-import { MockBackend } from '@angular/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { of } from 'rxjs';
 import { DataListsModule } from '../../shared/data-lists/data-lists.module';
-import { ClinicDashboardCacheService }
-from '../../clinic-dashboard/services/clinic-dashboard-cache.service';
-import {
-  DailyScheduleResourceService
-} from
-  '../../etl-api/daily-scheduled-resource.service';
+import { ClinicDashboardCacheService
+} from '../../clinic-dashboard/services/clinic-dashboard-cache.service';
+import { DailyScheduleResourceService
+} from '../../etl-api/daily-scheduled-resource.service';
 import { DailyScheduleNotReturnedComponent } from './daily-schedule-not-returned.component';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 import { FakeAppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytcis.mock';
 import { AppSettingsService } from '../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../utils/local-storage.service';
 import { NgBusyModule, BusyConfig } from 'ng-busy';
-import {
-  AccordionModule, DataTableModule, SharedModule, TabViewModule,
-  GrowlModule, PanelModule, ConfirmDialogModule, ConfirmationService,
-  DialogModule, InputTextModule, MessagesModule, InputTextareaModule,
-  DropdownModule, ButtonModule, CalendarModule
-} from 'primeng/primeng';
+import { DialogModule, CalendarModule } from 'primeng/primeng';
 import { Router, ActivatedRoute } from '@angular/router';
-import { CacheService } from 'ionic-cache';
+import { CacheModule, CacheService } from 'ionic-cache';
 import { DataCacheService } from '../../shared/services/data-cache.service';
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
+import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
 import {
-    ProgramVisitEncounterSearchComponent
+  ProgramVisitEncounterSearchComponent
 } from './../../program-visit-encounter-search/program-visit-encounter-search.component';
-import { AngularMultiSelectModule }
-from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
-import { DepartmentProgramsConfigService }
-from './../../etl-api/department-programs-config.service';
+import { AngularMultiSelectModule
+} from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
+import { DepartmentProgramsConfigService
+} from './../../etl-api/department-programs-config.service';
+
 class MockActivatedRoute {
- public params = Observable.of([{ 'id': 1 }]);
- public snapshot = {
-    queryParams: { filter: '' }
+  public params = of([{'id': 1}]);
+  public snapshot = {
+    queryParams: {filter: ''}
   };
 }
+
 describe('Component: DailyScheduleNotReturned', () => {
-  let fakeAppFeatureAnalytics: AppFeatureAnalytics, component,
+  let component,
     dailyScheduleResource: DailyScheduleResourceService,
     clinicDashBoardCacheService: ClinicDashboardCacheService,
     localStorageService: LocalStorageService,
     departmentProgConfigService: DepartmentProgramsConfigService,
     route: ActivatedRoute,
-    fixture, componentInstance;
+    fixture;
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         LocalStorageService,
         DailyScheduleResourceService,
         ClinicDashboardCacheService,
-        MockBackend,
-        BaseRequestOptions,
         AppSettingsService,
         LocalStorageService,
-        CacheService,
         DataCacheService,
         DepartmentProgramsConfigService,
         {
           provide: Router,
-          useClass: class { public navigate = jasmine.createSpy('navigate'); }
+          useClass: class {
+            public navigate = jasmine.createSpy('navigate');
+          }
         },
-         {
-                    provide: ActivatedRoute,
-                    useClass: MockActivatedRoute
-         },
         {
-          provide: Http,
-          useFactory: (
-            backendInstance: MockBackend,
-            defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
+          provide: ActivatedRoute,
+          useClass: MockActivatedRoute
         },
         {
           provide: AppFeatureAnalytics, useFactory: () => {
@@ -91,6 +75,9 @@ describe('Component: DailyScheduleNotReturned', () => {
         FormsModule,
         DialogModule,
         CalendarModule,
+        CacheModule.forRoot(),
+        HttpClientTestingModule,
+        DateTimePickerModule,
         DataListsModule,
         AngularMultiSelectModule,
         NgamrsSharedModule]
@@ -99,13 +86,13 @@ describe('Component: DailyScheduleNotReturned', () => {
 
   beforeEach(async(() => {
     TestBed.compileComponents().then(() => {
-          fixture = TestBed.createComponent(DailyScheduleNotReturnedComponent);
-          component = fixture.componentInstance;
-          clinicDashBoardCacheService = TestBed.get(ClinicDashboardCacheService);
-          dailyScheduleResource = TestBed.get(DailyScheduleResourceService);
-          departmentProgConfigService = TestBed.get( DepartmentProgramsConfigService);
-          route = TestBed.get(ActivatedRoute);
-          localStorageService = TestBed.get(LocalStorageService);
+      fixture = TestBed.createComponent(DailyScheduleNotReturnedComponent);
+      component = fixture.componentInstance;
+      clinicDashBoardCacheService = TestBed.get(ClinicDashboardCacheService);
+      dailyScheduleResource = TestBed.get(DailyScheduleResourceService);
+      departmentProgConfigService = TestBed.get(DepartmentProgramsConfigService);
+      route = TestBed.get(ActivatedRoute);
+      localStorageService = TestBed.get(LocalStorageService);
     });
   }));
 
@@ -114,7 +101,7 @@ describe('Component: DailyScheduleNotReturned', () => {
   });
 
   it('should create an instance', () => {
-      expect(component).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
   it('should have required properties', (done) => {
@@ -148,10 +135,17 @@ describe('Component: DailyScheduleNotReturned', () => {
   });
 
   it('should create params when getQueryParams is called', (done) => {
-    spyOn(component, 'getQueryParams').and.callThrough();
+    spyOn(component, 'getQueryParams').and.callFake(() => {
+      return {
+        startDate: '12-12-2016',
+        startIndex: 0,
+        locationUuids: 'location-uuid',
+        limit: undefined
+      };
+    });
     component.selectedDate = '12-12-2016';
     component.selectedClinic = 'location-uuid';
-    let params = component.getQueryParams();
+    const params = component.getQueryParams();
     expect(component.getQueryParams).toHaveBeenCalled();
     expect(params.locationUuids).toEqual('location-uuid');
     expect(params.startDate).toEqual('12-12-2016');

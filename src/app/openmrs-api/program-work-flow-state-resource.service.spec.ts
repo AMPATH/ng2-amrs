@@ -27,11 +27,11 @@ describe('Service: ProgramWorkFlowStateResourceService', () => {
   });
 
   afterAll(() => {
-    httpMock.verify()
+    httpMock.verify();
     TestBed.resetTestingModule();
   });
 
-  let programWorkFlowStateResponse = {
+  const programWorkFlowStateResponse = {
     'results': [
       {
         'uuid': '78238ed8-1359-11df-a1f1-0026b9348838',
@@ -57,8 +57,7 @@ describe('Service: ProgramWorkFlowStateResourceService', () => {
   it('should have getUrl defined', () => {
 
     expect(service.getUrl()).toBeTruthy();
-  })
-  
+  });
   it('should return null when programWorkFlowUuid not specified', async(() => {
 
     httpMock.expectNone({});
@@ -68,7 +67,7 @@ describe('Service: ProgramWorkFlowStateResourceService', () => {
   }));
 
   it('should call the right endpoint when fetching workflow states', async(() => {
-    let programWorkFlowUuid = 'uuid';
+    const programWorkFlowUuid = 'uuid';
 
     service.getProgramWorkFlowState(programWorkFlowUuid).subscribe();
 
@@ -78,7 +77,7 @@ describe('Service: ProgramWorkFlowStateResourceService', () => {
     expect(req.request.urlWithParams)
       .toBe('https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/workflow/uuid/state?v=' +
         'custom:(uuid,initial,terminal,concept:(uuid,retired,display))');
-    req.flush(JSON.stringify(programWorkFlowStateResponse))
+    req.flush(JSON.stringify(programWorkFlowStateResponse));
   }));
 
 

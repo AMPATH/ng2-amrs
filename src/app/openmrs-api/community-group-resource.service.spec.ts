@@ -56,11 +56,11 @@ describe('CommunityGroupService', () => {
 
   it('it should have getOpenMrsBaseUrl() method defines', () => {
     expect(communityGroupService.getOpenMrsBaseUrl()).toBeTruthy();
-  })
+  });
 
   it('it should have getCohortVisitUrl() method', () => {
     expect(communityGroupService.getCohortVisitUrl()).toBeTruthy();
-  })
+  });
 
   it('should get group given group name', () => {
     const gName = 'testgroup';
@@ -70,7 +70,7 @@ describe('CommunityGroupService', () => {
       'cohortType': 'community_group',
       'location': '6eedfdda-277deedf-21eedfac-ee3fd22sdf',
     };
-    communityGroupService.getGroupByName(gName).subscribe()
+    communityGroupService.getGroupByName(gName).subscribe();
     const req = httpMock.expectOne(url + '?v=full&q=' + gName + '&cohortType=community_group');
     expect(req.request.method).toBe('GET');
     expect(req.request.urlWithParams).toContain('?v=full');
@@ -90,7 +90,7 @@ describe('CommunityGroupService', () => {
       (res) => {
         expect(res).toEqual(response);
       }
-    )
+    );
     const req = httpMock.expectOne(communityGroupService.getOpenMrsBaseUrl() + '/cohort' + `/${gUuid}`);
     expect(req.request.method).toBe('GET');
     expect(req.request.url).toContain(gUuid);
@@ -105,7 +105,7 @@ describe('CommunityGroupService', () => {
       'cohort C',
       'cohort D'
     ];
-    communityGroupService.getCohortTypes().subscribe()
+    communityGroupService.getCohortTypes().subscribe();
     const req = httpMock.expectOne(communityGroupService.getOpenMrsBaseUrl() + '/cohorttype' + '?v=full');
     expect(req.request.method).toBe('GET');
     expect(req.request.urlWithParams).toContain('?v=full');
@@ -127,10 +127,10 @@ describe('CommunityGroupService', () => {
 
   it('should return null if create group is null', () => {
     httpMock.expectNone({});
-    let result = communityGroupService.createGroup(null);
+    const result = communityGroupService.createGroup(null);
     expect(result).toBeNull();
 
-  })
+  });
 
   it('should create a group', () => {
     const payload = {
@@ -153,7 +153,7 @@ describe('CommunityGroupService', () => {
       voided: true,
       voidReason: 'reason'
     };
-    let uuid = 'groupUuid';
+    const uuid = 'groupUuid';
     communityGroupService.disbandGroup(uuid, new Date(), 'reason').subscribe((res) => {
       expect(res).toEqual('group disbanded successfully');
     });
@@ -164,10 +164,10 @@ describe('CommunityGroupService', () => {
 
   it('should return null if update called with no parameters', () => {
     httpMock.expectNone({});
-    let result = communityGroupService.updateCohortGroup(null, 'uuid');
+    const result = communityGroupService.updateCohortGroup(null, 'uuid');
     expect(result).toBeNull();
 
-  })
+  });
 
   it('should update cohort group', () => {
     const body = {
@@ -175,7 +175,7 @@ describe('CommunityGroupService', () => {
       voided: true,
       voidReason: 'reason'
     };
-    let uuid = 'groupUuid';
+    const uuid = 'groupUuid';
     communityGroupService.updateCohortGroup(body, uuid).subscribe((res) => {
       expect(res).toEqual('group updated successfully');
     });
@@ -190,7 +190,7 @@ describe('CommunityGroupService', () => {
       voided: true,
       voidReason: 'reason'
     };
-    let uuid = 'groupUuid';
+    const uuid = 'groupUuid';
     communityGroupService.activateGroup(uuid).subscribe((res) => {
       expect(res).toEqual('group activated successfully');
     });
@@ -205,7 +205,7 @@ describe('CommunityGroupService', () => {
       voided: true,
       voidReason: 'reason'
     };
-    let uuid = 'groupUuid';
+    const uuid = 'groupUuid';
     communityGroupService.startGroupVisit(body).subscribe((res) => {
       expect(res).toEqual('group visit started successfully');
     });
@@ -220,7 +220,7 @@ describe('CommunityGroupService', () => {
       voided: true,
       voidReason: 'reason'
     };
-    let uuid = 'groupUuid';
+    const uuid = 'groupUuid';
     communityGroupService.startIndividualVisit(body).subscribe((res) => {
       expect(res).toEqual('individual visit started successfully');
     });
@@ -238,7 +238,7 @@ describe('CommunityGroupService', () => {
       'cohort C',
       'cohort D'
     ];
-    communityGroupService.getGroupsByLocationUuid(loc_uuid).subscribe()
+    communityGroupService.getGroupsByLocationUuid(loc_uuid).subscribe();
     const req = httpMock.expectOne(communityGroupService.getOpenMrsBaseUrl() + '/cohort' + '?location=' + loc_uuid + '&v=full');
     expect(req.request.method).toBe('GET');
     expect(req.request.urlWithParams).toContain('&v=full');
@@ -247,8 +247,8 @@ describe('CommunityGroupService', () => {
 
   it('should generate group number', () => {
     const loc_uuid = 'uuid';
-    const groupnumber = 90
-    communityGroupService.generateGroupNumber(loc_uuid).subscribe()
+    const groupnumber = 90;
+    communityGroupService.generateGroupNumber(loc_uuid).subscribe();
     const req = httpMock.expectOne(`https://ngx.ampath.or.ke/group-idgen/generategroupnumber/${loc_uuid}`);
     expect(req.request.method).toBe('GET');
     req.flush(groupnumber);

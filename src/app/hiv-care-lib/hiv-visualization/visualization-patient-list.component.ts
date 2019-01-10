@@ -1,5 +1,5 @@
 
-import {take} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
@@ -21,12 +21,12 @@ import {
 export class VisualizationPatientListComponent implements OnInit, OnDestroy {
   public patientData: any;
   public startDate: any;
-  public isLoading: boolean = false;
-  public dataLoaded: boolean = false;
+  public isLoading = false;
+  public dataLoaded = false;
   public endDate: any;
   public translatedIndicator: string;
   public overrideColumns: Array<any> = [];
-  private startIndex: number = 0;
+  private startIndex = 0;
   private locationUuids: any;
   private reportName: string;
   private currentIndicator: string;
@@ -34,17 +34,17 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
   constructor(private route: ActivatedRoute,
-              private router: Router,
-              private visualizationResourceService: ClinicalSummaryVisualizationResourceService,
-              private clinicalSummaryVisualizationService: ClinicalSummaryVisualizationService,
-              private dataAnalyticsDashboardService: DataAnalyticsDashboardService) {
+    private router: Router,
+    private visualizationResourceService: ClinicalSummaryVisualizationResourceService,
+    private clinicalSummaryVisualizationService: ClinicalSummaryVisualizationService,
+    private dataAnalyticsDashboardService: DataAnalyticsDashboardService) {
     /**
      * Please note that this is a workaround for the dashboardService delay
      * to give you the location UUID.
      * If a better way can be found, please consider
      */
-    let urlPieces = window.location.hash.split('/');
-    let loc = {value: urlPieces[2]};
+    const urlPieces = window.location.hash.split('/');
+    const loc = { value: urlPieces[2] };
     this.locationUuids = loc.value;
   }
 
@@ -52,7 +52,7 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
     this.getCachedLocations();
     this.routeParamsSubscription = this.route.params.subscribe((params) => {
       if (params) {
-        let monthYear = params['period'].split('|');
+        const monthYear = params['period'].split('|');
         this.reportName = params['report'];
         this.currentIndicator = params['indicator'];
         this.translatedIndicator =
@@ -83,15 +83,15 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
       (data) => {
         if (data) {
           console.log('data---->>viz', data);
-          this.locationUuids =  this.getSelectedLocations( data.locations);
+          this.locationUuids = this.getSelectedLocations(data.locations);
         }
 
       });
   }
 
   public setDateRange(monthYear) {
-    let startDate = monthYear[0].split('/');
-    let endDate = monthYear[1].split('/');
+    const startDate = monthYear[0].split('/');
+    const endDate = monthYear[1].split('/');
     this.startDate = moment([startDate[2], startDate[1] - 1, startDate[0]]);
     this.endDate = moment([endDate[2], endDate[1] - 1, endDate[0]]);
   }

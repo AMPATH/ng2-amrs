@@ -15,7 +15,8 @@ import {
 } from 'ngx-openmrs-formentry/dist/ngx-formentry';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EtlApi } from '../../etl-api/etl-api.module';
-import { Moh731PatientListResourceService
+import {
+  Moh731PatientListResourceService
 } from '../../etl-api/moh-731-patientlist-resource.service';
 
 const mockParams: any = {
@@ -32,7 +33,7 @@ class MockRouter {
 }
 class MockActivatedRoute {
   public params = of(mockParams);
-  public data = of({'moh731Params': 1});
+  public data = of({ 'moh731Params': 1 });
 }
 
 class FakeMoh731PatientListResourceService {
@@ -84,7 +85,7 @@ describe('Component: Moh731PatientListComponent', () => {
             provide: Moh731PatientListResourceService,
             useClass: FakeMoh731PatientListResourceService
           },
-          {provide: Router, useClass: MockRouter},
+          { provide: Router, useClass: MockRouter },
           {
             provide: ActivatedRoute, useClass: MockActivatedRoute
           }
@@ -93,8 +94,8 @@ describe('Component: Moh731PatientListComponent', () => {
     }).compileComponents().then(() => {
       currentTestFixture = TestBed.createComponent(Moh731PatientListComponent);
       currentTestComponent = currentTestFixture.componentInstance;
-      route =  currentTestFixture.debugElement.injector.get(Router);
-      router =  currentTestFixture.debugElement.injector.get(ActivatedRoute);
+      route = currentTestFixture.debugElement.injector.get(Router);
+      router = currentTestFixture.debugElement.injector.get(ActivatedRoute);
     });
 
   }));
@@ -114,16 +115,16 @@ describe('Component: Moh731PatientListComponent', () => {
     currentTestComponent._endDate = moment(new Date());
     currentTestComponent._locations = 'MTRH Module 1, MTRH Module 2';
     currentTestComponent._indicator = 'Currently in care total';
-    currentTestComponent.patientListPerIndicator = [{a: 'b'}];
+    currentTestComponent.patientListPerIndicator = [{ a: 'b' }];
     currentTestComponent.ngOnInit();
     currentTestFixture.detectChanges();
     setTimeout(() => {
-      let h4strong: Array<DebugElement> = currentTestFixture.debugElement
+      const h4strong: Array<DebugElement> = currentTestFixture.debugElement
         .queryAll(By.css('h4 > strong'));
-      let inCare = h4strong[0].nativeElement;
-      let locations = h4strong[1].nativeElement;
-      let startDate = h4strong[2].nativeElement;
-      let endDate = h4strong[2].nativeElement;
+      const inCare = h4strong[0].nativeElement;
+      const locations = h4strong[1].nativeElement;
+      const startDate = h4strong[2].nativeElement;
+      const endDate = h4strong[2].nativeElement;
       expect(h4strong.length).toBe(4);
       expect(inCare.textContent).toContain('Currently in care total');
       expect(locations.textContent).toContain('MTRH Module 1, MTRH Module 2');

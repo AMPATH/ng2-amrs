@@ -1,11 +1,8 @@
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
-import { MockBackend } from '@angular/http/testing';
-import { BaseRequestOptions, Http, HttpModule } from '@angular/http';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { Observable, of } from 'rxjs';
@@ -14,35 +11,32 @@ import { CacheService } from 'ionic-cache';
 import { NgBusyModule } from 'ng-busy';
 
 import { DataCacheService } from '../../../../shared/services/data-cache.service';
-import { UserDefaultPropertieservice } from
-  '../../../../../user-default-properties/user-default-properties.service';
-import { ProgramEnrollmentResourceService } from
-  '../../../../openmrs-api/program-enrollment-resource.service';
-import { PatientProgramResourceService } from
-  '../../../../etl-api/patient-program-resource.service';
+import { UserDefaultPropertieservice } from '../../../../../user-default-properties/user-default-properties.service';
+import { ProgramEnrollmentResourceService } from '../../../../openmrs-api/program-enrollment-resource.service';
+import { PatientProgramResourceService } from '../../../../etl-api/patient-program-resource.service';
 import { VisitResourceService } from '../../../../openmrs-api/visit-resource.service';
 import { LocationResourceService } from '../../../../openmrs-api/location-resource.service';
-import { UserDefaultPropertiesModule } from
-  '../../../../user-default-properties/user-default-properties.module';
-import { UserDefaultPropertiesService } from
-  '../../../../user-default-properties/user-default-properties.service';
+import { UserDefaultPropertiesModule } from '../../../../user-default-properties/user-default-properties.module';
+import { UserDefaultPropertiesService } from '../../../../user-default-properties/user-default-properties.service';
 import { NgamrsSharedModule } from '../../../../shared/ngamrs-shared.module';
 import { PatientDashboardModule } from '../../../patient-dashboard.module';
-import { FakeDefaultUserPropertiesFactory } from
-  '../../formentry/mock/default-user-properties-factory.service.mock';
+import { FakeDefaultUserPropertiesFactory } from '../../formentry/mock/default-user-properties-factory.service.mock';
 import { TodayVisitsComponent } from './today-visits.component';
-import { AppFeatureAnalytics } from
-  '../../../../shared/app-analytics/app-feature-analytics.service';
-import { FakeAppFeatureAnalytics } from
-  '../../../../shared/app-analytics/app-feature-analytcis.mock';
-import { ProgramWorkFlowResourceService
+import { AppFeatureAnalytics } from '../../../../shared/app-analytics/app-feature-analytics.service';
+import { FakeAppFeatureAnalytics } from '../../../../shared/app-analytics/app-feature-analytcis.mock';
+import {
+  ProgramWorkFlowResourceService
 } from '../../../../openmrs-api/program-workflow-resource.service';
-import { ProgramWorkFlowStateResourceService
+import {
+  ProgramWorkFlowStateResourceService
 } from '../../../../openmrs-api/program-workflow-state-resource.service';
-import { FakeRetrospectiveDataEntryService
+import {
+  FakeRetrospectiveDataEntryService
 } from '../../../../retrospective-data-entry/services/retrospective-data-entry-mock.service';
-import { RetrospectiveDataEntryService
+import {
+  RetrospectiveDataEntryService
 } from '../../../../retrospective-data-entry/services/retrospective-data-entry.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 class LocationServiceMock {
   constructor() {
   }
@@ -60,7 +54,7 @@ describe('TodayVisitsComponent', () => {
   let fixture: ComponentFixture<TodayVisitsComponent>;
 
   beforeEach(async(() => {
-    let fakePatientProgramResourceService = {
+    const fakePatientProgramResourceService = {
       getPatientProgramVisitConfigs: (uuid) => {
         return of({});
       },
@@ -71,7 +65,7 @@ describe('TodayVisitsComponent', () => {
       }
     };
 
-    let fakeVisitResourceService = {
+    const fakeVisitResourceService = {
       getVisitTypes: (args) => {
         return of([]);
       },
@@ -90,8 +84,6 @@ describe('TodayVisitsComponent', () => {
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [],
       providers: [
-        MockBackend,
-        BaseRequestOptions,
         DataCacheService,
         CacheService,
         { provide: Router, useClass: RouterStub },
@@ -117,8 +109,8 @@ describe('TodayVisitsComponent', () => {
         },
         {
           provide: RetrospectiveDataEntryService, useFactory: () => {
-          return new FakeRetrospectiveDataEntryService();
-        }
+            return new FakeRetrospectiveDataEntryService();
+          }
         },
         {
           provide: VisitResourceService,
@@ -127,13 +119,6 @@ describe('TodayVisitsComponent', () => {
         {
           provide: LocationResourceService,
           useClass: LocationServiceMock
-        },
-        {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
         },
         {
           provide: AppFeatureAnalytics,
@@ -147,7 +132,7 @@ describe('TodayVisitsComponent', () => {
         FormsModule,
         NgamrsSharedModule,
         PatientDashboardModule,
-        HttpModule,
+        HttpClientTestingModule,
         BrowserAnimationsModule
       ]
     })
@@ -166,5 +151,28 @@ describe('TodayVisitsComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+  it('should have required properties', () => {
+    expect(component.programClassUuid).toBeUndefined();
+    expect(component.programUuid).toEqual('');
+    expect(component.isBusy).toEqual(true);
+    expect(component.errors.length).toEqual(0);
+    expect(component.groupedVisits.length).toEqual(0);
+    expect(component.index).toEqual(0);
+
+
+    expect(component.toTitleCase).toBeDefined();
+    expect(component.handleProgramClassChange).toBeDefined();
+    expect(component.handleProgramChange).toBeDefined();
+    expect(component.extractSelectedProgramFromUrl).toBeDefined();
+    expect(component.checkForAlreadyLoadedVisits).toBeDefined();
+    expect(component.subscribeToVisitsServiceEvents).toBeDefined();
+    expect(component.onProgramVisitsLoadingStarted).toBeDefined();
+    expect(component.onProgramVisitsLoadingError).toBeDefined();
+    expect(component.triggerVisitLoading).toBeDefined();
+    expect(component.onVisitLoadedEvent).toBeDefined();
+    expect(component.onFormSelected).toBeDefined();
+    expect(component.onEncounterSelected).toBeDefined();
+
   });
 });

@@ -1,14 +1,15 @@
 import { TestBed, async, inject, fakeAsync } from '@angular/core/testing';
-import { MockBackend, MockConnection } from '@angular/http/testing';
-import {
-    BaseRequestOptions, XHRBackend, Http, RequestMethod,
-    ResponseOptions, Response
-} from '@angular/http';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DefaulterListResourceService } from './defaulter-list-resource.service';
 import { CacheModule, CacheService } from 'ionic-cache';
 import { DataCacheService } from '../shared/services/data-cache.service';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
+
+class MockCacheStorageService {
+    constructor(a, b) { }
+}
 const expectedResults = {
     startIndex: 0,
     size: 3,
@@ -84,79 +85,63 @@ const expectedResults = {
     ]
 };
 describe('DefaulterListResourceService Tests', () => {
-    let service;
+    let s;
+    let httpMock;
     beforeEach(() => {
         TestBed.configureTestingModule({
             declarations: [],
-          imports: [CacheModule],
+            imports: [CacheModule, HttpClientTestingModule],
             providers: [
                 DefaulterListResourceService,
-                MockBackend,
-                BaseRequestOptions,
                 AppSettingsService,
                 LocalStorageService,
                 CacheService,
                 DataCacheService,
                 {
-                    provide: Http,
-                    deps: [MockBackend, BaseRequestOptions],
-                    useFactory:
-                    (backend: XHRBackend, defaultOptions: BaseRequestOptions) => {
-                        return new Http(backend, defaultOptions);
+                    provide: CacheStorageService, useFactory: () => {
+                        return new MockCacheStorageService(null, null);
                     }
-                }
+                },
             ]
         });
+        httpMock = TestBed.get(HttpTestingController);
+        s = TestBed.get(DefaulterListResourceService);
     });
 
     afterAll(() => {
         TestBed.resetTestingModule();
     });
 
-    it('should be defined',
-        inject([DefaulterListResourceService], (s: DefaulterListResourceService) => {
-            expect(s).toBeTruthy();
-        })
-    );
+    it('should be defined', () => {
+        expect(s).toBeTruthy();
+    });
 
-    it('all defaulter list resource methods should be defined',
-        inject([DefaulterListResourceService], (s: DefaulterListResourceService) => {
-            expect(s.getDefaulterList).toBeDefined();
-            expect(s.getUrl).toBeDefined();
-        })
-    );
+    it('all defaulter list resource methods should be defined', () => {
+        expect(s.getDefaulterList).toBeDefined();
+        expect(s.getUrl).toBeDefined();
+    });
 
     it('should return a list containing list of defaulters for a given '
-        + ' date range and location ',
-        inject([DefaulterListResourceService, MockBackend],
-            (s: DefaulterListResourceService, backend: MockBackend) => {
-                backend.connections.subscribe((connection: MockConnection) => {
-                    expect(connection.request.method).toBe(RequestMethod.Get);
-                    expect(connection.request.url).toContain('/etl/defaulter-list');
-                    expect(connection.request.url).toEqual('https://amrsreporting.ampath.or.ke:8002'
-                        + '/etl/defaulter-list?startIndex=0&defaulterPeriod=30&maxDefaultPeriod=100'
-                        + '&locationUuids=uuid&limit=300');
-                    expect(connection.request.url).toContain('locationUuids=uuid');
-                    expect(connection.request.url).toContain('limit=300');
-                    connection.mockRespond(new Response(
-                        new ResponseOptions({
-                            body: expectedResults
-                        }
-                        )));
-                });
-                s.getDefaulterList({
-                    defaulterPeriod: 30,
-                    maxDefaultPeriod: 100,
-                    startIndex: undefined,
-                    locationUuids: 'uuid',
-                    limit: undefined
-                }).subscribe((result) => {
-                    expect(result).toBeDefined();
-                    expect(result).toEqual(expectedResults.result);
-                });
-            })
-    );
+        + ' date range and location ', () => {
+            s.getDefaulterList({
+                defaulterPeriod: 30,
+                maxDefaultPeriod: 100,
+                startIndex: undefined,
+                locationUuids: 'uuid',
+                limit: undefined
+            }).subscribe((result) => {
+                expect(result).toBeDefined();
+                expect(result).toEqual(expectedResults.result);
+            });
 
-
+            const req = httpMock.expectOne('https://amrsreporting.ampath.or.ke:8002'
+                + '/etl/defaulter-list?startIndex=0&defaulterPeriod=30&maxDefaultPeriod=100'
+                + '&locationUuids=uuid&limit=300');
+            expect(req.request.method).toBe('GET');
+            expect(req.request.urlWithParams).toContain('/etl/defaulter-list');
+            expect(req.request.urlWithParams).toContain('locationUuids=uuid');
+            expect(req.request.urlWithParams).toContain('limit=300');
+            req.flush(expectedResults);
+        });
 });
 
