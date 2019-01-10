@@ -22,20 +22,20 @@ export class HivClinicFlowResourceService implements ClinicFlowResource {
   }
 
   public getClinicFlow(dateStarted, locations) {
-    let urlParams: HttpParams = new HttpParams()
+    const urlParams: HttpParams = new HttpParams()
     .set('dateStarted', dateStarted)
     .set('locationUuids', locations);
-    let url = this.getUrl('patient-flow-data');
-    let request = this.http.get(url, {
+    const url = this.getUrl('patient-flow-data');
+    const request = this.http.get(url, {
       params: urlParams
     });
-    let key = url + '?' + urlParams.toString();
+    const key = url + '?' + urlParams.toString();
     /** This is a workaround to avoid multiple calls to server by the respective
      * clinic flow components
      */
     if (key !== this.requestUrl) {
       // clear cache after 1 minute
-      let refreshCacheTime = 1 * 60 * 1000;
+      const refreshCacheTime = 1 * 60 * 1000;
       this.requestUrl = key;
       this.cache = this.cacheService.cacheSingleRequest(url, urlParams, request, refreshCacheTime);
     }

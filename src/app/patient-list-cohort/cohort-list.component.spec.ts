@@ -1,6 +1,4 @@
 /* tslint:disable:no-unused-variable */
-
-
 import { throwError as observableThrowError, Observable, of } from 'rxjs';
 import { TestBed, async, fakeAsync, ComponentFixture, tick } from '@angular/core/testing';
 import { Router, ActivatedRoute } from '@angular/router';

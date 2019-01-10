@@ -5,6 +5,7 @@ import { AddCohortListComponent } from './add-cohort-list.component';
 import { CohortListService } from './cohort-list.service';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { LocalStorageService } from './../utils/local-storage.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('Component: AddCohortList Unit Tests', () => {
 
