@@ -14,7 +14,7 @@ import * as _ from 'lodash';
   styleUrls: ['./hiv-summary.component.css']
 })
 export class HivSummaryLatestComponent implements OnInit, OnDestroy {
-  public loadingHivSummary: boolean = false;
+  public loadingHivSummary = false;
   public hivSummary: any;
   public subscription: Subscription[] =  [];
   public patient: Patient;
@@ -52,14 +52,14 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
       patientUuid, 0, 1, false).subscribe((data) => {
         if (data) {
 
-          for (let summary of data){
+          for (const summary of data) {
 
             // check if encounter is clinical
             if ( summary.is_clinical_encounter === 1) {
 
               this.hivSummary = summary;
               console.log(this.hivSummary);
-              let artStartDate =
+              const artStartDate =
               new Date(this.hivSummary.arv_first_regimen_start_date).getFullYear();
               if (isNaN(artStartDate) || artStartDate === 1899 || artStartDate === 1900) {
                 this.hivSummary.arv_first_regimen_start_date = null;
@@ -71,11 +71,11 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
 
          }
 
-          let lastVlDate: any = this.getLatestVlDate(data);
+         const lastVlDate: any = this.getLatestVlDate(data);
           if (this.endDateIsBeforeStartDate(this.hivSummary.vl_1_date, lastVlDate)) {
-            let filtered = _.find(data, (summaryObj: any) => {
-              let vlDateMoment = Moment(Moment(summaryObj['vl_1_date']), 'DD-MM-YYYY');
-              let lastVlDateMoment = Moment(lastVlDate, 'DD-MM-YYYY');
+            const filtered = _.find(data, (summaryObj: any) => {
+              const vlDateMoment = Moment(Moment(summaryObj['vl_1_date']), 'DD-MM-YYYY');
+              const lastVlDateMoment = Moment(lastVlDate, 'DD-MM-YYYY');
               if (summaryObj['vl_1_date']) {
                 if (vlDateMoment.isSame(lastVlDateMoment)) {
                   return true;
@@ -121,7 +121,7 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
   }
 
   private getLatestVlDate(data) {
-  let latestVlDate = new Date(Math.max.apply(null, data.map((dataItem) => {
+    const latestVlDate = new Date(Math.max.apply(null, data.map((dataItem) => {
     return new Date(dataItem.vl_1_date);
   })));
   return latestVlDate;

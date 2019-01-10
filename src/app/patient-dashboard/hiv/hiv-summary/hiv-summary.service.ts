@@ -1,5 +1,5 @@
 
-import {take} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Observable, Subject, BehaviorSubject } from 'rxjs';
 
@@ -9,31 +9,31 @@ import { Helpers } from '../../../utils/helpers';
 @Injectable()
 export class HivSummaryService {
   public hivSummaryLatest: BehaviorSubject<any> = new BehaviorSubject(null);
-  private limit: number = 20;
+  private limit = 20;
 
-  constructor(private hivSummaryResourceService: HivSummaryResourceService) {}
+  constructor(private hivSummaryResourceService: HivSummaryResourceService) { }
 
   public getHivSummary(patientUuid: string, startIndex: number, limit: number,
-                       includeNonClinicalEncounter?: boolean): Observable<any> {
+    includeNonClinicalEncounter?: boolean): Observable<any> {
 
-    let hivSummary: BehaviorSubject<any> = new BehaviorSubject(null);
+    const hivSummary: BehaviorSubject<any> = new BehaviorSubject(null);
 
     this.hivSummaryResourceService.getHivSummary(patientUuid,
       startIndex, this.limit, includeNonClinicalEncounter).pipe(take(1)).subscribe((data) => {
         if (data) {
           // tslint:disable-next-line:prefer-for-of
-            for (let r = 0; r < data.length; r++) {
-              let isPendingViralLoad = this.determineIfVlIsPending(data);
-              let isPendingCD4 = this.determineIfCD4IsPending(data);
-              data[r]['isPendingViralLoad'] = isPendingViralLoad;
-              data[r]['isPendingCD4'] = isPendingViralLoad;
+          for (let r = 0; r < data.length; r++) {
+            const isPendingViralLoad = this.determineIfVlIsPending(data);
+            const isPendingCD4 = this.determineIfCD4IsPending(data);
+            data[r]['isPendingViralLoad'] = isPendingViralLoad;
+            data[r]['isPendingCD4'] = isPendingViralLoad;
 
-              data[r].encounter_datetime = new Date(data[r].encounter_datetime)
-                .setHours(0, 0, 0, 0);
-              data[r].prev_rtc_date = new Date(data[r].prev_rtc_date)
-                .setHours(0, 0, 0, 0);
-            }
-            hivSummary.next(data);
+            data[r].encounter_datetime = new Date(data[r].encounter_datetime)
+              .setHours(0, 0, 0, 0);
+            data[r].prev_rtc_date = new Date(data[r].prev_rtc_date)
+              .setHours(0, 0, 0, 0);
+          }
+          hivSummary.next(data);
         }
         this.hivSummaryLatest.next(data);
       }, (error) => {
@@ -45,7 +45,7 @@ export class HivSummaryService {
   }
 
   public determineIfVlIsPending(hivSummary: any) {
-    let overDueDays = !Helpers.isNullOrUndefined(hivSummary.vl_order_date) ?
+    const overDueDays = !Helpers.isNullOrUndefined(hivSummary.vl_order_date) ?
       this.dateDiffInDays(new Date(hivSummary.vl_order_date), new Date()) : 0;
     if (overDueDays > 0) {
       if (!Helpers.isNullOrUndefined(hivSummary.vl_1_date)) {
@@ -70,7 +70,7 @@ export class HivSummaryService {
   }
 
   public determineIfCD4IsPending(hivSummary: any) {
-    let overDueDays = !Helpers.isNullOrUndefined(hivSummary.cd4_order_date) ?
+    const overDueDays = !Helpers.isNullOrUndefined(hivSummary.cd4_order_date) ?
       this.dateDiffInDays(new Date(hivSummary.cd4_order_date), new Date()) : 0;
     if (overDueDays > 0) {
       if (!Helpers.isNullOrUndefined(hivSummary.cd4_1_date)) {
@@ -96,11 +96,11 @@ export class HivSummaryService {
   }
 
   public dateDiffInDays(a: any, b: any) {
-    let _MS_PER_DAY = 1000 * 60 * 60 * 24;
+    const _MS_PER_DAY = 1000 * 60 * 60 * 24;
     // a and b are Date objects
     // Discard the time and time-zone information.
-    let utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
-    let utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+    const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+    const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
 
     return Math.floor((utc2 - utc1) / _MS_PER_DAY);
   }

@@ -2,9 +2,7 @@
 import { TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Http, BaseRequestOptions, ResponseOptions, Response } from '@angular/http';
-import { MockBackend, MockConnection } from '@angular/http/testing';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import { PatientService } from '../services/patient.service';
@@ -14,24 +12,30 @@ import { Patient } from '../../models/patient.model';
 import { PanelModule, DialogModule } from 'primeng/primeng';
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
 import { OpenmrsApi } from '../../openmrs-api/openmrs-api.module';
-import { CohortMemberModule }
- from '../../patient-list-cohort/cohort-member/cohort-member.module';
+import { CohortMemberModule } from '../../patient-list-cohort/cohort-member/cohort-member.module';
 import { LocationResourceService } from '../../openmrs-api/location-resource.service';
 import { PatientProgramService } from '../programs/patient-programs.service';
 import { ZeroVlPipe } from './../../shared/pipes/zero-vl-pipe';
-import { DepartmentProgramsConfigService
+import {
+  DepartmentProgramsConfigService
 } from '../../etl-api/department-programs-config.service';
-import { DataCacheService
+import {
+  DataCacheService
 } from '../../shared/services/data-cache.service';
 import { CacheService } from 'ionic-cache';
-import { PatientReferralService
+import {
+  PatientReferralService
 } from '../../program-manager/patient-referral-service';
 import { UserDefaultPropertiesService } from '../../user-default-properties/user-default-properties.service';
 import { PatientProgramResourceService } from '../../etl-api/patient-program-resource.service';
 import { PatientReferralResourceService } from '../../etl-api/patient-referral-resource.service';
 import { delay } from 'rxjs/operators';
+import { HttpClient, HttpHandler } from '@angular/common/http';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { BuildVersionComponent } from 'src/app/build-version';
+import { RouterTestingModule } from '@angular/router/testing';
 
-let progConfig = {
+const progConfig = {
   uuid: 'some-uuid',
   visitTypes: [
     {
@@ -49,13 +53,13 @@ let progConfig = {
   ]
 };
 
-let prog = {
+const prog = {
   'some-uuid': progConfig
 };
 
 class FakePatientService {
   public currentlyLoadedPatient: BehaviorSubject<Patient> =
-  new BehaviorSubject(new Patient({ person: { uuid: '123' } }));
+    new BehaviorSubject(new Patient({ person: { uuid: '123' } }));
   constructor() {
   }
   public fetchPatientByUuid(uuid) {
@@ -72,7 +76,7 @@ class FakePatientService {
 class LocationStub {
 
   public getLocations(payload): Observable<any> {
-    return of({status: 'okay'});
+    return of({ status: 'okay' });
   }
 }
 class FakePatientReferralService {
@@ -120,11 +124,11 @@ class FakePatientProgramResourceService {
     return of(prog).pipe(delay(50));
   }
 
-  getPatientProgramVisitConfigs (uuid) {
+  getPatientProgramVisitConfigs(uuid) {
     return of(prog).pipe(delay(50));
   }
-  getPatientProgramVisitTypes (patient: string, program: string,
-                               enrollment: string, location: string) {
+  getPatientProgramVisitTypes(patient: string, program: string,
+    enrollment: string, location: string) {
     return of(progConfig);
   }
 }
@@ -139,7 +143,7 @@ class FakeUserDefaultPropertiesService {
   }
 
   public getCurrentUserDefaultLocation() {
-  return 'location';
+    return 'location';
   }
 
   public getCurrentUserDefaultLocationObject() {
@@ -155,16 +159,28 @@ class FakeUserDefaultPropertiesService {
 }
 describe('Component: LandingPageComponent', () => {
   let component, fixture;
+  let router: Router;
+  let patientReferral;
+  let userDefaultPropertiesSetting;
+  let patientService;
+  let patientProgramResourceService;
+
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       providers: [
-        MockBackend,
-        BaseRequestOptions,
+        HttpClient,
+        HttpHandler,
+        Router,
         ZeroVlPipe,
         PatientProgramService,
         DepartmentProgramsConfigService,
         DataCacheService,
         CacheService,
+        {
+          provide: Router,
+          useClass: class { navigate = jasmine.createSpy('navigate'); }
+      },
         {
           provide: PatientService,
           useClass: FakePatientService
@@ -176,6 +192,10 @@ describe('Component: LandingPageComponent', () => {
         {
           provide: PatientReferralResourceService,
           useClass: FakePatientReferralResourceService
+        },
+        {
+          provide: Router,
+          useClass: class { navigate = jasmine.createSpy('navigate'); }
         },
         {
           provide: PatientProgramResourceService,
@@ -194,20 +214,21 @@ describe('Component: LandingPageComponent', () => {
           useFactory: () => {
             return new FakeProgramService();
           }
-        },
-        {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend,
-                       defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
         }
 
       ],
       declarations: [],
-      imports: [PanelModule, CommonModule, FormsModule, CohortMemberModule,
-        NgamrsSharedModule, OpenmrsApi, RouterModule, DialogModule]
+      imports: [
+        PanelModule,
+        CommonModule,
+        FormsModule,
+        CohortMemberModule,
+        NgamrsSharedModule,
+        OpenmrsApi,
+        RouterModule,
+        HttpClientTestingModule,
+        RouterTestingModule,
+        DialogModule]
     }).compileComponents().then(() => {
       fixture = TestBed.createComponent(GeneralLandingPageComponent);
       component = fixture.componentInstance;
@@ -219,41 +240,41 @@ describe('Component: LandingPageComponent', () => {
   });
 
   it('should create an instance', (done) => {
+    patientReferral = TestBed.get(PatientReferralService);
+    userDefaultPropertiesSetting = TestBed.get(UserDefaultPropertiesService);
+    patientProgramResourceService = TestBed.get(PatientProgramResourceService);
+    patientService = TestBed.get(PatientService);
+    router = TestBed.get(Router);
+    router = TestBed.get(Router);
+
+    component = new GeneralLandingPageComponent(patientService,
+      patientReferral, userDefaultPropertiesSetting,
+      patientProgramResourceService, router);
     expect(component).toBeTruthy();
     done();
   });
 
   it('should load programs, enrolled and enrollable when `loadProgramBatch` is called',
     fakeAsync(inject([PatientService, ProgramService,
-        LocationResourceService, MockBackend],
+      LocationResourceService, HttpTestingController],
       (ps: PatientService,
-       prs: ProgramService, ls: LocationResourceService,
-       backend: MockBackend) => {
-        backend.connections.take(1).subscribe((connection: MockConnection) => {
-          connection.mockRespond(new Response(
-            new ResponseOptions({
-                body: [[{programUuid: '123', uuid: '12345'}], [{uuid: '123'}]]
-              }
-            )));
+        prs: ProgramService, ls: LocationResourceService,
+        backend: HttpTestingController) => {
           component.loadProgramBatch();
-        });
       }))
   );
 
   it('should generate error when `loadProgramBatch` has an error response',
     fakeAsync(inject([PatientService, ProgramService,
-        LocationResourceService, MockBackend],
+      LocationResourceService, HttpTestingController],
       (ps: PatientService,
-       prs: ProgramService, ls: LocationResourceService,
-       backend: MockBackend) => {
-        backend.connections.subscribe((connection: MockConnection) => {
-          connection.mockError(new Error('An error occured'));
+        prs: ProgramService, ls: LocationResourceService,
+        httpTestingController: HttpTestingController) => {
           component.loadProgramBatch('uuid');
           tick();
           expect(component.hasError).toEqual(true);
           expect(component.errors.length).toEqual(1);
           expect(component.errors[0].error).toEqual('An error occured');
-        });
       }))
   );
 });

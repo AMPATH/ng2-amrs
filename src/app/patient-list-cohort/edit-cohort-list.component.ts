@@ -1,4 +1,4 @@
-
+/* tslint:disable:no-inferrable-types */
 import {take} from 'rxjs/operators/take';
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Subscription, BehaviorSubject } from 'rxjs';
@@ -54,7 +54,7 @@ export class EditCohortListComponent implements OnInit, OnDestroy {
     this.successAlert = '';
 
     if (this.errors.length === 0) {
-      let cohortListPayload = {
+      const cohortListPayload = {
         name: this.selectedCohortName,
         description: this.selectedCohortDescription,
         // memberIds: []

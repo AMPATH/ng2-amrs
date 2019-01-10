@@ -7,8 +7,8 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 export class LabOrderSearchContainerComponent implements OnInit {
 
   public order: any;
-  public orderPosted: boolean = false;
-  public reset: boolean = false;
+  public orderPosted = false;
+  public reset = false;
 
   constructor() {
   }

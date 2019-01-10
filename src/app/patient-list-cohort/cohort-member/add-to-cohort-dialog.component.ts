@@ -1,3 +1,4 @@
+/* tslint:disable:no-inferrable-types */
 import {
     Component, OnInit, Input, ViewChild,
     Output, EventEmitter, ElementRef

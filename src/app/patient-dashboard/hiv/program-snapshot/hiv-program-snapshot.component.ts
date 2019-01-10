@@ -1,7 +1,7 @@
 
-import {take} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 
-import {map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { OnInit, Component, Input, Output, EventEmitter } from '@angular/core';
 import { Http, Response } from '@angular/http';
 
@@ -18,12 +18,12 @@ import { LocationResourceService } from '../../../openmrs-api/location-resource.
 })
 export class HivProgramSnapshotComponent implements OnInit {
   @Input() public patient: Patient;
-  public hasError: boolean = false;
-  public hasData: boolean = false;
+  public hasError = false;
+  public hasData = false;
   public patientData: any = {};
-  public loadingData: boolean = false;
-  public hasLoadedData: boolean = false;
-  public isVirallyUnsuppressed: boolean = false;
+  public loadingData = false;
+  public hasLoadedData = false;
+  public isVirallyUnsuppressed = false;
   public patientCareStatus: any;
   @Output() public addBackground = new EventEmitter();
   public location: any = {};
@@ -32,7 +32,7 @@ export class HivProgramSnapshotComponent implements OnInit {
     yellow: 'yellow'
   };
   constructor(private hivSummaryResourceService: HivSummaryResourceService,
-              private locationResource: LocationResourceService) {
+    private locationResource: LocationResourceService) {
 
   }
 
@@ -50,53 +50,53 @@ export class HivProgramSnapshotComponent implements OnInit {
   public getHivSummary(patientUuid) {
     this.loadingData = true;
     this.hivSummaryResourceService.getHivSummary(patientUuid, 0, 10).pipe(take(1)).subscribe((results) => {
-        this.loadingData = false;
-        this.hasLoadedData = true;
-        let latestVlResult: any;
-        let latestVlDate = '';
-        let latestVl = '';
-        if (results[0]) {
-           this.patientCareStatus = results[0].patient_care_status;
-           latestVlResult = this.getlatestVlResult(results);
-           latestVlDate = latestVlResult.vl_1_date;
-           latestVl =  latestVlResult.vl_1;
-         }
+      this.loadingData = false;
+      this.hasLoadedData = true;
+      let latestVlResult: any;
+      let latestVlDate = '';
+      let latestVl = '';
+      if (results[0]) {
+        this.patientCareStatus = results[0].patient_care_status;
+        latestVlResult = this.getlatestVlResult(results);
+        latestVlDate = latestVlResult.vl_1_date;
+        latestVl = latestVlResult.vl_1;
+      }
 
-        this.patientData = _.first(_.filter(results, (encounter: any) => {
-          return encounter.is_clinical_encounter === 1;
-        }));
-        let patientDataCopy = this.patientData;
-        if (!_.isNil(this.patientData)) {
-          // assign latest vl and vl_1_date
-          this.patientData = Object.assign(patientDataCopy,
-            {vl_1_date: latestVlDate , vl_1 : latestVl });
-          // flag red if VL > 1000 && (vl_1_date > (arv_start_date + 6 months))
-          if ((this.patientData.vl_1 > 1000 && (
-              moment(this.patientData.vl_1_date) >
-              moment(this.patientData.arv_start_date).add(6, 'months')
-            )) || (this.patientData.prev_arv_line !== this.patientData.cur_arv_line)) {
-            this.isVirallyUnsuppressed = true;
-          }
-          this.hasData = true;
-          this.location = null;
-          if (this.patientData.location_uuid) {
-            this.resolveLastEncounterLocation(this.patientData.location_uuid);
-          }
+      this.patientData = _.first(_.filter(results, (encounter: any) => {
+        return encounter.is_clinical_encounter === 1;
+      }));
+      const patientDataCopy = this.patientData;
+      if (!_.isNil(this.patientData)) {
+        // assign latest vl and vl_1_date
+        this.patientData = Object.assign(patientDataCopy,
+          { vl_1_date: latestVlDate, vl_1: latestVl });
+        // flag red if VL > 1000 && (vl_1_date > (arv_start_date + 6 months))
+        if ((this.patientData.vl_1 > 1000 && (
+          moment(this.patientData.vl_1_date) >
+          moment(this.patientData.arv_start_date).add(6, 'months')
+        )) || (this.patientData.prev_arv_line !== this.patientData.cur_arv_line)) {
+          this.isVirallyUnsuppressed = true;
         }
-      });
+        this.hasData = true;
+        this.location = null;
+        if (this.patientData.location_uuid) {
+          this.resolveLastEncounterLocation(this.patientData.location_uuid);
+        }
+      }
+    });
   }
 
   public resolveLastEncounterLocation(location_uuid) {
     this.locationResource.getLocationByUuid(location_uuid, true)
-    .subscribe((location) => {
-      this.location = location;
-    }, (error) => {
-      console.error('Error resolving locations', error);
-    });
+      .subscribe((location) => {
+        this.location = location;
+      }, (error) => {
+        console.error('Error resolving locations', error);
+      });
   }
 
   public getPatientCareStatus(id: any) {
-    let translateMap = {
+    const translateMap = {
       '159': 'DECEASED',
       '9079': 'UNTRACEABLE',
       '9080': 'PROCESS OF BEING TRACED',
@@ -118,11 +118,11 @@ export class HivProgramSnapshotComponent implements OnInit {
     // if it is past RTC Date by 1 week and status = continue, can you make background pink
     if (this.patientCareStatus === 6101 &&
       moment(this.patientData.rtc_date).add(1, 'week') < moment(new Date())) {
-      let color = this.backgroundColor.pink;
+      const color = this.backgroundColor.pink;
       this.addBackground.emit(color);
     }
-    if (this.patientCareStatus  === 1287 ) {
-      let color = this.backgroundColor.yellow;
+    if (this.patientCareStatus === 1287) {
+      const color = this.backgroundColor.yellow;
       this.addBackground.emit(color);
     }
 
@@ -141,7 +141,9 @@ export class HivProgramSnapshotComponent implements OnInit {
 
   private _toProperCase(text: string) {
     text = text || '';
-    return text.replace(/\w\S*/g, (txt) => {return txt.charAt(0).toUpperCase() +
-      txt.substr(1).toLowerCase(); });
+    return text.replace(/\w\S*/g, (txt) => {
+      return txt.charAt(0).toUpperCase() +
+        txt.substr(1).toLowerCase();
+    });
   }
 }
