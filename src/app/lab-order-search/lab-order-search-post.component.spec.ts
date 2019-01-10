@@ -1,6 +1,4 @@
 import { TestBed, async, ComponentFixture, fakeAsync } from '@angular/core/testing';
-import { MockBackend } from '@angular/http/testing';
-import { Http, BaseRequestOptions } from '@angular/http';
 import { Observable } from 'rxjs';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -16,10 +14,11 @@ import { LabOrderPostService } from './lab-order-post.service';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { FakeLabOrderResourceService } from '../etl-api/lab-order-resource.mock';
+import { HttpClient, HttpClientModule, HttpHandler } from '@angular/common/http';
 
 describe('LabOrderSearchPostComponent', () => {
   let fixture: ComponentFixture<LabOrderSearchPostComponent>;
-  let sampleOrder: any = {
+  const sampleOrder: any = {
     concept: {
       uuid: 'a8982474-1350-11df-a1f1-0026b9348838'
     },
@@ -65,15 +64,9 @@ describe('LabOrderSearchPostComponent', () => {
         LabOrderPostService,
         LocalStorageService,
         AppSettingsService,
-        MockBackend,
-        BaseRequestOptions,
-        {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
+        HttpClient,
+        HttpHandler,
+        HttpClientModule
       ],
       declarations: [
         LabOrderSearchPostComponent
@@ -82,14 +75,7 @@ describe('LabOrderSearchPostComponent', () => {
       set: {
         providers: [
           { provide: LabOrderPostService, useClass: FakeLabOrderResourceService },
-          {
-            provide: Http, useFactory: (backend, options) => {
-            return new Http(backend, options);
-          },
-            deps: [MockBackend, BaseRequestOptions]
-          },
-          MockBackend,
-          BaseRequestOptions
+          HttpClient
         ]
       }
     }).compileComponents().then(() => {
@@ -109,7 +95,7 @@ describe('LabOrderSearchPostComponent', () => {
   });
 
   it('should display the order summary', async(() => {
-    let comp = fixture.componentInstance;
+    const comp = fixture.componentInstance;
     comp.orderType = {
       type: 'VL'
     };
@@ -124,7 +110,7 @@ describe('LabOrderSearchPostComponent', () => {
   }));
 
   it('should reset order when reset button is clicked', async(() => {
-    let comp = fixture.componentInstance;
+    const comp = fixture.componentInstance;
     comp.orderType = {
       type: 'VL'
     };
@@ -136,7 +122,7 @@ describe('LabOrderSearchPostComponent', () => {
 
     fixture.whenStable().then(() => {
 
-      let resetButton = fixture.nativeElement.querySelector('#reset-btn');
+      const resetButton = fixture.nativeElement.querySelector('#reset-btn');
       expect(resetButton).toBeDefined();
       resetButton.click();
 
@@ -145,7 +131,7 @@ describe('LabOrderSearchPostComponent', () => {
   }));
 
   it('should submit order when submit button is clicked', async(() => {
-    let comp = fixture.componentInstance;
+    const comp = fixture.componentInstance;
     comp.orderType = {
       type: 'VL'
     };
@@ -157,7 +143,7 @@ describe('LabOrderSearchPostComponent', () => {
 
     fixture.whenStable().then(() => {
 
-      let submitButton = fixture.nativeElement.querySelector('#post-order-btn');
+      const submitButton = fixture.nativeElement.querySelector('#post-order-btn');
       expect(submitButton).toBeDefined();
       submitButton.click();
 

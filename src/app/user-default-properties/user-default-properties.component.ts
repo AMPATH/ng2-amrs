@@ -1,4 +1,4 @@
-
+/* tslint:disable:no-inferrable-types */
 import { take } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -72,7 +72,7 @@ export class UserDefaultPropertiesComponent implements OnInit {
       this.isBusy = false;
     });
 
-    let department = JSON.parse(this.localStorageService.getItem('userDefaultDepartment'));
+    const department = JSON.parse(this.localStorageService.getItem('userDefaultDepartment'));
     if (department !== null) {
       this.selectedDepartment = department[0].itemName;
     } else {
@@ -102,7 +102,7 @@ export class UserDefaultPropertiesComponent implements OnInit {
         if (results) {
           _.each(results, (department, key) => {
             if (key !== 'uud4') {
-              let dept = {
+              const dept = {
                 'itemName': department.name,
                 'id': key
               };
@@ -116,19 +116,19 @@ export class UserDefaultPropertiesComponent implements OnInit {
       });
   }
 
-  public selectDepartment(event) {
-    let deptObject = _.find(this.departments, (el) => {
+  public selectDepartment(event: any) {
+    const deptObject = _.find(this.departments, (el) => {
       return el.itemName === event;
     });
 
-    let department = [deptObject];
+    const department = [deptObject];
     this.selectedDepartment = event;
     this.localStorageService.setItem('userDefaultDepartment', JSON.stringify(department));
   }
 
-  public select(item) {
+  public select(item: any) {
     this.disable = false;
-    let location = JSON.stringify({ uuid: item.value, display: item.label });
+    const location = JSON.stringify({ uuid: item.value, display: item.label });
     this.propertyLocationService.setUserProperty('userDefaultLocation', location);
     this.propertyLocationService.setUserProperty('retroLocation', JSON.stringify(item));
   }

@@ -1,13 +1,11 @@
 import {
   Component,
-  OnInit, OnDestroy, AfterViewInit, OnChanges,
-  Output, EventEmitter, Input, ChangeDetectorRef,
-  ViewChild, SimpleChanges
+  OnInit, AfterViewInit, OnChanges,
+  Output, EventEmitter, Input, ChangeDetectorRef, SimpleChanges
 } from '@angular/core';
-import { Subject ,  Observable } from 'rxjs';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
-import { GridOptions, GridApi } from 'ag-grid/main';
+import { GridOptions } from 'ag-grid/main';
 
 @Component({
   selector: 'data-entry-statistics-daily-list',
@@ -16,8 +14,8 @@ import { GridOptions, GridApi } from 'ag-grid/main';
 })
 export class DataEntryStatisticsDailyListComponent
   implements OnInit, OnChanges, AfterViewInit {
-  public title: string = 'Encounter Types Per Day';
-  public totalEncounters: number = 0;
+  public title = 'Encounter Types Per Day';
+  public totalEncounters = 0;
   public pinnedBottomRowData: any = [];
 
   public gridOptions: GridOptions = {
@@ -69,11 +67,9 @@ export class DataEntryStatisticsDailyListComponent
   // process encounter list data
 
   public processEncounterListData() {
-    let dataEntryArray = [];
-    let columnArray = [];
-    let trackColumns = [];
-    let dataEntryEncounters = this.dataEntryEncounters;
-    let encounterMap = new Map();
+    const trackColumns = [];
+    const dataEntryEncounters = this.dataEntryEncounters;
+    const encounterMap = new Map();
 
     this.dataEntryEncounterColdef = [];
     this.pinnedBottomRowData = [];
@@ -94,7 +90,7 @@ export class DataEntryStatisticsDailyListComponent
         headerName: 'Total',
         field: 'rowTotals', // 'rowTotals',
         onCellClicked: (column) => {
-          let patientListParams = {
+          const patientListParams = {
             'providerUuid': this.params.providerUuid,
             'locationUuids': column.data.locationUuid,
             'encounterTypeUuids': column.data.encounterTypeUuid,
@@ -114,13 +110,13 @@ export class DataEntryStatisticsDailyListComponent
       }
     );
     this.gridOptions.groupDefaultExpanded = -1;
-    let dynamicCols = [];
+    const dynamicCols = [];
 
     _.each(dataEntryEncounters, (stat: any) => {
       // load the other columns based on date
-      let encounterDate = Moment(stat.date).format('DD-MM-YYYY');
-      let startDate = Moment(stat.date).toISOString();
-      let encounterId = stat.encounter_type_id;
+      const encounterDate = Moment(stat.date).format('DD-MM-YYYY');
+      // let startDate = Moment(stat.date).toISOString();
+      // let encounterId = stat.encounter_type_id;
 
       if (_.includes(trackColumns, encounterDate) === false) {
 
@@ -129,7 +125,7 @@ export class DataEntryStatisticsDailyListComponent
             headerName: encounterDate,
             field: encounterDate,
             onCellClicked: (column) => {
-              let patientListParams = {
+              const patientListParams = {
                 'startDate': Moment(stat.date).format('YYYY-MM-DD'),
                 'encounterTypeUuids': column.data.encounterTypeUuid,
                 'endDate': Moment(stat.date).format('YYYY-MM-DD'),
@@ -156,13 +152,13 @@ export class DataEntryStatisticsDailyListComponent
 
       }
 
-      let encounterObj = {
+      const encounterObj = {
         'location': stat.location,
         'locationUuid': stat.locationUuid,
         'encounterTypes': []
       };
 
-      let e = {
+      const e = {
         'encounterTypeUuid': stat.encounter_type_uuid,
         'encounterName': stat.encounter_type,
         'encounterCounts': [
@@ -173,12 +169,12 @@ export class DataEntryStatisticsDailyListComponent
         ]
       };
 
-      let savedEncounter = encounterMap.get(stat.location);
+      const savedEncounter = encounterMap.get(stat.location);
 
       if (typeof savedEncounter !== 'undefined') {
 
-        let savedEncounterTypes: any = savedEncounter.encounterTypes;
-        let savedSpecificEncounter = savedEncounterTypes[stat.encounter_type];
+        const savedEncounterTypes: any = savedEncounter.encounterTypes;
+        const savedSpecificEncounter = savedEncounterTypes[stat.encounter_type];
 
         if (typeof savedSpecificEncounter !== 'undefined') {
 
@@ -204,7 +200,8 @@ export class DataEntryStatisticsDailyListComponent
     });
 
     // sort col defs based on dates i.e first to last date
-    let sortedDymanicCols = this.sortColumnHeadersByDate(dynamicCols);
+    const sortedDymanicCols =  this.sortColumnHeadersByDate(dynamicCols);
+
     this.mergeColsDef(sortedDymanicCols);
 
     this.processEncounterRows(encounterMap);
@@ -213,16 +210,18 @@ export class DataEntryStatisticsDailyListComponent
 
   public sortColumnHeadersByDate(columns) {
     return columns.sort((a: any, b: any) => {
+      const splitDateA = (a.field).split('-');
+      const splitDateB = (b.field).split('-');
+      // create date object for comparison
+      const dateA = new Date(splitDateA[2], splitDateA[1] , splitDateA[0]);
+      const dateB = new Date(splitDateB[2], splitDateB[1] , splitDateB[0]);
 
-      let dateA = Moment(a.field).format();
-      let dateB = Moment(b.field).format();
-
-      if (dateA < dateB) {            // a comes first
-        return -1;
-      } else if (dateB < dateA) {     // b comes first
+      if (dateA > dateB) {
         return 1;
-      } else {                // equal, so order is irrelevant
-        return 0;           // note: sort is not necessarily stable in JS
+      } else if (dateA < dateB) {
+        return -1;
+      } else {
+        return 0;
       }
     });
 
@@ -238,24 +237,22 @@ export class DataEntryStatisticsDailyListComponent
 
   public processEncounterRows(encounterMap) {
 
-    let allRows = [];
+    const allRows = [];
     let totalEncounters = 0;
-    let colSumMap = new Map();
-    let encountersRows = [];
     encounterMap.forEach((encounterItem: any, encounterIndex) => {
-      let locationName = encounterItem.location;
-      let locationUuid = encounterItem.locationUuid;
-      let encounterTypes = encounterItem.encounterTypes;
+      const locationName = encounterItem.location;
+      const locationUuid = encounterItem.locationUuid;
+      const encounterTypes = encounterItem.encounterTypes;
       Object.keys(encounterTypes).forEach((key) => {
-        let encounterRow = {
+        const encounterRow = {
           'rowTotals': 0
         };
         encounterRow['location'] = locationName;
         encounterRow['locationUuid'] = locationUuid;
         encounterRow['encounter_type'] = key;
         encounterRow['encounterTypeUuid'] = encounterTypes[key].encounterTypeUuid;
-        let encounterType = encounterTypes[key];
-        let encounterCounts = encounterType.encounterCounts;
+        const encounterType = encounterTypes[key];
+        const encounterCounts = encounterType.encounterCounts;
         let rowTotal = 0;
         _.each(encounterCounts, (encounterCount) => {
           encounterRow[encounterCount.encounterDate] = encounterCount.encounterCount;
@@ -271,21 +268,11 @@ export class DataEntryStatisticsDailyListComponent
     this.dataEntryRowData = allRows;
     this.totalEncounters = totalEncounters;
 
-    /*
-
-      let totalsRow = this.createTotalsRow(colSumMap, totalEncounters);
-      let totalRowArray = [];
-      totalRowArray.push(totalsRow);
-      this.pinnedBottomRowData = totalRowArray;
-      this.dataEntryRowData = allRows;
-      this._cd.detectChanges();
-      this.setPinnedRow();
-    */
 
   }
 
   public createTotalsRow(totalsMap, totalEncounters) {
-    let rowTotalObj = {
+    const rowTotalObj = {
       'encounterUuid': '',
       'encounterType': 'Total',
       'rowTotals': totalEncounters
