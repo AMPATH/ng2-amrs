@@ -1,15 +1,16 @@
 
-import {take} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FeedBackService } from './feedback.service';
 import { UserService } from '../openmrs-api/user.service';
-import { UserDefaultPropertiesService }
-    from '../user-default-properties/user-default-properties.service';
+import { UserDefaultPropertiesService } from '../user-default-properties/user-default-properties.service';
 import { Subscription } from 'rxjs';
 import * as _ from 'lodash';
-import { DepartmentProgramsConfigService
+import {
+    DepartmentProgramsConfigService
 } from '../etl-api/department-programs-config.service';
 @Component({
+    // tslint:disable-next-line:component-selector
     selector: 'feedback',
     templateUrl: 'feedback.component.html',
     styleUrls: ['feedback.component.css'],
@@ -30,19 +31,19 @@ export class FeedBackComponent implements OnInit, OnDestroy {
         department: ''
     };
     public busy: Subscription;
-    public errorMessage: string = '';
-    public hasError: boolean = false;
+    public errorMessage = '';
+    public hasError = false;
     public r1 = /^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,3})|(\(?\d{2,3}\)?))/;
     public r2 = /(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$/;
     public patterns = new RegExp(this.r1.source + this.r2.source);
     public departmentConf: any[];
     constructor(private feedBackService: FeedBackService,
-                private userService: UserService,
-                private userDefaultPropertiesService: UserDefaultPropertiesService,
-                private departmentProgramService: DepartmentProgramsConfigService) { }
+        private userService: UserService,
+        private userDefaultPropertiesService: UserDefaultPropertiesService,
+        private departmentProgramService: DepartmentProgramsConfigService) { }
 
     public ngOnInit() {
-      this.getDepartmentConf();
+        this.getDepartmentConf();
     }
 
     public ngOnDestroy() {
@@ -54,7 +55,7 @@ export class FeedBackComponent implements OnInit, OnDestroy {
     public sendFeedBack() {
         this.validatePhoneNumberField(this.payload.phone);
         this.payload.name = this.userService.getLoggedInUser().person.display;
-        let location = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject()
+        const location = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject()
             || {};
         this.payload.location = location.display || 'Default location not set';
         this.payload.department = this.selectedDepartment || 'Department not selected';
@@ -86,20 +87,20 @@ export class FeedBackComponent implements OnInit, OnDestroy {
         this.error = false;
     }
     public getDepartmentConf() {
-      this.departmentProgramService.getDartmentProgramsConfig().pipe(
-        take(1)).subscribe((results) => {
-          console.log('results===', results); if (results) {
-            this.departmentConf = results;
-            this._filterDepartmentConfigByName();
-          }
-        });
+        this.departmentProgramService.getDartmentProgramsConfig().pipe(
+            take(1)).subscribe((results) => {
+                console.log('results===', results); if (results) {
+                    this.departmentConf = results;
+                    this._filterDepartmentConfigByName();
+                }
+            });
 
     }
     public getSelectedDepartment(dep) {
-      this.selectedDepartment = dep;
-      if (dep) {
-        this.departmentIsSelected = true;
-      }
+        this.selectedDepartment = dep;
+        if (dep) {
+            this.departmentIsSelected = true;
+        }
     }
 
     private setErroMessage(message) {
@@ -123,8 +124,8 @@ export class FeedBackComponent implements OnInit, OnDestroy {
             || val === 'null' || val === 'undefined';
     }
     private _filterDepartmentConfigByName() {
-      this.programDepartments = _.map(this.departmentConf, (config: any) => {
-        return {name: config.name};
-      });
+        this.programDepartments = _.map(this.departmentConf, (config: any) => {
+            return { name: config.name };
+        });
     }
 }
