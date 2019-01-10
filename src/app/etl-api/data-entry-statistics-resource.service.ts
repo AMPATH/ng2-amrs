@@ -17,7 +17,7 @@ export class DataEntryStatisticsService {
   }
 
   public  getDataEntryStatisticsTypes(): Observable<any> {
-      let dataStatisticsTypes = [{
+      const dataStatisticsTypes = [{
           id: 'view1',
           subType: 'Encounter Types Per Day'
       }, {
@@ -38,11 +38,11 @@ export class DataEntryStatisticsService {
 
     if (payload && payload.subType && payload.startDate && payload.endDate && payload.groupBy) {
 
-      let baseUrl = this.getBaseUrl();
-      let params: any = this.getDataEntryStatisticsQueryParam(payload);
+      const baseUrl = this.getBaseUrl();
+      const params: any = this.getDataEntryStatisticsQueryParam(payload);
 
-      let dataEntryStatsUrl = 'data-entry-statistics/' + params.subType;
-      let url = baseUrl + dataEntryStatsUrl;
+      const dataEntryStatsUrl = 'data-entry-statistics/' + params.subType;
+      const url = baseUrl + dataEntryStatsUrl;
       let urlParams: HttpParams = new HttpParams()
       .set('startDate', params.startDate)
       .set('endDate', params.endDate)
@@ -60,7 +60,7 @@ export class DataEntryStatisticsService {
          urlParams = urlParams.set('creatorUuid', params.creatorUuid);
       }
 
-      let request = this.http.get(url, {params : urlParams}).pipe(
+      const request = this.http.get(url, {params : urlParams}).pipe(
         map((response: any) => {
            return response.result;
         }));
@@ -98,7 +98,7 @@ export class DataEntryStatisticsService {
           groupBy = payload.groupBy;
       }
 
-      let param: any = {
+      const param: any = {
         subType: subType, // mandatory params
         startDate: startDate,
         endDate: endDate,
@@ -127,9 +127,9 @@ export class DataEntryStatisticsService {
 
     public getDataEntrySatisticsPatientList(params) {
 
-      let baseUrl = this.getBaseUrl();
-      let dataEntryStatsPatientListUrl = 'data-entry-statistics/patientList' ;
-      let url = baseUrl + dataEntryStatsPatientListUrl;
+      const baseUrl = this.getBaseUrl();
+      const dataEntryStatsPatientListUrl = 'data-entry-statistics/patientList' ;
+      const url = baseUrl + dataEntryStatsPatientListUrl;
       let urlParams: HttpParams = new HttpParams()
       .set('startDate', params.startDate)
       .set('endDate', params.endDate)
@@ -148,7 +148,7 @@ export class DataEntryStatisticsService {
            urlParams = urlParams.set('locationUuids', params.locationUuids);
       }
 
-      let request = this.http.get(url, {params : urlParams}).pipe(
+      const request = this.http.get(url, {params : urlParams}).pipe(
         map((response: any) => {
            return response.result;
         }));

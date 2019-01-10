@@ -1,9 +1,4 @@
 import { TestBed, async, inject, fakeAsync } from '@angular/core/testing';
-import { MockBackend, MockConnection } from '@angular/http/testing';
-import {
-    BaseRequestOptions, XHRBackend, Http, RequestMethod,
-    ResponseOptions, Response
-} from '@angular/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 
 import { CacheModule, CacheService } from 'ionic-cache';
@@ -12,31 +7,38 @@ import { LocalStorageService } from '../utils/local-storage.service';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Moh731ResourceService } from './moh-731-resource.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
-describe('Moh731ResourceService Tests', () => {
-    let service;
+import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
+import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
 
+class MockCacheStorageService {
+    constructor(a, b) { }
+}
+
+describe('Moh731ResourceService Tests', () => {
+    let service, httpMok;
     beforeEach(() => {
         TestBed.configureTestingModule({
             declarations: [],
-          imports: [CacheModule],
+            imports: [CacheModule, HttpClientTestingModule],
             providers: [
-                MockBackend,
-                BaseRequestOptions,
                 AppSettingsService,
                 LocalStorageService,
                 CacheService,
                 DataCacheService,
+                Moh731ResourceService,
                 {
-                    provide: Http,
-                    deps: [MockBackend, BaseRequestOptions],
-                    useFactory:
-                    (backend: XHRBackend, defaultOptions: BaseRequestOptions) => {
-                        return new Http(backend, defaultOptions);
+                    provide: CacheStorageService, useFactory: () => {
+                        return new MockCacheStorageService(null, null);
                     }
                 },
-                Moh731ResourceService
             ]
         });
+        service = TestBed.get(Moh731ResourceService);
+        httpMok = TestBed.get(HttpTestingController);
+    });
+
+    afterAll(() => {
+        TestBed.resetTestingModule();
     });
 
     afterAll(() => {
@@ -50,31 +52,15 @@ describe('Moh731ResourceService Tests', () => {
     );
 
     it('should hit moh report end-point with the correct parameters',
-        (done) => {
-            let s: Moh731ResourceService = TestBed.get(Moh731ResourceService);
-            let backend: MockBackend = TestBed.get(MockBackend);
+        () => {
+            const s: Moh731ResourceService = TestBed.get(Moh731ResourceService);
             let triggeredBackend = false;
             let errorOnNext = false;
             const mockedResults = {
                 result: []
             };
 
-            backend.connections.subscribe((connection: MockConnection) => {
-                expect(connection.request.method).toBe(RequestMethod.Get);
-                expect(connection.request.url).toEqual('https://amrsreporting.ampath.or.ke:8002'
-                    + '/etl/MOH-731-report?locationUuids=uuid-1,uuid-2&startDate=2017-01-01'
-                    + '&endDate=2017-03-01&reportName=MOH-731-report-2017&isAggregated=true');
-                triggeredBackend = true;
-                if (!errorOnNext === true) {
-                    connection.mockRespond(new Response(
-                        new ResponseOptions({
-                            body: mockedResults
-                        }
-                        )));
-                } else {
-                    connection.mockError(new Error('unknown error'));
-                }
-            });
+            triggeredBackend = true;
 
             s.getMoh731Report('uuid-1,uuid-2', '2017-01-01', '2017-03-01', false, true)
                 .subscribe((result) => {
@@ -89,12 +75,22 @@ describe('Moh731ResourceService Tests', () => {
                         .subscribe((result2) => {
                             // didn't expect error at this point
                             expect(true).toBe(false); // force test to fail
-                            done();
                         }, (error) => {
                             expect(true).toBe(true);
-                            done();
                         });
                 });
+
+            const req = httpMok.expectOne('https://amrsreporting.ampath.or.ke:8002'
+                + '/etl/MOH-731-report?locationUuids=uuid-1,uuid-2&startDate=2017-01-01'
+                + '&endDate=2017-03-01&reportName=MOH-731-report-2017&isAggregated=true');
+            expect(req.request.method).toBe('GET');
+            if (!errorOnNext === true) {
+                req.flush(mockedResults);
+
+            } else {
+                req.flush({ type: Error, message: 'unknown error' });
+
+            }
         });
 
     it('should cache moh report data for specified amount of time',
@@ -103,17 +99,14 @@ describe('Moh731ResourceService Tests', () => {
                 result: []
             };
 
-            let s: Moh731ResourceService = TestBed.get(Moh731ResourceService);
-            let cacheService: DataCacheService = TestBed.get(DataCacheService);
+            const s: Moh731ResourceService = TestBed.get(Moh731ResourceService);
+            const cacheService: DataCacheService = TestBed.get(DataCacheService);
 
-            let spy = spyOn(cacheService, 'cacheSingleRequest')
+            const spy = spyOn(cacheService, 'cacheSingleRequest')
                 .and.callFake(() => {
-                    let subj = new BehaviorSubject<any>(mockedResults);
+                    const subj = new BehaviorSubject<any>(mockedResults);
                     return subj.asObservable();
                 });
-
-            let triggeredBackend = false;
-            let backendHitCount = 0;
 
             s.getMoh731Report('uuid-1,uuid-2', '2017-01-01', '2017-03-01', false, true,
                 5 * 60 * 1000) // cache for 5 minutes

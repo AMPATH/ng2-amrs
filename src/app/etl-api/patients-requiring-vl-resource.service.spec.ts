@@ -1,33 +1,30 @@
 import { async, inject, TestBed } from '@angular/core/testing';
-import {
-    BaseRequestOptions, Http, HttpModule, Response,
-    ResponseOptions, RequestMethod
-} from '@angular/http';
-import { MockBackend } from '@angular/http/testing';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
 import { CacheService, CacheModule } from 'ionic-cache';
-import { Observable } from 'rxjs';
-import { Router, ActivatedRoute } from '@angular/router';
 import {
     PatientsRequiringVLResourceService
 } from './patients-requiring-vl-resource.service';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
+
+class MockCacheStorageService {
+    constructor(a, b) { }
+}
 
 describe('Service : PatientsRequiringVL Resource Service Unit Tests', () => {
-
+    let service, httpMock;
     beforeEach(() => {
 
         TestBed.configureTestingModule({
-            imports: [CacheModule],
+            imports: [CacheModule, HttpClientTestingModule],
             providers: [
                 PatientsRequiringVLResourceService,
-                MockBackend,
-                BaseRequestOptions,
                 {
-                    provide: Http,
-                    useFactory: (backend, options) => new Http(backend, options),
-                    deps: [MockBackend, BaseRequestOptions]
+                    provide: CacheStorageService, useFactory: () => {
+                        return new MockCacheStorageService(null, null);
+                    }
                 },
                 AppSettingsService,
                 LocalStorageService,
@@ -36,7 +33,8 @@ describe('Service : PatientsRequiringVL Resource Service Unit Tests', () => {
             ]
 
         });
-
+        service = TestBed.get(PatientsRequiringVLResourceService);
+        httpMock = TestBed.get(HttpTestingController);
 
     });
 
@@ -44,7 +42,7 @@ describe('Service : PatientsRequiringVL Resource Service Unit Tests', () => {
         TestBed.resetTestingModule();
     });
 
-    let patientsRequiringVLResponse = {
+    const patientsRequiringVLResponse = {
         'startIndex': '0',
         'size': 100000,
         'result': [
@@ -94,29 +92,27 @@ describe('Service : PatientsRequiringVL Resource Service Unit Tests', () => {
     };
 
 
-    it('Should construct PatientsRequiringViralLoadOrder Resource Service', async(inject(
-        [PatientsRequiringVLResourceService, MockBackend],
-        (service, mockBackend) => {
-            expect(service).toBeDefined();
-        })));
+    it('Should construct PatientsRequiringViralLoadOrder Resource Service', async(() => {
+        expect(service).toBeDefined();
+    }));
 
     describe('Get PatientList', () => {
 
-        it('should hit right endpoint for getPatientList and get right response', async(inject(
+        it('should hit right endpoint for getPatientList and get right response', async(() => {
+            const reportParams = {
+                startDate: '2017-03-01',
+                locationUuids: '08fec056-1352-11df-a1f1-0026b9348838',
+                limit: 10,
+                endDate: '2017-04-27',
+            };
 
-            [PatientsRequiringVLResourceService, MockBackend],
-            (service, mockBackend) => {
-                mockBackend.connections.subscribe(conn => {
-                    expect(conn.request.url)
-                        .toContain('/etl/patients-requiring-viral-load-order');
-                    expect(conn.request.method).toBe(RequestMethod.Get);
-                });
+            service.getPatientList(reportParams).subscribe(res => {
+                expect(res).toEqual(patientsRequiringVLResponse);
+            });
+            /*const req = httpMock.expectOne(service.geturl() + 'patients-requiring-viral-load-order?' +
+            'startDate=2017-03-01&endDate=2017-04-27&locationUuids=08fec056-1352-11df-a1f1-0026b9348838&limit=10');*/
 
-                service.getPatientList().subscribe(res => {
-                    expect(res).toEqual(patientsRequiringVLResponse);
-                });
-
-            })));
+        }));
 
     });
 });
