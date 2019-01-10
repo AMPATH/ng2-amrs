@@ -4,7 +4,7 @@ import { AppSettingsService } from './app-settings.service';
 describe('AppSettingsServices Unit Tests', () => {
   let service: AppSettingsService;
   let localStorageService: LocalStorageService;
-  let url = 'http://example.url.com';
+  const url = 'http://example.url.com';
   let initialNumberOfOpenmrsUrls: number;
   let initialNumberOfEtlUrls: number;
   beforeAll(() => {
@@ -33,7 +33,7 @@ describe('AppSettingsServices Unit Tests', () => {
   });
 
   it('Should set ETL url to new value and add it to the list', () => {
-    let aUrl = 'http://another.url.ex';
+    const aUrl = 'http://another.url.ex';
     service.setEtlServer(aUrl);
     expect(service.getEtlServer()).toEqual(aUrl);
     expect(service.etlServerUrls.length).toEqual(initialNumberOfEtlUrls + 1);
@@ -51,7 +51,7 @@ describe('AppSettingsServices Unit Tests', () => {
 
   it('Should Return the correct openmrs base rest URL', () => {
     service.setOpenmrsServer(url);
-    let expected = url + '/ws/rest/v1/';
+    const expected = url + '/ws/rest/v1/';
     expect(service.getOpenmrsRestbaseurl()).toEqual(expected,
       'must be correct Openmrs REST base Url');
 
