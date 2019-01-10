@@ -1,10 +1,9 @@
 
  /* tslint:disable:no-unused-variable */
+ /* tslint:disable:import-blacklist */
 
  import { TestBed, async, fakeAsync, ComponentFixture, tick } from '@angular/core/testing';
  import { Observable } from 'rxjs/Rx';
- import { MockBackend, MockConnection } from '@angular/http/testing';
- import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@angular/http';
  import { ClinicDashboardCacheService } from '../../../services/clinic-dashboard-cache.service';
  import {
  ClinicalSummaryVisualizationResourceService
@@ -16,6 +15,7 @@
  import { ChartModule } from 'angular2-highcharts';
  import { Router, ActivatedRoute } from '@angular/router';
  import { PatientStatusIndicatorDefComponent } from './indicator-definition.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
  class DataStub {
 
  public getPatientCareStatusReport(payload): Observable<any> {
@@ -29,7 +29,7 @@
  }
  }
 
- let expectedResults = {
+ const expectedResults = {
  results: [
  {
  location_uuid: 'location-uuid',
@@ -51,13 +51,13 @@
  let fixture: ComponentFixture<PatientStatusOverviewComponent>;
  let comp: PatientStatusOverviewComponent;
  let dataStub: ClinicalSummaryVisualizationResourceService;
- let mockRouter = {
+ const mockRouter = {
    navigate: jasmine.createSpy('navigate')
    };
 
  beforeEach(async(() => {
    TestBed.configureTestingModule({
-   imports: [ TabViewModule, FieldsetModule, ButtonModule, GrowlModule,
+   imports: [ TabViewModule, FieldsetModule, ButtonModule, GrowlModule, HttpClientTestingModule,
    AccordionModule, ChartModule.forRoot(require('highcharts'))],
    declarations: [PatientStatusOverviewComponent, PatientStatusIndicatorDefComponent]
    }).overrideComponent(PatientStatusOverviewComponent, {
@@ -65,20 +65,12 @@
      providers: [
        { provide: ClinicalSummaryVisualizationResourceService, useClass: DataStub },
        { provide: ClinicDashboardCacheService, useClass: ClinicDashboardCacheServiceStub },
-       {
-       provide: Http, useFactory: (backend, options) => {
-       return new Http(backend, options);
-       },
-       deps: [MockBackend, BaseRequestOptions]
-       },
        { provide: Router, useValue: mockRouter },
        {
          provide: ActivatedRoute,
          useValue: { parent: { params: Observable.of({id: 'testId'}) }}
-       },
-       MockBackend,
-       BaseRequestOptions
-    ]
+       }
+    ],
    }
    }).compileComponents()
    .then(() => {
@@ -90,6 +82,10 @@
 
  afterAll(() => {
   TestBed.resetTestingModule();
+ });
+
+ it('should be defined', () => {
+   expect(comp).toBeTruthy();
  });
 
  it('should hit the success callback when getPatientCareStatusReport returns success',

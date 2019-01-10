@@ -35,8 +35,6 @@ public clinicDashboardDepts() {
 
         }
     });
-
-
 }
 
 public setDefaultDepartment(department) {
