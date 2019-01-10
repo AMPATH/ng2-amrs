@@ -1,5 +1,5 @@
 
-import {take} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { OnInit, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -27,27 +27,27 @@ export class HivSummaryIndicatorsPatientListComponent implements OnInit {
   public endAge: any;
   public gender: any;
   public locationUuids: Array<string>;
-  public startIndex: number = 0;
-  public isLoading: boolean = false;
-  public dataLoaded: boolean = false;
+  public startIndex = 0;
+  public isLoading = false;
+  public dataLoaded = false;
   public overrideColumns: Array<any> = [];
   public routeParamsSubscription: Subscription;
   constructor(public route: ActivatedRoute,
-              public router: Router,
-              public resourceService: HivSummaryIndicatorsResourceService,
-              private _location: Location) {
+    public router: Router,
+    public resourceService: HivSummaryIndicatorsResourceService,
+    private _location: Location) {
 
   }
 
   public ngOnInit() {
     this.routeParamsSubscription = this.route.params.subscribe((params) => {
       if (params) {
-        let period = params['period'].split('|');
+        const period = params['period'].split('|');
         this.getDateRange(period);
         this.locationUuids = params.locationUuids;
         this.indicator = params['indicator'];
         this.translatedIndicator = this.translateIndicator(this.indicator);
-        let age = params['age'].split('|');
+        const age = params['age'].split('|');
         this.getAgeRange(age);
         this.gender = params['gender'];
         this.overrideColumns.push({
@@ -67,8 +67,8 @@ export class HivSummaryIndicatorsPatientListComponent implements OnInit {
   }
 
   public getDateRange(period) {
-    let startDate = period[0].split('/');
-    let endDate = period[1].split('/');
+    const startDate = period[0].split('/');
+    const endDate = period[1].split('/');
     this.startDate = moment([startDate[2], startDate[1] - 1, startDate[0]]);
     this.endDate = moment([endDate[2], endDate[1] - 1, endDate[0]]);
 
