@@ -1,30 +1,24 @@
 import { of } from 'rxjs';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { TestBed, async, fakeAsync, ComponentFixture } from '@angular/core/testing';
-import * as _ from 'lodash';
-import * as Moment from 'moment';
-import { AgGridModule } from 'ag-grid-angular';
-import { OncologyMonthlyIndicatorSummaryComponent } from
-'./oncology-monthly-indicators.component';
-import { OncologySummaryFiltersComponent } from
-'../oncology-summary-filters/oncology-summary-filters.component';
-import { OncologySummaryIndicatorsTableComponent } from
-'../oncology-summary-indicators-table/oncology-summary-indicators-table.component';
-import { OncolgyMonthlySummaryIndicatorsResourceService }
-from '../../../../etl-api/oncology-summary-indicators-resource.service';
+import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+import { OncologyMonthlyIndicatorSummaryComponent
+} from './oncology-monthly-indicators.component';
+import { OncologySummaryFiltersComponent
+} from '../oncology-summary-filters/oncology-summary-filters.component';
+import { OncologySummaryIndicatorsTableComponent
+} from '../oncology-summary-indicators-table/oncology-summary-indicators-table.component';
+import { OncolgyMonthlySummaryIndicatorsResourceService
+} from '../../../../etl-api/oncology-summary-indicators-resource.service';
 import { OncologyReportService } from '../../../../etl-api/oncology-reports.service';
-import { Router, ActivatedRoute, Params } from '@angular/router';
-import { ReportFiltersComponent } from
-'../../../../../app/shared/report-filters/report-filters.component';
+import { Router, ActivatedRoute } from '@angular/router';
 
-import { AppFeatureAnalytics } from
-'../../../../shared/app-analytics/app-feature-analytics.service';
+import { AppFeatureAnalytics
+} from '../../../../shared/app-analytics/app-feature-analytics.service';
 import { Angulartics2 } from 'angulartics2';
 import { Angulartics2Piwik } from 'angulartics2/piwik';
-import { FakeAppFeatureAnalytics } from
-'../../../../shared/app-analytics/app-feature-analytcis.mock';
+import { FakeAppFeatureAnalytics
+} from '../../../../shared/app-analytics/app-feature-analytcis.mock';
 import { LocalStorageService } from '../../../../utils/local-storage.service';
 import { DataCacheService } from '../../../../shared/services/data-cache.service';
 import { CacheService } from 'ionic-cache';
@@ -34,13 +28,15 @@ import {
   } from '../../../../data-analytics-dashboard/services/data-analytics-dashboard.services';
 
 const getOncologySummaryService =
-jasmine.createSpyObj('OncolgyMonthlySummaryIndicatorsResourceService', ['getUrlRequestParams',
+jasmine.createSpyObj('OncolgyMonthlySummaryIndicatorsResourceService',
+  ['getUrlRequestParams',
 'getOncologySummaryMonthlyIndicatorsReport', 'getOncologySummaryMonthlyIndicatorsPatientList']);
 
 const getOncologyReportsService =
-jasmine.createSpyObj('OncologyReportService', ['getOncologyReports', 'getSpecificOncologyReport']);
+jasmine.createSpyObj('OncologyReportService',
+  ['getOncologyReports', 'getSpecificOncologyReport']);
 
-let mockReportsResponse: any = [
+const mockReportsResponse: any = [
     {
         'program': 'Test program 1',
         'uuid': 'uuid1',

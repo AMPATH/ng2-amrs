@@ -4,37 +4,36 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { TestBed, async, fakeAsync, ComponentFixture, tick, flush } from '@angular/core/testing';
-import { Observable } from 'rxjs';
-import 'rxjs/add/observable/of';
-import { MonthlyScheduleBaseComponent } from './monthly-schedule.component';
-import { MockBackend, MockConnection } from '@angular/http/testing';
-import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@angular/http';
-import { MonthlyScheduleResourceService } from '../../etl-api/monthly-scheduled-resource.service';
-// import { NgBusyModule } from 'ng-busy';
-import { CalendarModule, CalendarDateFormatter } from 'angular-calendar';
-import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
-import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
-import { ClinicDashboardCacheService }
-  from '../../clinic-dashboard/services/clinic-dashboard-cache.service';
-import { AppSettingsService } from '../../app-settings/app-settings.service';
-import { LocalStorageService } from '../../utils/local-storage.service';
-import { DataCacheService } from '../../shared/services/data-cache.service';
-import { CacheModule, CacheService } from 'ionic-cache';
-import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
-import { FakeAppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytcis.mock';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { Router, ActivatedRoute } from '@angular/router';
 import {
   MatProgressSpinnerModule, MatProgressBarModule, MatTabsModule,
   MatSlideToggleModule, MatDatepickerModule, MatNativeDateModule
 } from '@angular/material';
+
+import { Observable, of, throwError } from 'rxjs';
+import 'rxjs/add/observable/of';
+import { MonthlyScheduleBaseComponent } from './monthly-schedule.component';
+import { MonthlyScheduleResourceService } from '../../etl-api/monthly-scheduled-resource.service';
+import { CalendarModule } from 'angular-calendar';
+import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
+import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
+import { ClinicDashboardCacheService
+} from '../../clinic-dashboard/services/clinic-dashboard-cache.service';
+import { AppSettingsService } from '../../app-settings/app-settings.service';
+import { LocalStorageService } from '../../utils/local-storage.service';
+import { DataCacheService } from '../../shared/services/data-cache.service';
+import { CacheModule } from 'ionic-cache/dist/cache.module';
+import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
+import { FakeAppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytcis.mock';
 import {
   ProgramVisitEncounterSearchComponent
 } from './../../program-visit-encounter-search/program-visit-encounter-search.component';
 import { PatientProgramResourceService } from './../../etl-api/patient-program-resource.service';
-import { AngularMultiSelectModule }
-  from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
-import { DepartmentProgramsConfigService }
-  from './../../etl-api/department-programs-config.service';
+import { AngularMultiSelectModule
+} from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
+import { DepartmentProgramsConfigService
+} from './../../etl-api/department-programs-config.service';
 import {
   SelectDepartmentService
 } from './../../program-visit-encounter-search/program-visit-encounter-search.service';
@@ -50,7 +49,7 @@ class ClinicDashboardCacheServiceStub {
     return Observable.of('');
   }
 }
-let results = {
+const results = {
   'results': [
     {
       'date': '2017-02-01',
@@ -237,7 +236,6 @@ describe('MonthlyScheduleComponent', () => {
   let fixture: ComponentFixture<MonthlyScheduleBaseComponent>;
   let comp: MonthlyScheduleBaseComponent;
   let dataStub: MonthlyScheduleResourceService;
-  let patientProgramResourceService: PatientProgramResourceService;
   let departmentProgConfigService: DepartmentProgramsConfigService;
 
   beforeEach(async(() => {
@@ -248,6 +246,8 @@ describe('MonthlyScheduleComponent', () => {
         MatProgressSpinnerModule,
         MatProgressBarModule,
         MatDatepickerModule,
+        HttpClientTestingModule,
+        CacheModule.forRoot(),
         MatNativeDateModule,
         MatSlideToggleModule,
         NgxMyDatePickerModule.forRoot(),
@@ -263,13 +263,6 @@ describe('MonthlyScheduleComponent', () => {
         LocalStorageService,
         DataCacheService,
         SelectDepartmentService,
-        CacheService,
-        {
-          provide: Http, useFactory: (backend, options) => {
-            return new Http(backend, options);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
         { provide: Router, useClass: MockRouter },
         {
           provide: ActivatedRoute,
@@ -278,9 +271,7 @@ describe('MonthlyScheduleComponent', () => {
         {
           provide: AppFeatureAnalytics,
           useClass: FakeAppFeatureAnalytics
-        },
-        MockBackend,
-        BaseRequestOptions
+        }
       ]
     }).compileComponents()
       .then(() => {
@@ -297,8 +288,11 @@ describe('MonthlyScheduleComponent', () => {
 
   it('should hit the success callback when getMonthlySchedule returns success', fakeAsync(() => {
     const spy = spyOn(dataStub, 'getMonthlySchedule').and.returnValue(
-      Observable.of(results)
+      of(results)
     );
+    comp.params = {
+      startDate: '12-12-2016'
+    };
     comp.getAppointments();
 
     flush();
@@ -309,8 +303,11 @@ describe('MonthlyScheduleComponent', () => {
 
   it('should hit the error callback when getMonthlySchedule returns an error', fakeAsync(() => {
     const spy = spyOn(dataStub, 'getMonthlySchedule').and.returnValue(
-      Observable.throw({ error: '' })
+      throwError({ error: '' })
     );
+    comp.params = {
+      startDate: '12-12-2016'
+    };
     comp.getAppointments();
     flush();
     fixture.detectChanges();
@@ -319,7 +316,7 @@ describe('MonthlyScheduleComponent', () => {
   }));
 
   it('should format events when processEvents is called', () => {
-    let events = comp.processEvents(results.results);
+    const events = comp.processEvents(results.results);
     comp.dayClicked({ date: new Date(), events: [] });
     comp.dayClicked({ date: undefined, events: [] });
     fixture.detectChanges();

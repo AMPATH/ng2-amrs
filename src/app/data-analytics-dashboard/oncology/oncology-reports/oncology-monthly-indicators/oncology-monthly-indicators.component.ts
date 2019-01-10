@@ -3,8 +3,8 @@ import {take} from 'rxjs/operators';
 import { Component, OnInit, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { OncologyReportService } from '../../../../etl-api/oncology-reports.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { OncolgyMonthlySummaryIndicatorsResourceService }
-from '../../../../etl-api/oncology-summary-indicators-resource.service';
+import { OncolgyMonthlySummaryIndicatorsResourceService
+} from '../../../../etl-api/oncology-summary-indicators-resource.service';
 import * as Moment from 'moment';
 import * as _ from 'lodash';
 
@@ -15,18 +15,18 @@ import * as _ from 'lodash';
 })
 export class OncologyMonthlyIndicatorSummaryComponent implements OnInit, AfterViewInit {
 
-  public tittle: string  = '';
+  public tittle  = '';
   public monthlySummary: any = [];
   public params: any;
-  public reportType: string = '';
+  public reportType = '';
   public startDate: string = Moment().startOf('year').format('YYYY-MM-DD');
   public endDate: string = Moment().endOf('month').format('YYYY-MM-DD');
-  public startAge: number = 0;
-  public endAge: number = 120;
-  public indicators: string = '';
+  public startAge = 0;
+  public endAge = 120;
+  public indicators = '';
   public specificOncologyReport: any;
-  public reportUuid: string = '';
-  public reportIndex: number = 0;
+  public reportUuid = '';
+  public reportIndex = 0;
   public report: any;
   public currentReport: any;
   public gender: any = ['M', 'F'];
@@ -85,10 +85,10 @@ export class OncologyMonthlyIndicatorSummaryComponent implements OnInit, AfterVi
        this.indicators = params.indicators;
 
        if (typeof params.gender === 'string') {
-            let genderArray = [];
+            const genderArray = [];
             genderArray.push(params.gender);
             this.gender = genderArray;
-       }else {
+       } else {
         this.gender = params.gender;
        }
 
