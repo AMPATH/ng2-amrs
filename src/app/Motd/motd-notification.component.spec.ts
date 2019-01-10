@@ -7,11 +7,10 @@ import { DebugElement } from '@angular/core';
 import { MOTDNotificationComponent } from './motd-notification.component';
 import { MOTDNotificationService } from '../etl-api/motd.notification.service';
 import { CookieService } from 'ngx-cookie';
-import { Http, RequestMethod, BaseRequestOptions } from '@angular/http';
-import { MockBackend } from '@angular/http/testing';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import * as Moment from 'moment';
 import { CookieModule } from 'ngx-cookie';
+import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
 
 class MockRouter {
   navigate = jasmine.createSpy('navigate');
@@ -20,9 +19,9 @@ class MockActivatedRoute {
   params = of([{ 'id': 1 }]);
 }
 
-let today = Moment().format('YYYY-MM-DD');
+const today = Moment().format('YYYY-MM-DD');
 
-let motdNotifications = [
+const motdNotifications = [
   {
     'message_id': 1,
     'message': 'Power will be cut off from 9am - 5pm',
@@ -70,37 +69,28 @@ describe('Component : MOTD Notification', () => {
 
   let comp: MOTDNotificationComponent;
   let fixture: ComponentFixture<MOTDNotificationComponent>;
-  let de: DebugElement;
-  let el: HTMLElement;
   let nativeElement: any;
+  // tslint:disable-next-line:prefer-const
+  let httpMock: HttpTestingController;
 
   // async beforeEach
   beforeEach(async(() => {
 
-
     TestBed.configureTestingModule({
       imports: [
         CookieModule.forRoot(),
+        HttpClientTestingModule,
       ],
-      declarations: [MOTDNotificationComponent], // declare the test component
+      declarations: [MOTDNotificationComponent],
       providers: [
         CookieService,
         MOTDNotificationService,
-        MockBackend,
-        BaseRequestOptions,
         FakeAppSettingsService,
         LocalStorageService,
         AppSettingsService,
         MockRouter,
         MockActivatedRoute,
-        {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend,
-            defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
+        HttpClientTestingModule,
         { provide: Router, useClass: MockRouter }, {
           provide: ActivatedRoute,
           useClass: MockActivatedRoute
@@ -117,22 +107,34 @@ describe('Component : MOTD Notification', () => {
     fixture = TestBed.createComponent(MOTDNotificationComponent);
     comp = fixture.componentInstance;
     nativeElement = fixture.nativeElement;
-    let spy = spyOn(comp, 'getMotdNotifications');
+
 
     // Service from the root injector
-    let cookieService = fixture.debugElement.injector.get(CookieService);
-    let motdService = fixture.debugElement.injector.get(MOTDNotificationService);
-    let route = fixture.debugElement.injector.get(MockRouter);
-    let activatedRoute = fixture.debugElement.injector.get(MockActivatedRoute);
+    const cookieService = fixture.debugElement.injector.get(CookieService);
+    const motdService = fixture.debugElement.injector.get(MOTDNotificationService);
+    const route = fixture.debugElement.injector.get(MockRouter);
+    const activatedRoute = fixture.debugElement.injector.get(MockActivatedRoute);
 
   });
 
   afterAll(() => {
     TestBed.resetTestingModule();
+    httpMock.verify();
   });
 
   it('Should be create an instance of the component', async(() => {
     expect(comp).toBeDefined();
+  }));
+
+  it('Should call the get notification method ', async(() => {
+    const spy = spyOn(comp, 'getMotdNotifications');
+    fixture.detectChanges();
+    expect(comp.getMotdNotifications).toHaveBeenCalled();
+  }));
+  it('Should dismiss notifications ', async(() => {
+    const spy = spyOn(comp, 'dissmissNotification');
+    fixture.detectChanges();
+    expect(comp.displayNotifications.length).toEqual(0);
   }));
 
 });
