@@ -14,7 +14,7 @@ describe('VisitResourceService', () => {
     let service: VisitResourceService;
 
     let httpMock: HttpTestingController;
-    let getUrl = 'https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/visit';
+    const getUrl = 'https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/visit';
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -214,7 +214,7 @@ describe('VisitResourceService', () => {
                 'encounterProviders:(uuid,uuid,provider:(uuid,name),' +
                 'encounterRole:(uuid,name)),location:(uuid,name),' +
                 'visit:(uuid,visitType:(uuid,name))))');
-            req.flush({ body: JSON.stringify(singleResponse) })
+            req.flush({ body: JSON.stringify(singleResponse) });
         }));
 
         it('should parse errors from visits resource', async(() => {
@@ -253,7 +253,7 @@ describe('VisitResourceService', () => {
         };
         beforeEach(() => {
             appSettingsService = TestBed.get(AppSettingsService);
-        })
+        });
         it('should return null when params are not specified', async(() => {
 
             httpMock.expectNone({});
@@ -268,7 +268,7 @@ describe('VisitResourceService', () => {
             }).subscribe();
 
             const req = httpMock.expectOne(`${appSettingsService.getOpenmrsRestbaseurl().trim()}visittype`);
-            expect(req.request.url).toContain('/ws/rest/v1/visittype')
+            expect(req.request.url).toContain('/ws/rest/v1/visittype');
             expect(req.request.method).toBe('GET');
         }));
         it('should parse response from visit type resource', (done) => {
@@ -282,9 +282,9 @@ describe('VisitResourceService', () => {
             });
 
             const req = httpMock.expectOne(`${appSettingsService.getOpenmrsRestbaseurl().trim()}visittype`);
-            expect(req.request.url).toContain('/ws/rest/v1/visittype')
+            expect(req.request.url).toContain('/ws/rest/v1/visittype');
             expect(req.request.method).toBe('GET');
-            req.flush({ body: visitTypesResponse })
+            req.flush({ body: visitTypesResponse });
         });
         it('should parse errors from visit types resource', async(() => {
             const result = service.getVisitTypes({
@@ -297,9 +297,9 @@ describe('VisitResourceService', () => {
                 expect(err).toBe('404 - val');
             });
             const req = httpMock.expectOne(`${appSettingsService.getOpenmrsRestbaseurl().trim()}visittype`);
-            expect(req.request.url).toContain('/ws/rest/v1/visittype')
+            expect(req.request.url).toContain('/ws/rest/v1/visittype');
             expect(req.request.method).toBe('GET');
-            req.flush({ type: 'error', status: 404, statusText: 'val' })
+            req.flush({ type: 'error', status: 404, statusText: 'val' });
         }));
     });
 
@@ -331,7 +331,7 @@ describe('VisitResourceService', () => {
             const result = service.saveVisit(newVisitMock).subscribe();
 
             const req = httpMock.expectOne(getUrl);
-            expect(req.request.url).toContain('/ws/rest/v1/visit')
+            expect(req.request.url).toContain('/ws/rest/v1/visit');
             expect(req.request.method).toBe('POST');
         }));
         it('should parse response from visit save resource', async(() => {
@@ -342,9 +342,9 @@ describe('VisitResourceService', () => {
             });
 
             const req = httpMock.expectOne(getUrl);
-            expect(req.request.url).toContain('/ws/rest/v1/visit')
+            expect(req.request.url).toContain('/ws/rest/v1/visit');
             expect(req.request.method).toBe('POST');
-            req.flush(newVisitResponse)
+            req.flush(newVisitResponse);
         }));
         it('should parse errors from visit save resource', async(() => {
             const result = service.saveVisit(newVisitMock);
@@ -355,9 +355,9 @@ describe('VisitResourceService', () => {
                 expect(err).toBe('404 - val');
             });
             const req = httpMock.expectOne(getUrl);
-            expect(req.request.url).toContain('/ws/rest/v1/visit')
+            expect(req.request.url).toContain('/ws/rest/v1/visit');
             expect(req.request.method).toBe('POST');
-            req.flush({ type: 'error', status: 404, statusText: 'val' })
+            req.flush({ type: 'error', status: 404, statusText: 'val' });
         }));
     });
 
@@ -389,7 +389,7 @@ describe('VisitResourceService', () => {
 
             const result = service.updateVisit(uuid, visitMock).subscribe();
             const req = httpMock.expectOne(`${getUrl}/${uuid}`);
-            expect(req.request.url).toContain(`/ws/rest/v1/visit/${uuid}`)
+            expect(req.request.url).toContain(`/ws/rest/v1/visit/${uuid}`);
             expect(req.request.method).toBe('POST');
         }));
         it('should parse response from visit update resource', async(() => {

@@ -1,13 +1,12 @@
 
-import {take} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 
-import {throwError as observableThrowError,  Observable, forkJoin ,  Subject } from 'rxjs';
+import { throwError as observableThrowError, Observable, forkJoin, Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
 
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
-import { ProgramEnrollmentResourceService } from
-  '../../../openmrs-api/program-enrollment-resource.service';
+import { ProgramEnrollmentResourceService } from '../../../openmrs-api/program-enrollment-resource.service';
 
 @Injectable()
 export class DifferentiatedCareReferralService {
@@ -30,7 +29,7 @@ export class DifferentiatedCareReferralService {
   ) { }
 
   public toOpenmrsDateFormat(dateToConvert: any): string {
-    let date = moment(dateToConvert);
+    const date = moment(dateToConvert);
     if (date.isValid()) {
       return date.format('YYYY-MM-DDTHH:mm:ssZ');
     }
@@ -41,7 +40,7 @@ export class DifferentiatedCareReferralService {
     patient: any, providerUuid: string, encounterDateTime: Date,
     rtcDate: Date, locationUuid: string): string {
 
-    let patientUuid = patient.uuid;
+    const patientUuid = patient.uuid;
     if (!(patientUuid && patientUuid !== '')) {
       return 'Patient is required';
     }
@@ -67,17 +66,17 @@ export class DifferentiatedCareReferralService {
   public referToDifferentiatedCare(
     patient: any, providerUuid: string, encounterDateTime: Date,
     rtcDate: Date, locationUuid: string): Observable<any> {
-    let finalSubject = new Subject<any>();
+    const finalSubject = new Subject<any>();
 
-    let validity = this.validateReferralInputs(patient, providerUuid, encounterDateTime,
+    const validity = this.validateReferralInputs(patient, providerUuid, encounterDateTime,
       rtcDate, locationUuid);
     if (validity !== '') {
       return observableThrowError(validity);
     }
 
-    let patientUuid = patient.uuid;
+    const patientUuid = patient.uuid;
 
-    let status = {
+    const status = {
       successful: false,
       alreadyReferred: false,
       encounterCreation: {
@@ -106,7 +105,7 @@ export class DifferentiatedCareReferralService {
       }, 20);
     } else {
 
-      let activePrograms = this.filterOutHivActivePrograms(patient.enrolledPrograms);
+      const activePrograms = this.filterOutHivActivePrograms(patient.enrolledPrograms);
 
       // Step 1: Unenroll from other programs
       if (activePrograms.length === 0) {
@@ -115,49 +114,49 @@ export class DifferentiatedCareReferralService {
       } else {
         this.endProgramEnrollments(activePrograms, encounterDateTime).pipe(
           take(1)).subscribe(
-          (response) => {
-            status.otherHivProgUnenrollment.unenrolledFrom = activePrograms;
-            status.otherHivProgUnenrollment.done = true;
-            this.onReferralStepCompletion(status, finalSubject);
-          },
-          (error) => {
-            status.otherHivProgUnenrollment.done = true;
-            status.otherHivProgUnenrollment.error = error;
-            this.onReferralStepCompletion(status, finalSubject);
-          }
+            (response) => {
+              status.otherHivProgUnenrollment.unenrolledFrom = activePrograms;
+              status.otherHivProgUnenrollment.done = true;
+              this.onReferralStepCompletion(status, finalSubject);
+            },
+            (error) => {
+              status.otherHivProgUnenrollment.done = true;
+              status.otherHivProgUnenrollment.error = error;
+              this.onReferralStepCompletion(status, finalSubject);
+            }
           );
       }
 
       // Step 2: Enroll in Diff Care program
       this.enrollPatientToDifferentiatedCare(patientUuid, encounterDateTime, locationUuid).pipe(
         take(1)).subscribe(
-        (response) => {
-          status.diffCareProgramEnrollment.enrolled = response;
-          status.diffCareProgramEnrollment.done = true;
-          this.onReferralStepCompletion(status, finalSubject);
-        },
-        (error) => {
-          status.diffCareProgramEnrollment.done = true;
-          status.diffCareProgramEnrollment.error = error;
-          this.onReferralStepCompletion(status, finalSubject);
-        }
+          (response) => {
+            status.diffCareProgramEnrollment.enrolled = response;
+            status.diffCareProgramEnrollment.done = true;
+            this.onReferralStepCompletion(status, finalSubject);
+          },
+          (error) => {
+            status.diffCareProgramEnrollment.done = true;
+            status.diffCareProgramEnrollment.error = error;
+            this.onReferralStepCompletion(status, finalSubject);
+          }
         );
 
       // Step 3: Fill in encounter containing rtc date
       this.createDifferentiatedCareEncounter(patientUuid, providerUuid, encounterDateTime,
         rtcDate, locationUuid).pipe(
-        take(1)).subscribe(
-        (response) => {
-          status.encounterCreation.created = response;
-          status.encounterCreation.done = true;
-          this.onReferralStepCompletion(status, finalSubject);
-        },
-        (error) => {
-          status.encounterCreation.done = true;
-          status.encounterCreation.error = error;
-          this.onReferralStepCompletion(status, finalSubject);
-        }
-        );
+          take(1)).subscribe(
+            (response) => {
+              status.encounterCreation.created = response;
+              status.encounterCreation.done = true;
+              this.onReferralStepCompletion(status, finalSubject);
+            },
+            (error) => {
+              status.encounterCreation.done = true;
+              status.encounterCreation.error = error;
+              this.onReferralStepCompletion(status, finalSubject);
+            }
+          );
     }
     return finalSubject;
   }
@@ -204,7 +203,7 @@ export class DifferentiatedCareReferralService {
     if (patientEnrollments.length === 0) {
       return [];
     }
-    let activeHivPrograms = [];
+    const activeHivPrograms = [];
     patientEnrollments.forEach((enrollment) => {
       if (enrollment.baseRoute === 'hiv' &&
         moment(enrollment.dateEnrolled).isValid() &&
@@ -238,7 +237,7 @@ export class DifferentiatedCareReferralService {
 
   public endProgramEnrollments(patientEnrollments: Array<any>, dateCompleted: Date):
     Observable<any> {
-    let allprogramsObservables: Array<Observable<any>> = [];
+    const allprogramsObservables: Array<Observable<any>> = [];
 
     patientEnrollments.forEach((enrollment) => {
       if (enrollment.enrolledProgram) {
@@ -252,7 +251,7 @@ export class DifferentiatedCareReferralService {
   }
 
   private onReferralStepCompletion(status: any, finalSubject: Subject<any>) {
-    let done =
+    const done =
       status.encounterCreation.done &&
       status.otherHivProgUnenrollment.done &&
       status.diffCareProgramEnrollment.done;

@@ -18,14 +18,14 @@ export class PatientRelationshipResourceService {
 
   public getPatientRelationships(uuid: string): Observable<any> {
 
-    let url = this.getUrl();
-    let v: string = 'full';
+    const url = this.getUrl();
+    const v = 'full';
 
     if (!uuid) {
       return null;
     }
 
-    let params: HttpParams = new HttpParams()
+    const params: HttpParams = new HttpParams()
     .set('v', v)
     .set('person', uuid);
 
@@ -40,7 +40,7 @@ export class PatientRelationshipResourceService {
     if (!payload) {
       return null;
     }
-    let url = this.getUrl();
+    const url = this.getUrl();
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post(url, payload, {headers});
   }
@@ -49,7 +49,7 @@ export class PatientRelationshipResourceService {
     if (!payload || !uuid) {
       return null;
     }
-    let url = this.getUrl() + '/' + uuid;
+    const url = this.getUrl() + '/' + uuid;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post(url, payload, {headers});
   }

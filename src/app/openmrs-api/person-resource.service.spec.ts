@@ -33,8 +33,8 @@ describe('Service: PersonResourceService Unit Tests', () => {
     TestBed.resetTestingModule();
   });
 
-  let personuid = 'uuid';
-  let personPayload = {
+  const personuid = 'uuid';
+  const personPayload = {
     age: 21,
     names: [
       {
@@ -69,7 +69,7 @@ describe('Service: PersonResourceService Unit Tests', () => {
 
   it('should be injected with all dependencies', () => {
     expect(service).toBeDefined();
-  })
+  });
 
   it('should return a person when the correct uuid is provided without v', (done) => {
 

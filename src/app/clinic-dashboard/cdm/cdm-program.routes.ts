@@ -4,8 +4,7 @@ import { CdmDailyScheduleComponent } from './daily-schedule/daily-schedule.compo
 import { CdmMonthlyScheduleComponent } from './monthly-schedule/monthly-schedule.component';
 import { DailyScheduleVisitsComponent
 } from '../../clinic-schedule-lib/daily-schedule/daily-schedule-visits.component';
-import { DailyScheduleAppointmentsComponent }
-  from '../../clinic-schedule-lib/daily-schedule/daily-schedule-appointments.component';
+import { DailyScheduleAppointmentsComponent } from '../../clinic-schedule-lib/daily-schedule/daily-schedule-appointments.component';
 import { DailyScheduleNotReturnedComponent
 } from '../../clinic-schedule-lib/daily-schedule/daily-schedule-not-returned.component';
 import { DailyScheduleClinicFlowComponent

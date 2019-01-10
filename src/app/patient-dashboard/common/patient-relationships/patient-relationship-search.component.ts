@@ -1,5 +1,5 @@
 
-import {take} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import {
     Component, OnInit, ViewEncapsulation,
     ViewChild, EventEmitter, Output, OnDestroy
@@ -8,7 +8,8 @@ import { Router } from '@angular/router';
 import { PatientSearchService } from '../../../patient-search/patient-search.service';
 import { Patient } from '../../../models/patient.model';
 import * as _ from 'lodash';
-import { PatientRelationshipService
+import {
+    PatientRelationshipService
 } from './patient-relationship.service';
 import { Subscription } from 'rxjs';
 
@@ -21,18 +22,19 @@ import { Subscription } from 'rxjs';
 export class PatientRelationshipSearchComponent implements OnInit, OnDestroy {
     public searchString: string;
     public patients: Patient[];
-    public isResetButton: boolean = true;
+    public isResetButton = true;
     public totalPatients: number;
-    public isLoading: boolean = false;
-    public page: number = 1;
+    public isLoading = false;
+    public page = 1;
     public patientToBindRelationship: any;
+    // tslint:disable-next-line:no-output-on-prefix
     @Output() public onPatientToBindRelationship = new EventEmitter();
     public subscription: Subscription;
-    public searchPanelVisible: boolean = false;
+    public searchPanelVisible = false;
     public errorMessage: string;
 
     constructor(private patientSearchService: PatientSearchService, private router: Router,
-                private patientRelationshipService: PatientRelationshipService) {
+        private patientRelationshipService: PatientRelationshipService) {
     }
 
     public ngOnInit() {
@@ -63,22 +65,22 @@ export class PatientRelationshipSearchComponent implements OnInit, OnDestroy {
             this.patients = [];
             this.subscription = this.patientSearchService
                 .searchPatientToBindRelationship(this.searchString, false).pipe(
-                take(1)).subscribe(
-                (data) => {
-                    if (data.length > 0) {
-                        this.patients = data;
-                        this.totalPatients = this.patients.length;
-                        this.isLoading = false;
-                    }
-                    this.isLoading = false;
+                    take(1)).subscribe(
+                        (data) => {
+                            if (data.length > 0) {
+                                this.patients = data;
+                                this.totalPatients = this.patients.length;
+                                this.isLoading = false;
+                            }
+                            this.isLoading = false;
 
-                },
-                (error) => {
-                    this.isLoading = false;
-                    console.error('error', error);
-                    this.errorMessage = error;
-                }
-                );
+                        },
+                        (error) => {
+                            this.isLoading = false;
+                            console.error('error', error);
+                            this.errorMessage = error;
+                        }
+                    );
 
             this.isResetButton = true;
 
