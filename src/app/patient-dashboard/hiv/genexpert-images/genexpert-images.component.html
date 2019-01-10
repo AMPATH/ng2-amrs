@@ -1,0 +1,52 @@
+<div>
+        <div class="loader" *ngIf="busy"><span><i class="fa fa-spinner fa-spin">
+            </i>Loading please wait...</span>
+          </div>
+    <h4 class="component-title"><span class="icon-i-laboratory"></span>Gene Xpert Images</h4>
+    <div>
+      <div class="table-responsive">
+        <table class="table table-striped ">
+          <thead>
+          <tr>
+            <th>Result Date</th>
+            <th>View</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let image of images">
+            <td>
+              {{image.obsDatetime | date}}
+            </td>
+            <td>
+              <button (click)="showImage(image)" class="btn btn-primary" >
+                <span class="fa fa-eye" aria-hidden="true"></span>
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+  
+      </div>
+      <div>
+      </div>
+  
+    </div>
+  
+    <div class="modal fade" bsModal #imageModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1"
+         role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title pull-left">Gene Expert Image {{this.resultDate | date}}</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="imageModal.hide()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" *ngIf="imageLink">
+            <img [src]="imageLink | secure" class="img-responsive">
+  
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

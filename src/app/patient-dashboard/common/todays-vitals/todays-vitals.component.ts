@@ -96,7 +96,7 @@ export class TodaysVitalsComponent implements OnInit, OnDestroy {
           .then((data: any) => {
             if (data) {
               this.loadingTodaysVitals = false;
-              this.todaysVitals = data;
+              this.todaysVitals = _.filter(data, 'show');
               this.dataLoaded = true;
             }
           }).catch((error) => {

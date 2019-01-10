@@ -53,6 +53,11 @@
           "url": "group-enrollment",
           "label": "Group Enrollment",
           "icon": "fa fa-users"
+        },
+        {
+          "url": "patient-gene-xpert-images",
+          "label": "Gene Xpert Images",
+          "icon": "icon-i-laboratory"
         }
       ]
     },

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AppSettingsService } from '../app-settings/app-settings.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 @Injectable()
 export class ObsResourceService {
@@ -18,7 +18,7 @@ export class ObsResourceService {
     }
     let url = this.getUrl() + 'obs';
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post(url, JSON.stringify(payload), {headers});
+    return this.http.post(url, JSON.stringify(payload), { headers });
   }
 
   public updateObs(uuid, payload) {
@@ -27,7 +27,7 @@ export class ObsResourceService {
     }
     let url = this.getUrl() + 'obs/' + uuid;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post(url, JSON.stringify(payload), {headers});
+    return this.http.post(url, JSON.stringify(payload), { headers });
   }
 
   public voidObs(uuid) {
@@ -36,7 +36,13 @@ export class ObsResourceService {
     }
     let url = this.getUrl() + 'obs/' + uuid + '?!purge';
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.delete(url, {headers});
+    return this.http.delete(url, { headers });
+  }
+
+  public getObsPatientObsByConcept(uuid, conceptUuuid) {
+    let url = this.getUrl() + 'obs';
+    let params = new HttpParams().set('patient', uuid).set('concept', conceptUuuid).set('v', 'full');
+    return this.http.get(url, { params: params });
   }
 
 }

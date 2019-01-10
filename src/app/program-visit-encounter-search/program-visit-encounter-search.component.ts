@@ -539,8 +539,8 @@ public setFiltersFromUrlParams(params, mapObj) {
     }
 
     public setFilter() {
-      const params = this.getParams();
       this.filterReset = false;
+      const params = this.getParams();
       this.emitParams(params);
       this.filterSet = true;
     }
