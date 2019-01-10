@@ -15,7 +15,7 @@ import { Subscription } from 'rxjs';
     `
 })
 export class DraftedFormNavComponent implements OnInit, OnDestroy {
-  public isDraftFormPresent: boolean = false;
+  public isDraftFormPresent = false;
   public subscription: Subscription;
   private patientUuid;
 
@@ -60,6 +60,7 @@ export class DraftedFormNavComponent implements OnInit, OnDestroy {
     this.isDraftFormPresent = false;
     const snapshot = this.draftedFormsService.getRouteSnapshot();
     const urlPaths = [];
+    // tslint:disable-next-line:no-shadowed-variable
     for (const url of snapshot.url) {
       urlPaths.push(url.path);
     }

@@ -1,5 +1,4 @@
 import { FormOrderMetaDataService } from './../forms/form-order-metadata.service';
-import { NgModel } from '@angular/forms';
 import { FormVisitTypeSearchComponent } from './form-visit-type-search.component';
 import { FormListService } from '../forms/form-list.service';
 import { PatientProgramResourceService } from '../../../etl-api/patient-program-resource.service';
@@ -22,7 +21,9 @@ export const visitTypeSearchRoutes: ModuleWithProviders = RouterModule.forChild(
       FormOrderMetaDataService
   ],
   imports: [
-    visitTypeSearchRoutes,FormsModule,CommonModule
+    visitTypeSearchRoutes,
+    FormsModule,
+    CommonModule
   ]
 })
 

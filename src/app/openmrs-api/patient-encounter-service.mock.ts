@@ -6,15 +6,15 @@ import { EncounterResourceService } from '../openmrs-api/encounter-resource.serv
  * FakeEncounterResourceService
  */
 export class FakeEncounterResourceService {
-    public returnErrorOnNext: boolean = false;
+    public returnErrorOnNext = false;
     constructor() {
     }
     public getEncountersByPatientUuid(
         patientuuid: string,
         cached: boolean = false,
         v: string = null): Observable<any> {
-        let test: BehaviorSubject<any> = new BehaviorSubject<any>([]);
-        let encounters = [
+        const test: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+        const encounters = [
             {
                 uuid: 'uuid',
                 display: 'the encounter',

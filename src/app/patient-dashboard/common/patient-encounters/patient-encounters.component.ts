@@ -20,11 +20,11 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
   public encounters: Encounter[];
   public selectedEncounter: Encounter;
   public onEncounterDetail: number;
-  public pretty: boolean = false;
+  public pretty = false;
   public messageType: string;
   public message: string;
   public isVisible: boolean;
-  public dataLoading: boolean = false;
+  public dataLoading = false;
   public patient: any;
   public errors: any = [];
   public encounterTypes: any = [];
@@ -34,9 +34,9 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
   };
   private subscription: Subscription;
   constructor(private patientEncounterService: PatientEncounterService,
-              private patientService: PatientService,
-              private appFeatureAnalytics: AppFeatureAnalytics,
-              private router: Router, private route: ActivatedRoute) { }
+    private patientService: PatientService,
+    private appFeatureAnalytics: AppFeatureAnalytics,
+    private router: Router, private route: ActivatedRoute) { }
   public ngOnInit() {
     this.getPatient();
     // load cached result
@@ -76,22 +76,22 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
         });
   }
   public loadEncounterTypes(encounters) {
-      if (encounters.length > 0) {
-            encounters.forEach((encounter) => {
-               this.encounterTypes.push(encounter.encounterType.display);
-            });
+    if (encounters.length > 0) {
+      encounters.forEach((encounter) => {
+        this.encounterTypes.push(encounter.encounterType.display);
+      });
 
-            this.sortEncounterTpes();
-      }
+      this.sortEncounterTpes();
+    }
 
   }
   public sortEncounterTpes() {
 
-       let newUniqueEncounterTypes = _.uniq(this.encounterTypes);
+    const newUniqueEncounterTypes = _.uniq(this.encounterTypes);
 
-       let sortByAlphOrder = _.sortBy(newUniqueEncounterTypes);
+    const sortByAlphOrder = _.sortBy(newUniqueEncounterTypes);
 
-       this.encounterTypes = sortByAlphOrder;
+    this.encounterTypes = sortByAlphOrder;
 
   }
   public getPatient() {

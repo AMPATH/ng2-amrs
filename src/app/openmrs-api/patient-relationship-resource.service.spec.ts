@@ -30,7 +30,7 @@ describe('Service: Pratient Relationship ResourceService', () => {
     TestBed.resetTestingModule();
   });
 
-  let patientRelationshipResponse = {
+  const patientRelationshipResponse = {
     results: [
       {
         uuid: 'c7a62ab1-f034-4da3-bdce-87ce655521b8',
@@ -54,7 +54,7 @@ describe('Service: Pratient Relationship ResourceService', () => {
       }]
   };
 
-  let relationshipPayload = {
+  const relationshipPayload = {
     personA: 'personAuuid',
     relationshipType: 'relationshipTypeUUid',
     personB: 'personBuuid',
@@ -78,14 +78,14 @@ describe('Service: Pratient Relationship ResourceService', () => {
 
   it('should call the right endpoint when getting person relationships', (done) => {
 
-    let personUuid = 'uuid';
+    const personUuid = 'uuid';
 
     service.getPatientRelationships(personUuid)
       .subscribe((response) => {
         done();
       });
 
-    const req = httpMock.expectOne(service.getUrl() + '?v=full&person=uuid')
+    const req = httpMock.expectOne(service.getUrl() + '?v=full&person=uuid');
     expect(req.request.method).toBe('GET');
     expect(req.request.urlWithParams).toContain('?v=full');
     req.flush(JSON.stringify(patientRelationshipResponse));
@@ -106,7 +106,7 @@ describe('Service: Pratient Relationship ResourceService', () => {
         done();
       });
 
-    const req = httpMock.expectOne(service.getUrl())
+    const req = httpMock.expectOne(service.getUrl());
     expect(req.request.method).toBe('POST');
     expect(req.request.url).toBe('https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/relationship');
     req.flush(JSON.stringify(patientRelationshipResponse));
@@ -134,21 +134,21 @@ describe('Service: Pratient Relationship ResourceService', () => {
 
 
   it('should return null when PatientUuid not specified'
-    + 'when deleting person relationships', async(() => {
+    + 'when deconsting person relationships', async(() => {
       httpMock.expectNone({});
       const result = service.deleteRelationship(null);
       expect(result).toBeNull();
     }));
 
-  it('should call the right endpoint when deleting person relationships', (done) => {
-    let relationshipUuid = 'uuid';
+  it('should call the right endpoint when deconsting person relationships', (done) => {
+    const relationshipUuid = 'uuid';
 
     service.deleteRelationship(relationshipUuid)
       .subscribe((response) => {
         done();
       });
 
-    const req = httpMock.expectOne(service.getUrl() + '/' + relationshipUuid)
+    const req = httpMock.expectOne(service.getUrl() + '/' + relationshipUuid);
     expect(req.request.method).toBe('DELETE');
     expect(req.request.url).toBe('https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/relationship/uuid');
     req.flush(JSON.stringify(patientRelationshipResponse));

@@ -34,15 +34,15 @@ describe('PatientService Unit Tests', () => {
 
   it('should be injected with all dependencies', () => {
     expect(service).toBeDefined();
-  })
+  });
 
   it('should return null when no patient uuid is provided', () => {
     httpMock.expectNone({});
-    let results = service.getPatientByUuid(null);
-  })
+    const results = service.getPatientByUuid(null);
+  });
   it('should return a patient when the correct uuid is provided without v', (done) => {
 
-    let patientUuid = 'xxx-xxx-xxx-xxx';
+    const patientUuid = 'xxx-xxx-xxx-xxx';
 
     service.getPatientByUuid(patientUuid)
       .subscribe((response) => {
@@ -65,7 +65,7 @@ describe('PatientService Unit Tests', () => {
   });
   it('should return a patient when the correct uuid is provided', (done) => {
 
-    let patientUuid = 'xxx-xxx-xxx-xxx';
+    const patientUuid = 'xxx-xxx-xxx-xxx';
 
     service.getPatientByUuid(patientUuid, false, '9')
       .subscribe((response) => {
@@ -82,14 +82,14 @@ describe('PatientService Unit Tests', () => {
 
   it('should return a list of patients when a matching search string is provided without v', (done) => {
 
-    let searchText = 'test';
+    const searchText = 'test';
 
-    let results = [
+    const results = [
       {
         uuid: 'xxx-xxx-xxx-xxx',
         identifiers: {}
       }
-    ]
+    ];
     service.searchPatient(searchText)
       .subscribe((result) => {
         expect(results.length).toBeGreaterThan(0);
@@ -113,14 +113,14 @@ describe('PatientService Unit Tests', () => {
   });
   it('should return a list of patients when a matching search string is provided with v', (done) => {
 
-    let searchText = 'test';
+    const searchText = 'test';
 
-    let results = [
+    const results = [
       {
         uuid: 'xxx-xxx-xxx-xxx',
         identifiers: {}
       }
-    ]
+    ];
     service.searchPatient(searchText, false, '9')
       .subscribe((data) => {
         done();
@@ -137,15 +137,15 @@ describe('PatientService Unit Tests', () => {
 
   it('it should return null when saveUpdatePatientIdentifier called with no argumnets', () => {
     httpMock.expectNone({});
-    let results = service.saveUpdatePatientIdentifier(null, null, null);
+    const results = service.saveUpdatePatientIdentifier(null, null, null);
     expect(results).toBeNull();
-  })
+  });
 
   it('should return a list of patients when a matching search string is provided with v', (done) => {
 
-    let payload = {};
-    let uuid = 'xxx-xxx-xxx-xxx'
-    let identifier = 'xxx-xxx-xxx-xxx'
+    const payload = {};
+    const uuid = 'xxx-xxx-xxx-xxx';
+    const identifier = 'xxx-xxx-xxx-xxx';
 
     service.saveUpdatePatientIdentifier(uuid, identifier, payload)
       .subscribe((data) => {
@@ -160,9 +160,9 @@ describe('PatientService Unit Tests', () => {
 
   });
   it('should throw an error when server returns an error response', () => {
-    let searchText = 'test';
+    const searchText = 'test';
 
-    service.searchPatient(searchText).subscribe()
+    service.searchPatient(searchText).subscribe();
     const req = httpMock.expectOne(service.getUrl() + '?q=' + searchText +
     '&v=custom:(uuid,display,' +
     'identifiers:(identifier,uuid,preferred,location:(uuid,name),' +
@@ -177,4 +177,4 @@ describe('PatientService Unit Tests', () => {
     expect(req.request.method).toBe('GET');
   });
 
-})
+});

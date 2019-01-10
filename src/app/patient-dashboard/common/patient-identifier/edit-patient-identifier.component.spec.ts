@@ -1,5 +1,4 @@
-import { MockBackend } from '@angular/http/testing';
-import { Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
+// tslint:disable:prefer-const
 import { TestBed, inject, async } from '@angular/core/testing';
 
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
@@ -17,10 +16,17 @@ import {
 import { CacheModule, CacheService } from 'ionic-cache';
 import { PatientResourceService } from '../../../openmrs-api/patient-resource.service';
 import { UserService } from '../../../openmrs-api/user.service';
-import { PatientCreationResourceService
+import {
+  PatientCreationResourceService
 } from '../../../openmrs-api/patient-creation-resource.service';
 import { DataCacheService } from '../../../shared/services/data-cache.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
 
+class FakeCacheStorageService {
+  constructor(a, b) { }
+
+}
 describe('Component: EditPatientIdentifierComponent Unit Tests', () => {
 
   let personResourceService: PersonResourceService,
@@ -35,22 +41,20 @@ describe('Component: EditPatientIdentifierComponent Unit Tests', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        CacheModule
+        CacheModule,
+        HttpClientTestingModule
       ],
       providers: [
-        MockBackend,
-        BaseRequestOptions,
         FakeAppFeatureAnalytics,
         LocationResourceService,
         PatientIdentifierTypeResService,
         DataCacheService,
         CacheService,
         {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
+          provide: CacheStorageService, useFactory: () => {
+            return new FakeCacheStorageService(null, null);
           },
-          deps: [MockBackend, BaseRequestOptions]
+          deps: []
         },
         {
           provide: AppFeatureAnalytics,

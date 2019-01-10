@@ -26,7 +26,7 @@ export class TodaysVitalsService {
     this.patient = patient;
     this.dataSources = sources || [];
     return new Promise((resolve, reject) => {
-      for (let encounterItem of todaysEncounters) {
+      for (const encounterItem of todaysEncounters) {
         this.getVitalsFromObs(encounterItem.obs);
       }
       resolve(this.vitalsDataSource.dataSources);
@@ -38,8 +38,8 @@ export class TodaysVitalsService {
     let createdVital: any;
     _.each(this.dataSources, (source) => {
       const vitalSource = new source(new Vital({}), this.patient);
-      for (let obs of obsArray) {
-        let ob = obs;
+      for (const obs of obsArray) {
+        const ob = obs;
         if (typeof ob.concept !== 'undefined') {
           createdVital = vitalSource.getVitals(ob, this.vitalsDataSource);
           if (typeof createdVital !== 'undefined' && createdVital.name) {
@@ -50,7 +50,7 @@ export class TodaysVitalsService {
           }
         }
       }
-      if(!this.vitalsDataSource.hasVital('bmi')) {
+      if (!this.vitalsDataSource.hasVital('bmi')) {
         this.vitalsDataSource.addToSource(vitalSource.getBMI(createdVital));
       }
     });
@@ -58,9 +58,9 @@ export class TodaysVitalsService {
   }
 
   private applyCompounding() {
-    let compounds = _.filter(this.vitalsDataSource.dataSources, 'isCompoundedWith');
+    const compounds = _.filter(this.vitalsDataSource.dataSources, 'isCompoundedWith');
     _.each(compounds, (compound) => {
-      let toCompound = _.find(this.vitalsDataSource.dataSources, (s) => compound.isCompoundedWith === s.name);
+      const toCompound = _.find(this.vitalsDataSource.dataSources, (s) => compound.isCompoundedWith === s.name);
       if (toCompound) {
         toCompound.compoundValue = compound;
       }

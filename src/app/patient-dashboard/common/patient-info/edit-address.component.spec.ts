@@ -1,6 +1,4 @@
 
-import { MockBackend } from '@angular/http/testing';
-import { Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 import { TestBed, inject, async } from '@angular/core/testing';
 
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
@@ -11,8 +9,7 @@ import { PatientResourceService } from '../../../openmrs-api/patient-resource.se
 import { PatientService } from '../../services/patient.service';
 import { EditAddressComponent } from './edit-address.component';
 import { PersonResourceService } from '../../../openmrs-api/person-resource.service';
-import { ProgramEnrollmentResourceService }
-  from '../../../openmrs-api/program-enrollment-resource.service';
+import { ProgramEnrollmentResourceService } from '../../../openmrs-api/program-enrollment-resource.service';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
 import { PatientProgramService } from '../../programs/patient-programs.service';
 import { RoutesProviderService } from '../../../shared/dynamic-route/route-config-provider.service';
@@ -22,6 +19,7 @@ import { ProgramWorkFlowResourceService
 } from '../../../openmrs-api/program-workflow-resource.service';
 import { ProgramWorkFlowStateResourceService
 } from '../../../openmrs-api/program-workflow-state-resource.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('Component: EditAddress Unit Tests', () => {
 
@@ -31,9 +29,8 @@ describe('Component: EditAddress Unit Tests', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [ HttpClientTestingModule ],
       providers: [
-        MockBackend,
-        BaseRequestOptions,
         FakeAppFeatureAnalytics,
         PatientService,
         ProgramService,
@@ -45,13 +42,6 @@ describe('Component: EditAddress Unit Tests', () => {
         ProgramWorkFlowStateResourceService,
         EncounterResourceService,
         EditAddressComponent,
-        {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
         {
           provide: AppFeatureAnalytics,
           useClass: FakeAppFeatureAnalytics
@@ -72,7 +62,7 @@ describe('Component: EditAddress Unit Tests', () => {
     fakeAppFeatureAnalytics = TestBed.get(AppFeatureAnalytics);
     component = TestBed.get(EditAddressComponent);
   });
-  let personAddressPayload = {
+  const personAddressPayload = {
     addresses: [{
       address1: '111',
       address2: '3322',
