@@ -1,4 +1,4 @@
-
+/* tslint:disable:no-inferrable-types */
 import {take} from 'rxjs/operators/take';
 import { Component, OnInit, OnDestroy, Input, forwardRef } from '@angular/core';
 import { Subscription, BehaviorSubject } from 'rxjs';
@@ -48,7 +48,7 @@ export class ShareCohortListComponent implements OnInit, OnDestroy {
               private cohortUserResourceService: CohortUserResourceService,
               private route: ActivatedRoute) { }
   public ngOnInit() {
-    let cohortUuid = this.route.snapshot.params['cohort_uuid'];
+    const cohortUuid = this.route.snapshot.params['cohort_uuid'];
     if (cohortUuid) {
       this.selectedCohortUuid = cohortUuid;
     }
@@ -78,7 +78,7 @@ export class ShareCohortListComponent implements OnInit, OnDestroy {
   }
   public getCohortUsers() {
     this.fetchingResults = true;
-    let sub = this.cohortUserResourceService.getCohortUser(this.selectedCohortUuid);
+    const sub = this.cohortUserResourceService.getCohortUser(this.selectedCohortUuid);
     if (sub) {
       sub.pipe(take(1)).subscribe(
 
@@ -118,7 +118,7 @@ export class ShareCohortListComponent implements OnInit, OnDestroy {
 
   }
   public ShareCohortWithNewUser() {
-    let cohortUserPayload = {
+    const cohortUserPayload = {
       role: this.preferredRole,
       user: this.selectedUser.value,
       cohort: this.selectedCohortUuid
@@ -187,7 +187,7 @@ export class ShareCohortListComponent implements OnInit, OnDestroy {
 
   }
   public updateCohortUserRole(userId, role) {
-    let cohortUserPayload = {
+    const cohortUserPayload = {
       role : role
     };
 

@@ -1,16 +1,18 @@
 /* tslint:disable:no-unused-variable */
 
-import { TestBed, async, fakeAsync, ComponentFixture,
-  tick, discardPeriodicTasks } from '@angular/core/testing';
+import {
+  TestBed, async, fakeAsync, ComponentFixture,
+  tick, discardPeriodicTasks
+} from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 import { OnlineTrackerComponent } from './online-tracker.component';
 import { OnlineTrackerService } from './online-tracker.service';
 import { SessionService } from '../openmrs-api/session.service';
-import { MockBackend, MockConnection } from '@angular/http/testing';
-import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@angular/http';
 import { AppSettingsService } from './../app-settings/app-settings.service';
 import { LocalStorageService } from './../utils/local-storage.service';
 import { AppFeatureAnalytics } from './../shared/app-analytics/app-feature-analytics.service';
+import { HttpClient } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 class DataStub {
 
@@ -29,22 +31,12 @@ describe('Component: OnlineTracker', () => {
   let element;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
       declarations: [OnlineTrackerComponent],
       providers: [
         { provide: OnlineTrackerService, useClass: DataStub },
-        {
-          provide: Http,
-          useFactory: (
-            backendInstance: MockBackend,
-            defaultOptions: BaseRequestOptions
-          ) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
         SessionService,
-        MockBackend,
-        BaseRequestOptions,
+        HttpClient,
         AppSettingsService,
         LocalStorageService,
         AppFeatureAnalytics
