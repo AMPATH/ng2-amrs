@@ -26,6 +26,10 @@ class MockActivatedRoute {
 class MockCacheStorageService {
     constructor(a, b) {
     }
+
+    public ready() {
+        return true;
+    }
 }
 
 describe('Group Editor Component Tests', () => {
@@ -47,8 +51,8 @@ describe('Group Editor Component Tests', () => {
 
             ],
             declarations: [GroupEditorComponent,
-                 GroupEditorComponent,
-                 PatientSearchComponent],
+                GroupEditorComponent,
+                PatientSearchComponent],
             providers: [
                 DatePipe,
                 CacheService,

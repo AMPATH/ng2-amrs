@@ -22,6 +22,7 @@ import { ProgramWorkFlowResourceService
 } from '../../../openmrs-api/program-workflow-resource.service';
 import { ProgramWorkFlowStateResourceService
 } from '../../../openmrs-api/program-workflow-state-resource.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 describe('Component: CDM Medication History Unit Tests', () => {
 
   let medicationHistoryResourceService: MedicationHistoryResourceService,
@@ -52,7 +53,8 @@ describe('Component: CDM Medication History Unit Tests', () => {
         },
         AppSettingsService,
         LocalStorageService
-      ]
+      ],
+      imports: [ HttpClientTestingModule ]
     });
 
     medicationHistoryResourceService = TestBed.get(MedicationHistoryResourceService);

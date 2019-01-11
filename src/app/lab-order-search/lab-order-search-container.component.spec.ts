@@ -69,7 +69,7 @@ describe('LabOrderSearchContainerComponent', () => {
     });
   }));
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

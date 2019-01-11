@@ -32,6 +32,10 @@ class FakeRetrospectiveDataEntryService {
 class FakeCacheStorageService {
   constructor(a, b) {
   }
+
+  public ready() {
+    return true;
+  }
 }
 
 
@@ -143,7 +147,7 @@ describe('VisitDetailsComponent: ', () => {
     fixture.detectChanges();
   });
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

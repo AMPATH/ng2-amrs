@@ -22,7 +22,7 @@ describe('Service : Motd Notification Service Unit Tests', () => {
 
     });
 
-    afterAll(() => {
+    afterEach(() => {
         TestBed.resetTestingModule();
     });
 

@@ -66,7 +66,7 @@ describe('Component: Data Entry Daily List', () => {
       });
   }));
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

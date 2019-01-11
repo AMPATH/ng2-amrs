@@ -86,7 +86,7 @@ describe('Component: PatientDashboard', () => {
     });
   });
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

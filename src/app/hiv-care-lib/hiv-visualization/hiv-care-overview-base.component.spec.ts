@@ -53,7 +53,7 @@ describe('HivCareComparativeOverviewBaseComponent:', () => {
     });
   }));
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

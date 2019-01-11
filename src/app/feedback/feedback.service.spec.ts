@@ -36,7 +36,7 @@ describe('FeedBackService', () => {
     });
   });
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

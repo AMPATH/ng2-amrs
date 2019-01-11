@@ -9,8 +9,8 @@ import {
 } from 'primeng/primeng';
 import { ArtOverviewIndicatorDefComponent } from './indicator-definitions.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ClinicalSummaryVisualizationService } from 'src/app/hiv-care-lib/services/clinical-summary-visualization.service';
 import { HighchartsStatic } from 'angular2-highcharts/dist/HighchartsService';
+import { ClinicalSummaryVisualizationService } from '../../../../hiv-care-lib/services/clinical-summary-visualization.service';
 
 describe('Art-overview component Tests', () => {
     let comp: ArtOverviewComponent;

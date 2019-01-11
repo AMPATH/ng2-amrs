@@ -53,7 +53,7 @@ describe('Component: PatientInfo', () => {
     component = TestBed.get(PatientInfoComponent);
   });
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

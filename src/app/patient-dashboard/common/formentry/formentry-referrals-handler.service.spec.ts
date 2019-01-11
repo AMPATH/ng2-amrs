@@ -80,7 +80,7 @@ describe('Service: FormentryReferralsHandler', () => {
 
   });
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

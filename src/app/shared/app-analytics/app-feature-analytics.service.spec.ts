@@ -36,7 +36,7 @@ describe('App Feature Analytics Service', () => {
     appFeatureAnalytics = _appFeatureAnalytics;
   }));
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

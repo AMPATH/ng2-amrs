@@ -12,7 +12,7 @@ describe('ClinicDashboardCacheService', () => {
         });
     });
 
-    afterAll(() => {
+    afterEach(() => {
         TestBed.resetTestingModule();
     });
 

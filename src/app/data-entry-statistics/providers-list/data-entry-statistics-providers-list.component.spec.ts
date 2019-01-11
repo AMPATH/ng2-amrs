@@ -95,7 +95,7 @@ describe('Component: Data Entry Provider List', () => {
       });
   }));
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

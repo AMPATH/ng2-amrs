@@ -145,7 +145,7 @@ describe('TodayVisitsComponent', () => {
     fixture.detectChanges();
   });
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

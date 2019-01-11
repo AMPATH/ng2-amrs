@@ -77,7 +77,7 @@ describe('Component: Data Entry Creators List', () => {
       });
   }));
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

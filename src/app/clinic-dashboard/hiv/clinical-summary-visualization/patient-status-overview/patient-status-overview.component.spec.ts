@@ -80,7 +80,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
    });
  }));
 
- afterAll(() => {
+ afterEach(() => {
   TestBed.resetTestingModule();
  });
 

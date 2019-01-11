@@ -140,7 +140,7 @@ describe('Component: Oncology Monthly Indicator', () => {
       });
   }));
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

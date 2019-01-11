@@ -46,6 +46,10 @@ class RouterStub {
 class FakeCacheStorageService {
   constructor(a, b) {
   }
+
+  public ready() {
+    return true;
+  }
 }
 
 class MockParams {
@@ -201,7 +205,7 @@ describe('VisitStarterComponent', () => {
     fixture.detectChanges();
   });
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

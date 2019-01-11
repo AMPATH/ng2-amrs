@@ -101,7 +101,7 @@ describe('ClinicFlowHourlyStatsVizComponent:', () => {
         });
     }));
 
-    afterAll(() => {
+    afterEach(() => {
         TestBed.resetTestingModule();
     });
 

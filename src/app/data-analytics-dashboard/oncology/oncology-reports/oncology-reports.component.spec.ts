@@ -86,7 +86,7 @@ describe('Component: Oncology Reports', () => {
       });
   });
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

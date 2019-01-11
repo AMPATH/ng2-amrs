@@ -249,6 +249,10 @@ describe('PatientStatusVisualizationResourceService', () => {
 
   class MockCacheStorageService {
     constructor(a, b) { }
+
+    public ready() {
+      return true;
+    }
   }
 
   beforeEach(() => {
@@ -273,7 +277,7 @@ describe('PatientStatusVisualizationResourceService', () => {
     httpMock = TestBed.get(HttpTestingController);
   });
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

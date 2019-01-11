@@ -89,6 +89,10 @@ const mockResponse = {
 
 class MockCacheStorageService {
     constructor(a, b) { }
+
+    public ready() {
+        return true;
+    }
 }
 
 describe('Service :  Department Programs Configuration Service', () => {
@@ -113,13 +117,10 @@ describe('Service :  Department Programs Configuration Service', () => {
         s = TestBed.get(DepartmentProgramsConfigService);
     });
 
-    afterAll(() => {
+    afterEach(() => {
         TestBed.resetTestingModule();
     });
 
-    afterAll(() => {
-        TestBed.resetTestingModule();
-    });
 
     it('should be defined',
         inject([DepartmentProgramsConfigService], (d: DepartmentProgramsConfigService) => {

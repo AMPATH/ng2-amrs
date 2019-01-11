@@ -259,7 +259,7 @@ describe('Component: Patient Program Enrollment', () => {
       });
   }));
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

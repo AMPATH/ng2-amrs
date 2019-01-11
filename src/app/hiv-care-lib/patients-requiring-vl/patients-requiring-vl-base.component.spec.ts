@@ -57,7 +57,7 @@ describe('PatientsRequiringVLBaseComponent:', () => {
         });
     }));
 
-    afterAll(() => {
+    afterEach(() => {
         TestBed.resetTestingModule();
     });
 

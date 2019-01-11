@@ -66,6 +66,10 @@ const mockPrograms = [
 
 class MockCacheStorageService {
   constructor(a, b) { }
+
+  public ready() {
+    return true;
+  }
 }
 
 
@@ -165,7 +169,7 @@ describe('Component : DepartmentProgramFilter', () => {
   }));
 
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

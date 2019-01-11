@@ -9,6 +9,10 @@ import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
 
 class MockCacheStorageService {
     constructor(a, b) { }
+
+    public ready() {
+        return true;
+    }
 }
 const mockDataEntryTypes = [{
     id: 'view1',
@@ -64,7 +68,7 @@ describe('Service :  Data Entry Statictics Service', () => {
         });
     });
 
-    afterAll(() => {
+    afterEach(() => {
         TestBed.resetTestingModule();
     });
 

@@ -54,7 +54,7 @@ describe('PatientMonthlyStatusComponent', () => {
         });
     }));
 
-    afterAll(() => {
+    afterEach(() => {
         TestBed.resetTestingModule();
     });
 

@@ -1,4 +1,4 @@
-/*import { TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
 import { LocalStorageService } from '../utils/local-storage.service';
 
 import { AppSettingsService } from '../app-settings/app-settings.service';
@@ -47,7 +47,7 @@ export class FakeAppSettingsService {
   }
 }
 
-describe('Service: Moh731PatientListResourceService', () => {
+xdescribe('Service: Moh731PatientListResourceService', () => {
   let service: Moh731PatientListResourceService;
   let httpMock: HttpTestingController;
   beforeEach(async(() => {
@@ -162,4 +162,4 @@ describe('Service: Moh731PatientListResourceService', () => {
   );
 
 });
-*/
+

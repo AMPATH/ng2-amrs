@@ -146,7 +146,7 @@ describe('Component: ProgramEnrollmentPatientListComponent', () => {
       });
   }));
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

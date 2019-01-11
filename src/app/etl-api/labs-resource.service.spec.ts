@@ -25,7 +25,7 @@ describe('LabsResourceService', () => {
         httpMock = TestBed.get(HttpTestingController);
     });
 
-    afterAll(() => {
+    afterEach(() => {
         TestBed.resetTestingModule();
     });
 

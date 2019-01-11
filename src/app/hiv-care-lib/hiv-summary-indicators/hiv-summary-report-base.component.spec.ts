@@ -53,7 +53,7 @@ describe('HivSummaryIndicatorBaseComponent:', () => {
     });
   }));
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

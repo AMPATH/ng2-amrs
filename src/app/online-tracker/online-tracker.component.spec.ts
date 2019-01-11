@@ -54,7 +54,7 @@ describe('Component: OnlineTracker', () => {
       });
   }));
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

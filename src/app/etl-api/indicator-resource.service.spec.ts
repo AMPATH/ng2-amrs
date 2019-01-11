@@ -10,6 +10,10 @@ import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
 // Load the implementations that should be tested
 class MockCacheStorageService {
   constructor(a, b) { }
+
+  public ready() {
+    return true;
+}
 }
 
 describe('IndicatorResourceService Unit Tests', () => {
@@ -35,7 +39,7 @@ describe('IndicatorResourceService Unit Tests', () => {
     httpMock = TestBed.get(HttpTestingController);
   }));
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

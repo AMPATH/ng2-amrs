@@ -229,7 +229,7 @@ describe('Component: ProgramVisitEncounterSearch', () => {
       });
   }));
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

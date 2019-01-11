@@ -44,7 +44,7 @@ describe('ClinicSideNavComponent:', () => {
         });
     }));
 
-    afterAll(() => {
+    afterEach(() => {
         TestBed.resetTestingModule();
     });
 

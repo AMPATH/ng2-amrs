@@ -80,7 +80,7 @@ describe('PatientReferralBaseComponent:', () => {
     });
   }));
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

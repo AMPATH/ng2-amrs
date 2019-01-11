@@ -1,6 +1,6 @@
-/*import { of } from 'rxjs';
+import { of } from 'rxjs';
 import { AppSettingsService } from '../app-settings/app-settings.service';
-// import { FakeAppSettingsService } from '../etl-api/moh-731-patientlist-resource.service.spec';
+import { FakeAppSettingsService } from '../etl-api/moh-731-patientlist-resource.service.spec';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { ComponentFixture, TestBed, async, inject } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
@@ -64,8 +64,7 @@ const motdNotifications = [
   }
 ];
 
-
-/*describe('Component : MOTD Notification', () => {
+xdescribe('Component : MOTD Notification', () => {
 
   let comp: MOTDNotificationComponent;
   let fixture: ComponentFixture<MOTDNotificationComponent>;
@@ -117,7 +116,7 @@ const motdNotifications = [
 
   });
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
     httpMock.verify();
   });
@@ -138,4 +137,3 @@ const motdNotifications = [
   }));
 
 });
-*/

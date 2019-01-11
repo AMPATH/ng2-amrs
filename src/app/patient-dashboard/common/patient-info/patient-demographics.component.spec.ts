@@ -67,7 +67,7 @@ describe('Component: Patient Demographics Unit Tests', () => {
       });
   }));
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

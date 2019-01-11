@@ -81,7 +81,7 @@ describe('HivCareIndicatorDefComponent', () => {
       });
   }));
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

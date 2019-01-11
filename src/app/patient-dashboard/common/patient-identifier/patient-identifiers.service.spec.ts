@@ -9,11 +9,12 @@ import { PatientResourceService } from '../../../openmrs-api/patient-resource.se
 import { LocationResourceService } from '../../../openmrs-api/location-resource.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
 import { DataCacheService } from '../../../shared/services/data-cache.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('Service: PatientIdentifierService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CacheModule],
+      imports: [ CacheModule, HttpClientTestingModule ],
       providers: [
         PatientIdentifierService,
         PatientResourceService,

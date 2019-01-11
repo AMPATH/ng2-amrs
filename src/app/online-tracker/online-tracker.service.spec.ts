@@ -26,7 +26,7 @@ describe('Service: OnlineTracker', () => {
     sessionServiceSpy = TestBed.get(SessionService);
   });
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

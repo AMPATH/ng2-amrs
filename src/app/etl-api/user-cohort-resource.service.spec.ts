@@ -11,14 +11,18 @@ import { RadiologyImagingResourceService } from './radiology-imaging-resource.se
 
 class MockCacheStorageService {
     constructor(a, b) { }
+
+    public ready() {
+        return true;
+    }
 }
 
 describe('Service : User Cohort Resource Service Unit Tests', () => {
-let service, httpMock;
+    let service, httpMock;
     beforeEach(() => {
 
         TestBed.configureTestingModule({
-            imports: [CacheModule, HttpClientTestingModule ],
+            imports: [CacheModule, HttpClientTestingModule],
             providers: [
                 RadiologyImagingResourceService,
                 {
@@ -38,13 +42,13 @@ let service, httpMock;
 
     });
 
-    afterAll(() => {
+    afterEach(() => {
         TestBed.resetTestingModule();
     });
 
 
     it('Should be defined with all the dependancies', async(() => {
-            expect(service).toBeDefined();
-        }));
+        expect(service).toBeDefined();
+    }));
 
 });

@@ -23,6 +23,10 @@ describe('HivEnhancedComponent Tests', () => {
 
     class MockCacheStorageService {
         constructor(a, b) { }
+
+        public ready() {
+            return true;
+        }
     }
 
     class MockParams {

@@ -32,7 +32,7 @@ describe('Component: Program Enrollment Summary', () => {
       });
   }));
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

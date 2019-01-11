@@ -20,6 +20,10 @@ class FakeCacheStorageService {
   constructor(a, b) {
   }
 
+  public ready() {
+    return true;
+  }
+
 }
 
 describe('Service: FormDataSourceService', () => {

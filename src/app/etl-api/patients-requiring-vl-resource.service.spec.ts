@@ -11,6 +11,10 @@ import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
 
 class MockCacheStorageService {
     constructor(a, b) { }
+
+    public ready() {
+        return true;
+    }
 }
 
 describe('Service : PatientsRequiringVL Resource Service Unit Tests', () => {
@@ -38,7 +42,7 @@ describe('Service : PatientsRequiringVL Resource Service Unit Tests', () => {
 
     });
 
-    afterAll(() => {
+    afterEach(() => {
         TestBed.resetTestingModule();
     });
 

@@ -29,6 +29,10 @@ const expectedPatientCareResults = {
 
 class MockCacheStorageService {
     constructor(a, b) {}
+
+    public ready() {
+        return true;
+    }
 }
 
 const expectedArtResults = {
@@ -132,7 +136,7 @@ describe('ClinicalSummaryVisualizationResourceService Tests', () => {
         });
     });
 
-    afterAll(() => {
+    afterEach(() => {
         TestBed.resetTestingModule();
     });
 

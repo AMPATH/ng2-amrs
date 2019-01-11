@@ -75,7 +75,7 @@ describe('Moh731ReportBaseComponent:', () => {
         });
     }));
 
-    afterAll(() => {
+    afterEach(() => {
         TestBed.resetTestingModule();
     });
 

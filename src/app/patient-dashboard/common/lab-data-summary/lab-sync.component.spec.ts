@@ -115,7 +115,7 @@ describe('LabSyncComponent', () => {
             });
     }));
 
-    afterAll(() => {
+    afterEach(() => {
         TestBed.resetTestingModule();
     });
 /*

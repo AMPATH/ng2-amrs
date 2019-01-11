@@ -106,7 +106,7 @@ describe('Component: Data Entry Monthly List', () => {
       });
   }));
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

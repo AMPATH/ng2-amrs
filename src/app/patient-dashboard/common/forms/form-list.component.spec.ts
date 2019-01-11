@@ -59,7 +59,7 @@ describe('FormList Component', () => {
             });
     }));
 
-    afterAll(() => {
+    afterEach(() => {
         TestBed.resetTestingModule();
     });
 

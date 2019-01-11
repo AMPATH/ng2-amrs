@@ -34,7 +34,7 @@ describe('AuthenticationService Unit Tests', () => {
     sessionStorageService = TestBed.get(SessionStorageService);
   }));
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 
