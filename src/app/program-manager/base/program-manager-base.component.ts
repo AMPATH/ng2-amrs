@@ -55,6 +55,8 @@ export class ProgramManagerBaseComponent implements OnInit {
   public refreshingPatient: boolean = false;
   public incompatibleMessage: any = [];
   public incompatibleCount: number = 0;
+  public incompatibleProgrames: any[] = [];
+  public incompatibleList: Array<any> = [];
   public enrolledProgrames: any = [];
   public selectedLocation: any;
   public allPatientProgramVisitConfigs: any = {};
@@ -238,6 +240,44 @@ export class ProgramManagerBaseComponent implements OnInit {
       return currentPmData[key];
     }
     return null;
+  }
+
+  public isIncompatibleChoice() {
+    this.incompatibleCount = 0;
+    this.incompatibleMessage = [];
+    // get programs patient has enrolled in
+    const enrolledList: Array<any> = _.map(this.enrolledProgrames, (program: any) => {
+      return {
+        uuid: program.programUuid,
+        enrolledDate: program.dateEnrolled,
+        enrollmentUuid: program.enrolledProgram._openmrsModel.uuid,
+        name: program.enrolledProgram._openmrsModel.display
+      };
+    });
+    /* for the selected program.Check if it has compatibilty
+       issues with any of the enrolled programs
+    */
+    if (this.programVisitConfig && this.programVisitConfig.incompatibleWith) {
+      this.incompatibleList = this.programVisitConfig.incompatibleWith;
+    }
+    /* With the list of incompatible programs for selected
+       program and enrolled programs we can check if there is a match
+       i.e an enrolled program should not be in an incompatibility list
+       for the selected program
+    */
+    if (this.incompatibleProgrames.length > 0) {
+      this.programIncompatible = true;
+      this.incompatibleCount = this.incompatibleProgrames.length;
+    } else {
+      _.each(enrolledList, (enrolled) => {
+        if (_.includes(this.incompatibleList, enrolled.uuid)) {
+          this.programIncompatible = true;
+          this.incompatibleProgrames.push(enrolled);
+          this.incompatibleCount++;
+        }
+      });
+    }
+    return this.incompatibleCount > 0;
   }
 
   public refreshPatient() {
