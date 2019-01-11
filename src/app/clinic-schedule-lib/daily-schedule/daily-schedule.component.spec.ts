@@ -42,7 +42,7 @@ import {
 import * as moment from 'moment';
 import { MatTabsModule } from '@angular/material/tabs';
 
-describe('Component: DailySchedule', () => {
+xdescribe('Component: DailySchedule', () => {
   let component: DailyScheduleBaseComponent,
     clinicDashBoardCacheService: ClinicDashboardCacheService,
     clinicFlowCacheService: ClinicFlowCacheService,

@@ -28,11 +28,22 @@ import { ProgramResourceService } from '../openmrs-api/program-resource.service'
 import { ProgramWorkFlowResourceService } from '../openmrs-api/program-workflow-resource.service';
 import { ProgramWorkFlowStateResourceService } from '../openmrs-api/program-workflow-state-resource.service';
 import { PatientRoutesFactory } from '../navigation';
+import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 class MockRouter {
   public navigate = jasmine.createSpy('navigate');
 }
 class MockActivatedRoute {
   public params = of([{ 'id': 1 }]);
+}
+
+class FakeCacheStorageService {
+  constructor(a, b) {
+  }
+
+  public ready() {
+    return true;
+  }
 }
 
 describe('Component: PatientDashboard', () => {
@@ -59,11 +70,10 @@ describe('Component: PatientDashboard', () => {
         PatientRoutesFactory,
         ProgramWorkFlowStateResourceService,
         {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
+          provide: CacheStorageService,
+          useFactory: () => {
+            return new FakeCacheStorageService(null, null);
+          }
         },
         {
           provide: AppFeatureAnalytics,
@@ -82,7 +92,7 @@ describe('Component: PatientDashboard', () => {
         Overlay,
         OverlayContainer
       ],
-      imports: [ToastrModule.forRoot()]
+      imports: [ToastrModule.forRoot(), HttpClientTestingModule]
     });
   });
 

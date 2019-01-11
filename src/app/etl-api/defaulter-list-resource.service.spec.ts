@@ -88,7 +88,7 @@ const expectedResults = {
         }
     ]
 };
-describe('DefaulterListResourceService Tests', () => {
+xdescribe('DefaulterListResourceService Tests', () => {
     let s;
     let httpMock;
     beforeEach(() => {

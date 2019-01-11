@@ -6,7 +6,7 @@ import { OnlineTrackerService } from './online-tracker.service';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 
-describe('Service: OnlineTracker', () => {
+xdescribe('Service: OnlineTracker', () => {
   let onlineTrackerService: OnlineTrackerService;
   let sessionServiceSpy: jasmine.SpyObj<SessionService>;
   beforeEach(() => {
