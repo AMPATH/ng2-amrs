@@ -71,7 +71,7 @@ export class PatientReferralTabularComponent implements OnInit {
   }
 
   constructor(private router: Router,
-              public resourceService: PatientReferralResourceService) {
+    public resourceService: PatientReferralResourceService) {
   }
 
   public ngOnInit() {
@@ -81,23 +81,23 @@ export class PatientReferralTabularComponent implements OnInit {
   public setColumns(sectionsData: Array<any>) {
     const defs = [];
     defs.push({
-        headerName: 'Location',
-        field: 'location',
-       // pinned: 'left',
-        rowGroup: true,
-        hide: true
-      },
+      headerName: 'Location',
+      field: 'location',
+      // pinned: 'left',
+      rowGroup: true,
+      hide: true
+    },
       {
         headerName: 'Program',
         field: 'program'
       });
     if (this.data) {
-        _.each(sectionsData, (data) => {
-            defs.push({
-              headerName: this.titleCase(data.name),
-              field: data.name
-            });
+      _.each(sectionsData, (data) => {
+        defs.push({
+          headerName: this.titleCase(data.name),
+          field: data.name
         });
+      });
     }
 
     this.gridOptions.columnDefs = defs;
@@ -107,11 +107,11 @@ export class PatientReferralTabularComponent implements OnInit {
     this.gridOptions.enableFilter = false;
     this.gridOptions.toolPanelSuppressSideButtons = true;
     this.gridOptions.getRowStyle = (params) => {
-      return {'font-size': '14px', 'cursor': 'pointer'};
+      return { 'font-size': '14px', 'cursor': 'pointer' };
     };
 
     this.gridOptions.onGridReady = (event) => {
-      setTimeout( () => {
+      setTimeout(() => {
         if (this.gridOptions.api) {
           this.agGrid.api.setColumnDefs(defs);
           this.gridOptions.api.sizeColumnsToFit();
@@ -135,7 +135,7 @@ export class PatientReferralTabularComponent implements OnInit {
 
   public generatePatientListReport(data) {
     this.isLoading = true;
-    const filterLocation =  data.data.locationUuids ? data.data.locationUuids : null;
+    const filterLocation = data.data.locationUuids ? data.data.locationUuids : null;
 
     this.resourceService.getPatientReferralPatientList({
       endDate: this.toDateString(this._dates.endDate),
@@ -146,7 +146,7 @@ export class PatientReferralTabularComponent implements OnInit {
       notificationStatus: null,
     }).take(1).subscribe((report) => {
       this.patientData = report;
-       // this.patientData ? this.patientData.concat(report) : report;
+      // this.patientData ? this.patientData.concat(report) : report;
       this.isLoading = false;
       this.startIndex += report.length;
       if (report.length < 300) {

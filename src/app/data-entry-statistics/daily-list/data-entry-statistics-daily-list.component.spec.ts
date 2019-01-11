@@ -1,5 +1,5 @@
 import { ChangeDetectorRef } from '@angular/core';
-import { TestBed, async , ComponentFixture } from '@angular/core/testing';
+import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { AgGridModule } from 'ag-grid-angular';
 import { DataEntryStatisticsDailyListComponent } from './data-entry-statistics-daily-list.component';
 
@@ -34,11 +34,11 @@ const mockParams = {
 };
 
 class GridOptions {
-    public api = {
-      setPinnedBottomRowData() {
+  public api = {
+    setPinnedBottomRowData() {
 
-      }
-    };
+    }
+  };
 }
 
 describe('Component: Data Entry Daily List', () => {
@@ -49,9 +49,9 @@ describe('Component: Data Entry Daily List', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports:
-      [
-        AgGridModule.withComponents([])
-      ],
+        [
+          AgGridModule.withComponents([])
+        ],
       declarations: [
         DataEntryStatisticsDailyListComponent
       ],
@@ -71,7 +71,7 @@ describe('Component: Data Entry Daily List', () => {
   });
 
   it('should create an instance', () => {
-      expect(comp).toBeDefined();
+    expect(comp).toBeDefined();
   });
 
   it('should create encounter daily rows from obtained result', (done: DoneFn) => {
@@ -90,8 +90,8 @@ describe('Component: Data Entry Daily List', () => {
       headerName: '02-01-2019'
     }];
     comp.params = {
-      startDate : '02-01-2019',
-      endDate : '02-01-2019'
+      startDate: '02-01-2019',
+      endDate: '02-01-2019'
 
     };
     comp.dataEntryEncounterColdef = [
@@ -111,7 +111,7 @@ describe('Component: Data Entry Daily List', () => {
       }
     ];
 
-    const mergedCols =  [
+    const mergedCols = [
       {
         field: 'location',
         headerName: 'Location',
@@ -146,8 +146,8 @@ describe('Component: Data Entry Daily List', () => {
         headerName: '31-12-2018'
       },
       {
-       field: '01-01-2019',
-       headerName: '01-01-2019'
+        field: '01-01-2019',
+        headerName: '01-01-2019'
       },
       {
         field: '28-12-2018',
@@ -169,40 +169,40 @@ describe('Component: Data Entry Daily List', () => {
         field: '26-12-2018',
         headerName: '26-12-2018'
       }
-  ];
+    ];
 
-  const expectedSortedCols = [
-     {
-      field: '26-12-2018',
-      headerName: '26-12-2018'
-    },
-     {
-       field: '27-12-2018',
-       headerName: '27-12-2018'
-     },
-     {
-      field: '28-12-2018',
-      headerName: '28-12-2018'
-    },
-    {
-      field: '29-12-2018',
-      headerName: '29-12-2018'
-    },
-    {
-      field: '30-12-2018',
-      headerName: '30-12-2018'
-    },
-    {
-      field: '31-12-2018',
-      headerName: '31-12-2018'
-    },
-    {
-      field: '01-01-2019',
-      headerName: '01-01-2019'
-     }
-  ];
-  const sortedCols = comp.sortColumnHeadersByDate(mockDateCols);
-  expect(sortedCols).toEqual(expectedSortedCols);
+    const expectedSortedCols = [
+      {
+        field: '26-12-2018',
+        headerName: '26-12-2018'
+      },
+      {
+        field: '27-12-2018',
+        headerName: '27-12-2018'
+      },
+      {
+        field: '28-12-2018',
+        headerName: '28-12-2018'
+      },
+      {
+        field: '29-12-2018',
+        headerName: '29-12-2018'
+      },
+      {
+        field: '30-12-2018',
+        headerName: '30-12-2018'
+      },
+      {
+        field: '31-12-2018',
+        headerName: '31-12-2018'
+      },
+      {
+        field: '01-01-2019',
+        headerName: '01-01-2019'
+      }
+    ];
+    const sortedCols = comp.sortColumnHeadersByDate(mockDateCols);
+    expect(sortedCols).toEqual(expectedSortedCols);
 
   });
 

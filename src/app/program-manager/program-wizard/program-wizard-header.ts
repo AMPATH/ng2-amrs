@@ -3,7 +3,7 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 @Component({
   selector: 'program-wizard-header',
   template:
-      `
+    `
     <div class="component-header">
       <div class="headline {{customClass}}">
         <h1 class="component-title">{{title}}</h1>
@@ -12,11 +12,11 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
         </span>
         <span class="clear"></span>
       </div>
-      
+
     </div>
   `,
   styles: [
-      `.component-header span {
+    `.component-header span {
       margin-right: 0;
     }`,
     `.component-header .headline {
@@ -27,7 +27,7 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
       top: 10px;
       right:0;
     }`,
-      `.step-counter span {
+    `.step-counter span {
       width: 10px;
       height: 10px;
       display: inline-block;
@@ -36,10 +36,10 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
       background-color: #d8d8d8;
       border-radius: 100%;
     }`,
-      `.step-counter span.done {
+    `.step-counter span.done {
       background-color: #425da2;
     }`,
-      `.component-title {
+    `.component-title {
       border-bottom-width: 2px;
     }`]
 })

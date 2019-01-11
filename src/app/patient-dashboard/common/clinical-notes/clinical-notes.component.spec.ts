@@ -8,7 +8,6 @@ import { FakeAppFeatureAnalytics } from '../../../shared/app-analytics/app-featu
 import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
 import { ClinicalNotesResourceService } from '../../../etl-api/clinical-notes-resource.service';
-import { MockClinicalNotesResourceService } from '../../../etl-api/clinical-notes-resource.service.mock';
 import { ClinicalNotesComponent } from './clinical-notes.component';
 import { ClinicalNotesHelperService } from './clinical-notes.helper';
 import { HttpClient } from 'selenium-webdriver/http';

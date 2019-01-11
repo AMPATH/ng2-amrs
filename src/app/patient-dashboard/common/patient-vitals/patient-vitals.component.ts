@@ -1,5 +1,5 @@
 
-import {take} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { Helpers } from '../../../utils/helpers';
@@ -33,7 +33,7 @@ export class PatientVitalsComponent implements OnInit, OnDestroy {
   public isLoading = false;
 
   constructor(private patientVitalsService: PatientVitalsService,
-              private patientService: PatientService) { }
+    private patientService: PatientService) { }
 
   public ngOnInit() {
     this.getPatient();
@@ -66,38 +66,38 @@ export class PatientVitalsComponent implements OnInit, OnDestroy {
     this.loadingVitals = true;
 
     this.patientVitalsService.getvitals(this.patient, this.nextStartIndex).subscribe((data) => {
-        if (data) {
-          if (data.length > 0) {
+      if (data) {
+        if (data.length > 0) {
 
-            const membersToCheck = ['weight', 'height', 'temp', 'oxygen_sat', 'systolic_bp',
-              'diastolic_bp', 'pulse'];
-            for (const r in data) {
-              if (data.hasOwnProperty(r)) {
-                const encounter = data[r];
-                if (!Helpers.hasAllMembersUndefinedOrNull(encounter, membersToCheck)) {
+          const membersToCheck = ['weight', 'height', 'temp', 'oxygen_sat', 'systolic_bp',
+            'diastolic_bp', 'pulse'];
+          for (const r in data) {
+            if (data.hasOwnProperty(r)) {
+              const encounter = data[r];
+              if (!Helpers.hasAllMembersUndefinedOrNull(encounter, membersToCheck)) {
 
-                  this.vitals.push(encounter);
-
-                }
+                this.vitals.push(encounter);
 
               }
 
             }
-            const size: number = data.length;
-            this.nextStartIndex = this.nextStartIndex + size;
-            this.isLoading = false;
-            this.loadingVitals = false;
-          } else {
-
-            this.dataLoaded = true;
-            this.loadingVitals = false;
 
           }
+          const size: number = data.length;
+          this.nextStartIndex = this.nextStartIndex + size;
+          this.isLoading = false;
+          this.loadingVitals = false;
+        } else {
+
+          this.dataLoaded = true;
+          this.loadingVitals = false;
 
         }
 
-        this.isLoading = false;
-      },
+      }
+
+      this.isLoading = false;
+    },
 
       (err) => {
         this.loadingVitals = false;

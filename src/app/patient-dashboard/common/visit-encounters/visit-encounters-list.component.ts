@@ -6,8 +6,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'visit-encounters-list',
-    templateUrl : './visit-encounters-list.component.html',
-    styleUrls : ['./visit-encounters-list.component.css']
+    templateUrl: './visit-encounters-list.component.html',
+    styleUrls: ['./visit-encounters-list.component.css']
 })
 
 export class VisitEncountersListComponent implements OnInit, OnChanges {
@@ -51,7 +51,7 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
     @Input() public showVisitsObservations: boolean;
 
     constructor(private router: Router,
-                private route: ActivatedRoute) { }
+        private route: ActivatedRoute) { }
 
     public ngOnInit() {
 
@@ -120,10 +120,10 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
 
                     if (encounterProvider.provider !== null) {
 
-                          if (encounterProvider.provider.display !== null) {
+                        if (encounterProvider.provider.display !== null) {
 
                             const displayMinusAttribute =
-                            encounterProvider.provider.display.split('-')[2];
+                                encounterProvider.provider.display.split('-')[2];
 
                             if (typeof displayMinusAttribute !== 'undefined') {
 
@@ -131,9 +131,9 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
 
                             }
 
-                          }
+                        }
 
-                       }
+                    }
 
                 }
 
@@ -147,7 +147,7 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
 
             // console.log('Encounter' , encounter);
 
-            const location =  encounter.location != null ? encounter.location.display : '';
+            const location = encounter.location != null ? encounter.location.display : '';
             let createdBy = '';
 
             let visitType = '';
@@ -167,22 +167,22 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
             }
 
             const visitObject = {
-            [dateString]: {
-                'type': 'parent',
-                'date': visitDate,
-                'time': '',
-                'form': '',
-                'encounterType': '',
-                'location': location,
-                'provider': createdBy,
-                'visit': visitType,
-                'encounter': '',
-                'action': '',
-                'encounterObj': '',
-                'encounters': [],
-                'show': true
+                [dateString]: {
+                    'type': 'parent',
+                    'date': visitDate,
+                    'time': '',
+                    'form': '',
+                    'encounterType': '',
+                    'location': location,
+                    'provider': createdBy,
+                    'visit': visitType,
+                    'encounter': '',
+                    'action': '',
+                    'encounterObj': '',
+                    'encounters': [],
+                    'show': true
 
-            }
+                }
             };
 
             const encounterObj = {
@@ -338,7 +338,7 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
     }
 
     public showEncounterViewer(encounterObj) {
-        if (encounterObj)  {
+        if (encounterObj) {
             this.selectedEncounter = encounterObj;
             this.onEncounterDetail = Math.random();
             this.pretty = true;

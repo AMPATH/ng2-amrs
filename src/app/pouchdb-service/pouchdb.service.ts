@@ -115,7 +115,7 @@ export class PouchdbService {
   // successful.
   private checkCouchUp(): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
-      let xhr = new XMLHttpRequest();
+      const xhr = new XMLHttpRequest();
       xhr.open('GET', this._remoteCouchDBAddress, true);
       xhr.onload = () => {
         if (xhr.status >= 200 && xhr.status < 300) {

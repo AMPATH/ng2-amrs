@@ -28,6 +28,24 @@ import { PatientProgramService } from '../../programs/patient-programs.service';
 import { HttpClient, HttpHandler } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
+class PatientServiceMock {
+  public currentlyLoadedPatient: BehaviorSubject<Patient>
+    = new BehaviorSubject(
+      new Patient({
+        uuid: 'patient-uuid',
+        display: 'patient name',
+        person: {
+          uuid: 'person-uuid',
+          display: 'person name'
+        }
+      })
+    );
+
+  constructor() {
+  }
+
+}
+
 describe('Component: HivPatientClinicalSummaryComponent', () => {
 
   beforeEach(() => {
@@ -315,21 +333,3 @@ describe('Component: HivPatientClinicalSummaryComponent', () => {
   );
 });
 
-
-class PatientServiceMock {
-  public currentlyLoadedPatient: BehaviorSubject<Patient>
-    = new BehaviorSubject(
-      new Patient({
-        uuid: 'patient-uuid',
-        display: 'patient name',
-        person: {
-          uuid: 'person-uuid',
-          display: 'person name'
-        }
-      })
-    );
-
-  constructor() {
-  }
-
-}

@@ -17,7 +17,7 @@ class MockPatientService {
     currentlyLoadedPatient = of({ uuid: '', person: { uuid: 'persion_uui' } });
 }
 class MockPatientCareStatusResourceService {
-    getMonthlyPatientCareStatus(options) { return of({ month: '' }); };
+    getMonthlyPatientCareStatus(options) { return of({ month: '' }); }
 }
 describe('PatientMonthlyStatusComponent', () => {
     let fixture: ComponentFixture<PatientMonthlyStatusComponent>;

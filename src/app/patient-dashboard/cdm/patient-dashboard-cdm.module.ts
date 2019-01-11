@@ -12,7 +12,6 @@ import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { Router } from '@angular/router';
 import { SessionStorageService } from '../../utils/session-storage.service';
-import { HttpClient } from '../../shared/services/http-client.service';
 import { CdmSummaryComponent } from './cdm-summary/cdm-summary.component';
 import { CdmSummaryLatestComponent } from './cdm-summary/cdm-summary-latest.component';
 import { CdmSummaryHistoricalComponent } from './cdm-summary/cdm-summary-historical.component';

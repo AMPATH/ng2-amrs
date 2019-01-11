@@ -1,14 +1,16 @@
-import { Component, OnInit , AfterViewInit, OnChanges , Output , EventEmitter, Input ,
-ChangeDetectorRef, SimpleChanges } from '@angular/core';
+import {
+  Component, OnInit, AfterViewInit, OnChanges, Output, EventEmitter, Input,
+  ChangeDetectorRef, SimpleChanges
+} from '@angular/core';
 
 @Component({
   selector: 'data-entry-statistics-encounters',
   templateUrl: './data-entry-statistics-encounters.component.html',
   styleUrls: ['./data-entry-statistics-encounters.component.css']
 })
-export class DataEntryStatisticsEncountersComponent implements OnInit , OnChanges , AfterViewInit {
+export class DataEntryStatisticsEncountersComponent implements OnInit, OnChanges, AfterViewInit {
 
-  public title  = '';
+  public title = '';
   @Input() public dataEntryEncounterData: any = [];
   @Input() public params: any;
   @Output() public patientListParams: EventEmitter<any> = new EventEmitter();
@@ -23,7 +25,7 @@ export class DataEntryStatisticsEncountersComponent implements OnInit , OnChange
 
   constructor(
     private _cd: ChangeDetectorRef
-  ) {}
+  ) { }
 
   public ngOnInit() {
   }
@@ -32,20 +34,20 @@ export class DataEntryStatisticsEncountersComponent implements OnInit , OnChange
   }
 
   public ngOnChanges(changes: SimpleChanges) {
-       if (changes.dataEntryEncounterData
-        && this.dataEntryEncounterData.length > 0) {
-          this.processEncounterData(this.params);
-       } else {
-         this.dataEntryEncounters = [];
-       }
+    if (changes.dataEntryEncounterData
+      && this.dataEntryEncounterData.length > 0) {
+      this.processEncounterData(this.params);
+    } else {
+      this.dataEntryEncounters = [];
+    }
   }
 
   public processEncounterData(params: any) {
 
-     const viewType = params.subType;
-     this.resetAllLists();
+    const viewType = params.subType;
+    this.resetAllLists();
 
-     switch (viewType) {
+    switch (viewType) {
 
       case 'by-date-by-encounter-type':
         this.showEncountersList = true;
@@ -65,7 +67,7 @@ export class DataEntryStatisticsEncountersComponent implements OnInit , OnChange
         break;
       default:
 
-     }
+    }
 
   }
 

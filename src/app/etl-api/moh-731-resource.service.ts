@@ -3,8 +3,6 @@ import {of as observableOf,  Observable } from 'rxjs';
 
 import {catchError, map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, URLSearchParams } from '@angular/http';
-import { DatePipe } from '@angular/common';
 // tslint:disable-next-line:import-blacklist
 import { Subject } from 'rxjs/Rx';
 import { AppSettingsService } from '../app-settings/app-settings.service';

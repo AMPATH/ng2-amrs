@@ -18,8 +18,7 @@ import { LocationFilterComponent
 import { PatientProgramService } from './../patient-dashboard/programs/patient-programs.service';
 import { ProgramService } from './../patient-dashboard/programs/program.service';
 import { ProgramWorkFlowResourceService } from './../openmrs-api/program-workflow-resource.service';
-import { ProgramWorkFlowStateResourceService } from
-  './../openmrs-api/program-workflow-state-resource.service';
+import { ProgramWorkFlowStateResourceService } from './../openmrs-api/program-workflow-state-resource.service';
 @NgModule({
   imports: [
     FormsModule,

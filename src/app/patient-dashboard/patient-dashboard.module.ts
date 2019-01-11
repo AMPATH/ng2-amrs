@@ -28,14 +28,15 @@ import {
   PatientDashboardDermatologyModule } from './dermatology/patient-dashboard-dermatology.module';
 import { DepartmentProgramsConfigService } from '../etl-api/department-programs-config.service';
 import { SessionStorageService } from '../utils/session-storage.service';
-import { HttpClient } from '../shared/services/http-client.service';
 import { PatientDashboardResolver } from './services/patient-dashboard.resolver';
 import { ProgramManagerModule
 } from '../program-manager/program-manager.module';
 import { GroupEnrollmentModule } from './group-enrollment/group-enrollment.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
+    HttpClientModule,
     CommonModule,
     RouterModule,
     FormsModule,
@@ -71,14 +72,7 @@ import { GroupEnrollmentModule } from './group-enrollment/group-enrollment.modul
     ProgramService,
     DepartmentProgramsConfigService,
     DatePipe,
-    PatientRoutesFactory,
-    {
-      provide: Http,
-      useFactory: (xhrBackend: XHRBackend, requestOptions: RequestOptions,
-                   router: Router, sessionStorageService: SessionStorageService) =>
-        new HttpClient(xhrBackend, requestOptions, router, sessionStorageService),
-      deps: [XHRBackend, RequestOptions, Router, SessionStorageService]
-    }
+    PatientRoutesFactory
   ],
   exports: [
   ]

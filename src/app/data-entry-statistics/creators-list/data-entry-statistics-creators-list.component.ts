@@ -1,5 +1,7 @@
-import { Component, OnInit , AfterViewInit, OnChanges , Output ,
-  EventEmitter, Input , ChangeDetectorRef, SimpleChanges } from '@angular/core';
+import {
+  Component, OnInit, AfterViewInit, OnChanges, Output,
+  EventEmitter, Input, ChangeDetectorRef, SimpleChanges
+} from '@angular/core';
 import * as _ from 'lodash';
 @Component({
   selector: 'data-entry-statistics-creators-list',
@@ -7,10 +9,10 @@ import * as _ from 'lodash';
   styleUrls: ['./data-entry-statistics-creators-list.component.css']
 })
 export class DataEntryStatisticsCreatorsListComponent
-  implements OnInit , OnChanges , AfterViewInit {
+  implements OnInit, OnChanges, AfterViewInit {
   public title = 'Encounters Per Type Per Creator';
   public pinnedBottomRowData: any = [];
-  public allClicalEncounters: any  = [];
+  public allClicalEncounters: any = [];
   public totalEncounters = 0;
 
   public gridOptions: any = {
@@ -32,7 +34,7 @@ export class DataEntryStatisticsCreatorsListComponent
 
   constructor(
     private _cd: ChangeDetectorRef
-  ) {}
+  ) { }
 
   public ngOnInit() {
   }
@@ -41,11 +43,11 @@ export class DataEntryStatisticsCreatorsListComponent
   }
 
   public ngOnChanges(changes: SimpleChanges) {
-       if (changes.dataEntryEncounters && this.dataEntryEncounters.length > 0) {
-          this.processCreatorData();
-       } else {
-         this.creatorRowData = [];
-       }
+    if (changes.dataEntryEncounters && this.dataEntryEncounters.length > 0) {
+      this.processCreatorData();
+    } else {
+      this.creatorRowData = [];
+    }
   }
 
   public processCreatorData() {
@@ -70,21 +72,21 @@ export class DataEntryStatisticsCreatorsListComponent
         headerName: 'Total',
         field: 'total',
         onCellClicked: (column) => {
-                    const patientListParams = {
-                       'creatorUuid': column.data.creatorUuid,
-                       'locationUuids': column.data.locationUuid,
-                       'startDate': this.params.startDate,
-                       'endDate': this.params.endDate
-                       };
-                    this.patientListParams.emit(patientListParams);
+          const patientListParams = {
+            'creatorUuid': column.data.creatorUuid,
+            'locationUuids': column.data.locationUuid,
+            'startDate': this.params.startDate,
+            'endDate': this.params.endDate
+          };
+          this.patientListParams.emit(patientListParams);
         },
         cellRenderer: (column) => {
-                    if (typeof column.value === 'undefined') {
-                       return '';
-                     } else {
-                      return '<a href="javascript:void(0);" title="providercount">'
-                     + column.value + '</a>';
-                    }
+          if (typeof column.value === 'undefined') {
+            return '';
+          } else {
+            return '<a href="javascript:void(0);" title="providercount">'
+              + column.value + '</a>';
+          }
         }
       },
       {
@@ -92,93 +94,93 @@ export class DataEntryStatisticsCreatorsListComponent
         field: 'total_clinical',
         onCellClicked: (column) => {
           const patientListParams = {
-             'creatorUuid': column.data.creatorUuid,
-             'locationUuids': column.data.locationUuid,
-             'encounterTypeUuids': column.data.clinicalEncounters,
-             'startDate': this.params.startDate,
-             'endDate': this.params.endDate
-             };
+            'creatorUuid': column.data.creatorUuid,
+            'locationUuids': column.data.locationUuid,
+            'encounterTypeUuids': column.data.clinicalEncounters,
+            'startDate': this.params.startDate,
+            'endDate': this.params.endDate
+          };
           this.patientListParams.emit(patientListParams);
         },
         cellRenderer: (column) => {
-                    if (typeof column.value === 'undefined' || column.value === 0) {
-                      return '';
-                    } else {
-                      return '<a href="javascript:void(0);" title="providercount">'
-                    + column.value + '</a>';
-                    }
+          if (typeof column.value === 'undefined' || column.value === 0) {
+            return '';
+          } else {
+            return '<a href="javascript:void(0);" title="providercount">'
+              + column.value + '</a>';
+          }
         }
       }
     );
     this.gridOptions.groupDefaultExpanded = -1;
-    const creatorMap =  new Map();
+    const creatorMap = new Map();
     _.each(dataEntryStats, (stat: any) => {
-          const formId = stat.encounter_type_id;
-          const creatorId = stat.creator_id;
-          const encounterTypeUuid = stat.encounter_type_uuid;
+      const formId = stat.encounter_type_id;
+      const creatorId = stat.creator_id;
+      const encounterTypeUuid = stat.encounter_type_uuid;
 
-          if (_.includes(trackColumns, formId) === false) {
+      if (_.includes(trackColumns, formId) === false) {
 
-            this.dataEntryEncounterColdef.push(
-                {
-                  headerName: stat.encounter_type,
-                  field: stat.encounter_type,
-                  onCellClicked: (column) => {
-                    const patientListParams = {
-                       'creatorUuid': column.data.creatorUuid,
-                       'encounterTypeUuids': encounterTypeUuid,
-                       'locationUuids': column.data.locationUuid,
-                       'startDate': this.params.startDate,
-                       'endDate': this.params.endDate
-                    };
-                    this.patientListParams.emit(patientListParams);
-                  },
-                  cellRenderer: (column) => {
-                    if (typeof column.value === 'undefined' || column.value === 0) {
-                       return '';
-                     } else {
-                      return '<a href="javascript:void(0);" title="providercount">'
-                     + column.value + '</a>';
-                     }
-                  }
-                }
-              );
-
-            trackColumns.push(formId);
-          }
-          const creatorObj = {
-            'encounters': [
-             {
-               'encounter_type' : stat.encounter_type,
-               'encounterUuid': stat.encounter_type_uuid,
-               'encounters_count' : stat.encounters_count,
-               'is_clinical' : stat.is_clinical_encounter
+        this.dataEntryEncounterColdef.push(
+          {
+            headerName: stat.encounter_type,
+            field: stat.encounter_type,
+            onCellClicked: (column) => {
+              const patientListParams = {
+                'creatorUuid': column.data.creatorUuid,
+                'encounterTypeUuids': encounterTypeUuid,
+                'locationUuids': column.data.locationUuid,
+                'startDate': this.params.startDate,
+                'endDate': this.params.endDate
+              };
+              this.patientListParams.emit(patientListParams);
+            },
+            cellRenderer: (column) => {
+              if (typeof column.value === 'undefined' || column.value === 0) {
+                return '';
+              } else {
+                return '<a href="javascript:void(0);" title="providercount">'
+                  + column.value + '</a>';
               }
-            ],
-            'creatorUuid': stat.user_uuid,
-            'creatorName': stat.creator_name,
-            'location': stat.location,
-            'locationUuid' : stat.location_uuid
-          };
-
-          const creatorSaved = creatorMap.get(creatorId);
-
-          if (typeof creatorSaved !== 'undefined') {
-
-               creatorSaved.encounters.push( {
-                'encounter_type' : stat.encounter_type,
-                'encounterUuid': stat.encounter_type_uuid,
-                'encounters_count' : stat.encounters_count,
-                'is_clinical' : stat.is_clinical_encounter,
-                'location': stat.location,
-                'locationUuid': stat.location_uuid
-               });
-
-          } else {
-              creatorMap.set(creatorId, creatorObj);
+            }
           }
+        );
 
-      });
+        trackColumns.push(formId);
+      }
+      const creatorObj = {
+        'encounters': [
+          {
+            'encounter_type': stat.encounter_type,
+            'encounterUuid': stat.encounter_type_uuid,
+            'encounters_count': stat.encounters_count,
+            'is_clinical': stat.is_clinical_encounter
+          }
+        ],
+        'creatorUuid': stat.user_uuid,
+        'creatorName': stat.creator_name,
+        'location': stat.location,
+        'locationUuid': stat.location_uuid
+      };
+
+      const creatorSaved = creatorMap.get(creatorId);
+
+      if (typeof creatorSaved !== 'undefined') {
+
+        creatorSaved.encounters.push({
+          'encounter_type': stat.encounter_type,
+          'encounterUuid': stat.encounter_type_uuid,
+          'encounters_count': stat.encounters_count,
+          'is_clinical': stat.is_clinical_encounter,
+          'location': stat.location,
+          'locationUuid': stat.location_uuid
+        });
+
+      } else {
+        creatorMap.set(creatorId, creatorObj);
+      }
+
+    });
 
     this.generatecreatorRowData(creatorMap);
 
@@ -191,7 +193,7 @@ export class DataEntryStatisticsCreatorsListComponent
     let totalCreatorEncounters = 0;
     let totalCreatorClinicalEncounters = 0;
     this.allClicalEncounters = [];
-    creatorMap.forEach( (creatorItem: any) => {
+    creatorMap.forEach((creatorItem: any) => {
 
       const forms = creatorItem.encounters;
       let totalEncounters = 0;
@@ -216,10 +218,10 @@ export class DataEntryStatisticsCreatorsListComponent
         }
         const colTotal = colSumMap.get(form.encounter_type);
         if (typeof colTotal === 'undefined') {
-              colSumMap.set(form.encounter_type, form.encounters_count);
+          colSumMap.set(form.encounter_type, form.encounters_count);
         } else {
-                const newTotal = colTotal + form.encounters_count;
-                colSumMap.set(form.encounter_type, newTotal);
+          const newTotal = colTotal + form.encounters_count;
+          colSumMap.set(form.encounter_type, newTotal);
         }
       });
       totalCreatorEncounters += totalEncounters;
@@ -247,8 +249,8 @@ export class DataEntryStatisticsCreatorsListComponent
       'clinicalEncounters': _.uniq(this.allClicalEncounters),
       'locationUuid': this.params.locationUuids,
     };
-    totalsMap.forEach( (monthTotal, index) => {
-        rowTotalObj[index] = monthTotal;
+    totalsMap.forEach((monthTotal, index) => {
+      rowTotalObj[index] = monthTotal;
     });
     return rowTotalObj;
   }

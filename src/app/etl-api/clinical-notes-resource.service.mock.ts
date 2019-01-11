@@ -1,3 +1,4 @@
+/*
 import { Injectable } from '@angular/core';
 import { MockBackend } from '@angular/http/testing';
 import { ResponseOptions, Response } from '@angular/http';
@@ -23,3 +24,5 @@ export class MockClinicalNotesResourceService {
 
   }
 }
+*/
+

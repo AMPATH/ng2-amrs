@@ -5,16 +5,17 @@ import { FormsModule } from '@angular/forms';
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
 import { DermatologyLandingPageComponent } from './landing-page/landing-page.component';
 
-import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
+import { Http, XHRBackend, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
 import { SessionStorageService } from '../../utils/session-storage.service';
-import { HttpClient } from '../../shared/services/http-client.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     NgamrsSharedModule,
+    HttpClientModule
   ],
   exports: [
     DermatologyLandingPageComponent
@@ -23,13 +24,6 @@ import { HttpClient } from '../../shared/services/http-client.service';
     DermatologyLandingPageComponent
   ],
   providers: [
-    {
-      provide: Http,
-      useFactory: (xhrBackend: XHRBackend, requestOptions: RequestOptions,
-                   router: Router, sessionStorageService: SessionStorageService) =>
-        new HttpClient(xhrBackend, requestOptions, router, sessionStorageService),
-      deps: [XHRBackend, RequestOptions, Router, SessionStorageService]
-    }
   ],
 })
 export class PatientDashboardDermatologyModule { }

@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { TestBed, async, fakeAsync, ComponentFixture , tick } from '@angular/core/testing';
+import { TestBed, async, fakeAsync, ComponentFixture, tick } from '@angular/core/testing';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
 import { AgGridModule } from 'ag-grid-angular';
@@ -44,7 +44,7 @@ const mockProviderResultRow: any = [
     BETWEENCAREVISIT: 1,
     total: 7,
     total_clinical: 6,
-    clinicalEncounters: [ 'uuid' ],
+    clinicalEncounters: ['uuid'],
     location: 'MTRH-1',
     locationUuid: 'uuid'
   }
@@ -78,9 +78,9 @@ describe('Component: Data Entry Provider List', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports:
-      [
-        AgGridModule.withComponents([])
-      ],
+        [
+          AgGridModule.withComponents([])
+        ],
       declarations: [
         DataEntryStatisticsProviderListComponent
       ],
@@ -100,7 +100,7 @@ describe('Component: Data Entry Provider List', () => {
   });
 
   it('should create an instance', () => {
-      expect(comp).toBeDefined();
+    expect(comp).toBeDefined();
   });
   it('should create encounter Provider rows from obtained result', (done: DoneFn) => {
     comp.dataEntryEncounters = mockProviderResult;
@@ -114,7 +114,7 @@ describe('Component: Data Entry Provider List', () => {
 
   it('should generate correct provider rows given provider map', (done: DoneFn) => {
     const providerMapData = {
-      encounters : [{
+      encounters: [{
         encounterUuid: 'a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7',
         encounter_type: 'HIVTRIAGE',
         encounters_count: 4,

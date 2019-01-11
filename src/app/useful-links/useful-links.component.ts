@@ -11,7 +11,7 @@ import { UsefulLinksService } from './useful-links.service';
 export class UsefulLinksComponent implements OnInit {
   public nativeWindow: any;
   public currentUrl = window.location;
-  public formVisitSearchUrl: string = '';
+  public formVisitSearchUrl = '';
 
   public _links = [
     {
@@ -44,7 +44,7 @@ export class UsefulLinksComponent implements OnInit {
   }
 
   public goToLink(link: string) {
-    let newWindow = this.nativeWindow.open('/');
+    const newWindow = this.nativeWindow.open('/');
     newWindow.location.href = link;
   }
 

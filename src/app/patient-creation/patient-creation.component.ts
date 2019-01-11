@@ -1,8 +1,9 @@
 
-import {take} from 'rxjs/operators';
-import { Component, OnInit, Input, Output, OnDestroy, ViewChild, EventEmitter
+import { take } from 'rxjs/operators';
+import {
+  Component, OnInit, Input, Output, OnDestroy, ViewChild, EventEmitter
 } from '@angular/core';
-import { Subscription ,  of } from 'rxjs';
+import { Subscription, of } from 'rxjs';
 import * as moment from 'moment';
 import * as _ from 'lodash';
 import * as Fuse from 'fuse.js';
@@ -148,8 +149,8 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       this.familyName = this.person.familyName;
       this.gender = this.person.gender;
       this.birthDate = this.person.birthdate;
-      this.ageEstimate =  this.getAge(this.person.birthdate);
-      this.birthdateEstimated =  this.person.birthdateEstimated;
+      this.ageEstimate = this.getAge(this.person.birthdate);
+      this.birthdateEstimated = this.person.birthdateEstimated;
     }
     this.patientCreationService.getpatientResults().pipe(take(1)).subscribe((res) => {
       if (res.length > 0) {
@@ -209,28 +210,28 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       this.sessionStorageService.setObject('person', this.person);
       const searchString = this.givenName;
       this.patientCreationService.searchPatient(searchString, false).pipe(
-      take(1)).subscribe((results) => {
-        this.loaderStatus = false;
-        if (results.length > 0) {
-          const birthdate = this.getAge(this.birthDate);
-          results = _.filter(results, (o) => {
-            return (o.person.age === birthdate - 1 ||
-            o.person.age === birthdate ||
-            o.person.age === birthdate + 1);
-          });
-          const res = this.filterPatients(results);
-          if (res.length > 0) {
-            this.patientResults = res;
-            this.patientCreationService.patientResults(this.patientResults);
-            this.found = true;
+        take(1)).subscribe((results) => {
+          this.loaderStatus = false;
+          if (results.length > 0) {
+            const birthdate = this.getAge(this.birthDate);
+            results = _.filter(results, (o) => {
+              return (o.person.age === birthdate - 1 ||
+                o.person.age === birthdate ||
+                o.person.age === birthdate + 1);
+            });
+            const res = this.filterPatients(results);
+            if (res.length > 0) {
+              this.patientResults = res;
+              this.patientCreationService.patientResults(this.patientResults);
+              this.found = true;
+            } else {
+              this.continue();
+            }
+
           } else {
             this.continue();
           }
-
-        } else {
-          this.continue();
-        }
-      });
+        });
     }
   }
 
@@ -257,7 +258,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
 
   public selectPatient(patient) {
     this.router.navigate(['/patient-dashboard/patient/' + patient.uuid +
-    '/general/general/patient-info']);
+      '/general/general/patient-info']);
   }
 
   public continue() {
@@ -431,7 +432,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     }
     if (this.identifiers.length > 1 && !this.preferredIdentifier) {
       this.errors = true;
-    } else if (this.identifiers.length === 0 ) {
+    } else if (this.identifiers.length === 0) {
       this.errors = true;
     } else if (this.identifiers.length === 1) {
       const value = this.identifiers[0];
@@ -469,25 +470,25 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       const attributes = [];
       if (this.patientPhoneNumber) {
         attributes.push({
-          value:  this.patientPhoneNumber,
+          value: this.patientPhoneNumber,
           attributeType: '72a759a8-1359-11df-a1f1-0026b9348838'
         });
       }
       if (this.alternativePhoneNumber) {
         attributes.push({
-            value:  this.alternativePhoneNumber,
-            attributeType: 'c725f524-c14a-4468-ac19-4a0e6661c930'
+          value: this.alternativePhoneNumber,
+          attributeType: 'c725f524-c14a-4468-ac19-4a0e6661c930'
         });
       }
       if (this.partnerPhoneNumber) {
         attributes.push({
-          value:  this.partnerPhoneNumber,
+          value: this.partnerPhoneNumber,
           attributeType: 'b0a08406-09c0-4f8b-8cb5-b22b6d4a8e46'
         });
       }
       if (this.nextofkinPhoneNumber) {
         attributes.push({
-          value:  this.nextofkinPhoneNumber,
+          value: this.nextofkinPhoneNumber,
           attributeType: 'a657a4f1-9c0f-444b-a1fd-445bb91dd12d'
         });
       }
@@ -516,26 +517,26 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         identifiers: ids
       };
       this.patientCreationResourceService.savePatient(payload).pipe(
-      take(1)).subscribe((success) => {
-        this.loaderStatus = false;
-        this.sessionStorageService.remove('person');
-        this.createdPatient = success;
-        if (this.createdPatient) {
-          this.modalRef = this.modalService.show(this.successModal,
-            { backdrop: 'static', keyboard: false});
-        }
-      }, (err) => {
-        this.loaderStatus = false;
-        const error = err;
-        this.errorAlert = error.error.globalErrors[0].code;
-      });
+        take(1)).subscribe((success) => {
+          this.loaderStatus = false;
+          this.sessionStorageService.remove('person');
+          this.createdPatient = success;
+          if (this.createdPatient) {
+            this.modalRef = this.modalService.show(this.successModal,
+              { backdrop: 'static', keyboard: false });
+          }
+        }, (err) => {
+          this.loaderStatus = false;
+          const error = err;
+          this.errorAlert = error.error.globalErrors[0].code;
+        });
 
     }
   }
   public loadDashboard(createdPatient) {
     this.modalRef.hide();
     this.router.navigate(['/patient-dashboard/patient/' + createdPatient.person.uuid +
-    '/general/general/patient-info']);
+      '/general/general/patient-info']);
     this.errorAlert = '';
   }
   public close() {
@@ -582,7 +583,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public loadProgramManager(createdPatient) {
     this.modalRef.hide();
     this.router.navigate(['/patient-dashboard/patient/' + createdPatient.person.uuid +
-    '/general/general/program-manager/new-program']);
+      '/general/general/program-manager/new-program']);
   }
 
   private getPatientIdentifiers() {
@@ -623,42 +624,42 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
 
   private getCommonIdentifierTypes() {
     this.patientIdentifierTypeResService.getPatientIdentifierTypes().pipe(take(1)).subscribe(
-    (data) => {
-      // tslint:disable-next-line:prefer-for-of
-      for (let i = 0; i < data.length; i++) {
-        if (data[i].name === 'AMRS Universal ID') {
-          this.universal = {
-            identifierType: data[i].uuid,
-            identifierTypeName: data[i].name
-          };
-        } else {
-          this.commonIdentifierTypes.push({
-            val: data[i].uuid,
-            label: data[i].name
-          });
+      (data) => {
+        // tslint:disable-next-line:prefer-for-of
+        for (let i = 0; i < data.length; i++) {
+          if (data[i].name === 'AMRS Universal ID') {
+            this.universal = {
+              identifierType: data[i].uuid,
+              identifierTypeName: data[i].name
+            };
+          } else {
+            this.commonIdentifierTypes.push({
+              val: data[i].uuid,
+              label: data[i].name
+            });
+          }
+
+          if (data[i].uuid === '58a47054-1359-11df-a1f1-0026b9348838') {
+            this.commonIdentifierTypeFormats[data[i].uuid] = {
+              format: '^[0-9]*$',
+              checkdigit: data[i].checkDigit
+            };
+          } else {
+            this.commonIdentifierTypeFormats[data[i].uuid] = {
+              format: data[i].format,
+              checkdigit: data[i].checkDigit
+            };
+          }
+
         }
 
-        if (data[i].uuid === '58a47054-1359-11df-a1f1-0026b9348838') {
-          this.commonIdentifierTypeFormats[data[i].uuid] = {
-            format: '^[0-9]*$',
-            checkdigit: data[i].checkDigit
-          };
-        } else {
-          this.commonIdentifierTypeFormats[data[i].uuid] = {
-            format: data[i].format,
-            checkdigit: data[i].checkDigit
-          };
-        }
-
-      }
-
-    },
-    (error) => {
-      this.toastrService.error('Error retrieving common patient identifier types', '', {
-        timeOut: 2000,
-        positionClass: 'toast-bottom-center'
+      },
+      (error) => {
+        this.toastrService.error('Error retrieving common patient identifier types', '', {
+          timeOut: 2000,
+          positionClass: 'toast-bottom-center'
+        });
       });
-    });
   }
 
   private getLocations(): void {
@@ -668,7 +669,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         const counties = [];
         // tslint:disable-next-line:prefer-for-of
         for (let i = 0; i < locations.length; i++) {
-          this.locations.push({label: locations[i].name, value: locations[i].uuid});
+          this.locations.push({ label: locations[i].name, value: locations[i].uuid });
           counties.push(locations[i].stateProvince);
         }
         this.counties = _.uniq(counties);

@@ -1,5 +1,5 @@
 
-import {take} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -9,7 +9,8 @@ import { ProgramManagerBaseComponent } from '../base/program-manager-base.compon
 import { PatientService } from '../../patient-dashboard/services/patient.service';
 import { ProgramService } from '../../patient-dashboard/programs/program.service';
 import { DepartmentProgramsConfigService } from '../../etl-api/department-programs-config.service';
-import { UserDefaultPropertiesService
+import {
+  UserDefaultPropertiesService
 } from '../../user-default-properties/user-default-properties.service';
 import { PatientProgramResourceService } from '../../etl-api/patient-program-resource.service';
 import { LocalStorageService } from '../../utils/local-storage.service';
@@ -21,20 +22,20 @@ import { LocalStorageService } from '../../utils/local-storage.service';
 })
 export class EditProgramComponent extends ProgramManagerBaseComponent implements OnInit {
   public programsToEdit: any[] = [];
-  public updating: boolean = false;
+  public updating = false;
   public theChange: string;
-  public theChangeComplete: boolean = false;
+  public theChangeComplete = false;
   public successValue: any;
-  public formsFilled: boolean = false;
+  public formsFilled = false;
   constructor(public patientService: PatientService,
-              public programService: ProgramService,
-              public router: Router,
-              public route: ActivatedRoute,
-              public departmentProgramService: DepartmentProgramsConfigService,
-              public userDefaultPropertiesService: UserDefaultPropertiesService,
-              public patientProgramResourceService: PatientProgramResourceService,
-              public cdRef: ChangeDetectorRef,
-              public localStorageService: LocalStorageService) {
+    public programService: ProgramService,
+    public router: Router,
+    public route: ActivatedRoute,
+    public departmentProgramService: DepartmentProgramsConfigService,
+    public userDefaultPropertiesService: UserDefaultPropertiesService,
+    public patientProgramResourceService: PatientProgramResourceService,
+    public cdRef: ChangeDetectorRef,
+    public localStorageService: LocalStorageService) {
     super(patientService,
       programService,
       router,
@@ -69,8 +70,8 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
     this.programVisitConfig = _.get(this.allPatientProgramVisitConfigs, program.programUuid);
     if (this.programVisitConfig && this.hasStateChangeEncounterTypes()) {
       _.extend(program, {
-        stateChangeEncounterTypes :
-        this.programVisitConfig.enrollmentOptions.stateChangeEncounterTypes
+        stateChangeEncounterTypes:
+          this.programVisitConfig.enrollmentOptions.stateChangeEncounterTypes
       });
     }
     if (event.target.checked) {
@@ -93,7 +94,7 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
 
   public gotToEditOptions() {
     if (_.isEmpty(this.programsToEdit)) {
-      this.showMessage('Please select at least one program to proceed')
+      this.showMessage('Please select at least one program to proceed');
     } else {
       this.removeMessage();
       this.title = 'Edit Programs';
@@ -127,7 +128,7 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
     this.resetNext();
     this.currentStep = 1;
     this.jumpStep = 1;
-    let _route = '/patient-dashboard/patient/' + this.patient.uuid
+    const _route = '/patient-dashboard/patient/' + this.patient.uuid
       + '/general/general/program-manager/edit-program';
     this.router.navigate([_route], {});
   }
@@ -173,14 +174,14 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
   }
 
   private pickStateChangeEncounters(target: string[]) {
-    let updatedPrograms = _.map(this.programsToEdit, (program) => {
+    const updatedPrograms = _.map(this.programsToEdit, (program) => {
       program.stateChangeEncounterTypes = _.pick(program.stateChangeEncounterTypes,
         target);
       return program;
     });
     this.addToStepInfo({
       programsToEdit: updatedPrograms
-    })
+    });
   }
 
   private loadOnParamInit(params: any) {
@@ -193,14 +194,14 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
   }
 
   private deserializeStepInfo() {
-    let stepInfo = this.localStorageService.getObject('pm-edit-data');
+    const stepInfo = this.localStorageService.getObject('pm-edit-data');
     if (stepInfo) {
       this.programsToEdit = stepInfo.programsToEdit;
       this.theChange = stepInfo.theChange;
     } else {
       this.currentStep = 1;
       this.jumpStep = -1;
-      let _route = '/patient-dashboard/patient/' + this.patient.uuid
+      const _route = '/patient-dashboard/patient/' + this.patient.uuid
         + '/general/general/program-manager/edit-program';
       this.router.navigate([_route], {});
     }

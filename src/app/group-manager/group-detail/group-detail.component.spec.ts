@@ -41,9 +41,9 @@ describe('Group Detail Component Tests', () => {
 
             ],
             declarations: [GroupDetailComponent,
-                 GroupDetailSummaryComponent,
-                 GroupEditorComponent,
-                 PatientSearchComponent],
+                GroupDetailSummaryComponent,
+                GroupEditorComponent,
+                PatientSearchComponent],
             providers: [
                 DatePipe,
                 {

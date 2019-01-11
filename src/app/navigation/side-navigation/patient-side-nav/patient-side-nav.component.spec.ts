@@ -13,8 +13,7 @@ import { PatientSideNavComponent } from './patient-side-nav.component';
 import { NavigationService } from '../../navigation.service';
 import { UserService } from '../../../openmrs-api/user.service';
 import { AppSettingsService } from '../../../app-settings/app-settings.service';
-import { Http, BaseRequestOptions } from '@angular/http';
-import { MockBackend } from '@angular/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('PatientSideNavComponent:', () => {
     let fixture: ComponentFixture<PatientSideNavComponent>;
@@ -29,6 +28,7 @@ describe('PatientSideNavComponent:', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
+            imports: [HttpClientTestingModule],
             declarations: [
                 PatientSideNavComponent
             ],
@@ -39,16 +39,6 @@ describe('PatientSideNavComponent:', () => {
                             useValue: navigationServiceStub
                         },
                         UserService,
-                        MockBackend,
-                        BaseRequestOptions,
-                        {
-                          provide: Http,
-                          useFactory: (
-                              backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-                          return new Http(backendInstance, defaultOptions);
-                        },
-                        deps: [MockBackend, BaseRequestOptions]
-                       },
                        AppSettingsService
                     ],
             schemas: [NO_ERRORS_SCHEMA]

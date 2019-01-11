@@ -1,4 +1,4 @@
-import {take} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import {
   Component, Output, Input, OnInit, EventEmitter,
   ViewEncapsulation, ChangeDetectorRef, AfterViewInit
@@ -76,22 +76,22 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
   public set programLocations(v: any | Array<any>) {
     if (v) {
       this._programLocations = v;
-      if ( v.length > 0) {
+      if (v.length > 0) {
         this.resetLocations();
         this.locationDropdownOptions = v.map((location) => {
           return {
             value: location.uuid,
             label: location.display
           };
-      });
+        });
       }
     } else {
       this.locationDropdownOptions = this.allEncounterLocations;
     }
   }
-private allEncounterLocations: Array<any> = [];
+  private allEncounterLocations: Array<any> = [];
   constructor(private locationResourceService: LocationResourceService,
-              private cd: ChangeDetectorRef) {
+    private cd: ChangeDetectorRef) {
   }
 
   public ngOnInit() {
@@ -99,7 +99,7 @@ private allEncounterLocations: Array<any> = [];
       this.selectedCounty = this.county;
     }
     if (this.locationUuids) {
-        this.selectedLocations = this.locationUuids;
+      this.selectedLocations = this.locationUuids;
     }
     this.resolveLocationDetails();
   }
@@ -183,8 +183,8 @@ private allEncounterLocations: Array<any> = [];
         if (typeof this.locationUuids === 'string') {
           this.selectedLocations = _.first(_.filter(this.locationDropdownOptions,
             (location) => {
-            return location.value === this.locationUuids;
-          }));
+              return location.value === this.locationUuids;
+            }));
         } else {
           this.selectedLocations = this.locationUuids;
         }

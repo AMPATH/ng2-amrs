@@ -89,8 +89,7 @@ import { EditAddressComponent } from './patient-info/edit-address.component';
 import {
   EditPatientIdentifierComponent
 } from './patient-identifier/edit-patient-identifier.component';
-import { PatientCareStatusResourceService } from
-  '../../etl-api/patient-care-status-resource.service';
+import { PatientCareStatusResourceService } from '../../etl-api/patient-care-status-resource.service';
 import { PatientIdentifierService } from './patient-identifier/patient-identifiers.service';
 import { EditContactsComponent } from './patient-info/edit-contacts.component';
 import { AgGridModule } from 'ag-grid-angular/main';
@@ -134,15 +133,16 @@ import { FormUpdaterService } from './formentry/form-updater.service';
 import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
 import { SessionStorageService } from '../../utils/session-storage.service';
-import { HttpClient } from '../../shared/services/http-client.service';
 import { PatientImagingComponent } from './imaging/patient-imaging.component';
 import { ProgramManagerModule } from '../../program-manager/program-manager.module';
 import { ZscoreService } from '../../shared/services/zscore.service';
 import { GroupEnrollmentModule } from '../group-enrollment/group-enrollment.module';
 import { VitalsDatasource } from './todays-vitals/vitals.datasource';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
+    HttpClientModule,
     CommonModule,
     FormsModule,
     RouterModule,
@@ -307,13 +307,6 @@ import { VitalsDatasource } from './todays-vitals/vitals.datasource';
     FormentryReferralsHandlerService,
     PatientCareStatusResourceService,
     ZscoreService,
-    {
-      provide: Http,
-      useFactory: (xhrBackend: XHRBackend, requestOptions: RequestOptions,
-        router: Router, sessionStorageService: SessionStorageService) =>
-        new HttpClient(xhrBackend, requestOptions, router, sessionStorageService),
-      deps: [XHRBackend, RequestOptions, Router, SessionStorageService]
-    },
     VitalsDatasource,
     TodayVisitService],
 })

@@ -18,9 +18,9 @@ export class BuildVersionComponent implements OnInit {
   public loadVersion() {
 
     try {
-        this.version = VERSION.version;
-        this.hash = VERSION.hash;
-        this.buildDate = new Date(VERSION.buildDate);
+      this.version = VERSION.version;
+      this.hash = VERSION.hash;
+      this.buildDate = new Date(VERSION.buildDate);
 
     } catch (e) {
     }

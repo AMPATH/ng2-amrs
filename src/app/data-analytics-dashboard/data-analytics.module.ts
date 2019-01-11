@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import {
   MatTabsModule, MatProgressSpinnerModule, MatProgressBarModule
 } from '@angular/material';
-import { Http, RequestOptions, XHRBackend } from '@angular/http';
 import { Router } from '@angular/router';
 import { Angulartics2Module } from 'angulartics2';
 import { DataListsModule } from '../shared/data-lists/data-lists.module';
@@ -22,8 +21,6 @@ import {
   ClinicDashboardCacheService
 } from '../clinic-dashboard/services/clinic-dashboard-cache.service';
 import { HivClinicFlowResourceService } from '../etl-api/hiv-clinic-flow-resource.service';
-import { SessionStorageService } from '../utils/session-storage.service';
-import { HttpClient } from '../shared/services/http-client.service';
 import { CacheModule } from 'ionic-cache';
 import {
   DataAnalyticsDashboardService
@@ -81,13 +78,6 @@ import {
       provide: 'ClinicFlowResource',
       useExisting: HivClinicFlowResourceService
     },
-    {
-      provide: Http,
-      useFactory: (xhrBackend: XHRBackend, requestOptions: RequestOptions,
-        router: Router, sessionStorageService: SessionStorageService) =>
-        new HttpClient(xhrBackend, requestOptions, router, sessionStorageService),
-      deps: [XHRBackend, RequestOptions, Router, SessionStorageService]
-    }
   ],
   exports: []
 })

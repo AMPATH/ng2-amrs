@@ -61,7 +61,7 @@ export class PatientReferralBaseComponent implements OnInit {
   }
 
   constructor(public patientReferralResourceService: PatientReferralResourceService,
-              public dataAnalyticsDashboardService: DataAnalyticsDashboardService) {
+    public dataAnalyticsDashboardService: DataAnalyticsDashboardService) {
   }
 
   public ngOnInit() {
