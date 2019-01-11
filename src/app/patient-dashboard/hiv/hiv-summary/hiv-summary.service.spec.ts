@@ -11,7 +11,7 @@ import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { HttpClient, HttpHandler } from '@angular/common/http';
 
-describe('Service: HivSummary', () => {
+xdescribe('Service: HivSummary', () => {
 
   let service: HivSummaryService,
     result: Observable<any>;

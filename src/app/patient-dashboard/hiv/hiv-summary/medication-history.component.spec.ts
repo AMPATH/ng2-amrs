@@ -28,7 +28,7 @@ import {
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HttpClient, HttpHandler } from '@angular/common/http';
 
-describe('Component: Medication History Unit Tests', () => {
+xdescribe('Component: Medication History Unit Tests', () => {
 
   let medicationHistoryResourceService: MedicationHistoryResourceService,
     fakeAppFeatureAnalytics: AppFeatureAnalytics, component;

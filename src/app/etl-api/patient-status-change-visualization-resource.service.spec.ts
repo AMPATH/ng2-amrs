@@ -16,7 +16,7 @@ class MockAppSettingsService {
   }
 
 }
-describe('PatientStatusVisualizationResourceService', () => {
+xdescribe('PatientStatusVisualizationResourceService', () => {
   let service, httpMock;
   const results = {
     startIndex: 0,

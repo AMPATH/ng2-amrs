@@ -10,7 +10,15 @@ import { LocationResourceService } from '../../../openmrs-api/location-resource.
 import { LocalStorageService } from '../../../utils/local-storage.service';
 import { DataCacheService } from '../../../shared/services/data-cache.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
 
+class MockCacheStorageService {
+  constructor(a, b) {}
+
+  public ready() {
+    return true;
+  }
+}
 describe('Service: PatientIdentifierService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -23,6 +31,11 @@ describe('Service: PatientIdentifierService', () => {
         AppSettingsService,
         DataCacheService,
         CacheService,
+        {
+          provide: CacheStorageService, useFactory: () => {
+            return new MockCacheStorageService(null, null);
+          }
+        }
       ]
     });
   });
