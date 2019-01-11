@@ -86,7 +86,7 @@ describe('Component: HivProgramSnapshotComponent', () => {
     });
   }));
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

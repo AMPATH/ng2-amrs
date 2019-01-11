@@ -96,7 +96,7 @@ describe('Component: PatientEncounterObservationsComponent', () => {
     processedObs = component.processEncounter(encounter);
   });
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

@@ -12,6 +12,10 @@ import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
 
 class MockCacheStorageService {
     constructor(a, b) { }
+
+    public ready() {
+        return true;
+    }
 }
 
 describe('Moh731ResourceService Tests', () => {
@@ -37,11 +41,7 @@ describe('Moh731ResourceService Tests', () => {
         httpMok = TestBed.get(HttpTestingController);
     });
 
-    afterAll(() => {
-        TestBed.resetTestingModule();
-    });
-
-    afterAll(() => {
+    afterEach(() => {
         TestBed.resetTestingModule();
     });
 

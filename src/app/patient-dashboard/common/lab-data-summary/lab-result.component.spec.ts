@@ -87,7 +87,7 @@ describe('Component: Lab Results Unit Tests', () => {
       });
   }));
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 });

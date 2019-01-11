@@ -229,11 +229,11 @@ describe('Component: ProgramVisitEncounterSearch', () => {
       });
   }));
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 
-  fit('should create an instance', () => {
+  it('should create an instance', () => {
       expect(comp).toBeDefined();
   });
 

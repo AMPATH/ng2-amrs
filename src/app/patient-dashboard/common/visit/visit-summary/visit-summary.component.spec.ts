@@ -20,7 +20,7 @@ describe('VisitSummaryComponent', () => {
     fixture.detectChanges();
   });
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

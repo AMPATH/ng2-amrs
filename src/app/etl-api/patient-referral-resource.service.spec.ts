@@ -9,6 +9,10 @@ import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
 
 class MockCacheStorageService {
   constructor(a, b) { }
+
+  public ready() {
+    return true;
+  }
 }
 const expectedPatientReferralResults = {
   startIndex: 0,
@@ -82,11 +86,7 @@ describe('PatientReferralResourceService Tests', () => {
     httpMok = TestBed.get(HttpTestingController);
   });
 
-  afterAll(() => {
-    TestBed.resetTestingModule();
-  });
-
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

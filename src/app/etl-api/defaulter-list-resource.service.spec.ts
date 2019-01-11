@@ -9,6 +9,10 @@ import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
 
 class MockCacheStorageService {
     constructor(a, b) { }
+
+    public ready() {
+        return true;
+    }
 }
 const expectedResults = {
     startIndex: 0,
@@ -108,7 +112,7 @@ describe('DefaulterListResourceService Tests', () => {
         s = TestBed.get(DefaulterListResourceService);
     });
 
-    afterAll(() => {
+    afterEach(() => {
         TestBed.resetTestingModule();
     });
 

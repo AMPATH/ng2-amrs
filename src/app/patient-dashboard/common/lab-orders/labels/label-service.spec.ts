@@ -11,7 +11,7 @@ describe('LabelService', () => {
         });
     });
 
-    afterAll(() => {
+    afterEach(() => {
         TestBed.resetTestingModule();
     });
 

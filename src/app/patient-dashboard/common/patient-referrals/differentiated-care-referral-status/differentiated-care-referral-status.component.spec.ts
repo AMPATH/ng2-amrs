@@ -22,7 +22,7 @@ describe('DifferentiatedCareReferralStatusComponent', () => {
     fixture.detectChanges();
   });
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

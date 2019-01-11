@@ -76,7 +76,7 @@ describe('HivMonthlySummaryIndicatorBaseComponent:', () => {
     });
   }));
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

@@ -102,6 +102,10 @@ class MockProviderResourceService {
 class StorageService {
   constructor(a, b) {
   }
+
+  public ready() {
+    return true;
+  }
 }
 
 describe('Component: User Default Settings Unit Tests', () => {

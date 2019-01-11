@@ -27,7 +27,7 @@ describe('PatientStatusChangeVisualizationService', () => {
     });
   });
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

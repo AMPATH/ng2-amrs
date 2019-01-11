@@ -89,10 +89,15 @@ describe('Service: FormSubmissionService', () => {
     message: 'Unable to convert object into response content',
   };
 
-  class StorageService {
+  class FakeCacheStorageService {
+    constructor(a, b) {
+    }
+
+    public ready() {
+      return true;
+    }
 
   }
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [],
@@ -116,7 +121,11 @@ describe('Service: FormSubmissionService', () => {
         DataCacheService,
         CacheService,
         ZscoreService,
-        { provide: CacheStorageService, useClass: StorageService }
+        {
+          provide: CacheStorageService, useFactory: () => {
+            return new FakeCacheStorageService(null, null);
+          }
+        }
       ],
       imports: [
         CacheModule, HttpClientTestingModule

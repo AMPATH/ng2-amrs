@@ -22,7 +22,7 @@ describe('Drafted Forms Service:', () => {
         });
     });
 
-    afterAll(() => {
+    afterEach(() => {
         TestBed.resetTestingModule();
     });
 

@@ -156,7 +156,7 @@ describe('Component: PatientSearch', () => {
 
   });
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
     httpMock.verify();
   });

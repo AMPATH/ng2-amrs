@@ -85,7 +85,7 @@ describe('CohortListComponent', () => {
       });
   }));
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

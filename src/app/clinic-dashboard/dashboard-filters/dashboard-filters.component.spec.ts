@@ -100,7 +100,7 @@ export class FakeClinicalSummaryVisualizationResourceService {
     parentComponent = parentFixture.componentInstance;
   });
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

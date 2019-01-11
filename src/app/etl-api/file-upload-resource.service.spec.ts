@@ -21,7 +21,7 @@ describe('FileUploadResourceService', () => {
         httpMock = TestBed.get(HttpTestingController);
     });
 
-    afterAll(() => {
+    afterEach(() => {
         TestBed.resetTestingModule();
     });
 

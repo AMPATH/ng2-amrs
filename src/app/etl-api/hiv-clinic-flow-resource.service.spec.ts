@@ -10,6 +10,10 @@ import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
 
 class MockCacheStorageService {
     constructor(a, b) { }
+
+    public ready() {
+        return true;
+    }
 }
 describe('HivClinicFlowResourceService Tests', () => {
     let s, httpMock;

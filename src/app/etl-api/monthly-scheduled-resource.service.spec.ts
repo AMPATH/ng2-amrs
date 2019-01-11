@@ -8,6 +8,10 @@ import { HttpTestingController, HttpClientTestingModule } from '@angular/common/
 import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
 class MockCacheStorageService {
     constructor(a, b) { }
+
+    public ready() {
+        return true;
+    }
 }
 
 const expected = {
@@ -134,13 +138,10 @@ describe('MonthlyScheduleResourceService Tests', () => {
         httpMock = TestBed.get(HttpTestingController);
     });
 
-    afterAll(() => {
+    afterEach(() => {
         TestBed.resetTestingModule();
     });
 
-    afterAll(() => {
-        TestBed.resetTestingModule();
-    });
 
     it('should be defined',
         inject([MonthlyScheduleResourceService], (s: MonthlyScheduleResourceService,

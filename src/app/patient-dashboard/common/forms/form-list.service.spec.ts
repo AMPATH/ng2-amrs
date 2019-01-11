@@ -30,7 +30,7 @@ describe('FormListService', () => {
         });
     });
 
-    afterAll(() => {
+    afterEach(() => {
         TestBed.resetTestingModule();
     });
 

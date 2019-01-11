@@ -10,6 +10,10 @@ import { PouchdbService } from './pouchdb-service/pouchdb.service';
 
 class MockCacheStorageService {
   constructor(a, b) { }
+
+  public ready() {
+    return true;
+  }
 }
 
 describe('AppComponent', () => {
@@ -32,7 +36,7 @@ describe('AppComponent', () => {
     appComponent = TestBed.get(AppComponent);
   }));
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
   it('should return true', () => {

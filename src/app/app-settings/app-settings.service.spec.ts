@@ -18,10 +18,6 @@ describe('AppSettingsServices Unit Tests', () => {
     initialNumberOfEtlUrls = service.etlServerUrls.length;
   });
 
-  // afterAll(() => {
-  //   TestBed.resetTestingModule();
-  // });
-
   it('Should add url to proper list and set it correctly', () => {
     service.addAndSetUrl(url, 'etl');
     expect(service.etlServerUrls.length).toEqual(initialNumberOfEtlUrls + 1);

@@ -14,7 +14,7 @@ describe('ClinicFlowCacheService Unit Tests', () => {
         });
     });
 
-    afterAll(() => {
+    afterEach(() => {
         TestBed.resetTestingModule();
     });
 

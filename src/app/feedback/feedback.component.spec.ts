@@ -78,7 +78,7 @@ describe('FeedBackComponent', () => {
             });
     }));
 
-    afterAll(() => {
+    afterEach(() => {
         TestBed.resetTestingModule();
     });
 

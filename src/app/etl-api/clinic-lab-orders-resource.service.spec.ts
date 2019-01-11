@@ -55,7 +55,7 @@ describe('ClinicLabOrdersResourceService Tests', () => {
     });
   });
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

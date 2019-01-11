@@ -37,11 +37,7 @@ describe('PatientCareStatusResource', () => {
         httpMock = TestBed.get(HttpTestingController);
     });
 
-    afterAll(() => {
-        TestBed.resetTestingModule();
-    });
-
-    afterAll(() => {
+    afterEach(() => {
         TestBed.resetTestingModule();
     });
 

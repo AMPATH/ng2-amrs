@@ -46,7 +46,7 @@ describe('HivSummaryMonthlyTabularComponent: ', () => {
     });
   }));
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

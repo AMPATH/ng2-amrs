@@ -52,7 +52,7 @@ describe('AppSettingsComponent Tests', () => {
       });
   }));
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

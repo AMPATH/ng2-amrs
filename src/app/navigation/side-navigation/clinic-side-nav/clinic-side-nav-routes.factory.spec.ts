@@ -123,7 +123,7 @@ describe('Clinic Routes Factory:', () => {
     });
   });
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

@@ -22,7 +22,7 @@ describe('ErrorLogResourceService Unit Tests', () => {
     httpMock = TestBed.get(HttpTestingController);
   }));
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

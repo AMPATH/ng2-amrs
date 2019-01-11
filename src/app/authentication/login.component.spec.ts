@@ -55,7 +55,7 @@ describe('LoginComponent Unit Tests', () => {
     ]
   }));
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

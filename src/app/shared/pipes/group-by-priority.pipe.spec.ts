@@ -34,7 +34,7 @@ describe('Pipe: GroupByPriority', () => {
     pipe = new GroupByPriority();
   });
 
-  afterAll(() => {
+  afterEach(() => {
     pipe = null;
   });
 

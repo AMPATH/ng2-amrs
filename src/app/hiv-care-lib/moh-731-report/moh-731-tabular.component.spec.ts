@@ -38,7 +38,7 @@ describe('Moh731TabularComponent: ', () => {
         });
     }));
 
-    afterAll(() => {
+    afterEach(() => {
         TestBed.resetTestingModule();
     });
 

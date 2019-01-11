@@ -66,7 +66,7 @@ describe('Component: HivSummaryIndicatorsPatientListComponent', () => {
 
     }));
 
-    afterAll(() => {
+    afterEach(() => {
         TestBed.resetTestingModule();
     });
 

@@ -11,6 +11,10 @@ import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
 
 class MockCacheStorageService {
   constructor(a, b) {}
+
+  public ready() {
+    return true;
+  }
 }
 describe('Service : DataCacheService Unit Tests', () => {
 

@@ -76,7 +76,7 @@ describe('Component: PatientIdentifier', () => {
     }
   ];
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

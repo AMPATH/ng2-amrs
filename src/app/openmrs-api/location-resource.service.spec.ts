@@ -7,8 +7,13 @@ import { CacheModule, CacheService } from 'ionic-cache';
 import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
 import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
 
-class StorageService {
+class MockCacheStorageService {
+  constructor(a, b) {
+  }
 
+  public ready() {
+    return true;
+  }
 }
 describe('LocationResourceService Unit Tests', () => {
 
@@ -28,7 +33,11 @@ describe('LocationResourceService Unit Tests', () => {
         LocalStorageService,
         DataCacheService,
         CacheService,
-        {provide: CacheStorageService, useClass: StorageService}
+        {
+          provide: CacheStorageService, usefactory: () => {
+            return new MockCacheStorageService(null, null);
+          }
+        }
       ]
     });
 
@@ -40,7 +49,7 @@ describe('LocationResourceService Unit Tests', () => {
 
   }));
 
-  afterAll(() => {
+  afterEach(() => {
     httpMock.verify();
     TestBed.resetTestingModule();
   });

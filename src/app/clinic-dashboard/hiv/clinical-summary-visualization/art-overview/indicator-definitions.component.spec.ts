@@ -77,7 +77,7 @@ describe('ArtOverviewIndicatorDefComponent', () => {
       });
   }));
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

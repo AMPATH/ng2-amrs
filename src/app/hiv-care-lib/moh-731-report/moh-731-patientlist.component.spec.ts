@@ -100,7 +100,7 @@ describe('Component: Moh731PatientListComponent', () => {
 
   }));
 
-  afterAll(() => {
+  (() => {
     TestBed.resetTestingModule();
   });
 

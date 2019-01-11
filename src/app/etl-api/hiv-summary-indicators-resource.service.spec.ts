@@ -27,6 +27,10 @@ const expectedHivSummaryIndicatorsResults = {
 
 class MockCacheStorageService {
     constructor(a, b) { }
+
+    public ready() {
+        return true;
+    }
 }
 
 const reportParams = {
@@ -82,13 +86,10 @@ describe('HivSummaryIndicatorsResourceService Tests', () => {
         httpMock = TestBed.get(HttpTestingController);
     });
 
-    afterAll(() => {
+    afterEach(() => {
         TestBed.resetTestingModule();
     });
 
-    afterAll(() => {
-        TestBed.resetTestingModule();
-    });
 
     it('should be defined',
         inject([HivSummaryIndicatorsResourceService],

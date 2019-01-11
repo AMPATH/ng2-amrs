@@ -98,7 +98,7 @@ describe('ShareCohortListComponent', () => {
       });
   }));
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

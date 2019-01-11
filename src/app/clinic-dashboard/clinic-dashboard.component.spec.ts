@@ -17,10 +17,14 @@ describe('clinic-dashboard component tests', () => {
 
     class MockCacheStorageService {
         constructor(a, b) { }
+
+        public ready() {
+            return true;
+        }
     }
 
     const routes: Routes = [
-        { path: 'user-default-properties', component: ClinicDashboardComponent  }
+        { path: 'user-default-properties', component: ClinicDashboardComponent }
     ];
 
     beforeEach(async(() => {
@@ -34,7 +38,7 @@ describe('clinic-dashboard component tests', () => {
             providers: [
                 CacheService,
                 ClinicDashboardCacheService, ClinicDashboardCacheService,
-                 LocalStorageService,
+                LocalStorageService,
                 {
                     provide: CacheStorageService, useFactory: () => {
                         return new MockCacheStorageService(null, null);
@@ -89,7 +93,7 @@ describe('clinic-dashboard component tests', () => {
         expect(service.getLocations).toHaveBeenCalled();
 
         done();
-      });
+    });
 });
 
 

@@ -16,7 +16,7 @@ describe('Component: GenericList', () => {
     });
   });
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 
