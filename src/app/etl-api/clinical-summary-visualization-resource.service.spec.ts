@@ -161,7 +161,7 @@ describe('ClinicalSummaryVisualizationResourceService Tests', () => {
             })
     );
 
-    xit('should return report urlRequest parameters',
+    it('should return report urlRequest parameters',
         inject([ClinicalSummaryVisualizationResourceService],
             (s: ClinicalSummaryVisualizationResourceService) => {
                 const urlParams = s.getUrlRequestParams(reportParams);

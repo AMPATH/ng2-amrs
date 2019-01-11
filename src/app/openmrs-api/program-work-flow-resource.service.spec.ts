@@ -5,7 +5,7 @@ import { AppSettingsService } from '../app-settings/app-settings.service';
 import { ProgramWorkFlowResourceService } from './program-workflow-resource.service';
 import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
 
-xdescribe('Service: ProgramWorkFlowResourceService', () => {
+describe('Service: ProgramWorkFlowResourceService', () => {
   let service: ProgramWorkFlowResourceService;
   let httpMock: HttpTestingController;
 

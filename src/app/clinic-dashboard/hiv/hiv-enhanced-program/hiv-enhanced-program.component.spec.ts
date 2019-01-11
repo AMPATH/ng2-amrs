@@ -86,7 +86,7 @@ describe('HivEnhancedComponent Tests', () => {
         expect(component.title).toBe('HIV Enhanced Adherence Reports');
     });
 
-    xit('should have all the required functions defined and callable', (done) => {
+    it('should have all the required functions defined and callable', (done) => {
         spyOn(component, 'generateReport').and.callThrough();
         component.generateReport('');
         expect(component.generateReport).toHaveBeenCalled();

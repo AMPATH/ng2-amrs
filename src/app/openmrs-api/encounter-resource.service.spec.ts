@@ -4,7 +4,7 @@ import { AppSettingsService } from '../app-settings/app-settings.service';
 import { EncounterResourceService } from './encounter-resource.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-xdescribe('EncounterResourceService', () => {
+describe('EncounterResourceService', () => {
 
     let httpMock: HttpTestingController;
     let service: EncounterResourceService;

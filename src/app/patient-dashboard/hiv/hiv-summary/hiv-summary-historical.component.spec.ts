@@ -22,7 +22,7 @@ import {
 import { HttpClient, HttpHandler } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-xdescribe('Component: HivSummaryHistorical Unit Tests', () => {
+describe('Component: HivSummaryHistorical Unit Tests', () => {
 
   let hivSummaryService: HivSummaryService,
     patientService: PatientService, component;

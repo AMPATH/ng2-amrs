@@ -5,7 +5,7 @@ import { LocalStorageService } from '../utils/local-storage.service';
 import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
 
 // Load the implementations that should be tested
-xdescribe('ErrorLogResourceService Unit Tests', () => {
+describe('ErrorLogResourceService Unit Tests', () => {
   let s, httpMock;
 
   beforeEach(async(() => {

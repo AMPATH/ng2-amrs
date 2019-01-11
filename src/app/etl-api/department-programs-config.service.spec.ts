@@ -95,7 +95,7 @@ class MockCacheStorageService {
     }
 }
 
-xdescribe('Service :  Department Programs Configuration Service', () => {
+describe('Service :  Department Programs Configuration Service', () => {
     let s, httpMock;
     beforeEach(() => {
         TestBed.configureTestingModule({

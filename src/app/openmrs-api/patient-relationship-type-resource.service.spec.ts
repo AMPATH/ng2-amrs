@@ -6,7 +6,7 @@ import {
 } from './patient-relationship-type-resource.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
-xdescribe('Service: Pratient Relationship ResourceService', () => {
+describe('Service: Pratient Relationship ResourceService', () => {
 
   let service: PatientRelationshipTypeResourceService;
   let httpMock: HttpTestingController;

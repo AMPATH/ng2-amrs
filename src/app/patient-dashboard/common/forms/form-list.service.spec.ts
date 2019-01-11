@@ -175,7 +175,7 @@ describe('FormListService', () => {
             expect(processFavouriteForms).toEqual(expectedfavouriteForms);
         }));
 
-    xit('should fetch and process the final form list when getFormList is invoked',
+    it('should fetch and process the final form list when getFormList is invoked',
         async(inject([FormListService, FormOrderMetaDataService, FormsResourceService],
             (formListService: FormListService,
              formOrderMetaDataService: FormOrderMetaDataService,

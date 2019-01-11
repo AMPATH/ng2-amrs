@@ -6,7 +6,7 @@ import { HttpTestingController, HttpClientTestingModule } from '@angular/common/
 
 // Load the implementations that should be tested
 
-xdescribe('FormResourceService Unit Tests', () => {
+describe('FormResourceService Unit Tests', () => {
 
   let formsResourceService: FormsResourceService;
   let httpMock: HttpTestingController;

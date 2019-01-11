@@ -113,7 +113,7 @@ describe('HivMonthlySummaryIndicatorsResourceService Tests', () => {
         expect(s.getHivSummaryMonthlyIndicatorsPatientList).toBeDefined();
     });
 
-    xit('should return report urlRequest parameters', () => {
+    it('should return report urlRequest parameters', () => {
         const urlParams = s.getUrlRequestParams(reportParams);
         const params = urlParams.toString();
         expect(params).toContain('locationUuids=08fec056-1352-11df-a1f1-0026b9348838');

@@ -173,11 +173,11 @@ describe('Component : DepartmentProgramFilter', () => {
     TestBed.resetTestingModule();
   });
 
-  xit('should create an instance', () => {
+  it('should create an instance', () => {
     expect(comp).toBeDefined();
   });
 
-  xit('should set params and emit params on set filter', () => {
+  it('should set params and emit params on set filter', () => {
     const spy = spyOn(comp, 'passParamsToUrl');
     comp.location = mocklocationSelected;
     comp.selectedStartDate = selectedStartDate;

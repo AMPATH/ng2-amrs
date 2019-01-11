@@ -35,7 +35,7 @@ describe('Service: LabOrdersSearchService', () => {
         expect(service).toBeTruthy();
     });
 
-    xit('should get lab order by uuid', (done) => {
+    it('should get lab order by uuid', (done) => {
         const service: LabOrdersSearchService = TestBed.get(LabOrdersSearchService);
         const result = service.searchLabOrder('ORD-4312', false);
 

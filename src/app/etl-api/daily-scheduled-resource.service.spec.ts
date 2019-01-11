@@ -41,7 +41,7 @@ const expectedResults = {
         }
     ]
 };
-xdescribe('DailyScheduleResourceService Tests', () => {
+describe('DailyScheduleResourceService Tests', () => {
     let s: DailyScheduleResourceService;
     let httpMock: HttpTestingController;
     beforeEach(() => {

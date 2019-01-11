@@ -4,7 +4,7 @@ import { AppSettingsService } from '../app-settings/app-settings.service';
 import { PatientRelationshipResourceService } from './patient-relationship-resource.service';
 import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
 
-xdescribe('Service: Pratient Relationship ResourceService', () => {
+describe('Service: Pratient Relationship ResourceService', () => {
 
   let service: PatientRelationshipResourceService;
   let httpMock: HttpTestingController;

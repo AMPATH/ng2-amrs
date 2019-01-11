@@ -145,7 +145,7 @@ describe('Component: ClinicFlowSummaryComponent', () => {
 
   });
 
-  xit('should subscribe to current clinic and dates when ngOnInit is invoked',
+  it('should subscribe to current clinic and dates when ngOnInit is invoked',
     (done) => {
       const service: ClinicFlowCacheService = TestBed.get(ClinicFlowCacheService);
       service.setSelectedLocation('location-uuid');
@@ -179,7 +179,7 @@ describe('Component: ClinicFlowSummaryComponent', () => {
 
     });
 
-  xit('should load clinic flow summary data when getClinicFlow() '
+  it('should load clinic flow summary data when getClinicFlow() '
     + ' is invoked',
     (done) => {
       component.getClinicFlow('2017-03-29T12:03:48.190Z', 'uuid');

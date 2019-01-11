@@ -53,7 +53,7 @@ const indicatorDefinitions = [
 
 ];
 
-xdescribe('ArtOverviewIndicatorDefComponent', () => {
+describe('ArtOverviewIndicatorDefComponent', () => {
   let fixture: ComponentFixture<ArtOverviewIndicatorDefComponent>;
   let comp: ArtOverviewIndicatorDefComponent;
   let dataStub: ClinicalSummaryVisualizationResourceService;
@@ -81,7 +81,7 @@ xdescribe('ArtOverviewIndicatorDefComponent', () => {
     TestBed.resetTestingModule();
   });
 
-  xit('should be instantiated', () => {
+  it('should be instantiated', () => {
     expect(comp).toBeTruthy();
   });
 

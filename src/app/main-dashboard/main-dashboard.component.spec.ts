@@ -78,7 +78,7 @@ describe('Component: MainDashboard', () => {
     fixture.detectChanges();
   });
 
-  xit('should create an instance', () => {
+  it('should create an instance', () => {
     expect(component).toBeDefined();
   });
 });

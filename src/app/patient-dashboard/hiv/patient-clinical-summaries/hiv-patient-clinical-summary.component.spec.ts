@@ -28,7 +28,7 @@ import { PatientProgramService } from '../../programs/patient-programs.service';
 import { HttpClient, HttpHandler } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-xdescribe('Component: HivPatientClinicalSummaryComponent', () => {
+describe('Component: HivPatientClinicalSummaryComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({

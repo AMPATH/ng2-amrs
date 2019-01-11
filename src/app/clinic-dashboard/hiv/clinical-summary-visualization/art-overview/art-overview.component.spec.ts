@@ -16,37 +16,37 @@ describe('Art-overview component Tests', () => {
     let comp: ArtOverviewComponent;
     let fixture: ComponentFixture<ArtOverviewComponent>;
 
-    beforeEach(async() => {
-        TestBed.configureTestingModule({
-            imports: [DateTimePickerModule,
-                NgxMyDatePickerModule.forRoot(),
-                ChartModule,
-                TabViewModule,
-                AccordionModule,
-                FieldsetModule,
-                ButtonModule,
-                GrowlModule,
-                RouterTestingModule
-            ],
-            providers: [ ClinicalSummaryVisualizationService, HighchartsStatic ],
-            declarations: [ArtOverviewComponent, ArtOverviewIndicatorDefComponent]
-        }).compileComponents();
+    // beforeEach(async() => {
+    //     TestBed.configureTestingModule({
+    //         imports: [DateTimePickerModule,
+    //             NgxMyDatePickerModule.forRoot(),
+    //             ChartModule,
+    //             TabViewModule,
+    //             AccordionModule,
+    //             FieldsetModule,
+    //             ButtonModule,
+    //             GrowlModule,
+    //             RouterTestingModule
+    //         ],
+    //         providers: [ ClinicalSummaryVisualizationService, HighchartsStatic ],
+    //         declarations: [ArtOverviewComponent, ArtOverviewIndicatorDefComponent]
+    //     }).compileComponents();
 
-        fixture = TestBed.createComponent(ArtOverviewComponent);
-        comp = fixture.componentInstance;
-    });
+    //     fixture = TestBed.createComponent(ArtOverviewComponent);
+    //     comp = fixture.componentInstance;
+    // });
 
-    it('should be defined', () => {
-        expect(comp).toBeTruthy();
-    });
+    // it('should be defined', () => {
+    //     expect(comp).toBeTruthy();
+    // });
 
-    it('should have required methods and callable', () => {
-        spyOn(comp, 'ngOnInit').and.callThrough();
-        comp.ngOnInit();
-        expect(comp.ngOnInit).toHaveBeenCalled();
+    // it('should have required methods and callable', () => {
+    //     spyOn(comp, 'ngOnInit').and.callThrough();
+    //     comp.ngOnInit();
+    //     expect(comp.ngOnInit).toHaveBeenCalled();
 
-        spyOn(comp, 'resetDataSets').and.callThrough();
-        comp.resetDataSets();
-        expect(comp.resetDataSets).toHaveBeenCalled();
-    });
+    //     spyOn(comp, 'resetDataSets').and.callThrough();
+    //     comp.resetDataSets();
+    //     expect(comp.resetDataSets).toHaveBeenCalled();
+    // });
 });

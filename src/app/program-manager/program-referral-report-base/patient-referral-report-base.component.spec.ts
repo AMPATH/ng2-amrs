@@ -92,7 +92,7 @@ describe('PatientReferralBaseComponent:', () => {
       .toBe(true);
   });
 
-  xit('should generate patient referral report using paramaters supplied',
+  it('should generate patient referral report using paramaters supplied',
     (done) => {
       const fakeReply: any = {
         result: [{
@@ -121,7 +121,7 @@ describe('PatientReferralBaseComponent:', () => {
 
     });
 
-  xit('should report errors when generating patient referral report fails',
+  it('should report errors when generating patient referral report fails',
     (done) => {
       comp = fixture.componentInstance;
       const service = fixture.componentInstance.patientReferralResourceService;

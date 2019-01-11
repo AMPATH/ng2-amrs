@@ -99,7 +99,7 @@ export class FakePersonResourceService {
   }
 }
 
-xdescribe('Component: FormentryComponent', () => {
+describe('Component: FormentryComponent', () => {
   const router = {
     navigate: jasmine.createSpy('navigate')
   };
@@ -403,7 +403,7 @@ xdescribe('Component: FormentryComponent', () => {
       })
   );
 
-  xit('should NOT populate form with historical values/ encounters when ' +
+  it('should NOT populate form with historical values/ encounters when ' +
     'editting an existing form. Case: editting exsting form',
     inject([FormSchemaService, FormentryComponent, FormFactory, EncounterAdapter,
       ActivatedRoute, DataSources],
@@ -474,7 +474,7 @@ xdescribe('Component: FormentryComponent', () => {
       })
   );
 
-  xit('should NOT tie encounter/form to a visit even if the visit-uuid is defined' +
+  it('should NOT tie encounter/form to a visit even if the visit-uuid is defined' +
     ' when editting form: Case Editting existing form',
     inject([FormSchemaService, FormentryComponent, FormFactory, EncounterAdapter,
       ActivatedRoute],

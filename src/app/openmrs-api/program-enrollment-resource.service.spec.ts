@@ -5,7 +5,7 @@ import { AppSettingsService } from '../app-settings/app-settings.service';
 import { ProgramEnrollmentResourceService } from './program-enrollment-resource.service';
 import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
 
-xdescribe('Service: ProgramEnrollmentResourceService', () => {
+describe('Service: ProgramEnrollmentResourceService', () => {
 
   let service: ProgramEnrollmentResourceService;
   let httpMock: HttpTestingController;

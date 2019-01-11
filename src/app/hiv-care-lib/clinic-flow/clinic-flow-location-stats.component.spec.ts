@@ -170,7 +170,7 @@ describe('Component: ClinicFlowLocationStatsComponent', () => {
     });
 
 
-  xit('should load clinic flow data and setIsLoading data when getClinicFlowLocationStats '
+  it('should load clinic flow data and setIsLoading data when getClinicFlowLocationStats '
     + ' is invoked',
     (done) => {
       const service: ClinicFlowCacheService = TestBed.get(ClinicFlowCacheService);

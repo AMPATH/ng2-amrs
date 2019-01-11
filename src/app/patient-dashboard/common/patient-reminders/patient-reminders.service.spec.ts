@@ -49,7 +49,7 @@ describe('Service: PatientReminderService', () => {
 
   });
 
-  xit('should return an error when load patient reminders is not successful', () => {
+  it('should return an error when load patient reminders is not successful', () => {
     spyOn(service, 'getPatientReminders').and.callFake((err, data) => {
     });
     service.getPatientReminders('uuid').subscribe((res) => {

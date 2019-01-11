@@ -47,7 +47,7 @@ export class FakeAppSettingsService {
   }
 }
 
-xdescribe('Service: Moh731PatientListResourceService', () => {
+describe('Service: Moh731PatientListResourceService', () => {
   let service: Moh731PatientListResourceService;
   let httpMock: HttpTestingController;
   beforeEach(async(() => {

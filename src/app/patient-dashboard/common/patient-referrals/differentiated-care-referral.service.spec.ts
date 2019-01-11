@@ -11,7 +11,7 @@ import { EncounterResourceService } from '../../../openmrs-api/encounter-resourc
 import { ProgramEnrollmentResourceService } from '../../../openmrs-api/program-enrollment-resource.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-xdescribe('Service: DifferentiatedCareReferral', () => {
+describe('Service: DifferentiatedCareReferral', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [],

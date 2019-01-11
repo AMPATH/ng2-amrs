@@ -116,7 +116,7 @@ describe('ShareCohortListComponent', () => {
       expect(spy.calls.any()).toEqual(true);
       done();
     });
-  xit('should hit the success callback when createCohortUser returns success',
+  it('should hit the success callback when createCohortUser returns success',
     (done) => {
       const spy = spyOn(dataStub, 'createCohortUser').and.returnValue(
         of(expectedPayload)

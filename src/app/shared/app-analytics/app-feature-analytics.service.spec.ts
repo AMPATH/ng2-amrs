@@ -40,7 +40,7 @@ describe('App Feature Analytics Service', () => {
     TestBed.resetTestingModule();
   });
 
-  xit('should be defined', () => {
+  it('should be defined', () => {
     expect(appFeatureAnalytics).toBeDefined();
   });
 

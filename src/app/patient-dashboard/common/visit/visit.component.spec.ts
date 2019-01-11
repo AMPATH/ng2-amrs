@@ -53,7 +53,7 @@ class RouterStub {
   public navigateByUrl(url: string) { return url; }
 }
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
-xdescribe('Component: Visit', () => {
+describe('Component: Visit', () => {
 
   let fixture, comp: VisitComponent, nativeElement;
 

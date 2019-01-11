@@ -30,7 +30,7 @@ describe('CdmSummaryService Unit Tests', () => {
     inject([CdmSummaryResourceService], (cdmSummaryResourceService: CdmSummaryResourceService) =>
       expect(cdmSummaryResourceService).toBeTruthy()));
 
-  xit('should make API call with the correct url parameters', (done) => {
+  it('should make API call with the correct url parameters', (done) => {
     const patientUuid = '5b82f9da-1359-11df-a1f1-0026b9348838';
     const startIndex = '0';
     const limit = '20';
@@ -46,7 +46,7 @@ describe('CdmSummaryService Unit Tests', () => {
   });
 });
 
-xit('should return a list of Cdm summary record', (done) => {
+it('should return a list of Cdm summary record', (done) => {
   const cdmSummaryResourceService: CdmSummaryResourceService = TestBed
     .get(CdmSummaryResourceService);
 
@@ -62,7 +62,7 @@ xit('should return a list of Cdm summary record', (done) => {
     });
 });
 
-xit('should throw an error when server returns an error response', (done) => {
+it('should throw an error when server returns an error response', (done) => {
 
   const cdmSummaryResourceService: CdmSummaryResourceService = TestBed
     .get(CdmSummaryResourceService);

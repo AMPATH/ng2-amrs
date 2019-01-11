@@ -16,7 +16,7 @@ class MockCacheStorageService {
 }
 }
 
-xdescribe('IndicatorResourceService Unit Tests', () => {
+describe('IndicatorResourceService Unit Tests', () => {
   let service, httpMock;
   beforeEach(async(() => {
     TestBed.configureTestingModule({

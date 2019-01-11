@@ -34,7 +34,7 @@ import { HttpClientTestingBackend } from '@angular/common/http/testing/src/backe
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { VitalsDatasource } from './vitals.datasource';
 
-xdescribe('Component: Todays Vitals Unit Tests', () => {
+describe('Component: Todays Vitals Unit Tests', () => {
 
   let vitalsService: TodaysVitalsService, patientService: PatientService,
     fakeAppFeatureAnalytics: AppFeatureAnalytics, component;

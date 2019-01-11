@@ -87,7 +87,7 @@ describe('Component: Vitals Unit Tests', () => {
 
   });
 
-  xit('should have all the required functions defined and callable', (done) => {
+  it('should have all the required functions defined and callable', (done) => {
 
     spyOn(component, 'ngOnInit').and.callThrough();
     component.ngOnInit();

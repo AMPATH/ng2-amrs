@@ -47,7 +47,7 @@ describe('Service: TodaysVitalsService', () => {
     expect(service).toBeTruthy();
   });
 
-  xit('should get todays vitals based on todays triage encounters', (done) => {
+  it('should get todays vitals based on todays triage encounters', (done) => {
     const mockPatient = new Patient({
       'patient': {
         'person': { uuid: 'bad1e162-cd75-45c6-97f8-13a6a4d6ce01', age: 9, birthdate: '2009-01-10' },

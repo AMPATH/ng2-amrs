@@ -10,7 +10,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { DraftedFormsService } from './drafted-forms.service';
 import { Form } from 'ngx-openmrs-formentry/dist/ngx-formentry';
 
-xdescribe('Drafted Forms Service:', () => {
+describe('Drafted Forms Service:', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({

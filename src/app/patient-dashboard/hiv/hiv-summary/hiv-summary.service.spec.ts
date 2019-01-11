@@ -11,7 +11,7 @@ import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { HttpClient, HttpHandler } from '@angular/common/http';
 
-xdescribe('Service: HivSummary', () => {
+describe('Service: HivSummary', () => {
 
   let service: HivSummaryService,
     result: Observable<any>;
@@ -45,7 +45,7 @@ xdescribe('Service: HivSummary', () => {
   });
 
 
-  xit('should load hiv summary', (done) => {
+  it('should load hiv summary', (done) => {
     result.subscribe((results) => {
       if (results) {
         expect(results).toBeTruthy();

@@ -19,7 +19,7 @@ describe('Daily-schedule clinic flow component Tests', () => {
         comp = fixture.componentInstance;
     });
 
-    xit('should be defined', () => {
+    it('should be defined', () => {
         expect(comp).toBeDefined();
     });
 

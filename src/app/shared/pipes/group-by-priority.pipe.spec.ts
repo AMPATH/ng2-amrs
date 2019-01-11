@@ -43,7 +43,7 @@ describe('Pipe: GroupByPriority', () => {
     done();
   });
 
-  xit('It should sort available HIV programs starting with the highest priority', (done) => {
+  it('It should sort available HIV programs starting with the highest priority', (done) => {
     const transformPrograms: Array<any> = pipe.transform(availablePrograms);
     expect(transformPrograms).toBe(expectedSortedPrograms);
     done();

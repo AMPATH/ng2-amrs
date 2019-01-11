@@ -64,7 +64,7 @@ const motdNotifications = [
   }
 ];
 
-xdescribe('Component : MOTD Notification', () => {
+describe('Component : MOTD Notification', () => {
 
   let comp: MOTDNotificationComponent;
   let fixture: ComponentFixture<MOTDNotificationComponent>;

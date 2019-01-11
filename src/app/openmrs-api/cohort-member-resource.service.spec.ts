@@ -6,7 +6,7 @@ import { LocalStorageService } from '../utils/local-storage.service';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
-xdescribe('Service : CohortMemberResourceService Unit Tests', () => {
+describe('Service : CohortMemberResourceService Unit Tests', () => {
     let cohortMemberService: CohortMemberResourceService;
     let httpMock: HttpTestingController;
 

@@ -134,7 +134,7 @@ describe('Clinic Routes Factory:', () => {
     })
   );
 
-  xit('should create dashboard routes for a given clinic',
+  it('should create dashboard routes for a given clinic',
     inject([ClinicRoutesFactory], (s: ClinicRoutesFactory) => {
       const locationUuid = 'locationUuid';
 

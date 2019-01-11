@@ -42,7 +42,7 @@ describe('Clinical notes Resource Service Unit Tests', () => {
 
 });
 
-xit('should return the correct parameters from the api',
+it('should return the correct parameters from the api',
   async(inject([ClinicalNotesResourceService],
     (notesResourceService: ClinicalNotesResourceService) => {
 
@@ -58,7 +58,7 @@ xit('should return the correct parameters from the api',
 
     })));
 
-xit('should return the correct parameters from the api',
+it('should return the correct parameters from the api',
   async(inject([ClinicalNotesResourceService],
     (notesResourceService: ClinicalNotesResourceService) => {
       const patientUuid = 'patient-uuid';

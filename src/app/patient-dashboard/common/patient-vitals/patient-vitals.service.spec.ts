@@ -62,7 +62,7 @@ describe('Service: PatientVitalsService', () => {
   });
 
 
-  xit('should load Patient Vitals', (done) => {
+  it('should load Patient Vitals', (done) => {
     vitals.subscribe((results) => {
       if (results) {
         expect(results).toBeTruthy();
@@ -74,7 +74,7 @@ describe('Service: PatientVitalsService', () => {
 
   });
 
-  xit('should return an error when load patient vitals is not successful', (done) => {
+  it('should return an error when load patient vitals is not successful', (done) => {
     let httpMock: HttpTestingController = TestBed.get(HttpTestingController);
 
     // let patientUuid = 'de662c03-b9af-4f00-b10e-2bda0440b03b';

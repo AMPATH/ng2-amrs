@@ -181,7 +181,7 @@ describe('Component: Location Filter Component', () => {
     expect(component.selectedCounty).toEqual('Uasin Gishu');
   }));
 
-  xit('should set county when an object of location is given', async() => {
+  it('should set county when an object of location is given', async() => {
     component.locationUuids = {value: '123', label: 'MTRH Module 1'};
     await component.ngOnInit();
     // tick();
@@ -191,7 +191,7 @@ describe('Component: Location Filter Component', () => {
     expect(component.selectedCounty).toEqual('Uasin Gishu');
   });
 
-  xit('should NOT set county when locations from different counties are given', async () => {
+  it('should NOT set county when locations from different counties are given', async () => {
     // 123 = Uasin Gishu && 789 = Nandi
       component.locationUuids = [
         {value: '123', label: 'MTRH Module 1'},

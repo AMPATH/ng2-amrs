@@ -54,7 +54,7 @@ describe('MonthlyScheduleComponent', () => {
         expect(comp).toBeTruthy();
     });
 
-    xit('should have required properties', (done) => {
+    it('should have required properties', (done) => {
         expect(comp.showAnalysisTypeSelector).toBeDefined();
         expect(comp.showAnalysisTypeSelector).toBe(false);
         expect(comp.data).toBeDefined();

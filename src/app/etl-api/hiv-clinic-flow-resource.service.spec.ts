@@ -58,7 +58,7 @@ describe('HivClinicFlowResourceService Tests', () => {
         expect(s.getUrl).toBeDefined();
     });
 
-    xit('should return clinic flow information for a given '
+    it('should return clinic flow information for a given '
         + ' date  and location ', () => {
             const mockHivClinicFlow = TestBed.get(MockHivClinicFlowResourceService);
 
