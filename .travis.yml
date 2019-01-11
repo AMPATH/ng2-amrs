@@ -11,7 +11,7 @@ before_install:
 - npm i -g brfs
 script:
 - npm run build-prod
-#- npm run test
+npm run test
 sudo: required
 addons:
   apt:
