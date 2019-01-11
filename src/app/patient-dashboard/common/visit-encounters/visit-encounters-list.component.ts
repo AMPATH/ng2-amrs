@@ -318,11 +318,17 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
         return this.encounterFilterTypeArray = [];
     }
 
-    public editEncounter(encounter) {
+    public editEncounter(encounter: any) {
         if (encounter) {
+            // get visitType and add it to the url
+            let visitType = '';
+            if (encounter.visit && encounter.visit !== null) {
+                const visit: any = encounter.visit;
+                visitType = visit.uuid;
+            }
             this.router.navigate(['../formentry', encounter.form.uuid], {
                 relativeTo: this.route,
-                queryParams: { encounter: encounter.uuid }
+                queryParams: { encounter: encounter.uuid , visitTypeUuid: visitType }
             });
         }
     }
