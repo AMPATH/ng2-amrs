@@ -50,7 +50,7 @@ export class TodaysVitalsService {
           }
         }
       }
-      if(!this.vitalsDataSource.hasVital('bmi')) {
+      if (!this.vitalsDataSource.hasVital('bmi')) {
         this.vitalsDataSource.addToSource(vitalSource.getBMI(createdVital));
       }
     });
