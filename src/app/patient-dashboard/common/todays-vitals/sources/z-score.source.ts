@@ -16,13 +16,13 @@ export class ZScoreSource extends CommonVitalsSource implements VitalSourceInter
   public getVitals(ob: any, source?): VitalView {
     const age = this.patient.person.age;
     const zscoreService = new ZscoreService();
-    const height = _.find(source.dataSources, (s) => s.name === 'height');
-    const weight = _.find(source.dataSources, (s) => s.name === 'weight');
+    const height = _.find(source.vitalSources, (s) => s && s.name === 'height');
+    const weight = _.find(source.vitalSources, (s) => s && s.name === 'weight');
     if (height && weight) {
       const zscore = zscoreService.getZScoreByGenderAndAge(
         this.patient.person.gender,
         this.patient.person.birthdate, new Date(), height.value, weight.value);
-      source.addToSource(this.vitalModel.createVital({
+      source.addToVitalSource(this.vitalModel.createVital({
         name: 'weightForHeight',
         label: 'Weight for Height:',
         show: !_.isNil(zscore.weightForHeight) && age < 5,
@@ -30,14 +30,14 @@ export class ZScoreSource extends CommonVitalsSource implements VitalSourceInter
         color: (zscore.weightForHeight < 0) ? 'red' : ''
       }).weightForHeight);
 
-      source.addToSource(this.vitalModel.createVital({
+      source.addToVitalSource(this.vitalModel.createVital({
         name: 'heightForAge',
         label: 'Height For Age:',
         show: !_.isNil(zscore.heightForAge) && age < 5,
         value: zscore.heightForAge,
         color: (zscore.heightForAge < 0) ? 'red' : ''
       }).heightForAge);
-      source.addToSource(this.vitalModel.createVital({
+      source.addToVitalSource(this.vitalModel.createVital({
         name: 'bmiForAge',
         label: 'BMI For Age:',
         show: !_.isNil(zscore.bmiForAge) && age > 5 && age < 18,
