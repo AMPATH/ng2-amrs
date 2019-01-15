@@ -26,7 +26,8 @@
                             "order_no": payload.orderNumber,
                             "sampletype": payload.sampleType ? payload.sampleType : 1,
                             "justification": getTestOrderJustification(payload) || 0,
-                            "pmtct": 3
+                            "pmtct": 3,
+                            "amrs_location": getLocation(payload, 'mrsId')
                         };
                         break;
                     case 'DNAPCR':
@@ -47,7 +48,8 @@
                             "mother_age": "",
                             "order_no": payload.orderNumber,
                             "ccc_no": "",
-                            "lab": ""
+                            "lab": "",
+                            "amrs_location": getLocation(payload, 'mrsId')
                         };
                         break;
                     case 'CD4':
