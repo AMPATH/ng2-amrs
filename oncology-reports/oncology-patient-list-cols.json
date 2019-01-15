@@ -81,7 +81,7 @@
             },
             {
                 "indicator": "abnormal_cervical_screening",
-                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers", "person_name" , "gender", "age" , "phone_number" , "type_of_abnormality" ,
+                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers", "person_name" , "gender", "age" , "hiv_status" , "phone_number" , "type_of_abnormality" ,
                      "procedure_done" , "patient_uuid"
                 ]
 
