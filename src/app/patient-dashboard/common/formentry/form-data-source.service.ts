@@ -243,10 +243,16 @@ export class FormDataSourceService {
     let model: object = {};
     let gender = patient.person.gender;
     let age = patient.person.age;
+    let name = patient.person.display;
     let birthdate = patient.person.birthdate;
+    let mui = patient.searchIdentifiers.ampathMrsUId;
+    let nid = patient.searchIdentifiers.kenyaNationalId
+    model['name'] = name;
     model['sex'] = gender;
     model['age'] = age;
     model['birthdate'] = birthdate;
+    model['mui'] = mui;
+    model['nid'] = nid;
 
     // zscore calculations addition
     // reference date to today
