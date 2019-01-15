@@ -6,6 +6,9 @@
     <p class="alert alert-warning">No patient data to generate HIV program snapshot</p>
   </div>
   <div *ngIf="!hasError && hasData">
+      <div *ngIf="viremiaAlert">
+          <p [ngClass]="{'label': true, 'label-danger': highViremia, 'label-warning': lowViremia}">{{viremiaAlert}} Viremia</p>
+        </div>
     <div class="snapshot-summary">
       <h4 class="component-title">Last Encounter</h4>
       <div class="col-md-12">
