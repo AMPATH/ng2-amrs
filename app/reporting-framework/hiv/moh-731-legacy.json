@@ -315,27 +315,27 @@
          {
             "label": "Screened for TB -Below 15yrs(M)",
             "ref": "HV03-50",
-            "indicator": "dc__gender__M__age_range__below_15_years__screened_for_tb_blue"
+            "indicator": "dc__gender__M__age_range__below_15_years__tb_screened_this_visit_this_month"
          },
          {
             "label": "Screened for TB -Below 15yrs(F)",
             "ref": "HV03-51",
-            "indicator": "dc__gender__F__age_range__below_15_years__screened_for_tb_blue"
+            "indicator": "dc__gender__F__age_range__below_15_years__tb_screened_this_visit_this_month"
          },
          {
             "label": "Screened for TB -15yrs & older(M)",
             "ref": "HV03-52",
-            "indicator": "dc__gender__M__age_range__older_than_15__screened_for_tb_blue"
+            "indicator": "dc__gender__M__age_range__older_than_15__tb_screened_this_visit_this_month"
          },
          {
             "label": "Screened for TB -15yrs & older(F)",
             "ref": "HV03-53",
-            "indicator": "dc__gender__F__age_range__older_than_15__screened_for_tb_blue"
+            "indicator": "dc__gender__F__age_range__older_than_15__tb_screened_this_visit_this_month"
          },
          {
             "label": "Total Screened for TB (Sum HV03-50 to HV03-53)",
             "ref": "HV03-54",
-            "indicator": "screened_for_tb_blue"
+            "indicator": "tb_screened_this_visit_this_month"
          },
          {
             "label": "Screened for cervical cancer (F 18 years and older)",
