@@ -1,5 +1,5 @@
 
-import {map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Observable } from 'rxjs';
@@ -16,17 +16,24 @@ export class HivSummaryResourceService {
   }
 
   public getHivSummary(patientUuid: string, startIndex: number, limit: number,
-                       includeNonClinicalEncounter?: boolean): Observable<any> {
+    includeNonClinicalEncounter?: boolean): Observable<any> {
     let url = this.getUrl();
     url += '/' + patientUuid + '/hiv-summary';
 
-    let params: HttpParams = new HttpParams();
-
-    if (includeNonClinicalEncounter !== undefined) {
-      params = params.set('includeNonClinicalEncounter', includeNonClinicalEncounter.toString());
+    if (!startIndex) {
+      startIndex = 0;
     }
-    params.set('startIndex', startIndex.toString())
-          .set('limit', limit.toString());
+    if (!limit) {
+      limit = 10;
+    }
+    if (includeNonClinicalEncounter !== undefined) {
+      includeNonClinicalEncounter = false;
+    }
+
+    const params: HttpParams = new HttpParams()
+      .set('startIndex', startIndex as any as string)
+      .set('limit', limit as any as string)
+      .set('includeNonClinicalEncounter', includeNonClinicalEncounter as any as string);
 
     return this.http.get<any>(url, {
       params: params
