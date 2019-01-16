@@ -33,6 +33,8 @@ export class Moh731TabularComponent implements OnInit {
         this.setColumns(v);
     }
 
+    @Input() public isReleased: boolean;
+
     constructor() {
 
     }
