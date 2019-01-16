@@ -7,6 +7,7 @@ import { PatientService } from '../../services/patient.service';
 import * as _ from 'lodash';
 import { Subscription } from 'rxjs';
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
+import { SECOND } from 'ngx-bootstrap/chronos/units/constants';
 
 @Component({
   selector: 'patient-reminders',
@@ -20,6 +21,7 @@ export class PatientRemindersComponent implements OnInit, OnDestroy {
   public subscription: Subscription;
   public errorMessage: string;
   public toastrConfig = {
+    extendedTimeOut: 0,
     timeOut: 0,
     positionClass: 'toast-bottom-right',
     closeButton: true,
