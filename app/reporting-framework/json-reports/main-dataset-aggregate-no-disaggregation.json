@@ -124,10 +124,10 @@
         },
         {
             "type": "derived_column",
-            "alias": "screened_for_tb_blue",
+            "alias": "tb_screened_this_visit_this_month",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "sum(hmsd.screened_for_tb_blue)"
+                "expression": "sum(hmsd.tb_screened_this_visit_this_month)"
             }
         },
         {

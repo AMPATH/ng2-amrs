@@ -154,12 +154,12 @@
         {
             "type": "simple_column",
             "alias": "screened_for_tb",
-            "column": "hmsd.tb_screened_this_month"
+            "column": "hmsd.tb_screened_active_this_month"
         },
         {
             "type": "simple_column",
-            "alias": "screened_for_tb_blue",
-            "column": "hmsd.screened_for_tb_blue"
+            "alias": "tb_screened_this_visit_this_month",
+            "column": "hmsd.tb_screened_this_visit_this_month"
         },
         {
             "type": "simple_column",
