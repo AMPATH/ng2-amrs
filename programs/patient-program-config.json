@@ -550,10 +550,6 @@
           {
             "uuid": "f26104d5-45bc-4b19-acf9-8207e414a579",
             "display": "HTNDMPEDRETURN"
-          },
-          {
-            "uuid": "6a50f1d5-9f33-41ae-b2e7-7fd8267c181e",
-            "display": "HTNDMREFERRAL"
           }
         ]
       }
@@ -612,10 +608,6 @@
           {
             "uuid": "4f5d5b20-083b-4686-be5f-5f2cc71d74e5",
             "display": "HTNDMRETRUN"
-          },
-          {
-            "uuid": "6a50f1d5-9f33-41ae-b2e7-7fd8267c181e",
-            "display": "HTNDMREFERRAL"
           }
         ]
       }
@@ -686,10 +678,6 @@
           {
             "uuid": "1871ce37-7def-4335-972f-9861195ba683",
             "display": "CDMDispensary"
-          },
-          {
-            "uuid": "6a50f1d5-9f33-41ae-b2e7-7fd8267c181e",
-            "display": "HTNDMREFERRAL"
           }
         ]
       }
