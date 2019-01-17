@@ -20,6 +20,8 @@ import { FormSchemaService } from '../patient-dashboard/common/formentry/form-sc
 import { FormSchemaCompiler } from 'ngx-openmrs-formentry/dist/ngx-formentry';
 import { FormsResourceService } from '../openmrs-api/forms-resource.service';
 import * as _ from 'lodash';
+import { SwUpdate } from '@angular/service-worker';
+import { UpdateAvailableEvent, UpdateActivatedEvent } from '@angular/service-worker/src/low_level';
 @Component({
   selector: 'login',
   templateUrl: './login.component.html',
@@ -46,6 +48,7 @@ export class LoginComponent implements OnInit {
               private userDefaultPropertiesService: UserDefaultPropertiesService,
               private formUpdaterService: FormUpdaterService,
               private formsResourceService: FormsResourceService,
+              private updates: SwUpdate
               ) {
   }
 
@@ -61,6 +64,11 @@ export class LoginComponent implements OnInit {
         this.appSettingsService.setOpenmrsServer(urlObject['amrsUrl']);
       }
     }
+
+    // service worker hard reload user if new version is available
+    this.isUpdateAvailable().subscribe(() => {
+        window.location.reload();
+    });
   }
 
   public getServerTemplates(): Array<object> {
@@ -148,5 +156,13 @@ export class LoginComponent implements OnInit {
     this.passwordField.first.nativeElement.focus();
     this.passwordField.first.nativeElement.value = '';
   }
+
+  public isUpdateAvailable(): Observable<UpdateAvailableEvent> {
+    return this.updates.available;
+}
+
+public isUpdateActivated(): Observable<UpdateActivatedEvent> {
+    return this.updates.activated;
+}
 
 }

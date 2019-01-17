@@ -3,6 +3,7 @@
   "assetGroups": [{
     "name": "app",
     "installMode": "prefetch",
+    "updateMode": "prefetch",
     "resources": {
       "files": [
         "/favicon.ico",
@@ -17,7 +18,15 @@
     "updateMode": "prefetch",
     "resources": {
       "files": [
-        "/assets/**"
+        "/assets/**",
+        "/*.ttf",
+        "/*.woff2",
+        "/*.svg",
+        "/*.woff",
+        "/*.png",
+        "/*.jpg",
+        "/*.eot",
+        "/fontawesome*"
       ]
     }
   }]
