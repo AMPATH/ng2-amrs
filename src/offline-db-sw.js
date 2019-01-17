@@ -3,19 +3,22 @@ importScripts('assets/pouchdb-7.0.0.min.js');
 importScripts('assets/pouchdb.find.min.js')
 importScripts('assets/aes-helper.js');
 
-self.addEventListener('activate', function(event) {
-  // Claim any clients immediately, so that the page will be under SW control without reloading.
-  event.waitUntil(self.clients.claim());
-});
+// self.addEventListener('activate', function(event) {
+//   // Claim any clients immediately, so that the page will be under SW control without reloading.
+//   event.waitUntil(self.clients.claim());
+// });
 
 self.addEventListener('fetch', (event) => {
+  console.log('fetch!!!!!!!!!!!!!!!', event);
   let url = new URL(event.request.url)
   let path = url.pathname;
   // let searchParams = getUrlParams(url.search);
+  self.console.log('path', path);
   if (path === '/amrs/ws/rest/v1/patient') {
     event.respondWith(interceptPatientSearchRequest(event));
   }
   if (path === '/amrs/ws/rest/v1/session') {
+    self.console.log('here');
     event.respondWith(interceptAuthRequest(event));
   }
 });
@@ -44,7 +47,7 @@ function interceptPatientSearchRequest(event) {
 
 
 function interceptAuthRequest(event) {
-  fetch(event.request).then((response) => {
+  return fetch(event.request).then((response) => {
     
     if (!response.ok) {
       throw Error('Error occured with response status ' + response.status);
@@ -55,8 +58,10 @@ function interceptAuthRequest(event) {
   .catch((error) => {
     let authHeader = event.request.headers.get('Authorization');
     let credentials = getCredentials(authHeader);
+    self.console.log(credentials, 'creds');
+    //return new Response(JSON.stringify({authenticated: true}), {status: 200});
     if(credentials !== null) {
-      decryptAuth(credentials.username, credentials.password)
+      return decryptAuth(credentials.username, credentials.password)
       .then((response) => new Response(JSON.stringify(response), {
         headers: {'Content-Type': 'application/json'}, status: 200
        })).catch((error) => {
@@ -79,13 +84,15 @@ function getUrlParams(search) {
 }
 
 function decryptAuth(username, password) {
-  var dbName = `${username}_auth`
+  var dbName = `users`
   var db = new PouchDB(dbName);
-  return db.get(username).then((encryptedResponse) => {
+  return db.get(username).then((data) => {
     // decrypt response using the password
+    let encryptedResponse = data['userdata'];
     return decrypt(password, encryptedResponse).then((decryptedResponse) => {
       // successfully authenticated
-      return decryptedResponse;
+      self.console.log(decryptedResponse, 'Successful auth');
+      return JSON.parse(decryptedResponse);
     }).catch((error) => {
       // authentication error
       throw new Error('Unable to decrypt response given the passphrase');
