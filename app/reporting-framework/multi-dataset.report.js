@@ -67,15 +67,15 @@ export class MultiDatasetReport extends BaseMysqlReport {
             let results = [];
 
             Promise.reduce(reportHandlers, (previous, currentReport) => {
-                    return new Promise((res, rej) => {
-                        that.runSingleReport(currentReport, additionalParams)
-                            .then((result) => {
-                                let toAdd = results.push({
-                                    report: currentReport,
-                                    results: result
-                                });
-                                res(toAdd);
-                            }).
+                return new Promise((res, rej) => {
+                    that.runSingleReport(currentReport, additionalParams)
+                        .then((result) => {
+                            let toAdd = results.push({
+                                report: currentReport,
+                                results: result
+                            });
+                            res(toAdd);
+                        }).
                         catch((err) => {
                             console.error('Error occured while fetching report', err);
                             let toAdd = results.push({
@@ -84,8 +84,8 @@ export class MultiDatasetReport extends BaseMysqlReport {
                             });
                             res(toAdd);
                         });
-                    })
-                }, 0)
+                })
+            }, 0)
                 .then((res) => {
                     resolve(results);
                 })
