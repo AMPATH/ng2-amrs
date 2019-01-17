@@ -24,6 +24,7 @@
               "src/manifest.json",
               "src/combined-worker.js",
               "src/offline-db-sw.js"
+
             ],
             "styles": [
               "src/styles.css",

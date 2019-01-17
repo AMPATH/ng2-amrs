@@ -76,7 +76,7 @@ interface StoreType {
     HttpClientModule,
     RouterModule.forRoot(ROUTES, {  paramsInheritanceStrategy: 'always', useHash: true, enableTracing: false }),
     Angulartics2Module.forRoot([Angulartics2Piwik]),
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    ServiceWorkerModule.register('/combined-worker.js', { enabled: environment.production }),
     ToastrModule.forRoot(),
     CacheModule.forRoot()
   ],
