@@ -2,29 +2,14 @@
 importScripts('assets/pouchdb-7.0.0.min.js');
 importScripts('assets/pouchdb.find.min.js')
 importScripts('assets/aes-helper.js');
-
+importScripts('https://unpkg.com/service-worker-router@1.7.2/dist/router.min.js')
 // self.addEventListener('activate', function(event) {
 //   // Claim any clients immediately, so that the page will be under SW control without reloading.
 //   event.waitUntil(self.clients.claim());
 // });
 
-self.addEventListener('fetch', (event) => {
-  console.log('fetch!!!!!!!!!!!!!!!', event);
-  let url = new URL(event.request.url)
-  let path = url.pathname;
-  // let searchParams = getUrlParams(url.search);
-  self.console.log('path', path);
-  if (path === '/amrs/ws/rest/v1/patient') {
-    event.respondWith(interceptPatientSearchRequest(event));
-  }
-  if (path === '/amrs/ws/rest/v1/session') {
-    self.console.log('here');
-    event.respondWith(interceptAuthRequest(event));
-  }
-});
-
-function interceptPatientSearchRequest(event) {
-  fetch(event.request).then((response) => {
+function interceptPatientSearchRequest({request, params}) {
+  return fetch(request).then((response) => {
     if (!response.ok) {
       throw Error('Error occured with response status ' + response.status);
     }
@@ -46,8 +31,8 @@ function interceptPatientSearchRequest(event) {
 }
 
 
-function interceptAuthRequest(event) {
-  return fetch(event.request).then((response) => {
+function interceptAuthRequest({request, params}) {
+  return fetch(request).then((response) => {
     
     if (!response.ok) {
       throw Error('Error occured with response status ' + response.status);
@@ -56,7 +41,7 @@ function interceptAuthRequest(event) {
     return response;
   })
   .catch((error) => {
-    let authHeader = event.request.headers.get('Authorization');
+    let authHeader = request.headers.get('Authorization');
     let credentials = getCredentials(authHeader);
     self.console.log(credentials, 'creds');
     //return new Response(JSON.stringify({authenticated: true}), {status: 200});
@@ -72,6 +57,19 @@ function interceptAuthRequest(event) {
     }
   });
 }
+
+const Router = self.ServiceWorkerRouter.Router
+const router = new Router();
+
+router.get('/amrs/ws/rest/v1/patient', interceptPatientSearchRequest);
+router.get('/amrs/ws/rest/v1/session', interceptAuthRequest);
+
+
+self.addEventListener('fetch', (event) => {
+  router.handleEvent(event);
+});
+
+
 
 function getUrlParams(search) {
   let hashes = search.slice(search.indexOf('?') + 1).split('&');
