@@ -136,7 +136,7 @@
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "DATE(max_rtc_date) < DATE(NOW())",
+                "conditionExpression": "DATE(t2.rtc_date) < DATE(NOW())",
                 "parameterName": ""
             },
             {
