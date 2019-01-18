@@ -37,6 +37,11 @@
             },
             {
                 "filterType": "tableColumns",
+                "conditionExpression": "rtc_date <= ?",
+                "parameterName": "startDate"
+            },
+            {
+                "filterType": "tableColumns",
                 "conditionExpression": "t2.location_id in (?)",
                 "parameterName": "locations"
             },
