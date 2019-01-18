@@ -134,15 +134,6 @@ describe('Clinic Routes Factory:', () => {
     })
   );
 
-  it('should create dashboard routes for a given clinic',
-    inject([ClinicRoutesFactory], (s: ClinicRoutesFactory) => {
-      const locationUuid = 'locationUuid';
-
-      const createdRoutes = s.createClinicDashboardRoutes(locationUuid);
-
-      expect(createdRoutes).toBeTruthy();
-
-    }));
 
   it('should have related programs shared routes', () => {
     const sampleConfig = {

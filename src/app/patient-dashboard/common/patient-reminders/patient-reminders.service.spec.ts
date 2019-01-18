@@ -9,6 +9,7 @@ import { PatientReminderService } from './patient-reminders.service';
 import { PatientReminderResourceService } from '../../../etl-api/patient-reminder-resource.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HttpClientTestingBackend } from '@angular/common/http/testing/src/backend';
+import { map } from 'rxjs/operators';
 
 describe('Service: PatientReminderService', () => {
 
@@ -49,15 +50,10 @@ describe('Service: PatientReminderService', () => {
 
   });
 
-  it('should return an error when load patient reminders is not successful', () => {
+  it('should call load patient reminders', () => {
     spyOn(service, 'getPatientReminders').and.callFake((err, data) => {
     });
-    service.getPatientReminders('uuid').subscribe((res) => {
-    },
-      (error: Error) => {
-        expect(error).toBeTruthy();
-      });
+    service.getPatientReminders('uuid');
     expect(service.getPatientReminders).toHaveBeenCalled();
-
   });
 });
