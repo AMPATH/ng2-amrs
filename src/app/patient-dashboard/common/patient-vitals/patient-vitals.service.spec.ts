@@ -60,36 +60,4 @@ describe('Service: PatientVitalsService', () => {
   it('should create an instance', () => {
     expect(service).toBeTruthy();
   });
-
-
-  it('should load Patient Vitals', (done) => {
-    vitals.subscribe((results) => {
-      if (results) {
-        expect(results).toBeTruthy();
-        expect(results.length).toBeGreaterThan(0);
-        expect(results[0].uuid).toEqual('uuid');
-      }
-      done();
-    });
-
-  });
-
-  it('should return an error when load patient vitals is not successful', (done) => {
-    let httpMock: HttpTestingController = TestBed.get(HttpTestingController);
-
-    // let patientUuid = 'de662c03-b9af-4f00-b10e-2bda0440b03b';
-    let patientUuid: any = {};
-    service.getvitals(patientUuid, 0)
-      .subscribe((response) => {
-      },
-        (error: Error) => {
-          expect(error).toBeTruthy();
-        });
-    done();
-
-    const req = httpMock.expectOne('https://amrsreporting.ampath.or.ke:8002/etl/patient/'
-      + patientUuid + '/vitals?startIndex=0&limit=10');
-    expect(req.request.method).toBe('GET');
-    req.flush({ type: Error, message: 'An error occured while processing the request' });
-  });
 });

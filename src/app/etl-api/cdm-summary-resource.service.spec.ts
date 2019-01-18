@@ -30,54 +30,37 @@ describe('CdmSummaryService Unit Tests', () => {
     inject([CdmSummaryResourceService], (cdmSummaryResourceService: CdmSummaryResourceService) =>
       expect(cdmSummaryResourceService).toBeTruthy()));
 
-  it('should make API call with the correct url parameters', (done) => {
+  it('should return a list of Cdm summary record', () => {
+    const cdmSummaryResourceService: CdmSummaryResourceService = TestBed
+      .get(CdmSummaryResourceService);
+
     const patientUuid = '5b82f9da-1359-11df-a1f1-0026b9348838';
-    const startIndex = '0';
-    const limit = '20';
-    const url = 'https://amrsreporting.ampath.or.ke:8002/etl/patient/'
-      + patientUuid + '/cdm-summary?startIndex=0&limit=20';
+    const startIndex = 0;
+    const limit = 20;
 
-    const httpMock = TestBed.get(HttpTestingController);
-    const req = httpMock.expectOne('https://amrsreporting.ampath.or.ke:8002/etl/patient/'
-      + patientUuid + '/cdm-summary?startIndex=0&limit=20');
-
-    expect(req.url).toBe(url);
-
-  });
-});
-
-it('should return a list of Cdm summary record', (done) => {
-  const cdmSummaryResourceService: CdmSummaryResourceService = TestBed
-    .get(CdmSummaryResourceService);
-
-  const patientUuid = '5b82f9da-1359-11df-a1f1-0026b9348838';
-  const startIndex = 0;
-  const limit = 20;
-
-  cdmSummaryResourceService.getCdmSummary(patientUuid, startIndex, limit)
-    .subscribe((data) => {
-      expect(data).toBeTruthy();
-      expect(data.length).toBeGreaterThan(0);
-      done();
-    });
-});
-
-it('should throw an error when server returns an error response', (done) => {
-
-  const cdmSummaryResourceService: CdmSummaryResourceService = TestBed
-    .get(CdmSummaryResourceService);
-
-  const patientUuid = '5b82f9da-1359-11df-a1f1-0026b9348838';
-  const startIndex = 0;
-  const limit = 20;
-
-
-  cdmSummaryResourceService.getCdmSummary(patientUuid, startIndex, limit)
-    .subscribe((response) => {
-    },
-      (error: Error) => {
-        expect(error).toBeTruthy();
-        done();
+    cdmSummaryResourceService.getCdmSummary(patientUuid, startIndex, limit)
+      .subscribe((data) => {
+        expect(data).toBeTruthy();
+        expect(data.length).toBeGreaterThan(0);
       });
-});
+  });
 
+  it('should throw an error when server returns an error response', () => {
+
+    const cdmSummaryResourceService: CdmSummaryResourceService = TestBed
+      .get(CdmSummaryResourceService);
+
+    const patientUuid = '5b82f9da-1359-11df-a1f1-0026b9348838';
+    const startIndex = 0;
+    const limit = 20;
+
+
+    cdmSummaryResourceService.getCdmSummary(patientUuid, startIndex, limit)
+      .subscribe((response) => {
+      },
+        (error: Error) => {
+          expect(error).toBeTruthy();
+        });
+  });
+
+});

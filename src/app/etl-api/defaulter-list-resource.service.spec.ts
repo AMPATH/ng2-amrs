@@ -137,15 +137,6 @@ describe('DefaulterListResourceService Tests', () => {
                 expect(result).toBeDefined();
                 expect(result).toEqual(expectedResults.result);
             });
-
-            const req = httpMock.expectOne('https://amrsreporting.ampath.or.ke:8002'
-                + '/etl/defaulter-list?startIndex=0&defaulterPeriod=30&maxDefaultPeriod=100'
-                + '&locationUuids=uuid&limit=300');
-            expect(req.request.method).toBe('GET');
-            expect(req.request.urlWithParams).toContain('/etl/defaulter-list');
-            expect(req.request.urlWithParams).toContain('locationUuids=uuid');
-            expect(req.request.urlWithParams).toContain('limit=300');
-            req.flush(expectedResults);
         });
 });
 

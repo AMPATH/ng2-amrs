@@ -93,7 +93,7 @@ describe('PatientReferralBaseComponent:', () => {
   });
 
   it('should generate patient referral report using paramaters supplied',
-    (done) => {
+    () => {
       const fakeReply: any = {
         result: [{
           'location': 'MTRH Module 1',

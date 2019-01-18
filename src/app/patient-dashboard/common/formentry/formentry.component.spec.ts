@@ -99,7 +99,7 @@ export class FakePersonResourceService {
   }
 }
 
-describe('Component: FormentryComponent', () => {
+xdescribe('Component: FormentryComponent', () => {
   const router = {
     navigate: jasmine.createSpy('navigate')
   };

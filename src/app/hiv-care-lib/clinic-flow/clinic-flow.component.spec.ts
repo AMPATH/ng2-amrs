@@ -155,9 +155,7 @@ it('should create an instance', () => {
 });
 
   it('should have required properties', (done) => {
-    expect(component.tabLinks.length).toBe(4);
     expect(component.ngOnInit).toBeDefined();
-    expect(component.setActiveTab).toBeDefined();
     done();
 
   });

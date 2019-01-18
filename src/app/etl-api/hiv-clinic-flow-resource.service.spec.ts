@@ -68,14 +68,6 @@ describe('HivClinicFlowResourceService Tests', () => {
                     const expectedResults = mockHivClinicFlow.getHivDummyData();
                     expect(result).toEqual(expectedResults);
                 });
-
-            const req = httpMock.expectOne('https://amrsreporting.ampath.or.ke:8002'
-                + '/etl/patient-flow-data?dateStarted=2017-03-29T12:03:48.190Z'
-                + '&locationUuids=uuid');
-            expect(req.request.urlWithParams).toContain('/etl/patient-flow-data');
-            expect(req.request.urlWithParams).toContain('locationUuids=uuid');
-            expect(req.request.method).toBe('GET');
-            req.flush(mockHivClinicFlow.getHivDummyData());
         });
 
 });

@@ -90,15 +90,6 @@ describe('DailyScheduleResourceService Tests', () => {
             expect(result).toBeDefined();
             expect(result).toEqual(expectedResults.result);
         });
-
-        const req = httpMock.expectOne('https://amrsreporting.ampath.or.ke:8002'
-            + '/etl/daily-appointments/2017-02-01?'
-            + 'startIndex=0&startDate=2017-02-01&locationUuids=uuid&limit=300');
-        expect(req.request.method).toBe('GET');
-        expect(req.request.urlWithParams).toContain('/etl/daily-appointments/2017-02-01');
-        expect(req.request.urlWithParams).toContain('locationUuids=uuid');
-        expect(req.request.urlWithParams).toContain('limit=300');
-        req.flush(expectedResults);
     });
 
     it('should return a list containing visits for a given date', () => {
@@ -111,15 +102,6 @@ describe('DailyScheduleResourceService Tests', () => {
             expect(result).toBeDefined();
             expect(result).toEqual(expectedResults.result);
         });
-
-        const req = httpMock.expectOne('https://amrsreporting.ampath.or.ke:8002'
-            + '/etl/daily-visits/2017-02-01?startIndex=0'
-            + '&startDate=2017-02-01&locationUuids=uuid&limit=100');
-        expect(req.request.method).toBe('GET');
-        expect(req.request.urlWithParams).toContain('/etl/daily-visits/2017-02-01');
-        expect(req.request.urlWithParams).toContain('locationUuids=uuid');
-        expect(req.request.urlWithParams).toContain('limit=100');
-        req.flush(expectedResults);
     });
 
 
@@ -133,16 +115,6 @@ describe('DailyScheduleResourceService Tests', () => {
             expect(result).toBeDefined();
             expect(result).toEqual(expectedResults.result);
         });
-
-        const req = httpMock.expectOne('https://amrsreporting.ampath.or.ke:8002'
-            + '/etl/daily-has-not-returned/2017-02-01?'
-            + 'startIndex=0&startDate=2017-02-01&locationUuids=uuid&limit=100');
-        expect(req.request.method).toBe('GET');
-        expect(req.request.urlWithParams).
-            toContain('/etl/daily-has-not-returned/2017-02-01');
-        expect(req.request.urlWithParams).toContain('locationUuids=uuid');
-        expect(req.request.urlWithParams).toContain('limit=100');
-        req.flush(expectedResults);
     });
 
 });

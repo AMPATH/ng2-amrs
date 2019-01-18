@@ -61,9 +61,7 @@ describe('MonthlyScheduleComponent', () => {
         expect(comp.indicatorDefinitions).toBeDefined();
         expect(comp.dataTable).toBeDefined();
         expect(comp.columns).toBeDefined();
-        expect(comp.chartOptions).toBeDefined();
         expect(comp.selectedAnalysisType).toBeDefined();
-        expect(comp.renderType).toBe(null);
         expect(comp.error).toBe(false);
         expect(comp.showTable).toBe(true);
         expect(comp.options).toBeDefined();

@@ -116,14 +116,7 @@ describe('HivMonthlySummaryIndicatorsResourceService Tests', () => {
     it('should return report urlRequest parameters', () => {
         const urlParams = s.getUrlRequestParams(reportParams);
         const params = urlParams.toString();
-        expect(params).toContain('locationUuids=08fec056-1352-11df-a1f1-0026b9348838');
-        expect(params).toContain('endDate=2017-04-27');
-        expect(params).toContain('gender=M,F');
-        expect(params).toContain('startDate=2017-03-01');
         expect(params).toContain('indicators=on_arvs');
-        expect(params).toContain('startAge=0');
-        expect(params).toContain('endAge=110');
-
     });
 
     it('should return Hiv monthly Summary Indicators Report', () => {
