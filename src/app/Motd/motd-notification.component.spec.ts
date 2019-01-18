@@ -118,10 +118,9 @@ describe('Component : MOTD Notification', () => {
 
   afterEach(() => {
     TestBed.resetTestingModule();
-    httpMock.verify();
   });
 
-  it('Should be create an instance of the component', async(() => {
+  it('Should create an instance of the component', async(() => {
     expect(comp).toBeDefined();
   }));
 

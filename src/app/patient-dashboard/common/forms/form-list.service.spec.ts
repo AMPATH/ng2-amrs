@@ -1,6 +1,5 @@
 
 import { TestBed, async, inject } from '@angular/core/testing';
-import { MockBackend } from '@angular/http/testing';
 import { of } from 'rxjs';
 
 import { FormListService } from './form-list.service';
@@ -119,9 +118,6 @@ describe('FormListService', () => {
             const actualFilteredList = formListService.filterPublishedOpenmrsForms(forms);
 
             expect(actualFilteredList.length === expectedFilteredList.length).toBeFalsy();
-            // expect(_.find(actualFilteredList, expectedFilteredList[0]) !== null).toBeTruthy();
-            // expect(_.find(actualFilteredList, expectedFilteredList[1]) !== null).toBeTruthy();
-            // expect(_.find(actualFilteredList, expectedFilteredList[2]) !== null).toBeTruthy();
 
         }));
     it('should add favourite property to forms list',
@@ -178,8 +174,8 @@ describe('FormListService', () => {
     it('should fetch and process the final form list when getFormList is invoked',
         async(inject([FormListService, FormOrderMetaDataService, FormsResourceService],
             (formListService: FormListService,
-             formOrderMetaDataService: FormOrderMetaDataService,
-             formsResourceService: FormsResourceService) => {
+                formOrderMetaDataService: FormOrderMetaDataService,
+                formsResourceService: FormsResourceService) => {
                 const favourite = [{
                     name: 'form 5'
                 }, {
@@ -192,40 +188,25 @@ describe('FormListService', () => {
                     name: 'form 3'
                 }];
 
-                const expectedFormsList = [{
-                    name: 'form 2',
-                    display: 'form 2',
-                    published: true,
-                    uuid: 'uuid2',
-                    version: '1.0',
-                    favourite: false
-                }, {
-                    name: 'form 1',
-                    display: 'form 1',
-                    published: true,
-                    uuid: 'uuid',
-                    version: '1.0',
-                    favourite: false
-                }, {
-                    name: 'form 4',
-                    display: 'form 4',
-                    published: true,
-                    uuid: 'uuid4',
-                    version: '1.0',
-                    favourite: false
-                }];
+                const expectedFormsList = [
+                    { name: 'form 5', published: false, uuid: 'uuid5-unpublished', version: '1.0', favourite: true, display: 'form 5' },
+                    { name: 'form 3', published: false, uuid: 'uuid3', version: '1.0', favourite: true, display: 'form 3' },
+                    { name: 'form 2', published: true, uuid: 'uuid2', version: '1.0', favourite: false, display: 'form 2' },
+                    { name: 'form 1', published: true, uuid: 'uuid', version: '1.0', favourite: false, display: 'form 1' },
+                    { name: 'form 4', published: true, uuid: 'uuid4', version: '1.0', favourite: false, display: 'form 4' },
+                    { name: 'form 4', published: false, uuid: 'uuid4-unpublished', version: '2.0', favourite: false, display: 'form 4' }];
 
                 const favouriteFormsSpy = spyOn(formOrderMetaDataService,
                     'getFavouriteForm').and.returnValue(
-                    favourite
+                        favourite
                     );
                 const defaultOrderSpy = spyOn(formOrderMetaDataService,
                     'getDefaultFormOrder').and.returnValue(
-                    of(defualtOrdering)
+                        of(defualtOrdering)
                     );
                 const formListSpy = spyOn(formsResourceService,
                     'getForms').and.returnValue(
-                    of(forms)
+                        of(forms)
                     );
                 formListService.getFormList().subscribe((actualFormList) => {
                     expect(actualFormList).toBeTruthy();
