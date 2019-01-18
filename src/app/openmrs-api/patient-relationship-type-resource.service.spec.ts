@@ -64,7 +64,7 @@ describe('Service: Pratient Relationship ResourceService', () => {
 
     const req = httpMock.expectOne(service.getUrl() + '?v=full');
     expect(req.request.urlWithParams)
-      .toEqual('http://example.url.com/ws/rest/v1/relationshiptype?v=full');
+      .toEqual(service.getUrl() + '?v=full');
     expect(req.request.urlWithParams).toContain('v=');
     expect(req.request.method).toBe('GET');
     req.flush(JSON.stringify(relationshipTypesResponse));

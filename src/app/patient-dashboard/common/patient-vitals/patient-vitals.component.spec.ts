@@ -87,18 +87,4 @@ describe('Component: Vitals Unit Tests', () => {
 
   });
 
-  it('should have all the required functions defined and callable', (done) => {
-
-    spyOn(component, 'ngOnInit').and.callThrough();
-    component.ngOnInit();
-    expect(component.ngOnInit).toHaveBeenCalled();
-
-    spyOn(component, 'loadVitals').and.callThrough();
-    component.loadVitals();
-    expect(component.loadVitals).toHaveBeenCalled();
-
-    done();
-
-  });
-
 });

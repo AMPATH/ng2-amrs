@@ -125,6 +125,7 @@ describe('Component : DepartmentProgramFilter', () => {
           HttpClientTestingModule,
           IonicStorageModule.forRoot(),
         ],
+      declarations: [DepartmentProgramFilterComponent],
       providers: [
         PatientProgramResourceService,
         LocationResourceService,
@@ -155,16 +156,8 @@ describe('Component : DepartmentProgramFilter', () => {
       ]
     }).compileComponents()
       .then(() => {
-
-        patientProgramService = fixture.debugElement.injector.get(PatientProgramResourceService);
-        localStorageService = fixture.debugElement.injector.get(LocalStorageService);
-        userDefaultService = fixture.debugElement.injector.get(UserDefaultPropertiesService);
-        departmentProgramService = fixture.debugElement.injector
-          .get(DepartmentProgramsConfigService);
-        locationResourceService = fixture.debugElement.injector.get(LocationResourceService);
-        cd = fixture.debugElement.injector.get(ChangeDetectorRef);
-        route = fixture.debugElement.injector.get(Router);
-        router = fixture.debugElement.injector.get(ActivatedRoute);
+        fixture = TestBed.get(DepartmentProgramFilterComponent);
+        comp = fixture.componentInstance;
       });
   }));
 
@@ -186,7 +179,7 @@ describe('Component : DepartmentProgramFilter', () => {
     comp.program = programsSelected;
     comp.location = mocklocationSelected;
     comp.setFilter();
-    cd.detectChanges();
+    fixture.detectChanges();
     expect(comp.params).toEqual(mockParams);
   });
 

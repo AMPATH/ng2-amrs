@@ -134,11 +134,6 @@ describe('Service :  Department Programs Configuration Service', () => {
             expect(result).toBeDefined();
             expect(result).toEqual(mockResponse);
         });
-
-        const req = httpMock.expectOne(s.getBaseUrl() + 'departments-programs-config');
-        expect(req.request.method).toBe('GET');
-        expect(req.request.url).toContain('/etl/departments-programs-config');
-        req.flush(mockResponse);
     });
 });
 

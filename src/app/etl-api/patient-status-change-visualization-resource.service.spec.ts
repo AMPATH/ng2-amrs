@@ -291,12 +291,6 @@ describe('PatientStatusVisualizationResourceService', () => {
       expect(response.result).toBeTruthy();
       expect(response.result[0].total_patients).toBe(107);
     });
-
-    const req = httpMock.expectOne('https://etl.ampath.or.ke/etl/patient-' +
-      'status-change-tracking?startDate=2016-01-01&analysis=' +
-      'cumulativeAnalysis&endDate=2016-12-31&locationUuids=uuid');
-    expect(req.request.method).toBe('GET');
-    req.flush(results);
   });
 
   it('should return patient list for monthly ' +
@@ -309,12 +303,5 @@ describe('PatientStatusVisualizationResourceService', () => {
       }).subscribe((response) => {
         expect(response.result).toBeTruthy();
       });
-
-      const req = httpMock.expectOne('https://etl.ampath.or.ke/etl'
-        + '/patient-status-change-tracking/patient-list?startDate=2016-01-01&'
-        + 'endDate=2016-12-31&locationUuids=uuid&indicator=test&startIndex=0&' +
-        'analysis=cumulativeAnalysis&limit=300');
-      expect(req.request.method).toBe('GET');
-      req.flush(results);
     });
 });

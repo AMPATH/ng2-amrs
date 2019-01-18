@@ -88,19 +88,6 @@ describe('Service: ProgramEnrollmentResourceService', () => {
 
     expect(result).toBeNull();
   }));
-  it('should call the right endpoint when fetching program enrollment', async(() => {
-    const patientUuid = 'uuid';
-
-    service.getProgramEnrollmentByPatientUuid(patientUuid).subscribe();
-
-    const req = httpMock.expectOne('http://example.url.com/ws/rest/v1/programenrollment' +
-      '?v=custom:(uuid,display,voided' +
-      ',dateEnrolled,dateCompconsted,location,program:(uuid),states:(uuid,startDate,endDate,' +
-      'state:(uuid,initial,terminal,concept:(uuid,display))))&patient=uuid');
-    expect(req.request.urlWithParams).toContain('&patient=uuid');
-    expect(req.request.method).toBe('GET');
-    req.flush(JSON.stringify(programEnrollmentResponse));
-  }));
 
   it('should return null when PatientUuid not specified', async(() => {
 
@@ -143,7 +130,7 @@ describe('Service: ProgramEnrollmentResourceService', () => {
     const req = httpMock.expectOne(service.getUrl() + '/uuid-1');
     expect(req.request.method).toBe('POST');
     expect(req.request.url)
-      .toBe('http://example.url.com/ws/rest/v1/programenrollment/uuid-1');
+      .toBe(service.getUrl() + '/uuid-1');
     req.flush(JSON.stringify(programEnrollmentResponse));
   }));
 
@@ -180,7 +167,7 @@ describe('Service: ProgramEnrollmentResourceService', () => {
     const req = httpMock.expectOne(service.getUrl() + '/' + programEnrollmentUuid + '/' + 'state' + '/uuid-1');
     expect(req.request.method).toBe('POST');
     expect(req.request.url)
-      .toBe('http://example.url.com/ws/rest/v1/programenrollment/programenrollment-uuid/state/uuid-1');
+      .toBe(service.getUrl() + '/programenrollment-uuid/state/uuid-1');
     req.flush(JSON.stringify(programEnrollmentResponse));
   }));
 

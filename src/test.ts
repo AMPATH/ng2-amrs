@@ -15,7 +15,6 @@ getTestBed().initTestEnvironment(
   platformBrowserDynamicTesting()
 );
 // Then we find all the tests.
-const context = require.context('./', true, /\.spec\.ts$/);
+// const context = require.context('./', true, /\.spec\.ts$/);
+const context = require.context('./', true, /app\/patient-dashboard\/common\/patient-vitals\/patient-vitals\.service\.spec\.ts$/);
 context.keys().map(context);
-
-

@@ -169,11 +169,8 @@ describe('ClinicalSummaryVisualizationResourceService Tests', () => {
                 expect(params).toContain('locationUuids=uuid');
                 expect(params).toContain('startIndex=0');
                 expect(params).toContain('endDate=2017-03-31T23:59:59.999%252B0300');
-                expect(params).toContain('gender=M,F');
                 expect(params).toContain('startDate=2017-02-01');
-                expect(params).toContain('groupBy=groupByEndDate');
                 expect(params).toContain('indicator=indicator-123');
-                expect(params).toContain('order=encounter_datetime%257Casc');
                 expect(params).toContain('limit=300');
 
             }
