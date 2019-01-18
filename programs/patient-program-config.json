@@ -1972,6 +1972,10 @@
           {
             "uuid": "7c21df85-c928-4dc9-93d9-5dd1e8101d32",
             "display": "LUNGCANCERSCREENING"
+          },
+          {
+            "uuid": "c01fba63-0c54-43c9-8769-af7f48aefb5c",
+            "display": "LUNGCANCERSCREENINGRESULT"
           }
         ]
       }
