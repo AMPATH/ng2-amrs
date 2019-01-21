@@ -412,9 +412,15 @@ export class FormentryComponent implements OnInit, OnDestroy {
   public handleProgramManagerRedirects(data: any): void {
     // check if patient status was filled
     const patientCareStatus = this.getPatientStatusQuestion();
+    const referralQuestion = this.getReferralsQuestion();
+    let force = false;
+    if (referralQuestion.length > 0) {
+      force = true;
+    }
     let step = [];
-    if (this.shouldRedirectToProgramManager(patientCareStatus)) {
+    if (this.shouldRedirectToProgramManager(patientCareStatus, force)) {
       this.preserveFormAsDraft = false;
+      this.saveTransferLocationIfSpecified();
       const queryParams = {
         'notice': 'outreach'
       };
@@ -427,7 +433,17 @@ export class FormentryComponent implements OnInit, OnDestroy {
         });
         step = ['step', 3];
       }
-      this.saveTransferLocationIfSpecified();
+      // Enhanced adherence HIV Program
+      if (_.includes(_.first(referralQuestion).control.value, 'a9431295-9862-405b-b694-534f093ca0ad')) {
+        // Enhanced adherence HIV Program
+        _.merge(queryParams, {
+          program: 'c4246ff0-b081-460c-bcc5-b0678012659e',
+          notice: 'adherence'
+        });
+        step = ['step', 3];
+        const location: any = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
+        localStorage.setItem('transferLocation', location.uuid);
+      }
       this.router.navigate(_.concat(['/patient-dashboard/patient/' +
       this.patient.uuid + '/general/general/program-manager/edit-program'], step), {
         queryParams: queryParams
@@ -435,15 +451,10 @@ export class FormentryComponent implements OnInit, OnDestroy {
     }
   }
 
-  private hasTransferCareQuestion(question: any[]) {
-    if (question.length > 0) {
-      let answer = _.first(question).control.value;
-      return answer === 'a89e3ad0-1350-11df-a1f1-0026b9348838';
+  private shouldRedirectToProgramManager(answer: any[], force?: boolean) {
+    if (force === true) {
+      return true;
     }
-    return false;
-  }
-
-  private shouldRedirectToProgramManager(answer: any[]) {
     const transferOut = this.form.searchNodeByQuestionId('transferOut');
     if (transferOut.length > 0) {
       answer = transferOut;
@@ -466,6 +477,14 @@ export class FormentryComponent implements OnInit, OnDestroy {
       patientCareStatus = this.form.searchNodeByQuestionId('careStatus');
     }
     return patientCareStatus;
+  }
+
+  private getReferralsQuestion() {
+    let referralsQuestion = this.form.searchNodeByQuestionId('referrals');
+    if (referralsQuestion.length === 0) {
+      referralsQuestion = this.form.searchNodeByQuestionId('patientReferrals');
+    }
+    return referralsQuestion;
   }
 
   private saveTransferLocationIfSpecified() {
