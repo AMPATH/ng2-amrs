@@ -25,7 +25,6 @@ import {
 } from '../../../etl-api/hiv-patient-clinical-summary-resource.service';
 import { HivPatientClinicalSummaryService } from './hiv-patient-clinical-summary.service';
 import { PatientProgramService } from '../../programs/patient-programs.service';
-import { HttpClient, HttpHandler } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 class PatientServiceMock {
@@ -54,8 +53,6 @@ describe('Component: HivPatientClinicalSummaryComponent', () => {
         HttpClientTestingModule
       ],
       providers: [
-        HttpClient,
-        HttpHandler,
         HivPatientClinicalSummaryComponent,
         HivPatientClinicalSummaryService,
         AppSettingsService,

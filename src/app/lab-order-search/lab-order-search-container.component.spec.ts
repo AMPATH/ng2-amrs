@@ -15,7 +15,8 @@ import { LabOrderResourceService } from '../etl-api/lab-order-resource.service';
 import { LabOrderPostService } from './lab-order-post.service';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { LocalStorageService } from '../utils/local-storage.service';
-import { HttpHandler, HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpClient } from '@angular/common/http';
 
 class FakeOrderResourceService {
   searchOrdersById(orderId: string, cached: boolean = false,
@@ -36,7 +37,7 @@ describe('LabOrderSearchContainerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [FormsModule, ReactiveFormsModule],
+      imports: [FormsModule, ReactiveFormsModule, HttpClientTestingModule],
       providers: [
         LabOrdersSearchHelperService,
         HivSummaryService,
@@ -45,10 +46,7 @@ describe('LabOrderSearchContainerComponent', () => {
         LabOrderResourceService,
         LabOrderPostService,
         LocalStorageService,
-        AppSettingsService,
-        HttpClient,
-        HttpHandler,
-        HttpClientModule
+        AppSettingsService
       ],
       declarations: [
         LabOrderSearchContainerComponent,

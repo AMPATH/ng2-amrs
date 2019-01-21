@@ -21,6 +21,16 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
 import { ZscoreService } from 'src/app/shared/services/zscore.service';
 
+class FakeCacheStorageService {
+  constructor(a, b) {
+  }
+
+  public ready() {
+    return true;
+  }
+
+}
+
 describe('Service: FormSubmissionService', () => {
 
   // sample field error
@@ -89,15 +99,6 @@ describe('Service: FormSubmissionService', () => {
     message: 'Unable to convert object into response content',
   };
 
-  class FakeCacheStorageService {
-    constructor(a, b) {
-    }
-
-    public ready() {
-      return true;
-    }
-
-  }
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [],

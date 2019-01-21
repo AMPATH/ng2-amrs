@@ -490,7 +490,7 @@ describe('Service : CohortMemberResourceService Unit Tests', () => {
             const request = httpMock.expectOne(req => req.method === 'GET' &&
                 req.url === cohortMemberService.baseOpenMrsUrl + 'cohort/' + parentUuid + '/member');
             expect(request.request.url).
-            toEqual('http://example.url.com/ws/rest/v1/cohort/9fca294a-548f-4568-b4ed-80ba0bee8c9f/member');
+            toEqual(cohortMemberService.baseOpenMrsUrl + 'cohort/' + parentUuid + '/member');
             expect(request.request.method).toBe('GET');
             expect(request.request.url).toContain('/ws/rest/v1/cohort/' +
                 parentUuid + '/member');

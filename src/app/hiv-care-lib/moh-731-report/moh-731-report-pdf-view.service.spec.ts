@@ -7,7 +7,6 @@ require('pdfmake/build/vfs_fonts.js');
 import {
   Moh731ResourceServiceMock
 } from '../../etl-api/moh-731-resource.service.mock';
-import { HttpClient, HttpHandler } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 declare let pdfMake: any;
 
@@ -30,9 +29,7 @@ describe('Service: MOHReportService', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        MOHReportService,
-        HttpClient,
-        HttpHandler
+        MOHReportService
       ]
     });
   });

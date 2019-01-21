@@ -16,6 +16,15 @@ class MockAppSettingsService {
   }
 
 }
+
+class MockCacheStorageService {
+  constructor(a, b) { }
+
+  public ready() {
+    return true;
+  }
+}
+
 describe('PatientStatusVisualizationResourceService', () => {
   let service, httpMock;
   const results = {
@@ -246,15 +255,6 @@ describe('PatientStatusVisualizationResourceService', () => {
       }
     ]
   };
-
-  class MockCacheStorageService {
-    constructor(a, b) { }
-
-    public ready() {
-      return true;
-    }
-  }
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [CacheModule, HttpClientTestingModule],

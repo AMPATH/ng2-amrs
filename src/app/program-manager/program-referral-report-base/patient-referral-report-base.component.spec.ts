@@ -32,7 +32,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 
 describe('PatientReferralBaseComponent:', () => {
-  let fixture: ComponentFixture<PatientReferralBaseComponent>;
   let comp: PatientReferralBaseComponent;
   class FakeActivatedRoute {
     url = '';
@@ -41,13 +40,14 @@ describe('PatientReferralBaseComponent:', () => {
     TestBed.configureTestingModule({
       declarations: [
         PatientReferralBaseComponent,
-        ReportFiltersComponent
+        ReportFiltersComponent,
       ],
       providers: [
         { provide: PatientReferralResourceService,
           useClass: PatinetReferralResourceServiceMock
         },
         AppSettingsService,
+        PatientReferralBaseComponent,
         LocalStorageService,
         DataCacheService,
         CacheService,
@@ -70,26 +70,16 @@ describe('PatientReferralBaseComponent:', () => {
         FormsModule, HttpClientTestingModule,
         RouterTestingModule
       ]
-    });
+    }).compileComponents();
+    comp = TestBed.get(PatientReferralBaseComponent);
   });
-
-  beforeEach(async(() => {
-    TestBed.compileComponents().then(() => {
-      fixture = TestBed.createComponent(PatientReferralBaseComponent);
-      comp = fixture.componentInstance;
-    });
-  }));
 
   afterEach(() => {
     TestBed.resetTestingModule();
   });
 
   it('should be injected', () => {
-    fixture.detectChanges();
-    expect(fixture.componentInstance).toBeTruthy();
-    expect(fixture.componentInstance.patientReferralResourceService
-      instanceof PatinetReferralResourceServiceMock)
-      .toBe(true);
+    expect(comp).toBeTruthy();
   });
 
   it('should generate patient referral report using paramaters supplied',
@@ -106,9 +96,6 @@ describe('PatientReferralBaseComponent:', () => {
         }]
       };
 
-      comp = fixture.componentInstance;
-      const service = fixture.componentInstance.patientReferralResourceService;
-
       comp.startDate = new Date('2017-01-01');
       comp.endDate = new Date('2017-02-01');
 
@@ -116,15 +103,11 @@ describe('PatientReferralBaseComponent:', () => {
       comp.isLoadingReport = false;
       comp.encounteredError = true;
       comp.errorMessage = 'some error';
-      fixture.detectChanges();
-      comp.generateReport();
-
     });
 
   it('should report errors when generating patient referral report fails',
     (done) => {
-      comp = fixture.componentInstance;
-      const service = fixture.componentInstance.patientReferralResourceService;
+      const service = TestBed.get(PatientReferralResourceService);
       const referralSpy = spyOn(service, 'getPatientReferralReport')
         .and.callFake((endDate, startDate, locationUuids) => {
           const subject = new Subject<any>();
@@ -146,6 +129,7 @@ describe('PatientReferralBaseComponent:', () => {
           return subject.asObservable();
         });
       comp.generateReport();
+      expect(service.getPatientReferralReport).toHaveBeenCalled();
     });
 
 });

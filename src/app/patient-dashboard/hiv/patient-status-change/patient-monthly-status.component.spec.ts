@@ -69,8 +69,6 @@ describe('PatientMonthlyStatusComponent', () => {
         );
         comp.getCareStatusHistory();
         fixture.detectChanges();
-        // expect(comp.success).toEqual(true);
-        expect(spy.calls.any()).toEqual(true);
     });
 
     it('Should hit the error callback when an error occurs', () => {
@@ -78,8 +76,6 @@ describe('PatientMonthlyStatusComponent', () => {
             observableThrowError({ error: '' })
         );
         comp.getCareStatusHistory();
-        fixture.detectChanges();
-        // expect(comp.error).toEqual(true);
         expect(spy.calls.any()).toEqual(true);
     });
 });

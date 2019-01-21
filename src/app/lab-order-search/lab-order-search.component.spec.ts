@@ -6,7 +6,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LabOrderSearchComponent } from './lab-order-search.component';
 import { OrderResourceService } from '../openmrs-api/order-resource.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { HttpClient, HttpHandler } from '@angular/common/http';
 
 class FakeOrderResourceService {
   public searchOrdersById(orderId: string, cached: boolean = false,
@@ -34,7 +33,6 @@ describe('Component: LabOrderSearchComponent', () => {
     }).overrideComponent(LabOrderSearchComponent, {
       set: {
         providers: [
-          HttpClient,
           { provide: OrderResourceService, useClass: FakeOrderResourceService }
         ]
       }

@@ -10,7 +10,7 @@ import { MOHReportComponent } from './moh-731-report-pdf-view.component';
 import {
   Moh731ResourceServiceMock
 } from '../../etl-api/moh-731-resource.service.mock';
-import { HttpClient, HttpHandler } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 class LocationServiceMock {
   public getLocations(): Observable<any> {
@@ -52,9 +52,8 @@ describe('Component: MOHReportComponent', () => {
   };
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [ HttpClientTestingModule ],
       providers: [
-        HttpClient,
-        HttpHandler,
         MOHReportComponent,
         MOHReportService,
         AppSettingsService,

@@ -11,17 +11,17 @@ import { LocalStorageService } from '../utils/local-storage.service';
 import { Routes } from '@angular/router';
 import { LocationResourceService } from '../openmrs-api/location-resource.service';
 
+class MockCacheStorageService {
+    constructor(a, b) { }
+
+    public ready() {
+        return true;
+    }
+}
+
 describe('clinic-dashboard component tests', () => {
     let comp: ClinicDashboardComponent, service;
     let fixture: ComponentFixture<ClinicDashboardComponent>;
-
-    class MockCacheStorageService {
-        constructor(a, b) { }
-
-        public ready() {
-            return true;
-        }
-    }
 
     const routes: Routes = [
         { path: 'user-default-properties', component: ClinicDashboardComponent }
