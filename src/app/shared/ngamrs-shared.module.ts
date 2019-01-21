@@ -72,6 +72,8 @@ import { RetrospectiveDataEntryModule
 import { DataListsModule } from './data-lists/data-lists.module';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { AppModalComponent } from './modal/app-modal.component';
+import { KibanaVizHostComponent } from './kibana-viz-host/kibana-viz-host.component';
+import { KibanaVizComponent } from './kibana-viz/kibana-viz.component';
 
 @NgModule({
   imports: [
@@ -119,7 +121,8 @@ import { AppModalComponent } from './modal/app-modal.component';
   exports: [NgBusyModule, LaddaModule, NgSelectModule, DisplayErrorComponent, AppModalComponent, AgGridModule,
     RetrospectiveDataEntryModule, MatCardModule, PatientEncounterObservationsComponent,
     StringToDatePipe, Ng2FilterPipe, OnlineTrackerComponent, HivProgramSnapshotComponent,
-    BuildVersionComponent, FormListComponent, ReportFiltersComponent, ZeroVlPipe, PrettyEncounterViewerComponent,
+    BuildVersionComponent, KibanaVizHostComponent , KibanaVizComponent ,
+    FormListComponent, ReportFiltersComponent, ZeroVlPipe, PrettyEncounterViewerComponent,
     DateSelectorComponent, PdfViewerModule , NgxMyDatePickerModule, GeneralLandingPageComponent,
     OpenmrsApi, EtlApi, Ng2Bs3ModalModule, ModalModule, BsDropdownModule, TooltipModule,
     LocationFilterComponent, Angulartics2Module, MatSnackBarModule, MatTabsModule, ReactiveFormsModule,
@@ -127,8 +130,8 @@ import { AppModalComponent } from './modal/app-modal.component';
     CdmProgramSnapshotComponent, MatRadioModule, FormsModule, MatMenuModule, MatIconModule, MatExpansionModule, MatTooltipModule],
   declarations: [
     DisplayErrorComponent, StringToDatePipe, ZeroVlPipe, Ng2FilterPipe, HivProgramSnapshotComponent,
-    GeneralLandingPageComponent, FormListComponent, ReportFiltersComponent,
-    OnlineTrackerComponent, AppModalComponent,
+    GeneralLandingPageComponent, FormListComponent, ReportFiltersComponent, KibanaVizHostComponent ,
+    KibanaVizComponent , OnlineTrackerComponent , AppModalComponent,
     BuildVersionComponent, DateSelectorComponent,
     PatientEncounterObservationsComponent, PrettyEncounterViewerComponent,
     CdmProgramSnapshotComponent

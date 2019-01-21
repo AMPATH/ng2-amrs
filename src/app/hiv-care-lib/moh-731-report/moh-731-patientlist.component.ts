@@ -91,6 +91,7 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
       reportName: 'MOH-731-report-2017',
       locationUuids: _.isArray(params.locations) ? params.locations.join(',') : params.locations
     }).pipe(take(1)).subscribe((data) => {
+      console.log('getMoh731PatientListReport', data);
       this.isLoading = false;
       if (data.errorMessage) {
         this.hasError = true;
@@ -99,6 +100,7 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
         /**
          * Track everything per indicator provided
          */
+        console.log('params', params);
         this.patientListPerIndicator = this.patientList[params.indicators] ?
           this.patientList[params.indicators] : [];
         this.patientListPerIndicator = this.patientListPerIndicator.concat(data.result);
@@ -129,8 +131,10 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
         }
 
         if (data.indicators) {
+          console.log('data.indicators', data.indicators);
           this.searchIndicator(data.indicators, params.indicators).then(
             (matchingIndicator: Array<any>) => {
+              console.log('matchingIndicator', matchingIndicator);
               if (matchingIndicator.length > 0) {
                 this._indicator = matchingIndicator[0]['label'];
               }
@@ -221,6 +225,7 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
   }
 
   public searchIndicator(indicators: Array<any>, trackedIndicator: string) {
+    console.log('searchIndicator', [indicators, trackedIndicator]);
     let matchingIndicator = _.filter(indicators, (_indicator) => {
       let search = _indicator['indicator'];
       return search && search.match(new RegExp(trackedIndicator));

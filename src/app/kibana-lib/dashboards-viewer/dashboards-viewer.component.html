@@ -1,0 +1,5 @@
+<h4 class="component-title" style="color: mediumorchid; cursor: pointer;" (click)="dashboard = undefined"> <span *ngIf="dashboard" class="fa fa-arrow-left" style="color: darkslategray;"></span> <span class="fa fa-area-chart"></span> Visualizations {{ dashboard ? '/ ' + dashboard.title : '' }}</h4>
+<dashboard-list #dashboardListComponent [hidden]="dashboard !== undefined" (dashboardSelected)="onDashboardSelected($event)" (dashboardsLoaded)="onDashboardsLoaded($event)"></dashboard-list>
+<kibana-viz-host [hidden]="dashboard === undefined" [height]="height" [width]="width" [url]="kibanaVizUrl" (patientNavigationRequested)="onPatientNavigationRequested($event)"
+    (vizUrlChanged)="onVizUrlChanged($event)">
+</kibana-viz-host>

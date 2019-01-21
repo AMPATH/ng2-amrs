@@ -11,19 +11,17 @@ import {
 import {
     PatientsRequiringVLComponent
 } from './patients-requiring-vl/patients-requiring-vl.component';
-import { HivCareComparativeComponent
+import {
+    HivCareComparativeComponent
 } from './hiv-visualization/hiv-care-overview.component';
 import {
     PatientStatusChangeVisualizationContainerComponent
-} from
-'./patient-status-change-visualization/patient-status-change-visualization.container.component';
-import { PatientStatusChangeListComponent } from
-'./patient-status-change-visualization/patient-status-change-list.component';
+} from './patient-status-change-visualization/patient-status-change-visualization.container.component';
+import { PatientStatusChangeListComponent } from './patient-status-change-visualization/patient-status-change-list.component';
 import {
   VisualizationPatientListComponent
 } from '../../hiv-care-lib/hiv-visualization/visualization-patient-list.component';
-import { Moh731PatientListComponent } from
-'./../../hiv-care-lib/moh-731-report/moh-731-patientlist.component';
+import { Moh731PatientListComponent } from './../../hiv-care-lib/moh-731-report/moh-731-patientlist.component';
 import {
     HivDailyScheduleComponent
 } from './daily-schedule/daily-schedule.component';
@@ -32,8 +30,7 @@ import {
 } from './monthly-schedule/monthly-schedule.component';
 import { DailyScheduleVisitsComponent
 } from '../../clinic-schedule-lib/daily-schedule/daily-schedule-visits.component';
-import { DailyScheduleAppointmentsComponent }
-  from '../../clinic-schedule-lib/daily-schedule/daily-schedule-appointments.component';
+import { DailyScheduleAppointmentsComponent } from '../../clinic-schedule-lib/daily-schedule/daily-schedule-appointments.component';
 import { DailyScheduleNotReturnedComponent
 } from '../../clinic-schedule-lib/daily-schedule/daily-schedule-not-returned.component';
 import { DailyScheduleClinicFlowComponent
@@ -54,7 +51,13 @@ import { DefaulterListComponent } from '../general/defaulter-list/defaulter-list
 import { PatientsProgramEnrollmentComponent } from '../../patients-program-enrollment/patients-program-enrollment.component';
 import { ProgramEnrollmentPatientListComponent } from '../../patients-program-enrollment/program-enrollent-patient-list.component';
 import { ClinicLabOrdersComponent } from '../general/clinic-lab-orders/clinic-lab-orders.component';
+import {
+    Moh731MonthlyVizComponent
+} from './moh731-monthly-viz/moh731-monthly-viz.component';
 
+import {
+    DashboardsViewerComponent
+} from '../../kibana-lib';
 const routes: Routes = [
     {
         path: 'landing-page',
@@ -83,6 +86,14 @@ const routes: Routes = [
         component: Moh731PatientListComponent
     },
     {
+        path: 'moh-731-monthly-viz',
+        component: Moh731MonthlyVizComponent // replace with landing page for module
+    },
+    {
+        path: 'hiv-viz',
+        component: DashboardsViewerComponent
+    },
+    {
         path: 'hiv-summary-indicator-report',
         children: [
             {
@@ -100,18 +111,18 @@ const routes: Routes = [
         component: PatientsRequiringVLComponent,
     },
     {
-      path: 'hiv-comparative-chart',
-      children: [
-        {
-          path: '',
-          component: HivCareComparativeComponent
-        },
-        {
-          path: 'patient-list/:report/:indicator/:period',
-          component: VisualizationPatientListComponent
-        }
+        path: 'hiv-comparative-chart',
+        children: [
+            {
+                path: '',
+                component: HivCareComparativeComponent
+            },
+            {
+                path: 'patient-list/:report/:indicator/:period',
+                component: VisualizationPatientListComponent
+            }
 
-      ]
+        ]
 
     },
     {

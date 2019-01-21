@@ -42,6 +42,12 @@
       "label": "Oncology Reports",
       "icon": "fa fa-bar-chart",
       "isSideBarOpen": false
+    },
+    {
+      "url": "hiv/moh-731-monthly-viz",
+      "label": "MOH 731 Monthly Viz",
+      "icon": "fa fa-line-chart",
+      "isSideBarOpen": false
     }
   ],
   "programs": [],
