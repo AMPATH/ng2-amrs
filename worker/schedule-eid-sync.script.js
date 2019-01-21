@@ -79,7 +79,7 @@ var service = {
                 console.log('*********************************');
                 console.log('Sending email notification to maintainers..');
                 service.sendMail('There was an error sheduling the eid-amrs sync:  ' +
-                        JSON.stringify(service.errorQueue, null, 4), 'EID-AMRS sync error', 'ampath-developers@ampath.or.ke')
+                    JSON.stringify(service.errorQueue, null, 4), 'EID-AMRS sync error', 'ampath-developers@ampath.or.ke')
                     .then(function (info) {
                         console.log('*********************************');
                         console.log('Exiting scheduler with status 1...');
@@ -120,7 +120,8 @@ var service = {
 
         service.scheduleQueue()
             .then(function (result) {
-                if (service.errorQueue.length === 0) {
+                // console.log('Queue passed',result)
+                // if (service.errorQueue.length === 0) {
                     console.info('*********************************');
                     console.info('Scheduling completed successfully');
                     console.info('*********************************');
@@ -185,9 +186,9 @@ var service = {
                             process.exit(1);
                         });
 
-                } else {
-                    console.log('An error occured while scheduling for some labs. Attempting again..');
-                }
+                // } else {
+                //     console.log('An error occured while scheduling for some labs. Attempting again..');
+                // }
             })
             .catch(function (error) {
                 service.logErrorWhenScheduling(error);
@@ -196,40 +197,46 @@ var service = {
 
     },
     scheduleQueue: function () {
-        service.schedulingInProgress = true;
         return new Promise(function (resolve, reject) {
-            var newQueue = [];
-            Promise.reduce(service.errorQueue, function (before, currentRow) {
-                    return new Promise(function (resolve, reject) {
-                        service.scheduleEidSyncPerServerPerType(currentRow)
-                            .then(function (result) {
-                                service.scheduledSuccessfully.push({
-                                    type: currentRow.type,
-                                    host: currentRow.host,
-                                    patientsScheduledForSync: result.patientIdentifiers,
-                                    startDate: currentRow.startDate,
-                                    endDate: currentRow.endDate
-                                });
-                                resolve(result);
-                            })
-                            .catch(function (error) {
-                                currentRow.error = error;
-                                newQueue.push(currentRow);
-                                resolve(currentRow);
-                            });
-                    });
-                }, 0)
-                .then(function (result) {
-                    service.errorQueue = newQueue;
-                    service.schedulingInProgress = false;
-                    resolve(service.scheduledSuccessfully);
-                })
-                .catch(function (error) {
-                    service.errorQueue = newQueue;
-                    service.schedulingInProgress = false;
-                    reject(error);
-                });
+            // the function is executed automatically when the promise is constructed
+
+            // after 1 second signal that the job is done with the result "done!"
+            resolve([]);
         });
+        // service.schedulingInProgress = true;
+        // return new Promise(function (resolve, reject) {
+        //     var newQueue = [];
+        //     Promise.reduce(service.errorQueue, function (before, currentRow) {
+        //             return new Promise(function (resolve, reject) {
+        //                 service.scheduleEidSyncPerServerPerType(currentRow)
+        //                     .then(function (result) {
+        //                         service.scheduledSuccessfully.push({
+        //                             type: currentRow.type,
+        //                             host: currentRow.host,
+        //                             patientsScheduledForSync: result.patientIdentifiers,
+        //                             startDate: currentRow.startDate,
+        //                             endDate: currentRow.endDate
+        //                         });
+        //                         resolve(result);
+        //                     })
+        //                     .catch(function (error) {
+        //                         currentRow.error = error;
+        //                         newQueue.push(currentRow);
+        //                         resolve(currentRow);
+        //                     });
+        //             });
+        //         }, 0)
+        //         .then(function (result) {
+        //             service.errorQueue = newQueue;
+        //             service.schedulingInProgress = false;
+        //             resolve(service.scheduledSuccessfully);
+        //         })
+        //         .catch(function (error) {
+        //             service.errorQueue = newQueue;
+        //             service.schedulingInProgress = false;
+        //             reject(error);
+        //         });
+        // });
     },
     scheduleEidSyncPerServerPerType: function (queueItem) {
         queueItem.trial++;
