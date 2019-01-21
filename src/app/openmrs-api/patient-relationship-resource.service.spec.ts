@@ -108,7 +108,7 @@ describe('Service: Pratient Relationship ResourceService', () => {
 
     const req = httpMock.expectOne(service.getUrl());
     expect(req.request.method).toBe('POST');
-    expect(req.request.url).toBe('http://example.url.com/ws/rest/v1/relationship');
+    expect(req.request.url).toBe(service.getUrl());
     req.flush(JSON.stringify(patientRelationshipResponse));
   });
   it('should return null when uuid and payload not specified', async(() => {
@@ -150,7 +150,7 @@ describe('Service: Pratient Relationship ResourceService', () => {
 
     const req = httpMock.expectOne(service.getUrl() + '/' + relationshipUuid);
     expect(req.request.method).toBe('DELETE');
-    expect(req.request.url).toBe('http://example.url.com/ws/rest/v1/relationship/uuid');
+    expect(req.request.url).toBe(service.getUrl() + '/' + relationshipUuid);
     req.flush(JSON.stringify(patientRelationshipResponse));
   });
 

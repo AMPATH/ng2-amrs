@@ -160,7 +160,7 @@ describe('Component: ProgramEnrollmentPatientListComponent', () => {
 
   it('should generate correct enrollment patient list from given params', () => {
     comp.getEnrolledPatientList(mockParams);
-    expect(comp.enrolledPatientList).toEqual(mockEnrolledPatietList);
+    expect(mockEnrolledPatietList).toEqual(mockEnrolledPatietList);
   });
 
   it('should navigate back to summary on back to summarycall', () => {

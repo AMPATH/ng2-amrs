@@ -26,7 +26,6 @@ import {
   ProgramWorkFlowStateResourceService
 } from '../../../openmrs-api/program-workflow-state-resource.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { HttpClient, HttpHandler } from '@angular/common/http';
 
 describe('Component: Medication History Unit Tests', () => {
 
@@ -39,8 +38,6 @@ describe('Component: Medication History Unit Tests', () => {
         HttpClientTestingModule
       ],
       providers: [
-        HttpClient,
-        HttpHandler,
         PatientService,
         ProgramService,
         ProgramResourceService,

@@ -145,7 +145,15 @@ export class FakePersonResourceService {
   }
 }
 
-xdescribe('Component: FormentryComponent', () => {
+class FakeCacheStorageService {
+  constructor(a, b) {
+  }
+  public ready() {
+    return true;
+  }
+}
+
+/*describe('Component: FormentryComponent', () => {
   const router = {
     navigate: jasmine.createSpy('navigate')
   };
@@ -214,14 +222,6 @@ xdescribe('Component: FormentryComponent', () => {
     }
 
   } as Form;
-
-  class FakeCacheStorageService {
-    constructor(a, b) {
-    }
-    public ready() {
-      return true;
-    }
-  }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -770,3 +770,48 @@ xdescribe('Component: FormentryComponent', () => {
 });
 
 
+class EncounterResourceServiceMock {
+  constructor() {
+  }
+
+  public getEncounterByUuid(formSchema: object): any {
+    const subject = of({
+      uuid: 'encounter-uuid',
+      display: 'encounter'
+    });
+    return subject;
+
+  }
+}
+
+class PatientServiceMock {
+  public currentlyLoadedPatient: BehaviorSubject<Patient>
+    = new BehaviorSubject(
+      new Patient({
+        uuid: 'patient-uuid',
+        display: 'patient name',
+        person: {
+          uuid: 'person-uuid',
+          display: 'person name'
+        }
+      })
+    );
+
+  constructor() {
+  }
+
+}
+
+export class FakePatientReferralService {
+
+  constructor() { }
+
+  public saveProcessPayload(payload: any) {
+
+  }
+
+  public getProcessPayload() {
+    return of({});
+  }
+
+}*/

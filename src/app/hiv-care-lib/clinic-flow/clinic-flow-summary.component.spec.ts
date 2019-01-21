@@ -43,7 +43,6 @@ import { Observable } from 'rxjs';
 import {
   MockHivClinicFlowResourceService
 } from '../../etl-api/hiv-clinic-flow-resource.service.mock';
-import { HttpClient, HttpHandler } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('Component: ClinicFlowSummaryComponent', () => {
@@ -56,8 +55,6 @@ describe('Component: ClinicFlowSummaryComponent', () => {
       providers: [
         LocalStorageService,
         ClinicDashboardCacheService,
-        HttpClient,
-        HttpHandler,
         AppSettingsService,
         LocalStorageService,
         CacheService,

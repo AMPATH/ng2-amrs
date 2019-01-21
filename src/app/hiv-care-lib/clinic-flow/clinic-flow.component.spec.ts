@@ -27,7 +27,6 @@ import { Angulartics2Module } from 'angulartics2';
 import * as Moment from 'moment';
 import { FakeClinicDashboardCacheService } from 'src/app/clinic-dashboard/dashboard-filters/dashboard-filters.component.spec';
 import { ClinicFlowResource } from 'src/app/etl-api/clinic-flow-resource-interface';
-import { HttpClient, HttpHandler, HttpClientModule } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ClinicDashboardCacheService } from 'src/app/clinic-dashboard/services/clinic-dashboard-cache.service';
 import { MockHivClinicFlowResourceService } from 'src/app/etl-api/hiv-clinic-flow-resource.service.mock';
@@ -67,8 +66,6 @@ beforeEach(() => {
     providers: [
       LocalStorageService,
       ClinicDashboardCacheService,
-      HttpClient,
-      HttpHandler,
       AppSettingsService,
       CacheService,
       DataCacheService,
@@ -110,7 +107,6 @@ beforeEach(() => {
     ],
     imports: [
       NgBusyModule,
-      HttpClientTestingModule,
       FormsModule,
       DialogModule,
       CalendarModule,
@@ -120,7 +116,7 @@ beforeEach(() => {
       MatTabsModule,
       CommonModule,
       RouterModule,
-      HttpClientModule,
+      HttpClientTestingModule,
       ChartModule,
       Angulartics2Module,
       RouterModule

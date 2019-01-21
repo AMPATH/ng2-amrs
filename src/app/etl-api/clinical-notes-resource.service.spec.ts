@@ -39,33 +39,31 @@ describe('Clinical notes Resource Service Unit Tests', () => {
 
   });
 
+  it('should return the correct parameters from the api',
+    async(inject([ClinicalNotesResourceService],
+      (notesResourceService: ClinicalNotesResourceService) => {
 
-});
+        // tslint:disable:no-shadowed-variable
+        const patientUuid = 'patient-uuid';
+        notesResourceService.getClinicalNotes(patientUuid, 0, 10).subscribe((data: any) => {
 
-it('should return the correct parameters from the api',
-  async(inject([ClinicalNotesResourceService],
-    (notesResourceService: ClinicalNotesResourceService) => {
+          expect(data).toBeTruthy();
+          expect(data.status).toBeDefined();
+          expect(data.notes).toBeDefined();
+          expect(data.notes.length).toEqual(0);
 
-      const patientUuid = 'patient-uuid';
-      notesResourceService.getClinicalNotes(patientUuid, 0, 10).subscribe((data: any) => {
-
-        expect(data).toBeTruthy();
-        expect(data.status).toBeDefined();
-        expect(data.notes).toBeDefined();
-        expect(data.notes.length).toEqual(0);
-
-      });
-
-    })));
-
-it('should return the correct parameters from the api',
-  async(inject([ClinicalNotesResourceService],
-    (notesResourceService: ClinicalNotesResourceService) => {
-      const patientUuid = 'patient-uuid';
-      notesResourceService.getClinicalNotes(patientUuid, 0, 10).subscribe((data) => { },
-        (error: Error) => {
-          expect(error).toBeTruthy();
         });
-    }))
-);
 
+      })));
+
+  it('should return the correct parameters from the api',
+    async(inject([ClinicalNotesResourceService],
+      (notesResourceService: ClinicalNotesResourceService) => {
+        const patientUuid = 'patient-uuid';
+        notesResourceService.getClinicalNotes(patientUuid, 0, 10).subscribe((data) => { },
+          (error: Error) => {
+            expect(error).toBeTruthy();
+          });
+      }))
+  );
+});

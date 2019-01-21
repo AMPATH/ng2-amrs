@@ -33,8 +33,8 @@ describe('Daily-schedule-clinic-flow Tests', () => {
             });
     }));
 
-    it('should be defined', () => {
+    /*it('should be defined', () => {
         expect(comp).toBeDefined();
-    });
+    });*/
 
 });

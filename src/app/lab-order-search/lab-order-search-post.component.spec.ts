@@ -14,7 +14,8 @@ import { LabOrderPostService } from './lab-order-post.service';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { FakeLabOrderResourceService } from '../etl-api/lab-order-resource.mock';
-import { HttpClient, HttpClientModule, HttpHandler } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('LabOrderSearchPostComponent', () => {
   let fixture: ComponentFixture<LabOrderSearchPostComponent>;
@@ -54,7 +55,7 @@ describe('LabOrderSearchPostComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [FormsModule, ReactiveFormsModule],
+      imports: [FormsModule, ReactiveFormsModule, HttpClientTestingModule],
       providers: [
         LabOrdersSearchHelperService,
         HivSummaryService,
@@ -63,10 +64,7 @@ describe('LabOrderSearchPostComponent', () => {
         LabOrderResourceService,
         LabOrderPostService,
         LocalStorageService,
-        AppSettingsService,
-        HttpClient,
-        HttpHandler,
-        HttpClientModule
+        AppSettingsService
       ],
       declarations: [
         LabOrderSearchPostComponent

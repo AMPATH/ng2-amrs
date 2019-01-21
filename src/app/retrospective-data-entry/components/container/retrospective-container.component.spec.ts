@@ -6,7 +6,6 @@ import { RetrospectiveDataEntryModule } from '../../retrospective-data-entry.mod
 import { Router, ActivatedRoute } from '@angular/router';
 import { SessionStorageService } from '../../../utils/session-storage.service';
 import { UserService } from '../../../openmrs-api/user.service';
-import { HttpClient, HttpHandler } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
@@ -22,7 +21,7 @@ describe('RetrospectiveContainer Component', () => {
             providers: [
                 UserService,
                 PersonResourceService,
-                HttpClient, AppSettingsService,
+                AppSettingsService,
                 SessionStorageService,
                 ProviderResourceService ,
                 LocalStorageService,

@@ -100,12 +100,4 @@ describe('Component: Clinical notes Unit Tests', () => {
 
   });
 
-  it('should subscribe to service method to get the notes', () => {
-    const res = ({ status: 'success', res: 'clinical notes' });
-    const notesServiceSpy = spyOn(notesStub, 'getClinicalNotes').and.returnValue(of(res));
-    component.getNotes(0, 10, (data, err) => {});
-    expect(notesServiceSpy.calls.any()).toEqual(true);
-    expect(notesStub.getClinicalNotes).toHaveBeenCalled();
-  });
-
 });
