@@ -19,12 +19,17 @@ import { HivSummaryComponent } from './hiv-summary/hiv-summary.component';
 import { HivSummaryHistoricalComponent } from './hiv-summary/hiv-summary-historical.component';
 import { HivSummaryLatestComponent } from './hiv-summary/hiv-summary-latest.component';
 import { MedicationHistoryComponent } from './hiv-summary/medication-history.component';
+import { GeneXpertImagesComponent } from './genexpert-images/genexpert-images.component';
 import { PatientMonthlyStatusComponent
 } from './patient-status-change/patient-monthly-status.component';
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
 import { PatientDashboardCommonModule } from '../common/patient-dashboard.common.module';
 
-import { HttpClientModule } from '@angular/common/http';
+import { Http, XHRBackend, RequestOptions } from '@angular/http';
+import { Router } from '@angular/router';
+import { SessionStorageService } from '../../utils/session-storage.service';
+import { HttpClient } from '../../shared/services/http-client.service';
+import { GeneXpertResourceService} from './genexpert-images/genexpert-images-resource.service';
 
 @NgModule({
   imports: [
@@ -41,8 +46,7 @@ import { HttpClientModule } from '@angular/common/http';
     OpenmrsApi,
     FormEntryModule,
     TabViewModule,
-    GrowlModule, PanelModule,
-    HttpClientModule
+    GrowlModule, PanelModule
   ],
   exports: [
     HivPatientClinicalSummaryComponent,
@@ -59,9 +63,18 @@ import { HttpClientModule } from '@angular/common/http';
     HivSummaryLatestComponent,
     MedicationHistoryComponent,
     PatientMonthlyStatusComponent,
-    PreviousVisitComponent
+    PreviousVisitComponent,
+    GeneXpertImagesComponent
   ],
   providers: [
+    GeneXpertResourceService,
+    {
+      provide: Http,
+      useFactory: (xhrBackend: XHRBackend, requestOptions: RequestOptions,
+                   router: Router, sessionStorageService: SessionStorageService) =>
+        new HttpClient(xhrBackend, requestOptions, router, sessionStorageService),
+      deps: [XHRBackend, RequestOptions, Router, SessionStorageService]
+    }
   ],
 })
 export class PatientDashboardHivModule { }

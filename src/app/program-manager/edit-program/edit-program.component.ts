@@ -1,4 +1,3 @@
-
 import { take } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -14,6 +13,7 @@ import {
 } from '../../user-default-properties/user-default-properties.service';
 import { PatientProgramResourceService } from '../../etl-api/patient-program-resource.service';
 import { LocalStorageService } from '../../utils/local-storage.service';
+import { ProgramManagerService } from '../program-manager.service';
 
 @Component({
   selector: 'program-edit',
@@ -27,15 +27,17 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
   public theChangeComplete = false;
   public successValue: any;
   public formsFilled = false;
+
   constructor(public patientService: PatientService,
-    public programService: ProgramService,
-    public router: Router,
-    public route: ActivatedRoute,
-    public departmentProgramService: DepartmentProgramsConfigService,
-    public userDefaultPropertiesService: UserDefaultPropertiesService,
-    public patientProgramResourceService: PatientProgramResourceService,
-    public cdRef: ChangeDetectorRef,
-    public localStorageService: LocalStorageService) {
+              public programService: ProgramService,
+              public router: Router,
+              public route: ActivatedRoute,
+              public departmentProgramService: DepartmentProgramsConfigService,
+              public userDefaultPropertiesService: UserDefaultPropertiesService,
+              public patientProgramResourceService: PatientProgramResourceService,
+              public cdRef: ChangeDetectorRef,
+              public localStorageService: LocalStorageService,
+              private programManagerService: ProgramManagerService) {
     super(patientService,
       programService,
       router,
@@ -56,7 +58,6 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
           if (loaded && params['step']) {
             this.loadOnParamInit(params);
           }
-          this.showOutreachNoticeIfPossible();
         }
       }, () => {
         this.loaded = true;
@@ -71,7 +72,7 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
     if (this.programVisitConfig && this.hasStateChangeEncounterTypes()) {
       _.extend(program, {
         stateChangeEncounterTypes:
-          this.programVisitConfig.enrollmentOptions.stateChangeEncounterTypes
+        this.programVisitConfig.enrollmentOptions.stateChangeEncounterTypes
       });
     }
     if (event.target.checked) {
@@ -80,11 +81,11 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
       _.remove(this.programsToEdit, (_program) => {
         return _program.uuid === program.uuid;
       });
-      this.addToStepInfo({
-        programsToEdit: this.programsToEdit
-      });
-      this.serializeStepInfo();
     }
+    this.addToStepInfo({
+      programsToEdit: this.programsToEdit
+    });
+    this.serializeStepInfo('pm-edit-data');
   }
 
   public goBack() {
@@ -92,7 +93,7 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
     this.back();
   }
 
-  public gotToEditOptions() {
+  public goToEditOptions() {
     if (_.isEmpty(this.programsToEdit)) {
       this.showMessage('Please select at least one program to proceed');
     } else {
@@ -113,10 +114,15 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
 
   public replyToChildComponent(reply) {
     if (reply) {
+      if (!this.program) {
+        this.next();
+      } else {
+        this.jumpStep = this.currentStep;
+      }
       this.theChangeComplete = true;
       this.successValue = reply;
-      this.next();
       this.localStorageService.remove('pm-edit-data');
+      this.localStorageService.remove('transferLocation');
       this.tick(3000).then(() => {
         this.refreshPatient();
       });
@@ -163,14 +169,68 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
     }
   }
 
-  private showOutreachNoticeIfPossible() {
+  private showNoticeIfPossible() {
     const queryParams = this.route.snapshot.queryParams;
     if (queryParams && !_.isEmpty(queryParams) && queryParams.notice) {
-      this.showMessage('Please complete transfer care process. ' +
-        'Select target programs to continue.', 'info');
+      switch (queryParams.notice) {
+        case 'outreach':
+          this.showMessage('Please complete transfer care process. ' +
+            'Select target programs to continue.', 'info');
+          break;
+        case 'pmtct':
+          this.showMessage('The patient has been transferred to MCH and successfully enrolled in PMTCT.', 'info');
+          break;
+        case 'adherence':
+          this.title = 'Program Successfully Started';
+          this.showMessage('The patient has been enrolled in Enhanced adherence HIV Program successfully.', 'info');
+          break;
+        default:
+      }
     } else {
       this.removeMessage();
     }
+  }
+
+  private quickEditProgram(program: string) {
+    const selectedProgram = _.find(this.availablePrograms, (_program: any) => {
+      return _program.programUuid === program;
+    });
+    this.programVisitConfig = this.allPatientProgramVisitConfigs[program];
+    if (this.isIncompatibleChoice() && selectedProgram && this.patient) {
+      const programs: any[] = [];
+      _.each(this.enrolledProgrames, (enrolled: any) => {
+        if (_.includes(_.map(this.incompatibleProgrames, 'uuid'), enrolled.programUuid)) {
+          _.merge(enrolled, {
+            dateCompleted: new Date()
+          });
+          programs.push(enrolled);
+        }
+      });
+      const location = this.localStorageService.getItem('transferLocation');
+      this.programManagerService.editProgramEnrollments(
+        'stop', this.patient, programs, location)
+        .pipe(take(1)).subscribe((editedPrograms) => {
+        if (editedPrograms) {
+          this.autoEnroll(selectedProgram);
+        }
+      }, (err) => {
+        console.log('failed to autenroll', err);
+      });
+    } else if (this.incompatibleCount === 0 && selectedProgram && this.patient) {
+      this.autoEnroll(selectedProgram);
+    }
+  }
+
+  private autoEnroll(selectedProgram: any) {
+    this.updateProgramsToEdit({target: {checked: true}}, selectedProgram);
+    this.goToEditOptions();
+    --this.currentStep;
+    this.changeLocation();
+    this.showNoticeIfPossible();
+  }
+
+  private patientEnrolled(program) {
+    return _.includes(_.map(this.enrolledProgrames, 'programUuid'), program);
   }
 
   private pickStateChangeEncounters(target: string[]) {
@@ -186,11 +246,24 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
 
   private loadOnParamInit(params: any) {
     this.currentStep = parseInt(params.step, 10);
-    this.jumpStep = this.currentStep;
-    this.deserializeStepInfo();
-    if (this.currentStep === 3) {
+    const queryParams: any = this.route.snapshot.queryParams;
+    if (queryParams && queryParams.program && !this.theChangeComplete) {
       this.formsFilled = true;
+      this.program = queryParams.program;
+      if (!this.patientEnrolled(this.program)) {
+        this.quickEditProgram(queryParams.program);
+      } else {
+        this.removeMessage();
+        this.showMessage('The patient is already enrolled in the program.', 'error');
+      }
+    } else {
+      this.jumpStep = this.currentStep;
+      this.deserializeStepInfo();
+      if (this.currentStep === 3) {
+        this.formsFilled = true;
+      }
     }
+    this.showNoticeIfPossible();
   }
 
   private deserializeStepInfo() {

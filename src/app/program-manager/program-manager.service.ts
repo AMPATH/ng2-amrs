@@ -20,9 +20,9 @@ export class ProgramManagerService {
   public referralCompleteStatus: BehaviorSubject<any> = new BehaviorSubject(null);
 
   constructor(private patientReferralService: PatientReferralService,
-    private programService: ProgramService,
-    private personResourceService: PersonResourceService,
-    private userService: UserService) {
+              private programService: ProgramService,
+              private personResourceService: PersonResourceService,
+              private userService: UserService) {
 
   }
 
@@ -31,14 +31,14 @@ export class ProgramManagerService {
   }
 
   public referPatient(payload) {
-    const encounter: any = _.first(payload.submittedEncounter);
+    let encounter: any = _.first(payload.submittedEncounter);
     _.extend(payload, {
       notificationStatus: null,
       referralReason: '',
       state: null
     });
     if (encounter) {
-      _.extend(payload, { encounter: encounter.uuid });
+      _.extend(payload, {encounter: encounter.uuid});
       this.handleReferralWithEncounter(payload);
     } else {
       this.handleReferralWithProvider(payload);
@@ -47,16 +47,16 @@ export class ProgramManagerService {
   }
 
   public editProgramEnrollments(theChange: string, patient: Patient, programs: any[], newLoc) {
-    const programBatch: Array<Observable<any>> = [];
+    let programBatch: Array<Observable<any>> = [];
     _.each(programs, (program: any) => {
-      const location = program.enrolledProgram._openmrsModel.location.uuid;
-      const unenrollPayload = this.programService.createEnrollmentPayload(
-        program.programUuid, patient, this.toOpenmrsDateFormat(program.dateCompleted),
-        this.toOpenmrsDateFormat(program.dateCompleted), location,
+      let location = program.enrolledProgram._openmrsModel.location.uuid;
+      let unenrollPayload = this.programService.createEnrollmentPayload(
+        program.programUuid, patient, this.toOpenmrsDateFormat(program.dateEnrolled || program.enrolledProgram.dateEnrolled),
+        this.toOpenmrsDateFormat(program.dateCompleted), location ,
         program.enrolledProgram._openmrsModel.uuid);
       // if intra-ampath, unenroll and enroll in the new location
       if (theChange === 'location') {
-        const enrollPayload = this.programService.createEnrollmentPayload(
+        let enrollPayload = this.programService.createEnrollmentPayload(
           program.programUuid, patient, this.toOpenmrsDateFormat(program.dateEnrolled),
           null,
           newLoc, '');
@@ -71,17 +71,17 @@ export class ProgramManagerService {
   }
 
   public updatePersonHealthCenter(payload: any) {
-    const personUuid = payload.person.uuid;
+    let personUuid = payload.person.uuid;
     delete payload.person;
     return this.personResourceService.saveUpdatePerson(personUuid, payload);
   }
 
   private handleReferralWithProvider(payload): void {
-    const currentUser = this.userService.getLoggedInUser();
+    let currentUser = this.userService.getLoggedInUser();
     this.patientReferralService.getUserProviderDetails(currentUser)
       .then((provider) => {
         if (provider) {
-          _.extend(payload, { provider: provider.uuid });
+          _.extend(payload, {provider: provider.uuid});
           this.enrollPatientInReferredProgram(payload);
         }
       });
@@ -91,7 +91,7 @@ export class ProgramManagerService {
     this.patientReferralService.getEncounterProvider(payload.encounter)
       .subscribe((provider) => {
         if (provider) {
-          _.extend(payload, { provider: provider.uuid });
+          _.extend(payload, {provider: provider.uuid});
           this.enrollPatientInReferredProgram(payload);
         }
       });
@@ -106,15 +106,15 @@ export class ProgramManagerService {
       dateEnrolled: programInfo.dateEnrolled,
       enrollmentUuid: ''
     }).subscribe((enrollment) => {
-      // 2. Save encounter
-      _.extend(programInfo, {
-        patientProgram: enrollment.uuid,
-        patient: programInfo.patient.uuid
-      });
-      delete programInfo.submittedEncounter;
-      this.saveReferral(programInfo, enrollment);
+        // 2. Save encounter
+        _.extend(programInfo, {
+          patientProgram: enrollment.uuid,
+          patient : programInfo.patient.uuid
+        });
+        delete programInfo.submittedEncounter;
+        this.saveReferral(programInfo, enrollment);
 
-    },
+      },
       (error) => {
         this.handleError(error);
       });
@@ -152,7 +152,7 @@ export class ProgramManagerService {
   }
 
   private toOpenmrsDateFormat(dateToConvert: any): string {
-    const date = moment(dateToConvert);
+    let date = moment(dateToConvert);
     if (date.isValid()) {
       return date.subtract(3, 'm').format('YYYY-MM-DDTHH:mm:ssZ');
     }

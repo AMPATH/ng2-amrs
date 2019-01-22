@@ -1,4 +1,4 @@
-
+/* tslint:disable:no-inferrable-types */
 import { take } from 'rxjs/operators/take';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
@@ -13,16 +13,16 @@ import { Subscription } from 'rxjs';
     styleUrls: ['./hiv-summary.component.css']
 })
 export class HivSummaryHistoricalComponent implements OnInit, OnDestroy {
-    public loadingHivSummary = false;
+    public loadingHivSummary: boolean = false;
     public hivSummaries: Array<any> = [];
     public patient: Patient;
     public patientUuid: any;
     public subscription: Subscription[] = [];
-    public experiencedLoadingError = false;
-    public dataLoaded = false;
+    public experiencedLoadingError: boolean = false;
+    public dataLoaded: boolean = false;
     public errors: any = [];
     public isLoading: boolean;
-    public nextStartIndex = 0;
+    public nextStartIndex: number = 0;
 
     constructor(private hivSummaryService: HivSummaryService,
         private patientService: PatientService) {
@@ -59,9 +59,9 @@ export class HivSummaryHistoricalComponent implements OnInit, OnDestroy {
         this.subscription.push(patientSub);
     }
 
-    public loadHivSummary(patientUuid, nextStartIndexs) {
+    public loadHivSummary(patientUuid, nextStartIndex) {
         const summarySub = this.hivSummaryService.getHivSummary(
-            patientUuid, this.nextStartIndex, 20, false).subscribe((data) => {
+            patientUuid, nextStartIndex, 20, false).subscribe((data) => {
                 if (data) {
                     if (data.length > 0) {
                         for (const r in data) {
@@ -79,8 +79,6 @@ export class HivSummaryHistoricalComponent implements OnInit, OnDestroy {
                 }
             }, (err) => {
                 this.loadingHivSummary = false;
-                // all data loaded
-                // this.dataLoaded = true;
                 this.errors.push({
                     id: 'Hiv Summary',
                     message: 'An error occured while loading Hiv Summary. Please try again.'

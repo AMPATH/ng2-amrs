@@ -8,6 +8,7 @@ import * as _ from 'lodash';
 import { Subscription } from 'rxjs';
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
 
+
 @Component({
   selector: 'patient-reminders',
   templateUrl: './patient-reminders.components.html',
@@ -20,6 +21,7 @@ export class PatientRemindersComponent implements OnInit, OnDestroy {
   public subscription: Subscription;
   public errorMessage: string;
   public toastrConfig = {
+    extendedTimeOut: 0,
     timeOut: 0,
     positionClass: 'toast-bottom-right',
     closeButton: true,

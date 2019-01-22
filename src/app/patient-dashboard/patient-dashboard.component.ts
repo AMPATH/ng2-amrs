@@ -1,5 +1,5 @@
 
-import { take } from 'rxjs/operators';
+import {take} from 'rxjs/operators';
 import { Component, OnInit, OnDestroy, ElementRef, ViewChild, DoCheck } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { combineLatest, Observable, Subscription } from 'rxjs';
@@ -10,8 +10,7 @@ import * as Moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytics.service';
 import { DynamicRoutesService } from '../shared/dynamic-route/dynamic-routes.service';
-import {
-  PatientRoutesFactory
+import { PatientRoutesFactory
 } from '../navigation/side-navigation/patient-side-nav/patient-side-nav-routes.factory';
 
 @Component({
@@ -21,7 +20,7 @@ import {
 })
 export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
 
-  public fetchingPatient = false;
+  public fetchingPatient: boolean = false;
   public patient: Patient;
   public topOffset = 49;
   public leftOffset = 56;
@@ -52,11 +51,11 @@ export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   public ngOnInit() {
-    const sub = this.patientService.currentlyLoadedPatient.subscribe(
+   const sub = this.patientService.currentlyLoadedPatient.subscribe(
       (patientObject) => {
         if (patientObject) {
           const routes = this.patientRoutesFactory
-            .createPatientDashboardRoutes(patientObject);
+          .createPatientDashboardRoutes(patientObject);
           this.dynamicRoutesService.setPatientDashBoardRoutes(routes);
         }
       });
@@ -94,37 +93,36 @@ export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   public getNewResults() {
-    const patientEmited: any = { uuid: '' };
+    let patientEmited: any = { uuid: '' };
     const sub1 = this.patientService.
       currentlyLoadedPatient.subscribe((patient: any) => {
         if (patient) {
           const sub2 = this.getCombinedResult(patient).pipe(take(1)).subscribe((results: any[]) => {
             // the intention of combining is to have both systems sync. So we take just one result
             if (results.length > 0) {
-              const result = results[1];
-              let content = '';
-              for (const test of result) {
-                if (test.groupMembers) {
-                  for (const l of test.groupMembers) {
-                    if (l.uuid === '5538cd04-9852-40f8-88ba-c69da32e50eb') {
-                      content = content +
-                        `CD4%: ${l.value} `;
+              const result = results[1][0];
+              if (result.updatedObs && result.updatedObs.length > 0) {
+                let content = '';
+                for (const test of result) {
+                  if (test.groupMembers) {
+                    for (const l of test.groupMembers) {
+                      if (l.uuid === '5538cd04-9852-40f8-88ba-c69da32e50eb') {
+                        content = content +
+                          `CD4%: ${l.value} `;
+                      }
+                      if (l.uuid === 'f9424af5-1fd3-4a8f-8d43-7b098eb20ac3') {
+                        content = content +
+                          `CD4: ${l.value} `;
+                      }
                     }
-                    if (l.uuid === 'f9424af5-1fd3-4a8f-8d43-7b098eb20ac3') {
-                      content = content +
-                        `CD4: ${l.value} `;
-                    }
+                  } else {
+                    content = content +
+                      `${test.display} (collected on ${Moment(test.obsDatetime)
+                        .format('DD/MM/YYYY')})`;
                   }
-                } else {
-                  content = content +
-                    `${test.display} (collected on ${Moment(test.obsDatetime)
-                      .format('DD/MM/YYYY')})`;
                 }
+                this.toastrService.info(content.toLowerCase(), 'New Data from Lab', this.toastrConfig);
               }
-              this.toastrService.info(content.toLowerCase(), 'New Data from Lab', this.toastrConfig);
-              // app feature analytics
-              this.appFeatureAnalytics
-                .trackEvent('Patient Dashboard', 'EID Lab Data Synced', 'getNewResults');
             }
           }, (err) => {
             console.error(err);
@@ -135,7 +133,7 @@ export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
         console.error(error);
       });
 
-    this.subscriptions.push(sub1);
+      this.subscriptions.push(sub1);
   }
 
   public getCombinedResult(patient: any): Observable<any[]> {

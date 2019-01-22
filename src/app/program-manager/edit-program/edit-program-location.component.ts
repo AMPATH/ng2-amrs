@@ -5,6 +5,8 @@ import { Patient } from '../../models/patient.model';
 import { ProgramManagerService } from '../program-manager.service';
 import { PatientResourceService } from '../../openmrs-api/patient-resource.service';
 import { Observable } from 'rxjs';
+import * as moment from 'moment';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'edit-program-location',
@@ -13,33 +15,54 @@ import { Observable } from 'rxjs';
 })
 export class EditProgramLocationComponent implements OnInit {
   @Input() public programs: any[] = [];
-  // tslint:disable-next-line:no-input-rename
   @Input('editedProgram') public editedPrograms: any;
   @Input() public patient: Patient;
-  @Input() public complete = false;
+  @Input() public complete: boolean = false;
   @Output() public locationChangeComplete: EventEmitter<any> = new EventEmitter(null);
-  // tslint:disable-next-line:no-output-on-prefix
   @Output() public onBack: EventEmitter<any> = new EventEmitter(null);
-  public updating = false;
-  public dateEnrolled: Date;
+  public updating: boolean = false;
+  public dateEnrolled: string;
   public transferLocation: any;
-  public hasError = false;
+  public hasError: boolean = false;
   private location: any;
-  public message = '';
+  public message: string = '';
 
   constructor(private programManagerService: ProgramManagerService,
-    private patientResourceService: PatientResourceService) {
+              public route: ActivatedRoute,
+              private patientResourceService: PatientResourceService) {
+    this.dateEnrolled = moment().format('YYYY-MM-DD');
   }
 
   public ngOnInit() {
     this.preSelectLocation();
+    const queryParams: any = this.route.snapshot.queryParams;
+    if (queryParams && queryParams.program && !this.complete) {
+      this.doEnroll(queryParams.program);
+    }
+  }
+
+  public doEnroll(program) {
+    const payload = {
+      programUuid: program,
+      patient: this.patient,
+      dateEnrolled: this.dateEnrolled,
+      dateCompleted: null,
+      location: this.location.value,
+      enrollmentUuid: ''
+    };
+    this.programManagerService.enrollPatient(payload).subscribe((newProgram) => {
+      if (newProgram) {
+        console.log('newProgram', newProgram);
+        this.locationChangeComplete.next([newProgram]);
+      }
+    }, (err) => {
+      console.log(err);
+      this.locationChangeComplete.error(err);
+    });
   }
 
   public completeLocationChange() {
     if (this.hasValidFields()) {
-      this.hasError = false;
-      this.message = '';
-      this.updating = true;
       this.programs = _.map(this.programs, (program) => {
         _.merge(program, {
           dateEnrolled: new Date(this.dateEnrolled),
@@ -47,8 +70,12 @@ export class EditProgramLocationComponent implements OnInit {
         });
         return program;
       });
-      this.programManagerService.editProgramEnrollments('location', this.patient,
-        this.programs, this.location.value).subscribe((programs) => {
+      if (this.patient) {
+        this.hasError = false;
+        this.message = '';
+        this.updating = true;
+        this.programManagerService.editProgramEnrollments('location', this.patient,
+          this.programs, this.location.value).subscribe((programs) => {
           if (programs) {
             this.transferPreferedIdentifier().subscribe(() => {
               this.updating = false;
@@ -65,6 +92,7 @@ export class EditProgramLocationComponent implements OnInit {
           this.updating = false;
           this.hasError = true;
         });
+      }
     } else {
       this.hasError = true;
       this.message = 'Please fill location and date enrolled to proceed';
@@ -94,6 +122,7 @@ export class EditProgramLocationComponent implements OnInit {
     const transferLocation = localStorage.getItem('transferLocation');
     if (transferLocation) {
       this.transferLocation = transferLocation;
+      this.location = {value: transferLocation};
     }
   }
 
@@ -103,11 +132,11 @@ export class EditProgramLocationComponent implements OnInit {
     if (preferredIdentifier) {
 
 
-      const person = {
+      let person = {
         uuid: this.patient.person.uuid
       };
       // we only change the location of the preferred Identifier
-      const personIdentifierPayload: any = {
+      let personIdentifierPayload: any = {
         uuid: preferredIdentifier.uuid,
         identifier: preferredIdentifier.identifier,
         identifierType: preferredIdentifier.identifierType.uuid,

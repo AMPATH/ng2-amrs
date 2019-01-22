@@ -24,6 +24,7 @@ import { TodayVisitsComponent } from './common/visit/today-visits/today-visits.c
 import { PatientDashboardResolver } from './services/patient-dashboard.resolver';
 import { PatientCreationComponent } from '../patient-creation/patient-creation.component';
 import { PatientImagingComponent } from './common/imaging/patient-imaging.component';
+import { GeneXpertImagesComponent } from './hiv/genexpert-images/genexpert-images.component';
 import { ProgramManagerContainerComponent
 } from '../program-manager/container/program-manager-container.component';
 import { ProgramSummaryComponent
@@ -107,6 +108,7 @@ export const routes = [
           },
           { path: ':programClass/:program/lab-data-summary', component: LabDataSummaryComponent },
           { path: ':programClass/:program/patient-imaging', component: PatientImagingComponent },
+          { path: ':programClass/:program/patient-gene-xpert-images', component: GeneXpertImagesComponent },
           { path: ':programClass/:program/lab-orders', component: LabOrdersComponent },
           { path: ':programClass/:program/clinical-notes', component: ClinicalNotesComponent },
           { path: ':programClass/:program/visit', component: TodayVisitsComponent },
