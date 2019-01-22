@@ -10,37 +10,38 @@ export class LabClient {
     /* This functions have swallow promise errors because the specific user case where we want all promises resolve when executed with Promise.All
         procced with caution
     */
-    fetchDNAPCR(filterOptions) {
+    fetchDNAPCR(filterOptions, offset) {
         if (!filterOptions) {
             throw (Error('Please supply filter options'));
         }
         filterOptions.test = 1;
         filterOptions.dispatched = 1;
-        return this.getFetchRequest(filterOptions).catch(function (err) {
+        return this.getFetchRequest(filterOptions, offset).catch(function (err) {
             //return error;
             return err;
         });
     }
 
-    fetchViralLoad(filterOptions) {
+    fetchViralLoad(filterOptions, offset) {
         if (!filterOptions) {
             throw (Error('Please supply filter options'));
         }
         filterOptions.test = 2;
         filterOptions.dispatched = 1;
-        return this.getFetchRequest(filterOptions).catch(function (err) {
+        return this.getFetchRequest(filterOptions, offset).catch(function (err) {
             //return error;
             return err;
         });
     }
+    
 
-    fetchCD4(filterOptions) {
+    fetchCD4(filterOptions, offset) {
         if (!filterOptions) {
             throw (Error('Please supply filter options'));
         }
         filterOptions.test = 3;
         filterOptions.dispatched = 1;
-        return this.getFetchRequest(filterOptions).catch(function (err) {
+        return this.getFetchRequest(filterOptions, offset).catch(function (err) {
             //return error;
             return err;
         });
@@ -95,10 +96,14 @@ export class LabClient {
         return rp(options);
     }
 
-    getFetchRequest(filterOptions) {
+    getFetchRequest(filterOptions, offset) {
         process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
+        let fetchOffset = 1;
+        if (offset) {
+            fetchOffset = offset;
+        }
         var options = {
-            uri: `${this.config.serverUrl}/api/function`,
+            uri: `${this.config.serverUrl}/api/function?page=${fetchOffset}`,
             headers: {
                 'apikey': this.config.apiKey
             },

@@ -1,1 +1,2 @@
-0 22 * * * root node /opt/etl/worker/schedule-eid-sync.script.js
+0 22 * * * root node /opt/etl/worker/schedule-eid-sync.script.js --lab=alupe
+0 23 * * * root node /opt/etl/worker/schedule-eid-sync.script.js --lab=ampath 

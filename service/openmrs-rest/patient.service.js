@@ -65,7 +65,9 @@
                 _getPatientUuidByIdentifier(identifier, baseUrl)
                     .then(function (value) {
                         console.error(identifier + ' ' + value.patientUuid + ' reduced to', results.length);
-                        results.push(value);
+                        if(value.patientUuid){
+                            results.push(value);
+                        }
                         resolve(results);
                     })
                     .catch(function (error) {
