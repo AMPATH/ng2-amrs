@@ -42,7 +42,7 @@ import { DataEntryStatisticsCreatorsListComponent } from './creators-list/data-e
     DataEntryStatisticsMonthlyListComponent,
     DataEntryStatisticsProviderListComponent,
     DataEntryStatisticsCreatorsListComponent
-   ],
+  ],
   providers: [
     DataEntryStatisticsService
   ],

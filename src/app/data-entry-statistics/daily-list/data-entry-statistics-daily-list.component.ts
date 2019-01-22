@@ -200,7 +200,7 @@ export class DataEntryStatisticsDailyListComponent
     });
 
     // sort col defs based on dates i.e first to last date
-    const sortedDymanicCols =  this.sortColumnHeadersByDate(dynamicCols);
+    const sortedDymanicCols = this.sortColumnHeadersByDate(dynamicCols);
 
     this.mergeColsDef(sortedDymanicCols);
 
@@ -213,8 +213,8 @@ export class DataEntryStatisticsDailyListComponent
       const splitDateA = (a.field).split('-');
       const splitDateB = (b.field).split('-');
       // create date object for comparison
-      const dateA = new Date(splitDateA[2], splitDateA[1] , splitDateA[0]);
-      const dateB = new Date(splitDateB[2], splitDateB[1] , splitDateB[0]);
+      const dateA = new Date(splitDateA[2], splitDateA[1], splitDateA[0]);
+      const dateB = new Date(splitDateB[2], splitDateB[1], splitDateB[0]);
 
       if (dateA > dateB) {
         return 1;

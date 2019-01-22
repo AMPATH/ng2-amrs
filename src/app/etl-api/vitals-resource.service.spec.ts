@@ -9,11 +9,11 @@ describe('Service: VitalResourceService', () => {
   let expectedResult;
   let httpMock: HttpTestingController;
   let service: VitalsResourceService;
-  let startIndex = 0;
-  let limit = 2;
-  let patientUuid = '1101b7e4-0141-4316-8356-d89fd6b2c766';
+  const startIndex = 0;
+  const limit = 2;
+  const patientUuid = '1101b7e4-0141-4316-8356-d89fd6b2c766';
   let url = `https://amrsreporting.ampath.or.ke:8002/etl/patient/1101b7e4-0141-4316-8356-d89fd6b2c766/vitals`;
-  // add URL params 
+  // add URL params
   url += `?startIndex=${startIndex}`;
   url += `&limit=${limit}`;
 
@@ -31,13 +31,13 @@ describe('Service: VitalResourceService', () => {
     httpMock = TestBed.get(HttpTestingController);
 
     expectedResult = [
-      { 
+      {
         diastolic_bp: 110,
         oxygen_sat: null,
         pulse: 96,
         systolic_bp: 180,
         temp: null,
-        person_id: 873430, 
+        person_id: 873430,
         uuid: '1101b7e4-0141-4316-8356-d89fd6b2c766',
         height: 100,
         weight: 7,
@@ -75,14 +75,15 @@ describe('Service: VitalResourceService', () => {
   );
 
   it('should get the API url', () => {
-    let url = service.getUrl();
+    // tslint:disable-next-line:no-shadowed-variable
+    const url = service.getUrl();
     expect(url).toContain('patient');
   });
 
   it('should make API call with the correct URL parameters', () => {
     service.getVitals(patientUuid, startIndex, limit).subscribe();
 
-    let request = httpMock.expectOne(url);
+    const request = httpMock.expectOne(url);
     expect(request.request.method).toBe('GET');
     expect(request.request.url).toContain(patientUuid);
     expect(request.request.params.get('limit')).toEqual(limit.toString());
@@ -93,7 +94,7 @@ describe('Service: VitalResourceService', () => {
   it('should return the correct parameters from the API', () => {
     service.getVitals(patientUuid, 0, 2).subscribe();
 
-    let request = httpMock.expectOne(url);
+    const request = httpMock.expectOne(url);
     expect(request.request.method).toBe('GET');
     expect(request.request.url).toContain(patientUuid);
     expect(request.request.params.get('limit')).toEqual('2');

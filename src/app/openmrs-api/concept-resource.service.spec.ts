@@ -1,7 +1,5 @@
 
 import { TestBed, async } from '@angular/core/testing';
-import { APP_BASE_HREF } from '@angular/common';
-import { MockBackend, MockConnection } from '@angular/http/testing';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { ConceptResourceService } from './concept-resource.service';
@@ -17,7 +15,6 @@ describe('Service : ConceptResourceService Unit Tests', () => {
       imports: [HttpClientTestingModule],
       declarations: [],
       providers: [
-        MockBackend,
         AppSettingsService,
         LocalStorageService,
         ConceptResourceService

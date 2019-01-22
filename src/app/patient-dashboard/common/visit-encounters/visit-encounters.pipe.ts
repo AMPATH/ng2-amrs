@@ -16,12 +16,12 @@ export class VisitEncountersPipe implements PipeTransform {
             return mainArray;
        } else {
 
-         let encounterInArray = (encounter) => {
+         const encounterInArray = (encounter) => {
               return _.includes(encounterFilterTypeArray , encounter.encounter);
          };
 
-         let filteredVisits = mainArray.filter((visit) => {
-                 let visitEncounters = visit.encounters.filter(encounterInArray);
+         const filteredVisits = mainArray.filter((visit) => {
+                 const visitEncounters = visit.encounters.filter(encounterInArray);
 
                  return visitEncounters.length > 0;
          });

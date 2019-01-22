@@ -23,15 +23,17 @@ export class RectangleToPath {
         };
     }
     private getProxy(x, y, w, h, deg) {
+        // tslint:disable-next-line:prefer-const
         let c = {
             x: x + w / 2,
             y: y + h / 2
         },
+            // tslint:disable-next-line:prefer-const
             points = [],
             r;
         r = Math.sqrt(Math.pow(w, 2) + Math.pow(h, 2)) / 2;
         deg = deg * Math.PI / 180;
-        let deg1 = (Math.PI - Math.acos((w / 2) / r)) - parseFloat(deg),
+        const deg1 = (Math.PI - Math.acos((w / 2) / r)) - parseFloat(deg),
             deg2 = Math.acos((w / 2) / r) - parseFloat(deg),
             deg3 = -Math.acos((w / 2) / r) - parseFloat(deg),
             deg4 = Math.PI + Math.acos((w / 2) / r) - parseFloat(deg);
@@ -55,6 +57,7 @@ export class RectangleToPath {
     }
 
     private convertRect(rects, context) {
+        // tslint:disable-next-line:prefer-const
         let len = rects.length,
             x, y, w, h, deg = 0,
             proxy = [],
@@ -98,7 +101,9 @@ export class RectangleToPath {
     }
 
     private mergePath(parent) {
+        // tslint:disable-next-line:prefer-const
         let paths = parent.getElementsByTagName('path'),
+            // tslint:disable-next-line:prefer-const
             len = paths.length,
             d = '';
         if (len < 1) {

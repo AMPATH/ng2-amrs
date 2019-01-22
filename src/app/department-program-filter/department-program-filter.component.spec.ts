@@ -13,7 +13,6 @@ import { AppFeatureAnalytics } from './../shared/app-analytics/app-feature-analy
 import { FakeAppFeatureAnalytics } from './../shared/app-analytics/app-feature-analytcis.mock';
 import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
 import { UserService } from './../openmrs-api/user.service';
-import { ChangeDetectorRef } from '@angular/core';
 import { DataCacheService } from '../shared/services/data-cache.service';
 import { CacheService } from 'ionic-cache';
 import { IonicStorageModule } from '@ionic/storage';
@@ -101,14 +100,6 @@ describe('Component : DepartmentProgramFilter', () => {
   let comp: DepartmentProgramFilterComponent;
   let fixture: ComponentFixture<DepartmentProgramFilterComponent>;
   let nativeElement: any;
-  let patientProgramService: PatientProgramResourceService;
-  let localStorageService: LocalStorageService;
-  let departmentProgramService: DepartmentProgramsConfigService;
-  let userDefaultService: UserDefaultPropertiesService;
-  let locationResourceService: LocationResourceService;
-  let cd: ChangeDetectorRef;
-  let route: Router;
-  let router: ActivatedRoute;
 
   beforeEach(async(() => {
 

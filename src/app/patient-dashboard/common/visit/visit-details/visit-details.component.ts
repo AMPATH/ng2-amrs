@@ -1,11 +1,12 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Observable ,  forkJoin } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 import * as moment from 'moment';
 
 import { VisitResourceService } from '../../../../openmrs-api/visit-resource.service';
 import { EncounterResourceService } from '../../../../openmrs-api/encounter-resource.service';
 import { Encounter } from '../../../../models/encounter.model';
-import { RetrospectiveDataEntryService
+import {
+  RetrospectiveDataEntryService
 } from '../../../../retrospective-data-entry/services/retrospective-data-entry.service';
 
 @Component({
@@ -97,11 +98,11 @@ export class VisitDetailsComponent implements OnInit {
   public ngOnInit() {
     this.retrospectiveDataEntryService.retroSettings.subscribe((retroSettings) => {
 
-        if (retroSettings && retroSettings.enabled) {
-          this.hideButtonNav = true;
-        } else {
-          this.hideButtonNav = false;
-        }
+      if (retroSettings && retroSettings.enabled) {
+        this.hideButtonNav = true;
+      } else {
+        this.hideButtonNav = false;
+      }
     });
   }
 
@@ -152,11 +153,11 @@ export class VisitDetailsComponent implements OnInit {
           this.visit = visit;
           this.extractAllowedEncounterTypesForVisit();
         },
-        (error) => {
-          this.isBusy = false;
-          this.error = 'An error occured while reloading the visit. Refresh page and retry';
-          console.error('Error loading visit', error);
-        });
+          (error) => {
+            this.isBusy = false;
+            this.error = 'An error occured while reloading the visit. Refresh page and retry';
+            console.error('Error loading visit', error);
+          });
     }
   }
 
@@ -176,7 +177,7 @@ export class VisitDetailsComponent implements OnInit {
         this.error = 'An error occured while saving visit changes. Refresh page and retry';
         console.error('Error saving visit changes', error);
       }
-      );
+    );
 
   }
 
@@ -199,7 +200,7 @@ export class VisitDetailsComponent implements OnInit {
         this.error = 'An error occured while cancelling visit. Refresh page and retry';
         console.error('Error saving visit changes', error);
       }
-      );
+    );
   }
 
   public voidVisitEncounters() {
@@ -213,7 +214,7 @@ export class VisitDetailsComponent implements OnInit {
 
       // forkjoin all requests
       this.isBusy = true;
-     forkJoin(
+      forkJoin(
         observableBatch
       ).subscribe(
         (data) => {
@@ -226,7 +227,7 @@ export class VisitDetailsComponent implements OnInit {
           console.error('Error saving visit changes', err);
           this.showDeleteEncountersButton = true;
         }
-        );
+      );
     }
   }
 

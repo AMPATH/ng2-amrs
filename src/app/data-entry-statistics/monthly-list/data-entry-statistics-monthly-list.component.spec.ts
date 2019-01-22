@@ -4,9 +4,11 @@ import { AgGridModule } from 'ag-grid-angular';
 import { DataEntryStatisticsMonthlyListComponent } from './data-entry-statistics-monthly-list.component';
 
 const mockMonthlyResultRow: any = [
-  { encounterType: 'GENCONSULTATION', encounterUuid: 'uuid1', 'April, 2018': 12 , rowTotals: 12 },
-  { encounterType: 'OUTREACHFIELDFU', encounterUuid: 'uuid2',  'April, 2018': 2425 ,
-  rowTotals: 2425 }
+  { encounterType: 'GENCONSULTATION', encounterUuid: 'uuid1', 'April, 2018': 12, rowTotals: 12 },
+  {
+    encounterType: 'OUTREACHFIELDFU', encounterUuid: 'uuid2', 'April, 2018': 2425,
+    rowTotals: 2425
+  }
 ];
 
 const mockParams = {
@@ -89,9 +91,9 @@ describe('Component: Data Entry Monthly List', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports:
-      [
-        AgGridModule.withComponents([])
-      ],
+        [
+          AgGridModule.withComponents([])
+        ],
       declarations: [
         DataEntryStatisticsMonthlyListComponent
       ],
@@ -111,17 +113,17 @@ describe('Component: Data Entry Monthly List', () => {
   });
 
   it('should create an instance', () => {
-      expect(comp).toBeDefined();
+    expect(comp).toBeDefined();
   });
   it('should create correct total monthly encounters row', (done: DoneFn) => {
-    const totalsMap =  new Map();
+    const totalsMap = new Map();
     totalsMap.set('January, 2019', 50);
     const totalEncounters = 50;
     const mockTotalsRow = {
-        'encounterUuid': '',
-        'encounterType': 'Total',
-        'rowTotals': 50,
-        'January, 2019': 50
+      'encounterUuid': '',
+      'encounterType': 'Total',
+      'rowTotals': 50,
+      'January, 2019': 50
     };
     const rowTotalObj = comp.createTotalsRow(totalsMap, totalEncounters);
     expect(rowTotalObj).toEqual(mockTotalsRow);
@@ -129,35 +131,35 @@ describe('Component: Data Entry Monthly List', () => {
   });
 
   it('should generate correct monthly data based on map given', (done: DoneFn) => {
-    const encounterMap =  new Map();
+    const encounterMap = new Map();
     const spy = spyOn(comp, 'setPinnedRow').and.returnValue(true);
     const encounterData = {
       location: 'Test Location',
       locationUuid: 'luuid',
       encounterTypes: {
-          ADULTINITIAL : {
-            encounterCounts: [
-              {
+        ADULTINITIAL: {
+          encounterCounts: [
+            {
               encounterCount: 1,
               encounterMonth: 'January, 2019'
-              }
-            ],
-            encounterName: 'ADULTINITIAL',
-            encounterTypeUuid: '8d5b27bc-c2cc-11de-8d13-0010c6dffd0f'
-          }
+            }
+          ],
+          encounterName: 'ADULTINITIAL',
+          encounterTypeUuid: '8d5b27bc-c2cc-11de-8d13-0010c6dffd0f'
         }
-  };
+      }
+    };
 
-  const mockMotnhlyRowData = [
-    {
-      'January, 2019' : 1,
-      'encounterTypeUuid' : '8d5b27bc-c2cc-11de-8d13-0010c6dffd0f',
-      'encounter_type': 'ADULTINITIAL',
-      'location': 'Test Location',
-      'locationUuid': 'luuid',
-      'rowTotals': 1
-    }
-  ];
+    const mockMotnhlyRowData = [
+      {
+        'January, 2019': 1,
+        'encounterTypeUuid': '8d5b27bc-c2cc-11de-8d13-0010c6dffd0f',
+        'encounter_type': 'ADULTINITIAL',
+        'location': 'Test Location',
+        'locationUuid': 'luuid',
+        'rowTotals': 1
+      }
+    ];
     encounterMap.set('Test Location', encounterData);
     comp.processMonthlyRows(encounterMap);
     expect(comp.monthlyRowData).toEqual(mockMotnhlyRowData);

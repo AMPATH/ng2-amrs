@@ -11,9 +11,9 @@ describe('DifferentiatedCareReferralStatusComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DifferentiatedCareReferralStatusComponent ]
+      declarations: [DifferentiatedCareReferralStatusComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

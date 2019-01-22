@@ -6,7 +6,7 @@ export class SelectDepartmentService {
     public selectedDepartmentSource = new BehaviorSubject<string>('');
 
     public selectedDepartment$ = this.selectedDepartmentSource.asObservable();
-    constructor() {}
+    constructor() { }
 
     public setDepartment(department: string) {
         this.selectedDepartmentSource.next(department);

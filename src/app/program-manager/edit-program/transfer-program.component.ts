@@ -16,7 +16,7 @@ export class TransferProgramComponent implements OnInit {
   @Input() public programs: any[] = [];
   @Input() public editedProgram: any;
   @Input() public patient: Patient;
-  @Input() public complete: boolean = false;
+  @Input() public complete = false;
 
   @Input()
   public set formsFilled(val: boolean) {
@@ -31,17 +31,18 @@ export class TransferProgramComponent implements OnInit {
   }
 
   @Output() public programTransferComplete: EventEmitter<any> = new EventEmitter(null);
+  // tslint:disable-next-line:no-output-on-prefix
   @Output() public onBack: EventEmitter<any> = new EventEmitter(null);
-  public transferring: boolean = false;
-  public showForms: boolean = false;
+  public transferring = false;
+  public showForms = false;
   public exitEncounters: string[] = [];
-  public hasError: boolean = false;
-  public message: string = '';
-  private _formsFilled: boolean = false;
+  public hasError = false;
+  public message = '';
+  private _formsFilled = false;
 
   constructor(private programManagerService: ProgramManagerService,
-              private patientResourceService: PatientResourceService,
-              private router: Router) {
+    private patientResourceService: PatientResourceService,
+    private router: Router) {
   }
 
   public ngOnInit() {
@@ -76,43 +77,43 @@ export class TransferProgramComponent implements OnInit {
 
     this.programManagerService.editProgramEnrollments('transfer', this.patient,
       this.programs, null).subscribe((programs) => {
-      if (programs) {
-        this.removePreferedIdentifier().subscribe((success) => {
-          this.transferring = false;
-          this.hasError = false;
-          this.formsFilled = false;
-          this.programTransferComplete.next(programs);
-        }, (err) => {
-          this.showError('Could not remove preferred patient identifier');
-          console.log(err);
-        });
-        /*this.programManagerService.updatePersonHealthCenter({
-          attributes: [{
-            value: null,
-            attributeType: '8d87236c-c2cc-11de-8d13-0010c6dffd0f'
-          }],
-          person: {uuid: this.patient.uuid}
-        }).subscribe((success) => {
+        if (programs) {
+          this.removePreferedIdentifier().subscribe((success) => {
+            this.transferring = false;
+            this.hasError = false;
+            this.formsFilled = false;
+            this.programTransferComplete.next(programs);
+          }, (err) => {
+            this.showError('Could not remove preferred patient identifier');
+            console.log(err);
+          });
+          /*this.programManagerService.updatePersonHealthCenter({
+            attributes: [{
+              value: null,
+              attributeType: '8d87236c-c2cc-11de-8d13-0010c6dffd0f'
+            }],
+            person: {uuid: this.patient.uuid}
+          }).subscribe((success) => {
 
-        }, (err) => {
-          this.hasError = true;
-          this.transferring = false;
-          this.message = 'Could not update patient health center';
-          console.log(err);
-        });*/
-      } else {
-        this.showError('Could not update patient programs');
-      }
-    }, (err) => {
+          }, (err) => {
+            this.hasError = true;
+            this.transferring = false;
+            this.message = 'Could not update patient health center';
+            console.log(err);
+          });*/
+        } else {
+          this.showError('Could not update patient programs');
+        }
+      }, (err) => {
         this.showError('Could not update patient programs');
         console.log(err);
-    });
+      });
   }
 
   public fillEnrollmentForm(form) {
-    let _route = '/patient-dashboard/patient/' + this.patient.uuid
+    const _route = '/patient-dashboard/patient/' + this.patient.uuid
       + '/general/general/formentry';
-    let routeOptions = {
+    const routeOptions = {
       queryParams: {
         step: 3,
         parentComponent: 'programManager:edit'
@@ -141,7 +142,7 @@ export class TransferProgramComponent implements OnInit {
     // get preferred identifier
     const preferredIdentifier = _.find(this.patient.openmrsModel.identifiers, 'preferred');
     if (preferredIdentifier) {
-      let personIdentifierPayload: any = {
+      const personIdentifierPayload: any = {
         uuid: preferredIdentifier.uuid,
         identifier: preferredIdentifier.identifier, // patientIdentifier
         identifierType: preferredIdentifier.identifierType.uuid, // identifierType

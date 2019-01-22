@@ -1,5 +1,5 @@
 
-import {take} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
@@ -12,9 +12,9 @@ import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { PatientService } from '../../services/patient.service';
 
 @Component({
-    selector: 'locator-map',
-    templateUrl: './locator-map.component.html',
-    styleUrls: ['./locator-map.css']
+  selector: 'locator-map',
+  templateUrl: './locator-map.component.html',
+  styleUrls: ['./locator-map.css']
 })
 
 export class LocatorMapComponent implements OnInit, OnDestroy {
@@ -28,9 +28,9 @@ export class LocatorMapComponent implements OnInit, OnDestroy {
   private attributeType = '1a12beb8-a869-42f2-bebe-09834d40fd59';
 
   constructor(private fileUploadResourceService: FileUploadResourceService,
-              private appSettingsService: AppSettingsService,
-              private patientService: PatientService,
-              private personResourceService: PersonResourceService) {
+    private appSettingsService: AppSettingsService,
+    private patientService: PatientService,
+    private personResourceService: PersonResourceService) {
   }
 
   public ngOnInit() {

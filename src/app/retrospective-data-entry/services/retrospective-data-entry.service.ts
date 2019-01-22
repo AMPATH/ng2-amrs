@@ -4,7 +4,8 @@ import * as moment from 'moment';
 import { isNil, isEmpty, isNull } from 'lodash';
 
 import { BehaviorSubject } from 'rxjs';
-import { UserDefaultPropertiesService
+import {
+  UserDefaultPropertiesService
 } from '../../user-default-properties/user-default-properties.service';
 
 @Injectable()
@@ -40,13 +41,13 @@ export class RetrospectiveDataEntryService {
 
   public updateRetroSettings() {
     // get the defaults
-    let enabled = this.userDefaultPropertiesService.getUserProperty('enableRetro');
-    let provider = this.userDefaultPropertiesService.getUserProperty('retroProvider');
-    let visitDate = this.userDefaultPropertiesService.getUserProperty('retroVisitDate');
-    let location = this.userDefaultPropertiesService.getUserProperty('retroLocation');
-    let visitTimeState = this.userDefaultPropertiesService.
-    getUserProperty('retroVisitTimeState');
-    let visitTime = this.userDefaultPropertiesService.getUserProperty('retroVisitTime');
+    const enabled = this.userDefaultPropertiesService.getUserProperty('enableRetro');
+    const provider = this.userDefaultPropertiesService.getUserProperty('retroProvider');
+    const visitDate = this.userDefaultPropertiesService.getUserProperty('retroVisitDate');
+    const location = this.userDefaultPropertiesService.getUserProperty('retroLocation');
+    const visitTimeState = this.userDefaultPropertiesService.
+      getUserProperty('retroVisitTimeState');
+    const visitTime = this.userDefaultPropertiesService.getUserProperty('retroVisitTime');
     if (enabled) {
       this.retroSettings.next({
         enabled: enabled,
@@ -56,11 +57,11 @@ export class RetrospectiveDataEntryService {
         provider: this.retroProvider ? JSON.parse(this.retroProvider)
           : provider !== 'undefined' ? JSON.parse(provider) : null,
         visitDate: this.retroVisitDate ||
-        (visitDate ? visitDate : moment().format('YYYY-MM-DD')),
+          (visitDate ? visitDate : moment().format('YYYY-MM-DD')),
         visitTime: this.retroVisitTime ||
-        (visitTime ? visitTime : '04:44:44'),
+          (visitTime ? visitTime : '04:44:44'),
         visitTimeState: this.retroVisitTimeState ||
-        (visitTimeState ? visitTimeState : '0')
+          (visitTimeState ? visitTimeState : '0')
       });
     } else {
       this.resetRetroSettings();

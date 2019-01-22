@@ -13,20 +13,22 @@ import { Observable } from 'rxjs';
 })
 export class EditProgramLocationComponent implements OnInit {
   @Input() public programs: any[] = [];
+  // tslint:disable-next-line:no-input-rename
   @Input('editedProgram') public editedPrograms: any;
   @Input() public patient: Patient;
-  @Input() public complete: boolean = false;
+  @Input() public complete = false;
   @Output() public locationChangeComplete: EventEmitter<any> = new EventEmitter(null);
+  // tslint:disable-next-line:no-output-on-prefix
   @Output() public onBack: EventEmitter<any> = new EventEmitter(null);
-  public updating: boolean = false;
+  public updating = false;
   public dateEnrolled: Date;
   public transferLocation: any;
-  public hasError: boolean = false;
+  public hasError = false;
   private location: any;
-  public message: string = '';
+  public message = '';
 
   constructor(private programManagerService: ProgramManagerService,
-              private patientResourceService: PatientResourceService) {
+    private patientResourceService: PatientResourceService) {
   }
 
   public ngOnInit() {
@@ -47,22 +49,22 @@ export class EditProgramLocationComponent implements OnInit {
       });
       this.programManagerService.editProgramEnrollments('location', this.patient,
         this.programs, this.location.value).subscribe((programs) => {
-        if (programs) {
-          this.transferPreferedIdentifier().subscribe(() => {
-            this.updating = false;
-            this.hasError = false;
-            this.locationChangeComplete.next(programs);
-          }, (error) => {
-            this.hasError = true;
-            this.updating = false;
-            console.log(error);
-          });
-        }
-      }, (err) => {
-        console.log(err);
-        this.updating = false;
-        this.hasError = true;
-      });
+          if (programs) {
+            this.transferPreferedIdentifier().subscribe(() => {
+              this.updating = false;
+              this.hasError = false;
+              this.locationChangeComplete.next(programs);
+            }, (error) => {
+              this.hasError = true;
+              this.updating = false;
+              console.log(error);
+            });
+          }
+        }, (err) => {
+          console.log(err);
+          this.updating = false;
+          this.hasError = true;
+        });
     } else {
       this.hasError = true;
       this.message = 'Please fill location and date enrolled to proceed';
@@ -85,11 +87,11 @@ export class EditProgramLocationComponent implements OnInit {
   }
 
   private hasValidFields() {
-    return !_.isNil(this.location) && !_.isNil(this.dateEnrolled)
+    return !_.isNil(this.location) && !_.isNil(this.dateEnrolled);
   }
 
   private preSelectLocation() {
-    let transferLocation = localStorage.getItem('transferLocation');
+    const transferLocation = localStorage.getItem('transferLocation');
     if (transferLocation) {
       this.transferLocation = transferLocation;
     }
@@ -101,11 +103,11 @@ export class EditProgramLocationComponent implements OnInit {
     if (preferredIdentifier) {
 
 
-      let person = {
+      const person = {
         uuid: this.patient.person.uuid
       };
       // we only change the location of the preferred Identifier
-      let personIdentifierPayload: any = {
+      const personIdentifierPayload: any = {
         uuid: preferredIdentifier.uuid,
         identifier: preferredIdentifier.identifier,
         identifierType: preferredIdentifier.identifierType.uuid,

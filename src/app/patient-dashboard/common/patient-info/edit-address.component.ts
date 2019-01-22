@@ -20,7 +20,7 @@ export class EditAddressComponent implements OnInit, OnDestroy {
   public modal: ModalComponent;
   public patients: Patient = new Patient({});
   public subscription: Subscription;
-  public display: boolean = false;
+  public display = false;
   public address1: string;
   public address2: string;
   public address3: string;
@@ -29,14 +29,14 @@ export class EditAddressComponent implements OnInit, OnDestroy {
   public cityVillage: string;
   public preferredAddressUuid: string;
   public errors: any = [];
-  public showSuccessAlert: boolean = false;
-  public showErrorAlert: boolean = false;
+  public showSuccessAlert = false;
+  public showErrorAlert = false;
   public errorAlert: string;
   public errorTitle: string;
-  public successAlert: string = '';
+  public successAlert = '';
 
   constructor(private patientService: PatientService,
-              private personResourceService: PersonResourceService) { }
+    private personResourceService: PersonResourceService) { }
   public ngOnInit(): void {
     this.getPatient();
   }
@@ -74,10 +74,10 @@ export class EditAddressComponent implements OnInit, OnDestroy {
     this.staticModal.hide();
   }
   public updatePersonAddress() {
-    let person = {
+    const person = {
       uuid: this.patients.person.uuid
     };
-    let personAddressPayload = {
+    const personAddressPayload = {
       addresses: [{
         address1: this.address1,
         address2: this.address2,

@@ -22,7 +22,7 @@ class MockCacheStorageService {
 describe('Service: PatientIdentifierService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ CacheModule, HttpClientTestingModule ],
+      imports: [CacheModule, HttpClientTestingModule],
       providers: [
         PatientIdentifierService,
         PatientResourceService,

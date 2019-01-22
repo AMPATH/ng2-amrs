@@ -45,7 +45,7 @@ describe('Service: PatientVitalsService', () => {
         ProgramResourceService,
         EncounterResourceService
       ],
-      imports: [ HttpClientTestingModule ]
+      imports: [HttpClientTestingModule]
     });
     service = TestBed.get(PatientVitalsService);
     // vitals = service.getvitals('de662c03-b9af-4f00-b10e-2bda0440b03b', 0);

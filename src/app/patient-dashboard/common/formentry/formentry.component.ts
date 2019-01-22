@@ -162,7 +162,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
         componentRef.isGroupVisit = true;
       }
       componentRef.loadForm();   // load  form
-       // this.isBusyIndicator(false);
+      // this.isBusyIndicator(false);
     });
   }
 

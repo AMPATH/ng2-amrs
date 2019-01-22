@@ -8,8 +8,6 @@ import { DynamicRoutesService } from '../shared/dynamic-route/dynamic-routes.ser
 import { PatientDashboardComponent } from './patient-dashboard.component';
 import { PatientService } from './services/patient.service';
 import { PatientResourceService } from '../openmrs-api/patient-resource.service';
-import { Http, BaseRequestOptions } from '@angular/http';
-import { MockBackend } from '@angular/http/testing';
 import { FakeAppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytcis.mock';
 import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytics.service';
 import { AppSettingsService } from '../app-settings/app-settings.service';
@@ -17,8 +15,7 @@ import { LocalStorageService } from '../utils/local-storage.service';
 import { LabsResourceService } from '../etl-api/labs-resource.service';
 import {
   ProgramEnrollmentResourceService
-}
-  from '../openmrs-api/program-enrollment-resource.service';
+} from '../openmrs-api/program-enrollment-resource.service';
 import { ToastrConfig, ToastrService, Overlay, OverlayContainer, ToastrModule } from 'ngx-toastr';
 import { EncounterResourceService } from '../openmrs-api/encounter-resource.service';
 import { PatientProgramService } from './programs/patient-programs.service';
@@ -55,8 +52,6 @@ describe('Component: PatientDashboard', () => {
         PatientService,
         ProgramService,
         ProgramResourceService,
-        MockBackend,
-        BaseRequestOptions,
         PatientResourceService,
         FakeAppFeatureAnalytics,
         AppSettingsService,
@@ -92,7 +87,9 @@ describe('Component: PatientDashboard', () => {
         Overlay,
         OverlayContainer
       ],
-      imports: [ToastrModule.forRoot(), HttpClientTestingModule]
+      imports: [
+        HttpClientTestingModule,
+        ToastrModule.forRoot()]
     });
   });
 
@@ -101,15 +98,15 @@ describe('Component: PatientDashboard', () => {
   });
 
   it('should create an instance', () => {
-    let component = TestBed.get(PatientDashboardComponent);
+    const component = TestBed.get(PatientDashboardComponent);
     expect(component).toBeTruthy();
   });
 });
 class ToastrConfigMock {
-  public timeOut: number = 5000;
-  public closeButton: boolean = false;
-  public positionClass: string = 'toast-top-right';
-  public extendedTimeOut: number = 1000;
+  public timeOut = 5000;
+  public closeButton = false;
+  public positionClass = 'toast-top-right';
+  public extendedTimeOut = 1000;
   constructor() {
   }
 

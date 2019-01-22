@@ -1,5 +1,4 @@
 
-import { MockBackend } from '@angular/http/testing';
 import { TestBed, inject, async } from '@angular/core/testing';
 import { CdmMedicationHistoryComponent } from './medication-history.component';
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
@@ -14,13 +13,16 @@ import {
 } from '../../../openmrs-api/program-enrollment-resource.service';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
 import { PatientProgramService } from '../../programs/patient-programs.service';
-import { RoutesProviderService
+import {
+  RoutesProviderService
 } from '../../../shared/dynamic-route/route-config-provider.service';
 import { ProgramService } from '../../programs/program.service';
 import { ProgramResourceService } from '../../../openmrs-api/program-resource.service';
-import { ProgramWorkFlowResourceService
+import {
+  ProgramWorkFlowResourceService
 } from '../../../openmrs-api/program-workflow-resource.service';
-import { ProgramWorkFlowStateResourceService
+import {
+  ProgramWorkFlowStateResourceService
 } from '../../../openmrs-api/program-workflow-state-resource.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 describe('Component: CDM Medication History Unit Tests', () => {
@@ -31,7 +33,6 @@ describe('Component: CDM Medication History Unit Tests', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        MockBackend,
         PatientService,
         PatientResourceService,
         FakeAppFeatureAnalytics,
@@ -54,7 +55,7 @@ describe('Component: CDM Medication History Unit Tests', () => {
         AppSettingsService,
         LocalStorageService
       ],
-      imports: [ HttpClientTestingModule ]
+      imports: [HttpClientTestingModule]
     });
 
     medicationHistoryResourceService = TestBed.get(MedicationHistoryResourceService);
