@@ -14,6 +14,10 @@ export class VitalsDatasource {
     return _.sortBy(_.uniqBy(this._vitalSources, 'name'), 'order');
   }
 
+  set vitalSources(value) {
+    this._vitalSources = value;
+  }
+
   addToVitalSource(source: VitalView | VitalView[]) {
     if (_.isArray(source)) {
         this._vitalSources = _.concat(this._vitalSources, source);
@@ -26,8 +30,15 @@ export class VitalsDatasource {
     const source = _.find(this._vitalSources, (_source: VitalView) => {
       return _source && _source.name === key;
     });
-
     return source !== undefined;
+  }
+
+  public getVital(key): VitalView {
+    const source = _.find(this._vitalSources, (_source: VitalView) => {
+      return _source && _source.name === key;
+    });
+
+    return source;
   }
 
 }
