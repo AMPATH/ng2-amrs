@@ -152,21 +152,39 @@ export class ClinicalNotesHelperService {
           ccHpiAssessment.push(o);
         });
       } else {
-        // In case assessmentArray is not empty
-        _.each(ccHpiArray, (ccHpi: any) => {
-          let o = {
-            encounterType: ccHpi.encounterType,
-            ccHpi: ccHpi.value,
-            assessment: ''
-          };
-          let ass = _.find(assessmentArray, (assItem) => {
-            return ccHpi['encounterType'] === assItem['encounterType'];
+        // In case assessmentArray is not empty and ccHpiarray is larger than assessmenarray
+        if (ccHpiArray.length >= assessmentArray.length) {
+          _.each(ccHpiArray, (ccHpi: any) => {
+            let o = {
+              encounterType: ccHpi.encounterType,
+              ccHpi: ccHpi.value,
+              assessment: ''
+            };
+            let ass = _.find(assessmentArray, (assItem) => {
+              return ccHpi['encounterType'] === assItem['encounterType'];
+            });
+            if (ass) {
+              o.assessment = ass['value'];
+            }
+            ccHpiAssessment.push(o);
           });
-          if (ass) {
-            o.assessment = ass['value'];
-          }
-          ccHpiAssessment.push(o);
-        });
+          // In case assessmentArray is not empty and ccHpiarray is smaller than assessmenarray
+        } else {
+          _.each(assessmentArray, (assItem: any) => {
+            let o = {
+              encounterType: assItem.encounterType,
+              ccHpi: '',
+              assessment: assItem.value
+            };
+            let ass = _.find(ccHpiArray, (ccHpi) => {
+              return ccHpi['encounterType'] === assItem['encounterType'];
+            });
+            if (ass) {
+              o.ccHpi = ass['value'];
+            }
+            ccHpiAssessment.push(o);
+          });
+        }
       }
     } else {
       // ccHpiArray is empty we redo the code the same way.
