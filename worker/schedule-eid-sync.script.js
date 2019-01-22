@@ -14,6 +14,10 @@ var nodemailer = require('nodemailer'); // npm install nodemailer
 
 var log_file = 'lab-sync-scheduling.log';
 var error_file = 'lab-sync-scheduling-error.log';
+var config = require('../conf/config');
+var requestConfig = require('../request-config');
+const patientService = require('../service/openmrs-rest/patient.service')
+import { LabClient } from '../app/lab-integration/utils/lab-client';
 
 var service = {
     errorQueue: [],
@@ -21,6 +25,7 @@ var service = {
     retryInterval: 20 * 60 * 1000, // Retry every 20 minutes incase of an error
     maxTrialCount: 3, // maxinum number of attempts to schedule syncing incase of an error during 1st trial
     currentTrialCount: 0,
+    lab: '',
     schedulingInProgress: false,
     start: function () {
         console.info('scheduling process started');
@@ -37,7 +42,12 @@ var service = {
             // check for date arguments.
             var startDate = this.getProcessArg('--start-date');
             var endDate = this.getProcessArg('--end-date');
-
+            var lab = this.getProcessArg('--lab');
+            if (lab) {
+                service.lab = lab;
+            } else {
+                process.exit(1);
+            }
             if (!startDate) {
                 // No dates were passed in as arguments, therefore schedule for today
                 startDate = new Date();
@@ -46,7 +56,12 @@ var service = {
 
                 endDate = new Date();
                 endDate = format('yyyy-MM-dd', endDate);
+                service.startDate = startDate;
+                service.endDate = endDate;
             }
+            var usernamePass = config.eidSyncCredentials.username + ":" + config.eidSyncCredentials.password;
+            var auth = "Basic " + new Buffer(usernamePass).toString('base64');
+            requestConfig.setAuthorization(auth);
             service.attemptToScheduleEidSync(startDate, endDate);
             service.currentTrialCount++;
             return;
@@ -122,121 +137,169 @@ var service = {
             .then(function (result) {
                 // console.log('Queue passed',result)
                 // if (service.errorQueue.length === 0) {
-                    console.info('*********************************');
-                    console.info('Scheduling completed successfully');
-                    console.info('*********************************');
-                    console.info(service.scheduledSuccessfully);
-                    service.logSuccessfulScheduling(service.scheduledSuccessfully);
+                console.info('*********************************');
+                console.info('Scheduling completed successfully');
+                console.info('*********************************');
+                console.info(service.scheduledSuccessfully);
+                service.logSuccessfulScheduling(service.scheduledSuccessfully);
 
-                    // attempt for pending vl orders
-                    // Attempt to schedule patients with pending vl orders
-                    var startDateVlPending = format('yyyy-MM-dd', moment(new Date()).subtract(3, 'months').toDate());
-                    service.schedulePatientsWithPendingOrders(startDateVlPending)
-                        .then(function (results) {
-                            console.log('Scheduled patients with pending vl orders successfully');
-                            service.logSuccessfulScheduling('Scheduled patients with pending vl  successfully', startDateVlPending);
-                            // console.info('*********************************');
-                            // console.log('Exiting scheduler...');
-                            // process.exit(0);
-                            service.schedulePatientsWithMissingVlPastOneYear()
-                                .then(function (res) {
-                                    console.log('Scheduled patients with missing vl successfully');
-                                    service.logSuccessfulScheduling('Scheduled patients with missing vl', startDateVlPending);
-                                    // console.info('*********************************');
-                                    // console.log('Exiting scheduler...');
-                                    // process.exit(0);
-                                    service.rescheduleEidSyncErrors()
-                                        .then(function (res2) {
-                                            console.log('Scheduled patients in error queue successfully');
-                                            service.logSuccessfulScheduling('Scheduled patients in error queue successfully');
-                                            console.info('*********************************');
-                                            console.log('Exiting scheduler...');
-                                            process.exit(0);
-                                        })
-                                        .catch(function (err) {
-                                            console.error('Error rescheduling patients in error queue', err);
-                                            service.logErrorWhenScheduling('Error rescheduling patients in error queue ', err);
-                                            service.sendMail('Error rescheduling patients in error queue' + err,
-                                                'Error Scheduling EID-AMRS Sync For patients in error queue', 'ampath-developers@ampath.or.ke');
+                // attempt for pending vl orders
+                // Attempt to schedule patients with pending vl orders
+                var startDateVlPending = format('yyyy-MM-dd', moment(new Date()).subtract(3, 'months').toDate());
+                service.schedulePatientsWithPendingOrders(startDateVlPending)
+                    .then(function (results) {
+                        console.log('Scheduled patients with pending vl orders successfully');
+                        service.logSuccessfulScheduling('Scheduled patients with pending vl  successfully', startDateVlPending);
+                        // console.info('*********************************');
+                        // console.log('Exiting scheduler...');
+                        // process.exit(0);
+                        console.log('Patients with missing vl');
+                        service.schedulePatientsWithMissingVlPastOneYear()
+                            .then(function (res) {
+                                console.log('Scheduled patients with missing vl successfully');
+                                service.logSuccessfulScheduling('Scheduled patients with missing vl', startDateVlPending);
+                                // console.info('*********************************');
+                                // console.log('Exiting scheduler...');
+                                // process.exit(0);
+                                service.rescheduleEidSyncErrors()
+                                    .then(function (res2) {
+                                        console.log('Scheduled patients in error queue successfully');
+                                        service.logSuccessfulScheduling('Scheduled patients in error queue successfully');
+                                        console.info('*********************************');
+                                        console.log('Exiting scheduler...');
+                                        process.exit(0);
+                                    })
+                                    .catch(function (err) {
+                                        console.error('Error rescheduling patients in error queue', err);
+                                        service.logErrorWhenScheduling('Error rescheduling patients in error queue ', err);
+                                        service.sendMail('Error rescheduling patients in error queue' + err,
+                                            'Error Scheduling EID-AMRS Sync For patients in error queue', 'ampath-developers@ampath.or.ke');
 
-                                            console.info('*********************************');
-                                            console.log('Exiting scheduler...');
-                                            process.exit(1);
-                                        });
-                                })
-                                .catch(function (err) {
-                                    console.error('Error scheduling patients with missing vl', error);
-                                    service.logErrorWhenScheduling('Error scheduling patients with missing VL for date ' + startDateVlPending, error);
-                                    service.sendMail('Error scheduling patients with missing vl' + error,
-                                        'Error Scheduling EID-AMRS Sync For patients with missing VL', 'ampath-developers@ampath.or.ke');
+                                        console.info('*********************************');
+                                        console.log('Exiting scheduler...');
+                                        process.exit(1);
+                                    });
+                            })
+                            .catch(function (err) {
+                                console.error('Error scheduling patients with missing vl', error);
+                                service.logErrorWhenScheduling('Error scheduling patients with missing VL for date ' + startDateVlPending, error);
+                                service.sendMail('Error scheduling patients with missing vl' + error,
+                                    'Error Scheduling EID-AMRS Sync For patients with missing VL', 'ampath-developers@ampath.or.ke');
 
-                                    console.info('*********************************');
-                                    console.log('Exiting scheduler...');
-                                    process.exit(1);
-                                });
-                        })
-                        .catch(function (error) {
-                            console.error('Error scheduling patients with pending vl orders', error);
-                            service.logErrorWhenScheduling('Error scheduling patients with pending VL order for date ' + startDateVlPending, error);
-                            service.sendMail('Error scheduling patients with pending vl orders' + error,
-                                'Error Scheduling EID-AMRS Sync For patients with pending VL', 'ampath-developers@ampath.or.ke');
+                                console.info('*********************************');
+                                console.log('Exiting scheduler...');
+                                process.exit(1);
+                            });
+                    })
+                    .catch(function (error) {
+                        console.error('Error scheduling patients with pending vl orders', error);
+                        service.logErrorWhenScheduling('Error scheduling patients with pending VL order for date ' + startDateVlPending, error);
+                        service.sendMail('Error scheduling patients with pending vl orders' + error,
+                            'Error Scheduling EID-AMRS Sync For patients with pending VL', 'ampath-developers@ampath.or.ke');
 
-                            console.info('*********************************');
-                            console.log('Exiting scheduler...');
-                            process.exit(1);
-                        });
+                        console.info('*********************************');
+                        console.log('Exiting scheduler...');
+                        process.exit(1);
+                    });
 
-                // } else {
-                //     console.log('An error occured while scheduling for some labs. Attempting again..');
-                // }
             })
             .catch(function (error) {
                 service.logErrorWhenScheduling(error);
+                console.log('Error', error);
                 console.log('An expected error happened while scheduling...');
             });
 
     },
-    scheduleQueue: function () {
-        return new Promise(function (resolve, reject) {
-            // the function is executed automatically when the promise is constructed
-
-            // after 1 second signal that the job is done with the result "done!"
-            resolve([]);
+    fetchAllViralLoad: function (configObj, options) {
+        let client = new LabClient(configObj);
+        return client.fetchViralLoad(options).then((result) => {
+            let promises = [];
+            let i;
+            for (i = 1; i <= result.last_page; i++) {
+                promises.push(client.fetchViralLoad(options, i));
+            }
+            return Promise.all(promises);
+        }).then((results) => {
+            let allData = [];
+            for (let result of results) {
+                allData = allData.concat(result.data);
+            }
+            let identifiers = allData.map((result) => {
+                if (result) {
+                    return result.patient;
+                }
+                return '';
+            });
+            return identifiers;
         });
-        // service.schedulingInProgress = true;
-        // return new Promise(function (resolve, reject) {
-        //     var newQueue = [];
-        //     Promise.reduce(service.errorQueue, function (before, currentRow) {
-        //             return new Promise(function (resolve, reject) {
-        //                 service.scheduleEidSyncPerServerPerType(currentRow)
-        //                     .then(function (result) {
-        //                         service.scheduledSuccessfully.push({
-        //                             type: currentRow.type,
-        //                             host: currentRow.host,
-        //                             patientsScheduledForSync: result.patientIdentifiers,
-        //                             startDate: currentRow.startDate,
-        //                             endDate: currentRow.endDate
-        //                         });
-        //                         resolve(result);
-        //                     })
-        //                     .catch(function (error) {
-        //                         currentRow.error = error;
-        //                         newQueue.push(currentRow);
-        //                         resolve(currentRow);
-        //                     });
-        //             });
-        //         }, 0)
-        //         .then(function (result) {
-        //             service.errorQueue = newQueue;
-        //             service.schedulingInProgress = false;
-        //             resolve(service.scheduledSuccessfully);
-        //         })
-        //         .catch(function (error) {
-        //             service.errorQueue = newQueue;
-        //             service.schedulingInProgress = false;
-        //             reject(error);
-        //         });
-        // });
+    },
+    fetchAllCD4: function (configObj, options) {
+        let client = new LabClient(configObj);
+        return client.fetchCD4(options).then((result) => {
+            let promises = [];
+            let i;
+            for (i = 1; i <= result.last_page; i++) {
+                promises.push(client.fetchCD4(options, i));
+            }
+            return Promise.all(promises);
+        }).then((results) => {
+            let allData = [];
+            for (let result of results) {
+                allData = allData.concat(result.data);
+            }
+            let identifiers = allData.map((result) => {
+                if (result) {
+                    return result.patient;
+                }
+                return '';
+            });
+            return identifiers;
+        });
+    },
+    fetchAllDNAPCR: function (configObj, options) {
+        let client = new LabClient(configObj);
+        return client.fetchDNAPCR(options).then((result) => {
+            let promises = [];
+            let i;
+            for (i = 1; i <= result.last_page; i++) {
+                promises.push(client.fetchDNAPCR(options, i));
+            }
+            return Promise.all(promises);
+        }).then((results) => {
+            let allData = [];
+            for (let result of results) {
+                allData = allData.concat(result.data);
+            }
+            let identifiers = allData.map((result) => {
+                if (result) {
+                    return result.patient;
+                }
+                return '';
+            });
+            return identifiers;
+        });
+    },
+    fetchAllPatientResults: function (configObj, options) {
+        let promises = [service.fetchAllViralLoad(configObj, options), service.fetchAllDNAPCR(configObj, options),
+        service.fetchAllCD4(configObj, options)];
+        return Promise.all(promises).then((results) => {
+            let allResultTypesData = [];
+            for (let result of results) {
+                allResultTypesData = allResultTypesData.concat(result);
+            }
+            return allResultTypesData;
+        });
+    },
+    scheduleQueue: function () {
+
+        let configObj = config.hivLabSystem[service.lab];
+        let options = {
+            date_dispatched_start: service.startDate,
+            date_dispatched_end: service.endDate, dispached: 1
+        };
+        return service.fetchAllPatientResults(configObj, options).then((identifiers) => {
+            return service.insertPatientsWithEidResultsIntoSyncQueue(identifiers);
+        });
     },
     scheduleEidSyncPerServerPerType: function (queueItem) {
         queueItem.trial++;
