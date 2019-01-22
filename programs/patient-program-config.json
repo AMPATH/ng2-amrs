@@ -817,6 +817,10 @@
         "name": "PMTCT Antenatal Return Visit",
         "encounterTypes": [
           {
+            "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
+            "display": "ADULTRETURN"
+          },
+          {
             "uuid": "8e942fd1-135d-42bd-9701-04560f180ec5",
             "display": "MOH257BLUECARD"
           },
@@ -876,6 +880,10 @@
         "allowedIf": "hasPreviousInitialVisit",
         "name": "PMTCT Postnatal Return Visit",
         "encounterTypes": [
+          {
+            "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
+            "display": "ADULTRETURN"
+          },
           {
             "uuid": "8e942fd1-135d-42bd-9701-04560f180ec5",
             "display": "MOH257BLUECARD"
