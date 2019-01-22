@@ -81,8 +81,8 @@ describe('Service: ProgramWorkFlowResourceService', () => {
       ',states:(uuid,initial,terminal,concept:(uuid,display))))');
     expect(req.request.method).toBe('GET');
     expect(req.request.urlWithParams)
-      .toBe('https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/program/uuid?v=' +
-        'custom:(uuid,display,allWorkflows:(uuid,retired,concept:(uuid,display),' +
+      .toBe(service.getUrl() + '/' + programUuid  +
+        '?v=custom:(uuid,display,allWorkflows:(uuid,retired,concept:(uuid,display),' +
         'states:(uuid,initial,terminal,concept:(uuid,display))))');
     req.flush(JSON.stringify(programWorkFlowResponse));
   }));

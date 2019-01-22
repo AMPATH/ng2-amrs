@@ -6,7 +6,6 @@ import { HivProgramSnapshotComponent } from './hiv-program-snapshot.component';
 import { ZeroVlPipe } from './../../../shared/pipes/zero-vl-pipe';
 
 import { LocationResourceService } from '../../../openmrs-api/location-resource.service';
-import { HttpClient, HttpHandler } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 const summaryResult = {
@@ -61,9 +60,7 @@ describe('Component: HivProgramSnapshotComponent', () => {
         HttpClientTestingModule
       ],
       providers: [
-        HttpHandler,
         ZeroVlPipe,
-        HttpClient,
         {
           provide: HivSummaryResourceService,
           useClass: FakeHivSummaryResourceService

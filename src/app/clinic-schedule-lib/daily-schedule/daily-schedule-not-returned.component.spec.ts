@@ -103,13 +103,9 @@ describe('Component: DailyScheduleNotReturned', () => {
   it('should create an instance', () => {
     expect(component).toBeTruthy();
   });
-
-  it('should have required properties', (done) => {
+    it('should have required properties', (done) => {
 
     expect(component.notReturnedPatientList.length).toBe(0);
-    expect(component.ngOnInit).toBeDefined();
-    expect(component.getQueryParams).toBeDefined();
-    expect(component.getDailyHasNotReturned).toBeDefined();
     expect(component.errors.length).toBe(0);
     expect(component.selectedDate).toEqual(undefined);
     expect(component.selectedClinic).toEqual(undefined);

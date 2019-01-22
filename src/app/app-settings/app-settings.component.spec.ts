@@ -15,7 +15,6 @@ import { AuthenticationService } from '../openmrs-api/authentication.service';
 import { SessionService } from '../openmrs-api/session.service';
 import { CookieModule } from 'ngx-cookie';
 import { CookieService } from 'ngx-cookie';
-import { HttpClient, HttpHandler } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('AppSettingsComponent Tests', () => {
@@ -35,8 +34,6 @@ describe('AppSettingsComponent Tests', () => {
       declarations: [AppSettingsComponent],
       providers: [
         { provide: APP_BASE_HREF, useValue: '/' },
-        HttpClient,
-        HttpHandler,
         AppSettingsService,
         AuthenticationService,
         SessionService,

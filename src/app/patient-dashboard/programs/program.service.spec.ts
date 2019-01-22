@@ -20,18 +20,15 @@ import {
 import {
   ProgramWorkFlowStateResourceService
 } from '../../openmrs-api/program-workflow-state-resource.service';
-import { HttpClient, HttpHandler } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('Service: ProgramService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
       providers: [
         ProgramService,
         ProgramResourceService,
-        HttpClient,
-        HttpHandler,
-        HttpClientTestingModule,
         AppSettingsService,
         LocalStorageService,
         ProgramWorkFlowResourceService,

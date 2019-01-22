@@ -135,18 +135,6 @@ describe('Service : CohortResourceService Unit Tests', () => {
         expect(cohortResorceService.getOpenMrsBaseUrl()).toBeTruthy();
     });
 
-    describe('Get All Cohorts', () => {
-
-        it('should hit right endpoint for getallCohorts and get right response', () => {
-
-            cohortResorceService.getAllCohorts().subscribe(res => {
-                expect(res).toEqual(mockAllCohortsResponse);
-            });
-
-        });
-
-    });
-
     describe('Get Cohort', () => {
 
         it('Should return null in get cohort with no parameter', () => {

@@ -64,31 +64,6 @@ describe('User Default Service Unit Tests', () => {
         expect(appSettingsServ).toBeDefined();
       }));
 
-  it('It should return an array of locations object when getLocations is invoked', () => {
-
-    const results = [
-      {
-        uuid: 'uuid',
-        display: 'location'
-      }, {
-        uuid: 'uuid',
-        display: 'location'
-      }
-    ];
-    userSettings.getLocations()
-      .subscribe((result) => {
-        expect(results).toContain({ uuid: 'uuid', display: 'location' });
-        expect(results).toBeDefined();
-
-      });
-
-    const req = httpMock.expectOne(appSettings.getOpenmrsRestbaseurl().trim() + 'location' + '?v=default');
-    expect(req.request.method).toBe('GET');
-    expect(req.request.urlWithParams)
-      .toContain('/ws/rest/v1/location?v=default');
-    req.flush(results);
-  });
-
   it('should set and get location property',
     inject([UserDefaultPropertiesMockService, LocalStorageService],
       (propertiesResourceService: UserDefaultPropertiesMockService

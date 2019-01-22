@@ -46,9 +46,9 @@ describe('Medication Resource Service Unit Tests', () => {
         expect(error).toBeTruthy();
 
       });
-      const appSettingsService = TestBed.get(AppSettingsService);
-    const req = httpMock.expectOne(appSettingsService.getEtlServer() +  '/patient/'
-    + patientUuid + '/medical-history-report');
+    const appSettingsService = TestBed.get(AppSettingsService);
+    const req = httpMock.expectOne(appSettingsService.getEtlServer() + '/patient/'
+      + patientUuid + '/medical-history-report');
     expect(req.request.url).toMatch('');
     expect(req.request.method).toBe('GET');
     expect(req.request.url).toContain(params.report);
@@ -62,8 +62,8 @@ describe('Medication Resource Service Unit Tests', () => {
           expect(error).toBeTruthy();
 
         });
-      const req = httpMock.expectOne(appSettingsService.getEtlServer() +  '/patient/'
-      + patientUuid + '/medical-history-report');
+      const req = httpMock.expectOne(appSettingsService.getEtlServer() + '/patient/'
+        + patientUuid + '/medical-history-report');
       req.flush({ type: Error, status: 404, statusText: 'An error occured while processing the request' });
     }));
 

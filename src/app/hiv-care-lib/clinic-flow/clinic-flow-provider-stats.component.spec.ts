@@ -44,7 +44,6 @@ import {
 } from '../../etl-api/hiv-clinic-flow-resource.service.mock';
 import { ClinicFlowProviderStatsComponent } from './clinic-flow-provider-stats.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { HttpClient, HttpHandler } from '@angular/common/http';
 
 describe('Component: ClinicFlowProviderStatsComponent', () => {
   let component,
@@ -72,8 +71,6 @@ describe('Component: ClinicFlowProviderStatsComponent', () => {
         ])
       ],
       providers: [
-        HttpClient,
-        HttpHandler,
         LocalStorageService,
         ClinicDashboardCacheService,
         AppSettingsService,

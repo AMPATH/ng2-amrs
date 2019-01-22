@@ -4,7 +4,6 @@ import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { PatientProgramEnrollmentService } from './../etl-api/patient-program-enrollment.service';
 import { DepartmentProgramsConfigService } from './../etl-api/department-programs-config.service';
 import { PatientsProgramEnrollmentComponent } from './patients-program-enrollment.component';
-import { HttpClientModule } from '@angular/common/http';
 import { PatientProgramResourceService } from './../etl-api/patient-program-resource.service';
 import { LocationResourceService } from './../openmrs-api/location-resource.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -14,6 +13,7 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2
 import { AgGridModule } from 'ag-grid-angular';
 import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
 import { ProgramEnrollmentSummaryComponent } from './program-enrollment-summary.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 class MockRouter {
     public navigate = jasmine.createSpy('navigate');
@@ -209,7 +209,7 @@ describe('Component: Patient Program Enrollment', () => {
       imports:
       [
         FormsModule,
-        HttpClientModule,
+        HttpClientTestingModule,
         AngularMultiSelectModule,
         DateTimePickerModule,
         AgGridModule.withComponents([])

@@ -13,7 +13,7 @@ class MockCacheStorageService {
 
   public ready() {
     return true;
-}
+  }
 }
 
 describe('IndicatorResourceService Unit Tests', () => {
@@ -55,7 +55,7 @@ describe('IndicatorResourceService Unit Tests', () => {
 
   it('should make API call with correct URL', () => {
     expect(service.getReportIndicators({ report: 'reportName' }));
-    let result = service.getReportIndicators({ report: 'reportName' }).subscribe();
+    const result = service.getReportIndicators({ report: 'reportName' }).subscribe();
     expect(result).toBeTruthy();
   });
 

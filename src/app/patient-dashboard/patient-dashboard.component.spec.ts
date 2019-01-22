@@ -16,7 +16,7 @@ import { LabsResourceService } from '../etl-api/labs-resource.service';
 import {
   ProgramEnrollmentResourceService
 } from '../openmrs-api/program-enrollment-resource.service';
-import { ToastrConfig, ToastrService, Overlay, OverlayContainer, ToastrModule } from 'ngx-toastr';
+import { ToastrService, Overlay, OverlayContainer, ToastrModule } from 'ngx-toastr';
 import { EncounterResourceService } from '../openmrs-api/encounter-resource.service';
 import { PatientProgramService } from './programs/patient-programs.service';
 import { RoutesProviderService } from '../shared/dynamic-route/route-config-provider.service';

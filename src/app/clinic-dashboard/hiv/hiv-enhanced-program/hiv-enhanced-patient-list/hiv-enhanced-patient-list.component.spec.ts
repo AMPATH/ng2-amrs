@@ -4,6 +4,7 @@ import { PatientListComponent } from 'src/app/shared/data-lists/patient-list/pat
 import { GenericListComponent } from 'src/app/shared/data-lists/generic-list/generic-list.component';
 import { AgGridModule, BaseComponentFactory } from 'ag-grid-angular/main';
 import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('hiv-enhanced-patient-list component Tests', () => {
     let comp: HivEnhancedPatientListComponent;
@@ -11,7 +12,7 @@ describe('hiv-enhanced-patient-list component Tests', () => {
 
     beforeEach(async () => {
         TestBed.configureTestingModule({
-            imports: [AgGridModule, RouterTestingModule],
+            imports: [AgGridModule, RouterTestingModule, HttpClientTestingModule],
             providers: [BaseComponentFactory],
             declarations: [HivEnhancedPatientListComponent, PatientListComponent, GenericListComponent]
         }).compileComponents();

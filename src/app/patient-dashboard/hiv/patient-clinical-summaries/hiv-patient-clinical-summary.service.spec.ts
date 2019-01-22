@@ -5,7 +5,6 @@ import { HivPatientClinicalSummaryService } from './hiv-patient-clinical-summary
 import { PatientResourceService } from '../../../openmrs-api/patient-resource.service';
 import 'pdfmake/build/pdfmake.js';
 import 'pdfmake/build/vfs_fonts.js';
-import { HttpClient, HttpHandler } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 declare let pdfMake: any;
 
@@ -16,9 +15,7 @@ describe('Service: HivPatientClinicalSummaryService', () => {
         HttpClientTestingModule
       ],
       providers: [
-        HivPatientClinicalSummaryService,
-        HttpClient,
-        HttpHandler
+        HivPatientClinicalSummaryService
       ]
     });
   });

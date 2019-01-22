@@ -189,7 +189,7 @@ describe('EncounterResourceService', () => {
 
             const request = httpMock.expectOne(service.getUrl() + 'encountertype');
             expect(request.request.url)
-                .toBe('http://example.url.com/ws/rest/v1/encountertype');
+                .toBe(service.getUrl() + 'encountertype');
             expect(request.request.method).toBe('GET');
             request.flush(encounterTypeResponse);
         });

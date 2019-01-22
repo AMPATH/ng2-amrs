@@ -19,7 +19,6 @@ import {
 import {
   ProgramWorkFlowStateResourceService
 } from '../../../openmrs-api/program-workflow-state-resource.service';
-import { HttpClient, HttpHandler } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('Component: HivSummaryHistorical Unit Tests', () => {
@@ -29,13 +28,11 @@ describe('Component: HivSummaryHistorical Unit Tests', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [ HttpClientTestingModule ],
       providers: [
         HivSummaryService,
         HivSummaryResourceService,
         PatientService,
-        HttpClient,
-        HttpHandler,
-        HttpClientTestingModule,
         ProgramService,
         ProgramResourceService,
         PatientProgramService,
