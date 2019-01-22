@@ -25,10 +25,12 @@ export class TodaysVitalsService {
   public getTodaysVitals(patient: Patient, todaysEncounters, sources) {
     this.patient = patient;
     this.vitalSources = sources || [];
+    this.vitalsDataSource.vitalSources = [];
     return new Promise((resolve, reject) => {
       for (let encounterItem of todaysEncounters) {
         this.getVitalsFromObs(encounterItem.obs);
       }
+
       resolve(this.vitalsDataSource.vitalSources);
     });
 
@@ -50,8 +52,9 @@ export class TodaysVitalsService {
           }
         }
       }
-      if (!this.vitalsDataSource.hasVital('bmi')) {
-        this.vitalsDataSource.addToVitalSource(vitalSource.getBMI(createdVital));
+      if (!this.vitalsDataSource.hasVital('weight') || this.vitalsDataSource.hasVital('height')) {
+        this.vitalsDataSource.addToVitalSource(vitalSource.getBMI(new Vital({}),
+          this.vitalsDataSource.getVital('weight'), this.vitalsDataSource.getVital('height')));
       }
     });
     this.applyCompounding();
