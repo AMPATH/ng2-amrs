@@ -180,6 +180,10 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
         case 'pmtct':
           this.showMessage('The patient has been transferred to MCH and successfully enrolled in PMTCT.', 'info');
           break;
+        case 'adherence':
+          this.title = 'Program Successfully Started';
+          this.showMessage('The patient has been enrolled in Enhanced adherence HIV Program successfully.', 'info');
+          break;
         default:
       }
     } else {
@@ -222,6 +226,7 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
     this.goToEditOptions();
     --this.currentStep;
     this.changeLocation();
+    this.showNoticeIfPossible();
   }
 
   private patientEnrolled(program) {
@@ -240,7 +245,6 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
   }
 
   private loadOnParamInit(params: any) {
-    this.showNoticeIfPossible();
     this.currentStep = parseInt(params.step, 10);
     const queryParams: any = this.route.snapshot.queryParams;
     if (queryParams && queryParams.program && !this.theChangeComplete) {
@@ -259,6 +263,7 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
         this.formsFilled = true;
       }
     }
+    this.showNoticeIfPossible();
   }
 
   private deserializeStepInfo() {
