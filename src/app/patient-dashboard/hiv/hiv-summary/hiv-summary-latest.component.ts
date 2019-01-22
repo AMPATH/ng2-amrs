@@ -1,5 +1,5 @@
-
-import {take} from 'rxjs/operators/take';
+/* tslint:disable:no-inferrable-types */
+import { take } from 'rxjs/operators/take';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { PatientService } from '../../services/patient.service';
@@ -14,15 +14,15 @@ import * as _ from 'lodash';
   styleUrls: ['./hiv-summary.component.css']
 })
 export class HivSummaryLatestComponent implements OnInit, OnDestroy {
-  public loadingHivSummary = false;
+  public loadingHivSummary: boolean = false;
   public hivSummary: any;
-  public subscription: Subscription[] =  [];
+  public subscription: Subscription[] = [];
   public patient: Patient;
   public patientUuid: any;
   public errors: any = [];
 
   constructor(private hivSummaryService: HivSummaryService,
-              private patientService: PatientService) {}
+    private patientService: PatientService) { }
 
   public ngOnInit() {
     this.getPatient();
@@ -55,23 +55,22 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
           for (const summary of data) {
 
             // check if encounter is clinical
-            if ( summary.is_clinical_encounter === 1) {
+            if (summary.is_clinical_encounter === 1) {
 
               this.hivSummary = summary;
-              console.log(this.hivSummary);
               const artStartDate =
-              new Date(this.hivSummary.arv_first_regimen_start_date).getFullYear();
+                new Date(this.hivSummary.arv_first_regimen_start_date).getFullYear();
               if (isNaN(artStartDate) || artStartDate === 1899 || artStartDate === 1900) {
                 this.hivSummary.arv_first_regimen_start_date = null;
               }
 
               break;
 
+            }
+
           }
 
-         }
-
-         const lastVlDate: any = this.getLatestVlDate(data);
+          const lastVlDate: any = this.getLatestVlDate(data);
           if (this.endDateIsBeforeStartDate(this.hivSummary.vl_1_date, lastVlDate)) {
             const filtered = _.find(data, (summaryObj: any) => {
               const vlDateMoment = Moment(Moment(summaryObj['vl_1_date']), 'DD-MM-YYYY');
@@ -84,7 +83,7 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
                 }
               }
             });
-       //   Replace the lab data with latest lab results that may not be clinical
+            //   Replace the lab data with latest lab results that may not be clinical
             this.hivSummary.vl_1_date = filtered.vl_1_date;
             this.hivSummary.vl_1 = filtered.vl_1;
           }
@@ -102,8 +101,8 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
   }
 
   public endDateIsBeforeStartDate(startDate: any, endDate: any) {
-     return Moment(endDate, 'DD-MM-YYYY')
-    .isBefore(Moment(startDate, 'DD-MM-YYYY'));
+    return Moment(endDate, 'DD-MM-YYYY')
+      .isBefore(Moment(startDate, 'DD-MM-YYYY'));
   }
 
   public isEmptyDate(date: any) {
@@ -122,8 +121,8 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
 
   private getLatestVlDate(data) {
     const latestVlDate = new Date(Math.max.apply(null, data.map((dataItem) => {
-    return new Date(dataItem.vl_1_date);
-  })));
-  return latestVlDate;
- }
+      return new Date(dataItem.vl_1_date);
+    })));
+    return latestVlDate;
+  }
 }

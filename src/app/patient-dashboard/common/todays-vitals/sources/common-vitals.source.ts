@@ -76,21 +76,20 @@ export class CommonVitalsSource implements VitalSourceInterface {
     }
   }
 
-  public getBMI(vitalModel) {
+  public getBMI(vitalModel, weight, height) {
     let bmi = null;
-    if (vitalModel.height && vitalModel.weight) {
-      const height = vitalModel.height.value;
-      const weight = vitalModel.weight.value;
-      bmi = (weight / (height / 100 * height / 100)).toFixed(1);
+    if (height && weight) {
+      bmi = (parseInt(weight.value, 10) / (parseInt(height.value, 10) / 100 * height.value / 100)).toFixed(1);
+      return vitalModel.createVital({
+        name: 'bmi',
+        label: 'BMI(Kg/M2)',
+        order: 6,
+        show: !_.isNil(bmi) && this.patient.person.age > 18,
+        value: bmi,
+        color: (bmi <= 18 || bmi >= 30) ? 'red' : ''
+      }).bmi;
     }
-    return vitalModel.createVital({
-      name: 'bmi',
-      label: 'BMI(Kg/M2)',
-      order: 6,
-      show: !_.isNil(bmi) && this.patient.person.age > 18,
-      value: bmi,
-      color: (bmi <= 18 || bmi >= 30) ? 'red' : ''
-    }).bmi;
+    return this.vitalModel;
   }
 
   protected toTitleCase(str: string): string {

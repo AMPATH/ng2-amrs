@@ -19,6 +19,7 @@ import { HivSummaryComponent } from './hiv-summary/hiv-summary.component';
 import { HivSummaryHistoricalComponent } from './hiv-summary/hiv-summary-historical.component';
 import { HivSummaryLatestComponent } from './hiv-summary/hiv-summary-latest.component';
 import { MedicationHistoryComponent } from './hiv-summary/medication-history.component';
+import { GeneXpertImagesComponent } from './genexpert-images/genexpert-images.component';
 import { PatientMonthlyStatusComponent
 } from './patient-status-change/patient-monthly-status.component';
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
@@ -59,7 +60,8 @@ import { HttpClientModule } from '@angular/common/http';
     HivSummaryLatestComponent,
     MedicationHistoryComponent,
     PatientMonthlyStatusComponent,
-    PreviousVisitComponent
+    PreviousVisitComponent,
+    GeneXpertImagesComponent
   ],
   providers: [
   ],

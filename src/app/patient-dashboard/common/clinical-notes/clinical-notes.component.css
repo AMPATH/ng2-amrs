@@ -49,3 +49,6 @@ hr {
 
 .table-striped td { border-top:1px solid #ddd !important;}
 .table-striped tr:first-child td { border-top: none !important;}
+.table-bordered > tbody > tr > td {
+  border: 1px solid #ccd7ea !important;
+}

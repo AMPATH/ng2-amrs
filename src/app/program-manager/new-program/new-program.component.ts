@@ -19,7 +19,6 @@ import { LocalStorageService } from '../../utils/local-storage.service';
 import { ProgramManagerService } from '../program-manager.service';
 import { RoutesProviderService } from '../../shared/dynamic-route/route-config-provider.service';
 import { CommunityGroupMemberService } from '../../openmrs-api/community-group-member-resource.service';
-import { RetrospectiveDataEntryService } from 'src/app/retrospective-data-entry/services/retrospective-data-entry.service';
 
 @Component({
   selector: 'new-program',
@@ -27,8 +26,7 @@ import { RetrospectiveDataEntryService } from 'src/app/retrospective-data-entry/
   styleUrls: ['./new-program.component.css']
 })
 export class NewProgramComponent extends ProgramManagerBaseComponent implements OnInit {
-  newlyEnrolledGroup: any;
-  public incompatibleProgrames: any[] = [];
+  public newlyEnrolledGroup: any;
   public unenrolledProgrames: any[] = [];
   public unenrollmentForms: string[] = [];
   public today: Date = new Date();
@@ -45,17 +43,17 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
   public retroSettings: any;
 
   constructor(public patientService: PatientService,
-    public programService: ProgramService,
-    public router: Router,
-    public route: ActivatedRoute,
-    public departmentProgramService: DepartmentProgramsConfigService,
-    public userDefaultPropertiesService: UserDefaultPropertiesService,
-    public patientProgramResourceService: PatientProgramResourceService,
-    public cdRef: ChangeDetectorRef,
-    public localStorageService: LocalStorageService,
-    private routesProviderService: RoutesProviderService,
-    private programManagerService: ProgramManagerService,
-    private groupMemberService: CommunityGroupMemberService) {
+              public programService: ProgramService,
+              public router: Router,
+              public route: ActivatedRoute,
+              public departmentProgramService: DepartmentProgramsConfigService,
+              public userDefaultPropertiesService: UserDefaultPropertiesService,
+              public patientProgramResourceService: PatientProgramResourceService,
+              public cdRef: ChangeDetectorRef,
+              public localStorageService: LocalStorageService,
+              private routesProviderService: RoutesProviderService,
+              private programManagerService: ProgramManagerService,
+              private groupMemberService: CommunityGroupMemberService) {
     super(
       patientService,
       programService,
@@ -65,6 +63,7 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
       userDefaultPropertiesService,
       patientProgramResourceService, cdRef, localStorageService);
     this.maxDate = moment().format('YYYY-MM-DD');
+    this.dateEnrolled = moment().format('YYYY-MM-DD');
   }
 
   public ngOnInit() {
@@ -76,13 +75,10 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
         if (loaded) {
           this.loaded = true;
           this.getCurrentPatientGroups(this.patient.uuid);
-          this.dateEnrolled = new Date().toISOString().slice(0, 10);
-
           if (params['step']) {
             this.loadOnParamInit(params);
           }
           const dept = JSON.parse(this.localStorageService.getItem('userDefaultDepartment'));
-
           this.department = dept[0].itemName;
           this.selectDepartment(dept[0].itemName);
         }
@@ -140,7 +136,10 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
 
   public completeIncompatibilityStep() {
     this.unenrollExpressely = false;
-    this.currentStep++;
+    if (this.currentStep < 3) {
+      this.currentStep += 2;
+    }
+    this.jumpStep = this.currentStep;
     this.nextStep = true;
     this.title = 'Start';
     this.checkForRequiredQuestions();
@@ -182,7 +181,11 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
       if (this.enrollmentEncounters.length > 0) {
         this.showForms = true;
       } else {
-        this.enrollPatientToProgram();
+        if (this.isReferral) {
+          this.referPatient();
+        } else {
+          this.enrollPatientToProgram();
+        }
       }
     }
   }
@@ -211,9 +214,8 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
 
   public startVisit() {
     const dashboardRoutesConfig: any = this.routesProviderService.patientDashboardConfig;
-    // tslint:disable-next-line:no-shadowed-variable
-    const route: any = _.find(dashboardRoutesConfig.programs, (_route: any) =>
-      _route['programUuid'] === this.newlyEnrolledProgram.program.uuid);
+    const route: any = _.find(dashboardRoutesConfig.programs, (_r: any) =>
+      _r['programUuid'] === this.newlyEnrolledProgram.program.uuid);
     const _route = '/patient-dashboard/patient/' + this.patient.uuid + '/' + route.alias + '/' +
       route.baseRoute + '/visit';
 
@@ -226,7 +228,7 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
     const location = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
     const payload = {
       submittedEncounter: this.submittedEncounter,
-      referredToLocation: this.selectedLocation.value,
+      referredToLocation: this.selectedLocation ? this.selectedLocation.value : location.uuid,
       referredFromLocation: location.uuid,
       patient: this.patient,
       dateEnrolled: this.dateEnrolled,
@@ -250,7 +252,11 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
 
     }, (error) => {
       this.enrolling = false;
-      this.showMessage(error);
+      if (error.error && error.error.message && error.error.message.match(/Duplicate record exists/)) {
+        this.showMessage('This patient has already been referred to this location in same program');
+      } else {
+        console.log(error);
+      }
     });
   }
 
@@ -267,7 +273,6 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
     this.addToStepInfo({
       enrollmentEncounters: [form.encounterType.uuid]
     });
-
     this.serializeStepInfo();
     this.router.navigate([_route, form.uuid], routeOptions);
   }
@@ -321,9 +326,7 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
   public editProgram(program) {
     const _route = '/patient-dashboard/patient/' + this.patient.uuid
       + '/general/general/program-manager/edit-program';
-    const routeOptions = {
-
-    };
+    const routeOptions = {};
     this.router.navigate([_route], routeOptions);
   }
 
@@ -383,6 +386,12 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
             question.enrollIf = rq.showIfParent;
           }
           this.requiredProgramQuestions.push(rq);
+        } else {
+          // reset its selected answer and remove it from the required questions
+          rq.value = null;
+          _.remove(this.requiredProgramQuestions, (_rq) => {
+              return rq.qtype === _rq.qtype;
+          });
         }
       });
     }
@@ -406,6 +415,7 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
       this.unenrollAndGoToDetails();
     }
     if (this.currentStep === 4) {
+      this.jumpStep = 6;
       if (this.isReferral) {
         this.referPatient();
       } else {
@@ -464,7 +474,7 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
         });
       });
       // update step info with the filled forms
-      this.addToStepInfo({ incompatibleProgrames: this.incompatibleProgrames });
+      this.addToStepInfo({incompatibleProgrames: this.incompatibleProgrames});
       if (this.enrollmentEncounters.length > 0) {
         this.addToStepInfo({
           enrollmentEncounters: this.enrollmentEncounters
@@ -473,56 +483,15 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
       this.filterStateChangeEncounterTypes();
       this.serializeStepInfo();
       this.unenrollExpressely = true;
-      this.currentStep--;
+    } else {
+      this.skipIncompatibilityStep();
     }
-    this.skipIncompatibilityStep();
   }
 
   private skipIncompatibilityStep() {
     this.currentStep = this.currentStep + 2;
     this.jumpStep = this.currentStep;
-    this.title = 'start';
-  }
-
-  private isIncompatibleChoice() {
-    this.incompatibleCount = 0;
-    this.incompatibleMessage = [];
-    const patientPrograms = this.enrolledProgrames;
-    // get programs patient has enrolled in
-    let incompatibleList: Array<any> = [];
-    const enrolledList: Array<any> = _.map(patientPrograms, (program: any) => {
-      return {
-        uuid: program.programUuid,
-        enrolledDate: program.dateEnrolled,
-        enrollmentUuid: program.enrolledProgram._openmrsModel.uuid,
-        name: program.enrolledProgram._openmrsModel.display
-      };
-    });
-    /* for the selected program.Check if it has compatibilty
-       issues with any of the enrolled programs
-    */
-    if (this.programVisitConfig && this.programVisitConfig.incompatibleWith) {
-      incompatibleList = this.programVisitConfig.incompatibleWith;
-    }
-    /* With the list of incompatible programs for selected
-       program and enrolled programs we can check if there is a match
-       i.e an enrolled program should not be in an incompatibility list
-       for the selected program
-    */
-    if (this.incompatibleProgrames.length > 0) {
-      this.programIncompatible = true;
-      this.incompatibleCount = this.incompatibleProgrames.length;
-    } else {
-      _.each(enrolledList, (enrolled) => {
-        if (_.includes(incompatibleList, enrolled.uuid)) {
-          this.programIncompatible = true;
-          this.incompatibleProgrames.push(enrolled);
-          this.incompatibleCount++;
-        }
-      });
-    }
-
-    return this.incompatibleCount > 0;
+    this.title = 'Start';
   }
 
   private checkIfEnrollmentIsAllowed(): void {
@@ -554,8 +523,8 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
   private preQualifyProgramEnrollment(question: any) {
     const requiredStatus = _.find(question.answers, (ans) => ans.value === question.enrollIf);
     if (requiredStatus && question.value !== question.enrollIf) {
-      this.showMessage('The question <strong><em>' + question.name + '</em></strong> MUST be '
-        + question.enrollIf + ' to be able to enroll the patient into this program');
+      this.showMessage(`The question <strong><em>${question.name}</em></strong> MUST be
+          '${requiredStatus.label}' to be able to enroll the patient into this program`);
     } else {
       this.removeMessage();
     }

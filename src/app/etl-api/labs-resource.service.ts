@@ -66,7 +66,7 @@ export class LabsResourceService {
         if (body.errors) {
             return body;
         }
-        return body.updatedObs;
+        return body;
     }
     private handleError(error: any) {
         return observableThrowError(error.message
