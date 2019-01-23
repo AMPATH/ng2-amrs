@@ -1,5 +1,5 @@
 
-import {take} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import {
   Component, OnInit, Input, Output, OnChanges,
   SimpleChange, EventEmitter
@@ -42,13 +42,13 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
   public _startDate;
   public _endDate;
   public busyIndicator: any = {
-     busy: false,
-     message: ''
+    busy: false,
+    message: ''
   };
 
   constructor(public route: ActivatedRoute,
-              private router: Router,
-              private moh731PatientListResourceService: Moh731PatientListResourceService) {
+    private router: Router,
+    private moh731PatientListResourceService: Moh731PatientListResourceService) {
   }
 
   public ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
@@ -64,15 +64,15 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
 
   public ngOnInit() {
     this.route
-    .queryParams
-    .subscribe((params) => {
-    if (params) {
-            this.params = params;
-            this.loadPatientList(this.params);
+      .queryParams
+      .subscribe((params) => {
+        if (params) {
+          this.params = params;
+          this.loadPatientList(this.params);
         }
-    }, (error) => {
+      }, (error) => {
         console.error('Error', error);
-    });
+      });
   }
 
   public loadPatientList(params: any) {
@@ -94,7 +94,7 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
       this.isLoading = false;
       if (data.errorMessage) {
         this.hasError = true;
-        console.log(data);
+        console.log('MOH 731 patient list report', data);
       } else {
         /**
          * Track everything per indicator provided
@@ -112,7 +112,6 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
           this.dataLoaded[params.indicator] = true;
         }
 
-        //  console.log('loaded patients', data);
         if (data.result.length < 300) {
           this.hasLoadedAll = true;
         }
@@ -195,6 +194,7 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
       arv_first_regimen_start_date: 'ARVs Initial Start Date',
       cur_regimen_arv_start_date: 'Current ARV Regimen Start Date (edited)',
       cur_arv_line: 'Current ARV Line (edited)',
+      cur_arv_meds: 'Current ARV Regimen',
       vl_1: 'Viral Load',
       vl_1_date: 'Viral Load Date',
       has_pending_vl_test: 'Pending Viral Load Test'
