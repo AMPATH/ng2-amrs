@@ -5,7 +5,6 @@ import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule } from '@angular/forms';
 import { ConfirmDialogModule, DialogModule } from 'primeng/primeng';
@@ -17,6 +16,7 @@ import { ShareCohortListComponent } from './share-cohort-list.component';
 import { CohortUserResourceService } from '../etl-api/cohort-list-user-resource.service';
 import { UserSearchComponent } from './user-search.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 class DataStub {
 
