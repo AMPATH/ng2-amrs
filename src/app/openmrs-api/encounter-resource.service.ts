@@ -55,7 +55,7 @@ export class EncounterResourceService {
             return null;
         }
         let _customDefaultRep = 'custom:(uuid,encounterDatetime,' +
-            'patient:(uuid,uuid,identifiers),form:(uuid,name),' +
+            'patient:(uuid,uuid,person,identifiers:full),form:(uuid,name),' +
             'visit:(uuid,visitType,display,startDatetime,stopDatetime),' +
             'location:ref,encounterType:ref,' +
           'encounterProviders:(uuid,display,provider:(uuid,display)),orders:full,' +

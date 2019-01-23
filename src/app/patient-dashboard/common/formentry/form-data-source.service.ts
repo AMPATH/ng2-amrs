@@ -242,10 +242,8 @@ export class FormDataSourceService {
   public getPatientObject(patient: Patient): object {
     let model: object = {};
     let gender = patient.person.gender;
-    let age = patient.person.age;
     let birthdate = patient.person.birthdate;
     model['sex'] = gender;
-    model['age'] = age;
     model['birthdate'] = birthdate;
 
     // zscore calculations addition
