@@ -1,4 +1,4 @@
-FROM node:6
+FROM node:10
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
       cron rsyslog \

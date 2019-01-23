@@ -180,7 +180,7 @@ var service = {
                                         process.exit(1);
                                     });
                             })
-                            .catch(function (err) {
+                            .catch(function (error) {
                                 console.error('Error scheduling patients with missing vl', error);
                                 service.logErrorWhenScheduling('Error scheduling patients with missing VL for date ' + startDateVlPending, error);
                                 service.sendMail('Error scheduling patients with missing vl' + error,

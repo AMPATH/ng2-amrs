@@ -11,7 +11,7 @@ services:
         - 8.8.8.8
 
       volumes:
-        - /home/achachiez/Code/JS/etl-rest-server/conf:/opt/etl/conf
+        - /Users/achachiez/Code/AmpathWorkSpace/etl-rest-server/conf:/opt/etl/conf
         # deploy:
         #   mode: replicated
         #   replicas: 1
