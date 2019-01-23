@@ -171,7 +171,7 @@ function inhReminders(data) {
             });
         }
      } catch(e){
-        console.log(e)
+        console.log(e);
     }
     // INH Treatment Reminder - last mont
     if (data.is_on_inh_treatment && data.inh_treatment_days_remaining <= 30 &&
@@ -271,8 +271,8 @@ function qualifiesEnhancedReminders(data) {
     switch (data.qualifies_enhanced) {
         case 1:
             reminders.push({
-                message: 'The Patient’s Viral load is greater than 1000. Patients with viral load greater than 1000 should be enrolled in the Enhanced Adherence HIV Program.',
-                title: 'Enhanced Adherence HIV Program',
+                message: 'The Patient’s viral load is greater than 1. Patients with viral load greater than 1 should be enrolled in the Viremia Program.',
+                title: 'Viremia Program',
                 type: 'warning',
                 display: {
                     banner: true,
@@ -283,7 +283,7 @@ function qualifiesEnhancedReminders(data) {
         case 2:
             reminders.push({
                 message: 'The patient is eligible to return to the Standard HIV Program.',
-                title: 'Enhanced Adherence HIV Program',
+                title: 'Viremia Program',
                 type: 'warning',
                 display: {
                     banner: true,
@@ -294,7 +294,7 @@ function qualifiesEnhancedReminders(data) {
         case 3:
             reminders.push({
                 message: 'Patient requires 3 months repeat VL',
-                title: 'Enhanced Adherence HIV Program',
+                title: 'Viremia Program',
                 type: 'warning',
                 display: {
                     banner: true,
@@ -303,7 +303,7 @@ function qualifiesEnhancedReminders(data) {
             });
             break;
         default:
-            console.info.call('No Enhanced Care Reminder For Selected Patient' + data.qualifies_enhanced);
+            console.info.call('No Viremia Program Reminder For Selected Patient' + data.qualifies_enhanced);
         
     }
 
