@@ -223,9 +223,9 @@ export class Moh731ReportBaseComponent implements OnInit {
   private processInfoMsg(message: any, isEmpty: boolean = false) {
 
     if (message.error === 404 || isEmpty) {
-      this.errorMessage =
-      'The MOH 731 Report cannot be viewed at the moment, awaiting M & E verification';
-      this.statusError = true;
+      // this.errorMessage =
+      // 'The MOH 731 Report cannot be viewed at the moment, awaiting M & E verification';
+      // this.statusError = true;
     } else {
       this.errorMessage = 'There was a problem generating MOH 731 Report';
     }
