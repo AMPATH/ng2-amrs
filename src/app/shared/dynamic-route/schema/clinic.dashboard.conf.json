@@ -129,6 +129,12 @@
           "isSideBarOpen": false
         },
         {
+          "url": "viremia-reports",
+          "label": "Viremia Report",
+          "icon": "fa fa-cart-plus",
+          "isSideBarOpen": false
+        },
+        {
           "url": "department-select",
           "label": "Change Department",
           "icon": "fa fa-exchange",

@@ -12,7 +12,7 @@ export class GroupByPriority implements PipeTransform {
 /*   1. STANDARD HIV TREATMENT
      2. PREVENTION OF MOTHER-TO-CHILD TRANSMISSION OF HIV
      3. HIV DIFFERENTIATED CARE PROGRAM
-     4. MDT PROGRAM
+     4. VIREMIA PROGRAM
      5. the rest arrange random or alphabetically */
 
     const sorted_programs: Array<SortingProgramInterface> = [];
@@ -27,7 +27,7 @@ export class GroupByPriority implements PipeTransform {
         case 'HIV DIFFERENTIATED CARE PROGRAM':
           sorted_programs.push({name: program.name, uuid: program.uuid, priority: 3});
           break;
-        case 'MDT PROGRAM':
+        case 'VIREMIA PROGRAM':
           sorted_programs.push({name: program.name, uuid: program.uuid, priority: 4});
           break;
         default:
