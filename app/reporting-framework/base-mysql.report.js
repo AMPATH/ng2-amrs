@@ -150,269 +150,269 @@ export class BaseMysqlReport {
             switch (reportName) {
                 case 'MOH-731-greencard':
                     resolve({
-                        main: moh_731_greencard
+                        main: this.cloneJsonSchema(moh_731_greencard)
                     });
                     break;
                 case 'MOH-731-bluecard':
                     resolve({
-                        main: moh_731_bluecard
+                        main: this.cloneJsonSchema(moh_731_bluecard)
                     });
                     break;
                 case 'patient-list-template':
                     resolve({
-                        main: patient_list_template //patient_list_frozen_template
+                        main: this.cloneJsonSchema(patient_list_template) //patient_list_frozen_template
                     });
                     break;
                 case 'patient-list-frozen-template':
                     resolve({
-                        main: patient_list_frozen_template //patient_list_frozen_template
+                        main: this.cloneJsonSchema(patient_list_frozen_template) //patient_list_frozen_template
                     });
                     break;
                 case 'patient-list-with-contacts-template':
                     resolve({
-                        main: patient_list_with_contacts_template
+                        main: this.cloneJsonSchema(patient_list_with_contacts_template)
                     });
                     break;
                 case 'mainDatasetAggregate':
                     resolve({
-                        main: main_dataset_aggregate,
-                        mainDataSetBase: main_dataset_base
+                        main: this.cloneJsonSchema(main_dataset_aggregate),
+                        mainDataSetBase: this.cloneJsonSchema(main_dataset_base)
                     });
                     break;
                 case 'mainDatasetAggregateBlueCard':
                     resolve({
-                        main: main_dataset_aggregate_blue_card,
-                        mainDataSetBaseBlueCard: main_dataset_base_blue_card
+                        main: this.cloneJsonSchema(main_dataset_aggregate_blue_card),
+                        mainDataSetBaseBlueCard: this.cloneJsonSchema(main_dataset_base_blue_card)
                     });
                     break;
                 case 'regimenDataSetAggregate':
                     resolve({
-                        main: regimen_dataset_aggregate,
-                        regimenDataSetbase: regimen_dataset_base
+                        main: this.cloneJsonSchema(regimen_dataset_aggregate),
+                        regimenDataSetbase: this.cloneJsonSchema(regimen_dataset_base)
                     });
                     break;
                 case 'retentionDataSetAggregate':
                     resolve({
-                        main: retention_dataset_aggregate,
-                        retentionDataSetbase: retention_dataset_base
+                        main: this.cloneJsonSchema(retention_dataset_aggregate),
+                        retentionDataSetbase: this.cloneJsonSchema(retention_dataset_base)
                     });
                     break;
                 case 'mainDatasetAggregateAgeDisaggregation':
                     resolve({
-                        main: main_dataset_aggregate_age_disaggregation,
-                        mainDataSetBase: main_dataset_base
+                        main: this.cloneJsonSchema(main_dataset_aggregate_age_disaggregation),
+                        mainDataSetBase: this.cloneJsonSchema(main_dataset_base)
                     });
                     break;
                 case 'mainDatasetAggregateNoDisaggregation':
                     resolve({
-                        main: main_dataset_aggregate_no_disaggregation,
-                        mainDataSetBase: main_dataset_base
+                        main: this.cloneJsonSchema(main_dataset_aggregate_no_disaggregation),
+                        mainDataSetBase: this.cloneJsonSchema(main_dataset_base)
                     });
                     break;
                 case 'mainDatasetAggregateAge15Disaggregation':
                     resolve({
-                        main: main_dataset_aggregate_age15_disaggregation,
-                        mainDataSetBaseAge15: main_dataset_base_age15
+                        main: this.cloneJsonSchema(main_dataset_aggregate_age15_disaggregation),
+                        mainDataSetBaseAge15: this.cloneJsonSchema(main_dataset_base_age15)
                     });
                     break;
                 case 'mainDatasetAggregateAge18Disaggregation':
                     resolve({
-                        main: main_dataset_aggregate_age18_disaggregation,
-                        mainDataSetBaseAge18: main_dataset_base_age18
+                        main: this.cloneJsonSchema(main_dataset_aggregate_age18_disaggregation),
+                        mainDataSetBaseAge18: this.cloneJsonSchema(main_dataset_base_age18)
                     });
                     break;
                 case 'pepDatasetAggregate':
                     resolve({
-                        main: pep_dataset_aggregate,
-                        pepDataSetbase: pep_dataset_base
+                        main: this.cloneJsonSchema(pep_dataset_aggregate),
+                        pepDataSetbase: this.cloneJsonSchema(pep_dataset_base)
                     });
                     break;
                 case 'hivMonthlySummaryReportAggregate':
                     resolve({
-                        main: hiv_monthly_summary_dataset_aggregation,
-                        hivMonthlySummaryDataSetBase: hiv_monthly_summary_dataset_base
+                        main: this.cloneJsonSchema(hiv_monthly_summary_dataset_aggregation),
+                        hivMonthlySummaryDataSetBase: this.cloneJsonSchema(hiv_monthly_summary_dataset_base)
                     });
                     break;
                 case 'clinicComparatorAggregate':
                     resolve({
-                        main: clinic_comparator_aggregate,
-                        clinicComparatorBase: clinic_comparator_base
+                        main: this.cloneJsonSchema(clinic_comparator_aggregate),
+                        clinicComparatorBase: this.cloneJsonSchema(clinic_comparator_base)
                     });
                     break;
                 case 'dataEntryStatisticsAggregate':
                     resolve({
-                        main: dataentry_statistics_aggregate,
-                        dataEntryStatistics: dataentry_statistics_base
+                        main: this.cloneJsonSchema(dataentry_statistics_aggregate),
+                        dataEntryStatistics: this.cloneJsonSchema(dataentry_statistics_base)
                     });
                     break;
                 case 'hivSummaryBaseAggregate':
                     resolve({
-                        main: hiv_summary_aggregate,
-                        hivSummaryBase: hiv_summary_base
+                        main: this.cloneJsonSchema(hiv_summary_aggregate),
+                        hivSummaryBase: this.cloneJsonSchema(hiv_summary_base)
                     });
                     break;
                 case 'patientFlow':
                     resolve({
-                        main: patient_flow
+                        main: this.cloneJsonSchema(patient_flow)
                     });
                     break;
                 case 'clinicHivComparativeOverviewAggregate':
                     resolve({
-                        main: clinical_hiv_comparative_overview_aggregate,
-                        clinicHivComparativeOverviewBase: clinical_hiv_comparative_overview_base
+                        main: this.cloneJsonSchema(clinical_hiv_comparative_overview_aggregate),
+                        clinicHivComparativeOverviewBase: this.cloneJsonSchema(clinical_hiv_comparative_overview_base)
                     });
                     break;
                 case 'clinicalArtOverviewAggregeate':
                     resolve({
-                        main: clinical_art_overview_aggregate,
-                        clinicalArtOverviewBase: clinical_art_overview_base
+                        main: this.cloneJsonSchema(clinical_art_overview_aggregate),
+                        clinicalArtOverviewBase: this.cloneJsonSchema(clinical_art_overview_base)
                     });
                     break;
                 case 'dailyAppointmentsAggregate':
                     resolve({
-                        main: daily_appointments_aggregate,
-                        dailyAppointmentsBase: daily_appointments_base
+                        main: this.cloneJsonSchema(daily_appointments_aggregate),
+                        dailyAppointmentsBase: this.cloneJsonSchema(daily_appointments_base)
                     });
                     break;
                 case 'dailyAttendanceAggregate':
                     resolve({
-                        main: daily_attendance_aggregate,
-                        dailyAttendanceBase: daily_attendance_base
+                        main: this.cloneJsonSchema(daily_attendance_aggregate),
+                        dailyAttendanceBase: this.cloneJsonSchema(daily_attendance_base)
                     });
                     break;
                 case 'dailyHasNotReturnedAggregate':
                     resolve({
-                        main: daily_has_not_returned_aggregate,
-                        dailyHasNotReturnedBase: daily_has_not_returned_base,
-                        dailyHasNotReturnedCohort: daily_has_not_returned_cohort
+                        main: this.cloneJsonSchema(daily_has_not_returned_aggregate),
+                        dailyHasNotReturnedBase: this.cloneJsonSchema(daily_has_not_returned_base),
+                        dailyHasNotReturnedCohort: this.cloneJsonSchema(daily_has_not_returned_cohort)
                     });
                     break;
                 case 'dailyHasNotReturnedCohort':
                     resolve({
-                        main: daily_has_not_returned_cohort
+                        main: this.cloneJsonSchema(daily_has_not_returned_cohort)
                     });
                     break;
                 case 'patintChangeStatusTrackerAggregate':
                     resolve({
-                        main: patint_change_status_tracker_aggregate,
-                        patintChangeStatusTrackerDataSetbase: patint_change_status_tracker_base
+                        main: this.cloneJsonSchema(patint_change_status_tracker_aggregate),
+                        patintChangeStatusTrackerDataSetbase: this.cloneJsonSchema(patint_change_status_tracker_base)
                     });
                     break;
                 case 'everOnARTAggregate':
                     resolve({
-                        main: ever_on_art_aggregate,
-                        everOnARTBase: ever_on_art_base
+                        main: this.cloneJsonSchema(ever_on_art_aggregate),
+                        everOnARTBase: this.cloneJsonSchema(ever_on_art_base)
                     });
                     break;
                 case 'everOnARTDisaggregation':
                     resolve({
-                        main: ever_on_art_disaggregation,
-                        everOnARTBase: ever_on_art_base
+                        main: this.cloneJsonSchema(ever_on_art_disaggregation),
+                        everOnARTBase: this.cloneJsonSchema(ever_on_art_base)
                     })
                     break;
                 case 'referral-patient-list-template':
                     resolve({
-                        main: referral_patient_list_template
+                        main: this.cloneJsonSchema(referral_patient_list_template)
                     });
                     break;
                 case 'patients-requiring-viral-load-template':
                     resolve({
-                        main: patients_requiring_viral_load_template
+                        main: this.cloneJsonSchema(patients_requiring_viral_load_template)
                     });
                     break;
                 case 'referralAggregate':
                     resolve({
-                        main: referral_aggregate,
-                        referralDatasetbase: referral_dataset_base
+                        main: this.cloneJsonSchema(referral_aggregate),
+                        referralDatasetbase: this.cloneJsonSchema(referral_dataset_base)
                     });
                     break;
                 case 'StartingARTAggregationAge15':
                     resolve({
-                        main: starting_art_aggregation_age15,
-                        StartingARTSetBaseAge15: starting_art_base_age15
+                        main: this.cloneJsonSchema(starting_art_aggregation_age15),
+                        StartingARTSetBaseAge15: this.cloneJsonSchema(starting_art_base_age15)
                     });
                     break;
                 case 'StartingARTDisaggregationAge15':
                     resolve({
-                        main: starting_art_disaggregation_age15,
-                        StartingARTSetBaseAge15: starting_art_base_age15
+                        main: this.cloneJsonSchema(starting_art_disaggregation_age15),
+                        StartingARTSetBaseAge15: this.cloneJsonSchema(starting_art_base_age15)
                     });
                     break;
                 case 'StartingARTAggregationAgeGreen':
                     resolve({
-                        main: starting_art_aggregation_age_green,
-                        StartingARTSetBaseAgeGreen: starting_art_base_age_green
+                        main: this.cloneJsonSchema(starting_art_aggregation_age_green),
+                        StartingARTSetBaseAgeGreen: this.cloneJsonSchema(starting_art_base_age_green)
                     });
                     break;
                 case 'StartingARTDisaggregationAgeGreen':
                     resolve({
-                        main: starting_art_disaggregation_age_green,
-                        StartingARTSetBaseAgeGreen: starting_art_base_age_green
+                        main: this.cloneJsonSchema(starting_art_disaggregation_age_green),
+                        StartingARTSetBaseAgeGreen: this.cloneJsonSchema(starting_art_base_age_green)
                     });
                     break;
                 case 'StartingARTDisaggregationAgeOnlyGreen':
                     resolve({
-                        main: starting_art_disaggregation_age_only_green,
-                        StartingARTSetBaseAgeGreen: starting_art_base_age_green
+                        main: this.cloneJsonSchema(starting_art_disaggregation_age_only_green),
+                        StartingARTSetBaseAgeGreen: this.cloneJsonSchema(starting_art_base_age_green)
                     })
                 case 'medicalHistoryReport':
                     resolve({
-                        main: medical_history_dataset_base
+                        main: this.cloneJsonSchema(medical_history_dataset_base)
 
                     });
                     break;
                 case 'breastCancerMonthlySummaryAggregate':
                     resolve({
-                        main: breast_cancer_monthly_screening_summary_aggregate,
-                        breastCancerMonthlySummaryBase: breast_cancer_monthly_screening_summary_base
+                        main: this.cloneJsonSchema(breast_cancer_monthly_screening_summary_aggregate),
+                        breastCancerMonthlySummaryBase: this.cloneJsonSchema(breast_cancer_monthly_screening_summary_base)
                     });
                     break;
                 case 'breast_cancer_patient_list_template':
                     resolve({
-                        main: breast_cancer_patient_list_template
+                        main: this.cloneJsonSchema(breast_cancer_patient_list_template)
                     });
                     break;
                 case 'cervicalCancerMonthlySummaryAggregate':
                     resolve({
-                        main: cervical_cancer_monthly_screening_summary_aggregate,
-                        cervicalCancerMonthlyReportBase: cervical_cancer_monthly_screening_summary_base
+                        main: this.cloneJsonSchema(cervical_cancer_monthly_screening_summary_aggregate),
+                        cervicalCancerMonthlyReportBase: this.cloneJsonSchema(cervical_cancer_monthly_screening_summary_base)
                     });
                     break;
 
                 case 'labsReportAggregate':
                     resolve({
-                        main: labs_report_aggregate,
-                        labsReportBase: labs_report_base,
+                        main: this.cloneJsonSchema(labs_report_aggregate),
+                        labsReportBase: this.cloneJsonSchema(labs_report_base),
 
                     });
                     break;
                 case 'patients-requiring-viral-load-template':
                     resolve({
-                        main: patients_requiring_viral_load_template
+                        main: this.cloneJsonSchema(patients_requiring_viral_load_template)
                     });
                     break;
                 case 'clinicLabOrdersReport':
                     resolve({
-                        main: clinic_lab_orders_report
+                        main: this.cloneJsonSchema(clinic_lab_orders_report)
                     })
                     break;
                 case 'cdmPatientSummary':
                     resolve({
-                        main: cdm_dataset_base
+                        main: this.cloneJsonSchema(cdm_dataset_base)
                     });
                     break;
                 case 'clinicalReminderReport':
                     resolve({
-                        main: clinical_reminders_report,
-                        flatLabsAndImagingDataSetbase: labs_and_imaging_dataset_base
+                        main: this.cloneJsonSchema(clinical_reminders_report),
+                        flatLabsAndImagingDataSetbase: this.cloneJsonSchema(labs_and_imaging_dataset_base)
                     });
                     break;
                 case 'enhancedAdherenceHIVProgramAggregate':
                     resolve({
-                        main: enhanced_adherence_hiv_program_aggregate,
-                        enhancedAdherenceHIVProgramBase: enhanced_adherence_hiv_program_base,
-                        patientProgramCohort: patient_program_cohort,
-                        enhancedAdherenceHIVProgramCohort: enhanced_adherence_hiv_program_cohort
+                        main: this.cloneJsonSchema(enhanced_adherence_hiv_program_aggregate),
+                        enhancedAdherenceHIVProgramBase: this.cloneJsonSchema(enhanced_adherence_hiv_program_base),
+                        patientProgramCohort: this.cloneJsonSchema(patient_program_cohort),
+                        enhancedAdherenceHIVProgramCohort: this.cloneJsonSchema(enhanced_adherence_hiv_program_cohort)
                     });
                     break;
                 default:
@@ -484,5 +484,9 @@ export class BaseMysqlReport {
 
     getSqlRunner() {
         return new QueryService();
+    }
+
+    cloneJsonSchema(schema) {
+        return JSON.parse(JSON.stringify(schema));
     }
 }

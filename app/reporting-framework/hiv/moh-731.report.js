@@ -5,6 +5,7 @@ import ReportProcessorHelpersService from '../report-processor-helpers.service';
 import {
     Promise
 } from 'bluebird';
+const Moment = require('moment');
 const moh731GreenCarddefs = require('./moh-731-2017');
 const moh731BlueCarddefs = require('./moh-731-legacy');
 const dao = require('../../../etl-dao');
@@ -15,13 +16,19 @@ export class Moh731Report extends MultiDatasetPatientlistReport {
             params.excludeParam = ['location_id', 'arv_first_regimen_location_id'];
             params.joinColumnParam = 'join_location';
         }
+        params.hivMonthlyDatasetSource = 'etl.hiv_monthly_report_dataset_frozen'; // defaults to frozen
+
+        console.log('creating new moh 731 report service')
         super(reportName, params)
     }
 
     generateReport(additionalParams) {
         const that = this;
         return new Promise((resolve, reject) => {
-            super.generateReport(additionalParams)
+            that.determineMohReportSourceTables()
+            .then((res)=> {
+                console.log('Params:::', that.params);
+                super.generateReport(additionalParams)
                 .then((results) => {
                     if (additionalParams && additionalParams.type === 'patient-list') {
                         resolve(results);
@@ -49,7 +56,8 @@ export class Moh731Report extends MultiDatasetPatientlistReport {
                             queriesAndSchemas: results,
                             result: finalResult,
                             sectionDefinitions: moh731defs,
-                            indicatorDefinitions: []
+                            indicatorDefinitions: [],
+                            isReleased: that.params.hivMonthlyDatasetSource === 'etl.hiv_monthly_report_dataset_frozen'
                         });
                     }
                 })
@@ -57,6 +65,11 @@ export class Moh731Report extends MultiDatasetPatientlistReport {
                     console.error('MOH 731 generation error: ', error);
                     reject(error);
                 });
+            })
+            .catch((err)=>{
+                console.error('MOH 731 generation error: ', err);
+                reject(error);
+            });
         });
     }
 
@@ -64,26 +77,35 @@ export class Moh731Report extends MultiDatasetPatientlistReport {
         let self = this;
         let moh731defs = this.reportName === 'MOH-731-greencard' ? moh731GreenCarddefs : moh731BlueCarddefs;
         return new Promise((resolve, reject) => {
-            super.generatePatientListReport(indicators)
-                .then((results) => {
-                    let indicatorLabels = self.getIndicatorSectionDefinitions(results.indicators,
-                        moh731defs);
+            self.determineMohReportSourceTables()
+                .then((res) => {
+                    super.generatePatientListReport(indicators)
+                        .then((results) => {
+                            let indicatorLabels = self.getIndicatorSectionDefinitions(results.indicators,
+                                moh731defs);
 
-                    results.indicators = indicatorLabels;
+                            results.indicators = indicatorLabels;
 
-                    self.resolveLocationUuidsToName(self.params.locationUuids)
-                        .then((locations) => {
-                            results.locations = locations;
-                            resolve(results);
+                            results.isReleased = self.params.hivMonthlyDatasetSource === 'etl.hiv_monthly_report_dataset_frozen';
+
+                            self.resolveLocationUuidsToName(self.params.locationUuids)
+                                .then((locations) => {
+                                    results.locations = locations;
+                                    resolve(results);
+                                })
+                                .catch((err) => {
+                                    resolve(results);
+                                });
+
                         })
                         .catch((err) => {
-                            resolve(results);
+                            console.error('MOH patient list generation error', err);
+                            reject(err);
                         });
-
                 })
                 .catch((err) => {
-                    console.error('MOH patient list generation error', err);
-                    reject(err);
+                    console.error('MOH 731 generation error: ', err);
+                    reject(error);
                 });
         });
     }
@@ -109,6 +131,34 @@ export class Moh731Report extends MultiDatasetPatientlistReport {
             dao.resolveLocationUuidsToName(uuids.split(','), (loc) => {
                 resolve(loc);
             });
+        });
+    }
+
+    determineMohReportSourceTables() {
+        const self = this;
+        return new Promise((resolve, reject) => {
+            let query = 'select * from etl.moh_731_last_release_month';
+            let runner = self.getSqlRunner();
+
+            runner.executeQuery(query)
+                .then(
+                    (results) => {
+                        let lastReleasedMonth = results[0]['last_released_month'];
+                        console.log('Last released MOH 731 month: ' + Moment(lastReleasedMonth).toLocaleString());
+                        console.log('MOH 731 Request Month: ' + Moment(self.params.endDate).toLocaleString());
+                        if (Moment(lastReleasedMonth).isSameOrAfter(Moment(self.params.endDate))) {
+                            self.params.hivMonthlyDatasetSource = 'etl.hiv_monthly_report_dataset_frozen';
+                        } else {
+                            self.params.hivMonthlyDatasetSource = 'etl.hiv_monthly_report_dataset_v1_2';
+                        }
+                        console.log('Using Datasource::: ', self.params.hivMonthlyDatasetSource)
+                        resolve(self.params.hivMonthlyDatasetSource);
+                    })
+                .catch((error) => {
+                    console.error('Error getting moh 731 released report month:', error);
+                    reject(error);
+                });
+
         });
     }
 }
