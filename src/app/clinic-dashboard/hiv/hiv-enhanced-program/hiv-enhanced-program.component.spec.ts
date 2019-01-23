@@ -67,6 +67,6 @@ describe('HivEnhancedComponent Tests', () => {
         expect(component.title).toBeDefined();
         expect(component.locationUuid).toBeDefined();
         expect(component.activeTab).toBeDefined();
-        expect(component.title).toBe('HIV Enhanced Adherence Reports');
+        expect(component.title).toBe('HIV Viremia Program Reports');
     });
 });

@@ -1,6 +1,6 @@
 {
   "name": "ngx-amrs",
-  "version": "2.12.0-SNAPSHOT",
+  "version": "2.12.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0 --port 3000",
