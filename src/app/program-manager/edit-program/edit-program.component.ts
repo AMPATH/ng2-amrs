@@ -182,7 +182,7 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
           break;
         case 'adherence':
           this.title = 'Program Successfully Started';
-          this.showMessage('The patient has been enrolled in Enhanced adherence HIV Program successfully.', 'info');
+          this.showMessage('The patient has been enrolled in Viremia Program successfully.', 'info');
           break;
         default:
       }

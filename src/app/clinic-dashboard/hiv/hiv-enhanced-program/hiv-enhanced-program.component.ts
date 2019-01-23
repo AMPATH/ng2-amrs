@@ -11,7 +11,7 @@ import { HivEnhancedReportService } from '../../../etl-api/hiv-enhanced-program-
 })
 export class HivEnhancedComponent implements OnInit {
 
-  public title  = 'HIV Enhanced Adherence Reports';
+  public title  = 'HIV Viremia Program Reports';
   public patientData: any;
   public isLoadingPatientList = false;
   public locationUuid = '';
@@ -177,21 +177,21 @@ export class HivEnhancedComponent implements OnInit {
      switch (indicator) {
        case 'not_virally_suppressed_in_enhanced_care':
           this.activeTab.in_enhanced_care = true;
-          this.sectionTittle = 'All Patients Enrolled in Enhanced Adherence HIV Care (VL => 1000 and enrolled)';
+          this.sectionTittle = 'All Patients Enrolled in Viremia Program (VL >= 1 and enrolled)';
           break;
        case 'not_virally_suppressed_not_in_enhanced_care':
            this.activeTab.not_in_enhanced_care = true;
-           this.sectionTittle = 'Patients eligible for Enhanced Adherence HIV Care (VL >= 1000 but not enrolled)';
+           this.sectionTittle = 'Patients eligible for Viremia Program (VL >= 1 but not enrolled)';
            break;
        case 'not_virally_suppressed_in_enhanced_care_vl_due':
            this.activeTab.in_enhanced_care_vl_due = true;
            this.sectionTittle =
-           'Patients enrolled in Enhanced Adherence HIV Care but have not had a repeat VL result within 3 months of their last VL';
+           'Patients enrolled in Viremia Program but have not had a repeat VL result within 3 months of their last VL';
            break;
        case 'mdt_form_completed':
            this.activeTab.mdt_form_completed = true;
            this.sectionTittle =
-           'Patients enrolled in Enhanced Adherence HIV who have not had a MDT Form completed within the last 2 months';
+           'Patients enrolled in Viremia Program who have not had a MDT Form completed within the last 2 months';
           break;
         default:
           break;
