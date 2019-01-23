@@ -55,6 +55,11 @@
             "column": "l.name"
         },
         {
+            "type": "simple_column",
+            "alias": "cur_arv_meds",
+            "column": "hmsd.cur_arv_meds"
+        },
+        {
             "type": "derived_column",
             "alias": "enrollment_date",
             "expressionType": "simple_expression",

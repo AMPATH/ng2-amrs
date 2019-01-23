@@ -51,6 +51,11 @@
         },
         {
             "type": "simple_column",
+            "alias": "cur_arv_meds",
+            "column": "hmsd.cur_arv_meds"
+        },
+        {
+            "type": "simple_column",
             "alias": "location_id",
             "column": "hmsd.location_id"
         },
