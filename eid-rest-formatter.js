@@ -30,7 +30,7 @@ module.exports = function () {
     var hasLessThanSymbol = /</g;
     if (_.isEmpty(viralLoadPayload)) return -1;
     var viralLoadResult = removeWhiteSpace(viralLoadPayload.FinalResult);
-   
+
 
     if (_.isEmpty(viralLoadResult)) {
       return -1;
@@ -279,7 +279,7 @@ module.exports = function () {
         body.groupMembers.push(AVGCD3percentLymph);
 
        }
-     
+
     }
     if ("AVGCD3AbsCnt" in CD4payload) {
       var conceptUuId = "a898fcd2-1350-11df-a1f1-0026b9348838";
@@ -290,7 +290,7 @@ module.exports = function () {
         body.groupMembers.push(AVGCD3AbsCnt);
 
       }
-      
+
     }
     if ("AVGCD3CD4percentLymph" in CD4payload) {
       var conceptUuId = "a8970a26-1350-11df-a1f1-0026b9348838";
@@ -324,7 +324,7 @@ module.exports = function () {
         body.groupMembers.push(CD45AbsCnt);
 
       }
-      
+
     }
 
     if (CD4payload['OrderNo'] && stringNotEmpty(CD4payload['OrderNo'])) {
