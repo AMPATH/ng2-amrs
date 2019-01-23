@@ -21,6 +21,7 @@ export class Moh731ReportBaseComponent implements OnInit {
   public data = [];
   public sectionsDef = [];
   public statusError = false;
+  public isReleased = true;
 
   public showLocationsControl: boolean = false;
   public showIsAggregateControl: boolean = false;
@@ -123,14 +124,7 @@ export class Moh731ReportBaseComponent implements OnInit {
             } else {
               this.sectionsDef = data.sectionDefinitions;
               this.data = data.result;
-                // // simple way to avoid a report with dashes. If this columnm exists, the report is full
-                // if (data.result[0] && data.result[0]['current_in_care'] === undefined) {
-                //   this.showInfoMessage = true;
-                //   this.processInfoMsg(data, true);
-                // } else {
-                //   this.sectionsDef = data.sectionDefinitions;
-                //   this.data = data.result;
-                // }
+              this.isReleased = data.isReleased;
             }
             this.isLoadingReport = false;
           }, (error) => {
@@ -229,9 +223,9 @@ export class Moh731ReportBaseComponent implements OnInit {
   private processInfoMsg(message: any, isEmpty: boolean = false) {
 
     if (message.error === 404 || isEmpty) {
-      this.errorMessage =
-      'The MOH 731 Report cannot be viewed at the moment, awaiting M & E verification';
-      this.statusError = true;
+      // this.errorMessage =
+      // 'The MOH 731 Report cannot be viewed at the moment, awaiting M & E verification';
+      // this.statusError = true;
     } else {
       this.errorMessage = 'There was a problem generating MOH 731 Report';
     }

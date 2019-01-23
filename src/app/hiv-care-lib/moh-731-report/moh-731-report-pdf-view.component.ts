@@ -40,6 +40,7 @@ export class MOHReportComponent implements OnInit, OnDestroy {
     @Input() public sectionsDef: any;
     @Input() public startDate: any;
     @Input() public endDate: any;
+    @Input() public isReleased: boolean;
     @Input()
     set data(value: any) {
         if (value) {

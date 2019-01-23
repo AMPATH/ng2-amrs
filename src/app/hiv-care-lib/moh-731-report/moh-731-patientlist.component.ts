@@ -84,11 +84,11 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
     let rowCount: number = 0;
     this.moh731PatientListResourceService.getMoh731PatientListReport({
       indicator: params.indicators,
-      isLegacy: params.isLegacy,
+      isLegacy: Boolean(params.isLegacy),
       startIndex: this.startIndex[params.indicators] ? this.startIndex[params.indicators] : 0,
       startDate: moment(params.startDate).format('YYYY-MM-DD'),
       endDate: moment(params.endDate).endOf('day').format('YYYY-MM-DD'),
-      reportName: 'MOH-731-report-2017',
+      reportName: Boolean(params.isLegacy) === true ? 'MOH-731-report' : 'MOH-731-report-2017',
       locationUuids: _.isArray(params.locations) ? params.locations.join(',') : params.locations
     }).pipe(take(1)).subscribe((data) => {
       this.isLoading = false;
