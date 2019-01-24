@@ -93,7 +93,6 @@ export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   public getNewResults() {
-    const patientEmited: any = { uuid: '' };
     const sub1 = this.patientService.
       currentlyLoadedPatient.subscribe((patient: any) => {
         if (patient) {
