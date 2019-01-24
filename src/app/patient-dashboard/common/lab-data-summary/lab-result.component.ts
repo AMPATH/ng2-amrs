@@ -79,6 +79,9 @@ export class LabResultComponent implements OnInit, OnDestroy {
     },
     'lab_errors' : {
       'test': 'Lab Errors'
+    },
+    'serum_crag' : {
+      'test' : 'Serum Crag'
     }
   };
 
@@ -368,6 +371,8 @@ export class LabResultComponent implements OnInit, OnDestroy {
         if (rowData.hasOwnProperty('' + key + '')) {
           if (key === 'hiv_viral_load') {
             rowData[key][dateTime] = this.zeroVlPipe.transform(result[key]);
+          } else if (key === 'serum_crag') {
+            rowData[key][dateTime] = this.transformSerumCrug(result[key]);
           } else {
             rowData[key][dateTime] = result[key];
           }
@@ -389,7 +394,19 @@ export class LabResultComponent implements OnInit, OnDestroy {
       labRows.push(testResults);
     });
     this.labRowData = labRows;
-
   }
 
+  public transformSerumCrug(value) {
+    if (value === 664) {
+      return 'NEGATIVE';
+    } else if (value === 703) {
+      return 'POSITIVE';
+    } else if (value === 1138) {
+      return 'INDETERMINATE';
+    } else if (value === 1304) {
+      return 'POOR SAMPLE QUALITY';
+    } else {
+      return null;
+    }
+  }
 }
