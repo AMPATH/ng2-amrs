@@ -19,6 +19,6 @@ import { MatTabsModule } from '@angular/material/tabs';
     ],
     exports: [ProgramVisitEncounterSearchComponent],
     declarations: [ProgramVisitEncounterSearchComponent],
-    providers: [ DepartmentProgramsConfigService, DataCacheService, SelectDepartmentService],
+    providers: [DepartmentProgramsConfigService, DataCacheService, SelectDepartmentService],
 })
 export class ProgramVisitEncounterSearchModule { }

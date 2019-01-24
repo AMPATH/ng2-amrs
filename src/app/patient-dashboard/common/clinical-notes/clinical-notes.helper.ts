@@ -24,7 +24,7 @@ export class ClinicalNotesHelperService {
 
   public format(notes: Array<any>): Array<any> {
 
-    let notAvailableMessage: string = 'Not available';
+    const notAvailableMessage = 'Not available';
 
     let temp: Array<any> = [];
 
@@ -97,7 +97,7 @@ export class ClinicalNotesHelperService {
       Helpers.formatBlankOrNull(note.vitals, 'Not Available');
 
       // Group ccHpi and Assessemnt
-      let grouped = this.groupCCHPIAndAssessment(note.ccHpi, note.assessment);
+      const grouped = this.groupCCHPIAndAssessment(note.ccHpi, note.assessment);
 
       if (_.isEmpty(grouped)) {
         note.hasCcHpiAssessment = false;
@@ -116,8 +116,8 @@ export class ClinicalNotesHelperService {
   // pipe valid dates only
   private resolveDate(date: string) {
 
-    let dateFormat: string = 'dd-MM-yyyy';
-    let parsedDate = Date.parse(date);
+    const dateFormat = 'dd-MM-yyyy';
+    const parsedDate = Date.parse(date);
 
     return isNaN(parsedDate) ? date : this.datePipe.transform(date, dateFormat);
   }
@@ -140,11 +140,11 @@ export class ClinicalNotesHelperService {
       return [];
     }
 
-    let ccHpiAssessment = [];
+    const ccHpiAssessment = [];
     if (!_.isEmpty(ccHpiArray)) {
       if (_.isEmpty(assessmentArray)) {
         _.each(ccHpiArray, (ccHpi: any) => {
-          let o = {
+          const o = {
             encounterType: ccHpi.encounterType,
             ccHpi: ccHpi.value,
             assessment: ''
@@ -155,12 +155,12 @@ export class ClinicalNotesHelperService {
         // In case assessmentArray is not empty and ccHpiarray is larger than assessmenarray
         if (ccHpiArray.length >= assessmentArray.length) {
           _.each(ccHpiArray, (ccHpi: any) => {
-            let o = {
+            const o = {
               encounterType: ccHpi.encounterType,
               ccHpi: ccHpi.value,
               assessment: ''
             };
-            let ass = _.find(assessmentArray, (assItem) => {
+            const ass = _.find(assessmentArray, (assItem) => {
               return ccHpi['encounterType'] === assItem['encounterType'];
             });
             if (ass) {
@@ -171,12 +171,12 @@ export class ClinicalNotesHelperService {
           // In case assessmentArray is not empty and ccHpiarray is smaller than assessmenarray
         } else {
           _.each(assessmentArray, (assItem: any) => {
-            let o = {
+            const o = {
               encounterType: assItem.encounterType,
               ccHpi: '',
               assessment: assItem.value
             };
-            let ass = _.find(ccHpiArray, (ccHpi) => {
+            const ass = _.find(ccHpiArray, (ccHpi) => {
               return ccHpi['encounterType'] === assItem['encounterType'];
             });
             if (ass) {
@@ -189,7 +189,7 @@ export class ClinicalNotesHelperService {
     } else {
       // ccHpiArray is empty we redo the code the same way.
       _.each(assessmentArray, (ass: any) => {
-        let o = {
+        const o = {
           encounterType: ass.encounterType,
           ccHpi: '',
           assessment: ass.value

@@ -24,7 +24,7 @@ export class EncounterResourceService {
       if (!patientUuid) {
         return null;
       }
-      let url = this.getUrl() + 'encounter';
+      const url = this.getUrl() + 'encounter';
       let params = new HttpParams()
       .set('patient', patientUuid)
       .set('v', this.v);
@@ -54,22 +54,22 @@ export class EncounterResourceService {
         if (!uuid) {
             return null;
         }
-        let _customDefaultRep = 'custom:(uuid,encounterDatetime,' +
+        const _customDefaultRep = 'custom:(uuid,encounterDatetime,' +
             'patient:(uuid,uuid,person,identifiers:full),form:(uuid,name),' +
             'visit:(uuid,visitType,display,startDatetime,stopDatetime),' +
             'location:ref,encounterType:ref,' +
           'encounterProviders:(uuid,display,provider:(uuid,display)),orders:full,' +
             'obs:(uuid,obsDatetime,concept:(uuid,uuid,name:(display)),value:ref,groupMembers))';
-        let params = new HttpParams()
+        const params = new HttpParams()
         .set('v', _customDefaultRep);
-        let url = this.getUrl() + 'encounter/' + uuid;
+        const url = this.getUrl() + 'encounter/' + uuid;
         return this.http.get(url, { params: params });
     }
     public getEncounterTypes(v: string) {
         if (!v) {
             return null;
         }
-        let url = this.getUrl() + 'encountertype';
+        const url = this.getUrl() + 'encountertype';
         return this.http.get(url).pipe(map((response: any) => {
             return response.results;
         }));
@@ -80,7 +80,7 @@ export class EncounterResourceService {
       if (!payload) {
             return null;
         }
-      let url = this.getUrl() + 'encounter';
+      const url = this.getUrl() + 'encounter';
       const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
       return this.http.post(url, JSON.stringify(payload), {headers});
     }
@@ -89,7 +89,7 @@ export class EncounterResourceService {
         if (!payload || !uuid) {
             return null;
         }
-        let url = this.getUrl() + 'encounter/' + uuid;
+        const url = this.getUrl() + 'encounter/' + uuid;
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
         return this.http.post(url, JSON.stringify(payload), {headers});
     }
@@ -98,7 +98,7 @@ export class EncounterResourceService {
         if (!uuid) {
             return null;
         }
-        let url = this.getUrl() + 'encounter/' + uuid + '?!purge';
+        const url = this.getUrl() + 'encounter/' + uuid + '?!purge';
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
         return this.http.delete(url, {headers});
     }

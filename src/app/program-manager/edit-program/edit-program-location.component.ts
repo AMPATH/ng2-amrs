@@ -15,17 +15,19 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class EditProgramLocationComponent implements OnInit {
   @Input() public programs: any[] = [];
+  // tslint:disable:no-input-rename
   @Input('editedProgram') public editedPrograms: any;
   @Input() public patient: Patient;
-  @Input() public complete: boolean = false;
+  @Input() public complete = false;
   @Output() public locationChangeComplete: EventEmitter<any> = new EventEmitter(null);
+  // tslint:disable-next-line:no-output-on-prefix
   @Output() public onBack: EventEmitter<any> = new EventEmitter(null);
-  public updating: boolean = false;
+  public updating = false;
   public dateEnrolled: string;
   public transferLocation: any;
-  public hasError: boolean = false;
+  public hasError = false;
   private location: any;
-  public message: string = '';
+  public message = '';
 
   constructor(private programManagerService: ProgramManagerService,
               public route: ActivatedRoute,
@@ -132,11 +134,11 @@ export class EditProgramLocationComponent implements OnInit {
     if (preferredIdentifier) {
 
 
-      let person = {
+      const person = {
         uuid: this.patient.person.uuid
       };
       // we only change the location of the preferred Identifier
-      let personIdentifierPayload: any = {
+      const personIdentifierPayload: any = {
         uuid: preferredIdentifier.uuid,
         identifier: preferredIdentifier.identifier,
         identifierType: preferredIdentifier.identifierType.uuid,

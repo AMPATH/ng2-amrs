@@ -4,17 +4,16 @@ import { FormsModule } from '@angular/forms';
 
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
 import { OncologyLandingPageComponent } from './landing-page/landing-page.component';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { PocHttpInteceptor } from 'src/app/shared/services/poc-http-interceptor';
 
-import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
-import { Router } from '@angular/router';
-import { SessionStorageService } from '../../utils/session-storage.service';
-import { HttpClient } from '../../shared/services/http-client.service';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     NgamrsSharedModule,
+    HttpClientModule
   ],
   exports: [
     OncologyLandingPageComponent
@@ -24,11 +23,9 @@ import { HttpClient } from '../../shared/services/http-client.service';
   ],
   providers: [
     {
-      provide: Http,
-      useFactory: (xhrBackend: XHRBackend, requestOptions: RequestOptions,
-                   router: Router, sessionStorageService: SessionStorageService) =>
-        new HttpClient(xhrBackend, requestOptions, router, sessionStorageService),
-      deps: [XHRBackend, RequestOptions, Router, SessionStorageService]
+      provide: HTTP_INTERCEPTORS,
+      useClass: PocHttpInteceptor,
+      multi: true
     }
   ],
 })

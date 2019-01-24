@@ -8,8 +8,7 @@ import { DynamicRoutesService } from '../shared/dynamic-route/dynamic-routes.ser
 import { ClinicDashboardComponent } from './clinic-dashboard.component';
 import {
   UserDefaultPropertiesService
-} from
-  '../user-default-properties/user-default-properties.service';
+} from '../user-default-properties/user-default-properties.service';
 import { ClinicDashboardCacheService } from './services/clinic-dashboard-cache.service';
 import { RoutesProviderService } from '../shared/dynamic-route/route-config-provider.service';
 import { ClinicRoutesFactory

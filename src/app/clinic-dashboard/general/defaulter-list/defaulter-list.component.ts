@@ -5,8 +5,7 @@ import { ClinicDashboardCacheService } from '../../services/clinic-dashboard-cac
 import { Router, ActivatedRoute } from '@angular/router';
 import {
   DefaulterListResourceService
-} from
-  '../../../etl-api/defaulter-list-resource.service';
+} from '../../../etl-api/defaulter-list-resource.service';
 import { DatePipe } from '@angular/common';
 import * as _ from 'lodash';
 import { Subscription } from 'rxjs';
@@ -22,10 +21,10 @@ export class DefaulterListComponent implements OnInit, OnDestroy {
   public maxDefaultPeriod: any;
   public errors: any[] = [];
   public defaulterList: any[] = [];
-  public loadingDefaulterList: boolean = false;
-  public dataLoaded: boolean = false;
+  public loadingDefaulterList = false;
+  public dataLoaded = false;
   public selectedClinic: any;
-  public nextStartIndex: number = 0;
+  public nextStartIndex = 0;
   private _datePipe: DatePipe;
   private subs: Subscription[] = [];
 
@@ -76,7 +75,7 @@ export class DefaulterListComponent implements OnInit, OnDestroy {
 
   public loadDefaulterList() {
     this.initParams();
-    let params = this.getQueryParams(this.minDefaultPeriod,
+    const params = this.getQueryParams(this.minDefaultPeriod,
       this.maxDefaultPeriod, this.selectedClinic);
 
     if (this.selectedClinic) {
@@ -86,7 +85,7 @@ export class DefaulterListComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     this.getLocation();
-    let cachedParams = this.getCachedDefaulterListParam('defaulterListParam');
+    const cachedParams = this.getCachedDefaulterListParam('defaulterListParam');
     if (cachedParams) {
       this.loadDefaulterListFromCachedParams(cachedParams);
     }
@@ -101,7 +100,7 @@ export class DefaulterListComponent implements OnInit, OnDestroy {
 
   public loadMoreDefaulterList() {
     this.loadingDefaulterList = true;
-    let params = this.getQueryParams(this.minDefaultPeriod,
+    const params = this.getQueryParams(this.minDefaultPeriod,
       this.maxDefaultPeriod, this.selectedClinic);
     this.loadDefaulterListFromCachedParams(params);
   }
@@ -141,11 +140,11 @@ export class DefaulterListComponent implements OnInit, OnDestroy {
 
   private formatDefaulterListData(data) {
 
-    let formatedData = data.map((dataItem) => {
-      let formatedEncDate = this._datePipe.transform(
+    const formatedData = data.map((dataItem) => {
+      const formatedEncDate = this._datePipe.transform(
         this.getDatePart(dataItem.encounter_datetime), 'dd-MM-yyyy');
 
-      let formatedRTCDate = this._datePipe.transform(this.getDatePart(dataItem.rtc_date),
+      const formatedRTCDate = this._datePipe.transform(this.getDatePart(dataItem.rtc_date),
         'dd-MM-yyyy');
       return {
         uuid: dataItem.patient_uuid,
@@ -175,7 +174,7 @@ export class DefaulterListComponent implements OnInit, OnDestroy {
   }
 
   private getQueryParams(defaulterPeriod, maxDefaultPeriod, selectedLocation) {
-    let params = {
+    const params = {
       maxDefaultPeriod: maxDefaultPeriod,
       defaulterPeriod: defaulterPeriod,
       startIndex: this.nextStartIndex,
@@ -197,7 +196,7 @@ export class DefaulterListComponent implements OnInit, OnDestroy {
 
   private getDefaulterList(params) {
     this.loadingDefaulterList = true;
-    let result = this.defaulterListResource.getDefaulterList(params);
+    const result = this.defaulterListResource.getDefaulterList(params);
 
     if (result === null) {
       throw new Error('Null Defaulter List observable');
@@ -207,7 +206,7 @@ export class DefaulterListComponent implements OnInit, OnDestroy {
           if (patientList.length > 0) {
             this.defaulterList = this.defaulterList.concat(
               this.formatDefaulterListData(patientList));
-            let size: number = patientList.length;
+            const size: number = patientList.length;
             this.nextStartIndex = this.nextStartIndex + size;
           } else {
             this.dataLoaded = true;

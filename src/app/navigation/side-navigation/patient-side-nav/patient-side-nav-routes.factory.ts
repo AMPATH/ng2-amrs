@@ -18,7 +18,7 @@ export class PatientRoutesFactory {
 
     const routes: RouteModel[] = [];
     if (Array.isArray(patientRoutesConfig['programs'])) {
-      for (let program of patientRoutesConfig.programs) {
+      for (const program of patientRoutesConfig.programs) {
         if (program.published && (program.requiresPatientEnrollment === false ||
           this.patientIsInProgram(program.programUuid,
             patient.enrolledPrograms))) {
@@ -34,7 +34,7 @@ export class PatientRoutesFactory {
 
   public processSharedRoutes(routesConfig) {
     if (routesConfig.sharedRoutes) {
-      for (let prog of routesConfig.programs) {
+      for (const prog of routesConfig.programs) {
         if (prog['shared-routes-class']) {
           prog.routes = routesConfig.sharedRoutes[prog['shared-routes-class']];
         }
@@ -58,7 +58,7 @@ export class PatientRoutesFactory {
 
   private patientIsInProgram(programUuid: string, patientPrograms): boolean {
     if (Array.isArray(patientPrograms)) {
-      for (let program of patientPrograms) {
+      for (const program of patientPrograms) {
         if (program.programUuid === programUuid &&
           program.dateEnrolled &&
           (program.dateCompleted === null || program.dateCompleted === undefined)) {

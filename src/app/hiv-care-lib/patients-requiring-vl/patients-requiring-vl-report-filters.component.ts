@@ -22,9 +22,9 @@ export class PatientsRequiringVLReportFiltersComponent implements OnInit {
     public endDateChange = new EventEmitter<Date>();
 
     @Input()
-    public parentIsBusy: boolean = false;
+    public parentIsBusy = false;
 
-    public filterCollapsed: boolean = false;
+    public filterCollapsed = false;
 
     private _startDate: Date;
     public get startDate(): Date {

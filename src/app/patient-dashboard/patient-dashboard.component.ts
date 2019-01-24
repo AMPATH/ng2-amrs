@@ -20,7 +20,7 @@ import { PatientRoutesFactory
 })
 export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
 
-  public fetchingPatient: boolean = false;
+  public fetchingPatient = false;
   public patient: Patient;
   public topOffset = 49;
   public leftOffset = 56;
@@ -93,7 +93,7 @@ export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   public getNewResults() {
-    let patientEmited: any = { uuid: '' };
+    const patientEmited: any = { uuid: '' };
     const sub1 = this.patientService.
       currentlyLoadedPatient.subscribe((patient: any) => {
         if (patient) {

@@ -1,16 +1,15 @@
 
-import { throwError as observableThrowError ,  Observable, of } from 'rxjs';
+import { throwError as observableThrowError, Observable, of } from 'rxjs';
 import { TestBed, async, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
-import { MockBackend } from '@angular/http/testing';
-import { Http, BaseRequestOptions } from '@angular/http';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LabOrderSearchComponent } from './lab-order-search.component';
 import { OrderResourceService } from '../openmrs-api/order-resource.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 class FakeOrderResourceService {
   public searchOrdersById(orderId: string, cached: boolean = false,
-                          v: string = null): Observable<any> {
+    v: string = null): Observable<any> {
     return of({
       _body: {
         'orderNumber': 'ORD-34557',
@@ -26,20 +25,15 @@ describe('Component: LabOrderSearchComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [FormsModule, ReactiveFormsModule],
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientTestingModule],
       declarations: [LabOrderSearchComponent]
     }).overrideComponent(LabOrderSearchComponent, {
       set: {
         providers: [
-          { provide: OrderResourceService, useClass: FakeOrderResourceService },
-          {
-            provide: Http, useFactory: (backend, options) => {
-            return new Http(backend, options);
-          },
-            deps: [MockBackend, BaseRequestOptions]
-          },
-          MockBackend,
-          BaseRequestOptions
+          { provide: OrderResourceService, useClass: FakeOrderResourceService }
         ]
       }
     }).compileComponents()
@@ -50,7 +44,7 @@ describe('Component: LabOrderSearchComponent', () => {
       });
   }));
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 
@@ -66,10 +60,12 @@ describe('Component: LabOrderSearchComponent', () => {
 
   it('should hit the success callback when searchOrdersById returns success', fakeAsync(() => {
     const spy = spyOn(fakeOrderResourceService, 'searchOrdersById').and.returnValue(
-      of({_body: {
-        'orderNumber': 'ORD-34557',
-        'accessionNumber': null
-      }})
+      of({
+        _body: {
+          'orderNumber': 'ORD-34557',
+          'accessionNumber': null
+        }
+      })
     );
     comp.searchOrderId();
     tick(50);
@@ -88,7 +84,7 @@ describe('Component: LabOrderSearchComponent', () => {
   }));
 
   it('should reset form when reset button is clicked', async(() => {
-    let resetButton = fixture.nativeElement.querySelector('#reset');
+    const resetButton = fixture.nativeElement.querySelector('#reset');
     spyOn(comp, 'resetSearch');
     expect(resetButton).toBeDefined();
     resetButton.click();
@@ -98,7 +94,7 @@ describe('Component: LabOrderSearchComponent', () => {
   }));
 
   it('should call searchOrderId when search button is clicked', async(() => {
-    let searchButton = fixture.nativeElement.querySelector('#search');
+    const searchButton = fixture.nativeElement.querySelector('#search');
     spyOn(comp, 'searchOrderId');
     expect(searchButton).toBeDefined();
     searchButton.click();

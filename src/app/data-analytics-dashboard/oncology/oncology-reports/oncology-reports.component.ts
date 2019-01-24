@@ -13,7 +13,7 @@ import * as Moment from 'moment';
 })
 export class OncologyReportsComponent implements OnInit {
 
-  public tittle: string  = 'Oncology Reports';
+  public tittle  = 'Oncology Reports';
   public oncologyReports: any;
   public specificOncologyReport: any;
   public startDate: string = Moment().startOf('year').format('YYYY-MM-DD');
@@ -38,9 +38,9 @@ export class OncologyReportsComponent implements OnInit {
   }
 
   public navigateToReport(report: any, oncologyReport: any, reportIndex: number) {
-    let queryParams = this.route.snapshot.params;
-    let reportParams = report.reportDefaults;
-    let params = {
+    const queryParams = this.route.snapshot.params;
+    const reportParams = report.reportDefaults;
+    const params = {
 
       type: report.type,
       report: report.name

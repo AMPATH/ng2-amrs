@@ -27,7 +27,7 @@ export class TodaysVitalsService {
     this.vitalSources = sources || [];
     this.vitalsDataSource.vitalSources = [];
     return new Promise((resolve, reject) => {
-      for (let encounterItem of todaysEncounters) {
+      for (const encounterItem of todaysEncounters) {
         this.getVitalsFromObs(encounterItem.obs);
       }
 
@@ -40,8 +40,8 @@ export class TodaysVitalsService {
     let createdVital: any;
     _.each(this.vitalSources, (source) => {
       const vitalSource = new source(new Vital({}), this.patient);
-      for (let obs of obsArray) {
-        let ob = obs;
+      for (const obs of obsArray) {
+        const ob = obs;
         if (typeof ob.concept !== 'undefined') {
           createdVital = vitalSource.getVitals(ob, this.vitalsDataSource);
           if (typeof createdVital !== 'undefined' && createdVital.name) {
@@ -61,9 +61,9 @@ export class TodaysVitalsService {
   }
 
   private applyCompounding() {
-    let compounds = _.filter(this.vitalsDataSource.vitalSources, 'isCompoundedWith');
+    const compounds = _.filter(this.vitalsDataSource.vitalSources, 'isCompoundedWith');
     _.each(compounds, (compound) => {
-      let toCompound = _.find(this.vitalsDataSource.vitalSources, (s) => s && compound.isCompoundedWith === s.name);
+      const toCompound = _.find(this.vitalsDataSource.vitalSources, (s) => s && compound.isCompoundedWith === s.name);
       if (toCompound) {
         toCompound.compoundValue = compound;
       }

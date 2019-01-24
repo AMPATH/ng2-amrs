@@ -15,12 +15,12 @@ import { PDFDocumentProxy } from 'ng2-pdf-viewer';
 export class MOHReportComponent implements OnInit, OnDestroy {
 
     public pdfSrc: string = null;
-    public page: number = 1;
+    public page = 1;
     public securedUrl: SafeResourceUrl;
-    public isBusy: boolean = false;
+    public isBusy = false;
     public pdfProxy: PDFDocumentProxy = null;
     public pdfMakeProxy: any = null;
-    public errorFlag: boolean = false;
+    public errorFlag = false;
     public subscription: Subscription;
     public locations = [];
     public sectionDefinitions: any;
@@ -32,7 +32,7 @@ export class MOHReportComponent implements OnInit, OnDestroy {
     public stack = [];
 
     @Input()
-    public isAggregated: boolean = false;
+    public isAggregated = false;
 
     @Input()
     public selectedLocations: any;
@@ -136,7 +136,7 @@ export class MOHReportComponent implements OnInit, OnDestroy {
                         district = district ? district : 'N/A';
                         stateProvince = stateProvince ? stateProvince : 'N/A';
 
-                        let details = {
+                        const details = {
                             district: district,
                             county: stateProvince,
                             facility: locations[i].name,
@@ -161,8 +161,8 @@ export class MOHReportComponent implements OnInit, OnDestroy {
             // tslint:disable-next-line:prefer-for-of
             // for (let i = 0; i < reportsData.length; i++) {
 
-            let paramsArray = this.getLocationHeaders(reportsData);
-            let rowsArray = this.getJoinLocations(reportsData);
+            const paramsArray = this.getLocationHeaders(reportsData);
+            const rowsArray = this.getJoinLocations(reportsData);
 
             this.mohReportService.generateMultiplePdfs(paramsArray, rowsArray, sectionDefinitions).pipe(
                 take(1)).subscribe(
@@ -186,7 +186,7 @@ export class MOHReportComponent implements OnInit, OnDestroy {
 
     private getJoinLocations(reportsData) {
 
-        let rowsArray = [];
+        const rowsArray = [];
         reportsData.forEach((element) => {
             if (element.join_location) {
                 rowsArray.push(element);
@@ -207,7 +207,7 @@ export class MOHReportComponent implements OnInit, OnDestroy {
 
         // process location aggregation
         if (this.isAggregated) {
-            let aggregatedLocationsHeader = {
+            const aggregatedLocationsHeader = {
                 facilityName: '',
                 facility: '',
                 district: '',
@@ -222,7 +222,7 @@ export class MOHReportComponent implements OnInit, OnDestroy {
             for (let i = 0; i < this.selectedLocations.length; i++) {
              if (this.selectedLocations[i].value) {
 
-                let p = this.getParams(this.selectedLocations[i].value);
+                const p = this.getParams(this.selectedLocations[i].value);
                 if (aggregatedLocationsHeader.facilityName.indexOf(p.facilityName) < 0) {
                     aggregatedLocationsHeader.facilityName =
                         aggregatedLocationsHeader.facilityName +
@@ -273,7 +273,7 @@ export class MOHReportComponent implements OnInit, OnDestroy {
     }
 
     private getParams(locationUid) {
-        let locationDetails = this.getLocationResolved(locationUid);
+        const locationDetails = this.getLocationResolved(locationUid);
         let params: any;
         if (locationDetails) {
 

@@ -1,6 +1,5 @@
 
 import {take} from 'rxjs/operators';
-import { LocalStorageService } from './../../utils/local-storage.service';
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import {
   ClinicDashboardCacheService

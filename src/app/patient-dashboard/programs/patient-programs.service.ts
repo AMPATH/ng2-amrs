@@ -41,55 +41,55 @@ export class PatientProgramService {
     }).pipe(
       map((data) => {
         if (data) {
-        // data[0] = enrolledPrograms
-        // data[1] = availablePrograms
-        const enrolledPrograms = data;
-        const _programs = [];
-        _.each(allAvailablePrograms, (program: any) => {
-          let _enrolledProgram: any;
-          const _enrolledPrograms = _.filter(enrolledPrograms, (enrolledProgram: any) =>
-           enrolledProgram.programUuid === program.uuid && !enrolledProgram.voided);
+          // data[0] = enrolledPrograms
+          // data[1] = availablePrograms
+          const enrolledPrograms = data;
+          const _programs = [];
+          _.each(allAvailablePrograms, (program: any) => {
+            let _enrolledProgram: any;
+            const _enrolledPrograms = _.filter(enrolledPrograms, (enrolledProgram: any) =>
+              enrolledProgram.programUuid === program.uuid && !enrolledProgram.voided);
 
-          const route: any = _.find(dashboardRoutesConfig.programs, (_route: any) =>
-            _route['requiresPatientEnrollment'] && _route['programUuid'] === program.uuid
-          );
-          if (_enrolledPrograms.length > 0) {
-            _enrolledProgram = _.last(_enrolledPrograms);
-          }
-          _programs.push({
-            program: program,
-            concept: program.concept,
-            enrolledProgram: _enrolledProgram || null,
-            programUuid: program.uuid,
-            isFocused: false,
-            isEdit: false,
-            dateEnrolled: (!_.isNil(_enrolledProgram) && _.isNil(_enrolledProgram.dateCompleted)) ?
-              this._datePipe.transform(_enrolledProgram.dateEnrolled, 'yyyy-MM-dd') : null,
-            dateEnrolledView: (!_.isNil(_enrolledProgram)
-              && _.isNil(_enrolledProgram.dateCompleted)) ?
-              this._datePipe.transform(_enrolledProgram.dateEnrolled, 'dd-MM-yyyy') : null,
-            dateCompleted: (!_.isNil(_enrolledProgram) && !_.isNil(_enrolledProgram.dateCompleted))
-              ? this._datePipe.transform(_enrolledProgram.dateCompleted, 'yyyy-MM-dd') : null,
-            validationError: '',
-            baseRoute: route ? route.alias : '',
-            buttons: {
-              landing: {
-                display: 'Go to Program',
-                url: route ? '/patient-dashboard/patient/' + patientUuid + '/' + route.alias + '/' +
-                  route.baseRoute + '/landing-page' : null
+            const route: any = _.find(dashboardRoutesConfig.programs, (_route: any) =>
+              _route['requiresPatientEnrollment'] && _route['programUuid'] === program.uuid
+            );
+            if (_enrolledPrograms.length > 0) {
+              _enrolledProgram = _.last(_enrolledPrograms);
+            }
+            _programs.push({
+              program: program,
+              concept: program.concept,
+              enrolledProgram: _enrolledProgram || null,
+              programUuid: program.uuid,
+              isFocused: false,
+              isEdit: false,
+              dateEnrolled: (!_.isNil(_enrolledProgram) && _.isNil(_enrolledProgram.dateCompleted)) ?
+                this._datePipe.transform(_enrolledProgram.dateEnrolled, 'yyyy-MM-dd') : null,
+              dateEnrolledView: (!_.isNil(_enrolledProgram)
+                && _.isNil(_enrolledProgram.dateCompleted)) ?
+                this._datePipe.transform(_enrolledProgram.dateEnrolled, 'dd-MM-yyyy') : null,
+              dateCompleted: (!_.isNil(_enrolledProgram) && !_.isNil(_enrolledProgram.dateCompleted))
+                ? this._datePipe.transform(_enrolledProgram.dateCompleted, 'yyyy-MM-dd') : null,
+              validationError: '',
+              baseRoute: route ? route.alias : '',
+              buttons: {
+                landing: {
+                  display: 'Go to Program',
+                  url: route ? '/patient-dashboard/patient/' + patientUuid + '/' + route.alias + '/' +
+                    route.baseRoute + '/landing-page' : null
+                },
+                visit: {
+                  display: 'Program Visit',
+                  url: route ? '/patient-dashboard/patient/' + patientUuid + '/' + route.alias + '/' +
+                    route.baseRoute + '/visit' : null
+                }
               },
-              visit: {
-                display: 'Program Visit',
-                url: route ? '/patient-dashboard/patient/' + patientUuid + '/' + route.alias + '/' +
-                  route.baseRoute + '/visit' : null
-              }
-            },
-            isEnrolled: !_.isNil(_enrolledProgram) && _.isNull(_enrolledProgram.dateCompleted)
+              isEnrolled: !_.isNil(_enrolledProgram) && _.isNull(_enrolledProgram.dateCompleted)
+            });
           });
-        });
-        return _programs;
-      }
-    }));
+          return _programs;
+        }
+      }));
 
   }
 

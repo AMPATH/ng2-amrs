@@ -20,14 +20,14 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
   public patientList: Array<any> = [];
   public patientListPerIndicator: Array<any> = [];
   public dataSource: any;
-  public hasError: boolean = false;
+  public hasError = false;
   public overrideColumns: Array<any> = [];
   public extraColumns: Array<any> = [];
   public startIndex: Array<any> = [];
   public currentStartIndexPerIndicator: number;
-  public isLoading: boolean = false;
-  public hasLoadedAll: boolean = false;
-  public dataLoadedPerIndicator: boolean = false;
+  public isLoading = false;
+  public hasLoadedAll = false;
+  public dataLoadedPerIndicator = false;
   public dataLoaded: Array<any> = [];
   public params: any = {
     startDate: '',
@@ -37,8 +37,8 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
     isLegacy: ''
 
   };
-  public _locations: string = '';
-  public _indicator: string = '';
+  public _locations = '';
+  public _indicator = '';
   public _startDate;
   public _endDate;
   public busyIndicator: any = {
@@ -81,7 +81,7 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
       busy: true,
       message: 'Loading Patient List...please wait'
     };
-    let rowCount: number = 0;
+    const rowCount = 0;
     this.moh731PatientListResourceService.getMoh731PatientListReport({
       indicator: params.indicators,
       isLegacy: Boolean(params.isLegacy),
@@ -189,7 +189,7 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
 
   public addExtraColumns(indicators: Array<any>) {
 
-    let extraColumns = {
+    const extraColumns = {
       enrollment_date: 'Enrollment Date',
       arv_first_regimen_start_date: 'ARVs Initial Start Date',
       cur_regimen_arv_start_date: 'Current ARV Regimen Start Date (edited)',
@@ -221,8 +221,8 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
   }
 
   public searchIndicator(indicators: Array<any>, trackedIndicator: string) {
-    let matchingIndicator = _.filter(indicators, (_indicator) => {
-      let search = _indicator['indicator'];
+    const matchingIndicator = _.filter(indicators, (_indicator) => {
+      const search = _indicator['indicator'];
       return search && search.match(new RegExp(trackedIndicator));
     });
     return new Promise((resolve) => {

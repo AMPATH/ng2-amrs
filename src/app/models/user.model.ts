@@ -1,4 +1,4 @@
-import { BaseModel } from './base-model.model';
+import {BaseModel} from './base-model.model';
 import * as _ from 'lodash';
 
 export class User extends BaseModel {
@@ -10,13 +10,13 @@ export class User extends BaseModel {
 
   public get roleDisplay(): string {
 
-    let roleDisplay: string = '';
+    let roleDisplay = '';
 
-    let roles = this._openmrsModel.roles;
+    const roles = this._openmrsModel.roles;
 
     if (roles && roles.length > 0) {
 
-      let counter: number = 0;
+      let counter = 0;
       _.forEach(roles, (role: any) => {
 
         if (counter <= 1) {
@@ -31,7 +31,7 @@ export class User extends BaseModel {
 
   public get roles(): Array<object> {
 
-    let roles = this._openmrsModel.roles;
+    const roles = this._openmrsModel.roles;
     if (roles && roles.length > 0) {
       return roles;
     }
@@ -41,7 +41,7 @@ export class User extends BaseModel {
 
   public get personUuid(): any {
 
-    let personUuid = this._openmrsModel.person.uuid;
+    const personUuid = this._openmrsModel.person.uuid;
     if (personUuid) {
       return personUuid;
     }

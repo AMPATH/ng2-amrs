@@ -26,12 +26,10 @@ import { FormentryHelperService } from './formentry-helper.service';
 import { UserService } from '../../../openmrs-api/user.service';
 import {
   UserDefaultPropertiesService
-} from
-  '../../../user-default-properties/user-default-properties.service';
+} from '../../../user-default-properties/user-default-properties.service';
 import {
   MonthlyScheduleResourceService
-}
-  from '../../../etl-api/monthly-scheduled-resource.service';
+} from '../../../etl-api/monthly-scheduled-resource.service';
 import { PatientReminderService } from '../patient-reminders/patient-reminders.service';
 import { FormentryReferralsHandlerService } from './formentry-referrals-handler.service';
 
@@ -52,18 +50,18 @@ export class FormentryComponent implements OnInit, OnDestroy {
     busy: true,
     message: 'Please wait...' // default message
   };
-  public formName: string = '';
-  public preserveFormAsDraft: boolean = true;
+  public formName = '';
+  public preserveFormAsDraft = true;
   public form: Form;
   public formSubmissionErrors: Array<any> = null;
   public formRenderingErrors: Array<any> = [];
   public referralPrograms: string[] = [];
-  public showSuccessDialog: boolean = false;
-  public showReferralDialog: boolean = false;
+  public showSuccessDialog = false;
+  public showReferralDialog = false;
   public showProcessReferralsDialog ;
   public referralCompleteStatus: BehaviorSubject<boolean> = new BehaviorSubject(null);
   public patient: Patient = null;
-  public submitClicked: boolean = false;
+  public submitClicked = false;
   public submittedOrders: any = {
     encounterUuid: null,
     orders: []
@@ -82,7 +80,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
   private visitTypeUuid: string = null;
   private failedPayloadTypes: Array<string> = null;
   private compiledSchemaWithEncounter: any = null;
-  private submitDuplicate: boolean = false;
+  private submitDuplicate = false;
   private previousEncounters = [];
   private groupUuid;
   public isGroupVisit = false;
@@ -165,7 +163,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
         componentRef.isGroupVisit = true;
       }
       componentRef.loadForm();   // load  form
-      //this.isBusyIndicator(false);
+      // this.isBusyIndicator(false);
     });
   }
 
@@ -249,7 +247,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
       case 'programManager':
         this.preserveFormAsDraft = false;
         this.route.queryParams.subscribe((params) => {
-          let step = params['parentComponent'].split(':')[1];
+          const step = params['parentComponent'].split(':')[1];
           if (step  === 'landing-page') {
             this.router.navigate(['/patient-dashboard/patient/' +
             this.patient.uuid + '/general/general/landing-page']);
@@ -298,7 +296,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
   public loadDefaultValues(): void {
     let location = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
-    let currentUser = this.userService.getLoggedInUser();
+    const currentUser = this.userService.getLoggedInUser();
     let currentDate = moment().format();
     this.retrospectiveDataEntryService.retroSettings.subscribe((retroSettings) => {
       if (retroSettings && retroSettings.enabled) {
@@ -309,18 +307,18 @@ export class FormentryComponent implements OnInit, OnDestroy {
         currentDate = moment(this.setRetroDateTime(retroSettings)).format();
       }
 
-      let encounterDate = this.form.searchNodeByQuestionId('encDate');
+      const encounterDate = this.form.searchNodeByQuestionId('encDate');
       if (encounterDate.length > 0) {
         encounterDate[0].control.setValue(currentDate);
       }
-      let encounterLocation = this.form.searchNodeByQuestionId('location',
+      const encounterLocation = this.form.searchNodeByQuestionId('location',
         'encounterLocation');
       if (encounterLocation.length > 0 && location) {
         this.encounterLocation = { value: location.uuid, label: location.display };
         encounterLocation[0].control.setValue(location.uuid);
       }
 
-      let encounterProvider = this.form.searchNodeByQuestionId('provider',
+      const encounterProvider = this.form.searchNodeByQuestionId('provider',
         'encounterProvider');
       if (encounterProvider.length > 0 &&
         this.compiledSchemaWithEncounter &&
@@ -374,8 +372,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
   public updatePatientDemographics(data: any): void {
     // check if patient status was filled
 
-    let patientCareStatus = this.getPatientStatusQuestion();
-    let deathDate = this.form.searchNodeByQuestionId('deathDate');
+    const patientCareStatus = this.getPatientStatusQuestion();
+    const deathDate = this.form.searchNodeByQuestionId('deathDate');
     let causeOfDeath = this.form.searchNodeByQuestionId('reasdeath');
     if (causeOfDeath.length === 0 ) {
       causeOfDeath = this.form.searchNodeByQuestionId('deathCause');
@@ -387,7 +385,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
      *  none of the fields are required. By assumption, if someone fills death death and cause,
      *  the patient is dead
      */
-    let personNamePayload: any = {
+    const personNamePayload: any = {
       dead : false,
       deathDate: null,
       causeOfDeath: null
@@ -524,7 +522,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
   private loadForm(): void {
     this.isBusyIndicator(true, 'Please wait, loading form');
-    let observableBatch: Array<Observable<any>> = [];
+    const observableBatch: Array<Observable<any>> = [];
     // push all subscriptions to this batch eg patient, encounters, formSchema
     observableBatch.push(this.getcompiledSchemaWithEncounter()); // schema data [0]
     observableBatch.push(this.getPatient()); // patient [1]
@@ -543,7 +541,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     })).subscribe(
       (data: any) => {
         console.log(data.generatedReminders);
-        let reminder = _.find(data.generatedReminders, (o: any) => {
+        const reminder = _.find(data.generatedReminders, (o: any) => {
           return o.title === 'Viral Load Reminder';
         });
         if (reminder) {
@@ -565,7 +563,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
    * This is a temporary work around till form relations are build properly
    */
   private formRelationsFix(form: any) {
-    let childControls = [
+    const childControls = [
       'difOfCaregiver',
       'missADose',
       'receiveADose',
@@ -573,12 +571,12 @@ export class FormentryComponent implements OnInit, OnDestroy {
       'adherenceAss'
     ];
 
-    let onArtControl = form.searchNodeByQuestionId('onArt');
-    let pcpProphylaxisCurrentControl = form.searchNodeByQuestionId('pcpProphylaxisCurrent');
-    let onTbProphylaxisControl = form.searchNodeByQuestionId('onTbProphylaxis');
+    const onArtControl = form.searchNodeByQuestionId('onArt');
+    const pcpProphylaxisCurrentControl = form.searchNodeByQuestionId('pcpProphylaxisCurrent');
+    const onTbProphylaxisControl = form.searchNodeByQuestionId('onTbProphylaxis');
 
     childControls.forEach((cControl) => {
-      let childControl = form.searchNodeByQuestionId(cControl);
+      const childControl = form.searchNodeByQuestionId(cControl);
 
       if (onArtControl && onArtControl[0] && childControl[0]) {
         this.updateRelatedControlFix(onArtControl[0], childControl[0]);
@@ -593,9 +591,9 @@ export class FormentryComponent implements OnInit, OnDestroy {
       }
     });
 
-    let tbProphyAdherencenotes = form.searchNodeByQuestionId('tbProphyAdherencenotes');
+    const tbProphyAdherencenotes = form.searchNodeByQuestionId('tbProphyAdherencenotes');
     this.updateRelatedControlFix(onTbProphylaxisControl[0], tbProphyAdherencenotes[0]);
-    let tbAdherencenotes = form.searchNodeByQuestionId('tbAdherencenotes');
+    const tbAdherencenotes = form.searchNodeByQuestionId('tbAdherencenotes');
     this.updateRelatedControlFix(onTbProphylaxisControl[0], tbAdherencenotes[0]);
 
   }
@@ -612,9 +610,9 @@ export class FormentryComponent implements OnInit, OnDestroy {
   private renderForm(): void {
     this.formRenderingErrors = []; // clear all rendering errors
     try {
-      let schema: any = this.compiledSchemaWithEncounter.schema;
+      const schema: any = this.compiledSchemaWithEncounter.schema;
       this.formName = this.compiledSchemaWithEncounter.schema.display;
-      let historicalEncounter: any = this.compiledSchemaWithEncounter.encounter;
+      const historicalEncounter: any = this.compiledSchemaWithEncounter.encounter;
       this.dataSources.registerDataSource('patient',
         this.formDataSourceService.getPatientObject(this.patient), true);
       this.dataSources.registerDataSource('monthlyScheduleResourceService',
@@ -692,11 +690,11 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
   private setUpVisitEncountersDataObject() {
 
-    let hd = new HistoricalEncounterDataService();
+    const hd = new HistoricalEncounterDataService();
     if (this.compiledSchemaWithEncounter.visit &&
       this.compiledSchemaWithEncounter.visit.encounters &&
       Array.isArray(this.compiledSchemaWithEncounter.visit.encounters)) {
-      let visitEncounters: Array<any> = this.compiledSchemaWithEncounter.visit.encounters;
+      const visitEncounters: Array<any> = this.compiledSchemaWithEncounter.visit.encounters;
       visitEncounters.forEach((enc) => {
         hd.registerEncounters(enc.encounterType.uuid, enc);
       });
@@ -720,11 +718,11 @@ export class FormentryComponent implements OnInit, OnDestroy {
         whoQuestions = this.form.searchNodeByQuestionId('pedWhoStage');
       }
 
-      let whoStageQuestion = whoQuestions[0];
+      const whoStageQuestion = whoQuestions[0];
 
       whoStageQuestion.control.valueChanges.subscribe((val) => {
         if (val && val !== '') {
-          let source = this.form.dataSourcesContainer.dataSources['conceptAnswers'];
+          const source = this.form.dataSourcesContainer.dataSources['conceptAnswers'];
           if (source.changeConcept) {
             source.changeConcept(val);
           }
@@ -768,7 +766,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
   private registerVLDatasource(reminders: any) {
     if (reminders) {
-      let vlReminder = _.find(reminders['generatedReminders'], (o: any) => {
+      const vlReminder = _.find(reminders['generatedReminders'], (o: any) => {
         return o.title === 'Viral Load Reminder';
       });
       if (vlReminder) {
@@ -878,7 +876,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
   private checkFormSumittedStatus() {
 
-    let submitStatus = this.submitClicked;
+    const submitStatus = this.submitClicked;
     return submitStatus;
 
   }
@@ -891,7 +889,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
   private disableSubmitBtn() {
 
-    let submitBtn = document.getElementById('formentry-submit-btn');
+    const submitBtn = document.getElementById('formentry-submit-btn');
     if (typeof submitBtn === 'undefined' || submitBtn === null) {
 
     } else {
@@ -903,7 +901,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
   private enableSubmitBtn() {
 
-    let submitBtn = document.getElementById('formentry-submit-btn');
+    const submitBtn = document.getElementById('formentry-submit-btn');
 
     if (typeof submitBtn === 'undefined' || submitBtn === null) {
 
@@ -917,7 +915,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
   }
 
   private extractEncounterDate() {
-    let nodes = this.form.searchNodeByQuestionId('encDate');
+    const nodes = this.form.searchNodeByQuestionId('encDate');
     if (nodes.length > 0) {
       return nodes[0].control.value;
     }
@@ -925,12 +923,12 @@ export class FormentryComponent implements OnInit, OnDestroy {
   }
 
   private saveDuplicate(payloadTypes: any) {
-    let encounterDate = this.extractEncounterDate();
-    let duplicateEncounter = this.formentryHelperService
+    const encounterDate = this.extractEncounterDate();
+    const duplicateEncounter = this.formentryHelperService
       .getLastDuplicateEncounter(this.previousEncounters,
         this.form.schema.encounterType.uuid, encounterDate);
-    let duplicateMoment = Object.assign({}, moment);
-    let encounterDateMoment = moment(new Date(encounterDate));
+    const duplicateMoment = Object.assign({}, moment);
+    const encounterDateMoment = moment(new Date(encounterDate));
     this.confirmationService.confirm({
       header: 'Form Duplication warning',
       key: 'duplicateWarning',
@@ -1019,7 +1017,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
   public toggleEnrollToDC() {
     this.enrollToDC = !this.enrollToDC;
-    if(!this.enrollToDC) {
+    if (!this.enrollToDC) {
       this.enrollToGroup = false;
     }
   }
@@ -1051,7 +1049,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
             if (encounter && encounter.orders) {
               orders = [];
               // filter out voided orders : voided is not included so we use auditInfo
-              for (let order of encounter.orders) {
+              for (const order of encounter.orders) {
                 if (!order.auditInfo.dateVoided) {
                   orders.push(order);
                 }
@@ -1079,7 +1077,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
   }
 
   private setProviderUuid() {
-    let request = this.getProviderUuid();
+    const request = this.getProviderUuid();
     request.subscribe(
         (data) => {
           this.retrospectiveDataEntryService.retroSettings.subscribe((retroSettings) => {
@@ -1088,7 +1086,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
               provider = retroSettings.provider.value;
             }
             this.form.valueProcessingInfo.providerUuid = provider;
-            let encounterProvider = this.form.searchNodeByQuestionId('provider',
+            const encounterProvider = this.form.searchNodeByQuestionId('provider',
               'encounterProvider');
             if (encounterProvider.length > 0) {
               encounterProvider[0].control.setValue(provider);
@@ -1103,7 +1101,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
   }
 
   private getProviderUuid() {
-    let encounterProvider = this.form.searchNodeByQuestionId('provider', 'encounterProvider');
+    const encounterProvider = this.form.searchNodeByQuestionId('provider', 'encounterProvider');
     let personUuid = '';
     if (encounterProvider.length > 0) {
       personUuid = encounterProvider[0].control.value;

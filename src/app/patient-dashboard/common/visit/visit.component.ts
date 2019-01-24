@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 
-import *  as _ from 'lodash';
+import * as _ from 'lodash';
 import { Subscription, Observable } from 'rxjs';
 
 import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
@@ -14,6 +14,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { ViewChild } from '@angular/core';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'visit',
   templateUrl: 'visit.component.html',
   styleUrls: ['visit.component.css']
@@ -21,10 +22,10 @@ import { ViewChild } from '@angular/core';
 export class VisitComponent implements OnInit, OnDestroy {
 
   public currentProgramConfig: any;
-  public showVisitStartedMsg: boolean = false;
+  public showVisitStartedMsg = false;
 
   @Input()
-  public programUuid: string = '';
+  public programUuid = '';
 
   @Output()
   public formSelected = new EventEmitter<any>();
@@ -33,7 +34,7 @@ export class VisitComponent implements OnInit, OnDestroy {
   public encounterSelected = new EventEmitter<any>();
 
   public enrolledPrograms: Array<any> = [];
-  public currentProgramEnrollmentUuid: string = '';
+  public currentProgramEnrollmentUuid = '';
   public currentEnrollment: any = undefined;
   public visit: any;
   public visits: Array<any> = [];
@@ -41,7 +42,7 @@ export class VisitComponent implements OnInit, OnDestroy {
 
   public patient: any;
   public errors: Array<any> = [];
-  public isBusy: boolean = false;
+  public isBusy = false;
   private todayVisitsEventSub: Subscription;
 
   @ViewChild('enrollModal') public enrollModal;

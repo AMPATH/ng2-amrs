@@ -1,10 +1,10 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { ActivatedRoute, Router , Params } from '@angular/router';
+import { ActivatedRoute, Router, Params } from '@angular/router';
 import { Location } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { GridOptions } from 'ag-grid';
-import { OncolgyMonthlySummaryIndicatorsResourceService }
-from '../../../../etl-api/oncology-summary-indicators-resource.service';
+import { OncolgyMonthlySummaryIndicatorsResourceService
+} from '../../../../etl-api/oncology-summary-indicators-resource.service';
 import * as _ from 'lodash';
 
 @Component({
@@ -14,31 +14,31 @@ import * as _ from 'lodash';
 })
 
 export class OncologysummaryIndicatorsPatientListComponent implements OnInit {
-  public title: string = '';
+  public title = '';
   public patients: any = [];
   public rowData: any = [];
   public params: any;
   public busy: Subscription;
   public gridOptions: GridOptions = {
     enableColResize: true,
-    enableSorting : true,
-    enableFilter : true,
-    showToolPanel : false,
+    enableSorting: true,
+    enableFilter: true,
+    showToolPanel: false,
     pagination: true,
     paginationPageSize: 300,
-    onGridSizeChanged : () => {
+    onGridSizeChanged: () => {
       if (this.gridOptions.api) {
         this.gridOptions.api.sizeColumnsToFit();
       }
     },
     onGridReady: () => {
-        if (this.gridOptions.api) {
-          this.gridOptions.api.sizeColumnsToFit();
-        }
+      if (this.gridOptions.api) {
+        this.gridOptions.api.sizeColumnsToFit();
+      }
     }
- };
-  public oncologySummaryColdef: any = [
-   ];
+  };
+  public oncologySummaryColdef: any = [];
+
   constructor(
     private _router: Router,
     private _route: ActivatedRoute,
@@ -52,56 +52,55 @@ export class OncologysummaryIndicatorsPatientListComponent implements OnInit {
       .queryParams
       .subscribe((params: any) => {
         if (params) {
-             this.getPatientList(params);
-             this.title = this.translateIndicator(params.indicators);
-             this.params = params;
-           }
-       }, (error) => {
-          console.error('Error', error);
-       });
+          this.getPatientList(params);
+          this.title = this.translateIndicator(params.indicators);
+          this.params = params;
+        }
+      }, (error) => {
+        console.error('Error', error);
+      });
 
   }
 
   public getPatientList(params) {
-     this.busy = this._oncologyIndicatorService.
-     getOncologySummaryMonthlyIndicatorsPatientList(params)
-     .subscribe((result: any) => {
-         if (result) {
-              let patients = result.results.results;
-              let patientListCols = result.patientListCols;
-              this.patients = patients;
-              this.generateDynamicPatientListCols(patientListCols);
-              this.processPatientList(patients);
-          }
-     });
+    this.busy = this._oncologyIndicatorService.getOncologySummaryMonthlyIndicatorsPatientList(params)
+      .subscribe((result: any) => {
+        if (result) {
+          const patients = result.results.results;
+          const patientListCols = result.patientListCols;
+          this.patients = patients;
+          this.generateDynamicPatientListCols(patientListCols);
+          this.processPatientList(patients);
+        }
+      });
   }
 
   public generateDynamicPatientListCols(patientListCols) {
 
-     let columns = [
+    const columns = [
       {
         headerName: '#',
         field: 'no'
       },
       {
-      headerName: 'Patient Uuid',
-      field: 'patient_uuid',
-      hide: true
-    }];
-     _.each(patientListCols, (cols: any) => {
-        if (cols === 'patient_uuid') {
+        headerName: 'Patient Uuid',
+        field: 'patient_uuid',
+        hide: true
+      }];
+    _.each(patientListCols, (cols: any) => {
+      if (cols === 'patient_uuid') {
 
-        } else {
+      } else {
 
-            columns.push({
-              headerName: this.translateIndicator(cols),
-              field: cols,
-              hide: false
-            });
-        }
-     });
+        columns.push({
+          headerName: this.translateIndicator(cols),
+          field: cols,
+          hide: false
+        });
+      }
+    });
 
-     this.oncologySummaryColdef = columns;
+    this.oncologySummaryColdef = columns;
 
   }
 
@@ -111,66 +110,66 @@ export class OncologysummaryIndicatorsPatientListComponent implements OnInit {
       return;
     }
     this._router.navigate(['/patient-dashboard/patient/' + patientUuid +
-      '/general/general/landing-page']);
+    '/general/general/landing-page']);
 
   }
 
   public generateColumns(firstRow) {
-    let cols = [
-    {
-      headerName: 'Encounter Date',
-      field: 'encounter_datetime',
-    },
-    {
-      headerName: 'Patient Uuid',
-      field: 'patient_uuid',
-      hide: true
-    }
-  ];
+    const cols = [
+      {
+        headerName: 'Encounter Date',
+        field: 'encounter_datetime',
+      },
+      {
+        headerName: 'Patient Uuid',
+        field: 'patient_uuid',
+        hide: true
+      }
+    ];
     _.each(firstRow, (data, index) => {
-        // console.log('Index', index);
+      // console.log('Index', index);
 
-        if ( index === 'encounter_datetime' || index === 'person_id'
-         || index === 'location_uuid' || index === 'location_id' || index === 'patient_uuid') {
+      if (index === 'encounter_datetime' || index === 'person_id'
+        || index === 'location_uuid' || index === 'location_id' || index === 'patient_uuid') {
 
-        }else {
+      } else {
 
-            cols.push(
-                {
-                    headerName: this.translateIndicator(index),
-                    field: index
-                }
-            );
+        cols.push(
+          {
+            headerName: this.translateIndicator(index),
+            field: index
+          }
+        );
 
-        }
+      }
     });
 
     this.oncologySummaryColdef = cols;
 
-}
+  }
 
-public translateIndicator(indicator: string) {
-  return indicator.toLowerCase().split('_').map((word) => {
+  public translateIndicator(indicator: string) {
+    return indicator.toLowerCase().split('_').map((word) => {
       return (word.charAt(0) + word.slice(1));
-  }).join(' ');
-}
+    }).join(' ');
+  }
 
   public processPatientList(patients) {
-    let patientsRow = [];
+    const patientsRow = [];
     let i = 1;
     _.each(patients, (patient: any) => {
-        let patientObj = {
-          'no': i
-        };
+      const patientObj = {
+        'no': i
+      };
 
-        _.forIn(patient, (value, key) => {
-             patientObj[key] = value;
-             // console.log(key);
-        });
+      _.forIn(patient, (value, key) => {
+        patientObj[key] = value;
+        // console.log(key);
+      });
 
-        i++;
+      i++;
 
-        patientsRow.push( patientObj);
+      patientsRow.push(patientObj);
     });
 
     this.rowData = patientsRow;
@@ -180,9 +179,10 @@ public translateIndicator(indicator: string) {
   public navigateBack() {
     this._location.back();
   }
+
   public onCellClicked($event: any) {
-   let patientUuid = $event.data.patient_uuid;
-   this.redirectTopatientInfo(patientUuid);
+    const patientUuid = $event.data.patient_uuid;
+    this.redirectTopatientInfo(patientUuid);
   }
 
   public exportPatientListToCsv() {

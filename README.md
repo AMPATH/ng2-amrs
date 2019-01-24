@@ -1,4 +1,6 @@
-# NgxOpenmrsPoc
+[![Build Status](https://travis-ci.org/AMPATH/ng2-amrs.svg?branch=master)](https://travis-ci.org/AMPATH/ng2-amrs)
+
+# Ng2Amrs
 
 This is the point of care system used by Ampath Clinics. It should be compatible with most openmrs versions but it is tested against platform 2.0.2 with the REST module. It also requires https://github.com/AMPATH/etl-rest-server for all features to work properly.
 

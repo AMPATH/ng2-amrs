@@ -1,5 +1,3 @@
-import { MockBackend } from '@angular/http/testing';
-import { Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 import { TestBed, inject, async } from '@angular/core/testing';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -10,31 +8,35 @@ import { FakeAppFeatureAnalytics } from '../../../shared/app-analytics/app-featu
 import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
 import { ClinicalNotesResourceService } from '../../../etl-api/clinical-notes-resource.service';
-import { MockClinicalNotesResourceService }
-  from '../../../etl-api/clinical-notes-resource.service.mock';
 import { ClinicalNotesComponent } from './clinical-notes.component';
 import { ClinicalNotesHelperService } from './clinical-notes.helper';
+import { HttpClient } from 'selenium-webdriver/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { of } from 'rxjs';
 
 describe('Component: Clinical notes Unit Tests', () => {
 
-  let notesResourceService: ClinicalNotesResourceService,
-    fakeAppFeatureAnalytics: AppFeatureAnalytics, component;
+  let fakeAppFeatureAnalytics: AppFeatureAnalytics, component, notesStub: ClinicalNotesResourceService;
+
+  class FakeClinicalNotesResourceService {
+    public getClinicalNotes(patientUuid: string, startIndex: number, limit: number) {
+      return of({ status: 'success' },
+        { res: 'clinical notes' });
+    }
+
+  }
+
   class FakeActivatedRoute {
     url = '';
   }
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        MockBackend,
-        BaseRequestOptions,
         FakeAppFeatureAnalytics,
         ClinicalNotesComponent,
         {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
+          provide: HttpClient,
+          useFactory: HttpClientTestingModule
         },
         {
           provide: AppFeatureAnalytics,
@@ -42,7 +44,7 @@ describe('Component: Clinical notes Unit Tests', () => {
         },
         {
           provide: ClinicalNotesResourceService,
-          useClass: MockClinicalNotesResourceService
+          useClass: FakeClinicalNotesResourceService
         },
         { provide: Location, useClass: SpyLocation },
         { provide: ActivatedRoute, useValue: FakeActivatedRoute },
@@ -52,9 +54,9 @@ describe('Component: Clinical notes Unit Tests', () => {
       ]
     });
 
-    notesResourceService = TestBed.get(ClinicalNotesResourceService);
     fakeAppFeatureAnalytics = TestBed.get(AppFeatureAnalytics);
     component = TestBed.get(ClinicalNotesComponent);
+    notesStub = TestBed.get(ClinicalNotesResourceService);
 
   });
 
@@ -80,7 +82,7 @@ describe('Component: Clinical notes Unit Tests', () => {
     expect(component.fetching).toEqual(true);
     expect(component.experiencedLoadingError).toEqual(false);
     expect(component.patientUuid).toEqual('');
-
+    expect(component.hasNotes).toEqual(false);
     done();
 
   });
@@ -94,7 +96,6 @@ describe('Component: Clinical notes Unit Tests', () => {
     spyOn(component, 'getMoreNotes').and.callThrough();
     component.getMoreNotes();
     expect(component.getMoreNotes).toHaveBeenCalled();
-
     done();
 
   });

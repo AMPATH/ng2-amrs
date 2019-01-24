@@ -1,37 +1,23 @@
 import { ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { TestBed, async, fakeAsync, ComponentFixture } from '@angular/core/testing';
-import * as _ from 'lodash';
-import * as Moment from 'moment';
-import { PatientProgramEnrollmentService } from
-    './../etl-api/patient-program-enrollment.service';
-import { DepartmentProgramsConfigService } from
-'./../etl-api/department-programs-config.service';
-import { PatientProgramResourceService } from
-'./../etl-api/patient-program-resource.service';
+import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+import { PatientProgramEnrollmentService } from './../etl-api/patient-program-enrollment.service';
+import { DepartmentProgramsConfigService } from './../etl-api/department-programs-config.service';
 import { PatientsProgramEnrollmentComponent } from './patients-program-enrollment.component';
-import { MockBackend, MockConnection } from '@angular/http/testing';
-import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@angular/http';
-import { Router, ActivatedRoute, ActivatedRouteSnapshot, Params } from '@angular/router';
-import { AppSettingsService } from './../app-settings/app-settings.service';
-import { LocalStorageService } from './../utils/local-storage.service';
-import { AppFeatureAnalytics } from './../shared/app-analytics/app-feature-analytics.service';
+import { PatientProgramResourceService } from './../etl-api/patient-program-resource.service';
+import { LocationResourceService } from './../openmrs-api/location-resource.service';
+import { Router, ActivatedRoute } from '@angular/router';
 import { DepartmentProgramFilterComponent } from './../department-program-filter/department-program-filter.component';
-import { UserDefaultPropertiesService } from './../user-default-properties/user-default-properties.service';
-import { UserService } from './../openmrs-api/user.service';
 import { of } from 'rxjs';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 import { AgGridModule } from 'ag-grid-angular';
 import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
-import { DataCacheService } from '../shared/services/data-cache.service';
-import { CacheService } from 'ionic-cache';
-import { IonicStorageModule } from '@ionic/storage';
-import { SessionStorageService } from './../utils/session-storage.service';
-import { LocationResourceService } from './../openmrs-api/location-resource.service';
 import { ProgramEnrollmentSummaryComponent } from './program-enrollment-summary.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+
 class MockRouter {
     public navigate = jasmine.createSpy('navigate');
-   }
+}
 const mockParams: any = {
     'startDate': '2018-04-01',
     'endDate': '2018-04-30',
@@ -46,6 +32,88 @@ const mockActivatedRoute = {
       .returnValue(of(mockParams))
   }
 };
+
+const mockEnrollmentPayload = {
+  startDate: '01-01-2019',
+  endDate: '31-01-2019'
+};
+
+const mockDepartmentProgramConfig = {
+  'uud4': {
+    'name': 'BSG',
+    'programs': [
+        {
+            'uuid': '781d8a88-1359-11df-a1f1-0026b9348838',
+            'name': 'BSG PROGRAM'
+        }
+    ]
+},
+'uud5': {
+    'name': 'DERMATOLOGY',
+    'programs': [
+        {
+            'uuid': 'b3575274-1850-429b-bb8f-2ff83faedbaf',
+            'name': 'DERMATOLOGY'
+        }
+    ]
+}
+
+};
+
+const mockEnrollmentSummary = [
+  {
+  enrollment_count: 19,
+  patient_program_id: 371764,
+  program_name: 'STANDARD HIV TREATMENT',
+  program_uuid: '781d85b0-1359-11df-a1f1-0026b9348838'
+  },
+  {
+    enrollment_count: 1,
+    patient_program_id: 399775,
+    program_name: 'HIV DIFFERENTIATED CARE PROGRAM',
+    program_uuid: '334c9e98-173f-4454-a8ce-f80b20b7fdf0'
+  },
+  {
+    enrollment_count: 4,
+    patient_program_id: 399548,
+    program_name: 'PEP PROGRAM',
+    program_uuid: '96047aaf-7ab3-45e9-be6a-b61810fe617d'
+  },
+  {
+    enrollment_count: 3,
+    patient_program_id: 399841,
+    program_name: 'HIV RETENTION PROGRAM',
+    program_uuid: 'c6bf3625-de80-4a88-a913-38273e300a55'
+  }
+];
+
+const departmentProgramConfigService =
+jasmine.createSpyObj('DepartmentProgramsConfigService', ['getDartmentProgramsConfig']);
+
+const getDepartmentProgramsSpy =
+departmentProgramConfigService.getDartmentProgramsConfig.and.returnValue( of(mockDepartmentProgramConfig) );
+
+
+const patientProgramEnrollmentService =
+jasmine.createSpyObj('PatientProgramEnrollmentService', ['getActivePatientEnrollmentSummary']);
+
+const patientProgramEnrollmentServiceSpy =
+patientProgramEnrollmentService.getActivePatientEnrollmentSummary.and.returnValue( of(mockEnrollmentSummary) );
+
+const patientProgramResourceService =
+jasmine.createSpyObj('PatientProgramResourceService', ['getAllProgramVisitConfigs']);
+
+const patientProgramResourceServiceSpy =
+patientProgramResourceService.getAllProgramVisitConfigs.and.returnValue( of(mockEnrollmentSummary) );
+
+const  locationResourceService =
+jasmine.createSpyObj('LocationResourceService', ['getLocations']);
+
+const locationResourceServiceSpy =
+locationResourceService.getLocations.and.returnValue( of(mockDepartmentProgramConfig) );
+
+
+
 
 const mockActiveEnrollmentsResult: any = [
   {
@@ -130,14 +198,10 @@ const mockSummaryList = [
 
 describe('Component: Patient Program Enrollment', () => {
   let fixture: ComponentFixture<PatientsProgramEnrollmentComponent>;
-  let patientProgramEnrollmentService: PatientProgramEnrollmentService;
-  let localStorageService: LocalStorageService;
-  let departmentProgramService: DepartmentProgramsConfigService;
-  let patientProgramResourceService: PatientProgramResourceService;
-  let route: ActivatedRoute;
+  let patientsProgramEnrollmentService: any;
+  let departmentProgramService: any;
   let router: Router;
   let cd: ChangeDetectorRef;
-  let storage: Storage;
   let comp: any;
 
   beforeEach(async(() => {
@@ -145,8 +209,8 @@ describe('Component: Patient Program Enrollment', () => {
       imports:
       [
         FormsModule,
+        HttpClientTestingModule,
         AngularMultiSelectModule,
-        IonicStorageModule.forRoot(),
         DateTimePickerModule,
         AgGridModule.withComponents([])
       ],
@@ -156,49 +220,46 @@ describe('Component: Patient Program Enrollment', () => {
         ProgramEnrollmentSummaryComponent
       ],
       providers: [
-        Storage,
         {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
+          provide: Router,
+          useClass: MockRouter
         },
-        { provide: Router, useClass: MockRouter },
         {
           provide: ActivatedRoute,
           useValue: mockActivatedRoute
         },
-        PatientProgramEnrollmentService,
-        DepartmentProgramsConfigService,
-        PatientProgramResourceService,
-        UserDefaultPropertiesService,
-        SessionStorageService,
-        UserService,
-        LocationResourceService,
-        AppFeatureAnalytics,
-        AppSettingsService,
-        LocalStorageService,
-        DataCacheService,
-        CacheService,
-        MockBackend,
-        BaseRequestOptions
+        {
+          provide : DepartmentProgramsConfigService,
+          useValue : departmentProgramConfigService
+        },
+        {
+          provide :  PatientProgramEnrollmentService,
+          useValue : patientProgramEnrollmentService
+        },
+        {
+          provide : PatientProgramResourceService,
+          useValue : patientProgramResourceService
+        },
+        {
+          provide: LocationResourceService,
+          useValue :  locationResourceService
+        }
       ]
     }).compileComponents()
       .then(() => {
         fixture = TestBed.createComponent(PatientsProgramEnrollmentComponent);
         comp = fixture.componentInstance;
-        patientProgramEnrollmentService =
-        fixture.debugElement.injector.get(PatientProgramEnrollmentService);
+        patientsProgramEnrollmentService =
+        fixture.debugElement.injector.get<PatientProgramEnrollmentService>(PatientProgramEnrollmentService);
         departmentProgramService = fixture.debugElement.injector
-        .get(DepartmentProgramsConfigService);
-        cd = fixture.debugElement.injector.get(ChangeDetectorRef);
-        router = fixture.debugElement.injector.get(Router);
+        .get<DepartmentProgramsConfigService>(DepartmentProgramsConfigService);
+        cd = fixture.debugElement.injector.get<ChangeDetectorRef>(ChangeDetectorRef as any);
+        router = fixture.debugElement.injector.get<Router>(Router);
 
       });
   }));
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 
@@ -217,6 +278,23 @@ describe('Component: Patient Program Enrollment', () => {
     comp.setQueryParams(mockParams);
     cd.detectChanges();
     expect(comp.params).toEqual(mockParams);
+  });
+
+  it('should reset data on reset filter', () => {
+    comp.filterReset(true);
+    expect(comp.enrolledSummary).toEqual([]);
+    expect(comp.enrolledPatientList).toEqual([]);
+    expect(comp.showSummary).toEqual(false);
+  });
+
+  it('should call department service on get department config method call', () => {
+      comp.getDepartmentConfig();
+      expect(getDepartmentProgramsSpy.calls.any()).toBe(true, 'getDepartmentConfig');
+  });
+
+  it('should call enrollment service on get getEnrollmentSummary method call', () => {
+    comp.getEnrollmentSummary(mockParams);
+    expect(patientProgramEnrollmentServiceSpy.calls.any()).toBe(true, 'getActivePatientEnrollmentSummary');
   });
 
 });

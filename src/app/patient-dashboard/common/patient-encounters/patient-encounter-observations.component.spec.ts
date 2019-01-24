@@ -1,3 +1,4 @@
+  // tslint:disable:directive-selector
 import { Directive, Input } from '@angular/core';
 import { FormEntryModule } from 'ngx-openmrs-formentry/dist/ngx-formentry';
 import { PatientEncounterObservationsComponent } from './patient-encounter-observations.component';
@@ -11,6 +12,7 @@ import { EncounterResourceService } from '../../../openmrs-api/encounter-resourc
   selector: `modal-header`
 })
 export class FakeModalHeaderDirective {
+  // tslint:disable-next-line:no-input-rename
   @Input('show-close') public showClose: boolean;
 }
 
@@ -94,7 +96,7 @@ describe('Component: PatientEncounterObservationsComponent', () => {
     processedObs = component.processEncounter(encounter);
   });
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

@@ -19,7 +19,7 @@ export class PrettyEncounterViewerComponent implements OnInit {
 
     public selectedEncounter: any;
     @Input() set encounter(encounter) {
-      if(encounter) {
+      if (encounter) {
         this.displayEncounterObs(encounter);
       }
     }
@@ -61,7 +61,7 @@ export class PrettyEncounterViewerComponent implements OnInit {
             {
                 name: this.patient.person.display,
                 birthdate: this.patient.person.birthdate,
-                mui: this.patient.searchIdentifiers.ampathMrsUId || '', 
+                mui: this.patient.searchIdentifiers.ampathMrsUId || '',
                 nid: this.patient.searchIdentifiers.kenyaNationalId || '',
                 age: this.patient.person.age
             });
@@ -69,7 +69,7 @@ export class PrettyEncounterViewerComponent implements OnInit {
 
     public displayEncounterObs(encounter) {
         this.initializeLoader();
-        let encounterUuid = encounter.uuid;
+        const encounterUuid = encounter.uuid;
         if (this.selectedEncounter) {
             if (encounterUuid === this.selectedEncounter.uuid) { return; }
         }
@@ -92,7 +92,7 @@ export class PrettyEncounterViewerComponent implements OnInit {
                 }
             })).pipe(
             take(1)).subscribe((compiledSchema) => {
-                let unpopulatedform = this.formFactory.createForm(compiledSchema, this.dataSources);
+                const unpopulatedform = this.formFactory.createForm(compiledSchema, this.dataSources);
                 this.encounterAdapter.populateForm(unpopulatedform, this.selectedEncounter);
                 this.form = unpopulatedform;
                 this.showLoader = false;

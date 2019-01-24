@@ -1,7 +1,6 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async, inject } from '@angular/core/testing';
-import { HttpModule } from '@angular/http';
 
 import { Observable, Subject } from 'rxjs';
 import * as moment from 'moment';
@@ -9,9 +8,9 @@ import { Form } from 'ngx-openmrs-formentry/dist/ngx-formentry';
 
 import { FormentryReferralsHandlerService } from './formentry-referrals-handler.service';
 import { PatientReferralsModule } from '../patient-referrals/patient-referrals.module';
-import { DifferentiatedCareReferralService } from
-  '../patient-referrals/differentiated-care-referral.service';
+import { DifferentiatedCareReferralService } from '../patient-referrals/differentiated-care-referral.service';
 import { Patient } from '../../../models/patient.model';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('Service: FormentryReferralsHandler', () => {
   let form: Form;
@@ -21,7 +20,7 @@ describe('Service: FormentryReferralsHandler', () => {
       providers: [FormentryReferralsHandlerService],
       imports: [
         PatientReferralsModule,
-        HttpModule
+        HttpClientTestingModule
       ]
     });
   });
@@ -31,10 +30,10 @@ describe('Service: FormentryReferralsHandler', () => {
     service = TestBed.get(FormentryReferralsHandlerService);
 
     // set up spies
-    let getQuestionByIdSpy = spyOn(form, 'searchNodeByQuestionId')
+    const getQuestionByIdSpy = spyOn(form, 'searchNodeByQuestionId')
       .and.callFake((questionId) => {
         if (questionId === 'rtc') {
-          let found = {
+          const found = {
             control: {
               value: '2017-12-12'
             }
@@ -42,7 +41,7 @@ describe('Service: FormentryReferralsHandler', () => {
           return [found];
         }
         if (questionId === 'encDate') {
-          let found = {
+          const found = {
             control: {
               value: '2017-07-07'
             }
@@ -51,7 +50,7 @@ describe('Service: FormentryReferralsHandler', () => {
         }
 
         if (questionId === 'provider') {
-          let found = {
+          const found = {
             control: {
               value: 'provider-uuid'
             }
@@ -60,7 +59,7 @@ describe('Service: FormentryReferralsHandler', () => {
         }
 
         if (questionId === 'location') {
-          let found = {
+          const found = {
             control: {
               value: 'location-uuid'
             }
@@ -69,7 +68,7 @@ describe('Service: FormentryReferralsHandler', () => {
         }
 
         if (questionId === 'referrals') {
-          let found = {
+          const found = {
             control: {
               value: ['ovc-uuid', service.differentiatedCareConceptUuid]
             }
@@ -81,7 +80,7 @@ describe('Service: FormentryReferralsHandler', () => {
 
   });
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 
@@ -92,7 +91,7 @@ describe('Service: FormentryReferralsHandler', () => {
   it('should extract required values for making a referral', () => {
     expect(form).toBeTruthy();
 
-    let values = service.extractRequiredValues(form);
+    const values = service.extractRequiredValues(form);
     expect(values.hasDifferentiatedCareReferal).toEqual(true);
     expect(moment(values.rtcDate).isSame(moment('2017-12-12'))).toEqual(true);
     expect(moment(values.encounterDatetime).isSame(moment('2017-07-07'))).toEqual(true);
@@ -102,16 +101,16 @@ describe('Service: FormentryReferralsHandler', () => {
 
   it('should refer to differentiated care program when referal is selected',
     (done) => {
-      let diffService: DifferentiatedCareReferralService =
+      const diffService: DifferentiatedCareReferralService =
         TestBed.get(DifferentiatedCareReferralService);
-      let patient: Patient = new Patient({ uuid: 'some-uuid', person: {} });
-      let expectedResults = {
+      const patient: Patient = new Patient({ uuid: 'some-uuid', person: {} });
+      const expectedResults = {
         success: true
       };
 
-      let diffCareReferalSpy = spyOn(diffService, 'referToDifferentiatedCare')
+      const diffCareReferalSpy = spyOn(diffService, 'referToDifferentiatedCare')
         .and.callFake(() => {
-          let sub = new Subject<any>();
+          const sub = new Subject<any>();
           setTimeout(() => {
             sub.next(expectedResults);
           }, 50);

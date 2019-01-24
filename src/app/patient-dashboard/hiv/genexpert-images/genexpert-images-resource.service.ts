@@ -13,7 +13,7 @@ export class GeneXpertResourceService {
 
 
   public getImages(patientUuid): Observable<any> {
-    return this.obsResourceService.getObsPatientObsByConcept(patientUuid, '6fa355eb-9321-4850-884c-12594194862a')
+    return this.obsResourceService.getObsPatientObsByConcept(patientUuid, '6fa355eb-9321-4850-884c-12594194862a');
   }
 
 }
