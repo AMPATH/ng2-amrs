@@ -134,7 +134,7 @@ export class PatientImagingComponent implements OnInit, OnDestroy {
 
     this.radiologyImagingResourceService.getWadoImageUrl(this.patientIdentifier, order.id).pipe(
       take(1)).subscribe((url) => {
-        console.log('URL', url);
+      //  console.log('URL', url);
 
         this.staticModal.show();
         this.imageToShow = url;
@@ -216,7 +216,7 @@ export class PatientImagingComponent implements OnInit, OnDestroy {
     this.radiologyImagingResourceService.createRadiologyComments(payload).pipe(take(1)).subscribe((success) => {
       if (success) {
         this.displaySuccessAlert('comment saved successfully');
-        console.log('comments created successfully', success);
+       // console.log('comments created successfully', success);
       }
 
     },

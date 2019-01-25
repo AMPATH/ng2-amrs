@@ -291,7 +291,7 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
     }
   }
   public getSelectedLocations(locs: any) {
-    console.log('Selected Locations', this._report, locs);
+   // console.log('Selected Locations', this._report, locs);
     if (this._report === 'hiv-summary-report') {
       this.dataAnalyticsDashboardService.setSelectedIndicatorLocations(locs);
       return;

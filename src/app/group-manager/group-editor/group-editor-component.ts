@@ -179,7 +179,7 @@ export class GroupEditorComponent implements OnInit {
           this.creatingGroup.emit(true);
           this.saving = true;
           if (this.editType.toLowerCase() === 'edit') {
-              console.log(this.editType);
+             // console.log(this.editType);
               this.updateGroup();
           }
           if (this.editType.toLowerCase() === 'create') {

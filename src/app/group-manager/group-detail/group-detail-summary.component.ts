@@ -368,15 +368,15 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
 
 
     public updateContacts(selectedLeader: any, formValue: any) {
-      console.log(formValue);
-      console.log(this.leaderContactsForm.value);
+     // console.log(formValue);
+     // console.log(this.leaderContactsForm.value);
       this.modalRefNested.hide();
       const requests = [];
       const contactTypes = Object.keys(formValue);
       _.forEach(contactTypes, (contactType) => {
         const attributeTypeUuid = this.getContactAttributeTypeUuid(contactType);
-        console.log(contactType, formValue[contactType]);
-        console.log(contactType, selectedLeader.person[contactType]);
+       // console.log(contactType, formValue[contactType]);
+       // console.log(contactType, selectedLeader.person[contactType]);
         if (formValue[contactType] !== selectedLeader.person[contactType]) {
             requests.push(this.createAttribute(selectedLeader.person.uuid, attributeTypeUuid, formValue[contactType]));
         }

@@ -61,7 +61,7 @@ export class FeedBackComponent implements OnInit, OnDestroy {
         this.payload.department = this.selectedDepartment || 'Department not selected';
         this.busy = this.feedBackService.postFeedback(this.payload).pipe(take(1)).subscribe((res) => {
             this.success = true;
-            console.log('this.payload', this.payload.phone);
+           // console.log('this.payload', this.payload.phone);
             this.payload = {
                 name: '',
                 phone: '',
@@ -89,7 +89,8 @@ export class FeedBackComponent implements OnInit, OnDestroy {
     public getDepartmentConf() {
         this.departmentProgramService.getDartmentProgramsConfig().pipe(
             take(1)).subscribe((results) => {
-                console.log('results===', results); if (results) {
+               // console.log('results===', results);
+                 if (results) {
                     this.departmentConf = results;
                     this._filterDepartmentConfigByName();
                 }

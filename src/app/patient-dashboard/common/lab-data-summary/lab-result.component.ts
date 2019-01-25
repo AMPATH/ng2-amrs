@@ -385,7 +385,7 @@ export class LabResultComponent implements OnInit, OnDestroy {
 
     Object.keys(rowData).forEach((key, index) => {
       const testResults = rowData[key];
-      console.log();
+     // console.log();
       labRows.push(testResults);
     });
     this.labRowData = labRows;

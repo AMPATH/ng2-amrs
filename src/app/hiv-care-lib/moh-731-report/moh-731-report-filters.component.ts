@@ -100,7 +100,7 @@ export class Moh731ReportFiltersComponent implements OnInit {
         return this.month ? Moment(this.month).format('YYYY-MM') : null;
     }
     public set monthString(v: string) {
-        console.log('set-month', v);
+       // console.log('set-month', v);
         this.month = new Date(v);
     }
 

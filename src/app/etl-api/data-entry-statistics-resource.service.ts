@@ -69,7 +69,7 @@ export class DataEntryStatisticsService {
 
     } else {
 
-      console.log('Error getting params');
+     // console.log('Error getting params');
 
       return observableThrowError({ error:
         'Request must contain subtype,startDate,endDate and groupBy' });

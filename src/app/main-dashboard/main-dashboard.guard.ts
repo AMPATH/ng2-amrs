@@ -14,7 +14,7 @@ export class MainDashboardGuard implements CanActivate, CanDeactivate<MainDashbo
   }
 
   public canActivate() {
-    console.log('router', this.state);
+   // console.log('router', this.state);
     return true;
   }
 

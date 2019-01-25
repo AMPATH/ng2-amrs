@@ -193,7 +193,7 @@ export class FormSubmissionService {
     this.errorLogResourceService.postFormError(errorObj).subscribe(
       (responses: Array<any>) => {
         if (responses) {
-          console.log('Form submission error logged to server successfully', responses);
+         // console.log('Form submission error logged to server successfully', responses);
         }
       },
       (err) => {

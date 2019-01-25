@@ -384,7 +384,7 @@ export class DepartmentProgramFilterComponent implements OnInit, OnDestroy, Afte
       this.selectedEndDate = Moment().endOf('month').format('YYYY-MM-DD');
     }
     if (this.selectedStartDate > this.selectedEndDate) {
-      console.log('End Date before start date');
+     // console.log('End Date before start date');
       this.errorMsg = {
         'status': true,
         'message': 'The End Date should not be earlier than the start date'

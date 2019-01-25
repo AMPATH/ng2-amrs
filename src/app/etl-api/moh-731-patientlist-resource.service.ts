@@ -39,7 +39,7 @@ export class Moh731PatientListResourceService {
     const request = this.http.get<any>(url, {
       params: urlParams
     });
-    console.log('MOH-731 report : ', request);
+   // console.log('MOH-731 report : ', request);
     return request;
   }
 

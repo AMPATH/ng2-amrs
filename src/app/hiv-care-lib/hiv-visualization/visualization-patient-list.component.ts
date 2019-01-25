@@ -82,7 +82,7 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
     this.dataAnalyticsDashboardService.getSelectedLocations().subscribe(
       (data) => {
         if (data) {
-          console.log('data---->>viz', data);
+         // console.log('data---->>viz', data);
           this.locationUuids = this.getSelectedLocations(data.locations);
         }
 

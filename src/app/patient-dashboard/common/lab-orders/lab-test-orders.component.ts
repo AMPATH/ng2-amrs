@@ -108,7 +108,7 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
     const patientUuId = this.patient.uuid;
     this.orderResourceService.getOrdersByPatientUuid(patientUuId).pipe(
       take(1)).subscribe((result) => {
-        console.log('result', result);
+       // console.log('result', result);
         // this.getCorrespingLabOrdersFromAmrs(result.results);
         this.labPatient = result.results[0].patient;
         this.labEncouonters = result.results;
@@ -139,7 +139,7 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
     this.clinicLabOrdersResourceService.getLabOrdersByPatientUuid(patientUuId).pipe(
       take(1)).subscribe((result) => {
         this.labOrdersEtl = result;
-        console.log('this.labOrdersEtl', this.labOrdersEtl);
+      //  console.log('this.labOrdersEtl', this.labOrdersEtl);
         this.labOrdersEtl.sort((a, b) => {
           const key1 = a.date_activated;
           const key2 = b.date_activated;
@@ -214,7 +214,7 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
       const clone = { sampleMessage: 'Sample collected is required' };
       this.errors.push(clone);
       this.errors = this.errors[0];
-      console.log('this.errors', this.errors);
+     // console.log('this.errors', this.errors);
       return;
     }
     if (this.collectionDate === '' as any) {

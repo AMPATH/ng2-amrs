@@ -156,10 +156,10 @@ export class FormentryComponent implements OnInit, OnDestroy {
         return;
       }
       if (componentRef.groupUuid) {
-        console.log(!this.referralStatus && !this.step && this.isGroupVisit);
-        console.log(this.referralStatus);
-        console.log(this.isGroupVisit);
-        console.log(this.step);
+        // console.log(!this.referralStatus && !this.step && this.isGroupVisit);
+        // console.log(this.referralStatus);
+        // console.log(this.isGroupVisit);
+        // console.log(this.step);
         componentRef.isGroupVisit = true;
       }
       componentRef.loadForm();   // load  form
@@ -831,7 +831,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
       (data) => {
         this.isBusyIndicator(false); // hide busy indicator
         this.handleSuccessfulFormSubmission(data);
-        console.log('All payloads submitted successfully:', data);
+       // console.log('All payloads submitted successfully:', data);
         this.formSubmissionService.setSubmitStatus(false);
         this.enableSubmitBtn();
       },
