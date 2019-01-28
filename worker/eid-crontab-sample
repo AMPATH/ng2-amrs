@@ -1,2 +1,3 @@
-0 22 * * * root babel-node /opt/etl/worker/schedule-eid-sync.script.js --lab=alupe
-0 23 * * * root babel-node /opt/etl/worker/schedule-eid-sync.script.js --lab=ampath 
+0 19 * * * root babel-node /opt/etl/worker/schedule-eid-sync.script.js --lab=alupe
+0 20 * * * root babel-node /opt/etl/worker/schedule-eid-sync.script.js --lab=ampath 
+0 21 * * Sat root babel-node /opt/etl/worker/schedule-eid-sync.script.js --lab=ampath --weekly=true
