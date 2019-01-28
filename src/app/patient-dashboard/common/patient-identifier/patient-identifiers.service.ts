@@ -19,7 +19,7 @@ export class PatientIdentifierService {
     for (let i = 0; i < numbers.length; i++) {
       const ch = numbers.charAt(numbers.length - i - 1);
       if (validChars.indexOf(ch) < 0) {
-        console.log('Invalid character(s) found!');
+       // console.log('Invalid character(s) found!');
         return false;
       }
       // tslint:disable-next-line:no-shadowed-variable
@@ -35,7 +35,7 @@ export class PatientIdentifierService {
     }
     sum = Math.abs(sum) + 10;
     const digit = (10 - (sum % 10)) % 10;
-    console.log('Lunh Check Digit Is =' + digit);
+   // console.log('Lunh Check Digit Is =' + digit);
     return digit;
 
   }

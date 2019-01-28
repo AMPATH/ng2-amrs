@@ -146,7 +146,7 @@ export class GroupEnrollmentSummaryComponent implements OnInit, OnDestroy {
   }
 
   public onEnroll(group) {
-    console.log(group, 'on enroll');
+   // console.log(group, 'on enroll');
     this.loadData();
     this.showSuccessModal(`Successfully enrolled to ${group.name}`);
   }

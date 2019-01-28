@@ -12,7 +12,7 @@ export class ObsResourceService {
   }
 
   public saveObs(payload) {
-    console.log('payload', payload);
+   // console.log('payload', payload);
     if (!payload) {
       return null;
     }

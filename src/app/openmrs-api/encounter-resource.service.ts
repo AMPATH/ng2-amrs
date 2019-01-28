@@ -76,7 +76,7 @@ export class EncounterResourceService {
     }
 
     public saveEncounter(payload) {
-      console.log('payload', payload);
+     // console.log('payload', payload);
       if (!payload) {
             return null;
         }

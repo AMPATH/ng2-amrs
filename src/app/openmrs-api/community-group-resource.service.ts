@@ -121,7 +121,7 @@ export class CommunityGroupService {
       voided: true,
       voidReason: reason
     };
-    console.log(body);
+   // console.log(body);
     return this.http.post(url, body);
   }
 

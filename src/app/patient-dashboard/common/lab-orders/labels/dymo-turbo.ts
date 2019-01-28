@@ -11,7 +11,7 @@ export class DymoTurbo {
         })
             .then((selected) => {
                 device = selected;
-                console.log('Device', device);
+             //   console.log('Device', device);
                 return device.open(); // Begin a session.
             })
             .then(() => {

@@ -54,7 +54,7 @@ export class EditProgramLocationComponent implements OnInit {
     };
     this.programManagerService.enrollPatient(payload).subscribe((newProgram) => {
       if (newProgram) {
-        console.log('newProgram', newProgram);
+      //  console.log('newProgram', newProgram);
         this.locationChangeComplete.next([newProgram]);
       }
     }, (err) => {

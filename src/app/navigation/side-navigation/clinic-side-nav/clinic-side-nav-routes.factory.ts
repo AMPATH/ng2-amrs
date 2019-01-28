@@ -20,7 +20,7 @@ export class ClinicRoutesFactory {
     let selectedDepartment: any;
     const setDepartment: any = JSON.parse(this._localStorageService.getItem('userDefaultDepartment'));
     selectedDepartment = setDepartment[0].itemName;
-    console.log('bbdajkbcdjbndj', selectedDepartment);
+   // console.log('bbdajkbcdjbndj', selectedDepartment);
     this.selectedDepartment = selectedDepartment;
 
     let clinicRoutesConfig: any = this.routesProvider.clinicDashboardConfig;

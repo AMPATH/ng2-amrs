@@ -121,7 +121,7 @@ export class VisitStarterComponent implements OnInit, OnDestroy {
     this.setUserDefaultLocation();
     this.route.queryParams.subscribe((queryParams) => {
       if (queryParams['groupUuid']) {
-        console.log('DDDDDDDDDDDDDD', queryParams['groupUuid']);
+      //  console.log('DDDDDDDDDDDDDD', queryParams['groupUuid']);
         this._patientEnrolledInGroup = true;
         this.groupVisitStartedFromClinicDashboard = true;
       }

@@ -61,7 +61,7 @@ export class UserService {
         return null;
      }
     const c = 'custom:(uuid,display,person)';
-    console.log('getUserByUuid', uuid);
+   // console.log('getUserByUuid', uuid);
     const params: HttpParams = new HttpParams()
     .set('v', c);
 

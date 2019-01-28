@@ -196,7 +196,7 @@ export class OncologySummaryIndicatorsTableComponent implements OnInit, OnChange
     }
 
     public goToPatientList(data) {
-        console.log('Patient List Data', data);
+       // console.log('Patient List Data', data);
 
         switch (data.colDef.field) {
 

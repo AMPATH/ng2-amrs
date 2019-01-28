@@ -395,7 +395,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
           currentGroupsEnrolled = _.filter(groupsEnrolled, (group) => !group.voided);
         }
         const validation = this.communityGroupMemberService.validateMemberEnrollment(programsEnrolled, currentGroupsEnrolled, this.group);
-        console.log(validation);
+       // console.log(validation);
         switch (true) {
           case validation.alreadyEnrolled.found:
             this.validatingEnrollment = false;

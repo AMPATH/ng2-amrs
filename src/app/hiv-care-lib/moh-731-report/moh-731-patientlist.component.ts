@@ -76,7 +76,7 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
   }
 
   public loadPatientList(params: any) {
-    console.log('Params', params);
+   // console.log('Params', params);
     this.busyIndicator = {
       busy: true,
       message: 'Loading Patient List...please wait'
@@ -94,7 +94,7 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
       this.isLoading = false;
       if (data.errorMessage) {
         this.hasError = true;
-        console.log('MOH 731 patient list report', data);
+      //  console.log('MOH 731 patient list report', data);
       } else {
         /**
          * Track everything per indicator provided

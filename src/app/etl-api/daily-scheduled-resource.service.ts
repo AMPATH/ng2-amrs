@@ -15,7 +15,7 @@ export class DailyScheduleResourceService {
     }
 
     public getDailyVisits(params) {
-        console.log('Service:getDailyVisits', params);
+       // console.log('Service:getDailyVisits', params);
         if (!params.startIndex) {
             params.startIndex = '0';
         }
