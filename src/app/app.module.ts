@@ -42,6 +42,8 @@ import { environment } from '../environments/environment';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { PocHttpInteceptor } from './shared/services/poc-http-interceptor';
 import { ToastrModule } from 'ngx-toastr';
+import { PatientReminderCustomComponent } from './patient-dashboard/common/patient-reminders/patient-reminder-custom.component';
+import { PatientReminderService } from './patient-dashboard/common/patient-reminders/patient-reminders.service';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -63,6 +65,7 @@ interface StoreType {
     AppComponent,
     TitleCasePipe,
     NoContentComponent,
+    PatientReminderCustomComponent,
     FeedBackComponent
   ],
   imports: [ // import Angular's modules
@@ -77,7 +80,10 @@ interface StoreType {
     RouterModule.forRoot(ROUTES, {  paramsInheritanceStrategy: 'always', useHash: true, enableTracing: false }),
     Angulartics2Module.forRoot([Angulartics2Piwik]),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({
+      toastComponent: PatientReminderCustomComponent,
+      timeOut: 0
+    }),
     CacheModule.forRoot()
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
@@ -96,8 +102,10 @@ interface StoreType {
       useClass: PocHttpInteceptor,
       multi: true
     },
+    PatientReminderService,
     DataCacheService
   ],
+  entryComponents: [PatientReminderCustomComponent],
   exports: [
     LabOrderSearchModule
   ]
