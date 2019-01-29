@@ -121,7 +121,6 @@ export class VisitStarterComponent implements OnInit, OnDestroy {
     this.setUserDefaultLocation();
     this.route.queryParams.subscribe((queryParams) => {
       if (queryParams['groupUuid']) {
-        console.log('DDDDDDDDDDDDDD', queryParams['groupUuid']);
         this._patientEnrolledInGroup = true;
         this.groupVisitStartedFromClinicDashboard = true;
       }
@@ -195,7 +194,9 @@ export class VisitStarterComponent implements OnInit, OnDestroy {
         }));
         this.modalRef = this.modalService.show(this.startGroupVisitModal);
       } else {
-        this.saveVisit(this.selectedVisitType);
+        if (!this.startedVisit) {
+          this.saveVisit(this.selectedVisitType);
+        }
     }
 
     }
