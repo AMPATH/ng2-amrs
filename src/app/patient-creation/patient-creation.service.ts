@@ -207,8 +207,13 @@ export class PatientCreationService {
                 val: '52b78065-5c0f-4cf8-ab02-6b1b992b18c4'
             },
             {
+<<<<<<< HEAD
             label: 'HEI', format: '^HEI-\\d{5}-\\d{4}-\\d{4}$', checkdigit: null,
             val: 'ead42a8f-203e-4b11-a942-df03a460d617'
+=======
+             label: 'HEI', format: '^HEI-\\d{5}-\\d{4}-\\d{4}$', checkdigit: null,
+             val: 'ead42a8f-203e-4b11-a942-df03a460d617'
+>>>>>>> fb3ea220eb44f23b320db17254e4e05c868aa2b8
             },
             {
                 label: 'pMTCT ID', format: null, checkdigit: 1,
