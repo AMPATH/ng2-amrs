@@ -135,6 +135,13 @@ export class VisitStarterComponent implements OnInit {
   }
 
   public startVisit(visitTypeUuid) {
+        if (!this.startedVisit) {
+          this.saveVisit(visitTypeUuid);
+        }
+    }
+
+  public saveVisit(visitTypeUuid) {
+
     this.retrospectiveDataEntryService.retroSettings.subscribe((retroSettings) => {
       this.startedVisit = true;
       this.isBusy = true;
