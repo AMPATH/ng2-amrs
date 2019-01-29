@@ -49,6 +49,7 @@ module.exports = function () {
                 }
 
             }
+
             // format programUuids
             var programUuids = [];
             if (queryParams.programUuids) {
@@ -81,9 +82,8 @@ module.exports = function () {
                 } else {
                     delete queryParams['providerUuids'];
                 }
-
-
             }
+
             // format conceptUuid
             var conceptUuids = [];
             if (queryParams.conceptUuids) {

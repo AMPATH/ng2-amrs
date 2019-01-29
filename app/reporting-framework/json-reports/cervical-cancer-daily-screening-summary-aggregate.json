@@ -1,0 +1,109 @@
+{
+  "name": "cervicalCancerDailyReportAggregate",
+  "version": "1.0",
+	"tag": "",
+	"description": "",
+  "uses": [{
+  	"name": "cervicalCancerMonthlyReportBase",
+		"version": "1.0",
+		"type": "dataset_def"
+  }],
+  "sources": [{
+		"dataSet": "cervicalCancerMonthlyReportBase",
+		"alias": "t1"
+  }],
+  "columns": [{
+		"type": "simple_column",
+		"alias": "location_id",
+		"column": "t1.location_id"
+	},
+	{
+		"type": "simple_column",
+		"alias": "location_name",
+		"column": "location_name"
+	},
+	{
+		"type": "simple_column",
+		"alias": "location_uuid",
+		"column": "location_uuid"
+	},
+	{
+		"type": "derived_column",
+		"alias": "encounter_datetime",
+		"expressionType": "simple_expression",
+		"expressionOptions": {
+			"expression": "date_format(t1.encounter_datetime,'%d-%m-%Y')"
+		}
+	},
+	{
+		"type": "derived_column",
+		"alias": "total_cervical_screened",
+		"expressionType": "simple_expression",
+		"expressionOptions": {
+				"expression": "count(person_id)"
+		}
+	},
+	{
+		"type": "derived_column",
+		"alias": "normal_cervical_screening",
+		"expressionType": "simple_expression",
+		"expressionOptions": {
+				"expression": "count(normal_cervical_screening)"
+		}
+	},
+	{
+		"type": "derived_column",
+		"alias": "abnormal_cervical_screening",
+		"expressionType": "simple_expression",
+		"expressionOptions": {
+				"expression": "count(abnormal_cervical_screening)"
+		}
+	},
+	{
+		"type": "derived_column",
+		"alias": "normal_cervical_call_rate%",
+		"expressionType": "simple_expression",
+		"expressionOptions": {
+				"expression": "ROUND(count(normal_cervical_screening)/count(person_id) *100,2)"
+		}
+	},
+	{
+		"type": "derived_column",
+		"alias": "abnormal_cervical_call_rate%",
+		"expressionType": "simple_expression",
+		"expressionOptions": {
+				"expression": "ROUND(count(abnormal_cervical_screening)/count(person_id) *100,2)"
+		}
+	},
+	{
+		"type": "derived_column",
+		"alias": "diagnostic_interval",
+		"expressionType": "simple_expression",
+		"expressionOptions": {
+				"expression": "count(diagnostic_interval)"
+		}
+	}
+  ],
+  "groupBy": {
+		"groupParam": "groupByParam",
+		"columns": [
+				"location_id",
+				"DATE(t1.encounter_datetime)"
+		],
+		"excludeParam": "excludeParam"
+  },
+  "dynamicJsonQueryGenerationDirectives": {
+		"patientListGenerator": {
+			"useTemplate": "patient-list-template",
+			"useTemplateVersion": "1.0",
+			"generatingDirectives": {
+				"joinDirectives": {
+					"joinType": "INNER",
+					"joinCondition": "<<base_column>> = <<template_column>>",
+					"baseColumn": "person_id",
+					"templateColumn": "person_id"
+				}
+			}
+		}
+  }
+}

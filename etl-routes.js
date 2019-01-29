@@ -4072,19 +4072,20 @@ module.exports = function () {
                             function () {
                                 let requestParams = Object.assign({}, request.query, request.params);
                                 let reportParams = etlHelpers.getReportParams('breast-cancer-summary-dataset',
-                                    ['startDate', 'endDate', 'locationUuids', 'indicators', 'genders', 'startAge', 'endAge'],
+                                    ['startDate', 'endDate', 'period', 'locationUuids', 'indicators', 'genders', 'startAge', 'endAge'],
                                     requestParams);
                                 let service = new BreastCancerMonthlySummaryService();
                                 service.getAggregateReport(reportParams).then((result) => {
                                     reply(result);
                                 }).catch((error) => {
+                                    console.error('Error: ', error);
                                     reply(error);
                                 });
                             });
 
                     },
                     description: 'Get breast cancer monthly screening summary details based on location and time filters',
-                    notes: 'Returns aggeregates of breast cancer screening',
+                    notes: 'Returns aggregates of breast cancer screening',
                     tags: ['api'],
                 }
 
@@ -4144,12 +4145,13 @@ module.exports = function () {
                             function () {
                                 let requestParams = Object.assign({}, request.query, request.params);
                                 let reportParams = etlHelpers.getReportParams('cervical-cancer-monthly-summary',
-                                    ['startDate', 'endDate', 'locationUuids', 'indicators', 'genders', 'startAge', 'endAge'],
+                                    ['startDate', 'endDate', 'period', 'locationUuids', 'indicators', 'genders', 'startAge', 'endAge'],
                                     requestParams);
                                 let service = new CervicalCancerMonthlySummaryService();
                                 service.getAggregateReport(reportParams).then((result) => {
                                     reply(result);
                                 }).catch((error) => {
+                                    console.error('Error: ', error);
                                     reply(error);
                                 });
                             });

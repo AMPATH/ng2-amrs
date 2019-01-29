@@ -12,12 +12,13 @@ export class BreastCancerMonthlySummaryService {
 
     getAggregateReport(reportParams) {
         return new Promise(function (resolve, reject) {
-            if (reportParams.requestParams.indicators) {
-                let indicators = reportParams.requestParams.indicators.split(',');
-
+            let report;
+            
+            if (reportParams.requestParams.period === 'daily') {
+                report = new BaseMysqlReport('breastCancerDailySummaryAggregate', reportParams.requestParams);                
+            } else if (reportParams.requestParams.period === 'monthly') {
+                report = new BaseMysqlReport('breastCancerMonthlySummaryAggregate', reportParams.requestParams);                
             }
-
-            let report = new BaseMysqlReport('breastCancerMonthlySummaryAggregate', reportParams.requestParams);
 
             Promise.join(report.generateReport(),
                 (results) => {
@@ -32,6 +33,7 @@ export class BreastCancerMonthlySummaryService {
                 });
         });
     }
+
     getPatientListReport(reportParams) {
 
         let indicators = reportParams.indicators ? reportParams.indicators.split(',') : [];

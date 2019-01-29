@@ -212,12 +212,12 @@
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "fccs.encounter_datetime >= ?",
+                "conditionExpression": "DATE(fccs.encounter_datetime) >= ?",
                 "parameterName": "startDate"
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "fccs.encounter_datetime <= ?",
+                "conditionExpression": "DATE(fccs.encounter_datetime) <= ?",
                 "parameterName": "endDate"
             },
             {
