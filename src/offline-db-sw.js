@@ -2,30 +2,33 @@
 importScripts('assets/pouchdb-7.0.0.min.js');
 importScripts('assets/pouchdb.find.min.js')
 importScripts('assets/aes-helper.js');
-importScripts('https://unpkg.com/service-worker-router@1.7.2/dist/router.min.js');
+importScripts('assets/service-worker-router.js');
 
 const Router = self.ServiceWorkerRouter.Router
 const router = new Router();
 
 var patients_db = new PouchDB('new_patient_db');
-buildPatientDBIndexes();
-
 var remoteDB = new PouchDB('http://localhost:5984/patients');
-var start = new Date().getTime();
 
-patients_db.replicate.from(remoteDB, {live:true, retry:true}).on('complete', function () {
-  console.log('yay, were done!');
-  console.log(new Date().getTime() - start, 'milliseconds later');
-}).on('error', function (err) {
-  console.log('boo, something went wrong!');
+
+self.addEventListener('activate', event => {
+  console.log('on activate called');
+  var start = new Date().getTime();
+  buildPatientDBIndexes();
+  patients_db.replicate.from(remoteDB).on('complete', function () {
+    console.log(new Date().getTime() - start, 'milliseconds later');
+    patients_db.replicate.from(remoteDB,  {live:true, retry:true});
+  }).on('error', function (err) {
+    console.log('boo, something went wrong!');
+  });
 });
+
+
 
 
 patients_db.changes({
   since: 'now',
-  include_docs: true,
-  live: true,
-  retry: true
+  include_docs: true
 })
 .on('change', function(change) {return handleChange(change)})
 .on('error', function(){ console.log(error);})
@@ -34,8 +37,6 @@ patients_db.changes({
 
 function handleChange(change){
   console.log(change, 'changes saved!');
-  let changedDoc = null;
-  let changedIndex = null;
 }
 
 
