@@ -1,4 +1,3 @@
-
 import { take } from 'rxjs/operators/take';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PatientService } from '../../services/patient.service';
@@ -40,7 +39,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
   public patientIdentifiers = '';
   public commonIdentifierTypes: any = [];
   public commonIdentifierTypeFormats: any = [];
-  public preferOptions = [{ label: 'Yes', value: true }, { label: 'No', value: false }];
+  public preferOptions = [{label: 'Yes', value: true}, {label: 'No', value: false}];
   public isValidIdentifier = false;
   public identifiers = '';
   public selectedDevice: any;
@@ -58,13 +57,14 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
   private initialPatientIdentifier = '';
   public isPreferred = false;
   public isNewlocation = false;
+
   constructor(private patientService: PatientService,
-    private locationResourceService: LocationResourceService,
-    private patientIdentifierService: PatientIdentifierService,
-    private patientIdentifierTypeResService: PatientIdentifierTypeResService,
-    private patientResourceService: PatientResourceService,
-    private patientCreationResourceService: PatientCreationResourceService,
-    private userService: UserService
+              private locationResourceService: LocationResourceService,
+              private patientIdentifierService: PatientIdentifierService,
+              private patientIdentifierTypeResService: PatientIdentifierTypeResService,
+              private patientResourceService: PatientResourceService,
+              private patientCreationResourceService: PatientCreationResourceService,
+              private userService: UserService
   ) {
   }
 
@@ -117,9 +117,9 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
   public initIdentifier(id) {
     if (id) {
       this.patientIdentifier = id.identifier;
-      this.identifierType = { value: id.identifierType.uuid, label: id.identifierType.name };
+      this.identifierType = {value: id.identifierType.uuid, label: id.identifierType.name};
       this.preferredIdentifier = id.preferred;
-      this.selectedDevice = { value: id.location.uuid, label: id.location.name };
+      this.selectedDevice = {value: id.location.uuid, label: id.location.name};
       this.patientIdentifierUuid = id.uuid;
       this.identifierLocation = id.location.uuid;
       this.newLocation = this.identifierLocation;
@@ -140,10 +140,12 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
     }
 
   }
+
   public setPreferredIdentifier(preferredIdentifier) {
     this.preferredIdentifier = preferredIdentifier;
     this.isPreferred = true;
   }
+
   public seIdentifierLocation(location) {
     // this.identifierLocation = location.value;
     this.newLocation = location.value;
@@ -165,7 +167,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
     this.identifierType = identifierType;
     const id = this.getCurrentIdentifierByType(this.patientIdentifiers, identifierType);
     if (id) {
-      const loc = { value: (id as any).location.uuid, label: (id as any).location.name };
+      const loc = {value: (id as any).location.uuid, label: (id as any).location.name};
       this.patientIdentifier = (id as any).identifier;
       this.patientIdentifierUuid = (id as any).uuid;
       this.preferredIdentifier = (id as any).preferred;
@@ -223,35 +225,28 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
       delete personIdentifierPayload['identifierType'];
       // this.saveIdentifier(personIdentifierPayload, person);
     } else {
-      this.identifierValidity = 'Patient identifier is required.';
       if (!this.validateFormFields(this.patientIdentifier)) {
         return;
       }
 
       this.checkIdentifierFormat();
-      if (this.isValidIdentifier === true) {
+      if (this.isValidIdentifier) {
         this.patientResourceService.searchPatient(this.patientIdentifier).pipe(take(1)).subscribe(
           (result) => {
-            if (result <= 0 && this.newLocation !== this.identifierLocation) {
-              if (personIdentifierPayload.uuid === undefined || personIdentifierPayload.uuid === '' ||
-                personIdentifierPayload.uuid === null) {
-                delete personIdentifierPayload.uuid;
-              }
-              this.saveIdentifier(personIdentifierPayload, person);
-            } else if (result.length > 0 && this.isPreferred || this.isNewlocation) {
-              if (personIdentifierPayload.uuid === undefined || personIdentifierPayload.uuid === '' ||
-                personIdentifierPayload.uuid === null) {
-                delete personIdentifierPayload.uuid;
-              }
-              this.saveIdentifier(personIdentifierPayload, person);
-            } else {
+            if (result.length > 0) {
               this.identifierValidity = 'A patient with this Identifier exists!';
               this.display = true;
+            } else {
+              if (personIdentifierPayload.uuid === undefined || personIdentifierPayload.uuid === '' ||
+                personIdentifierPayload.uuid === null) {
+                delete personIdentifierPayload.uuid;
+              }
+              this.saveIdentifier(personIdentifierPayload, person);
             }
           }
         );
       } else {
-        this.identifierValidity = 'Invalid Identifier';
+        this.identifierValidity = 'Invalid Identifier. Confirm identifier type';
       }
     }
   }
@@ -279,25 +274,25 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
     this.patientResourceService.saveUpdatePatientIdentifier(person.uuid,
       this.patientIdentifierUuid,
       personIdentifierPayload).pipe(
-        take(1)).subscribe(
-          (success) => {
-            this.displaySuccessAlert('Identifiers saved successfully');
-            this.patientIdentifier = '';
-            this.identifierLocation = '';
-            this.preferredIdentifier = '';
-            this.identifierType = '';
-            this.isPreferred = false;
-            this.isNewlocation = false;
-            this.patientService.fetchPatientByUuid(this.patients.person.uuid);
-            setTimeout(() => {
-              this.display = false;
-              this.addDialog = false;
-            }, 1000);
+      take(1)).subscribe(
+      (success) => {
+        this.displaySuccessAlert('Identifiers saved successfully');
+        this.patientIdentifier = '';
+        this.identifierLocation = '';
+        this.preferredIdentifier = '';
+        this.identifierType = '';
+        this.isPreferred = false;
+        this.isNewlocation = false;
+        this.patientService.fetchPatientByUuid(this.patients.person.uuid);
+        setTimeout(() => {
+          this.display = false;
+          this.addDialog = false;
+        }, 1000);
 
-          },
-          (error) => {
-            console.error('Error occurred why updating patient identifier:', error);
-          });
+      },
+      (error) => {
+        console.error('Error occurred why updating patient identifier:', error);
+      });
   }
 
   private getCurrentIdentifierByType(identifiers, identifierType) {
@@ -306,13 +301,14 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
     });
     return existingIdentifier;
   }
+
   private fetchLocations(): void {
     this.locationResourceService.getLocations().pipe(take(1)).subscribe(
       (locations: any[]) => {
         this.locations = [];
         // tslint:disable-next-line:prefer-for-of
         for (let i = 0; i < locations.length; i++) {
-          this.locations.push({ label: locations[i].name, value: locations[i].uuid });
+          this.locations.push({label: locations[i].name, value: locations[i].uuid});
         }
       },
       (error: any) => {
@@ -325,11 +321,12 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
     this.identifierValidity = '';
     const selectedIdentifierType: any = this.identifierType;
     if (selectedIdentifierType) {
+      console.log('i am in here');
       const identifierHasFormat = selectedIdentifierType.format;
       const identifierHasCheckDigit = selectedIdentifierType.checkdigit;
       if (identifierHasCheckDigit) {
         this.checkLuhnCheckDigit();
-        if (this.isValidIdentifier === false) {
+        if (!this.isValidIdentifier) {
           this.identifierValidity = 'Invalid Check Digit.';
           return;
         }
@@ -339,21 +336,16 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
         this.isValidIdentifier =
           this.patientIdentifierService.checkRegexValidity(identifierHasFormat,
             this.patientIdentifier);
-        if (this.isValidIdentifier === false) {
+        if (!this.isValidIdentifier) {
           this.identifierValidity = 'Invalid Identifier Format. {' + identifierHasFormat + '}';
           return;
         }
       }
-
-      if (!this.newLocation) {
-        this.invalidLocationCheck = 'Location is Required';
-        return;
-      }
       this.isValidIdentifier = true;
-
     }
 
   }
+
   private checkLuhnCheckDigit() {
     const checkDigit = this.patientIdentifier.split('-')[1];
     const expectedCheckDigit =
@@ -371,24 +363,35 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
     }
 
   }
+
   private setErroMessage(message) {
 
     this.hasError = true;
     this.errorMessage = message;
   }
+
   private validateFormFields(patientIdentifier) {
-    const isNullOrUndefined = this.isNullOrUndefined(patientIdentifier);
-    if (isNullOrUndefined === false) {
-      return true;
-    } else {
+    let isNullOrUndefined = false;
+    if (this.isNullOrUndefined(patientIdentifier)) {
       this.setErroMessage('Patient identifier is required.');
-      return false;
+      isNullOrUndefined = true;
+    } else {
+      this.hasError = false;
+      this.errorMessage = undefined;
     }
+    if (this.isNullOrUndefined(this.newLocation) || this.isNullOrUndefined(this.selectedDevice)) {
+      this.invalidLocationCheck = 'Location is Required';
+      isNullOrUndefined = true;
+    } else {
+      this.invalidLocationCheck = undefined;
+    }
+    return !isNullOrUndefined;
   }
+
   private isNullOrUndefined(val) {
-    return val === null || val === undefined || val === ''
-      || val === 'null' || val === 'undefined';
+    return val === null || val === undefined || val === '' || val === 'null' || val === 'undefined';
   }
+
   private filterUndefinedUuidFromPayLoad(personAttributePayload) {
     if (personAttributePayload && personAttributePayload.length > 0) {
       for (let i = 0; i < personAttributePayload.length; i++) {
@@ -399,6 +402,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
       }
     }
   }
+
   private displaySuccessAlert(message) {
     this.showErrorAlert = false;
     this.showSuccessAlert = true;
