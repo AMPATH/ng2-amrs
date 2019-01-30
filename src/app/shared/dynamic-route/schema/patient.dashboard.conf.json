@@ -462,6 +462,16 @@
       "shared-routes-class": "cdm",
       "requiresPatientEnrollment": true,
       "routes": []
+    },
+    {
+      "programName": "BIGPIC",
+      "programUuid": "f5cbf61f-eadc-4fe6-999c-2dfe9556df95",
+      "baseRoute": "f5cbf61f-eadc-4fe6-999c-2dfe9556df95",
+      "alias": "bigpic",
+      "published": false,
+      "shared-routes-class": "cdm",
+      "requiresPatientEnrollment": true,
+      "routes": []
     }
   ],
 
