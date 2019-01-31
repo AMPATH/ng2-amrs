@@ -17,6 +17,7 @@ import { SuccessModalComponent } from '../modals/success-modal.component';
 import { GridOptions } from 'ag-grid';
 import { GroupTransferModalComponent } from '../modals/group-transfer-modal.component';
 import { RetrospectiveDataEntryService } from '../../retrospective-data-entry/services/retrospective-data-entry.service';
+import { RisonService } from '../../shared/services/rison-service';
 
 @Component({
   selector: 'group-detail',
@@ -36,6 +37,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   public successMessage: string;
   @ViewChild(AgGridNg2) dataGrid: AgGridNg2;
   @ViewChild('startGroupVisitModal') startGroupVisitModal: TemplateRef<any>;
+  @ViewChild('enrollMembers') enrollMembers: TemplateRef<any>;
   @ViewChild('startPatientVisitWarningModal') startPatientVisitWarningModal: TemplateRef<any>;
   public filter = 'current';
   public gridOptions: GridOptions = {
@@ -96,7 +98,11 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   public membersData: any[] = [];
   public columns: any[] = [];
   public visitStartedToday: boolean;
-
+  public showEnrollmentButton = false;
+  public enrollMentModel = {
+    enrollMentUrl: [],
+    queryParams: {}
+  };
 
   constructor(private activatedRoute: ActivatedRoute,
     private communityGroupService: CommunityGroupService,
@@ -105,6 +111,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     private datePipe: DatePipe,
     private router: Router,
     private modalService: BsModalService,
+    private risonService: RisonService,
     private retrospectiveService: RetrospectiveDataEntryService) { }
 
   ngOnInit() {
@@ -403,7 +410,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
             break;
           case !validation.notEnrolledInGroupProgram.found:
             this.validatingEnrollment = false;
-            this.showEnrollmentAlert('Enroll patient to DC Program first from patient dashboard.');
+            this.showEnrollButton(patient);
             break;
           case validation.enrolledInAnotherGroupInSameProgram.found:
             this.validatingEnrollment = false;
@@ -417,6 +424,30 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       });
   }
 
+  public enrollPatienttoProgram() {
+    this.closeModal(this.enrollMembers);
+    this.router.navigate(this.enrollMentModel.enrollMentUrl, { queryParams: this.enrollMentModel.queryParams });
+
+  }
+  private showEnrollButton(patient) {
+    this.showEnrollmentButton = true;
+    const enrollMentUrl = ['patient-dashboard', 'patient', patient.uuid, 'general', 'general', 'program-manager', 'new-program', 'step', 3];
+    const programUuid = this.group.attributes.find((a) => {
+      return a.cohortAttributeType.name === 'programUuid';
+    }
+    );
+    const queryParams = {
+      program: programUuid.value,
+      groupUuid: this.group.uuid,
+      redirectUrl: this.router.url,
+      locationUuid: this.group.location.uuid,
+      enrollMentQuestions: this.risonService.encode({hivStatus: 'positive', enrollToGroup: true})
+    };
+    this.enrollMentModel = {
+      enrollMentUrl,
+      queryParams
+    };
+  }
   private enrollPatientToGroup(group: Group, patient: Patient) {
     this.communityGroupMemberService.createMember(group.uuid, patient.uuid).subscribe((result) => {
       this.reloadData();
