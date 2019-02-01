@@ -76,24 +76,29 @@ export class VisitComponent implements OnInit, OnDestroy {
 
   public checkIfPatientEnrolledInGroup() {
     this.isBusy = true;
-    this.communityGroupMemberService.getMemberCohortsByPatientUuid(this.todayVisitService.patient.uuid)
-    .subscribe((groups) => {
-      this.isBusy = false;
-      if (!_.isEmpty(groups)) {
-          _.forEach(groups, (group) => {
-            if (!group.voided) {
-            this.currentCommunityGroups.push(group);
-            const program = _.filter(group.cohort.attributes, (attribute) => attribute.cohortAttributeType.name === 'programUuid')[0];
-            if (program) {
-              if (program['value'] === this.programUuid && this.programUuid === '334c9e98-173f-4454-a8ce-f80b20b7fdf0') {
-                this.patientEnrolledInGroup = true;
-                return false;
-              }
-            }
-          }
-          });
-      }
-    });
+    const DIFFERENTIATED_CARE = '334c9e98-173f-4454-a8ce-f80b20b7fdf0';
+    if (this.programUuid === DIFFERENTIATED_CARE) {
+      this.communityGroupMemberService.getMemberCohortsByPatientUuid(this.todayVisitService.patient.uuid)
+      .subscribe((groups) => {
+                 this.isBusy = false;
+                 if (!_.isEmpty(groups)) {
+                    _.forEach(groups, (group) => {
+                            if (!group.voided) {
+                              this.currentCommunityGroups.push(group);
+                              const groupProgram = _.filter(group.cohort.attributes,
+                                (attribute) => attribute.cohortAttributeType.name === 'programUuid')[0];
+                              if (groupProgram) {
+                                const groupProgramUuid = groupProgram['value'];
+                                if (groupProgramUuid === this.programUuid) {
+                                    this.patientEnrolledInGroup = true;
+                                    return false;
+                              }
+                            }
+                          }
+                        });
+                      }
+                    });
+                  }
   }
 
   public enrollInGroup() {
