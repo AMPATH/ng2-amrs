@@ -77,6 +77,21 @@
             "expressionOptions": {
                 "expression": "IF(program_id = 27 AND fhs2.encounter_type IS  NULL, 1,NULL)"
             }
+        },
+        {
+            "type": "simple_column",
+            "alias": "vl_1",
+            "column": "fhs.vl_1"
+        },
+        {
+            "type": "simple_column",
+            "alias": "vl_1_date",
+            "column": "fhs.vl_1_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "cur_arv_meds",
+            "column": "fhs.cur_arv_meds"
         }
     ],
     "filters": {
