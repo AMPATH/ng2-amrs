@@ -15,8 +15,13 @@ export class CervicalCancerMonthlySummaryService {
 
     getAggregateReport(reportParams) {
         return new Promise(function (resolve, reject) {
+            let report;
 
-                let report = new BaseMysqlReport('cervicalCancerMonthlySummaryAggregate', reportParams.requestParams);
+            if (reportParams.requestParams.period === 'daily') {
+                report = new BaseMysqlReport('cervicalCancerDailySummaryAggregate', reportParams.requestParams);
+            } else if (reportParams.requestParams.period === 'monthly') {
+                report = new BaseMysqlReport('cervicalCancerMonthlySummaryAggregate', reportParams.requestParams);
+            }
 
             Promise.join(report.generateReport(),
                 (results) => {

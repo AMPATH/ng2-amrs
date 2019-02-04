@@ -256,12 +256,12 @@
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "fbcs.encounter_datetime >= ?",
+                "conditionExpression": "DATE(fbcs.encounter_datetime) >= ?",
                 "parameterName": "startDate"
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "fbcs.encounter_datetime <= ?",
+                "conditionExpression": "DATE(fbcs.encounter_datetime) <= ?",
                 "parameterName": "endDate"
             },
             {

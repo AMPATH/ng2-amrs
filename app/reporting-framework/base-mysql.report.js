@@ -77,12 +77,12 @@ import * as patients_requiring_viral_load_template from './json-reports/patients
 import * as clinic_lab_orders_report from './json-reports/clinic-lab-orders-report-base.json';
 import * as clinical_reminders_report from './json-reports/clinical-reminder-report.json';
 
-
-
+import * as breast_cancer_daily_screening_summary_aggregate from './json-reports/breast-cancer-daily-screening-summary-aggregate.json';
 import * as breast_cancer_monthly_screening_summary_aggregate from './json-reports/breast-cancer-monthly-screening-summary-aggregate.json';
 import * as breast_cancer_monthly_screening_summary_base from './json-reports/breast-cancer-monthly-screening-summary-base.json';
 import * as breast_cancer_patient_list_template from './json-reports/breast-cancer-patient-list-template.json';
 
+import * as cervical_cancer_daily_screening_summary_aggregate from './json-reports/cervical-cancer-daily-screening-summary-aggregate.json';
 import * as cervical_cancer_monthly_screening_summary_aggregate from './json-reports/cervical-cancer-monthly-screening-summary-aggregate.json';
 import * as cervical_cancer_monthly_screening_summary_base from './json-reports/cervical-cancer-monthly-screening-summary-base.json';
 
@@ -116,7 +116,7 @@ export class BaseMysqlReport {
 
                             that.reportQuery = sqlQuery;
                             // run query
-                            // console.log('Query', that.reportQuery);
+                            // console.log('Query', sqlQuery);
                             that.executeReportQuery(that.reportQuery)
                                 .then((result) => {
                                     return that.transFormResults(that.reportSchemas, result);
@@ -361,6 +361,11 @@ export class BaseMysqlReport {
 
                     });
                     break;
+                case 'breastCancerDailySummaryAggregate':
+                    resolve({
+                        main: this.cloneJsonSchema(breast_cancer_daily_screening_summary_aggregate),
+                        breastCancerMonthlySummaryBase: this.cloneJsonSchema(breast_cancer_monthly_screening_summary_base)
+                    });
                 case 'breastCancerMonthlySummaryAggregate':
                     resolve({
                         main: this.cloneJsonSchema(breast_cancer_monthly_screening_summary_aggregate),
@@ -372,6 +377,11 @@ export class BaseMysqlReport {
                         main: this.cloneJsonSchema(breast_cancer_patient_list_template)
                     });
                     break;
+                case 'cervicalCancerDailySummaryAggregate':
+                    resolve({
+                        main: this.cloneJsonSchema(cervical_cancer_daily_screening_summary_aggregate),
+                        cervicalCancerMonthlyReportBase: this.cloneJsonSchema(cervical_cancer_monthly_screening_summary_base)
+                    });
                 case 'cervicalCancerMonthlySummaryAggregate':
                     resolve({
                         main: this.cloneJsonSchema(cervical_cancer_monthly_screening_summary_aggregate),
