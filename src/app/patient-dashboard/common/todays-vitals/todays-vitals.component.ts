@@ -18,7 +18,7 @@ import { ZScoreSource } from './sources/z-score.source';
   selector: 'todays-vitals',
   templateUrl: './todays-vitals.component.html',
   styles: [
-      `
+    `
       .list-group-item.show-more {
         overflow: hidden;
         white-space: nowrap;
@@ -43,7 +43,7 @@ import { ZScoreSource } from './sources/z-score.source';
         background-color: #fff;
         padding-left: 15px;
       }`,
-      `@media screen and (min-width: 768px) {
+    `@media screen and (min-width: 768px) {
       .list-group-item i {
         display: none;
       }
@@ -59,6 +59,7 @@ export class TodaysVitalsComponent implements OnInit, OnDestroy {
   public dataLoaded = false;
   public showAll = false;
   private vitalSources: any[] = [];
+  private obs: any[] = [];
 
   constructor(
     private patientService: PatientService,
@@ -99,18 +100,19 @@ export class TodaysVitalsComponent implements OnInit, OnDestroy {
               this.dataLoaded = true;
             }
           }).catch((error) => {
-          this.loadingTodaysVitals = false;
-          this.dataLoaded = true;
-          console.log(error);
-          this.errors.push({
-            id: 'Todays Vitals',
-            message: 'error fetching todays vitals'
+            this.loadingTodaysVitals = false;
+            this.dataLoaded = true;
+            console.log(error);
+            this.errors.push({
+              id: 'Todays Vitals',
+              message: 'error fetching todays vitals'
+            });
           });
-        });
       }).catch((err) => {
-      console.log('we are in here', err);
-    });
+        console.log('we are in here', err);
+      });
   }
+
 
   public getTodaysEncounters(encounters) {
     const today = Moment().format('YYYY-MM-DD');
@@ -127,41 +129,26 @@ export class TodaysVitalsComponent implements OnInit, OnDestroy {
   }
 
   public getTodaysEncounterDetails(todaysEncounters) {
-
     return new Promise((resolve, reject) => {
-
       const encounterWithDetails = [];
       let encounterCount = 0;
       let resultCount = 0;
-
       const checkCount = () => {
-
         if (resultCount === encounterCount) {
-
           resolve(encounterWithDetails);
-
         }
-
       };
-
       _.each(todaysEncounters, (todaysEncounter: any) => {
-
         const encounterUuid = todaysEncounter.uuid;
         encounterCount++;
-
         this._encounterResourceService.getEncounterByUuid(encounterUuid).pipe(
           take(1)).subscribe((encounterDetail) => {
-
-          encounterWithDetails.push(encounterDetail);
-          resultCount++;
-          checkCount();
-
-        });
-
+            encounterWithDetails.push(encounterDetail);
+            resultCount++;
+            checkCount();
+          });
       });
-
     });
-
   }
 
   public subscribeToPatientChangeEvent() {

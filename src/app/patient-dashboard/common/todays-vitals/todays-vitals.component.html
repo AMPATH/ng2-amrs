@@ -1,25 +1,29 @@
 <div *ngIf="todaysVitals">
   <ul class="list-group">
     <li class="list-group-item" [ngClass]="{'show-more': !showAll, 'row': showAll}">
-  <ng-container *ngFor="let vital of todaysVitals; index as i">
-          <span [ngClass]="{'col-sm-6 col-xs-6': showAll}" *ngIf="!vital.isCompoundedWith" [style.color]="vital.color">
-            <strong class="text-primary">
-              {{vital.label}}
-            </strong>
-            <span class="value"><strong>{{vital.value}}</strong></span>
-            <ng-container *ngIf="vital.compoundValue">
-              / <span [style.color]="vital.compoundValue.color"><strong>{{vital.compoundValue.value}}</strong> </span>
-            </ng-container>
-            <span *ngIf="!showAll && i < (todaysVitals.length-1)" style="color: #444;">&nbsp;|</span>
-          </span>
-  </ng-container>
-      <i (click)="toggleMore()" class="fa fa-ellipsis-h" aria-hidden="true"></i></li>
-</ul>
+      <ng-container *ngFor="let vital of todaysVitals index as i">
+        <span [ngClass]="{'col-sm-6 col-xs-6': showAll}" *ngIf="vital.show && !vital.isCompoundedWith" [style.color]="vital.color">
+          <strong class="text-primary">
+            {{vital.label}}
+          </strong>
+          <span class="value"><strong>{{vital.value}}</strong></span>
+          <ng-container *ngIf="vital.compoundValue">
+            /<span [style.color]="vital.compoundValue.color">{{vital.compoundValue.value}} </span>
+          </ng-container>
+          <span *ngIf="!showAll && i < todaysVitals.length-1" style="color: #444;">|</span>
+        </span>
+      </ng-container>
+      <i (click)="toggleMore()" class="fa fa-ellipsis-h" aria-hidden="true"></i>
+    </li>
+  </ul>
 </div>
 <ul *ngIf="!todaysVitals" class="list-group">
   <li class="list-group-item">
-    <span *ngIf="!dataLoaded && !loadingTodaysVitals">No vitals taken for the patient today</span>
-    <div *ngIf="loadingTodaysVitals"><div class="fa fa-spinner fa-spin"></div> Loading today's vitals..</div>
+    <span *ngIf="!dataLoaded && !loadingTodaysVitals">
+      No vitals taken for the patient today</span>
+    <div *ngIf="loadingTodaysVitals">
+      <div class="fa fa-spinner fa-spin"></div> Loading today's vitals..
+    </div>
     <div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
     </div>
