@@ -70,8 +70,20 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
       label: 'M'
     }
   ];
+  public periodOptions: Array<any> = [
+    {
+      value: 'daily',
+      label: 'Daily'
+    },
+    {
+      value: 'monthly',
+      label: 'Monthly'
+    }
+  ];
   public selectedIndicatorTagsSelectedAll = false;
   public selectedProgramTagsSelectedAll = false;
+  @Input() public selectedPeriod = '';
+  @Output() public selectedPeriodChange = new EventEmitter<any>();
   @Output() public onGenderChange = new EventEmitter<any>();
   public disableGenerateReportBtn = false;
   @Output()
@@ -318,7 +330,6 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
     }
   }
   public getSelectedLocations(locs: any) {
-    console.log('Selected Locations', this._report, locs);
     if (this._report === 'hiv-summary-report') {
       this.dataAnalyticsDashboardService.setSelectedIndicatorLocations(locs);
       return;
@@ -334,6 +345,11 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
     this.selectedGender = selectedGender;
     this.onGenderChange.emit( this.selectedGender);
   }
+
+  public onPeriodChange($event) {
+    this.selectedPeriodChange.emit($event.value);
+  }
+
   public onClickedGenerate() {
     this.generateReport.emit();
   }

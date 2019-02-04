@@ -20,7 +20,7 @@ export class OncologySummaryFiltersComponent implements OnInit, OnChanges {
   public isAggregated: boolean;
   public selectedIndicators  = [];
   public enabledControls = 'datesControl,' +
-    'ageControl,genderControl,locationControl';
+    'ageControl,genderControl,locationControl,periodControl';
   public isLoadingReport = false;
   public encounteredError = false;
   public errorMessage = '';
@@ -35,6 +35,7 @@ export class OncologySummaryFiltersComponent implements OnInit, OnChanges {
   @Input() public ageRangeEnd: number;
   @Input() public reportIndex: number;
   @Input() public reportUuid: number;
+  @Input() public period = '';
   @Input() public gender: any = [];
   public selectedGender: any = [];
   public locationUuids: Array<string>;
@@ -71,7 +72,6 @@ export class OncologySummaryFiltersComponent implements OnInit, OnChanges {
           this.formatGenderFilter(filterChanges.gender.currentValue
           );
      }
-
   }
 
   public formatGenderFilter(genderArray) {
@@ -85,6 +85,10 @@ export class OncologySummaryFiltersComponent implements OnInit, OnChanges {
 
        this.selectedGender = selectedGender;
 
+  }
+
+  public selectedPeriodChange($event) {
+    this.period = $event;
   }
 
   public generateReport() {
@@ -103,6 +107,7 @@ export class OncologySummaryFiltersComponent implements OnInit, OnChanges {
       'startDate': Moment(this.startDate).format('YYYY-MM-DD'),
       'indicators': this.indicators,
       'gender': this.gender,
+      'period': this.period,
       'startAge': this.ageRangeStart,
       'endAge': this.ageRangeEnd,
       'type': this.reportType,
@@ -168,8 +173,7 @@ export class OncologySummaryFiltersComponent implements OnInit, OnChanges {
     this.gender = gender;
   }
 
-  public getSelectedIndicators(selectedIndicator) {
-  }
+  public getSelectedIndicators(selectedIndicator) {}
 
   public formatIndicatorsToSelectArray(indicatorParam: string) {
     const arr = indicatorParam.split(',');

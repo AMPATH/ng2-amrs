@@ -68,6 +68,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { AppModalComponent } from './modal/app-modal.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PocHttpInteceptor } from './services/poc-http-interceptor';
+import { SelectDepartmentService } from '../program-visit-encounter-search/program-visit-encounter-search.service';
 
 @NgModule({
   imports: [
@@ -131,7 +132,7 @@ import { PocHttpInteceptor } from './services/poc-http-interceptor';
     CdmProgramSnapshotComponent
   ],
   providers: [Ng2FilterPipe, StringToDatePipe, ZeroVlPipe, RoutesProviderService,
-    HivSummaryService,
+    HivSummaryService, SelectDepartmentService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: PocHttpInteceptor,
