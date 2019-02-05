@@ -19,6 +19,8 @@ import {
 } from '../../openmrs-api/program-workflow-resource.service';
 declare var jQuery;
 require('ion-rangeslider');
+import { DepartmentProgramsConfigService } from '../../etl-api/department-programs-config.service';
+import { SelectDepartmentService } from '../../program-visit-encounter-search/program-visit-encounter-search.service';
 
 @Component({
   selector: 'report-filters',
@@ -97,10 +99,13 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
   private _indicators: Array<any> = [];
   private _gender: Array<any> = [];
   private _programs: Array<any> = [];
+  private _currentDepartment = '';
   constructor(private indicatorResourceService: IndicatorResourceService,
               private dataAnalyticsDashboardService: DataAnalyticsDashboardService,
               private programResourceService: ProgramResourceService,
               private programWorkFlowResourceService: ProgramWorkFlowResourceService,
+              private _departmentProgramService: DepartmentProgramsConfigService,
+              private _selectDepartmentService: SelectDepartmentService,
               private elementRef: ElementRef,
               private cd: ChangeDetectorRef) {
   }
@@ -198,8 +203,30 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
       this.getIndicators();
     }
     if (this.isEnabled('programsControl')) {
-      this.getPrograms();
+      this.getCurrentDepartment();
     }
+  }
+  public getCurrentDepartment() {
+
+    this._selectDepartmentService.getDepartment().subscribe((d) => {
+      this._currentDepartment = d;
+      this.getDepartmentPrograms(d);
+    });
+
+  }
+  public getDepartmentPrograms(department) {
+
+    this._departmentProgramService.getDepartmentPrograms(department).pipe(
+      take(1))
+      .subscribe((results) => {
+        if (results) {
+          this.programOptions = _.map(results, (result) => {
+            return {value: result.uuid, label: result.name};
+          });
+
+        }
+      });
+
   }
    public getCachedLocations() {
       if (this._report === 'hiv-summary-report') {
