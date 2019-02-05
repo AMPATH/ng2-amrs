@@ -1,11 +1,11 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild, OnDestroy } from '@angular/core';
 import * as _ from 'lodash';
-import { Group } from '../group-model';
 import { CommunityGroupService } from '../../openmrs-api/community-group-resource.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import * as Moment from 'moment';
 import { Subscription } from 'rxjs';
 import { DatePickerModalComponent } from '../modals/date-picker-modal.component';
+import { Group } from '../../models/group.model';
 
 @Component({
     selector: 'group-manager-search-results',
@@ -17,8 +17,8 @@ export class GroupManagerSearchResultsComponent implements OnInit, OnDestroy {
   public modalRef: BsModalRef;
   public selectedGroup: Group;
   public subscription: Subscription = new Subscription();
-  @Input() set groups(groups: Group[]) {
-    this._groups = groups.filter((group) => !_.isNull(group.location));
+  @Input() set groups(groups: any) {
+    this._groups = groups.map((group) => new Group(group));
   }
   @Output() groupSelected: EventEmitter < string > = new EventEmitter();
   @ViewChild('successModal') public successModal: BsModalRef;
@@ -33,7 +33,8 @@ export class GroupManagerSearchResultsComponent implements OnInit, OnDestroy {
   };
 
   constructor(private communityGroupService: CommunityGroupService,
-    private modalService: BsModalService) {}
+              private modalService: BsModalService) {}
+
   ngOnInit(): void {}
 
   public selectGroup(groupUuid: string) {

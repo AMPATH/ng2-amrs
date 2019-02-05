@@ -6,6 +6,7 @@
           <tr>
             <th>Group Number</th>
             <th>Group Name</th>
+            <th>Program</th>
             <th>Facility</th>
             <th>Landmark</th>
             <th>Status</th>
@@ -16,13 +17,12 @@
         <tbody>
           <tr style="cursor: pointer;" *ngFor="let group of _groups | paginate: { itemsPerPage: 10, currentPage: page }; let i = index; "
             (click)="selectGroup(group.uuid)">
-            <td> {{ getAttribute('groupNumber', group.attributes) }} </td>
-            <td>{{group.name}}</td>
-            <td *ngIf="group.location">{{group.location.display}}</td>
-            <td>{{ getAttribute('landmark', group.attributes) }}</td>
-            <td *ngIf="!group.location">-</td>
-            <td *ngIf="group.endDate == null">Active</td>
-            <td *ngIf="group.endDate != null">Inactive</td>
+            <td>{{ group.groupNumber }}</td>
+            <td>{{ group.display }}</td>
+            <td>{{ group.program }}</td>
+            <td>{{ group.facility.display }}</td>
+            <td>{{ group.landmark }}</td>
+            <td>{{ group.status }}</td>
             <td  *ngIf="group.endDate == null"><button class="btn btn-sm btn-danger" (click)="$event.stopPropagation(); showDisbandDateModal(group)">Disband
               </button>
             </td>
