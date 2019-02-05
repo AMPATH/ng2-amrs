@@ -1403,8 +1403,8 @@
             "display": "TRANSFERENCOUNTER"
           },
           {
-            "uuid": "425ee5d1-bf39-4e09-b372-fc86abfea0c1",
-            "display": "RESISTANCECLINIC"
+            "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
+            "display": "ADULTRETURN"
           },
           {
             "uuid": "b690e24a-6dc7-40a8-8cbd-0924dd507dca",
@@ -1506,7 +1506,8 @@
     "dataDependencies": [
       "patient",
       "enrollment",
-      "hivLastTenClinicalEncounters"
+      "hivLastTenClinicalEncounters",
+      "hivLastEncounter"
     ],
     "enrollmentOptions": {
       "requiredProgramQuestions": [
@@ -1596,7 +1597,7 @@
       {
         "uuid": "9bf3fadd-4938-40fa-a093-4e01bf197876",
         "name": "Differentiated Care Facility Visit ",
-        "allowedIf": "programLocation === intendedVisitLocationUuid",
+        "allowedIf": "programLocation === intendedVisitLocationUuid && !qualifiesForStandardVisit",
         "message": "Patient has to be in the location he enrolled into the HIV Care and Treatment program ",
         "encounterTypes": [
           {
@@ -1653,7 +1654,7 @@
       },
       {
         "uuid": "380d79a7-6fb0-41bf-be3d-aa3d25da187c",
-        "name": "Standard HIV Visit for Differentiated Care",
+        "name": "Standard HIV Visit for Differentiated Care ",
         "allowedIf": "age >= 10 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
         "encounterTypes": [
           {
@@ -1683,10 +1684,6 @@
           {
             "uuid": "4e7553b4-373d-452f-bc89-3f4ad9a01ce7",
             "display": "YOUTHRETURN"
-          },
-          {
-            "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
-            "display": "ADULTRETURN"
           }
         ]
       }
@@ -3191,7 +3188,5 @@
     ]
 
   }
-
-
-
+  
 }

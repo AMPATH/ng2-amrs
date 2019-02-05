@@ -9,7 +9,8 @@ var availableKeys = {
     'patient': getPatient,
     'dummyPatient': getPatient,
     'enrollment': getProgramEnrollment,
-    'hivLastTenClinicalEncounters': gethivLastTenClinicalEncounters
+    'hivLastTenClinicalEncounters': gethivLastTenClinicalEncounters,
+    'hivLastEncounter': getPatientLastEncounter
 };
 
 var def = {
@@ -17,7 +18,8 @@ var def = {
     getProgramEnrollment: getProgramEnrollment,
     gethivLastTenClinicalEncounters: gethivLastTenClinicalEncounters,
     getAllDataDependencies: getAllDataDependencies,
-    availableKeys: availableKeys
+    availableKeys: availableKeys,
+    getPatientLastEncounter: getPatientLastEncounter
 };
 
 module.exports = def;
@@ -98,3 +100,16 @@ function gethivLastTenClinicalEncounters(patientUuid, params) {
     );
 }
 
+function getPatientLastEncounter(patientUuid) {
+    return new Promise(
+        function (resolve, reject) {
+            etlHivSummary.getPatientLastEncounter(patientUuid)
+                .then(function (response) {
+                    resolve(response.result[0]);
+                })
+                .catch(function (error) {
+                    reject(error);
+                });
+        }
+    );
+}
