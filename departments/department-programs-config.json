@@ -130,7 +130,7 @@
      "uud3":{
         "name":"CDM",
         "programs":[
-            
+
             {
                 "uuid":"b731ba72-cf99-4176-9fcd-37cd186400c7",
                 "name": "HTN AND DM CARE AT THE SECONDARY CARE LEVEL"
@@ -146,6 +146,10 @@
             {
                 "uuid": "da0c184e-751c-4b7e-a761-a60dc2d3f798",
                 "name": "INTEGRATED SCREENING PROGRAM"
+            },
+            {
+                "uuid": "f5cbf61f-eadc-4fe6-999c-2dfe9556df95",
+                "name": "BIGPIC PROGRAM"
             }
         ]
     },
@@ -156,7 +160,7 @@
                 "uuid":"781d8a88-1359-11df-a1f1-0026b9348838",
                 "name": "BSG PROGRAM"
             }
-            
+
         ]
     },
     "uud5":{
@@ -166,7 +170,7 @@
                 "uuid":"b3575274-1850-429b-bb8f-2ff83faedbaf",
                 "name": "DERMATOLOGY"
             }
-            
+
         ]
     }
 }

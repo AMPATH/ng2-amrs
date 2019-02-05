@@ -359,7 +359,7 @@
           {
             "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
             "display": "DERMATOLOGYREFERRAL"
-          },          
+          },
           {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
             "display": "FAMILYSTATUS"
@@ -1772,7 +1772,7 @@
             "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
             "display": "DERMATOLOGYREFERRAL"
           },
-          
+
           {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
             "display": "FAMILYSTATUS"
@@ -2292,7 +2292,7 @@
             "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
             "display": "DERMATOLOGYREFERRAL"
           },
-         
+
           {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
             "display": "FAMILYSTATUS"
@@ -2933,7 +2933,7 @@
             "display": "FAMILYSTATUS"
           }
         ]
-      }, 
+      },
       {
         "uuid": "06eca2a8-1da9-4ac4-95c6-15afedd4de21",
         "name": "HIV Lab Visit",
@@ -3167,5 +3167,31 @@
       }
     ]
 
+  },
+  "f5cbf61f-eadc-4fe6-999c-2dfe9556df95": {
+    "name": "BIGPIC PROGRAM",
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "hivLastTenClinicalEncounters"
+    ],
+    "incompatibleWith": [],
+    "visitTypes": [
+      {
+        "uuid": "f13f49ca-36b3-4abb-a24e-1776803ca69b",
+        "name": "GROUP CARE VISIT",
+        "encounterTypes": [
+          {
+            "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
+            "display": "ADULTRETURN"
+          }
+
+        ]
+      }
+    ]
+
   }
+
+
+
 }
