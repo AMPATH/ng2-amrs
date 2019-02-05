@@ -1580,7 +1580,7 @@
     "visitTypes": [
       {
         "uuid": "0d608b80-1cb5-4c85-835a-29072683ca27",
-        "name": "DC Community Visit",
+        "name": "Community Visit for Differentiated Care",
         "groupVisit": true,
         "encounterTypes": [
           {
@@ -1653,7 +1653,7 @@
       },
       {
         "uuid": "380d79a7-6fb0-41bf-be3d-aa3d25da187c",
-        "name": "Standard HIV Visit ",
+        "name": "Standard HIV Visit for Differentiated Care",
         "allowedIf": "age >= 10 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
         "encounterTypes": [
           {
