@@ -25,6 +25,7 @@ import { CacheModule } from 'ionic-cache';
 import {
   DataAnalyticsDashboardService
 } from './services/data-analytics-dashboard.services';
+import { SelectDepartmentService } from './../program-visit-encounter-search/program-visit-encounter-search.service';
 import { DataAnalyticsHivModule } from './hiv/data-analytics-hiv.module';
 import {
   DataAnalyticsOncologyModule
@@ -77,6 +78,7 @@ import { PocHttpInteceptor } from '../shared/services/poc-http-interceptor';
     DataAnalyticsDashboardGuard,
     ClinicDashboardCacheService,
     DataAnalyticsDashboardService,
+    SelectDepartmentService,
     {
       provide: 'ClinicFlowResource',
       useExisting: HivClinicFlowResourceService

@@ -28,8 +28,7 @@ export class PatientProgramEnrollmentService {
          return null;
     }
     let urlParams: HttpParams = new HttpParams()
-    .set('endDate', payload.endDate)
-    .set('startDate', payload.startDate);
+    .set('endDate', payload.endDate);
     if (payload.locationUuids) {
         if (payload.locationUuids.length > 0) {
             urlParams = urlParams.set('locationUuids', payload.locationUuids);
@@ -55,8 +54,7 @@ export class PatientProgramEnrollmentService {
     }
 
     let urlParams: HttpParams = new HttpParams()
-    .set('endDate', payload.endDate)
-    .set('startDate', payload.startDate);
+    .set('endDate', payload.endDate);
     if (payload.locationUuids) {
         if (payload.locationUuids.length > 0) {
              urlParams = urlParams.set('locationUuids', payload.locationUuids);
