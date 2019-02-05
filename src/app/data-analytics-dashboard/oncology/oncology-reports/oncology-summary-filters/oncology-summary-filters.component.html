@@ -9,10 +9,12 @@
                   [end]="ageRangeEnd" 
                   (onAgeChangeFinish)="onAgeChangeFinished($event)" 
                   (onGenderChange)="getSelectedGender($event)"
+                  (selectedPeriodChange)="selectedPeriodChange($event)"
                   (onIndicatorChange)="getSelectedIndicators($event)" 
                   (onselectedLocationChange)="getLocations($event)" 
                   [selectedIndicators]="selectedIndicators"
-                  [selectedGender]="selectedGender" 
+                  [selectedGender]="selectedGender"
+                  [selectedPeriod]="period"
                   [reportName]="reportName" 
                   [parentIsBusy]="isLoadingReport" 
                   (generateReport)="generateReport()">

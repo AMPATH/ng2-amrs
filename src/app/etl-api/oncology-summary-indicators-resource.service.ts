@@ -34,6 +34,9 @@ export class OncolgyMonthlySummaryIndicatorsResourceService {
         if (params.gender && params.gender.length > 0) {
             urlParams = urlParams.set('genders', params.gender);
         }
+        if (params.period && params.period.length > 0) {
+            urlParams = urlParams.set('period', params.period);
+        }
         if (params.startAge && params.startAge !== '') {
            urlParams =  urlParams.set('startAge', params.startAge);
         }
