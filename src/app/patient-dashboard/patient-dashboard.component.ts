@@ -1,5 +1,5 @@
 
-import {take} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy, ElementRef, ViewChild, DoCheck } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { combineLatest, Observable, Subscription } from 'rxjs';
@@ -10,7 +10,8 @@ import * as Moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytics.service';
 import { DynamicRoutesService } from '../shared/dynamic-route/dynamic-routes.service';
-import { PatientRoutesFactory
+import {
+  PatientRoutesFactory
 } from '../navigation/side-navigation/patient-side-nav/patient-side-nav-routes.factory';
 
 @Component({
@@ -51,11 +52,11 @@ export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   public ngOnInit() {
-   const sub = this.patientService.currentlyLoadedPatient.subscribe(
+    const sub = this.patientService.currentlyLoadedPatient.subscribe(
       (patientObject) => {
         if (patientObject) {
           const routes = this.patientRoutesFactory
-          .createPatientDashboardRoutes(patientObject);
+            .createPatientDashboardRoutes(patientObject);
           this.dynamicRoutesService.setPatientDashBoardRoutes(routes);
         }
       });
@@ -101,8 +102,11 @@ export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
             if (results.length > 0) {
               const result = results[1][0];
               if (result.updatedObs && result.updatedObs.length > 0) {
+                const uniqueTests: any = Object.values(result.updatedObs.reduce((acc, cur) => {
+                  return Object.assign(acc, { [cur.concept.uuid]: cur });
+                }, {}));
                 let content = '';
-                for (const test of result) {
+                for (const test  of uniqueTests) {
                   if (test.groupMembers) {
                     for (const l of test.groupMembers) {
                       if (l.uuid === '5538cd04-9852-40f8-88ba-c69da32e50eb') {
@@ -132,7 +136,7 @@ export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
         console.error(error);
       });
 
-      this.subscriptions.push(sub1);
+    this.subscriptions.push(sub1);
   }
 
   public getCombinedResult(patient: any): Observable<any[]> {
