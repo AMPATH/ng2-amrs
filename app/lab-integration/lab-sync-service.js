@@ -192,7 +192,9 @@ export class LabSyncService {
   combineObs(key, obs) {
     let combined = [];
     for (let o of obs) {
-      combined = combined.concat(o[key]);
+      if(o){
+        combined = combined.concat(o[key]);
+      }
     }
     return combined;
   }

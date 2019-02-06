@@ -30,7 +30,7 @@ export class EidCompareOperator {
                 var obsObj = obsResults[i];
                 var equalDate = this.areDatesEqual(eidObj.obsDatetime, obsObj.obsDatetime);
                 var obsValue = '';
-                if (obsObj.value !== null) {
+                if (obsObj.value && obsObj.value !== null) {
                     if (typeof (obsObj.value) === 'object') {
                         obsValue = obsObj.value.uuid.toString();
                     } else {
