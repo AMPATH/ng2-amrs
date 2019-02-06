@@ -22,6 +22,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
 import { PouchdbService } from '../pouchdb-service/pouchdb.service';
+import { ClinicDashboardCacheService } from 'src/app/clinic-dashboard/services/clinic-dashboard-cache.service';
 class MockCacheStorageService {
   constructor(a, b) { }
 
@@ -71,6 +72,14 @@ const mockPrograms = [
 
 ];
 
+const mockCurrentLocation = 'uuid1';
+
+const clinicDashboardCacheService =
+jasmine.createSpyObj('ClinicDashboardCacheService', ['getDartmentProgramsConfig']);
+
+const clinicDashboardCacheServiceSpy =
+clinicDashboardCacheService.getDartmentProgramsConfig.and.returnValue( of(mockCurrentLocation) );
+
 const mockParams = {
     'startDate': '2018-03-01',
     'endDate': '2018-03-31',
@@ -98,8 +107,8 @@ const selectedEndDate = '2018-03-31';
 describe('Component : DepartmentProgramFilter', () => {
     let fixture: ComponentFixture<DepartmentProgramFilterComponent>;
     let comp: DepartmentProgramFilterComponent;
-    let patientProgramService: PatientProgramResourceService;
     let localStorageService: LocalStorageService;
+    let clinicDashboardService: ClinicDashboardCacheService;
     let departmentProgramService: DepartmentProgramsConfigService;
     let userDefaultService: UserDefaultPropertiesService;
     let locationResourceService: LocationResourceService;
@@ -144,6 +153,10 @@ describe('Component : DepartmentProgramFilter', () => {
             useValue: mockActivatedRoute
           },
           {
+            provide: ClinicDashboardCacheService,
+            useValue :  clinicDashboardCacheService
+          },
+          {
             provide: CacheStorageService, useFactory: () => {
               return new MockCacheStorageService(null, null);
             }
@@ -153,7 +166,6 @@ describe('Component : DepartmentProgramFilter', () => {
         .then(() => {
           fixture = TestBed.createComponent(DepartmentProgramFilterComponent);
           comp = fixture.componentInstance;
-          patientProgramService = fixture.debugElement.injector.get(PatientProgramResourceService);
           localStorageService = fixture.debugElement.injector.get(LocalStorageService);
           userDefaultService = fixture.debugElement.injector.get(UserDefaultPropertiesService);
           departmentProgramService = fixture.debugElement.injector
@@ -162,6 +174,7 @@ describe('Component : DepartmentProgramFilter', () => {
           cd = fixture.debugElement.injector.get(ChangeDetectorRef);
           route = fixture.debugElement.injector.get(Router);
           router = fixture.debugElement.injector.get(ActivatedRoute);
+          clinicDashboardService = fixture.debugElement.injector.get(ClinicDashboardCacheService);
         });
       }));
 
@@ -178,9 +191,9 @@ describe('Component : DepartmentProgramFilter', () => {
         comp.location = mocklocationSelected;
         comp.selectedStartDate = selectedStartDate;
         comp.selectedEndDate = selectedEndDate;
-        comp.department = mockDepartmentSelected;
         comp.program = programsSelected;
         comp.location = mocklocationSelected;
+        comp.department = mockDepartmentSelected;
         comp.setFilter();
         fixture.detectChanges();
         expect(comp.params).toEqual(mockParams);

@@ -120,7 +120,7 @@ export class ProgramEnrollmentPatientListComponent implements OnInit, OnDestroy 
                 this._patientProgramEnrollmentService.getActivePatientEnrollmentPatientList(params).pipe(
                 take(1)).subscribe((enrollments) => {
                     if (enrollments) {
-                        this.processEnrollments(enrollments);
+                        this.processEnrollments(enrollments.result);
                     }
 
                     this.busyIndicator = {
@@ -139,7 +139,7 @@ export class ProgramEnrollmentPatientListComponent implements OnInit, OnDestroy 
 
         _.each((enrollments), (enrollment: any) => {
 
-            const patientUuid = enrollment.person_uuid;
+            const patientUuid = enrollment.patient_uuid;
             const patientObjMap = trackPatientMap.get(patientUuid);
             let completedDetail = '';
             if (enrollment.date_completed != null) {
@@ -150,14 +150,14 @@ export class ProgramEnrollmentPatientListComponent implements OnInit, OnDestroy 
             }
 
             const enrollmentDateDetail = enrollment.program_name + '( Enrolled - ' +
-            Moment(enrollment.enrolled_date).format('DD-MMM-YYYY') + ')' +  completedDetail;
+            Moment(enrollment.date_enrolled).format('DD-MMM-YYYY') + ')' +  completedDetail;
 
             if (typeof patientObjMap === 'undefined') {
 
             const patient = {
                 no: i,
-                name: enrollment.patient_name,
-                identifier: enrollment.patient_identifier,
+                name: enrollment.person_name,
+                identifier: enrollment.identifiers,
                 program: enrollmentDateDetail,
                 patient_uuid : patientUuid
             };

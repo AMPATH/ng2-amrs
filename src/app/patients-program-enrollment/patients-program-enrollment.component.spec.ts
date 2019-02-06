@@ -14,6 +14,8 @@ import { AgGridModule } from 'ag-grid-angular';
 import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
 import { ProgramEnrollmentSummaryComponent } from './program-enrollment-summary.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ClinicDashboardCacheService } from 'src/app/clinic-dashboard/services/clinic-dashboard-cache.service';
+import { LocalStorageService } from './../utils/local-storage.service';
 
 class MockRouter {
     public navigate = jasmine.createSpy('navigate');
@@ -93,6 +95,9 @@ jasmine.createSpyObj('DepartmentProgramsConfigService', ['getDartmentProgramsCon
 const getDepartmentProgramsSpy =
 departmentProgramConfigService.getDartmentProgramsConfig.and.returnValue( of(mockDepartmentProgramConfig) );
 
+const clinicDashboardCacheService =
+jasmine.createSpyObj('ClinicDashboardCacheService', ['getDartmentProgramsConfig']);
+
 
 const patientProgramEnrollmentService =
 jasmine.createSpyObj('PatientProgramEnrollmentService', ['getActivePatientEnrollmentSummary']);
@@ -111,6 +116,9 @@ jasmine.createSpyObj('LocationResourceService', ['getLocations']);
 
 const locationResourceServiceSpy =
 locationResourceService.getLocations.and.returnValue( of(mockDepartmentProgramConfig) );
+
+const  localStorageService =
+jasmine.createSpyObj('LocalStorageService', ['getItem']);
 
 
 
@@ -198,8 +206,6 @@ const mockSummaryList = [
 
 describe('Component: Patient Program Enrollment', () => {
   let fixture: ComponentFixture<PatientsProgramEnrollmentComponent>;
-  let patientsProgramEnrollmentService: any;
-  let departmentProgramService: any;
   let router: Router;
   let cd: ChangeDetectorRef;
   let comp: any;
@@ -241,17 +247,25 @@ describe('Component: Patient Program Enrollment', () => {
           useValue : patientProgramResourceService
         },
         {
+          provide: ClinicDashboardCacheService,
+          useValue :  clinicDashboardCacheService
+        },
+        {
           provide: LocationResourceService,
           useValue :  locationResourceService
+        },
+        {
+          provide: LocalStorageService,
+          useValue :  localStorageService
         }
       ]
     }).compileComponents()
       .then(() => {
         fixture = TestBed.createComponent(PatientsProgramEnrollmentComponent);
         comp = fixture.componentInstance;
-        patientsProgramEnrollmentService =
+       const patientsProgramService =
         fixture.debugElement.injector.get<PatientProgramEnrollmentService>(PatientProgramEnrollmentService);
-        departmentProgramService = fixture.debugElement.injector
+        const departmentService = fixture.debugElement.injector
         .get<DepartmentProgramsConfigService>(DepartmentProgramsConfigService);
         cd = fixture.debugElement.injector.get<ChangeDetectorRef>(ChangeDetectorRef as any);
         router = fixture.debugElement.injector.get<Router>(Router);
