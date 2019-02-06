@@ -21,7 +21,7 @@
                             "dob": payload.birthDate,
                             "datecollected": payload.dateDrawn,
                             "sex": getGenderCode(payload.sex),
-                            "prophylaxis": getArtRegimen(payload) || 14,
+                            "prophylaxis": getArtRegimen(payload) || 16,
                             "regimenline": 1,
                             "order_no": payload.orderNumber,
                             "sampletype": payload.sampleType ? payload.sampleType : 1,
@@ -153,7 +153,7 @@
         if (rawPayload.artRegimenUuid === "") return 15; //15 is none;
 
         var arvCodes = rawPayload.artRegimenUuid ? rawPayload.artRegimenUuid.split(" ## ") : null;
-        var resolvedId = 14;  // 14 is other
+        var resolvedId = 16;  // 14 is other
 
         if (!(arvCodes && arvCodes.length > 0)) return resolvedId;
 
