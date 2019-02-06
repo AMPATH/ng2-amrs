@@ -22,6 +22,14 @@ function buildScope(dataDictionary) {
           dataDictionary.intendedVisitLocationUuid);
     }
 
+    if (dataDictionary.hivLastEncounter) {
+        if (dataDictionary.hivLastEncounter.months_from_last_visit >= 5) {
+            scope.qualifiesForStandardVisit = true;
+        } else {
+            scope.qualifiesForStandardVisit = false;
+        }
+    }
+
     if (dataDictionary.intendedVisitLocationUuid) {
         scope.intendedVisitLocationUuid = dataDictionary.intendedVisitLocationUuid;
     }
