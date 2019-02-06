@@ -92,6 +92,9 @@ import * as enhanced_adherence_hiv_program_base from './json-reports/enhanced-ad
 import * as patient_program_cohort from './json-reports/patient-program-cohort';
 import * as enhanced_adherence_hiv_program_cohort from './json-reports/enhanced-adherence-hiv-program-cohort';
 
+import * as currently_enrolled_patients_base from './json-reports/currently-enrolled-patients.base';
+import * as currently_enrolled_patients_aggregate from './json-reports/currently-enrolled-patients-aggregate';
+
 export class BaseMysqlReport {
     constructor(reportName, params) {
         this.reportName = reportName;
@@ -425,6 +428,12 @@ export class BaseMysqlReport {
                         enhancedAdherenceHIVProgramCohort: this.cloneJsonSchema(enhanced_adherence_hiv_program_cohort)
                     });
                     break;
+                case 'currentlyEnrolledPatientsAggregate':
+                    resolve({
+                        main: this.cloneJsonSchema(currently_enrolled_patients_aggregate),
+                        currentlyEnrolledPatientsBase: this.cloneJsonSchema(currently_enrolled_patients_base)
+                    });
+                break;
                 default:
                     reject('Unknown report ', reportName);
                     break;
