@@ -19,6 +19,8 @@ import { LocalStorageService } from '../../utils/local-storage.service';
 import { ProgramManagerService } from '../program-manager.service';
 import { RoutesProviderService } from '../../shared/dynamic-route/route-config-provider.service';
 import { CommunityGroupMemberService } from '../../openmrs-api/community-group-member-resource.service';
+import { LocationResourceService } from '../../openmrs-api/location-resource.service';
+import { RisonService } from '../../shared/services/rison-service';
 
 @Component({
   selector: 'new-program',
@@ -43,17 +45,18 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
   public retroSettings: any;
 
   constructor(public patientService: PatientService,
-              public programService: ProgramService,
-              public router: Router,
-              public route: ActivatedRoute,
-              public departmentProgramService: DepartmentProgramsConfigService,
-              public userDefaultPropertiesService: UserDefaultPropertiesService,
-              public patientProgramResourceService: PatientProgramResourceService,
-              public cdRef: ChangeDetectorRef,
-              public localStorageService: LocalStorageService,
-              private routesProviderService: RoutesProviderService,
-              private programManagerService: ProgramManagerService,
-              private groupMemberService: CommunityGroupMemberService) {
+    public programService: ProgramService,
+    public router: Router,
+    public route: ActivatedRoute,
+    public departmentProgramService: DepartmentProgramsConfigService,
+    public userDefaultPropertiesService: UserDefaultPropertiesService,
+    public patientProgramResourceService: PatientProgramResourceService,
+    public cdRef: ChangeDetectorRef,
+    public localStorageService: LocalStorageService,
+    private routesProviderService: RoutesProviderService,
+    private programManagerService: ProgramManagerService,
+    private locationResourceService: LocationResourceService,
+    private groupMemberService: CommunityGroupMemberService, private risonService: RisonService) {
     super(
       patientService,
       programService,
@@ -67,20 +70,27 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
   }
 
   public ngOnInit() {
-    this.setUserDefaultLocation();
     this.showForms = false;
     this.route.params.subscribe((params) => {
       this.getDepartmentConf();
       this.loadPatientProgramConfig().pipe(take(1)).subscribe((loaded) => {
         if (loaded) {
+          this.setUserDefaultLocation();
           this.loaded = true;
           this.getCurrentPatientGroups(this.patient.uuid);
-          if (params['step']) {
-            this.loadOnParamInit(params);
-          }
           const dept = JSON.parse(this.localStorageService.getItem('userDefaultDepartment'));
           this.department = dept[0].itemName;
           this.selectDepartment(dept[0].itemName);
+          console.log('Group', this.route.snapshot.queryParams.program);
+          if (this.route.snapshot.queryParams.program) {
+            this.selectProgram(this.route.snapshot.queryParams.program);
+          }
+          if (params['step']) {
+            this.loadOnParamInit(params);
+          }
+          this.loadQueryParams();
+
+
         }
       }, () => {
         this.loaded = true;
@@ -355,8 +365,8 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
       this.department = stepInfo.department;
       this.selectedProgram = stepInfo.selectedProgram;
       this.program = this.selectedProgram.programUuid;
-      this.dateEnrolled = stepInfo.dateEnrolled;
-      this.selectedLocation = stepInfo.selectedLocation;
+      this.dateEnrolled = stepInfo.dateEnrolled || this.dateEnrolled;
+      this.selectedLocation = stepInfo.selectedLocation || this.selectedLocation;
       this.submittedEncounter = stepInfo.submittedEncounter || [];
       this.enrollmentEncounters = stepInfo.enrollmentEncounters || [];
       this.incompatibleProgrames = stepInfo.incompatibleProgrames || [];
@@ -365,6 +375,7 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
         stepInfo.programVisitConfig || this.allPatientProgramVisitConfigs[this.program];
       this.availableDepartmentPrograms = this.getProgramsByDepartmentName();
     } else {
+      console.log('Going Back to new');
       this.currentStep = 1;
       this.jumpStep = -1;
       const _route = '/patient-dashboard/patient/' + this.patient.uuid
@@ -390,7 +401,7 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
           // reset its selected answer and remove it from the required questions
           rq.value = null;
           _.remove(this.requiredProgramQuestions, (_rq) => {
-              return rq.qtype === _rq.qtype;
+            return rq.qtype === _rq.qtype;
           });
         }
       });
@@ -408,8 +419,10 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
   }
 
   private loadOnParamInit(params: any) {
+    console.log('Params', params);
     this.currentStep = parseInt(params.step, 10);
     this.jumpStep = this.currentStep;
+
     this.deserializeStepInfo();
     if (this.currentStep === 3) {
       this.unenrollAndGoToDetails();
@@ -420,6 +433,34 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
         this.referPatient();
       } else {
         this.enrollPatientToProgram();
+      }
+    }
+  }
+  private resolveLocationDetails(locationUuid): void {
+    this.locationResourceService.getLocationByUuid(locationUuid)
+      .subscribe((location) => {
+        this.selectedLocation = {
+          value: location.uuid,
+          label: location.name
+        };
+      });
+  }
+  private loadQueryParams() {
+    const queryParams: any = this.route.snapshot.queryParams;
+    console.log('queryParams', queryParams);
+    if (queryParams.enrollMentQuestions) {
+      this.preFillEnrollmentQuestions(queryParams.enrollMentQuestions);
+    }
+    this.resolveLocationDetails(this.route.snapshot.queryParams.locationUuid);
+  }
+
+  private preFillEnrollmentQuestions(enrollMentQuestions: any) {
+    const enrollMentQuestionsObject = this.risonService.decode(enrollMentQuestions);
+    for (const key in enrollMentQuestionsObject) {
+      if (enrollMentQuestionsObject.hasOwnProperty(key)) {
+        const answer = enrollMentQuestionsObject[key];
+        const question = this.resetRequiredQuestion({ qtype: key });
+        question.value = answer;
       }
     }
   }
@@ -461,11 +502,25 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
       this.tick(3000).then(() => {
         this.refreshPatient();
         this.localStorageService.remove('pm-data');
+        const queryParams: any = this.route.snapshot.queryParams;
+        if (queryParams.groupUuid && queryParams.enrollMentQuestions) {
+          const enrollMentQuestionsObject = this.risonService.decode(queryParams.enrollMentQuestions);
+          if (enrollMentQuestionsObject.enrollToGroup) {
+            this.enrollIntoGroup(queryParams);
+          }
+        }
       });
     }
 
   }
 
+  private enrollIntoGroup(queryParams) {
+    this.groupMemberService.createMember(queryParams.groupUuid, this.patient.uuid).subscribe((result) => {
+      this.router.navigateByUrl(queryParams.redirectUrl);
+    }, (error) => {
+      console.error('Error', error);
+    });
+  }
   private unenrollAndGoToDetails() {
     if (this.isIncompatibleChoice()) {
       _.each(this.incompatibleProgrames, (program) => {
@@ -474,7 +529,7 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
         });
       });
       // update step info with the filled forms
-      this.addToStepInfo({incompatibleProgrames: this.incompatibleProgrames});
+      this.addToStepInfo({ incompatibleProgrames: this.incompatibleProgrames });
       if (this.enrollmentEncounters.length > 0) {
         this.addToStepInfo({
           enrollmentEncounters: this.enrollmentEncounters
@@ -489,9 +544,12 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
   }
 
   private skipIncompatibilityStep() {
-    this.currentStep = this.currentStep + 2;
+    const program = this.route.snapshot.queryParams.program;
+    this.currentStep = this.currentStep + (program ? 1 : 2);
     this.jumpStep = this.currentStep;
     this.title = 'Start';
+    // Had to add this to make the next step work
+    this.localStorageService.setObject('pm-data', this.stepInfo);
   }
 
   private checkIfEnrollmentIsAllowed(): void {

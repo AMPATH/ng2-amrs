@@ -48,9 +48,11 @@ import { ConfirmDialogModule, DialogModule, TabViewModule } from 'primeng/primen
 import {
   HivProgramSnapshotComponent
 } from '../patient-dashboard/hiv/program-snapshot/hiv-program-snapshot.component';
-import { CdmProgramSnapshotComponent
+import {
+  CdmProgramSnapshotComponent
 } from '../patient-dashboard/cdm/program-snapshot/cdm-program-snapshot.component';
-import { GeneralLandingPageComponent
+import {
+  GeneralLandingPageComponent
 } from '../patient-dashboard/general-landing-page/landing-page.component';
 import { FormListComponent } from '../patient-dashboard/common/forms/form-list.component';
 import { ReportFiltersComponent } from './report-filters/report-filters.component';
@@ -61,7 +63,8 @@ import {
 import {
   PrettyEncounterViewerComponent
 } from '../patient-dashboard/common/formentry/pretty-encounter-viewer.component';
-import { RetrospectiveDataEntryModule
+import {
+  RetrospectiveDataEntryModule
 } from '../retrospective-data-entry/retrospective-data-entry.module';
 import { DataListsModule } from './data-lists/data-lists.module';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
@@ -69,6 +72,8 @@ import { AppModalComponent } from './modal/app-modal.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PocHttpInteceptor } from './services/poc-http-interceptor';
 import { SelectDepartmentService } from '../program-visit-encounter-search/program-visit-encounter-search.service';
+
+import { RisonService } from './services/rison-service';
 
 @NgModule({
   imports: [
@@ -118,7 +123,7 @@ import { SelectDepartmentService } from '../program-visit-encounter-search/progr
     RetrospectiveDataEntryModule, MatCardModule, PatientEncounterObservationsComponent,
     StringToDatePipe, Ng2FilterPipe, OnlineTrackerComponent, HivProgramSnapshotComponent,
     BuildVersionComponent, FormListComponent, ReportFiltersComponent, ZeroVlPipe, PrettyEncounterViewerComponent,
-    DateSelectorComponent, PdfViewerModule , NgxMyDatePickerModule, GeneralLandingPageComponent,
+    DateSelectorComponent, PdfViewerModule, NgxMyDatePickerModule, GeneralLandingPageComponent,
     OpenmrsApi, EtlApi, Ng2Bs3ModalModule, ModalModule, BsDropdownModule, TooltipModule,
     LocationFilterComponent, Angulartics2Module, MatSnackBarModule, MatTabsModule, ReactiveFormsModule,
     MatProgressBarModule, MatProgressSpinnerModule, MatSlideToggleModule, NgxPaginationModule, MatButtonModule,
@@ -132,7 +137,7 @@ import { SelectDepartmentService } from '../program-visit-encounter-search/progr
     CdmProgramSnapshotComponent
   ],
   providers: [Ng2FilterPipe, StringToDatePipe, ZeroVlPipe, RoutesProviderService,
-    HivSummaryService, SelectDepartmentService,
+    HivSummaryService, RisonService, SelectDepartmentService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: PocHttpInteceptor,
