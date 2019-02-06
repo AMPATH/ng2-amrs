@@ -1,4 +1,3 @@
-
 import { Component, OnInit, Input, Inject } from '@angular/core';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
 import { FormSchemaService } from './form-schema.service';
@@ -59,11 +58,14 @@ export class PrettyEncounterViewerComponent implements OnInit {
 
         this.dataSources.registerDataSource('patientInfo',
             {
-                name: this.patient.person.display,
-                birthdate: this.patient.person.birthdate,
-                mui: this.patient.searchIdentifiers.ampathMrsUId || '',
-                nid: this.patient.searchIdentifiers.kenyaNationalId || '',
-                age: this.patient.person.age
+              name: this.patient.person.display || '',
+              age: this.patient.person.age,
+              birthdate: this.patient.person.birthdate,
+              mui: this.patient.searchIdentifiers.ampathMrsUId || '',
+              nid: this.patient.searchIdentifiers.kenyaNationalId || '',
+              mhn: this.patient.openmrsModel.identifiers.find(identifier => identifier.identifierType.name === 'MTRH Hospital Number') ?
+                // tslint:disable-next-line:max-line-length
+                this.patient.openmrsModel.identifiers.find(identifier => identifier.identifierType.name === 'MTRH Hospital Number').identifier : ''
             });
     }
 
