@@ -321,16 +321,17 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
     public editEncounter(encounter: any) {
         if (encounter) {
             // get visitType and add it to the url
-            let visitType = '';
-            if (encounter.visit && encounter.visit !== null) {
-                const visit: any = encounter.visit;
-                visitType = visit.uuid;
-            }
-            this.router.navigate(['../formentry', encounter.form.uuid], {
-                relativeTo: this.route,
-                queryParams: { encounter: encounter.uuid , visitTypeUuid: visitType }
-            });
+            const visitTypeUuid = this.getVisitTypeUuid(encounter);
+                this.router.navigate(['../formentry', encounter.form.uuid], {
+                    relativeTo: this.route,
+                    queryParams: { encounter: encounter.uuid , visitTypeUuid: visitTypeUuid }
+                });
         }
+    }
+    public getVisitTypeUuid(encounter: any) {
+        const visitTypeUuid = _.get(encounter, 'visit.visitType.uuid', '');
+        return visitTypeUuid;
+
     }
 
     public showEncounterObservations(encounter) {
