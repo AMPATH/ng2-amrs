@@ -20,7 +20,7 @@ export class PatientRemindersComponent implements OnInit, OnDestroy {
   public reminders: any;
   public subscription: Subscription;
   public errorMessage: string;
-  public toastrConfig = {
+  public toastrConfig: any = {
     extendedTimeOut: 0,
     timeOut: 0,
     positionClass: 'toast-bottom-right',
