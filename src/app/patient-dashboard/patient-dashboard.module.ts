@@ -35,6 +35,7 @@ import { GroupEnrollmentModule } from './group-enrollment/group-enrollment.modul
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PocHttpInteceptor } from '../shared/services/poc-http-interceptor';
 import { GeneralLandingPageComponent } from './general-landing-page/landing-page.component';
+import { PatientRegistrationModule } from '../patient-creation/patient-creation.module';
 
 @NgModule({
   imports: [
@@ -42,6 +43,7 @@ import { GeneralLandingPageComponent } from './general-landing-page/landing-page
     CommonModule,
     RouterModule,
     FormsModule,
+    PatientRegistrationModule,
     ConfirmDialogModule,
     SharedModule,
     DialogModule,

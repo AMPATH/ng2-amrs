@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -140,10 +140,36 @@ import { ZscoreService } from '../../shared/services/zscore.service';
 import { GroupEnrollmentModule } from '../group-enrollment/group-enrollment.module';
 import { VitalsDatasource } from './todays-vitals/vitals.datasource';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { MatTableModule, MatFormFieldModule } from '@angular/material';
 import { PocHttpInteceptor } from 'src/app/shared/services/poc-http-interceptor';
 import { HivSummaryLatestComponent } from '../hiv/hiv-summary/hiv-summary-latest.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AgePipe } from './patient-banner/age.pipe';
+
+import { AddDrugOrdersComponent } from './drug-orders/add-drug-orders/add-drug-orders.component';
+import { DrugOrdersComponent } from './drug-orders/drug-orders/drug-orders.component';
+import { DrugOrderService } from './drug-orders/drug-order.service';
+import { DrugOrderSetComponent } from './drug-orders/drug-order-set/drug-order-set.component';
+import { A11yModule } from '@angular/cdk/a11y';
+import { CdkStepperModule } from '@angular/cdk/stepper';
+import { CdkTableModule } from '@angular/cdk/table';
+import { CdkTreeModule } from '@angular/cdk/tree';
+import {
+
+        MatToolbarModule,
+        MatButtonModule,
+        MatSidenavModule,
+        MatIconModule,
+        MatInputModule,
+        MatMenuModule,
+        MatListModule,
+} from '@angular/material';
+import { DrugsFilterPipe } from './drug-orders/drugs-filter.pipe';
+import { DrugSetFilterPipe } from './drug-orders/drug-order-set/drugSet-filter.pipe';
+import { DrugOrderSetDraftComponent } from './drug-orders/drug-order-set/drug-order-set-draft/drug-order-set-draft.component';
+import { EditDrugComponent } from './drug-orders/edit-drug/edit-drug.component';
+
+
 
 @NgModule({
   imports: [
@@ -155,10 +181,17 @@ import { AgePipe } from './patient-banner/age.pipe';
     DataTableModule,
     SharedModule,
     InputTextModule,
+    MatTableModule,
     MessagesModule,
     InputTextareaModule,
     DropdownModule,
     ButtonModule,
+    MatButtonModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatListModule,
+    MatToolbarModule,
     CalendarModule,
     NgamrsSharedModule,
     Ng2Bs3ModalModule,
@@ -185,6 +218,18 @@ import { AgePipe } from './patient-banner/age.pipe';
     GroupEnrollmentModule
   ],
   exports: [
+    A11yModule,
+    CdkStepperModule,
+    CdkTableModule,
+    CdkTreeModule,
+    MatButtonModule,
+    MatIconModule,
+    MatInputModule,
+    MatListModule,
+    MatMenuModule,
+    MatSidenavModule,
+    MatTableModule,
+    MatToolbarModule,
     PatientInfoComponent,
     HivSummaryLatestComponent,
     PatientEncountersComponent,
@@ -208,6 +253,7 @@ import { AgePipe } from './patient-banner/age.pipe';
     DraftedFormNavComponent,
     TodaysVitalsComponent,
     PatientRemindersComponent,
+
     OrderListComponent,
     PatientRelationshipsComponent,
     EditContactsComponent,
@@ -233,7 +279,8 @@ import { AgePipe } from './patient-banner/age.pipe';
     OrderByAlphabetPipe,
     OrderByEncounterTimeAscPipe,
     EncounterTypeFilter,
-    PatientImagingComponent],
+    PatientImagingComponent,
+  ],
   declarations: [
     VisitSummaryComponent,
     PatientInfoComponent,
@@ -245,6 +292,8 @@ import { AgePipe } from './patient-banner/age.pipe';
     LabOrdersComponent,
     ClinicalNotesComponent,
     EncounterListComponent,
+    DrugsFilterPipe,
+    DrugSetFilterPipe,
     VisitComponent,
     PatientBannerComponent,
     EditVisitTypeComponent,
@@ -256,6 +305,7 @@ import { AgePipe } from './patient-banner/age.pipe';
     AddressComponent,
     PatientDemographicsComponent,
     FormentryComponent,
+
     LabTestOrdersComponent,
     DraftedFormNavComponent,
     TodaysVitalsComponent,
@@ -279,13 +329,21 @@ import { AgePipe } from './patient-banner/age.pipe';
     VisitDetailsComponent,
     VisitStarterComponent,
     VisitEncountersPipe,
+
     PatientEncounterProviderPipe,
     OrderByAlphabetPipe,
     OrderByEncounterTimeAscPipe,
     EncounterTypeFilter,
     // ZeroVlPipe,
     AgePipe,
-    PatientImagingComponent],
+    PatientImagingComponent,
+    PatientImagingComponent,
+    AddDrugOrdersComponent,
+    DrugOrdersComponent,
+    DrugOrderSetComponent,
+    OrderListComponent,
+    DrugOrderSetDraftComponent,
+    EditDrugComponent],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
@@ -323,6 +381,11 @@ import { AgePipe } from './patient-banner/age.pipe';
     PatientCareStatusResourceService,
     ZscoreService,
     VitalsDatasource,
-    TodayVisitService],
+    TodayVisitService,
+    DrugsFilterPipe,
+    DrugSetFilterPipe,
+    DrugOrderService
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class PatientDashboardCommonModule { }

@@ -20,7 +20,7 @@ export class FormOrderMetaDataService {
 
         return this.formsOrder;
     }
-    public setFavouriteForm(name: string) {
+    public setFavouriteForm(name: any) {
         const formNames = this.getFavouriteForm();
         const obj = {
             name: name

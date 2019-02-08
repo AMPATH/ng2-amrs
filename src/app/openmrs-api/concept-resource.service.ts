@@ -47,7 +47,10 @@ export class ConceptResourceService {
     .set('v', (v && v.length > 0) ? v : this.v);
     return this.http.get(url, {
       params: params
-    });
+    }).pipe(
+      map((response) => {
+        return response;
+      }));
   }
   public getConceptByConceptClassesUuid(searchText, conceptClassesUuidArray) {
     let filteredConceptResults = [];
@@ -61,6 +64,7 @@ export class ConceptResourceService {
 
       }
     );
+
     return filteredConceptResults;
   }
   public filterResultsByConceptClassesUuid(results, conceptClassesUuidArray) {
@@ -69,6 +73,7 @@ export class ConceptResourceService {
         return result.conceptClass.uuid === uuid;
       });
     });
+    console.log(res, 'longAwaited');
     return res;
   }
 }
