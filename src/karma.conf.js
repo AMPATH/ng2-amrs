@@ -1,10 +1,8 @@
-// Karma configuration file, see link for more information
-// https://karma-runner.github.io/1.0/config/configuration-file.html
 
 module.exports = function (config) {
   config.set({
     basePath: '',
-    frameworks: ['parallel', 'jasmine', '@angular-devkit/build-angular'],
+    frameworks: [/*'parallel', */'jasmine', '@angular-devkit/build-angular'],
     plugins: [
       require('karma-mocha-reporter'),
       require('karma-jasmine'),
@@ -12,12 +10,12 @@ module.exports = function (config) {
       require('karma-jasmine-html-reporter'),
       require('karma-coverage-istanbul-reporter'),
       require('@angular-devkit/build-angular/plugins/karma'),
-      require('karma-parallel')
+      // require('karma-parallel')
     ],
-    parallelOptions: {
-      executors: (Math.ceil(require('os').cpus().length)),
-      shardStrategy: 'round-robin'
-    },
+    // parallelOptions: {
+    //   executors: (Math.ceil(require('os').cpus().length)),
+    //   shardStrategy: 'round-robin'
+    // },
     client: {
       clearContext: false, // leave Jasmine Spec Runner output visible in browser
       jasmine: {

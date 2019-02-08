@@ -40,6 +40,11 @@
         "icon": "icon-i-pathology"
       },
       {
+        "url": "drug-orders",
+        "label": "Drug Orders",
+        "icon": "icon-i-pharmacy"
+      },
+      {
         "url": "program-manager",
         "label": "Program Manager",
         "icon": "icon-i-administration"
@@ -546,6 +551,11 @@
         "icon": "icon-i-pathology"
       },
       {
+        "url": "drug-orders",
+        "label": "Drug Orders",
+        "icon": "icon-i-pharmacy"
+      },
+      {
         "url": "patient-imaging",
         "label": "Imaging",
         "icon": "icon-i-radiology"
@@ -580,7 +590,12 @@
         "url": "lab-orders",
         "label": "Lab Orders",
         "icon": "icon-i-pathology"
+      }, {
+        "url": "drug-orders",
+        "label": "Drug Orders",
+        "icon": "icon-i-pharmacy"
       },
+
       {
         "url": "patient-imaging",
         "label": "Imaging",

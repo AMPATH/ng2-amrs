@@ -1,0 +1,98 @@
+<!-- <hr class="new5"> -->
+<div class="test" *ngIf="parentVisible">
+  <div class="test">
+  </div>
+</div>
+<div *ngIf="viewSets">
+    <div style="margin-top: 5px;">
+  <div class="row">
+      <div class="col-6 col-sm-3" *ngFor="let orderSet of selectedOrderSets | drugSetFilter: searchText  | paginate: { itemsPerPage: 8, currentPage: page }; let i = index;">
+  <div *ngIf="!addSet" >
+      <!-- <div class="card" >
+        <div class="front">
+          <h1><u >{{orderSet.name}}</u></h1> -->
+          <!-- <p style="color: black; size: 12px;">{{orderSet.description}}</p> -->
+          <!-- <p class="price" style="color: white;">{{orderSet.orderSetMembers.length}}-Drug(s)</p>
+          <ol style="margin-top: 2px;" *ngFor="let drug of orderSet.orderSetMembers ">
+            <li style="color: black; size: 10px; list-style-type:square;">{{drug.concept.display}}</li>
+          </ol>
+        </div>
+        <div class="right">
+            
+          <h2 title="{{orderSet.description}}">{{orderSet.name}}</h2>
+          <hr>
+          <ul *ngFor="let drug of orderSet.orderSetMembers ">
+            <li style="color: black; margin: 2px; border: 1px solid black; padding: 2px; border-radius: 2px; size: 12px;" (click)="viewDrugDetails(drug.orderTemplate,drug.concept,orderSet.name)">{{drug.concept.display| titlecase}}</li>
+          </ul>
+          <button mat-stroked-button (click)="viewSetDetails(orderSet)">VIEW ALL</button>
+         
+        </div>
+      </div> -->
+      <div class="panel panel-primary">
+          <div style="font-size: 20px;" title="{{orderSet.description}}" class="panel-heading">{{orderSet.name| titlecase}}</div>
+          <div class="panel-body fixed-panel">
+              <ul *ngFor="let drug of orderSet.orderSetMembers ">
+                  <li style="color: black; cursor: pointer; padding: 2px; font-size: 16px;" (click)="viewDrugDetails(drug.orderTemplate,drug.concept,orderSet.name)">{{drug.concept.display| titlecase}}</li>
+                </ul>
+                
+          </div>
+          <div class="panel-footer">
+              <a style="cursor: pointer;" (click)="viewSetDetails(orderSet)">View</a>
+          </div>
+        </div>
+  
+    </div>
+  </div>
+  </div>
+  </div>
+
+<pagination-controls (pageChange)="page = $event" *ngIf="!addSet" style="cursor: pointer;"></pagination-controls>
+</div>
+<div *ngIf="displaySetDetails">
+  
+    <hr>
+    <i *ngIf="allList" style="cursor: pointer;" class="fa fa-chevron-circle-left" (click)="returnToSets()">&nbsp; BACK</i>
+    <i *ngIf="selectedList" style="cursor: pointer;" class="	fa fa-chevron-circle-left" (click)="viewSetDetails(setMembers)">&nbsp;Back to set</i>
+    <div  style="width: 90%; margin-left: 60px;">
+        <div class="panel panel-primary">
+            <div style="font-size: 20px;" class="panel-heading"> {{setHeader | titlecase}}</div>
+            <div  *ngIf="allList" style="height: auto; padding: 0px"  class="panel-body fixed-panel">
+                <ul  *ngFor="let drug of setMembers.orderSetMembers">
+                    <li class="list-group-item " (click)="viewDrugDetails(drug.orderTemplate,drug.concept)"><b>{{drug.concept.display| titlecase}}</b></li>
+                  </ul>
+                  
+            </div>
+            <div  *ngIf="selectedList" style="height: auto; padding: 0px" class="panel-body fixed-panel">
+                <ul *ngFor="let drug of drugs">
+                    <li class="list-group-item " (click)="viewDrugTemplateSelected(drug)"><b>{{drug.name| titlecase}}</b></li>
+                  </ul>
+                  
+            </div>
+          </div>
+    <!-- <div class="carde" style="width: 90%; margin: 2px; position: centre;">
+        <div class="carde-header" style="color: white;">
+         {{setHeader}}
+        </div>
+        <div *ngIf="allList">
+        <ul  *ngFor="let drug of setMembers.orderSetMembers">
+          <li class="list-group-item " (click)="viewDrugDetails(drug.orderTemplate,drug.concept)"><b>{{drug.concept.display| titlecase}}</b></li>
+        </ul>
+      </div>
+      <div *ngIf="selectedList">
+          <ul *ngFor="let drug of drugs">
+              <li class="list-group-item " (click)="viewDrugTemplateSelected(drug)"><b>{{drug.name| titlecase}}</b></li>
+            </ul>
+
+      </div>
+      </div> -->
+      </div>
+      <hr>
+</div>
+
+<div *ngIf="displayEdit">
+	<app-edit-drug [selectedDrug]="selectedDrug" [set]="set" [customDrug]="customDrug" (childEvent)="drugDrafted($event)" (drugChangeEvent)="viewDrugDetails($event)"></app-edit-drug>
+</div>
+
+
+  
+  

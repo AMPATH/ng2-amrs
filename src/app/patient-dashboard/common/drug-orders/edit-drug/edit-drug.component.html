@@ -1,0 +1,226 @@
+<div *ngFor="let error of errors" class="alert alert-danger alert-dismissible" style="margin-top: 5px;">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+  {{error.message}}
+</div>
+<div *ngIf="successMessage" class="alert alert-success alert-dismissible" style="margin-top: 5px;">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+  {{successMessage}}
+</div>
+<div *ngIf="editDrug">
+  <div class="well well-sm" style="margin-top: 5px;">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Provider</label>
+          <input type="text" [(ngModel)]="ordererName" class="form-control" disabled>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Location</label>
+          <input #input type="search" [(ngModel)]="location" (keyup)="findLocation(input.value)" class="form-control"
+            placeholder="Search for Location..." />
+          <div class="list-group" *ngIf="locationList">
+            <button type="button" class="list-group-item" *ngFor="let location of locations | slice:0:3"
+              (click)="locationChanged(location)">{{ location.label }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="well well-sm" style="margin-top: 5px;">
+    <section class="mat-typography">
+      <h1><u>{{sentence}}</u></h1>
+      <a *ngIf="revealEdit" (click)="drugChanged()" class="edit_link"><span><i class="fa fa-edit fa-fw"></i>
+          Edit/Change</span></a>
+    </section>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <div class="well well-lg">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>Dose</label> &nbsp;&nbsp;{{doseRatio}}
+              <input #input type="number" min="0" (keyup)="calculateQuantity(input.value)" [(ngModel)]="dose"
+                class="form-control" />
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="units">Units</label>
+              <input type="text" [(ngModel)]="doseUnits" class="form-control" disabled>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="routed">Dosage Form</label>
+              <input *ngIf="!customDrug" type="text" [(ngModel)]="dosageForm" class="form-control" disabled>
+              <select *ngIf="customDrug" class="form-control" [(ngModel)]="dosageForm">
+                <option *ngFor="let dosF of dosageForm" [ngValue]="dosageForm"> <b *ngIf="dosF.name">{{ dosF.name }}</b>
+                </option>
+
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>Duration</label>
+              <input #input type="number" min="0" [(ngModel)]="duration" class="form-control" />
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="Durationunits">Duration Units</label>
+              <select class="form-control" [(ngModel)]="durationUnit" [compareWith]="compareFn">
+
+                <option *ngFor="let dur of durationUnits" [ngValue]="dur"> <b *ngIf="dur.display">{{ dur.display }}
+                  </b> <b *ngIf="dur.name">{{ dur.name }}</b></option>
+
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="routed">Starting Date</label>
+              <date-time-picker tabindex="0" [modelValue]="startDate" [id]="'startDate'"
+                (onDateChange)="updateStartingDate($event)"></date-time-picker>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="!renew" class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="frequency">Frequency</label>
+              <select class="form-control" [(ngModel)]="frequency" [compareWith]="compareFn">
+
+                <option *ngFor="let freq of frequencies" [ngValue]="freq"> <b *ngIf="freq.display">{{ freq.display }}
+
+                  </b> <b *ngIf="freq.name">{{ freq.name }}</b></option>
+
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="routed">Route</label>
+              <select class="form-control" [(ngModel)]="routed" [compareWith]="compareFn">
+                <option *ngFor="let route of routes" [ngValue]="route"><b *ngIf="route.display">{{ route.display }}
+
+                  </b> <b *ngIf="route.name">{{ route.name }}</b></option>
+              </select>
+              <!-- <input class="form-control" [(ngModel)]="route" disabled>  -->
+            </div>
+          </div>
+        </div>
+        <div *ngIf="renew" class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="frequency">Frequency</label>
+              <select class="form-control" [(ngModel)]="frequency">
+
+                <option *ngFor="let freq of frequencies" [ngValue]="freq.uuid"> {{ freq.display }}</option>
+
+
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="routed">Route</label>
+              <select class="form-control" [(ngModel)]="routed">
+                <option *ngFor="let route of routes" [ngValue]="route.uuid"> {{ route.display }}</option>
+              </select>
+              <!-- <input class="form-control" [(ngModel)]="route" disabled>  -->
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Quantity</label>
+              <input #input type="number" min="0" (keyup)="calculateDose(input.value)" [(ngModel)]="quantity"
+                class="form-control" />
+            </div>
+          </div>
+
+          <div *ngIf="!renew" class="col-md-4">
+            <div class="form-group">
+              <label for="duration">Quantity Units</label>
+              <select class="form-control" [(ngModel)]="quantityUnit" [compareWith]="compareFn">
+                <option *ngFor="let unit of quantityUnits" [ngValue]="unit"> <b *ngIf="unit.display">{{ unit.display }}
+
+                  </b> <b *ngIf="unit.name">{{ unit.name }}</b></option>
+              </select>
+            </div>
+          </div>
+          <div *ngIf="renew" class="col-md-4">
+            <div class="form-group">
+              <label for="duration">Quantity Units</label>
+              <select class="form-control" [(ngModel)]="quantityUnit">
+                <option *ngFor="let unit of quantityUnits" [ngValue]="unit.uuid">
+                  <p>{{ unit.display }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Refills</label>
+              <input type="number" min="0" class="form-control" [(ngModel)]="refills" />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="form-control">
+                <input type="checkbox" [(ngModel)]="asNeeded" /> As Needed (PRN)
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group" *ngIf="asNeeded">
+              <input type="text" class="form-control" [(ngModel)]="asNeededReason" placeholder="As Needed Reason" />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-8">
+            <div class="form-group">
+              <textarea class="form-control" style="height : 100px;"  [(ngModel)]="dosingInstructions" placeholder="Dosing Instructions"
+                required></textarea>
+            </div>
+          </div>
+          <div *ngIf="renew" class="col-md-4">
+            <div  class="form-group">
+              <textarea class="form-control" style="height : 100px;"  [(ngModel)]="renewReason" placeholder="Renewal Reasons"
+                required></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-2">
+            <div *ngIf="!renew" class="form-group">
+              <button class="btn  form-control" style="background: orange; color: white;" (click)="addDraft()">Add
+                Drug</button>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <button class="btn btn-primary form-control" (click)="saveOrder(true)">{{buttonName}}</button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>

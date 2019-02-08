@@ -43,10 +43,7 @@ describe('Service : OrderResourceService Unit Tests', () => {
     orderResourceService.getOrdersByPatientUuid(patientUuid).subscribe();
 
     const req = httpMock.expectOne(orderResourceService.getUrl() + '?patient=' + patientUuid +
-    '&v=custom:(display,uuid,orderNumber,accessionNumber,' +
-    'orderReason,orderReasonNonCoded,urgency,action,' +
-    'commentToFulfiller,dateActivated,instructions,orderer:default,' +
-    'encounter:full,patient:full,concept:ref)');
+    '&v=full');
 
     expect(req.request.method).toBe('GET');
 
@@ -59,7 +56,7 @@ describe('Service : OrderResourceService Unit Tests', () => {
     orderResourceService.getOrdersByPatientUuid(patientUuid, false, '9').subscribe();
 
     const req = httpMock.expectOne(orderResourceService.getUrl() + '?patient=' + patientUuid +
-    '&v=9');
+      '&v=9');
 
     expect(req.request.method).toBe('GET');
 
@@ -75,10 +72,10 @@ describe('Service : OrderResourceService Unit Tests', () => {
       });
 
       const req = httpMock.expectOne(orderResourceService.getUrl() + '/' + orderId +
-      '?v=custom:(display,uuid,orderNumber,accessionNumber,' +
-      'orderReason,orderReasonNonCoded,urgency,action,' +
-      'commentToFulfiller,dateActivated,instructions,orderer:default,' +
-      'encounter:full,patient:full,concept:ref)');
+      '?v=custom:(display,uuid,orderNumber,orderType,accessionNumber,' +
+      'orderReason,orderReasonNonCoded,urgency,careSetting,action,' +
+      'commentToFulfiller,dateActivated,dateStopped,instructions,orderer:default,' +
+      'encounter:full,patient:default,concept:ref)');
       expect(req.request.method).toBe('GET');
       req.flush(JSON.stringify({}));
   });
@@ -91,10 +88,10 @@ describe('Service : OrderResourceService Unit Tests', () => {
         done();
       });
 
-      const req = httpMock.expectOne(orderResourceService.getUrl() + '/' + orderId +
+    const req = httpMock.expectOne(orderResourceService.getUrl() + '/' + orderId +
       '?v=9');
-      expect(req.request.method).toBe('GET');
-      req.flush(JSON.stringify({}));
+    expect(req.request.method).toBe('GET');
+    req.flush(JSON.stringify({}));
   });
   it('should return an order when a orderUuid  is provided without v', (done) => {
 
@@ -105,10 +102,7 @@ describe('Service : OrderResourceService Unit Tests', () => {
         done();
       });
 
-      const req = httpMock.expectOne(orderResourceService.getUrl() + '/' + orderUUid + '?' +
-      'v=custom:(display,uuid,orderNumber,accessionNumber,orderReason,' +
-      'orderReasonNonCoded,urgency,action,commentToFulfiller,dateActivated,' +
-      'instructions,orderer:default,encounter:full,patient:full,concept:ref)');
+      const req = httpMock.expectOne(orderResourceService.getUrl() + '/' + orderUUid + '?v=full');
       expect(req.request.method).toBe('GET');
       req.flush(JSON.stringify({}));
 
@@ -122,10 +116,10 @@ describe('Service : OrderResourceService Unit Tests', () => {
         done();
       });
 
-      const req = httpMock.expectOne(orderResourceService.getUrl() + '/' + orderUUid + '?' +
+    const req = httpMock.expectOne(orderResourceService.getUrl() + '/' + orderUUid + '?' +
       'v=9');
-      expect(req.request.method).toBe('GET');
-      req.flush(JSON.stringify({}));
+    expect(req.request.method).toBe('GET');
+    req.flush(JSON.stringify({}));
 
   });
 });

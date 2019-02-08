@@ -11,7 +11,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 @Injectable()
 export class ConceptResourceService {
 
-  public v = 'custom:(uuid,name,conceptClass,answers)';
+  public v = 'custom:(uuid,name,conceptClass,answers,setMembers)';
 
   constructor(protected http: HttpClient,
               protected appSettingsService: AppSettingsService) {
@@ -47,13 +47,17 @@ export class ConceptResourceService {
     .set('v', (v && v.length > 0) ? v : this.v);
     return this.http.get(url, {
       params: params
-    });
+    }).pipe(
+      map((response) => {
+        return response;
+      }));
   }
   public getConceptByConceptClassesUuid(searchText, conceptClassesUuidArray) {
     let filteredConceptResults = [];
     const response = this.searchConcept(searchText);
     response.pipe(take(1)).subscribe(
       (concepts) => {
+        console.log(concepts, 'tamutamu');
         filteredConceptResults =
           this.filterResultsByConceptClassesUuid(concepts, conceptClassesUuidArray);
       },
@@ -61,6 +65,7 @@ export class ConceptResourceService {
 
       }
     );
+
     return filteredConceptResults;
   }
   public filterResultsByConceptClassesUuid(results, conceptClassesUuidArray) {

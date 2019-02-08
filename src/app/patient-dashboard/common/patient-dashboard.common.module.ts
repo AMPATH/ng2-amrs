@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -12,13 +12,10 @@ import {
   DropdownModule, ButtonModule, CalendarModule
 } from 'primeng/primeng';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
-import { Angulartics2Module } from 'angulartics2';
 import { FormEntryModule } from 'ngx-openmrs-formentry';
 import { AgGridModule } from 'ag-grid-angular/main';
 import { NgxFileUploaderModule } from 'ngx-file-uploader';
 import { DateTimePickerModule } from 'ngx-openmrs-formentry';
-import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
-import { Router } from '@angular/router';
 
 
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
@@ -146,6 +143,29 @@ import { HivSummaryLatestComponent } from '../hiv/hiv-summary/hiv-summary-latest
 import { AgePipe } from './patient-banner/age.pipe';
 import { PatientTransferService } from './formentry/patient-transfer.service';
 
+import { AddDrugOrdersComponent } from './drug-orders/add-drug-orders/add-drug-orders.component';
+import { DrugOrdersComponent } from './drug-orders/drug-orders/drug-orders.component';
+import { DrugOrderService } from './drug-orders/drug-order.service';
+import { DrugOrderSetComponent } from './drug-orders/drug-order-set/drug-order-set.component';
+import {
+
+        MatToolbarModule,
+        MatButtonModule,
+        MatSidenavModule,
+        MatIconModule,
+        MatInputModule,
+        MatMenuModule,
+        MatListModule,
+        MatTableModule,
+        MatFormFieldModule,
+} from '@angular/material';
+import { DrugsFilterPipe } from './drug-orders/drugs-filter.pipe';
+import { DrugSetFilterPipe } from './drug-orders/drug-order-set/drugSet-filter.pipe';
+import { DrugOrderSetDraftComponent } from './drug-orders/drug-order-set/drug-order-set-draft/drug-order-set-draft.component';
+import { EditDrugComponent } from './drug-orders/edit-drug/edit-drug.component';
+
+
+
 @NgModule({
   imports: [
     HttpClientModule,
@@ -156,10 +176,17 @@ import { PatientTransferService } from './formentry/patient-transfer.service';
     DataTableModule,
     SharedModule,
     InputTextModule,
+    MatTableModule,
     MessagesModule,
     InputTextareaModule,
     DropdownModule,
     ButtonModule,
+    MatButtonModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatListModule,
+    MatToolbarModule,
     CalendarModule,
     NgamrsSharedModule,
     Ng2Bs3ModalModule,
@@ -186,6 +213,14 @@ import { PatientTransferService } from './formentry/patient-transfer.service';
     GroupEnrollmentModule
   ],
   exports: [
+    MatButtonModule,
+    MatIconModule,
+    MatInputModule,
+    MatListModule,
+    MatMenuModule,
+    MatSidenavModule,
+    MatTableModule,
+    MatToolbarModule,
     PatientInfoComponent,
         PatientEncountersComponent,
     PatientVitalsComponent,
@@ -209,6 +244,7 @@ import { PatientTransferService } from './formentry/patient-transfer.service';
     DraftedFormNavComponent,
     TodaysVitalsComponent,
     PatientRemindersComponent,
+
     OrderListComponent,
     PatientRelationshipsComponent,
     EditContactsComponent,
@@ -234,7 +270,8 @@ import { PatientTransferService } from './formentry/patient-transfer.service';
     OrderByAlphabetPipe,
     OrderByEncounterTimeAscPipe,
     EncounterTypeFilter,
-    PatientImagingComponent],
+    PatientImagingComponent,
+  ],
   declarations: [
     VisitSummaryComponent,
     PatientInfoComponent,
@@ -245,6 +282,8 @@ import { PatientTransferService } from './formentry/patient-transfer.service';
     LabOrdersComponent,
     ClinicalNotesComponent,
     EncounterListComponent,
+    DrugsFilterPipe,
+    DrugSetFilterPipe,
     VisitComponent,
     PatientBannerComponent,
     EditVisitTypeComponent,
@@ -281,12 +320,23 @@ import { PatientTransferService } from './formentry/patient-transfer.service';
     VisitDetailsComponent,
     VisitStarterComponent,
     VisitEncountersPipe,
+
     PatientEncounterProviderPipe,
     OrderByAlphabetPipe,
     OrderByEncounterTimeAscPipe,
     EncounterTypeFilter,
     // ZeroVlPipe,
-    PatientImagingComponent],
+    AgePipe,
+    PatientImagingComponent,
+    PatientImagingComponent,
+    AddDrugOrdersComponent,
+    DrugOrdersComponent,
+    DrugOrderSetComponent,
+    OrderListComponent,
+    DrugOrderSetDraftComponent,
+    EditDrugComponent,
+    PatientImagingComponent,
+   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
@@ -325,6 +375,11 @@ import { PatientTransferService } from './formentry/patient-transfer.service';
     ZscoreService,
     VitalsDatasource,
     TodayVisitService,
-    PatientTransferService],
+    PatientTransferService,
+    DrugsFilterPipe,
+    DrugSetFilterPipe,
+    DrugOrderService
+  ],
+  schemas: [NO_ERRORS_SCHEMA]
 })
 export class PatientDashboardCommonModule { }

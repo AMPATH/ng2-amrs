@@ -1,21 +1,24 @@
 
-import {map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Observable } from 'rxjs';
 import * as _ from 'lodash';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class OrderResourceService {
 
-  public v: string = 'custom:(display,uuid,orderNumber,accessionNumber,' +
-  'orderReason,orderReasonNonCoded,urgency,action,' +
-  'commentToFulfiller,dateActivated,instructions,orderer:default,' +
-  'encounter:full,patient:full,concept:ref)';
+  public v: string = 'custom:(display,uuid,orderNumber,orderType,accessionNumber,' +
+  'orderReason,orderReasonNonCoded,urgency,careSetting,action,' +
+  'commentToFulfiller,dateActivated,dateStopped,instructions,orderer:default,' +
+  'encounter:full,patient:default,concept:ref)';
 
+  // public v: string = 'v=custom:(display,uuid,orderNumber,orderType,accessionNumber,' +
+  // 'orderReason,orderReasonNonCoded,urgency,careSetting,action,commentToFulfiller,' +
+  // 'dateActivated,dateStopped,route,instructions,orderer:default,encounter:full,patient:default,concept:ref)';
   constructor(protected http: HttpClient,
-              protected appSettingsService: AppSettingsService) {
+    protected appSettingsService: AppSettingsService) {
   }
 
   public getUrl(): string {
@@ -24,7 +27,7 @@ export class OrderResourceService {
   }
 
   public searchOrdersById(orderId: string, cached: boolean = false, v: string = null):
-  Observable<any> {
+    Observable<any> {
 
     let url = this.getUrl();
     url += '/' + orderId;
@@ -39,21 +42,33 @@ export class OrderResourceService {
   }
 
   public getOrdersByPatientUuid(patientUuid: string, cached: boolean = false, v: string = null):
-  Observable<any> {
+    Observable<any> {
+
+      this.v = 'full';
 
     const url = this.getUrl();
     const params: HttpParams = new HttpParams()
-    .set('patient', patientUuid)
-    .set('v', (v && v.length > 0) ? v : this.v);
+      .set('patient', patientUuid)
+      .set('v', (v && v.length > 0) ? v : this.v);
     return this.http.get(url, {
       params: params
     });
   }
+
+
+  public getOrderEntryConfig(): Observable<any> {
+    const url = this.appSettingsService.getOpenmrsRestbaseurl().trim() + 'orderentryconfig';
+    return this.http.get(url).map((response) => {
+      return response;
+    });
+  }
+
+
   public getOrderByUuid(uuid: string, cached: boolean = false, v: string = null): Observable<any> {
 
     let url = this.getUrl();
     url += '/' + uuid;
-    // console.log('url', url)
+    this.v = 'full';
 
     const params: HttpParams = new HttpParams()
     .set('v', (v && v.length > 0) ? v : this.v);
@@ -62,6 +77,17 @@ export class OrderResourceService {
     }).pipe(map((response) => {
       return response;
     }));
+  }
+
+  saveDrugOrder(payload) {
+    if (payload) {
+    }
+    const url = this.appSettingsService.getOpenmrsRestbaseurl().trim() + 'order';
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post(url, JSON.stringify(payload), {headers})
+    .map((response: Response) => {
+      return response;
+    });
   }
 
   private _excludeVoidedOrder(order) {
@@ -75,5 +101,33 @@ export class OrderResourceService {
     }
 
   }
+  public getAllOrdersByPatientUuuid(patientUuid: string, careSettingUuid: string,
+    cached: boolean = false, v: string = null): Observable<any> {
 
+    const url = this.getUrl();
+
+
+    const params: HttpParams = new HttpParams()
+      .set('patient', patientUuid)
+      .set('careSetting', careSettingUuid)
+      .set('status', 'any')
+      .set('v', (v && v.length > 0) ? v : this.v);
+
+    return this.http.get(url, {
+      params: params
+    }).map((response) => {
+      return response;
+    });
+  }
+  saveProcedureOrder(payload) {
+    if (payload) {
+      console.log('Payload', payload);
+    }
+    const url = this.appSettingsService.getOpenmrsRestbaseurl().trim() + 'order';
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post(url, JSON.stringify(payload), {headers})
+    .map((response: Response) => {
+      return response;
+    });
+  }
 }

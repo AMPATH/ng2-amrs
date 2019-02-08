@@ -54,7 +54,7 @@
 								</thead>
 								<tbody>
 									<tr style="cursor: pointer;" (click)='selectPatient(patient)' *ngFor="let patient of patients | paginate: { itemsPerPage: 10, currentPage: page }; let i = index; ">
-										<td>{{ (i + 1)+ (page - 1) * 10 }}</td>
+										<td>{{ (0 + 1)+ (page - 1) * 10 }}</td>
 										<td>
 											<span *ngIf="patient.searchIdentifiers.kenyaNationalId"> {{patient.searchIdentifiers.kenyaNationalId}}
 												<span *ngIf="patient.searchIdentifiers.amrsMrn || patient.searchIdentifiers.ampathMrsUId">,</span>

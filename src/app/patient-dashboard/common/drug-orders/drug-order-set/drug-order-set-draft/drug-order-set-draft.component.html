@@ -1,0 +1,66 @@
+<div *ngIf="viewCart">
+  <div *ngIf="error" class="alert alert-danger alert-dismissible" style="margin-top: 5px;">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error}}
+  </div>
+  <div *ngIf="successMessage" class="alert alert-success alert-dismissible" style="margin-top: 5px;">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    {{successMessage}}
+  </div>
+  <div class="well well-sm" style="margin-top: 5px;">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Provider</label>
+          <input type="text" [(ngModel)]="ordererName" class="form-control" disabled>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Location</label>
+          <input #input type="search" [(ngModel)]="location" (keyup)="findLocation(input.value)" class="form-control"
+            placeholder="Search for Location..." />
+          <div class="list-group" *ngIf="locationList">
+            <button type="button" class="list-group-item" *ngFor="let location of locations | slice:0:3"
+              (click)="locationChanged(location)">{{ location.label }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<div class="table-responsive">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+        
+          <th>Drug Details</th>
+          <!-- <th>Details</th> -->
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of selectedOrders | paginate: { itemsPerPage: 10, currentPage: page }; let i = index;"> 
+          
+          <td>{{ order.displayName }}</td>
+          <!-- <td>{{ order.orderer.display }}</td> -->
+          <td>
+              <button  _ngcontent-c16="" mat-raised-button="" style="background: green; color: white;"  class="bton" title="Edit Order" (click)="editOrder(order)">EDIT</button>
+            <button  _ngcontent-c16="" mat-raised-button="" style="background: #bc3c3c; color: white;"  class="bton" title="Remove Order" (click)="removeFromCart(order, true)">REMOVE</button>
+           
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+              <button  _ngcontent-c16="" mat-raised-button="" style="background: #2b70be; color: white;"  class="bton pull-right" title="Place Order" (click)="placeOrder(selectedOrders)">SIGN & ORDER</button>
+              <button  _ngcontent-c16="" mat-raised-button="" style="background: red; color: white;"  class="bton pull-left" title="Place Order" (click)="clearDraft()">CLEAR DRAFT</button>
+
+            </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+  <div *ngIf="editDrug">
+    <app-edit-drug [draftedDrug]="draftData" ></app-edit-drug>
+  </div>
