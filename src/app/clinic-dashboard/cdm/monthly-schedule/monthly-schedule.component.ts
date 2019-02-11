@@ -9,8 +9,7 @@ import {
 } from 'angular-calendar';
 import { MonthlyScheduleBaseComponent
 } from '../../../clinic-schedule-lib/monthly-schedule/monthly-schedule.component';
-import { SelectDepartmentService
-} from '../../../program-visit-encounter-search/program-visit-encounter-search.service';
+import { SelectDepartmentService } from './../../../shared/services/select-department.service';
 import { ClinicDashboardCacheService } from '../../services/clinic-dashboard-cache.service';
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
 import { PatientProgramResourceService } from '../../../etl-api/patient-program-resource.service';

@@ -20,7 +20,7 @@ import {
 declare var jQuery;
 require('ion-rangeslider');
 import { DepartmentProgramsConfigService } from '../../etl-api/department-programs-config.service';
-import { SelectDepartmentService } from '../../program-visit-encounter-search/program-visit-encounter-search.service';
+import { SelectDepartmentService } from './../services/select-department.service';
 
 @Component({
   selector: 'report-filters',
@@ -220,11 +220,9 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
   }
   public getCurrentDepartment() {
 
-    this._selectDepartmentService.getDepartment().subscribe((d) => {
-      this._currentDepartment = d;
-      this.getDepartmentPrograms(d);
-    });
-
+    const department = this._selectDepartmentService.getUserSetDepartment();
+    this._currentDepartment = department;
+    this.getDepartmentPrograms(department);
   }
   public getDepartmentPrograms(department) {
 

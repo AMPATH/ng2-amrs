@@ -14,7 +14,7 @@ import { PatientProgramResourceService } from './../etl-api/patient-program-reso
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 import { DepartmentProgramsConfigService } from './../etl-api/department-programs-config.service';
 import { IonicStorageModule } from '@ionic/storage';
-import { SelectDepartmentService } from './program-visit-encounter-search.service';
+import { SelectDepartmentService } from './../shared/services/select-department.service';
 import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
 
 import { PatientService } from '../patient-dashboard/services/patient.service';
