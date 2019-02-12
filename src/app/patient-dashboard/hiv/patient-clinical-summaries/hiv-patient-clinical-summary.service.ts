@@ -358,7 +358,7 @@ export class HivPatientClinicalSummaryService {
   private static _getProviders(providers: any): string {
     let p = '';
     _.each(providers, (provider: any) => {
-      p = p + ' ' + provider.name + ' (' + provider.encounterType + '), ';
+      p = p + provider.name + ' (' + provider.encounterType + '), ';
     });
     return p;
   }
@@ -733,7 +733,7 @@ export class HivPatientClinicalSummaryService {
             columns: [{
               columns: [{
                 text: 'Visit Date:',
-                width: 60,
+                width: 42,
                 bold: true,
               }, {
                 text: (this._formatDate(clinicalNotes.visitDate) || 'N/A') +
@@ -743,17 +743,6 @@ export class HivPatientClinicalSummaryService {
                 color: '#2a2a2a',
               }]
 
-            }, {
-              columns: [{
-                text: 'Provider(s):',
-                width: 42,
-                bold: true,
-              }, {
-                text: this._getProviders(clinicalNotes.providers),
-                width: '*',
-                alignment: 'left',
-                color: '#2a2a2a',
-              }]
             }, {
               columns: [{
                 text: 'Last Viral Load:',
@@ -780,11 +769,20 @@ export class HivPatientClinicalSummaryService {
                 alignment: 'left',
                 color: '#2a2a2a',
               }]
-
-            }
-
-            ]
+            }]
           }],
+          [{
+              columns: [{
+                text: 'Provider(s): ',
+                width: 42,
+                bold: true,
+              }, {
+                text: this._getProviders(clinicalNotes.providers),
+                width: '*',
+                alignment: 'left',
+                color: '#2a2a2a',
+              }]
+            }],
           [{
             columns: [{
               columns: [{
@@ -899,7 +897,7 @@ export class HivPatientClinicalSummaryService {
                 width: 50,
                 bold: true,
               }, {
-                text: clinicalNotes.tbProphylaxisPlan.startDate || 'N/A',
+                text: this._formatDate(clinicalNotes.tbProphylaxisPlan.startDate) || 'N/A',
                 width: '*',
                 alignment: 'left',
                 color: '#2a2a2a',
@@ -910,7 +908,7 @@ export class HivPatientClinicalSummaryService {
                 width: 50,
                 bold: true,
               }, {
-                text: clinicalNotes.tbProphylaxisPlan.estimatedEndDate || 'N/A',
+                text: this._formatDate(clinicalNotes.tbProphylaxisPlan.estimatedEndDate) || 'N/A',
                 width: '*',
                 alignment: 'left',
                 color: '#2a2a2a',
