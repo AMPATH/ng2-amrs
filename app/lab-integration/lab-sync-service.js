@@ -1,5 +1,6 @@
 const obsService = require('../../service/openmrs-rest/obs.service');
 const async = require('async');
+import * as _  from 'lodash';
 const config = require('../../conf/config');
 const moment = require('moment');
 const Boom = require('boom');
@@ -17,17 +18,30 @@ export class LabSyncService {
     let tasks = [];
     Object.keys(config.hivLabSystem).forEach((labLocation) => {
       tasks.push((cb) => {
-        cb(null, this.syncLabsByPatientUuid(patientUuid, labLocation));
+        // delay alupe for a few ms
+        cb(null, this.syncLabsByPatientUuid(patientUuid, labLocation, labLocation === 'alupe' ? 50 : 0));
       });
     });
     async.parallel(async.reflectAll(tasks), (err, results) => {
-      reply(err ? Boom.notFound('Sorry, sync service temporarily unavailable.') : null,
-        Promise.all(results.map((result) => result.value)));
+      // currently we have duplicate data in db. Try to remove here
+      Promise.all(results.map((result) => result.value)).then((lab_data) => {
+        const _lab_data = _.map(lab_data, (lab) => {
+          lab.updatedObs = _.uniqBy(lab.updatedObs, (ob) => {
+            return ob.concept.uuid
+          });
+          return lab;
+        });
+        reply(_lab_data);
+      }).catch(() => {
+        console.log('sync service error', err);
+        reply(Boom.notFound('Sorry, sync service temporarily unavailable.'));
+      });
+      
     });
   }
 
  
-  syncLabsByPatientUuid(patientUuid, labLocation) {
+  syncLabsByPatientUuid(patientUuid, labLocation, delay) {
     //obsService.getPatientIdentifiers(patientUuid);
     return this.getLabSyncLog(patientUuid).then((result) => {
       var patientHasEverBeenSynced = false;
@@ -47,15 +61,19 @@ export class LabSyncService {
             });
         }
         else {
-          return this.syncAndGetPatientLabResults(patientUuid, labLocation).then((result) => {
-            return this.syncLabsByPatientUuid(patientUuid,labLocation);
-          });
+          setTimeout(() => {
+            return this.syncAndGetPatientLabResults(patientUuid, labLocation).then((result) => {
+              return this.syncLabsByPatientUuid(patientUuid,labLocation);
+            });
+          }, delay);
         }
       }
       else {
-        return this.syncAndGetPatientLabResults(patientUuid, labLocation).then((result) => {
-          return this.syncLabsByPatientUuid(patientUuid,labLocation);
-        });
+        setTimeout(() => {
+          return this.syncAndGetPatientLabResults(patientUuid, labLocation).then((result) => {
+            return this.syncLabsByPatientUuid(patientUuid,labLocation);
+          });
+        }, delay)
       }
     }).catch((error) => {
       console.error('getLabSyncLog error', error);
