@@ -19,8 +19,8 @@ import { DailyScheduleClinicFlowComponent
 import {
   ProgramVisitEncounterSearchModule
 } from '../../program-visit-encounter-search/program-visit-encounter-search.module';
-import { DepartSelectModule } from '../department-select/department-select.module';
 import { GeneralModule } from '../general/general.module';
+import { ChangeDepartmentModule } from '../change-department/change-department.module';
 
 @NgModule({
   imports: [
@@ -37,8 +37,8 @@ import { GeneralModule } from '../general/general.module';
     MatProgressSpinnerModule,
     MatProgressBarModule,
     ProgramVisitEncounterSearchModule,
-    DepartSelectModule,
-    GeneralModule
+    GeneralModule,
+    ChangeDepartmentModule
   ],
   exports: [
   ],

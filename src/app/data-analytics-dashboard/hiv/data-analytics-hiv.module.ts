@@ -20,7 +20,6 @@ import {
 import { DataAnalyticsDashboardService } from '../services/data-analytics-dashboard.services';
 import { HivClinicFlowResourceService } from '../../etl-api/hiv-clinic-flow-resource.service';
 import { ClinicFlowCacheService } from '../../hiv-care-lib/clinic-flow/clinic-flow-cache.service';
-import { DataAnalyticsDashboardComponent } from '../data-analytics.component';
 import {
   HivSummaryMonthlyIndicatorsComponent
 } from './hiv-summary-monthly-indicators/hiv-summary-monthly-indicators';
@@ -36,6 +35,7 @@ import {
 import {
   DataEntryStatisticsModule
 } from './../../data-entry-statistics/data-entry-statistics.module';
+import { ChangeDepartmentModule } from '../change-department/change-department.module';
 @NgModule({
   imports: [
     dataAnalyticsDashboardHivRouting,
@@ -47,27 +47,27 @@ import {
     FormsModule,
     RouterModule,
     DataEntryStatisticsModule,
-    PatientProgramEnrollmentModule
+    PatientProgramEnrollmentModule,
+    ChangeDepartmentModule
   ],
   exports: [
     RouterModule,
-    DataAnalyticsDashboardComponent,
     AdminDashboardClinicFlowComponent,
     HivSummaryIndicatorsComponent,
     HivCareComparativeAnalyticsComponent
   ],
   declarations: [
-    DataAnalyticsDashboardComponent,
     AdminDashboardClinicFlowComponent,
     AdminDashboardClinicFlowComponent,
     HivSummaryIndicatorsComponent,
     Moh731ReportComponent,
     HivCareComparativeAnalyticsComponent,
-    HivSummaryMonthlyIndicatorsComponent],
+    HivSummaryMonthlyIndicatorsComponent
+  ],
   providers: [
     DataAnalyticsDashboardService,
     HivClinicFlowResourceService,
     ClinicFlowCacheService
-  ],
+  ]
 })
 export class DataAnalyticsHivModule { }

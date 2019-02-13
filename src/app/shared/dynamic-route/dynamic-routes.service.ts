@@ -9,6 +9,7 @@ export class DynamicRoutesService {
   public routes = new ReplaySubject(1);
   public patientRoutes = new ReplaySubject<Array<RouteModel>>(1);
   public clinicRoutes = new ReplaySubject<Array<RouteModel>>(1);
+  public analyticsRoutes = new ReplaySubject<Array<RouteModel>>(1);
   public selectedDepartment = 'HIV';
   public routesModel = {};
   public dashboardConfig: DashboardModel = null;
@@ -39,6 +40,7 @@ export class DynamicRoutesService {
     this.routes.next(this.routesModel);
     this.patientRoutes.next(new Array<RouteModel>());
     this.clinicRoutes.next(new Array<RouteModel>());
+    this.analyticsRoutes.next(new Array<RouteModel>());
   }
 
   public setRoutes(route: DynamicRouteModel) {
@@ -56,6 +58,10 @@ export class DynamicRoutesService {
 
   public setClinicDashBoardRoutes(cRoutes: Array<RouteModel>) {
     this.clinicRoutes.next(cRoutes);
+  }
+
+  public setAnalyticsDashBoardRoutes(aRoutes: Array<RouteModel>) {
+    this.analyticsRoutes.next(aRoutes);
   }
 
   public extractRoutes(route: DynamicRouteModel, dashboardConfig: object): Array<object> {
