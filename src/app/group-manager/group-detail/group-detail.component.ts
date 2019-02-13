@@ -94,7 +94,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   public errorSavingVisit = false;
   public error = false;
   public patientDashboardConfig: any = require('../../shared/dynamic-route/schema/patient.dashboard.conf.json');
-  public activeMembers: any[];
+  public activeMembers: any[] = [];
   public membersData: any[] = [];
   public columns: any[] = [];
   public visitStartedToday: boolean;
