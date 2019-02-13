@@ -128,13 +128,13 @@
     "karma-jasmine": "^1.1.1",
     "karma-jasmine-html-reporter": "^0.2.2",
     "karma-mocha-reporter": "^2.2.5",
+    "karma-parallel": "^0.3.1",
     "protractor": "^5.4.0",
     "rxjs-tslint": "^0.1.5",
     "source-map-support": "^0.5.9",
     "ts-node": "~5.0.1",
     "tslint": "~5.9.1",
-    "typescript": "~2.7.2",
-    "karma-parallel": "^0.3.1"
+    "typescript": "~2.7.2"
   },
   "browser": {
     "fs": false,

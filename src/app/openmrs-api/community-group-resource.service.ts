@@ -70,8 +70,12 @@ export class CommunityGroupService {
   }
 
   public getGroupByUuid(groupUuid: string): Observable<any> {
+    const params = new HttpParams()
+    .set('v', 'full');
     const url = this.getOpenMrsBaseUrl() + '/cohort' + `/${groupUuid}`;
-    return this.http.get(url);
+    return this.http.get(url, {
+      params: params
+    });
   }
 
   public getCohortTypes(): Observable<any> {

@@ -91,7 +91,7 @@ describe('CommunityGroupService', () => {
         expect(res).toEqual(response);
       }
     );
-    const req = httpMock.expectOne(communityGroupService.getOpenMrsBaseUrl() + '/cohort' + `/${gUuid}`);
+    const req = httpMock.expectOne(communityGroupService.getOpenMrsBaseUrl() + '/cohort' + `/${gUuid}` + `?v=full`);
     expect(req.request.method).toBe('GET');
     expect(req.request.url).toContain(gUuid);
     req.flush(response);
