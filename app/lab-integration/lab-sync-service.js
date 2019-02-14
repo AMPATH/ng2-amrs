@@ -174,11 +174,10 @@ export class LabSyncService {
           //return obsService.postObsToAMRS(obs[0].missingResults[0]);
           let flattenResult = flatten(obs);
           let combinedMissing = that.combineObs('missingResults', flattenResult);
-          //TODO Handle this
           let combinedconflicting = that.combineObs('conflictingResults', flattenResult);
 
-          console.log('Conflicting', combinedconflicting);
-          console.log('Missing', combinedMissing);
+         console.log('Conflicting', combinedconflicting);
+         console.log('Missing', combinedMissing);
 
           fields[0].conflicts = JSON.stringify(combinedconflicting);
           return Promise.all(that.combineObsPostPromises(combinedMissing)).then((savedObs) => {
