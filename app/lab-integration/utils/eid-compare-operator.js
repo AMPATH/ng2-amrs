@@ -13,7 +13,6 @@ export class EidCompareOperator {
     }
     getMissingResults(eidResults, obsResults) {
         var missingResults = [];
-
         for (var i = 0; i < eidResults.length; i++) {
             var found = this.findEquivalentObject(eidResults[i], obsResults);
             if (!found) {
@@ -29,8 +28,8 @@ export class EidCompareOperator {
             for (var i = 0; i < obsResults.length; i++) {
                 var obsObj = obsResults[i];
                 var equalDate = this.areDatesEqual(eidObj.obsDatetime, obsObj.obsDatetime);
-                var obsValue = '';
-                if (obsObj.value && obsObj.value !== null) {
+                var obsValue = ''+obsObj.value;
+                if (obsValue && obsObj.value !== null) {
                     if (typeof (obsObj.value) === 'object') {
                         obsValue = obsObj.value.uuid.toString();
                     } else {
@@ -38,6 +37,7 @@ export class EidCompareOperator {
                     }
                     if (obsObj.concept === eidObj.concept &&
                         obsValue.trim() === eidObj.value.toString().trim() && equalDate) {
+                            console.log('Setting found to true',obsValue);
                         found = true;
                     }
                 }
