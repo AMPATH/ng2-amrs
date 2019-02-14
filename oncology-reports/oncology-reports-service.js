@@ -2,7 +2,7 @@
 const _ = require('lodash');
 
 const oncologyReportsConfig = require('./oncology-reports-config.json');
-const oncollogyPatientListCols = require('./oncology-patient-list-cols.json');
+const oncologyPatientListCols = require('./oncology-patient-list-cols.json');
 
 var serviceDefinition = {
     getOncologyReports: getOncologyReports,
@@ -38,7 +38,7 @@ function getSpecificOncologyReport(reportUuid){
 function getPatientListCols(indicator,programUuid){
 
     let patientCols = [];
-    let specificReport  = oncollogyPatientListCols[programUuid];
+    let specificReport  = oncologyPatientListCols[programUuid];
     return new Promise((resolve, reject) => {
 
     _.each(specificReport, (report) => {

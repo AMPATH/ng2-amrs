@@ -94,7 +94,11 @@ import * as enhanced_adherence_hiv_program_cohort from './json-reports/enhanced-
 
 import * as currently_enrolled_patients_base from './json-reports/currently-enrolled-patients.base';
 import * as currently_enrolled_patients_aggregate from './json-reports/currently-enrolled-patients-aggregate';
-
+import * as combined_breast_cervical_cancer_daily_screening_summary_aggregate from './json-reports/combined-breast-cervical-cancer-daily-screening-summary-aggregate.json';
+import * as combined_breast_cervical_cancer_monthly_screening_summary_aggregate from './json-reports/combined-breast-cervical-cancer-monthly-screening-summary-aggregate.json';
+import * as combined_breast_cervical_cancer_monthly_screening_summary_base from './json-reports/combined-breast-cervical-cancer-monthly-screening-summary-base.json';
+import * as combined_breast_cervical_cancer_daily_screening_summary_base from './json-reports/combined-breast-cervical-cancer-daily-screening-summary-base.json';
+import * as combined_breast_cervical_cancer_patient_list_template from './json-reports/combined-breast-cervical-cancer-patient-list-template.json';
 export class BaseMysqlReport {
     constructor(reportName, params) {
         this.reportName = reportName;
@@ -375,9 +379,25 @@ export class BaseMysqlReport {
                         breastCancerMonthlySummaryBase: this.cloneJsonSchema(breast_cancer_monthly_screening_summary_base)
                     });
                     break;
+                case 'combinedBreastCervicalCancerDailySummaryAggregate':
+                    resolve({
+                        main: this.cloneJsonSchema(combined_breast_cervical_cancer_daily_screening_summary_aggregate),
+                        combinedBreastCervicalCancerDailySummaryBase: this.cloneJsonSchema(combined_breast_cervical_cancer_daily_screening_summary_base)
+                    })
+                case 'combinedBreastCervicalCancerMonthlySummaryAggregate':
+                    resolve({
+                        main: this.cloneJsonSchema(combined_breast_cervical_cancer_monthly_screening_summary_aggregate),
+                        combinedBreastCervicalCancerMonthlySummaryBase: this.cloneJsonSchema(combined_breast_cervical_cancer_monthly_screening_summary_base)
+                    });
+                    break;
                 case 'breast_cancer_patient_list_template':
                     resolve({
                         main: this.cloneJsonSchema(breast_cancer_patient_list_template)
+                    });
+                    break;
+                case 'combined_breast_cervical_cancer_patient_list_template':
+                    resolve({
+                        main: this.cloneJsonSchema(combined_breast_cervical_cancer_patient_list_template)
                     });
                     break;
                 case 'cervicalCancerDailySummaryAggregate':

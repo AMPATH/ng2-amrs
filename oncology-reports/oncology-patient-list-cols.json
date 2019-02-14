@@ -131,5 +131,28 @@
 
             }
         ]
+    },
+    "b2837614-e144-4bec-abc2-e9f5e3116bb9" : {      
+        "program": "Breast and Cervical Cancer Screening",
+        "report": "Breast and Cervical Cancer Screening",
+        "indicators": [{
+                "indicator": "total_breast_screened",
+                "patientListCols": [ "encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age" , "phone_number"  , "patient_uuid"
+                ]
+
+            },
+            {
+                "indicator": "total_cervical_screened",
+                "patientListCols": [ "encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender"  ,"patient_uuid"
+                ]
+
+            },
+            {
+                "indicator": "total_breast_and_cervical_screened",
+                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age" , "phone_number"  , "patient_uuid"
+                ]
+
+            }
+        ]
     }
 }
