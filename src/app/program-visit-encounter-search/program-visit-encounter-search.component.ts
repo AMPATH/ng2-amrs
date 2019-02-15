@@ -69,6 +69,8 @@ export class ProgramVisitEncounterSearchComponent implements OnInit, OnDestroy ,
     public selectedEncounterType: any;
     public selectedVisitType: any;
     public selectedProgramType;
+    public minDefaultPeriod: number;
+    public maxDefaultPeriod: number;
     @Input() public calendarType: string;
     public filterMonth = Moment().format('YYYY-MM');
     public filterDate = Moment().format('YYYY-MM-DD');
@@ -76,6 +78,7 @@ export class ProgramVisitEncounterSearchComponent implements OnInit, OnDestroy ,
     @Output() public filterSelected: EventEmitter<any> = new EventEmitter<any>();
     @Input() public monthControl: boolean;
     @Input() public dateControl: boolean;
+    @Input() public defaultersControl: boolean;
 
     constructor(
       private cd: ChangeDetectorRef,
@@ -212,11 +215,9 @@ public setFiltersFromUrlParams(params, mapObj) {
         this.showFilters = false;
     }
     public getCurrentDepartment() {
-      console.log('getCurrentDepartment');
 
       this.selectDepartmentService.getDepartment().subscribe((d) => {
         this.myDepartment = d;
-        console.log('getCurrentDepartment', d);
         this.getDepartmentPrograms(d);
       });
 
@@ -456,6 +457,8 @@ public setFiltersFromUrlParams(params, mapObj) {
       this.encounterTypes = [];
       this.filterSet = false;
       this.filterReset = true;
+      this.minDefaultPeriod = 0;
+      this.maxDefaultPeriod = 0;
       const params = this.getParams();
       this.emitParams(params);
       this.message = {
@@ -495,40 +498,48 @@ public setFiltersFromUrlParams(params, mapObj) {
       } else {
         selectedProgramType = _.map(this.program , 'id');
 
-      if (this.dateControl) {
-        selectedStartDate = Moment(this.filterDate).format('YYYY-MM-DD');
-        selectedEndDate = Moment(this.filterDate).format('YYYY-MM-DD');
+        if (this.dateControl) {
+          selectedStartDate = Moment(this.filterDate).format('YYYY-MM-DD');
+          selectedEndDate = Moment(this.filterDate).format('YYYY-MM-DD');
+        }
+        if (this.monthControl) {
+          selectedStartDate = Moment(this.filterMonth, 'YYYY-MM')
+          .startOf('month').format('YYYY-MM-DD');
+          selectedEndDate = Moment(this.filterMonth, 'YYYY-MM')
+          .endOf('month').format('YYYY-MM-DD');
+        }
+
+        selectedVisitType = _.map(this.visitType, 'id');
+        selectedEncounterType = _.map(this.encounterType, 'id');
+
+        if (this.defaultersControl) {
+          this.params = {
+            'programType': selectedProgramType,
+            'minDefaultPeriod': this.minDefaultPeriod,
+            'maxDefaultPeriod': this.maxDefaultPeriod,
+            'resetFilter': this.filterReset
+          };
+        } else {
+          this.params = {
+            'programType': selectedProgramType,
+            'visitType': selectedVisitType,
+            'encounterType': selectedEncounterType,
+            'startDate': selectedStartDate,
+            'endDate': selectedEndDate,
+            'resetFilter': this.filterReset
+          };
+        }
+
+        const navigationData = {
+          queryParams: this.params,
+          replaceUrl: true
+        };
+
+        const currentUrl = this.router.url;
+        const routeUrl = currentUrl.split('?')[0];
+        this.router.navigate([routeUrl], navigationData);
+
       }
-      if (this.monthControl) {
-        selectedStartDate = Moment(this.filterMonth, 'YYYY-MM')
-        .startOf('month').format('YYYY-MM-DD');
-        selectedEndDate = Moment(this.filterMonth, 'YYYY-MM')
-        .endOf('month').format('YYYY-MM-DD');
-      }
-
-      selectedVisitType = _.map(this.visitType, 'id');
-      selectedEncounterType = _.map(this.encounterType, 'id');
-
-    }
-
-     this.params = {
-      'programType': selectedProgramType,
-      'visitType': selectedVisitType,
-      'encounterType': selectedEncounterType,
-      'startDate': selectedStartDate,
-      'endDate': selectedEndDate,
-      'resetFilter': this.filterReset
-     };
-
-      const navigationData = {
-        queryParams: this.params,
-        replaceUrl: true
-      };
-
-      const currentUrl = this.router.url;
-
-      const routeUrl = currentUrl.split('?')[0];
-      this.router.navigate([routeUrl], navigationData);
 
 
     }

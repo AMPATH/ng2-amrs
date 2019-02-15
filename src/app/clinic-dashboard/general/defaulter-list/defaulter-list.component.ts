@@ -26,7 +26,11 @@ export class DefaulterListComponent implements OnInit, OnDestroy {
   public selectedClinic: any;
   public nextStartIndex = 0;
   private _datePipe: DatePipe;
+  public params: any;
   private subs: Subscription[] = [];
+  public events = [];
+  public programUuid: any;
+  public defaultersControl = true;
 
   constructor(private clinicDashboardCacheService: ClinicDashboardCacheService,
               private defaulterListResource: DefaulterListResourceService,
@@ -73,10 +77,24 @@ export class DefaulterListComponent implements OnInit, OnDestroy {
     ];
   }
 
+  public filterSelected($event: any) {
+    this.params = $event;
+    if ($event.resetFilter && $event.resetFilter === true) {
+      this.events = [];
+    } else {
+      this.minDefaultPeriod = this.params.minDefaultPeriod;
+      this.maxDefaultPeriod = this.params.maxDefaultPeriod;
+      if (this.params.programType.length > 0) {
+        this.programUuid = this.params.programType[0];
+      }
+      this.loadDefaulterList();
+    }
+}
+
   public loadDefaulterList() {
     this.initParams();
     const params = this.getQueryParams(this.minDefaultPeriod,
-      this.maxDefaultPeriod, this.selectedClinic);
+      this.maxDefaultPeriod, this.selectedClinic, this.programUuid);
 
     if (this.selectedClinic) {
       this.getDefaulterList(params);
@@ -101,7 +119,7 @@ export class DefaulterListComponent implements OnInit, OnDestroy {
   public loadMoreDefaulterList() {
     this.loadingDefaulterList = true;
     const params = this.getQueryParams(this.minDefaultPeriod,
-      this.maxDefaultPeriod, this.selectedClinic);
+      this.maxDefaultPeriod, this.selectedClinic, this.programUuid);
     this.loadDefaulterListFromCachedParams(params);
   }
 
@@ -173,12 +191,13 @@ export class DefaulterListComponent implements OnInit, OnDestroy {
     this.nextStartIndex = 0;
   }
 
-  private getQueryParams(defaulterPeriod, maxDefaultPeriod, selectedLocation) {
+  private getQueryParams(defaulterPeriod, maxDefaultPeriod, selectedLocation, programUuid) {
     const params = {
       maxDefaultPeriod: maxDefaultPeriod,
       defaulterPeriod: defaulterPeriod,
       startIndex: this.nextStartIndex,
       locationUuids: selectedLocation,
+      programUuid: programUuid,
       limit: undefined
     };
     this.cacheDefaulterListParam(params);
