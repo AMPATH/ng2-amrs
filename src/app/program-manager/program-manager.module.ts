@@ -45,6 +45,7 @@ import { PatientReferralService } from './patient-referral-service';
 import { ProgramReferralResourceService } from '../etl-api/program-referral-resource.service';
 import { GroupEnrollmentModule } from '../patient-dashboard/group-enrollment/group-enrollment.module';
 import { GroupByPriority } from '../shared/pipes/group-by-priority.pipe';
+import { EnrollmentShortcutComponent } from './enrollment-shortcut/enrollment-shortcut.component';
 
 @NgModule({
   imports: [
@@ -62,13 +63,13 @@ import { GroupByPriority } from '../shared/pipes/group-by-priority.pipe';
     ProgramManagerContainerComponent, EditProgramComponent, ProgramWizardComponent,
     NewProgramComponent, ProgramSummaryComponent, ProgramWizardStepComponent,
     ProgramReferralStatusComponent, EditProgramLocationComponent, StopProgramComponent,
-    TransferProgramComponent, UnenrollPatientProgramsComponent,
+    TransferProgramComponent, UnenrollPatientProgramsComponent, EnrollmentShortcutComponent,
     ProgramWizardHeaderComponent, ProgramManagerBaseComponent],
   declarations: [PatientReferralBaseComponent, PatientReferralTabularComponent,
     ProgramManagerContainerComponent, EditProgramComponent, ProgramWizardComponent,
     NewProgramComponent, ProgramSummaryComponent, ProgramWizardStepComponent,
     EditProgramLocationComponent, StopProgramComponent,
-    TransferProgramComponent, UnenrollPatientProgramsComponent, GroupByPriority,
+    TransferProgramComponent, UnenrollPatientProgramsComponent, GroupByPriority, EnrollmentShortcutComponent,
     ProgramWizardHeaderComponent, ProgramManagerBaseComponent, ProgramReferralStatusComponent],
   providers: [
     ProgramEnrollmentResourceService,

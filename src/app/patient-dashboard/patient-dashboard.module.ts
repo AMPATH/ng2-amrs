@@ -34,6 +34,7 @@ import { ProgramManagerModule
 import { GroupEnrollmentModule } from './group-enrollment/group-enrollment.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PocHttpInteceptor } from '../shared/services/poc-http-interceptor';
+import { GeneralLandingPageComponent } from './general-landing-page/landing-page.component';
 
 @NgModule({
   imports: [
@@ -61,7 +62,8 @@ import { PocHttpInteceptor } from '../shared/services/poc-http-interceptor';
     RouterModule.forChild(routes)
   ],
   declarations: [
-    PatientDashboardComponent
+    PatientDashboardComponent,
+    GeneralLandingPageComponent
   ],
   providers: [
     PatientDashboardGuard,

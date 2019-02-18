@@ -513,6 +513,8 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
           if (enrollMentQuestionsObject.enrollToGroup) {
             this.enrollIntoGroup(queryParams);
           }
+        }  else {
+          this.navigateToRoute(queryParams.redirectUrl);
         }
       });
     }
@@ -521,11 +523,18 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
 
   private enrollIntoGroup(queryParams) {
     this.groupMemberService.createMember(queryParams.groupUuid, this.patient.uuid).subscribe((result) => {
-      this.router.navigateByUrl(queryParams.redirectUrl);
+      this.navigateToRoute(queryParams.redirectUrl);
     }, (error) => {
       console.error('Error', error);
     });
   }
+
+  private navigateToRoute(url: string) {
+    if (url && !_.isEmpty(url)) {
+      this.router.navigateByUrl(url);
+    }
+  }
+
   private unenrollAndGoToDetails() {
     if (this.isIncompatibleChoice()) {
       _.each(this.incompatibleProgrames, (program) => {
