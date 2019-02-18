@@ -61,7 +61,7 @@ export class FormListService {
         }
         // comment out /*item.published && */ for all unretired forms (NOTE : ng-forms build)
         const publishedOpenmrsForms = _.filter(unsortArray, (item) => {
-          return /*item.published &&*/ !item.retired;
+          return this.isRequiredForm(item) && /*item.published &&*/ !item.retired;
         });
 
         return publishedOpenmrsForms;
@@ -109,18 +109,31 @@ export class FormListService {
         return trimmed;
     }
 
-    public getFormList() {
-        const formList = new BehaviorSubject([]);
-        const favouriteForms = this.formOrderMetaDataService.getFavouriteForm();
-        this.formsResourceService.getForms().subscribe((forms) => {
-            this.formOrderMetaDataService.getDefaultFormOrder().subscribe((defaultOrder) => {
-                const formlist = this.processFavouriteForms(this._getFormList(forms,
-                    [favouriteForms, defaultOrder]), favouriteForms);
-                formList.next(formlist);
-            });
-        });
-        return formList;
-    }
+  public getFormList() {
+    const formList = new BehaviorSubject([]);
+    const favouriteForms = this.formOrderMetaDataService.getFavouriteForm();
+    this.formsResourceService.getForms().subscribe((forms) => {
+      this.formOrderMetaDataService.getDefaultFormOrder().subscribe((defaultOrder) => {
+        const formlist = this.processFavouriteForms(this._getFormList(forms,
+          [favouriteForms, defaultOrder]), favouriteForms);
+        formList.next(formlist);
+      });
+    });
+    return formList;
+  }
+
+  private isRequiredForm(item: any) {
+    const requiredSet = [
+      'bcb914ea-1e03-4c7f-9fd5-1baba5841e78',
+      'b84b2f7a-3062-4029-8f26-8b47e1e6c84e',
+      '21de4ceb-8262-4416-8325-e98f97d3fc87',
+      'cd9d8815-c9bf-4796-97b6-f63427fc4c34',
+      '303ef24d-34e0-4d1c-9ff0-4e48f4670168',
+      'bf6d0d9a-e6af-48fd-9245-6d1939adb37d',
+      '1edd2d8e-bfc6-4b08-b8e0-3c3a4dd50ac1'
+    ];
+    return _.includes(requiredSet, item.uuid) && !item.published || !_.includes(requiredSet, item.uuid) && item.published;
+  }
 
     private _getFormList(pocForms, formOrderArray) {
         // first filter out unpublished forms
