@@ -16,7 +16,7 @@
             },
             {
                 "indicator": "abnormal_breast_screening_findings",
-                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age" , "phone_number" ,"type_of_abnormality" , "patient_uuid"
+                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age" , "hiv_status" , "phone_number" ,"type_of_abnormality" , "patient_uuid"
                 ]
 
             },
