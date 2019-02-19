@@ -36,9 +36,7 @@ import {
 import {
   DepartmentProgramsConfigService
 } from './../../etl-api/department-programs-config.service';
-import {
-  SelectDepartmentService
-} from './../../program-visit-encounter-search/program-visit-encounter-search.service';
+import { SelectDepartmentService } from './../../shared/services/select-department.service';
 import * as moment from 'moment';
 import { MatTabsModule } from '@angular/material/tabs';
 

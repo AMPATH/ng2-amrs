@@ -34,9 +34,7 @@ import { AngularMultiSelectModule
 } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 import { DepartmentProgramsConfigService
 } from './../../etl-api/department-programs-config.service';
-import {
-  SelectDepartmentService
-} from './../../program-visit-encounter-search/program-visit-encounter-search.service';
+import { SelectDepartmentService } from './../../shared/services/select-department.service';
 class DataStub {
 
   public getMonthlySchedule(payload): Observable<any> {

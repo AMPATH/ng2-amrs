@@ -13,7 +13,7 @@ import * as Moment from 'moment';
 import { PatientProgramResourceService } from './../etl-api/patient-program-resource.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { DepartmentProgramsConfigService } from './../etl-api/department-programs-config.service';
-import { SelectDepartmentService } from './program-visit-encounter-search.service';
+import { SelectDepartmentService } from './../shared/services/select-department.service';
 import { ItemsList } from '@ng-select/ng-select/ng-select/items-list';
 
 @Component({

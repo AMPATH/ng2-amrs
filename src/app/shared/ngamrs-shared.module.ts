@@ -71,7 +71,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { AppModalComponent } from './modal/app-modal.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PocHttpInteceptor } from './services/poc-http-interceptor';
-import { SelectDepartmentService } from '../program-visit-encounter-search/program-visit-encounter-search.service';
+import { SelectDepartmentService } from './services/select-department.service';
 
 import { RisonService } from './services/rison-service';
 

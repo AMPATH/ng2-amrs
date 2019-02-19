@@ -6,7 +6,7 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2
 import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytics.service';
 import { DepartmentProgramsConfigService } from './../etl-api/department-programs-config.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
-import { SelectDepartmentService } from './program-visit-encounter-search.service';
+import { SelectDepartmentService } from './../shared/services/select-department.service';
 import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
 import { MatTabsModule } from '@angular/material/tabs';
 @NgModule({

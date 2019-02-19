@@ -5,8 +5,7 @@ import { ClinicDashboardCacheService } from '../../services/clinic-dashboard-cac
 import { Router, ActivatedRoute } from '@angular/router';
 import { DailyScheduleBaseComponent
 } from '../../../clinic-schedule-lib/daily-schedule/daily-schedule.component';
-import { SelectDepartmentService
-} from '../../../program-visit-encounter-search/program-visit-encounter-search.service';
+import { SelectDepartmentService } from './../../../shared/services/select-department.service';
 import {
   ClinicFlowCacheService
 } from '../../../hiv-care-lib/clinic-flow/clinic-flow-cache.service';
