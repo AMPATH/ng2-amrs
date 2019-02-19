@@ -31,8 +31,9 @@ export class CommunityGroupService {
     if (searchByLandmark) {
       return this.getGroupsByLandmark(searchString);
     } else {
-      const regex = new RegExp(/DC-\d{5}-\d{5}/);
-      if (regex.test(searchString)) {
+      const regex = new RegExp(/DC-\d{5}-\d{5}/i);
+      const regex2 = new RegExp(/DC-test-\d{5}/i);
+      if (regex.test(searchString) || regex2.test(searchString)) {
         return this.getGroupByGroupNumber(searchString);
       } else {
         return this.getGroupByName(searchString);
