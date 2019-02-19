@@ -112,6 +112,7 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
 
     public onReset(reset: boolean) {
      this.hideResults = reset;
+     this.hideGroupsInCurrentFacility = true;
      this.subscription.unsubscribe();
     }
 
