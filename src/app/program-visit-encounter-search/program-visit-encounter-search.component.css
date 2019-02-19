@@ -33,6 +33,10 @@
     margin-left: 5px;
 }
 
+.row {
+    margin-bottom: 5px;
+}
+
 
 @media (max-width: 600px) {
 

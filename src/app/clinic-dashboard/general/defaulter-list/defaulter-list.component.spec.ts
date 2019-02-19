@@ -25,7 +25,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
 import 'rxjs/add/observable/of';
-
+import { ProgramVisitEncounterSearchModule } from '../../../program-visit-encounter-search/program-visit-encounter-search.module';
 class MockActivatedRoute {
     public params = Observable.of([{ 'id': 1 }]);
     public snapshot = {
@@ -117,6 +117,7 @@ describe('Component: DefaulterListComponent', () => {
             imports: [NgBusyModule,
                 FormsModule,
                 HttpClientTestingModule,
+                ProgramVisitEncounterSearchModule,
                 DialogModule,
                 CalendarModule,
                 DataListsModule,
