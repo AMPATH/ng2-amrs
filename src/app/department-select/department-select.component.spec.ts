@@ -33,7 +33,6 @@ describe('Department-select component Tests', () => {
     });
 
     it('should have required properties', () => {
-        expect(comp.clinicDashboardConf).toBeDefined();
         expect(comp.departments).toBeUndefined();
         expect(comp.currentDepartment).toBeDefined();
         expect(comp.clinicDashboardDepts).toBeDefined();
@@ -42,6 +41,21 @@ describe('Department-select component Tests', () => {
     });
 
     it('should filter clinic dashboard departments', () => {
+        const dashRoute = '/clinic-dashboard';
+        const departments = [
+            {
+                'departmentName': 'HIV',
+                'baseRoute': 'hiv'
+            },
+            {
+                'departmentName': 'ONCOLOGY',
+                'baseRoute': 'oncology'
+            },
+            {
+                'departmentName': 'CDM',
+                'baseRoute': 'cdm'
+            }
+        ];
         const filteredDepts = [
             {
                 'name': 'HIV',
@@ -56,7 +70,7 @@ describe('Department-select component Tests', () => {
                 'baseRoute': 'cdm'
             }
         ];
-        comp.clinicDashboardDepts();
+        comp.clinicDashboardDepts(departments, dashRoute);
         expect(comp.departments).toEqual(filteredDepts);
 
     });
@@ -72,6 +86,7 @@ describe('Department-select component Tests', () => {
             'itemName': 'HIV',
             'id': ''
         }];
+        comp.dashRoute = '/clinic-dashboard';
         comp.setDefaultDepartment(defaultDepartment);
         fixture.detectChanges();
         const sessionDept = service.getObject('userDefaultDepartment');

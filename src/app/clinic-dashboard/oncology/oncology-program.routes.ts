@@ -21,10 +21,11 @@ import {
 } from '../../hiv-care-lib/clinic-flow/clinic-flow-provider-stats.component';
 import { ClinicFlowSummaryComponent
 } from '../../hiv-care-lib/clinic-flow/clinic-flow-summary.component';
-import { DepartmentSelectComponent } from '../department-select/department-select.component';
 import { PatientsProgramEnrollmentComponent } from '../../patients-program-enrollment/patients-program-enrollment.component';
 import { ProgramEnrollmentPatientListComponent } from '../../patients-program-enrollment/program-enrollent-patient-list.component';
 import { ClinicLabOrdersComponent } from '../general/clinic-lab-orders/clinic-lab-orders.component';
+import { ChangeDepartmentComponent } from '../change-department/change-department.component';
+
 const routes: Routes = [
   {
     path: 'daily-schedule',
@@ -64,7 +65,7 @@ const routes: Routes = [
 },
 {
   path: 'department-select',
-  component : DepartmentSelectComponent
+  component : ChangeDepartmentComponent
 }
 ];
 

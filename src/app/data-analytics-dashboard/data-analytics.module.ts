@@ -31,6 +31,9 @@ import {
   DataAnalyticsOncologyModule
 } from './oncology/data-analytics-oncology.module';
 import {
+  DataAnalyticsCdmModule
+} from './cdm/data-analytics-cdm.module';
+import {
   dataAnalyticsDashboardRouting
 } from './data-analytics-dashboard-routes';
 import {
@@ -41,6 +44,9 @@ import {
 } from './referral/referral-program.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { PocHttpInteceptor } from '../shared/services/poc-http-interceptor';
+import { ClinicRoutesFactory
+} from '../navigation/side-navigation/clinic-side-nav/clinic-side-nav-routes.factory';
+import { DataAnalyticsDashboardComponent } from './data-analytics.component';
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
  */
@@ -70,9 +76,11 @@ import { PocHttpInteceptor } from '../shared/services/poc-http-interceptor';
     MatProgressSpinnerModule,
     MatProgressBarModule,
     CacheModule,
-    DataEntryStatisticsModule
+    DataEntryStatisticsModule,
+    DataAnalyticsCdmModule
   ],
   declarations: [
+    DataAnalyticsDashboardComponent
   ],
   providers: [
     DataAnalyticsDashboardGuard,
@@ -87,7 +95,8 @@ import { PocHttpInteceptor } from '../shared/services/poc-http-interceptor';
       provide: HTTP_INTERCEPTORS,
       useClass: PocHttpInteceptor,
       multi: true
-    }
+    },
+    ClinicRoutesFactory
   ],
   exports: []
 })
