@@ -250,6 +250,7 @@ module.exports = function () {
             var defaulterPeriod = request.query.defaulterPeriod || 30;
             var maxPeriod = request.query.maxDefaultPeriod || '';
             var maxDefaultPeriodFilter = '';
+            var programUuid = request.query.programUuid;
 
             // Define optional max default period
             if (maxPeriod) {
@@ -262,7 +263,11 @@ module.exports = function () {
                 joins: [
                     ['amrs.person', 't3', 't1.person_id = t3.person_id and t3.death_date is null']
                 ],
-                where: ["location_uuid in (?) and days_since_rtc >= ? " + maxDefaultPeriodFilter, uuids, defaulterPeriod, maxPeriod],
+                leftOuterJoins: [
+                    ['amrs.patient_program', 't4', 't1.person_id = t4.patient_id AND t4.date_completed IS NULL'],
+                    ['(SELECT program_id, uuid as `programuuid` FROM amrs.program ) `t5` ON (t4.program_id = t5.program_id)']
+                ],
+                where: ["location_uuid in (?) and programuuid in (?) and days_since_rtc >= ? " + maxDefaultPeriodFilter, uuids, programUuid, defaulterPeriod, maxPeriod],
                 order: order || [{
                     column: 'days_since_rtc',
                     asc: true
