@@ -33,7 +33,7 @@
           <div class="btn-group" role="group">
             <button type="button" (click)="showModal(editMembership)" mat-raised-button>
               <span *ngIf="!group.endDate && activeMembers.length">End Memberships </span>
-              <span *ngIf="group.endDate && group.cohortMembers.length">View Memberships </span>
+              <span *ngIf="group.endDate && group.cohortMembers">View Memberships </span>
             </button>
 
             <button type="button" (click)="showModal(startGroupVisitModal)" mat-raised-button [class.ongoing]="visitStartedToday"
