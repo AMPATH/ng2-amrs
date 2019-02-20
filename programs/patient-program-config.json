@@ -955,6 +955,20 @@
         ]
       },
       {
+        "uuid": "fcc9a836-0200-45f2-81b4-b4a687a10247",
+        "name": "Treatment Supporter Visit",
+        "encounterTypes": [
+          {
+            "uuid": "693559d3-4e44-4d33-83f9-bc70ca56fe34",
+            "display": "TXSUPPORTERMEDREFILL"
+          },
+          {
+            "uuid": "987009c6-6f24-43f7-9640-c285d6553c63",
+            "display": "DRUGPICKUP"
+          }
+        ]
+      },
+      {
         "uuid": "06eca2a8-1da9-4ac4-95c6-15afedd4de21",
         "name": "HIV Lab Visit",
         "encounterTypes": [
@@ -3067,6 +3081,20 @@
           {
             "uuid": "5e019c94-0f80-49b7-8593-28100eb4f787",
             "display": "HEIFOLLOWUP"
+          }
+        ]
+      },
+      {
+        "uuid": "fcc9a836-0200-45f2-81b4-b4a687a10247",
+        "name": "Treatment Supporter Visit",
+        "encounterTypes": [
+          {
+            "uuid": "693559d3-4e44-4d33-83f9-bc70ca56fe34",
+            "display": "TXSUPPORTERMEDREFILL"
+          },
+          {
+            "uuid": "987009c6-6f24-43f7-9640-c285d6553c63",
+            "display": "DRUGPICKUP"
           }
         ]
       },
