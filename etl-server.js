@@ -2,6 +2,8 @@ try {
     var Hapi = require('hapi');
     var mysql = require('mysql');
     var Good = require('good');
+    const requestAgent = require('superagent');
+    const agentCache = require('./app/utils/super-agent-cache');
     var requestConfig = require('./request-config');
     var Basic = require('hapi-auth-basic');
     // var etlBroadcast =require('./etl-broadcast');
@@ -75,56 +77,48 @@ try {
                 }
             };
             var key = '';
-            cache.encriptKey(authBuffer, function (hash) {
-                key = hash;
-                if (cache.getFromToCache(key) === null) {
-                    if (config.openmrs.https) {
-                        https = require('https');
+            let agent = requestAgent.agent();
+            let cachedAgent = agentCache.getAgent(username);
+            if (cachedAgent) {
+                agent = cachedAgent;
+            }
+            let protocal = 'http';
+            if(config.openmrs.https){
+                protocal = 'https';
+            }
+
+
+            agent
+                .get(`${protocal}://${username}:${password}@${options.hostname}:${options.port}${options.path}`).set('Accept', 'application/json')
+                .then((res) => {
+                    let parsedResponse = JSON.parse(res.text);
+                    if (parsedResponse.authenticated) {
+                        agentCache.saveAgent(parsedResponse.user.username, agent);
                     }
-                    https.get(options, function (res) {
-                        var body = '';
-                        res.on('data', function (chunk) {
-                            body += chunk;
+                    if (parsedResponse.authenticated === true) {
+                        var user = parsedResponse.user.username;
+                        authorizer.setUser(parsedResponse.user);
+                        authorizer.getUserAuthorizedLocations(parsedResponse.user.userProperties, function (authorizedLocations) {
+                            var currentUser = {
+                                username: username,
+                                role: authorizer.isSuperUser() ?
+                                    authorizer.getAllPrivilegesArray() : authorizer.getCurrentUserPreviliges(),
+                                authorizedLocations: authorizedLocations
+                            };
+                            callback(null, parsedResponse.authenticated, currentUser);
                         });
-                        res.on('end', function () {
-                            var result = JSON.parse(body);
-                            if (result.authenticated === true) {
-                                var user = result.user.username;
-                                authorizer.setUser(result.user);
-                                authorizer.getUserAuthorizedLocations(result.user.userProperties, function (authorizedLocations) {
-                                    var currentUser = {
-                                        username: username,
-                                        role: authorizer.isSuperUser() ?
-                                            authorizer.getAllPrivilegesArray() : authorizer.getCurrentUserPreviliges(),
-                                        authorizedLocations: authorizedLocations
-                                    };
-                                    cache.saveToCache(key, {
-                                        result: result,
-                                        currentUser: currentUser
-                                    });
-                                    callback(null, result.authenticated, currentUser);
-                                });
-                            } else {
-                                console.log('An error occurred while trying to validate; user is not authenticated');
-                                callback(null, false);
-                            }
-                        });
-                    }).on('error', function (error) {
-                        //console.log(error);
+                    } else {
+                        console.log('An error occurred while trying to validate; user is not authenticated');
                         callback(null, false);
-                    });
-                } else {
-                    var cached = cache.getFromToCache(key);
-                    authorizer.setUser(cached.result.user);
-                    cache.saveToCache(key, {
-                        result: cached.result,
-                        currentUser: cached.currentUser
-                    });
-                    callback(null, cached.result.authenticated, cached.currentUser);
-                }
-            }, function () {
-                callback(null, false);
-            });
+                    }
+                    return parsedResponse;
+                }).catch((error) => {
+                    console.log(error);
+                    callback(null, false);
+                    return {
+                        error: "Well that was unexpected talk to the expert"
+                    }
+                });
         } catch (ex) {
             console.log('An error occurred while trying to validate', ex);
             callback(null, false);
