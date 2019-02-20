@@ -56,6 +56,14 @@
         },
         {
             "type": "derived_column",
+            "alias": "hiv_status",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "case when hiv_status=1 then 'HIV Negative' when hiv_status=2 then 'HIV Positive' when hiv_status=3 then 'Unknown' else NULL end"
+            }
+        },
+        {
+            "type": "derived_column",
             "alias": "person_name",
             "expressionType": "simple_expression",
             "expressionOptions": {
