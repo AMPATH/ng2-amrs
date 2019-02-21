@@ -20,7 +20,7 @@
             "alias": "fhs2",
             "join": {
                 "type": "LEFT",
-                "joinCondition": "fhs2.person_id = fhs.person_id AND fhs2.encounter_type = 140"
+                "joinCondition": "fhs2.person_id = fhs.person_id AND fhs2.encounter_type = 129"
             }
         },
         {
@@ -36,7 +36,7 @@
             "alias": "pp",
             "join": {
                 "type": "LEFT",
-                "joinCondition": "pp.patient_id = fhs.person_id AND pp.program_id = 27"
+                "joinCondition": "pp.patient_id = fhs.person_id AND pp.program_id = 27  and  (pp.date_completed is null || date(pp.date_completed) >= date('{startDate}'))"
             }
         }
     ],
@@ -59,7 +59,7 @@
             "alias": "not_virally_suppressed_in_enhanced_care",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "IF(program_id = 27, 1, NULL)"
+                "expression": "IF(pp.program_id = 27, 1, NULL)"
             }
         },
         {
@@ -75,7 +75,7 @@
             "alias": "mdt_form_completed",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "IF(program_id = 27 AND fhs2.encounter_type IS  NULL, 1,NULL)"
+                "expression": "IF(pp.program_id = 27 AND fhs2.encounter_type IS  NULL, 1,NULL)"
             }
         },
         {
