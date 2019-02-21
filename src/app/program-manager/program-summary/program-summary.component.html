@@ -1,16 +1,3 @@
-<div class="component-toolbar" style="margin-bottom: 10px;">
-  <!--<div class="pull-right">
-    <div class="chip-buttons pull-left">
-      <button class="chip">Active & Inactive</button>
-      <button class="chip">All Departments</button>
-    </div>
-    <div class="tool-bar pull-right">
-      <span class="fa fa-sliders">&nbsp;</span>
-    </div>
-    <div class="clear"></div>
-  </div>
-  <div class="clear"></div>-->
-</div>
 <busy *ngIf="!loaded && !hasError" [message]="'Loading patient programs...'"></busy>
 <table mat-table *ngIf="loaded && !hasError">
   <thead>
@@ -34,7 +21,7 @@
     <ng-container *ngIf="department.show">
       <tr>
         <td colspan="4">
-          <h3 style="margin-bottom: 0;">{{department.name}}</h3>
+          <h3 style="margin-bottom: 0;">{{department.name}} <a *ngIf="department.programs?.length > 0" style="color: #fff !important;" class="btn btn-primary pull-right" (click)="goToProgramLandingPage(department)">View Summary</a></h3>
           <hr style="margin-top: 10px;margin-bottom: 10px;"/>
         </td>
       </tr>
