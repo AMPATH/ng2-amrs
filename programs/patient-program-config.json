@@ -1326,6 +1326,10 @@
           {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
             "display": "FAMILYSTATUS"
+          },
+          {
+            "uuid": "df5547bc-1350-11df-a1f1-0026b9348838",
+            "display": "OUTREACHFIELDFU"
           }
         ]
       },
