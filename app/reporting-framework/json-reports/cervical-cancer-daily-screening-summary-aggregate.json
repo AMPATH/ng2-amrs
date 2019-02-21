@@ -74,14 +74,6 @@
 		"expressionOptions": {
 				"expression": "ROUND(count(abnormal_cervical_screening)/count(person_id) *100,2)"
 		}
-	},
-	{
-		"type": "derived_column",
-		"alias": "diagnostic_interval",
-		"expressionType": "simple_expression",
-		"expressionOptions": {
-				"expression": "count(diagnostic_interval)"
-		}
 	}
   ],
   "groupBy": {

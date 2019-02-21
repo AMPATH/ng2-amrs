@@ -80,7 +80,52 @@
             "alias": "type_of_abnormality",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "case when cur_via_result=1 then 'Normal' when cur_via_result=2 then 'Acetowhite lesion' when cur_via_result=3 then 'Friable tissue' when cur_via_result=4 then 'Atypical blood vessels' when cur_via_result=5 then 'Streptococcal sore throat' when cur_via_result=6 then 'Punctuated capillaries' when cur_via_result=7 then 'Dysfunctional uterine bleeding' else null end"
+                "caseOptions": [
+                    {
+                        "condition": "cur_via_result = 1",
+                        "value": "Normal"
+                    },
+                    {
+                        "condition": "cur_via_result = 2",
+                        "value": "Acetowhite Lesion"
+                    },
+                    {
+                        "condition": "cur_via_result = 3",
+                        "value": "Friable Tissue"
+                    },
+                    {
+                        "condition": "cur_via_result = 4",
+                        "value": "Atypical Blood Vessels"
+                    },
+                    {
+                        "condition": "cur_via_result = 5",
+                        "value": "Ulcer"
+                    },
+                    {
+                        "condition": "cur_via_result = 6",
+                        "value": "Punctuated Capillaries"
+                    },
+                    {
+                        "condition": "cur_via_result = 7",
+                        "value": "Dysfunctional Uterine Bleeding"
+                    },
+                    {
+                        "condition": "cur_via_result = 8",
+                        "value": "Pallor"
+                    },
+                    {
+                        "condition": "cur_via_result = 9",
+                        "value": "Oysterwhite Lesion"
+                    },
+                    {
+                        "condition": "cur_via_result = 10",
+                        "value": "Bright White Lesion"
+                    },
+                    {
+                        "condition": "cur_via_result = 11",
+                        "value": "Dysfunctional Uterine Bleeding"
+                    }
+                ]
             }
         },
         {
@@ -171,19 +216,6 @@
                        }
         },
         {
-            "type": "simple_column",
-            "alias": "date_patient_informed_of_results",
-            "column": "fccs.prior_biopsy_result_date"
-        },
-        {
-            "type": "derived_column",
-            "alias": "diagnostic_interval",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                        "expression": "TIMESTAMPDIFF(DAY, DATE(encounter_datetime), DATE(prior_biopsy_result_date))"
-                       }
-        },
-        {
             "type": "derived_column",
             "alias": "biopsy_results_within_2wks",
             "expressionType": "case_statement",
@@ -212,12 +244,12 @@
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "DATE(fccs.encounter_datetime) >= ?",
+                "conditionExpression": "fccs.encounter_datetime >= ?",
                 "parameterName": "startDate"
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "DATE(fccs.encounter_datetime) <= ?",
+                "conditionExpression": "fccs.encounter_datetime <= ?",
                 "parameterName": "endDate"
             },
             {
