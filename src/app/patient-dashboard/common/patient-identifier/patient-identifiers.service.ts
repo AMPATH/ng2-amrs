@@ -78,7 +78,7 @@ export class PatientIdentifierService {
         val: '43f78399-ca5d-4c1e-acb7-b30fc327283f'
       },
       {
-        label: 'HEI', format: '^HEI-\\d{5}-\\d{4}-\\d{4}$', checkdigit: 0,
+        label: 'HEI', format: '^\\d{5}-\\d{4}-\\d{4}$', checkdigit: 0,
         val: 'ead42a8f-203e-4b11-a942-df03a460d617'
       }
     ];
