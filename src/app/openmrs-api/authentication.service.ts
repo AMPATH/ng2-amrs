@@ -19,25 +19,25 @@ export class AuthenticationService {
 
   public authenticate(username: string, password: string) {
 
-    let credentials = {
+    const credentials = {
       username: username,
       password: password
     };
 
-    let request = this.sessionService.getSession(credentials);
+    const request = this.sessionService.getSession(credentials);
 
     request
       .pipe(take(1)).subscribe(
       (response: any) => {
 
-        let data = response;
+        const data = response;
 
         if (data.authenticated) {
 
           this.setCredentials(username, password);
 
           // store logged in user details in session storage
-          let user = data.user;
+          const user = data.user;
           this.storeUser(user);
         }
       });
@@ -47,7 +47,7 @@ export class AuthenticationService {
 
   public logOut() {
 
-    let response = this.sessionService.deleteSession();
+    const response = this.sessionService.deleteSession();
 
     response.pipe(
       take(1)).subscribe(
@@ -71,7 +71,7 @@ export class AuthenticationService {
   // This will clear motd alert cookies set  at every log in
   public clearLoginAlertCookies() {
 
-      let cookieKey = 'motdLoginCookie';
+      const cookieKey = 'motdLoginCookie';
 
       this._cookieService.remove(cookieKey);
 
@@ -79,7 +79,7 @@ export class AuthenticationService {
 
   private setCredentials(username: string, password: string) {
 
-    let base64 = btoa(username + ':' + password);
+    const base64 = btoa(username + ':' + password);
     this.sessionStorageService.setItem(Constants.CREDENTIALS_KEY, base64);
   }
 

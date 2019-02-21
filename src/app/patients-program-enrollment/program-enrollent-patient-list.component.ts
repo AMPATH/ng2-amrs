@@ -66,7 +66,7 @@ export class ProgramEnrollmentPatientListComponent implements OnInit, OnDestroy 
         },
         getRowHeight : (params) => {
             // assuming 50 characters per line, working how how many lines we need
-            let height = params.data.program.length / 30;
+            const height = params.data.program.length / 30;
             if ( height > 1) {
                    return (height + 1.5) * 10;
             } else {
@@ -120,7 +120,7 @@ export class ProgramEnrollmentPatientListComponent implements OnInit, OnDestroy 
                 this._patientProgramEnrollmentService.getActivePatientEnrollmentPatientList(params).pipe(
                 take(1)).subscribe((enrollments) => {
                     if (enrollments) {
-                        this.processEnrollments(enrollments);
+                        this.processEnrollments(enrollments.result);
                     }
 
                     this.busyIndicator = {
@@ -135,15 +135,12 @@ export class ProgramEnrollmentPatientListComponent implements OnInit, OnDestroy 
     public processEnrollments(enrollments: any) {
 
         let i = 1;
-        let enrolledPatientList = [];
-        let trackPatientMap = new Map();
-        let programMap = new Map();
-        let patientIndex  = 0;
+        const trackPatientMap = new Map();
 
         _.each((enrollments), (enrollment: any) => {
 
-            let patientUuid = enrollment.person_uuid;
-            let patientObjMap = trackPatientMap.get(patientUuid);
+            const patientUuid = enrollment.patient_uuid;
+            const patientObjMap = trackPatientMap.get(patientUuid);
             let completedDetail = '';
             if (enrollment.date_completed != null) {
 
@@ -152,15 +149,15 @@ export class ProgramEnrollmentPatientListComponent implements OnInit, OnDestroy 
 
             }
 
-            let enrollmentDateDetail = enrollment.program_name + '( Enrolled - ' +
-            Moment(enrollment.enrolled_date).format('DD-MMM-YYYY') + ')' +  completedDetail;
+            const enrollmentDateDetail = enrollment.program_name + '( Enrolled - ' +
+            Moment(enrollment.date_enrolled).format('DD-MMM-YYYY') + ')' +  completedDetail;
 
             if (typeof patientObjMap === 'undefined') {
 
-            let patient = {
+            const patient = {
                 no: i,
-                name: enrollment.patient_name,
-                identifier: enrollment.patient_identifier,
+                name: enrollment.person_name,
+                identifier: enrollment.identifiers,
                 program: enrollmentDateDetail,
                 patient_uuid : patientUuid
             };
@@ -177,13 +174,14 @@ export class ProgramEnrollmentPatientListComponent implements OnInit, OnDestroy 
             }
         });
 
+
         this.sortPatientList(trackPatientMap);
 
  }
 
  public sortPatientList(patientMap) {
 
-    let enrolledPatientList = [];
+    const enrolledPatientList = [];
 
     patientMap.forEach((mapElement) => {
 

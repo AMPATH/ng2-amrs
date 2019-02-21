@@ -2,13 +2,12 @@
 
 // import { TestBed, async, inject, describe, it, expect } from '@angular/core/testing';
 
-import { Patient } from './patient.model';
-
+import {Patient} from './patient.model';
 
 
 describe('Model: Patient', () => {
 
-  let existingPatient: any = {
+  const existingPatient: any = {
     uuid: 'uuid',
     display: 'the patient',
     person: {
@@ -21,7 +20,7 @@ describe('Model: Patient', () => {
   };
 
   it('should wrap openmrs patient for display correctly', () => {
-    let wrappedPatient: Patient = new Patient(existingPatient);
+    const wrappedPatient: Patient = new Patient(existingPatient);
     expect(wrappedPatient.uuid).toEqual(existingPatient.uuid);
     expect(wrappedPatient.display).toEqual(existingPatient.display);
     expect(wrappedPatient.person.uuid).toEqual(existingPatient.person.uuid);
@@ -30,8 +29,8 @@ describe('Model: Patient', () => {
   });
 
   it('should generate update existing payload correctly', () => {
-    let wrappedPatient: Patient = new Patient(existingPatient);
-    let newPayload: any = wrappedPatient.toUpdatePayload();
+    const wrappedPatient: Patient = new Patient(existingPatient);
+    const newPayload: any = wrappedPatient.toUpdatePayload();
     expect(newPayload).toEqual(null);
   });
 

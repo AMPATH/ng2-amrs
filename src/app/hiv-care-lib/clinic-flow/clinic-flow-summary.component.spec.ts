@@ -6,8 +6,7 @@ import { ChartModule } from 'angular2-highcharts';
 
 import { ClinicFlowSummaryComponent } from './clinic-flow-summary.component';
 import { ClinicFlowHourlyStatsVizComponent } from './clinic-flow-hourly-stats-viz.component';
-import { ClinicDashboardCacheService }
-  from '../../clinic-dashboard/services/clinic-dashboard-cache.service';
+import { ClinicDashboardCacheService } from '../../clinic-dashboard/services/clinic-dashboard-cache.service';
 import { ClinicFlowCacheService } from './clinic-flow-cache.service';
 
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
@@ -20,8 +19,6 @@ import {
   RouterModule, ChildrenOutletContexts
 } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { Http, BaseRequestOptions } from '@angular/http';
-import { MockBackend } from '@angular/http/testing';
 import { DataListsModule } from '../../shared/data-lists/data-lists.module';
 import {
   AccordionModule, DataTableModule, SharedModule, TabViewModule,
@@ -41,26 +38,23 @@ import { ClinicFlowResource } from '../../etl-api/clinic-flow-resource-interface
 import * as Moment from 'moment';
 import {
   HivClinicFlowResourceService
-} from
-  '../../etl-api/hiv-clinic-flow-resource.service';
+} from '../../etl-api/hiv-clinic-flow-resource.service';
 import { Observable } from 'rxjs';
-import { MockHivClinicFlowResourceService
+import {
+  MockHivClinicFlowResourceService
 } from '../../etl-api/hiv-clinic-flow-resource.service.mock';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('Component: ClinicFlowSummaryComponent', () => {
-  let fakeAppFeatureAnalytics: AppFeatureAnalytics, component,
-    clinicDashBoardCacheService: ClinicDashboardCacheService,
+  let component, clinicDashBoardCacheService: ClinicDashboardCacheService,
     clinicFlowCacheService: ClinicFlowCacheService,
-    mockHivClinicFlowResourceService: MockHivClinicFlowResourceService,
-    clinicFlowResource: ClinicFlowResource, router: Router, fixture, componentInstance;
+    clinicFlowResource: ClinicFlowResource, router: Router, fixture;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         LocalStorageService,
         ClinicDashboardCacheService,
-        MockBackend,
-        BaseRequestOptions,
         AppSettingsService,
         LocalStorageService,
         CacheService,
@@ -82,14 +76,6 @@ describe('Component: ClinicFlowSummaryComponent', () => {
           useClass: class { navigate = jasmine.createSpy('navigate'); }
         },
         {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend,
-            defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
-        {
           provide: AppFeatureAnalytics, useFactory: () => {
             return new FakeAppFeatureAnalytics();
           }, deps: []
@@ -97,7 +83,9 @@ describe('Component: ClinicFlowSummaryComponent', () => {
 
       ],
       declarations: [ClinicFlowSummaryComponent, ClinicFlowHourlyStatsVizComponent],
-      imports: [NgBusyModule,
+      imports: [
+        NgBusyModule,
+        HttpClientTestingModule,
         ChartModule.forRoot(require('highcharts')),
         FormsModule,
         DialogModule,
@@ -156,10 +144,10 @@ describe('Component: ClinicFlowSummaryComponent', () => {
 
   it('should subscribe to current clinic and dates when ngOnInit is invoked',
     (done) => {
-      let service: ClinicFlowCacheService = TestBed.get(ClinicFlowCacheService);
+      const service: ClinicFlowCacheService = TestBed.get(ClinicFlowCacheService);
       service.setSelectedLocation('location-uuid');
-      let m = Moment(new Date());
-      let currentDate = m.format('YYYY-MM-DD');
+      const m = Moment(new Date());
+      const currentDate = m.format('YYYY-MM-DD');
       component.ngOnInit();
 
       service.getSelectedDate().subscribe(date => {

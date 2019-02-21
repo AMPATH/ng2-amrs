@@ -5,24 +5,19 @@ import { LocalStorageService } from '../../../utils/local-storage.service';
 import { FakeAppSettingsService } from '../../../etl-api/moh-731-patientlist-resource.service.spec';
 import { FakeAppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytcis.mock';
 import { ModalComponent } from 'ng2-bs3-modal/components/modal';
-import { PatientEncounterObservationsComponent } from
-  '../patient-encounters/patient-encounter-observations.component';
+import { PatientEncounterObservationsComponent } from '../patient-encounters/patient-encounter-observations.component';
 import { VisitEncountersPipe } from './visit-encounters.pipe';
-import { EncounterTypeFilter } from
-  '../patient-encounters/encounter-list.component.filterByEncounterType.pipe';
+import { EncounterTypeFilter } from '../patient-encounters/encounter-list.component.filterByEncounterType.pipe';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { OrderByAlphabetPipe } from './visit-encounter.component.order.pipe';
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import { Observable ,  Subject, of } from 'rxjs';
+import { Observable, Subject, of } from 'rxjs';
 import { PatientEncounterService } from '../patient-encounters/patient-encounters.service';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
 import { VisitResourceService } from '../../../openmrs-api/visit-resource.service';
 import { PatientService } from '../../services/patient.service';
-import { DebugElement } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Directive, Input, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { Http, BaseRequestOptions } from '@angular/http';
-import { MockBackend } from '@angular/http/testing';
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -30,18 +25,23 @@ import { AppSettingsService } from '../../../app-settings/app-settings.service';
 
 import {
   ProgramEnrollmentResourceService
-}
-  from '../../../openmrs-api/program-enrollment-resource.service';
+} from '../../../openmrs-api/program-enrollment-resource.service';
 import { PatientProgramService } from '../../programs/patient-programs.service';
 import { ProgramService } from '../../programs/program.service';
 import { RoutesProviderService } from '../../../shared/dynamic-route/route-config-provider.service';
 import { ProgramResourceService } from '../../../openmrs-api/program-resource.service';
 import { first } from 'rxjs/operators';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Moh731PatientListResourceService } from '../../../etl-api/moh-731-patientlist-resource.service';
 class MockRouter {
   public navigate = jasmine.createSpy('navigate');
 }
 class MockActivatedRoute {
   public params = of([{ 'id': 1 }]);
+}
+
+class MockMoh731PatientListResourceService {
+  constructor() { }
 }
 
 class FakePatientProgramService {
@@ -53,7 +53,7 @@ class FakePatientProgramService {
         programUuid: '12345',
         isFocused: false,
         dateEnrolled: null,
-        dateCompleted: null,
+        dateCompconsted: null,
         validationError: '',
         buttons: {
           link: {
@@ -73,7 +73,7 @@ class FakePatientProgramService {
   }
 }
 
-let mockEncounterResponse = [{
+const mockEncounterResponse = [{
   'uuid': 'uuid',
   'encounterDatetime': '2016-01-24T16:00:00.000+0300',
   'patient': {
@@ -137,7 +137,7 @@ let mockEncounterResponse = [{
     }]
 }];
 
-let encounterObj = {
+const encounterObj = {
   'type': 'encounter',
   'date': '16:00',
   'encounterDatetime': '2016-01-24T16:00:00.000+0300',
@@ -152,7 +152,7 @@ let encounterObj = {
   'encounterObj': mockEncounterResponse
 };
 
-let visitEncounterGrouping = [{
+const visitEncounterGrouping = [{
   'type': 'parent',
   'date': '2016-01-24',
   'time': '',
@@ -242,8 +242,6 @@ let visitEncounterGrouping = [{
 describe('Component : Visit-Encounters', () => {
   let comp: VisitEncountersListComponent;
   let fixture: ComponentFixture<VisitEncountersListComponent>;
-  let de: DebugElement;
-  let el: HTMLElement;
   let nativeElement: any;
 
   // async beforeEach
@@ -252,6 +250,7 @@ describe('Component : Visit-Encounters', () => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
+        HttpClientTestingModule,
         FormsModule,
         NgxPaginationModule,
         ModalModule.forRoot()
@@ -270,6 +269,10 @@ describe('Component : Visit-Encounters', () => {
             return new FakePatientProgramService();
           }
         },
+        {
+          provide: Moh731PatientListResourceService,
+          useClass: MockMoh731PatientListResourceService
+        },
         ProgramService,
         RoutesProviderService,
         ProgramResourceService,
@@ -277,22 +280,12 @@ describe('Component : Visit-Encounters', () => {
         EncounterResourceService,
         VisitResourceService,
         PatientResourceService,
-        MockBackend,
-        BaseRequestOptions,
         FakeAppSettingsService,
         LocalStorageService,
         AppSettingsService,
         ProgramEnrollmentResourceService,
         MockRouter,
         MockActivatedRoute,
-        {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend,
-            defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
         {
           provide: AppFeatureAnalytics,
           useClass: FakeAppFeatureAnalytics
@@ -313,16 +306,16 @@ describe('Component : Visit-Encounters', () => {
     nativeElement = fixture.nativeElement;
 
     // Service from the root injector
-    let patient = fixture.debugElement.injector.get(PatientService);
-    let patientEncounterService = fixture.debugElement.injector.get(PatientEncounterService);
-    let encounterResourceService = fixture.debugElement.injector.get(EncounterResourceService);
-    let visitResourceService = fixture.debugElement.injector.get(VisitResourceService);
-    let route = fixture.debugElement.injector.get(MockRouter);
-    let activatedRoute = fixture.debugElement.injector.get(MockActivatedRoute);
+    const patient = fixture.debugElement.injector.get(PatientService);
+    const patientEncounterService = fixture.debugElement.injector.get(PatientEncounterService);
+    const encounterResourceService = fixture.debugElement.injector.get(EncounterResourceService);
+    const visitResourceService = fixture.debugElement.injector.get(VisitResourceService);
+    const route = fixture.debugElement.injector.get(MockRouter);
+    const activatedRoute = fixture.debugElement.injector.get(MockActivatedRoute);
 
   });
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 
@@ -340,19 +333,19 @@ describe('Component : Visit-Encounters', () => {
       comp.sortPatientEncounterTypes();
       fixture.detectChanges();
 
-      let result = ['ADULTRETURN', 'DEATHREPORT', 'ECSTABLE'];
+      const result = ['ADULTRETURN', 'DEATHREPORT', 'ECSTABLE'];
       expect(comp.encounterTypesArray).toEqual(result);
     }));
   it('should generate a new visits array based on encounters',
     async(() => {
-      let encounterObs = of(mockEncounterResponse);
+      const encounterObs = of(mockEncounterResponse);
 
       encounterObs.subscribe((res) => {
         comp.groupEncountersByVisits(res);
       });
       fixture.detectChanges();
 
-      let mainArray = comp.mainArray;
+      const mainArray = comp.mainArray;
 
       expect(mainArray[0].encounters.length).toBeGreaterThan(0);
 
@@ -366,7 +359,7 @@ describe('Component : Visit-Encounters', () => {
 
     fixture.detectChanges();
 
-    let filteredArray = ['DEATHREPORT', 'ECSTABLE'];
+    const filteredArray = ['DEATHREPORT', 'ECSTABLE'];
 
     expect(comp.encounterFilterTypeArray).toEqual(filteredArray);
   }));
@@ -375,13 +368,13 @@ describe('Component : Visit-Encounters', () => {
 
     comp.encounterFilterTypeArray = ['ADULTRETURN', 'DEATHREPORT', 'ECSTABLE'];
 
-    let selectedEncounterType = 'HIVRETURN';
+    const selectedEncounterType = 'HIVRETURN';
 
     comp.onEncounterTypeChange(selectedEncounterType);
 
     fixture.detectChanges();
 
-    let filteredArray = ['ADULTRETURN', 'DEATHREPORT', 'ECSTABLE', selectedEncounterType];
+    const filteredArray = ['ADULTRETURN', 'DEATHREPORT', 'ECSTABLE', selectedEncounterType];
 
     expect(comp.encounterFilterTypeArray).toEqual(filteredArray);
 

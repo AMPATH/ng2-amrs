@@ -20,8 +20,8 @@ export class ProgramEnrollmentResourceService {
 
   public getProgramEnrollmentByPatientUuid(uuid: string): Observable<any> {
 
-    let url = this.getUrl();
-    let v: string = 'custom:(uuid,display,voided,dateEnrolled,dateCompleted,' +
+    const url = this.getUrl();
+    const v: string = 'custom:(uuid,display,voided,dateEnrolled,dateCompleted,' +
       'location,program:(uuid),states:(uuid,startDate,endDate,state:(uuid,initial,terminal,' +
       'concept:(uuid,display))))';
 
@@ -29,7 +29,7 @@ export class ProgramEnrollmentResourceService {
       return null;
     }
 
-    let params: HttpParams = new HttpParams()
+    const params: HttpParams = new HttpParams()
     .set('v', v)
     .set('patient', uuid);
 
@@ -43,14 +43,14 @@ export class ProgramEnrollmentResourceService {
   public getProgramEnrollmentStates(uuid: string): Observable<any> {
 
     let url = this.getUrl();
-    let v: string = 'custom:(uuid,display,states:(uuid,startDate,endDate,' +
+    const v = 'custom:(uuid,display,states:(uuid,startDate,endDate,' +
       'state:(uuid,concept:(uuid,display))))';
 
     if (!uuid) {
       return null;
     }
 
-    let params: HttpParams = new HttpParams()
+    const params: HttpParams = new HttpParams()
     .set('v', v);
     url = url + '/' + uuid;
 

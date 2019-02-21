@@ -14,7 +14,7 @@ describe('ClinicFlowCacheService Unit Tests', () => {
         });
     });
 
-    afterAll(() => {
+    afterEach(() => {
         TestBed.resetTestingModule();
     });
 
@@ -85,14 +85,14 @@ describe('ClinicFlowCacheService Unit Tests', () => {
     it('should return columns when getClinicFlowColumns is invoked ',
         (done) => {
             service = TestBed.get(ClinicFlowCacheService);
-            let columns = service.getClinicFlowColumns();
+            const columns = service.getClinicFlowColumns();
             expect(columns.length).toEqual(9);
             done();
         });
     it('should cache Last Clinic Flow Selected Date ',
         (done) => {
             service = TestBed.get(ClinicFlowCacheService);
-            let lastDate = service.lastClinicFlowSelectedDate = '2017-09-08';
+            const lastDate = service.lastClinicFlowSelectedDate = '2017-09-08';
             expect(lastDate).toEqual('2017-09-08');
             done();
         });

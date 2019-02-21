@@ -1,5 +1,5 @@
 
-import {take} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import {
   Component, OnInit, Input, Output, OnChanges,
   SimpleChange, EventEmitter
@@ -20,14 +20,14 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
   public patientList: Array<any> = [];
   public patientListPerIndicator: Array<any> = [];
   public dataSource: any;
-  public hasError: boolean = false;
+  public hasError = false;
   public overrideColumns: Array<any> = [];
   public extraColumns: Array<any> = [];
   public startIndex: Array<any> = [];
   public currentStartIndexPerIndicator: number;
-  public isLoading: boolean = false;
-  public hasLoadedAll: boolean = false;
-  public dataLoadedPerIndicator: boolean = false;
+  public isLoading = false;
+  public hasLoadedAll = false;
+  public dataLoadedPerIndicator = false;
   public dataLoaded: Array<any> = [];
   public params: any = {
     startDate: '',
@@ -37,18 +37,18 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
     isLegacy: ''
 
   };
-  public _locations: string = '';
-  public _indicator: string = '';
+  public _locations = '';
+  public _indicator = '';
   public _startDate;
   public _endDate;
   public busyIndicator: any = {
-     busy: false,
-     message: ''
+    busy: false,
+    message: ''
   };
 
   constructor(public route: ActivatedRoute,
-              private router: Router,
-              private moh731PatientListResourceService: Moh731PatientListResourceService) {
+    private router: Router,
+    private moh731PatientListResourceService: Moh731PatientListResourceService) {
   }
 
   public ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
@@ -64,15 +64,15 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
 
   public ngOnInit() {
     this.route
-    .queryParams
-    .subscribe((params) => {
-    if (params) {
-            this.params = params;
-            this.loadPatientList(this.params);
+      .queryParams
+      .subscribe((params) => {
+        if (params) {
+          this.params = params;
+          this.loadPatientList(this.params);
         }
-    }, (error) => {
+      }, (error) => {
         console.error('Error', error);
-    });
+      });
   }
 
   public loadPatientList(params: any) {
@@ -81,20 +81,20 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
       busy: true,
       message: 'Loading Patient List...please wait'
     };
-    let rowCount: number = 0;
+    const rowCount = 0;
     this.moh731PatientListResourceService.getMoh731PatientListReport({
       indicator: params.indicators,
-      isLegacy: params.isLegacy,
+      isLegacy: Boolean(params.isLegacy),
       startIndex: this.startIndex[params.indicators] ? this.startIndex[params.indicators] : 0,
       startDate: moment(params.startDate).format('YYYY-MM-DD'),
       endDate: moment(params.endDate).endOf('day').format('YYYY-MM-DD'),
-      reportName: 'MOH-731-report-2017',
+      reportName: Boolean(params.isLegacy) === true ? 'MOH-731-report' : 'MOH-731-report-2017',
       locationUuids: _.isArray(params.locations) ? params.locations.join(',') : params.locations
     }).pipe(take(1)).subscribe((data) => {
       this.isLoading = false;
       if (data.errorMessage) {
         this.hasError = true;
-        console.log(data);
+        console.log('MOH 731 patient list report', data);
       } else {
         /**
          * Track everything per indicator provided
@@ -112,7 +112,6 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
           this.dataLoaded[params.indicator] = true;
         }
 
-        //  console.log('loaded patients', data);
         if (data.result.length < 300) {
           this.hasLoadedAll = true;
         }
@@ -190,11 +189,12 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
 
   public addExtraColumns(indicators: Array<any>) {
 
-    let extraColumns = {
+    const extraColumns = {
       enrollment_date: 'Enrollment Date',
       arv_first_regimen_start_date: 'ARVs Initial Start Date',
       cur_regimen_arv_start_date: 'Current ARV Regimen Start Date (edited)',
       cur_arv_line: 'Current ARV Line (edited)',
+      cur_arv_meds: 'Current ARV Regimen',
       vl_1: 'Viral Load',
       vl_1_date: 'Viral Load Date',
       has_pending_vl_test: 'Pending Viral Load Test'
@@ -221,8 +221,8 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
   }
 
   public searchIndicator(indicators: Array<any>, trackedIndicator: string) {
-    let matchingIndicator = _.filter(indicators, (_indicator) => {
-      let search = _indicator['indicator'];
+    const matchingIndicator = _.filter(indicators, (_indicator) => {
+      const search = _indicator['indicator'];
       return search && search.match(new RegExp(trackedIndicator));
     });
     return new Promise((resolve) => {

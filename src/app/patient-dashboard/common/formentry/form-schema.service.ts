@@ -24,16 +24,16 @@ export class FormSchemaService {
    * @memberOf FormSchemaService
    */
   public getFormSchemaByUuid(formUuid: string, cached: boolean = true): ReplaySubject<any> {
-    let formSchema: ReplaySubject<any> = new ReplaySubject(1);
-    let cachedCompiledSchema: any = this.getCachedCompiledSchemaByUuid(formUuid);
+    const formSchema: ReplaySubject<any> = new ReplaySubject(1);
+    const cachedCompiledSchema: any = this.getCachedCompiledSchemaByUuid(formUuid);
     if (cachedCompiledSchema && cached === true) {
       formSchema.next(cachedCompiledSchema);
     } else {
       this.getFormSchemaByUuidFromServer(formUuid)
         .subscribe(
         (unCompiledSchema: any) => {
-          let form: any = unCompiledSchema.form;
-          let referencedComponents: any = unCompiledSchema.referencedComponents;
+          const form: any = unCompiledSchema.form;
+          const referencedComponents: any = unCompiledSchema.referencedComponents;
           // add from metadata to the uncompiled schema
           this.formsResourceService.getFormMetaDataByUuid(formUuid)
             .subscribe(
@@ -42,7 +42,7 @@ export class FormSchemaService {
               formMetadataObject.referencedForms = form.referencedForms || [];
               formMetadataObject.processor = form.processor;
               // compile schema
-              let compiledSchema: any = this.formSchemaCompiler
+              const compiledSchema: any = this.formSchemaCompiler
                 .compileFormSchema(formMetadataObject, referencedComponents);
               // now cache the compiled schema
               this.cacheCompiledSchemaByUuid(formUuid, compiledSchema);
@@ -74,7 +74,7 @@ export class FormSchemaService {
   }
 
   private getFormSchemaByUuidFromServer(formUuid: string): ReplaySubject<object> {
-    let formSchema: ReplaySubject<any> = new ReplaySubject(1);
+    const formSchema: ReplaySubject<any> = new ReplaySubject(1);
     this.fetchFormSchemaUsingFormMetadata(formUuid)
       .subscribe(
       (schema: object) => {
@@ -107,11 +107,11 @@ export class FormSchemaService {
   }
 
   private getFormSchemaWithReferences(schema: any): ReplaySubject<any> {
-    let formSchemaWithReferences: ReplaySubject<any> = new ReplaySubject(1);
+    const formSchemaWithReferences: ReplaySubject<any> = new ReplaySubject(1);
     this.fetchFormSchemaReferences(schema)
       .subscribe(
       (schemaReferences: Array<any>) => {
-        let forms: object = {
+        const forms: object = {
           form: schema,
           referencedComponents: schemaReferences
         };
@@ -128,10 +128,10 @@ export class FormSchemaService {
 
   private fetchFormSchemaReferences(formSchema: any): Observable<any> {
     // first create the observableBatch/ArrayOfRequests
-    let observableBatch: Array<Observable<any>> = [];
-    let referencedForms: Array<any> = formSchema.referencedForms;
+    const observableBatch: Array<Observable<any>> = [];
+    const referencedForms: Array<any> = formSchema.referencedForms;
     if (Array.isArray(referencedForms) && referencedForms.length > 0) {
-      let referencedUuids: Array<string> = this.getFormUuidArray(referencedForms);
+      const referencedUuids: Array<string> = this.getFormUuidArray(referencedForms);
       referencedUuids.forEach((referencedUuid: any, key) => {
         observableBatch.push(
           this.fetchFormSchemaUsingFormMetadata(referencedUuid)
@@ -140,10 +140,10 @@ export class FormSchemaService {
     }
 
     // now get schemaReferences sequentially
-    let schemaReferences: any = [];
+    const schemaReferences: any = [];
     return Observable.create((observer: Subject<any>) => {
-      let current = 0;
-      let max = observableBatch.length;
+      const current = 0;
+      const max = observableBatch.length;
 
       if (current === max) {
         // resolve
@@ -181,7 +181,7 @@ export class FormSchemaService {
               .subscribe(
               (clobData: any) => {
                 observer.next(clobData);
-                // observer.complete();
+                // observer.compconste();
               },
               (err) => {
                 console.error(err);
@@ -202,7 +202,7 @@ export class FormSchemaService {
   }
 
   private getFormUuidArray(formSchemaReferences: Array<object>) {
-    let formUuids: Array<string> = [];
+    const formUuids: Array<string> = [];
     formSchemaReferences.forEach((value: any, key) => {
       formUuids.push(value.ref.uuid);
     });

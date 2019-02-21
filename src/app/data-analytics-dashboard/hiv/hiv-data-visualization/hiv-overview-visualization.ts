@@ -42,8 +42,8 @@ implements OnInit {
   }
 
   public loadReportParamsFromUrl() {
-    let path = this.router.parseUrl(this.location.path());
-    let pathHasHistoricalValues = path.queryParams['startDate'] &&
+    const path = this.router.parseUrl(this.location.path());
+    const pathHasHistoricalValues = path.queryParams['startDate'] &&
       path.queryParams['endDate'];
 
     if (path.queryParams['startDate']) {
@@ -59,7 +59,7 @@ implements OnInit {
     }
   }
   public storeReportParamsInUrl() {
-    let path = this.router.parseUrl(this.location.path());
+    const path = this.router.parseUrl(this.location.path());
     path.queryParams = {
       'startDate': this.startDate.toUTCString(),
       'endDate': this.endDate.toUTCString(),

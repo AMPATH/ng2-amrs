@@ -24,6 +24,7 @@ import { TodayVisitsComponent } from './common/visit/today-visits/today-visits.c
 import { PatientDashboardResolver } from './services/patient-dashboard.resolver';
 import { PatientCreationComponent } from '../patient-creation/patient-creation.component';
 import { PatientImagingComponent } from './common/imaging/patient-imaging.component';
+import { GeneXpertImagesComponent } from './hiv/genexpert-images/genexpert-images.component';
 import { ProgramManagerContainerComponent
 } from '../program-manager/container/program-manager-container.component';
 import { ProgramSummaryComponent
@@ -31,7 +32,7 @@ import { ProgramSummaryComponent
 import { NewProgramComponent } from '../program-manager/new-program/new-program.component';
 import { EditProgramComponent } from '../program-manager/edit-program/edit-program.component';
 import { GroupEnrollmentSummaryComponent } from './group-enrollment/group-enrollment-summary.component';
-
+import { OncologySummaryComponent } from './oncology/oncology-summary/oncology-summary.component';
 
 
 export const routes = [
@@ -62,7 +63,7 @@ export const routes = [
           },
           { // Oncology related Program Landing Page
             path: 'oncology/:program/landing-page',
-            component: PatientInfoComponent
+            component: OncologySummaryComponent
           },
           {
             path: 'cdm/:program/landing-page', // CDM Landing Page
@@ -101,12 +102,14 @@ export const routes = [
           },
           { path: ':programClass/:program/hiv-summary', component: HivSummaryComponent },
           { path: ':programClass/:program/cdm-summary', component: CdmSummaryComponent },
+          { path: ':programClass/:program/oncology-summary', component: OncologySummaryComponent },
           {
             path: ':programClass/:program/patient-monthly-status-history',
             component: PatientMonthlyStatusComponent
           },
           { path: ':programClass/:program/lab-data-summary', component: LabDataSummaryComponent },
           { path: ':programClass/:program/patient-imaging', component: PatientImagingComponent },
+          { path: ':programClass/:program/patient-gene-xpert-images', component: GeneXpertImagesComponent },
           { path: ':programClass/:program/lab-orders', component: LabOrdersComponent },
           { path: ':programClass/:program/clinical-notes', component: ClinicalNotesComponent },
           { path: ':programClass/:program/visit', component: TodayVisitsComponent },

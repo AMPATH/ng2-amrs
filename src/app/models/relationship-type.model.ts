@@ -1,12 +1,12 @@
-import { BaseModel } from './base-model.model';
-import { serializable, serialize } from './serializable.decorator';
+import {BaseModel} from './base-model.model';
+import {serializable} from './serializable.decorator';
 import './date.extensions';
 
 export class RelationshipType extends BaseModel {
 
   constructor(openmrsModel?: any) {
     super(openmrsModel);
-    let o = this._openmrsModel;
+    const o = this._openmrsModel;
   }
 
   @serializable()

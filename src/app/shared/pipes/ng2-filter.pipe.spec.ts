@@ -22,7 +22,7 @@ describe('Pipe: Ng2FilterPipe', () => {
     });
 
     it('filters array of strings with repeated element', () => {
-        let arrayContainingA = ['a', 'ba', 'ca'];
+        const arrayContainingA = ['a', 'ba', 'ca'];
         expect(pipe.transform(arrayContainingA, 'a')).toEqual(arrayContainingA);
     });
 

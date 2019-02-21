@@ -1,7 +1,6 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async, inject } from '@angular/core/testing';
-import { HttpModule } from '@angular/http';
 
 import * as moment from 'moment';
 import { Observable, of } from 'rxjs';
@@ -9,8 +8,7 @@ import { Observable, of } from 'rxjs';
 import { TodayVisitService, VisitsEvent } from './today-visit.service';
 import { PatientProgramResourceService } from '../../../etl-api/patient-program-resource.service';
 import { NgamrsSharedModule } from '../../../shared/ngamrs-shared.module';
-import { UserDefaultPropertiesModule }
-  from '../../../user-default-properties/user-default-properties.module';
+import { UserDefaultPropertiesModule } from '../../../user-default-properties/user-default-properties.module';
 import { VisitResourceService } from '../../../openmrs-api/visit-resource.service';
 import { PatientService } from '../../services/patient.service';
 import { Patient } from '../../../models/patient.model';
@@ -22,9 +20,10 @@ import { ProgramWorkFlowStateResourceService
 } from '../../../openmrs-api/program-workflow-state-resource.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { delay } from 'rxjs/operators';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 describe('Service: TodayVisit', () => {
-  let progConfig = {
+  const progConfig = {
     uuid: 'some-uuid',
     visitTypes: [
       {
@@ -42,11 +41,11 @@ describe('Service: TodayVisit', () => {
     ]
   };
 
-  let prog = {
+  const prog = {
     'some-uuid': progConfig
   };
 
-  let visitsSample = [
+  const visitsSample = [
     { // 0
       uuid: 'some-visit-uuid-1',
       encounters: [],
@@ -112,7 +111,7 @@ describe('Service: TodayVisit', () => {
     }
   ];
 
-  let fakePatientProgramResourceService = {
+  const fakePatientProgramResourceService = {
     getAllProgramVisitConfigs: () => {
       return of(prog).pipe(delay(50));
     },
@@ -126,7 +125,7 @@ describe('Service: TodayVisit', () => {
     }
   };
 
-  let fakeVisitResourceService = {
+  const fakeVisitResourceService = {
     getVisitTypes: (args) => {
       return of([{
         'uuid': '4c84516f-279e-4994-b111-84d4d35a2d97',
@@ -138,12 +137,12 @@ describe('Service: TodayVisit', () => {
       }]);
     },
     getPatientVisits: (args): Observable<any> => {
-      let obs: Observable<any> = of(visitsSample);
+      const obs: Observable<any> = of(visitsSample);
       console.log('fake visit resource in use');
       return obs.pipe(delay(50));
     },
     saveVisit: (payload) => {
-      let response = {
+      const response = {
         uuid: 'visituuid',
         voided: false,
         stopDatetime: null,
@@ -155,7 +154,7 @@ describe('Service: TodayVisit', () => {
       return of(response);
     },
     updateVisit: (uuid, payload) => {
-      let response = {
+      const response = {
         uuid: uuid,
         voided: false,
         stopDatetime: new Date(),
@@ -192,7 +191,7 @@ describe('Service: TodayVisit', () => {
       ],
       imports: [
         RouterTestingModule,
-        HttpModule,
+        HttpClientTestingModule,
         NgamrsSharedModule,
         UserDefaultPropertiesModule,
       ]
@@ -204,18 +203,18 @@ describe('Service: TodayVisit', () => {
   }));
 
   it('should fetch a patient\'s programs configs', (done) => {
-    let progService: PatientProgramResourceService =
+    const progService: PatientProgramResourceService =
       TestBed.get(PatientProgramResourceService);
 
-    let patientService: PatientService =
+    const patientService: PatientService =
       TestBed.get(PatientService);
     patientService.currentlyLoadedPatient.next(new Patient({
       uuid: 'uuid',
       person: { uuid: 'uuid' }
     }));
-    let service: TodayVisitService = TestBed.get(TodayVisitService);
+    const service: TodayVisitService = TestBed.get(TodayVisitService);
 
-    let progVisitTypeSpy =
+    const progVisitTypeSpy =
       spyOn(progService, 'getPatientProgramVisitConfigs')
         .and.callThrough();
     service.fetchPatientProgramVisitConfigs();
@@ -227,16 +226,16 @@ describe('Service: TodayVisit', () => {
   });
 
   it('should fetch all visits for a patient', () => {
-    let service: TodayVisitService = TestBed.get(TodayVisitService);
+    const service: TodayVisitService = TestBed.get(TodayVisitService);
 
     service.patient = {
       uuid: 'uuid',
       person: { uuid: 'uuid' }
     };
 
-    let visitResService: VisitResourceService =
+    const visitResService: VisitResourceService =
       TestBed.get(VisitResourceService);
-    let patientVisitsSpy =
+    const patientVisitsSpy =
       spyOn(visitResService, 'getPatientVisits')
         .and.callFake((params) => {
           return of(visitsSample);
@@ -254,36 +253,36 @@ describe('Service: TodayVisit', () => {
   });
 
   it('should filter visits by visit types', () => {
-    let types = ['some-visit-type-uuid-3', 'some-visit-type-uuid-1'];
-    let expected = [visitsSample[2], visitsSample[4]];
+    const types = ['some-visit-type-uuid-3', 'some-visit-type-uuid-1'];
+    const expected = [visitsSample[2], visitsSample[4]];
 
-    let service: TodayVisitService = TestBed.get(TodayVisitService);
+    const service: TodayVisitService = TestBed.get(TodayVisitService);
 
-    let actual = service.filterVisitsByVisitTypes(visitsSample, types);
+    const actual = service.filterVisitsByVisitTypes(visitsSample, types);
 
     expect(actual).toEqual(expected);
   });
 
   it('should sort visits by startDatetime', () => {
-    let sample = [visitsSample[0], visitsSample[4], visitsSample[1]];
-    let expected = [visitsSample[1], visitsSample[0], visitsSample[4]];
-    let service: TodayVisitService = TestBed.get(TodayVisitService);
+    const sample = [visitsSample[0], visitsSample[4], visitsSample[1]];
+    const expected = [visitsSample[1], visitsSample[0], visitsSample[4]];
+    const service: TodayVisitService = TestBed.get(TodayVisitService);
 
-    let actual = service.sortVisitsByVisitStartDateTime(sample);
+    const actual = service.sortVisitsByVisitStartDateTime(sample);
     expect(actual).toEqual(expected);
   });
 
   it('should subscribe to patient load events from patient service',
     (done) => {
-      let patientService: PatientService =
+      const patientService: PatientService =
         TestBed.get(PatientService);
-      let service: TodayVisitService = TestBed.get(TodayVisitService);
+      const service: TodayVisitService = TestBed.get(TodayVisitService);
       service.patient = null;
       service.needsVisitReload = false;
 
-      let programStaleNoticeSpy = spyOn(service, 'makeVisitsStale').and.callThrough();
+      const programStaleNoticeSpy = spyOn(service, 'makeVisitsStale').and.callThrough();
 
-      let nextPatient = new Patient({ uuid: 'patient-uuid', person: {} });
+      const nextPatient = new Patient({ uuid: 'patient-uuid', person: {} });
       patientService.currentlyLoadedPatient.next(nextPatient);
 
       expect(service.patient).toBe(nextPatient);
@@ -293,15 +292,15 @@ describe('Service: TodayVisit', () => {
     });
 
   it('should extract a program config from all program configs', () => {
-    let service: TodayVisitService = TestBed.get(TodayVisitService);
+    const service: TodayVisitService = TestBed.get(TodayVisitService);
     service.patientProgramVisitConfigs = prog;
-    let filteredProgConfig = service.getProgramConfigurationObject('some-uuid');
+    const filteredProgConfig = service.getProgramConfigurationObject('some-uuid');
     expect(filteredProgConfig).toBe(progConfig);
   });
 
   it('should filter programs patient enrolled in', () => {
-    let service: TodayVisitService = TestBed.get(TodayVisitService);
-    let programs = [
+    const service: TodayVisitService = TestBed.get(TodayVisitService);
+    const programs = [
       {
         enrolledProgram: {
           uuid: 'uuid'
@@ -316,14 +315,14 @@ describe('Service: TodayVisit', () => {
       }
     ];
 
-    let filtered = service.filterUnenrolledPrograms(programs);
+    const filtered = service.filterUnenrolledPrograms(programs);
     expect(filtered).toEqual([programs[0]]);
   });
 
   it('should build programs object', () => {
-    let service: TodayVisitService = TestBed.get(TodayVisitService);
+    const service: TodayVisitService = TestBed.get(TodayVisitService);
 
-    let programs = [
+    const programs = [
       {
         enrolledProgram: {
           uuid: 'uuid'
@@ -344,7 +343,7 @@ describe('Service: TodayVisit', () => {
       }
     ];
 
-    let programConfigs = {
+    const programConfigs = {
       'some-uuid': {
         visitTypes: []
       },
@@ -355,7 +354,7 @@ describe('Service: TodayVisit', () => {
 
     service.patientProgramVisitConfigs = programConfigs;
 
-    let expected = {
+    const expected = {
       'some-uuid': {
         enrollment: programs[0],
         visits: [],
@@ -380,7 +379,7 @@ describe('Service: TodayVisit', () => {
       // that was started today
       // the visit could have been ended or it could be an active visit
 
-      let service: TodayVisitService = TestBed.get(TodayVisitService);
+      const service: TodayVisitService = TestBed.get(TodayVisitService);
       service.patientProgramVisitConfigs = prog;
 
       // CASE 3: Visits and Program Config Loaded
@@ -443,7 +442,7 @@ describe('Service: TodayVisit', () => {
       // SUB-CASE: No Visit Types for program
       service.hasFetchedVisits = true;
       service.allPatientVisits = visitsSample;
-      let currentProgramConfig = {
+      const currentProgramConfig = {
         uuid: 'some-uuid',
         visitTypes: []
       };
@@ -467,9 +466,9 @@ describe('Service: TodayVisit', () => {
     });
 
   it('should process visits for all programs', () => {
-    let service: TodayVisitService = TestBed.get(TodayVisitService);
+    const service: TodayVisitService = TestBed.get(TodayVisitService);
 
-    let programs = [
+    const programs = [
       {
         enrolledProgram: {
           uuid: 'uuid'
@@ -490,7 +489,7 @@ describe('Service: TodayVisit', () => {
       }
     ];
 
-    let programConfigs = {
+    const programConfigs = {
       'some-uuid-1': {
         visitTypes: []
       },
@@ -510,7 +509,7 @@ describe('Service: TodayVisit', () => {
     service.hasFetchedVisits = true;
     service.allPatientVisits = visitsSample;
 
-    let classProcessingSpy =
+    const classProcessingSpy =
       spyOn(service, 'groupProgramVisitsByClass').and.returnValue(undefined);
 
     service.processVisitsForPrograms();
@@ -537,7 +536,7 @@ describe('Service: TodayVisit', () => {
   });
 
   it('should fetch all data required to process patient visits per programs', (done) => {
-    let service: TodayVisitService = TestBed.get(TodayVisitService);
+    const service: TodayVisitService = TestBed.get(TodayVisitService);
 
     service.patientProgramVisitConfigs = null;
     service.hasFetchedVisits = false;
@@ -547,10 +546,10 @@ describe('Service: TodayVisit', () => {
       person: { uuid: 'uuid' }
     };
 
-    let progConfigSpy = spyOn(service, 'fetchPatientProgramVisitConfigs')
+    const progConfigSpy = spyOn(service, 'fetchPatientProgramVisitConfigs')
       .and.callThrough();
 
-    let visitSpy = spyOn(service, 'getPatientVisits')
+    const visitSpy = spyOn(service, 'getPatientVisits')
       .and.callThrough();
 
     service.loadDataToProcessProgramVisits()
@@ -572,7 +571,7 @@ describe('Service: TodayVisit', () => {
     // should send 2 events, visit loading started, visit loaded
     // should always clear errors before loading begins
 
-    let service: TodayVisitService = TestBed.get(TodayVisitService);
+    const service: TodayVisitService = TestBed.get(TodayVisitService);
 
     // CASE 1: Visits are stale
     service.patient = {
@@ -582,12 +581,12 @@ describe('Service: TodayVisit', () => {
     service.needsVisitReload = true;
     service.errors.push({ id: 'error', message: 'an error' });
 
-    let processVisitsSpy = spyOn(service, 'processVisitsForPrograms')
+    const processVisitsSpy = spyOn(service, 'processVisitsForPrograms')
       .and.callThrough();
-    let loadDataSpy = spyOn(service, 'loadDataToProcessProgramVisits')
+    const loadDataSpy = spyOn(service, 'loadDataToProcessProgramVisits')
       .and.callThrough();
 
-    let visitsEventsSpy = spyOn(service.visitsEvents, 'next')
+    const visitsEventsSpy = spyOn(service.visitsEvents, 'next')
       .and.callThrough();
 
     service.getProgramVisits()
@@ -621,10 +620,10 @@ describe('Service: TodayVisit', () => {
   });
 
   it('should notify consumers that visits became stale', () => {
-    let service: TodayVisitService = TestBed.get(TodayVisitService);
+    const service: TodayVisitService = TestBed.get(TodayVisitService);
 
     service.needsVisitReload = false;
-    let visitsEventsSpy = spyOn(service.visitsEvents, 'next')
+    const visitsEventsSpy = spyOn(service.visitsEvents, 'next')
       .and.callThrough();
 
     service.makeVisitsStale();
@@ -637,9 +636,9 @@ describe('Service: TodayVisit', () => {
 
   it('should group program visits by class of programs', () => {
 
-    let service: TodayVisitService = TestBed.get(TodayVisitService);
+    const service: TodayVisitService = TestBed.get(TodayVisitService);
 
-    let visitProgram = {
+    const visitProgram = {
       'prog-1': {
         enrollment: {
           baseRoute: 'hiv',

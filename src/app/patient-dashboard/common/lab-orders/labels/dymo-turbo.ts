@@ -3,7 +3,6 @@ import * as JsBarcode from 'jsbarcode';
 export class DymoTurbo {
 
     public printLabel(label: any, copies: number) {
-        let selectedDevice;
         let device;
         return navigator.usb.requestDevice({
             filters: [{
@@ -23,8 +22,8 @@ export class DymoTurbo {
             })
             .then(() => device.claimInterface(0)) // Request exclusive control over interface #2.
             .then(() => {
-                let labelData = this.createData(label);
-                let dataCopies = Array(2).fill(labelData);
+                const labelData = this.createData(label);
+                const dataCopies = Array(2).fill(labelData);
 
                 return dataCopies.reduce((cur, next) => {
                     return cur.then(() => {
@@ -36,16 +35,14 @@ export class DymoTurbo {
     }
 
     public createData(label: any) {
-        let vendorId = 0x0922;
-        let productId = 0x0021;
 
-        let ESC = 0x1B;
-        let GS = 0x1D;
-        let SYN = 0x16;
+        const ESC = 0x1B;
+        const GS = 0x1D;
+        const SYN = 0x16;
 
-        let pageWidth = 560; // pixels (must be multiple of 8)
-        let pageHeight = 600; // pixels
-        let resetSequence = // 156 times ESC
+        const pageWidth = 560; // pixels (must be multiple of 8)
+        const pageHeight = 600; // pixels
+        const resetSequence = // 156 times ESC
             [ESC, ESC, ESC, ESC, ESC, ESC, ESC, ESC, ESC, ESC, ESC, ESC,
                 ESC, ESC, ESC, ESC, ESC, ESC, ESC, ESC, ESC, ESC, ESC, ESC,
                 ESC, ESC, ESC, ESC, ESC, ESC, ESC, ESC, ESC, ESC, ESC, ESC,
@@ -63,21 +60,21 @@ export class DymoTurbo {
 
         // should set the resolution to 204x204ppi, but the resolution I get is more
         // like 290x580, not sure what's up with that.
-        let setResolution = [ESC, 0x76];
+        const setResolution = [ESC, 0x76];
         // some more seemingly required setup stuff
-        let tabData = [ESC, 0x51, 0, 0, ESC, 42, 0];
-        let qualityData = [ESC, 0x69]; // images
-        let densityData = [ESC, 0x65]; // normal
-        let orienation = [GS, 0x56, 0x01];
-        let lengthData = [ESC, 0x4C, 0x40, 0x00]; // not sure what this is about...
+        const tabData = [ESC, 0x51, 0, 0, ESC, 42, 0];
+        const qualityData = [ESC, 0x69]; // images
+        const densityData = [ESC, 0x65]; // normal
+        const orienation = [GS, 0x56, 0x01];
+        const lengthData = [ESC, 0x4C, 0x40, 0x00]; // not sure what this is about...
 
-        let startDoc = resetSequence.concat(setResolution, orienation, tabData, qualityData,
+        const startDoc = resetSequence.concat(setResolution, orienation, tabData, qualityData,
             densityData, lengthData);
-        let endDoc = [ESC, 0x45]; // Form feed
-        let canvas = this.createContext(pageWidth, pageHeight);
-        let ctx = canvas.getContext('2d');
+        const endDoc = [ESC, 0x45]; // Form feed
+        const canvas = this.createContext(pageWidth, pageHeight);
+        const ctx = canvas.getContext('2d');
         // var ctx = document.getElementById('ditheredCanvas').getContext('2d');
-        let svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
         JsBarcode(svg, 'ORD-3464', {
             format: 'CODE39',
             lineColor: '#000',
@@ -85,10 +82,10 @@ export class DymoTurbo {
             height: 40,
             displayValue: false
         });
-        let s = new XMLSerializer().serializeToString(svg);
-        let mySrc = 'data:image/svg+xml;base64,' + window.btoa(s);
+        const s = new XMLSerializer().serializeToString(svg);
+        const mySrc = 'data:image/svg+xml;base64,' + window.btoa(s);
         // Load up our image.
-        let source = new Image();
+        const source = new Image();
         source.src = mySrc;
         ctx.font = '48pt Arial';
         ctx.save();
@@ -103,21 +100,21 @@ export class DymoTurbo {
         ctx.restore();
 
         // window.open(canvas.toDataURL());
-        let img = ctx.getImageData(0, 0, pageWidth, pageHeight);
+        const img = ctx.getImageData(0, 0, pageWidth, pageHeight);
 
-        let dataBytesPerLine = pageWidth / 8;
+        const dataBytesPerLine = pageWidth / 8;
 
         // every row of the image results in 2 rows of pixels to be printed, both
         // with one extra byte in front of it
-        let bytesPerRow = (dataBytesPerLine + 1) * 2;
+        const bytesPerRow = (dataBytesPerLine + 1) * 2;
 
-        let bytesForImage = bytesPerRow * pageHeight;
+        const bytesForImage = bytesPerRow * pageHeight;
         // Total size is the size of all the data + the prefix and suffix
         // and 3 bytes to set the line size
-        let totalDataSize = bytesForImage + startDoc.length + endDoc.length + 3;
+        const totalDataSize = bytesForImage + startDoc.length + endDoc.length + 3;
 
-        let data = new ArrayBuffer(totalDataSize);
-        let dataView = new Uint8Array(data, 0, totalDataSize);
+        const data = new ArrayBuffer(totalDataSize);
+        const dataView = new Uint8Array(data, 0, totalDataSize);
         // Set beginning data
         dataView.set(startDoc, 0);
         let offset = startDoc.length;
@@ -136,7 +133,7 @@ export class DymoTurbo {
                 for (let bit = 0; bit < 8; bit++) {
                     cur1 = cur1 << 1;
                     cur2 = cur2 << 1;
-                    let i = ((img.height - (y + bit) - 1) * img.width + x) * 4;
+                    const i = ((img.height - (y + bit) - 1) * img.width + x) * 4;
                     // convert color to greyscale
                     let color = (0.2126 * img.data[i] + 0.7152 * img.data[i + 1] + 0.0722 *
                         img.data[i + 2]);
@@ -166,7 +163,7 @@ export class DymoTurbo {
         return data;
     }
     public createContext(width, height) {
-        let canvas = document.createElement('canvas');
+        const canvas = document.createElement('canvas');
         canvas.width = width;
         canvas.height = height;
         return canvas;

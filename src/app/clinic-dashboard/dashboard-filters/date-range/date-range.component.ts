@@ -10,10 +10,11 @@ import * as moment from 'moment';
 export class DateRangeComponent implements OnInit {
   @Input() public startDate: string;
   @Input() public endDate: string;
+  // tslint:disable-next-line:no-output-on-prefix
   @Output() public onDateChange = new EventEmitter<any>();
 
   public ngOnInit() {
-    let now = moment();
+    const now = moment();
     this.startDate = this.startDate ? this.startDate : now.clone().subtract(1, 'y').format();
     this.endDate  = this.endDate ? this.endDate : now.clone().format();
     this.onDateChange.emit({startDate: this.startDate, endDate: this.endDate});

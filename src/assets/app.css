@@ -565,3 +565,10 @@ program-manager-container .clear {
   display: block;
   height:0;
 }
+
+#daily-schedule-row .mat-tab-links{
+  display: inline-block;
+}
+#daily-schedule-row .mat-tab-links .mat-tab-link{
+  min-width: 72px;
+}

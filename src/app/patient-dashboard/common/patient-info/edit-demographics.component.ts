@@ -1,5 +1,5 @@
 
-import {take} from 'rxjs/operators/take';
+import { take } from 'rxjs/operators/take';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PatientService } from '../../services/patient.service';
 import { Patient } from '../../../models/patient.model';
@@ -16,7 +16,7 @@ import * as moment from 'moment';
 export class EditDemographicsComponent implements OnInit, OnDestroy {
 
   public patients: Patient = new Patient({});
-  public display: boolean = false;
+  public display = false;
   public subscription: Subscription;
   public givenName: string;
   public familyName: string;
@@ -33,8 +33,8 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
   ];
   public preferredNameuuid: string;
   public birthDate: any;
-  public birthdateEstimated: boolean = false;
-  public dead: boolean = false;
+  public birthdateEstimated = false;
+  public dead = false;
   public gender: any;
   public deathDate: Date;
   public causesOfDeath: any = [];
@@ -42,14 +42,14 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
   public errors: any = [];
   public successAlert: any = '';
   public healthCenter: any;
-  public showSuccessAlert: boolean = false;
-  public showErrorAlert: boolean = false;
+  public showSuccessAlert = false;
+  public showErrorAlert = false;
   public errorAlert: string;
   public errorTitle: string;
 
   constructor(private patientService: PatientService,
-              private personResourceService: PersonResourceService,
-              private conceptResourceService: ConceptResourceService) {
+    private personResourceService: PersonResourceService,
+    private conceptResourceService: ConceptResourceService) {
   }
 
   public ngOnInit(): void {
@@ -102,12 +102,12 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
   public updateDeathDetails(dead) {
 
     if ((this.dead as any) === 'true') {
-       this.dead = true;
-     }
+      this.dead = true;
+    }
 
     if ((this.dead as any) === 'false') {
-        this.dead = false;
-     }
+      this.dead = false;
+    }
 
     if (this.dead === true) {
       this.dead = true;
@@ -127,16 +127,16 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
   public updateDOBDetails(birthdateEstimated) {
 
     if ((this.birthdateEstimated as any) === 'true') {
-       this.birthdateEstimated = true;
-     }
+      this.birthdateEstimated = true;
+    }
 
     if ((this.birthdateEstimated as any) === 'false') {
-        this.birthdateEstimated = false;
-     }
+      this.birthdateEstimated = false;
+    }
 
   }
   public getCauseOfDeath() {
-    let conceptUid = 'a89df750-1350-11df-a1f1-0026b9348838';
+    const conceptUid = 'a89df750-1350-11df-a1f1-0026b9348838';
     this.conceptResourceService.getConceptByUuid(conceptUid).pipe(take(1)).subscribe((data) => {
       if (data) {
         this.causesOfDeath = data.answers;
@@ -174,12 +174,12 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
     }
 
     if ((this.dead as any) === 'true') {
-       this.dead = true;
-     }
+      this.dead = true;
+    }
 
     if ((this.dead as any) === 'false') {
-        this.dead = false;
-     }
+      this.dead = false;
+    }
 
     if (!this.dead) {
       this.deathDate = null;
@@ -198,16 +198,16 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
 
     }
     if (moment(this.birthDate).isAfter(new Date())) {
-        this.errors.push({ message: 'Birth Date date cannot be in future' });
-      }
+      this.errors.push({ message: 'Birth Date date cannot be in future' });
+    }
     if (this.birthDate == null) {
-        this.errors.push({ message: 'Birth Date is required' });
-      }
+      this.errors.push({ message: 'Birth Date is required' });
+    }
     if (this.errors.length === 0) {
-      let person = {
+      const person = {
         uuid: this.patients.person.uuid
       };
-      let personNamePayload = {
+      const personNamePayload = {
         names: [
           {
             familyName: this.familyName,

@@ -1,9 +1,9 @@
 
-import {switchMap} from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 
-import {debounceTime} from 'rxjs/operators';
+import { debounceTime } from 'rxjs/operators';
 
-import {take} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit,
   Output
@@ -35,16 +35,17 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
   @Input() public modalMode: boolean;
   @Input() public bannerMode: boolean;
   @Input() public dashboardMode: boolean;
+  // tslint:disable-next-line:no-output-on-prefix
   @Output() public onSettingsChange: EventEmitter<boolean> = new EventEmitter();
   public user: User;
   public providers: Array<any> = [];
   public currentLocation: any;
-  public enableRetro: boolean = false;
-  public isLoading: boolean = false;
-  public providerLoading: boolean = false;
+  public enableRetro = false;
+  public isLoading = false;
+  public providerLoading = false;
   public visitDate: string;
-  public visitTime: string = '04:44:44';
-  public visitTimeState: number = 0;
+  public visitTime = '04:44:44';
+  public visitTimeState = 0;
   public maxDate: string;
   public provider: any;
   public suggest = new Subject<any>();
@@ -53,12 +54,12 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
   public error: any;
 
   constructor(private router: Router,
-              private propertyLocationService: UserDefaultPropertiesService,
-              private providerResourceService: ProviderResourceService,
-              private localStorageService: LocalStorageService,
-              private retrospectiveDataEntryService: RetrospectiveDataEntryService,
-              private cdRef: ChangeDetectorRef,
-              private userService: UserService) {
+    private propertyLocationService: UserDefaultPropertiesService,
+    private providerResourceService: ProviderResourceService,
+    private localStorageService: LocalStorageService,
+    private retrospectiveDataEntryService: RetrospectiveDataEntryService,
+    private cdRef: ChangeDetectorRef,
+    private userService: UserService) {
     this.user = this.userService.getLoggedInUser();
     this.maxDate = moment().format('YYYY-MM-DD');
     this.visitDate = moment().format('YYYY-MM-DD');
@@ -77,13 +78,13 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
 
   public fetchLocationOptions() {
     this.propertyLocationService.getLocations().pipe(
-    take(1)).subscribe((locations: any) => {
-      this.locations = locations.results.map((location: any) => {
-        if (!_.isNil(location.display)) {
-          return this.retrospectiveDataEntryService.mappedLocation(location);
-        }
+      take(1)).subscribe((locations: any) => {
+        this.locations = locations.results.map((location: any) => {
+          if (!_.isNil(location.display)) {
+            return this.retrospectiveDataEntryService.mappedLocation(location);
+          }
+        });
       });
-    });
   }
 
   public fetchProviderOptions(term: string = '') {
@@ -92,7 +93,7 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
       this.providerLoading = true;
     }
 
-    let findProvider = this.providerResourceService.searchProvider(term, false);
+    const findProvider = this.providerResourceService.searchProvider(term, false);
     findProvider.pipe(take(1)).subscribe(
       (providers) => {
         this.processProviders(providers);
@@ -115,10 +116,10 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
   public onDateChanged(date) {
     this.visitDate = date;
     if (!_.isNil(date)) {
-      this.updateErrorState({visitDate : false});
+      this.updateErrorState({ visitDate: false });
       this.retrospectiveDataEntryService.updateProperty('retroVisitDate', date);
     } else {
-        this.updateErrorState({visitDate : true});
+      this.updateErrorState({ visitDate: true });
     }
   }
 
@@ -146,7 +147,7 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
   }
 
   public validateSettings(state) {
-    let error = {};
+    const error = {};
     if (_.isNil(this.provider)) {
       error['provider'] = true;
     }
@@ -174,7 +175,7 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
     this.providerLoading = false;
     this.retrospectiveDataEntryService.updateProperty('retroProvider',
       JSON.stringify(provider));
-    this.updateErrorState({provider : false});
+    this.updateErrorState({ provider: false });
   }
 
   public select(item) {
@@ -184,7 +185,7 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
 
   private processProviders(providers) {
     this.providerLoading = false;
-    let filtered = _.filter(providers, (p: any) => {
+    const filtered = _.filter(providers, (p: any) => {
       return !_.isNil(p.person);
     });
     this.providers = filtered.map((p: any) => {
@@ -224,7 +225,7 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
   }
 
   private setLocation() {
-    let retroLocation = this.retrospectiveDataEntryService
+    const retroLocation = this.retrospectiveDataEntryService
       .mappedLocation(this.currentLocation);
     this.retrospectiveDataEntryService.updateProperty('retroLocation',
       JSON.stringify(retroLocation));

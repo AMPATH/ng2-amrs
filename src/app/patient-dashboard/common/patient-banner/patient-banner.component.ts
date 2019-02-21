@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs';
 })
 
 export class PatientBannerComponent implements OnInit, OnDestroy {
-  public showingAddToCohort: boolean = false;
+  public showingAddToCohort = false;
   public patient: Patient = new Patient({});
   public searchIdentifiers: object;
   public attributes: any;
@@ -30,7 +30,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy {
         if (patient) {
           this.patient = patient;
           this.searchIdentifiers = patient.searchIdentifiers;
-          let attributes = patient.person.attributes;
+          const attributes = patient.person.attributes;
           _.each(attributes, (attribute) => {
              // get the test patient attribute
              if (attribute.attributeType.uuid === '1e38f1ca-4257-4a03-ad5d-f4d972074e69') {

@@ -28,8 +28,7 @@ export class PatientProgramEnrollmentService {
          return null;
     }
     let urlParams: HttpParams = new HttpParams()
-    .set('endDate', payload.endDate)
-    .set('startDate', payload.startDate);
+    .set('endDate', payload.endDate);
     if (payload.locationUuids) {
         if (payload.locationUuids.length > 0) {
             urlParams = urlParams.set('locationUuids', payload.locationUuids);
@@ -40,8 +39,8 @@ export class PatientProgramEnrollmentService {
            urlParams = urlParams.set('programType', payload.programType);
         }
     }
-    let url = this.getBaseUrl() + 'patient-program-enrollments';
-    let request = this._http.get(url, {
+    const url = this.getBaseUrl() + 'patient-program-enrollments';
+    const request = this._http.get(url, {
         params: urlParams
     });
     return this._cacheService.cacheRequest(url, urlParams, request);
@@ -55,8 +54,7 @@ export class PatientProgramEnrollmentService {
     }
 
     let urlParams: HttpParams = new HttpParams()
-    .set('endDate', payload.endDate)
-    .set('startDate', payload.startDate);
+    .set('endDate', payload.endDate);
     if (payload.locationUuids) {
         if (payload.locationUuids.length > 0) {
              urlParams = urlParams.set('locationUuids', payload.locationUuids);
@@ -67,8 +65,8 @@ export class PatientProgramEnrollmentService {
             urlParams = urlParams.set('programType', payload.programType);
         }
     }
-    let url = this.getBaseUrl() + 'program-enrollment/patient-list';
-    let request = this._http.get(url, {
+    const url = this.getBaseUrl() + 'program-enrollment/patient-list';
+    const request = this._http.get(url, {
         params: urlParams
     });
     return this._cacheService.cacheRequest(url, urlParams, request);

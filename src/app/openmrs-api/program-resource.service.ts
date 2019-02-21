@@ -20,10 +20,10 @@ export class ProgramResourceService {
 
   public getPrograms(): Observable<any> {
 
-    let url = this.getUrl();
-    let v: string = 'custom:(uuid,display,allWorkflows,concept:(uuid,display))';
+    const url = this.getUrl();
+    const v = 'custom:(uuid,display,allWorkflows,concept:(uuid,display))';
 
-    let params: HttpParams = new HttpParams()
+    const params: HttpParams = new HttpParams()
     .set('v', v);
     return this.http.get<any>(url, {
       params: params

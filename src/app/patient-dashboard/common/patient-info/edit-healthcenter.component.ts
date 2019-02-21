@@ -1,5 +1,5 @@
 
-import {take} from 'rxjs/operators/take';
+import { take } from 'rxjs/operators/take';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { PatientService } from '../../services/patient.service';
@@ -16,9 +16,9 @@ import { LocationResourceService } from '../../../openmrs-api/location-resource.
 export class EditHealtCenterComponent implements OnInit, OnDestroy {
   public patients: Patient = new Patient({});
   public subscription: Subscription;
-  public loaderStatus: boolean = false;
+  public loaderStatus = false;
   public locations = [];
-  public display: boolean = false;
+  public display = false;
   public healthCenter: any = {
     label: '',
     value: ''
@@ -27,8 +27,8 @@ export class EditHealtCenterComponent implements OnInit, OnDestroy {
   public errors: any = [];
 
   constructor(private patientService: PatientService,
-              private locationResourceService: LocationResourceService,
-              private personResourceService: PersonResourceService) {
+    private locationResourceService: LocationResourceService,
+    private personResourceService: PersonResourceService) {
   }
 
   public ngOnInit(): void {
@@ -73,11 +73,11 @@ export class EditHealtCenterComponent implements OnInit, OnDestroy {
       });
       return;
     }
-    let person = {
+    const person = {
       uuid: this.patients.person.uuid
     };
-    let locationId = this.locationResourceService.getLocationIdByUuid(this.healthCenter.value);
-    let healthCenterPayload = {
+    const locationId = this.locationResourceService.getLocationIdByUuid(this.healthCenter.value);
+    const healthCenterPayload = {
       attributes: [{
         value: locationId,
         attributeType: '8d87236c-c2cc-11de-8d13-0010c6dffd0f'

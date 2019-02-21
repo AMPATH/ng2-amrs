@@ -8,6 +8,11 @@
                 </div>
     </div>
     <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" *ngIf="error.error">
+                <div class="alert alert-danger">
+                        {{error.message}}
+                 </div>
+        </div>
            
         <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
             <department-program-filter 

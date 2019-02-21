@@ -23,8 +23,8 @@ describe('Component: Lab Data Summary', () => {
   });
 
   it('should create an instance', () => {
-    let fakeAppFeatureAnalytics: AppFeatureAnalytics = TestBed.get(AppFeatureAnalytics);
-    let component = new LabDataSummaryComponent(fakeAppFeatureAnalytics);
+    const fakeAppFeatureAnalytics: AppFeatureAnalytics = TestBed.get(AppFeatureAnalytics);
+    const component = new LabDataSummaryComponent(fakeAppFeatureAnalytics);
     expect(component).toBeTruthy();
   });
 });

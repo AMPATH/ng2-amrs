@@ -2,34 +2,30 @@ import { of } from 'rxjs';
 import { LocalStorageService } from './../utils/local-storage.service';
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { PatientSearchComponent } from './patient-search.component';
-import { By }              from '@angular/platform-browser';
-import { DebugElement }    from '@angular/core';
+import { By } from '@angular/platform-browser';
+import { DebugElement } from '@angular/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule } from '@angular/forms';
 import { PatientSearchService } from './patient-search.service';
-import { Http, BaseRequestOptions } from '@angular/http';
-import { MockBackend } from '@angular/http/testing';
+import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
 import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytics.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { AppSettingsService } from '../app-settings/app-settings.service';
-import { FakeAppSettingsService } from '../etl-api/moh-731-patientlist-resource.service.spec';
 import { FakeAppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytcis.mock';
 import { PatientResourceService } from '../openmrs-api/patient-resource.service';
 import {
   UserDefaultPropertiesService
-} from
-  '../user-default-properties/user-default-properties.service';
+} from '../user-default-properties/user-default-properties.service';
 import {
   PatientReferralService
-} from
-  '../program-manager/patient-referral-service';
+} from '../program-manager/patient-referral-service';
 import { UserService } from '../openmrs-api/user.service';
 import { SessionStorageService } from '../utils/session-storage.service';
 import { ProgramService } from '../patient-dashboard/programs/program.service';
-import { ProgramEnrollmentResourceService }
- from '../openmrs-api/program-enrollment-resource.service';
+import { ProgramEnrollmentResourceService } from '../openmrs-api/program-enrollment-resource.service';
 import { ProgramWorkFlowResourceService } from '../openmrs-api/program-workflow-resource.service';
-import { ProgramWorkFlowStateResourceService
+import {
+  ProgramWorkFlowStateResourceService
 } from '../openmrs-api/program-workflow-state-resource.service';
 import { ProgramResourceService } from '../openmrs-api/program-resource.service';
 import { ProgramReferralResourceService } from '../etl-api/program-referral-resource.service';
@@ -43,9 +39,6 @@ import { IonicStorageModule } from '@ionic/storage';
 import { SpyLocation } from '@angular/common/testing';
 import { Location } from '@angular/common';
 import { PatientProgramResourceService } from '../etl-api/patient-program-resource.service';
-import { ProgramsTransferCareService
-} from '../patient-dashboard/programs/transfer-care/transfer-care.service';
-
 
 class MockRouter {
   navigate = jasmine.createSpy('navigate');
@@ -54,7 +47,7 @@ class MockActivatedRoute {
   params = of([{ 'id': 1 }]);
 }
 
-let results: any = [
+const results: any = [
   {
     'commonIdentifiers': {
       'ampathMrsUId': '',
@@ -66,15 +59,13 @@ let results: any = [
     'encounters': [],
     'enrolledPrograms': {},
     'person': {
-       'display': 'Ricco',
-       'gender': 'M',
-       'age': '31'
+      'display': 'Ricco',
+      'gender': 'M',
+      'age': '31'
     }
 
   }
 ];
-
-
 
 describe('Component: PatientSearch', () => {
 
@@ -83,7 +74,7 @@ describe('Component: PatientSearch', () => {
   let inputde, searchBtne, resetBtne: DebugElement;
   let inputel, searchBtnel, resetBtnel: HTMLElement;
   let nativeElement;
-
+  let httpMock: HttpTestingController;
 
   // async beforeEach
   beforeEach(async(() => {
@@ -94,13 +85,12 @@ describe('Component: PatientSearch', () => {
         FormsModule,
         NgxPaginationModule,
         IonicStorageModule.forRoot(),
+        HttpClientTestingModule,
       ],
       providers: [
         PatientSearchService,
         PatientResourceService,
-        MockBackend,
         LocalStorageService,
-        BaseRequestOptions,
         AppSettingsService,
         MockRouter,
         MockActivatedRoute,
@@ -119,7 +109,6 @@ describe('Component: PatientSearch', () => {
         ProviderResourceService,
         PersonResourceService,
         PatientReferralResourceService,
-        ProgramsTransferCareService,
         DataCacheService,
         CacheService,
         LocalStorageService,
@@ -127,14 +116,6 @@ describe('Component: PatientSearch', () => {
         DataCacheService,
         PatientProgramResourceService,
         Location,
-        {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend,
-                       defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
         {
           provide: AppFeatureAnalytics,
           useClass: FakeAppFeatureAnalytics
@@ -167,15 +148,17 @@ describe('Component: PatientSearch', () => {
     resetBtnel = resetBtne.nativeElement;
 
     // Service from the root injector
-    let patientSearchService = fixture.debugElement.injector.get(PatientSearchService);
-    let route = fixture.debugElement.injector.get(MockRouter);
-    let appFeatureAnalytics = fixture.debugElement.injector.get(FakeAppFeatureAnalytics);
-    let router = fixture.debugElement.injector.get(MockRouter);
+    const patientSearchService = fixture.debugElement.injector.get(PatientSearchService);
+    const route = fixture.debugElement.injector.get(MockRouter);
+    const appFeatureAnalytics = fixture.debugElement.injector.get(FakeAppFeatureAnalytics);
+    const router = fixture.debugElement.injector.get(MockRouter);
+    httpMock = TestBed.get(HttpTestingController);
 
   });
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
+    httpMock.verify();
   });
 
   it('Should Instantiate Component', async(() => {
@@ -191,8 +174,5 @@ describe('Component: PatientSearch', () => {
     expect(searchBtnel === null).toBe(false);
     expect(resetBtnel === null).toBe(false);
   }));
-
-
-
 
 });

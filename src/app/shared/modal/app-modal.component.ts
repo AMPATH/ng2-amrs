@@ -14,7 +14,7 @@ export class AppModalComponent implements OnInit {
   public modal: ModalComponent;
   @Input() public title: string;
   @Input() public set display(state) {
-    if(state) {
+    if (state) {
       this.staticModal.show();
       this.onDisplayed.emit(true);
     } else {
@@ -22,6 +22,7 @@ export class AppModalComponent implements OnInit {
       this.onDisplayed.emit(false);
     }
   }
+  /* tslint:disable:no-output-on-prefix */
   @Output() onClose: EventEmitter<boolean> = new EventEmitter(false);
   @Output() onDisplayed: EventEmitter<boolean> = new EventEmitter(false);
   constructor() {}

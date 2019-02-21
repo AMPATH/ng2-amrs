@@ -1,14 +1,20 @@
 import { TestBed, async, inject, fakeAsync } from '@angular/core/testing';
-import { MockBackend, MockConnection } from '@angular/http/testing';
-import {
-    BaseRequestOptions, XHRBackend, Http, RequestMethod,
-    ResponseOptions, Response
-} from '@angular/http';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DailyScheduleResourceService } from './daily-scheduled-resource.service';
 import { CacheModule, CacheService } from 'ionic-cache';
 import { DataCacheService } from '../shared/services/data-cache.service';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
+
+class MockCacheStorageService {
+    constructor(a, b) { }
+
+    public ready() {
+        return true;
+    }
+}
+
 const expectedResults = {
     startIndex: 0,
     size: 3,
@@ -36,136 +42,79 @@ const expectedResults = {
     ]
 };
 describe('DailyScheduleResourceService Tests', () => {
-    let service;
+    let s: DailyScheduleResourceService;
+    let httpMock: HttpTestingController;
     beforeEach(() => {
         TestBed.configureTestingModule({
             declarations: [],
-          imports: [CacheModule],
+            imports: [CacheModule, HttpClientTestingModule],
             providers: [
                 DailyScheduleResourceService,
-                MockBackend,
-                BaseRequestOptions,
                 AppSettingsService,
                 LocalStorageService,
                 CacheService,
                 DataCacheService,
                 {
-                    provide: Http,
-                    deps: [MockBackend, BaseRequestOptions],
-                    useFactory:
-                    (backend: XHRBackend, defaultOptions: BaseRequestOptions) => {
-                        return new Http(backend, defaultOptions);
+                    provide: CacheStorageService, useFactory: () => {
+                        return new MockCacheStorageService(null, null);
                     }
-                }
+                },
             ]
         });
+        httpMock = TestBed.get(HttpTestingController);
+        s = TestBed.get(DailyScheduleResourceService);
     });
 
-    afterAll(() => {
+    afterEach(() => {
         TestBed.resetTestingModule();
     });
 
-    it('should be defined',
-        inject([DailyScheduleResourceService], (s: DailyScheduleResourceService) => {
-            expect(s).toBeTruthy();
-        })
-    );
+    it('should be defined', () => {
+        expect(s).toBeTruthy();
+    });
 
-    it('all daily schedule resource methods should be defined',
-        inject([DailyScheduleResourceService], (s: DailyScheduleResourceService) => {
-            expect(s.getDailyVisits).toBeDefined();
-            expect(s.getDailyAppointments).toBeDefined();
-            expect(s.getDailyHasNotReturned).toBeDefined();
-        })
-    );
+    it('all daily schedule resource methods should be defined', () => {
+        expect(s.getDailyVisits).toBeDefined();
+        expect(s.getDailyAppointments).toBeDefined();
+        expect(s.getDailyHasNotReturned).toBeDefined();
+    });
 
-    it('should return a list containing daily appointments for a given date',
-        inject([DailyScheduleResourceService, MockBackend],
-            (s: DailyScheduleResourceService, backend: MockBackend) => {
-                backend.connections.subscribe((connection: MockConnection) => {
-                    expect(connection.request.method).toBe(RequestMethod.Get);
-                    expect(connection.request.url).toContain('/etl/daily-appointments/2017-02-01');
-                    expect(connection.request.url).toEqual('https://amrsreporting.ampath.or.ke:8002'
-                        + '/etl/daily-appointments/2017-02-01?'
-                        + 'startIndex=0&startDate=2017-02-01&locationUuids=uuid&limit=300');
-                    expect(connection.request.url).toContain('locationUuids=uuid');
-                    expect(connection.request.url).toContain('limit=300');
-                    connection.mockRespond(new Response(
-                        new ResponseOptions({
-                            body: expectedResults
-                        }
-                        )));
-                });
-                s.getDailyAppointments({
-                    startDate: '2017-02-01',
-                    startIndex: undefined,
-                    locationUuids: 'uuid',
-                    limit: undefined
-                }).subscribe((result) => {
-                    expect(result).toBeDefined();
-                    expect(result).toEqual(expectedResults.result);
-                });
-            })
-    );
+    it('should return a list containing daily appointments for a given date', () => {
 
-    it('should return a list containing visits for a given date',
-        inject([DailyScheduleResourceService, MockBackend],
-            (s: DailyScheduleResourceService, backend: MockBackend) => {
-                backend.connections.subscribe((connection: MockConnection) => {
-                    expect(connection.request.method).toBe(RequestMethod.Get);
-                    expect(connection.request.url).toContain('/etl/daily-visits/2017-02-01');
-                    expect(connection.request.url).toContain('locationUuids=uuid');
-                    expect(connection.request.url).toContain('limit=100');
-                    expect(connection.request.url).toEqual('https://amrsreporting.ampath.or.ke:8002'
-                        + '/etl/daily-visits/2017-02-01?startIndex=0'
-                        + '&startDate=2017-02-01&locationUuids=uuid&limit=100');
-                    connection.mockRespond(new Response(
-                        new ResponseOptions({
-                            body: expectedResults
-                        }
-                        )));
-                });
-                s.getDailyVisits({
-                    startDate: '2017-02-01',
-                    startIndex: '0',
-                    locationUuids: 'uuid',
-                    limit: '100'
-                }).subscribe((result) => {
-                    expect(result).toBeDefined();
-                    expect(result).toEqual(expectedResults.result);
-                });
-            })
-    );
+        s.getDailyAppointments({
+            startDate: '2017-02-01',
+            startIndex: undefined,
+            locationUuids: 'uuid',
+            limit: undefined
+        }).subscribe((result) => {
+            expect(result).toBeDefined();
+            expect(result).toEqual(expectedResults.result);
+        });
+    });
+
+    it('should return a list containing visits for a given date', () => {
+        s.getDailyVisits({
+            startDate: '2017-02-01',
+            startIndex: '0',
+            locationUuids: 'uuid',
+            limit: '100'
+        }).subscribe((result) => {
+            expect(result).toBeDefined();
+            expect(result).toEqual(expectedResults.result);
+        });
+    });
 
 
-    it('should return a list containing daily-has-not-returned for a given date',
-        inject([DailyScheduleResourceService, MockBackend],
-            (s: DailyScheduleResourceService, backend: MockBackend) => {
-                backend.connections.subscribe((connection: MockConnection) => {
-                    expect(connection.request.method).toBe(RequestMethod.Get);
-                    expect(connection.request.url).
-                        toContain('/etl/daily-has-not-returned/2017-02-01');
-                    expect(connection.request.url).toEqual('https://amrsreporting.ampath.or.ke:8002'
-                        + '/etl/daily-has-not-returned/2017-02-01?'
-                        + 'startIndex=0&startDate=2017-02-01&locationUuids=uuid&limit=100');
-                    expect(connection.request.url).toContain('locationUuids=uuid');
-                    expect(connection.request.url).toContain('limit=100');
-                    connection.mockRespond(new Response(
-                        new ResponseOptions({
-                            body: expectedResults
-                        }
-                        )));
-                });
-                s.getDailyHasNotReturned({
-                    startDate: '2017-02-01',
-                    startIndex: '0',
-                    locationUuids: 'uuid',
-                    limit: '100'
-                }).subscribe((result) => {
-                    expect(result).toBeDefined();
-                    expect(result).toEqual(expectedResults.result);
-                });
-            })
-    );
+    it('should return a list containing daily-has-not-returned for a given date', () => {
+        s.getDailyHasNotReturned({
+            startDate: '2017-02-01',
+            startIndex: '0',
+            locationUuids: 'uuid',
+            limit: '100'
+        }).subscribe((result) => {
+            expect(result).toBeDefined();
+            expect(result).toEqual(expectedResults.result);
+        });
+    });
 
 });

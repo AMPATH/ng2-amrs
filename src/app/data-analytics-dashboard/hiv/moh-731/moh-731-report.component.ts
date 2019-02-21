@@ -3,8 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import * as rison from 'rison-node';
 
-import { Moh731ReportBaseComponent }
-    from '../../../hiv-care-lib/moh-731-report/moh-731-report-base.component';
+import { Moh731ReportBaseComponent
+} from '../../../hiv-care-lib/moh-731-report/moh-731-report-base.component';
 import { Moh731ResourceService } from '../../../etl-api/moh-731-resource.service';
 
 @Component({
@@ -40,7 +40,7 @@ export class Moh731ReportComponent extends Moh731ReportBaseComponent implements 
     }
 
     public storeReportParamsInUrl() {
-        let state = {
+        const state = {
             startDate: this.startDate.toUTCString(),
             endDate: this.endDate.toUTCString(),
             isLegacy: this.isLegacyReport,
@@ -48,8 +48,8 @@ export class Moh731ReportComponent extends Moh731ReportBaseComponent implements 
             isAggregated: this.isAggregated,
             locations: this.locationUuids
         };
-        let stateUrl = rison.encode(state);
-        let path = this.router.parseUrl(this.location.path());
+        const stateUrl = rison.encode(state);
+        const path = this.router.parseUrl(this.location.path());
         path.queryParams = {
             'state': stateUrl
         };
@@ -58,10 +58,10 @@ export class Moh731ReportComponent extends Moh731ReportBaseComponent implements 
     }
 
     public loadReportParamsFromUrl() {
-        let path = this.router.parseUrl(this.location.path());
+        const path = this.router.parseUrl(this.location.path());
 
         if (path.queryParams['state']) {
-            let state = rison.decode(path.queryParams['state']);
+            const state = rison.decode(path.queryParams['state']);
             this.startDate = new Date(state.startDate);
             this.endDate = new Date(state.endDate);
             this.isLegacyReport = state.isLegacy;

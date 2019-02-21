@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import *  as _ from 'lodash';
+import * as _ from 'lodash';
 
 @Injectable()
 export class FormentryHelperService {
@@ -14,28 +14,28 @@ export class FormentryHelperService {
     });
   }
 
-  public encounterTypeFilled(encounters, encounterType , referenceDate) {
-    let completedEncounterTypesUuids = encounters.filter((encounter) => {
-      let isFilled = this.compareDate(encounter.encounterDatetime, referenceDate);
+  public encounterTypeFilled(encounters, encounterType, referenceDate) {
+    const compconstedEncounterTypesUuids = encounters.filter((encounter) => {
+      const isFilled = this.compareDate(encounter.encounterDatetime, referenceDate);
       return isFilled;
     }).map((encounter) => {
       return encounter.encounterType.uuid;
     });
-    return _.includes(completedEncounterTypesUuids, encounterType);
+    return _.includes(compconstedEncounterTypesUuids, encounterType);
   }
 
   public getLastDuplicateEncounter(encounters, encounterType, encounterDate) {
-    let duplicateEncounter = _.find(encounters, (encounter: any) => {
-      let isDuplicate = (this.compareDate(encounter.encounterDatetime, encounterDate)
-       && encounter.encounterType.uuid === encounterType);
+    const duplicateEncounter = _.find(encounters, (encounter: any) => {
+      const isDuplicate = (this.compareDate(encounter.encounterDatetime, encounterDate)
+        && encounter.encounterType.uuid === encounterType);
       return isDuplicate;
     });
     return duplicateEncounter;
   }
 
   public compareDate(date1, date2) {
-    let internalDate1 = new Date(date1);
-    let internalDate2 = new Date(date2);
+    const internalDate1 = new Date(date1);
+    const internalDate2 = new Date(date2);
     return (internalDate1.toDateString() === internalDate2.toDateString());
   }
 

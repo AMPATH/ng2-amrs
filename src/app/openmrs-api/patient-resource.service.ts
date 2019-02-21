@@ -30,8 +30,8 @@ export class PatientResourceService {
   public searchPatient(searchText: string, cached: boolean = false, v: string = null):
    Observable<any> {
 
-    let url = this.getUrl();
-    let params: HttpParams = new HttpParams()
+    const url = this.getUrl();
+    const params: HttpParams = new HttpParams()
     .set('q', searchText)
     .set('v', (v && v.length > 0) ? v : this.v);
     return this.http.get(url, {
@@ -48,7 +48,7 @@ export class PatientResourceService {
     let url = this.getUrl();
     url += '/' + uuid;
 
-    let params: HttpParams = new HttpParams()
+    const params: HttpParams = new HttpParams()
     .set('v', (v && v.length > 0) ? v : this.v);
 
     return this.http.get(url, {
@@ -59,7 +59,7 @@ export class PatientResourceService {
     if (!payload || !uuid) {
       return null;
     }
-    let url = this.getUrl() + '/' + uuid + '/' + 'identifier' + '/' + identifierUuid;
+    const url = this.getUrl() + '/' + uuid + '/' + 'identifier' + '/' + identifierUuid;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post(url, JSON.stringify(payload), {headers}).pipe(
       map((response: any) => {

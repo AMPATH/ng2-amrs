@@ -1,5 +1,4 @@
-import { FormVisitTypeSearchComponent } from
-'./patient-dashboard/common/form-visit-type-search/form-visit-type-search.component';
+import { FormVisitTypeSearchComponent } from './patient-dashboard/common/form-visit-type-search/form-visit-type-search.component';
 import { Routes } from '@angular/router';
 import { NoContentComponent } from './no-content';
 import { FeedBackComponent } from './feedback';

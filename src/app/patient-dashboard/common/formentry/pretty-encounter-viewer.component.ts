@@ -1,12 +1,14 @@
-
-import {take} from 'rxjs/operators';
 import { Component, OnInit, Input, Inject } from '@angular/core';
-import { flatMap, delay } from 'rxjs/operators';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
 import { FormSchemaService } from './form-schema.service';
 import { EncounterAdapter, FormFactory, Form, DataSources } from 'ngx-openmrs-formentry/dist/ngx-formentry';
 import { FormDataSourceService } from './form-data-source.service';
 import { FileUploadResourceService } from '../../../etl-api/file-upload-resource.service';
+import { Patient } from 'src/app/models/patient.model';
+
+import { flatMap, delay } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
+
 @Component({
     selector: 'pretty-encounter-viewer',
     templateUrl: './pretty-encounter-viewer.component.html',
@@ -16,7 +18,7 @@ export class PrettyEncounterViewerComponent implements OnInit {
 
     public selectedEncounter: any;
     @Input() set encounter(encounter) {
-      if(encounter) {
+      if (encounter) {
         this.displayEncounterObs(encounter);
       }
     }
@@ -24,8 +26,10 @@ export class PrettyEncounterViewerComponent implements OnInit {
     public showLoader: boolean;
     public error: boolean;
     public errorMessage: string;
+    public patient: Patient;
     private isHidden: any[];
     private loaderText: string;
+
     constructor(private encounterResourceService: EncounterResourceService,
         private formSchemaService: FormSchemaService,
         private encounterAdapter: EncounterAdapter,
@@ -34,9 +38,7 @@ export class PrettyEncounterViewerComponent implements OnInit {
         @Inject(DataSources) private dataSources: DataSources,
         private formDataSourceService: FormDataSourceService) { }
 
-    public ngOnInit() {
-        this.wireDataSources();
-    }
+    public ngOnInit() {}
 
     public wireDataSources() {
         this.dataSources.registerDataSource('file', {
@@ -53,10 +55,23 @@ export class PrettyEncounterViewerComponent implements OnInit {
             this.formDataSourceService.getDataSources()['problem']);
         this.dataSources.registerDataSource('personAttribute',
             this.formDataSourceService.getDataSources()['location']);
+
+        this.dataSources.registerDataSource('patientInfo',
+            {
+              name: this.patient.person.display || '',
+              age: this.patient.person.age,
+              birthdate: this.patient.person.birthdate,
+              mui: this.patient.searchIdentifiers.ampathMrsUId || '',
+              nid: this.patient.searchIdentifiers.kenyaNationalId || '',
+              mhn: this.patient.openmrsModel.identifiers.find(identifier => identifier.identifierType.name === 'MTRH Hospital Number') ?
+                // tslint:disable-next-line:max-line-length
+                this.patient.openmrsModel.identifiers.find(identifier => identifier.identifierType.name === 'MTRH Hospital Number').identifier : ''
+            });
     }
+
     public displayEncounterObs(encounter) {
         this.initializeLoader();
-        let encounterUuid = encounter.uuid;
+        const encounterUuid = encounter.uuid;
         if (this.selectedEncounter) {
             if (encounterUuid === this.selectedEncounter.uuid) { return; }
         }
@@ -64,7 +79,9 @@ export class PrettyEncounterViewerComponent implements OnInit {
         this.form = undefined;
         this.encounterResourceService.getEncounterByUuid(encounterUuid).pipe(
             flatMap((encounterWithObs) => {
+                this.patient = new Patient(encounterWithObs.patient);
                 this.selectedEncounter = encounterWithObs;
+                this.wireDataSources();
                 if (encounterWithObs.form) {
                     if (this.isPOCForm(encounterWithObs.form)) {
                         return this.formSchemaService.getFormSchemaByUuid(encounter.form.uuid);
@@ -77,7 +94,7 @@ export class PrettyEncounterViewerComponent implements OnInit {
                 }
             })).pipe(
             take(1)).subscribe((compiledSchema) => {
-                let unpopulatedform = this.formFactory.createForm(compiledSchema, this.dataSources);
+                const unpopulatedform = this.formFactory.createForm(compiledSchema, this.dataSources);
                 this.encounterAdapter.populateForm(unpopulatedform, this.selectedEncounter);
                 this.form = unpopulatedform;
                 this.showLoader = false;

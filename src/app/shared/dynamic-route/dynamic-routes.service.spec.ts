@@ -16,12 +16,12 @@ describe('Service: DynamicRoutesService', () => {
   });
 
   it('should create an instance of DynamicRoutesService', () => {
-    let service: DynamicRoutesService = TestBed.get(DynamicRoutesService);
+    const service: DynamicRoutesService = TestBed.get(DynamicRoutesService);
     expect(service).toBeTruthy();
   });
 
   it('should have required properties initialized and exposed publicly', () => {
-    let service: DynamicRoutesService = TestBed.get(DynamicRoutesService);
+    const service: DynamicRoutesService = TestBed.get(DynamicRoutesService);
     expect(service.routes).toBeTruthy();
     expect(service.routesModel).toBeTruthy();
     expect(service.dashboardConfig).toBeTruthy();
@@ -32,7 +32,7 @@ describe('Service: DynamicRoutesService', () => {
 
   it('should have dashboardConfig property initialized with mandatory dashboards' +
     'i.e analytics, clinic and patient dashboard ', () => {
-    let service: DynamicRoutesService = TestBed.get(DynamicRoutesService);
+    const service: DynamicRoutesService = TestBed.get(DynamicRoutesService);
     expect(service.dashboardConfig.analyticsDashboard).toBeTruthy();
     expect(service.dashboardConfig.clinicDashboard).toBeTruthy();
     expect(service.dashboardConfig.patientDashboard).toBeTruthy();
@@ -40,8 +40,8 @@ describe('Service: DynamicRoutesService', () => {
 
   it('should set routes when setRoutes() is invoked with a valid ' +
     'route object of type DynamicRouteModel', (done) => {
-    let service: DynamicRoutesService = TestBed.get(DynamicRoutesService);
-    let dynamicRouteMock: DynamicRouteModel = {
+    const service: DynamicRoutesService = TestBed.get(DynamicRoutesService);
+    const dynamicRouteMock: DynamicRouteModel = {
       dashboardId: 'clinicDashboard',
       programs: [],
       moduleLabel: 'Clinic Dashboard',
@@ -62,8 +62,8 @@ describe('Service: DynamicRoutesService', () => {
 
   it('should generate valid parameter string when extractParameter() is invoked', inject([],
     fakeAsync(() => {
-      let service: DynamicRoutesService = TestBed.get(DynamicRoutesService);
-      let dynamicRouteModel: DynamicRouteModel = {
+      const service: DynamicRoutesService = TestBed.get(DynamicRoutesService);
+      const dynamicRouteModel: DynamicRouteModel = {
         dashboardId: '',
         programs: [],
         moduleLabel: '',
@@ -72,7 +72,7 @@ describe('Service: DynamicRoutesService', () => {
         },
         routes: []
       };
-      let stringParams = service.extractParameter('patientUuid', dynamicRouteModel);
+      const stringParams = service.extractParameter('patientUuid', dynamicRouteModel);
       tick(50);
       expect(stringParams).toEqual('/patient-uuid');
 

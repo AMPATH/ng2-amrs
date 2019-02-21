@@ -29,6 +29,7 @@ export class ClinicSideNavComponent implements OnInit, OnDestroy {
     public selectedRoute: RouteModel = null;
     public viewingChildRoutes = false;
     public changingRoutesSub: Subscription;
+    public analyticsRoutesSub: Subscription;
     constructor(private dynamicRoutesService: DynamicRoutesService,
         private navigationService: NavigationService) {
         this.subscribeToRoutesChangeEvents();
@@ -40,6 +41,7 @@ export class ClinicSideNavComponent implements OnInit, OnDestroy {
 
     public ngOnDestroy() {
         this.changingRoutesSub.unsubscribe();
+        this.analyticsRoutesSub.unsubscribe();
     }
 
     public viewChildRoutes(route: RouteModel) {
@@ -56,7 +58,13 @@ export class ClinicSideNavComponent implements OnInit, OnDestroy {
     public subscribeToRoutesChangeEvents() {
         this.changingRoutesSub =
             this.dynamicRoutesService.clinicRoutes.subscribe((next) => {
-                console.log('Clinic routes', next);
+                this.routes = next;
+                if (this.routes && this.routes.length > 0) {
+                    this.selectedRoute = this.routes[0];
+                }
+            });
+        this.analyticsRoutesSub =
+            this.dynamicRoutesService.analyticsRoutes.subscribe((next) => {
                 this.routes = next;
                 if (this.routes && this.routes.length > 0) {
                     this.selectedRoute = this.routes[0];

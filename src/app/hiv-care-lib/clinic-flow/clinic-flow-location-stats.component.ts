@@ -16,8 +16,8 @@ import * as _ from 'lodash';
 export class ClinicFlowLocationStatsComponent implements OnInit, OnDestroy {
   public errors: any[] = [];
   public clinicFlowData: any[] = [];
-  private loadingClinicFlow: boolean = false;
-  private dataLoaded: boolean = false;
+  private loadingClinicFlow = false;
+  private dataLoaded = false;
   private selectedLocation: any;
   private selectedDate: any;
   private currentLocationSubscription: Subscription;
@@ -89,7 +89,7 @@ export class ClinicFlowLocationStatsComponent implements OnInit, OnDestroy {
     this.initParams();
     this.loadingClinicFlow = true;
     this.clinicFlowCacheService.setIsLoading(this.loadingClinicFlow);
-    let result = this.clinicFlowResource.
+    const result = this.clinicFlowResource.
       getClinicFlow(dateStated, locations);
     if (result === null) {
       throw new Error('Null clinic flow observable');
@@ -98,7 +98,7 @@ export class ClinicFlowLocationStatsComponent implements OnInit, OnDestroy {
         (locationStats) => {
           if (locationStats.statsByLocation.length > 0) {
 
-            let formatted = this.clinicFlowCacheService.formatData(locationStats.statsByLocation);
+            const formatted = this.clinicFlowCacheService.formatData(locationStats.statsByLocation);
             this.clinicFlowData = this.clinicFlowData.concat(formatted);
           } else {
             this.dataLoaded = true;

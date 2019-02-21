@@ -1,7 +1,3 @@
-
-
-import { MockBackend } from '@angular/http/testing';
-import { Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 import { TestBed, inject, async } from '@angular/core/testing';
 
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
@@ -20,17 +16,7 @@ describe('Component: EditContacts Unit Tests', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        MockBackend,
-        BaseRequestOptions,
         FakeAppFeatureAnalytics,
-
-        {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
         {
           provide: AppFeatureAnalytics,
           useClass: FakeAppFeatureAnalytics
@@ -56,18 +42,18 @@ describe('Component: EditContacts Unit Tests', () => {
   afterEach(() => {
     TestBed.resetTestingModule();
   });
-  let personAttributePayload = {
+  const personAttributePayload = {
     attributes: [{
-      value:  '2222',
+      value: '2222',
       attributeType: '72a759a8-1359-11df-a1f1-0026b9348838'
     }, {
-      value:  'alternativePhoneNumber',
+      value: 'alternativePhoneNumber',
       attributeType: 'c725f524-c14a-4468-ac19-4a0e6661c930'
     }, {
-      value:  'nextofkinPhoneNumber',
+      value: 'nextofkinPhoneNumber',
       attributeType: 'a657a4f1-9c0f-444b-a1fd-445bb91dd12d'
     }, {
-      value:  'patnerPhoneNumber',
+      value: 'patnerPhoneNumber',
       attributeType: 'b0a08406-09c0-4f8b-8cb5-b22b6d4a8e46'
     }]
   };
@@ -112,52 +98,52 @@ describe('Component: EditContacts Unit Tests', () => {
 
   });
   it('should generate the correct payload when value is not edited', (done) => {
-    let personAttributPayload = {
+    const personAttributPayload = {
       attributes: [{
-        value:  '2222',
+        value: '2222',
         attributeType: '72a759a8-1359-11df-a1f1-0026b9348838'
       }, {
-        value:  'alternativePhoneNumber',
+        value: 'alternativePhoneNumber',
         attributeType: 'c725f524-c14a-4468-ac19-4a0e6661c930'
       }]
     };
 
-    let originalAttributes = [{
-        value:  '2222',
-        attributeType: {uuid: '72a759a8-1359-11df-a1f1-0026b9348838'},
-      }, {
-        value:  'alternativePhoneNumber',
-        attributeType: {uuid: 'type-uuid-2'},
-      }];
-    let results = component.generatePersonAttributePayload(personAttributPayload,
+    const originalAttributes = [{
+      value: '2222',
+      attributeType: { uuid: '72a759a8-1359-11df-a1f1-0026b9348838' },
+    }, {
+      value: 'alternativePhoneNumber',
+      attributeType: { uuid: 'type-uuid-2' },
+    }];
+    const results = component.generatePersonAttributePayload(personAttributPayload,
       originalAttributes);
-      expect(results).toBeTruthy();
-      expect(results[0].value).toEqual('2222');
-      expect(results[0].attributeType).toEqual('72a759a8-1359-11df-a1f1-0026b9348838');
+    expect(results).toBeTruthy();
+    expect(results[0].value).toEqual('2222');
+    expect(results[0].attributeType).toEqual('72a759a8-1359-11df-a1f1-0026b9348838');
     done();
   });
   it('should generate the correct payload when value is voided', (done) => {
-    let personAttributPayloads = {
+    const personAttributPayloads = {
       attributes: [{
-        value:  '',
+        value: '',
         uuid: 'person-atttribute-uuid-1',
         voided: true
       }, {
-        value:  'alternativePhoneNumber',
+        value: 'alternativePhoneNumber',
         attributeType: 'c725f524-c14a-4468-ac19-4a0e6661c930'
       }]
     };
 
-    let originalAttributes = [{
-      value:  '2222',
-      attributeType: {uuid: '72a759a8-1359-11df-a1f1-0026b9348838'},
+    const originalAttributes = [{
+      value: '2222',
+      attributeType: { uuid: '72a759a8-1359-11df-a1f1-0026b9348838' },
       uuid: 'person-atttribute-uuid-1'
     }, {
-      value:  'alternativePhoneNumber',
-      attributeType: {uuid: 'type-uuid-2'},
+      value: 'alternativePhoneNumber',
+      attributeType: { uuid: 'type-uuid-2' },
       uuid: 'person-atttribute-uuid-2'
     }];
-    let results = component.generatePersonAttributePayload(personAttributPayloads,
+    const results = component.generatePersonAttributePayload(personAttributPayloads,
       originalAttributes);
     expect(results).toBeTruthy();
     expect(results[0].voided).toEqual(true);
@@ -165,26 +151,26 @@ describe('Component: EditContacts Unit Tests', () => {
     done();
   });
   it('should generate the correct payload when value existed and it is edited', (done) => {
-    let personAttributesPayload = {
+    const personAttributesPayload = {
       attributes: [{
-        value:  '11111',
+        value: '11111',
         attributeType: '72a759a8-1359-11df-a1f1-0026b9348838'
       }, {
-        value:  'alternativePhoneNumber',
+        value: 'alternativePhoneNumber',
         attributeType: 'c725f524-c14a-4468-ac19-4a0e6661c930'
       }]
     };
 
-    let originalAttributes = [{
-      value:  '2222',
-      attributeType: {uuid: '72a759a8-1359-11df-a1f1-0026b9348838'},
+    const originalAttributes = [{
+      value: '2222',
+      attributeType: { uuid: '72a759a8-1359-11df-a1f1-0026b9348838' },
       uuid: 'person-atttribute-uuid-1'
     }, {
-      value:  'alternativePhoneNumber',
-      attributeType: {uuid: 'type-uuid-2'},
+      value: 'alternativePhoneNumber',
+      attributeType: { uuid: 'type-uuid-2' },
       uuid: 'person-atttribute-uuid-2'
     }];
-    let results = component.generatePersonAttributePayload(personAttributesPayload,
+    const results = component.generatePersonAttributePayload(personAttributesPayload,
       originalAttributes);
     expect(results).toBeTruthy();
     expect(results[0].value).toEqual('11111');
@@ -193,25 +179,25 @@ describe('Component: EditContacts Unit Tests', () => {
     done();
   });
   it('should generate the correct payload when new value is created ', (done) => {
-    let personAttributPayload = {
+    const personAttributPayload = {
       attributes: [{
-        value:  '11111',
+        value: '11111',
         attributeType: '72a759a8-1359-11df-a1f1-0026b9348838'
       }, {
-        value:  'alternativePhoneNumber',
+        value: 'alternativePhoneNumber',
         attributeType: 'c725f524-c14a-4468-ac19-4a0e6661c930'
       }]
     };
 
-    let originalAttributes = [{
-      value:  '',
+    const originalAttributes = [{
+      value: '',
       attributeType: '',
     }, {
-      value:  'alternativePhoneNumber',
-      attributeType: {uuid: 'type-uuid-2'},
+      value: 'alternativePhoneNumber',
+      attributeType: { uuid: 'type-uuid-2' },
       uuid: 'person-atttribute-uuid-2'
     }];
-    let results = component.generatePersonAttributePayload(personAttributPayload,
+    const results = component.generatePersonAttributePayload(personAttributPayload,
       originalAttributes);
     expect(results).toBeTruthy();
     expect(results[0].value).toEqual('11111');

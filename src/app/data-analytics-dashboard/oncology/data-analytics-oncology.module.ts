@@ -29,7 +29,8 @@ import {
   OncologysummaryIndicatorsPatientListComponent
 } from './oncology-reports/oncology-indicators-patient-list/oncology-indicators-patient-list.component';
 import { NgBusyModule } from 'ng-busy';
-
+import { ChangeDepartmentModule } from '../change-department/change-department.module';
+import { DataAnalyticsHivModule } from '../hiv/data-analytics-hiv.module';
 @NgModule(
   {
   imports: [
@@ -40,7 +41,9 @@ import { NgBusyModule } from 'ng-busy';
     FormsModule,
     DataListsModule,
     AgGridModule,
-    NgBusyModule
+    NgBusyModule,
+    ChangeDepartmentModule,
+    DataAnalyticsHivModule
   ],
   exports: [
     OncologyReportsComponent,

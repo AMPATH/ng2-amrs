@@ -19,15 +19,15 @@ import { HivSummaryComponent } from './hiv-summary/hiv-summary.component';
 import { HivSummaryHistoricalComponent } from './hiv-summary/hiv-summary-historical.component';
 import { HivSummaryLatestComponent } from './hiv-summary/hiv-summary-latest.component';
 import { MedicationHistoryComponent } from './hiv-summary/medication-history.component';
+import { GeneXpertImagesComponent } from './genexpert-images/genexpert-images.component';
 import { PatientMonthlyStatusComponent
 } from './patient-status-change/patient-monthly-status.component';
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
 import { PatientDashboardCommonModule } from '../common/patient-dashboard.common.module';
 
-import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
-import { Router } from '@angular/router';
-import { SessionStorageService } from '../../utils/session-storage.service';
-import { HttpClient } from '../../shared/services/http-client.service';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { PocHttpInteceptor } from 'src/app/shared/services/poc-http-interceptor';
+import { GeneXpertResourceService } from './genexpert-images/genexpert-images-resource.service';
 
 @NgModule({
   imports: [
@@ -44,7 +44,8 @@ import { HttpClient } from '../../shared/services/http-client.service';
     OpenmrsApi,
     FormEntryModule,
     TabViewModule,
-    GrowlModule, PanelModule
+    GrowlModule, PanelModule,
+    HttpClientModule
   ],
   exports: [
     HivPatientClinicalSummaryComponent,
@@ -61,15 +62,15 @@ import { HttpClient } from '../../shared/services/http-client.service';
     HivSummaryLatestComponent,
     MedicationHistoryComponent,
     PatientMonthlyStatusComponent,
-    PreviousVisitComponent
+    PreviousVisitComponent,
+    GeneXpertImagesComponent
   ],
   providers: [
+    GeneXpertResourceService,
     {
-      provide: Http,
-      useFactory: (xhrBackend: XHRBackend, requestOptions: RequestOptions,
-                   router: Router, sessionStorageService: SessionStorageService) =>
-        new HttpClient(xhrBackend, requestOptions, router, sessionStorageService),
-      deps: [XHRBackend, RequestOptions, Router, SessionStorageService]
+      provide: HTTP_INTERCEPTORS,
+      useClass: PocHttpInteceptor,
+      multi: true
     }
   ],
 })

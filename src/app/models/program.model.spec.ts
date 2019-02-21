@@ -1,10 +1,9 @@
-import { Program } from './program.model';
-
+import {Program} from './program.model';
 
 
 describe('Model: Program', () => {
 
-  let existingProgram: any = {
+  const existingProgram: any = {
     uuid: 'uuid',
     display: 'the program',
     name: 'name',
@@ -13,7 +12,7 @@ describe('Model: Program', () => {
   };
 
   it('should wrap openmrs program for display correctly', () => {
-    let wrappedProgram: Program = new Program(existingProgram);
+    const wrappedProgram: Program = new Program(existingProgram);
     expect(wrappedProgram.uuid).toEqual(existingProgram.uuid);
     expect(wrappedProgram.display).toEqual(existingProgram.display);
     expect(wrappedProgram.name).toEqual(existingProgram.name);

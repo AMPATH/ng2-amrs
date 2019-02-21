@@ -19,7 +19,7 @@ require('pdfmake/build/vfs_fonts.js');
   styleUrls: []
 })
 export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
-  public location: string = '';
+  public location = '';
   public gridOptions: GridOptions;
   public selectedVisitType: any;
   public results = [];
@@ -36,7 +36,7 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
   @Input() public selectedDate: any;
   public errors: any = [];
   private _datePipe: DatePipe;
-  private locationName: string = '';
+  private locationName = '';
 
   constructor(private clinicDashboardCacheService: ClinicDashboardCacheService,
               private clinicLabOrdersResourceService: ClinicLabOrdersResourceService,
@@ -48,7 +48,7 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
 
-    let cachedParam = this.getClinicOrderParam('clinicordersparam');
+    const cachedParam = this.getClinicOrderParam('clinicordersparam');
     if (cachedParam !== undefined) {
       this.selectedDate = this._datePipe.transform(
         cachedParam.selectedDate, 'yyyy-MM-dd');
@@ -130,7 +130,6 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
         console.error('error', error);
       });
   }
-
   public getCurrentLocation() {
     this.route.parent.parent.params.subscribe((params) => {
       this.location = params['location_uuid'];
@@ -160,20 +159,20 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
   }
   public sampleCollected() {
     this.selectedVisitType = 'Total Sample Collected';
-    let sampleCollected = this.totalSampleCollectedFilter( this.orders);
+    const sampleCollected = this.totalSampleCollectedFilter( this.orders);
     this.results  = sampleCollected;
 
   }
   public sampleNotCollected() {
     this.selectedVisitType = 'Total Sample NOT Collected';
-    let notCollected = this.totalSampleNotCollectedFilter( this.orders);
+    const notCollected = this.totalSampleNotCollectedFilter( this.orders);
     this.results  = notCollected;
 
   }
 
   public downloadPdf(): void {
 
-    let fdata =   [
+    const fdata =   [
          {text: '#', style: 'tableHeader'},
          {text: 'Identifiers', style: 'tableHeader'},
          {text: 'Person Name', style: 'tableHeader'},
@@ -184,8 +183,8 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
          {text: 'Date Sample Collected', style: 'tableHeader'}
         ];
 
-    let data = this.getRptBodyData(fdata);
-    let docDefinition = {
+    const data = this.getRptBodyData(fdata);
+    const docDefinition = {
       header: (page, pages) => {
         return {
           text: ' Page ' + page + ' of ' + pages,
@@ -263,11 +262,11 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
     pdf.createPdf(docDefinition).download((this.getReportName()) + '.pdf');
     }
     private getRptBodyData(headers) {
-    let dataArray =  [headers];
+    const dataArray =  [headers];
     let cnt = 1;
     _.each(this.results, (data: any) => {
-            let dataRow = [];
-            let sampleDrawn = data.sample_drawn ? data.sample_drawn : ' ';
+            const dataRow = [];
+            const sampleDrawn = data.sample_drawn ? data.sample_drawn : ' ';
             if (cnt === 1) {
               this.locationName = data.location_name;
             }
@@ -292,12 +291,12 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
     '_to_' + this.endDate;
   }
   private formatDateField(result) {
-    let orders = [];
+    const orders = [];
     for (let i = 0; i < result.length; ++i) {
-      let data = result[i];
-      for (let r in data) {
+      const data = result[i];
+      for (const r in data) {
         if (data.hasOwnProperty(r)) {
-          let dateActivated = Moment(data.date_activated).format('DD-MM-YYYY');
+          const dateActivated = Moment(data.date_activated).format('DD-MM-YYYY');
           data['DateActivated'] = dateActivated;
           data['sampleCollectionDate'] = Moment(data.sample_collection_date).format('DD-MM-YYYY');
 
@@ -406,11 +405,11 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
   }
   private totalSampleCollectedFilter(result) {
 
-    let res = _.filter(result, ['sample_drawn', 'YES']);
-    let numbers = [];
+    const res = _.filter(result, ['sample_drawn', 'YES']);
+    const numbers = [];
     for (let i = 0; i < res.length; ++i) {
-      let data = res[i];
-      for (let r in data) {
+      const data = res[i];
+      for (const r in data) {
         if (data.hasOwnProperty(r)) {
           data['#'] = i + 1;
         }
@@ -423,13 +422,13 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
 
   }
   private totalSampleNotCollectedFilter(result) {
-    let resNull = _.filter(result, ['sample_drawn', null]);
-    let resNo = _.filter(result, ['sample_drawn', 'NO']);
-    let res = _.concat(resNull, resNo);
-    let numbers = [];
+    const resNull = _.filter(result, ['sample_drawn', null]);
+    const resNo = _.filter(result, ['sample_drawn', 'NO']);
+    const res = _.concat(resNull, resNo);
+    const numbers = [];
     for (let i = 0; i < res.length; ++i) {
-      let data = res[i];
-      for (let r in data) {
+      const data = res[i];
+      for (const r in data) {
         if (data.hasOwnProperty(r)) {
           data['#'] = i + 1;
         }

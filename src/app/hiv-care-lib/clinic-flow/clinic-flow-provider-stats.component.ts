@@ -19,8 +19,8 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
   public gridOptions: any = {
     columnDefs: []
   };
-  private loadingClinicFlow: boolean = false;
-  private dataLoaded: boolean = false;
+  private loadingClinicFlow = false;
+  private dataLoaded = false;
   private selectedLocation: any;
   private selectedDate: any;
   private providerEncounters: any = [];
@@ -33,8 +33,8 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
   private clinicFlowSubscription: Subscription;
 
   constructor(private clinicFlowCacheService: ClinicFlowCacheService,
-              private router: Router,
-              @Inject('ClinicFlowResource') private clinicFlowResource: ClinicFlowResource) { }
+    private router: Router,
+    @Inject('ClinicFlowResource') private clinicFlowResource: ClinicFlowResource) { }
 
   public ngOnInit() {
     this.currentLocationSubscription = this.clinicFlowCacheService.getSelectedLocation()
@@ -75,14 +75,14 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
 
   public setColumns(sectionsData: Array<any>) {
     let header = [];
-    let defs = [];
-    let uniqueKeys = Object.keys(sectionsData.reduce((result, obj) => {
+    const defs = [];
+    const uniqueKeys = Object.keys(sectionsData.reduce((result, obj) => {
       return Object.assign(result, obj);
     }, {}));
     // move the #seen column to be at index 2
     uniqueKeys.splice(uniqueKeys.indexOf('#_Seen'), 1);
     uniqueKeys.splice(2, 0, '#_Seen');
-    for (let i of uniqueKeys) {
+    for (const i of uniqueKeys) {
       header.push({ label: i });
     }
     if (header) {
@@ -91,7 +91,7 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
         field: 'Person_Name',
         pinned: 'left'
       });
-      let personName = 'Person_Name';
+      const personName = 'Person_Name';
       header = header.filter((el) => {
         return el.label !== personName;
       });
@@ -136,7 +136,7 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
     this.initParams();
     this.loadingClinicFlow = true;
     this.clinicFlowCacheService.setIsLoading(this.loadingClinicFlow);
-    let result = this.clinicFlowResource.
+    const result = this.clinicFlowResource.
       getClinicFlow(dateStated, locations);
     if (result === null) {
       throw new Error('Null clinic flow observable');
@@ -144,6 +144,7 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
 
       this.clinicFlowSubscription = result.take(1).subscribe(
         (dataList) => {
+          console.log('Datalist :::::>>', dataList);
           this.patientStatuses = dataList.result;
           this.transformVisitsToDummyEncounters(this.patientStatuses);
           this.groupEncountersByProvider();
@@ -191,9 +192,9 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
 
   }
   public groupEncountersByProvider() {
-    let providersPersonIds = [];
-    let uniqueProviderPersonIds = {};
-    for (let i in this.providerEncounters) {
+    const providersPersonIds = [];
+    const uniqueProviderPersonIds = {};
+    for (const i in this.providerEncounters) {
       if (this.providerEncounters.hasOwnProperty(i)) {
         if (typeof (uniqueProviderPersonIds[this.providerEncounters[i].person_id]) ===
           'undefined') {
@@ -207,15 +208,15 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
   }
   public getTotalPatientSeenByProvider(arrayOfObjects, visits) {
 
-    let result = [];
+    const result = [];
 
-    for (let i of arrayOfObjects) {
-      let data = i;
+    for (const i of arrayOfObjects) {
+      const data = i;
       let sum = 0;
-      for (let x in data) {
+      for (const x in data) {
         if (x !== visits) {
 
-          let value = data[x];
+          const value = data[x];
 
           if (typeof value === 'number') {
             sum += value;
@@ -231,7 +232,7 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
   }
   private _constructFinalProviderReport(providersPersonIds) {
     _.each(providersPersonIds, (provider) => {
-      let row = {};
+      const row = {};
       _.each(this.providerEncounters, (result: any) => {
 
         if (provider === result.person_id) {

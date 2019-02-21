@@ -1,5 +1,5 @@
 
-import {take, map} from 'rxjs/operators';
+import { take, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Patient } from '../../../models/patient.model';

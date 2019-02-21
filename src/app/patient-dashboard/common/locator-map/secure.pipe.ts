@@ -1,5 +1,5 @@
 
-import {take} from 'rxjs/operators/take';
+import { take } from 'rxjs/operators/take';
 
 import {
     Pipe,
@@ -9,7 +9,7 @@ import {
     ChangeDetectorRef
 } from '@angular/core';
 
-import { Subscription ,  Observable ,  BehaviorSubject } from 'rxjs';
+import { Subscription, Observable, BehaviorSubject } from 'rxjs';
 
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { FileUploadResourceService } from '../../../etl-api/file-upload-resource.service';
@@ -43,7 +43,7 @@ export class SecurePipe implements PipeTransform, OnDestroy {
     }
 
     public transform(url: string): any {
-        let obj = this.internalTransform(url);
+        const obj = this.internalTransform(url);
         return this.asyncTrasnform(obj);
     }
 
@@ -56,7 +56,7 @@ export class SecurePipe implements PipeTransform, OnDestroy {
             this.previousUrl = url;
             this._internalSubscription = this.fileUploadResourceService
                 .getFile(url).subscribe((m) => {
-                    let sanitized = this.sanitizer.bypassSecurityTrustUrl(m);
+                    const sanitized = this.sanitizer.bypassSecurityTrustUrl(m);
                     this._result.next(sanitized);
                 });
         }
@@ -84,7 +84,7 @@ export class SecurePipe implements PipeTransform, OnDestroy {
     }
 
     private _subscribe(obj: Observable<any>) {
-        let _this = this;
+        const _this = this;
         this._obj = obj;
 
         this._subscription = obj.subscribe({

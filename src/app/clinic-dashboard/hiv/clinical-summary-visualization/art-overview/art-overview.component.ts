@@ -56,7 +56,7 @@ export class ArtOverviewComponent implements OnInit {
   public renderChart(options) {
 
     this.processChartData();
-    let that = this;
+    const that = this;
     _.merge(options, {
       chart: {
         type: 'pie',
@@ -88,7 +88,7 @@ export class ArtOverviewComponent implements OnInit {
           point: {
             events: {
               click: function() {
-                let indicators = that.clinicalSummaryVisualizationService.flipTranlateColumns;
+                const indicators = that.clinicalSummaryVisualizationService.flipTranlateColumns;
                 if (that.options && that.options.filters.endDate) {
                   that.goToPatientList(indicators['clinical-art-overview'][this.name],
                     that.options.filters);
@@ -124,14 +124,14 @@ export class ArtOverviewComponent implements OnInit {
   }
 
   public processChartData() {
-    let data = this.data[0];
+    const data = this.data[0];
     let i = 0;
     this.totalPatients = data ? data.patients : 0;
-    let colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2'];
-    for (let indicator in data) {
+    const colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2'];
+    for (const indicator in data) {
       if (!indicator.match(new RegExp('location_uuid|location_id|patients'))) {
 
-        let cols =
+        const cols =
           this.clinicalSummaryVisualizationService.translateColumns['clinical-art-overview'];
         this.categories.push(cols[indicator]);
         this.series.push({

@@ -30,7 +30,7 @@ export class FormUpdaterService {
       catchError((error) => { this.toast.clear(); return error; }))
       .subscribe((updatedSchemas: any[]) => {
         if (updatedSchemas.length > 0) {
-          let filteredSchemas = updatedSchemas.filter((x) => x !== null);
+          const filteredSchemas = updatedSchemas.filter((x) => x !== null);
           this.toast.clear();
           if (filteredSchemas.length > 0) {
             _.each(filteredSchemas, (schema) => {
@@ -49,7 +49,7 @@ export class FormUpdaterService {
   }
 
   private doesUpdatedSchemaExist(uuid, cachedSchema): Observable<any> {
-    let cache = _.cloneDeep(cachedSchema);
+    const cache = _.cloneDeep(cachedSchema);
     return this.formSchemaService.getFormSchemaByUuid(uuid, false).pipe(map((schema) => {
       if (!_.isEqual(schema.pages, cachedSchema.pages)) {
         return schema;
@@ -60,11 +60,11 @@ export class FormUpdaterService {
   }
 
   private checkUpdatedForms() {
-    let arrayOfObservables = [];
+    const arrayOfObservables = [];
     return this.formsResourceService.getForms().pipe(
       switchMap((forms: any[]) => {
         _.forEach(forms, (form, index) => {
-          let cachedSchema = this.localStorageService.getObject(form.uuid);
+          const cachedSchema = this.localStorageService.getObject(form.uuid);
           if (cachedSchema) {
             arrayOfObservables
               .push(this.doesUpdatedSchemaExist(form.uuid, cachedSchema));
@@ -81,7 +81,7 @@ export class FormUpdaterService {
   }
 
   private replaceSchemaInCache(schema) {
-    let temp = this.localStorageService.getObject(schema.uuid);
+    const temp = this.localStorageService.getObject(schema.uuid);
     temp.referencedForms = schema.referencedForms;
     temp.pages = schema.pages;
     this.localStorageService.setObject(schema.uuid, temp);

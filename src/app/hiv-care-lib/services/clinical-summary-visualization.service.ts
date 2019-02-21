@@ -10,9 +10,9 @@ export class ClinicalSummaryVisualizationService {
   }
 
   get generateTabularViewColumns(): Array<any> {
-    let columns = [];
+    const columns = [];
 
-    let translateColumns = Object.keys(this.translateColumns['clinical-hiv-comparative-overview']);
+    const translateColumns = Object.keys(this.translateColumns['clinical-hiv-comparative-overview']);
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < translateColumns.length; i++) {
       columns.push({
@@ -22,7 +22,7 @@ export class ClinicalSummaryVisualizationService {
           this.colCallback.next(params);
         },
         cellRenderer: (column) => {
-          let col = translateColumns[i];
+          const col = translateColumns[i];
           let value = column.value;
           if (translateColumns[i] === 'perc_virally_suppressed'
             || translateColumns[i] === 'perc_tested_appropriately') {
@@ -51,7 +51,7 @@ export class ClinicalSummaryVisualizationService {
 
   get translateColumns() {
 
-    let translateMap = {
+    const translateMap = {
       'clinical-hiv-comparative-overview': {
         'reporting_month': 'Reporting Month',
         'currently_in_care_total': 'Patients In Care',
@@ -94,7 +94,7 @@ export class ClinicalSummaryVisualizationService {
   }
 
   get flipTranlateColumns() {
-    let flippedCols = {};
+    const flippedCols = {};
     _.each(this.translateColumns, (cols, index) => {
       flippedCols[index] = _.invert(cols);
     });
@@ -102,8 +102,8 @@ export class ClinicalSummaryVisualizationService {
   }
 
   public getMonthDateRange(year: number, month: number): any {
-    let startDate = moment([year, month]);
-    let endDate = moment(startDate).endOf('month');
+    const startDate = moment([year, month]);
+    const endDate = moment(startDate).endOf('month');
     return {
       startDate: startDate,
       endDate: endDate

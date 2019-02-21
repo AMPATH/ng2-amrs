@@ -69,23 +69,23 @@ export class PatientReferralResourceService {
     if (!payload || (payload && !payload.patient_referral_id)) {
       return null;
     }
-    let url = this.getReferralNotificationUrl() + '/' + payload.patient_referral_id;
+    const url = this.getReferralNotificationUrl() + '/' + payload.patient_referral_id;
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
     return this.http.post(url, JSON.stringify(payload), {headers}).pipe(
      catchError(this.handleError));
   }
 
   public getPatientReferralReport(params) {
-    let urlParams = this.getUrlRequestParams(params);
-    let url: string = this.getUrl();
-    let request = this.http.get(url, {
+    const urlParams = this.getUrlRequestParams(params);
+    const url: string = this.getUrl();
+    const request = this.http.get(url, {
       params: urlParams
     });
 
-    let key = url + '?' + urlParams.toString();
+    const key = url + '?' + urlParams.toString();
     if (key !== this.requestUrl) {
       // clear cache after 1 minute
-      let refreshCacheTime = 1 * 60 * 1000;
+      const refreshCacheTime = 1 * 60 * 1000;
       this.requestUrl = key;
       this.cache = this.cacheService.cacheSingleRequest(url, urlParams, request, refreshCacheTime);
     }
@@ -96,7 +96,7 @@ export class PatientReferralResourceService {
   }
 
   public getPatientReferralPatientList(params) {
-    let urlParams = this.getUrlRequestParams(params);
+    const urlParams = this.getUrlRequestParams(params);
     if (!params.startIndex) {
       params.startIndex = '0';
     }
@@ -104,18 +104,18 @@ export class PatientReferralResourceService {
       params.limit = '300';
     }
     urlParams.set('limit', params.limit);
-    let url = this.getPatientListUrl();
-    let request = this.http.get(url, {
+    const url = this.getPatientListUrl();
+    const request = this.http.get(url, {
       params: urlParams
     }).pipe(
       map((response: any) => {
         return response.result;
       }));
 
-    let key = url + '?' + urlParams.toString();
+    const key = url + '?' + urlParams.toString();
     if (key !== this.requestUrl) {
       // clear cache after 1 minute
-      let refreshCacheTime = 1 * 60 * 1000;
+      const refreshCacheTime = 1 * 60 * 1000;
       this.requestUrl = key;
       this.cache = this.cacheService.cacheSingleRequest(url, urlParams, request, refreshCacheTime);
     }
@@ -128,7 +128,7 @@ export class PatientReferralResourceService {
   }
 
   public getReferralByLocationUuid(locationUuid: string, enrollmentUud?: string) {
-    let url = this.getReferralLocationUrl()  + '/' + locationUuid + '/' + enrollmentUud;
+    const url = this.getReferralLocationUrl()  + '/' + locationUuid + '/' + enrollmentUud;
     return this.http.get(url);
   }
 

@@ -23,19 +23,21 @@ import { PatientSearchModule } from '../patient-search/patient-search.module';
 import { PatientProgramService } from './programs/patient-programs.service';
 import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 import { PatientDashboardCdmModule } from './cdm/patient-dashboard-cdm.module';
-import { PatientDashboardOncologyModule } from './oncology/patient-dashboard-cdm.module';
+import { PatientDashboardOncologyModule } from './oncology/patient-dashboard-oncology.module';
 import {
   PatientDashboardDermatologyModule } from './dermatology/patient-dashboard-dermatology.module';
 import { DepartmentProgramsConfigService } from '../etl-api/department-programs-config.service';
 import { SessionStorageService } from '../utils/session-storage.service';
-import { HttpClient } from '../shared/services/http-client.service';
 import { PatientDashboardResolver } from './services/patient-dashboard.resolver';
 import { ProgramManagerModule
 } from '../program-manager/program-manager.module';
 import { GroupEnrollmentModule } from './group-enrollment/group-enrollment.module';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { PocHttpInteceptor } from '../shared/services/poc-http-interceptor';
 
 @NgModule({
   imports: [
+    HttpClientModule,
     CommonModule,
     RouterModule,
     FormsModule,
@@ -73,11 +75,9 @@ import { GroupEnrollmentModule } from './group-enrollment/group-enrollment.modul
     DatePipe,
     PatientRoutesFactory,
     {
-      provide: Http,
-      useFactory: (xhrBackend: XHRBackend, requestOptions: RequestOptions,
-                   router: Router, sessionStorageService: SessionStorageService) =>
-        new HttpClient(xhrBackend, requestOptions, router, sessionStorageService),
-      deps: [XHRBackend, RequestOptions, Router, SessionStorageService]
+      provide: HTTP_INTERCEPTORS,
+      useClass: PocHttpInteceptor,
+      multi: true
     }
   ],
   exports: [

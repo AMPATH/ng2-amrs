@@ -22,19 +22,35 @@ describe('Drafted Forms Service:', () => {
         });
     });
 
-    afterAll(() => {
+    afterEach(() => {
         TestBed.resetTestingModule();
     });
 
     it('should be injected ', () => {
-        let service = TestBed.get(DraftedFormsService);
+        const service = TestBed.get(DraftedFormsService);
         expect(service).toBeTruthy();
     });
 
-    it('should notify subscribers when a drafted form is set', (done) => {
-        let service = TestBed.get(DraftedFormsService);
+    it('should have all the required functions defined and callable', () => {
+        const service = TestBed.get(DraftedFormsService);
+        spyOn(service, 'getRouteSnapshot').and.callFake(() => { });
+        service.getRouteSnapshot();
+        expect(service.getRouteSnapshot).toHaveBeenCalled();
 
-        let sampleForm: Form = new Form(null, null, null);
+        spyOn(service, 'setCancelState').and.callFake(() => { });
+        service.setCancelState();
+        expect(service.setCancelState).toHaveBeenCalled();
+
+        const sampleForm: Form = new Form(null, null, null);
+        spyOn(service, 'setDraftedForm').and.callFake(() => { });
+        service.setDraftedForm(sampleForm);
+        expect(service.setDraftedForm).toHaveBeenCalled();
+    });
+
+    it('should notify subscribers when a drafted form is set', (done) => {
+        const service = TestBed.get(DraftedFormsService);
+
+        const sampleForm: Form = new Form(null, null, null);
         service.draftedForm.subscribe(form => {
             if (form) {
                 expect(service.lastDraftedForm).toBe(sampleForm);
@@ -43,7 +59,6 @@ describe('Drafted Forms Service:', () => {
             }
         });
         service.setDraftedForm(sampleForm);
-
     });
 });
 

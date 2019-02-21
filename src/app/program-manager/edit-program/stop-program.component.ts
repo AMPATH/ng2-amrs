@@ -19,22 +19,23 @@ export class StopProgramComponent implements OnInit {
 
   }
   @Input() public patient: Patient;
-  @Input() public complete: boolean = false;
+  @Input() public complete = false;
   @Input() public set formsFilled(val: boolean) {
     if (val) {
       this.completeStopProgram();
     }
   }
   @Output() public stopProgramComplete: EventEmitter<any> = new EventEmitter(null);
+  // tslint:disable-next-line:no-output-on-prefix
   @Output() public onBack: EventEmitter<any> = new EventEmitter(null);
-  public completing: boolean = false;
-  public showForms: boolean = false;
+  public completing = false;
+  public showForms = false;
   public exitEncounters: string[] = [];
-  public hasError: boolean = false;
-  public message: string = '';
+  public hasError = false;
+  public message = '';
   public stoppedPrograms: any[] = [];
   constructor(private programManagerService: ProgramManagerService,
-              private router: Router) {
+    private router: Router) {
   }
 
   public ngOnInit() {
@@ -68,23 +69,23 @@ export class StopProgramComponent implements OnInit {
     });
     this.programManagerService.editProgramEnrollments('stop', this.patient,
       this.programs, null).subscribe((programs) => {
-      if (programs) {
-        this.completing = false;
-        this.hasError = false;
-        this.stopProgramComplete.next(programs);
-      }
-    }, (err) => {
-      this.hasError = true;
-      this.message = 'Could not stop the program';
+        if (programs) {
+          this.completing = false;
+          this.hasError = false;
+          this.stopProgramComplete.next(programs);
+        }
+      }, (err) => {
+        this.hasError = true;
+        this.message = 'Could not stop the program';
         console.log(err);
-    });
+      });
 
   }
 
   public fillEnrollmentForm(form) {
-    let _route = '/patient-dashboard/patient/' + this.patient.uuid
+    const _route = '/patient-dashboard/patient/' + this.patient.uuid
       + '/general/general/formentry';
-    let routeOptions = {
+    const routeOptions = {
       queryParams: {
         step: 3,
         parentComponent: 'programManager:edit'

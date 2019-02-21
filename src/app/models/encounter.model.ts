@@ -1,11 +1,11 @@
-import { BaseModel } from './base-model.model';
-import { Patient } from './patient.model';
-import { EncounterType } from './encounter-type.model';
-import { Form } from './form.model';
-import { Location } from './location.model';
-import { Provider } from './provider.model';
-import { Visit } from './visit.model';
-import { serializable, serialize } from './serializable.decorator';
+import {BaseModel} from './base-model.model';
+import {Patient} from './patient.model';
+import {EncounterType} from './encounter-type.model';
+import {Form} from './form.model';
+import {Location} from './location.model';
+import {Provider} from './provider.model';
+import {Visit} from './visit.model';
+import {serializable} from './serializable.decorator';
 import './date.extensions';
 
 export class Encounter extends BaseModel {
@@ -93,7 +93,7 @@ export class Encounter extends BaseModel {
             if (this._openmrsModel.encounterProviders &&
                 this._openmrsModel.encounterProviders.length > 0) {
                 this._provider = new Provider(this._openmrsModel.encounterProviders[0].provider);
-            }else {
+            } else {
                 this._provider = new Provider(this._openmrsModel.provider);
             }
         }

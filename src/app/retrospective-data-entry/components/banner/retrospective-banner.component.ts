@@ -12,8 +12,8 @@ import { RetrospectiveDataEntryService
 })
 
 export class RetrospectiveBannerComponent implements OnInit {
-  public displayDialog: boolean = false;
-  public retroEnabled: boolean = false;
+  public displayDialog = false;
+  public retroEnabled = false;
   public constructor(private retrospectiveDataEntryService: RetrospectiveDataEntryService) {
 
   }

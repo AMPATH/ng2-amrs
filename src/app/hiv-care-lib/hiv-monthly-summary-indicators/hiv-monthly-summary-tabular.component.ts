@@ -18,6 +18,7 @@ export class HivSummaryMonthlyTabularComponent implements OnInit {
   public gridOptions: any = {
     columnDefs: []
   };
+  // tslint:disable-next-line:no-input-rename
   @Input('rowData')
   public data: Array<any> = [];
 
@@ -66,7 +67,7 @@ export class HivSummaryMonthlyTabularComponent implements OnInit {
 
   public ngOnInit() { }
   public setColumns(sectionsData: Array<any>) {
-    let defs = [];
+    const defs = [];
     defs.push({
       headerName: 'Month',
       field: 'reporting_month',
@@ -100,8 +101,8 @@ export class HivSummaryMonthlyTabularComponent implements OnInit {
   }
 
   public goToPatientList(data) {
-    let endDate = moment(data.data.month).endOf('month').format('DD/MM/YYYY');
-    let startDate = moment(data.data.month).startOf('month').format('DD/MM/YYYY');
+    const endDate = moment(data.data.month).endOf('month').format('DD/MM/YYYY');
+    const startDate = moment(data.data.month).startOf('month').format('DD/MM/YYYY');
     this.locationUuids = data.data.location_uuid;
     this.startDate = moment(this._dates.startDate);
     this.endDate = moment(this._dates.endDate);

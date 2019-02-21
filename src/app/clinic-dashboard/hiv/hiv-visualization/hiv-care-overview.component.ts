@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
-import { Moh731ReportBaseComponent }
-  from '../../../hiv-care-lib/moh-731-report/moh-731-report-base.component';
+import { Moh731ReportBaseComponent } from '../../../hiv-care-lib/moh-731-report/moh-731-report-base.component';
 import { Moh731ResourceService } from '../../../etl-api/moh-731-resource.service';
 import { HivCareComparativeOverviewBaseComponent
 } from '../../../hiv-care-lib/hiv-visualization/hiv-care-overview-base.component';
@@ -37,7 +36,7 @@ export class HivCareComparativeComponent extends HivCareComparativeOverviewBaseC
     this.route.parent.parent.parent.params.subscribe((params: any) => {
       this.locationUuids = [];
       if (params.location_uuid) {
-        let data = {};
+        const data = {};
         data['value'] = params.location_uuid;
 
         this.locationUuids.push(data as any);
@@ -53,8 +52,8 @@ export class HivCareComparativeComponent extends HivCareComparativeOverviewBaseC
   }
 
   public loadReportParamsFromUrl() {
-    let path = this.router.parseUrl(this.location.path());
-    let pathHasHistoricalValues = path.queryParams['startDate'] &&
+    const path = this.router.parseUrl(this.location.path());
+    const pathHasHistoricalValues = path.queryParams['startDate'] &&
       path.queryParams['endDate'];
 
     if (path.queryParams['startDate']) {
@@ -71,7 +70,7 @@ export class HivCareComparativeComponent extends HivCareComparativeOverviewBaseC
   }
 
   public storeReportParamsInUrl() {
-    let path = this.router.parseUrl(this.location.path());
+    const path = this.router.parseUrl(this.location.path());
     path.queryParams = {
       'startDate': this.startDate.toUTCString(),
       'endDate': this.endDate.toUTCString(),

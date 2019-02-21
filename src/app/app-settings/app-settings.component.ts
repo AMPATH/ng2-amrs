@@ -19,22 +19,21 @@ export class AppSettingsComponent implements OnInit {
   public urlPlaceholder: string;
   public urlType: string;
   public serverTemplates: Array<object> = this.getServerTemplates();
-  public cookieKey: string = 'formDebug';
+  public cookieKey = 'formDebug';
   public cookieVal: string;
   public hideFields: boolean;
 
   constructor(private router: Router,
-              private appSettingsService: AppSettingsService,
-              private localStorageService: LocalStorageService,
-              private authenticationService: AuthenticationService,
-              private _cookieService: CookieService) { }
+    private appSettingsService: AppSettingsService,
+    private localStorageService: LocalStorageService,
+    private authenticationService: AuthenticationService,
+    private _cookieService: CookieService) { }
 
   public getServerTemplates(): Array<object> {
     return this.appSettingsService.getServerTemplates();
   }
 
   public ngOnInit() {
-    let templates = this.appSettingsService.getServerTemplates();
 
     if (!window.location.host.match(new RegExp('localhost'))) {
       // this.changeServerSettings(templates[0]);
@@ -71,7 +70,7 @@ export class AppSettingsComponent implements OnInit {
   public showNewUrlForm(event) {
     this.newUrl = null;
     if (event && event.srcElement) {
-      let srcId = event.srcElement.id;
+      const srcId = event.srcElement.id;
       if (srcId === 'etlUrlBtn') {
         this.urlPlaceholder = 'http://localhost:8002/etl';
         this.urlType = 'etl';
@@ -111,18 +110,18 @@ export class AppSettingsComponent implements OnInit {
 
   public checkDebugMode() {
 
-        let isCookieSet = this.getDebugMode();
+    const isCookieSet = this.getDebugMode();
 
-        if (isCookieSet === 'undefined') {
-               this.hideFields = false;
-           } else {
-              // get the value of the debug mode
-              if (isCookieSet === 'true') {
-                      this.hideFields = true;
-              } else {
-                      this.hideFields = false;
-              }
-        }
+    if (isCookieSet === 'undefined') {
+      this.hideFields = false;
+    } else {
+      // get the value of the debug mode
+      if (isCookieSet === 'true') {
+        this.hideFields = true;
+      } else {
+        this.hideFields = false;
+      }
+    }
 
   }
 
@@ -130,41 +129,41 @@ export class AppSettingsComponent implements OnInit {
 
   public getDebugMode() {
 
-      let debugModeCookie = this._cookieService.get(this.cookieKey);
+    const debugModeCookie = this._cookieService.get(this.cookieKey);
 
-      if (typeof debugModeCookie === 'undefined') {
-        return debugModeCookie;
-      } else {
-        return debugModeCookie;
-      }
+    if (typeof debugModeCookie === 'undefined') {
+      return debugModeCookie;
+    } else {
+      return debugModeCookie;
+    }
 
   }
 
   public toggleDebugMode() {
-      // check if hidefields cookie has been set
+    // check if hidefields cookie has been set
 
-      let isCookieSet = this.getDebugMode();
+    const isCookieSet = this.getDebugMode();
 
-      if (isCookieSet === 'true') {
-           // remove the initial cookie set
-           this._cookieService.remove(this.cookieKey);
-       } else {
+    if (isCookieSet === 'true') {
+      // remove the initial cookie set
+      this._cookieService.remove(this.cookieKey);
+    } else {
 
-       }
+    }
 
-      this.cookieVal = '' + this.hideFields;
+    this.cookieVal = '' + this.hideFields;
 
-      this._cookieService.put(this.cookieKey, this.cookieVal);
+    this._cookieService.put(this.cookieKey, this.cookieVal);
   }
-   public removeDebugCookie() {
+  public removeDebugCookie() {
 
-      let isCookieSet = this.getDebugMode();
+    const isCookieSet = this.getDebugMode();
 
-      if (isCookieSet === 'true') {
-           // remove the cookie set
-           this._cookieService.remove(this.cookieKey);
-       } else {
+    if (isCookieSet === 'true') {
+      // remove the cookie set
+      this._cookieService.remove(this.cookieKey);
+    } else {
 
-       }
+    }
   }
 }

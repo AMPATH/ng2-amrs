@@ -1,34 +1,28 @@
 import { TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
-import { MockBackend, MockConnection } from '@angular/http/testing';
 import { AppSettingsService } from '../app-settings/app-settings.service';
-import { Http, Response, BaseRequestOptions, ResponseOptions, RequestMethod } from '@angular/http';
 import { ErrorLogResourceService } from './error-log-resource.service';
 import { LocalStorageService } from '../utils/local-storage.service';
+import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
 
 // Load the implementations that should be tested
 describe('ErrorLogResourceService Unit Tests', () => {
+  let s, httpMock;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [],
+      imports: [HttpClientTestingModule],
       declarations: [],
       providers: [
-        MockBackend,
-        BaseRequestOptions,
-        {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
         AppSettingsService,
         ErrorLogResourceService,
         LocalStorageService
       ],
     });
+    s = TestBed.get(ErrorLogResourceService);
+    httpMock = TestBed.get(HttpTestingController);
   }));
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 
@@ -44,17 +38,8 @@ describe('ErrorLogResourceService Unit Tests', () => {
         expect(errorLogResourceService.postFormError({})).toBeTruthy();
       }));
 
-  it('should Post Error with correct ReguestMethod and correct API call',
-    inject([ErrorLogResourceService, MockBackend],
-      fakeAsync((errorLogResourceService: ErrorLogResourceService, backend: MockBackend) => {
-        backend.connections.subscribe((connection: MockConnection) => {
-
-          expect(connection.request.method).toBe(RequestMethod.Post);
-          expect(connection.request.url).toContain('/forms/error');
-        });
-        tick(50);
-        expect(errorLogResourceService.postFormError({ error: 'error' }));
-      })));
-
-
+  it('should Post Error with correct ReguestMethod and correct API call', () => {
+    expect(s.postFormError({ error: 'error' }));
+    const req = httpMock.expectNone('');
+  });
 });

@@ -11,18 +11,18 @@ export class PatientCareStatusResourceService {
     public getMonthlyPatientCareStatus(options: {
         startDate: string, endDate: string, patient_uuid: string
     }): Observable<any> {
-        let api: string = this.appSettingsService.getEtlServer() +
+        const api: string = this.appSettingsService.getEtlServer() +
             '/patient/' + options.patient_uuid + '/monthly-care-status';
-        let params: HttpParams = this.getUrlRequestParams(options);
+        const params: HttpParams = this.getUrlRequestParams(options);
         return this.http.get(api, { params: params });
     }
 
     public getDailyPatientCareStatus(options: {
         patient_uuid: string, referenceDate: string
     }): Observable<any> {
-        let api: string = this.appSettingsService.getEtlServer() +
+        const api: string = this.appSettingsService.getEtlServer() +
             '/patient/' + options.patient_uuid + '/daily-care-status';
-        let urlParams: HttpParams = new HttpParams()
+        const urlParams: HttpParams = new HttpParams()
         .set('referenceDate', options.referenceDate);
         return this.http.get(api, { params: urlParams });
     }
@@ -30,7 +30,7 @@ export class PatientCareStatusResourceService {
     private getUrlRequestParams(options: {
         startDate: string, endDate: string, patient_uuid: string
     }): HttpParams {
-        let urlParams: HttpParams = new HttpParams()
+        const urlParams: HttpParams = new HttpParams()
         .set('startDate', options.startDate)
         .set('endDate', options.endDate);
         return urlParams;

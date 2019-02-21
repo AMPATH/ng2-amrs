@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs';
 })
 export class EditContactsComponent implements OnInit, OnDestroy {
   public patient: Patient = new Patient({});
-  public display: boolean = false;
+  public display = false;
   public patientPhoneNumber: number;
   public alternativePhoneNumber: number;
   public patnerPhoneNumber: number;
@@ -23,15 +23,15 @@ export class EditContactsComponent implements OnInit, OnDestroy {
   public r1 = /^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,3})|(\(?\d{2,3}\)?))/;
   public r2 = /(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$/;
   public pattern = new RegExp(this.r1.source + this.r2.source);
-  public showSuccessAlert: boolean = false;
-  public showErrorAlert: boolean = false;
+  public showSuccessAlert = false;
+  public showErrorAlert = false;
   public errorAlert: string;
   public errorTitle: string;
-  public successAlert: string = '';
-  private isLoading: boolean = false;
+  public successAlert = '';
+  private isLoading = false;
 
   constructor(private patientService: PatientService,
-              private personResourceService: PersonResourceService) {
+    private personResourceService: PersonResourceService) {
   }
   public ngOnInit() {
     this.getPatient();
@@ -65,26 +65,26 @@ export class EditContactsComponent implements OnInit, OnDestroy {
   }
   public saveAttribute() {
     this.isLoading = true;
-    let person = {
+    const person = {
       uuid: this.patient.person.uuid
-      };
-    let personAttributePayload = {
+    };
+    const personAttributePayload = {
       attributes: [{
-        value:  this.patientPhoneNumber,
+        value: this.patientPhoneNumber,
         attributeType: '72a759a8-1359-11df-a1f1-0026b9348838'
       }, {
-        value:  this.alternativePhoneNumber,
+        value: this.alternativePhoneNumber,
         attributeType: 'c725f524-c14a-4468-ac19-4a0e6661c930'
       }, {
-        value:  this.nextofkinPhoneNumber,
+        value: this.nextofkinPhoneNumber,
         attributeType: 'a657a4f1-9c0f-444b-a1fd-445bb91dd12d'
       }, {
-        value:  this.patnerPhoneNumber,
+        value: this.patnerPhoneNumber,
         attributeType: 'b0a08406-09c0-4f8b-8cb5-b22b6d4a8e46'
       }]
     };
-    let payLoad = this.generatePersonAttributePayload(personAttributePayload,
-     this.patient.person.attributes);
+    const payLoad = this.generatePersonAttributePayload(personAttributePayload,
+      this.patient.person.attributes);
 
     personAttributePayload.attributes = payLoad;
     this.filterUndefinedUuidFromPayLoad(personAttributePayload.attributes);
@@ -105,7 +105,7 @@ export class EditContactsComponent implements OnInit, OnDestroy {
       }
     );
     setTimeout(() => {
-       this.display = false;
+      this.display = false;
     }, 1000);
 
   }
@@ -119,7 +119,7 @@ export class EditContactsComponent implements OnInit, OnDestroy {
   }
   private getPersonAttributeByAttributeTypeUuid(attributes, attributeType) {
     // let attributes = this.patient.person.attributes;
-    let attrs = _.filter(attributes,
+    const attrs = _.filter(attributes,
       (attribute: any) => {
         if (attribute.attributeType.uuid === attributeType) {
           return true;
@@ -132,43 +132,45 @@ export class EditContactsComponent implements OnInit, OnDestroy {
   }
   private filterUndefinedUuidFromPayLoad(personAttributePayload) {
     if (personAttributePayload && personAttributePayload.length > 0) {
-    for (let i = 0; i < personAttributePayload.length; i++) {
-      if (personAttributePayload[i].uuid === undefined &&
-        personAttributePayload[i].voided === true) {
-        personAttributePayload.splice(i, 1);
-        i--;
+      for (let i = 0; i < personAttributePayload.length; i++) {
+        if (personAttributePayload[i].uuid === undefined &&
+          personAttributePayload[i].voided === true) {
+          personAttributePayload.splice(i, 1);
+          i--;
+        }
       }
-    }
     }
   }
   private generatePersonAttributePayload(personAttributePayload, existingAttributes) {
-    let payLoad = [];
-    let attributes = personAttributePayload.attributes;
-    for (let a in attributes) {
+    const payLoad = [];
+    const attributes = personAttributePayload.attributes;
+    for (const a in attributes) {
 
-        if ( attributes.hasOwnProperty(a)) {
-          let attr;
-          if (attributes[a] !== undefined && attributes[a] !== 'undefined') {
-            attr = this.getPersonAttributeByAttributeTypeUuid(existingAttributes,
-              attributes[a].attributeType);
-            if (attr === undefined) {
-              attr = _.filter(attr, (attribute) => {
-                return attribute !== undefined && attribute !== null;
-              });
-
-            }
-
-            if (attr && attributes[a].value === null || attributes[a].value.toString() === '') {
-              payLoad.push({uuid: attr.uuid, voided: true});
-            }else {
-              payLoad.push({attributeType: attributes[a].attributeType,
-                value: attributes[a].value});
-            }
+      if (attributes.hasOwnProperty(a)) {
+        let attr;
+        if (attributes[a] !== undefined && attributes[a] !== 'undefined') {
+          attr = this.getPersonAttributeByAttributeTypeUuid(existingAttributes,
+            attributes[a].attributeType);
+          if (attr === undefined) {
+            attr = _.filter(attr, (attribute) => {
+              return attribute !== undefined && attribute !== null;
+            });
 
           }
 
+          if (attr && attributes[a].value === null || attributes[a].value.toString() === '') {
+            payLoad.push({ uuid: attr.uuid, voided: true });
+          } else {
+            payLoad.push({
+              attributeType: attributes[a].attributeType,
+              value: attributes[a].value
+            });
+          }
+
         }
+
       }
+    }
     return payLoad;
   }
 

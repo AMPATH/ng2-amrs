@@ -5,7 +5,7 @@ import { DisplayErrorComponent } from './display-error.component';
 
 describe('Component: DisplayError', () => {
   it('should create an instance', () => {
-    let component = new DisplayErrorComponent();
+    const component = new DisplayErrorComponent();
     expect(component).toBeTruthy();
   });
 });

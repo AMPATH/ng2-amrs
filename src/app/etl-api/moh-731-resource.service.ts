@@ -3,8 +3,7 @@ import {of as observableOf,  Observable } from 'rxjs';
 
 import {catchError, map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, URLSearchParams } from '@angular/http';
-import { DatePipe } from '@angular/common';
+// tslint:disable-next-line:import-blacklist
 import { Subject } from 'rxjs/Rx';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
@@ -29,7 +28,7 @@ export class Moh731ResourceService {
 
     let report = '';
     let aggregated = 'false';
-    if(isAggregated){
+    if (isAggregated) {
           aggregated = 'true';
     }
 
@@ -40,7 +39,7 @@ export class Moh731ResourceService {
     }
 
 
-    let urlParams: HttpParams = new HttpParams()
+    const urlParams: HttpParams = new HttpParams()
     .set('locationUuids', locationUuids)
     .set('startDate', startDate)
     .set('endDate', endDate)
@@ -48,20 +47,20 @@ export class Moh731ResourceService {
     .set('isAggregated', aggregated);
 
 
-    let request = this.http.get(this.url, { 
+    const request = this.http.get(this.url, {
        params: urlParams
     }).pipe(
       map((response: Response) => {
         return response;
-      }),catchError((err: any) => {
+      }), catchError((err: any) => {
          console.log('Err', err);
-         let error: any = err;
-         let errorObj = {
+         const error: any = err;
+         const errorObj = {
            'error': error.status,
            'message': error.statusText
          };
          return observableOf(errorObj);
-      }),);
+      }), );
 
     return cacheTtl === 0 ?
       request : this.cacheService.cacheSingleRequest(this.url, urlParams, request, cacheTtl);

@@ -12,46 +12,46 @@ import { PatientProgramResourceService } from '../../../etl-api/patient-program-
 export class FormVisitTypeSearchComponent implements OnInit, OnDestroy {
 
     public programVisitConfig: any[];
-    public mainFilterType: string = '';
+    public mainFilterType = '';
     public visitTypeList: any = [];
-    public allFormsList: any [];
+    public allFormsList: any[];
     public formList: any = [];
     public encounterTypeList: any = [];
     public secondFilters: any = [];
     public selectedFilterArray: any = [];
-    public showVisitResults: boolean = false;
-    public showFormResults: boolean = false;
+    public showVisitResults = false;
+    public showFormResults = false;
     public visitTypeResult: any = [];
     public formTypeResult: any = [];
     public secondaryFilter: any;
 
-     constructor(
-     private _formListService: FormListService,
-     private _patientProgramService: PatientProgramResourceService) {}
+    constructor(
+        private _formListService: FormListService,
+        private _patientProgramService: PatientProgramResourceService) { }
 
-  public ngOnInit() {
-    this.getProgramsVisitConfig();
-    // console.log('Form List', formList);
-    this.getallFormsList();
-  }
-     public ngOnDestroy() {
+    public ngOnInit() {
+        this.getProgramsVisitConfig();
+        // console.log('Form List', formList);
+        this.getallFormsList();
+    }
+    public ngOnDestroy() {
 
     }
 
     public getProgramsVisitConfig() {
 
         this._patientProgramService.getAllProgramVisitConfigs()
-        .subscribe((response) => {
-              if (response) {
+            .subscribe((response) => {
+                if (response) {
                     this.programVisitConfig = JSON.parse(JSON.stringify(response));
                     this.sortVisitList();
-              }
-        });
+                }
+            });
 
     }
 
-     public selectMainFilter($event) {
-        let mainFilter = $event.target.value;
+    public selectMainFilter($event) {
+        const mainFilter = $event.target.value;
 
         if (mainFilter === 'visitType') {
             this.secondFilters = _.uniq(this.visitTypeList);
@@ -71,18 +71,18 @@ export class FormVisitTypeSearchComponent implements OnInit, OnDestroy {
 
     public selectSecondaryFilter(secondaryFilter) {
 
-        if ( secondaryFilter === 'all') {
+        if (secondaryFilter === 'all') {
             /*  if one has selected all as the second filter
                 then load the selected filter array with all
                 the options
             */
-            let secondFilters = _.uniq(this.secondFilters);
+            const secondFilters = _.uniq(this.secondFilters);
             this.selectedFilterArray = secondFilters;
 
-        }else {
+        } else {
 
-             let secondFilter = secondaryFilter;
-             this.selectedFilterArray.push(secondFilter);
+            const secondFilter = secondaryFilter;
+            this.selectedFilterArray.push(secondFilter);
 
         }
 
@@ -92,53 +92,53 @@ export class FormVisitTypeSearchComponent implements OnInit, OnDestroy {
 
     public getallFormsList() {
 
-         this._formListService.getFormList().subscribe((formList) => {
-             if (formList) {
-                 this.allFormsList = formList;
+        this._formListService.getFormList().subscribe((formList) => {
+            if (formList) {
+                this.allFormsList = formList;
 
-                 this.sortFormsList(formList);
-             }
-         });
+                this.sortFormsList(formList);
+            }
+        });
 
-   }
+    }
 
-   public sortFormsList(allForms) {
+    public sortFormsList(allForms) {
 
-         let formTrackArray = [];
+        const formTrackArray = [];
 
-         if (allForms.length > 0) {
-              _.each(allForms, ( form: any, index) => {
-                    // console.log('form', form);
-                    if (_.includes(formTrackArray, form.encounterType.uuid )  === false) {
+        if (allForms.length > 0) {
+            _.each(allForms, (form: any, index) => {
+                // console.log('form', form);
+                if (_.includes(formTrackArray, form.encounterType.uuid) === false) {
 
-                        this.formList.push({
-                            'uuid': form.encounterType.uuid,
-                            'name': form.display
+                    this.formList.push({
+                        'uuid': form.encounterType.uuid,
+                        'name': form.display
 
-                        });
+                    });
 
-                        formTrackArray.push(form.encounterType.uuid);
+                    formTrackArray.push(form.encounterType.uuid);
 
-                    }
-              });
+                }
+            });
 
-              this.orderFilterByAlphabetAsc(this.formList);
-         }
+            this.orderFilterByAlphabetAsc(this.formList);
+        }
 
-   }
+    }
 
     public orderFilterByAlphabetAsc(filter) {
 
-         filter.sort((a: any, b: any) => {
-                if (a.name < b.name) {
-                    return -1;
-                } else if (a.name > b.name) {
-                    return 1;
-                } else {
-                    return 0;
-                }
-                });
-         return filter;
+        filter.sort((a: any, b: any) => {
+            if (a.name < b.name) {
+                return -1;
+            } else if (a.name > b.name) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
+        return filter;
 
     }
 
@@ -153,17 +153,17 @@ export class FormVisitTypeSearchComponent implements OnInit, OnDestroy {
 
     private sortVisitList() {
 
-        let programVisitConfig = this.programVisitConfig;
-        let visitTrackArray = [];
+        const programVisitConfig = this.programVisitConfig;
+        const visitTrackArray = [];
 
         _.each(programVisitConfig, (program: any) => {
-            let visitTypes = program.visitTypes;
+            const visitTypes = program.visitTypes;
 
             _.each(visitTypes, (visitType: any) => {
 
-                let encounterTypes = visitType.encounterTypes;
+                const encounterTypes = visitType.encounterTypes;
                 // console.log('Visit Type', visitType);
-                if ( _.includes(visitTrackArray , visitType.uuid ) === false) {
+                if (_.includes(visitTrackArray, visitType.uuid) === false) {
 
                     this.visitTypeList.push({
                         'uuid': visitType.uuid,
@@ -183,39 +183,35 @@ export class FormVisitTypeSearchComponent implements OnInit, OnDestroy {
 
     private getResultData() {
 
-        let programsVisitConf = this.programVisitConfig;
-        let selectedFilterArray = this.selectedFilterArray;
+        const programsVisitConf = this.programVisitConfig;
+        const selectedFilterArray = this.selectedFilterArray;
         this.visitTypeResult = [];
         this.formTypeResult = [];
-        let formResult  = [];
-        let mainFilter = this.mainFilterType;
-        let formTrackArray = [];
+        const formResult = [];
+        const mainFilter = this.mainFilterType;
+        const formTrackArray = [];
 
         _.each(selectedFilterArray, (filterItem: any) => {
-            let uuid = filterItem.uuid;
-            let name = filterItem.name;
-            // console.log('Filter Item', filterItem);
-            // console.log('Filter Item Type', typeof filterItem);
+            const uuid = filterItem.uuid;
+            const name = filterItem.name;
             _.each(programsVisitConf, (visitProgram: any) => {
-                let program = visitProgram.name;
-                let visitTypes = visitProgram.visitTypes;
+                const program = visitProgram.name;
+                const visitTypes = visitProgram.visitTypes;
                 _.each(visitTypes, (visitType: any) => {
-                    // console.log('Visit Type Name', visitType.name);
-                    // console.log('Visit Type', typeof visitType.name);
-                    let visitUuid = visitType.uuid;
-                    let visitTypeName = visitType.name;
-                    let allowedIf = visitType.allowedIf;
-                    let reason = visitType.message;
-                    let encounterTypes = visitType.encounterTypes;
+                    const visitUuid = visitType.uuid;
+                    const visitTypeName = visitType.name;
+                    const allowedIf = visitType.allowedIf;
+                    const reason = visitType.message;
+                    const encounterTypes = visitType.encounterTypes;
                     if (mainFilter === 'visitType') {
 
                         if (uuid === visitUuid) {
                             this.visitTypeResult.push({
-                                        'program': program,
-                                        'visitType': visitTypeName,
-                                        'encounterType': encounterTypes,
-                                        'condition': reason
-                                    });
+                                'program': program,
+                                'visitType': visitTypeName,
+                                'encounterType': encounterTypes,
+                                'condition': reason
+                            });
 
                         }
 
@@ -223,45 +219,45 @@ export class FormVisitTypeSearchComponent implements OnInit, OnDestroy {
 
                     if (mainFilter === 'form') {
 
-                           // console.log('Form selected');
-                           // loop through encounters
-                           _.each(encounterTypes, (encounterType: any) => {
-                                let encounterUuid = encounterType.uuid;
-                                let encounterName = encounterType.display;
+                        // loop through encounters
+                        _.each(encounterTypes, (encounterType: any) => {
+                            // console.log('Form selected');
+                            const encounterUuid = encounterType.uuid;
+                            const encounterName = encounterType.display;
 
-                                // console.log('Form Result', formResult);
+                            // console.log('Form Result', formResult);
 
-                                if (_.includes(formTrackArray , encounterUuid) === false) {
-                                      if (encounterUuid === uuid) {
+                            if (_.includes(formTrackArray, encounterUuid) === false) {
+                                if (encounterUuid === uuid) {
 
-                                            this.formTypeResult.push({
-                                                'form': name,
-                                                'formUuid': encounterUuid,
-                                                'program': program,
-                                                'visitType': [visitTypeName],
-                                                'condition': reason
-                                            });
+                                    this.formTypeResult.push({
+                                        'form': name,
+                                        'formUuid': encounterUuid,
+                                        'program': program,
+                                        'visitType': [visitTypeName],
+                                        'condition': reason
+                                    });
 
-                                            formTrackArray.push(encounterUuid);
+                                    formTrackArray.push(encounterUuid);
 
-                                      }
+                                }
 
-                                 } else {
+                            } else {
 
-                                     // console.log('Contains encounter uuid');
+                                // console.log('Contains encounter uuid');
 
-                                     _.each(this.formTypeResult, (form: any , index) => {
-                                             let formUuid = form.formUuid;
-                                             if (formUuid === uuid) {
+                                _.each(this.formTypeResult, (form: any, index) => {
+                                    const formUuid = form.formUuid;
+                                    if (formUuid === uuid) {
 
-                                                   form.visitType.push(visitTypeName);
+                                        form.visitType.push(visitTypeName);
 
-                                             }
-                                     });
+                                    }
+                                });
 
                             }
 
-                           });
+                        });
 
                     }
 

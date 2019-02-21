@@ -1,6 +1,4 @@
 
-import { MockBackend } from '@angular/http/testing';
-import { Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 import { TestBed, inject, async } from '@angular/core/testing';
 
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
@@ -28,24 +26,15 @@ describe('Component: Contacts Unit Tests', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        MockBackend,
         PatientService,
         PatientProgramService,
         ProgramService,
         RoutesProviderService,
         ProgramResourceService,
         ProgramEnrollmentResourceService,
-        BaseRequestOptions,
         FakeAppFeatureAnalytics,
         ContactsComponent,
         EncounterResourceService,
-        {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
         {
           provide: AppFeatureAnalytics,
           useClass: FakeAppFeatureAnalytics

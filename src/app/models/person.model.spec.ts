@@ -2,13 +2,12 @@
 
 // import { TestBed, async, inject, describe, it, expect } from '@angular/core/testing';
 
-import { Person } from './person.model';
-
+import {Person} from './person.model';
 
 
 describe('Model: Person', () => {
 
-  let existingPerson: any = {
+  const existingPerson: any = {
     uuid: 'uuid',
     display: 'the person',
     gender: 'gender',
@@ -19,7 +18,7 @@ describe('Model: Person', () => {
   };
 
   it('should wrap openmrs person for display correctly', () => {
-    let wrappedPerson: Person = new Person(existingPerson);
+    const wrappedPerson: Person = new Person(existingPerson);
     expect(wrappedPerson.uuid).toEqual(existingPerson.uuid);
     expect(wrappedPerson.display).toEqual(existingPerson.display);
     expect(wrappedPerson.gender).toEqual(existingPerson.gender);

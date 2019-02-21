@@ -1,87 +1,75 @@
 import { TestBed, async, inject } from '@angular/core/testing';
-import {
-    BaseRequestOptions, Http, HttpModule, Response,
-    ResponseOptions, RequestMethod, ResponseType
-} from '@angular/http';
-import { MockBackend } from '@angular/http/testing';
 
 import { FormOrderMetaDataService } from './form-order-metadata.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 class MockError extends Response implements Error {
     name: any;
     message: any;
 }
 describe('Form Order Metadata Service', () => {
+    let httpMock: HttpTestingController;
+    let service: FormOrderMetaDataService;
+
     beforeEach(() => {
         TestBed.configureTestingModule({
             declarations: [],
             providers: [
                 FormOrderMetaDataService,
-                MockBackend,
-                LocalStorageService,
-                BaseRequestOptions,
-                {
-                    provide: Http,
-                    useFactory: (backend, options) => new Http(backend, options),
-                    deps: [MockBackend, BaseRequestOptions]
-                }
+                LocalStorageService
             ],
             imports: [
-                HttpModule
+                HttpClientTestingModule
             ]
         });
+        httpMock = TestBed.get(HttpTestingController);
+        service = TestBed.get(FormOrderMetaDataService);
     });
 
     afterEach(() => {
         localStorage.clear();
     });
 
-    it('should be defined',
-        inject([FormOrderMetaDataService], (service: FormOrderMetaDataService) => {
-            expect(service).toBeTruthy();
-        })
-    );
+    it('should be defined', (() => {
+        expect(service).toBeTruthy();
+    }));
     describe('Favorite Helper functions', () => {
-        it('should be favorite a form when setFavouriteForm is called',
-            inject([FormOrderMetaDataService], (service: FormOrderMetaDataService) => {
-                service.setFavouriteForm('form1');
-                let favorites = JSON.parse(localStorage.getItem('formNames'));
-                expect(favorites).toBeTruthy();
-                expect(favorites[0].name).toBe('form1');
-            })
+        it('should be favorite a form when setFavouriteForm is called', () => {
+            service.setFavouriteForm('form1');
+            const favorites = JSON.parse(localStorage.getItem('formNames'));
+            expect(favorites).toBeTruthy();
+            expect(favorites[0].name).toBe('form1');
+        }
         );
-        it('should return a list of favorites when getFavouriteForm is called',
-            inject([FormOrderMetaDataService], (service: FormOrderMetaDataService) => {
-                localStorage.setItem('formNames',
-                    JSON.stringify([{ name: 'form1' }, { name: 'form2' }]));
-                let favorites = service.getFavouriteForm();
-                expect(favorites).toBeTruthy();
-                expect(favorites[0].name).toBe('form1');
-            })
+        it('should return a list of favorites when getFavouriteForm is called', () => {
+            localStorage.setItem('formNames',
+                JSON.stringify([{ name: 'form1' }, { name: 'form2' }]));
+            const favorites = service.getFavouriteForm();
+            expect(favorites).toBeTruthy();
+            expect(favorites[0].name).toBe('form1');
+        }
         );
-        it('should return an empty list if no favorites are set when getFavouriteForm is called',
-            inject([FormOrderMetaDataService], (service: FormOrderMetaDataService) => {
-                let favorites = service.getFavouriteForm();
-                expect(favorites).toBeTruthy();
-                expect(favorites.length).toBe(0);
-            })
+        it('should return an empty list if no favorites are set when getFavouriteForm is called', () => {
+            const favorites = service.getFavouriteForm();
+            expect(favorites).toBeTruthy();
+            expect(favorites.length).toBe(0);
+        }
         );
 
-        it('should remove a favorite when removeFavouriteForm',
-            inject([FormOrderMetaDataService], (service: FormOrderMetaDataService) => {
-                localStorage.setItem('formNames',
-                    JSON.stringify([{ name: 'form1' }, { name: 'form2' }]));
-                service.removeFavouriteForm('form1');
-                let favorites = service.getFavouriteForm();
-                expect(favorites).toBeTruthy();
-                expect(favorites.length).toBe(1);
-            })
+        it('should remove a favorite when removeFavouriteForm', () => {
+            localStorage.setItem('formNames',
+                JSON.stringify([{ name: 'form1' }, { name: 'form2' }]));
+            service.removeFavouriteForm('form1');
+            const favorites = service.getFavouriteForm();
+            expect(favorites).toBeTruthy();
+            expect(favorites.length).toBe(1);
+        }
         );
 
     });
 
     describe('get form order metadata', () => {
-        let forms = [
+        const forms = [
             {
                 'name': 'Ampath POC Triage Encounter Form'
             },
@@ -94,46 +82,44 @@ describe('Form Order Metadata Service', () => {
             {
                 'name': 'AMPATH POC Pediatric Return Visit Form'
             }];
-        it('should call the right endpoint', async(inject(
-            [FormOrderMetaDataService, MockBackend], (service, mockBackend) => {
-                mockBackend.connections.subscribe(conn => {
-                    expect(conn.request.url).toBe('./assets/schemas/form-order.json');
-                    expect(conn.request.method).toBe(RequestMethod.Get);
-                    conn.mockRespond(new Response(
-                        new ResponseOptions({ body: JSON.stringify(forms) })));
-                });
+        it('should call the right endpoint', () => {
 
-                const result = service.getDefaultFormOrder();
-            })));
-        it('should parse response of the forms metadata', async(inject(
-            [FormOrderMetaDataService, MockBackend], (service, mockBackend) => {
-                let uuid = 'uuid';
-                mockBackend.connections.subscribe(conn => {
-                    conn.mockRespond(new Response(
-                        new ResponseOptions({ body: JSON.stringify(forms) })));
-                });
+            const result = service.getDefaultFormOrder().subscribe();
 
-                const result = service.getDefaultFormOrder();
+            const req = httpMock.expectOne('./assets/schemas/form-order.json');
+            expect(req.request.method).toBe('GET');
+            expect(req.request.url).toBe('./assets/schemas/form-order.json');
+            req.flush({ body: JSON.stringify(forms) });
+        });
 
-                result.subscribe(res => {
-                    expect(res).toBeDefined();
-                });
-            })));
+        it('should parse response of the forms metadata', () => { //
+            const uuid = 'uuid';
 
-        it('should parse errors', async(inject(
-            [FormOrderMetaDataService, MockBackend], (service, mockBackend) => {
-                let opts = { type: ResponseType.Error, status: 404, statusText: 'val' };
-                let responseOpts = new ResponseOptions(opts);
-                mockBackend.connections.subscribe(conn => {
-                    conn.mockError(new MockError(responseOpts));
-                });
-                const result = service.getDefaultFormOrder();
+            const result = service.getDefaultFormOrder();
 
-                result.subscribe(res => {
-                }, (err) => {
-                    expect(err.status).toBe(404);
-                });
-            })));
+            result.subscribe(res => {
+                expect(res).toBeDefined();
+            });
+
+            const req = httpMock.expectOne('./assets/schemas/form-order.json');
+            expect(req.request.method).toBe('GET');
+            expect(req.request.url).toBe('./assets/schemas/form-order.json');
+            req.flush({ body: JSON.stringify(forms) });
+        });
+
+        it('should parse errors', () => {
+            const opts = { type: Error, status: 404, statusText: 'val' };
+            const result = service.getDefaultFormOrder();
+
+            result.subscribe(res => {
+            }, (err) => {
+                expect(err.status).toBe(404);
+            });
+
+            const req = httpMock.expectOne('./assets/schemas/form-order.json');
+            expect(req.request.method).toBe('GET');
+            expect(req.request.url).toBe('./assets/schemas/form-order.json');
+            req.flush({ body: JSON.stringify(opts) });
+        });
     });
 });
-

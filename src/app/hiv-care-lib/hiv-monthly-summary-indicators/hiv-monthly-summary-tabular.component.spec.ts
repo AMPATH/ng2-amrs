@@ -5,8 +5,6 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { AgGridModule } from 'ag-grid-angular/main';
-
-;
 import { HivSummaryMonthlyTabularComponent } from './hiv-monthly-summary-tabular.component';
 import { Observable, of } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -21,7 +19,6 @@ class MockActivatedRoute {
 describe('HivSummaryMonthlyTabularComponent: ', () => {
   let fixture: ComponentFixture<HivSummaryMonthlyTabularComponent>;
   let comp: HivSummaryMonthlyTabularComponent;
-  let el;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -49,7 +46,7 @@ describe('HivSummaryMonthlyTabularComponent: ', () => {
     });
   }));
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 
@@ -60,7 +57,7 @@ describe('HivSummaryMonthlyTabularComponent: ', () => {
 
   it('should convert hiv summary monthly section definition object to ag-grid column definition object',
     () => {
-      let sectionsDef = [
+      const sectionsDef = [
         {
           label: 'patients',
           name: 'patients',
@@ -76,10 +73,10 @@ describe('HivSummaryMonthlyTabularComponent: ', () => {
       ];
 
       fixture.detectChanges();
-      let component = fixture.componentInstance;
+      const component = fixture.componentInstance;
       //  component.setColumns(sectionsDef);
 
-      let expected = [
+      const expected = [
         {
           headerName: 'Location',
           field: 'location',

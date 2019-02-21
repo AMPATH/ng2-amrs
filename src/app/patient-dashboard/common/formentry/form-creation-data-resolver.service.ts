@@ -30,17 +30,17 @@ export class FormCreationDataResolverService implements Resolve<any> {
 
   public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<any> | any {
 
-    let selectedFormUuid = route.params['formUuid'];
-    let selectedEncounter = route.queryParams['encounter'];
-    let selectedVisitUuid = route.queryParams['visitUuid'];
-    let patientUuid = route.parent.params['patient_uuid'];
+    const selectedFormUuid = route.params['formUuid'];
+    const selectedEncounter = route.queryParams['encounter'];
+    const selectedVisitUuid = route.queryParams['visitUuid'];
+    const patientUuid = route.parent.params['patient_uuid'];
     return new Promise((resolve, reject) => {
       this.formSchemaService.getFormSchemaByUuid(selectedFormUuid).subscribe(
         (compiledFormSchema) => {
           if (compiledFormSchema) {
             this.upgradeConflictingValidations(compiledFormSchema);
 
-            let dataRequiredToLoadForm = {
+            const dataRequiredToLoadForm = {
               encounter: undefined,
               schema: compiledFormSchema,
               visit: undefined,
@@ -160,7 +160,7 @@ export class FormCreationDataResolverService implements Resolve<any> {
   private getVisitWithEncounters(visitUuid): Promise<any> {
     return new Promise((resolve, reject) => {
       if (visitUuid) {
-        let v = 'custom:(encounters:(obs,uuid,patient:(uuid,uuid),' +
+        const v = 'custom:(encounters:(obs,uuid,patient:(uuid,uuid),' +
           'encounterDatetime,form:(uuid,name),encounterType:(uuid,name),' +
           'encounterProviders:(uuid,uuid,provider:(uuid,name),' +
           'encounterRole:(uuid,name)),location:(uuid,name),' +
@@ -197,8 +197,8 @@ export class FormCreationDataResolverService implements Resolve<any> {
   }
 
   private upgradeConflictingValidations(schema) {
-    for (let page of schema.pages) {
-      for (let section of page.sections) {
+    for (const page of schema.pages) {
+      for (const section of page.sections) {
         this.traverseQuestions(section.questions, schema.encounterType);
       }
     }
@@ -209,7 +209,7 @@ export class FormCreationDataResolverService implements Resolve<any> {
       'If yes for siblings < 18 months, are they registered in pediatric HIV clinic:');
   }
   private traverseQuestions(questions, encounterType) {
-    for (let question of questions) {
+    for (const question of questions) {
       switch (question.type) {
         case 'obsGroup':
           this.traverseQuestions(question.questions, encounterType);

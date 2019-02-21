@@ -17,11 +17,11 @@ export class PatientsRequiringVLBaseComponent implements OnInit {
     public data = [];
     public filteredData = [];
 
-    public isLoadingReport: boolean = false;
-    public encounteredError: boolean = false;
-    public errorMessage: string = '';
+    public isLoadingReport = false;
+    public encounteredError = false;
+    public errorMessage = '';
     public overrideColumns: Array<any> = [];
-    public _locations: string = '';
+    public _locations = '';
     public currentVLDate: Date;
     private _startDate: Date = Moment().subtract(1, 'months').toDate();
     public get startDate(): Date {
@@ -101,7 +101,7 @@ export class PatientsRequiringVLBaseComponent implements OnInit {
     public  transformVl(vl) {
         if (vl === 0 || vl === '0') {
             return 'LDL';
-        }else {
+        } else {
             return vl;
      }
 
@@ -151,7 +151,7 @@ export class PatientsRequiringVLBaseComponent implements OnInit {
         if (!currentVLDate) {
             this.filteredData = this.data;
         } else {
-            let filteredPatients = this.data.filter((patient) => {
+            const filteredPatients = this.data.filter((patient) => {
                 return Moment(patient.current_vl_date, 'DD-MM-YYYY')
                     .isBefore(Moment(currentVLDate, 'YYYY-MM-DD'));
             });

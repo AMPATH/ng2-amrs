@@ -1,34 +1,28 @@
 
 import { TestBed, async, inject } from '@angular/core/testing';
-import { MockBackend, MockConnection } from '@angular/http/testing';
-import { Http, BaseRequestOptions, ResponseOptions, Response, RequestMethod } from '@angular/http';
-
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { MedicationHistoryResourceService } from './medication-history-resource.service';
+import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('Medication Resource Service Unit Tests', () => {
 
-  let backend: MockBackend, patientUuid = 'de662c03-b9af-4f00-b10e-2bda0440b03b';
-  let report = 'medical-history-report';
+  // tslint:disable-next-line:prefer-const
+  let patientUuid = 'de662c03-b9af-4f00-b10e-2bda0440b03b';
+  const report = 'medical-history-report';
+  let service, httpMock;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
       providers: [
-        MockBackend,
-        BaseRequestOptions,
-        {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
         MedicationHistoryResourceService,
         AppSettingsService,
         LocalStorageService
       ]
     });
+    service = TestBed.get(MedicationHistoryResourceService);
+    httpMock = TestBed.get(HttpTestingController);
 
   });
 
@@ -39,42 +33,38 @@ describe('Medication Resource Service Unit Tests', () => {
   it('should be injected with all dependencies',
     inject([MedicationHistoryResourceService],
       (medicationHistoryResourceService: MedicationHistoryResourceService) => {
-      expect(medicationHistoryResourceService).toBeTruthy();
-    }));
+        expect(medicationHistoryResourceService).toBeTruthy();
+      }));
 
   it('should make API call with the correct url parameters', () => {
-    backend = TestBed.get(MockBackend);
-    let params = {
+    const params = {
       report: 'medical-history-report',
       patientUuId: 'uuid'
     };
+    service.getReport(report, patientUuid).subscribe((data) => { },
+      (error: Error) => {
+        expect(error).toBeTruthy();
 
-    backend.connections.subscribe((connection: MockConnection) => {
-
-      expect(connection.request.method).toBe(RequestMethod.Get);
-      expect(connection.request.url).toMatch('');
-      expect(connection.request.url)
-        .toBe('https://amrsreporting.ampath.or.ke:8003/etl/get-report-by-report-name?' +
-          'report=medical-history-report&patientUuid=6662626'
-        );
-      expect(connection.request.url).toContain('report=' + params.report);
-      expect(connection.request.url).toContain('patientUuId=' + params.patientUuId);
-    });
-
+      });
+    const appSettingsService = TestBed.get(AppSettingsService);
+    const req = httpMock.expectOne(appSettingsService.getEtlServer() + '/patient/'
+      + patientUuid + '/medical-history-report');
+    expect(req.request.url).toMatch('');
+    expect(req.request.method).toBe('GET');
+    expect(req.request.url).toContain(params.report);
   });
+
   it('should return the correct parameters from the api',
-    async(inject([MedicationHistoryResourceService, MockBackend],
-      (medicationHistoryResourceService: MedicationHistoryResourceService,
-       mockBackend: MockBackend) => {
+    async(() => {
+      const appSettingsService = TestBed.get(AppSettingsService);
+      service.getReport(report, patientUuid).subscribe((data) => { },
+        (error: Error) => {
+          expect(error).toBeTruthy();
 
-        mockBackend.connections.subscribe((c) =>
-          c.mockError(new Error('An error occured while processing the request')));
-
-        medicationHistoryResourceService.getReport(report , patientUuid).subscribe((data) => { },
-          (error: Error) => {
-            expect(error).toBeTruthy();
-
-          });
-      })));
+        });
+      const req = httpMock.expectOne(appSettingsService.getEtlServer() + '/patient/'
+        + patientUuid + '/medical-history-report');
+      req.flush({ type: Error, status: 404, statusText: 'An error occured while processing the request' });
+    }));
 
 });

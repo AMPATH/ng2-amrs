@@ -3,8 +3,8 @@ import {take} from 'rxjs/operators';
 import { Component, OnInit, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { OncologyReportService } from '../../../../etl-api/oncology-reports.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { OncolgyMonthlySummaryIndicatorsResourceService }
-from '../../../../etl-api/oncology-summary-indicators-resource.service';
+import { OncolgyMonthlySummaryIndicatorsResourceService
+} from '../../../../etl-api/oncology-summary-indicators-resource.service';
 import * as Moment from 'moment';
 import * as _ from 'lodash';
 
@@ -15,24 +15,30 @@ import * as _ from 'lodash';
 })
 export class OncologyMonthlyIndicatorSummaryComponent implements OnInit, AfterViewInit {
 
-  public tittle: string  = '';
+  public title = '';
   public monthlySummary: any = [];
   public params: any;
-  public reportType: string = '';
+  public reportType = '';
   public startDate: string = Moment().startOf('year').format('YYYY-MM-DD');
   public endDate: string = Moment().endOf('month').format('YYYY-MM-DD');
-  public startAge: number = 0;
-  public endAge: number = 120;
-  public indicators: string = '';
+  public startAge = 0;
+  public endAge = 120;
+  public indicators = '';
+  public period = 'monthly';
   public specificOncologyReport: any;
-  public reportUuid: string = '';
-  public reportIndex: number = 0;
+  public reportUuid = '';
+  public reportIndex = 0;
   public report: any;
   public currentReport: any;
   public gender: any = ['M', 'F'];
   public busyIndicator: any = {
     busy: false,
     message: 'Please wait...' // default message
+  };
+
+  public errorObj = {
+    'message': '',
+    'isError': false
   };
 
   constructor(
@@ -68,7 +74,7 @@ export class OncologyMonthlyIndicatorSummaryComponent implements OnInit, AfterVi
   }
 
   public setReportData(params: any) {
-       this.tittle = params.report;
+       this.title = params.report;
        this.reportType = params.type;
        if (params.startDate) {
         this.startDate = params.startDate;
@@ -82,13 +88,16 @@ export class OncologyMonthlyIndicatorSummaryComponent implements OnInit, AfterVi
        if (params.endAge) {
         this.endAge = params.endAge;
        }
+       if (params.period) {
+         this.period = params.period;
+       }
        this.indicators = params.indicators;
 
        if (typeof params.gender === 'string') {
-            let genderArray = [];
+            const genderArray = [];
             genderArray.push(params.gender);
             this.gender = genderArray;
-       }else {
+       } else {
         this.gender = params.gender;
        }
 
@@ -104,13 +113,13 @@ export class OncologyMonthlyIndicatorSummaryComponent implements OnInit, AfterVi
   }
 
   public setQueryParams() {
-
     this.params = {
       'startAge': this.params.startAge,
       'endAge': this.params.endAge,
       'startDate': this.params.startDate,
       'endDate': this.params.endDate,
       'gender': this.params.gender,
+      'period': this.params.period,
       'type': this.params.type,
       'reportUuid': this.params.reportUuid,
       'indicators' : this.params.indicators,
@@ -135,6 +144,12 @@ export class OncologyMonthlyIndicatorSummaryComponent implements OnInit, AfterVi
     take(1)).subscribe((result) => {
       this.monthlySummary = result.result;
       this.endLoading();
+    }, (err) => {
+      this.endLoading();
+      this.errorObj = {
+        'isError': true,
+        'message': err.error.message ? err.error.message : ''
+      };
     });
 
   }

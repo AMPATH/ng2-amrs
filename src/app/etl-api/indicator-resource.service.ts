@@ -26,15 +26,15 @@ export class IndicatorResourceService {
   }
 
   public getUrlRequestParams(params): HttpParams {
-    let urlParams: HttpParams = new HttpParams()
+    const urlParams: HttpParams = new HttpParams()
     .set('report', params.report);
     return urlParams;
   }
 
   public getReportIndicators(params) {
-    let urlParams = this.getUrlRequestParams(params);
-    let url = this.getUrl();
-    let request = this.http.get<any>(url, {
+    const urlParams = this.getUrlRequestParams(params);
+    const url = this.getUrl();
+    const request = this.http.get<any>(url, {
       params: urlParams
     }).pipe(
       map((response) => {

@@ -18,13 +18,13 @@ export class PatientIdentifierComponent implements OnInit {
         this.hasPreferredIdentifier = true;
       }
     }
-  };
+  }
 
   public get identifiers(): Array<any> {
     return this._identifiers;
-  };
+  }
 
-  public hasPreferredIdentifier: boolean = false;
+  public hasPreferredIdentifier = false;
   private _identifiers: Array<{}> = [];
 
   constructor() {

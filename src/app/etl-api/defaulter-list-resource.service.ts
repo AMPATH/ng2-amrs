@@ -27,7 +27,8 @@ export class DefaulterListResourceService {
     .set('defaulterPeriod', params.defaulterPeriod)
     .set('maxDefaultPeriod', params.maxDefaultPeriod)
     .set('locationUuids', params.locationUuids)
-    .set('limit', params.limit);
+    .set('limit', params.limit)
+    .set('programUuid', params.programUuid);
     const url = this.getUrl('defaulter-list');
     const request = this.http.get<any>(url, {
       params: urlParams

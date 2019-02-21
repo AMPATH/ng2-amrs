@@ -7,9 +7,9 @@ export class Moh731ResourceService {
   }
 
   public getMoh731Report(locationUuids: string, startDate: string, endDate: string,
-                         isLegacyReport: boolean, isAggregated: boolean): Observable<any> {
-    let subj = new Subject<any>();
-    let that = this;
+    isLegacyReport: boolean, isAggregated: boolean): Observable<any> {
+    const subj = new Subject<any>();
+    const that = this;
     setTimeout(() => {
       subj.error('A serious error occured');
       // subj.next(that.getTestData());

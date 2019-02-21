@@ -28,7 +28,7 @@ export class PatientReferralService {
   }
 
   public createUpdatePatientEnrollment(payload) {
-    let enrollPayload = this.programService.createEnrollmentPayload(
+    const enrollPayload = this.programService.createEnrollmentPayload(
       payload.programUuid,
       payload.patient,
       payload.dateEnrolled || this.toOpenmrsDateFormat(new Date()),
@@ -49,10 +49,10 @@ export class PatientReferralService {
   }
 
   public getEncounterProvider(encounterUuid: string): Observable<any> {
-    let subject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+    const subject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
     this.encounterResourceService.getEncounterByUuid(encounterUuid).pipe(
       take(1)).subscribe((encounter) => {
-        let encounterProvider: any = _.first(encounter.encounterProviders);
+        const encounterProvider: any = _.first(encounter.encounterProviders);
         if (encounterProvider) {
           subject.next(encounterProvider.provider);
         }
@@ -81,7 +81,7 @@ export class PatientReferralService {
   }
 
   public fetchAllProgramManagementConfigs(patientUuid): Observable<any> {
-    let subject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+    const subject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
     this.patientProgramResourceService.getPatientProgramVisitConfigs(patientUuid).pipe(
       take(1)).subscribe((programConfigs) => {
       subject.next(programConfigs);
@@ -90,8 +90,8 @@ export class PatientReferralService {
   }
 
   public getReferralPatientList(params: any) {
-    let referralInfo: BehaviorSubject<any> = new BehaviorSubject<any>([]);
-    let referralObservable = this.patientReferralResourceService
+    const referralInfo: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+    const referralObservable = this.patientReferralResourceService
       .getPatientReferralPatientList({
       endDate: params.endDate,
       locationUuids: params.locationUuids,
@@ -113,17 +113,17 @@ export class PatientReferralService {
   }
 
   public getProgramWorkflows(programUuid) {
-    let subject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+    const subject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
     this.programService.getProgramWorkFlows(programUuid).take(1).subscribe((workflows: any[]) => {
-      let programWorkflows = _.filter(workflows, (w) => !w.retired);
+      const programWorkflows = _.filter(workflows, (w) => !w.retired);
       subject.next(programWorkflows.length > 0);
     });
     return subject;
   }
 
   public getProgramEnrollmentReferralLocation(enrollmentUuid: any) {
-    let referral: BehaviorSubject<any> = new BehaviorSubject<any>([]);
-    let referralObservable = this.patientReferralResourceService.getReferralByLocationUuid
+    const referral: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+    const referralObservable = this.patientReferralResourceService.getReferralByLocationUuid
     (enrollmentUuid);
 
     if (referralObservable === null) {
@@ -146,7 +146,7 @@ export class PatientReferralService {
   }
 
   private toOpenmrsDateFormat(dateToConvert: any): string {
-    let date = moment(dateToConvert);
+    const date = moment(dateToConvert);
     if (date.isValid()) {
       return date.subtract(3, 'm').format('YYYY-MM-DDTHH:mm:ssZ');
     }

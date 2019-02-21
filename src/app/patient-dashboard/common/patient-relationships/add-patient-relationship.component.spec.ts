@@ -1,7 +1,3 @@
-
-
-import { MockBackend } from '@angular/http/testing';
-import { Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 import { TestBed, inject, async } from '@angular/core/testing';
 
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
@@ -12,9 +8,11 @@ import { PatientService } from '../../services/patient.service';
 import { PatientRelationshipService } from './patient-relationship.service';
 import { PatientRelationshipTypeService } from './patient-relation-type.service';
 import { AddPatientRelationshipComponent } from './add-patient-relationship.component';
-import { ProgramWorkFlowResourceService
+import {
+    ProgramWorkFlowResourceService
 } from '../../../openmrs-api/program-workflow-resource.service';
-import { ProgramWorkFlowStateResourceService
+import {
+    ProgramWorkFlowStateResourceService
 } from '../../../openmrs-api/program-workflow-state-resource.service';
 
 describe('Component: AddRelationship Unit Tests', () => {
@@ -26,18 +24,7 @@ describe('Component: AddRelationship Unit Tests', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [
-                MockBackend,
-                BaseRequestOptions,
                 FakeAppFeatureAnalytics,
-
-                {
-                    provide: Http,
-                    useFactory: (backendInstance: MockBackend,
-                        defaultOptions: BaseRequestOptions) => {
-                        return new Http(backendInstance, defaultOptions);
-                    },
-                    deps: [MockBackend, BaseRequestOptions]
-                },
                 {
                     provide: AppFeatureAnalytics,
                     useClass: FakeAppFeatureAnalytics
@@ -51,8 +38,8 @@ describe('Component: AddRelationship Unit Tests', () => {
                 {
                     provide: PatientService
                 },
-              ProgramWorkFlowResourceService,
-              ProgramWorkFlowStateResourceService,
+                ProgramWorkFlowResourceService,
+                ProgramWorkFlowStateResourceService,
                 AppSettingsService,
                 LocalStorageService
             ]

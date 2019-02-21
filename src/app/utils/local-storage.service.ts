@@ -11,9 +11,9 @@ export class LocalStorageService {
   }
 
   public getObject(keyName: string): any {
-    let stored = window.localStorage.getItem(keyName);
+    const stored = window.localStorage.getItem(keyName);
     try {
-      let object = JSON.parse(stored);
+      const object = JSON.parse(stored);
       return object;
     } catch (error) {
       console.error(error);

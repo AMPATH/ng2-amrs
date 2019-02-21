@@ -10,10 +10,10 @@ export class HivPatientClinicalSummaryResourceService {
   }
 
   public fetchPatientSummary(patientUuid: string): Observable<any> {
-    let api: string = this.appSettingsService.getEtlServer() +
+    const api: string = this.appSettingsService.getEtlServer() +
       '/patient/' + patientUuid + '/hiv-patient-clinical-summary';
 
-    let params: HttpParams = new HttpParams()
+    const params: HttpParams = new HttpParams()
     .set('startIndex', 0 as any as string)
     .set('limit', 10 as any as string);
 

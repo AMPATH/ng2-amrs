@@ -1,4 +1,5 @@
-<h4 class="component-title"><span class="fa fa-medkit"></span> HIV Summary</h4>
+<h4 class="component-title"><span class="fa fa-medkit"></span> HIV Summary 
+  <span *ngIf="viremiaAlert" [ngClass]="{'label': true, 'label-danger': highViremia, 'label-warning': lowViremia}">{{viremiaAlert}}</span></h4>
 <div>
   <p-tabView>
     <p-tabPanel header="HIV Summary">

@@ -87,7 +87,7 @@
                   </ng-container>
                 </div>
                 <div style="margin-bottom: 12px;" class="col-md-4 cell">
-                  <label for="enrolledDate">Date Enrolled</label>
+                  <label for="enrolledDate">Date <span class="text-info" *ngIf="!isReferral">Enrolled</span><span class="text-info" *ngIf="isReferral">Referred</span></label>
                   <div>
                     <input class="form-control" id="enrolledDate" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" [ngModel]="dateEnrolled"
                       (ngModelChange)="saveEnrollmentDate($event)" [max]="maxDate" type="date" />

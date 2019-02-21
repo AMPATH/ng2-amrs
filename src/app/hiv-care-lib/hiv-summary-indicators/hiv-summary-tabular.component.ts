@@ -18,6 +18,7 @@ export class HivSummaryTabularComponent implements OnInit {
   public gridOptions: any = {
     columnDefs: []
   };
+  // tslint:disable-next-line:no-input-rename
   @Input('rowData')
   public data: Array<any> = [];
 
@@ -66,7 +67,7 @@ export class HivSummaryTabularComponent implements OnInit {
 
   public ngOnInit() { }
   public setColumns(sectionsData: Array<any>) {
-    let defs = [];
+    const defs = [];
     defs.push({
       headerName: 'Location',
       field: 'location',

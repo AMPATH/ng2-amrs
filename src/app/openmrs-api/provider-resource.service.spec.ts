@@ -1,128 +1,141 @@
 
-import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, async, inject } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
+import { TestBed, async, inject } from '@angular/core/testing';
 import { APP_BASE_HREF } from '@angular/common';
-import { MockBackend, MockConnection } from '@angular/http/testing';
 import { AppSettingsService } from '../app-settings/app-settings.service';
-import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@angular/http';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { ProviderResourceService } from './provider-resource.service';
 import { PersonResourceService } from './person-resource.service';
+import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
 
 // Load the implementations that should be tested
 
 describe('Service : ProviderResourceService Unit Tests', () => {
 
+  let providerResourceService: ProviderResourceService;
+  let httpMock: HttpTestingController;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [],
+      imports: [HttpClientTestingModule],
       declarations: [],
       providers: [
-        MockBackend,
-        BaseRequestOptions,
-        {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
         AppSettingsService,
         LocalStorageService,
         ProviderResourceService,
         PersonResourceService
       ],
     });
+
+    providerResourceService = TestBed.get(ProviderResourceService);
+    httpMock = TestBed.get(HttpTestingController);
+
   }));
   afterEach(() => {
+    httpMock.verify();
     TestBed.resetTestingModule();
   });
 
-  it('should be injected with all dependencies',
-    inject([ProviderResourceService, PersonResourceService],
-      (providerResourceService: ProviderResourceService,
-       personResourceService: PersonResourceService) => {
-        expect(providerResourceService).toBeTruthy();
-        expect(personResourceService).toBeTruthy();
-      }));
+  it('should be injected with all dependencies', () => {
+    expect(providerResourceService).toBeTruthy();
+  });
 
-  it('should return a provider when the correct uuid is provided', (done) => {
+  it('should have getUrl defined', () => {
+    expect(providerResourceService.getUrl()).toBeDefined();
+  });
+  it('should return a provider when the correct uuid is provided without v', (done) => {
 
-    let providerResourceService: ProviderResourceService = TestBed.get(ProviderResourceService);
-    let backend: MockBackend = TestBed.get(MockBackend);
-
-    let providerUuid = 'xxx-xxx-xxx-xxx';
-
-    backend.connections.subscribe((connection: MockConnection) => {
-
-      expect(connection.request.url).toContain('provider/' + providerUuid);
-      expect(connection.request.url).toContain('v=');
-      let options = new ResponseOptions({
-        body: JSON.stringify({
-        })
-      });
-      connection.mockRespond(new Response(options));
-    });
+    const providerUuid = 'xxx-xxx-xxx-xxx';
 
     providerResourceService.getProviderByUuid(providerUuid)
       .subscribe((response) => {
         done();
       });
+
+    const req = httpMock.expectOne(providerResourceService.getUrl() + '/' + providerUuid +
+      '?v=full');
+    expect(req.request.method).toBe('GET');
+    expect(req.request.urlWithParams).toContain('provider/' + providerUuid);
+    expect(req.request.urlWithParams).toContain('v=');
+    req.flush(JSON.stringify({}));
   });
-  it('should return a list of providers a matching search string is provided', (done) => {
+  it('should return a provider when the correct uuid is provided with v', (done) => {
 
-    let provideresourceService: ProviderResourceService = TestBed.get(ProviderResourceService);
-    let backend: MockBackend = TestBed.get(MockBackend);
+    const providerUuid = 'xxx-xxx-xxx-xxx';
 
-    let searchText = 'test';
-
-    backend.connections.subscribe((connection: MockConnection) => {
-
-      expect(connection.request.url).toContain('q=' + searchText);
-      expect(connection.request.url).toContain('v=');
-
-      let options = new ResponseOptions({
-        body: JSON.stringify({
-          results: [
-            {
-              uuid: 'uuid',
-              identifier: ''
-            }
-          ]
-        })
-      });
-      connection.mockRespond(new Response(options));
-    });
-
-    provideresourceService.searchProvider(searchText)
-      .subscribe((data) => {
-        expect(data.length).toBeGreaterThan(0);
+    providerResourceService.getProviderByUuid(providerUuid, false, '9')
+      .subscribe((response) => {
         done();
       });
 
+    const req = httpMock.expectOne(providerResourceService.getUrl() + '/' + providerUuid +
+      '?v=9');
+    expect(req.request.method).toBe('GET');
+    expect(req.request.urlWithParams).toContain('provider/' + providerUuid);
+    expect(req.request.urlWithParams).toContain('v=');
+    req.flush(JSON.stringify({}));
   });
-  it('should throw an error when server returns an error response', (done) => {
 
-    let providerResourceService: ProviderResourceService = TestBed.get(ProviderResourceService);
-    let backend: MockBackend = TestBed.get(MockBackend);
+  it('should return a list of providers a matching search string is provided without v', (done) => {
 
-    let searchText = 'test';
-
-    backend.connections.subscribe((connection: MockConnection) => {
-
-      expect(connection.request.url).toContain('q=' + searchText);
-      expect(connection.request.url).toContain('v=');
-
-      connection.mockError(new Error('An error occured while processing the request'));
-    });
+    const searchText = 'test';
+    const results = [
+      {
+        uuid: 'uuid',
+        identifier: ''
+      }
+    ];
 
     providerResourceService.searchProvider(searchText)
-      .subscribe((response) => {
-        },
-        (error: Error) => {
-          expect(error).toBeTruthy();
-          done();
-        });
+      .subscribe((data) => {
+        done();
+      });
+
+    const req = httpMock.expectOne(providerResourceService.getUrl() + '?q=' + searchText +
+      '&v=full');
+    expect(req.request.method).toBe('GET');
+    expect(req.request.urlWithParams).toContain('?q=' + searchText);
+    expect(req.request.urlWithParams).toContain('v=');
+    req.flush(JSON.stringify(results));
+
+  });
+  it('should return a list of providers a matching search string is provided with v', (done) => {
+
+    const searchText = 'test';
+    const results = [
+      {
+        uuid: 'uuid',
+        identifier: ''
+      }
+    ];
+
+    providerResourceService.searchProvider(searchText, false, '9')
+      .subscribe((data) => {
+        done();
+      });
+
+    const req = httpMock.expectOne(providerResourceService.getUrl() + '?q=' + searchText +
+      '&v=9');
+    expect(req.request.method).toBe('GET');
+    expect(req.request.urlWithParams).toContain('?q=' + searchText);
+    expect(req.request.urlWithParams).toContain('v=');
+    req.flush(JSON.stringify(results));
+
+  });
+  it('should throw an error when server returns an error response', () => {
+
+    const searchText = 'test';
+
+    providerResourceService.searchProvider(searchText).subscribe((res) => {
+      console.log('No Errors');
+    }, (err) => {
+      expect(err).toBe('404 - val');
+    });
+
+    const req = httpMock.expectOne(providerResourceService.getUrl() + '?q=' + searchText +
+      '&v=full');
+    expect(req.request.method).toBe('GET');
+    expect(req.request.urlWithParams).toContain('?q=' + searchText);
+    expect(req.request.urlWithParams).toContain('v=');
+    req.flush({ type: 'error', status: 404, statusText: 'val' });
   });
 });

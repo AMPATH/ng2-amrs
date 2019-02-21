@@ -1,34 +1,26 @@
 import { TestBed, async, inject } from '@angular/core/testing';
-import { MockBackend, MockConnection } from '@angular/http/testing';
-import { Http, BaseRequestOptions, ResponseOptions, Response, RequestMethod } from '@angular/http';
 import { DatePipe } from '@angular/common';
 
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { PatientProgramResourceService } from './patient-program-resource.service';
+import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('Patient Program Resource Service Unit Tests', () => {
-
-  let backend: MockBackend, patientUuid = '79803198-2d23-49cd-a7b3-4f672bd8f659';
-  let datePipe = new DatePipe('en-US');
-  let referenceDate: any = datePipe.transform(new Date(), 'yyyy-MM-dd');
+  let service, httpMock;
+  const patientUuid = '79803198-2d23-49cd-a7b3-4f672bd8f659';
+  const datePipe = new DatePipe('en-US');
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [ HttpClientTestingModule ],
       providers: [
-        MockBackend,
-        BaseRequestOptions,
-        {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
         PatientProgramResourceService,
         AppSettingsService,
         LocalStorageService
       ]
     });
+    service = TestBed.get(PatientProgramResourceService);
+    httpMock = TestBed.get(HttpTestingController);
 
   });
 
@@ -43,100 +35,58 @@ describe('Patient Program Resource Service Unit Tests', () => {
       }));
 
   it('should make API call to get program enrollment visit types for a certain patient', (done) => {
-    backend = TestBed.get(MockBackend);
-    let patientProgramResourceService: PatientProgramResourceService =
-      TestBed.get(PatientProgramResourceService);
-    let appsetting =
-      TestBed.get(AppSettingsService);
-
-    backend.connections.subscribe((connection: MockConnection) => {
-      expect(connection.request.method).toBe(RequestMethod.Get);
-      expect(connection.request.url)
-        .toEqual(
-        appsetting.getEtlRestbaseurl().trim() +
-        'patient/79803198-2d23-49cd-a7b3-4f672bd8f659' +
-        '/program/prog-uuid/enrollment/enroll-uuid' +
-        '?intendedLocationUuid=location-uuid'
-        );
-      let options = new ResponseOptions({
-        body: JSON.stringify({ uuid: 'uuid' })
-      });
-      connection.mockRespond(new Response(options));
-    });
-    patientProgramResourceService.getPatientProgramVisitTypes(patientUuid,
+    const appsetting = TestBed.get(AppSettingsService);
+    service.getPatientProgramVisitTypes(patientUuid,
       'prog-uuid', 'enroll-uuid', 'location-uuid')
       .subscribe((response) => {
         expect(response).toEqual({ uuid: 'uuid' });
         done();
       });
+    const req = httpMock.expectOne(appsetting.getEtlRestbaseurl().trim() +
+      'patient/79803198-2d23-49cd-a7b3-4f672bd8f659' +
+      '/program/prog-uuid/enrollment/enroll-uuid' +
+      '?intendedLocationUuid=location-uuid');
+    expect(req.request.method).toBe('GET');
+    req.flush({ uuid: 'uuid' });
 
   });
 
   it('should make API call to get all program visit configs', (done) => {
-    backend = TestBed.get(MockBackend);
-    let patientProgramResourceService: PatientProgramResourceService =
-      TestBed.get(PatientProgramResourceService);
-    let appsetting =
+    const appsetting =
       TestBed.get(AppSettingsService);
-
-    backend.connections.subscribe((connection: MockConnection) => {
-
-      expect(connection.request.method).toBe(RequestMethod.Get);
-      expect(connection.request.url)
-        .toEqual(
-        appsetting.getEtlRestbaseurl().trim() +
-        'program-visit-configs'
-        );
-      let options = new ResponseOptions({
-        body: JSON.stringify({})
-      });
-      connection.mockRespond(new Response(options));
-    });
-    patientProgramResourceService.getAllProgramVisitConfigs()
+    service.getAllProgramVisitConfigs()
       .subscribe((response) => {
         done();
       });
+
+    const req = httpMock.expectOne(appsetting.getEtlRestbaseurl().trim() +
+      'program-visit-configs');
+    expect(req.request.method).toBe('GET');
+    req.flush(JSON.stringify({}));
 
   });
   it('should make API call to get patient program visit configs', (done) => {
-    backend = TestBed.get(MockBackend);
-    let patientProgramResourceService: PatientProgramResourceService =
-      TestBed.get(PatientProgramResourceService);
-    let appsetting =
+    const appsetting =
       TestBed.get(AppSettingsService);
-
-    backend.connections.subscribe((connection: MockConnection) => {
-
-      expect(connection.request.method).toBe(RequestMethod.Get);
-      expect(connection.request.url)
-        .toEqual(
-          appsetting.getEtlRestbaseurl().trim() +
-          'patient-program-config?patientUuid=uuid'
-        );
-      let options = new ResponseOptions({
-        body: JSON.stringify({})
-      });
-      connection.mockRespond(new Response(options));
-    });
-    patientProgramResourceService.getPatientProgramVisitConfigs('uuid')
+    service.getPatientProgramVisitConfigs('uuid')
       .subscribe((response) => {
         done();
       });
+    const req = httpMock.expectOne(appsetting.getEtlRestbaseurl().trim() +
+      'patient-program-config?patientUuid=uuid');
+    expect(req.request.method).toBe('GET');
+    req.flush(JSON.stringify({}));
 
   });
   it('should return an error when fetching all program configs fail',
-    async(inject([PatientProgramResourceService, MockBackend],
-      (patientProgramResourceService: PatientProgramResourceService,
-        mockBackend: MockBackend) => {
-
-        mockBackend.connections.subscribe(c =>
-          c.mockError(new Error('An error occured while processing the request')));
-
-        patientProgramResourceService.getAllProgramVisitConfigs()
-          .subscribe((data) => {
-          },
+    async(() => {
+      service.getAllProgramVisitConfigs()
+        .subscribe((data) => {
+        },
           (error: Error) => {
             expect(error).toBeTruthy();
           });
-      })));
+      const req = httpMock.expectNone('');
+
+    }));
 });

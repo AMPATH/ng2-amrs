@@ -10,8 +10,7 @@ import { Component, OnInit } from '@angular/core';
 import { LocationResourceService } from '../openmrs-api/location-resource.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClinicDashboardCacheService } from './services/clinic-dashboard-cache.service';
-import { UserDefaultPropertiesService } from
-  '../user-default-properties/user-default-properties.service';
+import { UserDefaultPropertiesService } from '../user-default-properties/user-default-properties.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 @Component({
   selector: 'clinic-dashboard',
@@ -23,7 +22,7 @@ export class ClinicDashboardComponent implements OnInit {
   public loaderStatus: boolean;
   public locations = [];
   public selectedLocation: any = {};
-  public selectingLocation: boolean = true;
+  public selectingLocation = true;
   public selectedDepartment: any;
 
   constructor(private locationResourceService: LocationResourceService,
@@ -86,7 +85,7 @@ export class ClinicDashboardComponent implements OnInit {
 
   public locationChanged($event) {
     if ($event && $event.value !== this.locationUuid) {
-      let splitUrl = this.router.routerState.snapshot.url.split('/');
+      const splitUrl = this.router.routerState.snapshot.url.split('/');
       splitUrl[2] = $event.value;
       this.clinicDashboardCacheService.clear();
       this.router.navigateByUrl(splitUrl.join('/'));

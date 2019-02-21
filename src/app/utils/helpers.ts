@@ -7,8 +7,8 @@ export class Helpers {
     return _.isUndefined(subject)
       || _.isNull(subject)
       || (typeof subject === 'string'
-      && (subject.length === 0
-      || !subject.trim()));
+        && (subject.length === 0
+          || !subject.trim()));
 
   }
 
@@ -32,7 +32,7 @@ export class Helpers {
 
     let hasANonNullMember = false;
 
-    for (let member of members) {
+    for (const member of members) {
 
       if (!this.isNullOrUndefined(obj[member])) {
 
@@ -44,6 +44,6 @@ export class Helpers {
     return !hasANonNullMember;
   }
 
-  constructor() {}
+  constructor() { }
 
 }

@@ -7,7 +7,7 @@ import { OrderResourceService } from '../openmrs-api/order-resource.service';
 @Injectable()
 export class LabOrdersSearchService {
   public labOrderSearch: BehaviorSubject<any> = new BehaviorSubject<any>([]);
-  public searchString: string = '';
+  public searchString = '';
 
   constructor(private resouceService: OrderResourceService) {
 

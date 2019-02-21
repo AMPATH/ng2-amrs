@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject, BehaviorSubject, of } from 'rxjs';
-import { Http } from '@angular/http';
 
 @Injectable()
 export class FakeVisitResourceService {
-  public returnErrorOnNext: boolean = false;
+  public returnErrorOnNext = false;
   constructor() {
   }
 
   public getVisitEncounters(uuid: string): Observable<any> {
-    let test: BehaviorSubject<any> = new BehaviorSubject<any>([]);
-    let encounters = [
+    const test: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+    const encounters = [
       {
         uuid: 'encounter-uuid',
         encounterDatetime: '2017-01-20T16:30:02.000+0300',
@@ -91,8 +90,8 @@ export class FakeVisitResourceService {
 
   public getVisitByUuid(uuid: string, urlParams: any): Observable<any> {
 
-    let test: BehaviorSubject<any> = new BehaviorSubject<any>([]);
-    let visit = {
+    const test: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+    const visit = {
       uuid: 'visit-uuid',
       startDatetime: '2017-01-20T16:29:45.000+0300',
       stopDatetime: '2017-01-20T16:30:45.000+0300',
@@ -112,8 +111,8 @@ export class FakeVisitResourceService {
   }
 
   public getPatientVisits(uuid: string): Observable<any> {
-    let test: BehaviorSubject<any> = new BehaviorSubject<any>([]);
-    let visits = [
+    const test: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+    const visits = [
       {
         uuid: 'uuid',
         encounters: [

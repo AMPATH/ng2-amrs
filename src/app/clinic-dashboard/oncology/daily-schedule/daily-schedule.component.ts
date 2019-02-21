@@ -1,13 +1,11 @@
 import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { DatePipe } from '@angular/common';
-import { ClinicDashboardCacheService }
-  from '../../services/clinic-dashboard-cache.service';
+import { ClinicDashboardCacheService } from '../../services/clinic-dashboard-cache.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DailyScheduleBaseComponent
 } from '../../../clinic-schedule-lib/daily-schedule/daily-schedule.component';
-import { SelectDepartmentService
-} from '../../../program-visit-encounter-search/program-visit-encounter-search.service';
+import { SelectDepartmentService } from './../../../shared/services/select-department.service';
 import {
   ClinicFlowCacheService
 } from '../../../hiv-care-lib/clinic-flow/clinic-flow-cache.service';

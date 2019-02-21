@@ -1,9 +1,8 @@
 
-import {take} from 'rxjs/operators/take';
+import { take } from 'rxjs/operators/take';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { MedicationHistoryResourceService } from
-  '../../../etl-api/medication-history-resource.service';
+import { MedicationHistoryResourceService } from '../../../etl-api/medication-history-resource.service';
 import { PatientService } from '../../services/patient.service';
 import { Subscription } from 'rxjs';
 
@@ -20,15 +19,15 @@ export class MedicationHistoryComponent implements OnInit, OnDestroy {
   public previousViralLoad: any;
 
   constructor(private medicationHistoryResourceService: MedicationHistoryResourceService,
-              private patientService: PatientService) {
+    private patientService: PatientService) {
   }
 
   public fetchMedicationHistory(report, patientUuid): void {
     this.medicationHistoryResourceService.getReport(report, patientUuid).pipe(
       take(1)).subscribe(
-      (medication) => {
-        this.encounters = this.convertPreviousVlValueTostring(medication.result);
-      }
+        (medication) => {
+          this.encounters = this.convertPreviousVlValueTostring(medication.result);
+        }
       );
   }
 
@@ -43,7 +42,7 @@ export class MedicationHistoryComponent implements OnInit, OnDestroy {
   }
 
   public getPatient() {
-    let reportName = 'medical-history-report';
+    const reportName = 'medical-history-report';
     this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         if (patient) {
@@ -59,11 +58,11 @@ export class MedicationHistoryComponent implements OnInit, OnDestroy {
       });
   }
   private convertPreviousVlValueTostring(result) {
-    let previousVl = [];
+    const previousVl = [];
     // tslint:disable-next-line:prefer-for-of
-    for (let i = 0; i < result.length ; ++i) {
-      let data = result[i];
-      for (let r in data) {
+    for (let i = 0; i < result.length; ++i) {
+      const data = result[i];
+      for (const r in data) {
         if (data.hasOwnProperty(r)) {
           let previousViralLoad = '' + data.previous_vl;
           if (previousViralLoad === 'null') {

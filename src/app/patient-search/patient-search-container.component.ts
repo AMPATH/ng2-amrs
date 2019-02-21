@@ -24,7 +24,7 @@ export class PatientSearchContainerComponent implements OnInit {
   }
 
   public patientSelected(patient) {
-      let patientUuid = patient.uuid;
+      const patientUuid = patient.uuid;
       this.loadPatientData(patientUuid);
 
   }

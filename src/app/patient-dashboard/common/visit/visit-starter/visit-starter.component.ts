@@ -5,10 +5,8 @@ import * as moment from 'moment';
 import { isEqual } from 'lodash';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 
-import { UserDefaultPropertiesService } from
-  '../../../../user-default-properties/index';
-import { PatientProgramResourceService } from
-  '../../../../etl-api/patient-program-resource.service';
+import { UserDefaultPropertiesService } from '../../../../user-default-properties/index';
+import { PatientProgramResourceService } from '../../../../etl-api/patient-program-resource.service';
 import { VisitResourceService } from '../../../../openmrs-api/visit-resource.service';
 import { TodayVisitService } from '../today-visit.service';
 import {
@@ -196,7 +194,9 @@ export class VisitStarterComponent implements OnInit, OnDestroy {
         }));
         this.modalRef = this.modalService.show(this.startGroupVisitModal);
       } else {
-        this.saveVisit(this.selectedVisitType);
+        if (!this.startedVisit) {
+          this.saveVisit(this.selectedVisitType);
+        }
     }
 
     }

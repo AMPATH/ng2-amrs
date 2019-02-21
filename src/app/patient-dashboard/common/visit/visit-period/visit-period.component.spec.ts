@@ -1,11 +1,11 @@
-import { MockBackend } from '@angular/http/testing';
-import { Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 import { TestBed, inject, async, fakeAsync, ComponentFixture, tick } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 
-import { AppFeatureAnalytics
+import {
+  AppFeatureAnalytics
 } from '../../../../shared/app-analytics/app-feature-analytics.service';
-import { FakeAppFeatureAnalytics
+import {
+  FakeAppFeatureAnalytics
 } from '../../../../shared/app-analytics/app-feature-analytcis.mock';
 import { AppSettingsService } from '../../../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../../../utils/local-storage.service';
@@ -30,18 +30,23 @@ import { CacheService } from 'ionic-cache';
 import { DataCacheService } from '../../../../shared/services/data-cache.service';
 import { NgBusyModule, BusyConfig } from 'ng-busy';
 import { PatientProgramService } from '../../../programs/patient-programs.service';
-import { RoutesProviderService
+import {
+  RoutesProviderService
 } from '../../../../shared/dynamic-route/route-config-provider.service';
 import { ProgramService } from '../../../programs/program.service';
 import { ProgramResourceService } from '../../../../openmrs-api/program-resource.service';
-import { ProgramWorkFlowResourceService
+import {
+  ProgramWorkFlowResourceService
 } from '../../../../openmrs-api/program-workflow-resource.service';
-import { ProgramWorkFlowStateResourceService
+import {
+  ProgramWorkFlowStateResourceService
 } from '../../../../openmrs-api/program-workflow-state-resource.service';
-import { RetrospectiveDataEntryModule
+import {
+  RetrospectiveDataEntryModule
 } from '../../../../retrospective-data-entry/retrospective-data-entry.module';
 import { UserService } from '../../../../openmrs-api/user.service';
 import { User } from '../../../../models/user.model';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 class MockActivatedRoute {
   public params: any = {};
   public queryParams = of(this.params);
@@ -77,18 +82,13 @@ class UserServiceMock {
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
 describe('Component: Visit Period Component Unit Tests', () => {
-  let route: MockActivatedRoute;
-  let fakeAppFeatureAnalytics: AppFeatureAnalytics,
-    component: VisitPeriodComponent;
-  let el, patientServiceSpy;
+  let component: VisitPeriodComponent;
   let fixture: ComponentFixture<VisitPeriodComponent>;
 
   beforeEach(() => {
 
     TestBed.configureTestingModule({
       providers: [
-        MockBackend,
-        BaseRequestOptions,
         PatientService,
         PatientProgramService,
         ProgramService,
@@ -122,13 +122,6 @@ describe('Component: Visit Period Component Unit Tests', () => {
           }
         },
         {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
-        {
           provide: AppFeatureAnalytics,
           useClass: FakeAppFeatureAnalytics
         },
@@ -146,7 +139,7 @@ describe('Component: Visit Period Component Unit Tests', () => {
       declarations: [
         VisitPeriodComponent
       ],
-      imports: [FormsModule, NgBusyModule, RetrospectiveDataEntryModule]
+      imports: [FormsModule, NgBusyModule, RetrospectiveDataEntryModule, HttpClientTestingModule]
     });
   });
 
@@ -180,14 +173,14 @@ describe('Component: Visit Period Component Unit Tests', () => {
 
   it('should populate visit uuid from route when visitUuid param exists',
     inject([ActivatedRoute, VisitResourceService], (activatedRoute: ActivatedRoute,
-                                                    visitResourceService: VisitResourceService) => {
+      visitResourceService: VisitResourceService) => {
       activatedRoute.params['visitUuid'] = 'visit-uuid';
       component.subscribeToRouteChangeEvent();
 
       expect(component.encounterVisitUuid).toEqual('visit-uuid');
       expect(component.startDatetime).toEqual('2017-01-20T16:29:45.000+0300');
       expect(component.stopDatetime).toEqual('2017-01-20T16:30:45.000+0300');
-      expect(component.locationUuid).toEqual({ value: 'uuid', label: 'display'});
+      expect(component.locationUuid).toEqual({ value: 'uuid', label: 'display' });
 
       activatedRoute.params['visitUuid'] = null;
       component.subscribeToRouteChangeEvent();
@@ -197,9 +190,9 @@ describe('Component: Visit Period Component Unit Tests', () => {
 
   it('should populate visit uuid from existing visit when encounter param exists',
     inject([PatientService, ActivatedRoute], (patientService: PatientService,
-                                              activatedRoute: ActivatedRoute) => {
-      let patientDetails = {
-        person: {uuid: 'new-uuid'},
+      activatedRoute: ActivatedRoute) => {
+      const patientDetails = {
+        person: { uuid: 'new-uuid' },
         encounters: [
           {
             uuid: 'encounter-uuid',
@@ -208,7 +201,7 @@ describe('Component: Visit Period Component Unit Tests', () => {
               uuid: 'visit-uuid',
               startDatetime: '2017-01-22T16:29:45.000+0300',
               stopDatetime: '2017-01-22T16:30:45.000+0300',
-              location: {uuid: 'uuid'}
+              location: { uuid: 'uuid' }
             }
 
           }]
@@ -236,9 +229,9 @@ describe('Component: Visit Period Component Unit Tests', () => {
 
   it('should populate visit period information when ngOnInit is called',
     inject([PatientService, ActivatedRoute], (patientService: PatientService,
-                                              activatedRoute: ActivatedRoute) => {
-      let patientDetails = {
-        person: {uuid: 'new-uuid'},
+      activatedRoute: ActivatedRoute) => {
+      const patientDetails = {
+        person: { uuid: 'new-uuid' },
         encounters: [
           {
             uuid: 'encounter-uuid',
@@ -247,7 +240,7 @@ describe('Component: Visit Period Component Unit Tests', () => {
               uuid: 'visit-uuid',
               startDatetime: '2017-01-22T16:29:45.000+0300',
               stopDatetime: '2017-01-22T16:30:45.000+0300',
-              location: {uuid: 'uuid', display: 'display'}
+              location: { uuid: 'uuid', display: 'display' }
             }
 
           }]
@@ -262,9 +255,9 @@ describe('Component: Visit Period Component Unit Tests', () => {
 
   it('should not populate visit period information when patient does not have encounters',
     inject([PatientService, ActivatedRoute], (patientService: PatientService,
-                                              activatedRoute: ActivatedRoute) => {
-      let patientDetails = {
-        person: {uuid: 'new-uuid'},
+      activatedRoute: ActivatedRoute) => {
+      const patientDetails = {
+        person: { uuid: 'new-uuid' },
         encounters: []
       };
       patientService.currentlyLoadedPatient.next(new Patient(patientDetails));
@@ -284,15 +277,15 @@ describe('Component: Visit Period Component Unit Tests', () => {
     }));
 
   it('should return an error when a visit cannot be loaded', (done) => {
-    let service: VisitResourceService = TestBed.get(VisitResourceService);
-    let fakeRes: FakeVisitResourceService =
+    const service: VisitResourceService = TestBed.get(VisitResourceService);
+    const fakeRes: FakeVisitResourceService =
       TestBed.get(VisitResourceService) as FakeVisitResourceService;
 
     // tell mock to return error on next call
     fakeRes.returnErrorOnNext = true;
-    let results = service.getVisitByUuid('uuid', {});
+    const results = service.getVisitByUuid('uuid', {});
     results.subscribe((result) => {
-      },
+    },
       (error) => {
         // when it gets here, then it returned an error
         done();

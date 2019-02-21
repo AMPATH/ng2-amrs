@@ -20,7 +20,7 @@ import { ClinicDashboardCacheService } from '../../../services/clinic-dashboard-
 export class PatientStatusOverviewComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() public data: any;
   @Input() public indicatorDef: any;
-  public loadingPatientStatus: boolean = false;
+  public loadingPatientStatus = false;
   private patientStatusData: any;
   private startDate: any;
   private endDate: any;
@@ -43,7 +43,7 @@ export class PatientStatusOverviewComponent implements OnInit, AfterViewInit, On
 
       this.options = {};
     }
-    let urlPieces = window.location.hash.split('/');
+    const urlPieces = window.location.hash.split('/');
     this.location = urlPieces[2];
   }
   @Input()
@@ -114,10 +114,10 @@ export class PatientStatusOverviewComponent implements OnInit, AfterViewInit, On
 
   }
   public generatePatientStatusOverviewChart(result) {
-    let startDate = Moment(this.startDate).format('DD/MM/YYYY');
-    let endDate = Moment(this.endDate).format('DD/MM/YYYY');
+    const startDate = Moment(this.startDate).format('DD/MM/YYYY');
+    const endDate = Moment(this.endDate).format('DD/MM/YYYY');
     let chartData  = [];
-    let that = this;
+    const that = this;
     _.each(result, (data: any) => {
       chartData = [
         {
@@ -212,8 +212,8 @@ export class PatientStatusOverviewComponent implements OnInit, AfterViewInit, On
     };
   }
   public generatePatientList(point) {
-    let startDate = Moment(this.startDate).format('DD/MM/YYYY');
-    let endDate = Moment(this.endDate).format('DD/MM/YYYY');
+    const startDate = Moment(this.startDate).format('DD/MM/YYYY');
+    const endDate = Moment(this.endDate).format('DD/MM/YYYY');
     this.router.navigate(['./patient-list', 'clinical-patient-care-status-overview',
         point.indicator,
         startDate + '|' + endDate ]

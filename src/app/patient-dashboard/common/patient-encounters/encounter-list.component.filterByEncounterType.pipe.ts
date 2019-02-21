@@ -12,8 +12,8 @@ export class EncounterTypeFilter implements PipeTransform {
     if (encounterFilterTypeArray.length === 0) {
       return encountersArray;
     } else {
-      let filterd = encountersArray.filter((item) => {
-        let result = _.includes(encounterFilterTypeArray, item.encounterType.display) ||
+      const filterd = encountersArray.filter((item) => {
+        const result = _.includes(encounterFilterTypeArray, item.encounterType.display) ||
           _.includes(encounterFilterTypeArray, item.encounter);
 
         return result;

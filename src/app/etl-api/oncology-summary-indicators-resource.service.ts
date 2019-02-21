@@ -34,6 +34,9 @@ export class OncolgyMonthlySummaryIndicatorsResourceService {
         if (params.gender && params.gender.length > 0) {
             urlParams = urlParams.set('genders', params.gender);
         }
+        if (params.period && params.period.length > 0) {
+            urlParams = urlParams.set('period', params.period);
+        }
         if (params.startAge && params.startAge !== '') {
            urlParams =  urlParams.set('startAge', params.startAge);
         }
@@ -48,9 +51,9 @@ export class OncolgyMonthlySummaryIndicatorsResourceService {
     }
 
     public getOncologySummaryMonthlyIndicatorsReport(params) {
-        let urlParams = this.getUrlRequestParams(params);
-        let url = this.getUrl(params);
-        let request =  this.http.get(url, {
+        const urlParams = this.getUrlRequestParams(params);
+        const url = this.getUrl(params);
+        const request =  this.http.get(url, {
             params: urlParams
         });
 
@@ -59,7 +62,7 @@ export class OncolgyMonthlySummaryIndicatorsResourceService {
     }
 
     public getOncologySummaryMonthlyIndicatorsPatientList(params) {
-        let urlParams = this.getUrlRequestParams(params);
+        const urlParams = this.getUrlRequestParams(params);
         if (!params.startIndex) {
             params.startIndex = '0';
         }
@@ -68,8 +71,8 @@ export class OncolgyMonthlySummaryIndicatorsResourceService {
         }
         urlParams.set('startIndex', params.startIndex);
         urlParams.set('limit', params.limit);
-        let url = this.getPatientListUrl(params);
-        let request = this.http.get(url, {
+        const url = this.getPatientListUrl(params);
+        const request = this.http.get(url, {
             params: urlParams
         });
 

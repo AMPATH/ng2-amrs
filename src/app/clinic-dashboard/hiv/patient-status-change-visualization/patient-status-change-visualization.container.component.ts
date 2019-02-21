@@ -28,7 +28,7 @@ export class PatientStatusChangeVisualizationContainerComponent implements OnIni
     result: [],
     indicatorDefinitions: []
   };
-  public currentView: string = 'cumulativeAnalysis';
+  public currentView = 'cumulativeAnalysis';
   public cumulativeAnalysisResults = this.results;
   public cumulativeAnalysis: any = {};
   public monthlyAnalysisResults = this.results;
@@ -80,7 +80,7 @@ export class PatientStatusChangeVisualizationContainerComponent implements OnIni
   }
 
   public handleTabChange(e) {
-    let path = this.router.parseUrl(this.location.path());
+    const path = this.router.parseUrl(this.location.path());
     if (e.index === 0) {
       this.currentView = 'cumulativeAnalysis';
       this.router.navigate(['../cumulative'], {
@@ -120,11 +120,11 @@ export class PatientStatusChangeVisualizationContainerComponent implements OnIni
   }
 
   public loadCumulativeAnalysis(event) {
-    let analysisType = 'cumulativeAnalysis';
+    const analysisType = 'cumulativeAnalysis';
     const sub = this.clinicDashboardCacheService.getCurrentClinic().pipe(
       mergeMap((location: any) => {
         if (location && event.startDate) {
-          let params: any = {};
+          const params: any = {};
           params['startDate'] = event.startDate.format('YYYY-MM-DD');
           params['endDate'] = event.endDate.format('YYYY-MM-DD');
           params['locationUuids'] = location;
@@ -143,11 +143,11 @@ export class PatientStatusChangeVisualizationContainerComponent implements OnIni
   }
 
   public loadMonthlyAnalysis(event) {
-    let analysisType = 'monthlyAnalysis';
+    const analysisType = 'monthlyAnalysis';
     const sub = this.clinicDashboardCacheService.getCurrentClinic().pipe(
       mergeMap((location: any) => {
         if (location && event.startDate) {
-          let params: any = {};
+          const params: any = {};
           params['startDate'] = event.startDate.format('YYYY-MM-DD');
           params['endDate'] = event.endDate.format('YYYY-MM-DD');
           params['locationUuids'] = location;
@@ -166,11 +166,11 @@ export class PatientStatusChangeVisualizationContainerComponent implements OnIni
   }
 
   public loadCohortAnalysis(event) {
-    let analysisType = 'cohortAnalysis';
+    const analysisType = 'cohortAnalysis';
     const sub = this.clinicDashboardCacheService.getCurrentClinic().pipe(
       mergeMap((location: any) => {
         if (location && event.startDate) {
-          let params: any = {};
+          const params: any = {};
           params['startDate'] = event.startDate.endOf('month').format('YYYY-MM-DD');
           params['endDate'] = event.endDate.endOf('month').format('YYYY-MM-DD');
           params['locationUuids'] = location;

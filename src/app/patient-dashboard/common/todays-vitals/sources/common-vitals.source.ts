@@ -6,10 +6,10 @@ import { VitalSourceInterface } from './vital-source.interface';
 
 export class CommonVitalsSource implements VitalSourceInterface {
   constructor(public vitalModel: any | Vital,
-              public patient: Patient) {
+    public patient: Patient) {
   }
 
-  public getVitals(ob: any): VitalView  {
+  public getVitals(ob: any): VitalView {
     switch (ob.concept.uuid) {
       case 'a8a65d5a-1350-11df-a1f1-0026b9348838':
         return this.vitalModel.createVital({
@@ -76,21 +76,20 @@ export class CommonVitalsSource implements VitalSourceInterface {
     }
   }
 
-  public getBMI(vitalModel) {
+  public getBMI(vitalModel, weight, height) {
     let bmi = null;
-    if (vitalModel.height && vitalModel.weight) {
-      const height = vitalModel.height.value;
-      const weight = vitalModel.weight.value;
-      bmi = (weight / (height / 100 * height / 100)).toFixed(1);
+    if (height && weight) {
+      bmi = (parseInt(weight.value, 10) / (parseInt(height.value, 10) / 100 * height.value / 100)).toFixed(1);
+      return vitalModel.createVital({
+        name: 'bmi',
+        label: 'BMI(Kg/M2)',
+        order: 6,
+        show: !_.isNil(bmi) && this.patient.person.age > 18,
+        value: bmi,
+        color: (bmi <= 18 || bmi >= 30) ? 'red' : ''
+      }).bmi;
     }
-    return vitalModel.createVital({
-      name: 'bmi',
-      label: 'BMI(Kg/M2)',
-      order: 6,
-      show: !_.isNil(bmi) && this.patient.person.age > 18,
-      value: bmi,
-      color: (bmi <= 18 || bmi >= 30) ? 'red' : ''
-    }).bmi;
+    return this.vitalModel;
   }
 
   protected toTitleCase(str: string): string {

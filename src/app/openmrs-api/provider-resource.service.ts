@@ -12,7 +12,7 @@ import { HttpParams, HttpClient } from '@angular/common/http';
 @Injectable()
 export class ProviderResourceService {
 
-  public v: string = 'full';
+  public v = 'full';
 
   constructor(protected http: HttpClient,
               protected appSettingsService: AppSettingsService,
@@ -27,8 +27,8 @@ export class ProviderResourceService {
   public searchProvider(searchText: string, cached: boolean = false, v: string = null):
   Observable<any> {
 
-    let url = this.getUrl() ;
-    let params: HttpParams = new HttpParams()
+    const url = this.getUrl() ;
+    const params: HttpParams = new HttpParams()
     .set('q', searchText)
     .set('v', (v && v.length > 0) ? v : this.v);
 
@@ -46,18 +46,18 @@ export class ProviderResourceService {
     let url = this.getUrl();
     url += '/' + uuid;
 
-    let params: HttpParams = new HttpParams()
+    const params: HttpParams = new HttpParams()
     .set('v', (v && v.length > 0) ? v : this.v);
     return this.http.get(url, {
       params: params
     });
   }
   public getProviderByPersonUuid(uuid, v?) {
-    let providerResults = new ReplaySubject(1);
+    const providerResults = new ReplaySubject(1);
     this.personService.getPersonByUuid(uuid, false).pipe(take(1)).subscribe(
       (result) => {
         if (result) {
-          let response = this.searchProvider(result.display, false, v);
+          const response = this.searchProvider(result.display, false, v);
 
           response.pipe(take(1)).subscribe(
             (providers) => {
@@ -73,13 +73,13 @@ export class ProviderResourceService {
                 }
                 providerResults.next(foundProvider);
               } else {
-                let msg = 'Error processing request: No provider with given person uuid found';
+                const msg = 'Error processing request: No provider with given person uuid found';
                 providerResults.error(msg);
               }
 
             },
             (error) => {
-              let msg = 'Error processing request: No person with given uuid found';
+              const msg = 'Error processing request: No person with given uuid found';
               providerResults.error(msg);
             }
           );

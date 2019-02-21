@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import {
   MatTabsModule, MatProgressSpinnerModule, MatProgressBarModule
 } from '@angular/material';
-import { Http, RequestOptions, XHRBackend } from '@angular/http';
 import { Router } from '@angular/router';
 import { Angulartics2Module } from 'angulartics2';
 import { DataListsModule } from '../shared/data-lists/data-lists.module';
@@ -22,16 +21,18 @@ import {
   ClinicDashboardCacheService
 } from '../clinic-dashboard/services/clinic-dashboard-cache.service';
 import { HivClinicFlowResourceService } from '../etl-api/hiv-clinic-flow-resource.service';
-import { SessionStorageService } from '../utils/session-storage.service';
-import { HttpClient } from '../shared/services/http-client.service';
 import { CacheModule } from 'ionic-cache';
 import {
   DataAnalyticsDashboardService
 } from './services/data-analytics-dashboard.services';
+import { SelectDepartmentService } from './../shared/services/select-department.service';
 import { DataAnalyticsHivModule } from './hiv/data-analytics-hiv.module';
 import {
   DataAnalyticsOncologyModule
 } from './oncology/data-analytics-oncology.module';
+import {
+  DataAnalyticsCdmModule
+} from './cdm/data-analytics-cdm.module';
 import {
   dataAnalyticsDashboardRouting
 } from './data-analytics-dashboard-routes';
@@ -41,6 +42,11 @@ import {
 import {
   AnalyticsPatientReferralProgramModule
 } from './referral/referral-program.module';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { PocHttpInteceptor } from '../shared/services/poc-http-interceptor';
+import { ClinicRoutesFactory
+} from '../navigation/side-navigation/clinic-side-nav/clinic-side-nav-routes.factory';
+import { DataAnalyticsDashboardComponent } from './data-analytics.component';
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
  */
@@ -55,6 +61,7 @@ import {
     TabViewModule,
     FieldsetModule,
     ButtonModule,
+    HttpClientModule,
     GrowlModule,
     AccordionModule,
     Angulartics2Module,
@@ -69,25 +76,27 @@ import {
     MatProgressSpinnerModule,
     MatProgressBarModule,
     CacheModule,
-    DataEntryStatisticsModule
+    DataEntryStatisticsModule,
+    DataAnalyticsCdmModule
   ],
   declarations: [
+    DataAnalyticsDashboardComponent
   ],
   providers: [
     DataAnalyticsDashboardGuard,
     ClinicDashboardCacheService,
     DataAnalyticsDashboardService,
+    SelectDepartmentService,
     {
       provide: 'ClinicFlowResource',
       useExisting: HivClinicFlowResourceService
     },
     {
-      provide: Http,
-      useFactory: (xhrBackend: XHRBackend, requestOptions: RequestOptions,
-        router: Router, sessionStorageService: SessionStorageService) =>
-        new HttpClient(xhrBackend, requestOptions, router, sessionStorageService),
-      deps: [XHRBackend, RequestOptions, Router, SessionStorageService]
-    }
+      provide: HTTP_INTERCEPTORS,
+      useClass: PocHttpInteceptor,
+      multi: true
+    },
+    ClinicRoutesFactory
   ],
   exports: []
 })

@@ -1,16 +1,12 @@
 import { TestBed, async, inject } from '@angular/core/testing';
-import {
-  Http, BaseRequestOptions, XHRBackend,
-  ResponseOptions, Response, RequestMethod
-} from '@angular/http';
-import { MockBackend, MockConnection } from '@angular/http/testing';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import {
   PatientStatusVisualizationResourceService
-}
-  from './patient-status-change-visualization-resource.service';
+} from './patient-status-change-visualization-resource.service';
 import { CacheModule, CacheService } from 'ionic-cache';
 import { DataCacheService } from '../shared/services/data-cache.service';
+import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
+import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
 class MockAppSettingsService {
   constructor() {
   }
@@ -20,9 +16,18 @@ class MockAppSettingsService {
   }
 
 }
+
+class MockCacheStorageService {
+  constructor(a, b) { }
+
+  public ready() {
+    return true;
+  }
+}
+
 describe('PatientStatusVisualizationResourceService', () => {
-  let service;
-  let results = {
+  let service, httpMock;
+  const results = {
     startIndex: 0,
     size: 13,
     result: [
@@ -234,7 +239,7 @@ describe('PatientStatusVisualizationResourceService', () => {
     ]
   };
 
-  let patientList = {
+  const patientList = {
     startIndex: 0,
     size: 3,
     result: [
@@ -252,85 +257,51 @@ describe('PatientStatusVisualizationResourceService', () => {
   };
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CacheModule],
+      imports: [CacheModule, HttpClientTestingModule],
       providers: [
         PatientStatusVisualizationResourceService,
-        MockBackend,
-        BaseRequestOptions,
         CacheService,
         DataCacheService,
         {
-          provide: Http,
-          deps: [MockBackend, BaseRequestOptions],
-          useFactory: (backend: XHRBackend, defaultOptions: BaseRequestOptions) => {
-            return new Http(backend, defaultOptions);
-          }
-        },
-        {
           provide: AppSettingsService,
           useClass: MockAppSettingsService
-        }
+        },
+        {
+          provide: CacheStorageService, useFactory: () => {
+            return new MockCacheStorageService(null, null);
+          }
+        },
       ]
     });
+    service = TestBed.get(PatientStatusVisualizationResourceService);
+    httpMock = TestBed.get(HttpTestingController);
   });
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 
-  // you can also wrap inject() with async() for asynchronous tasks
-  // it('...', async(inject([...], (...) => {}));
-
-  it('should return patient monthly status aggregate values when getAggregates() is called',
-    inject([PatientStatusVisualizationResourceService, MockBackend],
-      (s: PatientStatusVisualizationResourceService, backend: MockBackend) => {
-        backend.connections.subscribe((connection: MockConnection) => {
-          expect(connection.request.method).toBe(RequestMethod.Get);
-          expect(connection.request.url).toEqual('https://etl.ampath.or.ke/etl/patient-' +
-            'status-change-tracking?startDate=2016-01-01&analysis=' +
-            'cumulativeAnalysis&endDate=2016-12-31&locationUuids=uuid');
-          connection.mockRespond(new Response(
-            new ResponseOptions({
-                body: results
-              }
-            )));
-        });
-        s.getAggregates({
-          startDate: '2016-01-01',
-          endDate: '2016-12-31',
-          locationUuids: 'uuid',
-          analysis: 'cumulativeAnalysis'
-        }).subscribe((response) => {
-          expect(response.result).toBeTruthy();
-          expect(response.result[0].total_patients).toBe(107);
-        });
-      })
-  );
+  it('should return patient monthly status aggregate values when getAggregates() is called', () => {
+    service.getAggregates({
+      startDate: '2016-01-01',
+      endDate: '2016-12-31',
+      locationUuids: 'uuid',
+      analysis: 'cumulativeAnalysis'
+    }).subscribe((response) => {
+      expect(response.result).toBeTruthy();
+      expect(response.result[0].total_patients).toBe(107);
+    });
+  });
 
   it('should return patient list for monthly ' +
-    'status change values when getPatientList() is called',
-    inject([PatientStatusVisualizationResourceService, MockBackend],
-      (s: PatientStatusVisualizationResourceService, backend: MockBackend) => {
-        backend.connections.subscribe((connection: MockConnection) => {
-          expect(connection.request.method).toBe(RequestMethod.Get);
-          expect(connection.request.url).toEqual('https://etl.ampath.or.ke/etl'
-            + '/patient-status-change-tracking/patient-list?startDate=2016-01-01&'
-            + 'endDate=2016-12-31&locationUuids=uuid&indicator=test&startIndex=0&' +
-            'analysis=cumulativeAnalysis&limit=300');
-          connection.mockRespond(new Response(
-            new ResponseOptions({
-                body: results
-              }
-            )));
-        });
-        s.getPatientList({
-          startDate: '2016-01-01',
-          endDate: '2016-12-31', locationUuids: 'uuid',
-          indicator: 'test',
-          analysis: 'cumulativeAnalysis'
-        }).subscribe((response) => {
-          expect(response.result).toBeTruthy();
-        });
-      })
-  );
+    'status change values when getPatientList() is called', () => {
+      service.getPatientList({
+        startDate: '2016-01-01',
+        endDate: '2016-12-31', locationUuids: 'uuid',
+        indicator: 'test',
+        analysis: 'cumulativeAnalysis'
+      }).subscribe((response) => {
+        expect(response.result).toBeTruthy();
+      });
+    });
 });

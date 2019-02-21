@@ -15,7 +15,7 @@ import { FormUpdaterService } from '../../patient-dashboard/common/formentry/for
 })
 export class StaticNavBarComponent implements OnInit {
   public user: User;
-  public userLocation: string = '';
+  public userLocation = '';
   public department: any;
   constructor(private router: Router,
               private localStore: LocalStorageService,
@@ -27,7 +27,7 @@ export class StaticNavBarComponent implements OnInit {
 
   public ngOnInit() {
     this.setUserLocation();
-    let department = this.localStore.getItem('userDefaultDepartment');
+    const department = this.localStore.getItem('userDefaultDepartment');
     if (department) {
       this.department = JSON.parse(department)[0].itemName;
     }
@@ -45,7 +45,7 @@ export class StaticNavBarComponent implements OnInit {
       if (location) {
         this.userLocation = JSON.parse(location) ? JSON.parse(location).display : '';
       } else {
-        let defaultLocation =
+        const defaultLocation =
           this.localStore.getItem('userDefaultLocation' + this.user.display);
         this.userLocation =
           JSON.parse(defaultLocation) ? JSON.parse(defaultLocation).display :

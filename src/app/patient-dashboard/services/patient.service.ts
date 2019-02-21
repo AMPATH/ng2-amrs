@@ -38,7 +38,7 @@ export class PatientService {
     // busy
     this.isBusy.next(true);
     // hit server
-   return forkJoin(
+    return forkJoin(
       this.patientResourceService.getPatientByUuid(patientUuid, false),
       this.patientProgramsService.getCurrentlyEnrolledPatientPrograms(patientUuid),
       this.encounterResource.getEncountersByPatientUuid(patientUuid)
@@ -55,12 +55,12 @@ export class PatientService {
         console.error(err);
         this.isBusy.next(false);
       });
-    }
+  }
 
-    public reloadCurrentPatient() {
-      if (this.currentlyLoadedPatient.value !== null) {
-        const previousPatient: Patient = new Patient(this.currentlyLoadedPatient.value);
-        this.fetchPatientByUuid(previousPatient.uuid);
-      }
+  public reloadCurrentPatient() {
+    if (this.currentlyLoadedPatient.value !== null) {
+      const previousPatient: Patient = new Patient(this.currentlyLoadedPatient.value);
+      this.fetchPatientByUuid(previousPatient.uuid);
+    }
   }
 }

@@ -1,8 +1,8 @@
-import { BaseModel } from './base-model.model';
-import { serializable } from './serializable.decorator';
-import { Program } from './program.model';
-import { DatePipe } from '@angular/common';
-import { TitleCasePipe } from '../shared/pipes/title-case.pipe';
+import {BaseModel} from './base-model.model';
+import {serializable} from './serializable.decorator';
+import {Program} from './program.model';
+import {DatePipe} from '@angular/common';
+import {TitleCasePipe} from '../shared/pipes/title-case.pipe';
 
 export class ProgramEnrollment extends BaseModel {
   private _program: Program;
@@ -84,8 +84,8 @@ export class ProgramEnrollment extends BaseModel {
   }
 
   private resolveDate(date) {
-    let dateFormat: string = 'MMM dd, yyyy';
-    let parsedDate = Date.parse(date);
+    const dateFormat = 'MMM dd, yyyy';
+    const parsedDate = Date.parse(date);
     return isNaN(parsedDate) ? date : this._datePipe.transform(date, dateFormat);
   }
 

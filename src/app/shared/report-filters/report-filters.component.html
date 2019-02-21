@@ -59,6 +59,19 @@
                    [(ngModel)]="selectedGender" [items]="genderOptions">
         </ng-select>
       </div>
+
+      <div class="form-group col-md-12" *ngIf="isEnabled('periodControl')">
+        <label for="period">Select Period</label>
+        <ng-select class="sharp-corners" [multiple]="false" id="period"
+                [placeholder]="'Select Period...'"
+                bindLabel="label"
+                bindValue="value"
+                [(ngModel)]="selectedPeriod"
+                [items]="periodOptions"
+                (change)="onPeriodChange($event)">
+        </ng-select>
+      </div>
+
       <div class="row" *ngIf="isEnabled('programsControl')" style="margin-left:0; margin-right:0;">
         <div class="form-group col-md-6 col-xs-12" >
           <label for="program">Program </label>

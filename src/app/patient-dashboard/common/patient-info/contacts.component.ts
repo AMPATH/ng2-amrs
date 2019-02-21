@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
 })
 export class ContactsComponent implements OnInit, OnDestroy {
   public patient: Patient = new Patient({});
-  public display: boolean = false;
+  public display = false;
   public subscription: Subscription;
   private nextofkinPhoneNumber: number;
   private patnerPhoneNumber: number;

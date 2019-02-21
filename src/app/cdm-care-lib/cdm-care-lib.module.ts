@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MatProgressSpinnerModule, MatProgressBarModule, MatTabsModule
+import {
+  MatProgressSpinnerModule, MatProgressBarModule, MatTabsModule
 } from '@angular/material';
 
 import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';

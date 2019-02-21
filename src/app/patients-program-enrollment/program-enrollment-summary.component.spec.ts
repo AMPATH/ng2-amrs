@@ -1,4 +1,4 @@
-import { TestBed, async, fakeAsync, ComponentFixture } from '@angular/core/testing';
+import { TestBed, async , ComponentFixture } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { ProgramEnrollmentSummaryComponent } from './program-enrollment-summary.component';
 import { AgGridModule } from 'ag-grid-angular';
@@ -32,7 +32,7 @@ describe('Component: Program Enrollment Summary', () => {
       });
   }));
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

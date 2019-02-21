@@ -1,248 +1,252 @@
-import { async, inject , TestBed } from '@angular/core/testing';
-import {  BaseRequestOptions, Http, HttpModule, Response,
-    ResponseOptions, RequestMethod } from '@angular/http';
-import { MockBackend } from '@angular/http/testing';
+import { TestBed } from '@angular/core/testing';
 
-import { CohortResourceService  } from './cohort-resource.service';
+import { CohortResourceService } from './cohort-resource.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { AppSettingsService } from '../app-settings/app-settings.service';
+import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('Service : CohortResourceService Unit Tests', () => {
 
-     beforeEach(() => {
+    let cohortResorceService: CohortResourceService;
+    let httpMock: HttpTestingController;
+
+    beforeEach(() => {
 
         TestBed.configureTestingModule({
-
+            imports: [HttpClientTestingModule],
             providers: [
                 CohortResourceService,
-                MockBackend,
-                BaseRequestOptions,
-                    {
-                    provide: Http,
-                    useFactory: (backend, options) => new Http(backend, options),
-                    deps: [MockBackend, BaseRequestOptions]
-                },
                 AppSettingsService,
                 LocalStorageService
-                ]
+            ]
 
-           });
+        });
 
-
-      });
-
-    afterAll(() => {
-        TestBed.resetTestingModule();
+        cohortResorceService = TestBed.get(CohortResourceService);
+        httpMock = TestBed.get(HttpTestingController);
     });
 
-    let mockAllCohortsResponse = {
-                'uuid': 'uuid',
-                'display': 'adult',
-                'links': [
-                    {
-                        'rel': 'self',
-                        'uri': 'https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/cohort/uuid'
-                    }
-                ]
-            };
+    afterEach(() => {
+        TestBed.resetTestingModule();
+        httpMock.verify();
+    });
 
-let uuid = 'uuid';
-
-let mockCohortResponse = {
-            'uuid': 'uuid',
-            'name': 'Test Defaulter List',
-            'description': 'Test Defaulter List',
-            'voided': false,
-            'memberids': {
-                'int': [
-                    '123456',
-                    '123456'
-                ]
-            },
-            'links': {
-                'link': [
-                     {
+    const mockAllCohortsResponse = {
+        'uuid': 'uuid',
+        'display': 'adult',
+        'links': [
+            {
                 'rel': 'self',
                 'uri': 'https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/cohort/uuid'
+            }
+        ]
+    };
+
+    const uuid = 'uuid';
+    const parentUuid = 'parentUuid';
+
+    const mockCohortResponse = {
+        'uuid': 'uuid',
+        'name': 'Test Defaulter List',
+        'description': 'Test Defaulter List',
+        'voided': false,
+        'memberids': {
+            'int': [
+                '123456',
+                '123456'
+            ]
+        },
+        'links': {
+            'link': [
+                {
+                    'rel': 'self',
+                    'uri': 'https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/cohort/uuid'
+                },
+                {
+                    'rel': 'full',
+                    'uri': 'https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/cohort/uuid'
+                }
+            ]
+        },
+        'resourceversion': '1.8'
+    };
+
+    const addCohortPayload = {
+        'name': 'Test Defaulter List',
+        'description': 'Test Defaulter List',
+        'memberIds': [1234, 1234]
+    };
+
+    const addCohortResponse = {
+        'uuid': 'cd29a1fa-896e-4ef5-b97f-e13c1490aa07',
+        'display': 'Test Defaulter List',
+        'name': 'Test Defaulter List',
+        'description': 'Test Defaulter List',
+        'voided': false,
+        'memberIds': [1234],
+        'links': [
+            {
+                'rel': 'self',
+                'uri': 'https://testurl'
             },
             {
                 'rel': 'full',
-                'uri': 'https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/cohort/uuid'
+                'uri': 'https://test'
             }
-                ]
+        ],
+        'resourceVersion': '1.8'
+    };
+
+
+
+    const editCohortPayload = {
+        'name': 'Test Defaulter List',
+        'description': 'Test Defaulter List'
+    };
+
+    const editCohortResponse = {
+        'uuid': 'cd29a1fa-896e-4ef5-b97f-e13c1490aa07',
+        'display': 'Test Defaulter List',
+        'name': 'Test Defaulter List',
+        'description': 'Test Defaulter List',
+        'voided': false,
+        'memberIds': [1234],
+        'links': [
+            {
+                'rel': 'self',
+                'uri': 'https://testurl'
             },
-            'resourceversion': '1.8'
-  };
+            {
+                'rel': 'full',
+                'uri': 'https://test'
+            }
+        ],
+        'resourceVersion': '1.8'
+    };
 
-  let addCohortPayload = {
-      'name': 'Test Defaulter List',
-      'description': 'Test Defaulter List',
-      'memberIds': [1234, 1234]
- };
+    const retireCohortResponse = {
+    };
 
-  let addCohortResponse = {
-      'uuid': 'cd29a1fa-896e-4ef5-b97f-e13c1490aa07',
-      'display': 'Test Defaulter List',
-      'name': 'Test Defaulter List',
-      'description': 'Test Defaulter List',
-      'voided': false,
-      'memberIds': [1234],
-      'links': [
-          {
-              'rel': 'self',
-              'uri': 'https://testurl'
-          },
-          {
-              'rel': 'full',
-              'uri': 'https://test'
-          }
-      ],
-      'resourceVersion': '1.8'
-  };
+    it('should construct Cohort Service', () => {
+        expect(cohortResorceService).toBeDefined();
+    });
 
+    it('should have getOpenMrsBaseUrl() defined', () => {
+        expect(cohortResorceService.getOpenMrsBaseUrl()).toBeTruthy();
+    });
 
+    describe('Get Cohort', () => {
 
-  let editCohortPayload = {
-       'name': 'Test Defaulter List',
-       'description' : 'Test Defaulter List'
-};
+        it('Should return null in get cohort with no parameter', () => {
 
-  let editCohortResponse = {
-      'uuid': 'cd29a1fa-896e-4ef5-b97f-e13c1490aa07',
-      'display': 'Test Defaulter List',
-      'name': 'Test Defaulter List',
-      'description': 'Test Defaulter List',
-      'voided': false,
-      'memberIds': [1234],
-      'links': [
-          {
-              'rel': 'self',
-              'uri': 'https://testurl'
-          },
-          {
-              'rel': 'full',
-              'uri': 'https://test'
-          }
-      ],
-      'resourceVersion': '1.8'
-  };
+            httpMock.expectNone({});
+            const response = cohortResorceService.getCohort(null, null);
 
-  let retireCohortResponse = {
-  };
+            expect(response).toBeNull();
 
-    it('should construct Cohort Service', async(inject(
-                 [CohortResourceService, MockBackend], (service, mockBackend) => {
-                 expect(service).toBeDefined();
-      })));
+        });
 
-    it('Should return null in get cohort with no parameter', async(inject(
-            [CohortResourceService, MockBackend], (service, mockBackend) => {
+        it('should hit right endpoint for getCohort and get right response without v', () => {
 
-                let response = service.getCohort(null);
+            cohortResorceService.getCohort(uuid).subscribe(res => {
+                expect(res).toBe(mockCohortResponse);
+            });
 
-                expect(response).toBeNull();
+            const req = httpMock.expectOne(cohortResorceService.baseOpenMrsUrl + 'cohort/' + uuid);
+            expect(req.request.url).toContain('ws/rest/v1/cohort/' + uuid);
+            expect(req.request.method).toBe('GET');
+            req.flush(mockCohortResponse);
 
-    })));
-describe('Get All Cohorts', () => {
+        });
 
-    it('should hit right endpoint for getallCohorts and get right response', async(inject(
-           [CohortResourceService, MockBackend], (service, mockBackend) => {
-                mockBackend.connections.subscribe(conn => {
-                    expect(conn.request.url).toContain('ws/rest/v1/cohort');
-                    expect(conn.request.method).toBe(RequestMethod.Get);
-                });
+        it('should hit right endpoint for getCohort and get right response with v', () => {
 
-                 service.getAllCohorts().subscribe(res => {
-                         expect(res).toEqual(mockAllCohortsResponse);
-                });
+            cohortResorceService.getCohort(uuid, 'v').subscribe(res => {
+                expect(res).toBe(mockCohortResponse);
+            });
 
-    })));
+            const req = httpMock.expectOne(cohortResorceService.baseOpenMrsUrl + 'cohort/' + uuid + '?v=v');
+            expect(req.request.url).toContain('ws/rest/v1/cohort/' + uuid);
+            expect(req.request.urlWithParams).toContain('?v=v');
+            expect(req.request.method).toBe('GET');
+            req.flush(mockCohortResponse);
 
-});
+        });
 
-describe('Get Cohort', () => {
-
-    it('should hit right endpoint for getCohort and get right response', async(inject(
-           [CohortResourceService, MockBackend], (service, mockBackend) => {
-                mockBackend.connections.subscribe(conn => {
-                    expect(conn.request.url).toContain('ws/rest/v1/cohort/' + uuid );
-                    expect(conn.request.method).toBe(RequestMethod.Get);
-                    conn.mockRespond(new Response(
-                        new ResponseOptions({ body: mockCohortResponse })
-                    ));
-                });
-
-                service.getCohort(uuid).subscribe(res => {
-                    expect(res).toBe(mockCohortResponse);
-                });
-
-    })));
+    });
 
 
-});
+    describe('Add Cohort', () => {
 
+        it('Should return null in add cohort with no parameter', () => {
 
-describe('Add Cohort', () => {
+            httpMock.expectNone({});
 
-    it('should hit right endpoint for add Cohort and get right response', async(inject(
-           [CohortResourceService, MockBackend], (service, mockBackend) => {
-                mockBackend.connections.subscribe(conn => {
-                    expect(conn.request.url).toContain('ws/rest/v1/cohort');
-                    expect(conn.request.method).toBe(RequestMethod.Post);
-                    conn.mockRespond(new Response(
-                        new ResponseOptions({ body: addCohortResponse  })
-                    ));
-                });
+            const response = cohortResorceService.addCohort(null);
 
-                service.addCohort(addCohortPayload).subscribe(res => {
-                    expect(res).toBe(addCohortResponse );
-                });
+            expect(response).toBeNull();
+        });
 
-    })));
+        it('should hit right endpoint for add Cohort and get right response', () => {
 
+            cohortResorceService.addCohort(addCohortPayload).subscribe(res => {
+                expect(res).toBe(addCohortResponse);
+            });
 
-});
+            const postReq = httpMock.expectOne(cohortResorceService.baseOpenMrsUrl + 'cohort');
+            expect(postReq.request.url).toContain('ws/rest/v1/cohort');
+            expect(postReq.request.method).toBe('POST');
+            postReq.flush(addCohortResponse);
+        });
 
-describe('Edit Cohort', () => {
+    });
 
-    it('should hit right endpoint for edit Cohort and get right response', async(inject(
-           [CohortResourceService, MockBackend], (service, mockBackend) => {
-                mockBackend.connections.subscribe(conn => {
-                    expect(conn.request.url).toContain('ws/rest/v1/cohort');
-                    expect(conn.request.method).toBe(RequestMethod.Post);
-                    conn.mockRespond(new Response(
-                        new ResponseOptions({ body: editCohortResponse  })
-                    ));
-                });
+    describe('Edit Cohort', () => {
 
-                service.editCohort(editCohortPayload).subscribe(res => {
-                    expect(res).toBe(editCohortResponse);
-                });
+        it('Should return null in edit cohort with no parameter', () => {
+            httpMock.expectNone({});
 
-    })));
+            const response = cohortResorceService.addCohort(null);
 
+            expect(response).toBeNull();
+        });
 
-});
+        it('should hit right endpoint for edit Cohort and get right response', () => {
 
-describe('Retire Cohort', () => {
+            cohortResorceService.editCohort(uuid, editCohortPayload).subscribe(res => {
+                expect(res).toBe(editCohortResponse);
+            });
 
-    it('should hit right endpoint for drop Cohort and get right response', async(inject(
-           [CohortResourceService, MockBackend], (service, mockBackend) => {
-                mockBackend.connections.subscribe(conn => {
-                    expect(conn.request.url).toContain('ws/rest/v1/cohort/' + uuid + '?!purge');
-                    expect(conn.request.method).toBe(RequestMethod.Delete);
-                    conn.mockRespond(new Response(
-                        new ResponseOptions({ body: retireCohortResponse  })
-                    ));
-                });
+            const editRequest = httpMock.expectOne(cohortResorceService.baseOpenMrsUrl + 'cohort/' + uuid);
+            expect(editRequest.request.url).toContain('ws/rest/v1/cohort');
+            expect(editRequest.request.method).toBe('POST');
+            editRequest.flush(editCohortResponse);
+        });
 
-                service.retireCohort(uuid).subscribe(res => {
-                    expect(res).toBe(retireCohortResponse);
-                });
+    });
 
-    })));
+    describe('Retire Cohort', () => {
 
+        it('Should return null in retire cohort with no parameter', () => {
+            httpMock.expectNone({});
 
-});
+            const response = cohortResorceService.addCohort(null);
+
+            expect(response).toBeNull();
+        });
+
+        it('should hit right endpoint for drop Cohort and get right response', () => {
+
+            cohortResorceService.retireCohort(uuid).subscribe(res => {
+                expect(res).toBe(retireCohortResponse);
+            });
+
+            const deconsteRequest = httpMock.expectOne(cohortResorceService.baseOpenMrsUrl + 'cohort/' + uuid + '?!purge');
+            expect(deconsteRequest.request.url).toContain('ws/rest/v1/cohort/' + uuid + '?!purge');
+            expect(deconsteRequest.request.method).toBe('DELETE');
+            deconsteRequest.flush(retireCohortResponse);
+        });
+
+    });
 
 });

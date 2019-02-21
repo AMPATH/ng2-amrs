@@ -35,7 +35,7 @@ export class Ng2FilterPipe implements PipeTransform {
 
   private filterByObject(filter) {
     return (value) => {
-      for (let key in filter) {
+      for (const key in filter) {
         if (!value.hasOwnProperty(key)) {
           return false;
         }

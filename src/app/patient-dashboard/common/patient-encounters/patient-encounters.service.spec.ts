@@ -27,13 +27,13 @@ describe('Service: PatientEncounter', () => {
     });
 
     it('should create an instance', () => {
-        let service: PatientEncounterService = TestBed.get(PatientEncounterService);
+        const service: PatientEncounterService = TestBed.get(PatientEncounterService);
         expect(service).toBeTruthy();
     });
 
     it('should get Encounters by patientUuid', (done) => {
-        let service: PatientEncounterService = TestBed.get(PatientEncounterService);
-        let result = service.getEncountersByPatientUuid('uuid', false, null);
+        const service: PatientEncounterService = TestBed.get(PatientEncounterService);
+        const result = service.getEncountersByPatientUuid('uuid', false, null);
 
         result.subscribe((results) => {
             expect(results).toBeTruthy();
@@ -45,13 +45,13 @@ describe('Service: PatientEncounter', () => {
     });
 
     it('should return an error when encounters cannot be loaded', (done) => {
-        let service: PatientEncounterService = TestBed.get(PatientEncounterService);
-        let fakeRes: FakeEncounterResourceService =
+        const service: PatientEncounterService = TestBed.get(PatientEncounterService);
+        const fakeRes: FakeEncounterResourceService =
             TestBed.get(EncounterResourceService) as FakeEncounterResourceService;
 
         // tell mock to return error on next call
         fakeRes.returnErrorOnNext = true;
-        let results = service.getEncountersByPatientUuid('uuid');
+        const results = service.getEncountersByPatientUuid('uuid');
 
         results.subscribe((result) => {
         },

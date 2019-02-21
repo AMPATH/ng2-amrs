@@ -1,18 +1,16 @@
-
-import {take} from 'rxjs/operators';
-import { Component, OnInit , OnDestroy , AfterViewInit, OnChanges , Output ,
-  EventEmitter, Input , ChangeDetectorRef, ViewChild , SimpleChanges } from '@angular/core';
-import { Subject ,  Observable } from 'rxjs';
-import { ActivatedRoute, Router, Params } from '@angular/router';
+import { take } from 'rxjs/operators';
+import {
+  Component, OnInit, OnDestroy, AfterViewInit, Output,
+  EventEmitter, ChangeDetectorRef
+} from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
-import { LocationResourceService } from
-'../../openmrs-api/location-resource.service';
+import { LocationResourceService } from '../../openmrs-api/location-resource.service';
 import { ProviderResourceService } from '../../openmrs-api/provider-resource.service';
 import { UserService } from '../../openmrs-api/user.service';
 import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
-import { DataEntryStatisticsService } from
-'../../etl-api/data-entry-statistics-resource.service';
+import { DataEntryStatisticsService } from '../../etl-api/data-entry-statistics-resource.service';
 
 @Component({
   selector: 'data-entry-statistics-filters',
@@ -20,14 +18,14 @@ import { DataEntryStatisticsService } from
   styleUrls: ['./data-entry-statistics-filters.component.css']
 })
 export class DataEntryStatisticsFiltersComponent
-  implements OnInit , OnDestroy , AfterViewInit {
+  implements OnInit, OnDestroy, AfterViewInit {
 
   @Output() public filterParams: any = new EventEmitter<string>();
   @Output() public viewSelected: any = new EventEmitter<string>();
   @Output() public filterReset: any = new EventEmitter<boolean>();
-  public sendRequest: boolean = true;
+  public sendRequest = true;
   public today: any = Moment().format();
-  public params: any  = [];
+  public params: any = [];
   public gridOptions: any = {
     enableColResize: true,
     enableSorting: true,
@@ -38,25 +36,25 @@ export class DataEntryStatisticsFiltersComponent
   };
   public views: any = [];
   public view: any = [];
-  public showFilters: boolean = true;
-  public locations: any  = [];
+  public showFilters = true;
+  public locations: any = [];
   public location: any = [];
-  public filtersCount: number = 0;
+  public filtersCount = 0;
   public locationMap = new Map();
-  public creators: any [];
+  public creators: any[];
   public creator: any = [];
   public encounterType: any = [];
   public encounterTypes: any = [];
   public encounterMap = new Map();
-  public providers: any  = [];
-  public provider: string = '';
+  public providers: any = [];
+  public provider = '';
   public selectedStartDate: any = Moment().format();
-  public selectedEndDate: any =  Moment(this.selectedStartDate).add(6, 'days' ).format();
-  public subType: string = '';
+  public selectedEndDate: any = Moment(this.selectedStartDate).add(6, 'days').format();
+  public subType = '';
   public groupBy: any = ['groupByLocationId', 'groupByDate', 'groupByEncounterTypeId'];
   public selectedLocation: any = [];
   public selectedCreatorUuid: any = [];
-  public selectedProviderUuid: string = '';
+  public selectedProviderUuid = '';
   public selectedEncounterTypes: any = [];
   public selectedView = {
     encounterTypePerDay: false,
@@ -64,7 +62,7 @@ export class DataEntryStatisticsFiltersComponent
     encounterTypePerProvider: false,
     encounterTypePerCreator: false
   };
-  public selectedViewType: string = '';
+  public selectedViewType = '';
   public viewMap = new Map();
   public locationDropdownSettings: any = {
     'singleSelection': false,
@@ -87,7 +85,7 @@ export class DataEntryStatisticsFiltersComponent
     selectAllText: 'Select All',
     unSelectAllText: 'UnSelect All',
     enableSearchFilter: true,
-    enableCheckAll : false
+    enableCheckAll: false
   };
 
   public multpleSelectDropDownSettings: any = {
@@ -96,7 +94,7 @@ export class DataEntryStatisticsFiltersComponent
     selectAllText: 'Select All',
     unSelectAllText: 'UnSelect All',
     enableSearchFilter: true,
-    enableCheckAll : false,
+    enableCheckAll: false,
     badgeShowLimit: 10
   };
 
@@ -114,7 +112,7 @@ export class DataEntryStatisticsFiltersComponent
   public dataEntryCreatorColdef: any = [];
   public creatorStats: any = [];
   public creatorRowData: any[];
-  public filterCount: number  = 0;
+  public filterCount = 0;
 
   constructor(
     private _cd: ChangeDetectorRef,
@@ -125,26 +123,26 @@ export class DataEntryStatisticsFiltersComponent
     private route: ActivatedRoute,
     private router: Router,
     private _dataEntryStatisticsService: DataEntryStatisticsService,
-  ) {}
+  ) { }
 
   public ngOnInit() {
     this.loadFilters();
     this.viewSelected.emit(this.selectedView);
     this.route
-    .queryParams
-    .subscribe((params) => {
-      if (params) {
-           this.params = params;
-           setTimeout(() => {
+      .queryParams
+      .subscribe((params) => {
+        if (params) {
+          this.params = params;
+          setTimeout(() => {
             this.loadFilterFromUrlParams(params);
-           }, 500);
-         }
-     }, (error) => {
+          }, 500);
+        }
+      }, (error) => {
         console.error('Error', error);
-     });
+      });
   }
 
-  public ngOnDestroy() {}
+  public ngOnDestroy() { }
 
   public ngAfterViewInit(): void {
     this._cd.detectChanges();
@@ -161,93 +159,93 @@ export class DataEntryStatisticsFiltersComponent
 
     if (params.startDate && params.view) {
 
-              let newParams: any = {
-                'view': '',
-                'locationUuids': [],
-                'startDate': '',
-                'endDate': '',
-                'encounterTypeUuids': [],
-                'providerUuid': [],
-                'groupBy': []
-              };
+      const newParams: any = {
+        'view': '',
+        'locationUuids': [],
+        'startDate': '',
+        'endDate': '',
+        'encounterTypeUuids': [],
+        'providerUuid': [],
+        'groupBy': []
+      };
 
-              if (params.view) {
-                    this.view = [];
-                    let views = this.loadFilterFromMap(params.view, this.viewMap);
-                    this.view = views;
-                    newParams.view = params.view;
-                    this.toggleSelectedView(params.view);
-              }
-              if (params.locationUuids) {
-                  this.location = [];
-                  let locations = this.loadFilterFromMap(params.locationUuids, this.locationMap);
-                  this.location = locations;
-                  newParams.locationUuids = params.locationUuids;
-              }
-              if (params.startDate) {
-                  this.selectedStartDate = params.startDate;
-                  newParams.startDate = params.startDate;
-                }
-              if (params.endDate) {
-                  this.selectedEndDate = params.endDate;
-                  newParams.endDate = params.endDate;
-              }
-              if (params.encounterTypeUuids) {
-                  this.encounterType = [];
-                  let encounterTypes =
-                  this.loadFilterFromMap(params.encounterTypeUuids, this.encounterMap);
-                  this.encounterType = encounterTypes;
-                  newParams.encounterTypeUuids = params.encounterTypeUuids;
-              }
-              if (params.groupBy) {
-                  newParams.groupBy = params.groupBy;
-              }
-              if (params.subType) {
-                   newParams.subType = params.subType;
-                   this.subType = params.subType;
-              }
-              if (params.providerUuid) {
-                   this.provider = '';
-                   this.selectedProviderUuid = '';
-                   this.providers = [];
-                   newParams.providerUuid = params.providerUuid;
-                   this.loadProvider(params.providerUuid);
-              }
-              if (params.creatorUuid) {
-                   this.creator = [];
-                   this.selectedCreatorUuid = [];
-                   this.creators = [];
-                   newParams.creatorUuid = params.creatorUuid;
-                   this.loadCreator(params.creatorUuid);
-              }
+      if (params.view) {
+        this.view = [];
+        const views = this.loadFilterFromMap(params.view, this.viewMap);
+        this.view = views;
+        newParams.view = params.view;
+        this.toggleSelectedView(params.view);
+      }
+      if (params.locationUuids) {
+        this.location = [];
+        const locations = this.loadFilterFromMap(params.locationUuids, this.locationMap);
+        this.location = locations;
+        newParams.locationUuids = params.locationUuids;
+      }
+      if (params.startDate) {
+        this.selectedStartDate = params.startDate;
+        newParams.startDate = params.startDate;
+      }
+      if (params.endDate) {
+        this.selectedEndDate = params.endDate;
+        newParams.endDate = params.endDate;
+      }
+      if (params.encounterTypeUuids) {
+        this.encounterType = [];
+        const encounterTypes =
+          this.loadFilterFromMap(params.encounterTypeUuids, this.encounterMap);
+        this.encounterType = encounterTypes;
+        newParams.encounterTypeUuids = params.encounterTypeUuids;
+      }
+      if (params.groupBy) {
+        newParams.groupBy = params.groupBy;
+      }
+      if (params.subType) {
+        newParams.subType = params.subType;
+        this.subType = params.subType;
+      }
+      if (params.providerUuid) {
+        this.provider = '';
+        this.selectedProviderUuid = '';
+        this.providers = [];
+        newParams.providerUuid = params.providerUuid;
+        this.loadProvider(params.providerUuid);
+      }
+      if (params.creatorUuid) {
+        this.creator = [];
+        this.selectedCreatorUuid = [];
+        this.creators = [];
+        newParams.creatorUuid = params.creatorUuid;
+        this.loadCreator(params.creatorUuid);
+      }
 
-              this.filterParams.emit(newParams);
-        }
+      this.filterParams.emit(newParams);
+    }
 
   }
 
   public isString(value) {
-     if (typeof value === 'string') {
-       return true;
-     } else {
-       return false;
-     }
+    if (typeof value === 'string') {
+      return true;
+    } else {
+      return false;
+    }
   }
 
-  public loadFilterFromMap(values: any , map) {
-    let filterArray = [];
+  public loadFilterFromMap(values: any, map) {
+    const filterArray = [];
 
     if (this.isString(values)) {
-      let selectedType = map.get(values);
+      const selectedType = map.get(values);
       filterArray.push(selectedType);
 
-      }else {
-        for (let value of values){
-          let selectedType = map.get(value);
-          filterArray.push(selectedType);
-        }
-
+    } else {
+      for (const value of values) {
+        const selectedType = map.get(value);
+        filterArray.push(selectedType);
       }
+
+    }
 
     return filterArray;
 
@@ -256,43 +254,43 @@ export class DataEntryStatisticsFiltersComponent
   public loadProvider(providerUuid) {
 
     this._providerResourceService.getProviderByUuid(providerUuid).pipe(
-    take(1)).subscribe((provider) => {
-         this.provider = provider.display;
-         this.selectedProviderUuid = provider.uuid;
-    });
+      take(1)).subscribe((provider) => {
+        this.provider = provider.display;
+        this.selectedProviderUuid = provider.uuid;
+      });
 
   }
 
   public loadCreator(creatorUuids) {
 
-    let isString = this.isString(creatorUuids);
-    let creatorArray = [];
+    const isString = this.isString(creatorUuids);
+    const creatorArray = [];
 
     if (!isString) {
 
       _.each(creatorUuids, (creatorUuid) => {
-         this._userService.getUserByUuid(creatorUuid).pipe(
-         take(1)).subscribe((result) => {
-            let specificCreator = {
-               'id': result.uuid,
-               'itemName': result.person.display
+        this._userService.getUserByUuid(creatorUuid).pipe(
+          take(1)).subscribe((result) => {
+            const specificCreator = {
+              'id': result.uuid,
+              'itemName': result.person.display
             };
 
-            creatorArray.push(specificCreator );
-         });
-    });
+            creatorArray.push(specificCreator);
+          });
+      });
 
     } else {
 
       this._userService.getUserByUuid(creatorUuids).pipe(
-         take(1)).subscribe((result) => {
-            let specificCreator = {
-               'id': result.uuid,
-               'itemName': result.person.display
-            };
+        take(1)).subscribe((result) => {
+          const specificCreator = {
+            'id': result.uuid,
+            'itemName': result.person.display
+          };
 
-            creatorArray.push(specificCreator );
-         });
+          creatorArray.push(specificCreator);
+        });
 
     }
 
@@ -304,20 +302,20 @@ export class DataEntryStatisticsFiltersComponent
   public getDataEntryEncounterTypes() {
     this._dataEntryStatisticsService
       .getDataEntryStatisticsTypes().pipe(
-      take(1)).subscribe((result) => {
-        if (result) {
-          let viewTypes = result;
-          this.processViewTypes(viewTypes);
-        }
-      });
+        take(1)).subscribe((result) => {
+          if (result) {
+            const viewTypes = result;
+            this.processViewTypes(viewTypes);
+          }
+        });
   }
 
   public getLocations() {
     this._locationResourceService.getLocations().pipe(
-    take(1)).subscribe((result) => {
-         let locations = result;
-         this.processLocations(locations);
-    });
+      take(1)).subscribe((result) => {
+        const locations = result;
+        this.processLocations(locations);
+      });
 
   }
 
@@ -331,10 +329,10 @@ export class DataEntryStatisticsFiltersComponent
 
   public loadSelectedCreator() {
 
-    let creatorArray = [];
+    const creatorArray = [];
     this.selectedCreatorUuid = [];
     _.each(this.creator, (creator: any) => {
-          creatorArray.push(creator.id);
+      creatorArray.push(creator.id);
     });
 
     this.selectedCreatorUuid = creatorArray;
@@ -342,10 +340,10 @@ export class DataEntryStatisticsFiltersComponent
   }
 
   public processViewTypes(viewTypes) {
-    let viewsArray = [];
+    const viewsArray = [];
 
     _.each(viewTypes, (view: any) => {
-      let specificView = { id: view.id, itemName: view.subType };
+      const specificView = { id: view.id, itemName: view.subType };
       this.viewMap.set(view.id, specificView);
       viewsArray.push(specificView);
     });
@@ -354,9 +352,9 @@ export class DataEntryStatisticsFiltersComponent
 
   public processLocations(locations) {
 
-    let locationArray = [];
+    const locationArray = [];
     _.each(locations, (location: any) => {
-      let specificLocation = { id: location.uuid, itemName: location.display };
+      const specificLocation = { id: location.uuid, itemName: location.display };
       this.locationMap.set(location.uuid, specificLocation);
       locationArray.push(specificLocation);
     });
@@ -367,7 +365,7 @@ export class DataEntryStatisticsFiltersComponent
 
   public selectView($event: any) {
     this.resetViews();
-    let view = $event.id;
+    const view = $event.id;
     this.toggleViewParams(view);
     this.selectedViewType = view;
     this.showFilters = true;
@@ -385,33 +383,33 @@ export class DataEntryStatisticsFiltersComponent
     this.loadSelectedLocation();
   }
   public loadSelectedLocation() {
-       let locationsArray = this.location;
-       this.selectedLocation = [];
-       _.each(locationsArray, (locationItem: any) => {
-           this.selectedLocation.push(locationItem.id);
-       });
+    const locationsArray = this.location;
+    this.selectedLocation = [];
+    _.each(locationsArray, (locationItem: any) => {
+      this.selectedLocation.push(locationItem.id);
+    });
   }
 
   public getEncounterTypes() {
-    let encounters = this._encounterResourceService.getEncounterTypes('all').pipe(
-    take(1)).subscribe((results) => {
-      if (results) {
-            this.processEncounterTypes(results);
-      }
-    });
+    this._encounterResourceService.getEncounterTypes('all').pipe(
+      take(1)).subscribe((results) => {
+        if (results) {
+          this.processEncounterTypes(results);
+        }
+      });
   }
 
   public processEncounterTypes(encounterTypes) {
 
-    let encounterTypesArray = [];
+    const encounterTypesArray = [];
 
     _.each(encounterTypes, (encounterType: any) => {
-         let specificEncounterType = {
-             'id': encounterType.uuid,
-             'itemName': encounterType.display
-         };
-         this.encounterMap.set(encounterType.uuid, specificEncounterType);
-         encounterTypesArray.push(specificEncounterType);
+      const specificEncounterType = {
+        'id': encounterType.uuid,
+        'itemName': encounterType.display
+      };
+      this.encounterMap.set(encounterType.uuid, specificEncounterType);
+      encounterTypesArray.push(specificEncounterType);
     });
 
     this.encounterTypes = encounterTypesArray;
@@ -419,7 +417,7 @@ export class DataEntryStatisticsFiltersComponent
   }
 
   public encounterTypeSelect($event) {
-     this.loadSelectedEncounterType();
+    this.loadSelectedEncounterType();
   }
   public resetEncounterTypes() {
     this.encounterType = [];
@@ -431,30 +429,30 @@ export class DataEntryStatisticsFiltersComponent
   }
 
   public encounterTypeDeselect($event) {
-     this.loadSelectedEncounterType();
+    this.loadSelectedEncounterType();
   }
 
   public loadSelectedEncounterType() {
-       this.selectedEncounterTypes = [];
-       _.each(this.encounterType, (encounter: any) => {
-            this.selectedEncounterTypes.push(encounter.id);
-       });
+    this.selectedEncounterTypes = [];
+    _.each(this.encounterType, (encounter: any) => {
+      this.selectedEncounterTypes.push(encounter.id);
+    });
   }
 
   public getSelectedStartDate($event) {
-      let selectedDate = $event;
-      this.selectedEndDate = Moment(selectedDate).add(6, 'days' ).toISOString();
-      this.selectedStartDate = Moment(selectedDate).toISOString();
+    const selectedDate = $event;
+    this.selectedEndDate = Moment(selectedDate).add(6, 'days').toISOString();
+    this.selectedStartDate = Moment(selectedDate).toISOString();
   }
   public getSelectedEndDate($event) {
-      let selectedDate = $event;
-      this.selectedEndDate = Moment(selectedDate).toISOString();
+    const selectedDate = $event;
+    this.selectedEndDate = Moment(selectedDate).toISOString();
   }
   public getSelectedStartMonth($event) {
 
-    let selectedDate = Moment($event).format('YYYY-MM-DD');
+    const selectedDate = Moment($event).format('YYYY-MM-DD');
     this.selectedStartDate = Moment(selectedDate).startOf('month').toISOString();
-    this.selectedEndDate = Moment(this.selectedStartDate).add(12, 'months' ).toISOString();
+    this.selectedEndDate = Moment(this.selectedStartDate).add(12, 'months').toISOString();
   }
 
   public resetViews() {
@@ -472,25 +470,25 @@ export class DataEntryStatisticsFiltersComponent
     switch (view) {
       case 'view1':
         this.selectedStartDate = Moment().format();
-        this.selectedEndDate = Moment(this.selectedStartDate).add(6, 'days' ).format();
+        this.selectedEndDate = Moment(this.selectedStartDate).add(6, 'days').format();
         this.subType = 'by-date-by-encounter-type';
         this.groupBy = ['groupByLocationId', 'groupByDate', 'groupByEncounterTypeId'];
         break;
       case 'view2':
         this.selectedStartDate = Moment().startOf('month').toISOString();
-        this.selectedEndDate = Moment(this.selectedStartDate).add(12, 'months' ).format();
+        this.selectedEndDate = Moment(this.selectedStartDate).add(12, 'months').format();
         this.subType = 'by-month-by-encounter-type';
         this.groupBy = ['groupByLocationId', 'groupByMonth', 'groupByEncounterTypeId'];
         break;
       case 'view3':
         this.selectedStartDate = Moment().format();
-        this.selectedEndDate = Moment(this.selectedStartDate).add(6, 'days' ).format();
+        this.selectedEndDate = Moment(this.selectedStartDate).add(6, 'days').format();
         this.subType = 'by-provider-by-encounter-type';
         this.groupBy = ['groupByLocationId', 'groupByProviderId', 'groupByEncounterTypeId'];
         break;
       case 'view4':
         this.selectedStartDate = Moment().format();
-        this.selectedEndDate = Moment(this.selectedStartDate).add(6, 'days' ).format();
+        this.selectedEndDate = Moment(this.selectedStartDate).add(6, 'days').format();
         this.subType = 'by-creator-by-encounter-type';
         this.groupBy = ['groupByLocationId', 'groupByCreatorId', 'groupByEncounterTypeId'];
         break;
@@ -528,40 +526,40 @@ export class DataEntryStatisticsFiltersComponent
   }
 
   public searchProvider(providerSearchTerm) {
-     if (providerSearchTerm.length > 3) {
-     this._providerResourceService
-       .searchProvider(providerSearchTerm).pipe(
-       take(1)).subscribe((results) => {
-         if (results) {
-            this.processProviders(results);
-         }
-       });
+    if (providerSearchTerm.length > 3) {
+      this._providerResourceService
+        .searchProvider(providerSearchTerm).pipe(
+          take(1)).subscribe((results) => {
+            if (results) {
+              this.processProviders(results);
+            }
+          });
 
-      }
-     if (providerSearchTerm.length === 0 ) {
-          this.selectedProviderUuid = '';
-      }
+    }
+    if (providerSearchTerm.length === 0) {
+      this.selectedProviderUuid = '';
+    }
 
   }
 
   public processProviders(providers) {
 
-      let providersArray = [];
+    const providersArray = [];
 
-      _.each(providers, (provider: any) => {
-         let providerPerson = provider.person;
-         if (providerPerson !== null) {
-           let specificProvider = {
-               'name': provider.display,
-               'uuid': provider.uuid
-           };
+    _.each(providers, (provider: any) => {
+      const providerPerson = provider.person;
+      if (providerPerson !== null) {
+        const specificProvider = {
+          'name': provider.display,
+          'uuid': provider.uuid
+        };
 
-           providersArray.push(specificProvider);
+        providersArray.push(specificProvider);
 
-          }
-      });
+      }
+    });
 
-      this.providers = providersArray;
+    this.providers = providersArray;
 
   }
 
@@ -581,48 +579,48 @@ export class DataEntryStatisticsFiltersComponent
   public searchCreator(creatorSearchTerm) {
     this._userService
       .searchUsers(creatorSearchTerm).pipe(
-      take(1)).subscribe((results) => {
-        if (results) {
-           this.processCreators(results);
-        }
-      });
+        take(1)).subscribe((results) => {
+          if (results) {
+            this.processCreators(results);
+          }
+        });
 
   }
 
   public processCreators(creators) {
 
-    let creatorsArray = [];
+    const creatorsArray = [];
 
     _.each(creators, (creator: any) => {
-       let providerPerson = creator.person;
-       if (providerPerson !== null) {
-         let specificCreator = {
-             'itemName': creator.person.display,
-             'id': creator.uuid
-         };
+      const providerPerson = creator.person;
+      if (providerPerson !== null) {
+        const specificCreator = {
+          'itemName': creator.person.display,
+          'id': creator.uuid
+        };
 
-         creatorsArray.push(specificCreator);
+        creatorsArray.push(specificCreator);
 
-        }
+      }
     });
 
     this.creators = creatorsArray;
 
-}
+  }
 
-public search() {
-   this.sendRequest = true;
-   this.setQueryParams();
+  public search() {
+    this.sendRequest = true;
+    this.setQueryParams();
 
-}
+  }
 
-public resetDisplayMsg() {
+  public resetDisplayMsg() {
 
-  this.displayMsg = { 'show': false , 'message': ''};
+    this.displayMsg = { 'show': false, 'message': '' };
 
-}
+  }
 
-public setQueryParams() {
+  public setQueryParams() {
 
     this.params = {
       'groupBy': this.groupBy,
@@ -637,66 +635,66 @@ public setQueryParams() {
     };
 
     const currentParams = this.route.snapshot.queryParams;
-    let navigationData = {
-        queryParams: this.params,
-        replaceUrl: true
+    const navigationData = {
+      queryParams: this.params,
+      replaceUrl: true
     };
 
-    let currentUrl = this.router.url;
-    let routeUrl = currentUrl.split('?')[0];
+    const currentUrl = this.router.url;
+    const routeUrl = currentUrl.split('?')[0];
     this.router.navigate([routeUrl], navigationData);
 
-}
+  }
 
-public hideFilter() {
-  this.showFilters = false;
-}
+  public hideFilter() {
+    this.showFilters = false;
+  }
 
-public showFilter() {
-  this.showFilters = true;
-}
+  public showFilter() {
+    this.showFilters = true;
+  }
 
-public previousWeek() {
-  this.selectedStartDate = Moment(this.selectedStartDate).subtract(7, 'days' ).format();
-  this.selectedEndDate = Moment(this.selectedStartDate).add(6, 'days' ).format();
-  this.search();
-}
+  public previousWeek() {
+    this.selectedStartDate = Moment(this.selectedStartDate).subtract(7, 'days').format();
+    this.selectedEndDate = Moment(this.selectedStartDate).add(6, 'days').format();
+    this.search();
+  }
 
-public nextWeek() {
-  this.selectedStartDate = Moment(this.selectedStartDate).add(7, 'days' ).format();
-  this.selectedEndDate = Moment(this.selectedStartDate).add(6, 'days' ).format();
-  this.search();
-}
+  public nextWeek() {
+    this.selectedStartDate = Moment(this.selectedStartDate).add(7, 'days').format();
+    this.selectedEndDate = Moment(this.selectedStartDate).add(6, 'days').format();
+    this.search();
+  }
 
-public previousYear() {
-   this.selectedStartDate = Moment(this.selectedStartDate).subtract(12, 'months' ).format();
-   this.selectedEndDate = Moment(this.selectedStartDate).add(11, 'months' ).format();
-   this.search();
-}
-public nextYear() {
-  this.selectedStartDate = Moment(this.selectedStartDate).add(12, 'months' ).format();
-  this.selectedEndDate = Moment(this.selectedStartDate).add(11, 'months' ).format();
-  this.search();
-}
+  public previousYear() {
+    this.selectedStartDate = Moment(this.selectedStartDate).subtract(12, 'months').format();
+    this.selectedEndDate = Moment(this.selectedStartDate).add(11, 'months').format();
+    this.search();
+  }
+  public nextYear() {
+    this.selectedStartDate = Moment(this.selectedStartDate).add(12, 'months').format();
+    this.selectedEndDate = Moment(this.selectedStartDate).add(11, 'months').format();
+    this.search();
+  }
 
-public resetFilter() {
-  this.location = [];
-  this.encounterType = [];
-  this.creator = [];
-  this.provider = '';
-  this.selectedLocation = [];
-  this.selectedCreatorUuid = [];
-  this.selectedEncounterTypes = [];
-  this.selectedProviderUuid = '';
-}
+  public resetFilter() {
+    this.location = [];
+    this.encounterType = [];
+    this.creator = [];
+    this.provider = '';
+    this.selectedLocation = [];
+    this.selectedCreatorUuid = [];
+    this.selectedEncounterTypes = [];
+    this.selectedProviderUuid = '';
+  }
 
-public resetAll() {
- this.resetFilter();
- this.view = [];
- this.sendRequest = false;
- // this.setQueryParams();
- this.filterReset.emit(true);
+  public resetAll() {
+    this.resetFilter();
+    this.view = [];
+    this.sendRequest = false;
+    // this.setQueryParams();
+    this.filterReset.emit(true);
 
-}
+  }
 
 }

@@ -1,10 +1,10 @@
 
-import {take} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
-import { ClinicalNotesResourceService }  from '../../../etl-api/clinical-notes-resource.service';
+import { ClinicalNotesResourceService } from '../../../etl-api/clinical-notes-resource.service';
 import { ClinicalNotesHelperService } from './clinical-notes.helper';
 import { Subscription } from 'rxjs';
 
@@ -13,15 +13,15 @@ import { Subscription } from 'rxjs';
   templateUrl: './clinical-notes.component.html',
   styleUrls: ['./clinical-notes.component.css']
 })
-export class ClinicalNotesComponent implements OnInit, OnDestroy  {
+export class ClinicalNotesComponent implements OnInit, OnDestroy {
 
-  public dataLoaded: boolean = false;
+  public dataLoaded = false;
 
-  public hasNotes: boolean = false;
+  public hasNotes = false;
 
-  public fetching: boolean = true;
+  public fetching = true;
 
-  public experiencedLoadingError: boolean = false;
+  public experiencedLoadingError = false;
 
   public isBusy: Subscription;
 
@@ -31,9 +31,9 @@ export class ClinicalNotesComponent implements OnInit, OnDestroy  {
 
   private subscription: Subscription;
 
-  private nextStartIndex: number = 0;
+  private nextStartIndex = 0;
 
-  private patientUuid: string = '';
+  private patientUuid = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -108,9 +108,9 @@ export class ClinicalNotesComponent implements OnInit, OnDestroy  {
       this.patientUuid,
       startIndex,
       limit
-    ).pipe(take(1)).subscribe((data:any) => {
+    ).pipe(take(1)).subscribe((data: any) => {
 
-      let _notes = data.notes;
+      const _notes = data.notes;
 
       if (_notes.length > 0) {
 

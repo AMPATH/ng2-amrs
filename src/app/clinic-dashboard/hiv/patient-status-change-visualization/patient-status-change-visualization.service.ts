@@ -188,11 +188,11 @@ export class PatientStatuChangeVisualizationService {
   }
 
   public generateCumulativeChart(options) {
-    let columnSeries = this.generateSeries(options, options.columnIndicators, 'column');
-    let barSeries = this.generateSeries(options, options.barIndicators, 'bar');
-    let lineSeries = this.generateSeries(options, options.lineIndicators, 'spline');
-    let areaSeries = this.generateSeries(options, options.areaIndicators, 'area');
-    let combinedSeries = areaSeries.concat(columnSeries).concat(barSeries).concat(lineSeries);
+    const columnSeries = this.generateSeries(options, options.columnIndicators, 'column');
+    const barSeries = this.generateSeries(options, options.barIndicators, 'bar');
+    const lineSeries = this.generateSeries(options, options.lineIndicators, 'spline');
+    const areaSeries = this.generateSeries(options, options.areaIndicators, 'area');
+    const combinedSeries = areaSeries.concat(columnSeries).concat(barSeries).concat(lineSeries);
     return {
       chart: {
         zoomType: 'xy',
@@ -261,16 +261,16 @@ export class PatientStatuChangeVisualizationService {
   }
 
   public generateMonthlyAnalysisChart(chartOptions) {
-    let options: any = {};
+    const options: any = {};
     Object.assign(options, chartOptions);
-    let colors: Array<any> = this.getMonoChromeColors(options.analysisType);
-    let lineIndicators = _.union(options.lineIndicators, [{name: options.analysisType, yAxis: 1}]);
-    let columnSeries = this.generateSeries(options,
+    const colors: Array<any> = this.getMonoChromeColors(options.analysisType);
+    const lineIndicators = _.union(options.lineIndicators, [{name: options.analysisType, yAxis: 1}]);
+    const columnSeries = this.generateSeries(options,
       this.generateSeriesDefinition(options.analysisType), 'column');
-    let barSeries = this.generateSeries(options, options.barIndicators, 'bar');
-    let lineSeries = this.generateSeries(options, lineIndicators, 'spline');
-    let areaSeries = this.generateSeries(options, options.areaIndicators, 'area');
-    let combinedSeries = areaSeries.concat(columnSeries).concat(barSeries).concat(lineSeries);
+    const barSeries = this.generateSeries(options, options.barIndicators, 'bar');
+    const lineSeries = this.generateSeries(options, lineIndicators, 'spline');
+    const areaSeries = this.generateSeries(options, options.areaIndicators, 'area');
+    const combinedSeries = areaSeries.concat(columnSeries).concat(barSeries).concat(lineSeries);
     return {
       events: {
         redraw: true
@@ -348,8 +348,8 @@ export class PatientStatuChangeVisualizationService {
   }
 
   public generateSeriesDefinition(analysisType: string): any {
-    let seriesDef = [];
-    let indicators = this.getGainLostIndicators(analysisType);
+    const seriesDef = [];
+    const indicators = this.getGainLostIndicators(analysisType);
 
     _.each(indicators.patientGain, (indicator) => {
       seriesDef.push({
@@ -371,16 +371,16 @@ export class PatientStatuChangeVisualizationService {
 
   public generateColumnDefinitions(renderType: string, analysisType: string,
                                    indicatorDef: any) {
-    let columnLabelMap: any =
+    const columnLabelMap: any =
       this.generateDynamicColumns(analysisType, renderType, indicatorDef);
-    let columns = [];
-    for (let row in columnLabelMap) {
+    const columns = [];
+    for (const row in columnLabelMap) {
       if (columnLabelMap.hasOwnProperty(row)) {
-        let rowData = columnLabelMap[row];
+        const rowData = columnLabelMap[row];
         if (_.isEmpty(rowData.tooltip) || _.isUndefined(rowData.tooltip)) {
           rowData.tooltip = this.getIndicatorDefinition(indicatorDef, row);
         }
-        let column = {
+        const column = {
           headerName: rowData.columnTitle,
           tooltipTitle: rowData.tooltip || '',
           color: rowData.color || 'deepskyblue',
@@ -406,15 +406,16 @@ export class PatientStatuChangeVisualizationService {
 
   public processData(plot: string, result, analysisType, removeLast): Array<any> {
     if (analysisType === 'cohortAnalysis') {
+      // tslint:disable-next-line:no-shadowed-variable
       result.forEach((data, i) => {
-        let formatted = data.indicator;
+        const formatted = data.indicator;
         data['state_change'] = this.snakeToTitle(formatted
           .replace('self_transfer_out_', 'self_transfer_in_'));
       });
       return result;
     }
-    let indicators = this.getGainLostIndicators(plot);
-    let data = _.cloneDeep(result); // making sure it is immutable
+    const indicators = this.getGainLostIndicators(plot);
+    const data = _.cloneDeep(result); // making sure it is immutable
     _.each(data, (row, i) => {
 
       row['patients_gained'] = 0;
@@ -432,7 +433,7 @@ export class PatientStatuChangeVisualizationService {
 
     });
     // remove last element
-    let finalData = !(analysisType === 'monthlyAnalysis' && removeLast)
+    const finalData = !(analysisType === 'monthlyAnalysis' && removeLast)
       ? _.cloneDeep(data) : _.cloneDeep(data).slice(1);
     return finalData;
 
@@ -445,7 +446,7 @@ export class PatientStatuChangeVisualizationService {
     if (renderType === 'cumulativeAnalysis' || renderType === 'cohortAnalysis') {
       return column; // not a dynamic view
     }
-    let indicators = this.getGainLostIndicators(analysisType);
+    const indicators = this.getGainLostIndicators(analysisType);
     column = _.merge(column, {
       [indicators.indicator]: {
         columnTitle: this.snakeToTitle(indicators.indicator),
@@ -458,8 +459,8 @@ export class PatientStatuChangeVisualizationService {
     });
 
     _.each(indicators.patientGain, (indicator) => {
-      let patientStatus = indicator.split('_to_');
-      let tooltip = 'These are patients who were: "' + this.snakeToTitle(patientStatus[0])
+      const patientStatus = indicator.split('_to_');
+      const tooltip = 'These are patients who were: "' + this.snakeToTitle(patientStatus[0])
         + '" in the previous month but changed to "' + this.snakeToTitle(patientStatus[1])
         + '" this reporting month';
       column = _.merge(column, {
@@ -475,8 +476,8 @@ export class PatientStatuChangeVisualizationService {
     });
 
     _.each(indicators.patientLost, (indicator) => {
-      let patientStatus = indicator.split('_to_');
-      let tooltip = 'These are patients who were: "' + this.snakeToTitle(patientStatus[0])
+      const patientStatus = indicator.split('_to_');
+      const tooltip = 'These are patients who were: "' + this.snakeToTitle(patientStatus[0])
         + '" in the previous month but changed to "' + this.snakeToTitle(patientStatus[1])
         + '" this reporting month';
       column = _.merge(column, {
@@ -534,7 +535,7 @@ export class PatientStatuChangeVisualizationService {
   }
 
   private getGainLostIndicators(plot: string): any {
-    let indicators = {
+    const indicators = {
       indicator: plot,
       patientGain: [],
       patientLost: [],
@@ -566,8 +567,8 @@ export class PatientStatuChangeVisualizationService {
   }
 
   private getMonoChromeColors(analysisType) {
-    let indicators = this.getGainLostIndicators(analysisType);
-    let colors = [];
+    const indicators = this.getGainLostIndicators(analysisType);
+    const colors = [];
     for (let i = 0; i < indicators.patientGain.length; i += 1) {
       colors.push(highCharts.Color('#337ab7').brighten((i - 4) / 7).get());
     }
@@ -580,28 +581,28 @@ export class PatientStatuChangeVisualizationService {
   }
 
   private snakeToTitle(str) {
-    let join = str.split('_').map((item) => {
+    const join = str.split('_').map((item) => {
       return item.charAt(0).toUpperCase() + item.substring(1);
     }).join(' ');
     return join;
   }
 
   private generateCategories(dataSet) {
-    let processed = [];
-    for (let result of dataSet) {
+    const processed = [];
+    for (const result of dataSet) {
       processed.push(result.reporting_month);
     }
     return processed;
   }
 
   private generateSeries(options, indicators, type) {
-    let processed = [];
-    let dataSet = options.data;
-    for (let indicator of indicators) {
-      let data = dataSet.map((_data) => {
+    const processed = [];
+    const dataSet = options.data;
+    for (const indicator of indicators) {
+      const data = dataSet.map((_data) => {
         return _data[indicator.name];
       });
-      let column = {
+      const column = {
         type: type,
         name: this.snakeToTitle(indicator.name),
         stack: indicator.stack || indicator.name,
@@ -609,12 +610,12 @@ export class PatientStatuChangeVisualizationService {
         point: {
           events: {
             click: (event) => {
-              let _data = dataSet.find((a) => {
+              const _data = dataSet.find((a) => {
                 return a.reporting_month === event.point.category;
               });
-              let dateMoment = Moment(_data.reporting_date);
-              let startOfMonth = dateMoment.startOf('month').format('YYYY-MM-DD');
-              let endOfMonth = dateMoment.endOf('month').format('YYYY-MM-DD');
+              const dateMoment = Moment(_data.reporting_date);
+              const startOfMonth = dateMoment.startOf('month').format('YYYY-MM-DD');
+              const endOfMonth = dateMoment.endOf('month').format('YYYY-MM-DD');
               this.router.navigate(['../patient-list']
                 , {
                   relativeTo: this.route, queryParams: {

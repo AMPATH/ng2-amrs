@@ -26,11 +26,11 @@ export class PatientStatusDatalistCellComponent {
       return true;
     }
 
-    let analysisType = this.params.colDef.analysisType;
-    let dateMoment = Moment(this.params.data.reporting_date);
-    let startOfMonth = dateMoment.startOf('month').format('YYYY-MM-DD');
-    let endOfMonth = dateMoment.endOf('month').format('YYYY-MM-DD');
-    let indicator = this.params.column.colId;
+    const analysisType = this.params.colDef.analysisType;
+    const dateMoment = Moment(this.params.data.reporting_date);
+    const startOfMonth = dateMoment.startOf('month').format('YYYY-MM-DD');
+    const endOfMonth = dateMoment.endOf('month').format('YYYY-MM-DD');
+    const indicator = this.params.column.colId;
     switch (analysisType) {
       case 'cohortAnalysis':
         this.router.navigate(['./patient-list'], {

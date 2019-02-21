@@ -3,7 +3,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import * as Moment from 'moment';
 @Injectable()
 export class ClinicDashboardCacheService {
-    public dataIsLoading: boolean = true;
+    public dataIsLoading = true;
     private cached = {};
     private initialUuid;
     private currentClinic = new BehaviorSubject(this.initialUuid);

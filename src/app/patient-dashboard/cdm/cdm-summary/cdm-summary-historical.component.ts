@@ -1,4 +1,3 @@
-
 import {take} from 'rxjs/operators/take';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
@@ -12,18 +11,18 @@ import { Subscription } from 'rxjs';
   templateUrl: './cdm-summary-historical.component.html'
 })
 export class CdmSummaryHistoricalComponent implements OnInit, OnDestroy {
-  public loadingCdmSummary: boolean = false;
+  public loadingCdmSummary = false;
   public cdmSummaries: Array<any> = [];
   public patient: Patient;
   public patientUuid: any;
   public subscription: Subscription;
-  public experiencedLoadingError: boolean = false;
-  public dataLoaded: boolean = false;
+  public experiencedLoadingError = false;
+  public dataLoaded = false;
   public errors: any = [];
   public isLoading: boolean;
-  public nextStartIndex: number = 0;
+  public nextStartIndex = 0;
   public limit = 20;
-  public page: number = 1;
+  public page = 1;
 
   constructor(
     private patientService: PatientService,
@@ -64,13 +63,13 @@ export class CdmSummaryHistoricalComponent implements OnInit, OnDestroy {
     take(1)).subscribe((data) => {
       if (data) {
         if (data.length > 0) {
-          for (let r in data) {
+          for (const r in data) {
             if (data.hasOwnProperty(r)) {
-              let cdmsum = data[r];
+              const cdmsum = data[r];
               this.cdmSummaries.push(cdmsum);
             }
           }
-          let size: number = data.length;
+          const size = data.length;
           this.nextStartIndex = this.nextStartIndex + size;
           this.isLoading = false;
         } else {

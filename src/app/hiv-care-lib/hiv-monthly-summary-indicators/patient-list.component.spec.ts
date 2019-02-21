@@ -13,7 +13,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { HivMonthlySummaryIndicatorsPatientListComponent } from './patient-list.component';
 import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
 import {
-  HivMonthlySummaryIndicatorsResourceService
+    HivMonthlySummaryIndicatorsResourceService
 } from '../../etl-api/hiv-monthly-summary-indicators-resource.service';
 class MockRouter {
     navigate = jasmine.createSpy('navigate');
@@ -24,7 +24,7 @@ class MockActivatedRoute {
 
 class FakeHivSummaryIndicatorsResourceService {
 
-  getHivSummaryMonthlyIndicatorsPatientList(params): Observable<any> {
+    getHivSummaryMonthlyIndicatorsPatientList(params): Observable<any> {
         return of({ status: 'okay' });
     }
 
@@ -36,7 +36,7 @@ describe('Component: HivSummaryIndicatorsPatientListComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [
-              HivMonthlySummaryIndicatorsPatientListComponent
+                HivMonthlySummaryIndicatorsPatientListComponent
             ],
             imports: [
                 NgamrsSharedModule,
@@ -67,7 +67,7 @@ describe('Component: HivSummaryIndicatorsPatientListComponent', () => {
 
     }));
 
-    afterAll(() => {
+    afterEach(() => {
         TestBed.resetTestingModule();
     });
 
@@ -86,12 +86,12 @@ describe('Component: HivSummaryIndicatorsPatientListComponent', () => {
         currentTestComponent.endAge = 120;
         currentTestComponent.ngOnInit();
         currentTestFixture.detectChanges();
-        let h3strong: Array<DebugElement> = currentTestFixture.debugElement
+        const h3strong: Array<DebugElement> = currentTestFixture.debugElement
             .queryAll(By.css('h3'));
-        let h5strong: Array<DebugElement> = currentTestFixture.debugElement
+        const h5strong: Array<DebugElement> = currentTestFixture.debugElement
             .queryAll(By.css('h5'));
-        let onArvs = h3strong[0].nativeElement;
-        let date = h5strong[0].nativeElement;
+        const onArvs = h3strong[0].nativeElement;
+        const date = h5strong[0].nativeElement;
         expect(h3strong.length).toBe(1);
         expect(h5strong.length).toBe(1);
         expect(onArvs.textContent).toContain('On Arvs');

@@ -26,8 +26,8 @@
     </div>
     <div>
       <div class="row" style="margin: 7px;">
-        <button type="button" style="color:green" (click)="showModal(enrollMembers)"
-          *ngIf="!group.endDate" mat-raised-button>
+        <button type="button" style="color:green" (click)="showModal(enrollMembers)" *ngIf="!group.endDate"
+          mat-raised-button>
           <i class="fa fa-plus"></i> Enroll Members</button>
         <div class="pull-right">
           <div class="btn-group" role="group">
@@ -37,7 +37,7 @@
             </button>
 
             <button type="button" (click)="showModal(startGroupVisitModal)" mat-raised-button [class.ongoing]="visitStartedToday"
-             *ngIf="activeMembers.length && !group.endDate">
+              *ngIf="activeMembers.length && !group.endDate">
               <i class="fa fa-group"></i>
               <span *ngIf="!visitStartedToday"> Start Group Meeting</span>
               <span *ngIf="visitStartedToday"> Started Group Meeting Today</span>
@@ -66,8 +66,8 @@
 <ng-template #editMembership>
   <div class="modal-header">
     <h4 class="modal-title pull-left">
-        <span *ngIf="!group.endDate">End Memberships </span>
-        <span *ngIf="group.endDate">View Memberships </span>
+      <span *ngIf="!group.endDate">End Memberships </span>
+      <span *ngIf="group.endDate">View Memberships </span>
     </h4>
     <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
@@ -95,9 +95,9 @@
                   {{member.phoneNumber.value}}
                 </td>
                 <td *ngIf="!member.phoneNumber">
-                    -
-                  </td>
-           
+                  -
+                </td>
+
                 <td>{{ member.startDate | date : 'medium' }}</td>
                 <td>
                   <button (click)="showDateModal(member, 'End Membership For ' + member.patient.person.display)" class="btn btn-sm btn-danger">
@@ -127,11 +127,11 @@
               <tr *ngIf="member.endDate">
                 <td>{{ member.patient.person.display }}</td>
                 <td *ngIf="member.phoneNumber">
-                    {{member.phoneNumber.value}}
-                  </td>
-                  <td *ngIf="!member.phoneNumber">
-                      -
-                    </td>
+                  {{member.phoneNumber.value}}
+                </td>
+                <td *ngIf="!member.phoneNumber">
+                  -
+                </td>
                 <td>{{ member.startDate | date : 'medium' }}</td>
                 <td>{{ member.endDate | date : 'medium' }}</td>
               </tr>
@@ -162,6 +162,10 @@
     <div class="alert alert-danger" *ngIf="enrollmentErrorMessage">
       {{enrollmentErrorMessage}}
     </div>
+    <div class="alert alert-info" *ngIf="showEnrollmentButton">
+      <button class="btn btn-xs btn-primary pull-right" (click)="enrollPatienttoProgram()">Enroll</button>
+      The patient is not enrolled in this program.
+    </div>
     <busy *ngIf="validatingEnrollment" [message]="'Validating Enrollment...'"></busy>
     <app-patient-search (patientSelected)="validateMemberEnrollment($event)" [hideResults]="hideResult"
       [hideRegistration]="true"></app-patient-search>
@@ -183,28 +187,31 @@
     <form #startVisitForm="ngForm">
       <div class="alert alert-warning" *ngIf="((selectedPastGroupVisitDate && !retrospectiveOn) || selectedFutureGroupVisitDate) && !visitStartedForThisDate">
         <b>
-         <i class="fa fa-exclamation-triangle"></i> 
-         <ng-container *ngIf="selectedPastGroupVisitDate && !retrospectiveOn && !visitStartedForThisDate"> You have selected a past date,
-          please make sure to turn on Retrospective Data Entry to proceed.</ng-container>
+          <i class="fa fa-exclamation-triangle"></i>
+          <ng-container *ngIf="selectedPastGroupVisitDate && !retrospectiveOn && !visitStartedForThisDate"> You have
+            selected a past date,
+            please make sure to turn on Retrospective Data Entry to proceed.</ng-container>
           <ng-container *ngIf="selectedFutureGroupVisitDate">
             You have selected a future date, please select the today's or a past date to proceed.
           </ng-container>
         </b>
       </div>
       <div class="alert alert-danger" *ngIf="visitStartedForThisDate">
-          <b><i class="fa fa-exclamation-circle"> </i> A visit was already started for this date. Please select a different date to proceed.</b>
+        <b><i class="fa fa-exclamation-circle"> </i> A visit was already started for this date. Please select a
+          different date to proceed.</b>
       </div>
       <div class="alert alert-danger" *ngIf="visitStartedToday && !selectedPastGroupVisitDate && !selectedFutureGroupVisitDate">
-          <b><i class="fa fa-exclamation-circle"> </i> A visit was already started for today. Please select a different date to proceed.</b>
+        <b><i class="fa fa-exclamation-circle"> </i> A visit was already started for today. Please select a different
+          date to proceed.</b>
       </div>
-      <div class="alert alert-info" *ngIf="selectedPastGroupVisitDate && retrospectiveOn && !visitStartedForThisDate && isSameDay(groupVisitDate.formatted, retroVisitDate)"> 
-          <b> <i class="fa fa-info-circle"> </i> Please note data will be saved Retrospective Data Entry mode. </b>
-       </div>
-       <div class="alert alert-warning" *ngIf="selectedPastGroupVisitDate && retrospectiveOn && 
+      <div class="alert alert-info" *ngIf="selectedPastGroupVisitDate && retrospectiveOn && !visitStartedForThisDate && isSameDay(groupVisitDate.formatted, retroVisitDate)">
+        <b> <i class="fa fa-info-circle"> </i> Please note data will be saved Retrospective Data Entry mode. </b>
+      </div>
+      <div class="alert alert-warning" *ngIf="selectedPastGroupVisitDate && retrospectiveOn && 
        !isSameDay(groupVisitDate.formatted, retroVisitDate) && !visitStartedForThisDate">
-       <b> <i class="fa fa-exclamation-triangle"></i> Retrospective Data Entry is turned on for {{retroVisitDate}},
+        <b> <i class="fa fa-exclamation-triangle"></i> Retrospective Data Entry is turned on for {{retroVisitDate}},
           not for {{groupVisitDate.formatted}}. Make sure the dates are the same. </b>
-       </div>
+      </div>
       <div class="form-group">
         <label>Visit Type</label>
         <select type="text" class="form-control" name="visitType" [(ngModel)]="visitType" required>
@@ -229,9 +236,9 @@
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-primary" (click)="saveGroupVisit()" 
-    [disabled]="!startVisitForm.valid || selectedFutureGroupVisitDate || (selectedPastGroupVisitDate && !retrospectiveOn) || visitStartedForThisDate 
-    || visitStartedToday || (selectedPastGroupVisitDate && retrospectiveOn && !isSameDay(groupVisitDate.formatted, retroVisitDate))"> Start Group Meeting </button>
+    <button type="button" class="btn btn-primary" (click)="saveGroupVisit()" [disabled]="!startVisitForm.valid || selectedFutureGroupVisitDate || (selectedPastGroupVisitDate && !retrospectiveOn) || visitStartedForThisDate 
+    || visitStartedToday || (selectedPastGroupVisitDate && retrospectiveOn && !isSameDay(groupVisitDate.formatted, retroVisitDate))">
+      Start Group Meeting </button>
     <button type="button" class="btn btn-danger" (click)="modalRef.hide()"> Close </button>
   </div>
 </ng-template>

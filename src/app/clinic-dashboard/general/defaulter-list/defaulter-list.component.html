@@ -1,43 +1,23 @@
 <h4 class="component-title" style="color: green;"><span class="fa fa-list"></span> Defaulter List</h4>
-  <div>
-    <div class="row">
-      <div class="form-group col-md-12">
-        <label for="number-days">Enter Minimum Days Missing
-				</label>
-        <input type="number" class="form-control" [(ngModel)]="minDefaultPeriod" />
+<div class="loader" *ngIf="loadingDefaulterList"><span><i class="fa fa-spinner fa-spin"></i>Loading defaulter list...</span></div>
+<program-visit-encounter-search (filterSelected)="filterSelected($event)" [defaultersControl]="defaultersControl">
+</program-visit-encounter-search>
 
-        <label for="number-days">Enter Maximum Days Missing
-				</label>
-        <input type="number" class="form-control" [(ngModel)]="maxDefaultPeriod" />
-      </div>
-    </div>
-    <div class="loader" *ngIf="loadingDefaulterList"><span><i class="fa fa-spinner fa-spin">
-      </i>Loading defaulter list...</span></div>
+<div *ngIf="errors" style="color: red !important">
+  <div *ngFor="let error of errors">{{error.message}}</div>
+</div>
 
-    <div *ngIf="errors" style="color: red !important">
-      <div *ngFor="let error of errors">{{error.message}}</div>
-    </div>
+<patient-list [data]="defaulterList" [extraColumns]="extraColumns()"></patient-list>
+<div *ngIf='!dataLoaded'>
+  <div class="button">
+    <button class="btn btn-primary" [ladda]='isLoading' data-size="xs" data-color="blue" (click)="loadMoreDefaulterList()">
+      <span class=""></span>Load More...</button>
+  </div>
+</div>
 
-    <div *ngIf='!loadingDefaulterList'>
-      <button class="btn btn-info" (click)="loadDefaulterList()">
-				<span class="glyphicon glyphicon-refresh"></span>
-				<span>Load</span>
-			</button>
-    </div>
-
-
-    <patient-list [data]="defaulterList" [extraColumns]="extraColumns()"></patient-list>
-    <div *ngIf='!dataLoaded'>
-      <div class="button">
-        <button class="btn btn-primary" [ladda]='isLoading' data-size="xs" data-color="blue" (click)="loadMoreDefaulterList()">
-    <span class=""></span>Load More...</button>
-      </div>
-    </div>
-
-    <div *ngIf='dataLoaded'>
-      <p class="bg-info" style="padding:4px;">
-        <b>
-			<span style="color:green;" class="glyphicon glyphicon-ok">All records loaded {{'[ ' + defaulterList.length + ' ]'}}</span></b>
-        <p>
-    </div>
+<div *ngIf='dataLoaded'>
+  <p class="bg-info" style="padding:4px;">
+    <b>
+      <span style="color:green;" class="glyphicon glyphicon-ok">All records loaded {{'[ ' + defaulterList.length + ']'}}</span></b>
+    <p>
 </div>

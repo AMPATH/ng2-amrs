@@ -1,6 +1,4 @@
 import { PatientVitalsService } from './patient-vitals.service';
-import { MockBackend } from '@angular/http/testing';
-import { Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 import { TestBed, inject, async } from '@angular/core/testing';
 
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
@@ -19,23 +17,25 @@ import { PatientProgramService } from '../../programs/patient-programs.service';
 import { RoutesProviderService } from '../../../shared/dynamic-route/route-config-provider.service';
 import { ProgramService } from '../../programs/program.service';
 import { ProgramResourceService } from '../../../openmrs-api/program-resource.service';
-import { ProgramWorkFlowResourceService
+import {
+  ProgramWorkFlowResourceService
 } from '../../../openmrs-api/program-workflow-resource.service';
-import { ProgramWorkFlowStateResourceService
+import {
+  ProgramWorkFlowStateResourceService
 } from '../../../openmrs-api/program-workflow-state-resource.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ZscoreService } from 'src/app/shared/services/zscore.service';
 
 describe('Component: Vitals Unit Tests', () => {
 
   let patientVitalsService: PatientVitalsService, patientService: PatientService,
-    fakeAppFeatureAnalytics: AppFeatureAnalytics, component;
+    component;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        MockBackend,
         PatientVitalsService,
         VitalsResourceService,
-        BaseRequestOptions,
         ProgramEnrollmentResourceService,
         ProgramWorkFlowResourceService,
         ProgramWorkFlowStateResourceService,
@@ -47,20 +47,15 @@ describe('Component: Vitals Unit Tests', () => {
         RoutesProviderService,
         PatientResourceService,
         FakeAppFeatureAnalytics,
-        {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
+        ZscoreService,
         {
           provide: AppFeatureAnalytics,
           useClass: FakeAppFeatureAnalytics
         },
         AppSettingsService,
         LocalStorageService
-      ]
+      ],
+      imports: [HttpClientTestingModule]
     });
 
     patientVitalsService = TestBed.get(PatientVitalsService);
@@ -87,20 +82,6 @@ describe('Component: Vitals Unit Tests', () => {
     expect(component.dataLoaded).toBe(false);
     expect(component.loadingVitals).toBe(false);
     expect(component.errors.length).toBe(0);
-
-    done();
-
-  });
-
-  it('should have all the required functions defined and callable', (done) => {
-
-    spyOn(component, 'ngOnInit').and.callThrough();
-    component.ngOnInit();
-    expect(component.ngOnInit).toHaveBeenCalled();
-
-    spyOn(component, 'loadVitals').and.callThrough();
-    component.loadVitals();
-    expect(component.loadVitals).toHaveBeenCalled();
 
     done();
 

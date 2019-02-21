@@ -1,5 +1,5 @@
 
-import {take} from 'rxjs/operators/take';
+import { take } from 'rxjs/operators/take';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Patient } from '../../../models/patient.model';
 import { HivPatientClinicalSummaryService } from './hiv-patient-clinical-summary.service';
@@ -19,19 +19,19 @@ import { PDFDocumentProxy } from 'pdfjs-dist';
 export class HivPatientClinicalSummaryComponent implements OnInit, OnDestroy {
 
   public pdfSrc: string = null; // 'https://vadimdez.github.io/ng2-pdf-viewer/pdf-test.pdf';
-  public page: number = 1;
+  public page = 1;
   public securedUrl: SafeResourceUrl;
-  public isBusy: boolean = false;
+  public isBusy = false;
   public patient: Patient = new Patient({});
   public pdfProxy: PDFDocumentProxy = null;
   public pdfMakeProxy: any = null;
-  public errorFlag: boolean = false;
+  public errorFlag = false;
   private subscription: Subscription;
 
   constructor(private patientClinicalSummary: HivPatientClinicalSummaryService,
-              private patientClinicalSummaryResource: HivPatientClinicalSummaryResourceService,
-              private patientService: PatientService,
-              private domSanitizer: DomSanitizer) {
+    private patientClinicalSummaryResource: HivPatientClinicalSummaryResourceService,
+    private patientService: PatientService,
+    private domSanitizer: DomSanitizer) {
 
   }
 
@@ -45,7 +45,7 @@ export class HivPatientClinicalSummaryComponent implements OnInit, OnDestroy {
     }
   }
 
-  public  generatePdf(): void {
+  public generatePdf(): void {
     this.isBusy = true;
     this.errorFlag = false;
     this.subscription = this.patientService.currentlyLoadedPatient.subscribe(

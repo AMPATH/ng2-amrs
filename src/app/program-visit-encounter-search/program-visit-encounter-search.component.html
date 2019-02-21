@@ -7,7 +7,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-8 col-lg-8 col-sm-8 col-xs-8">
+                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
                         <div class="alert alert-danger" *ngIf="message.message !== ''">
                                 {{message.message}}
                         </div>
@@ -36,7 +36,7 @@
                                         name="program-filter">
                             </angular2-multiselect>
                         </div>
-                        <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12" *ngIf="program.length > 0">
+                        <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12" *ngIf="program.length > 0 && !defaultersControl">
                                 <label class="control-label">Visit Type</label>                                          
                                 <angular2-multiselect #visitTypeFilter
                                                 [data]="visitTypes" 
@@ -49,7 +49,7 @@
                                                 name="visitType-filter">
                                 </angular2-multiselect>
                         </div>
-                        <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12" *ngIf="visitType.length > 0">
+                        <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12" *ngIf="visitType.length > 0 && defaultersControl">
                         <label class="control-label">Encounter Type</label>
 
                             
@@ -81,6 +81,16 @@
                                     ></date-time-picker>
                                 </div>
                         </div>
+                </div>
+                <div class="row" *ngIf="defaultersControl">
+                    <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                        <label for="number-days">Enter Minimum Days Missing</label>
+                        <input type="number" class="form-control" [(ngModel)]="minDefaultPeriod" min="0" name="min-default" />
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                        <label for="number-days">Enter Maximum Days Missing</label>
+                        <input type="number" class="form-control" [(ngModel)]="maxDefaultPeriod" min="0" name="max-default"/>
+                    </div>
                 </div>
               
             </div>

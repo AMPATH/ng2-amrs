@@ -94,7 +94,7 @@ export class LabOrdersSearchHelperService {
 
   public getViralLoadJustification(encounterObs) {
 
-    let obsObject = this.findObsByConceptUuid(encounterObs, '0a98f01f-57f1-44b7-aacf-e1121650a967');
+    const obsObject = this.findObsByConceptUuid(encounterObs, '0a98f01f-57f1-44b7-aacf-e1121650a967');
 
     if (obsObject && obsObject !== null && obsObject.value) {
       if (typeof obsObject.value === 'object' && obsObject.value.uuid) {
@@ -110,19 +110,19 @@ export class LabOrdersSearchHelperService {
   public createDnaPcrPayload(order, encounterObs, encounterLocationUuid,
                              patientIdentifier, patientName, sex, birthDate, dateRecieved) {
 
-    let infantProphylaxisUuid = this.findObsValueByConceptUuid(encounterObs,
+    const infantProphylaxisUuid = this.findObsValueByConceptUuid(encounterObs,
       'a89addfe-1350-11df-a1f1-0026b9348838');
 
-    let pmtctInterventionUuid = this.findObsValueByConceptUuid(encounterObs,
+    const pmtctInterventionUuid = this.findObsValueByConceptUuid(encounterObs,
       'a898bdc6-1350-11df-a1f1-0026b9348838');
 
-    let feedingTypeUuid = this.findObsValueByConceptUuid(encounterObs,
+    const feedingTypeUuid = this.findObsValueByConceptUuid(encounterObs,
       'a89abee6-1350-11df-a1f1-0026b9348838');
 
-    let entryPointUuid = this.findObsValueByConceptUuid(encounterObs,
+    const entryPointUuid = this.findObsValueByConceptUuid(encounterObs,
       'a8a17e48-1350-11df-a1f1-0026b9348838');
 
-    let motherHivStatusUuid = this.findObsValueByConceptUuid(encounterObs,
+    const motherHivStatusUuid = this.findObsValueByConceptUuid(encounterObs,
       'a8afb80a-1350-11df-a1f1-0026b9348838');
 
     return {
@@ -167,7 +167,7 @@ export class LabOrdersSearchHelperService {
                                   artStartDateInitial, artStartDateCurrent,
                                   sampleType, artRegimenIds) {
 
-      let vlJustificationUuid: any = this.findObsValueByConceptUuid(encounterObs,
+      const vlJustificationUuid: any = this.findObsValueByConceptUuid(encounterObs,
         '0a98f01f-57f1-44b7-aacf-e1121650a967');
 
       return {
@@ -190,12 +190,12 @@ export class LabOrdersSearchHelperService {
     }
 
     public formatDate(date) {
-      let momentDate = Moment(date);
+      const momentDate = Moment(date);
       return momentDate.isValid() ? momentDate.format('YYYY-MM-DD') : '';
     }
 
     public findObsValueByConceptUuid(encounterObs, conceptUuid) {
-      let obsObject = this.findObsByConceptUuid(encounterObs, conceptUuid);
+      const obsObject = this.findObsByConceptUuid(encounterObs, conceptUuid);
       if (obsObject && obsObject !== null && obsObject.value) {
         if (typeof obsObject.value === 'object' && obsObject.value.uuid) {
           return obsObject.value.uuid;
@@ -209,7 +209,7 @@ export class LabOrdersSearchHelperService {
 
       if (!obsObject || obsObject === null || !conceptUuid || conceptUuid === null) { return; }
 
-      let found: any = [];
+      const found: any = [];
       this.findObsByConceptUuidRecursively(obsObject, conceptUuid, found);
 
       if (found.length > 0) {
@@ -249,11 +249,11 @@ export class LabOrdersSearchHelperService {
       if (identifiers.length > 0) {
         // return _identifier[0].display.split('=')[1];
         let filteredIdentifiers: any;
-        let identifier = identifiers;
-        let kenyaNationalId = this.getIdentifierByType(identifier, 'KENYAN NATIONAL ID NUMBER');
-        let amrsMrn = this.getIdentifierByType(identifier, 'AMRS Medical Record Number');
-        let ampathMrsUId = this.getIdentifierByType(identifier, 'AMRS Universal ID');
-        let cCC = this.getIdentifierByType(identifier, 'CCC Number');
+        const identifier = identifiers;
+        const kenyaNationalId = this.getIdentifierByType(identifier, 'KENYAN NATIONAL ID NUMBER');
+        const amrsMrn = this.getIdentifierByType(identifier, 'AMRS Medical Record Number');
+        const ampathMrsUId = this.getIdentifierByType(identifier, 'AMRS Universal ID');
+        const cCC = this.getIdentifierByType(identifier, 'CCC Number');
         if ((kenyaNationalId) === undefined && (amrsMrn) === undefined &&
           (ampathMrsUId) === undefined && (cCC) === undefined) {
           if ((identifiers[0].identifier)) {
@@ -277,25 +277,26 @@ export class LabOrdersSearchHelperService {
 
     private getIdentifierByType(identifierObject, type) {
       if (_.isArray(identifierObject)) {
-        let identifiers = _.filter(identifierObject, (identifier) => {
+        // tslint:disable-next-line:no-shadowed-variable
+        const identifiers = _.filter(identifierObject, (identifier) => {
           if (_.indexOf(identifier.display, '=') > 0) {
-            let idType = identifier.display.split('=');
+            const idType = identifier.display.split('=');
             return (idType[0].trim() === type);
           } else {
-            let idType = identifier.identifierType.name;
+            const idType = identifier.identifierType.name;
             return (idType === type);
           }
         });
-        let identifier = _.first(identifiers);
+        const identifier = _.first(identifiers);
         if (identifier) {
           return identifier.display ? (identifier.display.split('=')[1]).trim() :
             identifier.identifier;
         }
       } else {
-        for (let e in identifierObject) {
+        for (const e in identifierObject) {
           if ((identifierObject[e].identifierType) !== undefined) {
-            let idType = identifierObject[e].identifierType.name;
-            let id = identifierObject[e].identifier;
+            const idType = identifierObject[e].identifierType.name;
+            const id = identifierObject[e].identifier;
             if (idType === type) {
               return id;
             }

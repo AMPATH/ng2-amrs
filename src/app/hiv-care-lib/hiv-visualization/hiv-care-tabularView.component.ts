@@ -2,7 +2,8 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
-import { ClinicalSummaryVisualizationService
+import {
+  ClinicalSummaryVisualizationService
 } from '../services/clinical-summary-visualization.service';
 @Component({
   selector: 'hiv-care-tabularview',
@@ -13,8 +14,8 @@ export class HivCareTabularViewComponent implements OnInit, OnDestroy {
   public columns = [];
 
   constructor(private clinicalSummaryVisualizationService: ClinicalSummaryVisualizationService,
-              private route: ActivatedRoute,
-              private router: Router) {
+    private route: ActivatedRoute,
+    private router: Router) {
     this.columns = [];
   }
 
@@ -45,13 +46,13 @@ export class HivCareTabularViewComponent implements OnInit, OnDestroy {
   }
 
   public goToPatientList(indicator, col) {
-    let dateRange = this.clinicalSummaryVisualizationService.getMonthDateRange(
-      col.reporting_month.split('/')[0] ,
+    const dateRange = this.clinicalSummaryVisualizationService.getMonthDateRange(
+      col.reporting_month.split('/')[0],
       col.reporting_month.split('/')[1] - 1
     );
 
     this.router.navigate(['./patient-list', 'clinical-hiv-comparative-overview', indicator,
-        dateRange.startDate.format('DD/MM/YYYY') + '|' + dateRange.endDate.format('DD/MM/YYYY')]
-      , {relativeTo: this.route});
+      dateRange.startDate.format('DD/MM/YYYY') + '|' + dateRange.endDate.format('DD/MM/YYYY')]
+      , { relativeTo: this.route });
   }
 }

@@ -30,9 +30,9 @@ export class EditPatientRelationshipComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
 
   constructor(private patientRelationshipService: PatientRelationshipService,
-              private patientRelationshipTypeService: PatientRelationshipTypeService,
-              private patientService: PatientService,
-              private appFeatureAnalytics: AppFeatureAnalytics) { }
+    private patientRelationshipTypeService: PatientRelationshipTypeService,
+    private patientService: PatientService,
+    private appFeatureAnalytics: AppFeatureAnalytics) { }
 
   public ngOnInit(): void {
     this.getPatient();
@@ -90,16 +90,16 @@ export class EditPatientRelationshipComponent implements OnInit, OnDestroy {
         };
         this.patientRelationshipService.updateRelationship(relative.uuid,
           patientRelationshipPayload).pipe(take(1)).subscribe(
-          (success) => {
-            if (success) {
-              this.displaySuccessAlert('Relationship updated successfully');
-            }
-          },
-          (error) => {
-            this.isLoading = false;
-            console.error('The request failed because of the following ', error);
-            this.displayErrorAlert('The system encountered an error while updating relationship');
-          });
+            (success) => {
+              if (success) {
+                this.displaySuccessAlert('Relationship updated successfully');
+              }
+            },
+            (error) => {
+              this.isLoading = false;
+              console.error('The request failed because of the following ', error);
+              this.displayErrorAlert('The system encountered an error while updating relationship');
+            });
       }
     });
   }

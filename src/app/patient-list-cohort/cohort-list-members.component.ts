@@ -1,4 +1,4 @@
-
+/* tslint:disable:no-inferrable-types */
 import {take} from 'rxjs/operators/take';
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Subscription, BehaviorSubject } from 'rxjs';
@@ -15,23 +15,23 @@ import { CohortMemberResourceService } from '../openmrs-api/cohort-member-resour
 export class ViewCohortListMembersComponent implements OnInit, OnDestroy {
 
   public subscription: Subscription;
-  public showingAddToCohort: boolean = false;
+  public showingAddToCohort = false;
   public cohortMembers: any;
   public identifiers: any;
-  public fetchingResults: boolean = false;
+  public fetchingResults = false;
   public cohort: any;
   public selectedCohortName: string;
   public selectedCohortDescription: string;
   public selectedCohortUuid: string;
   public displayConfirmDeleteCohortDialog: any;
   public userAssignedRole: string;
-  public filterTerm: string = '';
-  public display: boolean = false;
+  public filterTerm = '';
+  public display = false;
   public selectedMember: string;
   public selectedMemberUuid: string;
-  public displayConfirmDialog: boolean = false;
-  public showSuccessAlert: boolean = false;
-  public showErrorAlert: boolean = false;
+  public displayConfirmDialog = false;
+  public showSuccessAlert = false;
+  public showErrorAlert = false;
   public successAlert: string;
   public errorAlert: string;
   public errorTitle: string;

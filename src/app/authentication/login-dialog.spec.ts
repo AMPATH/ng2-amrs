@@ -20,7 +20,7 @@ describe('App', () => {
     ]
   }));
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

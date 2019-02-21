@@ -1,34 +1,28 @@
 import { TestBed, async, inject, fakeAsync } from '@angular/core/testing';
-import { MockBackend, MockConnection } from '@angular/http/testing';
-import { Http, Response, Headers, BaseRequestOptions,
-   ResponseOptions, RequestMethod } from '@angular/http';
 import { LocalStorageService } from '../utils/local-storage.service';
 
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { HivSummaryResourceService } from './hiv-summary-resource.service';
+import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
 
 
 describe('HivSummaryService Unit Tests', () => {
+  let httpMock: HttpTestingController;
+  let service: HivSummaryResourceService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [],
+      imports: [HttpClientTestingModule],
       declarations: [],
       providers: [
-        MockBackend,
-        BaseRequestOptions,
         LocalStorageService,
-        {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
         AppSettingsService,
         HivSummaryResourceService
       ],
     });
+
+    httpMock = TestBed.get(HttpTestingController);
+    service = TestBed.get(HivSummaryResourceService);
   }));
 
   afterEach(() => {
@@ -41,83 +35,45 @@ describe('HivSummaryService Unit Tests', () => {
 
   it('should make API call with the correct url parameters', () => {
 
-    let hivSummaryResourceService: HivSummaryResourceService = TestBed
-    .get(HivSummaryResourceService);
-    let backend: MockBackend = TestBed.get(MockBackend);
+    const patientUuid = '5b82f9da-1359-11df-a1f1-0026b9348838';
+    const startIndex = 0;
+    const limit = 20;
+    const appSettingsService = TestBed.get(AppSettingsService);
 
-    let patientUuid = '5b82f9da-1359-11df-a1f1-0026b9348838';
-    let startIndex = '0';
-    let limit = '20';
-
-    backend.connections.subscribe((connection: MockConnection) => {
-
-      expect(connection.request.method).toBe(RequestMethod.Get);
-      expect(connection.request.url)
-      .toBe('https://amrsreporting.ampath.or.ke:8002/etl/patient/'
-      + patientUuid + '/hiv-summary?startIndex=0&limit=20' );
-
-    });
-  });
-
-  it('should return a list of Hiv summary record', (done) => {
-    let hivSummaryResourceService: HivSummaryResourceService = TestBed
-    .get(HivSummaryResourceService);
-    let backend: MockBackend = TestBed.get(MockBackend);
-
-    let patientUuid = '5b82f9da-1359-11df-a1f1-0026b9348838';
-    let startIndex = 0;
-    let limit = 20;
-
-    backend.connections.subscribe((connection: MockConnection) => {
-
-      let options = new ResponseOptions({
-        body: JSON.stringify({
-          startIndex: '0',
-          size: '20',
-          result: [
-            {
-              'person_id': 5404,
-              'uuid': '5b82f9da-1359-11df-a1f1-0026b9348838'
-            },
-             {
-              'person_id': 5404,
-              'uuid': '5b82f9da-1359-11df-a1f1-0026b9348838'
-            }
-          ]
-        })
-      });
-      connection.mockRespond(new Response(options));
-    });
-    hivSummaryResourceService.getHivSummary(patientUuid, startIndex, limit)
+    service.getHivSummary(patientUuid, startIndex, limit)
       .subscribe((data) => {
-      expect(data).toBeTruthy();
-      expect(data.length).toBeGreaterThan(0);
-      done();
-    });
+        expect(data).toBeTruthy();
+        expect(data.length).toBeGreaterThan(0);
+      });
+
   });
 
-  it('should throw an error when server returns an error response', (done) => {
+  it('should return a list of Hiv summary record', () => {
 
-    let hivSummaryResourceService: HivSummaryResourceService = TestBed
-    .get(HivSummaryResourceService);
-    let backend: MockBackend = TestBed.get(MockBackend);
+    const patientUuid = '5b82f9da-1359-11df-a1f1-0026b9348838';
+    const startIndex = 0;
+    const limit = 20;
 
-    let patientUuid = '5b82f9da-1359-11df-a1f1-0026b9348838';
-    let startIndex = 0;
-    let limit = 20;
-
-    backend.connections.subscribe((connection: MockConnection) => {
-
-      connection.mockError(new Error('An error occured while processing the request'));
-    });
-
-    hivSummaryResourceService.getHivSummary(patientUuid, startIndex, limit)
-      .subscribe((response) => {
-      },
-      (error: Error) => {
-        expect(error).toBeTruthy();
-        done();
+    service.getHivSummary(patientUuid, startIndex, limit)
+      .subscribe((data) => {
+        expect(data).toBeTruthy();
+        expect(data.length).toBeGreaterThan(0);
       });
+  });
+
+  it('should throw an error when server returns an error response', () => {
+
+    const patientUuid = '5b82f9da-1359-11df-a1f1-0026b9348838';
+    const startIndex = 0;
+    const limit = 20;
+
+    service.getHivSummary(patientUuid, startIndex, limit)
+      .subscribe((response) => {
+        expect(response).toBeUndefined();
+      },
+        (error: Error) => {
+          expect(error).toBeTruthy();
+        });
   });
 
 });

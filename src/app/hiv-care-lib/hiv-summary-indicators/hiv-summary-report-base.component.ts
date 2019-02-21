@@ -1,5 +1,5 @@
 
-import {take} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { Component, OnInit, ViewChild, Output, EventEmitter, Input } from '@angular/core';
 
 import * as Moment from 'moment';
@@ -28,11 +28,11 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
   public selectedGender = [];
   public enabledControls = 'indicatorsControl,datesControl,' +
     'ageControl,genderControl,locationControl';
-  public isLoadingReport: boolean = false;
-  public encounteredError: boolean = false;
-  public errorMessage: string = '';
-  public currentView: string = 'tabular'; // can be pdf or tabular or patientList
-  public reportName: string = 'hiv-summary-report';
+  public isLoadingReport = false;
+  public encounteredError = false;
+  public errorMessage = '';
+  public currentView = 'tabular'; // can be pdf or tabular or patientList
+  public reportName = 'hiv-summary-report';
   public dates: any;
   public age: any;
   @Input() public ageRangeStart: number;
@@ -85,7 +85,7 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
       endAge: this.endAge
     };
 
-    let uuids = this.getSelectedLocations(this.locationUuids);
+    const uuids = this.getSelectedLocations(this.locationUuids);
     if (!this.indicators || this.indicators === undefined) {
       this.isLoadingReport = false;
       this.encounteredError = true;
@@ -98,7 +98,7 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
       this.encounteredError = false;
       this.errorMessage = '';
       this.isLoadingReport = true;
-      let params = {
+      const params = {
         endDate: this.toDateString(this.endDate),
         gender: this.gender ? this.gender : 'F,M',
         startDate: this.toDateString(this.startDate),
@@ -108,16 +108,16 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
         endAge: this.endAge
       };
       this.hivSummaryIndicatorsResourceService
-      .getHivSummaryIndicatorsReport(params).pipe(take(1)).subscribe((data) => {
-        this.isLoadingReport = false;
-        this.sectionsDef = data.indicatorDefinitions;
+        .getHivSummaryIndicatorsReport(params).pipe(take(1)).subscribe((data) => {
+          this.isLoadingReport = false;
+          this.sectionsDef = data.indicatorDefinitions;
 
-        this.data = data.result;
-      }, (error) => {
-        this.isLoadingReport = false;
-        this.errorMessage = error;
-        this.encounteredError = true;
-      });
+          this.data = data.result;
+        }, (error) => {
+          this.isLoadingReport = false;
+          this.errorMessage = error;
+          this.encounteredError = true;
+        });
     }
   }
 

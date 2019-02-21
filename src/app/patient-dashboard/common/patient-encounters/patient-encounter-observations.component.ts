@@ -1,7 +1,9 @@
-
-import {take} from 'rxjs/operators';
-import { Component, OnInit, Input, ViewChild,
-  ViewEncapsulation, EventEmitter, Output, OnChanges, SimpleChange } from '@angular/core';
+// tslint:disable:no-output-on-prefix
+import { take } from 'rxjs/operators';
+import {
+  Component, OnInit, Input, ViewChild,
+  ViewEncapsulation, EventEmitter, Output, OnChanges, SimpleChange
+} from '@angular/core';
 import { Encounter } from '../../../models/encounter.model';
 import * as _ from 'lodash';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
@@ -26,17 +28,17 @@ export class PatientEncounterObservationsComponent implements OnInit, OnChanges 
   public selectedEncounter: any;
   @ViewChild('staticModal')
   public staticModal: ModalDirective;
-    @ViewChild('modal')
-    public modal: ModalComponent;
+  @ViewChild('modal')
+  public modal: ModalComponent;
   @Input() public encounter: Encounter;
-  @Input() public set prettyView(val: boolean){
+  @Input() public set prettyView(val: boolean) {
     this.pretty = val;
   }
   @Input() public onEncounterDetail: boolean;
   @Output() public onClose = new EventEmitter();
   @Output() public isDone = new EventEmitter();
   @Output() public onDismiss = new EventEmitter();
-  public cssClass: string = 'obs-dialog';
+  public cssClass = 'obs-dialog';
 
   constructor(private encounterResource: EncounterResourceService) {
   }
@@ -45,7 +47,7 @@ export class PatientEncounterObservationsComponent implements OnInit, OnChanges 
 
   }
 
-  public ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
+  public ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
     if (Object.keys(changes).length === 1 && changes['onEncounterDetail']) {
       if (this.pretty) {
         this.showPrettyObsView(this.selectedEncounter);
@@ -53,19 +55,19 @@ export class PatientEncounterObservationsComponent implements OnInit, OnChanges 
     }
 
     if (Object.keys(changes).length === 2 && changes['onEncounterDetail']
-    && changes['prettyView']) {
+      && changes['prettyView']) {
       this.pretty = changes['prettyView'].currentValue;
       if (this.pretty) {
         this.showPrettyObsView(this.selectedEncounter);
       } else { this.showPlainObsView(this.selectedEncounter); }
     }
 
-    for (let propName in changes) {
+    for (const propName in changes) {
       if (propName !== 'encounter') {
         continue;
       }
-      let changedProp = changes[propName];
-      let encounter = changedProp.currentValue;
+      const changedProp = changes[propName];
+      const encounter = changedProp.currentValue;
       if (!changedProp.isFirstChange()) {
         this.isDone.emit(true);
         if (this.pretty) {
@@ -110,21 +112,23 @@ export class PatientEncounterObservationsComponent implements OnInit, OnChanges 
 
   public processEncounter(encounter: any) {
     const obs = encounter.obs;
-    let processedObs: any = [];
+    const processedObs: any = [];
     obs.sort((a, b) => {
-      let _a = a.concept.name.display.toUpperCase();
-      let _b = b.concept.name.display.toUpperCase();
+      const _a = a.concept.name.display.toUpperCase();
+      const _b = b.concept.name.display.toUpperCase();
       return (_a < _b) ? -1 : (_a > _b) ? 1 : 0;
     });
 
     _.each(obs, (v: any, i) => {
       this.isHidden[i] = true;
       let _value: any = _.isObject(v.value) ? v.value.display : v.value;
-      let _arrValue: Array<any> = [];
+      const _arrValue: Array<any> = [];
       if (_.isNil(_value) && !_.isNil(v.groupMembers)) {
         _.each(v.groupMembers, (group: any, index) => {
-          _arrValue.push({label: group.concept.display.toUpperCase(),
-            value: (_.isObject(group.value) ? group.value.display : group.value)}); // check;
+          _arrValue.push({
+            label: group.concept.display.toUpperCase(),
+            value: (_.isObject(group.value) ? group.value.display : group.value)
+          }); // check;
         });
         _value = _arrValue;
       }

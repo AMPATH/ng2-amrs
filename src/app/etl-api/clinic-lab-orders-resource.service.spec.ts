@@ -1,14 +1,11 @@
 import { TestBed, async, inject, fakeAsync } from '@angular/core/testing';
-import { MockBackend, MockConnection } from '@angular/http/testing';
-import {
-  BaseRequestOptions, XHRBackend, Http, RequestMethod,
-  ResponseOptions, Response
-} from '@angular/http';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { ClinicLabOrdersResourceService } from './clinic-lab-orders-resource.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
 import { CacheModule, CacheService } from 'ionic-cache';
+import { HttpClient } from '@angular/common/http';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 const expectedResults = {
   startIndex: 0,
   size: 3,
@@ -40,32 +37,25 @@ const expectedResults = {
   ]
 };
 describe('ClinicLabOrdersResourceService Tests', () => {
-  let service;
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [],
-      imports: [CacheModule],
+      imports: [
+        CacheModule,
+        HttpClientTestingModule
+      ],
       providers: [
+        HttpClient,
         ClinicLabOrdersResourceService,
-        MockBackend,
-        BaseRequestOptions,
         AppSettingsService,
         LocalStorageService,
         DataCacheService,
-        CacheService,
-        {
-          provide: Http,
-          deps: [MockBackend, BaseRequestOptions],
-          useFactory:
-            (backend: XHRBackend, defaultOptions: BaseRequestOptions) => {
-              return new Http(backend, defaultOptions);
-            }
-        }
+        CacheService
       ]
     });
   });
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 
@@ -82,23 +72,15 @@ describe('ClinicLabOrdersResourceService Tests', () => {
   );
 
   it('should return a list containing clinic lab orders for a given date',
-    inject([ClinicLabOrdersResourceService, MockBackend],
-      (s: ClinicLabOrdersResourceService, backend: MockBackend) => {
-        backend.connections.subscribe((connection: MockConnection) => {
-          expect(connection.request.method).toBe(RequestMethod.Get);
-          expect(connection.request.url).toContain('/etl/clinic-lab-orders');
-          expect(connection.request.url).toEqual('https://amrsreporting.ampath.or.ke:8002'
-            + '/etl/clinic-lab-orders?'
-            + 'locationUuids=uuid'
-            + '&endDate=2017-02-01'
-            + '&startDate=2017-02-01');
-          expect(connection.request.url).toContain('locationUuids=uuid');
-          connection.mockRespond(new Response(
-            new ResponseOptions({
-                body: expectedResults
-              }
-            )));
-        });
+    inject([ClinicLabOrdersResourceService, HttpTestingController],
+      (s: ClinicLabOrdersResourceService, httpMock: HttpTestingController) => {
+
+        const url = 'https://amrsreporting.ampath.or.ke:8002'
+          + '/etl/clinic-lab-orders?'
+          + 'locationUuids=uuid'
+          + '&endDate=2017-02-01'
+          + '&startDate=2017-02-01';
+
         s.getClinicLabOrders({
           startDate: '2017-02-01',
           locationUuids: 'uuid',

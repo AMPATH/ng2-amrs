@@ -5,7 +5,7 @@ import * as _ from 'lodash';
 @Injectable()
 export class ClinicFlowCacheService {
     public lastClinicFlowSelectedDate: any;
-    public dataIsLoading: boolean = true;
+    public dataIsLoading = true;
     public initialUuid;
     public data: any;
     public selectedLocations = new BehaviorSubject(this.initialUuid);
@@ -26,7 +26,7 @@ export class ClinicFlowCacheService {
     }
 
     public setSelectedLocation(locationUuids: any) {
-      let locations: Array<string> = Array.isArray(locationUuids) ? locationUuids :
+      const locations: Array<string> = Array.isArray(locationUuids) ? locationUuids :
           locationUuids.split(',');
       this.setIsLoading(true);
       this.initialUuid = locations[0] ;
@@ -53,7 +53,7 @@ export class ClinicFlowCacheService {
         return this.isLoading;
     }
     public formatData(clinicFlowData) {
-        let d: any = clinicFlowData || [];
+        const d: any = clinicFlowData || [];
         let count = 1;
         _.forEach(d, (row) => {
             row['#'] = count;

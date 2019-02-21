@@ -67,6 +67,30 @@ export class HivEnhancedComponent implements OnInit {
         field: 'phone_number',
         cellStyle: {
           'white-space': 'normal'
+        },
+        width: 50
+      },
+      {
+        headerName: 'VL',
+        field: 'vl_1',
+        cellStyle: {
+          'white-space': 'normal'
+        },
+        width: 40
+      },
+      {
+        headerName: 'VL Date',
+        field: 'vl_1_date',
+        cellStyle: {
+          'white-space': 'normal'
+        },
+        width: 50
+      },
+      {
+        headerName: 'Current Regimen',
+        field: 'cur_arv_meds',
+        cellStyle: {
+          'white-space': 'normal'
         }
       }
     ];

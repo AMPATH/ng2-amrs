@@ -4,6 +4,7 @@ import { Patient } from '../../../models/patient.model';
 import { Subscription } from 'rxjs';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'address',
   templateUrl: './address.component.html',
   styleUrls: [],

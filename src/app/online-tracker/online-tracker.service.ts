@@ -6,14 +6,14 @@ import { take } from 'rxjs/operators';
 @Injectable()
 export class OnlineTrackerService {
 
-  public isOnline: boolean = false;
+  public isOnline = false;
 
   constructor(private _sessionService: SessionService) {
 
   }
 
   public updateOnlineStatus() {
-    // console.log('Online Tracker Service: updateOnlineStatus');
+  // console.log('Online Tracker Service: updateOnlineStatus');
     return new Promise((resolve, reject) => {
 
       this._sessionService.getSession()

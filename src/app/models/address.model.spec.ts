@@ -2,13 +2,12 @@
 
 // import { TestBed, async, inject, describe, it, expect } from '@angular/core/testing';
 
-import { PersonAddress } from './address.model';
-
+import {PersonAddress} from './address.model';
 
 
 describe('Model: PersonAddress', () => {
 
-  let existingPersonAddress: any = {
+  const existingPersonAddress: any = {
     uuid: 'uuid',
     display: 'the person',
     address1: 'address1',
@@ -21,10 +20,11 @@ describe('Model: PersonAddress', () => {
     cityVillage: 'cityVillage',
     stateProvince: 'stateProvince',
     countyDistrict: 'countyDistrict',
+    postalCode: 'postalCode'
   };
 
   it('should wrap openmrs PersonAddress for display correctly', () => {
-    let wrappedPersonAddress: PersonAddress = new PersonAddress(existingPersonAddress);
+    const wrappedPersonAddress: PersonAddress = new PersonAddress(existingPersonAddress);
     expect(wrappedPersonAddress.uuid).toEqual(existingPersonAddress.uuid);
     expect(wrappedPersonAddress.display).toEqual(existingPersonAddress.display);
     expect(wrappedPersonAddress.address1).toEqual(existingPersonAddress.address1);
@@ -37,9 +37,9 @@ describe('Model: PersonAddress', () => {
     expect(wrappedPersonAddress.cityVillage).toEqual(existingPersonAddress.cityVillage);
     expect(wrappedPersonAddress.stateProvince).toEqual(existingPersonAddress.stateProvince);
     expect(wrappedPersonAddress.countyDistrict).toEqual(existingPersonAddress.countyDistrict);
+    expect(wrappedPersonAddress.postalCode).toEqual(existingPersonAddress.postalCode);
 
   });
-
 
 });
 

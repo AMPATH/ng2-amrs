@@ -8,10 +8,10 @@ import {
 export class PatientRelationshipTypeService {
 
     constructor(private patientRelationshipTypeResourceService:
-                PatientRelationshipTypeResourceService) {
+        PatientRelationshipTypeResourceService) {
     }
 
     public getRelationshipTypes(): Observable<any> {
         return this.patientRelationshipTypeResourceService.getPatientRelationshipTypes();
-}
+    }
 }

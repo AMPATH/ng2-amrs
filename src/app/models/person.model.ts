@@ -1,9 +1,9 @@
-import { BaseModel } from './base-model.model';
-import { serializable, serialize } from './serializable.decorator';
+import {BaseModel} from './base-model.model';
+import {serializable} from './serializable.decorator';
 import './date.extensions';
 
-import { PersonAttribute } from './person-attribute.model';
-import { PersonAddress } from './address.model';
+import {PersonAttribute} from './person-attribute.model';
+import {PersonAddress} from './address.model';
 
 export class Person extends BaseModel {
   private _birthdate: Date;
@@ -63,9 +63,9 @@ export class Person extends BaseModel {
   }
 
   public get healthCenter() {
-    let healthCenterPersonAttributeTypeUuid = '8d87236c-c2cc-11de-8d13-0010c6dffd0f';
+    const healthCenterPersonAttributeTypeUuid = '8d87236c-c2cc-11de-8d13-0010c6dffd0f';
     if (this._attributes) {
-      let location = this.getPersonAttribute(healthCenterPersonAttributeTypeUuid);
+      const location = this.getPersonAttribute(healthCenterPersonAttributeTypeUuid);
       if (location) {
         return location.display;
       } else {
@@ -74,9 +74,9 @@ export class Person extends BaseModel {
     }
   }
   public get nextofkinPhoneNumber() {
-    let nextofkinPhoneNumberPersonAttributeTypeUuid = 'a657a4f1-9c0f-444b-a1fd-445bb91dd12d';
+    const nextofkinPhoneNumberPersonAttributeTypeUuid = 'a657a4f1-9c0f-444b-a1fd-445bb91dd12d';
     if (this._attributes) {
-      let nextofkinPhoneNumber =
+      const nextofkinPhoneNumber =
         this.getPersonAttribute(nextofkinPhoneNumberPersonAttributeTypeUuid);
       if (nextofkinPhoneNumber) {
         return nextofkinPhoneNumber;
@@ -86,9 +86,9 @@ export class Person extends BaseModel {
     }
   }
   public get patnerPhoneNumber() {
-    let patnerPhoneNumberPersonAttributeTypeUuid = 'b0a08406-09c0-4f8b-8cb5-b22b6d4a8e46';
+    const patnerPhoneNumberPersonAttributeTypeUuid = 'b0a08406-09c0-4f8b-8cb5-b22b6d4a8e46';
     if (this._attributes) {
-      let patnerPhoneNumber = this.getPersonAttribute(patnerPhoneNumberPersonAttributeTypeUuid);
+      const patnerPhoneNumber = this.getPersonAttribute(patnerPhoneNumberPersonAttributeTypeUuid);
       if (patnerPhoneNumber) {
         return patnerPhoneNumber;
       } else {
@@ -97,9 +97,9 @@ export class Person extends BaseModel {
     }
   }
   public get alternativePhoneNumber() {
-    let alternativePhoneNumberPersonAttributeTypeUuid = 'c725f524-c14a-4468-ac19-4a0e6661c930';
+    const alternativePhoneNumberPersonAttributeTypeUuid = 'c725f524-c14a-4468-ac19-4a0e6661c930';
     if (this._attributes) {
-      let alternativePhoneNumber =
+      const alternativePhoneNumber =
         this.getPersonAttribute(alternativePhoneNumberPersonAttributeTypeUuid);
       if (alternativePhoneNumber) {
         return alternativePhoneNumber;
@@ -109,9 +109,9 @@ export class Person extends BaseModel {
     }
   }
   public get patientPhoneNumber() {
-    let phoneNumberPersonAttributeTypeUuid = '72a759a8-1359-11df-a1f1-0026b9348838';
+    const phoneNumberPersonAttributeTypeUuid = '72a759a8-1359-11df-a1f1-0026b9348838';
     if (this._attributes) {
-      let  phoneNumber = this.getPersonAttribute(phoneNumberPersonAttributeTypeUuid);
+      const phoneNumber = this.getPersonAttribute(phoneNumberPersonAttributeTypeUuid);
       if ( phoneNumber) {
         return  phoneNumber;
       } else {
@@ -120,18 +120,18 @@ export class Person extends BaseModel {
     }
   }
   public get contacts() {
-    let phoneNumberPersonAttributeTypeUuid = '72a759a8-1359-11df-a1f1-0026b9348838';
-    let patnerPhoneNumberPersonAttributeTypeUuid = 'b0a08406-09c0-4f8b-8cb5-b22b6d4a8e46';
-    let alternativePhoneNumberPersonAttributeTypeUuid = 'c725f524-c14a-4468-ac19-4a0e6661c930';
-    let nextofkinPhoneNumberPersonAttributeTypeUuid = 'a657a4f1-9c0f-444b-a1fd-445bb91dd12d';
+    const phoneNumberPersonAttributeTypeUuid = '72a759a8-1359-11df-a1f1-0026b9348838';
+    const patnerPhoneNumberPersonAttributeTypeUuid = 'b0a08406-09c0-4f8b-8cb5-b22b6d4a8e46';
+    const alternativePhoneNumberPersonAttributeTypeUuid = 'c725f524-c14a-4468-ac19-4a0e6661c930';
+    const nextofkinPhoneNumberPersonAttributeTypeUuid = 'a657a4f1-9c0f-444b-a1fd-445bb91dd12d';
 
     if (this._attributes) {
       let filteredContacts: {};
-      let patnerPhoneNumber = this.getPersonAttribute(patnerPhoneNumberPersonAttributeTypeUuid);
-      let patientPhoneNumber = this.getPersonAttribute(phoneNumberPersonAttributeTypeUuid);
-      let alternativePhoneNumber =
+      const patnerPhoneNumber = this.getPersonAttribute(patnerPhoneNumberPersonAttributeTypeUuid);
+      const patientPhoneNumber = this.getPersonAttribute(phoneNumberPersonAttributeTypeUuid);
+      const alternativePhoneNumber =
         this.getPersonAttribute(alternativePhoneNumberPersonAttributeTypeUuid);
-      let nextofkinPhoneNumber =
+      const nextofkinPhoneNumber =
         this.getPersonAttribute(nextofkinPhoneNumberPersonAttributeTypeUuid);
 
       if ((patnerPhoneNumber) === undefined && (patientPhoneNumber) === undefined &&
@@ -158,9 +158,9 @@ export class Person extends BaseModel {
   }
   public getPersonAttribute(personAttributeTypeUuid) {
     if (this._attributes.length > 0) {
-      for (let i in this._attributes) {
+      for (const i in this._attributes) {
         if (this._attributes.hasOwnProperty(i)) {
-          let attr = this._attributes[i];
+          const attr = this._attributes[i];
           if (attr.attributeType && attr.attributeType.uuid === personAttributeTypeUuid) {
             return attr.value;
           }

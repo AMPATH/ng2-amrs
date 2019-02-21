@@ -1,3 +1,6 @@
+  /* tslint:disable:no-output-on-prefix
+  */
+
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
@@ -8,7 +11,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
       <ng-content></ng-content>
     </div>
   `,
-  styles:[
+  styles: [
     `div.active {
       display: block;
       padding-bottom: 20px;
@@ -17,12 +20,12 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 })
 export class ProgramWizardStepComponent {
   @Input() public name: string;
-  @Input() public hidden: boolean = false;
+  @Input() public hidden = false;
 
   @Output() public onNext: EventEmitter<any> = new EventEmitter<any>();
   @Output() public onPrev: EventEmitter<any> = new EventEmitter<any>();
 
-  private _isActive: boolean = false;
+  private _isActive = false;
 
   constructor() { }
 

@@ -1,15 +1,15 @@
 
-import {take} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { PatientService } from './patient.service';
-import  *  as _  from 'lodash';
+import * as _ from 'lodash';
 import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
 
 @Injectable()
 export class PatientPreviousEncounterService {
 
   constructor(private patientService: PatientService,
-              private encounterResource: EncounterResourceService) {
+    private encounterResource: EncounterResourceService) {
   }
 
   public getPreviousEncounter(encounterType: string): Promise<any> {
@@ -19,7 +19,7 @@ export class PatientPreviousEncounterService {
       this.patientService.currentlyLoadedPatient.pipe(take(1)).subscribe(
         (patient) => {
           if (patient) {
-            let search = _.find(patient.encounters, (e) => {
+            const search = _.find(patient.encounters, (e) => {
               return e.encounterType.uuid === encounterType;
             });
 

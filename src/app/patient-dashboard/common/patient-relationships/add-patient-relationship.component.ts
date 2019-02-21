@@ -1,5 +1,5 @@
 
-import {take} from 'rxjs/operators/take';
+import { take } from 'rxjs/operators/take';
 import {
     Component, OnInit, Input, ViewEncapsulation
 } from '@angular/core';
@@ -19,15 +19,15 @@ import { Subscription } from 'rxjs';
     encapsulation: ViewEncapsulation.None
 })
 export class AddPatientRelationshipComponent implements OnInit {
-    public display: boolean = false;
-    public showSuccessAlert: boolean = false;
-    public showErrorAlert: boolean = false;
+    public display = false;
+    public showSuccessAlert = false;
+    public showErrorAlert = false;
     public hideResult = false;
     public successAlert: string;
     public errorAlert: string;
     public errorTitle: string;
     public errors: any = [];
-    public isLoading: boolean = false;
+    public isLoading = false;
     public patientRelationshipTypes: any = [];
     public selectedRelationshipType: any;
     public patientUuid: string;
@@ -40,9 +40,9 @@ export class AddPatientRelationshipComponent implements OnInit {
     private subscription: Subscription;
 
     constructor(private patientRelationshipService: PatientRelationshipService,
-                private patientRelationshipTypeService: PatientRelationshipTypeService,
-                private patientService: PatientService,
-                private appFeatureAnalytics: AppFeatureAnalytics) { }
+        private patientRelationshipTypeService: PatientRelationshipTypeService,
+        private patientService: PatientService,
+        private appFeatureAnalytics: AppFeatureAnalytics) { }
 
     public ngOnInit(): void {
         this.getPatient();
@@ -51,9 +51,10 @@ export class AddPatientRelationshipComponent implements OnInit {
             .trackEvent('Patient Dashboard', 'Add Patient Relationship Loaded', 'ngOnInit');
     }
 
+    // tslint:disable-next-line:use-life-cycle-interface
     public ngOnDestroy() {
         if (this.subscription) {
-          this.subscription.unsubscribe();
+            this.subscription.unsubscribe();
         }
     }
 
@@ -64,7 +65,7 @@ export class AddPatientRelationshipComponent implements OnInit {
     }
 
     public getRelationShipTypes(): void {
-        let request = this.patientRelationshipTypeService.getRelationshipTypes();
+        const request = this.patientRelationshipTypeService.getRelationshipTypes();
         request.subscribe((relationshipTypes) => {
             if (relationshipTypes) {
                 this.patientRelationshipTypes = relationshipTypes;
@@ -87,7 +88,7 @@ export class AddPatientRelationshipComponent implements OnInit {
         if (this.selectedRelationshipType !== undefined &&
             this.patientToBindRelationship.person.display !== '') {
             this.isLoading = true;
-            let patientRelationshipPayload = this.getPatientRelationshipPayload();
+            const patientRelationshipPayload = this.getPatientRelationshipPayload();
             this.patientRelationshipService.saveRelationship(patientRelationshipPayload).pipe(take(1)).subscribe(
                 (success) => {
                     if (success) {
@@ -118,8 +119,8 @@ export class AddPatientRelationshipComponent implements OnInit {
     }
 
     public getPatientRelationshipPayload() {
-        let startDate = Moment(new Date()).format('YYYY-MM-DD');
-        let patientRelationshipPayload = {
+        const startDate = Moment(new Date()).format('YYYY-MM-DD');
+        const patientRelationshipPayload = {
             personA: this.patientUuid,
             relationshipType: this.selectedRelationshipType.uuid,
             personB: this.patientToBindRelationship.uuid,

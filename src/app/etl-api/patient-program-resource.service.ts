@@ -35,10 +35,10 @@ export class PatientProgramResourceService {
   public getPatientProgramVisitTypes(
     patientUuid: string, programUuid: string,
     enrollmentUuid, locationUuid: string): Observable<any> {
-    let url = this.appSettingsService.getEtlRestbaseurl().trim()
+    const url = this.appSettingsService.getEtlRestbaseurl().trim()
       + 'patient/' + patientUuid + '/program/' + programUuid +
       '/enrollment/' + enrollmentUuid;
-    let params: HttpParams = new HttpParams()
+    const params: HttpParams = new HttpParams()
     .set('intendedLocationUuid', (locationUuid && locationUuid.length > 0)
       ? locationUuid : locationUuid);
     return this.http.get(url, { params: params });

@@ -1,5 +1,5 @@
 
-import {take} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as _ from 'lodash';
 
@@ -18,9 +18,9 @@ export class EditRetroVisitProviderComponent implements OnInit {
   @Output() public retroVisitProviderChanged = new EventEmitter<any>();
   public provider: any;
   public providers: any[];
-  public saving: boolean = false;
+  public saving = false;
   public constructor(private visitResourceService: VisitResourceService,
-                     private providerResourceService: ProviderResourceService) {
+    private providerResourceService: ProviderResourceService) {
 
   }
 
@@ -29,10 +29,10 @@ export class EditRetroVisitProviderComponent implements OnInit {
   }
 
   public fetchProviderOptions() {
-    let findProvider = this.providerResourceService.searchProvider('', false);
+    const findProvider = this.providerResourceService.searchProvider('', false);
     findProvider.pipe(take(1)).subscribe(
       (provider) => {
-        let filtered = _.filter(provider, (p: any) => {
+        const filtered = _.filter(provider, (p: any) => {
           return !_.isUndefined(p.person);
         });
         this.providers = filtered.map((p: any) => {
@@ -53,7 +53,7 @@ export class EditRetroVisitProviderComponent implements OnInit {
 
   public updateVisit() {
     this.saving = true;
-    let visitPayload = {
+    const visitPayload = {
       visitType: this.visit.visitType.uuid,
       startDatetime: new Date(),
       attributes: [

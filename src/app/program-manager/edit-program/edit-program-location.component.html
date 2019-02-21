@@ -19,7 +19,7 @@
       <location-filter [locationUuids]="transferLocation" [disable-county]="true" [showLabel]="true" (onLocationChange)="selectLocation($event)"></location-filter>
     </div>
     <div class="col-md-6 col-xs-12 col-sm-6 cell">
-      <label for="enrolledDate">Date Enrolled</label>
+      <label for="enrolledDate">Date Transferred</label>
       <div>
         <input class="form-control" id="enrolledDate" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
                [(ngModel)]="dateEnrolled" type="date"/>

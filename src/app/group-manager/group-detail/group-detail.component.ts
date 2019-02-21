@@ -17,6 +17,7 @@ import { SuccessModalComponent } from '../modals/success-modal.component';
 import { GridOptions } from 'ag-grid';
 import { GroupTransferModalComponent } from '../modals/group-transfer-modal.component';
 import { RetrospectiveDataEntryService } from '../../retrospective-data-entry/services/retrospective-data-entry.service';
+import { RisonService } from '../../shared/services/rison-service';
 
 @Component({
   selector: 'group-detail',
@@ -36,6 +37,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   public successMessage: string;
   @ViewChild(AgGridNg2) dataGrid: AgGridNg2;
   @ViewChild('startGroupVisitModal') startGroupVisitModal: TemplateRef<any>;
+  @ViewChild('enrollMembers') enrollMembers: TemplateRef<any>;
   @ViewChild('startPatientVisitWarningModal') startPatientVisitWarningModal: TemplateRef<any>;
   public filter = 'current';
   public gridOptions: GridOptions = {
@@ -77,12 +79,12 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     'year': Moment().year(),
     'month': this.currentMonth,
     'day': Moment().date()
-};
+  };
   public groupVisitDate: any = {
     date: this.today,
     jsdate: new Date(),
     formatted: Moment().format('YYYY-MM-DD')
-};
+  };
   public cohortVisits = [];
   public patientVisitPayload: any;
   public visitTypes = [];
@@ -92,11 +94,15 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   public errorSavingVisit = false;
   public error = false;
   public patientDashboardConfig: any = require('../../shared/dynamic-route/schema/patient.dashboard.conf.json');
-  public activeMembers: any[];
+  public activeMembers: any[] = [];
   public membersData: any[] = [];
   public columns: any[] = [];
   public visitStartedToday: boolean;
-
+  public showEnrollmentButton = false;
+  public enrollMentModel = {
+    enrollMentUrl: [],
+    queryParams: {}
+  };
 
   constructor(private activatedRoute: ActivatedRoute,
     private communityGroupService: CommunityGroupService,
@@ -105,6 +111,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     private datePipe: DatePipe,
     private router: Router,
     private modalService: BsModalService,
+    private risonService: RisonService,
     private retrospectiveService: RetrospectiveDataEntryService) { }
 
   ngOnInit() {
@@ -143,10 +150,10 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       this.cohortVisits = res.cohortVisits.sort((a: any, b: any) => {
         return Math.abs(new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
       });
-      this.groupVisitDate =  {
+      this.groupVisitDate = {
         date: this.today,
         jsdate: new Date()
-    };
+      };
       this.checkIfTodayVisitStarted(this.cohortVisits);
       this.generateMembersData(res.cohortMembers, res.cohortVisits);
     }, (error) => {
@@ -195,7 +202,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
       if (programUuid && personUuid) {
         this.router.navigate([`/patient-dashboard/patient/${personUuid}/`,
-          'hiv', programUuid.value, 'visit'], {queryParams: {groupUuid: this.group.uuid}});
+          'hiv', programUuid.value, 'visit'], { queryParams: { groupUuid: this.group.uuid } });
       }
 
     }
@@ -361,9 +368,9 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     const columns = [];
     columns.push({ headerName: 'Identifiers', field: 'identifiers', pinned: 'left', width: 100 },
       { headerName: 'Name', field: 'name', pinned: 'left', width: 100 },
-      { headerName: 'Contacts', field: 'contacts', pinned: 'left' , width: 100},
+      { headerName: 'Contacts', field: 'contacts', pinned: 'left', width: 100 },
       { headerName: 'Member From', field: 'member_since', pinned: 'left', width: 100 },
-      { headerName: 'Member To', field: 'member_to', pinned: 'left', width: 100});
+      { headerName: 'Member To', field: 'member_to', pinned: 'left', width: 100 });
     let index = 0;
     for (const cohortVisit of cohortVisits) {
       columns.push({
@@ -388,7 +395,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     this.enrollmentErrorMessage = null;
     this.communityGroupMemberService.getCurrentlyEnrolledProgramsAndGroups(patient.uuid).subscribe(
       (results) => {
-        const programsEnrolled =  results[0];
+        const programsEnrolled = results[0];
         const groupsEnrolled = results[1];
         let currentGroupsEnrolled = [];
         if (groupsEnrolled) {
@@ -398,25 +405,49 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         console.log(validation);
         switch (true) {
           case validation.alreadyEnrolled.found:
-              this.validatingEnrollment = false;
-              this.showEnrollmentAlert('Patient already enrolled in this group!');
-              break;
+            this.validatingEnrollment = false;
+            this.showEnrollmentAlert('Patient already enrolled in this group!');
+            break;
           case !validation.notEnrolledInGroupProgram.found:
-             this.validatingEnrollment = false;
-             this.showEnrollmentAlert('Enroll patient to DC Program first from patient dashboard.');
-             break;
+            this.validatingEnrollment = false;
+            this.showEnrollButton(patient);
+            break;
           case validation.enrolledInAnotherGroupInSameProgram.found:
-             this.validatingEnrollment = false;
-             const groupToUnenroll = validation.enrolledInAnotherGroupInSameProgram.data;
-             this.showTransferConfirmationModal(this.group, groupToUnenroll, patient);
-             break;
+            this.validatingEnrollment = false;
+            const groupToUnenroll = validation.enrolledInAnotherGroupInSameProgram.data;
+            this.showTransferConfirmationModal(this.group, groupToUnenroll, patient);
+            break;
           default:
-          this.validatingEnrollment = false;
-          this.enrollPatientToGroup(this.group, patient);
-          }
-        });
+            this.validatingEnrollment = false;
+            this.enrollPatientToGroup(this.group, patient);
+        }
+      });
   }
 
+  public enrollPatienttoProgram() {
+    this.closeModal(this.enrollMembers);
+    this.router.navigate(this.enrollMentModel.enrollMentUrl, { queryParams: this.enrollMentModel.queryParams });
+
+  }
+  private showEnrollButton(patient) {
+    this.showEnrollmentButton = true;
+    const enrollMentUrl = ['patient-dashboard', 'patient', patient.uuid, 'general', 'general', 'program-manager', 'new-program', 'step', 3];
+    const programUuid = this.group.attributes.find((a) => {
+      return a.cohortAttributeType.name === 'programUuid';
+    }
+    );
+    const queryParams = {
+      program: programUuid.value,
+      groupUuid: this.group.uuid,
+      redirectUrl: this.router.url,
+      locationUuid: this.group.location.uuid,
+      enrollMentQuestions: this.risonService.encode({hivStatus: 'positive', enrollToGroup: true})
+    };
+    this.enrollMentModel = {
+      enrollMentUrl,
+      queryParams
+    };
+  }
   private enrollPatientToGroup(group: Group, patient: Patient) {
     this.communityGroupMemberService.createMember(group.uuid, patient.uuid).subscribe((result) => {
       this.reloadData();
@@ -431,17 +462,17 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private transferPatientFromGroup(groupToEnroll, groupToUnenroll, patient) {
     this.communityGroupMemberService.transferMember(groupToUnenroll, groupToEnroll, patient)
-    .subscribe((res) => {
-      this.reloadData();
-      this.modalRef.hide();
-      this.showSuccessMessage(`Successfully enrolled ${patient.person.display} to ${groupToEnroll.name}`);
-    },
-    (error) => console.log(error));
+      .subscribe((res) => {
+        this.reloadData();
+        this.modalRef.hide();
+        this.showSuccessMessage(`Successfully enrolled ${patient.person.display} to ${groupToEnroll.name}`);
+      },
+        (error) => console.log(error));
   }
 
   private showTransferConfirmationModal(groupToEnroll, groupToUnenroll, patient) {
     this.nestedModalRef = this.modalService.show(GroupTransferModalComponent,
-      {initialState: { groupToEnroll, groupToUnenroll, patient }});
+      { initialState: { groupToEnroll, groupToUnenroll, patient } });
     this.nestedModalRef.content.onConfirm.subscribe((confirmed) => {
       if (confirmed) {
         this.transferPatientFromGroup(groupToEnroll, groupToUnenroll, patient);
@@ -459,9 +490,9 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
     this.visitStartedForThisDate = !_.isUndefined(_.find(this.group.cohortVisits,
-                                                        (visit) => Moment(visit.startDate).isSame(date.formatted, 'day')));
+      (visit) => Moment(visit.startDate).isSame(date.formatted, 'day')));
     if (this.visitStartedForThisDate) {
-        return;
+      return;
     }
     this.groupVisitDate = date;
   }

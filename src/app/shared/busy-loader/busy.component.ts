@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'busy',
   template: `<div class="loader">
                 <div class="message">
@@ -10,6 +11,12 @@ import { Component, Input, OnInit } from '@angular/core';
                 </div>
               </div>`,
   styles: [`
+    :host {
+      display: block;
+    }
+    :host.small {
+      margin-top: -15px;
+    }
     .loader {
       position: absolute;
       left:0;
@@ -36,6 +43,11 @@ import { Component, Input, OnInit } from '@angular/core';
       top: 50%;
       transform: translateY(-50%);
       display: inline-block;
+    }
+
+    :host.small .loader .message {
+      font-size: 12px;
+      padding: 7px;
     }
 
     .fa-spin {

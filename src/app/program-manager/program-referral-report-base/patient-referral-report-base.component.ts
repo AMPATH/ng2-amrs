@@ -8,7 +8,6 @@ import {
 import {
   PatientReferralResourceService
 } from '../../etl-api/patient-referral-resource.service';
-import { PatientReferralService } from '../patient-referral-service';
 
 @Component({
   selector: 'patient-referral-report-base',
@@ -25,11 +24,11 @@ export class PatientReferralBaseComponent implements OnInit {
   public startAge: number;
   public endAge: number;
   public selectedGender = [];
-  public isLoadingReport: boolean = false;
-  public encounteredError: boolean = false;
-  public errorMessage: string = '';
-  public currentView: string = 'tabular'; // can be pdf or tabular or patientList
-  public reportName: string = '';
+  public isLoadingReport = false;
+  public encounteredError = false;
+  public errorMessage = '';
+  public currentView = 'tabular'; // can be pdf or tabular or patientList
+  public reportName = '';
   public dates: any;
   public programUuids: any;
 
@@ -62,7 +61,7 @@ export class PatientReferralBaseComponent implements OnInit {
   }
 
   constructor(public patientReferralResourceService: PatientReferralResourceService,
-              public dataAnalyticsDashboardService: DataAnalyticsDashboardService) {
+    public dataAnalyticsDashboardService: DataAnalyticsDashboardService) {
   }
 
   public ngOnInit() {
@@ -78,7 +77,7 @@ export class PatientReferralBaseComponent implements OnInit {
     this.encounteredError = false;
     this.errorMessage = '';
     this.isLoadingReport = true;
-    let filterLocation = this.getSelectedLocations(this.locationUuids);
+    const filterLocation = this.getSelectedLocations(this.locationUuids);
     const params = {
       endDate: this.toDateString(this.endDate),
       startDate: this.toDateString(this.startDate),

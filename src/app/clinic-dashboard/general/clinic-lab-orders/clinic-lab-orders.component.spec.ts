@@ -1,6 +1,4 @@
 
-import { MockBackend } from '@angular/http/testing';
-import { Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 import { TestBed, inject, async } from '@angular/core/testing';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -11,10 +9,13 @@ import { FakeAppFeatureAnalytics } from '../../../shared/app-analytics/app-featu
 import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
 import { ClinicLabOrdersComponent } from './clinic-lab-orders.component';
-import { ClinicLabOrdersResourceService
+import {
+  ClinicLabOrdersResourceService
 } from '../../../etl-api/clinic-lab-orders-resource.service';
 import { ClinicDashboardCacheService } from '../../services/clinic-dashboard-cache.service';
 import { Observable } from 'rxjs';
+import 'rxjs/add/observable/of';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 const expectedResults = {
   startIndex: 0,
   size: 3,
@@ -45,29 +46,19 @@ const expectedResults = {
     }
   ]
 };
-let  patientUuid = '5ed39ae0-1359-11df-a1f1-0026b9348838';
 
 describe('Component: Clinical lab orders Unit Tests', () => {
 
   let clinicLabOrdersResourceService: ClinicLabOrdersResourceService,
     fakeAppFeatureAnalytics: AppFeatureAnalytics, component;
-  let mockRouter = {
+  const mockRouter = {
     navigate: jasmine.createSpy('navigate')
   };
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        MockBackend,
-        BaseRequestOptions,
         FakeAppFeatureAnalytics,
         ClinicLabOrdersComponent,
-        {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
         {
           provide: AppFeatureAnalytics,
           useClass: FakeAppFeatureAnalytics
@@ -80,14 +71,15 @@ describe('Component: Clinical lab orders Unit Tests', () => {
         {
           provide: ActivatedRoute,
           useValue: {
-            params: Observable.of({id: 123})
+            params: Observable.of({ id: 123 })
           }
         },
         AppSettingsService,
         LocalStorageService,
         ClinicDashboardCacheService,
 
-      ]
+      ],
+      imports: [HttpClientTestingModule]
     });
 
     clinicLabOrdersResourceService = TestBed.get(ClinicLabOrdersResourceService);
@@ -110,6 +102,19 @@ describe('Component: Clinical lab orders Unit Tests', () => {
 
     expect(component.results.length).toEqual(0);
     expect(component.results).toBeDefined();
+    expect(component.totalSampleCollected).toBeUndefined();
+    expect(component.totalOrderds).toBeUndefined();
+    expect(component.selectedVisitType).toBeUndefined();
+    expect(component.orders).toBeUndefined();
+    expect(component.totalSampleCollected).toBeUndefined();
+    expect(component.startDate).toBeUndefined();
+    expect(component.filterCollapsed).toBeUndefined();
+    expect(component.isLoadingReport).toBe(false);
+    expect(component.parentIsBusy).toBe(false);
+    expect(component.totalCounts).toBeUndefined();
+    expect(component.selectedDate).toBeUndefined();
+    expect(component.locationName).toBeDefined();
+    expect(component.locationName).toBe('');
     expect(component.location).toEqual('');
 
     done();
@@ -133,7 +138,6 @@ describe('Component: Clinical lab orders Unit Tests', () => {
     expect(component.formatDateField).toHaveBeenCalled();
 
     done();
-
   });
 
 });

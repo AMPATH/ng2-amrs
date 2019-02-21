@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GroupEnrollmentComponent } from './group-enrollment.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { NgamrsSharedModule } from 'src/app/shared/ngamrs-shared.module';
 
 describe('GroupEnrollmentComponent', () => {
   let component: GroupEnrollmentComponent;
@@ -8,9 +10,13 @@ describe('GroupEnrollmentComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GroupEnrollmentComponent ]
+      providers: [
+        HttpClientTestingModule,
+        NgamrsSharedModule
+      ],
+      declarations: [GroupEnrollmentComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +25,4 @@ describe('GroupEnrollmentComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
 });

@@ -40,7 +40,6 @@ const mockActivatedRoute = {
 describe('Moh731ReportBaseComponent:', () => {
     let fixture: ComponentFixture<Moh731ReportBaseComponent>;
     let comp: Moh731ReportBaseComponent;
-    let el;
     let route: Router;
     let router: ActivatedRoute;
 
@@ -76,7 +75,7 @@ describe('Moh731ReportBaseComponent:', () => {
         });
     }));
 
-    afterAll(() => {
+    afterEach(() => {
         TestBed.resetTestingModule();
     });
 
@@ -89,7 +88,7 @@ describe('Moh731ReportBaseComponent:', () => {
 
     it('should generate moh report using paramaters supplied',
         (done) => {
-            let fakeReply: any = {
+            const fakeReply: any = {
                 result: [{
                     location: 'ampath',
                     indicator1: 10,
@@ -115,10 +114,10 @@ describe('Moh731ReportBaseComponent:', () => {
             };
 
             comp = fixture.componentInstance;
-            let service = fixture.componentInstance.moh731Resource;
-            let mohSpy = spyOn(service, 'getMoh731Report')
+            const service = fixture.componentInstance.moh731Resource;
+            const mohSpy = spyOn(service, 'getMoh731Report')
                 .and.callFake((locationUuids, startDate, endDate, isLegacyReport, isAggregated) => {
-                    let subject = new Subject<any>();
+                    const subject = new Subject<any>();
 
                     // check for params conversion accuracy
                     // expect(locationUuids).toBe('uuid-1,uuid-2');
@@ -129,7 +128,7 @@ describe('Moh731ReportBaseComponent:', () => {
 
                     // check for state during fetching
                     expect(comp.isLoadingReport).toBe(true);
-                    expect(comp.encounteredError).toBe(false);
+                    expect(comp.statusError).toBe(false);
                     expect(comp.errorMessage).toBe('');
                     expect(comp.sectionsDef).toEqual([]);
                     expect(comp.data).toEqual([]);
@@ -139,7 +138,7 @@ describe('Moh731ReportBaseComponent:', () => {
 
                         // check for state after successful loading
                         expect(comp.isLoadingReport).toBe(false);
-                        expect(comp.encounteredError).toBe(false);
+                        expect(comp.statusError).toBe(false);
                         expect(comp.errorMessage).toBe('');
 
                         // results should be set
@@ -160,7 +159,7 @@ describe('Moh731ReportBaseComponent:', () => {
 
             // simulate previous erroneous state
             comp.isLoadingReport = false;
-            comp.encounteredError = true;
+            comp.statusError = true;
             comp.errorMessage = 'some error';
             comp.data = [{ some: 'data' }];
             comp.sectionsDef = [{ some: 'sectionDefinitions' }];
@@ -173,17 +172,17 @@ describe('Moh731ReportBaseComponent:', () => {
     it('should report errors when generating moh report fails',
         (done) => {
             comp = fixture.componentInstance;
-            let service = fixture.componentInstance.moh731Resource;
-            let mohSpy = spyOn(service, 'getMoh731Report')
+            const service = fixture.componentInstance.moh731Resource;
+            const mohSpy = spyOn(service, 'getMoh731Report')
                 .and.callFake((locationUuids, startDate, endDate, isLegacyReport, isAggregated) => {
-                    let subject = new Subject<any>();
+                    const subject = new Subject<any>();
 
                     setTimeout(() => {
                         subject.error('some error');
 
                         // check for state after successful loading
                         expect(comp.isLoadingReport).toBe(false);
-                        expect(comp.encounteredError).toBe(true);
+                        expect(comp.statusError).toBe(false);
                         expect(comp.errorMessage).toEqual('some error');
 
                         // results should be set

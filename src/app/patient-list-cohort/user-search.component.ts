@@ -1,4 +1,5 @@
-
+/* tslint:disable:no-inferrable-types */
+/* tslint:disable:no-output-on-prefix */
 import {take} from 'rxjs/operators/take';
 import {
   Component, OnInit, ViewEncapsulation,
@@ -17,15 +18,16 @@ import { UserService } from '../openmrs-api/user.service';
 export class UserSearchComponent implements OnInit, OnDestroy {
   public searchString: string;
   public users: any = [];
-  public isResetButton: boolean = true;
+  public isResetButton = true;
   public totalUsers: number;
-  public isLoading: boolean = false;
-  public page: number = 1;
+  public isLoading = false;
+  public page = 1;
+  /* tslint:disable:no-output-on-prefix */
   @Output() public onSelectedUserFromSearch = new EventEmitter();
   public subscription: Subscription;
-  public searchPanelVisible: boolean = false;
+  public searchPanelVisible = false;
   public errorMessage: string;
-  public adjustInputMargin: string = '240px';
+  public adjustInputMargin = '240px';
 
   constructor(private userService: UserService, private router: Router,
               ) {
@@ -62,7 +64,7 @@ export class UserSearchComponent implements OnInit, OnDestroy {
           (data) => {
             if (data.length > 0) {
               this.users = [];
-              for (let user of data ) {
+              for (const user of data ) {
                 this.users.push({label: user.person.display, value: user.uuid,
                   username: user.username});
               }

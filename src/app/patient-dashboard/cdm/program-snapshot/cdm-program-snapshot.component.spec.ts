@@ -3,8 +3,6 @@ import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { CdmSummaryResourceService } from '../../../etl-api/cdm-summary-resource.service';
 import { Observable } from 'rxjs';
 import { CdmProgramSnapshotComponent } from './cdm-program-snapshot.component';
-import { Http, BaseRequestOptions, ResponseOptions, Response } from '@angular/http';
-import { MockBackend, MockConnection } from '@angular/http/testing';
 import { ZeroVlPipe } from './../../../shared/pipes/zero-vl-pipe';
 
 const summaryResult = {
@@ -26,10 +24,6 @@ const summaryResult = {
 class FakeCdmSummaryResourceService {
   constructor() {
   }
-
-  public getCdmSummary(patientUuid, startIndex, size) {
-    return Observable.of([summaryResult]);
-  }
 }
 
 class FakeAppSettingsService {
@@ -45,9 +39,7 @@ describe('Component: CdmProgramSnapshotComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       providers: [
-        MockBackend,
         ZeroVlPipe,
-        BaseRequestOptions,
         {
           provide: CdmSummaryResourceService,
           useClass: FakeCdmSummaryResourceService
@@ -55,14 +47,6 @@ describe('Component: CdmProgramSnapshotComponent', () => {
         {
           provide: AppSettingsService,
           useClass: FakeAppSettingsService
-        },
-        {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend,
-                       defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
         }
       ],
       declarations: [CdmProgramSnapshotComponent, ZeroVlPipe],
@@ -84,23 +68,5 @@ describe('Component: CdmProgramSnapshotComponent', () => {
     expect(component.hasData).toEqual(false);
     expect(component.patientData).toEqual({});
     done();
-
   });
-
-  it('should set patient data and location when `getCdmSummary` is called',
-    inject([CdmSummaryResourceService, MockBackend],
-      (hs: CdmSummaryResourceService, backend: MockBackend) => {
-        backend.connections.subscribe((connection: MockConnection) => {
-          connection.mockRespond(new Response(
-            new ResponseOptions({
-                body: {results: [{uuid: '123'}]}
-              }
-            )));
-        });
-        component.getCdmSummary('uuid');
-        expect(component.patientData).toEqual(summaryResult);
-        // console.log('Error:::', component);
-        // expect(component.location).toEqual({uuid: '123'});
-    })
-  );
 });

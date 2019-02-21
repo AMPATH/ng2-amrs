@@ -3,8 +3,7 @@
   "name": "Data Analytics Dashboard",
   "baseRoute": "data-analytics",
   "routeParameter": "",
-  "nonProgramRoutes": [
-    {
+  "nonProgramRoutes": [{
       "url": "hiv/hiv-comparative-chart-analytics",
       "label": "Clinical Visualization",
       "icon": "fa fa-line-chart"
@@ -36,14 +35,123 @@
       "label": "Data Entry Statistics",
       "icon": "fa fa-bar-chart",
       "isSideBarOpen": false
-    },
-    {
-      "url": "oncology-reports",
-      "label": "Oncology Reports",
-      "icon": "fa fa-bar-chart",
-      "isSideBarOpen": false
     }
+
   ],
   "programs": [],
-  "departments": []
+  "departments": [
+    {
+      "departmentName": "HIV",
+      "baseRoute": "hiv",
+      "alias": "hiv",
+      "routes": [{
+          "url": "hiv-comparative-chart-analytics",
+          "label": "Clinical Visualization",
+          "icon": "fa fa-line-chart"
+        },
+        {
+          "url": "clinic-flow",
+          "label": "Clinic Flow",
+          "icon": "fa fa-clock-o"
+        },
+        {
+          "url": "hiv-summary-indicator-report",
+          "label": "HIV Summary Indicators",
+          "icon": "fa fa-file-pdf-o",
+          "isSideBarOpen": false
+        },
+        {
+          "url": "moh-731-report",
+          "label": "MOH 731 Reports",
+          "icon": "glyphicon glyphicon-equalizer"
+        },
+        {
+          "url": "program-enrollment",
+          "label": "Program Enrollment",
+          "icon": "fa fa-list-alt",
+          "isSideBarOpen": false
+        },
+        {
+          "url": "data-entry-statistics",
+          "label": "Data Entry Statistics",
+          "icon": "fa fa-bar-chart",
+          "isSideBarOpen": false
+        },
+        {
+          "url": "select-department",
+          "label": "Change Department",
+          "icon": "fa fa-exchange",
+          "isSideBarOpen": false,
+          "isDistinct": true
+        }
+      ]
+    },
+    {
+      "departmentName": "ONCOLOGY",
+      "baseRoute": "oncology",
+      "alias": "oncology",
+      "routes": [{
+          "url": "oncology-reports",
+          "label": "Oncology Reports",
+          "icon": "fa fa-bar-chart",
+          "isSideBarOpen": false
+        },
+        {
+          "url": "clinic-flow",
+          "label": "Clinic Flow",
+          "icon": "fa fa-clock-o"
+        },
+        {
+          "url": "program-enrollment",
+          "label": "Program Enrollment",
+          "icon": "fa fa-list-alt",
+          "isSideBarOpen": false
+        },
+        {
+          "url": "data-entry-statistics",
+          "label": "Data Entry Statistics",
+          "icon": "fa fa-bar-chart",
+          "isSideBarOpen": false
+        },
+        {
+          "url": "select-department",
+          "label": "Change Department",
+          "icon": "fa fa-exchange",
+          "isSideBarOpen": false,
+          "isDistinct": true
+        }
+      ]
+    },
+    {
+      "departmentName": "CDM",
+      "baseRoute": "cdm",
+      "alias": "cdm",
+      "routes": [
+        {
+          "url": "clinic-flow",
+          "label": "Clinic Flow",
+          "icon": "fa fa-clock-o"
+        },
+        {
+          "url": "program-enrollment",
+          "label": "Program Enrollment",
+          "icon": "fa fa-list-alt",
+          "isSideBarOpen": false
+        },
+        {
+          "url": "data-entry-statistics",
+          "label": "Data Entry Statistics",
+          "icon": "fa fa-bar-chart",
+          "isSideBarOpen": false
+        },
+        {
+          "url": "select-department",
+          "label": "Change Department",
+          "icon": "fa fa-exchange",
+          "isSideBarOpen": false,
+          "isDistinct": true
+        }
+      ]
+    }
+  ]
 }

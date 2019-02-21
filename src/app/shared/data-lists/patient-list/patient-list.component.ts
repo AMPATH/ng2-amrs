@@ -6,7 +6,7 @@ import { PatientListColumns } from './patient-list-columns.data';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 
-let _ = require('lodash');
+const _ = require('lodash');
 
 @Component({
   selector: 'patient-list',
@@ -65,7 +65,7 @@ export class PatientListComponent implements OnInit {
 
   get rowData() {
 
-    let d: any = this.data || [];
+    const d: any = this.data || [];
     let count = 1;
     // console.log('Data', this.data);
 

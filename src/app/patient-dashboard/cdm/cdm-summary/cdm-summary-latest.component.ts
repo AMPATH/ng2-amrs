@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './cdm-summary-latest.component.html'
 })
 export class CdmSummaryLatestComponent implements OnInit, OnDestroy {
-  public loadingCdmSummary: boolean = false;
+  public loadingCdmSummary = false;
   public subscription: Subscription;
   public patient: Patient;
   public patientUuid: any;
@@ -56,7 +56,7 @@ export class CdmSummaryLatestComponent implements OnInit, OnDestroy {
     this.cdmSummaryService.getCdmSummary(patientUuid, 0, 1, false).pipe(
     take(1)).subscribe((data) => {
       if (data) {
-        for (let summary of data){
+        for (const summary of data) {
           if ( summary.is_clinical_encounter === 1) {
             this.patientData = summary;
             break;

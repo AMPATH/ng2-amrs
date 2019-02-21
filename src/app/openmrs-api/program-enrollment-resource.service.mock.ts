@@ -6,14 +6,14 @@ import { HttpClient } from '@angular/common/http';
  * FakeProgramEnrollmentResourceService
  */
 export class FakeProgramEnrollmentResourceService extends ProgramEnrollmentResourceService {
-  public returnErrorOnNext: boolean = false;
+  public returnErrorOnNext = false;
 
   constructor(protected http: HttpClient, protected appSettingsService: AppSettingsService) {
     super(http, appSettingsService);
   }
 
   public getProgramEnrollmentByPatientUuid(uuid: string): Observable<any> {
-    let subject = new BehaviorSubject<any>(null);
+    const subject = new BehaviorSubject<any>(null);
     subject.next(
       [
         {
@@ -30,7 +30,7 @@ export class FakeProgramEnrollmentResourceService extends ProgramEnrollmentResou
   }
 
   public saveUpdateProgramEnrollment(paylod: any): Observable<any> {
-    let subject = new BehaviorSubject<any>(null);
+    const subject = new BehaviorSubject<any>(null);
     subject.next(
       [
         {

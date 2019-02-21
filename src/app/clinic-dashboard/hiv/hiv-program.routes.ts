@@ -15,15 +15,14 @@ import { HivCareComparativeComponent
 } from './hiv-visualization/hiv-care-overview.component';
 import {
     PatientStatusChangeVisualizationContainerComponent
-} from
-'./patient-status-change-visualization/patient-status-change-visualization.container.component';
-import { PatientStatusChangeListComponent } from
-'./patient-status-change-visualization/patient-status-change-list.component';
+} from './patient-status-change-visualization/patient-status-change-visualization.container.component';
+import {
+    PatientStatusChangeListComponent
+} from './patient-status-change-visualization/patient-status-change-list.component';
 import {
   VisualizationPatientListComponent
 } from '../../hiv-care-lib/hiv-visualization/visualization-patient-list.component';
-import { Moh731PatientListComponent } from
-'./../../hiv-care-lib/moh-731-report/moh-731-patientlist.component';
+import { Moh731PatientListComponent } from './../../hiv-care-lib/moh-731-report/moh-731-patientlist.component';
 import {
     HivDailyScheduleComponent
 } from './daily-schedule/daily-schedule.component';
@@ -32,8 +31,9 @@ import {
 } from './monthly-schedule/monthly-schedule.component';
 import { DailyScheduleVisitsComponent
 } from '../../clinic-schedule-lib/daily-schedule/daily-schedule-visits.component';
-import { DailyScheduleAppointmentsComponent }
-  from '../../clinic-schedule-lib/daily-schedule/daily-schedule-appointments.component';
+import {
+    DailyScheduleAppointmentsComponent
+} from '../../clinic-schedule-lib/daily-schedule/daily-schedule-appointments.component';
 import { DailyScheduleNotReturnedComponent
 } from '../../clinic-schedule-lib/daily-schedule/daily-schedule-not-returned.component';
 import { DailyScheduleClinicFlowComponent
@@ -49,11 +49,11 @@ import {
 import { ClinicFlowSummaryComponent
 } from '../../hiv-care-lib/clinic-flow/clinic-flow-summary.component';
 import { HivEnhancedComponent } from './hiv-enhanced-program/hiv-enhanced-program.component';
-import { DepartmentSelectComponent } from '../department-select/department-select.component';
 import { DefaulterListComponent } from '../general/defaulter-list/defaulter-list.component';
 import { PatientsProgramEnrollmentComponent } from '../../patients-program-enrollment/patients-program-enrollment.component';
 import { ProgramEnrollmentPatientListComponent } from '../../patients-program-enrollment/program-enrollent-patient-list.component';
 import { ClinicLabOrdersComponent } from '../general/clinic-lab-orders/clinic-lab-orders.component';
+import { ChangeDepartmentComponent } from '../change-department/change-department.component';
 
 const routes: Routes = [
     {
@@ -164,7 +164,7 @@ const routes: Routes = [
     },
     {
         path: 'department-select',
-        component : DepartmentSelectComponent
+        component : ChangeDepartmentComponent
     }
 ];
 

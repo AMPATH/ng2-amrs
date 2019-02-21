@@ -26,11 +26,11 @@ export class HivMonthlySummaryIndicatorBaseComponent implements OnInit {
   public selectedGender = [];
   public enabledControls = 'indicatorsControl,datesControl,' +
     'ageControl,genderControl,locationControl';
-  public isLoadingReport: boolean = false;
-  public encounteredError: boolean = false;
-  public errorMessage: string = '';
-  public currentView: string = 'tabular'; // can be pdf or tabular or patientList
-  public reportName: string = 'hiv-summary-monthly-report';
+  public isLoadingReport = false;
+  public encounteredError = false;
+  public errorMessage = '';
+  public currentView = 'tabular'; // can be pdf or tabular or patientList
+  public reportName = 'hiv-summary-monthly-report';
   public dates: any;
   public age: any;
   @Input() public ageRangeStart: number;
@@ -170,12 +170,12 @@ export class HivMonthlySummaryIndicatorBaseComponent implements OnInit {
     return Moment(date).utcOffset('+03:00').format();
   }
   private formatDateField(result) {
-    let dates = [];
+    const dates = [];
     for (const item of result) {
-      let data = item;
-      for (let r in data) {
+      const data = item;
+      for (const r in data) {
         if (data.hasOwnProperty(r)) {
-          let month = Moment(data.month).format('MMM, YYYY');
+          const month = Moment(data.month).format('MMM, YYYY');
           data['reporting_month'] = month;
         }
       }

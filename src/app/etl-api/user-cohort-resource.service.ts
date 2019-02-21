@@ -12,8 +12,8 @@ export class UserCohortResourceService {
     return this.appSettingsService.getEtlRestbaseurl().trim() + 'user-cohorts';
   }
   public getUserCohorts(userUuid: string): Observable<any> {
-    let url = this.getUrl();
-    let params: HttpParams = new HttpParams()
+    const url = this.getUrl();
+    const params: HttpParams = new HttpParams()
     .set('userUuid', userUuid);
     return this.http.get(url, {
       params: params

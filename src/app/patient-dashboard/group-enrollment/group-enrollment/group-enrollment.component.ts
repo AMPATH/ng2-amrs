@@ -44,7 +44,7 @@ export class GroupEnrollmentComponent implements OnInit, OnDestroy {
 
   constructor(private communityGroupService: CommunityGroupService,
     private groupMemberService: CommunityGroupMemberService,
-    private modalService: BsModalService) {}
+    private modalService: BsModalService) { }
 
   ngOnInit(): void {
   }
@@ -79,8 +79,8 @@ export class GroupEnrollmentComponent implements OnInit, OnDestroy {
     });
     this.searchResults = _.filter(results,
       (result) => this.currentEnrolledPrograms
-      .map(program => program.programUuid)
-      .indexOf(this.getAttribute('programUuid', result.attributes)) > -1);
+        .map(program => program.programUuid)
+        .indexOf(this.getAttribute('programUuid', result.attributes)) > -1);
     if (this.currentEnrolledPrograms && this.searchResults.length === 0 && results.length > 0) {
       this.errorMessage = `Patient needs to be enrolled in DC program first before enrolling in a community group.`;
     } else {
@@ -100,9 +100,9 @@ export class GroupEnrollmentComponent implements OnInit, OnDestroy {
           this.group.emit(group);
           this.hide.emit(true);
         },
-        (error) => {
-          this.errorMessage = error.error.message;
-        }
+          (error) => {
+            this.errorMessage = error.error.message;
+          }
         ));
       }
     } else {
@@ -123,28 +123,28 @@ export class GroupEnrollmentComponent implements OnInit, OnDestroy {
     this.subscription.add(this.unEnrollMember(currentGroup.uuid)
       .flatMap((res) => this.enrollMember(newGroup))
       .subscribe((response) => {
-          this.group.emit(newGroup);
-          if (this.modalRef) {
-            this.modalRef.hide();
-          }
-          this.hide.emit(true);
-        },
+        this.group.emit(newGroup);
+        if (this.modalRef) {
+          this.modalRef.hide();
+        }
+        this.hide.emit(true);
+      },
         (error) => console.log(error)));
   }
 
   public isPatientEnrolledInGroupInSameProgram(group) {
-        let check = null;
-        const program = _.filter(group.attributes, (attribute) => attribute.cohortAttributeType.name === 'programUuid')[0];
-        if (program) {
-        _.forEach(this.currentGroups, (currentGroup) => {
-          if (currentGroup.program) {
-            if (currentGroup.program.uuid === program.value) {
-              check = currentGroup;
-            }
+    let check = null;
+    const program = _.filter(group.attributes, (attribute) => attribute.cohortAttributeType.name === 'programUuid')[0];
+    if (program) {
+      _.forEach(this.currentGroups, (currentGroup) => {
+        if (currentGroup.program) {
+          if (currentGroup.program.uuid === program.value) {
+            check = currentGroup;
           }
-        });
-      }
-        return check;
+        }
+      });
+    }
+    return check;
   }
 
   public unEnrollMember(memberUuid: string) {

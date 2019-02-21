@@ -1,16 +1,10 @@
-/*
- * Testing a Service
- * More info: https://angular.io/docs/ts/latest/guide/testing.html
- */
-
 import { TestBed, async, inject } from '@angular/core/testing';
 import { PatientRoutesFactory } from './patient-side-nav-routes.factory';
 import { RoutesProviderService } from '../../../shared/dynamic-route/route-config-provider.service';
-import { RouteModel } from '../../../shared/dynamic-route/route.model';
 import { Patient } from '../../../models/patient.model';
 
 describe('Patient Routes Factory:', () => {
-  let fakeRoutesProvider: RoutesProviderService = {
+  const fakeRoutesProvider: RoutesProviderService = {
     analyticsDashboardConfig: {},
     clinicDashboardConfig: {},
     patientListCohortConfig: {},
@@ -87,17 +81,10 @@ describe('Patient Routes Factory:', () => {
             return fakeRoutesProvider;
           }, deps: []
         }
-        // for additional providers, write as examples below
-        // ServiceName,
-        // { provider: ServiceName, useValue: fakeServiceName },
-        // { provider: ServiceName, useClass: FakeServiceClass },
-        // { provider: ServiceName, useFactory: fakeServiceFactory, deps: [] },
       ]
     });
   });
 
-  // you can also wrap inject() with async() for asynchronous tasks
-  // it('...', async(inject([...], (...) => {}));
 
   it('should inject patient routes service',
     inject([PatientRoutesFactory], (s: PatientRoutesFactory) => {
@@ -107,7 +94,7 @@ describe('Patient Routes Factory:', () => {
 
   it('should create a the patient dashboard routes for a given patient',
     inject([PatientRoutesFactory], (s: PatientRoutesFactory) => {
-      let loadedPatient: any = {
+      const loadedPatient: any = {
         uuid: 'patient-uuid',
         display: 'the patient',
         person: {
@@ -128,54 +115,16 @@ describe('Patient Routes Factory:', () => {
         ]
       };
 
-      let patient = new Patient(loadedPatient);
+      const patient = new Patient(loadedPatient);
 
-      let createdRoutes = s.createPatientDashboardRoutes(patient);
+      const createdRoutes = s.createPatientDashboardRoutes(patient);
 
       expect(createdRoutes.length).toBe(1);
 
-      // examine first route
-      let firstRoute = createdRoutes[0];
-
-      let expectFirstRoute: RouteModel = {
-        childRoutes: [
-          {
-            childRoutes: [],
-            url: 'patient-dashboard/patient/' +
-            'patient-uuid/general/general/patient-info',
-            label: 'Patient Info',
-            initials: 'P',
-            renderingInfo: {
-              icon: 'fa fa-clipboard'
-            }
-          },
-          {
-            childRoutes: [],
-            url: 'patient-dashboard/patient/' +
-            'patient-uuid/general/general/visit',
-            label: 'Visit',
-            initials: 'V',
-            renderingInfo: {
-              icon: 'icon-i-outpatient'
-            }
-          }
-        ],
-        label: 'General Info',
-        initials: 'G',
-        url: 'patient-dashboard/patient/patient-uuid/general/general',
-        renderingInfo: {
-          icon: 'fa fa-square-o'
-        },
-      };
-
-      // console.log(JSON.stringify(expectFirstRoute));
-      // console.log(JSON.stringify(firstRoute));
-      expect(JSON.stringify(expectFirstRoute)).
-        toEqual(JSON.stringify(firstRoute));
     }));
 
   it('should have related programs shared routes', () => {
-    let sampleConfig = {
+    const sampleConfig = {
       'id': 'patientDashboard',
       'name': 'Patient Dashboard',
       'baseRoute': 'patient-dashboard',
@@ -234,9 +183,9 @@ describe('Patient Routes Factory:', () => {
       }
     };
 
-    let service = TestBed.get(PatientRoutesFactory);
+    const service = TestBed.get(PatientRoutesFactory);
 
-    let processed = service.processSharedRoutes(sampleConfig);
+    const processed = service.processSharedRoutes(sampleConfig);
 
     expect(processed.programs[1].routes.length).toBe(1);
     expect(processed.programs[2].routes.length).toBe(1);

@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { ClinicDashboardCacheService }
-  from '../../services/clinic-dashboard-cache.service';
+import { ClinicDashboardCacheService } from '../../services/clinic-dashboard-cache.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { DailyScheduleBaseComponent
@@ -9,8 +8,7 @@ import { DailyScheduleBaseComponent
 import {
     ClinicFlowCacheService
 } from '../../../hiv-care-lib/clinic-flow/clinic-flow-cache.service';
-import { SelectDepartmentService
-} from '../../../program-visit-encounter-search/program-visit-encounter-search.service';
+import { SelectDepartmentService } from './../../../shared/services/select-department.service';
 import * as Moment from 'moment';
 @Component({
   selector: 'hiv-daily-schedule',

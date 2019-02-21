@@ -1,5 +1,3 @@
-import { MockBackend } from '@angular/http/testing';
-import { Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 import { TestBed, inject, async } from '@angular/core/testing';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
@@ -12,14 +10,37 @@ import { MOHReportComponent } from './moh-731-report-pdf-view.component';
 import {
   Moh731ResourceServiceMock
 } from '../../etl-api/moh-731-resource.service.mock';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+
+class LocationServiceMock {
+  public getLocations(): Observable<any> {
+    return of([{
+      uuid: '08feae7c-1352-11df-a1f1-0026b9348838',
+      display: 'location',
+      name: 'location',
+      countyDistrict: 'district',
+      stateProvince: 'county'
+    }, {
+      uuid: 'uuid 2',
+      display: 'location 2',
+      name: 'location 2',
+      countyDistrict: 'district 2',
+      stateProvince: 'county 2'
+    }]);
+  }
+
+  constructor() {
+  }
+
+}
 
 describe('Component: MOHReportComponent', () => {
-  let mock = new Moh731ResourceServiceMock();
-  let data = mock.getTestData();
-  let rowData = data.result;
-  let sectionDefinitions = data.sectionDefinitions;
+  const mock = new Moh731ResourceServiceMock();
+  const data = mock.getTestData();
+  const rowData = data.result;
+  const sectionDefinitions = data.sectionDefinitions;
 
-  let params = {
+  const params = {
     county: 'Kakamega',
     district: 'dsit',
     endDate: '2017-04-10',
@@ -31,9 +52,8 @@ describe('Component: MOHReportComponent', () => {
   };
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [ HttpClientTestingModule ],
       providers: [
-        MockBackend,
-        BaseRequestOptions,
         MOHReportComponent,
         MOHReportService,
         AppSettingsService,
@@ -44,13 +64,6 @@ describe('Component: MOHReportComponent', () => {
           provide: LocationResourceService, useFactory: () => {
             return new LocationServiceMock();
           }, deps: []
-        },
-        {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
         },
         {
           provide: AppFeatureAnalytics, useFactory: () => {
@@ -66,14 +79,14 @@ describe('Component: MOHReportComponent', () => {
   });
 
   it('should create an instance of MOHReportComponent', () => {
-    let moh731ReportComponent: MOHReportComponent
+    const moh731ReportComponent: MOHReportComponent
       = TestBed.get(MOHReportComponent);
     expect(moh731ReportComponent).toBeTruthy();
   });
 
   it('should have all required properties declared and initialized as public property / method',
     () => {
-      let component: MOHReportComponent
+      const component: MOHReportComponent
         = TestBed.get(MOHReportComponent);
       // properties
       expect(component.pdfSrc).toBeNull();
@@ -101,8 +114,8 @@ describe('Component: MOHReportComponent', () => {
 
   it('should generate pdf when the generatePdf is called',
     (done) => {
-      let component: MOHReportComponent = TestBed.get(MOHReportComponent);
-      let mohReportService: MOHReportService = TestBed.get(MOHReportService);
+      const component: MOHReportComponent = TestBed.get(MOHReportComponent);
+      const mohReportService: MOHReportService = TestBed.get(MOHReportService);
       component.data = data;
       component.startDate = '2017-03-10';
       component.endDate = '2017-04-10';
@@ -115,7 +128,7 @@ describe('Component: MOHReportComponent', () => {
 
   it('should navigate to the next page when nextPage is invoked',
     (done) => {
-      let component: MOHReportComponent
+      const component: MOHReportComponent
         = TestBed.get(MOHReportComponent);
       component.data = data;
       component.startDate = '2017-03-10';
@@ -129,7 +142,7 @@ describe('Component: MOHReportComponent', () => {
 
   it('should navigate to the previous page when prevPage() is invoked',
     (done) => {
-      let component: MOHReportComponent
+      const component: MOHReportComponent
         = TestBed.get(MOHReportComponent);
       component.data = data;
       component.startDate = '2017-03-10';
@@ -143,25 +156,3 @@ describe('Component: MOHReportComponent', () => {
   );
 
 });
-
-class LocationServiceMock {
-  public getLocations(): Observable<any> {
-    return of([{
-      uuid: '08feae7c-1352-11df-a1f1-0026b9348838',
-      display: 'location',
-      name: 'location',
-      countyDistrict: 'district',
-      stateProvince: 'county'
-    }, {
-      uuid: 'uuid 2',
-      display: 'location 2',
-      name: 'location 2',
-      countyDistrict: 'district 2',
-      stateProvince: 'county 2'
-    }]);
-  }
-
-  constructor() {
-  }
-
-}

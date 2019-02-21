@@ -11,9 +11,9 @@ export class SessionStorageService {
   }
 
   public getObject(keyName: string): any {
-    let stored = window.sessionStorage.getItem(keyName);
+    const stored = window.sessionStorage.getItem(keyName);
     try {
-      let object = JSON.parse(stored);
+      const object = JSON.parse(stored);
       return object;
     } catch (error) {
       console.error(error);

@@ -8,8 +8,6 @@ import { DynamicRoutesService } from '../shared/dynamic-route/dynamic-routes.ser
 import { PatientDashboardComponent } from './patient-dashboard.component';
 import { PatientService } from './services/patient.service';
 import { PatientResourceService } from '../openmrs-api/patient-resource.service';
-import { Http, BaseRequestOptions } from '@angular/http';
-import { MockBackend } from '@angular/http/testing';
 import { FakeAppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytcis.mock';
 import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytics.service';
 import { AppSettingsService } from '../app-settings/app-settings.service';
@@ -17,9 +15,8 @@ import { LocalStorageService } from '../utils/local-storage.service';
 import { LabsResourceService } from '../etl-api/labs-resource.service';
 import {
   ProgramEnrollmentResourceService
-}
-  from '../openmrs-api/program-enrollment-resource.service';
-import { ToastrConfig, ToastrService, Overlay, OverlayContainer, ToastrModule } from 'ngx-toastr';
+} from '../openmrs-api/program-enrollment-resource.service';
+import { ToastrService, Overlay, OverlayContainer, ToastrModule } from 'ngx-toastr';
 import { EncounterResourceService } from '../openmrs-api/encounter-resource.service';
 import { PatientProgramService } from './programs/patient-programs.service';
 import { RoutesProviderService } from '../shared/dynamic-route/route-config-provider.service';
@@ -28,11 +25,22 @@ import { ProgramResourceService } from '../openmrs-api/program-resource.service'
 import { ProgramWorkFlowResourceService } from '../openmrs-api/program-workflow-resource.service';
 import { ProgramWorkFlowStateResourceService } from '../openmrs-api/program-workflow-state-resource.service';
 import { PatientRoutesFactory } from '../navigation';
+import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 class MockRouter {
   public navigate = jasmine.createSpy('navigate');
 }
 class MockActivatedRoute {
   public params = of([{ 'id': 1 }]);
+}
+
+class FakeCacheStorageService {
+  constructor(a, b) {
+  }
+
+  public ready() {
+    return true;
+  }
 }
 
 describe('Component: PatientDashboard', () => {
@@ -44,8 +52,6 @@ describe('Component: PatientDashboard', () => {
         PatientService,
         ProgramService,
         ProgramResourceService,
-        MockBackend,
-        BaseRequestOptions,
         PatientResourceService,
         FakeAppFeatureAnalytics,
         AppSettingsService,
@@ -59,11 +65,10 @@ describe('Component: PatientDashboard', () => {
         PatientRoutesFactory,
         ProgramWorkFlowStateResourceService,
         {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
+          provide: CacheStorageService,
+          useFactory: () => {
+            return new FakeCacheStorageService(null, null);
+          }
         },
         {
           provide: AppFeatureAnalytics,
@@ -82,24 +87,26 @@ describe('Component: PatientDashboard', () => {
         Overlay,
         OverlayContainer
       ],
-      imports: [ToastrModule.forRoot()]
+      imports: [
+        HttpClientTestingModule,
+        ToastrModule.forRoot()]
     });
   });
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 
   it('should create an instance', () => {
-    let component = TestBed.get(PatientDashboardComponent);
+    const component = TestBed.get(PatientDashboardComponent);
     expect(component).toBeTruthy();
   });
 });
 class ToastrConfigMock {
-  public timeOut: number = 5000;
-  public closeButton: boolean = false;
-  public positionClass: string = 'toast-top-right';
-  public extendedTimeOut: number = 1000;
+  public timeOut = 5000;
+  public closeButton = false;
+  public positionClass = 'toast-top-right';
+  public extendedTimeOut = 1000;
   constructor() {
   }
 

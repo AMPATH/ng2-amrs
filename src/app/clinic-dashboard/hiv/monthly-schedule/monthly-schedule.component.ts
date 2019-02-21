@@ -14,8 +14,7 @@ import { PatientProgramResourceService } from '../../../etl-api/patient-program-
 import { LocalStorageService } from '../../../utils/local-storage.service';
 import { MonthlyScheduleResourceService
 } from '../../../etl-api/monthly-scheduled-resource.service';
-import { SelectDepartmentService
-} from '../../../program-visit-encounter-search/program-visit-encounter-search.service';
+import { SelectDepartmentService } from './../../../shared/services/select-department.service';
 import { ClinicDashboardCacheService } from '../../services/clinic-dashboard-cache.service';
 
 @Component({

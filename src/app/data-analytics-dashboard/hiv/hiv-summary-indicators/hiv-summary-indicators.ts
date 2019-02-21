@@ -57,8 +57,8 @@ implements OnInit {
   }
 
   public loadReportParamsFromUrl() {
-    let path = this.router.parseUrl(this.location.path());
-    let pathHasHistoricalValues = path.queryParams['startDate'] &&
+    const path = this.router.parseUrl(this.location.path());
+    const pathHasHistoricalValues = path.queryParams['startDate'] &&
       path.queryParams['endDate'];
 
     if (path.queryParams['startDate']) {
@@ -95,7 +95,7 @@ implements OnInit {
   }
 
   public storeReportParamsInUrl() {
-    let path = this.router.parseUrl(this.location.path());
+    const path = this.router.parseUrl(this.location.path());
     path.queryParams = {
       'endDate': this.endDate.toUTCString(),
       'startDate': this.startDate.toUTCString(),
@@ -111,12 +111,12 @@ implements OnInit {
   }
 
   public formatIndicatorsToSelectArray(indicatorParam: string) {
-    let arr = indicatorParam.split(',');
+    const arr = indicatorParam.split(',');
     _.each(arr, (indicator) => {
-      let text = this.translateIndicator(indicator);
-      let id = indicator;
+      const text = this.translateIndicator(indicator);
+      const id = indicator;
 
-      let data = {
+      const data = {
         value: id,
         label: text
       };
@@ -131,12 +131,12 @@ implements OnInit {
   }
 
   public formatGenderToSelectArray(genderParam: string) {
-    let arr = genderParam.split(',');
+    const arr = genderParam.split(',');
     _.each(arr, (indicator) => {
-      let text = indicator;
-      let id = indicator;
+      const text = indicator;
+      const id = indicator;
 
-      let data = {
+      const data = {
         value: id, // indicator
         label: text
       };

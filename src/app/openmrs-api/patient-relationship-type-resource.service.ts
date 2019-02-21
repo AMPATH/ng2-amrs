@@ -19,9 +19,9 @@ export class PatientRelationshipTypeResourceService {
 
   public getPatientRelationshipTypes(): Observable<any> {
 
-    let url = this.getUrl();
-    let v: string = 'full';
-    let params: HttpParams = new HttpParams()
+    const url = this.getUrl();
+    const v = 'full';
+    const params: HttpParams = new HttpParams()
     .set('v', v);
     return this.http.get<any>(url, {
       params: params

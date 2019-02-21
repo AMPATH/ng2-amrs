@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 
 import * as moment from 'moment';
-import *  as _ from 'lodash';
+import * as _ from 'lodash';
 import { Observable, Subject, of, Subscription } from 'rxjs';
 import { flatMap, delay } from 'rxjs/operators';
 
@@ -31,10 +31,10 @@ export class TodayVisitService implements OnDestroy {// SERVICE PROCESSES VISITS
 
   public enrolledPrograms: Array<any> = [];
 
-  public needsVisitReload: boolean = true;
+  public needsVisitReload = true;
   public programVisits = null;
   public visitsByProgramClass = [];
-  public showVisitStartedMsg: boolean = false;
+  public showVisitStartedMsg = false;
 
   public visitsEvents: Subject<VisitsEvent> = new Subject<VisitsEvent>();
   private isLoading = false;
@@ -92,7 +92,7 @@ export class TodayVisitService implements OnDestroy {// SERVICE PROCESSES VISITS
   }
 
   public fetchPatientProgramVisitConfigs(): Observable<any> {
-    let subject: Subject<any> = new Subject<any>();
+    const subject: Subject<any> = new Subject<any>();
 
     this.patientProgramVisitConfigs = {};
     if (!(this.patient && this.patient.uuid)) {
@@ -123,7 +123,7 @@ export class TodayVisitService implements OnDestroy {// SERVICE PROCESSES VISITS
   }
 
   public getPatientVisits(): Observable<any> {
-    let subject: Subject<any> = new Subject<any>();
+    const subject: Subject<any> = new Subject<any>();
     this.allPatientVisits = [];
     this.hasFetchedVisits = false;
 
@@ -154,7 +154,7 @@ export class TodayVisitService implements OnDestroy {// SERVICE PROCESSES VISITS
   public filterVisitsByVisitTypes(visits: Array<any>, visitTypes: Array<string>): Array<any> {
     let returnVal = [];
     returnVal = _.filter(visits, (visit) => {
-      let inType = _.find(visitTypes, (type) => {
+      const inType = _.find(visitTypes, (type) => {
         return type === visit.visitType.uuid;
       });
       if (inType) {
@@ -169,7 +169,7 @@ export class TodayVisitService implements OnDestroy {// SERVICE PROCESSES VISITS
     let returnVal = [];
     returnVal = _.filter(visits, (visit) => {
       // Don't filter out retrospective visits
-      let sameDate = moment(visit.startDatetime).isSame(moment(date), 'days');
+      const sameDate = moment(visit.startDatetime).isSame(moment(date), 'days');
       if (sameDate) {
         return true;
       }
@@ -196,7 +196,7 @@ export class TodayVisitService implements OnDestroy {// SERVICE PROCESSES VISITS
   }
 
   public buildProgramsObject(programs: Array<any>): any {
-    let returnVal = {};
+    const returnVal = {};
     _.each(programs, (program) => {
       returnVal[program.program.uuid] = {
         enrollment: program,
@@ -215,10 +215,10 @@ export class TodayVisitService implements OnDestroy {// SERVICE PROCESSES VISITS
       if (retroSettings && retroSettings.enabled) {
         filterVisitDate = moment(retroSettings.visitDate);
       }
-      let todaysVisits = this.filterVisitsByDate(visits, filterVisitDate.toDate());
-      let programVisits = this.filterVisitsByVisitTypes(todaysVisits,
+      const todaysVisits = this.filterVisitsByDate(visits, filterVisitDate.toDate());
+      const programVisits = this.filterVisitsByVisitTypes(todaysVisits,
         this.getProgramVisitTypesUuid(programVisitObj.config));
-      let orderedVisits = this.sortVisitsByVisitStartDateTime(programVisits);
+      const orderedVisits = this.sortVisitsByVisitStartDateTime(programVisits);
 
       programVisitObj.visits = orderedVisits;
 
@@ -232,8 +232,8 @@ export class TodayVisitService implements OnDestroy {// SERVICE PROCESSES VISITS
   }
 
   public processVisitsForPrograms() {
-    let programs = this.buildProgramsObject(this.enrolledPrograms);
-    for (let o in programs) {
+    const programs = this.buildProgramsObject(this.enrolledPrograms);
+    for (const o in programs) {
       if (programs[o]) {
         this.filterVisitsAndCurrentVisits(programs[o], this.allPatientVisits);
       }
@@ -245,10 +245,10 @@ export class TodayVisitService implements OnDestroy {// SERVICE PROCESSES VISITS
   public groupProgramVisitsByClass() {
     this.visitsByProgramClass = [];
     if (!_.isEmpty(this.programVisits)) {
-      let classes: any = {};
-      for (let o in this.programVisits) {
+      const classes: any = {};
+      for (const o in this.programVisits) {
         if (this.programVisits[o]) {
-          let c: string = this.programVisits[o].enrollment.baseRoute;
+          const c: string = this.programVisits[o].enrollment.baseRoute;
           // console.log('class', c);
           if (classes[c] === undefined) {
             classes[c] = {
@@ -279,7 +279,7 @@ export class TodayVisitService implements OnDestroy {// SERVICE PROCESSES VISITS
   }
 
   public loadDataToProcessProgramVisits(): Observable<any> {
-    let subject = new Subject();
+    const subject = new Subject();
     this.fetchPatientProgramVisitConfigs()
       .subscribe(() => {
         this.getPatientVisits()
@@ -303,7 +303,7 @@ export class TodayVisitService implements OnDestroy {// SERVICE PROCESSES VISITS
     this.isLoading = true;
     // clear errors and visits
     this.errors = [];
-    let subject = new Subject();
+    const subject = new Subject();
 
     // fire events to load visits
     this.visitsEvents.next(VisitsEvent.VisitsLoadingStarted);

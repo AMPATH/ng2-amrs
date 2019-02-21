@@ -10,7 +10,7 @@ import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/'
 import { PatientCreationComponent } from './patient-creation.component';
 import { PatientCreationService } from './patient-creation.service';
 import {
-  PatientCreationResourceService
+    PatientCreationResourceService
 } from '../openmrs-api/patient-creation-resource.service';
 import { SessionStorageService } from '../utils/session-storage.service';
 import {

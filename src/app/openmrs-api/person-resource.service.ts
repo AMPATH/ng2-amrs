@@ -8,7 +8,7 @@ import { HttpParams, HttpClient, HttpHeaders } from '@angular/common/http';
 @Injectable()
 
 export class PersonResourceService {
-  public v: string = 'full';
+  public v = 'full';
   constructor(protected http: HttpClient, protected appSettingsService: AppSettingsService) {
   }
   public getUrl(): string {
@@ -21,7 +21,7 @@ export class PersonResourceService {
     let url = this.getUrl();
     url += '/' + uuid;
 
-    let params: HttpParams = new HttpParams()
+    const params: HttpParams = new HttpParams()
     .set('v', (v && v.length > 0) ? v : this.v);
     return this.http.get(url, {
       params: params
@@ -32,7 +32,7 @@ export class PersonResourceService {
     if (!payload || !uuid) {
       return null;
     }
-    let url = this.getUrl() + '/' + uuid;
+    const url = this.getUrl() + '/' + uuid;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post(url, JSON.stringify(payload), {headers}).pipe(
       map((response: any) => {

@@ -1,9 +1,6 @@
 /* tslint:disable:no-unused-variable */
-
 import { TestBed, async } from '@angular/core/testing';
 import { ReplaySubject, BehaviorSubject, Observable } from 'rxjs';
-import { Http, BaseRequestOptions } from '@angular/http';
-import { MockBackend } from '@angular/http/testing';
 import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { PatientService } from '../../services/patient.service';
 import { PatientResourceService } from '../../../openmrs-api/patient-resource.service';
@@ -23,16 +20,16 @@ import { ProgramResourceService } from '../../../openmrs-api/program-resource.se
 import { ProgramWorkFlowResourceService } from '../../../openmrs-api/program-workflow-resource.service';
 import { ProgramWorkFlowStateResourceService
 } from '../../../openmrs-api/program-workflow-state-resource.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 
 describe('Service: PatientRelationshipTypeService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
+            imports: [ HttpClientTestingModule ],
             providers: [
                 PatientRelationshipTypeResourceService,
                 PatientRelationshipTypeService,
-                MockBackend,
-                BaseRequestOptions,
                 AppSettingsService,
                 PatientService,
                 PatientProgramService,
@@ -44,15 +41,7 @@ describe('Service: PatientRelationshipTypeService', () => {
                 PatientResourceService,
                 LocalStorageService,
                 ProgramEnrollmentResourceService,
-                EncounterResourceService,
-                {
-                    provide: Http,
-                    useFactory: (backendInstance: MockBackend,
-                        defaultOptions: BaseRequestOptions) => {
-                        return new Http(backendInstance, defaultOptions);
-                    },
-                    deps: [MockBackend, BaseRequestOptions]
-                }
+                EncounterResourceService
             ]
         });
     });
@@ -62,19 +51,18 @@ describe('Service: PatientRelationshipTypeService', () => {
     });
 
     it('should create an instance', () => {
-        let service: PatientRelationshipTypeService = TestBed.get(PatientRelationshipTypeService);
+        const service: PatientRelationshipTypeService = TestBed.get(PatientRelationshipTypeService);
         expect(service).toBeTruthy();
     });
 
 
-    it('should get patient relationship types', (done) => {
-        let service: PatientRelationshipTypeService = TestBed.get(PatientRelationshipTypeService);
-        let relationships = service.getRelationshipTypes();
+    it('should get patient relationship types', () => {
+        const service: PatientRelationshipTypeService = TestBed.get(PatientRelationshipTypeService);
+        const relationships = service.getRelationshipTypes();
         relationships.subscribe((results) => {
             if (results) {
                 expect(results).toBeTruthy();
             }
-            done();
         });
     });
 

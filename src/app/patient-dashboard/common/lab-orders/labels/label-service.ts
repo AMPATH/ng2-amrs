@@ -9,8 +9,8 @@ import { DymoTurbo } from './dymo-turbo';
 export class LabelService {
     constructor() { }
     public directPrint(label, copies) {
-         let t = new DymoTurbo();
-         t.printLabel(label, copies);
+        const t = new DymoTurbo();
+        t.printLabel(label, copies);
     }
     public generateBarcodes(labels) {
         let doc = new PDFDocument({
@@ -20,11 +20,11 @@ export class LabelService {
             if (i > 0) {
                 doc.addPage();
             }
-            let barcodeString = bardcode.drawBarcode('svg', label.orderNumber, {
+            const barcodeString = bardcode.drawBarcode('svg', label.orderNumber, {
                 height: 20,
                 maxWidth: 160
             });
-            let svgPath = new RectangleToPath().convertToPath(barcodeString);
+            const svgPath = new RectangleToPath().convertToPath(barcodeString);
 
             doc = this.drawText(doc, 'Date Ordered : ' + label.orderDate, {
                 x: 2,
@@ -49,12 +49,12 @@ export class LabelService {
                 .restore();
         });
         doc.end();
-        let stream = doc.pipe(blobStream());
-        let subject = new Subject<any>();
+        const stream = doc.pipe(blobStream());
+        const subject = new Subject<any>();
         stream.on('finish', () => {
 
             // var blob = stream.toBlob('application/pdf');
-            let url = stream.toBlobURL('application/pdf');
+            const url = stream.toBlobURL('application/pdf');
             // window.open(url);
             // iframe.src = stream.toBlobURL('application/pdf');
             subject.next(url);
@@ -63,7 +63,7 @@ export class LabelService {
     }
 
     private measureHeight(text, fontSize, min, width) {
-        let temp = new PDFDocument();
+        const temp = new PDFDocument();
         temp.fontSize(fontSize);
         temp.x = 0;
         temp.y = 0;
@@ -79,7 +79,7 @@ export class LabelService {
             return min;
         }
 
-        let height = this.measureHeight(text, fontSize, min, bounds.width);
+        const height = this.measureHeight(text, fontSize, min, bounds.width);
 
         if (height <= bounds.height) {
             return fontSize;
@@ -89,11 +89,11 @@ export class LabelService {
     }
 
     private drawText(doc, text, options) {
-        let bounds = {
+        const bounds = {
             width: 158,
             height: 12
         };
-        let bestSize = this.fittedSize(text, 14, 8, 0.25, bounds);
+        const bestSize = this.fittedSize(text, 14, 8, 0.25, bounds);
         doc.fontSize(bestSize);
 
         doc.text(text, options.x, options.y, {

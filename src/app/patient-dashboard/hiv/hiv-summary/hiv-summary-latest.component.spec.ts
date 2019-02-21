@@ -1,6 +1,4 @@
 import { TestBed, inject, async } from '@angular/core/testing';
-import { Http, Response, Headers, BaseRequestOptions, ResponseOptions } from '@angular/http';
-import { MockBackend, MockConnection } from '@angular/http/testing';
 
 import { HivSummaryService } from './hiv-summary.service';
 import { HivSummaryLatestComponent } from './hiv-summary-latest.component';
@@ -10,8 +8,7 @@ import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
 import { FakeAppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytcis.mock';
 import { PatientResourceService } from '../../../openmrs-api/patient-resource.service';
-import { ProgramEnrollmentResourceService }
-  from '../../../openmrs-api/program-enrollment-resource.service';
+import { ProgramEnrollmentResourceService } from '../../../openmrs-api/program-enrollment-resource.service';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
 import { PatientProgramService } from '../../programs/patient-programs.service';
 import { RoutesProviderService } from '../../../shared/dynamic-route/route-config-provider.service';
@@ -21,6 +18,7 @@ import { ProgramWorkFlowResourceService
 } from '../../../openmrs-api/program-workflow-resource.service';
 import { ProgramWorkFlowStateResourceService
 } from '../../../openmrs-api/program-workflow-state-resource.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('Component: HivSummaryLatest Unit Tests', () => {
 
@@ -29,6 +27,7 @@ describe('Component: HivSummaryLatest Unit Tests', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [ HttpClientTestingModule ],
       providers: [
         HivSummaryService,
         HivSummaryResourceService,
@@ -42,15 +41,6 @@ describe('Component: HivSummaryLatest Unit Tests', () => {
         EncounterResourceService,
         ProgramWorkFlowResourceService,
         ProgramWorkFlowStateResourceService,
-        MockBackend,
-        BaseRequestOptions,
-        {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
          AppSettingsService,
          LocalStorageService
       ]
@@ -81,7 +71,7 @@ describe('Component: HivSummaryLatest Unit Tests', () => {
     expect(component.errors.length).toBe(0);
     expect(component.patient).toBeUndefined();
     expect(component.patientUuid).toBeUndefined();
-    expect(component.subscription).toBeUndefined();
+    expect(component.subscription).toBeDefined();
 
     done();
 
