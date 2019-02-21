@@ -65,14 +65,6 @@
       "expressionOptions": {
         "expression": " ROUND(count(normal_breast_screening_findings)/count(person_id)*100,2)"
       }
-    },
-    {
-      "type": "derived_column",
-      "alias": "diagnostic_interval",
-      "expressionType": "simple_expression",
-      "expressionOptions": {
-        "expression": "diagnostic_interval"
-      }
     }
   ],
   "groupBy": {
