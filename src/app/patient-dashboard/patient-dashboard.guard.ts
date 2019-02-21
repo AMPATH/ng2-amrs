@@ -70,6 +70,8 @@ export class PatientDashboardGuard implements CanActivate,
       this.draftedFormsService.lastDraftedForm === undefined ||
       !this.draftedFormsService.lastDraftedForm.rootNode.control.dirty) {
       this.dynamicRoutesService.resetRoutes();
+      // console.log('Reset patient service');
+      this.patientService.resetPatientService();
       return of(true);
     }
 
@@ -81,6 +83,8 @@ export class PatientDashboardGuard implements CanActivate,
         accept: () => {
           this.dynamicRoutesService.resetRoutes();
           this.draftedFormsService.setDraftedForm(null);
+          // console.log('Reset patient service');
+          this.patientService.resetPatientService();
           observer.next(true);
         },
         reject: () => {

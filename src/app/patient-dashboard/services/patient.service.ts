@@ -63,4 +63,9 @@ export class PatientService {
       this.fetchPatientByUuid(previousPatient.uuid);
     }
   }
+  public resetPatientService() {
+    this.currentlyLoadedPatient = new BehaviorSubject(null);
+    this.currentlyLoadedPatientUuid = new BehaviorSubject<string>(null);
+    this.isBusy = new BehaviorSubject(false);
+  }
 }
