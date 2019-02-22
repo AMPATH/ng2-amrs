@@ -149,9 +149,16 @@ export class OncologysummaryIndicatorsPatientListComponent implements OnInit {
   }
 
 public translateIndicator(indicator: string) {
-  return indicator.toLowerCase().split('_').map((word) => {
-      return ((word.charAt(0).toUpperCase()) + word.slice(1));
-  }).join(' ');
+  const indicatorArray = indicator.toLowerCase().split('_');
+  if (indicator === 'hiv_status') {
+      return indicatorArray[0].toUpperCase() + ' '
+      + indicatorArray[1].charAt(0).toUpperCase() + indicatorArray[1].slice(1);
+  } else {
+
+    return indicatorArray.map((word) => {
+          return ((word.charAt(0).toUpperCase()) + word.slice(1));
+    }).join(' ');
+  }
 }
 
   public processPatientList(patients) {
