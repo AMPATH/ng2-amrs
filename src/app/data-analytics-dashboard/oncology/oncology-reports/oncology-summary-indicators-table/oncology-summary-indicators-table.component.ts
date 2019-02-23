@@ -1,11 +1,9 @@
-import {
-    Component, OnInit, OnChanges, Input, ViewChild,
-    SimpleChanges
-} from '@angular/core';
-import * as _ from 'lodash';
-import { AgGridNg2 } from 'ag-grid-angular';
+import { Component, OnInit, OnChanges, Input, ViewChild, SimpleChanges } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+
+import * as _ from 'lodash';
 import * as moment from 'moment';
+import { AgGridNg2 } from 'ag-grid-angular';
 
 @Component({
     selector: 'oncology-summary-indicators-table',
@@ -14,7 +12,7 @@ import * as moment from 'moment';
 })
 
 export class OncologySummaryIndicatorsTableComponent implements OnInit, OnChanges {
-    public startDate: any;
+public startDate: any;
     public endDate: any;
     public locationUuids: any;
     public gridOptions: any = {
@@ -22,9 +20,10 @@ export class OncologySummaryIndicatorsTableComponent implements OnInit, OnChange
         enableSorting: true,
         enableFilter: true,
         showToolPanel: false,
-        onGridSizeChanged : () => {
-        },
-        onGridReady: () => {
+        onGridSizeChanged: () => {},
+        onGridReady: () => {},
+        autoGroupColumnDef: {
+            headerName: 'Location'
         }
     };
     @Input() public monthlySummary: Array<any> = [];
@@ -34,8 +33,7 @@ export class OncologySummaryIndicatorsTableComponent implements OnInit, OnChange
     public columns: any = [];
     public data: any = [];
     public mockResults: any = [];
-    public oncologySummaryColdef: any = [
-    ];
+    public oncologySummaryColdef: any = [];
     public pinnedBottomRowData: any = [];
 
     @ViewChild('agGrid')
@@ -44,9 +42,7 @@ export class OncologySummaryIndicatorsTableComponent implements OnInit, OnChange
         private router: Router,
         private route: ActivatedRoute) { }
 
-    public ngOnInit() {
-
-    }
+    public ngOnInit() {}
 
     public ngOnChanges(changes: SimpleChanges) {
         if (changes.monthlySummary) {
@@ -81,10 +77,9 @@ export class OncologySummaryIndicatorsTableComponent implements OnInit, OnChange
             rowGroup: true,
             hide: true
            }
-      ];
-        _.each(firstRow, (data, index) => {
-            // console.log('Index', index);
+        ];
 
+        _.each(firstRow, (data, index) => {
             if ( index === 'encounter_datetime' || index === 'location_uuid' ||
             index === 'location_name' || index === 'location_id') {
 

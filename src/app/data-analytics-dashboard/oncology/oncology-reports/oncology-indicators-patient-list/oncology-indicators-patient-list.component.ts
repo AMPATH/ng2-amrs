@@ -10,8 +10,8 @@ import { OncologySummaryIndicatorsResourceService } from '../../../../etl-api/on
 
 @Component({
   selector: 'oncology-indicators-patient-list',
-  styleUrls: ['oncology-indicators-patient-list.component.css'],
-  templateUrl: 'oncology-indicators-patient-list.component.html'
+  templateUrl: './oncology-indicators-patient-list.component.html',
+  styleUrls: ['./oncology-indicators-patient-list.component.css']
 })
 
 export class OncologySummaryIndicatorsPatientListComponent implements OnInit {
@@ -26,6 +26,7 @@ export class OncologySummaryIndicatorsPatientListComponent implements OnInit {
   public rowData: any = [];
   public params: any;
   public busy: Subscription;
+  public gridColumnApi;
   public gridOptions: GridOptions = {
     enableColResize: true,
     enableSorting: true,
@@ -107,7 +108,6 @@ export class OncologySummaryIndicatorsPatientListComponent implements OnInit {
   }
 
   public redirectTopatientInfo(patientUuid) {
-
     if (patientUuid === undefined || patientUuid === null) {
       return;
     }
@@ -116,22 +116,23 @@ export class OncologySummaryIndicatorsPatientListComponent implements OnInit {
 
   }
 
-public translateIndicator(indicator: string) {
-  const indicatorArray = indicator.toLowerCase().split('_');
-  if (indicator === 'hiv_status') {
-      return indicatorArray[0].toUpperCase() + ' '
-      + indicatorArray[1].charAt(0).toUpperCase() + indicatorArray[1].slice(1);
-  } else {
+  public translateIndicator(indicator: string) {
+    const indicatorArray = indicator.toLowerCase().split('_');
+    if (indicator === 'hiv_status') {
+        return indicatorArray[0].toUpperCase() + ' '
+        + indicatorArray[1].charAt(0).toUpperCase() + indicatorArray[1].slice(1);
+    } else {
 
-    return indicatorArray.map((word) => {
-          return ((word.charAt(0).toUpperCase()) + word.slice(1));
-    }).join(' ');
+      return indicatorArray.map((word) => {
+            return ((word.charAt(0).toUpperCase()) + word.slice(1));
+      }).join(' ');
+    }
   }
-}
 
   public processPatientList(patients) {
     const patientsRow = [];
     let i = 1;
+
     _.each(patients, (patient: any) => {
       const patientObj = {
         'no': i
@@ -147,7 +148,6 @@ public translateIndicator(indicator: string) {
     });
 
     this.rowData = patientsRow;
-
   }
 
   public navigateBack() {
