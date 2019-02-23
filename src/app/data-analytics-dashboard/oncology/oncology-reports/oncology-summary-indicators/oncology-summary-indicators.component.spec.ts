@@ -36,7 +36,7 @@ import { DataCacheService } from '../../../../shared/services/data-cache.service
 import { LocalStorageService } from '../../../../utils/local-storage.service';
 
 const getOncologySummaryService =
-  jasmine.createSpyObj('OncolgyMonthlySummaryIndicatorsResourceService',
+  jasmine.createSpyObj('OncologyMonthlySummaryIndicatorsResourceService',
     ['getUrlRequestParams',
       'getOncologySummaryMonthlyIndicatorsReport', 'getOncologySummaryMonthlyIndicatorsPatientList']);
 

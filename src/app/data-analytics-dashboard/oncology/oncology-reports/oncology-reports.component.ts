@@ -23,8 +23,7 @@ export class OncologyReportsComponent implements OnInit {
     private oncologyReportService: OncologyReportService,
     private router: Router,
     private route: ActivatedRoute
-  ) {
-  }
+  ) {}
 
   public ngOnInit() {
     this.getOncologyReports();
