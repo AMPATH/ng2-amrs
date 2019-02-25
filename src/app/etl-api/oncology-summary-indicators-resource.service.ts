@@ -1,10 +1,9 @@
-
 import { Injectable } from '@angular/core';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
 @Injectable()
-export class OncolgyMonthlySummaryIndicatorsResourceService {
+export class OncologySummaryIndicatorsResourceService {
     constructor(protected http: HttpClient, protected appSettingsService: AppSettingsService,
                 private cacheService: DataCacheService) { }
 

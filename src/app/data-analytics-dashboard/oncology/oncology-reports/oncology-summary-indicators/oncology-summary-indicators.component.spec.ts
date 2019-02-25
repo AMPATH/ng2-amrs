@@ -1,10 +1,15 @@
-import { of } from 'rxjs';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { ChangeDetectorRef } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+
+import { of } from 'rxjs';
+
 import {
-  OncologyMonthlyIndicatorSummaryComponent
-} from './oncology-monthly-indicators.component';
+  DataAnalyticsDashboardService
+} from '../../../services/data-analytics-dashboard.services';
+import {
+  OncologySummaryIndicatorsComponent
+} from './oncology-summary-indicators.component';
 import {
   OncologySummaryFiltersComponent
 } from '../oncology-summary-filters/oncology-summary-filters.component';
@@ -12,10 +17,9 @@ import {
   OncologySummaryIndicatorsTableComponent
 } from '../oncology-summary-indicators-table/oncology-summary-indicators-table.component';
 import {
-  OncolgyMonthlySummaryIndicatorsResourceService
+  OncologySummaryIndicatorsResourceService
 } from '../../../../etl-api/oncology-summary-indicators-resource.service';
 import { OncologyReportService } from '../../../../etl-api/oncology-reports.service';
-import { Router, ActivatedRoute } from '@angular/router';
 
 import {
   AppFeatureAnalytics
@@ -25,13 +29,11 @@ import { Angulartics2Piwik } from 'angulartics2/piwik';
 import {
   FakeAppFeatureAnalytics
 } from '../../../../shared/app-analytics/app-feature-analytcis.mock';
-import { LocalStorageService } from '../../../../utils/local-storage.service';
-import { DataCacheService } from '../../../../shared/services/data-cache.service';
+
+import { AppSettingsService } from '../../../../app-settings/app-settings.service';
 import { CacheService } from 'ionic-cache';
-import { AppSettingsService } from '../../../../../app/app-settings/app-settings.service';
-import {
-  DataAnalyticsDashboardService
-} from '../../../../data-analytics-dashboard/services/data-analytics-dashboard.services';
+import { DataCacheService } from '../../../../shared/services/data-cache.service';
+import { LocalStorageService } from '../../../../utils/local-storage.service';
 
 const getOncologySummaryService =
   jasmine.createSpyObj('OncolgyMonthlySummaryIndicatorsResourceService',
@@ -85,24 +87,21 @@ const mockActivatedRoute = {
 };
 
 describe('Component: Oncology Monthly Indicator', () => {
-  let fixture: ComponentFixture<OncologyMonthlyIndicatorSummaryComponent>;
+  let fixture: ComponentFixture<OncologySummaryIndicatorsComponent>;
   let comp: any;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports:
-        [
-        ],
+        [],
       declarations: [
-        OncologyMonthlyIndicatorSummaryComponent,
+        OncologySummaryIndicatorsComponent,
         OncologySummaryFiltersComponent,
         OncologySummaryIndicatorsTableComponent
       ],
       providers: [
-        {
-          provide: OncolgyMonthlySummaryIndicatorsResourceService,
-          useValue: getOncologyReportsService
-        },
+        Angulartics2,
+        Angulartics2Piwik,
         AppSettingsService,
         LocalStorageService,
         DataCacheService,
@@ -113,8 +112,10 @@ describe('Component: Oncology Monthly Indicator', () => {
           provide: AppFeatureAnalytics,
           useClass: FakeAppFeatureAnalytics
         },
-        Angulartics2,
-        Angulartics2Piwik,
+        {
+          provide: OncologySummaryIndicatorsResourceService,
+          useValue: getOncologyReportsService
+        },
         {
           provide: OncologyReportService,
           useValue: getOncologySummaryService
@@ -128,7 +129,7 @@ describe('Component: Oncology Monthly Indicator', () => {
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents()
       .then(() => {
-        fixture = TestBed.createComponent(OncologyMonthlyIndicatorSummaryComponent);
+        fixture = TestBed.createComponent(OncologySummaryIndicatorsComponent);
         comp = fixture.componentInstance;
       });
   }));
@@ -140,5 +141,4 @@ describe('Component: Oncology Monthly Indicator', () => {
   it('should create an instance', () => {
     expect(comp).toBeDefined();
   });
-
 });

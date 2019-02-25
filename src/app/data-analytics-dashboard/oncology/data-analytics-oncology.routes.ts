@@ -1,17 +1,18 @@
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+
 import { OncologyReportsComponent } from './oncology-reports/oncology-reports.component';
 import {
-  OncologyMonthlyIndicatorSummaryComponent
-} from './oncology-reports/oncology-monthly-indicators/oncology-monthly-indicators.component';
+  OncologySummaryIndicatorsComponent
+} from './oncology-reports/oncology-summary-indicators/oncology-summary-indicators.component';
 import {
-  OncologysummaryIndicatorsPatientListComponent
+  OncologySummaryIndicatorsPatientListComponent
 } from './oncology-reports/oncology-indicators-patient-list/oncology-indicators-patient-list.component';
 import { AdminDashboardClinicFlowComponent } from '../hiv/clinic-flow/admin-dashboard-clinic-flow';
-import { DataEntryStatisticsComponent } from './../../data-entry-statistics/data-entry-statistics.component';
-import { DataEntryStatisticsPatientListComponent } from './../../data-entry-statistics/data-entry-statistics-patient-list.component';
+import { DataEntryStatisticsComponent } from '../../data-entry-statistics/data-entry-statistics.component';
+import { DataEntryStatisticsPatientListComponent } from '../../data-entry-statistics/data-entry-statistics-patient-list.component';
 import { PatientsProgramEnrollmentComponent } from '../../patients-program-enrollment/patients-program-enrollment.component';
-import { ProgramEnrollmentPatientListComponent } from './../../patients-program-enrollment/program-enrollent-patient-list.component';
+import { ProgramEnrollmentPatientListComponent } from '../../patients-program-enrollment/program-enrollent-patient-list.component';
 import { ChangeDepartmentComponent } from '../change-department/change-department.component';
 
 const routes: Routes = [
@@ -24,15 +25,19 @@ const routes: Routes = [
       },
       {
         path: 'breast-cancer-screening-numbers',
-        component: OncologyMonthlyIndicatorSummaryComponent,
+        component: OncologySummaryIndicatorsComponent,
       },
       {
         path: 'cervical-cancer-screening-numbers',
-        component: OncologyMonthlyIndicatorSummaryComponent,
+        component: OncologySummaryIndicatorsComponent,
       },
       {
         path: ':screening-program/patient-list',
-        component: OncologysummaryIndicatorsPatientListComponent,
+        component: OncologySummaryIndicatorsPatientListComponent,
+      },
+      {
+        path: 'combined-breast-cervical-cancer-screening-numbers',
+        component: OncologySummaryIndicatorsComponent,
       }
     ]
   },
