@@ -32,6 +32,7 @@ import { PatientReferralResourceService } from '../../etl-api/patient-referral-r
 import { delay } from 'rxjs/operators';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { PatientDashboardModule } from '../patient-dashboard.module';
 
 const progConfig = {
   uuid: 'some-uuid',
@@ -213,7 +214,7 @@ describe('Component: LandingPageComponent', () => {
         CommonModule,
         FormsModule,
         CohortMemberModule,
-        NgamrsSharedModule,
+        PatientDashboardModule,
         OpenmrsApi,
         RouterModule,
         HttpClientTestingModule,

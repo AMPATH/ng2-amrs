@@ -69,6 +69,18 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
     });
   }
 
+  public triggerProgramEnrollment() {
+    const step =  ['step', 3];
+    const queryParams = {
+      program: 'c4246ff0-b081-460c-bcc5-b0678012659e',
+      notice: 'adherence'
+    };
+    this.router.navigate(_.concat(['/patient-dashboard/patient/' +
+      this.patient.uuid + '/general/general/program-manager/edit-program'], step), {
+        queryParams: queryParams
+      });
+  }
+
   public showReferralEncounter(row: any) {
     const visitEncounter = _.find(this.patient.encounters, (encounter) => {
       return encounter.location.uuid === row.referred_from_location_uuid

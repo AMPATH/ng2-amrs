@@ -51,9 +51,8 @@ import {
 import {
   CdmProgramSnapshotComponent
 } from '../patient-dashboard/cdm/program-snapshot/cdm-program-snapshot.component';
-import {
-  GeneralLandingPageComponent
-} from '../patient-dashboard/general-landing-page/landing-page.component';
+// import { GeneralLandingPageComponent
+// } from '../patient-dashboard/general-landing-page/landing-page.component';
 import { FormListComponent } from '../patient-dashboard/common/forms/form-list.component';
 import { ReportFiltersComponent } from './report-filters/report-filters.component';
 import { ZeroVlPipe } from './pipes/zero-vl-pipe';
@@ -123,14 +122,14 @@ import { RisonService } from './services/rison-service';
     RetrospectiveDataEntryModule, MatCardModule, PatientEncounterObservationsComponent,
     StringToDatePipe, Ng2FilterPipe, OnlineTrackerComponent, HivProgramSnapshotComponent,
     BuildVersionComponent, FormListComponent, ReportFiltersComponent, ZeroVlPipe, PrettyEncounterViewerComponent,
-    DateSelectorComponent, PdfViewerModule, NgxMyDatePickerModule, GeneralLandingPageComponent,
+    DateSelectorComponent, PdfViewerModule , NgxMyDatePickerModule,
     OpenmrsApi, EtlApi, Ng2Bs3ModalModule, ModalModule, BsDropdownModule, TooltipModule,
     LocationFilterComponent, Angulartics2Module, MatSnackBarModule, MatTabsModule, ReactiveFormsModule,
     MatProgressBarModule, MatProgressSpinnerModule, MatSlideToggleModule, NgxPaginationModule, MatButtonModule,
     CdmProgramSnapshotComponent, MatRadioModule, FormsModule, MatMenuModule, MatIconModule, MatExpansionModule, MatTooltipModule],
   declarations: [
     DisplayErrorComponent, StringToDatePipe, ZeroVlPipe, Ng2FilterPipe, HivProgramSnapshotComponent,
-    GeneralLandingPageComponent, FormListComponent, ReportFiltersComponent,
+    FormListComponent, ReportFiltersComponent,
     OnlineTrackerComponent, AppModalComponent,
     BuildVersionComponent, DateSelectorComponent,
     PatientEncounterObservationsComponent, PrettyEncounterViewerComponent,
