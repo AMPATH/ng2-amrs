@@ -2,6 +2,7 @@ import {take} from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PatientService } from '../../services/patient.service';
 import { LabsResourceService } from '../../../etl-api/labs-resource.service';
+import { SelectDepartmentService } from './../../../shared/services/select-department.service';
 import { ZeroVlPipe } from './../../../shared/pipes/zero-vl-pipe';
 import { ActivatedRoute } from '@angular/router';
 
@@ -14,7 +15,7 @@ import * as _ from 'lodash';
 @Component({
   selector: 'lab-result',
   templateUrl: './lab-result.component.html',
-  styleUrls: []
+  styleUrls: ['./lab-result.component.css']
 })
 export class LabResultComponent implements OnInit, OnDestroy {
   public patient: any;
@@ -28,6 +29,7 @@ export class LabResultComponent implements OnInit, OnDestroy {
   public loadingLabSummary = false;
   public currentDepartment = '';
   public labResults = [];
+  public horizontalView = true;
   public subscription: Subscription;
   public gridOptions: GridOptions = {
     onGridSizeChanged: () => {
@@ -49,7 +51,9 @@ export class LabResultComponent implements OnInit, OnDestroy {
   public labRowData: any;
 
   public generalRows = {
-
+    'tests_ordered' : {
+      'test': 'Tests Ordered'
+    },
     'hiv_viral_load' : {
       'test': 'HIV VL'
     },
@@ -86,6 +90,15 @@ export class LabResultComponent implements OnInit, OnDestroy {
   };
 
   public oncRows = {
+    'hiv_viral_load' : {
+      'test': 'HIV VL'
+    },
+    'cd4_count': {
+      'test': 'CD4'
+    },
+    'cd4_percent' : {
+      'test': 'CD4%'
+    },
     'rbc': {
       'test': 'RBC',
       'toolTip': 'Red Blood Cell Count (10^6/µL)'
@@ -172,7 +185,7 @@ export class LabResultComponent implements OnInit, OnDestroy {
       'toolTip': 'Gamma-Glutamyl Transferase (IU/L)'
     },
     'total_protein': {
-      'test': 'total_protein',
+      'test': 'Total Protein',
       'toolTip': 'Total Protein (g/L)'
     },
     'albumin': {
@@ -212,12 +225,14 @@ export class LabResultComponent implements OnInit, OnDestroy {
     private labsResourceService: LabsResourceService,
     private patientService: PatientService,
     private _route: ActivatedRoute,
-    private zeroVlPipe: ZeroVlPipe) {
+    private zeroVlPipe: ZeroVlPipe,
+    private selectDepartmentService: SelectDepartmentService) {
     this.gridOptions = {} as GridOptions;
   }
 
   public ngOnInit() {
     this.loadingPatient = true;
+    this.getCurrentDepartment();
       this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
         (patient) => {
           this.loadingPatient = false;
@@ -226,12 +241,9 @@ export class LabResultComponent implements OnInit, OnDestroy {
             this.patientUuId = this.patient.person.uuid;
             this.getHistoricalPatientLabResults(this.patientUuId,
               { startIndex: this.nextStartIndex.toString(), limit: '20' });
-            this.getCurrentDepartment();
           }
         }
       );
-    // this.gridOptions.columnDefs = this.oncologyCols;
-    // this.gridOptions.rowData = this.labResults;
 
   }
 
@@ -242,21 +254,17 @@ export class LabResultComponent implements OnInit, OnDestroy {
   }
 
   public getCurrentDepartment() {
-      const path = this._route.snapshot.params['programClass'];
-      this.currentDepartment = path;
-      this.selectLabData(path);
+      const defaultDepartment = this.selectDepartmentService.getUserSetDepartment();
+      this.currentDepartment = defaultDepartment;
+      this.setLabSummaryView(defaultDepartment);
   }
-  public selectLabData(department) {
-
+  public setLabSummaryView(department) {
     switch (department) {
-      case 'oncology':
-         this.labRows = this.oncRows;
-         break;
-      case 'general':
-      this.labRows = this.mergeRows();
+      case 'ONCOLOGY':
+         this.horizontalView = true;
          break;
       default:
-         this.labRows = this.generalRows;
+         this.horizontalView = false;
 
     }
 
@@ -317,6 +325,17 @@ export class LabResultComponent implements OnInit, OnDestroy {
 
 
   private createColumnDefs() {
+    if (this.horizontalView === true) {
+        this.createHorizontalColDef();
+    } else {
+        this.createVerticalCalDef();
+    }
+
+  }
+
+  public createHorizontalColDef() {
+
+    this.labRows = this.oncRows;
 
     const cols = [
       {
@@ -341,7 +360,7 @@ export class LabResultComponent implements OnInit, OnDestroy {
     _.each(this.labResults, (result: any) => {
         const col = {
           headerName: result.testDatetime,
-          width: 100,
+          width: 110,
           field: result.testDatetime,
           cellStyle: {
             'text-align': 'left'
@@ -349,25 +368,117 @@ export class LabResultComponent implements OnInit, OnDestroy {
           pinned: '',
           tooltip: (params: any) => {
             return '';
+          },
+          cellRenderer: (column: any) => {
+            if (column.colDef.field === 'hiv_viral_load') {
+              return this.zeroVlPipe.transform(column.value);
+            } else {
+                return column.value;
+            }
           }
         };
         cols.push(col);
     });
 
-
     this.labCols = cols;
-    this.createRowData(this.labResults);
+    this.createHorizontalRowData(this.labResults);
+
+
 
   }
 
-  public createRowData(labResults) {
+  public createVerticalCalDef() {
+
+    const verticalCols = this.generalRows;
+
+    const cols = [
+      {
+        headerName: 'Date',
+        width: 200,
+        field: 'testDatetime',
+        pinned: 'left',
+        cellStyle: {
+          'text-align': 'left'
+        },
+        tooltip: (params: any) => {
+          if (!_.isEmpty(params.data.toolTip)) {
+            return params.data.toolTip;
+          } else {
+             return '';
+          }
+        }
+      }
+
+    ];
+
+    Object.keys(verticalCols).forEach((key, index) => {
+      // key: the name of the object key
+      // index: the ordinal position of the key within the object
+      if (verticalCols.hasOwnProperty('' + key + '')) {
+        if (key !== 'testDatetime' && key !== 'hiv_viral_load') {
+
+        const col = {
+          headerName: verticalCols[key].test,
+          width: 200,
+          field: key,
+          pinned: 'left',
+          cellStyle: {
+            'text-align': 'left'
+          },
+          tooltip: (params: any) => {
+            if (!_.isEmpty(params.data.toolTip)) {
+              return params.data.toolTip;
+            } else {
+               return '';
+            }
+          }
+        };
+
+        cols.push(col);
+
+      }
+      if (key === 'hiv_viral_load') {
+
+        const col = {
+          headerName: verticalCols[key].test,
+          width: 200,
+          field: key,
+          pinned: 'left',
+          cellStyle: {
+            'text-align': 'left'
+          },
+          tooltip: (params: any) => {
+          },
+          cellRenderer: (column) => {
+            if (typeof column.value !== 'undefined') {
+                return this.zeroVlPipe.transform(column.value);
+            } else {
+                return column.value;
+            }
+          }
+        };
+
+        cols.push(col);
+
+      }
+      }
+     });
+
+     this.labCols = cols;
+     this.labRowData = this.labResults;
+     setTimeout( () => {
+      this.gridOptions.api.sizeColumnsToFit();
+     }, 500);
+
+  }
+
+
+  public createHorizontalRowData(labResults) {
 
     const rowData: any = this.labRows;
     _.each(labResults, (result: any) => {
       const dateTime = result.testDatetime;
       Object.keys(result).forEach((key, index) => {
-        // key: the name of the object key
-        // index: the ordinal position of the key within the object
         if (rowData.hasOwnProperty('' + key + '')) {
           if (key === 'hiv_viral_load') {
             rowData[key][dateTime] = this.zeroVlPipe.transform(result[key]);
@@ -377,8 +488,8 @@ export class LabResultComponent implements OnInit, OnDestroy {
             rowData[key][dateTime] = result[key];
           }
         }
-       });
-     });
+      });
+    });
 
      this.processRowData(rowData);
 
@@ -394,6 +505,13 @@ export class LabResultComponent implements OnInit, OnDestroy {
       labRows.push(testResults);
     });
     this.labRowData = labRows;
+    this.gridOptions.api.sizeColumnsToFit();
+
+  }
+
+  public toggleView() {
+      this.horizontalView = !this.horizontalView;
+      this.createColumnDefs();
   }
 
   public transformSerumCrug(value) {
