@@ -213,6 +213,10 @@ export class PatientCreationService {
             {
                 label: 'X Number', format: null, checkdigit: 1,
                 val: '58a4741e-1359-11df-a1f1-0026b9348838'
+            },
+            {
+                label: 'KUZA ID', format: '^KUZA\\d{5}$', checkdigit: 0,
+                val: 'd1e5ef63-126f-4b1f-bd3f-496c16c4098d'
             }
         ];
     }

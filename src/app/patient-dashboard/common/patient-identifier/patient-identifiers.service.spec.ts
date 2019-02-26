@@ -55,6 +55,9 @@ describe('Service: PatientIdentifierService', () => {
     expect(commonIdentifiers[1]).toBe('AMRS Medical Record Number');
     expect(commonIdentifiers[2]).toBe('AMRS Universal ID');
     expect(commonIdentifiers[3]).toBe('CCC Number');
+    expect(commonIdentifiers[4]).toBe('MTRH Hospital Number');
+    expect(commonIdentifiers[5]).toBe('HEI');
+    expect(commonIdentifiers[6]).toBe('KUZA ID');
   });
   it('should return the correct getLuhnCheckDigit', () => {
     const service: PatientIdentifierService = TestBed.get(PatientIdentifierService);

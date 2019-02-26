@@ -240,7 +240,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
         this.patientResourceService.searchPatient(this.patientIdentifier).pipe(take(1)).subscribe(
           (result) => {
             if (result.length > 0) {
-              this.identifierValidity = 'A patient with this Identifier exists!';
+              this.identifierValidity = 'This identifier is already in use!';
               this.display = true;
             } else {
               if (personIdentifierPayload.uuid === undefined || personIdentifierPayload.uuid === '' ||
@@ -327,7 +327,6 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
     this.identifierValidity = '';
     const selectedIdentifierType: any = this.identifierType;
     if (selectedIdentifierType) {
-      console.log('i am in here');
       const identifierHasFormat = selectedIdentifierType.format;
       const identifierHasCheckDigit = selectedIdentifierType.checkdigit;
       if (identifierHasCheckDigit) {

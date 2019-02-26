@@ -329,9 +329,9 @@
         </div>
 
         <div class="row" style="margin-top: 10px;">
-          <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-            <div *ngIf="errorAlert" class="alert alert-danger">
-              <strong>{{ errorAlert }}</strong>
+          <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12" *ngIf="errorAlert">
+            <div *ngFor="let error of errorAlerts"  class="alert alert-danger">
+              <strong>{{ error.code }}</strong>
             </div>
           </div>
         </div>

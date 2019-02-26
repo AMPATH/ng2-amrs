@@ -1,16 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject, BehaviorSubject } from 'rxjs';
-
-import { PatientResourceService } from '../../../openmrs-api/patient-resource.service';
-import { Patient } from '../../../models/patient.model';
-import { LocationResourceService } from '../../../openmrs-api/location-resource.service';
 
 @Injectable()
 export class PatientIdentifierService {
   public locations: any[];
-  constructor(private resouceService: PatientResourceService,
-    private locationResourceService: LocationResourceService) {
-
+  constructor() {
   }
   public getLuhnCheckDigit(numbers) {
     const validChars = '0123456789ABCDEFGHIJKLMNOPQRSTUVYWXZ_';
@@ -52,7 +45,9 @@ export class PatientIdentifierService {
       'AMRS Universal ID',
       'CCC Number',
       'MTRH Hospital Number',
-      'HEI'
+      'HEI',
+      'KUZA ID',
+      'Zuri Health ID'
     ];
   }
   public patientIdentifierTypeFormat() {
@@ -80,6 +75,14 @@ export class PatientIdentifierService {
       {
         label: 'HEI', format: '^\\d{5}-\\d{4}-\\d{4}$', checkdigit: 0,
         val: 'ead42a8f-203e-4b11-a942-df03a460d617'
+      },
+      {
+        label: 'KUZA ID', format: '^KUZA\\d{5}$', checkdigit: 0,
+        val: 'd1e5ef63-126f-4b1f-bd3f-496c16c4098d'
+      },
+      {
+        label: 'Zuri Health ID', format: null, checkdigit: 0,
+        val: '9cae9c8a-2821-4aa7-8064-30508e9f62ec'
       }
     ];
   }
