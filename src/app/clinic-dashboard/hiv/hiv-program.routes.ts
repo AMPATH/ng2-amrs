@@ -16,13 +16,13 @@ import { HivCareComparativeComponent
 import {
     PatientStatusChangeVisualizationContainerComponent
 } from './patient-status-change-visualization/patient-status-change-visualization.container.component';
-import {
-    PatientStatusChangeListComponent
+import { PatientStatusChangeListComponent
 } from './patient-status-change-visualization/patient-status-change-list.component';
 import {
   VisualizationPatientListComponent
 } from '../../hiv-care-lib/hiv-visualization/visualization-patient-list.component';
-import { Moh731PatientListComponent } from './../../hiv-care-lib/moh-731-report/moh-731-patientlist.component';
+import { Moh731PatientListComponent
+} from './../../hiv-care-lib/moh-731-report/moh-731-patientlist.component';
 import {
     HivDailyScheduleComponent
 } from './daily-schedule/daily-schedule.component';
@@ -31,8 +31,7 @@ import {
 } from './monthly-schedule/monthly-schedule.component';
 import { DailyScheduleVisitsComponent
 } from '../../clinic-schedule-lib/daily-schedule/daily-schedule-visits.component';
-import {
-    DailyScheduleAppointmentsComponent
+import { DailyScheduleAppointmentsComponent
 } from '../../clinic-schedule-lib/daily-schedule/daily-schedule-appointments.component';
 import { DailyScheduleNotReturnedComponent
 } from '../../clinic-schedule-lib/daily-schedule/daily-schedule-not-returned.component';
@@ -139,7 +138,7 @@ const routes: Routes = [
         component: HivMonthlyScheduleComponent
     },
     {
-        path: 'hiv-enhanced-program',
+        path: 'viremia-reports',
         component: HivEnhancedComponent
     },
     {

@@ -28,7 +28,7 @@ export class ProgramResourceService {
     return this.http.get<any>(url, {
       params: params
     }).pipe(map((response) => {
-      return response.results;
+      return this.processPrograms(response.results);
     }));
   }
 
@@ -41,5 +41,21 @@ export class ProgramResourceService {
   public getProgramByUuid(uuid: string) {
     const url = this.getUrl() + '/' + uuid;
     return this.http.get(url);
+  }
+
+  private processPrograms(data) {
+    const arr = [];
+    if (data.length > 0) {
+      data.forEach((d) => {
+        if (d.uuid === 'c4246ff0-b081-460c-bcc5-b0678012659e') {
+          d.display = 'VIREMIA PROGRAM';
+          arr.push(d);
+        } else {
+          arr.push(d);
+        }
+      });
+    }
+
+    return arr;
   }
 }

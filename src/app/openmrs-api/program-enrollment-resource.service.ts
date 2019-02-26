@@ -1,6 +1,6 @@
 
-import {throwError as observableThrowError,  Observable } from 'rxjs';
-import {catchError, map} from 'rxjs/operators';
+import { throwError as observableThrowError, Observable } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { HttpParams, HttpClient, HttpHeaders } from '@angular/common/http';
@@ -36,7 +36,7 @@ export class ProgramEnrollmentResourceService {
     return this.http.get(url, {
       params: params
     }).pipe(map((response: any) => {
-      return response.results;
+      return this.processPrograms(response.results);
     }));
   }
 
@@ -71,24 +71,24 @@ export class ProgramEnrollmentResourceService {
     }
     delete payload['uuid'];
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post(url, JSON.stringify(payload), {headers}).pipe(
-    catchError(this.handleError));
+    return this.http.post(url, JSON.stringify(payload), { headers }).pipe(
+      catchError(this.handleError));
   }
 
-    public updateProgramEnrollmentState(programEnrollmentUuid, payload) {
+  public updateProgramEnrollmentState(programEnrollmentUuid, payload) {
     if (!payload || !programEnrollmentUuid) {
       return null;
     }
 
     if (!payload.uuid) {
-       return null;
+      return null;
     }
     let url = this.getUrl();
     url = url + '/' + programEnrollmentUuid + '/' + 'state' + '/' + payload.uuid;
 
     delete payload['uuid'];
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post(url, JSON.stringify(payload), {headers}).pipe(
+    return this.http.post(url, JSON.stringify(payload), { headers }).pipe(
       catchError(this.handleError));
   }
 
@@ -98,6 +98,22 @@ export class ProgramEnrollmentResourceService {
       : error.status
         ? `${error.status} - ${error.statusText}`
         : 'Server Error');
+  }
+
+  private processPrograms(data) {
+    const arr = [];
+    if (data.length > 0) {
+      data.forEach((d) => {
+        if (d.program.uuid === 'c4246ff0-b081-460c-bcc5-b0678012659e') {
+          d.display = 'VIREMIA PROGRAM';
+          arr.push(d);
+        } else {
+          arr.push(d);
+        }
+      });
+    }
+
+    return arr;
   }
 
 }

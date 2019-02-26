@@ -211,7 +211,12 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
       enrollmentUuid: ''
     };
     this.programManagerService.enrollPatient(payload).subscribe((enrollment) => {
-      this.newlyEnrolledProgram = enrollment;
+      if (enrollment.program.uuid === 'c4246ff0-b081-460c-bcc5-b0678012659e') {
+        enrollment.display = 'VIREMIA PROGRAM';
+        this.newlyEnrolledProgram = enrollment;
+      } else {
+        this.newlyEnrolledProgram = enrollment;
+      }
       if (this.enrollmentEncounters.length > 0) {
         _.extend(this.newlyEnrolledProgram, {
           formFilled: this.getFilledForm(_.first(this.enrollmentEncounters))
