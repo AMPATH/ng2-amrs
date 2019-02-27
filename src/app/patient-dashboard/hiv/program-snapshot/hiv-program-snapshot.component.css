@@ -28,8 +28,16 @@ div[class^='col-md'] {
   margin-bottom: 8px;
 }
 
+.score {
+  font-weight: bold;
+  color: red;
+}
+
 h3 {
   margin-bottom: 0px;
+}
+h4{
+  font-family: calibri;
 }
 
 

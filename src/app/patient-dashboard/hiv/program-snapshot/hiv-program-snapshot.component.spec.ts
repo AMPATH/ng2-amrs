@@ -7,6 +7,20 @@ import { ZeroVlPipe } from './../../../shared/pipes/zero-vl-pipe';
 
 import { LocationResourceService } from '../../../openmrs-api/location-resource.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TodaysVitalsService } from '../../common/todays-vitals/todays-vitals.service';
+import { VisitResourceService } from 'src/app/openmrs-api/visit-resource.service';
+import { VitalsDatasource } from '../../common/todays-vitals/vitals.datasource';
+import { EncounterResourceService } from 'src/app/openmrs-api/encounter-resource.service';
+import { ProgramWorkFlowResourceService } from 'src/app/openmrs-api/program-workflow-resource.service';
+import { PatientResourceService } from 'src/app/openmrs-api/patient-resource.service';
+import { PatientService } from '../../services/patient.service';
+import { PatientProgramService } from '../../programs/patient-programs.service';
+import { ProgramResourceService } from 'src/app/openmrs-api/program-resource.service';
+import { ProgramService } from '../../programs/program.service';
+import { RoutesProviderService } from 'src/app/shared/dynamic-route/route-config-provider.service';
+import { ProgramEnrollmentResourceService } from 'src/app/openmrs-api/program-enrollment-resource.service';
+import { FakeAppFeatureAnalytics } from 'src/app/shared/app-analytics/app-feature-analytcis.mock';
+import { ProgramWorkFlowStateResourceService } from 'src/app/openmrs-api/program-workflow-state-resource.service';
 
 const summaryResult = {
   'encounter_datetime': '2017-04-25T07:54:20.000Z',
@@ -72,7 +86,24 @@ describe('Component: HivProgramSnapshotComponent', () => {
         {
           provide: LocationResourceService,
           useClass: FakeLocationResourceService
-        }
+        },
+        TodaysVitalsService,
+        VisitResourceService,
+        VitalsDatasource,
+        TodaysVitalsService,
+        EncounterResourceService,
+        ProgramWorkFlowResourceService,
+        PatientService,
+        PatientProgramService,
+        ProgramResourceService,
+        ProgramService,
+        RoutesProviderService,
+        PatientResourceService,
+        FakeAppFeatureAnalytics,
+        ProgramEnrollmentResourceService,
+        ProgramWorkFlowResourceService,
+        ProgramWorkFlowStateResourceService,
+
       ],
       declarations: [HivProgramSnapshotComponent, ZeroVlPipe]
     }).compileComponents().then(() => {
@@ -98,7 +129,6 @@ describe('Component: HivProgramSnapshotComponent', () => {
     expect(component.patientData).toEqual({});
     expect(component.location).toEqual({});
     done();
-
   });
 
   it('should set patient data and location when `getHivSummary` is called',
