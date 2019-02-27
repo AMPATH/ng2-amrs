@@ -467,8 +467,18 @@
       "programName": "BIGPIC",
       "programUuid": "f5cbf61f-eadc-4fe6-999c-2dfe9556df95",
       "baseRoute": "f5cbf61f-eadc-4fe6-999c-2dfe9556df95",
-      "alias": "bigpic",
-      "published": false,
+      "alias": "cdm",
+      "published": true,
+      "shared-routes-class": "cdm",
+      "requiresPatientEnrollment": true,
+      "routes": []
+    },
+    {
+      "programName": "BI KUZA AFYA",
+      "programUuid": "62741bb8-949e-4acc-9e38-50d9d874c1fb",
+      "baseRoute": "62741bb8-949e-4acc-9e38-50d9d874c1fb",
+      "alias": "cdm",
+      "published": true,
       "shared-routes-class": "cdm",
       "requiresPatientEnrollment": true,
       "routes": []
