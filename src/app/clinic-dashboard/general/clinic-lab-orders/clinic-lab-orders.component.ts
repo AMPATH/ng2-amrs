@@ -266,7 +266,7 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
     let cnt = 1;
     _.each(this.results, (data: any) => {
             const dataRow = [];
-            const sampleDrawn = data.sample_drawn ? data.sample_drawn : ' ';
+            const sampleDrawn = data.sample_drawn ? data.sample_drawn : data.sampleCollectionDate ? 'YES' : ' ';
             if (cnt === 1) {
               this.locationName = data.location_name;
             }
@@ -298,8 +298,8 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
         if (data.hasOwnProperty(r)) {
           const dateActivated = Moment(data.date_activated).format('DD-MM-YYYY');
           data['DateActivated'] = dateActivated;
-          data['sampleCollectionDate'] = Moment(data.sample_collection_date).format('DD-MM-YYYY');
-
+          data['sampleCollectionDate'] = data.sample_collection_date ?
+            Moment(data.sample_collection_date).format('DD-MM-YYYY') : '';
           data['#'] = i + 1;
         }
       }
