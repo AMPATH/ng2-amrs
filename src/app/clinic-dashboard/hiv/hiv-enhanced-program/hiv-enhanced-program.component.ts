@@ -177,11 +177,11 @@ export class HivEnhancedComponent implements OnInit {
      switch (indicator) {
        case 'not_virally_suppressed_in_enhanced_care':
           this.activeTab.in_enhanced_care = true;
-          this.sectionTittle = 'All Patients Enrolled in Viremia Program (VL >= 1 and enrolled)';
+          this.sectionTittle = 'All Patients Enrolled in Viremia Program (VL > 400 and enrolled)';
           break;
        case 'not_virally_suppressed_not_in_enhanced_care':
            this.activeTab.not_in_enhanced_care = true;
-           this.sectionTittle = 'Patients eligible for Viremia Program (VL >= 1 but not enrolled)';
+           this.sectionTittle = 'Patients eligible for Viremia Program (VL > 400 but not enrolled)';
            break;
        case 'not_virally_suppressed_in_enhanced_care_vl_due':
            this.activeTab.in_enhanced_care_vl_due = true;
