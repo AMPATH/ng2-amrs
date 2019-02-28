@@ -33,6 +33,14 @@ export class UsefulLinksComponent implements OnInit {
     {
       url: 'https://wiki.ampath.or.ke/display/POC/AMPATHPlus+Master+Facility+List+-+MFL',
       title: 'MFL Wiki'
+    },
+    {
+      url: 'https://viralload.nascop.org/sites',
+      title: 'Partner Viral Load Performannce'
+    },
+    {
+      url: 'https://partnerperformance.org/otz',
+      title: 'Partner Performance'
     }
   ];
   constructor(private linksService: UsefulLinksService) {
