@@ -75,7 +75,8 @@ export class FormCreationDataResolverService implements Resolve<any> {
                 this.processDataResolvingStep(dataRequiredToLoadForm, resolve);
               });
 
-            this.getPreviousEncounter(selectedEncounter, compiledFormSchema)
+            if (selectedEncounter) {
+              this.getPreviousEncounter(selectedEncounter, compiledFormSchema)
               .then((encounter) => {
                 dataRequiredToLoadForm.encounter = encounter;
                 this.processDataResolvingStep(dataRequiredToLoadForm, resolve);
@@ -84,16 +85,23 @@ export class FormCreationDataResolverService implements Resolve<any> {
                 dataRequiredToLoadForm.encounter = {};
                 this.processDataResolvingStep(dataRequiredToLoadForm, resolve);
               });
+            } else {
+               dataRequiredToLoadForm.encounter = {};
+            }
 
-            this.getVisitWithEncounters(selectedVisitUuid)
-              .then((visit) => {
-                dataRequiredToLoadForm.visit = visit;
-                this.processDataResolvingStep(dataRequiredToLoadForm, resolve);
-              })
-              .catch((error) => {
-                dataRequiredToLoadForm.visit = error;
-                this.processDataResolvingStep(dataRequiredToLoadForm, resolve);
-              });
+            if (selectedVisitUuid) {
+              this.getVisitWithEncounters(selectedVisitUuid)
+                .then((visit) => {
+                  dataRequiredToLoadForm.visit = visit;
+                  this.processDataResolvingStep(dataRequiredToLoadForm, resolve);
+                })
+                .catch((error) => {
+                  dataRequiredToLoadForm.visit = error;
+                  this.processDataResolvingStep(dataRequiredToLoadForm, resolve);
+                });
+            } else {
+              dataRequiredToLoadForm.visit = {};
+            }
           }
         },
         (err) => {
@@ -113,7 +121,6 @@ export class FormCreationDataResolverService implements Resolve<any> {
       // console.log('Data required to load forms', dataRequiredToLoadForm);
       finalAcceptFunc(dataRequiredToLoadForm);
     } else {
-      finalAcceptFunc(dataRequiredToLoadForm);
       // console.log('waiting for data to load ...', dataRequiredToLoadForm);
     }
   }
