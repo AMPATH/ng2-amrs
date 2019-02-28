@@ -156,7 +156,7 @@
         {
             "type": "simple_column",
             "alias": "encounter_datetime",
-            "column": "fccs.encounter_datetime"
+            "column": "DATE_FORMAT(fccs.encounter_datetime, '%Y-%m-%d')"
         },
         {
             "type": "derived_column",
@@ -244,12 +244,12 @@
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "fccs.encounter_datetime >= ?",
+                "conditionExpression": "DATE(fccs.encounter_datetime) >= ?",
                 "parameterName": "startDate"
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "fccs.encounter_datetime <= ?",
+                "conditionExpression": "DATE(fccs.encounter_datetime) <= ?",
                 "parameterName": "endDate"
             },
             {
