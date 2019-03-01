@@ -6,7 +6,7 @@ import { AgGridModule } from 'ag-grid-angular/main';
 
 import {
   DataAnalyticsDashboardOncologyRouting
-} from './ data-analytics-oncology.routes';
+} from './data-analytics-oncology.routes';
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
 import { DataListsModule } from '../../shared/data-lists/data-lists.module';
 import { DataAnalyticsDashboardService } from '../services/data-analytics-dashboard.services';
@@ -14,19 +14,19 @@ import { DataAnalyticsDashboardService } from '../services/data-analytics-dashbo
 import { OncologyReportsComponent } from './oncology-reports/oncology-reports.component';
 import { OncologyReportService } from '../../etl-api/oncology-reports.service';
 import {
-  OncologyMonthlyIndicatorSummaryComponent
-} from './oncology-reports/oncology-monthly-indicators/oncology-monthly-indicators.component';
+  OncologySummaryIndicatorsComponent
+} from './oncology-reports/oncology-summary-indicators/oncology-summary-indicators.component';
 import {
   OncologySummaryFiltersComponent
 } from './oncology-reports/oncology-summary-filters/oncology-summary-filters.component';
 import {
-  OncolgyMonthlySummaryIndicatorsResourceService
+  OncologySummaryIndicatorsResourceService
 } from '../../etl-api/oncology-summary-indicators-resource.service';
 import {
   OncologySummaryIndicatorsTableComponent
 } from './oncology-reports/oncology-summary-indicators-table/oncology-summary-indicators-table.component';
 import {
-  OncologysummaryIndicatorsPatientListComponent
+  OncologySummaryIndicatorsPatientListComponent
 } from './oncology-reports/oncology-indicators-patient-list/oncology-indicators-patient-list.component';
 import { NgBusyModule } from 'ng-busy';
 import { ChangeDepartmentModule } from '../change-department/change-department.module';
@@ -47,22 +47,22 @@ import { DataAnalyticsHivModule } from '../hiv/data-analytics-hiv.module';
   ],
   exports: [
     OncologyReportsComponent,
-    OncologyMonthlyIndicatorSummaryComponent,
+    OncologySummaryIndicatorsComponent,
     OncologySummaryFiltersComponent,
     OncologySummaryIndicatorsTableComponent,
-    OncologysummaryIndicatorsPatientListComponent
+    OncologySummaryIndicatorsPatientListComponent
   ],
   declarations: [
     OncologyReportsComponent,
-    OncologyMonthlyIndicatorSummaryComponent,
+    OncologySummaryIndicatorsComponent,
     OncologySummaryFiltersComponent,
     OncologySummaryIndicatorsTableComponent,
-    OncologysummaryIndicatorsPatientListComponent
+    OncologySummaryIndicatorsPatientListComponent
   ],
   providers: [
     DataAnalyticsDashboardService,
     OncologyReportService,
-    OncolgyMonthlySummaryIndicatorsResourceService
+    OncologySummaryIndicatorsResourceService
   ]
 })
 export class DataAnalyticsOncologyModule { }

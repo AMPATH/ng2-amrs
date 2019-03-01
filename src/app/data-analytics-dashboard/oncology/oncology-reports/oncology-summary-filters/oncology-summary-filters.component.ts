@@ -1,11 +1,13 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { DataAnalyticsDashboardService
-} from '../../../services/data-analytics-dashboard.services';
+
+import * as _ from 'lodash';
 import * as Moment from 'moment';
+
 import { AppFeatureAnalytics
 } from '../../../../shared/app-analytics/app-feature-analytics.service';
-import * as _ from 'lodash';
+import { DataAnalyticsDashboardService
+} from '../../../services/data-analytics-dashboard.services';
 
 @Component({
   selector: 'oncology-summary-filters',
@@ -13,8 +15,17 @@ import * as _ from 'lodash';
   styleUrls: ['./oncology-summary-filters.component.css']
 })
 export class OncologySummaryFiltersComponent implements OnInit, OnChanges {
-
-  public tittle  = 'Filters';
+  @Input() public startDate;
+  @Input() public endDate;
+  @Input() public reportType = '';
+  @Input() public indicators = '';
+  @Input() public ageRangeStart: number;
+  @Input() public ageRangeEnd: number;
+  @Input() public reportIndex: number;
+  @Input() public reportUuid: number;
+  @Input() public period = '';
+  @Input() public gender: any = [];
+  public title = 'Filters';
   public data = [];
   public sectionsDef = [];
   public isAggregated: boolean;
@@ -27,16 +38,6 @@ export class OncologySummaryFiltersComponent implements OnInit, OnChanges {
   public reportName = 'oncology-summary-monthly-report';
   public dates: any;
   public age: any;
-  @Input() public startDate;
-  @Input() public endDate;
-  @Input() public reportType = '';
-  @Input() public indicators = '';
-  @Input() public ageRangeStart: number;
-  @Input() public ageRangeEnd: number;
-  @Input() public reportIndex: number;
-  @Input() public reportUuid: number;
-  @Input() public period = '';
-  @Input() public gender: any = [];
   public selectedGender: any = [];
   public locationUuids: Array<string>;
   public monthlySummary: any = [];
@@ -46,15 +47,12 @@ export class OncologySummaryFiltersComponent implements OnInit, OnChanges {
     protected appFeatureAnalytics: AppFeatureAnalytics,
     public dataAnalyticsDashboardService: DataAnalyticsDashboardService,
     private router: Router,
-    private route: ActivatedRoute
-  ) {
-  }
+    private route: ActivatedRoute) {}
 
-  public ngOnInit() {
-  }
+  public ngOnInit() {}
+
   public ngOnChanges(changes: SimpleChanges) {
     this.processFilterData(changes);
-
   }
 
   public getLocationsSelected() {
@@ -63,28 +61,24 @@ export class OncologySummaryFiltersComponent implements OnInit, OnChanges {
         if (data) {
           this.locationUuids = data.locations;
         }
-
       });
   }
 
   public processFilterData(filterChanges: any) {
-     if (filterChanges.gender.currentValue) {
-          this.formatGenderFilter(filterChanges.gender.currentValue
-          );
-     }
+    if (filterChanges.gender.currentValue) {
+      this.formatGenderFilter(filterChanges.gender.currentValue);
+    }
   }
 
   public formatGenderFilter(genderArray) {
-       const selectedGender = [];
-       _.each(genderArray, (gender) => {
-           selectedGender.push({
-             'label': gender,
-             'value':  gender
-           });
-       });
-
-       this.selectedGender = selectedGender;
-
+    const selectedGender = [];
+    _.each(genderArray, (gender) => {
+      selectedGender.push({
+        'label': gender,
+        'value':  gender
+      });
+    });
+    this.selectedGender = selectedGender;
   }
 
   public selectedPeriodChange($event) {
@@ -117,8 +111,7 @@ export class OncologySummaryFiltersComponent implements OnInit, OnChanges {
       'locationUuids': this.getSelectedLocations(this.locationUuids)
     };
 
-    this.router.navigate(['./'],
-    {
+    this.router.navigate(['./'], {
       queryParams: queryParams,
       relativeTo: this.route
     });
@@ -161,6 +154,7 @@ export class OncologySummaryFiltersComponent implements OnInit, OnChanges {
     this.ageRangeStart = $event.ageFrom;
     this.ageRangeEnd = $event.ageTo;
   }
+
   public getSelectedGender(selectedGender) {
     const gender: any = [];
     _.each(selectedGender, (specGender: any) => {
@@ -216,6 +210,5 @@ export class OncologySummaryFiltersComponent implements OnInit, OnChanges {
     }
   }
 
-  public getLocations($event) {
-  }
+  public getLocations($event) {}
 }
