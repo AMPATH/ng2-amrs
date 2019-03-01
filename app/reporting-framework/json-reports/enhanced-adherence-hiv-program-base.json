@@ -114,7 +114,7 @@
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "fhs.vl_1 >= 1",
+                "conditionExpression": "fhs.vl_1 >= 401",
                 "parameterName": ""
             }
         ]
