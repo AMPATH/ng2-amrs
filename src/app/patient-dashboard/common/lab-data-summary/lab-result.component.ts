@@ -34,7 +34,7 @@ export class LabResultComponent implements OnInit, OnDestroy {
   public gridOptions: GridOptions = {
     onGridSizeChanged: () => {
       if (this.gridOptions.api) {
-        this.gridOptions.api.sizeColumnsToFit();
+        // this.gridOptions.api.sizeColumnsToFit();
       }
     },
     onGridReady: (params) => {
@@ -42,7 +42,9 @@ export class LabResultComponent implements OnInit, OnDestroy {
         this.gridOptions.api.sizeColumnsToFit();
         // this.gridOptions.groupDefaultExpanded = -1;
       }
-    }
+    },
+    suppressHorizontalScroll: false,
+    enableSorting : true
   };
   public labCols: any;
 
@@ -256,16 +258,20 @@ export class LabResultComponent implements OnInit, OnDestroy {
   public getCurrentDepartment() {
       const defaultDepartment = this.selectDepartmentService.getUserSetDepartment();
       this.currentDepartment = defaultDepartment;
-      this.setLabSummaryView(defaultDepartment);
+      this.setLabRows(this.currentDepartment);
+      this.setLabSummaryView();
   }
-  public setLabSummaryView(department) {
+  public setLabSummaryView() {
+    this.horizontalView = true;
+  }
+
+  public setLabRows(department) {
     switch (department) {
       case 'ONCOLOGY':
-         this.horizontalView = true;
-         break;
+        this.labRows = this.oncRows;
+      break;
       default:
-         this.horizontalView = false;
-
+         this.labRows = this.generalRows;
     }
 
   }
@@ -325,6 +331,7 @@ export class LabResultComponent implements OnInit, OnDestroy {
 
 
   private createColumnDefs() {
+    this.setLabRows(this.currentDepartment);
     if (this.horizontalView === true) {
         this.createHorizontalColDef();
     } else {
@@ -335,7 +342,7 @@ export class LabResultComponent implements OnInit, OnDestroy {
 
   public createHorizontalColDef() {
 
-    this.labRows = this.oncRows;
+    // lab test is the y-axis and dates are the x-axis
 
     const cols = [
       {
@@ -388,15 +395,17 @@ export class LabResultComponent implements OnInit, OnDestroy {
   }
 
   public createVerticalCalDef() {
+     // Date is the y-axis and Labtest are the x-axis
 
-    const verticalCols = this.generalRows;
+
+    const verticalCols = this.labRows;
 
     const cols = [
       {
         headerName: 'Date',
         width: 200,
         field: 'testDatetime',
-        pinned: 'left',
+        pinned : 'left',
         cellStyle: {
           'text-align': 'left'
         },
@@ -412,16 +421,14 @@ export class LabResultComponent implements OnInit, OnDestroy {
     ];
 
     Object.keys(verticalCols).forEach((key, index) => {
-      // key: the name of the object key
-      // index: the ordinal position of the key within the object
       if (verticalCols.hasOwnProperty('' + key + '')) {
-        if (key !== 'testDatetime' && key !== 'hiv_viral_load') {
+        if (key !== 'testDatetime' && key !== 'hiv_viral_load' && key !== 'serum_crag') {
 
         const col = {
           headerName: verticalCols[key].test,
-          width: 200,
+          width: 150,
+          pinned : '',
           field: key,
-          pinned: 'left',
           cellStyle: {
             'text-align': 'left'
           },
@@ -441,9 +448,9 @@ export class LabResultComponent implements OnInit, OnDestroy {
 
         const col = {
           headerName: verticalCols[key].test,
-          width: 200,
+          width: 150,
+          pinned : '',
           field: key,
-          pinned: 'left',
           cellStyle: {
             'text-align': 'left'
           },
@@ -461,14 +468,35 @@ export class LabResultComponent implements OnInit, OnDestroy {
         cols.push(col);
 
       }
+      if (key === 'serum_crag') {
+
+        const col = {
+          headerName: verticalCols[key].test,
+          width: 200,
+          pinned : '',
+          field: key,
+          cellStyle: {
+            'text-align': 'left'
+          },
+          tooltip: (params: any) => {
+          },
+          cellRenderer: (column) => {
+            if (typeof column.value !== 'undefined') {
+                return this.transformSerumCrug(column.value);
+            } else {
+                return column.value;
+            }
+          }
+        };
+
+        cols.push(col);
+
+      }
       }
      });
 
      this.labCols = cols;
      this.labRowData = this.labResults;
-     setTimeout( () => {
-      this.gridOptions.api.sizeColumnsToFit();
-     }, 500);
 
   }
 
@@ -505,7 +533,6 @@ export class LabResultComponent implements OnInit, OnDestroy {
       labRows.push(testResults);
     });
     this.labRowData = labRows;
-    this.gridOptions.api.sizeColumnsToFit();
 
   }
 
