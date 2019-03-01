@@ -109,7 +109,7 @@
         {
             "type": "simple_column",
             "alias": "encounter_datetime",
-            "column": "fbcs.encounter_datetime"
+            "column": "DATE_FORMAT(fbcs.encounter_datetime, '%Y-%m-%d')"
         },
         {
             "type": "derived_column",
