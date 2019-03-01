@@ -401,6 +401,14 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     this.errors = false;
     const ids = [];
     this.successAlert = '';
+    if (!this.checkUniversal()) {
+      this.identifierAdded = false;
+      this.errors = true;
+      return;
+    } else {
+      const value = this.identifiers[0];
+      this.preferredIdentifier = value;
+    }
     if (this.getAge(this.birthDate) > 116) {
       this.birthError = 'Please select a valid birthdate or age';
       this.errorAlert = 'Please select a valid birthdate or age';
@@ -609,7 +617,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
 
   private checkUniversal() {
 
-    let found;
+    let found = false;
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < this.identifiers.length; i++) {
       if (this.identifiers[i].identifierType === this.universal.identifierType) {
@@ -617,9 +625,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         break;
       }
     }
-    if (found !== undefined) {
-      return found;
-    }
+    return found;
   }
 
   private getCommonIdentifierTypes() {

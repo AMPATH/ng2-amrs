@@ -88,7 +88,7 @@
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
             <label>Universal ID <span *ngIf="!patientIdentifier" class="required"> * </span></label>
             <span *ngIf="generate" class="badge btn pull-right" (click)="generatePatientIdentifier()">Generate</span>
-            <div *ngIf="errors && !patientIdentifier && identifiers.length === 0">
+            <div *ngIf="errors && !patientIdentifier">
               <div class="help-block" style="color:red;">Universal ID is required!</div>
             </div>
           </div>
