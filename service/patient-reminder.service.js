@@ -136,7 +136,8 @@ function qualifiesDifferenciatedReminders(data){
             display: {
                 banner: true,
                 toast: true
-            }
+            },
+            auto_register: '334c9e98-173f-4454-a8ce-f80b20b7fdf0'
         });
             
     } else {
@@ -271,13 +272,14 @@ function qualifiesEnhancedReminders(data) {
     switch (data.qualifies_enhanced) {
         case 1:
             reminders.push({
-                message: 'The Patient’s viral load is greater than 1. Patients with viral load greater than 1 should be enrolled in the Viremia Program.',
+                message: 'The Patient’s viral load is greater than 400. Patients with viral load greater than 400 should be enrolled in the Viremia Program.',
                 title: 'Viremia Program',
                 type: 'warning',
                 display: {
                     banner: true,
                     toast: true
-                }
+                },
+                auto_register: 'c4246ff0-b081-460c-bcc5-b0678012659e'
             });
             break;
         case 2:

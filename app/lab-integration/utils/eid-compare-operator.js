@@ -37,7 +37,6 @@ export class EidCompareOperator {
                     }
                     if (obsObj.concept === eidObj.concept &&
                         obsValue.trim() === eidObj.value.toString().trim() && equalDate) {
-                            console.log('Setting found to true',obsValue);
                         found = true;
                     }
                 }
