@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Http, URLSearchParams } from '@angular/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+
 import { AppSettingsService } from '../app-settings/app-settings.service';
-import { Observable, combineLatest } from 'rxjs';
+import { Observable, combineLatest, forkJoin, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import * as _ from 'lodash';
-import { PersonResourceService } from './person-resource.service';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { Patient } from '../models/patient.model';
 import { PatientProgramService } from '../patient-dashboard/programs/patient-programs.service';
 import { Group } from '../group-manager/group-model';
 import { CommunityGroupService } from './community-group-resource.service';
+import { ProgramEnrollmentResourceService } from './program-enrollment-resource.service';
+import * as Moment from 'moment';
 
 export class GroupEnrollmentValidation {
   alreadyEnrolled: {
@@ -32,7 +32,15 @@ export class CommunityGroupMemberService {
   constructor(private http: HttpClient,
     private _appSettingsService: AppSettingsService,
     private programService: PatientProgramService,
-    private communityService: CommunityGroupService) { }
+    private communityService: CommunityGroupService,
+    private programEnrollmentService: ProgramEnrollmentResourceService) {
+      this.programEnrollmentService.getProgramUnenrollmentEvent().subscribe((unenrolledProgram) => {
+        if (unenrolledProgram) {
+          return this.unenrollPatientFromCommunityGroupInProgram(unenrolledProgram)
+          .subscribe((res) => console.log(res));
+        }
+      });
+    }
 
   public getOpenMrsBaseUrl(): string {
     return this._appSettingsService.getOpenmrsRestbaseurl();
@@ -49,7 +57,7 @@ export class CommunityGroupMemberService {
       endDate: date,
       voided: true
     };
-    return this.http.post(url, body, { headers });
+    return this.http.post(url, body, { headers }).map(res => console.log('ended membership' + res));
   }
 
   public updatePersonAttribute(personUuid: string, attributeUuid: string, value: any): Observable<any> {
@@ -173,6 +181,45 @@ export class CommunityGroupMemberService {
         found: false,
         data: null
       };
+    }
+  }
+
+  public unenrollPatientFromCommunityGroupInProgram(payload): Observable<any> {
+    if (payload['patient'] && payload['program']) {
+      const patient = payload['patient'];
+      const dateCompleted = payload['dateCompleted'];
+      const formattedDateCompleted  = Moment(dateCompleted).format('YYYY-MM-DD');
+      const program = payload['program'];
+      const cohortProgramAttributeTypeUuid = '520cd8bb-cc38-4ebd-97cc-6d555ee13a98';
+      console.log(payload, 'payload');
+      return this.getMemberCohortsByPatientUuid(patient.uuid).flatMap((memberships) => {
+        const observables = [];
+        _.each(memberships, (membership) => {
+          if (!membership.voided) {
+            console.log('membership not voided');
+            const cohort = membership['cohort'];
+            if (cohort['attributes']) {
+                console.log(cohort['attributes']);
+                _.each(cohort['attributes'], (attribute) =>  {
+                if (attribute['cohortAttributeType']) {
+                  console.log(attribute['cohortAttributeType']);
+                  if (attribute['cohortAttributeType']['uuid'] === cohortProgramAttributeTypeUuid &&
+                    attribute['value'] === program['uuid']) {
+                      observables.push(this.endMembership(membership['uuid'], formattedDateCompleted));
+                    }
+                }
+              });
+            }
+          }
+        });
+        if (observables) {
+          return forkJoin(observables);
+        } else {
+          return of(null);
+        }
+      });
+    } else {
+       return of(null);
     }
   }
 

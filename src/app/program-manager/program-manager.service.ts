@@ -60,7 +60,7 @@ export class ProgramManagerService {
           program.programUuid, patient, this.toOpenmrsDateFormat(program.dateEnrolled),
           null,
           newLoc, '');
-        programBatch.push(this.programService.saveUpdateProgramEnrollment(unenrollPayload));
+        programBatch.push(this.programService.saveUpdateProgramEnrollment(unenrollPayload, theChange));
         programBatch.push(this.programService.saveUpdateProgramEnrollment(enrollPayload));
       } else {
         // just unenroll
