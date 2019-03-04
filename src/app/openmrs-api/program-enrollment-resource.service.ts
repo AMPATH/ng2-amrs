@@ -1,14 +1,17 @@
 
-import { throwError as observableThrowError, Observable } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
-import { Injectable } from '@angular/core';
-import { AppSettingsService } from '../app-settings/app-settings.service';
 import { HttpParams, HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+
+import {throwError as observableThrowError,  Observable, Subject } from 'rxjs';
+import {catchError, map, flatMap} from 'rxjs/operators';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 
 // TODO inject service
 
 @Injectable()
 export class ProgramEnrollmentResourceService {
+
+  private $unenrolledFromProgramEvent: Subject<any> = new Subject();
 
   constructor(protected http: HttpClient, protected appSettingsService: AppSettingsService) {
   }
@@ -61,7 +64,7 @@ export class ProgramEnrollmentResourceService {
     }));
   }
 
-  public saveUpdateProgramEnrollment(payload) {
+  public saveUpdateProgramEnrollment(payload, change?) {
     if (!payload) {
       return null;
     }
@@ -71,8 +74,20 @@ export class ProgramEnrollmentResourceService {
     }
     delete payload['uuid'];
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post(url, JSON.stringify(payload), { headers }).pipe(
-      catchError(this.handleError));
+    const locationChange = 'location';
+    if (payload['dateCompleted'] && (change !== locationChange) || !change) {
+      return this.http.post(url, JSON.stringify(payload), {headers}).pipe(
+        flatMap((program) => {
+          this.broadcastUnenrolledProgram(program);
+          return Observable.of(program);
+        }),
+        catchError(this.handleError));
+
+    } else {
+
+      return this.http.post(url, JSON.stringify(payload), {headers}).pipe(
+        catchError(this.handleError));
+    }
   }
 
   public updateProgramEnrollmentState(programEnrollmentUuid, payload) {
@@ -114,6 +129,14 @@ export class ProgramEnrollmentResourceService {
     }
 
     return arr;
+  }
+
+  public getProgramUnenrollmentEvent() {
+    return this.$unenrolledFromProgramEvent.asObservable();
+  }
+
+  public broadcastUnenrolledProgram(unenrolledProgram) {
+    this.$unenrolledFromProgramEvent.next(unenrolledProgram);
   }
 
 }

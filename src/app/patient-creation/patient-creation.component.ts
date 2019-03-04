@@ -110,7 +110,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public successAlert: any = '';
   public showSuccessAlert = false;
   public showErrorAlert = false;
-  public errorAlert: string;
+  public errorAlert: boolean;
   public errorTitle: string;
   public editText = false;
   public errorMessage = '';
@@ -123,6 +123,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public universal: any;
   public generate = true;
   public preferredIdentifier;
+  public errorAlerts = [];
 
   constructor(
     public toastrService: ToastrService,
@@ -141,7 +142,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     this.getLocations();
     this.getCommonIdentifierTypes();
     this.userId = this.userService.getLoggedInUser().openmrsModel.systemId;
-    this.errorAlert = '';
+    this.errorAlert = false;
     this.person = this.sessionStorageService.getObject('person');
     if (this.person) {
       this.givenName = this.person.givenName;
@@ -305,7 +306,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     this.commonIdentifier = '';
     this.identifierValidity = '';
     this.hasError = false;
-    this.errorAlert = '';
+    this.errorAlert = false;
   }
 
   public setPreferred(identifier) {
@@ -321,14 +322,14 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     this.identifierValidity = '';
     this.errorMessage = '';
     this.hasError = false;
-    this.errorAlert = '';
+    this.errorAlert = false;
   }
 
   public checkIdentifier(identifier) {
     if (this.patientIdentifierType || this.patientIdentifierType !== '') {
       this.hasError = false;
       this.checkIdentifierFormat();
-      this.errorAlert = '';
+      this.errorAlert = false;
     }
   }
 
@@ -362,7 +363,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         });
       }
     }
-    this.errorAlert = '';
+    this.errorAlert = false;
 
   }
 
@@ -392,7 +393,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         this.identifierAdded = false;
         this.commonAdded = false;
       }
-      this.errorAlert = '';
+      this.errorAlert = false;
     }
   }
 
@@ -401,9 +402,16 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     this.errors = false;
     const ids = [];
     this.successAlert = '';
+    if (!this.checkUniversal()) {
+      this.identifierAdded = false;
+      this.errors = true;
+      return;
+    } else {
+      const value = this.identifiers[0];
+      this.preferredIdentifier = value;
+    }
     if (this.getAge(this.birthDate) > 116) {
       this.birthError = 'Please select a valid birthdate or age';
-      this.errorAlert = 'Please select a valid birthdate or age';
     }
     if (!this.givenName) {
       this.errors = true;
@@ -466,7 +474,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     if (!this.errors) {
       this.loaderStatus = true;
       this.birthError = '';
-      this.errorAlert = '';
+      this.errorAlert = false;
       const attributes = [];
       if (this.patientPhoneNumber) {
         attributes.push({
@@ -516,6 +524,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         },
         identifiers: ids
       };
+      this.errorAlerts = [];
       this.patientCreationResourceService.savePatient(payload).pipe(
         take(1)).subscribe((success) => {
           this.loaderStatus = false;
@@ -527,8 +536,9 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
           }
         }, (err) => {
           this.loaderStatus = false;
-          const error = err;
-          this.errorAlert = error.error.globalErrors[0].code;
+          const error = err.error.error.globalErrors;
+          this.errorAlert = true;
+          this.errorAlerts = error;
         });
 
     }
@@ -537,12 +547,12 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     this.modalRef.hide();
     this.router.navigate(['/patient-dashboard/patient/' + createdPatient.person.uuid +
       '/general/general/patient-info']);
-    this.errorAlert = '';
+    this.errorAlert = false;
   }
   public close() {
     this.modalRef.hide();
     this.router.navigate(['/patient-dashboard/patient-search']);
-    this.errorAlert = '';
+    this.errorAlert = false;
   }
   public reset() {
     this.givenName = '';
@@ -568,7 +578,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       this.generate = false;
       this.editText = true;
     });
-    this.errorAlert = '';
+    this.errorAlert = false;
   }
 
   public updateLocation(location) {
@@ -609,7 +619,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
 
   private checkUniversal() {
 
-    let found;
+    let found = false;
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < this.identifiers.length; i++) {
       if (this.identifiers[i].identifierType === this.universal.identifierType) {
@@ -617,9 +627,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         break;
       }
     }
-    if (found !== undefined) {
-      return found;
-    }
+    return found;
   }
 
   private getCommonIdentifierTypes() {
@@ -655,7 +663,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
 
       },
       (error) => {
-        this.toastrService.error('Error retrieving common patient identifier types', '', {
+        this.toastrService.error('Error  retrieving common patient identifier types', '', {
           timeOut: 2000,
           positionClass: 'toast-bottom-center'
         });

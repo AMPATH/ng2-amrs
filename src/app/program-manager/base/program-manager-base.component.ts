@@ -1,5 +1,5 @@
 
-import {take} from 'rxjs/operators';
+import { shareReplay, take } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -84,7 +84,7 @@ export class ProgramManagerBaseComponent implements OnInit {
 
   public loadPatientProgramConfig(): Observable<any> {
     const programConfigLoaded: Subject<boolean> = new Subject<boolean>();
-    this.patientService.currentlyLoadedPatient.subscribe((patient) => {
+    this.patientService.currentlyLoadedPatient.pipe(shareReplay()).subscribe((patient) => {
         if (patient) {
           this.patient = patient;
           this.availablePrograms  =  _.filter(patient.enrolledPrograms,  (item) => {
@@ -93,7 +93,7 @@ export class ProgramManagerBaseComponent implements OnInit {
           });
 
           this.enrolledProgrames = _.filter(patient.enrolledPrograms, 'isEnrolled');
-          this.patientProgramResourceService.getPatientProgramVisitConfigs(this.patient.uuid).pipe(
+          this.patientProgramResourceService.getPatientProgramVisitConfigs(this.patient.uuid).pipe(shareReplay(),
             take(1)).subscribe((programConfigs) => {
             if (programConfigs) {
               this.allPatientProgramVisitConfigs = programConfigs;

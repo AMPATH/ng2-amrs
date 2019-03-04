@@ -101,14 +101,20 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
     } else if (param === 'add') {
       this.addDialog = true;
       if (isArray(id)) {
-        const check = _.find(id, (el) => {
-          return el.identifierType.uuid === '58a4732e-1359-11df-a1f1-0026b9348838';
+        // remove types that cannot be added more that once
+        _.each(id, (_id) => {
+          const hasId = _.includes([
+            '58a4732e-1359-11df-a1f1-0026b9348838', // AMRS Universal ID
+            '58a47054-1359-11df-a1f1-0026b9348838', // KENYA NATIONAL ID NUMBER
+            'ead42a8f-203e-4b11-a942-df03a460d617', // HEI
+            'd1e5ef63-126f-4b1f-bd3f-496c16c4098d', // KUZA ID
+            '9cae9c8a-2821-4aa7-8064-30508e9f62ec', // ZURI ID
+            'f2d6ff1a-8440-4d35-a150-1d4b5a930c5e' // CCC number
+          ], _id.identifierType.uuid);
+          if (hasId) {
+            _.remove(this.commonIdentifierTypes, (idType: any) => idType.val === _id.identifierType.uuid);
+          }
         });
-        if (check) {
-          this.commonIdentifierTypes = _.filter(this.commonIdentifierTypes, (o) => {
-            return o.val !== '58a4732e-1359-11df-a1f1-0026b9348838';
-          });
-        }
       }
 
     }
@@ -234,7 +240,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
         this.patientResourceService.searchPatient(this.patientIdentifier).pipe(take(1)).subscribe(
           (result) => {
             if (result.length > 0) {
-              this.identifierValidity = 'A patient with this Identifier exists!';
+              this.identifierValidity = 'This identifier is already in use!';
               this.display = true;
             } else {
               if (personIdentifierPayload.uuid === undefined || personIdentifierPayload.uuid === '' ||
@@ -321,7 +327,6 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
     this.identifierValidity = '';
     const selectedIdentifierType: any = this.identifierType;
     if (selectedIdentifierType) {
-      console.log('i am in here');
       const identifierHasFormat = selectedIdentifierType.format;
       const identifierHasCheckDigit = selectedIdentifierType.checkdigit;
       if (identifierHasCheckDigit) {

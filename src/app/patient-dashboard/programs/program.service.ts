@@ -100,11 +100,11 @@ export class ProgramService {
 
   }
 
-  public saveUpdateProgramEnrollment(payload: any): Observable<any> {
+  public saveUpdateProgramEnrollment(payload: any, theChange?): Observable<any> {
     if (!payload) {
       return null;
     }
-    return this.programEnrollmentResourceService.saveUpdateProgramEnrollment(payload);
+    return this.programEnrollmentResourceService.saveUpdateProgramEnrollment(payload, theChange);
   }
 
   public getProgramWorkFlows(programUuid: string) {
