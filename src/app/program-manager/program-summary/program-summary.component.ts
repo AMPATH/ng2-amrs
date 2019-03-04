@@ -50,4 +50,11 @@ export class ProgramSummaryComponent extends ProgramManagerBaseComponent impleme
       this.hasError = true;
     });
   }
+
+  public goToProgramLandingPage(department) {
+    const programs = department.programs;
+    // just use the first program. Every program has a landing page url set in 'buttons' property
+    const url = programs[0].buttons.landing.url;
+    this.router.navigate([url], {});
+  }
 }
