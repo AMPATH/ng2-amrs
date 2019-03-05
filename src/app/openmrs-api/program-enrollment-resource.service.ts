@@ -32,8 +32,8 @@ export class ProgramEnrollmentResourceService {
     }
 
     const params: HttpParams = new HttpParams()
-      .set('v', v)
-      .set('patient', uuid);
+    .set('v', v)
+    .set('patient', uuid);
 
     return this.http.get(url, {
       params: params
@@ -53,7 +53,7 @@ export class ProgramEnrollmentResourceService {
     }
 
     const params: HttpParams = new HttpParams()
-      .set('v', v);
+    .set('v', v);
     url = url + '/' + uuid;
 
     return this.http.get(url, {
