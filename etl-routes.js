@@ -106,6 +106,7 @@ import {
 import {
     PatientReferralService
 } from './service/patient-referral.service';
+import { CombinedBreastCervicalCancerMonthlySummary } from './service/combined-breast-cervical-cancer-monthly-summary.service';
 
 
 module.exports = function () {
@@ -4125,6 +4126,79 @@ module.exports = function () {
             },
             {
                 method: 'GET',
+                path: '/etl/combined-breast-cervical-cancer-screening-numbers',
+                config: {
+                    auth: 'simple',
+                    plugins: {
+                        'hapiAuthorization': {
+                            role: privileges.canViewClinicDashBoard
+                        },
+                        'openmrsLocationAuthorizer': {
+                            locationParameter: [{
+                                type: 'query', //can be in either query or params so you have to specify
+                                name: 'locationUuids' //name of the location parameter
+                            }]
+                        }
+                    },
+                    handler: function (request, reply) {
+                        request.query.reportName = 'combined-breast-cervical-cancer-monthly-screening-summary';
+                        preRequest.resolveLocationIdsToLocationUuids(request,
+                            function () {
+                                let requestParams = Object.assign({}, request.query, request.params);
+                                let reportParams = etlHelpers.getReportParams('breast-cancer-summary-dataset',
+                                    ['startDate', 'endDate', 'period', 'locationUuids', 'indicators', 'genders', 'startAge', 'endAge'],
+                                    requestParams);
+                                let service = new CombinedBreastCervicalCancerMonthlySummary();
+                                service.getAggregateReport(reportParams).then((result) => {
+                                    reply(result);
+                                }).catch((error) => {
+                                    console.error('Error: ', error);
+                                    reply(error);
+                                });
+                            });
+
+                    },
+                    description: 'Get combined breast & cervical cancer monthly screening summary details based on location and time filters',
+                    notes: 'Returns aggregates of combined breast & cervical cancer screening',
+                    tags: ['api'],
+                }
+
+            },
+            {
+                method: 'GET',
+                path: '/etl/combined-breast-cervical-cancer-screening-numbers-patient-list',
+                config: {
+                    auth: 'simple',
+                    plugins: {
+                        'openmrsLocationAuthorizer': {
+                            locationParameter: [{
+                                type: 'query', //can be in either query or params so you have to specify
+                                name: 'locationUuids' //name of the location parameter
+                            }]
+                        }
+                    },
+                    handler: function (request, reply) {
+                        request.query.reportName = 'combined-breast-cervical-cancer-monthly-screening-summary';
+                        preRequest.resolveLocationIdsToLocationUuids(request,
+                            function () {
+                                let requestParams = Object.assign({}, request.query, request.params);
+                                let service = new CombinedBreastCervicalCancerMonthlySummary();
+                                service.getPatientListReport(requestParams).then((result) => {
+                                    reply(result);
+                                }).catch((error) => {
+                                    reply(error);
+                                });
+                            });
+
+                    },
+                    description: 'Get combined breast & cervical cancer monthly summary patient list based on location and time filters',
+                    notes: 'Returns details of patients who underwent both breast & cervical cancer screenings',
+                    tags: ['api'],
+                }
+
+            },
+            {
+                method: 'GET',
                 path: '/etl/cervical-cancer-screening-numbers',
                 config: {
                     auth: 'simple',
@@ -4158,7 +4232,7 @@ module.exports = function () {
 
                     },
                     description: 'Get cervical cancer monthly screening summary based on location and time filters',
-                    notes: 'Returns aggeregates of cervical cancer screenings',
+                    notes: 'Returns aggregates of cervical cancer screenings',
                     tags: ['api'],
                 }
 
