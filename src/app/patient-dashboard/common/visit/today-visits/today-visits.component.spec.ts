@@ -152,9 +152,9 @@ describe('TodayVisitsComponent', () => {
     expect(component).toBeTruthy();
   });
   it('should have required properties', () => {
-    expect(component.programClassUuid).toBeUndefined();
-    expect(component.programUuid).toEqual('');
-    expect(component.isBusy).toEqual(true);
+    expect(component.programClassUuid).toBeDefined();
+    expect(component.programUuid).toBeDefined();
+    expect(component.isBusy).toEqual(false);
     expect(component.errors.length).toEqual(0);
     expect(component.groupedVisits.length).toEqual(0);
     expect(component.index).toEqual(0);

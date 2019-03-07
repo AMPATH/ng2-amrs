@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 import * as _ from 'lodash';
 import { AppFeatureAnalytics } from '../../../../shared/app-analytics/app-feature-analytics.service';
 import { TodayVisitService, VisitsEvent } from '../today-visit.service';
 import { TitleCasePipe } from '../../../../shared/pipes/title-case.pipe';
-
+import { PatientService } from '../../../services/patient.service';
 @Component({
   selector: 'app-today-visits',
   templateUrl: './today-visits.component.html',
   styleUrls: ['./today-visits.component.css']
 })
-export class TodayVisitsComponent implements OnInit {
+export class TodayVisitsComponent implements OnInit, OnDestroy {
 
   public programClassUuid = '';
   public programUuid = '';
@@ -18,21 +19,44 @@ export class TodayVisitsComponent implements OnInit {
   public errors = [];
   public groupedVisits = [];
   public index = 0;
+  public patient: any;
+  private subs: Subscription[] = [];
 
   constructor(
     private router: Router,
     private todayVisitService: TodayVisitService,
     private appFeatureAnalytics: AppFeatureAnalytics,
     private route: ActivatedRoute,
+    private patientService: PatientService
   ) { }
 
   public ngOnInit() {
-    this.extractSelectedProgramFromUrl();
-    this.subscribeToVisitsServiceEvents();
-    this.checkForAlreadyLoadedVisits();
+    this.getPatientUuid();
     // app feature analytics
     this.appFeatureAnalytics
       .trackEvent('Patient Dashboard', 'Patient Visits Loaded', 'ngOnInit');
+  }
+
+  public ngOnDestroy(): void {
+    this.subs.forEach(sub => {
+      sub.unsubscribe();
+    });
+    this.subs = [];
+  }
+
+  public getPatientUuid() {
+   const sub = this.patientService.currentlyLoadedPatient.subscribe(
+    (patient) => {
+        if (patient !== null) {
+          this.patient = patient;
+          this.todayVisitService.patient = this.patient;
+          this.extractSelectedProgramFromUrl();
+          this.subscribeToVisitsServiceEvents();
+          this.checkForAlreadyLoadedVisits();
+        }
+    });
+    this.subs.push(sub);
+
   }
 
   public toTitleCase(text: string): string {
@@ -48,24 +72,26 @@ export class TodayVisitsComponent implements OnInit {
       this.programClassUuid = '';
     }
     this.programUuid = '';
-    console.log('changing class');
   }
 
   public handleProgramChange(program) {
     this.programUuid = '';
     setTimeout(() => {
       this.programUuid = program.uuid;
+      this.todayVisitService.patient = this.patient;
+      this.todayVisitService.getProgramVisits();
     }, 500);
   }
 
   public extractSelectedProgramFromUrl() {
-    this.route.params.subscribe((params) => {
+    const sub = this.route.params.subscribe((params) => {
       if (params) {
         // console.log('params', params);
         this.programClassUuid = params['programClass'];
         this.handleProgramChange({ uuid: params['program'] });
       }
     });
+    this.subs.push(sub);
   }
 
   public checkForAlreadyLoadedVisits() {
@@ -116,8 +142,10 @@ export class TodayVisitsComponent implements OnInit {
 
   public triggerVisitLoading() {
     this.onProgramVisitsLoadingStarted();
-    this.todayVisitService.getProgramVisits()
-      .subscribe(() => { }, (error) => { });
+    this.todayVisitService.patient = this.patient;
+    const sub = this.todayVisitService.getProgramVisits()
+      .subscribe(() => { }, (error) => { console.log('ERROR', error); });
+    this.subs.push(sub);
   }
 
   public onVisitLoadedEvent() {
