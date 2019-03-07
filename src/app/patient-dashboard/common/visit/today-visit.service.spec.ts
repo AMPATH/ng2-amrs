@@ -213,6 +213,10 @@ describe('Service: TodayVisit', () => {
       person: { uuid: 'uuid' }
     }));
     const service: TodayVisitService = TestBed.get(TodayVisitService);
+    service.patient = {
+      uuid: 'uuid',
+      person: { uuid: 'uuid' }
+    };
 
     const progVisitTypeSpy =
       spyOn(progService, 'getPatientProgramVisitConfigs')
@@ -271,25 +275,6 @@ describe('Service: TodayVisit', () => {
     const actual = service.sortVisitsByVisitStartDateTime(sample);
     expect(actual).toEqual(expected);
   });
-
-  it('should subscribe to patient load events from patient service',
-    (done) => {
-      const patientService: PatientService =
-        TestBed.get(PatientService);
-      const service: TodayVisitService = TestBed.get(TodayVisitService);
-      service.patient = null;
-      service.needsVisitReload = false;
-
-      const programStaleNoticeSpy = spyOn(service, 'makeVisitsStale').and.callThrough();
-
-      const nextPatient = new Patient({ uuid: 'patient-uuid', person: {} });
-      patientService.currentlyLoadedPatient.next(nextPatient);
-
-      expect(service.patient).toBe(nextPatient);
-      expect(service.needsVisitReload).toBe(true);
-      expect(programStaleNoticeSpy.calls.count()).toBe(1);
-      done();
-    });
 
   it('should extract a program config from all program configs', () => {
     const service: TodayVisitService = TestBed.get(TodayVisitService);
@@ -381,6 +366,10 @@ describe('Service: TodayVisit', () => {
 
       const service: TodayVisitService = TestBed.get(TodayVisitService);
       service.patientProgramVisitConfigs = prog;
+      service.patient = {
+        uuid: 'some-patient -uuid',
+        person: { uuid: 'some-patient -uuid' }
+      };
 
       // CASE 3: Visits and Program Config Loaded
       // SUB-CASE: Today's Visit Present for Current Program

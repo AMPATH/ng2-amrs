@@ -45,7 +45,6 @@ export class TodayVisitService implements OnDestroy {// SERVICE PROCESSES VISITS
               private visitResourceService: VisitResourceService,
               private retrospectiveDataEntryService: RetrospectiveDataEntryService,
               private patientService: PatientService) {
-    this.subscribeToPatientChanges();
   }
 
   public ngOnDestroy() {
@@ -67,33 +66,8 @@ export class TodayVisitService implements OnDestroy {// SERVICE PROCESSES VISITS
     return this.showVisitStartedMsg;
   }
 
-  public subscribeToPatientChanges() {
-    const sub = this.patientService.currentlyLoadedPatient.subscribe(
-      (patient) => {
-        if (patient !== null) {
-          this.patient = patient;
-          // console.log('this.patient', this.patient);
-          if (Array.isArray(patient.enrolledPrograms)) {
-            this.enrolledPrograms = this.filterUnenrolledPrograms(patient.enrolledPrograms);
-            // this.setEnrollmentUuid();
-          }
-          this.makeVisitsStale();
-        }
-      }
-      , (err) => {
-        this.errors.push({
-          id: 'patient',
-          message: 'error fetching patient'
-        });
-        console.error('Error on published patient', err);
-      });
-
-      this.subs.push(sub);
-  }
-
   public fetchPatientProgramVisitConfigs(): Observable<any> {
     const subject: Subject<any> = new Subject<any>();
-
     this.patientProgramVisitConfigs = {};
     if (!(this.patient && this.patient.uuid)) {
       setTimeout(() => {
@@ -209,6 +183,7 @@ export class TodayVisitService implements OnDestroy {// SERVICE PROCESSES VISITS
   }
 
   public filterVisitsAndCurrentVisits(programVisitObj, visits) {
+    programVisitObj.currentVisit = null;
     // Filter out visits not in the program
     this.retrospectiveDataEntryService.retroSettings.subscribe((retroSettings) => {
       let filterVisitDate = moment();
@@ -224,7 +199,9 @@ export class TodayVisitService implements OnDestroy {// SERVICE PROCESSES VISITS
 
       if (orderedVisits.length > 0 &&
         moment(orderedVisits[0].startDatetime).isSame(filterVisitDate, 'days')) {
-        programVisitObj.currentVisit = orderedVisits[0];
+          if (orderedVisits[0].patient.uuid === this.patient.uuid) {
+            programVisitObj.currentVisit = orderedVisits[0];
+          }
       } else {
         programVisitObj.currentVisit = null;
       }
@@ -232,6 +209,7 @@ export class TodayVisitService implements OnDestroy {// SERVICE PROCESSES VISITS
   }
 
   public processVisitsForPrograms() {
+    this.enrolledPrograms = this.filterUnenrolledPrograms(this.patient.enrolledPrograms);
     const programs = this.buildProgramsObject(this.enrolledPrograms);
     for (const o in programs) {
       if (programs[o]) {
