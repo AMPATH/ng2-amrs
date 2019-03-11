@@ -83,7 +83,7 @@ export class RetrospectiveDataEntryService {
       visitDate: this.retroVisitDate ||
         (visitDate ? visitDate : moment().format('YYYY-MM-DD')),
       visitTime: this.retroVisitTime ||
-        (visitTime ? visitTime : '04:44:44'),
+        (visitTime ? visitTime : '20:44:44'),
       visitTimeState: this.retroVisitTimeState ||
         (visitTimeState ? visitTimeState : '0')
     };
