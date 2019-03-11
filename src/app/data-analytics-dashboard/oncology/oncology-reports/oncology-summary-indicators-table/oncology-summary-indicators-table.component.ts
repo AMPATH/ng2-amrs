@@ -206,42 +206,6 @@ export class OncologySummaryIndicatorsTableComponent implements OnInit, OnChange
               break;
             case 'normal_cervical_call_rate%':
               break;
-            case 'abnormal_call_rate%_<_30_yrs':
-                break;
-            case 'abnormal_call_rate%_30-40_yrs':
-                break;
-            case 'abnormal_call_rate%_41-50_yrs':
-                break;
-            case 'abnormal_call_rate%_51-69_yrs':
-                break;
-            case 'abnormal_call_rate%_>_70yrs':
-                break;
-            case 'invasive_cancer_detection_rate_%':
-                break;
-            case 'invasive_detection_rate%_<_30_yrs':
-                break;
-            case 'invasive_detection_rate%_30-40_yrs':
-                break;
-            case 'invasive_detection_rate%_41-50_yrs':
-                break;
-            case 'invasive_detection_rate%_51-69_yrs':
-                break;
-            case 'invasive_detection_rate%_>_70yrs':
-                break;
-            case 'insitu_cancer_detection_rate_%':
-                break;
-            case 'insitu_detection_rate%_<_30_yrs':
-                break;
-            case 'insitu_detection_rate%_30-40_yrs':
-                break;
-            case 'insitu_detection_rate%_41-50_yrs':
-                break;
-            case 'insitu_detection_rate%_51-69_yrs':
-                break;
-            case 'insitu_detection_rate%_>_70yrs':
-                break;
-            case 'diagnosed_within_28_days_%':
-                break;
             default:
 
             let startDate;
