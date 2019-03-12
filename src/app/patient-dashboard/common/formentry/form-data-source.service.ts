@@ -241,8 +241,10 @@ export class FormDataSourceService {
     const model: object = {};
     const gender = patient.person.gender;
     const birthdate = patient.person.birthdate;
+    const age = patient.person.age;
     model['sex'] = gender;
     model['birthdate'] = birthdate;
+    model['age'] = age;
 
     // zscore calculations addition
     // reference date to today

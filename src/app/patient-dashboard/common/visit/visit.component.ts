@@ -12,6 +12,7 @@ import {
 import { CommunityGroupMemberService } from '../../../openmrs-api/community-group-member-resource.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { ViewChild } from '@angular/core';
+import { PatientService } from '../../services/patient.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -23,6 +24,8 @@ export class VisitComponent implements OnInit, OnDestroy {
 
   public currentProgramConfig: any;
   public showVisitStartedMsg = false;
+  public patients: any;
+  private subs: Subscription[] = [];
 
   @Input()
   public programUuid = '';
@@ -55,13 +58,12 @@ export class VisitComponent implements OnInit, OnDestroy {
   constructor(
     private todayVisitService: TodayVisitService,
     private communityGroupMemberService: CommunityGroupMemberService,
-    private bsModalService: BsModalService
+    private bsModalService: BsModalService,
+    private patientService: PatientService
   ) { }
 
   public ngOnInit() {
-    this.subscribeToVisitsServiceEvents();
-    this.checkForAlreadyLoadedVisits();
-    this.checkIfPatientEnrolledInGroup();
+    this.getPatientUuid();
     // this.isBusy = true;
     // app feature analytics
     // this.appFeatureAnalytics
@@ -72,13 +74,31 @@ export class VisitComponent implements OnInit, OnDestroy {
     if (this.todayVisitsEventSub) {
       this.todayVisitsEventSub.unsubscribe();
     }
+    this.subs.forEach(sub => {
+      sub.unsubscribe();
+    });
+    this.subs = [];
+  }
+
+  public getPatientUuid() {
+    const sub = this.patientService.currentlyLoadedPatient.subscribe(
+      (patient) => {
+          if (patient !== null) {
+            this.patient = patient;
+            this.subscribeToVisitsServiceEvents();
+            this.checkForAlreadyLoadedVisits();
+            this.checkIfPatientEnrolledInGroup();
+          }
+      });
+
+    this.subs.push(sub);
   }
 
   public checkIfPatientEnrolledInGroup() {
     this.isBusy = true;
     const DIFFERENTIATED_CARE = '334c9e98-173f-4454-a8ce-f80b20b7fdf0';
     if (this.programUuid === DIFFERENTIATED_CARE) {
-      this.communityGroupMemberService.getMemberCohortsByPatientUuid(this.todayVisitService.patient.uuid)
+      this.communityGroupMemberService.getMemberCohortsByPatientUuid(this.patient.uuid)
       .subscribe((groups) => {
                  this.isBusy = false;
                  if (!_.isEmpty(groups)) {
@@ -106,7 +126,7 @@ export class VisitComponent implements OnInit, OnDestroy {
       action: 'Enroll',
       currentGroups: this.currentCommunityGroups,
       currentEnrolledPrograms: [{programUuid: this.programUuid}],
-      patient: this.todayVisitService.patient
+      patient: this.patient
     };
     this.modalRef = this.bsModalService.show(this.enrollModal, {
       backdrop: 'static',
@@ -144,7 +164,7 @@ export class VisitComponent implements OnInit, OnDestroy {
   }
 
   public subscribeToVisitsServiceEvents() {
-    this.todayVisitService.visitsEvents
+    const sub = this.todayVisitService.visitsEvents
       .subscribe((event: VisitsEvent) => {
         switch (event) {
           case VisitsEvent.VisitsLoadingStarted:
@@ -164,6 +184,7 @@ export class VisitComponent implements OnInit, OnDestroy {
         }
 
       });
+      this.subs.push(sub);
 
     this.getVisitStartedMsgStatus();
 
@@ -174,7 +195,7 @@ export class VisitComponent implements OnInit, OnDestroy {
     this.errors = [];
     this.visit = undefined;
     this.visits = [];
-    this.patient = undefined;
+    // this.patient = undefined;
     this.currentProgramConfig = undefined;
     this.currentEnrollment = undefined;
     this.currentProgramEnrollmentUuid = '';
@@ -188,10 +209,12 @@ export class VisitComponent implements OnInit, OnDestroy {
   }
 
   public onVisitLoadedEvent() {
+    this.todayVisitService.processVisitsForPrograms();
+    this.programVisitsObj = null;
     this.programVisitsObj = this.todayVisitService.programVisits;
     this.isBusy = false;
-    this.patient = this.todayVisitService.patient === null ?
-      undefined : this.todayVisitService.patient;
+    this.patient = this.patient === null ?
+      undefined : this.patient;
     this.processProgramVisits();
   }
 
@@ -238,7 +261,9 @@ export class VisitComponent implements OnInit, OnDestroy {
 
   public triggerVisitLoading() {
     this.onProgramVisitsLoadingStarted();
-    this.todayVisitService.getProgramVisits()
+    this.todayVisitService.patient = this.patient;
+    const sub = this.todayVisitService.getProgramVisits()
       .subscribe(() => { }, (error) => { });
+      this.subs.push(sub);
   }
 }
