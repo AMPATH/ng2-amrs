@@ -184,6 +184,10 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
           this.title = 'Program Successfully Started';
           this.showMessage('The patient has been enrolled in Viremia Program successfully.', 'info');
           break;
+        case 'dc':
+          this.title = 'Program Successfully Started';
+          this.showMessage('The patient has been enrolled in HIV Differentiated Care Program successfully.', 'info');
+          break;
         default:
       }
     } else {
