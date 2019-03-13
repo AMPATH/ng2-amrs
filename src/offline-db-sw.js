@@ -2,13 +2,47 @@
 importScripts('assets/pouchdb-7.0.0.min.js');
 importScripts('assets/pouchdb.find.min.js')
 importScripts('assets/aes-helper.js');
-importScripts('https://unpkg.com/service-worker-router@1.7.2/dist/router.min.js');
+importScripts('assets/service-worker-router.js');
 
 const Router = self.ServiceWorkerRouter.Router
 const router = new Router();
 
-var patients_db = new PouchDB('patients');
-buildPatientDBIndexes();
+var patients_db = new PouchDB('new_patient_db');
+var remoteDB = new PouchDB('http://localhost:5984/patients');
+
+
+self.addEventListener('activate', event => {
+  console.log('on activate called');
+  var start = new Date().getTime();
+  buildPatientDBIndexes();
+  patients_db.replicate.from(remoteDB).on('complete', function () {
+    console.log(new Date().getTime() - start, 'milliseconds later');
+    patients_db.replicate.from(remoteDB,  {live:true, retry:true});
+  }).on('error', function (err) {
+    console.log('boo, something went wrong!');
+  });
+});
+
+
+
+
+patients_db.changes({
+  since: 'now',
+  include_docs: true
+})
+.on('change', function(change) {return handleChange(change)})
+.on('error', function(){ console.log(error);})
+
+
+
+function handleChange(change){
+  console.log(change, 'changes saved!');
+}
+
+
+
+
+
 
 
 router.get('/amrs/ws/rest/v1/patient', interceptPatientSearchRequest);
@@ -66,7 +100,7 @@ function getUrlQueryParams(search) {
   return params
 }
 
-////////////// Interceptors //////////////
+///////////////////////////// Interceptors /////////////////////////////
 function interceptAuthRequest({request, params}) {
   return fetch(request).then((response) => {
     if (!response.ok) {
@@ -106,7 +140,7 @@ function interceptPatientSearchRequest({request, params}) {
        let queryParams = getUrlQueryParams(url);
        self.console.log(queryParams.q, 'identifier');
 
-       return patients_db.query('identifier_index/by_identifier', {
+       return patients_db.query('identifier_indexyz/by_identifier', {
         key: queryParams.q,
         include_docs: true
       }).then((results) => {
@@ -114,7 +148,7 @@ function interceptPatientSearchRequest({request, params}) {
         let arr = [];
         if(results.rows) {
           for(result of results.rows){
-            arr.push(result.doc);
+            arr.push(result.doc.patient);
           }
         }
         let response = { results: arr };
@@ -133,13 +167,14 @@ function dummyInterceptor({request, params}) {
 }
 
 function buildPatientDBIndexes() {
+  let start = new Date().getTime();
   // design document, which describes the map function
   var ddoc = {
-    _id: '_design/identifier_index',
+    _id: '_design/identifier_indexyz',
     views: {
       by_identifier: {
         map: function (doc) {
-          for (let identifierObj of doc.identifiers) {
+          for (let identifierObj of doc.patient.identifiers) {
             emit(identifierObj.identifier);
           }
          }.toString()
@@ -150,14 +185,15 @@ function buildPatientDBIndexes() {
   patients_db.put(ddoc).then(() => {
     self.console.log('Successfully saved index and map function!');
   }).catch((err) => {
-    self.console.log('Unable to save index and map function!',err);
+    self.console.log('Unable to save index and map function!', err);
   });
 
   // empty query to kick off a new build
-  patients_db.query('identifier_index/by_identifier', {
+  patients_db.query('identifier_indexyz/by_identifier', {
     limit: 0
   }).then(function (res) {
     self.console.log('Successfully built patient identifier index', res);
+    self.console.log('Took ' + (new Date().getTime() - start)/1000 + ' Seconds');
   }).catch(function (err) {
     self.console.log('An error occurred while building identifier index.');
   });

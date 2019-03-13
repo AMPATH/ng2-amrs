@@ -1,0 +1,27 @@
+<div class="container app-settings " style="padding-top: 80px">
+
+  <div class="content-body ">
+    <div>
+      <div ><img src="./assets/img/ampath.png" width="200" height="40"/></div>
+     <hr />
+    </div>
+
+    <p class="text-primary"> 
+      This will make available offline records for patients who have and had appointments in the next and past 3 days respectively offline 
+    </p>
+
+    <form #syncForm="ngForm">
+        <div class="col-md-12 col-xs-12">
+            <div class="form-group">
+              <label for="location">Select a Location</label>
+            </div>
+          </div>
+        <br/>
+    </form>
+
+    <div class="action-buttons pull-right">
+        <button class="btn btn-primary btn-large" type="submit" (click)="onDoneClick()">Done</button>
+      </div>
+    
+  </div>
+</div>

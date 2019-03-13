@@ -42,6 +42,7 @@ import { environment } from '../environments/environment';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { PocHttpInteceptor } from './shared/services/poc-http-interceptor';
 import { ToastrModule } from 'ngx-toastr';
+import { CouchdbSyncModule } from './couchdb-sync/couchdb-sync.module';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -64,7 +65,7 @@ interface StoreType {
     TitleCasePipe,
     NoContentComponent,
     FeedBackComponent
-  ],
+    ],
   imports: [ // import Angular's modules
     BrowserAnimationsModule,
     BrowserModule,
@@ -78,7 +79,8 @@ interface StoreType {
     Angulartics2Module.forRoot([Angulartics2Piwik]),
     ServiceWorkerModule.register('/combined-worker.js', { enabled: environment.production }),
     ToastrModule.forRoot(),
-    CacheModule.forRoot()
+    CacheModule.forRoot(),
+    CouchdbSyncModule
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     APP_PROVIDERS,
