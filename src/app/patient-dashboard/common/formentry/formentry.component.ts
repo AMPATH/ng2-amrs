@@ -413,16 +413,14 @@ export class FormentryComponent implements OnInit, OnDestroy {
     const patientCareStatus = this.getPatientStatusQuestion();
     const referralQuestion = this.getReferralsQuestion();
     let force = false;
-    if (referralQuestion.length > 0) {
+    if (patientCareStatus.length > 0) {
       force = true;
     }
     let step = [];
+    const queryParams = {};
     if (this.shouldRedirectToProgramManager(patientCareStatus, force)) {
       this.preserveFormAsDraft = false;
       this.saveTransferLocationIfSpecified();
-      const queryParams = {
-        'notice': 'outreach'
-      };
       // MCH/PMTCT
       if (_.first(patientCareStatus).control.value === 'a8a17d80-1350-11df-a1f1-0026b9348838') {
         // PMTCT Uuid
@@ -432,12 +430,29 @@ export class FormentryComponent implements OnInit, OnDestroy {
         });
         step = ['step', 3];
       }
+      this.router.navigate(_.concat(['/patient-dashboard/patient/' +
+        this.patient.uuid + '/general/general/program-manager/edit-program'], step), {
+          queryParams: queryParams
+        });
+    }
+    if (referralQuestion.length > 0) {
       // Enhanced adherence HIV Program
       if (_.includes(_.first(referralQuestion).control.value, 'a9431295-9862-405b-b694-534f093ca0ad')) {
         // Enhanced adherence HIV Program
         _.merge(queryParams, {
           program: 'c4246ff0-b081-460c-bcc5-b0678012659e',
           notice: 'adherence'
+        });
+        step = ['step', 3];
+        const location: any = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
+        localStorage.setItem('transferLocation', location.uuid);
+      }
+      // HIV Differentiated Program
+      if (_.includes(_.first(referralQuestion).control.value, '7c6f0599-3e3e-4f42-87a2-2ce66f1e96d0')) {
+        // HIV Differentiated Program
+        _.merge(queryParams, {
+          program: '334c9e98-173f-4454-a8ce-f80b20b7fdf0',
+          notice: 'dc'
         });
         step = ['step', 3];
         const location: any = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
@@ -454,7 +469,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     if (force === true) {
       return true;
     }
-    const transferOut = this.form.searchNodeByQuestionId('transferOut');
+    const transferOut = this.form.searchNodeByQuestionId('careStatus');
     if (transferOut.length > 0) {
       answer = transferOut;
     }
