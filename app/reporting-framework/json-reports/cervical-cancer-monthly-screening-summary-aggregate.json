@@ -45,22 +45,6 @@
         },
         {
             "type": "derived_column",
-            "alias": "normal_cervical_screening",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(normal_cervical_screening)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "abnormal_cervical_screening",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(abnormal_cervical_screening)"
-            }
-        },
-        {
-            "type": "derived_column",
             "alias": "normal_cervical_call_rate%",
             "expressionType": "simple_expression",
             "expressionOptions": {
@@ -73,6 +57,102 @@
             "expressionType": "simple_expression",
             "expressionOptions": {
                 "expression": "ROUND(count(abnormal_cervical_screening)/count(person_id) *100,2)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "normal_cervical_screening",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(normal_cervical_screening)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "normal_cervical_screening_below_30yrs",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(normal_cervical_screening_below_30yrs)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "normal_cervical_screening_30_to_40yrs",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(normal_cervical_screening_30_to_40yrs)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "normal_cervical_screening_41_to_50yrs",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(normal_cervical_screening_41_to_50yrs)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "normal_cervical_screening_51_to_69yrs",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(normal_cervical_screening_51_to_69yrs)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "normal_cervical_screening_above_70yrs",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(normal_cervical_screening_above_70yrs)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "abnormal_cervical_screening",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(abnormal_cervical_screening)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "abnormal_cervical_screening_below_30yrs",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(abnormal_cervical_screening_below_30yrs)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "abnormal_cervical_screening_30_to_40yrs",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(abnormal_cervical_screening_30_to_40yrs)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "abnormal_cervical_screening_41_to_50yrs",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(abnormal_cervical_screening_41_to_50yrs)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "abnormal_cervical_screening_51_to_69yrs",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(abnormal_cervical_screening_51_to_69yrs)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "abnormal_cervical_screening_above_70yrs",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(abnormal_cervical_screening_above_70yrs)"
             }
         }
     ],
