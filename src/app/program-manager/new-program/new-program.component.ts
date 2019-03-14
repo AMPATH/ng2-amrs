@@ -36,6 +36,7 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
   public unenrollExpressely = false;
   public enrolling = false;
   public isReferral = false;
+  public isButtonVisible = true;
   public maxDate: string;
   public reasonForUnenroll = `
   The selected program is incompatible with the following programs, please unenroll to continue.`;
@@ -71,6 +72,7 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
 
   public ngOnInit() {
     this.showForms = false;
+    this.isButtonVisible = true;
     this.route.params.subscribe((params) => {
       this.getDepartmentConf();
       this.loadPatientProgramConfig().pipe(take(1)).subscribe((loaded) => {
@@ -194,6 +196,7 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
         if (this.isReferral) {
           this.referPatient();
         } else {
+          this.isButtonVisible = true;
           this.enrollPatientToProgram();
         }
       }
@@ -335,6 +338,7 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
       this.preQualifyProgramEnrollment(questionWithWrongAnswer);
     } else {
       this.removeMessage();
+      this.isButtonVisible = true;
     }
   }
 
@@ -597,8 +601,10 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
     if (requiredStatus && question.value !== question.enrollIf) {
       this.showMessage(`The question <strong><em>${question.name}</em></strong> MUST be
           '${requiredStatus.label}' to be able to enroll the patient into this program`);
+            this.isButtonVisible = false ;
     } else {
       this.removeMessage();
+      this.isButtonVisible = true ;
     }
   }
 
