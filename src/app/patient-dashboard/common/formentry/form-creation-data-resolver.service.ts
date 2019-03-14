@@ -75,7 +75,6 @@ export class FormCreationDataResolverService implements Resolve<any> {
                 this.processDataResolvingStep(dataRequiredToLoadForm, resolve);
               });
 
-            if (selectedEncounter) {
               this.getPreviousEncounter(selectedEncounter, compiledFormSchema)
               .then((encounter) => {
                 dataRequiredToLoadForm.encounter = encounter;
@@ -85,9 +84,6 @@ export class FormCreationDataResolverService implements Resolve<any> {
                 dataRequiredToLoadForm.encounter = {};
                 this.processDataResolvingStep(dataRequiredToLoadForm, resolve);
               });
-            } else {
-               dataRequiredToLoadForm.encounter = {};
-            }
 
             if (selectedVisitUuid) {
               this.getVisitWithEncounters(selectedVisitUuid)
