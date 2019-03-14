@@ -463,12 +463,13 @@ export class FormentryComponent implements OnInit, OnDestroy {
           queryParams: queryParams
         });
     }
+    this.draftedFormsService.setCancelState();
   }
 
   private shouldRedirectToProgramManager(answer: any[], force?: boolean) {
-    if (force === true) {
-      return true;
-    }
+    // if (force === true) {
+    //   return true;
+    // }
     const transferOut = this.form.searchNodeByQuestionId('careStatus');
     if (transferOut.length > 0) {
       answer = transferOut;
