@@ -434,6 +434,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
         this.patient.uuid + '/general/general/program-manager/edit-program'], step), {
           queryParams: queryParams
         });
+        this.draftedFormsService.setCancelState();
     }
     if (referralQuestion.length > 0) {
       // Enhanced adherence HIV Program
@@ -462,8 +463,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
         this.patient.uuid + '/general/general/program-manager/edit-program'], step), {
           queryParams: queryParams
         });
+      this.draftedFormsService.setCancelState();
     }
-    this.draftedFormsService.setCancelState();
   }
 
   private shouldRedirectToProgramManager(answer: any[], force?: boolean) {
