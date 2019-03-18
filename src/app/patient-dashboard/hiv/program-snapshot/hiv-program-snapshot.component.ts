@@ -154,6 +154,7 @@ export class HivProgramSnapshotComponent implements OnInit {
       '1732': 'AMPATH CLINIC TRANSFER',
       '9579': 'CONTINUE CARE IN OTHER FACILITY',
       '9580': 'FOLLOW-UP CARE PLAN, NOT SURE',
+      '5622': 'OTHER'
     };
     // if it is past RTC Date by 1 week and status = continue, can you make background pink
     if (this.patientCareStatus === 6101 &&
