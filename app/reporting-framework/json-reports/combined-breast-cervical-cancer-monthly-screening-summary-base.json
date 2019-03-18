@@ -133,7 +133,7 @@
             "alias": "total_breast_screened",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "IF(fbcs.person_id IS NOT NULL, 1, NULL)"
+                "expression": "IF((fbcs.person_id IS NOT NULL) AND (fccs.person_id IS NULL), 1, 0)"
             }
         },
         {
@@ -141,7 +141,7 @@
             "alias": "total_cervical_screened",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "IF(fccs.person_id IS NOT NULL, 1, NULL)"
+                "expression": "IF((fccs.person_id IS NOT NULL) AND (fbcs.person_id IS NULL), 1, 0)"
             }
         },
         {
@@ -149,7 +149,7 @@
             "alias": "both_cervical_and_breast",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "IF (fccs.person_id = fbcs.person_id,1,NULL)"
+                "expression": "IF (fccs.person_id = fbcs.person_id,1,0)"
             }
         }
 
