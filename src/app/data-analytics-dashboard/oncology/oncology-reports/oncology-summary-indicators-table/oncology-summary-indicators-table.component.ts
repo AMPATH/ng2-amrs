@@ -201,6 +201,8 @@ public startDate: any;
               break;
             case 'normal_cervical_call_rate%':
               break;
+            case 'total_screens':
+              break;
             default:
 
             let startDate;
