@@ -259,10 +259,16 @@ export class LabResultComponent implements OnInit, OnDestroy {
       const defaultDepartment = this.selectDepartmentService.getUserSetDepartment();
       this.currentDepartment = defaultDepartment;
       this.setLabRows(this.currentDepartment);
-      this.setLabSummaryView();
+      this.setLabSummaryView(this.currentDepartment);
   }
-  public setLabSummaryView() {
-    this.horizontalView = true;
+  public setLabSummaryView(department) {
+    switch (department) {
+      case 'ONCOLOGY':
+        this.horizontalView = true;
+      break;
+      default:
+         this.horizontalView = false;
+    }
   }
 
   public setLabRows(department) {
