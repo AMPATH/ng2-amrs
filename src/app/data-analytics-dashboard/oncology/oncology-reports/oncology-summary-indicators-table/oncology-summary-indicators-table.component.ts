@@ -237,6 +237,8 @@ public startDate: any;
                 break;
             case 'diagnosed_within_28_days_%':
                 break;
+            case 'total_screens':
+              break;
             default:
 
             let startDate;
