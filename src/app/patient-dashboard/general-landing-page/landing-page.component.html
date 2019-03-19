@@ -58,6 +58,32 @@
     <button class="btn btn-primary pull-right" (click)="loadProgramManager()">Enroll into Program</button>
   </p>
 </div>
+<div *ngIf="!programsBusy && lastEnrolledPrograms.length > 0 && enrolledProgrames.length === 0 && !hasError">
+  <h4 class="component-title">Previous Enrolled Programs</h4>
+  <table class="table table-stripped">
+    <thead>
+    <tr>
+      <th>Program Name</th>
+      <th>Location</th>
+      <th>Started</th>
+      <th>Stopped</th>
+      <th>Summary</th>
+    </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let program of lastEnrolledPrograms">
+        <h5 style="text-transform: uppercase; padding-left: 4px;"><strong>{{ program.baseRoute }}</strong></h5>
+        <tr *ngIf="program.program">
+          <td>{{ program.program.display }}</td>
+          <td>{{ program.enrolledProgram.location?.display }}</td>
+          <td>{{ program.enrolledProgram.dateEnrolled }}</td>
+          <td>{{ program.enrolledProgram.dateCompleted }}</td>
+          <td><button class="btn btn-primary" style="color: #fff !important;" (click)="viewSummary(program)">View</button></td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>
 <div class="errors" *ngIf="errors.length > 0">
   <p class="alert" *ngFor="let error of errors;">
     <em class="text-danger">{{error.message}}</em>
