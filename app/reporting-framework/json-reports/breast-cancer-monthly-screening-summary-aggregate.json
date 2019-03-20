@@ -44,22 +44,6 @@
         },
         {
             "type": "derived_column",
-            "alias": "normal_breast_screening_findings",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(normal_breast_screening_findings)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "abnormal_breast_screening_findings",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(abnormal_breast_screening_findings)"
-            }
-        },
-        {
-            "type": "derived_column",
             "alias": "normal_breast_call_rate%",
             "expressionType": "simple_expression",
             "expressionOptions": {
@@ -72,6 +56,102 @@
             "expressionType": "simple_expression",
             "expressionOptions": {
                 "expression": "ROUND(count(abnormal_breast_screening_findings)/count(person_id)*100,2)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "normal_breast_screening_findings",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(normal_breast_screening_findings)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "normal_breast_screening_findings_below_30yrs",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(normal_breast_screening_findings_below_30yrs)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "normal_breast_screening_findings_30_to_40yrs",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(normal_breast_screening_findings_30_to_40yrs)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "normal_breast_screening_findings_41_to_50yrs",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(normal_breast_screening_findings_41_to_50yrs)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "normal_breast_screening_findings_51_to_69yrs",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(normal_breast_screening_findings_51_to_69yrs)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "normal_breast_screening_findings_above_70yrs",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(normal_breast_screening_findings_above_70yrs)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "abnormal_breast_screening_findings",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(abnormal_breast_screening_findings)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "abnormal_breast_screening_findings_below_30yrs",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(abnormal_breast_screening_findings_below_30yrs)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "abnormal_breast_screening_findings_30_to_40yrs",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(abnormal_breast_screening_findings_30_to_40yrs)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "abnormal_breast_screening_findings_41_to_50yrs",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(abnormal_breast_screening_findings_41_to_50yrs)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "abnormal_breast_screening_findings_51_to_69yrs",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(abnormal_breast_screening_findings_51_to_69yrs)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "abnormal_breast_screening_findings_above_70yrs",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(abnormal_breast_screening_findings_above_70yrs)"
             }
         }
     ],
