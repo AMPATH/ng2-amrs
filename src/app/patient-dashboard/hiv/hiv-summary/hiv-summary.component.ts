@@ -22,8 +22,6 @@ export class HivSummaryComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.appFeatureAnalytics
-      .trackEvent('Patient Dashboard', 'Hiv Summary Loaded', 'ngOnInit');
     this.loadHivSummary();
     this.route.url.subscribe(url => {
       if (url[1]) {
@@ -52,7 +50,7 @@ export class HivSummaryComponent implements OnInit {
 
   public checkViremia(viralLoad) {
     let alert;
-    if (viralLoad > 1 && viralLoad <= 999) {
+    if (viralLoad >= 401 && viralLoad <= 999) {
            this.lowViremia = true;
            alert = 'Low Viremia';
     } else if (viralLoad >= 1000) {
