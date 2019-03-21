@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ViewEncapsulation } from '@angular/core';
 import * as Moment from 'moment';
 import * as _ from 'lodash';
 import { PatientService } from '../../services/patient.service';
@@ -13,6 +13,7 @@ import { Subscription } from 'rxjs';
 })
 
 export class PatientBannerComponent implements OnInit, OnDestroy {
+
   public showingAddToCohort = false;
   public patient: Patient = new Patient({});
   public searchIdentifiers: object;
@@ -47,12 +48,12 @@ export class PatientBannerComponent implements OnInit, OnDestroy {
       }
     );
   }
-
   public ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
   }
+
   public addToCohort() {
     this.showingAddToCohort = true;
   }
