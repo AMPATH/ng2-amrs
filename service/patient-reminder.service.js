@@ -130,7 +130,7 @@ function qualifiesDifferenciatedReminders(data){
 
     if (data.qualifies_differenciated_care && data.is_postnatal === 0  && data.is_pregnant === 0) {
         reminders.push({
-            message: 'Patient qualifies for differentiated care. Viral load is LDL and age >= 20. ' + diffMessage,
+            message: 'Patient qualifies for differentiated care. Viral load is <= 400 and age >= 20. ' + diffMessage,
             title: 'Differentiated Care Reminder',
             type: 'warning',
             display: {
