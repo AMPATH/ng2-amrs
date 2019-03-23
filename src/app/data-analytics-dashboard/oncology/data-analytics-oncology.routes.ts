@@ -38,6 +38,10 @@ const routes: Routes = [
       {
         path: 'combined-breast-cervical-cancer-screening-numbers',
         component: OncologySummaryIndicatorsComponent,
+      },
+      {
+        path: 'lung-cancer-treatment-numbers',
+        component: OncologySummaryIndicatorsComponent,
       }
     ]
   },
