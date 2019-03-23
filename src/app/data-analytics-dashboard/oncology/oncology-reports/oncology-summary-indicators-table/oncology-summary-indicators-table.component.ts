@@ -94,6 +94,9 @@ public startDate: any;
                                return '';
                              } else {
                                  let value;
+                                 if (Number.isNaN(column.value)) {
+                                     value = 0;
+                                 }
                                  if (column.value === null) {
                                         value = 0;
                                  } else {
@@ -147,14 +150,19 @@ public startDate: any;
         _.each(rowData, (row) => {
             Object.keys(row).map((key, index) => {
                 if (Number.isInteger(row[key]) === true) {
-
                     if (totalObj[key]) {
                         totalObj[key] = row[key] + totalObj[key];
                     } else {
                         totalObj[key] = row[key];
                     }
                 } else {
-                    totalObj[key] = row[key];
+                    if (Number.isNaN(totalObj[key])) {
+                        totalObj[key] = 0;
+                    }
+                    if (totalObj[key] === null) {
+                        totalObj[key] = 0;
+                    }
+                    totalObj[key] = 0 + totalObj[key];
                 }
              });
         });

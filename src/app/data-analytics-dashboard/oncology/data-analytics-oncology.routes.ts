@@ -42,6 +42,10 @@ const routes: Routes = [
       {
         path: 'lung-cancer-screening-numbers',
         component: OncologySummaryIndicatorsComponent
+      },
+      {
+        path: 'lung-cancer-treatment-numbers',
+        component: OncologySummaryIndicatorsComponent
       }
     ]
   },
