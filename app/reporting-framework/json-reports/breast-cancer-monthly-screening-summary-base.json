@@ -64,6 +64,14 @@
             "type": "simple_column",
             "alias": "phone_number",
             "column": "p.value"
+        },    
+        {
+            "type": "derived_column",
+            "alias": "diagnostic_interval",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                        "expression": "(SELECT CONCAT(TIMESTAMPDIFF(DAY, DATE(encounter_datetime), (SELECT date_patient_informed_and_referred_for_management FROM etl.flat_breast_cancer_screening WHERE encounter_type = 145 AND person_id = p.person_id ORDER BY encounter_datetime DESC LIMIT 1)), ' day(s)') FROM etl.flat_breast_cancer_screening WHERE person_id = p.person_id AND encounter_type = 86 and (select date_patient_informed_and_referred_for_management from etl.flat_breast_cancer_screening where encounter_type = 145 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_breast_cancer_screening where encounter_type = 86 and person_id = p.person_id order by encounter_datetime desc limit 1) ORDER BY encounter_datetime DESC LIMIT 1)"
+                       }
         },
         {
             "type": "derived_column",
@@ -97,6 +105,14 @@
             }
         },
         {
+            "type": "derived_column",
+            "alias": "screening_mode",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "case when (select screening_mode from etl.flat_breast_cancer_screening where encounter_type = 145 and person_id = p.person_id order by encounter_datetime desc limit 1) = 1 and (select date_patient_informed_and_referred_for_management from etl.flat_breast_cancer_screening where encounter_type = 145 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_breast_cancer_screening where encounter_type = 86 and person_id = p.person_id order by encounter_datetime desc limit 1) then 'MAMMOGRAM' when (select screening_mode from etl.flat_breast_cancer_screening where encounter_type = 145 and person_id = p.person_id order by encounter_datetime desc limit 1) = 2 and (select date_patient_informed_and_referred_for_management from etl.flat_breast_cancer_screening where encounter_type = 145 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_breast_cancer_screening where encounter_type = 86 and person_id = p.person_id order by encounter_datetime desc limit 1) then 'CLINICAL BREAST EXAM'when (select screening_mode from etl.flat_breast_cancer_screening where encounter_type = 145 and person_id = p.person_id order by encounter_datetime desc limit 1) = 3 and (select date_patient_informed_and_referred_for_management from etl.flat_breast_cancer_screening where encounter_type = 145 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_breast_cancer_screening where encounter_type = 86 and person_id = p.person_id order by encounter_datetime desc limit 1) then 'ULTRASOUND, BREAST' else ' - ' end"
+            }
+        },
+        {
             "type": "simple_column",
             "alias": "location_uuid",
             "column": "fbcs.location_uuid"
@@ -121,10 +137,90 @@
         },
         {
             "type": "derived_column",
+            "alias": "normal_breast_screening_findings_below_30yrs",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+            "expression": "if((cur_physical_findings = 0 or cur_physical_findings is null) and age < 30, 1, null)"
+                       }
+        },
+        {
+            "type": "derived_column",
+            "alias": "normal_breast_screening_findings_30_to_40yrs",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+            "expression": "if((cur_physical_findings = 0 or cur_physical_findings is null) and age >= 30 and age <= 40, 1, null)"
+                       }
+        },
+        {
+            "type": "derived_column",
+            "alias": "normal_breast_screening_findings_41_to_50yrs",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if((cur_physical_findings = 0 or cur_physical_findings is null) and age >= 41 and age <= 50, 1, null)"
+                       }
+        },
+        {
+            "type": "derived_column",
+            "alias": "normal_breast_screening_findings_51_to_69yrs",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if((cur_physical_findings = 0 or cur_physical_findings is null) and age >= 51 and age <= 69, 1, null)"
+                       }
+        },
+        {
+            "type": "derived_column",
+            "alias": "normal_breast_screening_findings_above_70yrs",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+            "expression": "if((cur_physical_findings = 0 or cur_physical_findings is null) and age > 70, 1, null)"
+                       }
+        },
+        {
+            "type": "derived_column",
             "alias": "abnormal_breast_screening_findings",
             "expressionType": "simple_expression",
             "expressionOptions": {
             "expression": "if(cur_physical_findings != 0, 1, null)"
+                       }
+        },
+        {
+            "type": "derived_column",
+            "alias": "abnormal_breast_screening_findings_below_30yrs",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+            "expression": "if(cur_physical_findings != 0 and age < 30, 1, null)"
+                       }
+        },
+        {
+            "type": "derived_column",
+            "alias": "abnormal_breast_screening_findings_30_to_40yrs",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+            "expression": "if(cur_physical_findings != 0 and age >= 30 and age <= 40, 1, null)"
+                       }
+        },
+        {
+            "type": "derived_column",
+            "alias": "abnormal_breast_screening_findings_41_to_50yrs",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(cur_physical_findings != 0 and age >= 41 and age <= 50, 1, null)"
+                       }
+        },
+        {
+            "type": "derived_column",
+            "alias": "abnormal_breast_screening_findings_51_to_69yrs",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(cur_physical_findings != 0 and age >= 51 and age <= 69, 1, null)"
+                       }
+        },
+        {
+            "type": "derived_column",
+            "alias": "abnormal_breast_screening_findings_above_70yrs",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+            "expression": "if(cur_physical_findings != 0 and age > 70, 1, null)"
                        }
         },
         {
@@ -230,15 +326,7 @@
         {
             "type": "simple_column",
             "alias": "date_patient_informed_of_results",
-            "column": "fbcs.date_patient_informed_and_referred_for_management"
-        },
-        {
-            "type": "derived_column",
-            "alias": "diagnostic_interval",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                        "expression": "TIMESTAMPDIFF(DAY, DATE(biopsy_workup_date), DATE(date_patient_notified_of_biopsy_results))"
-                       }
+            "column": "(select DATE_FORMAT(date_patient_informed_and_referred_for_management, '%d-%M-%Y') from etl.flat_breast_cancer_screening where encounter_type = 145 and (select date_patient_informed_and_referred_for_management from etl.flat_breast_cancer_screening where encounter_type = 145 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_breast_cancer_screening where encounter_type = 86 and person_id = p.person_id order by encounter_datetime desc limit 1) and person_id = p.person_id order by encounter_datetime desc limit 1)"
         },
         {
             "type": "derived_column",

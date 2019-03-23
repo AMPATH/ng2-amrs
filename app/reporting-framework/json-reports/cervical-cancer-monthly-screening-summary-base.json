@@ -176,10 +176,90 @@
         },
         {
             "type": "derived_column",
+            "alias": "abnormal_cervical_screening_below_30yrs",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(fccs.cur_via_result != 1 and age < 30, 1, null)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "abnormal_cervical_screening_30_to_40yrs",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(fccs.cur_via_result != 1 and age >= 30 and age <= 40, 1, null)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "abnormal_cervical_screening_41_to_50yrs",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(fccs.cur_via_result != 1 and age >= 41 and age <= 50, 1, null)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "abnormal_cervical_screening_51_to_69yrs",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(fccs.cur_via_result != 1 and  age >= 51 and age <= 69, 1, null)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "abnormal_cervical_screening_above_70yrs",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(fccs.cur_via_result != 1 and age > 70, 1, null)"
+            }
+        },
+        {
+            "type": "derived_column",
             "alias": "normal_cervical_screening",
             "expressionType": "simple_expression",
             "expressionOptions": {
                 "expression": "if(fccs.cur_via_result =1 or fccs.cur_via_result is null,1,null)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "normal_cervical_screening_below_30yrs",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if((fccs.cur_via_result = 1 or fccs.cur_via_result is null) and age < 30, 1, null)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "normal_cervical_screening_30_to_40yrs",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if((fccs.cur_via_result = 1 or fccs.cur_via_result is null) and age >= 30 and age <= 40, 1, null)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "normal_cervical_screening_41_to_50yrs",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if((fccs.cur_via_result = 1 or fccs.cur_via_result is null) and age >= 41 and age <= 50, 1, null)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "normal_cervical_screening_51_to_69yrs",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if((fccs.cur_via_result = 1 or fccs.cur_via_result is null) and  age >= 51 and age <= 69, 1, null)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "normal_cervical_screening_above_70yrs",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if((fccs.cur_via_result = 1 or fccs.cur_via_result is null) and age > 70, 1, null)"
             }
         },
         {
@@ -213,6 +293,19 @@
             "expressionType": "simple_expression",
             "expressionOptions": {
             "expression": "(if(cancer_staging in (1,2,3,4),1,null))"
+                       }
+        },
+        {
+            "type": "simple_column",
+            "alias": "date_patient_informed_of_results",
+            "column": "(select DATE_FORMAT(date_patient_informed_referred, '%d-%M-%Y') from etl.flat_cervical_cancer_screening where encounter_type = 147 and (select date_patient_informed_referred from etl.flat_cervical_cancer_screening where encounter_type = 147 and person_id = p2.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_cervical_cancer_screening where encounter_type = 69 and person_id = p2.person_id order by encounter_datetime desc limit 1) and person_id = p2.person_id order by encounter_datetime desc limit 1)"
+        },    
+        {
+            "type": "derived_column",
+            "alias": "diagnostic_interval",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                        "expression": "(SELECT CONCAT(TIMESTAMPDIFF(DAY, DATE(encounter_datetime), (SELECT date_patient_informed_referred FROM etl.flat_cervical_cancer_screening WHERE encounter_type = 147 AND person_id = p2.person_id ORDER BY encounter_datetime DESC LIMIT 1)), ' day(s)') FROM etl.flat_cervical_cancer_screening WHERE person_id = p2.person_id AND encounter_type = 69 and (select date_patient_informed_referred from etl.flat_cervical_cancer_screening where encounter_type = 147 and person_id = p2.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_cervical_cancer_screening where encounter_type = 69 and person_id = p2.person_id order by encounter_datetime desc limit 1) ORDER BY encounter_datetime DESC LIMIT 1)"
                        }
         },
         {

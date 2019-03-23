@@ -1,18 +1,18 @@
 {
-    "name": "breastCancerMonthlySummaryAggregate",
+    "name": "lungCancerTreatmentDailySummaryAggregate",
     "version": "1.0",
-    "tag": "breast_cancer_summary_aggregate",
+    "tag": "lung_cancer_treatment_daily_summary_aggregate",
     "uses": [
         {
-            "name": "breastCancerMonthlySummaryBase",
+            "name": "lungCancerTreatmentSummaryBase",
             "version": "1.0",
             "type": "dataset_def"
         }
     ],
     "sources": [
         {
-            "dataSet": "breastCancerMonthlySummaryBase",
-            "alias": "bcsd"
+            "dataSet": "lungCancerTreatmentSummaryBase",
+            "alias": "lct"
         }
     ],
     "columns": [
@@ -31,12 +31,12 @@
             "alias": "encounter_datetime",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "date_format(bcsd.encounter_datetime, '%m-%Y')"
+                "expression": "date_format(lct.encounter_datetime, '%d-%m-%Y')"
             }
         },
         {
             "type": "derived_column",
-            "alias": "total_breast_screened",
+            "alias": "total_patients",
             "expressionType": "simple_expression",
             "expressionOptions": {
                 "expression": "count(person_id)"
@@ -44,129 +44,153 @@
         },
         {
             "type": "derived_column",
-            "alias": "normal_breast_call_rate%",
+            "alias": "walk_in",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": " ROUND(count(normal_breast_screening_findings)/count(person_id)*100,2)"
+                "expression": "sum(lct.walk_in)"
             }
         },
         {
             "type": "derived_column",
-            "alias": "abnormal_breast_call_rate%",
+            "alias": "referred_from_clinic",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "ROUND(count(abnormal_breast_screening_findings)/count(person_id)*100,2)"
+                "expression": "sum(lct.referred_from_clinic)"
             }
         },
         {
             "type": "derived_column",
-            "alias": "normal_breast_screening_findings",
+            "alias": "non_small_cell_lung_cancer",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(normal_breast_screening_findings)"
+                "expression": "sum(non_small_cell_lung_cancer)"
             }
         },
         {
             "type": "derived_column",
-            "alias": "normal_breast_screening_findings_below_30yrs",
+            "alias": "epidermoid_carcinoma",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(normal_breast_screening_findings_below_30yrs)"
+                "expression": "sum(epidermoid_carcinoma)"
             }
         },
         {
             "type": "derived_column",
-            "alias": "normal_breast_screening_findings_30_to_40yrs",
+            "alias": "adenocarcinoma",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(normal_breast_screening_findings_30_to_40yrs)"
+                "expression": "sum(adenocarcinoma)"
             }
         },
         {
             "type": "derived_column",
-            "alias": "normal_breast_screening_findings_41_to_50yrs",
+            "alias": "large_cell_carcinoma",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(normal_breast_screening_findings_41_to_50yrs)"
+                "expression": "sum(large_cell_carcinoma)"
             }
         },
         {
             "type": "derived_column",
-            "alias": "normal_breast_screening_findings_51_to_69yrs",
+            "alias": "mixed_squamous",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(normal_breast_screening_findings_51_to_69yrs)"
+                "expression": "sum(mixed_squamous)"
             }
         },
         {
             "type": "derived_column",
-            "alias": "normal_breast_screening_findings_above_70yrs",
+            "alias": "small_cell_lung_cancer",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(normal_breast_screening_findings_above_70yrs)"
+                "expression": "sum(small_cell_lung_cancer)"
             }
         },
         {
             "type": "derived_column",
-            "alias": "abnormal_breast_screening_findings",
+            "alias": "stage_one",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(abnormal_breast_screening_findings)"
+                "expression": "sum(stage_one)"
             }
         },
         {
             "type": "derived_column",
-            "alias": "abnormal_breast_screening_findings_below_30yrs",
+            "alias": "stage_two",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(abnormal_breast_screening_findings_below_30yrs)"
+                "expression": "sum(stage_two)"
             }
         },
         {
             "type": "derived_column",
-            "alias": "abnormal_breast_screening_findings_30_to_40yrs",
+            "alias": "stage_three",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(abnormal_breast_screening_findings_30_to_40yrs)"
+                "expression": "sum(stage_three)"
             }
         },
         {
             "type": "derived_column",
-            "alias": "abnormal_breast_screening_findings_41_to_50yrs",
+            "alias": "stage_four",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(abnormal_breast_screening_findings_41_to_50yrs)"
+                "expression": "sum(stage_four)"
             }
         },
         {
             "type": "derived_column",
-            "alias": "abnormal_breast_screening_findings_51_to_69yrs",
+            "alias": "limited_stage",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(abnormal_breast_screening_findings_51_to_69yrs)"
+                "expression": "sum(limited_stage)"
             }
         },
         {
             "type": "derived_column",
-            "alias": "abnormal_breast_screening_findings_above_70yrs",
+            "alias": "extensive_stage",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(abnormal_breast_screening_findings_above_70yrs)"
+                "expression": "sum(extensive_stage)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "chemotherapy",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(chemotherapy)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "radiotherapy",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(radiotherapy)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "surgery",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(surgery)"
             }
         }
+
     ],
     "groupBy": {
         "groupParam": "groupByParam",
         "columns": [
             "location_id",
-            "year(bcsd.encounter_datetime)",
-            "month(bcsd.encounter_datetime)"
+            "DATE(encounter_datetime)"
         ],
         "excludeParam": "excludeParam"
     },
     "dynamicJsonQueryGenerationDirectives": {
         "patientListGenerator": {
-            "useTemplate": "breast_cancer_patient_list_template",
+            "useTemplate": "lung_cancer_treatment_patient_list_template",
             "useTemplateVersion": "1.0",
             "generatingDirectives": {
                 "joinDirectives": {
