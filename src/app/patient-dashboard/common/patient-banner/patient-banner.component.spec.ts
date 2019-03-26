@@ -15,6 +15,15 @@ import { ProgramWorkFlowResourceService } from 'src/app/openmrs-api/program-work
 import { ProgramWorkFlowStateResourceService } from 'src/app/openmrs-api/program-workflow-state-resource.service';
 import { ProgramResourceService } from 'src/app/openmrs-api/program-resource.service';
 import { EncounterResourceService } from 'src/app/openmrs-api/encounter-resource.service';
+import { PatientRelationshipService } from '../patient-relationships/patient-relationship.service';
+import { of } from 'rxjs';
+import { ModalModule } from 'ngx-bootstrap';
+import { RouterTestingModule } from '@angular/router/testing';
+class MockPatientRelationshipService {
+  getRelationships(patientUuid) {
+    return of([]);
+  }
+}
 describe('Component: PatientBanner', () => {
   let component;
   beforeEach(() => {
@@ -22,6 +31,7 @@ describe('Component: PatientBanner', () => {
       providers: [
         PatientBannerComponent,
         PatientService,
+        { provide: PatientRelationshipService, useclass: MockPatientRelationshipService },
         PatientResourceService,
         AppSettingsService,
         LocalStorageService,
@@ -34,7 +44,8 @@ describe('Component: PatientBanner', () => {
         ProgramResourceService,
         EncounterResourceService
       ],
-      imports: [ HttpClientTestingModule ]
+      imports: [HttpClientTestingModule, ModalModule.forRoot(), RouterTestingModule
+      ]
     });
     component = TestBed.get(PatientBannerComponent);
   });

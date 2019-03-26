@@ -73,3 +73,9 @@
 .container-fluid .row span:not(.id-label) {
   padding-right: 12px;
 }
+.alert-clear{
+    margin-bottom: 0;
+}
+.modal-body-clear{
+    margin-bottom: 5px;
+}

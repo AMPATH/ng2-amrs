@@ -1,7 +1,7 @@
 import '../styles/styles.scss';
 import { NgModule, ApplicationRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -69,7 +69,7 @@ interface StoreType {
     FeedBackComponent
   ],
   imports: [ // import Angular's modules
-    BrowserAnimationsModule,
+    NoopAnimationsModule,
     BrowserModule,
     CommonModule,
     CookieModule.forRoot(),
@@ -77,7 +77,7 @@ interface StoreType {
     NgamrsSharedModule.forRoot(),
     FormsModule,
     HttpClientModule,
-    RouterModule.forRoot(ROUTES, {  paramsInheritanceStrategy: 'always', useHash: true, enableTracing: false }),
+    RouterModule.forRoot(ROUTES, { paramsInheritanceStrategy: 'always', useHash: true, enableTracing: false }),
     Angulartics2Module.forRoot([Angulartics2Piwik]),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     ToastrModule.forRoot({

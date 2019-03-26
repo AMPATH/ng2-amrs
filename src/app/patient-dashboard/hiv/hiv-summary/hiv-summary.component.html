@@ -3,7 +3,8 @@
 <div>
   <p-tabView>
     <p-tabPanel header="HIV Summary">
-      <hiv-summary-latest></hiv-summary-latest>
+
+      <hiv-summary-latest  *ngIf="patientUuid" [patientUuid] = "patientUuid"></hiv-summary-latest>
     </p-tabPanel>
     <p-tabPanel header="Historical HIV Summary">
       <hiv-summary-historical></hiv-summary-historical>

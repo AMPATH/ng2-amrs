@@ -49,7 +49,7 @@ describe('Component: HivSummaryLatest Unit Tests', () => {
     hivSummaryService = TestBed.get(HivSummaryService);
     patientService = TestBed.get(PatientService);
 
-    component = new HivSummaryLatestComponent(hivSummaryService, patientService);
+    component = new HivSummaryLatestComponent(hivSummaryService);
 
   });
 
@@ -82,11 +82,6 @@ describe('Component: HivSummaryLatest Unit Tests', () => {
     spyOn(component, 'ngOnInit').and.callThrough();
     component.ngOnInit();
     expect(component.ngOnInit).toHaveBeenCalled();
-
-    spyOn(component, 'getPatient').and.callThrough();
-    component.getPatient();
-    expect(component.getPatient).toHaveBeenCalled();
-    done();
 
     spyOn(component, 'loadHivSummary').and.callThrough();
     component.loadHivSummary();
