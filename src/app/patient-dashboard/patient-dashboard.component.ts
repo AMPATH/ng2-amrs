@@ -33,7 +33,7 @@ export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
     closeButton: true,
     preventDuplicates: true
   };
-
+  public newPatient;
   @ViewChild('headerElement')
   private headerElement;
   @ViewChild('bodyElement')
@@ -74,6 +74,9 @@ export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
     this.subscriptions.push(sub2);
 
     this.getNewResults();
+    this.route.params.subscribe((subs) => {
+      this.newPatient = subs['patient_uuid'];
+    });
   }
 
   public ngDoCheck() {

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewEncapsulation, OnChanges, SimpleChanges, Input } from '@angular/core';
 import * as Moment from 'moment';
 import * as _ from 'lodash';
 import { PatientService } from '../../services/patient.service';
@@ -12,7 +12,8 @@ import { Subscription } from 'rxjs';
   encapsulation: ViewEncapsulation.None
 })
 
-export class PatientBannerComponent implements OnInit, OnDestroy {
+export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
+  @Input() public patientChanged: any;
   public showingAddToCohort = false;
   public patient: Patient = new Patient({});
   public searchIdentifiers: object;
@@ -46,6 +47,12 @@ export class PatientBannerComponent implements OnInit, OnDestroy {
         }
       }
     );
+  }
+
+  public ngOnChanges(changes: SimpleChanges) {
+    if (changes['patientChanged'].currentValue !== changes['patientChanged'].previousValue) {
+      this.ngOnInit();
+    }
   }
 
   public ngOnDestroy(): void {
