@@ -17,6 +17,7 @@ export class ProgramEnrollmentSummaryComponent implements OnInit {
     @Input() public locationSelected: any = [];
     @Input() public startDate = '';
     @Input() public endDate = '';
+    @Input() public filterParams: any = [];
     @Output() public programSelected: EventEmitter<any> = new EventEmitter();
 
     public summaryGridOptions: GridOptions = {
@@ -47,13 +48,18 @@ export class ProgramEnrollmentSummaryComponent implements OnInit {
             }
         },
         onCellClicked: (column: any) => {
-            this.params = {
-                'startDate': this.startDate,
-                'endDate': this.endDate,
-                'locationUuids': this.locationSelected,
-                'programType': column.data.programUuid
-            };
+            if (column.data.dept === 'Total') {
+                this.params = this.filterParams;
 
+            } else {
+                this.params = {
+                    'startDate': this.startDate,
+                    'endDate': this.endDate,
+                    'locationUuids': this.locationSelected,
+                    'programType': column.data.programUuid
+                };
+
+            }
             this.programSelected.emit(this.params);
         }}
     ];
