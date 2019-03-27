@@ -17,8 +17,8 @@ export class HivEnhancedComponent implements OnInit {
   public locationUuid = '';
   public indicators;
   public activeTab = {
-    in_enhanced_care: true,
-    not_in_enhanced_care: false,
+    in_enhanced_care: false,
+    not_in_enhanced_care: true,
     in_enhanced_care_vl_due: false,
     mdt_form_completed : false
   };
@@ -131,7 +131,7 @@ export class HivEnhancedComponent implements OnInit {
     if (pathHasHistoricalValues) {
       this.generateReport(this.indicators);
     } else {
-      this.generateReport('not_virally_suppressed_in_enhanced_care');
+      this.generateReport('not_virally_suppressed_not_in_enhanced_care');
     }
 }
 
@@ -172,29 +172,27 @@ export class HivEnhancedComponent implements OnInit {
   }
 
   private setActiveTab() {
-     this.resetTabs();
-     const indicator = this.indicators;
-     switch (indicator) {
-       case 'not_virally_suppressed_in_enhanced_care':
-          this.activeTab.in_enhanced_care = true;
-          this.sectionTittle = 'All Patients Enrolled in Viremia Program (VL > 400 and enrolled)';
-          break;
-       case 'not_virally_suppressed_not_in_enhanced_care':
-           this.activeTab.not_in_enhanced_care = true;
-           this.sectionTittle = 'Patients eligible for Viremia Program (VL > 400 but not enrolled)';
-           break;
-       case 'not_virally_suppressed_in_enhanced_care_vl_due':
-           this.activeTab.in_enhanced_care_vl_due = true;
-           this.sectionTittle =
-           'Patients enrolled in Viremia Program but have not had a repeat VL result within 3 months of their last VL';
-           break;
-       case 'mdt_form_completed':
-           this.activeTab.mdt_form_completed = true;
-           this.sectionTittle =
-           'Patients enrolled in Viremia Program who have not had a MDT Form completed within the last 2 months';
-          break;
-        default:
-          break;
+    this.resetTabs();
+    const indicator = this.indicators;
+    switch (indicator) {
+      case 'not_virally_suppressed_not_in_enhanced_care':
+        this.activeTab.not_in_enhanced_care = true;
+        this.sectionTittle = 'Patients eligible for Viremia Program (VL > 400 but not enrolled)';
+        break;
+      case 'not_virally_suppressed_in_enhanced_care':
+        this.activeTab.in_enhanced_care = true;
+        this.sectionTittle = 'All Patients Enrolled in Viremia Program (VL > 400 and enrolled)';
+        break;
+      case 'not_virally_suppressed_in_enhanced_care_vl_due':
+        this.activeTab.in_enhanced_care_vl_due = true;
+        this.sectionTittle = 'Patients enrolled in Viremia Program but have not had a repeat VL result within 3 months of their last VL';
+        break;
+      case 'mdt_form_completed':
+        this.activeTab.mdt_form_completed = true;
+        this.sectionTittle = 'Patients enrolled in Viremia Program who have not had a MDT Form completed within the last 1 month';
+        break;
+      default:
+        break;
 
      }
 
