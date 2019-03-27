@@ -5,7 +5,7 @@
       <div class="banner-top"></div>
       <mat-progress-bar *ngIf="fetchingPatient" mode="indeterminate"></mat-progress-bar>
       <retrospective-banner></retrospective-banner>
-      <patient-banner></patient-banner>
+      <patient-banner [patientChanged]="newPatient" ></patient-banner>
       <div class="notifications">
         <patient-reminders></patient-reminders>
         <todays-vitals></todays-vitals>
