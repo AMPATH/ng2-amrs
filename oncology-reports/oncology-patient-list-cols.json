@@ -267,5 +267,239 @@
 
             }
         ]
-    }
+    },
+    "1a5a9a8d-f4a8-4c48-b63a-22f84530b4b9" : {      
+        "program": "Lung Cancer Treatment",
+        "report": "Lung Cancer Treatment",
+        "indicators": [{
+                "indicator": "total_patients",
+                "patientListCols": [ "encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age" , "phone_number", "hiv_status"
+                ]
+
+            },
+            {
+                "indicator": "walk_in",
+                "patientListCols": [ "encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender"  ,"patient_uuid"
+                ]
+
+            },
+            {
+                "indicator": "referred_from_clinic",
+                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age", "phone_number", "referred_from"
+                ]
+
+            },
+            {
+                "indicator": "non_small_cell_lung_cancer",
+                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age", "phone_number"
+                ]
+            },
+            {
+                "indicator": "epidermoid_carcinoma",
+                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age", "phone_number"
+                ]
+            },
+            {
+                "indicator": "adenocarcinoma",
+                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age", "phone_number"
+                ]
+            },
+            {
+                "indicator": "large cell carcinoma",
+                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age", "phone_number"
+                ]
+            },
+            {
+                "indicator": "mixed squamous",
+                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age", "phone_number"
+                ]
+            },
+            {
+                "indicator": "small cell lung cancer",
+                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age", "phone_number"
+                ]
+            },
+            {
+                "indicator": "stage_one",
+                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age", "phone_number ", "metastasis_region"
+                ]
+            },
+            {
+                "indicator": "stage_two",
+                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age", "phone_number", "metastasis_region"
+                ]
+            },
+            {
+                "indicator": "stage_three",
+                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age", "phone_number", "metastasis_region"
+                ]
+            },
+            {
+                "indicator": "stage_four",
+                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age", "phone_number", "metastasis_region"
+                ]
+            },
+            {
+                "indicator": "limited stage",
+                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age", "phone_number", "metastasis_region"
+                ]
+            },
+            {
+                "indicator": "extensive stage",
+                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age", "phone_number", "metastasis_region"
+                ]
+            },
+            {
+                "indicator": "chemotherapy",
+                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age", "phone_number"
+                ]
+            },
+            {
+                "indicator": "radiotherapy",
+                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age", "phone_number"
+                ]
+            },
+            {
+                "indicator": "surgery",
+                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age", "phone_number"
+                ]
+            }
+        ]
+    },
+    "b2db2bdf-67e9-42c5-858c-c7e435742ef5" : {  
+    "program": "Lung Cancer",
+    "report": "Lung Cancer Screening",
+    "indicators": [{
+            "indicator": "total_lung_screened",
+            "patientListCols": [ "encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age" , "phone_number" , "patient_uuid"
+            ]
+
+        },
+        {
+            "indicator": "walk_in",
+            "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" , "age" , "phone_number" , "patient_uuid"
+            ]
+
+        },
+        {
+            "indicator": "referred_from_clinic",
+            "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" , "age" , "phone_number" , "patient_uuid", "referred_from"
+            ]
+
+        },
+        {
+            "indicator": "cigarette_smoking",
+            "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" , "age" , "phone_number" , "patient_uuid", "pack_years"
+            ]
+
+        },
+        {
+            "indicator": "tobacco_use",
+            "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" , "age" , "phone_number" , "patient_uuid"
+            ]
+
+        },
+        {
+            "indicator": "chemical_exposure",
+            "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" , "age" , "phone_number" , "patient_uuid"
+            ]
+
+        },
+        {
+            "indicator": "asbestos_exposure",
+            "patientListCols": [ "encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" , "age" , "phone_number" , "patient_uuid"
+            ]
+
+        },
+        {
+            "indicator": "hiv_positive",
+            "patientListCols": [ "encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" , "age" ,"phone_number" ,"patient_uuid"
+            ]
+        },
+        {
+            "indicator": "hiv_negative",
+            "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" , "age" , "phone_number" , "patient_uuid"
+            ]
+
+        },
+        {
+            "indicator": "hiv_status_unknown",
+            "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" , "age" , "phone_number" , "patient_uuid"
+            ]
+
+        },
+        {
+            "indicator": "tb_treatment_received",
+            "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" , "age" , "phone_number" , "patient_uuid"
+            ]
+
+        },
+        {
+            "indicator": "no_tb_treatment",
+            "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" , "age" , "phone_number" , "patient_uuid"
+            ]
+
+        },
+        {
+            "indicator": "normal_xray_results",
+            "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" , "age" , "phone_number" , "patient_uuid", "imaging_results_description"
+            ]
+
+        },
+        {
+            "indicator": "abnormal_xray_results",
+            "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" , "age" , "phone_number" , "patient_uuid", "imaging_results_description"
+            ]
+
+        },
+        {
+            "indicator": "indication_of_lung_mass_from_ct_findings",
+            "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" , "age" , "phone_number" , "patient_uuid", "imaging_results_description"
+            ]
+
+        },
+        {
+            "indicator": "indication_of_mediastial_mass_from_ct_findings",
+            "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" , "age" , "phone_number" , "patient_uuid", "imaging_results_description"
+            ]
+
+        },
+        {
+            "indicator": "indication_of_pleural_mass_from_ct_findings",
+            "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" , "age" , "phone_number" , "patient_uuid", "imaging_results_description"
+            ]
+
+        },
+        {
+            "indicator": "non_respiratory_disease",
+            "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" , "age" , "patient_uuid", "biopsy_result", "biopsy_workup_date", "diagnosis_date", "imaging_results_description", "diagnosis_interval", "referrals"
+            ]
+
+        },
+        {
+            "indicator": "biopsy_done",
+            "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" , "age" , "patient_uuid", "biopsy_result", "biopsy_workup_date", "diagnosis_date", "imaging_results_description", "diagnosis_interval", "referrals"
+            ]
+
+        },
+        {
+            "indicator": "biopsy_not_done",
+            "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" , "age" , "patient_uuid", "biopsy_result", "biopsy_workup_date", "diagnosis_date", "imaging_results_description", "diagnosis_interval", "referrals"
+            ]
+
+        },
+        {
+            "indicator": "non_small_cell_lung_cancer",
+            "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" , "age" , "patient_uuid", "biopsy_result", "biopsy_workup_date", "diagnosis_date", "imaging_results_description", "diagnosis_interval", "referrals"
+            ]
+
+        },
+        {
+            "indicator": "small_cell_lung_cancer",
+            "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" , "age" , "patient_uuid", "biopsy_result", "biopsy_workup_date", "diagnosis_date", "imaging_results_description", "diagnosis_interval", "referrals"
+            ]
+
+        }
+    ]  
+}  
 }
