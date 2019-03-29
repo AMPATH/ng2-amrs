@@ -717,7 +717,7 @@ module.exports = function () {
                     },
                     handler: function (request, reply) {
                         let EIDLabReminderService = require('./service/eid/eid-lab-reminder.service');
-                        EIDLabReminderService.pendingEIDReminders(request.params, config.eid)
+                        EIDLabReminderService.pendingEIDReminders(request.params, config.hivLabSystem)
                             .then((eidReminders) => {
                                 let combineRequestParams = Object.assign({}, request.query, request.params);
                                 combineRequestParams.limitParam = 1;

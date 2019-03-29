@@ -246,14 +246,16 @@ function newViralLoadPresent(data) {
 }
 
 function pendingViralLoadLabResult(eidResults) {
+    let incompleteResult = eidResults.find((result)=>{
+        return result.sample_status === 'Incomplete';
+            });
   let reminders = [];
-  let data = _.last(eidResults.viralLoad);
-  if (data) {
-    let dateSplit = data.DateCollected.split('-');
-    let dateCollected = Moment([dateSplit[2],
-      parseInt(Moment().month(dateSplit[1]).format('M'), 10)-1, dateSplit[0] ]);
+  //let data = _.last(eidResults.viralLoad);
+  if (incompleteResult) {
+    let dateSplit = incompleteResult.date_collected.split('-');
+    let dateCollected = Moment(incompleteResult.date_collected);
     reminders.push({
-      message: 'Patient lab Order No.' + data.OrderNo + ' is currently being processed. Sample' +
+      message: 'Patient lab Order No.' + incompleteResult.order_number + ' is currently being processed. Sample' +
       ' collected on ' + dateCollected.format('DD-MM-YYYY') + ').',
       title  : 'Pending Lab Order Result',
       type   : 'info',

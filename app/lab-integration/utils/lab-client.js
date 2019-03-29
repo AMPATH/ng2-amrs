@@ -35,6 +35,18 @@ export class LabClient {
         });
     }
 
+    fetchPendingViralLoad(filterOptions, offset) {
+        if (!filterOptions) {
+            throw (Error('Please supply filter options'));
+        }
+        filterOptions.test = 2;
+        filterOptions.dispatched = 0;
+        return this.getFetchRequest(filterOptions, offset).catch(function (err) {
+            //return error;
+            return err;
+        });
+    }
+
 
     fetchCD4(filterOptions, offset) {
         if (!filterOptions) {
