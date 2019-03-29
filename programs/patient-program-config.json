@@ -1621,6 +1621,10 @@
           {
             "uuid": "987009c6-6f24-43f7-9640-c285d6553c63",
             "display": "DRUGPICKUP"
+          },
+          {
+            "uuid": "5ef97eed-18f5-40f6-9fbf-a11b1f06484a",
+            "display": "LABORDERENCOUNTER"
           }
         ]
       },
@@ -1668,6 +1672,14 @@
           {
             "uuid": "4e7553b4-373d-452f-bc89-3f4ad9a01ce7",
             "display": "YOUTHRETURN"
+          },
+          {
+            "uuid": "5ef97eed-18f5-40f6-9fbf-a11b1f06484a",
+            "display": "LABORDERENCOUNTER"
+          },
+          {
+            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
+            "display": "POCLAB"
           }
         ]
       }
