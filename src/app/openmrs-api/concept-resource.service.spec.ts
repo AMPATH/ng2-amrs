@@ -1,4 +1,3 @@
-
 import { TestBed, async } from '@angular/core/testing';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { LocalStorageService } from '../utils/local-storage.service';
@@ -61,7 +60,8 @@ describe('Service : ConceptResourceService Unit Tests', () => {
       }
     );
 
-    const request = httpMock.expectOne(conceptResourceService.getUrl() + '/' + conceptUuid + '?v=custom:(uuid,name,conceptClass,answers)');
+    const request = httpMock.expectOne(conceptResourceService.getUrl() + '/' + conceptUuid +
+    '?v=custom:(uuid,name,conceptClass,answers,setMembers)');
     expect(request.request.url).toContain('concept/' + conceptUuid);
     expect(request.request.urlWithParams).toContain('v=custom');
     expect(request.request.method).toBe('GET');
@@ -91,7 +91,7 @@ describe('Service : ConceptResourceService Unit Tests', () => {
         done();
       });
 
-    const req = httpMock.expectOne(conceptResourceService.getUrl() + '?q=test&v=custom:(uuid,name,conceptClass,answers)');
+    const req = httpMock.expectOne(conceptResourceService.getUrl() + '?q=test&v=custom:(uuid,name,conceptClass,answers,setMembers)');
     expect(req.request.method).toBe('GET');
     expect(req.request.urlWithParams).toContain('q=test&v=custom');
     expect(req.request.urlWithParams).toContain('q=' + searchText);

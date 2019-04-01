@@ -1,24 +1,26 @@
-
-
 /* tslint:disable:no-unused-variable */
 import { FormsModule } from '@angular/forms';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+import { Router, ActivatedRoute, Params } from '@angular/router';
+
+
 import { of } from 'rxjs';
+import { IonicStorageModule } from '@ionic/storage';
+import { DateTimePickerModule } from 'ngx-openmrs-formentry/';
+import { delay } from 'rxjs/operators';
+
+
+
 import { ProgramVisitEncounterSearchComponent } from './program-visit-encounter-search.component';
 import { AppSettingsService } from './../app-settings/app-settings.service';
 import { LocalStorageService } from './../utils/local-storage.service';
 import { AppFeatureAnalytics } from './../shared/app-analytics/app-feature-analytics.service';
 import { FakeAppFeatureAnalytics } from './../shared/app-analytics/app-feature-analytcis.mock';
-import { Router, ActivatedRoute, Params } from '@angular/router';
 import { PatientProgramResourceService } from './../etl-api/patient-program-resource.service';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 import { DepartmentProgramsConfigService } from './../etl-api/department-programs-config.service';
-import { IonicStorageModule } from '@ionic/storage';
 import { SelectDepartmentService } from './../shared/services/select-department.service';
-import { DateTimePickerModule } from 'ngx-openmrs-formentry/';
-
 import { PatientService } from '../patient-dashboard/services/patient.service';
-import { delay } from 'rxjs/operators';
 
 class MockRouter {
   public navigate = jasmine.createSpy('navigate');

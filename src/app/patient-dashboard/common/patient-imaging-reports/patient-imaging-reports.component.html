@@ -1,0 +1,18 @@
+<p-tabView (onChange)="onTabChanged($event)">
+  <p-tabPanel header="Histopathology Reports" [selected]="currentView === 'histology'">
+    <app-procedure-orders #histologyReport *ngIf="sharedData.orders" [orderResultsConcept]="histopathologyConcepts"
+      [sentData]="sharedData"></app-procedure-orders>
+  </p-tabPanel>
+  <p-tabPanel header="Procedure & Test Orders" [selected]="currentView === 'procedure'">
+    <app-procedure-orders #procedureOrders *ngIf="sharedData.orders" [orderResultsConcept]="proceduresConcepts"
+      [sentData]="sharedData"></app-procedure-orders>
+  </p-tabPanel>
+  <p-tabPanel header="Radiology Reports" [selected]="currentView === 'radiology'">
+    <app-procedure-orders #radiologyReport *ngIf="sharedData.orders" [orderResultsConcept]="radiologyImagingConcepts"
+      [sentData]="sharedData"></app-procedure-orders>
+  </p-tabPanel>
+  <p-tabPanel header="Surgery Reports" [selected]="currentView === 'surgery'">
+    <app-procedure-orders #surgeryReport *ngIf="sharedData.orders" [orderResultsConcept]="surgeryConcepts"
+      [sentData]="sharedData"></app-procedure-orders>
+  </p-tabPanel>
+</p-tabView>
