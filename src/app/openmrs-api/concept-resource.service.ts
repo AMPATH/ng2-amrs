@@ -11,7 +11,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 @Injectable()
 export class ConceptResourceService {
 
-  public v = 'custom:(uuid,name,conceptClass,answers)';
+  public v = 'custom:(uuid,name,conceptClass,answers,setMembers)';
 
   constructor(protected http: HttpClient,
               protected appSettingsService: AppSettingsService) {
@@ -54,6 +54,7 @@ export class ConceptResourceService {
     const response = this.searchConcept(searchText);
     response.pipe(take(1)).subscribe(
       (concepts) => {
+        console.log(concepts, 'tamutamu');
         filteredConceptResults =
           this.filterResultsByConceptClassesUuid(concepts, conceptClassesUuidArray);
       },

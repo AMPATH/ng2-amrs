@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -101,6 +101,7 @@ import {
 import { PatientCareStatusResourceService } from '../../etl-api/patient-care-status-resource.service';
 import { PatientIdentifierService } from './patient-identifier/patient-identifiers.service';
 import { EditContactsComponent } from './patient-info/edit-contacts.component';
+
 import {
   HivPatientClinicalSummaryService
 } from '../hiv/patient-clinical-summaries/hiv-patient-clinical-summary.service';
@@ -145,6 +146,15 @@ import { LabResultImageModalComponent } from './lab-data-summary/lab-result-imag
 import { HivSummaryLatestComponent } from '../hiv/hiv-summary/hiv-summary-latest.component';
 import { AgePipe } from './patient-banner/age.pipe';
 
+
+import { PatientImagingReportsComponent } from './patient-imaging-reports/patient-imaging-reports.component';
+import { ImagingReportsComponent } from './patient-imaging-reports/imaging-reports/imaging-reports.component';
+import { HistologyReportsComponent } from './patient-imaging-reports/histology-reports/histology-reports.component';
+import { ProcedureOrdersService } from './patient-imaging-reports/procedure-orders/procedure-orders.service';
+import { FeedBackService } from 'src/app/feedback/feedback.service';
+import { SurgeryReportsComponent } from './patient-imaging-reports/surgery-reports/surgery-reports.component';
+import { ProcedureOrdersComponent } from './patient-imaging-reports/procedure-orders/procedure-orders.component';
+import { ProceduresFilterPipe } from './patient-imaging-reports/procedure-orders/procedures-filter.pipe';
 @NgModule({
   imports: [
     HttpClientModule,
@@ -186,7 +196,10 @@ import { AgePipe } from './patient-banner/age.pipe';
   ],
   exports: [
     PatientInfoComponent,
-        PatientEncountersComponent,
+    HivSummaryLatestComponent,
+    SurgeryReportsComponent,
+    ProcedureOrdersComponent ,
+    PatientEncountersComponent,
     PatientVitalsComponent,
     FormsComponent,
     LabDataSummaryComponent,
@@ -237,9 +250,11 @@ import { AgePipe } from './patient-banner/age.pipe';
   declarations: [
     VisitSummaryComponent,
     PatientInfoComponent,
+    HivSummaryLatestComponent,
     PatientEncountersComponent,
     PatientVitalsComponent,
     FormsComponent,
+    ProcedureOrdersComponent,
     LabDataSummaryComponent,
     LabOrdersComponent,
     ClinicalNotesComponent,
@@ -275,6 +290,7 @@ import { AgePipe } from './patient-banner/age.pipe';
     LocatorMapComponent,
     SecurePipe,
     AgePipe,
+    ProceduresFilterPipe,
     VisitEncountersListComponent,
     VisitEncountersComponent,
     VisitDetailsComponent,
@@ -285,7 +301,15 @@ import { AgePipe } from './patient-banner/age.pipe';
     OrderByEncounterTimeAscPipe,
     EncounterTypeFilter,
     // ZeroVlPipe,
-    PatientImagingComponent],
+    AgePipe,
+    PatientImagingComponent,
+    PatientImagingReportsComponent,
+    ImagingReportsComponent,
+    HistologyReportsComponent,
+    SurgeryReportsComponent,
+    PatientImagingComponent,
+    ProcedureOrdersComponent],
+    schemas: [ NO_ERRORS_SCHEMA ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
@@ -297,6 +321,7 @@ import { AgePipe } from './patient-banner/age.pipe';
     PatientSearchService,
     AppFeatureAnalytics,
     PatientService,
+    FeedBackService,
     PatientPreviousEncounterService,
     HivSummaryService,
     FormListService,
@@ -309,6 +334,7 @@ import { AgePipe } from './patient-banner/age.pipe';
     FromentryGuard,
     FormCreationDataResolverService,
     FormSubmissionService,
+    ProcedureOrdersService,
     PatientReminderService,
     DraftedFormsService,
     TodaysVitalsService,
@@ -317,6 +343,7 @@ import { AgePipe } from './patient-banner/age.pipe';
     HivPatientClinicalSummaryService,
     DatePipe,
     ZeroVlPipe,
+    ProceduresFilterPipe,
     PatientIdentifierService,
     PatientRelationshipTypeService,
     FormentryReferralsHandlerService,

@@ -1,7 +1,6 @@
 
 import { take } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-
 import { Observable, Subject, Subscription } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
 import * as _ from 'lodash';
@@ -10,6 +9,7 @@ import { FileUploadResourceService } from '../../../etl-api/file-upload-resource
 import { PersonResourceService } from '../../../openmrs-api/person-resource.service';
 import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { PatientService } from '../../services/patient.service';
+import { DataSource } from '@angular/cdk/table';
 
 @Component({
   selector: 'locator-map',
