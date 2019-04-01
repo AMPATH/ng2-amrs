@@ -38,10 +38,23 @@ export class ObsResourceService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.delete(url, { headers });
   }
+  public deleteObs(uuid) {
+    if (!uuid) {
+      return null;
+    }
+    const url = this.getUrl() + 'obs/' + uuid + '?purge';
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.delete(url, { headers });
+  }
 
   public getObsPatientObsByConcept(uuid, conceptUuuid) {
     const url = this.getUrl() + 'obs';
     const params = new HttpParams().set('patient', uuid).set('concept', conceptUuuid).set('v', 'full');
+    return this.http.get(url, { params: params });
+  }
+  public getObsPatientObsByOrder(uuid) {
+    const url = this.getUrl() + 'obs';
+    const params = new HttpParams().set('patient', uuid).set('v', 'full');
     return this.http.get(url, { params: params });
   }
 

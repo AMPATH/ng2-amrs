@@ -33,6 +33,8 @@ import { NewProgramComponent } from '../program-manager/new-program/new-program.
 import { EditProgramComponent } from '../program-manager/edit-program/edit-program.component';
 import { GroupEnrollmentSummaryComponent } from './group-enrollment/group-enrollment-summary.component';
 import { OncologySummaryComponent } from './oncology/oncology-summary/oncology-summary.component';
+import { ProcedureOrdersComponent } from './common/procedure-orders/procedure-orders.component';
+
 
 
 export const routes = [
@@ -112,6 +114,7 @@ export const routes = [
           { path: ':programClass/:program/patient-gene-xpert-images', component: GeneXpertImagesComponent },
           { path: ':programClass/:program/lab-orders', component: LabOrdersComponent },
           { path: ':programClass/:program/clinical-notes', component: ClinicalNotesComponent },
+          { path: ':programClass/:program/orders', component: ProcedureOrdersComponent },
           { path: ':programClass/:program/visit', component: TodayVisitsComponent },
           { path: ':programClass/:program/locator-map', component: LocatorMapComponent },
           {

@@ -4,14 +4,14 @@ import { Injectable } from '@angular/core';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Observable } from 'rxjs';
 import * as _ from 'lodash';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class OrderResourceService {
 
-  public v: string = 'custom:(display,uuid,orderNumber,accessionNumber,' +
+  public v: string = 'custom:(display,uuid,orderNumber,orderType,' +
   'orderReason,orderReasonNonCoded,urgency,action,' +
-  'commentToFulfiller,dateActivated,instructions,orderer:default,' +
+  'commentToFulfiller,dateStopped,dateActivated,instructions,orderer:default,' +
   'encounter:full,patient:full,concept:ref)';
 
   constructor(protected http: HttpClient,
@@ -75,5 +75,33 @@ export class OrderResourceService {
     }
 
   }
+  public getAllOrdersByPatientUuuid(patientUuid: string, careSettingUuid: string,
+    cached: boolean = false, v: string = null): Observable<any> {
 
+    const url = this.getUrl();
+
+
+    const params: HttpParams = new HttpParams()
+      .set('patient', patientUuid)
+      .set('careSetting', careSettingUuid)
+      .set('status', 'any')
+      .set('v', (v && v.length > 0) ? v : this.v);
+
+    return this.http.get(url, {
+      params: params
+    }).map((response) => {
+      return response;
+    });
+  }
+  saveProcedureOrder(payload) {
+    if (payload) {
+      console.log('Payload', payload);
+    }
+    const url = this.appSettingsService.getOpenmrsRestbaseurl().trim() + 'order';
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post(url, JSON.stringify(payload), {headers})
+    .map((response: Response) => {
+      return response;
+    });
+  }
 }

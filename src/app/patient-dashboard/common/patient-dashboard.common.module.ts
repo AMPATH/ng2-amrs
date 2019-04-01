@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -140,6 +140,10 @@ import { GroupEnrollmentModule } from '../group-enrollment/group-enrollment.modu
 import { VitalsDatasource } from './todays-vitals/vitals.datasource';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PocHttpInteceptor } from 'src/app/shared/services/poc-http-interceptor';
+import { ProcedureOrdersComponent } from './procedure-orders/procedure-orders.component';
+import { ProceduresFilterPipe } from './procedure-orders/procedures-filter.pipe';
+import { DragScrollModule } from 'ngx-drag-scroll';
+
 
 @NgModule({
   imports: [
@@ -148,6 +152,7 @@ import { PocHttpInteceptor } from 'src/app/shared/services/poc-http-interceptor'
     FormsModule,
     RouterModule,
     AccordionModule,
+    DragScrollModule,
     DataTableModule,
     SharedModule,
     InputTextModule,
@@ -266,6 +271,7 @@ import { PocHttpInteceptor } from 'src/app/shared/services/poc-http-interceptor'
     TodayVisitsComponent,
     LocatorMapComponent,
     SecurePipe,
+    ProceduresFilterPipe,
     VisitEncountersListComponent,
     VisitEncountersComponent,
     VisitDetailsComponent,
@@ -276,7 +282,9 @@ import { PocHttpInteceptor } from 'src/app/shared/services/poc-http-interceptor'
     OrderByEncounterTimeAscPipe,
     EncounterTypeFilter,
     // ZeroVlPipe,
-    PatientImagingComponent],
+    PatientImagingComponent,
+    ProcedureOrdersComponent],
+    schemas: [ NO_ERRORS_SCHEMA ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
@@ -308,6 +316,7 @@ import { PocHttpInteceptor } from 'src/app/shared/services/poc-http-interceptor'
     HivPatientClinicalSummaryService,
     DatePipe,
     ZeroVlPipe,
+    ProceduresFilterPipe,
     PatientIdentifierService,
     PatientRelationshipTypeService,
     FormentryReferralsHandlerService,
