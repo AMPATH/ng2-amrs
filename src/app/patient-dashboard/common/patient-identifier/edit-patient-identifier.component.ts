@@ -73,6 +73,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
     this.fetchLocations();
     this.commonIdentifierTypes = this.patientIdentifierService.patientIdentifierTypeFormat();
     this.userId = this.userService.getLoggedInUser().openmrsModel.systemId;
+    this.identifierValidity = '';
   }
 
   public ngOnDestroy(): void {
@@ -95,6 +96,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
   }
 
   public showDialog(param, id) {
+    this.identifierValidity = '';
     if (param === 'edit' && id) {
       this.display = true;
       this.initIdentifier(id);
@@ -135,6 +137,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
   public dismissDialog() {
     this.display = false;
     this.addDialog = false;
+    this.identifierValidity = '';
   }
 
   public setPatientIdentifier(patientIdentifier) {
@@ -247,6 +250,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
                 personIdentifierPayload.uuid === null) {
                 delete personIdentifierPayload.uuid;
               }
+              this.identifierValidity = '';
               this.saveIdentifier(personIdentifierPayload, person);
             }
           }
