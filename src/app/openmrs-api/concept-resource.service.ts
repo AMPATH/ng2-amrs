@@ -11,7 +11,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 @Injectable()
 export class ConceptResourceService {
 
-  public v = 'custom:(uuid,name,conceptClass,answers)';
+  public v = 'custom:(uuid,name,conceptClass,answers,setMembers)';
 
   constructor(protected http: HttpClient,
               protected appSettingsService: AppSettingsService) {

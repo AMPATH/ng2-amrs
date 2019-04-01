@@ -1,6 +1,10 @@
+import { Component, OnInit,  OnDestroy, Inject } from '@angular/core';
 
 import {take} from 'rxjs/operators/take';
-import { Component, OnInit,  OnDestroy, Inject } from '@angular/core';
+import { Subscription } from 'rxjs';
+import * as _ from 'lodash';
+
+
 import { PatientService } from '../../services/patient.service';
 import { FormSchemaService } from '../../common/formentry/form-schema.service';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
@@ -8,8 +12,6 @@ import { VisitResourceService } from '../../../openmrs-api/visit-resource.servic
 import { FormFactory, Form, EncounterAdapter, DataSources } from 'ngx-openmrs-formentry';
 import { Patient } from '../../../models/patient.model';
 import { Encounter } from '../../../models/encounter.model';
-import { Subscription } from 'rxjs';
-import * as _ from 'lodash';
 import { FileUploadResourceService } from '../../../etl-api/file-upload-resource.service';
 import { FormDataSourceService } from '../../common/formentry/form-data-source.service';
 @Component({

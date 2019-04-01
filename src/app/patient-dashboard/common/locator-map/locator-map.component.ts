@@ -1,7 +1,6 @@
 
 import { take } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-
 import { Observable, Subject, Subscription } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
 import * as _ from 'lodash';
