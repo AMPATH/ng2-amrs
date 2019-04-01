@@ -1,0 +1,164 @@
+<div>
+    <div class="row">
+      <h4 class="component-title"><span class="icon-i-cath-lab "></span> Imaging Reports</h4>
+    </div>
+    <div *ngIf="!imagingOrdered" class="row">
+      <div class="form-group pull-left status">
+        <select class="form-control" [(ngModel)]="selectedOrderStatus"
+          (ngModelChange)="onOrderStatuChange(selectedOrderStatus)" required>
+          <option [value]='any'>ALL ORDERS</option>
+          <option *ngFor="let orderState of orderStatus" [value]="orderState"> <strong>{{ orderState }}</strong>
+          </option>
+        </select>
+
+      </div>
+      <div class="form-group pull-left search">
+        <input type="search" [(ngModel)]="searchText" class="form-control" placeholder="Search Imaging Report by Name...">
+      </div>
+
+      <div class="pull-right add">
+        <button *ngIf="!addRadiologyOrders" type="button" class="btn btn-primary" (click)="addNewRadiologyOrder(true)"> <i
+            class="fa fa-plus"></i>&nbsp;&nbsp; <b> Enter New & Results/Findings</b></button>
+      </div>
+    </div>
+    <div *ngIf="addRadiologyOrders" >
+        <div *ngIf="!radiologySelected" class="container myWidth">
+            <div class="row">
+              <div class="col-md-6 offset-md-3">
+                <!-- <h2 class="text-center">{{ title }}</h2> -->
+                <hr />
+              
+                <form [formGroup]="myForm" (ngSubmit)="_formSubmit()">
+                    <div class="form-group">
+                        <label for="">Select Radiology Type</label>
+                        <select class="form-control" formControlName="radiologyTypes"  name="radiologyTypes">
+                            <option *ngFor="let radio of radiologyConcepts" [ngValue]="radio"> {{ radio.display }}</option>
+                          </select>
+                          <div *ngIf="myForm.controls.radiologyTypes.invalid && myForm.controls.radiologyTypes.touched" class="text-danger">
+                              <small *ngIf="myForm.controls.radiologyTypes.errors.required">Radiology type is required.</small>
+                            </div>
+                    </div>
+                  <!-- SUBMIT BUTTON -->
+                  <div class="form-group">
+                    <input type="submit" value="Next" [disabled]="myForm.invalid" class="btn btn-primary" />
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="radiologySelected"> 
+              <div class="panel panel-primary">
+                  <div class="panel-heading"> Select {{radiologyTypeMembers.display}} Type</div>
+                  <div class="panel-body">
+                    <div *ngIf="!resultAvailable">
+                        <div *ngFor="let RM of radiologyTypeMembers.setMembers">
+                            <input  type="checkbox" (change)="selectedRadiologyType(RM.uuid)" name="radiologytypeMember">{{RM.display}}<br>
+                        </div>
+                    </div>
+                    <div *ngIf="!multipleSelected" class="pull-right"style="margin = 3px;">
+                      <input name="resultsCheck"  (change)="resultsAvailable(true)" type="checkbox" /> Results Available<br>
+                    </div>
+                  </div>
+                  <div class="panel-footer">
+                    <button (click)="defaultView()" class="btn btn-default image-preview-clear  pull-left" type="button"><span
+                      class="glyphicon glyphicon-circle-arrow-left"></span> Back
+                   </button>
+                   <button *ngIf="!resultAvailable" [disabled]="selectedRadioloyTests.length === 0" (click)="processValues()" class="btn btn-default image-preview-clear  pull-right" type="button"><span
+                    class="glyphicon glyphicon-circle-arrow-right"></span> Next
+                </button>
+                  </div>
+                </div>
+                <div *ngIf="resultAvailable">
+                  <lib-file-uploader [(ngModel)]="dataModel"(uploadData)="uploadFile($event)" (_onClear)="clearPhoto()"><i class="fa fa-upload"></i>
+                </lib-file-uploader>
+              </div>   
+          </div>
+    </div>
+    
+    <div>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th class="pointer" (click)="sort('dateActivated')">Request Date <i class="fa" [ngClass]="{'fa-sort': column != 'dateActivated', 
+                                                               'fa-sort-asc': (column == 'dateActivated' && !isDesc), 
+                                                               'fa-sort-desc': (column == 'dateActivated' && isDesc) }"
+                      aria-hidden="true"> </i>
+                  </th>
+                  <th>Order Number </th>
+                  <th>Date Done</th>
+                  <th>Imaging Type</th>
+                  <th>Findings</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                  <tr
+                    *ngFor="let order of selectedOrders | paginate: { itemsPerPage: 10, currentPage: page }; let i = index;">
+                    <td>{{ order.dateActivated | date:'dd/MM/yyyy' }}</td>
+                    <td>
+                      <ul style="list-style-type:none">
+                        <li>{{ order.concept.display }}<br /></li>
+                        <li><b>Order Number:</b>&nbsp;&nbsp;{{ order.orderNumber }}<br /></li>
+                        <li><b>Ordered By:</b>&nbsp;&nbsp;{{ order.orderer.display }}</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <div *ngIf="order.status.date">
+                          {{order.status.date  | date:'dd/MM/yyyy'}}
+                      </div>
+                      <div *ngIf="!order.status.date">
+                         Results Not Posted
+                      </div>
+                    </td>
+    
+                 <td>
+        <div *ngIf="order.status.status === 0">
+            <lib-file-uploader [(ngModel)]="dataModel" (onClear)="clearPhoto()" cl
+              (fileChanged)="onFileChange($event, order.orderNumber )"><i class="fa fa-upload"></i>
+            </lib-file-uploader>
+
+          </div>
+          <div *ngIf="order.status.status === 1" style="font-size: 24px;">
+            <a type="button" title="View Procedure Results" (click)="showResults(order)">
+              <span class="fa fa-file-image-o fa-7x" aria-hidden="true" style="font-size: 30px;"> </span>
+            </a>
+          </div> </td>
+                    
+                    <td>
+                      <div>
+                        No results
+                      </div>
+                        <!-- <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+                            <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+                              <div class="form-group">
+                                <label for="">Enter Findings</label>
+                                <select class="form-control"  name="radiology">
+                                  <option *ngFor="let p of order.concept.answers" [value]="p.uuid"> {{ p.display }}</option>
+                                </select>
+                              </div>
+                            </div>
+          
+                            <button type="submit" class="btn btn-primary pull-right" (click)="saveOrder()">Submit</button>
+                            <button class="btn btn-danger pull-left" type="button" (click)="defaultView()">
+                              <span>Cancel</span></button>
+                          </div> -->
+                    </td>
+                    <td>
+                      <button _ngcontent-c16="" mat-raised-button="" *ngIf="order.status.status === 1"
+                        style="background:  #3c8dbc;; color: white;" class="bton " title="Edit Results" class="bton"
+                        (click)="changeResults(order)">EDIT</button>
+                      <button _ngcontent-c16="" mat-raised-button="" style="background:  green;; color: white;"
+                        class="bton " title="View Results" class="bton" (click)="showOrder(order)">VIEW</button>
+    
+                    </td>
+                  </tr>
+                </tbody>
+            </table>
+          </div>
+          <div>
+            <pagination-controls (pageChange)="page = $event" style="cursor: pointer;"></pagination-controls>
+          </div>
+    </div>
+
+  </div>

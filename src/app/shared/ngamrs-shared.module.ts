@@ -13,12 +13,12 @@ import {
   MatExpansionModule, MatMenuModule, MatIconModule, MatButtonModule, MatTooltipModule
 } from '@angular/material';
 import { CacheService } from 'ionic-cache';
-import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
+import { DateTimePickerModule } from 'ngx-openmrs-formentry-madvincy';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { FormEntryModule } from 'ngx-openmrs-formentry/dist/ngx-formentry';
+import { FormEntryModule } from 'ngx-openmrs-formentry-madvincy';
 import { DisplayErrorComponent } from './display-error/display-error.component';
 import { DateSelectorComponent } from './components/date-selector.component';
 import { StringToDatePipe } from './pipes/string-to-date.pipe';

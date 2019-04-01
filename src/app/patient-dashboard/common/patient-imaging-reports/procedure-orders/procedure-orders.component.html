@@ -1,0 +1,308 @@
+    <div>
+      <div class="row">
+        <h4 class="component-title"><span class="icon-i-immunizations"></span> Procedure Orders</h4>
+      </div>
+      <div *ngIf="proceduresOrdered" class="row">
+        <div class="form-group pull-left status">
+          <select class="form-control" [(ngModel)]="selectedOrderStatus"
+            (ngModelChange)="onOrderStatuChange(selectedOrderStatus)" required>
+            <option [value]='any'>ALL ORDERS</option>
+            <option *ngFor="let orderState of orderStatus" [value]="orderState"> <strong>{{ orderState }}</strong>
+            </option>
+          </select>
+
+        </div>
+        <div class="form-group pull-left search">
+          <input type="search" [(ngModel)]="searchText" class="form-control" placeholder="Search Procedure by Name...">
+        </div>
+
+        <div class="pull-right add">
+          <button *ngIf="!addOrders" type="button" class="btn btn-primary" (click)="addProc(true)"> <i
+              class="fa fa-plus"></i>&nbsp;&nbsp; <b> Order New Procedure</b></button>
+        </div>
+      </div>
+      <div class="loader" *ngIf="loadingProcedureOrderStatus"><span><i class="fa fa-spinner fa-spin">
+
+          </i>Loading...</span></div>
+      <div class="loader" *ngIf="uploadingResults"><span><i class="fa fa-spinner fa-spin">
+
+          </i>uploading Results...</span></div>
+      <div class="alert alert-warning" *ngIf="!selectedOrders.length">
+        Patient has no Procedure orders at this time.
+      </div>
+      <div class="alert alert-success alert-dismissible" *ngIf="newProcedure">
+        Patient Procedure order Added.
+      </div>
+      <div *ngIf="imageSaved" class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+            aria-hidden="true">&times;</span></button> Results saved successfully
+      </div>
+      <div *ngIf="imageUploadFailed" class="alert alert-danger alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+            aria-hidden="true">&times;</span></button> Results not saved try again;
+      </div>
+      <div *ngIf="imageDeleted" class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+            aria-hidden="true">&times;</span></button>Result Deleted successfully
+      </div>
+      <div *ngIf="imageDeletedFailed" class="alert alert-danger alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+            aria-hidden="true">&times;</span></button>Result Not Deleted;
+      </div>
+      <div *ngIf="!proceduresOrdered">
+        <button (click)="defaultView()" class="btn btn-default image-preview-clear" type="button"><span
+            class="glyphicon glyphicon-circle-arrow-left"></span> Back
+        </button>
+      </div>
+      <div *ngIf="addOrders">
+        <div class="panel panel-primary">
+          <div class="panel-heading">{{header}}</div>
+          <div class="panel-body">
+            <div class="container-fluid" *ngIf="displayNew">
+              <div class="row" id="edit-demographics-row">
+                <div *ngIf="errors" style="color: red !important">
+                  <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+                    <div *ngFor="let error of errors">{{error.message}}</div>
+                  </div>
+
+                </div>
+
+
+
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+                  <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+                    <div class="form-group">
+                      <label for="">Procedure</label>
+                      <select class="form-control" [(ngModel)]="procedure" name="procedure">
+                        <option *ngFor="let p of proc" [value]="p.uuid"> {{ p.display }}</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <button type="submit" class="btn btn-primary pull-right" (click)="saveOrder()">Submit</button>
+                  <button class="btn btn-danger pull-left" type="button" (click)="defaultView()">
+                    <span>Cancel</span></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+      <div *ngIf="proceduresOrdered">
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th class="pointer" (click)="sort('dateActivated')">Date Created <i class="fa" [ngClass]="{'fa-sort': column != 'dateActivated', 
+                                                             'fa-sort-asc': (column == 'dateActivated' && !isDesc), 
+                                                             'fa-sort-desc': (column == 'dateActivated' && isDesc) }"
+                    aria-hidden="true"> </i>
+                </th>
+                <th>Procedure </th>
+                <th>Date Received </th>
+                <th>Results</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="let order of selectedOrders | proceduresFilter: searchText | paginate: { itemsPerPage: 10, currentPage: page }; let i = index;">
+                <td>{{ order.dateActivated | date:'dd/MM/yyyy' }}</td>
+                <td>
+                  <ul style="list-style-type:none">
+                    <li>{{ order.concept.display }}<br /></li>
+                    <li><b>Order Number:</b>&nbsp;&nbsp;{{ order.orderNumber }}<br /></li>
+                    <li><b>Ordered By:</b>&nbsp;&nbsp;{{ order.orderer.display }}</li>
+                  </ul>
+                </td>
+                <td>{{order.status.date  | date:'dd/MM/yyyy'}}</td>
+
+
+                <div *ngIf="order.status.status === 0">
+                  <lib-file-uploader [(ngModel)]="dataModel" (onClear)="clearPhoto()" cl
+                    (fileChanged)="onFileChange($event, order.orderNumber )"><i class="fa fa-upload"></i>
+                  </lib-file-uploader>
+
+                </div>
+                <div *ngIf="order.status.status === 1" style="font-size: 24px;">
+                  <a type="button" title="View Procedure Results" (click)="showResults(order)">
+                    <span class="fa fa-file-image-o fa-7x" aria-hidden="true" style="font-size: 30px;"> </span>
+                  </a>
+                </div>
+                <td>
+                  <button _ngcontent-c16="" mat-raised-button="" *ngIf="order.status.status === 1"
+                    style="background:  #3c8dbc;; color: white;" class="bton " title="Edit Results" class="bton"
+                    (click)="changeResults(order)">EDIT</button>
+                  <button _ngcontent-c16="" mat-raised-button="" style="background:  green;; color: white;"
+                    class="bton " title="View Results" class="bton" (click)="showOrder(order)">VIEW</button>
+
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <pagination-controls (pageChange)="page = $event" style="cursor: pointer;"></pagination-controls>
+        </div>
+      </div>
+
+      <div *ngIf="resultsDisplay">
+        <div class="panel panel-primary">
+          <div class="panel-heading">{{viewResults}}</div>
+          <div class="panel-body">
+            <div *ngIf="showDetails">
+              <div *ngIf="resultView">
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+                  <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+                    <div class="form-group">
+                      <label for="givenName">Procedure Type &nbsp; :</label>
+
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+                    <div class="form-group">
+                      <label for="givenName">{{selectedProc.display}}</label>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+                  <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+                    <div class="form-group">
+                      <label for="givenName">Ordered By &nbsp; :</label>
+
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+                    <div class="form-group">
+                      <label for="givenName">{{selectedProc.orderer.display}}</label>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+                  <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+                    <div class="form-group">
+                      <label for="givenName">Date Ordered &nbsp; :</label>
+
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+                    <div class="form-group">
+                      <label for="givenName">{{selectedProc.dateActivated | date:'dd/MM/yyyy'}}</label>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+                  <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+                    <div class="form-group">
+                      <label for="givenName">Results Available &nbsp; :</label>
+
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+                    <div class="form-group">
+                      <div *ngIf="selectedProc.status.status===1">
+                        <label for="givenName">YES &nbsp; ({{selectedProc.results.length}})</label>
+                      </div>
+                      <div *ngIf="selectedProc.status.status===0">
+                        <label for="givenName">NO Results</label>
+                      </div>
+
+                    </div>
+                  </div>
+                  <button *ngIf="voidOrderButton" class="btn btn-danger pull-left" type="button"
+                    (click)="discard(selectedProc)"><span>DISCARD
+                      ORDER</span></button>
+                </div>
+              </div>
+              <div *ngIf="!resultView">
+                <div>
+                  <div class="well well-sm" style="margin-bottom: 5px;">
+                    <b> Are You Sure You Want To Discard This Procedure Order ? </b>
+                  </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary pull-right"
+                  (click)="discardOrder(selectedProc)">YES</button>
+                <button class="btn btn-danger pull-left" type="button" (click)="defaultView()">
+                  <span>Cancel</span></button>
+
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div *ngIf="displayResultsChange">
+        <div class="panel panel-primary">
+          <div class="panel-heading">{{header}}</div>
+          <div class="panel-body">
+            <div *ngIf="displayEditRequest">
+              <div >
+                <b>Are You Sure You Want To Change This Procedure Results for order {{orderNumber}} ?</b> <br /><br />
+
+              </div>
+              <button class="btn btn-primary pull-right" type="button" (click)="approveEdit()"><span>YES</span></button>
+              <button class="btn btn-danger pull-left" type="button"
+                (click)="defaultView()"><span>CANCEL</span></button>
+            </div>
+            <div *ngIf="!displayEditRequest">
+                      <lib-file-uploader (fileChanged)="onFileChangeResults($event, true, orderNumber)"><i class="fa fa-upload"></i>
+                      </lib-file-uploader> 
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+      <div class="modal fade" bsModal #imageModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog"
+        aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+
+              <h4 class="modal-title pull-left">Procedure results : <b>{{header2}}</b> &nbsp;&nbsp;Date Received:
+                <b>{{dateRecieved | date:'dd/MM/yyyy'}}</b>&nbsp;&nbsp; No Of Results : <b>{{ObsImages.length}}</b>
+              </h4>
+
+
+              <button type="button" class="close pull-right" aria-label="Close" (click)="imageModal.hide()">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <!-- <img [src]="imageLink | secure" class="img-responsive"> -->
+              <div *ngIf="imageLink">
+                <div *ngFor="let image of ObsImages  ">
+                  <div *ngIf="deleteStatus"><img [src]="image.imageUrl| secure" class="img-responsive"></div>
+                  <button *ngIf="deleteResultsButton" class="btn btn-danger pull-left" type="button"
+                    (click)="deleteResult(image.obs)"><span>DELETE
+                      RESULT</span></button>
+                </div>
+
+              </div>
+              <div class="uploadButton pull-right">
+                <label for="file">Add Results</label>
+                <lib-file-uploader (fileChanged)="onFileChangeResults($event, false, header2)"><i
+                    class="fa fa-upload"></i>
+                </lib-file-uploader>
+
+              </div><br /><br /><br /><br />
+
+
+            </div>
+          </div>
+          <div class="modal-footer">
+
+          </div>
+        </div>
+      </div>
+    </div>

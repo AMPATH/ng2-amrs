@@ -1,6 +1,6 @@
 
 import { take } from 'rxjs/operators';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
 
@@ -10,6 +10,7 @@ import { FileUploadResourceService } from '../../../etl-api/file-upload-resource
 import { PersonResourceService } from '../../../openmrs-api/person-resource.service';
 import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { PatientService } from '../../services/patient.service';
+import { DataSource } from '@angular/cdk/table';
 
 @Component({
   selector: 'locator-map',
@@ -24,7 +25,11 @@ export class LocatorMapComponent implements OnInit, OnDestroy {
   public imageSaved = false;
   public imageUploadFailed = false;
   public subscriptions = [];
+  public fileList = [];
+  public singleFileInput = true;
+  public openCamera = false;
   public patient: any;
+  innerValue = null;
   private attributeType = '1a12beb8-a869-42f2-bebe-09834d40fd59';
 
   constructor(private fileUploadResourceService: FileUploadResourceService,
@@ -46,8 +51,24 @@ export class LocatorMapComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.cleanUp();
   }
+  public upload () {
+  }
+  public clearValue() {
+    this.innerValue = null;
+    this.propagateChange(this.innerValue);
+}
+// tslint:disable-next-line:no-shadowed-variable
+private propagateChange = (_: any) => { };
 
-  public onFileChange(file) {
+  public onFileChange(fileList) {
+    console.log(fileList.length);
+      for (const file of fileList) {
+        this.uploadFile(file);
+      }
+
+  }
+  public uploadFile (file) {
+
     this.subscriptions.push(this.fileUploadResourceService.upload(file).pipe(flatMap((result: any) => {
       const updatePayload = {
         attributes: [{
@@ -115,6 +136,13 @@ export class LocatorMapComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.imageSaved = false;
     }, 3000);
+  }
+  public liveCamera() {
+    if (this.openCamera) {
+      this.openCamera = false;
+    } else {
+      this.openCamera = true;
+    }
   }
 
 }

@@ -15,7 +15,7 @@ import { LocalStorageService } from '../utils/local-storage.service';
 import { FormUpdaterService } from '../patient-dashboard/common/formentry/form-updater.service';
 import { FormOrderMetaDataService } from '../patient-dashboard/common/forms/form-order-metadata.service';
 import { FormSchemaService } from '../patient-dashboard/common/formentry/form-schema.service';
-import { FormSchemaCompiler } from 'ngx-openmrs-formentry/dist/ngx-formentry';
+import { FormSchemaCompiler } from 'ngx-openmrs-formentry-madvincy';
 import { FormsResourceService } from '../openmrs-api/forms-resource.service';
 import * as _ from 'lodash';
 import { SwUpdate } from '@angular/service-worker';

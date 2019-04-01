@@ -1,0 +1,126 @@
+
+  <div>
+    <div class="row">
+      <h4 class="component-title"><span class="icon-i-imaging-root-category"></span> Surgery Reports</h4>
+    </div>
+    <div class="row">
+        <div class="form-group pull-left status">
+          <select class="form-control" [(ngModel)]="selectedOrderStatus"
+            (ngModelChange)="onOrderStatuChange(selectedOrderStatus)" required>
+            <option [value]='any'>ALL Reports</option>
+            <option *ngFor="let orderState of orderStatus" [value]="orderState"> <strong>{{ orderState }}</strong>
+            </option>
+          </select>
+  
+        </div>
+      
+        <div class="pull-right add">
+          <button *ngIf="!addOrders" type="button" class="btn btn-primary" (click)="addSurgeryProcedure(true)"> <i
+              class="fa fa-plus"></i>&nbsp;&nbsp; <b> Enter Results/Findings</b></button>
+        </div>
+      </div>
+        <div>
+            <div *ngIf="addOrders" class="panel panel-primary">
+              <div class="panel-heading">New Surgery Procedure</div>
+              <div class="panel-body">
+                <div class="container-fluid">
+                  <div class="row" id="edit-demographics-row">
+                    <div *ngIf="errors" style="color: red !important">
+                      <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+                        <div *ngFor="let error of errors">{{error.message}}</div>
+                      </div>
+    
+                    </div>
+                    <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+                      <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="">Select Surgery Type</label>
+                            <select class="form-control" [(ngModel)]="surgery" name="surgery">
+                              <option *ngFor="let s of proc" [value]="s.uuid"> {{ s.display }}</option>
+                            </select>
+                        </div>
+                        <input [disabled]="!surgery" type="checkbox" (change)="showResults(true)" name="radiologytypeMember">Results Available<br>
+                      </div>
+                      <button type="submit" class="btn btn-primary pull-right" (click)="saveSurgery()">Save</button>
+                <button class="btn btn-danger pull-left" type="button" (click)="defaultView()">
+                  <span>Cancel</span></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+           <div *ngIf="showFileUploader">
+              <label for="">Upload Results if Available</label>
+              <lib-file-uploader [(ngModel)]="dataModel"(uploadData)="uploadFile($event)" (_onClear)="clearPhoto()"><i class="fa fa-upload"></i>
+              </lib-file-uploader>
+              <div>
+                  <label for="">Findings</label>
+                  <input [disabled]= "!files" [(ngModel)]="imageReportFindings" type="text" class="form-control" placeholder="Enter findings">
+                  <button type="submit" class="btn btn-primary pull-right" (click)="getSummary()">Save</button> <br>
+              </div>
+              
+           </div>
+                  
+    
+          </div>
+</div>
+    
+        <div>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th class="pointer" (click)="sort('dateActivated')">Date Done <i class="fa" [ngClass]="{'fa-sort': column != 'dateActivated', 
+                                                                   'fa-sort-asc': (column == 'dateActivated' && !isDesc), 
+                                                                   'fa-sort-desc': (column == 'dateActivated' && isDesc) }"
+                          aria-hidden="true"> </i>
+                      </th>
+                      <th>Surgery Type</th>
+                      <th>Results</th>
+                      <th>Findings/Summary</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      <tr
+                *ngFor="let sReport of surgeryReports | paginate: { itemsPerPage: 10, currentPage: page }; let i = index;">
+                <td>{{  sReport.date | date:'dd/MM/yyyy' }}</td>
+                <td>
+                    {{ sReport.surgeryName.display }}
+                </td>
+                <td>
+                    <div *ngIf="sReport.status === 0">
+                        No Results
+    
+                    </div>
+                    <div *ngIf="sReport.status === 1" style="font-size: 24px;">
+                      <a type="button" title="View Surgery Results" (click)="showResults(order)">
+                        <span class="fa fa-file-image-o fa-7x" aria-hidden="true" style="font-size: 30px;"> </span>
+                      </a>
+                    </div>
+                </td>
+                
+                <td>
+                  <!-- <button _ngcontent-c16="" mat-raised-button="" *ngIf="order.status.status === 1"
+                    style="background:  #3c8dbc;; color: white;" class="bton " title="Edit Results" class="bton"
+                    (click)="changeResults(order)">EDIT</button>
+                  <button _ngcontent-c16="" mat-raised-button="" style="background:  green;; color: white;"
+                    class="bton " title="View Results" class="bton" (click)="showOrder(order)">VIEW</button> -->
+                    <div *ngIf="sReport.status === 0">
+                        No Results
+    
+                    </div>
+                    <div *ngIf="sReport.status === 1" style="font-size: 24px;">
+                     <p>{{sReport.findings}}</p>
+                    </div>
+
+                </td>
+              </tr>
+                      
+                    </tbody>
+                </table>
+              </div>
+              <div>
+                <pagination-controls (pageChange)="page = $event" style="cursor: pointer;"></pagination-controls>
+              </div>
+  </div>

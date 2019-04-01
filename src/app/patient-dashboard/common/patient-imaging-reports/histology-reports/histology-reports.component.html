@@ -1,0 +1,44 @@
+<div>
+    <div class="row">
+      <h4 class="component-title"><span class="icon-i-imaging-root-category"></span> Histology Reports</h4>
+    </div>
+    <div *ngIf="!imagingOrdered" class="row">
+        <div class="form-group pull-left status">
+          <select class="form-control" [(ngModel)]="selectedOrderStatus"
+            (ngModelChange)="onOrderStatuChange(selectedOrderStatus)" required>
+            <option [value]='any'>ALL ORDERS</option>
+            <option *ngFor="let orderState of orderStatus" [value]="orderState"> <strong>{{ orderState }}</strong>
+            </option>
+          </select>
+  
+        </div>
+        <div class="form-group pull-left search">
+          <input type="search" [(ngModel)]="searchText" class="form-control" placeholder="Search Histology Report by Name...">
+        </div>
+  
+        <div class="pull-right add">
+          <button *ngIf="!addOrders" type="button" class="btn btn-primary" (click)="addProc(true)"> <i
+              class="fa fa-plus"></i>&nbsp;&nbsp; <b> Enter Results/Findings</b></button>
+        </div>
+      </div>
+      <div>
+          <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th class="pointer" (click)="sort('dateActivated')">Collection Date <i class="fa" [ngClass]="{'fa-sort': column != 'dateActivated', 
+                                                                 'fa-sort-asc': (column == 'dateActivated' && !isDesc), 
+                                                                 'fa-sort-desc': (column == 'dateActivated' && isDesc) }"
+                        aria-hidden="true"> </i>
+                    </th>
+                    <th>Pathology/Test Type </th>
+                    <th>Results</th>
+                  </tr>
+                </thead>
+              </table>
+            </div>
+            <div>
+              <pagination-controls (pageChange)="page = $event" style="cursor: pointer;"></pagination-controls>
+            </div>
+      </div>
+  </div>

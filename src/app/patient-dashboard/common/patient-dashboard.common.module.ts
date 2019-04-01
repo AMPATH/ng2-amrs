@@ -52,7 +52,7 @@ import { FormDataSourceService } from './formentry/form-data-source.service';
 import { FormentryComponent } from './formentry/formentry.component';
 import { PrettyEncounterViewerComponent } from './formentry/pretty-encounter-viewer.component';
 import { FormentryHelperService } from './formentry/formentry-helper.service';
-import { FormEntryModule } from 'ngx-openmrs-formentry/dist/ngx-formentry';
+import { FormEntryModule } from 'ngx-openmrs-formentry-madvincy';
 import { FromentryGuard } from './formentry/formentry.guard';
 import { PatientPreviousEncounterService } from '../services/patient-previous-encounter.service';
 import {
@@ -93,13 +93,13 @@ import { PatientCareStatusResourceService } from '../../etl-api/patient-care-sta
 import { PatientIdentifierService } from './patient-identifier/patient-identifiers.service';
 import { EditContactsComponent } from './patient-info/edit-contacts.component';
 import { AgGridModule } from 'ag-grid-angular/main';
-import { FileUploaderModule } from 'ngx-file-uploader';
+import { NgxFileUploaderModule } from 'ngx-file-uploader-ampath2';
 
 import {
   HivPatientClinicalSummaryService
 } from '../hiv/patient-clinical-summaries/hiv-patient-clinical-summary.service';
 import { EditDemographicsComponent } from './patient-info/edit-demographics.component';
-import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
+import { DateTimePickerModule } from 'ngx-openmrs-formentry-madvincy';
 import { VisitPeriodComponent } from './visit/visit-period/visit-period.component';
 import { LocatorMapComponent } from './locator-map/locator-map.component';
 import { SecurePipe } from './locator-map/secure.pipe';
@@ -140,7 +140,14 @@ import { GroupEnrollmentModule } from '../group-enrollment/group-enrollment.modu
 import { VitalsDatasource } from './todays-vitals/vitals.datasource';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PocHttpInteceptor } from 'src/app/shared/services/poc-http-interceptor';
-
+import { PatientImagingReportsComponent } from './patient-imaging-reports/patient-imaging-reports.component';
+import { ImagingReportsComponent } from './patient-imaging-reports/imaging-reports/imaging-reports.component';
+import { HistologyReportsComponent } from './patient-imaging-reports/histology-reports/histology-reports.component';
+import { ProcedureOrdersComponent } from './patient-imaging-reports/procedure-orders/procedure-orders.component';
+import { ProceduresFilterPipe } from './patient-imaging-reports/procedure-orders/procedures-filter.pipe';
+import { ProcedureOrdersService } from './patient-imaging-reports/procedure-orders/procedure-orders.service';
+import { FeedBackService } from 'src/app/feedback/feedback.service';
+import { SurgeryReportsComponent } from './patient-imaging-reports/surgery-reports/surgery-reports.component';
 @NgModule({
   imports: [
     HttpClientModule,
@@ -171,7 +178,7 @@ import { PocHttpInteceptor } from 'src/app/shared/services/poc-http-interceptor'
     AgGridModule.withComponents([
 
     ]),
-    FileUploaderModule,
+    NgxFileUploaderModule,
     CohortMemberModule,
     LabOrderSearchModule,
     HivCareLibModule,
@@ -182,6 +189,8 @@ import { PocHttpInteceptor } from 'src/app/shared/services/poc-http-interceptor'
   ],
   exports: [
     PatientInfoComponent,
+    SurgeryReportsComponent,
+    ProcedureOrdersComponent ,
     PatientEncountersComponent,
     PatientVitalsComponent,
     FormsComponent,
@@ -234,6 +243,7 @@ import { PocHttpInteceptor } from 'src/app/shared/services/poc-http-interceptor'
     PatientEncountersComponent,
     PatientVitalsComponent,
     FormsComponent,
+    ProcedureOrdersComponent,
     LabDataSummaryComponent,
     LabOrdersComponent,
     ClinicalNotesComponent,
@@ -266,6 +276,7 @@ import { PocHttpInteceptor } from 'src/app/shared/services/poc-http-interceptor'
     TodayVisitsComponent,
     LocatorMapComponent,
     SecurePipe,
+    ProceduresFilterPipe,
     VisitEncountersListComponent,
     VisitEncountersComponent,
     VisitDetailsComponent,
@@ -276,7 +287,11 @@ import { PocHttpInteceptor } from 'src/app/shared/services/poc-http-interceptor'
     OrderByEncounterTimeAscPipe,
     EncounterTypeFilter,
     // ZeroVlPipe,
-    PatientImagingComponent],
+    PatientImagingComponent,
+    PatientImagingReportsComponent,
+    ImagingReportsComponent,
+    HistologyReportsComponent,
+    SurgeryReportsComponent],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
@@ -288,6 +303,7 @@ import { PocHttpInteceptor } from 'src/app/shared/services/poc-http-interceptor'
     PatientSearchService,
     AppFeatureAnalytics,
     PatientService,
+    FeedBackService,
     PatientPreviousEncounterService,
     HivSummaryService,
     FormListService,
@@ -300,6 +316,7 @@ import { PocHttpInteceptor } from 'src/app/shared/services/poc-http-interceptor'
     FromentryGuard,
     FormCreationDataResolverService,
     FormSubmissionService,
+    ProcedureOrdersService,
     PatientReminderService,
     DraftedFormsService,
     TodaysVitalsService,
