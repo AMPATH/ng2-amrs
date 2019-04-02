@@ -46,9 +46,9 @@ export class VisitResourceService {
     }
 
     public getVisitTypes(searchParams) {
-        if (!searchParams) {
-            return null;
-        }
+        // if (!searchParams) {
+        //     return null;
+        // }
         return this.http
             .get(`${this.appSettingsService.getOpenmrsRestbaseurl().trim()}visittype`, {
             }).pipe(
