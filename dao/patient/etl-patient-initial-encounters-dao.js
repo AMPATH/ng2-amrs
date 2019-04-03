@@ -18,7 +18,7 @@ function getPatientInitialEncounters(patientUuid) {
                 .field('COUNT(*) AS initial_encounters')
                 .from('etl.flat_hiv_summary_v15b', 't1')
                 .where("t1.uuid = ?", patientUuid)
-                .where("t1.encounter_type IN ?", [1,3])
+                .where("t1.encounter_type IN ?", [1,3,105])
                 .toString();
             conn.query(query, {}, function (err, rows, fields) {
                 if (err) {
