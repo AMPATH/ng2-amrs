@@ -187,6 +187,7 @@ import { PatientTransferService } from './formentry/patient-transfer.service';
   ],
   exports: [
     PatientInfoComponent,
+    HivSummaryLatestComponent,
     PatientEncountersComponent,
     PatientVitalsComponent,
     FormsComponent,
@@ -240,6 +241,7 @@ import { PatientTransferService } from './formentry/patient-transfer.service';
     PatientInfoComponent,
     PatientEncountersComponent,
     PatientVitalsComponent,
+    HivSummaryLatestComponent,
     FormsComponent,
     LabDataSummaryComponent,
     LabOrdersComponent,
@@ -285,6 +287,7 @@ import { PatientTransferService } from './formentry/patient-transfer.service';
     OrderByEncounterTimeAscPipe,
     EncounterTypeFilter,
     // ZeroVlPipe,
+    AgePipe,
     PatientImagingComponent],
   providers: [
     {
