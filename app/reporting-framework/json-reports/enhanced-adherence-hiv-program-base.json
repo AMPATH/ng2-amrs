@@ -36,7 +36,7 @@
             "alias": "pp",
             "join": {
                 "type": "LEFT",
-                "joinCondition": "pp.patient_id = fhs.person_id AND pp.program_id = 27  and  (pp.date_completed is null || date(pp.date_completed) >= date('{startDate}'))"
+                "joinCondition": "pp.patient_id = fhs.person_id AND pp.program_id = 27  and  (pp.date_completed is null || date(pp.date_completed) <= date('{startDate}'))"
             }
         }
     ],
