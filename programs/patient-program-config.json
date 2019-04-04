@@ -3076,8 +3076,8 @@
       "uuid": "f13f49ca-36b3-4abb-a24e-1776803ca69b",
       "name": "GROUP CARE VISIT",
       "encounterTypes": [{
-          "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
-          "display": "ADULTRETURN"
+          "uuid": "d54ce118-ce48-4e94-9315-ffe81df085fb",
+          "display": "BIGPICADULTRETURN"
         }
 
       ]
