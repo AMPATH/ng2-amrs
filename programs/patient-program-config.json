@@ -747,15 +747,11 @@
           "value": null,
           "answers": [{
               "value": "positive",
-              "label": "Pregnant"
+              "label": "Yes"
             },
             {
               "value": "negative",
-              "label": "Not Pregnant"
-            },
-            {
-              "value": "positive",
-              "label": "Not applicable(child)"
+              "label": "No"
             }
           ],
           "relatedQuestions": [{
