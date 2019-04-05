@@ -308,6 +308,7 @@
      {"joinType":"JOIN","schema":"amrs","tableName":"provider","alias":"t4","joinExpression":"t4.provider_id = t1.provider_id"},
      {"joinType":"JOIN","schema":"amrs","tableName":"users","alias":"t5","joinExpression":"t2.creator = t5.user_id"},
      {"joinType":"JOIN","schema":"amrs","tableName":"person_name","alias":"t6","joinExpression":"t4.person_id = t6.person_id"},
+     {"joinType":"LEFT OUTER JOIN","schema":"amrs","tableName":"provider","alias":"t9","joinExpression":"t5.person_id = t9.person_id"},
      {"joinType":"JOIN","schema":"etl","tableName":"clinical_encounter_type_map","alias":"t7","joinExpression":"t7.encounter_type = t2.encounter_type"},
      {"joinType":"JOIN","schema":"amrs","tableName":"location","alias":"t8","joinExpression":"t2.location_id = t8.location_id"}
 
@@ -360,6 +361,11 @@
             "type":"single",
             "sql":"t5.user_id"
         },
+        {
+         "label":"is_provider",
+         "type":"single",
+         "sql":"IF(t9.provider_id IS NOT NULL, 'YES', 'NO')"
+       },
         {
             "label":"user_uuid",
             "type":"single",
