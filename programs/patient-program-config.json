@@ -1584,8 +1584,16 @@
         "message": "Patient has to be in the location he enrolled into the HIV Care and Treatment program ",
         "encounterTypes": [
           {
+            "uuid": "0ea8bfc4-fd3b-40bb-bb34-d5c5d9199c96",
+            "name": "DIFFERENTIATEDCARECLINICIAN"
+          },
+          {
             "uuid": "987009c6-6f24-43f7-9640-c285d6553c63",
             "display": "DRUGPICKUP"
+          },
+          {
+            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
+            "display": "POCLAB"
           }
         ]
       },
