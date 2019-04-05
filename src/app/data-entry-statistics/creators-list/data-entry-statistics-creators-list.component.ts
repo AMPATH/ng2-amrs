@@ -69,6 +69,10 @@ export class DataEntryStatisticsCreatorsListComponent
         field: 'creators'
       },
       {
+        headerName: 'Is Provider',
+        field: 'isProvider'
+      },
+      {
         headerName: 'Total',
         field: 'total',
         onCellClicked: (column) => {
@@ -118,7 +122,7 @@ export class DataEntryStatisticsCreatorsListComponent
       const formId = stat.encounter_type_id;
       const creatorId = stat.creator_id;
       const encounterTypeUuid = stat.encounter_type_uuid;
-
+      const isProvider = stat.is_provider;
       if (_.includes(trackColumns, formId) === false) {
 
         this.dataEntryEncounterColdef.push(
@@ -159,6 +163,7 @@ export class DataEntryStatisticsCreatorsListComponent
         ],
         'creatorUuid': stat.user_uuid,
         'creatorName': stat.creator_name,
+        'isProvider' : stat.is_provider,
         'location': stat.location,
         'locationUuid': stat.location_uuid
       };
