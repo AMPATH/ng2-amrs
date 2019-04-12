@@ -142,7 +142,7 @@
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "t21.program_type_id in ?",
+                "conditionExpression": "t21.program_type_id in (?) AND t2.next_encounter_type <> 186",
                 "parameterName": "programTypeIds"
             },
             {
