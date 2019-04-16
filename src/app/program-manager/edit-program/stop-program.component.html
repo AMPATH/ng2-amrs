@@ -16,7 +16,7 @@
     <hr/>
   </blockquote>
 </div>
-<ng-container *ngIf="showForms && exitEncounters.length > 0">
+<ng-container *ngIf="!complete && showForms && exitEncounters.length > 0">
   <p>Please fill the following required forms to enroll the patient</p>
   <form-list (onFormSelected)="fillEnrollmentForm($event)" [showFilter]="false" [encounterTypeFilter]="exitEncounters"></form-list>
 </ng-container>
@@ -35,9 +35,6 @@
 <div class="step-buttons">
   <button *ngIf="!complete" type="button" class="btn btn-danger pull-left"
           (click)="goBack()">Back
-  </button>
-  <button *ngIf="!complete" class="btn btn-primary pull-right"
-          (click)="showExitForms()">Stop Program(s)
   </button>
   <span class="clear">&nbsp;</span>
 </div>

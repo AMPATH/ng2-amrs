@@ -2,7 +2,14 @@
   <div class="loader" *ngIf="busyIndicator.busy"><span><i class="fa fa-spinner fa-spin">
       </i>{{busyIndicator.message}}</span>
   </div>
-
+  <div *ngIf="warnMCHTransfer">
+    <div class="alert alert-danger">
+      <h4>
+        Transfer To MCH
+      </h4>
+      <p>Male patients cannot be transferred to MCH. Please correct the transfer out section.</p>
+    </div>
+  </div>
   <div *ngIf="!busyIndicator.busy">
     <div class='col-md-12' *ngIf=form>
       <error-renderer [form]="form"></error-renderer>
@@ -40,7 +47,7 @@
           Saving Form</button>
       </div>
     </div>
-    <div *ngIf="this.form && !this.form.valid && this.form.showErrors" class="panel panel-danger" style="margin:2px">
+    <div *ngIf="(this.form && !this.form.valid && this.form.showErrors) || warnMCHTransfer" class="panel panel-danger" style="margin:2px">
       <div class="panel-heading">
         <h5>
           <strong class="text-danger">

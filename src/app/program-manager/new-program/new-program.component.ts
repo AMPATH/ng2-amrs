@@ -570,7 +570,8 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
   private checkIfEnrollmentIsAllowed(): void {
     if (this.programVisitConfig && !_.isUndefined(this.programVisitConfig.enrollmentAllowed)) {
       if (!this.programVisitConfig.enrollmentAllowed) {
-        this.showMessage('This patient cannot be enrolled in this program. ' + 'Only female patients are allowed.');
+        this.showMessage('The patient is not allowed to be enrolled in this program. ' +
+          'Please confirm the sex of the patient.');
         this.isButtonVisible = false;
       } else {
         this.removeMessage();
@@ -671,25 +672,9 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
     this.newlyEnrolledGroup = newGroup;
   }
 
-  getCurrentPatientGroups(patientUuid: string) {
+  public getCurrentPatientGroups(patientUuid: string) {
     this.groupMemberService.getMemberCohortsByPatientUuid(patientUuid).subscribe((groups) => {
       this.patientCurrentGroups = _.filter(groups, (group) => !group.voided);
     });
   }
-
-  public setUserDefaultLocation() {
-    const retroLocation = localStorage.getItem('retroLocation');
-    if (retroLocation) {
-      this.selectedLocation = JSON.parse(retroLocation);
-      return;
-    }
-    const location: any = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
-    if (location) {
-      this.selectedLocation = {
-        value: location.uuid,
-        label: location.display
-      };
-    }
-  }
-
 }

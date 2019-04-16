@@ -144,6 +144,7 @@ import { PocHttpInteceptor } from 'src/app/shared/services/poc-http-interceptor'
 import { LabResultImageModalComponent } from './lab-data-summary/lab-result-image-modal.component';
 import { HivSummaryLatestComponent } from '../hiv/hiv-summary/hiv-summary-latest.component';
 import { AgePipe } from './patient-banner/age.pipe';
+import { PatientTransferService } from './formentry/patient-transfer.service';
 
 @NgModule({
   imports: [
@@ -323,6 +324,7 @@ import { AgePipe } from './patient-banner/age.pipe';
     PatientCareStatusResourceService,
     ZscoreService,
     VitalsDatasource,
-    TodayVisitService],
+    TodayVisitService,
+    PatientTransferService],
 })
 export class PatientDashboardCommonModule { }

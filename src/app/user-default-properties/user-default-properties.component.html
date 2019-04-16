@@ -14,8 +14,8 @@
           <div *ngIf="isBusy" class="input-group-addon"><i class="fa fa-spinner fa-spin"></i></div>
         </div>
         <div class="float pull-left">
-          <p *ngIf="currentLocation!=''" class="form-text text-bold">Your current location : <span class="current-location">{{currentLocation?.display}}</span>
-          </p>
+          <p *ngIf="!currentLocation" class="form-text text-danger"><em>Please select location to continue</em></p>
+          <p *ngIf="currentLocation" class="form-text text-bold">Your current location : <span class="current-location">{{currentLocation?.display}}</span></p>
         </div>
         <div class="float pull-right">
           <span class="text-bold" *ngIf="location && !confirming">New Location: {{location?.label}}</span>
