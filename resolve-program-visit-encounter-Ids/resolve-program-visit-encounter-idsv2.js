@@ -109,7 +109,8 @@ function resolveProgramVisitTypeEncounterUuidsParamsToIds(request){
       var resolvedProgramVisitEncounterTypes = {
             'programTypeIds': [],
             'visitTypesIds': [],
-            'encounterTypeIds':  []
+            'encounterTypeIds':  [],
+            'locationUuids': []
       };
 
       if(typeof request.programType !== 'undefined'){
@@ -121,6 +122,9 @@ function resolveProgramVisitTypeEncounterUuidsParamsToIds(request){
       if(typeof request.encounterType !== 'undefined'){
          var encounterTypeUuid = request.encounterType;
       }
+      if(typeof request.locationUuids !== 'undefined'){
+            var locationUuid = request.locationUuids;
+      }
 
       // console.log('Program Type', decodedUrl);
 
@@ -130,7 +134,7 @@ function resolveProgramVisitTypeEncounterUuidsParamsToIds(request){
              if(resolveCount > 0){
                  resolve(resolvedProgramVisitEncounterTypes);
              }else{
-                  reject('Error')
+                  reject('Error');
              }
        }
 
@@ -260,7 +264,8 @@ function resolveProgramVisitTypeEncounterUuidsParamsToIds(request){
                               resolvedProgramVisitEncounterTypes = {
                                     'programTypeIds': _.uniq(resolvedPrograms),
                                     'visitTypesIds': _.uniq(resolvedVisitTypes),
-                                    'encounterTypeIds':  _.uniq(resolvedEncounterTypes)
+                                    'encounterTypeIds':  _.uniq(resolvedEncounterTypes),
+                                    'locationUuids': locationUuid
                               }
 
                               resolveCount++;
@@ -272,7 +277,7 @@ function resolveProgramVisitTypeEncounterUuidsParamsToIds(request){
                   })
                   .catch(function(e) {
                          console.log("handled error", e);
-                  });;
+                  });
 
        });
 
