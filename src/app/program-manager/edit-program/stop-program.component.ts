@@ -18,7 +18,18 @@ export class StopProgramComponent implements OnInit {
     }
 
   }
-  @Input() public patient: Patient;
+
+  @Input()
+  public set patient(val: Patient) {
+    this._patient = val;
+    if (val) {
+      this.showExitForms();
+    }
+  }
+
+  public get patient() {
+    return this._patient;
+  }
   @Input() public complete = false;
   @Input() public set formsFilled(val: boolean) {
     if (val) {
@@ -34,6 +45,7 @@ export class StopProgramComponent implements OnInit {
   public hasError = false;
   public message = '';
   public stoppedPrograms: any[] = [];
+  private _patient: Patient;
   constructor(private programManagerService: ProgramManagerService,
     private router: Router) {
   }

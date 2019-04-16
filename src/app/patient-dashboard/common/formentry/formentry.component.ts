@@ -34,6 +34,7 @@ import { PersonResourceService } from '../../../openmrs-api/person-resource.serv
 import {
   RetrospectiveDataEntryService
 } from '../../../retrospective-data-entry/services/retrospective-data-entry.service';
+import { PatientTransferService } from './patient-transfer.service';
 
 import {
   UserDefaultPropertiesService
@@ -117,6 +118,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     private formSubmissionService: FormSubmissionService,
     private monthlyScheduleResourceService: MonthlyScheduleResourceService,
     private patientService: PatientService,
+    private patientTransferService: PatientTransferService,
     private patientProgramResourceService: PatientProgramResourceService,
     private personAttribuAdapter: PersonAttribuAdapter,
     private personResourceService: PersonResourceService,
@@ -175,12 +177,9 @@ export class FormentryComponent implements OnInit, OnDestroy {
             return;
           }
           if (componentRef.groupUuid) {
-            console.log(!this.referralStatus && !this.step && this.isGroupVisit);
-            console.log(this.referralStatus);
-            console.log(this.isGroupVisit);
-            console.log(this.step);
             componentRef.isGroupVisit = true;
           }
+          this.patientTransferService.componentRef = componentRef;
           componentRef.loadForm();   // load  form
           // this.isBusyIndicator(false);
         });
@@ -257,36 +256,21 @@ export class FormentryComponent implements OnInit, OnDestroy {
       case 'patientDashboard':
         this.preserveFormAsDraft = false;
         this.router.navigate(['/patient-dashboard/patient/' +
-          this.patient.uuid + '/general/general/landing-page']);
+        this.patient.uuid + '/general/general/landing-page']);
         this.patientService.reloadCurrentPatient();
         break;
       case 'formList':
         this.preserveFormAsDraft = false;
         this.router.navigate(['/patient-dashboard/patient/' +
-          this.patient.uuid + '/general/general/forms']);
+        this.patient.uuid + '/general/general/forms']);
         break;
       case 'programManager':
-        this.preserveFormAsDraft = false;
-        this.route.queryParams.subscribe((params) => {
-          const step = params['parentComponent'].split(':')[1];
-          if (step === 'landing-page') {
-            this.router.navigate(['/patient-dashboard/patient/' +
-              this.patient.uuid + '/general/general/landing-page']);
-          } else if (step === 'new') {
-            this.router.navigate(['/patient-dashboard/patient/' +
-              this.patient.uuid + '/general/general/program-manager/new-program', 'step',
-            params['step']]);
-          } else if (step === 'edit') {
-            this.router.navigate(['/patient-dashboard/patient/' +
-              this.patient.uuid + '/general/general/program-manager/edit-program', 'step',
-            params['step']]);
-          }
-        });
+        this.navigateToProgramManager();
         break;
       case 'programManagerReferral':
         this.preserveFormAsDraft = false;
         this.router.navigate(['/patient-dashboard/patient/' +
-          this.patient.uuid + '/general/general/program-manager/new-program', 'step', 3]);
+        this.patient.uuid + '/general/general/program-manager/new-program', 'step', 3]);
         break;
       case 'programReferral':
         this.preserveFormAsDraft = false;
@@ -301,7 +285,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
       case 'patientSearch':
         this.preserveFormAsDraft = false;
         this.router.navigate(['/patient-dashboard/patient-search'], {
-          queryParams: { reset: true }
+          queryParams: {reset: true}
         });
         break;
       case 'groupManager':
@@ -311,7 +295,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
       case 'groupEnrollment':
         this.preserveFormAsDraft = false;
         this.router.navigate(['/patient-dashboard/patient/' +
-          this.patient.uuid + '/general/general/group-enrollment'], { queryParams: { referral: true } });
+        this.patient.uuid + '/general/general/group-enrollment'], {queryParams: {referral: true}});
         break;
       default:
         console.error('unknown path');
@@ -344,7 +328,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
       const encounterLocation = this.form.searchNodeByQuestionId('location',
         'encounterLocation');
       if (encounterLocation.length > 0 && location) {
-        this.encounterLocation = { value: location.uuid, label: location.display };
+        this.encounterLocation = {value: location.uuid, label: location.display};
         encounterLocation[0].control.setValue(location.uuid);
       }
 
@@ -442,7 +426,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
   public updatePatientDemographics(data: any): void {
     // check if patient status was filled
 
-    const patientCareStatus = this.getPatientStatusQuestion();
+    const patientCareStatus = this.patientTransferService.getPatientStatusQuestion();
     const deathDate = this.form.searchNodeByQuestionId('deathDate');
     let causeOfDeath = this.form.searchNodeByQuestionId('reasdeath');
     if (causeOfDeath.length === 0) {
@@ -464,7 +448,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
     if (patientCareStatus.length > 0 && causeOfDeath.length > 0
       && _.first(patientCareStatus).control.value !== 'a89335d6-1350-11df-a1f1-0026b9') {
       this.personResourceService.saveUpdatePerson(this.patient.uuid, personNamePayload)
-        .subscribe(() => { });
+        .subscribe(() => {
+        });
     }
 
     if ((causeOfDeath.length > 0 && _.first(causeOfDeath).control.value.length > 0)
@@ -473,110 +458,66 @@ export class FormentryComponent implements OnInit, OnDestroy {
       personNamePayload.deathDate = _.first(deathDate).control.value;
       personNamePayload.causeOfDeath = _.first(causeOfDeath).control.value;
       this.personResourceService.saveUpdatePerson(this.patient.uuid, personNamePayload)
-        .subscribe(() => { });
+        .subscribe(() => {
+        });
     }
   }
 
   public handleProgramManagerRedirects(data: any): void {
-    // check if patient status was filled
-    const patientCareStatus = this.getPatientStatusQuestion();
-    const referralQuestion = this.getReferralsQuestion();
-    let force = false;
-    if (patientCareStatus.length > 0) {
-      force = true;
-    }
-    let step = [];
-    const queryParams = {};
-    if (this.shouldRedirectToProgramManager(patientCareStatus, force)) {
-      this.preserveFormAsDraft = false;
-      this.saveTransferLocationIfSpecified();
-      // MCH/PMTCT
-      if (_.first(patientCareStatus).control.value === 'a8a17d80-1350-11df-a1f1-0026b9348838') {
-        // PMTCT Uuid
-        _.merge(queryParams, {
-          program: '781d897a-1359-11df-a1f1-0026b9348838',
-          notice: 'pmtct'
-        });
-        step = ['step', 3];
+    const step = ['step', 3];
+    this.patientTransferService.handleProgramManagerRedirects(data, this.patient).subscribe((transfer) => {
+      if (transfer && transfer.transfer === true) {
+        this.preserveFormAsDraft = false;
+        this.showSuccessDialog = false;
+        if (transfer.loadTransferOutForm) {
+          setTimeout(() => {
+            this.confirmationService.confirm({
+              header: 'Confirm Patient Transfer',
+              rejectVisible: true,
+              acceptVisible: true,
+              message: `You have chosen to transfer the patient out.  Do you wish to complete the transfer?`,
+              accept: () => {
+                this.router.navigate(['/patient-dashboard/patient/' +
+                  this.patient.uuid + '/hiv/' + this.activeProgram + '/formentry/f8322fde-6160-4e70-8b49-e266022f1108'],
+                  {queryParams: transfer.params});
+              },
+              reject: () => {
+                this.showSuccessDialog = true;
+              }
+            });
+          }, 1);
+        } else {
+          this.router.navigate(_.concat(['/patient-dashboard/patient/' +
+          this.patient.uuid + '/general/general/program-manager/edit-program'], step), {
+            queryParams: transfer.params
+          });
+        }
+      } else if (transfer && transfer.transfer === false && transfer.warnTransfer === true) {
+        this.warnMCHTransfer = true;
+      } else {
+        this.showSuccessDialog = true;
       }
-      this.router.navigate(_.concat(['/patient-dashboard/patient/' +
-        this.patient.uuid + '/general/general/program-manager/edit-program'], step), {
-          queryParams: queryParams
-        });
-        this.draftedFormsService.setCancelState();
-    }
-    if (referralQuestion.length > 0) {
-      // Enhanced adherence HIV Program
-      if (_.includes(_.first(referralQuestion).control.value, 'a9431295-9862-405b-b694-534f093ca0ad')) {
-        // Enhanced adherence HIV Program
-        _.merge(queryParams, {
-          program: 'c4246ff0-b081-460c-bcc5-b0678012659e',
-          notice: 'adherence'
-        });
-        step = ['step', 3];
-        const location: any = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
-        localStorage.setItem('transferLocation', location.uuid);
+    });
+
+  }
+
+  private navigateToProgramManager() {
+    this.preserveFormAsDraft = false;
+    this.route.queryParams.subscribe((params) => {
+      const step = params['parentComponent'].split(':')[1];
+      if (step === 'landing-page') {
+        this.router.navigate(['/patient-dashboard/patient/' +
+        this.patient.uuid + '/general/general/landing-page']);
+      } else if (step === 'new') {
+        this.router.navigate(['/patient-dashboard/patient/' +
+        this.patient.uuid + '/general/general/program-manager/new-program', 'step',
+          params['step']]);
+      } else if (step === 'edit') {
+        this.router.navigate(['/patient-dashboard/patient/' +
+        this.patient.uuid + '/general/general/program-manager/edit-program', 'step',
+          params['step']]);
       }
-      // HIV Differentiated Program
-      if (_.includes(_.first(referralQuestion).control.value, '7c6f0599-3e3e-4f42-87a2-2ce66f1e96d0')) {
-        // HIV Differentiated Program
-        _.merge(queryParams, {
-          program: '334c9e98-173f-4454-a8ce-f80b20b7fdf0',
-          notice: 'dc'
-        });
-        step = ['step', 3];
-        const location: any = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
-        localStorage.setItem('transferLocation', location.uuid);
-      }
-      this.router.navigate(_.concat(['/patient-dashboard/patient/' +
-        this.patient.uuid + '/general/general/program-manager/edit-program'], step), {
-          queryParams: queryParams
-        });
-      this.draftedFormsService.setCancelState();
-    }
-  }
-
-  private shouldRedirectToProgramManager(answer: any[], force?: boolean) {
-    // if (force === true) {
-    //   return true;
-    // }
-    const transferOut = this.form.searchNodeByQuestionId('careStatus');
-    if (transferOut.length > 0) {
-      answer = transferOut;
-    }
-    if (answer.length > 0) {
-      return _.includes([
-        'a89c2f42-1350-11df-a1f1-0026b9348838', // AMPATH
-        'a89c301e-1350-11df-a1f1-0026b9348838', // Non-AMPATH
-        'a8a17d80-1350-11df-a1f1-0026b9348838' // MCH/PMTCT
-      ], _.first(answer).control.value);
-    }
-    return false;
-  }
-
-  private getPatientStatusQuestion() {
-    // (questionId is patstat in Outreach Field Follow-Up Form V1.0)
-    // (questionId is careStatus in Transfer Out Form v0.01 and other forms
-    let patientCareStatus = this.form.searchNodeByQuestionId('patstat');
-    if (patientCareStatus.length === 0) {
-      patientCareStatus = this.form.searchNodeByQuestionId('careStatus');
-    }
-    return patientCareStatus;
-  }
-
-  private getReferralsQuestion() {
-    let referralsQuestion = this.form.searchNodeByQuestionId('referrals');
-    if (referralsQuestion.length === 0) {
-      referralsQuestion = this.form.searchNodeByQuestionId('patientReferrals');
-    }
-    return (referralsQuestion.length > 0 && !_.isEmpty(_.first(referralsQuestion).control.value)) ? referralsQuestion : [];
-  }
-
-  private saveTransferLocationIfSpecified() {
-    const transferLocation = this.form.searchNodeByQuestionId('transfered_out_to_ampath');
-    if (transferLocation.length > 0) {
-      localStorage.setItem('transferLocation', _.first(transferLocation).control.value);
-    }
+    });
   }
 
   private searchReferralConcepts(concepts) {
@@ -619,26 +560,26 @@ export class FormentryComponent implements OnInit, OnDestroy {
     this.subscription = forkJoin(
       observableBatch
     )
-      // .pipe(flatMap((data) => {
-      //   // now init private and public properties
-      //   this.compiledSchemaWithEncounter = data[0] || null;
-      //   this.patient = data[1] || null;
-      //   this.encounter = data[2] || null;
-      //   // now render form
-      //   return this.patientReminderService.getPatientReminders(this.patient.person.uuid);
-      // }))
+    // .pipe(flatMap((data) => {
+    //   // now init private and public properties
+    //   this.compiledSchemaWithEncounter = data[0] || null;
+    //   this.patient = data[1] || null;
+    //   this.encounter = data[2] || null;
+    //   // now render form
+    //   return this.patientReminderService.getPatientReminders(this.patient.person.uuid);
+    // }))
       .subscribe((data: any) => {
-        this.compiledSchemaWithEncounter = data[0] || null;
-        this.patient = data[1] || null;
-        this.encounter = data[2] || null;
-        this.renderForm();
-        this.isBusyIndicator(false);
-      }, (err) => {
-        console.error(err);
-        this.isBusyIndicator(false);
-        // this.formRenderingErrors
-        //  .push('An error occured while loading form, please check your connection');
-      }
+          this.compiledSchemaWithEncounter = data[0] || null;
+          this.patient = data[1] || null;
+          this.encounter = data[2] || null;
+          this.renderForm();
+          this.isBusyIndicator(false);
+        }, (err) => {
+          console.error(err);
+          this.isBusyIndicator(false);
+          // this.formRenderingErrors
+          //  .push('An error occured while loading form, please check your connection');
+        }
       );
   }
 
@@ -700,14 +641,13 @@ export class FormentryComponent implements OnInit, OnDestroy {
       this.dataSources.registerDataSource('monthlyScheduleResourceService',
         this.monthlyScheduleResourceService);
       this.dataSources.registerDataSource('patient',
-        { visitTypeUuid: this.visitTypeUuid }, true);
+        {visitTypeUuid: this.visitTypeUuid}, true);
       this.dataSources.registerDataSource('userLocation',
         this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject());
       this.dataSources.registerDataSource('file', {
         fileUpload: this.fileUploadResourceService.upload.bind(this.fileUploadResourceService),
         fetchFile: this.fileUploadResourceService.getFile.bind(this.fileUploadResourceService)
       });
-
       // set up visit encounters data source
       this.setUpVisitEncountersDataObject();
 
@@ -732,11 +672,12 @@ export class FormentryComponent implements OnInit, OnDestroy {
         // add visit type if present
         if (this.visitTypeUuid && this.visitTypeUuid !== '') {
           this.dataSources.registerDataSource('patient',
-            { visitTypeUuid: this.visitTypeUuid }, true);
+            {visitTypeUuid: this.visitTypeUuid}, true);
           this.form.valueProcessingInfo.visitTypeUuid = this.visitTypeUuid;
         }
         // now set default value
         this.loadDefaultValues();
+
       }
       // add valueProcessingInfo
       this.form.valueProcessingInfo.personUuid = this.patient.person.uuid;
@@ -750,6 +691,11 @@ export class FormentryComponent implements OnInit, OnDestroy {
       }
       // Find and set a provider uuid to be used when updating orders as orderer
       this.setProviderUuid();
+
+      // prefill transferOut details in AMPATH POC Transfer Out Form (f8322fde-6160-4e70-8b49-e266022f1108)
+      if (this.formUuid === 'f8322fde-6160-4e70-8b49-e266022f1108') {
+        this.patientTransferService.prefillTransferOptions();
+      }
 
     } catch (ex) {
       // TODO Handle all form rendering errors
@@ -841,9 +787,9 @@ export class FormentryComponent implements OnInit, OnDestroy {
         return o.title === 'Viral Load Reminder';
       });
       if (vlReminder) {
-        this.dataSources.registerDataSource('vlFormAlert', { needsVl: true }, true);
+        this.dataSources.registerDataSource('vlFormAlert', {needsVl: true}, true);
       } else {
-        this.dataSources.registerDataSource('vlFormAlert', { needsVl: false }, true);
+        this.dataSources.registerDataSource('vlFormAlert', {needsVl: false}, true);
       }
     }
   }
@@ -864,18 +810,17 @@ export class FormentryComponent implements OnInit, OnDestroy {
   }
 
   private submitForm(payloadTypes: Array<string> = ['encounter', 'personAttribute']): void {
-    this.isBusyIndicator(true, 'Please wait, saving form...');
     this.form.showErrors = !this.form.valid;
+    this.isBusyIndicator(true, 'Please wait, saving form...');
     this.disableSubmitBtn();
-    // this.handleFormReferrals();
-    if (this.form.valid) {
+    if (this.form.valid && this.validOnMCHTransfer()) {
       this.formSubmissionService.setSubmitStatus(true);
-      // this.isBusyIndicator(true, 'Please wait, saving form...');
       // clear formSubmissionErrors
       this.formSubmissionErrors = null;
       // reset submitted orders
       this.submittedOrders.encounterUuid = null;
       this.submittedOrders.orders = [];
+      this.warnMCHTransfer = false;
       // submit form
       this.retrospectiveDataEntryService.retroSettings.subscribe((retroSettings) => {
         if (retroSettings && retroSettings.enabled) {
@@ -911,6 +856,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
       }
     );
   }
+
   private checkDuplicate(payloadTypes) {
     this.patientService.currentlyLoadedPatientUuid
       .pipe(flatMap((patientUuid: string) => {
@@ -925,21 +871,21 @@ export class FormentryComponent implements OnInit, OnDestroy {
           return of(false);
         }
       })).pipe(take(1)).subscribe(
-        (isDuplicate) => {
-          this.isBusyIndicator(false); // hide busy indicator
-          if (isDuplicate) {
-            this.saveDuplicate(payloadTypes);
-          } else {
-            this.saveEncounterOrUpdate(payloadTypes);
-          }
-        },
-        (err) => {
-          console.error('error', err);
-          this.isBusyIndicator(false); // hide busy indicator
-          this.handleFormSubmissionErrors(err);
-          this.enableSubmitBtn();
-          this.formSubmissionService.setSubmitStatus(false);
-        });
+      (isDuplicate) => {
+        this.isBusyIndicator(false); // hide busy indicator
+        if (isDuplicate) {
+          this.saveDuplicate(payloadTypes);
+        } else {
+          this.saveEncounterOrUpdate(payloadTypes);
+        }
+      },
+      (err) => {
+        console.error('error', err);
+        this.isBusyIndicator(false); // hide busy indicator
+        this.handleFormSubmissionErrors(err);
+        this.enableSubmitBtn();
+        this.formSubmissionService.setSubmitStatus(false);
+      });
   }
 
   private checkFormSumittedStatus() {
@@ -1003,6 +949,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
       }
     });
   }
+
   private handleFormSubmissionErrors(error: any): void {
     this.formSubmissionErrors = error.errorMessages;
     this.failedPayloadTypes = error.payloadType;
@@ -1017,7 +964,6 @@ export class FormentryComponent implements OnInit, OnDestroy {
     this.failedPayloadTypes = null;
     // this.showSuccessDialog = true;
     this.updatePatientDemographics(response);
-    this.handleProgramManagerRedirects(response);
     // handle referrals here
     this.handleFormReferrals(response);
   }
@@ -1053,8 +999,9 @@ export class FormentryComponent implements OnInit, OnDestroy {
       if (referralsData.hasDifferentiatedCareReferal) {
         this.showProcessReferralsDialog = true;
       } else {
+        // this.showSuccessDialog = true;
         // display success dialog
-        this.showSuccessDialog = true;
+        this.handleProgramManagerRedirects(data);
       }
       // this.showSuccessDialog = true;
     });
@@ -1070,25 +1017,25 @@ export class FormentryComponent implements OnInit, OnDestroy {
       this.isBusyIndicator(true, 'Enrolling Patient to Differentiated care program...');
       this.referralsHandler.handleFormReferrals(this.patient,
         this.form).pipe(
-          take(1)).subscribe(
-            (results) => {
-              this.isBusyIndicator(false, '');
-              this.showSuccessDialog = true;
-              this.diffCareReferralStatus = results.differentiatedCare;
-              interval(10000).pipe(map((x) => this.counter = x));
-              setTimeout(() => {
-                if (this.enrollToGroup) {
-                  this.navigateTo('groupEnrollment');
-                }
-              }, 10000);
-            },
-            (error) => {
-              console.error('Error processing referrals', error);
-              this.isBusyIndicator(false, '');
-              this.showSuccessDialog = true;
-              this.diffCareReferralStatus = error.differentiatedCare;
+        take(1)).subscribe(
+        (results) => {
+          this.isBusyIndicator(false, '');
+          this.showSuccessDialog = true;
+          this.diffCareReferralStatus = results.differentiatedCare;
+          interval(10000).pipe(map((x) => this.counter = x));
+          setTimeout(() => {
+            if (this.enrollToGroup) {
+              this.navigateTo('groupEnrollment');
             }
-          );
+          }, 10000);
+        },
+        (error) => {
+          console.error('Error processing referrals', error);
+          this.isBusyIndicator(false, '');
+          this.showSuccessDialog = true;
+          this.diffCareReferralStatus = error.differentiatedCare;
+        }
+      );
     } else {
       this.showSuccessDialog = true;
     }
@@ -1129,17 +1076,17 @@ export class FormentryComponent implements OnInit, OnDestroy {
       if (this.submittedOrders.orders.length > 0) {
         this.encounterResource.getEncounterByUuid(this.submittedOrders.encounterUuid).pipe(
           take(1)).subscribe((encounter) => {
-            if (encounter && encounter.orders) {
-              orders = [];
-              // filter out voided orders : voided is not included so we use auditInfo
-              for (const order of encounter.orders) {
-                if (!order.auditInfo.dateVoided) {
-                  orders.push(order);
-                }
+          if (encounter && encounter.orders) {
+            orders = [];
+            // filter out voided orders : voided is not included so we use auditInfo
+            for (const order of encounter.orders) {
+              if (!order.auditInfo.dateVoided) {
+                orders.push(order);
               }
-              this.submittedOrders.orders = orders || [];
             }
-          });
+            this.submittedOrders.orders = orders || [];
+          }
+        });
       }
     }
   }
@@ -1217,7 +1164,22 @@ export class FormentryComponent implements OnInit, OnDestroy {
     }
   }
 
-  public hideProcessReferralsDialog() {
-    this.showProcessReferralsDialog = false;
+  private validOnMCHTransfer(): boolean {
+    const patientObj: any = this.formDataSourceService.getPatientObject(this.patient);
+    const careStatus = this.patientTransferService.getPatientStatusQuestion();
+    let validTransfer = true;
+    if (careStatus.length > 0) {
+      validTransfer = _.isEmpty(_.first(careStatus).control.value) ||
+        (!_.isEmpty(_.first(careStatus).control.value) && !_.includes([
+          '1f09e809-8ea3-45e6-a71f-16e6a0d72390',
+          'a8a17d80-1350-11df-a1f1-0026b9348838'], _.first(careStatus).control.value)) ||
+        (_.includes([
+          '1f09e809-8ea3-45e6-a71f-16e6a0d72390',
+          'a8a17d80-1350-11df-a1f1-0026b9348838'], _.first(careStatus).control.value) && patientObj.sex === 'F');
+    }
+    if (!validTransfer) {
+      this.warnMCHTransfer = true;
+    }
+    return validTransfer;
   }
 }

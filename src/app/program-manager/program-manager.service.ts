@@ -57,11 +57,10 @@ export class ProgramManagerService {
         this.toOpenmrsDateFormat(program.dateCompleted || new Date()), location ,
         program.enrolledProgram._openmrsModel.uuid);
       // if intra-ampath, unenroll and enroll in the new location
-      if (theChange === 'location') {
+      if (theChange === 'location' || (theChange === 'transfer' && newLoc)) {
         const enrollPayload = this.programService.createEnrollmentPayload(
           program.programUuid, patient, this.toOpenmrsDateFormat(program.dateEnrolled),
-          null,
-          newLoc, '');
+          null, newLoc, '');
         programBatch.push(this.programService.saveUpdateProgramEnrollment(unenrollPayload, theChange));
         programBatch.push(this.programService.saveUpdateProgramEnrollment(enrollPayload));
       } else {

@@ -6,17 +6,34 @@ import { Patient } from '../../models/patient.model';
 import { ProgramManagerService } from '../program-manager.service';
 import { PatientResourceService } from '../../openmrs-api/patient-resource.service';
 import { Observable, of } from 'rxjs';
+import * as moment from 'moment';
 
 @Component({
   selector: 'program-transfer',
   templateUrl: './transfer-program.component.html',
-  styleUrls: []
+  styles: [
+      `.panel.panel-info {
+      border: 1px solid #bce8f1;
+      margin-top: 12px;
+    }`
+  ]
 })
 export class TransferProgramComponent implements OnInit {
   @Input() public programs: any[] = [];
   @Input() public editedProgram: any;
-  @Input() public patient: Patient;
   @Input() public complete = false;
+
+  @Input()
+  public set patient(val: Patient) {
+    this._patient = val;
+    if (val) {
+      this.showExitForms();
+    }
+  }
+
+  public get patient() {
+    return this._patient;
+  }
 
   @Input()
   public set formsFilled(val: boolean) {
@@ -34,26 +51,28 @@ export class TransferProgramComponent implements OnInit {
   // tslint:disable-next-line:no-output-on-prefix
   @Output() public onBack: EventEmitter<any> = new EventEmitter(null);
   public transferring = false;
+  private location: any;
   public showForms = false;
   public exitEncounters: string[] = [];
   public hasError = false;
   public message = '';
+  public transferLocation;
   private _formsFilled = false;
+  private _patient: Patient;
 
   constructor(private programManagerService: ProgramManagerService,
-    private patientResourceService: PatientResourceService,
-    private router: Router) {
+              private patientResourceService: PatientResourceService,
+              private router: Router) {
   }
 
   public ngOnInit() {
-
   }
 
   public showExitForms() {
     _.each(this.programs, (program) => {
-      if (program.stateChangeEncounterTypes && program.stateChangeEncounterTypes.nonAmpath) {
+      if (program.stateChangeEncounterTypes && program.stateChangeEncounterTypes.transfer) {
         // at the moment we only have one form. Pick the first
-        const form: any = _.first(program.stateChangeEncounterTypes.nonAmpath);
+        const form: any = _.first(program.stateChangeEncounterTypes.transfer);
         this.exitEncounters.push(form.uuid);
       }
     });
@@ -67,6 +86,7 @@ export class TransferProgramComponent implements OnInit {
   }
 
   public completeProgramTransfer() {
+    this.preSelectLocation();
     this.transferring = true;
     this.programs = _.map(this.programs, (program) => {
       _.merge(program, {
@@ -76,38 +96,24 @@ export class TransferProgramComponent implements OnInit {
     });
 
     this.programManagerService.editProgramEnrollments('transfer', this.patient,
-      this.programs, null).subscribe((programs) => {
-        if (programs) {
-          this.removePreferedIdentifier().subscribe((success) => {
-            this.transferring = false;
-            this.hasError = false;
-            this.formsFilled = false;
-            this.programTransferComplete.next(programs);
-          }, (err) => {
-            this.showError('Could not remove preferred patient identifier');
-            console.log(err);
-          });
-          /*this.programManagerService.updatePersonHealthCenter({
-            attributes: [{
-              value: null,
-              attributeType: '8d87236c-c2cc-11de-8d13-0010c6dffd0f'
-            }],
-            person: {uuid: this.patient.uuid}
-          }).subscribe((success) => {
-
-          }, (err) => {
-            this.hasError = true;
-            this.transferring = false;
-            this.message = 'Could not update patient health center';
-            console.log(err);
-          });*/
-        } else {
-          this.showError('Could not update patient programs');
-        }
-      }, (err) => {
+      this.programs, this.location ? this.location.value : null).subscribe((programs) => {
+      if (programs) {
+        this.updatePreferedIdentifier(!this.location).subscribe((success) => {
+          this.transferring = false;
+          this.hasError = false;
+          this.formsFilled = false;
+          this.programTransferComplete.next(programs);
+        }, (err) => {
+          this.showError('Could not remove preferred patient identifier');
+          console.log(err);
+        });
+      } else {
         this.showError('Could not update patient programs');
-        console.log(err);
-      });
+      }
+    }, (err) => {
+      this.showError('Could not update patient programs');
+      console.log(err);
+    });
   }
 
   public fillEnrollmentForm(form) {
@@ -138,7 +144,7 @@ export class TransferProgramComponent implements OnInit {
     this.message = message;
   }
 
-  private removePreferedIdentifier(): Observable<any> {
+  private updatePreferedIdentifier(remove?: boolean): Observable<any> {
     // get preferred identifier
     const preferredIdentifier = _.find(this.patient.openmrsModel.identifiers, 'preferred');
     if (preferredIdentifier) {
@@ -146,14 +152,27 @@ export class TransferProgramComponent implements OnInit {
         uuid: preferredIdentifier.uuid,
         identifier: preferredIdentifier.identifier, // patientIdentifier
         identifierType: preferredIdentifier.identifierType.uuid, // identifierType
-        preferred: false, // we don't know where the patient is going. so we only remove the preferred state
-        location: preferredIdentifier.location.uuid // location
+        preferred: true,
+        location: this.location ? this.location.value : preferredIdentifier.location.uuid // location
       };
+      if (remove) {
+        _.merge(personIdentifierPayload, {
+          preferred: false, // we don't know where the patient is going. so we only remove the preferred state
+        });
+      }
 
       return this.patientResourceService.saveUpdatePatientIdentifier(this.patient.person.uuid,
         personIdentifierPayload.uuid, personIdentifierPayload).take(1);
     } else {
       return of({});
+    }
+  }
+
+  private preSelectLocation() {
+    const transferLocation = localStorage.getItem('transferLocation');
+    if (transferLocation) {
+      this.transferLocation = transferLocation;
+      this.location = {value: transferLocation};
     }
   }
 
