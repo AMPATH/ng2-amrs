@@ -175,7 +175,7 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
   }
 
   public goToDetails() {
-    // incompatibility step has 'go back' issue. enforce the current step here
+    // incompatibility step has 'go back' issue. enforce the current step CacheStorageServices
     this.currentStep = 2;
     this.jumpStep = -1;
     if (this.program) {
@@ -264,8 +264,9 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
         this.enrolling = false;
         this.completeEnrollment();
       } else {
-        this.enrolling = false;
-        this.showMessage('Error. Could not refer the patient');
+        this.enrolling = true;
+        // patient is enrolled altough this error is shown still
+        // this.showMessage('Error. Could not refer the patient');
       }
 
     }, (error) => {
@@ -517,7 +518,7 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
           if (enrollMentQuestionsObject.enrollToGroup) {
             this.enrollIntoGroup(queryParams);
           }
-        }  else {
+        } else {
           this.navigateToRoute(queryParams.redirectUrl);
         }
       });
@@ -601,10 +602,10 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
     if (requiredStatus && question.value !== question.enrollIf) {
       this.showMessage(`The question <strong><em>${question.name}</em></strong> MUST be
           '${requiredStatus.label}' to be able to enroll the patient into this program`);
-            this.isButtonVisible = false ;
+      this.isButtonVisible = false;
     } else {
       this.removeMessage();
-      this.isButtonVisible = true ;
+      this.isButtonVisible = true;
     }
   }
 
