@@ -175,7 +175,7 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
   }
 
   public goToDetails() {
-    // incompatibility step has 'go back' issue. enforce the current step here
+    // incompatibility step has 'go back' issue. enforce the current step CacheStorageServices
     this.currentStep = 2;
     this.jumpStep = -1;
     if (this.program) {
