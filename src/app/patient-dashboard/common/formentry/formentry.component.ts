@@ -87,6 +87,10 @@ export class FormentryComponent implements OnInit, OnDestroy {
   public isGroupVisit = false;
   public enrollToGroup = false;
   public enrollToDC = false;
+  public activeProgram: string;
+  public formUuid: string;
+  public isOncologyReferral = false;
+  public oncologyReferral: boolean;
 
   constructor(private appFeatureAnalytics: AppFeatureAnalytics,
     private route: ActivatedRoute,
@@ -114,57 +118,64 @@ export class FormentryComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-
     this.appFeatureAnalytics
       .trackEvent('Patient Dashboard', 'Formentry Component Loaded', 'ngOnInit');
     this.wireDataSources();
     const componentRef = this;
-    // get visitUuid & encounterUuid then load form
-    this.route.queryParams.subscribe((params) => {
-      componentRef.visitUuid = params['visitUuid'];
-      componentRef.visitTypeUuid = params['visitTypeUuid'];
-      componentRef.encounterUuid = params['encounter'];
-      componentRef.programEncounter = params['programEncounter'];
-      componentRef.step = params['step'] ? parseInt(params['step'], 10) : null;
-      componentRef.referralEncounterType = params['referralEncounterType'];
-      componentRef.groupUuid = params['groupUuid'];
-      if (componentRef.draftedFormsService.lastDraftedForm !== null &&
-        componentRef.draftedFormsService.lastDraftedForm !== undefined &&
-        componentRef.draftedFormsService.loadDraftOnNextFormLoad) {
-        componentRef.loadDraftedForm();
-        return;
-      } else if (componentRef.draftedFormsService.lastDraftedForm !== null &&
-        componentRef.draftedFormsService.lastDraftedForm !== undefined &&
-        !componentRef.draftedFormsService.loadDraftOnNextFormLoad) {
-        setTimeout(() => {
-          this.confirmationService.confirm({
-            header: 'Unsaved Draft Form',
-            message: 'You have unsaved changes on your last form ' +
-              'that will be lost upon confirmation. Do you want to continue?',
-            rejectVisible: true,
-            acceptVisible: true,
-            accept: () => {
-              this.draftedFormsService.setDraftedForm(null);
-              componentRef.loadForm();
-            },
-            reject: () => {
-              componentRef.loadDraftedForm();
-            }
-          });
+    this.route.params.subscribe((routeParams) => {
+      if (routeParams) {
+        this.activeProgram = routeParams.program;
+        this.formUuid = routeParams['formUuid'];
 
-        }, 1);
+        // get visitUuid & encounterUuid then load form
+        this.route.queryParams.subscribe((params) => {
+          componentRef.visitUuid = params['visitUuid'];
+          componentRef.visitTypeUuid = params['visitTypeUuid'];
+          componentRef.encounterUuid = params['encounter'];
+          componentRef.programEncounter = params['programEncounter'];
+          componentRef.oncologyReferral = params['oncologyReferral'];
+          componentRef.step = params['step'] ? parseInt(params['step'], 10) : null;
+          componentRef.referralEncounterType = params['referralEncounterType'];
+          componentRef.groupUuid = params['groupUuid'];
+          if (componentRef.draftedFormsService.lastDraftedForm !== null &&
+            componentRef.draftedFormsService.lastDraftedForm !== undefined &&
+            componentRef.draftedFormsService.loadDraftOnNextFormLoad) {
+            componentRef.loadDraftedForm();
+            return;
+          } else if (componentRef.draftedFormsService.lastDraftedForm !== null &&
+            componentRef.draftedFormsService.lastDraftedForm !== undefined &&
+            !componentRef.draftedFormsService.loadDraftOnNextFormLoad) {
+            setTimeout(() => {
+              this.confirmationService.confirm({
+                header: 'Unsaved Draft Form',
+                message: 'You have unsaved changes on your last form ' +
+                  'that will be lost upon confirmation. Do you want to continue?',
+                rejectVisible: true,
+                acceptVisible: true,
+                accept: () => {
+                  this.draftedFormsService.setDraftedForm(null);
+                  componentRef.loadForm();
+                },
+                reject: () => {
+                  componentRef.loadDraftedForm();
+                }
+              });
 
-        return;
+            }, 1);
+
+            return;
+          }
+          if (componentRef.groupUuid) {
+            console.log(!this.referralStatus && !this.step && this.isGroupVisit);
+            console.log(this.referralStatus);
+            console.log(this.isGroupVisit);
+            console.log(this.step);
+            componentRef.isGroupVisit = true;
+          }
+          componentRef.loadForm();   // load  form
+          // this.isBusyIndicator(false);
+        });
       }
-      if (componentRef.groupUuid) {
-        console.log(!this.referralStatus && !this.step && this.isGroupVisit);
-        console.log(this.referralStatus);
-        console.log(this.isGroupVisit);
-        console.log(this.step);
-        componentRef.isGroupVisit = true;
-      }
-      componentRef.loadForm();   // load  form
-      // this.isBusyIndicator(false);
     });
   }
 
@@ -268,6 +279,15 @@ export class FormentryComponent implements OnInit, OnDestroy {
         this.router.navigate(['/patient-dashboard/patient/' +
           this.patient.uuid + '/general/general/program-manager/new-program', 'step', 3]);
         break;
+      case 'oncologyReferral':
+        this.preserveFormAsDraft = false;
+        this.referralStatus = null;
+        this.showSuccessDialog = false;
+        this.toggleOncologyReferral();
+        this.router.navigate(['/patient-dashboard/patient/' +
+          this.patient.uuid + '/general/' + this.activeProgram + '/formentry/696086df-8299-419e-b434-cb2403248207'],
+          { queryParams: { oncologyReferral: true } });
+        break;
       case 'patientSearch':
         this.preserveFormAsDraft = false;
         this.router.navigate(['/patient-dashboard/patient-search'], {
@@ -338,35 +358,58 @@ export class FormentryComponent implements OnInit, OnDestroy {
     this.referralCompleteStatus.next(false);
   }
 
-  public shouldShowPatientReferralsDialog(data: any): void {
+  public handleOncologyReferral(data: any) {
     this.submittedEncounter = data;
-    const referralData = {
-      submittedEncounter: data
-    };
-    // check if referral question was filled (questionId is either referrals or patientReferrals)
-    const referralQuestion = this.form.searchNodeByQuestionId('patientReferral');
-    // if question exists provide for referrals
-    if (referralQuestion.length > 0 && _.isNil(this.programEncounter)) {
-      // get answer from the selected answer
-      const referralPrograms = this.form.searchNodeByQuestionId('referralsOrdered');
-      if (referralPrograms.length > 0) {
-        const answer = _.first(referralPrograms).control.value;
-        // map concept with program
-        this.searchReferralConcepts(answer).pipe(take(1)).subscribe((concepts) => {
-          this.referralPrograms = _.filter(this.patient.enrolledPrograms, (program: any) => {
-            return _.includes(_.map(concepts, 'uuid'), program.concept.uuid);
-          });
-          if (this.referralPrograms.length > 0) {
-            _.extend(referralData, {
-              isReferral: true,
-              selectedProgram: _.first(this.referralPrograms)
-            });
-            this.referralStatus = referralData;
-          }
-        });
-      }
+    const referralData = { submittedEncounter: data };
+
+    this.referralPrograms = _.filter(this.patient.enrolledPrograms, (program: any) => {
+      return program.isEnrolled === true;
+    });
+
+    if (this.referralPrograms) {
+      _.extend(referralData, {
+        isReferral: true,
+        selectedProgram: _.first(this.referralPrograms)
+      });
+      this.isOncologyReferral = true;
+      this.referralStatus = referralData;
+    }
+  }
+
+  public shouldShowPatientReferralsDialog(data: any): void {
+    const referralLocation = this.form.searchNodeByQuestionId('referralLocation');
+    if (referralLocation.length > 0) {
+      localStorage.setItem('referralLocation', _.first(referralLocation).control.value);
+      this.handleOncologyReferral(data);
     } else {
-      this.referralCompleteStatus.next(false);
+      this.submittedEncounter = data;
+      const referralData = {
+        submittedEncounter: data
+      };
+      // check if referral question was filled (questionId is either referrals or patientReferrals)
+      const referralQuestion = this.form.searchNodeByQuestionId('patientReferral');
+      if (referralQuestion.length > 0 && _.isNil(this.programEncounter)) {
+        // get answer from the selected answer
+        const referralPrograms = this.form.searchNodeByQuestionId('referralsOrdered');
+        if (referralPrograms.length > 0) {
+          const answer = _.first(referralPrograms).control.value;
+          // map concept with program
+          this.searchReferralConcepts(answer).pipe(take(1)).subscribe((concepts) => {
+            this.referralPrograms = _.filter(this.patient.enrolledPrograms, (program: any) => {
+              return _.includes(_.map(concepts, 'uuid'), program.concept.uuid);
+            });
+            if (this.referralPrograms.length > 0) {
+              _.extend(referralData, {
+                isReferral: true,
+                selectedProgram: _.first(this.referralPrograms)
+              });
+              this.referralStatus = referralData;
+            }
+          });
+        }
+      } else {
+        this.referralCompleteStatus.next(false);
+      }
     }
   }
 
@@ -760,7 +803,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
         (err) => {
           observer.error(err);
         });
-    }).pipe(first());
+    }).pipe(first((value: any) => value.schema.uuid === this.formUuid));
   }
 
   private getPatient(): Observable<Patient> {
@@ -984,6 +1027,20 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
   private handleFormReferrals(data: any) {
     this.shouldShowPatientReferralsDialog(data);
+    if (this.oncologyReferral) {
+      this.referralsHandler.handleOncologyReferral(this.patient,
+        {
+          submittedEncounter: this.submittedEncounter,
+          programUuid: this.activeProgram
+        }
+      ).subscribe(
+        (result) => {
+          this.referralCompleteStatus.next(true);
+        },
+        (error) => {
+          console.error('An error occured handling the oncology referral: ', error);
+        });
+    }
     this.referralCompleteStatus.pipe(take(1)).subscribe((success) => {
 
       const referralsData = this.referralsHandler.extractRequiredValues(this.form);
@@ -1034,6 +1091,10 @@ export class FormentryComponent implements OnInit, OnDestroy {
     if (!this.enrollToDC) {
       this.enrollToGroup = false;
     }
+  }
+
+  public toggleOncologyReferral() {
+    this.isOncologyReferral = !this.isOncologyReferral;
   }
 
   public toggleEnrollToGroup() {
