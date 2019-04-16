@@ -358,6 +358,10 @@
                 "filterType": "tableColumns",
                 "conditionExpression": "p5.gender in ?",
                 "parameterName": "genders"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fccs.location_id not in (195)"
             }
         ]
     },

@@ -191,6 +191,10 @@
                 "filterType": "tableColumns",
                 "conditionExpression": "person.gender in ?",
                 "parameterName": "genders"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "obs.location_id not in (195)"
             }
         ]
     },

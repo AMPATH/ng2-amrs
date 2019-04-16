@@ -373,6 +373,10 @@
                 "filterType": "tableColumns",
                 "conditionExpression": "fbcs.gender in ?",
                 "parameterName": "genders"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fbcs.location_id not in (195)"
             }
         ]
     },
