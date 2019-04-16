@@ -10,7 +10,8 @@
         <h4 class="component-title"><span class="fa fa-file"></span>{{formName}}</h4>
         <form-renderer [node]="form.rootNode"></form-renderer>
         <div class="form-row" style="">
-          <button id="formentry-submit-btn" *ngIf="!formSubmissionErrors" class="btn btn-primary" (click)="onSubmit($event)">Save</button>
+          <button id="formentry-submit-btn" *ngIf="!formSubmissionErrors" class="btn btn-primary"
+            (click)="onSubmit($event)">Save</button>
           <button class="btn btn-danger" (click)="onCancel($event)">Cancel</button>
         </div>
       </form>
@@ -34,7 +35,8 @@
         </ul>
       </div>
       <div class="panel-footer" style="min-height: 50px">
-        <button id="formentry-submit-btn" *ngIf="formSubmissionErrors" (click)="retrySubmittingPayload()" class="btn btn-primary pull-right">Retry
+        <button id="formentry-submit-btn" *ngIf="formSubmissionErrors" (click)="retrySubmittingPayload()"
+          class="btn btn-primary pull-right">Retry
           Saving Form</button>
       </div>
     </div>
@@ -74,14 +76,15 @@
       </div>
     </div>
   </div>
-  <p-dialog header="Success" [(visible)]="showSuccessDialog" modal="true" closable="false" minWidth="300" closeresponsive="true">
+  <p-dialog header="Success" [(visible)]="showSuccessDialog" modal="true" closable="false" minWidth="300"
+    closeresponsive="true">
     <p class="text-success" style="margin-bottom: 10px;">
-					<span class="fa-stack fa-lg">
-							<i class="fa fa-circle-thin fa-stack-2x"></i>
-							<i class="fa fa-info fa-stack-1x"></i>
-					</span>
-					Form submitted successfully.
-					</p>
+      <span class="fa-stack fa-lg">
+        <i class="fa fa-circle-thin fa-stack-2x"></i>
+        <i class="fa fa-info fa-stack-1x"></i>
+      </span>
+      Form submitted successfully.
+    </p>
     <order-list [submittedOrdersModel]="submittedOrders">
     </order-list>
     <div *ngIf="diffCareReferralStatus">
@@ -89,54 +92,73 @@
       <hr style="margin-top:1px; margin-bottom:1px;" />
       <diff-care-referral-status [status]="diffCareReferralStatus"></diff-care-referral-status>
       <div class="alert alert-info" *ngIf="enrollToGroup" style="margin-top: 21px;">
-        <i class="fa fa-users"></i> You have chosen to also enroll the patient to a group, you will be redirected to the group enrollment page.
+        <i class="fa fa-users"></i> You have chosen to also enroll the patient to a group, you will be redirected to the
+        group enrollment page.
       </div>
     </div>
-    <div *ngIf="referralStatus">
+    <div *ngIf="referralStatus && !isOncologyReferral">
       <program-referral-status [status]="referralStatus"></program-referral-status>
     </div>
-      <div class="ui-dialog-buttonpane ui-helper-clearfix" style="padding: 0;margin-right: -0.4em;">
-        <button *ngIf="step" (click)="navigateTo('programManager')" type="button" pButton icon="fa-file" label="Back to Program Manager"></button>
-        <button *ngIf="referralStatus" (click)="navigateTo('programManagerReferral')" class="btn btn-primary" type="button">Complete Referral</button>
-        <button *ngIf="referralStatus" (click)="onAbortingReferral($event)" type="button" class="btn btn-danger">Cancel</button>
-        <button *ngIf="!referralStatus && !step" (click)="navigateTo('patientDashboard')" type="button" class="btn btn-primary">
-          <i class="fa fa-user"></i> Patient Dashboard</button>
-        <button *ngIf="!referralStatus && !step" (click)="navigateTo('patientSearch')" type="button" class="btn btn-primary">
-          <i class="fa fa-search"></i> Patient Search</button>
-        <button *ngIf="!referralStatus && !step && isGroupVisit" (click)="navigateTo('groupManager')" type="button" class="btn btn-primary">
-              <i class="fa fa-users"></i> Group Manager</button>
-        <button *ngIf="enrollToGroup" (click)="navigateTo('groupEnrollment')" type="button" class="btn btn-primary">
-            <i class="fa fa-users"></i> Group Enrollment
-        </button>
-      </div>
+    <div *ngIf="referralStatus && isOncologyReferral">
+      <oncology-referral-status [status]="referralStatus"></oncology-referral-status>
+    </div>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix" style="padding: 0;margin-right: -0.4em;">
+      <button *ngIf="step" (click)="navigateTo('programManager')" type="button" pButton icon="fa-file"
+        label="Back to Program Manager"></button>
+      <button *ngIf="referralStatus && isOncologyReferral" (click)="navigateTo('oncologyReferral')"
+        class="btn btn-primary" type="button">Complete Referral</button>
+      <button *ngIf="referralStatus && !isOncologyReferral" (click)="navigateTo('programManagerReferral')"
+        class="btn btn-primary" type="button">Complete Referral</button>
+      <button *ngIf="referralStatus" (click)="onAbortingReferral($event)" type="button"
+        class="btn btn-danger">Cancel</button>
+      <button *ngIf="!referralStatus && !step" (click)="navigateTo('patientDashboard')" type="button"
+        class="btn btn-primary">
+        <i class="fa fa-user"></i> Patient Dashboard</button>
+      <button *ngIf="!referralStatus && !step" (click)="navigateTo('patientSearch')" type="button"
+        class="btn btn-primary">
+        <i class="fa fa-search"></i> Patient Search</button>
+      <button *ngIf="!referralStatus && !step && isGroupVisit" (click)="navigateTo('groupManager')" type="button"
+        class="btn btn-primary">
+        <i class="fa fa-users"></i> Group Manager</button>
+      <button *ngIf="enrollToGroup" (click)="navigateTo('groupEnrollment')" type="button" class="btn btn-primary">
+        <i class="fa fa-users"></i> Group Enrollment
+      </button>
+    </div>
   </p-dialog>
   <p-confirmDialog [closable]="false" key="duplicateWarning"></p-confirmDialog>
 
   <p-dialog [closable]="true" header="Process Referrals" [(visible)]="showProcessReferralsDialog" [modal]="true">
-      <h4><i class="fa fa-question-circle"></i> You have referred the patient to differentiated care program.</h4>
-        <ul class="list-group">
-          <li class="list-group-item">
+    <h4><i class="fa fa-question-circle"></i> You have referred the patient to differentiated care program.</h4>
+    <ul class="list-group">
+      <li class="list-group-item">
         <h4>Do you want to enroll the patient to the program?</h4>
-          <div class="row">
-          <button class="pull-right btn btn-xs" [ngClass]="{'btn-primary': !enrollToDC, 'btn-default': enrollToDC}" style="margin-left: 11px; margin-right: 7px;" 
-          (click)="toggleEnrollToDC()"> <i class="fa fa-close"></i> No </button>
-          <button class="pull-right btn btn-xs" [ngClass]="{'btn-primary': enrollToDC, 'btn-default': !enrollToDC}" style="margin-left: 5px;" 
-          (click)="toggleEnrollToDC()"> <i class="fa fa-check"></i> Yes</button>
-          </div>
-          </li>
-        <li class="list-group-item">
-        <h4>Do you want to enroll the patient to a community group?</h4>
-        <div class="row"> 
-          <button class="pull-right btn btn-xs" style="margin-left: 11px; margin-right: 7px;"  [ngClass]="{'btn-primary': !enrollToGroup, 'btn-default': enrollToGroup}" (click)="toggleEnrollToGroup()" [disabled]="!enrollToDC">
-                <i class="fa fa-close"></i> No</button>
-          <button class="pull-right btn btn-xs" style="margin-left: 5px;"  [ngClass]="{'btn-primary': enrollToGroup, 'btn-default': !enrollToGroup}" (click)="toggleEnrollToGroup()"  [disabled]="!enrollToDC">
-              <i class="fa fa-check"></i> Yes</button>
+        <div class="row">
+          <button class="pull-right btn btn-xs" [ngClass]="{'btn-primary': !enrollToDC, 'btn-default': enrollToDC}"
+            style="margin-left: 11px; margin-right: 7px;" (click)="toggleEnrollToDC()"> <i class="fa fa-close"></i> No
+          </button>
+          <button class="pull-right btn btn-xs" [ngClass]="{'btn-primary': enrollToDC, 'btn-default': !enrollToDC}"
+            style="margin-left: 5px;" (click)="toggleEnrollToDC()"> <i class="fa fa-check"></i> Yes</button>
         </div>
-        </li>
-      </ul>
-      <p-footer>
-        <button type="button" class="btn btn-danger pull-left" style="margin-left: 7px" (click)="cancelReferralToDC()">Cancel</button>
-        <button type="button" class="btn btn-primary" style="margin-right: 7px;" (click)="handleReferralToDC()">Proceed</button>
-      </p-footer>
-    </p-dialog>
+      </li>
+      <li class="list-group-item">
+        <h4>Do you want to enroll the patient to a community group?</h4>
+        <div class="row">
+          <button class="pull-right btn btn-xs" style="margin-left: 11px; margin-right: 7px;"
+            [ngClass]="{'btn-primary': !enrollToGroup, 'btn-default': enrollToGroup}" (click)="toggleEnrollToGroup()"
+            [disabled]="!enrollToDC">
+            <i class="fa fa-close"></i> No</button>
+          <button class="pull-right btn btn-xs" style="margin-left: 5px;"
+            [ngClass]="{'btn-primary': enrollToGroup, 'btn-default': !enrollToGroup}" (click)="toggleEnrollToGroup()"
+            [disabled]="!enrollToDC">
+            <i class="fa fa-check"></i> Yes</button>
+        </div>
+      </li>
+    </ul>
+    <p-footer>
+      <button type="button" class="btn btn-danger pull-left" style="margin-left: 7px"
+        (click)="cancelReferralToDC()">Cancel</button>
+      <button type="button" class="btn btn-primary" style="margin-right: 7px;"
+        (click)="handleReferralToDC()">Proceed</button>
+    </p-footer>
+  </p-dialog>
 </div>
