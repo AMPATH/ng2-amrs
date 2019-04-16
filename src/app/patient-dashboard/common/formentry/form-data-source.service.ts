@@ -30,6 +30,8 @@ export class FormDataSourceService {
       problem: this.getProblemDataSource(),
       conceptAnswers: this.getWhoStagingCriteriaDataSource()
     };
+    console.log('-------------------------formData--------------------------');
+    console.log(formData.conceptAnswers);
     return formData;
   }
 
@@ -117,6 +119,9 @@ export class FormDataSourceService {
     datasource.resolveSelectedValue = resolve;
     datasource.searchOptions = find;
 
+    console.log('---------------------------------dataSource------------------------------------------------');
+    console.log(datasource);
+
     return datasource;
 
   }
@@ -149,6 +154,7 @@ export class FormDataSourceService {
     const resolve = (uuid: string) => {
       return this.resolveConcept(uuid);
     };
+
 
     const changeConcept = (uuid: string) => {
       datasource.dataSourceOptions.concept = uuid;
@@ -329,6 +335,8 @@ export class FormDataSourceService {
     this.conceptResourceService.getConceptByUuid(uuid, true, v).pipe(
       take(1)).subscribe((result) => {
         const mappedConcepts = this.mapConcepts(result.answers);
+        console.log('------------------------------mappedConcepts------------------------');
+        console.log(mappedConcepts);
         conceptResult.next(mappedConcepts);
       }, (error) => {
         conceptResult.error(error);
