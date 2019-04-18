@@ -86,7 +86,7 @@
             "alias": "tested_appropriately",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(timestampdiff(month, arv_start_date, encounter_date) >= 6 and timestampdiff(day, date(vl_1_date), date(fhs.endDate)) <= 365,1,null)"
+                "expression": "if(timestampdiff(month, fhs.arv_start_date, fhs.encounter_date) >= 6 and timestampdiff(day, date(fhs.vl_1_date), date(fhs.endDate)) <= 365,1,null)"
             }
         },
         {
@@ -94,7 +94,7 @@
             "alias": "not_tested_appropriately",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(timestampdiff(month, arv_start_date, encounter_date) >= 6 and (timestampdiff(day,vl_1_date, date(fhs.endDate)) > 365 or vl_1_date is null),1,null)"
+                "expression": "if(timestampdiff(month, fhs.arv_start_date, fhs.encounter_date) >= 6 and (timestampdiff(day,fhs.vl_1_date, date(fhs.endDate)) > 365 or fhs.vl_1_date is null),1,null)"
             }
         },
         {
@@ -110,7 +110,7 @@
             "alias": "pending_vl_orders",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(orders.concept_id=856 and (date(orders.date_created)  between  DATE_FORMAT(fhs.endDate,'%Y-%m-01') and fhs.endDate) and date(vl_1_date) != date(orders.date_created) and  date(vl_1_date) < DATE_FORMAT(fhs.endDate,'%Y-%m-01'),1,null)"
+                "expression": "if(orders.concept_id=856 and (date(orders.date_created)  between  DATE_FORMAT(fhs.endDate,'%Y-%m-01') and fhs.endDate) and date(fhs.vl_1_date) != date(orders.date_created) and  date(fhs.vl_1_date) < DATE_FORMAT(fhs.endDate,'%Y-%m-01'),1,null)"
             }
         },
         {
@@ -118,7 +118,7 @@
             "alias": "missing_vl_order",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(timestampdiff(month, arv_start_date, encounter_date) >= 6 and (timestampdiff(day,vl_1_date, date(fhs.endDate)) > 365 or vl_1_date is null) and (orders.date_created is null or orders.concept_id!=856),1,null)"
+                "expression": "if(timestampdiff(month, fhs.arv_start_date, fhs.encounter_date) >= 6 and (timestampdiff(day,fhs.vl_1_date, date(fhs.endDate)) > 365 or fhs.vl_1_date is null) and (orders.date_created is null or orders.concept_id!=856),1,null)"
             }
         },
         {
@@ -126,7 +126,7 @@
             "alias": "virally_suppressed",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(timestampdiff(month,arv_start_date,encounter_date) >= 6 and timestampdiff(day, date(vl_1_date), date(fhs.endDate)) <= 365 and vl_1 < 1000,1,null)"
+                "expression": "if(timestampdiff(month,fhs.arv_start_date,fhs.encounter_date) >= 6 and timestampdiff(day, date(fhs.vl_1_date), date(fhs.endDate)) <= 365 and fhs.vl_1 < 1000,1,null)"
             }
         },
         {
@@ -134,7 +134,7 @@
             "alias": "not_virally_suppressed",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(timestampdiff(month,arv_start_date,encounter_date) >= 6 and timestampdiff(day, date(vl_1_date), date(fhs.endDate)) <= 365 and vl_1 >= 1000,1,null)"
+                "expression": "if(timestampdiff(month,fhs.arv_start_date,fhs.encounter_date) >= 6 and timestampdiff(day, date(fhs.vl_1_date), date(fhs.endDate)) <= 365 and fhs.vl_1 >= 1000,1,null)"
             }
         },
         {

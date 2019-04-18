@@ -137,7 +137,12 @@ module.exports = function () {
             var queryParts = reportFactory.singleReportToSql(requestParams);
             // console.log('Query Parts', queryParts);
             db.reportQueryServer(queryParts, function (results) {
-                callback(reportFactory.resolveIndicators(reportName, results));
+                var res = reportFactory.resolveIndicators(reportName, results);
+                _.each(res.result, (item) => {
+                    item.cur_meds = helpers.getARVNames(item.cur_meds);
+                });
+                callback(res);
+
             });
 
         },

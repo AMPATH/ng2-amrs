@@ -37,7 +37,7 @@
             "alias": "on_arvs",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(cur_arv_line is not null,1,null)"
+                "expression": "if(fhs.cur_arv_line is not null,1,null)"
             }
         },
         {
@@ -45,7 +45,7 @@
             "alias": "on_arvs_first_line",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(cur_arv_line=1,1,null)"
+                "expression": "if(fhs.cur_arv_line=1,1,null)"
             }
         },
         {
@@ -53,7 +53,7 @@
             "alias": "on_arvs_second_line",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(cur_arv_line=2,1,null)"
+                "expression": "if(fhs.cur_arv_line=2,1,null)"
             }
         },
         {
@@ -61,7 +61,7 @@
             "alias": "newly_on_second_line",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(cur_arv_line=2 and arv_start_date between '{startDate}' and '{endDate}',1,null)"
+                "expression": "if(fhs.cur_arv_line=2 and fhs.arv_start_date between '{startDate}' and '{endDate}',1,null)"
             }
         },
         {
@@ -69,7 +69,7 @@
             "alias": "on_arvs_third_line",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(cur_arv_line>2,1,null)"
+                "expression": "if(fhs.cur_arv_line>2,1,null)"
             }
         },
         {
@@ -77,7 +77,7 @@
             "alias": "vl_done_past_year",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(timestampdiff(week,vl_1_date,encounter_datetime) <= 52,1,null)"
+                "expression": "if(timestampdiff(week,fhs.vl_1_date,fhs.encounter_datetime) <= 52,1,null)"
             }
         },
         {
@@ -85,7 +85,7 @@
             "alias": "vl_done_past_year_relative_to_end_date",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(timestampdiff(week,vl_1_date,'{endDate}') <= 52,1,null)"
+                "expression": "if(timestampdiff(week,fhs.vl_1_date,'{endDate}') <= 52,1,null)"
             }
         },
         {
@@ -93,7 +93,7 @@
             "alias": "no_vl_done_past_year",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(cur_arv_line is not null and (vl_1_date is null or timestampdiff(week,vl_1_date,encounter_datetime) >= 52),1,null)"
+                "expression": "if(fhs.cur_arv_line is not null and (fhs.vl_1_date is null or timestampdiff(week,fhs.vl_1_date,fhs.encounter_datetime) >= 52),1,null)"
             }
         },
         {
@@ -101,7 +101,7 @@
             "alias": "on_second_line_not_suppressed",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(vl_1 > 1000 and cur_arv_line =2,1,null)"
+                "expression": "if(fhs.vl_1 > 1000 and fhs.cur_arv_line =2,1,null)"
             }
         },
         {
@@ -109,7 +109,7 @@
             "alias": "not_on_arvs_cd4_lte_500",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(arv_start_date is null and cd4_1 < 500,1,null)"
+                "expression": "if(fhs.arv_start_date is null and fhs.cd4_1 < 500,1,null)"
             }
         },
         {
@@ -117,7 +117,7 @@
             "alias": "vl_done_past_year_lte_1000",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(timestampdiff(week,vl_1_date,encounter_datetime) <= 52 and vl_1 <= 1000,1,null)"
+                "expression": "if(timestampdiff(week,fhs.vl_1_date,fhs.encounter_datetime) <= 52 and fhs.vl_1 <= 1000,1,null)"
             }
         },
         {
@@ -125,7 +125,7 @@
             "alias": "vl_done_past_year_gt_1000",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(timestampdiff(week,vl_1_date,encounter_datetime) <= 52 and vl_1 > 1000,1,null)"
+                "expression": "if(timestampdiff(week,fhs.vl_1_date,fhs.encounter_datetime) <= 52 and fhs.vl_1 > 1000,1,null)"
             }
         },
         {
@@ -133,7 +133,7 @@
             "alias": "vl_done_this_encounter",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(vl_resulted >= 0 and vl_resulted_date=date(encounter_datetime),1,null)"
+                "expression": "if(fhs.vl_resulted >= 0 and fhs.vl_resulted_date=date(fhs.encounter_datetime),1,null)"
             }
         },
         {
@@ -141,7 +141,7 @@
             "alias": "vl_done_this_encounter_lte_1000",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(vl_resulted <= 1000 and vl_resulted_date = date(encounter_datetime),1,null)"
+                "expression": "if(fhs.vl_resulted <= 1000 and fhs.vl_resulted_date = date(fhs.encounter_datetime),1,null)"
             }
         },
         {
@@ -149,7 +149,7 @@
             "alias": "vl_done_this_encounter_gt_1000",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(vl_resulted > 1000 and vl_resulted_date = date(encounter_datetime),1,null)"
+                "expression": "if(fhs.vl_resulted > 1000 and fhs.vl_resulted_date = date(fhs.encounter_datetime),1,null)"
             }
         },
         {
@@ -157,7 +157,7 @@
             "alias": "vl_ordered",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(date(vl_order_date)=date(encounter_datetime),1,null)"
+                "expression": "if(date(fhs.vl_order_date)=date(fhs.encounter_datetime),1,null)"
             }
         },
         {
@@ -165,7 +165,7 @@
             "alias": "pending_vl_order",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(timestampdiff(week,vl_order_date,encounter_datetime) >= 0 and vl_1_date < vl_order_date,1,null)"
+                "expression": "if(timestampdiff(week,fhs.vl_order_date,fhs.encounter_datetime) >= 0 and fhs.vl_1_date < fhs.vl_order_date,1,null)"
             }
         },
         {
@@ -173,7 +173,7 @@
             "alias": "pending_vl_order_no_result_after_4_weeks",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(timestampdiff(week,vl_order_date,encounter_datetime) >= 4 and vl_1_date < vl_order_date,1,null)"
+                "expression": "if(timestampdiff(week,fhs.vl_order_date,fhs.encounter_datetime) >= 4 and fhs.vl_1_date < fhs.vl_order_date,1,null)"
             }
         },
         {
@@ -181,7 +181,7 @@
             "alias": "on_arvs_lte_26_weeks",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(timestampdiff(week,arv_start_date,encounter_datetime) <= 26,1,null)"
+                "expression": "if(timestampdiff(week,fhs.arv_start_date,fhs.encounter_datetime) <= 26,1,null)"
             }
         },
         {
@@ -189,7 +189,7 @@
             "alias": "on_arvs_lte_52_weeks",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(timestampdiff(week,arv_start_date,encounter_datetime) <= 52,1,null)"
+                "expression": "if(timestampdiff(week,fhs.arv_start_date,fhs.encounter_datetime) <= 52,1,null)"
             }
         },
         {
@@ -197,7 +197,7 @@
             "alias": "on_arvs_lte_52_weeks_and_have_vl",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(timestampdiff(week,arv_start_date,encounter_datetime) <= 52 and timestampdiff(week,vl_1_date,encounter_datetime) <= 52,1,null)"
+                "expression": "if(timestampdiff(week,fhs.arv_start_date,fhs.encounter_datetime) <= 52 and timestampdiff(week,fhs.vl_1_date,fhs.encounter_datetime) <= 52,1,null)"
             }
         },
         {
@@ -205,7 +205,7 @@
             "alias": "on_arvs_lte_52_weeks_and_have_vl_lte_1000",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(timestampdiff(week,arv_start_date,encounter_datetime) <= 52 and timestampdiff(week,vl_1_date,encounter_datetime) <= 52 and vl_1 <= 1000,1,null)"
+                "expression": "if(timestampdiff(week,fhs.arv_start_date,fhs.encounter_datetime) <= 52 and timestampdiff(week,fhs.vl_1_date,fhs.encounter_datetime) <= 52 and fhs.vl_1 <= 1000,1,null)"
             }
         },
         {
@@ -213,7 +213,7 @@
             "alias": "pregnant",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(is_pregnant is not null,1,null)"
+                "expression": "if(fhs.is_pregnant is not null,1,null)"
             }
         },
         {
@@ -221,7 +221,7 @@
             "alias": "pregnant_and_on_arvs",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(is_pregnant is not null and cur_arv_line is not null,1,null)"
+                "expression": "if(fhs.is_pregnant is not null and fhs.cur_arv_line is not null,1,null)"
             }
         },
         {
@@ -229,7 +229,7 @@
             "alias": "newly_enrolled",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(is_clinical_encounter=1 and prev_clinical_datetime_hiv is null,1,null)"
+                "expression": "if(fhs.is_clinical_encounter=1 and fhs.prev_clinical_datetime_hiv is null,1,null)"
             }
         },
         {
@@ -237,7 +237,7 @@
             "alias": "enrolled_in_care_total",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if((date(prev_clinical_datetime_hiv) between '{startDate}' and '{endDate}'  or prev_clinical_datetime_hiv is null) and date(enrollment_date) between '{startDate}' and '{endDate}',1,null)"
+                "expression": "if((date(fhs.prev_clinical_datetime_hiv) between '{startDate}' and '{endDate}'  or fhs.prev_clinical_datetime_hiv is null) and date(fhs.enrollment_date) between '{startDate}' and '{endDate}',1,null)"
             }
         },
         {
@@ -245,7 +245,7 @@
             "alias": "virally_suppressed",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(vl_1 < 1000 and  timestampdiff(week,vl_1_date,encounter_datetime) <= 52,1,null)"
+                "expression": "if(fhs.vl_1 < 1000 and  timestampdiff(week,fhs.vl_1_date,fhs.encounter_datetime) <= 52,1,null)"
             }
         },
         {
@@ -253,7 +253,7 @@
             "alias": "patients_with_vl_result",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(vl_1_date between '{startDate}' and '{endDate}',1,null)"
+                "expression": "if(fhs.vl_1_date between '{startDate}' and '{endDate}',1,null)"
             }
         },
         {
@@ -261,7 +261,7 @@
             "alias": "virally_suppressed_in_past_year",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(vl_1 < 1000 and  timestampdiff(week,vl_1_date,encounter_datetime) <= 52,1,null)"
+                "expression": "if(fhs.vl_1 < 1000 and  timestampdiff(week,fhs.vl_1_date,fhs.encounter_datetime) <= 52,1,null)"
             }
         },
         {
@@ -269,7 +269,7 @@
             "alias": "viral_load_resulted_in_past_year",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(vl_1 is not null and  timestampdiff(week,vl_1_date,encounter_datetime) <= 52,1,null)"
+                "expression": "if(fhs.vl_1 is not null and  timestampdiff(week,fhs.vl_1_date,fhs.encounter_datetime) <= 52,1,null)"
             }
         },
         {
@@ -277,7 +277,7 @@
             "alias": "not_virally_suppressed_in_past_year",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(vl_1> 1000 and  timestampdiff(week,vl_1_date,encounter_datetime) <= 52,1,null)"
+                "expression": "if(fhs.vl_1> 1000 and  timestampdiff(week,fhs.vl_1_date,fhs.encounter_datetime) <= 52,1,null)"
             }
         },
         {
@@ -285,7 +285,7 @@
             "alias": "on_arvs_gt_26_weeks",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(timestampdiff(week,arv_start_date,encounter_datetime) > 26,1,null)"
+                "expression": "if(timestampdiff(week,fhs.arv_start_date,fhs.encounter_datetime) > 26,1,null)"
             }
         },
         {
@@ -301,7 +301,7 @@
             "alias": "vl_suppressed_patients",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(vl_1_date between '{startDate}' and '{endDate}' and vl_1 < 100,1,null)"
+                "expression": "if(fhs.vl_1_date between '{startDate}' and '{endDate}' and fhs.vl_1 < 100,1,null)"
             }
         },
         {
@@ -309,7 +309,7 @@
             "alias": "vl_unsuppressed_patients",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(vl_1_date between '{startDate}' and '{endDate}' and vl_1 >= 1000,1,null)"
+                "expression": "if(fhs.vl_1_date between '{startDate}' and '{endDate}' and fhs.vl_1 >= 1000,1,null)"
             }
         },
         {
@@ -317,7 +317,7 @@
             "alias": "early_scheduled_visits",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if((date(encounter_datetime) < date(prev_rtc_date)) and encounter_datetime between '{startDate}' and '{endDate}',1,null)"
+                "expression": "if((date(fhs.encounter_datetime) < date(fhs.prev_rtc_date)) and fhs.encounter_datetime between '{startDate}' and '{endDate}',1,null)"
             }
         },
         {
@@ -325,7 +325,7 @@
             "alias": "late_scheduled_visits",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if((date(encounter_datetime) > date(prev_rtc_date)) and encounter_datetime between '{startDate}' and '{endDate}',1,null)"
+                "expression": "if((date(fhs.encounter_datetime) > date(fhs.prev_rtc_date)) and fhs.encounter_datetime between '{startDate}' and '{endDate}',1,null)"
             }
         },
         {
@@ -364,17 +364,17 @@
         "conditions": [
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "encounter_datetime >= ?",
+                "conditionExpression": "fhs.encounter_datetime >= ?",
                 "parameterName": "startDate"
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "encounter_datetime <= ?",
+                "conditionExpression": "fhs.encounter_datetime <= ?",
                 "parameterName": "endDate"
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "location_uuid in ?",
+                "conditionExpression": "fhs.location_uuid in ?",
                 "parameterName": "locationUuids"
             },
             {
@@ -394,17 +394,17 @@
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "is_clinical_encounter = 1",
+                "conditionExpression": "fhs.is_clinical_encounter = 1",
                 "parameterName": ""
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "coalesce(fhs.death_date, out_of_care) is null",
+                "conditionExpression": "coalesce(fhs.death_date, fhs.out_of_care) is null",
                 "parameterName": ""
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "(fhs.next_clinical_datetime_hiv is null or next_clinical_datetime_hiv  >= ?)",
+                "conditionExpression": "(fhs.next_clinical_datetime_hiv is null or fhs.next_clinical_datetime_hiv  >= ?)",
                 "parameterName": "endDate"
             }
         ]

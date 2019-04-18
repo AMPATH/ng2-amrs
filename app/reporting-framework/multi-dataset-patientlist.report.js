@@ -140,7 +140,15 @@ export class MultiDatasetPatientlistReport extends MultiDatasetReport {
                 dataObject['patient_uuid'] = element.patient_uuid,
                 dataObject['uuid'] = element.uuid,
                 dataObject['person_name'] = element.person_name,
-                dataObject['identifiers'] = element.identifiers
+                dataObject['identifiers'] = element.identifiers,
+                dataObject['phone_number'] = element.phone_number,
+                dataObject['latest_rtc_date'] = element.latest_rtc_date,
+                dataObject['latest_vl'] = element.latest_vl,
+                dataObject['latest_vl_date'] = element.latest_vl_date,
+                dataObject['last_appointment'] = element.last_appointment,
+                dataObject['previous_vl'] = element.previous_vl,
+                dataObject['previous_vl_date'] = element.previous_vl_date,
+                dataObject['nearest_center'] = element.nearest_center
 
             transformedResults.push(dataObject);
         })

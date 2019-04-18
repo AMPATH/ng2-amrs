@@ -27,7 +27,7 @@ const routes = [{
             report.generatePatientListReport(indicators).then((result) => {
                 if (result.results.results.length > 0) {
                     _.each(result.results.results, (item) => {
-                        item.cur_arv_meds = helpers.getARVNames(item.cur_arv_meds);
+                        item.cur_meds = helpers.getARVNames(item.cur_meds);
                         item.vl_1_date = moment(item.vl_1_date).format('DD-MM-YYYY');
                     });
                     reply(result);

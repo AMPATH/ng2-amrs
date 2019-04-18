@@ -23,7 +23,40 @@
                 "type": "LEFT",
                 "joinCondition": "t1.person_id = id.patient_id AND (id.voided IS NULL || id.voided = 0)"
             }
+        },
+        {
+            "table": "amrs.person_attribute",
+            "alias": "contact",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "t1.person_id = contact.person_id AND (contact.voided IS NULL || contact.voided = 0) AND contact.person_attribute_type_id in (10, 48)"
+            }
+        },
+        {
+            "table": "etl.flat_hiv_summary_v15b",
+            "alias": "fhsh",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "t1.person_id = fhsh.person_id AND fhsh.next_clinical_location_id IS NULL AND fhsh.encounter_type NOT IN (99999) "
+            }
+        },
+        {
+            "table": "amrs.encounter_type",
+            "alias": "ety",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "fhsh.encounter_type = ety.encounter_type_id"
+            }
+        },
+        {
+            "table": "amrs.person_address",
+            "alias": "pad",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "t1.person_id = pad.person_id"
+            }
         }
+
     ],
     "columns": [
         {
@@ -107,8 +140,56 @@
             "alias": "days_since_last_order",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "timestampdiff(day, vl_order_date, now())"
+                "expression": "timestampdiff(day, t2.vl_order_date, now())"
             }
+        },
+        {
+            "type": "derived_column",
+            "alias": "phone_number",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": " GROUP_CONCAT(DISTINCT contact.value SEPARATOR ', ')"
+            }
+        },
+        {
+            "type": "simple_column",
+            "alias": "latest_rtc_date",
+            "column": "date_format(fhsh.rtc_date, '%Y-%m-%d')"
+        },
+        {
+            "type": "simple_column",
+            "alias": "latest_vl",
+            "column": "fhsh.vl_1"
+        },
+        {
+            "type": "simple_column",
+            "alias": "latest_vl_date",
+            "column": "date_format(fhsh.vl_1_date, '%Y-%m-%d')"
+        },
+        {
+            "type": "simple_column",
+            "alias": "last_appointment",
+            "column": "CONCAT(COALESCE(DATE_FORMAT(fhsh.encounter_datetime, '%Y-%m-%d'),''),' ',COALESCE(ety.name, ''))"
+        },
+        {
+            "type": "simple_column",
+            "alias": "cur_meds",
+            "column": "fhsh.cur_arv_meds"
+        },
+        {
+            "type": "simple_column",
+            "alias": "previous_vl",
+            "column": "fhsh.vl_2"
+        },
+        {
+            "type": "simple_column",
+            "alias": "previous_vl_date",
+            "column": "date_format(fhsh.vl_2_date, '%Y-%m-%d')"
+        },
+        {
+            "type": "simple_column",
+            "alias": "nearest_center",
+            "column": "pad.address3"
         }
     ],
     "groupBy":{

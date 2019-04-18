@@ -258,25 +258,41 @@ module.exports = function () {
             }
 
             var queryParts = {
-                columns: request.query.fields || ["*", "extract(year from (from_days(datediff(now(),t3.birthdate)))) as age"],
+                columns: request.query.fields || ["*", "extract(year from (from_days(datediff(now(),t3.birthdate)))) as age",
+                "date_format(fhs.rtc_date, '%Y-%m-%d') as latest_rtc_date",
+                "fhs.vl_1 as latest_vl",
+                "date_format(fhs.vl_1_date, '%Y-%m-%d') as latest_vl_date",
+                "CONCAT(COALESCE(DATE_FORMAT(fhs.encounter_datetime, '%Y-%m-%d'),''),' ',COALESCE(et.name, '')) as last_appointment",
+                "fhs.cur_arv_meds as cur_meds",
+                "fhs.vl_2 as previous_vl",
+                "date_format(fhs.vl_2_date, '%Y-%m-%d') as previous_vl_date",
+                "pa.address3 as nearest_center"
+            ],
                 table: "etl.flat_defaulters",
                 joins: [
                     ['amrs.person', 't3', 't1.person_id = t3.person_id and t3.death_date is null']
                 ],
                 leftOuterJoins: [
                     ['amrs.patient_program', 't4', 't1.person_id = t4.patient_id AND t4.date_completed IS NULL'],
-                    ['(SELECT program_id, uuid as `programuuid` FROM amrs.program ) `t5` ON (t4.program_id = t5.program_id)']
+                    ['(SELECT program_id, uuid as `programuuid` FROM amrs.program ) `t5` ON (t4.program_id = t5.program_id)'],
+                    ['etl.flat_hiv_summary_v15b', 'fhs', 't1.person_id = fhs.person_id AND fhs.next_clinical_location_id IS NULL AND fhs.encounter_type NOT IN (99999)'],
+                    ['amrs.encounter_type', 'et', 'fhs.encounter_type = et.encounter_type_id'],
+                    ['amrs.person_address', 'pa', 't1.person_id = pa.person_id']
                 ],
-                where: ["location_uuid in (?) and programuuid in (?) and days_since_rtc >= ? " + maxDefaultPeriodFilter, uuids, programUuid, defaulterPeriod, maxPeriod],
+                where: ["t1.location_uuid in (?) and programuuid in (?) and days_since_rtc >= ? " + maxDefaultPeriodFilter, uuids, programUuid, defaulterPeriod, maxPeriod],
                 order: order || [{
                     column: 'days_since_rtc',
                     asc: true
                 }],
+                group: ['t1.person_id'],
                 offset: request.query.startIndex,
                 limit: request.query.limit
             };
 
             db.queryServer_test(queryParts, function (result) {
+                _.each(result.result, (item) => {
+                    item.cur_meds = helpers.getARVNames(item.cur_meds);
+                });
                 callback(result);
             });
         },
