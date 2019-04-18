@@ -13,7 +13,7 @@
 	(From: {{startDate | moment:'DD/MM/YYYY'}} To: {{endDate | moment:'DD/MM/YYYY'}})
 </h5>
 <hr />
-<patient-list [overrideColumns]="overrideColumns" [data]="patientData"></patient-list>
+<patient-list [overrideColumns]="overrideColumns" [data]="patientData" [hivColumns]="true"></patient-list>
 <div *ngIf='!dataLoaded'>
 	<button [disabled]="isLoading" class="btn btn-primary" (click)="loadMorePatients()">
               <span class="glyphicon glyphicon-refresh"></span> Load More

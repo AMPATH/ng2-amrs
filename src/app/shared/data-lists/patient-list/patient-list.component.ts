@@ -5,7 +5,6 @@ import {
 import { PatientListColumns } from './patient-list-columns.data';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
-
 const _ = require('lodash');
 
 @Component({
@@ -33,9 +32,12 @@ export class PatientListComponent implements OnInit {
   get dataSource() {
     return this._dataSource.getValue();
   }
+  @Input() public hivColumns = false;
   private _data = new BehaviorSubject<any>([]);
   private _dataSource = new BehaviorSubject<any>({});
-  constructor(private router: Router) {
+  constructor(
+    private router: Router
+    ) {
   }
 
   public ngOnInit() {
@@ -60,6 +62,11 @@ export class PatientListComponent implements OnInit {
         });
       });
     }
+    if (this.hivColumns) {
+      const loadHivColumns = PatientListColumns.hivColumns();
+      columns = _.concat(columns, loadHivColumns as Array<object>);
+
+    }
     return columns;
   }
 
@@ -68,7 +75,6 @@ export class PatientListComponent implements OnInit {
     const d: any = this.data || [];
     let count = 1;
     // console.log('Data', this.data);
-
     _.forEach(d, (row) => {
       if (!row['person_name']) {
         row['person_name'] = row['given_name'] + ' ' + row['family_name']
