@@ -23,7 +23,52 @@ export class PatientStatusChangeListComponent implements OnInit, OnDestroy {
   public options: any = {
     date_range: true
   };
-  public extraColumns: Array<any> = [];
+  public extraColumns: Array<any> = [{
+    headerName: 'Phone Number',
+    width: 150,
+    field: 'phone_number'
+  },
+  {
+    headerName: 'Latest Appointment',
+    width: 200,
+    field: 'last_appointment'
+  },
+  {
+    headerName: 'Latest RTC Date',
+    width: 150,
+    field: 'latest_rtc_date'
+  },
+  {
+    headerName: 'Current Regimen',
+    width: 200,
+    field: 'cur_meds'
+  },
+  {
+    headerName: 'Latest VL',
+    width: 75,
+    field: 'latest_vl'
+  },
+  {
+    headerName: 'Latest VL Date',
+    width: 150,
+    field: 'latest_vl_date'
+  },
+  {
+    headerName: 'Previous VL',
+    width: 75,
+    field: 'previous_vl'
+  },
+  {
+    headerName: 'Previous VL Date',
+    width: 150,
+    field: 'previous_vl_date'
+  },
+  {
+    headerName: 'Nearest Center',
+    width: 150,
+    field: 'nearest_center'
+  }];
+
   public columns = [];
   public filterParams: any;
   public startIndex = 0;

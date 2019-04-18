@@ -6,6 +6,7 @@ import { Location } from '@angular/common';
 import { PatientProgramEnrollmentService } from './../etl-api/patient-program-enrollment.service';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
+import { LocalStorageService } from 'src/app/utils/local-storage.service';
 
 @Component({
     selector: 'program-enrollment-patient-list',
@@ -27,8 +28,8 @@ export class ProgramEnrollmentPatientListComponent implements OnInit, OnDestroy 
     };
 
     public enrollmentColdef: any = [
-        { headerName: 'No', field: 'no' , minWidth: 50},
-        { headerName: 'Identifier', field: 'identifier' , minWidth: 200,
+        { headerName: 'No', field: 'no' , width: 50},
+        { headerName: 'Identifier', field: 'identifier' , width: 250,
         cellRenderer: (column) => {
             return '<a href="javascript:void(0);" title="Identifiers">' + column.value + '</a>';
         },
@@ -62,7 +63,7 @@ export class ProgramEnrollmentPatientListComponent implements OnInit, OnDestroy 
         showToolPanel : false,
         paginationPageSize : 300,
         onGridSizeChanged : () => {
-            this.gridOptions.api.sizeColumnsToFit();
+            // this.gridOptions.api.sizeColumnsToFit();
         },
         getRowHeight : (params) => {
             // assuming 50 characters per line, working how how many lines we need
@@ -83,10 +84,62 @@ export class ProgramEnrollmentPatientListComponent implements OnInit, OnDestroy 
         private _router: Router,
         private _route: ActivatedRoute,
         private _location: Location,
+        private localStorageService: LocalStorageService,
         private _patientProgramEnrollmentService: PatientProgramEnrollmentService) {
     }
 
     public ngOnInit() {
+        const userDefaultDepartment: any = JSON.parse(this.localStorageService.getItem('userDefaultDepartment'));
+        if (userDefaultDepartment[0].itemName === 'HIV') {
+            const hivColumns = [
+                {
+                    headerName: 'Phone Number',
+                    width: 100,
+                    field: 'phone_number'
+                },
+                {
+                    headerName: 'Latest Appointment',
+                    width: 250,
+                    field: 'last_appointment'
+                },
+                {
+                    headerName: 'Latest RTC Date',
+                    width: 150,
+                    field: 'latest_rtc_date'
+                },
+                {
+                    headerName: 'Current Regimen',
+                    width: 200,
+                    field: 'cur_meds'
+                },
+                {
+                    headerName: 'Latest VL',
+                    width: 100,
+                    field: 'latest_vl'
+                },
+                {
+                    headerName: 'Latest VL Date',
+                    width: 150,
+                    field: 'latest_vl_date'
+                },
+                {
+                  headerName: 'Previous VL',
+                  width: 75,
+                  field: 'previous_vl'
+                },
+                {
+                  headerName: 'Previous VL Date',
+                  width: 150,
+                  field: 'previous_vl_date'
+                },
+                {
+                  headerName: 'Nearest Center',
+                  width: 150,
+                  field: 'nearest_center'
+                }
+            ];
+            this.enrollmentColdef = _.concat(this.enrollmentColdef, hivColumns as Array<object>);
+        }
         this._route
         .queryParams
         .subscribe((params) => {
@@ -159,7 +212,15 @@ export class ProgramEnrollmentPatientListComponent implements OnInit, OnDestroy 
                 name: enrollment.person_name,
                 identifier: enrollment.identifiers,
                 program: enrollmentDateDetail,
-                patient_uuid : patientUuid
+                patient_uuid : patientUuid,
+                age: enrollment.age,
+                gender: enrollment.gender,
+                phone_number: enrollment.phone_number,
+                last_appointment: enrollment.last_appointment,
+                latest_rtc_date: enrollment.latest_rtc_date,
+                cur_meds: enrollment.cur_meds,
+                latest_vl: enrollment.latest_vl,
+                latest_vl_date: enrollment.latest_vl_date
             };
 
             trackPatientMap.set(patientUuid, patient);
