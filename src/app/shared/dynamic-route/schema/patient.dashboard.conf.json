@@ -573,6 +573,11 @@
         "icon": "icon-i-laboratory"
       },
       {
+        "url": "lab-orders",
+        "label": "Lab Orders",
+        "icon": "icon-i-pathology"
+      },
+      {
         "url": "patient-imaging",
         "label": "Imaging",
         "icon": "icon-i-radiology"
