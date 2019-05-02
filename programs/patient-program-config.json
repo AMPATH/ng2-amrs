@@ -544,6 +544,19 @@
           "display": "HTNDMPEDRETURN"
         }
       ]
+    },
+    {
+      "uuid": "4b4e99c4-280e-448d-86ca-92acc5e83a0d",
+      "name": "HTN TERTIARY PEER NAVIGATOR VISIT",
+      "encounterTypes": [{
+          "uuid": "39a7e338-427a-4f95-82bd-e4ff4b65f283",
+          "display": "PEERNAVIGATORINITIAL"
+        },
+        {
+          "uuid": "02e75e2d-a809-4458-a77e-c1883e897c36",
+          "display": "PEERNAVIGATORFOLLOWUP"
+        }
+      ]
     }]
   },
   "b731ba72-cf99-4176-9fcd-37cd186400c7": {
@@ -605,6 +618,19 @@
         {
           "uuid": "4f5d5b20-083b-4686-be5f-5f2cc71d74e5",
           "display": "HTNDMRETRUN"
+        }
+      ]
+    },
+    {
+      "uuid": "602acada-583b-4e71-bb73-7b2194228079",
+      "name": "HTN SECONDARY PEER NAVIGATOR VISIT",
+      "encounterTypes": [{
+          "uuid": "39a7e338-427a-4f95-82bd-e4ff4b65f283",
+          "display": "PEERNAVIGATORINITIAL"
+        },
+        {
+          "uuid": "02e75e2d-a809-4458-a77e-c1883e897c36",
+          "display": "PEERNAVIGATORFOLLOWUP"
         }
       ]
     }]
@@ -709,6 +735,19 @@
         {
           "uuid": "1871ce37-7def-4335-972f-9861195ba683",
           "display": "CDMDispensary"
+        }
+      ]
+    },
+    {
+      "uuid": "0af25783-0446-48ac-9690-d4277793183d",
+      "name": "HTN PRIMARY PEER NAVIGATOR VISIT",
+      "encounterTypes": [{
+          "uuid": "39a7e338-427a-4f95-82bd-e4ff4b65f283",
+          "display": "PEERNAVIGATORINITIAL"
+        },
+        {
+          "uuid": "02e75e2d-a809-4458-a77e-c1883e897c36",
+          "display": "PEERNAVIGATORFOLLOWUP"
         }
       ]
     }]
