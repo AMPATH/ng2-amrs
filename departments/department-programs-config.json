@@ -124,6 +124,10 @@
             {
                 "uuid":"e8bc5036-1462-44fa-bcfe-ced21eae2790",
                 "name": "LUNG CANCER TREATMENT PROGRAM"
+            },
+            {
+                "uuid": "418fe011-a903-4862-93d4-5e7c84d9c253",
+                "name": "ANTICOAGULATION TREATMENT PROGRAM"
             }
         ]
     },

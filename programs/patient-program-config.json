@@ -3053,6 +3053,32 @@
     }]
 
   },
+    "418fe011-a903-4862-93d4-5e7c84d9c253": {
+    "name": "ANTICOAGULATION TREATMENT PROGRAM",
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "hivLastTenClinicalEncounters"
+    ],
+    "incompatibleWith": [],
+    "visitTypes": [{
+      "uuid": "a77b29b4-42c5-4cf0-a224-04f1ef877747",
+      "name": "Anticoagulation Treatment Visit",
+      "encounterTypes": [{
+            "uuid": "4a7450b1-f720-4a0c-b13b-d8a6a83348ee",
+            "display": "ANTICOAGULATIONINITIAL"
+          },
+          {
+            "uuid": "6accd920-6254-4063-bfd1-0e1b70b3f201",
+            "display": "ANTICOAGULATIONREFERRAL"
+          },
+          {
+            "uuid": "857170c9-f54a-4c1a-8382-5f4abe5d71dd",
+            "display": "ANTICOAGULATIONRETURN"
+          }
+        ]
+    }]
+  },
   "62741bb8-949e-4acc-9e38-50d9d874c1fb": {
     "name": "BI KUZA AFYA PROGRAM",
     "dataDependencies": [
