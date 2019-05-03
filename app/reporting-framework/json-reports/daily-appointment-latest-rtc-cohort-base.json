@@ -1,0 +1,57 @@
+{
+    "name": "dailyAppointmentlatestRtcCohortBase",
+    "version": "1.0",
+    "tag": "",
+    "description": "",
+    "uses": [],
+    "sources": [
+        {
+            "table": "etl.flat_appointment",
+            "alias": "fa"
+        }
+    ],
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias": "encounter_id",
+            "column": "fa.encounter_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "max_encounter_id",
+            "column": "MAX(fa.encounter_id)"
+        },
+        {
+            "type": "simple_column",
+            "alias": "person_id",
+            "column": "person_id"
+        }
+    ],
+    "filters": {
+        "conditionJoinOperator": "and",
+        "conditions": [
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "DATE(fa.rtc_date) = ?",
+                "parameterName": "startDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fa.location_id in (?)",
+                "parameterName": "locations"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fa.encounter_type NOT IN (21 , 99999)",
+                "parameterName": ""
+            }
+        ]
+    },
+    "groupBy": {
+        "groupParam": "groupByParam",
+        "columns": [
+            "person_id"
+        ],
+        "excludeParam": "excludeParam"
+    }
+}

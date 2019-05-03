@@ -162,7 +162,7 @@
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression":  "t2.is_clinical = 1",
+                "conditionExpression":  "t2.is_clinical = 1 AND (t2.next_encounter_type != 186 OR t2.next_encounter_type is NULL)",
                 "parameterName": ""
             },
             {

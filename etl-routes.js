@@ -1021,7 +1021,17 @@ module.exports = function () {
                         }
                     },
                     handler: function (request, reply) {
-                        dao.getPatientHivSummary(request, reply);
+                        console.log('get hiv summary');
+                        dao.getPatientHivSummary(request)
+                        .then(summary => {
+                            // console.log('Summary', summary);
+                            if(summary.result && summary.result.length > 0){
+                                const transformed = etlHelpers.transformMedicalRefillToClinical(summary.result);
+                                summary.result = transformed;
+                            }
+                            reply(summary);
+                        });
+                        
                     },
                     description: 'Get patient HIV summary',
                     notes: "Returns a list of historical patient's HIV summary with the given patient uuid. " +

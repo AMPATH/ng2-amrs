@@ -67,6 +67,7 @@ import * as daily_has_not_returned_base from './json-reports/daily-has-not-retur
 import * as daily_has_not_returned_cohort from './json-reports/daily-has-not-returned-cohort.json';
 import * as daily_appointments_aggregate from './json-reports/daily-appointments-aggregate.json';
 import * as daily_appointments_base from './json-reports/daily-appointments-base.json';
+import * as daily_appointment_latest_rtc_cohort_base from './json-reports/daily-appointment-latest-rtc-cohort-base.json';
 import * as daily_attendance_aggregate from './json-reports/daily-attendance-aggregate.json';
 import * as daily_attendance_base from './json-reports/daily-attendance-base.json';
 import * as patint_change_status_tracker_aggregate from './json-reports/patint-change-status-tracker-aggregate.json';
@@ -290,7 +291,8 @@ export class BaseMysqlReport {
                 case 'dailyAppointmentsAggregate':
                     resolve({
                         main: this.cloneJsonSchema(daily_appointments_aggregate),
-                        dailyAppointmentsBase: this.cloneJsonSchema(daily_appointments_base)
+                        dailyAppointmentsBase: this.cloneJsonSchema(daily_appointments_base),
+                        dailyAppointmentlatestRtcCohortBase: this.cloneJsonSchema(daily_appointment_latest_rtc_cohort_base)
                     });
                     break;
                 case 'dailyAttendanceAggregate':

@@ -80,7 +80,7 @@
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression":  "t2.is_clinical = 1",
+                "conditionExpression":  "t2.is_clinical = 1 OR t2.encounter_type = 186",
                 "parameterName": ""
             }
         ]
