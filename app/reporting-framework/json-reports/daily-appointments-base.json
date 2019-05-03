@@ -8,6 +8,22 @@
         {
             "table": "etl.flat_appointment",
             "alias": "t2"
+        },
+        {
+            "dataSet": "dailyAppointmentlatestRtcCohortBase",
+            "alias": "latest_encounter",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "latest_encounter.person_id = t2.person_id"
+            }
+        },
+        {
+            "table": "etl.flat_appointment",
+            "alias": "t3",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "t3.person_id = t2.person_id AND t3.encounter_id = latest_encounter.max_encounter_id"
+            }
         }
     ],
     "columns": [
@@ -45,7 +61,7 @@
         "conditions": [
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "date(rtc_date) >= ?",
+                "conditionExpression": "date(t2.rtc_date) >= ?",
                 "parameterName": "startDate"
             },
             {
@@ -70,22 +86,22 @@
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "t2.program_id in ?",
+                "conditionExpression": "t3.program_id in ?",
                 "parameterName": "programTypeIds"
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "encounter_type not in (21,99999)",
+                "conditionExpression": "t2.encounter_type not in (21,99999)",
                 "parameterName": ""
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression":  "((t2.next_encounter_type<>116  OR  t2.next_encounter_type is null )   OR rtc_date >= next_encounter_datetime)",
+                "conditionExpression":  "((t2.next_encounter_type<>116  OR  t2.next_encounter_type is null )   OR t2.rtc_date >= t2.next_encounter_datetime)",
                 "parameterName": ""
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression":  "t2.is_clinical = 1",
+                "conditionExpression":  "t2.is_clinical = 1 OR t2.encounter_type = 186",
                 "parameterName": ""
             }
         ]
