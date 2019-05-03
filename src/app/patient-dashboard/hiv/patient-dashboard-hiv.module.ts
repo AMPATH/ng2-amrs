@@ -27,6 +27,8 @@ import { PatientDashboardCommonModule } from '../common/patient-dashboard.common
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PocHttpInteceptor } from 'src/app/shared/services/poc-http-interceptor';
 import { GeneXpertResourceService } from './genexpert-images/genexpert-images-resource.service';
+import { HivSummaryService } from './hiv-summary/hiv-summary.service';
+import { HivSummaryResourceService } from '../../etl-api/hiv-summary-resource.service';
 
 @NgModule({
   imports: [
@@ -64,6 +66,8 @@ import { GeneXpertResourceService } from './genexpert-images/genexpert-images-re
   ],
   providers: [
     GeneXpertResourceService,
+    HivSummaryService,
+    HivSummaryResourceService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: PocHttpInteceptor,

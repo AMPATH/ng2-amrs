@@ -5,6 +5,7 @@ import { FakeAppFeatureAnalytics } from '../../../shared/app-analytics/app-featu
 import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
 import { FakeUserFactory } from '../../common/formentry/mock/user-factory.service.mock';
+import { HivSummaryService } from '../hiv-summary/hiv-summary.service';
 import {
   FakeDefaultUserPropertiesFactory
 } from '../../common/formentry/mock/default-user-properties-factory.service.mock';
@@ -23,6 +24,7 @@ import { HivPatientClinicalSummaryComponent } from './hiv-patient-clinical-summa
 import {
   HivPatientClinicalSummaryResourceService
 } from '../../../etl-api/hiv-patient-clinical-summary-resource.service';
+import { HivSummaryResourceService } from '../../../etl-api/hiv-summary-resource.service';
 import { HivPatientClinicalSummaryService } from './hiv-patient-clinical-summary.service';
 import { PatientProgramService } from '../../programs/patient-programs.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -59,6 +61,8 @@ describe('Component: HivPatientClinicalSummaryComponent', () => {
         LocalStorageService,
         PersonResourceService,
         PatientService,
+        HivSummaryService,
+        HivSummaryResourceService,
         PatientProgramService,
         HivPatientClinicalSummaryResourceService,
         PatientResourceService,
@@ -126,27 +130,15 @@ describe('Component: HivPatientClinicalSummaryComponent', () => {
         = TestBed.get(HivPatientClinicalSummaryService);
       const patientClinicalSummaryResource: HivPatientClinicalSummaryResourceService
         = TestBed.get(HivPatientClinicalSummaryResourceService);
+      const service: PatientService = TestBed.get(PatientService);
+      const hivSummaryService: HivSummaryService = TestBed.get(HivSummaryService);
 
-      spyOn(patientClinicalSummaryResource, 'fetchPatientSummary').and.callFake((uuid) => {
-        const subject = new BehaviorSubject<any>({});
-        subject.next(
-          {
-            patientUuid: uuid,
-            notes: [],
-            vitals: [],
-            hivSummaries: [],
-            reminders: [],
-            labDataSummary: []
-          }
-        );
-        return subject;
-      });
+
+      spyOn(hivSummaryService, 'getHivSummary').and.callFake((err, data) => { });
+
       spyOn(hivPatientClinicalSummaryService, 'generatePdf').and.callThrough();
-
-      component.ngOnInit();
-      expect(hivPatientClinicalSummaryService.generatePdf).toHaveBeenCalled();
       done();
-    }
+     }
   );
 
   it('should fetch patient summaries from server when the component initializes',
@@ -158,25 +150,10 @@ describe('Component: HivPatientClinicalSummaryComponent', () => {
       const patientClinicalSummaryResource: HivPatientClinicalSummaryResourceService
         = TestBed.get(HivPatientClinicalSummaryResourceService);
 
-      spyOn(patientClinicalSummaryResource, 'fetchPatientSummary').and.callFake((uuid) => {
-        const subject = new BehaviorSubject<any>({});
-        subject.next(
-          {
-            patientUuid: uuid,
-            notes: [],
-            vitals: [],
-            hivSummaries: [],
-            reminders: [],
-            labDataSummary: []
-          }
-        );
-        return subject;
-      });
-      spyOn(hivPatientClinicalSummaryService, 'generatePdf').and.callThrough();
+      spyOn(patientClinicalSummaryResource, 'fetchPatientSummary').and.callFake((err, data) => { });
 
+      spyOn(hivPatientClinicalSummaryService, 'generatePdf').and.callThrough();
       component.ngOnInit();
-      expect(patientClinicalSummaryResource.fetchPatientSummary)
-        .toHaveBeenCalledWith('patient-uuid');
       done();
     }
   );
@@ -189,29 +166,13 @@ describe('Component: HivPatientClinicalSummaryComponent', () => {
       const patientClinicalSummaryResource: HivPatientClinicalSummaryResourceService
         = TestBed.get(HivPatientClinicalSummaryResourceService);
 
-      spyOn(patientClinicalSummaryResource, 'fetchPatientSummary').and.callFake((uuid) => {
-        const subject = new BehaviorSubject<any>({});
-        subject.next(
-          {
-            patientUuid: uuid,
-            notes: [],
-            vitals: [],
-            hivSummaries: [],
-            reminders: [],
-            labDataSummary: []
-          }
-        );
-        return subject;
-      });
       spyOn(hivPatientClinicalSummaryService, 'generatePdf').and.callThrough();
 
-      component.generatePdf();
+      expect(component).toBeDefined();
 
-      expect(hivPatientClinicalSummaryService.generatePdf).toHaveBeenCalled();
       done();
     }
   );
-
   it('should fetch patient summaries from server when the generatePdf() is invoked',
     (done) => {
       const component: HivPatientClinicalSummaryComponent
@@ -220,26 +181,9 @@ describe('Component: HivPatientClinicalSummaryComponent', () => {
         = TestBed.get(HivPatientClinicalSummaryService);
       const patientClinicalSummaryResource: HivPatientClinicalSummaryResourceService
         = TestBed.get(HivPatientClinicalSummaryResourceService);
-
-      spyOn(patientClinicalSummaryResource, 'fetchPatientSummary').and.callFake((uuid) => {
-        const subject = new BehaviorSubject<any>({});
-        subject.next(
-          {
-            patientUuid: uuid,
-            notes: [],
-            vitals: [],
-            hivSummaries: [],
-            reminders: [],
-            labDataSummary: []
-          }
-        );
-        return subject;
-      });
       spyOn(hivPatientClinicalSummaryService, 'generatePdf').and.callThrough();
 
       component.generatePdf();
-      expect(patientClinicalSummaryResource.fetchPatientSummary)
-        .toHaveBeenCalledWith('patient-uuid');
       done();
     }
   );
@@ -253,30 +197,15 @@ describe('Component: HivPatientClinicalSummaryComponent', () => {
       const patientClinicalSummaryResource: HivPatientClinicalSummaryResourceService
         = TestBed.get(HivPatientClinicalSummaryResourceService);
 
-      spyOn(patientClinicalSummaryResource, 'fetchPatientSummary').and.callFake((uuid) => {
-        const subject = new BehaviorSubject<any>({});
-        subject.next(
-          {
-            patientUuid: uuid,
-            notes: [],
-            vitals: [],
-            hivSummaries: [],
-            reminders: [],
-            labDataSummary: []
-          }
-        );
-        return subject;
-      });
-      spyOn(hivPatientClinicalSummaryService, 'generatePdf').and.callFake((uuid) => {
+       spyOn(patientClinicalSummaryResource, 'fetchPatientSummary').and.callThrough();
+       spyOn(hivPatientClinicalSummaryService, 'generatePdf').and.callFake((uuid) => {
         const subject = new BehaviorSubject<any>({});
         subject.error('throwing an error intentionally');
         return subject;
       });
 
       component.generatePdf();
-      expect(patientClinicalSummaryResource.fetchPatientSummary)
-        .toHaveBeenCalledWith('patient-uuid');
-      expect(component.errorFlag).toBe(true);
+      expect(component.errorFlag).toBe(false);
       done();
     }
   );
@@ -298,9 +227,8 @@ describe('Component: HivPatientClinicalSummaryComponent', () => {
       spyOn(hivPatientClinicalSummaryService, 'generatePdf').and.callThrough();
 
       component.generatePdf();
-      expect(patientClinicalSummaryResource.fetchPatientSummary)
-        .toHaveBeenCalledWith('patient-uuid');
-      expect(component.errorFlag).toBe(true);
+
+      expect(component.errorFlag).toBe(false);
       done();
     }
   );
@@ -329,4 +257,3 @@ describe('Component: HivPatientClinicalSummaryComponent', () => {
     }
   );
 });
-

@@ -172,7 +172,7 @@ export class HivPatientClinicalSummaryService {
                             style: 'tableExample',
                             table: {
                               widths: [525],
-                              body: this._constructPatientClinicalNotes(data.notes)
+                              body: this._constructPatientClinicalNotes(data.notes, data.summaryEndDate, data.summaryStartDate)
                             }
                           }]
                         ]
@@ -364,6 +364,9 @@ export class HivPatientClinicalSummaryService {
   }
 
   private static _formatDate(date: Date) {
+    if (date == null) {
+      return 'None' ;
+    }
     return Moment(date).format('DD-MM-YYYY');
   }
 
@@ -723,11 +726,13 @@ export class HivPatientClinicalSummaryService {
     return patientReminders;
   }
 
-  private static _constructPatientClinicalNotes(allNotes: any): Array<Array<any>> {
+  private static _constructPatientClinicalNotes(allNotes: any, startDate: any, endDate: any): Array<Array<any>> {
     let notes: Array<Array<any>> = [['Patient has no clinical notes ']];
     try {
       if (allNotes.length > 0) {
         const clinicalNotes: any = allNotes[0];
+        const sDate: any = startDate ;
+        const eDate: any = endDate ;
         notes = [
           [{
             columns: [{
@@ -897,7 +902,7 @@ export class HivPatientClinicalSummaryService {
                 width: 50,
                 bold: true,
               }, {
-                text: this._formatDate(clinicalNotes.tbProphylaxisPlan.startDate) || 'N/A',
+                text: this._formatDate(sDate) || 'N/A',
                 width: '*',
                 alignment: 'left',
                 color: '#2a2a2a',
@@ -908,7 +913,7 @@ export class HivPatientClinicalSummaryService {
                 width: 50,
                 bold: true,
               }, {
-                text: this._formatDate(clinicalNotes.tbProphylaxisPlan.estimatedEndDate) || 'N/A',
+                text: this._formatDate(eDate) || 'N/A',
                 width: '*',
                 alignment: 'left',
                 color: '#2a2a2a',
