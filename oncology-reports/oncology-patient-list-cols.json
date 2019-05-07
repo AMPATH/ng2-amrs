@@ -10,73 +10,73 @@
             },
             {
                 "indicator": "normal_breast_screening_findings",
-                "patientListCols": [ "encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender"  ,"patient_uuid", "screening_mode", "diagnostic_interval","date_patient_informed_of_results"
+                "patientListCols": [ "encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" , "hiv_status" ,"patient_uuid", "screening_mode", "diagnostic_interval","date_patient_informed_of_results"
                 ]
 
             },
             {
                 "indicator": "normal_breast_screening_findings_below_30yrs",
-                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age" , "phone_number" ,"type_of_abnormality" , "patient_uuid","date_patient_informed_of_results"
+                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age", "hiv_status" , "phone_number" ,"type_of_abnormality" , "patient_uuid","date_patient_informed_of_results"
                 ]
 
             },
             {
                 "indicator": "normal_breast_screening_findings_30_to_40yrs",
-                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age" , "phone_number" ,"type_of_abnormality" , "patient_uuid","date_patient_informed_of_results"
+                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age", "hiv_status" , "phone_number" ,"type_of_abnormality" , "patient_uuid","date_patient_informed_of_results"
                 ]
 
             },
             {
                 "indicator": "normal_breast_screening_findings_41_to_50yrs",
-                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age" , "phone_number" ,"type_of_abnormality" , "patient_uuid","date_patient_informed_of_results"
+                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age", "hiv_status" , "phone_number" ,"type_of_abnormality" , "patient_uuid","date_patient_informed_of_results"
                 ]
 
             },
             {
                 "indicator": "normal_breast_screening_findings_51_to_69yrs",
-                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age" , "phone_number" ,"type_of_abnormality" , "patient_uuid","date_patient_informed_of_results"
+                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age", "hiv_status" , "phone_number" ,"type_of_abnormality" , "patient_uuid","date_patient_informed_of_results"
                 ]
 
             },
             {
                 "indicator": "normal_breast_screening_findings_above_70yrs",
-                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age" , "phone_number" ,"type_of_abnormality" , "patient_uuid","date_patient_informed_of_results"
+                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age", "hiv_status" , "phone_number" ,"type_of_abnormality" , "patient_uuid","date_patient_informed_of_results"
                 ]
 
             },
             {
                 "indicator": "abnormal_breast_screening_findings",
-                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age" , "phone_number" ,"type_of_abnormality" , "patient_uuid", "screening_mode", "diagnostic_interval"
+                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age", "hiv_status" , "phone_number" ,"type_of_abnormality" , "patient_uuid", "screening_mode", "diagnostic_interval"
                 ]
 
             },
             {
                 "indicator": "abnormal_breast_screening_findings_below_30yrs",
-                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age" , "phone_number" ,"type_of_abnormality" , "patient_uuid", "screening_mode", "diagnostic_interval"
+                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age", "hiv_status" , "phone_number" ,"type_of_abnormality" , "patient_uuid", "screening_mode", "diagnostic_interval"
                 ]
 
             },
             {
                 "indicator": "abnormal_breast_screening_findings_30_to_40yrs",
-                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age" , "phone_number" ,"type_of_abnormality" , "patient_uuid", "screening_mode", "diagnostic_interval"
+                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age", "hiv_status" , "phone_number" ,"type_of_abnormality" , "patient_uuid", "screening_mode", "diagnostic_interval"
                 ]
 
             },
             {
                 "indicator": "abnormal_breast_screening_findings_41_to_50yrs",
-                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age" , "phone_number" ,"type_of_abnormality" , "patient_uuid", "screening_mode", "diagnostic_interval"
+                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age", "hiv_status" , "phone_number" ,"type_of_abnormality" , "patient_uuid", "screening_mode", "diagnostic_interval"
                 ]
 
             },
             {
                 "indicator": "abnormal_breast_screening_findings_51_to_69yrs",
-                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age" , "phone_number" ,"type_of_abnormality" , "patient_uuid", "screening_mode", "diagnostic_interval"
+                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age", "hiv_status" , "phone_number" ,"type_of_abnormality" , "patient_uuid", "screening_mode", "diagnostic_interval"
                 ]
 
             },
             {
                 "indicator": "abnormal_breast_screening_findings_above_70yrs",
-                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age" , "phone_number" ,"type_of_abnormality" , "patient_uuid", "screening_mode", "diagnostic_interval"
+                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age", "hiv_status" , "phone_number" ,"type_of_abnormality" , "patient_uuid", "screening_mode", "diagnostic_interval"
                 ]
 
             },
@@ -135,37 +135,37 @@
             },
             {
                 "indicator": "normal_cervical_screening",
-                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers", "person_name" , "gender" , "age" ,  "patient_uuid"
+                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers", "person_name" , "gender" , "age" ,"hiv_status",  "patient_uuid"
                 ]
 
             },
             {
                 "indicator": "normal_cervical_screening_below_30yrs",
-                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age" , "phone_number" ,"type_of_abnormality" , "patient_uuid"
+                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age", "hiv_status" , "phone_number" ,"type_of_abnormality" , "patient_uuid"
                 ]
 
             },
             {
                 "indicator": "normal_cervical_screening_30_to_40yrs",
-                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age" , "phone_number" ,"type_of_abnormality" , "patient_uuid"
+                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age", "hiv_status" , "phone_number" ,"type_of_abnormality" , "patient_uuid"
                 ]
 
             },
             {
                 "indicator": "normal_cervical_screening_41_to_50yrs",
-                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age" , "phone_number" ,"type_of_abnormality" , "patient_uuid"
+                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age", "hiv_status" , "phone_number" ,"type_of_abnormality" , "patient_uuid"
                 ]
 
             },
             {
                 "indicator": "normal_cervical_screening_51_to_69yrs",
-                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age" , "phone_number" ,"type_of_abnormality" , "patient_uuid"
+                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age", "hiv_status" , "phone_number" ,"type_of_abnormality" , "patient_uuid"
                 ]
 
             },
             {
                 "indicator": "normal_cervical_screening_above_70yrs",
-                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age" , "phone_number" ,"type_of_abnormality" , "patient_uuid"
+                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age", "hiv_status" , "phone_number" ,"type_of_abnormality" , "patient_uuid"
                 ]
 
             },
@@ -178,31 +178,31 @@
             },
             {
                 "indicator": "abnormal_cervical_screening_below_30yrs",
-                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age" , "phone_number" ,"type_of_abnormality" , "patient_uuid", "screening_mode", "diagnostic_interval"
+                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age", "hiv_status" , "phone_number" ,"type_of_abnormality" , "patient_uuid", "screening_mode", "diagnostic_interval"
                 ]
 
             },
             {
                 "indicator": "abnormal_cervical_screening_30_to_40yrs",
-                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age" , "phone_number" ,"type_of_abnormality" ,"procedure_done", "patient_uuid", "screening_mode", "diagnostic_interval"
+                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age", "hiv_status" , "phone_number" ,"type_of_abnormality" ,"procedure_done", "patient_uuid", "screening_mode", "diagnostic_interval"
                 ]
 
             },
             {
                 "indicator": "abnormal_cervical_screening_41_to_50yrs",
-                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age" , "phone_number" ,"type_of_abnormality" ,"procedure_done", "patient_uuid", "screening_mode", "diagnostic_interval"
+                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age", "hiv_status" , "phone_number" ,"type_of_abnormality" ,"procedure_done", "patient_uuid", "screening_mode", "diagnostic_interval"
                 ]
 
             },
             {
                 "indicator": "abnormal_cervical_screening_51_to_69yrs",
-                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age" , "phone_number" ,"type_of_abnormality" ,"procedure_done", "patient_uuid", "screening_mode", "diagnostic_interval"
+                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age", "hiv_status" , "phone_number" ,"type_of_abnormality" ,"procedure_done", "patient_uuid", "screening_mode", "diagnostic_interval"
                 ]
 
             },
             {
                 "indicator": "abnormal_cervical_screening_above_70yrs",
-                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age" , "phone_number" ,"type_of_abnormality" ,"procedure_done", "patient_uuid", "screening_mode", "diagnostic_interval"
+                "patientListCols": ["encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age", "hiv_status" , "phone_number" ,"type_of_abnormality" ,"procedure_done", "patient_uuid", "screening_mode", "diagnostic_interval"
                 ]
 
             },
