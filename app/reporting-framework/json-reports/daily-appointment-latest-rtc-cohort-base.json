@@ -32,8 +32,13 @@
         "conditions": [
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "DATE(fa.rtc_date) = ?",
+                "conditionExpression": "DATE(fa.rtc_date) >= ?",
                 "parameterName": "startDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "DATE(fa.rtc_date) <= ?",
+                "parameterName": "endDate"
             },
             {
                 "filterType": "tableColumns",
