@@ -3114,6 +3114,10 @@
           {
             "uuid": "857170c9-f54a-4c1a-8382-5f4abe5d71dd",
             "display": "ANTICOAGULATIONRETURN"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
           }
         ]
     }]
