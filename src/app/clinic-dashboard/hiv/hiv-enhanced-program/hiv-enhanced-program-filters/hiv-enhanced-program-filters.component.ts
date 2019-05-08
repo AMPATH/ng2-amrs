@@ -1,29 +1,32 @@
 import {
-  Component, OnInit, Input, Output, EventEmitter
+    Component, OnInit, Input, Output, EventEmitter
 } from '@angular/core';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
 
 @Component({
-  selector: 'app-hiv-enhanced-program-filters',
-  templateUrl: './hiv-enhanced-program-filters.component.html',
-  styleUrls: ['./hiv-enhanced-program-filters.component.css']
+    selector: 'app-hiv-enhanced-program-filters',
+    templateUrl: './hiv-enhanced-program-filters.component.html',
+    styleUrls: ['./hiv-enhanced-program-filters.component.css']
 })
 export class HivEnhancedFiltersComponent implements OnInit {
 
     public filterCollapsed: boolean;
 
     @Output()
-     public generateReport = new EventEmitter();
+    public generateReport = new EventEmitter();
 
     @Output()
-     public startDateChange = new EventEmitter<Date>();
+    public startDateChange = new EventEmitter<Date>();
 
     @Output()
-     public endDateChange = new EventEmitter<Date>();
+    public endDateChange = new EventEmitter<Date>();
+
+    @Output()
+    public viremiaFilterChange = new EventEmitter<string>();
 
     @Input()
-     public parentIsBusy = false;
+    public parentIsBusy = false;
 
     private _startDate: Date;
     public get startDate(): Date {
@@ -33,6 +36,12 @@ export class HivEnhancedFiltersComponent implements OnInit {
     public set startDate(v: Date) {
         this._startDate = v;
         this.startDateChange.emit(this.startDate);
+    }
+
+    @Input()
+    public set viremiaFilter(v: string) {
+        this.viremiaOption = v;
+        this.viremiaFilterChange.emit(this.viremiaOption);
     }
 
     public get startDateString(): string {
@@ -53,6 +62,9 @@ export class HivEnhancedFiltersComponent implements OnInit {
     public get endDate(): Date {
         return this._endDate;
     }
+
+    private viremiaOption = 'all';
+
     @Input()
     public set endDate(v: Date) {
         this._endDate = v;
@@ -61,9 +73,14 @@ export class HivEnhancedFiltersComponent implements OnInit {
 
     constructor() { }
 
-     public ngOnInit() { }
+    public ngOnInit() {
+    }
 
-     public onClickedGenerate() {
+    public onClickedGenerate() {
         this.generateReport.emit();
+    }
+
+    public optionSelected(option) {
+        this.viremiaFilterChange.emit(option);
     }
 }
