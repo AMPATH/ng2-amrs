@@ -140,6 +140,9 @@ import { GroupEnrollmentModule } from '../group-enrollment/group-enrollment.modu
 import { VitalsDatasource } from './todays-vitals/vitals.datasource';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PocHttpInteceptor } from 'src/app/shared/services/poc-http-interceptor';
+import { HivSummaryLatestComponent } from '../hiv/hiv-summary/hiv-summary-latest.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { AgePipe } from './patient-banner/age.pipe';
 
 @NgModule({
   imports: [
@@ -182,6 +185,7 @@ import { PocHttpInteceptor } from 'src/app/shared/services/poc-http-interceptor'
   ],
   exports: [
     PatientInfoComponent,
+    HivSummaryLatestComponent,
     PatientEncountersComponent,
     PatientVitalsComponent,
     FormsComponent,
@@ -233,6 +237,7 @@ import { PocHttpInteceptor } from 'src/app/shared/services/poc-http-interceptor'
     PatientInfoComponent,
     PatientEncountersComponent,
     PatientVitalsComponent,
+    HivSummaryLatestComponent,
     FormsComponent,
     LabDataSummaryComponent,
     LabOrdersComponent,
@@ -276,6 +281,7 @@ import { PocHttpInteceptor } from 'src/app/shared/services/poc-http-interceptor'
     OrderByEncounterTimeAscPipe,
     EncounterTypeFilter,
     // ZeroVlPipe,
+    AgePipe,
     PatientImagingComponent],
   providers: [
     {

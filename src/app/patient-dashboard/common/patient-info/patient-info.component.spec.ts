@@ -1,6 +1,7 @@
 /* tslint:disable:no-unused-variable */
 import { TestBed, async } from '@angular/core/testing';
-
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
 import { PatientInfoComponent } from './patient-info.component';
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
 import { FakeAppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytcis.mock';
@@ -22,6 +23,13 @@ import { ProgramWorkFlowResourceService
 import { ProgramWorkFlowStateResourceService
 } from '../../../openmrs-api/program-workflow-state-resource.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+
+class MockActivatedRoute {
+  public params = Observable.of([{ 'scrollSection': 'relationship' }]);
+  public snapshot = {
+      queryParams: {  'scrollSection': 'relationship'  }
+  };
+}
 
 describe('Component: PatientInfo', () => {
   let component;
@@ -46,6 +54,10 @@ describe('Component: PatientInfo', () => {
           provide: AppFeatureAnalytics, useFactory: () => {
             return new FakeAppFeatureAnalytics();
           }, deps: []
+        },
+        {
+          provide: ActivatedRoute,
+          useClass : MockActivatedRoute
         }
       ]
 
