@@ -482,6 +482,16 @@
       "shared-routes-class": "cdm",
       "requiresPatientEnrollment": true,
       "routes": []
+    },
+    {
+      "programName": "Refferal Peer Navigator",
+      "programUuid": "a15a58a4-0daa-4195-bf29-b4bccd5df01e",
+      "baseRoute": "a15a58a4-0daa-4195-bf29-b4bccd5df01e",
+      "alias": "cdm",
+      "published": true,
+      "shared-routes-class": "cdm",
+      "requiresPatientEnrollment": true,
+      "routes": []
     }
   ],
 
