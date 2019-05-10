@@ -1846,7 +1846,18 @@
           "display": "BREASTCANCERASSESSMENT"
         }
       ]
-    }]
+    }],
+    "enrollmentOptions": {
+      "requiredProgramQuestions": [],
+      "allowMultipleEnrollment": false,
+      "stateChangeEncounterTypes": {
+        "referral": [{
+          "uuid": "ff13c7ad-9552-4d94-881b-dbad1116f7f7",
+          "name": "Oncology POC Screening Referral Form V1.0",
+          "required": true
+        }]
+      }
+    }
   },
   "cad71628-692c-4d8f-8dac-b2e20bece27f": {
     "name": "CERVICAL CANCER SCREENING PROGRAM",
@@ -1854,7 +1865,16 @@
       "patient"
     ],
     "enrollmentOptions": {
-      "enrollIf": "gender != 'M'"
+      "enrollIf": "gender != 'M'",
+      "requiredProgramQuestions": [],
+      "allowMultipleEnrollment": false,
+      "stateChangeEncounterTypes": {
+        "referral": [{
+          "uuid": "ff13c7ad-9552-4d94-881b-dbad1116f7f7",
+          "name": "Oncology POC Screening Referral Form V1.0",
+          "required": true
+        }]
+      }
     },
     "incompatibleWith": [],
     "visitTypes": [{
