@@ -1,3 +1,5 @@
+var _ = require('lodash');
+
 var def = {
     buildScope: buildScope
 };
@@ -15,6 +17,28 @@ function buildScope(dataDictionary) {
 
     if (dataDictionary.enrollment) {
         buildProgramScopeMembers(scope, dataDictionary.enrollment);
+    }
+
+    if (dataDictionary.patientEnrollment) {
+
+      var activeEnrollments = _.filter(dataDictionary.patientEnrollment, { dateCompleted: null});
+      var isEnrolledInPMTCT = false;
+      var isEnrolledInViremia = false;
+      activeEnrollments.forEach(function(item) {
+        if (item.program.uuid === 'c4246ff0-b081-460c-bcc5-b0678012659e') {
+          isEnrolledInViremia = true;
+        }
+        if (item.program.uuid === '781d897a-1359-11df-a1f1-0026b9348838') {
+          isEnrolledInPMTCT = true;
+        }
+      });
+
+      if (isEnrolledInPMTCT && isEnrolledInViremia) {
+        scope.isEnrolledInViremiaPMTCT = true;
+      } else {
+        scope.isEnrolledInViremiaPMTCT = false;
+      }
+
     }
 
     if (dataDictionary.hivLastTenClinicalEncounters) {
