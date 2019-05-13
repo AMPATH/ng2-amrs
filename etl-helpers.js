@@ -591,7 +591,7 @@ module.exports = function () {
         transformMedicalRefillToClinical: function transformMedicalRefillToClinical(hivSummaries) {
              let transfromedArray = [];
              _.each(hivSummaries, (hivSummary) => {
-                   if(hivSummary.encounter_type = 186){
+                   if(hivSummary.encounter_type == 186){
                     // console.log('summarytest',hivSummary);
                     hivSummary.is_clinical_encounter = 1;
                     // console.log('summarytest',hivSummary);
