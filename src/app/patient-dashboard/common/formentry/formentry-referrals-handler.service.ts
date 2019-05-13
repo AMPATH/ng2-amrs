@@ -1,18 +1,20 @@
-
-import {take} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 
 import { Observable ,  Subject } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { Form } from 'ngx-openmrs-formentry/dist/ngx-formentry';
 
 import { DifferentiatedCareReferralService } from '../patient-referrals/differentiated-care-referral.service';
+import { OncologyReferralService } from '../patient-referrals/oncology-referral.service';
 import { Patient } from '../../../models/patient.model';
 
 @Injectable()
 export class FormentryReferralsHandlerService {
   public differentiatedCareConceptUuid = '7c6f0599-3e3e-4f42-87a2-2ce66f1e96d0';
 
-  constructor(public diffCareReferralService: DifferentiatedCareReferralService) { }
+  constructor(
+    public diffCareReferralService: DifferentiatedCareReferralService,
+    public oncologyReferralService: OncologyReferralService) { }
 
   public handleFormReferals(patient: Patient, form: Form): Observable<any> {
     const values = this.extractRequiredValues(form);
@@ -42,6 +44,10 @@ export class FormentryReferralsHandlerService {
       });
     }
     return subject.asObservable();
+  }
+
+  public handleOncologyReferral(patient: Patient, referralData: any) {
+    return this.oncologyReferralService.referPatient(patient, referralData);
   }
 
   public handleDifferentiatedCareReferal(patient: Patient, values: {
