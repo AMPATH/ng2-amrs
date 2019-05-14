@@ -10,7 +10,8 @@ var availableKeys = {
     'dummyPatient': getPatient,
     'enrollment': getProgramEnrollment,
     'hivLastTenClinicalEncounters': gethivLastTenClinicalEncounters,
-    'hivLastEncounter': getPatientLastEncounter
+    'hivLastEncounter': getPatientLastEncounter,
+    'patientEnrollment': getPatientEnrollement
 };
 
 var def = {
@@ -106,6 +107,20 @@ function getPatientLastEncounter(patientUuid) {
             etlHivSummary.getPatientLastEncounter(patientUuid)
                 .then(function (response) {
                     resolve(response.result[0]);
+                })
+                .catch(function (error) {
+                    reject(error);
+                });
+        }
+    );
+}
+
+function getPatientEnrollement(patientUuid, params) {
+    return new Promise(
+        function (resolve, reject) {
+            programService.getProgramEnrollmentByPatientUuid(patientUuid, params)
+                .then(function (response) {
+                    resolve(response.results);
                 })
                 .catch(function (error) {
                     reject(error);
