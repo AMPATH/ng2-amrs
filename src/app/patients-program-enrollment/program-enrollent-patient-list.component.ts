@@ -26,6 +26,7 @@ export class ProgramEnrollmentPatientListComponent implements OnInit, OnDestroy 
         message: '' // default message
     };
 
+
     public enrollmentColdef: any = [
         { headerName: 'No', field: 'no' , minWidth: 50},
         { headerName: 'Identifier', field: 'identifier' , minWidth: 200,
@@ -36,7 +37,9 @@ export class ProgramEnrollmentPatientListComponent implements OnInit, OnDestroy 
             this.redirectTopatientInfo(column.data.patient_uuid);
         }
         },
-        { headerName: 'Name', field: 'name' , minWidth: 200},
+        { headerName: 'Name', field: 'name' , minWidth: 200 },
+        { headerName: 'Gender', field: 'gender', minWidth: 50 },
+        { headerName: 'Age', field: 'age', minWidth: 30 },
         { headerName: 'Program', field: 'program',   minWidth: 600,
         cellRenderer : (params) => {
             return '<span>' + params.value + '</span>';
@@ -45,7 +48,7 @@ export class ProgramEnrollmentPatientListComponent implements OnInit, OnDestroy 
             'white-space': 'normal',
             'fontsize': '14px !important',
             'overflow-y': 'scroll',
-            'word-wrap': 'break-word'}},
+            'word-wrap': 'break-word'}}
     ];
 
     public style = {
@@ -159,7 +162,9 @@ export class ProgramEnrollmentPatientListComponent implements OnInit, OnDestroy 
                 name: enrollment.person_name,
                 identifier: enrollment.identifiers,
                 program: enrollmentDateDetail,
-                patient_uuid : patientUuid
+                patient_uuid : patientUuid,
+                age: enrollment.age,
+                gender: enrollment.gender
             };
 
             trackPatientMap.set(patientUuid, patient);
