@@ -65,6 +65,7 @@ import * as clinical_hiv_comparative_overview_base from './json-reports/clinical
 import * as daily_has_not_returned_aggregate from './json-reports/daily-has-not-returned-aggregate.json';
 import * as daily_has_not_returned_base from './json-reports/daily-has-not-returned-base.json';
 import * as daily_has_not_returned_cohort from './json-reports/daily-has-not-returned-cohort.json';
+import * as next_drug_pickup_encounter_base from './json-reports/next-drug-pickup-encounter.base.json';
 import * as daily_appointments_aggregate from './json-reports/daily-appointments-aggregate.json';
 import * as daily_appointments_base from './json-reports/daily-appointments-base.json';
 import * as daily_appointment_latest_rtc_cohort_base from './json-reports/daily-appointment-latest-rtc-cohort-base.json';
@@ -305,7 +306,8 @@ export class BaseMysqlReport {
                     resolve({
                         main: this.cloneJsonSchema(daily_has_not_returned_aggregate),
                         dailyHasNotReturnedBase: this.cloneJsonSchema(daily_has_not_returned_base),
-                        dailyHasNotReturnedCohort: this.cloneJsonSchema(daily_has_not_returned_cohort)
+                        dailyHasNotReturnedCohort: this.cloneJsonSchema(daily_has_not_returned_cohort),
+                        nextDrugPickupEncounterBase: this.cloneJsonSchema(next_drug_pickup_encounter_base)
                     });
                     break;
                 case 'dailyHasNotReturnedCohort':

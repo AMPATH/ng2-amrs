@@ -62,6 +62,14 @@
                 "type": "LEFT",
                 "joinCondition": "t2.person_id = t7.person_id"
             }
+        },
+        {
+            "dataSet": "nextDrugPickupEncounterBase",
+            "alias": "next_drug_pickup",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "next_drug_pickup.person_id = t2.person_id AND next_drug_pickup.encounter_datetime > t2.encounter_datetime"
+            }
         }
     ],
     "columns": [
@@ -147,7 +155,7 @@
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "t2.next_program_clinical_datetime IS NULL",
+                "conditionExpression": "t2.next_program_clinical_datetime IS NULL AND next_drug_pickup.next_drugpickup_date IS NULL",
                 "parameterName": ""
             },
             {
@@ -157,12 +165,12 @@
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "t2.next_clinical_encounter_datetime IS NULL",
+                "conditionExpression": "t2.next_clinical_encounter_datetime IS NULL AND next_drug_pickup.next_drugpickup_date IS NULL",
                 "parameterName": ""
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression":  "t2.is_clinical = 1 AND (t2.next_encounter_type != 186 OR t2.next_encounter_type is NULL)",
+                "conditionExpression":  "t2.is_clinical = 1 OR t2.encounter_type = 186",
                 "parameterName": ""
             },
             {
