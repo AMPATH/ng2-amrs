@@ -10,6 +10,7 @@
                   [gridOptions]="gridOptions"
                   [rowData]="labRowData"
                   [columnDefs]="labCols"
+                  (cellClicked) = "cellClicked($event)"
                   >
 
                   </ag-grid-angular>
@@ -21,6 +22,13 @@
         <span class=""></span>Load More...</button>
     </div>
   </div>-->
+
+  <lab-result-image-modal
+    [imageLinks]="imageLinks"
+    [title]="imageTitle"
+    [showImageModal]="showImageModal"
+    (modalClose)="modalClose($event)"
+  ></lab-result-image-modal>
 
   <div *ngIf='dataLoaded'>
     <p class="bg-info" style="padding:4px;">
