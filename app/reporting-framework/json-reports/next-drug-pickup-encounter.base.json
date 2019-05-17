@@ -1,0 +1,46 @@
+{
+    "name": "nextDrugPickupEncounterBase",
+    "version": "1.0",
+    "tag": "",
+    "description": "",
+    "uses": [],
+    "sources": [
+        {
+            "table": "etl.flat_appointment",
+            "alias": "fa"
+        }
+    ],
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias": "next_drugpickup_date",
+            "column": "MIN(fa.encounter_datetime)"
+        },
+        {
+            "type": "simple_column",
+            "alias": "person_id",
+            "column": "fa.person_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "encounter_datetime",
+            "column": "fa.encounter_datetime"
+        }
+    ],
+    "filters": {
+        "conditionJoinOperator": "and",
+        "conditions": [
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fa.encounter_type = 186"
+            }
+        ]
+    },
+    "groupBy": {
+        "groupParam": "groupByParam",
+        "columns": [
+            "fa.person_id"
+        ],
+        "excludeParam": "excludeParam"
+    }
+}
