@@ -64,34 +64,48 @@ export class HivEnhancedComponent implements OnInit {
     return [
       {
         headerName: 'Phone Number',
-        field: 'phone_number',
-        cellStyle: {
-          'white-space': 'normal'
-        },
-        width: 50
+        width: 150,
+        field: 'phone_number'
       },
       {
-        headerName: 'VL',
-        field: 'vl_1',
-        cellStyle: {
-          'white-space': 'normal'
-        },
-        width: 40
+        headerName: 'Latest Appointment',
+        width: 200,
+        field: 'last_appointment'
       },
       {
-        headerName: 'VL Date',
-        field: 'vl_1_date',
-        cellStyle: {
-          'white-space': 'normal'
-        },
-        width: 50
+        headerName: 'Latest RTC Date',
+        width: 150,
+        field: 'latest_rtc_date'
       },
       {
         headerName: 'Current Regimen',
-        field: 'cur_arv_meds',
-        cellStyle: {
-          'white-space': 'normal'
-        }
+        width: 200,
+        field: 'cur_meds'
+      },
+      {
+        headerName: 'Latest VL',
+        width: 75,
+        field: 'latest_vl'
+      },
+      {
+        headerName: 'Latest VL Date',
+        width: 150,
+        field: 'latest_vl_date'
+      },
+      {
+        headerName: 'Previous VL',
+        width: 75,
+        field: 'previous_vl'
+      },
+      {
+        headerName: 'Previous VL Date',
+        width: 150,
+        field: 'previous_vl_date'
+      },
+      {
+        headerName: 'Nearest Center',
+        width: 150,
+        field: 'nearest_center'
       }
     ];
   }

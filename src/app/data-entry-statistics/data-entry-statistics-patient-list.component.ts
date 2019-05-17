@@ -80,6 +80,51 @@ export class DataEntryStatisticsPatientListComponent
     {
       headerName: 'Location Name',
       field: 'location_name'
+    },
+    {
+      headerName: 'Phone Number',
+      width: 150,
+      field: 'phone_number'
+    },
+    {
+      headerName: 'Latest Appointment',
+      width: 200,
+      field: 'last_appointment'
+    },
+    {
+      headerName: 'Latest RTC Date',
+      width: 150,
+      field: 'latest_rtc_date'
+    },
+    {
+      headerName: 'Current Regimen',
+      width: 200,
+      field: 'cur_meds'
+    },
+    {
+      headerName: 'Latest VL',
+      width: 75,
+      field: 'latest_vl'
+    },
+    {
+      headerName: 'Latest VL Date',
+      width: 150,
+      field: 'latest_vl_date'
+    },
+    {
+      headerName: 'Previous VL',
+      width: 75,
+      field: 'previous_vl'
+    },
+    {
+      headerName: 'Previous VL Date',
+      width: 150,
+      field: 'previous_vl_date'
+    },
+    {
+      headerName: 'Nearest Center',
+      width: 150,
+      field: 'nearest_center'
     }
   ];
 
@@ -119,7 +164,16 @@ export class DataEntryStatisticsPatientListComponent
         'gender': list.gender,
         'age': list.age,
         'location_name': list.location_name,
-        'patient_uuid': list.patient_uuid
+        'patient_uuid': list.patient_uuid,
+        'phone_number': list.phone_number,
+        'last_appointment': list.last_appointment,
+        'latest_rtc_date': list.latest_rtc_date,
+        'cur_meds': list.cur_meds,
+        'latest_vl': list.latest_vl,
+        'latest_vl_date': list.latest_vl_date,
+        'previous_vl': list.previous_vl,
+        'previous_vl_date': list.previous_vl_date,
+        'nearest_center': list.nearest_center
       };
 
       patientArray.push(specificPatient);

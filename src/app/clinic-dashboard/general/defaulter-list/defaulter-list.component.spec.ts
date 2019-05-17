@@ -171,7 +171,7 @@ describe('Component: DefaulterListComponent', () => {
         spyOn(component, 'extraColumns').and.callThrough();
         const columns = component.extraColumns();
         expect(component.extraColumns).toHaveBeenCalled();
-        expect(columns.length).toEqual(4);
+        expect(columns.length).toEqual(12);
         expect(columns[0].field).toEqual('rtc_date');
         expect(columns[1].field).toEqual('last_appointment');
         expect(columns[2].field).toEqual('filed_id');
