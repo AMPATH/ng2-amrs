@@ -4,7 +4,6 @@ import { PatientService } from '../../services/patient.service';
 import { LabsResourceService } from '../../../etl-api/labs-resource.service';
 import { SelectDepartmentService } from './../../../shared/services/select-department.service';
 import { ZeroVlPipe } from './../../../shared/pipes/zero-vl-pipe';
-import { ActivatedRoute } from '@angular/router';
 
 import { GridOptions } from 'ag-grid/main';
 import 'ag-grid-enterprise/main';
@@ -31,6 +30,9 @@ export class LabResultComponent implements OnInit, OnDestroy {
   public labResults = [];
   public horizontalView = true;
   public subscription: Subscription;
+  public imageLinks = '';
+  public imageTitle = '';
+  public showImageModal = false;
   public gridOptions: GridOptions = {
     onGridSizeChanged: () => {
       if (this.gridOptions.api) {
@@ -88,6 +90,12 @@ export class LabResultComponent implements OnInit, OnDestroy {
     },
     'serum_crag' : {
       'test' : 'Serum Crag'
+    },
+    'gene_expert_image' : {
+      'test' : 'GeneExpert Image'
+    },
+    'dst_image' : {
+      'test' : 'DST Image'
     }
   };
 
@@ -226,7 +234,6 @@ export class LabResultComponent implements OnInit, OnDestroy {
   constructor(
     private labsResourceService: LabsResourceService,
     private patientService: PatientService,
-    private _route: ActivatedRoute,
     private zeroVlPipe: ZeroVlPipe,
     private selectDepartmentService: SelectDepartmentService) {
     this.gridOptions = {} as GridOptions;
@@ -383,8 +390,10 @@ export class LabResultComponent implements OnInit, OnDestroy {
             return '';
           },
           cellRenderer: (column: any) => {
-            if (column.colDef.field === 'hiv_viral_load') {
+            if (column.data.test === 'HIV VL') {
               return this.zeroVlPipe.transform(column.value);
+            } else if (column.data.test === 'GeneExpert Image' || column.data.test === 'DST Image') {
+              return this.transFormImageCol(column.value);
             } else {
                 return column.value;
             }
@@ -428,7 +437,8 @@ export class LabResultComponent implements OnInit, OnDestroy {
 
     Object.keys(verticalCols).forEach((key, index) => {
       if (verticalCols.hasOwnProperty('' + key + '')) {
-        if (key !== 'testDatetime' && key !== 'hiv_viral_load' && key !== 'serum_crag') {
+        if (key !== 'testDatetime' && key !== 'hiv_viral_load' && key !== 'serum_crag'
+        && key !== 'gene_expert_image' && key !== 'dst_image') {
 
         const col = {
           headerName: verticalCols[key].test,
@@ -498,6 +508,26 @@ export class LabResultComponent implements OnInit, OnDestroy {
         cols.push(col);
 
       }
+      if (key === 'gene_expert_image' || key === 'dst_image') {
+
+        const col = {
+          headerName: verticalCols[key].test,
+          width: 200,
+          pinned : '',
+          field: key,
+          cellStyle: {
+            'text-align': 'left'
+          },
+          tooltip: (params: any) => {
+          },
+          cellRenderer: (column) => {
+                return this.transFormImageCol(column.value);
+          }
+        };
+
+        cols.push(col);
+
+      }
       }
      });
 
@@ -535,7 +565,6 @@ export class LabResultComponent implements OnInit, OnDestroy {
 
     Object.keys(rowData).forEach((key, index) => {
       const testResults = rowData[key];
-      console.log();
       labRows.push(testResults);
     });
     this.labRowData = labRows;
@@ -559,5 +588,47 @@ export class LabResultComponent implements OnInit, OnDestroy {
     } else {
       return null;
     }
+  }
+
+  public transFormImageCol(value) {
+
+    let colValue;
+
+     if (typeof value !== 'undefined' && value !== null) {
+          colValue = '<a>View</a>';
+     } else {
+          colValue = null;
+     }
+
+     return colValue;
+
+  }
+
+  public cellClicked($event: any) {
+     if ($event.colDef.field === 'gene_expert_image' || $event.colDef.field === 'dst_image') {
+        this.showModal($event.value);
+        this.imageTitle = $event.colDef.headerName;
+
+     } else if ($event.data.test === 'GeneExpert Image' || $event.data.test === 'DST Image') {
+      this.showModal($event.value);
+      this.imageTitle = $event.data.test;
+     } else {
+        return false;
+     }
+  }
+
+  public showModal(image) {
+    let imageLinks = image.split('##');
+    imageLinks = imageLinks.map((imageFile) => {
+        return imageFile.replace(/\s/g, '');
+    });
+    this.imageLinks = imageLinks;
+    this.showImageModal = true;
+  }
+
+  public modalClose($event) {
+    this.showImageModal = false;
+    this.imageTitle = '';
+    this.imageLinks = '';
   }
 }

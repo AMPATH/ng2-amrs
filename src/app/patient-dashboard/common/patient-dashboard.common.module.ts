@@ -42,6 +42,7 @@ import { PatientBannerComponent } from './patient-banner/patient-banner.componen
 import { LabSyncComponent } from './lab-data-summary/lab-sync.component';
 import { HivSummaryService } from '../hiv/hiv-summary/hiv-summary.service';
 import { LabResultComponent } from './lab-data-summary/lab-result.component';
+import { LabResultImageModalComponent } from './lab-data-summary/lab-result-image-modal.component';
 import { ContactsComponent } from './patient-info/contacts.component';
 import { AddressComponent } from './patient-info/address.component';
 import { PatientDemographicsComponent } from './patient-info/patient-demograpics.component';
@@ -197,6 +198,7 @@ import { AgePipe } from './patient-banner/age.pipe';
     PatientBannerComponent,
     LabSyncComponent,
     LabResultComponent,
+    LabResultImageModalComponent,
     ContactsComponent,
     PatientIdentifierComponent,
     AddressComponent,
@@ -248,6 +250,7 @@ import { AgePipe } from './patient-banner/age.pipe';
     EditVisitTypeComponent,
     LabSyncComponent,
     LabResultComponent,
+    LabResultImageModalComponent,
     ContactsComponent,
     PatientIdentifierComponent,
     AddressComponent,
