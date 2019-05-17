@@ -91,9 +91,35 @@
         "tableName": "concept_name",
         "alias": "t12",
         "joinExpression": "t1.concept_id  = t12.concept_id"
+      },
+      {
+        "joinType": "LEFT OUTER JOIN",
+        "schema": "amrs",
+        "tableName": "person_attribute",
+        "alias": "contacts",
+        "joinExpression": "t1.patient_id = contacts.person_id AND (contacts.voided IS NULL || contacts.voided = 0) AND contacts.person_attribute_type_id in (10, 48)"
+      },
+      {
+        "joinType": "LEFT OUTER JOIN",
+        "schema": "etl",
+        "tableName": "flat_hiv_summary_v15b",
+        "alias": "fhs",
+        "joinExpression": "t1.patient_id = fhs.person_id AND fhs.next_clinical_location_id IS NULL AND fhs.encounter_type NOT IN (99999)"
+      },
+      {
+        "joinType": "LEFT OUTER JOIN",
+        "schema": "amrs",
+        "tableName": "encounter_type",
+        "alias": "et",
+        "joinExpression": "fhs.encounter_type = et.encounter_type_id"
+      },
+      {
+        "joinType": "LEFT OUTER JOIN",
+        "schema": "amrs",
+        "tableName": "person_address",
+        "alias": "pa",
+        "joinExpression": "t1.patient_id = pa.person_id"
       }
-
-
     ],
     "parameters": [
       {
@@ -270,6 +296,51 @@
         "label": "provider_name",
         "type": "single",
         "sql": "concat(COALESCE(t11.given_name,''),' ',COALESCE(t11.middle_name,''),' ',COALESCE(t11.family_name,''))"
+      },
+      {
+        "type": "single",
+        "label": "phone_number",
+        "sql": " GROUP_CONCAT(DISTINCT contacts.value SEPARATOR ', ')"
+      },
+      {
+        "type": "single",
+        "label": "latest_rtc_date",
+        "sql": "date_format(fhs.rtc_date, '%Y-%m-%d')"
+      },
+      {
+        "type": "single",
+        "label": "latest_vl",
+        "sql": "fhs.vl_1"
+      },
+      {
+        "type": "single",
+        "label": "latest_vl_date",
+        "sql": "date_format(fhs.vl_1_date, '%Y-%m-%d')"
+      },
+      {
+        "type": "single",
+        "label": "last_appointment",
+        "sql": "CONCAT(COALESCE(DATE_FORMAT(fhs.encounter_datetime, '%Y-%m-%d'),''),' ',COALESCE(et.name, ''))"
+      },
+      {
+        "type": "single",
+        "label": "cur_meds",
+        "sql": "fhs.cur_arv_meds"
+      },
+      {
+          "type": "simple_column",
+          "alias": "previous_vl",
+          "column": "fhs.vl_2"
+      },
+      {
+          "type": "simple_column",
+          "alias": "previous_vl_date",
+          "column": "date_format(fhs.vl_2_date, '%Y-%m-%d')"
+      },
+      {
+          "type": "simple_column",
+          "alias": "nearest_center",
+          "column": "pa.address3"
       }
 
     ]

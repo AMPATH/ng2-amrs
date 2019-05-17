@@ -76,7 +76,7 @@
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "encounter_type in ?",
+                "conditionExpression": "t2.encounter_type in ?",
                 "parameterName": "encounterIds"
             },
             {

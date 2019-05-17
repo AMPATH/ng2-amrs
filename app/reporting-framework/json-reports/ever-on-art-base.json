@@ -61,7 +61,7 @@
             "alias": "ever_on_art",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "case when arv_first_regimen_start_date IS NOT NULL AND hmsd.location_id = hmsd.arv_first_regimen_location_id then 1 else null end"
+                "expression": "case when hmsd.arv_first_regimen_start_date IS NOT NULL AND hmsd.location_id = hmsd.arv_first_regimen_location_id then 1 else null end"
             }
         }
     ],

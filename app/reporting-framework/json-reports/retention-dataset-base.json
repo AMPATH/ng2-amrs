@@ -144,7 +144,7 @@
         {
             "alias": "suppressed",
             "expressionOptions": {
-                "expression": "if(vl_1<1000 and vl_in_past_year=1,1,null)"
+                "expression": "if(hmsd.vl_1<1000 and vl_in_past_year=1,1,null)"
             },
             "type": "derived_column",
             "expressionType": "simple_expression"
@@ -162,7 +162,7 @@
             "alias": "on_original_first_line",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "IF(status = 'active' AND cur_arv_line = 1 AND arv_first_regimen = cur_arv_meds,1, NULL)"
+                "expression": "IF(status = 'active' AND hmsd.cur_arv_line = 1 AND hmsd.arv_first_regimen = hmsd.cur_arv_meds,1, NULL)"
             }
         },
         {
@@ -170,7 +170,7 @@
             "alias": "on_alternative_first_line",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "IF(status = 'active' AND cur_arv_line = 1 AND arv_first_regimen <> cur_arv_meds,1, NULL)"
+                "expression": "IF(status = 'active' AND hmsd.cur_arv_line = 1 AND hmsd.arv_first_regimen <> hmsd.cur_arv_meds,1, NULL)"
             }
         },
         {
@@ -178,7 +178,7 @@
             "alias": "on_second_line",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "IF(status = 'active' AND cur_arv_line >= 2,1,NULL)"
+                "expression": "IF(status = 'active' AND hmsd.cur_arv_line >= 2,1,NULL)"
             }
         }
     ],
@@ -197,7 +197,7 @@
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "arv_first_regimen_start_date between date_format(date_sub(endDate,interval 1 year),'%Y-%m-01') and date_sub(endDate,interval 1 year)",
+                "conditionExpression": "hmsd.arv_first_regimen_start_date between date_format(date_sub(endDate,interval 1 year),'%Y-%m-01') and date_sub(endDate,interval 1 year)",
                 "parameterName": ""
             },
             {
