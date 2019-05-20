@@ -109,7 +109,7 @@ function updatePatientReferralNotification(patientReferralId, newPatientReferral
                             var query = squel.update()
                                 .table('etl.patient_referral')
                                 .set('notification_status', newPatientReferral.notificationStatus)
-                                .set('date_changed', 'NOW()')
+                                .set('date_changed', moment().format())
                                 .set('changed_by', getCurrentUserIdSquel())
                                 .where('patient_referral_id = ?', patientReferralId)
                                 .toString();
@@ -132,7 +132,7 @@ function updatePatientReferralNotification(patientReferralId, newPatientReferral
                             });
                         })
                         .catch(function (err) {
-
+                            
                             reject('Error establishing connection to MySql Server to update the resource');
                         });
                 }
