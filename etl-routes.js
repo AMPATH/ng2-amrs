@@ -115,6 +115,7 @@ import {
 import {
      LungCancerTreatmentSummary
      } from './service/lung-cancer-treatment-summary.service';
+var  kibanaService = require('./service/kibana.service');
 
 
 module.exports = function () {
@@ -4456,6 +4457,32 @@ module.exports = function () {
                     },
                     description: 'Get Lung cancer treatment monthly patient list based on location and time filters',
                     notes: 'Returns details of patients who underwent lung cancer treatment',
+                    tags: ['api'],
+                }
+
+            },
+            {
+                method: 'GET',
+                path: '/etl/kibana-dashboards',
+                config: {
+                    auth: 'simple',
+                    plugins: {
+                        'hapiAuthorization': {
+                            role: privileges.canViewClinicDashBoard
+                        }
+                    },
+                    handler: function (request, reply) {
+                        
+                        let kibanaDashboard = kibanaService.getKibanaDashboards().then((result) => {
+                                    console.log('Kibana Dashboard', result);
+                                    reply(result);
+                                }).catch((error) => {
+                                    reply(error);
+                                });
+
+                    },
+                    description: 'Get a list of Kibana Dashboards',
+                    notes: 'Returns a list of links for Kibana Dashboards',
                     tags: ['api'],
                 }
 
