@@ -12,6 +12,7 @@ import { DataListsModule } from '../../shared/data-lists/data-lists.module';
 import { AdminDashboardClinicFlowComponent } from './clinic-flow/admin-dashboard-clinic-flow';
 import { HivCareLibModule } from '../../hiv-care-lib/hiv-care-lib.module';
 import { dataAnalyticsDashboardHivRouting } from './data-analytics-hiv.routes';
+import { KibanaLibModule } from '../../kibana-lib';
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
 import { HivSummaryIndicatorsComponent } from './hiv-summary-indicators/hiv-summary-indicators';
 import {
@@ -36,6 +37,9 @@ import {
   DataEntryStatisticsModule
 } from './../../data-entry-statistics/data-entry-statistics.module';
 import { ChangeDepartmentModule } from '../change-department/change-department.module';
+import {
+  Moh731MonthlyVizComponent
+} from './moh-731-monthly-viz/moh-731-monthly-viz.component';
 @NgModule({
   imports: [
     dataAnalyticsDashboardHivRouting,
@@ -48,7 +52,8 @@ import { ChangeDepartmentModule } from '../change-department/change-department.m
     RouterModule,
     DataEntryStatisticsModule,
     PatientProgramEnrollmentModule,
-    ChangeDepartmentModule
+    ChangeDepartmentModule,
+    KibanaLibModule
   ],
   exports: [
     RouterModule,
@@ -61,6 +66,7 @@ import { ChangeDepartmentModule } from '../change-department/change-department.m
     AdminDashboardClinicFlowComponent,
     HivSummaryIndicatorsComponent,
     Moh731ReportComponent,
+    Moh731MonthlyVizComponent,
     HivCareComparativeAnalyticsComponent,
     HivSummaryMonthlyIndicatorsComponent
   ],

@@ -8,6 +8,11 @@ export class ClinicDashboardCacheService {
     private initialUuid;
     private currentClinic = new BehaviorSubject(this.initialUuid);
     private dailTabCurrentDate = Moment(new Date()).format('YYYY-MM-DD');
+    // Observable string sources
+    private reportSource = new BehaviorSubject<string>('');
+      // Observable string streams
+    public currentReport$ = this.reportSource.asObservable();
+
     private dailTabCurrentDateSubject = new BehaviorSubject(this.dailTabCurrentDate);
     private isLoading = new BehaviorSubject(this.dataIsLoading);
     private currentTab = new Subject();
@@ -55,5 +60,9 @@ export class ClinicDashboardCacheService {
     }
     public getIsLoading() {
         return this.isLoading;
+    }
+
+    public setCurrentClinicDashboardReport(currentReport) {
+        this.reportSource.next(currentReport);
     }
 }

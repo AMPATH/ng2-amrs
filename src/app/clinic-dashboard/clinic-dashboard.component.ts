@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
  */
 
 import { LocationResourceService } from '../openmrs-api/location-resource.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router , NavigationEnd , NavigationStart } from '@angular/router';
 import { ClinicDashboardCacheService } from './services/clinic-dashboard-cache.service';
 import { UserDefaultPropertiesService } from '../user-default-properties/user-default-properties.service';
 import { LocalStorageService } from '../utils/local-storage.service';
@@ -24,6 +24,7 @@ export class ClinicDashboardComponent implements OnInit {
   public selectedLocation: any = {};
   public selectingLocation = true;
   public selectedDepartment: any;
+  public showLocationFilter = true;
 
   constructor(private locationResourceService: LocationResourceService,
               private route: ActivatedRoute, private router: Router,
@@ -35,8 +36,14 @@ export class ClinicDashboardComponent implements OnInit {
   }
 
   public ngOnInit() {
+    this.hideShowLocationFilter();
     this.getLocations();
     this.getUserDepartment();
+    this.router.events
+    .filter(event => event instanceof NavigationEnd)
+    .subscribe((event) => {
+      this.hideShowLocationFilter();
+    });
   }
 
   public getUserDepartment() {
@@ -48,6 +55,20 @@ export class ClinicDashboardComponent implements OnInit {
       this.router.navigate(['/user-default-properties']);
     }
     this.selectedDepartment = JSON.parse(department);
+  }
+
+  public hideShowLocationFilter() {
+    const currentUrl = this.router.url;
+    let isHivViz = 1;
+    if (currentUrl) {
+        isHivViz = currentUrl.indexOf('hiv-viz');
+    }
+    if (isHivViz === -1) {
+      this.showLocationFilter = true;
+    } else {
+      this.showLocationFilter = false;
+    }
+
   }
 
   public getLocations() {

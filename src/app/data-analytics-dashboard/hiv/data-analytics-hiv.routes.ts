@@ -18,6 +18,11 @@ import { DataEntryStatisticsPatientListComponent } from './../../data-entry-stat
 import { Moh731ReportComponent } from './moh-731/moh-731-report.component';
 import { Moh731PatientListComponent } from './../../hiv-care-lib/moh-731-report/moh-731-patientlist.component';
 import { ChangeDepartmentComponent } from '../change-department/change-department.component';
+import { Moh731MonthlyVizComponent } from './moh-731-monthly-viz/moh-731-monthly-viz.component';
+import {
+  DashboardsViewerComponent
+} from '../../kibana-lib';
+
 const routes: Routes = [
   {
     path: 'clinic-flow', component: AdminDashboardClinicFlowComponent
@@ -71,6 +76,24 @@ const routes: Routes = [
       {
         path: 'patient-list',
         component: Moh731PatientListComponent
+      }
+    ]
+  },
+  {
+    path: 'moh-731-monthly-viz',
+    children: [
+      {
+        path: '',
+        component: Moh731MonthlyVizComponent
+      }
+    ]
+  },
+  {
+    path: 'hiv-viz',
+    children: [
+      {
+        path: '',
+        component:  DashboardsViewerComponent
       }
     ]
   },

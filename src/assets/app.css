@@ -572,3 +572,6 @@ program-manager-container .clear {
 #daily-schedule-row .mat-tab-links .mat-tab-link{
   min-width: 72px;
 }
+.dshExitFullScreenButton {
+  display: none !important;
+}

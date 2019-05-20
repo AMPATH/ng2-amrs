@@ -11,7 +11,8 @@ import {
 import {
     PatientsRequiringVLComponent
 } from './patients-requiring-vl/patients-requiring-vl.component';
-import { HivCareComparativeComponent
+import {
+    HivCareComparativeComponent
 } from './hiv-visualization/hiv-care-overview.component';
 import {
     PatientStatusChangeVisualizationContainerComponent
@@ -53,7 +54,13 @@ import { PatientsProgramEnrollmentComponent } from '../../patients-program-enrol
 import { ProgramEnrollmentPatientListComponent } from '../../patients-program-enrollment/program-enrollent-patient-list.component';
 import { ClinicLabOrdersComponent } from '../general/clinic-lab-orders/clinic-lab-orders.component';
 import { ChangeDepartmentComponent } from '../change-department/change-department.component';
+import {
+    Moh731MonthlyVizComponent
+} from './moh731-monthly-viz/moh731-monthly-viz.component';
 
+import {
+    DashboardsViewerComponent
+} from '../../kibana-lib';
 const routes: Routes = [
     {
         path: 'landing-page',
@@ -82,6 +89,14 @@ const routes: Routes = [
         component: Moh731PatientListComponent
     },
     {
+        path: 'moh-731-monthly-viz',
+        component: Moh731MonthlyVizComponent // replace with landing page for module
+    },
+    {
+        path: 'hiv-viz',
+        component: DashboardsViewerComponent
+    },
+    {
         path: 'hiv-summary-indicator-report',
         children: [
             {
@@ -99,18 +114,18 @@ const routes: Routes = [
         component: PatientsRequiringVLComponent,
     },
     {
-      path: 'hiv-comparative-chart',
-      children: [
-        {
-          path: '',
-          component: HivCareComparativeComponent
-        },
-        {
-          path: 'patient-list/:report/:indicator/:period',
-          component: VisualizationPatientListComponent
-        }
+        path: 'hiv-comparative-chart',
+        children: [
+            {
+                path: '',
+                component: HivCareComparativeComponent
+            },
+            {
+                path: 'patient-list/:report/:indicator/:period',
+                component: VisualizationPatientListComponent
+            }
 
-      ]
+        ]
 
     },
     {
