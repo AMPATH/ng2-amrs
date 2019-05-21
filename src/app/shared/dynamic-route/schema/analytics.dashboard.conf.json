@@ -99,9 +99,9 @@
       ]
     },
     {
-      "departmentName": "ONCOLOGY",
-      "baseRoute": "oncology",
-      "alias": "oncology",
+      "departmentName": "HEMATO-ONCOLOGY",
+      "baseRoute": "hemato-oncology",
+      "alias": "hemato-oncology",
       "routes": [{
           "url": "oncology-reports",
           "label": "Oncology Reports",
