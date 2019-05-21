@@ -1,0 +1,93 @@
+{
+  "reports": [{
+      "report_type": "breast-cancer-screening-numbers",
+      "sections": [
+        {
+          "section": "total_breast_screened",
+          "report_indicators": [
+            "total_breast_screened"
+          ]
+        },
+        {
+          "section": "normal_breast_call_rate%",
+          "report_indicators": [
+            "normal_breast_call_rate%"
+          ]
+        },
+        {
+          "section": "abnormal_breast_call_rate%",
+          "report_indicators": [
+            "abnormal_breast_call_rate%"
+          ]
+        },
+        {
+          "section": "normal_breast_screening_findings",
+          "report_indicators": [
+            "normal_breast_screening_findings",
+            "normal_breast_screening_findings_below_30yrs",
+            "normal_breast_screening_findings_30_to_40yrs",
+            "normal_breast_screening_findings_41_to_50yrs",
+            "normal_breast_screening_findings_51_to_69yrs",
+            "normal_breast_screening_findings_above_70yrs"
+          ]
+        },
+        {
+          "section": "abnormal_breast_screening_findings",
+          "report_indicators": [
+            "abnormal_breast_screening_findings",
+            "abnormal_breast_screening_findings_below_30yrs",
+            "abnormal_breast_screening_findings_30_to_40yrs",
+            "abnormal_breast_screening_findings_41_to_50yrs",
+            "abnormal_breast_screening_findings_51_to_69yrs",
+            "abnormal_breast_screening_findings_above_70yrs"
+          ]
+        }
+      ]
+    },
+    {
+      "report_type": "cervical-cancer-screening-numbers",
+      "sections": [
+        {
+          "section": "total_cervical_screened",
+          "report_indicators": [
+            "total_cervical_screened"
+          ]
+        },
+        {
+          "section": "normal_cervical_call_rate%",
+          "report_indicators": [
+            "normal_cervical_call_rate%"
+          ]
+        },
+        {
+          "section": "abnormal_cervical_call_rate%",
+          "report_indicators": [
+            "abnormal_cervical_call_rate%"
+          ]
+        },
+        {
+          "section": "normal_cervical_screening",
+          "report_indicators": [
+            "normal_cervical_screening",
+            "normal_cervical_screening_below_30yrs",
+            "normal_cervical_screening_30_to_40yrs",
+            "normal_cervical_screening_41_to_50yrs",
+            "normal_cervical_screening_51_to_69yrs",
+            "normal_cervical_screening_above_70yrs"
+          ]
+        },
+        {
+          "section": "abnormal_cervical_screening",
+          "report_indicators": [
+            "abnormal_cervical_screening",
+            "abnormal_cervical_screening_below_30yrs",
+            "abnormal_cervical_screening_30_to_40yrs",
+            "abnormal_cervical_screening_41_to_50yrs",
+            "abnormal_cervical_screening_51_to_69yrs",
+            "abnormal_cervical_screening_above_70yrs"
+          ]
+        }
+      ]
+    }
+  ]
+}
