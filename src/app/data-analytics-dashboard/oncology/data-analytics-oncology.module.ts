@@ -31,6 +31,8 @@ import {
 import { NgBusyModule } from 'ng-busy';
 import { ChangeDepartmentModule } from '../change-department/change-department.module';
 import { DataAnalyticsHivModule } from '../hiv/data-analytics-hiv.module';
+import { TabViewModule } from 'primeng/primeng';
+import { OncologyReportPdfViewComponent } from './oncology-reports/oncology-report-pdf-view/oncology-report-pdf-view.component';
 @NgModule(
   {
   imports: [
@@ -42,6 +44,7 @@ import { DataAnalyticsHivModule } from '../hiv/data-analytics-hiv.module';
     DataListsModule,
     AgGridModule,
     NgBusyModule,
+    TabViewModule,
     ChangeDepartmentModule,
     DataAnalyticsHivModule
   ],
@@ -57,7 +60,8 @@ import { DataAnalyticsHivModule } from '../hiv/data-analytics-hiv.module';
     OncologySummaryIndicatorsComponent,
     OncologySummaryFiltersComponent,
     OncologySummaryIndicatorsTableComponent,
-    OncologySummaryIndicatorsPatientListComponent
+    OncologySummaryIndicatorsPatientListComponent,
+    OncologyReportPdfViewComponent
   ],
   providers: [
     DataAnalyticsDashboardService,
