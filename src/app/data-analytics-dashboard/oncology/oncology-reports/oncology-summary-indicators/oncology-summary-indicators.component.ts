@@ -5,9 +5,10 @@ import { take } from 'rxjs/operators';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
 
-import { OncologySummaryIndicatorsResourceService
+import {
+  OncologySummaryIndicatorsResourceService
 } from '../../../../etl-api/oncology-summary-indicators-resource.service';
-
+import * as OncologyReportConfig from '../oncology-pdf-reports.json';
 @Component({
   selector: 'oncology-summary-indicators-summary',
   templateUrl: './oncology-summary-indicators.component.html',
@@ -17,6 +18,7 @@ import { OncologySummaryIndicatorsResourceService
 export class OncologySummaryIndicatorsComponent implements OnInit, AfterViewInit {
   public title = '';
   public monthlySummary: any = [];
+  public isPdfReportAvailable = false;
   public params: any;
   public reportType = '';
   public startDate: string = Moment().startOf('year').format('YYYY-MM-DD');
@@ -31,6 +33,7 @@ export class OncologySummaryIndicatorsComponent implements OnInit, AfterViewInit
   public report: any;
   public currentReport: any;
   public gender: any = ['M', 'F'];
+  public currentView = 'pdf';
   public busyIndicator: any = {
     busy: false,
     message: 'Please wait...' // default message
@@ -46,7 +49,7 @@ export class OncologySummaryIndicatorsComponent implements OnInit, AfterViewInit
     private router: Router,
     private route: ActivatedRoute,
     private oncologySummaryService: OncologySummaryIndicatorsResourceService,
-  ) {}
+  ) { }
 
   public ngOnInit() {
     this.route.queryParams.subscribe((params) => {
@@ -63,10 +66,23 @@ export class OncologySummaryIndicatorsComponent implements OnInit, AfterViewInit
     }, (error) => {
       console.error('Error', error);
     });
+    this.checkIsPdfReportAvailable();
+
   }
 
   public ngAfterViewInit() {
     this.cd.detectChanges();
+  }
+
+  public checkIsPdfReportAvailable() {
+    const reportTypes: Array<any> = [];
+    const reports: Array<any> = OncologyReportConfig.reports;
+    reports.forEach(element => {
+      if (this.params.type === element.report_type) {
+        this.isPdfReportAvailable = true;
+      }
+      reportTypes.push(element.report_type);
+    });
   }
 
   public setReportData(params: any) {
@@ -107,8 +123,8 @@ export class OncologySummaryIndicatorsComponent implements OnInit, AfterViewInit
 
   public navigateToHome() {
     this.router.navigate(['../'], {
-       relativeTo: this.route,
-      }
+      relativeTo: this.route,
+    }
     );
   }
 
@@ -122,15 +138,15 @@ export class OncologySummaryIndicatorsComponent implements OnInit, AfterViewInit
       'period': this.params.period,
       'type': this.params.type,
       'reportUuid': this.params.reportUuid,
-      'indicators' : this.params.indicators,
+      'indicators': this.params.indicators,
       'reportIndex': this.reportIndex,
       'locationUuids': this.params.locationUuids
     };
   }
 
   public getQueryParams() {
-     this.setQueryParams();
-     return this.params;
+    this.setQueryParams();
+    return this.params;
   }
 
   public generateReport() {
@@ -150,7 +166,7 @@ export class OncologySummaryIndicatorsComponent implements OnInit, AfterViewInit
           'message': err.error.message ? err.error.message : ''
         };
       }
-    );
+      );
   }
 
   public loading() {
