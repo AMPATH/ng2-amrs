@@ -45,7 +45,8 @@
     },
     {
       "report_type": "cervical-cancer-screening-numbers",
-      "sections": [{
+      "sections": [
+        {
           "section": "total_cervical_screened",
           "report_indicators": [
             "total_cervical_screened"
