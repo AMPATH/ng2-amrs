@@ -144,9 +144,9 @@
       ]
     },
     {
-      "departmentName": "ONCOLOGY",
-      "baseRoute": "oncology",
-      "alias": "oncology",
+      "departmentName": "HEMATO-ONCOLOGY",
+      "baseRoute": "hemato-oncology",
+      "alias": "hemato-oncology",
       "routes": [
         {
           "url": "daily-schedule",

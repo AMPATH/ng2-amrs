@@ -18,7 +18,7 @@ export class OncDailyScheduleComponent extends
 DailyScheduleBaseComponent implements OnInit, OnDestroy {
 
   public routeSub: Subscription = new Subscription();
-  public myDepartment = 'ONCOLOGY';
+  public myDepartment = 'HEMATO-ONCOLOGY';
   public activeLinkIndex = 0;
   public tabLinks = [
     { label: 'Appointments', link: 'daily-appointments' },

@@ -24,7 +24,7 @@ export class DataAnalyticsDashboardComponent implements OnInit {
         this.router.navigate(['/data-analytics', department, 'hiv-comparative-chart-analytics']);
         break;
 
-      case 'oncology':
+      case 'hemato-oncology':
         this.router.navigate(['/data-analytics', department, 'oncology-reports']);
         break;
 

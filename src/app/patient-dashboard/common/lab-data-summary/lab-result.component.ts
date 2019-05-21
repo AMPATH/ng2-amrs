@@ -278,7 +278,7 @@ export class LabResultComponent implements OnInit, OnDestroy {
   }
   public setLabSummaryView(department) {
     switch (department) {
-      case 'ONCOLOGY':
+      case 'HEMATO-ONCOLOGY':
         this.horizontalView = true;
         break;
       default:
@@ -288,7 +288,7 @@ export class LabResultComponent implements OnInit, OnDestroy {
 
   public setLabRows(department) {
     switch (department) {
-      case 'ONCOLOGY':
+      case 'HEMATO-ONCOLOGY':
         this.labRows = this.oncRows;
         break;
       default:
