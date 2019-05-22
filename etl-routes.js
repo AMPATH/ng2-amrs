@@ -549,13 +549,13 @@ module.exports = function () {
                                             if (encounterIds.length > 0) {
                                                 request.query.encounterIds = encounterIds;
                                             }
-                                            let compineRequestParams = Object.assign({}, request.query, request.params);
-                                            compineRequestParams.limitParam = compineRequestParams.limit;
-                                            compineRequestParams.offSetParam = compineRequestParams.startIndex;
+                                            let combineRequestParams = Object.assign({}, request.query, request.params);
+                                          combineRequestParams.limitParam = combineRequestParams.limit;
+                                          combineRequestParams.offSetParam = combineRequestParams.startIndex;
+                                          combineRequestParams.endDate = combineRequestParams.startDate;
                                             //let reportParams = etlHelpers.getReportParams('daily-has-not-returned', ['startDate', 'locations', 'encounterIds', 'visitTypeIds', 'programTypeIds', 'groupBy'], compineRequestParams);
                                             //reportParams.limit = 100000;
-                                            console.log('Params', compineRequestParams);
-                                            let service = new PatientlistMysqlReport('dailyHasNotReturnedAggregate', compineRequestParams);
+                                            let service = new PatientlistMysqlReport('dailyHasNotReturnedAggregate', combineRequestParams);
                                             service.generatePatientListReport(['patients']).then((result) => {
                                                 let returnedResult = {};
                                                 returnedResult.schemas = result.schemas;

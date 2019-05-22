@@ -1,17 +1,17 @@
 {
-    "dashboards": [
-        {
+  "dashboards": [
+    {
 
-            "id": 1,
-            "title": "Dashboard Example",
-            "department": "test",
-            "width": "99%",
-            "height": "900",
-            "icon": "fa fa-line-chart",
-            "description": "Test Sescription",
-            "url": "https://www.test-dashboard.or.ke/test",
-            "allowedDashboards": ["clinic", "data-analytics"]
+      "id": 1,
+      "title": "Dashboard Example",
+      "department": "test",
+      "width": "99%",
+      "height": "900",
+      "icon": "fa fa-line-chart",
+      "description": "Test Sescription",
+      "url": "https://www.test-dashboard.or.ke/test",
+      "allowedDashboards": ["clinic", "data-analytics"]
 
-        }
-    ]
+    }
+  ]
 }
