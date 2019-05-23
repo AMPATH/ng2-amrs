@@ -72,7 +72,7 @@ import { DqaReportsComponent } from 'src/app/hiv-care-lib/dqa-reports/dqa-report
 import {
     ChartAbstractionPatientlistComponent
  } from 'src/app/hiv-care-lib/dqa-reports/chart-abstraction-patientlist/chart-abstraction-patientlist.component';
-
+import { HivDifferentiatedCareComponent } from './hiv-differentiated-care-program/hiv-differentiated-care-program.component';
 const routes: Routes = [
     {
         path: 'landing-page',
@@ -180,6 +180,10 @@ const routes: Routes = [
                 component: ProgramEnrollmentPatientListComponent
             }
         ]
+    },
+    {
+        path: 'hiv-differentiated-care',
+        component: HivDifferentiatedCareComponent
     },
     {
         path: 'department-select',

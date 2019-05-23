@@ -42,7 +42,7 @@ import { CdmSummaryResourceService } from './cdm-summary-resource.service';
 import { RadiologyImagingResourceService } from './radiology-imaging-resource.service';
 import { HivEnhancedReportService } from './hiv-enhanced-program-report.service';
 import { SurgeResourceService } from './surge-resource.service';
-
+import { HivDifferentiatedCareResourceService } from './hiv-differentiated-care-resource.service';
 @NgModule({
   imports: [CommonModule, AppSettingsModule],
   declarations: [],
@@ -80,7 +80,8 @@ import { SurgeResourceService } from './surge-resource.service';
     HivEnhancedReportService,
     HivEnhancedReportService,
     RadiologyImagingResourceService,
-    SurgeResourceService
+    SurgeResourceService,
+    HivDifferentiatedCareResourceService
   ],
   exports: []
 })

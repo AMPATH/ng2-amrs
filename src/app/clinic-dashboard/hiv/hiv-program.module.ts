@@ -96,6 +96,10 @@ import { SurgeReportComponent } from './surge-report/surge-report.component';
 import { ReportingUtilitiesModule } from 'src/app/reporting-utilities/reporting-utilities.module';
 import { BsDatepickerModule } from 'ngx-bootstrap';
 import { ClinicDashboardRetentionReportComponent } from './retention-report/clinic-dashboard-retention-report.component';
+import { HivDifferentiatedCareComponent } from './hiv-differentiated-care-program/hiv-differentiated-care-program.component';
+import {
+    HivDifferentiatedCarePatientListComponent
+} from './hiv-differentiated-care-program/hiv-differentiated-care-program-patient-list/hiv-differentiated-care-patient-list.component';
 @NgModule({
     imports: [
         clinicDashboardHivRouting,
@@ -170,7 +174,9 @@ import { ClinicDashboardRetentionReportComponent } from './retention-report/clin
         HivEnhancedPatientListComponent,
         DefaulterListComponent,
         SurgeReportComponent,
-        ClinicDashboardRetentionReportComponent
+        ClinicDashboardRetentionReportComponent,
+        HivDifferentiatedCareComponent,
+        HivDifferentiatedCarePatientListComponent
     ],
     providers: [
         ClinicalSummaryVisualizationService
