@@ -112,6 +112,10 @@ import * as lung_cancer_daily_screening_summary_aggregate from './json-reports/l
 import * as lung_cancer_monthly_screening_summary_aggregate from './json-reports/lung-cancer-monthly-screening-summary-aggregate.json';
 import * as lung_cancer_monthly_screening_summary_base from './json-reports/lung-cancer-monthly-screening-summary-base.json';
 import * as lung_cancer_patient_list_template from './json-reports/lung-cancer-patient-list-template.json';
+
+import * as differentiated_care_program_aggregate from './json-reports/differentiated-care-program-aggregate.json';
+import * as differentiated_care_program_base from './json-reports/differentiated-care-program-base.json';
+
 export class BaseMysqlReport {
     constructor(reportName, params) {
         this.reportName = reportName;
@@ -504,7 +508,13 @@ export class BaseMysqlReport {
                         main: this.cloneJsonSchema(currently_enrolled_patients_aggregate),
                         currentlyEnrolledPatientsBase: this.cloneJsonSchema(currently_enrolled_patients_base)
                     });
-                break;
+                    break;
+                case 'differentiatedCareProgramAggregate':
+                    resolve({
+                        main: this.cloneJsonSchema(differentiated_care_program_aggregate),
+                        differentiatedCareProgramBase: this.cloneJsonSchema(differentiated_care_program_base)
+                    });
+                    break;
                 default:
                     reject('Unknown report ', reportName);
                     break;
