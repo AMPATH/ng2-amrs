@@ -22,6 +22,10 @@ const routes = [{
             if (requestParams.indicators) {
                 indicators = requestParams.indicators.split(',');
             }
+
+            if(!requestParams.lower_vl){
+                requestParams.lower_vl = 401;
+            }
             requestParams.locationUuids = locationUuids;
             let report = new PatientlistMysqlReport('enhancedAdherenceHIVProgramAggregate', requestParams);
             report.generatePatientListReport(indicators).then((result) => {

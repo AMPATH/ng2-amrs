@@ -114,8 +114,13 @@
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "fhs.vl_1 >= 401",
-                "parameterName": ""
+                "conditionExpression": "fhs.vl_1 >= ?",
+                "parameterName": "lower_vl"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fhs.vl_1 <= ?",
+                "parameterName": "upper_vl"
             }
         ]
     }
