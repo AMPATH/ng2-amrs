@@ -64,6 +64,10 @@ const routes: Routes = [
 ]
 },
 {
+  path: 'referral',
+  loadChildren: '../referral/patient-referral-program.module#PatientReferralProgramModule'
+},
+{
   path: 'department-select',
   component : ChangeDepartmentComponent
 }

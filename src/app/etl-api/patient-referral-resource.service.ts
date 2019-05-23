@@ -1,5 +1,5 @@
 
-import {throwError as observableThrowError } from 'rxjs';
+import { throwError as observableThrowError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { AppSettingsService } from '../app-settings/app-settings.service';
@@ -62,6 +62,9 @@ export class PatientReferralResourceService {
     if (params.notificationStatus  && params.notificationStatus !== 'undefined') {
       urlParams = urlParams.set('notificationStatus', params.notificationStatus);
     }
+    if (params.department && params.department !== 'undefined') {
+      urlParams = urlParams.set('department', params.department);
+    }
     return urlParams;
   }
 
@@ -78,9 +81,13 @@ export class PatientReferralResourceService {
   public getPatientReferralReport(params) {
     const urlParams = this.getUrlRequestParams(params);
     const url: string = this.getUrl();
-    const request = this.http.get(url, {
-      params: urlParams
-    });
+    const request = this.http.get(url, { params: urlParams }).pipe(
+      map((response: Response) => {
+        // console.log('res: ', response);
+        return response;
+      }),
+      catchError(this.handleError)
+    );
 
     const key = url + '?' + urlParams.toString();
     if (key !== this.requestUrl) {
@@ -92,7 +99,6 @@ export class PatientReferralResourceService {
 
     // this.cacheService.cacheRequest(url, urlParams, request);
     return this.cache;
-
   }
 
   public getPatientReferralPatientList(params) {
