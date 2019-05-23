@@ -5,6 +5,8 @@
                 [(startDate)]="startDate"
                 [(endDate)]="endDate"
                 [parentIsBusy]="isLoadingPatientList"
+                [(viremiaFilter)]="viremiaFilter"
+                (viremiaFilterChange)="viremiaFilterChange($event)"
         >
         </app-hiv-enhanced-program-filters>
 
