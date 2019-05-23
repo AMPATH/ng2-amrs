@@ -70,6 +70,7 @@
     "ngx-select-ex": "^3.5.4",
     "nigel": "^3.0.1",
     "node-cache": "^4.2.0",
+    "node-cron": "^2.0.3",
     "nodemailer": "^4.4.0",
     "promise-mysql": "^3.2.1",
     "redis": "^2.8.0",
