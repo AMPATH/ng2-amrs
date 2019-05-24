@@ -23,6 +23,14 @@
                 "type": "LEFT",
                 "joinCondition": "t1.person_id = id.patient_id AND (id.voided IS NULL || id.voided = 0)"
             }
+        },
+        {
+            "table": "amrs.person_attribute",
+            "alias": "contacts",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "t1.person_id = contacts.person_id AND (contacts.voided IS NULL || contacts.voided = 0) AND contacts.person_attribute_type_id = 10"
+            }
         }
     ],
     "columns": [
@@ -30,6 +38,14 @@
             "type": "simple_column",
             "alias": "patient_uuid",
             "column": "t1.uuid"
+        },
+        {
+            "type": "derived_column",
+            "alias": "uuid",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "t1.uuid"
+            }
         },
         {
             "type": "simple_column",
@@ -48,6 +64,14 @@
         },
         {
             "type": "derived_column",
+            "alias": "phone_number",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if (contacts.value IS NULL, '', contacts.value)"
+            }
+        },
+        {
+            "type": "derived_column",
             "alias": "age",
             "expressionType": "simple_expression",
             "expressionOptions": {
@@ -59,23 +83,8 @@
             "alias": "person_name",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": " CONCAT(COALESCE(person_name.given_name, ''), ' ', COALESCE(person_name.middle_name, ''), ' ', COALESCE(person_name.family_name, ''))"
+                "expression": "CONCAT(COALESCE(person_name.given_name, ''), ' ', COALESCE(person_name.middle_name, ''), ' ', COALESCE(person_name.family_name, ''))"
             }
-        },
-        {
-            "type": "simple_column",
-            "alias": "given_name",
-            "column": "person_name.given_name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "family_name",
-            "column": "person_name.family_name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "middle_name",
-            "column": "person_name.middle_name"
         },
         {
             "type": "derived_column",
@@ -84,19 +93,9 @@
             "expressionOptions": {
                 "expression": " GROUP_CONCAT(DISTINCT id.identifier SEPARATOR ', ')"
             }
-        },
-        {
-            "type": "simple_column",
-            "alias": "program_name",
-            "column": "t5.name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_name",
-            "column": "t9.name"
         }
     ],
     "groupBy":{
-        "columns":["t3.patient_id"]
+        "columns":["t1.person_id"]
     }
 }

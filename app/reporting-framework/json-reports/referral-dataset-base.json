@@ -33,10 +33,17 @@
                 "type": "INNER",
                 "joinCondition": "t3.location_id = t9.location_id"
             }
+        },
+        {
+            "table": "amrs.location",
+            "alias": "location",
+            "join": {
+                "type": "INNER",
+                "joinCondition": "t4.referred_from_location_id = location.location_id"
+            }
         }
     ],
-    "columns": [        
-      
+    "columns": [
         {
             "type": "simple_column",
             "alias": "patient_id",
@@ -71,8 +78,33 @@
             "type": "simple_column",
             "alias": "location_id",
             "column": "t9.location_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "referred_from",
+            "column": "location.name"
+        },
+        {
+            "type": "simple_column",
+            "alias": "date_referred",
+            "column": "DATE_FORMAT(t4.date_created, '%Y-%m-%d')"
+        },
+        {
+            "type": "derived_column",
+            "alias": "review_status",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if (t4.notification_status IS NULL, 'PENDING', 'DONE')"
+            }
         }
     ],
+    "orderBy": {
+        "orderByParam": "orderByParam",
+        "columns": [{
+            "column": "t4.notification_status",
+            "order": "asc"
+        }]
+    },
     "filters": {
         "conditionJoinOperator": "and",
         "conditions": [
@@ -95,11 +127,6 @@
                 "filterType": "tableColumns",
                 "conditionExpression": "t5.uuid in  (?)",
                 "parameterName": "programUuids"
-            },
-            {
-              "filterType": "tableColumns",
-              "conditionExpression": "t4.notification_status is ?",
-              "parameterName": "notificationStatus"
             }
         ]
     }

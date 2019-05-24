@@ -57,11 +57,41 @@ function getListOfDStatesFromResult(results) {
 }
 
 function UngroupResults(results) {
-    return results
-
+    return results;
 }
 
 function groupResultsByLocation(arrayOfResults) {
+    var grouped = {};
+    _.each(arrayOfResults, (result) => {
+        grouped[result.location_id] = {
+            location: result.location,
+            locationId: result.location_id,
+            locationUuids: result.locationUuids,
+            programs: []
+        }
+    });
+
+    _.each(arrayOfResults, (result) => {
+        const prog = {
+            counts: result.counts,
+            location: result.location,
+            location_id: result.locationId,
+            locationUuids: result.locationUuids,
+            program: result.program,
+            programUuids: result.programUuids
+        }
+        grouped[result.location_id].programs.push(prog);
+    });
+
+    var results = [];
+    for (var e in grouped) {
+        results.push(grouped[e]);
+    }
+    return results;
+}
+
+
+function groupResultsByLocation2(arrayOfResults) {
     res = arrayOfResults;
     var grouped = {};
     _.each(arrayOfResults, function (result) {
