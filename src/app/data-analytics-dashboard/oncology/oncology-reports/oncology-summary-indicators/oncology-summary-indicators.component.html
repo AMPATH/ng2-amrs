@@ -29,18 +29,24 @@
     </div>
     <div *ngIf="isPdfReportAvailable">
       <p-tabView (onChange)="onTabChanged($event)">
-        <p-tabPanel header="Report View" leftIcon="fa-file-pdf-o " [selected]="currentView === 'pdf'">
-          <div>
-            <oncology-report-pdf-view [title] = "title" [monthlySummary]="monthlySummary" [params]="params">
-            </oncology-report-pdf-view>
-          </div>
-        </p-tabPanel>
         <p-tabPanel header="Tabular View" leftIcon="fa-table" [selected]="currentView === 'tabular'">
           <div id="oncology-summary-indicators-table">
             <oncology-summary-indicators-table [monthlySummary]="monthlySummary" [params]="params">
             </oncology-summary-indicators-table>
           </div>
         </p-tabPanel>
+        <p-tabPanel header="Report View" leftIcon="fa-file-pdf-o " [selected]="currentView === 'pdf'">
+          <div>
+            <oncology-report-pdf-view [title]="title" [monthlySummary]="monthlySummary" [params]="params" [currentView]="currentView">
+            </oncology-report-pdf-view>
+          </div>
+        </p-tabPanel>
+        <p-tabPanel header="Aggregate Report View" leftIcon="fa-file-pdf-o " [selected]="currentView === 'agg-pdf'">
+            <div>
+              <oncology-aggregate-report-view [title]="title" [monthlySummary]="monthlySummary" [params]="params" [currentView]="currentView">
+              </oncology-aggregate-report-view>
+            </div>
+          </p-tabPanel>
       </p-tabView>
 
     </div>

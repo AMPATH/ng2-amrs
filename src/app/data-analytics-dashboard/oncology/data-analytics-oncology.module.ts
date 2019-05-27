@@ -33,40 +33,44 @@ import { ChangeDepartmentModule } from '../change-department/change-department.m
 import { DataAnalyticsHivModule } from '../hiv/data-analytics-hiv.module';
 import { TabViewModule } from 'primeng/primeng';
 import { OncologyReportPdfViewComponent } from './oncology-reports/oncology-report-pdf-view/oncology-report-pdf-view.component';
+import {
+  OncologyAggregateReportViewComponent
+ } from './oncology-reports/oncology-aggregate-report-view/oncology-aggregate-report-view.component';
 @NgModule(
   {
-  imports: [
-    DataAnalyticsDashboardOncologyRouting,
-    NgamrsSharedModule,
-    CommonModule,
-    RouterModule,
-    FormsModule,
-    DataListsModule,
-    AgGridModule,
-    NgBusyModule,
-    TabViewModule,
-    ChangeDepartmentModule,
-    DataAnalyticsHivModule
-  ],
-  exports: [
-    OncologyReportsComponent,
-    OncologySummaryIndicatorsComponent,
-    OncologySummaryFiltersComponent,
-    OncologySummaryIndicatorsTableComponent,
-    OncologySummaryIndicatorsPatientListComponent
-  ],
-  declarations: [
-    OncologyReportsComponent,
-    OncologySummaryIndicatorsComponent,
-    OncologySummaryFiltersComponent,
-    OncologySummaryIndicatorsTableComponent,
-    OncologySummaryIndicatorsPatientListComponent,
-    OncologyReportPdfViewComponent
-  ],
-  providers: [
-    DataAnalyticsDashboardService,
-    OncologyReportService,
-    OncologySummaryIndicatorsResourceService
-  ]
-})
+    imports: [
+      DataAnalyticsDashboardOncologyRouting,
+      NgamrsSharedModule,
+      CommonModule,
+      RouterModule,
+      FormsModule,
+      DataListsModule,
+      AgGridModule,
+      NgBusyModule,
+      TabViewModule,
+      ChangeDepartmentModule,
+      DataAnalyticsHivModule
+    ],
+    exports: [
+      OncologyReportsComponent,
+      OncologySummaryIndicatorsComponent,
+      OncologySummaryFiltersComponent,
+      OncologySummaryIndicatorsTableComponent,
+      OncologySummaryIndicatorsPatientListComponent
+    ],
+    declarations: [
+      OncologyReportsComponent,
+      OncologySummaryIndicatorsComponent,
+      OncologySummaryFiltersComponent,
+      OncologySummaryIndicatorsTableComponent,
+      OncologySummaryIndicatorsPatientListComponent,
+      OncologyReportPdfViewComponent,
+      OncologyAggregateReportViewComponent
+    ],
+    providers: [
+      DataAnalyticsDashboardService,
+      OncologyReportService,
+      OncologySummaryIndicatorsResourceService
+    ]
+  })
 export class DataAnalyticsOncologyModule { }

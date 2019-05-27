@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ChangeDetectorRef, Output } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { take } from 'rxjs/operators';
@@ -9,6 +9,7 @@ import {
   OncologySummaryIndicatorsResourceService
 } from '../../../../etl-api/oncology-summary-indicators-resource.service';
 import * as OncologyReportConfig from '../oncology-pdf-reports.json';
+import { EventEmitter } from 'events';
 @Component({
   selector: 'oncology-summary-indicators-summary',
   templateUrl: './oncology-summary-indicators.component.html',
@@ -33,11 +34,12 @@ export class OncologySummaryIndicatorsComponent implements OnInit, AfterViewInit
   public report: any;
   public currentReport: any;
   public gender: any = ['M', 'F'];
-  public currentView = 'pdf';
+  public currentView = 'tabular';
   public busyIndicator: any = {
     busy: false,
     message: 'Please wait...' // default message
   };
+  @Output() public selectedTab = new EventEmitter();
 
   public errorObj = {
     'message': '',
@@ -181,5 +183,24 @@ export class OncologySummaryIndicatorsComponent implements OnInit, AfterViewInit
       busy: false,
       message: ''
     };
+  }
+
+  onTabChanged(event) {
+    switch (event.index) {
+      case 0:
+        this.currentView = 'tabular';
+        break;
+      case 1:
+        this.currentView = 'pdf';
+        break;
+      case 2:
+        this.currentView = 'agg-pdf';
+        break;
+      default:
+      this.currentView = 'tabular';
+    }
+    this.selectedTab.emit(this.currentView);
+
+    console.log('Tab changes Event', this.currentView);
   }
 }

@@ -1,18 +1,16 @@
-import { Component, OnInit, Input, OnDestroy, SimpleChanges, OnChanges } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { PDFDocumentProxy } from 'pdfjs-dist';
-import { OncologyReportPdfService } from './oncology-report-pdf.service';
-import * as _ from 'lodash';
-import { take } from 'rxjs/operators';
+import { Component, OnInit, Input, SimpleChanges, OnDestroy, OnChanges } from '@angular/core';
 import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
+import { PDFDocumentProxy } from 'pdfjs-dist';
+import { Subscription } from 'rxjs';
+import { OncologyReportPdfService } from '../oncology-report-pdf-view/oncology-report-pdf.service';
+import { take } from 'rxjs/operators';
 
- @Component({
-  selector: 'oncology-report-pdf-view',
-  templateUrl: './oncology-report-pdf-view.component.html',
-  styleUrls: ['./oncology-report-pdf-view.component.css']
+@Component({
+  selector: 'oncology-aggregate-report-view',
+  templateUrl: './oncology-aggregate-report-view.component.html',
+  styleUrls: ['./oncology-aggregate-report-view.component.css']
 })
-
- export class OncologyReportPdfViewComponent implements OnInit, OnDestroy, OnChanges {
+export class OncologyAggregateReportViewComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public title: String;
   @Input() public monthlySummary: Array<any> = [];
   @Input() public params: any;
@@ -54,7 +52,7 @@ import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 
    public generatePdf(): void {
     if (this.monthlySummary.length > 0) {
-      this.oncologyReportPdfService.generatePdf(this.monthlySummary, this.params, this.title).pipe(
+      this.oncologyReportPdfService.generateAggregatePdf(this.monthlySummary, this.params, this.title).pipe(
         take(1)).subscribe((pdf) => {
           this.pdfSrc = pdf.pdfSrc;
           this.pdfMakeProxy = pdf.pdfProxy;
@@ -75,7 +73,7 @@ import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 
    public downloadPdf(): void {
     this.pdfMakeProxy
-      .download((this.title + 'report' || 'onc_report') + '.pdf');
+      .download((this.title + 'aggregateReport' || 'onc_report') + '.pdf');
   }
 
    public nextPage(): void {
