@@ -27,6 +27,8 @@ const routes = [{
                 requestParams.lower_vl = 401;
             }
             requestParams.locationUuids = locationUuids;
+            requestParams.startDate = requestParams.startDate.split('T')[0];
+            requestParams.endDate = requestParams.endDate.split('T')[0];
             let report = new PatientlistMysqlReport('enhancedAdherenceHIVProgramAggregate', requestParams);
             report.generatePatientListReport(indicators).then((result) => {
                 if (result.results.results.length > 0) {
