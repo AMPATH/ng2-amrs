@@ -522,10 +522,10 @@
      {"joinType":"JOIN","schema":"amrs","tableName":"person","alias":"t3","joinExpression":"t3.person_id = t2.patient_id"},
      {"joinType":"JOIN","schema":"amrs","tableName":"location","alias":"t5","joinExpression":"t2.location_id = t5.location_id"},
      {"joinType":"LEFT OUTER JOIN","schema":"amrs","tableName":"patient_identifier","alias":"t4","joinExpression":"t4.patient_id = t2.patient_id"},
-     {"joinType":"JOIN","schema":"amrs","tableName":"person_attribute","alias":"contacts","joinExpression":"t3.person_id = contacts.person_id AND (contacts.voided IS NULL || contacts.voided = 0) AND contacts.person_attribute_type_id in (10, 48)"},
-     {"joinType":"JOIN","schema":"etl","tableName":"flat_hiv_summary_v15b","alias":"fh","joinExpression":"t3.person_id = fh.person_id AND fh.next_clinical_location_id IS NULL AND fh.encounter_type NOT IN (99999) "},
-     {"joinType":"JOIN","schema":"amrs","tableName":"encounter_type","alias":"et","joinExpression":"fh.encounter_type = et.encounter_type_id"},
-     {"joinType":"JOIN","schema":"amrs","tableName":"person_address","alias":"pa","joinExpression":"t3.person_id = pa.person_id"}
+     {"joinType":"LEFT OUTER JOIN","schema":"amrs","tableName":"person_attribute","alias":"contacts","joinExpression":"t3.person_id = contacts.person_id AND (contacts.voided IS NULL || contacts.voided = 0) AND contacts.person_attribute_type_id in (10, 48)"},
+     {"joinType":"LEFT OUTER JOIN","schema":"etl","tableName":"flat_hiv_summary_v15b","alias":"fh","joinExpression":"t3.person_id = fh.person_id AND fh.next_clinical_location_id IS NULL AND fh.encounter_type NOT IN (99999) "},
+     {"joinType":"LEFT OUTER JOIN","schema":"amrs","tableName":"encounter_type","alias":"et","joinExpression":"fh.encounter_type = et.encounter_type_id"},
+     {"joinType":"LEFT OUTER JOIN","schema":"amrs","tableName":"person_address","alias":"pa","joinExpression":"t3.person_id = pa.person_id"}
      ],
  "parameters": [
    {"name":"groupByPatientId", "defaultValue":[
