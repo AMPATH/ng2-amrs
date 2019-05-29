@@ -88,6 +88,20 @@
           ]
         }
       ]
+    },
+    {
+      "report_type": "combined-breast-cervical-cancer-screening-numbers",
+      "sections": [
+        {
+          "section": "total_screens",
+          "report_indicators": [
+            "total_screens",
+            "total_breast_screened",
+            "total_cervical_screened",
+            "total_breast_and_cervical_screened"
+          ]
+        }
+      ]
     }
   ]
 }
