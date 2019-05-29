@@ -425,11 +425,12 @@ module.exports = function () {
                                                 request.query.encounterIds = encounterIds;
                                             }
 
-                                            let compineRequestParams = Object.assign({}, request.query, request.params);
+                                            let combineRequestParams = Object.assign({}, request.query, request.params);
                                             // let reportParams = etlHelpers.getReportParams('daily-appointments', ['startDate', 'locations', 'encounterIds', 'visitTypeIds', 'programTypeIds', 'groupBy'], compineRequestParams);
-                                            compineRequestParams.limitParam = compineRequestParams.limit;
-                                            compineRequestParams.offSetParam = compineRequestParams.startIndex;
-                                            let service = new PatientlistMysqlReport('dailyAppointmentsAggregate', compineRequestParams);
+                                            combineRequestParams.limitParam = combineRequestParams.limit;
+                                            combineRequestParams.offSetParam = combineRequestParams.startIndex;
+                                            combineRequestParams.endDate = combineRequestParams.startDate;
+                                            let service = new PatientlistMysqlReport('dailyAppointmentsAggregate', combineRequestParams);
                                             service.generatePatientListReport(['patients']).then((result) => {
                                                 let returnedResult = {};
                                                 returnedResult.schemas = result.schemas;

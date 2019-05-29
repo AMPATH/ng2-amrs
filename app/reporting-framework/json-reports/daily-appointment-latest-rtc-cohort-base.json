@@ -47,8 +47,13 @@
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "fa.encounter_type NOT IN (21 , 99999)",
+                "conditionExpression": "fa.is_clinical = 1 OR fa.encounter_type = 186",
                 "parameterName": ""
+            },
+            {
+              "filterType": "tableColumns",
+              "conditionExpression": "fa.encounter_type NOT IN (21 , 99999)",
+              "parameterName": ""
             }
         ]
     },
