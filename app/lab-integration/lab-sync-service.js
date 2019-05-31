@@ -19,10 +19,13 @@ export class LabSyncService {
     Object.keys(config.hivLabSystem).forEach((labLocation) => {
       tasks.push((cb) => {
         // delay alupe for a few ms
-        cb(null, this.syncLabsByPatientUuid(patientUuid, labLocation, labLocation === 'alupe' ? 50 : 0));
+        cb(null, this.syncLabsByPatientUuid(patientUuid, labLocation, labLocation === 'alupe' ? 50 : 0).then((result)=>{
+          return result;
+        }));
       });
     });
     async.parallel(async.reflectAll(tasks), (err, results) => {
+     
       // currently we have duplicate data in db. Try to remove here
       Promise.all(results.map((result) => result.value)).then((lab_data) => {
         const _lab_data = _.map(lab_data, (lab) => {
@@ -32,7 +35,7 @@ export class LabSyncService {
           return lab;
         });
         reply(_lab_data);
-      }).catch(() => {
+      }).catch((err) => {
         console.log('sync service error', err);
         reply(Boom.notFound('Sorry, sync service temporarily unavailable.'));
       });
@@ -53,27 +56,32 @@ export class LabSyncService {
           console.log('Patient synced..');
           return obsService.getPatientTodaysTestObsByPatientUuId(patientUuid)
             .then(function (response) {
+
               return {
                 updatedObs: response,
                 lab: labLocation,
                 last_sync_date: result.result[0]['date_updated']
               }
+            }).catch((error)=>{
+              console.log('ERROR',error);
             });
         }
         else {
-          setTimeout(() => {
+      
             return this.syncAndGetPatientLabResults(patientUuid, labLocation).then((result) => {
               return this.syncLabsByPatientUuid(patientUuid,labLocation);
+            }).catch((err)=>{
+              console.log('ERROR Getting results',err);
             });
-          }, delay);
         }
       }
       else {
-        setTimeout(() => {
+
           return this.syncAndGetPatientLabResults(patientUuid, labLocation).then((result) => {
             return this.syncLabsByPatientUuid(patientUuid,labLocation);
+          }).catch((error)=>{
+            console.log('ERROR',error);
           });
-        }, delay)
       }
     }).catch((error) => {
       console.error('getLabSyncLog error', error);
@@ -183,7 +191,9 @@ export class LabSyncService {
           return Promise.all(that.combineObsPostPromises(combinedMissing)).then((savedObs) => {
             fields[0].status = 0;
             console.log('Saving EID logs');
-            return eidService.saveEidSyncLog(table, fields);
+            return eidService.saveEidSyncLog(table, fields, savedObs).catch((error)=>{
+              console.log('ERROR saving logs',error);
+            });
           }).catch((error) => {
             console.error('ERROR : combineObsPostPromises', error);
           });

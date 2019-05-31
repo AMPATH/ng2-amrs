@@ -60,6 +60,8 @@ function syncAndGetPatientLabResults(request, reply) {
                   updatedObs: response,
                   last_sync_date: result.result[0]['date_updated'],
                   errors: syncRespose.errors
+                }).catch((error)=>{
+                  console.log('ERROR',error);
                 });
               });
           else
