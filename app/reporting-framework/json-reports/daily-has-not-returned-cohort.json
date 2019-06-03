@@ -22,6 +22,11 @@
             "column": "MAX(rtc_date)"
         },
         {
+          "type": "simple_column",
+          "alias": "department_id",
+          "column": "department_id"
+        },
+        {
             "type": "simple_column",
             "alias": "next_clinical_encounter_datetime",
             "column": "next_clinical_encounter_datetime"
@@ -38,7 +43,7 @@
             {
                 "filterType": "tableColumns",
                 "conditionExpression": "rtc_date <= ?",
-                "parameterName": "startDate"
+                "parameterName": "endDate"
             },
             {
                 "filterType": "tableColumns",
@@ -47,7 +52,7 @@
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "t2.is_clinical = 1",
+                "conditionExpression": "t2.is_clinical = 1 OR t2.encounter_type = 186",
                 "parameterName": ""
             }
         ]

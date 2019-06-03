@@ -108,7 +108,7 @@
             "alias": "has_not_returned",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(date(t2.rtc_date) < DATE(NOW())  AND t7.next_clinical_encounter_datetime IS NULL  AND t2.next_program_clinical_datetime IS NULL AND t8.person_id is null, 1, null)"
+                "expression": "if(date(t2.rtc_date) < DATE(NOW())  AND (t7.next_clinical_encounter_datetime IS NULL OR  (t7.next_clinical_encounter_datetime IS NOT NULL AND t2.department_id = t7.department_id))  AND t2.next_program_clinical_datetime IS NULL AND t8.person_id is null, 1, null)"
             }
         },
         {
@@ -165,7 +165,7 @@
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "t2.next_clinical_encounter_datetime IS NULL AND next_drug_pickup.next_drugpickup_date IS NULL",
+                "conditionExpression": "t2.next_clinical_encounter_datetime IS NULL OR (t7.next_clinical_encounter_datetime IS NOT NULL AND t2.department_id = t7.department_id)",
                 "parameterName": ""
             },
             {
