@@ -29,6 +29,11 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
     'visitType': [],
     'encounterType': []
   };
+  public extraColumns: Array<any> = [{
+    headerName: 'Program',
+    width: 200,
+    field: 'program'
+  }];
   public errors: any[] = [];
   public dailyAppointmentsPatientList: any[] = [];
   public loadingDailyAppointments = false;
@@ -71,8 +76,9 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
     const routeSub = this.route
       .queryParams
       .subscribe((params: any) => {
-        if (params.programType) {
+        if (params.programType || params.department) {
             this.params = params;
+            console.log('params', params);
             if (params.resetFilter && params.resetFilter === 'true') {
               this.dailyAppointmentsPatientList = [];
             } else {
@@ -152,7 +158,9 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
     let programType: any = [];
     let visitType: any = [];
     let encounterType: any = [];
-    if (this.params.programType.length > 0) {
+    let department = '';
+
+    if (this.params.programType && this.params.programType.length > 0) {
         programType = this.params.programType;
     }
     if (this.params.visitType && this.params.visitType.length > 0) {
@@ -161,10 +169,14 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
     if (this.params.encounterType && this.params.encounterType.length > 0) {
       encounterType = this.params.encounterType;
     }
+    if (this.params.department && this.params.department.length > 0) {
+      department = this.params.department;
+    }
     return {
       startDate: this.params.startDate,
       startIndex: this.nextStartIndex,
       locationUuids: this.selectedClinic,
+      department: department,
       programType: programType,
       visitType: visitType,
       encounterType: encounterType,
