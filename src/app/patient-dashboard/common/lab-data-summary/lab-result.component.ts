@@ -145,9 +145,8 @@ export class LabResultComponent implements OnInit, OnDestroy {
       'test': 'ANC',
       'toolTip': 'Absolute neutrophil count (mm3)'
     },
-
     'creatinine': {
-      'test': 'CRETANINE',
+      'test': 'CREATININE',
       'toolTip': 'Creatinine (U/L)'
     },
     'na': {
