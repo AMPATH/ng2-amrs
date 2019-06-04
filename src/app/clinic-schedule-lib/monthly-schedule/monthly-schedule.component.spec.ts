@@ -17,7 +17,7 @@ import { MonthlyScheduleBaseComponent } from './monthly-schedule.component';
 import { MonthlyScheduleResourceService } from '../../etl-api/monthly-scheduled-resource.service';
 import { CalendarModule } from 'angular-calendar';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
-import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
+import { DateTimePickerModule } from 'ngx-openmrs-formentry/';
 import { ClinicDashboardCacheService
 } from '../../clinic-dashboard/services/clinic-dashboard-cache.service';
 import { AppSettingsService } from '../../app-settings/app-settings.service';

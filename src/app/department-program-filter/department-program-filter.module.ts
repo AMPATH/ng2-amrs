@@ -6,7 +6,7 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2
 import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytics.service';
 import { DepartmentProgramsConfigService } from './../etl-api/department-programs-config.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
-import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
+import { DateTimePickerModule } from 'ngx-openmrs-formentry/';
 @NgModule({
     imports: [
         FormsModule,

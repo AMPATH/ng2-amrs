@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
 
 import {
   DateTimePickerModule
-} from 'ngx-openmrs-formentry/dist/ngx-formentry/';
+} from 'ngx-openmrs-formentry/';
 import { DataListsModule } from '../../shared/data-lists/data-lists.module';
 import { AdminDashboardClinicFlowComponent } from './clinic-flow/admin-dashboard-clinic-flow';
 import { HivCareLibModule } from '../../hiv-care-lib/hiv-care-lib.module';

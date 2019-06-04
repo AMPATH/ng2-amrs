@@ -1,5 +1,5 @@
 import { ComponentFixture, async, TestBed } from '@angular/core/testing';
-import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry';
+import { DateTimePickerModule } from 'ngx-openmrs-formentry';
 import { CalendarModule } from 'angular-calendar';
 
 import {

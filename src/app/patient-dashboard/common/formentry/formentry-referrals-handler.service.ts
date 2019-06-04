@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Observable ,  Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { Form } from 'ngx-openmrs-formentry/dist/ngx-formentry';
+import { Form } from 'ngx-openmrs-formentry';
 
 import { DifferentiatedCareReferralService } from '../patient-referrals/differentiated-care-referral.service';
 import { OncologyReferralService } from '../patient-referrals/oncology-referral.service';

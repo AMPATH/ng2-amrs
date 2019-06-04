@@ -26,10 +26,10 @@
   <lab-result-image-modal
     [imageLinks]="imageLinks"
     [title]="imageTitle"
+    [pdfLinks]="pdfLinks"
     [showImageModal]="showImageModal"
     (modalClose)="modalClose($event)"
   ></lab-result-image-modal>
-
   <div *ngIf='dataLoaded'>
     <p class="bg-info" style="padding:4px;">
       <b>
