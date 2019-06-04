@@ -11,7 +11,7 @@ import {
 import { AgGridModule } from 'ag-grid-angular/main';
 import {
     DateTimePickerModule
-} from 'ngx-openmrs-formentry/dist/ngx-formentry/';
+} from 'ngx-openmrs-formentry/';
 import { CalendarModule } from 'angular-calendar';
 import { ChartModule } from 'angular2-highcharts';
 import { Moh731ReportComponent } from './moh-731/moh-731-report.component';

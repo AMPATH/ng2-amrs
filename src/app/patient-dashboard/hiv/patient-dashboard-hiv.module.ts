@@ -8,7 +8,7 @@ import {
   DropdownModule, ButtonModule, CalendarModule
 } from 'primeng/primeng';
 import { PreviousVisitComponent } from './hiv-summary/previous-visit.component';
-import { FormEntryModule } from 'ngx-openmrs-formentry/dist/ngx-formentry';
+import { FormEntryModule } from 'ngx-openmrs-formentry';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { OpenmrsApi } from '../../openmrs-api/openmrs-api.module';
 import { HivPatientClinicalSummaryComponent
@@ -17,7 +17,6 @@ import { HivProgramSnapshotComponent
 } from './program-snapshot/hiv-program-snapshot.component';
 import { HivSummaryComponent } from './hiv-summary/hiv-summary.component';
 import { HivSummaryHistoricalComponent } from './hiv-summary/hiv-summary-historical.component';
-import { HivSummaryLatestComponent } from './hiv-summary/hiv-summary-latest.component';
 import { MedicationHistoryComponent } from './hiv-summary/medication-history.component';
 import { GeneXpertImagesComponent } from './genexpert-images/genexpert-images.component';
 import { PatientMonthlyStatusComponent
@@ -53,7 +52,6 @@ import { HivSummaryResourceService } from '../../etl-api/hiv-summary-resource.se
     HivPatientClinicalSummaryComponent,
     HivSummaryComponent,
     HivSummaryHistoricalComponent,
-    HivSummaryLatestComponent,
     MedicationHistoryComponent,
     PatientMonthlyStatusComponent,
     PreviousVisitComponent],
@@ -61,7 +59,6 @@ import { HivSummaryResourceService } from '../../etl-api/hiv-summary-resource.se
     HivPatientClinicalSummaryComponent,
     HivSummaryComponent,
     HivSummaryHistoricalComponent,
-    HivSummaryLatestComponent,
     MedicationHistoryComponent,
     PatientMonthlyStatusComponent,
     PreviousVisitComponent,

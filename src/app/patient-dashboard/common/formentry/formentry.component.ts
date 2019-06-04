@@ -12,12 +12,12 @@ import { DraftedFormsService } from './drafted-forms.service';
 import {
   FormFactory, EncounterAdapter, Form, PersonAttribuAdapter,
   HistoricalEncounterDataService
-} from 'ngx-openmrs-formentry/dist/ngx-formentry';
+} from 'ngx-openmrs-formentry';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
 import { FormSubmissionService } from './form-submission.service';
 import { PatientService } from '../../services/patient.service';
 import { FormDataSourceService } from './form-data-source.service';
-import { DataSources } from 'ngx-openmrs-formentry/dist/ngx-formentry';
+import { DataSources } from 'ngx-openmrs-formentry';
 import { Patient } from '../../../models/patient.model';
 import { FileUploadResourceService } from '../../../etl-api/file-upload-resource.service';
 import { PatientReminderResourceService } from '../../../etl-api/patient-reminder-resource.service';

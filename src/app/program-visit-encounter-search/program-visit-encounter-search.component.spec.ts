@@ -15,7 +15,7 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2
 import { DepartmentProgramsConfigService } from './../etl-api/department-programs-config.service';
 import { IonicStorageModule } from '@ionic/storage';
 import { SelectDepartmentService } from './../shared/services/select-department.service';
-import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
+import { DateTimePickerModule } from 'ngx-openmrs-formentry/';
 
 import { PatientService } from '../patient-dashboard/services/patient.service';
 import { delay } from 'rxjs/operators';

@@ -1,9 +1,8 @@
-
-import {take} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 
 import { Observable ,  Subject } from 'rxjs';
-import { Form } from 'ngx-openmrs-formentry/dist/ngx-formentry';
+import { take } from 'rxjs/operators';
+import { Form } from 'ngx-openmrs-formentry';
 
 import { DifferentiatedCareReferralService } from '../patient-referrals/differentiated-care-referral.service';
 import { Patient } from '../../../models/patient.model';
