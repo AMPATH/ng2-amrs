@@ -2,8 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import { EtlApi } from '../../etl-api/etl-api.module';
+
 import {
   AccordionModule, DataTableModule, SharedModule, TabViewModule,
   GrowlModule, PanelModule, ConfirmDialogModule, ConfirmationService,
@@ -12,7 +13,16 @@ import {
 } from 'primeng/primeng';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { Angulartics2Module } from 'angulartics2';
+import { FormEntryModule } from 'ngx-openmrs-formentry';
+import { AgGridModule } from 'ag-grid-angular/main';
+import { NgxFileUploaderModule } from 'ngx-file-uploader';
+import { DateTimePickerModule } from 'ngx-openmrs-formentry';
+import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
+import { Router } from '@angular/router';
+
+
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
+import { EtlApi } from '../../etl-api/etl-api.module';
 import { PatientInfoComponent } from './patient-info/patient-info.component';
 import {
   PatientEncountersComponent
@@ -42,7 +52,6 @@ import { PatientBannerComponent } from './patient-banner/patient-banner.componen
 import { LabSyncComponent } from './lab-data-summary/lab-sync.component';
 import { HivSummaryService } from '../hiv/hiv-summary/hiv-summary.service';
 import { LabResultComponent } from './lab-data-summary/lab-result.component';
-import { LabResultImageModalComponent } from './lab-data-summary/lab-result-image-modal.component';
 import { ContactsComponent } from './patient-info/contacts.component';
 import { AddressComponent } from './patient-info/address.component';
 import { PatientDemographicsComponent } from './patient-info/patient-demograpics.component';
@@ -93,9 +102,6 @@ import {
 import { PatientCareStatusResourceService } from '../../etl-api/patient-care-status-resource.service';
 import { PatientIdentifierService } from './patient-identifier/patient-identifiers.service';
 import { EditContactsComponent } from './patient-info/edit-contacts.component';
-import { AgGridModule } from 'ag-grid-angular/main';
-import { FileUploaderModule } from 'ngx-file-uploader';
-
 import {
   HivPatientClinicalSummaryService
 } from '../hiv/patient-clinical-summaries/hiv-patient-clinical-summary.service';
@@ -130,19 +136,15 @@ import { TodayVisitService } from './visit/today-visit.service';
 import { TodayVisitsComponent } from './visit/today-visits/today-visits.component';
 import { VisitSummaryComponent } from './visit/visit-summary/visit-summary.component';
 import { FormUpdaterService } from './formentry/form-updater.service';
-
-import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
-import { Router } from '@angular/router';
 import { SessionStorageService } from '../../utils/session-storage.service';
 import { PatientImagingComponent } from './imaging/patient-imaging.component';
 import { ProgramManagerModule } from '../../program-manager/program-manager.module';
 import { ZscoreService } from '../../shared/services/zscore.service';
 import { GroupEnrollmentModule } from '../group-enrollment/group-enrollment.module';
 import { VitalsDatasource } from './todays-vitals/vitals.datasource';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PocHttpInteceptor } from 'src/app/shared/services/poc-http-interceptor';
+import { LabResultImageModalComponent } from './lab-data-summary/lab-result-image-modal.component';
 import { HivSummaryLatestComponent } from '../hiv/hiv-summary/hiv-summary-latest.component';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AgePipe } from './patient-banner/age.pipe';
 
 @NgModule({
@@ -175,7 +177,7 @@ import { AgePipe } from './patient-banner/age.pipe';
     AgGridModule.withComponents([
 
     ]),
-    FileUploaderModule,
+    NgxFileUploaderModule,
     CohortMemberModule,
     LabOrderSearchModule,
     HivCareLibModule,
@@ -186,8 +188,7 @@ import { AgePipe } from './patient-banner/age.pipe';
   ],
   exports: [
     PatientInfoComponent,
-    HivSummaryLatestComponent,
-    PatientEncountersComponent,
+        PatientEncountersComponent,
     PatientVitalsComponent,
     FormsComponent,
     LabDataSummaryComponent,
@@ -195,10 +196,11 @@ import { AgePipe } from './patient-banner/age.pipe';
     ClinicalNotesComponent,
     EncounterListComponent,
     VisitComponent,
+    HivSummaryLatestComponent,
+    LabResultImageModalComponent,
     PatientBannerComponent,
     LabSyncComponent,
     LabResultComponent,
-    LabResultImageModalComponent,
     ContactsComponent,
     PatientIdentifierComponent,
     AddressComponent,
@@ -239,7 +241,6 @@ import { AgePipe } from './patient-banner/age.pipe';
     PatientInfoComponent,
     PatientEncountersComponent,
     PatientVitalsComponent,
-    HivSummaryLatestComponent,
     FormsComponent,
     LabDataSummaryComponent,
     LabOrdersComponent,
@@ -250,14 +251,15 @@ import { AgePipe } from './patient-banner/age.pipe';
     EditVisitTypeComponent,
     LabSyncComponent,
     LabResultComponent,
-    LabResultImageModalComponent,
     ContactsComponent,
     PatientIdentifierComponent,
     AddressComponent,
     PatientDemographicsComponent,
     FormentryComponent,
+    HivSummaryLatestComponent,
     LabTestOrdersComponent,
     DraftedFormNavComponent,
+    LabResultImageModalComponent,
     TodaysVitalsComponent,
     PatientRemindersComponent,
     OrderListComponent,
@@ -274,6 +276,7 @@ import { AgePipe } from './patient-banner/age.pipe';
     TodayVisitsComponent,
     LocatorMapComponent,
     SecurePipe,
+    AgePipe,
     VisitEncountersListComponent,
     VisitEncountersComponent,
     VisitDetailsComponent,
@@ -284,7 +287,6 @@ import { AgePipe } from './patient-banner/age.pipe';
     OrderByEncounterTimeAscPipe,
     EncounterTypeFilter,
     // ZeroVlPipe,
-    AgePipe,
     PatientImagingComponent],
   providers: [
     {
