@@ -17,6 +17,7 @@ import { CommunityGroupService } from '../../../../openmrs-api/community-group-r
 import { ProviderResourceService } from '../../../../openmrs-api/provider-resource.service';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { AppointmentResourceService } from 'src/app/openmrs-api/appointment-resource.service';
 
 @Component({
   selector: 'app-visit-starter',
@@ -31,6 +32,7 @@ export class VisitStarterComponent implements OnInit, OnDestroy {
   @Output()
   public visitStarted = new EventEmitter<any>();
 
+  public todayVisits = [];
   public isBusy = false;
   public startedVisit = false;
   public error = '';
@@ -115,6 +117,7 @@ export class VisitStarterComponent implements OnInit, OnDestroy {
     private datePipe: DatePipe,
     private route: ActivatedRoute,
     private providerResourceService: ProviderResourceService,
+    private appointmentResourceService: AppointmentResourceService
   ) { }
 
   public ngOnInit() {
@@ -213,6 +216,22 @@ export class VisitStarterComponent implements OnInit, OnDestroy {
       startDatetime: new Date(),
       visitType: visitTypeUuid
     };
+    const appointmentPayload = {
+      // 'patient': '5b6e59da-1359-11df-a1f1-0026b9348838',
+      // 'status': 'WALKIN',
+      // 'appointmentType': 'fbad0240-5fc6-4409-8b5d-a39bfdcb4777',
+      // 'visit': '0ce6532a-e11d-4157-ad86-aafcbf316633',
+      // 'date': '2019-08-16 07:00:00',
+      // 'location': '08febb92-1352-11df-a1f1-0026b9348838',
+      // 'provider': 'pdd2c903-1a43-46bf-8f09-44da3cb5a67b'
+      patient: this.patientUuid,
+      status: 'WALKIN',
+      appointmentType: 'fbad0240-5fc6-4409-8b5d-a39bfdcb4777',
+      visit: this.todayVisits[0],
+      location: this.selectedLocation.value,
+      date: this.appointmentDate(),
+      provider: 'pdd2c903-1a43-46bf-8f09-44da3cb5a67b'
+    };
 
     if (retroSettings && retroSettings.enabled) {
       payload.location = retroSettings.location.value;
@@ -228,6 +247,7 @@ export class VisitStarterComponent implements OnInit, OnDestroy {
       this.saveGroupVisit();
     } else {
       this.saveIndividualVisit(payload);
+      this.saveAppointment(appointmentPayload);
     }
   });
   }
@@ -331,6 +351,39 @@ export class VisitStarterComponent implements OnInit, OnDestroy {
 
   public showModal(modal: TemplateRef<any>) {
     this.modalRef = this.modalService.show(modal, { class: 'modal-lg' });
+  }
+
+  public saveAppointment(payload) {
+    this.visitResourceService.getPatientVisits({ patientUuid: this.patientUuid }).subscribe((visits) => {
+      this.todayVisits = this.todayVisitService.filterVisitsByDate(visits, new Date());
+      if (this.todayVisits.length === 0) {
+        this.appointmentResourceService.saveAppointment(payload).subscribe(
+          (savedAppoint) => {
+            console.log('appointment saved', savedAppoint);
+          }
+        );
+      } else {
+        console.log('appointment already saved');
+      }
+    });
+  }
+
+  public appointmentDate() {
+    const d = new Date();
+    const year = '' + d.getFullYear();
+    let month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      hour = '' + d.getHours(),
+      min = '' + d.getMinutes(),
+      seconds = '' + d.getSeconds();
+
+    if (month.length < 2) { month = '0' + month; }
+    if (day.length < 2) { day = '0' + day; }
+    if (hour.length < 2) { hour = '0' + hour; }
+    if (min.length < 2) { min = '0' + min; }
+    if (seconds.length < 2) { seconds = '0' + seconds; }
+
+    return [year, month, day].join('-') + ' ' + [hour, min, seconds].join(':');
   }
 
 }
