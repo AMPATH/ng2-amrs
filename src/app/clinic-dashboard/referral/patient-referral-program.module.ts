@@ -9,6 +9,7 @@ import { EtlApi } from '../../etl-api/etl-api.module';
 import { DataListsModule } from '../../shared/data-lists/data-lists.module';
 import { patientReferralProgramRouting } from './patient-referral-program.routes';
 import { PatientReferralComponent } from './patient-referral.component';
+import { StrengthsPatientReferralComponent } from '../referral-strengths/patient-strengths-referral.component';
 import { HivCareLibModule } from '../../hiv-care-lib/hiv-care-lib.module';
 import { PatientProgramService
 } from '../../patient-dashboard/programs/patient-programs.service';
@@ -28,10 +29,12 @@ import { ProgramManagerModule } from '../../program-manager/program-manager.modu
     ProgramManagerModule
   ],
   exports: [
-    PatientReferralComponent
+    PatientReferralComponent,
+    StrengthsPatientReferralComponent
   ],
   declarations: [
-    PatientReferralComponent
+    PatientReferralComponent,
+    StrengthsPatientReferralComponent
     ],
   providers: [PatientProgramService, ProgramService],
 })
