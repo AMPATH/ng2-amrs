@@ -17,7 +17,7 @@ import { SelectDepartmentService } from '../../shared/services/select-department
   selector: 'patient-referral-report-base',
   templateUrl: './patient-referral-report-base.component.html'
 })
-export class PatientReferralBaseComponent implements OnInit {
+export class StrengthsPatientReferralBaseComponent implements OnInit {
   public data: any = [];
   public sectionsDef = [];
   public isAggregated: boolean;
@@ -102,6 +102,7 @@ export class PatientReferralBaseComponent implements OnInit {
       };
 
       const department = this.selectDepartmentService.getUserSetDepartment();
+
       this.encounteredError = false;
       this.errorMessage = '';
       this.isLoadingReport = true;
