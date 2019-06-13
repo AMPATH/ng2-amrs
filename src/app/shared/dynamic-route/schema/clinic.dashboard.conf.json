@@ -217,6 +217,12 @@
           "isSideBarOpen": false
         },
         {
+          "url": "referral/patient-referral-report-strengths",
+          "label": "Referral tracking Patient list",
+          "icon": "fa fa-file-pdf-o",
+          "isSideBarOpen": false
+        },
+        {
           "url": "department-select",
           "label": "Change Department",
           "icon": "fa fa-exchange",
