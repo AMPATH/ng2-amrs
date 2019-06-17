@@ -42,17 +42,12 @@
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "rtc_date <= ?",
-                "parameterName": "endDate"
-            },
-            {
-                "filterType": "tableColumns",
                 "conditionExpression": "t2.location_id in (?)",
                 "parameterName": "locations"
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "t2.is_clinical = 1 OR t2.encounter_type = 186",
+                "conditionExpression": "t2.is_clinical = 1",
                 "parameterName": ""
             }
         ]
