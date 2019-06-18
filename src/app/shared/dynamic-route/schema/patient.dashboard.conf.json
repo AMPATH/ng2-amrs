@@ -493,14 +493,74 @@
       "routes": []
     },
     {
-      "programName": "Oncology Screening and Diagnosis",
-      "programUuid": "37ff4124-91fd-49e6-8261-057ccfb4fcd0",
-      "baseRoute": "37ff4124-91fd-49e6-8261-057ccfb4fcd0",
-      "alias": "oncology",
+      "programName": "FAMILY PLANNING",
+      "programUuid": "8ab1a5c1-efd5-49cc-867a-46b0f31a042a",
+      "baseRoute": "8ab1a5c1-efd5-49cc-867a-46b0f31a042a",
+      "alias": "mnch",
       "published": true,
-      "shared-routes-class": "oncology",
+      "shared-routes-class": "mnch",
       "requiresPatientEnrollment": true,
       "routes": []
+    },
+    {
+      "programName": "ANTENATAL CARE",
+      "programUuid": "52aeb285-fb18-455b-893e-3e53ccc77ceb",
+      "baseRoute": "52aeb285-fb18-455b-893e-3e53ccc77ceb",
+      "alias": "mnch",
+      "published": true,
+      "shared-routes-class": "mnch",
+      "requiresPatientEnrollment": true,
+      "routes": []
+    },
+    {
+      "programName": "LABOR AND DELIVERY",
+      "programUuid": "01948855-8491-4164-b54f-9b16d174d93e",
+      "baseRoute": "01948855-8491-4164-b54f-9b16d174d93e",
+      "alias": "mnch",
+      "published": true,
+      "shared-routes-class": "mnch",
+      "requiresPatientEnrollment": true,
+      "routes": []
+    },
+    {
+      "programName": "POSTNATAL",
+      "programUuid": "d2552058-d7bd-47c6-aed1-480a4308027a",
+      "baseRoute": "d2552058-d7bd-47c6-aed1-480a4308027a",
+      "alias": "mnch",
+      "published": true,
+      "shared-routes-class": "mnch",
+      "requiresPatientEnrollment": true,
+      "routes": []
+    },
+    {
+      "programName": "WELL CHILD",
+      "programUuid": "79dbd4ce-77ff-4706-8c9c-7c058c9e03f0",
+      "baseRoute": "79dbd4ce-77ff-4706-8c9c-7c058c9e03f0",
+      "alias": "mnch",
+      "published": true,
+      "shared-routes-class": "mnch",
+      "requiresPatientEnrollment": true,
+      "routes": []
+    },
+    {
+      "programName": "GOPC",
+      "programUuid": "dc94d419-acc5-4415-a9bf-2cf43595c8fe",
+      "baseRoute": "dc94d419-acc5-4415-a9bf-2cf43595c8fe",
+      "alias": "mnch",
+      "published": true,
+      "shared-routes-class": "mnch",
+      "requiresPatientEnrollment": true,
+      "routes": []
+    },
+    {
+    "programName": "Oncology Screening and Diagnosis",
+    "programUuid": "37ff4124-91fd-49e6-8261-057ccfb4fcd0",
+    "baseRoute": "37ff4124-91fd-49e6-8261-057ccfb4fcd0",
+    "alias": "oncology",
+    "published": true,
+    "shared-routes-class": "oncology",
+    "requiresPatientEnrollment": true,
+    "routes": []
     }
   ],
 
@@ -587,7 +647,7 @@
         "icon": "icon-i-radiology"
       }
     ],
-    "cdm": [{
+   "cdm": [{
       "url": "visit",
       "label": "Visit",
       "icon": "icon-i-outpatient"
@@ -611,6 +671,37 @@
         "url": "lab-data-summary",
         "label": "Lab Data Summary",
         "icon": "icon-i-laboratory"
+      },
+      {
+        "url": "patient-imaging",
+        "label": "Imaging",
+        "icon": "icon-i-radiology"
+      }
+    ],
+    "mnch": [{
+      "url": "visit",
+      "label": "Visit",
+      "icon": "icon-i-outpatient"
+    },
+      {
+        "url": "patient-encounters",
+        "label": "Encounters",
+        "icon": "icon-i-immunizations"
+      },
+      {
+        "url": "patient-vitals",
+        "label": "Vitals",
+        "icon": "fa fa-heartbeat"
+      },
+      {
+        "url": "lab-data-summary",
+        "label": "Lab Data Summary",
+        "icon": "icon-i-laboratory"
+      },
+      {
+        "url": "lab-orders",
+        "label": "Lab Orders",
+        "icon": "icon-i-pathology"
       },
       {
         "url": "patient-imaging",
