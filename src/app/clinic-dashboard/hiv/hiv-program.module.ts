@@ -97,6 +97,10 @@ import {
 import { DefaulterListComponent } from '../general/defaulter-list/defaulter-list.component';
 import { GeneralModule } from '../general/general.module';
 import { ChangeDepartmentModule } from '../change-department/change-department.module';
+import { HivDifferentiatedCareComponent } from './hiv-differentiated-care-program/hiv-differentiated-care-program.component';
+import {
+    HivDifferentiatedCarePatientListComponent
+} from './hiv-differentiated-care-program/hiv-differentiated-care-program-patient-list/hiv-differentiated-care-patient-list.component';
 @NgModule({
     imports: [
         clinicDashboardHivRouting,
@@ -170,7 +174,9 @@ import { ChangeDepartmentModule } from '../change-department/change-department.m
         HivEnhancedPatientListComponent,
         DefaulterListComponent,
         Moh731MonthlyVizComponent,
-        ClinicKibanaVizComponent
+        ClinicKibanaVizComponent,
+        HivDifferentiatedCareComponent,
+        HivDifferentiatedCarePatientListComponent
     ],
     providers: [
         ClinicalSummaryVisualizationService

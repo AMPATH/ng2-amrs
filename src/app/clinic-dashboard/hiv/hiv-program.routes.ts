@@ -57,10 +57,10 @@ import { ChangeDepartmentComponent } from '../change-department/change-departmen
 import {
     Moh731MonthlyVizComponent
 } from './moh731-monthly-viz/moh731-monthly-viz.component';
-
 import {
     DashboardsViewerComponent
 } from '../../kibana-lib';
+import { HivDifferentiatedCareComponent } from './hiv-differentiated-care-program/hiv-differentiated-care-program.component';
 const routes: Routes = [
     {
         path: 'landing-page',
@@ -175,6 +175,10 @@ const routes: Routes = [
             component: ProgramEnrollmentPatientListComponent
         }
     ]
+    },
+    {
+        path: 'hiv-differentiated-care',
+        component: HivDifferentiatedCareComponent
     },
     {
         path: 'department-select',
