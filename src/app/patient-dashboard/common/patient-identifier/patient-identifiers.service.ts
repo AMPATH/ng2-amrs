@@ -47,7 +47,8 @@ export class PatientIdentifierService {
       'MTRH Hospital Number',
       'HEI',
       'KUZA ID',
-      'Zuri Health ID'
+      'Zuri Health ID',
+      'NAT'
     ];
   }
   public patientIdentifierTypeFormat() {
@@ -83,6 +84,10 @@ export class PatientIdentifierService {
       {
         label: 'Zuri Health ID', format: null, checkdigit: 0,
         val: '9cae9c8a-2821-4aa7-8064-30508e9f62ec'
+      },
+      {
+        label: 'NAT', format: 'NAT-\\d{5}$', checkdigit: 0,
+        val: '22ee6ad7-58fb-4382-9af2-c6a553f3d56a'
       }
     ];
   }
