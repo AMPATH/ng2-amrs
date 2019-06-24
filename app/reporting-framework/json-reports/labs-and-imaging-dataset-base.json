@@ -28,6 +28,16 @@
             "expressionOptions": {
                 "expression": "case when vl_error= 1 then 1 else 0 end"
             }
+        },
+        {
+            "type": "simple_column",
+            "alias": "gene_expert_image",
+            "column": "t1.gene_expert_image"
+        },
+        {
+            "type": "simple_column",
+            "alias": "dst_image",
+            "column": "t1.dst_image"
         }
     ],
     "filters": {
@@ -51,5 +61,9 @@
           "column": "test_datetime",
           "order": "desc"
     }]
-   }
+   },
+   "paging":  {                                                                                                                                                                                                                                                                                                                                                                              
+    "offSetParam":"offSetParam",                                                                                                                                                                                                                                                                                                                                                             
+    "limitParam": "limitParam"                                                                                                                                                                                                                                                                                                                                                               
+  }  
 }
