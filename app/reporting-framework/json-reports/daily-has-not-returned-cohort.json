@@ -17,6 +17,11 @@
             "column": "t2.person_id"
         },
         {
+          "type": "simple_column",
+          "alias": "is_clinical",
+          "column": "t2.is_clinical"
+        },
+        {
             "type": "simple_column",
             "alias": "max_rtc_date",
             "column": "MAX(rtc_date)"
@@ -37,8 +42,13 @@
         "conditions": [
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "rtc_date >= ?",
+                "conditionExpression": "t2.rtc_date >= ?",
                 "parameterName": "startDate"
+            },
+            {
+              "filterType": "tableColumns",
+              "conditionExpression": "t2.rtc_date <= ?",
+              "parameterName": "endDate"
             },
             {
                 "filterType": "tableColumns",

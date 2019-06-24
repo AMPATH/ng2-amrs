@@ -162,7 +162,7 @@
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression":  "t2.is_clinical = 1",
+                "conditionExpression":  "t7.is_clinical = 1",
                 "parameterName": ""
             },
             {
