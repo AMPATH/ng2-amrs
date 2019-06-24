@@ -56,7 +56,11 @@
               <div>
                   <label for="">Findings</label>
                   <input [disabled]= "!files" [(ngModel)]="imageReportFindings" type="text" class="form-control" placeholder="Enter findings">
-                  <button type="submit" class="btn btn-primary pull-right" (click)="getSummary()">Save</button> <br>
+                  <div>
+                      <button type="submit" class="btn btn-primary pull-right" (click)="getSummary()">Save</button> <br>
+                      <button type="submit" class="btn btn-primary pull-left" (click)="defaultView()">Cancel</button> <br>
+                  </div>
+                 
               </div>
               
            </div>
@@ -78,7 +82,7 @@
                       <th>Surgery Type</th>
                       <th>Results</th>
                       <th>Findings/Summary</th>
-                      <th>Actions</th>
+                      <!-- <th>Actions</th> -->
                     </tr>
                   </thead>
                   <tbody>
@@ -94,7 +98,7 @@
     
                     </div>
                     <div *ngIf="sReport.status === 1" style="font-size: 24px;">
-                      <a type="button" title="View Surgery Results" (click)="showResults(order)">
+                      <a type="button" title="View Surgery Results" (click)="showReportResults(sReport.results)">
                         <span class="fa fa-file-image-o fa-7x" aria-hidden="true" style="font-size: 30px;"> </span>
                       </a>
                     </div>
@@ -111,7 +115,7 @@
     
                     </div>
                     <div *ngIf="sReport.status === 1" style="font-size: 24px;">
-                     <p>{{sReport.findings}}</p>
+                     <p>{{sReport.findings | titlecase}}</p>
                     </div>
 
                 </td>
@@ -124,3 +128,47 @@
                 <pagination-controls (pageChange)="page = $event" style="cursor: pointer;"></pagination-controls>
               </div>
   </div>
+  <div class="modal fade" bsModal #imageModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog"
+  aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+
+        <h4 class="modal-title pull-left">Surgery Results :
+           <!-- <b>{{header2}}</b> &nbsp;&nbsp;Date Received:
+          <b>{{dateRecieved | date:'dd/MM/yyyy'}}</b>&nbsp;&nbsp; No Of Results : <b>{{ObsImages.length}}</b> -->
+        </h4>
+
+
+        <button type="button" class="close pull-right" aria-label="Close" (click)="imageModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- <img [src]="imageLink | secure" class="img-responsive"> -->
+        <div >
+          <div *ngFor="let image of ObsImages  ">
+            <div *ngIf="image.type === 'image'"><img [src]="image.image| secure" class="img-responsive"></div>
+            <button  class="btn btn-danger pull-left" type="button"
+              (click)="deleteResult(image.obs)"><span>VOID
+                RESULT</span></button>
+                <br/> <br/> <br/>
+          </div>
+
+        </div>
+        <div class="uploadButton ">
+          <label for="file">Add Results</label>
+          <lib-file-uploader (fileChanged)="onFileChangeResults($event, false, header2)"><i
+              class="fa fa-upload"></i>
+          </lib-file-uploader>
+
+        </div><br /><br /><br /><br />
+
+
+      </div>
+    </div>
+    <div class="modal-footer">
+
+    </div>
+  </div>
+</div>

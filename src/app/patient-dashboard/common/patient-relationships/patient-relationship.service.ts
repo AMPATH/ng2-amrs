@@ -30,7 +30,8 @@ export class PatientRelationshipService {
                 relatedPersonUuid: relationship.personB.uuid,
                 relationshipType: relationship.relationshipType.bIsToA,
                 relationshipTypeUuId: relationship.relationshipType.uuid,
-                relationshipTypeName: relationship.relationshipType.display
+                relationshipTypeName: relationship.relationshipType.display,
+                relatedPerson: relationship.personB
               };
               relationshipsArr.push(new Relationship(relation));
             } else {
@@ -40,6 +41,7 @@ export class PatientRelationshipService {
                 relative: relationship.personA.display,
                 relatedPersonUuid: relationship.personA.uuid,
                 relationshipType: relationship.relationshipType.aIsToB,
+                relatedPerson: relationship.personA,
                 relationshipTypeUuId: relationship.relationshipType.uuid,
                 relationshipTypeName: relationship.relationshipType.display
               };

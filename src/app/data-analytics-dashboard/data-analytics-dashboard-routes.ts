@@ -16,7 +16,7 @@ export const routes: Routes = [
         loadChildren: './hiv/data-analytics-hiv.module#DataAnalyticsHivModule'
       },
       {
-        path: 'oncology',
+        path: 'hemato-oncology',
         loadChildren: './oncology/data-analytics-oncology.module#DataAnalyticsOncologyModule'
       },
       {

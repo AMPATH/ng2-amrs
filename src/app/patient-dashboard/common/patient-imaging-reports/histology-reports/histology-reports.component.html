@@ -1,44 +1,171 @@
 <div>
-    <div class="row">
-      <h4 class="component-title"><span class="icon-i-imaging-root-category"></span> Histology Reports</h4>
-    </div>
-    <div *ngIf="!imagingOrdered" class="row">
-        <div class="form-group pull-left status">
-          <select class="form-control" [(ngModel)]="selectedOrderStatus"
-            (ngModelChange)="onOrderStatuChange(selectedOrderStatus)" required>
-            <option [value]='any'>ALL ORDERS</option>
-            <option *ngFor="let orderState of orderStatus" [value]="orderState"> <strong>{{ orderState }}</strong>
-            </option>
-          </select>
-  
-        </div>
-        <div class="form-group pull-left search">
-          <input type="search" [(ngModel)]="searchText" class="form-control" placeholder="Search Histology Report by Name...">
-        </div>
-  
-        <div class="pull-right add">
-          <button *ngIf="!addOrders" type="button" class="btn btn-primary" (click)="addProc(true)"> <i
-              class="fa fa-plus"></i>&nbsp;&nbsp; <b> Enter Results/Findings</b></button>
-        </div>
-      </div>
-      <div>
-          <div class="table-responsive">
-              <table class="table table-bordered">
-                <thead>
-                  <tr>
-                    <th class="pointer" (click)="sort('dateActivated')">Collection Date <i class="fa" [ngClass]="{'fa-sort': column != 'dateActivated', 
-                                                                 'fa-sort-asc': (column == 'dateActivated' && !isDesc), 
-                                                                 'fa-sort-desc': (column == 'dateActivated' && isDesc) }"
-                        aria-hidden="true"> </i>
-                    </th>
-                    <th>Pathology/Test Type </th>
-                    <th>Results</th>
-                  </tr>
-                </thead>
-              </table>
-            </div>
-            <div>
-              <pagination-controls (pageChange)="page = $event" style="cursor: pointer;"></pagination-controls>
-            </div>
-      </div>
+  <div class="row">
+    <h4 class="component-title"><span class="icon-i-imaging-root-category"></span> Histopathology Reports</h4>
   </div>
+  <div class="row">
+    <div class="form-group pull-left status">
+      <select class="form-control" [(ngModel)]="selectedOrderStatus"
+        (ngModelChange)="onOrderStatuChange(selectedOrderStatus)" required>
+        <option [value]='any'>ALL Reports</option>
+        <option *ngFor="let orderState of orderStatus" [value]="orderState"> <strong>{{ orderState }}</strong>
+        </option>
+      </select>
+
+    </div>
+
+    <div class="pull-right add">
+      <button *ngIf="!addPathologies" type="button" class="btn btn-primary" (click)="addHistology(true)"> <i
+          class="fa fa-plus"></i>&nbsp;&nbsp; <b> Enter Results/Findings</b></button>
+    </div>
+  </div>
+  <div>
+    <div *ngIf="addPathologies" class="panel panel-primary">
+      <div class="panel-heading">New Histopathology</div>
+      <div class="panel-body">
+        <div class="container-fluid">
+          <div class="row" id="edit-demographics-row">
+            <div *ngIf="errors" style="color: red !important">
+              <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+                <div *ngFor="let error of errors">{{error.message}}</div>
+              </div>
+
+            </div>
+            <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+              <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+                <div class="form-group">
+                  <label for="">Select Pathology Type</label>
+                  <select class="form-control" [(ngModel)]="pathology" name="pathology">
+                    <option *ngFor="let p of pathologies" [value]="p.uuid"> {{ p.display }}</option>
+                  </select>
+                </div>
+                <input [disabled]="!pathology" type="checkbox" (change)="showResults(true)"
+                  name="hisopathologytypeMember">Results Available<br>
+              </div>
+              <button type="submit" [disabled]="!pathology" class="btn btn-primary pull-right"
+                (click)="saveSurgery()">Save</button>
+              <button class="btn btn-danger pull-left" type="button" (click)="defaultView()">
+                <span>Cancel</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="showFileUploader">
+      <label for="">Upload Results if Available</label>
+      <lib-file-uploader [(ngModel)]="dataModel" (uploadData)="uploadFile($event)" (_onClear)="clearPhoto()"><i
+          class="fa fa-upload"></i>
+      </lib-file-uploader>
+      <div>
+        <label for="">Findings</label>
+        <input [disabled]="!files" [(ngModel)]="imageReportFindings" type="text" class="form-control"
+          placeholder="Enter findings">
+        <button type="submit" class="btn btn-primary pull-right" (click)="getSummary()">Save</button> <br>
+      </div>
+
+    </div>
+
+
+  </div>
+</div>
+
+<div>
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th class="pointer" (click)="sort('dateActivated')">Date Done <i class="fa"
+              [ngClass]="{'fa-sort': column != 'dateActivated', 
+                                                                   'fa-sort-asc': (column == 'dateActivated' && !isDesc), 
+                                                                   'fa-sort-desc': (column == 'dateActivated' && isDesc) }" aria-hidden="true"> </i>
+          </th>
+          <th>Histopathology Type</th>
+          <th>Results</th>
+          <th>Findings/Summary</th>
+          <!-- <th>Actions</th> -->
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let hReport of histologyReports | paginate: { itemsPerPage: 10, currentPage: page }; let i = index;">
+          <td>{{  hReport.date | date:'dd/MM/yyyy' }}</td>
+          <td>
+            {{ hReport.histologyName.display }}
+          </td>
+          <td>
+            <div *ngIf="hReport.status === 0">
+              No Results
+
+            </div>
+            <div *ngIf="hReport.status === 1" style="font-size: 24px;">
+              <a type="button" title="View Surgery Results" (click)="showHistologyResults(hReport.results)">
+                <span class="fa fa-file-image-o fa-7x" aria-hidden="true" style="font-size: 30px;"> </span>
+              </a>
+            </div>
+          </td>
+
+          <td>
+            <!-- <button _ngcontent-c16="" mat-raised-button="" *ngIf="order.status.status === 1"
+                    style="background:  #3c8dbc;; color: white;" class="bton " title="Edit Results" class="bton"
+                    (click)="changeResults(order)">EDIT</button>
+                  <button _ngcontent-c16="" mat-raised-button="" style="background:  green;; color: white;"
+                    class="bton " title="View Results" class="bton" (click)="showOrder(order)">VIEW</button> -->
+            <div *ngIf="hReport.status === 0">
+              No Results
+
+            </div>
+            <div *ngIf="hReport.status === 1" style="font-size: 24px;">
+              <p>{{hReport.findings | titlecase}}</p>
+            </div>
+
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <pagination-controls (pageChange)="page = $event" style="cursor: pointer;"></pagination-controls>
+  </div>
+</div>
+<div class="modal fade" bsModal #imageModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog"
+  aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+
+        <h4 class="modal-title pull-left">Histopathology results :
+          <!-- <b>{{header2}}</b> &nbsp;&nbsp;Date Received:
+               <b>{{dateRecieved | date:'dd/MM/yyyy'}}</b>&nbsp;&nbsp; No Of Results : <b>{{ObsImages.length}}</b> -->
+        </h4>
+
+
+        <button type="button" class="close pull-right" aria-label="Close" (click)="imageModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- <img [src]="imageLink | secure" class="img-responsive"> -->
+        <div>
+          <div *ngFor="let image of ObsImages  ">
+            <div *ngIf="image.type === 'image'"><img [src]="image.image| secure" class="img-responsive"></div>
+            <button class="btn btn-danger pull-left" type="button" (click)="deleteResult(image.obs)"><span>VOID
+                RESULT</span></button>
+            <br /> <br /> <br />
+          </div>
+
+        </div>
+        <div class="uploadButton ">
+          <label for="file">Add Results</label>
+          <lib-file-uploader (fileChanged)="onFileChangeResults($event, false, header2)"><i class="fa fa-upload"></i>
+          </lib-file-uploader>
+
+        </div><br /><br /><br /><br />
+
+
+      </div>
+    </div>
+    <div class="modal-footer">
+
+    </div>
+  </div>
+</div>

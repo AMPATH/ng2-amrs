@@ -73,6 +73,46 @@ export class DefaulterListComponent implements OnInit, OnDestroy {
         cellStyle: {
           'white-space': 'normal'
         }
+      },
+      {
+        headerName: 'Latest Appointment',
+        width: 200,
+        field: 'latest_appointment'
+      },
+      {
+        headerName: 'Latest RTC Date',
+        width: 150,
+        field: 'latest_rtc_date'
+      },
+      {
+        headerName: 'Current Regimen',
+        width: 200,
+        field: 'cur_meds'
+      },
+      {
+        headerName: 'Latest VL',
+        width: 75,
+        field: 'latest_vl'
+      },
+      {
+        headerName: 'Latest VL Date',
+        width: 150,
+        field: 'latest_vl_date'
+      },
+      {
+        headerName: 'Previous VL',
+        width: 75,
+        field: 'previous_vl'
+      },
+      {
+        headerName: 'Previous VL Date',
+        width: 150,
+        field: 'previous_vl_date'
+      },
+      {
+        headerName: 'Nearest Center',
+        width: 150,
+        field: 'nearest_center'
       }
     ];
   }
@@ -177,7 +217,15 @@ export class DefaulterListComponent implements OnInit, OnDestroy {
         encounter_type_name: dataItem.encounter_type_name,
         last_appointment: formatedEncDate + ' ' + dataItem.encounter_type_name,
         encounter_datetime: formatedEncDate,
-        phone_number: dataItem.phone_number
+        phone_number: dataItem.phone_number,
+        latest_appointment: dataItem.last_appointment,
+        latest_rtc_date: dataItem.latest_rtc_date,
+        cur_meds: dataItem.cur_meds,
+        latest_vl: dataItem.latest_vl,
+        latest_vl_date: dataItem.latest_vl_date,
+        previous_vl: dataItem.previous_vl,
+        previous_vl_date: dataItem.previous_vl_date,
+        nearest_center: dataItem.nearest_center
       };
     });
     return formatedData;

@@ -35,6 +35,18 @@
       "label": "Data Entry Statistics",
       "icon": "fa fa-bar-chart",
       "isSideBarOpen": false
+    },
+    {
+      "url": "oncology-reports",
+      "label": "Oncology Reports",
+      "icon": "fa fa-bar-chart",
+      "isSideBarOpen": false
+    },
+    {
+      "url": "hiv/hiv-viz",
+      "label": "HIV Visualization",
+      "icon": "fa fa-area-chart",
+      "isSideBarOpen": false
     }
 
   ],
@@ -87,9 +99,9 @@
       ]
     },
     {
-      "departmentName": "ONCOLOGY",
-      "baseRoute": "oncology",
-      "alias": "oncology",
+      "departmentName": "HEMATO-ONCOLOGY",
+      "baseRoute": "hemato-oncology",
+      "alias": "hemato-oncology",
       "routes": [{
           "url": "oncology-reports",
           "label": "Oncology Reports",

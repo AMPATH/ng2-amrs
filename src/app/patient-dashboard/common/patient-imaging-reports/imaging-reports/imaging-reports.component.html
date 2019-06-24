@@ -2,7 +2,7 @@
     <div class="row">
       <h4 class="component-title"><span class="icon-i-cath-lab "></span> Imaging Reports</h4>
     </div>
-    <div *ngIf="!imagingOrdered" class="row">
+    <div  *ngIf="!addOrders" class="row">
       <div class="form-group pull-left status">
         <select class="form-control" [(ngModel)]="selectedOrderStatus"
           (ngModelChange)="onOrderStatuChange(selectedOrderStatus)" required>
@@ -22,7 +22,7 @@
       </div>
     </div>
     <div *ngIf="addRadiologyOrders" >
-        <div *ngIf="!radiologySelected" class="container myWidth">
+        <div *ngIf="typeSelect" class="container myWidth">
             <div class="row">
               <div class="col-md-6 offset-md-3">
                 <!-- <h2 class="text-center">{{ title }}</h2> -->
@@ -50,32 +50,52 @@
               <div class="panel panel-primary">
                   <div class="panel-heading"> Select {{radiologyTypeMembers.display}} Type</div>
                   <div class="panel-body">
-                    <div *ngIf="!resultAvailable">
+                    <div>
                         <div *ngFor="let RM of radiologyTypeMembers.setMembers">
-                            <input  type="checkbox" (change)="selectedRadiologyType(RM.uuid)" name="radiologytypeMember">{{RM.display}}<br>
+                            <input  type="radio" (change)="selectedRadiologyType(RM)" name="radiologytypeMember">{{RM.display}}<br>
                         </div>
                     </div>
-                    <div *ngIf="!multipleSelected" class="pull-right"style="margin = 3px;">
-                      <input name="resultsCheck"  (change)="resultsAvailable(true)" type="checkbox" /> Results Available<br>
+                    <div class="pull-right"style="margin = 3px;">
+                      <label class="container">Results Available<br>
+                        <input name="resultsCheck" [disabled]="!selectedRadioloyTests"  (change)="resultsAvailable(true)" type="checkbox">
+                        <span class="checkmark"></span>
+                      </label>
+                   
                     </div>
                   </div>
                   <div class="panel-footer">
                     <button (click)="defaultView()" class="btn btn-default image-preview-clear  pull-left" type="button"><span
                       class="glyphicon glyphicon-circle-arrow-left"></span> Back
                    </button>
-                   <button *ngIf="!resultAvailable" [disabled]="selectedRadioloyTests.length === 0" (click)="processValues()" class="btn btn-default image-preview-clear  pull-right" type="button"><span
-                    class="glyphicon glyphicon-circle-arrow-right"></span> Next
+                   <button *ngIf="!resultAvailable" [disabled]="!selectedRadioloyTests" (click)="processValues()" class="btn btn-default image-preview-clear  pull-right" type="button"><span
+                    class="glyphicon glyphicon-circle-arrow-right"></span> Save
                 </button>
-                  </div>
+              
                 </div>
-                <div *ngIf="resultAvailable">
-                  <lib-file-uploader [(ngModel)]="dataModel"(uploadData)="uploadFile($event)" (_onClear)="clearPhoto()"><i class="fa fa-upload"></i>
-                </lib-file-uploader>
               </div>   
+           
           </div>
+          <div *ngIf="showFileUploader">
+            <label for="">Upload Results if Available</label>
+            <lib-file-uploader [(ngModel)]="dataModel"(uploadData)="uploadFile($event)" (_onClear)="clearPhoto()"><i class="fa fa-upload"></i>
+            </lib-file-uploader>
+            <div>
+                <label for="">Findings</label>
+                <select [disabled]= "!files" class="form-control"   [(ngModel)]="imageReportFindings" name="radiologyFingings">
+                  <option *ngFor="let radio of radiologyConceptAnswers" [ngValue]="radio"> {{ radio.display }}</option>
+                </select>
+                <button type="submit" class="btn btn-primary pull-right" (click)="sendResults()">Save</button> <br>
+            </div>
+            
+         </div>
     </div>
+    <div *ngIf="!radiologyOrdered">
+        <button (click)="defaultView()" class="btn btn-default image-preview-clear" type="button"><span
+            class="glyphicon glyphicon-circle-arrow-left"></span> Back
+        </button>
+      </div>
     
-    <div>
+    <div *ngIf="radiologyOrdered">
         <div class="table-responsive">
             <table class="table table-bordered">
               <thead>
@@ -87,14 +107,14 @@
                   </th>
                   <th>Order Number </th>
                   <th>Date Done</th>
-                  <th>Imaging Type</th>
+                  <th>Imaging Results</th>
                   <th>Findings</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
                   <tr
-                    *ngFor="let order of selectedOrders | paginate: { itemsPerPage: 10, currentPage: page }; let i = index;">
+                    *ngFor="let order of selectedOrders | proceduresFilter: searchText  | paginate: { itemsPerPage: 10, currentPage: page }; let i = index;">
                     <td>{{ order.dateActivated | date:'dd/MM/yyyy' }}</td>
                     <td>
                       <ul style="list-style-type:none">
@@ -114,42 +134,35 @@
     
                  <td>
         <div *ngIf="order.status.status === 0">
-            <lib-file-uploader [(ngModel)]="dataModel" (onClear)="clearPhoto()" cl
+            <!-- <lib-file-uploader [(ngModel)]="dataModel" (onClear)="clearPhoto()" cl
               (fileChanged)="onFileChange($event, order.orderNumber )"><i class="fa fa-upload"></i>
-            </lib-file-uploader>
+            </lib-file-uploader> -->
+            -
 
           </div>
           <div *ngIf="order.status.status === 1" style="font-size: 24px;">
-            <a type="button" title="View Procedure Results" (click)="showResults(order)">
+            <a type="button" title="View Radiology Results" (click)="showReportResults(order.status.picUrl)">
               <span class="fa fa-file-image-o fa-7x" aria-hidden="true" style="font-size: 30px;"> </span>
             </a>
           </div> </td>
                     
                     <td>
-                      <div>
+                      <div *ngIf="order.status.status === 0">
                         No results
                       </div>
-                        <!-- <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-                            <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-                              <div class="form-group">
-                                <label for="">Enter Findings</label>
-                                <select class="form-control"  name="radiology">
-                                  <option *ngFor="let p of order.concept.answers" [value]="p.uuid"> {{ p.display }}</option>
-                                </select>
-                              </div>
-                            </div>
-          
-                            <button type="submit" class="btn btn-primary pull-right" (click)="saveOrder()">Submit</button>
-                            <button class="btn btn-danger pull-left" type="button" (click)="defaultView()">
-                              <span>Cancel</span></button>
-                          </div> -->
+                      <div *ngIf="order.status.status === 1">
+                      {{order.status.findings.display}}
+                      </div>
+                  
                     </td>
                     <td>
                       <button _ngcontent-c16="" mat-raised-button="" *ngIf="order.status.status === 1"
                         style="background:  #3c8dbc;; color: white;" class="bton " title="Edit Results" class="bton"
                         (click)="changeResults(order)">EDIT</button>
+                        <button _ngcontent-c16="" mat-raised-button=""  *ngIf="order.status.status === 0" style="background:  purple;; color: white;"
+                        class="bton " title="View Results" class="bton" (click)="enterImagingResults(order)">Enter Results</button>
                       <button _ngcontent-c16="" mat-raised-button="" style="background:  green;; color: white;"
-                        class="bton " title="View Results" class="bton" (click)="showOrder(order)">VIEW</button>
+                        class="bton " title="View Results" class="bton" (click)="showResults(order)">VIEW</button>
     
                     </td>
                   </tr>
@@ -160,5 +173,155 @@
             <pagination-controls (pageChange)="page = $event" style="cursor: pointer;"></pagination-controls>
           </div>
     </div>
+    <div *ngIf="enterReportResults">
+        <div class="card">
+            <div class="card-body">
+                <label for="">Upload Results if Available</label>
+        <lib-file-uploader [(ngModel)]="dataModel"(uploadData)="uploadFile($event)" (_onClear)="clearPhoto()"><i class="fa fa-upload"></i>
+        </lib-file-uploader>
+        <div>
+            <label for="">Findings</label>
+            <input [disabled]= "!files" [(ngModel)]="imageReportFindings" type="text" class="form-control" placeholder="Enter findings">
+            <button type="submit" class="btn btn-primary pull-right" (click)="getSummary()">Save</button> <br>
+        </div>
+            </div>
+          </div>
+      
+    </div>
+    <div *ngIf="resultsDisplay">
+        <div class="panel panel-primary">
+          <div class="panel-heading">{{viewResults}}</div>
+          <div class="panel-body">
+            <div *ngIf="showDetails">
+              <div *ngIf="resultView">
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+                  <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+                    <div class="form-group">
+                      <label for="givenName">Radiology Type &nbsp; :</label>
 
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+                    <div class="form-group">
+                      <label for="givenName">{{selectedRad.display}}</label>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+                  <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+                    <div class="form-group">
+                      <label for="givenName">Ordered By &nbsp; :</label>
+
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+                    <div class="form-group">
+                      <label for="givenName">{{selectedRad.orderer.display}}</label>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+                  <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+                    <div class="form-group">
+                      <label for="givenName">Date Ordered &nbsp; :</label>
+
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+                    <div class="form-group">
+                      <label for="givenName">{{selectedRad.dateActivated | date:'dd/MM/yyyy'}}</label>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+                  <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+                    <div class="form-group">
+                      <label for="givenName">Results Available &nbsp; :</label>
+
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+                    <div class="form-group">
+                      <div *ngIf="selectedRad.status.status===1">
+                        <label for="givenName">YES &nbsp; ({{selectedRad.results.length}})</label>
+                      </div>
+                      <div *ngIf="selectedRad.status.status===0">
+                        <label for="givenName">NO Results</label>
+                      </div>
+
+                    </div>
+                  </div>
+                  <button *ngIf="voidOrderButton" class="btn btn-danger pull-left" type="button"
+                    (click)="discard(selectedRad)"><span>VOID
+                      ORDER</span></button>
+                </div>
+              </div>
+              <div *ngIf="!resultView">
+                <div>
+                  <div class="well well-sm" style="margin-bottom: 5px;">
+                    <b> Are You Sure You Want To Discard This Radiology Order ? </b>
+                  </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary pull-right"
+                  (click)="discardOrder(selectedRad)">YES</button>
+                <button class="btn btn-danger pull-left" type="button" (click)="defaultView()">
+                  <span>Cancel</span></button>
+
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+
+      </div>
   </div>
+  <div class="modal fade" bsModal #imageModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog"
+  aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+
+        <h4 class="modal-title pull-left">Radiology Results :
+           <!-- <b>{{header2}}</b> &nbsp;&nbsp;Date Received:
+          <b>{{dateRecieved | date:'dd/MM/yyyy'}}</b>&nbsp;&nbsp; No Of Results : <b>{{ObsImages.length}}</b> -->
+        </h4>
+
+
+        <button type="button" class="close pull-right" aria-label="Close" (click)="imageModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- <img [src]="imageLink | secure" class="img-responsive"> -->
+        <div >
+          <div *ngFor="let image of ObsImages  ">
+            <div *ngIf="image.type === 'image'"><img [src]="image.image| secure" class="img-responsive"></div>
+            <button  class="btn btn-danger pull-left" type="button"
+              (click)="deleteResult(image.obs)"><span>VOID
+                RESULT</span></button>
+                <br/> <br/> <br/>
+          </div>
+
+        </div>
+        <div class="uploadButton ">
+          <label for="file">Add Results</label>
+          <lib-file-uploader (fileChanged)="onFileChangeResults($event, false, header2)"><i
+              class="fa fa-upload"></i>
+          </lib-file-uploader>
+
+        </div><br /><br /><br /><br />
+
+
+      </div>
+    </div>
+    <div class="modal-footer">
+
+    </div>
+  </div>
+</div>

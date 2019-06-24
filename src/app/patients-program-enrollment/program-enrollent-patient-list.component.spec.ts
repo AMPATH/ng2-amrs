@@ -7,7 +7,7 @@ import { of } from 'rxjs';
 import { AgGridModule } from 'ag-grid-angular';
 import { ProgramEnrollmentPatientListComponent } from './program-enrollent-patient-list.component';
 import { PatientProgramEnrollmentService } from './../etl-api/patient-program-enrollment.service';
-
+import { UtilsModule } from '../utils/utils.module';
 class MockRouter {
     public navigate = jasmine.createSpy('navigate');
 }
@@ -111,7 +111,8 @@ describe('Component: ProgramEnrollmentPatientListComponent', () => {
       imports:
       [
         FormsModule,
-        AgGridModule.withComponents([])
+        AgGridModule.withComponents([]),
+        UtilsModule
       ],
       declarations: [
         ProgramEnrollmentPatientListComponent

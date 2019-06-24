@@ -70,6 +70,7 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
     this.getCurrentLocation();
     this.gridOptions.columnDefs = this.createColumnDefs();
     this.gridOptions.rowData = this.results;
+    this.gridOptions.enableColResize = true;
     this.gridOptions.getRowStyle = (params) => {
       return {
         'font-size': '14px',
@@ -83,7 +84,7 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
     this.gridOptions.headerHeight = 40;
     if (window.innerWidth > 768) {
       this.gridOptions.onGridReady = (event) => {
-        this.gridOptions.api.sizeColumnsToFit();
+        // this.gridOptions.api.sizeColumnsToFit();
       };
     }
     this.gridOptions.enableFilter = true;
@@ -400,6 +401,51 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
           return params.value;
         },
         width: 120
+      },
+      {
+        headerName: 'Phone Number',
+        width: 150,
+        field: 'phone_number'
+      },
+      {
+        headerName: 'Latest Appointment',
+        width: 200,
+        field: 'last_appointment'
+      },
+      {
+        headerName: 'Latest RTC Date',
+        width: 150,
+        field: 'latest_rtc_date'
+      },
+      {
+        headerName: 'Current Regimen',
+        width: 200,
+        field: 'cur_meds'
+      },
+      {
+        headerName: 'Latest VL',
+        width: 75,
+        field: 'latest_vl'
+      },
+      {
+        headerName: 'Latest VL Date',
+        width: 150,
+        field: 'latest_vl_date'
+      },
+      {
+        headerName: 'Previous VL',
+        width: 75,
+        field: 'previous_vl'
+      },
+      {
+        headerName: 'Previous VL Date',
+        width: 150,
+        field: 'previous_vl_date'
+      },
+      {
+        headerName: 'Nearest Center',
+        width: 150,
+        field: 'nearest_center'
       }
     ];
   }

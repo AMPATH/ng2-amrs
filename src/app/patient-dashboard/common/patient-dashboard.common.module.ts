@@ -42,6 +42,7 @@ import { PatientBannerComponent } from './patient-banner/patient-banner.componen
 import { LabSyncComponent } from './lab-data-summary/lab-sync.component';
 import { HivSummaryService } from '../hiv/hiv-summary/hiv-summary.service';
 import { LabResultComponent } from './lab-data-summary/lab-result.component';
+import { LabResultImageModalComponent } from './lab-data-summary/lab-result-image-modal.component';
 import { ContactsComponent } from './patient-info/contacts.component';
 import { AddressComponent } from './patient-info/address.component';
 import { PatientDemographicsComponent } from './patient-info/patient-demograpics.component';
@@ -148,6 +149,10 @@ import { ProceduresFilterPipe } from './patient-imaging-reports/procedure-orders
 import { ProcedureOrdersService } from './patient-imaging-reports/procedure-orders/procedure-orders.service';
 import { FeedBackService } from 'src/app/feedback/feedback.service';
 import { SurgeryReportsComponent } from './patient-imaging-reports/surgery-reports/surgery-reports.component';
+import { HivSummaryLatestComponent } from '../hiv/hiv-summary/hiv-summary-latest.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { AgePipe } from './patient-banner/age.pipe';
+
 @NgModule({
   imports: [
     HttpClientModule,
@@ -191,6 +196,7 @@ import { SurgeryReportsComponent } from './patient-imaging-reports/surgery-repor
     PatientInfoComponent,
     SurgeryReportsComponent,
     ProcedureOrdersComponent ,
+    HivSummaryLatestComponent,
     PatientEncountersComponent,
     PatientVitalsComponent,
     FormsComponent,
@@ -202,6 +208,7 @@ import { SurgeryReportsComponent } from './patient-imaging-reports/surgery-repor
     PatientBannerComponent,
     LabSyncComponent,
     LabResultComponent,
+    LabResultImageModalComponent,
     ContactsComponent,
     PatientIdentifierComponent,
     AddressComponent,
@@ -242,6 +249,7 @@ import { SurgeryReportsComponent } from './patient-imaging-reports/surgery-repor
     PatientInfoComponent,
     PatientEncountersComponent,
     PatientVitalsComponent,
+    HivSummaryLatestComponent,
     FormsComponent,
     ProcedureOrdersComponent,
     LabDataSummaryComponent,
@@ -253,6 +261,7 @@ import { SurgeryReportsComponent } from './patient-imaging-reports/surgery-repor
     EditVisitTypeComponent,
     LabSyncComponent,
     LabResultComponent,
+    LabResultImageModalComponent,
     ContactsComponent,
     PatientIdentifierComponent,
     AddressComponent,
@@ -291,7 +300,8 @@ import { SurgeryReportsComponent } from './patient-imaging-reports/surgery-repor
     PatientImagingReportsComponent,
     ImagingReportsComponent,
     HistologyReportsComponent,
-    SurgeryReportsComponent],
+    SurgeryReportsComponent,
+    AgePipe],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

@@ -48,7 +48,7 @@ describe('Department-select component Tests', () => {
                 'baseRoute': 'hiv'
             },
             {
-                'departmentName': 'ONCOLOGY',
+                'departmentName': 'HEMATO-ONCOLOGY',
                 'baseRoute': 'oncology'
             },
             {
@@ -62,7 +62,7 @@ describe('Department-select component Tests', () => {
                 'baseRoute': 'hiv'
             },
             {
-                'name': 'ONCOLOGY',
+                'name': 'HEMATO-ONCOLOGY',
                 'baseRoute': 'oncology'
             },
             {

@@ -1,10 +1,10 @@
-<div style="margin: 0;margin-top: 8px;" class="component-wrapper location-wrapper">
+<div *ngIf="showLocationFilter" style="margin: 0;margin-top: 8px;" class="component-wrapper location-wrapper">
   <div class="input-group" *ngIf="selectingLocation">
     <div class="input-group-addon">
       <i *ngIf="!loaderStatus" class="fa fa-map-marker"></i>
       <i *ngIf="loaderStatus" class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>
     </div>
-    <ng-select class="sharp-corners" (change)="locationChanged($event)" [(ngModel)]="selectedLocation"
+    <ng-select  class="sharp-corners" (change)="locationChanged($event)" [(ngModel)]="selectedLocation"
                [placeholder]="'Select a location or type to search...'"
                [items]="locations">
     </ng-select>
@@ -23,3 +23,5 @@
     <router-outlet></router-outlet>
   </div>
 </div>
+<!-- <kibana-viz-host url="http://localhost:5601/len/app/kibana#/dashboard/cd9b37b0-3c97-11e8-910a-f70b2cc94e6b?embed=true&_g=()">
+</kibana-viz-host> -->

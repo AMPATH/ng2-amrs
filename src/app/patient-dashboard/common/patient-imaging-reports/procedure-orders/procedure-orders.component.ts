@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input, forwardRef, DoCheck } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, forwardRef, DoCheck, Output, EventEmitter, ChangeDetectorRef, ɵConsole } from '@angular/core';
 import { Subscription, Observable } from 'rxjs';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
@@ -15,6 +15,7 @@ import { FileUploadResourceService } from 'src/app/etl-api/file-upload-resource.
 import { ConceptResourceService } from 'src/app/openmrs-api/concept-resource.service';
 import { ObsResourceService } from 'src/app/openmrs-api/obs-resource.service';
 import { FeedBackService } from 'src/app/feedback/feedback.service';
+import { jsonpCallbackContext } from '@angular/common/http/src/module';
 
 
 
@@ -24,8 +25,20 @@ import { FeedBackService } from 'src/app/feedback/feedback.service';
   styleUrls: ['./procedure-orders.component.css'],
 
 })
-export class ProcedureOrdersComponent implements OnInit, DoCheck {
-  @Input() sentData: any;
+export class ProcedureOrdersComponent implements OnInit {
+  private _sentData: any;
+  @Input()
+  set sentData(value: any) {
+    this.proceduresOrdered = false;
+    if (value && value.orders) {
+      this._sentData = value;
+    }
+  }
+
+  get sentData(): any {
+      return this._sentData;
+  }
+  @Output() public fileChanged: EventEmitter<any> = new EventEmitter();
   public procedureOrders = [];
   public procedureOrdersWithResults = [];
   public procedureOrdersWithoutResults = [];
@@ -40,6 +53,7 @@ export class ProcedureOrdersComponent implements OnInit, DoCheck {
   public isBusy: boolean;
   public caresetting = '6f0c9a92-6f24-11e3-af88-005056821db0';
   public subscription: Subscription;
+  public enterReportResults = false;
   public addOrders = false;
   public addOrderSet = false;
   public searchText: string;
@@ -64,6 +78,7 @@ export class ProcedureOrdersComponent implements OnInit, DoCheck {
   public resultsDisplay = false;
   public voidOrderButton = false;
   public resultView = true;
+  public imageReportFindings: any;
   public deleteResultsButton = this.ProcedureOrderService.checkProcedureandResultDeletingRights();
   public uploadingResults = false;
   public showDetails = false;
@@ -105,6 +120,9 @@ export class ProcedureOrdersComponent implements OnInit, DoCheck {
   public procedureName: string;
   public imageServerId: any;
   public imageText: string;
+  public  files = false;
+  public selectedProcedureTests: any;
+  public dataPayload: any;
   public imageStatusValue: any;
   public patientObs: any;
   public patientObsWithOrders: any;
@@ -112,6 +130,7 @@ export class ProcedureOrdersComponent implements OnInit, DoCheck {
   public orderNumber: string;
   public procedureConceptList = [];
   public obs = [];
+  public pdf = /pdf/gi;
   public ObsImages = [];
   public dateRecieved: any;
   public imageControlButtons = false;
@@ -130,6 +149,7 @@ export class ProcedureOrdersComponent implements OnInit, DoCheck {
 
   constructor(private patientService: PatientService,
     private userService: UserService,
+    private changeDetectorRef: ChangeDetectorRef,
     private feedBackService: FeedBackService,
     private orderResourceService: OrderResourceService,
     private ProcedureOrderService: ProcedureOrdersService,
@@ -143,13 +163,6 @@ export class ProcedureOrdersComponent implements OnInit, DoCheck {
   ngOnInit() {
     console.log(this.sentData);
     this.getProcedures();
-    this.getCurrentlyLoadedPatient();
-    this.personUuid = this.userService.getLoggedInUser().personUuid;
-    this.getProvider();
-    const currentLocation = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
-    this.location = currentLocation.display;
-    this.selectedLocation = currentLocation.uuid;
-    this.currentDate = Date.now();
   }
   public getCurrentlyLoadedPatient() {
     this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
@@ -166,7 +179,6 @@ export class ProcedureOrdersComponent implements OnInit, DoCheck {
           if (amrsId) {
             this.patientIdentifer = amrsId.identifier;
           }
-          this.getProcedureOrders();
         }
       }
     );
@@ -176,7 +188,7 @@ export class ProcedureOrdersComponent implements OnInit, DoCheck {
       this.provider = data.providerUuid;
     });
   }
-   public ngDoCheck() {
+   public _ngDoCheck() {
     if (this.sentData.orders !== this.orders) {
   this.getProcedureOrders();
     }
@@ -185,7 +197,6 @@ export class ProcedureOrdersComponent implements OnInit, DoCheck {
     this.fetchingResults = true;
     const procedures = [];
     this.isBusy = true;
-    const patientUuId = this.patient.uuid;
        const data = this.sentData.orders;
        if (data === '') {
 
@@ -212,6 +223,7 @@ export class ProcedureOrdersComponent implements OnInit, DoCheck {
           this.loadingProcedureOrderStatus = false;
           this.isBusy = false;
         }
+        console.log(this.selectedOrders, 'dataree');
         return Observable.of(this.selectedOrders);
        }
   }
@@ -219,7 +231,8 @@ export class ProcedureOrdersComponent implements OnInit, DoCheck {
   public assignOrdersResultsObs(selectedOrders) {
     const status = {
       'status': 0,
-      'picUrl': '',
+      'picUrl': [],
+      'findings': '',
       'obsUuid': '',
       'date': ''
     };
@@ -244,9 +257,11 @@ export class ProcedureOrdersComponent implements OnInit, DoCheck {
 
   }
   public getPatientObs(patientUuid) {
-    const OrderResultsConcept = '9ab23532-40e4-4e98-85bd-bb9478d805ac';
+    const OrderResultsConcept = 'acf1eda7-7c5e-41c5-94b7-22a57fd34eb2';
     this.obsResourceService.getObsPatientObsByConcept(patientUuid, OrderResultsConcept).subscribe((result: any) => {
+      console.log(result);
       this.patientObs = result.results;
+      this.getProcedureOrders();
     },
       (error) => {
         console.error('error', error);
@@ -298,6 +313,14 @@ export class ProcedureOrdersComponent implements OnInit, DoCheck {
     const orderProcdure = '2012a1c5-3be4-4ba7-a76d-22db951296ed';
     this.conceptResourceService.getConceptByUuid(orderProcdure).subscribe((data) => {
       this.proc = data.setMembers;
+      this.getCurrentlyLoadedPatient();
+    this.personUuid = this.userService.getLoggedInUser().personUuid;
+    this.getProvider();
+    const currentLocation = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
+    this.location = currentLocation.display;
+    this.selectedLocation = currentLocation.uuid;
+    this.currentDate = Date.now();
+    this.proceduresOrdered = true;
 
     });
   }
@@ -345,6 +368,9 @@ export class ProcedureOrdersComponent implements OnInit, DoCheck {
   public saveOrder() {
     const procedureOrderPayload = this.createPayload();
     this.saveProcedureOrder(procedureOrderPayload);
+    setTimeout(() => {
+      this.getPatientObs(this.patient.uuid);
+    }, 200);
     this.defaultView();
 
   }
@@ -405,7 +431,8 @@ export class ProcedureOrdersComponent implements OnInit, DoCheck {
     const patientObs: any = this.patientObs;
     let status = {
       'status': 0,
-      'picUrl': '',
+      'picUrl': [],
+      'findings': '',
       'obsUuid': ''
     };
 
@@ -425,7 +452,7 @@ export class ProcedureOrdersComponent implements OnInit, DoCheck {
   // find all images for a particular order
   searchObs(orderNumber) {
     const patientObs: any = this.patientObs;
-    const obsUuid = [];
+    let obsUuid: any;
     for (const value of patientObs) {
       const checkstatus = this.checkValue(value, orderNumber);
       if (checkstatus.status === 1) {
@@ -433,7 +460,7 @@ export class ProcedureOrdersComponent implements OnInit, DoCheck {
           'obs': checkstatus.obsUuid,
           'imageUrl': checkstatus.picUrl
         };
-        obsUuid.push(imageObs);
+        obsUuid = imageObs;
       } else {
       }
     }
@@ -446,22 +473,19 @@ export class ProcedureOrdersComponent implements OnInit, DoCheck {
   checkValue(value: any, orderNumber) {
     let imageStatus = {
       'status': 0,
-      'picUrl': '',
+      'picUrl': [],
       'obsUuid': '',
+      'findings': '',
       'date': ''
     };
     if (value.order) {
       if (value.order.uuid === orderNumber) {
-        imageStatus = {
-          'status': 1,
-          'picUrl': value.value,
-          'obsUuid': value.uuid,
-          'date': value.obsDatetime
-        };
+        imageStatus = this.assignValue(value);
       } else {
         imageStatus = {
           'status': 0,
-          'picUrl': '',
+          'picUrl': [],
+          'findings': '',
           'obsUuid': '',
           'date': ''
 
@@ -470,18 +494,58 @@ export class ProcedureOrdersComponent implements OnInit, DoCheck {
     } else {
       imageStatus = {
         'status': 0,
-        'picUrl': '',
+        'picUrl': [],
+        'findings': '',
         'obsUuid': '',
         'date': ''
       };
     }
     return imageStatus;
   }
-  showResults(order) {
+  public assignValue(data) {
+
+    // tslint:disable-next-line:prefer-const
+    let resultsData = {
+      'status': 0,
+      'picUrl': [],
+      'obsUuid': '',
+      'findings': '',
+      'date': ''
+    };
+    resultsData.date = data.obsDatetime;
+    resultsData.obsUuid = data.uuid;
+   const value = data.groupMembers;
+  for (let b = 0; b < value.length; b++) {
+    if (value) {
+      if (value[b].concept.uuid === 'bce26e1c-c65e-443a-b65f-118f699e1bd0') {
+        const valData = JSON.parse(value[b].value);
+        valData.forEach(element => {
+          const answ = element.image;
+          const dataVal = {
+            image: answ,
+            type: ''
+
+          };
+          if (answ.search(this.pdf) !== -1) {
+            dataVal.type = 'pdf';
+           } else {
+            dataVal.type = 'image';
+           }
+           resultsData.picUrl.push(dataVal);
+        });
+        resultsData.status = 1;
+       } else {
+        resultsData.findings = value[b].value;
+       }
+    }
+    }
+  return resultsData;
+}
+public  showResults(order) {
     this.header2 = order.orderNumber;
     this.imageLink = `${order.status.picUrl}`;
     this.dateRecieved = order.status.date;
-    this.ObsImages = order.results.reverse();
+    this.ObsImages = order.results.imageUrl.reverse();
     this.orderNumber = order;
     if (this.ObsImages.length > 1) {
       this.imageControlButtons = true;
@@ -521,10 +585,14 @@ export class ProcedureOrdersComponent implements OnInit, DoCheck {
           procedureOrderPayload.encounter = response.uuid;
           this.orderResourceService.saveProcedureOrder(procedureOrderPayload).subscribe((res) => {
             this.submittedProcedureOrder = res;
+            console.log(this.selectedOrders.length);
+            this.selectedOrders.push( this.submittedProcedureOrder);
+            this.changeDetectorRef.detectChanges();
+            console.log('this.selectedOrders', this.selectedOrders);
             this.newProcedure = true;
-            setTimeout(() => {
-              this.getProcedureOrders();
-            }, 500);
+            // setTimeout(() => {
+            //   this.getProcedureOrders();
+            // }, 500);
             this.display = false;
             this.newProcedure = false;
           });
@@ -533,6 +601,18 @@ export class ProcedureOrdersComponent implements OnInit, DoCheck {
         }
       });
     }
+  }
+  public uploadFile(event) {
+    this.files = true;
+    this.dataPayload = {
+      file: event,
+      orderNumber: this.orderNumber,
+      concept: this.selectedProcedureTests.uuid,
+      findings: '',
+      imageLink: [],
+      reportType: 'procedure report'
+
+    };
   }
   public changeResults(order) {
     this.proceduresOrdered = false;
@@ -612,6 +692,7 @@ export class ProcedureOrdersComponent implements OnInit, DoCheck {
     this.resultsDisplay = false;
     this.proceduresOrdered = true;
     this.addOrders = false;
+    this.enterReportResults = false;
     this.displayResultsChange = false;
   }
   public discard(selectedProc) {
@@ -686,6 +767,21 @@ export class ProcedureOrdersComponent implements OnInit, DoCheck {
     }, (error) => {
         console.log('Error');
     });
+}
+public enterResults(order) {
+  console.log(order, 'ordere');
+  this.proceduresOrdered = false;
+  this.enterReportResults = true;
+  this.resultsDisplay = false;
+  this.resultView = false;
+  this.selectedProcedureTests = order.concept;
+  this.orderNumber = order.orderNumber;
+
+}
+public sendResults() {
+  this.dataPayload.findings = this.imageReportFindings;
+  this.fileChanged.emit(this.dataPayload);
+  this.defaultView();
 }
 
 }

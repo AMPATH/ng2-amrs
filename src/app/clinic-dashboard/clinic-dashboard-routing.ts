@@ -67,8 +67,8 @@ const clinicDashboardRoutes: Routes = [
           .then((mod) => mod.PatientReferralProgramModule)
       },
       {
-        path: 'oncology', loadChildren: () =>
-        System.import('./oncology/oncology-program.module')
+        path: 'hemato-oncology', loadChildren: () =>
+        System.import('./hemato-oncology/oncology-program.module')
         .then((mod) => mod.OncologyProgramModule)
       },
       {

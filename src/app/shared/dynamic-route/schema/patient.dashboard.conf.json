@@ -297,6 +297,16 @@
       "routes": []
     },
     {
+      "programName": "Anticoagulation Treatment Program",
+      "programUuid": "418fe011-a903-4862-93d4-5e7c84d9c253",
+      "baseRoute": "418fe011-a903-4862-93d4-5e7c84d9c253",
+      "alias": "oncology",
+      "published": true,
+      "shared-routes-class": "oncology",
+      "requiresPatientEnrollment": true,
+      "routes": []
+    },
+    {
       "programName": "Hemophilia",
       "programUuid": "a3610ba4-9811-46b3-9628-83ec9310be13",
       "baseRoute": "a3610ba4-9811-46b3-9628-83ec9310be13",
@@ -477,6 +487,16 @@
       "shared-routes-class": "cdm",
       "requiresPatientEnrollment": true,
       "routes": []
+    },
+    {
+      "programName": "Refferal Peer Navigator",
+      "programUuid": "a15a58a4-0daa-4195-bf29-b4bccd5df01e",
+      "baseRoute": "a15a58a4-0daa-4195-bf29-b4bccd5df01e",
+      "alias": "cdm",
+      "published": true,
+      "shared-routes-class": "cdm",
+      "requiresPatientEnrollment": true,
+      "routes": []
     }
   ],
 
@@ -551,6 +571,11 @@
         "url": "lab-data-summary",
         "label": "Lab Data Summary",
         "icon": "icon-i-laboratory"
+      },
+      {
+        "url": "lab-orders",
+        "label": "Lab Orders",
+        "icon": "icon-i-pathology"
       },
       {
         "url": "patient-imaging",

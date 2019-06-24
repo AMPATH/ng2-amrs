@@ -27,7 +27,7 @@
       <div class="loader" *ngIf="uploadingResults"><span><i class="fa fa-spinner fa-spin">
 
           </i>uploading Results...</span></div>
-      <div class="alert alert-warning" *ngIf="!selectedOrders.length">
+      <div class="alert alert-warning" *ngIf="selectedOrders.length === 0">
         Patient has no Procedure orders at this time.
       </div>
       <div class="alert alert-success alert-dismissible" *ngIf="newProcedure">
@@ -103,6 +103,7 @@
                 <th>Procedure </th>
                 <th>Date Received </th>
                 <th>Results</th>
+                <th>Findings</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -117,26 +118,46 @@
                     <li><b>Ordered By:</b>&nbsp;&nbsp;{{ order.orderer.display }}</li>
                   </ul>
                 </td>
-                <td>{{order.status.date  | date:'dd/MM/yyyy'}}</td>
-
-
-                <div *ngIf="order.status.status === 0">
-                  <lib-file-uploader [(ngModel)]="dataModel" (onClear)="clearPhoto()" cl
-                    (fileChanged)="onFileChange($event, order.orderNumber )"><i class="fa fa-upload"></i>
-                  </lib-file-uploader>
-
-                </div>
-                <div *ngIf="order.status.status === 1" style="font-size: 24px;">
-                  <a type="button" title="View Procedure Results" (click)="showResults(order)">
-                    <span class="fa fa-file-image-o fa-7x" aria-hidden="true" style="font-size: 30px;"> </span>
-                  </a>
-                </div>
+                <td>
+                  <div *ngIf="order.status.date">  {{order.status.date  | date:'dd/MM/yyyy'}}</div>
+                 
+                  <div *ngIf="!order.status.date">
+                    No results
+                  </div>
+                </td>
+                <td>
+                  
+                  <div *ngIf="order.status.status === 0">
+                    No Results
+                    <!-- <lib-file-uploader [(ngModel)]="dataModel" (onClear)="clearPhoto()" cl
+                      (fileChanged)="onFileChange($event, order.orderNumber )"><i class="fa fa-upload"></i>
+                    </lib-file-uploader> -->
+  
+                  </div>
+                  <div *ngIf="order.status.status === 1" style="font-size: 24px;">
+                      <a type="button" title="View Procedure Results" (click)="showResults(order)">
+                        <span class="fa fa-file-image-o fa-7x" aria-hidden="true" style="font-size: 30px;"> </span>
+                      </a>
+                    </div>
+                </td>     
+                <td>
+                    <div *ngIf="order.status.status === 0">
+                      No results
+                    </div>
+                    <div *ngIf="order.status.status === 1">
+                    {{order.status.findings | titlecase}}
+                    </div>
+                
+                  </td>
                 <td>
                   <button _ngcontent-c16="" mat-raised-button="" *ngIf="order.status.status === 1"
                     style="background:  #3c8dbc;; color: white;" class="bton " title="Edit Results" class="bton"
                     (click)="changeResults(order)">EDIT</button>
+                    <button _ngcontent-c16="" mat-raised-button=""  *ngIf="order.status.status === 0" style="background:  purple;; color: white;"
+                    class="bton " title="View Results" class="bton" (click)="enterResults(order)">Enter Results</button>
                   <button _ngcontent-c16="" mat-raised-button="" style="background:  green;; color: white;"
                     class="bton " title="View Results" class="bton" (click)="showOrder(order)">VIEW</button>
+
 
                 </td>
               </tr>
@@ -216,7 +237,7 @@
                     </div>
                   </div>
                   <button *ngIf="voidOrderButton" class="btn btn-danger pull-left" type="button"
-                    (click)="discard(selectedProc)"><span>DISCARD
+                    (click)="discard(selectedProc)"><span>VOID
                       ORDER</span></button>
                 </div>
               </div>
@@ -263,6 +284,16 @@
         </div>
 
       </div>
+      <div *ngIf="enterReportResults">
+          <label for="">Upload Results if Available</label>
+          <lib-file-uploader [(ngModel)]="dataModel"(uploadData)="uploadFile($event)" (_onClear)="clearPhoto()"><i class="fa fa-upload"></i>
+          </lib-file-uploader>
+          <div>
+              <label for="">Findings</label>
+              <input [disabled]= "!files" [(ngModel)]="imageReportFindings" type="text" class="form-control" placeholder="Enter findings">
+              <button type="submit" class="btn btn-primary pull-right" (click)="sendResults()">Save</button> <br>
+          </div>
+      </div>
       <div class="modal fade" bsModal #imageModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog"
         aria-labelledby="mySmallModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -279,12 +310,32 @@
               </button>
             </div>
             <div class="modal-body">
-              <!-- <img [src]="imageLink | secure" class="img-responsive"> -->
+                <div >
+                  <div *ngFor="let image of ObsImages  ">
+                    <div *ngIf="image.type === 'image'"><img [src]="image.image| secure" class="img-responsive"></div>
+                    <button  class="btn btn-danger pull-left" type="button"
+                      (click)="deleteResult(image.obs)"><span>VOID
+                        RESULT</span></button>
+                        <br/> <br/> <br/>
+                  </div>
+        
+                </div>
+                <div class="uploadButton ">
+                  <label for="file">Add Results</label>
+                  <lib-file-uploader (fileChanged)="onFileChangeResults($event, false, header2)"><i
+                      class="fa fa-upload"></i>
+                  </lib-file-uploader>
+        
+                </div><br /><br /><br /><br />
+        
+        
+              </div>
+            <!-- <div class="modal-body">
               <div *ngIf="imageLink">
                 <div *ngFor="let image of ObsImages  ">
                   <div *ngIf="deleteStatus"><img [src]="image.imageUrl| secure" class="img-responsive"></div>
                   <button *ngIf="deleteResultsButton" class="btn btn-danger pull-left" type="button"
-                    (click)="deleteResult(image.obs)"><span>DELETE
+                    (click)="deleteResult(image.obs)"><span>VOID
                       RESULT</span></button>
                 </div>
 
@@ -298,7 +349,7 @@
               </div><br /><br /><br /><br />
 
 
-            </div>
+            </div> -->
           </div>
           <div class="modal-footer">
 

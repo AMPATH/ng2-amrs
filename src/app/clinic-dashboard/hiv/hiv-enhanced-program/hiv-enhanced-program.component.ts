@@ -11,8 +11,11 @@ import { HivEnhancedReportService } from '../../../etl-api/hiv-enhanced-program-
 })
 export class HivEnhancedComponent implements OnInit {
 
-  public title  = 'HIV Viremia Program Reports';
+  public title = 'HIV Viremia Program Reports';
   public patientData: any;
+  public lowerVl: string;
+  public upperVl: string;
+  public viremiaFilter = 'all';
   public isLoadingPatientList = false;
   public locationUuid = '';
   public indicators;
@@ -20,29 +23,43 @@ export class HivEnhancedComponent implements OnInit {
     in_enhanced_care: false,
     not_in_enhanced_care: true,
     in_enhanced_care_vl_due: false,
-    mdt_form_completed : false
+    mdt_form_completed: false
+  };
+  public viremiaStatus = {
+    all: {
+      lowerVl: '401',
+      upperVl: ''
+    },
+    lowViremia: {
+      lowerVl: '401',
+      upperVl: '999'
+    },
+    highViremia: {
+      lowerVl: '1000',
+      upperVl: ''
+    }
   };
 
   public sectionTittle: string;
 
   private _startDate: Date = Moment().subtract(1, 'months').toDate();
   public get startDate(): Date {
-      return this._startDate;
+    return this._startDate;
   }
 
   public set startDate(v: Date) {
-      this._startDate = v;
-      this.onDateChange();
+    this._startDate = v;
+    this.onDateChange();
   }
 
   private _endDate: Date = new Date();
   public get endDate(): Date {
-      return this._endDate;
+    return this._endDate;
   }
 
   public set endDate(v: Date) {
-      this._endDate = v;
-      this.onDateChange();
+    this._endDate = v;
+    this.onDateChange();
   }
 
   constructor(
@@ -64,46 +81,60 @@ export class HivEnhancedComponent implements OnInit {
     return [
       {
         headerName: 'Phone Number',
-        field: 'phone_number',
-        cellStyle: {
-          'white-space': 'normal'
-        },
-        width: 50
+        width: 150,
+        field: 'phone_number'
       },
       {
-        headerName: 'VL',
-        field: 'vl_1',
-        cellStyle: {
-          'white-space': 'normal'
-        },
-        width: 40
+        headerName: 'Latest Appointment',
+        width: 200,
+        field: 'last_appointment'
       },
       {
-        headerName: 'VL Date',
-        field: 'vl_1_date',
-        cellStyle: {
-          'white-space': 'normal'
-        },
-        width: 50
+        headerName: 'Latest RTC Date',
+        width: 150,
+        field: 'latest_rtc_date'
       },
       {
         headerName: 'Current Regimen',
-        field: 'cur_arv_meds',
-        cellStyle: {
-          'white-space': 'normal'
-        }
+        width: 200,
+        field: 'cur_meds'
+      },
+      {
+        headerName: 'Latest VL',
+        width: 75,
+        field: 'latest_vl'
+      },
+      {
+        headerName: 'Latest VL Date',
+        width: 150,
+        field: 'latest_vl_date'
+      },
+      {
+        headerName: 'Previous VL',
+        width: 75,
+        field: 'previous_vl'
+      },
+      {
+        headerName: 'Previous VL Date',
+        width: 150,
+        field: 'previous_vl_date'
+      },
+      {
+        headerName: 'Nearest Center',
+        width: 150,
+        field: 'nearest_center'
       }
     ];
   }
 
-  public generateReport(indicator) {
+  public generateReport(indicator, lowerVl = '401', upperVl = '') {
     this.indicators = indicator;
     this.setActiveTab();
     this.patientData = [];
     this.storeReportParamsInUrl();
-    this.isLoadingPatientList =  true;
+    this.isLoadingPatientList = true;
     this.hivEnhancedReportService.getPatientList(this.toDateString(this.startDate),
-      this.toDateString(this.endDate), this.locationUuid, this.indicators).take(1).subscribe((data) => {
+      this.toDateString(this.endDate), this.locationUuid, this.indicators, lowerVl, upperVl).take(1).subscribe((data) => {
         this.patientData = this.sortData(data.results.results);
         this.isLoadingPatientList = false;
       }, (err) => {
@@ -125,22 +156,27 @@ export class HivEnhancedComponent implements OnInit {
     }
 
     if (path.queryParams['indicators']) {
-      this.indicators =  path.queryParams['indicators'];
+      this.indicators = path.queryParams['indicators'];
+    }
+
+    if (path.queryParams['viremiaFilter']) {
+      this.viremiaFilter = path.queryParams['viremiaFilter'];
     }
 
     if (pathHasHistoricalValues) {
-      this.generateReport(this.indicators);
+      this.generateReport(this.indicators, this.lowerVl, this.upperVl);
     } else {
-      this.generateReport('not_virally_suppressed_not_in_enhanced_care');
+      this.generateReport('not_virally_suppressed_not_in_enhanced_care', this.lowerVl, this.upperVl);
     }
-}
+  }
 
   public storeReportParamsInUrl() {
     const path = this.router.parseUrl(this.location.path());
     path.queryParams = {
       'startDate': this.startDate.toUTCString(),
       'endDate': this.endDate.toUTCString(),
-      'indicators': this.indicators
+      'indicators': this.indicators,
+      'viremiaFilter': this.viremiaFilter
     };
     this.location.replaceState(path.toString());
   }
@@ -168,7 +204,7 @@ export class HivEnhancedComponent implements OnInit {
   }
 
   private onDateChange() {
-    this.generateReport(this.indicators);
+    this.generateReport(this.indicators, this.lowerVl, this.upperVl);
   }
 
   private setActiveTab() {
@@ -194,8 +230,18 @@ export class HivEnhancedComponent implements OnInit {
       default:
         break;
 
-     }
+    }
 
+  }
+  public viremiaFilterChange(option) {
+    const viremiaOption = this.viremiaStatus[option];
+    if (viremiaOption) {
+      this.lowerVl = viremiaOption.lowerVl;
+      this.upperVl = viremiaOption.upperVl;
+      this.generateReport(this.indicators, this.lowerVl, this.upperVl);
+      this.viremiaFilter = option;
+      this.storeReportParamsInUrl();
+    }
   }
 
   private resetTabs() {

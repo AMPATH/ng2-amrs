@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, ViewChild } from '@angular/core';
 import { Subscription, Observable } from 'rxjs';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
@@ -15,6 +15,7 @@ import { ConceptResourceService } from 'src/app/openmrs-api/concept-resource.ser
 import { ObsResourceService } from 'src/app/openmrs-api/obs-resource.service';
 import { FeedBackService } from 'src/app/feedback/feedback.service';
 import { ProcedureOrdersService } from '../procedure-orders/procedure-orders.service';
+import { AppSettingsService } from 'src/app/app-settings/app-settings.service';
 
 
 
@@ -26,6 +27,9 @@ import { ProcedureOrdersService } from '../procedure-orders/procedure-orders.ser
 export class SurgeryReportsComponent implements OnInit {
   @Output() public fileChanged: EventEmitter<any> = new EventEmitter();
   @Input() public sentData: any;
+  imageLink = '';
+  @ViewChild('imageModal')
+  public imageModal: ModalDirective;
   public surgeryOrders = [];
   public surgeryOrdersWithResults = [];
   public surgeryData: any;
@@ -34,6 +38,7 @@ export class SurgeryReportsComponent implements OnInit {
   public showFileUploader = false;
   public surgeryOrdersWithoutResults = [];
   public selectedOrders = [];
+  public pdf = /pdf/gi;
   public selectedOrdersWithObs = [];
   public orderStatus = [];
   public reviseOrders;
@@ -70,6 +75,12 @@ export class SurgeryReportsComponent implements OnInit {
   public resultView = true;
   // public deleteResultsButton = this.procedureOrderService.checksurgeryandResultDeletingRights();
   public uploadingResults = false;
+  public pdfLinks = [];
+  public showImageModal = false;
+  public resultsIsPDF = false;
+  public imageLinks = [];
+  public imageLinksAvailable = false;
+  public imageTitle = '';
   public showDetails = false;
   public displayResultsChange = false;
   public displayEdit = false;
@@ -131,7 +142,7 @@ export class SurgeryReportsComponent implements OnInit {
   constructor(private patientService: PatientService,
     private userService: UserService,
     private feedBackService: FeedBackService,
-    private orderResourceService: OrderResourceService,
+    private appSettingsService: AppSettingsService,
     private procedureOrderService: ProcedureOrdersService,
     private encounterResourceService: EncounterResourceService,
     private userDefaultPropertiesService: UserDefaultPropertiesService,
@@ -141,13 +152,6 @@ export class SurgeryReportsComponent implements OnInit {
 
   ngOnInit() {
     this.getsurgeries();
-    this.getCurrentlyLoadedPatient();
-    this.personUuid = this.userService.getLoggedInUser().personUuid;
-    this.getProvider();
-    const currentLocation = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
-    this.location = currentLocation.display;
-    this.selectedLocation = currentLocation.uuid;
-    this.currentDate = Date.now();
   }
   public addSurgeryProcedure(show) {
     this.addOrders = show;
@@ -157,7 +161,13 @@ export class SurgeryReportsComponent implements OnInit {
     const surgeries = '	b8ad835f-d568-4588-983e-48ba432f67b5';
     this.conceptResourceService.getConceptByUuid(surgeries).subscribe((data) => {
       this.proc = data.setMembers;
-      console.log(this.proc);
+      this.getCurrentlyLoadedPatient();
+      this.personUuid = this.userService.getLoggedInUser().personUuid;
+      this.getProvider();
+      const currentLocation = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
+      this.location = currentLocation.display;
+      this.selectedLocation = currentLocation.uuid;
+      this.currentDate = Date.now();
     });
 
   }
@@ -169,7 +179,7 @@ export class SurgeryReportsComponent implements OnInit {
       mainObs: main,
       surgeryType: this.surgery,
       imageReport: '969681ad-b4cb-4d37-a32b-fd553a7aab30',
-      imageLink: '',
+      imageLink: [],
       freeText: 'a8a06fc6-1350-11df-a1f1-0026b9348838',
       freeTextValue: '',
       reportType: 'surgery report'
@@ -179,20 +189,53 @@ export class SurgeryReportsComponent implements OnInit {
   public getSummary() {
     this.surgeryData.freeTextValue = this.imageReportFindings;
     this.saveSurgeryData();
+    this.defaultView();
+    this.getPatientObs(this.patient.uuid);
   }
   public showResults(show) {
-    this.showFileUploader = show;
     this.addOrders = false;
+    this.showFileUploader = true;
+    // console.log(show);
+    // this.showModal(show);
+    // this.imageModal.show();
+    //   this.imageTitle = 'Surgery report';
+  }
+  public showModal(image) {
+    for (let i = 0; i < image.length; i++) {
+      const re = /pdf/gi;
+      if (JSON.stringify(image[i]).search(re) === -1) {
+        this.imageLinksAvailable = true;
+      } else {
+        this.resultsIsPDF = true;
+        this.pdfLinks.push(this.createPdfLink(image[i]));
+        image.splice(i, 1);
+      }
+    this.imageLinks = image;
+    this.showImageModal = true;
+  }
+  }
+  public createPdfLink(imageName) {
+    return this.appSettingsService.getEtlRestbaseurl().trim() + 'files/' + imageName;
+  }
+
+  public modalClose($event) {
+    this.showImageModal = false;
+    this.imageTitle = '';
+    this.imageLinks = [];
   }
   public saveSurgeryData() {
     this.fileChanged.emit(this.surgeryData);
-    this.getPatientObs(this.patient.uuid);
+    this.surgeryReports = [];
+    setTimeout(() => {
+      this.getPatientObs(this.patient.uuid);
+    }, 1000);
   }
   public getCurrentlyLoadedPatient() {
     this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         if (patient) {
           this.patient = patient;
+          this.surgeryReports = [];
           this.getPatientObs(this.patient.uuid);
           const amrsId = _.find(this.patient.identifiers.openmrsModel,
             (identifer: any) => {
@@ -213,15 +256,14 @@ export class SurgeryReportsComponent implements OnInit {
     });
   }
   public getPatientObs(patientUuid) {
+    this.surgeryReports = [];
     const surgeryResultsConcept = '4c057eae-f3d7-4df9-898d-8345e721370d';
     this.obsResourceService.getObsPatientObsByConcept(patientUuid, surgeryResultsConcept).subscribe((result: any) => {
-      console.log(result.results);
       this.patientObs = result.results;
       for (let index = 0; index < this.patientObs.length; index++) {
        const date = this.patientObs[index].obsDatetime;
         this.assignValue(this.patientObs[index].groupMembers, date);
       }
-      console.log( this.surgeryReports);
     },
       (error) => {
         console.error('error', error);
@@ -229,32 +271,50 @@ export class SurgeryReportsComponent implements OnInit {
 
   }
   public assignValue(data, date) {
+
       // tslint:disable-next-line:prefer-const
       let surgeryData = {
         surgeryName: '',
         date: '',
-        results: '',
+        results: [],
         findings: '',
         status: 0
       };
       surgeryData.date = date;
     for (let b = 0; b < data.length; b++) {
-      console.log( data);
-     if (data[b].concept.uuid === '969681ad-b4cb-4d37-a32b-fd553a7aab30') {
-      surgeryData.results = data[b].value;
-      console.log( surgeryData.results);
-      surgeryData.status = 1;
-     } else if (data[b].concept.uuid === 'b8ad835f-d568-4588-983e-48ba432f67b5') {
-       surgeryData.surgeryName = data[b].value;
-       console.log( surgeryData.surgeryName);
-     } else if (data[b].concept.uuid === 'a8a06fc6-1350-11df-a1f1-0026b9348838') {
-       surgeryData.findings = data[b].value;
-       console.log( surgeryData.findings);
-     } else {
-     }
-    }
-    this.surgeryReports.push(surgeryData);
-    console.log( this.surgeryReports);
+      if (data) {
+        if (data[b].concept.uuid === '969681ad-b4cb-4d37-a32b-fd553a7aab30') {
+          const valData = JSON.parse(data[b].value);
+          valData.forEach(element => {
+            const answ = element.image;
+            const dataVal = {
+              image: answ,
+              type: ''
+            };
+            if (answ.search(this.pdf) !== -1) {
+              dataVal.type = 'pdf';
+             } else {
+              dataVal.type = 'image';
+             }
+             surgeryData.results.push(dataVal);
+          });
+          surgeryData.status = 1;
+         } else if (data[b].concept.uuid === 'b8ad835f-d568-4588-983e-48ba432f67b5') {
+           surgeryData.surgeryName = data[b].value;
+         } else if (data[b].concept.uuid === 'a8a06fc6-1350-11df-a1f1-0026b9348838') {
+           surgeryData.findings = data[b].value;
+         } else {
+         }
+      }
+      }
+      this.surgeryReports.push(surgeryData);
+      surgeryData = {
+        surgeryName: '',
+        date: '',
+        results: [],
+        findings: '',
+        status: 0
+      };
   }
   public saveSurgery() {
     const surgeryPayload = this.createPayload();
@@ -304,6 +364,16 @@ export class SurgeryReportsComponent implements OnInit {
       }
     );
 
+  }
+  public defaultView() {
+    this.surgery = '';
+    this.addOrders = false;
+    this.showFileUploader = false;
+  }
+  public showReportResults(value) {
+    console.log(value, 'rsrs');
+    this.ObsImages = value.reverse();
+    this.imageModal.show();
   }
 
 }

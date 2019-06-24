@@ -8,7 +8,7 @@ import { FileUploadResourceService } from 'src/app/etl-api/file-upload-resource.
 import { ObsResourceService } from 'src/app/openmrs-api/obs-resource.service';
 import { ConceptResourceService } from 'src/app/openmrs-api/concept-resource.service';
 import { PatientService } from '../../services/patient.service';
-import { Subscription } from 'rxjs';
+import { Subscription, BehaviorSubject, Observable, forkJoin } from 'rxjs';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
 import { take } from 'rxjs/operators';
@@ -131,14 +131,16 @@ export class PatientImagingReportsComponent implements OnInit, OnDestroy {
   public onFileChange(incomingData) {
     console.log(incomingData);
     const fileData = incomingData.file;
+    const val = [];
+    const uploadBatch: Array<Observable<any>> = [];
     for (const data of fileData) {
-      this.fileUploadResourceService.upload(data).subscribe((result: any) => {
-        this.imageServerId = result.image;
-        incomingData.imageLink = this.imageServerId;
-        this.determineObsPayload(incomingData);
-        // image on ocr
-      });
+      uploadBatch.push(this.fileUploadResourceService.upload(data));
     }
+    forkJoin(uploadBatch).subscribe((value) => {
+      incomingData.imageLink = JSON.stringify(value);
+      console.log(incomingData.imageLink);
+      this.determineObsPayload(incomingData);
+    });
 
   }
 
@@ -185,10 +187,79 @@ export class PatientImagingReportsComponent implements OnInit, OnDestroy {
 
 
     } else if (data.reportType === 'imaging report') {
-      this.obsPayload.value = data.imageLink;
       this.obsPayload.order = data.orderNumber;
       this.obsPayload.concept = 'c0f0477f-0552-42e2-862f-cf924d4e21e7';
-      this.obsPayload.obsGroup = this.saveObs(this.obsPayload);
+      this.obsPayload.groupMembers = [{
+        concept: 'bce26e1c-c65e-443a-b65f-118f699e1bd0',
+        value:  data.imageLink,
+        obsDatetime: this.toDateString(new Date()),
+        encounter: 'a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7',
+        location: this.selectedLocation,
+        person: this.patient.uuid,
+      },
+      {
+        concept: data.concept,
+        value: data.findings,
+        obsDatetime: this.toDateString(new Date()),
+        encounter: 'a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7',
+        location: this.selectedLocation,
+        person: this.patient.uuid,
+      },
+    ];
+      this.saveObs(this.obsPayload);
+    } else if (data.reportType === 'procedure report') {
+      this.obsPayload.order = data.orderNumber;
+      this.obsPayload.concept = 'acf1eda7-7c5e-41c5-94b7-22a57fd34eb2';
+      this.obsPayload.groupMembers = [{
+        concept: 'bce26e1c-c65e-443a-b65f-118f699e1bd0',
+        value:  data.imageLink,
+        obsDatetime: this.toDateString(new Date()),
+        encounter: 'a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7',
+        location: this.selectedLocation,
+        person: this.patient.uuid,
+      },
+      {
+        concept: 'a8a06fc6-1350-11df-a1f1-0026b9348838',
+        value: data.findings,
+        obsDatetime: this.toDateString(new Date()),
+        encounter: 'a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7',
+        location: this.selectedLocation,
+        person: this.patient.uuid,
+      },
+    ];
+      this.saveObs(this.obsPayload);
+    } else if (data.reportType === 'histology report') {
+      // save parent obs and get obsgroup id
+      delete this.obsPayload.order;
+      this.obsPayload.concept = 'c9de2d83-9e57-4856-b280-f458263ba1a7';
+      this.obsPayload.groupMembers = [{
+        concept: '9bb0a7aa-fde1-4ce6-9b36-30c311359454',
+        value: data.histologyType,
+        obsDatetime: this.toDateString(new Date()),
+        encounter: 'a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7',
+        location: this.selectedLocation,
+        person: this.patient.uuid,
+      },
+      {
+        concept: data.imageReport,
+        value: data.imageLink,
+        obsDatetime: this.toDateString(new Date()),
+        encounter: 'a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7',
+        location: this.selectedLocation,
+        person: this.patient.uuid,
+      },
+      {
+        concept: data.freeText,
+        value: data.freeTextValue,
+        obsDatetime: this.toDateString(new Date()),
+        encounter: 'a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7',
+        location: this.selectedLocation,
+        person: this.patient.uuid,
+      },
+    ];
+      this.saveObs(this.obsPayload);
+
+
     }
     // this.displaySuccessAlert();
   }

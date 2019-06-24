@@ -1,12 +1,12 @@
 <p-tabView>
   <p-tabPanel header="Histopathology Reports">
-    <app-histology-reports></app-histology-reports>
+    <app-histology-reports (fileChanged)="onFileChange($event)"></app-histology-reports>
    </p-tabPanel>
   <p-tabPanel header="Procedure&Test Orders">
-    <app-procedure-orders [sentData]="sharedData"></app-procedure-orders>
+    <app-procedure-orders *ngIf="sharedData.orders" [sentData]="sharedData" (fileChanged)="onFileChange($event)"></app-procedure-orders>
   </p-tabPanel>
   <p-tabPanel header="Radiology Reports">
-    <app-imaging-reports [sentData]="sharedData" (fileChanged)="uploadFile($event)"></app-imaging-reports>
+    <app-imaging-reports [sentData]="sharedData" (fileChanged)="onFileChange($event)"></app-imaging-reports>
   </p-tabPanel>
   <p-tabPanel header="Surgery Reports">
     <app-surgery-reports (fileChanged)="onFileChange($event)"></app-surgery-reports>
