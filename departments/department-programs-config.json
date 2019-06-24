@@ -46,11 +46,6 @@
 
             },
             {
-                "uuid":"c37ca57d-5f7e-41e3-93e0-2cd6cd01de91",
-                "name": "HIV COMMUNITY BASED CARE RESEARCH PROGRAM"
-
-            },
-            {
                 "uuid":"4480c782-ef05-4d88-b2f8-c892c99438f6",
                 "name": "ACTG PROGRAM"
 
@@ -63,10 +58,6 @@
             {
                 "uuid":"781d8768-1359-11df-a1f1-0026b9348838",
                 "name": "OVC PROGRAM"
-            },
-            {
-                "uuid":"0904172d-0b6a-40df-b8a2-b3653d16dc45",
-                "name": "TURBO DIFFERENTIATED CARE PILOT PROGRAM"
             },
             {
                 "uuid":"6ff0a6dc-ef8f-467a-86fc-9d9b263d8761",
