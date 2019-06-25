@@ -678,6 +678,11 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
   }
 
   public setUserDefaultLocation() {
+    const retroLocation = localStorage.getItem('retroLocation');
+    if (retroLocation) {
+      this.selectedLocation = JSON.parse(retroLocation);
+      return;
+    }
     const location: any = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
     if (location) {
       this.selectedLocation = {
