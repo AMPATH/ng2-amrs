@@ -12,13 +12,10 @@ import {
   DropdownModule, ButtonModule, CalendarModule
 } from 'primeng/primeng';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
-import { Angulartics2Module } from 'angulartics2';
 import { FormEntryModule } from 'ngx-openmrs-formentry';
 import { AgGridModule } from 'ag-grid-angular/main';
 import { NgxFileUploaderModule } from 'ngx-file-uploader';
 import { DateTimePickerModule } from 'ngx-openmrs-formentry';
-import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
-import { Router } from '@angular/router';
 
 
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
