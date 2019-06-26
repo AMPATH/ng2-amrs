@@ -5,6 +5,7 @@ import { AuthenticationService } from '../openmrs-api/authentication.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { CookieService } from 'ngx-cookie';
+import { assetUrl } from 'src/single-spa/public-path'
 
 @Component({
   selector: 'app-settings',
@@ -22,6 +23,7 @@ export class AppSettingsComponent implements OnInit {
   public cookieKey = 'formDebug';
   public cookieVal: string;
   public hideFields: boolean;
+  public logoSrc: string = assetUrl('img/ampath.png');
 
   constructor(private router: Router,
     private appSettingsService: AppSettingsService,
