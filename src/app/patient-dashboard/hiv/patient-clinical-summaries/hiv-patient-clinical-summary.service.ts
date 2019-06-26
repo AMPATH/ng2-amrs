@@ -8,6 +8,7 @@ declare let pdfMake: any;
 declare let $: any;
 import { VERSION } from '../../../../environments/version';
 import { first } from 'rxjs/operators';
+import { assetUrl } from 'src/single-spa/public-path';
 export class HivPatientClinicalSummaryService {
   public static data: object = null;
 
@@ -15,7 +16,7 @@ export class HivPatientClinicalSummaryService {
     return Observable.create((observer: Subject<any>) => {
       const data: any = this.data;
       const patient: Patient = data.patient;
-      this._getLogo('./assets/img/ampath.png', (letterHead) => {
+      this._getLogo(assetUrl('img/ampath.png'), (letterHead) => {
         observer.next({
           pageSize: 'LETTER',
           pageMargins: 42,

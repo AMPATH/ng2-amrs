@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
 import { LocalStorageService } from '../../../utils/local-storage.service';
 import { HttpClient } from '@angular/common/http';
+import { assetUrl } from 'src/single-spa/public-path';
 @Injectable()
 export class FormOrderMetaDataService {
     private formsOrder = new ReplaySubject(1);
@@ -10,7 +11,7 @@ export class FormOrderMetaDataService {
     public getDefaultFormOrder(forceRefresh?: boolean) {
         if (!this.formsOrder.observers.length || forceRefresh) {
             this.http.get(
-                './assets/schemas/form-order.json'
+                assetUrl('schemas/form-order.json')
             )
                 .subscribe(
                 (data) => {console.log(data); this.formsOrder.next(data); },

@@ -75,6 +75,7 @@ import { SelectDepartmentService } from './services/select-department.service';
 import { RisonService } from './services/rison-service';
 import { KibanaVizHostComponent } from './kibana-viz-host/kibana-viz-host.component';
 import { KibanaVizComponent } from './kibana-viz/kibana-viz.component';
+import { AssetUrlPipe } from './pipes/asset-url.pipe';
 
 @NgModule({
   imports: [
@@ -128,17 +129,19 @@ import { KibanaVizComponent } from './kibana-viz/kibana-viz.component';
     OpenmrsApi, EtlApi, Ng2Bs3ModalModule, ModalModule, BsDropdownModule, TooltipModule,
     LocationFilterComponent, Angulartics2Module, MatSnackBarModule, MatTabsModule, ReactiveFormsModule,
     MatProgressBarModule, MatProgressSpinnerModule, MatSlideToggleModule, NgxPaginationModule, MatButtonModule,
-    CdmProgramSnapshotComponent, MatRadioModule, FormsModule, MatMenuModule, MatIconModule, MatExpansionModule, MatTooltipModule],
+    CdmProgramSnapshotComponent, MatRadioModule, FormsModule, MatMenuModule, MatIconModule, MatExpansionModule, MatTooltipModule,
+    AssetUrlPipe
+  ],
   declarations: [
     DisplayErrorComponent, StringToDatePipe, ZeroVlPipe, Ng2FilterPipe, HivProgramSnapshotComponent,
     FormListComponent, ReportFiltersComponent,
     OnlineTrackerComponent, AppModalComponent, KibanaVizHostComponent ,  KibanaVizComponent ,
     BuildVersionComponent, DateSelectorComponent,
     PatientEncounterObservationsComponent, PrettyEncounterViewerComponent,
-    CdmProgramSnapshotComponent
+    CdmProgramSnapshotComponent, AssetUrlPipe,
   ],
   providers: [Ng2FilterPipe, StringToDatePipe, ZeroVlPipe, RoutesProviderService,
-    HivSummaryService, RisonService, SelectDepartmentService,
+    AssetUrlPipe, HivSummaryService, RisonService, SelectDepartmentService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: PocHttpInteceptor,

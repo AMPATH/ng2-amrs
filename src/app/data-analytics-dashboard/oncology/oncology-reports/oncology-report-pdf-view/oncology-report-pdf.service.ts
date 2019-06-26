@@ -12,6 +12,7 @@ import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 
 import { VERSION } from 'src/environments/version';
 import * as OncologyReportConfig from '../oncology-pdf-reports.json';
+import { assetUrl } from 'src/single-spa/public-path.js';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,7 @@ export class OncologyReportPdfService {
 
   public constructPdfStructure(data: Array<any>, params: any, title: String): Observable<any> {
     return Observable.create((observer: Subject<any>) => {
-      this.getLogo('./assets/img/ampath.png', (letterHead) => {
+      this.getLogo(assetUrl('img/ampath.png'), (letterHead) => {
         observer.next({
           pageSize: 'LETTER',
           pageMargins: 42,
@@ -110,7 +111,7 @@ export class OncologyReportPdfService {
     const aggregatedData = this.aggregateData(data, params);
     this.constructAggregateOuterLayout(data, params);
     return Observable.create((observer: Subject<any>) => {
-      this.getLogo('./assets/img/ampath.png', (letterHead) => {
+      this.getLogo(assetUrl('img/ampath.png'), (letterHead) => {
         observer.next({
           pageSize: 'LETTER',
           pageMargins: 42,

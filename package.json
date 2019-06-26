@@ -97,6 +97,7 @@
     "rxjs-compat": "^6.2.2",
     "save": "^2.3.2",
     "semver": "^5.3.0",
+    "single-spa-angular": "^3.0.0-beta.25",
     "slimscroll": "^0.9.1",
     "tether": "^1.4.0",
     "uglify-es": "^3.3.9",
