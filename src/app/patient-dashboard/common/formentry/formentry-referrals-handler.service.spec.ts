@@ -15,7 +15,7 @@ import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
 import { DataCacheService } from '../../../shared/services/data-cache.service';
 import { DifferentiatedCareReferralService } from '../patient-referrals/differentiated-care-referral.service';
 import { FormentryReferralsHandlerService } from './formentry-referrals-handler.service';
-import { OncologyReferralService } from '../patient-referrals/oncology-referral.service';
+import { ProgramReferralService } from '../patient-referrals/program-referral.service';
 import { PatientProgramResourceService } from '../../../etl-api/patient-program-resource.service';
 import { PatientReferralService } from '../../../program-manager/patient-referral-service';
 import { ProgramService } from '../../programs/program.service';
@@ -60,7 +60,7 @@ describe('Service: FormentryReferralsHandler', () => {
   const getCurrentUserDefaultLocationObjectSpy = userDefaultPropertiesServiceSpy.getCurrentUserDefaultLocationObject.and.returnValue(
     { display: 'Test Location', uuid: 'test-location-uuid' }
   );
-  const oncServiceSpy = jasmine.createSpyObj('OncologyReferralService', ['referPatient']);
+  const oncServiceSpy = jasmine.createSpyObj('ProgramReferralService', ['referPatient']);
   const referPatientSpy = oncServiceSpy.referPatient.and.returnValue(new BehaviorSubject<any>(testResults));
 
   beforeEach(() => {
@@ -74,7 +74,7 @@ describe('Service: FormentryReferralsHandler', () => {
         },
         DataCacheService,
         FormentryReferralsHandlerService,
-        OncologyReferralService,
+        ProgramReferralService,
         PatientProgramResourceService,
         PatientReferralService,
         PatientReferralResourceService,
@@ -84,7 +84,7 @@ describe('Service: FormentryReferralsHandler', () => {
         ProgramWorkFlowResourceService,
         ProgramWorkFlowStateResourceService,
         {
-          provide: OncologyReferralService, useValue: oncServiceSpy
+          provide: ProgramReferralService, useValue: oncServiceSpy
         },
         {
           provide: UserDefaultPropertiesService, useValue: userDefaultPropertiesServiceSpy
@@ -204,7 +204,7 @@ describe('Service: FormentryReferralsHandler', () => {
     }
   );
 
-  it('should effect an oncology referral when handleOncologyReferral is invoked', () => {
+  it('should effect a referral when handleReferral is invoked', () => {
     console.log('Inside formentry-referrals.handler.service.spec');
     const testReferralData = {
       programUuid: 'active-program-uuid',
@@ -247,7 +247,7 @@ describe('Service: FormentryReferralsHandler', () => {
       ]
     };
 
-    service.handleOncologyReferral(testPatient, testReferralData)
+    service.handleProgramReferral(testPatient, testReferralData)
       .subscribe(
         (results) => {
           expect(referPatientSpy).toHaveBeenCalledTimes(1);

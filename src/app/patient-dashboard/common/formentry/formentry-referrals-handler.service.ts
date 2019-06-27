@@ -5,7 +5,7 @@ import { take } from 'rxjs/operators';
 import { Form } from 'ngx-openmrs-formentry/dist/ngx-formentry';
 
 import { DifferentiatedCareReferralService } from '../patient-referrals/differentiated-care-referral.service';
-import { OncologyReferralService } from '../patient-referrals/oncology-referral.service';
+import { ProgramReferralService } from '../patient-referrals/program-referral.service';
 import { Patient } from '../../../models/patient.model';
 
 @Injectable()
@@ -14,7 +14,7 @@ export class FormentryReferralsHandlerService {
 
   constructor(
     public diffCareReferralService: DifferentiatedCareReferralService,
-    public oncologyReferralService: OncologyReferralService) { }
+    public programReferralService: ProgramReferralService) { }
 
   public handleFormReferals(patient: Patient, form: Form): Observable<any> {
     const values = this.extractRequiredValues(form);
@@ -46,8 +46,8 @@ export class FormentryReferralsHandlerService {
     return subject.asObservable();
   }
 
-  public handleOncologyReferral(patient: Patient, referralData: any) {
-    return this.oncologyReferralService.referPatient(patient, referralData);
+  public handleProgramReferral(patient: Patient, referralData: any) {
+    return this.programReferralService.referPatient(patient, referralData);
   }
 
   public handleDifferentiatedCareReferal(patient: Patient, values: {
@@ -57,8 +57,7 @@ export class FormentryReferralsHandlerService {
     'providerUuid': string,
     'locationUuid': string
   }): Observable<any> {
-    return this.diffCareReferralService
-      .referToDifferentiatedCare(patient, values.providerUuid,
+    return this.diffCareReferralService.referToDifferentiatedCare(patient, values.providerUuid,
       values.encounterDatetime, values.rtcDate, values.locationUuid);
   }
   public extractRequiredValues(form: Form): {

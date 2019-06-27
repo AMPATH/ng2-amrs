@@ -35,7 +35,7 @@ export class ProgramResourceService {
   // get proggram incompatibilities
 
   public getProgramsIncompatibilities() {
-       return this.http.get('../patient-dashboard/programs/programs.json');
+    return this.http.get('../patient-dashboard/programs/programs.json');
   }
 
   public getProgramByUuid(uuid: string) {

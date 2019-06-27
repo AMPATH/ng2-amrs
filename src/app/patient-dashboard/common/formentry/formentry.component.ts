@@ -1,43 +1,41 @@
-
-import { take, map } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { forkJoin, Observable, Subject, Subscription, BehaviorSubject, of, interval } from 'rxjs';
-import { flatMap, first } from 'rxjs/operators';
-import * as moment from 'moment';
+
 import * as _ from 'lodash';
+import * as moment from 'moment';
 import { format } from 'date-fns';
+import { take, map } from 'rxjs/operators';
+import { flatMap, first } from 'rxjs/operators';
+import { forkJoin, Observable, Subject, Subscription, BehaviorSubject, of, interval } from 'rxjs';
+
+import { DataSources } from 'ngx-openmrs-formentry/dist/ngx-formentry';
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
+import { ConceptResourceService } from '../../../openmrs-api/concept-resource.service';
+import { ConfirmationService } from 'primeng/primeng';
 import { DraftedFormsService } from './drafted-forms.service';
 import {
   FormFactory, EncounterAdapter, Form, PersonAttribuAdapter,
   HistoricalEncounterDataService
 } from 'ngx-openmrs-formentry/dist/ngx-formentry';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
-import { FormSubmissionService } from './form-submission.service';
-import { PatientService } from '../../services/patient.service';
-import { FormDataSourceService } from './form-data-source.service';
-import { DataSources } from 'ngx-openmrs-formentry/dist/ngx-formentry';
-import { Patient } from '../../../models/patient.model';
 import { FileUploadResourceService } from '../../../etl-api/file-upload-resource.service';
-import { PatientReminderResourceService } from '../../../etl-api/patient-reminder-resource.service';
-import { ConfirmationService } from 'primeng/primeng';
 import { FormentryHelperService } from './formentry-helper.service';
-import { UserService } from '../../../openmrs-api/user.service';
-import {
-  UserDefaultPropertiesService
-} from '../../../user-default-properties/user-default-properties.service';
+import { FormentryReferralsHandlerService } from './formentry-referrals-handler.service';
+import { FormDataSourceService } from './form-data-source.service';
+import { FormSubmissionService } from './form-submission.service';
 import {
   MonthlyScheduleResourceService
 } from '../../../etl-api/monthly-scheduled-resource.service';
-import { PatientReminderService } from '../patient-reminders/patient-reminders.service';
-import { FormentryReferralsHandlerService } from './formentry-referrals-handler.service';
-
-import { ConceptResourceService } from '../../../openmrs-api/concept-resource.service';
+import { Patient } from '../../../models/patient.model';
+import { PatientService } from '../../services/patient.service';
+import { PersonResourceService } from '../../../openmrs-api/person-resource.service';
 import {
   RetrospectiveDataEntryService
 } from '../../../retrospective-data-entry/services/retrospective-data-entry.service';
-import { PersonResourceService } from '../../../openmrs-api/person-resource.service';
+import {
+  UserDefaultPropertiesService
+} from '../../../user-default-properties/user-default-properties.service';
+import { UserService } from '../../../openmrs-api/user.service';
 
 @Component({
   selector: 'app-formentry',
@@ -45,76 +43,78 @@ import { PersonResourceService } from '../../../openmrs-api/person-resource.serv
   styleUrls: ['./formentry.component.css']
 })
 export class FormentryComponent implements OnInit, OnDestroy {
-
-  public counter: number;
+  public activeProgram: string;
   public busyIndicator: any = {
     busy: true,
     message: 'Please wait...' // default message
   };
-  public formName = '';
-  public preserveFormAsDraft = true;
+  public cdmReferralFormUuid = 'd70566bb-436e-4fe3-828d-1793258ba60e';
+  public oncologyReferralFormUuid = '696086df-8299-419e-b434-cb2403248207';
+  public counter: number;
+  public diffCareReferralStatus: any = undefined;
+  public encounterLocation: any;
+  public enrollToGroup = false;
+  public enrollToDC = false;
   public form: Form;
-  public formSubmissionErrors: Array<any> = null;
+  public formName = '';
   public formRenderingErrors: Array<any> = [];
-  public referralPrograms: string[] = [];
+  public formSubmissionErrors: Array<any> = null;
+  public formUuid: string;
+  public isGroupVisit = false;
+  public isOncologyReferral = false;
+  public isReferral: boolean;
+  public patient: Patient = null;
+  public preserveFormAsDraft = true;
+  public programClass: string;
+  public programEncounter: string = null;
+  public referralCompleteStatus: BehaviorSubject<boolean> = new BehaviorSubject(null);
+  public referralEncounterType: string;
+  public referralStatus: any;
   public showSuccessDialog = false;
   public showReferralDialog = false;
   public showProcessReferralsDialog;
-  public referralCompleteStatus: BehaviorSubject<boolean> = new BehaviorSubject(null);
-  public patient: Patient = null;
+  public step: number;
   public submitClicked = false;
+  public submittedEncounter: any;
   public submittedOrders: any = {
     encounterUuid: null,
     orders: []
   };
-  public submittedEncounter: any;
-  public referralStatus: any;
-  public diffCareReferralStatus: any = undefined;
-  public programEncounter: string = null;
-  public step: number;
-  public referralEncounterType: string;
-  public encounterLocation: any;
-  private subscription: Subscription;
-  private encounterUuid: string = null;
+
+  private compiledSchemaWithEncounter: any = null;
   private encounter: any = null;
+  private encounterUuid: string = null;
+  private failedPayloadTypes: Array<string> = null;
+  private groupUuid;
+  private previousEncounters = [];
+  private submitDuplicate = false;
+  private subscription: Subscription;
   private visitUuid: string = null;
   private visitTypeUuid: string = null;
-  private failedPayloadTypes: Array<string> = null;
-  private compiledSchemaWithEncounter: any = null;
-  private submitDuplicate = false;
-  private previousEncounters = [];
-  private groupUuid;
-  public isGroupVisit = false;
-  public enrollToGroup = false;
-  public enrollToDC = false;
-  public activeProgram: string;
-  public formUuid: string;
-  public isOncologyReferral = false;
-  public oncologyReferral: boolean;
 
-  constructor(private appFeatureAnalytics: AppFeatureAnalytics,
+  constructor(
+    private appFeatureAnalytics: AppFeatureAnalytics,
     private route: ActivatedRoute,
+    private conceptResourceService: ConceptResourceService,
+    private confirmationService: ConfirmationService,
+    private dataSources: DataSources,
+    private draftedFormsService: DraftedFormsService,
+    private encounterAdapter: EncounterAdapter,
     private formFactory: FormFactory,
     private encounterResource: EncounterResourceService,
-    private encounterAdapter: EncounterAdapter,
-    private retrospectiveDataEntryService: RetrospectiveDataEntryService,
-    private userDefaultPropertiesService: UserDefaultPropertiesService,
-    private userService: UserService,
-    private formSubmissionService: FormSubmissionService,
-    private router: Router,
-    private patientService: PatientService,
-    private formDataSourceService: FormDataSourceService,
-    private personAttribuAdapter: PersonAttribuAdapter,
-    private dataSources: DataSources,
-    private monthlyScheduleResourceService: MonthlyScheduleResourceService,
-    private draftedFormsService: DraftedFormsService,
     private fileUploadResourceService: FileUploadResourceService,
-    private conceptResourceService: ConceptResourceService,
-    private referralsHandler: FormentryReferralsHandlerService,
     private formentryHelperService: FormentryHelperService,
-    private patientReminderService: PatientReminderService,
-    private confirmationService: ConfirmationService,
-    private personResourceService: PersonResourceService) {
+    private referralsHandler: FormentryReferralsHandlerService,
+    private formDataSourceService: FormDataSourceService,
+    private formSubmissionService: FormSubmissionService,
+    private monthlyScheduleResourceService: MonthlyScheduleResourceService,
+    private patientService: PatientService,
+    private personAttribuAdapter: PersonAttribuAdapter,
+    private personResourceService: PersonResourceService,
+    private retrospectiveDataEntryService: RetrospectiveDataEntryService,
+    private router: Router,
+    private userService: UserService,
+    private userDefaultPropertiesService: UserDefaultPropertiesService) {
   }
 
   public ngOnInit() {
@@ -126,17 +126,18 @@ export class FormentryComponent implements OnInit, OnDestroy {
       if (routeParams) {
         this.activeProgram = routeParams.program;
         this.formUuid = routeParams['formUuid'];
+        this.programClass = routeParams['programClass'];
 
         // get visitUuid & encounterUuid then load form
         this.route.queryParams.subscribe((params) => {
-          componentRef.visitUuid = params['visitUuid'];
-          componentRef.visitTypeUuid = params['visitTypeUuid'];
           componentRef.encounterUuid = params['encounter'];
-          componentRef.programEncounter = params['programEncounter'];
-          componentRef.oncologyReferral = params['oncologyReferral'];
-          componentRef.step = params['step'] ? parseInt(params['step'], 10) : null;
-          componentRef.referralEncounterType = params['referralEncounterType'];
           componentRef.groupUuid = params['groupUuid'];
+          componentRef.isReferral = params['isReferral'];
+          componentRef.programEncounter = params['programEncounter'];
+          componentRef.referralEncounterType = params['referralEncounterType'];
+          componentRef.step = params['step'] ? parseInt(params['step'], 10) : null;
+          componentRef.visitTypeUuid = params['visitTypeUuid'];
+          componentRef.visitUuid = params['visitUuid'];
           if (componentRef.draftedFormsService.lastDraftedForm !== null &&
             componentRef.draftedFormsService.lastDraftedForm !== undefined &&
             componentRef.draftedFormsService.loadDraftOnNextFormLoad) {
@@ -279,14 +280,15 @@ export class FormentryComponent implements OnInit, OnDestroy {
         this.router.navigate(['/patient-dashboard/patient/' +
           this.patient.uuid + '/general/general/program-manager/new-program', 'step', 3]);
         break;
-      case 'oncologyReferral':
+      case 'programReferral':
         this.preserveFormAsDraft = false;
         this.referralStatus = null;
         this.showSuccessDialog = false;
-        this.toggleOncologyReferral();
+        this.toggleReferral();
         this.router.navigate(['/patient-dashboard/patient/' +
-          this.patient.uuid + '/oncology/' + this.activeProgram + '/formentry/696086df-8299-419e-b434-cb2403248207'],
-          { queryParams: { oncologyReferral: true } });
+          this.patient.uuid + `/${this.programClass}/` + this.activeProgram + '/formentry',
+          (this.programClass === 'cdm' ? this.cdmReferralFormUuid : this.oncologyReferralFormUuid)],
+          { queryParams: { isReferral: true } });
         break;
       case 'patientSearch':
         this.preserveFormAsDraft = false;
@@ -306,7 +308,6 @@ export class FormentryComponent implements OnInit, OnDestroy {
       default:
         console.error('unknown path');
     }
-
   }
 
   public setCurrentFormDraftedForm() {
@@ -359,52 +360,56 @@ export class FormentryComponent implements OnInit, OnDestroy {
   }
 
   public shouldShowPatientReferralsDialog(data: any): void {
-    // if the user does not fill in a field with the id `patientReferral` or `referralLocation`, this dialog should NOT be displayed
-    // conversely, if the user fills in a field with the id `patientReferral` or `referralLocation`, the dialog should be displayed
     this.submittedEncounter = data;
-
-    const referralQuestion = this.form.searchNodeByQuestionId('patientReferral');
+    // Check if referral location question was answered in the form (question id is `referralLocation`)
     const referralLocation = this.form.searchNodeByQuestionId('referralLocation');
-
-    if (referralQuestion.length > 0 && _.isNil(this.programEncounter)) {
-      // show referrals dialog
+    if (referralLocation.length > 0 && _.first(referralLocation).control.value) {
       const referralData = { submittedEncounter: data };
-      const referralPrograms = this.form.searchNodeByQuestionId('referralsOrdered');
-      if (referralPrograms.length > 0) {
-        const answer = _.first(referralPrograms).control.value;
-        this.searchReferralConcepts(answer).pipe(take(1)).subscribe((concepts) => {
-          this.referralPrograms = _.filter(this.patient.enrolledPrograms, (program: any) => {
-            return _.includes(_.map(concepts, 'uuid'), program.concept.uuid);
-          });
-          if (this.referralPrograms.length > 0) {
-            _.extend(referralData, {
-              isReferral: true,
-              selectedProgram: _.first(this.referralPrograms)
-            });
-            this.referralStatus = referralData;
-          }
-        });
-      }
-    } else if (referralLocation.length > 0 && referralLocation[0].control.value && _.isNil(this.programEncounter)) {
-      // show referrals dialog; this is an oncology referral
-      const referralData = { submittedEncounter: data };
-      localStorage.setItem('referralLocation', _.first(referralLocation).control.value);
-      localStorage.setItem('referralVisitEncounter', JSON.stringify(data));
-
-      if (this.referralPrograms) {
+      // Check if the `Is this patient a referral` question was answered in the form (id `patientReferral`)
+      const referralQuestion = this.form.searchNodeByQuestionId('patientReferral');
+      if (referralQuestion.length > 0 && _.isNil(this.programEncounter)) {
+        // This is a CDM referral
+        const referralsOrdered = this.form.searchNodeByQuestionId('referralsOrdered');
+        if (referralsOrdered.length > 0) {
+          const answer = _.first(referralsOrdered).control.value;
+          this.searchReferralConcepts(answer).pipe(take(1)).subscribe(
+            (concepts) => {
+              const referralPrograms = _.filter(this.patient.enrolledPrograms, (program: any) => {
+                return _.includes(_.map(concepts, 'uuid'), program.concept.uuid);
+              });
+              if (referralPrograms.length > 0) {
+                _.extend(referralData, {
+                  isReferral: true,
+                  referralLocation: _.first(referralLocation).control.value,
+                  selectedProgram: _.first(referralPrograms)
+                });
+                this.referralStatus = referralData;
+                localStorage.setItem('referralProgram', _.first(referralPrograms).programUuid);
+                localStorage.setItem('referralLocation', _.first(referralLocation).control.value);
+                localStorage.setItem('referralVisitEncounter', JSON.stringify(data));
+              }
+            }
+          );
+        }
+      } else {
+        // This is a HEMATO-ONCOLOGY referral
         _.extend(referralData, {
           isReferral: true,
+          referralLocation: _.first(referralLocation).control.value,
           selectedProgram: this.activeProgram
         });
-        this.isOncologyReferral = true;
         this.referralStatus = referralData;
+        localStorage.setItem('referralProgram', this.activeProgram);
+        localStorage.setItem('referralLocation', _.first(referralLocation).control.value);
+        localStorage.setItem('referralVisitEncounter', JSON.stringify(data));
       }
     } else {
-      // do not show referrals dialog; this is not a referral
+      // This is not a referral
       this.referralCompleteStatus.next(false);
     }
   }
 
+    // // }
   public updatePatientDemographics(data: any): void {
     // check if patient status was filled
 
@@ -949,7 +954,6 @@ export class FormentryComponent implements OnInit, OnDestroy {
   }
 
   private enableSubmitBtn() {
-
     const submitBtn = document.getElementById('formentry-submit-btn');
 
     if (typeof submitBtn === 'undefined' || submitBtn === null) {
@@ -998,6 +1002,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
       }
     });
   }
+
   private handleFormSubmissionErrors(error: any): void {
     this.formSubmissionErrors = error.errorMessages;
     this.failedPayloadTypes = error.payloadType;
@@ -1019,22 +1024,25 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
   private handleFormReferrals(data: any) {
     this.shouldShowPatientReferralsDialog(data);
-    if (this.oncologyReferral) {
-      this.referralsHandler.handleOncologyReferral(this.patient,
-        {
-          submittedEncounter: this.submittedEncounter,
-          programUuid: this.activeProgram
-        }
-      ).subscribe(
+    if (this.isReferral) {
+      const referralProgram = localStorage.getItem('referralProgram');
+      const referralInfo = {
+        programUuid: referralProgram,
+        submittedEncounter: this.submittedEncounter
+      };
+      this.referralsHandler.handleProgramReferral(this.patient, referralInfo).subscribe(
         (result) => {
           this.referralCompleteStatus.next(true);
         },
         (error) => {
-          console.error('An error occured handling the oncology referral: ', error);
+          if (error.error && error.error.message && error.error.message.match(/Duplicate record exists/)) {
+            console.error('It looks like you\'ve already referred this patient to the specified location');
+          } else {
+            console.error('An error occured handling the referral: ', error);
+          }
         });
     }
     this.referralCompleteStatus.pipe(take(1)).subscribe((success) => {
-
       const referralsData = this.referralsHandler.extractRequiredValues(this.form);
       this.diffCareReferralStatus = undefined;
 
@@ -1085,8 +1093,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
     }
   }
 
-  public toggleOncologyReferral() {
-    this.isOncologyReferral = !this.isOncologyReferral;
+  public toggleReferral() {
+    this.isReferral = !this.isReferral;
   }
 
   public toggleEnrollToGroup() {

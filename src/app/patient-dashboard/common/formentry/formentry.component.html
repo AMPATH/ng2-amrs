@@ -96,19 +96,16 @@
         group enrollment page.
       </div>
     </div>
-    <div *ngIf="referralStatus && !isOncologyReferral">
+    <div *ngIf="referralStatus && referralStatus.isReferral">
       <program-referral-status [status]="referralStatus"></program-referral-status>
-    </div>
-    <div *ngIf="referralStatus && isOncologyReferral">
-      <oncology-referral-status [status]="referralStatus"></oncology-referral-status>
     </div>
     <div class="ui-dialog-buttonpane ui-helper-clearfix" style="padding: 0;margin-right: -0.4em;">
       <button *ngIf="step" (click)="navigateTo('programManager')" type="button" pButton icon="fa-file"
         label="Back to Program Manager"></button>
-      <button *ngIf="referralStatus && isOncologyReferral" (click)="navigateTo('oncologyReferral')"
+      <button *ngIf="referralStatus && referralStatus.isReferral" (click)="navigateTo('programReferral')"
         class="btn btn-primary" type="button">Complete Referral</button>
-      <button *ngIf="referralStatus && !isOncologyReferral" (click)="navigateTo('programManagerReferral')"
-        class="btn btn-primary" type="button">Complete Referral</button>
+      <!-- <button *ngIf="referralStatus && !programReferral" (click)="navigateTo('programManagerReferral')"
+        class="btn btn-primary" type="button">Complete Referral</button> -->
       <button *ngIf="referralStatus" (click)="onAbortingReferral($event)" type="button"
         class="btn btn-danger">Cancel</button>
       <button *ngIf="!referralStatus && !step" (click)="navigateTo('patientDashboard')" type="button"
