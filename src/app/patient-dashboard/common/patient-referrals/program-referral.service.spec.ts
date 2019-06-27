@@ -324,17 +324,4 @@ describe('Service: ProgramReferralService', () => {
     expect(enrollmentPayload.referredFromLocation).toEqual(testCurrentUserDefaultLocationObject.uuid);
     expect(enrollmentPayload.submittedEncounter).toEqual(testReferralInfo.referralVisitEncounter);
   });
-
-  xit('should return the observable result of fetching program visit configs', (done: DoneFn) => {
-    patientProgramResourceService.getPatientProgramVisitConfigs.and.returnValue(of(testProgramVisitConfigs));
-    service.getProgramVisitConfigs(testPatient, testReferralData.programUuid)
-      .subscribe(programConfig => {
-        console.log('programConfig: ', programConfig);
-        expect(programConfig).toEqual(programVisitConfigs[testReferralData.programUuid]);
-        done();
-      }, err => {
-        fail('Expected program visit config object, not an error');
-      }
-    );
-  });
 });

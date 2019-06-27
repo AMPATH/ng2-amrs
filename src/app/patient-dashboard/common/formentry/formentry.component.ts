@@ -1025,6 +1025,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
   private handleFormReferrals(data: any) {
     this.shouldShowPatientReferralsDialog(data);
     if (this.isReferral) {
+      console.log('This is a referral');
       const referralProgram = localStorage.getItem('referralProgram');
       const referralInfo = {
         programUuid: referralProgram,
@@ -1032,6 +1033,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
       };
       this.referralsHandler.handleProgramReferral(this.patient, referralInfo).subscribe(
         (result) => {
+          console.log('Referral nearing completion');
           this.referralCompleteStatus.next(true);
         },
         (error) => {

@@ -2,13 +2,12 @@ import { Injectable } from '@angular/core';
 
 import * as _ from 'lodash';
 import * as moment from 'moment';
-import { forkJoin, Observable, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { shareReplay, take } from 'rxjs/operators';
 
 import { LocalStorageService } from '../../../utils/local-storage.service';
 import { Patient } from '../../../models/patient.model';
 import { PatientProgramResourceService } from '../../../etl-api/patient-program-resource.service';
-import { ProgramService } from '../../programs/program.service';
 import { ProgramManagerService } from '../../../program-manager/program-manager.service';
 import { UserDefaultPropertiesService } from '../../../user-default-properties/user-default-properties.service';
 
@@ -20,7 +19,6 @@ export class ProgramReferralService {
     private localStorageService: LocalStorageService,
     private patientProgramResourceService: PatientProgramResourceService,
     private programManagerService: ProgramManagerService,
-    private programService: ProgramService,
     private userDefaultPropertiesService: UserDefaultPropertiesService) {
   }
 
@@ -28,9 +26,21 @@ export class ProgramReferralService {
     const patientReferralStatus = new Subject<any>();
     this.getProgramVisitConfigs(patient, referralData.programUuid).pipe(take(1))
       .subscribe(programConfig => {
+        // construct unenrollment payload for incompatible programs
+        const programs: any[] = [];
+        const enrolledPrograms = _.filter(patient.enrolledPrograms, 'isEnrolled');
+        _.each(enrolledPrograms, (enrolled: any) => {
+          if (_.includes(programConfig.incompatibleWith, enrolled.programUuid)) {
+            _.merge(enrolled, {
+              dateCompleted: new Date()
+            });
+            programs.push(enrolled);
+          }
+        });
         // unenroll from incompatible programs and then construct enrollment payload
-        this.unenrollFromIncompatiblePrograms(patient, programConfig)
+        this.programManagerService.editProgramEnrollments('stop', patient, programs)
           .subscribe(res => {
+            // enroll to the referred program
             const enrollmentPayload = this.createEnrollmentPayload(patient, referralData);
             this.programManagerService.referPatient(enrollmentPayload).subscribe(resp => {
               patientReferralStatus.next(resp);
@@ -42,38 +52,18 @@ export class ProgramReferralService {
             patientReferralStatus.error(err);
           }
         );
-      }, error => {
-        console.error('Error unenrolling from program: ', error);
-        patientReferralStatus.error(error);
+      }, err => {
+        console.error('Error unenrolling from program: ', err);
+        patientReferralStatus.error(err);
       }
     );
     return patientReferralStatus;
   }
 
-  public unenrollFromIncompatiblePrograms(patient: Patient, programConfig: any): Observable<any> {
-    const batchProgramUnenrollments: Array<Observable<any>> = [];
-    const enrolledIncompatiblePrograms: any[] = [];
-    const enrolledPrograms = _.filter(patient.enrolledPrograms, 'isEnrolled');
-    _.each(enrolledPrograms, (enrolledProgram: any) => {
-      if (_.includes(programConfig.incompatibleWith, enrolledProgram.programUuid)) {
-        _.merge(enrolledProgram, { dateCompleted: new Date() });
-        enrolledIncompatiblePrograms.push(enrolledProgram);
-      }
-    });
-    _.each(enrolledIncompatiblePrograms, (incompatibleProgram: any) => {
-      const unenrollPayload = { dateCompleted: incompatibleProgram.dateCompleted };
-      batchProgramUnenrollments.push(
-        this.programService.saveUpdateProgramEnrollment(unenrollPayload)
-      );
-    });
-    return forkJoin(batchProgramUnenrollments);
-  }
-
-  public createEnrollmentPayload(patient: Patient, referralData: any) {
+  public createEnrollmentPayload(patient, referralData): any {
     const referralLocation = this.localStorageService.getItem('referralLocation');
     const referralVisitEncounter = this.localStorageService.getItem('referralVisitEncounter');
-    const referredFromLocation = this.userDefaultPropertiesService
-      .getCurrentUserDefaultLocationObject();
+    const referredFromLocation = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
     const enrollmentPayload = {
       submittedEncounter: JSON.parse(referralVisitEncounter),
       referredToLocation: referralLocation,
@@ -87,14 +77,15 @@ export class ProgramReferralService {
 
   public getProgramVisitConfigs(patient: Patient, programUuid: string): Observable<any> {
     const programConfigLoaded: Subject<boolean> = new Subject<boolean>();
-    this.patientProgramResourceService.getPatientProgramVisitConfigs(patient.uuid)
-      .pipe(take(1)).subscribe(programConfigs => {
+    this.patientProgramResourceService.getPatientProgramVisitConfigs(patient.uuid).pipe(shareReplay(), take(1))
+      .subscribe(programConfigs => {
         if (programConfigs) {
           programConfigLoaded.next(programConfigs[programUuid]);
         }
       }, error => {
         programConfigLoaded.error(error);
-      });
-    return programConfigLoaded;
+      }
+    );
+    return programConfigLoaded.asObservable();
   }
 }
