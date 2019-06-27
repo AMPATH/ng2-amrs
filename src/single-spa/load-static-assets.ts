@@ -1,5 +1,9 @@
+import * as jQuery from 'jquery';
 import '../styles.css';
 import { assetUrl, publicPath } from 'src/single-spa/public-path';
+
+// @ts-ignore
+window.$ = window.jQuery = jQuery;
 
 export function loadStaticAssets() {
   return Promise.all([
