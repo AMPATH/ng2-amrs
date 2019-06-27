@@ -3,6 +3,7 @@ import { TestBed, async, inject } from '@angular/core/testing';
 import { FormOrderMetaDataService } from './form-order-metadata.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+
 class MockError extends Response implements Error {
     name: any;
     message: any;
@@ -86,9 +87,9 @@ describe('Form Order Metadata Service', () => {
 
             const result = service.getDefaultFormOrder().subscribe();
 
-            const req = httpMock.expectOne('./assets/schemas/form-order.json');
+            const req = httpMock.expectOne('/_karma_webpack_/assets/schemas/form-order.json');
             expect(req.request.method).toBe('GET');
-            expect(req.request.url).toBe('./assets/schemas/form-order.json');
+            expect(req.request.url).toBe('/_karma_webpack_/assets/schemas/form-order.json');
             req.flush({ body: JSON.stringify(forms) });
         });
 
@@ -101,9 +102,9 @@ describe('Form Order Metadata Service', () => {
                 expect(res).toBeDefined();
             });
 
-            const req = httpMock.expectOne('./assets/schemas/form-order.json');
+            const req = httpMock.expectOne('/_karma_webpack_/assets/schemas/form-order.json');
             expect(req.request.method).toBe('GET');
-            expect(req.request.url).toBe('./assets/schemas/form-order.json');
+            expect(req.request.url).toBe('/_karma_webpack_/assets/schemas/form-order.json');
             req.flush({ body: JSON.stringify(forms) });
         });
 
@@ -116,9 +117,9 @@ describe('Form Order Metadata Service', () => {
                 expect(err.status).toBe(404);
             });
 
-            const req = httpMock.expectOne('./assets/schemas/form-order.json');
+            const req = httpMock.expectOne('/_karma_webpack_/assets/schemas/form-order.json');
             expect(req.request.method).toBe('GET');
-            expect(req.request.url).toBe('./assets/schemas/form-order.json');
+            expect(req.request.url).toBe('/_karma_webpack_/assets/schemas/form-order.json');
             req.flush({ body: JSON.stringify(opts) });
         });
     });

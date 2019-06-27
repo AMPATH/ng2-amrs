@@ -7,13 +7,13 @@ import { PouchdbService } from './pouchdb-service/pouchdb.service';
 export const AgGridLicence: any = undefined;
 
 const bodyClasses = [
-  "hold-transition",
-  "skin-black-light",
-  "fixed-sidebar-min",
-  "sidebar-mini",
-  "sidebar-collapse",
-  "fixed"
-]
+  'hold-transition',
+  'skin-black-light',
+  'fixed-sidebar-min',
+  'sidebar-mini',
+  'sidebar-collapse',
+  'fixed'
+];
 
 @Component({
   selector: 'app-root',
@@ -34,14 +34,14 @@ export class AppComponent implements OnInit, OnDestroy {
     this.dataCache.setDefaulTime(60 * 5);
     this.dataCache.clearExpired();
     bodyClasses.forEach(className => {
-      document.body.classList.add(className)
-    })
+      document.body.classList.add(className);
+    });
   }
 
   public ngOnDestroy() {
     bodyClasses.forEach(className => {
-      document.body.classList.remove(className)
-    })
+      document.body.classList.remove(className);
+    });
   }
 
   public setUpAgGridLicense() {
