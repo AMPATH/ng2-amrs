@@ -5,7 +5,7 @@ import { AuthenticationService } from '../openmrs-api/authentication.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { CookieService } from 'ngx-cookie';
-import { assetUrl } from 'src/single-spa/public-path'
+import { assetUrl } from 'src/single-spa/public-path';
 
 @Component({
   selector: 'app-settings',
