@@ -17,7 +17,6 @@ import { LocalStorageService } from '../../../utils/local-storage.service';
 import { FakeFormFactory } from './mock/form-factory.service.mock';
 import { FakeUserFactory } from './mock/user-factory.service.mock';
 import { FileUploadResourceService } from '../../../etl-api/file-upload-resource.service';
-import { PatientReminderService } from '../patient-reminders/patient-reminders.service';
 import { DraftedFormsService } from './drafted-forms.service';
 import {
   FakeDefaultUserPropertiesFactory
@@ -51,7 +50,6 @@ import { ConceptResourceService } from '../../../openmrs-api/concept-resource.se
 import { ErrorLogResourceService } from '../../../etl-api/error-log-resource.service';
 import { ConfirmationService } from 'primeng/primeng';
 import { DataCacheService } from '../../../shared/services/data-cache.service';
-import { PatientReminderResourceService } from '../../../etl-api/patient-reminder-resource.service';
 import {
   MonthlyScheduleResourceService
 } from '../../../etl-api/monthly-scheduled-resource.service';
@@ -66,7 +64,7 @@ import { PatientProgramResourceService } from '../../../etl-api/patient-program-
 import { VisitResourceService } from '../../../openmrs-api/visit-resource.service';
 import { HivSummaryResourceService } from '../../../etl-api/hiv-summary-resource.service';
 // import { ReferralModule } from '../../../referral-module/referral-module';
-import { PatientReferralService } from '../../../program-manager/patient-referral-service';
+import { PatientReferralService } from '../../../program-manager/patient-referral.service';
 import {
   RetrospectiveDataEntryModule
 } from '../../../retrospective-data-entry/retrospective-data-entry.module';
@@ -231,7 +229,6 @@ xdescribe('Component: FormentryComponent', () => {
         HttpClientTestingModule
       ],
       providers: [
-        PatientReminderResourceService,
         PatientProgramResourceService,
         FormentryComponent,
         FormSchemaService,
@@ -311,7 +308,6 @@ xdescribe('Component: FormentryComponent', () => {
             snapshot: { params: { formUuid: 'form-uuid' } }
           }
         },
-        PatientReminderService,
         {
           provide: UserService, useFactory: () => {
             return new FakeUserFactory();

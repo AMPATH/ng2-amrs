@@ -41,7 +41,7 @@ import {
 import {
   PatientReferralTabularComponent
 } from './program-referral-report-base/patient-referral-tabular.component';
-import { PatientReferralService } from './patient-referral-service';
+import { PatientReferralService } from './patient-referral.service';
 import { ProgramReferralResourceService } from '../etl-api/program-referral-resource.service';
 import { GroupEnrollmentModule } from '../patient-dashboard/group-enrollment/group-enrollment.module';
 import { GroupByPriority } from '../shared/pipes/group-by-priority.pipe';

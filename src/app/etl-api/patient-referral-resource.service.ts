@@ -1,10 +1,11 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 
 import { throwError as observableThrowError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { Injectable } from '@angular/core';
+
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class PatientReferralResourceService {
@@ -133,8 +134,8 @@ export class PatientReferralResourceService {
     return request;*/
   }
 
-  public getReferralByLocationUuid(locationUuid: string, enrollmentUud?: string) {
-    const url = this.getReferralLocationUrl()  + '/' + locationUuid + '/' + enrollmentUud;
+  public getReferralByLocationUuid(locationUuid: string, enrollmentUuid?: string) {
+    const url = this.getReferralLocationUrl()  + '/' + locationUuid + '/' + enrollmentUuid;
     return this.http.get(url);
   }
 

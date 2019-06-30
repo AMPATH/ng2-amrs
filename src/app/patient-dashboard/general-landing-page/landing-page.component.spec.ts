@@ -25,7 +25,7 @@ import {
 import { CacheService } from 'ionic-cache';
 import {
   PatientReferralService
-} from '../../program-manager/patient-referral-service';
+} from '../../program-manager/patient-referral.service';
 import { UserDefaultPropertiesService } from '../../user-default-properties/user-default-properties.service';
 import { PatientProgramResourceService } from '../../etl-api/patient-program-resource.service';
 import { PatientReferralResourceService } from '../../etl-api/patient-referral-resource.service';
