@@ -335,14 +335,13 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
       this.programManagerService.editProgramEnrollments(
         'transfer', this.patient, departmentPrograms.programs, localStorage.getItem('transferLocation'))
         .pipe(take(1)).subscribe((editedPrograms) => {
-          console.log('editedPrograms', editedPrograms);
-        this.selectedLocation = _.last(editedPrograms).location;
+        this.selectedLocation = (_.last(editedPrograms) as any).location;
         this.patientService.reloadCurrentPatient();
         this.theChangeComplete = true;
         this.showNoticeIfPossible();
         this.removeTransferInfo();
       }, (err) => {
-        console.log('failed to autenroll', err);
+        console.error('failed to autenroll', err);
       });
     }
   }
