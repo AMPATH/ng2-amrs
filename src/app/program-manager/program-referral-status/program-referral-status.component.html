@@ -1,8 +1,27 @@
 <div *ngIf="status">
-  <div class="alert alert-info" style="margin-bottom: 0;background-color: #d9edf7 !important;border-color: #bce8f1;">
-    <strong>Program Referral</strong>
-    <h5>
-        The patient will be referred to <strong>{{status.selectedProgram?.program?._openmrsModel?.display}}</strong> in <strong>{{department}}</strong> department. Click <strong>Complete Referral</strong> button to complete the process.
+  <div *ngIf="isResolved">
+    <div *ngIf="isValidReferral" class="alert alert-info" style="margin-bottom: 0; background-color: #d9edf7 !important; border-color: #bce8f1;">
+      <p>
+        Program Referral
+      </p>
+      <h5>
+        The patient will be referred to the <strong>{{selectedProgram}}</strong> program in the 
+        <strong>{{department}}</strong> department at <strong>{{referralLocation}}</strong>.
+        Click the <strong>Complete Referral</strong> button to complete the process.
       </h5>
+    </div>
+    
+    <div *ngIf="!isValidReferral" class="alert alert-warning" style="margin-bottom: 0; background-color: #f6f0d9 !important; border-color: #f6f0d9;">
+      <p>
+        <span class="fa-stack">
+          <i class="fa fa-exclamation-triangle fa-stack-2x"></i>
+        </span>
+        Patient already referred
+      </p>
+      <h5>
+        It looks like this patient has <strong>already been referred</strong> to the <strong>{{selectedProgram}}</strong> 
+        program in the <strong>{{department}}</strong> department at <strong>{{referralLocation}}</strong>.
+      </h5>
+    </div>
   </div>
 </div>

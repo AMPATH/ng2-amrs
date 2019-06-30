@@ -1,27 +1,29 @@
 
-import { take, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { ReplaySubject, Subject, Observable } from 'rxjs';
-import {
-  ProgramEnrollmentResourceService
-} from '../../openmrs-api/program-enrollment-resource.service';
 
+import * as _ from 'lodash';
+import { ReplaySubject, Subject, Observable } from 'rxjs';
+import { first, map, take } from 'rxjs/operators';
+
+import { Program } from '../../models/program.model';
+import { ProgramEnrollment } from '../../models/program-enrollment.model';
 import {
   ProgramResourceService
 } from '../../openmrs-api/program-resource.service';
-import { Program } from '../../models/program.model';
-import { ProgramEnrollment } from '../../models/program-enrollment.model';
-import * as _ from 'lodash';
 import {
-  ProgramWorkFlowStateResourceService
-} from '../../openmrs-api/program-workflow-state-resource.service';
+  ProgramEnrollmentResourceService
+} from '../../openmrs-api/program-enrollment-resource.service';
 import {
   ProgramWorkFlowResourceService
 } from '../../openmrs-api/program-workflow-resource.service';
-import { first } from 'rxjs/operators';
+import {
+  ProgramWorkFlowStateResourceService
+} from '../../openmrs-api/program-workflow-state-resource.service';
+
 @Injectable()
 export class ProgramService {
-  constructor(private programEnrollmentResourceService: ProgramEnrollmentResourceService,
+  constructor(
+    private programEnrollmentResourceService: ProgramEnrollmentResourceService,
     private programWorkFlowResourceService: ProgramWorkFlowResourceService,
     private programWorkFlowStateResourceService: ProgramWorkFlowStateResourceService,
     private programResourceService: ProgramResourceService) { }
@@ -139,7 +141,5 @@ export class ProgramService {
 
   public getProgramsIncompatibilities() {
     return this.programResourceService.getProgramsIncompatibilities();
-
   }
-
 }
