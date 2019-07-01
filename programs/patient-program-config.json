@@ -584,6 +584,11 @@
           "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
           "name": "AMPATH POC HIV Exit Care Form v1.1",
           "required": true
+        }],
+        "referral": [{
+          "uuid": "6a50f1d5-9f33-41ae-b2e7-7fd8267c181e",
+          "name": "CDM DM-HTN Referral Form v1.1",
+          "required": true
         }]
       }
     },
@@ -642,7 +647,8 @@
           "uuid": "6a50f1d5-9f33-41ae-b2e7-7fd8267c181e",
           "name": "CDM DM-HTN Referral Form v1.1",
           "required": true
-        }]
+        }],
+        "incompatible": []
       }
     },
     "incompatibleWith": [
@@ -682,6 +688,19 @@
       "b731ba72-cf99-4176-9fcd-37cd186400c7",
       "bd9a8b06-73c7-44a8-928c-5e72247f4c1d"
     ],
+    "enrollmentOptions": {
+      "requiredProgramQuestions": [],
+      "allowMultipleEnrollment": false,
+      "stateChangeEncounterTypes": {
+        "enrollment": [],
+        "referral": [{
+          "uuid": "6a50f1d5-9f33-41ae-b2e7-7fd8267c181e",
+          "name": "CDM DM-HTN Referral Form v1.1",
+          "required": true
+        }],
+        "incompatible": []
+      }
+    },
     "HidevisibleLocations": [{
         "uuid": "0900880a-1352-11df-a1f1-0026b9348838",
         "display": "Chepsaita"
@@ -3097,12 +3116,23 @@
     "dataDependencies": [
     ],
     "incompatibleWith": [],
+    "enrollmentOptions": { 
+      "stateChangeEncounterTypes": {
+        "referral": [{
+          "uuid": "ff13c7ad-9552-4d94-881b-dbad1116f7f7",
+          "name": "Oncology POC Screening Referral Form V1.0",
+          "required": true
+        }]
+      }
+    },
     "visitTypes": [
       {
         "uuid": "8103a0f3-a3d3-4453-ac3e-aaecd542ccd1",
         "name": "Cervical Cancer Screening ",
         "enrollmentOptions": {
-          "enrollIf": "gender === 'F'"
+          "enrollIf": "gender === 'F'",
+          "requiredProgramQuestions": [],
+          "allowMultipleEnrollment": false
         },
         "encounterTypes": [
           {
@@ -3130,6 +3160,17 @@
       {
         "uuid": "55d8d186-3f74-43ad-9e40-eb16bb52b596",
         "name": "Breast Cancer Screening ",
+        "enrollmentOptions": {
+          "requiredProgramQuestions": [],
+          "allowMultipleEnrollment": false,
+          "stateChangeEncounterTypes": {
+            "referral": [{
+              "uuid": "ff13c7ad-9552-4d94-881b-dbad1116f7f7",
+              "name": "Oncology POC Screening Referral Form V1.0",
+              "required": true
+            }]
+          }
+        },
         "encounterTypes": [
           {
             "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
