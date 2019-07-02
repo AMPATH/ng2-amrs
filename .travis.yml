@@ -11,17 +11,30 @@ before_install:
 - npm i -g brfs
 script:
 - npm run lint
-- npm run build-prod
+- travis_wait npm run build-prod
 - npm run test
+- echo "Folder name in Digital Ocean Spaces - $TRAVIS_COMMIT"
+- mkdir -p dist/ampath-poc/$TRAVIS_COMMIT
+- mv dist/ngx-amrs/*.* dist/ampath-poc/$TRAVIS_COMMIT/
+deploy:
+  provider: s3
+  access_key_id: "$DIGITAL_OCEAN_SPACES_KEY_ID"
+  secret_access_key: "$DIGITAL_OCEAN_SPACES_ACCESS_KEY"
+  bucket: "$DIGITAL_OCEAN_SPACES_BUCKET"
+  endpoint: "$DIGITAL_OCEAN_SPACES_ENDPOINT"
+  cache-control: "max-age=31536000"
+  local_dir: dist
+  skip_cleanup: true
+  acl: public_read
+  on:
+    branch: single-spa
 sudo: required
 addons:
   apt:
     packages:
     - sshpass
     - google-chrome-stable
-after_success:
-- mv dist/ngx-amrs $TRAVIS_BRANCH
-- tar -czf build.tgz $TRAVIS_BRANCH
-- export SSHPASS=$DEPLOY_PASS
-- sshpass -e scp -o stricthostkeychecking=no build.tgz $DEPLOY_USER@$DEPLOY_HOST:./
-- sshpass -e ssh -o stricthostkeychecking=no $DEPLOY_USER@$DEPLOY_HOST ./deploy-build.sh
+after_deploy:
+  - echo "Updating import map to point to new version of @ampath/poc"
+  - curl -u $DEPLOYER_USERNAME:$DEPLOYER_PASSWORD -d '{ "service":"@ampath/poc","url":"https://ampath-poc.fra1.digitaloceanspaces.com/ampath-poc/'$TRAVIS_COMMIT'/main.js" }' -X PATCH $DEPLOYER_HOST/services\?env=prod -H "Accept:application/json" -H "Content-Type:application/json" --fail
+

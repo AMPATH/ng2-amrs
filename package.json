@@ -11,10 +11,11 @@
     "test-debug": "ng test --browsers ChromeDebug",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build-prod": "node version.js && bash ./scripts/ng.sh build --prod",
+    "build-prod": "node version.js && bash ./scripts/ng.sh build --prod --stats-json",
     "serve:prod": "http-server dist/ngx-amrs/ -P https://ngx.ampath.or.ke",
     "prebuild": "node version.js",
-    "prestart": "node version.js"
+    "prestart": "node version.js",
+    "bundle-report": "webpack-bundle-analyzer dist/ngx-amrs/stats.json"
   },
   "private": true,
   "dependencies": {
@@ -135,7 +136,8 @@
     "source-map-support": "^0.5.9",
     "ts-node": "~5.0.1",
     "tslint": "~5.9.1",
-    "typescript": "~2.7.2"
+    "typescript": "~2.7.2",
+    "webpack-bundle-analyzer": "^3.3.2"
   },
   "browser": {
     "fs": false,
