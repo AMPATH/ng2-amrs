@@ -1,0 +1,36 @@
+<div class="wrapper">
+  <div class="panel panel-info">
+
+    <div class="panel-heading" style="min-height: 50px!important">
+      <strong class="text-primary">
+        <span class="fa fa-file-pdf-o">
+        </span>
+        {{title}} report
+        <div class="btn-group pull-right">
+          <button class="btn btn-primary" (click)="downloadPdf()" [disabled]="!pdfMakeProxy">
+            <i class="fa fa-download">
+            </i> Download Pdf
+          </button>
+        </div>
+      </strong>
+    </div>
+
+    <div class="panel-body" style="background-color: #ECF0F5">
+      <pdf-viewer [src]="pdfSrc" [page]="page" (after-load-complete)="afterLoadCompletes($event)"
+        [original-size]="false" style="display: block;" [render-text]="false" [show-all]="false">
+      </pdf-viewer>
+
+    </div>
+    <div class="panel-footer" style="min-height: 50px">
+      <button class="btn btn-default pull-left" (click)="prevPage()">
+        <i class="fa fa-arrow-circle-o-left">
+        </i> Previous Page
+      </button>
+      <button class="btn btn-default pull-right" (click)="nextPage()">
+        Next Page <i class="fa fa-arrow-circle-o-right">
+        </i>
+      </button>
+    </div>
+  </div>
+</div>
+

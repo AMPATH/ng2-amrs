@@ -43,6 +43,8 @@ export class ProgramManagerService {
     } else {
       this.handleReferralWithProvider(payload);
     }
+    localStorage.removeItem('referralLocation');
+    localStorage.removeItem('referralVisitEncounter');
     return this.referralCompleteStatus;
   }
 

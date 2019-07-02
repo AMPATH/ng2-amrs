@@ -73,6 +73,8 @@ import { PocHttpInteceptor } from './services/poc-http-interceptor';
 import { SelectDepartmentService } from './services/select-department.service';
 
 import { RisonService } from './services/rison-service';
+import { KibanaVizHostComponent } from './kibana-viz-host/kibana-viz-host.component';
+import { KibanaVizComponent } from './kibana-viz/kibana-viz.component';
 
 @NgModule({
   imports: [
@@ -122,7 +124,7 @@ import { RisonService } from './services/rison-service';
     RetrospectiveDataEntryModule, MatCardModule, PatientEncounterObservationsComponent,
     StringToDatePipe, Ng2FilterPipe, OnlineTrackerComponent, HivProgramSnapshotComponent,
     BuildVersionComponent, FormListComponent, ReportFiltersComponent, ZeroVlPipe, PrettyEncounterViewerComponent,
-    DateSelectorComponent, PdfViewerModule , NgxMyDatePickerModule,
+    DateSelectorComponent, PdfViewerModule , NgxMyDatePickerModule, KibanaVizComponent , KibanaVizHostComponent ,
     OpenmrsApi, EtlApi, Ng2Bs3ModalModule, ModalModule, BsDropdownModule, TooltipModule,
     LocationFilterComponent, Angulartics2Module, MatSnackBarModule, MatTabsModule, ReactiveFormsModule,
     MatProgressBarModule, MatProgressSpinnerModule, MatSlideToggleModule, NgxPaginationModule, MatButtonModule,
@@ -130,7 +132,7 @@ import { RisonService } from './services/rison-service';
   declarations: [
     DisplayErrorComponent, StringToDatePipe, ZeroVlPipe, Ng2FilterPipe, HivProgramSnapshotComponent,
     FormListComponent, ReportFiltersComponent,
-    OnlineTrackerComponent, AppModalComponent,
+    OnlineTrackerComponent, AppModalComponent, KibanaVizHostComponent ,  KibanaVizComponent ,
     BuildVersionComponent, DateSelectorComponent,
     PatientEncounterObservationsComponent, PrettyEncounterViewerComponent,
     CdmProgramSnapshotComponent

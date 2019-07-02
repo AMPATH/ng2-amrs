@@ -15,7 +15,7 @@ export class ClinicRoutesFactory {
   public createClinicDashboardRoutes(locationUuid): RouteModel[] {
 
     if (locationUuid === null || locationUuid === undefined) {
-      throw new Error('Location is requred');
+      throw new Error('Location is required');
     }
     let selectedDepartment: any;
     const setDepartment: any = JSON.parse(this._localStorageService.getItem('userDefaultDepartment'));

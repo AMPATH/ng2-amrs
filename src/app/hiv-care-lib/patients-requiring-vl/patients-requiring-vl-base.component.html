@@ -22,7 +22,7 @@
         <input id="currentVLDate" [(ngModel)]="selectedCurrentVLDate" class="form-control" type="date" (ngModelChange)="onCurrentVLDateChanged($event)"/>
     </div>
  </div>
-  <patient-list [extraColumns]="extraColumns()" [overrideColumns]="overrideColumns"  [data]="filteredData"></patient-list>
+  <patient-list [extraColumns]="extraColumns()" [overrideColumns]="overrideColumns"  [data]="filteredData" [hivColumns]="true"></patient-list>
   <div *ngIf='!isLoadingReport'>
     <p class="bg-info" style="padding:4px;">
       <b>

@@ -1,12 +1,15 @@
 
 import { take } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import * as _ from 'lodash';
 
 import { Helpers } from '../../../utils/helpers';
 import { Subscription } from 'rxjs';
 import { PatientService } from '../../services/patient.service';
 import { PatientVitalsService } from './patient-vitals.service';
 import { Patient } from '../../../models/patient.model';
+import { LocalStorageService } from 'src/app/utils/local-storage.service';
+import { SelectDepartmentService } from 'src/app/shared/services/select-department.service';
 
 @Component({
   selector: 'app-patient-vitals',
@@ -32,11 +35,17 @@ export class PatientVitalsComponent implements OnInit, OnDestroy {
   public nextStartIndex = 0;
   public isLoading = false;
 
+  public userDefaultDept: any;
+  public isDepartmentOncology = false;
+
   constructor(private patientVitalsService: PatientVitalsService,
-    private patientService: PatientService) { }
+    private patientService: PatientService,
+    private selectDepartmentService: SelectDepartmentService,
+    private localStorage: LocalStorageService) { }
 
   public ngOnInit() {
     this.getPatient();
+    this.getUserDefaultDepartment();
   }
 
   public ngOnDestroy(): void {
@@ -68,16 +77,15 @@ export class PatientVitalsComponent implements OnInit, OnDestroy {
     this.patientVitalsService.getvitals(this.patient, this.nextStartIndex).subscribe((data) => {
       if (data) {
         if (data.length > 0) {
-
           const membersToCheck = ['weight', 'height', 'temp', 'oxygen_sat', 'systolic_bp',
             'diastolic_bp', 'pulse'];
+          this.inteprateEcogValuesForOncology(data);
+
           for (const r in data) {
             if (data.hasOwnProperty(r)) {
               const encounter = data[r];
               if (!Helpers.hasAllMembersUndefinedOrNull(encounter, membersToCheck)) {
-
                 this.vitals.push(encounter);
-
               }
 
             }
@@ -110,5 +118,51 @@ export class PatientVitalsComponent implements OnInit, OnDestroy {
   public loadMoreVitals() {
     this.loadVitals(this.patientUuid, this.nextStartIndex);
 
+  }
+
+  public getUserDefaultDepartment() {
+    if (this.selectDepartmentService.getUserSetDepartment() === 'HEMATO-ONCOLOGY') {
+      this.isDepartmentOncology = true;
+    }
+  }
+
+  /**
+   * inteprateEcogValuesForOncology
+   * (not a good approach refactor later to use etl)
+   * 0 is normal
+   * 1 is symptomatic
+   * 2 is DEBILITATED, BEDRIDDEN LESS THAN 50% OF DAY
+   * 3 is DEBILITATED, BEDRIDDEN GREATER THAN 50% OF THE DAY
+   * 4 is BEDRIDDEN 100%
+   */
+  public inteprateEcogValuesForOncology(data: any) {
+    _.each(data, (element) => {
+      switch (element.ecog) {
+        case 1115: {
+          element.ecog = 0;
+          break;
+        }
+        case 6585: {
+          element.ecog = 1;
+          break;
+        }
+        case 6586: {
+          element.ecog = 2;
+          break;
+        }
+        case 6587: {
+          element.ecog = 3;
+          break;
+        }
+        case 6588: {
+          element.ecog = 4;
+          break;
+        }
+        default: {
+          break;
+        }
+
+      }
+    });
   }
 }

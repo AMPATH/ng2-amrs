@@ -93,6 +93,12 @@
           "isSideBarOpen": false
         },
         {
+          "url": "hiv-viz",
+          "label": "HIV Visualization",
+          "icon": "fa fa-line-chart",
+          "isSideBarOpen": false
+        },
+        {
           "url": "hiv-summary-indicator-report",
           "label": "HIV Summary Indicators",
           "icon": "fa fa-file-pdf-o",
@@ -135,6 +141,12 @@
           "isSideBarOpen": false
         },
         {
+          "url": "hiv-differentiated-care",
+          "label": "Differentiated Care",
+          "icon": "fa fa-th-list",
+          "isSideBarOpen": false
+        },
+        {
           "url": "department-select",
           "label": "Change Department",
           "icon": "fa fa-exchange",
@@ -144,9 +156,9 @@
       ]
     },
     {
-      "departmentName": "ONCOLOGY",
-      "baseRoute": "oncology",
-      "alias": "oncology",
+      "departmentName": "HEMATO-ONCOLOGY",
+      "baseRoute": "hemato-oncology",
+      "alias": "hemato-oncology",
       "routes": [
         {
           "url": "daily-schedule",
@@ -164,6 +176,12 @@
           "url": "program-enrollment",
           "label": "Program Enrollment",
           "icon": "fa fa-list-alt",
+          "isSideBarOpen": false
+        },
+        {
+          "url": "referral/patient-referral-report",
+          "label": "Patient Referral",
+          "icon": "fa fa-file-pdf-o",
           "isSideBarOpen": false
         },
         {

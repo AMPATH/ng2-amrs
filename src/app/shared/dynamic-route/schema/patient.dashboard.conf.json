@@ -132,29 +132,9 @@
       "routes": []
     },
     {
-      "programName": "HIV Community Based Care Research ",
-      "programUuid": "c37ca57d-5f7e-41e3-93e0-2cd6cd01de91",
-      "baseRoute": "c37ca57d-5f7e-41e3-93e0-2cd6cd01de91",
-      "alias": "hiv",
-      "published": true,
-      "shared-routes-class": "hiv",
-      "requiresPatientEnrollment": true,
-      "routes": []
-    },
-    {
       "programName": "HIV ACTG",
       "programUuid": "4480c782-ef05-4d88-b2f8-c892c99438f6",
       "baseRoute": "4480c782-ef05-4d88-b2f8-c892c99438f6",
-      "alias": "hiv",
-      "published": true,
-      "shared-routes-class": "hiv",
-      "requiresPatientEnrollment": true,
-      "routes": []
-    },
-    {
-      "programName": "HIV Turbo Differentiated Care Pilot ",
-      "programUuid": "0904172d-0b6a-40df-b8a2-b3653d16dc45",
-      "baseRoute": "0904172d-0b6a-40df-b8a2-b3653d16dc45",
       "alias": "hiv",
       "published": true,
       "shared-routes-class": "hiv",
@@ -285,6 +265,16 @@
       "programName": "Multiple Myeloma",
       "programUuid": "698b7153-bff3-4931-9638-d279ca47b32e",
       "baseRoute": "698b7153-bff3-4931-9638-d279ca47b32e",
+      "alias": "oncology",
+      "published": true,
+      "shared-routes-class": "oncology",
+      "requiresPatientEnrollment": true,
+      "routes": []
+    },
+    {
+      "programName": "Anticoagulation Treatment Program",
+      "programUuid": "418fe011-a903-4862-93d4-5e7c84d9c253",
+      "baseRoute": "418fe011-a903-4862-93d4-5e7c84d9c253",
       "alias": "oncology",
       "published": true,
       "shared-routes-class": "oncology",
@@ -482,6 +472,16 @@
       "shared-routes-class": "cdm",
       "requiresPatientEnrollment": true,
       "routes": []
+    },
+    {
+      "programName": "Refferal Peer Navigator",
+      "programUuid": "a15a58a4-0daa-4195-bf29-b4bccd5df01e",
+      "baseRoute": "a15a58a4-0daa-4195-bf29-b4bccd5df01e",
+      "alias": "cdm",
+      "published": true,
+      "shared-routes-class": "cdm",
+      "requiresPatientEnrollment": true,
+      "routes": []
     }
   ],
 
@@ -556,6 +556,11 @@
         "url": "lab-data-summary",
         "label": "Lab Data Summary",
         "icon": "icon-i-laboratory"
+      },
+      {
+        "url": "lab-orders",
+        "label": "Lab Orders",
+        "icon": "icon-i-pathology"
       },
       {
         "url": "patient-imaging",

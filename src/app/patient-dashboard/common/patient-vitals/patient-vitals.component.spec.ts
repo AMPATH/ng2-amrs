@@ -25,10 +25,12 @@ import {
 } from '../../../openmrs-api/program-workflow-state-resource.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ZscoreService } from 'src/app/shared/services/zscore.service';
+import { SelectDepartmentService } from 'src/app/shared/services/select-department.service';
 
 describe('Component: Vitals Unit Tests', () => {
 
-  let patientVitalsService: PatientVitalsService, patientService: PatientService,
+  let localStorageService: LocalStorageService, selectDepartmentService: SelectDepartmentService,
+   patientVitalsService: PatientVitalsService, patientService: PatientService,
     component;
 
   beforeEach(() => {
@@ -43,6 +45,7 @@ describe('Component: Vitals Unit Tests', () => {
         PatientService,
         ProgramService,
         PatientProgramService,
+        SelectDepartmentService,
         ProgramResourceService,
         RoutesProviderService,
         PatientResourceService,
@@ -60,7 +63,10 @@ describe('Component: Vitals Unit Tests', () => {
 
     patientVitalsService = TestBed.get(PatientVitalsService);
     patientService = TestBed.get(PatientService);
-    component = new PatientVitalsComponent(patientVitalsService, patientService);
+    selectDepartmentService = TestBed.get(SelectDepartmentService);
+    localStorageService = TestBed.get(LocalStorageService);
+    component = new PatientVitalsComponent(patientVitalsService, patientService,
+      selectDepartmentService, localStorageService);
 
   });
 
@@ -82,6 +88,7 @@ describe('Component: Vitals Unit Tests', () => {
     expect(component.dataLoaded).toBe(false);
     expect(component.loadingVitals).toBe(false);
     expect(component.errors.length).toBe(0);
+    expect(component.isDepartmentOncology).toBe(false);
 
     done();
 

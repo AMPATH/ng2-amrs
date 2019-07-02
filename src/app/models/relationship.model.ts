@@ -1,6 +1,7 @@
 import {BaseModel} from './base-model.model';
 import {serializable} from './serializable.decorator';
 import './date.extensions';
+import { Person } from './person.model';
 
 export class Relationship extends BaseModel {
 
@@ -51,6 +52,15 @@ export class Relationship extends BaseModel {
 
  public set relatedPersonUuid(v: string) {
    this._openmrsModel.relatedPersonUuid = v;
+ }
+
+ @serializable()
+ public get relatedPerson(): Person {
+   return this._openmrsModel.relatedPerson;
+ }
+
+ public set relatedPerson(v: Person) {
+   this._openmrsModel.relatedPerson = v;
  }
 
 }

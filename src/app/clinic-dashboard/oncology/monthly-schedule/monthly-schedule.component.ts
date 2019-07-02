@@ -24,7 +24,7 @@ export class OncMonthlyScheduleComponent extends
 MonthlyScheduleBaseComponent implements OnInit, OnDestroy {
 
   public routeSub: Subscription = new Subscription();
-  public myDepartment = 'ONCOLOGY';
+  public myDepartment = 'HEMATO-ONCOLOGY';
 
   constructor(
     public monthlyScheduleResourceService: MonthlyScheduleResourceService,

@@ -42,6 +42,8 @@ import { CdmSummaryResourceService } from './cdm-summary-resource.service';
 import { RadiologyImagingResourceService } from './radiology-imaging-resource.service';
 import { HivEnhancedReportService } from './hiv-enhanced-program-report.service';
 import { OncologySummaryResourceService } from './oncology-summary-resource.service';
+import { KibanaDashboardListService } from './kibana-dashboard-list-service';
+import { HivDifferentiatedCareResourceService } from './hiv-differentiated-care-resource.service';
 @NgModule({
   imports: [CommonModule, AppSettingsModule],
   declarations: [],
@@ -77,7 +79,9 @@ import { OncologySummaryResourceService } from './oncology-summary-resource.serv
     // ReferralProviderResourceService
     HivEnhancedReportService,
     OncologySummaryResourceService,
-    RadiologyImagingResourceService
+    RadiologyImagingResourceService,
+    KibanaDashboardListService,
+    HivDifferentiatedCareResourceService
   ],
   exports: []
 })

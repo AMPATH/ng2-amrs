@@ -17,7 +17,6 @@ import { HivProgramSnapshotComponent
 } from './program-snapshot/hiv-program-snapshot.component';
 import { HivSummaryComponent } from './hiv-summary/hiv-summary.component';
 import { HivSummaryHistoricalComponent } from './hiv-summary/hiv-summary-historical.component';
-import { HivSummaryLatestComponent } from './hiv-summary/hiv-summary-latest.component';
 import { MedicationHistoryComponent } from './hiv-summary/medication-history.component';
 import { GeneXpertImagesComponent } from './genexpert-images/genexpert-images.component';
 import { PatientMonthlyStatusComponent
@@ -28,6 +27,8 @@ import { PatientDashboardCommonModule } from '../common/patient-dashboard.common
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PocHttpInteceptor } from 'src/app/shared/services/poc-http-interceptor';
 import { GeneXpertResourceService } from './genexpert-images/genexpert-images-resource.service';
+import { HivSummaryService } from './hiv-summary/hiv-summary.service';
+import { HivSummaryResourceService } from '../../etl-api/hiv-summary-resource.service';
 
 @NgModule({
   imports: [
@@ -51,7 +52,6 @@ import { GeneXpertResourceService } from './genexpert-images/genexpert-images-re
     HivPatientClinicalSummaryComponent,
     HivSummaryComponent,
     HivSummaryHistoricalComponent,
-    HivSummaryLatestComponent,
     MedicationHistoryComponent,
     PatientMonthlyStatusComponent,
     PreviousVisitComponent],
@@ -59,7 +59,6 @@ import { GeneXpertResourceService } from './genexpert-images/genexpert-images-re
     HivPatientClinicalSummaryComponent,
     HivSummaryComponent,
     HivSummaryHistoricalComponent,
-    HivSummaryLatestComponent,
     MedicationHistoryComponent,
     PatientMonthlyStatusComponent,
     PreviousVisitComponent,
@@ -67,6 +66,8 @@ import { GeneXpertResourceService } from './genexpert-images/genexpert-images-re
   ],
   providers: [
     GeneXpertResourceService,
+    HivSummaryService,
+    HivSummaryResourceService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: PocHttpInteceptor,

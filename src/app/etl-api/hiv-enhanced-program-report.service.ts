@@ -18,14 +18,16 @@ export class HivEnhancedReportService {
     }
 
     public getPatientList(startDate: string, endDate: string,
-                          locationUuids: string, indicators: string): Observable<any> {
+        locationUuids: string, indicators: string, lowerVl: string, upperVl: string): Observable<any> {
         const api: string = this.geturl() + 'enhanced-adherence-program/patient-list';
 
         const urlParams: HttpParams = new HttpParams()
-        .set('startDate', startDate)
-        .set('endDate', endDate)
-        .set('locationUuids', locationUuids)
-        .set('indicators', indicators);
+            .set('startDate', startDate)
+            .set('endDate', endDate)
+            .set('locationUuids', locationUuids)
+            .set('indicators', indicators)
+            .set('lower_vl', lowerVl)
+            .set('upper_vl', upperVl);
 
         const request = this.http.get(api, { params: urlParams });
         return this.cacheService.cacheRequest(api, urlParams, request);
