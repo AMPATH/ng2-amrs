@@ -109,12 +109,15 @@ export class EnrollmentShortcutComponent implements OnInit {
         // check for whether all data requirements are loaded
         if (this.patientEnrolledPrograms !== null &&
             this.allProgramsInDefaultDepartmentConf !== null) {
-            this.patientEnrollablePrograms = _.filter(this.allProgramsInDefaultDepartmentConf,
-                (program) => {
-                    const enrolledProgUuids = _.map(this.patientEnrolledPrograms,
-                        (a) => a.programUuid);
-                    return !_.includes(enrolledProgUuids, program.uuid);
-                });
+              const availablePrograms = _.filter(this.allProgramsInDefaultDepartmentConf,
+                            (program) => {
+                                const enrolledProgUuids = _.map(this.patientEnrolledPrograms,
+                                    (a) => a.programUuid);
+                                return !_.includes(enrolledProgUuids, program.uuid);
+                            });
+                            this.patientEnrollablePrograms = _.filter(availablePrograms,  (item) => {
+                                return item.uuid !== '781d8880-1359-11df-a1f1-0026b9348838';
+                            });
         }
     }
 

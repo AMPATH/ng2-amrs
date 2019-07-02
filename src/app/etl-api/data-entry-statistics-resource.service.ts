@@ -59,6 +59,11 @@ export class DataEntryStatisticsService {
       if (params.creatorUuid) {
          urlParams = urlParams.set('creatorUuid', params.creatorUuid);
       }
+      if (params.visitTypeUuid) {
+         urlParams = urlParams.set('visitTypeUuid', params.visitTypeUuid);
+      }
+
+
 
       const request = this.http.get(url, {params : urlParams}).pipe(
         map((response: any) => {
@@ -79,7 +84,6 @@ export class DataEntryStatisticsService {
   }
 
     public getDataEntryStatisticsQueryParam(payload) {
-
       let subType = '';
       let startDate = '';
       let endDate = '';
@@ -121,6 +125,10 @@ export class DataEntryStatisticsService {
       if (payload.creatorUuid && payload.creatorUuid.length > 0) {
           param.creatorUuid = payload.creatorUuid;
       }
+      if (payload.visitTyperUuid && payload.visitTyperUuid.length > 0) {
+          param.visitTyperUuid = payload.visitTyperUuid;
+      }
+
 
       return param;
     }
@@ -146,6 +154,9 @@ export class DataEntryStatisticsService {
       }
       if (params.locationUuids && params.locationUuids.length > 0) {
            urlParams = urlParams.set('locationUuids', params.locationUuids);
+      }
+      if (params.visitTypeUuids && params.visitTypeUuids.length > 0) {
+           urlParams = urlParams.set('visitTypeUuids', params.visitTypeUuids);
       }
 
       const request = this.http.get(url, {params : urlParams}).pipe(

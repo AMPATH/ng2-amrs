@@ -33,7 +33,7 @@
           <td><strong>Landmark: </strong> <span *ngIf="landmark">{{landmark.value}}</span></td>
         </tr>
         <tr>
-          <td><strong>Active Since: </strong> {{group.startDate | date : 'medium'}}</td>
+          <td><strong>Active Since: </strong> {{group.startDate | date : 'mediumDate'}}</td>
           <td><strong>Last Meeting: </strong>
             <span *ngIf="group.cohortVisits[0]">{{group.cohortVisits[0]['startDate'] | date : 'medium'}}</span>
           <span *ngIf="!group.cohortVisits">None</span></td>

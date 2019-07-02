@@ -11,6 +11,7 @@ import { ProviderResourceService } from '../../openmrs-api/provider-resource.ser
 import { UserService } from '../../openmrs-api/user.service';
 import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
 import { DataEntryStatisticsService } from '../../etl-api/data-entry-statistics-resource.service';
+import { VisitResourceService} from '../../openmrs-api/visit-resource.service';
 
 @Component({
   selector: 'data-entry-statistics-filters',
@@ -46,6 +47,9 @@ export class DataEntryStatisticsFiltersComponent
   public encounterType: any = [];
   public encounterTypes: any = [];
   public encounterMap = new Map();
+  public visitType: any = [];
+  public visitTypes: any = [];
+  public visitMap = new Map();
   public providers: any = [];
   public provider = '';
   public selectedStartDate: any = Moment().format();
@@ -56,6 +60,8 @@ export class DataEntryStatisticsFiltersComponent
   public selectedCreatorUuid: any = [];
   public selectedProviderUuid = '';
   public selectedEncounterTypes: any = [];
+  public selectedVisitTypes: any = [];
+  public selectedVisitUuid: any = [];
   public selectedView = {
     encounterTypePerDay: false,
     encounterTypePerMonth: false,
@@ -123,6 +129,7 @@ export class DataEntryStatisticsFiltersComponent
     private route: ActivatedRoute,
     private router: Router,
     private _dataEntryStatisticsService: DataEntryStatisticsService,
+    private _visitResourceService: VisitResourceService
   ) { }
 
   public ngOnInit() {
@@ -152,13 +159,12 @@ export class DataEntryStatisticsFiltersComponent
     this.getLocations();
     this.getDataEntryEncounterTypes();
     this.getEncounterTypes();
+    this.getVisits();
 
   }
 
   public loadFilterFromUrlParams(params) {
-
     if (params.startDate && params.view) {
-
       const newParams: any = {
         'view': '',
         'locationUuids': [],
@@ -166,6 +172,7 @@ export class DataEntryStatisticsFiltersComponent
         'endDate': '',
         'encounterTypeUuids': [],
         'providerUuid': [],
+        'visitTypeUuids' : [],
         'groupBy': []
       };
 
@@ -197,6 +204,14 @@ export class DataEntryStatisticsFiltersComponent
         this.encounterType = encounterTypes;
         newParams.encounterTypeUuids = params.encounterTypeUuids;
       }
+      if (params.visitTypeUuids) {
+        this.visitType = [];
+        const visitTypes =
+          this.loadFilterFromMap(params.visitTypeUuids, this.visitMap);
+        this.visitType = visitTypes;
+        newParams.visitTypeUuids = params.visitTypeUuids;
+      }
+
       if (params.groupBy) {
         newParams.groupBy = params.groupBy;
       }
@@ -260,7 +275,6 @@ export class DataEntryStatisticsFiltersComponent
       });
 
   }
-
   public loadCreator(creatorUuids) {
 
     const isString = this.isString(creatorUuids);
@@ -318,7 +332,30 @@ export class DataEntryStatisticsFiltersComponent
       });
 
   }
+  public getVisits() {
+    this._visitResourceService.getVisitTypes(this.params).pipe(take(1)).subscribe((visits) => {
+        if (visits) {
+          const visitType = visits;
+          this.processGetVisits(visitType);
+        }
+    });
+  }
 
+  public  processGetVisits(visitTypes) {
+    const visitTypesArray = [];
+
+    _.each(visitTypes, (visitType: any) => {
+      const specificVisitType = {
+        'id': visitType.uuid,
+        'itemName': visitType.display
+      };
+      this.visitMap.set(visitTypes.uuid, specificVisitType);
+      visitTypesArray.push(specificVisitType);
+    });
+
+    this.visitTypes = visitTypesArray;
+
+  }
   public creatorSelect($event) {
     this.loadSelectedCreator();
   }
@@ -419,9 +456,18 @@ export class DataEntryStatisticsFiltersComponent
   public encounterTypeSelect($event) {
     this.loadSelectedEncounterType();
   }
+
+  public visitTypeSelect($event) {
+    this.loadSelectedVisitType();
+  }
+
   public resetEncounterTypes() {
     this.encounterType = [];
     this.loadSelectedEncounterType();
+  }
+  public resetVisitTypes() {
+    this.visitType = [];
+    this.loadSelectedVisitType();
   }
   public resetCreators() {
     this.creator = [];
@@ -439,6 +485,14 @@ export class DataEntryStatisticsFiltersComponent
     });
   }
 
+  public loadSelectedVisitType() {
+    const selectedVisitTypes = this.visitTypes;
+    _.each(selectedVisitTypes, (visit: any) => {
+
+      this.selectedVisitTypes.push(visit.id);
+    });
+
+  }
   public getSelectedStartDate($event) {
     const selectedDate = $event;
     this.selectedEndDate = Moment(selectedDate).add(6, 'days').toISOString();
@@ -631,6 +685,7 @@ export class DataEntryStatisticsFiltersComponent
       'startDate': Moment(this.selectedStartDate).format(),
       'endDate': Moment(this.selectedEndDate).format(),
       'subType': this.subType,
+      'visitTypeUuids': this.selectedVisitTypes,
       'view': this.selectedViewType
     };
 
@@ -685,6 +740,7 @@ export class DataEntryStatisticsFiltersComponent
     this.selectedLocation = [];
     this.selectedCreatorUuid = [];
     this.selectedEncounterTypes = [];
+    this.selectedVisitTypes = [];
     this.selectedProviderUuid = '';
   }
 

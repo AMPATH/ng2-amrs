@@ -42,6 +42,7 @@ import { PatientBannerComponent } from './patient-banner/patient-banner.componen
 import { LabSyncComponent } from './lab-data-summary/lab-sync.component';
 import { HivSummaryService } from '../hiv/hiv-summary/hiv-summary.service';
 import { LabResultComponent } from './lab-data-summary/lab-result.component';
+import { LabResultImageModalComponent } from './lab-data-summary/lab-result-image-modal.component';
 import { ContactsComponent } from './patient-info/contacts.component';
 import { AddressComponent } from './patient-info/address.component';
 import { PatientDemographicsComponent } from './patient-info/patient-demograpics.component';
@@ -140,6 +141,9 @@ import { GroupEnrollmentModule } from '../group-enrollment/group-enrollment.modu
 import { VitalsDatasource } from './todays-vitals/vitals.datasource';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PocHttpInteceptor } from 'src/app/shared/services/poc-http-interceptor';
+import { HivSummaryLatestComponent } from '../hiv/hiv-summary/hiv-summary-latest.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { AgePipe } from './patient-banner/age.pipe';
 
 @NgModule({
   imports: [
@@ -182,6 +186,7 @@ import { PocHttpInteceptor } from 'src/app/shared/services/poc-http-interceptor'
   ],
   exports: [
     PatientInfoComponent,
+    HivSummaryLatestComponent,
     PatientEncountersComponent,
     PatientVitalsComponent,
     FormsComponent,
@@ -193,6 +198,7 @@ import { PocHttpInteceptor } from 'src/app/shared/services/poc-http-interceptor'
     PatientBannerComponent,
     LabSyncComponent,
     LabResultComponent,
+    LabResultImageModalComponent,
     ContactsComponent,
     PatientIdentifierComponent,
     AddressComponent,
@@ -233,6 +239,7 @@ import { PocHttpInteceptor } from 'src/app/shared/services/poc-http-interceptor'
     PatientInfoComponent,
     PatientEncountersComponent,
     PatientVitalsComponent,
+    HivSummaryLatestComponent,
     FormsComponent,
     LabDataSummaryComponent,
     LabOrdersComponent,
@@ -243,6 +250,7 @@ import { PocHttpInteceptor } from 'src/app/shared/services/poc-http-interceptor'
     EditVisitTypeComponent,
     LabSyncComponent,
     LabResultComponent,
+    LabResultImageModalComponent,
     ContactsComponent,
     PatientIdentifierComponent,
     AddressComponent,
@@ -276,6 +284,7 @@ import { PocHttpInteceptor } from 'src/app/shared/services/poc-http-interceptor'
     OrderByEncounterTimeAscPipe,
     EncounterTypeFilter,
     // ZeroVlPipe,
+    AgePipe,
     PatientImagingComponent],
   providers: [
     {

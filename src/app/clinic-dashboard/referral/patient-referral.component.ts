@@ -12,7 +12,8 @@ import {
 import {
   DataAnalyticsDashboardService
 } from '../../data-analytics-dashboard/services/data-analytics-dashboard.services';
-import * as Moment from 'moment';
+import { LocalStorageService } from '../../utils/local-storage.service';
+import { SelectDepartmentService } from '../../shared/services/select-department.service';
 
 @Component({
   selector: 'patient-referral-report',
@@ -25,13 +26,16 @@ export class PatientReferralComponent extends PatientReferralBaseComponent
   public programName: any;
   public enabledControls = 'datesControl,programsControl';
 
-  constructor(public patientReferralResourceService: PatientReferralResourceService,
-              private route: ActivatedRoute, private location: Location,
-              private router: Router,
-              public dataAnalyticsDashboardService: DataAnalyticsDashboardService) {
-    super(patientReferralResourceService, dataAnalyticsDashboardService);
-
-  }
+  constructor(
+    private location: Location,
+    private route: ActivatedRoute,
+    private router: Router,
+    public dataAnalyticsDashboardService: DataAnalyticsDashboardService,
+    public localStorageService: LocalStorageService,
+    public selectDepartmentService: SelectDepartmentService,
+    public patientReferralResourceService: PatientReferralResourceService) {
+      super(patientReferralResourceService, dataAnalyticsDashboardService, localStorageService, selectDepartmentService);
+    }
 
   public ngOnInit() {
     this.route.parent.parent.parent.parent.params.subscribe((params: any) => {

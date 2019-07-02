@@ -493,7 +493,7 @@ public setFiltersFromUrlParams(params, mapObj) {
 
       if (this.program.length === 0) {
          this.message = {
-           message: 'Kindly select atleast one program'
+           message: 'Kindly select at least one program'
          };
       } else {
         selectedProgramType = _.map(this.program , 'id');

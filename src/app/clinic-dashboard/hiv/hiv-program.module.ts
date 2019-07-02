@@ -81,6 +81,11 @@ import {
     ProgramVisitEncounterSearchModule
 } from '../../program-visit-encounter-search/program-visit-encounter-search.module';
 import { RouterModule } from '@angular/router';
+import {
+    Moh731MonthlyVizComponent
+} from './moh731-monthly-viz/moh731-monthly-viz.component';
+import { ClinicKibanaVizComponent } from '../../clinic-dashboard/clinic-kibana-viz/clinic-kibana-viz.component';
+import { KibanaLibModule } from '../../kibana-lib';
 
 import { HivEnhancedComponent } from './hiv-enhanced-program/hiv-enhanced-program.component';
 import {
@@ -92,6 +97,10 @@ import {
 import { DefaulterListComponent } from '../general/defaulter-list/defaulter-list.component';
 import { GeneralModule } from '../general/general.module';
 import { ChangeDepartmentModule } from '../change-department/change-department.module';
+import { HivDifferentiatedCareComponent } from './hiv-differentiated-care-program/hiv-differentiated-care-program.component';
+import {
+    HivDifferentiatedCarePatientListComponent
+} from './hiv-differentiated-care-program/hiv-differentiated-care-program-patient-list/hiv-differentiated-care-patient-list.component';
 @NgModule({
     imports: [
         clinicDashboardHivRouting,
@@ -119,7 +128,8 @@ import { ChangeDepartmentModule } from '../change-department/change-department.m
         ClinicScheduleLibModule,
         DepartmentProgramFilterModule,
         ChangeDepartmentModule,
-        GeneralModule
+        GeneralModule,
+        KibanaLibModule
     ],
     exports: [
         HivSummaryIndicatorComponent,
@@ -162,7 +172,11 @@ import { ChangeDepartmentModule } from '../change-department/change-department.m
         HivEnhancedComponent,
         HivEnhancedFiltersComponent,
         HivEnhancedPatientListComponent,
-        DefaulterListComponent
+        DefaulterListComponent,
+        Moh731MonthlyVizComponent,
+        ClinicKibanaVizComponent,
+        HivDifferentiatedCareComponent,
+        HivDifferentiatedCarePatientListComponent
     ],
     providers: [
         ClinicalSummaryVisualizationService

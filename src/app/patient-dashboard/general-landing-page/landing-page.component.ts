@@ -49,6 +49,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   public showVisitEncounterDetail = false;
   public loadingEncounter = false;
   public encounterViewed = false;
+  public lastEnrolledPrograms: any = [];
   private _datePipe: DatePipe;
   private subscriptions: Subscription[] = [];
   constructor(private patientService: PatientService,
@@ -204,6 +205,11 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
       '/general/general/program-manager/new-program']);
   }
 
+  public viewSummary(program) {
+    const url = program.buttons.landing.url;
+    this.router.navigate([url], {});
+  }
+
   private hasValidVisitInReferredLocation(referralEncounter: any, encounters: any[],
     locationUuid: string) {
     // search for visit encounters who's location is the referred to location
@@ -226,6 +232,19 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
         if (patient) {
           this.programsBusy = false;
           this.patient = patient;
+          const completedPrograms = _.filter(patient.enrolledPrograms, 'dateCompleted');
+          const programGroup: any = _.groupBy(completedPrograms, 'baseRoute');
+          const newArr = [];
+          if (programGroup.hiv) {
+            newArr.push(_.max(programGroup.hiv));
+          }
+          if (programGroup.oncology) {
+            newArr.push(_.max(programGroup.oncology));
+          }
+          if (programGroup.cdm) {
+            newArr.push(_.max(programGroup.cdm));
+          }
+          this.lastEnrolledPrograms = newArr;
           this.enrolledProgrames = _.filter(patient.enrolledPrograms, 'isEnrolled');
           this.getReferralLocation(this.enrolledProgrames).pipe(take(1)).subscribe((reply: any) => {
             if (reply) {

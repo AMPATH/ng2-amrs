@@ -1,0 +1,26 @@
+<div class="container-fluid">
+    <div class="row" id="dashboard-row">
+        <div class="loader" *ngIf="busyIndicator.busy"><span><i class="fa fa-spinner fa-spin">
+                </i>{{busyIndicator.message}}</span>
+        </div>
+         <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+            <h4 class="component-title" style="color: mediumorchid; cursor: pointer;" (click)="dashboard = undefined"> <span *ngIf="dashboard" class="fa fa-arrow-left" style="color: darkslategray;"></span> <span class="fa fa-area-chart"></span> Visualizations {{ dashboard ? '/ ' + dashboard.title : '' }}</h4>
+         </div>
+
+        <dashboard-list 
+          #dashboardListComponent 
+          [hidden]="dashboard !== undefined" 
+          (dashboardSelected)="onDashboardSelected($event)" 
+          (dashboardsLoaded)="onDashboardsLoaded($event)">
+        </dashboard-list>
+        
+        <kibana-viz-host 
+          [hidden]="dashboard === undefined" 
+          [height]="height" 
+          [width]="width" 
+          [url]="kibanaVizUrl" 
+          (patientNavigationRequested)="onPatientNavigationRequested($event)"
+          (vizUrlChanged)="onVizUrlChanged($event)">
+        </kibana-viz-host>
+</div>
+</div>

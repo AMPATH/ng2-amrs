@@ -1,24 +1,27 @@
-import { Component, OnInit, ViewChild, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import * as Moment from 'moment';
 import * as _ from 'lodash';
+import { take } from 'rxjs/operators';
+
 import {
   DataAnalyticsDashboardService
 } from '../../data-analytics-dashboard/services/data-analytics-dashboard.services';
 import {
   PatientReferralResourceService
 } from '../../etl-api/patient-referral-resource.service';
+import { LocalStorageService } from '../../utils/local-storage.service';
+import { SelectDepartmentService } from '../../shared/services/select-department.service';
 
 @Component({
   selector: 'patient-referral-report-base',
-  template: './patient-referral-report-base.component.html'
+  templateUrl: './patient-referral-report-base.component.html'
 })
 export class PatientReferralBaseComponent implements OnInit {
   public data: any = [];
   public sectionsDef = [];
   public isAggregated: boolean;
   public programs: any;
-
   public enabledControls = 'datesControl' +
     'ageControl,genderControl,locationControl';
   public startAge: number;
@@ -31,6 +34,11 @@ export class PatientReferralBaseComponent implements OnInit {
   public reportName = '';
   public dates: any;
   public programUuids: any;
+  public showEmptyResultsDialog = false;
+  public msgObj: any = {
+    'message': '',
+    'show': false
+  };
 
   private _startDate: Date = Moment().subtract(1, 'months').toDate();
   public get startDate(): Date {
@@ -47,7 +55,6 @@ export class PatientReferralBaseComponent implements OnInit {
   }
 
   public set endDate(v: Date) {
-
     this._endDate = v;
   }
 
@@ -60,51 +67,80 @@ export class PatientReferralBaseComponent implements OnInit {
     this._locationUuids = v;
   }
 
-  constructor(public patientReferralResourceService: PatientReferralResourceService,
-    public dataAnalyticsDashboardService: DataAnalyticsDashboardService) {
+  constructor(
+    public patientReferralResourceService: PatientReferralResourceService,
+    public dataAnalyticsDashboardService: DataAnalyticsDashboardService,
+    public localStorageService: LocalStorageService,
+    public selectDepartmentService: SelectDepartmentService) { }
+
+  public ngOnInit() { }
+
+  public resetErrorMessage() {
+    this.msgObj = {
+      message: '',
+      show: false
+    };
   }
 
-  public ngOnInit() {
-
+  public toggleEmptyResultsDialog() {
+    this.showEmptyResultsDialog = false;
   }
 
   public generateReport() {
-    this.dates = {
-      startDate: this.startDate,
-      endDate: this.endDate
-    };
+    this.data = [];
+    this.resetErrorMessage();
+    this.toggleEmptyResultsDialog();
+    if (!this.programs || this.programs.length === 0) {
+      this.msgObj = {
+        message: 'Kindly select at least one program',
+        show: true
+      };
+    } else {
+      this.dates = {
+        startDate: this.startDate,
+        endDate: this.endDate
+      };
 
-    this.encounteredError = false;
-    this.errorMessage = '';
-    this.isLoadingReport = true;
-    const filterLocation = this.getSelectedLocations(this.locationUuids);
-    const params = {
-      endDate: this.toDateString(this.endDate),
-      startDate: this.toDateString(this.startDate),
-      locationUuids: filterLocation
-    };
+      const department = this.selectDepartmentService.getUserSetDepartment();
 
-    if (!_.isUndefined(this.programs)) {
-      _.extend(params, {
-        programUuids: this.programs
-      });
+      this.encounteredError = false;
+      this.errorMessage = '';
+      this.isLoadingReport = true;
+      const filterLocation = this.getSelectedLocations(this.locationUuids);
+      const params = {
+        endDate: this.toDateString(this.endDate),
+        startDate: this.toDateString(this.startDate),
+        locationUuids: filterLocation,
+        department: department
+      };
+
+      if (!_.isUndefined(this.programs)) {
+        _.extend(params, {
+          programUuids: this.programs
+        });
+      }
+      this.patientReferralResourceService
+        .getPatientReferralReport(params).pipe(take(1)).subscribe((data) => {
+          this.isLoadingReport = false;
+          const groupedProgramData = this.getProgramData(data);
+          if (groupedProgramData.length === 0) {
+            this.showEmptyResultsDialog = true;
+          } else {
+            this.data = groupedProgramData;
+          }
+        }, (error) => {
+          console.log('error => ', error);
+          this.isLoadingReport = false;
+          this.errorMessage = error;
+          this.encounteredError = true;
+        });
     }
-    this.patientReferralResourceService
-      .getPatientReferralReport(params).take(1).subscribe((data) => {
-        this.isLoadingReport = false;
-        this.data = this.getProgramData(data);
-
-      }, (error) => {
-        console.log('error => ', error);
-        this.isLoadingReport = false;
-        this.errorMessage = error;
-        this.encounteredError = true;
-      });
   }
 
   public getSelectedPrograms(programsUuids): string {
     if (!programsUuids || programsUuids.length === 0) {
-      return '';
+      this.programs = '';
+      return this.programs;
     }
 
     let selectedPrograms = '';
@@ -117,7 +153,8 @@ export class PatientReferralBaseComponent implements OnInit {
       }
     }
 
-    return this.programs = selectedPrograms;
+    this.programs = selectedPrograms.length > 0 ? selectedPrograms : undefined;
+    return this.programs;
   }
 
   public onTabChanged(event) {
@@ -127,7 +164,6 @@ export class PatientReferralBaseComponent implements OnInit {
   }
 
   private getSelectedLocations(locationUuids: Array<string>): string {
-
     if (!locationUuids || locationUuids.length === 0) {
       return '';
     }
@@ -156,5 +192,4 @@ export class PatientReferralBaseComponent implements OnInit {
 
     return rowData;
   }
-
 }

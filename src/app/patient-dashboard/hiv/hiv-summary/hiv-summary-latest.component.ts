@@ -1,6 +1,6 @@
 /* tslint:disable:no-inferrable-types */
 import { take } from 'rxjs/operators/take';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 
 import { PatientService } from '../../services/patient.service';
 import { HivSummaryService } from './hiv-summary.service';
@@ -14,37 +14,17 @@ import * as _ from 'lodash';
   styleUrls: ['./hiv-summary.component.css']
 })
 export class HivSummaryLatestComponent implements OnInit, OnDestroy {
+  @Input() patientUuid: string;
   public loadingHivSummary: boolean = false;
   public hivSummary: any;
   public subscription: Subscription[] = [];
   public patient: Patient;
-  public patientUuid: any;
   public errors: any = [];
 
-  constructor(private hivSummaryService: HivSummaryService,
-    private patientService: PatientService) { }
+  constructor(private hivSummaryService: HivSummaryService) { }
 
   public ngOnInit() {
-    this.getPatient();
-  }
-
-  public getPatient() {
-    this.loadingHivSummary = true;
-    const patientSub = this.patientService.currentlyLoadedPatient.subscribe(
-      (patient) => {
-        if (patient) {
-          this.patient = patient;
-          this.patientUuid = this.patient.person.uuid;
-          this.loadHivSummary(this.patientUuid);
-        }
-      }, (err) => {
-        this.loadingHivSummary = false;
-        this.errors.push({
-          id: 'patient',
-          message: 'error fetching patient'
-        });
-      });
-    this.subscription.push(patientSub);
+    this.loadHivSummary(this.patientUuid);
   }
 
   public loadHivSummary(patientUuid) {

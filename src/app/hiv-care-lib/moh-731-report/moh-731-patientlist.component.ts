@@ -197,7 +197,15 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
       cur_arv_meds: 'Current ARV Regimen',
       vl_1: 'Viral Load',
       vl_1_date: 'Viral Load Date',
-      has_pending_vl_test: 'Pending Viral Load Test'
+      has_pending_vl_test: 'Pending Viral Load Test',
+      phone_number: 'Phone Number',
+      last_appointment: 'Latest Appointment',
+      latest_rtc_date: 'Latest RTC Date',
+      latest_vl: 'Latest VL',
+      latest_vl_date: 'Latest VL Date',
+      previous_vl: 'Previous VL',
+      previous_vl_date: 'Previous VL Date',
+      nearest_center: 'Nearest Center'
     };
 
     // tslint:disable-next-line

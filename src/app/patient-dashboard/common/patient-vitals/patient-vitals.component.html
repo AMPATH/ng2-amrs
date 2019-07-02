@@ -18,6 +18,8 @@
     <th *ngIf="patient && patient?.person.age < 18 ">Height For Age</th>
     <th *ngIf="patient && patient?.person.age < 5 ">Weight For Height</th>
     <th *ngIf="patient && patient?.person.age < 18 && patient?.person.age >= 5 ">BMI For Age</th>
+    <th>BSA</th>
+    <th *ngIf= "isDepartmentOncology">ECOG</th>
   </tr>
   </thead>
   <tr *ngFor="let vitals of vitals; let i = index; ">
@@ -55,6 +57,12 @@
     </td>
     <td *ngIf="patient && patient?.person.age<18  && patient?.person.age>4" >
       <span [style.color]="vitals.bmiForAge && (vitals.bmiForAge < 0 )? 'red':''" >{{vitals?.bmiForAge || '&nbsp;'}}</span>
+    </td>
+    <td>
+      {{vitals.bsa  || '&nbsp;'}}
+    </td>
+    <td *ngIf= "isDepartmentOncology" >
+      {{vitals.ecog  || '&nbsp;'}}
     </td>
   </tr>
 </table>

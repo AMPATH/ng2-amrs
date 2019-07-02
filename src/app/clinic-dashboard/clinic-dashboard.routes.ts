@@ -24,7 +24,7 @@ export const routes = [
             path: 'hiv', loadChildren: './hiv/hiv-program.module#HivProgramModule'
           },
           {
-            path: 'oncology',
+            path: 'hemato-oncology',
             loadChildren: './oncology/oncology-program.module#OncologyProgramModule'
           },
           { path: '', redirectTo: 'general', pathMatch: 'prefix' }
