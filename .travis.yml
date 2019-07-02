@@ -11,7 +11,7 @@ before_install:
 - npm i -g brfs
 script:
 - npm run lint
-- npm run build-prod
+- travis_wait npm run build-prod
 - npm run test
 - echo "Folder name in Digital Ocean Spaces - $TRAVIS_COMMIT"
 - mkdir -p dist/ampath-poc/$TRAVIS_COMMIT
