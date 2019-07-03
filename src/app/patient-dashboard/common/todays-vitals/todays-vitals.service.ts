@@ -1,16 +1,11 @@
 import { Injectable } from '@angular/core';
-import { DatePipe } from '@angular/common';
 
-import {
-  VisitResourceService
-} from '../../../openmrs-api/visit-resource.service';
-import { Vital } from '../../../models/vital.model';
 import * as _ from 'lodash';
 import * as Moment from 'moment-mini';
 import { ZscoreService } from '../../../shared/services/zscore.service';
 import { Patient } from '../../../models/patient.model';
+import { Vital } from '../../../models/vital.model';
 import { VitalsDatasource } from './vitals.datasource';
-
 
 @Injectable()
 export class TodaysVitalsService {
@@ -18,7 +13,6 @@ export class TodaysVitalsService {
   private vitalSources: any[] = [];
 
   constructor(
-    private visitResourceService: VisitResourceService,
     private vitalsDataSource: VitalsDatasource) {
   }
 
