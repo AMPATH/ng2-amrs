@@ -1,21 +1,54 @@
+import { take } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { PatientService } from '../../services/patient.service';
+import { Patient } from '../../../models/patient.model';
 
+import { Vital } from '../../../models/vital.model';
+import { TodaysVitalsService } from './todays-vitals.service';
+import { EncounterResourceService } from './../../../openmrs-api/encounter-resource.service';
 import * as _ from 'lodash';
 import * as Moment from 'moment-mini';
 import { CommonVitalsSource } from './sources/common-vitals.source';
-import { EncounterResourceService } from './../../../openmrs-api/encounter-resource.service';
 import { HivTriageSource } from './sources/hiv-triage.source';
-import { PatientService } from '../../services/patient.service';
-import { Patient } from '../../../models/patient.model';
-import { Vital } from '../../../models/vital.model';
-import { TodaysVitalsService } from './todays-vitals.service';
 import { OncologyTriageSource } from './sources/oncology-triage.source';
 import { ZScoreSource } from './sources/z-score.source';
 
 @Component({
   selector: 'todays-vitals',
   templateUrl: './todays-vitals.component.html',
-  styleUrls: ['./todays-vitals.component.css']
+  styles: [
+    `
+      .list-group-item.show-more {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      .list-group-item.row {
+        margin-left: 0;
+        margin-right: 0;
+      }
+
+      .list-group-item.row span.value {
+        padding-left: 10px;
+      }
+
+      .list-group-item i {
+        line-height: 25px;
+        font-size: 32px;
+        position: absolute;
+        right: 15px;
+        top: 12px;
+        background-color: #fff;
+        padding-left: 15px;
+      }`,
+    `@media screen and (min-width: 768px) {
+      .list-group-item i {
+        display: none;
+      }
+    }`
+  ],
 })
 export class TodaysVitalsComponent implements OnInit, OnDestroy {
   public patient: Patient = new Patient({});
@@ -26,11 +59,12 @@ export class TodaysVitalsComponent implements OnInit, OnDestroy {
   public dataLoaded = false;
   public showAll = false;
   private vitalSources: any[] = [];
+  private obs: any[] = [];
 
   constructor(
     private patientService: PatientService,
     private vitalService: TodaysVitalsService,
-    private encounterResourceService: EncounterResourceService) {
+    private _encounterResourceService: EncounterResourceService) {
   }
 
   public ngOnInit(): void {
@@ -59,22 +93,23 @@ export class TodaysVitalsComponent implements OnInit, OnDestroy {
     this.getTodaysEncounterDetails(todaysEncounters)
       .then((encounterDetails) => {
         this.vitalService.getTodaysVitals(patient, encounterDetails, this.vitalSources)
-        .then((data: any) => {
+          .then((data: any) => {
             if (data) {
               this.loadingTodaysVitals = false;
               this.todaysVitals = _.filter(data, 'show');
               this.dataLoaded = true;
             }
-          }).catch(error => {
+          }).catch((error) => {
             this.loadingTodaysVitals = false;
             this.dataLoaded = true;
+            console.log(error);
             this.errors.push({
               id: 'Todays Vitals',
-              message: 'Error fetching today\'s vitals'
+              message: 'error fetching todays vitals'
             });
           });
       }).catch((err) => {
-        console.error('Error fetching today\'s vitals', err);
+        console.log('we are in here', err);
       });
   }
 
@@ -90,6 +125,7 @@ export class TodaysVitalsComponent implements OnInit, OnDestroy {
     });
 
     return todaysEncounters;
+
   }
 
   public getTodaysEncounterDetails(todaysEncounters) {
@@ -105,7 +141,7 @@ export class TodaysVitalsComponent implements OnInit, OnDestroy {
       _.each(todaysEncounters, (todaysEncounter: any) => {
         const encounterUuid = todaysEncounter.uuid;
         encounterCount++;
-        this.encounterResourceService.getEncounterByUuid(encounterUuid).pipe(
+        this._encounterResourceService.getEncounterByUuid(encounterUuid).pipe(
           take(1)).subscribe((encounterDetail) => {
             encounterWithDetails.push(encounterDetail);
             resultCount++;
@@ -131,4 +167,5 @@ export class TodaysVitalsComponent implements OnInit, OnDestroy {
     this.dataLoaded = false;
     this.loadingTodaysVitals = false;
   }
+
 }
