@@ -55,7 +55,7 @@ export class OncologyDiagnosisHistoryComponent implements OnInit, OnDestroy {
   }
 
   public loadOncologyDiagnosisHistory() {
-    this.oncolologySummary.getOncologySummary('diagnosis-history', this.patientUuid, this.programUuid, 0 , 10).subscribe((summary) => {
+    this.oncolologySummary.getOncologySummary('diagnosis-history', this.patientUuid, this.programUuid).subscribe((summary) => {
       this.diagnosisChanges = summary;
       this.loadingSummary = false;
     }, (error) => {

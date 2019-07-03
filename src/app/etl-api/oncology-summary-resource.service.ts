@@ -18,8 +18,7 @@ export class OncologySummaryResourceService {
     return this.appSettingsService.getEtlRestbaseurl().trim() + 'patient';
   }
 
-  public getOncologySummary(report: string, patientUuid: string, programUuid: string, startIndex: number,
-    limit: number): Observable<any> {
+  public getOncologySummary(report: string, patientUuid: string, programUuid: string): Observable<any> {
     let url = this.getUrl();
     url += '/' + patientUuid + '/oncology/' + report;
 

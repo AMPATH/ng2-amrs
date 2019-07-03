@@ -30,7 +30,6 @@ import {
   PatientsRequiringVLResourceServiceMock
 } from './patients-requiring-vl-resource.service.mock';
 import { DailyScheduleResourceService } from './daily-scheduled-resource.service';
-import { HivClinicFlowResourceService } from './hiv-clinic-flow-resource.service';
 import { DefaulterListResourceService } from './defaulter-list-resource.service';
 import {
   HivMonthlySummaryIndicatorsResourceService
@@ -42,8 +41,6 @@ import { CdmSummaryResourceService } from './cdm-summary-resource.service';
 import { RadiologyImagingResourceService } from './radiology-imaging-resource.service';
 import { HivEnhancedReportService } from './hiv-enhanced-program-report.service';
 import { OncologySummaryResourceService } from './oncology-summary-resource.service';
-import { KibanaDashboardListService } from './kibana-dashboard-list-service';
-import { HivDifferentiatedCareResourceService } from './hiv-differentiated-care-resource.service';
 @NgModule({
   imports: [CommonModule, AppSettingsModule],
   declarations: [],
@@ -80,8 +77,6 @@ import { HivDifferentiatedCareResourceService } from './hiv-differentiated-care-
     HivEnhancedReportService,
     OncologySummaryResourceService,
     RadiologyImagingResourceService,
-    KibanaDashboardListService,
-    HivDifferentiatedCareResourceService
   ],
   exports: []
 })

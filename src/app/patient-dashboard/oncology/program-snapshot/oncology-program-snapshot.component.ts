@@ -43,7 +43,7 @@ export class OncologyProgramSnapshotComponent implements OnInit, OnDestroy {
 
   public loadOncologyDataSummary(patientUuid) {
     if (this.programUuid && patientUuid) {
-      this.oncolologySummary.getOncologySummary('summary', patientUuid, this.programUuid, 0 , 1).subscribe((summary) => {
+      this.oncolologySummary.getOncologySummary('summary', patientUuid, this.programUuid).subscribe((summary) => {
         this.summaryData = summary[0];
         this.hasData =  true;
         this.hasError = false;
