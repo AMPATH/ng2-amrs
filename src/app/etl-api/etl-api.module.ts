@@ -76,7 +76,7 @@ import { OncologySummaryResourceService } from './oncology-summary-resource.serv
     // ReferralProviderResourceService
     HivEnhancedReportService,
     OncologySummaryResourceService,
-    RadiologyImagingResourceService
+    RadiologyImagingResourceService,
   ],
   exports: []
 })
