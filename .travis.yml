@@ -15,7 +15,8 @@ script:
 - npm run test
 - echo "Folder name in Digital Ocean Spaces - $TRAVIS_COMMIT"
 - mkdir -p dist/ampath-poc/$TRAVIS_COMMIT
-- mv dist/ngx-amrs/*.* dist/ampath-poc/$TRAVIS_COMMIT/
+- mv -v dist/ngx-amrs/* dist/ampath-poc/$TRAVIS_COMMIT/
+- rm -rf dist/ngx-amrs
 deploy:
   provider: s3
   access_key_id: "$DIGITAL_OCEAN_SPACES_KEY_ID"
