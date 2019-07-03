@@ -21,25 +21,7 @@ export class OncologyTriageSource extends CommonVitalsSource implements VitalSou
       case 'a8a6f71a-1350-11df-a1f1-0026b9348838':
         return this.vitalModel.createVital({
           name: 'rr',
-          label: 'RR (Breath/Min):',
-          value: ob.value
-        });
-      case '5c81fd39-ed50-4e15-8c26-28665df48388':
-        return this.vitalModel.createVital({
-          name: 'inr',
-          label: 'INR:',
-          value: ob.value
-        });
-      case '54cdaf35-95a3-420a-a13d-1dbcb70df213':
-        return this.vitalModel.createVital({
-          name: 'lcc',
-          label: 'LCC (cm):',
-          value: ob.value
-        });
-      case '4edfb236-1fc7-4296-b058-814662ed41fa':
-        return this.vitalModel.createVital({
-          name: 'rcc',
-          label: 'RCC (cm):',
+          label: 'RR(Breath/Min):',
           value: ob.value
         });
       default:
