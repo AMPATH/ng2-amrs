@@ -56,7 +56,7 @@ export class OncologyMedicationHistoryComponent implements OnInit, OnDestroy {
   }
 
   public loadOncologyMedicationHistory() {
-    this.oncolologySummary.getOncologySummary('medication-history', this.patientUuid, this.programUuid, 0 , 10).subscribe((summary) => {
+    this.oncolologySummary.getOncologySummary('medication-history', this.patientUuid, this.programUuid).subscribe((summary) => {
       this.medicalChanges = summary;
       this.loadingSummary = false;
     }, (error) => {

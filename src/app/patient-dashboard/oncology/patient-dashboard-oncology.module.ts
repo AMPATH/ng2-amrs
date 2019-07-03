@@ -10,13 +10,17 @@ import { PanelModule, TabViewModule } from 'primeng/primeng';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { OncologyLandingPageComponent } from './landing-page/landing-page.component';
 import { OncologySummaryComponent } from './oncology-summary/oncology-summary.component';
-import { OncologySummaryLatestComponent
+import {
+  OncologySummaryLatestComponent
 } from './oncology-summary/oncology-summary-latest.component';
-import { OncologyDiagnosisHistoryComponent
+import {
+  OncologyDiagnosisHistoryComponent
 } from './diagnosis-history/oncology-diagnosis-history.component';
-import { OncologyMedicationHistoryComponent
+import {
+  OncologyMedicationHistoryComponent
 } from './medication-history/oncology-medication-history.component';
-
+import { OncologyProgramSnapshotComponent
+} from './program-snapshot/oncology-program-snapshot.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -28,11 +32,11 @@ import { OncologyMedicationHistoryComponent
     NgxPaginationModule
   ],
   exports: [
-    OncologyLandingPageComponent, OncologySummaryComponent
+    OncologyLandingPageComponent, OncologySummaryComponent, OncologyProgramSnapshotComponent
   ],
   declarations: [
     OncologyLandingPageComponent, OncologySummaryComponent, OncologySummaryLatestComponent,
-    OncologyDiagnosisHistoryComponent, OncologyMedicationHistoryComponent
+    OncologyDiagnosisHistoryComponent, OncologyMedicationHistoryComponent, OncologyProgramSnapshotComponent
   ],
   providers: [
     {

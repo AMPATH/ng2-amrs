@@ -8,7 +8,6 @@
       <tr>
         <th>Date of Diagnosis</th>
         <th>Oncology Diagnosis</th>
-        <th>Cancer Stage Group</th>
       </tr>
     </thead>
     <tbody *ngIf="!diagnosisChanges">
@@ -22,7 +21,6 @@
         <tr *ngFor="let diagnosis of diagnosisChanges">
           <td>{{ diagnosis.diagnosis_date }}</td>
           <td>{{ diagnosis.diagnosis }}</td>
-          <td>{{ diagnosis.overal_cancer_stage_group }}</td>
         </tr>
       </tbody>
   </table>

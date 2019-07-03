@@ -53,7 +53,7 @@ export class OncologySummaryLatestComponent implements OnInit, OnDestroy {
   }
 
   public loadOncologyDataSummary() {
-    this.oncolologySummary.getOncologySummary('summary', this.patientUuid, this.programUuid, 0 , 1).subscribe((summary) => {
+    this.oncolologySummary.getOncologySummary('summary', this.patientUuid, this.programUuid).subscribe((summary) => {
       this.summaryData = summary[0];
       this.loadingSummary = false;
     }, (error) => {
