@@ -58,6 +58,30 @@
         },
         {
             "type": "derived_column",
+            "alias": "on_tdf_3tc_efv_400",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "IF(fhs.cur_arv_meds REGEXP '(802.*633.*628)|(802.*628.*633)|(628.*802.*633)|(628.*633.*802)|(633.*802.*628)|(633.*628.*802)' AND fhs.cur_arv_drugs REGEXP '(1088.*598)', 1, NULL) "
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "on_tdf_3tc_efv_600",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "IF(fhs.cur_arv_meds REGEXP '(802.*633.*628)|(802.*628.*633)|(628.*802.*633)|(628.*633.*802)|(633.*802.*628)|(633.*628.*802)' AND (fhs.cur_arv_drugs REGEXP '(1088.*38)' OR fhs.cur_arv_drugs IS NULL), 1, NULL) "
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "on_tdf_3tc_dtg",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "IF(fhs.cur_arv_meds REGEXP '(802.*9759.*628)|(802.*628.*9759)|(628.*802.*9759)|(628.*9759.*802)|(9759.*802.*628)|(9759.*628.*802)',1,NULL) "
+            }
+        },
+        {
+            "type": "derived_column",
             "alias": "newly_on_second_line",
             "expressionType": "simple_expression",
             "expressionOptions": {

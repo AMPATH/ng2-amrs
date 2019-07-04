@@ -27,6 +27,30 @@
         },
         {
             "type": "derived_column",
+            "alias": "on_tdf_3tc_efv_400",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(distinct concat(on_tdf_3tc_efv_400, hsb.person_id))"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "on_tdf_3tc_efv_600",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(distinct concat(on_tdf_3tc_efv_600, hsb.person_id))"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "on_tdf_3tc_dtg",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(distinct concat(on_tdf_3tc_dtg, hsb.person_id))"
+            }
+        },
+        {
+            "type": "derived_column",
             "alias": "on_arvs",
             "expressionType": "simple_expression",
             "expressionOptions": {
@@ -448,7 +472,9 @@
                     "templateColumn": "person_id"
                 }
             },
-            "skipParams": ["gender"]
+            "skipParams": [
+                "gender"
+            ]
         }
     }
 }

@@ -18,6 +18,24 @@
         "expression": "cur_arv_line is not null"
     },
     {
+        "name": "on_tdf_3tc_efv_400",
+        "label": "On TDF300/3TC300/EFV400",
+        "description": "Total # of patients who are on TENOFOVIR AND LAMIVUDINE AND EFAVIRENZ 400",
+        "expression": "true"
+    },
+    {
+        "name": "on_tdf_3tc_efv_600",
+        "label": "On TDF300/3TC300/EFV600",
+        "description": "Total # of patients who are on TENOFOVIR AND LAMIVUDINE AND EFAVIRENZ 600",
+        "expression": "true"
+    },
+    {
+        "name": "on_tdf_3tc_dtg",
+        "label": "On TDF300/3TC300/DTG50",
+        "description": "Total # of patients who are on TENOFOVIR AND LAMIVUDINE AND DOLUTEGRAVIR",
+        "expression": "true"
+    },
+    {
         "name": "art_net_cohort_at_12_months",
         "label": "art net cohort at 12 months",
         "description": "ART Net Cohort at 12 months",
