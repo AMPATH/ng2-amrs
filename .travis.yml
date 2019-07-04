@@ -37,5 +37,5 @@ addons:
     - google-chrome-stable
 after_deploy:
   - echo "Updating import map to point to new version of @ampath/poc"
-  - curl -u $DEPLOYER_USERNAME:$DEPLOYER_PASSWORD -d '{ "service":"@ampath/poc","url":"https://ampath-poc.fra1.digitaloceanspaces.com/ampath-poc/'$TRAVIS_COMMIT'/main.js" }' -X PATCH $DEPLOYER_HOST/services\?env=prod -H "Accept:application/json" -H "Content-Type:application/json" --fail
+  - curl -u $DEPLOYER_USERNAME:$DEPLOYER_PASSWORD -d '{ "service":"@ampath/poc","url":"'$DIGITAL_OCEAN_SPACES_DEPLOY_URL'/'$TRAVIS_COMMIT'/main.js" }' -X PATCH $DEPLOYER_HOST/services\?env=prod -H "Accept:application/json" -H "Content-Type:application/json" --fail
 
