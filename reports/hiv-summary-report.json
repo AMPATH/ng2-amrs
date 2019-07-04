@@ -77,6 +77,21 @@
                 "sql":"count(distinct t1.person_id)"
             },
             {
+                "label":"on_tdf_3tc_dtg",
+                "expression":"on_tdf_3tc_dtg",
+                "sql":"1"
+            },
+            {
+                "label":"on_tdf_3tc_efv_400",
+                "expression":"on_tdf_3tc_efv_400",
+                "sql":"1"
+            },
+            {
+                "label":"on_tdf_3tc_efv_600",
+                "expression":"on_tdf_3tc_efv_600",
+                "sql":"1"
+            },
+            {
                 "label":"on_arvs",
                 "expression":"on_arvs",
                 "sql":"count(distinct if($expression,t1.person_id,null))"
