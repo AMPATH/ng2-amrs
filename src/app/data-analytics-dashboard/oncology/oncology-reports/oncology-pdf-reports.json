@@ -130,6 +130,35 @@
           ]
         }
       ]
+    },
+    {
+        "report_type": "lung-cancer-treatment-numbers",
+        "sections": [{
+                "section": "enrolled_patients",
+                "report_indicators": [
+                    "enrolled_patients",
+                    "alive_patients",
+                    "deceased",
+                    "small_cell_lung_cancer",
+                    "non_small_cell_lung_cancer",
+                    "adenocarcinoma",
+                    "epidermoid_carcinoma",
+                    "large_cell_carcinoma",
+                    "mixed_squamous",
+                    "lost_to_follow_up",
+                    "stage_one",
+                    "stage_two",
+                    "stage_three",
+                    "stage_four",
+                    "limited_stage",
+                    "extensive_stage",
+                    "for_staging",
+                    "chemotherapy",
+                    "radiotherapy",
+                    "surgery"
+                ]
+            }
+        ]
     }
   ]
 }
