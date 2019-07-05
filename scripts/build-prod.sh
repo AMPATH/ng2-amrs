@@ -4,4 +4,4 @@ else
   DEPLOY_URL="http://localhost:4200"
 fi
 echo $DEPLOY_URL
-node version.js && node --max-old-space-size=4096 ./node_modules/@angular/cli/bin/ng build --prod --stats-json --deploy-url $DEPLOY_URL
+node version.js && node --max-old-space-size=4096 ./node_modules/@angular/cli/bin/ng build --prod --stats-json --deploy-url $DEPLOY_URL --base-href $DEPLOY_URL
