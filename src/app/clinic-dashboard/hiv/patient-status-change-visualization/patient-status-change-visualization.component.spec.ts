@@ -12,7 +12,7 @@ import { IndicatorSelectComponent } from '../../dashboard-filters/indicator-sele
 import { GenderSelectComponent } from '../../dashboard-filters/gender-selector/gender-selector.component';
 import { DateRangeComponent } from '../../dashboard-filters/date-range/date-range.component';
 import { RangeSliderComponent } from '../../dashboard-filters/range-slider/range-slider.component';
-import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry';
+import { DateTimePickerModule } from 'ngx-openmrs-formentry';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HighchartsStatic } from 'angular2-highcharts/dist/HighchartsService';
 import { highchartsFactory } from '../../clinic-dashboard.module';

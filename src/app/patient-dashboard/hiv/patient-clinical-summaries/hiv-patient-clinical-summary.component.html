@@ -27,7 +27,7 @@
 
       </div>
       <div class="panel-body" style="background-color: #ECF0F5">
-        <pdf-viewer [src]="pdfSrc"
+        <!-- <pdf-viewer [src]="pdfSrc"
                     [(page)]="page"
                     (after-load-complete)="afterLoadCompletes($event)"
                     [original-size]="false"
@@ -36,7 +36,7 @@
                     [show-all]="false"
         >
 
-        </pdf-viewer>
+        </pdf-viewer> -->
         <div *ngIf="errorFlag" class="alert alert-warning">
           <strong>Patient summary not available,</strong> please contact your system administrator
           if you consider this an error
