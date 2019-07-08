@@ -53,6 +53,8 @@ import { PatientsProgramEnrollmentComponent } from '../../patients-program-enrol
 import { ProgramEnrollmentPatientListComponent } from '../../patients-program-enrollment/program-enrollent-patient-list.component';
 import { ClinicLabOrdersComponent } from '../general/clinic-lab-orders/clinic-lab-orders.component';
 import { ChangeDepartmentComponent } from '../change-department/change-department.component';
+import { SurgeReportComponent } from './surge-report/surge-report.component';
+import { SurgeReportPatientListComponent } from 'src/app/hiv-care-lib/surge-report/surge-report-patient-list.component';
 
 const routes: Routes = [
     {
@@ -164,6 +166,14 @@ const routes: Routes = [
     {
         path: 'department-select',
         component : ChangeDepartmentComponent
+    },
+    {
+        path: 'surge-reports',
+        component: SurgeReportComponent
+    },
+    {
+        path: 'surge-reports/surge-report-patientlist',
+        component: SurgeReportPatientListComponent
     }
 ];
 

@@ -36,6 +36,8 @@ import {
   DataEntryStatisticsModule
 } from './../../data-entry-statistics/data-entry-statistics.module';
 import { ChangeDepartmentModule } from '../change-department/change-department.module';
+import { SurgeReportComponent } from './surge/surge-report.component';
+import { ReportingUtilitiesModule } from 'src/app/reporting-utilities/reporting-utilities.module';
 @NgModule({
   imports: [
     dataAnalyticsDashboardHivRouting,
@@ -48,7 +50,8 @@ import { ChangeDepartmentModule } from '../change-department/change-department.m
     RouterModule,
     DataEntryStatisticsModule,
     PatientProgramEnrollmentModule,
-    ChangeDepartmentModule
+    ChangeDepartmentModule,
+    ReportingUtilitiesModule
   ],
   exports: [
     RouterModule,
@@ -62,7 +65,8 @@ import { ChangeDepartmentModule } from '../change-department/change-department.m
     HivSummaryIndicatorsComponent,
     Moh731ReportComponent,
     HivCareComparativeAnalyticsComponent,
-    HivSummaryMonthlyIndicatorsComponent
+    HivSummaryMonthlyIndicatorsComponent,
+    SurgeReportComponent
   ],
   providers: [
     DataAnalyticsDashboardService,

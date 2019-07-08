@@ -92,6 +92,8 @@ import {
 import { DefaulterListComponent } from '../general/defaulter-list/defaulter-list.component';
 import { GeneralModule } from '../general/general.module';
 import { ChangeDepartmentModule } from '../change-department/change-department.module';
+import { SurgeReportComponent } from './surge-report/surge-report.component';
+import { ReportingUtilitiesModule } from 'src/app/reporting-utilities/reporting-utilities.module';
 @NgModule({
     imports: [
         clinicDashboardHivRouting,
@@ -119,7 +121,8 @@ import { ChangeDepartmentModule } from '../change-department/change-department.m
         ClinicScheduleLibModule,
         DepartmentProgramFilterModule,
         ChangeDepartmentModule,
-        GeneralModule
+        GeneralModule,
+        ReportingUtilitiesModule
     ],
     exports: [
         HivSummaryIndicatorComponent,
@@ -162,7 +165,8 @@ import { ChangeDepartmentModule } from '../change-department/change-department.m
         HivEnhancedComponent,
         HivEnhancedFiltersComponent,
         HivEnhancedPatientListComponent,
-        DefaulterListComponent
+        DefaulterListComponent,
+        SurgeReportComponent
     ],
     providers: [
         ClinicalSummaryVisualizationService

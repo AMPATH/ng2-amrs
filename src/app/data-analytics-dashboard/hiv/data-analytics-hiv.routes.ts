@@ -18,6 +18,10 @@ import { DataEntryStatisticsPatientListComponent } from './../../data-entry-stat
 import { Moh731ReportComponent } from './moh-731/moh-731-report.component';
 import { Moh731PatientListComponent } from './../../hiv-care-lib/moh-731-report/moh-731-patientlist.component';
 import { ChangeDepartmentComponent } from '../change-department/change-department.component';
+
+import { SurgeReportComponent } from './surge/surge-report.component';
+import { SurgeReportPatientListComponent } from 'src/app/hiv-care-lib/surge-report/surge-report-patient-list.component';
+
 const routes: Routes = [
   {
     path: 'clinic-flow', component: AdminDashboardClinicFlowComponent
@@ -104,6 +108,19 @@ const routes: Routes = [
   {
     path: 'select-department',
     component: ChangeDepartmentComponent
+  },
+  {
+    path: 'surge',
+    children: [
+      {
+        path: 'surge-report-patientlist',
+        component: SurgeReportPatientListComponent
+      },
+      {
+        path: '',
+        component: SurgeReportComponent
+      }
+    ]
   }
 ];
 
