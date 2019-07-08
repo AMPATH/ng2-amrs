@@ -9,7 +9,7 @@ import { DataListsModule } from '../shared/data-lists/data-lists.module';
 import {
   AccordionModule, DataTableModule, SharedModule, TabViewModule,
   GrowlModule, PanelModule, ConfirmDialogModule, ConfirmationService,
-  DialogModule, InputTextModule, MessagesModule, InputTextareaModule,
+  DialogModule, InputTextModule, MessagesModule, InputTextareaModule, MultiSelectModule,
   DropdownModule, ButtonModule, CalendarModule
 } from 'primeng/primeng';
 import { Moh731TabularComponent } from './moh-731-report/moh-731-tabular.component';
@@ -87,6 +87,9 @@ import {
   ProgramWorkFlowResourceService
 } from '../openmrs-api/program-workflow-resource.service';
 import { HighchartsStatic } from 'angular2-highcharts/dist/HighchartsService';
+import { SurgeReportTabularComponent } from './surge-report/surge-report-tabular.component';
+import { SurgeReportBaseComponent } from './surge-report/surge-report-base.component';
+import { SurgeReportPatientListComponent } from './surge-report/surge-report-patient-list.component';
 export function highchartsFactory() {
   const hc = require('highcharts');
   const hcm = require('highcharts/highcharts-more');
@@ -108,6 +111,7 @@ export function highchartsFactory() {
     DataTableModule,
     SharedModule,
     GrowlModule,
+    MultiSelectModule,
     PanelModule,
     ConfirmDialogModule,
     DialogModule,
@@ -150,7 +154,10 @@ export function highchartsFactory() {
     VisualizationPatientListComponent,
     HivSummaryIndicatorsPatientListComponent,
     HivSummaryMonthlyTabularComponent,
-    HivMonthlySummaryIndicatorsPatientListComponent
+    HivMonthlySummaryIndicatorsPatientListComponent,
+    SurgeReportTabularComponent,
+    SurgeReportBaseComponent,
+    SurgeReportPatientListComponent
   ],
   declarations: [
     Moh731TabularComponent,
@@ -176,7 +183,10 @@ export function highchartsFactory() {
     HivSummaryIndicatorsPatientListComponent,
     HivMonthlySummaryIndicatorBaseComponent,
     HivSummaryMonthlyTabularComponent,
-    HivMonthlySummaryIndicatorsPatientListComponent
+    HivMonthlySummaryIndicatorsPatientListComponent,
+    SurgeReportTabularComponent,
+    SurgeReportBaseComponent,
+    SurgeReportPatientListComponent
   ],
   providers: [MOHReportService,
     LocationResourceService,

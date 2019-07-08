@@ -40,7 +40,7 @@ export function highchartsFactory() {
     provide: HighchartsStatic,
     useFactory: highchartsFactory
   }],
-  exports: [ReportFilterComponent]
+  exports: [ReportFilterComponent, ReportViewComponent]
 })
 export class ReportingUtilitiesModule {
 }

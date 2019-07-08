@@ -61,6 +61,9 @@ import {
     DashboardsViewerComponent
 } from '../../kibana-lib';
 import { HivDifferentiatedCareComponent } from './hiv-differentiated-care-program/hiv-differentiated-care-program.component';
+import { SurgeReportComponent } from './surge-report/surge-report.component';
+import { SurgeReportPatientListComponent } from 'src/app/hiv-care-lib/surge-report/surge-report-patient-list.component';
+
 const routes: Routes = [
     {
         path: 'landing-page',
@@ -183,6 +186,14 @@ const routes: Routes = [
     {
         path: 'department-select',
         component : ChangeDepartmentComponent
+    },
+    {
+        path: 'surge-reports',
+        component: SurgeReportComponent
+    },
+    {
+        path: 'surge-reports/surge-report-patientlist',
+        component: SurgeReportPatientListComponent
     }
 ];
 
