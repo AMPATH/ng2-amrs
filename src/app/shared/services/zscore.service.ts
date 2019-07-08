@@ -29,7 +29,7 @@ export class ZscoreService {
           scoreRefModel.weightForHeightRef  = wflFemaleBelow5;
           scoreRefModel.heightForAgeRef = this.getScoreReference(hfaFemaleBelow5, 'Day', ageInDays);
           }
-          if ( age > 5 && age < 18 ) {
+          if ( age >= 5 && age < 18 ) {
             scoreRefModel.bmiForAgeRef =  this.getScoreReference(bfaFemale5Above, 'Month', ageInMonths);
             scoreRefModel.heightForAgeRef = this.getScoreReference(hfaFemale5Above, 'Month', ageInMonths);
           }
@@ -41,7 +41,7 @@ export class ZscoreService {
         scoreRefModel.heightForAgeRef = this.getScoreReference(hfaMaleBelow5, 'Day', ageInDays);
         }
 
-        if ( age > 5 && age < 18 ) {
+        if ( age >= 5 && age < 18 ) {
           scoreRefModel.bmiForAgeRef =  this.getScoreReference(bfaMale5Above, 'Month', ageInMonths);
           scoreRefModel.heightForAgeRef = this.getScoreReference(hfaMale5Above, 'Month', ageInMonths);
         }
