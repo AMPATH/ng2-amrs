@@ -18,7 +18,6 @@ import { SelectDepartmentService } from './../shared/services/select-department.
 import { DateTimePickerModule } from 'ngx-openmrs-formentry';
 
 import { PatientService } from '../patient-dashboard/services/patient.service';
-import { delay } from 'rxjs/operators';
 
 class MockRouter {
   public navigate = jasmine.createSpy('navigate');
