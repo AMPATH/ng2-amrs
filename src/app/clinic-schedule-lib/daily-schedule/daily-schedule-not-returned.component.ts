@@ -6,7 +6,7 @@ import {
 } from '../../clinic-dashboard/services/clinic-dashboard-cache.service';
 import { DailyScheduleResourceService } from '../../etl-api/daily-scheduled-resource.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 import { LocalStorageService } from './../../utils/local-storage.service';
 import { ActivatedRoute } from '@angular/router';
 @Component({

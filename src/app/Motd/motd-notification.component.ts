@@ -14,7 +14,7 @@ import { take } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MOTDNotificationService } from './../etl-api/motd.notification.service';
 import { CookieService } from 'ngx-cookie';
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 
 @Component({
   selector: 'motd-notification',

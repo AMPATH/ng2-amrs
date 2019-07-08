@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 
-import * as moment from 'moment';
+import * as moment from 'moment-mini';
 import * as _ from 'lodash';
 import { Observable, Subject, of, Subscription } from 'rxjs';
 import { flatMap, delay } from 'rxjs/operators';

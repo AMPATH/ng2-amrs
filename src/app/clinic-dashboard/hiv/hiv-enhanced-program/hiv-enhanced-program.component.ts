@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 import { HivEnhancedReportService } from '../../../etl-api/hiv-enhanced-program-report.service';
 
 @Component({

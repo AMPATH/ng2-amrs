@@ -2,7 +2,7 @@
 
 import { TestBed, async, inject } from '@angular/core/testing';
 
-import * as moment from 'moment';
+import * as moment from 'moment-mini';
 import { Observable, of } from 'rxjs';
 
 import { TodayVisitService, VisitsEvent } from './today-visit.service';

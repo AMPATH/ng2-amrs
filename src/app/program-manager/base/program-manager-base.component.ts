@@ -4,7 +4,7 @@ import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import * as _ from 'lodash';
-import * as moment from 'moment';
+import * as moment from 'moment-mini';
 
 import { PatientService } from '../../patient-dashboard/services/patient.service';
 import { ProgramService } from '../../patient-dashboard/programs/program.service';

@@ -1,5 +1,6 @@
 import 'core-js/es7/reflect';
 import { loadStaticAssets } from './single-spa/load-static-assets';
+import { publicPath } from 'src/single-spa/public-path';
 import { enableProdMode, NgZone } from '@angular/core';
 
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
@@ -15,8 +16,9 @@ if (environment.production) {
 
 const lifecycles = singleSpaAngular({
   bootstrapFunction: () => platformBrowserDynamic().bootstrapModule(AppModule).then(bootstrappedModule => {
+    console.log('Public path', publicPath);
     if ('serviceWorker' in navigator && environment.production) {
-       navigator.serviceWorker.register('ngsw-worker.js');
+       navigator.serviceWorker.register(`${publicPath}ngsw-worker.js`);
     }
 
     return bootstrappedModule;

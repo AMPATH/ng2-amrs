@@ -5,7 +5,7 @@ import {
 } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash';
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 import { LocationResourceService } from '../openmrs-api/location-resource.service';
 import { ClinicDashboardCacheService } from 'src/app/clinic-dashboard/services/clinic-dashboard-cache.service';
 import { DepartmentProgramsConfigService } from './../etl-api/department-programs-config.service';

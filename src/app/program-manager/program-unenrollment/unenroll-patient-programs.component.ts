@@ -4,7 +4,7 @@ import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 
 import * as _ from 'lodash';
-import * as moment from 'moment';
+import * as moment from 'moment-mini';
 
 import { ProgramService } from '../../patient-dashboard/programs/program.service';
 

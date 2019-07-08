@@ -6,7 +6,7 @@ import { Patient } from '../../../models/patient.model';
 import { PersonResourceService } from '../../../openmrs-api/person-resource.service';
 import { ConceptResourceService } from '../../../openmrs-api/concept-resource.service';
 import { Subscription } from 'rxjs';
-import * as moment from 'moment';
+import * as moment from 'moment-mini';
 
 @Component({
   selector: 'edit-demographics',

@@ -12,7 +12,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { Observable, of } from 'rxjs';
 import { NgBusyModule, BusyConfig } from 'ng-busy';
-import * as moment from 'moment';
+import * as moment from 'moment-mini';
 import { CacheService } from 'ionic-cache';
 
 import { PatientDashboardModule } from '../../patient-dashboard.module';

@@ -4,7 +4,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 // import { Observable, Subject } from 'rxjs';
 
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 import * as _ from 'lodash';
 
 import { Moh731ResourceService } from '../../etl-api/moh-731-resource.service';

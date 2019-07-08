@@ -3,7 +3,7 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-import * as moment from 'moment';
+import * as moment from 'moment-mini';
 import { Observable, Subject, BehaviorSubject, of } from 'rxjs';
 import { Form } from 'ngx-openmrs-formentry';
 

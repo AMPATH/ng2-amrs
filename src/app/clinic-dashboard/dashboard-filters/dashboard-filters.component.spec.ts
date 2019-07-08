@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import * as moment from 'moment';
+import * as moment from 'moment-mini';
 
 import { DateTimePickerModule } from 'ngx-openmrs-formentry';
 import { NgSelectModule } from '@ng-select/ng-select';

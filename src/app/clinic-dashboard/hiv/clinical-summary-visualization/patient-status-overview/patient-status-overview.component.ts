@@ -9,7 +9,7 @@ import {
   ClinicalSummaryVisualizationResourceService
 } from '../../../../etl-api/clinical-summary-visualization-resource.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 import { ClinicDashboardCacheService } from '../../../services/clinic-dashboard-cache.service';
 @Component({
   selector: 'patient-status-overview-chart',

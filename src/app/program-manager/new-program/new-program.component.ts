@@ -3,7 +3,7 @@ import { Component, OnInit, OnDestroy, ChangeDetectorRef, SimpleChanges } from '
 import { ActivatedRoute, Router } from '@angular/router';
 
 import * as _ from 'lodash';
-import * as moment from 'moment';
+import * as moment from 'moment-mini';
 import { PatientProgramResourceService } from '../../etl-api/patient-program-resource.service';
 import { ProgramManagerBaseComponent } from '../base/program-manager-base.component';
 import { PatientService } from '../../patient-dashboard/services/patient.service';

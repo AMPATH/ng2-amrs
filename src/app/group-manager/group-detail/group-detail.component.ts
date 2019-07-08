@@ -4,7 +4,7 @@ import { DatePipe } from '@angular/common';
 import { BsModalService } from 'ngx-bootstrap';
 import { BsModalRef } from 'ngx-bootstrap';
 import { Subscription } from 'rxjs';
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 import * as _ from 'lodash';
 import { AgGridNg2 } from 'ag-grid-angular';
 import { Group } from '../group-model';

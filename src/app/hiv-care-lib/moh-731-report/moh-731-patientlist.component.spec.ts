@@ -2,7 +2,7 @@ import { TestBed, async, fakeAsync } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import * as moment from 'moment';
+import * as moment from 'moment-mini';
 
 import { Observable, of } from 'rxjs';
 import { Moh731PatientListComponent } from './moh-731-patientlist.component';

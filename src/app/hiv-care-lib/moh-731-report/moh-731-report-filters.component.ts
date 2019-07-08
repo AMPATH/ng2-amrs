@@ -3,7 +3,7 @@ import {
     ChangeDetectionStrategy, EventEmitter
 } from '@angular/core';
 
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 
 @Component({
     selector: 'moh-731-report-filters',

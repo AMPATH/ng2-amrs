@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 import * as _ from 'lodash';
-import * as moment from 'moment';
+import * as moment from 'moment-mini';
 
 @Component({
     selector: 'clinic-flow-hourly-viz',

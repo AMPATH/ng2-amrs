@@ -2,7 +2,7 @@ import { Component, OnInit, OnChanges, Input, ViewChild, SimpleChanges } from '@
 import { Router, ActivatedRoute } from '@angular/router';
 
 import * as _ from 'lodash';
-import * as moment from 'moment';
+import * as moment from 'moment-mini';
 import { AgGridNg2 } from 'ag-grid-angular';
 
 @Component({

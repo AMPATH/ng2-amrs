@@ -3,7 +3,7 @@ import { Group } from '../group-model';
 import * as _ from 'lodash';
 import { CommunityGroupService } from '../../openmrs-api/community-group-resource.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 import { ProviderResourceService } from '../../openmrs-api/provider-resource.service';
 import { Subscription, combineLatest, Subject } from 'rxjs';
 import { CommunityGroupLeaderService } from '../../openmrs-api/community-group-leader-resource.service';

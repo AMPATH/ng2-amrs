@@ -3,7 +3,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { LabsResourceService } from '../../../etl-api/labs-resource.service';
 import { PatientService } from '../../services/patient.service';
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 
 @Component({

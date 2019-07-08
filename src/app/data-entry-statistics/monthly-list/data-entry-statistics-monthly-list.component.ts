@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, OnChanges, Output, EventEmitter,
   Input, ChangeDetectorRef, SimpleChanges } from '@angular/core';
 import * as _ from 'lodash';
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 import { GridOptions } from 'ag-grid/main';
 
 @Component({

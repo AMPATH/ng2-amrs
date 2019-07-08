@@ -3,7 +3,7 @@ import { take } from 'rxjs/operators/take';
 import { Observable, Subject } from 'rxjs';
 import { Patient } from '../../../models/patient.model';
 import * as _ from 'lodash';
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 declare let pdfMake: any;
 declare let $: any;
 import { VERSION } from '../../../../environments/version';

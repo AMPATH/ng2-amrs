@@ -1,6 +1,6 @@
 import { Component, Input, Output, ViewEncapsulation, OnInit, EventEmitter } from '@angular/core';
 import * as _ from 'lodash';
-import * as moment from 'moment/moment';
+import * as moment from 'moment-mini';
 
 @Component({
   selector: 'dashboard-filters',

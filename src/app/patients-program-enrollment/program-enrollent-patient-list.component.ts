@@ -5,7 +5,7 @@ import { Router, ActivatedRoute , Params } from '@angular/router';
 import { Location } from '@angular/common';
 import { PatientProgramEnrollmentService } from './../etl-api/patient-program-enrollment.service';
 import * as _ from 'lodash';
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 import { LocalStorageService } from 'src/app/utils/local-storage.service';
 
 @Component({

@@ -1,6 +1,6 @@
 import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 
-import * as moment from 'moment';
+import * as moment from 'moment-mini';
 
 @Component({
   selector: 'date-range',

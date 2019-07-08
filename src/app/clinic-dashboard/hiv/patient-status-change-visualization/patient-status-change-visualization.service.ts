@@ -1,7 +1,7 @@
 import { Injectable, ViewChild } from '@angular/core';
 import { PatientStatusDatalistCellComponent } from './patient-status-data-list-cell.component';
 import { Router, ActivatedRoute } from '@angular/router';
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 import * as _ from 'lodash';
 const highCharts = require('highcharts');
 

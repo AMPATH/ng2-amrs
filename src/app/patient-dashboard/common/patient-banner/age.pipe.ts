@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 
 @Pipe({name: 'ngamrsAge'})
 export class AgePipe implements PipeTransform {

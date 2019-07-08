@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output, OnDestroy } from '@angular/core';
 import { IMyOptions, IMyDateModel } from 'ngx-mydatepicker';
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 import { DatePipe } from '@angular/common';
 @Component({
     selector: 'date-selector',

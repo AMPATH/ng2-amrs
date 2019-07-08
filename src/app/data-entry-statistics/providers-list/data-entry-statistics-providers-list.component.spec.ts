@@ -3,7 +3,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TestBed, async, fakeAsync, ComponentFixture, tick } from '@angular/core/testing';
 import * as _ from 'lodash';
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 import { AgGridModule } from 'ag-grid-angular';
 import { DataEntryStatisticsProviderListComponent } from './data-entry-statistics-providers-list.component';
 

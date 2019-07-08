@@ -2,7 +2,7 @@
 import { take } from 'rxjs/operators';
 import { Component, OnInit, ViewChild, Output, EventEmitter, Input } from '@angular/core';
 
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 import {
   HivSummaryIndicatorsResourceService
 } from '../../etl-api/hiv-summary-indicators-resource.service';

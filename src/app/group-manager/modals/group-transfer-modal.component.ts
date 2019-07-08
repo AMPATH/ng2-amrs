@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap';
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 import { Subject } from 'rxjs';
 import { Patient } from '../../models/patient.model';
 

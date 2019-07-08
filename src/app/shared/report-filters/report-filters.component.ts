@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { Output, Input } from '@angular/core';
 import { IndicatorResourceService } from '../../etl-api/indicator-resource.service';
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 import * as _ from 'lodash';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {

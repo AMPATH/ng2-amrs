@@ -6,7 +6,7 @@ import { combineLatest, Observable, Subscription } from 'rxjs';
 import { PatientService } from './services/patient.service';
 import { Patient } from '../models/patient.model';
 import { LabsResourceService } from '../etl-api/labs-resource.service';
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 import { ToastrService } from 'ngx-toastr';
 import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytics.service';
 import { DynamicRoutesService } from '../shared/dynamic-route/dynamic-routes.service';

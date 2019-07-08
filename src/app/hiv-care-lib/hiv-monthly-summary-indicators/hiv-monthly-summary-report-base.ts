@@ -2,7 +2,7 @@
 import {take} from 'rxjs/operators';
 import { Component, OnInit, ViewChild, Output, EventEmitter, Input } from '@angular/core';
 
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 import {
   DataAnalyticsDashboardService
 } from '../../data-analytics-dashboard/services/data-analytics-dashboard.services';

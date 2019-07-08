@@ -8,7 +8,7 @@ import { Vital } from '../../../models/vital.model';
 import { TodaysVitalsService } from './todays-vitals.service';
 import { EncounterResourceService } from './../../../openmrs-api/encounter-resource.service';
 import * as _ from 'lodash';
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 import { CommonVitalsSource } from './sources/common-vitals.source';
 import { HivTriageSource } from './sources/hiv-triage.source';
 import { OncologyTriageSource } from './sources/oncology-triage.source';

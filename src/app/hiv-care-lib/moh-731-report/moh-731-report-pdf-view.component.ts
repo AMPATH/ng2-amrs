@@ -6,7 +6,7 @@ import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 import { LocationResourceService } from '../../openmrs-api/location-resource.service';
 import * as _ from 'lodash';
 import { Subscription, BehaviorSubject } from 'rxjs';
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 import { PDFDocumentProxy } from 'ng2-pdf-viewer';
 @Component({
     selector: 'moh-731-pdf',

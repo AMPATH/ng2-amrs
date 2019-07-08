@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 import * as _ from 'lodash';
 import { take } from 'rxjs/operators';
 

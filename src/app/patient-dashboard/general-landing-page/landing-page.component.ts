@@ -5,7 +5,7 @@ import { take, map, first } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy, Input, ViewEncapsulation, ViewChild } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import * as _ from 'lodash';
-import * as moment from 'moment';
+import * as moment from 'moment-mini';
 import { Router } from '@angular/router';
 import { ProgramService } from '../programs/program.service';
 import { PatientService } from '../services/patient.service';

@@ -9,7 +9,7 @@ import { SelectDepartmentService } from './../../../shared/services/select-depar
 import {
   ClinicFlowCacheService
 } from '../../../hiv-care-lib/clinic-flow/clinic-flow-cache.service';
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 @Component({
   selector: 'onc-daily-schedule',
   templateUrl: '../../../clinic-schedule-lib/daily-schedule/daily-schedule.component.html'

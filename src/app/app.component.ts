@@ -1,7 +1,7 @@
 import { Component, ViewEncapsulation, OnInit, OnDestroy } from '@angular/core';
 
 import { AppState } from './app.service';
-import { LicenseManager } from 'ag-grid-enterprise/main';
+// import { LicenseManager } from 'ag-grid-enterprise/main';
 import { DataCacheService } from './shared/services/data-cache.service';
 import { PouchdbService } from './pouchdb-service/pouchdb.service';
 export const AgGridLicence: any = undefined;
@@ -47,7 +47,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public setUpAgGridLicense() {
     if (AgGridLicence) {
       // console.error('AG Grid License', AgGridLicence);
-      LicenseManager.setLicenseKey(AgGridLicence);
+      // LicenseManager.setLicenseKey(AgGridLicence);
     }
   }
 }

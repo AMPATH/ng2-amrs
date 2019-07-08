@@ -6,8 +6,8 @@ import { SelectDepartmentService } from './../../../shared/services/select-depar
 import { ZeroVlPipe } from './../../../shared/pipes/zero-vl-pipe';
 
 import { GridOptions } from 'ag-grid/main';
-import 'ag-grid-enterprise/main';
-import * as Moment from 'moment';
+// import 'ag-grid-enterprise/main';
+import * as Moment from 'moment-mini';
 import { Subscription } from 'rxjs';
 import * as _ from 'lodash';
 

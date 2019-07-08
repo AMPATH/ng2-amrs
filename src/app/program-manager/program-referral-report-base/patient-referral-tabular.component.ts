@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy, Input, ViewChild } from '@a
 import * as _ from 'lodash';
 import { AgGridNg2 } from 'ag-grid-angular';
 import { Router, ActivatedRoute } from '@angular/router';
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 import { Subscription } from 'rxjs';
 import {
   PatientReferralResourceService

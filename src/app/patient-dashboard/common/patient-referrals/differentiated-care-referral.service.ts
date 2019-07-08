@@ -3,7 +3,7 @@ import { take } from 'rxjs/operators';
 
 import { throwError as observableThrowError, Observable, forkJoin, Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
-import * as moment from 'moment';
+import * as moment from 'moment-mini';
 
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
 import { ProgramEnrollmentResourceService } from '../../../openmrs-api/program-enrollment-resource.service';

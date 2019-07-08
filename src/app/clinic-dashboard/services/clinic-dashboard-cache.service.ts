@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 @Injectable()
 export class ClinicDashboardCacheService {
     public dataIsLoading = true;

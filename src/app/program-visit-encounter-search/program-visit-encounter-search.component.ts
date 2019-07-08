@@ -9,7 +9,7 @@ import {
 import { FormControl } from '@angular/forms';
 import { Router, ActivatedRoute, ActivatedRouteSnapshot, Params } from '@angular/router';
 import * as _ from 'lodash';
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 import { PatientProgramResourceService } from './../etl-api/patient-program-resource.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { DepartmentProgramsConfigService } from './../etl-api/department-programs-config.service';

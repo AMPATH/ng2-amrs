@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter, OnDestroy, AfterViewInit } fro
 import { Message, Schedule } from 'primeng/primeng';
 import { ClinicDashboardCacheService } from '../../clinic-dashboard/services/clinic-dashboard-cache.service';
 import { DatePipe } from '@angular/common';
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { IMyOptions, IMyDateModel } from 'ngx-mydatepicker';
