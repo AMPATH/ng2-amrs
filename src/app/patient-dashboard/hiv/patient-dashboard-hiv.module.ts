@@ -8,7 +8,7 @@ import {
   DropdownModule, ButtonModule, CalendarModule
 } from 'primeng/primeng';
 import { PreviousVisitComponent } from './hiv-summary/previous-visit.component';
-import { FormEntryModule } from 'ngx-openmrs-formentry/dist/ngx-formentry';
+import { FormEntryModule } from 'ngx-openmrs-formentry';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { OpenmrsApi } from '../../openmrs-api/openmrs-api.module';
 import { HivPatientClinicalSummaryComponent

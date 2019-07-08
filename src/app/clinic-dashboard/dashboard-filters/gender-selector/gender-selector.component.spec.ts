@@ -1,5 +1,5 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry';
+import { DateTimePickerModule } from 'ngx-openmrs-formentry';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { GenderSelectComponent } from './gender-selector.component';
 import { NgamrsSharedModule } from 'src/app/shared/ngamrs-shared.module';

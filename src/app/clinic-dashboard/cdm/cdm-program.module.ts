@@ -8,7 +8,7 @@ import { CalendarModule } from 'angular-calendar';
 import { cdmProgramRouting } from './cdm-program.routes';
 import {
   DateTimePickerModule
-} from 'ngx-openmrs-formentry/dist/ngx-formentry';
+} from 'ngx-openmrs-formentry';
 import { EtlApi } from '../../etl-api/etl-api.module';
 import { HivCareLibModule } from '../../hiv-care-lib/hiv-care-lib.module';
 import { DataListsModule } from '../../shared/data-lists/data-lists.module';

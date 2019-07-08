@@ -26,7 +26,7 @@ import {
 import {
   FormFactory, EncounterAdapter, OrderValueAdapter, Form,
   ObsValueAdapter, PersonAttribuAdapter, FormSchemaCompiler, ObsAdapterHelper
-} from 'ngx-openmrs-formentry/dist/ngx-formentry';
+} from 'ngx-openmrs-formentry';
 import { FakeFormSchemaCompiler } from './mock/form-schema-compiler.service.mock';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
 import { FormCreationDataResolverService } from './form-creation-data-resolver.service';
@@ -43,7 +43,7 @@ import { FormSubmissionService } from './form-submission.service';
 import { PersonResourceService } from '../../../openmrs-api/person-resource.service';
 import { Patient } from '../../../models/patient.model';
 import { FormDataSourceService } from './form-data-source.service';
-import { DataSources } from 'ngx-openmrs-formentry/dist/ngx-formentry';
+import { DataSources } from 'ngx-openmrs-formentry';
 import { CacheModule, CacheService } from 'ionic-cache';
 import { ProviderResourceService } from '../../../openmrs-api/provider-resource.service';
 import { LocationResourceService } from '../../../openmrs-api/location-resource.service';
