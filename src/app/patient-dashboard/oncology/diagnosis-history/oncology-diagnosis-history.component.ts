@@ -38,7 +38,6 @@ export class OncologyDiagnosisHistoryComponent implements OnInit, OnDestroy {
   }
 
   public getPatient() {
-    this.loadingSummary = true;
     this.subscription = this.patientService.currentlyLoadedPatient.subscribe((patient) => {
         if (patient) {
           this.patient = patient;
@@ -55,9 +54,10 @@ export class OncologyDiagnosisHistoryComponent implements OnInit, OnDestroy {
   }
 
   public loadOncologyDiagnosisHistory() {
+    this.loadingSummary = true;
     this.oncolologySummary.getOncologySummary('diagnosis-history', this.patientUuid, this.programUuid).subscribe((summary) => {
-      this.diagnosisChanges = summary;
       this.loadingSummary = false;
+      this.diagnosisChanges = summary;
     }, (error) => {
       this.loadingSummary = false;
       console.log(error);

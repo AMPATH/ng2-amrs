@@ -1,0 +1,30 @@
+.list-group-item.show-more {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.list-group-item.row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.list-group-item.row span.value {
+  padding-left: 10px;
+}
+
+.list-group-item i {
+  line-height: 25px;
+  font-size: 32px;
+  position: absolute;
+  right: 15px;
+  top: 12px;
+  background-color: #fff;
+  padding-left: 15px;
+}
+
+@media screen and (min-width: 768px) {
+  .list-group-item i {
+    display: none;
+  }
+}
