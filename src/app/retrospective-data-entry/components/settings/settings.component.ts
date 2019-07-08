@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 import { MatCheckboxChange } from '@angular/material';
 
 import * as _ from 'lodash';
-import * as moment from 'moment';
+import * as moment from 'moment-mini';
 
 import { UserService } from '../../../openmrs-api/user.service';
 import {

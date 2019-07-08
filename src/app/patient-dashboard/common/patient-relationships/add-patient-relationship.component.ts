@@ -8,7 +8,7 @@ import * as _ from 'lodash';
 import { PatientRelationshipService } from './patient-relationship.service';
 import { PatientService } from '../../services/patient.service';
 import { RelationshipType } from '../../../models/relationship-type.model';
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
 import { Subscription } from 'rxjs';
 

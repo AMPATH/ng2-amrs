@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter, ViewChild, OnDestroy } 
 import * as _ from 'lodash';
 import { CommunityGroupService } from '../../openmrs-api/community-group-resource.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 import { Subscription } from 'rxjs';
 import { DatePickerModalComponent } from '../modals/date-picker-modal.component';
 import { Group } from '../../models/group.model';

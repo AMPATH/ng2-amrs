@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import * as moment from 'moment';
+import * as moment from 'moment-mini';
 import * as _ from 'lodash';
 @Injectable()
 export class ClinicalSummaryVisualizationService {

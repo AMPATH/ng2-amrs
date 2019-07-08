@@ -2,7 +2,7 @@
 import { take } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import * as moment from 'moment';
+import * as moment from 'moment-mini';
 import { Observable, Subscription } from 'rxjs';
 import {
   ClinicalSummaryVisualizationResourceService

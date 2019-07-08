@@ -8,7 +8,7 @@ import { MOTDNotificationComponent } from './motd-notification.component';
 import { MOTDNotificationService } from '../etl-api/motd.notification.service';
 import { CookieService } from 'ngx-cookie';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 import { CookieModule } from 'ngx-cookie';
 import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
 

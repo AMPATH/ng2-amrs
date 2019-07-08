@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 @Component({
   selector: 'patient-status-data-list-cell',
   templateUrl: 'patient-status-data-list-cell.component.html'

@@ -3,8 +3,8 @@ import { take } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ZeroVlPipe } from './../../../shared/pipes/zero-vl-pipe';
 import { GridOptions } from 'ag-grid/main';
-import 'ag-grid-enterprise/main';
-import * as Moment from 'moment';
+// import 'ag-grid-enterprise/main';
+// import * as Moment from 'moment-mini';
 import { Subscription } from 'rxjs';
 import { PatientService } from '../../services/patient.service';
 import {

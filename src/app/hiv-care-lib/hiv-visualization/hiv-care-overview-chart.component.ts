@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 import { ClinicalSummaryVisualizationService
 } from '../services/clinical-summary-visualization.service';
 const highcharts = require('highcharts');
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 @Component({
   selector: 'hiv-care-overview-chart',
   styleUrls: ['hiv-care-overview-chart.component.css'],

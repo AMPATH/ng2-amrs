@@ -2,7 +2,7 @@ import {
     Component, OnInit, Input, Output, EventEmitter
 } from '@angular/core';
 import * as _ from 'lodash';
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 
 @Component({
     selector: 'app-hiv-enhanced-program-filters',

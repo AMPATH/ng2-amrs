@@ -4,7 +4,7 @@ import { Component, OnInit, Input, Output,
   EventEmitter, OnChanges , SimpleChanges } from '@angular/core';
 
 import * as _ from 'lodash';
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 
 import { LabOrdersSearchHelperService } from './lab-order-search-helper.service';
 import { Person } from '../models/person.model';

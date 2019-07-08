@@ -5,7 +5,7 @@ import { Observable, Subject, of } from 'rxjs';
 import { first } from 'rxjs/operators';
 
 import * as _ from 'lodash';
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 import * as pdfMake from 'pdfmake/build/pdfmake.js';
 import 'pdfmake/build/vfs_fonts.js';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';

@@ -12,8 +12,7 @@ export function loadStaticAssets() {
     loadCss(assetUrl('css/AdminLTE.css')),
     loadCss(assetUrl('skin-black-light.css')),
     loadCss(assetUrl('app.css')),
-    loadJs(publicPath + 'scripts.js'),
-    loadJs('https://maxcdn.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js'),
+    loadJs(publicPath + 'scripts.js')
   ]);
 }
 

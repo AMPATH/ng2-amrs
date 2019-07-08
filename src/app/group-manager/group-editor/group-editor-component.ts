@@ -8,7 +8,7 @@ import { UserDefaultPropertiesService } from '../../user-default-properties';
 import { ProgramResourceService } from '../../openmrs-api/program-resource.service';
 import { CommunityGroupAttributeService } from '../../openmrs-api/community-group-attribute-resource.service';
 import * as _ from 'lodash';
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 import { Input } from '@angular/core';
 import { debounceTime, switchMap } from 'rxjs/operators';
 import { DepartmentProgramsConfigService } from '../../etl-api/department-programs-config.service';

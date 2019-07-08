@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable, of } from 'rxjs';
 
-import * as moment from 'moment';
+import * as moment from 'moment-mini';
 import { NgBusyModule, BusyConfig } from 'ng-busy';
 import { DialogModule } from 'primeng/primeng';
 import { CacheService } from 'ionic-cache';

@@ -2,7 +2,7 @@ import { TestBed, async, fakeAsync } from '@angular/core/testing';
 import { CommonModule, Location } from '@angular/common';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import * as moment from 'moment';
+import * as moment from 'moment-mini';
 import { SpyLocation } from '@angular/common/testing';
 
 import { Observable, of } from 'rxjs';

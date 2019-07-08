@@ -2,7 +2,7 @@
 import {take} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
-import * as moment from 'moment';
+import * as moment from 'moment-mini';
 import { Observable ,  BehaviorSubject } from 'rxjs';
 
 import { ProgramService } from '../patient-dashboard/programs/program.service';

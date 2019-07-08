@@ -35,7 +35,7 @@ import { CommonModule } from '@angular/common';
 import { Angulartics2Module } from 'angulartics2';
 import { ClinicFlowResource } from '../../etl-api/clinic-flow-resource-interface';
 
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 import {
   HivClinicFlowResourceService
 } from '../../etl-api/hiv-clinic-flow-resource.service';

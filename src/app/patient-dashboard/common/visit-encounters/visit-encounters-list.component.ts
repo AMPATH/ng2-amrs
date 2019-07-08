@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnChanges, EventEmitter } from '@angular/core';
 import { Encounter } from '../../../models/encounter.model';
 import * as _ from 'lodash';
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({

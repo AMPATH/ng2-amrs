@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Observable, forkJoin } from 'rxjs';
-import * as moment from 'moment';
+import * as moment from 'moment-mini';
 
 import { VisitResourceService } from '../../../../openmrs-api/visit-resource.service';
 import { EncounterResourceService } from '../../../../openmrs-api/encounter-resource.service';

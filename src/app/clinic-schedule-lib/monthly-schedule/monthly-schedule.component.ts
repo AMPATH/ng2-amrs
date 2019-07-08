@@ -16,7 +16,7 @@ import {
   startOfMonth
 } from 'date-fns';
 import { IMyOptions, IMyDateModel } from 'ngx-mydatepicker';
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 import { MonthlyScheduleResourceService } from '../../etl-api/monthly-scheduled-resource.service';
 import { ClinicDashboardCacheService } from '../../clinic-dashboard/services/clinic-dashboard-cache.service';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';

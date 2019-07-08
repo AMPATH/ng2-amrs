@@ -3,7 +3,7 @@ import { Component, OnInit, ChangeDetectionStrategy, Input, ViewChild } from '@a
 import * as _ from 'lodash';
 import { AgGridNg2 } from 'ag-grid-angular';
 import { Router, ActivatedRoute } from '@angular/router';
-import * as moment from 'moment';
+import * as moment from 'moment-mini';
 import { Subscription } from 'rxjs';
 @Component({
   selector: 'hiv-summary-tabular',

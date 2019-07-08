@@ -2,7 +2,7 @@
 import {take} from 'rxjs/operators';
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 
 import { ClinicalSummaryVisualizationResourceService
 } from '../../etl-api/clinical-summary-visualization-resource.service';

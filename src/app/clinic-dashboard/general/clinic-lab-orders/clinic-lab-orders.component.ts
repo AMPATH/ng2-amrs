@@ -5,9 +5,9 @@ import { ClinicDashboardCacheService } from '../../services/clinic-dashboard-cac
 import { ClinicLabOrdersResourceService
 } from '../../../etl-api/clinic-lab-orders-resource.service';
 import { Subscription } from 'rxjs';
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 import { GridOptions } from 'ag-grid/main';
-import 'ag-grid-enterprise/main';
+// import 'ag-grid-enterprise/main';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import * as _ from 'lodash';

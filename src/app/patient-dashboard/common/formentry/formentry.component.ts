@@ -4,7 +4,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { forkJoin, Observable, Subject, Subscription, BehaviorSubject, of, interval } from 'rxjs';
 import { flatMap, first } from 'rxjs/operators';
-import * as moment from 'moment';
+import * as moment from 'moment-mini';
 import * as _ from 'lodash';
 import { format } from 'date-fns';
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';

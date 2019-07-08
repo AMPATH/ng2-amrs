@@ -2,7 +2,7 @@
 import { take } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 import { PatientCareStatusResourceService } from '../../../etl-api/patient-care-status-resource.service';
 import { PatientService } from '../../services/patient.service';
 import { Patient } from '../../../models/patient.model';

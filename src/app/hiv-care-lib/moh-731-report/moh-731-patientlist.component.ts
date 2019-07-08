@@ -5,7 +5,7 @@ import {
   SimpleChange, EventEmitter
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import * as moment from 'moment';
+import * as moment from 'moment-mini';
 import * as _ from 'lodash';
 import {
   Moh731PatientListResourceService

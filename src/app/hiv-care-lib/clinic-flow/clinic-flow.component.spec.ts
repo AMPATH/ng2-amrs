@@ -24,7 +24,7 @@ import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { MatTabsModule } from '@angular/material';
 import { CommonModule } from '@angular/common';
 import { Angulartics2Module } from 'angulartics2';
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 import { FakeClinicDashboardCacheService } from 'src/app/clinic-dashboard/dashboard-filters/dashboard-filters.component.spec';
 import { ClinicFlowResource } from 'src/app/etl-api/clinic-flow-resource-interface';
 import { HttpClientTestingModule } from '@angular/common/http/testing';

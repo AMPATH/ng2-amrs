@@ -5,7 +5,7 @@ import { Patient } from '../../models/patient.model';
 import { ProgramManagerService } from '../program-manager.service';
 import { PatientResourceService } from '../../openmrs-api/patient-resource.service';
 import { Observable } from 'rxjs';
-import * as moment from 'moment';
+import * as moment from 'moment-mini';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({

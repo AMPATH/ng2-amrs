@@ -9,7 +9,7 @@ import { PatientProgramService } from '../patient-dashboard/programs/patient-pro
 import { Group } from '../group-manager/group-model';
 import { CommunityGroupService } from './community-group-resource.service';
 import { ProgramEnrollmentResourceService } from './program-enrollment-resource.service';
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 
 export class GroupEnrollmentValidation {
   alreadyEnrolled: {

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, TemplateRef, ViewChild, OnDestroy } from '@angular/core';
 import { DatePipe } from '@angular/common';
 
-import * as moment from 'moment';
+import * as moment from 'moment-mini';
 import { isEqual } from 'lodash';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 

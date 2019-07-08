@@ -7,11 +7,11 @@ import { map } from 'rxjs/operators';
 import { OnInit, Component, Input, Output, EventEmitter } from '@angular/core';
 import { Http, Response } from '@angular/http';
 
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 import { HivSummaryResourceService } from '../../../etl-api/hiv-summary-resource.service';
 import * as _ from 'lodash';
 import { Patient } from '../../../models/patient.model';
-import * as moment from 'moment';
+import * as moment from 'moment-mini';
 import { LocationResourceService } from '../../../openmrs-api/location-resource.service';
 import { TodaysVitalsService } from '../../common/todays-vitals/todays-vitals.service';
 import { EncounterResourceService } from 'src/app/openmrs-api/encounter-resource.service';

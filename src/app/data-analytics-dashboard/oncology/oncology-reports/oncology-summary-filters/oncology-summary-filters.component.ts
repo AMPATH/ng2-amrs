@@ -2,7 +2,7 @@ import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/cor
 import { Router, ActivatedRoute } from '@angular/router';
 
 import * as _ from 'lodash';
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 
 import { AppFeatureAnalytics
 } from '../../../../shared/app-analytics/app-feature-analytics.service';

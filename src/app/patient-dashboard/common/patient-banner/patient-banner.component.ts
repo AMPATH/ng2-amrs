@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewEncapsulation, OnChanges, SimpleChang
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 import * as _ from 'lodash';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 

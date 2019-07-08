@@ -3,7 +3,7 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 import { of, Subject } from 'rxjs';
 
-import * as moment from 'moment';
+import * as moment from 'moment-mini';
 
 import { PatientReferralsModule } from './patient-referrals.module';
 import { DifferentiatedCareReferralService } from './differentiated-care-referral.service';

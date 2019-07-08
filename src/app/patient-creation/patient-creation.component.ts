@@ -4,10 +4,10 @@ import {
   Component, OnInit, Input, Output, OnDestroy, ViewChild, EventEmitter
 } from '@angular/core';
 import { Subscription, of } from 'rxjs';
-import * as moment from 'moment';
+import * as moment from 'moment-mini';
 import * as _ from 'lodash';
 import * as Fuse from 'fuse.js';
-import 'ag-grid-enterprise/main';
+// import 'ag-grid-enterprise/main';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { Patient } from '../models/patient.model';

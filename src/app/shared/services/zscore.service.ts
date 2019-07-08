@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
-import * as Moment from 'moment';
+import * as Moment from 'moment-mini';
 import { JsExpressionHelper } from 'ngx-openmrs-formentry';
 const bfaMale5Above = require('../../../assets/zscore/bfa_boys_5_above.json');
 const wflMaleBelow5 = require('../../../assets/zscore/wfl_boys_below5.json');
