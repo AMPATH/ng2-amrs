@@ -3133,32 +3133,20 @@
         "name": "Cervical Cancer Screening ",
         "encounterTypes": [
           {
-            "uuid": "fc08ae1c-4588-443b-ae46-856bb20a5ee9",
-            "display": "OncologyDiagnosisChange"
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "f8e35989-74b7-4a18-87ac-31e98b8d9004",
+            "display": "ONCOLOGYSCREENINGTRIAGE"
           },
           {
             "uuid": "9bc0fa73-474e-45ab-bdac-7282e95d856f",
             "display": "ONCOLOGYDYSPLASIA"
           },
           {
-            "uuid": "d17b3adc-0837-4ac6-862b-0953fc664cb8",
-            "display": "OncologyInitial "
-          },
-          {
-            "uuid": "c7fd9ee7-c376-436d-a252-01e89cc51112",
-            "display": "OncologyLabandChemoTracking "
-          },
-          {
-            "uuid": "eeb9600c-314f-4071-9122-133ff3da37bb",
-            "display": "OncologyReturn"
-          },
-          {
-            "uuid": "49bd34db-39e8-4b70-bbba-676ccaf9fdd3",
-            "display": "OncologyReturnWithNewDiagnosticInfo"
-          },
-          {
-            "uuid": "f8e35989-74b7-4a18-87ac-31e98b8d9004",
-            "display": "ONCOLOGYTRIAGE"
+            "uuid": "00da8227-e7da-43c2-99b2-a4f237dd3924",
+            "display": "GYNPATHOLOGYRESULTS "
           },
           {
             "uuid": "238625fc-8a25-44b2-aa5a-8bf48fa0e18d",
@@ -3171,36 +3159,24 @@
         "name": "Breast Cancer Screening ",
         "encounterTypes": [
           {
-            "uuid": "fc08ae1c-4588-443b-ae46-856bb20a5ee9",
-            "display": "OncologyDiagnosisChange"
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
           },
           {
-            "uuid": "9bc0fa73-474e-45ab-bdac-7282e95d856f",
-            "display": "ONCOLOGYDYSPLASIA"
-          },
-          {
-            "uuid": "d17b3adc-0837-4ac6-862b-0953fc664cb8",
-            "display": "OncologyInitial "
-          },
-          {
-            "uuid": "c7fd9ee7-c376-436d-a252-01e89cc51112",
-            "display": "OncologyLabandChemoTracking "
-          },
-          {
-            "uuid": "eeb9600c-314f-4071-9122-133ff3da37bb",
-            "display": "OncologyReturn"
-          },
-          {
-            "uuid": "49bd34db-39e8-4b70-bbba-676ccaf9fdd3",
-            "display": "OncologyReturnWithNewDiagnosticInfo"
+            "uuid": "a4c4dacc-11ff-4301-99a4-88d52c1390d5",
+            "display": "ONCOLOGYCASEMANAGEMENT"
           },
           {
             "uuid": "f8e35989-74b7-4a18-87ac-31e98b8d9004",
-            "display": "ONCOLOGYTRIAGE"
+            "display": "ONCOLOGYSCREENINGTRIAGE"
           },
           {
-            "uuid": "238625fc-8a25-44b2-aa5a-8bf48fa0e18d",
-            "display": "ONCOLOGYVIA"
+            "uuid": "e49a203a-068a-4d6b-b351-f40d9384170e",
+            "display": "BREASTCANCERASSESSMENT "
+          },
+          {
+            "uuid": "e856b2ac-fe35-41d6-a9aa-2b2679092763",
+            "display": "BREASTCANCERSCREENING "
           }
         ]
       },
@@ -3208,6 +3184,10 @@
         "uuid": "9db78f11-3940-4048-acd0-645dd7184f4c",
         "name": "Sickle Cell Screening ",
         "encounterTypes": [
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
           {
             "uuid": "bb1ad67a-5363-42fd-a53e-ba0047eb431c",
             "display": "SICKLECELLSCREENING"
@@ -3218,6 +3198,10 @@
         "uuid": "fe9c9cc2-5232-4255-be24-02eb975b03a8",
         "name": "Lung Cancer Screening ",
         "encounterTypes": [
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
           {
             "uuid": "7c21df85-c928-4dc9-93d9-5dd1e8101d32",
             "display": "LUNGCANCERSCREENING"
