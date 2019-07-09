@@ -179,7 +179,7 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
     this.currentStep = 2;
     this.jumpStep = -1;
     if (this.program) {
-      this.removeMessage();
+      // this.removeMessage();
       this.unenrollAndGoToDetails();
     } else {
       this.showMessage('Please select a program to continue');
@@ -456,7 +456,6 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
   }
   private loadQueryParams() {
     const queryParams: any = this.route.snapshot.queryParams;
-    console.log('queryParams', queryParams);
     if (queryParams.enrollMentQuestions) {
       this.preFillEnrollmentQuestions(queryParams.enrollMentQuestions);
     }
@@ -573,13 +572,15 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
   private checkIfEnrollmentIsAllowed(): void {
     if (this.programVisitConfig && !_.isUndefined(this.programVisitConfig.enrollmentAllowed)) {
       if (!this.programVisitConfig.enrollmentAllowed) {
-        this.showMessage('The patient is not allowed to be enrolled in this program. ' +
-          'Only female patients are allowed');
+        this.showMessage('This patient cannot be enrolled in this program. ' + 'Only female patients are allowed.');
+        this.isButtonVisible = false;
       } else {
         this.removeMessage();
+        this.isButtonVisible = true;
       }
     } else {
       this.removeMessage();
+      this.isButtonVisible = true;
     }
   }
 
