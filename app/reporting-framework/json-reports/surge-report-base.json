@@ -1,0 +1,465 @@
+{
+    "name": "surgeReport",
+    "version": "1.0",
+    "tag": "",
+    "description": "",
+    "uses": [],
+    "sources": [
+        {
+            "table": "etl.surge_weekly_report_dataset",
+            "alias": "srb"
+        },
+        {
+            "table": "amrs.location",
+            "alias": "l",
+            "join": {
+                "type": "INNER",
+                "joinCondition": "l.location_id = srb.location_id"
+            }
+        }
+    ],
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias": "year_week",
+            "column": "srb.year_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "encounter_yw",
+            "column": "srb.encounter_yw"
+        },
+        {
+            "type": "simple_column",
+            "alias": "encounter_date",
+            "column": "srb.encounter_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "end_date",
+            "column": "srb.end_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "start_date",
+            "column": "srb.start_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "age",
+            "column": "srb.age"
+        },
+        {
+            "type": "simple_column",
+            "alias": "gender",
+            "column": "srb.gender"
+        },
+        {
+            "type": "simple_column",
+            "alias": "prev_rtc_date",
+            "column": "srb.prev_rtc_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "visit_this_week",
+            "column": "srb.visit_this_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "on_schedule",
+            "column": "srb.on_schedule"
+        },
+        {
+            "type": "simple_column",
+            "alias": "early_appointment",
+            "column": "srb.early_appointment"
+        },
+        {
+            "type": "simple_column",
+            "alias": "early_appointment_this_week",
+            "column": "srb.early_appointment_this_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "late_appointment_this_week",
+            "column": "srb.late_appointment_this_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "days_since_rtc_date",
+            "column": "srb.days_since_rtc_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "scheduled_this_week",
+            "column": "srb.scheduled_this_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "unscheduled_this_week",
+            "column": "srb.unscheduled_this_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "death_date",
+            "column": "srb.death_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "missed_appointment_this_week",
+            "column": "srb.missed_appointment_this_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "ltfu",
+            "column": "srb.ltfu"
+        },
+        {
+            "type": "simple_column",
+            "alias": "defaulted",
+            "column": "srb.defaulted"
+        },
+        {
+            "type": "simple_column",
+            "alias": "missed",
+            "column": "srb.missed"
+        },
+        {
+            "type": "simple_column",
+            "alias": "active_in_care_this_week",
+            "column": "srb.active_in_care_this_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "cur_arv_adherence",
+            "column": "srb.cur_arv_adherence"
+        },
+        {
+            "type": "simple_column",
+            "alias": "cur_who_stage",
+            "column": "srb.cur_who_stage"
+        },
+        {
+            "type": "simple_column",
+            "alias": "is_pre_art_this_week",
+            "column": "srb.is_pre_art_this_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "arv_first_regimen_location_id",
+            "column": "srb.arv_first_regimen_location_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "arv_first_regimen",
+            "column": "srb.arv_first_regimen"
+        },
+        {
+            "type": "simple_column",
+            "alias": "arv_first_regimen_names",
+            "column": "srb.arv_first_regimen_names"
+        },
+        {
+            "type": "simple_column",
+            "alias": "started_art_this_week",
+            "column": "srb.started_art_this_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "enrollment_date",
+            "column": "srb.enrollment_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "days_since_starting_arvs",
+            "column": "srb.days_since_starting_arvs"
+        },
+        {
+            "type": "simple_column",
+            "alias": "arv_first_regimen_start_date",
+            "column": "srb.arv_first_regimen_start_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "enrolled_this_week",
+            "column": "srb.enrolled_this_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "cur_arv_meds",
+            "column": "srb.cur_arv_meds"
+        },
+        {
+            "type": "simple_column",
+            "alias": "art_revisit_this_week",
+            "column": "srb.art_revisit_this_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "on_art_this_week",
+            "column": "srb.on_art_this_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "has_vl_this_week",
+            "column": "srb.has_vl_this_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "is_suppressed",
+            "column": "srb.is_suppressed"
+        },
+        {
+            "type": "simple_column",
+            "alias": "is_un_suppressed",
+            "column": "srb.is_un_suppressed"
+        },
+        {
+            "type": "simple_column",
+            "alias": "days_since_last_vl",
+            "column": "srb.days_since_last_vl"
+        },
+        {
+            "type": "simple_column",
+            "alias": "cd4_1",
+            "column": "srb.cd4_1"
+        },
+        {
+            "type": "simple_column",
+            "alias": "cd4_1_date",
+            "column": "srb.cd4_1_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "child_hiv_status_disclosure_status",
+            "column": "srb.child_hiv_status_disclosure_status"
+        },
+        {
+            "type": "simple_column",
+            "alias": "transfer_in_this_week",
+            "column": "srb.transfer_in_this_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "transfer_in_location_id",
+            "column": "srb.transfer_in_location_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "transfer_in_date",
+            "column": "srb.transfer_in_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "transfer_out_this_week",
+            "column": "srb.transfer_out_this_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "transfer_out_location_id",
+            "column": "srb.transfer_out_location_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "transfer_out_date",
+            "column": "srb.transfer_out_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "status",
+            "column": "srb.status"
+        },  
+        {
+            "type": "simple_column",
+            "alias": "prev_status",
+            "column": "srb.prev_status"
+        },
+        {
+            "type": "simple_column",
+            "alias": "cur_status",
+            "column": "srb.cur_status"
+        },  
+        {
+            "type": "simple_column",
+            "alias": "dc_eligible_cumulative",
+            "column": "srb.dc_eligible_cumulative"
+        },
+        {
+            "type": "simple_column",
+            "alias": "started_dc_this_week",
+            "column": "srb.started_dc_this_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "tx2_scheduled_this_week",
+            "column": "srb.tx2_scheduled_this_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "tx2_scheduled_honored",
+            "column": "srb.tx2_scheduled_honored"
+        },
+        {
+            "type": "simple_column",
+            "alias": "returned_to_care_this_week",
+            "column": "srb.returned_to_care_this_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "new_prep_this_week",
+            "column": "srb.new_prep_this_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "cur_prep_this_week",
+            "column": "srb.cur_prep_this_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "prev_enc_id",
+            "column": "srb.prev_enc_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "cur_enc_id",
+            "column": "srb.cur_enc_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "scheduled_this_week_and_due_for_vl",
+            "column": "srb.scheduled_this_week_and_due_for_vl"
+        },
+        {
+            "type": "simple_column",
+            "alias": "due_for_vl_has_vl_order",
+            "column": "srb.due_for_vl_has_vl_order"
+        },
+        {
+            "type": "simple_column",
+            "alias": "due_for_vl_dont_have_order",
+            "column": "srb.due_for_vl_dont_have_order"
+        },
+        {
+            "type": "simple_column",
+            "alias": "missed_this_week",
+            "column": "srb.missed_this_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "due_for_vl_this_week_active",
+            "column": "srb.due_for_vl_this_week_active"
+        },
+        {
+            "type": "simple_column",
+            "alias": "on_schedule_this_week",
+            "column": "srb.on_schedule_this_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "defaulted_this_week",
+            "column": "srb.defaulted_this_week"
+        },
+        
+        {
+            "type": "simple_column",
+            "alias": "all_ltfu_this_week",
+            "column": "srb.all_ltfu_this_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "active_october_2018_and_ltfu_may_2019_cohort",
+            "column": "srb.active_october_2018_and_ltfu_may_2019_cohort"
+        },
+        {
+            "type": "simple_column",
+            "alias": "active_october_2018_and_ltfu_this_week",
+            "column": "srb.active_october_2018_and_ltfu_this_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "ltfu_may_2019_and_ltfu_this_week",
+            "column": "srb.ltfu_may_2019_and_ltfu_this_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "newly_ltfu_this_week",
+            "column": "srb.newly_ltfu_this_week"
+        },
+
+        
+        {
+            "type": "simple_column",
+            "alias": "missed_tx2_visit_this_week",
+            "column": "srb.missed_tx2_visit_this_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "overdue_for_vl_active",
+            "column": "srb.overdue_for_vl_active"
+        },
+        {
+            "type": "simple_column",
+            "alias": "unscheduled_this_week_and_due_for_vl",
+            "column": "srb.unscheduled_this_week_and_due_for_vl"
+        },
+        {
+            "type": "simple_column",
+            "alias": "ltfu_cumulative_outcomes_death",
+            "column": "srb.ltfu_cumulative_outcomes_death"
+        },
+        {
+            "type": "simple_column",
+            "alias": "ltfu_cumulative_outcomes_transfer_out",
+            "column": "srb.ltfu_cumulative_outcomes_transfer_out"
+        },
+        {
+            "type": "simple_column",
+            "alias": "ltfu_cumulative_outcomes_active",
+            "column": "srb.ltfu_cumulative_outcomes_active"
+        },
+        {
+            "type": "simple_column",
+            "alias": "active_to_ltfu_count",
+            "column": "srb.active_to_ltfu_count"
+        },
+        {
+            "type": "simple_column",
+            "alias": "tx2_visit_this_week",
+            "column": "srb.tx2_visit_this_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "clinical_visit_num",
+            "column": "srb.clinical_visit_num"
+        },
+
+        
+
+
+        {
+            "type": "simple_column",
+            "alias": "location_uuid",
+            "column": "l.uuid"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location",
+            "column": "l.name"
+        }
+    ],
+    "filters": {
+        "conditionJoinOperator": "and",
+        "conditions": [
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "year_week = ? ",
+                "parameterName": "year_week"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "l.uuid in ?",
+                "parameterName": "locationUuids"
+            }
+        ]
+    }
+}

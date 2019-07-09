@@ -1,0 +1,443 @@
+{
+    "name": "SurgeReportAggregate",
+    "version": "1.0",
+    "tag": "",
+    "description": "",
+    "uses": [ {
+        "name": "surgeReport",
+        "version": "1.0",
+        "type": "dataset_def"
+    }],
+    "sources": [
+        {
+            "dataSet": "surgeReport",
+            "alias": "srb"
+        }
+    ],
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias": "location_uuid",
+            "column": "srb.location_uuid"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location",
+            "column": "srb.location"
+        },
+        {
+            "type": "derived_column",
+            "alias": "scheduled_this_week",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(scheduled_this_week)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "visit_this_week",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(visit_this_week)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "on_schedule",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(on_schedule)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "unscheduled_this_week",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(unscheduled_this_week)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "early_appointment_this_week",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(early_appointment_this_week)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "late_appointment_this_week",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(late_appointment_this_week)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "missed_appointment_this_week",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(missed_appointment_this_week)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "ltfu",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(ltfu)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "defaulted",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(defaulted)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "missed",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(missed)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "started_art_this_week",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(started_art_this_week)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "started_dc_this_week",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(started_dc_this_week)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "dc_eligible_cumulative",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(dc_eligible_cumulative)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "new_prep_this_week",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(new_prep_this_week)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "cur_prep_this_week",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(cur_prep_this_week)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "enrolled_this_week",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(enrolled_this_week)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "has_vl_this_week",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(has_vl_this_week)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "is_suppressed",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(is_suppressed)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "is_un_suppressed",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(is_un_suppressed)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "tx2_scheduled_this_week",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(tx2_scheduled_this_week)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "tx2_scheduled_honored",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(tx2_scheduled_honored)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "returned_to_care_this_week",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(returned_to_care_this_week)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "active_in_care_this_week",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(active_in_care_this_week)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "is_pre_art_this_week",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(is_pre_art_this_week)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "art_revisit_this_week",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(art_revisit_this_week)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "on_art_this_week",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(on_art_this_week)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "transfer_in_this_week",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(transfer_in_this_week)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "transfer_out_this_week",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(transfer_out_this_week)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "scheduled_this_week_and_due_for_vl",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(scheduled_this_week_and_due_for_vl)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "due_for_vl_has_vl_order",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(due_for_vl_has_vl_order)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "due_for_vl_dont_have_order",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(due_for_vl_dont_have_order)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "missed_this_week",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(missed_this_week)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "defaulted_this_week",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(defaulted_this_week)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "on_schedule_this_week",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(on_schedule_this_week)"
+            }
+        },
+
+
+        {
+            "type": "derived_column",
+            "alias": "all_ltfu_this_week",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(all_ltfu_this_week)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "active_october_2018_and_ltfu_may_2019_cohort",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(active_october_2018_and_ltfu_may_2019_cohort)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "active_october_2018_and_ltfu_this_week",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(active_october_2018_and_ltfu_this_week)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "ltfu_may_2019_and_ltfu_this_week",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(ltfu_may_2019_and_ltfu_this_week)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "newly_ltfu_this_week",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(newly_ltfu_this_week)"
+            }
+        },
+
+        
+        {
+            "type": "derived_column",
+            "alias": "ltfu_cumulative_outcomes_death",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(ltfu_cumulative_outcomes_death)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "missed_tx2_visit_this_week",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(missed_tx2_visit_this_week)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "ltfu_cumulative_outcomes_transfer_out",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(ltfu_cumulative_outcomes_transfer_out)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "ltfu_cumulative_outcomes_active",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(ltfu_cumulative_outcomes_active)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "active_to_ltfu_count",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(active_to_ltfu_count)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "overdue_for_vl_active",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(overdue_for_vl_active)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "due_for_vl_this_week_active",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(due_for_vl_this_week_active)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "unscheduled_this_week_and_due_for_vl",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(unscheduled_this_week_and_due_for_vl)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "tx2_visit_this_week",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(tx2_visit_this_week)"
+            }
+        }
+
+        
+        
+
+
+    ],
+    "groupBy": {
+        "groupParam": "groupByParam",
+        "columns": [
+            "location_uuid"
+        ],
+        "excludeParam": "excludeParam"
+    },
+    "dynamicJsonQueryGenerationDirectives": {
+        "patientListGenerator": {
+            "useTemplate": "patient-list-frozen-template",
+            "useTemplateVersion": "1.0",
+            "generatingDirectives": {
+                "joinDirectives": {
+                    "joinType": "INNER",
+                    "joinCondition": "<<base_column>> = <<template_column>>",
+                    "baseColumn": "person_id",
+                    "templateColumn": "person_id"
+                }
+            }
+        }
+    }
+}

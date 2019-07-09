@@ -66,7 +66,6 @@ import {LungCancerTreatmentSummary} from './service/lung-cancer-treatment-summar
 var patientReminderService = require('./service/patient-reminder.service.js');
 var  kibanaService = require('./service/kibana.service');
 
-
 module.exports = function () {
 
     var routes =
