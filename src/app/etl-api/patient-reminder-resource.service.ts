@@ -17,7 +17,7 @@ export class PatientReminderResourceService {
 
   public getUrl(patientUuid: string): string {
     return this.appSettingsService.getEtlRestbaseurl().trim() + 'patient/' + patientUuid +
-    '/hiv-clinical-reminder';
+    '/clinical-reminder';
   }
 
   public getPatientLevelReminders(patientUuid: string): Observable<any> {

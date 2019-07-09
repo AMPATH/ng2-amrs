@@ -46,7 +46,7 @@ describe('Patient Reminder Resource Service Unit Tests', () => {
     expect(req.request.method).toBe('GET');
     expect(req.request.url)
       .toContain(
-        'etl/patient/79803198-2d23-49cd-a7b3-4f672bd8f659/hiv-clinical-reminder/' + referenceDate
+        'etl/patient/79803198-2d23-49cd-a7b3-4f672bd8f659/clinical-reminder/' + referenceDate
       );
     req.flush(JSON.stringify({}));
 
