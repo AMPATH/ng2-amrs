@@ -54,7 +54,9 @@ describe('Patient Reminder Service Unit Tests', function () {
                         "is_pregnant": 0,
                         "is_postnatal": 0,
                         "is_infant": 0,
-                        "dna_pcr_reminder": 0
+                        "dna_pcr_reminder": 0,
+                        "has_gene_xpert_result": 0,
+                        "has_dst_result": 0
                     }
                 ]
             };
@@ -132,7 +134,9 @@ describe('Patient Reminder Service Unit Tests', function () {
             "is_pregnant": 0,
             "is_postnatal": 0,
             "is_infant": 0,
-            "dna_pcr_reminder": 0
+            "dna_pcr_reminder": 0,
+            "has_gene_xpert_result": 0,
+            "has_dst_result": 0
           }
         ]
       };

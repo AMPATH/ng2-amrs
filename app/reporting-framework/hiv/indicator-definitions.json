@@ -9,7 +9,27 @@
         "label": "on arvs",
         "description": "Total # of patients who are on ARVs",
         "expression": "cur_arv_line is not null"
-    }, {
+    },
+    {
+        "name": "on_tdf_3tc_efv_400",
+        "label": "tdf 3tc efv 400",
+        "description": "Total # of patients who are on TENOFOVIR AND LAMIVUDINE AND EFAVIRENZ 400",
+        "expression": ""
+    },
+    {
+        "name": "on_tdf_3tc_efv_600",
+        "label": "tdf 3tc efv 600",
+        "description": "Total # of patients who are on TENOFOVIR AND LAMIVUDINE AND EFAVIRENZ 600",
+        "expression": ""
+    },
+    {
+        "name": "on_tdf_3tc_dtg",
+        "label": "tdf 3tc dtg",
+        "description": "Total # of patients who are on TENOFOVIR AND LAMIVUDINE AND DOLUTEGRAVIR",
+        "expression": ""
+    }
+    
+    , {
         "name": "on_arvs_first_line",
         "label": "on arvs first line",
         "description": "# of patient on ARVs first line",

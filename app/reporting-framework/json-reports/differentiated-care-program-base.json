@@ -1,0 +1,167 @@
+{
+    "name": "differentiatedCareProgramBase",
+    "version": "1.0",
+    "tag": "",
+    "description": "",
+    "uses": [],
+    "sources": [
+        {
+            "table": "etl.flat_hiv_summary_v15b",
+            "alias": "fhs"
+        },
+        {
+            "table": "amrs.patient_program",
+            "alias": "pp_dc",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "pp_dc.patient_id = fhs.person_id AND pp_dc.program_id = 9  and  (pp_dc.date_completed is null || date(pp_dc.date_completed) <= date('{endDate}')) and (date(pp_dc.date_enrolled) >= date('{startDate}') and date(pp_dc.date_enrolled) <= date('{endDate}'))"
+            }
+        },
+        {
+            "table": "amrs.patient_program",
+            "alias": "pp_viremia",
+            "join": {
+                "type": "left",
+                "joinCondition": "fhs.person_id = pp_viremia.patient_id AND pp_viremia.program_id = 27 AND (pp_viremia.date_completed is null || date(pp_viremia.date_completed) <= date('{endDate}'))"
+            }
+        },
+        {
+            "table": "amrs.cohort_member",
+            "alias": "cm",
+            "join": {
+                "type": "left",
+                "joinCondition": "cm.patient_id = fhs.person_id AND cm.voided = 0"
+            }
+        },
+        {
+            "table": "amrs.cohort",
+            "alias": "ch",
+            "join": {
+                "type": "left",
+                "joinCondition": "ch.cohort_id = cm.cohort_id"
+            }
+        },
+        {
+            "table": "amrs.person",
+            "alias": "person",
+            "join": {
+                "type": "left",
+                "joinCondition": "person.person_id = fhs.person_id"
+            }
+        }
+    ],
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias": "persons_id",
+            "column": "fhs.person_id"
+        },
+        {
+            "type": "derived_column",
+            "alias": "eligible_for_dc",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(fhs.vl_1 < 401 and (timestampdiff(year,person.birthdate, date('{endDate}')) >= 20) and (timestampdiff(month,fhs.ipt_start_date,if(fhs.ipt_completion_date,fhs.ipt_completion_date,'{endDate}')) >= 6 ) and (timestampdiff(month,fhs.vl_1_date,now()) <= 11 ) and (timestampdiff(month,fhs.arv_start_date, '{endDate}') >= 12) AND pp_dc.program_id IS NULL and pp_viremia.program_id is null and DATE(fhs.prev_rtc_date) = DATE(fhs.encounter_datetime) and fhs.is_pregnant IS NULL, 1, NULL)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "enrolled_in_dc",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(pp_dc.program_id = 9 and pp_dc.date_completed is null, 1, NULL)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "enrolled_in_dc_community",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(pp_dc.program_id = 9 and pp_dc.date_completed is null and ch.cohort_type_id = 1, 1, NULL)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "enrolled_in_dc_active",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(pp_dc.program_id = 9 and pp_dc.date_completed is null, 1, NULL)"
+            }
+        },
+        {
+            "type": "simple_column",
+            "alias": "vl_1",
+            "column": "fhs.vl_1"
+        },
+        {
+            "type": "simple_column",
+            "alias": "encounter_datetime",
+            "column": "fhs.encounter_datetime"
+        },
+        {
+            "type": "simple_column",
+            "alias": "vl_1_date",
+            "column": "fhs.vl_1_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "cur_arv_meds",
+            "column": "fhs.cur_arv_meds"
+        }
+    ],
+    "filters": {
+        "conditionJoinOperator": "and",
+        "conditions": [
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "date(fhs.encounter_datetime) >= ?",
+                "parameterName": "startDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "date(fhs.encounter_datetime) <= ?",
+                "parameterName": "endDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "DATE(fhs.rtc_date) <= DATE_ADD(?, INTERVAL -4 DAY)",
+                "parameterName": "endDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fhs.location_uuid in (?)",
+                "parameterName": "locationUuids"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fhs.vl_1 < 401",
+                "parameterName": ""
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fhs.next_clinical_location_id IS NULL",
+                "parameterName": ""
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fhs.encounter_type NOT IN (99999)",
+                "parameterName": ""
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fhs.death_date IS NULL",
+                "parameterName": ""
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fhs.transfer_out IS NULL",
+                "parameterName": ""
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "TIMESTAMPDIFF(DAY, IF(fhs.rtc_date, fhs.rtc_date, DATE_ADD(fhs.encounter_datetime, INTERVAL 30 DAY)), ?) < 90",
+                "parameterName": "endDate"
+            }
+        ]
+    }
+}

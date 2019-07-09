@@ -1,0 +1,89 @@
+{
+    "name": "differentiatedCareProgramAggregate",
+    "version": "1.0",
+    "tag": "",
+    "description": "",
+    "uses": [
+        {
+            "name": "differentiatedCareProgramBase",
+            "version": "1.0",
+            "type": "dataset_def"
+        }
+    ],
+    "sources": [
+        {
+            "dataSet": "differentiatedCareProgramBase",
+            "alias": "dcp"
+        }
+    ],
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias": "person_id",
+            "column": "dcp.person_id"
+        },
+        {
+            "type": "derived_column",
+            "alias": "eligible_for_dc",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(distinct concat(dcp.eligible_for_dc, dcp.person_id))"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "enrolled_in_dc",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(distinct concat(dcp.enrolled_in_dc, dcp.person_id))"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "enrolled_in_dc_community",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(distinct concat(dcp.enrolled_in_dc_community, dcp.person_id))"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "enrolled_in_dc_active",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(distinct concat(dcp.enrolled_in_dc_active, dcp.person_id))"
+            }
+        }
+    ],
+    "filters": {
+        "conditionJoinOperator": "and",
+        "conditions": [
+        ]
+    },
+    "groupBy": {
+        "groupParam": "groupByParam",
+        "columns": [
+        ],
+        "excludeParam": "excludeParam"
+    },
+    "transFormDirectives": {
+        "joinColumn": "",
+        "joinColumnParam": "",
+        "skipColumns": [""],
+        "disaggregationColumns": []
+    },
+    "dynamicJsonQueryGenerationDirectives": {
+        "patientListGenerator": {
+            "useTemplate": "patient-list-with-contacts-template",
+            "useTemplateVersion": "1.0",
+            "generatingDirectives": {
+                "joinDirectives": {
+                    "joinType": "INNER",
+                    "joinCondition": "<<base_column>> = <<template_column>>",
+                    "baseColumn": "person_id",
+                    "templateColumn": "person_id"
+                }
+            }
+        }
+    }
+}
