@@ -453,6 +453,10 @@
         {
           "uuid": "81166f83-1ee6-486e-8f56-aca528fc0fc0",
           "display": "GENCONSULTATION"
+        },
+        {
+          "uuid": "2cd62224-5507-48ee-a7b3-55f66162b148",
+          "display": "ONCOLOGYLABENTRY"
         }
       ]
     }]
@@ -1872,6 +1876,10 @@
         {
           "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
           "display": "DEATHREPORT"
+        },
+        {
+          "uuid": "2cd62224-5507-48ee-a7b3-55f66162b148",
+          "display": "ONCOLOGYLABENTRY"
         }
 
       ]
@@ -1903,6 +1911,10 @@
         {
           "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
           "display": "DEATHREPORT"
+        },
+        {
+          "uuid": "2cd62224-5507-48ee-a7b3-55f66162b148",
+          "display": "ONCOLOGYLABENTRY"
         }
       ]
     }]
@@ -1989,6 +2001,10 @@
         {
           "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
           "display": "DEATHREPORT"
+        },
+        {
+          "uuid": "2cd62224-5507-48ee-a7b3-55f66162b148",
+          "display": "ONCOLOGYLABENTRY"
         }
       ]
     }]
@@ -2019,6 +2035,10 @@
         {
           "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
           "display": "DEATHREPORT"
+        },
+        {
+          "uuid": "2cd62224-5507-48ee-a7b3-55f66162b148",
+          "display": "ONCOLOGYLABENTRY"
         }
       ]
     }]
@@ -2822,6 +2842,10 @@
           {
             "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
             "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "2cd62224-5507-48ee-a7b3-55f66162b148",
+            "display": "ONCOLOGYLABENTRY"
           }
         ]
     }]
