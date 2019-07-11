@@ -272,15 +272,28 @@
         "program": "Lung Cancer Treatment",
         "report": "Lung Cancer Treatment",
         "indicators": [{
-                "indicator": "total_patients",
-                "patientListCols": [ "encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender" ,  "age" , "phone_number", "hiv_status"
-                ]
+            "indicator": "enrolled_patients",
+            "patientListCols": ["encounter_datetime", "location_name", "identifiers", "person_name", "gender", "age", "phone_number", "hiv_status"]
 
             },
             {
-                "indicator": "walk_in",
-                "patientListCols": [ "encounter_datetime" , "location_name" , "identifiers" , "person_name" , "gender"  ,"patient_uuid"
-                ]
+                "indicator": "deceased",
+                "patientListCols": ["encounter_datetime", "location_name", "identifiers", "person_name", "gender", "age", "phone_number"]
+
+            },
+            {
+                "indicator": "lost_to_follow_up",
+                "patientListCols": ["encounter_datetime", "location_name", "identifiers", "person_name", "gender", "age", "phone_number"]
+
+            },
+            {
+                "indicator": "active_patients",
+                "patientListCols": ["encounter_datetime", "location_name", "identifiers", "person_name", "gender", "age", "phone_number"]
+
+            },
+            {
+                "indicator": "for_staging",
+                "patientListCols": ["encounter_datetime", "location_name", "identifiers", "person_name", "gender", "age", "phone_number"]
 
             },
             {

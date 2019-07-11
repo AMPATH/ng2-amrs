@@ -2,21 +2,16 @@
     "name": "lungCancerTreatmentMonthlySummaryAggregate",
     "version": "1.0",
     "tag": "lung_cancer_treatment_monthly_summary_aggregate",
-    "uses": [
-        {
-            "name": "lungCancerTreatmentMonthlySummaryBase",
-            "version": "1.0",
-            "type": "dataset_def"
-        }
-    ],
-    "sources": [
-        {
-            "dataSet": "lungCancerTreatmentMonthlySummaryBase",
-            "alias": "lct"
-        }
-    ],
-    "columns": [
-        {
+    "uses": [{
+        "name": "lungCancerTreatmentMonthlySummaryBase",
+        "version": "1.0",
+        "type": "dataset_def"
+    }],
+    "sources": [{
+        "dataSet": "lungCancerTreatmentMonthlySummaryBase",
+        "alias": "lct"
+    }],
+    "columns": [{
             "type": "simple_column",
             "alias": "location_name",
             "column": "location_name"
@@ -36,26 +31,10 @@
         },
         {
             "type": "derived_column",
-            "alias": "total_patients",
+            "alias": "enrolled_patients",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(person_id)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "walk_in",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(lct.walk_in)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "referred_from_clinic",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(lct.referred_from_clinic)"
+                "expression": "count(enrolled_patients)"
             }
         },
         {
@@ -156,6 +135,14 @@
         },
         {
             "type": "derived_column",
+            "alias": "for_staging",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(IF(for_staging is NUll, 1, 0))"
+            }
+        },
+        {
+            "type": "derived_column",
             "alias": "chemotherapy",
             "expressionType": "simple_expression",
             "expressionOptions": {
@@ -176,6 +163,30 @@
             "expressionType": "simple_expression",
             "expressionOptions": {
                 "expression": "sum(surgery)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "active_patients",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(active_patients)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "lost_to_follow_up",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(lost_to_follow_up)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "deceased",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(deceased)"
             }
         }
 

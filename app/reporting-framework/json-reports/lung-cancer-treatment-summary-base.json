@@ -3,8 +3,7 @@
     "version": "1.0",
     "tag": "lung_cancer_treatment_summary_base",
     "uses": [],
-    "sources": [
-        {
+    "sources": [{
             "table": "etl.flat_lung_cancer_treatment",
             "alias": "flct"
         },
@@ -13,8 +12,17 @@
             "alias": "patient_name",
             "join": {
                 "type": "inner",
-                "joinCondition": "flct.person_id = patient_name.person_id and (patient_name.voided is null || patient_name.voided = 0)"
-                
+                "joinCondition": "flct.person_id = patient_name.person_id and (patient_name.voided is null OR patient_name.voided = 0)"
+
+            }
+        },
+        {
+            "table": "amrs.person",
+            "alias": "pp",
+            "join": {
+                "type": "inner",
+                "joinCondition": "flct.person_id = pp.person_id and (pp.voided is null OR pp.voided = 0)"
+
             }
         },
         {
@@ -22,8 +30,18 @@
             "alias": "patient_id",
             "join": {
                 "type": "inner",
-                "joinCondition": "flct.person_id = patient_id.patient_id and (patient_id.voided is null || patient_id.voided = 0)"
-                
+                "joinCondition": "flct.person_id = patient_id.patient_id and (patient_id.voided is null OR patient_id.voided = 0)"
+
+            }
+
+        },
+        {
+            "table": "amrs.patient_program",
+            "alias": "program",
+            "join": {
+                "type": "inner",
+                "joinCondition": "flct.person_id = program.patient_id and (program.voided is null OR program.voided = 0)"
+
             }
 
         },
@@ -33,7 +51,16 @@
             "join": {
                 "type": "inner",
                 "joinCondition": "l.location_id = flct.location_id"
-                
+
+            }
+        },
+        {
+            "table": "etl.flat_appointment",
+            "alias": "fa",
+            "join": {
+                "type": "left",
+                "joinCondition": "fa.person_id = flct.person_id AND fa.next_clinical_encounter_datetime IS NULL"
+
             }
         },
         {
@@ -41,13 +68,12 @@
             "alias": "p",
             "join": {
                 "type": "left",
-                "joinCondition": "flct.person_id = p.person_id and (p.voided is null || p.voided = 0 and (p.person_attribute_type_id = 10))"
+                "joinCondition": "flct.person_id = p.person_id and (p.voided is null OR p.voided = 0 and (p.person_attribute_type_id = 10))"
 
             }
         }
     ],
-    "columns": [
-        {
+    "columns": [{
             "type": "simple_column",
             "alias": "person_id",
             "column": "flct.person_id"
@@ -85,6 +111,11 @@
         },
         {
             "type": "simple_column",
+            "alias": "deceased",
+            "column": "pp.dead"
+        },
+        {
+            "type": "simple_column",
             "alias": "location_id",
             "column": "flct.location_id"
         },
@@ -118,183 +149,169 @@
         },
         {
             "type": "derived_column",
-            "alias": "referred_from",
-            "expressionType": "case_statement",
+            "alias": "enrolled_patients",
+            "expressionType": "simple_expression",
             "expressionOptions": {
-                "caseOptions": [
-                    {
-                        "condition": "referred_from = 1",
-                        "value": "Pulmonary clinic"
-                    },
-                    {
-                        "condition": "referred_from = 2",
-                        "value": "Tuberculosis treatment or dot program"
-                    },
-                    {
-                        "condition": "referred_from = 3",
-                        "value": "Health centre hospitals"
-                    },
-                    {
-                        "condition": "referred_from = 4",
-                        "value": "Private health sector"
-                    },
-                    {
-                        "condition": "referred_from = 5",
-                        "value": "Radiology"
-                    },
-                    {
-                        "condition": "referred_from = 6",
-                        "value": "Self"
-                    },
-                    {
-                        "condition": "referred_from = 7",
-                        "value": "Other non-coded"
-                    }
-                ]
+                "expression": "(IF ((program.date_completed IS NULL AND program.program_id IN(32)), 1, 0))"
             }
         },
         {
             "type": "derived_column",
-            "alias": "walk_in",
+            "alias": "active_patients",
             "expressionType": "simple_expression",
             "expressionOptions": {
-            "expression": "(IF(cur_visit_type IN (2), 1, NULL))"
-                       }
+                "expression": "(IF ((program.date_completed IS NULL AND pp.dead = 0), 1, 0))"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "lost_to_follow_up",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "IF(TIMESTAMPDIFF(day,fa.rtc_date,CURDATE()) >= 90 AND pp.dead = 0 ,1,NULL)"
+            }
         },
         {
             "type": "derived_column",
             "alias": "referred_from_clinic",
             "expressionType": "simple_expression",
             "expressionOptions": {
-            "expression": "(IF(cur_visit_type IN (1), 1, NULL))"
-                       }
+                "expression": "(IF(cur_visit_type IN (1), 1, NULL))"
+            }
         },
         {
             "type": "derived_column",
             "alias": "non_small_cell_lung_cancer",
             "expressionType": "simple_expression",
             "expressionOptions": {
-            "expression": "(IF(non_small_cell_ca_type IS NOT NULL, 1, NULL))"
-                       }
+                "expression": "(IF(non_small_cell_ca_type IS NOT NULL, 1, NULL))"
+            }
         },
         {
             "type": "derived_column",
             "alias": "epidermoid_carcinoma",
             "expressionType": "simple_expression",
             "expressionOptions": {
-            "expression": "(IF(non_small_cell_ca_type IN (1), 1, NULL))"
-                       }
+                "expression": "(IF(non_small_cell_ca_type IN (1), 1, NULL))"
+            }
         },
         {
             "type": "derived_column",
             "alias": "adenocarcinoma",
             "expressionType": "simple_expression",
             "expressionOptions": {
-            "expression": "(IF(non_small_cell_ca_type IN (2), 1, NULL))"
-                       }
+                "expression": "(IF(non_small_cell_ca_type IN (2), 1, NULL))"
+            }
         },
         {
             "type": "derived_column",
             "alias": "large_cell_carcinoma",
             "expressionType": "simple_expression",
             "expressionOptions": {
-            "expression": "(IF(non_small_cell_ca_type IN (3), 1, NULL))"
-                       }
+                "expression": "(IF(non_small_cell_ca_type IN (3), 1, NULL))"
+            }
         },
         {
             "type": "derived_column",
             "alias": "mixed_squamous",
             "expressionType": "simple_expression",
             "expressionOptions": {
-            "expression": "(IF(non_small_cell_ca_type IN (4), 1, NULL))"
-                       }
+                "expression": "(IF(non_small_cell_ca_type IN (4), 1, NULL))"
+            }
         },
         {
             "type": "derived_column",
             "alias": "small_cell_lung_cancer",
             "expressionType": "simple_expression",
             "expressionOptions": {
-            "expression": "(IF(lung_cancer_type IN (2), 1, NULL))"
-                       }
+                "expression": "(IF(lung_cancer_type IN (2), 1, NULL))"
+            }
         },
         {
             "type": "derived_column",
             "alias": "stage_one",
             "expressionType": "simple_expression",
             "expressionOptions": {
-            "expression": "(IF(staging IN (1), 1, NULL))"
-                       }
+                "expression": "(IF(staging IN (1), 1, NULL))"
+            }
         },
         {
             "type": "derived_column",
             "alias": "stage_two",
             "expressionType": "simple_expression",
             "expressionOptions": {
-            "expression": "(IF(staging IN (2), 1, NULL))"
-                       }
+                "expression": "(IF(staging IN (2), 1, NULL))"
+            }
         },
         {
             "type": "derived_column",
             "alias": "stage_three",
             "expressionType": "simple_expression",
             "expressionOptions": {
-            "expression": "(IF(staging IN (3), 1, NULL))"
-                       }
+                "expression": "(IF(staging IN (3), 1, NULL))"
+            }
         },
         {
             "type": "derived_column",
             "alias": "stage_four",
             "expressionType": "simple_expression",
             "expressionOptions": {
-            "expression": "(IF(staging IN (4), 1, NULL))"
-                       }
+                "expression": "(IF(staging IN (4), 1, NULL))"
+            }
         },
         {
             "type": "derived_column",
             "alias": "limited_stage",
             "expressionType": "simple_expression",
             "expressionOptions": {
-            "expression": "(IF(staging IN (5), 1, NULL))"
-                       }
+                "expression": "(IF(staging IN (5), 1, NULL))"
+            }
         },
         {
             "type": "derived_column",
             "alias": "extensive_stage",
             "expressionType": "simple_expression",
             "expressionOptions": {
-            "expression": "(IF(staging IN (6), 1, NULL))"
-                       }
+                "expression": "(IF(staging IN (6), 1, NULL))"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "for_staging",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "(NULLIF(staging, NULL))"
+            }
         },
         {
             "type": "derived_column",
             "alias": "chemotherapy",
             "expressionType": "simple_expression",
             "expressionOptions": {
-            "expression": "(IF(treatment_plan IN (1), 1, NULL))"
-                       }
+                "expression": "(IF(treatment_plan IN (1), 1, NULL))"
+            }
         },
         {
             "type": "derived_column",
             "alias": "radiotherapy",
             "expressionType": "simple_expression",
             "expressionOptions": {
-            "expression": "(IF(treatment_plan IN (2), 1, NULL))"
-                       }
+                "expression": "(IF(treatment_plan IN (2), 1, NULL))"
+            }
         },
         {
             "type": "derived_column",
             "alias": "surgery",
             "expressionType": "simple_expression",
             "expressionOptions": {
-            "expression": "(IF(treatment_plan IN (3), 1, NULL))"
-                       }
+                "expression": "(IF(treatment_plan IN (3), 1, NULL))"
+            }
         }
 
     ],
     "filters": {
         "conditionJoinOperator": "and",
-        "conditions": [
-            {
+        "conditions": [{
                 "filterType": "tableColumns",
                 "conditionExpression": "flct.age >= ?",
                 "parameterName": "startAge"
@@ -338,8 +355,8 @@
         "groupParam": "groupByParam",
         "columns": [
             "flct.person_id",
-            "location_id",
-            "DATE_FORMAT(encounter_datetime, '%D-%M-%Y')"
+            "flct.location_id",
+            "DATE_FORMAT(flct.encounter_datetime, '%D-%M-%Y')"
         ]
     }
 }
