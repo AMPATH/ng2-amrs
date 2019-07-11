@@ -98,6 +98,67 @@
           "total_breast_and_cervical_screened"
         ]
       }]
+    },
+    {
+      "report_type": "lung-cancer-screening-numbers",
+      "sections":[
+        {
+          "section": "total_lung_screened",
+          "report_indicators":[
+            "total_lung_screened",
+            "walk_in",
+            "referred_from_clinic",
+            "cigarette_smoking",
+            "tobacco_use",
+            "chemical_exposure",
+            "asbestos_exposure",
+            "hiv_negative",
+            "hiv_positive",
+            "hiv_status_unknown",
+            "tb_treatment_received",
+            "no_tb_treatment",
+            "normal_xray_results",
+            "abnormal_xray_results",
+            "biopsy_done",
+            "biopsy_not_done",
+            "indication_of_pleural_mass_from_ct_findings",
+            "indication_of_mediastial_mass_from_ct_findings",
+            "indication_of_lung_mass_from_ct_findings",
+            "non_respiratory_disease",
+            "non_small_cell_lung_cancer",
+            "small_cell_lung_cancer"
+          ]
+        }
+      ]
+    },
+    {
+        "report_type": "lung-cancer-treatment-numbers",
+        "sections": [{
+                "section": "enrolled_patients",
+                "report_indicators": [
+                    "enrolled_patients",
+                    "alive_patients",
+                    "deceased",
+                    "small_cell_lung_cancer",
+                    "non_small_cell_lung_cancer",
+                    "adenocarcinoma",
+                    "epidermoid_carcinoma",
+                    "large_cell_carcinoma",
+                    "mixed_squamous",
+                    "lost_to_follow_up",
+                    "stage_one",
+                    "stage_two",
+                    "stage_three",
+                    "stage_four",
+                    "limited_stage",
+                    "extensive_stage",
+                    "for_staging",
+                    "chemotherapy",
+                    "radiotherapy",
+                    "surgery"
+                ]
+            }
+        ]
     }
   ]
 }

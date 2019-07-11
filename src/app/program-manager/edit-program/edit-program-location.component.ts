@@ -121,6 +121,13 @@ export class EditProgramLocationComponent implements OnInit {
   }
 
   private preSelectLocation() {
+    const retroLocation = localStorage.getItem('retroLocation');
+    if (retroLocation) {
+      const retroLocationObj = JSON.parse(retroLocation);
+      this.transferLocation = retroLocationObj.uuid;
+      this.location = {value: retroLocationObj.uuid};
+      return;
+    }
     const transferLocation = localStorage.getItem('transferLocation');
     if (transferLocation) {
       this.transferLocation = transferLocation;

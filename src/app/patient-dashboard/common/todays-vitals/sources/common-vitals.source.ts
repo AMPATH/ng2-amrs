@@ -82,7 +82,7 @@ export class CommonVitalsSource implements VitalSourceInterface {
       bmi = (parseInt(weight.value, 10) / (parseInt(height.value, 10) / 100 * height.value / 100)).toFixed(1);
       return vitalModel.createVital({
         name: 'bmi',
-        label: 'BMI(Kg/M2)',
+        label: 'BMI (Kg/M2)',
         order: 6,
         show: !_.isNil(bmi) && this.patient.person.age > 18,
         value: bmi,
