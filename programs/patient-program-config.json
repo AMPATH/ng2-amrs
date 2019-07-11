@@ -453,6 +453,10 @@
         {
           "uuid": "81166f83-1ee6-486e-8f56-aca528fc0fc0",
           "display": "GENCONSULTATION"
+        },
+        {
+          "uuid": "2cd62224-5507-48ee-a7b3-55f66162b148",
+          "display": "ONCOLOGYLABENTRY"
         }
       ]
     }]
@@ -1964,6 +1968,10 @@
         {
           "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
           "display": "DEATHREPORT"
+        },
+        {
+          "uuid": "2cd62224-5507-48ee-a7b3-55f66162b148",
+          "display": "ONCOLOGYLABENTRY"
         }
 
       ]
@@ -1995,6 +2003,10 @@
         {
           "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
           "display": "DEATHREPORT"
+        },
+        {
+          "uuid": "2cd62224-5507-48ee-a7b3-55f66162b148",
+          "display": "ONCOLOGYLABENTRY"
         }
       ]
     }]
@@ -2029,6 +2041,10 @@
         {
           "uuid": "c01fba63-0c54-43c9-8769-af7f48aefb5c",
           "display": "LUNGCANCERSCREENINGRESULT"
+        },
+        {
+          "uuid": "2cd62224-5507-48ee-a7b3-55f66162b148",
+          "display": "ONCOLOGYLABENTRY"
         }
       ]
     }]
@@ -2063,6 +2079,10 @@
         {
           "uuid": "bb1ad67a-5363-42fd-a53e-ba0047eb431c",
           "display": "SICKLECELLSCREENING"
+        },
+        {
+          "uuid": "2cd62224-5507-48ee-a7b3-55f66162b148",
+          "display": "ONCOLOGYLABENTRY"
         }
       ]
     }]
@@ -2093,6 +2113,10 @@
         {
           "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
           "display": "DEATHREPORT"
+        },
+        {
+          "uuid": "2cd62224-5507-48ee-a7b3-55f66162b148",
+          "display": "ONCOLOGYLABENTRY"
         }
       ]
     }]
@@ -2123,6 +2147,10 @@
         {
           "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
           "display": "DEATHREPORT"
+        },
+        {
+          "uuid": "2cd62224-5507-48ee-a7b3-55f66162b148",
+          "display": "ONCOLOGYLABENTRY"
         }
       ]
     }]
@@ -2926,6 +2954,10 @@
           {
             "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
             "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "2cd62224-5507-48ee-a7b3-55f66162b148",
+            "display": "ONCOLOGYLABENTRY"
           }
         ]
     }]
