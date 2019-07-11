@@ -81,14 +81,6 @@
         "name":"HEMATO-ONCOLOGY",
         "programs":[
             {
-                "uuid":"142939b0-28a9-4649-baf9-a9d012bf3b3d",
-                "name": "BREAST CANCER SCREENING PROGRAM"
-            },
-            {
-                "uuid":"cad71628-692c-4d8f-8dac-b2e20bece27f",
-                "name": "CERVICAL CANCER SCREENING PROGRAM"
-            },
-            {
                 "uuid":"43b42170-b3ce-4e03-9390-6bd78384ac06",
                 "name": "GYN-ONCOLOGY TREATMENT PROGRAM"
             },
@@ -119,6 +111,10 @@
             {
                 "uuid": "418fe011-a903-4862-93d4-5e7c84d9c253",
                 "name": "ANTICOAGULATION TREATMENT PROGRAM"
+            },
+            {
+                "uuid": "37ff4124-91fd-49e6-8261-057ccfb4fcd0",
+                "name": "ONCOLOGY SCREENING AND DIAGNOSIS PROGRAM"
             }
         ]
     },
