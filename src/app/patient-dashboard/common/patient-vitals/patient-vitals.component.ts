@@ -1,10 +1,10 @@
-
-import { take } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
+
 import * as _ from 'lodash';
+import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 import { Helpers } from '../../../utils/helpers';
-import { Subscription } from 'rxjs';
 import { PatientService } from '../../services/patient.service';
 import { PatientVitalsService } from './patient-vitals.service';
 import { Patient } from '../../../models/patient.model';
@@ -17,24 +17,16 @@ import { SelectDepartmentService } from 'src/app/shared/services/select-departme
   styleUrls: ['./patient-vitals.component.css']
 })
 export class PatientVitalsComponent implements OnInit, OnDestroy {
-
   public loadingVitals = false;
-
   public vitals: Array<any> = [];
-
   public patient: Patient;
-
   public dataLoaded = false;
-
   public errors: any = [];
   public page = 1;
-
   public patientUuid: any;
   public subscription: Subscription;
-
   public nextStartIndex = 0;
   public isLoading = false;
-
   public userDefaultDept: any;
   public isDepartmentOncology = false;
 
@@ -55,7 +47,7 @@ export class PatientVitalsComponent implements OnInit, OnDestroy {
   }
 
   public getPatient() {
-    this.subscription = this.patientService.currentlyLoadedPatient.take(1).subscribe(
+    this.subscription = this.patientService.currentlyLoadedPatient.pipe(take(1)).subscribe(
       (patient) => {
         if (patient !== null) {
           this.patient = patient;
@@ -71,15 +63,16 @@ export class PatientVitalsComponent implements OnInit, OnDestroy {
         });
       });
   }
+
   public loadVitals(patientUuid, nextStartIndex): void {
     this.loadingVitals = true;
 
-    this.patientVitalsService.getvitals(this.patient, this.nextStartIndex).subscribe((data) => {
+    this.patientVitalsService.getVitals(this.patient, this.nextStartIndex).subscribe((data) => {
       if (data) {
         if (data.length > 0) {
           const membersToCheck = ['weight', 'height', 'temp', 'oxygen_sat', 'systolic_bp',
             'diastolic_bp', 'pulse'];
-          this.inteprateEcogValuesForOncology(data);
+          this.interpretEcogValuesForOncology(data);
 
           for (const r in data) {
             if (data.hasOwnProperty(r)) {
@@ -87,23 +80,17 @@ export class PatientVitalsComponent implements OnInit, OnDestroy {
               if (!Helpers.hasAllMembersUndefinedOrNull(encounter, membersToCheck)) {
                 this.vitals.push(encounter);
               }
-
             }
-
           }
           const size: number = data.length;
           this.nextStartIndex = this.nextStartIndex + size;
           this.isLoading = false;
           this.loadingVitals = false;
         } else {
-
           this.dataLoaded = true;
           this.loadingVitals = false;
-
         }
-
       }
-
       this.isLoading = false;
     },
 
@@ -115,9 +102,9 @@ export class PatientVitalsComponent implements OnInit, OnDestroy {
         });
       });
   }
+
   public loadMoreVitals() {
     this.loadVitals(this.patientUuid, this.nextStartIndex);
-
   }
 
   public getUserDefaultDepartment() {
@@ -127,7 +114,7 @@ export class PatientVitalsComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * inteprateEcogValuesForOncology
+   * interpretEcogValuesForOncology
    * (not a good approach refactor later to use etl)
    * 0 is normal
    * 1 is symptomatic
@@ -135,7 +122,7 @@ export class PatientVitalsComponent implements OnInit, OnDestroy {
    * 3 is DEBILITATED, BEDRIDDEN GREATER THAN 50% OF THE DAY
    * 4 is BEDRIDDEN 100%
    */
-  public inteprateEcogValuesForOncology(data: any) {
+  public interpretEcogValuesForOncology(data: any) {
     _.each(data, (element) => {
       switch (element.ecog) {
         case 1115: {
@@ -161,7 +148,6 @@ export class PatientVitalsComponent implements OnInit, OnDestroy {
         default: {
           break;
         }
-
       }
     });
   }
