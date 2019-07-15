@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
+import * as _ from 'lodash';
+import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
+
+import { DepartmentProgramsConfigService } from 'src/app/etl-api/department-programs-config.service';
+import { LocalStorageService } from 'src/app/utils/local-storage.service';
 import { PatientService } from 'src/app/patient-dashboard/services/patient.service';
 import { ProgramService } from 'src/app/patient-dashboard/programs/program.service';
-import { Router, ActivatedRoute } from '@angular/router';
-import { DepartmentProgramsConfigService } from 'src/app/etl-api/department-programs-config.service';
-import { Subscription } from 'rxjs';
 import { Patient } from 'src/app/models/patient.model';
-import { LocalStorageService } from 'src/app/utils/local-storage.service';
-import { take } from 'rxjs/operators';
-import * as _ from 'lodash';
 
 @Component({
     moduleId: module.id,
@@ -78,9 +79,9 @@ export class EnrollmentShortcutComponent implements OnInit {
         this.departmentProgramService.getDartmentProgramsConfig().pipe(
             take(1)).subscribe((results) => {
                 if (results) {
-                    this.allDepartmentsProgramsConf =
-                        _.orderBy(results,
-                            ['name'], ['asc']);
+                  this.allDepartmentsProgramsConf =
+                  _.orderBy(results,
+                    ['name'], ['asc']);
                 } else {
                     this.allDepartmentsProgramsConf = [];
                 }
@@ -104,21 +105,42 @@ export class EnrollmentShortcutComponent implements OnInit {
     // this determines the actual possible programs that the selected patients
     // can be enrolled in. It populates the list of programs avaliable for selecting.
     public determinePossibleProgramsForPatient() {
-        this.patientEnrollablePrograms = null;
+      this.patientEnrollablePrograms = null;
 
-        // check for whether all data requirements are loaded
-        if (this.patientEnrolledPrograms !== null &&
-            this.allProgramsInDefaultDepartmentConf !== null) {
-              const availablePrograms = _.filter(this.allProgramsInDefaultDepartmentConf,
-                            (program) => {
-                                const enrolledProgUuids = _.map(this.patientEnrolledPrograms,
-                                    (a) => a.programUuid);
-                                return !_.includes(enrolledProgUuids, program.uuid);
-                            });
-                            this.patientEnrollablePrograms = _.filter(availablePrograms,  (item) => {
-                                return item.uuid !== '781d8880-1359-11df-a1f1-0026b9348838';
-                            });
-        }
+      // check for whether all data requirements are loaded
+      if (this.patientEnrolledPrograms !== null &&
+        this.allProgramsInDefaultDepartmentConf !== null) {
+          const availablePrograms = _.filter(this.allProgramsInDefaultDepartmentConf,
+            (program) => {
+              const enrolledProgUuids = _.map(this.patientEnrolledPrograms, (a) => a.programUuid);
+              return !_.includes(enrolledProgUuids, program.uuid);
+            }
+          );
+
+          this.patientEnrollablePrograms = this.filterOutIncompatiblePrograms(availablePrograms);
+      }
+    }
+
+    public filterOutIncompatiblePrograms(avaliablePrograms: any[]) {
+      let enrollablePrograms: any[];
+      const genderIncompatiblePrograms = [
+        'cad71628-692c-4d8f-8dac-b2e20bece27f', // Cervical cancer screening program
+        '43b42170-b3ce-4e03-9390-6bd78384ac06', // Gyn-oncology treatment program
+        '781d897a-1359-11df-a1f1-0026b9348838' // PMTCT program
+      ];
+
+      enrollablePrograms = _.filter(avaliablePrograms, p => {
+        return p.uuid !== '781d8880-1359-11df-a1f1-0026b9348838'; // Express Care Program
+      });
+
+      const gender = this.patient.openmrsModel.person.gender;
+      if (gender === 'M') {
+        enrollablePrograms = _.filter(enrollablePrograms, program => {
+          return !genderIncompatiblePrograms.includes(program.uuid);
+        });
+      }
+
+      return enrollablePrograms;
     }
 
     public triggerEnrollment(program) {
