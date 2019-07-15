@@ -11,7 +11,7 @@ import { DepartmentProgramFilterComponent } from './../department-program-filter
 import { of } from 'rxjs';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 import { AgGridModule } from 'ag-grid-angular';
-import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
+import { DateTimePickerModule } from 'ngx-openmrs-formentry/';
 import { ProgramEnrollmentSummaryComponent } from './program-enrollment-summary.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ClinicDashboardCacheService } from 'src/app/clinic-dashboard/services/clinic-dashboard-cache.service';

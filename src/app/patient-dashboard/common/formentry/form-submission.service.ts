@@ -3,8 +3,8 @@ import {throwError as observableThrowError,  forkJoin ,  Observable, Subject, of
 
 import {catchError,  first } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { Form } from 'ngx-openmrs-formentry/dist/ngx-formentry';
-import { EncounterAdapter, PersonAttribuAdapter } from 'ngx-openmrs-formentry/dist/ngx-formentry';
+import { Form } from 'ngx-openmrs-formentry';
+import { EncounterAdapter, PersonAttribuAdapter } from 'ngx-openmrs-formentry';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
 import { PersonResourceService } from '../../../openmrs-api/person-resource.service';
 import { FormentryHelperService } from './formentry-helper.service';

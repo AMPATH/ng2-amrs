@@ -5,7 +5,7 @@ import { LocalStorageService } from '../../../utils/local-storage.service';
 import { FormSubmissionService } from './form-submission.service';
 import {
   EncounterAdapter, PersonAttribuAdapter, OrderValueAdapter, ObsValueAdapter, ObsAdapterHelper, Form
-} from 'ngx-openmrs-formentry/dist/ngx-formentry';
+} from 'ngx-openmrs-formentry';
 import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
 import { PersonResourceService } from '../../../openmrs-api/person-resource.service';

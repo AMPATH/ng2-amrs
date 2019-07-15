@@ -13,14 +13,14 @@ export class FormOrderMetaDataService {
                 './assets/schemas/form-order.json'
             )
                 .subscribe(
-                (data) => {console.log(data); this.formsOrder.next(data); },
+                (data) => { this.formsOrder.next(data); },
                 (error) => this.formsOrder.error(error)
                 );
         }
 
         return this.formsOrder;
     }
-    public setFavouriteForm(name: string) {
+    public setFavouriteForm(name: any) {
         const formNames = this.getFavouriteForm();
         const obj = {
             name: name

@@ -1,24 +1,34 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
-
-import { NgBusyModule, BusyConfig } from 'ng-busy';
 import { LaddaModule } from 'angular2-ladda';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgxPaginationModule } from 'ngx-pagination';
-import { AgGridModule } from 'ag-grid-angular/main';
-import { SelectModule } from 'ngx-select';
 import {
   MatProgressSpinnerModule, MatProgressBarModule, MatTabsModule, MatSnackBarModule, MatSlideToggleModule, MatCardModule, MatRadioModule,
   MatExpansionModule, MatMenuModule, MatIconModule, MatButtonModule, MatTooltipModule
 } from '@angular/material';
+
+import { NgBusyModule, BusyConfig } from 'ng-busy';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { AgGridModule } from 'ag-grid-angular/main';
+import { SelectModule } from 'ngx-select';
 import { CacheService } from 'ionic-cache';
-import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
+import { DateTimePickerModule } from 'ngx-openmrs-formentry/';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { FormEntryModule } from 'ngx-openmrs-formentry/dist/ngx-formentry';
+import { FormEntryModule } from 'ngx-openmrs-formentry';
+import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
+import { Angulartics2Piwik } from 'angulartics2/piwik';
+import { Angulartics2Module } from 'angulartics2';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { CacheModule } from 'ionic-cache';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+
+
+
 import { DisplayErrorComponent } from './display-error/display-error.component';
 import { DateSelectorComponent } from './components/date-selector.component';
 import { StringToDatePipe } from './pipes/string-to-date.pipe';
@@ -27,18 +37,13 @@ import { OpenmrsApi } from '../openmrs-api/openmrs-api.module';
 import { OnlineTrackerComponent } from '../online-tracker';
 import { BuildVersionComponent } from '../build-version';
 import { RoutesProviderService } from './dynamic-route/route-config-provider.service';
-import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { HivSummaryService } from '../patient-dashboard/hiv/hiv-summary/hiv-summary.service';
 import { AuthenticationService } from '../openmrs-api/authentication.service';
 import { SessionService } from '../openmrs-api/session.service';
 import { SessionStorageService } from '../utils/session-storage.service';
-import { Angulartics2Piwik } from 'angulartics2/piwik';
 import {
   UserDefaultPropertiesService
 } from '../user-default-properties/user-default-properties.service';
-import { Angulartics2Module } from 'angulartics2';
-import { NgSelectModule } from '@ng-select/ng-select';
-import { CacheModule } from 'ionic-cache';
 import {
   LocationFilterComponent
 } from './locations/location-filter/location-filter.component';
@@ -51,8 +56,6 @@ import {
 import {
   CdmProgramSnapshotComponent
 } from '../patient-dashboard/cdm/program-snapshot/cdm-program-snapshot.component';
-// import { GeneralLandingPageComponent
-// } from '../patient-dashboard/general-landing-page/landing-page.component';
 import { FormListComponent } from '../patient-dashboard/common/forms/form-list.component';
 import { ReportFiltersComponent } from './report-filters/report-filters.component';
 import { ZeroVlPipe } from './pipes/zero-vl-pipe';
@@ -66,12 +69,9 @@ import {
   RetrospectiveDataEntryModule
 } from '../retrospective-data-entry/retrospective-data-entry.module';
 import { DataListsModule } from './data-lists/data-lists.module';
-import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { AppModalComponent } from './modal/app-modal.component';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PocHttpInteceptor } from './services/poc-http-interceptor';
 import { SelectDepartmentService } from './services/select-department.service';
-
 import { RisonService } from './services/rison-service';
 import { KibanaVizHostComponent } from './kibana-viz-host/kibana-viz-host.component';
 import { KibanaVizComponent } from './kibana-viz/kibana-viz.component';
