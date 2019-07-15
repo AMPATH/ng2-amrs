@@ -722,6 +722,7 @@
       "patientEnrollment"
     ],
     "enrollmentOptions": {
+      "enrollIf": "gender === 'F'",
       "requiredProgramQuestions": [{
           "qtype": "hivStatus",
           "name": "Patient HIV status",
@@ -1847,7 +1848,7 @@
       "patient"
     ],
     "enrollmentOptions": {
-      "enrollIf": "gender != 'M'"
+      "enrollIf": "gender === 'F'"
     },
     "incompatibleWith": [],
     "visitTypes": [{
@@ -2936,6 +2937,9 @@
       {
         "uuid": "8103a0f3-a3d3-4453-ac3e-aaecd542ccd1",
         "name": "Cervical Cancer Screening ",
+        "enrollmentOptions": {
+          "enrollIf": "gender === 'F'"
+        },
         "encounterTypes": [
           {
             "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
