@@ -1,9 +1,9 @@
 
 import { take } from 'rxjs/operators';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+
 import { Observable, Subject, Subscription } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
-
 import * as _ from 'lodash';
 
 import { FileUploadResourceService } from '../../../etl-api/file-upload-resource.service';
@@ -20,11 +20,17 @@ import { PatientService } from '../../services/patient.service';
 export class LocatorMapComponent implements OnInit, OnDestroy {
 
   public dataModel: string;
+  public pdfUrl: any;
   public loading = false;
+  public pdfAvailable = false;
   public imageSaved = false;
   public imageUploadFailed = false;
   public subscriptions = [];
+  public fileList = [];
+  public singleFileInput = true;
+  public openCamera = false;
   public patient: any;
+  public fileUuid = null;
   private attributeType = '1a12beb8-a869-42f2-bebe-09834d40fd59';
 
   constructor(private fileUploadResourceService: FileUploadResourceService,
@@ -46,8 +52,22 @@ export class LocatorMapComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.cleanUp();
   }
+  public upload() {
+  }
+  public clearValue() {
+   this.fileUuid = null;
+    this.propagateChange( this.fileUuid);
+  }
+  // tslint:disable-next-line:no-shadowed-variable
+  private propagateChange = (_: any) => { };
 
-  public onFileChange(file) {
+  public onFileChange(fileList) {
+    for (const file of fileList) {
+      this.uploadFile(file);
+    }
+
+  }
+  public uploadFile(file) {
     this.subscriptions.push(this.fileUploadResourceService.upload(file).pipe(flatMap((result: any) => {
       const updatePayload = {
         attributes: [{
@@ -93,14 +113,22 @@ export class LocatorMapComponent implements OnInit, OnDestroy {
     const photo = this.patient.person.getPersonAttribute(this.attributeType);
     if (photo) {
       this.dataModel = photo;
+      const re = /pdf/gi;
+      if (this.dataModel.search(re) !== -1) {
+        this.setPdfUrl();
+      }
     } else {
       this.dataModel = null;
     }
 
   }
-
-  private getUrl() {
-    return this.appSettingsService.getEtlRestbaseurl().trim() + 'files/';
+  private setPdfUrl() {
+    this.loading = true;
+    this.fileUploadResourceService.getFile(this.dataModel, 'pdf').subscribe((file) => {
+      this.pdfAvailable = true;
+      this.pdfUrl = file.changingThisBreaksApplicationSecurity;
+      this.loading = false;
+     });
   }
 
   private cleanUp() {
@@ -115,6 +143,13 @@ export class LocatorMapComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.imageSaved = false;
     }, 3000);
+  }
+  public liveCamera() {
+    if (this.openCamera) {
+      this.openCamera = false;
+    } else {
+      this.openCamera = true;
+    }
   }
 
 }

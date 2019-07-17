@@ -4,7 +4,7 @@ import { concat, first } from 'rxjs/operators';
 
 import { FormsResourceService } from '../../../openmrs-api/forms-resource.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
-import { FormSchemaCompiler } from 'ngx-openmrs-formentry/dist/ngx-formentry';
+import { FormSchemaCompiler } from 'ngx-openmrs-formentry';
 
 @Injectable()
 export class FormSchemaService {

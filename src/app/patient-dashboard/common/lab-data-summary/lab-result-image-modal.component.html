@@ -9,7 +9,7 @@ role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
    </button>
  </div>
  <div class="modal-body images-body">
-   <div class="container-fluid">
+   <div *ngIf="imageLinksAvailable" class="container-fluid">
      <div class="row">
       <div *ngFor="let imageLink of imageLinks">
         <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12" *ngIf="imageLink!=''">
@@ -19,6 +19,15 @@ role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
       </div>
     </div>
   </div>
+  <div *ngIf="pdfAvailable" class="container-fluid">
+      <div class="row">
+       <div *ngFor="let pdfLink of pdfLinks">
+          <pdf-viewer [src]="pdfLink" 
+          [render-text]="true"
+          style="display: block;"></pdf-viewer>
+       </div>
+     </div>
+   </div>
 
  </div>
  <div class="modal-footer">

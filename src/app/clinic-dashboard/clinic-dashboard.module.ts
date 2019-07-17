@@ -22,7 +22,7 @@ import { ReportingUtilitiesModule } from '../reporting-utilities/reporting-utili
 import { AgGridModule } from 'ag-grid-angular/main';
 import { DataListsModule } from '../shared/data-lists/data-lists.module';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
-import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry';
+import { DateTimePickerModule } from 'ngx-openmrs-formentry';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { GeneralModule } from './general/general.module';
 import { CdmModule } from './cdm/cdm-program.module';
