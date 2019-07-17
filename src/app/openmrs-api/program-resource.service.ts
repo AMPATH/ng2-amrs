@@ -32,7 +32,7 @@ export class ProgramResourceService {
     }));
   }
 
-  // get proggram incompatibilities
+  // get program incompatibilities
 
   public getProgramsIncompatibilities() {
        return this.http.get('../patient-dashboard/programs/programs.json');
