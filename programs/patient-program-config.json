@@ -2779,6 +2779,14 @@
       "encounterTypes": [{
           "uuid": "d54ce118-ce48-4e94-9315-ffe81df085fb",
           "display": "BIGPICADULTRETURN"
+        },
+        {
+          "uuid": "9bc0fa73-474e-45ab-bdac-7282e95d856f",
+          "display": "ONCOLOGYDYSPLASIA"
+        },
+        {
+          "uuid": "238625fc-8a25-44b2-aa5a-8bf48fa0e18d",
+          "display": "ONCOLOGYVIA"
         }
 
       ]
