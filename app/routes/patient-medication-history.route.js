@@ -14,13 +14,14 @@ const routes = [{
         handler: function (request, reply) {
             let oncMedsDetailed = [];
             let oncMedHistory = {};
+            let planAndDate = {};
             let requestParams = Object.assign({}, request.query, request.params);
             getOncMeds(requestParams, '', '').then((data) => {
                 if (!!data) {
                     let groupedMedsData = generateMedsDataSet(data.result);
                     _.each(groupedMedsData, (summary) => {
                         if (summary.drugs) {
-                            let planAndDate = summary.treatment_plan;
+                            planAndDate = summary.treatment_plan;
                             _.each(summary.drugs, function (data) {
                                 let oncMed = {};
                                 _.each(data, function (a) {
@@ -33,7 +34,7 @@ const routes = [{
                                     } else if (a.concept_id === 7463) {
                                         oncMed.cur_onc_meds_route = helpers.getConceptName(a.value_coded);
                                     }
-                                    if (planAndDate) {
+                                    if (planAndDate.length > 0) {
                                         oncMed.meds_start_date = planAndDate[0].obs_datetime;
                                         oncMed.chemotherapy_plan = helpers.getConceptName(planAndDate[0].value_coded);
                                     }

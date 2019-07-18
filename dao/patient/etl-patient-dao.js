@@ -10,7 +10,7 @@ var _ = require('lodash');
 var Boom = require('boom'); //extends Hapi Error Reporting. Returns HTTP-friendly error objects: github.com/hapijs/boom
 var helpers = require('../../etl-helpers');
 var patientReminderService = require('../../service/patient-reminder.service.js');
-
+import { getOncMeds } from '../../service/oncology/patient-oncology-summary-service'
 module.exports = function () {
     function getPatientHivSummary(request, callback) {
         var uuid = request.params.uuid;
