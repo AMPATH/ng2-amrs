@@ -385,11 +385,18 @@ export class LabResultComponent implements OnInit, OnDestroy {
 
     ];
 
+    const headerCols = [];
+
     _.each(this.labResults, (result: any) => {
+      let columnField = result.testDatetime;
+      if (_.includes(headerCols, result.testDatetime) === true) {
+           // Handle multiple results for same date
+            columnField = result.testDatetime + 'n';
+      }
       const col = {
         headerName: result.testDatetime,
         width: 110,
-        field: result.testDatetime,
+        field: columnField,
         cellStyle: {
           'text-align': 'left'
         },
@@ -407,6 +414,7 @@ export class LabResultComponent implements OnInit, OnDestroy {
           }
         }
       };
+      headerCols.push(columnField);
       cols.push(col);
     });
 
@@ -546,10 +554,10 @@ export class LabResultComponent implements OnInit, OnDestroy {
 
 
   public createHorizontalRowData(labResults) {
-
     const rowData: any = this.labRows;
+    const labData = [];
     _.each(labResults, (result: any) => {
-      const dateTime = result.testDatetime;
+      let dateTime = result.testDatetime;
       Object.keys(result).forEach((key, index) => {
         if (rowData.hasOwnProperty('' + key + '')) {
           if (key === 'hiv_viral_load') {
@@ -557,7 +565,11 @@ export class LabResultComponent implements OnInit, OnDestroy {
           } else if (key === 'serum_crag') {
             rowData[key][dateTime] = this.transformSerumCrug(result[key]);
           } else {
+            if (_.includes(labData, rowData[key][dateTime]) === true) {
+                 dateTime = result.testDatetime + 'n';
+            }
             rowData[key][dateTime] = result[key];
+            labData.push(rowData[key][dateTime]);
           }
         }
       });
@@ -570,6 +582,7 @@ export class LabResultComponent implements OnInit, OnDestroy {
   public processRowData(rowData) {
 
     const labRows: any = [];
+    const rows = [];
 
     Object.keys(rowData).forEach((key, index) => {
       const testResults = rowData[key];
