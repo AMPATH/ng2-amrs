@@ -93,12 +93,12 @@
         "conditions": [
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "encounter_datetime <= ?",
+                "conditionExpression": "pep.encounter_datetime <= ?",
                 "parameterName": "endDate"
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "encounter_datetime >= ?",
+                "conditionExpression": "pep.encounter_datetime >= ?",
                 "parameterName": "startDate"
             },
             {
