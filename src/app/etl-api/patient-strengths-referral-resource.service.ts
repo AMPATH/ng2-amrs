@@ -21,7 +21,7 @@ export class PatientReferralResourceService {
 
   public getPatientListUrl(): string {
     return this.appSettingsService.getEtlRestbaseurl().trim()
-      + 'patient-referrals-peer-navigator';
+      + 'referral-patient-list';
   }
   public getReferralLocationUrl(): string {
     return this.appSettingsService.getEtlRestbaseurl().trim()
@@ -79,6 +79,7 @@ export class PatientReferralResourceService {
   }
 
   public getPatientReferralReport(params) {
+
     const urlParams = this.getUrlRequestParams(params);
     const url: string = this.getUrl();
     const request = this.http.get(url, { params: urlParams }).pipe(
