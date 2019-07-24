@@ -76,15 +76,13 @@ export class Moh731TabularComponent implements OnInit {
 
     private setCellSelection() {
         this.gridOptions.rowSelection = 'single';
-        this.gridOptions.onCellClicked = (e) => {
-            if (e.data.location_uuid) {
+        this.gridOptions.onCellClicked = (e: any) => {
                 const selectedIndicator = {
                     indicator: e.colDef.field,
                     value: e.value,
                     location: e.data.location_uuid
             };
-                this.indicatorSelected.emit(selectedIndicator);
-            }
+            this.indicatorSelected.emit(selectedIndicator);
         };
     }
 }
