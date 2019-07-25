@@ -1642,16 +1642,24 @@
         "message": "Patient has to be in the location he enrolled into the HIV Care and Treatment program ",
         "encounterTypes": [
           {
-            "uuid": "0ea8bfc4-fd3b-40bb-bb34-d5c5d9199c96",
-            "name": "DIFFERENTIATEDCARECLINICIAN"
-          },
-          {
             "uuid": "987009c6-6f24-43f7-9640-c285d6553c63",
             "display": "DRUGPICKUP"
           },
           {
+            "uuid": "5ef97eed-18f5-40f6-9fbf-a11b1f06484a",
+            "display": "LABORDERENCOUNTER"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
             "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
             "display": "POCLAB"
+          },
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
           }
         ]
       },
@@ -1672,42 +1680,33 @@
         "uuid": "380d79a7-6fb0-41bf-be3d-aa3d25da187c",
         "name": "Standard HIV Visit for Differentiated Care ",
         "allowedIf": "age >= 10 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
-        "encounterTypes": [{
-            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
-            "display": "HIVTRIAGE"
-          },
-          {
-            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
-            "display": "TRANSFERENCOUNTER"
-          },
+        "encounterTypes": [
           {
             "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
             "display": "ADULTRETURN"
           },
           {
-            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
-            "display": "DEATHREPORT"
-          },
-          {
-            "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
-            "display": "DERMATOLOGYREFERRAL"
-          },
-          {
-            "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
-            "display": "FAMILYSTATUS"
-          },
-          {
-            "uuid": "4e7553b4-373d-452f-bc89-3f4ad9a01ce7",
-            "display": "YOUTHRETURN"
+            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
+            "display": "POCLAB"
           },
           {
             "uuid": "5ef97eed-18f5-40f6-9fbf-a11b1f06484a",
             "display": "LABORDERENCOUNTER"
           },
           {
-            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
-            "display": "POCLAB"
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "display": "TRANSFERENCOUNTER"
+          },
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
           }
+          
+          
         ]
       }
     ]
