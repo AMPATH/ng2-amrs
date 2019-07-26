@@ -113,6 +113,10 @@
                 "name": "ANTICOAGULATION TREATMENT PROGRAM"
             },
             {
+              "uuid": "40677054-c402-4c56-a0e4-5dd7d799b52f",
+              "name": "LYMPHOMA TREATMENT PROGRAM"
+            },
+            {
                 "uuid": "37ff4124-91fd-49e6-8261-057ccfb4fcd0",
                 "name": "ONCOLOGY SCREENING AND DIAGNOSIS PROGRAM"
             }

@@ -2023,6 +2023,75 @@
       ]
     }]
   },
+  "418fe011-a903-4862-93d4-5e7c84d9c253": {
+    "name": "ANTICOAGULATION TREATMENT PROGRAM",
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "hivLastTenClinicalEncounters"
+    ],
+    "incompatibleWith": [],
+    "visitTypes": [{
+      "uuid": "a77b29b4-42c5-4cf0-a224-04f1ef877747",
+      "name": "Anticoagulation Treatment Visit",
+      "encounterTypes": [{
+            "uuid": "4a7450b1-f720-4a0c-b13b-d8a6a83348ee",
+            "display": "ANTICOAGULATIONINITIAL"
+          },
+          {
+            "uuid": "6accd920-6254-4063-bfd1-0e1b70b3f201",
+            "display": "ANTICOAGULATIONREFERRAL"
+          },
+          {
+            "uuid": "857170c9-f54a-4c1a-8382-5f4abe5d71dd",
+            "display": "ANTICOAGULATIONRETURN"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "2cd62224-5507-48ee-a7b3-55f66162b148",
+            "display": "ONCOLOGYLABENTRY"
+          }
+        ]
+    }]
+  },
+  "40677054-c402-4c56-a0e4-5dd7d799b52f": {
+    "name": "LYMPHOMA TREATMENT PROGRAM",
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "hivLastTenClinicalEncounters"
+    ],
+    "incompatibleWith": [],
+    "visitTypes": [{
+      "uuid": "7b81fe1e-d19b-4ed2-a922-eca37465719a",
+      "name": "Lymphoma Treatment Visit",
+      "encounterTypes": [
+        {
+          "uuid": "b8f8e3e3-d1d0-4f77-bde1-1d7afcd2a78b",
+          "display": "ONCOLOGYLYMPOMACLINICAL"
+        },
+        {
+          "uuid": "5dd4360e-f7a2-4eb8-a6a6-778201f9a7fe",
+          "display": "ONCOLOGYPHARMACY"
+        },
+        {
+          "uuid": "dacdbe88-552a-479d-a7de-a6ebb032615b",
+          "display": "ONCOLOGYPOSTCHEMOFOLLOWUP"
+        },
+        {
+          "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+          "display": "DEATHREPORT"
+        },
+        {
+          "uuid": "2cd62224-5507-48ee-a7b3-55f66162b148",
+          "display": "ONCOLOGYLABENTRY"
+        }
+      ]
+    }]
+  },
   "781d8880-1359-11df-a1f1-0026b9348838": {
     "name": "EXPRESS CARE PROGRAM",
     "enrollmentOptions": {
@@ -2791,40 +2860,6 @@
       ]
     }]
 
-  },
-    "418fe011-a903-4862-93d4-5e7c84d9c253": {
-    "name": "ANTICOAGULATION TREATMENT PROGRAM",
-    "dataDependencies": [
-      "patient",
-      "enrollment",
-      "hivLastTenClinicalEncounters"
-    ],
-    "incompatibleWith": [],
-    "visitTypes": [{
-      "uuid": "a77b29b4-42c5-4cf0-a224-04f1ef877747",
-      "name": "Anticoagulation Treatment Visit",
-      "encounterTypes": [{
-            "uuid": "4a7450b1-f720-4a0c-b13b-d8a6a83348ee",
-            "display": "ANTICOAGULATIONINITIAL"
-          },
-          {
-            "uuid": "6accd920-6254-4063-bfd1-0e1b70b3f201",
-            "display": "ANTICOAGULATIONREFERRAL"
-          },
-          {
-            "uuid": "857170c9-f54a-4c1a-8382-5f4abe5d71dd",
-            "display": "ANTICOAGULATIONRETURN"
-          },
-          {
-            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
-            "display": "DEATHREPORT"
-          },
-          {
-            "uuid": "2cd62224-5507-48ee-a7b3-55f66162b148",
-            "display": "ONCOLOGYLABENTRY"
-          }
-        ]
-    }]
   },
   "62741bb8-949e-4acc-9e38-50d9d874c1fb": {
     "name": "BI KUZA AFYA PROGRAM",
