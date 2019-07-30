@@ -2,8 +2,7 @@
 @import "~primeng/resources/primeng.css";
 @import "~primeng/resources/themes/bootstrap/theme.css";
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
-@import "~font-awesome/css/font-awesome.css";
-@import "~webfont-medical-icons2/packages/webfont-medical-icons/wfmi-style.css";
+/*@import "~webfont-medical-icons2/packages/webfont-medical-icons/wfmi-style.css";*/
 @import "~ladda/dist/ladda.min.css";
 @import '~ngx-toastr/toastr.css';
 @import '~angular-calendar/css/angular-calendar.css';

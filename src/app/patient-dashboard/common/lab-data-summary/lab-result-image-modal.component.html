@@ -22,9 +22,9 @@ role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
   <div *ngIf="pdfAvailable" class="container-fluid">
       <div class="row">
        <div *ngFor="let pdfLink of pdfLinks">
-          <pdf-viewer [src]="pdfLink" 
+          <!-- <pdf-viewer [src]="pdfLink" 
           [render-text]="true"
-          style="display: block;"></pdf-viewer>
+          style="display: block;"></pdf-viewer> -->
        </div>
      </div>
    </div>

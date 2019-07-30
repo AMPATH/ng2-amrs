@@ -9,6 +9,8 @@ export function loadStaticAssets() {
   return Promise.all([
     loadCss(assetUrl('css/material.font.css')),
     loadCss(assetUrl('css/bootstrap.min.css')),
+    loadCss(assetUrl('css/font-awesome.min.css')),
+    loadCss(assetUrl('css/wfmi-style.css')),
     loadCss(assetUrl('css/AdminLTE.css')),
     loadCss(assetUrl('skin-black-light.css')),
     loadCss(assetUrl('app.css')),

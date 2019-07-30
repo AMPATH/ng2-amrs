@@ -24,7 +24,6 @@ import { LocalStorageService } from '../utils/local-storage.service';
 import { FormUpdaterService } from '../patient-dashboard/common/formentry/form-updater.service';
 import { FormOrderMetaDataService } from '../patient-dashboard/common/forms/form-order-metadata.service';
 import { FormSchemaService } from '../patient-dashboard/common/formentry/form-schema.service';
-import { FormSchemaCompiler } from 'ngx-openmrs-formentry';
 import { FormsResourceService } from '../openmrs-api/forms-resource.service';
 @Component({
   // tslint:disable-next-line:component-selector

@@ -13,7 +13,7 @@ import { NgBusyModule, BusyConfig } from 'ng-busy';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AgGridModule } from 'ag-grid-angular/main';
 import { SelectModule } from 'ngx-select';
-import { CacheService } from 'ionic-cache';
+import { CacheService, CacheModule } from 'ionic-cache';
 import { DateTimePickerModule } from 'ngx-openmrs-formentry';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
@@ -68,6 +68,10 @@ import { RisonService } from './services/rison-service';
 import { KibanaVizHostComponent } from './kibana-viz-host/kibana-viz-host.component';
 import { KibanaVizComponent } from './kibana-viz/kibana-viz.component';
 import { AssetUrlPipe } from './pipes/asset-url.pipe';
+import { Angulartics2Module } from 'angulartics2';
+import { Angulartics2Piwik } from 'angulartics2/piwik';
+import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   imports: [

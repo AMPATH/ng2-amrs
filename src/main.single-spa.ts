@@ -16,7 +16,6 @@ if (environment.production) {
 
 const lifecycles = singleSpaAngular({
   bootstrapFunction: () => platformBrowserDynamic().bootstrapModule(AppModule).then(bootstrappedModule => {
-    console.log('Public path', publicPath);
     if ('serviceWorker' in navigator && environment.production) {
        navigator.serviceWorker.register(`${publicPath}ngsw-worker.js`);
     }
