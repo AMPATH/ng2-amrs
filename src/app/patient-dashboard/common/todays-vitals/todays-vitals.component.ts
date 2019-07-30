@@ -11,6 +11,8 @@ import { Vital } from '../../../models/vital.model';
 import { TodaysVitalsService } from './todays-vitals.service';
 import { OncologyTriageSource } from './sources/oncology-triage.source';
 import { ZScoreSource } from './sources/z-score.source';
+import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'todays-vitals',

@@ -84,7 +84,7 @@
     "ng2-pdf-viewer": "~5.2.0",
     "ngx-bootstrap": "^3.0.0",
     "ngx-cookie": "^4.0.2",
-    "ngx-file-uploader": "git+https://github.com/enyachoke/ngx-file-uploader.git#0.0.9",
+    "ngx-file-uploader": "0.0.14",
     "ngx-file-uploader-ampath": "0.0.10",
     "ngx-mydatepicker": "^2.4.9",
     "ngx-openmrs-formentry": "^2.12.5-SNAPSHOT",
