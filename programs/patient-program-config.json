@@ -1290,7 +1290,8 @@
     "dataDependencies": [
       "patient",
       "enrollment",
-      "hivLastTenClinicalEncounters"
+      "hivLastTenClinicalEncounters",
+      "patientEncounters"
     ],
     "enrollmentOptions": {
       "requiredProgramQuestions": [{
@@ -1341,9 +1342,12 @@
       "0904172d-0b6a-40df-b8a2-b3653d16dc45",
       "a8e7c30d-6d2f-401c-bb52-d4433689a36b"
     ],
-    "visitTypes": [{
-        "uuid": "330d9739-833d-48a8-8986-f1069c320194",
-        "name": "PrEP Visit ",
+    "visitTypes": [
+      {
+        "uuid": "a0ee8015-3558-4ac8-9886-285f9b687c2f",
+        "name": "PrEP Initial Visit",
+        "allowedIf": "isFirstPrEPVisit",
+        "message": "Patient must not have a prior clinical encounter.",
         "encounterTypes": [{
             "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
             "display": "HIVTRIAGE"
@@ -1351,6 +1355,33 @@
           {
             "uuid": "00ee2fd6-9c95-4ffc-ab31-6b1ce2dede4d",
             "display": "PREPINITIAL"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
+            "display": "DERMATOLOGYREFERRAL"
+          },
+          {
+            "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
+            "display": "FAMILYSTATUS"
+          },
+          {
+            "uuid": "df5547bc-1350-11df-a1f1-0026b9348838",
+            "display": "OUTREACHFIELDFU"
+          }
+        ]
+      },
+      {
+        "uuid": "a3ecf6ef-05ec-4742-a4c1-8db750e18364",
+        "name": "PrEP Return Visit",
+        "allowedIf": "!isFirstPrEPVisit",
+        "message": "Patient must have a prior clinical encounter.",
+        "encounterTypes": [{
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
           },
           {
             "uuid": "ddd96f1c-524f-4caa-81a6-1a6f9789a4bc",
