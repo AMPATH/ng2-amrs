@@ -17,7 +17,7 @@ const serviceDefinition = {
 
 module.exports = serviceDefinition;
 
-function getAllProgramsConfig () {
+function getAllProgramsConfig() {
   return JSON.parse(JSON.stringify(programsConfig));
 }
 
