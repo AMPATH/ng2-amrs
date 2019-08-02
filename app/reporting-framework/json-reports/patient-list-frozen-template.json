@@ -128,6 +128,11 @@
         },
         {
             "type": "simple_column",
+            "alias": "cur_arv_line",
+            "column": "fh.cur_arv_line"
+        },
+        {
+            "type": "simple_column",
             "alias": "previous_vl",
             "column": "fh.vl_2"
         },
