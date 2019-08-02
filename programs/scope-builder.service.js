@@ -65,6 +65,7 @@ function buildScope(dataDictionary) {
   if (dataDictionary.patientEncounters) {
     scope.patientEncounters = dataDictionary.patientEncounters;
     buildHivScopeMembers(scope, dataDictionary.patientEncounters);
+    buildOncologyScopeMembers(scope, dataDictionary.patientEncounters);
   }
 
   // add other methods to build the scope objects
@@ -86,13 +87,31 @@ function isIntraTransfer(lastTenHivSummary, intendedVisitLocationUuid) {
 
 function isInitialPrepVisit(patientEncounters) {
   const initialPrEPEncounterUuid = '00ee2fd6-9c95-4ffc-ab31-6b1ce2dede4d';
-  let previousPrEPEncounters = [];
+  let initialPrEPEncounters = [];
 
-  previousPrEPEncounters = _.filter(patientEncounters, (encounter) => {
+  initialPrEPEncounters = _.filter(patientEncounters, (encounter) => {
     return encounter.encounterType.uuid === initialPrEPEncounterUuid;
   });
 
-  return previousPrEPEncounters.length === 0;
+  return initialPrEPEncounters.length === 0;
+}
+
+function isInitialOncologyVisit(patientEncounters) {
+  const initialOncologyEncounterTypes = [
+    'be7b0971-b2ab-4f4d-88c7-e7322aa58dbb', // Lung Cancer Initial
+    'd17b3adc-0837-4ac6-862b-0953fc664cb8', // General Oncology Initial
+    '9ad5292c-14c3-489b-9c14-5f816e839691', // Breast Cancer Initial
+    'ba5a15eb-576f-496b-a58d-e30b802a5da5', // Sickle Cell Initial
+    '3945005a-c24f-478b-90ec-4af84ffcdf6b', // Hemophilia Initial
+    'bf762b3e-b60a-436a-a40b-f874c59869ec' // Multiple Myeloma Initial
+  ];
+  let initialOncologyEncounters = [];
+
+  initialOncologyEncounters = _.filter(patientEncounters, encounter => {
+    return initialOncologyEncounterTypes.includes(encounter.encounterType.uuid)
+  });
+
+  return initialOncologyEncounters.length === 0;
 }
 
 function buildProgramScopeMembers(scope, programEnrollment) {
@@ -123,4 +142,8 @@ function buildHivScopeMembers(scope, lastTenHivSummary, intendedVisitLocationUui
   }
   // It's a first PrEP visit if the patient has no previous PrEP encounters
   scope.isFirstPrEPVisit = isInitialPrepVisit(scope.patientEncounters);
+}
+
+function buildOncologyScopeMembers(scope) {
+  scope.isFirstOncologyVisit = isInitialOncologyVisit(scope.patientEncounters);
 }

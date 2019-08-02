@@ -425,37 +425,66 @@
     "dataDependencies": [
       "patient",
       "enrollment",
-      "hivLastTenClinicalEncounters"
+      "patientEncounters"
     ],
-    "visitTypes": [{
-      "uuid": "70fd5ca8-ff05-4145-b8f2-60eab41ee7f2",
-      "name": "General Oncology Treatment Visit",
-      "encounterTypes": [{
-          "uuid": "5fa823ce-7592-482f-a0aa-361abf326ade",
-          "display": "HematOncologyTriage"
-        },
-        {
-          "uuid": "d17b3adc-0837-4ac6-862b-0953fc664cb8",
-          "display": "OncologyInitial"
-        },
-        {
-          "uuid": "eeb9600c-314f-4071-9122-133ff3da37bb",
-          "display": "OncologyReturn"
-        },
-        {
-          "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
-          "display": "DEATHREPORT"
-        },
-        {
-          "uuid": "81166f83-1ee6-486e-8f56-aca528fc0fc0",
-          "display": "GENCONSULTATION"
-        },
-        {
-          "uuid": "2cd62224-5507-48ee-a7b3-55f66162b148",
-          "display": "ONCOLOGYLABENTRY"
-        }
-      ]
-    }]
+    "visitTypes": [
+      {
+        "uuid": "99456366-c0c7-46df-97dd-26b975fc5175",
+        "name": "General Oncology Initial Visit",
+        "message": "Patient must not have a prior clinical encounter.",
+        "allowedIf": "isFirstOncologyVisit",
+        "encounterTypes": [
+          {
+            "uuid": "d17b3adc-0837-4ac6-862b-0953fc664cb8",
+            "display": "OncologyInitial"
+          }, {
+            "uuid": "5fa823ce-7592-482f-a0aa-361abf326ade",
+            "display": "HematOncologyTriage"
+          }, {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          }, {
+            "uuid": "81166f83-1ee6-486e-8f56-aca528fc0fc0",
+            "display": "GENCONSULTATION"
+          }
+        ]
+      }, {
+        "uuid": "273590f7-7c5a-494e-8b60-5be909083f4b",
+        "name": "General Oncology Return Visit",
+        "message": "Patient must have a prior clinical encounter.",
+        "allowedIf": "!isFirstOncologyVisit",
+        "encounterTypes": [
+          {
+            "uuid": "eeb9600c-314f-4071-9122-133ff3da37bb",
+            "display": "OncologyReturn"
+          }, {
+            "uuid": "5fa823ce-7592-482f-a0aa-361abf326ade",
+            "display": "HematOncologyTriage"
+          }, {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          }
+        ]
+      }, {
+        "uuid": "c1be5560-5efe-493c-96f9-e40f0a724142",
+        "name": "Oncology Lab Visit",
+        "encounterTypes": [
+          {
+            "uuid": "2cd62224-5507-48ee-a7b3-55f66162b148",
+            "display": "ONCOLOGYLABENTRY"
+          }
+        ] 
+      }, {
+        "uuid": "fac19544-1478-483f-8d4f-3792b1282981",
+        "name": "Oncology Pharmacy Visit",
+        "encounterTypes": [
+          {
+            "uuid": "5dd4360e-f7a2-4eb8-a6a6-778201f9a7fe",
+            "display": "ONCOLOGYPHARMACY"
+          }
+        ]
+      }
+    ]
   },
   "2114265d-dcc4-4440-9059-fe194a5f23a6": {
     "name": "HYPERTENSION REFERRAL PROGRAM",
@@ -1901,165 +1930,328 @@
     "dataDependencies": [
       "patient",
       "enrollment",
-      "hivLastTenClinicalEncounters"
+      "patientEncounters"
     ],
     "incompatibleWith": [],
-    "visitTypes": [{
-      "uuid": "e0d41d1c-47b5-4c97-b3c7-ba4e4268d9e6",
-      "name": "Breast Cancer Treatment ",
-      "encounterTypes": [{
-          "uuid": "9ad5292c-14c3-489b-9c14-5f816e839691",
-          "display": "BreastCancerInitial"
-        },
-        {
-          "uuid": "e58469f1-f6be-4e53-a843-fb06f93c60ba",
-          "display": "BreastCancerReturn"
-        },
-        {
-          "uuid": "5fa823ce-7592-482f-a0aa-361abf326ade",
-          "display": "HematOncologyTriage"
-        },
-        {
-          "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
-          "display": "DEATHREPORT"
-        },
-        {
-          "uuid": "2cd62224-5507-48ee-a7b3-55f66162b148",
-          "display": "ONCOLOGYLABENTRY"
-        }
-      ]
-    }]
+    "visitTypes": [
+      {
+        "uuid": "ed5c1b7a-7b49-4097-8b93-aac244d83d5d",
+        "name": "Breast Cancer Initial Visit",
+        "message": "Patient must not have a prior clinical encounter.",
+        "allowedIf": "isFirstOncologyVisit",
+        "encounterTypes": [
+          {
+            "uuid": "9ad5292c-14c3-489b-9c14-5f816e839691",
+            "display": "BreastCancerInitial"
+          }, {
+            "uuid": "5fa823ce-7592-482f-a0aa-361abf326ade",
+            "display": "HematOncologyTriage"
+          }, {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          }
+        ]
+      }, {
+        "uuid": "2307390b-3464-435e-9c14-86041da9c8d8",
+        "name": "Breast Cancer Return Visit",
+        "message": "Patient must have a prior clinical encounter.",
+        "allowedIf": "!isFirstOncologyVisit",
+        "encounterTypes": [
+          {
+            "uuid": "e58469f1-f6be-4e53-a843-fb06f93c60ba",
+            "display": "BreastCancerReturn"
+          }, {
+            "uuid": "5fa823ce-7592-482f-a0aa-361abf326ade",
+            "display": "HematOncologyTriage"
+          }, {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          }
+        ]
+      }, {
+        "uuid": "c1be5560-5efe-493c-96f9-e40f0a724142",
+        "name": "Oncology Lab Visit",
+        "encounterTypes": [
+          {
+            "uuid": "2cd62224-5507-48ee-a7b3-55f66162b148",
+            "display": "ONCOLOGYLABENTRY"
+          }
+        ] 
+      }, {
+        "uuid": "fac19544-1478-483f-8d4f-3792b1282981",
+        "name": "Oncology Pharmacy Visit",
+        "encounterTypes": [
+          {
+            "uuid": "5dd4360e-f7a2-4eb8-a6a6-778201f9a7fe",
+            "display": "ONCOLOGYPHARMACY"
+          }
+        ]
+      }
+    ]
   },
   "e8bc5036-1462-44fa-bcfe-ced21eae2790": {
     "name": "LUNG CANCER TREATMENT PROGRAM",
     "dataDependencies": [
       "patient",
       "enrollment",
-      "hivLastTenClinicalEncounters"
+      "patientEncounters"
     ],
     "incompatibleWith": [],
-    "visitTypes": [{
-      "uuid": "9c9a8308-631e-4b2b-98d1-5bcd72f9f6f9",
-      "name": "Lung Cancer Visit",
-      "encounterTypes": [{
-          "uuid": "be7b0971-b2ab-4f4d-88c7-e7322aa58dbb",
-          "display": "LUNGCANCERINITIAL"
-        },
-        {
-          "uuid": "eca95bb1-b651-45b7-85f8-2d3ce7e8313e",
-          "display": "LUNGCANCERRETURN"
-        },
-        {
-          "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
-          "display": "DEATHREPORT"
-        }
-      ]
-    }]
+    "visitTypes": [
+      {
+        "uuid": "5a04b2f5-92f6-4e8d-89dc-7c3aceee6e43",
+        "message": "Patient must not have a prior clinical encounter.",
+        "allowedIf": "isFirstOncologyVisit",
+        "name": "Lung Cancer Initial Visit",
+        "encounterTypes": [
+          {
+            "uuid": "be7b0971-b2ab-4f4d-88c7-e7322aa58dbb",
+            "display": "LUNGCANCERINITIAL"
+          }, {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          }, {
+            "uuid": "6accd920-6254-4063-bfd1-0e1b70b3f201",
+            "display": "HematOncologyTriage"
+          }
+        ]
+      }, {
+        "uuid": "7b7f4505-80f9-4762-b153-3397d14355b0",
+        "name": "Lung Cancer Return Visit",
+        "message": "Patient must have a prior clinical encounter.",
+        "allowedIf": "!isFirstOncologyVisit",
+        "encounterTypes": [
+          {
+            "uuid": "eca95bb1-b651-45b7-85f8-2d3ce7e8313e",
+            "display": "LUNGCANCERRETURN"
+          }, {
+            "uuid": "6accd920-6254-4063-bfd1-0e1b70b3f201",
+            "display": "HematOncologyTriage"
+          }, {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          }
+        ]
+      }, {
+        "uuid": "c1be5560-5efe-493c-96f9-e40f0a724142",
+        "name": "Oncology Lab Visit",
+        "encounterTypes": [
+          {
+            "uuid": "2cd62224-5507-48ee-a7b3-55f66162b148",
+            "display": "ONCOLOGYLABENTRY"
+          }
+        ]
+      }, {
+        "uuid": "fac19544-1478-483f-8d4f-3792b1282981",
+        "name": "Oncology Pharmacy Visit",
+        "encounterTypes": [
+          {
+            "uuid": "5dd4360e-f7a2-4eb8-a6a6-778201f9a7fe",
+            "display": "ONCOLOGYPHARMACY"
+          }
+        ]
+      }
+    ]
   },
   "e48b266e-4d80-41f8-a56a-a8ce5449ebc6": {
     "name": "SICKLE CELL PROGRAM",
     "dataDependencies": [
       "patient",
       "enrollment",
-      "hivLastTenClinicalEncounters"
+      "patientEncounters"
     ],
     "incompatibleWith": [],
-    "visitTypes": [{
-      "uuid": "ba3bd879-c66d-4288-80d4-8302d2b823a8",
-      "name": "Sickle cell ",
-      "encounterTypes": [{
-          "uuid": "5fa823ce-7592-482f-a0aa-361abf326ade",
-          "display": "HematOncologyTriage"
-        },
-        {
-          "uuid": "ba5a15eb-576f-496b-a58d-e30b802a5da5",
-          "display": "SICKLECELLINITIAL"
-        },
-        {
-          "uuid": "3a0e7e4e-426e-4dc7-8f60-9114c43432eb",
-          "display": "SICKLECELLRETURN"
-        },
-        {
-          "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
-          "display": "DEATHREPORT"
-        }
-      ]
-    }]
+    "visitTypes": [
+      {
+        "uuid": "8963d130-d8c7-4cf3-b8ef-adbf5f3816e9",
+        "name": "Sickle Cell Initial Visit",
+        "message": "Patient must not have a prior clinical encounter.",
+        "allowedIf": "isFirstOncologyVisit",
+        "encounterTypes": [
+          {
+            "uuid": "ba5a15eb-576f-496b-a58d-e30b802a5da5",
+            "display": "SICKLECELLINITIAL"
+          },
+          {
+            "uuid": "5fa823ce-7592-482f-a0aa-361abf326ade",
+            "display": "HematOncologyTriage"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          }
+        ]
+      }, {
+        "uuid": "cfedf31e-95f4-4248-9b1f-42844b4e8f3b",
+        "name": "Sickle Cell Return Visit",
+        "message": "Patient must have a prior clinical encounter.",
+        "allowedIf": "!isFirstOncologyVisit",
+        "encounterTypes": [
+          {
+            "uuid": "3a0e7e4e-426e-4dc7-8f60-9114c43432eb",
+            "display": "SICKLECELLRETURN"
+          }, {
+            "uuid": "5fa823ce-7592-482f-a0aa-361abf326ade",
+            "display": "HematOncologyTriage"
+          }, {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          }
+        ]
+      }, {
+        "uuid": "c1be5560-5efe-493c-96f9-e40f0a724142",
+        "name": "Oncology Lab Visit",
+        "encounterTypes": [
+          {
+            "uuid": "2cd62224-5507-48ee-a7b3-55f66162b148",
+            "display": "ONCOLOGYLABENTRY"
+          }
+        ] 
+      }, {
+        "uuid": "fac19544-1478-483f-8d4f-3792b1282981",
+        "name": "Oncology Pharmacy Visit",
+        "encounterTypes": [
+          {
+            "uuid": "5dd4360e-f7a2-4eb8-a6a6-778201f9a7fe",
+            "display": "ONCOLOGYPHARMACY"
+          }
+        ]
+      }
+    ]
   },
   "698b7153-bff3-4931-9638-d279ca47b32e": {
     "name": "MULTIPLE MYELOMA PROGRAM",
     "dataDependencies": [
       "patient",
       "enrollment",
-      "hivLastTenClinicalEncounters"
+      "patientEncounters"
     ],
     "incompatibleWith": [],
-    "visitTypes": [{
-      "uuid": "055436f7-cdc5-4e74-bef9-a8a06c746c3a",
-      "name": "Multiple Myeloma ",
-      "encounterTypes": [{
-          "uuid": "5fa823ce-7592-482f-a0aa-361abf326ade",
-          "display": "HematOncologyTriage"
-        },
-        {
-          "uuid": "bf762b3e-b60a-436a-a40b-f874c59869ec",
-          "display": "MULTIPLEMYELOMAINITIAL"
-        },
-        {
-          "uuid": "50f307c4-b92e-4a41-bbbb-5cee1bd1c561",
-          "display": "MULTIPLEMYELOMARETURN"
-        },
-        {
-          "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
-          "display": "DEATHREPORT"
-        },
-        {
-          "uuid": "2cd62224-5507-48ee-a7b3-55f66162b148",
-          "display": "ONCOLOGYLABENTRY"
-        }
-      ]
-    }]
+    "visitTypes": [
+      {
+        "uuid": "16a8a151-1c62-4ca6-b96d-55c298848360",
+        "name": "Multiple Myeloma Initial Visit",
+        "message": "Patient must not have a prior clinical encounter.",
+        "allowedIf": "isFirstOncologyVisit",
+        "encounterTypes": [
+          {
+            "uuid": "bf762b3e-b60a-436a-a40b-f874c59869ec",
+            "display": "MULTIPLEMYELOMAINITIAL"
+          }, {
+            "uuid": "5fa823ce-7592-482f-a0aa-361abf326ade",
+            "display": "HematOncologyTriage"
+          }, {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          }
+        ]
+      }, {
+        "uuid": "a6b65bf3-2577-414a-becf-18fe530353ea",
+        "name": "Multiple Myeloma Return Visit",
+        "message": "Patient must have a prior clinical encounter.",
+        "allowedIf": "!isFirstOncologyVisit",
+        "encounterTypes": [
+          {
+            "uuid": "50f307c4-b92e-4a41-bbbb-5cee1bd1c561",
+            "display": "MULTIPLEMYELOMARETURN"
+          }, {
+            "uuid": "5fa823ce-7592-482f-a0aa-361abf326ade",
+            "display": "HematOncologyTriage"
+          }, {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          }
+        ]
+      }, {
+        "uuid": "c1be5560-5efe-493c-96f9-e40f0a724142",
+        "name": "Oncology Lab Visit",
+        "encounterTypes": [
+          {
+            "uuid": "2cd62224-5507-48ee-a7b3-55f66162b148",
+            "display": "ONCOLOGYLABENTRY"
+          }
+        ] 
+      }, {
+        "uuid": "fac19544-1478-483f-8d4f-3792b1282981",
+        "name": "Oncology Pharmacy Visit",
+        "encounterTypes": [
+          {
+            "uuid": "5dd4360e-f7a2-4eb8-a6a6-778201f9a7fe",
+            "display": "ONCOLOGYPHARMACY"
+          }
+        ]
+      }
+    ]
   },
   "a3610ba4-9811-46b3-9628-83ec9310be13": {
     "name": "HEMOPHILIA PROGRAM",
     "dataDependencies": [
       "patient",
       "enrollment",
-      "hivLastTenClinicalEncounters"
+      "patientEncounters"
     ],
     "incompatibleWith": [],
-    "visitTypes": [{
-      "uuid": "4c5cd268-0986-444e-8122-1160c4605884",
-      "name": "Hemophilia ",
-      "encounterTypes": [{
-          "uuid": "5fa823ce-7592-482f-a0aa-361abf326ade",
-          "display": "HematOncologyTriage"
-        },
-        {
-          "uuid": "3945005a-c24f-478b-90ec-4af84ffcdf6b",
-          "display": "HEMOPHILIAINITIAL"
-        },
-        {
-          "uuid": "36927b3c-db32-4063-90df-e45640e9aabc",
-          "display": "HEMOPHILIARETURN"
-        },
-        {
-          "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
-          "display": "DEATHREPORT"
-        },
-        {
-          "uuid": "2cd62224-5507-48ee-a7b3-55f66162b148",
-          "display": "ONCOLOGYLABENTRY"
-        }
-      ]
-    }]
+    "visitTypes": [
+      {
+        "uuid": "c1794fff-41ac-43bb-9158-74e8fc358f21",
+        "name": "Hemophilia Initial Visit",
+        "message": "Patient must not have a prior clinical encounter.",
+        "allowedIf": "isFirstOncologyVisit",
+        "encounterTypes": [
+          {
+            "uuid": "3945005a-c24f-478b-90ec-4af84ffcdf6b",
+            "display": "HEMOPHILIAINITIAL"
+          }, {
+            "uuid": "5fa823ce-7592-482f-a0aa-361abf326ade",
+            "display": "HematOncologyTriage"
+          }, {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          }
+        ] 
+      }, {
+        "uuid": "1d644de3-b206-414d-a2a9-e1cefd554dd3",
+        "name": "Hemophilia Return Visit",
+        "message": "Patient must have a prior clinical encounter.",
+        "allowedIf": "!isFirstOncologyVisit",
+        "encounterTypes": [
+          {
+            "uuid": "36927b3c-db32-4063-90df-e45640e9aabc",
+            "display": "HEMOPHILIARETURN"
+          }, {
+            "uuid": "5fa823ce-7592-482f-a0aa-361abf326ade",
+            "display": "HematOncologyTriage"
+          }, {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          }
+        ]
+      }, {
+        "uuid": "c1be5560-5efe-493c-96f9-e40f0a724142",
+        "name": "Oncology Lab Visit",
+        "encounterTypes": [
+          {
+            "uuid": "2cd62224-5507-48ee-a7b3-55f66162b148",
+            "display": "ONCOLOGYLABENTRY"
+          }
+        ] 
+      }, {
+        "uuid": "fac19544-1478-483f-8d4f-3792b1282981",
+        "name": "Oncology Pharmacy Visit",
+        "encounterTypes": [
+          {
+            "uuid": "5dd4360e-f7a2-4eb8-a6a6-778201f9a7fe",
+            "display": "ONCOLOGYPHARMACY"
+          }
+        ]
+      }
+    ]
   },
   "418fe011-a903-4862-93d4-5e7c84d9c253": {
     "name": "ANTICOAGULATION TREATMENT PROGRAM",
     "dataDependencies": [
       "patient",
-      "enrollment",
-      "hivLastTenClinicalEncounters"
+      "enrollment"
     ],
     "incompatibleWith": [],
     "visitTypes": [{
@@ -2092,36 +2284,37 @@
     "name": "LYMPHOMA TREATMENT PROGRAM",
     "dataDependencies": [
       "patient",
-      "enrollment",
-      "hivLastTenClinicalEncounters"
+      "enrollment"
     ],
     "incompatibleWith": [],
-    "visitTypes": [{
-      "uuid": "7b81fe1e-d19b-4ed2-a922-eca37465719a",
-      "name": "Lymphoma Treatment Visit",
-      "encounterTypes": [
-        {
-          "uuid": "b8f8e3e3-d1d0-4f77-bde1-1d7afcd2a78b",
-          "display": "ONCOLOGYLYMPOMACLINICAL"
-        },
-        {
-          "uuid": "5dd4360e-f7a2-4eb8-a6a6-778201f9a7fe",
-          "display": "ONCOLOGYPHARMACY"
-        },
-        {
-          "uuid": "dacdbe88-552a-479d-a7de-a6ebb032615b",
-          "display": "ONCOLOGYPOSTCHEMOFOLLOWUP"
-        },
-        {
-          "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
-          "display": "DEATHREPORT"
-        },
-        {
-          "uuid": "2cd62224-5507-48ee-a7b3-55f66162b148",
-          "display": "ONCOLOGYLABENTRY"
-        }
-      ]
-    }]
+    "visitTypes": [
+      {
+        "uuid": "7b81fe1e-d19b-4ed2-a922-eca37465719a",
+        "name": "Lymphoma Treatment Visit",
+        "encounterTypes": [
+          {
+            "uuid": "b8f8e3e3-d1d0-4f77-bde1-1d7afcd2a78b",
+            "display": "ONCOLOGYLYMPOMACLINICAL"
+          },
+          {
+            "uuid": "5dd4360e-f7a2-4eb8-a6a6-778201f9a7fe",
+            "display": "ONCOLOGYPHARMACY"
+          },
+          {
+            "uuid": "dacdbe88-552a-479d-a7de-a6ebb032615b",
+            "display": "ONCOLOGYPOSTCHEMOFOLLOWUP"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "2cd62224-5507-48ee-a7b3-55f66162b148",
+            "display": "ONCOLOGYLABENTRY"
+          }
+        ]
+      }
+    ]
   },
   "781d8880-1359-11df-a1f1-0026b9348838": {
     "name": "EXPRESS CARE PROGRAM",
