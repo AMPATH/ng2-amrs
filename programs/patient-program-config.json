@@ -28,18 +28,13 @@
       }],
       "allowMultipleEnrollment": false,
       "stateChangeEncounterTypes": {
-        "enrollment": [{
-          "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
-          "name": "AMPATH POC Know Your Status Form v1.0",
-          "required": false
-        }],
-        "intraAmpath": [],
-        "discharge": [{
-          "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
-          "name": "AMPATH POC HIV Exit Care Form v1.1",
+        "enrollment": [],
+        "transfer": [{
+          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+          "name": "AMPATH POC Transfer Out Form v0.01",
           "required": true
         }],
-        "nonAmpath": [{
+        "discharge": [{
           "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
           "name": "AMPATH POC HIV Exit Care Form v1.1",
           "required": true
@@ -427,6 +422,23 @@
       "enrollment",
       "patientEncounters"
     ],
+    "enrollmentOptions": {
+      "requiredProgramQuestions": [],
+      "allowMultipleEnrollment": false,
+      "stateChangeEncounterTypes": {
+        "enrollment": [],
+        "transfer": [{
+          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+          "name": "AMPATH POC Transfer Out Form v0.01",
+          "required": true
+        }],
+        "discharge": [{
+          "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
+          "name": "AMPATH POC HIV Exit Care Form v1.1",
+          "required": true
+        }]
+      }
+    },
     "visitTypes": [
       {
         "uuid": "99456366-c0c7-46df-97dd-26b975fc5175",
@@ -473,7 +485,7 @@
             "uuid": "2cd62224-5507-48ee-a7b3-55f66162b148",
             "display": "ONCOLOGYLABENTRY"
           }
-        ] 
+        ]
       }, {
         "uuid": "fac19544-1478-483f-8d4f-3792b1282981",
         "name": "Oncology Pharmacy Visit",
@@ -494,6 +506,23 @@
       "enrollment",
       "hivLastTenClinicalEncounters"
     ],
+    "enrollmentOptions": {
+      "requiredProgramQuestions": [],
+      "allowMultipleEnrollment": false,
+      "stateChangeEncounterTypes": {
+        "enrollment": [],
+        "transfer": [{
+          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+          "name": "AMPATH POC Transfer Out Form v0.01",
+          "required": true
+        }],
+        "discharge": [{
+          "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
+          "name": "AMPATH POC HIV Exit Care Form v1.1",
+          "required": true
+        }]
+      }
+    },
     "visitTypes": [{
       "uuid": "5033fbfc-ddc9-4f7f-853d-379659e48bdd",
       "name": "DM-HTN Health Center visit",
@@ -541,6 +570,23 @@
       "enrollment",
       "hivLastTenClinicalEncounters"
     ],
+    "enrollmentOptions": {
+      "requiredProgramQuestions": [],
+      "allowMultipleEnrollment": false,
+      "stateChangeEncounterTypes": {
+        "enrollment": [],
+        "transfer": [{
+          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+          "name": "AMPATH POC Transfer Out Form v0.01",
+          "required": true
+        }],
+        "discharge": [{
+          "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
+          "name": "AMPATH POC HIV Exit Care Form v1.1",
+          "required": true
+        }]
+      }
+    },
     "incompatibleWith": [
       "b731ba72-cf99-4176-9fcd-37cd186400c7",
       "876a154d-310d-4caf-8b58-be9dbcc7e753"
@@ -591,20 +637,11 @@
       "requiredProgramQuestions": [],
       "allowMultipleEnrollment": false,
       "stateChangeEncounterTypes": {
-        "enrollment": [{
-          "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
-          "name": "AMPATH POC Know Your Status Form v1.0",
-          "required": false
-        }],
+        "enrollment": [],
         "referral": [{
           "uuid": "6a50f1d5-9f33-41ae-b2e7-7fd8267c181e",
           "name": "CDM DM-HTN Referral Form v1.1",
           "required": true
-        }],
-        "incompatible": [{
-          "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
-          "name": "AMPATH POC Know Your Status Form v1.0",
-          "required": false
         }]
       }
     },
@@ -800,18 +837,13 @@
         }
       ],
       "stateChangeEncounterTypes": {
-        "enrollment": [{
-          "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
-          "name": "AMPATH POC Know Your Status Form v1.0",
-          "required": false
-        }],
-        "intraAmpath": [],
-        "discharge": [{
-          "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
-          "name": "AMPATH POC HIV Exit Care Form v1.1",
+        "enrollment": [],
+        "transfer": [{
+          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+          "name": "AMPATH POC Transfer Out Form v0.01",
           "required": true
         }],
-        "nonAmpath": [{
+        "discharge": [{
           "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
           "name": "AMPATH POC HIV Exit Care Form v1.1",
           "required": true
@@ -1086,19 +1118,16 @@
   "781d8768-1359-11df-a1f1-0026b9348838": {
     "name": "OVC PROGRAM",
     "enrollmentOptions": {
+      "requiredProgramQuestions": [],
+      "allowMultipleEnrollment": false,
       "stateChangeEncounterTypes": {
-        "enrollment": [{
-          "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
-          "name": "AMPATH POC Know Your Status Form v1.0",
-          "required": false
-        }],
-        "intraAmpath": [],
-        "discharge": [{
-          "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
-          "name": "AMPATH POC HIV Exit Care Form v1.1",
+        "enrollment": [],
+        "transfer": [{
+          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+          "name": "AMPATH POC Transfer Out Form v0.01",
           "required": true
         }],
-        "nonAmpath": [{
+        "discharge": [{
           "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
           "name": "AMPATH POC HIV Exit Care Form v1.1",
           "required": true
@@ -1166,9 +1195,12 @@
     "enrollmentOptions": {
       "stateChangeEncounterTypes": {
         "enrollment": [],
-        "intraAmpath": [],
-        "discharge": [],
-        "nonAmpath": []
+        "transfer": [{
+          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+          "name": "AMPATH POC Transfer Out Form v0.01",
+          "required": true
+        }],
+        "discharge": []
       }
     },
     "dataDependencies": [
@@ -1187,15 +1219,16 @@
       "hivLastTenClinicalEncounters"
     ],
     "enrollmentOptions": {
+      "requiredProgramQuestions": [],
+      "allowMultipleEnrollment": false,
       "stateChangeEncounterTypes": {
         "enrollment": [],
-        "intraAmpath": [],
-        "discharge": [{
-          "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
-          "name": "AMPATH POC HIV Exit Care Form v1.1",
+        "transfer": [{
+          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+          "name": "AMPATH POC Transfer Out Form v0.01",
           "required": true
         }],
-        "nonAmpath": [{
+        "discharge": [{
           "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
           "name": "AMPATH POC HIV Exit Care Form v1.1",
           "required": true
@@ -1233,18 +1266,13 @@
         ]
       }],
       "stateChangeEncounterTypes": {
-        "enrollment": [{
-          "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
-          "name": "AMPATH POC Know Your Status Form v1.0",
-          "required": false
-        }],
-        "intraAmpath": [],
-        "discharge": [{
-          "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
-          "name": "AMPATH POC HIV Exit Care Form v1.1",
+        "enrollment": [],
+        "transfer": [{
+          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+          "name": "AMPATH POC Transfer Out Form v0.01",
           "required": true
         }],
-        "nonAmpath": [{
+        "discharge": [{
           "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
           "name": "AMPATH POC HIV Exit Care Form v1.1",
           "required": true
@@ -1343,18 +1371,13 @@
         ]
       }],
       "stateChangeEncounterTypes": {
-        "enrollment": [{
-          "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
-          "name": "AMPATH POC Know Your Status Form v1.0",
-          "required": false
-        }],
-        "intraAmpath": [],
-        "discharge": [{
-          "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
-          "name": "AMPATH POC HIV Exit Care Form v1.1",
+        "enrollment": [],
+        "transfer": [{
+          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+          "name": "AMPATH POC Transfer Out Form v0.01",
           "required": true
         }],
-        "nonAmpath": [{
+        "discharge": [{
           "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
           "name": "AMPATH POC HIV Exit Care Form v1.1",
           "required": true
@@ -1486,18 +1509,13 @@
         ]
       }],
       "stateChangeEncounterTypes": {
-        "enrollment": [{
-          "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
-          "name": "AMPATH POC Know Your Status Form v1.0",
-          "required": false
-        }],
-        "intraAmpath": [],
-        "discharge": [{
-          "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
-          "name": "AMPATH POC HIV Exit Care Form v1.1",
+        "enrollment": [],
+        "transfer": [{
+          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+          "name": "AMPATH POC Transfer Out Form v0.01",
           "required": true
         }],
-        "nonAmpath": [{
+        "discharge": [{
           "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
           "name": "AMPATH POC HIV Exit Care Form v1.1",
           "required": true
@@ -1579,18 +1597,13 @@
       "requiredProgramQuestions": [],
       "allowMultipleEnrollment": false,
       "stateChangeEncounterTypes": {
-        "enrollment": [{
-          "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
-          "name": "AMPATH POC Know Your Status Form v1.0",
-          "required": false
-        }],
-        "intraAmpath": [],
-        "discharge": [{
-          "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
-          "name": "AMPATH POC HIV Exit Care Form v1.1",
+        "enrollment": [],
+        "transfer": [{
+          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+          "name": "AMPATH POC Transfer Out Form v0.01",
           "required": true
         }],
-        "nonAmpath": [{
+        "discharge": [{
           "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
           "name": "AMPATH POC HIV Exit Care Form v1.1",
           "required": true
@@ -1652,18 +1665,13 @@
         }
       ],
       "stateChangeEncounterTypes": {
-        "enrollment": [{
-          "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
-          "name": "AMPATH POC Know Your Status Form v1.0",
-          "required": false
-        }],
-        "intraAmpath": [],
-        "discharge": [{
-          "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
-          "name": "AMPATH POC HIV Exit Care Form v1.1",
+        "enrollment": [],
+        "transfer": [{
+          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+          "name": "AMPATH POC Transfer Out Form v0.01",
           "required": true
         }],
-        "nonAmpath": [{
+        "discharge": [{
           "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
           "name": "AMPATH POC HIV Exit Care Form v1.1",
           "required": true
@@ -1799,18 +1807,13 @@
         ]
       }],
       "stateChangeEncounterTypes": {
-        "enrollment": [{
-          "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
-          "name": "AMPATH POC Know Your Status Form v1.0",
-          "required": false
-        }],
-        "intraAmpath": [],
-        "discharge": [{
-          "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
-          "name": "AMPATH POC HIV Exit Care Form v1.1",
+        "enrollment": [],
+        "transfer": [{
+          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+          "name": "AMPATH POC Transfer Out Form v0.01",
           "required": true
         }],
-        "nonAmpath": [{
+        "discharge": [{
           "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
           "name": "AMPATH POC HIV Exit Care Form v1.1",
           "required": true
@@ -2319,82 +2322,39 @@
   "781d8880-1359-11df-a1f1-0026b9348838": {
     "name": "EXPRESS CARE PROGRAM",
     "enrollmentOptions": {
-      "allowMultipleEnrollment": true,
-      "requiredProgramEnrollment": []
-    },
-    "stateChangeForms": [{
-        "type": "inCare",
-        "uuid": "72443cac-4822-4dce-8460-794af7af8167",
-        "forms": []
-      },
-      {
-        "type": "switchProgram",
-        "uuid": "eee00e63-a565-4f60-9fae-416abd8a6d3c",
-        "forms": []
-      },
-      {
-        "type": "discharge",
-        "uuid": "4e6d4fd4-d923-439e-9b6e-6baaffd20bfa",
-        "forms": [{
+      "requiredProgramQuestions": [{
+        "qtype": "hivStatus",
+        "name": "Patient HIV status",
+        "enrollIf": "positive",
+        "value": null,
+        "answers": [{
+          "value": "positive",
+          "label": "Positive"
+        },
+          {
+            "value": "negative",
+            "label": "Negative"
+          },
+          {
+            "value": "exposed",
+            "label": "Exposed"
+          }
+        ]
+      }],
+      "stateChangeEncounterTypes": {
+        "enrollment": [],
+        "transfer": [{
           "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+          "name": "AMPATH POC Transfer Out Form v0.01",
           "required": true
-        }]
-      },
-      {
-        "type": "referred",
-        "uuid": "0c5565c5-45cf-40ab-aa6d-5694aeabae18",
-        "forms": [{
-          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
-          "required": true
-        }]
-      },
-      {
-        "type": "referredBack",
-        "uuid": "15977097-13b7-4186-80a7-a78535f27866",
-        "forms": [{
-          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
-          "required": true
-        }]
-      },
-      {
-        "type": "pendingTransfer",
-        "uuid": "3f16fc88-d7b7-4a6d-bd3e-6e9b43bf2f51",
-        "forms": [{
-          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
-          "required": true
-        }]
-      },
-      {
-        "type": "transferOut",
-        "uuid": "5520f234-258e-49f0-97ab-701b98fab608",
-        "forms": [{
-          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
-          "required": true
-        }]
-      },
-      {
-
-        "type": "transferIn",
-        "uuid": "e293229b-4e74-445c-bfd2-602bbe4a91fb",
-        "forms": []
-      },
-      {
-        "type": "referIn",
-        "uuid": "78526af3-ef12-4f53-94de-51c455ef0a88",
-        "forms": [{
-          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
-          "required": true
-        }]
-      },
-      {
-        "type": "referOut",
-        "uuid": "24a2769a-296b-44bc-b50c-70089e0958db",
-        "forms": [{
-          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+        }],
+        "discharge": [{
+          "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
+          "name": "AMPATH POC HIV Exit Care Form v1.1",
           "required": true
         }]
       }
-    ],
+    },
     "dataDependencies": [
       "patient",
       "enrollment",
@@ -2488,18 +2448,13 @@
         ]
       }],
       "stateChangeEncounterTypes": {
-        "enrollment": [{
-          "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
-          "name": "AMPATH POC Know Your Status Form v1.0",
-          "required": false
-        }],
-        "intraAmpath": [],
-        "discharge": [{
-          "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
-          "name": "AMPATH POC HIV Exit Care Form v1.1",
+        "enrollment": [],
+        "transfer": [{
+          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+          "name": "AMPATH POC Transfer Out Form v0.01",
           "required": true
         }],
-        "nonAmpath": [{
+        "discharge": [{
           "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
           "name": "AMPATH POC HIV Exit Care Form v1.1",
           "required": true
@@ -2584,18 +2539,13 @@
         ]
       }],
       "stateChangeEncounterTypes": {
-        "enrollment": [{
-          "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
-          "name": "AMPATH POC Know Your Status Form v1.0",
-          "required": false
-        }],
-        "intraAmpath": [],
-        "discharge": [{
-          "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
-          "name": "AMPATH POC HIV Exit Care Form v1.1",
+        "enrollment": [],
+        "transfer": [{
+          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+          "name": "AMPATH POC Transfer Out Form v0.01",
           "required": true
         }],
-        "nonAmpath": [{
+        "discharge": [{
           "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
           "name": "AMPATH POC HIV Exit Care Form v1.1",
           "required": true
@@ -2767,18 +2717,13 @@
         ]
       }],
       "stateChangeEncounterTypes": {
-        "enrollment": [{
-          "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
-          "name": "AMPATH POC Know Your Status Form v1.0",
-          "required": false
-        }],
-        "intraAmpath": [],
-        "discharge": [{
-          "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
-          "name": "AMPATH POC HIV Exit Care Form v1.1",
+        "enrollment": [],
+        "transfer": [{
+          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+          "name": "AMPATH POC Transfer Out Form v0.01",
           "required": true
         }],
-        "nonAmpath": [{
+        "discharge": [{
           "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
           "name": "AMPATH POC HIV Exit Care Form v1.1",
           "required": true
@@ -2848,18 +2793,13 @@
     ],
     "enrollmentOptions": {
       "stateChangeEncounterTypes": {
-        "enrollment": [{
-          "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
-          "name": "AMPATH POC Know Your Status Form v1.0",
-          "required": false
-        }],
-        "intraAmpath": [],
-        "discharge": [{
-          "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
-          "name": "AMPATH POC HIV Exit Care Form v1.1",
+        "enrollment": [],
+        "transfer": [{
+          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+          "name": "AMPATH POC Transfer Out Form v0.01",
           "required": true
         }],
-        "nonAmpath": [{
+        "discharge": [{
           "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
           "name": "AMPATH POC HIV Exit Care Form v1.1",
           "required": true
@@ -2909,18 +2849,13 @@
         ]
       }],
       "stateChangeEncounterTypes": {
-        "enrollment": [{
-          "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
-          "name": "AMPATH POC Know Your Status Form v1.0",
-          "required": false
-        }],
-        "intraAmpath": [],
-        "discharge": [{
-          "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
-          "name": "AMPATH POC HIV Exit Care Form v1.1",
+        "enrollment": [],
+        "transfer": [{
+          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+          "name": "AMPATH POC Transfer Out Form v0.01",
           "required": true
         }],
-        "nonAmpath": [{
+        "discharge": [{
           "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
           "name": "AMPATH POC HIV Exit Care Form v1.1",
           "required": true
@@ -3002,18 +2937,13 @@
     "incompatibleWith": [],
     "enrollmentOptions": {
       "stateChangeEncounterTypes": {
-        "enrollment": [{
-          "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
-          "name": "AMPATH POC Know Your Status Form v1.0",
-          "required": false
-        }],
-        "intraAmpath": [],
-        "discharge": [{
-          "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
-          "name": "AMPATH POC HIV Exit Care Form v1.1",
+        "enrollment": [],
+        "transfer": [{
+          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+          "name": "AMPATH POC Transfer Out Form v0.01",
           "required": true
         }],
-        "nonAmpath": [{
+        "discharge": [{
           "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
           "name": "AMPATH POC HIV Exit Care Form v1.1",
           "required": true
