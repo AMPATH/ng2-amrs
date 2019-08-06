@@ -157,6 +157,12 @@
           "isSideBarOpen": false
         },
         {
+          "url": "facility-referral-dashboard",
+          "label": "Facility referral Dashboard ",
+          "icon": "fa fa-bar-chart",
+          "isSideBarOpen": false
+        },
+        {
           "url": "select-department",
           "label": "Change Department",
           "icon": "fa fa-exchange",

@@ -36,6 +36,15 @@ import { OncologyReportPdfViewComponent } from './oncology-reports/oncology-repo
 import {
   OncologyAggregateReportViewComponent
  } from './oncology-reports/oncology-aggregate-report-view/oncology-aggregate-report-view.component';
+ import { FacilityReferralBaseComponent
+  } from 'src/app/data-analytics-dashboard/cdm/facility-referral-report/facility-referral-report-base';
+  import { FacilityReferralTabularComponent
+  } from 'src/app/data-analytics-dashboard/cdm/facility-referral-report/facility-referral-report-tabular';
+
+  import { FacilityReferralPatientListComponent
+  } from 'src/app/data-analytics-dashboard/cdm/facility-referral-report/patient-list.component';
+
+
 @NgModule(
   {
     imports: [
@@ -56,7 +65,10 @@ import {
       OncologySummaryIndicatorsComponent,
       OncologySummaryFiltersComponent,
       OncologySummaryIndicatorsTableComponent,
-      OncologySummaryIndicatorsPatientListComponent
+      OncologySummaryIndicatorsPatientListComponent,
+      FacilityReferralBaseComponent,
+      FacilityReferralTabularComponent,
+      FacilityReferralPatientListComponent
     ],
     declarations: [
       OncologyReportsComponent,
@@ -65,7 +77,10 @@ import {
       OncologySummaryIndicatorsTableComponent,
       OncologySummaryIndicatorsPatientListComponent,
       OncologyReportPdfViewComponent,
-      OncologyAggregateReportViewComponent
+      OncologyAggregateReportViewComponent,
+      FacilityReferralBaseComponent,
+      FacilityReferralTabularComponent,
+      FacilityReferralPatientListComponent
     ],
     providers: [
       DataAnalyticsDashboardService,

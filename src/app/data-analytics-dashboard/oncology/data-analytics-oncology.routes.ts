@@ -14,6 +14,9 @@ import { DataEntryStatisticsPatientListComponent } from '../../data-entry-statis
 import { PatientsProgramEnrollmentComponent } from '../../patients-program-enrollment/patients-program-enrollment.component';
 import { ProgramEnrollmentPatientListComponent } from '../../patients-program-enrollment/program-enrollent-patient-list.component';
 import { ChangeDepartmentComponent } from '../change-department/change-department.component';
+import { FacilityReferralBaseComponent } from 'src/app/data-analytics-dashboard/cdm/facility-referral-report/facility-referral-report-base';
+import { FacilityReferralPatientListComponent
+} from 'src/app/data-analytics-dashboard/cdm/facility-referral-report/patient-list.component';
 
 const routes: Routes = [
   {
@@ -76,6 +79,19 @@ const routes: Routes = [
         path: 'patient-list',
         component: DataEntryStatisticsPatientListComponent
 
+      }
+    ]
+  },
+  {
+    path: 'facility-referral-dashboard',
+    children: [
+      {
+        path: '',
+        component: FacilityReferralBaseComponent
+      },
+      {
+        path: 'patient-list/:indicator/:period/:gender/:age/:locationUuids',
+        component: FacilityReferralPatientListComponent,
       }
     ]
   },

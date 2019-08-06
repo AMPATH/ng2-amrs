@@ -127,7 +127,7 @@ export class ProgramEnrollmentResourceService {
         }
       });
     }
-
+    console.log('---------------------------programEnrollment--------------------', arr);
     return arr;
   }
 
