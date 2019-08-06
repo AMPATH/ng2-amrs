@@ -33,7 +33,6 @@ const routes: Routes = [
       {
         path: 'patient-list',
         component: DataEntryStatisticsPatientListComponent
-
       }
     ]
   },
@@ -43,5 +42,5 @@ const routes: Routes = [
   }
 ];
 
-export const DataAnalyticsDashboardOncologyRouting: ModuleWithProviders =
+export const DataAnalyticsDashboardCdmRouting: ModuleWithProviders =
   RouterModule.forChild(routes);

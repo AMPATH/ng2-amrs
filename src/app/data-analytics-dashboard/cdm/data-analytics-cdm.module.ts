@@ -8,14 +8,16 @@ import {
 } from './../../data-entry-statistics/data-entry-statistics.module';
 import { ChangeDepartmentModule } from '../change-department/change-department.module';
 import { DataAnalyticsHivModule } from '../hiv/data-analytics-hiv.module';
+
+
 @NgModule(
   {
     imports: [
       CommonModule,
       PatientProgramEnrollmentModule,
       DataEntryStatisticsModule,
-      ChangeDepartmentModule,
-      DataAnalyticsHivModule
+      ChangeDepartmentModule
+      // DataAnalyticsHivModule
     ],
     exports: [
     ],

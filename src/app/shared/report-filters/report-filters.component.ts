@@ -1,4 +1,3 @@
-
 import {take} from 'rxjs/operators';
 
 import {
@@ -247,7 +246,7 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
             }
           });
       } else if (this._report === 'hiv-summary-monthly-report' ||
-      this._report === 'oncology-summary-monthly-report') {
+      this._report === 'oncology-summary-monthly-report' || this._report === 'facility-referral-report' ) {
         this.dataAnalyticsDashboardService.getSelectedMonthlyIndicatorLocations().pipe(take(1)).subscribe(
           (data)  => {
             if (data) {
@@ -333,7 +332,7 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
       return;
     }
     if (this._report === 'hiv-summary-monthly-report' ||
-    this._report === 'oncology-summary-monthly-report') {
+    this._report === 'oncology-summary-monthly-report' || this._report === 'facility-referral-report') {
       this.dataAnalyticsDashboardService.setSelectedMonthlyIndicatorLocations(locs);
       return;
     }
