@@ -1,3 +1,5 @@
+
+
 import { Injectable } from '@angular/core';
 
 import * as _ from 'lodash';
@@ -12,6 +14,7 @@ import { Patient } from '../models/patient.model';
 import { ProgramService } from '../patient-dashboard/programs/program.service';
 import { take } from 'rxjs/operators';
 import { PersonResourceService } from '../openmrs-api/person-resource.service';
+import { ProgramEnrollmentResourceService } from 'src/app/openmrs-api/program-enrollment-resource.service';
 
 @Injectable()
 export class ProgramManagerService {
@@ -22,6 +25,7 @@ export class ProgramManagerService {
   constructor(private patientReferralService: PatientReferralService,
               private programService: ProgramService,
               private personResourceService: PersonResourceService,
+              private patientProgramEnrollment: ProgramEnrollmentResourceService,
               private userService: UserService) {
 
   }
@@ -123,6 +127,21 @@ export class ProgramManagerService {
   }
 
   private saveReferral(programInfo, enrollment) {
+    let lastEnrolledProgram ;
+    let _programInfo: any  ;
+    this.patientProgramEnrollment.getProgramEnrollmentByPatientUuid(enrollment.patient.uuid)
+  .subscribe((programs) => {
+        lastEnrolledProgram = this.getLastProgramEnrolled(programs);
+        const latestDate = [];
+           _.each(programs , (program) => {
+               if (!_.isNil(program.dateCompleted)) { latestDate.push(program.dateCompleted); }
+              const mostRecentDate = this.getLatestDate(latestDate);
+           });
+        _programInfo  =  this.extendProgramInfo(lastEnrolledProgram, programInfo);
+        this.saveReferralEncounter(_programInfo, enrollment);
+    });
+  }
+  private saveReferralEncounter(programInfo, enrollment) {
     this.patientReferralService.saveReferralEncounter(programInfo)
       .subscribe((savedEncounter) => {
         // 3. complete referral if its referring back
@@ -160,4 +179,48 @@ export class ProgramManagerService {
     }
     return '';
   }
+
+  private getLatestDate(data) {
+    const latestDate = new Date(Math.max.apply(null, data.map((dataItem) => {
+      return new Date(dataItem);
+    })));
+    return latestDate;
+  }
+
+  private getLastProgramEnrolled(programs) {
+    const lD = [];
+    const programUuid = [];
+     _.each(programs, (program, index) => {
+        lD.push(new Date(program.dateCompleted).getTime());
+        programUuid.push(program.uuid);
+    });
+    const sortedDates = lD.sort();
+    const latestDate = sortedDates[sortedDates.length - 1];
+    let lastProgramUuid = '';
+    _.each(programs, item => {
+        const d = item.dateCompleted ;
+        if (new Date(d).getTime() === latestDate) {
+           lastProgramUuid = item.uuid;
+        }
+    });
+    return lastProgramUuid;
+  }
+
+  private extendProgramInfo(lastEnrolledProgram, programInfo) {
+    return  _.extend(programInfo, {
+        patientProgramIdCurrent: programInfo.patientProgram,
+        patientProgramIdPrevious : lastEnrolledProgram
+      });
+  }
+
+  public filterUnenrolledPrograms(programs: Array<any>): Array<any> {
+    let returnVal = [];
+    returnVal = _.filter(programs, (program) => {
+      return !_.isUndefined(program.enrolledProgram) &&
+        !_.isNull(program.enrolledProgram) &&
+        moment(program.dateEnrolled).isValid();
+    });
+    return returnVal;
+  }
+
 }
