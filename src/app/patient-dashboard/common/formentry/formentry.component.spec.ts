@@ -79,6 +79,8 @@ import {
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
 import { ZscoreService } from 'src/app/shared/services/zscore.service';
+import * as _ from 'lodash';
+import { PatientTransferService } from './patient-transfer.service';
 
 
 export class FakeConceptResourceService {
@@ -91,6 +93,29 @@ export class FakeConceptResourceService {
     return of({});
   }
 
+}
+
+class FakePatientTransferService {
+  public componentRef: FormentryComponent;
+  private transferState: BehaviorSubject<any> = new BehaviorSubject(null);
+
+  constructor() {
+  }
+
+  public handleProgramManagerRedirects(data: any): BehaviorSubject<any> {
+    return this.transferState;
+  }
+
+  public prefillTransferOptions(): void {
+  }
+
+  public getPatientStatusQuestion() {
+    return [];
+  }
+
+  private shouldRedirectToProgramManager(answer: any[], force?: boolean) {
+    return false;
+  }
 }
 
 class EncounterResourceServiceMock {
@@ -345,6 +370,11 @@ xdescribe('Component: FormentryComponent', () => {
         {
           provide: AppFeatureAnalytics, useFactory: () => {
             return new FakeAppFeatureAnalytics();
+          }, deps: []
+        },
+        {
+          provide: PatientTransferService, useFactory: () => {
+            return new FakePatientTransferService();
           }, deps: []
         }
       ]

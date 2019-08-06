@@ -17,6 +17,17 @@ export class EditProgramLocationComponent implements OnInit {
   @Input() public programs: any[] = [];
   // tslint:disable:no-input-rename
   @Input('editedProgram') public editedPrograms: any;
+  @Input()
+  public set userLocation(location: any) {
+    if (location) {
+      this._userLocation = location;
+      this.preSelectLocation();
+    }
+  }
+
+  public get userLocation(): any {
+    return this._userLocation;
+  }
   @Input() public patient: Patient;
   @Input() public complete = false;
   @Output() public locationChangeComplete: EventEmitter<any> = new EventEmitter(null);
@@ -28,6 +39,7 @@ export class EditProgramLocationComponent implements OnInit {
   public hasError = false;
   private location: any;
   public message = '';
+  private _userLocation: any;
 
   constructor(private programManagerService: ProgramManagerService,
               public route: ActivatedRoute,
@@ -36,7 +48,6 @@ export class EditProgramLocationComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.preSelectLocation();
     const queryParams: any = this.route.snapshot.queryParams;
     if (queryParams && queryParams.program && !this.complete) {
       this.doEnroll(queryParams.program);
@@ -54,7 +65,9 @@ export class EditProgramLocationComponent implements OnInit {
     };
     this.programManagerService.enrollPatient(payload).subscribe((newProgram) => {
       if (newProgram) {
-        console.log('newProgram', newProgram);
+        localStorage.removeItem('transferLocation');
+        localStorage.removeItem('careStatus');
+        localStorage.removeItem('transferRTC');
         this.locationChangeComplete.next([newProgram]);
       }
     }, (err) => {
@@ -82,6 +95,8 @@ export class EditProgramLocationComponent implements OnInit {
             this.transferPreferedIdentifier().subscribe(() => {
               this.updating = false;
               this.hasError = false;
+              localStorage.removeItem('transferLocation');
+              localStorage.removeItem('careStatus');
               this.locationChangeComplete.next(programs);
             }, (error) => {
               this.hasError = true;
@@ -132,6 +147,9 @@ export class EditProgramLocationComponent implements OnInit {
     if (transferLocation) {
       this.transferLocation = transferLocation;
       this.location = {value: transferLocation};
+    } else {
+      this.transferLocation = this.userLocation.value;
+      this.location = this.userLocation;
     }
   }
 

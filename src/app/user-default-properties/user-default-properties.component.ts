@@ -35,12 +35,12 @@ export class UserDefaultPropertiesComponent implements OnInit {
   private retroSettings: any;
 
   constructor(private router: Router,
-    private route: ActivatedRoute,
-    private userService: UserService,
-    private localStorageService: LocalStorageService,
-    private departmentProgramService: DepartmentProgramsConfigService,
-    private retrospectiveDataEntryService: RetrospectiveDataEntryService,
-    private propertyLocationService: UserDefaultPropertiesService
+              private route: ActivatedRoute,
+              private userService: UserService,
+              private localStorageService: LocalStorageService,
+              private departmentProgramService: DepartmentProgramsConfigService,
+              private retrospectiveDataEntryService: RetrospectiveDataEntryService,
+              private propertyLocationService: UserDefaultPropertiesService
   ) {
 
   }
@@ -48,12 +48,6 @@ export class UserDefaultPropertiesComponent implements OnInit {
   public ngOnInit() {
 
     this.isBusy = true;
-    this.getDepartments();
-
-    this.currentLocation = this.propertyLocationService.getCurrentUserDefaultLocationObject();
-    if (!this.currentLocation) {
-      this.disable = true;
-    }
     // if the user is confirming, prefill the current location
     this.route.params.subscribe((params: Params) => {
       if (params['confirm'] !== undefined) {
@@ -61,30 +55,7 @@ export class UserDefaultPropertiesComponent implements OnInit {
         this.propertyLocationService.setUserProperty('retroLocation',
           JSON.stringify(this.location));
       }
-    });
-
-    this.propertyLocationService.getLocations().pipe(take(1)).subscribe((response) => {
-      this.locations = response.results.map((location: any) => {
-        if (!_.isNil(location.display)) {
-          return this.retrospectiveDataEntryService.mappedLocation(location);
-        }
-      });
-      this.isBusy = false;
-    });
-
-    const department = JSON.parse(this.localStorageService.getItem('userDefaultDepartment'));
-    if (department !== null) {
-      this.selectedDepartment = department[0].itemName;
-    } else {
-      this.selectedDepartment = 'HIV';
-      setTimeout(() => {
-        this.selectDepartment(this.selectedDepartment);
-      }, 1000);
-
-    }
-
-    this.retrospectiveDataEntryService.retroSettings.subscribe((retroSettings) => {
-      this.retroSettings = retroSettings;
+      this.getDepartmentsLocations();
     });
 
   }
@@ -94,26 +65,6 @@ export class UserDefaultPropertiesComponent implements OnInit {
     this.isLoading = true;
     this.router.navigate(['patient-dashboard/patient-search']);
 
-  }
-
-  public getDepartments() {
-    this.departmentProgramService.getDartmentProgramsConfig().pipe(
-      take(1)).subscribe((results) => {
-        if (results) {
-          _.each(results, (department, key) => {
-            if (key !== 'uud4') {
-              const dept = {
-                'itemName': department.name,
-                'id': key
-              };
-              this.departments.push(dept);
-              this.departments = _.remove(this.departments, (dep) => {
-                return dep.id !== 'uud5';
-              });
-            }
-          });
-        }
-      });
   }
 
   public selectDepartment(event: any) {
@@ -128,9 +79,60 @@ export class UserDefaultPropertiesComponent implements OnInit {
 
   public select(item: any) {
     this.disable = false;
-    const location = JSON.stringify({ uuid: item.value, display: item.label });
+    const location = JSON.stringify({uuid: item.value, display: item.label});
+    this.currentLocation = location;
     this.propertyLocationService.setUserProperty('userDefaultLocation', location);
     this.propertyLocationService.setUserProperty('retroLocation', JSON.stringify(item));
+  }
+
+  private getDepartmentsLocations() {
+    this.departmentProgramService.getDartmentProgramsConfig().pipe(take(1)).subscribe((results) => {
+      if (results) {
+        this.mapDepartments(results);
+        this.setDepartmentLocation();
+      }
+      this.currentLocation = this.propertyLocationService.getCurrentUserDefaultLocationObject();
+      if (!this.currentLocation) {
+        this.disable = true;
+      }
+    });
+  }
+
+  private setDepartmentLocation() {
+    this.propertyLocationService.getLocations().pipe(take(1)).subscribe((response) => {
+      this.locations = response.results.map((location: any) => {
+        if (location && !_.isNil(location.display)) {
+          return this.retrospectiveDataEntryService.mappedLocation(location);
+        }
+      });
+      this.isBusy = false;
+      const department = JSON.parse(this.localStorageService.getItem('userDefaultDepartment'));
+      if (department !== null) {
+        this.selectedDepartment = department[0].itemName;
+      } else {
+        this.selectedDepartment = 'HIV';
+        setTimeout(() => {
+          this.selectDepartment(this.selectedDepartment);
+        }, 1000);
+
+      }
+      this.retrospectiveDataEntryService.retroSettings.subscribe((retroSettings) => {
+        this.retroSettings = retroSettings;
+      });
+    });
+  }
+
+  private mapDepartments(results: any[]) {
+    _.each(results, (department, key: string) => {
+      const dept = {
+        'itemName': department.name,
+        'id': key
+      };
+      this.departments.push(dept);
+      this.departments = _.filter(this.departments, (dep) => {
+        return !_.includes(['uud4', 'uud5'], dep.id);
+      });
+    });
   }
 
 }
