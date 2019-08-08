@@ -243,25 +243,24 @@ describe('Component: LandingPageComponent', () => {
       patientProgramResourceService, router);
     expect(component).toBeTruthy();
   }));
-
-  it('should load programs, enrolled and enrollable when `loadProgramBatch` is called',
-    (inject([PatientService, ProgramService,
-      LocationResourceService, HttpTestingController],
-      (ps: PatientService,
-        prs: ProgramService, ls: LocationResourceService,
-        backend: HttpTestingController) => {
-        component.loadProgramBatch();
-      }))
-  );
-
-  it('should generate error when `loadProgramBatch` has an error response',
-    (inject([PatientService, ProgramService,
-      LocationResourceService, HttpTestingController],
-      (ps: PatientService,
-        prs: ProgramService, ls: LocationResourceService,
-        httpTestingController: HttpTestingController) => {
-        component.loadProgramBatch('uuid');
-      }))
-  );
+  //
+  // it('should load programs, enrolled and enrollable when `loadProgramBatch` is called',
+  //   (inject([PatientService, ProgramService,
+  //     LocationResourceService, HttpTestingController],
+  //     (ps: PatientService,
+  //       prs: ProgramService, ls: LocationResourceService,
+  //       backend: HttpTestingController) => {
+  //       component.loadProgramBatch();
+  //     }))
+  // );
+  //
+  // it('should generate error when `loadProgramBatch` has an error response',
+  //   (inject([PatientService, ProgramService,
+  //     LocationResourceService, HttpTestingController],
+  //     (ps: PatientService,
+  //       prs: ProgramService, ls: LocationResourceService,
+  //       httpTestingController: HttpTestingController) => {
+  //       component.loadProgramBatch('uuid');
+  //     }))
+  // );
 });
-
