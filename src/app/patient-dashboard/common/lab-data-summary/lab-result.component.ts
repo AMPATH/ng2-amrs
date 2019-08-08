@@ -228,7 +228,76 @@ export class LabResultComponent implements OnInit, OnDestroy {
     'hba2': {
       'test': 'HBA2',
       'toolTip': 'Hemoglobin A2/C%'
+    },
+    'sample_c_date': {
+      'test': 'SAMPLE COLLECTION DATE',
+      'toolTip': 'Sample collection'
+    },
+    'results_r_date': {
+      'test': 'RESULTS REPORTED DATE',
+      'toolTip': 'Results reported date'
+    },
+    'pus_c_urine': {
+      'test': 'PUS CELLS URINE',
+      'toolTip': 'Presence of pus cells, urine'
+    },
+    'protein_urine': {
+      'test': 'PROTEIN URINE',
+      'toolTip': 'Presence of protein, urine'
+    },
+    'leuc': {
+      'test': 'LEUCOCYTES',
+      'toolTip': 'Presence of leucocytes'
+    },
+    'ketone': {
+      'test': 'KETONE',
+      'toolTip': 'Presence of Ketone'
+    },
+    'sugar_urine': {
+      'test': 'SUGAR URINE',
+      'toolTip': 'Presence of sugar, urine'
+    },
+    'nitrites': {
+      'test': 'NITRITES',
+      'toolTip': 'Presence of Nitrites'
+    },
+    'retic': {
+      'test': 'RETICULOCYTES',
+      'toolTip': 'Reticulocytes (%)'
+    },
+    'a_1_glob': {
+      'test': 'ALPHA-1 GLOBULIN',
+      'toolTip': 'Serum, alpha-1 globulin'
+    },
+    'a_2_glob': {
+      'test': 'ALPHA-2 GLOBULIN',
+      'toolTip': 'Serum, alpha-2 globulin'
+    },
+    'beta_glob': {
+      'test': 'BETA GLOBULIN',
+      'toolTip': 'Serum, beta globulin'
+    },
+    'gamma_glob': {
+      'test': 'GAMMA GLOBULIN',
+      'toolTip': 'Serum, gamma globulin'
+    },
+    'urine_p_elect': {
+      'test': 'URINE PROTEIN ELECTROHORESIS',
+      'toolTip': 'Urine protein electrophoresis'
+    },
+    'kappa_l_c': {
+      'test': 'KAPPA LIGHT CHAINS',
+      'toolTip': 'Kappa light chains'
+    },
+    'lambda_l_c': {
+      'test': 'LAMBDA LIGHT CHAINS',
+      'toolTip': 'Lambda light chains'
+    },
+    'ratio_l_c': {
+      'test': 'RATIO KAPPA LAMBDA',
+      'toolTip': 'Ratio of kappa/lambda'
     }
+
   };
   constructor(
     private labsResourceService: LabsResourceService,
