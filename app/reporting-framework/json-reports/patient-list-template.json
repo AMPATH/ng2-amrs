@@ -55,6 +55,14 @@
                 "type": "LEFT",
                 "joinCondition": "t1.person_id = pa.person_id"
             }
+        },
+        {
+            "table": "amrs.visit_type",
+            "alias": "vt",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "t2.visit_type_id = vt.visit_type_id"
+            }
         }
     ],
     "columns": [
@@ -137,6 +145,11 @@
             "type": "simple_column",
             "alias": "last_appointment",
             "column": "CONCAT(COALESCE(DATE_FORMAT(fh.encounter_datetime, '%Y-%m-%d'),''),' ',COALESCE(et.name, ''))"
+        },
+        {
+            "type": "simple_column",
+            "alias": "visit_type",
+            "column": "CONCAT(COALESCE(DATE_FORMAT(fh.encounter_datetime, '%Y-%m-%d'),''),' ',COALESCE(vt.name, ''))"
         },
         {
             "type": "simple_column",
