@@ -1,0 +1,659 @@
+{
+    "name": "surgeDailyReport",
+    "version": "1.0",
+    "tag": "",
+    "description": "",
+    "uses": [],
+    "sources": [
+        {
+            "table": "etl.surge_daily_report_dataset",
+            "alias": "sdr"
+        },
+        {
+            "table": "amrs.location",
+            "alias": "l",
+            "join": {
+                "type": "INNER",
+                "joinCondition": "l.location_id = sdr.location_id"
+            }
+        }
+    ],
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias": "_date",
+            "column": "sdr._date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "person_id",
+            "column": "sdr.person_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "person_uuid",
+            "column": "sdr.person_uuid"
+        },
+        {
+            "type": "simple_column",
+            "alias": "death_date",
+            "column": "sdr.death_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "encounter_datetime",
+            "column": "sdr.encounter_datetime"
+        },
+        {
+            "type": "simple_column",
+            "alias": "prev_clinical_rtc_date_hiv",
+            "column": "sdr.prev_clinical_rtc_date_hiv"
+        },
+        {
+            "type": "simple_column",
+            "alias": "prev_rtc_date",
+            "column": "sdr.prev_rtc_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "rtc_date",
+            "column": "sdr.rtc_date"
+        },
+
+
+        {
+            "type": "simple_column",
+            "alias": "visit_today",
+            "column": "sdr.visit_today"
+        },
+        {
+            "type": "simple_column",
+            "alias": "appointment_today",
+            "column": "sdr.appointment_today"
+        },
+        {
+            "type": "simple_column",
+            "alias": "scheduled_visit_today",
+            "column": "sdr.scheduled_visit_today"
+        },
+        {
+            "type": "simple_column",
+            "alias": "early_appointment_today",
+            "column": "sdr.early_appointment_today"
+        },
+        {
+            "type": "simple_column",
+            "alias": "late_appointment_today",
+            "column": "sdr.late_appointment_today"
+        },
+        {
+            "type": "simple_column",
+            "alias": "missed_appointment_today",
+            "column": "sdr.missed_appointment_today"
+        },
+        {
+            "type": "simple_column",
+            "alias": "started_art_today",
+            "column": "sdr.started_art_today"
+        },
+        {
+            "type": "simple_column",
+            "alias": "enrolled_today",
+            "column": "sdr.enrolled_today"
+        },
+        {
+            "type": "simple_column",
+            "alias": "art_revisit_today",
+            "column": "sdr.art_revisit_today"
+        },
+        {
+            "type": "simple_column",
+            "alias": "transfer_in_today",
+            "column": "sdr.transfer_in_today"
+        },
+        {
+            "type": "simple_column",
+            "alias": "transfer_out_today",
+            "column": "sdr.transfer_out_today"
+        },
+        {
+            "type": "simple_column",
+            "alias": "tx2_appointment_today",
+            "column": "sdr.tx2_appointment_today"
+        },
+        {
+            "type": "simple_column",
+            "alias": "tx2_visit_today",
+            "column": "sdr.tx2_visit_today"
+        },
+        {
+            "type": "simple_column",
+            "alias": "tx2_appointment_honored",
+            "column": "sdr.tx2_appointment_honored"
+        },
+        {
+            "type": "simple_column",
+            "alias": "tx2_appointment_missed",
+            "column": "sdr.tx2_appointment_missed"
+        },
+        {
+            "type": "simple_column",
+            "alias": "is_pregnant",
+            "column": "sdr.is_pregnant"
+        },
+        {
+            "type": "simple_column",
+            "alias": "intervention_done_today",
+            "column": "sdr.intervention_done_today"
+        },
+        {
+            "type": "simple_column",
+            "alias": "interventions",
+            "column": "sdr.interventions"
+        }, 
+        {
+            "type": "simple_column",
+            "alias": "ltfu_to_active_today",
+            "column": "sdr.ltfu_to_active_today"
+        },  
+        {
+            "type": "simple_column",
+            "alias": "ltfu_outcome_today",
+            "column": "sdr.ltfu_outcome_today"
+        },
+        {
+            "type": "simple_column",
+            "alias": "dc_eligible_cumulative",
+            "column": "sdr.dc_eligible_cumulative"
+        }, 
+        {
+            "type": "simple_column",
+            "alias": "scheduled_today_and_due_for_vl",
+            "column": "sdr.scheduled_today_and_due_for_vl"
+        }, 
+        {
+            "type": "simple_column",
+            "alias": "unscheduled_today_and_due_for_vl",
+            "column": "sdr.unscheduled_today_and_due_for_vl"
+        }, 
+        {
+            "type": "simple_column",
+            "alias": "due_for_vl_today_has_vl_order",
+            "column": "sdr.due_for_vl_today_has_vl_order"
+        }, 
+        {
+            "type": "simple_column",
+            "alias": "due_for_vl_today_dont_have_order",
+            "column": "sdr.due_for_vl_today_dont_have_order"
+        }, 
+        {
+            "type": "simple_column",
+            "alias": "due_for_vl_today_active",
+            "column": "sdr.due_for_vl_today_active"
+        }, 
+        {
+            "type": "simple_column",
+            "alias": "overdue_for_vl_active",
+            "column": "sdr.overdue_for_vl_active"
+        }, 
+        {
+            "type": "simple_column",
+            "alias": "is_suppressed_active",
+            "column": "sdr.is_suppressed_active"
+        }, 
+        {
+            "type": "simple_column",
+            "alias": "is_unsuppressed_active",
+            "column": "sdr.is_unsuppressed_active"
+        }, 
+        {
+            "type": "simple_column",
+            "alias": "clinical_visit_num",
+            "column": "sdr.clinical_visit_num"
+        },
+        {
+            "type": "simple_column",
+            "alias": "days_since_rtc_date",
+            "column": "sdr.days_since_rtc_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "status",
+            "column": "sdr.status"
+        },
+        {
+            "type": "simple_column",
+            "alias": "cur_arv_adherence",
+            "column": "sdr.cur_arv_adherence"
+        },
+        {
+            "type": "simple_column",
+            "alias": "arv_first_regimen_location_id",
+            "column": "sdr.arv_first_regimen_location_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "arv_first_regimen_names",
+            "column": "sdr.arv_first_regimen_names"
+        },
+        {
+            "type": "simple_column",
+            "alias": "arv_first_regimen_start_date",
+            "column": "sdr.arv_first_regimen_start_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "days_since_starting_arvs",
+            "column": "sdr.days_since_starting_arvs"
+        },
+        {
+            "type": "simple_column",
+            "alias": "enrollment_date",
+            "column": "sdr.enrollment_date"
+        },
+
+        {
+            "type": "simple_column",
+            "alias": "arv_start_date",
+            "column": "sdr.arv_start_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "cur_arv_meds_names",
+            "column": "sdr.cur_arv_meds_names"
+        },
+        {
+            "type": "simple_column",
+            "alias": "cur_arv_meds_strict",
+            "column": "sdr.cur_arv_meds_strict"
+        },
+        {
+            "type": "simple_column",
+            "alias": "cur_arv_line",
+            "column": "sdr.cur_arv_line"
+        },
+        {
+            "type": "simple_column",
+            "alias": "cur_arv_line_strict",
+            "column": "sdr.cur_arv_line_strict"
+        },
+        {
+            "type": "simple_column",
+            "alias": "cur_arv_line_reported",
+            "column": "sdr.cur_arv_line_reported"
+        },
+        {
+            "type": "simple_column",
+            "alias": "transfer_in_location_id",
+            "column": "sdr.transfer_in_location_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "transfer_in_date",
+            "column": "sdr.transfer_in_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "transfer_out_location_id",
+            "column": "sdr.transfer_out_location_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "transfer_out_date",
+            "column": "sdr.transfer_out_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "tb_tx_start_date",
+            "column": "sdr.tb_tx_start_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "months_since_tb_tx_start_date",
+            "column": "sdr.months_since_tb_tx_start_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "prev_status",
+            "column": "sdr.prev_status"
+        },
+        {
+            "type": "simple_column",
+            "alias": "cur_status",
+            "column": "sdr.cur_status"
+        },
+
+        {
+            "type": "simple_column",
+            "alias": "location_uuid",
+            "column": "l.uuid"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location",
+            "column": "l.name"
+        },
+        {
+            "type": "simple_column",
+            "alias": "tx2_appointment_today",
+            "column": "sdr.tx2_appointment_today"
+        },
+        {
+            "type": "simple_column",
+            "alias": "tx2_visit_today",
+            "column": "sdr.tx2_visit_today"
+        },
+        {
+            "type": "simple_column",
+            "alias": "tx2_appointment_honored",
+            "column": "sdr.tx2_appointment_honored"
+        },
+        {
+            "type": "simple_column",
+            "alias": "tx2_appointment_missed",
+            "column": "sdr.tx2_appointment_missed"
+        },
+        {
+            "type": "simple_column",
+            "alias": "is_pregnant",
+            "column": "sdr.is_pregnant"
+        },
+        {
+            "type": "simple_column",
+            "alias": "intervention_done_today",
+            "column": "sdr.intervention_done_today"
+        },
+        {
+            "type": "simple_column",
+            "alias": "interventions",
+            "column": "sdr.interventions"
+        }, 
+        {
+            "type": "simple_column",
+            "alias": "ltfu_to_active_today",
+            "column": "sdr.ltfu_to_active_today"
+        },  
+        {
+            "type": "simple_column",
+            "alias": "ltfu_outcome_today",
+            "column": "sdr.ltfu_outcome_today"
+        },
+        {
+            "type": "simple_column",
+            "alias": "dc_eligible_cumulative",
+            "column": "sdr.dc_eligible_cumulative"
+        }, 
+        {
+            "type": "simple_column",
+            "alias": "scheduled_today_and_due_for_vl",
+            "column": "sdr.scheduled_today_and_due_for_vl"
+        }, 
+        {
+            "type": "simple_column",
+            "alias": "unscheduled_today_and_due_for_vl",
+            "column": "sdr.unscheduled_today_and_due_for_vl"
+        }, 
+        {
+            "type": "simple_column",
+            "alias": "due_for_vl_today_has_vl_order",
+            "column": "sdr.due_for_vl_today_has_vl_order"
+        }, 
+        {
+            "type": "simple_column",
+            "alias": "due_for_vl_today_dont_have_order",
+            "column": "sdr.due_for_vl_today_dont_have_order"
+        }, 
+        {
+            "type": "simple_column",
+            "alias": "due_for_vl_today_active",
+            "column": "sdr.due_for_vl_today_active"
+        }, 
+        {
+            "type": "simple_column",
+            "alias": "overdue_for_vl_active",
+            "column": "sdr.overdue_for_vl_active"
+        }, 
+        {
+            "type": "simple_column",
+            "alias": "is_suppressed_active",
+            "column": "sdr.is_suppressed_active"
+        }, 
+        {
+            "type": "simple_column",
+            "alias": "is_unsuppressed_active",
+            "column": "sdr.is_unsuppressed_active"
+        }, 
+        {
+            "type": "simple_column",
+            "alias": "clinical_visit_num",
+            "column": "sdr.clinical_visit_num"
+        },
+        {
+            "type": "simple_column",
+            "alias": "days_since_rtc_date",
+            "column": "sdr.days_since_rtc_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "status",
+            "column": "sdr.status"
+        },
+        {
+            "type": "simple_column",
+            "alias": "cur_arv_adherence",
+            "column": "sdr.cur_arv_adherence"
+        },
+        {
+            "type": "simple_column",
+            "alias": "arv_first_regimen_location_id",
+            "column": "sdr.arv_first_regimen_location_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "arv_first_regimen_names",
+            "column": "sdr.arv_first_regimen_names"
+        },
+        {
+            "type": "simple_column",
+            "alias": "arv_first_regimen_start_date",
+            "column": "sdr.arv_first_regimen_start_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "days_since_starting_arvs",
+            "column": "sdr.days_since_starting_arvs"
+        },
+        {
+            "type": "simple_column",
+            "alias": "enrollment_date",
+            "column": "sdr.enrollment_date"
+        },
+
+        {
+            "type": "simple_column",
+            "alias": "arv_start_date",
+            "column": "sdr.arv_start_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "cur_arv_meds_names",
+            "column": "sdr.cur_arv_meds_names"
+        },
+        {
+            "type": "simple_column",
+            "alias": "cur_arv_meds_strict",
+            "column": "sdr.cur_arv_meds_strict"
+        },
+        {
+            "type": "simple_column",
+            "alias": "cur_arv_line",
+            "column": "sdr.cur_arv_line"
+        },
+        {
+            "type": "simple_column",
+            "alias": "cur_arv_line_strict",
+            "column": "sdr.cur_arv_line_strict"
+        },
+        {
+            "type": "simple_column",
+            "alias": "cur_arv_line_reported",
+            "column": "sdr.cur_arv_line_reported"
+        },
+        {
+            "type": "simple_column",
+            "alias": "transfer_in_location_id",
+            "column": "sdr.transfer_in_location_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "transfer_in_date",
+            "column": "sdr.transfer_in_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "transfer_out_location_id",
+            "column": "sdr.transfer_out_location_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "transfer_out_date",
+            "column": "sdr.transfer_out_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "tb_tx_start_date",
+            "column": "sdr.tb_tx_start_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "months_since_tb_tx_start_date",
+            "column": "sdr.months_since_tb_tx_start_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "prev_status",
+            "column": "sdr.prev_status"
+        },
+        {
+            "type": "simple_column",
+            "alias": "cur_status",
+            "column": "sdr.cur_status"
+        },
+
+        {
+            "type": "simple_column",
+            "alias": "location_uuid",
+            "column": "l.uuid"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location",
+            "column": "l.name"
+        },
+        {
+            "type": "simple_column",
+            "alias": "eligible_and_on_dc",
+            "column": "sdr.eligible_and_on_dc"
+        },
+        {
+            "type": "simple_column",
+            "alias": "eligible_not_on_dc",
+            "column": "sdr.eligible_not_on_dc"
+        },
+        {
+            "type": "simple_column",
+            "alias": "eligible_not_on_dc_and_appointment_today",
+            "column": "sdr.eligible_not_on_dc_and_appointment_today"
+        },
+        {
+            "type": "simple_column",
+            "alias": "eligible_not_on_dc_and_unscheduled_today",
+            "column": "sdr.eligible_not_on_dc_and_unscheduled_today"
+        },
+        {
+            "type": "simple_column",
+            "alias": "eligible_and_on_dc_and_appointment_today",
+            "column": "sdr.eligible_and_on_dc_and_appointment_today"
+        },
+        {
+            "type": "simple_column",
+            "alias": "eligible_and_on_dc_and_unscheduled_today",
+            "column": "sdr.eligible_and_on_dc_and_unscheduled_today"
+        },
+        {
+            "type": "simple_column",
+            "alias": "elligible_total",
+            "column": "sdr.elligible_total"
+        },
+        {
+            "type": "simple_column",
+            "alias": "has_vl_today",
+            "column": "sdr.has_vl_today"
+        },
+        {
+            "type": "simple_column",
+            "alias": "tx2_unscheduled_today",
+            "column": "sdr.tx2_unscheduled_today"
+        },
+        {
+            "type": "simple_column",
+            "alias": "started_dc_today",
+            "column": "sdr.started_dc_today"
+        },
+        {
+            "type": "simple_column",
+            "alias": "ltfu_outcome_total_today",
+            "column": "sdr.ltfu_outcome_total_today"
+        },
+        {
+            "type": "simple_column",
+            "alias": "ltfu_death_today",
+            "column": "sdr.ltfu_death_today"
+        }        ,
+        {
+            "type": "simple_column",
+            "alias": "ltfu_transfer_out_today",
+            "column": "sdr.ltfu_transfer_out_today"
+        },
+        {
+            "type": "simple_column",
+            "alias": "ltfu_active_today",
+            "column": "sdr.ltfu_active_today"
+        },
+        {
+            "type": "simple_column",
+            "alias": "defaulters_today",
+            "column": "sdr.defaulters_today"
+        },
+        {
+            "type": "simple_column",
+            "alias": "newly_ltfu_today",
+            "column": "sdr.newly_ltfu_today"
+        },
+        {
+            "type": "simple_column",
+            "alias": "dead_today",
+            "column": "sdr.dead_today"
+        },
+        {
+            "type": "simple_column",
+            "alias": "on_dc_today",
+            "column": "sdr.on_dc_today"
+        }
+    ],
+    "filters": {
+        "conditionJoinOperator": "and",
+        "conditions": [
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "_date = ? ",
+                "parameterName": "_date"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "l.uuid in ?",
+                "parameterName": "locationUuids"
+            }
+        ]
+    }
+}

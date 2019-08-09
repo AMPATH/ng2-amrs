@@ -1,0 +1,426 @@
+{
+    "name": "SurgeDailyReportAggregate",
+    "version": "1.0",
+    "tag": "",
+    "description": "",
+    "uses": [ {
+        "name": "surgeDailyReport",
+        "version": "1.0",
+        "type": "dataset_def"
+    }],
+    "sources": [
+        {
+            "dataSet": "surgeDailyReport",
+            "alias": "srb"
+        }
+    ],
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias": "location_uuid",
+            "column": "srb.location_uuid"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location",
+            "column": "srb.location"
+        },
+        {
+            "type": "derived_column",
+            "alias": "visit_today",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(visit_today)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "appointment_today",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(appointment_today)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "scheduled_visit_today",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(scheduled_visit_today)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "early_appointment_today",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(early_appointment_today)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "late_appointment_today",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(late_appointment_today)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "missed_appointment_today",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(missed_appointment_today)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "started_art_today",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(started_art_today)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "enrolled_today",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(enrolled_today)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "art_revisit_today",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(art_revisit_today)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "transfer_in_today",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(transfer_in_today)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "transfer_out_today",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(transfer_out_today)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "tx2_appointment_today",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(tx2_appointment_today)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "tx2_visit_today",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(tx2_visit_today)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "tx2_appointment_honored",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(tx2_appointment_honored)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "tx2_appointment_missed",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(tx2_appointment_missed)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "intervention_done_today",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(intervention_done_today)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "interventions",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(interventions)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "ltfu_to_active_today",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(ltfu_to_active_today)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "ltfu_outcome_today",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(ltfu_outcome_today)"
+            }
+        },
+
+
+
+
+        
+        {
+            "type": "derived_column",
+            "alias": "dc_eligible_cumulative",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(dc_eligible_cumulative)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "scheduled_today_and_due_for_vl",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(scheduled_today_and_due_for_vl)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "unscheduled_today_and_due_for_vl",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(unscheduled_today_and_due_for_vl)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "due_for_vl_today_has_vl_order",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(due_for_vl_today_has_vl_order)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "due_for_vl_today_dont_have_order",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(due_for_vl_today_dont_have_order)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "due_for_vl_today_active",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(due_for_vl_today_active)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "overdue_for_vl_active",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(overdue_for_vl_active)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "is_suppressed_active",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(is_suppressed_active)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "is_unsuppressed_active",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(is_unsuppressed_active)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "eligible_and_on_dc",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(eligible_and_on_dc)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "eligible_not_on_dc",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(eligible_not_on_dc)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "eligible_not_on_dc_and_appointment_today",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(eligible_not_on_dc_and_appointment_today)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "eligible_not_on_dc_and_unscheduled_today",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(eligible_not_on_dc_and_unscheduled_today)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "eligible_and_on_dc_and_appointment_today",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(eligible_and_on_dc_and_appointment_today)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "eligible_and_on_dc_and_unscheduled_today",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(eligible_and_on_dc_and_unscheduled_today)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "elligible_total",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(elligible_total)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "has_vl_today",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(has_vl_today)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "tx2_unscheduled_today",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(tx2_unscheduled_today)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "started_dc_today",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(started_dc_today)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "ltfu_outcome_total_today",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(ltfu_outcome_total_today)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "ltfu_death_today",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(ltfu_death_today)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "ltfu_transfer_out_today",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(ltfu_transfer_out_today)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "ltfu_active_today",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(ltfu_active_today)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "defaulters_today",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(defaulters_today)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "newly_ltfu_today",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(newly_ltfu_today)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "dead_today",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(dead_today)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "on_dc_today",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(on_dc_today)"
+            }
+        }
+
+
+
+    ],
+    "groupBy": {
+        "groupParam": "groupByParam",
+        "columns": [
+            "location_uuid"
+        ],
+        "excludeParam": "excludeParam"
+    },
+    "dynamicJsonQueryGenerationDirectives": {
+        "patientListGenerator": {
+            "useTemplate": "patient-list-frozen-template",
+            "useTemplateVersion": "1.0",
+            "generatingDirectives": {
+                "joinDirectives": {
+                    "joinType": "INNER",
+                    "joinCondition": "<<base_column>> = <<template_column>>",
+                    "baseColumn": "person_id",
+                    "templateColumn": "person_id"
+                }
+            }
+        }
+    }
+}

@@ -122,6 +122,8 @@ import * as surge_report_aggregate from './json-reports/surge-report-aggregate.j
 
 import * as referral_patient_list_peer_base from './json-reports/referral-peer-base';
 import * as referral_peer_aggregate from './json-reports/referral-peer-aggregate';
+import * as surge_daily_report_base from './json-reports/surge-daily-report-base';
+import * as surge_daily_report_aggregate from './json-reports/surge-daily-report-aggregate';
 
 export class BaseMysqlReport {
     constructor(reportName, params) {
@@ -539,6 +541,12 @@ export class BaseMysqlReport {
                             referralDatasetbase: this.cloneJsonSchema(referral_patient_list_peer_base)
                         });
                         break;
+                case 'surgeDailyReport':
+                    resolve({
+                        main: this.cloneJsonSchema(surge_daily_report_aggregate),
+                        surgeDailyReport: this.cloneJsonSchema(surge_daily_report_base)
+                    });
+                    break;
                 default:
                     reject('Unknown report ', reportName);
                     break;
