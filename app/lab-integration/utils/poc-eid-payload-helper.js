@@ -1,8 +1,9 @@
 (function () {
     'use strict';
-    var _ = require('underscore');
-    var eidFacilityMap = require('../../../service/eid/eid-facility-mappings');
-    var eidOrderMap = require('../../../service/eid/eid-order-mappings');
+    const _ = require('lodash');
+    const eidFacilityMap = require('../../../service/eid/eid-facility-mappings');
+    const eidOrderMap = require('./regimen-config-loader');
+    const hasEidCode = _.findKey(eidOrderMap.artRegimen, 'eidCode');
 
     function generatePocToEidPayLoad(payload) {
         console.log('generatePocToEidPayLoad', payload);
@@ -72,6 +73,7 @@
                 }
 
                 if (!_.isEmpty(eidPayload)) {
+                    console.log('payload :', eidPayload);
                     resolve(eidPayload);
                 } else {
                     reject('Could not Find payload type');
@@ -87,7 +89,7 @@
 
     //helpers
     function getInfantProphylaxis(rawPayload) {
-        var result = eidOrderMap.infantProphylaxis[rawPayload.infantProphylaxisUuid];
+        const result = eidOrderMap.infantProphylaxis[rawPayload.infantProphylaxisUuid];
         if (result) return result.eidId;
     }
 
@@ -108,13 +110,19 @@
 
     function getHivStatus(rawPayload) {
         var result = eidOrderMap.hivStatus[rawPayload.motherHivStatusUuid];
-        if (result) return result.eidId;
+        if (result) return hasEidCode ? result.eidCode : result.eidId;
     }
 
     function getLocation(rawPayload, code) {
         var result = eidFacilityMap[rawPayload.locationUuid];
         if (result) return result[code];
     }
+
+    function getTestOrderJustification(rawPayload) {
+        var result = eidOrderMap.testOrderJustification[rawPayload.vlJustificationUuid];
+        if (result) return result.eidId;
+    }
+
     function getGenderCode(gender) {
         var genderCode;
         switch (gender) {
@@ -132,24 +140,42 @@
     }
 
     function hasCode(list, code) {
-
-        var hasCode = false;
-
+        let hasCode = false;
         try {
-
-            _.each(list, function (item) {
-
+            _.each(list,(item) => {
                 if (parseInt(item) === parseInt(code)) {
                     hasCode = true;
                 }
             });
-        } catch (e) { }
-
+        } catch (e) {}
         return hasCode;
     }
 
-    function getArtRegimen(rawPayload) {
+    function getArtRegimenEidCode (rawPayload) {
+        if (rawPayload.artRegimenUuid === "") return 'AF5X'; // none
+        const arvconcepts = rawPayload.artRegimenUuid ? rawPayload.artRegimenUuid.split(" ## ") : null;
+        let resolveId = 'AF5X';
 
+        if (!(arvconcepts && arvconcepts.length > 0)) return resolvedId;
+
+        _.forEach(eidOrderMap.artRegimen, (artRegimen) => {
+
+            const mrsArvRegimenList = artRegimen.mrsArvRegimen.split(',');
+
+            if (hasCode(mrsArvRegimenList, arvconcepts[0])) {
+                if (_.isEqual(_.sortBy(mrsArvRegimenList), _.sortBy(arvconcepts))) {
+                    return resolveId = artRegimen.eidCode;
+                }
+            }
+        });
+        return resolveId;
+    }
+
+    const getArtRegimen = (rawPayload) => {
+        return hasEidCode ? getArtRegimenEidCode(rawPayload) : getArtRegimenOld(rawPayload);
+    }
+
+    function getArtRegimenOld(rawPayload) {
         if (rawPayload.artRegimenUuid === "") return 15; //15 is none;
 
         var arvCodes = rawPayload.artRegimenUuid ? rawPayload.artRegimenUuid.split(" ## ") : null;
@@ -157,7 +183,7 @@
 
         if (!(arvCodes && arvCodes.length > 0)) return resolvedId;
 
-        _.each(eidOrderMap.artRegimen, function (artRegimen) {
+        _.forEach(eidOrderMap.artRegimen, function (artRegimen) {
 
             var mrsArvRegimens = artRegimen.mrsArvRegimen.split(",");
 
@@ -185,11 +211,6 @@
         });
 
         return resolvedId;
-    }
-
-    function getTestOrderJustification(rawPayload) {
-        var result = eidOrderMap.testOrderJustification[rawPayload.vlJustificationUuid];
-        if (result) return result.eidId;
     }
 
     module.exports = {
