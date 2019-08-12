@@ -42,15 +42,11 @@ export class LabOrdersSearchHelperService {
       },
       {
           id: 2,
-          display: 'Venous Blood  (EDTA )'
+          display: 'Whole blood'
       },
       {
           id: 3,
-          display: 'DBS Capillary ( infants)'
-      },
-      {
-          id: 4,
-          display: 'DBS Venous'
+          display: 'DBS'
       }
     ];
   }
