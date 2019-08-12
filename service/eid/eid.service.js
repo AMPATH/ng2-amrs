@@ -1,11 +1,10 @@
 (function () {
     'use strict';
-    var _ = require('underscore');
-    var moment = require('moment');
-    var eidFacilityMap = require('../eid/eid-facility-mappings');
-    var eidOrderMap = require('../eid/eid-order-mappings');
-    var config = require('../../conf/config');
-
+    const _ = require('underscore');
+    const moment = require('moment');
+    const eidFacilityMap = require('../eid/eid-facility-mappings');
+    const eidOrderMap = require('../../app/lab-integration/utils/regimen-config-loader');
+    const config = require('../../conf/config');
 
     function generatePayloadByOrderType(rawPayload, callback, failback) {
         //now generate the payload

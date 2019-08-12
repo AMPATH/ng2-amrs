@@ -1,6 +1,6 @@
 /*jshint -W003, -W097, -W117, -W026 */
 'use strict';
-var
+const
   db = require('../../etl-db')
   , _ = require('underscore')
   , Boom = require('boom') //extends Hapi Error Reporting. Returns HTTP-friendly error objects: github.com/hapijs/boom
@@ -16,9 +16,9 @@ module.exports = function () {
 
     function postLabOrderToEid(request, callback) {
 
-        var rawPayload = JSON.parse(JSON.stringify(request.payload));
-        var labName = request.params.lab;
-        var orderNumber = rawPayload.orderNumber;
+        const rawPayload = JSON.parse(JSON.stringify(request.payload));
+        const labName = request.params.lab;
+        const orderNumber = rawPayload.orderNumber;
 
         getEidOrder(rawPayload, labName, orderNumber)
           .then(function(orders) {
@@ -60,9 +60,9 @@ module.exports = function () {
 
     function getPocToLabOrderPayload(request) {
 
-      var rawPayload = JSON.parse(JSON.stringify(request.payload));
-      var labName = request.params.lab;
-      var orderNumber = rawPayload.orderNumber;
+      const rawPayload = JSON.parse(JSON.stringify(request.payload));
+      const labName = request.params.lab;
+      const orderNumber = rawPayload.orderNumber;
 
       return new Promise(function(resolve, reject) {
 
@@ -77,14 +77,14 @@ module.exports = function () {
             }else{
               reject('Error Generating Payload');
             }
-              
+
       //    } else {
 
       //      callback(Boom.badData('Forbidden: An order with the same order number exists in the eid system'));
       //    }
 
       //  }).catch(function(err) {
-      //    reject(err.message); 
+      //    reject(err.message);
        // });
 
       });
@@ -99,7 +99,7 @@ module.exports = function () {
         "DateDispatched" : ''
       };
 
-      var eidServer = eidService.getEidServerUrl(labName, '', 'post');
+      let eidServer = eidService.getEidServerUrl(labName, '', 'post');
 
       switch (rawPayload.type) {
           case 'VL':
@@ -122,7 +122,7 @@ module.exports = function () {
                 break;
               }
             }
-            
+
             eidServer = {
                 url: serverConfig.host + ':' + serverConfig.port + '/cd4/orders/api.php',
                 apiKey: apikey
@@ -147,7 +147,7 @@ module.exports = function () {
     function loadOrderJustifications(request, reply) {
 
       var uuid = request.query.uuid;
-      var eidOrderMap = require('../../service/eid/eid-order-mappings');
+      const eidOrderMap = require('../../app/lab-integration/utils/regimen-config-loader');
 
       var testOrderJustification = eidOrderMap.testOrderJustification;
 

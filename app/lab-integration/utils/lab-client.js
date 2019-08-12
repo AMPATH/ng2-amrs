@@ -74,7 +74,7 @@ export class LabClient {
 
     }
     postDNAPCR(payload) {
-        var options = {
+        const options = {
             uri: `${this.config.serverUrl}/api/eid`,
             headers: {
                 'apikey': this.config.apiKey
@@ -86,7 +86,7 @@ export class LabClient {
     }
 
     postViralLoad(payload) {
-        var options = {
+        const options = {
             uri: `${this.config.serverUrl}/api/vl`,
             headers: {
                 'apikey': this.config.apiKey
@@ -98,7 +98,7 @@ export class LabClient {
     }
 
     postCD4(payload) {
-        var options = {
+        const options = {
             uri: `${this.config.serverUrl}/api/cd4`,
             headers: {
                 'apikey': this.config.apiKey

@@ -991,7 +991,7 @@ module.exports = function () {
                             }
                             reply(summary);
                         });
-                        
+
                     },
                     description: 'Get patient HIV summary',
                     notes: "Returns a list of historical patient's HIV summary with the given patient uuid. " +
@@ -3294,7 +3294,6 @@ module.exports = function () {
                                 }else{
                                    console.error('Undefined Lab Configuration');
                                 }
-                               
                             }).then((result)=>{
                                 reply(result);
                             }).catch((error) => {
@@ -4395,7 +4394,7 @@ module.exports = function () {
                                 let reportParams = etlHelpers.getReportParams('breast-cancer-summary-dataset',
                                     ['startDate', 'endDate', 'period', 'locationUuids', 'indicators', 'genders', 'startAge', 'endAge'],
                                     requestParams);
-     
+
                                 let service = new LungCancerTreatmentSummary();
                                 service.getAggregateReport(reportParams).then((result) => {
                                     reply(result);
@@ -4456,7 +4455,7 @@ module.exports = function () {
                         }
                     },
                     handler: function (request, reply) {
-                        
+
                         let kibanaDashboard = kibanaService.getKibanaDashboards().then((result) => {
                                     console.log('Kibana Dashboard', result);
                                     reply(result);
@@ -4501,7 +4500,7 @@ module.exports = function () {
                             } else {
                                 reply(result);
                             }
-            
+
                         }).catch((error) => {
                             reply(error);
                         });
