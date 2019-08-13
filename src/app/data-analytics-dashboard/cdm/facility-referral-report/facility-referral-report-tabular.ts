@@ -77,6 +77,7 @@ export class FacilityReferralTabularComponent implements OnInit {
       _.each(Object.keys(this.data[0]), (selected) => {
         _.each(sectionsData, (data) => {
           if (selected === data.name) {
+            console.log('----------data----------------', data);
             defs.push({
               headerName: this.titleCase(data.label),
               field: data.name

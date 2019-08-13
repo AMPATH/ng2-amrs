@@ -9,10 +9,10 @@
 <h3>
 	Patient List | {{translatedIndicator}}
 </h3>
-<!-- <h5 class="text-muted">
-	(From: {{startDate | moment:'DD/MM/YYYY'}} To: {{endDate | moment:'DD/MM/YYYY'}})
-</h5> -->
-<hr/>
+<h5 class="text-muted">
+	(From: {{startDate}} To: {{endDate}})
+</h5>
+<hr />
 <patient-list [overrideColumns]="overrideColumns" [data]="patientData" [hivColumns]="true"></patient-list>
 <div *ngIf='!dataLoaded'>
 	<button [disabled]="isLoading" class="btn btn-primary" (click)="loadMorePatients()">
