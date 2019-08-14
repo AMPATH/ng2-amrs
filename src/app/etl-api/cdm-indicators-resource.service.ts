@@ -5,19 +5,19 @@ import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
 @Injectable()
-export class HivMonthlySummaryIndicatorsResourceService {
+export class CdmIndicatorsResourceService {
     constructor(private http: HttpClient, private appSettingsService: AppSettingsService,
                 private cacheService: DataCacheService) { }
 
     public getUrl(): string {
         return this.appSettingsService.getEtlRestbaseurl().trim()
-          + `hiv-summary-monthly-indicators`;
+          + `cdm-indicators`;
 
     }
 
     public getPatientListUrl(): string {
         return this.appSettingsService.getEtlRestbaseurl().trim()
-            + `hiv-summary-monthly-indicators/patient-list`;
+            + `cdm-indicators/patient-list`;
     }
 
     public getUrlRequestParams(params): HttpParams {
@@ -30,17 +30,17 @@ export class HivMonthlySummaryIndicatorsResourceService {
             urlParams = urlParams.set('indicator', params.indicator);
         }
 
-        urlParams.set('endDate', params.endDate)
-        .set('gender', params.gender)
-        .set('startDate', params.startDate)
-        .set('locationUuids', params.locationUuids)
-        .set('startAge', params.startAge)
-        .set('endAge', params.endAge);
+        urlParams = urlParams.set('endDate', params.endDate);
+        urlParams = urlParams.set('gender', params.gender);
+        urlParams = urlParams.set('startDate', params.startDate);
+        urlParams = urlParams.set('locationUuids', params.locationUuids);
+        urlParams = urlParams.set('startAge', params.startAge);
+        urlParams = urlParams.set('endAge', params.endAge);
 
         return urlParams;
     }
 
-    public getHivSummaryMonthlyIndicatorsReport(params) {
+    public getCdmIndicatorsReport(params) {
         const urlParams = this.getUrlRequestParams(params);
         const url = this.getUrl();
         const request = this.http.get(url, {
@@ -50,7 +50,7 @@ export class HivMonthlySummaryIndicatorsResourceService {
 
     }
 
-    public getHivSummaryMonthlyIndicatorsPatientList(params) {
+    public getCdmIndicatorsPatientList(params) {
         if (!params.startIndex) {
             params.startIndex = '0';
         }
