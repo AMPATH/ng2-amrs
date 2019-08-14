@@ -5,6 +5,7 @@
 				<th>Encounter Date</th>
 				<th>Encounter Type</th>
 				<th>RTC Date</th>
+				<th *ngIf="hasMedicationRtc">Medication Pick up Date</th>
 				<th>TB Treatment Start Date</th>
 				<th>TB Treatment End Date</th>
 				<th>ARV Meds</th>
@@ -18,6 +19,7 @@
 			<td>{{hivSummary.encounter_datetime | date:'dd-MM-yyyy'}}</td>
 			<td>{{hivSummary.encounter_type_name}}</td>
 			<td>{{hivSummary.rtc_date | date: 'dd-MM-yyyy'}}</td>
+			<td *ngIf="hasMedicationRtc">{{hivSummary.med_pickup_rtc_date | date: 'dd-MM-yyyy'}}</td>
 			<td>{{ hivSummary?.tb_tx_start_date | date:'dd-MM-yyyy'}}</td>
 			<td>{{ hivSummary?.tb_tx_end_date | date:'dd-MM-yyyy'}}</td>
 			<td>{{hivSummary.cur_arv_meds}}</td>
