@@ -273,6 +273,16 @@
         "sql":"t5.name"
       },
       {
+        "label": "gender",
+        "type": "single",
+        "sql": "t6.gender"
+      },
+      {
+        "label": "age",
+        "type": "single",
+        "sql": "extract(year from (from_days(datediff(now(),t6.birthdate))))"
+      },
+      {
         "label":"locationUuid",
         "type":"single",
         "sql":"t5.uuid"
