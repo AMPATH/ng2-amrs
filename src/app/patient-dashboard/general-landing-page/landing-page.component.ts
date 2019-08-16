@@ -13,7 +13,7 @@ import { PatientProgramResourceService } from '../../etl-api/patient-program-res
 import {
   DepartmentProgramsConfigService
 } from '../../etl-api/department-programs-config.service';
-import { PatientReferralService } from '../../program-manager/patient-referral-service';
+import { PatientReferralService } from '../../program-manager/patient-referral.service';
 import {
   UserDefaultPropertiesService
 } from '../../user-default-properties/user-default-properties.service';

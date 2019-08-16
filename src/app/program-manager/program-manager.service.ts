@@ -2,15 +2,13 @@ import { Injectable } from '@angular/core';
 
 import * as _ from 'lodash';
 import * as moment from 'moment';
+import { BehaviorSubject, Observable, forkJoin, of } from 'rxjs';
 
-import { PatientReferralService } from './patient-referral-service';
+import { PatientReferralService } from './patient-referral.service';
 import { UserService } from '../openmrs-api/user.service';
-
-import { BehaviorSubject, Observable, forkJoin } from 'rxjs';
 
 import { Patient } from '../models/patient.model';
 import { ProgramService } from '../patient-dashboard/programs/program.service';
-import { take } from 'rxjs/operators';
 import { PersonResourceService } from '../openmrs-api/person-resource.service';
 
 @Injectable()
@@ -19,12 +17,11 @@ export class ProgramManagerService {
   public requiredProgramQuestions: any[] = [];
   public referralCompleteStatus: BehaviorSubject<any> = new BehaviorSubject(null);
 
-  constructor(private patientReferralService: PatientReferralService,
-              private programService: ProgramService,
-              private personResourceService: PersonResourceService,
-              private userService: UserService) {
-
-  }
+  constructor(
+    private patientReferralService: PatientReferralService,
+    private programService: ProgramService,
+    private personResourceService: PersonResourceService,
+    private userService: UserService) { }
 
   public enrollPatient(payload) {
     return this.patientReferralService.createUpdatePatientEnrollment(payload);
@@ -50,6 +47,9 @@ export class ProgramManagerService {
 
   public editProgramEnrollments(theChange: string, patient: Patient, programs: any[], newLoc?) {
     const programBatch: Array<Observable<any>> = [];
+    if (programs.length === 0) {
+      return of(null);
+    }
     _.each(programs, (program: any) => {
       const location = program.enrolledProgram._openmrsModel.location.uuid;
       const unenrollPayload = this.programService.createEnrollmentPayload(
