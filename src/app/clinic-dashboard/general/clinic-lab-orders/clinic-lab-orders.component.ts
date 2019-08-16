@@ -177,6 +177,8 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
          {text: '#', style: 'tableHeader'},
          {text: 'Identifiers', style: 'tableHeader'},
          {text: 'Person Name', style: 'tableHeader'},
+         {text: 'Age', style: 'tableHeader'},
+         {text: 'Gender', style: 'tableHeader'},
          {text: 'Order No', style: 'tableHeader'},
          {text: 'Order Type', style: 'tableHeader'},
          {text: 'Date Ordered', style: 'tableHeader'},
@@ -274,6 +276,8 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
             dataRow.push({text: cnt, style: 'cellData'});
             dataRow.push({text: data.identifiers.replace( /,/g, ', '), style: 'cellData'});
             dataRow.push({text: data.person_name, style: 'cellData'});
+            dataRow.push({text: data.age, style: 'cellData'});
+            dataRow.push({text: data.gender, style: 'cellData'});
             dataRow.push({text: data.orderNumber, style: 'cellData'});
             dataRow.push({text: data.order_type, style: 'cellData'});
             dataRow.push({text: data.DateActivated, style: 'cellData'});
@@ -357,6 +361,18 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
         cellStyle: {
           'white-space': 'normal'
         },
+        filter: 'text'
+      },
+      {
+        headerName: 'Age',
+        field: 'age',
+        width: 90,
+        filter: 'text'
+      },
+      {
+        headerName: 'Gender',
+        field: 'gender',
+        width: 90,
         filter: 'text'
       },
       {
