@@ -28,7 +28,7 @@ export class ProgramEnrollmentPatientListComponent implements OnInit, OnDestroy 
     };
 
 
-    public enrollmentColdef: any = [
+    public defaultEnrollmentColdef: any = [
         { headerName: 'No', field: 'no' , width: 50},
         { headerName: 'Identifier', field: 'identifier' , width: 250,
         cellRenderer: (column) => {
@@ -38,10 +38,10 @@ export class ProgramEnrollmentPatientListComponent implements OnInit, OnDestroy 
             this.redirectTopatientInfo(column.data.patient_uuid);
         }
         },
-        { headerName: 'Name', field: 'name' , minWidth: 200 },
-        { headerName: 'Gender', field: 'gender', minWidth: 50 },
-        { headerName: 'Age', field: 'age', minWidth: 30 },
-        { headerName: 'Program', field: 'program',   minWidth: 600,
+        { headerName: 'Name', field: 'name' , width: 250 },
+        { headerName: 'Gender', field: 'gender', width: 100 },
+        { headerName: 'Age', field: 'age', width: 100 },
+        { headerName: 'Program', field: 'program', width: 500,
         cellRenderer : (params) => {
             return '<span>' + params.value + '</span>';
         },
@@ -51,6 +51,8 @@ export class ProgramEnrollmentPatientListComponent implements OnInit, OnDestroy 
             'overflow-y': 'scroll',
             'word-wrap': 'break-word'}}
     ];
+
+    public enrollmentColdef = [];
 
     public style = {
         marginTop: '20px',
@@ -97,12 +99,12 @@ export class ProgramEnrollmentPatientListComponent implements OnInit, OnDestroy 
             const hivColumns = [
                 {
                     headerName: 'Phone Number',
-                    width: 100,
+                    width: 150,
                     field: 'phone_number'
                 },
                 {
                     headerName: 'Latest Appointment',
-                    width: 250,
+                    width: 200,
                     field: 'last_appointment'
                 },
                 {
@@ -112,7 +114,7 @@ export class ProgramEnrollmentPatientListComponent implements OnInit, OnDestroy 
                 },
                 {
                     headerName: 'Current Regimen',
-                    width: 200,
+                    width: 400,
                     field: 'cur_meds'
                 },
                 {
@@ -141,7 +143,9 @@ export class ProgramEnrollmentPatientListComponent implements OnInit, OnDestroy 
                   field: 'nearest_center'
                 }
             ];
-            this.enrollmentColdef = _.concat(this.enrollmentColdef, hivColumns as Array<object>);
+            this.enrollmentColdef = _.concat(this.defaultEnrollmentColdef, hivColumns as Array<object>);
+        } else {
+            this.enrollmentColdef = this.defaultEnrollmentColdef;
         }
         this._route
         .queryParams
