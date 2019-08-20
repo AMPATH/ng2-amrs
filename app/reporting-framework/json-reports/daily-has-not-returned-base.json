@@ -108,7 +108,7 @@
             "alias": "patients",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(date(t2.rtc_date) = DATE('{startDate}') and t2.rtc_date = t7.max_rtc_date AND  t2.next_program_clinical_datetime IS NULL AND t8.person_id is null, 1, null)"
+                "expression": "if(date(t2.rtc_date) = DATE('{startDate}') and t2.rtc_date = t7.max_rtc_date AND  t2.next_program_clinical_datetime IS NULL, 1, null)"
             }
         }
     ],
