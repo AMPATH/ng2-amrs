@@ -27,6 +27,7 @@ import * as retention_dataset_base from './json-reports/retention-dataset-base.j
 import * as pep_dataset_aggregate from './json-reports/pep-dataset-aggregate.json';
 import * as pep_dataset_base from './json-reports/pep-dataset-base.json';
 import * as patient_list_template from './json-reports/patient-list-template.json';
+import * as patient_list_schedules_template from './json-reports/patient-list-schedules-template.json';
 import * as patient_list_frozen_template from './json-reports/patient-list-frozen-template.json';
 import * as ever_on_art_aggregate from './json-reports/ever-on-art-aggregate.json';
 import * as ever_on_art_disaggregation from './json-reports/ever-on-art-disaggregation.json';
@@ -194,6 +195,11 @@ export class BaseMysqlReport {
                 case 'patient-list-frozen-template':
                     resolve({
                         main: this.cloneJsonSchema(patient_list_frozen_template) //patient_list_frozen_template
+                    });
+                    break;
+                case 'patient-list-schedules-template':
+                    resolve({
+                        main: this.cloneJsonSchema(patient_list_schedules_template)
                     });
                     break;
                 case 'patient-list-with-contacts-template':
@@ -452,7 +458,7 @@ export class BaseMysqlReport {
                     });
                     break;
 
-                   
+
                 case 'lungCancerDailySummaryAggregate':
                     resolve({
                         main: this.cloneJsonSchema(lung_cancer_daily_screening_summary_aggregate),
@@ -468,7 +474,7 @@ export class BaseMysqlReport {
                     resolve({
                         main: this.cloneJsonSchema(lung_cancer_patient_list_template)
                     });
-                    break; 
+                    break;
 
                 case 'labsReportAggregate':
                     resolve({
