@@ -299,7 +299,7 @@
             "type": "simple_column",
             "alias": "date_patient_informed_of_results",
             "column": "(select DATE_FORMAT(date_patient_informed_referred, '%d-%M-%Y') from etl.flat_cervical_cancer_screening where encounter_type = 147 and (select date_patient_informed_referred from etl.flat_cervical_cancer_screening where encounter_type = 147 and person_id = p2.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_cervical_cancer_screening where encounter_type = 69 and person_id = p2.person_id order by encounter_datetime desc limit 1) and person_id = p2.person_id order by encounter_datetime desc limit 1)"
-        },    
+        },
         {
             "type": "derived_column",
             "alias": "diagnostic_interval",
@@ -315,7 +315,7 @@
             "expressionOptions": {
                 "caseOptions": [
                     {
-                        "condition": "TIMESTAMPDIFF(day, DATE(encounter_datetime), DATE(prior_biopsy_result_date)) <= 14",
+                        "condition": "TIMESTAMPDIFF(day, DATE(fccs.encounter_datetime), DATE(prior_biopsy_result_date)) <= 14",
                         "value": 1
                     }
                 ]
@@ -368,7 +368,7 @@
     "groupBy": {
         "groupParam": "groupByParam",
         "columns": [
-            "encounter_id"
+            "fccs.encounter_id"
         ]
     }
 }
