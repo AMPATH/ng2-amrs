@@ -10,7 +10,7 @@ var _ = require('lodash');
 var Boom = require('boom'); //extends Hapi Error Reporting. Returns HTTP-friendly error objects: github.com/hapijs/boom
 var helpers = require('../../etl-helpers');
 var patientReminderService = require('../../service/patient-reminder.service.js');
-import { getOncMeds } from '../../service/oncology/patient-oncology-summary-service'
+import { getOncMeds } from '../../service/oncology/patient-oncology-summary-service';
 module.exports = function () {
     function getPatientHivSummary(request, callback) {
         var uuid = request.params.uuid;
@@ -314,6 +314,12 @@ module.exports = function () {
                 row.cur_arv_meds = helpers.getARVNames(row.cur_arv_meds);
                 row.lab_errors = helpers.resolvedLabOrderErrors(row.vl_error, row.cd4_error, row.hiv_dna_pcr_error);
                 row.hiv_dna_pcr = helpers.getConceptName(row.hiv_dna_pcr);
+                row.pus_c_urine = helpers.getConceptName(row.pus_c_urine);
+                row.protein_urine = helpers.getConceptName(row.protein_urine);
+                row.leuc = helpers.getConceptName(row.leuc);
+                row.ketone = helpers.getConceptName(row.ketone);
+                row.sugar_urine = helpers.getConceptName(row.sugar_urine);
+                row.nitrites = helpers.getConceptName(row.nitrites);
                 row.chest_xray = helpers.getConceptName(row.chest_xray);
                 row.ecg = helpers.getConceptName(row.ecg);
                 row.test_datetime = row.test_datetime.toString();
