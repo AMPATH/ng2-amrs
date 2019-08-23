@@ -2033,7 +2033,7 @@
             "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
             "display": "DEATHREPORT"
           }, {
-            "uuid": "6accd920-6254-4063-bfd1-0e1b70b3f201",
+            "uuid": "5fa823ce-7592-482f-a0aa-361abf326ade",
             "display": "HematOncologyTriage"
           }
         ]
@@ -2047,7 +2047,7 @@
             "uuid": "eca95bb1-b651-45b7-85f8-2d3ce7e8313e",
             "display": "LUNGCANCERRETURN"
           }, {
-            "uuid": "6accd920-6254-4063-bfd1-0e1b70b3f201",
+            "uuid": "5fa823ce-7592-482f-a0aa-361abf326ade",
             "display": "HematOncologyTriage"
           }, {
             "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
@@ -2273,34 +2273,62 @@
     "name": "ANTICOAGULATION TREATMENT PROGRAM",
     "dataDependencies": [
       "patient",
-      "enrollment"
+      "enrollment",
+      "patientEncounters"
     ],
     "incompatibleWith": [],
-    "visitTypes": [{
-      "uuid": "a77b29b4-42c5-4cf0-a224-04f1ef877747",
-      "name": "Anticoagulation Treatment Visit",
-      "encounterTypes": [{
-            "uuid": "4a7450b1-f720-4a0c-b13b-d8a6a83348ee",
-            "display": "ANTICOAGULATIONINITIAL"
-          },
-          {
-            "uuid": "6accd920-6254-4063-bfd1-0e1b70b3f201",
-            "display": "ANTICOAGULATIONREFERRAL"
-          },
-          {
-            "uuid": "857170c9-f54a-4c1a-8382-5f4abe5d71dd",
-            "display": "ANTICOAGULATIONRETURN"
-          },
+    "visitTypes": [
+      {
+        "uuid": "e3aeaf3b-d4d8-4b72-9f8b-4afbcd434fc1",
+        "name": "Anticoagulation Initial Visit",
+        "message": "Patient must not have a prior clinical encounter.",
+        "allowedIf": "isFirstOncologyVisit",
+        "encounterTypes": [
           {
             "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
             "display": "DEATHREPORT"
           },
           {
+            "uuid": "6accd920-6254-4063-bfd1-0e1b70b3f201",
+            "display": "ANTICOAGULATIONTRIAGE"
+          },
+          {
+            "uuid": "4a7450b1-f720-4a0c-b13b-d8a6a83348ee",
+            "display": "ANTICOAGULATIONINITIAL"
+          }
+        ]
+      },
+      {
+        "uuid": "aa6392e8-e3b3-457d-a47a-29290cbf25eb",
+        "name": "Anticoagulation Return Visit",
+        "message": "Patient must have a prior clinical encounter.",
+        "allowedIf": "!isFirstOncologyVisit",
+        "encounterTypes": [
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "6accd920-6254-4063-bfd1-0e1b70b3f201",
+            "display": "ANTICOAGULATIONTRIAGE"
+          },
+          {
+            "uuid": "857170c9-f54a-4c1a-8382-5f4abe5d71dd",
+            "display": "ANTICOAGULATIONRETURN"
+          }
+        ]
+      },
+      {
+        "uuid": "c1be5560-5efe-493c-96f9-e40f0a724142",
+        "name": "Oncology Lab Visit",
+        "encounterTypes": [
+          {
             "uuid": "2cd62224-5507-48ee-a7b3-55f66162b148",
             "display": "ONCOLOGYLABENTRY"
           }
         ]
-    }]
+      }
+    ]
   },
   "40677054-c402-4c56-a0e4-5dd7d799b52f": {
     "name": "LYMPHOMA TREATMENT PROGRAM",

@@ -64,8 +64,9 @@ function buildScope(dataDictionary) {
  
   if (dataDictionary.patientEncounters) {
     scope.patientEncounters = dataDictionary.patientEncounters;
+    scope.programUuid = dataDictionary.programUuid;
     buildHivScopeMembers(scope, dataDictionary.patientEncounters);
-    buildOncologyScopeMembers(scope, dataDictionary.patientEncounters);
+    buildOncologyScopeMembers(scope, dataDictionary.patientEncounters, dataDictionary.programUuid);
   }
 
   // add other methods to build the scope objects
@@ -96,22 +97,46 @@ function isInitialPrepVisit(patientEncounters) {
   return initialPrEPEncounters.length === 0;
 }
 
-function isInitialOncologyVisit(patientEncounters) {
-  const initialOncologyEncounterTypes = [
-    'be7b0971-b2ab-4f4d-88c7-e7322aa58dbb', // Lung Cancer Initial
-    'd17b3adc-0837-4ac6-862b-0953fc664cb8', // General Oncology Initial
-    '9ad5292c-14c3-489b-9c14-5f816e839691', // Breast Cancer Initial
-    'ba5a15eb-576f-496b-a58d-e30b802a5da5', // Sickle Cell Initial
-    '3945005a-c24f-478b-90ec-4af84ffcdf6b', // Hemophilia Initial
-    'bf762b3e-b60a-436a-a40b-f874c59869ec' // Multiple Myeloma Initial
+function isInitialOncologyVisit(encounters, programUuid) {
+  const oncologyProgramEncounterTypeMap = [
+    {
+      programUuid: 'e8bc5036-1462-44fa-bcfe-ced21eae2790', // Lung Cancer Treatment Program
+      initialEncounterUuid: 'be7b0971-b2ab-4f4d-88c7-e7322aa58dbb' // Lung Cancer Initial
+    },
+    {
+      programUuid: '725b5193-3452-43fc-aca3-6a80432d9bfa', // General Oncology Program
+      initialEncounterUuid: 'd17b3adc-0837-4ac6-862b-0953fc664cb8' // General Oncology Initial
+    },
+    {
+      programUuid: '88566621-828f-4569-9af5-c54f8237750a', // Breast Cancer Treatment Program
+      initialEncounterUuid: '9ad5292c-14c3-489b-9c14-5f816e839691' // Breast Cancer Initial
+    },
+    {
+      programUuid: 'e48b266e-4d80-41f8-a56a-a8ce5449ebc6', // Sickle Cell Program
+      initialEncounterUuid: 'ba5a15eb-576f-496b-a58d-e30b802a5da5' // Sickle Cell Initial
+    },
+    {
+      programUuid: 'a3610ba4-9811-46b3-9628-83ec9310be13', // Hemophilia Program
+      initialEncounterUuid: '3945005a-c24f-478b-90ec-4af84ffcdf6b' // Hemophilia Initial
+    },
+    {
+      programUuid: '698b7153-bff3-4931-9638-d279ca47b32e', // Multiple Myeloma Program
+      initialEncounterUuid: 'bf762b3e-b60a-436a-a40b-f874c59869ec' // Multiple Myeloma Initial
+    },
+    {
+      programUuid: '418fe011-a903-4862-93d4-5e7c84d9c253', // Anticoagulation Program
+      initialEncounterUuid: '4a7450b1-f720-4a0c-b13b-d8a6a83348ee' // Anticoagulation Initial
+    }
   ];
   let initialOncologyEncounters = [];
-
-  initialOncologyEncounters = _.filter(patientEncounters, encounter => {
-    return initialOncologyEncounterTypes.includes(encounter.encounterType.uuid)
-  });
-
+  let initialEncounterType = oncologyProgramEncounterTypeMap.find(e => e.programUuid === programUuid);
+  if (initialEncounterType) {
+    initialOncologyEncounters = _.filter(encounters, encounter => {
+      return initialEncounterType.initialEncounterUuid === encounter.encounterType.uuid
+    });
+  }
   return initialOncologyEncounters.length === 0;
+  
 }
 
 function buildProgramScopeMembers(scope, programEnrollment) {
@@ -144,6 +169,6 @@ function buildHivScopeMembers(scope, lastTenHivSummary, intendedVisitLocationUui
   scope.isFirstPrEPVisit = isInitialPrepVisit(scope.patientEncounters);
 }
 
-function buildOncologyScopeMembers(scope) {
-  scope.isFirstOncologyVisit = isInitialOncologyVisit(scope.patientEncounters);
+function buildOncologyScopeMembers(scope, patientEncounters, programUuid) {
+  scope.isFirstOncologyVisit = isInitialOncologyVisit(scope.patientEncounters, programUuid);
 }
