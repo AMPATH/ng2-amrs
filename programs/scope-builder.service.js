@@ -97,6 +97,17 @@ function isInitialPrepVisit(patientEncounters) {
   return initialPrEPEncounters.length === 0;
 }
 
+function isInitialPepVisit(patientEncounters) {
+  const initialPEPEncounterUuid = 'c3a78744-f94a-4a25-ac9d-1c48df887895';
+  let initialPEPEncounters = [];
+
+  initialPEPEncounters = _.filter(patientEncounters, (encounter) => {
+    return encounter.encounterType.uuid === initialPEPEncounterUuid;
+  });
+
+  return initialPEPEncounters.length === 0;
+}
+
 function isInitialOncologyVisit(encounters, programUuid) {
   const oncologyProgramEncounterTypeMap = [
     {
@@ -128,15 +139,16 @@ function isInitialOncologyVisit(encounters, programUuid) {
       initialEncounterUuid: '4a7450b1-f720-4a0c-b13b-d8a6a83348ee' // Anticoagulation Initial
     }
   ];
+
   let initialOncologyEncounters = [];
   let initialEncounterType = oncologyProgramEncounterTypeMap.find(e => e.programUuid === programUuid);
+  
   if (initialEncounterType) {
     initialOncologyEncounters = _.filter(encounters, encounter => {
       return initialEncounterType.initialEncounterUuid === encounter.encounterType.uuid
     });
   }
   return initialOncologyEncounters.length === 0;
-  
 }
 
 function buildProgramScopeMembers(scope, programEnrollment) {
@@ -165,8 +177,9 @@ function buildHivScopeMembers(scope, lastTenHivSummary, intendedVisitLocationUui
     scope.isFirstAMPATHHIVVisit = !isIntraTransfer(lastTenHivSummary, intendedVisitLocationUuid);
     scope.previousHIVClinicallocation = null;
   }
-  // It's a first PrEP visit if the patient has no previous PrEP encounters
+  
   scope.isFirstPrEPVisit = isInitialPrepVisit(scope.patientEncounters);
+  scope.isFirstPEPVisit = isInitialPepVisit(scope.patientEncounters);
 }
 
 function buildOncologyScopeMembers(scope, patientEncounters, programUuid) {

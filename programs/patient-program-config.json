@@ -1262,7 +1262,8 @@
     "dataDependencies": [
       "patient",
       "enrollment",
-      "hivLastTenClinicalEncounters"
+      "hivLastTenClinicalEncounters",
+      "patientEncounters"
     ],
     "enrollmentOptions": {
       "requiredProgramQuestions": [{
@@ -1308,20 +1309,48 @@
       "0904172d-0b6a-40df-b8a2-b3653d16dc45",
       "a8e7c30d-6d2f-401c-bb52-d4433689a36b"
     ],
-    "visitTypes": [{
-        "uuid": "58f20c53-aac7-4e73-bd7a-97986435e570",
-        "name": "PEP Visit ",
-        "encounterTypes": [{
-            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
-            "display": "HIVTRIAGE"
-          },
+    "visitTypes": [
+      {
+        "uuid": "61207315-1e69-4453-9d32-8eb0027cf2f5",
+        "name": "PEP Initial Visit",
+        "allowedIf": "isFirstPEPVisit",
+        "message": "Patient must not have a prior clinical encounter.",
+        "encounterTypes": [
           {
             "uuid": "c3a78744-f94a-4a25-ac9d-1c48df887895",
             "display": "PEPINITIAL"
           },
           {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
+            "display": "DERMATOLOGYREFERRAL"
+          },
+          {
+            "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
+            "display": "FAMILYSTATUS"
+          }
+        ]
+      },
+      {
+        "uuid": "234e7374-2c3f-4cf3-a6b8-655cafb45cd4",
+        "name": "PEP Return Visit",
+        "allowedIf": "!isFirstPEPVisit",
+        "message": "Patient must have a prior clinical encounter.",
+        "encounterTypes": [
+          {
             "uuid": "f091b833-9e1a-4eef-8364-fc289095a832",
             "display": "PEPRETURN"
+          },
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
           },
           {
             "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
