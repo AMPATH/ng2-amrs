@@ -95,4 +95,24 @@ describe('Component: HivSummaryHistorical Unit Tests', () => {
 
   });
 
+  it('should return true of column exists and has a value', (done) => {
+
+  const testHasColumn = {
+    'med_pickup_rtc_date': '2019-08-26'
+  };
+  const testNoCol = {
+  };
+
+  const testHasNullColValue = {
+    'med_pickup_rtc_date': null
+  };
+
+  expect(component.hasColumnData(testHasColumn, 'med_pickup_rtc_date')).toBe(true);
+  expect(component.hasColumnData(testNoCol, 'med_pickup_rtc_date')).toBe(false);
+  expect(component.hasColumnData(testHasNullColValue, 'med_pickup_rtc_date')).toBe(false);
+
+  done();
+
+  });
+
 });
