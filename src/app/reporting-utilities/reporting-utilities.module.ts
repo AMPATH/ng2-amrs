@@ -11,6 +11,7 @@ import { EtlApi } from '../etl-api/etl-api.module';
 import { ReportFilterComponent } from './report-filter/report-filter.component';
 import { ChartModule } from 'angular2-highcharts';
 import { HighchartsStatic } from 'angular2-highcharts/dist/HighchartsService';
+import { ReportViewComponent } from './report-view/report-view.component';
 
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
@@ -34,7 +35,7 @@ export function highchartsFactory() {
     CalendarModule, OpenmrsApi, EtlApi,
     ChartModule
   ],
-  declarations: [ReportFilterComponent],
+  declarations: [ReportFilterComponent, ReportViewComponent],
   providers: [{
     provide: HighchartsStatic,
     useFactory: highchartsFactory
