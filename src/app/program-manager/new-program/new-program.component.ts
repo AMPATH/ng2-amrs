@@ -195,7 +195,7 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
         if (this.isReferral) {
           this.referPatient();
         } else {
-          this.isButtonVisible = true;
+          this.isButtonVisible = false;
           this.enrollPatientToProgram();
         }
       }
@@ -225,6 +225,7 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
         });
       }
       this.enrolling = false;
+      this.isButtonVisible = true;
       this.completeEnrollment();
     });
   }
