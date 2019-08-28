@@ -35,7 +35,7 @@
             "column": "srb.encounter_date"
         },
         {
-            "type": "simple_column",
+            "type": "simple_olumn",
             "alias": "end_date",
             "column": "srb.end_date"
         },
@@ -58,6 +58,11 @@
             "type": "simple_column",
             "alias": "prev_rtc_date",
             "column": "srb.prev_rtc_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "rtc_date",
+            "column": "srb.rtc_date"
         },
         {
             "type": "simple_column",
@@ -268,7 +273,7 @@
             "type": "simple_column",
             "alias": "status",
             "column": "srb.status"
-        },  
+        },
         {
             "type": "simple_column",
             "alias": "prev_status",
@@ -278,7 +283,7 @@
             "type": "simple_column",
             "alias": "cur_status",
             "column": "srb.cur_status"
-        },  
+        },
         {
             "type": "simple_column",
             "alias": "dc_eligible_cumulative",
@@ -286,8 +291,23 @@
         },
         {
             "type": "simple_column",
+            "alias": "dc_eligible_this_week",
+            "column": "srb.dc_eligible_this_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "dc_eligible_and_scheduled_this_week",
+            "column": "srb.dc_eligible_and_scheduled_this_week"
+        },
+        {
+            "type": "simple_column",
             "alias": "started_dc_this_week",
             "column": "srb.started_dc_this_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "active_on_dc",
+            "column": "srb.active_on_dc"
         },
         {
             "type": "simple_column",
@@ -359,34 +379,32 @@
             "alias": "defaulted_this_week",
             "column": "srb.defaulted_this_week"
         },
-        
+
         {
             "type": "simple_column",
-            "alias": "all_ltfu_this_week",
-            "column": "srb.all_ltfu_this_week"
+            "alias": "all_ltfus",
+            "column": "srb.all_ltfus"
         },
         {
             "type": "simple_column",
-            "alias": "active_october_2018_and_ltfu_may_2019_cohort",
-            "column": "srb.active_october_2018_and_ltfu_may_2019_cohort"
+            "alias": "is_ltfu_surge_baseline",
+            "column": "srb.is_ltfu_surge_baseline"
         },
         {
             "type": "simple_column",
-            "alias": "active_october_2018_and_ltfu_this_week",
-            "column": "srb.active_october_2018_and_ltfu_this_week"
+            "alias": "surge_ltfu_and_ltfu_after_may",
+            "column": "srb.surge_ltfu_and_ltfu_after_may"
         },
         {
             "type": "simple_column",
-            "alias": "ltfu_may_2019_and_ltfu_this_week",
-            "column": "srb.ltfu_may_2019_and_ltfu_this_week"
+            "alias": "surge_ltfu_and_still_ltfu",
+            "column": "srb.surge_ltfu_and_still_ltfu"
         },
         {
             "type": "simple_column",
             "alias": "newly_ltfu_this_week",
             "column": "srb.newly_ltfu_this_week"
         },
-
-        
         {
             "type": "simple_column",
             "alias": "missed_tx2_visit_this_week",
@@ -432,14 +450,170 @@
             "alias": "clinical_visit_num",
             "column": "srb.clinical_visit_num"
         },
-
-        
-
-
+        {
+            "type": "simple_column",
+            "alias": "ltfu_cumulative_outcomes_total",
+            "column": "srb.ltfu_cumulative_outcomes_total"
+        },
+        {
+            "type": "simple_column",
+            "alias": "tx2_unscheduled_this_week",
+            "column": "srb.tx2_unscheduled_this_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "dead_this_week",
+            "column": "srb.dead_this_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "non_ltfu_dead_this_week",
+            "column": "srb.non_ltfu_dead_this_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "cumulative_dead",
+            "column": "srb.cumulative_dead"
+        },
+        {
+            "type": "simple_column",
+            "alias": "eligible_and_on_dc",
+            "column": "srb.eligible_and_on_dc"
+        },
+        {
+            "type": "simple_column",
+            "alias": "eligible_not_on_dc",
+            "column": "srb.eligible_not_on_dc"
+        },
+        {
+            "type": "simple_column",
+            "alias": "eligible_not_on_dc_and_scheduled_this_week",
+            "column": "srb.eligible_not_on_dc_and_scheduled_this_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "eligible_not_on_dc_and_unscheduled_this_week",
+            "column": "srb.eligible_not_on_dc_and_unscheduled_this_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "eligible_and_on_dc_and_scheduled_this_week",
+            "column": "srb.eligible_and_on_dc_and_scheduled_this_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "eligible_and_on_dc_and_unscheduled_this_week",
+            "column": "srb.eligible_and_on_dc_and_unscheduled_this_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "elligible_total",
+            "column": "srb.elligible_total"
+        },
+        {
+            "type": "simple_column",
+            "alias": "ltfu_transfer_out_this_week",
+            "column": "srb.ltfu_transfer_out_this_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "ltfu_death_this_week",
+            "column": "srb.ltfu_death_this_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "ltfu_active_this_week",
+            "column": "srb.ltfu_active_this_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "is_ltfu_after_may",
+            "column": "srb.is_ltfu_after_may"
+        },
+        {
+            "type": "simple_column",
+            "alias": "old_ltfus_to_active",
+            "column": "srb.old_ltfus_to_active"
+        },
+        {
+            "type": "simple_column",
+            "alias": "old_ltfus_to_active_this_week",
+            "column": "srb.old_ltfus_to_active_this_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "interventions",
+            "column": "srb.interventions"
+        },
+        {
+            "type": "simple_column",
+            "alias": "intervention_done_this_week",
+            "column": "srb.intervention_done_this_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "has_vl_this_week_and_suppressed",
+            "column": "srb.has_vl_this_week_and_suppressed"
+        },
+        {
+            "type": "simple_column",
+            "alias": "due_for_vl_has_vl_order_scheduled",
+            "column": "srb.due_for_vl_has_vl_order_scheduled"
+        },
+        {
+            "type": "simple_column",
+            "alias": "due_for_vl_has_vl_order_unscheduled",
+            "column": "srb.due_for_vl_has_vl_order_unscheduled"
+        },
+        {
+            "type": "simple_column",
+            "alias": "due_for_vl_dont_have_order_scheduled",
+            "column": "srb.due_for_vl_dont_have_order_scheduled"
+        },
+        {
+            "type": "simple_column",
+            "alias": "due_for_vl_dont_have_order_unscheduled",
+            "column": "srb.due_for_vl_dont_have_order_unscheduled"
+        },
+        {
+            "type": "simple_column",
+            "alias": "has_vl_this_week_and_unsuppressed",
+            "column": "srb.has_vl_this_week_and_unsuppressed"
+        },
+        {
+            "type": "simple_column",
+            "alias": "missed_to_active_this_week",
+            "column": "srb.missed_to_active_this_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "defaulter_to_active_this_week",
+            "column": "srb.defaulter_to_active_this_week"
+        },
+        {
+            "type": "simple_column",
+            "alias": "not_elligible_and_on_dc",
+            "column": "srb.not_elligible_and_on_dc"
+        },
+        {
+            "type": "simple_column",
+            "alias": "tx2_scheduled_this_week_but_came_early",
+            "column": "srb.tx2_scheduled_this_week_but_came_early"
+        },
+        {
+            "type": "simple_column",
+            "alias": "elligible_total_revised",
+            "column": "srb.elligible_total_revised"
+        },
         {
             "type": "simple_column",
             "alias": "location_uuid",
             "column": "l.uuid"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location_id",
+            "column": "l.location_id"
         },
         {
             "type": "simple_column",

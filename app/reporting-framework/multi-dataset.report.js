@@ -4,7 +4,6 @@ import {
 import {
     BaseMysqlReport
 } from './base-mysql.report';
-import ReportProcessorHelpersService from './report-processor-helpers.service';
 export class MultiDatasetReport extends BaseMysqlReport {
     constructor(reportName, params) {
         super(reportName, params);
