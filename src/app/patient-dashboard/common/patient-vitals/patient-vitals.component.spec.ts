@@ -269,6 +269,7 @@ describe('Component: Vitals Unit Tests', () => {
 
   it('should show patient vitals after the component initializes', async(() => {
     expect(component.vitals.length).toEqual(0, 'No vitals yet');
+    component.isDepartmentOncology = true;
     fixture.detectChanges();
     const vitalsLabels = nativeElement.querySelectorAll('.labels');
     const vitalsList = <HTMLElement>nativeElement.querySelector('.vitals');
