@@ -1,0 +1,475 @@
+[
+  {
+    "name": "patient-peer-navigator-referral-report",
+    "table": {
+      "schema": "etl",
+      "tableName": "patient_referral",
+      "alias": "t1"
+    },
+    "joins": [
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "patient_program",
+        "alias": "t4",
+        "joinExpression": "t1.patient_program_id = t4.patient_program_id"
+      },
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "program",
+        "alias": "t2",
+        "joinExpression": "t4.program_id = t2.program_id"
+      },
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "program_workflow",
+        "alias": "t3",
+        "joinExpression": "t2.program_id = t3.program_id"
+      },
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "patient_state",
+        "alias": "t5",
+        "joinExpression": "t4.patient_program_id = t5.patient_program_id and t5.end_date is null"
+      },
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "program_workflow_state",
+        "alias": "t6",
+        "joinExpression": "t3.program_workflow_id = t6.program_workflow_id and t5.state = t6.program_workflow_state_id"
+      },
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "location",
+        "alias": "t7",
+        "joinExpression": "t4.location_id = t7.location_id"
+      },
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "concept",
+        "alias": "t8",
+        "joinExpression": "t6.concept_id = t8.concept_id"
+      },
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "concept_name",
+        "alias": "t9",
+        "joinExpression": "t6.concept_id = t9.concept_id and t9.voided = 0"
+      },
+
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "person",
+        "alias": "t10",
+        "joinExpression": "t4.patient_id = t10.person_id"
+      },
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "provider",
+        "alias": "t14",
+        "joinExpression": "t14.provider_id = t1.provider_id"
+      }
+    ],
+    "parameters": [
+      {"name":"startDate", "defaultValue":["10-10-2010"]},
+      {"name":"endDate", "defaultValue":["defaultValue"]},
+      {"name":"locationUuids","defaultValue":[]},
+      {"name":"programUuids","defaultValue":[]},
+      {"name":"providerUuids","defaultValue":[]},
+      {"name":"stateUuids","defaultValue":[]},
+      {"name":"conceptUuids","defaultValue":[]},
+      {"name":"startAge", "defaultValue":[]},
+      {"name":"endAge", "defaultValue":[]},
+      {"name":"gender", "defaultValue":[]},
+      {"name":"groupByLocation", "defaultValue":[
+        {
+          "label": "location",
+          "expression": "t4.location_id"
+        }
+
+      ]
+      },
+      {
+        "name": "groupByState",
+        "defaultValue": [
+          {
+            "label": "state",
+            "expression": "t5.state"
+          }
+        ]
+      },
+      {
+        "name": "groupByProgram",
+        "defaultValue": [
+          {
+            "label": "program",
+            "expression": "t4.program_id"
+          }
+        ]
+      }
+    ],
+    "filters": [
+
+      {
+        "expression": "t2.uuid in ?",
+        "parameter": "programUuids"
+      },
+      {
+        "expression": "t7.uuid in ?",
+        "parameter": "locationUuids"
+      },
+
+      {
+        "expression":"t10.gender in ?",
+        "parameter":"gender"
+      },
+      {
+        "expression": "t8.uuid in ?",
+        "parameter": "stateUuids"
+      },
+      {
+        "expression": "t14.uuid in ?",
+        "parameter": "providerUuids"
+      },
+      {
+        "expression":"DATE_FORMAT(t5.date_created, '%Y-%m-%d') >= ?",
+        "parameter":"startDate"
+      },
+      {
+        "expression":" DATE_FORMAT(t5.date_created, '%Y-%m-%d') <= ?",
+        "parameter":"endDate"
+      }
+    ],
+    "groupClause": [
+      {"parameter":"groupByLocation"},
+      {"parameter":"groupByProgram"},
+      {"parameter":"groupByState"}
+
+    ],
+    "orderBy": [],
+    "indicators": [],
+    "supplementColumns": [
+      {
+        "label": "counts",
+        "type": "single",
+        "sql": "count(distinct t4.patient_id)"
+      },
+      {
+        "label": "state",
+        "type": "single",
+        "sql": "t5.state"
+      },
+      {
+        "label": "program_id",
+        "type": "single",
+        "sql": "t4.program_id"
+      },
+      {
+        "label": "programUuids",
+        "type": "single",
+        "sql": "t2.uuid"
+      },
+      {
+        "label": "locationUuids",
+        "type": "single",
+        "sql": "t7.uuid"
+      },
+      {
+        "label": "location",
+        "type": "single",
+        "sql": "t7.name"
+      },
+      {
+        "label": "location_id",
+        "type": "single",
+        "sql": "t4.location_id"
+      },
+      {
+        "label": "conceptUuids",
+        "type": "single",
+        "sql": "t8.uuid"
+      },
+
+      {
+        "label": "state_name",
+        "type": "single",
+        "sql": "t9.name"
+      },
+      {
+        "label": "program",
+        "type": "single",
+        "sql": "t2.name"
+      },
+      {
+        "label": "person_id",
+        "type": "single",
+        "sql": "t4.patient_id"
+      },
+      {
+        "label": "referred_to_location_id",
+        "type": "single",
+        "sql": "t1.referred_to_location_id"
+      },
+      {
+        "label": "referred_from_location_id",
+        "type": "single",
+        "sql": "t1.referred_from_location_id"
+      },
+      {
+        "label": "date_created",
+        "type": "single",
+        "sql": "t1.date_created"
+      }
+    ],
+    "indicatorHandlers": [
+      {
+        "processor": "processPatientReferral",
+        "indicators": []
+      }
+    ]
+
+
+  },
+  {
+    "name": "referral-patient-list",
+    "table": {
+      "schema": "etl",
+      "tableName": "patient_referral",
+      "alias": "t10"
+    },
+    "joins": [
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "patient_program",
+        "alias": "t1",
+        "joinExpression": "t10.patient_program_id  = t1.patient_program_id"
+      },
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "person_name",
+        "alias": "t2",
+        "joinExpression": "t1.patient_id  = t2.person_id and (t2.voided is null || t2.voided = 0)"
+      },
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "patient_identifier",
+        "alias": "t3",
+        "joinExpression": "t1.patient_id  = t3.patient_id"
+      },
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "person",
+        "alias": "t4",
+        "joinExpression": "t1.patient_id  = t4.person_id"
+      },
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "program",
+        "alias": "t5",
+        "joinExpression": "t1.program_id = t5.program_id"
+      },
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "patient_state",
+        "alias": "t6",
+        "joinExpression": "t1.patient_program_id = t6.patient_program_id and t6.end_date is null"
+      },
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "program_workflow_state",
+        "alias": "t7",
+        "joinExpression": "t6.state = t7.program_workflow_state_id"
+      },
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "concept_name",
+        "alias": "t8",
+        "joinExpression": "t8.concept_id = t7.concept_id and t8.voided = 0"
+      },
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "location",
+        "alias": "t9",
+        "joinExpression": "t1.location_id = t9.location_id"
+      },
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "concept",
+        "alias": "t11",
+        "joinExpression": "t11.concept_id = t7.concept_id"
+      },
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "provider",
+        "alias": "t14",
+        "joinExpression": "t14.provider_id = t10.provider_id"
+      }
+    ],
+    "parameters": [
+      {"name":"startDate", "defaultValue":["10-10-2010"]},
+      {"name":"endDate", "defaultValue":["defaultValue"]},
+      {"name":"locationUuids","defaultValue":[]},
+      {"name":"programUuids","defaultValue":[]},
+      {"name":"stateUuids","defaultValue":[]},
+      {"name":"startAge", "defaultValue":[]},
+      {"name":"endAge", "defaultValue":[]},
+      {"name":"gender", "defaultValue":[]},
+      {"name":"providerUuids", "defaultValue":[]},
+      {"name":"groupByLocation", "defaultValue":[
+        {
+          "label": "location",
+          "expression": "t1.location_id"
+        }
+
+      ]
+      },
+      {
+        "name": "groupByState",
+        "defaultValue": [
+          {
+            "label": "state",
+            "expression": "t6.state"
+          }
+        ]
+      },
+      {
+        "name": "groupByProgram",
+        "defaultValue": [
+          {
+            "label": "program",
+            "expression": "t1.program_id"
+          }
+        ]
+      },
+      {
+        "name": "groupByPerson",
+        "defaultValue": [
+          {
+            "label": "person_id",
+            "expression": "t1.patient_id"
+          }
+        ]
+      }
+    ],
+    "filters": [
+      {
+        "expression":"DATE_FORMAT(t6.date_created, '%Y-%m-%d') >= ?",
+        "parameter":"startDate"
+      },
+      {
+        "expression":" DATE_FORMAT(t6.date_created, '%Y-%m-%d') <= ?",
+        "parameter":"endDate"
+      },
+      {
+        "expression": "t9.uuid in ?",
+        "parameter": "locationUuids"
+      },
+      {
+        "expression": "t5.uuid in ?",
+        "parameter": "programUuids"
+      },
+      {
+        "expression": "t11.uuid in ?",
+        "parameter": "stateUuids"
+      },
+      {
+        "expression": "t14.uuid in ?",
+        "parameter": "providerUuids"
+      }
+    ],
+    "groupClause": [
+      {
+        "parameter": "groupByPerson"
+      }
+    ],
+    "indicators": [],
+    "supplementColumns": [
+      {
+        "label": "person_id",
+        "type": "single",
+        "sql": "t1.patient_id"
+      },
+      {
+        "label": "given_name",
+        "type": "single",
+        "sql": "t2.given_name"
+      },
+      {
+        "label": "middle_name",
+        "type": "single",
+        "sql": "t2.middle_name"
+      },
+      {
+        "label": "family_name",
+        "type": "single",
+        "sql": "t2.family_name"
+      },
+      {
+        "label": "identifiers",
+        "type": "single",
+        "sql": "group_concat(distinct t3.identifier)"
+      },
+      {
+        "label": "gender",
+        "type": "single",
+        "sql": "t4.gender"
+      },
+      {
+        "label": "patient_uuid",
+        "type": "single",
+        "sql": "t4.uuid"
+      },
+      {
+        "label": "age",
+        "type": "single",
+        "sql": "extract(year from (from_days(datediff(now(),t4.birthdate))))"
+      },
+     {
+        "label": "program_name",
+        "type": "single",
+        "sql": "t5.name"
+      },
+       {
+        "label": "location_name",
+        "type": "single",
+        "sql": "t9.name"
+      },
+      {
+        "label": "state_name",
+        "type": "single",
+        "sql": "t8.name"
+
+      },
+      {
+        "label": "current_state_date",
+        "type": "single",
+        "sql": "t6.date_created"
+      },
+      {
+        "label": "initial_referral_date",
+        "type": "single",
+        "sql":  "t10.date_created"
+      }
+    ]
+  }
+]

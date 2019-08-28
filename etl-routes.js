@@ -4515,6 +4515,73 @@ module.exports = function () {
                         params: {}
                     }
                 }
+            },
+            {
+                method: 'GET',
+                path: '/etl/patient-referrals-peer-navigator',
+                config: {
+                    auth: 'simple',
+                    plugins: {
+                        'openmrsLocationAuthorizer': {
+                            locationParameter: [{
+                                type: 'query', //can be in either query or params so you have to specify
+                                name: 'locationUuids' //name of the location parameter
+                            }],
+                            aggregateReport: [ //set this if you want to  validation checks for certain aggregate reports
+                                {
+                                    type: 'query', //can be in either query or params so you have to specify
+                                    name: 'reportName', //name of the parameter
+                                    value: 'patient-peer-navigator-referral-report' //parameter value
+                                }
+                            ]
+                        }
+                    },
+                    handler: function (request, reply) {
+                        //security check
+                        request.query.reportName = 'patient-referral-report';
+                        if (!authorizer.hasReportAccess(request.query.reportName)) {
+                            return reply(Boom.forbidden('Unauthorized'));
+                        }
+
+                        let requestParams = Object.assign({}, request.query, request.params);
+                        requestParams.reportName = 'referral-patient-peer-navigator-list';
+                        let service = new PatientReferralService();
+
+                        service.getPatientListReport3(requestParams).then((result) => {
+
+                            reply(result);
+                        }).catch((error) => {
+                            reply(error);
+                        });
+
+                    },
+                    description: 'Get the patient list for CDM strengths study',
+                    notes: 'Returns the normal referral patient list plus some additional columns for front end processing',
+                    tags: ['api'],
+                    validate: {
+                        query: {
+                            locationUuids: Joi.string()
+                                .optional()
+                                .description("A list of comma separated location uuids"),
+                            startDate: Joi.string()
+                                .optional()
+                                .description("The start date to filter by"),
+                            endDate: Joi.string()
+                                .optional()
+                                .description("The end date to filter by"),
+                            programUuids: Joi.string()
+                                .optional()
+                                .description("The program to filter by"),
+                            limit: Joi.string()
+                                .optional()
+                                .description("The limit to indicate number of rows"),
+                            department: Joi.string()
+                                .optional()
+                                .description("The department to filter by")
+
+                        }
+                    }
+                }
             }
         ];
 

@@ -1,0 +1,194 @@
+
+{
+    "name": "referralDataSetbase",
+    "version": "1.0",
+    "tag": "",
+    "description": "",
+    "uses": [],
+    "sources": [
+
+        {
+            "table": "amrs.patient_program",
+            "alias": "t3"
+        },
+        {
+            "table": "etl.patient_referral",
+            "alias": "t4",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "t4.patient_program_id  = t3.patient_program_id"
+            }
+        },
+        {
+            "table": "amrs.program",
+            "alias": "t5",
+            "join": {
+                "type": "INNER",
+                "joinCondition": "t3.program_id = t5.program_id"
+            }
+        },
+        {
+            "table": "amrs.location",
+            "alias": "t9",
+            "join": {
+                "type": "INNER",
+                "joinCondition": "t3.location_id = t9.location_id"
+            }
+        },
+        {
+            "table": "amrs.location",
+            "alias": "location",
+            "join": {
+                "type": "INNER",
+                "joinCondition": "t4.referred_from_location_id = location.location_id"
+            }
+        },
+        {
+            "table": "etl.flat_cdm_peer_navigation",
+            "alias": "peer_navigation",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "t3.patient_id = peer_navigation.person_id"
+            }
+        },
+        {
+            "table": "etl.flat_cdm_peer_navigation",
+            "alias": "initial_encounter",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "t3.patient_id = initial_encounter.person_id and initial_encounter.encounter_type = 192"
+            }
+        },
+        {
+            "table": "etl.flat_cdm_peer_navigation",
+            "alias": "follow_up_encounter",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "t3.patient_id = follow_up_encounter.person_id and follow_up_encounter.encounter_type = 193 "
+            }
+        }
+
+
+    ],
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias": "patient_id",
+            "column": "t3.patient_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "program",
+            "column": "t5.name"
+        },
+        {
+            "type": "simple_column",
+            "alias": "programUuids",
+            "column": "t5.uuid"
+        },
+        {
+            "type": "simple_column",
+            "alias": "program_id",
+            "column": "t5.program_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location",
+            "column": "t9.name"
+        },
+        {
+            "type": "simple_column",
+            "alias": "locationUuids",
+            "column": "t9.uuid"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location_id",
+            "column": "t9.location_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "referred_from",
+            "column": "location.name"
+        },
+        {
+            "type": "simple_column",
+            "alias": "date_referred",
+            "column": "DATE_FORMAT(t4.date_created, '%Y-%m-%d')"
+        },
+        {
+            "type": "derived_column",
+            "alias": "review_status",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if (t4.notification_status IS NULL, 'PENDING', 'DONE')"
+            }
+        },
+        {
+            "type": "simple_column",
+            "alias": "is_referal_complete",
+            "column": "peer_navigation.is_referal_completed"
+        },
+        {
+            "type": "simple_column",
+            "alias": "encounter_type",
+            "column": "peer_navigation.encounter_type"
+        },
+        {
+            "type": "simple_column",
+            "alias": "referal_status",
+            "column": "peer_navigation.patient_referal_status"
+        },
+        {
+            "type": "simple_column",
+            "alias": "referral_urgency",
+            "column": "peer_navigation.referal_category"
+        },
+        {
+            "type": "simple_column",
+            "alias": "referred_in_or_out",
+            "column": "peer_navigation.referred_in_or_out"
+        },
+
+        {
+            "type": "derived_column",
+            "alias": "initial_encounter",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if (initial_encounter.encounter_type IS NOT NULL,1,0)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "follow_up_encounter",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if (follow_up_encounter.encounter_type IS NOT NULL,1,0)"
+            }
+        }
+    ],
+    "orderBy": {
+        "orderByParam": "orderByParam",
+
+
+        "columns": [{
+            "column": "t4.notification_status",
+            "order": "asc"
+        }]
+    },
+    "filters": {
+        "conditionJoinOperator": "and",
+        "conditions": [
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "DATE_FORMAT(t4.date_created, '%Y-%m-%d') >= ?",
+                "parameterName": "startDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "DATE_FORMAT(t4.date_created, '%Y-%m-%d') <= ?",
+                "parameterName": "endDate"
+            }
+        ]
+    }
+}

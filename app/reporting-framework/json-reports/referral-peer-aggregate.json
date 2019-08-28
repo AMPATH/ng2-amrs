@@ -17,6 +17,7 @@
         }
     ],
     "columns": [
+
         {
             "type": "simple_column",
             "alias": "program",

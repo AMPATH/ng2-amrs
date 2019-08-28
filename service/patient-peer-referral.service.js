@@ -69,24 +69,5 @@ export class PatientReferralService {
                     reject(errors);
                 });
         });
-      }
-    getPatientListReport3(reportParams) {
-        // let self = this;
-        return new Promise(function (resolve, reject) {
-            reportParams.groupBy = 'groupByPerson';
-            reportParams.notificationStatus = reportParams.notificationStatus ? null : 'null';
-            let report = new PatientlistMysqlReport('referral-patient-peer-navigator-list', reportParams);
-            Promise.join(report.generatePatientListReport([]),
-                (results) => {
-                    // results.result = results.results.results;
-                    let data = results;
-                    data.result = results.results.results;
-                    // let data = results.results.results;
-                    resolve(data);
-                })
-                .catch((errors) => {
-                    reject(errors);
-                });
-        });
     }
 }

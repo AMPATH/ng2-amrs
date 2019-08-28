@@ -1,8 +1,8 @@
 {
-    "name": "referral_patient_list_template",
+    "name": "referral_patient_list_peer_template",
     "version": "1.0",
-    "tag": "referral_patient_list_template",
-    "description": "Referral patient list template",
+    "tag": "referral_patient_list_peer_template",
+    "description": "Referral peer patient list template",
     "sources": [
         {
             "table": "amrs.person",
@@ -31,7 +31,32 @@
                 "type": "LEFT",
                 "joinCondition": "t1.person_id = contacts.person_id AND (contacts.voided IS NULL || contacts.voided = 0) AND contacts.person_attribute_type_id = 10"
             }
+        },
+        {
+            "table": "etl.flat_cdm_peer_navigation",
+            "alias": "peer_navigation",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "peer_navigation.person_id = t1.person_id"
+            }
+        },
+        {
+            "table": "etl.flat_cdm_peer_navigation",
+            "alias": "peer_initial",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "peer_initial.person_id = t1.person_id AND peer_initial.encounter_type = 192"
+            }
         }
+        {
+            "table": "etl.flat_cdm_peer_navigation",
+            "alias": "peer_follow_up",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "peer_follow_up.person_id = t1.person_id AND peer_follow_up.encounter_type = 193"
+            }
+        }
+
     ],
     "columns": [
         {
@@ -93,7 +118,39 @@
             "expressionOptions": {
                 "expression": " GROUP_CONCAT(DISTINCT id.identifier SEPARATOR ', ')"
             }
+        },
+        {
+            "type": "simple_column",
+            "alias": "is_referral_complete",
+            "column": "peer_navigation.is_referal_completed"
+        },
+        {
+            "type": "simple_column",
+            "alias": "patient_referal_status",
+            "column": "peer_navigation.patient_referal_status"
+        },
+        {
+            "type": "simple_column",
+            "alias": "encounter_type",
+            "column": "peer_navigation.encounter_type"
+        },
+        {
+            "type": "derived_column",
+            "alias": "initial_encounter",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if (peer_initial.encounter_type =192, 1, 0)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "follow_up_encounter",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if (peer_follow_up.encounter_type =193, 1, 0)"
+            }
         }
+
     ],
     "groupBy":{
         "columns":["t1.person_id"]
