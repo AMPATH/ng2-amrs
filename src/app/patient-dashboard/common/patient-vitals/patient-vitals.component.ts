@@ -108,7 +108,7 @@ export class PatientVitalsComponent implements OnInit, OnDestroy {
   }
 
   public getUserDefaultDepartment() {
-    if (this.selectDepartmentService.getUserSetDepartment() === 'ONCOLOGY') {
+    if (this.selectDepartmentService.getUserSetDepartment() === 'HEMATO-ONCOLOGY') {
       this.isDepartmentOncology = true;
     }
   }
