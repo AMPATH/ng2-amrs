@@ -146,6 +146,13 @@
           "icon": "fa fa-th-list",
           "isSideBarOpen": false
         },
+
+        {
+          "url": "surge-reports",
+          "label": "Surge Reports",
+          "icon": "fa fa-area-chart",
+          "isSideBarOpen": false
+        },
         {
           "url": "department-select",
           "label": "Change Department",

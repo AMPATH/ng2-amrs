@@ -22,6 +22,8 @@ import { Moh731MonthlyVizComponent } from './moh-731-monthly-viz/moh-731-monthly
 import {
   DashboardsViewerComponent
 } from '../../kibana-lib';
+import { SurgeReportComponent } from './surge/surge-report.component';
+import { SurgeReportPatientListComponent } from 'src/app/hiv-care-lib/surge-report/surge-report-patient-list.component';
 
 const routes: Routes = [
   {
@@ -127,6 +129,19 @@ const routes: Routes = [
   {
     path: 'select-department',
     component: ChangeDepartmentComponent
+  },
+  {
+    path: 'surge',
+    children: [
+      {
+        path: 'surge-report-patientlist',
+        component: SurgeReportPatientListComponent
+      },
+      {
+        path: '',
+        component: SurgeReportComponent
+      }
+    ]
   }
 ];
 

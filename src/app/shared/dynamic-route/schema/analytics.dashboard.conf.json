@@ -90,6 +90,12 @@
           "isSideBarOpen": false
         },
         {
+          "url": "surge",
+          "label": "Surge Reports",
+          "icon": "fa fa-area-chart",
+          "isSideBarOpen": false
+        },
+        {
           "url": "select-department",
           "label": "Change Department",
           "icon": "fa fa-exchange",

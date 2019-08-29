@@ -84,7 +84,6 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
       startAge: this.startAge,
       endAge: this.endAge
     };
-
     const uuids = this.getSelectedLocations(this.locationUuids);
     if (!this.indicators || this.indicators === undefined) {
       this.isLoadingReport = false;
