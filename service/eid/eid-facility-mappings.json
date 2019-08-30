@@ -1735,5 +1735,15 @@
         "description": "A Private Hospital in Eldoret.",
         "mflCode": "23646",
         "eidDisplay": ""
+    },
+    "538c14c2-c98a-49a2-9e11-0af6f7b912dc":{
+        "mrsId": 196,
+        "mrsDisplay": "Mediheal Hospital",
+        "cityVillage": "Eldoret",
+        "county": "",
+        "description": "A ppp Clinic in Eldoret",
+        "mflCode": "15167",
+        "eidDisplay": ""
+    
     }
 }
