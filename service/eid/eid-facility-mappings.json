@@ -1744,6 +1744,429 @@
         "description": "A ppp Clinic in Eldoret",
         "mflCode": "15167",
         "eidDisplay": ""
-    
-    }
+
+    },
+    "02e85257-94d6-43bf-8603-322248c1a210": {
+        "mrsId": 197,
+        "mrsDisplay": "MTRH MCH",
+        "description": "Used to collect PMTCT data.",
+        "mflCode": "15204",
+        "county": "Uasin Gishu",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+        "4ff7f723-95ce-4481-ba47-6539f22aae3c": {
+        "mrsId": 199,
+        "mrsDisplay": "MTRH Nyayo Ward",
+        "description": "MTRH clinic Nyayo Ward",
+        "mflCode": "15204",
+        "county": "Uasin Gishu",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+      "3ce46ae0-7eca-48c9-86d3-d5bdde1c7dab": {
+        "mrsId": 200,
+        "mrsDisplay": "MTRH Mother & Baby Ward",
+        "description": "MTRH Mother & Baby Ward",
+        "mflCode": "15204",
+        "county": "Uasin Gishu",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+     "0d599936-1a29-464b-87ad-c92cf51a6a84": {
+        "mrsId": 201,
+        "mrsDisplay": "MTRH Pediatric Ward",
+        "description": "MTRH Pediatric Ward",
+        "mflCode": "15204",
+        "county": "Uasin Gishu",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+     "2a901f42-bf51-428c-8be3-a135075abcb2": {
+        "mrsId": 202,
+        "mrsDisplay": "MTRH Other",
+        "description": "MTRH Other",
+        "mflCode": "15204",
+        "county": "Uasin Gishu",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+     "20bd486d-5c84-44f4-9ffa-2f1c1d9e79f8": {
+        "mrsId": 203,
+        "mrsDisplay": "Langas",
+        "description": "Facility",
+        "mflCode": "15011",
+        "county": "Uasin Gishu",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+     "20967b54-63b5-4311-a68e-2fc04406e56a": {
+        "mrsId": 204,
+        "mrsDisplay": "MTRH Oncology",
+        "description": "Moi Teaching and Referral Hospital - \nOncology",
+        "mflCode": "15204",
+        "county": "Uasin Gishu",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+     "584b1638-b11d-4cbe-8e81-ff25b684d63c": {
+        "mrsId": 205,
+        "mrsDisplay": "Busagwa Dispensary",
+        "description": "Busagwa Dispensary",
+        "mflCode": "21037",
+        "county": "Busia",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+     "7fb68709-6e7b-4eaf-a984-ea111fa45853": {
+        "mrsId": 206,
+        "mrsDisplay": "MTRH ACTG",
+        "description": "MTRH ACTG",
+        "mflCode": "15204",
+        "county": "Uasin Gishu",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+     "1ee4e702-913b-40a6-ab9c-26f9b4fced1c": {
+        "mrsId": 208,
+        "mrsDisplay": "Huruma MCH",
+        "description": "Huruma MCH",
+        "mflCode": "14555",
+        "county": "Uasin Gishu",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+     "7bc85590-2de6-4780-b4d8-f167b71c1834": {
+        "mrsId": 209,
+        "mrsDisplay": "Kakamega",
+        "description": "Is a Kakamega County Referral hospital",
+        "mflCode": null,
+        "county": "Kakamega",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+     "d4f8de72-5058-4db8-b556-324c7020b83b": {
+        "mrsId": 210,
+        "mrsDisplay": "Homabay",
+        "description": "Oncology site",
+        "mflCode": null,
+        "county": "Homabay",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+     "21beec4b-d6d0-4fe3-9711-acab0d577067": {
+        "mrsId": 212,
+        "mrsDisplay": "Jaramogi Oginga Odinga TRH",
+        "description": "Jaramogi Oginga Odinga Training and Referral Hospital.",
+        "mflCode": "13939",
+        "county": "Kisumu",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+     "db2bdd7c-5fe6-4ea3-adc1-d2d8dfb3d658": {
+        "mrsId": 213,
+        "mrsDisplay": "Bomet",
+        "description": "Oncology clinic at Bomet",
+        "mflCode": null,
+        "county": "Kericho",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+     "1ce5034b-f05d-46b6-910f-fc959e091641": {
+        "mrsId": 214,
+        "mrsDisplay": "Kapenguria County Referral Hospital",
+        "description": "Referral hospital in Kapenguria.",
+        "mflCode": "14701",
+        "county": "West Pokot",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+     "c54cbafc-3d6a-41a0-ae6c-ef40df16e2c9": {
+        "mrsId": 215,
+        "mrsDisplay": "Hamisi Sub County Hospital",
+        "description": "A sub county hospital in Hamisi",
+        "mflCode": null,
+        "county": "Vihiga",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+     "3acdbf65-644a-44c6-b6fa-9dad734ec442": {
+        "mrsId": 216,
+        "mrsDisplay": "BUTERE",
+        "description": "An Oncology Clinic",
+        "mflCode": null,
+        "county": "Kakamega",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+      "2a7ef5d8-28b6-4285-8313-c356ebbd3305": {
+        "mrsId": 219,
+        "mrsDisplay": "St. Elizabeth Lwak Mission Health center",
+        "description": "A health Center in Siaya County",
+        "mflCode": null,
+        "county": "Siaya",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+     "d6155afe-9258-4632-9723-08de6d7e2602": {
+        "mrsId": 220,
+        "mrsDisplay": "Madiany sub county hospital",
+        "description": "Madiany sub county in Siaya County- Oncology study",
+        "mflCode": "13747",
+        "county": "Siaya",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+     "3d65bfd3-c134-4133-a7aa-f44a2206f403": {
+        "mrsId": 221,
+        "mrsDisplay": "Bungoma County Referral Hospital",
+        "description": "A referral hospital in Bungoma county",
+        "mflCode": "15828",
+        "county": "Bungoma",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+     "bf02fef0-0330-4247-82b0-d9ed490206a2": {
+        "mrsId": 222,
+        "mrsDisplay": "Nyahururu District Hospital",
+        "description": "A district Hospital in Laikipia County",
+        "mflCode": "10890",
+        "county": "Laikipia",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+     "68cb63f3-992d-4fd0-a80d-47a27fcf8021": {
+        "mrsId": 223,
+        "mrsDisplay": "MTRH TB",
+        "description": "TB Clinic at MTRH",
+        "mflCode": "15204",
+        "county": "Uasin Gishu",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+     "dfc36b77-c059-4a29-8a92-a40d5ad60774": {
+        "mrsId": 224,
+        "mrsDisplay": "Chemundu Dispensary",
+        "description": "A dispensary in Nandi County.",
+        "mflCode": "14324",
+        "county": "Nandi",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+      "261a0504-17fa-4fae-989f-4d4f30767842": {
+        "mrsId": 225,
+        "mrsDisplay": "AIC Kapsowar Mission Hospital",
+        "description": "Mission Hospital in Kapsowar.",
+        "mflCode": "14767",
+        "county": "Elgeyo Marakwet",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+     "65225dcd-81cc-4c8f-92e1-bb687995cf24": {
+        "mrsId": 226,
+        "mrsDisplay": "Vihiga County Referral Hospital.",
+        "description": "Referral Hospital in Vihiga county.",
+        "mflCode": "16157",
+        "county": "Vihiga",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+     "a36c86bb-7ca3-4319-8674-28c66ba14deb": {
+        "mrsId": 227,
+        "mrsDisplay": "Iten MCH",
+        "description": "An mch facility",
+        "mflCode": "14586",
+        "county": "Elgeyo Marakwet",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+     "535dc3bd-842b-4ca1-bc7c-357635ab985e": {
+        "mrsId": 229,
+        "mrsDisplay": "Kitale MCH",
+        "description": "mch clinic at kitale",
+        "mflCode": "14947",
+        "county": "transzoia",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+     "17c97881-90e5-43c8-b8a3-cc0322f89a89": {
+        "mrsId": 230,
+        "mrsDisplay": "Busia MCH",
+        "description": "mch clinic at busia.",
+        "mflCode": "15834",
+        "county": "Busia",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+     "f2320960-28de-41cf-b7d5-4734b75bafef": {
+        "mrsId": 231,
+        "mrsDisplay": "Chulaimbo MCH",
+        "description": "mch clinic at chulaimbo.",
+        "mflCode": "13528",
+        "county": "Kisumu",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+     "aa65d6b1-fad8-46a7-94cb-f5247d21509d": {
+        "mrsId": 232,
+        "mrsDisplay": "Meru County Referral Hospital",
+        "description": null,
+        "mflCode": "12516",
+        "county": "Meru County",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+     "ff95cb97-3d9e-4016-aff9-930fed3c55ec": {
+        "mrsId": 233,
+        "mrsDisplay": "Sori Lake side Hospital",
+        "description": "A hospital in Migori County",
+        "mflCode": "14098",
+        "county": "Migori",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+     "c79828e4-16cd-4c30-8164-13d6005aa879": {
+        "mrsId": 234,
+        "mrsDisplay": "Nyamira County Referral Hospital",
+        "description": "Nyamira County Referral Hospital - Oncology Clinic",
+        "mflCode": "13912",
+        "county": "Nyamira",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+     "dbe94e9c-c882-4ec0-9edc-d0038069cd00": {
+        "mrsId": 235,
+        "mrsDisplay": "Webuye Health Centre",
+        "description": "Health Centre in Bungoma County",
+        "mflCode": "16160",
+        "county": "Bungoma",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+     "c0f4fd82-0d65-4b0b-aa04-be5914063959": {
+        "mrsId": 236,
+        "mrsDisplay": "Mulachi Dispensary",
+        "description": "A dispensary in Bungoma County",
+        "mflCode": null,
+        "county": "Bungoma",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+     "cb7fae6f-8daa-4a84-b4b0-7a1852b0526c": {
+        "mrsId": 237,
+        "mrsDisplay": "Lukusi Dispensary",
+        "description": "A dispensary in Bungoma County",
+        "mflCode": "16711",
+        "county": "Bungoma",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+      "e2bb5611-a016-4440-951d-f35e42ad4821": {
+        "mrsId": 238,
+        "mrsDisplay": "Khaoya Dispensary",
+        "description": "A dispensary in Bungoma County",
+        "mflCode": "15933",
+        "county": "Bungoma",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+     "df1f80fa-8c43-429d-93b9-bc01d0c898cf": {
+        "mrsId": 239,
+        "mrsDisplay": "Miendo Dispensary",
+        "description": "A dispensary in Bungoma County",
+        "mflCode": "16015",
+        "county": "Bungoma",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+     "52d0a75a-b281-4f6d-a7c4-07c0cd5b1ee4": {
+        "mrsId": 240,
+        "mrsDisplay": "Matulo Dispensary",
+        "description": "A dispensary in Bungoma County",
+        "mflCode": "16389",
+        "county": "Bungoma",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+     "61492482-4cde-4c71-8d20-e5ab9e858583": {
+        "mrsId": 241,
+        "mrsDisplay": "Khayaya Dispensary",
+        "description": "A dispensary in Bungoma County",
+        "mflCode": "16710",
+        "county": "Bungoma",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+      "89442596-43af-4e32-a185-d1b5fbd86549": {
+        "mrsId": 242,
+        "mrsDisplay": "Namwatikho Dispensary",
+        "description": "A dispensary in Bungoma County",
+        "mflCode": "22501",
+        "county": "Bungoma",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+     "90d8e717-36a6-4df2-a321-2fb2e9956bc0": {
+        "mrsId": 243,
+        "mrsDisplay": "Mukhe Dispensary",
+        "description": "A dispensary in Bungoma County",
+        "mflCode": "16028",
+        "county": "Bungoma",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+     "299c8c3a-121a-4931-b1fa-fff949292ac3": {
+        "mrsId": 244,
+        "mrsDisplay": "Khalala Dispensary",
+        "description": "A dispensary in Bungoma County",
+        "mflCode": "18362",
+        "county": "Bungoma",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+     "a568c19e-cfcb-416a-83ae-9c24b72d2c38": {
+        "mrsId": 245,
+        "mrsDisplay": "Chemalal Dispensary",
+        "description": "A dispensary in Bungoma County",
+        "mflCode": null,
+        "county": "Bungoma",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+      "6ae719f8-1805-4680-82d3-2bf58c617047": {
+        "mrsId": 246,
+        "mrsDisplay": "Namarambi Dispensary",
+        "description": "A dispensary in Bungoma County",
+        "mflCode": "21771",
+        "county": "Bungoma",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+     "122addaa-dc8a-4e86-ad76-695aa35e2f6e": {
+        "mrsId": 247,
+        "mrsDisplay": "Lurare Dispensary",
+        "description": "CDM site",
+        "mflCode": "15976",
+        "county": "Bungoma",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+     "34aec983-646e-4d8f-93a9-fa8156de15ec": {
+        "mrsId": 248,
+        "mrsDisplay": "Garissa County Referral Hospital",
+        "description": "This is an Oncology clinic that the AMPATH oncology will be supporting.",
+        "mflCode": "13346",
+        "county": "Garissa",
+        "cityVillage": "",
+        "eidDisplay": ""
+      },
+      "379ff09d-c72f-4859-a9dc-3c0295738252": {
+        "mrsId": 249,
+        "mrsDisplay": "MTRH Anti-coagulation",
+        "description": "oncology anti-coagulation treatment.",
+        "mflCode": "15204",
+        "county": "Uasin Gishu",
+        "cityVillage": "",
+        "eidDisplay": ""
+      }
 }
