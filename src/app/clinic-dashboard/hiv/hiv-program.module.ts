@@ -103,6 +103,7 @@ import {
 } from './hiv-differentiated-care-program/hiv-differentiated-care-program-patient-list/hiv-differentiated-care-patient-list.component';
 import { SurgeReportComponent } from './surge-report/surge-report.component';
 import { ReportingUtilitiesModule } from 'src/app/reporting-utilities/reporting-utilities.module';
+import { BsDatepickerModule } from 'ngx-bootstrap';
 @NgModule({
     imports: [
         clinicDashboardHivRouting,
@@ -132,7 +133,8 @@ import { ReportingUtilitiesModule } from 'src/app/reporting-utilities/reporting-
         ChangeDepartmentModule,
         GeneralModule,
         KibanaLibModule,
-        ReportingUtilitiesModule
+        ReportingUtilitiesModule,
+        BsDatepickerModule.forRoot()
     ],
     exports: [
         HivSummaryIndicatorComponent,
