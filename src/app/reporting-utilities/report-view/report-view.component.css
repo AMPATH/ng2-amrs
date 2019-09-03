@@ -1,8 +1,9 @@
 table { 
-	width: 100%; 
-	table-layout: fixed;
+	width: 100%;
+	table-layout: auto;
+    white-space: nowrap;
 	border-collapse: separate; 
-	margin:5px auto;
+	margin:5px;	
 	}
 
 .header { 
@@ -15,13 +16,13 @@ td {
 	padding: 10px; 
 	border: 1px solid #090909; 
 	text-align: centre; 
-	font-size: 18px;
+	font-size: auto;
 	}
  th { 
 	padding: 10px; 
 	border: 1px solid #090909; 
 	text-align: left; 
-	font-size: 18px;
+	font-size: 11px;
 	}
 .first { 
 	padding: 10px; 
@@ -67,7 +68,7 @@ caption {
   td, th {
 	margin: 0;
 	border: 1px solid grey;
-	white-space: nowrap;
+	white-space: pre-line;
 	border-top-width: 0px;
   }
   
@@ -82,4 +83,8 @@ caption {
   margin-top: -1px; 
   /*compensate for top border*/
  } 
+ .table-content-class {  
+	overflow-x: scroll;   
+}
+
  

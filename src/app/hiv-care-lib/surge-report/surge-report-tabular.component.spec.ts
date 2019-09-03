@@ -87,9 +87,6 @@ describe('SurgeReportTabularComponent', () => {
               'headerName': 'Locations',
               'field': 'location',
               'description': 'the test location',
-              'value': [
-                    {'value' : '-'}
-              ],
               'width': 360
            }
         ]

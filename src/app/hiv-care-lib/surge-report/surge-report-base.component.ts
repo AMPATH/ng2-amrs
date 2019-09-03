@@ -6,7 +6,6 @@ import * as rison from 'rison-node';
 import { Component, OnInit, Output, Input } from '@angular/core';
 import { ActivatedRoute, Router, Routes } from '@angular/router';
 import { SurgeResourceService } from 'src/app/etl-api/surge-resource.service';
-
 @Component({
   selector: 'surge-report-base',
   templateUrl: './surge-report-base.component.html',
@@ -34,6 +33,7 @@ export class SurgeReportBaseComponent implements OnInit {
   public calendarWeeks = [];
   public selectedYearWeek: any;
   public startDate: any;
+  public pinnedBottomRowData: any = [];
 
 
   public _locationUuids: any = [];
@@ -79,6 +79,7 @@ export class SurgeReportBaseComponent implements OnInit {
   ngOnInit() {
   }
 
+
   public getSurgeWeeklyReport(params: any) {
     this.isLoading = true;
     this.surgeReport.getSurgeWeeklyReport(params).subscribe(data => {
@@ -90,6 +91,7 @@ export class SurgeReportBaseComponent implements OnInit {
         this.showInfoMessage = false;
         this.columnDefs = data.sectionDefinitions;
         this.surgeReportSummaryData = data.result;
+        this.calculateTotalSummary();
         this.isLoading = false;
       }
     });
@@ -106,6 +108,7 @@ export class SurgeReportBaseComponent implements OnInit {
         this.showInfoMessage = false;
         this.columnDefs = data.sectionDefinitions;
         this.surgeReportSummaryData = data.result;
+        this.calculateTotalSummary();
         this.isLoading = false;
       }
     });
@@ -217,6 +220,38 @@ export class SurgeReportBaseComponent implements OnInit {
       this.displayTabluarFilters = false;
     }
   }
+
+  public calculateTotalSummary() {
+    const totalsRow = [];
+    if (this.surgeReportSummaryData.length > 0) {
+     const totalObj = {
+       location: 'Totals'
+     };
+     _.each(this.surgeReportSummaryData, row => {
+       Object.keys(row).map((key, index) => {
+         if (Number.isInteger(row[key]) === true) {
+           if (totalObj[key]) {
+             totalObj[key] = row[key] + totalObj[key];
+           } else {
+             totalObj[key] = row[key];
+           }
+         } else {
+           if (Number.isNaN(totalObj[key])) {
+             totalObj[key] = 0;
+           }
+           if (totalObj[key] === null) {
+             totalObj[key] = 0;
+           }
+           totalObj[key] = 0 + totalObj[key];
+         }
+       });
+     });
+     totalObj.location = 'Totals';
+     totalsRow.push(totalObj);
+     this.pinnedBottomRowData = totalsRow;
+    }
+   }
+
   public generateSurgeWeeks() {
     for (let i = 0; i <= 72; i++) {
       const date = Moment(new Date('2019-12-29')).subtract(i, 'week');
