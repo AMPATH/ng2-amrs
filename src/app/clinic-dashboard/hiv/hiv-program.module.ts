@@ -94,6 +94,7 @@ import { GeneralModule } from '../general/general.module';
 import { ChangeDepartmentModule } from '../change-department/change-department.module';
 import { SurgeReportComponent } from './surge-report/surge-report.component';
 import { ReportingUtilitiesModule } from 'src/app/reporting-utilities/reporting-utilities.module';
+import { BsDatepickerModule } from 'ngx-bootstrap';
 @NgModule({
     imports: [
         clinicDashboardHivRouting,
@@ -122,7 +123,8 @@ import { ReportingUtilitiesModule } from 'src/app/reporting-utilities/reporting-
         DepartmentProgramFilterModule,
         ChangeDepartmentModule,
         GeneralModule,
-        ReportingUtilitiesModule
+        ReportingUtilitiesModule,
+        BsDatepickerModule.forRoot()
     ],
     exports: [
         HivSummaryIndicatorComponent,

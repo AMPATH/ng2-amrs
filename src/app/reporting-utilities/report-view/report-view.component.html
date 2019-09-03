@@ -35,19 +35,21 @@
       </div>
     </div>
 
-    <div id="contentToConvert" class="panel-body" style="background-color: #ffffff; overflow-x:auto">
+    <div id="contentToConvert" class="panel-body table-content-class" style="background-color: #ffffff;">
       <div *ngIf="SummaryData.length>0">
         <table>
           <tbody *ngFor="let grid of gridOptions.columnDefs">
             <tr>
-              <td [attr.colspan]="sectionIndicatorsValues .length + 1" class="header"><b>{{grid.headerName}}</b></td>
+              <td [attr.colspan]="sectionIndicatorsValues .length + 2" class="header"><b>{{grid.headerName}}</b></td>
             </tr>
             <tr *ngFor="let col of grid.children">
-              <th title="{{col.description}}"><i *ngIf="col.headerName !== 'locations'" class="fa fa-info-circle "></i>
+              <th title="{{col.description}}" ><i *ngIf="col.headerName !== 'locations'" class="fa fa-info-circle "></i>
                 &nbsp;&nbsp;{{col.headerName}}
               </th>
               <td *ngFor="let val of col.value" title="Click to View Patientlist" (click)="setCellSelection(col,val)"
                 class="value"> {{val.value}}</td>
+                <td *ngIf="sectionIndicatorsValues.length > 1" title="Click to View Total Patientlist" (click)="setCellSelection(col,col.total)"
+                class="value"> <b>{{col.total.value}}</b></td>
             </tr>
           </tbody>
         </table>

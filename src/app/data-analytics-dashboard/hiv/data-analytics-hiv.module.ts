@@ -38,6 +38,7 @@ import {
 import { ChangeDepartmentModule } from '../change-department/change-department.module';
 import { SurgeReportComponent } from './surge/surge-report.component';
 import { ReportingUtilitiesModule } from 'src/app/reporting-utilities/reporting-utilities.module';
+
 @NgModule({
   imports: [
     dataAnalyticsDashboardHivRouting,
