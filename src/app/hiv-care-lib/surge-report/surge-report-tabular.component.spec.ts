@@ -43,7 +43,7 @@ const fakeReply: any[] = [{
 }];
 
 
-describe('SurgeReportTabularComponent', () => {
+fdescribe('SurgeReportTabularComponent', () => {
   let comp: SurgeReportTabularComponent;
   let fixture: ComponentFixture<SurgeReportTabularComponent>;
 
@@ -69,7 +69,7 @@ describe('SurgeReportTabularComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should be created', () => {
+  fit('should be created', () => {
     expect(comp).toBeTruthy();
   });
 
