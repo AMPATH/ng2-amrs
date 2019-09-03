@@ -7,13 +7,14 @@ import { Observable, Subject } from 'rxjs';
 import { first, take } from 'rxjs/operators';
 import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 import { PDFDocumentProxy } from 'pdfjs-dist';
+import _ = require('lodash');
 
 @Component({
   selector: 'app-report-view',
   templateUrl: './report-view.component.html',
   styleUrls: ['./report-view.component.css']
 })
-export class ReportViewComponent implements OnInit, OnChanges  {
+export class ReportViewComponent implements OnInit, OnChanges {
   @Input() SummaryData = [];
   @Input() sectionDefs: any;
   @Input() reportDetails: any = [];
@@ -25,8 +26,10 @@ export class ReportViewComponent implements OnInit, OnChanges  {
   public gridOptions: any = {
     columnDefs: []
   };
+  public pdfvalue: any;
   public pdfSrc: string = null;
   public isBusy = false;
+  public multipleLocations = false;
   public headers = [];
   public sectionIndicatorsValues: Array<any>;
   public page = 1;
@@ -35,7 +38,7 @@ export class ReportViewComponent implements OnInit, OnChanges  {
   public errorFlag = false;
   public securedUrl: SafeResourceUrl;
   public pdfProxy: PDFDocumentProxy = null;
-    public pdfMakeProxy: any = null;
+  public pdfMakeProxy: any = null;
 
   @Output()
   public CellSelection = new EventEmitter();
@@ -53,7 +56,8 @@ export class ReportViewComponent implements OnInit, OnChanges  {
   public setColumns(sectionsData: Array<any>) {
     this.headers = [];
     const defs = [];
-    const locations = ['locations'];
+    let sumOfValue = [];
+    let locations = [];
     for (let i = 0; i < sectionsData.length; i++) {
       const section = sectionsData[i];
       const created: any = {};
@@ -71,18 +75,39 @@ export class ReportViewComponent implements OnInit, OnChanges  {
           field: section.indicators[j].indicator,
           description: section.indicators[j].description,
           value: [],
-          width: 360
+          width: 360,
+          total: 0
         };
         this.sectionIndicatorsValues.forEach(element => {
-          const val = {
+          const val: any = {
             location: element['location_uuid'],
             value: '-'
           };
           if (element[indicatorDefinition] || element[indicatorDefinition] === 0) {
             val.value = element[indicatorDefinition];
+            sumOfValue.push(val.value);
+            locations.push(element['location_uuid']);
           }
+
           child.value.push(val);
         });
+        if (this.sectionIndicatorsValues.length > 1) {
+          this.multipleLocations = true;
+          const sum = sumOfValue.reduce((partial_sum, a) => partial_sum + a, 0);
+          if (_.isString(sum)) {
+            child.total = {
+              location: locations,
+              value: 'Total'
+            };
+          } else {
+            child.total = {
+              location: locations,
+              value: sum
+            };
+          }
+          sumOfValue = [];
+          locations = [];
+        }
         created.children.push(child);
       }
       defs.push(created);
@@ -131,31 +156,163 @@ export class ReportViewComponent implements OnInit, OnChanges  {
     }
   }
   public downloadPdf() {
-
-    const data = document.getElementById('contentToConvert');
-    html2canvas(data).then(canvas => {
-      // Few necessary setting options
-
-      const imgWidth = 208;
-      const pageHeight = 295;
-      const imgHeight = canvas.height * imgWidth / canvas.width;
-      let heightLeft = imgHeight;
-      const contentDataURL = canvas.toDataURL('image/png');
-      const pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF
-      let position = 15;
-      pdf.setFontSize(10);
-      pdf.text(5, 5, this.reportDetails.reportName + ' : ' + this.reportDetails.currentView.toUpperCase());
-      pdf.text(5, 10, this.reportDetails.year_week === undefined ? this.reportDetails._date : this.reportDetails.year_week);
-      pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
-      while (heightLeft >= 0) {
-        position = heightLeft - imgHeight + 16;
-        pdf.addPage();
-        pdf.addImage(contentDataURL, 'PNyearWeekG', 0, position, imgWidth, imgHeight);
-        heightLeft -= pageHeight;
+    this.pdfvalue = this.bodyValues();
+    this.generatePdf().pipe(take(1)).subscribe(
+      (pdf) => {
+        this.pdfSrc = pdf.pdfSrc;
+        this.pdfMakeProxy = pdf.pdfProxy;
+        this.securedUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(this.pdfSrc);
+        this.isBusy = false;
+        this.downloadPdfView();
+      },
+      (err) => {
+        this.errorFlag = true;
+        this.isBusy = false;
       }
-      pdf.save(this.reportDetails.reportName  + '.pdf');
+    );
+  }
+  public generatePdf(): Observable<any> {
+    const width: any = ['*', '*'];
+    this.sectionIndicatorsValues.forEach(element => {
+      width.push('*');
     });
+    const dd: any = {
+      content: [
+        { text: this.reportDetails.reportName.toUpperCase(), margin: [0, 20, 0, 8], style: 'title' },
+        {
+          text: this.reportDetails.year_week === undefined ?
+          this.reportDetails._date : this.reportDetails.year_week, margin: [0, 8, 0, 8], style: 'title'
+        },
+        {
+          style: 'tableExample',
+          table: {
+            headerRows: 2,
+            keepWithHeaderRows: 1,
+            widths: width,
+            body: this.pdfvalue,
+          },
+          layout: {
+            fillColor: function (rowIndex, node, columnIndex) {
+              return (rowIndex % 2 === 0) ? '#CCCCCC' : null;
+            }
+          }
+        },
+      ],
+      styles: {
+        header: {
+          fontSize: 12,
+          bold: true,
+          margin: [0, 0, 0, 10]
+        },
+        total: {
+          fontSize: 9,
+          bold: true,
+          margin: [0, 10, 0, 5]
+        },
+        title: {
+          fontSize: 18,
+          bold: true
+        },
+        subheader: {
+          fontSize: 9,
+          bold: true,
+          margin: [0, 5, 0, 5]
+        },
+        tableExample: {
+          fontSize: 9,
+          margin: [5, 0, 0, 5]
+        },
+        tableHeader: {
+          bold: true,
+          fontSize: 10,
+          color: 'white'
+        }
+      },
+      defaultStyle: {
+        // alignment: 'justify'
+      }
+    };
+    if (this.sectionIndicatorsValues.length >= 10) {
+      dd.pageOrientation = 'landscape';
+    }
+    const pdfStructure = dd;
+    return Observable.create((observer: Subject<any>) => {
+      // JSON stringify and parse was done to handle a potential bug in pdfMake
+      console.log(pdfStructure);
+      const p = JSON.stringify(pdfStructure);
+      const x = JSON.parse(p);
+      const pdfProxy = pdfMake.createPdf(x
+      );
+      pdfProxy.getBase64((output) => {
+        const int8Array: Uint8Array =
+          this._base64ToUint8Array(output);
+        const blob = new Blob([int8Array], {
+          type: 'application/pdf'
+        });
+        observer.next({
+          pdfSrc: URL.createObjectURL(blob),
+          pdfDefinition: pdfStructure,
+          pdfProxy: pdfProxy
+        });
+      });
+    }).pipe(first());
+  }
+  private _base64ToUint8Array(base64: any): Uint8Array {
+    const raw = atob(base64);
+    const uint8Array = new Uint8Array(raw.length);
+    for (let i = 0; i < raw.length; i++) {
+      uint8Array[i] = raw.charCodeAt(i);
+    }
+    return uint8Array;
+  }
+  public bodyValues() {
+    const body = [];
+    // let span = 0;
+    this.gridOptions.columnDefs.forEach(columnDefs => {
+      const head = [];
+      const part = {
+        text: columnDefs.headerName, style: 'tableHeader', fillColor: '#337ab7',
+        colSpan: this.sectionIndicatorsValues.length + 1, alignment: 'left'
+      };
+      head.push(part);
+      body.push(head);
+      columnDefs.children.forEach(col => {
+        const sec = [];
+        const test = {
+          text: col.headerName, style: 'subheader',
+          alignment: 'left'
+        };
+        sec.push(test);
+        col.value.forEach(element => {
+          const value = {
+            text: element.value, style: 'subheader',
+            alignment: 'center'
+          };
+          sec.push(value);
+        });
+        sec.push({
+          text: col.total.value, style: 'subheader',
+          alignment: 'centre'
+        });
+        body.push(sec);
+      });
+    });
+    return body;
+  }
+
+
+  public nextPage(): void {
+    this.page++;
+  }
+  public prevPage(): void {
+    this.page--;
+  }
+  public downloadPdfView(): void {
+    this.pdfMakeProxy
+      .download((this.reportDetails.reportName) + '.pdf');
+  }
 }
-}
+
+
+
 
