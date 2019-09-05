@@ -1,0 +1,123 @@
+{
+    "name": "patient_list_prep_template",
+    "version": "1.0",
+    "tag": "patient_list_prep_template",
+    "description": "",
+    "sources": [
+        {
+            "table": "amrs.person",
+            "alias": "t1"
+        },
+        {
+            "table": "amrs.person_name",
+            "alias": "person_name",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "t1.person_id = person_name.person_id AND (person_name.voided IS NULL || person_name.voided = 0)"
+            }
+        },
+        {
+            "table": "amrs.patient_identifier",
+            "alias": "id",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "t1.person_id = id.patient_id AND (id.voided IS NULL || id.voided = 0)"
+            }
+        },
+        {
+            "table": "amrs.person_attribute",
+            "alias": "contacts",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "t1.person_id = contacts.person_id AND (contacts.voided IS NULL || contacts.voided = 0) AND contacts.person_attribute_type_id in (10, 48)"
+            }
+        },
+        {
+            "table": "etl.flat_hiv_summary_v15b",
+            "alias": "fh",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "t1.person_id = fh.person_id AND fh.next_clinical_location_id IS NULL AND fh.encounter_type NOT IN (99999) "
+            }
+        },
+        {
+            "table": "amrs.encounter_type",
+            "alias": "et",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "fh.encounter_type = et.encounter_type_id"
+            }
+        },
+        {
+            "table": "amrs.person_address",
+            "alias": "pa",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "t1.person_id = pa.person_id"
+            }
+        }
+
+    ],
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias": "patient_uuid",
+            "column": "t1.uuid"
+        },
+        {
+            "type": "derived_column",
+            "alias": "uuid",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "t1.uuid"
+            }
+        },
+        {
+            "type": "simple_column",
+            "alias": "person_id",
+            "column": "t1.person_id"
+        },
+        {
+            "type": "derived_column",
+            "alias": "person_name",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": " CONCAT(COALESCE(person_name.given_name, ''), ' ', COALESCE(person_name.middle_name, ''), ' ', COALESCE(person_name.family_name, ''))"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "identifiers",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": " GROUP_CONCAT(DISTINCT id.identifier SEPARATOR ', ')"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "phone_number",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": " GROUP_CONCAT(DISTINCT contacts.value SEPARATOR ', ')"
+            }
+        },
+        {
+            "type": "simple_column",
+            "alias": "latest_rtc_date",
+            "column": "date_format(fh.rtc_date, '%Y-%m-%d')"
+        },
+        {
+            "type": "simple_column",
+            "alias": "last_appointment",
+            "column": "CONCAT(COALESCE(DATE_FORMAT(fh.encounter_datetime, '%Y-%m-%d'),''),' ',COALESCE(et.name, ''))"
+        },
+        {
+            "type": "simple_column",
+            "alias": "nearest_center",
+            "column": "pa.address3"
+        }
+    ],
+    "groupBy":{
+        "columns":["t1.person_id"]
+    }
+}

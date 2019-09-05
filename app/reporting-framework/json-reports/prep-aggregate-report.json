@@ -1,0 +1,111 @@
+{
+    "name": "prepAggregateReport",
+    "version": "1.0",
+    "tag": "",
+    "description": "",
+    "uses": [
+         {
+        "name": "prepBaseReport",
+        "version": "1.0",
+        "type": "dataset_def"
+    }],
+    "sources": [
+        {
+            "dataSet": "prepBaseReport",
+            "alias": "prep"
+        }
+    ],
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias": "location_uuid",
+            "column": "prep.location_uuid"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location_id",
+            "column": "prep.location_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location",
+            "column": "prep.location"
+        },
+        {
+            "type": "derived_column",
+            "alias": "active_on_prep_this_week",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "SUM(active_on_prep_this_week)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "enrolled_in_prep_this_week",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "SUM(enrolled_in_prep_this_week)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "prep_ltfu_this_week",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "SUM(prep_ltfu_this_week)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "prep_discontinued_this_week",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "SUM(prep_discontinued_this_week)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "prep_defaulter_this_week",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "SUM(prep_defaulter_this_week)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "prev_on_prep_and_turned_positive",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "SUM(prev_on_prep_and_turned_positive)"
+            }
+        }
+    ],
+    "groupBy": {
+        "groupParam": "groupByParam",
+        "columns": [
+            "location_uuid"
+        ],
+        "excludeParam": "excludeParam"
+    },
+    "transFormDirectives": {
+        "joinColumn": "location_id",
+        "skipColumns": [
+            "location_uuid",
+            "join_location"
+        ]
+    },
+    "dynamicJsonQueryGenerationDirectives": {
+        "patientListGenerator": {
+            "useTemplate": "patient-list-prep-template",
+            "useTemplateVersion": "1.0",
+            "generatingDirectives": {
+                "joinDirectives": {
+                    "joinType": "INNER",
+                    "joinCondition": "<<base_column>> = <<template_column>>",
+                    "baseColumn": "person_id",
+                    "templateColumn": "person_id"
+                }
+            }
+        }
+    }
+}
