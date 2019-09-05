@@ -4,7 +4,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { SurgeResourceService } from './surge-resource.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { AppSettingsService } from '../app-settings/app-settings.service';
-describe('SurgeResourceService()', () => {
+xdescribe('SurgeResourceService()', () => {
     let service: SurgeResourceService;
     let http: HttpTestingController;
 

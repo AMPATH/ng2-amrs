@@ -5,11 +5,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import * as moment from 'moment';
 import { Observable, Subject, BehaviorSubject, of } from 'rxjs';
-<<<<<<< HEAD
 import { Form } from 'ngx-openmrs-formentry';
-=======
-import { Form } from 'ngx-openmrs-formentry/dist/ngx-formentry';
->>>>>>> 8b5b0415... POCONC-81: Oncology referral module for abnormal screenings
 
 import { Patient } from '../../../models/patient.model';
 import { PatientReferralsModule } from '../patient-referrals/patient-referrals.module';
