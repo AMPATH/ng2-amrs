@@ -135,7 +135,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
       if (routeParams) {
         this.activeProgram = routeParams.program;
         this.formUuid = routeParams['formUuid'];
-
+        this.programClass = routeParams['programClass'];
         // get visitUuid & encounterUuid then load form
         this.route.queryParams.subscribe((params) => {
           componentRef.encounterUuid = params['encounter'];
