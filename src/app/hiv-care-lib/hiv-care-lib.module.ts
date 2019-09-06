@@ -90,6 +90,7 @@ import { HighchartsStatic } from 'angular2-highcharts/dist/HighchartsService';
 import { SurgeReportTabularComponent } from './surge-report/surge-report-tabular.component';
 import { SurgeReportBaseComponent } from './surge-report/surge-report-base.component';
 import { SurgeReportPatientListComponent } from './surge-report/surge-report-patient-list.component';
+import { BsDatepickerModule } from 'ngx-bootstrap';
 export function highchartsFactory() {
   const hc = require('highcharts');
   const hcm = require('highcharts/highcharts-more');
@@ -126,7 +127,7 @@ export function highchartsFactory() {
     ChartModule,
     ReportingUtilitiesModule,
     DataListsModule,
-    NgxMyDatePickerModule.forRoot(),
+    NgxMyDatePickerModule.forRoot()
   ],
   exports: [
     Moh731TabularComponent,
