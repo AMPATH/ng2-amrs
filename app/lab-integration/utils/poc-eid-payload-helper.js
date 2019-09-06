@@ -152,7 +152,7 @@
     }
 
     function getArtRegimenEidCode (rawPayload) {
-        if (rawPayload.artRegimenUuid === "") return 'AF5X'; // none
+        if (rawPayload.artRegimenUuid === "" || rawPayload.artRegimenUuid === null) return 'AF5X'; // none
         const arvconcepts = rawPayload.artRegimenUuid ? rawPayload.artRegimenUuid.split(" ## ") : null;
         let resolveId = 'AF5X';
 
@@ -176,7 +176,7 @@
     }
 
     function getArtRegimenOld(rawPayload) {
-        if (rawPayload.artRegimenUuid === "") return 15; //15 is none;
+        if (rawPayload.artRegimenUuid === "" || rawPayload.artRegimenUuid === null) return 15; //15 is none;
 
         var arvCodes = rawPayload.artRegimenUuid ? rawPayload.artRegimenUuid.split(" ## ") : null;
         var resolvedId = 16;  // 14 is other
