@@ -5,15 +5,15 @@
     "uses": [],
     "sources": [
         {
-            "table": "etl.flat_obs",
-            "alias": "obs"
+            "table": "amrs.patient_program",
+            "alias": "pp"
         },
         {
             "table": "etl.flat_breast_cancer_screening",
             "alias": "fbcs",
             "join":{
                 "type":"left",
-                "joinCondition": "obs.person_id = fbcs.person_id "
+                "joinCondition": "pp.patient_id = fbcs.person_id "
             }
         },
         {
@@ -21,7 +21,15 @@
             "alias": "fccs",
             "join":{
                 "type":"left",
-                "joinCondition": "obs.person_id = fccs.person_id "
+                "joinCondition": "pp.patient_id = fccs.person_id "
+            }
+        },
+        {
+            "table": "amrs.encounter",
+            "alias": "en",
+            "join":{
+                "type":"inner",
+                "joinCondition": "pp.patient_id = en.patient_id AND en.voided = 0 "
             }
         },
         {
@@ -29,8 +37,8 @@
             "alias": "patient_name",
             "join": {
                 "type": "inner",
-                "joinCondition": "obs.person_id = patient_name.person_id and (patient_name.voided is null || patient_name.voided = 0)"
-                
+                "joinCondition": "pp.patient_id = patient_name.person_id and (patient_name.voided is null || patient_name.voided = 0)"
+
             }
         },
         {
@@ -38,8 +46,8 @@
             "alias": "patient_id",
             "join": {
                 "type": "inner",
-                "joinCondition": "obs.person_id = patient_id.patient_id and (patient_id.voided is null || patient_id.voided = 0)"
-                
+                "joinCondition": "pp.patient_id = patient_id.patient_id and (patient_id.voided is null || patient_id.voided = 0)"
+
             }
 
         },
@@ -48,8 +56,8 @@
             "alias": "l",
             "join": {
                 "type": "inner",
-                "joinCondition": "obs.location_id = l.location_id"
-                
+                "joinCondition": "pp.location_id = l.location_id"
+
             }
         },
         {
@@ -57,7 +65,7 @@
             "alias": "p",
             "join": {
                 "type": "left",
-                "joinCondition": "obs.person_id = p.person_id and (p.voided is null || p.voided = 0 and (p.person_attribute_type_id = 10))"
+                "joinCondition": "pp.patient_id = p.person_id and (p.voided is null || p.voided = 0 and (p.person_attribute_type_id = 10))"
 
             }
         },
@@ -66,7 +74,7 @@
             "alias": "person",
             "join": {
                 "type": "left",
-                "joinCondition": "obs.person_id = person.person_id and (person.voided is null || person.voided = 0 )"
+                "joinCondition": "pp.patient_id = person.person_id and (person.voided is null || person.voided = 0 )"
 
             }
         }
@@ -111,7 +119,7 @@
         {
             "type": "simple_column",
             "alias": "location_id",
-            "column": "obs.location_id"
+            "column": "l.location_id"
         },
         {
             "type": "simple_column",
@@ -126,7 +134,7 @@
         {
             "type": "simple_column",
             "alias": "encounter_datetime",
-            "column": "DATE_FORMAT(obs.encounter_datetime, '%Y-%m-%d')"
+            "column": "DATE_FORMAT(en.encounter_datetime, '%Y-%m-%d')"
         },
         {
             "type": "derived_column",
@@ -170,17 +178,17 @@
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "DATE(obs.encounter_datetime) >= ?    ",
+                "conditionExpression": "DATE(en.encounter_datetime) >= ?    ",
                 "parameterName": "startDate"
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "DATE(obs.encounter_datetime) <= ? ",
+                "conditionExpression": "DATE(en.encounter_datetime) <= ? ",
                 "parameterName": "endDate"
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "obs.encounter_type in (86,69)"
+                "conditionExpression": "en.encounter_type in (86,69)"
             },
             {
                 "filterType": "tableColumns",
@@ -194,16 +202,20 @@
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "obs.location_id not in (195)"
+                "conditionExpression": "l.location_id not in (195)"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "pp.program_id  in (12, 13)"
             }
         ]
     },
     "groupBy": {
         "groupParam": "groupByParam",
         "columns": [
-            "obs.person_id",
-            "obs.location_id",
-            "DATE_FORMAT(obs.encounter_datetime, '%M-%Y')"
+            "person.person_id",
+            "l.location_id",
+            "DATE_FORMAT(en.encounter_datetime, '%M-%Y')"
         ]
     }
 }

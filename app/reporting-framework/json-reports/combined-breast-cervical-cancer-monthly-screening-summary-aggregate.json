@@ -64,7 +64,7 @@
             "expressionType": "simple_expression",
             "expressionOptions": {
                 "expression": "(sum(bcsd.both_cervical_and_breast) * 2) + sum(bcsd.total_cervical_screened) + sum(bcsd.total_breast_screened)"
-            } 
+            }
         }
     ],
     "groupBy": {
@@ -84,7 +84,7 @@
                 "joinDirectives": {
                     "joinType": "INNER",
                     "joinCondition": "<<base_column>> = <<template_column>>",
-                    "baseColumn": "person_id",
+                    "baseColumn": "patient_id",
                     "templateColumn": "person_id"
                 }
             }
