@@ -12,6 +12,7 @@
 				<th>CD4 Count</th>
 				<th>Viral Load</th>
 				<th>WHO Stage</th>
+				<th *ngIf="hasMdtSessionNo">MDT Session No</th>
 			</tr>
 		</thead>
 		<tr *ngFor="let hivSummary of hivSummaries" [ngClass]="{danger: (hivSummary.prev_rtc_date &&  hivSummary.encounter_datetime)
@@ -34,6 +35,7 @@
 				</div>
 			</td>
 			<td>{{hivSummary.cur_who_stage}}</td>
+			<td *ngIf="hasMdtSessionNo">{{hivSummary.mdt_session_number}}</td>
 		</tr>
 	</table>
 </div>
