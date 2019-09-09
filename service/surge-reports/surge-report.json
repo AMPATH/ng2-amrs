@@ -112,7 +112,7 @@
         "sectionTitle": "LTFU Outcomes this week(Surge LTFUs)",
         "indicators": [
             {
-                "label": "Brought to care",
+                "label": "Brought back to care",
                 "description": "Patients who were LTFUs last week and are active this week",
                 "indicator": "ltfu_active_this_week"
             },
@@ -302,12 +302,12 @@
                 "indicator": "tx2_scheduled_this_week_but_came_early"
             },
             {
-                "label": "Honored Second visit (numerator)",
+                "label": "Honored Second visit",
                 "description": "Honored Second visit",
                 "indicator": "tx2_scheduled_honored"
             },
             {
-                "label": "UnScheduled second visit (denomenator)",
+                "label": "UnScheduled second visit",
                 "description": "UnScheduled second visit",
                 "indicator": "tx2_unscheduled_this_week"
             },
@@ -327,7 +327,7 @@
         "sectionTitle": "Prevention",
         "indicators": [
             {
-                "label": "Active on prep this week",
+                "label": "Active on prep as of week",
                 "description": "Active on prep this week",
                 "indicator": "active_on_prep_this_week"
             },
@@ -337,7 +337,7 @@
                 "indicator": "enrolled_in_prep_this_week"
             },
             {
-                "label": "Prep LTFU this week",
+                "label": "Prep LTFU as of week",
                 "description": "Prep LTFU this week",
                 "indicator": "prep_ltfu_this_week"
             },
@@ -347,7 +347,7 @@
                 "indicator": "prep_discontinued_this_week"
             },
             {
-                "label": "Prep defaulter this week",
+                "label": "Prep defaulter as of week",
                 "description": "Prep defaulter this week",
                 "indicator": "prep_defaulter_this_week"
             },
