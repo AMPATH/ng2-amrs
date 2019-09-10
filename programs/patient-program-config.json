@@ -3248,6 +3248,10 @@
           {
             "uuid": "e856b2ac-fe35-41d6-a9aa-2b2679092763",
             "display": "BREASTCANCERSCREENING "
+          },
+          {
+            "uuid": "5bdb1b5d-9b2d-4c62-a4cd-752f203d6e5b",
+            "display": "CLINICALBREASTEXAM"
           }
         ]
       },
