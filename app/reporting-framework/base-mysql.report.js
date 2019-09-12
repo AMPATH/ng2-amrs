@@ -127,6 +127,8 @@ import * as surge_daily_report_aggregate from './json-reports/surge-daily-report
 import * as surge from './json-reports/surge-report.json';
 import * as prep_base_report from './json-reports/prep-base-report.json';
 import * as prep_aggregate_report from './json-reports/prep-aggregate-report.json';
+import * as ltfu_surge_baseline_report from './json-reports/ltfus-surge-baseline-base.json';
+import * as ltfu_surge_baseline_aggregate_report from './json-reports/ltfus-surge-baseline-aggregate.json';
 import * as patient_list_prep_template from './json-reports/patient-list-prep-template.json';
 
 export class BaseMysqlReport {
@@ -560,6 +562,12 @@ export class BaseMysqlReport {
                     resolve({
                         main: this.cloneJsonSchema(prep_aggregate_report),
                         prepBaseReport: this.cloneJsonSchema(prep_base_report)
+                    });
+                    break;
+                case 'surgeBaselineReport':
+                    resolve({
+                        main: this.cloneJsonSchema(ltfu_surge_baseline_aggregate_report),
+                        surgeBaselineReport: this.cloneJsonSchema(ltfu_surge_baseline_report)
                     });
                     break;
                 case 'surge':

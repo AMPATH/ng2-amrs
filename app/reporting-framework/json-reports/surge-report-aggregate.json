@@ -336,14 +336,6 @@
         },
         {
             "type": "derived_column",
-            "alias": "is_ltfu_surge_baseline",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(is_ltfu_surge_baseline)"
-            }
-        },
-        {
-            "type": "derived_column",
             "alias": "surge_ltfu_and_ltfu_after_may",
             "expressionType": "simple_expression",
             "expressionOptions": {
@@ -693,7 +685,7 @@
             "expressionOptions": {
                 "expression": "sum(elligible_total_revised)"
             }
-        }	        
+        }
 
     ],
     "groupBy": {
