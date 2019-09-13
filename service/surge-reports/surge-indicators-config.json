@@ -11,7 +11,6 @@
                 "late_appointment_this_week",
                 "missed_appointment_this_week",
                 "defaulted",
-                "is_ltfu_surge_baseline",
                 "surge_ltfu_and_still_ltfu",
                 "is_ltfu_after_may",
                 "surge_ltfu_and_ltfu_after_may",
@@ -77,6 +76,12 @@
                 "prep_discontinued_this_week",
                 "prep_defaulter_this_week",
                 "prev_on_prep_and_turned_positive"
+            ]
+        },
+        {
+            "reportName" : "surgeBaselineReport",
+            "indicators": [
+                "is_ltfu_surge_baseline"
             ]
         }
     ]

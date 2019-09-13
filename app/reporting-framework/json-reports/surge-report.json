@@ -1,6 +1,7 @@
 {
     "reports": [
         "surgeReport",
-        "prepReport"
+        "prepReport",
+        "surgeBaselineReport"
     ]
 }
