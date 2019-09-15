@@ -271,6 +271,11 @@
         },
         {
             "type": "simple_column",
+            "alias": "week_patient_became_active",
+            "column": "srb.week_patient_became_active"
+        },
+        {
+            "type": "simple_column",
             "alias": "status",
             "column": "srb.status"
         },
@@ -318,11 +323,6 @@
             "type": "simple_column",
             "alias": "tx2_scheduled_honored",
             "column": "srb.tx2_scheduled_honored"
-        },
-        {
-            "type": "simple_column",
-            "alias": "returned_to_care_this_week",
-            "column": "srb.returned_to_care_this_week"
         },
         {
             "type": "simple_column",
@@ -592,6 +592,11 @@
         },
         {
             "type": "simple_column",
+            "alias": "is_ltfu_after_may_total",
+            "column": "srb.is_ltfu_after_may_total"
+        },
+        {
+            "type": "simple_column",
             "alias": "tx2_scheduled_this_week_but_came_early",
             "column": "srb.tx2_scheduled_this_week_but_came_early"
         },
@@ -626,7 +631,7 @@
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "l.uuid in (?)",
+                "conditionExpression": "l.uuid in ?",
                 "parameterName": "locationUuids"
             }
         ]

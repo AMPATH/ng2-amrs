@@ -26,6 +26,7 @@
                 "elligible_total_revised",
                 "tx2_scheduled_this_week_but_came_early",
                 "cumulative_dead",
+                "is_ltfu_after_may_total",
                 "dead_this_week",
                 "ltfu_cumulative_outcomes_total",
                 "ltfu_cumulative_outcomes_active",
