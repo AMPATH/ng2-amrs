@@ -71,12 +71,14 @@ export class SurgeReportPatientListComponent implements OnInit {
       phone_number: 'Phone',
       enrollment_date: 'Date Enrolled',
       clinical_visit_num: 'Encounter Number since enrollment',
-      last_appointment: 'Encounter Type',
       prev_rtc_date: 'Previous RTC Date',
       encounter_date: 'Encounter Date',
+      last_appointment: 'Encounter Type',
       rtc_date: 'RTC Date',
       days_since_rtc_date: 'Days missed since RTC',
       cur_status: 'Current Status',
+      week_patient_became_active: 'Date patient became active',
+      transfer_out_date : 'Transfer out date',
       death_date: 'Death Date',
       arv_first_regimen_start_date: 'First ARV regimen start date',
       arv_first_regimen: 'AVR first regimen',
@@ -86,7 +88,6 @@ export class SurgeReportPatientListComponent implements OnInit {
       latest_vl_date: 'Latest VL Date',
       previous_vl: 'Previous VL',
       previous_vl_date: 'Prevoius VL Date',
-      active_to_ltfu_count: 'Active to LTFU Count',
       nearest_center: 'Estate/Nearest Center'
     };
 
@@ -109,37 +110,49 @@ export class SurgeReportPatientListComponent implements OnInit {
       {
         field: 'encounter_date',
         cellRenderer: (column) => {
-          return moment(column.value).format('YYYY-MM-DD');
+          return moment(column.value).format('DD-MM-YYYY');
         }
       },
       {
         field: 'enrollment_date',
         cellRenderer: (column) => {
-          return moment(column.value).format('YYYY-MM-DD');
+          return moment(column.value).format('DD-MM-YYYY');
         }
       },
       {
         field: 'prev_rtc_date',
         cellRenderer: (column) => {
-          return column.value !== null ? moment(column.value).format('YYYY-MM-DD') : column.value;
+          return column.value !== null ? moment(column.value).format('DD-MM-YYYY') : column.value;
         }
       },
       {
         field: 'rtc_date',
         cellRenderer: (column) => {
-          return column.value !== null ? moment(column.value).format('YYYY-MM-DD') : column.value;
+          return column.value !== null ? moment(column.value).format('DD-MM-YYYY') : column.value;
         }
       },
       {
         field: 'arv_first_regimen_start_date',
         cellRenderer: (column) => {
-          return moment(column.value).format('YYYY-MM-DD');
+          return moment(column.value).format('DD-MM-YYYY');
+        }
+      },
+      {
+        field: 'week_patient_became_active',
+        cellRenderer: (column) => {
+          return column.value ? moment(column.value).format('DD-MM-YYYY') : column.value;
+        }
+      },
+      {
+        field: 'transfer_out_date',
+        cellRenderer: (column) => {
+          return column.value ? moment(column.value).format('DD-MM-YYYY') : column.value;
         }
       },
       {
         field: 'death_date',
         cellRenderer: (column) => {
-          return column.value ? moment(column.value).format('YYYY-MM-DD') : column.value;
+          return column.value ? moment(column.value).format('DD-MM-YYYY') : column.value;
         }
       },
       {
