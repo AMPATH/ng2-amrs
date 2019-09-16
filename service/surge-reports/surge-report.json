@@ -23,17 +23,17 @@
             },
             {
                 "label": "Honored visit",
-                "description": "Patients who came the day of their rtc",
+                "description": "Patients scheduled this week and came for their visit",
                 "indicator": "on_schedule_this_week"
             },
             {
                 "label": "Unscheduled early",
-                "description": "Patients who came earlier than their rtc date",
+                "description": "Patients who came this week for their visit which earlier than the week of their rtc",
                 "indicator": "early_appointment_this_week"
             },
             {
                 "label": "Unscheduled late",
-                "description": "Patients who came after their rtc date",
+                "description": "Patients who came this week for their visit which later than the week of their rtc",
                 "indicator": "late_appointment_this_week"
             },
             {
@@ -53,22 +53,27 @@
         "indicators": [
             {
                 "label": "Original surge LTFU cohort (Surge baseline)",
-                "description": "LTFU cohort start of surge",
+                "description": "LTFU cohort during start of surge, patients who were newly LTFUs 2018 october and LTFUs upto may 11th 2019",
                 "indicator": "is_ltfu_surge_baseline"
             },
             {
                 "label": "Original surge LTFU cohort not yet resolved",
-                "description": "Original surge LTFU cohort that have not yet resolved",
+                "description": "Original surge LTFU cohort that have not don't have any outcomes yet",
                 "indicator": "surge_ltfu_and_still_ltfu"
             },
             {
-                "label": "LTFUs after may (patients who became ltfu after may 12th)",
-                "description": "Patients who became LTFUs after start of surge",
+                "label": "Cumulative LTFUs after may(patients who became ltfu after may 12th)",
+                "description": "All patients who became LTFUs after start of surge, may 12th 2019 upto now including those with outcomes already",
+                "indicator": "is_ltfu_after_may_total"
+            },
+            {
+                "label": "LTFUs after may not yet resolved",
+                "description": "Patients who became LTFUs after start of surge, may 12th 2019 and don't have any outcomes yet",
                 "indicator": "is_ltfu_after_may"
             },
             {
                 "label": "Target to bring back this week (Current surge LTFU cohort)",
-                "description": "Original surge LTFU cohort not yet resolved and patients who became LTFUs after may 12th",
+                "description": "Original surge LTFU cohort that have not yet been resolved and patients who became LTFUs after may 12th and have not yet been resolved",
                 "indicator": "surge_ltfu_and_ltfu_after_may"
             },
             {
@@ -78,7 +83,7 @@
             },
             {
                 "label": "Last week missed that have returned",
-                "description": "Patients who missed their appointments this week ",
+                "description": "All patients who had missed their appointments last week and have returned this week",
                 "indicator": "missed_to_active_this_week"
             },
             {
@@ -88,7 +93,7 @@
             },
             {
                 "label": "Last week defaulters that have returned",
-                "description": "Patients who missed their appointments this week ",
+                "description": "All patients who were defaulters by last week and have returned this week",
                 "indicator": "defaulter_to_active_this_week"
             },
             {
@@ -98,7 +103,7 @@
             },
             {
                 "label": "All dead patients after may",
-                "description": "All dead patients since beginning of surge",
+                "description": "All dead patients afetr may 12th",
                 "indicator": "cumulative_dead"
             },
             {
@@ -113,17 +118,17 @@
         "indicators": [
             {
                 "label": "Brought back to care",
-                "description": "Patients who were LTFUs last week and are active this week",
+                "description": "Patients in the target to bring back this week and have been brought back this week",
                 "indicator": "ltfu_active_this_week"
             },
             {
                 "label": "Reported self transfered",
-                "description": "Patients who were LTFUs last week and have been transfered out this week",
+                "description": "Patients in the target to bring back this week and have been reported self transfered this week",
                 "indicator": "ltfu_transfer_out_this_week"
             },
             {
                 "label": "Reported dead",
-                "description": "Patients who were LTFUs last week and have died this week",
+                "description": "Patients in the target to bring back this week and have been reported dead this week",
                 "indicator": "ltfu_death_this_week"
             }
         ]
@@ -143,12 +148,12 @@
             },
             {
                 "label": "Reported self transfered cumulative",
-                "description": "Total Surge LTFUs that have been transfered to another clinic",
+                "description": "Total Surge LTFUs that have been reported self transfered",
                 "indicator": "ltfu_cumulative_outcomes_transfer_out"
             },
             {
                 "label": "Reported dead cumulative",
-                "description": "Total Surge LTFUs that are confirmed dead",
+                "description": "Total Surge LTFUs that have been confirmed dead",
                 "indicator": "ltfu_cumulative_outcomes_death"
             }
         ]
@@ -172,63 +177,63 @@
         "sectionTitle": "Viral Load",
         "indicators": [
             {
-                "label": "Active and Due for VL ",
-                "description": "Active and Due for VL this week",
+                "label": "Active and Due for VL as of this week",
+                "description": "Patients overdue for VL",
                 "indicator": "overdue_for_vl_active"
             },
             {
                 "label": "Scheduled and Due for VL ",
-                "description": "Sheduled and Due for VL",
+                "description": "Sheduled this week and overdue for VL",
                 "indicator": "scheduled_this_week_and_due_for_vl"
             },
             {
                 "label": "Scheduled and Due for VL  with order",
-                "description": "Sheduled and Due for VL",
+                "description": "Sheduled this week, overdue for VL and have VL order",
                 "indicator": "due_for_vl_has_vl_order_scheduled"
             },
             {
                 "label": "Scheduled and Due for VL  without order",
-                "description": "Sheduled and Due for VL",
+                "description": "Sheduled this week, overdue for VL and don't have VL order",
                 "indicator": "due_for_vl_dont_have_order_scheduled"
             },
             {
                 "label": "Due for VL and not scheduled this week",
-                "description": "Sheduled and Due for VL",
+                "description": "Overdue for VL but RTC date not this week",
                 "indicator": "unscheduled_this_week_and_due_for_vl"
             },
             {
                 "label": "Due for VL and not scheduled this week with VL order",
-                "description": "Scheduled Due with VL ordered",
+                "description": "Overdue for VL, RTC date not this week, have VL order",
                 "indicator": "due_for_vl_has_vl_order_unscheduled"
             },
             {
                 "label": "Due for VL and not scheduled this week without VL order",
-                "description": "Scheduled Due with VL ordered",
+                "description": "Overdue for VL, RTC date not this week, without VL order",
                 "indicator": "due_for_vl_dont_have_order_unscheduled"
             },
             {
                 "label": "VL resulted ",
-                "description": "VL resulted this week",
+                "description": "All patients who have VL results",
                 "indicator": "has_vl_this_week"
             },
             {
                 "label": "VL resulted and suppressed",
-                "description": "VL resulted this week",
+                "description": "VL resulted this week and suppressed (<400 copies)",
                 "indicator": "has_vl_this_week_and_suppressed"
             },
             {
                 "label": "VL resulted and not suppressed",
-                "description": "VL resulted this week",
+                "description": "VL resulted this week and unsuppressed (>400 copies)",
                 "indicator": "has_vl_this_week_and_unsuppressed"
             },
             {
                 "label": "Has VL and Suppressed cumulative(<400 copies)",
-                "description": "Has VL and Suppressed ",
+                "description": "All active patients who are suppressed",
                 "indicator": "is_suppressed"
             },
             {
                 "label": "Has VL and Unsuppressed cumulative(>400 copies)",
-                "description": "Has VL and Unsuppressed ",
+                "description": "All active patients who are unsuppressed",
                 "indicator": "is_un_suppressed"
             }
         ]
@@ -238,7 +243,7 @@
         "indicators": [
             {
                 "label": "Total eligible for DC (patients on DC and those not on DC)",
-                "description": "DC eligible as of this week both patients in DC and those not on DC",
+                "description": "DC eligible as of this week both patients on DC and those not on DC",
                 "indicator": "elligible_total_revised"
             },
             {
@@ -248,7 +253,7 @@
             },
             {
                 "label": "DC eligible and not on DC",
-                "description": "DC eligible for patients not on DC",
+                "description": "All patients elligible for DC but not on DC",
                 "indicator": "eligible_not_on_dc"
             },
             {
@@ -258,12 +263,12 @@
             },
             {
                 "label": "DC eligible and not on DC with RTC this week",
-                "description": "DC eligible and not on dc scheduled for this week",
+                "description": "DC eligible and not on dc with RTC this week",
                 "indicator": "eligible_not_on_dc_and_scheduled_this_week"
             },
             {
                 "label": "DC eligible and not on DC and RTC not this week",
-                "description": "DC eligible and not on dc unscheduled",
+                "description": "DC eligible and not on dc whose RTC is not this week",
                 "indicator": "eligible_not_on_dc_and_unscheduled_this_week"
             }
         ]
@@ -303,7 +308,7 @@
             },
             {
                 "label": "Honored Second visit",
-                "description": "Honored Second visit",
+                "description": "Honored Second visit.",
                 "indicator": "tx2_scheduled_honored"
             },
             {
@@ -328,7 +333,7 @@
         "indicators": [
             {
                 "label": "Active on prep as of week",
-                "description": "Active on prep this week",
+                "description": "Active on prep as of this week",
                 "indicator": "active_on_prep_this_week"
             },
             {
@@ -338,7 +343,7 @@
             },
             {
                 "label": "Prep LTFU as of week",
-                "description": "Prep LTFU this week",
+                "description": "Prep LTFU as of this week",
                 "indicator": "prep_ltfu_this_week"
             },
             {
@@ -348,7 +353,7 @@
             },
             {
                 "label": "Prep defaulter as of week",
-                "description": "Prep defaulter this week",
+                "description": "Prep defaulters as of this week",
                 "indicator": "prep_defaulter_this_week"
             },
             {

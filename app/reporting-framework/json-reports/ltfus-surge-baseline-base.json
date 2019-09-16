@@ -36,6 +36,76 @@
         },
         {
             "type": "simple_column",
+            "alias": "transfer_out_date",
+            "column": "lsbr.transfer_out_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "week_patient_became_active",
+            "column": "lsbr.week_patient_became_active"
+        },
+        {
+            "type": "simple_column",
+            "alias": "clinical_visit_num",
+            "column": "lsbr.clinical_visit_num"
+        },
+        {
+            "type": "simple_column",
+            "alias": "days_since_rtc_date",
+            "column": "lsbr.days_since_rtc_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "status",
+            "column": "lsbr.status"
+        },
+        {
+            "type": "simple_column",
+            "alias": "prev_status",
+            "column": "lsbr.prev_status"
+        },
+        {
+            "type": "simple_column",
+            "alias": "cur_status",
+            "column": "lsbr.cur_status"
+        },
+        {
+            "type": "simple_column",
+            "alias": "death_date",
+            "column": "lsbr.death_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "arv_first_regimen_location_id",
+            "column": "lsbr.arv_first_regimen_location_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "arv_first_regimen",
+            "column": "lsbr.arv_first_regimen"
+        },
+        {
+            "type": "simple_column",
+            "alias": "active_to_ltfu_count",
+            "column": "lsbr.active_to_ltfu_count"
+        },
+        {
+            "type": "simple_column",
+            "alias": "arv_first_regimen_names",
+            "column": "lsbr.arv_first_regimen_names"
+        },
+        {
+            "type": "simple_column",
+            "alias": "age",
+            "column": "lsbr.age"
+        },
+        {
+            "type": "simple_column",
+            "alias": "gender",
+            "column": "lsbr.gender"
+        },
+        {
+            "type": "simple_column",
             "alias": "location_uuid",
             "column": "l.uuid"
         },
@@ -60,7 +130,7 @@
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": " l.uuid in (?)",
+                "conditionExpression": " l.uuid in ?",
                 "parameterName": "locationUuids"
             },
             {

@@ -224,14 +224,6 @@
         },
         {
             "type": "derived_column",
-            "alias": "returned_to_care_this_week",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(returned_to_care_this_week)"
-            }
-        },
-        {
-            "type": "derived_column",
             "alias": "active_in_care_this_week",
             "expressionType": "simple_expression",
             "expressionOptions": {
@@ -644,6 +636,14 @@
             "expressionType": "simple_expression",
             "expressionOptions": {
                 "expression": "sum(has_vl_this_week_and_unsuppressed)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "is_ltfu_after_may_total",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(is_ltfu_after_may_total)"
             }
         },
         {
