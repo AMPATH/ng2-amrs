@@ -17,10 +17,10 @@ export class SurgeReportBaseComponent implements OnInit {
   public selectedIndicators = [];
   public surgeReportSummaryData: any = [];
   public columnDefs: any = [];
-  public enabledControls = 'weekControl';
+  public enabledControls = 'dayControl';
   public reportName = 'Surge Report';
-  public currentView = 'weekly';
-  public isReleased = false;
+  public currentView = 'daily';
+  public isReleased = true;
   public yearWeek: any;
   public currentViewBelow = 'pdf';
 
@@ -67,7 +67,7 @@ export class SurgeReportBaseComponent implements OnInit {
           this.startDate = Moment(data._date).format('MM-DD-YYYY');
 
         if (data.currentView === undefined) {
-          this.currentView = 'weekly';
+          this.currentView = 'daily';
         } else {
           this.currentView = data.currentView;
           this.currentView === 'daily' ? this.enabledControls = 'dayControl' : this.enabledControls = 'weekControl';
