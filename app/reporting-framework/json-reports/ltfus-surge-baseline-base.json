@@ -6,7 +6,7 @@
     "uses": [],
     "sources": [
         {
-            "table": "etl.surge_weekly_report_dataset",
+            "table": "etl.surge_weekly_report_dataset_v7",
             "alias": "lsbr"
         },
         {

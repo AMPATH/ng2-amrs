@@ -6,7 +6,7 @@
     "uses": [],
     "sources": [
         {
-            "table": "etl.surge_weekly_report_dataset",
+            "table": "etl.surge_weekly_report_dataset_v7",
             "alias": "srb"
         },
         {
@@ -604,6 +604,40 @@
             "type": "simple_column",
             "alias": "elligible_total_revised",
             "column": "srb.elligible_total_revised"
+        },
+        {
+            "type": "simple_column",
+            "alias": "med_surge_ltfus_outcomes",
+            "column": "srb.med_surge_ltfus_outcomes"
+        },
+        {
+            "type": "simple_column",
+            "alias": "med_surge_ltfus_outcomes_this_week",
+            "column": "srb.med_surge_ltfus_outcomes_this_week"
+        },
+
+
+
+        
+        {
+            "type": "simple_column",
+            "alias": "med_surge_ltfus_cumulative",
+            "column": "srb.med_surge_ltfus_cumulative"
+        },
+        {
+            "type": "simple_column",
+            "alias": "med_surge_ltfu_and_med_ltfu_after_may",
+            "column": "srb.med_surge_ltfu_and_med_ltfu_after_may"
+        },
+        {
+            "type": "simple_column",
+            "alias": "med_defaulters",
+            "column": "srb.med_defaulters"
+        },
+        {
+            "type": "simple_column",
+            "alias": "newly_med_ltfu_this_week",
+            "column": "srb.newly_med_ltfu_this_week"
         },
         {
             "type": "simple_column",

@@ -65,8 +65,13 @@
                 "tx2_unscheduled_this_week",
                 "missed_tx2_visit_this_week",
                 "interventions",
-                "intervention_done_this_week"
-            ]
+                "intervention_done_this_week",
+                "med_surge_ltfus_cumulative",
+                "med_surge_ltfus_outcomes",
+                "med_surge_ltfu_and_med_ltfu_after_may",
+                "med_defaulters",
+                "newly_med_ltfu_this_week"
+            ] 
         },
         {
             "reportName" : "prepReport",

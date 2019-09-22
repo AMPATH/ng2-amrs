@@ -58,7 +58,7 @@
             },
             {
                 "label": "Original surge LTFU cohort not yet resolved",
-                "description": "Original surge LTFU cohort that have not don't have any outcomes yet",
+                "description": "Original surge LTFU cohort that don't have any outcomes yet",
                 "indicator": "surge_ltfu_and_still_ltfu"
             },
             {
@@ -70,6 +70,16 @@
                 "label": "LTFUs after may not yet resolved",
                 "description": "Patients who became LTFUs after start of surge, may 12th 2019 and don't have any outcomes yet",
                 "indicator": "is_ltfu_after_may"
+            },
+            {
+                "label": "Cumulative Medication refill LTFUs(Missed medication pickup rtc for more that 28 days)",
+                "description": "All patients who have missed their medication pickup rtc for more that 28 days from october 2018 to now, including those with outcomes already",
+                "indicator": "med_surge_ltfus_cumulative"
+            },
+            {
+                "label": "Medication refill LTFUs not yet resolved",
+                "description": "All patients who have missed their medication pickup rtc for more that 28 days from october 2018 to now and have not been resolved yet",
+                "indicator": "med_surge_ltfu_and_med_ltfu_after_may"
             },
             {
                 "label": "Target to bring back this week (Current surge LTFU cohort)",
@@ -87,8 +97,8 @@
                 "indicator": "missed_to_active_this_week"
             },
             {
-                "label": "All Defaulted as of this week (5 - 28 days)",
-                "description": "Patients who have missed their rtc date between 5 and 27 days",
+                "label": "All Defaulters as of this week (5 - 28 days)",
+                "description": "Patients who have missed their rtc date between 5 and 28 days",
                 "indicator": "defaulted"
             },
             {
@@ -97,9 +107,19 @@
                 "indicator": "defaulter_to_active_this_week"
             },
             {
-                "label": "LTFU this week (patients who bacame LTFU this week)",
+                "label": "Medication refill Defaulters as of this week (Missed medication pickup rtc 5 - 28 days)",
+                "description": "Patients who have missed their medication pickup rtc date between 5 and 28 days",
+                "indicator": "med_defaulters"
+            },
+            {
+                "label": "LTFUs this week (patients who bacame LTFU this week)",
                 "description": "Patients who became LTFU this week",
                 "indicator": "newly_ltfu_this_week"
+            },
+            {
+                "label": "Medication refill LTFUs this week(Missed medication pickup rtc date more than 28 days this week)",
+                "description": "Patients who have missed their medication pickup rtc date for more than 28 days this week",
+                "indicator": "newly_med_ltfu_this_week"
             },
             {
                 "label": "All dead patients after may",
@@ -130,6 +150,11 @@
                 "label": "Reported dead",
                 "description": "Patients in the target to bring back this week and have been reported dead this week",
                 "indicator": "ltfu_death_this_week"
+            },
+            {
+                "label": "Medication refill brought back this week",
+                "description": "Medication refill LTFUs that have been brought back this week",
+                "indicator": "med_surge_ltfus_outcomes_this_week"
             }
         ]
     },
@@ -155,6 +180,11 @@
                 "label": "Reported dead cumulative",
                 "description": "Total Surge LTFUs that have been confirmed dead",
                 "indicator": "ltfu_cumulative_outcomes_death"
+            },
+            {
+                "label": "Cumulative medication refill brought back",
+                "description": "All medication refill LTFUs that have been brought back",
+                "indicator": "med_surge_ltfus_outcomes"
             }
         ]
     },
@@ -163,12 +193,12 @@
         "indicators": [
             {
                 "label": "Returnees cumulative",
-                "description": "Patients who were LTFU before october 2018 and have returned without any interventions",
+                "description": "Patients who were LTFU before october 2018 and have returned",
                 "indicator": "old_ltfus_to_active"
             },
             {
                 "label": "Returnees this week",
-                "description": "Patients who were LTFU before october 2018 and have returned this week without any interventions",
+                "description": "Patients who were LTFU before october 2018 and have returned this week",
                 "indicator": "old_ltfus_to_active_this_week"
             }
         ]
