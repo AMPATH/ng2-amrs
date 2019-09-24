@@ -9,6 +9,14 @@
         "mrsArvRegimen": "10268"
       },
       {
+        "eidId": "1",
+        "eidCode": "AF2E",
+        "age": "1",
+        "line": "1",
+        "eidDisplay": "TDF+3TC+DTG",
+        "mrsArvRegimen": "628,802,9759"
+      },
+      {
         "eidId": "2",
         "eidCode": "AF2B",
         "age": "1",
