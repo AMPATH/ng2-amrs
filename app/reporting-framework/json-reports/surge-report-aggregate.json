@@ -685,8 +685,55 @@
             "expressionOptions": {
                 "expression": "sum(elligible_total_revised)"
             }
+        },
+        {
+            "type": "derived_column",
+            "alias": "med_surge_ltfus_cumulative",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(med_surge_ltfus_cumulative)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "med_surge_ltfu_and_med_ltfu_after_may",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(med_surge_ltfu_and_med_ltfu_after_may)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "med_defaulters",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(med_defaulters)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "newly_med_ltfu_this_week",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(newly_med_ltfu_this_week)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "med_surge_ltfus_outcomes",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(med_surge_ltfus_outcomes)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "med_surge_ltfus_outcomes_this_week",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(med_surge_ltfus_outcomes_this_week)"
+            }
         }
-
     ],
     "groupBy": {
         "groupParam": "groupByParam",
