@@ -100,6 +100,7 @@ export class FacilityReferralBaseComponent implements OnInit {
       startAge: this.startAge,
       endAge: this.endAge
     };
+    const uuids = this.getSelectedLocations(this.locationUuids);
     this.encounteredError = false;
     this.errorMessage = '';
     this.isLoadingReport = true;
@@ -109,7 +110,7 @@ export class FacilityReferralBaseComponent implements OnInit {
           gender: this.gender ? this.gender : undefined,
           startDate: this.toDateString(this.startDate),
           indicators: this.indicators,
-          locationUuids: this.getSelectedLocations(this.locationUuids),
+          locationUuids: uuids,
           startAge: this.startAge,
           endAge: this.endAge
        }).pipe(take(1)).subscribe(

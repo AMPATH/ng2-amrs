@@ -104,6 +104,7 @@ export class FacilityReferralTabularComponent implements OnInit {
   }
 
   public goToPatientList(data) {
+    console.log('------------------data-------------', data);
     this.locationUuids = data.data.location_uuid;
     this.startDate = moment(this.dates.startDate).format('DD/MM/YYYY');
     this.endDate = moment(this.dates.endDate).format('DD/MM/YYYY');
