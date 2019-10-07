@@ -6,7 +6,6 @@ import * as moment from 'moment';
 import { Observable ,  BehaviorSubject } from 'rxjs';
 
 import { ProgramService } from '../patient-dashboard/programs/program.service';
-import { Patient } from '../models/patient.model';
 import { EncounterResourceService } from '../openmrs-api/encounter-resource.service';
 import { ProgramReferralResourceService } from '../etl-api/program-referral-resource.service';
 import {

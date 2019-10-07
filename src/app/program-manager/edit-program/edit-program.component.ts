@@ -331,6 +331,7 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
         return _department.name === department;
       }
     });
+
     if (departmentPrograms) {
       this.programManagerService.editProgramEnrollments(
         'transfer', this.patient, departmentPrograms.programs, localStorage.getItem('transferLocation'))
