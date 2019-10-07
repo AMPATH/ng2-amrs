@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import * as _ from 'lodash';
-import { FormentryComponent } from './formentry.component';
 import * as moment from 'moment';
+
+import { FormentryComponent } from './formentry.component';
 import { Patient } from '../../../models/patient.model';
-import { FormDataSourceService } from './form-data-source.service';
-import { ConfirmationService } from 'primeng/primeng';
+import { SelectDepartmentService } from 'src/app/shared/services/select-department.service';
 
 @Injectable()
 export class PatientTransferService {
@@ -14,11 +14,13 @@ export class PatientTransferService {
   private patient: Patient;
   private transferState: BehaviorSubject<any> = new BehaviorSubject(null);
 
-  constructor() {
-  }
+  constructor(
+    private selectSetDepartmentService: SelectDepartmentService) { }
 
   public handleProgramManagerRedirects(data: any, patient: Patient): BehaviorSubject<any> {
     this.patient = patient;
+    this.setTransferLocation();
+    // getting program manager data to edit from local storage
     // check if patient status was filled
     const patientCareStatus = this.getPatientStatusQuestion();
     const referralQuestion = this.getReferralsQuestion();
@@ -26,7 +28,11 @@ export class PatientTransferService {
     const queryParams = {};
     if (this.shouldRedirectToProgramManager(patientCareStatus, force)) {
       this.componentRef.preserveFormAsDraft = false;
-      // Do not save transfer out options when submitting transfer out form
+
+      /*
+       * Do not save transfer out options when
+        submitting transfer out form
+       */
       if (this.componentRef.formUuid !== 'f8322fde-6160-4e70-8b49-e266022f1108') {
         this.saveTransferOptionsIfSpecified();
       }
@@ -36,7 +42,7 @@ export class PatientTransferService {
         if (_.first(patientCareStatus).control.value === 'a8aaf3e2-1350-11df-a1f1-0026b9348838') {
           // all active programs should be stopped
           _.merge(queryParams, {
-            stop: (this.componentRef.programClass).toUpperCase(),
+            stop: this.selectSetDepartmentService.getUserSetDepartment(),
             notice: 'other'
           });
         }
@@ -44,7 +50,7 @@ export class PatientTransferService {
         // patient care status in transfer out form is ampath
         if (_.first(patientCareStatus).control.value === 'a89c2e5c-1350-11df-a1f1-0026b9348838') {
           _.merge(queryParams, {
-            change: (this.componentRef.programClass).toUpperCase(),
+            change: this.selectSetDepartmentService.getUserSetDepartment(),
             notice: 'location'
           });
         }
@@ -67,7 +73,7 @@ export class PatientTransferService {
           loadTransferOutForm: true,
         });
       } else {
-        this.transferState.next({transfer: true, params: queryParams});
+        this.transferState.next({ transfer: true, params: queryParams });
       }
     }
     if (referralQuestion.length > 0) {
@@ -100,18 +106,22 @@ export class PatientTransferService {
     const careStatus = this.searchNodeByQuestionId('careStatus');
     if (careStatus.length > 0) {
       /**
-       * I was not successful to set the value without simulating a click. Again, I could not simulate without having some little delay.
-       * There could be a better way. Note also that this is DOM manipulation inside a service which shouldn't be happening
+       * I was not successful to set the value without simulating a click.
+       *  Again, I could not simulate without having some little delay.
+       * There could be a better way. Note also that this is DOM manipulation
+       *  inside a service which shouldn't be happening
        */
       // TODO find an Angular way of doing this without having to use VanillaJS
-      // some delay just to ensure the question has been rendered then simulate a click before setting value.
+      // some delay just to ensure the question has been rendered then simulate
+      // a click before setting value.
       setTimeout(() => {
         const element: HTMLElement = document.getElementById('careStatusid') as HTMLElement;
         element.click();
         careStatus[0].control.setValue(localStorage.getItem('careStatus'));
       }, 30);
       /**
-       * Using setTimeout not the best idea. But because of form renderer delay in adding options to select controls, I had to
+       * Using setTimeout not the best idea. But because of form renderer delay
+       *  in adding options to select controls, I had to
        * add some delay
        */
       // give some time for the hidden options to be shown
@@ -208,6 +218,13 @@ export class PatientTransferService {
       '1f09e809-8ea3-45e6-a71f-16e6a0d72390': '1f09e809-8ea3-45e6-a71f-16e6a0d72390'  // MCH/PMTCT map to itself in defaulter tracing form
     };
     return map[key];
+  }
+
+  private setTransferLocation() {
+    const transferLocation = this.searchNodeByQuestionId('transfered_out_to_ampath');
+    if (transferLocation.length > 0) {
+      localStorage.setItem('transferLocation', _.first(transferLocation).control.value);
+    }
   }
 
   private searchNodeByQuestionId(questionId: string) {

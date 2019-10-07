@@ -6,8 +6,6 @@ import { Patient } from '../../models/patient.model';
 import { ProgramManagerService } from '../program-manager.service';
 import { PatientResourceService } from '../../openmrs-api/patient-resource.service';
 import { Observable, of } from 'rxjs';
-import * as moment from 'moment';
-
 @Component({
   selector: 'program-transfer',
   templateUrl: './transfer-program.component.html',
