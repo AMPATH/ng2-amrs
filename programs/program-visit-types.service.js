@@ -37,7 +37,7 @@ function separateAllowedDisallowedVisitTypes(scope, visitTypes) {
 }
 
 function getPatientVisitTypes(patientUuid, programUuid, programEnrollmentUuid,
-  intendedVisitLocationUuid, allProgramsConfig, initialVisit) {
+  intendedVisitLocationUuid, allProgramsConfig) {
   return new Promise((success, error) => {
     const program = allProgramsConfig[programUuid];
     if (!program) {
@@ -46,8 +46,10 @@ function getPatientVisitTypes(patientUuid, programUuid, programEnrollmentUuid,
     }
 
     // resolve data dependencies
-    dataResolver.getAllDataDependencies(program.dataDependencies || [], 
-      patientUuid, {
+    dataResolver.getAllDataDependencies(
+      program.dataDependencies || [],
+      patientUuid, 
+      {
         programUuid: programUuid,
         programEnrollmentUuid: programEnrollmentUuid,
         intendedVisitLocationUuid: intendedVisitLocationUuid
@@ -56,7 +58,6 @@ function getPatientVisitTypes(patientUuid, programUuid, programEnrollmentUuid,
         // add missing properties 
         dataObject.programUuid = programUuid;
         dataObject.intendedVisitLocationUuid = intendedVisitLocationUuid;
-        dataObject.hasPreviousInitialVisit = initialVisit;
 
         // build scope
         const scopeObj = scopeBuilder.buildScope(dataObject);
