@@ -16,52 +16,54 @@ import { UserDefaultPropertiesService } from '../../../user-default-properties/u
 import { UserService } from '../../../openmrs-api/user.service';
 import { Patient } from '../../../models/patient.model';
 
-const summaryResult = {
-  arv_start_date: '2018-07-11T09:00:00.000Z',
-  arv_first_regimen: '',
-  contraceptive_method: 1107,
-  cur_arv_meds: 'LAMIVUDINE, NEVIRAPINE, TENOFOVIR',
-  date_created: '2019-09-10T02:38:20.000Z',
-  death_date: null,
-  discordant_status: 0,
-  encounter_datetime: '2019-07-19T05:54:03.000Z',
-  encounter_id: 8889835,
-  encounter_type: 2,
-  encounter_type_name: 'ADULTRETURN',
-  enrollment_date: '2019-02-25T21:00:00.000Z',
-  enrollment_location_id: 195,
-  expected_vl_date: 0,
-  hiv_dna_pcr_1: null,
-  hiv_start_date: '2019-02-25T21:00:00.000Z',
-  is_clinical_encounter: 1,
-  location_id: 195,
-  location_uuid: '18c343eb-b353-462a-9139-b16606e6b6c2',
-  mdt_session_number: 1,
-  med_pickup_rtc_date: null,
-  out_of_care: null,
-  outreach_attempts: null,
-  patient_care_status: 6101,
-  person_id: 892556,
-  prev_arv_end_date: '2019-03-24T21:00:00.000Z',
-  prev_arv_start_date: null,
-  prev_clinical_datetime_hiv: '2019-07-08T01:44:44.000Z',
-  prev_clinical_location_id: 195,
-  prev_clinical_rtc_date_hiv: '2019-07-29T21:00:00.000Z',
-  prev_encounter_datetime_hiv: '2019-07-17T21:00:00.000Z',
-  prev_encounter_type_hiv: 99999,
-  prev_rtc_date: '2019-07-29T21:00:00.000Z',
-  rtc_date: '2019-07-29T10:00:00.000Z',
-  uuid: '4a6ff3c6-6f95-41c1-b403-cd210ab7afba',
-  vl_1: 2000,
-  vl_1_date: '2019-03-17T11:00:00.000Z'
-};
+const summaryResult = [
+  {
+    arv_start_date: '2018-07-11T09:00:00.000Z',
+    arv_first_regimen: '',
+    contraceptive_method: 1107,
+    cur_arv_meds: 'LAMIVUDINE, NEVIRAPINE, TENOFOVIR',
+    date_created: '2019-09-10T02:38:20.000Z',
+    death_date: null,
+    discordant_status: 0,
+    encounter_datetime: '2019-07-19T05:54:03.000Z',
+    encounter_id: 8889835,
+    encounter_type: 2,
+    encounter_type_name: 'ADULTRETURN',
+    enrollment_date: '2019-02-25T21:00:00.000Z',
+    enrollment_location_id: 195,
+    expected_vl_date: 0,
+    hiv_dna_pcr_1: null,
+    hiv_start_date: '2019-02-25T21:00:00.000Z',
+    is_clinical_encounter: 1,
+    location_id: 195,
+    location_uuid: '18c343eb-b353-462a-9139-b16606e6b6c2',
+    mdt_session_number: 1,
+    med_pickup_rtc_date: null,
+    out_of_care: null,
+    outreach_attempts: null,
+    patient_care_status: 6101,
+    person_id: 892556,
+    prev_arv_end_date: '2019-03-24T21:00:00.000Z',
+    prev_arv_start_date: null,
+    prev_clinical_datetime_hiv: '2019-07-08T01:44:44.000Z',
+    prev_clinical_location_id: 195,
+    prev_clinical_rtc_date_hiv: '2019-07-29T21:00:00.000Z',
+    prev_encounter_datetime_hiv: '2019-07-17T21:00:00.000Z',
+    prev_encounter_type_hiv: 99999,
+    prev_rtc_date: '2019-07-29T21:00:00.000Z',
+    rtc_date: '2019-07-29T10:00:00.000Z',
+    uuid: '4a6ff3c6-6f95-41c1-b403-cd210ab7afba',
+    vl_1: 2000,
+    vl_1_date: '2019-03-17T11:00:00.000Z'
+  }
+];
 
 class FakeHivSummaryResourceService {
   constructor() {
   }
 
   getHivSummary(patientUuid, startIndex, size) {
-    return of([summaryResult]);
+    return of(summaryResult);
   }
 }
 

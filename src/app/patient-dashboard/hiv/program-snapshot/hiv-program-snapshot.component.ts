@@ -1,7 +1,7 @@
 import { OnInit, Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { take, finalize } from 'rxjs/operators';
 
 import * as _ from 'lodash';
 import * as moment from 'moment';
@@ -37,11 +37,14 @@ export class HivProgramSnapshotComponent implements OnInit {
   public prev_encounter_date: any = '';
   public isVirallyUnsuppressed = false;
   public patientCareStatus: any;
-  public hasTransferEncounter: boolean;
+  public hasTransferEncounter = false;
   public latestEncounterLocation: any = {};
+  public hasSubsequentClinicalEncounter = false;
+  public resolvedCareStatus: any;
+  public showCareStatus = true;
   public backgroundColor: any = {
-    pink: 'pink',
-    yellow: 'yellow'
+    pink: '#FFC0CB',
+    yellow: '#FFFF00'
   };
   public viremiaAlert: string;
   public showViremiaAlert: boolean;
@@ -50,7 +53,6 @@ export class HivProgramSnapshotComponent implements OnInit {
   public currentPatientSub: Subscription;
 
   public _patient: Patient = new Patient({});
-  private obs: any[] = [];
   public moriskyScore: any = '';
   public moriskyScore4: any = '';
   public moriskyScore8: any = '';
@@ -59,12 +61,13 @@ export class HivProgramSnapshotComponent implements OnInit {
   public moriskyDenominator: any = '';
   public moriskyRating: any = '';
   public isMoriskyScorePoorOrInadequate = false;
+  private obs: any[] = [];
 
-  constructor(private hivSummaryResourceService: HivSummaryResourceService,
+  constructor(
+    private hivSummaryResourceService: HivSummaryResourceService,
     private encounterResourceService: EncounterResourceService,
     private locationResource: LocationResourceService,
     private userDefaultPropertiesService: UserDefaultPropertiesService) {
-
   }
 
   public ngOnInit() {
@@ -100,11 +103,15 @@ export class HivProgramSnapshotComponent implements OnInit {
           this.checkViremia(latestVl);
         }
       }
-      this.hasTransferEncounter = results.find(result => result.encounterType = 116) ? true : false;
 
-      this.clinicalEncounters = _.filter(results, (encounter: any) => {
-        return encounter.is_clinical_encounter === 1;
-      });
+      this.clinicalEncounters = this.getClinicalEncounters(results);
+      const latestClinicalEncounter = _.first(this.clinicalEncounters);
+
+      this.hasTransferEncounter = this.checkIfHasTransferEncounter(results);
+      const transferEncounterIndex = this.getIndexOfTransferEncounter(results);
+
+      // Did the patient have a clinical encounter following their transfer encounter i.e. did they return to care?
+      this.hasSubsequentClinicalEncounter = (results.indexOf(latestClinicalEncounter) < transferEncounterIndex) ? true : false;
 
       this.patientData = _.first(this.clinicalEncounters);
       const patientDataCopy = this.patientData;
@@ -131,11 +138,14 @@ export class HivProgramSnapshotComponent implements OnInit {
 
   public resolveLastEncounterLocation(location_uuid) {
     this.locationResource.getLocationByUuid(location_uuid, true)
-      .subscribe((location) => {
-        this.latestEncounterLocation = location;
-      }, (error) => {
-        console.error('Error resolving locations', error);
-      });
+      .pipe(
+        finalize(() => {
+          this.resolvedCareStatus = this.getPatientCareStatus(this.patientCareStatus);
+        })).subscribe((location) => {
+          this.latestEncounterLocation = location;
+        }, (error) => {
+          console.error('Error resolving locations', error);
+        });
   }
 
   public getPatientCareStatus(care_status_id: any) {
@@ -157,26 +167,76 @@ export class HivProgramSnapshotComponent implements OnInit {
       '1732': 'AMPATH CLINIC TRANSFER',
       '9579': 'CONTINUE CARE IN OTHER FACILITY',
       '9580': 'FOLLOW-UP CARE PLAN, NOT SURE',
-      '5622': 'OTHER'
+      '5622': 'OTHER',
+      '10502': 'NON AMPATH CLINIC TRANSFER'
     };
-    // if it is past RTC Date by 1 week and status = continue, can you make background pink
-    if (care_status_id === 6101 &&
-      moment(this.patientData.rtc_date).add(1, 'week') < moment(new Date())) {
-      const color = this.backgroundColor.pink;
-      this.addBackground.emit(color);
+
+    /*
+      if the patient transferred out and their care status is 'Continue with Care' despite them not returning to care,
+      apply a yellow background on their summary snapshot to mark them out as a Transfer Out.
+    */
+    /*
+      if the patient is active in care with a care status of 'Continue with Care' and they are past their RTC date by
+      over 1 week, apply a pink background to their snapshot summary and hide their care status.
+    */
+    if (care_status_id === 6101) {
+      if (this.hasTransferEncounter && !this.patientReturnedToCare()) {
+        this.showCareStatus = false;
+        this.showYellowBackground();
+      } else if (moment(this.patientData.rtc_date).add(1, 'week') < moment(new Date())) {
+        this.showPinkBackground();
+      }
     }
 
-    // if patient is a transfer out, apply a yellow background to the snapshot summary
-    if (this.isNonAmpathTransferOut(care_status_id) || this.isIntraAmpathTransferFromCurrentLocation(care_status_id)) {
-      const color = this.backgroundColor.yellow;
-      this.addBackground.emit(color);
+    // if patient is a Transfer Out, apply a yellow background to their snapshot summary
+    if (this.isNonAmpathTransferOut(care_status_id)
+        || this.isIntraAmpathTransferFromCurrentLocation(care_status_id)) {
+      this.showYellowBackground();
     }
 
     return this._toProperCase(translateMap[care_status_id]);
   }
 
+  private checkIfHasTransferEncounter(summaries: any[]): boolean {
+    if (summaries) {
+      return _.some(summaries, (summary: any) => {
+        return summary.encounter_type === 116 && summary.encounter_type_name === 'TRANSFERENCOUNTER';
+      });
+    }
+  }
+
+  private getIndexOfTransferEncounter(summaries: any[]): number {
+    if (summaries) {
+      return _.findIndex(summaries, (summary: any) => {
+        return summary.encounter_type === 116 && summary.encounter_type_name === 'TRANSFERENCOUNTER';
+      });
+    }
+  }
+
+  private getClinicalEncounters(summaries: any[]): any[] {
+    if (summaries) {
+      return _.filter(summaries, (summary: any) => {
+        return summary.is_clinical_encounter === 1;
+      });
+    }
+  }
+
+  private showPinkBackground(): void {
+    const color = this.backgroundColor.pink;
+    this.addBackground.emit(color);
+  }
+
+  private showYellowBackground(): void {
+    const color = this.backgroundColor.yellow;
+    this.addBackground.emit(color);
+  }
+
+  private patientReturnedToCare(): boolean {
+    return this.hasSubsequentClinicalEncounter ? true : false;
+  }
+
   private isNonAmpathTransferOut(care_status_id) {
-    return care_status_id === 1287 && this.hasMatchingLocation() || care_status_id === 5622 && this.hasMatchingLocation();
+    return care_status_id === 1287 || care_status_id === 5622 || care_status_id === 10502;
   }
 
   private isIntraAmpathTransferFromCurrentLocation(care_status_id) {
