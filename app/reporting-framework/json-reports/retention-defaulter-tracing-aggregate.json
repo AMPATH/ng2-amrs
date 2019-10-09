@@ -1,0 +1,122 @@
+{
+    "name": "retentionDefaulterTracingAggregate",
+    "version": "1.0",
+    "tag": "retention_defaulter_tracing_aggregate",
+    "description": "",
+    "uses": [{
+        "name": "retentionDefaulterTracingBase",
+        "version": "1.0",
+        "type": "dataset_def"
+    }],
+    "sources": [{
+        "dataSet": "retentionDefaulterTracingBase",
+        "alias": "dt"
+    }],
+    "columns": [ {
+        "type": "simple_column",
+        "alias": "report_date",
+        "column": "dt.report_date"
+    },
+    {
+        "type": "simple_column",
+        "alias": "location_id",
+        "column": "dt.location_id"
+    },
+    {
+        "type": "simple_column",
+        "alias": "location_uuid",
+        "column": "dt.location_uuid"
+    },
+    {
+        "type": "simple_column",
+        "alias": "location_name",
+        "column": "dt.location_name"
+    },
+    {
+        "type": "derived_column",
+        "alias": "reached_by_phone",
+        "expressionType": "simple_expression",
+        "expressionOptions": {
+            "expression": "COUNT(dt.reached_by_phone)"
+        }
+    },
+    {
+        "type": "derived_column",
+        "alias": "not_reached_by_phone",
+        "expressionType": "simple_expression",
+        "expressionOptions": {
+            "expression": "COUNT(dt.not_reached_by_phone)"
+        }
+    },
+    {
+        "type": "derived_column",
+        "alias": "home_visit_found",
+        "expressionType": "simple_expression",
+        "expressionOptions": {
+            "expression": "COUNT(dt.home_visit_found)"
+        }
+    },
+    {
+        "type": "derived_column",
+        "alias": "home_visit_not_found",
+        "expressionType": "simple_expression",
+        "expressionOptions": {
+            "expression": "COUNT(dt.home_visit_not_found)"
+        }
+    },
+    {
+        "type": "derived_column",
+        "alias": "deceased",
+        "expressionType": "simple_expression",
+        "expressionOptions": {
+            "expression": "COUNT(dt.deceased)"
+        }
+    },
+    {
+        "type": "derived_column",
+        "alias": "self_disengaged",
+        "expressionType": "simple_expression",
+        "expressionOptions": {
+            "expression": "COUNT(dt.self_disengaged)"
+        }
+    },
+    {
+        "type": "derived_column",
+        "alias": "self_transferred_out",
+        "expressionType": "simple_expression",
+        "expressionOptions": {
+            "expression": "COUNT(dt.self_transferred_out)"
+        }
+    }
+    
+    ],
+    "groupBy": {
+        "groupParam": "groupByParam",
+        "columns": [
+            "DATE(dt.report_date)",
+            "dt.location_id"
+        ],
+        "excludeParam": "excludeParam"
+    },
+    "transFormDirectives": {
+        "joinColumn": "report_date",
+        "skipColumns": [
+        ],
+        "disaggregationColumns": [
+        ]
+    },
+    "dynamicJsonQueryGenerationDirectives": {
+        "patientListGenerator": {
+            "useTemplate": "retention-report-patient-list-template",
+            "useTemplateVersion": "1.0",
+            "generatingDirectives": {
+                "joinDirectives": {
+                    "joinType": "INNER",
+                    "joinCondition": "<<base_column>> = <<template_column>>",
+                    "baseColumn": "person_id",
+                    "templateColumn": "person_id"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,194 @@
+{
+    "name": "retentionDefaulterTracingBase",
+    "version": "1.0",
+    "tag": "retention_defaulter_tracing_base",
+    "uses": [
+    ],
+    "sources": [
+        {
+            "table": "etl.flat_hiv_summary_v15b",
+            "alias": "fhs"
+        },
+        {
+            "table": "amrs.location",
+            "alias": "l",
+            "join": {
+                "type": "inner",
+                "joinCondition": "l.location_id = fhs.location_id"
+                
+            }
+        },
+        {
+            "table": "amrs.person",
+            "alias": "p",
+            "join": {
+                "type": "inner",
+                "joinCondition": "p.person_id = fhs.person_id"
+                
+            }
+        },
+        {
+            "table": "etl.flat_appointment",
+            "alias": "fa",
+            "join": {
+                "type": "left",
+                "joinCondition": "fa.person_id = fhs.person_id AND DATE(fa.encounter_datetime) = DATE(fhs.prev_clinical_datetime_hiv)"
+                
+            }
+        },
+        {
+            "table": "amrs.program",
+            "alias": "pr",
+            "join": {
+                "type": "inner",
+                "joinCondition": "pr.program_id = fa.program_id"
+                
+            }
+        }
+    ],
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias": "report_date",
+            "column": "DATE_FORMAT(fhs.encounter_datetime,'%Y-%m-%d')"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location_id",
+            "column": "l.location_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "person_id",
+            "column": "fhs.person_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "program",
+            "column": "pr.name"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location_name",
+            "column": "l.name"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location_uuid",
+            "column": "l.uuid"
+        },
+        {
+            "type": "derived_column",
+            "alias": "reached_by_phone",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "IF(fhs.phone_outreach = 1, 1, NULL)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "not_reached_by_phone",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "IF(fhs.phone_outreach = 2, 1, NULL)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "home_visit_found",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "IF(fhs.home_outreach = 1, 1, NULL)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "home_visit_not_found",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "IF(fhs.home_outreach = 2, 1, NULL)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "deceased",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "IF(fhs.outreach_missed_visit_reason = 159, 1, NULL)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "self_disengaged",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "IF(fhs.outreach_missed_visit_reason = 9083, 1, NULL)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "self_transferred_out",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "IF(fhs.outreach_missed_visit_reason = 1594, 1, NULL)"
+            }
+        }
+       
+    ],
+    "filters": {
+        "conditionJoinOperator": "and",
+        "conditions": [
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fhs.encounter_type = 21"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fhs.location_id IN ?",
+                "parameterName": "locations"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "date(fhs.encounter_datetime) <= date(?)",
+                "parameterName": "endDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "date(fhs.encounter_datetime) >= date(?)",
+                "parameterName": "startDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "p.gender in ?",
+                "parameterName": "genders"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "timestampdiff(year,p.birthdate,NOW()) >= ?",
+                "parameterName": "startAge"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "timestampdiff(year,p.birthdate,NOW()) <= ?",
+                "parameterName": "endAge"
+            }
+        ]
+    },
+    "groupBy": {
+        "groupParam": "groupByParam",
+        "columns": [
+            "fhs.person_id",
+            "DATE_FORMAT(fhs.encounter_datetime,'%Y-%m-%d')"
+        ]
+    },
+    "orderBy": {
+        "orderByParam": "orderByParam",
+        "columns": [{
+            "column": "fhs.encounter_datetime",
+            "order": "asc"
+        }
+            
+        ]
+
+    }    
+}

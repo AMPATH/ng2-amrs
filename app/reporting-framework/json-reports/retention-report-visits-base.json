@@ -1,0 +1,242 @@
+{
+    "name": "retentionVisitsBase",
+    "version": "1.0",
+    "tag": "retention_visits_base",
+    "uses": [
+        {
+            "name": "retentionInterventionCohort",
+            "version": "1.0",
+            "type": "dataset_def"
+        }
+    ],
+    "sources": [
+        {
+            "table": "etl.flat_appointment",
+            "alias": "fa"
+        },
+        {
+            "table": "amrs.location",
+            "alias": "l",
+            "join": {
+                "type": "inner",
+                "joinCondition": "l.location_id = fa.location_id"
+                
+            }
+        },
+        {
+            "table": "amrs.program",
+            "alias": "pr",
+            "join": {
+                "type": "inner",
+                "joinCondition": "pr.program_id = fa.program_id"
+                
+            }
+        },
+        {
+            "table": "amrs.person",
+            "alias": "p",
+            "join": {
+                "type": "inner",
+                "joinCondition": "p.person_id = fa.person_id"
+                
+            }
+        },
+        {
+            "dataSet": "retentionInterventionCohort",
+            "alias": "intervention",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "intervention.person_id = fa.person_id AND intervention.encounter_datetime > fa.prev_clinical_encounter_datetime AND intervention.encounter_datetime < fa.encounter_datetime"
+            }
+        },
+        {
+            "table": "etl.flat_hiv_summary_v15b",
+            "alias": "transfers",
+            "join": {
+                "type": "left",
+                "joinCondition": "transfers.person_id = fa.person_id AND DATE(transfers.transfer_in_date) = DATE(fa.encounter_datetime) AND transfers.is_clinical_encounter = 1 AND transfers.transfer_in = 1"
+                
+            }
+        },
+        {
+            "table": "etl.flat_appointment",
+            "alias": "scheduled",
+            "join": {
+                "type": "left",
+                "joinCondition": "scheduled.person_id = fa.person_id AND DATE(scheduled.rtc_date) = DATE(fa.encounter_datetime)"
+                
+            }
+        }
+    ],
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias": "person_id",
+            "column": "fa.person_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "gender",
+            "column": "p.gender"
+        },
+        {
+            "type": "simple_column",
+            "alias": "program",
+            "column": "pr.name"
+        },
+        {
+            "type": "derived_column",
+            "alias": "age",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "timestampdiff(year,p.birthdate,NOW())"
+            }
+        },
+        {
+            "type": "simple_column",
+            "alias": "report_date",
+            "column": "DATE_FORMAT(fa.encounter_datetime,'%Y-%m-%d')"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location_id",
+            "column": "fa.location_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location_uuid",
+            "column": "l.uuid"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location_name",
+            "column": "l.name"
+        },
+        {
+            "type": "derived_column",
+            "alias": "attended_clinic_on_date_scheduled",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+            "expression": "IF(scheduled.person_id IS NOT NULL,1,NULL)"
+                       }
+        },
+        {
+            "type": "derived_column",
+            "alias": "unscheduled_early_visits",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+            "expression": "IF((DATE(fa.encounter_datetime) < DATE(fa.prev_clinical_rtc_date)), 1, NULL)"
+                       }
+        },
+        {
+            "type": "derived_column",
+            "alias": "unscheduled_late_visits",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+            "expression": "IF((DATE(fa.encounter_datetime) > DATE(fa.prev_clinical_rtc_date)), 1, NULL)"
+                       }
+        },
+        {
+            "type": "derived_column",
+            "alias": "newly_enrolled",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+            "expression": "IF(fa.prev_clinical_encounter_datetime IS NULL, 1 , NULL)"
+                       }
+        },
+        {
+            "type": "derived_column",
+            "alias": "returned_after_intervention",
+            "expressionType": "case_statement",
+            "expressionOptions": {
+                "caseOptions": [
+                    {
+                        "condition": "fa.next_clinical_encounter_datetime IS NOT NULL AND TIMESTAMPDIFF(DAY, fa.prev_clinical_rtc_date, fa.encounter_datetime) >= 1 AND intervention.person_id IS NOT NULL",
+                        "value": 1
+                    }
+                ]
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "returned_without_intervention",
+            "expressionType": "case_statement",
+            "expressionOptions": {
+                "caseOptions": [
+                    {
+                        "condition": "fa.next_clinical_encounter_datetime IS NOT NULL AND TIMESTAMPDIFF(DAY, fa.prev_clinical_rtc_date, fa.encounter_datetime) >= 1 AND intervention.person_id IS NULL",
+                        "value": 1
+                    }
+                ]
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "transfer_in",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+            "expression": "IF(transfers.person_id IS NOT NULL,1,NULL)"
+                       }
+        }
+    ],
+    "filters": {
+        "conditionJoinOperator": "and",
+        "conditions": [
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "DATE(fa.encounter_datetime) >= ?",
+                "parameterName": "startDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "DATE(fa.encounter_datetime) <= ?",
+                "parameterName": "endDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "timestampdiff(year,p.birthdate,NOW()) >= ?",
+                "parameterName": "startAge"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "timestampdiff(year,p.birthdate,NOW()) <= ?",
+                "parameterName": "endAge"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "p.gender in ?",
+                "parameterName": "genders"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fa.is_clinical = 1"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fa.location_id IN ? ",
+                "parameterName": "locations"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fa.program_id IN (1,9,27) "
+            }
+        ]
+    },
+    "groupBy": {
+        "groupParam": "groupByParam",
+        "columns": [
+            "fa.person_id",
+            "fa.encounter_datetime"
+        ]
+    },
+    "orderBy": {
+        "orderByParam": "orderByParam",
+        "columns": [{
+            "column": "fa.encounter_datetime",
+            "order": "asc"
+        }
+            
+        ]
+
+    }    
+}

@@ -1,0 +1,8 @@
+{
+    "reports": [
+    "retentionAppointmentAdherenceAggregate",
+    "retentionVisitsAggregate",
+    "retentionDefaulterTracingAggregate",
+    "retentionLtfuAggregate"
+    ]
+}

@@ -65,7 +65,12 @@ import { LungCancerTreatmentSummary } from './service/lung-cancer-treatment-summ
 import { SurgeService } from './service/surge-reports/surge-report.service';
 
 var patientReminderService = require('./service/patient-reminder.service.js');
-var kibanaService = require('./service/kibana.service');
+var  kibanaService = require('./service/kibana.service');
+
+import { 
+    RetentionAppointmentTracingService 
+} from './service/retention-appointment-tracing-service';
+
 
 module.exports = function () {
 
@@ -4659,7 +4664,109 @@ module.exports = function () {
                         params: {}
                     }
                 }
+            },
+            {
+                method: 'GET',
+                path: '/etl/retention-summary-report',
+                config: {
+                    auth: 'simple',
+                    plugins: {
+                        'hapiAuthorization': {
+                            role: privileges.canViewClinicDashBoard
+                        }
+                    },
+                    handler: function (request, reply) {
+
+                        if (request.query.locationUuids) {
+                            preRequest.resolveLocationIdsToLocationUuids(request,
+                                function () {
+
+                                let requestParams = Object.assign({}, request.query, request.params);
+                                // console.log('requestParams', requestParams);
+                                let reportParams = etlHelpers.getReportParams('retention-summary-report',
+                                    ['startDate', 'endDate', 'period', 'locations', 'indicators', 'genders', 'startAge', 'endAge'],
+                                    requestParams);
+                                let retentionService = new RetentionAppointmentTracingService('retention-report', reportParams.requestParams);
+                                retentionService.generateReport().then((result) => {
+                                    reply(result);
+                                }).catch((error) => {
+                                    console.error('Error: ', error);
+                                    reply(error);
+                                });
+
+                        });
+
+                    }
+                       
+
+                    },
+                    description: 'Get Retention report aggregate data',
+                    notes: 'Returns Retention summary aggregate',
+                    tags: ['api'],
+                }
+            },
+            {
+                method: 'GET',
+                path: '/etl/retention-summary-report/patient-list',
+                config: {
+                    auth: 'simple',
+                    plugins: {},
+                    handler: function (request, reply) {
+
+                        request.query.reportName = 'retention-summary-report';
+                        preRequest.resolveLocationIdsToLocationUuids(request,
+                            function () {
+                               
+
+                                let requestParams = Object.assign({}, request.query, request.params);
+
+                                let requestCopy = _.cloneDeep(requestParams);
+                                let reportParams = etlHelpers.getReportParams(request.query.reportName, ['startDate', 'endDate', 'locationUuids', 'locations'], requestParams);
+                                requestCopy.locations = reportParams.requestParams.locations;
+
+                                let retentionService = new RetentionAppointmentTracingService('retention-report', requestCopy);
+
+                                retentionService.generatePatientListReport(requestParams.indicators.split(',')).then((results) => {
+                                    reply(results);
+                                }).catch((error) => {
+                                    console.error('Error: ', error);
+                                    reply(error);
+                                });
+                            });
+                       
+
+                    },
+                    description: 'Get Retention report Patient list',
+                    notes: 'Returns Retention Report Patient List',
+                    tags: ['api'],
+                }
+
+            },
+            {
+                method: 'GET',
+                path: '/etl/retention-summary-report/indicator-definitions',
+                config: {
+                    auth: 'simple',
+                    plugins: {
+                        'hapiAuthorization': {
+                            role: privileges.canViewClinicDashBoard
+                        }
+                    },
+                    handler: function (request, reply) {
+                                let service = new RetentionAppointmentTracingService();
+                                service.getIndicatorDefinitions().then((result) => {
+                                    reply(result);
+                                }).catch((error) => {
+                                    reply(error);
+                                });
+
+                    },
+                    description: 'Get Retention report Patient list',
+                    notes: 'Returns Retention Report Patient List',
+                    tags: ['api'],
+                }
             }
+
         ];
 
     return routes;

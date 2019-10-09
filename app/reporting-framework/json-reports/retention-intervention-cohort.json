@@ -1,0 +1,51 @@
+{
+    "name": "retentionInterventionCohort",
+    "version": "1.0",
+    "tag": "",
+    "description": "",
+    "uses": [],
+    "sources": [
+        {
+            "table": "etl.flat_hiv_summary_v15b",
+            "alias": "t2"
+        }
+    ],
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias": "person_id",
+            "column": "t2.person_id"
+        },
+        {
+          "type": "simple_column",
+          "alias": "encounter_datetime",
+          "column": "t2.encounter_datetime"
+        },
+        {
+            "type": "simple_column",
+            "alias": "phone_outreach",
+            "column": "t2.phone_outreach"
+        },
+        {
+          "type": "simple_column",
+          "alias": "home_outreach",
+          "column": "t2.home_outreach"
+        }
+    ],
+    "filters": {
+        "conditionJoinOperator": "and",
+        "conditions": [
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "t2.encounter_type = 21"
+            }
+        ]
+    },
+    "groupBy": {
+        "groupParam": "groupByParam",
+        "columns": [
+            "encounter_id"
+        ],
+        "excludeParam": "excludeParam"
+    }
+}

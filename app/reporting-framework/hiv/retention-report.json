@@ -1,0 +1,112 @@
+[
+    {
+       "sectionTitle": "Appointment Adherenace",
+       "indicators": [
+          {
+             "label": "Patients Scheduled",
+             "ref": "",
+             "indicator": "patients_scheduled"
+          },
+          {
+            "label": "Attended clinic on the date scheduled",
+            "ref": "",
+            "indicator": "attended_clinic_on_date_scheduled"
+         },
+         {
+            "label": "Number of unscheduled Early visits",
+            "ref": "",
+            "indicator": "unscheduled_early_visits"
+         },
+         {
+            "label": "Number of unscheduled Late visits",
+            "ref": "",
+            "indicator": "unscheduled_late_visits"
+         },
+         {
+            "label": "Number of defaulters during the day",
+            "ref": "",
+            "indicator": "defaulted"
+         },
+         {
+            "label": "Number Newly enrolled",
+            "ref": "",
+            "indicator": "newly_enrolled"
+         },
+         {
+            "label": "Number of transfer Ins",
+            "ref": "",
+            "indicator": "transfer_in"
+         }
+        ]
+    },
+    {
+        "sectionTitle": "Defaulter Tracing",
+        "indicators": [
+           {
+              "label": "Number reached by Phone",
+              "ref": "",
+              "indicator": "reached_by_phone"
+           },
+           {
+            "label": "Number Not reached by Phone",
+            "ref": "",
+            "indicator": "not_reached_by_phone"
+           },
+           {
+            "label": "Number traced physically/visited and found",
+            "ref": "",
+            "indicator": "home_visit_found"
+           },
+           {
+            "label": "Number traced physically/visited and not found",
+            "ref": "",
+            "indicator": "home_visit_not_found"
+           },
+           {
+            "label": "Number with No attempt to locate(28 days after RTC date)",
+            "ref": "",
+            "indicator": "no_attempt_to_contact_28_days_after_rtc"
+           },
+           {
+            "label": "Number returned back to care after an intervention",
+            "ref": "",
+            "indicator": "returned_after_intervention"
+           },
+           {
+            "label": "Number returned back to care without any intervention",
+            "ref": "",
+            "indicator": "returned_without_intervention"
+           },
+           {
+            "label": "Number self-transferred out",
+            "ref": "",
+            "indicator": "self_transferred_out"
+           },
+           {
+            "label": "Number deceased",
+            "ref": "",
+            "indicator": "deceased"
+           },
+           {
+            "label": "Number self-disengaged from care",
+            "ref": "",
+            "indicator": "self_disengaged"
+           },
+           {
+            "label": "Number Newly LTFU",
+            "ref": "",
+            "indicator": "newly_ltfu"
+           },
+           {
+            "label": "Traced patient but has not returned",
+            "ref": "",
+            "indicator": "traced_has_not_returned"
+           },
+           {
+            "label": "Did not attempt to trace patient",
+            "ref": "",
+            "indicator": "traced_has_not_returned"
+           }
+         ]
+     }
+]

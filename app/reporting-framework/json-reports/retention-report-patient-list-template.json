@@ -1,0 +1,173 @@
+{
+    "name": "retention_report_patient_list_template",
+    "version": "1.0",
+    "tag": "retention_report_patient_list_template",
+    "description": "Retention Report Patient list template",
+    "sources": [
+        {
+            "table": "amrs.person",
+            "alias": "t1"
+        },
+        {
+            "table": "amrs.person_name",
+            "alias": "person_name",
+            "join": {
+                "type": "INNER",
+                "joinCondition": "t1.person_id = person_name.person_id AND (person_name.voided IS NULL || person_name.voided = 0)"
+            }
+        },
+        {
+            "table": "amrs.patient_identifier",
+            "alias": "id",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "t1.person_id = id.patient_id AND (id.voided IS NULL || id.voided = 0)"
+            }
+        },
+        {
+            "table": "amrs.person_attribute",
+            "alias": "contacts",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "t1.person_id = contacts.person_id AND (contacts.voided IS NULL || contacts.voided = 0) AND contacts.person_attribute_type_id = 10"
+            }
+        },
+        {
+            "table": "amrs.person_attribute",
+            "alias": "alternate_contacts",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "t1.person_id = alternate_contacts.person_id AND (alternate_contacts.voided IS NULL || alternate_contacts.voided = 0) AND alternate_contacts.person_attribute_type_id = 40"
+            }
+        },
+        {
+            "table": "amrs.person_address",
+            "alias": "address",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "t1.person_id = address.person_id AND address.voided = 0"
+            }
+        },
+        {
+            "table": "etl.flat_hiv_summary_v15b",
+            "alias": "hs",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "t1.person_id =  hs.person_id AND hs.next_clinical_datetime_hiv IS NULL AND hs.encounter_type NOT IN('99999')"
+            }
+        },
+        {
+            "table": "amrs.encounter_type",
+            "alias": "encounter_type",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "hs.encounter_type = encounter_type.encounter_type_id"
+            }
+        }
+    ],
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias": "patient_uuid",
+            "column": "t1.uuid"
+        },
+        {
+            "type": "simple_column",
+            "alias": "person_id",
+            "column": "t1.person_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "gender",
+            "column": "t1.gender"
+        },
+        {
+            "type": "derived_column",
+            "alias": "age",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "extract(year from (from_days(datediff(now(),t1.birthdate))))"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "person_name",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": " CONCAT(COALESCE(person_name.given_name, ''), ' ', COALESCE(person_name.middle_name, ''), ' ', COALESCE(person_name.family_name, ''))"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "identifiers",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": " GROUP_CONCAT(DISTINCT id.identifier SEPARATOR ', ')"
+            }
+        },
+        {
+            "type": "simple_column",
+            "alias": "current_vl",
+            "column": "hs.vl_1"
+        },
+        {
+            "type": "derived_column",
+            "alias": "current_vl_date",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "date_format(hs.vl_1_date,'%d-%m-%Y')"
+            }
+        },
+        {
+            "type": "simple_column",
+            "alias": "previous_vl",
+            "column": "hs.vl_2"
+        },
+        {
+            "type": "derived_column",
+            "alias": "previous_vl_date",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "date_format(hs.vl_2_date,'%d-%m-%Y')"
+            }
+        },
+        {
+            "type": "simple_column",
+            "alias": "cur_arv_meds",
+            "column": "hs.cur_arv_meds"
+        },
+        {
+            "type": "derived_column",
+            "alias": "last_appointment",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+            "expression": "CONCAT(COALESCE(DATE_FORMAT(hs.encounter_datetime,'%Y-%m-%d'), ''),' ', COALESCE(encounter_type.name, ''))"
+                       }
+        },
+        {
+            "type": "derived_column",
+            "alias": "phone_number",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": " GROUP_CONCAT(DISTINCT contacts.value SEPARATOR ', ')"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "alternate_phone_number",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": " GROUP_CONCAT(DISTINCT alternate_contacts.value SEPARATOR ', ')"
+            }
+        },
+        {
+            "type": "simple_column",
+            "alias": "estate",
+            "column": "address.address3"
+        }
+        
+    ],
+    "groupBy":{
+        "columns":["t1.person_id"]
+    }
+}
