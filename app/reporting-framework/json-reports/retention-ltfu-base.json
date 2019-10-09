@@ -1,0 +1,205 @@
+{
+    "name": "retentionLtfuBase",
+    "version": "1.0",
+    "tag": "retention_ltfu_base",
+    "uses": [
+    ],
+    "sources": [
+        {
+            "table": "etl.flat_appointment",
+            "alias": "fa"
+        },
+        {
+            "table": "amrs.location",
+            "alias": "l",
+            "join": {
+                "type": "inner",
+                "joinCondition": "l.location_id = fa.location_id"
+                
+            }
+        },
+        {
+            "table": "amrs.program",
+            "alias": "pr",
+            "join": {
+                "type": "inner",
+                "joinCondition": "pr.program_id = fa.program_id"
+                
+            }
+        },
+        {
+            "table": "amrs.person",
+            "alias": "p",
+            "join": {
+                "type": "inner",
+                "joinCondition": "p.person_id = fa.person_id"
+                
+            }
+        },
+        {
+            "table": "etl.flat_hiv_summary_v15b",
+            "alias": "fhs",
+            "join": {
+                "type": "left",
+                "joinCondition": "fhs.person_id = fa.person_id AND fhs.next_encounter_datetime_hiv IS NULL AND fhs.encounter_type NOT IN ('99999')"
+                
+            }
+        },
+        {
+            "table": "etl.flat_appointment",
+            "alias": "exit",
+            "join": {
+                "type": "left",
+                "joinCondition": "exit.person_id = fa.person_id AND exit.encounter_type IN ('157') AND exit.next_clinical_encounter_datetime IS NULL"
+                
+            }
+        },
+        {
+            "table": "etl.flat_appointment",
+            "alias": "transfer",
+            "join": {
+                "type": "left",
+                "joinCondition": "transfer.person_id = fa.person_id AND transfer.encounter_type IN ('116') AND transfer.next_clinical_encounter_datetime IS NULL"
+                
+            }
+        }
+    ],
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias": "person_id",
+            "column": "fa.person_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "gender",
+            "column": "p.gender"
+        },
+        {
+            "type": "simple_column",
+            "alias": "program",
+            "column": "pr.name"
+        },
+        {
+            "type": "derived_column",
+            "alias": "age",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "timestampdiff(year,p.birthdate,NOW())"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "report_date",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "DATE(DATE_ADD(fa.rtc_date, INTERVAL 90 DAY))"
+            }
+        },
+        {
+            "type": "simple_column",
+            "alias": "location_id",
+            "column": "fa.location_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location_uuid",
+            "column": "l.uuid"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location_name",
+            "column": "l.name"
+        },
+        {
+            "type": "derived_column",
+            "alias": "newly_ltfu",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+            "expression": "IF(TIMESTAMPDIFF(DAY, fa.rtc_date, IF(fa.next_clinical_encounter_datetime IS NULL, DATE(DATE_ADD(fa.rtc_date , INTERVAL 90 DAY)), fa.next_clinical_encounter_datetime)) = 90, 1, NULL)"
+                       }
+        }
+       
+    ],
+    "filters": {
+        "conditionJoinOperator": "and",
+        "conditions": [
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "DATE(fa.rtc_date) >= DATE(DATE_SUB(? , INTERVAL 90 DAY))",
+                "parameterName": "startDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "DATE(fa.rtc_date) <= DATE(DATE_SUB(? , INTERVAL 90 DAY))",
+                "parameterName": "endDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "timestampdiff(year,p.birthdate,NOW()) >= ?",
+                "parameterName": "startAge"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "timestampdiff(year,p.birthdate,NOW()) <= ?",
+                "parameterName": "endAge"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "p.gender in ?",
+                "parameterName": "genders"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fa.is_clinical = 1"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fa.location_id IN ? ",
+                "parameterName": "locations"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fa.program_id IN (1,9,27) "
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fhs.transfer_out_location_id NOT IN (?,9999) OR fhs.transfer_out_location_id IS NULL",
+                "parameterName": "locations"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "p.death_date IS NULL"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "exit.person_id IS NULL"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "transfer.person_id IS NULL"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fa.next_clinical_encounter_datetime IS NULL"
+            }
+        ]
+    },
+    "groupBy": {
+        "groupParam": "groupByParam",
+        "columns": [
+            "fa.person_id",
+            "DATE(report_date)"
+        ]
+    },
+    "orderBy": {
+        "orderByParam": "orderByParam",
+        "columns": [{
+            "column": "fa.rtc_date",
+            "order": "asc"
+        }
+            
+        ]
+
+    }    
+}

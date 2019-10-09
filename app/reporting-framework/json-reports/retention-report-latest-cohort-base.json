@@ -1,0 +1,79 @@
+{
+    "name": "retentionReportLatestCohortBase",
+    "version": "1.0",
+    "tag": "",
+    "description": "",
+    "uses": [],
+    "sources": [
+        {
+            "table": "etl.flat_hiv_summary_v15b",
+            "alias": "fhsc"
+        },
+        {
+            "table": "amrs.encounter_type",
+            "alias": "e",
+            "join": {
+                "type": "INNER",
+                "joinCondition": "fhsc.encounter_type = e.encounter_type_id"
+            }
+        }
+    ],
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias": "person_id",
+            "column": "fhsc.person_id"
+        },
+        {
+            "type": "derived_column",
+            "alias": "latest_vl_date",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": " vl_1_date"
+            }
+        },
+        {
+            "type": "simple_column",
+            "alias": "current_vl",
+            "column": "fhsc.vl_1"
+        },
+        {
+            "type": "simple_column",
+            "alias": "cur_arv_meds",
+            "column": "fhsc.cur_arv_meds"
+        },
+        {
+            "type": "simple_column",
+            "alias": "encounter_datetime",
+            "column": "DATE_FORMAT(fhsc.encounter_datetime,'%Y-%m-%d')"
+        },
+        {
+            "type": "simple_column",
+            "alias": "encounter_type",
+            "column": "fhsc.encounter_type"
+        },
+        {
+            "type": "simple_column",
+            "alias": "encounter_name",
+            "column": "e.name"
+        }
+    ],
+    "filters": {
+        "conditionJoinOperator": "and",
+        "conditions": [
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fhsc.next_clinical_datetime_hiv IS NULL"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fhsc.is_clinical_encounter = 1"
+            }
+        ]
+    },
+    "groupBy": {
+        "columns": [
+            "fhsc.person_id"
+        ]
+    }
+}

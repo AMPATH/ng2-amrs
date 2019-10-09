@@ -150,7 +150,9 @@ export class MultiDatasetPatientlistReport extends MultiDatasetReport {
                 dataObject['previous_vl_date'] = element.previous_vl_date,
                 dataObject['nearest_center'] = element.nearest_center
 
-            transformedResults.push(dataObject);
+            const finalObj = Object.assign(element,dataObject);
+
+            transformedResults.push(finalObj);
         })
         return transformedResults;
 

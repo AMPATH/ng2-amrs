@@ -1,0 +1,104 @@
+    {
+        "indicators": [
+            {
+                "label": "Patients Scheduled",
+                "name": "patients_scheduled",
+                "description": "Clients booked for that day"
+            },
+            {
+                "label": "Attended clinic on the date scheduled",
+                "name": "attended_clinic_on_date_scheduled",
+                "description": "Clients attended on the booked day"
+            },
+            {
+                "label": "Number of unscheduled Early visits",
+                "name": "unscheduled_early_visits",
+                "description": "Clients who come before their scheduled appointment day"
+            },
+            {
+                "label": "Number of unscheduled Late visits",
+                "name": "unscheduled_late_visits",
+                "description": "Clients who come after their scheduled appointment day"
+            },
+            {
+                "label": "Number of defaulters during the day",
+                "name": "defaulted",
+                "description": "Clients who did not attend clinic on the appointment date"
+            },
+            {
+                "label": "Number Newly enrolled",
+                "name": "newly_enrolled",
+                "description": "Clients new on ART (with new initial form)"
+            },
+            {
+                "label": "Number of transfer Ins",
+                "name": "transfer_in",
+                "description": "Clients coming from another ampath or Non-ampath facility"
+            },
+            {
+                "label": "Number reached by Phone",
+                "name": "reached_by_phone",
+                "description": "Defaulted Clients who a phone attempt was done and were reached"
+            },
+            {
+                "label": "Number Not reached by Phone",
+                "name": "not_reached_by_phone",
+                "description": "defaulted Clients who a phone attempt was done but was not reached.(due to phone inactive,phone not answered,wrong phone number)"
+            },
+            {
+                "label": "Number traced physically/visited and found",
+                "name": "home_visit_found",
+                "description": "Defaulted clients who a home visit was done and they were found"
+            },
+            {
+                "label": "Number traced physically/visited and not found",
+                "name": "home_visit_not_found",
+                "description": "Defaulted clients who a home visit was done and they were not found."
+            },
+            {
+                "label": "Number with No attempt to locate(28 days after RTC date)",
+                "name": "no_attempt_to_contact_28_days_after_rtc",
+                "description": "Defaulted clients who a home visit/Phone call attempt was not done (28 days after RTC date)- i.e they don't have a defaulter tracing form"
+            },
+            {
+                "label": "Number returned back to care after an intervention",
+                "name": "returned_back_after_intervention",
+                "description": "Defaulters returned to care after a phone or home visit"
+            },
+            {
+                "label": "Number returned back to care without any intervention",
+                "name": "returned_back_without_intervention",
+                "description": "Defaulters returned to care without a phone or home visit"
+            },
+            {
+                "label": "Number self-transferred out",
+                "name": "self_transferred_out",
+                "description": "Defaulters silently transferred (No documented transfer form filled)"
+            },
+            {
+                "label": "Number deceased",
+                "name": "deceased",
+                "description": "Defaulters with a deceased outcome"
+            },
+            {
+                "label": "Number self-disengaged from care",
+                "name": "self_disengaged",
+                "description": "Defaulters who have refused to continue with care and have self-disengaged outcome"
+            },
+            {
+                "label": "Number Newly LTFU",
+                "name": "newly_ltfu",
+                "description": "Defaulters who have missed care 90+ days"
+            },
+            {
+                "label": "Traced patient but has not returned",
+                "name": "traced_has_not_returned",
+                "description": "Defaulter with one or more defaulter tracing form and with no clinical encounter"
+            },
+            {
+                "label": "Did not attempt to trace patient",
+                "name": "traced_has_not_returned",
+                "description": "Defaulter without a defaulter tracing form"
+            }
+        ]
+    }
