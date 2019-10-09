@@ -800,7 +800,8 @@
       "patient",
       "enrollment",
       "hivLastTenClinicalEncounters",
-      "patientEnrollment"
+      "patientEnrollment",
+      "patientEncounters"
     ],
     "enrollmentOptions": {
       "enrollIf": "gender === 'F'",
@@ -883,7 +884,7 @@
       {
         "uuid": "53b856ad-21ef-4745-9acd-81aca01bba31",
         "name": "PMTCT Viremia Antenatal Return Visit",
-        "allowedIf": "hasPreviousInitialVisit && isEnrolledInViremiaPMTCT",
+        "allowedIf": "!isFirstPMTCTVisit && isEnrolledInViremiaPMTCT",
         "message": "Patient must be enrolled both in PMTCT and Viremia.",
         "encounterTypes": [
           {
@@ -919,7 +920,7 @@
       {
         "uuid": "53954785-4d53-4012-8f30-1c37fa870906",
         "name": "PMTCT Viremia Postnatal Return Visit",
-        "allowedIf": "hasPreviousInitialVisit && isEnrolledInViremiaPMTCT",
+        "allowedIf": "!isFirstPMTCTVisit && isEnrolledInViremiaPMTCT",
         "message": "Patient must be enrolled both in PMTCT and Viremia.",
         "encounterTypes": [
           {
@@ -954,7 +955,7 @@
       }, {
         "uuid": "42de8e7e-24b2-4c16-b62b-137eb2c55ede",
         "message": "Patient must not have prior clinical encounter.",
-        "allowedIf": "age > 2 && !hasPreviousInitialVisit",
+        "allowedIf": "age > 2 && isFirstPMTCTVisit",
         "name": "PMTCT Antenatal Initial Visit",
         "encounterTypes": [{
             "uuid": "8d5b27bc-c2cc-11de-8d13-0010c6dffd0f",
@@ -981,7 +982,7 @@
       {
         "uuid": "02e3ce61-fa24-445e-a1f0-6e3299142966",
         "message": "Patient must have prior clinical encounter.",
-        "allowedIf": "hasPreviousInitialVisit && !isEnrolledInViremiaPMTCT",
+        "allowedIf": "!isFirstPMTCTVisit && !isEnrolledInViremiaPMTCT",
         "name": "PMTCT Antenatal Return Visit",
         "encounterTypes": [{
             "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
@@ -1012,7 +1013,7 @@
       {
         "uuid": "b1a978ca-9315-4ba2-ac2b-84efb9a68c5c",
         "message": "Patient must not have prior clinical encounter.",
-        "allowedIf": "!hasPreviousInitialVisit",
+        "allowedIf": "isFirstPMTCTVisit",
         "name": "PMTCT Postnatal Initial Visit",
         "encounterTypes": [{
             "uuid": "8d5b27bc-c2cc-11de-8d13-0010c6dffd0f",
@@ -1043,7 +1044,7 @@
       {
         "uuid": "0b1b6194-d2d5-4e4b-9f7c-c3b778ccc354",
         "message": "Patient must have prior clinical encounter.",
-        "allowedIf": "hasPreviousInitialVisit && !isEnrolledInViremiaPMTCT",
+        "allowedIf": "!isFirstPMTCTVisit && !isEnrolledInViremiaPMTCT",
         "name": "PMTCT Postnatal Return Visit",
         "encounterTypes": [{
             "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
