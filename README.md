@@ -104,11 +104,11 @@ The folder /path/to/keys/ should contain SSL certificate and private key in `ser
 and `server.key`.
 
 ### Setup CI Integration
-1. Request addition of your dockerhub account to ampathke docker team
-2. Activate etl-rest-server repo on your travis account
-3. Setup DOCKER_PASSWORD & DOCKER_USERNAME on travis fork account.
-4. Update local etl-rest-server i.e git pull upstream master. CD setup should be in master
-5. Checkout a branch from master e.g - git checkout -b test-etl-test-brach
-6. Push etl branch i.e git push origin  <Branchname>
-7. Access build using the following url https://ngx.ampath.or.ke/etl-backend/<Branchname> 
-where Branchname is the pushed branch.
+
+1. Request addition of your dockerhub account to the ampathke docker team.
+2. Activate the `etl-rest-server` repo on your Travis account.
+3. Setup `DOCKER_PASSWORD` & `DOCKER_USERNAME` under environment variables on your forked repo's settings page on Travis.
+4. Update your local `etl-rest-server` fork i.e. `git pull upstream master`. The CD setup should be in master.
+5. Checkout a branch from master e.g. `git checkout -b test-etl-test-branch`
+6. Push that branch i.e. `git push origin <branchname>`
+7. Access your test build via the following url: [https://ngx.ampath.or.ke/etl-backend/branchname/etl](https://ngx.ampath.or.ke/etl-backend/<branchname>/etl) where `branchname` is the name of your branch.
