@@ -123,6 +123,12 @@
           "isSideBarOpen": false
         },
         {
+          "url": "retention-report",
+          "label": "Retention Report",
+          "icon": "fa fa-file",
+          "isSideBarOpen": false
+        },
+        {
           "url": "group-manager",
           "label": "Groups Manager",
           "icon": "fa fa-users",

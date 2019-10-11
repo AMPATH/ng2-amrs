@@ -64,6 +64,11 @@ import { HivDifferentiatedCareComponent } from './hiv-differentiated-care-progra
 import { SurgeReportComponent } from './surge-report/surge-report.component';
 import { SurgeReportPatientListComponent } from 'src/app/hiv-care-lib/surge-report/surge-report-patient-list.component';
 
+import { ClinicDashboardRetentionReportComponent } from './retention-report/clinic-dashboard-retention-report.component';
+import {
+   RetentionReportPatientListComponent
+} from './../../hiv-care-lib/retention-report/retention-report-patient-list.component';
+
 const routes: Routes = [
     {
         path: 'landing-page',
@@ -194,7 +199,19 @@ const routes: Routes = [
     {
         path: 'surge-reports/surge-report-patientlist',
         component: SurgeReportPatientListComponent
-    }
+    },
+    { path: 'retention-report',
+    children: [
+     {
+         path: '',
+         component: ClinicDashboardRetentionReportComponent
+     },
+     {
+         path: 'patient-list',
+         component: RetentionReportPatientListComponent
+     }
+ ]
+ },
 ];
 
 export const clinicDashboardHivRouting: ModuleWithProviders =
