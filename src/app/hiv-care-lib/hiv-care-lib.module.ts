@@ -99,6 +99,13 @@ export function highchartsFactory() {
   hce(hc);
   return hc;
 }
+import { RetentionReportPatientListComponent } from './retention-report/retention-report-patient-list.component';
+import { RetentionReportFiltersComponent } from './retention-report/retention-report-filters.component';
+import { RetentionReportComponent } from './retention-report/retention-report.component';
+import { RetentionReportResourceService } from './../etl-api/retention-report-resource.service';
+import { RetentionReportTabularComponent } from './retention-report/retention-report-tabular.component';
+import { RetentionIndicatorDefComponent } from './retention-report/retention-indicator-definitions.component';
+
 @NgModule({
   imports: [
     RouterModule,
@@ -158,7 +165,12 @@ export function highchartsFactory() {
     HivMonthlySummaryIndicatorsPatientListComponent,
     SurgeReportTabularComponent,
     SurgeReportBaseComponent,
-    SurgeReportPatientListComponent
+    SurgeReportPatientListComponent,
+    RetentionReportPatientListComponent,
+    RetentionReportFiltersComponent,
+    RetentionReportComponent,
+    RetentionReportTabularComponent,
+    RetentionIndicatorDefComponent
   ],
   declarations: [
     Moh731TabularComponent,
@@ -187,11 +199,17 @@ export function highchartsFactory() {
     HivMonthlySummaryIndicatorsPatientListComponent,
     SurgeReportTabularComponent,
     SurgeReportBaseComponent,
-    SurgeReportPatientListComponent
+    SurgeReportPatientListComponent,
+    RetentionReportPatientListComponent,
+    RetentionReportFiltersComponent,
+    RetentionReportComponent,
+    RetentionReportTabularComponent,
+    RetentionIndicatorDefComponent
   ],
   providers: [MOHReportService,
     LocationResourceService,
     ClinicalSummaryVisualizationService,
+    RetentionReportResourceService,
     ProgramWorkFlowResourceService,
     {
       provide: HighchartsStatic,
