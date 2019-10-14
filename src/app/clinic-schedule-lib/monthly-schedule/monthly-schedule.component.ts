@@ -98,6 +98,7 @@ export class MonthlyScheduleBaseComponent implements OnInit, OnDestroy {
 
   public filterSelected($event: any) {
          this.getCurrentLocation();
+         console.log('monthly params', $event);
          this.params = $event;
          if ($event.resetFilter && $event.resetFilter === true) {
            this.events = [];
@@ -135,6 +136,7 @@ export class MonthlyScheduleBaseComponent implements OnInit, OnDestroy {
       this.monthlyScheduleResourceService.getMonthlySchedule({
       endDate: this.params.endDate,
       startDate: this.params.startDate,
+      department: this.params.department,
       programType: this.params.programType,
       visitType: this.params.visitType,
       encounterType: this.params.encounterType,

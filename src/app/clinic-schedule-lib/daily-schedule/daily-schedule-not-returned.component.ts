@@ -25,6 +25,16 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
   public dataLoaded = false;
   public nextStartIndex = 0;
   public selectedNotReturnedTab: any;
+  public extraColumns: Array<any> = [{
+    headerName: 'Program',
+    width: 200,
+    field: 'program'
+  },
+  {
+    headerName: 'Phone Number',
+    width: 80,
+    field: 'phone_number'
+  }];
   public filter: any = {
      'programType': [],
      'visitType': [],
@@ -40,11 +50,6 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
     message: 'Please wait...' // default message
   };
   public encodedParams: string =  encodeURI(JSON.stringify(this.filter));
-  public extraColumns: any = {
-    headerName: 'Phone Number',
-    width: 80,
-    field: 'phone_number'
-  };
   public fetchCount = 0;
   private subs: Subscription[] = [];
   @Input()
@@ -120,6 +125,7 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
     let programType: any = [];
     let visitType: any = [];
     let encounterType: any = [];
+    let department = '';
     if (this.params.programType.length > 0) {
         programType = this.params.programType;
     }
@@ -128,6 +134,9 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
     }
     if (this.params.encounterType && this.params.encounterType.length > 0) {
       encounterType = this.params.encounterType;
+    }
+    if (this.params.department && this.params.department.length > 0) {
+      department = this.params.department;
     }
     if (this.params.startDate) {
        this.selectedDate = this.params.startDate;
@@ -140,6 +149,7 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
       locationUuids: this.selectedClinic,
       programType: programType,
       visitType: visitType,
+      department: department,
       encounterType: encounterType,
       limit: 1000
     };

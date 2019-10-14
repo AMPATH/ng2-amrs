@@ -4,18 +4,13 @@ import {take} from 'rxjs/operators';
 import {
   Component,
   OnInit , OnDestroy , AfterViewInit,
-  Output , EventEmitter, Input , ChangeDetectorRef,
-  ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { Router, ActivatedRoute, ActivatedRouteSnapshot, Params } from '@angular/router';
+  Output , EventEmitter, Input , ChangeDetectorRef } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
 import { PatientProgramResourceService } from './../etl-api/patient-program-resource.service';
-import { LocalStorageService } from '../utils/local-storage.service';
 import { DepartmentProgramsConfigService } from './../etl-api/department-programs-config.service';
 import { SelectDepartmentService } from './../shared/services/select-department.service';
-import { ItemsList } from '@ng-select/ng-select/ng-select/items-list';
-
 @Component({
   selector: 'program-visit-encounter-search',
   templateUrl: './program-visit-encounter-search.component.html',
@@ -58,6 +53,7 @@ export class ProgramVisitEncounterSearchComponent implements OnInit, OnDestroy ,
     public loadingFilters  = true;
     public myDepartment;
     public showFilters  = true;
+    public showProgramFilters = true;
     public programVisitMap = new Map();
     public programMaps = new Map();
     public visitMaps = new Map();
@@ -150,6 +146,7 @@ export class ProgramVisitEncounterSearchComponent implements OnInit, OnDestroy ,
   public getParamsFromUrl(params) {
 
       const newParams = {
+        department: '',
         programType: [],
         visitType: [],
         encounterType: [],
@@ -157,6 +154,9 @@ export class ProgramVisitEncounterSearchComponent implements OnInit, OnDestroy ,
         endDate: '',
         resetFilter: false
       };
+      if (params.department) {
+        newParams.department = params.department;
+       }
       if (params.programType) {
           newParams.programType = params.programType;
           const selectedPrograms = this.loadFilterFromMap(params.programType, this.programMaps);
@@ -218,8 +218,17 @@ public setFiltersFromUrlParams(params, mapObj) {
 
       this.selectDepartmentService.getDepartment().subscribe((d) => {
         this.myDepartment = d;
+        this.showProgramFilter(d);
         this.getDepartmentPrograms(d);
       });
+
+    }
+    public showProgramFilter(department) {
+       if (department === 'HIV' && !this.defaultersControl) {
+           this.showProgramFilters = false;
+       } else {
+           this.showProgramFilters = true;
+       }
 
     }
     public getDepartmentPrograms(department) {
@@ -487,11 +496,12 @@ public setFiltersFromUrlParams(params, mapObj) {
       let selectedEncounterType: any = [];
       let selectedStartDate: string;
       let selectedEndDate: string;
+      const selectedDepartment = this.myDepartment;
       this.message = {
         message: ''
       };
 
-      if (this.program.length === 0) {
+      if (this.program.length === 0 && this.showProgramFilters === true) {
          this.message = {
            message: 'Kindly select at least one program'
          };
@@ -526,6 +536,7 @@ public setFiltersFromUrlParams(params, mapObj) {
             'encounterType': selectedEncounterType,
             'startDate': selectedStartDate,
             'endDate': selectedEndDate,
+            'department': selectedDepartment,
             'resetFilter': this.filterReset
           };
         }
