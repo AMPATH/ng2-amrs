@@ -96,16 +96,6 @@
             "label": "Number Newly LTFU",
             "ref": "",
             "indicator": "newly_ltfu"
-           },
-           {
-            "label": "Traced patient but has not returned",
-            "ref": "",
-            "indicator": "traced_has_not_returned"
-           },
-           {
-            "label": "Did not attempt to trace patient",
-            "ref": "",
-            "indicator": "traced_has_not_returned"
            }
          ]
      }

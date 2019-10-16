@@ -89,16 +89,6 @@
                 "label": "Number Newly LTFU",
                 "name": "newly_ltfu",
                 "description": "Defaulters who have missed care 90+ days"
-            },
-            {
-                "label": "Traced patient but has not returned",
-                "name": "traced_has_not_returned",
-                "description": "Defaulter with one or more defaulter tracing form and with no clinical encounter"
-            },
-            {
-                "label": "Did not attempt to trace patient",
-                "name": "traced_has_not_returned",
-                "description": "Defaulter without a defaulter tracing form"
             }
         ]
     }
