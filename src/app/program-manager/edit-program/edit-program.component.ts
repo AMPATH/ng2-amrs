@@ -331,12 +331,12 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
         return _department.name === department;
       }
     });
+
     if (departmentPrograms) {
       this.programManagerService.editProgramEnrollments(
         'transfer', this.patient, departmentPrograms.programs, localStorage.getItem('transferLocation'))
         .pipe(take(1)).subscribe((editedPrograms) => {
-          console.log('editedPrograms', editedPrograms);
-        this.selectedLocation = _.last(editedPrograms).location;
+        this.selectedLocation = (_.last(editedPrograms) as any).location;
         this.patientService.reloadCurrentPatient();
         this.theChangeComplete = true;
         this.showNoticeIfPossible();
