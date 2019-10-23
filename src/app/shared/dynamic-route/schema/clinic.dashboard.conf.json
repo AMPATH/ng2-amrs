@@ -160,6 +160,12 @@
           "isSideBarOpen": false
         },
         {
+          "url": "dqa-reports",
+          "label": "DQA Reports",
+          "icon": "fa fa-pie-chart",
+          "isSideBarOpen": false
+        },
+        {
           "url": "department-select",
           "label": "Change Department",
           "icon": "fa fa-exchange",
