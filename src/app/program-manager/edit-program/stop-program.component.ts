@@ -8,7 +8,7 @@ import { ProgramManagerService } from '../program-manager.service';
 @Component({
   selector: 'stop-program',
   templateUrl: './stop-program.component.html',
-  styleUrls: []
+  styleUrls: ['./stop-program.component.css']
 })
 export class StopProgramComponent implements OnInit {
   @Input() public programs: any[] = [];
