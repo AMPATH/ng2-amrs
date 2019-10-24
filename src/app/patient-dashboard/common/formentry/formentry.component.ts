@@ -466,7 +466,12 @@ export class FormentryComponent implements OnInit, OnDestroy {
   public handleProgramManagerRedirects(data: any): void {
     const step = ['step', 3];
     this.patientTransferService.handleProgramManagerRedirects(data, this.patient).subscribe((transfer) => {
-      if (transfer && transfer.transfer === true) {
+      this.preserveFormAsDraft = false;
+      if (this.formUuid === 'cff39194-cb9c-41df-8e5d-3fc8763fa286') {
+        this.router.navigate(_.concat(['/patient-dashboard/patient/' +
+          this.patient.uuid + '/general/general/program-manager/edit-program'], step));
+      }
+      if (transfer && transfer.transfer === true && this.formUuid !== 'cff39194-cb9c-41df-8e5d-3fc8763fa286') {
         this.preserveFormAsDraft = false;
         this.showSuccessDialog = false;
         if (transfer.loadTransferOutForm) {
