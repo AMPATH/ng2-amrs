@@ -40,6 +40,7 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
       background-color: #425da2;
     }`,
     `.component-title {
+      text-transform: none;
       border-bottom-width: 2px;
     }`]
 })

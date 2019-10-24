@@ -183,8 +183,8 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
     if (queryParams && !_.isEmpty(queryParams) && queryParams.notice) {
       switch (queryParams.notice) {
         case 'location':
-          this.title = queryParams.change + ' Programs Location Change';
-          this.showMessage('The patient has been moved to ' + queryParams.change + ' department in ' +
+          this.title = queryParams.change + ' Program Location Change';
+          this.showMessage('The patient has been transferred to the ' + queryParams.change + ' department at ' +
             this.selectedLocation.display + ' successfully.', 'info');
           break;
         case 'pmtct':
