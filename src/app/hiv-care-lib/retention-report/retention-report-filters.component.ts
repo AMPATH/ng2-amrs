@@ -17,7 +17,7 @@ public title = 'Retention Report Filters';
 public enabledControls = 'datesControl,' +
     'ageControl,genderControl';
 public selectedIndicators  = [];
-@Input() public startDate = Moment().startOf('month').toISOString();
+@Input() public startDate = Moment().startOf('week').toISOString();
 @Input() public endDate  = Moment().endOf('week').toISOString();
 @Input() public reportType = '';
 @Input() public indicators = '';
@@ -33,6 +33,11 @@ public selectedGender: any = [];
 public locationUuids: Array<string>;
 public isLoadingReport = false;
 public reportName = 'retention-report';
+public errorObj = {
+'isError': false,
+'message': ''
+};
+public validParams = true;
 
 
 constructor( private router: Router,
@@ -108,12 +113,51 @@ public setParamsFromUrl() {
   }
 
   public generateReport() {
-    // this.isLoadingReport = true;
-    this.getLocationsSelected();
-    this.storeReportParamsInUrl();
-    // this.encounteredError = false;
-    // this.errorMessage = '';
-    // this.isLoadingReport = false;
+    this.resetErrorObj();
+    this.validateParams();
+    if (this.validParams) {
+      this.getLocationsSelected();
+      this.storeReportParamsInUrl();
+    }
+  }
+
+  public validateParams() {
+
+    switch (this.reportType) {
+      case 'weekly':
+       this.validateWeekRange();
+      break;
+      default:
+
+    }
+
+  }
+
+  public validateWeekRange() {
+     const startDate = Moment(this.startDate);
+     const endDate = Moment(this.endDate);
+     const diff = endDate.diff(startDate, 'days');
+     if (diff > 7) {
+
+        this.errorObj = {
+        'isError': true,
+        'message': 'For daily data, ensure date range is 7 days or less'
+        };
+
+        this.validParams = false;
+
+     } else {
+
+       this.validParams = true;
+     }
+
+  }
+
+  public resetErrorObj() {
+    this.errorObj = {
+      'isError': false,
+      'message': ''
+      };
   }
 
   public storeReportParamsInUrl() {

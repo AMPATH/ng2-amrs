@@ -157,14 +157,34 @@ export class RetentionReportTabularComponent implements OnInit, OnChanges {
                         }
                 }
             });
+            const reportDates = [];
             _.each(retentionSummary, (summary: any) => {
-                defs.push({
-                    headerName: moment(summary.report_date).format('DD-MM-YYYY'),
-                    field: summary.report_date,
-                });
+               reportDates.push(moment(summary.report_date).format('YYYY-MM-DD'));
             });
-            // tslint:disable-next-line:prefer-for-of
+
+            const sortedDates = this.sortDateCols(reportDates);
+            _.each(sortedDates, (reportDate: any) => {
+
+                defs.push({
+                    headerName: moment(reportDate).format('DD-MM-YYYY'),
+                    field: reportDate,
+                });
+
+            });
+
             this.retentionSummaryColdef = defs;
+  }
+
+  public sortDateCols(datesArray) {
+
+    const sortedDates = datesArray.sort((a, b) => {
+        const c = new Date(a);
+        const d = new Date(b);
+        return c.getTime() - d.getTime();
+    });
+
+    return sortedDates;
+
   }
 
 

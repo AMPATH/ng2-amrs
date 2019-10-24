@@ -1,6 +1,12 @@
 <div class="container-fluid">
         <div class="row">
             <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                <div class="alert alert-danger fade in" *ngIf="errorObj.isError">
+                            <a  class="close" data-dismiss="alert">&times;</a>
+                            <p>
+                                <small >{{errorObj.message}}</small>
+                            </p>
+                </div>
                 <report-filters 
                       [enabledControls]="enabledControls" 
                       [(startDate)]="startDate" 
