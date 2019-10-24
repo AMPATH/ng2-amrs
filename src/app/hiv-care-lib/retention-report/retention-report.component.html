@@ -16,17 +16,22 @@
             <retention-report-filters
               [dashboardType] = "dashboardType"
               [params] = "params"
+              [reportType]= "currentView"
             >
               
             </retention-report-filters>
      </div>
      <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
-          <retention-report-tabular
-            [retentionSummary]="retentionSummary"
-            [params]="params"
-            [sectionDefs]="sectionDefs"
-          >
-          </retention-report-tabular>
+        <p-tabView (onChange)="onTabChanged($event)">
+            <p-tabPanel header="  Weekly " leftIcon="fa-calendar-o " [selected]="currentView">
+                  <retention-report-tabular
+                    [retentionSummary]="retentionSummary"
+                    [params]="params"
+                    [sectionDefs]="sectionDefs"
+                  >
+                  </retention-report-tabular>
+            </p-tabPanel>
+        </p-tabView>
           <button class="btn btn-success" (click)="showModal(indicatorModal)">Show Indicator Definitions</button>
           <ng-template #indicatorModal>
             <div class="modal-dialog modal-lg">

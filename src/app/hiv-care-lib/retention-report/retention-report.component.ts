@@ -36,6 +36,7 @@ export class RetentionReportComponent implements OnInit , OnChanges {
     public locationUuids: any;
     public indicatorDefinitions: any;
     public modalRef: BsModalRef;
+    public currentView = 'weekly';
 
     constructor( private router: Router,
         private route: ActivatedRoute,
@@ -170,6 +171,9 @@ public fetchReport() {
       'isError': false,
       'message': ''
     };
+   }
+
+   public onTabChanged($event) {
    }
 
 }
