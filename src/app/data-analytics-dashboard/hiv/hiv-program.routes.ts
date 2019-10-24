@@ -7,16 +7,20 @@ import {
 import {
   HivSummaryIndicatorsPatientListComponent
 } from '../../hiv-care-lib/hiv-summary-indicators/patient-list.component';
-import { HivCareComparativeComponent
+import {
+  HivCareComparativeComponent
 } from './hiv-visualization/hiv-care-overview.component';
 import {
   VisualizationPatientListComponent
 } from '../../hiv-care-lib/hiv-visualization/visualization-patient-list.component';
-import { AdminDashboardClinicFlowComponent
+import {
+  AdminDashboardClinicFlowComponent
 } from './clinic-flow/admin-dashboard-clinic-flow';
-import { HivCareComparativeAnalyticsComponent
+import {
+  HivCareComparativeAnalyticsComponent
 } from './hiv-data-visualization/hiv-overview-visualization';
-import { HivSummaryIndicatorsComponent
+import {
+  HivSummaryIndicatorsComponent
 } from './hiv-summary-indicators/hiv-summary-indicators';
 import { DataAnalyticsDashboardComponent } from '../data-analytics.component';
 import { DataAnalyticsDashboardGuard } from '../data-analytics-guard';
