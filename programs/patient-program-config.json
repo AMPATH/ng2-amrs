@@ -3176,6 +3176,7 @@
   "37ff4124-91fd-49e6-8261-057ccfb4fcd0": {
     "name": "ONCOLOGY SCREENING AND DIAGNOSIS PROGRAM",
     "dataDependencies": [
+      "patient"
     ],
     "incompatibleWith": [],
     "enrollmentOptions": { 
@@ -3191,11 +3192,8 @@
       {
         "uuid": "8103a0f3-a3d3-4453-ac3e-aaecd542ccd1",
         "name": "Cervical Cancer Screening ",
-        "enrollmentOptions": {
-          "enrollIf": "gender === 'F'",
-          "requiredProgramQuestions": [],
-          "allowMultipleEnrollment": false
-        },
+        "allowedIf": "gender === 'F'",
+        "message": "Only female patients are eligible for this visit.",
         "encounterTypes": [
           {
             "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
