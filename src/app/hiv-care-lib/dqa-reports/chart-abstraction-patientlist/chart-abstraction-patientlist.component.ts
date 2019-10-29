@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { DqaChartAbstractionService } from 'src/app/etl-api/dqa-chart-abstraction.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import {Location} from '@angular/common';
+import { Location } from '@angular/common';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-chart-abstraction-patientlist',
@@ -80,6 +81,80 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
         });
       }
     }
+    this.overrideColumns.push(
+      {
+        field: 'birthdate',
+        cellRenderer: (column) => {
+          if (column.value != null) {
+            return moment(column.value).format('YYYY-MM-DD');
+          }
+        }
+      },
+      {
+        field: 'last_appointment_date',
+        cellRenderer: (column) => {
+          if (column.value != null) {
+            return moment(column.value).format('YYYY-MM-DD');
+          }
+        }
+      },
+      {
+        field: 'next_appointment',
+        cellRenderer: (column) => {
+          if (column.value != null) {
+            return moment(column.value).format('YYYY-MM-DD');
+          }
+        }
+      },
+      {
+        field: 'condom_provided_this_visit',
+        width: 150,
+        cellRenderer: (column) => {
+          if (column.value === 0) {
+            return 'NO';
+          }
+          return 'YES';
+        }
+      },
+      {
+        field: 'tb_screened_this_visit',
+        width: 150,
+        cellRenderer: (column) => {
+          if (column.value === 0) {
+            return 'NO';
+          }
+          return 'YES';
+        }
+      },
+      {
+        field: 'last_ipt_start_date',
+        cellRenderer: (column) => {
+          if (column.value != null) {
+            return moment(column.value).format('YYYY-MM-DD');
+          }
+        }
+      },
+      {
+        field: 'weight',
+        width: 150,
+      },
+      {
+        field: 'Height',
+        width: 150,
+      },
+      {
+        field: 'BMI',
+        width: 150,
+      },
+      {
+        field: 'person_id',
+        width: 200,
+      },
+      {
+        field: 'drugs_given',
+        width: 280,
+      },
+    );
   }
   public loadMoreDQAList(option) {
     this.isLoading = true;
