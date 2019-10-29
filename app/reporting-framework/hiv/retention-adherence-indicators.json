@@ -28,7 +28,7 @@
             {
                 "label": "Number Newly enrolled",
                 "name": "newly_enrolled",
-                "description": "Clients new on ART (with new initial form)"
+                "description": "Clients new on ART"
             },
             {
                 "label": "Number of transfer Ins",
@@ -38,27 +38,27 @@
             {
                 "label": "Number reached by Phone",
                 "name": "reached_by_phone",
-                "description": "Defaulted Clients who a phone attempt was done and were reached"
+                "description": "Defaulted clients whom a phone attempt was done and were reached"
             },
             {
                 "label": "Number Not reached by Phone",
                 "name": "not_reached_by_phone",
-                "description": "defaulted Clients who a phone attempt was done but was not reached.(due to phone inactive,phone not answered,wrong phone number)"
+                "description": "Defaulted clients whom a phone attempt was done but was not reached.(due to phone inactive,phone not answered,wrong phone number)"
             },
             {
                 "label": "Number traced physically/visited and found",
                 "name": "home_visit_found",
-                "description": "Defaulted clients who a home visit was done and they were found"
+                "description": "Defaulted clients whom a home visit was done and they were found"
             },
             {
                 "label": "Number traced physically/visited and not found",
                 "name": "home_visit_not_found",
-                "description": "Defaulted clients who a home visit was done and they were not found."
+                "description": "Defaulted clients whom a home visit was done and they were not found"
             },
             {
                 "label": "Number with No attempt to locate(28 days after RTC date)",
                 "name": "no_attempt_to_contact_28_days_after_rtc",
-                "description": "Defaulted clients who a home visit/Phone call attempt was not done (28 days after RTC date)- i.e they don't have a defaulter tracing form"
+                "description": "Defaulted clients whom a home visit/Phone call attempt was not done (28 days after RTC date)- i.e they don't have a defaulter tracing form"
             },
             {
                 "label": "Number returned back to care after an intervention",
