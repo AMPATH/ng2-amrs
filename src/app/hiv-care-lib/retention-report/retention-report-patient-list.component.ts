@@ -29,12 +29,12 @@ export class RetentionReportPatientListComponent implements OnInit {
     paginationPageSize: 300,
     onGridSizeChanged: () => {
       if (this.gridOptions.api) {
-        this.gridOptions.api.sizeColumnsToFit();
+       // this.gridOptions.api.sizeColumnsToFit();
       }
     },
     onGridReady: () => {
       if (this.gridOptions.api) {
-        this.gridOptions.api.sizeColumnsToFit();
+        // this.gridOptions.api.sizeColumnsToFit();
       }
     }
   };
@@ -44,73 +44,91 @@ export class RetentionReportPatientListComponent implements OnInit {
       headerName: 'No',
       valueGetter: 'node.rowIndex + 1',
       cellClass: 'locked-col',
-      width: 150,
-      suppressNavigable: true
-    },
-    {
-      headerName: 'Name',
-      field: 'person_name',
-      width: 600
-    },
-    {
-      headerName: 'Program',
-      field: 'program',
-      width: 800
+      width: 50,
+      suppressNavigable: true,
+      pinned: 'left'
     },
     {
       headerName: 'Identifiers',
       field: 'identifiers',
-      width: 600
+      width: 400,
+      pinned: 'left'
+    },
+    {
+      headerName: 'Name',
+      field: 'person_name',
+      width: 200,
+      pinned: 'left'
     },
     {
       headerName: 'Gender',
       field: 'gender',
-      width: 250
+      width: 70
+    },
+    {
+      headerName: 'Age',
+      field: 'age',
+      width: 50
     },
     {
       headerName: 'Phone No',
       field: 'phone_number',
-      width: 400
+      width: 100
     },
     {
-      headerName: 'Current VL',
+      headerName: 'Alternate phone number',
+      field: 'alternate_phone_number',
+      width: 170
+    },
+    {
+      headerName: 'Program',
+      field: 'program',
+      width: 250
+    },
+    {
+      headerName: 'Visit Type',
+      field: 'visit_type',
+      width: 200
+    },
+    {
+      headerName: 'Latest RTC date',
+      field: 'latest_rtc_date',
+      width: 150
+    },
+    {
+      headerName: 'Latest VL',
       field: 'current_vl',
-      width: 400
+      width: 100
     },
     {
       headerName: 'Latest VL Date',
       field: 'current_vl_date',
-      width: 400
+      width: 150
     },
     {
-      headerName: 'Previous Vl',
+      headerName: 'Previous VL',
       field: 'previous_vl',
-      width: 400
+      width: 100
     },
     {
-      headerName: 'Previous Vl Date',
+      headerName: 'Previous VL Date',
       field: 'previous_vl_date',
-      width: 400
+      width: 150
     },
     {
       headerName: 'Current Regimen',
       field: 'cur_arv_meds',
-      width: 800
+      width: 200
     },
     {
-      headerName: 'Alternative Phone No',
-      field: 'alternate_phone_number',
-      width: 500
-    },
-    {
-      headerName: 'Last Appointment',
+      headerName: 'Latest appointment',
       field: 'last_appointment',
-      width: 650
+      width: 200
     },
     {
       headerName: 'Estate/Nearest Center',
       field: 'estate',
-      width: 400
+      width: 200
     },
     {
       headerName: 'Patient Uuid',
