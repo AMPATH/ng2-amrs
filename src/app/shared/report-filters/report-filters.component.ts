@@ -46,6 +46,7 @@ import { SelectDepartmentService } from './../services/select-department.service
 export class ReportFiltersComponent implements OnInit, ControlValueAccessor, AfterViewInit {
   @Input() public start: number;
   @Input() public end: number;
+  @Input() public dateName: any;
   @Input()
   public selectedYearWeek: any;
   /* tslint:disable:no-output-on-prefix */
@@ -124,6 +125,10 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
               private _selectDepartmentService: SelectDepartmentService,
               private elementRef: ElementRef,
               private cd: ChangeDetectorRef) {
+                this.dateName = {
+                  startDate: 'Start Date *:',
+                  endDate: 'End Date *'
+                };
 }
   public get startDate(): Date {
     return this._startDate;

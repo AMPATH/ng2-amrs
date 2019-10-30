@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { DqaChartAbstractionService } from 'src/app/etl-api/dqa-chart-abstraction.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -10,6 +10,7 @@ import * as moment from 'moment';
   styleUrls: ['./chart-abstraction-patientlist.component.css']
 })
 export class ChartAbstractionPatientlistComponent implements OnInit {
+  @Input() public cacheAvailable = false;
   public extraColumns: Array<any> = [];
   public params: any;
   public patientData: Array<any> = [];
@@ -25,32 +26,29 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
     private _location: Location, private route: ActivatedRoute, ) { }
 
   ngOnInit() {
-    let requestParams: any;
     this.addExtraColumns();
     this.route
       .queryParams
       .subscribe((params) => {
         if (params) {
           this.params = params;
-          requestParams = {
-            locations: this.params.locationUuids,
-            limit: 300,
-            offset: 0
-          };
-
-          this.getPatientList(requestParams);
+          this.getPatientList(this.params);
         }
       }, (error) => {
         console.error('Error', error);
       });
   }
-  private getPatientList(params: any) {
+  private getPatientList(params: any, editAvailable?) {
+    this.isLoading = true;
     this.dqaResource.getDqaChartAbstractionReport(params)
       .subscribe(
         (data) => {
-          this.patientData = this.patientData.concat(data);
+          if (editAvailable) {
+            this.patientData = this.patientData.concat(data);
+          } else {
+            this.patientData = data;
+          }
           this.isLoading = false;
-          console.log(this.allDataLoaded);
           if (this.allDataLoaded) {
             this.hasLoadedAll = false;
           } else {
@@ -71,7 +69,18 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
       BMI: 'BMI',
       condom_provided_this_visit: 'Condom Issued',
       tb_screened_this_visit: 'TB screening',
-      last_ipt_start_date: 'IPT initiated'
+      last_ipt_start_date: 'IPT initiated',
+      tb_screening_datetime: 'TB screening date',
+      weight_height_zscore: 'Weight for height z-score value',
+      weight_height_zscore_diagnosis_value: 'Weight for height z-score diagnosis',
+      muac_value: 'MUAC value',
+      muac_diagnosis_value: 'MUAC diagnosis',
+      h_l_for_age_zscore: 'Height/Length for age z-score value',
+      h_l_for_age_zscore_diagnosis_value: 'Height/Length for age z-score diagnosis',
+      bmi: 'BMI',
+      bmi_for_age_category_value: 'BMI for age category',
+      nutrition_assessment: 'Nutrition Assessment',
+      name: 'Location'
     };
     for (const indicator in extraColumns) {
       if (indicator) {
@@ -135,6 +144,14 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
         }
       },
       {
+        field: 'tb_screening_datetime',
+        cellRenderer: (column) => {
+          if (column.value != null) {
+            return moment(column.value).format('YYYY-MM-DD');
+          }
+        }
+      },
+      {
         field: 'weight',
         width: 150,
       },
@@ -160,14 +177,16 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
     this.isLoading = true;
     let loadMoreParams: any;
     loadMoreParams = {
-      locations: this.params.locationUuids,
+      locationUuids: this.params.locationUuids,
+      startDate: this.params.startDate,
+      endDate: this.params.endDate,
       limit: 300,
       offset: 0
     };
     if (option === 'next') {
       this.nextStartIndex += this.patientData.length;
       loadMoreParams.offset = this.nextStartIndex;
-      this.getPatientList(loadMoreParams);
+      this.getPatientList(loadMoreParams, true);
     }
     if (option === 'all') {
       loadMoreParams.limit = 2000000000;

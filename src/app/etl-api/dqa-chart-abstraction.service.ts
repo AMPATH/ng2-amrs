@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { catchError, map } from 'rxjs/operators';
 import { of, Observable } from 'rxjs';
+import { DataCacheService } from '../shared/services/data-cache.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,31 +12,31 @@ export class DqaChartAbstractionService {
 
   constructor(
     public http: HttpClient,
-    public appSettingsService: AppSettingsService
+    public appSettingsService: AppSettingsService,
+    private cacheService: DataCacheService
   ) { }
 
 
-  public get url(): string {
-    return this.appSettingsService.getEtlRestbaseurl().trim();
+  public getUrl(reportName): string {
+    return this.appSettingsService.getEtlRestbaseurl().trim() + reportName;
   }
 
   public getDqaChartAbstractionReport(params: any): Observable<any> {
-    const sampleUrl = this.url + 'dqa-chart-abstraction?locationUuids='
-      + params.locations + '&limit=' + params.limit + '&offset=' + params.offset;
-
-    return this.http.get(sampleUrl, {
+    console.log('params', params);
+    const urlParams: HttpParams = new HttpParams()
+    .set('locationUuids', params.locationUuids)
+    .set('startDate', params.startDate)
+    .set('endDate', params.endDate)
+    .set('limit', params.limit)
+    .set('offset', params.offset);
+    const url = this.getUrl('dqa-chart-abstraction');
+    const request = this.http.get<any>(url, {
+      params: urlParams
     }).pipe(
       map((response: any) => {
         return response.results.results;
-      }), catchError((err: any) => {
-        console.log('Err', err);
-        const error: any = err;
-        const errorObj = {
-          'error': error.status,
-          'message': error.statusText
-        };
-        return of(errorObj);
       }));
+    return this.cacheService.cacheRequest(url, urlParams, request);
   }
 
 }

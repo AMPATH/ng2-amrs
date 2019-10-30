@@ -77,9 +77,10 @@ import {
     RetentionReportPatientListComponent
 } from './../../hiv-care-lib/retention-report/retention-report-patient-list.component';
 import { DqaReportsComponent } from 'src/app/hiv-care-lib/dqa-reports/dqa-reports/dqa-reports.component';
+import { DqaReportBaseComponent } from 'src/app/hiv-care-lib/dqa-reports/dqa-report-base/dqa-report-base.component';
 import {
-    ChartAbstractionPatientlistComponent
- } from 'src/app/hiv-care-lib/dqa-reports/chart-abstraction-patientlist/chart-abstraction-patientlist.component';
+     ChartAbstractionPatientlistComponent
+     } from 'src/app/hiv-care-lib/dqa-reports/chart-abstraction-patientlist/chart-abstraction-patientlist.component';
 
 const routes: Routes = [
     {
@@ -213,8 +214,8 @@ const routes: Routes = [
         path: 'dqa-reports',
         children: [
             {
-                path: 'dqa-report-patientlist',
-                component: ChartAbstractionPatientlistComponent
+                path: 'dqa-report',
+                component: DqaReportBaseComponent
             },
             {
                 path: '',
