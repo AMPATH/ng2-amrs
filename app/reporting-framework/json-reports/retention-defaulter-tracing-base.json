@@ -44,6 +44,15 @@
                 "joinCondition": "pr.program_id = fa.program_id"
                 
             }
+        },
+        {
+            "table": "amrs.visit_type",
+            "alias": "vt",
+            "join": {
+                "type": "left",
+                "joinCondition": "vt.visit_type_id = fa.visit_type_id"
+                
+            }
         }
     ],
     "columns": [
@@ -66,6 +75,11 @@
             "type": "simple_column",
             "alias": "program",
             "column": "pr.name"
+        },
+        {
+            "type": "simple_column",
+            "alias": "visit_type",
+            "column": "vt.name"
         },
         {
             "type": "simple_column",

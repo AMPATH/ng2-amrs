@@ -37,6 +37,15 @@
             }
         },
         {
+            "table": "amrs.visit_type",
+            "alias": "vt",
+            "join": {
+                "type": "left",
+                "joinCondition": "vt.visit_type_id = fa.visit_type_id"
+                
+            }
+        },
+        {
             "table": "etl.flat_hiv_summary_v15b",
             "alias": "fhs",
             "join": {
@@ -79,6 +88,11 @@
             "type": "simple_column",
             "alias": "program",
             "column": "pr.name"
+        },
+        {
+            "type": "simple_column",
+            "alias": "visit_type",
+            "column": "vt.name"
         },
         {
             "type": "derived_column",
