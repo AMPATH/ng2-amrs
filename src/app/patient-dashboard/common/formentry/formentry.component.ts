@@ -482,8 +482,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
               acceptVisible: true,
               message: `You have chosen to transfer the patient out.  Do you wish to complete the transfer?`,
               accept: () => {
-                this.router.navigate(['/patient-dashboard/patient/' +
-                  this.patient.uuid + '/hiv/' + this.activeProgram + '/formentry/f8322fde-6160-4e70-8b49-e266022f1108'],
+                  this.router.navigate(['/patient-dashboard/patient/' +
+                  this.patient.uuid + '/hiv/' + this.activeProgram + '/formentry/4f8b3fc4-7262-45f7-81b0-7bed31655fcd'],
                   {queryParams: transfer.params});
               },
               reject: () => {
@@ -697,8 +697,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
       // Find and set a provider uuid to be used when updating orders as orderer
       this.setProviderUuid();
 
-      // prefill transferOut details in AMPATH POC Transfer Out Form (f8322fde-6160-4e70-8b49-e266022f1108)
-      if (this.formUuid === 'f8322fde-6160-4e70-8b49-e266022f1108') {
+      // prefill transferOut details in AMPATH POC Transfer Out Form (4f8b3fc4-7262-45f7-81b0-7bed31655fcd)
+      if (this.formUuid === '4f8b3fc4-7262-45f7-81b0-7bed31655fcd') {
         this.patientTransferService.prefillTransferOptions();
       }
 
