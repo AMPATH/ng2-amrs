@@ -33,13 +33,14 @@ export class PatientTransferService {
        * Do not save transfer out options when
         submitting transfer out form
        */
-      if (this.componentRef.formUuid !== 'f8322fde-6160-4e70-8b49-e266022f1108') {
+      if (this.componentRef.formUuid !== '4f8b3fc4-7262-45f7-81b0-7bed31655fcd') {
         this.saveTransferOptionsIfSpecified();
       }
 
-      if (this.componentRef.formUuid === 'f8322fde-6160-4e70-8b49-e266022f1108') {
+      if (this.componentRef.formUuid === '4f8b3fc4-7262-45f7-81b0-7bed31655fcd') {
         // patient care status in transfer out form is non-ampath
-        if (_.first(patientCareStatus).control.value === 'a8aaf3e2-1350-11df-a1f1-0026b9348838') {
+        if (_.first(patientCareStatus).control.value === 'a8aaf3e2-1350-11df-a1f1-0026b9348838' ||
+        _.first(patientCareStatus).control.value === '67cd2f9f-228e-417d-94c4-d77e1a6c3453') {
           // all active programs should be stopped
           _.merge(queryParams, {
             stop: this.selectSetDepartmentService.getUserSetDepartment(),
@@ -176,7 +177,7 @@ export class PatientTransferService {
      *  Only load the transfer out form from return or initial forms only
      */
     return !_.includes([
-      'f8322fde-6160-4e70-8b49-e266022f1108', // AMPATH POC Transfer Out Form
+      '4f8b3fc4-7262-45f7-81b0-7bed31655fcd', // AMPATH POC Transfer Out Form
     ], this.componentRef.formUuid);
   }
 

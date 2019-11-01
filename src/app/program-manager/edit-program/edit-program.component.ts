@@ -196,7 +196,7 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
           break;
         case 'other':
           this.title = 'Programs Successfully Stopped';
-          this.showMessage('The patient has been transferred to a non-ampath location successfully. All active programs ' +
+          this.showMessage('The patient has been transferred to a Non-Ampath location successfully. All active programs ' +
             'in the current location have been stopped', 'info');
           break;
         case 'dc':
