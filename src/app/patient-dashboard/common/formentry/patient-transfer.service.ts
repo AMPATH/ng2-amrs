@@ -232,4 +232,11 @@ export class PatientTransferService {
     return this.componentRef.form.searchNodeByQuestionId(questionId);
   }
 
+  public clearTransferState() {
+    this.setTransferState(null);
+  }
+
+  private setTransferState(state: any) {
+    this.transferState.next(state);
+  }
 }

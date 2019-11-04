@@ -4,6 +4,7 @@ import * as _ from 'lodash';
 import { Patient } from '../../models/patient.model';
 import { ProgramManagerService } from '../program-manager.service';
 import { PatientResourceService } from '../../openmrs-api/patient-resource.service';
+import { PatientTransferService } from '../../patient-dashboard/common/formentry/patient-transfer.service';
 import { Observable } from 'rxjs';
 import * as moment from 'moment';
 import { ActivatedRoute } from '@angular/router';
@@ -43,7 +44,8 @@ export class EditProgramLocationComponent implements OnInit {
 
   constructor(private programManagerService: ProgramManagerService,
               public route: ActivatedRoute,
-              private patientResourceService: PatientResourceService) {
+              private patientResourceService: PatientResourceService,
+              private patientTransferService: PatientTransferService) {
     this.dateEnrolled = moment().format('YYYY-MM-DD');
   }
 
@@ -69,6 +71,7 @@ export class EditProgramLocationComponent implements OnInit {
         localStorage.removeItem('careStatus');
         localStorage.removeItem('transferRTC');
         this.locationChangeComplete.next([newProgram]);
+        this.patientTransferService.clearTransferState();
       }
     }, (err) => {
       console.log(err);

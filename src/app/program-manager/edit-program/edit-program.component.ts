@@ -6,6 +6,7 @@ import * as _ from 'lodash';
 
 import { ProgramManagerBaseComponent } from '../base/program-manager-base.component';
 import { PatientService } from '../../patient-dashboard/services/patient.service';
+import { PatientTransferService } from '../../patient-dashboard/common/formentry/patient-transfer.service';
 import { ProgramService } from '../../patient-dashboard/programs/program.service';
 import { DepartmentProgramsConfigService } from '../../etl-api/department-programs-config.service';
 import {
@@ -29,6 +30,7 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
   public formsFilled = false;
 
   constructor(public patientService: PatientService,
+              public patientTransferService: PatientTransferService,
               public programService: ProgramService,
               public router: Router,
               public route: ActivatedRoute,
@@ -318,6 +320,7 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
         this.theChangeComplete = true;
         this.showNoticeIfPossible();
         this.removeTransferInfo();
+        this.patientTransferService.clearTransferState();
       }, (err) => {
         console.log('failed to autenroll', err);
       });
@@ -341,6 +344,7 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
         this.theChangeComplete = true;
         this.showNoticeIfPossible();
         this.removeTransferInfo();
+        this.patientTransferService.clearTransferState();
       }, (err) => {
         console.log('failed to autenroll', err);
       });
