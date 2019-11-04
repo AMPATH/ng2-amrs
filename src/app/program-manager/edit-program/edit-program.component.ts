@@ -6,6 +6,7 @@ import * as _ from 'lodash';
 
 import { ProgramManagerBaseComponent } from '../base/program-manager-base.component';
 import { PatientService } from '../../patient-dashboard/services/patient.service';
+import { PatientTransferService } from '../../patient-dashboard/common/formentry/patient-transfer.service';
 import { ProgramService } from '../../patient-dashboard/programs/program.service';
 import { DepartmentProgramsConfigService } from '../../etl-api/department-programs-config.service';
 import {
@@ -29,6 +30,7 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
   public formsFilled = false;
 
   constructor(public patientService: PatientService,
+              public patientTransferService: PatientTransferService,
               public programService: ProgramService,
               public router: Router,
               public route: ActivatedRoute,
@@ -183,8 +185,8 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
     if (queryParams && !_.isEmpty(queryParams) && queryParams.notice) {
       switch (queryParams.notice) {
         case 'location':
-          this.title = queryParams.change + ' Programs Location Change';
-          this.showMessage('The patient has been moved to ' + queryParams.change + ' department in ' +
+          this.title = queryParams.change + ' Program Location Change';
+          this.showMessage('The patient has been transferred to the ' + queryParams.change + ' department at ' +
             this.selectedLocation.display + ' successfully.', 'info');
           break;
         case 'pmtct':
@@ -196,7 +198,7 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
           break;
         case 'other':
           this.title = 'Programs Successfully Stopped';
-          this.showMessage('The patient has been transferred to a non-ampath location successfully. All active programs ' +
+          this.showMessage('The patient has been transferred to a Non-Ampath location successfully. All active programs ' +
             'in the current location have been stopped', 'info');
           break;
         case 'dc':
@@ -318,6 +320,7 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
         this.theChangeComplete = true;
         this.showNoticeIfPossible();
         this.removeTransferInfo();
+        this.patientTransferService.clearTransferState();
       }, (err) => {
         console.log('failed to autenroll', err);
       });
@@ -331,18 +334,19 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
         return _department.name === department;
       }
     });
+
     if (departmentPrograms) {
       this.programManagerService.editProgramEnrollments(
         'transfer', this.patient, departmentPrograms.programs, localStorage.getItem('transferLocation'))
         .pipe(take(1)).subscribe((editedPrograms) => {
-          console.log('editedPrograms', editedPrograms);
-        this.selectedLocation = _.last(editedPrograms).location;
+        this.selectedLocation = (_.last(editedPrograms) as any).location;
         this.patientService.reloadCurrentPatient();
         this.theChangeComplete = true;
         this.showNoticeIfPossible();
         this.removeTransferInfo();
+        this.patientTransferService.clearTransferState();
       }, (err) => {
-        console.log('failed to autenroll', err);
+        console.error('failed to autenroll', err);
       });
     }
   }

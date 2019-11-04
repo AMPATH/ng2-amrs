@@ -18,7 +18,7 @@ import {
 } from '../user-default-properties/user-default-properties.service';
 import {
   PatientReferralService
-} from '../program-manager/patient-referral-service';
+} from '../program-manager/patient-referral.service';
 import { UserService } from '../openmrs-api/user.service';
 import { SessionStorageService } from '../utils/session-storage.service';
 import { ProgramService } from '../patient-dashboard/programs/program.service';

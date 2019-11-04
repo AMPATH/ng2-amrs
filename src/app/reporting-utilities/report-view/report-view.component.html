@@ -1,0 +1,60 @@
+<div class="wrapper">
+
+  <div *ngIf="reportDetails" class="panel panel-info">
+    <div class="panel-heading" style="min-height: 50px!important">
+      <strong class="text-primary">
+        <span class="fa fa-file-pdf-o">
+        </span>
+        {{reportDetails.reportName}}
+        <div class="btn-group pull-right">
+          <button class="btn btn-primary" (click)="downloadPdf()" [disabled]="!gridOptions">
+            <i class="fa fa-download">
+            </i> Download Pdf
+          </button>
+        </div>
+      </strong>
+    </div>
+    <div *ngIf="reportDetails.displayTabluarFilters">
+    <div class="row">
+      <div class="col-md-5 col-sm-12 padding">
+        <label for="">Search :</label>
+        <div class="input-group">
+          <span class="input-group-addon"><i class="fa fa-search"></i></span>
+          <input #searchBoxL id="search-box-loc" [(ngModel)]="selectedResult" (ngModelChange)="searchIndicator()"
+            placeholder="search indicator" class="form-control" />
+        </div>
+      </div>
+      <div class="col-md-6 col-sm-12 padding pull-right">
+        <div class="ui-grid-row ui-fluid">
+          <div class="ui-grid-col-12 pull-right">
+            <label for="">Filters :</label>
+            <p-multiSelect [options]="headers" [(ngModel)]="selectedIndicatorsList" (onChange)="selectedIndicators()">
+            </p-multiSelect>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="contentToConvert" class="panel-body table-content-class" style="background-color: #ffffff;">
+      <div *ngIf="SummaryData.length>0">
+        <table>
+          <tbody *ngFor="let grid of gridOptions.columnDefs">
+            <tr>
+              <td [attr.colspan]="sectionIndicatorsValues .length + 2" class="header"><b>{{grid.headerName}}</b></td>
+            </tr>
+            <tr *ngFor="let col of grid.children">
+              <th title="{{col.description}}" ><i *ngIf="col.headerName !== 'locations'" class="fa fa-info-circle "></i>
+                &nbsp;&nbsp;{{col.headerName}}
+              </th>
+              <td *ngFor="let val of col.value" title="Click to View Patientlist" (click)="setCellSelection(col,val)"
+                class="value"> {{val.value}}</td>
+                <td *ngIf="sectionIndicatorsValues.length > 1" title="Click to View Total Patientlist" (click)="setCellSelection(col,col.total)"
+                class="value"> <b>{{col.total.value}}</b></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>

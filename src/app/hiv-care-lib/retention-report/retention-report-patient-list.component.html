@@ -1,0 +1,34 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                    <button class="btn btn-primary" (click)="navigateBack()"><i class="fa fa-angle-left fa-fw"></i>Back</button>
+        </div>
+        <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+          <div class="loader" *ngIf="busyIndicator.busy"><span><i class="fa fa-spinner fa-spin">
+			</i>{{busyIndicator.message}}</span>
+          </div>
+        <br>
+          <div class="alert alert-danger fade in" *ngIf="errorObj.isError">
+                <a  class="close" data-dismiss="alert">&times;</a>
+                <p>
+                    <small >{{errorObj.message}}</small>
+                </p>
+          </div>
+       </div>
+        <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+            <h4 align="center">{{title}} Patient List <span *ngIf=" params.startDate!=='' && params.endDate!==''"> for ({{params.startDate | date: 'dd-MMMM-yyyy'}} to {{params.endDate | date: 'dd-MMMM-yyyy'}})</span></h4>                    
+                    <hr class="intro-divider"  width="40%" />
+                    <ag-grid-angular #agGrid style="min-width: 100%; height: 500px;" class="ag-blue" 
+                        [rowData]="rowData" 
+                        [gridOptions]="gridOptions"
+                        [columnDefs]="retentionSummaryColdef"
+                        (cellClicked)='onCellClicked($event)'
+                        >
+                    </ag-grid-angular>
+                    <button class="btn btn-info pull-right" *ngIf="rowData.length > 0" (click)="exportPatientListToCsv()" style="color: #fff;">
+                        <i class="inline fa fa-file-excel-o"></i>
+                        <span>Export</span>
+                      </button>
+        </div>
+    </div>
+</div>

@@ -123,6 +123,12 @@
           "isSideBarOpen": false
         },
         {
+          "url": "retention-report",
+          "label": "Retention Report",
+          "icon": "fa fa-file",
+          "isSideBarOpen": false
+        },
+        {
           "url": "group-manager",
           "label": "Groups Manager",
           "icon": "fa fa-users",
@@ -144,6 +150,19 @@
           "url": "hiv-differentiated-care",
           "label": "Differentiated Care",
           "icon": "fa fa-th-list",
+          "isSideBarOpen": false
+        },
+
+        {
+          "url": "surge-reports",
+          "label": "Surge Reports",
+          "icon": "fa fa-area-chart",
+          "isSideBarOpen": false
+        },
+        {
+          "url": "dqa-reports",
+          "label": "DQA Reports",
+          "icon": "fa fa-pie-chart",
           "isSideBarOpen": false
         },
         {

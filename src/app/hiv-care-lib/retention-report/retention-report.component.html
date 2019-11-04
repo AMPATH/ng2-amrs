@@ -1,0 +1,56 @@
+<div class="row">
+  <div class="container-fluid">
+    <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12"></div>
+    <div class="loader" *ngIf="busyIndicator.busy"><span><i class="fa fa-spinner fa-spin">
+			</i>{{busyIndicator.message}}</span>
+    </div>
+    <div class="alert alert-danger fade in" *ngIf="errorObj.isError">
+      <a  class="close" data-dismiss="alert">&times;</a>
+      <p>
+          <small >{{errorObj.message}}</small>
+      </p>
+    </div>
+    </div>
+		<div>
+     <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+            <retention-report-filters
+              [dashboardType] = "dashboardType"
+              [params] = "params"
+              [reportType]= "currentView"
+            >
+              
+            </retention-report-filters>
+     </div>
+     <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+        <p-tabView (onChange)="onTabChanged($event)">
+            <p-tabPanel header="  Weekly " leftIcon="fa-calendar-o " [selected]="currentView">
+                  <retention-report-tabular
+                    [retentionSummary]="retentionSummary"
+                    [params]="params"
+                    [sectionDefs]="sectionDefs"
+                  >
+                  </retention-report-tabular>
+            </p-tabPanel>
+        </p-tabView>
+          <button class="btn btn-success" (click)="showModal(indicatorModal)">Show Indicator Definitions</button>
+          <ng-template #indicatorModal>
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                      <h4 class="modal-title pull-left">Retention Indicator Definitions</h4>
+                      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <retention-indicator-definitions
+                      [indicatorDefinitions] = "indicatorDefinitions"
+                      >
+                      </retention-indicator-definitions>
+                    </div>
+                  </div>
+            </div>
+        </ng-template>
+    </div>
+  </div>
+</div>

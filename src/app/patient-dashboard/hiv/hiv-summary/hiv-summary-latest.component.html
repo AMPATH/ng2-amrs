@@ -8,6 +8,7 @@
   <ul class="list-group">
     <li class="list-group-item" style="font-size:large">Last Appt Date: {{hivSummary?.encounter_datetime | date:'dd-MM-yyyy'}} {{hivSummary?.encounter_type_name ? '(' + hivSummary?.encounter_type_name + ')' : '(None)' }}</li>
     <li class="list-group-item" style="font-size:large">RTC Date: {{hivSummary?.rtc_date | date:'dd-MM-yyyy'}}</li>
+    <li *ngIf="hivSummary?.med_pickup_rtc_date && hivSummary?.med_pickup_rtc_date !== null" class="list-group-item" style="font-size:large">Medication Pick Up Date: {{hivSummary?.med_pickup_rtc_date | date:'dd-MM-yyyy'}}</li>
     <li class="list-group-item" style="font-size:large">Last Viral Load: {{hivSummary?.vl_1 | zeroVl }} ({{hivSummary?.vl_1_date ? (hivSummary?.vl_1_date | date:'dd-MM-yyyy') : 'None'}})
       <br/>
       <i style="font-size:smaller" class="text-muted" *ngIf="hivSummary?.isPendingViralLoad?.status"> There is a Pending Viral Load Test Ordered on:
@@ -36,6 +37,7 @@
     <li class="list-group-item" style="font-size:large">Current WHO Stage: {{hivSummary?.cur_who_stage}}</li>
     <li class="list-group-item" style="font-size:large">TB Treatment Start Date: {{ hivSummary?.tb_tx_start_date | date:'dd-MM-yyyy'}}</li>
     <li class="list-group-item" style="font-size:large">TB Treatment End Date: {{ hivSummary?.tb_tx_end_date | date:'dd-MM-yyyy'}}</li>
+    <li *ngIf="hivSummary?.mdt_session_number && hivSummary?.mdt_session_number !== null" class="list-group-item" style="font-size:large">MDT Session Number: {{hivSummary?.mdt_session_number}}</li>
   </ul>
 </div>
 

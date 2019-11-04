@@ -49,6 +49,27 @@
         <div class="clear-fix clear"></div>
       </div>
 
+      <div class="date-range" *ngIf="isEnabled('dayControl')">
+        <div class="form-group col-md-12">
+          <div class="form-row">
+            <label for="startDate">Start Date:</label>
+            <input id="startDate" type="date" class="form-control" [(ngModel)]="startDateString" />
+          </div>
+        </div>
+        <div class="clear-fix clear"></div>
+      </div>
+
+      <div class="date-range" *ngIf="isEnabled('weekControl')">
+        <div class="form-group col-md-12">
+          <div class="form-row">
+            <label for="startDate">Week Year:</label>
+            <ng-select [items]="surgeWeeks" bindLabel="name" bind placeholder="Select yearWeek" [(ngModel)]="selectedYearWeek"
+              (change)="yearWeekChange($event)"></ng-select>
+          </div>
+        </div>
+        <div class="clear-fix clear"></div>
+      </div>
+
       <div class="form-group col-md-12" *ngIf="isEnabled('ageControl')">
         <label for="age">Age Range</label>
         <input type="text" class="slider" />

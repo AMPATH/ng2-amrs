@@ -4,8 +4,10 @@ import {
   Router
 } from '@angular/router';
 import { Location } from '@angular/common';
-import { BehaviorSubject, Observable, of } from 'rxjs';
 import { SpyLocation } from '@angular/common/testing';
+
+import { BehaviorSubject, Observable, of } from 'rxjs';
+
 import { FormentryComponent } from './formentry.component';
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
 import { FakeAppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytcis.mock';
@@ -17,12 +19,10 @@ import { LocalStorageService } from '../../../utils/local-storage.service';
 import { FakeFormFactory } from './mock/form-factory.service.mock';
 import { FakeUserFactory } from './mock/user-factory.service.mock';
 import { FileUploadResourceService } from '../../../etl-api/file-upload-resource.service';
-import { PatientReminderService } from '../patient-reminders/patient-reminders.service';
 import { DraftedFormsService } from './drafted-forms.service';
 import {
   FakeDefaultUserPropertiesFactory
 } from './mock/default-user-properties-factory.service.mock';
-
 import {
   FormFactory, EncounterAdapter, OrderValueAdapter, Form,
   ObsValueAdapter, PersonAttribuAdapter, FormSchemaCompiler, ObsAdapterHelper
@@ -51,7 +51,6 @@ import { ConceptResourceService } from '../../../openmrs-api/concept-resource.se
 import { ErrorLogResourceService } from '../../../etl-api/error-log-resource.service';
 import { ConfirmationService } from 'primeng/primeng';
 import { DataCacheService } from '../../../shared/services/data-cache.service';
-import { PatientReminderResourceService } from '../../../etl-api/patient-reminder-resource.service';
 import {
   MonthlyScheduleResourceService
 } from '../../../etl-api/monthly-scheduled-resource.service';
@@ -66,7 +65,7 @@ import { PatientProgramResourceService } from '../../../etl-api/patient-program-
 import { VisitResourceService } from '../../../openmrs-api/visit-resource.service';
 import { HivSummaryResourceService } from '../../../etl-api/hiv-summary-resource.service';
 // import { ReferralModule } from '../../../referral-module/referral-module';
-import { PatientReferralService } from '../../../program-manager/patient-referral-service';
+import { PatientReferralService } from '../../../program-manager/patient-referral.service';
 import {
   RetrospectiveDataEntryModule
 } from '../../../retrospective-data-entry/retrospective-data-entry.module';
@@ -82,6 +81,9 @@ import { ZscoreService } from 'src/app/shared/services/zscore.service';
 import * as _ from 'lodash';
 import { PatientTransferService } from './patient-transfer.service';
 
+import { ProgramManagerService } from '../../../program-manager/program-manager.service';
+import { ProgramWorkFlowResourceService } from '../../../openmrs-api/program-workflow-resource.service';
+import { ProgramWorkFlowStateResourceService } from '../../../openmrs-api/program-workflow-state-resource.service';
 
 export class FakeConceptResourceService {
   constructor() {
@@ -92,7 +94,6 @@ export class FakeConceptResourceService {
 
     return of({});
   }
-
 }
 
 class FakePatientTransferService {
@@ -128,7 +129,6 @@ class EncounterResourceServiceMock {
       display: 'encounter'
     });
     return subject;
-
   }
 }
 
@@ -145,13 +145,10 @@ class PatientServiceMock {
       })
     );
 
-  constructor() {
-  }
-
+  constructor() {}
 }
 
 export class FakePatientReferralService {
-
   constructor() { }
 
   public saveProcessPayload(payload: any) {
@@ -161,7 +158,6 @@ export class FakePatientReferralService {
   public getProcessPayload() {
     return of({});
   }
-
 }
 
 export class FakePersonResourceService {
@@ -171,14 +167,14 @@ export class FakePersonResourceService {
 }
 
 class FakeCacheStorageService {
-  constructor(a, b) {
-  }
+  constructor(a, b) {}
+
   public ready() {
     return true;
   }
 }
 
-xdescribe('Component: FormentryComponent', () => {
+describe('Component: FormentryComponent', () => {
   const router = {
     navigate: jasmine.createSpy('navigate')
   };
@@ -256,7 +252,6 @@ xdescribe('Component: FormentryComponent', () => {
         HttpClientTestingModule
       ],
       providers: [
-        PatientReminderResourceService,
         PatientProgramResourceService,
         FormentryComponent,
         FormSchemaService,
@@ -294,6 +289,9 @@ xdescribe('Component: FormentryComponent', () => {
         FormentryReferralsHandlerService,
         VisitResourceService,
         HivSummaryResourceService,
+        ProgramManagerService,
+        ProgramWorkFlowResourceService,
+        ProgramWorkFlowStateResourceService,
         ZscoreService,
         {
           provide: CacheStorageService, useFactory: () => {
@@ -336,7 +334,6 @@ xdescribe('Component: FormentryComponent', () => {
             snapshot: { params: { formUuid: 'form-uuid' } }
           }
         },
-        PatientReminderService,
         {
           provide: UserService, useFactory: () => {
             return new FakeUserFactory();
@@ -386,139 +383,162 @@ xdescribe('Component: FormentryComponent', () => {
   });
 
   it('should create an instance of FormentryComponent', () => {
-    const formentryComponent: FormentryComponent = TestBed.get(FormentryComponent);
-    expect(formentryComponent).toBeTruthy();
+    const component: FormentryComponent = TestBed.get(FormentryComponent);
+    expect(component).toBeTruthy();
   });
 
   it('should fetch and compile formschema when the component initializes with a valid form-uuid',
-    inject([FormSchemaService, FormCreationDataResolverService,
-      PatientPreviousEncounterService],
-      (formSchemaService: FormSchemaService, resolver: FormCreationDataResolverService,
-        prevEncService: PatientPreviousEncounterService) => {
+    inject([
+      FormSchemaService,
+      FormCreationDataResolverService,
+      PatientPreviousEncounterService
+    ],
+    (formSchemaService: FormSchemaService, resolver: FormCreationDataResolverService,
+      prevEncService: PatientPreviousEncounterService) => {
 
-        const uuid = 'form-uuid';
-        spyOn(resolver, 'resolve').and.callFake((params) => {
+      const uuid = 'form-uuid';
+      spyOn(resolver, 'resolve').and.callFake((params) => {
 
-          return new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
 
-          });
         });
-        spyOn(formSchemaService, 'getFormSchemaByUuid').and.callFake((params) => {
-          const subject = new BehaviorSubject<any>({});
-          subject.next({
-            uuid: uuid,
-            display: 'form'
-          });
-          return subject;
+      });
+      spyOn(formSchemaService, 'getFormSchemaByUuid').and.callFake((params) => {
+        const subject = new BehaviorSubject<any>({});
+        subject.next({
+          uuid: uuid,
+          display: 'form'
         });
-        const mockSnapshot: any = jasmine.createSpyObj<RouterStateSnapshot>('RouterStateSnapshot',
-          ['toString']);
-        resolver.resolve(new ActivatedRouteSnapshot(), mockSnapshot);
-        expect(resolver.resolve).toHaveBeenCalled();
-        // check if it compiles
-        formSchemaService.getFormSchemaByUuid(uuid);
-        expect(formSchemaService.getFormSchemaByUuid).toHaveBeenCalled();
+        return subject;
+      });
+      const mockSnapshot: any = jasmine.createSpyObj<RouterStateSnapshot>('RouterStateSnapshot',
+        ['toString']);
+      resolver.resolve(new ActivatedRouteSnapshot(), mockSnapshot);
+      expect(resolver.resolve).toHaveBeenCalled();
+      // check if it compiles
+      formSchemaService.getFormSchemaByUuid(uuid);
+      expect(formSchemaService.getFormSchemaByUuid).toHaveBeenCalled();
 
-      })
+    })
   );
 
   it('should generate renderable form from compiled schema when the component ' +
     'initializes with a valid form-uuid',
-    inject([FormSchemaService, FormentryComponent, FormFactory, EncounterAdapter],
-      (formSchemaService: FormSchemaService, formentryComponent: FormentryComponent,
-        formFactory: FormFactory, encounterAdapter: EncounterAdapter) => {
+    inject([
+      FormSchemaService,
+      FormentryComponent,
+      FormFactory,
+      EncounterAdapter
+    ],
+      (formSchemaService: FormSchemaService, component: FormentryComponent,
+      formFactory: FormFactory, encounterAdapter: EncounterAdapter) => {
 
-        spyOn(encounterAdapter, 'populateForm').and.callFake((form) => {
-          return form;
-        });
+      spyOn(encounterAdapter, 'populateForm').and.callFake((form) => {
+        return form;
+      });
 
-        spyOn(formFactory, 'createForm').and.callFake((form) => {
-          return renderableForm;
-        });
-        formentryComponent.ngOnInit();
-        // check if it creates  and reder form
-        expect(formFactory.createForm).toHaveBeenCalled();
-
-      })
+      spyOn(formFactory, 'createForm').and.callFake((form) => {
+        return renderableForm;
+      });
+      component.ngOnInit();
+      // check if it creates  and reder form
+      expect(formFactory.createForm).toHaveBeenCalled();
+    })
   );
 
-  it('should populate form with historical values/ encounters when creating new form',
-    inject([FormSchemaService, FormentryComponent, FormFactory, EncounterAdapter,
-      ActivatedRoute, DataSources],
-      (formSchemaService: FormSchemaService, formentryComponent: FormentryComponent,
-        formFactory: FormFactory, encounterAdapter: EncounterAdapter,
-        activatedRoute: ActivatedRoute, dataSources: DataSources) => {
-        spyOn(encounterAdapter, 'populateForm').and.callFake((form) => {
-          return form;
-        });
+  it('should populate form with historical values/encounters when creating new form',
+    inject([
+      FormSchemaService,
+      FormentryComponent,
+      FormFactory,
+      EncounterAdapter,
+      ActivatedRoute,
+      DataSources
+    ],
+    (formSchemaService: FormSchemaService, component: FormentryComponent,
+      formFactory: FormFactory, encounterAdapter: EncounterAdapter,
+      activatedRoute: ActivatedRoute, dataSources: DataSources) => {
+      spyOn(encounterAdapter, 'populateForm').and.callFake((form) => {
+        return form;
+      });
 
-        spyOn(formFactory, 'createForm').and.callFake((form, historicalEncounter) => {
-          expect(form).toBeDefined();
-          expect(historicalEncounter).toBeDefined();
-          return renderableForm;
-        });
-        // providing required dependancies like historical encounter
-        activatedRoute.queryParams = of({ encounter: '' });
-        activatedRoute.params = of({ formUuid: 'form-uuid' });
-        activatedRoute.data = of({
-          compiledSchemaWithEncounter: {
-            encounter: previousEncounter,
-            schema: schema
-          }
-        });
-        formentryComponent.ngOnInit();
-        // check if it calls createForm
-        expect(formFactory.createForm).toHaveBeenCalled();
-        // check if createForm was called with schema and  historicalEncounter parameters
-        // calling  formFactory.createForm(a) -means creating form without hitorical enc
-        // calling  formFactory.createForm(a,b) --means creating form with encounters
-        expect(formFactory.createForm)
-          .toHaveBeenCalledWith(schema, dataSources.dataSources);
-        expect(formFactory.createForm).not.toHaveBeenCalledWith(schema);
+      spyOn(formFactory, 'createForm').and.callFake((form, historicalEncounter) => {
+        expect(form).toBeDefined();
+        expect(historicalEncounter).toBeDefined();
+        return renderableForm;
+      });
+      // providing required dependancies like historical encounter
+      activatedRoute.queryParams = of({ encounter: '' });
+      activatedRoute.params = of({ formUuid: 'form-uuid' });
+      activatedRoute.data = of({
+        compiledSchemaWithEncounter: {
+          encounter: previousEncounter,
+          schema: schema
+        }
+      });
+      component.ngOnInit();
+      // check if it calls createForm
+      expect(formFactory.createForm).toHaveBeenCalled();
+      // check if createForm was called with schema and  historicalEncounter parameters
+      // calling  formFactory.createForm(a) -means creating form without hitorical enc
+      // calling  formFactory.createForm(a,b) --means creating form with encounters
+      expect(formFactory.createForm)
+        .toHaveBeenCalledWith(schema, dataSources.dataSources);
+      expect(formFactory.createForm).not.toHaveBeenCalledWith(schema);
 
-      })
+    })
   );
 
-  it('should NOT populate form with historical values/ encounters when ' +
-    'editting an existing form. Case: editting exsting form',
-    inject([FormSchemaService, FormentryComponent, FormFactory, EncounterAdapter,
-      ActivatedRoute, DataSources],
-      (formSchemaService: FormSchemaService, formentryComponent: FormentryComponent,
-        formFactory: FormFactory, encounterAdapter: EncounterAdapter,
-        activatedRoute: ActivatedRoute, dataSources: DataSources) => {
-        spyOn(encounterAdapter, 'populateForm').and.callFake((form) => {
-          return form;
-        });
+  it('should NOT populate form with historical values/encounters when ' +
+    'editing an existing form. Case: editing exsting form',
+    inject([
+      FormSchemaService,
+      FormentryComponent,
+      FormFactory,
+      EncounterAdapter,
+      ActivatedRoute,
+      DataSources
+    ],
+    (formSchemaService: FormSchemaService, component: FormentryComponent,
+      formFactory: FormFactory, encounterAdapter: EncounterAdapter,
+      activatedRoute: ActivatedRoute, dataSources: DataSources) => {
+      spyOn(encounterAdapter, 'populateForm').and.callFake((form) => {
+        return form;
+      });
 
-        spyOn(formFactory, 'createForm').and.callFake((form, dataSource) => {
-          expect(form).toBeDefined();
-          expect(dataSource.rawPrevEnc).not.toBeDefined();
-          return renderableForm;
-        });
-        // providing required dependancies like historical encounter
-        activatedRoute.queryParams = of({ encounter: 'encounte-uuid' });
-        activatedRoute.params = of({ formUuid: 'form-uuid' });
-        activatedRoute.data = of({
-          compiledSchemaWithEncounter: {
-            encounter: previousEncounter,
-            schema: schema
-          }
-        });
-        formentryComponent.ngOnInit();
-        // check if it calls createForm
-        expect(formFactory.createForm).toHaveBeenCalled();
-        // check if createForm was called with schema and  historicalEncounter parameters
-        // calling  formFactory.createForm(a) -means creating form without hitorical enc
-        // calling  formFactory.createForm(a,b) --means creating form with encounters
-        // expect(formFactory.createForm).toHaveBeenCalled();
-
-      })
+      spyOn(formFactory, 'createForm').and.callFake((form, dataSource) => {
+        expect(form).toBeDefined();
+        expect(dataSource.rawPrevEnc).not.toBeDefined();
+        return renderableForm;
+      });
+      // providing required dependancies like historical encounter
+      activatedRoute.queryParams = of({ encounter: 'encounte-uuid' });
+      activatedRoute.params = of({ formUuid: 'form-uuid' });
+      activatedRoute.data = of({
+        compiledSchemaWithEncounter: {
+          encounter: previousEncounter,
+          schema: schema
+        }
+      });
+      component.ngOnInit();
+      // check if it calls createForm
+      expect(formFactory.createForm).toHaveBeenCalled();
+      // check if createForm was called with schema and  historicalEncounter parameters
+      // calling  formFactory.createForm(a) -means creating form without hitorical enc
+      // calling  formFactory.createForm(a,b) --means creating form with encounters
+      // expect(formFactory.createForm).toHaveBeenCalled();
+    })
   );
 
   it('should tie encounter/form to a visit if visit-uuid exists: Case: creating new form',
-    inject([FormSchemaService, FormentryComponent, FormFactory, EncounterAdapter,
-      ActivatedRoute],
-      (formSchemaService: FormSchemaService, formentryComponent: FormentryComponent,
+    inject([
+      FormSchemaService,
+      FormentryComponent,
+      FormFactory,
+      EncounterAdapter,
+      ActivatedRoute
+    ],
+      (formSchemaService: FormSchemaService, component: FormentryComponent,
         formFactory: FormFactory, encounterAdapter: EncounterAdapter,
         activatedRoute: ActivatedRoute) => {
         spyOn(encounterAdapter, 'populateForm').and.callFake((form) => {
@@ -541,175 +561,192 @@ xdescribe('Component: FormentryComponent', () => {
             schema: schema
           }
         });
-        formentryComponent.ngOnInit();
+        component.ngOnInit();
         // check if it calls createForm
         expect(formFactory.createForm).toHaveBeenCalled();
         // check if form has visit uuid
-        expect(formentryComponent.form.valueProcessingInfo.visitUuid).toBe('visitUuid');
+        expect(component.form.valueProcessingInfo.visitUuid).toBe('visitUuid');
 
       })
   );
 
-  it('should NOT tie encounter/form to a visit even if the visit-uuid is defined' +
-    ' when editting form: Case Editting existing form',
-    inject([FormSchemaService, FormentryComponent, FormFactory, EncounterAdapter,
-      ActivatedRoute],
-      (formSchemaService: FormSchemaService, formentryComponent: FormentryComponent,
-        formFactory: FormFactory, encounterAdapter: EncounterAdapter,
-        activatedRoute: ActivatedRoute) => {
-        spyOn(encounterAdapter, 'populateForm').and.callFake((form) => {
-          return form;
-        });
+  xit('should NOT tie encounter/form to a visit even if the visit-uuid is defined' +
+  ' when editing form: Case: Editing existing form',
+    inject([
+      FormSchemaService,
+      FormentryComponent,
+      FormFactory,
+      EncounterAdapter,
+      ActivatedRoute
+    ], (formSchemaService: FormSchemaService, component: FormentryComponent,
+      formFactory: FormFactory, encounterAdapter: EncounterAdapter,
+      activatedRoute: ActivatedRoute) => {
+      spyOn(encounterAdapter, 'populateForm').and.callFake((form) => form);
 
-        spyOn(formFactory, 'createForm').and.callFake((form, historicalEncounter) => {
-          expect(form).toBeDefined();
-          return renderableForm;
-        });
-        // providing required dependancies like historical encounter
-        activatedRoute.queryParams = of({
-          visitUuid: 'visit-uuid',
-          encounter: 'encounetr-uuid'
-        });
-        activatedRoute.params = of({ formUuid: 'form-uuid' });
-        activatedRoute.data = of({
-          compiledSchemaWithEncounter: {
-            encounter: previousEncounter,
-            schema: schema
-          }
-        });
-        formentryComponent.ngOnInit();
-        // check if it calls createForm
-        expect(formFactory.createForm).toHaveBeenCalled();
-        // form should not have visit uuid
-        expect(formentryComponent.form.valueProcessingInfo.visitUuid).toBeNull();
-
-
-      })
+      spyOn(formFactory, 'createForm').and.callFake((form, historicalEncounter) => {
+        expect(form).toBeDefined();
+        return renderableForm;
+      });
+      // providing required dependencies like historical encounter
+      activatedRoute.queryParams = of({
+        visitUuid: 'visit-uuid',
+        encounter: 'encounter-uuid'
+      });
+      activatedRoute.params = of({ formUuid: 'form-uuid' });
+      activatedRoute.data = of({
+        compiledSchemaWithEncounter: {
+          encounter: previousEncounter,
+          schema: schema
+        }
+      });
+      component.ngOnInit();
+      // check if it calls createForm
+      expect(formFactory.createForm).toHaveBeenCalled();
+      // form should not have visit uuid
+      expect(component.form.valueProcessingInfo.visitUuid).toBeNull();
+    })
   );
 
   it('should populate form with default values. Case: creating new form',
-    inject([FormSchemaService, FormentryComponent, FormFactory, EncounterAdapter,
-      ActivatedRoute, UserService, UserDefaultPropertiesService],
-      (formSchemaService: FormSchemaService, formentryComponent: FormentryComponent,
-        formFactory: FormFactory, encounterAdapter: EncounterAdapter,
-        activatedRoute: ActivatedRoute, userService: UserService,
-        userDefaultPropertiesService: UserDefaultPropertiesService) => {
-        spyOn(encounterAdapter, 'populateForm').and.callFake((form) => {
-          return form;
+    inject([
+      FormSchemaService,
+      FormentryComponent,
+      FormFactory,
+      EncounterAdapter,
+      ActivatedRoute,
+      UserService,
+      UserDefaultPropertiesService
+    ],
+    (formSchemaService: FormSchemaService, component: FormentryComponent,
+      formFactory: FormFactory, encounterAdapter: EncounterAdapter,
+      activatedRoute: ActivatedRoute, userService: UserService,
+      userDefaultPropertiesService: UserDefaultPropertiesService) => {
+      spyOn(encounterAdapter, 'populateForm').and.callFake((form) => {
+        return form;
+      });
+
+      // spy userDefaultPropertiesService
+      spyOn(userDefaultPropertiesService, 'getCurrentUserDefaultLocationObject')
+        .and.callFake((param) => {
+          return {
+            uuid: 'location-uuid',
+            display: 'location'
+          };
         });
 
-        // spy userDefaultPropertiesService
-        spyOn(userDefaultPropertiesService, 'getCurrentUserDefaultLocationObject')
-          .and.callFake((param) => {
-            return {
-              uuid: 'location-uuid',
-              display: 'location'
-            };
-          });
-
-        // spy userService
-        spyOn(userService, 'getLoggedInUser')
-          .and.callFake((param) => {
-            return {
-              personUuid: 'person-uuid',
-              display: 'person name'
-            };
-          });
-
-
-        spyOn(formFactory, 'createForm').and.callFake((form, historicalEncounter) => {
-          expect(form).toBeDefined();
-          return renderableForm;
+      // spy userService
+      spyOn(userService, 'getLoggedInUser')
+        .and.callFake((param) => {
+          return {
+            personUuid: 'person-uuid',
+            display: 'person name'
+          };
         });
-        // providing required dependancies like historical encounter
-        activatedRoute.queryParams = of({
-          encounter: '' // --> this means we are creating new form
-        });
-        activatedRoute.params = of({ formUuid: 'form-uuid' });
-        activatedRoute.data = of({
-          compiledSchemaWithEncounter: {
-            encounter: previousEncounter,
-            schema: schema
-          }
-        });
-        formentryComponent.ngOnInit();
-        // check if it calls createForm
-        expect(formFactory.createForm).toHaveBeenCalled();
-        // now check to ensure we are setting default data
-        expect(userDefaultPropertiesService.getCurrentUserDefaultLocationObject)
-          .toHaveBeenCalled();
-        // expect(userService.getLoggedInUser).toHaveBeenCalled();
 
 
-      })
+      spyOn(formFactory, 'createForm').and.callFake((form, historicalEncounter) => {
+        expect(form).toBeDefined();
+        return renderableForm;
+      });
+      // providing required dependancies like historical encounter
+      activatedRoute.queryParams = of({
+        encounter: '' // --> this means we are creating new form
+      });
+      activatedRoute.params = of({ formUuid: 'form-uuid' });
+      activatedRoute.data = of({
+        compiledSchemaWithEncounter: {
+          encounter: previousEncounter,
+          schema: schema
+        }
+      });
+      component.ngOnInit();
+      // check if it calls createForm
+      expect(formFactory.createForm).toHaveBeenCalled();
+      // now check to ensure we are setting default data
+      expect(userDefaultPropertiesService.getCurrentUserDefaultLocationObject)
+        .toHaveBeenCalled();
+      // expect(userService.getLoggedInUser).toHaveBeenCalled();
+    })
   );
 
-  it('should NOT populate form with default values when editting form',
-    inject([FormSchemaService, FormentryComponent, FormFactory, EncounterAdapter,
-      ActivatedRoute, UserService, MonthlyScheduleResourceService,
-      UserDefaultPropertiesService],
-      (formSchemaService: FormSchemaService, formentryComponent: FormentryComponent,
-        formFactory: FormFactory, encounterAdapter: EncounterAdapter,
-        activatedRoute: ActivatedRoute, userService: UserService,
-        monthlyScheduleResourceService: MonthlyScheduleResourceService,
-        userDefaultPropertiesService: UserDefaultPropertiesService) => {
-        spyOn(encounterAdapter, 'populateForm').and.callFake((form) => {
-          return form;
+  it('should NOT populate form with default values when editing form',
+    inject([
+      FormSchemaService,
+      FormentryComponent,
+      FormFactory,
+      EncounterAdapter,
+      ActivatedRoute,
+      UserService,
+      MonthlyScheduleResourceService,
+      UserDefaultPropertiesService
+    ],
+    (formSchemaService: FormSchemaService, component: FormentryComponent,
+      formFactory: FormFactory, encounterAdapter: EncounterAdapter,
+      activatedRoute: ActivatedRoute, userService: UserService,
+      monthlyScheduleResourceService: MonthlyScheduleResourceService,
+      userDefaultPropertiesService: UserDefaultPropertiesService) => {
+      spyOn(encounterAdapter, 'populateForm').and.callFake((form) => {
+        return form;
+      });
+
+      // spy userDefaultPropertiesService
+      spyOn(userDefaultPropertiesService, 'getCurrentUserDefaultLocationObject')
+        .and.callFake((param) => {
+          return {
+            uuid: 'location-uuid',
+            display: 'location'
+          };
         });
 
-        // spy userDefaultPropertiesService
-        spyOn(userDefaultPropertiesService, 'getCurrentUserDefaultLocationObject')
-          .and.callFake((param) => {
-            return {
-              uuid: 'location-uuid',
-              display: 'location'
-            };
-          });
-
-        // spy userService
-        spyOn(userService, 'getLoggedInUser')
-          .and.callFake((param) => {
-            return {
-              personUuid: 'person-uuid',
-              display: 'person name'
-            };
-          });
-
-
-        spyOn(formFactory, 'createForm').and.callFake((form, historicalEncounter) => {
-          expect(form).toBeDefined();
-          return renderableForm;
-        });
-        // providing required dependancies like historical encounter
-        activatedRoute.queryParams = of({
-          encounter: 'encounter-uuid' // --> this means we are editting existing form
-        });
-        activatedRoute.params = of({ formUuid: 'form-uuid' });
-        activatedRoute.data = of({
-          compiledSchemaWithEncounter: {
-            encounter: previousEncounter,
-            schema: schema
-          }
-        });
-        spyOn(formentryComponent, 'loadDefaultValues').and.callFake(() => {
-        });
-        formentryComponent.ngOnInit();
-        // check if it calls createForm
-        expect(formFactory.createForm).toHaveBeenCalled();
-        // now check to ensure we are not setting default data
-        activatedRoute.params.subscribe(() => {
-          expect(formentryComponent.loadDefaultValues).not.toHaveBeenCalled();
+      // spy userService
+      spyOn(userService, 'getLoggedInUser')
+        .and.callFake((param) => {
+          return {
+            personUuid: 'person-uuid',
+            display: 'person name'
+          };
         });
 
-        expect(userService.getLoggedInUser).not.toHaveBeenCalled();
-      })
+
+      spyOn(formFactory, 'createForm').and.callFake((form, historicalEncounter) => {
+        expect(form).toBeDefined();
+        return renderableForm;
+      });
+      // providing required dependancies like historical encounter
+      activatedRoute.queryParams = of({
+        encounter: 'encounter-uuid' // --> this means we are editing existing form
+      });
+      activatedRoute.params = of({ formUuid: 'form-uuid' });
+      activatedRoute.data = of({
+        compiledSchemaWithEncounter: {
+          encounter: previousEncounter,
+          schema: schema
+        }
+      });
+      spyOn(component, 'loadDefaultValues').and.callFake(() => {
+      });
+      component.ngOnInit();
+      // check if it calls createForm
+      expect(formFactory.createForm).toHaveBeenCalled();
+      // now check to ensure we are not setting default data
+      activatedRoute.params.subscribe(() => {
+        expect(component.loadDefaultValues).not.toHaveBeenCalled();
+      });
+
+      expect(userService.getLoggedInUser).not.toHaveBeenCalled();
+    })
   );
 
   it('should populate form object with necessary valueProcessingInfo required' +
     ' for payload generation',
-    inject([FormSchemaService, FormentryComponent, FormFactory, EncounterAdapter,
-      ActivatedRoute],
-      (formSchemaService: FormSchemaService, formentryComponent: FormentryComponent,
+    inject([
+      FormSchemaService,
+      FormentryComponent,
+      FormFactory,
+      EncounterAdapter,
+      ActivatedRoute
+    ],
+      (formSchemaService: FormSchemaService, component: FormentryComponent,
         formFactory: FormFactory, encounterAdapter: EncounterAdapter,
         activatedRoute: ActivatedRoute) => {
         spyOn(encounterAdapter, 'populateForm').and.callFake((form) => {
@@ -732,22 +769,27 @@ xdescribe('Component: FormentryComponent', () => {
             schema: schema
           }
         });
-        formentryComponent.ngOnInit();
+        component.ngOnInit();
         // check if it calls createForm
         expect(formFactory.createForm).toHaveBeenCalled();
         // check valueProcessingInfo
-        expect(formentryComponent.form.valueProcessingInfo.encounterUuid).not.toBeNull();
-        expect(formentryComponent.form.valueProcessingInfo.personUuid).not.toBeNull();
-        expect(formentryComponent.form.valueProcessingInfo.formUuid).not.toBeNull();
-        expect(formentryComponent.form.valueProcessingInfo.encounterTypeUuid).not.toBeNull();
-
-
+        expect(component.form.valueProcessingInfo.encounterUuid).not.toBeNull();
+        expect(component.form.valueProcessingInfo.personUuid).not.toBeNull();
+        expect(component.form.valueProcessingInfo.formUuid).not.toBeNull();
+        expect(component.form.valueProcessingInfo.encounterTypeUuid).not.toBeNull();
       })
   );
-  it('should populate form with encounter, obs, orders when editting form',
-    inject([FormSchemaService, FormentryComponent, FormFactory, EncounterAdapter,
-      ActivatedRoute, DataSources],
-      (formSchemaService: FormSchemaService, formentryComponent: FormentryComponent,
+
+  it('should populate form with encounter, obs, orders when editing form',
+    inject([
+      FormSchemaService,
+      FormentryComponent,
+      FormFactory,
+      EncounterAdapter,
+      ActivatedRoute,
+      DataSources
+    ],
+      (formSchemaService: FormSchemaService, component: FormentryComponent,
         formFactory: FormFactory, encounterAdapter: EncounterAdapter,
         activatedRoute: ActivatedRoute, dataSources: DataSources) => {
         spyOn(encounterAdapter, 'populateForm').and.callFake((form) => {
@@ -768,7 +810,7 @@ xdescribe('Component: FormentryComponent', () => {
             schema: schema
           }
         });
-        formentryComponent.ngOnInit();
+        component.ngOnInit();
         // check if it calls createForm
         expect(formFactory.createForm).toHaveBeenCalled();
         // check if createForm was called with schema parameter only
@@ -778,23 +820,29 @@ xdescribe('Component: FormentryComponent', () => {
         // check if form was populated with selected encounter
         // expect(encounterAdapter.populateForm).toHaveBeenCalled();
         // expect(encounterAdapter.populateForm).toHaveBeenCalled();
-
       })
   );
+
   it('should show patient referrals dialog when `Referrals` question is answered',
-    inject([FormSchemaService, FormentryComponent, FormFactory, EncounterAdapter,
-      ActivatedRoute, DataSources],
-      (formSchemaService: FormSchemaService, formentryComponent: FormentryComponent,
+    inject([
+      FormSchemaService,
+      FormentryComponent,
+      FormFactory,
+      EncounterAdapter,
+      ActivatedRoute,
+      DataSources
+    ],
+      (formSchemaService: FormSchemaService, component: FormentryComponent,
         formFactory: FormFactory, encounterAdapter: EncounterAdapter,
         activatedRoute: ActivatedRoute, dataSources: DataSources) => {
 
         spyOn(formFactory, 'createForm').and.callFake((form) => {
           return renderableForm;
         });
-        formentryComponent.ngOnInit();
-        formentryComponent.shouldShowPatientReferralsDialog({});
+        component.ngOnInit();
+        component.shouldShowPatientReferralsDialog({});
         // check if it calls createForm
-        expect(formentryComponent.showReferralDialog).toBeFalsy();
+        expect(component.showReferralDialog).toBeFalsy();
       })
   );
 });

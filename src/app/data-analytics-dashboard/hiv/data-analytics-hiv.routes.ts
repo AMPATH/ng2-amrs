@@ -22,6 +22,12 @@ import { Moh731MonthlyVizComponent } from './moh-731-monthly-viz/moh-731-monthly
 import {
   DashboardsViewerComponent
 } from '../../kibana-lib';
+import { SurgeReportComponent } from './surge/surge-report.component';
+import { SurgeReportPatientListComponent } from 'src/app/hiv-care-lib/surge-report/surge-report-patient-list.component';
+import { DqaReportsComponent } from 'src/app/hiv-care-lib/dqa-reports/dqa-reports/dqa-reports.component';
+// tslint:disable-next-line:max-line-length
+import { ChartAbstractionPatientlistComponent } from 'src/app/hiv-care-lib/dqa-reports/chart-abstraction-patientlist/chart-abstraction-patientlist.component';
+import { DqaReportBaseComponent } from 'src/app/hiv-care-lib/dqa-reports/dqa-report-base/dqa-report-base.component';
 
 const routes: Routes = [
   {
@@ -127,6 +133,43 @@ const routes: Routes = [
   {
     path: 'select-department',
     component: ChangeDepartmentComponent
+  },
+  {
+    path: 'surge',
+    children: [
+      {
+        path: 'surge-report-patientlist',
+        component: SurgeReportPatientListComponent
+      },
+      {
+        path: '',
+        component: SurgeReportComponent
+      }
+    ]
+  },
+  {
+    path: 'dqa',
+    children: [
+      {
+        path: 'dqa-filter',
+        children: [
+          {
+            path: '',
+            component: DqaReportBaseComponent
+          },
+          {
+            path: 'dqa-report-patientlist',
+            component: ChartAbstractionPatientlistComponent
+          }
+
+        ]
+      },
+      {
+        path: '',
+        component: DqaReportsComponent,
+        data : { multipleLocation : true }
+      }
+    ]
   }
 ];
 

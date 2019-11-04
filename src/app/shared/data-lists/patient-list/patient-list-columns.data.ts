@@ -60,6 +60,11 @@ export class PatientListColumns {
                 field: 'last_appointment'
             },
             {
+                headerName: 'Visit Type',
+                width: 200,
+                field: 'visit_type'
+            },
+            {
                 headerName: 'Latest RTC Date',
                 width: 150,
                 field: 'latest_rtc_date'

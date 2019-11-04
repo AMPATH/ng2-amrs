@@ -1,0 +1,8 @@
+<ag-grid-angular #agGrid style="width: 100%; height: 200px;" class="ag-blue" [rowData]="surgeReportSummaryData"
+  [gridOptions]="gridOptions" [pinnedBottomRowData]="pinnedBottomRowData"></ag-grid-angular>
+  <div style="margin: 0px; float: right;">
+    <button class="btn btn-info" (click)="exportAllData()" style="color: #fff;">
+      <i class="inline fa fa-file-excel-o"></i>
+      <span>Export as CSV</span>
+    </button>
+  </div>

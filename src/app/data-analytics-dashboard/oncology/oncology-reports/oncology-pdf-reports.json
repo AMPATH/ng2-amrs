@@ -137,7 +137,7 @@
                 "section": "enrolled_patients",
                 "report_indicators": [
                     "enrolled_patients",
-                    "alive_patients",
+                    "active_patients",
                     "deceased",
                     "small_cell_lung_cancer",
                     "non_small_cell_lung_cancer",

@@ -5,12 +5,14 @@
 				<th>Encounter Date</th>
 				<th>Encounter Type</th>
 				<th>RTC Date</th>
+				<th *ngIf="hasMedicationRtc">Medication Pick up Date</th>
 				<th>TB Treatment Start Date</th>
 				<th>TB Treatment End Date</th>
 				<th>ARV Meds</th>
 				<th>CD4 Count</th>
 				<th>Viral Load</th>
 				<th>WHO Stage</th>
+				<th *ngIf="hasMdtSessionNo">MDT Session No</th>
 			</tr>
 		</thead>
 		<tr *ngFor="let hivSummary of hivSummaries" [ngClass]="{danger: (hivSummary.prev_rtc_date &&  hivSummary.encounter_datetime)
@@ -18,6 +20,7 @@
 			<td>{{hivSummary.encounter_datetime | date:'dd-MM-yyyy'}}</td>
 			<td>{{hivSummary.encounter_type_name}}</td>
 			<td>{{hivSummary.rtc_date | date: 'dd-MM-yyyy'}}</td>
+			<td *ngIf="hasMedicationRtc">{{hivSummary.med_pickup_rtc_date | date: 'dd-MM-yyyy'}}</td>
 			<td>{{ hivSummary?.tb_tx_start_date | date:'dd-MM-yyyy'}}</td>
 			<td>{{ hivSummary?.tb_tx_end_date | date:'dd-MM-yyyy'}}</td>
 			<td>{{hivSummary.cur_arv_meds}}</td>
@@ -32,6 +35,7 @@
 				</div>
 			</td>
 			<td>{{hivSummary.cur_who_stage}}</td>
+			<td *ngIf="hasMdtSessionNo">{{hivSummary.mdt_session_number}}</td>
 		</tr>
 	</table>
 </div>

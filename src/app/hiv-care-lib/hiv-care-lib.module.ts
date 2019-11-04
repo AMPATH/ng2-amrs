@@ -9,7 +9,7 @@ import { DataListsModule } from '../shared/data-lists/data-lists.module';
 import {
   AccordionModule, DataTableModule, SharedModule, TabViewModule,
   GrowlModule, PanelModule, ConfirmDialogModule, ConfirmationService,
-  DialogModule, InputTextModule, MessagesModule, InputTextareaModule,
+  DialogModule, InputTextModule, MessagesModule, InputTextareaModule, MultiSelectModule,
   DropdownModule, ButtonModule, CalendarModule
 } from 'primeng/primeng';
 import { Moh731TabularComponent } from './moh-731-report/moh-731-tabular.component';
@@ -87,6 +87,10 @@ import {
   ProgramWorkFlowResourceService
 } from '../openmrs-api/program-workflow-resource.service';
 import { HighchartsStatic } from 'angular2-highcharts/dist/HighchartsService';
+import { SurgeReportTabularComponent } from './surge-report/surge-report-tabular.component';
+import { SurgeReportBaseComponent } from './surge-report/surge-report-base.component';
+import { SurgeReportPatientListComponent } from './surge-report/surge-report-patient-list.component';
+import { BsDatepickerModule } from 'ngx-bootstrap';
 export function highchartsFactory() {
   const hc = require('highcharts');
   const hcm = require('highcharts/highcharts-more');
@@ -95,6 +99,16 @@ export function highchartsFactory() {
   hce(hc);
   return hc;
 }
+import { RetentionReportPatientListComponent } from './retention-report/retention-report-patient-list.component';
+import { RetentionReportFiltersComponent } from './retention-report/retention-report-filters.component';
+import { RetentionReportComponent } from './retention-report/retention-report.component';
+import { RetentionReportResourceService } from './../etl-api/retention-report-resource.service';
+import { RetentionReportTabularComponent } from './retention-report/retention-report-tabular.component';
+import { RetentionIndicatorDefComponent } from './retention-report/retention-indicator-definitions.component';
+import { ChartAbstractionPatientlistComponent } from './dqa-reports/chart-abstraction-patientlist/chart-abstraction-patientlist.component';
+import { DqaReportsComponent } from './dqa-reports/dqa-reports/dqa-reports.component';
+import { DqaReportBaseComponent } from './dqa-reports/dqa-report-base/dqa-report-base.component';
+
 @NgModule({
   imports: [
     RouterModule,
@@ -108,6 +122,7 @@ export function highchartsFactory() {
     DataTableModule,
     SharedModule,
     GrowlModule,
+    MultiSelectModule,
     PanelModule,
     ConfirmDialogModule,
     DialogModule,
@@ -122,7 +137,7 @@ export function highchartsFactory() {
     ChartModule,
     ReportingUtilitiesModule,
     DataListsModule,
-    NgxMyDatePickerModule.forRoot(),
+    NgxMyDatePickerModule.forRoot()
   ],
   exports: [
     Moh731TabularComponent,
@@ -150,7 +165,15 @@ export function highchartsFactory() {
     VisualizationPatientListComponent,
     HivSummaryIndicatorsPatientListComponent,
     HivSummaryMonthlyTabularComponent,
-    HivMonthlySummaryIndicatorsPatientListComponent
+    HivMonthlySummaryIndicatorsPatientListComponent,
+    SurgeReportTabularComponent,
+    SurgeReportBaseComponent,
+    SurgeReportPatientListComponent,
+    RetentionReportPatientListComponent,
+    RetentionReportFiltersComponent,
+    RetentionReportComponent,
+    RetentionReportTabularComponent,
+    RetentionIndicatorDefComponent
   ],
   declarations: [
     Moh731TabularComponent,
@@ -176,11 +199,23 @@ export function highchartsFactory() {
     HivSummaryIndicatorsPatientListComponent,
     HivMonthlySummaryIndicatorBaseComponent,
     HivSummaryMonthlyTabularComponent,
-    HivMonthlySummaryIndicatorsPatientListComponent
+    HivMonthlySummaryIndicatorsPatientListComponent,
+    SurgeReportTabularComponent,
+    SurgeReportBaseComponent,
+    SurgeReportPatientListComponent,
+    RetentionReportPatientListComponent,
+    RetentionReportFiltersComponent,
+    RetentionReportComponent,
+    RetentionReportTabularComponent,
+    RetentionIndicatorDefComponent,
+    ChartAbstractionPatientlistComponent,
+    DqaReportsComponent,
+    DqaReportBaseComponent
   ],
   providers: [MOHReportService,
     LocationResourceService,
     ClinicalSummaryVisualizationService,
+    RetentionReportResourceService,
     ProgramWorkFlowResourceService,
     {
       provide: HighchartsStatic,
