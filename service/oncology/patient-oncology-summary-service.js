@@ -94,4 +94,32 @@ function getPatientOncologyDiagnosis(request) {
     return db.queryDb(queryParts)
 }
 
-export {generateMedsDataSet, getOncMeds, getPatientOncologyDiagnosis}
+function getOncologyIntegratedProgramSnapshot(request) {
+    let patientUuid = request.uuid;
+    let queryParts = {
+        columns: "t1.encounter_id,DATE_FORMAT(t1.encounter_datetime,'%d%-%m%-%Y') as encounter_datetime,t3.name, t5.name as location",
+        order: [{
+            column: 'encounter_id',
+            asc: false
+        }],
+        group:['t1.visit_id'],
+        joins: [
+            ['amrs.visit', 't2', 't2.visit_id=t1.visit_id'],
+            ['amrs.visit_type', 't3', 't3.visit_type_id=t2.visit_type_id'],
+            ['amrs.person', 't4', 't4.person_id=t1.patient_id'],
+            ['amrs.location', 't5', 't5.location_id=t1.location_id'],
+        ],
+        table: "amrs.encounter",
+      where: [
+        't4.uuid = ? and t2.visit_type_id in ? and t1.voided = ?',
+        patientUuid,
+        [5, 6, 70, 72, 71],
+        0],
+        offset: request.startIndex,
+        limit: request.limit
+    };
+
+    return db.queryDb(queryParts)
+}
+
+export {generateMedsDataSet, getOncMeds, getPatientOncologyDiagnosis, getOncologyIntegratedProgramSnapshot}
