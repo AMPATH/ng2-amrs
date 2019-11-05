@@ -189,7 +189,7 @@ export class HivProgramSnapshotComponent implements OnInit {
     }
 
     // if patient is a Transfer Out, apply a yellow background to their snapshot summary
-    if (this.isNonAmpathTransferOut(care_status_id)
+    if ((this.hasTransferEncounter && this.isNonAmpathTransferOut(care_status_id))
         || this.isIntraAmpathTransferFromCurrentLocation(care_status_id)) {
       this.showYellowBackground();
     }
