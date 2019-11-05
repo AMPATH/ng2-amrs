@@ -146,6 +146,14 @@
         },
         {
             "type": "derived_column",
+            "alias": "latest_rtc_date",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+            "expression": "DATE_FORMAT(hs.rtc_date,'%Y-%m-%d')"
+                       }
+        },
+        {
+            "type": "derived_column",
             "alias": "phone_number",
             "expressionType": "simple_expression",
             "expressionOptions": {
