@@ -5,7 +5,7 @@
   <div *ngIf="!hasData && !hasError">
     <p class="alert alert-warning">No patient data to generate Oncology program snapshot</p>
   </div>
-  <div *ngIf="!hasError && hasData">
+  <div *ngIf="!hasError && hasData && !isIntegratedProgram">
     <div class="snapshot-summary">
       <h4 class="component-title">Last Encounter</h4>
       <div class="snapshot-body">
@@ -38,6 +38,16 @@
         <div class="clear"></div>
       </div>
     </div>
+  </div>
+  <div *ngIf="isIntegratedProgram && !hasError">
+    <ng-container *ngFor="let row of summaryData; ">
+      <div class="col-md-12">
+        <p>Screening: {{ row.name }}</p>
+        <p>Date: {{ row.encounter_datetime }}</p>
+        <p>Location: {{ row.location }}</p>
+      </div>
+      <hr>
+    </ng-container>
   </div>
   <div *ngIf="!hasData && !hasError">
     <p>Loading patient data....</p>
