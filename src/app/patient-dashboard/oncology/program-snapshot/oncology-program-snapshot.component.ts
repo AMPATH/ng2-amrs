@@ -15,13 +15,15 @@ export class OncologyProgramSnapshotComponent implements OnInit, OnDestroy {
   @Input() public programUuid;
   public loadingSummary = false;
   public hasData = false;
+  public isIntegratedProgram = false;
   public hasError = false;
   public subscription: Subscription;
   public patientUuid: any;
   public errors: any = [];
   public summaryData: any;
   constructor(
-    private oncolologySummary: OncologySummaryResourceService) {
+    private oncolologySummary: OncologySummaryResourceService,
+    private integratedProgramSnapshot: OncologySummaryResourceService) {
   }
 
   public ngOnInit() {
@@ -30,7 +32,12 @@ export class OncologyProgramSnapshotComponent implements OnInit, OnDestroy {
         this.hasError = true;
       } else {
         this.hasData = false;
-        this.loadOncologyDataSummary(patientUuid);
+        if (this.programUuid === '37ff4124-91fd-49e6-8261-057ccfb4fcd0') {
+          this.loadScreeningAndDiagnosisData(patientUuid);
+        } else {
+          this.loadOncologyDataSummary(patientUuid);
+        }
+
       }
     }, 0, this.patient.uuid);
   }
@@ -61,4 +68,25 @@ export class OncologyProgramSnapshotComponent implements OnInit, OnDestroy {
     }
   }
 
+  private loadScreeningAndDiagnosisData(patientUuid: any) {
+    this.hasData =  true;
+    this.hasError = false;
+    this.integratedProgramSnapshot.getIntegratedProgramSnapshot(patientUuid)
+      .subscribe((screeningSummary) => {
+        this.isIntegratedProgram = true;
+        this.summaryData = screeningSummary;
+        this.hasData =  true;
+        this.hasError = false;
+        this.loadingSummary = false;
+      }, (error => {
+        this.loadingSummary = false;
+        this.hasData = false;
+        this.hasError = true;
+        console.log(error);
+        this.errors.push({
+          id: 'summary',
+          message: 'Error Fetching Summary'
+        });
+      }));
+  }
 }
