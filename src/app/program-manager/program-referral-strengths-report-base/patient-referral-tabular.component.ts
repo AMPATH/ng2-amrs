@@ -189,20 +189,24 @@ export class StrengthsPatientReferralTabularComponent implements OnInit {
           cellRenderer: (params) => {
             if (params.value === 1) {
               return 'Urgent Referral';  // 1 is urgent referral(UR)
-            } else {
-               return 'Non-Urgent Referral';
+            }
+            if (params.value === 2 || params.value === null) {
+               return 'Non-Urgent referral';
+            }
+            if (params.value === 3) {
+              return 'Emergent Referral';
             }
           }
         },
         {
-          field: 'initial_encounter',
+          field: 'initial_or_follow_up',
           checkboxSelection: false,
-          headerName: 'Peer Initial Encounter',
+          headerName: 'Initial Encounter',
           cellRenderer: (params) => {
             const input = document.createElement('input');
             input.type = 'checkbox';
             input.checked = params.value;
-            if (params.value === 1) {
+            if (params.data.initial_or_follow_up === 1) {
               input.checked = true;
               } else {
                 input.checked = false;
@@ -211,14 +215,14 @@ export class StrengthsPatientReferralTabularComponent implements OnInit {
           }
         },
         {
-          field: 'follow_up_encounter',
+          field: 'initial_or_follow_up',
           checkboxSelection: false,
-          headerName: 'Peer Follow Up',
+          headerName: 'Follow-Up Encounter',
           cellRenderer: (params) => {
             const input = document.createElement('input');
             input.type = 'checkbox';
             input.checked = params.value;
-            if (params.value === 1) {
+            if (params.data.initial_or_follow_up === 2) {
               input.checked = true;
               } else {
                 input.checked = false;
@@ -227,13 +231,15 @@ export class StrengthsPatientReferralTabularComponent implements OnInit {
           }
         },
         {
-          field: 'is_referal_complete',
+          field: 'is_referal_completed',
           checkboxSelection: false,
           headerName: 'Referral Completed',
           cellRenderer: (params) => {
+            // 1 complete
+            // 2 Incomplete
             const input = document.createElement('input');
             input.type = 'checkbox';
-            if (params.value === null || params.value === 2 ) {
+            if (params.data.is_referal_complete === null || params.data.is_referal_complete === 2 ) {
                 input.checked = false;
               } else {
                 input.checked = true;
@@ -241,21 +247,21 @@ export class StrengthsPatientReferralTabularComponent implements OnInit {
            return input;
           }
         },
-        {
-          field: 'referred_in_or_out',
-          checkboxSelection: false,
-          headerName: 'Refered in or out',
-          cellRenderer: (params) => {
-            const input = document.createElement('input');
-            input.type = 'checkbox';
-            if (params.value === null || params.value === 1 ) {
+        // {
+        //   field: 'referred_in_or_out',
+        //   checkboxSelection: false,
+        //   headerName: 'Refered in or out',
+        //   cellRenderer: (params) => {
+        //     const input = document.createElement('input');
+        //     input.type = 'checkbox';
+        //     if (params.value === null || params.value === 1 ) {
 
-               return 'IN';     // 1 is in
-              } else {
-                return 'OUT'; // 2 is out
-              }
-          }
-        },
+        //        return 'IN';     // 1 is in
+        //       } else {
+        //         return 'OUT'; // 2 is out
+        //       }
+        //   }
+        // },
         {
           field: 'date_referred',
           headerName: 'Date Referred'
