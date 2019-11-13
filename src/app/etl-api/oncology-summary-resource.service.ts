@@ -37,4 +37,17 @@ export class OncologySummaryResourceService {
 
     return this.cacheService.cacheRequest(url, urlParams, request);
   }
+
+
+  public getIntegratedProgramSnapshot(uuid) {
+    let url = this.getUrl();
+    url += '/' + uuid + '/oncology/integrated-program';
+    const request = this.http.get<any>(url, {
+    }).pipe(
+      map((response) => {
+        return response.result;
+      }));
+
+    return this.cacheService.cacheRequest(url, '', request);
+  }
 }
