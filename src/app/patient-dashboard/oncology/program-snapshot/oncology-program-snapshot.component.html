@@ -2,7 +2,7 @@
   <div *ngIf="hasError">
     <p class="alert alert-error text-error">Error generating Oncology program snapshot</p>
   </div>
-  <div *ngIf="!hasData && !hasError">
+  <div *ngIf="!hasData && !hasError && hasLoadedData">
     <p class="alert alert-warning">No patient data to generate Oncology program snapshot</p>
   </div>
   <div *ngIf="!hasError && hasData && !isIntegratedProgram">
@@ -49,7 +49,7 @@
       <hr>
     </ng-container>
   </div>
-  <div *ngIf="!hasData && !hasError">
+  <div *ngIf="!hasLoadedData && !hasError">
     <p>Loading patient data....</p>
   </div>
 </div>
