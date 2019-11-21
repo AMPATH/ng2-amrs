@@ -828,19 +828,19 @@
         "eidDisplay": "Clinical Failure",
         "mrsDisplay": ""
       },
-      "c6537e06-9fc2-47da-b679-e2a32824407f": {
+      "a8a00158-1350-11df-a1f1-0026b9348838": {
         "eidId": 4,
         "eidCode": "",
         "eidDisplay": "Single Drug Substitution",
         "mrsDisplay": ""
       },
-      "a8a00158-1350-11df-a1f1-0026b9348838": {
+      "3966e139-ca69-47c6-aad3-ebd41bb45e28": {
         "eidId": 5,
         "eidCode": "",
         "eidDisplay": "Baseline VL (for infants diagnosed through EID)",
         "mrsDisplay": ""
       },
-      "a89d109c-1350-11df-a1f1-0026b9348838": {
+      "42cdefa2-c306-4d10-a819-c04131c4934e": {
         "eidId": 6,
         "eidCode": "",
         "eidDisplay": "Confirmation of persistent low level viremia (PLLV)",
