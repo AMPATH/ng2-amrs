@@ -10,14 +10,14 @@
         <th>Oncology Diagnosis</th>
       </tr>
     </thead>
-    <tbody *ngIf="!diagnosisChanges">
+    <tbody *ngIf="summaryLoaded && !hasData">
       <tr>
         <td colspan="2">
-          <p class="alert alert-danger">No Diagnosis history records available</p>
+          <p class="alert alert-danger">No diagnosis history records available</p>
         </td>
       </tr>
     </tbody>
-    <tbody *ngIf="diagnosisChanges">
+    <tbody *ngIf="summaryLoaded && hasData">
         <tr *ngFor="let diagnosis of diagnosisChanges">
           <td>{{ diagnosis.diagnosis_date }}</td>
           <td>{{ diagnosis.diagnosis }}</td>
