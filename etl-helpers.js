@@ -714,7 +714,10 @@ module.exports = function () {
             }
         },
         filterDate: function filterDate(date) {
-            return moment(date).format('DD-MM-YYYY');
+            if (!_.isNull(date)) {
+              return moment(date).format('DD-MM-YYYY');
+            }
+            return date;
         }
     };
 
