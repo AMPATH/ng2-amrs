@@ -30,7 +30,7 @@ function getPatientHivSummary(patientUuid, clinicalOnly,
 
 function getPatientLastEncounter(patientUuid) {
 
-    var whereClause = ["encounter_type IN (2,106) AND visit_type_id = 59 AND p.uuid = ?", patientUuid];
+    var whereClause = ["encounter_type IN (2,106) AND visit_type_id = 59 AND (e.voided in (0) OR e.voided IS NULL) AND p.uuid = ?", patientUuid];
     var queryObject = {
         columns: 'TIMESTAMPDIFF(MONTH, MAX(encounter_datetime), DATE(NOW())) as `months_from_last_visit`',
         table: 'amrs.encounter',
