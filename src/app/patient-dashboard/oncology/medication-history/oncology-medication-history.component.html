@@ -13,14 +13,14 @@
         <th>Frequency</th>
       </tr>
     </thead>
-    <tbody *ngIf="!medicalChanges">
+    <tbody *ngIf="summaryLoaded && !hasData">
       <tr>
         <td colspan="5">
-          <p class="alert alert-danger">No Medication change history records available</p>
+          <p class="alert alert-danger">No medication change history records available</p>
         </td>
       </tr>
     </tbody>
-    <tbody *ngIf="medicalChanges">
+    <tbody *ngIf="summaryLoaded && hasData">
         <tr *ngFor="let change of medicalChanges">
           <td>{{ change.meds_start_date }}</td>
           <td>{{ change.chemotherapy_plan }}</td>
