@@ -22,7 +22,7 @@ export class PatientReferralResourceService {
 
   public getPatientListUrl(): string {
     return this.appSettingsService.getEtlRestbaseurl().trim()
-      + 'patient-referrals-peer-navigator';
+      + 'referral-patient-list';
   }
   public getReferralLocationUrl(): string {
     return this.appSettingsService.getEtlRestbaseurl().trim()

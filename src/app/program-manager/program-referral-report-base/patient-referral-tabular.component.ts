@@ -192,6 +192,10 @@ export class PatientReferralTabularComponent implements OnInit {
           headerName: 'Referred From'
         },
         {
+          field: 'referred_to',
+          headerName: 'Referred To'
+        },
+        {
           field: 'review_status',
           headerName: 'Review Status',
           cellStyle: function (params) {
