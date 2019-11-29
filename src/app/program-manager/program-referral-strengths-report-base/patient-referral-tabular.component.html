@@ -7,7 +7,7 @@
     <span><i class="fa fa-spinner fa-spin"></i>Loading...</span>
   </div>
   <div *ngIf="patientData.length > 0">
-    <h3>{{ programName }} Peer navigator pateint list</h3>
+    <h3>{{ programName | titlecase }} Peer navigator patient list</h3>
     <patient-list [extraColumns]="extraColumns" [overrideColumns]="overrideColumns" [data]="patientData"></patient-list>
   </div>
 </div>
