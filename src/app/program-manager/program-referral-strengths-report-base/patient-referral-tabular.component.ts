@@ -185,7 +185,7 @@ export class StrengthsPatientReferralTabularComponent implements OnInit {
       this.extraColumns.push(
         {
           field: 'referral_urgency',
-          headerName: 'Referal Urgency',
+          headerName: 'Referral Urgency',
           cellRenderer: (params) => {
             if (params.value === 1) {
               return 'Urgent Referral';  // 1 is urgent referral(UR)
