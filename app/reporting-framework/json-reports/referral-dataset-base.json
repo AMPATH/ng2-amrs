@@ -41,6 +41,14 @@
                 "type": "INNER",
                 "joinCondition": "t4.referred_from_location_id = location.location_id"
             }
+        },
+        {
+            "table": "amrs.location",
+            "alias": "referral_location",
+            "join": {
+              "type": "INNER",
+              "joinCondition": "t4.referred_to_location_id = referral_location.location_id"
+            }
         }
     ],
     "columns": [
@@ -83,6 +91,11 @@
             "type": "simple_column",
             "alias": "referred_from",
             "column": "location.name"
+        },
+        {
+            "type": "simple_column",
+            "alias": "referred_to",
+            "column": "referral_location.name"
         },
         {
             "type": "simple_column",
