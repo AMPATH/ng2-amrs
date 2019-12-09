@@ -93,6 +93,10 @@
                 "filterType": "tableColumns",
                 "conditionExpression": "(pp.date_completed IS NULL || pp.date_completed >= ?)",
                 "parameterName": "endDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "pp.voided IS NULL or pp.voided = 0 "
             }
            
         ]
