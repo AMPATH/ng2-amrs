@@ -60,20 +60,10 @@ function viralLoadReminders(data) {
                 toast: true
             }
         });
-    } else if (data.is_pregnant === 1 && data.needs_vl_coded === 4 && data.viral_load < 1000 && data.viral_load === null) {
+    } 
+    else if (data.needs_vl_coded === 4) {
         reminders.push({
-            message: 'Patient requires viral load. A pregnant woman newly on ART requires ' +
-            'a viral load test at 3 months. ' + labMessage,
-            title: 'Viral Load Reminder',
-            type: 'danger',
-            display: {
-                banner: true,
-                toast: true
-            }
-        });
-    } else if (data.is_pregnant === 1 && data.needs_vl_coded === 4 && data.viral_load >= 1000 && data.last_vl_date >= 3) {
-        reminders.push({
-            message: 'Patient requires viral load. A pregnant woman newly on ART and VL > 1000 year requires ' +
+            message: 'Patient requires viral load. A pregnant or breastfeeding patient  with vl > 400 requires ' +
             'a viral load test every 3 months. ' + labMessage,
             title: 'Viral Load Reminder',
             type: 'danger',
@@ -82,10 +72,11 @@ function viralLoadReminders(data) {
                 toast: true
             }
         });
-    } else if (data.is_pregnant === 1 && data.is_postnatal === 1 && data.needs_vl_coded === 4 && data.last_vl_date >= 3) {
+    }
+    else if (data.needs_vl_coded === 5) {
         reminders.push({
-            message: 'Patient requires viral load. A postnatal woman newly on ART requires ' +
-            'a viral load test every 3 months. ' + labMessage,
+            message: 'Patient requires viral load. A pregnant or breastfeeding patient with vl<= 400 requires ' +
+            'a viral load test every 6 months. ' + labMessage,
             title: 'Viral Load Reminder',
             type: 'danger',
             display: {
