@@ -5,7 +5,8 @@ const _ = require('lodash');
 
 var serviceDefinition = {
     getAllDepartmentsConfig: getAllDepartmentsConfig,
-    getDepartmentPrograms: getDepartmentPrograms
+    getDepartmentPrograms: getDepartmentPrograms,
+    getDepartmentProgramUuids: getDepartmentProgramUuids
 };
 
 module.exports = serviceDefinition;
@@ -30,4 +31,20 @@ function getDepartmentPrograms(department){
      resolve(JSON.stringify(departmentPrograms));
 
     });
+}
+function getDepartmentProgramUuids(department){
+  let departmentProgramConfig = departmentsConfig;
+  let departmentPrograms = [];
+  _.each(departmentProgramConfig, (departmentConf) => {
+        let departmentName = departmentConf.name;
+        let programs = departmentConf.programs;
+        if(departmentName === department || department === ''){
+           _.each(programs,(program) => {
+             departmentPrograms.push(program.uuid);
+           });
+        }
+  });
+
+  return departmentPrograms;
+
 }
