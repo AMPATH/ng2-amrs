@@ -24,6 +24,11 @@ export class DailyScheduleVisitsComponent implements OnInit, OnDestroy {
   public currentTabLoaded = false;
   public selectedVisitTab: any;
   public nextStartIndex  = 0;
+  public extraColumns: Array<any> = [{
+    headerName: 'Program',
+    width: 200,
+    field: 'program'
+  }];
   public filter: any = {
      'programType': [],
      'visitType': [],
@@ -107,6 +112,10 @@ export class DailyScheduleVisitsComponent implements OnInit, OnDestroy {
     let programType: any = [];
     let visitType: any = [];
     let encounterType: any = [];
+    let department = '';
+    if (this.params.department && this.params.department.length > 0) {
+      department = this.params.department;
+    }
     if (this.params.programType.length > 0) {
         programType = this.params.programType;
     }
@@ -127,6 +136,7 @@ export class DailyScheduleVisitsComponent implements OnInit, OnDestroy {
       startDate: this.selectedDate,
       startIndex: 0,
       locationUuids: this.selectedClinic,
+      department: department,
       programType: programType,
       visitType: visitType,
       encounterType: encounterType,
