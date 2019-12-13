@@ -62,6 +62,14 @@
                 "type": "LEFT",
                 "joinCondition": "t2.person_id = t7.person_id"
             }
+        },
+        {
+            "table": "amrs.program",
+            "alias": "pr",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "pr.program_id  = t2.program_id"
+            }
         }
     ],
     "columns": [
@@ -75,6 +83,11 @@
             "alias": "encounter_type",
             "column": "t2.encounter_type"
         },
+        {
+            "type": "simple_column",
+            "alias": "program",
+            "column": "pr.name"
+        }, 
         {
             "type": "simple_column",
             "alias": "d",

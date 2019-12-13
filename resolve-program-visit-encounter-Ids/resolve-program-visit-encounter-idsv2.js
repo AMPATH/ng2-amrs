@@ -6,6 +6,7 @@ const programsConfig = require('../programs/patient-program-config');
 var encounterTypeService = require('../encounter-type/encounter-type-service.js');
 var visitTypeService = require('../visit-type/visit-type-service');
 var programTypeService = require('../programs/program-type.service');
+var departmentService = require('../departments/departments-programs.service');
 var encounterUuidtoIdMapping;
 var visitTypeUuidMapping;
 
@@ -113,6 +114,10 @@ function resolveProgramVisitTypeEncounterUuidsParamsToIds(request){
             'locationUuids': []
       };
 
+      if(typeof request.department !== 'undefined'){
+            let department = request.department;
+            var programTypeUuid  = departmentService.getDepartmentProgramUuids(department)
+      }
       if(typeof request.programType !== 'undefined'){
           var programTypeUuid = request.programType;
       }
