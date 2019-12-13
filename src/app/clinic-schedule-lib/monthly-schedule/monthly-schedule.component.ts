@@ -135,6 +135,7 @@ export class MonthlyScheduleBaseComponent implements OnInit, OnDestroy {
       this.monthlyScheduleResourceService.getMonthlySchedule({
       endDate: this.params.endDate,
       startDate: this.params.startDate,
+      department: this.params.department,
       programType: this.params.programType,
       visitType: this.params.visitType,
       encounterType: this.params.encounterType,
