@@ -314,7 +314,7 @@
                     },
                     {
                         "condition": "cancer_staging = 3",
-                        "value": "stage III"
+                        "value": "Stage III"
                     },
                     {
                         "condition": "cancer_staging = 4",
