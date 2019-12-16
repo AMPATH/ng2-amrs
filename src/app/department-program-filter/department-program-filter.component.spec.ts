@@ -13,7 +13,6 @@ import { AppFeatureAnalytics } from './../shared/app-analytics/app-feature-analy
 import { FakeAppFeatureAnalytics } from './../shared/app-analytics/app-feature-analytcis.mock';
 import { DateTimePickerModule } from 'ngx-openmrs-formentry/';
 import { UserService } from './../openmrs-api/user.service';
-import { ChangeDetectorRef } from '@angular/core';
 import { DataCacheService } from '../shared/services/data-cache.service';
 import { CacheService } from 'ionic-cache';
 import { IonicStorageModule } from '@ionic/storage';
@@ -112,7 +111,6 @@ describe('Component : DepartmentProgramFilter', () => {
     let departmentProgramService: DepartmentProgramsConfigService;
     let userDefaultService: UserDefaultPropertiesService;
     let locationResourceService: LocationResourceService;
-    let cd: ChangeDetectorRef;
     let route: Router;
     let router: ActivatedRoute;
 
@@ -171,7 +169,6 @@ describe('Component : DepartmentProgramFilter', () => {
           departmentProgramService = fixture.debugElement.injector
           .get(DepartmentProgramsConfigService);
           locationResourceService = fixture.debugElement.injector.get(LocationResourceService);
-          cd = fixture.debugElement.injector.get(ChangeDetectorRef);
           route = fixture.debugElement.injector.get(Router);
           router = fixture.debugElement.injector.get(ActivatedRoute);
           clinicDashboardService = fixture.debugElement.injector.get(ClinicDashboardCacheService);
