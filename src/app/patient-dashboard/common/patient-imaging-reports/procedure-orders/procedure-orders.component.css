@@ -1,0 +1,263 @@
+.file-info {
+  font-size: 0.9em;
+}
+
+.component-title span {
+  margin: 0 0 10px 15px;
+}
+
+.action-buttons {
+  padding: 15px;
+}
+
+.order-action-buttons {
+  margin: 0 !important;
+}
+
+.report-action-buttons button {
+  margin: 0 !important;
+}
+
+.confirm-report {
+  float: right;
+}
+
+.abort-report {
+  float: left;
+}
+
+.order-btn {
+  margin-right: 0;
+  float: right;
+}
+
+.order-cancel {
+  float: left;
+  padding-right: 0 !important;
+  margin: 0 0 0 20px;
+}
+
+.order-submit {
+  float: right;
+  padding-right: 0 !important;
+  margin: 0 0 0 20px;
+}
+
+.fa-sort, .fa-sort-asc, .fa-sort-desc {
+ padding-left: 5px;
+}
+
+.upload-btn  {
+  margin-right: 0 !important;
+  padding-top: 10px;
+  float: right;
+}
+
+.back-btn {
+  margin-bottom: 10px !important;
+}
+
+/* 
+Max width before this PARTICULAR table gets nasty
+This query will take effect for any screen smaller than 760px
+and also iPads specifically.
+*/
+@media 
+only screen and (max-width: 760px),
+(min-device-width: 490px) and (max-device-width: 1024px)  {
+
+    /* Force table to not be like tables anymore */
+    table, thead, tbody, th, td, tr { 
+        display: block; 
+    }
+    
+    /* Hide table headers (but not display: none;, for accessibility) */
+    thead tr { 
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+    btn {
+      width: 100%
+    }
+    
+    tr { border: 1px solid #ccc; }
+    button {
+        width: auto;
+        margin-left: 5%;
+        margin-right: 5%;
+        margin: auto
+        
+
+    }
+    btn2 {
+        width: 100%;
+    }
+    
+    td { 
+        /* Behave  like a "row" */
+        border: none;
+        border-bottom: 1px solid #eee; 
+        position: relative;
+        padding-left: 50%; 
+        /* white-space: nowrap; */
+        font-size: 10.5px;
+        align-content: centre;
+        
+        
+    }
+    
+    td:before { 
+        /* Now like a table header */
+        position: absolute;
+        /* Top/left values mimic padding */
+        top: 6px;
+        left: 6px;
+        /* width: 45%;  */
+        display: inline;
+        padding-right: 10px; 
+        
+        
+        
+    }
+    
+}
+     /* Smartphones (portrait and landscape) ----------- */
+     @media only screen
+     and (min-device-width : 320px)
+     and (max-device-width : 480px) {
+         body { 
+             padding: 0; 
+             margin: 0; 
+             /*width: 320px;*/ }
+         }
+     
+     /* iPads (portrait and landscape) ----------- */
+     @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+         body { 
+             width: 495px; 
+         }
+     }
+
+     .bton {
+
+        margin: 1px;
+        
+
+    }
+    .mat-raised-button {
+    min-width: 0px;
+}
+
+.bitn {
+    width: 90%;
+    margin-left: 10px;
+}
+
+@media screen and (max-width: 640px) {
+    #search-textbox::-webkit-input-placeholder{
+      font-size:12px;
+    } 
+}
+@media screen and (max-width: 600px) {
+
+  .add-relationship-dialog{
+    top:5px !important;
+    }
+  .scroll-message{
+      display: block;
+    }
+    
+}
+
+@media screen and (min-width: 601px) {
+
+  .add-relationship-dialog{
+    top:130px !important;
+    }
+    .scroll-message{
+      display: none;
+    }
+
+}
+
+#add-relationship-dialog-content{
+          max-height: 500px;
+          overflow-y: scroll;
+          padding-bottom: 15px;
+}
+.edit-drugorder-dialog{
+    top:185px !important;
+}
+.edit-contacts-dialog,.edit-address-dialog{
+    top:185px !important;
+}
+.edit-identifier-dialog{
+    top:185px !important;
+}
+.mat-raised-button {
+    min-width: 0px;
+}
+.btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    margin-right: 20px;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+.frame__outside {
+  background: rgb(1, 134, 211);
+  box-shadow: inset -0.5rem -0.5rem 1rem rgb(1, 60, 99);
+  padding: 0.75rem;
+  margin-bottom: 1.5rem;
+  
+  
+  box-shadow: 0px  0px  8px  rgba(0, 129, 250, 0.1),
+              2px  2px  4px  rgba(3, 95, 138, 0.2),
+              4px  4px  20px rgba(6, 123, 177, 0.2),
+              20px 4px  32px rgba(6, 96, 199, 0.12),
+              4px  30px 32px rgba(3, 57, 128, 0.12),
+              8px  20px 20px rgba(5, 134, 219, 0.03);
+}
+
+.frame__inside {
+  background: rgb(7, 128, 209);
+  box-shadow: inset 0.5rem 0.5rem 1rem  #3c8dbc;
+  padding: 0.75rem;
+}
+
+.matte {
+  padding: 2.5rem;
+  background: #fafafa;
+  box-shadow: inset 1px 1px 2px rgb(32, 56, 100);
+}
+
+.picture {
+  width: 25vw;
+  height: 40vh;
+  max-height: 18vw;
+  background-size: cover;
+  background-position: center;
+  
+  box-shadow: inset 2px 2px 1px rgba(0,0,0,0.2);
+}
+
+.uploadButton {
+  width: 50%;
+  box-align: right;
+}

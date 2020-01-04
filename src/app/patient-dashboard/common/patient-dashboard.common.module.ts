@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -101,6 +101,7 @@ import {
 import { PatientCareStatusResourceService } from '../../etl-api/patient-care-status-resource.service';
 import { PatientIdentifierService } from './patient-identifier/patient-identifiers.service';
 import { EditContactsComponent } from './patient-info/edit-contacts.component';
+
 import {
   HivPatientClinicalSummaryService
 } from '../hiv/patient-clinical-summaries/hiv-patient-clinical-summary.service';
@@ -146,6 +147,12 @@ import { HivSummaryLatestComponent } from '../hiv/hiv-summary/hiv-summary-latest
 import { AgePipe } from './patient-banner/age.pipe';
 import { PatientTransferService } from './formentry/patient-transfer.service';
 
+
+import { PatientImagingReportsComponent } from './patient-imaging-reports/patient-imaging-reports.component';
+import { ProcedureOrdersService } from './patient-imaging-reports/procedure-orders/procedure-orders.service';
+import { FeedBackService } from 'src/app/feedback/feedback.service';
+import { ProcedureOrdersComponent } from './patient-imaging-reports/procedure-orders/procedure-orders.component';
+import { ProceduresFilterPipe } from './patient-imaging-reports/procedure-orders/procedures-filter.pipe';
 @NgModule({
   imports: [
     HttpClientModule,
@@ -187,7 +194,9 @@ import { PatientTransferService } from './formentry/patient-transfer.service';
   ],
   exports: [
     PatientInfoComponent,
-        PatientEncountersComponent,
+    HivSummaryLatestComponent,
+    ProcedureOrdersComponent ,
+    PatientEncountersComponent,
     PatientVitalsComponent,
     FormsComponent,
     LabDataSummaryComponent,
@@ -238,9 +247,11 @@ import { PatientTransferService } from './formentry/patient-transfer.service';
   declarations: [
     VisitSummaryComponent,
     PatientInfoComponent,
+    HivSummaryLatestComponent,
     PatientEncountersComponent,
     PatientVitalsComponent,
     FormsComponent,
+    ProcedureOrdersComponent,
     LabDataSummaryComponent,
     LabOrdersComponent,
     ClinicalNotesComponent,
@@ -276,6 +287,7 @@ import { PatientTransferService } from './formentry/patient-transfer.service';
     LocatorMapComponent,
     SecurePipe,
     AgePipe,
+    ProceduresFilterPipe,
     VisitEncountersListComponent,
     VisitEncountersComponent,
     VisitDetailsComponent,
@@ -286,7 +298,12 @@ import { PatientTransferService } from './formentry/patient-transfer.service';
     OrderByEncounterTimeAscPipe,
     EncounterTypeFilter,
     // ZeroVlPipe,
-    PatientImagingComponent],
+    AgePipe,
+    PatientImagingComponent,
+    PatientImagingReportsComponent,
+    PatientImagingComponent,
+    ProcedureOrdersComponent],
+    schemas: [ NO_ERRORS_SCHEMA ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
@@ -298,6 +315,7 @@ import { PatientTransferService } from './formentry/patient-transfer.service';
     PatientSearchService,
     AppFeatureAnalytics,
     PatientService,
+    FeedBackService,
     PatientPreviousEncounterService,
     HivSummaryService,
     FormListService,
@@ -310,6 +328,7 @@ import { PatientTransferService } from './formentry/patient-transfer.service';
     FromentryGuard,
     FormCreationDataResolverService,
     FormSubmissionService,
+    ProcedureOrdersService,
     PatientReminderService,
     DraftedFormsService,
     TodaysVitalsService,
@@ -318,6 +337,7 @@ import { PatientTransferService } from './formentry/patient-transfer.service';
     HivPatientClinicalSummaryService,
     DatePipe,
     ZeroVlPipe,
+    ProceduresFilterPipe,
     PatientIdentifierService,
     PatientRelationshipTypeService,
     FormentryReferralsHandlerService,

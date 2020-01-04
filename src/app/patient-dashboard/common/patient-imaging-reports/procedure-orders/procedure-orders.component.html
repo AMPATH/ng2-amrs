@@ -1,0 +1,372 @@
+<div>
+  <div class="row">
+    <h4 class="component-title" data-testid="report title">
+      <span class="{{ orderResultsConcept.icon }}"></span>
+      {{ orderResultsConcept.report }}
+    </h4>
+  </div>
+  <div *ngIf="proceduresOrdered" class="row">
+    <div class="btn-toolbar action-buttons">
+      <div class="btn-group" role="group" aria-label="Select orders from dropdown">
+        <select class="form-control" [(ngModel)]="selectedOrderStatus"
+          (ngModelChange)="onOrderStatusChange(selectedOrderStatus)" required>
+          <option [value]="any">All Orders</option>
+          <option *ngFor="let orderState of orderStatus" [value]="orderState">
+            <strong>{{ orderState }}</strong>
+          </option>
+        </select>
+      </div>
+      <div class="input-group" role="group" aria-label="Search report by name">
+        <input class="form-control" type="text" [(ngModel)]="searchText" placeholder="Search report by name..." />
+      </div>
+      <div class="order-btn" role="group" aria-label="Make new order" data-testid="order procedure">
+        <button *ngIf="!addOrders" type="button" class="form-control btn btn-primary" (click)="addProcedure(true)" id="order-procedure">
+          <i class="fa fa-plus"></i>&nbsp;&nbsp;<b>Order new {{ orderResultsConcept.name }} report</b>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="loader" *ngIf="isBusy">
+    <span><i class="fa fa-spinner fa-spin"></i>Loading... </span>
+  </div>
+  <div class="loader" *ngIf="uploadingResults">
+    <span><i class="fa fa-spinner fa-spin"></i>Uploading results... </span>
+  </div>
+  <div class="alert alert-warning" *ngIf="selectedOrders.length === 0">
+    Patient has no {{ orderResultsConcept.name }} orders at this time.
+  </div>
+  <div class="alert alert-success alert-dismissible" *ngIf="newProcedure">
+    Patient {{ orderResultsConcept.name }} order added.
+  </div>
+  <div *ngIf="error" class="alert alert-danger alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    {{ error }}
+  </div>
+  <div *ngIf="message" class="alert alert-success alert-dismissible" data-testid="message" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    {{ message }}
+  </div>
+  <div *ngIf="!proceduresOrdered">
+    <button (click)="defaultView()" class="btn btn-default back-btn" data-testid="back button" type="button">
+      <span class="glyphicon glyphicon-circle-arrow-left"></span> Back
+    </button>
+  </div>
+  <div *ngIf="addOrders">
+    <div class="panel panel-primary">
+      <div class="panel-heading">{{ header }}</div>
+      <div class="panel-body">
+        <div class="container-fluid" *ngIf="displayNew">
+          <div class="row" id="edit-demographics-row">
+            <div *ngIf="errors" style="color: red !important">
+              <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+                <div *ngFor="let error of errors">{{ error.message }}</div>
+              </div>
+            </div>
+            <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+              <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+                <div class="form-group">
+                  <label data-testid="report type" for="order name">{{ orderResultsConcept.name | titlecase }} report type</label>
+                  <select class="form-control" [(ngModel)]="procedure" name="procedure" id="select-report-type">
+                    <option *ngFor="let p of procedures" [value]="p.uuid">
+                      {{ p.display }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="order-action-buttons">
+                <button class="btn btn-primary order-submit" id="submit-order" type="submit" (click)="saveOrder()">
+                  <span>Submit</span>
+                </button>
+                <button class="btn btn-danger order-cancel" id="cancel-order" type="button" (click)="defaultView()">
+                  <span>Cancel</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="proceduresOrdered">
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th class="pointer" (click)="sort('dateActivated')">
+              Date Created
+              <i class="fa" [ngClass]="{
+                'fa-sort': column != 'dateActivated',
+                'fa-sort-asc': column == 'dateActivated' && !isDesc, 
+                'fa-sort-desc': column == 'dateActivated' && isDesc 
+              }" aria-hidden="true">
+              </i>
+            </th>
+            <th data-testid="report table header">{{ orderResultsConcept.name | titlecase }} report</th>
+            <th>Date Received</th>
+            <th>Results</th>
+            <th>Findings</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="
+              let order of selectedOrders
+                | proceduresFilter: searchText
+                | paginate: { itemsPerPage: 200, currentPage: page };
+              let i = index
+            ">
+            <td data-testid="activation date">{{ order.dateActivated | date: "dd/MM/yyyy" }}</td>
+            <td data-testid="order info">
+              <ul style="list-style-type:none">
+                <li>{{ order.concept.display }}<br /></li>
+                <li>
+                  <b>Order Number:</b> {{ order.orderNumber }}<br />
+                </li>
+                <li>
+                  <b>Ordered By:</b> {{ order.orderer.display }}
+                </li>
+              </ul>
+            </td>
+            <td data-testid="date received">
+              <div *ngIf="order.status.date">
+                {{ order.status.date | date: "dd/MM/yyyy" }}
+              </div>
+              <div *ngIf="!order.status.date">
+                No results
+              </div>
+            </td>
+            <td>
+              <div *ngIf="order.status.status === 0">
+                No results
+              </div>
+              <div *ngIf="order.status.status === 1" style="font-size: 24px;">
+                <a type="button" title="View Procedure Results" (click)="showResults(order)">
+                  <span class="fa fa-file-image-o fa-7x" aria-hidden="true" style="font-size: 30px;">
+                  </span>
+                </a>
+              </div>
+            </td>
+            <td>
+              <div *ngIf="order.status.status === 0">
+                No results
+              </div>
+              <div *ngIf="order.status.status === 1">
+                {{ order.status.findings || order.status.findings }}
+                <!-- <p *ngIf="!orderResultsConcept.name === 'radiology'">{{order.status.findings}}</p>
+                  <p *ngIf="orderResultsConcept.name === 'radiology'">{{order.status.findings.display || order.status.findings}}</p> -->
+                <!-- | titlecase -->
+              </div>
+              <div *ngIf="order.status.status === 1">
+                <!-- | titlecase -->
+              </div>
+            </td>
+            <td>
+              <!-- <button _ngcontent-c16="" mat-raised-button="" *ngIf="order.status.status === 1"
+                  style="background:  #3c8dbc;; color: white;" class="bton " title="Edit Results" class="bton"
+                  (click)="changeResults(order)">EDIT</button> -->
+              <button _ngcontent-c16="" data-testid="enter results" mat-raised-button="" *ngIf="order.status.status === 0"
+                style="background:  purple;; color: white;" class="bton" title="View Results"
+                (click)="enterResults(order)">
+                Enter Results
+              </button>
+              <button _ngcontent-c16="" data-testid="show orders" mat-raised-button="" style="background:  green;; color: white;" class="bton "
+                title="View Results" id="show-orders" (click)="showOrder(order)">
+                View
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <pagination-controls *ngIf="selectedOrders.length > 0" (pageChange)="page = $event" style="cursor: pointer;">
+      </pagination-controls>
+    </div>
+  </div>
+
+  <div *ngIf="resultsDisplay">
+    <div class="panel panel-primary">
+      <div class="panel-heading" data-testid="report header">{{ viewResults }}</div>
+      <div class="panel-body">
+        <div *ngIf="showDetails">
+          <div *ngIf="resultView">
+            <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+              <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+                <div class="form-group">
+                  <label for="givenName">Procedure Type:</label>
+                </div>
+              </div>
+              <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+                <div class="form-group" data-testid="procedure type">
+                  <label for="givenName">{{ selectedProc.display }}</label>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+              <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+                <div class="form-group">
+                  <label for="givenName">Ordered By:</label>
+                </div>
+              </div>
+              <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+                <div class="form-group" data-testid="orderer">
+                  <label for="givenName">
+                    {{ selectedProc.orderer.display }}
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+              <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+                <div class="form-group">
+                  <label for="givenName">Date Ordered:</label>
+                </div>
+              </div>
+              <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+                <div class="form-group" data-testid="date of activation">
+                  <label for="givenName">{{
+                    selectedProc.dateActivated | date: "dd/MM/yyyy"
+                  }}</label>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+              <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+                <div class="form-group">
+                  <label for="givenName">Results Available:</label>
+                </div>
+              </div>
+              <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+                <div class="form-group" data-testid="results available">
+                  <div *ngIf="selectedProc.status.status === 1">
+                    <label for="givenName">YES &nbsp; ({{ selectedProc.results.length }} results)</label>
+                  </div>
+                  <div *ngIf="selectedProc.status.status === 0">
+                    <label for="givenName">NO</label>
+                  </div>
+                </div>
+              </div>
+              <button *ngIf="voidOrderButton" class="btn btn-danger pull-left" id="void-order" type="button"
+                (click)="discard(selectedProc)" data-testid="void order">
+                <span>Void Order</span>
+              </button>
+            </div>
+          </div>
+          <div *ngIf="!resultView">
+            <div *ngIf="hasRights">
+              <div class="well well-sm" style="margin-bottom: 5px;">
+                <b> Are you sure you want to discard this order?</b>
+              </div>
+            </div>
+            <div *ngIf="!hasRights">
+              <div class="well well-sm" data-testid="requires privileges" style="margin-bottom: 5px;">
+                <b>Your Account lacks the required privileges. Do you wish to report this to the Administrator?</b>
+              </div>
+            </div>
+            <div class="report-action-buttons">
+              <button class="btn btn-primary confirm-report" type="submit" (click)="discardOrder(selectedProc)">
+                <span>Yes</span>
+              </button>
+              <button class="abort-report btn btn-danger" type="button" (click)="defaultView()">
+                <span>Cancel</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="displayResultsChange">
+    <div class="panel panel-primary">
+      <div class="panel-heading">{{ header }}</div>
+      <div class="panel-body">
+        <div *ngIf="displayEditRequest">
+          <div>
+            <b>
+              Are you sure you want to change the
+              {{ orderResultsConcept.name }} results for order
+              {{ orderNumber }}?
+            </b>
+            <br /><br />
+          </div>
+          <button class="btn btn-primary pull-right" type="button" (click)="approveEdit()">
+            <span>Ok</span>
+          </button>
+          <button class="btn btn-danger pull-left" type="button" (click)="defaultView()">
+            <span>Cancel</span>
+          </button>
+        </div>
+        <div *ngIf="!displayEditRequest">
+          <lib-file-uploader (fileChanged)="onFileChangeResults($event, true, orderNumber)"><i class="fa fa-upload"></i>
+          </lib-file-uploader>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="enterReportResults">
+    <pre>{{ uploadedFiles | json }}</pre>
+    <label for="">Upload Results</label>
+    <lib-file-uploader [(ngModel)]="dataModel" (uploadData)="uploadFile($event)" (_onClear)="clearPhoto()"><i
+        class="fa fa-upload"></i>
+    </lib-file-uploader>
+    <div>
+      <label for="">Findings</label>
+      <div>
+        <input [disabled]="!files" required [(ngModel)]="imageReportFindings" type="text" class="form-control"
+          placeholder="Enter findings" />
+      </div>
+      <!-- <div  *ngIf="codedAnswers">
+          <select [disabled]= "!files" class="form-control"   [(ngModel)]="imageReportFindings" name="radiologyFingings">
+            <option *ngFor="let radio of radiologyConceptAnswers" [ngValue]="radio"> {{ radio.display }}</option>
+          </select>
+        </div> -->
+      <div class="upload-btn">
+        <button [disabled]="!files" type="submit" class="btn btn-primary" (click)="sendResults()">
+          Save
+        </button>
+      </div>
+      <br />
+    </div>
+  </div>
+  <div class="modal fade" bsModal #imageModal="bs-modal" [config]="{ backdrop: 'static' }" tabindex="-1" role="dialog"
+    aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title pull-left">
+            {{ orderResultsConcept.name }} results:
+            <b>{{ header2 }}</b> &nbsp;&nbsp;Date Received:
+            <b>{{ dateReceived | date: "dd/MM/yyyy" }}</b>&nbsp;&nbsp; No. of results : <b>{{ ObsImages.length }}</b>
+          </h4>
+
+          <button type="button" class="close pull-right" aria-label="Close" (click)="imageModal.hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div>
+            <div *ngFor="let image of ObsImages">
+              <div *ngIf="image.type === 'image'">
+                <img [src]="image.image | secure" class="img-responsive" />
+              </div>
+              <div *ngIf="image.type === 'pdf'">
+                <pdf-viewer [src]="image.image" [render-text]="true" style="display: block;"></pdf-viewer>
+              </div>
+              <button class="btn btn-danger pull-left" type="button" (click)="deleteResult(ObsImages, image)">
+                <span>Void Result</span>
+              </button>
+              <br />
+              <br />
+              <br />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer"></div>
+    </div>
+  </div>
+</div>
