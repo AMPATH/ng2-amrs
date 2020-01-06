@@ -8,31 +8,72 @@
   <div *ngIf="!hasError && hasData && !isIntegratedProgram">
     <div class="snapshot-summary">
       <h4 class="component-title">Last Encounter</h4>
+      <div class="col-md-12">
+        <div class="full-width" *ngIf="latestEncounterLocation">
+          <p>Location: 
+            <span>{{ latestEncounterLocation?.name }}</span>
+          </p>
+        </div>
+      </div>
       <div class="snapshot-body">
         <div *ngIf="summaryData">
           <div class="col-md-12">
-            <p>Date: {{ summaryData.encounter_datetime }}</p>
+            <div class="col-md-6 col-xs-12">
+              <p>Date: {{ summaryData.encounter_datetime }}</p>
+            </div>
+            <div class="col-md-6 col-xs-12">
+              <p>Type:
+                <span>{{ summaryData.encounter_type_name ? summaryData.encounter_type_name : 'None' }}</span>
+              </p>
+            </div>
           </div>
           <div class="col-md-12">
-            <p>Most Recent Diagnosis: {{ summaryData.diagnosis }}</p>
+            <div class="col-md-6 col-xs-12" *ngIf="summaryData.cancer_type || summaryData.cancer_type">
+              <p>Diagnosis: 
+                <span *ngIf="summaryData.cancer_type">{{ summaryData.cancer_type }}</span>
+                <span *ngIf="summaryData.cancer_subtype"> - {{ summaryData.cancer_subtype }}</span>
+              </p>
+            </div>
+            <div class="col-md-6 col-xs-12" *ngIf="summaryData.oncology_treatment_plan">
+              <p>Treatment Plan: {{ summaryData.oncology_treatment_plan }}</p>
+            </div>
           </div>
           <div class="col-md-12">
-            <p>Cancer Stage: {{ summaryData.overal_cancer_stage_group }}</p>
+            <div clas="col-md-6 col-xs-12" *ngIf="summaryData.chemotherapy">
+              <p>Previous Chemotherapy: {{ summaryData.chemotherapy }}</p>
+            </div>
+            <div class="col-md-6 col-xs-12" *ngIf="summaryData.medication_history">
+              <p>Current Medication Regimen: {{ summaryData.medication_history }}</p>
+            </div>
           </div>
           <div class="col-md-12">
-            <p>Treatment plan: {{ summaryData.oncology_treatment_plan }}</p>
+            <div class="col-md-6 col-xs-12" *ngIf="summaryData.current_chemo_cycle">
+              <p>Current Chemo Cycle: {{ summaryData.current_chemo_cycle }}</p>
+            </div>
+            <div class="col-md-6 col-xs-12" *ngIf="summaryData.total_chemo_cycles_planned">
+              <p>Total Chemo Cycles Planned: {{ summaryData.total_chemo_cycles_planned }}</p>
+            </div>
           </div>
           <div class="col-md-12">
-            <p>RTC Date: {{ summaryData.rtc_date }}</p>
+            <div class="col-md-6 col-xs-12" *ngIf="summaryData.chemotherapy_plan">
+              <p>Chemotherapy Plan: {{ summaryData.chemotherapy_plan }}</p>
+            </div>
+            <div class="col-md-6 col-xs-12" *ngIf="summaryData.chemotherapy_regimen">
+              <p>Chemotherapy Regimen: {{ summaryData.chemotherapy_regimen }}</p>
+            </div>
           </div>
           <div class="col-md-12">
-            <p>Medication Initiation Start Date: {{ summaryData.cur_onc_meds_start_date }}</p>
+            <div class="col-md-6 col-xs-12" *ngIf="summaryData.chemotherapy_intent">
+              <p>Chemotherapy Intent: {{ summaryData.chemotherapy_intent }}</p>
+            </div>
+            <div class="col-md-6 col-xs-12" *ngIf="summaryData.overall_cancer_stage_group">
+              <p>Cancer Stage Group: {{ summaryData.overall_cancer_stage_group }}</p>
+            </div>
           </div>
           <div class="col-md-12">
-            <p>Current Medication Regimen: {{ summaryData.cur_onc_meds }}</p>
-          </div>
-          <div class="col-md-12">
-            <p>Enrollment Date: {{ summaryData.enrollment_date }}</p>
+            <div class="col-md-6 col-xs-12" *ngIf="summaryData.rtc_date">
+              <p>RTC Date: {{ summaryData.rtc_date }}</p>
+            </div>
           </div>
         </div>
         <div class="clear"></div>
@@ -40,13 +81,15 @@
     </div>
   </div>
   <div *ngIf="isIntegratedProgram && !hasError">
-    <ng-container *ngFor="let row of summaryData; ">
+    <ng-container *ngFor="let row of summaryData">
       <div class="col-md-12">
-        <p>Screening: {{ row.name }}</p>
+        <p>Type of Screening: {{ row.visit_name }}</p>
         <p>Date: {{ row.encounter_datetime }}</p>
         <p>Location: {{ row.location }}</p>
+        <p *ngIf="row.breast_exam_findings">Breast Screening Findings: {{ translateConcept(row.breast_exam_findings) }}</p>
+        <p *ngIf="row.via_test_result">Cervical Screening Findings: {{ translateConcept(row.via_test_result) }}</p>
       </div>
-      <hr>
+      <hr class="intro-divider" width="100%">
     </ng-container>
   </div>
   <div *ngIf="!hasLoadedData && !hasError">
