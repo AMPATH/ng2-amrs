@@ -411,7 +411,11 @@ module.exports = function () {
                 7422: "ADENOCARCINOMA",
                 7421: "SQUAMOUS CELL CARCINOMA, NOT OTHERWISE SPECIFIED",
                 10131: "LARGE CELL CARCINOMA",
-                10209: "MIXED SQUAMOUS"
+                10209: "MIXED SQUAMOUS",
+                6547: "CHRONIC MYELOGENOUS LEUKEMIA",
+                6548: "CHRONIC LYMPHOCYTIC LEUKEMIA",
+                6549: "ACUTE MYELOGENOUS LEUKEMIA",
+                6550: "ACUTE LYMPHOCYTIC LEUKEMIA"
             };
             return concepts[code];
         },
@@ -454,7 +458,8 @@ module.exports = function () {
                 6965: {mapped_to_ids: "625;628", name: "LAMIVUDINE AND STAVUDINE"},
                 9435: {mapped_to_ids: "9435", name: "EVIPLERA"},
                 9759: {mapped_to_ids: "9759", name: "DOLUTEGRAVIR"},
-                9026: {mapped_to_ids: "9026", name: "LOPINAVIR"}
+                9026: {mapped_to_ids: "9026", name: "LOPINAVIR"},
+                10090: {mapped_to_ids: "10090", name: "RILPIVIRINE"}
             };
             var arvCodes = str.split(" ## ");
             var arvNames = [];
@@ -782,11 +787,13 @@ module.exports = function () {
             return date;
         },
         titleCase: function titleCase(name) {
-          name = name.toLowerCase().split(" ");
-          for (var i = 0; i < name.length; i++) {
-            name[i] = name[i].charAt(0).toUpperCase() + name[i].slice(1);
+          if (name) {
+            name = name.toLowerCase().split(" ");
+            for (var i = 0; i < name.length; i++) {
+              name[i] = name[i].charAt(0).toUpperCase() + name[i].slice(1);
+            }
+            return name.join(" ");
           }
-          return name.join(" ");
         }
     };
 
