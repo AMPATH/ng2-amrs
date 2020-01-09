@@ -10,7 +10,7 @@ var _ = require('lodash');
 var Boom = require('boom'); //extends Hapi Error Reporting. Returns HTTP-friendly error objects: github.com/hapijs/boom
 var helpers = require('../../etl-helpers');
 var patientReminderService = require('../../service/patient-reminder.service.js');
-import { getOncMeds } from '../../service/oncology/patient-oncology-summary-service';
+
 module.exports = function () {
     function getPatientHivSummary(request, callback) {
         var uuid = request.params.uuid;
@@ -82,55 +82,56 @@ module.exports = function () {
     }
 
     function getPatientOncologySummary(request, callback) {
-        let queryParts = {
-            columns: request.query.fields || "*",
-            order: [{
-                column: 'encounter_datetime',
-                asc: false
-            }]
-        };
+      let queryParts = {
+        columns: request.query.fields || "*",
+        order: [{
+          column: 'encounter_datetime',
+          asc: false
+        }]
+      };
 
-        getOncologyPatientReport(request, queryParts).then((data) => {
-            let oncSummary = data;
-            let medsSummary = '';
-            let encounterId = 0;
-            if (!_.isEmpty(oncSummary.result)) {
-                encounterId = oncSummary.result[0].encounter_id;
-            }
-            getOncMeds(request, 'summary', encounterId).then((data) => {
-                _.each(data.result, function (concept) {
-                    medsSummary += helpers.getConceptName(parseInt(concept.value_coded)) + ', ';
-                });
-                _.each(oncSummary.result, (summary) => {
-                    summary.diagnosis = helpers.getConceptName(summary.diagnosis);
-                    summary.cur_onc_meds = medsSummary;
-                    summary.diagnosis_method = helpers.getConceptName(summary.diagnosis_method);
-                    summary.cancer_stage = helpers.getConceptName(summary.cancer_stage);
-                    summary.overal_cancer_stage_group = helpers.getConceptName(summary.overal_cancer_stage_group);
-                    summary.oncology_treatment_plan = helpers.getConceptName(summary.oncology_treatment_plan);
-                    summary.chemotherapy_plan = helpers.getConceptName(summary.chemotherapy_plan);
-                    summary.drug_route = helpers.getConceptName(summary.drug_route);
-                    summary.medication_history = helpers.getConceptName(summary.medication_history);
-                    summary.other_meds_added = helpers.getConceptName(summary.other_meds_addeds);
-                    summary.encounter_datetime = helpers.filterDate(summary.encounter_datetime);
-                    summary.visit_start_datetime = helpers.filterDate(summary.visit_start_datetime);
-                    summary.enrollment_date = helpers.filterDate(summary.enrollment_date);
-                    summary.rtc_date = helpers.filterDate(summary.rtc_date);
-                    summary.prev_rtc_date = helpers.filterDate(summary.prev_rtc_date);
-                    summary.diagnosis_date = helpers.filterDate(summary.diagnosis_date);
-                    summary.cur_onc_meds_start_date = helpers.filterDate(summary.cur_onc_meds_start_date);
-                });
+      getOncologyPatientReport(request, queryParts)
+      .then(data => {
+        let oncSummary = data;
 
-                callback(oncSummary);
-
-            }).catch((error) => {
-                callback(error);
-            });
-
-        }).catch((error) => {
-            callback(error);
+        _.each(oncSummary.result, summary => {
+          summary.diagnosis =
+            summary.cancer_type && summary.cancer_subtype
+              ? helpers.titleCase(helpers.getConceptName(summary.cancer_type)) 
+                + " - " + helpers.titleCase(helpers.getConceptName(summary.cancer_subtype))
+              : helpers.titleCase(helpers.getConceptName(summary.cancer_type));
+          summary.diagnosis_method = helpers.getConceptName(summary.diagnosis_method);
+          summary.cancer_stage = helpers.getConceptName(summary.cancer_stage);
+          summary.overall_cancer_stage_group = helpers.getConceptName(summary.overall_cancer_stage_group);
+          summary.oncology_treatment_plan = helpers.getConceptName(summary.oncology_treatment_plan);
+          summary.chemotherapy_plan = helpers.getConceptName(summary.chemotherapy_plan);
+          summary.cancer_type = helpers.titleCase(helpers.getConceptName(summary.cancer_type));
+          summary.cancer_subtype = helpers.titleCase(helpers.getConceptName(summary.cancer_subtype));
+          summary.cancer_diagnosis_status = helpers.titleCase(helpers.getConceptName(summary.cancer_diagnosis_status));
+          summary.chemotherapy = helpers.titleCase(helpers.getConceptName(summary.chemotherapy));
+          summary.total_chemo_cycles_planned = summary.total_chemo_cycles_planned;
+          summary.current_chemo_cycle = summary.current_chemo_cycle;
+          summary.chemotherapy_regimen = summary.chemotherapy_regimen;
+          summary.chemotherapy_intent = helpers.getConceptName(summary.chemotherapy_intent);
+          summary.drug_route = helpers.getConceptName(summary.drug_route);
+          summary.medication_history = helpers.getConceptName(summary.medication_history);
+          summary.other_meds_added = helpers.getConceptName(summary.other_meds_addeds);
+          summary.breast_exam_findings = helpers.getConceptName(summary.breast_exam_findings);
+          summary.via_test_result = helpers.getConceptName(summary.via_test_result);
+          summary.encounter_datetime = helpers.filterDate(summary.encounter_datetime);
+          summary.visit_start_datetime = helpers.filterDate(summary.visit_start_datetime);
+          summary.enrollment_date = helpers.filterDate(summary.enrollment_date);
+          summary.rtc_date = helpers.filterDate(summary.rtc_date);
+          summary.prev_rtc_date = helpers.filterDate(summary.prev_rtc_date);
+          summary.diagnosis_date = helpers.filterDate(summary.diagnosis_date);
+          summary.cur_onc_meds_start_date = helpers.filterDate(summary.cur_onc_meds_start_date);
         });
-
+        callback(oncSummary);
+      })
+      .catch(error => {
+        console.error("Error fetching oncSummary: ", error);
+        callback(error);
+      });
     }
 
     function getOncologyPatientReport(request, query) {
@@ -142,7 +143,8 @@ module.exports = function () {
             table: "etl.flat_onc_patient_history",
             where: whereClause,
             leftOuterJoins: [
-                ['(SELECT program_id, uuid as `programuuid` FROM amrs.program ) `t5` ON (t1.program_id = t5.program_id)']
+                ['(SELECT program_id, uuid as `programuuid` FROM amrs.program ) `t5` ON (t1.program_id = t5.program_id)'],
+                ['(SELECT uuid as `location_uuid`, location_id FROM amrs.location) `loc` ON (loc.location_id = t1.location_id)']
             ],
             offset: request.query.startIndex,
             limit: request.query.limit
