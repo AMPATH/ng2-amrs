@@ -8,6 +8,11 @@
             "name": "enhancedAdherenceHIVProgramCohort",
             "version": "1.0",
             "type": "dataset_def"
+        },
+        {
+            "name": "hivLatestClinicalEncounterDateBase",
+            "version": "1.0",
+            "type": "dataset_def"
         }
     ],
     "sources": [
@@ -29,6 +34,22 @@
             "join": {
                 "type": "INNER",
                 "joinCondition": "max_record.person_id = fhs.person_id and max_record.maxdate = fhs.vl_1_date"
+            }
+        },
+        {
+            "dataSet": "hivLatestClinicalEncounterDateBase",
+            "alias": "latest_clinical_encounter_date",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "latest_clinical_encounter_date.person_id = fhs.person_id"
+            }
+        },
+        {
+            "table": "etl.flat_hiv_summary_v15b",
+            "alias": "latest_clinical_encounter",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "latest_clinical_encounter.person_id = latest_clinical_encounter_date.person_id AND latest_clinical_encounter.encounter_datetime = latest_clinical_encounter_date.latest_encounter_date"
             }
         },
         {
@@ -121,6 +142,20 @@
                 "filterType": "tableColumns",
                 "conditionExpression": "fhs.vl_1 <= ?",
                 "parameterName": "upper_vl"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "latest_clinical_encounter.death_date <= ? || latest_clinical_encounter.death_date IS NULL",
+                "parameterName": "endDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "latest_clinical_encounter.transfer_out_location_id IS NULL"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "TIMESTAMPDIFF(DAY, latest_clinical_encounter.rtc_date,'{endDate}') < 90",
+                "parameterName": "endDate"
             }
         ]
     }

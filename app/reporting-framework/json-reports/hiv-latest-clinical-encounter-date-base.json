@@ -1,0 +1,59 @@
+{
+  "name": "hivLatestClinicalEncounterDateBase",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [
+  ],
+  "sources": [
+      {
+          "table": "etl.flat_hiv_summary_v15b",
+          "alias": "m"
+      }
+  ],
+  "columns": [
+      {
+          "type": "simple_column",
+          "alias": "person_id",
+          "column": "m.person_id"
+      },
+      {
+          "type": "derived_column",
+          "alias": "latest_encounter_date",
+          "expressionType": "simple_expression",
+          "expressionOptions": {
+              "expression": " MAX(m.encounter_datetime)"
+          }
+      }
+  ],
+  "filters": {
+      "conditionJoinOperator": "and",
+      "conditions": [
+          {
+              "filterType": "tableColumns",
+              "conditionExpression": "date(m.encounter_datetime) <= ?",
+              "parameterName": "endDate"
+          },
+          {
+              "filterType": "tableColumns",
+              "conditionExpression": "m.encounter_type not in (21,99999)",
+              "parameterName": ""
+          },
+          {
+            "filterType": "tableColumns",
+            "conditionExpression": "m.is_clinical_encounter = 1",
+            "parameterName": ""
+          },
+          {
+            "filterType": "tableColumns",
+            "conditionExpression": "m.location_uuid in (?)",
+            "parameterName": "locationUuids"
+          }
+      ]
+  },
+  "groupBy": {
+    "columns": [
+        "m.person_id"
+    ]
+}
+}
