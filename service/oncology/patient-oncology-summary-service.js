@@ -75,23 +75,26 @@ function generateMedsDataSet(data) {
 }
 
 function getPatientOncologyDiagnosis(request) {
-    let patientUuid = request.uuid;
-    let queryParts = {
-        columns: "*",
-        order: [{
-            column: 'encounter_id',
-            asc: false
-        }],
-        joins: [
-            ['amrs.person', 't2', 't2.person_id=t1.person_id']
-        ],
-        table: "amrs.obs",
-        where: ["t2.uuid = ? and t1.concept_id in ? and t1.voided = ?", patientUuid, [9841, 9871, 6536, 9844, 6551, 9846, 6540, 9843], 0],
-        offset: request.startIndex,
-        limit: request.limit
-    };
+  let patientUuid = request.uuid;
+  let queryParts = {
+    columns: "cancer_type, cancer_subtype, diagnosis_date",
+    order: [
+      {
+        column: "encounter_id",
+        asc: false
+      }
+    ],
+    joins: [["amrs.person", "t2", "t2.person_id = t1.person_id"]],
+    table: "etl.flat_onc_patient_history",
+    where: [
+      "t2.uuid = ?",
+      patientUuid
+    ],
+    offset: request.startIndex,
+    limit: request.limit
+  };
 
-    return db.queryDb(queryParts)
+  return db.queryDb(queryParts);
 }
 
 function getOncologyIntegratedProgramSnapshot(request) {
