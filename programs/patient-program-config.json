@@ -3173,10 +3173,7 @@
     "visitTypes": [{
         "uuid": "0af25783-0446-48ac-9690-d4277793183d",
         "name": "Referral Peer Navigator Visit",
-        "encounterTypes": [{
-          "uuid": "39a7e338-427a-4f95-82bd-e4ff4b65f283",
-          "display": "PEERNAVIGATORINITIAL"
-        },
+        "encounterTypes": [
         {
           "uuid": "02e75e2d-a809-4458-a77e-c1883e897c36",
           "display": "PEERNAVIGATORFOLLOWUP"
