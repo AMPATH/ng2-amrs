@@ -253,8 +253,8 @@ export class SurgeReportBaseComponent implements OnInit {
    }
 
   public generateSurgeWeeks() {
-    for (let i = 0; i <= 72; i++) {
-      const date = Moment(new Date('2019-12-29')).subtract(i, 'week');
+    for (let i = 0; i < 105; i++) {
+      const date = Moment(this.getStartDate()).subtract(i, 'week');
       this.calendarWeeks.push(
         {
           yearWeek: Moment(date).format('YYYY-[W]WW'),
@@ -264,6 +264,12 @@ export class SurgeReportBaseComponent implements OnInit {
         }
       );
     }
+  }
+
+  public getStartDate(): any {
+    const now = Moment();
+    const startDate = Moment(new Date(now.year(), 11)).add(4, 'week');
+    return (Moment(startDate).subtract(Moment(startDate).weekday(), 'days').format('YYYY-MM-DD'));
   }
 
 }
