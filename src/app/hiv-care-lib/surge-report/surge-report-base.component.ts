@@ -254,7 +254,7 @@ export class SurgeReportBaseComponent implements OnInit {
 
   public generateSurgeWeeks() {
     for (let i = 0; i <= 72; i++) {
-      const date = Moment(new Date('2019-12-29')).subtract(i, 'week');
+      const date = Moment(new Date('2020-12-27')).subtract(i, 'week');
       this.calendarWeeks.push(
         {
           yearWeek: Moment(date).format('YYYY-[W]WW'),
