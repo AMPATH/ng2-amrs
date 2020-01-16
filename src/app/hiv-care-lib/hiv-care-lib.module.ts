@@ -86,6 +86,17 @@ import {
 import {
   ProgramWorkFlowResourceService
 } from '../openmrs-api/program-workflow-resource.service';
+import {
+   HeiIndicatorsReportComponent
+} from './hei-indicators-report/hei-indicators-report.component';
+import {
+   HeiIndicatorsFilterComponent
+} from './hei-indicators-report/hei-indicators-filter.component';
+import {
+  HeiIndicatorsTabularComponent
+} from './hei-indicators-report/hei-indicators-tabular-component';
+import { HeiIndicatorsPatientListComponent } from './hei-indicators-report/hei-indicators-patient-list.component';
+import { HeiIndicatorsPdfViewComponent } from './hei-indicators-report/hei-indicators-pdf-view.component';
 import { HighchartsStatic } from 'angular2-highcharts/dist/HighchartsService';
 import { SurgeReportTabularComponent } from './surge-report/surge-report-tabular.component';
 import { SurgeReportBaseComponent } from './surge-report/surge-report-base.component';
@@ -173,7 +184,12 @@ import { DqaReportBaseComponent } from './dqa-reports/dqa-report-base/dqa-report
     RetentionReportFiltersComponent,
     RetentionReportComponent,
     RetentionReportTabularComponent,
-    RetentionIndicatorDefComponent
+    RetentionIndicatorDefComponent,
+    HeiIndicatorsReportComponent,
+    HeiIndicatorsFilterComponent,
+    HeiIndicatorsTabularComponent,
+    HeiIndicatorsPatientListComponent,
+    HeiIndicatorsPdfViewComponent
   ],
   declarations: [
     Moh731TabularComponent,
@@ -210,7 +226,12 @@ import { DqaReportBaseComponent } from './dqa-reports/dqa-report-base/dqa-report
     RetentionIndicatorDefComponent,
     ChartAbstractionPatientlistComponent,
     DqaReportsComponent,
-    DqaReportBaseComponent
+    DqaReportBaseComponent,
+    HeiIndicatorsReportComponent,
+    HeiIndicatorsFilterComponent,
+    HeiIndicatorsTabularComponent,
+    HeiIndicatorsPatientListComponent,
+    HeiIndicatorsPdfViewComponent
   ],
   providers: [MOHReportService,
     LocationResourceService,

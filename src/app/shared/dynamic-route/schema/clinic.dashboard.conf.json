@@ -159,6 +159,12 @@
           "isSideBarOpen": false
         },
         {
+          "url": "hei-report",
+          "label": "HEI Report",
+          "icon": "fa fa-line-chart",
+          "isSideBarOpen": false
+        },
+        {
           "url": "department-select",
           "label": "Change Department",
           "icon": "fa fa-exchange",

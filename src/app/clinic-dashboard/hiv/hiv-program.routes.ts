@@ -73,6 +73,11 @@ import {
     ChartAbstractionPatientlistComponent
  } from 'src/app/hiv-care-lib/dqa-reports/chart-abstraction-patientlist/chart-abstraction-patientlist.component';
 import { HivDifferentiatedCareComponent } from './hiv-differentiated-care-program/hiv-differentiated-care-program.component';
+
+import {
+    ClinicDashboardHeiReportComponent
+} from './clinic-dashboard-hei-indicators-report/clinic-dashboard-hei-report.component';
+import { HeiIndicatorsPatientListComponent } from './../../hiv-care-lib/hei-indicators-report/hei-indicators-patient-list.component';
 const routes: Routes = [
     {
         path: 'landing-page',
@@ -223,6 +228,19 @@ const routes: Routes = [
             }
         ]
     },
+    {
+        path: 'hei-report',
+        children: [
+            {
+                path: '',
+                component: ClinicDashboardHeiReportComponent
+            },
+            {
+                path: 'patient-list',
+                component: HeiIndicatorsPatientListComponent
+            }
+        ]
+    }
 ];
 
 export const clinicDashboardHivRouting: ModuleWithProviders =
