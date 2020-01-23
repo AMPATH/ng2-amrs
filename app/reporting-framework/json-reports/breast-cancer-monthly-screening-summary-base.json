@@ -333,7 +333,7 @@
             "alias": "total_reffered_for_followup",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                        "expression": "if(referred_orderd = 1, 1, NULL)"
+                        "expression": "if(referrals_ordered = 1, 1, NULL)"
                        }
         }
     ],
