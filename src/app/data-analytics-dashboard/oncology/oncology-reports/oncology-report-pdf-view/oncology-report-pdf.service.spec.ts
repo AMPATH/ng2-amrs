@@ -107,7 +107,6 @@ describe('OncologyReportPdfService: ', () => {
   it('constructPdfStructure returns the observable result of creating the PDF document', (done: DoneFn) => {
     service.constructPdfStructure(mockParams.data, mockParams.params, mockParams.title).subscribe(
       (pdfStructure) => {
-        console.log('res:' , pdfStructure);
         expect(pdfStructure.pageSize).toEqual('LETTER');
         expect(pdfStructure.pageMargins).toEqual(42);
         expect(pdfStructure.content[0].stack.length).toEqual(2);

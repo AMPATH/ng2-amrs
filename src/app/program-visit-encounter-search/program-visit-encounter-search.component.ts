@@ -72,6 +72,8 @@ export class ProgramVisitEncounterSearchComponent implements OnInit, OnDestroy ,
     public minDefaultPeriod: number;
     public maxDefaultPeriod: number;
     @Input() public calendarType: string;
+    @Input() public controlLocation = '';
+    public showProgramFilters = true;
     public filterMonth = Moment().format('YYYY-MM');
     public filterDate = Moment().format('YYYY-MM-DD');
 
@@ -150,6 +152,7 @@ export class ProgramVisitEncounterSearchComponent implements OnInit, OnDestroy ,
   public getParamsFromUrl(params) {
 
       const newParams = {
+        department: '',
         programType: [],
         visitType: [],
         encounterType: [],
@@ -157,6 +160,9 @@ export class ProgramVisitEncounterSearchComponent implements OnInit, OnDestroy ,
         endDate: '',
         resetFilter: false
       };
+      if (params.department) {
+        newParams.department = params.department;
+       }
       if (params.programType) {
           newParams.programType = params.programType;
           const selectedPrograms = this.loadFilterFromMap(params.programType, this.programMaps);
@@ -218,8 +224,17 @@ public setFiltersFromUrlParams(params, mapObj) {
 
       this.selectDepartmentService.getDepartment().subscribe((d) => {
         this.myDepartment = d;
+        this.showProgramFilter(d);
         this.getDepartmentPrograms(d);
       });
+
+    }
+    public showProgramFilter(department) {
+       if (department === 'HIV' && this.controlLocation === 'clinic-dashboard') {
+           this.showProgramFilters = false;
+       } else {
+           this.showProgramFilters = true;
+       }
 
     }
     public getDepartmentPrograms(department) {
@@ -487,11 +502,12 @@ public setFiltersFromUrlParams(params, mapObj) {
       let selectedEncounterType: any = [];
       let selectedStartDate: string;
       let selectedEndDate: string;
+      const selectedDepartment = this.myDepartment;
       this.message = {
         message: ''
       };
 
-      if (this.program.length === 0) {
+      if (this.program.length === 0 && this.showProgramFilters === true) {
          this.message = {
            message: 'Kindly select at least one program'
          };
@@ -526,6 +542,7 @@ public setFiltersFromUrlParams(params, mapObj) {
             'encounterType': selectedEncounterType,
             'startDate': selectedStartDate,
             'endDate': selectedEndDate,
+            'department': selectedDepartment,
             'resetFilter': this.filterReset
           };
         }

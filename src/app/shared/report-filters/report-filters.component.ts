@@ -1,4 +1,3 @@
-
 import { take } from 'rxjs/operators';
 import {
   Component, OnInit, EventEmitter, ElementRef, forwardRef,
@@ -44,6 +43,7 @@ import { SelectDepartmentService } from './../services/select-department.service
   ]
 })
 export class ReportFiltersComponent implements OnInit, ControlValueAccessor, AfterViewInit {
+  public cervicalScreeningReport = 'cervical-cancer-screening-numbers';
   @Input() public start: number;
   @Input() public end: number;
   @Input()
@@ -99,6 +99,7 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
   @Input()
   public disableGenerateButton = false;
   @Input() public enabledControls: string[];
+  @Input() public reportType: string;
   @Output()
   public locationChange = new EventEmitter<any>();
   public locations: any;
@@ -210,7 +211,14 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
   }
 
   public ngOnInit() {
+    if (this.reportType === this.cervicalScreeningReport) {
+      this.genderOptions = this.genderOptions.filter(option => {
+        return option.value === 'F' && option.label === 'F';
+      });
+    }
+
     this.renderFilterControls();
+
     if (this.start && this.end) {
       this.onAgeChangeFinish.emit({ ageFrom: this.start, ageTo: this.end });
     }
