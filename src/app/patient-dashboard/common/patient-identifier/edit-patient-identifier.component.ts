@@ -107,8 +107,8 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
         _.each(id, (_id) => {
           const hasId = _.includes([
             '58a4732e-1359-11df-a1f1-0026b9348838', // AMRS Universal ID
-            '58a47054-1359-11df-a1f1-0026b9348838', // KENYA NATIONAL ID NUMBER
-            'ead42a8f-203e-4b11-a942-df03a460d617', // HEI
+            '49af6cdc-7968-4abb-bf46-de10d7f4859f', // KENYA NATIONAL ID NUMBER
+            '0691f522-dd67-4eeb-92c8-af5083baf338', // HEI
             'd1e5ef63-126f-4b1f-bd3f-496c16c4098d', // KUZA ID
             '9cae9c8a-2821-4aa7-8064-30508e9f62ec', // ZURI ID
             'f2d6ff1a-8440-4d35-a150-1d4b5a930c5e' // CCC number
@@ -165,7 +165,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
 
   public setIdentifierType(identifierType) {
     this.checkUniversal = false;
-    if (identifierType.val === '58a47054-1359-11df-a1f1-0026b9348838') {
+    if (identifierType.val === '49af6cdc-7968-4abb-bf46-de10d7f4859f') {
       this.showNationalIdTexBox = true;
       this.showGeneralTexBox = true;
     } else {

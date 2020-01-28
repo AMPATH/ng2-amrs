@@ -479,13 +479,13 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       if (this.patientPhoneNumber) {
         attributes.push({
           value: this.patientPhoneNumber,
-          attributeType: '72a759a8-1359-11df-a1f1-0026b9348838'
+          attributeType: 'b2c38640-2603-4629-aebd-3b54f33f1e3a'
         });
       }
       if (this.alternativePhoneNumber) {
         attributes.push({
           value: this.alternativePhoneNumber,
-          attributeType: 'c725f524-c14a-4468-ac19-4a0e6661c930'
+          attributeType: '94614350-84c8-41e0-ac29-86bc107069be'
         });
       }
       if (this.partnerPhoneNumber) {
@@ -497,7 +497,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       if (this.nextofkinPhoneNumber) {
         attributes.push({
           value: this.nextofkinPhoneNumber,
-          attributeType: 'a657a4f1-9c0f-444b-a1fd-445bb91dd12d'
+          attributeType: '342a1d39-c541-4b29-8818-930916f4c2dc'
         });
       }
 
@@ -647,7 +647,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
             });
           }
 
-          if (data[i].uuid === '58a47054-1359-11df-a1f1-0026b9348838') {
+          if (data[i].uuid === '49af6cdc-7968-4abb-bf46-de10d7f4859f') {
             this.commonIdentifierTypeFormats[data[i].uuid] = {
               format: '^[0-9]*$',
               checkdigit: data[i].checkDigit

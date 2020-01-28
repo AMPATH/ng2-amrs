@@ -144,7 +144,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       this.group = res;
       _.forEach(this.group.cohortMembers, (member) => {
         member['phoneNumber'] = _.filter(member.patient.person.attributes,
-          (attribute) => attribute.attributeType.uuid === '72a759a8-1359-11df-a1f1-0026b9348838')[0];
+          (attribute) => attribute.attributeType.uuid === 'b2c38640-2603-4629-aebd-3b54f33f1e3a')[0];
       });
       this.activeMembers = _.filter(res.cohortMembers, (member) => !member.endDate);
       this.cohortVisits = res.cohortVisits.sort((a: any, b: any) => {
