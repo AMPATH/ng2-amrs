@@ -69,7 +69,7 @@
         </div>
         <div class="col-md-12 col-xs-12">
           <div class="form-group text-right" *ngIf="modalMode">
-            <button class="btn btn-primary" (click)="changeSettings(false)">Save</button>
+            <button class="btn btn-primary" (click)="changeSettings(false,'save')">Save</button>
           </div>
         </div>
       </div>
@@ -84,7 +84,7 @@
           Visit Date: <strong>{{visitDate | date:'mediumDate'}}, {{visitDate +', '+ visitTime | date:'mediumTime'}}</strong>
         </div>
         <div class="col-md-3 col-xs-3">
-          <button class="btn btn-primary" (click)="changeSettings(true)">Update Settings</button>
+          <button class="btn btn-primary" (click)="changeSettings(true,'update')">Update Settings</button>
         </div>
       </div>
     </ng-container>
