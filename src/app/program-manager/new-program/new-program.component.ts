@@ -338,6 +338,7 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
       this.preQualifyProgramEnrollment(questionWithWrongAnswer);
     } else {
       this.removeMessage();
+      this.isButtonVisible = true;
     }
   }
 
