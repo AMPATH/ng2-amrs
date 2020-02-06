@@ -55,7 +55,7 @@ export class PatientIdentifierService {
     return [
       {
         label: 'KENYAN NATIONAL ID NUMBER', format: null, checkdigit: null,
-        val: '58a47054-1359-11df-a1f1-0026b9348838'
+        val: '49af6cdc-7968-4abb-bf46-de10d7f4859f'
       },
       {
         label: 'AMRS Medical Record Number', format: null, checkdigit: 1,
@@ -75,7 +75,7 @@ export class PatientIdentifierService {
       },
       {
         label: 'HEI', format: '^\\d{5}-\\d{4}-\\d{4}$', checkdigit: 0,
-        val: 'ead42a8f-203e-4b11-a942-df03a460d617'
+        val: '0691f522-dd67-4eeb-92c8-af5083baf338'
       },
       {
         label: 'KUZA ID', format: '^KUZA\\d{5}$', checkdigit: 0,

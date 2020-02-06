@@ -199,12 +199,12 @@
         "uuid": "5193f84c-a0ae-4b1c-b8bb-e7fcd31262c2",
         "identifier": "201456987",
         "identifierType": {
-          "uuid": "58a47054-1359-11df-a1f1-0026b9348838",
+          "uuid": "49af6cdc-7968-4abb-bf46-de10d7f4859f",
           "display": "KENYAN NATIONAL ID NUMBER",
           "links": [
             {
               "rel": "self",
-              "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patientidentifiertype/58a47054-1359-11df-a1f1-0026b9348838"
+              "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patientidentifiertype/49af6cdc-7968-4abb-bf46-de10d7f4859f"
             }
           ]
         },
@@ -237,12 +237,12 @@
         "uuid": "c8e1bfde-1705-418f-9d2d-06363fc329ec",
         "identifier": "7777777777777",
         "identifierType": {
-          "uuid": "58a47054-1359-11df-a1f1-0026b9348838",
+          "uuid": "49af6cdc-7968-4abb-bf46-de10d7f4859f",
           "display": "KENYAN NATIONAL ID NUMBER",
           "links": [
             {
               "rel": "self",
-              "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patientidentifiertype/58a47054-1359-11df-a1f1-0026b9348838"
+              "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patientidentifiertype/49af6cdc-7968-4abb-bf46-de10d7f4859f"
             }
           ]
         },

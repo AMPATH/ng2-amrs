@@ -19,9 +19,9 @@ import { Person } from '../../models/person.model';
 
 const PEER = 'peer';
 const STAFF = 'staff';
-const PRIMARY_CONTACTS = '72a759a8-1359-11df-a1f1-0026b9348838';
-const ALT_CONTACTS = 'c725f524-c14a-4468-ac19-4a0e6661c930';
-const NEXT_OF_KIN_CONTACTS = 'a657a4f1-9c0f-444b-a1fd-445bb91dd12d';
+const PRIMARY_CONTACTS = 'b2c38640-2603-4629-aebd-3b54f33f1e3a';
+const ALT_CONTACTS = '94614350-84c8-41e0-ac29-86bc107069be';
+const NEXT_OF_KIN_CONTACTS = '342a1d39-c541-4b29-8818-930916f4c2dc';
 const SPOUSE_CONTACTS = 'b0a08406-09c0-4f8b-8cb5-b22b6d4a8e46';
 
 

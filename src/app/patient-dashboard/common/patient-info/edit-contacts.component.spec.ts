@@ -45,13 +45,13 @@ describe('Component: EditContacts Unit Tests', () => {
   const personAttributePayload = {
     attributes: [{
       value: '2222',
-      attributeType: '72a759a8-1359-11df-a1f1-0026b9348838'
+      attributeType: 'b2c38640-2603-4629-aebd-3b54f33f1e3a'
     }, {
       value: 'alternativePhoneNumber',
-      attributeType: 'c725f524-c14a-4468-ac19-4a0e6661c930'
+      attributeType: '94614350-84c8-41e0-ac29-86bc107069be'
     }, {
       value: 'nextofkinPhoneNumber',
-      attributeType: 'a657a4f1-9c0f-444b-a1fd-445bb91dd12d'
+      attributeType: '342a1d39-c541-4b29-8818-930916f4c2dc'
     }, {
       value: 'patnerPhoneNumber',
       attributeType: 'b0a08406-09c0-4f8b-8cb5-b22b6d4a8e46'
@@ -101,16 +101,16 @@ describe('Component: EditContacts Unit Tests', () => {
     const personAttributPayload = {
       attributes: [{
         value: '2222',
-        attributeType: '72a759a8-1359-11df-a1f1-0026b9348838'
+        attributeType: 'b2c38640-2603-4629-aebd-3b54f33f1e3a'
       }, {
         value: 'alternativePhoneNumber',
-        attributeType: 'c725f524-c14a-4468-ac19-4a0e6661c930'
+        attributeType: '94614350-84c8-41e0-ac29-86bc107069be'
       }]
     };
 
     const originalAttributes = [{
       value: '2222',
-      attributeType: { uuid: '72a759a8-1359-11df-a1f1-0026b9348838' },
+      attributeType: { uuid: 'b2c38640-2603-4629-aebd-3b54f33f1e3a' },
     }, {
       value: 'alternativePhoneNumber',
       attributeType: { uuid: 'type-uuid-2' },
@@ -119,7 +119,7 @@ describe('Component: EditContacts Unit Tests', () => {
       originalAttributes);
     expect(results).toBeTruthy();
     expect(results[0].value).toEqual('2222');
-    expect(results[0].attributeType).toEqual('72a759a8-1359-11df-a1f1-0026b9348838');
+    expect(results[0].attributeType).toEqual('b2c38640-2603-4629-aebd-3b54f33f1e3a');
     done();
   });
   it('should generate the correct payload when value is voided', (done) => {
@@ -130,13 +130,13 @@ describe('Component: EditContacts Unit Tests', () => {
         voided: true
       }, {
         value: 'alternativePhoneNumber',
-        attributeType: 'c725f524-c14a-4468-ac19-4a0e6661c930'
+        attributeType: '94614350-84c8-41e0-ac29-86bc107069be'
       }]
     };
 
     const originalAttributes = [{
       value: '2222',
-      attributeType: { uuid: '72a759a8-1359-11df-a1f1-0026b9348838' },
+      attributeType: { uuid: 'b2c38640-2603-4629-aebd-3b54f33f1e3a' },
       uuid: 'person-atttribute-uuid-1'
     }, {
       value: 'alternativePhoneNumber',
@@ -154,16 +154,16 @@ describe('Component: EditContacts Unit Tests', () => {
     const personAttributesPayload = {
       attributes: [{
         value: '11111',
-        attributeType: '72a759a8-1359-11df-a1f1-0026b9348838'
+        attributeType: 'b2c38640-2603-4629-aebd-3b54f33f1e3a'
       }, {
         value: 'alternativePhoneNumber',
-        attributeType: 'c725f524-c14a-4468-ac19-4a0e6661c930'
+        attributeType: '94614350-84c8-41e0-ac29-86bc107069be'
       }]
     };
 
     const originalAttributes = [{
       value: '2222',
-      attributeType: { uuid: '72a759a8-1359-11df-a1f1-0026b9348838' },
+      attributeType: { uuid: 'b2c38640-2603-4629-aebd-3b54f33f1e3a' },
       uuid: 'person-atttribute-uuid-1'
     }, {
       value: 'alternativePhoneNumber',
@@ -174,7 +174,7 @@ describe('Component: EditContacts Unit Tests', () => {
       originalAttributes);
     expect(results).toBeTruthy();
     expect(results[0].value).toEqual('11111');
-    expect(results[0].attributeType).toEqual('72a759a8-1359-11df-a1f1-0026b9348838');
+    expect(results[0].attributeType).toEqual('b2c38640-2603-4629-aebd-3b54f33f1e3a');
     // case value is e
     done();
   });
@@ -182,10 +182,10 @@ describe('Component: EditContacts Unit Tests', () => {
     const personAttributPayload = {
       attributes: [{
         value: '11111',
-        attributeType: '72a759a8-1359-11df-a1f1-0026b9348838'
+        attributeType: 'b2c38640-2603-4629-aebd-3b54f33f1e3a'
       }, {
         value: 'alternativePhoneNumber',
-        attributeType: 'c725f524-c14a-4468-ac19-4a0e6661c930'
+        attributeType: '94614350-84c8-41e0-ac29-86bc107069be'
       }]
     };
 
@@ -201,7 +201,7 @@ describe('Component: EditContacts Unit Tests', () => {
       originalAttributes);
     expect(results).toBeTruthy();
     expect(results[0].value).toEqual('11111');
-    expect(results[0].attributeType).toEqual('72a759a8-1359-11df-a1f1-0026b9348838');
+    expect(results[0].attributeType).toEqual('b2c38640-2603-4629-aebd-3b54f33f1e3a');
     done();
   });
 

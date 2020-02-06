@@ -74,7 +74,7 @@ export class Person extends BaseModel {
     }
   }
   public get nextofkinPhoneNumber() {
-    const nextofkinPhoneNumberPersonAttributeTypeUuid = 'a657a4f1-9c0f-444b-a1fd-445bb91dd12d';
+    const nextofkinPhoneNumberPersonAttributeTypeUuid = '342a1d39-c541-4b29-8818-930916f4c2dc';
     if (this._attributes) {
       const nextofkinPhoneNumber =
         this.getPersonAttribute(nextofkinPhoneNumberPersonAttributeTypeUuid);
@@ -97,7 +97,7 @@ export class Person extends BaseModel {
     }
   }
   public get alternativePhoneNumber() {
-    const alternativePhoneNumberPersonAttributeTypeUuid = 'c725f524-c14a-4468-ac19-4a0e6661c930';
+    const alternativePhoneNumberPersonAttributeTypeUuid = '94614350-84c8-41e0-ac29-86bc107069be';
     if (this._attributes) {
       const alternativePhoneNumber =
         this.getPersonAttribute(alternativePhoneNumberPersonAttributeTypeUuid);
@@ -109,7 +109,7 @@ export class Person extends BaseModel {
     }
   }
   public get patientPhoneNumber() {
-    const phoneNumberPersonAttributeTypeUuid = '72a759a8-1359-11df-a1f1-0026b9348838';
+    const phoneNumberPersonAttributeTypeUuid = 'b2c38640-2603-4629-aebd-3b54f33f1e3a';
     if (this._attributes) {
       const phoneNumber = this.getPersonAttribute(phoneNumberPersonAttributeTypeUuid);
       if ( phoneNumber) {
@@ -120,10 +120,10 @@ export class Person extends BaseModel {
     }
   }
   public get contacts() {
-    const phoneNumberPersonAttributeTypeUuid = '72a759a8-1359-11df-a1f1-0026b9348838';
+    const phoneNumberPersonAttributeTypeUuid = 'b2c38640-2603-4629-aebd-3b54f33f1e3a';
     const patnerPhoneNumberPersonAttributeTypeUuid = 'b0a08406-09c0-4f8b-8cb5-b22b6d4a8e46';
-    const alternativePhoneNumberPersonAttributeTypeUuid = 'c725f524-c14a-4468-ac19-4a0e6661c930';
-    const nextofkinPhoneNumberPersonAttributeTypeUuid = 'a657a4f1-9c0f-444b-a1fd-445bb91dd12d';
+    const alternativePhoneNumberPersonAttributeTypeUuid = '94614350-84c8-41e0-ac29-86bc107069be';
+    const nextofkinPhoneNumberPersonAttributeTypeUuid = '342a1d39-c541-4b29-8818-930916f4c2dc';
 
     if (this._attributes) {
       let filteredContacts: {};
