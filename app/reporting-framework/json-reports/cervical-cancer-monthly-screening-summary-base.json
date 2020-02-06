@@ -211,7 +211,7 @@
             "alias": "abnormal_cervical_screening_above_70yrs",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(fccs.cur_via_result != 1 and age > 70, 1, null)"
+                "expression": "if(fccs.cur_via_result != 1 and age >= 70, 1, null)"
             }
         },
         {
@@ -259,7 +259,7 @@
             "alias": "normal_cervical_screening_above_70yrs",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if((fccs.cur_via_result = 1 or fccs.cur_via_result is null) and age > 70, 1, null)"
+                "expression": "if((fccs.cur_via_result = 1 or fccs.cur_via_result is null) and age >= 70, 1, null)"
             }
         },
         {
