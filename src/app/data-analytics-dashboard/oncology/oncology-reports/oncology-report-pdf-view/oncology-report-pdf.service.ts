@@ -102,9 +102,7 @@ export class OncologyReportPdfService {
         });
       });
     }).pipe(first());
-
   }
-
 
   public constructAggregatePdfStructure(data: Array<any>, params: any, title: String): Observable<any> {
     const aggregatedData = this.aggregateData(data, params);
@@ -200,7 +198,6 @@ export class OncologyReportPdfService {
         });
       });
     }).pipe(first());
-
   }
 
   public constructPdfSections(data: Array<any>, params: any): Array<Array<any>> {
@@ -221,9 +218,7 @@ export class OncologyReportPdfService {
           }
         },
         this.constructBodySection(rowSection, params, 'pdf')
-
       ];
-
       sectionsArray.push(section);
     });
 
@@ -232,9 +227,7 @@ export class OncologyReportPdfService {
 
   public constructAggregateOuterLayout(data: Array<any>, params: any): Array<Array<Array<any>>> {
     const sectionsArray: Array<Array<Array<any>>> = [[[]]];
-
     const aggregatedData = this.aggregateData(data, params);
-
     aggregatedData.sections.shift();
 
     const left_temp: Array<Array<any>> = [[]];
@@ -306,8 +299,7 @@ export class OncologyReportPdfService {
   public constructBodySection(data: any, params: any, reportType: String): Array<Array<any>> {
     const tableSegment: Array<Array<any>> = [[]];
     const reportIndicators = this.getReportIndicators(params.type);
-    _.each(reportIndicators,
-      (indicators) => {
+    _.each(reportIndicators, (indicators) => {
         tableSegment.push(this.constructTableLayout(indicators, data));
       });
 
@@ -316,7 +308,6 @@ export class OncologyReportPdfService {
     });
 
     return tableSegment;
-
   }
 
   public getReportIndicators(type: String) {
@@ -327,6 +318,7 @@ export class OncologyReportPdfService {
         sections = report.sections;
       }
     });
+
     return sections;
   }
 

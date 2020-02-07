@@ -18,13 +18,30 @@ const mockParams = {
       'location_name': 'Turbo',
       'location_uuid': '08feb2dc-1352-11df-a1f1-0026b9348838',
       'normal_breast_call_rate%': 97.62,
+      'gender': 42,
+      'male_patients': 0,
+      'female_patients': 42,
+      'hiv_status': 42,
+      'hiv_positive_25_to_49': 2,
+      'hiv_negative_25_to_49': 32,
+      'hiv_unknown_25_to_49': 0,
+      'hiv_positive_over_50': 1,
+      'hiv_negative_over_50': 7,
+      'hiv_unknown_over_50': 0,
       'normal_findings': 41,
       'normal_below_30yrs': 7,
       'normal_30_to_40yrs': 13,
       'normal_41_to_50yrs': 9,
       'normal_51_to_69yrs': 9,
       'normal_above_70yrs': 2,
-      'total_breast_screened': 42
+      'total_breast_screened': 42,
+      'procedures_done': 12,
+      'excisional_biopsies': 10,
+      'cryotherapies': 0,
+      'leeps': 0,
+      'polypectomies': 0,
+      'core_needle_biopsies': 0,
+      'pap_smears': 2
     },
     {
       'abnormal_breast_call_rate%': 2.56,
@@ -38,13 +55,30 @@ const mockParams = {
       'location_name': 'Chulaimbo',
       'location_uuid': '08feb7b4-1352-11df-a1f1-0026b9348838',
       'normal_breast_call_rate%': 97.44,
+      'gender': 78,
+      'male_patients': 0,
+      'female_patients': 78,
+      'hiv_status': 78,
+      'hiv_positive_25_to_49': 5,
+      'hiv_negative_25_to_49': 60,
+      'hiv_unknown_25_to_49': 0,
+      'hiv_positive_over_50': 2,
+      'hiv_negative_over_50': 11,
+      'hiv_unknown_over_50': 0,
       'normal_findings': 76,
       'normal_below_30yrs': 19,
       'normal_30_to_40yrs': 24,
       'normal_41_to_50yrs': 14,
       'normal_51_to_69yrs': 15,
       'normal_above_70yrs': 1,
-      'total_breast_screened': 78
+      'total_breast_screened': 78,
+      'procedures_done': 11,
+      'excisional_biopsies': 4,
+      'cryotherapies': 0,
+      'leeps': 2,
+      'polypectomies': 0,
+      'core_needle_biopsies': 0,
+      'pap_smears': 5
     }
   ],
   params: {
@@ -149,19 +183,83 @@ describe('OncologyReportPdfService: ', () => {
         ]
       )
     );
+    expect((result[0][0][1].table.body).length).toEqual(6);
     expect(result[0][0][1].table.body[0][0].text).toEqual('Normal findings');
     expect(result[0][0][1].table.body[0][1].text).toEqual(117);
-    expect((result[0][0][1].table.body).length).toEqual(6);
     expect(result[0][0][1].table.body[1]).toContain('Normal below 30yrs');
     expect(result[0][0][1].table.body[2]).toContain('Normal 30 to 40yrs');
     expect(result[0][0][1].table.body[3]).toContain('Normal 41 to 50yrs');
     expect(result[0][0][1].table.body[4]).toContain('Normal 51 to 69yrs');
     expect(result[0][0][1].table.body[5]).toContain('Normal above 70yrs');
+    expect(result[0][1][0].table.body[0]).toEqual(
+      jasmine.objectContaining(
+        [
+          {
+            text: 'Abnormal breast call rate%',
+            style: 'headerstyle'
+          },
+          {
+            text: '2.47',
+            style: 'headerstyle'
+          }
+        ]
+      )
+    );
+    expect(result[0][0][2].table.body[0]).toEqual(
+      jasmine.objectContaining(
+        [
+          {
+            text: 'Hiv status',
+            style: 'headerstyle'
+          },
+          {
+            text: 120,
+            style: 'headerstyle'
+          }
+        ]
+      )
+    );
+    expect((result[0][0][2].table.body).length).toEqual(7);
+    expect(result[0][0][2].table.body[0][0].text).toEqual('Hiv status');
+    expect(result[0][0][2].table.body[0][1].text).toEqual(120);
+    expect(result[0][0][2].table.body[1]).toContain('Hiv positive 25 to 49');
+    expect(result[0][0][2].table.body[2]).toContain('Hiv negative 25 to 49');
+    expect(result[0][0][2].table.body[3]).toContain('Hiv unknown 25 to 49');
+    expect(result[0][0][2].table.body[4]).toContain('Hiv positive over 50');
+    expect(result[0][0][2].table.body[5]).toContain('Hiv negative over 50');
+    expect(result[0][0][2].table.body[6]).toContain('Hiv unknown over 50');
+    expect((result[0][1][1].table.body).length).toEqual(6);
+    expect(result[0][1][1].table.body[0][0].text).toEqual('Abnormal findings');
+    expect(result[0][1][1].table.body[0][1].text).toEqual(3);
+    expect(result[0][1][1].table.body[1]).toContain('Abnormal below 30yrs');
+    expect(result[0][1][1].table.body[2]).toContain('Abnormal 30 to 40yrs');
+    expect(result[0][1][1].table.body[3]).toContain('Abnormal 41 to 50yrs');
+    expect(result[0][1][1].table.body[4]).toContain('Abnormal 51 to 69yrs');
+    expect(result[0][1][1].table.body[5]).toContain('Abnormal above 70yrs');
+    expect(result[0][1][2].table.body[0]).toEqual(
+      jasmine.objectContaining(
+        [
+          {
+            text: 'Gender',
+            style: 'headerstyle'
+          },
+          {
+            text: 120,
+            style: 'headerstyle'
+          }
+        ]
+      )
+    );
+    expect((result[0][1][2].table.body).length).toEqual(3);
+    expect(result[0][1][2].table.body[1][0]).toEqual('Male patients');
+    expect(result[0][1][2].table.body[1][1]).toEqual(0);
+    expect(result[0][1][2].table.body[2][0]).toContain('Female patients');
+    expect(result[0][1][2].table.body[2][1]).toEqual(120);
   });
 
   it('constructBodySection returns an array containing the sections that make up the body of the PDF document', () => {
     const result = service.constructBodySection(mockParams.data[0], mockParams.params, 'pdf');
-    expect(result.length).toEqual(5, '5 sections');
+    expect(result.length).toEqual(7, '7 sections');
     expect(result[0][0].style).toEqual('defaultTable');
     expect(result[0][0].table.body[0][0].text).toEqual('Total breast screened');
     expect(result[0][0].table.body[0][1].text).toEqual(42);
@@ -181,7 +279,28 @@ describe('OncologyReportPdfService: ', () => {
     expect(result[3][0].table.body[4][1]).toEqual(9);
     expect(result[3][0].table.body[5][0]).toEqual('Normal above 70yrs');
     expect(result[3][0].table.body[5][1]).toEqual(2);
-
+    expect(result[4][0].table.body[0][0].text).toEqual('Abnormal findings');
+    expect(result[4][0].table.body[0][1].text).toEqual(1);
+    expect(result[5][0].table.body[0][0].text).toEqual('Hiv status');
+    expect(result[5][0].table.body[0][1].text).toEqual(42);
+    expect(result[5][0].table.body[1][0]).toEqual('Hiv positive 25 to 49');
+    expect(result[5][0].table.body[1][1]).toEqual(2);
+    expect(result[5][0].table.body[2][0]).toEqual('Hiv negative 25 to 49');
+    expect(result[5][0].table.body[2][1]).toEqual(32);
+    expect(result[5][0].table.body[3][0]).toEqual('Hiv unknown 25 to 49');
+    expect(result[5][0].table.body[3][1]).toEqual(0);
+    expect(result[5][0].table.body[4][0]).toEqual('Hiv positive over 50');
+    expect(result[5][0].table.body[4][1]).toEqual(1);
+    expect(result[5][0].table.body[5][0]).toEqual('Hiv negative over 50');
+    expect(result[5][0].table.body[5][1]).toEqual(7);
+    expect(result[5][0].table.body[6][0]).toEqual('Hiv unknown over 50');
+    expect(result[5][0].table.body[6][1]).toEqual(0);
+    expect(result[6][0].table.body[0][0].text).toEqual('Gender');
+    expect(result[6][0].table.body[0][1].text).toEqual(42);
+    expect(result[6][0].table.body[1][0]).toEqual('Male patients');
+    expect(result[6][0].table.body[1][1]).toEqual(0);
+    expect(result[6][0].table.body[2][0]).toEqual('Female patients');
+    expect(result[6][0].table.body[2][1]).toEqual(42);
   });
 
   it('constructPdfSections returns an array containing the headers that make up the sections of the PDF document', () => {

@@ -42,6 +42,26 @@
             "abnormal_51_to_69yrs",
             "abnormal_above_70yrs"
           ]
+        },
+        {
+          "section": "hiv_status",
+          "report_indicators": [
+            "hiv_status",
+            "hiv_positive_25_to_49",
+            "hiv_negative_25_to_49",
+            "hiv_unknown_25_to_49",
+            "hiv_positive_over_50",
+            "hiv_negative_over_50",
+            "hiv_unknown_over_50"
+          ]
+        },
+        {
+          "section": "gender",
+          "report_indicators": [
+            "gender",
+            "male_patients",
+            "female_patients"
+          ]
         }
       ]
     },
@@ -86,6 +106,30 @@
             "abnormal_41_to_50yrs",
             "abnormal_51_to_69yrs",
             "abnormal_above_70yrs"
+          ]
+        },
+        {
+          "section": "hiv_status",
+          "report_indicators": [
+            "hiv_status",
+            "hiv_positive_25_to_49",
+            "hiv_negative_25_to_49",
+            "hiv_unknown_25_to_49",
+            "hiv_positive_over_50",
+            "hiv_negative_over_50",
+            "hiv_unknown_over_50"
+          ]
+        },
+        {
+          "section": "procedures_done",
+          "report_indicators": [
+            "procedures_done",
+            "excisional_biopsies",
+            "cryotherapies",
+            "leeps",
+            "polypectomies",
+            "core_needle_biopsies",
+            "pap_smears"
           ]
         }
       ]
