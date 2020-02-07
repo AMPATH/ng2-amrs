@@ -191,13 +191,20 @@ describe('OncologySummaryIndicatorsPatientListComponent', () => {
     fixture.detectChanges();
     expect(component.generateDynamicPatientListCols).toHaveBeenCalledTimes(1);
     expect(component.oncologySummaryColdef.length).toEqual(10);
-    expect(component.oncologySummaryColdef).toContain({ headerName: '#', field: 'no' });
+    expect(component.oncologySummaryColdef).toContain({ headerName: '#', field: 'no', width: 50, pinned: true });
     expect(component.oncologySummaryColdef).toContain({ headerName: 'Patient Uuid', field: 'patient_uuid', hide: true });
-    expect(component.oncologySummaryColdef).toContain({ headerName: 'Encounter Date', field: 'encounter_datetime', hide: false });
+    expect(component.oncologySummaryColdef).toContain(
+      {
+        headerName: 'Encounter Date',
+        field: 'encounter_datetime',
+        pinned: true,
+        width: 100
+      }
+    );
     expect(component.oncologySummaryColdef).toContain({ headerName: 'Location Name', field: 'location_name', hide: false });
     expect(component.oncologySummaryColdef).toContain({ headerName: 'Identifiers', field: 'identifiers', hide: false });
-    expect(component.oncologySummaryColdef).toContain({ headerName: 'Person Name', field: 'person_name', hide: false });
     expect(component.oncologySummaryColdef).toContain({ headerName: 'Gender', field: 'gender', hide: false });
+    expect(component.oncologySummaryColdef).toContain({ headerName: 'Person Name', field: 'person_name', pinned: true, width: 250 });
     expect(component.oncologySummaryColdef).toContain({ headerName: 'Age', field: 'age', hide: false });
     expect(component.oncologySummaryColdef).toContain({ headerName: 'Phone Number', field: 'phone_number', hide: false });
     expect(component.oncologySummaryColdef).toContain({ headerName: 'Type Of Abnormality', field: 'type_of_abnormality', hide: false });

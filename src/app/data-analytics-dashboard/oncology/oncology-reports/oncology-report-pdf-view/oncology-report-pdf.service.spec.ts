@@ -8,42 +8,42 @@ const mockParams = {
   data: [
     {
       'abnormal_breast_call_rate%': 2.38,
-      'abnormal_breast_screening_findings': 1,
-      'abnormal_breast_screening_findings_30_to_40_yrs': 0,
-      'abnormal_breast_screening_findings_41_to_50_yrs': 0,
-      'abnormal_breast_screening_findings_51_to_69_yrs': 1,
-      'abnormal_breast_screening_findings_above_70_yrs': 0,
-      'abnormal_breast_screening_findings_below_30_yrs': 0,
+      'abnormal_findings': 1,
+      'abnormal_30_to_40_yrs': 0,
+      'abnormal_41_to_50_yrs': 0,
+      'abnormal_51_to_69_yrs': 1,
+      'abnormal_above_70_yrs': 0,
+      'abnormal_below_30_yrs': 0,
       'encounter_datetime': '02-2019',
       'location_name': 'Turbo',
       'location_uuid': '08feb2dc-1352-11df-a1f1-0026b9348838',
       'normal_breast_call_rate%': 97.62,
-      'normal_breast_screening_findings': 41,
-      'normal_breast_screening_findings_30_to_40yrs': 13,
-      'normal_breast_screening_findings_41_to_50yrs': 9,
-      'normal_breast_screening_findings_51_to_69yrs': 9,
-      'normal_breast_screening_findings_above_70yrs': 2,
-      'normal_breast_screening_findings_below_30yrs': 7,
+      'normal_findings': 41,
+      'normal_below_30yrs': 7,
+      'normal_30_to_40yrs': 13,
+      'normal_41_to_50yrs': 9,
+      'normal_51_to_69yrs': 9,
+      'normal_above_70yrs': 2,
       'total_breast_screened': 42
     },
     {
       'abnormal_breast_call_rate%': 2.56,
-      'abnormal_breast_screening_findings': 2,
-      'abnormal_breast_screening_findings_30_to_40_yrs': 0,
-      'abnormal_breast_screening_findings_41_to_50_yrs': 0,
-      'abnormal_breast_screening_findings_51_to_69_yrs': 0,
-      'abnormal_breast_screening_findings_above_70_yrs': 0,
-      'abnormal_breast_screening_findings_below_30_yrs': 2,
+      'abnormal_findings': 2,
+      'abnormal_below_30_yrs': 2,
+      'abnormal_30_to_40_yrs': 0,
+      'abnormal_41_to_50_yrs': 0,
+      'abnormal_51_to_69_yrs': 0,
+      'abnormal_above_70_yrs': 0,
       'encounter_datetime': '01-2019',
       'location_name': 'Chulaimbo',
       'location_uuid': '08feb7b4-1352-11df-a1f1-0026b9348838',
       'normal_breast_call_rate%': 97.44,
-      'normal_breast_screening_findings': 76,
-      'normal_breast_screening_findings_30_to_40yrs': 24,
-      'normal_breast_screening_findings_41_to_50yrs': 14,
-      'normal_breast_screening_findings_51_to_69yrs': 15,
-      'normal_breast_screening_findings_above_70yrs': 1,
-      'normal_breast_screening_findings_below_30yrs': 19,
+      'normal_findings': 76,
+      'normal_below_30yrs': 19,
+      'normal_30_to_40yrs': 24,
+      'normal_41_to_50yrs': 14,
+      'normal_51_to_69yrs': 15,
+      'normal_above_70yrs': 1,
       'total_breast_screened': 78
     }
   ],
@@ -76,28 +76,29 @@ describe('OncologyReportPdfService: ', () => {
       { section: 'total_breast_screened', report_indicators: ['total_breast_screened'] },
       { section: 'normal_breast_call_rate%', report_indicators: ['normal_breast_call_rate%'] },
       { section: 'abnormal_breast_call_rate%', report_indicators: ['abnormal_breast_call_rate%'] },
-      { section: 'normal_breast_screening_findings',
+      {
+        section: 'normal_findings',
         report_indicators: [
-          'normal_breast_screening_findings',
-          'normal_breast_screening_findings_below_30yrs',
-          'normal_breast_screening_findings_30_to_40yrs',
-          'normal_breast_screening_findings_41_to_50yrs',
-          'normal_breast_screening_findings_51_to_69yrs',
-          'normal_breast_screening_findings_above_70yrs'
+          'normal_findings',
+          'normal_below_30yrs',
+          'normal_30_to_40yrs',
+          'normal_41_to_50yrs',
+          'normal_51_to_69yrs',
+          'normal_above_70yrs'
         ]
       },
-      { section: 'abnormal_breast_screening_findings',
+      {
+        section: 'abnormal_findings',
         report_indicators: [
-          'abnormal_breast_screening_findings',
-          'abnormal_breast_screening_findings_below_30yrs',
-          'abnormal_breast_screening_findings_30_to_40yrs',
-          'abnormal_breast_screening_findings_41_to_50yrs',
-          'abnormal_breast_screening_findings_51_to_69yrs',
-          'abnormal_breast_screening_findings_above_70yrs'
+          'abnormal_findings',
+          'abnormal_below_30yrs',
+          'abnormal_30_to_40yrs',
+          'abnormal_41_to_50yrs',
+          'abnormal_51_to_69yrs',
+          'abnormal_above_70yrs'
         ]
       }
     ];
-
   });
 
   it('should be created', () => {
@@ -122,7 +123,7 @@ describe('OncologyReportPdfService: ', () => {
       (err) => {
         console.error('Err: ', err);
       });
-      done();
+    done();
   });
 
   it('constructAggregatePdfStructure returns the observable result of creating an aggregated PDF document', () => {
@@ -148,14 +149,14 @@ describe('OncologyReportPdfService: ', () => {
         ]
       )
     );
-    expect(result[0][0][1].table.body[0][0].text).toEqual('Normal breast screening findings');
+    expect(result[0][0][1].table.body[0][0].text).toEqual('Normal findings');
     expect(result[0][0][1].table.body[0][1].text).toEqual(117);
     expect((result[0][0][1].table.body).length).toEqual(6);
-    expect(result[0][0][1].table.body[1]).toContain('Normal breast screening findings below 30yrs');
-    expect(result[0][0][1].table.body[2]).toContain('Normal breast screening findings 30 to 40yrs');
-    expect(result[0][0][1].table.body[3]).toContain('Normal breast screening findings 41 to 50yrs');
-    expect(result[0][0][1].table.body[4]).toContain('Normal breast screening findings 51 to 69yrs');
-    expect(result[0][0][1].table.body[5]).toContain('Normal breast screening findings above 70yrs');
+    expect(result[0][0][1].table.body[1]).toContain('Normal below 30yrs');
+    expect(result[0][0][1].table.body[2]).toContain('Normal 30 to 40yrs');
+    expect(result[0][0][1].table.body[3]).toContain('Normal 41 to 50yrs');
+    expect(result[0][0][1].table.body[4]).toContain('Normal 51 to 69yrs');
+    expect(result[0][0][1].table.body[5]).toContain('Normal above 70yrs');
   });
 
   it('constructBodySection returns an array containing the sections that make up the body of the PDF document', () => {
@@ -168,18 +169,19 @@ describe('OncologyReportPdfService: ', () => {
     expect(result[1][0].table.body[0][1].text).toEqual(97.62);
     expect(result[2][0].table.body[0][0].text).toEqual('Abnormal breast call rate%');
     expect(result[2][0].table.body[0][1].text).toEqual(2.38);
-    expect(result[3][0].table.body[0][0].text).toEqual('Normal breast screening findings');
+    expect(result[3][0].table.body[0][0].text).toEqual('Normal findings');
     expect(result[3][0].table.body[0][1].text).toEqual(41);
-    expect(result[3][0].table.body[1][0]).toEqual('Normal breast screening findings 30 to 40yrs');
-    expect(result[3][0].table.body[1][1]).toEqual(13);
-    expect(result[3][0].table.body[2][0]).toEqual('Normal breast screening findings 41 to 50yrs');
-    expect(result[3][0].table.body[2][1]).toEqual(9);
-    expect(result[3][0].table.body[3][0]).toEqual('Normal breast screening findings 51 to 69yrs');
+    expect(result[3][0].table.body[1][0]).toEqual('Normal below 30yrs');
+    expect(result[3][0].table.body[1][1]).toEqual(7);
+    expect(result[3][0].table.body[2][0]).toEqual('Normal 30 to 40yrs');
+    expect(result[3][0].table.body[2][1]).toEqual(13);
+    expect(result[3][0].table.body[3][0]).toEqual('Normal 41 to 50yrs');
     expect(result[3][0].table.body[3][1]).toEqual(9);
-    expect(result[3][0].table.body[4][0]).toEqual('Normal breast screening findings above 70yrs');
-    expect(result[3][0].table.body[4][1]).toEqual(2);
-    expect(result[3][0].table.body[5][0]).toEqual('Normal breast screening findings below 30yrs');
-    expect(result[3][0].table.body[5][1]).toEqual(7);
+    expect(result[3][0].table.body[4][0]).toEqual('Normal 51 to 69yrs');
+    expect(result[3][0].table.body[4][1]).toEqual(9);
+    expect(result[3][0].table.body[5][0]).toEqual('Normal above 70yrs');
+    expect(result[3][0].table.body[5][1]).toEqual(2);
+
   });
 
   it('constructPdfSections returns an array containing the headers that make up the sections of the PDF document', () => {
@@ -235,18 +237,19 @@ describe('OncologyReportPdfService: ', () => {
     expect(result[1].table.body[0][1].text).toEqual(97.62);
     expect(result[2].table.body[0][0].text).toEqual('Abnormal breast call rate%');
     expect(result[2].table.body[0][1].text).toEqual(2.38);
-    expect(result[3].table.body[0][0].text).toEqual('Normal breast screening findings');
+    expect(result[3].table.body[0][0].text).toEqual('Normal findings');
     expect(result[3].table.body[0][1].text).toEqual(41);
-    expect(result[3].table.body[1][0]).toEqual('Normal breast screening findings 30 to 40yrs');
-    expect(result[3].table.body[1][1]).toEqual(13);
-    expect(result[3].table.body[2][0]).toEqual('Normal breast screening findings 41 to 50yrs');
-    expect(result[3].table.body[2][1]).toEqual(9);
-    expect(result[3].table.body[3][0]).toEqual('Normal breast screening findings 51 to 69yrs');
+    expect(result[3].table.body[1][0]).toEqual('Normal below 30yrs');
+    expect(result[3].table.body[1][1]).toEqual(7);
+    expect(result[3].table.body[2][0]).toEqual('Normal 30 to 40yrs');
+    expect(result[3].table.body[2][1]).toEqual(13);
+    expect(result[3].table.body[3][0]).toEqual('Normal 41 to 50yrs');
     expect(result[3].table.body[3][1]).toEqual(9);
-    expect(result[3].table.body[4][0]).toEqual('Normal breast screening findings above 70yrs');
-    expect(result[3].table.body[4][1]).toEqual(2);
-    expect(result[3].table.body[5][0]).toEqual('Normal breast screening findings below 30yrs');
-    expect(result[3].table.body[5][1]).toEqual(7);
+    expect(result[3].table.body[4][0]).toEqual('Normal 51 to 69yrs');
+    expect(result[3].table.body[4][1]).toEqual(9);
+    expect(result[3].table.body[5][0]).toEqual('Normal above 70yrs');
+    expect(result[3].table.body[5][1]).toEqual(2);
+
   });
 
   it('constructTableSection returns an array of rows that make up the table layout', () => {
@@ -263,123 +266,123 @@ describe('OncologyReportPdfService: ', () => {
     expect(result[1][1].text).toEqual(97.62);
     expect(result[2][0].text).toEqual('Abnormal breast call rate%');
     expect(result[2][1].text).toEqual(2.38);
-    expect(result[3][0].text).toEqual('Normal breast screening findings');
+    expect(result[3][0].text).toEqual('Normal findings');
     expect(result[3][1].text).toEqual(41);
-    expect(result[4][0]).toEqual('Normal breast screening findings 30 to 40yrs');
-    expect(result[4][1]).toEqual(13);
-    expect(result[5][0]).toEqual('Normal breast screening findings 41 to 50yrs');
-    expect(result[5][1]).toEqual(9);
-    expect(result[6][0]).toEqual('Normal breast screening findings 51 to 69yrs');
+    expect(result[4][0]).toEqual('Normal below 30yrs');
+    expect(result[4][1]).toEqual(7);
+    expect(result[5][0]).toEqual('Normal 30 to 40yrs');
+    expect(result[5][1]).toEqual(13);
+    expect(result[6][0]).toEqual('Normal 41 to 50yrs');
     expect(result[6][1]).toEqual(9);
-    expect(result[7][0]).toEqual('Normal breast screening findings above 70yrs');
-    expect(result[7][1]).toEqual(2);
-    expect(result[8][0]).toEqual('Normal breast screening findings below 30yrs');
-    expect(result[8][1]).toEqual(7);
+    expect(result[7][0]).toEqual('Normal 51 to 69yrs');
+    expect(result[7][1]).toEqual(9);
+    expect(result[8][0]).toEqual('Normal above 70yrs');
+    expect(result[8][1]).toEqual(2);
   });
 
   it('generatePdf returns the observable result of creating the PDF document or an error when passed the wrong properties',
     (done: DoneFn) => {
-    service.generatePdf(mockParams.data, mockParams.params, mockParams.title)
-      .subscribe((pdfStructure) => {
-        expect(pdfStructure).toBeDefined();
-        expect(pdfStructure.pdfSrc).toBeDefined();
-        expect(pdfStructure.pdfProxy).toBeDefined();
-        expect(pdfStructure.pdfDefinition).toBeDefined();
-        // pdfSrc
-        expect(pdfStructure.pdfSrc).toEqual(jasmine.stringMatching(/blob\:http\:\/\/localhost\:9876/));
-        // pdfProxy
-        expect(pdfStructure.pdfProxy.docDefinition).toEqual(
-          jasmine.objectContaining(
-            {
-              pageSize: 'LETTER',
-              pageMargins: 42
-            }
-          )
-        );
-        expect(pdfStructure.pdfProxy.docDefinition.content.length).toEqual(2);
-        expect(pdfStructure.pdfProxy.docDefinition.content[0].stack[0]).toEqual(
-          jasmine.objectContaining(
-            {
-              alignment: 'center',
-              image: '$$pdfmake$$1'
-            }
-          )
-        );
-        expect(pdfStructure.pdfProxy.docDefinition.content[0].stack[1]).toEqual(
-          jasmine.objectContaining(
-            {
-              alignment: 'center',
-              text: 'B1 Breast Cancer Screening Numbers Report',
-              style: 'mainHeader'
-            }
-          )
-        );
-        expect(pdfStructure.pdfProxy.docDefinition.content[1].stack.length).toEqual(3);
-        expect(pdfStructure.pdfProxy.docDefinition.content[1].stack[1].stack[0].table.body[0][0]).toEqual(
-          jasmine.objectContaining(
-            {
-              text: 'Facility Name: Turbo',
-              style: 'headerStyle'
-            }
-          )
-        );
-        expect(pdfStructure.pdfProxy.docDefinition.content[1].stack[1].stack[0].table.body[0][1]).toEqual(
-          jasmine.objectContaining(
-            {
-              text: 'Date: 02-2019',
-              style: 'headerStyle'
-            }
-          )
-        );
-        expect(pdfStructure.pdfProxy.docDefinition.content[1].stack[1].stack[1].stack[0].stack[0]).toEqual(
-          jasmine.objectContaining(
-            {
-              headerRows: 1,
-              style: 'defaultTable'
-            }
-          )
-        );
-        expect(pdfStructure.pdfProxy.docDefinition.content[1].stack[1].stack[1].stack[0].stack[0].table.body[0][0]).toEqual(
-          jasmine.objectContaining(
-            {
-              text: 'Total breast screened',
-              style: 'headerstyle'
-            }
-          )
-        );
-        expect(pdfStructure.pdfProxy.docDefinition.content[1].stack[1].stack[1].stack[0].stack[0].table.body[0][1]).toEqual(
-          jasmine.objectContaining(
-            {
-              text: 42,
-              style: 'headerstyle'
-            }
-          )
-        );
-        // pdfDefinition
-        expect(pdfStructure.pdfDefinition.content.length).toEqual(2);
-        expect(pdfStructure.pdfDefinition.footer.stack[0].text).toEqual(jasmine.stringMatching('Generated On:'));
-        expect(pdfStructure.pdfDefinition.footer.stack[0].style).toEqual(
-          jasmine.objectContaining(
-            {
-              alignment: 'center',
-              fontSize: 8
-            }
-          )
-        );
-        done();
-      }, (err) => {
-        console.error('Err: ', err);
-      });
-  });
+      service.generatePdf(mockParams.data, mockParams.params, mockParams.title)
+        .subscribe((pdfStructure) => {
+          expect(pdfStructure).toBeDefined();
+          expect(pdfStructure.pdfSrc).toBeDefined();
+          expect(pdfStructure.pdfProxy).toBeDefined();
+          expect(pdfStructure.pdfDefinition).toBeDefined();
+          // pdfSrc
+          expect(pdfStructure.pdfSrc).toEqual(jasmine.stringMatching(/blob\:http\:\/\/localhost\:9876/));
+          // pdfProxy
+          expect(pdfStructure.pdfProxy.docDefinition).toEqual(
+            jasmine.objectContaining(
+              {
+                pageSize: 'LETTER',
+                pageMargins: 42
+              }
+            )
+          );
+          expect(pdfStructure.pdfProxy.docDefinition.content.length).toEqual(2);
+          expect(pdfStructure.pdfProxy.docDefinition.content[0].stack[0]).toEqual(
+            jasmine.objectContaining(
+              {
+                alignment: 'center',
+                image: '$$pdfmake$$1'
+              }
+            )
+          );
+          expect(pdfStructure.pdfProxy.docDefinition.content[0].stack[1]).toEqual(
+            jasmine.objectContaining(
+              {
+                alignment: 'center',
+                text: 'B1 Breast Cancer Screening Numbers Report',
+                style: 'mainHeader'
+              }
+            )
+          );
+          expect(pdfStructure.pdfProxy.docDefinition.content[1].stack.length).toEqual(3);
+          expect(pdfStructure.pdfProxy.docDefinition.content[1].stack[1].stack[0].table.body[0][0]).toEqual(
+            jasmine.objectContaining(
+              {
+                text: 'Facility Name: Turbo',
+                style: 'headerStyle'
+              }
+            )
+          );
+          expect(pdfStructure.pdfProxy.docDefinition.content[1].stack[1].stack[0].table.body[0][1]).toEqual(
+            jasmine.objectContaining(
+              {
+                text: 'Date: 02-2019',
+                style: 'headerStyle'
+              }
+            )
+          );
+          expect(pdfStructure.pdfProxy.docDefinition.content[1].stack[1].stack[1].stack[0].stack[0]).toEqual(
+            jasmine.objectContaining(
+              {
+                headerRows: 1,
+                style: 'defaultTable'
+              }
+            )
+          );
+          expect(pdfStructure.pdfProxy.docDefinition.content[1].stack[1].stack[1].stack[0].stack[0].table.body[0][0]).toEqual(
+            jasmine.objectContaining(
+              {
+                text: 'Total breast screened',
+                style: 'headerstyle'
+              }
+            )
+          );
+          expect(pdfStructure.pdfProxy.docDefinition.content[1].stack[1].stack[1].stack[0].stack[0].table.body[0][1]).toEqual(
+            jasmine.objectContaining(
+              {
+                text: 42,
+                style: 'headerstyle'
+              }
+            )
+          );
+          // pdfDefinition
+          expect(pdfStructure.pdfDefinition.content.length).toEqual(2);
+          expect(pdfStructure.pdfDefinition.footer.stack[0].text).toEqual(jasmine.stringMatching('Generated On:'));
+          expect(pdfStructure.pdfDefinition.footer.stack[0].style).toEqual(
+            jasmine.objectContaining(
+              {
+                alignment: 'center',
+                fontSize: 8
+              }
+            )
+          );
+          done();
+        }, (err) => {
+          console.error('Err: ', err);
+        });
+    });
 
-  it('format indicators returns strips the given indicator of underscores and transforms it into sentence case', () => {
+  it('format indicators strips the given indicator of underscores and transforms it into sentence case', () => {
     const testIndicators = [
-      'abnormal_breast_screening_findings',
-      'abnormal_breast_screening_findings_below_30yrs'
+      'abnormal_findings',
+      'abnormal_below_30yrs'
     ];
 
     const processedIndicators = testIndicators.map(indicator => service.formatReportIndicators(indicator));
-    expect(processedIndicators[0]).toEqual('Abnormal breast screening findings');
-    expect(processedIndicators[1]).toEqual('Abnormal breast screening findings below 30yrs');
+    expect(processedIndicators[0]).toEqual('Abnormal findings');
+    expect(processedIndicators[1]).toEqual('Abnormal below 30yrs');
   });
 });
