@@ -17,7 +17,7 @@ import * as OncologyReportConfig from '../oncology-pdf-reports.json';
   providedIn: 'root'
 })
 export class OncologyReportPdfService {
-  public  data: object = null;
+  public data: object = null;
 
   public constructor() { }
 
@@ -255,7 +255,7 @@ export class OncologyReportPdfService {
     return sectionsArray;
   }
 
-  private  styleAggregateTable(data: Array<Array<any>>) {
+  private styleAggregateTable(data: Array<Array<any>>) {
     return [
       {
         style: 'defaultTable',
@@ -464,11 +464,11 @@ export class OncologyReportPdfService {
 
   }
 
-  private  _formatDate(date: Date) {
+  private _formatDate(date: Date) {
     return _.isNull(date) ? 'None' : Moment(date).format('DD-MM-YYYY');
   }
 
-  private  getAppVersion(): string {
+  private getAppVersion(): string {
     try {
       return VERSION.version + VERSION.hash;
     } catch (e) {
@@ -476,7 +476,7 @@ export class OncologyReportPdfService {
     }
   }
 
-  private  base64ToUint8Array(base64: any): Uint8Array {
+  private base64ToUint8Array(base64: any): Uint8Array {
     const raw = atob(base64);
     const uint8Array = new Uint8Array(raw.length);
     for (let i = 0; i < raw.length; i++) {
@@ -485,7 +485,7 @@ export class OncologyReportPdfService {
     return uint8Array;
   }
 
-  private  getLogo(url: string, callback: any): void {
+  private getLogo(url: string, callback: any): void {
     const image: any = new Image();
     image.onload = function () {
       const canvas: any = document.createElement('canvas');
