@@ -77,7 +77,9 @@ export class OncologySummaryIndicatorsPatientListComponent implements OnInit {
     const columns = [
       {
         headerName: '#',
-        field: 'no'
+        field: 'no',
+        width: 50,
+        pinned: true
       },
       {
         headerName: 'Patient Uuid',
@@ -88,13 +90,27 @@ export class OncologySummaryIndicatorsPatientListComponent implements OnInit {
 
     _.each(patientListCols, (cols: any) => {
       if (cols === 'patient_uuid') {
-
-      } else if (cols === 'encounter_datetime') {
+        return '';
+      } else if (cols === 'person_name') {
         columns.push({
-          headerName: 'Encounter Date',
-          field: cols,
+          headerName: 'Person Name',
+          field: 'person_name',
+          pinned: true,
+          width: 250
+        });
+      } else if (cols === 'via_rtc_date') {
+        columns.push({
+          headerName: 'VIA RTC date',
+          field: 'via_rtc_date',
           hide: false
         });
+      } else if (cols === 'encounter_datetime') {
+          columns.push({
+            headerName: 'Encounter Date',
+            field: 'encounter_datetime',
+            pinned: true,
+            width: 100
+          });
       } else {
         columns.push({
           headerName: this.translateIndicator(cols),
