@@ -377,19 +377,6 @@
         ]
       },
       {
-        "indicator": "biopsy_results_within_2wks",
-        "patientListCols": [
-          "encounter_datetime",
-          "location_name",
-          "identifiers",
-          "person_name",
-          "gender",
-          "age",
-          "phone_number",
-          "patient_uuid"
-        ]
-      },
-      {
         "indicator": "male_patients",
         "patientListCols": [
           "encounter_datetime",
@@ -452,6 +439,146 @@
           "age",
           "phone_number",
           "patient_uuid"
+        ]
+      },
+      {
+        "indicator": "hiv_positive_below_25",
+        "patientListCols": [
+          "encounter_datetime",
+          "location_name",
+          "identifiers",
+          "person_name",
+          "gender",
+          "age",
+          "phone_number",
+          "patient_uuid",
+          "hiv_status"
+        ]
+      },
+      {
+        "indicator": "hiv_negative_below_25",
+        "patientListCols": [
+          "encounter_datetime",
+          "location_name",
+          "identifiers",
+          "person_name",
+          "gender",
+          "age",
+          "phone_number",
+          "patient_uuid",
+          "hiv_status"
+        ]
+      },
+      {
+        "indicator": "hiv_unknown_below_25",
+        "patientListCols": [
+          "encounter_datetime",
+          "location_name",
+          "identifiers",
+          "person_name",
+          "gender",
+          "age",
+          "phone_number",
+          "patient_uuid",
+          "hiv_status"
+        ]
+      },
+      {
+        "indicator": "hiv_positive_25_to_49",
+        "patientListCols": [
+          "encounter_datetime",
+          "location_name",
+          "identifiers",
+          "person_name",
+          "gender",
+          "age",
+          "phone_number",
+          "patient_uuid",
+          "hiv_status"
+        ]
+      },
+      {
+        "indicator": "hiv_unknown_25_to_49",
+        "patientListCols": [
+          "encounter_datetime",
+          "location_name",
+          "identifiers",
+          "person_name",
+          "gender",
+          "age",
+          "phone_number",
+          "patient_uuid",
+          "hiv_status"
+        ]
+      },
+      {
+        "indicator": "hiv_negative_25_to_49",
+        "patientListCols": [
+          "encounter_datetime",
+          "location_name",
+          "identifiers",
+          "person_name",
+          "gender",
+          "age",
+          "phone_number",
+          "patient_uuid",
+          "hiv_status"
+        ]
+      },
+      {
+        "indicator": "hiv_unknown_over_50",
+        "patientListCols": [
+          "encounter_datetime",
+          "location_name",
+          "identifiers",
+          "person_name",
+          "gender",
+          "age",
+          "phone_number",
+          "patient_uuid",
+          "hiv_status"
+        ]
+      },
+      {
+        "indicator": "hiv_positive_over_50",
+        "patientListCols": [
+          "encounter_datetime",
+          "location_name",
+          "identifiers",
+          "person_name",
+          "gender",
+          "age",
+          "phone_number",
+          "patient_uuid",
+          "hiv_status"
+        ]
+      },
+      {
+        "indicator": "hiv_negative_over_50",
+        "patientListCols": [
+          "encounter_datetime",
+          "location_name",
+          "identifiers",
+          "person_name",
+          "gender",
+          "age",
+          "phone_number",
+          "patient_uuid",
+          "hiv_status"
+        ]
+      },
+      {
+        "indicator": "hiv_unknown_over_50",
+        "patientListCols": [
+          "encounter_datetime",
+          "location_name",
+          "identifiers",
+          "person_name",
+          "gender",
+          "age",
+          "phone_number",
+          "patient_uuid",
+          "hiv_status"
         ]
       }
     ]
@@ -780,7 +907,9 @@
           "gender",
           "age",
           "phone_number",
-          "patient_uuid"
+          "patient_uuid",
+          "type_of_abnormality",
+          "via_procedure_done"
         ]
       },
       {
@@ -793,7 +922,9 @@
           "gender",
           "age",
           "phone_number",
-          "patient_uuid"
+          "patient_uuid",
+          "type_of_abnormality",
+          "via_procedure_done"
         ]
       },
       {
@@ -806,7 +937,9 @@
           "gender",
           "age",
           "phone_number",
-          "patient_uuid"
+          "patient_uuid",
+          "type_of_abnormality",
+          "via_procedure_done"
         ]
       },
       {
@@ -819,7 +952,265 @@
           "gender",
           "age",
           "phone_number",
-          "patient_uuid"
+          "patient_uuid",
+          "type_of_abnormality",
+          "via_procedure_done"
+        ]
+      },
+      {
+        "indicator": "hiv_positive_below_25",
+        "patientListCols": [
+          "encounter_datetime",
+          "location_name",
+          "identifiers",
+          "person_name",
+          "gender",
+          "age",
+          "phone_number",
+          "patient_uuid",
+          "hiv_status",
+          "type_of_abnormality",
+          "via_procedure_done"
+        ]
+      },
+      {
+        "indicator": "hiv_negative_below_25",
+        "patientListCols": [
+          "encounter_datetime",
+          "location_name",
+          "identifiers",
+          "person_name",
+          "gender",
+          "age",
+          "phone_number",
+          "patient_uuid",
+          "hiv_status",
+          "type_of_abnormality",
+          "via_procedure_done"
+        ]
+      },
+      {
+        "indicator": "hiv_unknown_below_25",
+        "patientListCols": [
+          "encounter_datetime",
+          "location_name",
+          "identifiers",
+          "person_name",
+          "gender",
+          "age",
+          "phone_number",
+          "patient_uuid",
+          "hiv_status",
+          "type_of_abnormality",
+          "via_procedure_done"
+        ]
+      },
+      {
+        "indicator": "hiv_positive_25_to_49",
+        "patientListCols": [
+          "encounter_datetime",
+          "location_name",
+          "identifiers",
+          "person_name",
+          "gender",
+          "age",
+          "phone_number",
+          "patient_uuid",
+          "hiv_status",
+          "type_of_abnormality",
+          "via_procedure_done"
+        ]
+      },
+      {
+        "indicator": "hiv_negative_25_to_49",
+        "patientListCols": [
+          "encounter_datetime",
+          "location_name",
+          "identifiers",
+          "person_name",
+          "gender",
+          "age",
+          "phone_number",
+          "patient_uuid",
+          "hiv_status",
+          "type_of_abnormality",
+          "via_procedure_done"
+        ]
+      },
+      {
+        "indicator": "hiv_unknown_25_to_49",
+        "patientListCols": [
+          "encounter_datetime",
+          "location_name",
+          "identifiers",
+          "person_name",
+          "gender",
+          "age",
+          "phone_number",
+          "patient_uuid",
+          "hiv_status",
+          "type_of_abnormality",
+          "via_procedure_done"
+        ]
+      },
+      {
+        "indicator": "hiv_positive_over_50",
+        "patientListCols": [
+          "encounter_datetime",
+          "location_name",
+          "identifiers",
+          "person_name",
+          "gender",
+          "age",
+          "phone_number",
+          "patient_uuid",
+          "hiv_status",
+          "type_of_abnormality",
+          "via_procedure_done"
+        ]
+      },
+      {
+        "indicator": "hiv_negative_over_50",
+        "patientListCols": [
+          "encounter_datetime",
+          "location_name",
+          "identifiers",
+          "person_name",
+          "gender",
+          "age",
+          "phone_number",
+          "patient_uuid",
+          "hiv_status",
+          "type_of_abnormality",
+          "via_procedure_done"
+        ]
+      },
+      {
+        "indicator": "hiv_unknown_over_50",
+        "patientListCols": [
+          "encounter_datetime",
+          "location_name",
+          "identifiers",
+          "person_name",
+          "gender",
+          "age",
+          "phone_number",
+          "patient_uuid",
+          "hiv_status",
+          "type_of_abnormality",
+          "via_procedure_done"
+        ]
+      },
+      {
+        "indicator": "procedures_done",
+        "patientListCols": [
+          "encounter_datetime",
+          "location_name",
+          "identifiers",
+          "person_name",
+          "gender",
+          "age",
+          "phone_number",
+          "patient_uuid",
+          "hiv_status",
+          "type_of_abnormality",
+          "via_procedure_done"
+        ]
+      },
+      {
+        "indicator": "excisional_biopsies",
+        "patientListCols": [
+          "encounter_datetime",
+          "location_name",
+          "identifiers",
+          "person_name",
+          "gender",
+          "age",
+          "phone_number",
+          "patient_uuid",
+          "hiv_status",
+          "type_of_abnormality",
+          "via_procedure_done"
+        ]
+      },
+      {
+        "indicator": "cryotherapies",
+        "patientListCols": [
+          "encounter_datetime",
+          "location_name",
+          "identifiers",
+          "person_name",
+          "gender",
+          "age",
+          "phone_number",
+          "patient_uuid",
+          "hiv_status",
+          "type_of_abnormality",
+          "via_procedure_done"
+        ]
+      },
+      {
+        "indicator": "leeps",
+        "patientListCols": [
+          "encounter_datetime",
+          "location_name",
+          "identifiers",
+          "person_name",
+          "gender",
+          "age",
+          "phone_number",
+          "patient_uuid",
+          "hiv_status",
+          "type_of_abnormality",
+          "via_procedure_done"
+        ]
+      },
+      {
+        "indicator": "polypectomies",
+        "patientListCols": [
+          "encounter_datetime",
+          "location_name",
+          "identifiers",
+          "person_name",
+          "gender",
+          "age",
+          "phone_number",
+          "patient_uuid",
+          "hiv_status",
+          "type_of_abnormality",
+          "via_procedure_done"
+        ]
+      },
+      {
+        "indicator": "core_needle_biopsies",
+        "patientListCols": [
+          "encounter_datetime",
+          "location_name",
+          "identifiers",
+          "person_name",
+          "gender",
+          "age",
+          "phone_number",
+          "patient_uuid",
+          "hiv_status",
+          "type_of_abnormality",
+          "via_procedure_done"
+        ]
+      },
+      {
+        "indicator": "pap_smears",
+        "patientListCols": [
+          "encounter_datetime",
+          "location_name",
+          "identifiers",
+          "person_name",
+          "gender",
+          "age",
+          "phone_number",
+          "patient_uuid",
+          "hiv_status",
+          "type_of_abnormality",
+          "via_procedure_done"
         ]
       }
     ]
