@@ -44,18 +44,18 @@
     },
     {
       "type": "derived_column",
-      "alias": "normal_breast_screening_findings",
+      "alias": "normal_findings",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "count(normal_breast_screening_findings)"
+        "expression": "count(normal_findings)"
       }
     },
     {
       "type": "derived_column",
-      "alias": "abnormal_breast_screening_findings",
+      "alias": "abnormal_findings",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "count(abnormal_breast_screening_findings)"
+        "expression": "count(abnormal_findings)"
       }
     },
     {
@@ -63,7 +63,135 @@
       "alias": "normal_breast_call_rate%",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": " ROUND(count(normal_breast_screening_findings)/count(person_id)*100,2)"
+        "expression": " ROUND(count(normal_findings)/count(person_id)*100,2)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "abnormal_breast_call_rate%",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "ROUND(count(abnormal_findings)/count(person_id)*100,2)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_patients",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(male_patients)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_patients",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(female_patients)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_negative",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(hiv_negative)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_status_unknown",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(hiv_status_unknown)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_positive",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(hiv_positive)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "normal_below_30yrs",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(normal_below_30yrs)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "abnormal_below_30yrs",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(abnormal_below_30yrs)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "normal_30_to_40yrs",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(normal_30_to_40yrs)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "abnormal_30_to_40yrs",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(abnormal_30_to_40yrs)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "normal_41_to_50yrs",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(normal_41_to_50yrs)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "abnormal_41_to_50yrs",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(abnormal_41_to_50yrs)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "normal_51_to_69yrs",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(normal_51_to_69yrs)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "abnormal_51_to_69yrs",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(abnormal_51_to_69yrs)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "normal_above_70yrs",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(normal_above_70yrs)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "abnormal_above_70yrs",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(abnormal_above_70yrs)"
       }
     }
   ],

@@ -1,374 +1,567 @@
 {
-    "name": "cervicalCancerMonthlyReportBase",
-    "version": "1.0",
-    "tag": "",
-    "uses": [],
-    "sources": [{
-            "table": "etl.flat_cervical_cancer_screening",
-            "alias": "fccs"
-        },
-        {
-            "table": "amrs.person_name",
-            "alias": "p2",
-            "join": {
-                "type": "INNER",
-                "joinCondition": "fccs.person_id = p2.person_id AND (p2.voided is null || p2.voided = 0)"
-            }
-        },
-        {
-            "table": "amrs.patient_identifier",
-            "alias": "p3",
-            "join": {
-                "type": "LEFT OUTER",
-                "joinCondition": "fccs.person_id = p3.patient_id AND (p3.voided is null || p3.voided = 0)"
-            }
-        },
-        {
-            "table": "amrs.person",
-            "alias": "p5",
-            "join": {
-                "type": "INNER",
-                "joinCondition": "fccs.person_id = p5.person_id AND (p5.voided is null || p5.voided = 0)"
-            }
-        },
-        {
-            "table": "amrs.location",
-            "alias": "l",
-            "join": {
-                "type": "INNER",
-                "joinCondition": "l.location_id = fccs.location_id"
-            }
-        },
-        {
-            "table": "amrs.person_attribute",
-            "alias": "p4",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "fccs.person_id = p4.person_id AND (p4.voided is null|| p4.voided = 0 and (p4.person_attribute_type_id =10))"
-            }
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "person_id",
-            "column": "fccs.person_id"
-        },
-        {
-            "type": "derived_column",
-            "alias": "person_name",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "CONCAT(COALESCE(p2.given_name, ''), ' ', COALESCE(p2.middle_name, ''), ' ', COALESCE(p2.family_name, ''))"
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "phone_number",
-            "column": "p4.value"
-        },
-        {
-            "type": "derived_column",
-            "alias": "identifiers",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "GROUP_CONCAT(DISTINCT p3.identifier SEPARATOR ', ')"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "type_of_abnormality",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "caseOptions": [
-                    {
-                        "condition": "cur_via_result = 1",
-                        "value": "Normal"
-                    },
-                    {
-                        "condition": "cur_via_result = 2",
-                        "value": "Acetowhite Lesion"
-                    },
-                    {
-                        "condition": "cur_via_result = 3",
-                        "value": "Friable Tissue"
-                    },
-                    {
-                        "condition": "cur_via_result = 4",
-                        "value": "Atypical Blood Vessels"
-                    },
-                    {
-                        "condition": "cur_via_result = 5",
-                        "value": "Ulcer"
-                    },
-                    {
-                        "condition": "cur_via_result = 6",
-                        "value": "Punctuated Capillaries"
-                    },
-                    {
-                        "condition": "cur_via_result = 7",
-                        "value": "Dysfunctional Uterine Bleeding"
-                    },
-                    {
-                        "condition": "cur_via_result = 8",
-                        "value": "Pallor"
-                    },
-                    {
-                        "condition": "cur_via_result = 9",
-                        "value": "Oysterwhite Lesion"
-                    },
-                    {
-                        "condition": "cur_via_result = 10",
-                        "value": "Bright White Lesion"
-                    },
-                    {
-                        "condition": "cur_via_result = 11",
-                        "value": "Dysfunctional Uterine Bleeding"
-                    }
-                ]
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "age",
-            "column": "fccs.age"
-        },
-        {
-            "type": "simple_column",
-            "alias": "gender",
-            "column": "p5.gender"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_id",
-            "column": "fccs.location_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_uuid",
-            "column": "fccs.location_uuid"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_name",
-            "column": "l.name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "encounter_datetime",
-            "column": "DATE_FORMAT(fccs.encounter_datetime, '%Y-%m-%d')"
-        },
-        {
-            "type": "derived_column",
-            "alias": "hiv_status",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "case when hiv_status=1 then 'HIV Negative' when hiv_status=2 then 'HIV Positive' when hiv_status=3 then 'Unknown' else NULL end"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "abnormal_cervical_screening",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(fccs.cur_via_result != 1, 1, null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "abnormal_cervical_screening_below_30yrs",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(fccs.cur_via_result != 1 and age < 30, 1, null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "abnormal_cervical_screening_30_to_40yrs",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(fccs.cur_via_result != 1 and age >= 30 and age <= 40, 1, null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "abnormal_cervical_screening_41_to_50yrs",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(fccs.cur_via_result != 1 and age >= 41 and age <= 50, 1, null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "abnormal_cervical_screening_51_to_69yrs",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(fccs.cur_via_result != 1 and  age >= 51 and age <= 69, 1, null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "abnormal_cervical_screening_above_70yrs",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(fccs.cur_via_result != 1 and age >= 70, 1, null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "normal_cervical_screening",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(fccs.cur_via_result =1 or fccs.cur_via_result is null,1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "normal_cervical_screening_below_30yrs",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if((fccs.cur_via_result = 1 or fccs.cur_via_result is null) and age < 30, 1, null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "normal_cervical_screening_30_to_40yrs",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if((fccs.cur_via_result = 1 or fccs.cur_via_result is null) and age >= 30 and age <= 40, 1, null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "normal_cervical_screening_41_to_50yrs",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if((fccs.cur_via_result = 1 or fccs.cur_via_result is null) and age >= 41 and age <= 50, 1, null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "normal_cervical_screening_51_to_69yrs",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if((fccs.cur_via_result = 1 or fccs.cur_via_result is null) and  age >= 51 and age <= 69, 1, null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "normal_cervical_screening_above_70yrs",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if((fccs.cur_via_result = 1 or fccs.cur_via_result is null) and age >= 70, 1, null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "cancer_stage",
-            "expressionType": "case_statement",
-            "expressionOptions": {
-                "caseOptions": [
-                    {
-                        "condition": "cancer_staging = 1",
-                        "value": "Stage I"
-                    },
-                    {
-                        "condition": "cancer_staging = 2",
-                        "value": "Stage II"
-                    },
-                    {
-                        "condition": "cancer_staging = 3",
-                        "value": "stage III"
-                    },
-                    {
-                        "condition": "cancer_staging = 4",
-                        "value": "Stage IV"
-                    }
-                ]
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "clients_staged_before_treatment",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-            "expression": "(if(cancer_staging in (1,2,3,4),1,null))"
-                       }
-        },
-        {
-            "type": "simple_column",
-            "alias": "date_patient_informed_of_results",
-            "column": "(select DATE_FORMAT(date_patient_informed_referred, '%d-%M-%Y') from etl.flat_cervical_cancer_screening where encounter_type = 147 and (select date_patient_informed_referred from etl.flat_cervical_cancer_screening where encounter_type = 147 and person_id = p2.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_cervical_cancer_screening where encounter_type = 69 and person_id = p2.person_id order by encounter_datetime desc limit 1) and person_id = p2.person_id order by encounter_datetime desc limit 1)"
-        },
-        {
-            "type": "derived_column",
-            "alias": "diagnostic_interval",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                        "expression": "(SELECT CONCAT(TIMESTAMPDIFF(DAY, DATE(encounter_datetime), (SELECT date_patient_informed_referred FROM etl.flat_cervical_cancer_screening WHERE encounter_type = 147 AND person_id = p2.person_id ORDER BY encounter_datetime DESC LIMIT 1)), ' day(s)') FROM etl.flat_cervical_cancer_screening WHERE person_id = p2.person_id AND encounter_type = 69 and (select date_patient_informed_referred from etl.flat_cervical_cancer_screening where encounter_type = 147 and person_id = p2.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_cervical_cancer_screening where encounter_type = 69 and person_id = p2.person_id order by encounter_datetime desc limit 1) ORDER BY encounter_datetime DESC LIMIT 1)"
-                       }
-        },
-        {
-            "type": "derived_column",
-            "alias": "biopsy_results_within_2wks",
-            "expressionType": "case_statement",
-            "expressionOptions": {
-                "caseOptions": [
-                    {
-                        "condition": "TIMESTAMPDIFF(day, DATE(fccs.encounter_datetime), DATE(prior_biopsy_result_date)) <= 14",
-                        "value": 1
-                    }
-                ]
-            }
-        }
-    ],
-    "filters": {
-        "conditionJoinOperator": "and",
-        "conditions": [
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "fccs.age >= ?",
-                "parameterName": "startAge"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "fccs.age <= ?",
-                "parameterName": "endAge"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "DATE(fccs.encounter_datetime) >= ?",
-                "parameterName": "startDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "DATE(fccs.encounter_datetime) <= ?",
-                "parameterName": "endDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "fccs.encounter_type = 69"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "fccs.location_uuid in ?",
-                "parameterName": "locationUuids"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "p5.gender in ?",
-                "parameterName": "genders"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "fccs.location_id not in (195)"
-            }
-        ]
+  "name": "cervicalCancerMonthlyReportBase",
+  "version": "1.0",
+  "tag": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "etl.flat_cervical_cancer_screening",
+      "alias": "fccs"
     },
-    "groupBy": {
-        "groupParam": "groupByParam",
-        "columns": [
-            "fccs.encounter_id"
-        ]
+    {
+      "table": "amrs.person_name",
+      "alias": "p2",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "fccs.person_id = p2.person_id AND (p2.voided is null || p2.voided = 0)"
+      }
+    },
+    {
+      "table": "amrs.patient_identifier",
+      "alias": "p3",
+      "join": {
+        "type": "LEFT OUTER",
+        "joinCondition": "fccs.person_id = p3.patient_id AND (p3.voided is null || p3.voided = 0)"
+      }
+    },
+    {
+      "table": "amrs.person",
+      "alias": "p5",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "fccs.person_id = p5.person_id AND (p5.voided is null || p5.voided = 0)"
+      }
+    },
+    {
+      "table": "amrs.location",
+      "alias": "l",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "l.location_id = fccs.location_id"
+      }
+    },
+    {
+      "table": "amrs.person_attribute",
+      "alias": "p4",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "fccs.person_id = p4.person_id AND (p4.voided is null|| p4.voided = 0 and (p4.person_attribute_type_id =10))"
+      }
     }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "fccs.person_id"
+    },
+    {
+      "type": "derived_column",
+      "alias": "person_name",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "CONCAT(COALESCE(p2.given_name, ''), ' ', COALESCE(p2.middle_name, ''), ' ', COALESCE(p2.family_name, ''))"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "phone_number",
+      "column": "p4.value"
+    },
+    {
+      "type": "derived_column",
+      "alias": "identifiers",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "GROUP_CONCAT(DISTINCT p3.identifier SEPARATOR ', ')"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "type_of_abnormality",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "cur_via_result = 1",
+            "value": "Normal"
+          },
+          {
+            "condition": "cur_via_result = 2",
+            "value": "Acetowhite Lesion"
+          },
+          {
+            "condition": "cur_via_result = 3",
+            "value": "Friable Tissue"
+          },
+          {
+            "condition": "cur_via_result = 4",
+            "value": "Atypical Blood Vessels"
+          },
+          {
+            "condition": "cur_via_result = 5",
+            "value": "Ulcer"
+          },
+          {
+            "condition": "cur_via_result = 6",
+            "value": "Punctuated Capillaries"
+          },
+          {
+            "condition": "cur_via_result = 7",
+            "value": "Dysfunctional Uterine Bleeding"
+          },
+          {
+            "condition": "cur_via_result = 8",
+            "value": "Pallor"
+          },
+          {
+            "condition": "cur_via_result = 9",
+            "value": "Oysterwhite Lesion"
+          },
+          {
+            "condition": "cur_via_result = 10",
+            "value": "Bright White Lesion"
+          },
+          {
+            "condition": "cur_via_result = 11",
+            "value": "Dysfunctional Uterine Bleeding"
+          }
+        ]
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "age",
+      "column": "fccs.age"
+    },
+    {
+      "type": "simple_column",
+      "alias": "gender",
+      "column": "p5.gender"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "fccs.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "fccs.location_uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_name",
+      "column": "l.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "encounter_datetime",
+      "column": "DATE_FORMAT(fccs.encounter_datetime, '%Y-%m-%d')"
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_status",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "case when hiv_status=1 then 'HIV Negative' when hiv_status=2 then 'HIV Positive' when hiv_status=3 then 'Unknown' else NULL end"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "prior_via_done",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "CASE WHEN prior_via_done = 1 THEN 'Yes' WHEN prior_via_done = 2 THEN 'No' ELSE NULL END"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "prior_via_date",
+      "column": "fccs.prior_via_date"
+    },
+    {
+      "type": "derived_column",
+      "alias": "prior_via_result",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "CASE WHEN prior_via_result = 1 THEN 'Positive' WHEN prior_via_result = 2 THEN 'Negative' ELSE NULL END"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "visual_impression_cervix",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "visual_impression_cervix = 1",
+            "value": "Normal"
+          },
+          {
+            "condition": "visual_impression_cervix = 2",
+            "value": "Positive VIA with Aceto white area"
+          },
+          {
+            "condition": "visual_impression_cervix = 3",
+            "value": "Positive VIA with suspicious lesion"
+          }
+        ]
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "visual_impression_vagina",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "visual_impression_vagina = 1",
+            "value": "Normal"
+          },
+          {
+            "condition": "visual_impression_vagina = 2",
+            "value": "Warts, Genital"
+          },
+          {
+            "condition": "visual_impression_vagina = 3",
+            "value": "Suspicious of cancer, vaginal lesion"
+          }
+        ]
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "visual_impression_vulva",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "visual_impression_vulva = 1",
+            "value": "Normal"
+          },
+          {
+            "condition": "visual_impression_vulva = 2",
+            "value": "Warts, Genital"
+          },
+          {
+            "condition": "visual_impression_vulva = 3",
+            "value": "Suspicious of cancer, vulva lesion"
+          }
+        ]
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "via_procedure_done",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "via_procedure_done = 1",
+            "value": "None"
+          },
+          {
+            "condition": "via_procedure_done = 2",
+            "value": "Excisional / Surgical biopsy"
+          },
+          {
+            "condition": "via_procedure_done = 3",
+            "value": "Cryotherapy"
+          },
+          {
+            "condition": "via_procedure_done = 4",
+            "value": "LEEP"
+          },
+          {
+            "condition": "via_procedure_done = 5",
+            "value": "Cervical Polypectomy"
+          },
+          {
+            "condition": "via_procedure_done = 6",
+            "value": "Core Needle Biopsy"
+          },
+          {
+            "condition": "via_procedure_done = 7",
+            "value": "Papanicolaou Smear"
+          },
+          {
+            "condition": "via_procedure_done = 8",
+            "value": "Other (Non-coded)"
+          }
+        ]
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "other_via_procedure_done",
+      "column": "other_via_procedure_done"
+    },
+    {
+      "type": "derived_column",
+      "alias": "via_management_plan",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "via_management_plan = 1",
+            "value": "Return for result"
+          },
+          {
+            "condition": "via_management_plan = 2",
+            "value": "VIA follow-up in 3 months"
+          },
+          {
+            "condition": "via_management_plan = 3",
+            "value": "Complete VIA in 3 years"
+          },
+          {
+            "condition": "via_management_plan = 4",
+            "value": "Colposcopy"
+          },
+          {
+            "condition": "via_management_plan = 5",
+            "value": "Gynecologic oncology services"
+          },
+          {
+            "condition": "via_management_plan = 6",
+            "value": "Other (Non-coded)"
+          }
+        ]
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "via_rtc_date",
+      "column": "DATE_FORMAT(fccs.via_rtc_date, '%Y-%m-%d')"
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_negative",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fccs.hiv_status = 1, 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_status_unknown",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fccs.hiv_status = 3, 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_positive",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fccs.hiv_status = 2, 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "abnormal_findings",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fccs.cur_via_result != 1, 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "abnormal_below_30yrs",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fccs.cur_via_result != 1 and age < 30, 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "abnormal_30_to_40yrs",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fccs.cur_via_result != 1 and age >= 30 and age <= 40, 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "abnormal_41_to_50yrs",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fccs.cur_via_result != 1 and age >= 41 and age <= 50, 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "abnormal_51_to_69yrs",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fccs.cur_via_result != 1 and  age >= 51 and age <= 69, 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "abnormal_above_70yrs",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fccs.cur_via_result != 1 and age >= 70, 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "normal_findings",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fccs.cur_via_result =1 or fccs.cur_via_result is null,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "normal_below_30yrs",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((fccs.cur_via_result = 1 or fccs.cur_via_result is null) and age < 30, 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "normal_30_to_40yrs",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((fccs.cur_via_result = 1 or fccs.cur_via_result is null) and age >= 30 and age <= 40, 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "normal_41_to_50yrs",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((fccs.cur_via_result = 1 or fccs.cur_via_result is null) and age >= 41 and age <= 50, 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "normal_51_to_69yrs",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((fccs.cur_via_result = 1 or fccs.cur_via_result is null) and  age >= 51 and age <= 69, 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "normal_above_70yrs",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((fccs.cur_via_result = 1 or fccs.cur_via_result is null) and age >= 70, 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "cancer_stage",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "cancer_staging = 1",
+            "value": "Stage I"
+          },
+          {
+            "condition": "cancer_staging = 2",
+            "value": "Stage II"
+          },
+          {
+            "condition": "cancer_staging = 3",
+            "value": "stage III"
+          },
+          {
+            "condition": "cancer_staging = 4",
+            "value": "Stage IV"
+          }
+        ]
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "clients_staged_before_treatment",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "(if(cancer_staging in (1,2,3,4),1,null))"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "date_patient_informed_of_results",
+      "column": "(select DATE_FORMAT(date_patient_informed_referred, '%d-%M-%Y') from etl.flat_cervical_cancer_screening where encounter_type = 147 and (select date_patient_informed_referred from etl.flat_cervical_cancer_screening where encounter_type = 147 and person_id = p2.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_cervical_cancer_screening where encounter_type = 69 and person_id = p2.person_id order by encounter_datetime desc limit 1) and person_id = p2.person_id order by encounter_datetime desc limit 1)"
+    },
+    {
+      "type": "derived_column",
+      "alias": "diagnostic_interval",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "(SELECT CONCAT(TIMESTAMPDIFF(DAY, DATE(encounter_datetime), (SELECT date_patient_informed_referred FROM etl.flat_cervical_cancer_screening WHERE encounter_type = 147 AND person_id = p2.person_id ORDER BY encounter_datetime DESC LIMIT 1)), ' day(s)') FROM etl.flat_cervical_cancer_screening WHERE person_id = p2.person_id AND encounter_type = 69 and (select date_patient_informed_referred from etl.flat_cervical_cancer_screening where encounter_type = 147 and person_id = p2.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_cervical_cancer_screening where encounter_type = 69 and person_id = p2.person_id order by encounter_datetime desc limit 1) ORDER BY encounter_datetime DESC LIMIT 1)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "biopsy_results_within_2wks",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "TIMESTAMPDIFF(day, DATE(fccs.encounter_datetime), DATE(prior_biopsy_result_date)) <= 14",
+            "value": 1
+          }
+        ]
+      }
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "fccs.age >= ?",
+        "parameterName": "startAge"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "fccs.age <= ?",
+        "parameterName": "endAge"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "DATE(fccs.encounter_datetime) >= ?",
+        "parameterName": "startDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "DATE(fccs.encounter_datetime) <= ?",
+        "parameterName": "endDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "fccs.encounter_type = 69"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "fccs.location_uuid in ?",
+        "parameterName": "locationUuids"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "p5.gender in ?",
+        "parameterName": "genders"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "fccs.location_id not in (195)"
+      }
+    ]
+  },
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": [
+      "fccs.encounter_id"
+    ]
+  }
 }
