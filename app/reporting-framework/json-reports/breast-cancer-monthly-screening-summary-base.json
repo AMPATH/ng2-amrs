@@ -172,7 +172,7 @@
             "alias": "normal_breast_screening_findings_above_70yrs",
             "expressionType": "simple_expression",
             "expressionOptions": {
-            "expression": "if((cur_physical_findings = 0 or cur_physical_findings is null) and age > 70, 1, null)"
+            "expression": "if((cur_physical_findings = 0 or cur_physical_findings is null) and age >= 70, 1, null)"
                        }
         },
         {
@@ -220,7 +220,7 @@
             "alias": "abnormal_breast_screening_findings_above_70yrs",
             "expressionType": "simple_expression",
             "expressionOptions": {
-            "expression": "if(cur_physical_findings != 0 and age > 70, 1, null)"
+            "expression": "if(cur_physical_findings != 0 and age >= 70, 1, null)"
                        }
         },
         {
