@@ -20,7 +20,7 @@ export class SurgeResourceService {
 
   public getSurgeWeeklyReport(params: any): Observable<any> {
     // tslint:disable-next-line: max-line-length
-    return this.http.get(`${this.url}surge-report?year_week=${Moment(params.year_week).format('YYYYWW')}&locationUuids=${params.locationUuids}`)
+    return this.http.get(`${this.url}surge-report?year_week=${Moment(params.year_week).add(6, 'day').format('YYYYWW')}&locationUuids=${params.locationUuids}`)
       .pipe(
         catchError((err: any) => {
           const error: any = err;
