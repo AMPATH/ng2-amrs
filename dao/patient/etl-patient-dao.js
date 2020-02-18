@@ -316,6 +316,7 @@ module.exports = function () {
                 row.cur_arv_meds = helpers.getARVNames(row.cur_arv_meds);
                 row.lab_errors = helpers.resolvedLabOrderErrors(row.vl_error, row.cd4_error, row.hiv_dna_pcr_error);
                 row.hiv_dna_pcr = helpers.getConceptName(row.hiv_dna_pcr);
+                row.antibody_screen = helpers.getConceptName(row.antibody_screen);
                 row.pus_c_urine = helpers.getConceptName(row.pus_c_urine);
                 row.protein_urine = helpers.getConceptName(row.protein_urine);
                 row.leuc = helpers.getConceptName(row.leuc);
