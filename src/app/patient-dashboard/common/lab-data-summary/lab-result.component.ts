@@ -70,6 +70,9 @@ export class LabResultComponent implements OnInit, OnDestroy {
     'hiv_dna_pcr': {
       'test': 'DNA PCR'
     },
+    'antibody_screen': {
+      'test': 'Antibody Screen'
+    },
     'hiv_rapid_test': {
       'test': 'HIV RAPID'
     },
