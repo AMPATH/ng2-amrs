@@ -121,10 +121,6 @@
           {
             "condition": "cur_via_result = 10",
             "value": "Bright White Lesion"
-          },
-          {
-            "condition": "cur_via_result = 11",
-            "value": "Dysfunctional Uterine Bleeding"
           }
         ]
       }
@@ -205,6 +201,30 @@
           {
             "condition": "visual_impression_cervix = 3",
             "value": "Positive VIA with suspicious lesion"
+          },
+          {
+            "condition": "visual_impression_cervix = 4",
+            "value": "Cervical intraepithelial neoplasia grade 1"
+          },
+          {
+            "condition": "visual_impression_cervix = 5",
+            "value": "Cervical intraepithelial neoplasia grade 2"
+          },
+          {
+            "condition": "visual_impression_cervix = 6",
+            "value": "Cervical intraepithelial neoplasia grade 3"
+          },
+          {
+            "condition": "visual_impression_cervix = 7",
+            "value": "Cervical cancer"
+          },
+          {
+            "condition": "visual_impression_cervix = 8",
+            "value": "Squamous cell carcinoma, not otherwise specified"
+          },
+          {
+            "condition": "visual_impression_cervix = 9",
+            "value": "Other (Non-coded)"
           }
         ]
       }
@@ -226,6 +246,30 @@
           {
             "condition": "visual_impression_vagina = 3",
             "value": "Suspicious of cancer, vaginal lesion"
+          },
+          {
+            "condition": "visual_impression_vagina = 4",
+            "value": "Abnormal"
+          },
+          {
+            "condition": "visual_impression_vagina = 5",
+            "value": "Suspicious of cancer, vulva lesion"
+          },
+          {
+            "condition": "visual_impression_vagina = 6",
+            "value": "Vaginal intraepithelial neoplasia grade 1"
+          },
+          {
+            "condition": "visual_impression_vagina = 7",
+            "value": "Vaginal intraepithelial neoplasia grade 2"
+          },
+          {
+            "condition": "visual_impression_vagina = 8",
+            "value": "Vaginal intraepithelial neoplasia grade 3"
+          },
+          {
+            "condition": "visual_impression_vagina = 9",
+            "value": "Other (Non-coded)"
           }
         ]
       }
@@ -247,6 +291,26 @@
           {
             "condition": "visual_impression_vulva = 3",
             "value": "Suspicious of cancer, vulva lesion"
+          },
+          {
+            "condition": "visual_impression_vulva = 4",
+            "value": "Abnormal"
+          },
+          {
+            "condition": "visual_impression_vulva = 5",
+            "value": "Condyloma or vulvar intraepithelial neoplasia grade 1"
+          },
+          {
+            "condition": "visual_impression_vulva = 6",
+            "value": "Vulvar intraepithelial neoplasia grade 2"
+          },
+          {
+            "condition": "visual_impression_vulva = 7",
+            "value": "Vulvar intraepithelial neoplasia grade 3"
+          },
+          {
+            "condition": "visual_impression_vulva = 8",
+            "value": "Other (Non-coded)"
           }
         ]
       }
@@ -263,7 +327,7 @@
           },
           {
             "condition": "via_procedure_done = 2",
-            "value": "Excisional / Surgical biopsy"
+            "value": "Excisional/Surgical biopsy"
           },
           {
             "condition": "via_procedure_done = 3",
@@ -287,6 +351,42 @@
           },
           {
             "condition": "via_procedure_done = 8",
+            "value": "Endocervical Curretage"
+          },
+          {
+            "condition": "via_procedure_done = 9",
+            "value": "Closure by suture"
+          },
+          {
+            "condition": "via_procedure_done = 10",
+            "value": "Plaster services"
+          },
+          {
+            "condition": "via_procedure_done = 11",
+            "value": "Clean and dressing"
+          },
+          {
+            "condition": "via_procedure_done = 12",
+            "value": "Circumcized"
+          },
+          {
+            "condition": "via_procedure_done = 13",
+            "value": "Minor surgical procedure"
+          },
+          {
+            "condition": "via_procedure_done = 14",
+            "value": "Visual inspection with acetic acid"
+          },
+          {
+            "condition": "via_procedure_done = 15",
+            "value": "Intrauterine device"
+          },
+          {
+            "condition": "via_procedure_done = 16",
+            "value": "Contraceptive implant"
+          },
+          {
+            "condition": "via_procedure_done = 17",
             "value": "Other (Non-coded)"
           }
         ]
@@ -325,6 +425,50 @@
           },
           {
             "condition": "via_management_plan = 6",
+            "value": "Complete VIA in 1 year"
+          },
+          {
+            "condition": "via_management_plan = 7",
+            "value": "Complete VIA or pap smear in six months"
+          },
+          {
+            "condition": "via_management_plan = 8",
+            "value": "Surgery"
+          },
+          {
+            "condition": "via_management_plan = 9",
+            "value": "Cryotherapy"
+          },
+          {
+            "condition": "via_management_plan = 10",
+            "value": "Clinician"
+          },
+          {
+            "condition": "via_management_plan = 11",
+            "value": "None"
+          },
+          {
+            "condition": "via_management_plan = 12",
+            "value": "Discontinue"
+          },
+          {
+            "condition": "via_management_plan = 13",
+            "value": "Endocervical curettage"
+          },
+          {
+            "condition": "via_management_plan = 14",
+            "value": "Excisional/Surgical biopsy"
+          },
+          {
+            "condition": "via_management_plan = 16",
+            "value": "Female sterilization"
+          },
+          {
+            "condition": "via_management_plan = 17",
+            "value": "Repeat procedure"
+          },
+          {
+            "condition": "via_management_plan = 18",
             "value": "Other (Non-coded)"
           }
         ]
