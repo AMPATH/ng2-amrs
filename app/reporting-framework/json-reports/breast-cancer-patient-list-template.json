@@ -1,194 +1,193 @@
 {
-    "name": "breast_cancer_patient_list_template",
-    "version": "1.0",
-    "tag": "breast_cancer_patient_list_template",
-    "description": "Breast Cancer patient list template",
-    "sources": [
-        {
-            "table": "amrs.person",
-            "alias": "t1"
-        },
-        {
-            "table": "amrs.person_name",
-            "alias": "person_name",
-            "join": {
-                "type": "INNER",
-                "joinCondition": "t1.person_id = person_name.person_id AND (person_name.voided IS NULL || person_name.voided = 0)"
-            }
-        },
-        {
-            "table": "amrs.patient_identifier",
-            "alias": "id",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "t1.person_id = id.patient_id AND (id.voided IS NULL || id.voided = 0)"
-            }
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "patient_uuid",
-            "column": "t1.uuid"
-        },
-        {
-            "type": "simple_column",
-            "alias": "person_id",
-            "column": "t1.person_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "gender",
-            "column": "t1.gender"
-        },
-        {
-            "type": "simple_column",
-            "alias": "birthdate",
-            "column": "t1.birthdate"
-        },
-        {
-            "type": "derived_column",
-            "alias": "age",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "extract(year from (from_days(datediff(now(),t1.birthdate))))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "hiv_status",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "case when hiv_status=1 then 'HIV Negative' when hiv_status=2 then 'HIV Positive' when hiv_status=3 then 'Unknown' else NULL end"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "person_name",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": " CONCAT(COALESCE(person_name.given_name, ''), ' ', COALESCE(person_name.middle_name, ''), ' ', COALESCE(person_name.family_name, ''))"
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "given_name",
-            "column": "person_name.given_name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "family_name",
-            "column": "person_name.family_name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "middle_name",
-            "column": "person_name.middle_name"
-        },
-        {
-            "type": "derived_column",
-            "alias": "identifiers",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": " GROUP_CONCAT(DISTINCT id.identifier SEPARATOR ', ')"
-            }
-        },
-       
-        {
-            "type": "simple_column",
-            "alias": "date_patient_informed_of_results",
-            "column": "date_patient_informed_and_referred_for_management"
-        },
-        {
-            "type": "derived_column",
-            "alias": "diagnostic_interval",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "timestampdiff(day,date(encounter_datetime),date(date_patient_informed_and_referred_for_management))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "procedure_done",
-            "expressionType": "case_statement",
-            "expressionOptions": {
-                "caseOptions": [
-                    {
-                        "condition": "procedure_done = 1",
-                        "value": "Ultrasound"
-                    },
-                    
-                    {
-                        "condition": "procedure_done = 2",
-                        "value": "Mammogram"
-                    },
-                    {
-                        "condition": "procedure_done = 3",
-                        "value": "Core Needle Biopsy"
-                    },
-                    {
-                        "condition": "procedure_done = 4",
-                        "value": "FNA"
-                    },
-                    {
-                        "condition": "procedure_done = 5",
-                        "value": "Surgical Biopsy"
-                    },
-                    {
-                        "condition": "procedure_done = 6",
-                        "value": "Incisional Biopsy"
-                    }
-                ]
-            }
-
-        },
-        {
-            "type": "derived_column",
-            "alias": "diagnosis",
-            "expressionType": "case_statement",
-            "expressionOptions": {
-                "caseOptions": [
-                    {
-                        "condition": "diagnosis in (9618,6544,6250,6243,2220,115)",
-                        "value": "1"
-                    },
-                    {
-                        "condition": "else",
-                        "value": "null"
-                    }]
-                    }
-        },
-        {
-            "type": "derived_column",
-            "alias": "cancer_stage",
-            "expressionOptions": {
-                "caseOptions": [
-                    {
-                        "condition": "cancer_staging = 1",
-                        "value": "Stage I"
-                    },
-                    {
-                        "condition": "else",
-                        "value": "null"
-                    },
-                    {
-                        "condition": "cancer_staging = 2",
-                        "value": "Stage II"
-                    },
-                    {
-                        "condition": "cancer_staging = 3",
-                        "value": "Stage III"
-                    },
-                    {
-                        "condition": "cancer_staging = 4",
-                        "value": "Stage IV"
-                    }
-                ]
-            }
-
-        }
-    ],
-    "groupBy":{
-        "columns":["t1.person_id"]
+  "name": "breast_cancer_patient_list_template",
+  "version": "1.0",
+  "tag": "breast_cancer_patient_list_template",
+  "description": "Breast Cancer patient list template",
+  "sources": [
+    {
+      "table": "amrs.person",
+      "alias": "t1"
+    },
+    {
+      "table": "amrs.person_name",
+      "alias": "person_name",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "t1.person_id = person_name.person_id AND (person_name.voided IS NULL || person_name.voided = 0)"
+      }
+    },
+    {
+      "table": "amrs.patient_identifier",
+      "alias": "id",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t1.person_id = id.patient_id AND (id.voided IS NULL || id.voided = 0)"
+      }
     }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "patient_uuid",
+      "column": "t1.uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "t1.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "gender",
+      "column": "t1.gender"
+    },
+    {
+      "type": "simple_column",
+      "alias": "birthdate",
+      "column": "t1.birthdate"
+    },
+    {
+      "type": "derived_column",
+      "alias": "age",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "extract(year from (from_days(datediff(now(),t1.birthdate))))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_status",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "case when hiv_status=1 then 'HIV Negative' when hiv_status=2 then 'HIV Positive' when hiv_status=3 then 'Unknown' else NULL end"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "person_name",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": " CONCAT(COALESCE(person_name.given_name, ''), ' ', COALESCE(person_name.middle_name, ''), ' ', COALESCE(person_name.family_name, ''))"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "given_name",
+      "column": "person_name.given_name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "family_name",
+      "column": "person_name.family_name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "middle_name",
+      "column": "person_name.middle_name"
+    },
+    {
+      "type": "derived_column",
+      "alias": "identifiers",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": " GROUP_CONCAT(DISTINCT id.identifier SEPARATOR ', ')"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "date_patient_informed_of_results",
+      "column": "date_patient_informed_and_referred_for_management"
+    },
+    {
+      "type": "derived_column",
+      "alias": "diagnostic_interval",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "timestampdiff(day,date(encounter_datetime),date(date_patient_informed_and_referred_for_management))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "procedure_done",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "procedure_done = 1",
+            "value": "Ultrasound"
+          },
+          {
+            "condition": "procedure_done = 2",
+            "value": "Mammogram"
+          },
+          {
+            "condition": "procedure_done = 3",
+            "value": "Core Needle Biopsy"
+          },
+          {
+            "condition": "procedure_done = 4",
+            "value": "FNA"
+          },
+          {
+            "condition": "procedure_done = 5",
+            "value": "Surgical Biopsy"
+          },
+          {
+            "condition": "procedure_done = 6",
+            "value": "Incisional Biopsy"
+          }
+        ]
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "diagnosis",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "diagnosis in (9618,6544,6250,6243,2220,115)",
+            "value": "1"
+          },
+          {
+            "condition": "else",
+            "value": "null"
+          }
+        ]
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "cancer_stage",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "cancer_staging = 1",
+            "value": "Stage I"
+          },
+          {
+            "condition": "else",
+            "value": "null"
+          },
+          {
+            "condition": "cancer_staging = 2",
+            "value": "Stage II"
+          },
+          {
+            "condition": "cancer_staging = 3",
+            "value": "Stage III"
+          },
+          {
+            "condition": "cancer_staging = 4",
+            "value": "Stage IV"
+          }
+        ]
+      }
+    }
+  ],
+  "groupBy": {
+    "columns": [
+      "t1.person_id"
+    ]
+  }
 }

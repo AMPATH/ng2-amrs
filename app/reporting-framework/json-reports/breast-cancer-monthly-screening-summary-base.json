@@ -78,6 +78,11 @@
     },
     {
       "type": "simple_column",
+      "alias": "gender",
+      "column": "fbcs.gender"
+    },
+    {
+      "type": "simple_column",
       "alias": "age",
       "column": "fbcs.age"
     },
@@ -89,9 +94,94 @@
     {
       "type": "derived_column",
       "alias": "type_of_abnormality",
-      "expressionType": "simple_expression",
+      "expressionType": "case_statement",
       "expressionOptions": {
-        "expression": "case when cur_physical_findings=0 then 'Normal' when cur_physical_findings=1 then 'Mastitis' when cur_physical_findings=2 then 'Breast lumps' when cur_physical_findings=3 then 'Cracked nipple' when cur_physical_findings=4 then 'Others' when cur_physical_findings=5 then 'Mass' when cur_physical_findings=6 then 'Nipple discharge' when cur_physical_findings=7 then 'Breast skin changes' when cur_physical_findings=8 then 'Not done' when cur_physical_findings=9 then 'Abscess breast' when cur_physical_findings=10 then 'Breast engorgement' when cur_physical_findings=11 then 'Abnormal' when cur_physical_findings=12 then 'Calor' when cur_physical_findings=13 then 'Peau Dorange' when cur_physical_findings=14 then 'Unknown' when cur_physical_findings=15 then 'Fine nodularity' when cur_physical_findings=16 then 'Dense nodularity' when cur_physical_findings=17 then 'Skin edema' when cur_physical_findings=18 then 'Nipple areolar change' when cur_physical_findings=19 then 'Muscle tenderness' when cur_physical_findings=20 then 'Benign' else null end"
+        "caseOptions": [
+          {
+            "condition": "cur_physical_findings = 0",
+            "value": "Normal"
+          },
+          {
+            "condition": "cur_physical_findings = 1",
+            "value": "Mastitis"
+          },
+          {
+            "condition": "cur_physical_findings = 2",
+            "value": "Breast lumps"
+          },
+          {
+            "condition": "cur_physical_findings = 3",
+            "value": "Cracked nipple"
+          },
+          {
+            "condition": "cur_physical_findings = 4",
+            "value": "Other"
+          },
+          {
+            "condition": "cur_physical_findings = 5",
+            "value": "Mass"
+          },
+          {
+            "condition": "cur_physical_findings = 6",
+            "value": "Nipple discharge"
+          },
+          {
+            "condition": "cur_physical_findings = 7",
+            "value": "Breast skin changes"
+          },
+          {
+            "condition": "cur_physical_findings = 8",
+            "value": "Not done"
+          },
+          {
+            "condition": "cur_physical_findings = 9",
+            "value": "Breast abscess"
+          },
+          {
+            "condition": "cur_physical_findings = 10",
+            "value": "Breast engorgement"
+          },
+          {
+            "condition": "cur_physical_findings = 11",
+            "value": "Abnormal"
+          },
+          {
+            "condition": "cur_physical_findings = 12",
+            "value": "Calor"
+          },
+          {
+            "condition": "cur_physical_findings = 13",
+            "value": "Peau dOrange"
+          },
+          {
+            "condition": "cur_physical_findings = 14",
+            "value": "Unknown"
+          },
+          {
+            "condition": "cur_physical_findings = 15",
+            "value": "Fine nodularity"
+          },
+          {
+            "condition": "cur_physical_findings = 16",
+            "value": "Dense nodularity"
+          },
+          {
+            "condition": "cur_physical_findings = 17",
+            "value": "Skin edema"
+          },
+          {
+            "condition": "cur_physical_findings = 18",
+            "value": "Nipple areolar change"
+          },
+          {
+            "condition": "cur_physical_findings = 19",
+            "value": "Muscle tenderness"
+          },
+          {
+            "condition": "cur_physical_findings = 20",
+            "value": "Benign"
+          }
+        ]
       }
     },
     {
@@ -711,6 +801,78 @@
     },
     {
       "type": "derived_column",
+      "alias": "hiv_positive_below_25",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fbcs.hiv_status = 2 and age < 25, 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_negative_below_25",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fbcs.hiv_status = 1 and age < 25, 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_unknown_below_25",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fbcs.hiv_status = 3 and age < 30, 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_positive_25_to_49",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fbcs.hiv_status = 2 and age >= 25 and age < 50, 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_negative_25_to_49",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fbcs.hiv_status = 1 and age >= 25 and age < 50, 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_unknown_25_to_49",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fbcs.hiv_status = 3 and age >= 25 and age < 50, 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_positive_over_50",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fbcs.hiv_status = 3 and age > 50, 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_negative_over_50",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fbcs.hiv_status = 1 and age > 50, 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_unknown_over_50",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fbcs.hiv_status = 3 and age > 50, 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
       "alias": "clients_staged_before_treatment",
       "expressionType": "simple_expression",
       "expressionOptions": {
@@ -786,6 +948,19 @@
             "value": "Stage IV"
           }
         ]
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "date_patient_informed_of_results",
+      "column": "(select DATE_FORMAT(date_patient_informed_and_referred_for_management, '%d-%M-%Y') from etl.flat_breast_cancer_screening where encounter_type = 145 and (select date_patient_informed_and_referred_for_management from etl.flat_breast_cancer_screening where encounter_type = 145 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_breast_cancer_screening where encounter_type = 86 and person_id = p.person_id order by encounter_datetime desc limit 1) and person_id = p.person_id order by encounter_datetime desc limit 1)"
+    },
+    {
+      "type": "derived_column",
+      "alias": "total_reffered_for_followup",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(referrals_ordered = 1, 1, NULL)"
       }
     }
   ],

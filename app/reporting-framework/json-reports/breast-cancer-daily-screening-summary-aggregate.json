@@ -44,6 +44,22 @@
     },
     {
       "type": "derived_column",
+      "alias": "gender",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(person_id)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_status",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(person_id)"
+      }
+    },
+    {
+      "type": "derived_column",
       "alias": "normal_findings",
       "expressionType": "simple_expression",
       "expressionOptions": {
@@ -112,6 +128,78 @@
       "expressionType": "simple_expression",
       "expressionOptions": {
         "expression": "count(hiv_positive)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_positive_below_25",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(hiv_positive_below_25)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_negative_below_25",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(hiv_negative_below_25)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_unknown_below_25",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(hiv_unknown_below_25)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_positive_25_to_49",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(hiv_positive_25_to_49)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_negative_25_to_49",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(hiv_negative_25_to_49)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_unknown_25_to_49",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(hiv_unknown_25_to_49)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_positive_over_50",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(hiv_positive_over_50)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_negative_over_50",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(hiv_negative_over_50)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_unknown_over_50",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(hiv_unknown_over_50)"
       }
     },
     {

@@ -317,6 +317,62 @@
     },
     {
       "type": "derived_column",
+      "alias": "procedures_done",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(via_procedure_done != 1, 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "excisional_biopsies_done",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(via_procedure_done = 2, 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "cryotherapies_done",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(via_procedure_done = 3, 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "leeps_done",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(via_procedure_done = 4, 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "polypectomies_done",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(via_procedure_done = 5, 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "core_needle_biopsies_done",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(via_procedure_done = 6, 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "pap_smears_done",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(via_procedure_done = 7, 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
       "alias": "via_procedure_done",
       "expressionType": "simple_expression",
       "expressionOptions": {
@@ -501,6 +557,78 @@
       "expressionType": "simple_expression",
       "expressionOptions": {
         "expression": "if(fccs.hiv_status = 2, 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_positive_below_25",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fccs.hiv_status = 2 and age < 25, 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_negative_below_25",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fccs.hiv_status = 1 and age < 25, 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_unknown_below_25",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fccs.hiv_status = 3 and age < 30, 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_positive_25_to_49",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fccs.hiv_status = 2 and age >= 25 and age < 50, 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_negative_25_to_49",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fccs.hiv_status = 1 and age >= 25 and age < 50, 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_unknown_25_to_49",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fccs.hiv_status = 3 and age >= 25 and age < 50, 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_positive_over_50",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fccs.hiv_status = 3 and age > 50, 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_negative_over_50",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fccs.hiv_status = 1 and age > 50, 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_unknown_over_50",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fccs.hiv_status = 3 and age > 50, 1, null)"
       }
     },
     {

@@ -3,16 +3,21 @@
   "version": "1.0",
   "tag": "",
   "description": "",
-  "uses": [{
-    "name": "cervicalCancerMonthlyReportBase",
-    "version": "1.0",
-    "type": "dataset_def"
-  }],
-  "sources": [{
-    "dataSet": "cervicalCancerMonthlyReportBase",
-    "alias": "t1"
-  }],
-  "columns": [{
+  "uses": [
+    {
+      "name": "cervicalCancerMonthlyReportBase",
+      "version": "1.0",
+      "type": "dataset_def"
+    }
+  ],
+  "sources": [
+    {
+      "dataSet": "cervicalCancerMonthlyReportBase",
+      "alias": "t1"
+    }
+  ],
+  "columns": [
+    {
       "type": "simple_column",
       "alias": "location_id",
       "column": "t1.location_id"
@@ -77,6 +82,14 @@
     },
     {
       "type": "derived_column",
+      "alias": "hiv_status",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(person_id)"
+      }
+    },
+    {
+      "type": "derived_column",
       "alias": "hiv_negative",
       "expressionType": "simple_expression",
       "expressionOptions": {
@@ -97,6 +110,78 @@
       "expressionType": "simple_expression",
       "expressionOptions": {
         "expression": "count(hiv_positive)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_positive_below_25",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(hiv_positive_below_25)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_negative_below_25",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(hiv_negative_below_25)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_unknown_below_25",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(hiv_unknown_below_25)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_positive_25_to_49",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(hiv_positive_25_to_49)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_negative_25_to_49",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(hiv_negative_25_to_49)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_unknown_25_to_49",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(hiv_unknown_25_to_49)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_positive_over_50",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(hiv_positive_over_50)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_negative_over_50",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(hiv_negative_over_50)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_unknown_over_50",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(hiv_unknown_over_50)"
       }
     },
     {
@@ -177,6 +262,62 @@
       "expressionType": "simple_expression",
       "expressionOptions": {
         "expression": "count(abnormal_above_70yrs)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "procedures_done",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(procedures_done)"
+      } 
+    },
+    {
+      "type": "derived_column",
+      "alias": "excisional_biopsies",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(excisional_biopsies_done)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "cryotherapies",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(cryotherapies_done)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "leeps",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(leeps_done)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "polypectomies",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(polypectomies_done)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "core_needle_biopsies",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(core_needle_biopsies_done)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "pap_smears",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(pap_smears_done)"
       }
     }
   ],
