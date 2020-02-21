@@ -84,12 +84,22 @@ export class OncologySummaryIndicatorsTableComponent implements OnInit, OnChange
         width: 250,
         rowGroup: true,
         hide: true
+      },
+      {
+        headerName: 'Gender',
+        field: 'gender',
+        hide: true
+      },
+      {
+        headerName: 'Hiv Status',
+        field: 'hiv_status',
+        hide: true
       }
     ];
 
     _.each(firstRow, (data, index) => {
       if (index === 'encounter_datetime' || index === 'location_uuid' || index === 'location_name' ||
-        index === 'location_id') {
+        index === 'location_id' || index === 'gender' || index === 'hiv_status') {
         return '';
       } else {
         cols.push(
