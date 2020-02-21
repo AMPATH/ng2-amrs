@@ -2,7 +2,8 @@ const PROXY_CONFIG = [
     {
         context: [
             "/etl-server-test-internal5",
-            "/amrs"
+            "/amrs",
+            "/amrs-id-generator"
         ],
         target: "https://ngx.ampath.or.ke",
         secure: false
