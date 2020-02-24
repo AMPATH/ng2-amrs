@@ -89,7 +89,7 @@ function getProgramEnrollment(patientUuid, params) {
 function getPatientEncounters(patientUuid) {
   const patientEncounters = encounterService.getPatientEncounters({
     patientUuid,
-    v: 'custom:(encounterType:(uuid,display))',
+    v: 'custom:(encounterDatetime,encounterType:(uuid,display))',
   });
 
   return new Promise(((resolve, reject) => {

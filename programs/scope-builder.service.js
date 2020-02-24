@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const Moment = require('moment');
 
 const def = {
   buildScope: buildScope
@@ -92,12 +93,40 @@ function isInitialPrepVisit(patientEncounters) {
 
 function isInitialPepVisit(patientEncounters) {
   const initialPEPEncounterUuid = 'c3a78744-f94a-4a25-ac9d-1c48df887895';
+  let isInitialPEPVisit = true;
+
+  // get initial pep encounters
 
   let initialPEPEncounters = _.filter(patientEncounters, (encounter) => {
     return encounter.encounterType.uuid === initialPEPEncounterUuid;
   });
 
-  return initialPEPEncounters.length === 0;
+  let orderedPEPEncounters = [];
+  let duration = 0;
+  
+  if(initialPEPEncounters.length > 0){
+     // order pep initial from the latest pep encounter
+      orderedPEPEncounters = initialPEPEncounters.sort((a,b) => {
+          var dateA = new Date(a.encounterDatetime);
+          var dateB = new Date(b.encounterDatetime);
+          return dateB - dateA;
+      });
+    const today = Moment(new Date());
+
+    let latestPEPEncounter = orderedPEPEncounters[0];
+
+    let latestPEPEncounterDate = Moment(latestPEPEncounter.encounterDatetime).format();
+    duration = today.diff(latestPEPEncounterDate,'days');
+    // if its more than 28 days since their last PEP Initial then they should see a pep initial visit
+    if(duration > 28){
+        isInitialPEPVisit = true;
+    }else{
+       isInitialPEPVisit = false;
+    }
+
+  }
+ 
+  return isInitialPEPVisit;
 }
 
 function isInitialPMTCTVisit(patientEncounters) {
