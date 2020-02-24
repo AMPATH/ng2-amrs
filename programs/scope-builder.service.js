@@ -1,5 +1,4 @@
 const _ = require('lodash');
-const Moment = require('moment');
 
 const def = {
   buildScope: buildScope
@@ -93,18 +92,12 @@ function isInitialPrepVisit(patientEncounters) {
 
 function isInitialPepVisit(patientEncounters) {
   const initialPEPEncounterUuid = 'c3a78744-f94a-4a25-ac9d-1c48df887895';
-  var today = Moment(new Date());
 
   let initialPEPEncounters = _.filter(patientEncounters, (encounter) => {
-    let encounterDate = Moment(encounter.encounterDatetime).format();
-    let duration = today.diff(encounterDate,'days');
-    // pep to show initial visit if patient has been away for more than 28 days since last pep initial
-    return (
-            (encounter.encounterType.uuid === initialPEPEncounterUuid) && duration > 28
-            );
+    return encounter.encounterType.uuid === initialPEPEncounterUuid;
   });
 
-  return initialPEPEncounters.length > 0;
+  return initialPEPEncounters.length === 0;
 }
 
 function isInitialPMTCTVisit(patientEncounters) {
