@@ -503,7 +503,7 @@
       "routes": []
     },
     {
-      "programName": "CDM defaulter tracing program",
+      "programName": "CDM Defaulter Tracing Program",
       "programUuid": "ff446cb9-0cf4-4b39-8288-16a43ffcca25",
       "baseRoute": "ff446cb9-0cf4-4b39-8288-16a43ffcca25",
       "alias": "cdm",
