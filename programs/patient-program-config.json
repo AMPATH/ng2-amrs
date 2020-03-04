@@ -3065,6 +3065,17 @@
           "display": "MENTALHEALTHSCREENING"
         }
       ]
+    },
+    {
+      "uuid": "cc50bea5-9ca2-4505-876c-90400c3347cd",
+      "name": "CDM Confirmatory Screening Visit",
+      "encounterTypes": [
+        {
+          "uuid": "3339810c-4980-4325-9825-0f0ed0c2da4a",
+          "display": "CDMSCREENINGCONFIRMATORY"
+        }
+      ]
+      
     }]
 
   },
@@ -3300,5 +3311,20 @@
         ]
       }
     ]
-  }
+  },
+  "ff446cb9-0cf4-4b39-8288-16a43ffcca25": {
+    "name": "CDM DEFAULTER TRACING PROGRAM",
+    "dataDependencies": [
+    ],
+    "incompatibleWith": [],
+    "visitTypes": [{
+        "uuid": "35fc940e-ca50-4d28-bc47-81a383c04a44",
+        "name": "CDM Defaulter Tracing Visit",
+        "encounterTypes": [{
+            "uuid": "61ff98fb-0d6f-4789-a4c8-d2d2bfe287ab",
+            "display": "CDMDEFAULTERTRACING"
+          }]
+    }
+  ]
+}
 }
