@@ -72,6 +72,14 @@
         },
         {
             "type": "derived_column",
+            "alias": "provider_encounter",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "IF(t5.uuid = '731ba72-cf99-4176-9fcd-37cd186400c7' OR t5.uuid ='876a154d-310d-4caf-8b58-be9dbcc7e753' OR t5.uuid ='bd9a8b06-73c7-44a8-928c-5e72247f4c1d' , 1,0)"
+            }
+        },
+        {
+            "type": "derived_column",
             "alias": "age",
             "expressionType": "simple_expression",
             "expressionOptions": {
