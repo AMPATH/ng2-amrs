@@ -184,7 +184,7 @@ export class StrengthsPatientReferralTabularComponent implements OnInit {
       );
       this.extraColumns.push(
         {
-          field: 'referral_urgency',
+          field: 'referal_urgency',
           headerName: 'Referral Urgency',
           cellRenderer: (params) => {
             if (params.value === 1) {
@@ -195,7 +195,23 @@ export class StrengthsPatientReferralTabularComponent implements OnInit {
           }
         },
         {
-          field: 'initial_encounter',
+          field: 'provider_encounter',
+          checkboxSelection: false,
+          headerName: 'Provider Encounter',
+          cellRenderer: (params) => {
+            const input = document.createElement('input');
+            input.type = 'checkbox';
+            input.checked = params.value;
+            if (params.value === 1) {
+              input.checked = true;
+              } else {
+                input.checked = false;
+              }
+           return input;
+          }
+        },
+        {
+          field: 'are_you_the_referring_or_receiving_peer',
           checkboxSelection: false,
           headerName: 'Peer Initial Encounter',
           cellRenderer: (params) => {
@@ -211,14 +227,14 @@ export class StrengthsPatientReferralTabularComponent implements OnInit {
           }
         },
         {
-          field: 'follow_up_encounter',
+          field: 'are_you_the_referring_or_receiving_peer',
           checkboxSelection: false,
           headerName: 'Peer Follow Up',
           cellRenderer: (params) => {
             const input = document.createElement('input');
             input.type = 'checkbox';
             input.checked = params.value;
-            if (params.value === 1) {
+            if (params.value === 2) {
               input.checked = true;
               } else {
                 input.checked = false;
@@ -227,16 +243,16 @@ export class StrengthsPatientReferralTabularComponent implements OnInit {
           }
         },
         {
-          field: 'is_referal_complete',
+          field: 'is_referal_completed',
           checkboxSelection: false,
           headerName: 'Referral Completed',
           cellRenderer: (params) => {
             const input = document.createElement('input');
             input.type = 'checkbox';
-            if (params.value === null || params.value === 2 ) {
-                input.checked = false;
-              } else {
+            if (params.value === 1 ) {
                 input.checked = true;
+              } else {
+                input.checked = false;
               }
            return input;
           }
