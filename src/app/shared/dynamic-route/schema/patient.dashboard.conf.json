@@ -521,6 +521,16 @@
       "shared-routes-class": "oncology",
       "requiresPatientEnrollment": true,
       "routes": []
+    },
+    {
+      "programName": "CDM Defaulter Tracing",
+      "programUuid": "ff446cb9-0cf4-4b39-8288-16a43ffcca25",
+      "baseRoute": "ff446cb9-0cf4-4b39-8288-16a43ffcca25",
+      "alias": "cdm",
+      "published": true,
+      "shared-routes-class": "cdm",
+      "requiresPatientEnrollment": true,
+      "routes": []
     }
   ],
 
