@@ -987,7 +987,6 @@ module.exports = function () {
                         }
                     },
                     handler: function (request, reply) {
-                        console.log('get hiv summary');
                         dao.getPatientHivSummary(request)
                             .then(summary => {
                                 // console.log('Summary', summary);
