@@ -11,13 +11,13 @@
             "alias": "t3"
         },
         {
-            "table": "etl.patient_referral",
-            "alias": "t4",
+            "table": "etl.flat_cdm_peer_navigation",
+            "alias": "n",
             "join": {
                 "type": "LEFT",
-                "joinCondition": "t4.patient_program_id  = t3.patient_program_id"
+                "joinCondition": "n.person_id  = t3.patient_id"
             }
-        },        
+        },         
         {
             "table": "amrs.program",
             "alias": "t5",
@@ -39,7 +39,7 @@
             "alias": "location",
             "join": {
                 "type": "INNER",
-                "joinCondition": "t4.referred_from_location_id = location.location_id"
+                "joinCondition": "n.location_id = location.location_id"
             }
         },
         {
@@ -47,7 +47,7 @@
             "alias": "referral_location",
             "join": {
               "type": "INNER",
-              "joinCondition": "t4.referred_to_location_id = referral_location.location_id"
+              "joinCondition": "n.location_id = referral_location.location_id"
             }
         }
     ],
@@ -61,6 +61,36 @@
             "type": "simple_column",
             "alias": "program",
             "column": "t5.name"
+        },
+        {
+            "type": "simple_column",
+            "alias": "referal_urgency",
+            "column": "n.referal_urgency"
+        },
+        {
+            "type": "simple_column",
+            "alias": "initial_or_follow_up",
+            "column": "n.initial_or_follow_up"
+        },
+        {
+            "type": "simple_column",
+            "alias": "encounter_type",
+            "column": "n.encounter_type"
+        },
+        {
+            "type": "simple_column",
+            "alias": "is_referal_completed",
+            "column": "n.is_referal_completed"
+        },
+        {
+            "type": "simple_column",
+            "alias": "are_you_the_referring_or_receiving_peer",
+            "column": "n.are_you_the_referring_or_receiving_peer"
+        },
+        {
+            "type": "simple_column",
+            "alias": "referred_in_or_out",
+            "column": "n.referred_in_or_out"
         },
         {
             "type": "simple_column",
@@ -100,35 +130,24 @@
         {
             "type": "simple_column",
             "alias": "date_referred",
-            "column": "DATE_FORMAT(t4.date_created, '%Y-%m-%d')"
-        },
-        {
-            "type": "derived_column",
-            "alias": "review_status",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if (t4.notification_status IS NULL, 'PENDING', 'DONE')"
-            }
+            "column": "DATE_FORMAT(n.encounter_datetime, '%Y-%m-%d')"
         }
     ],
     "orderBy": {
         "orderByParam": "orderByParam",
-        "columns": [{
-            "column": "t4.notification_status",
-            "order": "asc"
-        }]
+        "columns": []
     },
     "filters": {
         "conditionJoinOperator": "and",
         "conditions": [
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "DATE_FORMAT(t4.date_created, '%Y-%m-%d') >= ?",
+                "conditionExpression": "DATE_FORMAT(n.encounter_datetime, '%Y-%m-%d') >= ?",
                 "parameterName": "startDate"
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "DATE_FORMAT(t4.date_created, '%Y-%m-%d') <= ?",
+                "conditionExpression": "DATE_FORMAT(n.encounter_datetime, '%Y-%m-%d') <= ?",
                 "parameterName": "endDate"
             },
             {
