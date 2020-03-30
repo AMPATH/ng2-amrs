@@ -85,6 +85,8 @@ var App = {
 
     results = results.replace('[', "").replace(']', ""); // TODO - use regex
 
+    console.log('Results...', results);
+
     var sql = 'replace into etl.eid_sync_queue(person_uuid) select distinct p.uuid from amrs.person p left join amrs.patient_identifier i on p.person_id = i.patient_id where identifier in (?)';
     sql = sql.replace('?', results);
 

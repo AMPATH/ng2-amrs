@@ -393,30 +393,45 @@ var service = {
         });
     },
     insertPatientsWithEidResultsIntoSyncQueue: function (patientIdentifiers) {
-        var results = '';
-        if (Array.isArray(patientIdentifiers)) {
-            results = JSON.stringify(patientIdentifiers);
-        } else {
-            results = patientIdentifiers;
-        }
-        results = results.replace('[', "").replace(']', "");
-
-        var sql = 'replace into etl.eid_sync_queue(person_uuid) select distinct p.uuid from amrs.person p left join amrs.patient_identifier i on p.person_id = i.patient_id where identifier in (?)';
-        sql = sql.replace('?', results);
-
-        var queryObject = {
-            query: sql,
-            sqlParams: []
-        }
 
         return new Promise(function (resolve, reject) {
-            db.queryReportServer(queryObject, function (response) {
-                if (response.error) {
-                    reject(response);
+        console.log('patientIdentifiers', patientIdentifiers);
+            if(patientIdentifiers.length > 0){
+
+                var results = '';
+                if (Array.isArray(patientIdentifiers)) {
+                    results = JSON.stringify(patientIdentifiers);
                 } else {
-                    resolve(response);
+                    results = patientIdentifiers;
                 }
-            });
+                results = results.replace('[', "").replace(']', "");
+        
+                console.log('Results...', results);
+        
+                var sql = 'replace into etl.eid_sync_queue(person_uuid) select distinct p.uuid from amrs.person p left join amrs.patient_identifier i on p.person_id = i.patient_id where identifier in (?)';
+                sql = sql.replace('?', results);
+                console.log('sql....', sql);
+        
+                var queryObject = {
+                    query: sql,
+                    sqlParams: []
+                }
+
+                db.queryReportServer(queryObject, function (response) {
+                    if (response.error) {
+                        reject(response);
+                    } else {
+                        resolve(response);
+                    }
+                });
+
+            }else{
+                resolve("No patients found");
+            }
+       
+
+       
+           
         });
     },
     schedulePatientsWithPendingOrders: function (startDate) {
