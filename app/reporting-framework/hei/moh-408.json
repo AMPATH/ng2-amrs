@@ -1,0 +1,249 @@
+[
+    {
+        "sectionTitle": "2.12 Infant Testing",
+        "indicators": [
+            {
+                "label": "Initial PCR < 8wks",
+                "ref": "HV02-44",
+                "indicator": "initial_pcr_less_than_8_wks"
+            },
+            {
+                "label": "Initial PCR >= 8wks-12mnths",
+                "ref": "HV02-45",
+                "indicator": "initial_pcr_8_wks_to_12_months"
+            },
+            {
+                "label": "Initial PCR < 12 mnths_Total",
+                "ref": "HV02-46",
+                "indicator": "initial_pcr_less_than_12_months"
+            },
+            {
+                "label": "Second PCR at 6 months",
+                "ref": "",
+                "indicator": "second_pcr_6_months"
+            },
+            {
+                "label": "Third PCR at 12 months",
+                "ref": "",
+                "indicator": "third_pcr_12_months"
+            },
+            {
+                "label": "Antibody at 18 months",
+                "ref": "",
+                "indicator": "antibody_at_18_months"
+            },
+            {
+                "label": "Antibody post 18 months",
+                "ref": "",
+                "indicator": "antibody_post_18_months"
+            }
+        ]
+    },
+    {
+        "sectionTitle": "2.13 Programme Outcomes",
+        "indicators": [
+            {
+                "label": "Original Cohort",
+                "ref": "",
+                "indicator": "original_cohort"
+            },
+            {
+                "label": "Transfer In",
+                "ref": "",
+                "indicator": "transfer_in"
+            },
+            {
+                "label": "Transfer Out",
+                "ref": "",
+                "indicator": "transfer_out"
+            },
+            {
+                "label": "Net Cohort HEI at 24 months",
+                "ref": "",
+                "indicator": "net_cohort_hei_24_months"
+            },
+            {
+                "label": "Infected_24months",
+                "ref": "HV02-47",
+                "indicator": "infected_24_months"
+            },
+            {
+                "label": "Uninfected_24months",
+                "ref": "HV02-48",
+                "indicator": "uninfected_24_months"
+            },
+            {
+                "label": "Unknown_Outcome",
+                "ref": "HV02-49",
+                "indicator": "unknown_outcome"
+            }
+            
+        ]
+    },
+    {
+        "sectionTitle": "Uknown Outcomes (Status at 24 months)",
+        "indicators": [
+            {
+                "label": "LTFU",
+                "ref": "",
+                "indicator": "ltfu_uo"
+            },
+            {
+                "label": "Uninfected Dead",
+                "ref": "",
+                "indicator": "uninfected_died_uo"
+            },
+            {
+                "label": "Infected Dead",
+                "ref": "",
+                "indicator": "infected_died_uo"
+            },
+            {
+                "label": "Still Breastfeeding",
+                "ref": "",
+                "indicator": "breastfeeding_uo"
+            }
+        ]
+    },
+    {
+        "sectionTitle": "2.14 Retention of Baby-Mother Pairs at 24 months",
+        "indicators": [
+            {
+                "label": "Original Baby-Mother pair",
+                "ref": "",
+                "indicator": "original_cohort_"
+            },
+            {
+                "label": "Baby-Mother pair transferred out",
+                "ref": "",
+                "indicator": "transfer_out_"
+            },
+            {
+                "label": "Baby-Mother pair transferred in",
+                "ref": "",
+                "indicator": "transfer_in_"
+            },
+            {
+                "label": "Pair Net cohort",
+                "ref": "",
+                "indicator": "pair_net_cohort"
+            },
+            {
+                "label": "INVALID",
+                "ref": "",
+                "indicator": "invalid"
+            }
+            
+        ]
+    },
+    {
+        "sectionTitle": "Pair-Mother outcomes at 24 months",
+        "indicators": [
+            {
+                "label": "Active pair",
+                "ref": "",
+                "indicator": "mother_baby_pairs_24_months_active"
+            },
+            {
+                "label": "LTFU",
+                "ref": "",
+                "indicator": "ltfu_"
+            },
+            {
+                "label": "DEAD_B",
+                "ref": "",
+                "indicator": "dead_b"
+            },
+            {
+                "label": "DEAD_M",
+                "ref": "",
+                "indicator": "dead_m"
+            }
+            
+        ]
+    },
+    {
+        "sectionTitle": "2.15 Infant Feeding for HIV+ mothers at 12 months",
+        "indicators": [
+            {
+                "label": "EBF at 6 months",
+                "ref": "HV02-53",
+                "indicator": "EBF_at_6_months"
+            },
+            {
+                "label": "ERF at 6 months",
+                "ref": "HV02-54",
+                "indicator": "ERF_at_6_months"
+            },
+            {
+                "label": "MF at 6 months",
+                "ref": "HV02-55",
+                "indicator": "MF_at_6_months"
+            },
+            {
+                "label": "BF at 12 months",
+                "ref": "HV02-56",
+                "indicator": "BF_at_12_months"
+            },
+            {
+                "label": "Not BF at 12 months",
+                "ref": "HV02-57",
+                "indicator": "Not_BF_at_12_months"
+            }
+            
+        ]
+    },
+    {
+        "sectionTitle": "2.15 Infant Feeding for HIV+ mothers at 24 months",
+        "indicators": [
+            {
+                "label": "BF at 18 months",
+                "ref": "HV02-58",
+                "indicator": "BF_at_18_months"
+            },
+            {
+                "label": "Not BF at 18 months",
+                "ref": "HV02-59",
+                "indicator": "Not_BF_at_18_months"
+            }
+            
+        ]
+    },
+    {
+        "sectionTitle": "HIV Status at 24 months",
+        "indicators": [
+            {
+                "label": "IBF at 24 months",
+                "ref": "",
+                "indicator": "dc__status__infected__age_range__24_months__BF"
+            },
+            {
+                "label": "IBFn at 24 months",
+                "ref": "",
+                "indicator": "dc__status__infected__age_range__24_months__Not_BF"
+            },
+            {
+                "label": "IBFu at 24 months",
+                "ref": "",
+                "indicator": "dc__status__infected__age_range__24_months__unknown"
+            },
+            {
+                "label": "UBF at 24 months",
+                "ref": "",
+                "indicator": "dc__status__uninfected__age_range__24_months__BF"
+            },
+            {
+                "label": "UBFn at 24 months",
+                "ref": "",
+                "indicator": "dc__status__uninfected__age_range__24_months__Not_BF"
+            },
+            {
+                "label": "UBFu at 24 months",
+                "ref": "",
+                "indicator": "dc__status__uninfected__age_range__24_months__unknown"
+            }
+            
+        ]
+    }
+    
+]

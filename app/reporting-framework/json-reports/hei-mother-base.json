@@ -1,0 +1,122 @@
+{
+    "name": "heiMotherBase",
+    "version": "1.0",
+    "tag": "hei_mother_base",
+    "description": "",
+    "uses": [],
+    "sources": [
+        {
+            "table": "etl.flat_hiv_summary_v15b",
+            "alias": "fhs"
+        },
+        {
+            "table": "amrs.location",
+            "alias": "l",
+            "join": {
+                "type": "inner",
+                "joinCondition": "fhs.location_id = l.location_id"
+                
+            }
+        }
+    ],
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias":"person_id",
+            "column":"fhs.person_id"
+        },
+        {
+            "type": "simple_column",
+            "alias":"location",
+            "column":"l.name"
+        },
+        {
+            "type": "simple_column",
+            "alias":"location_uuid",
+            "column":"l.uuid"
+        },
+        {
+            "type": "simple_column",
+            "alias":"location_id",
+            "column":"fhs.location_id"
+        },
+        {
+            "type": "simple_column",
+            "alias":"reporting_month",
+            "column":"DATE_FORMAT(fhs.encounter_datetime,'%Y-%m')"
+        },
+        {
+            "type": "simple_column",
+            "alias":"month",
+            "column":"DATE_FORMAT(fhs.encounter_datetime,'%Y-%m')"
+        },
+        {
+            "type": "derived_column",
+            "alias": "known_positive_first_anc",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(DATE(fhs.enrollment_date) < DATE(fhs.encounter_datetime),1,null)"
+            }
+            
+            
+        },
+        {
+            "type": "derived_column",
+            "alias": "positive_results_anc",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(DATE(fhs.enrollment_date) >= DATE(fhs.encounter_datetime),1,null)"
+            }
+            
+            
+        },
+        {
+            "type": "derived_column",
+            "alias": "on_haart_first_anc",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(DATE(fhs.arv_start_date) < DATE(fhs.encounter_datetime),1,null)"
+            }
+            
+            
+        },
+        {
+            "type": "derived_column",
+            "alias": "start_haart_anc",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(DATE(fhs.arv_start_date) >= DATE(fhs.encounter_datetime),1,null)"
+            }
+            
+            
+        }
+    ],
+    "filters": {
+        "conditionJoinOperator": "and",
+        "conditions": [
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "DATE(fhs.encounter_datetime) <= ?",
+                "parameterName": "endDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "DATE(fhs.encounter_datetime) >= ?",
+                "parameterName": "startDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fhs.location_id in (?)",
+                "parameterName": "locations"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fhs.prev_anc_visit_date IS NULL"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fhs.anc_visit_date IS NOT NULL"
+            }
+        ]
+    }
+}

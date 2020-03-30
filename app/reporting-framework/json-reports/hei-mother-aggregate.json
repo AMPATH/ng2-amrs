@@ -1,0 +1,104 @@
+{
+    "name": "heiMotherAggregate",
+    "version": "1.0",
+    "tag": "",
+    "description": "",
+    "uses": [
+        {
+            "name": "heiMotherBase",
+            "version": "1.0",
+            "type": "dataset_def"
+        }
+    ],
+    "sources": [
+        {
+            "dataSet": "heiMotherBase",
+            "alias": "hmds"
+        }
+    ],
+    "columns": [
+
+        {
+            "type": "simple_column",
+            "alias":"reporting_month",
+            "column":"hmds.reporting_month"
+        },
+        {
+            "type": "simple_column",
+            "alias":"location",
+            "column":"hmds.location"
+        },
+        {
+            "type": "simple_column",
+            "alias":"location_id",
+            "column":"hmds.location_id"
+        },
+        {
+            "type": "simple_column",
+            "alias":"location_uuid",
+            "column":"hmds.location_uuid"
+        },
+        {
+            "type": "derived_column",
+             "alias":"known_positive_first_anc",
+             "expressionType": "simple_expression",
+             "expressionOptions": {
+                "expression":"COUNT(hmds.known_positive_first_anc)"
+                }
+        },
+        {
+            "type": "derived_column",
+             "alias":"positive_results_anc",
+             "expressionType": "simple_expression",
+             "expressionOptions": {
+                "expression":"COUNT(hmds.positive_results_anc)"
+                }
+        },
+        {
+            "type": "derived_column",
+             "alias":"on_haart_first_anc",
+             "expressionType": "simple_expression",
+             "expressionOptions": {
+                "expression":"COUNT(hmds.on_haart_first_anc)"
+                }
+        },
+        {
+            "type": "derived_column",
+             "alias":"start_haart_anc",
+             "expressionType": "simple_expression",
+             "expressionOptions": {
+                "expression":"COUNT(hmds.start_haart_anc)"
+                }
+        }
+    ],
+    "groupBy": {
+        "groupParam": "groupByParam",
+        "columns": [
+            "hmds.reporting_month",
+            "hmds.location_id"
+        ],
+        "excludeParam": "excludeParam"
+    },
+    "transFormDirectives": {
+        "joinColumn": "location_id",
+        "skipColumns": [
+        ],
+        "disaggregationColumns": [
+        ]
+    },
+   "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+        "useTemplate": "hei-report-patient-list-template",
+        "useTemplateVersion": "1.0",
+        "generatingDirectives": {
+            "joinDirectives": {
+                "joinType": "INNER",
+                "joinCondition": "<<base_column>> = <<template_column>>",
+                "baseColumn": "person_id",
+                "templateColumn": "person_id"
+            }
+        },
+        "skipParams": []
+    }
+}
+}

@@ -1,0 +1,119 @@
+{
+    "name": "heiInfantFeedingAggregate",
+    "version": "1.0",
+    "tag": "",
+    "description": "",
+    "uses": [
+        {
+            "name": "heiInfantFeedingBase",
+            "version": "1.0",
+            "type": "dataset_def"
+        }
+    ],
+    "sources": [
+        {
+            "dataSet": "heiInfantFeedingBase",
+            "alias": "hmds"
+        }
+    ],
+    "columns": [
+
+        {
+            "type": "simple_column",
+            "alias":"reporting_month",
+            "column":"hmds.reporting_month"
+        },
+        {
+            "type": "simple_column",
+            "alias":"location",
+            "column":"hmds.location"
+        },
+        {
+            "type": "simple_column",
+            "alias":"location_uuid",
+            "column":"hmds.location_uuid"
+        },
+        {
+            "type": "simple_column",
+            "alias":"location_id",
+            "column":"hmds.location_id"
+        },
+        {
+            "type": "simple_column",
+            "alias":"age_range",
+            "column":"hmds.age_range"
+        },
+        {
+            "type": "derived_column",
+             "alias":"Not_BF",
+             "expressionType": "simple_expression",
+             "expressionOptions": {
+                "expression":"sum(hmds.Not_BF)"
+                }
+        },
+        {
+            "type": "derived_column",
+             "alias":"MF",
+             "expressionType": "simple_expression",
+             "expressionOptions": {
+                "expression":"sum(hmds.MF)"
+                }
+        },
+        {
+            "type": "derived_column",
+             "alias":"ERF",
+             "expressionType": "simple_expression",
+             "expressionOptions": {
+                "expression":"sum(hmds.ERF)"
+                }
+        },
+        {
+            "type": "derived_column",
+             "alias":"BF",
+             "expressionType": "simple_expression",
+             "expressionOptions": {
+                "expression":"sum(hmds.BF)"
+                }
+        },
+        {
+            "type": "simple_column",
+            "alias":"status",
+            "column":"hmds.status"
+        }
+      
+    ],
+    "groupBy": {
+        "groupParam": "groupByParam",
+        "columns": [
+            "hmds.reporting_month",
+            "hmds.location",
+            "hmds.status",
+            "hmds.age_range"
+        ],
+        "excludeParam": "excludeParam"
+    },
+    "transFormDirectives": {
+        "joinColumn": "location_id",
+        "skipColumns": [
+        ],
+        "disaggregationColumns": [
+            "status",
+            "age_range"
+        ]
+    },
+   "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+        "useTemplate": "hei-report-patient-list-template",
+        "useTemplateVersion": "1.0",
+        "generatingDirectives": {
+            "joinDirectives": {
+                "joinType": "INNER",
+                "joinCondition": "<<base_column>> = <<template_column>>",
+                "baseColumn": "person_id",
+                "templateColumn": "person_id"
+            }
+        },
+        "skipParams": []
+    }
+}
+}

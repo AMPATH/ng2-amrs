@@ -1,0 +1,129 @@
+{
+    "name": "heiInfantFeedingNoDisaggregationAggregate",
+    "version": "1.0",
+    "tag": "",
+    "description": "",
+    "uses": [
+        {
+            "name": "heiInfantFeedingNoDisaggregationBase",
+            "version": "1.0",
+            "type": "dataset_def"
+        }
+    ],
+    "sources": [
+        {
+            "dataSet": "heiInfantFeedingNoDisaggregationBase",
+            "alias": "hmds"
+        }
+    ],
+    "columns": [
+
+        {
+            "type": "simple_column",
+            "alias":"reporting_month",
+            "column":"hmds.reporting_month"
+        },
+        {
+            "type": "simple_column",
+            "alias":"location",
+            "column":"hmds.location"
+        },
+        {
+            "type": "simple_column",
+            "alias":"location_uuid",
+            "column":"hmds.location_uuid"
+        },
+        {
+            "type": "simple_column",
+            "alias":"location_id",
+            "column":"hmds.location_id"
+        },
+        {
+            "type": "derived_column",
+             "alias":"EBF_at_6_months",
+             "expressionType": "simple_expression",
+             "expressionOptions": {
+                "expression":"sum(hmds.EBF_at_6_months)"
+                }
+        },
+        {
+            "type": "derived_column",
+             "alias":"ERF_at_6_months",
+             "expressionType": "simple_expression",
+             "expressionOptions": {
+                "expression":"sum(hmds.ERF_at_6_months)"
+                }
+        },
+        {
+            "type": "derived_column",
+             "alias":"MF_at_6_months",
+             "expressionType": "simple_expression",
+             "expressionOptions": {
+                "expression":"sum(hmds.MF_at_6_months)"
+                }
+        },
+        {
+            "type": "derived_column",
+             "alias":"BF_at_12_months",
+             "expressionType": "simple_expression",
+             "expressionOptions": {
+                "expression":"sum(hmds.BF_at_12_months)"
+                }
+        },
+        {
+            "type": "derived_column",
+             "alias":"Not_BF_at_12_months",
+             "expressionType": "simple_expression",
+             "expressionOptions": {
+                "expression":"sum(hmds.Not_BF_at_12_months)"
+                }
+        },
+        {
+            "type": "derived_column",
+             "alias":"BF_at_18_months",
+             "expressionType": "simple_expression",
+             "expressionOptions": {
+                "expression":"sum(hmds.BF_at_18_months)"
+                }
+        },
+        {
+            "type": "derived_column",
+             "alias":"Not_BF_at_18_months",
+             "expressionType": "simple_expression",
+             "expressionOptions": {
+                "expression":"sum(hmds.Not_BF_at_18_months)"
+                }
+        }
+      
+    ],
+    "groupBy": {
+        "groupParam": "groupByParam",
+        "columns": [
+            "hmds.reporting_month",
+            "hmds.location_id"
+        ],
+        "excludeParam": "excludeParam"
+    },
+    "transFormDirectives": {
+        "joinColumn": "location_id",
+        "skipColumns": [
+        ],
+        "disaggregationColumns": [
+        ]
+    },
+   "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+        "useTemplate": "hei-report-patient-list-template",
+        "useTemplateVersion": "1.0",
+        "generatingDirectives": {
+            "joinDirectives": {
+                "joinType": "INNER",
+                "joinCondition": "<<base_column>> = <<template_column>>",
+                "baseColumn": "person_id",
+                "templateColumn": "person_id"
+            }
+        },
+        "skipParams": []
+    }
+}
+}

@@ -1,0 +1,120 @@
+{
+    "name": "heiRetentionPairsAggregate",
+    "version": "1.0",
+    "tag": "",
+    "description": "",
+    "uses": [
+        {
+            "name": "heiRetentionPairsBase",
+            "version": "1.0",
+            "type": "dataset_def"
+        }
+    ],
+    "sources": [
+        {
+            "dataSet": "heiRetentionPairsBase",
+            "alias": "hmds"
+        }
+    ],
+    "columns": [
+
+        {
+            "type": "simple_column",
+            "alias":"reporting_month",
+            "column":"hmds.reporting_month"
+        },
+        {
+            "type": "simple_column",
+            "alias":"location",
+            "column":"hmds.location"
+        },
+        {
+            "type": "simple_column",
+            "alias":"location_id",
+            "column":"hmds.location_id"
+        },
+        {
+            "type": "simple_column",
+            "alias":"location_uuid",
+            "column":"hmds.location_uuid"
+        },
+        {
+            "type": "derived_column",
+             "alias":"mother_baby_pairs_24_months_active",
+             "expressionType": "simple_expression",
+             "expressionOptions": {
+                "expression":"COUNT(hmds.mother_baby_pairs_24_months_active)"
+                }
+        },
+        {
+            "type": "derived_column",
+             "alias":"dead_b",
+             "expressionType": "simple_expression",
+             "expressionOptions": {
+                "expression":"COUNT(hmds.dead_b)"
+                }
+        },
+        {
+            "type": "derived_column",
+             "alias":"dead_m",
+             "expressionType": "simple_expression",
+             "expressionOptions": {
+                "expression":"COUNT(hmds.dead_m)"
+                }
+        },
+        {
+            "type": "derived_column",
+             "alias":"invalid",
+             "expressionType": "simple_expression",
+             "expressionOptions": {
+                "expression":"COUNT(hmds.invalid)"
+                }
+        },
+        {
+            "type": "derived_column",
+             "alias":"ltfu_",
+             "expressionType": "simple_expression",
+             "expressionOptions": {
+                "expression":"COUNT(hmds.ltfu_)"
+                }
+        },
+        {
+            "type": "derived_column",
+             "alias":"transfer_in_",
+             "expressionType": "simple_expression",
+             "expressionOptions": {
+                "expression":"COUNT(hmds.transfer_in_)"
+                }
+        }
+    ],
+    "groupBy": {
+        "groupParam": "groupByParam",
+        "columns": [
+            "hmds.reporting_month",
+            "hmds.location_id"
+        ],
+        "excludeParam": "excludeParam"
+    },
+    "transFormDirectives": {
+        "joinColumn": "location_id",
+        "skipColumns": [
+        ],
+        "disaggregationColumns": [
+        ]
+    },
+   "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+        "useTemplate": "hei-report-patient-list-template",
+        "useTemplateVersion": "1.0",
+        "generatingDirectives": {
+            "joinDirectives": {
+                "joinType": "INNER",
+                "joinCondition": "<<base_column>> = <<template_column>>",
+                "baseColumn": "person_id",
+                "templateColumn": "person_id"
+            }
+        },
+        "skipParams": []
+    }
+}
+}
