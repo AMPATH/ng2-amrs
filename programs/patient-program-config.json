@@ -2067,7 +2067,6 @@
       {
         "uuid": "9bf3fadd-4938-40fa-a093-4e01bf197876",
         "name": "Differentiated Care Facility Visit ",
-        "allowedIf": "programLocation === intendedVisitLocationUuid && !qualifiesForStandardVisit",
         "message": "Patient has to be in the location he enrolled into the HIV Care and Treatment program ",
         "encounterTypes": [
           {
