@@ -34,8 +34,7 @@ export class OncologyProgramSnapshotComponent implements OnInit, OnDestroy {
 
   constructor(
     private oncologySummary: OncologySummaryResourceService,
-    private locationResourceService: LocationResourceService,
-    private integratedProgramSnapshot: OncologySummaryResourceService) {
+    private locationResourceService: LocationResourceService) {
   }
 
   public ngOnInit(): void {
@@ -102,35 +101,43 @@ export class OncologyProgramSnapshotComponent implements OnInit, OnDestroy {
 
   private translateConcept(conceptId): string {
     const conceptMap = {
-      '115': 'MASTITIS',
-      '582': 'MASS, OTHER',
-      '1067': 'UNKNOWN',
-      '1115': 'NORMAL',
-      '1116': 'ABNORMAL',
-      '1118': 'NOT DONE',
-      '1481': 'ABSCESS, BREAST',
-      '5245': 'PALLOR',
-      '5313': 'MUSCLE TENDERNESS',
-      '5622': 'OTHER, NON-CODED',
-      '6250': 'BREAST LUMPS',
-      '6493': 'NIPPLE DISCHARGE',
-      '6497': 'DYSFUNCTIONAL UTERINE BLEEDING',
-      '6499': 'BREAST SKIN CHANGES',
-      '6729': 'BREAST ENGORGEMENT',
-      '7293': 'ULCER',
-      '7469': 'ACETOWHITE LESION',
-      '7470': 'PUNCTUATED CAPPILARIES',
-      '7472': 'ATYPICAL BLOOD VESSELS',
-      '8188': 'CALOR',
-      '8189': 'PEAU D\'ORANGE',
-      '9591': 'OYSTERWHITE LESION',
-      '9592': 'BRIGHT WHITE LESION',
-      '9593': 'FRIABLE TISSUE',
-      '9687': 'SKIN EDEMA',
-      '9688': 'NIPPLE AREOLAR CHANGE',
-      '9689': 'FINE NODULARITY',
-      '9690': 'DENSE NODULARITY',
-      '9691': 'BENIGN'
+      '109': 'Wound, septic',
+      '115': 'Mastitis',
+      '582': 'Mass, other',
+      '664': 'Negative',
+      '703': 'Positive',
+      '1067': 'Unknown',
+      '1115': 'Normal',
+      '1116': 'Abnormal',
+      '1118': 'Not done',
+      '1481': 'Abscess, breast',
+      '5245': 'Pallor',
+      '5313': 'Muscle tenderness',
+      '5622': 'Other, non-coded',
+      '6249': 'Cracked nipple',
+      '6250': 'Breast lumps',
+      '6493': 'Nipple discharge',
+      '6497': 'Dysfunctional uterine bleeding',
+      '6499': 'Breast skin changes',
+      '6729': 'Breast engorgement',
+      '7293': 'Ulcer',
+      '7469': 'Acetowhite lesion',
+      '7470': 'Punctuated capillaries',
+      '7472': 'Atypical blood vessels',
+      '8188': 'Calor',
+      '8189': 'Peau D\'Orange',
+      '9591': 'Oysterwhite lesion',
+      '9592': 'Bright white lesion',
+      '9593': 'Friable tissue',
+      '9687': 'Skin edema',
+      '9688': 'Nipple areolar change',
+      '9689': 'Fine nodularity',
+      '9690': 'Dense nodularity',
+      '9691': 'Benign',
+      '10945': 'Retracted nipple associated with childbirth',
+      '10946': 'Mastitis, associated with childbirth',
+      '10948': 'Caeserean wound disruption',
+      '10949': 'Surgical wound healed'
     };
 
     return conceptMap[conceptId];
@@ -165,7 +172,7 @@ export class OncologyProgramSnapshotComponent implements OnInit, OnDestroy {
   private loadScreeningAndDiagnosisData(patientUuid: any): any {
     this.hasData = false;
     this.hasError = false;
-    this.integratedProgramSnapshot.getIntegratedProgramSnapshot(patientUuid)
+    this.oncologySummary.getIntegratedProgramSnapshot(patientUuid)
       .subscribe((screeningSummary) => {
         this.loadingSummary = false;
         this.hasLoadedData = true;

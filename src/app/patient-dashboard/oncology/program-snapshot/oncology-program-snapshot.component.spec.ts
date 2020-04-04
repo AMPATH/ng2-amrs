@@ -15,6 +15,9 @@ import { LocationResourceService } from '../../../openmrs-api/location-resource.
 import { OncologySummaryResourceService } from '../../../etl-api/oncology-summary-resource.service';
 import { Patient } from '../../../models/patient.model';
 
+const generalOncologyProgramUuid = '725b5193-3452-43fc-aca3-6a80432d9bfa';
+const oncologyScreeningAndDiagnosisProgramUuid = '37ff4124-91fd-49e6-8261-057ccfb4fcd0';
+
 const patient = new Patient({
   allIdentifiers: '297400783-9',
   commonIdentifiers: {
@@ -54,6 +57,66 @@ const patient = new Patient({
     uuid: '7ce98cb8-9785-4467-91cc-64afa2d59763'
   },
   uuid: '7ce98cb8-9785-4467-91cc-64afa2d59763'
+});
+
+const screeningPatient = new Patient({
+  allIdentifiers: '210120721-5',
+  commonIdentifiers: {
+    ampathMrsUId: '2210120721-5',
+    amrsMrn: '',
+    cCC: '',
+    kenyaNationalId: ''
+  },
+  display: '210120721-5 - Test Screening Patient',
+  encounter: [
+    {
+      encounterDatetime: '2020-01-02T15:29:08.000+0300',
+      encounterType: {
+        display: 'ONCOLOGY VIA',
+        uuid: '3f01e89d-ad00-426d-b553-a527443616d4'
+      },
+      form: {
+        uuid: '9cf7f7f3-94ac-4829-8de0-53a33b35c29a',
+        name: 'ONCOLOGY POC VIA Form v1.1'
+      },
+      location: {
+        display: 'Location Test',
+        uuid: '18c343eb-b353-462a-9139-b16606e6b6c2'
+      },
+      patient: {
+        uuid: '138484eb-5c60-4c54-a08a-5671b2a168a8'
+      }
+    },
+    {
+      encounterDatetime: '2020-01-02T15:29:08.000+0300',
+      encounterType: {
+        uuid: 'e856b2ac-fe35-41d6-a9aa-2b2679092763',
+        display: 'BREASTCANCERSCREENING'
+      },
+      form: {
+        uuid: '077c6358-983c-4b7c-bb51-bae56a304f8a',
+        name:
+          'ONCOLOGY POC Breast Cancer Screening Form (FOR MASS SCREENING) V1.4'
+      },
+      location: {
+        display: 'Location Test',
+        uuid: '18c343eb-b353-462a-9139-b16606e6b6c2'
+      },
+      patient: {
+        uuid: '138484eb-5c60-4c54-a08a-5671b2a168a8'
+      }
+    }
+  ],
+  person: {
+    age: 43,
+    dead: false,
+    deathDate: null,
+    display: 'Test Screening Patient',
+    gender: 'F',
+    healthCenter: '',
+    uuid: '88624645-7b07-4d30-94a5-b42fa7b40096'
+  },
+  uuid: '88624645-7b07-4d30-94a5-b42fa7b40096'
 });
 
 const mockSummaryData = [
@@ -109,6 +172,32 @@ const mockSummaryData = [
   }
 ];
 
+const mockIntegratedSummaryData = [
+  {
+    encounter_id: 6731943,
+    encounter_datetime: '2020-01-02T12:31:51.000Z',
+    encounter_type_name: 'BREASTCANCERSCREENING',
+    visit_name: 'Breast Cancer Screening',
+    location: 'MTRH Oncology',
+    breast_exam_findings: 1115,
+    prior_via_test_result: null,
+    via_test_result: null,
+    hiv_status: 664,
+  },
+  {
+    encounter_id: 1354963,
+    encounter_datetime: '2020-01-02T12:29:12.000Z',
+    encounter_type_name: 'ONCOLOGYVIA',
+    visit_name: 'Cervical Cancer Screening',
+    location: 'MTRH Oncology',
+    breast_exam_findings: null,
+    prior_via_test_result: 703,
+    prior_via_test_result_date: '2019-05-05T00:00:00.000Z',
+    via_test_result: 6497,
+    hiv_status: 664,
+  },
+];
+
 const mockLocationObj = {
   name: 'Location Test',
   uuid: '18c343eb-b353-462a-9139-b16606e6b6c2'
@@ -117,6 +206,9 @@ const mockLocationObj = {
 const oncologySummaryServiceStub = {
   getOncologySummary: () => {
     return of(mockSummaryData);
+  },
+  getIntegratedProgramSnapshot: () => {
+    return of(mockIntegratedSummaryData);
   }
 };
 
@@ -173,8 +265,7 @@ describe('Component: OncologyProgramSnapshotComponent', () => {
     component = fixture.componentInstance;
     debugElement = fixture.debugElement;
     nativeElement = debugElement.nativeElement;
-    component.programUuid = '725b5193-3452-43fc-aca3-6a80432d9bfa';
-    component.patientUuid = '7ce98cb8-9785-4467-91cc-64afa2d59763';
+    component.programUuid = generalOncologyProgramUuid;
     component.patient = patient;
   });
 
@@ -215,6 +306,37 @@ describe('Component: OncologyProgramSnapshotComponent', () => {
       expect(snapshot.textContent).toContain(mockSummaryData[0].chemotherapy_plan, 'Previous chemotherapy');
       expect(snapshot.textContent).toContain('RTC Date: ');
       expect(snapshot.textContent).toContain(mockSummaryData[0].rtc_date, 'RTC Date');
+    });
+  }));
+
+  it('renders the integrated summary snapshot for screening and diagnosis program patients', async (() => {
+    component.programUuid = oncologyScreeningAndDiagnosisProgramUuid;
+    component.patientUuid = screeningPatient.uuid;
+    fixture.detectChanges();
+    expect(component.summaryData).not.toBeDefined('No summary');
+
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      expect(component.hasLoadedData).toBe(true);
+      expect(component.loadingSummary).toBe(false);
+      expect(component.isIntegratedProgram).toBe(true);
+      expect(component.hasData).toBe(true);
+      expect(component.hasError).toBe(false);
+      expect(component.summaryData).toBeDefined();
+      const snapshot = <HTMLElement>nativeElement.querySelector('.snapshot-body');
+      expect(snapshot.textContent).toContain('Visit: Breast Cancer Screening');
+      expect(snapshot.textContent).toContain('Encounter: BREASTCANCERSCREENING');
+      expect(snapshot.textContent).toContain('Date: January 2, 2020');
+      expect(snapshot.textContent).toContain('Location: MTRH Oncology');
+      expect(snapshot.textContent).toContain('Breast screening findings: Normal');
+      expect(snapshot.textContent).toContain('HIV status: Negative');
+      expect(snapshot.textContent).toContain('Visit: Cervical Cancer Screening');
+      expect(snapshot.textContent).toContain('Encounter: ONCOLOGYVIA');
+      expect(snapshot.textContent).toContain('Date: January 2, 2020');
+      expect(snapshot.textContent).toContain('Location: MTRH Oncology');
+      expect(snapshot.textContent).toContain('Last VIA test result: Positive');
+      expect(snapshot.textContent).toContain('Date of last VIA test: May 5, 2019');
+      expect(snapshot.textContent).toContain('HIV status: Negative');
     });
   }));
 });
