@@ -3,25 +3,43 @@
 		<div class="patient-search">
 			<div clas="row">
 				<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-							<h2>{{title}}</h2>
+						<h2>{{title}}</h2>
 				</div>
 			</div>
 			<div class="row">
 				<div class="container-fluid">
 					<form class="form-horizontal">
-						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-							<div class="input-group">
+						<div class="col-lg-12 col-md-12 col-sm-12">
+							<div class="input-group hidden-xs">
 								<input type="text" id="search-textbox" autocomplete="off" class="form-control input-lg search-texbox" [(ngModel)]="searchString" [ngModelOptions]="{standalone: true}"
 											(ngModelChange)="updatePatientCount($event)" placeholder="Enter the Patient Name or Identifier" autofocus="true">
-								<span class="input-group-btn">
+											
+								<div class="input-group-btn">
 									<button [disabled]="isLoading" class="btn btn-primary btn-lg search_btn" (click)="loadPatient()">
-										<span><i class="glyphicon glyphicon-search"></i>Search</span>
+										<span><i class="glyphicon glyphicon-search"></i> <span>Search</span></span>
 										<i *ngIf="isLoading" class="fa fa-spinner fa-spin fa-1x fa-fw"></i>
 									</button>
 									<button [disabled]="!isResetButton" class="btn btn-danger btn-lg reset_btn" (click)="resetSearchList()">
-										<i class="fa fa-trash fa-fw"></i> Reset
+										<i class="fa fa-trash fa-fw"></i> <span>Reset</span>
 									</button>
-								</span>
+								</div>
+							</div>
+							<div class="visible-xs-* hidden-sm hidden-md hidden-lg">
+								<input type="text" id="search-textbox" autocomplete="off" class="form-control input-lg search-texbox" [(ngModel)]="searchString" [ngModelOptions]="{standalone: true}"
+											(ngModelChange)="updatePatientCount($event)" placeholder="Enter the Patient Name or Identifier" autofocus="true">
+								<br/>		
+								<div class="input-group-btn pl-right">
+									<button [disabled]="isLoading" class="btn btn-primary btn-lg search_btn" style="margin-left: 0px;" (click)="loadPatient()">
+										<span><i class="glyphicon glyphicon-search"></i></span>
+										<i *ngIf="isLoading" class="fa fa-spinner fa-spin fa-1x fa-fw"></i>
+									</button>
+									<button [disabled]="!isResetButton" class="btn btn-danger btn-lg reset_btn" (click)="resetSearchList()">
+										<i class="fa fa-trash fa-fw"></i>
+									</button>
+									<span *ngIf="!hideRegistration" class="badge pull-right" style="background-color: whitesmoke !important; padding: 15px; font-size: 16px;">
+										<a routerLink="patient-registration">New Patient</a>
+									</span>
+								</div>
 							</div>
 						</div>
 					</form>
@@ -82,13 +100,15 @@
 				</div>
 			</div>
 		</div>
-		<div clas="row" *ngIf="!hideRegistration" >
-			<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-				<span class="badge" style="background-color: whitesmoke !important; padding: 10px; font-size: 16px;">
-					<a routerLink="patient-registration"><span class="glyphicon glyphicon-user"></span> Register New Patient</a>
-				</span>
+		<div class="hidden-xs">
+			<div clas="row" *ngIf="!hideRegistration" >
+				<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+					<span class="badge" style="background-color: whitesmoke !important; padding: 10px; font-size: 16px;">
+						<a routerLink="patient-registration"><span class="glyphicon glyphicon-user"></span> Register New Patient</a>
+					</span>
+				</div>
+				<div class="clear">&nbsp;</div>
 			</div>
-      <div class="clear">&nbsp;</div>
 		</div>
 	</div>
 </div>
