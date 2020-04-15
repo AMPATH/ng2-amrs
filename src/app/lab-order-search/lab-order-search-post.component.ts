@@ -244,11 +244,13 @@ public ngOnInit() {
       const artStartDateInitial = this.hivSummary.arv_first_regimen_start_date;
       const artStartDateCurrent = this.hivSummary.arv_start_date;
       const currentArtRegimenId = this.hivSummary.cur_arv_meds_id;
+      const isPregnant = this.hivSummary.is_pregnant;
+      const breastfeeding = 0;
 
       payload =
         this.labOrdersSearchHelperService.createViralLoadPayload(order, obs, locationUuid,
           patientIdentifier, patientName, gender, birthdate, this.dateReceived,
-          artStartDateInitial, artStartDateCurrent, this.selectedSampleType, currentArtRegimenId);
+          artStartDateInitial, artStartDateCurrent, this.selectedSampleType, currentArtRegimenId, isPregnant, breastfeeding);
     }
 
     if (this.orderType.type === 'CD4') {

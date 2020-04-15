@@ -86,6 +86,12 @@
 							<span *ngIf="hivSummary.cur_arv_meds !== null">{{hivSummary?.cur_arv_meds}}</span>
 						</td>
 					</tr>
+					<tr>
+						<td>Pregnant</td>
+						<td>
+							<span *ngIf="hivSummary.cur_arv_meds !== null">{{ (hivSummary?.is_pregnant) === 1 ? 'Yes' : 'No' }}</span>
+						</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>
