@@ -103,10 +103,7 @@ function getPatientOncologyDiagnosis(request) {
     ],
     joins: [["amrs.person", "t2", "t2.person_id = t1.person_id"]],
     table: "etl.flat_onc_patient_history",
-    where: [
-      "t2.uuid = ?",
-      patientUuid
-    ],
+    where: ["t2.uuid = ?", patientUuid],
     offset: request.startIndex,
     limit: request.limit
   };
@@ -118,10 +115,10 @@ function getOncologyIntegratedProgramSnapshot(request) {
   let patientUuid = request.uuid;
   let queryParts = {
     columns:
-      "t1.encounter_id, DATE_FORMAT(t1.encounter_datetime,'%d%-%m%-%Y') as encounter_datetime, REPLACE(t3.name, 'Oncology ', '') AS `visit_name`, t5.name AS location, t6.breast_exam_findings, t6.via_test_result",
+      "t1.encounter_id, t1.encounter_datetime, t6.encounter_type_name, REPLACE(t3.name, 'Oncology ', '') AS `visit_name`, t5.name AS location, t6.breast_exam_findings, t6.via_test_result, t6.hiv_status, t6.prior_via_test_result, t6.prior_via_test_result_date",
     order: [
       {
-        column: "encounter_id",
+        column: "encounter_datetime",
         asc: false
       }
     ],
@@ -131,7 +128,11 @@ function getOncologyIntegratedProgramSnapshot(request) {
       ["amrs.visit_type", "t3", "t3.visit_type_id = t2.visit_type_id"],
       ["amrs.person", "t4", "t4.person_id = t1.patient_id"],
       ["amrs.location", "t5", "t5.location_id = t1.location_id"],
-      ["etl.flat_onc_patient_history", "t6", "t6.encounter_id = t1.encounter_id"]
+      [
+        "etl.flat_onc_patient_history",
+        "t6",
+        "t6.encounter_id = t1.encounter_id"
+      ]
     ],
     table: "amrs.encounter",
     where: [
