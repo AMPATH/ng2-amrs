@@ -10,7 +10,7 @@
       <h4 class="component-title">Last Encounter</h4>
       <div class="col-md-12">
         <div class="full-width" *ngIf="latestEncounterLocation">
-          <p>Location: 
+          <p>Location:
             <span>{{ latestEncounterLocation?.name }}</span>
           </p>
         </div>
@@ -29,7 +29,7 @@
           </div>
           <div class="col-md-12">
             <div class="col-md-6 col-xs-12" *ngIf="summaryData.cancer_type || summaryData.cancer_type">
-              <p>Diagnosis: 
+              <p>Diagnosis:
                 <span *ngIf="summaryData.cancer_type">{{ summaryData.cancer_type }}</span>
                 <span *ngIf="summaryData.cancer_subtype"> - {{ summaryData.cancer_subtype }}</span>
               </p>
@@ -81,16 +81,26 @@
     </div>
   </div>
   <div *ngIf="isIntegratedProgram && !hasError">
-    <ng-container *ngFor="let row of summaryData">
+    <div class="snapshot-summary">
       <div class="col-md-12">
-        <p>Type of Screening: {{ row.visit_name }}</p>
-        <p>Date: {{ row.encounter_datetime }}</p>
-        <p>Location: {{ row.location }}</p>
-        <p *ngIf="row.breast_exam_findings">Breast Screening Findings: {{ translateConcept(row.breast_exam_findings) }}</p>
-        <p *ngIf="row.via_test_result">Cervical Screening Findings: {{ translateConcept(row.via_test_result) }}</p>
+        <div class="snapshot-body">
+          <ng-container *ngFor="let row of summaryData">
+            <div class="col-md-12">
+              <p>Visit: {{ row.visit_name }}</p>
+              <p>Date: {{ row.encounter_datetime | date: 'longDate' }}</p>
+              <p>Encounter: {{ row.encounter_type_name }}</p>
+              <p>Location: {{ row.location }}</p>
+              <p *ngIf="row.breast_exam_findings">Breast screening findings: {{ translateConcept(row.breast_exam_findings) }}</p>
+              <p *ngIf="row.via_test_result">Cervical screening findings this visit: {{ translateConcept(row.via_test_result) }}</p>
+              <p *ngIf="row.prior_via_test_result">Last VIA test result: {{ translateConcept(row.prior_via_test_result) }}</p>
+              <p *ngIf="row.prior_via_test_result_date">Date of last VIA test: {{ row.prior_via_test_result_date | date: 'longDate' }}</p>
+              <p *ngIf="row.hiv_status">HIV status: {{ translateConcept(row.hiv_status) }}</p>
+            </div>
+            <hr class="intro-divider" width="100%">
+          </ng-container>
+        </div>
       </div>
-      <hr class="intro-divider" width="100%">
-    </ng-container>
+    </div>
   </div>
   <div *ngIf="!hasLoadedData && !hasError">
     <p>Loading patient data....</p>
