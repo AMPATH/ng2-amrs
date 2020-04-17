@@ -74,7 +74,7 @@
     "jsbarcode": "^3.9.0",
     "jspdf": "^1.5.3",
     "loader-utils": "^1.2.3",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.13",
     "moment": "2.19.3",
     "ng-busy": "^6.0.0-rc3",
     "ng-select": "^1.0.0-rc.5",
