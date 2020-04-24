@@ -48,9 +48,11 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   public showVisitEncounterDetail = false;
   public loadingEncounter = false;
   public encounterViewed = false;
+  public lastEnrolledEncounter: any = [];
   public lastEnrolledPrograms: any = [];
   private _datePipe: DatePipe;
   private subscriptions: Subscription[] = [];
+  public isReferralCompleted: Boolean = false;
 
   constructor(private patientService: PatientService,
               private patientReferralService: PatientReferralService,
@@ -63,7 +65,6 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   public ngOnInit() {
     this.loadProgramBatch();
   }
-
   public ngOnDestroy(): void {
     this.subscriptions.forEach(element => {
       element.unsubscribe();
@@ -101,8 +102,9 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
     if (!_.isUndefined(program.referred_to_location_uuid)) {
       const patientEncounters = this.patient.encounters;
       const location = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
-      // patient was referred to this location
-      if (location.uuid === program.referred_to_location_uuid) {
+        // patient was referred to this location
+      if (location.uuid === program.referred_to_location_uuid && this.lastEnrolledEncounter !== '02e75e2d-a809-4458-a77e-c1883e897c36' ||
+          this.lastEnrolledEncounter !== '39a7e338-427a-4f95-82bd-e4ff4b65f283') {
         const referralEncounter = _.find(patientEncounters, (encounter) => {
           return encounter.location.uuid === program.referred_from_location_uuid
             && program.encounter_uuid === encounter.uuid;
@@ -215,6 +217,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
         if (patient) {
           this.programsBusy = false;
           this.patient = patient;
+          this.lastEnrolledEncounter = this.getPatientLastEncounter(patient.encounters);
           this.setLastEnrolledPrograms();
           this.enrolledProgrames = _.filter(patient.enrolledPrograms, 'isEnrolled');
           this.checkPatientReferrals();
@@ -247,29 +250,31 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
     }
     this.lastEnrolledPrograms = newArr;
   }
-
   private checkPatientReferrals() {
+    const d = [];
     this.getReferralLocation(this.enrolledProgrames).pipe(take(1)).subscribe((reply: any[]) => {
-      if (_.filter(reply, v => !_.isEmpty(v)).length > 0) {
+      if (_.filter(reply, v => !_.isEmpty(v)).length >= 0) {
         this.fetchPatientProgramVisitConfigs().subscribe((configs) => {
           if (configs) {
             this.allProgramVisitConfigs = configs;
+            // get last enrolled program
+            const lastProgramEnrolled = this.enrolledProgrames[Object.keys(this.enrolledProgrames).length - 1 ];
             _.each(this.enrolledProgrames, (program, index) => {
               const referral = reply[index];
               if (referral) {
                 _.extend(program, referral, {
                   referral_completed: !_.isNil(referral.notification_status)
                 });
-                if (this.patientHasBeenSeenInProgram(program)) {
-                  program.referral_completed = true;
-                  this.updateReferalNotificationStatus(program).pipe(take(1)).subscribe(() => {});
-                }
+                  if (this.patientHasBeenSeenInProgram(program)) {
+                    program.referral_completed = false;
+                    this.updateReferalNotificationStatus(program).pipe(take(1)).subscribe(() => {});
+              }
               }
             });
           }
         }, (error) => {
           this.programsBusy = false;
-          // little importance in communicating this error to the user
+            // little importance in communicating this error to the user
           console.error('Error fetching program configs', error);
         });
       } else {
@@ -277,11 +282,10 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
       }
     }, (err) => {
       console.log(err);
-      // little importance in communicating this error to the user
+        // little importance in communicating this error to the user
       this.programsBusy = false;
     });
   }
-
   private updateReferalNotificationStatus(program) {
     return this.patientReferralService.updateReferalNotificationStatus({
       patient_referral_id: program.patient_referral_id,
@@ -294,4 +298,24 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
     this.hasError = false;
     this.errors = [];
   }
+
+  private getPatientLastEncounter(encounters) {
+    const lD = [];
+    const encounterUuid = [];
+     _.each(encounters, (encounter, index) => {
+        lD.push(new Date(encounter.encounterDatetime).getTime());
+        encounterUuid.push(encounter.uuid);
+    });
+    const sortedDates = lD.sort();
+    const latestDate = sortedDates[sortedDates.length - 1];
+    let lastEncounterUuid = '';
+    _.each(encounters, item => {
+        const d = item.encounterDatetime ;
+        if (new Date(d).getTime() === latestDate) {
+           lastEncounterUuid = item.encounterType.uuid;
+        }
+    });
+    return lastEncounterUuid;
+  }
+
 }

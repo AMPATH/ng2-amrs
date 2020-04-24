@@ -28,6 +28,7 @@ export class ProgramResourceService {
     return this.http.get<any>(url, {
       params: params
     }).pipe(map((response) => {
+      console.log('response', response);
       return this.processPrograms(response.results);
     }));
   }

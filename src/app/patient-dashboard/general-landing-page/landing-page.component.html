@@ -1,5 +1,3 @@
-
-
 <busy *ngIf="programsBusy && !hasError" [message]="'Loading patient care programs...'"></busy>
 <div class="programs" *ngIf="enrolledProgrames.length > 0 && !hasError">
   <h4 class="component-title">Patient Care Program Snapshots
@@ -61,7 +59,7 @@
 </div>
 <div *ngIf="!programsBusy && enrolledProgrames.length === 0 && !hasError">
   <p class="alert alert-info">
-    The patient is not enrolled in any program. 
+    The patient is not enrolled in any program.
     <button class="btn btn-primary pull-right" (click)="loadProgramManager()">Enroll into Program</button>
   </p>
 </div>
@@ -141,4 +139,3 @@
     </div>
   </div>
 </div>
-

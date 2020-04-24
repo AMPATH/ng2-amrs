@@ -70,6 +70,8 @@ export class PatientProgramService {
                 this._datePipe.transform(_enrolledProgram.dateEnrolled, 'dd-MM-yyyy') : null,
               dateCompleted: (!_.isNil(_enrolledProgram) && !_.isNil(_enrolledProgram.dateCompleted))
                 ? this._datePipe.transform(_enrolledProgram.dateCompleted, 'yyyy-MM-dd') : null,
+                dateEnrolledTime: (!_.isNil(_enrolledProgram)) ?
+                  this._datePipe.transform(_enrolledProgram.dateEnrolled, 'yyyy-MM-dd HH:mm:ss') : null,
               validationError: '',
               baseRoute: route ? route.alias : '',
               buttons: {
