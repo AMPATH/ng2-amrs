@@ -44,7 +44,7 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
   public isLoading = false;
   public providerLoading = false;
   public visitDate: string;
-  public visitTime = '04:44:44';
+  public visitTime = '20:44:44';
   public visitTimeState = 0;
   public maxDate: string;
   public provider: any;
