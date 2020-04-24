@@ -1,6 +1,7 @@
 import ReportProcessorHelpersService from "../../app/reporting-framework/report-processor-helpers.service";
 import { SurgeMultiDatasetPatientlistReport } from "./surge-multi-dataset-patientlist.report";
 import { PatientlistMysqlReport } from "../../app/reporting-framework/patientlist-mysql.report";
+import moment from 'moment';
 
 const helpers = require('../../etl-helpers');
 const Promise = require("bluebird");
@@ -16,6 +17,7 @@ export class SurgeService extends SurgeMultiDatasetPatientlistReport {
 
     generateReport(additionalParams) {
         const that = this;
+        that.determineSurgeReportSourceTables(this.params.year_week);
         return new Promise((resolve, reject) => {
             super.generateReport(additionalParams)
                 .then((results) => {
@@ -26,7 +28,6 @@ export class SurgeService extends SurgeMultiDatasetPatientlistReport {
                         let finalResult = []
                         const reportProcessorHelpersService = new ReportProcessorHelpersService();
                         for (let result of results) {
-                            console.log('result', result);
                             if (result.report && result.report.reportSchemas && result.report.reportSchemas.main &&
                                 result.report.reportSchemas.main.transFormDirectives.joinColumn) {
                                 finalResult = reportProcessorHelpersService
@@ -55,6 +56,7 @@ export class SurgeService extends SurgeMultiDatasetPatientlistReport {
 
     getPatientListReport(reportParams) {
         const that = this;
+        reportParams.surgeWeeklyDatasetSource = that.determineSurgeReportSourceTables(reportParams.year_week);
         let indicators = reportParams.indicators ? reportParams.indicators.split(',') : [];
         if (reportParams.locationUuids) {
             let locationUuids = reportParams.locationUuids ? reportParams.locationUuids.split(',') : [];
@@ -84,6 +86,7 @@ export class SurgeService extends SurgeMultiDatasetPatientlistReport {
 
     generatePatientListReport(indicators) {
         let self = this;
+        reportParams.surgeWeeklyDatasetSource = self.determineSurgeReportSourceTables(reportParams.year_week);
         return new Promise((resolve, reject) => {
             super.generatePatientListReport(indicators)
                 .then((results) => {
@@ -118,5 +121,15 @@ export class SurgeService extends SurgeMultiDatasetPatientlistReport {
             return _.includes(schema.indicators, indicator);
         });
         return report ? report.reportName : 'Indicator not found';
+    }
+
+    determineSurgeReportSourceTables(yearWeek) {
+        const self = this;
+
+        if (yearWeek.slice(0, 4) >= moment().year()) {
+            return self.params.surgeWeeklyDatasetSource = "etl.surge_weekly_report_dataset";
+        } else {
+            return self.params.surgeWeeklyDatasetSource = "etl.surge_weekly_report_dataset_frozen";
+        }
     }
 }
