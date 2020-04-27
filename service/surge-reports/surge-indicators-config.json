@@ -70,7 +70,8 @@
                 "med_surge_ltfus_outcomes",
                 "med_surge_ltfu_and_med_ltfu_after_may",
                 "med_defaulters",
-                "newly_med_ltfu_this_week"
+                "newly_med_ltfu_this_week",
+                "all_ltfus"
             ] 
         },
         {

@@ -52,39 +52,29 @@
         "sectionTitle": "Client Disengagements",
         "indicators": [
             {
-                "label": "Original surge LTFU cohort (Surge baseline)",
-                "description": "LTFU cohort during start of surge, patients who were newly LTFUs 2018 october and LTFUs upto may 11th 2019",
-                "indicator": "is_ltfu_surge_baseline"
+                "label": "Cumulative LTFUs (All LTFUs)",
+                "description": "All patients who have missed their rtc more than 28 days",
+                "indicator": "all_ltfus"
             },
             {
-                "label": "Original surge LTFU cohort not yet resolved",
-                "description": "Original surge LTFU cohort that don't have any outcomes yet",
-                "indicator": "surge_ltfu_and_still_ltfu"
-            },
-            {
-                "label": "Cumulative LTFUs after may(patients who became ltfu after may 12th)",
-                "description": "All patients who became LTFUs after start of surge, may 12th 2019 upto now including those with outcomes already",
+                "label": "Cumulative Surge LTFUs (LTFUs as from 30th Sep 2019)",
+                "description": "All patients who became LTFUs as from 30th Sep 2019 including those who have been resolved",
                 "indicator": "is_ltfu_after_may_total"
             },
             {
-                "label": "LTFUs after may not yet resolved",
-                "description": "Patients who became LTFUs after start of surge, may 12th 2019 and don't have any outcomes yet",
+                "label": "Target to bring back this week (LTFUs as from 30th Sep 2019 not yet resolved)",
+                "description": "All patients who became LTFUs as from 30th Sep 2019 and have not been resolved",
                 "indicator": "is_ltfu_after_may"
             },
             {
                 "label": "Cumulative Medication refill LTFUs(Missed medication pickup rtc for more that 28 days)",
-                "description": "All patients who have missed their medication pickup rtc for more that 28 days from october 2018 to now, including those with outcomes already",
+                "description": "All patients who have missed their medication pickup rtc for more that 28 days as from 30th September 2019 to now, including those with outcomes already",
                 "indicator": "med_surge_ltfus_cumulative"
             },
             {
                 "label": "Medication refill LTFUs not yet resolved",
-                "description": "All patients who have missed their medication pickup rtc for more that 28 days from october 2018 to now and have not been resolved yet",
+                "description": "All patients who have missed their medication pickup rtc for more that 28 days as from 30th September 2019 to now and have not been resolved yet",
                 "indicator": "med_surge_ltfu_and_med_ltfu_after_may"
-            },
-            {
-                "label": "Target to bring back this week (Current surge LTFU cohort)",
-                "description": "Original surge LTFU cohort that have not yet been resolved and patients who became LTFUs after may 12th and have not yet been resolved",
-                "indicator": "surge_ltfu_and_ltfu_after_may"
             },
             {
                 "label": "Missed appintments this week (0 - 4 days)",
@@ -189,16 +179,16 @@
         ]
     },
     {
-        "sectionTitle": "LTFU Outcomes (clients lost before october 2018)",
+        "sectionTitle": "LTFU Outcomes (clients lost before october 2019)",
         "indicators": [
             {
                 "label": "Returnees cumulative",
-                "description": "Patients who were LTFU before october 2018 and have returned",
+                "description": "Patients who were LTFU before october 2019 and have returned",
                 "indicator": "old_ltfus_to_active"
             },
             {
                 "label": "Returnees this week",
-                "description": "Patients who were LTFU before october 2018 and have returned this week",
+                "description": "Patients who were LTFU before october 2019 and have returned this week",
                 "indicator": "old_ltfus_to_active_this_week"
             }
         ]
