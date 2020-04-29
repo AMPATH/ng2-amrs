@@ -113,6 +113,8 @@ import { CaseManagementComponent } from './case-management/case-management.compo
 import { CaseManagementFiltersComponent } from './case-management/case-management-filters.component';
 import { CaseManagementPatientListComponent } from './case-management/case-management-patient-list.component';
 
+import { CaseManagementResourceService } from './../etl-api/case-management-resource.service';
+
 
 @NgModule({
   imports: [
@@ -227,6 +229,7 @@ import { CaseManagementPatientListComponent } from './case-management/case-manag
     LocationResourceService,
     ClinicalSummaryVisualizationService,
     RetentionReportResourceService,
+    CaseManagementResourceService,
     ProgramWorkFlowResourceService,
     {
       provide: HighchartsStatic,
