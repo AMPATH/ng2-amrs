@@ -3,7 +3,8 @@ import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 @Injectable()
 export class CaseManagementResourceService {
     constructor(protected http: HttpClient, protected appSettingsService: AppSettingsService,
@@ -43,12 +44,17 @@ export class CaseManagementResourceService {
 
       }
   ];
+    public mockCaseManagerProviders = [{}];
 
     public getUrl(): string {
         return this.appSettingsService.getEtlRestbaseurl().trim()
           + 'case-management';
 
     }
+    public openMrsUrl(): string {
+      return this.appSettingsService.getOpenmrsRestbaseurl().trim();
+
+  }
 
 
     public getUrlRequestParams(params): HttpParams {
@@ -65,5 +71,18 @@ Fetch case management patient list
 */
     public getCaseManagementList(params) {
       return Observable.of(this.mockCaseManagerPatientList);
+    }
+
+    public updateCaseManagers(payload,uuid){
+      if (!payload || !uuid) {
+        return null;
+      }
+      const url = this.openMrsUrl() + '/person/' + uuid;
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      console.log(url);
+      return this.http.post(url, JSON.stringify(payload), {headers}).pipe(
+        map((response: any) => {
+          return response.person;
+        }));
     }
 }

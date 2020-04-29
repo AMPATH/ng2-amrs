@@ -22,10 +22,18 @@ export class CaseManagementPatientListComponent implements OnInit {
   public patientUuid: any;
   public currentManager: any;
   public newManager: any;
+  public caseManagers: any;
   public patientList = [];
+  public errors: any = [];
+  public showSuccessAlert = false;
+  public showErrorAlert = false;
+  public errorAlert: string;
+  public errorTitle: string;
+  public successAlert = '';
   @Input() public rowData = [];
-
   public params: any;
+
+  public subscription: any;
   public busy: Subscription;
   public display = false;
   public gridOptions: GridOptions = {
@@ -138,18 +146,39 @@ export class CaseManagementPatientListComponent implements OnInit {
 
   }
 
-  public followUp() {
-    // Redirect to form with patients
+  public followUp(patientUuid) {
+    this.router.navigate(['/patient-dashboard/patient/' + patientUuid +
+    '/general/general/formentry/6ffdf5c2-922a-4c4d-9349-bc6da6ea9d6c']);
   }
-
+  public getManager() {
+    this.subscription = this.caseManagementResourceService.getCaseManagers(
+        (managers) => {
+            if (managers) {
+                this.caseManagers = managers;
+            }
+        });
+}
   public changeManager(data) {
     this.display = true;
     this.patient = data.patient_name;
     this.patientUuid = data.patient_uuid;
     this.currentManager = data.case_manager;
   }
-  public updateCaseManager() {
-    // TODO: Implement update service
+  public updateCaseManager(multiple: boolean) {
+    const caseManagerPayload = [];
+    if (multiple) {
+
+    } else {
+      caseManagerPayload.push({
+        attributes: [
+            {
+              attributeType: '9a6e12b5-98fe-467a-9541-dab11ad87e45',
+              value: this.newManager.user_uuid
+            }
+        ]
+    });
+    this.caseManagementResourceService.updateCaseManagers(caseManagerPayload, this.patientUuid);
+    }
   }
   public onCellClicked(e) {
     if (e.event.target !== undefined) {
@@ -158,7 +187,7 @@ export class CaseManagementPatientListComponent implements OnInit {
 
         switch (actionType) {
             case 'followup':
-                return this.followUp();
+                return this.followUp(data.patientUuid);
             case 'changemanager':
                 return this.changeManager(data);
         }
@@ -169,11 +198,13 @@ public dismissDialog() {
   this.display = false;
 }
   public buttonRenderer() {
-    return '<div class="button"><span>' +
+    return '<div class="button" style="padding-left:2%"><span>' +
       '<button type="button" data-action-type="followup" class="btn btn-primary btn-sm">Follow Up</button>' +
       '</span>' +
       '<span>' +
-      '<button type="button" data-action-type="changemanager" class="btn btn-default btn-sm">Change Manager</button></span>' +
+      '<button type="button" data-action-type="changemanager" class="btn btn-default btn-sm" style="margin-left:5px;">' +
+      'Change Manager</button>' +
+      '</span>' +
       '</div>';
      }
 }
