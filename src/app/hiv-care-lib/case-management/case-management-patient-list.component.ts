@@ -1,8 +1,11 @@
 
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { Subscription } from 'rxjs';
 import { GridOptions } from 'ag-grid';
+
+import { CaseManagementResourceService } from './../../etl-api/case-management-resource.service';
 
 
 @Component({
@@ -118,7 +121,9 @@ export class CaseManagementPatientListComponent implements OnInit {
   ];
 
 
-  constructor() {
+  constructor(private router: Router,
+    private route: ActivatedRoute,
+    private caseManagementResourceService: CaseManagementResourceService) {
 
   }
 

@@ -1,4 +1,7 @@
+
 import { Component, OnInit , Input , OnChanges , SimpleChanges } from '@angular/core';
+
+import { CaseManagementResourceService } from './../../etl-api/case-management-resource.service';
 
 @Component({
     selector: 'case-management',
@@ -10,7 +13,7 @@ export class CaseManagementComponent implements OnInit , OnChanges {
 
     public title = 'Case Management';
 
-    constructor() {
+    constructor(private caseManagementResourceService: CaseManagementResourceService) {
     }
 
     public ngOnInit() {
