@@ -73,13 +73,12 @@ Fetch case management patient list
       return Observable.of(this.mockCaseManagerPatientList);
     }
 
-    public updateCaseManagers(payload,uuid){
+    public updateCaseManagers(payload, uuid) {
       if (!payload || !uuid) {
         return null;
       }
       const url = this.openMrsUrl() + '/person/' + uuid;
       const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-      console.log(url);
       return this.http.post(url, JSON.stringify(payload), {headers}).pipe(
         map((response: any) => {
           return response.person;
