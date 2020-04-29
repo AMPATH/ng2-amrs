@@ -81,6 +81,9 @@ import {
     ChartAbstractionPatientlistComponent
  } from 'src/app/hiv-care-lib/dqa-reports/chart-abstraction-patientlist/chart-abstraction-patientlist.component';
 
+
+ import { ClinicDashboardCaseManagementComponent } from './case-management/clinic-dashboard-case-management.component';
+
 const routes: Routes = [
     {
         path: 'landing-page',
@@ -236,6 +239,15 @@ const routes: Routes = [
             {
                 path: 'patient-list',
                 component: RetentionReportPatientListComponent
+            }
+        ]
+    },
+    {
+        path: 'case-management',
+        children: [
+            {
+                path: '',
+                component: ClinicDashboardCaseManagementComponent
             }
         ]
     },

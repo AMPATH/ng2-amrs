@@ -109,6 +109,11 @@ import { ChartAbstractionPatientlistComponent } from './dqa-reports/chart-abstra
 import { DqaReportsComponent } from './dqa-reports/dqa-reports/dqa-reports.component';
 import { DqaReportBaseComponent } from './dqa-reports/dqa-report-base/dqa-report-base.component';
 
+import { CaseManagementComponent } from './case-management/case-management.component';
+import { CaseManagementFiltersComponent } from './case-management/case-management-filters.component';
+import { CaseManagementPatientListComponent } from './case-management/case-management-patient-list.component';
+
+
 @NgModule({
   imports: [
     RouterModule,
@@ -173,7 +178,10 @@ import { DqaReportBaseComponent } from './dqa-reports/dqa-report-base/dqa-report
     RetentionReportFiltersComponent,
     RetentionReportComponent,
     RetentionReportTabularComponent,
-    RetentionIndicatorDefComponent
+    RetentionIndicatorDefComponent,
+    CaseManagementComponent,
+    CaseManagementFiltersComponent,
+    CaseManagementPatientListComponent
   ],
   declarations: [
     Moh731TabularComponent,
@@ -210,7 +218,10 @@ import { DqaReportBaseComponent } from './dqa-reports/dqa-report-base/dqa-report
     RetentionIndicatorDefComponent,
     ChartAbstractionPatientlistComponent,
     DqaReportsComponent,
-    DqaReportBaseComponent
+    DqaReportBaseComponent,
+    CaseManagementComponent,
+    CaseManagementFiltersComponent,
+    CaseManagementPatientListComponent
   ],
   providers: [MOHReportService,
     LocationResourceService,

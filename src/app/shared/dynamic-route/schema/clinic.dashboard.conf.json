@@ -166,6 +166,12 @@
           "isSideBarOpen": false
         },
         {
+          "url": "case-management",
+          "label": "Case Management",
+          "icon": "fa fa-list",
+          "isSideBarOpen": false
+        },
+        {
           "url": "department-select",
           "label": "Change Department",
           "icon": "fa fa-exchange",
