@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 
 import { Injectable } from '@angular/core';
 import { AppSettingsService } from '../app-settings/app-settings.service';
@@ -7,6 +8,41 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 export class CaseManagementResourceService {
     constructor(protected http: HttpClient, protected appSettingsService: AppSettingsService,
                 private cacheService: DataCacheService) { }
+
+    public mockCaseManagerPatientList = [
+      {
+        'patient_uuid': 'uuid',
+        'case_manager': 'Test Manager',
+        'patient_name': 'Test Patient',
+        'age': '21',
+        'gender': 'F',
+        'last_follow_up_date': '2020-03-01',
+        'days_since_follow_up': 10,
+        'rtc_date': '2020-04-01',
+        'phone_rtc_date': '2020-04-05',
+        'last_vl': 100,
+        'due_for_vl': 1,
+        'missed_appointment': 1,
+        'case_manager_uuid': 'muuid'
+
+      },
+      {
+        'patient_uuid': 'uuid2',
+        'case_manager': 'Test Manager 2',
+        'patient_name': 'Test Patient 2',
+        'age': '21',
+        'gender': 'F',
+        'last_follow_up_date': '2020-02-01',
+        'days_since_follow_up': 10,
+        'rtc_date': '2020-04-01',
+        'phone_rtc_date': '2020-04-05',
+        'last_vl': 1000,
+        'due_for_vl': 0,
+        'missed_appointment': 0,
+        'case_manager_uuid': 'muuid2'
+
+      }
+  ];
 
     public getUrl(): string {
         return this.appSettingsService.getEtlRestbaseurl().trim()
@@ -28,6 +64,6 @@ export class CaseManagementResourceService {
 Fetch case management patient list
 */
     public getCaseManagementList(params) {
-
+      return Observable.of(this.mockCaseManagerPatientList);
     }
 }

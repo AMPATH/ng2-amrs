@@ -1,15 +1,17 @@
 <div class="container-fluid">
   <div class="row">
       <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
-          <h4>{{title}}</h4>                    
+          <h4>{{title}}</h4>                   
                   <hr class="intro-divider"  width="40%" />
+                  <div *ngIf="rowData.length > 0">
                   <ag-grid-angular #agGrid style="min-width: 100%; height: 500px;" class="ag-blue" 
                       [rowData]="rowData" 
                       [gridOptions]="gridOptions"
-                      [columnDefs]="retentionSummaryColdef"
+                      [columnDefs]="caseMgmtColdef"
                       (cellClicked)='onCellClicked($event)'
                       >
                   </ag-grid-angular>
+                </div>
                   <button class="btn btn-info pull-right" *ngIf="rowData.length > 0" (click)="exportPatientListToCsv()" style="color: #fff;">
                       <i class="inline fa fa-file-excel-o"></i>
                       <span>Export</span>
