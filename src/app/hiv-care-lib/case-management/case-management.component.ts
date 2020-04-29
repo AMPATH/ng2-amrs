@@ -12,15 +12,25 @@ import { CaseManagementResourceService } from './../../etl-api/case-management-r
 export class CaseManagementComponent implements OnInit , OnChanges {
 
     public title = 'Case Management';
+    public patientList = [];
 
     constructor(private caseManagementResourceService: CaseManagementResourceService) {
     }
 
     public ngOnInit() {
+        this.getPatientList();
     }
 
 
     public ngOnChanges(change: SimpleChanges) {
+    }
+
+    public getPatientList() {
+        const params = {};
+        this.caseManagementResourceService.getCaseManagementList(params)
+        .subscribe((patients) => {
+          this.patientList = patients;
+        });
     }
 
 
