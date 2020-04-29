@@ -17,3 +17,46 @@
       </div>
   </div>
 </div>
+<p-dialog header="Change Case Manager" [(visible)]="display">
+
+  <div id="modal-body">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+          <div class="alert alert-success" *ngIf="showSuccessAlert" style="margin-top:10px">
+            <strong>Done!</strong> {{successAlert}}
+          </div>
+          <div class="alert alert-danger" *ngIf="showErrorAlert" style="margin-top:10px">
+            <strong>{{errorTitle}}</strong> {{errorAlert}}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <form name="caseManager">
+          <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+            
+            <div class="form-group">
+              <label for="patient" class="control-label">Patient</label>
+              <input type="hidden" id="patientUuid" class="form-control" [(ngModel)]="patientUuid" name="patientUuid">
+              <input type="text" id="patient" class="form-control" [(ngModel)]="patient" name="patient" disabled>
+            </div>
+            <div class="form-group">
+              <label for="currentManager" class="control-label">Current Manager</label>
+              <input type="text" id="currentManager" class="form-control" [(ngModel)]="currentManager" name="currentManager" disabled>
+            </div>
+            <div class="form-group">
+              <label for="newManager" class="control-label">New Manager</label>
+              <input type="text" id="newManager" class="form-control" [(ngModel)]="newManager" name="newManager">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" style="padding-top:15px">
+    <button class="btn btn-primary" type="button" (click)="updateCaseManager()"><span>Save</span>
+    </button>
+    <button class="btn btn-danger pull-right" type="button" (click)="dismissDialog()">
+      <span>Cancel</span></button>
+  </div>
+</p-dialog>

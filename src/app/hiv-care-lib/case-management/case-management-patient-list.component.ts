@@ -18,9 +18,14 @@ export class CaseManagementPatientListComponent implements OnInit {
 
   public title = '';
   public patients: any = [];
+  public patient: any;
+  public patientUuid: any;
+  public currentManager: any;
+  public newManager: any;
   public rowData: any = [];
   public params: any;
   public busy: Subscription;
+  public display = false;
   public gridOptions: GridOptions = {
     enableColResize: true,
     enableSorting: true,
@@ -109,7 +114,8 @@ export class CaseManagementPatientListComponent implements OnInit {
     {
       headerName: 'Action',
       field: 'action',
-      width: 100
+      template: this.buttonRenderer(),
+      width: 400
     },
     {
       headerName: 'Patient Uuid',
@@ -131,4 +137,42 @@ export class CaseManagementPatientListComponent implements OnInit {
 
   }
 
+  public followUp() {
+    // Redirect to form with patients
+  }
+
+  public changeManager(data) {
+    this.display = true;
+    this.patient = data.person_name;
+    this.patientUuid = data.uuid;
+
+  }
+  public updateCaseManager() {
+    // TODO: Implement update service
+  }
+  public onCellClicked(e) {
+    if (e.event.target !== undefined) {
+        const data = e.data;
+        const actionType = e.event.target.getAttribute('data-action-type');
+
+        switch (actionType) {
+            case 'followup':
+                return this.followUp();
+            case 'changemanager':
+                return this.changeManager(data);
+        }
+    }
+}
+
+public dismissDialog() {
+  this.display = false;
+}
+  public buttonRenderer() {
+    return '<div class="button"><span>' +
+      '<button type="button" data-action-type="followup" class="btn btn-primary btn-sm">Follow Up</button>' +
+      '</span>' +
+      '<span>' +
+      '<button type="button" data-action-type="changemanager" class="btn btn-default btn-sm">Change Manager</button></span>' +
+      '</div>';
+     }
 }
