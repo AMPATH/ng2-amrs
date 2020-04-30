@@ -523,6 +523,15 @@
             "display": "COVIDCASEREPORTING"
           }
         ]
+      },
+      {
+        "uuid": "9cbec0ea-9091-4a1d-9d2d-a3bbc295a04f",
+        "name": "Phone Follow Up Visit",
+        "encounterTypes": [{
+            "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
+            "display": "TELECARE"
+          }
+        ]
       }
     ]
   },
@@ -1324,6 +1333,15 @@
           "uuid": "afabceae-61d4-42b6-8f6a-fff48a7797ea",
           "display": "COVIDCASEREPORTING"
         }]
+      },
+      {
+        "uuid": "9cbec0ea-9091-4a1d-9d2d-a3bbc295a04f",
+        "name": "Phone Follow Up Visit",
+        "encounterTypes": [{
+            "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
+            "display": "TELECARE"
+          }
+        ]
       }
     ]
   },
@@ -1413,6 +1431,15 @@
           {
             "uuid": "afabceae-61d4-42b6-8f6a-fff48a7797ea",
             "display": "COVIDCASEREPORTING"
+          }
+        ]
+      },
+      {
+        "uuid": "9cbec0ea-9091-4a1d-9d2d-a3bbc295a04f",
+        "name": "Phone Follow Up Visit",
+        "encounterTypes": [{
+            "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
+            "display": "TELECARE"
           }
         ]
       }
@@ -1628,6 +1655,15 @@
             "display": "COVIDCASEREPORTING"
           }
         ]
+      },
+      {
+        "uuid": "9cbec0ea-9091-4a1d-9d2d-a3bbc295a04f",
+        "name": "Phone Follow Up Visit",
+        "encounterTypes": [{
+            "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
+            "display": "TELECARE"
+          }
+        ]
       }
     ]
   },
@@ -1799,6 +1835,15 @@
             "display": "COVIDCASEREPORTING"
           }
         ]
+      },
+      {
+        "uuid": "9cbec0ea-9091-4a1d-9d2d-a3bbc295a04f",
+        "name": "Phone Follow Up Visit",
+        "encounterTypes": [{
+            "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
+            "display": "TELECARE"
+          }
+        ]
       }
     ]
   },
@@ -1926,6 +1971,15 @@
           {
             "uuid": "afabceae-61d4-42b6-8f6a-fff48a7797ea",
             "display": "COVIDCASEREPORTING"
+          }
+        ]
+      },
+      {
+        "uuid": "9cbec0ea-9091-4a1d-9d2d-a3bbc295a04f",
+        "name": "Phone Follow Up Visit",
+        "encounterTypes": [{
+            "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
+            "display": "TELECARE"
           }
         ]
       }
@@ -2061,6 +2115,10 @@
           {
             "uuid": "afabceae-61d4-42b6-8f6a-fff48a7797ea",
             "display": "COVIDCASEREPORTING"
+          },
+          {
+            "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
+            "display": "TELECARE"
           }
         ]
       },
@@ -2163,6 +2221,15 @@
           }
           
           
+        ]
+      },
+      {
+        "uuid": "9cbec0ea-9091-4a1d-9d2d-a3bbc295a04f",
+        "name": "Phone Follow Up Visit",
+        "encounterTypes": [{
+            "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
+            "display": "TELECARE"
+          }
         ]
       }
     ]
@@ -2283,6 +2350,15 @@
         "encounterTypes": [{
             "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
             "display": "INPATIENTPEER"
+          }
+        ]
+      },
+      {
+        "uuid": "9cbec0ea-9091-4a1d-9d2d-a3bbc295a04f",
+        "name": "Phone Follow Up Visit",
+        "encounterTypes": [{
+            "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
+            "display": "TELECARE"
           }
         ]
       }
@@ -2873,6 +2949,15 @@
             "display": "COVIDCASEREPORTING"
           }
         ]
+      },
+      {
+        "uuid": "9cbec0ea-9091-4a1d-9d2d-a3bbc295a04f",
+        "name": "Phone Follow Up Visit",
+        "encounterTypes": [{
+            "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
+            "display": "TELECARE"
+          }
+        ]
       }
     ]
   },
@@ -2986,6 +3071,15 @@
           {
             "uuid": "afabceae-61d4-42b6-8f6a-fff48a7797ea",
             "display": "COVIDCASEREPORTING"
+          }
+        ]
+      },
+      {
+        "uuid": "9cbec0ea-9091-4a1d-9d2d-a3bbc295a04f",
+        "name": "Phone Follow Up Visit",
+        "encounterTypes": [{
+            "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
+            "display": "TELECARE"
           }
         ]
       }
@@ -3103,6 +3197,15 @@
           {
             "uuid": "afabceae-61d4-42b6-8f6a-fff48a7797ea",
             "display": "COVIDCASEREPORTING"
+          }
+        ]
+      },
+      {
+        "uuid": "9cbec0ea-9091-4a1d-9d2d-a3bbc295a04f",
+        "name": "Phone Follow Up Visit",
+        "encounterTypes": [{
+            "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
+            "display": "TELECARE"
           }
         ]
       }
@@ -3301,6 +3404,15 @@
             "display": "COVIDCASEREPORTING"
           }
         ]
+      },
+      {
+        "uuid": "9cbec0ea-9091-4a1d-9d2d-a3bbc295a04f",
+        "name": "Phone Follow Up Visit",
+        "encounterTypes": [{
+            "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
+            "display": "TELECARE"
+          }
+        ]
       }
     ]
   },
@@ -3345,6 +3457,15 @@
         {
           "uuid": "afabceae-61d4-42b6-8f6a-fff48a7797ea",
           "display": "COVIDCASEREPORTING"
+        }
+      ]
+    },
+    {
+      "uuid": "9cbec0ea-9091-4a1d-9d2d-a3bbc295a04f",
+      "name": "Phone Follow Up Visit",
+      "encounterTypes": [{
+          "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
+          "display": "TELECARE"
         }
       ]
     }]
@@ -3483,6 +3604,15 @@
             "display": "COVIDCASEREPORTING"
           }
         ]
+      },
+      {
+        "uuid": "8ec3bb23-6d7d-4638-9b2a-16b070760e34",
+        "name": "HEI Phone Follow Up Visit",
+        "encounterTypes": [{
+            "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
+            "display": "TELECARE"
+          }
+        ]
       }
     ]
 
@@ -3517,6 +3647,15 @@
         "uuid": "3cd9dd0a-a5d1-4482-9f45-a0fea4f5e556",
         "display": "NUTRITIONENCOUNTER"
       }]
+    },
+    {
+      "uuid": "9cbec0ea-9091-4a1d-9d2d-a3bbc295a04f",
+      "name": "Phone Follow Up Visit",
+      "encounterTypes": [{
+          "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
+          "display": "TELECARE"
+        }
+      ]
     }]
 
   },
@@ -3555,7 +3694,17 @@
         }
       ]
       
-    }]
+    },
+    {
+      "uuid": "9cbec0ea-9091-4a1d-9d2d-a3bbc295a04f",
+      "name": "Phone Follow Up Visit",
+      "encounterTypes": [{
+          "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
+          "display": "TELECARE"
+        }
+      ]
+    }
+  ]
 
   },
   "f5cbf61f-eadc-4fe6-999c-2dfe9556df95": {
