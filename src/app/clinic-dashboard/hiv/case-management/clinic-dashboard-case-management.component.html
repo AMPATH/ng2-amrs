@@ -1,9 +1,12 @@
 <div class="row">
   <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
          <h4 class="component-title" style="color: green;"><span class="fa  fa-file"></span> {{title}}</h4>
-         <hr class="intro-divider" width="40%"/>
    </div>
    <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
-           <case-management></case-management>
+           <case-management
+            [dashboardType] = 'clinic-dashboard'
+            [locationUuids]= "locationUuids"
+           ></case-management
+                >
    </div>
 </div>
