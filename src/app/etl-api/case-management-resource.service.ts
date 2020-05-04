@@ -46,6 +46,18 @@ export class CaseManagementResourceService {
   ];
     public mockCaseManagerProviders = [{}];
 
+  public mockParams = {
+      'locationUuid': 'uuid1',
+      'caseManagerUuid': 'manager_uuid',
+      'hasCaseManager': 1,
+      'hasPhoneRTC': 1,
+      'dueForVl': 1,
+      'elevatedVL': 1,
+      'minDefaultPeriod': 0,
+      'maxDefaultPeriod': 100
+
+  };
+
     public getUrl(): string {
         return this.appSettingsService.getEtlRestbaseurl().trim()
           + 'case-management';
@@ -58,19 +70,96 @@ export class CaseManagementResourceService {
 
 
     public getUrlRequestParams(params): HttpParams {
-        const urlParams: HttpParams = new HttpParams();
+        let urlParams: HttpParams = new HttpParams();
 
-        return urlParams;
+      if (params.locationUuid && params.locationUuid !== '') {
+          urlParams = urlParams.set('locationUuid', params.locationUuid);
+      }
+      if (params.minDefaultPeriod && params.minDefaultPeriod !== '') {
+          urlParams = urlParams.set('minDefaultPeriod', params.minDefaultPeriod);
+      }
+      if (params.caseManagerUuid && params.caseManagerUuid.length > 0) {
+          urlParams = urlParams.set('caseManagerUuid', params.caseManagerUuid);
+      }
+      if (params.hasCaseManager && params.hasCaseManager !== '') {
+          if (params.hasCaseManager === 'true') {
+             urlParams = urlParams.set('hasCaseManager', '1');
+          }
+          if (params.hasCaseManager === 'false') {
+            urlParams = urlParams.set('hasCaseManager', '0');
+          }
+      }
+      if (params.dueForVl && params.dueForVl !== '') {
+        if (params.dueForVl === 'true') {
+           urlParams = urlParams.set('dueForVl', '1');
+        }
+        if (params.dueForVl === 'false') {
+          urlParams = urlParams.set('dueForVl', '0');
+        }
+      }
+      if (params.elevatedVL && params.elevatedVL !== '') {
+        if (params.elevatedVL === 'true') {
+           urlParams = urlParams.set('elevatedVL', '1');
+        }
+        if (params.elevatedVL === 'false') {
+          urlParams = urlParams.set('elevatedVL', '0');
+        }
+      }
+
+      if (params.hasPhoneRTC && params.hasPhoneRTC !== '') {
+        if (params.hasPhoneRTC === 'true') {
+           urlParams = urlParams.set('hasPhoneRTC', '1');
+        }
+        if (params.noPhoneRTC === 'false') {
+          urlParams = urlParams.set('hasPhoneRTC', '0');
+        }
+      }
+
+      if (params.minDefaultPeriod && params.minDefaultPeriod !== '') {
+           urlParams = urlParams.set('minDefaultPeriod', params.minDefaultPeriod);
+      }
+      if (params.maxDefaultPeriod && params.maxDefaultPeriod !== '') {
+        urlParams = urlParams.set('maxDefaultPeriod', params.maxDefaultPeriod);
+      }
+      if (params.minFollowupPeriod && params.minFollowupPeriod !== '') {
+        urlParams = urlParams.set('minFollowupPeriod', params.minFollowupPeriod);
+      }
+      if (params.maxFollowupPeriod && params.maxFollowupPeriod !== '') {
+        urlParams = urlParams.set('maxFollowupPeriod', params.maxFollowupPeriod);
+      }
+
+      console.log('Url pARAMS', urlParams);
+
+      return urlParams;
+
     }
 
     public getCaseManagers(params) {
+
+      const urlParams = this.getUrlRequestParams(params);
+      const url = this.appSettingsService.getEtlRestbaseurl().trim() + 'case-managers';
+      const request = this.http.get(url, {
+          params: urlParams
+      });
+
+      return request;
+
+      // return this.cacheService.cacheRequest(url, urlParams, request);
+
     }
 
 /*
 Fetch case management patient list
 */
     public getCaseManagementList(params) {
-      return Observable.of(this.mockCaseManagerPatientList);
+
+      const urlParams = this.getUrlRequestParams(params);
+      const url = this.getUrl();
+      const request = this.http.get( url, {
+          params: urlParams
+      });
+
+      return request;
     }
 
     public updateCaseManagers(payload, uuid) {
