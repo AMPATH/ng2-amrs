@@ -53,6 +53,9 @@ export class CaseManagementResourceService {
       'hasPhoneRTC': 1,
       'dueForVl': 1,
       'elevatedVL': 1,
+      'rtcStartDate': '2020-04-30',
+      'rtcEndDate': '2020-04-30',
+      'phoneFollowUpStartDate': '2020-04-30',
       'minDefaultPeriod': 0,
       'maxDefaultPeriod': 100
 
@@ -126,6 +129,15 @@ export class CaseManagementResourceService {
       }
       if (params.maxFollowupPeriod && params.maxFollowupPeriod !== '') {
         urlParams = urlParams.set('maxFollowupPeriod', params.maxFollowupPeriod);
+      }
+      if (params.rtcStartDate && params.rtcStartDate !== '') {
+        urlParams = urlParams.set('rtcStartDate', params.rtcStartDate);
+      }
+      if (params.rtcEndDate && params.rtcEndDate !== '') {
+        urlParams = urlParams.set('rtcEndDate', params.rtcEndDate);
+      }
+      if (params.phoneFollowUpStartDate && params.phoneFollowUpStartDate !== '') {
+        urlParams = urlParams.set('phoneFollowUpStartDate', params.phoneFollowUpStartDate);
       }
 
       console.log('Url pARAMS', urlParams);

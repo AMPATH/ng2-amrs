@@ -57,6 +57,46 @@
         </div>
       </div>
       <div class="row row-separator">
+              <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                <div class="form-group row">
+                  <div class="col-md-5 col-lg-5 col-sm-5 col-xs-5">
+                    <label for="rtcStartDate"> RTC Date </label>
+                  </div>
+                  <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3">
+                      <date-time-picker tabindex="0" 
+                          [modelValue]="rtcStartDate" 
+                          [id]="'rtcStartsDate'" 
+                          (onDateChange)="getSelectedRtcStartDate($event)"
+                      ></date-time-picker>
+                  </div>
+                  <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1">
+                  <label for="rtcEndDate">To</label>
+                  </div>
+                  <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3">
+                      <date-time-picker tabindex="0" 
+                          [modelValue]="rtcEndDate" 
+                          [id]="'rtcEndDate'" 
+                          (onDateChange)="getSelectedRtcEndDate($event)"
+                      ></date-time-picker>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                <div class="form-group row">
+                  <div class="col-md-5 col-lg-5 col-sm-5 col-xs-5">
+                    <label for="minDefaultPeriod">Phone Follow up date </label>
+                  </div>
+                  <div class="col-md-7 col-lg-3 col-sm- col-xs-3">
+                        <date-time-picker tabindex="0" 
+                            [modelValue]="phoneFollowUpStartDate" 
+                            [id]="'phoneFollowUpStartDate'" 
+                            (onDateChange)="getSelectedPhoneFollowUpStartDate($event)"
+                        ></date-time-picker>
+                  </div>
+                </div>
+             </div>
+      </div>
+      <div class="row row-separator">
         <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
           <div class="form-group row">
             <div class="col-md-5 col-lg-5 col-sm-5 col-xs-5">
