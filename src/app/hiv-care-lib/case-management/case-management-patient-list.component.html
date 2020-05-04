@@ -3,10 +3,8 @@
       <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
           <h4>{{title}}</h4>                   
                   <hr class="intro-divider"  width="40%" />
-                  <div *ngIf="rowData.length === 0">
-                    <h5 align="center">No results to display</h5>
-                  </div>
                   <div *ngIf="rowData.length > 0">
+                  <button (click)="massAssignCaseManagers()">Mass assign</button>
                   <ag-grid-angular #agGrid style="min-width: 100%; height: 500px;" class="ag-blue" 
                       [rowData]="rowData" 
                       [gridOptions]="gridOptions"
@@ -53,7 +51,7 @@
               <label class="control-label">New Manager:</label>
               <select class="form-control"  name="newManager" [ngModel]="newManager" (ngModelChange)="setCaseManager($event)">
                 <option></option>
-                <option *ngFor="let c of caseManagers" [ngValue]="c">{{ c.label }}</option>
+                <option *ngFor="let c of caseManagers" [ngValue]="c">{{ c.person_name }}</option>
               </select>
               <div *ngIf="!newManager">
                 <div class="help-block" >New case Manager is required!</div>
@@ -107,22 +105,22 @@
               <tr *ngFor="let manager of caseManagers; let i=index; trackBy:trackByFn" ngForm>
                 <td>
                   <span>
-                    {{ manager.label }}<br>
+                    {{ manager.person_name }}<br>
                   </span>
                 </td>
                 <td>
                   <span>
-                    {{ manager.current_cases }}<br>
+                    {{ manager.number_assigned }}<br>
                   </span>
                 </td>
                 <td>
                   <span>
-                    <input type="number" id="caseForManager" class="form-control" name="caseForManager" default=0 [(ngModel)]="caseManagers[i].a" (change)="incrementCases($event, manager.uuid)"><br>
+                    <input type="number" id="caseForManager" class="form-control" name="caseForManager" default=0 [(ngModel)]="caseManagers[i].a" (change)="incrementCases($event, manager.user_uuid)"><br>
                   </span>
                 </td>
                 <td>
                   <span>
-                    {{caseManagers[i].a>0 ? caseManagers[i].a+manager.current_cases : manager.current_cases}}
+                    {{caseManagers[i].a>0 ? caseManagers[i].a+manager.number_assigned : manager.current_cases}}
                   </span>
                 </td>
               </tr>

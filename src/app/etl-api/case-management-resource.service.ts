@@ -53,14 +53,16 @@ export class CaseManagementResourceService {
       'hasPhoneRTC': 1,
       'dueForVl': 1,
       'elevatedVL': 1,
+      'rtcStartDate': '2020-04-30',
+      'rtcEndDate': '2020-04-30',
+      'phoneFollowUpStartDate': '2020-04-30',
       'minDefaultPeriod': 0,
       'maxDefaultPeriod': 100
 
   };
 
     public getUrl(): string {
-        return this.appSettingsService.getEtlRestbaseurl().trim()
-          + 'case-management';
+        return this.appSettingsService.getEtlRestbaseurl().trim();
 
     }
     public openMrsUrl(): string {
@@ -127,6 +129,15 @@ export class CaseManagementResourceService {
       if (params.maxFollowupPeriod && params.maxFollowupPeriod !== '') {
         urlParams = urlParams.set('maxFollowupPeriod', params.maxFollowupPeriod);
       }
+      if (params.rtcStartDate && params.rtcStartDate !== '') {
+        urlParams = urlParams.set('rtcStartDate', params.rtcStartDate);
+      }
+      if (params.rtcEndDate && params.rtcEndDate !== '') {
+        urlParams = urlParams.set('rtcEndDate', params.rtcEndDate);
+      }
+      if (params.phoneFollowUpStartDate && params.phoneFollowUpStartDate !== '') {
+        urlParams = urlParams.set('phoneFollowUpStartDate', params.phoneFollowUpStartDate);
+      }
 
       console.log('Url pARAMS', urlParams);
 
@@ -135,7 +146,6 @@ export class CaseManagementResourceService {
     }
 
     public getCaseManagers(params) {
-
       const urlParams = this.getUrlRequestParams(params);
       const url = this.appSettingsService.getEtlRestbaseurl().trim() + 'case-managers';
       const request = this.http.get(url, {
@@ -154,7 +164,7 @@ Fetch case management patient list
     public getCaseManagementList(params) {
 
       const urlParams = this.getUrlRequestParams(params);
-      const url = this.getUrl();
+      const url = this.getUrl() + 'case-management';
       const request = this.http.get( url, {
           params: urlParams
       });
@@ -166,11 +176,22 @@ Fetch case management patient list
       if (!payload || !uuid) {
         return null;
       }
-      const url = this.openMrsUrl() + '/person/' + uuid;
+      const url = this.openMrsUrl() + 'person/' + uuid;
       const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
       return this.http.post(url, JSON.stringify(payload), {headers}).pipe(
         map((response: any) => {
           return response.person;
+        }));
+    }
+    public massAssign(payload) {
+      if (!payload) {
+        return null;
+      }
+      const url = this.getUrl() + 'assign-patients';
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      return this.http.post(url, JSON.stringify(payload), {headers}).pipe(
+        map((response: any) => {
+          return response;
         }));
     }
 }
