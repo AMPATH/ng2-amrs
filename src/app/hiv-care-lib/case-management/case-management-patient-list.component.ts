@@ -126,8 +126,28 @@ export class CaseManagementPatientListComponent implements OnInit {
     {
       headerName: 'Action',
       field: 'action',
-      template: this.buttonRenderer(),
-      width: 250,
+      onCellClicked: (column: any) => {
+        const patientUuid = column.data.patient_uuid;
+        this.followUp(patientUuid);
+      },
+      cellRenderer: (column) => {
+          return '<a> <i class="fa fa-phone-square" aria-hidden="true"></i> Follow Up </a>';
+      },
+      width: 150,
+      pinned: 'right'
+
+    },
+    {
+      headerName: '',
+      field: 'action2',
+      onCellClicked: (column: any) => {
+        const data = column.data;
+        this.changeManager(data);
+      },
+      cellRenderer: (column) => {
+          return '<a> <i class="fa fa-user-md" aria-hidden="true"></i> Change Manager </a>';
+      },
+      width: 150,
       pinned: 'right'
 
     },
@@ -195,24 +215,12 @@ export class CaseManagementPatientListComponent implements OnInit {
         );
     }
   }
-  public onCellClicked(e) {
-    if (e.event.target !== undefined) {
-      const data = e.data;
-      const actionType = e.event.target.getAttribute('data-action-type');
-
-      switch (actionType) {
-        case 'followup':
-          return this.followUp(data.patient_uuid);
-        case 'changemanager':
-          return this.changeManager(data);
-      }
-    }
-  }
   public rowSelected(event) {
+    console.log('event', event);
     if (event.api.getSelectedRows().length > 0) {
-      event.columnApi.setColumnVisible('action', false, 'api');
+      event.columnApi.setColumnsVisible(['action', 'action2'], false, 'api');
     } else {
-      event.columnApi.setColumnVisible  ('action', true, 'api');
+      event.columnApi.setColumnsVisible  (['action', 'action2'], true, 'api');
     }
   }
   public massAssignCaseManagers(isSubmiting) {
@@ -240,14 +248,4 @@ export class CaseManagementPatientListComponent implements OnInit {
   public trackByFn(index: any, item: any) {
     return index;
  }
-  public buttonRenderer() {
-    return '<div class="button" style="padding-left:2%"><span>' +
-      '<button type="button" data-action-type="followup" class="btn btn-primary btn-sm">Follow Up</button>' +
-      '</span>' +
-      '<span>' +
-      '<button type="button" data-action-type="changemanager" class="btn btn-default btn-sm" style="margin-left:5px;">' +
-      'Change Manager</button>' +
-      '</span>' +
-      '</div>';
-  }
 }
