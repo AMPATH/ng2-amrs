@@ -155,7 +155,7 @@ export class CaseManagementFiltersComponent implements OnInit, OnChanges {
             'hasPhoneRTC': this.hasPhoneRTC,
             'minDefaultPeriod': this.minDefaultPeriod,
             'maxDefaultPeriod': this.maxDefaultPeriod,
-            'maxFollowupPeriod': this.maxDefaultPeriod,
+            'maxFollowupPeriod': this.maxFollowupPeriod,
             'minFollowupPeriod': this.minFollowupPeriod,
             'rtcStartDate': this.selectedRtcStartDate,
             'rtcEndDate': this.selectedRtcEndDate,
