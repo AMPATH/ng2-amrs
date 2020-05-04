@@ -34,7 +34,7 @@ export class CaseManagementPatientListComponent implements OnInit {
   public gridColumnApi: any;
   @Input() public rowData = [];
   public params: any;
-
+  @Input() public locationUuids: any;
   public subscription: any;
   public busy: Subscription;
   public display = false;
@@ -149,8 +149,18 @@ export class CaseManagementPatientListComponent implements OnInit {
   public ngOnInit() {
     // Get managers
     this.caseForManager = [];
-    this.caseManagers = [
-    ];
+    this.caseManagers = [];
+    this.route
+    .queryParams
+    .subscribe((params: any) => {
+        if (params) {
+          this.params = params;
+          this.getCaseManagers();
+        }
+      }, (error) => {
+        console.error('Error', error);
+      });
+
   }
 
   public followUp(patientUuid) {
@@ -158,15 +168,22 @@ export class CaseManagementPatientListComponent implements OnInit {
     this.router.navigate(['/patient-dashboard/patient/' + patientUuid +
       '/general/general/formentry/6ffdf5c2-922a-4c4d-9349-bc6da6ea9d6c']);
   }
-  public getManager() {
-    this.subscription = this.caseManagementResourceService.getCaseManagers(
-      (managers) => {
-        if (managers) {
-          this.caseManagers = managers;
-        }
-      });
-  }
+  public getCaseManagers() {
+    const locationParams = this.getLocationParams();
+    this.caseManagementResourceService.getCaseManagers(locationParams)
+        .subscribe((data: any) => {
+            this.caseManagers = data.result;
+        });
+
+}
+
+public getLocationParams() {
+    return {
+        'locationUuid': this.params.locationUuid
+    };
+}
   public changeManager(data) {
+    this.getCaseManagers();
     this.display = true;
     this.patient = data.patient_name;
     this.patientUuid = data.patient_uuid;
@@ -176,24 +193,15 @@ export class CaseManagementPatientListComponent implements OnInit {
     this.newManager = data;
   }
   public updateCaseManager(multiple: boolean) {
-    const caseManagerPayload = [];
-    if (multiple) {
-
-    } else {
-      caseManagerPayload.push({
-        attributes: [
-          {
-            attributeType: '9a6e12b5-98fe-467a-9541-dab11ad87e45',
-            value: this.newManager.user_uuid
-          }
-        ]
-      });
+    const caseManagerPayload = {'attributes': [{
+            'attributeType': '9a6e12b5-98fe-467a-9541-dab11ad87e45',
+            'value': this.newManager.user_uuid
+          }]};
       this.caseManagementResourceService.updateCaseManagers(caseManagerPayload, this.patientUuid)
         .subscribe(
           data => { this.showSuccessAlert = true; this.display = false; this.successAlert = 'Case manager Changed Successfully'; },
           err => { this.showErrorAlert = true; this.errorAlert = 'Unable to change case managers'; }
         );
-    }
   }
   public onCellClicked(e) {
     if (e.event.target !== undefined) {
@@ -218,16 +226,14 @@ export class CaseManagementPatientListComponent implements OnInit {
   public massAssignCaseManagers(isSubmiting) {
     this.displayMassAssign = true;
     this.patientList = this.gridOptions.api.getSelectedRows();
-    this.caseManagers = [
-      { label: 'A', 'uuid': 'uiuid', current_cases: 10 },
-      { label: 'B', 'uuid': 'uiuidb', current_cases: 1 }
-    ];
     const massAssignPayload = {
       patients: this.patientList,
       caseManagers: this.caseForManager
     };
-    if (isSubmiting) {
-      console.log(massAssignPayload);
+    if (isSubmiting === true) {
+      this.caseManagementResourceService.massAssign(massAssignPayload).subscribe(response =>{
+       this.dismissDialog();
+      });
     }
   }
   public dismissDialog() {

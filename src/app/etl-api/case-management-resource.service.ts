@@ -62,8 +62,7 @@ export class CaseManagementResourceService {
   };
 
     public getUrl(): string {
-        return this.appSettingsService.getEtlRestbaseurl().trim()
-          + 'case-management';
+        return this.appSettingsService.getEtlRestbaseurl().trim();
 
     }
     public openMrsUrl(): string {
@@ -147,7 +146,6 @@ export class CaseManagementResourceService {
     }
 
     public getCaseManagers(params) {
-
       const urlParams = this.getUrlRequestParams(params);
       const url = this.appSettingsService.getEtlRestbaseurl().trim() + 'case-managers';
       const request = this.http.get(url, {
@@ -166,7 +164,7 @@ Fetch case management patient list
     public getCaseManagementList(params) {
 
       const urlParams = this.getUrlRequestParams(params);
-      const url = this.getUrl();
+      const url = this.getUrl() + 'case-management';
       const request = this.http.get( url, {
           params: urlParams
       });
@@ -178,11 +176,22 @@ Fetch case management patient list
       if (!payload || !uuid) {
         return null;
       }
-      const url = this.openMrsUrl() + '/person/' + uuid;
+      const url = this.openMrsUrl() + 'person/' + uuid;
       const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
       return this.http.post(url, JSON.stringify(payload), {headers}).pipe(
         map((response: any) => {
           return response.person;
+        }));
+    }
+    public massAssign(payload) {
+      if (!payload) {
+        return null;
+      }
+      const url = this.getUrl() + 'assign-patients';
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      return this.http.post(url, JSON.stringify(payload), {headers}).pipe(
+        map((response: any) => {
+          return response;
         }));
     }
 }
