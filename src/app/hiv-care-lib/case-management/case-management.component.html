@@ -1,7 +1,27 @@
+<div class="container-fluid">
+  <div class="loader" *ngIf="busyIndicator.busy"><span><i class="fa fa-spinner fa-spin">
+  </i>{{busyIndicator.message}}</span>
+</div>
+<div class="alert alert-danger fade in" *ngIf="errorObj.isError">
+  <a  class="close" data-dismiss="alert">&times;</a>
+  <p>
+      <small >{{errorObj.message}}</small>
+  </p>
+</div>
 <div class="row">
-  <div class="container-fluid">   
      <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
-          <case-management-filters></case-management-filters>
+          <case-management-filters
+           [clinicDashboardLocation]="locationUuids"
+          >
+
+          </case-management-filters
+          >
+     </div>
+     <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+      <assign-case-manager
+        [assignCaseManager]="assignCaseManager"
+      >
+      </assign-case-manager>
      </div>
      <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
         

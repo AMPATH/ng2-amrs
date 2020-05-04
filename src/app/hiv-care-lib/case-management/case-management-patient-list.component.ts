@@ -150,8 +150,6 @@ export class CaseManagementPatientListComponent implements OnInit {
     // Get managers
     this.caseForManager = [];
     this.caseManagers = [
-      { label: 'A', 'uuid': 'uiuid', current_cases: 10 },
-      { label: 'B', 'uuid': 'uiuidb', current_cases: 1 }
     ];
   }
 

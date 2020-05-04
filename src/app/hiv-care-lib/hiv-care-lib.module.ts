@@ -112,6 +112,7 @@ import { DqaReportBaseComponent } from './dqa-reports/dqa-report-base/dqa-report
 import { CaseManagementComponent } from './case-management/case-management.component';
 import { CaseManagementFiltersComponent } from './case-management/case-management-filters.component';
 import { CaseManagementPatientListComponent } from './case-management/case-management-patient-list.component';
+import { AssignCaseManagerComponent } from './case-management/assign-case-manager.component';
 
 import { CaseManagementResourceService } from './../etl-api/case-management-resource.service';
 
@@ -183,7 +184,8 @@ import { CaseManagementResourceService } from './../etl-api/case-management-reso
     RetentionIndicatorDefComponent,
     CaseManagementComponent,
     CaseManagementFiltersComponent,
-    CaseManagementPatientListComponent
+    CaseManagementPatientListComponent,
+    AssignCaseManagerComponent
   ],
   declarations: [
     Moh731TabularComponent,
@@ -223,7 +225,8 @@ import { CaseManagementResourceService } from './../etl-api/case-management-reso
     DqaReportBaseComponent,
     CaseManagementComponent,
     CaseManagementFiltersComponent,
-    CaseManagementPatientListComponent
+    CaseManagementPatientListComponent,
+    AssignCaseManagerComponent
   ],
   providers: [MOHReportService,
     LocationResourceService,

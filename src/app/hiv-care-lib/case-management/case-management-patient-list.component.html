@@ -3,6 +3,9 @@
       <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
           <h4>{{title}}</h4>                   
                   <hr class="intro-divider"  width="40%" />
+                  <div *ngIf="rowData.length === 0">
+                    <h5 align="center">No results to display</h5>
+                  </div>
                   <div *ngIf="rowData.length > 0">
                   <ag-grid-angular #agGrid style="min-width: 100%; height: 500px;" class="ag-blue" 
                       [rowData]="rowData" 
