@@ -55,6 +55,9 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
     infantFeeding: ''
   };
 
+  public isPregnant = false;
+  public isBreastfeeding = false;
+
    public labLocations: any;
    public patientIdentifers = [];
    public sampleTypes: any;
@@ -104,10 +107,29 @@ public ngOnInit() {
       .searchIdentifiers(this.order.patient.identifiers);
     this.orderType = this.labOrdersSearchHelperService.determineOrderType(this.order);
     this.setJustification();
-
+   this.displayPregnancy();
     this.loadHivSummary(this.person.uuid);
     this.displayDnaPcrInputs();
     this.setDefaultLocation();
+  }
+
+  public displayPregnancy() {
+      const pmtctCategory = this.findObs(this.order.encounter.obs, 'a89eea66-1350-11df-a1f1-0026b9348838');
+      if (pmtctCategory) {
+        if (pmtctCategory.value.uuid === 'a89d109c-1350-11df-a1f1-0026b9348838') {
+          this.isPregnant = true;
+        }
+        if (pmtctCategory.value.uuid === 'a8a18208-1350-11df-a1f1-0026b9348838') {
+          this.isBreastfeeding = true;
+        }
+      }
+  }
+
+  public findObs(obs: Array<any>, uuid: string ) {
+      for (let i = 0; i < obs.length; i++) {
+        if (obs[i].concept.uuid === uuid) { return obs[i]; }
+        if (Array.isArray(obs[i].groupMembers) && obs[i].groupMembers.length > 0 ) { return this.findObs(obs[i].groupMembers, uuid); }
+      }
   }
 
    public setJustification() {
@@ -244,13 +266,12 @@ public ngOnInit() {
       const artStartDateInitial = this.hivSummary.arv_first_regimen_start_date;
       const artStartDateCurrent = this.hivSummary.arv_start_date;
       const currentArtRegimenId = this.hivSummary.cur_arv_meds_id;
-      const isPregnant = this.hivSummary.is_pregnant;
-      const breastfeeding = 0;
 
       payload =
         this.labOrdersSearchHelperService.createViralLoadPayload(order, obs, locationUuid,
           patientIdentifier, patientName, gender, birthdate, this.dateReceived,
-          artStartDateInitial, artStartDateCurrent, this.selectedSampleType, currentArtRegimenId, isPregnant, breastfeeding);
+          artStartDateInitial, artStartDateCurrent, this.selectedSampleType, currentArtRegimenId,
+          this.isPregnant ? 1 : 0, this.isBreastfeeding ? 1 : 0);
     }
 
     if (this.orderType.type === 'CD4') {
