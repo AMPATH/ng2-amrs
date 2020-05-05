@@ -61,7 +61,7 @@ export class CaseManagementPatientListComponent implements OnInit {
       headerName: 'No',
       valueGetter: 'node.rowIndex + 1',
       cellClass: 'locked-col',
-      width: 50,
+      width: 150,
       suppressNavigable: true,
       pinned: 'left',
       checkboxSelection: true,
@@ -76,7 +76,14 @@ export class CaseManagementPatientListComponent implements OnInit {
     {
       headerName: 'Name',
       field: 'patient_name',
-      width: 200
+      width: 200,
+      onCellClicked: (column: any) => {
+        const patientUuid = column.data.patient_uuid;
+        this.redirectTopatientInfo(patientUuid);
+      },
+      cellRenderer: (column: any) => {
+          return '<a href="javascript:void(0)";>' + column.value + '</a>';
+      }
     },
     {
       headerName: 'Age',
@@ -91,7 +98,7 @@ export class CaseManagementPatientListComponent implements OnInit {
     {
       headerName: 'Last Followup Date',
       field: 'last_follow_up_date',
-      width: 100
+      width: 150
     },
     {
       headerName: 'Days Since Followup',
@@ -101,7 +108,7 @@ export class CaseManagementPatientListComponent implements OnInit {
     {
       headerName: 'RTC',
       field: 'rtc_date',
-      width: 250
+      width: 150
     },
     {
       headerName: 'Phone RTC',
@@ -186,7 +193,7 @@ export class CaseManagementPatientListComponent implements OnInit {
   public followUp(patientUuid) {
     console.log(patientUuid);
     this.router.navigate(['/patient-dashboard/patient/' + patientUuid +
-      '/general/general/formentry/6ffdf5c2-922a-4c4d-9349-bc6da6ea9d6c']);
+      '/hiv/hiv/visit']);
   }
   public getCaseManagers() {
     const locationParams = this.getLocationParams();
@@ -254,4 +261,11 @@ public getLocationParams() {
   public trackByFn(index: any, item: any) {
     return index;
  }
+ public redirectTopatientInfo(patientUuid) {
+  if (patientUuid === undefined || patientUuid === null) {
+    return;
+  }
+  this.router.navigate(['/patient-dashboard/patient/' + patientUuid +
+    '/general/general/landing-page']);
+}
 }

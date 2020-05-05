@@ -21,10 +21,10 @@ export class CaseManagementFiltersComponent implements OnInit, OnChanges {
         'hasPhoneRTC': '',
         'dueForVl': '',
         'elevatedVL': '',
-        'minDefaultPeriod': 0,
-        'maxDefaultPeriod': 0,
-        'minFollowupPeriod': 0,
-        'maxFollowupPeriod': 0,
+        'minDefaultPeriod': '',
+        'maxDefaultPeriod': '',
+        'minFollowupPeriod': '',
+        'maxFollowupPeriod': '',
         'rtcStartDate': '',
         'rtcEndDate': '',
         'phoneFollowUpStartDate': '',
@@ -40,34 +40,20 @@ export class CaseManagementFiltersComponent implements OnInit, OnChanges {
 
     public caseManagers = [];
     public selectedCaseManager: any;
-    public mockCaseManagers = [
-        {
-            label: ' Manager 1',
-            value: 1
-        },
-        {
-            label: ' Manager 2',
-            value: 2
-        },
-        {
-            label: ' Manager 3',
-            value: 3
-        }
-    ];
 
     public dueForVl = '';
     public elevatedVL = '';
-    public hasCaseManager = '';
+    public hasCaseManager: any;
     public hasPhoneRTC = '';
-    public minFollowupPeriod = 0;
-    public maxFollowupPeriod = 0;
-    public minDefaultPeriod = 0;
-    public maxDefaultPeriod = 0;
+    public minFollowupPeriod = '';
+    public maxFollowupPeriod = '';
+    public minDefaultPeriod = '';
+    public maxDefaultPeriod = '';
     public hideCaseManagerControl = false;
     public filterSet = false;
     public selecOptions = [
         {
-            'label': 'All',
+            'label': '',
             'value': ''
         },
         {
@@ -80,9 +66,9 @@ export class CaseManagementFiltersComponent implements OnInit, OnChanges {
         }
     ];
 
-    public rtcStartDate = Moment().format('YYYY-MM-DD');
-    public rtcEndDate = Moment().format('YYYY-MM-DD');
-    public phoneFollowUpStartDate = Moment().format('YYYY-MM-DD');
+    public rtcStartDate = '';
+    public rtcEndDate = '';
+    public phoneFollowUpStartDate = '';
     public selectedRtcStartDate = '';
     public selectedRtcEndDate = '';
     public selectedPhoneFollowUpDate = '';
@@ -243,6 +229,26 @@ export class CaseManagementFiltersComponent implements OnInit, OnChanges {
     }
     public getSelectedPhoneFollowUpStartDate($event) {
         this.selectedPhoneFollowUpDate = Moment($event).format('YYYY-MM-DD');
+    }
+    public resetFilters() {
+            this.caseManagers = [];
+            this.dueForVl = '';
+            this.hasCaseManager = '';
+            this.hasCaseManager = false;
+            this.hasPhoneRTC = '';
+            this.elevatedVL = '';
+            this.minFollowupPeriod = '';
+            this.maxFollowupPeriod = '';
+            this.minDefaultPeriod = '';
+            this.maxDefaultPeriod = '';
+            this.selectedCaseManager = '';
+            this.rtcStartDate = '';
+            this.selectedRtcStartDate = '';
+            this.rtcEndDate = '';
+            this.selectedRtcEndDate = '';
+            this.phoneFollowUpStartDate = '';
+            this.selectedPhoneFollowUpDate = '';
+
     }
 
 
