@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges , Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { CaseManagementResourceService } from './../../etl-api/case-management-resource.service';
@@ -37,6 +37,7 @@ export class CaseManagementFiltersComponent implements OnInit, OnChanges {
     public locationParams = {};
 
     @Input() public clinicDashboardLocation: any;
+    @Output() public filterReset = new EventEmitter();
 
     public caseManagers = [];
     public selectedCaseManager: any;
@@ -128,7 +129,6 @@ export class CaseManagementFiltersComponent implements OnInit, OnChanges {
     }
 
     public setFilters() {
-        console.log('set filters..');
         this.filterSet = true;
         this.setParams();
     }
@@ -208,11 +208,12 @@ export class CaseManagementFiltersComponent implements OnInit, OnChanges {
                 break;
             case 'false':
                 this.hideCaseManagerControl = true;
+                this.selectedCaseManager = '';
                 break;
             default:
                 this.hideCaseManagerControl = false;
+                this.selectedCaseManager = '';
         }
-        this.selectedCaseManager = '';
     }
     public onHasPhoneRTCChange($event) {
         this.hasPhoneRTC = $event;
@@ -231,10 +232,8 @@ export class CaseManagementFiltersComponent implements OnInit, OnChanges {
         this.selectedPhoneFollowUpDate = Moment($event).format('YYYY-MM-DD');
     }
     public resetFilters() {
-            this.caseManagers = [];
             this.dueForVl = '';
             this.hasCaseManager = '';
-            this.hasCaseManager = false;
             this.hasPhoneRTC = '';
             this.elevatedVL = '';
             this.minFollowupPeriod = '';
@@ -248,6 +247,9 @@ export class CaseManagementFiltersComponent implements OnInit, OnChanges {
             this.selectedRtcEndDate = '';
             this.phoneFollowUpStartDate = '';
             this.selectedPhoneFollowUpDate = '';
+            this.filterSet = false;
+            this.filterReset.emit(true);
+            this.setParams();
 
     }
 
