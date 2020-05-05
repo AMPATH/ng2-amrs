@@ -27,7 +27,7 @@
                             "order_no": payload.orderNumber,
                             "sampletype": payload.sampleType ? payload.sampleType : 1,
                             "justification": getTestOrderJustification(payload) || 0,
-                            "pmtct": 3,
+                            "pmtct": payload.isPregnant === 1 ? 1 : payload.breastfeeding === 1 ? 2: 3,
                             "amrs_location": getLocation(payload, 'mrsId')
                         };
                         break;
