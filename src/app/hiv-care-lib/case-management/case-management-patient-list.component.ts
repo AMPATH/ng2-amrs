@@ -40,6 +40,8 @@ export class CaseManagementPatientListComponent implements OnInit {
   public display = false;
   public displayMassAssign = false;
   public caseForManager: any;
+  public caseAssignment = 0;
+  public displayMassAssignBtn = true;
   public gridOptions: GridOptions = {
     enableColResize: true,
     enableSorting: true,
@@ -168,6 +170,7 @@ export class CaseManagementPatientListComponent implements OnInit {
   ];
 
 
+
   constructor(private router: Router,
     private route: ActivatedRoute,
     private caseManagementResourceService: CaseManagementResourceService) {
@@ -231,7 +234,6 @@ public getLocationParams() {
         );
   }
   public rowSelected(event) {
-    console.log('event', event);
     if (event.api.getSelectedRows().length > 0) {
       event.columnApi.setColumnsVisible(['action', 'action2'], false, 'api');
     } else {
@@ -246,7 +248,7 @@ public getLocationParams() {
       caseManagers: this.caseForManager
     };
     if (isSubmiting === true) {
-      this.caseManagementResourceService.massAssign(massAssignPayload).subscribe(response =>{
+      this.caseManagementResourceService.massAssign(massAssignPayload).subscribe(response => {
        this.dismissDialog();
       });
     }
@@ -255,8 +257,17 @@ public getLocationParams() {
     this.display = false;
     this.displayMassAssign = false;
   }
-  public incrementCases(data, element) {
-    this.caseForManager.push({count: data.target.value, user_uuid: element});
+  public incrementCases(data, element, patientList) {
+    this.caseAssignment += parseInt(data.target.value, 10);
+    if (patientList >= this.caseAssignment) {
+      this.caseForManager.push({count: data.target.value, user_uuid: element});
+      this.showErrorAlert = false;
+    } else {
+      this.caseAssignment = 0;
+      this.showErrorAlert = true;
+      this.errorAlert = 'You have exceeded the number of patients to be assigned';
+    }
+
   }
   public trackByFn(index: any, item: any) {
     return index;
