@@ -219,18 +219,20 @@ public getLocationParams() {
     this.patient = data.patient_name;
     this.patientUuid = data.patient_uuid;
     this.currentManager = data.case_manager;
+    this.caseForManager = [];
   }
   public setCaseManager(data) {
     this.newManager = data;
+    this.caseForManager.push({count: 1, user_uuid: data.user_uuid, user_id: data.user_id , user_name: data.person_name});
   }
   public updateCaseManager(multiple: boolean) {
-    const caseManagerPayload = {'attributes': [{
-            'attributeType': '9a6e12b5-98fe-467a-9541-dab11ad87e45',
-            'value': this.newManager.user_uuid
-          }]};
-      this.caseManagementResourceService.updateCaseManagers(caseManagerPayload, this.patientUuid)
+          const massAssignPayload = {
+            patients: [{patient_uuid: this.patientUuid}],
+            caseManagers: this.caseForManager
+          };
+      this.caseManagementResourceService.massAssign(massAssignPayload)
         .subscribe(
-          data => { this.showSuccessAlert = true; this.display = false; this.successAlert = 'Case manager Changed Successfully'; },
+          data => { this.showSuccessAlert = true; this.successAlert = 'Case manager Changed Successfully'; this.dismissDialog(); },
           err => { this.showErrorAlert = true; this.errorAlert = 'Unable to change case managers'; }
         );
   }
@@ -258,6 +260,8 @@ public getLocationParams() {
   public dismissDialog() {
     this.display = false;
     this.displayMassAssign = false;
+    this.showSuccessAlert = false;
+    this.showErrorAlert = false;
   }
   public incrementCases(data, element, patientList, user_id, user_name ) {
     this.caseAssignment += parseInt(data.target.value, 10);
