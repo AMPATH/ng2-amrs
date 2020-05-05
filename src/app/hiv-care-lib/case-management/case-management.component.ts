@@ -39,7 +39,9 @@ export class CaseManagementComponent implements OnInit {
     .queryParams
     .subscribe((params: any) => {
         if (params) {
-          this.getPatientList(params);
+          if (params.filterSet === 'true') {
+            this.getPatientList(params);
+           }
           this.params = params;
           if (params.hasCaseManager) {
             this.toggleAssignCase(params.hasCaseManager);
@@ -100,6 +102,10 @@ export class CaseManagementComponent implements OnInit {
         'isError': false,
         'message': ''
       };
+     }
+
+     public filterReset($event) {
+      this.patientList = [];
      }
 
 
