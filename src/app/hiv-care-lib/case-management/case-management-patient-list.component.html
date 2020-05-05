@@ -4,7 +4,7 @@
           <h4>{{title}}</h4>                   
                   <hr class="intro-divider"  width="40%" />
                   <div *ngIf="rowData.length > 0">
-                  <button (click)="massAssignCaseManagers()">Mass assign</button>
+                  <button *ngIf="displayMassAssignBtn" (click)="massAssignCaseManagers()">Mass assign</button>
                   <ag-grid-angular #agGrid style="min-width: 100%; height: 500px;" class="ag-blue" 
                       [rowData]="rowData" 
                       [gridOptions]="gridOptions"
@@ -114,7 +114,7 @@
                 </td>
                 <td>
                   <span>
-                    <input type="number" id="caseForManager" class="form-control" name="caseForManager" default=0 [(ngModel)]="caseManagers[i].a" (change)="incrementCases($event, manager.user_uuid)"><br>
+                    <input type="number" id="caseForManager" class="form-control" name="caseForManager" default=0 [(ngModel)]="caseManagers[i].a" (change)="incrementCases($event, manager.user_uuid,patientList.length)"><br>
                   </span>
                 </td>
                 <td>
@@ -130,7 +130,7 @@
     </div>
   </div>
   <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" style="padding-top:15px">
-    <button class="btn btn-primary" type="button" (click)="massAssignCaseManagers(true)"><span>Save</span>
+    <button class="btn btn-primary" type="button" [disabled]="showErrorAlert" (click)="massAssignCaseManagers(true)"><span>Save</span>
     </button>
     <button class="btn btn-danger pull-right" type="button" (click)="dismissDialog()">
       <span>Cancel</span></button>
