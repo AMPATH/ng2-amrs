@@ -1,22 +1,22 @@
 <div class="container-fluid">
   <div class="row">
-      <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
-          <h4>{{title}}</h4>                   
-                  <hr class="intro-divider"  width="40%" />
-                  <div *ngIf="rowData.length > 0">
-                  <button (click)="massAssignCaseManagers()">Mass assign</button>
-                  <ag-grid-angular #agGrid style="min-width: 100%; height: 500px;" class="ag-blue" 
-                      [rowData]="rowData" 
-                      [gridOptions]="gridOptions"
-                      [columnDefs]="caseMgmtColdef"
-                      >
-                  </ag-grid-angular>
-                </div>
-                  <button class="btn btn-info pull-right" *ngIf="rowData.length > 0" (click)="exportPatientListToCsv()" style="color: #fff;">
-                      <i class="inline fa fa-file-excel-o"></i>
-                      <span>Export</span>
-                    </button>
+    <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+      <h4>{{title}}</h4>
+      <hr class="intro-divider" width="40%" />
+      <div *ngIf="rowData.length > 0">
+        <div *ngIf="!displayMassAssignBtn">
+          <button class="btn btn-success" (click)="massAssignCaseManagers()">Assign Case Manager</button>
+        </div>
+        <ag-grid-angular #agGrid style="min-width: 100%; height: 500px;" class="ag-blue" [rowData]="rowData"
+          [gridOptions]="gridOptions" [columnDefs]="caseMgmtColdef">
+        </ag-grid-angular>
       </div>
+      <button class="btn btn-info pull-right" *ngIf="rowData.length > 0" (click)="exportPatientListToCsv()"
+        style="color: #fff;">
+        <i class="inline fa fa-file-excel-o"></i>
+        <span>Export</span>
+      </button>
+    </div>
   </div>
 </div>
 <p-dialog header="Change Case Manager" [(visible)]="display">
@@ -36,7 +36,7 @@
       <div class="row">
         <form name="caseManager">
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-            
+
             <div class="form-group">
               <label for="patient" class="control-label">Patient</label>
               <input type="hidden" id="patientUuid" class="form-control" [(ngModel)]="patientUuid" name="patientUuid">
@@ -44,16 +44,18 @@
             </div>
             <div class="form-group">
               <label for="currentManager" class="control-label">Current Manager</label>
-              <input type="text" id="currentManager" class="form-control" [(ngModel)]="currentManager" name="currentManager" disabled>
+              <input type="text" id="currentManager" class="form-control" [(ngModel)]="currentManager"
+                name="currentManager" disabled>
             </div>
             <div class="form-group">
               <label class="control-label">New Manager:</label>
-              <select class="form-control"  name="newManager" [ngModel]="newManager" (ngModelChange)="setCaseManager($event)">
+              <select class="form-control" name="newManager" [ngModel]="newManager"
+                (ngModelChange)="setCaseManager($event)">
                 <option></option>
                 <option *ngFor="let c of caseManagers" [ngValue]="c">{{ c.person_name }}</option>
               </select>
               <div *ngIf="!newManager">
-                <div class="help-block" >New case Manager is required!</div>
+                <div class="help-block">New case Manager is required!</div>
               </div>
             </div>
           </div>
@@ -93,12 +95,12 @@
         <div class="table-responsive">
           <table class='table table-striped  table-responsive'>
             <thead>
-            <tr>
-              <th>Provider</th>
-              <th>Current # of Cases</th>
-              <th># of Cases to Assign</th>
-              <th>Total</th>
-            </tr>
+              <tr>
+                <th>Provider</th>
+                <th>Current # of Cases</th>
+                <th># of Cases to Assign</th>
+                <th>Total</th>
+              </tr>
             </thead>
             <tbody>
               <tr *ngFor="let manager of caseManagers; let i=index; trackBy:trackByFn" ngForm>
@@ -114,7 +116,9 @@
                 </td>
                 <td>
                   <span>
-                    <input type="number" id="caseForManager" class="form-control" name="caseForManager" default=0 [(ngModel)]="caseManagers[i].a" (change)="incrementCases($event, manager.user_uuid)"><br>
+                    <input type="number" id="caseForManager" class="form-control" name="caseForManager" default=0
+                      [(ngModel)]="caseManagers[i].a"
+                      (change)="incrementCases($event, manager.user_uuid,patientList.length, manager.user_id, manager.person_name)"><br>
                   </span>
                 </td>
                 <td>
@@ -130,7 +134,8 @@
     </div>
   </div>
   <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" style="padding-top:15px">
-    <button class="btn btn-primary" type="button" (click)="massAssignCaseManagers(true)"><span>Save</span>
+    <button class="btn btn-primary" type="button" [disabled]="showErrorAlert"
+      (click)="massAssignCaseManagers(true)"><span>Save</span>
     </button>
     <button class="btn btn-danger pull-right" type="button" (click)="dismissDialog()">
       <span>Cancel</span></button>
