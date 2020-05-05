@@ -186,6 +186,7 @@ export class CaseManagementPatientListComponent implements OnInit {
         if (params) {
           this.params = params;
           this.getCaseManagers();
+          this.displayMassAssignBtn = params.hasCaseManager === false ? true : false;
         }
       }, (error) => {
         console.error('Error', error);
@@ -247,6 +248,7 @@ public getLocationParams() {
       patients: this.patientList,
       caseManagers: this.caseForManager
     };
+    console.log(massAssignPayload);
     if (isSubmiting === true) {
       this.caseManagementResourceService.massAssign(massAssignPayload).subscribe(response => {
        this.dismissDialog();
@@ -257,10 +259,10 @@ public getLocationParams() {
     this.display = false;
     this.displayMassAssign = false;
   }
-  public incrementCases(data, element, patientList) {
+  public incrementCases(data, element, patientList, user_id, user_name ) {
     this.caseAssignment += parseInt(data.target.value, 10);
     if (patientList >= this.caseAssignment) {
-      this.caseForManager.push({count: data.target.value, user_uuid: element});
+      this.caseForManager.push({count: this.caseAssignment, user_uuid: element.trim(), user_id: user_id , user_name: user_name});
       this.showErrorAlert = false;
     } else {
       this.caseAssignment = 0;
