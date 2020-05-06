@@ -171,18 +171,6 @@ Fetch case management patient list
 
       return request;
     }
-
-    public updateCaseManagers(payload, uuid) {
-      if (!payload || !uuid) {
-        return null;
-      }
-      const url = this.openMrsUrl() + 'person/' + uuid;
-      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-      return this.http.post(url, JSON.stringify(payload), {headers}).pipe(
-        map((response: any) => {
-          return response.person;
-        }));
-    }
     public massAssign(payload) {
       if (!payload) {
         return null;
