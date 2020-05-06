@@ -16,7 +16,7 @@ export class CaseManagementFiltersComponent implements OnInit, OnChanges {
 
     public title = 'Case Management Report Filters';
     public params = {
-        'caseManagerUuid': '',
+        'caseManagerUserId': '',
         'hasCaseManager': '',
         'hasPhoneRTC': '',
         'dueForVl': '',
@@ -134,7 +134,7 @@ export class CaseManagementFiltersComponent implements OnInit, OnChanges {
     }
     public setParams() {
         this.params = {
-            'caseManagerUuid': this.selectedCaseManager,
+            'caseManagerUserId': this.selectedCaseManager,
             'dueForVl': this.dueForVl,
             'elevatedVL': this.elevatedVL,
             'hasCaseManager': this.hasCaseManager,
@@ -178,7 +178,7 @@ export class CaseManagementFiltersComponent implements OnInit, OnChanges {
             this.maxFollowupPeriod = urlParams.maxFollowupPeriod ? urlParams.maxFollowupPeriod : '';
             this.minDefaultPeriod = urlParams.minDefaultPeriod ? urlParams.minDefaultPeriod : '';
             this.maxDefaultPeriod = urlParams.maxDefaultPeriod ? urlParams.maxDefaultPeriod : '';
-            this.selectedCaseManager = urlParams.caseManagerUuid ? urlParams.caseManagerUuid : '';
+            this.selectedCaseManager = urlParams.caseManagerUserId ? urlParams.caseManagerUserId : '';
             this.rtcStartDate = urlParams.rtcStartDate ? urlParams.rtcStartDate : '';
             this.selectedRtcStartDate = this.rtcStartDate;
             this.rtcEndDate = urlParams.rtcEndDate ? urlParams.rtcEndDate : '';
