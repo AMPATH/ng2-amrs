@@ -10,56 +10,6 @@ export class CaseManagementResourceService {
     constructor(protected http: HttpClient, protected appSettingsService: AppSettingsService,
                 private cacheService: DataCacheService) { }
 
-    public mockCaseManagerPatientList = [
-      {
-        'patient_uuid': 'uuid',
-        'case_manager': 'Test Manager',
-        'patient_name': 'Test Patient',
-        'age': '21',
-        'gender': 'F',
-        'last_follow_up_date': '2020-03-01',
-        'days_since_follow_up': 10,
-        'rtc_date': '2020-04-01',
-        'phone_rtc_date': '2020-04-05',
-        'last_vl': 100,
-        'due_for_vl': 1,
-        'missed_appointment': 1,
-        'case_manager_uuid': 'muuid'
-
-      },
-      {
-        'patient_uuid': 'uuid2',
-        'case_manager': 'Test Manager 2',
-        'patient_name': 'Test Patient 2',
-        'age': '21',
-        'gender': 'F',
-        'last_follow_up_date': '2020-02-01',
-        'days_since_follow_up': 10,
-        'rtc_date': '2020-04-01',
-        'phone_rtc_date': '2020-04-05',
-        'last_vl': 1000,
-        'due_for_vl': 0,
-        'missed_appointment': 0,
-        'case_manager_uuid': 'muuid2'
-
-      }
-  ];
-    public mockCaseManagerProviders = [{}];
-
-  public mockParams = {
-      'locationUuid': 'uuid1',
-      'caseManagerUuid': 'manager_uuid',
-      'hasCaseManager': 1,
-      'hasPhoneRTC': 1,
-      'dueForVl': 1,
-      'elevatedVL': 1,
-      'rtcStartDate': '2020-04-30',
-      'rtcEndDate': '2020-04-30',
-      'phoneFollowUpStartDate': '2020-04-30',
-      'minDefaultPeriod': 0,
-      'maxDefaultPeriod': 100
-
-  };
 
     public getUrl(): string {
         return this.appSettingsService.getEtlRestbaseurl().trim();
@@ -80,8 +30,8 @@ export class CaseManagementResourceService {
       if (params.minDefaultPeriod && params.minDefaultPeriod !== '') {
           urlParams = urlParams.set('minDefaultPeriod', params.minDefaultPeriod);
       }
-      if (params.caseManagerUuid && params.caseManagerUuid.length > 0) {
-          urlParams = urlParams.set('caseManagerUuid', params.caseManagerUuid);
+      if (params.caseManagerUserId && params.caseManagerUserId.length > 0) {
+          urlParams = urlParams.set('caseManagerUserId', params.caseManagerUserId);
       }
       if (params.hasCaseManager && params.hasCaseManager !== '') {
           if (params.hasCaseManager === 'true') {
