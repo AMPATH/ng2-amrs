@@ -124,12 +124,26 @@ export class CaseManagementPatientListComponent implements OnInit {
     },
     {
       headerName: 'Due for VL',
-      field: 'due_for_vl',
-      width: 100
+      field: 'patients_due_for_vl',
+      width: 100,
+      cellRenderer: (column: any) => {
+        if (column.value === 1) {
+          return '<input type="checkbox" disabled="disabled" checked="checked">';
+        } else {
+           return '';
+        }
+       }
     },
     {
       headerName: 'Missed Appoitment',
-      field: 'current_vl_date',
+      field: 'missed_appointment',
+      cellRenderer: (column: any) => {
+        if (column.value === 1) {
+          return '<input type="checkbox" disabled="disabled" checked="checked">';
+        } else {
+           return '';
+        }
+    },
       width: 150
     },
     {
