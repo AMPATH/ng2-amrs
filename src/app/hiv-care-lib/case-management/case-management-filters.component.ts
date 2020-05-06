@@ -119,7 +119,7 @@ export class CaseManagementFiltersComponent implements OnInit, OnChanges {
             managers.push(
                 {
                     label: manager.person_name,
-                    value: manager.user_uuid
+                    value: manager.user_id
                 }
             );
         });
