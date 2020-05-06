@@ -73,7 +73,7 @@ export class CaseManagementPatientListComponent implements OnInit {
     {
       headerName: 'Case Manager',
       field: 'case_manager',
-      width: 400
+      width: 200
     },
     {
       headerName: 'Name',
@@ -123,6 +123,11 @@ export class CaseManagementPatientListComponent implements OnInit {
       width: 150
     },
     {
+      headerName: 'Last VL Date',
+      field: 'last_vl_date',
+      width: 150
+    },
+    {
       headerName: 'Due for VL',
       field: 'patients_due_for_vl',
       width: 100,
@@ -145,6 +150,11 @@ export class CaseManagementPatientListComponent implements OnInit {
         }
     },
       width: 150
+    },
+    {
+      headerName: 'Days Since Missed Appointment',
+      field: 'days_since_missed_appointment',
+      width: 250
     },
     {
       headerName: 'Action',
@@ -211,7 +221,7 @@ export class CaseManagementPatientListComponent implements OnInit {
   public followUp(patientUuid) {
     console.log(patientUuid);
     this.router.navigate(['/patient-dashboard/patient/' + patientUuid +
-      '/hiv/hiv/visit']);
+      '/general/general/patient-info']);
   }
   public getCaseManagers() {
     const locationParams = this.getLocationParams();
