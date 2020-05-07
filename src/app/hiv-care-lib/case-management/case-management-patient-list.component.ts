@@ -50,7 +50,6 @@ export class CaseManagementPatientListComponent implements OnInit {
     pagination: true,
     paginationPageSize: 300,
     rowSelection: 'multiple',
-    onRowSelected: this.rowSelected,
     onGridSizeChanged: () => {
       if (this.gridOptions.api) {
         // this.gridOptions.api.sizeColumnsToFit();
@@ -247,7 +246,10 @@ public getLocationParams() {
   }
   public setCaseManager(data) {
     this.newManager = data;
-    this.caseForManager.push({count: 1, user_uuid: data.user_uuid, user_id: data.user_id , user_name: data.person_name});
+    if (data) {
+      this.caseForManager.push({count: 1, user_uuid: data.user_uuid, user_id: data.user_id , user_name: data.person_name});
+    }
+
   }
   public updateCaseManager(multiple: boolean) {
           const massAssignPayload = {
@@ -256,17 +258,17 @@ public getLocationParams() {
           };
       this.caseManagementResourceService.massAssign(massAssignPayload)
         .subscribe(
-          data => { this.showSuccessAlert = true; this.successAlert = 'Case manager Changed Successfully'; this.dismissDialog(); },
+          data => {
+            this.showSuccessAlert = true;
+            this.successAlert = 'Case manager Changed Successfully';
+            setTimeout(() => {
+              this.dismissDialog();
+            }, 2000);
+            },
           err => { this.showErrorAlert = true; this.errorAlert = 'Unable to change case managers'; }
         );
   }
-  public rowSelected(event) {
-    if (event.api.getSelectedRows().length > 0) {
-      event.columnApi.setColumnsVisible(['action', 'action2'], false, 'api');
-    } else {
-      event.columnApi.setColumnsVisible  (['action', 'action2'], true, 'api');
-    }
-  }
+
   public massAssignCaseManagers(isSubmiting) {
     this.displayMassAssign = true;
     this.patientList = this.gridOptions.api.getSelectedRows();
@@ -277,7 +279,11 @@ public getLocationParams() {
     console.log(massAssignPayload);
     if (isSubmiting === true) {
       this.caseManagementResourceService.massAssign(massAssignPayload).subscribe(response => {
-       this.dismissDialog();
+        this.showSuccessAlert = true;
+        this.successAlert = 'Case manager Changed Successfully';
+        setTimeout(() => {
+          this.dismissDialog();
+        }, 2000);
       });
     }
   }
