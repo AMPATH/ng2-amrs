@@ -222,13 +222,16 @@ export class CaseManagementFiltersComponent implements OnInit, OnChanges {
         this.showFilters = !this.showFilters;
     }
     public getSelectedRtcStartDate($event) {
+        this.rtcStartDate = $event;
         this.selectedRtcStartDate = Moment($event).format('YYYY-MM-DD');
     }
 
     public getSelectedRtcEndDate($event) {
+        this.rtcEndDate = $event;
         this.selectedRtcEndDate = Moment($event).format('YYYY-MM-DD');
     }
     public getSelectedPhoneFollowUpStartDate($event) {
+        this.phoneFollowUpStartDate = $event;
         this.selectedPhoneFollowUpDate = Moment($event).format('YYYY-MM-DD');
     }
     public resetFilters() {
