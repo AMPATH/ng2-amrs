@@ -102,9 +102,7 @@ export class CaseManagementResourceService {
           params: urlParams
       });
 
-      return request;
-
-      // return this.cacheService.cacheRequest(url, urlParams, request);
+      return this.cacheService.cacheRequest(url, urlParams, request);
 
     }
 
@@ -119,7 +117,7 @@ Fetch case management patient list
           params: urlParams
       });
 
-      return request;
+      return this.cacheService.cacheRequest(url, urlParams, request);
     }
     public massAssign(payload) {
       if (!payload) {
