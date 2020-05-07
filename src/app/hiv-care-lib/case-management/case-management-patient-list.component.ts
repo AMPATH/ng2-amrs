@@ -315,4 +315,7 @@ public getLocationParams() {
   this.router.navigate(['/patient-dashboard/patient/' + patientUuid +
     '/general/general/landing-page']);
 }
+public exportPatientListToCsv() {
+  this.gridOptions.api.exportDataAsCsv();
+}
 }
