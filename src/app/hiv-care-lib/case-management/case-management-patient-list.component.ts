@@ -113,7 +113,7 @@ export class CaseManagementPatientListComponent implements OnInit {
     },
     {
       headerName: 'Phone RTC',
-      field: 'phone_rtc_date',
+      field: 'next_phone_appointment',
       width: 200
     },
     {
