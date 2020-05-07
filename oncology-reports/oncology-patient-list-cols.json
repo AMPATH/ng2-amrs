@@ -1304,7 +1304,20 @@
           "gender",
           "age",
           "phone_number",
-          "hiv_status"
+          "death_date",
+          "hiv_status",
+          "uses_tobacco",
+          "years_of_tobacco_use",
+          "sticks_smoked_per_day",
+          "education_level",
+          "marital_status",
+          "diagnosis_date",
+          "age_at_diagnosis",
+          "chemo_start_date",
+          "chemo_stop_date",
+          "overall_cancer_staging",
+          "lung_cancer_type",
+          "non_small_cell_lung_cancer_type"
         ]
       },
       {
@@ -1316,7 +1329,21 @@
           "person_name",
           "gender",
           "age",
-          "phone_number"
+          "phone_number",
+          "death_date",
+          "hiv_status",
+          "uses_tobacco",
+          "years_of_tobacco_use",
+          "sticks_smoked_per_day",
+          "education_level",
+          "marital_status",
+          "diagnosis_date",
+          "age_at_diagnosis",
+          "chemo_start_date",
+          "chemo_stop_date",
+          "overall_cancer_staging",
+          "lung_cancer_type",
+          "non_small_cell_lung_cancer_type"
         ]
       },
       {
@@ -1328,7 +1355,21 @@
           "person_name",
           "gender",
           "age",
-          "phone_number"
+          "phone_number",
+          "death_date",
+          "hiv_status",
+          "uses_tobacco",
+          "years_of_tobacco_use",
+          "sticks_smoked_per_day",
+          "education_level",
+          "marital_status",
+          "diagnosis_date",
+          "age_at_diagnosis",
+          "chemo_start_date",
+          "chemo_stop_date",
+          "overall_cancer_staging",
+          "lung_cancer_type",
+          "non_small_cell_lung_cancer_type"
         ]
       },
       {
@@ -1340,7 +1381,21 @@
           "person_name",
           "gender",
           "age",
-          "phone_number"
+          "phone_number",
+          "death_date",
+          "hiv_status",
+          "uses_tobacco",
+          "years_of_tobacco_use",
+          "sticks_smoked_per_day",
+          "education_level",
+          "marital_status",
+          "diagnosis_date",
+          "age_at_diagnosis",
+          "chemo_start_date",
+          "chemo_stop_date",
+          "overall_cancer_staging",
+          "lung_cancer_type",
+          "non_small_cell_lung_cancer_type"
         ]
       },
       {
@@ -1352,7 +1407,21 @@
           "person_name",
           "gender",
           "age",
-          "phone_number"
+          "phone_number",
+          "death_date",
+          "hiv_status",
+          "uses_tobacco",
+          "years_of_tobacco_use",
+          "sticks_smoked_per_day",
+          "education_level",
+          "marital_status",
+          "diagnosis_date",
+          "age_at_diagnosis",
+          "chemo_start_date",
+          "chemo_stop_date",
+          "overall_cancer_staging",
+          "lung_cancer_type",
+          "non_small_cell_lung_cancer_type"
         ]
       },
       {
@@ -1365,7 +1434,21 @@
           "gender",
           "age",
           "phone_number",
-          "referred_from"
+          "referred_from",
+          "death_date",
+          "hiv_status",
+          "uses_tobacco",
+          "years_of_tobacco_use",
+          "sticks_smoked_per_day",
+          "education_level",
+          "marital_status",
+          "diagnosis_date",
+          "age_at_diagnosis",
+          "chemo_start_date",
+          "chemo_stop_date",
+          "overall_cancer_staging",
+          "lung_cancer_type",
+          "non_small_cell_lung_cancer_type"
         ]
       },
       {
@@ -1377,7 +1460,21 @@
           "person_name",
           "gender",
           "age",
-          "phone_number"
+          "phone_number",
+          "death_date",
+          "hiv_status",
+          "uses_tobacco",
+          "years_of_tobacco_use",
+          "sticks_smoked_per_day",
+          "education_level",
+          "marital_status",
+          "diagnosis_date",
+          "age_at_diagnosis",
+          "chemo_start_date",
+          "chemo_stop_date",
+          "overall_cancer_staging",
+          "lung_cancer_type",
+          "non_small_cell_lung_cancer_type"
         ]
       },
       {
@@ -1389,7 +1486,21 @@
           "person_name",
           "gender",
           "age",
-          "phone_number"
+          "phone_number",
+          "death_date",
+          "hiv_status",
+          "uses_tobacco",
+          "years_of_tobacco_use",
+          "sticks_smoked_per_day",
+          "education_level",
+          "marital_status",
+          "diagnosis_date",
+          "age_at_diagnosis",
+          "chemo_start_date",
+          "chemo_stop_date",
+          "overall_cancer_staging",
+          "lung_cancer_type",
+          "non_small_cell_lung_cancer_type"
         ]
       },
       {
@@ -1401,7 +1512,21 @@
           "person_name",
           "gender",
           "age",
-          "phone_number"
+          "phone_number",
+          "death_date",
+          "hiv_status",
+          "uses_tobacco",
+          "years_of_tobacco_use",
+          "sticks_smoked_per_day",
+          "education_level",
+          "marital_status",
+          "diagnosis_date",
+          "age_at_diagnosis",
+          "chemo_start_date",
+          "chemo_stop_date",
+          "overall_cancer_staging",
+          "lung_cancer_type",
+          "non_small_cell_lung_cancer_type"
         ]
       },
       {
@@ -1413,7 +1538,21 @@
           "person_name",
           "gender",
           "age",
-          "phone_number"
+          "phone_number",
+          "death_date",
+          "hiv_status",
+          "uses_tobacco",
+          "years_of_tobacco_use",
+          "sticks_smoked_per_day",
+          "education_level",
+          "marital_status",
+          "diagnosis_date",
+          "age_at_diagnosis",
+          "chemo_start_date",
+          "chemo_stop_date",
+          "overall_cancer_staging",
+          "lung_cancer_type",
+          "non_small_cell_lung_cancer_type"
         ]
       },
       {
@@ -1425,7 +1564,21 @@
           "person_name",
           "gender",
           "age",
-          "phone_number"
+          "phone_number",
+          "death_date",
+          "hiv_status",
+          "uses_tobacco",
+          "years_of_tobacco_use",
+          "sticks_smoked_per_day",
+          "education_level",
+          "marital_status",
+          "diagnosis_date",
+          "age_at_diagnosis",
+          "chemo_start_date",
+          "chemo_stop_date",
+          "overall_cancer_staging",
+          "lung_cancer_type",
+          "non_small_cell_lung_cancer_type"
         ]
       },
       {
@@ -1437,7 +1590,21 @@
           "person_name",
           "gender",
           "age",
-          "phone_number"
+          "phone_number",
+          "death_date",
+          "hiv_status",
+          "uses_tobacco",
+          "years_of_tobacco_use",
+          "sticks_smoked_per_day",
+          "education_level",
+          "marital_status",
+          "diagnosis_date",
+          "age_at_diagnosis",
+          "chemo_start_date",
+          "chemo_stop_date",
+          "overall_cancer_staging",
+          "lung_cancer_type",
+          "non_small_cell_lung_cancer_type"
         ]
       },
       {
@@ -1450,7 +1617,21 @@
           "gender",
           "age",
           "phone_number ",
-          "metastasis_region"
+          "metastasis_region",
+          "death_date",
+          "hiv_status",
+          "uses_tobacco",
+          "years_of_tobacco_use",
+          "sticks_smoked_per_day",
+          "education_level",
+          "marital_status",
+          "diagnosis_date",
+          "age_at_diagnosis",
+          "chemo_start_date",
+          "chemo_stop_date",
+          "overall_cancer_staging",
+          "lung_cancer_type",
+          "non_small_cell_lung_cancer_type"
         ]
       },
       {
@@ -1463,7 +1644,21 @@
           "gender",
           "age",
           "phone_number",
-          "metastasis_region"
+          "metastasis_region",
+          "death_date",
+          "hiv_status",
+          "uses_tobacco",
+          "years_of_tobacco_use",
+          "sticks_smoked_per_day",
+          "education_level",
+          "marital_status",
+          "diagnosis_date",
+          "age_at_diagnosis",
+          "chemo_start_date",
+          "chemo_stop_date",
+          "overall_cancer_staging",
+          "lung_cancer_type",
+          "non_small_cell_lung_cancer_type"
         ]
       },
       {
@@ -1476,7 +1671,21 @@
           "gender",
           "age",
           "phone_number",
-          "metastasis_region"
+          "metastasis_region",
+          "death_date",
+          "hiv_status",
+          "uses_tobacco",
+          "years_of_tobacco_use",
+          "sticks_smoked_per_day",
+          "education_level",
+          "marital_status",
+          "diagnosis_date",
+          "age_at_diagnosis",
+          "chemo_start_date",
+          "chemo_stop_date",
+          "overall_cancer_staging",
+          "lung_cancer_type",
+          "non_small_cell_lung_cancer_type"
         ]
       },
       {
@@ -1489,7 +1698,21 @@
           "gender",
           "age",
           "phone_number",
-          "metastasis_region"
+          "metastasis_region",
+          "death_date",
+          "hiv_status",
+          "uses_tobacco",
+          "years_of_tobacco_use",
+          "sticks_smoked_per_day",
+          "education_level",
+          "marital_status",
+          "diagnosis_date",
+          "age_at_diagnosis",
+          "chemo_start_date",
+          "chemo_stop_date",
+          "overall_cancer_staging",
+          "lung_cancer_type",
+          "non_small_cell_lung_cancer_type"
         ]
       },
       {
@@ -1502,7 +1725,21 @@
           "gender",
           "age",
           "phone_number",
-          "metastasis_region"
+          "metastasis_region",
+          "death_date",
+          "hiv_status",
+          "uses_tobacco",
+          "years_of_tobacco_use",
+          "sticks_smoked_per_day",
+          "education_level",
+          "marital_status",
+          "diagnosis_date",
+          "age_at_diagnosis",
+          "chemo_start_date",
+          "chemo_stop_date",
+          "overall_cancer_staging",
+          "lung_cancer_type",
+          "non_small_cell_lung_cancer_type"
         ]
       },
       {
@@ -1515,7 +1752,21 @@
           "gender",
           "age",
           "phone_number",
-          "metastasis_region"
+          "metastasis_region",
+          "death_date",
+          "hiv_status",
+          "uses_tobacco",
+          "years_of_tobacco_use",
+          "sticks_smoked_per_day",
+          "education_level",
+          "marital_status",
+          "diagnosis_date",
+          "age_at_diagnosis",
+          "chemo_start_date",
+          "chemo_stop_date",
+          "overall_cancer_staging",
+          "lung_cancer_type",
+          "non_small_cell_lung_cancer_type"
         ]
       },
       {
@@ -1527,7 +1778,21 @@
           "person_name",
           "gender",
           "age",
-          "phone_number"
+          "phone_number",
+          "death_date",
+          "hiv_status",
+          "uses_tobacco",
+          "years_of_tobacco_use",
+          "sticks_smoked_per_day",
+          "education_level",
+          "marital_status",
+          "diagnosis_date",
+          "age_at_diagnosis",
+          "chemo_start_date",
+          "chemo_stop_date",
+          "overall_cancer_staging",
+          "lung_cancer_type",
+          "non_small_cell_lung_cancer_type"
         ]
       },
       {
@@ -1539,7 +1804,21 @@
           "person_name",
           "gender",
           "age",
-          "phone_number"
+          "phone_number",
+          "death_date",
+          "hiv_status",
+          "uses_tobacco",
+          "years_of_tobacco_use",
+          "sticks_smoked_per_day",
+          "education_level",
+          "marital_status",
+          "diagnosis_date",
+          "age_at_diagnosis",
+          "chemo_start_date",
+          "chemo_stop_date",
+          "overall_cancer_staging",
+          "lung_cancer_type",
+          "non_small_cell_lung_cancer_type"
         ]
       },
       {
@@ -1551,7 +1830,21 @@
           "person_name",
           "gender",
           "age",
-          "phone_number"
+          "phone_number",
+          "death_date",
+          "hiv_status",
+          "uses_tobacco",
+          "years_of_tobacco_use",
+          "sticks_smoked_per_day",
+          "education_level",
+          "marital_status",
+          "diagnosis_date",
+          "age_at_diagnosis",
+          "chemo_start_date",
+          "chemo_stop_date",
+          "overall_cancer_staging",
+          "lung_cancer_type",
+          "non_small_cell_lung_cancer_type"
         ]
       }
     ]
