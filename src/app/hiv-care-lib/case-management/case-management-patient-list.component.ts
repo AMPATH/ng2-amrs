@@ -43,6 +43,7 @@ export class CaseManagementPatientListComponent implements OnInit {
   public caseForManager: any;
   public caseAssignment = 0;
   public displayMassAssignBtn = true;
+  public unAssignFlag = false;
   public gridOptions: GridOptions = {
     enableColResize: true,
     enableSorting: true,
@@ -157,7 +158,7 @@ export class CaseManagementPatientListComponent implements OnInit {
       width: 250
     },
     {
-      headerName: 'Action',
+      headerName: 'Follow Up',
       field: 'action',
       onCellClicked: (column: any) => {
         const patientUuid = column.data.patient_uuid;
@@ -171,14 +172,20 @@ export class CaseManagementPatientListComponent implements OnInit {
 
     },
     {
-      headerName: '',
+      headerName: 'Change Manager',
       field: 'action2',
       onCellClicked: (column: any) => {
         const data = column.data;
         this.changeManager(data);
       },
       cellRenderer: (column) => {
-          return '<a> <i class="fa fa-user-md" aria-hidden="true"></i> Change Manager </a>';
+        let assignBtn = '';
+        if (column.data.case_manager_user_id) {
+          assignBtn = '<a> <i class="fa fa-user-md" aria-hidden="true"></i> Update Manager </a>';
+        } else {
+          assignBtn = '<a> <i class="fa fa-user-md" aria-hidden="true"></i> Assign Manager </a>';
+        }
+        return assignBtn;
       },
       width: 150,
       pinned: 'right'
@@ -247,21 +254,29 @@ public getLocationParams() {
   }
   public setCaseManager(data) {
     this.newManager = data;
-    if (data) {
+    if (data && !this.unAssignFlag) {
       this.caseForManager.push({count: 1, user_uuid: data.user_uuid, user_id: data.user_id , user_name: data.person_name});
     }
 
   }
   public updateCaseManager(multiple: boolean) {
-          const massAssignPayload = {
-            patients: [{patient_uuid: this.patientUuid}],
-            caseManagers: this.caseForManager
-          };
+    let massAssignPayload = {};
+    if (this.unAssignFlag) {
+       massAssignPayload = {
+        patients: [{patient_uuid: this.patientUuid, attribute_uuid: '449087c1-6a84-492e-bb0a-66a5b277eb5a'}]
+      };
+    } else {
+       massAssignPayload = {
+        patients: [{patient_uuid: this.patientUuid}],
+        caseManagers: this.caseForManager
+      };
+    }
       this.caseManagementResourceService.massAssign(massAssignPayload)
         .subscribe(
           data => {
             this.showSuccessAlert = true;
             this.successAlert = 'Case manager Changed Successfully';
+            this.caseAssignment = 0;
             this.updatePatientList.emit(true);
             setTimeout(() => {
               this.dismissDialog();
@@ -299,7 +314,7 @@ public getLocationParams() {
   public incrementCases(data, element, patientList, user_id, user_name ) {
     let assignedCase = 0;
     this.caseAssignment = this.getSum();
-    if (( patientList - this.caseAssignment) >= 1) {
+    if (( patientList - this.caseAssignment) >= 1 && data.target.value <= patientList) {
       assignedCase = data.target.value ? parseInt(data.target.value, 10) : 0;
       this.handleDuplicates(assignedCase, element, user_id, user_name);
       this.showErrorAlert = false;
