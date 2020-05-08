@@ -44,6 +44,7 @@ export class CaseManagementPatientListComponent implements OnInit {
   public caseAssignment = 0;
   public displayMassAssignBtn = true;
   public unAssignFlag = false;
+  public attributeUuid: any;
   public gridOptions: GridOptions = {
     enableColResize: true,
     enableSorting: true,
@@ -85,7 +86,7 @@ export class CaseManagementPatientListComponent implements OnInit {
         this.redirectTopatientInfo(patientUuid);
       },
       cellRenderer: (column: any) => {
-          return '<a href="javascript:void(0)";>' + column.value + '</a>';
+        return '<a href="javascript:void(0)";>' + column.value + '</a>';
       }
     },
     {
@@ -136,9 +137,9 @@ export class CaseManagementPatientListComponent implements OnInit {
         if (column.value === 1) {
           return '<input type="checkbox" disabled="disabled" checked="checked">';
         } else {
-           return '';
+          return '';
         }
-       }
+      }
     },
     {
       headerName: 'Missed Appoitment',
@@ -147,9 +148,9 @@ export class CaseManagementPatientListComponent implements OnInit {
         if (column.value === 1) {
           return '<input type="checkbox" disabled="disabled" checked="checked">';
         } else {
-           return '';
+          return '';
         }
-    },
+      },
       width: 150
     },
     {
@@ -165,7 +166,7 @@ export class CaseManagementPatientListComponent implements OnInit {
         this.followUp(patientUuid);
       },
       cellRenderer: (column) => {
-          return '<a> <i class="fa fa-phone-square" aria-hidden="true"></i> Follow Up </a>';
+        return '<a> <i class="fa fa-phone-square" aria-hidden="true"></i> Follow Up </a>';
       },
       width: 150,
       pinned: 'right'
@@ -202,6 +203,7 @@ export class CaseManagementPatientListComponent implements OnInit {
 
 
 
+
   constructor(private router: Router,
     private route: ActivatedRoute,
     private caseManagementResourceService: CaseManagementResourceService) {
@@ -212,8 +214,8 @@ export class CaseManagementPatientListComponent implements OnInit {
     this.caseForManager = [];
     this.caseManagers = [];
     this.route
-    .queryParams
-    .subscribe((params: any) => {
+      .queryParams
+      .subscribe((params: any) => {
         if (params) {
           this.params = params;
           this.getCaseManagers();
@@ -233,29 +235,30 @@ export class CaseManagementPatientListComponent implements OnInit {
   public getCaseManagers() {
     const locationParams = this.getLocationParams();
     this.caseManagementResourceService.getCaseManagers(locationParams)
-        .subscribe((data: any) => {
-            this.caseManagers = data.result;
-        });
+      .subscribe((data: any) => {
+        this.caseManagers = data.result;
+      });
 
-}
+  }
 
-public getLocationParams() {
+  public getLocationParams() {
     return {
-        'locationUuid': this.params.locationUuid
+      'locationUuid': this.params.locationUuid
     };
-}
+  }
   public changeManager(data) {
     this.getCaseManagers();
     this.display = true;
     this.patient = data.patient_name;
     this.patientUuid = data.patient_uuid;
     this.currentManager = data.case_manager;
+    this.attributeUuid = data.attribute_uuid;
     this.caseForManager = [];
   }
   public setCaseManager(data) {
     this.newManager = data;
     if (data && !this.unAssignFlag) {
-      this.caseForManager.push({count: 1, user_uuid: data.user_uuid, user_id: data.user_id , user_name: data.person_name});
+      this.caseForManager.push({ count: 1, user_uuid: data.user_uuid, user_id: data.user_id, user_name: data.person_name });
     }
 
   }
@@ -263,29 +266,44 @@ public getLocationParams() {
     let massAssignPayload = {};
     if (this.unAssignFlag) {
        massAssignPayload = {
-        patients: [{patient_uuid: this.patientUuid, attribute_uuid: '449087c1-6a84-492e-bb0a-66a5b277eb5a'}]
+        patients: [{patient_uuid: this.patientUuid, attribute_uuid: this.attributeUuid}]
       };
+      this.unAssignManager(massAssignPayload);
     } else {
-       massAssignPayload = {
-        patients: [{patient_uuid: this.patientUuid}],
+      massAssignPayload = {
+        patients: [{ patient_uuid: this.patientUuid }],
         caseManagers: this.caseForManager
       };
+    this.caseManagementResourceService.massAssign(massAssignPayload)
+      .subscribe(
+        data => {
+          this.showSuccessAlert = true;
+          this.successAlert = 'Case manager Changed Successfully';
+          this.caseAssignment = 0;
+          this.updatePatientList.emit(true);
+          setTimeout(() => {
+            this.dismissDialog();
+          }, 2000);
+        },
+        err => { this.showErrorAlert = true; this.errorAlert = 'Unable to change case managers'; }
+      );
     }
-      this.caseManagementResourceService.massAssign(massAssignPayload)
-        .subscribe(
-          data => {
-            this.showSuccessAlert = true;
-            this.successAlert = 'Case manager Changed Successfully';
-            this.caseAssignment = 0;
-            this.updatePatientList.emit(true);
-            setTimeout(() => {
-              this.dismissDialog();
-            }, 2000);
-            },
-          err => { this.showErrorAlert = true; this.errorAlert = 'Unable to change case managers'; }
-        );
   }
-
+  public unAssignManager(payload) {
+    this.caseManagementResourceService.massUnAssign(payload)
+    .subscribe(
+      data => {
+        this.showSuccessAlert = true;
+        this.successAlert = 'Case manager Unassigned Successfully';
+        this.caseAssignment = 0;
+        this.updatePatientList.emit(true);
+        setTimeout(() => {
+          this.dismissDialog();
+        }, 2000);
+      },
+      err => { this.showErrorAlert = true; this.errorAlert = 'Unable to unassign case managers'; }
+    );
+  }
   public massAssignCaseManagers(isSubmiting) {
     this.displayMassAssign = true;
     this.patientList = this.gridOptions.api.getSelectedRows();
@@ -311,14 +329,14 @@ public getLocationParams() {
     this.showSuccessAlert = false;
     this.showErrorAlert = false;
   }
-  public incrementCases(data, element, patientList, user_id, user_name ) {
+  public incrementCases(data, element, patientList, user_id, user_name) {
     let assignedCase = 0;
     this.caseAssignment = this.getSum();
-    if (( patientList - this.caseAssignment) >= 1 && data.target.value <= patientList) {
+    if ((patientList - this.caseAssignment) >= 1 && data.target.value <= patientList) {
       assignedCase = data.target.value ? parseInt(data.target.value, 10) : 0;
       this.handleDuplicates(assignedCase, element, user_id, user_name);
       this.showErrorAlert = false;
-    } else  {
+    } else {
       this.handleDuplicates(assignedCase, element, user_id, user_name);
       this.showErrorAlert = true;
       this.errorAlert = 'You have exceeded the number of patients to be assigned';
@@ -326,29 +344,29 @@ public getLocationParams() {
   }
   public trackByFn(index: any, item: any) {
     return index;
- }
+  }
 
- public handleDuplicates(assignedCase, element, user_id, user_name) {
-  const position = this.caseForManager.findIndex(v => v.user_id === user_id);
-  if (position !== -1) {
-    this.caseForManager.splice(position, 1);
-    this.caseForManager.push({count: assignedCase, user_uuid: element.trim(), user_id: user_id , user_name: user_name});
-  } else {
-    this.caseForManager.push({count: assignedCase, user_uuid: element.trim(), user_id: user_id , user_name: user_name});
+  public handleDuplicates(assignedCase, element, user_id, user_name) {
+    const position = this.caseForManager.findIndex(v => v.user_id === user_id);
+    if (position !== -1) {
+      this.caseForManager.splice(position, 1);
+      this.caseForManager.push({ count: assignedCase, user_uuid: element.trim(), user_id: user_id, user_name: user_name });
+    } else {
+      this.caseForManager.push({ count: assignedCase, user_uuid: element.trim(), user_id: user_id, user_name: user_name });
+    }
+    this.caseAssignment = this.getSum();
   }
-  this.caseAssignment = this.getSum();
- }
-public getSum() {
-  return this.caseForManager.map(m => m.count).reduce((a, b) => a + b, 0);
-}
- public redirectTopatientInfo(patientUuid) {
-  if (patientUuid === undefined || patientUuid === null) {
-    return;
+  public getSum() {
+    return this.caseForManager.map(m => m.count).reduce((a, b) => a + b, 0);
   }
-  this.router.navigate(['/patient-dashboard/patient/' + patientUuid +
-    '/general/general/landing-page']);
-}
-public exportPatientListToCsv() {
-  this.gridOptions.api.exportDataAsCsv();
-}
+  public redirectTopatientInfo(patientUuid) {
+    if (patientUuid === undefined || patientUuid === null) {
+      return;
+    }
+    this.router.navigate(['/patient-dashboard/patient/' + patientUuid +
+      '/general/general/landing-page']);
+  }
+  public exportPatientListToCsv() {
+    this.gridOptions.api.exportDataAsCsv();
+  }
 }
