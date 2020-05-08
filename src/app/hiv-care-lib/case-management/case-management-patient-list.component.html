@@ -3,6 +3,9 @@
     <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
       <h4>{{title}}</h4>
       <hr class="intro-divider" width="40%" />
+      <div *ngIf="rowData.length === 0">
+          <h4 align="center">No cases to load</h4>
+      </div>
       <div *ngIf="rowData.length > 0">
         <div *ngIf="!displayMassAssignBtn">
           <button class="btn btn-success" (click)="massAssignCaseManagers()">Assign Case Manager</button>
