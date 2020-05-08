@@ -117,7 +117,7 @@ Fetch case management patient list
           params: urlParams
       });
 
-      return this.cacheService.cacheRequest(url, urlParams, request);
+      return request;
     }
     public massAssign(payload) {
       if (!payload) {
