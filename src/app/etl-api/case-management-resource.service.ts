@@ -130,4 +130,15 @@ Fetch case management patient list
           return response;
         }));
     }
+    public massUnAssign(payload) {
+      if (!payload) {
+        return null;
+      }
+      const url = this.getUrl() + 'unassign-patients';
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      return this.http.post(url, JSON.stringify(payload), {headers}).pipe(
+        map((response: any) => {
+          return response;
+        }));
+    }
 }
