@@ -31,6 +31,9 @@
           <div class="alert alert-success" *ngIf="showSuccessAlert" style="margin-top:10px">
             <strong>Done!</strong> {{successAlert}}
           </div>
+          <div class="alert alert-warning" *ngIf="unAssignFlag" style="margin-top:10px">
+            <strong>Unassigning Patient Manager:</strong> Are you sure you want to unassign Case manage?
+          </div>
           <div class="alert alert-danger" *ngIf="showErrorAlert" style="margin-top:10px">
             <strong>{{errorTitle}}</strong> {{errorAlert}}
           </div>
@@ -39,7 +42,14 @@
       <div class="row">
         <form name="caseManager">
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-
+            <div *ngIf="currentManager" class="form-group">
+              <label class="control-label">Update Case Manager </label>
+              <div class="checkbox">
+                  <label>
+                    <input type="checkbox" id="unAssignFlag" [(ngModel)]="unAssignFlag"  name="unAssignFlag">Unassign Case Manager
+                  </label>
+              </div>
+          </div>
             <div class="form-group">
               <label for="patient" class="control-label">Patient</label>
               <input type="hidden" id="patientUuid" class="form-control" [(ngModel)]="patientUuid" name="patientUuid">
@@ -50,7 +60,7 @@
               <input type="text" id="currentManager" class="form-control" [(ngModel)]="currentManager"
                 name="currentManager" disabled>
             </div>
-            <div class="form-group">
+            <div class="form-group" *ngIf="!unAssignFlag">
               <label class="control-label">New Manager:</label>
               <select class="form-control" name="newManager" [ngModel]="newManager"
                 (ngModelChange)="setCaseManager($event)">
