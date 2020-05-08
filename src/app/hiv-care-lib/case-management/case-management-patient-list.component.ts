@@ -1,5 +1,5 @@
 
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { Subscription } from 'rxjs';
@@ -35,6 +35,7 @@ export class CaseManagementPatientListComponent implements OnInit {
   @Input() public rowData = [];
   public params: any;
   @Input() public locationUuids: any;
+  @Output() public updatePatientList = new EventEmitter();
   public subscription: any;
   public busy: Subscription;
   public display = false;
@@ -261,6 +262,7 @@ public getLocationParams() {
           data => {
             this.showSuccessAlert = true;
             this.successAlert = 'Case manager Changed Successfully';
+            this.updatePatientList.emit(true);
             setTimeout(() => {
               this.dismissDialog();
             }, 2000);
@@ -282,6 +284,7 @@ public getLocationParams() {
         this.showSuccessAlert = true;
         this.successAlert = 'Case manager Changed Successfully';
         setTimeout(() => {
+          this.updatePatientList.emit(true);
           this.dismissDialog();
         }, 2000);
       });

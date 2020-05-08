@@ -39,6 +39,7 @@ export class CaseManagementComponent implements OnInit {
     .queryParams
     .subscribe((params: any) => {
         if (params) {
+            this.patientList = params;
           if (params.filterSet === 'true') {
             this.getPatientList(params);
            }
@@ -106,6 +107,13 @@ export class CaseManagementComponent implements OnInit {
 
      public filterReset($event) {
       this.patientList = [];
+     }
+
+     public updatePatientList($event) {
+        if ($event === true) {
+             this.getPatientList(this.params);
+        }
+
      }
 
 
