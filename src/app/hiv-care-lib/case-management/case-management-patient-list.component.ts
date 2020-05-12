@@ -362,4 +362,9 @@ export class CaseManagementPatientListComponent implements OnInit {
   public exportPatientListToCsv() {
     this.gridOptions.api.exportDataAsCsv();
   }
+  public getPatientList(params) {
+   const finalParams = {caseManagerUserId: `${params}`, locationUuid: this.getLocationParams().locationUuid};
+   this.updatePatientList.emit(finalParams);
+   this.dismissDialog();
+  }
 }

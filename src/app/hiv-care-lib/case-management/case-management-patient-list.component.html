@@ -133,7 +133,7 @@
                 </td>
                 <td>
                   <span>
-                    {{ manager.number_assigned }}<br>
+                    <a (click)="getPatientList(manager.user_id)">{{ manager.number_assigned }}</a><br>
                   </span>
                 </td>
                 <td>
