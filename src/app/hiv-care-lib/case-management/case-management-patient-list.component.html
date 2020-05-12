@@ -40,6 +40,9 @@
           <div class="alert alert-danger" *ngIf="caseManagers.length === 0" style="margin-top:10px">
             <h5>There are no case managers assigned for the current location, please contact the system admin</h5>
         </div>
+        <div class="alert alert-warning" *ngIf="newManager && newManager.person_name==currentManager" style="margin-top:10px">
+          <h5>You have selected the current manager. Select a new manager</h5>
+      </div>
         </div>
       </div>
       <div class="row">
@@ -65,7 +68,7 @@
             </div>
             <div class="form-group" *ngIf="!unAssignFlag">
               <label class="control-label">New Manager:</label>
-              <select class="form-control" name="newManager" [ngModel]="newManager"
+              <select class="form-control" name="newManager" [(ngModel)]="newManager"
                 (ngModelChange)="setCaseManager($event)">
                 <option></option>
                 <option *ngFor="let c of caseManagers" [ngValue]="c">{{ c.person_name }}</option>

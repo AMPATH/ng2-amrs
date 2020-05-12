@@ -191,14 +191,7 @@ export class CaseManagementPatientListComponent implements OnInit {
       width: 150,
       pinned: 'right'
 
-    },
-    {
-      headerName: 'Patient Uuid',
-      field: 'patient_uuid',
-      width: 300,
-      hide: true
     }
-
   ];
 
 
@@ -278,7 +271,7 @@ export class CaseManagementPatientListComponent implements OnInit {
       .subscribe(
         data => {
           this.showSuccessAlert = true;
-          this.successAlert = 'Case manager Changed Successfully';
+          this.successAlert = 'Case Manager Assigned Successfully"';
           this.caseAssignment = 0;
           this.updatePatientList.emit(true);
           setTimeout(() => {
