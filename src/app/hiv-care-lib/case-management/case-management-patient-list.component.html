@@ -96,7 +96,7 @@
       <div class="row">
         <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
           <div class="" *ngIf="patientList" style="margin-top:10px">
-            Assigning <strong>{{patientList.length}}</strong> Patients to Case Managers. <strong>{{patientList.length - caseAssignment}} </strong> patients are unassigned
+           <h3> Assigning <strong>{{patientList.length}}</strong> Patients to Case Managers. <strong>{{patientList.length - caseAssignment}} </strong> patients are unassigned</h3>
           </div>
         </div>
       </div>
@@ -138,8 +138,7 @@
                 </td>
                 <td>
                   <span>
-                    <input type="number" id="caseForManager" class="form-control" name="caseForManager" default=0
-                      [(ngModel)]="caseManagers[i].a"
+                    <input type="number" id="caseForManager{{i}}" class="form-control" name="caseForManager{{i}}"
                       (change)="incrementCases($event, manager.user_uuid,patientList.length, manager.user_id, manager.person_name)"><br>
                   </span>
                 </td>

@@ -298,6 +298,7 @@ export class CaseManagementPatientListComponent implements OnInit {
     );
   }
   public massAssignCaseManagers(isSubmiting) {
+    this.getCaseManagers();
     this.displayMassAssign = true;
     this.patientList = this.gridOptions.api.getSelectedRows();
     const massAssignPayload = {
@@ -321,6 +322,7 @@ export class CaseManagementPatientListComponent implements OnInit {
     this.displayMassAssign = false;
     this.showSuccessAlert = false;
     this.showErrorAlert = false;
+    this.caseManagers = [];
   }
   public incrementCases(data, element, patientList, user_id, user_name) {
     let assignedCase = 0;
