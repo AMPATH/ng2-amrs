@@ -33,6 +33,10 @@ export class UsefulLinksComponent implements OnInit {
     {
       url: 'https://wiki.ampath.or.ke/display/POC/AMPATHPlus+Master+Facility+List+-+MFL',
       title: 'MFL Wiki'
+    },
+    {
+      url: 'https://wiki.ampath.or.ke/display/POC/AMPATHPlus+Master+Facility+List+-+MFL',
+      title: 'COVID-19 County Hotline Links'
     }
   ];
   constructor(private linksService: UsefulLinksService) {
