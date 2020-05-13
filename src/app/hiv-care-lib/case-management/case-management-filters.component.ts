@@ -251,6 +251,7 @@ export class CaseManagementFiltersComponent implements OnInit, OnChanges {
             this.phoneFollowUpStartDate = '';
             this.selectedPhoneFollowUpDate = '';
             this.filterSet = false;
+            this.hideCaseManagerControl = false;
             this.filterReset.emit(true);
             this.setParams();
 
