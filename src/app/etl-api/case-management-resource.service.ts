@@ -101,9 +101,7 @@ export class CaseManagementResourceService {
       const request = this.http.get(url, {
           params: urlParams
       });
-
-      return this.cacheService.cacheRequest(url, urlParams, request);
-
+      return request;
     }
 
 /*

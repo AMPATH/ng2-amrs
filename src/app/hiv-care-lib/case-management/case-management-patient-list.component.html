@@ -32,7 +32,7 @@
             <strong>Done!</strong> {{successAlert}}
           </div>
           <div class="alert alert-warning" *ngIf="unAssignFlag" style="margin-top:10px">
-            <strong>Unassigning Patient Manager:</strong> Are you sure you want to unassign Case manage?
+            <strong>Do you wish to unassign Case Manager?</strong>
           </div>
           <div class="alert alert-danger" *ngIf="showErrorAlert" style="margin-top:10px">
             <strong>{{errorTitle}}</strong> {{errorAlert}}
@@ -96,7 +96,7 @@
       <div class="row">
         <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
           <div class="" *ngIf="patientList" style="margin-top:10px">
-            Assigning <strong>{{patientList.length}}</strong> Patients to Case Managers. <strong>{{patientList.length - caseAssignment}} </strong> patients are unassigned
+           <h3> Assigning <strong>{{patientList.length}}</strong> Patients to Case Managers. <strong>{{patientList.length - caseAssignment}} </strong> patients are unassigned</h3>
           </div>
         </div>
       </div>
@@ -133,13 +133,12 @@
                 </td>
                 <td>
                   <span>
-                    {{ manager.number_assigned }}<br>
+                    <a (click)="getPatientList(manager.user_id)">{{ manager.number_assigned }}</a><br>
                   </span>
                 </td>
                 <td>
                   <span>
-                    <input type="number" id="caseForManager" class="form-control" name="caseForManager" default=0
-                      [(ngModel)]="caseManagers[i].a"
+                    <input type="number" id="caseForManager{{i}}" class="form-control" name="caseForManager{{i}}"
                       (change)="incrementCases($event, manager.user_uuid,patientList.length, manager.user_id, manager.person_name)"><br>
                   </span>
                 </td>

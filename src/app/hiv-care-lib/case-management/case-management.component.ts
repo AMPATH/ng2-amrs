@@ -112,6 +112,8 @@ export class CaseManagementComponent implements OnInit {
      public updatePatientList($event) {
         if ($event === true) {
              this.getPatientList(this.params);
+        } else {
+          this.getPatientList($event);
         }
 
      }
