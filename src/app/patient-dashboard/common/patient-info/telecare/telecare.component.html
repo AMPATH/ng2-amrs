@@ -1,0 +1,20 @@
+<div class="col-md-10 col-lg-10 col-sm-12 col-xs-12">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+       <tr *ngIf="consented">
+         <td><strong>Patient Consented : </strong> {{clientConsent.value}}</td>
+         <td><strong>Date Consented : </strong> {{clientConsent.dateConsented}}</td>
+         <td><strong>Comments : </strong>{{clientConsent.comments}}</td>
+       </tr>
+       <tr *ngIf="!consented">
+         <a (click)="fillConsentForm()">Fill consent form</a>
+       </tr>
+    </tbody>
+  </table>
+</div>
