@@ -102,7 +102,7 @@ export class CaseManagementPatientListComponent implements OnInit {
     {
       headerName: 'Last Followup Date',
       field: 'last_follow_up_date',
-      width: 150
+      width: 200
     },
     {
       headerName: 'Days Since Followup',
@@ -163,7 +163,7 @@ export class CaseManagementPatientListComponent implements OnInit {
       field: 'action',
       onCellClicked: (column: any) => {
         const patientUuid = column.data.patient_uuid;
-        this.followUp(patientUuid);
+        this.redirectTopatientInfo(patientUuid);
       },
       cellRenderer: (column) => {
         return '<a> <i class="fa fa-phone-square" aria-hidden="true"></i> Follow Up </a>';
@@ -220,11 +220,6 @@ export class CaseManagementPatientListComponent implements OnInit {
 
   }
 
-  public followUp(patientUuid) {
-    console.log(patientUuid);
-    this.router.navigate(['/patient-dashboard/patient/' + patientUuid +
-      '/general/general/patient-info']);
-  }
   public getCaseManagers() {
     const locationParams = this.getLocationParams();
     this.caseManagementResourceService.getCaseManagers(locationParams)
@@ -305,7 +300,6 @@ export class CaseManagementPatientListComponent implements OnInit {
       patients: this.patientList,
       caseManagers: this.caseForManager
     };
-    console.log(massAssignPayload);
     if (isSubmiting === true) {
       this.caseManagementResourceService.massAssign(massAssignPayload).subscribe(response => {
         this.showSuccessAlert = true;
