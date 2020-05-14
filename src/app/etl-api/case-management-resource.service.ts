@@ -66,6 +66,14 @@ export class CaseManagementResourceService {
           urlParams = urlParams.set('hasPhoneRTC', '0');
         }
       }
+      if (params.isNewlyEnrolled && params.isNewlyEnrolled !== '') {
+        if (params.isNewlyEnrolled === 'true') {
+           urlParams = urlParams.set('isNewlyEnrolled', '1');
+        }
+        if (params.isNewlyEnrolled === 'false') {
+          urlParams = urlParams.set('isNewlyEnrolled', '0');
+        }
+      }
 
       if (params.minDefaultPeriod && params.minDefaultPeriod !== '') {
            urlParams = urlParams.set('minDefaultPeriod', params.minDefaultPeriod);
