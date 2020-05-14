@@ -65,12 +65,44 @@ export class CaseManagementPatientListComponent implements OnInit {
       headerName: 'No',
       valueGetter: 'node.rowIndex + 1',
       cellClass: 'locked-col',
-      width: 150,
+      width: 70,
       suppressNavigable: true,
       pinned: 'left',
       checkboxSelection: true,
       headerCheckboxSelection: true,
       headerCheckboxSelectionFilteredOnly: true
+    },
+    {
+      headerName: 'Follow Up',
+      field: 'action',
+      onCellClicked: (column: any) => {
+        const patientUuid = column.data.patient_uuid;
+        this.redirectTopatientInfo(patientUuid);
+      },
+      cellRenderer: (column) => {
+        return '<a> <i class="fa fa-phone-square" aria-hidden="true"></i> Follow Up </a>';
+      },
+      width: 100
+
+    },
+    {
+      headerName: 'Change Manager',
+      field: 'action2',
+      onCellClicked: (column: any) => {
+        const data = column.data;
+        this.changeManager(data);
+      },
+      cellRenderer: (column) => {
+        let assignBtn = '';
+        if (column.data.case_manager_user_id) {
+          assignBtn = '<a> <i class="fa fa-user-md" aria-hidden="true"></i> Update Manager </a>';
+        } else {
+          assignBtn = '<a> <i class="fa fa-user-md" aria-hidden="true"></i> Assign Manager </a>';
+        }
+        return assignBtn;
+      },
+      width: 150
+
     },
     {
       headerName: 'Case Manager',
@@ -172,40 +204,6 @@ export class CaseManagementPatientListComponent implements OnInit {
       headerName: 'Days Since Missed Appointment',
       field: 'days_since_missed_appointment',
       width: 250
-    },
-    {
-      headerName: 'Follow Up',
-      field: 'action',
-      onCellClicked: (column: any) => {
-        const patientUuid = column.data.patient_uuid;
-        this.redirectTopatientInfo(patientUuid);
-      },
-      cellRenderer: (column) => {
-        return '<a> <i class="fa fa-phone-square" aria-hidden="true"></i> Follow Up </a>';
-      },
-      width: 150,
-      pinned: 'right'
-
-    },
-    {
-      headerName: 'Change Manager',
-      field: 'action2',
-      onCellClicked: (column: any) => {
-        const data = column.data;
-        this.changeManager(data);
-      },
-      cellRenderer: (column) => {
-        let assignBtn = '';
-        if (column.data.case_manager_user_id) {
-          assignBtn = '<a> <i class="fa fa-user-md" aria-hidden="true"></i> Update Manager </a>';
-        } else {
-          assignBtn = '<a> <i class="fa fa-user-md" aria-hidden="true"></i> Assign Manager </a>';
-        }
-        return assignBtn;
-      },
-      width: 150,
-      pinned: 'right'
-
     }
   ];
 
