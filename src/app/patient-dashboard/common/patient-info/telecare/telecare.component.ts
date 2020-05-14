@@ -19,8 +19,8 @@ export class TelecareComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscription = this.patientService.currentlyLoadedPatientUuid.subscribe((uuid) => {
-      this.getClientConsent();
       this.patientUuid = uuid;
+      this.getClientConsent();
     });
   }
   getClientConsent() {
@@ -28,6 +28,7 @@ export class TelecareComponent implements OnInit, OnDestroy {
     this.conceptUuid = ['a8a06fc6-1350-11df-a1f1-0026b9348838', 'a899b35c-1350-11df-a1f1-0026b9348838'];
     this.subscription = this.obsService.getObsPatientObsByConcept(this.patientUuid, this.conceptUuid).subscribe((data) => {
       const results = data['results'];
+      if (results.length > 0) {
       const encDateTime = results[0].encounter.encounterDateTime;
       this.clientConsent.dateofConcent = encDateTime;
       results.forEach(element => {
@@ -44,6 +45,7 @@ export class TelecareComponent implements OnInit, OnDestroy {
           }
         }
       });
+    }
     });
   }
   fillConsentForm() {

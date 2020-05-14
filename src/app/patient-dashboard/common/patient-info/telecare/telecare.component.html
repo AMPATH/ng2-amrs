@@ -13,7 +13,7 @@
          <td><strong>Comments : </strong>{{clientConsent.comments}}</td>
        </tr>
        <tr *ngIf="!consented">
-         <a (click)="fillConsentForm()">Fill consent form</a>
+        <a (click)="fillConsentForm()" class="add_link"><span><i class="fa fa-plus fa-fw"></i> Add consent</span></a>
        </tr>
     </tbody>
   </table>
