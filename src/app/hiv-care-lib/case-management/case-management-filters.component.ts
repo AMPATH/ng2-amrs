@@ -16,7 +16,7 @@ export class CaseManagementFiltersComponent implements OnInit, OnChanges {
 
     public title = 'Case Management Report Filters';
     public params = {
-        'caseManagerUserId': '',
+        'caseManagerUserId': [],
         'hasCaseManager': '',
         'hasPhoneRTC': '',
         'dueForVl': '',
@@ -41,6 +41,7 @@ export class CaseManagementFiltersComponent implements OnInit, OnChanges {
 
     public caseManagers = [];
     public selectedCaseManager: any;
+    public selectedCaseManagerIds = [];
 
     public dueForVl = '';
     public elevatedVL = '';
@@ -81,29 +82,37 @@ export class CaseManagementFiltersComponent implements OnInit, OnChanges {
     }
 
     public ngOnInit() {
-        this.getCaseManagers();
-        this.getParamsFromUrl();
+        this.getCaseManagers().then((result) => {
+            this.getParamsFromUrl();
+        });
     }
 
     public ngOnChanges(change: SimpleChanges) {
 
         if (change.clinicDashboardLocation
             && typeof change.clinicDashboardLocation.previousValue !== 'undefined') {
-            this.getCaseManagers();
-            this.selectedCaseManager = '';
-            this.setParams();
+            this.getCaseManagers().then((result) => {
+                this.selectedCaseManager = '';
+                this.setParams();
+            });
         }
 
     }
 
 
-    public getCaseManagers() {
-        const locationParams = this.getLocationParams();
-        this.caseManagementResourceService.getCaseManagers(locationParams)
-            .subscribe((result: any) => {
-                this.processCaseManagers(result.result);
-            });
+    public getCaseManagers(): Promise<any> {
+        return new Promise((resolve, reject) => {
 
+            const locationParams = this.getLocationParams();
+            this.caseManagementResourceService.getCaseManagers(locationParams)
+                .subscribe((result: any) => {
+                    this.processCaseManagers(result.result);
+                    resolve('success');
+                }, (error) => {
+                    resolve(error);
+                });
+
+        });
     }
 
     public getLocationParams() {
@@ -134,7 +143,7 @@ export class CaseManagementFiltersComponent implements OnInit, OnChanges {
     }
     public setParams() {
         this.params = {
-            'caseManagerUserId': this.selectedCaseManager,
+            'caseManagerUserId': this.getCaseManagersIds(this.selectedCaseManager),
             'dueForVl': this.dueForVl,
             'elevatedVL': this.elevatedVL,
             'hasCaseManager': this.hasCaseManager,
@@ -151,6 +160,39 @@ export class CaseManagementFiltersComponent implements OnInit, OnChanges {
         };
 
         this.storeReportParamsInUrl(this.params);
+
+    }
+
+    public getCaseManagersIds(caseManagers: any) {
+         const caseManagerIds = [];
+         _.each(caseManagers, (caseManager: any) => {
+             console.log();
+              caseManagerIds.push(caseManager.value);
+         });
+
+        return caseManagerIds;
+
+    }
+
+    public getCaseManagersFromId(caseManagerIds: any) {
+         const caseManagers: any = this.caseManagers;
+         const caseManagerOptions = [];
+
+         for (const caseManager of caseManagers) {
+            for (let i = 0; i < caseManagerIds.length; i++) {
+                if (caseManager.value === parseInt(caseManagerIds[i], 10)) {
+                    const managerOption = {
+                        'label': caseManager.label,
+                        'value': caseManager.value
+                    };
+                    caseManagerOptions.push(managerOption);
+                    break;
+               }
+
+            }
+
+         }
+         return caseManagerOptions;
 
     }
 
@@ -178,7 +220,7 @@ export class CaseManagementFiltersComponent implements OnInit, OnChanges {
             this.maxFollowupPeriod = urlParams.maxFollowupPeriod ? urlParams.maxFollowupPeriod : '';
             this.minDefaultPeriod = urlParams.minDefaultPeriod ? urlParams.minDefaultPeriod : '';
             this.maxDefaultPeriod = urlParams.maxDefaultPeriod ? urlParams.maxDefaultPeriod : '';
-            this.selectedCaseManager = urlParams.caseManagerUserId ? urlParams.caseManagerUserId : '';
+            this.selectedCaseManager = urlParams.caseManagerUserId ? this.getCaseManagersFromId(urlParams.caseManagerUserId) : [];
             this.rtcStartDate = urlParams.rtcStartDate ? urlParams.rtcStartDate : '';
             this.selectedRtcStartDate = this.rtcStartDate;
             this.rtcEndDate = urlParams.rtcEndDate ? urlParams.rtcEndDate : '';
@@ -199,6 +241,9 @@ export class CaseManagementFiltersComponent implements OnInit, OnChanges {
     public onHasCaseManagerChange($event) {
         this.hasCaseManager = $event;
         this.toggleCaseManagerControl($event);
+    }
+    public onCaseManagerSelected($event) {
+        this.selectedCaseManager = $event;
     }
     public toggleCaseManagerControl(hasCaseManager) {
 
