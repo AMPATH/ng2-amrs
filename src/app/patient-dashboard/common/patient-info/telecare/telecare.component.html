@@ -8,8 +8,8 @@
     </thead>
     <tbody>
        <tr *ngIf="consented">
-         <td><strong>Patient Consented : </strong> {{clientConsent.value}}</td>
-         <td><strong>Date Consented : </strong> {{clientConsent.dateConsented}}</td>
+         <td><strong>Patient Consented : </strong> {{clientConsent.value.display}}</td>
+         <td><strong>Date Consented : </strong> {{clientConsent.dateofConsent}}</td>
          <td><strong>Comments : </strong>{{clientConsent.comments}}</td>
        </tr>
        <tr *ngIf="!consented">
