@@ -100,6 +100,16 @@ export class CaseManagementPatientListComponent implements OnInit {
       width: 70
     },
     {
+      headerName: 'Enrollment Date',
+      field: 'enrollment_date',
+      width: 150
+    },
+    {
+      headerName: 'Days since Enrollment',
+      field: 'days_since_enrollment',
+      width: 170
+    },
+    {
       headerName: 'Last Followup Date',
       field: 'last_follow_up_date',
       width: 200
@@ -113,6 +123,11 @@ export class CaseManagementPatientListComponent implements OnInit {
       headerName: 'RTC',
       field: 'rtc_date',
       width: 150
+    },
+    {
+      headerName: 'Medication Pickup Date',
+      field: 'med_pickup_rtc_date',
+      width: 200
     },
     {
       headerName: 'Phone RTC',
