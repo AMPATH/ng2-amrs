@@ -13,7 +13,7 @@ import * as moment from 'moment/moment';
 export class TelecareComponent implements OnInit, OnDestroy {
   public clientConsent: any = {};
   public conceptUuid: any = [];
-  public consented = false;
+  public consentExist = false;
   public patientUuid: any = '';
   public subscription: Subscription;
   constructor(private obsService: ObsResourceService, private patientService: PatientService, private router: Router) { }
@@ -25,23 +25,31 @@ export class TelecareComponent implements OnInit, OnDestroy {
     });
   }
   getClientConsent() {
-    this.conceptUuid = ['9d9ccb6b-73ae-48dd-83f9-12c782ce6685', 'a8a06fc6-1350-11df-a1f1-0026b9348838'];
-    const telecareEncounter = 'df1df2d5-58f4-4e67-9394-c559c680cec6';
+    this.conceptUuid = [
+      '9d9ccb6b-73ae-48dd-83f9-12c782ce6685',
+      'a8a06fc6-1350-11df-a1f1-0026b9348838',
+      'bd3af665-2423-4beb-a383-0e823f2450d0'
+    ];
+    const telecareEncounter = 'cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b';
     this.subscription = this.obsService.getObsPatientObsByConcepts(this.patientUuid, this.conceptUuid).subscribe((data) => {
       const results = data['results'];
       if (results.length > 0) {
       const encDateTime = results[0].encounter.encounterDatetime;
-      this.clientConsent.dateofConsent = moment(encDateTime).format('DD-MM-YYYY');
+      this.clientConsent.dateofConsent = moment(encDateTime).format('DD-MM-YYYY HH-mm');
+      this.clientConsent.encounterUuid = results[0].encounter.uuid;
       results.forEach(element => {
         if (element.encounter.encounterDatetime === encDateTime) {
           if (this.conceptUuid.includes(element.concept.uuid)) {
             if (element.concept.uuid === this.conceptUuid[0]) {
               this.clientConsent.value = element.value;
-              if (element.value.display === 'YES') {
-                this.consented = true;
+              if (element.value.display === 'NO') {
+                this.clientConsent.styling = 'text-danger';
               }
-            } else if (element.concept.uuid === this.conceptUuid[1] && element.encounter.uuid === telecareEncounter) {
+              this.consentExist = true;
+            } else if (element.concept.uuid === this.conceptUuid[1] && element.encounter.encounterType.uuid === telecareEncounter) {
               this.clientConsent.comments = element.value;
+            } else if (element.concept.uuid === this.conceptUuid[2] && element.encounter.encounterType.uuid === telecareEncounter) {
+              this.clientConsent.expiryofConsent = moment(element.value).format('DD-MM-YYYY HH-mm');
             }
           }
         }
