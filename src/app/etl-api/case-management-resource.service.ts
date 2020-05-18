@@ -18,9 +18,7 @@ export class CaseManagementResourceService {
     public openMrsUrl(): string {
       return this.appSettingsService.getOpenmrsRestbaseurl().trim();
 
-  }
-
-
+    }
     public getUrlRequestParams(params): HttpParams {
         let urlParams: HttpParams = new HttpParams();
 
@@ -89,8 +87,6 @@ export class CaseManagementResourceService {
         urlParams = urlParams.set('phoneFollowUpStartDate', params.phoneFollowUpStartDate);
       }
 
-      console.log('Url pARAMS', urlParams);
-
       return urlParams;
 
     }
@@ -139,4 +135,12 @@ Fetch case management patient list
           return response;
         }));
     }
+
+    public getIndicatorDefinitions() {
+
+      const url = this.getUrl() + 'case-management/indicators';
+      const request =  this.http.get(url);
+      return this.cacheService.cacheRequest(url, {} , request);
+
+  }
 }

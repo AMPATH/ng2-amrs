@@ -1,8 +1,12 @@
 
-import { Component, OnInit , Input , OnChanges , SimpleChanges } from '@angular/core';
+import { Component, OnInit , Input , OnChanges , SimpleChanges, TemplateRef } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+
+import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 
 import { CaseManagementResourceService } from './../../etl-api/case-management-resource.service';
-import { Router, ActivatedRoute } from '@angular/router';
+
+
 
 
 @Component({
@@ -15,6 +19,8 @@ export class CaseManagementComponent implements OnInit {
 
     public title = 'Case Management';
     public patientList = [];
+    public indicatorDefinitions = [];
+    public modalRef: BsModalRef;
     public params: any;
     public assignCaseManager = false;
     @Input() public locationUuids: any;
@@ -30,7 +36,8 @@ export class CaseManagementComponent implements OnInit {
 
     constructor(
         private route: ActivatedRoute,
-        private caseManagementResourceService: CaseManagementResourceService) {
+        private caseManagementResourceService: CaseManagementResourceService,
+        private modalService: BsModalService) {
     }
 
     public ngOnInit() {
@@ -51,6 +58,8 @@ export class CaseManagementComponent implements OnInit {
       }, (error) => {
         console.error('Error', error);
       });
+
+      this.getIndicatorDefinitions();
 
     }
 
@@ -85,6 +94,14 @@ export class CaseManagementComponent implements OnInit {
         });
     }
 
+    public getIndicatorDefinitions() {
+
+      this.caseManagementResourceService.getIndicatorDefinitions()
+      .subscribe((results: any) => {
+        this.indicatorDefinitions = results.indicators;
+      });
+    }
+
     public loading() {
       this.busyIndicator = {
         busy: true,
@@ -116,6 +133,10 @@ export class CaseManagementComponent implements OnInit {
           this.getPatientList($event);
         }
 
+     }
+
+     public showModal(modal: TemplateRef<any>) {
+      this.modalRef = this.modalService.show(modal);
      }
 
 
