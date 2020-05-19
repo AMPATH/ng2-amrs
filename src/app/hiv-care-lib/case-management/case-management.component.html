@@ -32,5 +32,26 @@
       ></case-management-patient-list>
        
     </div>
+    <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+      <button class="btn btn-success" (click)="showModal(indicatorModal)">Show Indicator Definitions</button>
+      <ng-template #indicatorModal>
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title pull-left">Case Management Indicator Definitions</h4>
+                  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <case-management-indicator-definitions
+                  [indicatorDefinitions] = "indicatorDefinitions"
+                  >
+                  </case-management-indicator-definitions>
+                </div>
+              </div>
+        </div>
+    </ng-template>
+    </div>
   </div>
 </div>

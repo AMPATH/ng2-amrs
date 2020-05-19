@@ -113,6 +113,7 @@ import { CaseManagementComponent } from './case-management/case-management.compo
 import { CaseManagementFiltersComponent } from './case-management/case-management-filters.component';
 import { CaseManagementPatientListComponent } from './case-management/case-management-patient-list.component';
 import { AssignCaseManagerComponent } from './case-management/assign-case-manager.component';
+import { CaseManagementIndicatorDefinitionComponent } from './case-management/case-management-indicator-definitions.component';
 
 import { CaseManagementResourceService } from './../etl-api/case-management-resource.service';
 
@@ -185,7 +186,8 @@ import { CaseManagementResourceService } from './../etl-api/case-management-reso
     CaseManagementComponent,
     CaseManagementFiltersComponent,
     CaseManagementPatientListComponent,
-    AssignCaseManagerComponent
+    AssignCaseManagerComponent,
+    CaseManagementIndicatorDefinitionComponent
   ],
   declarations: [
     Moh731TabularComponent,
@@ -226,7 +228,8 @@ import { CaseManagementResourceService } from './../etl-api/case-management-reso
     CaseManagementComponent,
     CaseManagementFiltersComponent,
     CaseManagementPatientListComponent,
-    AssignCaseManagerComponent
+    AssignCaseManagerComponent,
+    CaseManagementIndicatorDefinitionComponent
   ],
   providers: [MOHReportService,
     LocationResourceService,
