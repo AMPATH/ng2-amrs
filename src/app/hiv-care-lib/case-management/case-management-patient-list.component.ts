@@ -330,17 +330,18 @@ export class CaseManagementPatientListComponent implements OnInit {
     this.showSuccessAlert = false;
     this.showErrorAlert = false;
     this.caseManagers = [];
+    this.caseForManager = [];
+    this.caseAssignment = 0;
     this.unAssignFlag = false;
   }
   public incrementCases(data, element, patientList, user_id, user_name) {
     let assignedCase = 0;
-    this.caseAssignment = this.getSum();
-    if ((patientList - this.caseAssignment) >= 1 && data.target.value <= patientList) {
+    if (((patientList - this.caseAssignment) >= 0) && (data.target.value <= patientList)) {
       assignedCase = data.target.value ? parseInt(data.target.value, 10) : 0;
       this.handleDuplicates(assignedCase, element, user_id, user_name);
       this.showErrorAlert = false;
     } else {
-      this.handleDuplicates(assignedCase, element, user_id, user_name);
+      this.handleDuplicates(parseInt(data.target.value, 10), element, user_id, user_name);
       this.showErrorAlert = true;
       this.errorAlert = 'You have exceeded the number of patients to be assigned';
     }
@@ -352,12 +353,14 @@ export class CaseManagementPatientListComponent implements OnInit {
   public handleDuplicates(assignedCase, element, user_id, user_name) {
     const position = this.caseForManager.findIndex(v => v.user_id === user_id);
     if (position !== -1) {
+      this.showErrorAlert = false;
       this.caseForManager.splice(position, 1);
       this.caseForManager.push({ count: assignedCase, user_uuid: element.trim(), user_id: user_id, user_name: user_name });
+      this.caseAssignment = this.getSum();
     } else {
       this.caseForManager.push({ count: assignedCase, user_uuid: element.trim(), user_id: user_id, user_name: user_name });
+      this.caseAssignment = this.getSum();
     }
-    this.caseAssignment = this.getSum();
   }
   public getSum() {
     return this.caseForManager.map(m => m.count).reduce((a, b) => a + b, 0);
