@@ -65,12 +65,44 @@ export class CaseManagementPatientListComponent implements OnInit {
       headerName: 'No',
       valueGetter: 'node.rowIndex + 1',
       cellClass: 'locked-col',
-      width: 150,
+      width: 70,
       suppressNavigable: true,
       pinned: 'left',
       checkboxSelection: true,
       headerCheckboxSelection: true,
       headerCheckboxSelectionFilteredOnly: true
+    },
+    {
+      headerName: 'Follow Up',
+      field: 'action',
+      onCellClicked: (column: any) => {
+        const patientUuid = column.data.patient_uuid;
+        this.redirectTopatientInfo(patientUuid);
+      },
+      cellRenderer: (column) => {
+        return '<a> <i class="fa fa-phone-square" aria-hidden="true"></i> Follow Up </a>';
+      },
+      width: 100
+
+    },
+    {
+      headerName: 'Change Manager',
+      field: 'action2',
+      onCellClicked: (column: any) => {
+        const data = column.data;
+        this.changeManager(data);
+      },
+      cellRenderer: (column) => {
+        let assignBtn = '';
+        if (column.data.case_manager_user_id) {
+          assignBtn = '<a> <i class="fa fa-user-md" aria-hidden="true"></i> Update Manager </a>';
+        } else {
+          assignBtn = '<a> <i class="fa fa-user-md" aria-hidden="true"></i> Assign Manager </a>';
+        }
+        return assignBtn;
+      },
+      width: 150
+
     },
     {
       headerName: 'Case Manager',
@@ -100,9 +132,19 @@ export class CaseManagementPatientListComponent implements OnInit {
       width: 70
     },
     {
+      headerName: 'Enrollment Date',
+      field: 'enrollment_date',
+      width: 150
+    },
+    {
+      headerName: 'Days since Enrollment',
+      field: 'days_since_enrollment',
+      width: 170
+    },
+    {
       headerName: 'Last Followup Date',
       field: 'last_follow_up_date',
-      width: 150
+      width: 200
     },
     {
       headerName: 'Days Since Followup',
@@ -113,6 +155,11 @@ export class CaseManagementPatientListComponent implements OnInit {
       headerName: 'RTC',
       field: 'rtc_date',
       width: 150
+    },
+    {
+      headerName: 'Medication Pickup Date',
+      field: 'med_pickup_rtc_date',
+      width: 200
     },
     {
       headerName: 'Phone RTC',
@@ -157,40 +204,6 @@ export class CaseManagementPatientListComponent implements OnInit {
       headerName: 'Days Since Missed Appointment',
       field: 'days_since_missed_appointment',
       width: 250
-    },
-    {
-      headerName: 'Follow Up',
-      field: 'action',
-      onCellClicked: (column: any) => {
-        const patientUuid = column.data.patient_uuid;
-        this.followUp(patientUuid);
-      },
-      cellRenderer: (column) => {
-        return '<a> <i class="fa fa-phone-square" aria-hidden="true"></i> Follow Up </a>';
-      },
-      width: 150,
-      pinned: 'right'
-
-    },
-    {
-      headerName: 'Change Manager',
-      field: 'action2',
-      onCellClicked: (column: any) => {
-        const data = column.data;
-        this.changeManager(data);
-      },
-      cellRenderer: (column) => {
-        let assignBtn = '';
-        if (column.data.case_manager_user_id) {
-          assignBtn = '<a> <i class="fa fa-user-md" aria-hidden="true"></i> Update Manager </a>';
-        } else {
-          assignBtn = '<a> <i class="fa fa-user-md" aria-hidden="true"></i> Assign Manager </a>';
-        }
-        return assignBtn;
-      },
-      width: 150,
-      pinned: 'right'
-
     }
   ];
 
@@ -220,11 +233,6 @@ export class CaseManagementPatientListComponent implements OnInit {
 
   }
 
-  public followUp(patientUuid) {
-    console.log(patientUuid);
-    this.router.navigate(['/patient-dashboard/patient/' + patientUuid +
-      '/general/general/patient-info']);
-  }
   public getCaseManagers() {
     const locationParams = this.getLocationParams();
     this.caseManagementResourceService.getCaseManagers(locationParams)
@@ -305,7 +313,6 @@ export class CaseManagementPatientListComponent implements OnInit {
       patients: this.patientList,
       caseManagers: this.caseForManager
     };
-    console.log(massAssignPayload);
     if (isSubmiting === true) {
       this.caseManagementResourceService.massAssign(massAssignPayload).subscribe(response => {
         this.showSuccessAlert = true;

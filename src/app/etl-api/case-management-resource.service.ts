@@ -18,9 +18,7 @@ export class CaseManagementResourceService {
     public openMrsUrl(): string {
       return this.appSettingsService.getOpenmrsRestbaseurl().trim();
 
-  }
-
-
+    }
     public getUrlRequestParams(params): HttpParams {
         let urlParams: HttpParams = new HttpParams();
 
@@ -66,6 +64,14 @@ export class CaseManagementResourceService {
           urlParams = urlParams.set('hasPhoneRTC', '0');
         }
       }
+      if (params.isNewlyEnrolled && params.isNewlyEnrolled !== '') {
+        if (params.isNewlyEnrolled === 'true') {
+           urlParams = urlParams.set('isNewlyEnrolled', '1');
+        }
+        if (params.isNewlyEnrolled === 'false') {
+          urlParams = urlParams.set('isNewlyEnrolled', '0');
+        }
+      }
 
       if (params.minDefaultPeriod && params.minDefaultPeriod !== '') {
            urlParams = urlParams.set('minDefaultPeriod', params.minDefaultPeriod);
@@ -88,8 +94,6 @@ export class CaseManagementResourceService {
       if (params.phoneFollowUpStartDate && params.phoneFollowUpStartDate !== '') {
         urlParams = urlParams.set('phoneFollowUpStartDate', params.phoneFollowUpStartDate);
       }
-
-      console.log('Url pARAMS', urlParams);
 
       return urlParams;
 
@@ -139,4 +143,12 @@ Fetch case management patient list
           return response;
         }));
     }
+
+    public getIndicatorDefinitions() {
+
+      const url = this.getUrl() + 'case-management/indicators';
+      const request =  this.http.get(url);
+      return this.cacheService.cacheRequest(url, {} , request);
+
+  }
 }
