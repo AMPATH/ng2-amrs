@@ -56,6 +56,14 @@
           </select>
         </div>
         <div class="col-md-2 col-lg-2 col-sm-4 col-xs-12">
+          <label for="isNewlyEnrolled">Newly Enrolled </label>
+          <select class="form-control" [(ngModel)]="isNewlyEnrolled" id="isNewlyEnrolled" name="isNewlyEnrolled"
+          (ngModelChange)="onIsNewlyEnrolledChange($event)" required>
+          <option *ngFor="let p of selecOptions" [value]="p.value">{{ p.label}}
+          </option>
+        </select>
+        </div>
+        <div class="col-md-2 col-lg-2 col-sm-4 col-xs-12">
           <label for="minDefaultPeriod">Phone Follow up date </label>
               <date-time-picker tabindex="0" 
                   [modelValue]="phoneFollowUpStartDate" 

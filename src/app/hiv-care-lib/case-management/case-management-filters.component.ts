@@ -21,6 +21,7 @@ export class CaseManagementFiltersComponent implements OnInit, OnChanges {
         'hasPhoneRTC': '',
         'dueForVl': '',
         'elevatedVL': '',
+        'isNewlyEnrolled': '',
         'minDefaultPeriod': '',
         'maxDefaultPeriod': '',
         'minFollowupPeriod': '',
@@ -47,6 +48,7 @@ export class CaseManagementFiltersComponent implements OnInit, OnChanges {
     public elevatedVL = '';
     public hasCaseManager: any;
     public hasPhoneRTC = '';
+    public isNewlyEnrolled = '';
     public minFollowupPeriod = '';
     public maxFollowupPeriod = '';
     public minDefaultPeriod = '';
@@ -148,6 +150,7 @@ export class CaseManagementFiltersComponent implements OnInit, OnChanges {
             'elevatedVL': this.elevatedVL,
             'hasCaseManager': this.hasCaseManager,
             'hasPhoneRTC': this.hasPhoneRTC,
+            'isNewlyEnrolled': this.isNewlyEnrolled,
             'minDefaultPeriod': this.minDefaultPeriod,
             'maxDefaultPeriod': this.maxDefaultPeriod,
             'maxFollowupPeriod': this.maxFollowupPeriod,
@@ -216,6 +219,7 @@ export class CaseManagementFiltersComponent implements OnInit, OnChanges {
             this.toggleCaseManagerControl(urlParams.hasCaseManager);
             this.hasPhoneRTC = urlParams.hasPhoneRTC;
             this.elevatedVL = urlParams.elevatedVL;
+            this.isNewlyEnrolled = urlParams.isNewlyEnrolled;
             this.minFollowupPeriod = urlParams.minFollowupPeriod ? urlParams.minFollowupPeriod : '';
             this.maxFollowupPeriod = urlParams.maxFollowupPeriod ? urlParams.maxFollowupPeriod : '';
             this.minDefaultPeriod = urlParams.minDefaultPeriod ? urlParams.minDefaultPeriod : '';
@@ -263,6 +267,9 @@ export class CaseManagementFiltersComponent implements OnInit, OnChanges {
     public onHasPhoneRTCChange($event) {
         this.hasPhoneRTC = $event;
     }
+    public onIsNewlyEnrolledChange($event) {
+        this.isNewlyEnrolled = $event;
+    }
     public toggleFiltersVisibility() {
         this.showFilters = !this.showFilters;
     }
@@ -283,6 +290,7 @@ export class CaseManagementFiltersComponent implements OnInit, OnChanges {
             this.dueForVl = '';
             this.hasCaseManager = '';
             this.hasPhoneRTC = '';
+            this.isNewlyEnrolled = '';
             this.elevatedVL = '';
             this.minFollowupPeriod = '';
             this.maxFollowupPeriod = '';
