@@ -138,7 +138,7 @@
                 </td>
                 <td>
                   <span>
-                    <input type="number" id="caseForManager{{i}}" class="form-control" name="caseForManager{{i}}"
+                    <input type="number" id="caseForManager{{i}}" class="form-control" name="caseForManager{{i}}" [(ngModel)]="caseManagers[i].a"
                       (change)="incrementCases($event, manager.user_uuid,patientList.length, manager.user_id, manager.person_name)"><br>
                   </span>
                 </td>
@@ -155,8 +155,7 @@
     </div>
   </div>
   <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" style="padding-top:15px">
-    <button class="btn btn-primary" type="button" [disabled]="showErrorAlert"
-      (click)="massAssignCaseManagers(true)"><span>Save</span>
+    <button class="btn btn-primary" type="button" (click)="massAssignCaseManagers(true)"><span>Save</span>
     </button>
     <button class="btn btn-danger pull-right" type="button" (click)="dismissDialog()">
       <span>Cancel</span></button>

@@ -323,6 +323,7 @@ export class CaseManagementPatientListComponent implements OnInit {
     this.showSuccessAlert = false;
     this.showErrorAlert = false;
     this.caseManagers = [];
+    this.unAssignFlag = false;
   }
   public incrementCases(data, element, patientList, user_id, user_name) {
     let assignedCase = 0;
