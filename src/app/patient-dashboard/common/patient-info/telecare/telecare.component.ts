@@ -30,7 +30,7 @@ export class TelecareComponent implements OnInit, OnDestroy {
       'a8a06fc6-1350-11df-a1f1-0026b9348838',
       'bd3af665-2423-4beb-a383-0e823f2450d0'
     ];
-    const telecareEncounter = 'cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b';
+    const telecareEncounter = '5a58f6f5-f5a6-47eb-a644-626abd83f83b';
     this.subscription = this.obsService.getObsPatientObsByConcepts(this.patientUuid, this.conceptUuid).subscribe((data) => {
       const results = data['results'];
       if (results.length > 0) {
