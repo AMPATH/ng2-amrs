@@ -341,7 +341,7 @@ export class CaseManagementPatientListComponent implements OnInit {
       this.handleDuplicates(assignedCase, element, user_id, user_name);
       this.showErrorAlert = false;
     } else {
-      this.handleDuplicates(parseInt(data.target.value, 10), element, user_id, user_name);
+      this.handleDuplicates(data.target.value ? parseInt(data.target.value, 10) : 0, element, user_id, user_name);
       this.showErrorAlert = true;
       this.errorAlert = 'You have exceeded the number of patients to be assigned';
     }
