@@ -45,4 +45,10 @@ export class ObsResourceService {
     return this.http.get(url, { params: params });
   }
 
+  public getObsPatientObsByConcepts(uuid, conceptUuuid) {
+    const url = this.getUrl() + 'obs';
+    const params = new HttpParams().set('patient', uuid).set('concepts', conceptUuuid).set('v', 'full');
+    return this.http.get(url, { params: params });
+  }
+
 }
