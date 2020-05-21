@@ -40,6 +40,7 @@ import {
   UserDefaultPropertiesService
 } from '../../../user-default-properties/user-default-properties.service';
 import { UserService } from '../../../openmrs-api/user.service';
+import { PatientConsentResourceService } from './../../../openmrs-api/patient-consent-resource.service';
 
 @Component({
   selector: 'app-formentry',
@@ -100,6 +101,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
   private submitDuplicate = false;
   private subscription: Subscription;
   private visitUuid: string = null;
+  private hasCallConsent = false;
 
   constructor(
     private appFeatureAnalytics: AppFeatureAnalytics,
@@ -125,7 +127,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
     private retrospectiveDataEntryService: RetrospectiveDataEntryService,
     public router: Router,
     private userService: UserService,
-    public userDefaultPropertiesService: UserDefaultPropertiesService) {
+    public userDefaultPropertiesService: UserDefaultPropertiesService,
+    public patientConsentResourceService: PatientConsentResourceService) {
   }
 
   public ngOnInit() {
@@ -211,6 +214,9 @@ export class FormentryComponent implements OnInit, OnDestroy {
       this.formDataSourceService.getDataSources()['conceptAnswers']);
     this.dataSources.registerDataSource('patient',
       this.formDataSourceService.getDataSources()['visitTypeUuid']);
+    this.dataSources.registerDataSource('patient',
+      this.formDataSourceService.getDataSources()['hasCallConsent']);
+
   }
 
   public onSubmit(): void {
@@ -560,7 +566,6 @@ export class FormentryComponent implements OnInit, OnDestroy {
     observableBatch.push(this.getcompiledSchemaWithEncounter()); // schema data [0]
     observableBatch.push(this.getPatient()); // patient [1]
     observableBatch.push(this.getEncounters()); // encounters [2]
-
     // forkjoin all requests
     this.subscription = forkJoin(
       observableBatch
@@ -577,8 +582,17 @@ export class FormentryComponent implements OnInit, OnDestroy {
           this.compiledSchemaWithEncounter = data[0] || null;
           this.patient = data[1] || null;
           this.encounter = data[2] || null;
-          this.renderForm();
-          this.isBusyIndicator(false);
+          // fetch patient consent after patient has been loaded
+          this.patientConsentResourceService.getPatientCallConsent(this.patient.uuid)
+          .subscribe((results: any) => {
+            this.hasCallConsent = results.hasCallConsent;
+            this.renderForm();
+            this.isBusyIndicator(false);
+          }, (error) => {
+            this.renderForm();
+            this.isBusyIndicator(false);
+
+          });
         }, (err) => {
           console.error(err);
           this.isBusyIndicator(false);
@@ -647,6 +661,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
         this.monthlyScheduleResourceService);
       this.dataSources.registerDataSource('patient',
         {visitTypeUuid: this.visitTypeUuid}, true);
+      this.dataSources.registerDataSource('patient',
+        {hasCallConsent: this.hasCallConsent}, true);
       this.dataSources.registerDataSource('userLocation',
         this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject());
       this.dataSources.registerDataSource('file', {
@@ -679,6 +695,11 @@ export class FormentryComponent implements OnInit, OnDestroy {
           this.dataSources.registerDataSource('patient',
             {visitTypeUuid: this.visitTypeUuid}, true);
           this.form.valueProcessingInfo.visitTypeUuid = this.visitTypeUuid;
+        }
+        if (this.hasCallConsent) {
+          this.dataSources.registerDataSource('patient',
+          {hasCallConsent: this.hasCallConsent}, true);
+          this.form.valueProcessingInfo.callConset = this.hasCallConsent;
         }
         // now set default value
         this.loadDefaultValues();

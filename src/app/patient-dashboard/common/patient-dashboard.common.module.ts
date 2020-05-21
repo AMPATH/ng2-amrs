@@ -145,6 +145,7 @@ import { LabResultImageModalComponent } from './lab-data-summary/lab-result-imag
 import { HivSummaryLatestComponent } from '../hiv/hiv-summary/hiv-summary-latest.component';
 import { AgePipe } from './patient-banner/age.pipe';
 import { PatientTransferService } from './formentry/patient-transfer.service';
+import { TelecareComponent } from './patient-info/telecare/telecare.component';
 
 @NgModule({
   imports: [
@@ -288,7 +289,9 @@ import { PatientTransferService } from './formentry/patient-transfer.service';
     EncounterTypeFilter,
     // ZeroVlPipe,
     AgePipe,
-    PatientImagingComponent],
+    PatientImagingComponent,
+    TelecareComponent
+  ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

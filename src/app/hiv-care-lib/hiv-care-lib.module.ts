@@ -120,6 +120,15 @@ import { ChartAbstractionPatientlistComponent } from './dqa-reports/chart-abstra
 import { DqaReportsComponent } from './dqa-reports/dqa-reports/dqa-reports.component';
 import { DqaReportBaseComponent } from './dqa-reports/dqa-report-base/dqa-report-base.component';
 
+import { CaseManagementComponent } from './case-management/case-management.component';
+import { CaseManagementFiltersComponent } from './case-management/case-management-filters.component';
+import { CaseManagementPatientListComponent } from './case-management/case-management-patient-list.component';
+import { AssignCaseManagerComponent } from './case-management/assign-case-manager.component';
+import { CaseManagementIndicatorDefinitionComponent } from './case-management/case-management-indicator-definitions.component';
+
+import { CaseManagementResourceService } from './../etl-api/case-management-resource.service';
+
+
 @NgModule({
   imports: [
     RouterModule,
@@ -189,7 +198,12 @@ import { DqaReportBaseComponent } from './dqa-reports/dqa-report-base/dqa-report
     HeiIndicatorsFilterComponent,
     HeiIndicatorsTabularComponent,
     HeiIndicatorsPatientListComponent,
-    HeiIndicatorsPdfViewComponent
+    HeiIndicatorsPdfViewComponent,
+    CaseManagementComponent,
+    CaseManagementFiltersComponent,
+    CaseManagementPatientListComponent,
+    AssignCaseManagerComponent,
+    CaseManagementIndicatorDefinitionComponent
   ],
   declarations: [
     Moh731TabularComponent,
@@ -231,12 +245,18 @@ import { DqaReportBaseComponent } from './dqa-reports/dqa-report-base/dqa-report
     HeiIndicatorsFilterComponent,
     HeiIndicatorsTabularComponent,
     HeiIndicatorsPatientListComponent,
-    HeiIndicatorsPdfViewComponent
+    HeiIndicatorsPdfViewComponent,
+    CaseManagementComponent,
+    CaseManagementFiltersComponent,
+    CaseManagementPatientListComponent,
+    AssignCaseManagerComponent,
+    CaseManagementIndicatorDefinitionComponent
   ],
   providers: [MOHReportService,
     LocationResourceService,
     ClinicalSummaryVisualizationService,
     RetentionReportResourceService,
+    CaseManagementResourceService,
     ProgramWorkFlowResourceService,
     {
       provide: HighchartsStatic,

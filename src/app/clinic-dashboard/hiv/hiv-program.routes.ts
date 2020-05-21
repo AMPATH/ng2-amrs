@@ -78,6 +78,9 @@ import {
     ClinicDashboardHeiReportComponent
 } from './clinic-dashboard-hei-indicators-report/clinic-dashboard-hei-report.component';
 import { HeiIndicatorsPatientListComponent } from './../../hiv-care-lib/hei-indicators-report/hei-indicators-patient-list.component';
+
+ import { ClinicDashboardCaseManagementComponent } from './case-management/clinic-dashboard-case-management.component';
+
 const routes: Routes = [
     {
         path: 'landing-page',
@@ -238,6 +241,15 @@ const routes: Routes = [
             {
                 path: 'patient-list',
                 component: HeiIndicatorsPatientListComponent
+            }
+        ]
+    },
+    {
+        path: 'case-management',
+        children: [
+            {
+                path: '',
+                component: ClinicDashboardCaseManagementComponent
             }
         ]
     }
