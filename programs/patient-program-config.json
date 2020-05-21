@@ -525,7 +525,7 @@
         ]
       },
       {
-        "uuid": "9cbec0ea-9091-4a1d-9d2d-a3bbc295a04f",
+        "uuid": "f75d41c7-e09d-4e98-9b24-78a4ca1c1229",
         "name": "Phone Follow Up Visit",
         "encounterTypes": [{
             "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
@@ -1335,7 +1335,7 @@
         }]
       },
       {
-        "uuid": "9cbec0ea-9091-4a1d-9d2d-a3bbc295a04f",
+        "uuid": "d7fdac11-2df0-4f18-968e-ad5e064bedf1",
         "name": "Phone Follow Up Visit",
         "encounterTypes": [{
             "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
@@ -1431,15 +1431,6 @@
           {
             "uuid": "afabceae-61d4-42b6-8f6a-fff48a7797ea",
             "display": "COVIDCASEREPORTING"
-          }
-        ]
-      },
-      {
-        "uuid": "9cbec0ea-9091-4a1d-9d2d-a3bbc295a04f",
-        "name": "Phone Follow Up Visit",
-        "encounterTypes": [{
-            "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
-            "display": "TELECARE"
           }
         ]
       }
@@ -1837,7 +1828,7 @@
         ]
       },
       {
-        "uuid": "9cbec0ea-9091-4a1d-9d2d-a3bbc295a04f",
+        "uuid": "c2c3cde9-5a3f-4fc3-8976-1c4d29ad0dbe",
         "name": "Phone Follow Up Visit",
         "encounterTypes": [{
             "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
@@ -1975,7 +1966,7 @@
         ]
       },
       {
-        "uuid": "9cbec0ea-9091-4a1d-9d2d-a3bbc295a04f",
+        "uuid": "e547296d-c7b2-42da-9147-3d73dc55de33",
         "name": "Phone Follow Up Visit",
         "encounterTypes": [{
             "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
@@ -2222,15 +2213,6 @@
           
           
         ]
-      },
-      {
-        "uuid": "9cbec0ea-9091-4a1d-9d2d-a3bbc295a04f",
-        "name": "Phone Follow Up Visit",
-        "encounterTypes": [{
-            "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
-            "display": "TELECARE"
-          }
-        ]
       }
     ]
   },
@@ -2350,15 +2332,6 @@
         "encounterTypes": [{
             "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
             "display": "INPATIENTPEER"
-          }
-        ]
-      },
-      {
-        "uuid": "9cbec0ea-9091-4a1d-9d2d-a3bbc295a04f",
-        "name": "Phone Follow Up Visit",
-        "encounterTypes": [{
-            "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
-            "display": "TELECARE"
           }
         ]
       }
@@ -3073,15 +3046,6 @@
             "display": "COVIDCASEREPORTING"
           }
         ]
-      },
-      {
-        "uuid": "9cbec0ea-9091-4a1d-9d2d-a3bbc295a04f",
-        "name": "Phone Follow Up Visit",
-        "encounterTypes": [{
-            "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
-            "display": "TELECARE"
-          }
-        ]
       }
     ]
   },
@@ -3197,15 +3161,6 @@
           {
             "uuid": "afabceae-61d4-42b6-8f6a-fff48a7797ea",
             "display": "COVIDCASEREPORTING"
-          }
-        ]
-      },
-      {
-        "uuid": "9cbec0ea-9091-4a1d-9d2d-a3bbc295a04f",
-        "name": "Phone Follow Up Visit",
-        "encounterTypes": [{
-            "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
-            "display": "TELECARE"
           }
         ]
       }
@@ -3406,7 +3361,7 @@
         ]
       },
       {
-        "uuid": "9cbec0ea-9091-4a1d-9d2d-a3bbc295a04f",
+        "uuid": "0b26e1ca-8b32-40e9-af4d-aa1c2cc68a58",
         "name": "Phone Follow Up Visit",
         "encounterTypes": [{
             "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
@@ -3461,7 +3416,7 @@
       ]
     },
     {
-      "uuid": "9cbec0ea-9091-4a1d-9d2d-a3bbc295a04f",
+      "uuid": "2b9be1a5-0686-4d55-8383-d7c107f3aea3",
       "name": "Phone Follow Up Visit",
       "encounterTypes": [{
           "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
@@ -3647,15 +3602,6 @@
         "uuid": "3cd9dd0a-a5d1-4482-9f45-a0fea4f5e556",
         "display": "NUTRITIONENCOUNTER"
       }]
-    },
-    {
-      "uuid": "9cbec0ea-9091-4a1d-9d2d-a3bbc295a04f",
-      "name": "Phone Follow Up Visit",
-      "encounterTypes": [{
-          "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
-          "display": "TELECARE"
-        }
-      ]
     }]
 
   },
