@@ -84,6 +84,7 @@ import { PatientTransferService } from './patient-transfer.service';
 import { ProgramManagerService } from '../../../program-manager/program-manager.service';
 import { ProgramWorkFlowResourceService } from '../../../openmrs-api/program-workflow-resource.service';
 import { ProgramWorkFlowStateResourceService } from '../../../openmrs-api/program-workflow-state-resource.service';
+import { PatientConsentResourceService } from './../../../openmrs-api/patient-consent-resource.service';
 
 export class FakeConceptResourceService {
   constructor() {
@@ -174,10 +175,20 @@ class FakeCacheStorageService {
   }
 }
 
+export class FakePatientConsentResourceService {
+  public getPatientCallConsent(patientUuid): Observable<any> {
+    return Observable.of({
+      'hasCallConsent': false,
+    });
+  }
+}
+
+
 describe('Component: FormentryComponent', () => {
   const router = {
     navigate: jasmine.createSpy('navigate')
   };
+
 
   const schema: any = {
     uuid: 'form-uuid',
@@ -373,6 +384,11 @@ describe('Component: FormentryComponent', () => {
           provide: PatientTransferService, useFactory: () => {
             return new FakePatientTransferService();
           }, deps: []
+        },
+        {
+          provide: PatientConsentResourceService, useFactory: () => {
+            return new FakePatientConsentResourceService();
+          }
         }
       ]
     });
