@@ -37,6 +37,18 @@ module.exports = function() {
       json: true
   };
   return rp(options);
+  },
+  deleteRequestPromise:function deleteRequestPromise(uri){
+    var options = {
+      method: 'DELETE',
+      headers: {
+        'User-Agent': 'Request-Promise',
+        'Cookie': sessionCookie
+      },
+      uri: uri,
+      resolveWithFullResponse: true
+  };
+  return rp(options);
   }
  };
 }();

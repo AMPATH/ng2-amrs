@@ -1,0 +1,54 @@
+{
+  "indicators": [
+      {
+          "label": "Due For Viral Load",
+          "name": "due_for_vl",
+          "description": "Patients who are due for a Viral Load test."
+      },
+      {
+          "label": "Elevatated VL",
+          "name": "elevated_vl",
+          "description": "Patients with Viral Load greater than 1000."
+      },
+      {
+        "label": "Case manager",
+        "name": "case_manager",
+        "description": "A person who assists in the planning, coordination, monitoring, and evaluation of medical services for a patient with emphasis on quality of care, continuity of services, and cost-effectiveness."
+      },
+      {
+        "label": "Has case manager",
+        "name": "has_case_manager",
+        "description": "Patients who have been assigned a case manager to provide clinical support."
+      },
+      {
+        "label": "Has Phone RTC",
+        "name": "has_phone_rtc",
+        "description": "Patients who have been given a phone follow up date"
+      },
+      {
+        "label": "RTC Date",
+        "name": "rtc_date",
+        "description": "The return to clinic date"
+      },
+      {
+        "label": "Phone Follow up date",
+        "name": "phone_follow_up_date",
+        "description": "The date a patient is scheduled to be followed up via phone"
+      },
+      {
+        "label": "Days since follow up",
+        "name": "days_since_follow_up",
+        "description": "The number of days since the patient's last encounter."
+      },
+      {
+        "label": "Days since missed appointment",
+        "name": "days_since_missed_appointment",
+        "description": "The Number of days a Client has missed coming to Clinic since their last Return to Clinic Date."
+      },
+      {
+        "label": "Newly Enrolled",
+        "name": "newly_enrolled",
+        "description": "Patients who have been enrolled 30 days or less from current date."
+      }
+  ]
+}
