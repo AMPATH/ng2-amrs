@@ -59,7 +59,7 @@
     "joi": "^9.0.0",
     "jquery": "^3.0.0",
     "jshint": "^2.8.0",
-    "lodash": "4.17.4",
+    "lodash": "4.17.13",
     "math": "0.0.3",
     "memory-cache": "^0.1.6",
     "mocha-logger": "^1.0.5",
