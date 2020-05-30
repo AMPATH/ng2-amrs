@@ -33,13 +33,13 @@
       <div class="date-range" *ngIf="isEnabled('datesControl')">
         <div class="form-group col-md-6">
           <div class="form-row">
-            <label for="startDate">Start Date:</label>
+            <label for="startDate">{{dateName.startDate}}</label>
             <input id="startDate" type="date" class="form-control" [(ngModel)]="startDateString" />
           </div>
         </div>
         <div class="form-group col-md-6">
           <div class="form-row">
-            <label for="endDate">End Date:</label>
+            <label for="endDate">{{dateName.endDate}}</label>
             <input id="endDate" type="date" class="form-control" [(ngModel)]="endDateString" />
           </div>
           <div>

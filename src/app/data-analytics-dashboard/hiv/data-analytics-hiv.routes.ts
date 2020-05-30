@@ -151,23 +151,19 @@ const routes: Routes = [
     path: 'dqa',
     children: [
       {
-        path: 'dqa-filter',
+        path: 'dqa-report',
         children: [
           {
             path: '',
-            component: DqaReportBaseComponent
+            component: DqaReportBaseComponent,
+            data : { multipleLocation : true }
           },
-          {
-            path: 'dqa-report-patientlist',
-            component: ChartAbstractionPatientlistComponent
-          }
 
         ]
       },
       {
         path: '',
         component: DqaReportsComponent,
-        data : { multipleLocation : true }
       }
     ]
   }

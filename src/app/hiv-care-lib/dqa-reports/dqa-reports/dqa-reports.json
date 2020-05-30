@@ -2,6 +2,7 @@
     {
       "name": "Patient chart abstraction",
       "id": "1",
+      "url":"dqa-chart-abstraction",
       "description": "DQA Chart Abstraction Report"
     }
 ]

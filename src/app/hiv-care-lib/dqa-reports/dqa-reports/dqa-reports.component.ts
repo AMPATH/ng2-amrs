@@ -13,40 +13,20 @@ export class DqaReportsComponent implements OnInit {
   public title = 'DQA Report';
   public navigationEnd: any;
   public routePathParam: any;
-  public multipleLocation = false;
   public dqaReportTypes: any = require('./dqa-reports.json');
   constructor(private router: Router,
     public clinicDashboardCacheService: ClinicDashboardCacheService,
     private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.route.data.subscribe(url => {
-      if (url.multipleLocation) {
-        this.multipleLocation = url.multipleLocation;
-      }
-    });
   }
 
   public navigateToReport(reportName: any) {
-    if (this.multipleLocation) {
-      this.router.navigate(['dqa-filter'], {
+      this.router.navigate(['dqa-report'], {
         relativeTo: this.route,
         queryParams: {
-          reportId: reportName.id,
+          report: reportName.url,
         }
       });
-    } else {
-      this.route.parent.parent.params.subscribe((params) => {
-        const locationUuid = params['location_uuid'];
-        console.log(locationUuid);
-        this.router.navigate(['dqa-report-patientlist'], {
-          relativeTo: this.route,
-          queryParams: {
-            reportId: reportName.id,
-            locationUuids: params['location_uuid']
-          }
-        });
-      });
-    }
   }
 }
