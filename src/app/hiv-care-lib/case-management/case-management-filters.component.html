@@ -1,0 +1,127 @@
+<div class="container-fluid">
+  <div class="row" id="case-mgmt-filters">
+    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+      <h5 class="report-title">Report Filters</h5>
+    </div>
+      <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+      <i class="fa fa-chevron-down fa-2x fa-fw pull-right"  *ngIf="showFilters" (click)="toggleFiltersVisibility()" aria-hidden="true"></i>
+      <i class="fa fa-chevron-left fa-2x fa-fw pull-right" *ngIf="!showFilters" (click)="toggleFiltersVisibility()"  aria-hidden="true"></i>
+      <hr class="intro-divider"/>
+      </div>
+    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" *ngIf="showFilters">
+        <div class="row">
+          <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" *ngIf="!hideCaseManagerControl">
+            <label class="control-label"> Case Manager:</label>
+            <div class="input-group">
+            <div class="input-group-addon"><i class="fa fa-user-md fa-fw" aria-hidden="true"></i></div>
+              <ng-select class="sharp-corners" [multiple]="true" id="indicator" (change)="onCaseManagerSelected($event)"
+                         [placeholder]="'Select Case Manager'"
+                         [(ngModel)]="selectedCaseManager" [items]="caseManagers">
+              </ng-select>
+            </div>
+          </div>
+        </div>
+        <div class="row row-separator">
+        <div class="col-md-2 col-lg-2 col-sm-4 col-xs-12">
+          <label for="dueForVl" class="control-label"> Due Viral Load  </label>
+          <select class="form-control" [(ngModel)]="dueForVl" id="dueForVl" name="dueForVl"
+							(ngModelChange)="onDueForVlChange($event)" required>
+							<option *ngFor="let due of selecOptions" [value]="due.value">{{ due.label}}
+							</option>
+				 </select>
+        </div>
+        
+        <div class="col-md-2 col-lg-2 col-sm-4 col-xs-12">
+          <label for="elevatedVL"> Elevated VL </label>
+          <select class="form-control" [(ngModel)]="elevatedVL" id="elevatedVL" name="elevatedVL"
+							(ngModelChange)="onElevatedVLChange($event)" required>
+							<option *ngFor="let elevated of selecOptions" [value]="elevated.value">{{ elevated.label}}
+							</option>
+				 </select>
+        </div>
+        <div class="col-md-2 col-lg-2 col-sm-4 col-xs-12">
+          <label for="hasCaseManager"> Has Case Manager </label>
+            <select class="form-control" [(ngModel)]="hasCaseManager" id="hasCaseManager" name="hasCaseManager"
+              (ngModelChange)="onHasCaseManagerChange($event)" required>
+              <option *ngFor="let cm of selecOptions" [value]="cm.value">{{ cm.label}}
+              </option>
+            </select>
+        </div>
+        <div class="col-md-2 col-lg-2 col-sm-4 col-xs-12">
+            <label for="hasPhoneRTC"> Has Phone RTC </label>
+            <select class="form-control" [(ngModel)]="hasPhoneRTC" id="hasPhoneRTC" name="hasPhoneRTC"
+            (ngModelChange)="onHasPhoneRTCChange($event)" required>
+            <option *ngFor="let p of selecOptions" [value]="p.value">{{ p.label}}
+            </option>
+          </select>
+        </div>
+        <div class="col-md-2 col-lg-2 col-sm-4 col-xs-12">
+          <label for="isNewlyEnrolled">Newly Enrolled </label>
+          <select class="form-control" [(ngModel)]="isNewlyEnrolled" id="isNewlyEnrolled" name="isNewlyEnrolled"
+          (ngModelChange)="onIsNewlyEnrolledChange($event)" required>
+          <option *ngFor="let p of selecOptions" [value]="p.value">{{ p.label}}
+          </option>
+        </select>
+        </div>
+        <div class="col-md-2 col-lg-2 col-sm-4 col-xs-12">
+          <label for="minDefaultPeriod">Phone Follow up date </label>
+              <date-time-picker tabindex="0" 
+                  [modelValue]="phoneFollowUpStartDate" 
+                  [id]="'phoneFollowUpStartDate'" 
+                  (onDateChange)="getSelectedPhoneFollowUpStartDate($event)"
+              ></date-time-picker>
+        </div>
+      </div>
+      <div class="row row-separator">
+              <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                <div class="form-group row">
+                  <div class="col-md-2 col-lg-2 col-sm-4 col-xs-12">
+                      <label for="rtcStartDate"> Min RTC Date</label>
+                      <date-time-picker tabindex="0" 
+                          [modelValue]="rtcStartDate" 
+                          [id]="'rtcStartsDate'" 
+                          (onDateChange)="getSelectedRtcStartDate($event)"
+                      ></date-time-picker>
+                  </div>
+                  <div class="col-md-2 col-lg-2 col-sm-4 col-xs-12">
+                    <label for="rtcStartDate"> Max RTC Date</label>
+                      <date-time-picker tabindex="0" 
+                          [modelValue]="rtcEndDate" 
+                          [id]="'rtcEndDate'" 
+                          (onDateChange)="getSelectedRtcEndDate($event)"
+                      ></date-time-picker>
+                  </div>
+                  <div class="col-md-2 col-lg-2 col-sm-6 col-xs-12">
+                    <label for="minFollowupPeriod">Min Days since Follow Up</label>
+                    <input type="number" id="minFollowupPeriod" class="form-control" [(ngModel)]="minFollowupPeriod" min="0"  />
+                  </div>
+                <div class="col-md-2 col-lg-2 col-sm-6 col-xs-12">
+                  <label for="maxFollowupPeriod">Max  Days since Follow Up </label>
+                    <input type="number"  id="maxFollowupPeriod" class="form-control" [(ngModel)]="maxFollowupPeriod" min="0"/>
+                </div>
+                <div class="col-md-2 col-lg-2 col-sm-6 col-xs-12">
+                  <label for="minDefaultPeriod"> Min Days since Missed Appointment </label>
+                  <input type="number" class="form-control" [(ngModel)]="minDefaultPeriod" min="0" />
+                </div>
+                <div class="col-md-2 col-lg-2 col-sm-6 col-xs-12">
+                  <label for="maxDefaultPeriod">Max Days since Missed Appointment</label>
+                  <input type="number" class="form-control" [(ngModel)]="maxDefaultPeriod" min="0" />
+                </div>
+                </div>
+              </div>
+      </div>
+     
+      <div class="row row-separator">
+         <div class="col-md-6 col-lg-6 col-sm-6 col-xs-12">
+              <button type="button" class="btn btn-success pull-left" (click) ="setFilters()" >Load Cases</button>
+         </div>
+         <div class="col-md-6 col-lg-6 col-sm-6 col-xs-12">
+          <button type="button" class="btn btn-danger pull-right" (click) ="resetFilters()" >Reset Filters</button>
+         </div>
+      </div>
+  </div>
+
+      </div>
+
+
+</div>

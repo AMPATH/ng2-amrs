@@ -60,7 +60,7 @@
 			</div>
       <div class="clear"></div>
 		</div>
-		<div *ngIf="hivSummary" class="panel-info">
+		<div class="panel-info">
 			<h5>
 				<span>HIV Summary Info</span>
 			</h5>
@@ -69,7 +69,7 @@
 					<tr class="after_table row_0">
 						<td>ART Initial Start Date</td>
 						<td>
-							<span *ngIf="hivSummary.arv_first_regimen_start_date !== null">
+							<span *ngIf="hivSummary?.arv_first_regimen_start_date !== null">
                   {{(hivSummary?.arv_first_regimen_start_date | date:'dd-MM-yyyy')}}
                 </span>
 						</td>
@@ -77,13 +77,25 @@
 					<tr>
 						<td>ART Current Start Date</td>
 						<td>
-							<span *ngIf="hivSummary.arv_start_date !== null">{{(hivSummary?.arv_start_date | date:'dd-MM-yyyy')}}</span>
+							<span *ngIf="hivSummary?.arv_start_date !== null">{{(hivSummary?.arv_start_date | date:'dd-MM-yyyy')}}</span>
 						</td>
 					</tr>
 					<tr>
 						<td>Current ART Regimen</td>
 						<td>
-							<span *ngIf="hivSummary.cur_arv_meds !== null">{{hivSummary?.cur_arv_meds}}</span>
+							<span *ngIf="hivSummary?.cur_arv_meds !== null">{{hivSummary?.cur_arv_meds}}</span>
+						</td>
+					</tr>
+					<tr *ngIf="patient?.person.gender === 'F'">
+						<td>Pregnant</td>
+						<td>
+							<span>{{ isPregnant ? 'Yes' : 'No' }}</span>
+						</td>
+					</tr>
+					<tr *ngIf="patient?.person.gender === 'F'">
+						<td>Breastfeeding</td>
+						<td>
+							<span>{{ isBreastfeeding ? 'Yes' : 'No' }}</span>
 						</td>
 					</tr>
 				</tbody>
