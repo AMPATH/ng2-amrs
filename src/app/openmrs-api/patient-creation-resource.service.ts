@@ -7,7 +7,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 @Injectable()
 export class PatientCreationResourceService {
 
-  private idgenUrl = 'https://ngx.ampath.or.ke/amrs-id-generator';
+  private idgenUrl = 'http://localhost/amrs-id-generator';
 
   constructor(protected http: HttpClient, protected appSettingsService: AppSettingsService) {
   }
