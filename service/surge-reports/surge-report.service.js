@@ -125,8 +125,7 @@ export class SurgeService extends SurgeMultiDatasetPatientlistReport {
 
     determineSurgeReportSourceTables(yearWeek) {
         const self = this;
-
-        if (yearWeek.slice(0, 4) >= moment().year()) {
+        if (yearWeek.slice(4) >= moment().week() - 1) {
             return self.params.surgeWeeklyDatasetSource = "etl.surge_weekly_report_dataset";
         } else {
             return self.params.surgeWeeklyDatasetSource = "etl.surge_weekly_report_dataset_frozen";
