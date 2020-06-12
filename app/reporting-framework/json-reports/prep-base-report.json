@@ -3,10 +3,16 @@
     "version": "1.0",
     "tag": "",
     "description": "",
-    "uses": [],
+    "uses": [
+        {
+            "name": "prepDatasetReport",
+            "version": "1.0",
+            "type": "dataset_def"
+        }
+    ],
     "sources": [
         {
-            "table": "ndwr.prep_weekly_report_dataset_v1_1",
+            "table": "etl.prep_weekly_report_dataset_v1_1",
             "alias": "prep"
         },
         {
@@ -15,6 +21,38 @@
             "join": {
                 "type": "INNER",
                 "joinCondition": "l.location_id = prep.location_id"
+            }
+        },
+        {
+            "table": "etl.flat_prep_summary_v1_1",
+            "alias": "t2",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "prep.person_id = t2.person_id"
+            }
+        },
+        {
+            "dataSet": "prepDatasetReport",
+            "alias": "t3",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "t2.person_id = t3.person_id"
+            }
+        },
+        {
+            "table": "etl.flat_prep_summary_v1_1",
+            "alias": "t4",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "t3.person_id = t4.person_id AND t3.latest_encounter_datetime = t4.encounter_datetime"
+            }
+        },
+        {
+            "table": "amrs.encounter_type",
+            "alias": "t5",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "t4.encounter_type = t5.encounter_type_id"
             }
         }
     ],
@@ -78,6 +116,41 @@
             "type": "simple_column",
             "alias": "gender",
             "column": "prep.gender"
+        },
+        {
+            "type": "simple_column",
+            "alias": "enrollment_date",
+            "column": "date_format(t4.enrollment_date, '%Y-%m-%d')"
+        },
+        {
+            "type": "simple_column",
+            "alias": "last_appointment",
+            "column": "CONCAT(COALESCE(DATE_FORMAT(t4.encounter_datetime, '%Y-%m-%d'),''),' ',COALESCE(t5.name, ''))"
+        },
+        {
+            "type": "simple_column",
+            "alias": "prev_rtc_date",
+            "column": "date_format(t4.prev_rtc_date, '%Y-%m-%d')"
+        },
+        {
+            "type": "simple_column",
+            "alias": "encounter_date",
+            "column": "date_format(t4.encounter_datetime, '%Y-%m-%d')"
+        },
+        {
+            "type": "simple_column",
+            "alias": "rtc_date",
+            "column": "date_format(t4.rtc_date, '%Y-%m-%d')"
+        },
+        {
+            "type": "simple_column",
+            "alias": "days_since_rtc_date",
+            "column": "TIMESTAMPDIFF(DAY,DATE(t4.rtc_date),curdate())"
+        },
+        {
+            "type": "simple_column",
+            "alias": "death_date",
+            "column": "date_format(t4.death_date, '%Y-%m-%d')"
         }
 
     ],
@@ -95,5 +168,12 @@
                 "parameterName": "locationUuids"
             }
         ]
+    },
+    "groupBy": {
+        "groupParam": "groupByParam",
+        "columns": [
+            "t2.person_id"
+        ],
+        "excludeParam": "excludeParam"
     }
 }

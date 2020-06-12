@@ -108,8 +108,48 @@
         },
         {
             "type": "simple_column",
-            "alias": "last_appointment",
-            "column": "CONCAT(COALESCE(DATE_FORMAT(fh.encounter_datetime, '%Y-%m-%d'),''),' ',COALESCE(et.name, ''))"
+            "alias": "nearest_center",
+            "column": "pa.address3"
+        },
+        {
+            "type": "simple_column",
+            "alias": "latest_vl",
+            "column": "fh.vl_1"
+        },
+        {
+            "type": "simple_column",
+            "alias": "latest_vl_date",
+            "column": "fh.vl_1_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "previous_vl",
+            "column": "fh.vl_2"
+        },
+        {
+            "type": "simple_column",
+            "alias": "previous_vl_date",
+            "column": "fh.vl_2_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "arv_first_regimen_start_date",
+            "column": "fh.arv_first_regimen_start_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "arv_first_regimen",
+            "column": "fh.arv_first_regimen"
+        },
+        {
+            "type": "simple_column",
+            "alias": "cur_meds",
+            "column": "fh.cur_arv_meds"
+        },
+        {
+            "type": "simple_column",
+            "alias": "cur_arv_line",
+            "column": "fh.cur_arv_line"
         },
         {
             "type": "simple_column",

@@ -1,0 +1,41 @@
+{
+    "name": "prepDatasetReport",
+    "version": "1.0",
+    "tag": "",
+    "description": "",
+    "uses": [],
+    "sources": [
+        {
+            "table": "etl.flat_prep_summary_v1_1",
+            "alias": "t3"
+        }
+    ],
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias": "person_id",
+            "column": "t3.person_id"
+        },
+        {
+          "type": "simple_column",
+          "alias": "latest_encounter_datetime",
+          "column": "MAX(t3.encounter_datetime )"
+        }
+    ],
+    "filters": {
+        "conditionJoinOperator": "and",
+        "conditions": [
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "t3.encounter_type in (1,2,3,4,10,14,15,17,19,26,32,33,34,47,105,106,112,113,114,117,120,127,128,138,140,153,154,158,162,163, 186, 133, 134)"
+            }
+        ]
+    },
+    "groupBy": {
+        "groupParam": "groupByParam",
+        "columns": [
+            "t3.person_id"
+        ],
+        "excludeParam": "excludeParam"
+    }
+}
