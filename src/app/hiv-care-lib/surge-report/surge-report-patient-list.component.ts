@@ -24,7 +24,7 @@ export class SurgeReportPatientListComponent implements OnInit {
   public hasError = false;
 
   constructor(private router: Router, private route: ActivatedRoute,
-     private _location: Location, public surgeResource: SurgeResourceService) { }
+    private _location: Location, public surgeResource: SurgeResourceService) { }
 
   ngOnInit() {
     this.addExtraColumns();
@@ -107,48 +107,12 @@ export class SurgeReportPatientListComponent implements OnInit {
         }
       },
       {
-        field: 'encounter_date',
-        cellRenderer: (column) => {
-          return moment(column.value).format('YYYY-MM-DD');
-        }
-      },
-      {
-        field: 'enrollment_date',
-        cellRenderer: (column) => {
-          return moment(column.value).format('YYYY-MM-DD');
-        }
-      },
-      {
-        field: 'prev_rtc_date',
-        cellRenderer: (column) => {
-          return column.value !== null ? moment(column.value).format('YYYY-MM-DD') : column.value;
-        }
-      },
-      {
-        field: 'rtc_date',
-        cellRenderer: (column) => {
-          return column.value !== null ? moment(column.value).format('YYYY-MM-DD') : column.value;
-        }
-      },
-      {
-        field: 'arv_first_regimen_start_date',
-        cellRenderer: (column) => {
-          return moment(column.value).format('YYYY-MM-DD');
-        }
-      },
-      {
-        field: 'death_date',
-        cellRenderer: (column) => {
-          return column.value ? moment(column.value).format('YYYY-MM-DD') : column.value;
-        }
-      },
-      {
-        field : 'clinical_visit_number',
+        field: 'clinical_visit_number',
         width: 250
       },
       {
-        field : 'baseline',
-        width : 250
+        field: 'baseline',
+        width: 250
       },
       {
         field: 'cur_meds',
