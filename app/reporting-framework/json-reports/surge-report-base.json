@@ -30,9 +30,12 @@
             "column": "srb.encounter_yw"
         },
         {
-            "type": "simple_column",
+            "type": "derived_column",
             "alias": "encounter_date",
-            "column": "srb.encounter_date"
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "DATE_FORMAT(srb.encounter_date, '%Y-%m-%d')"
+            }
         },
         {
             "type": "simple_olumn",
@@ -55,14 +58,20 @@
             "column": "srb.gender"
         },
         {
-            "type": "simple_column",
+            "type": "derived_column",
             "alias": "prev_rtc_date",
-            "column": "srb.prev_rtc_date"
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "DATE_FORMAT(srb.prev_rtc_date, '%Y-%m-%d')"
+            }
         },
         {
-            "type": "simple_column",
+            "type": "derived_column",
             "alias": "rtc_date",
-            "column": "srb.rtc_date"
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "DATE_FORMAT(srb.rtc_date, '%Y-%m-%d')"
+            }
         },
         {
             "type": "simple_column",
@@ -105,9 +114,12 @@
             "column": "srb.unscheduled_this_week"
         },
         {
-            "type": "simple_column",
+            "type": "derived_column",
             "alias": "death_date",
-            "column": "srb.death_date"
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "DATE_FORMAT(srb.death_date, '%Y-%m-%d')"
+            }
         },
         {
             "type": "simple_column",
@@ -170,9 +182,12 @@
             "column": "srb.started_art_this_week"
         },
         {
-            "type": "simple_column",
+            "type": "derived_column",
             "alias": "enrollment_date",
-            "column": "srb.enrollment_date"
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "DATE_FORMAT(srb.enrollment_date, '%Y-%m-%d')"
+            }
         },
         {
             "type": "simple_column",
@@ -180,9 +195,12 @@
             "column": "srb.days_since_starting_arvs"
         },
         {
-            "type": "simple_column",
+            "type": "derived_column",
             "alias": "arv_first_regimen_start_date",
-            "column": "srb.arv_first_regimen_start_date"
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "DATE_FORMAT(srb.arv_first_regimen_start_date, '%Y-%m-%d')"
+            }
         },
         {
             "type": "simple_column",
