@@ -30,6 +30,7 @@
         <span *ngIf="searchIdentifiers?.cCC"> <span class="id-label">CCC:</span> {{ searchIdentifiers?.cCC }} </span>
         <span *ngIf="searchIdentifiers?.kenyaNationalId"> <span class="id-label">NID:</span>
           {{ searchIdentifiers?.kenyaNationalId }} </span>
+        <span *ngIf="searchIdentifiers?.hei"> <span class="id-label">HEI:</span> {{ searchIdentifiers?.hei }} </span>
         <span *ngIf="attributes?.value"> <span class="id-label">Test Patient:</span> {{ attributes?.value }} </span>
         <span>
         <div *ngIf="patient" class="btn-group pull-right" dropdown>
@@ -82,6 +83,7 @@
         <span *ngIf="searchIdentifiers?.cCC"> <span class="id-label">CCC:</span> {{ searchIdentifiers?.cCC }} </span>
         <span *ngIf="searchIdentifiers?.kenyaNationalId"> <span class="id-label">NID:</span>
           {{ searchIdentifiers?.kenyaNationalId }} </span>
+        <span *ngIf="searchIdentifiers?.hei"> <span class="id-label">HEI:</span> {{ searchIdentifiers?.hei }} </span>
         <span *ngIf="attributes?.value"> <span class="id-label">Test Patient:</span> {{ attributes?.value }} </span>
       </span>
       <div *ngIf="patient && relationships.length > 0" class="btn-group pull-right" dropdown>
