@@ -122,6 +122,11 @@ export class CaseManagementPatientListComponent implements OnInit {
       }
     },
     {
+      headerName: 'Identifiers',
+      field: 'identifiers',
+      width: 200
+    },
+    {
       headerName: 'Age',
       field: 'age',
       width: 50
