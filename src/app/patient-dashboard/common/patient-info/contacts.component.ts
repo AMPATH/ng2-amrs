@@ -17,6 +17,9 @@ export class ContactsComponent implements OnInit, OnDestroy {
   private partnerPhoneNumber: number;
   private patientPhoneNumber: number;
   private alternativePhoneNumber: number;
+  private careGivername: string;
+  private relationshipToCareGiver: string;
+  private careGiverPhoneNumber: number;
   constructor(private patientService: PatientService) {
   }
 
@@ -40,6 +43,9 @@ export class ContactsComponent implements OnInit, OnDestroy {
           this.partnerPhoneNumber = patient.person.partnerPhoneNumber;
           this.patientPhoneNumber = patient.person.patientPhoneNumber;
           this.alternativePhoneNumber = patient.person.alternativePhoneNumber;
+          this.careGivername = patient.person.caregiverName;
+          this.relationshipToCareGiver = patient.person.relationshipToCaregiver;
+          this.careGiverPhoneNumber = patient.person.caregiverPhoneNumber;
         }
       }
     );

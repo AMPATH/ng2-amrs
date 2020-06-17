@@ -1,0 +1,67 @@
+<div class="program">
+<div class="enrolled">
+  <div *ngIf="ovcEnrollment" class="program-header-wrapper">
+    <h2 class="program-header">OVC Program (Enrolled on
+      {{dateEnrolled}})
+    </h2>
+  </div>
+  <div *ngIf="!ovcEnrollment" class="program-header-wrapper">
+    <h2 *ngIf="!exitedCare" class="program-header">OVC Program (Not Enrolled)
+    </h2>
+    <h2 *ngIf="exitedCare" class="program-header">OVC Program (Completed Program on {{dateCompleted}})
+    </h2>
+  </div>
+  <div class="program-body" [ngStyle]="{ 'background-color': addBackground  }">
+    <div class="program-info">
+      <div class="program-snapshot">
+        <div class="snapshot">
+          <div *ngIf="!hasError">
+            <div class="snapshot-summary">
+              <div class="snapshot-body">
+                <div *ngIf="ovcEnrollment" class="col-md-12">
+                  <div *ngIf="patientData?.vl_1 !== undefined" class="col-md-6 col-xs-12">
+                    <p [ngClass]="{'text-bold red': isVirallyUnsuppressed}">Last Viral Load: {{patientData?.vl_1 | zeroVl }}
+                      <ng-container *ngIf="patientData?.vl_1 !== undefined">
+                        (<span>{{patientData?.vl_1_date | date:'dd-MM-yyyy'}}</span>)
+                      </ng-container>
+                    </p>
+                  </div>
+                </div>
+                <div *ngIf="ovcEnrollment" class="col-md-12">
+                  <div class="col-md-6 col-xs-12" *ngIf="hivDisclosureStatus">
+                    <p>Disclosure Status:
+                      <span style="text-transform: capitalize;">
+                        {{ hivDisclosureStatus }}
+                      </span>
+                    </p>
+                  </div>
+                </div>
+                <div *ngIf="exitReason &&  !ovcEnrollment" class="col-md-6 col-xs-12">
+                  <p>{{ exitReason }}</p>
+                </div>
+                <div *ngIf="nonEnrollmentFormFilled && !ovcEnrollment" class="col-md-6 col-xs-12">
+                  <p>{{ nonEnrollmentReason }}</p>
+                </div>
+                <div class="clear"></div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="!hasLoadedData && !hasError">
+            <p>Loading patient data....</p>
+          </div>
+        </div>
+      </div>
+      <div class="clear clear-fix">&nbsp;</div>
+    </div>
+  </div>
+  <div *ngIf="!hasError" class="program-footer">
+    <div class="input-group">
+      <div class="ui-grid-col-12 buttons">
+        <a class="btn btn-info" routerLink="{{nonEnrollmentFormUrl}}" *ngIf="!ovcEnrollment && !exitedCare">Record Non-Enrollment</a>
+        <a class="btn btn-info" routerLink="{{programManagerUrl}}" *ngIf="exitedOVC || !ovcEnrollment">Enroll</a>
+        <a class="btn btn-danger" routerLink="{{programManagerUrl}}" *ngIf="ovcEnrollment">Exit</a>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

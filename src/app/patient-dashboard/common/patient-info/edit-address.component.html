@@ -17,13 +17,27 @@
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
             <div class="form-group">
               <label for="address1" class="control-label">County</label>
-              <input type="text" id="address1" class="form-control" [(ngModel)]="address1" name="address1">
+              <select class="form-control" [ngModel]="address1" (ngModelChange)="setCounty($event)" name="address1">
+                <option *ngFor="let c of locations?.counties" [ngValue]="c.name">{{c.name}}</option>
+            </select>
+              <!-- <input type="text" id="address1" class="form-control" [(ngModel)]="address1" name="address1"> -->
             </div>
           </div>
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
             <div class="form-group">
               <label for="address2" class="control-label">Sub County</label>
-              <input type="text" id="address2" class="form-control" [(ngModel)]="address2" name="address2">
+              <select class="form-control" [ngModel]="address2" (ngModelChange)="setSubCounty($event)" name="address2">
+                <option *ngFor="let subc of subcounties" [ngValue]="subc.name">{{subc.name}}</option>
+            </select>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+            <div class="form-group">
+              <label for="address7" class="control-label">Ward</label>
+              <select class="form-control" [ngModel]="address7" (ngModelChange)="setWard($event)" name="address7">
+                <option *ngFor="let ward of wards" [ngValue]="ward">{{ward}}</option>
+            </select>
+              <!-- <input type="text" id="address7" class="form-control" [(ngModel)]="address7" name="address7"> -->
             </div>
           </div>
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">

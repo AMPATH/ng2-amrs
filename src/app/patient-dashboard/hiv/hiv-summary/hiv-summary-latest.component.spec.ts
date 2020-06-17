@@ -13,20 +13,23 @@ import { PatientProgramService } from '../../programs/patient-programs.service';
 import { RoutesProviderService } from '../../../shared/dynamic-route/route-config-provider.service';
 import { ProgramService } from '../../programs/program.service';
 import { ProgramResourceService } from '../../../openmrs-api/program-resource.service';
-import { ProgramWorkFlowResourceService
+import {
+  ProgramWorkFlowResourceService
 } from '../../../openmrs-api/program-workflow-resource.service';
-import { ProgramWorkFlowStateResourceService
+import {
+  ProgramWorkFlowStateResourceService
 } from '../../../openmrs-api/program-workflow-state-resource.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { PatientService } from '../../services/patient.service';
 
 describe('Component: HivSummaryLatest Unit Tests', () => {
 
   let hivSummaryService: HivSummaryService,
-  patientResourceService: PatientResourceService, component;
+    patientResourceService: PatientResourceService, patientService: PatientService, encounterService: EncounterResourceService, component;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ HttpClientTestingModule ],
+      imports: [HttpClientTestingModule],
       providers: [
         HivSummaryService,
         HivSummaryResourceService,
@@ -40,15 +43,18 @@ describe('Component: HivSummaryLatest Unit Tests', () => {
         EncounterResourceService,
         ProgramWorkFlowResourceService,
         ProgramWorkFlowStateResourceService,
-         AppSettingsService,
-         LocalStorageService
+        AppSettingsService,
+        LocalStorageService,
+        PatientService,
       ]
     });
 
     hivSummaryService = TestBed.get(HivSummaryService);
     patientResourceService = TestBed.get(PatientResourceService);
+    patientService = TestBed.get(PatientService);
+    encounterService = TestBed.get(EncounterResourceService);
 
-    component = new HivSummaryLatestComponent(hivSummaryService, patientResourceService);
+    component = new HivSummaryLatestComponent(hivSummaryService, encounterService, patientService, patientResourceService);
 
   });
 

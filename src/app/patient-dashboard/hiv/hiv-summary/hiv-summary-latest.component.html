@@ -13,6 +13,7 @@
         Contraception Method :  {{hivSummary?.contraceptive_method?.period}} {{'(' + hivSummary?.contraceptive_method?.name + ')'| titlecase}}
       </span>
     </li>
+    <li *ngIf="ovcStatus" class="list-group-item {{colorCode}}" style="font-size:large;">OVC Status: ({{ovcStatus}})</li>
     <li class="list-group-item" style="font-size:large" *ngIf="!eligiblePatient">Contraception Method: <span>{{ineligibiltyReason ? 'Not eligible': ''}} ({{ineligibiltyReason | titlecase}}) </span></li>
     <li class="list-group-item" style="font-size:large">Last Appt Date: {{hivSummary?.encounter_datetime | date:'dd-MM-yyyy'}} {{hivSummary?.encounter_type_name ? '(' + hivSummary?.encounter_type_name + ')' : '(None)' }}</li>
     <li class="list-group-item" style="font-size:large">RTC Date: {{hivSummary?.rtc_date | date:'dd-MM-yyyy'}}</li>
