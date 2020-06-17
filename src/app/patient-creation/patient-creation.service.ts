@@ -217,6 +217,10 @@ export class PatientCreationService {
             {
                 label: 'KUZA ID', format: '^KUZA\\d{5}$', checkdigit: 0,
                 val: 'd1e5ef63-126f-4b1f-bd3f-496c16c4098d'
+            },
+            {
+                label: 'OVCID', format: '^\\d{8}-\\d{14}', checkdigit: 0,
+                val: '52b78065-5c0f-4cf8-ab02-6b1b992b18c4'
             }
         ];
     }

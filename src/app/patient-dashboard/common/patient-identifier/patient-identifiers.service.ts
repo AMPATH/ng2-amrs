@@ -48,7 +48,8 @@ export class PatientIdentifierService {
       'HEI',
       'KUZA ID',
       'Zuri Health ID',
-      'NAT'
+      'NAT',
+      'OVCID'
     ];
   }
   public patientIdentifierTypeFormat() {
@@ -88,6 +89,10 @@ export class PatientIdentifierService {
       {
         label: 'NAT', format: 'NAT-\\d{5}$', checkdigit: 0,
         val: '22ee6ad7-58fb-4382-9af2-c6a553f3d56a'
+      },
+      {
+        label: 'OVCID', format: '^\\d{7}', checkdigit: 0,
+        val: '52b78065-5c0f-4cf8-ab02-6b1b992b18c4'
       }
     ];
   }
