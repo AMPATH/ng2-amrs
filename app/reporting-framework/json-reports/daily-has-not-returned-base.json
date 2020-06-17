@@ -170,7 +170,7 @@
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "t2.next_clinical_encounter_datetime IS NULL AND ((t2.department_id = t7.department_id) OR (t2.department_id is NULL and t7.department_id is NULL))",
+                "conditionExpression": "t2.next_clinical_encounter_datetime IS NULL",
                 "parameterName": ""
             },
             {
