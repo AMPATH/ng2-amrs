@@ -106,6 +106,7 @@ import { ReportingUtilitiesModule } from 'src/app/reporting-utilities/reporting-
 import { BsDatepickerModule } from 'ngx-bootstrap';
 import { ClinicDashboardRetentionReportComponent } from './retention-report/clinic-dashboard-retention-report.component';
 import { ClinicDashboardCaseManagementComponent } from './case-management/clinic-dashboard-case-management.component';
+import { PrepReportComponent } from './prep-report/prep-report.component';
 @NgModule({
     imports: [
         clinicDashboardHivRouting,
@@ -186,7 +187,8 @@ import { ClinicDashboardCaseManagementComponent } from './case-management/clinic
         HivDifferentiatedCarePatientListComponent,
         SurgeReportComponent,
         ClinicDashboardRetentionReportComponent,
-        ClinicDashboardCaseManagementComponent
+        ClinicDashboardCaseManagementComponent,
+        PrepReportComponent
     ],
     providers: [
         ClinicalSummaryVisualizationService
