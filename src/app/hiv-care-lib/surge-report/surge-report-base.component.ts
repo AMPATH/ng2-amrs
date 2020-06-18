@@ -29,7 +29,7 @@ export class SurgeReportBaseComponent implements OnInit {
   public showInfoMessage = false;
   public isLoading = false;
   public reportHead: any;
-  public displayTabluarFilters: Boolean = false;
+  public displayTabularFilters: Boolean = false;
   public calendarWeeks = [];
   public selectedYearWeek: any;
   public startDate: any;
@@ -61,7 +61,7 @@ export class SurgeReportBaseComponent implements OnInit {
       (data) => {
         data.year_week === undefined ? this.yearWeek = Moment(new Date())
           .subtract(1, 'week').format('YYYY-[W]WW') : this.yearWeek = data.year_week;
-        this.displayTabluarFilters = data.displayTabluarFilters;
+        this.displayTabularFilters = data.displayTabularFilters;
 
         data._date === undefined ? this.startDate = Moment(new Date()).format('MM-DD-YYYY') :
           this.startDate = Moment(data._date).format('MM-DD-YYYY');
@@ -163,7 +163,7 @@ export class SurgeReportBaseComponent implements OnInit {
         this.params = {
           '_date': Moment(this.startDate).format('YYYY-MM-DD'),
           'locationUuids': param,
-          'displayTabluarFilters': true,
+          'displayTabularFilters': true,
           'currentView': this.currentView,
           'reportName': this.reportName
         };
@@ -172,7 +172,7 @@ export class SurgeReportBaseComponent implements OnInit {
         this.params = {
           'year_week': this.yearWeek,
           'locationUuids': param,
-          'displayTabluarFilters': true,
+          'displayTabularFilters': true,
           'currentView': this.currentView,
           'reportName': this.reportName
         };
@@ -191,10 +191,10 @@ export class SurgeReportBaseComponent implements OnInit {
     });
     this.surgeReportSummaryData = [];
     if (this.currentView === 'daily') {
-      this.displayTabluarFilters = true;
+      this.displayTabularFilters = true;
       this.getSurgeDailyReport(this.params);
     } else {
-      this.displayTabluarFilters = true;
+      this.displayTabularFilters = true;
       this.getSurgeWeeklyReport(this.params);
     }
   }
@@ -212,12 +212,12 @@ export class SurgeReportBaseComponent implements OnInit {
       this.currentView = 'daily';
       this.enabledControls = 'dayControl';
       this.surgeReportSummaryData = [];
-      this.displayTabluarFilters = false;
+      this.displayTabularFilters = false;
     } else if (val.index === 1) {
       this.currentView = 'weekly';
       this.enabledControls = 'weekControl';
       this.surgeReportSummaryData = [];
-      this.displayTabluarFilters = false;
+      this.displayTabularFilters = false;
     }
   }
 

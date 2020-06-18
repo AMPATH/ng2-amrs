@@ -41,7 +41,7 @@
         </p-tabPanel>
         <p-tabPanel header="Tabular View" leftIcon="fa-table" [selected]="currentViewBelow === 'tabular'">
             <surge-report-tabular [surgeReportSummaryData]="surgeReportSummaryData" [sectionDefs]="columnDefs"
-                (indicatorSelected)="onIndicatorSelected($event)" [pinnedBottomRowData]="pinnedBottomRowData" [displayTabluarFilters]="displayTabluarFilters">
+                (indicatorSelected)="onIndicatorSelected($event)" [pinnedBottomRowData]="pinnedBottomRowData" [displayTabularFilters]="displayTabularFilters">
             </surge-report-tabular>
         </p-tabPanel>
     </p-tabView>

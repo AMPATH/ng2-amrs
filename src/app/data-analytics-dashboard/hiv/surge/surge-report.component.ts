@@ -37,13 +37,13 @@ export class SurgeReportComponent extends SurgeReportBaseComponent implements On
   public storeParamsInUrl() {
     this.setSelectedLocation();
     let state = {};
-    this.displayTabluarFilters = true;
+    this.displayTabularFilters = true;
     switch (this.currentView) {
       case 'daily':
           state = {
           '_date': Moment(this.startDate).format('YYYY-MM-DD'),
           'locationUuids': this.getSelectedLocations(this.locationUuids),
-          'displayTabluarFilters': this.displayTabluarFilters,
+          'displayTabularFilters': this.displayTabularFilters,
           'currentView': this.currentView,
           'reportName': this.reportName
           };
@@ -52,7 +52,7 @@ export class SurgeReportComponent extends SurgeReportBaseComponent implements On
          state = {
           'year_week': this.yearWeek,
           'locationUuids': this.getSelectedLocations(this.locationUuids),
-          'displayTabluarFilters': this.displayTabluarFilters,
+          'displayTabularFilters': this.displayTabularFilters,
           'currentView': this.currentView,
           'reportName': this.reportName
         };
@@ -109,12 +109,12 @@ export class SurgeReportComponent extends SurgeReportBaseComponent implements On
       this.currentView = 'weekly';
       this.enabledControls = 'weekControl,locationControl';
       this.surgeReportSummaryData = [];
-      this.displayTabluarFilters = false;
+      this.displayTabularFilters = false;
     } else {
       this.enabledControls = 'dayControl,locationControl';
       this.currentView = 'daily';
       this.surgeReportSummaryData = [];
-      this.displayTabluarFilters = false;
+      this.displayTabularFilters = false;
     }
   }
 }
