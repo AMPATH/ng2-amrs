@@ -1,216 +1,217 @@
 {
-    "name": "lungCancerTreatmentDailySummaryAggregate",
-    "version": "1.0",
-    "tag": "lung_cancer_treatment_daily_summary_aggregate",
-    "uses": [{
-        "name": "lungCancerTreatmentSummaryBase",
-        "version": "1.0",
-        "type": "dataset_def"
-    }],
-    "sources": [{
-        "dataSet": "lungCancerTreatmentSummaryBase",
-        "alias": "lct"
-    }],
-    "columns": [{
-            "type": "simple_column",
-            "alias": "location_name",
-            "column": "location_name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_uuid",
-            "column": "location_uuid"
-        },
-        {
-            "type": "derived_column",
-            "alias": "encounter_datetime",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "date_format(lct.encounter_datetime, '%d-%m-%Y')"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "enrolled_patients",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(enrolled_patients)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "non_small_cell_lung_cancer",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(non_small_cell_lung_cancer)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "epidermoid_carcinoma",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(epidermoid_carcinoma)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "adenocarcinoma",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(adenocarcinoma)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "large_cell_carcinoma",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(large_cell_carcinoma)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "mixed_squamous",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(mixed_squamous)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "small_cell_lung_cancer",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(small_cell_lung_cancer)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "stage_one",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(stage_one)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "stage_two",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(stage_two)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "stage_three",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(stage_three)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "stage_four",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(stage_four)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "limited_stage",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(limited_stage)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "extensive_stage",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(extensive_stage)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "for_staging",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(IF(for_staging is NUll, 1, 0))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "chemotherapy",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(chemotherapy)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "radiotherapy",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(radiotherapy)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "surgery",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(surgery)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "active_patients",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(active_patients)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "lost_to_follow_up",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(lost_to_follow_up)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "deceased",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(deceased)"
-            }
-        }
-
-    ],
-    "groupBy": {
-        "groupParam": "groupByParam",
-        "columns": [
-            "location_id",
-            "DATE(lct.encounter_datetime)"
-        ],
-        "excludeParam": "excludeParam"
-    },
-    "dynamicJsonQueryGenerationDirectives": {
-        "patientListGenerator": {
-            "useTemplate": "lung_cancer_treatment_patient_list_template",
-            "useTemplateVersion": "1.0",
-            "generatingDirectives": {
-                "joinDirectives": {
-                    "joinType": "INNER",
-                    "joinCondition": "<<base_column>> = <<template_column>>",
-                    "baseColumn": "person_id",
-                    "templateColumn": "person_id"
-                }
-            }
-        }
+  "name": "lungCancerTreatmentDailySummaryAggregate",
+  "version": "1.0",
+  "tag": "lung_cancer_treatment_daily_summary_aggregate",
+  "uses": [
+    {
+      "name": "lungCancerTreatmentSummaryBase",
+      "version": "1.0",
+      "type": "dataset_def"
     }
+  ],
+  "sources": [
+    {
+      "dataSet": "lungCancerTreatmentSummaryBase",
+      "alias": "lct"
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "location_name",
+      "column": "location_name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "location_uuid"
+    },
+    {
+      "type": "derived_column",
+      "alias": "encounter_datetime",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "date_format(lct.encounter_datetime, '%d-%m-%Y')"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "enrolled_patients",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(enrolled_patients)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "non_small_cell_lung_cancer",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(non_small_cell_lung_cancer)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "epidermoid_carcinoma",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(epidermoid_carcinoma)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "adenocarcinoma",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(adenocarcinoma)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "large_cell_carcinoma",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(large_cell_carcinoma)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "mixed_squamous",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(mixed_squamous)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "small_cell_lung_cancer",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(small_cell_lung_cancer)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "stage_one",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(stage_one)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "stage_two",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(stage_two)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "stage_three",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(stage_three)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "stage_four",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(stage_four)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "limited_stage",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(limited_stage)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "extensive_stage",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(extensive_stage)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "for_staging",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(IF(for_staging is NUll, 1, 0))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "chemotherapy",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(chemotherapy)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "radiotherapy",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(radiotherapy)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "surgery",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(surgery)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "active_patients",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(active_patients)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "lost_to_follow_up",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(lost_to_follow_up)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "deceased",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(deceased)"
+      }
+    }
+  ],
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["location_id", "DATE(lct.encounter_datetime)"],
+    "excludeParam": "excludeParam"
+  },
+  "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+      "useTemplate": "lung_cancer_treatment_patient_list_template",
+      "useTemplateVersion": "1.0",
+      "generatingDirectives": {
+        "joinDirectives": {
+          "joinType": "INNER",
+          "joinCondition": "<<base_column>> = <<template_column>>",
+          "baseColumn": "person_id",
+          "templateColumn": "person_id"
+        }
+      }
+    }
+  }
 }

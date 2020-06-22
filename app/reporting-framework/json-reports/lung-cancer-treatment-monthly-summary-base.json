@@ -3,7 +3,8 @@
   "version": "1.0",
   "tag": "lung_cancer_treatment_monthly_summary_base",
   "uses": [],
-  "sources": [{
+  "sources": [
+    {
       "table": "etl.flat_lung_cancer_treatment",
       "alias": "flct"
     },
@@ -64,7 +65,8 @@
       }
     }
   ],
-  "columns": [{
+  "columns": [
+    {
       "type": "simple_column",
       "alias": "person_id",
       "column": "distinct flct.person_id"
@@ -148,7 +150,7 @@
       "alias": "for_staging",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "NULLIF(staging, null)"
+        "expression": "NULLIF(cancer_staging, null)"
       }
     },
     {
@@ -156,7 +158,8 @@
       "alias": "referred_from",
       "expressionType": "case_statement",
       "expressionOptions": {
-        "caseOptions": [{
+        "caseOptions": [
+          {
             "condition": "referred_from = 1",
             "value": "Pulmonary clinic"
           },
@@ -178,7 +181,7 @@
           },
           {
             "condition": "referred_from = 6",
-            "value": "self"
+            "value": "Self"
           },
           {
             "condition": "referred_from = 7",
@@ -216,7 +219,7 @@
       "alias": "non_small_cell_lung_cancer",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "(IF(non_small_cell_ca_type IS NOT NULL, 1, NULL))"
+        "expression": "(IF(non_small_cell_lung_cancer_type IS NOT NULL, 1, NULL))"
       }
     },
     {
@@ -224,7 +227,7 @@
       "alias": "epidermoid_carcinoma",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "(IF(non_small_cell_ca_type IN (1), 1, NULL))"
+        "expression": "(IF(non_small_cell_lung_cancer_type IN (1), 1, NULL))"
       }
     },
     {
@@ -232,7 +235,7 @@
       "alias": "adenocarcinoma",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "(IF(non_small_cell_ca_type IN (2), 1, NULL))"
+        "expression": "(IF(non_small_cell_lung_cancer_type IN (2), 1, NULL))"
       }
     },
     {
@@ -240,7 +243,7 @@
       "alias": "large_cell_carcinoma",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "(IF(non_small_cell_ca_type IN (3), 1, NULL))"
+        "expression": "(IF(non_small_cell_lung_cancer_type IN (3), 1, NULL))"
       }
     },
     {
@@ -248,7 +251,7 @@
       "alias": "mixed_squamous",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "(IF(non_small_cell_ca_type IN (4), 1, NULL))"
+        "expression": "(IF(non_small_cell_lung_cancer_type IN (4), 1, NULL))"
       }
     },
     {
@@ -264,7 +267,7 @@
       "alias": "stage_one",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "(IF(staging IN (1), 1, NULL))"
+        "expression": "(IF(cancer_staging IN (1), 1, NULL))"
       }
     },
     {
@@ -272,7 +275,7 @@
       "alias": "stage_two",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "(IF(staging IN (2), 1, NULL))"
+        "expression": "(IF(cancer_staging IN (2), 1, NULL))"
       }
     },
     {
@@ -280,7 +283,7 @@
       "alias": "stage_three",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "(IF(staging IN (3), 1, NULL))"
+        "expression": "(IF(cancer_staging IN (3), 1, NULL))"
       }
     },
     {
@@ -288,7 +291,7 @@
       "alias": "stage_four",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "(IF(staging IN (4), 1, NULL))"
+        "expression": "(IF(cancer_staging IN (4), 1, NULL))"
       }
     },
     {
@@ -296,7 +299,7 @@
       "alias": "limited_stage",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "(IF(staging IN (5), 1, NULL))"
+        "expression": "(IF(cancer_staging IN (5), 1, NULL))"
       }
     },
     {
@@ -304,7 +307,7 @@
       "alias": "extensive_stage",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "(IF(staging IN (6), 1, NULL))"
+        "expression": "(IF(cancer_staging IN (6), 1, NULL))"
       }
     },
     {
@@ -334,27 +337,28 @@
     {
       "type": "simple_column",
       "alias": "sticks_smoked_per_day",
-      "column": "flct.number_of_sticks"
+      "column": "flct.sticks_smoked_per_day"
     },
     {
       "type": "derived_column",
       "alias": "education_level",
       "expressionType": "case_statement",
       "expressionOptions": {
-        "caseOptions": [{
-            "condition": "flct.patient_level_education = 1",
+        "caseOptions": [
+          {
+            "condition": "flct.patient_education_level = 1",
             "value": "None"
           },
           {
-            "condition": "flct.patient_level_education = 2",
+            "condition": "flct.patient_education_level = 2",
             "value": "Primary school"
           },
           {
-            "condition": "flct.patient_level_education = 3",
+            "condition": "flct.patient_education_level = 3",
             "value": "Secondary school"
           },
           {
-            "condition": "flct.patient_level_education = 4",
+            "condition": "flct.patient_education_level = 4",
             "value": "University"
           }
         ]
@@ -365,7 +369,8 @@
       "alias": "uses_tobacco",
       "expressionType": "case_statement",
       "expressionOptions": {
-        "caseOptions": [{
+        "caseOptions": [
+          {
             "condition": "flct.tobacco_use = 1",
             "value": "Yes"
           },
@@ -383,14 +388,15 @@
     {
       "type": "simple_column",
       "alias": "years_of_tobacco_use",
-      "column": "flct.tobacco_use_duration"
+      "column": "flct.years_of_tobacco_use"
     },
     {
       "type": "derived_column",
       "alias": "marital_status",
       "expressionType": "case_statement",
       "expressionOptions": {
-        "caseOptions": [{
+        "caseOptions": [
+          {
             "condition": "flct.marital_status = 1",
             "value": "Not applicable"
           },
@@ -461,28 +467,29 @@
       "alias": "overall_cancer_staging",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "caseOptions": [{
-            "condition": "flct.staging = 1",
+        "caseOptions": [
+          {
+            "condition": "flct.cancer_staging = 1",
             "value": "Stage I"
           },
           {
-            "condition": "flct.staging = 2",
+            "condition": "flct.cancer_staging = 2",
             "value": "Stage II"
           },
           {
-            "condition": "flct.staging = 3",
+            "condition": "flct.cancer_staging = 3",
             "value": "Stage III"
           },
           {
-            "condition": "flct.staging = 4",
+            "condition": "flct.cancer_staging = 4",
             "value": "Stage IV"
           },
           {
-            "condition": "flct.staging = 5",
+            "condition": "flct.cancer_staging = 5",
             "value": "Limited stage"
           },
           {
-            "condition": "flct.staging = 6",
+            "condition": "flct.cancer_staging = 6",
             "value": "Extendend stage"
           }
         ]
@@ -493,7 +500,8 @@
       "alias": "lung_cancer_type",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "caseOptions": [{
+        "caseOptions": [
+          {
             "condition": "flct.lung_cancer_type = 1",
             "value": "Non small cell"
           },
@@ -513,20 +521,21 @@
       "alias": "non_small_cell_lung_cancer_type",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "caseOptions": [{
-            "condition": "flct.non_small_cell_ca_type = 1",
+        "caseOptions": [
+          {
+            "condition": "flct.non_small_cell_lung_cancer_type = 1",
             "value": "Squamous cell carcinoma, NOS"
           },
           {
-            "condition": "flct.non_small_cell_ca_type = 2",
+            "condition": "flct.non_small_cell_lung_cancer_type = 2",
             "value": "Adenocarcinoma"
           },
           {
-            "condition": "flct.non_small_cell_ca_type = 3",
+            "condition": "flct.non_small_cell_lung_cancer_type = 3",
             "value": "Large cell carcinoma"
           },
           {
-            "condition": "flct.non_small_cell_ca_type = 3",
+            "condition": "flct.non_small_cell_lung_cancer_type = 3",
             "value": "Mixed squamous"
           }
         ]
@@ -535,7 +544,8 @@
   ],
   "filters": {
     "conditionJoinOperator": "and",
-    "conditions": [{
+    "conditions": [
+      {
         "filterType": "tableColumns",
         "conditionExpression": "flct.age >= ?",
         "parameterName": "startAge"

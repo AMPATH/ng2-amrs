@@ -1,362 +1,352 @@
 {
-    "name": "lungCancerTreatmentSummaryBase",
-    "version": "1.0",
-    "tag": "lung_cancer_treatment_summary_base",
-    "uses": [],
-    "sources": [{
-            "table": "etl.flat_lung_cancer_treatment",
-            "alias": "flct"
-        },
-        {
-            "table": "amrs.person_name",
-            "alias": "patient_name",
-            "join": {
-                "type": "inner",
-                "joinCondition": "flct.person_id = patient_name.person_id and (patient_name.voided is null OR patient_name.voided = 0)"
-
-            }
-        },
-        {
-            "table": "amrs.person",
-            "alias": "pp",
-            "join": {
-                "type": "inner",
-                "joinCondition": "flct.person_id = pp.person_id and (pp.voided is null OR pp.voided = 0)"
-
-            }
-        },
-        {
-            "table": "amrs.patient_identifier",
-            "alias": "patient_id",
-            "join": {
-                "type": "inner",
-                "joinCondition": "flct.person_id = patient_id.patient_id and (patient_id.voided is null OR patient_id.voided = 0)"
-
-            }
-
-        },
-        {
-            "table": "amrs.patient_program",
-            "alias": "program",
-            "join": {
-                "type": "inner",
-                "joinCondition": "flct.person_id = program.patient_id and (program.voided is null OR program.voided = 0)"
-
-            }
-
-        },
-        {
-            "table": "amrs.location",
-            "alias": "l",
-            "join": {
-                "type": "inner",
-                "joinCondition": "l.location_id = flct.location_id"
-
-            }
-        },
-        {
-            "table": "etl.flat_appointment",
-            "alias": "fa",
-            "join": {
-                "type": "left",
-                "joinCondition": "fa.person_id = flct.person_id AND fa.next_clinical_encounter_datetime IS NULL"
-
-            }
-        },
-        {
-            "table": "amrs.person_attribute",
-            "alias": "p",
-            "join": {
-                "type": "left",
-                "joinCondition": "flct.person_id = p.person_id and (p.voided is null OR p.voided = 0 and (p.person_attribute_type_id = 10))"
-
-            }
-        }
-    ],
-    "columns": [{
-            "type": "simple_column",
-            "alias": "person_id",
-            "column": "flct.person_id"
-        },
-        {
-            "type": "derived_column",
-            "alias": "person_name",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "concat(coalesce(patient_name.given_name, ''), ' ', coalesce(patient_name.middle_name, ''), ' ', coalesce(patient_name.family_name, ''))"
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "phone_number",
-            "column": "p.value"
-        },
-        {
-            "type": "derived_column",
-            "alias": "identifiers",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "group_concat(distinct patient_id.identifier separator ', ')"
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "gender",
-            "column": "flct.gender"
-        },
-        {
-            "type": "simple_column",
-            "alias": "age",
-            "column": "flct.age"
-        },
-        {
-            "type": "simple_column",
-            "alias": "deceased",
-            "column": "pp.dead"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_id",
-            "column": "flct.location_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_uuid",
-            "column": "flct.location_uuid"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_name",
-            "column": "l.name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "encounter_datetime",
-            "column": "DATE_FORMAT(flct.encounter_datetime, '%Y-%m-%d')"
-        },
-        {
-            "type": "simple_column",
-            "alias": "metastasis_region",
-            "column": "flct.metastasis_region"
-        },
-        {
-            "type": "derived_column",
-            "alias": "hiv_status",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "case when hiv_status=1 then 'HIV Negative' when hiv_status=2 then 'HIV Positive' when hiv_status=3 then 'Unknown' else NULL end"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "enrolled_patients",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "(IF ((program.date_completed IS NULL AND program.program_id IN(32)), 1, 0))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "active_patients",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "(IF ((program.date_completed IS NULL AND pp.dead = 0), 1, 0))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "lost_to_follow_up",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "IF(TIMESTAMPDIFF(day,fa.rtc_date,CURDATE()) >= 90 AND pp.dead = 0 ,1,NULL)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "referred_from_clinic",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "(IF(cur_visit_type IN (1), 1, NULL))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "non_small_cell_lung_cancer",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "(IF(non_small_cell_ca_type IS NOT NULL, 1, NULL))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "epidermoid_carcinoma",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "(IF(non_small_cell_ca_type IN (1), 1, NULL))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "adenocarcinoma",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "(IF(non_small_cell_ca_type IN (2), 1, NULL))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "large_cell_carcinoma",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "(IF(non_small_cell_ca_type IN (3), 1, NULL))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "mixed_squamous",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "(IF(non_small_cell_ca_type IN (4), 1, NULL))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "small_cell_lung_cancer",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "(IF(lung_cancer_type IN (2), 1, NULL))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "stage_one",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "(IF(staging IN (1), 1, NULL))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "stage_two",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "(IF(staging IN (2), 1, NULL))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "stage_three",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "(IF(staging IN (3), 1, NULL))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "stage_four",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "(IF(staging IN (4), 1, NULL))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "limited_stage",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "(IF(staging IN (5), 1, NULL))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "extensive_stage",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "(IF(staging IN (6), 1, NULL))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "for_staging",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "(NULLIF(staging, NULL))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "chemotherapy",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "(IF(treatment_plan IN (1), 1, NULL))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "radiotherapy",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "(IF(treatment_plan IN (2), 1, NULL))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "surgery",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "(IF(treatment_plan IN (3), 1, NULL))"
-            }
-        }
-
-    ],
-    "filters": {
-        "conditionJoinOperator": "and",
-        "conditions": [{
-                "filterType": "tableColumns",
-                "conditionExpression": "flct.age >= ?",
-                "parameterName": "startAge"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "flct.age <= ?",
-                "parameterName": "endAge"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "DATE(flct.encounter_datetime) >= ?",
-                "parameterName": "startDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "DATE(flct.encounter_datetime) <= ?",
-                "parameterName": "endDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "flct.encounter_type in (169, 170)"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "flct.location_uuid in ?",
-                "parameterName": "locationUuids"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "flct.gender in ?",
-                "parameterName": "genders"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "flct.location_id not in (195)"
-            }
-        ]
+  "name": "lungCancerTreatmentSummaryBase",
+  "version": "1.0",
+  "tag": "lung_cancer_treatment_summary_base",
+  "uses": [],
+  "sources": [{
+      "table": "etl.flat_lung_cancer_treatment",
+      "alias": "flct"
     },
-    "groupBy": {
-        "groupParam": "groupByParam",
-        "columns": [
-            "flct.person_id",
-            "flct.location_id",
-            "DATE_FORMAT(flct.encounter_datetime, '%D-%M-%Y')"
-        ]
+    {
+      "table": "amrs.person_name",
+      "alias": "patient_name",
+      "join": {
+        "type": "inner",
+        "joinCondition": "flct.person_id = patient_name.person_id and (patient_name.voided is null OR patient_name.voided = 0)"
+      }
+    },
+    {
+      "table": "amrs.person",
+      "alias": "pp",
+      "join": {
+        "type": "inner",
+        "joinCondition": "flct.person_id = pp.person_id and (pp.voided is null OR pp.voided = 0)"
+      }
+    },
+    {
+      "table": "amrs.patient_identifier",
+      "alias": "patient_id",
+      "join": {
+        "type": "inner",
+        "joinCondition": "flct.person_id = patient_id.patient_id and (patient_id.voided is null OR patient_id.voided = 0)"
+      }
+    },
+    {
+      "table": "amrs.patient_program",
+      "alias": "program",
+      "join": {
+        "type": "inner",
+        "joinCondition": "flct.person_id = program.patient_id and (program.voided is null OR program.voided = 0)"
+      }
+    },
+    {
+      "table": "amrs.location",
+      "alias": "l",
+      "join": {
+        "type": "inner",
+        "joinCondition": "l.location_id = flct.location_id"
+      }
+    },
+    {
+      "table": "etl.flat_appointment",
+      "alias": "fa",
+      "join": {
+        "type": "left",
+        "joinCondition": "fa.person_id = flct.person_id AND fa.next_clinical_encounter_datetime IS NULL"
+      }
+    },
+    {
+      "table": "amrs.person_attribute",
+      "alias": "p",
+      "join": {
+        "type": "left",
+        "joinCondition": "flct.person_id = p.person_id and (p.voided is null OR p.voided = 0 and (p.person_attribute_type_id = 10))"
+      }
     }
+  ],
+  "columns": [{
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "flct.person_id"
+    },
+    {
+      "type": "derived_column",
+      "alias": "person_name",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "concat(coalesce(patient_name.given_name, ''), ' ', coalesce(patient_name.middle_name, ''), ' ', coalesce(patient_name.family_name, ''))"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "phone_number",
+      "column": "p.value"
+    },
+    {
+      "type": "derived_column",
+      "alias": "identifiers",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "group_concat(distinct patient_id.identifier separator ', ')"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "gender",
+      "column": "flct.gender"
+    },
+    {
+      "type": "simple_column",
+      "alias": "age",
+      "column": "flct.age"
+    },
+    {
+      "type": "simple_column",
+      "alias": "deceased",
+      "column": "pp.dead"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "flct.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "flct.location_uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_name",
+      "column": "l.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "encounter_datetime",
+      "column": "DATE_FORMAT(flct.encounter_datetime, '%Y-%m-%d')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "metastasis_region",
+      "column": "flct.metastasis_region"
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_status",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "case when hiv_status=1 then 'HIV Negative' when hiv_status=2 then 'HIV Positive' when hiv_status=3 then 'Unknown' else NULL end"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "enrolled_patients",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "(IF ((program.date_completed IS NULL AND program.program_id IN(32)), 1, 0))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "active_patients",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "(IF ((program.date_completed IS NULL AND pp.dead = 0), 1, 0))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "lost_to_follow_up",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(TIMESTAMPDIFF(day,fa.rtc_date,CURDATE()) >= 90 AND pp.dead = 0 ,1,NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "referred_from_clinic",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "(IF(cur_visit_type IN (1), 1, NULL))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "non_small_cell_lung_cancer",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "(IF(non_small_cell_lung_cancer_type IS NOT NULL, 1, NULL))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "epidermoid_carcinoma",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "(IF(non_small_cell_lung_cancer_type IN (1), 1, NULL))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "adenocarcinoma",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "(IF(non_small_cell_lung_cancer_type IN (2), 1, NULL))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "large_cell_carcinoma",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "(IF(non_small_cell_lung_cancer_type IN (3), 1, NULL))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "mixed_squamous",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "(IF(non_small_cell_lung_cancer_type IN (4), 1, NULL))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "small_cell_lung_cancer",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "(IF(lung_cancer_type IN (2), 1, NULL))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "stage_one",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "(IF(cancer_staging IN (1), 1, NULL))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "stage_two",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "(IF(cancer_staging IN (2), 1, NULL))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "stage_three",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "(IF(cancer_staging IN (3), 1, NULL))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "stage_four",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "(IF(cancer_staging IN (4), 1, NULL))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "limited_stage",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "(IF(cancer_staging IN (5), 1, NULL))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "extensive_stage",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "(IF(cancer_staging IN (6), 1, NULL))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "for_staging",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "(NULLIF(cancer_staging, NULL))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "chemotherapy",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "(IF(treatment_plan IN (1), 1, NULL))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "radiotherapy",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "(IF(treatment_plan IN (2), 1, NULL))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "surgery",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "(IF(treatment_plan IN (3), 1, NULL))"
+      }
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [{
+        "filterType": "tableColumns",
+        "conditionExpression": "flct.age >= ?",
+        "parameterName": "startAge"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "flct.age <= ?",
+        "parameterName": "endAge"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "DATE(flct.encounter_datetime) >= ?",
+        "parameterName": "startDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "DATE(flct.encounter_datetime) <= ?",
+        "parameterName": "endDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "flct.encounter_type in (169, 170)"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "flct.location_uuid in ?",
+        "parameterName": "locationUuids"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "flct.gender in ?",
+        "parameterName": "genders"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "flct.location_id not in (195)"
+      }
+    ]
+  },
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": [
+      "flct.person_id",
+      "flct.location_id",
+      "DATE_FORMAT(flct.encounter_datetime, '%D-%M-%Y')"
+    ]
+  }
 }
