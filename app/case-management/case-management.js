@@ -87,7 +87,7 @@ const caseDataDao = {
                 "count(DISTINCT t1.person_id) as `number_assigned`,t4.provider_id,t2.user_id FROM amrs.users `t2`  " +
                 "INNER JOIN amrs.person `t3` ON (t3.person_id = t2.person_id)  " +
                 "INNER JOIN amrs.provider `t4` ON (t4.person_id = t3.person_id) " +
-                "INNER JOIN amrs.provider_attribute `t5` ON (t5.provider_id = t4.provider_id)  " +
+                "INNER JOIN amrs.provider_attribute `t5` ON (t5.provider_id = t4.provider_id and t5.voided = 0)  " +
                 "INNER JOIN amrs.person_name `t6` ON (t6.person_id = t3.person_id) " +
                 "LEFT JOIN amrs.person_attribute `t1` ON (t2.user_id = t1.value AND person_attribute_type_id = 68 AND t1.voided = 0 ) " +
                 "WHERE ( t5.attribute_type_id = 1 AND t5.value_reference = '" + params.locationUuid + "') GROUP by t2.uuid; "
