@@ -110,6 +110,8 @@ import { PrepReportComponent } from './prep-report/prep-report.component';
 import {
     ClinicDashboardHeiReportComponent
 } from './clinic-dashboard-hei-indicators-report/clinic-dashboard-hei-report.component';
+import { IptReportComponent } from './ipt-report/ipt-report.component';
+import { IptReportPatientListComponent } from 'src/app/hiv-care-lib/ipt-report/ipt-report-patient-list.component';
 @NgModule({
     imports: [
         clinicDashboardHivRouting,
@@ -193,7 +195,9 @@ import {
         ClinicDashboardRetentionReportComponent,
         ClinicDashboardCaseManagementComponent,
         PrepReportComponent,
-        ClinicDashboardHeiReportComponent
+        ClinicDashboardHeiReportComponent,
+        IptReportComponent,
+        IptReportPatientListComponent
     ],
     providers: [
         ClinicalSummaryVisualizationService

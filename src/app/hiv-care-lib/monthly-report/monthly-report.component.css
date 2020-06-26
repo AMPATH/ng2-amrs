@@ -1,0 +1,7 @@
+.monthlyReport {
+    cursor: pointer;
+}
+
+.monthlyReport :hover{
+    background-color: #F9FFF1;
+}
