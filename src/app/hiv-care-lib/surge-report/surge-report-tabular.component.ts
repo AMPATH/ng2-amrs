@@ -11,7 +11,7 @@ import * as rison from 'rison-node';
   styleUrls: ['./surge-report-tabular.component.css']
 })
 export class SurgeReportTabularComponent implements OnInit {
-  @Input() displayTabluarFilters: Boolean;
+  @Input() displayTabularFilters: Boolean;
   public headers = [];
   public selectedIndicatorsList = [];
   public gridOptions: any = {

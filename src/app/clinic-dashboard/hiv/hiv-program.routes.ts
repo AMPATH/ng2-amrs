@@ -81,6 +81,11 @@ import { HeiIndicatorsPatientListComponent } from './../../hiv-care-lib/hei-indi
 
  import { ClinicDashboardCaseManagementComponent } from './case-management/clinic-dashboard-case-management.component';
 import { HIVListsMicroFrontendComponent } from './hiv-lists-microfrontend-report/hiv-lists-microfrontend.component';
+import { PrepReportComponent } from './prep-report/prep-report.component';
+import {
+    PrepReportPatientListComponent
+} from 'src/app/hiv-care-lib/prep-report/prep-report-patient-list/prep-report-patient-list.component';
+import { MonthlyReportComponent } from 'src/app/hiv-care-lib/monthly-report/monthly-report.component';
 
 const routes: Routes = [
     {
@@ -255,13 +260,26 @@ const routes: Routes = [
         ]
     },
     {
-      path: 'monthly-report',
-      children: [
-        {
-          path: '',
-          component: HIVListsMicroFrontendComponent
-        }
-      ]
+        path: 'monthly-report',
+        children: [
+            {
+                path: '',
+                component: MonthlyReportComponent
+            },
+            {
+                path: 'prep-report',
+                children: [
+                    {
+                        path: '',
+                        component: PrepReportComponent
+                    },
+                    {
+                        path: 'patient-list',
+                        component: PrepReportPatientListComponent
+                    }
+                ]
+            },
+        ]
     },
 ];
 

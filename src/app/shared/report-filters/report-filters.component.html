@@ -115,6 +115,15 @@
         <location-filter [multiple]="true" [locationUuids]="locations"
           (onLocationChange)="getSelectedLocations($event)"></location-filter>
       </div>
+      <div class="date-range" *ngIf="isEnabled('monthControl')">
+        <div class="form-group col-md-12">
+          <div class="form-row">
+            <label for="month">Month:</label>
+            <input id="month" type="month" class="form-control" [(ngModel)]="monthString"/>
+          </div>
+        </div>
+        <div class="clear-fix clear"></div>
+      </div>
     </div>
   </div>
   <div class="_row" style="margin-top: 4px; padding: 0px;">

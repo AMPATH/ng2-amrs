@@ -147,6 +147,12 @@
           "isSideBarOpen": false
         },
         {
+          "url": "hiv-differentiated-care",
+          "label": "Differentiated Care",
+          "icon": "fa fa-th-list",
+          "isSideBarOpen": false
+        },
+        {
           "url": "surge-reports",
           "label": "Surge Reports",
           "icon": "fa fa-area-chart",
@@ -157,12 +163,6 @@
           "label": "Monthly Reports",
           "icon": "fa fa-table",
           "isSideBarOpen": false
-        },
-        {
-        "url": "hiv-differentiated-care",
-        "label": "Differentiated Care",
-        "icon": "fa fa-th-list",
-        "isSideBarOpen": false
         },
         {
           "url": "dqa-reports",
