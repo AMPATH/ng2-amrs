@@ -1,425 +1,640 @@
 {
-    "name": "lungCancerMonthlySummaryBase",
-    "version": "1.0",
-    "tag": "lung_cancer_monthly_summary_base",
-    "uses": [],
-    "sources": [
-        {
-            "table": "etl.flat_lung_cancer_screening",
-            "alias": "flcs"
-        },
-        {
-            "table": "amrs.person_name",
-            "alias": "patient_name",
-            "join": {
-                "type": "inner",
-                "joinCondition": "flcs.person_id = patient_name.person_id and (patient_name.voided is null || patient_name.voided = 0)"
-                
-            }
-        },
-        {
-            "table": "amrs.patient_identifier",
-            "alias": "patient_id",
-            "join": {
-                "type": "inner",
-                "joinCondition": "flcs.person_id = patient_id.patient_id and (patient_id.voided is null || patient_id.voided = 0)"
-                
-            }
-
-        },
-        {
-            "table": "amrs.location",
-            "alias": "l",
-            "join": {
-                "type": "inner",
-                "joinCondition": "l.location_id = flcs.location_id"
-                
-            }
-        },
-        {
-            "table": "amrs.person_attribute",
-            "alias": "p",
-            "join": {
-                "type": "left",
-                "joinCondition": "flcs.person_id = p.person_id and (p.voided is null || p.voided = 0 and (p.person_attribute_type_id = 10))"
-
-            }
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "person_id",
-            "column": "flcs.person_id"
-        },
-        {
-            "type": "derived_column",
-            "alias": "person_name",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "concat(coalesce(patient_name.given_name, ''), ' ', coalesce(patient_name.middle_name, ''), ' ', coalesce(patient_name.family_name, ''))"
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "phone_number",
-            "column": "p.value"
-        },
-        {
-            "type": "derived_column",
-            "alias": "identifiers",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "group_concat(distinct patient_id.identifier separator ', ')"
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "gender",
-            "column": "flcs.gender"
-        },
-        {
-            "type": "simple_column",
-            "alias": "age",
-            "column": "flcs.age"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_id",
-            "column": "flcs.location_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_uuid",
-            "column": "flcs.location_uuid"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_name",
-            "column": "l.name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "encounter_datetime",
-            "column": "DATE_FORMAT(flcs.encounter_datetime, '%Y-%m-%d')"
-        },        
-        {
-            "type": "derived_column",
-            "alias": "walk_in",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(cur_visit_type = 2, 1, NULL)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "referred_from_clinic",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(cur_visit_type = 1, 1, NULL)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "cigarette_smoking",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(ever_smoked_cigarettes = 1, 1, NULL)"
-            }
-        },        
-        {
-            "type": "derived_column",
-            "alias": "tobacco_use",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(tobacco_use = 1 or tobacco_use = 3 , 1, NULL)"
-            }
-        },        
-        {
-            "type": "derived_column",
-            "alias": "chemical_exposure",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(chemical_exposure != 1 or chemical_exposure != null , 1, NULL)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "asbestos_exposure",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(asbestos_exposure = 1 , 1, NULL)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "hiv_positive",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(hiv_status = 3 , 1, NULL)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "hiv_negative",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(hiv_status = 2 , 1, NULL)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "referred_from",
-            "expressionType": "case_statement",
-            "expressionOptions": {
-                "caseOptions": [
-                    {
-                        "condition": "referral_from = 1",
-                        "value": "Radiology"
-                    },
-                    {
-                        "condition": "referral_from = 2",
-                        "value": "Pulmonary clinic"
-                    },
-                    {
-                        "condition": "referral_from = 3",
-                        "value": "Private health sector"
-                    },
-                    {
-                        "condition": "referral_from = 4",
-                        "value": "Self"
-                    },
-                    {
-                        "condition": "referral_from = 5",
-                        "value": "Tuberculosis treatment or dot program"
-                    },
-                    {
-                        "condition": "referral_from = 6",
-                        "value": "Health centre hospitals"
-                    },
-                    {
-                        "condition": "referral_from = 7",
-                        "value": "Other non-coded"
-                    }
-                ]
-            }
-        } ,
-        {
-            "type": "derived_column",
-            "alias": "hiv_status_unknown",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(hiv_status = 1 , 1, NULL)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "tb_treatment_received",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(previous_tb_treatment = 1 , 1, NULL)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "no_tb_treatment",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(previous_tb_treatment = 2 , 1, NULL)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "normal_xray_results",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(x_ray_results = 1 , 1, NULL)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "abnormal_xray_results",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(x_ray_results = 2 , 1, NULL)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "biopsy_done",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(biospy_procedure_done = 1 , 1, NULL)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "biopsy_not_done",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(biospy_procedure_done = 2 , 1, NULL)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "non_respiratory_disease",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(repository_disease = 1 or repository_disease = 2 or repository_disease = 3 or repository_disease = 4 or repository_disease = 5, 1, NULL)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "non_small_cell_lung_cancer",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(lung_cancer_type = 1, 1, NULL)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "small_cell_lung_cancer",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(lung_cancer_type = 2 , 1, NULL)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "biopsy_result",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "case when (select biospy_results from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) = 1 and (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) then 'MALIGNANT' when (select biospy_results from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) = 2 and (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) then 'NON-CANCER RESPIRATORY DISEASE' when (select biospy_results from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) = 3 and (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) then 'OTHER NON CODED'  else 'null' end"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "indication_of_lung_mass_from_ct_findings",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(((select ct_findings from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id and (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) order by encounter_datetime desc limit 1) = 1) , 1, NULL)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "indication_of_mediastial_mass_from_ct_findings",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(((select ct_findings from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id and(select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) order by encounter_datetime desc limit 1) = 2) , 1, NULL)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "indication_of_pleural_mass_from_ct_findings",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(((select ct_findings from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id and(select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) order by encounter_datetime desc limit 1) = 3) , 1, NULL)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "biopsy_workup_date",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "(select biopsy_workup_date from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id and(select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) order by encounter_datetime desc limit 1)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "diagnosis_date",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "(select DATE_FORMAT(diagnosis_date, '%d-%M-%Y') from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id and (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) order by encounter_datetime desc limit 1)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "type_of_non_cancer_respiratory_diseases",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "case when (select repository_disease from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) = 1 and (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) then 'CHRONIC OBSTRUCTIVE PULMONARY DISEASE' when (select repository_disease from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) = 2 and (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) then 'TUBERCULOSIS' when (select repository_disease from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) = 3 and (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) then 'ASPERGILLOSIS' when (select repository_disease from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) = 4 and (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) then 'GRANULOMATOSIS' when (select repository_disease from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) = 5 and (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) then 'OTHER NON-CODED'  else 'null' end"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "diagnosis_interval ",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "(SELECT CONCAT(TIMESTAMPDIFF(DAY, DATE(biopsy_workup_date), DATE(diagnosis_date)), ' day(s)') FROM etl.flat_lung_cancer_screening WHERE person_id = p.person_id AND encounter_type = 185 and diagnosis_date > biopsy_workup_date ORDER BY encounter_datetime DESC LIMIT 1)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "referrals",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "case when (select referral_ordered from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) = 1 and (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) then 'LUNG CANCER CLINIC' when (select referral_ordered from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) = 2 and (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) then 'PULMONARY CLINIC' when (select referral_ordered from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) = 3 and (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) then 'PALLIATIVE CARE' when (select referral_ordered from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) = 4 and (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) then 'SOCIAL SUPPORT SERVICES' when (select referral_ordered from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) = 5 and (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) then 'REPEAT PROCEDURE' when (select referral_ordered from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) = 6 and (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) then 'REFERRAL FOR RADIATION THERAPY' when (select referral_ordered from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) = 7 and (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) then 'OTHER NON-CODED'  else 'null' end"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "imaging_results_description",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "(select Imaging_results_description from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id and (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) order by encounter_datetime desc limit 1)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "pack_years",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "(select number_of_sticks from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id / 20 * (select number_of_years from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) order by encounter_datetime desc limit 1)"
-            }
-        }
-    ],
-    "filters": {
-        "conditionJoinOperator": "and",
-        "conditions": [
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "flcs.age >= ?",
-                "parameterName": "startAge"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "flcs.age <= ?",
-                "parameterName": "endAge"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "DATE(flcs.encounter_datetime) >= ?",
-                "parameterName": "startDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "DATE(flcs.encounter_datetime) <= ?",
-                "parameterName": "endDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "flcs.encounter_type = 177"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "flcs.location_uuid in ?",
-                "parameterName": "locationUuids"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "flcs.gender in ?",
-                "parameterName": "genders"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "flcs.location_id not in (195)"
-            }
-        ]
+  "name": "lungCancerMonthlySummaryBase",
+  "version": "1.0",
+  "tag": "lung_cancer_monthly_summary_base",
+  "uses": [],
+  "sources": [
+    {
+      "table": "etl.flat_lung_cancer_screening",
+      "alias": "flcs"
     },
-    "groupBy": {
-        "groupParam": "groupByParam",
-        "columns": [
-            "encounter_id"
-        ]
+    {
+      "table": "amrs.person_name",
+      "alias": "patient_name",
+      "join": {
+        "type": "inner",
+        "joinCondition": "flcs.person_id = patient_name.person_id and (patient_name.voided is null || patient_name.voided = 0)"
+      }
+    },
+    {
+      "table": "amrs.patient_identifier",
+      "alias": "patient_id",
+      "join": {
+        "type": "inner",
+        "joinCondition": "flcs.person_id = patient_id.patient_id and (patient_id.voided is null || patient_id.voided = 0)"
+      }
+    },
+    {
+      "table": "amrs.location",
+      "alias": "l",
+      "join": {
+        "type": "inner",
+        "joinCondition": "l.location_id = flcs.location_id"
+      }
+    },
+    {
+      "table": "amrs.person_attribute",
+      "alias": "p",
+      "join": {
+        "type": "left",
+        "joinCondition": "flcs.person_id = p.person_id and (p.voided is null || p.voided = 0 and (p.person_attribute_type_id = 10))"
+      }
     }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "flcs.person_id"
+    },
+    {
+      "type": "derived_column",
+      "alias": "person_name",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "concat(coalesce(patient_name.given_name, ''), ' ', coalesce(patient_name.middle_name, ''), ' ', coalesce(patient_name.family_name, ''))"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "phone_number",
+      "column": "p.value"
+    },
+    {
+      "type": "derived_column",
+      "alias": "identifiers",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "group_concat(distinct patient_id.identifier separator ', ')"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "gender",
+      "column": "flcs.gender"
+    },
+    {
+      "type": "simple_column",
+      "alias": "age",
+      "column": "flcs.age"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "flcs.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "flcs.location_uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_name",
+      "column": "l.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "encounter_datetime",
+      "column": "DATE_FORMAT(flcs.encounter_datetime, '%Y-%m-%d')"
+    },
+    {
+      "type": "derived_column",
+      "alias": "walk_in",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(cur_visit_type = 2, 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "referred_from_clinic",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(cur_visit_type = 1, 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "referring_health_facility",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "flcs.referring_health_facility"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "referral_date",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "DATE_FORMAT(flcs.referral_date, '%d-%M-%Y')"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "referred_by",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "referred_by = 1",
+            "value": "Clinician"
+          },
+          {
+            "condition": "referred_by = 2",
+            "value": "Nurse"
+          },
+          {
+            "condition": "referred_by = 3",
+            "value": "Consultant"
+          },
+          {
+            "condition": "referred_by = 4",
+            "value": "Other"
+          }
+        ]
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "cigarette_smoking",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(smokes_cigarettes = 1, 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "smokes_cigarettes",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "smokes_cigarettes = 1",
+            "value": "Yes"
+          },
+          {
+            "condition": "smokes_cigarettes = 2",
+            "value": "No"
+          },
+          {
+            "condition": "smokes_cigarettes = 3",
+            "value": "Stopped"
+          }
+        ]
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "sticks_smoked_per_day",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "flcs.sticks_smoked_per_day"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "years_of_smoking_cigarettes",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "flcs.years_of_smoking_cigarettes"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "uses_tobacco",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(uses_tobacco = 1 or uses_tobacco = 3 , 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "years_of_tobacco_use",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "flcs.years_of_tobacco_use"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "chemical_exposure",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(chemical_exposure != 1107 or chemical_exposure != null, 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "type_of_chemical_exposure",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "chemical_exposure = 1107",
+            "value": "None"
+          },
+          {
+            "condition": "chemical_exposure = 10308",
+            "value": "Industrial chemicals"
+          },
+          {
+            "condition": "chemical_exposure = 10309",
+            "value": "Farm chemicals"
+          },
+          {
+            "condition": "chemical_exposure = 10370",
+            "value": "Laboratory chemicals"
+          },
+          {
+            "condition": "chemical_exposure = 5622",
+            "value": "Other"
+          }
+        ]
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "other_chemical_exposure",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "flcs.other_chemical_exposure_freetext"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "asbestos_exposure",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(asbestos_exposure = 1 , 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_positive",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(hiv_status = 3 , 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_negative",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(hiv_status = 2 , 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "referred_from",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "referred_from = 1",
+            "value": "Radiology"
+          },
+          {
+            "condition": "referred_from = 2",
+            "value": "Pulmonary clinic"
+          },
+          {
+            "condition": "referred_from = 3",
+            "value": "Private health sector"
+          },
+          {
+            "condition": "referred_from = 4",
+            "value": "Self"
+          },
+          {
+            "condition": "referred_from = 5",
+            "value": "Tuberculosis treatment or dot program"
+          },
+          {
+            "condition": "referred_from = 6",
+            "value": "Health centre hospitals"
+          },
+          {
+            "condition": "referred_from = 7",
+            "value": "Other"
+          }
+        ]
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_status_unknown",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(hiv_status = 1 , 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "previously_treated_for_tb",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(previous_treatment_for_tuberculosis = 1 , 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "months_of_previous_tb_treatment",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "flcs.duration_in_months_of_previous_tb_treatment"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "no_of_previous_tb_treatments",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "flcs.no_of_previous_tb_treatments"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "not_previously_treated_for_tb",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(previous_treatment_for_tuberculosis = 2 , 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "normal_xray_results",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(chest_xray_results = 1, 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "abnormal_xray_results",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(chest_xray_results = 2, 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "biopsy_done",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(flcs.was_biopsy_procedure_done = 1, 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "biopsy_not_done",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(flcs.was_biopsy_procedure_done = 2, 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "non_cancer_respiratory_disease",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(non_cancer_respiratory_disease_type = 1 or non_cancer_respiratory_disease_type = 2 or non_cancer_respiratory_disease_type = 3 or non_cancer_respiratory_disease_type = 4 or non_cancer_respiratory_disease_type = 5, 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "non_small_cell_lung_cancer",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(lung_cancer_type = 1, 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "small_cell_lung_cancer",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(lung_cancer_type = 2 , 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "biopsy_result",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "case when (select lung_biopsy_results from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) = 1 and (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) then 'Malignant' when (select lung_biopsy_results from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) = 2 and (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) then 'Non-cancer respiratory disease' when (select lung_biopsy_results from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) = 3 and (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) then 'Other (non-coded)' else 'null' end"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "indication_of_lung_mass_from_ct_findings",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(((select chest_ct_scan_findings from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id and (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) order by encounter_datetime desc limit 1) = 2) , 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "indication_of_mediastinal_mass_from_ct_findings",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(((select chest_ct_scan_findings from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id and(select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) order by encounter_datetime desc limit 1) = 3) , 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "indication_of_pleural_mass_from_ct_findings",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(((select chest_ct_scan_findings from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id and(select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) order by encounter_datetime desc limit 1) = 4) , 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "biopsy_workup_date",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "(select biopsy_workup_date from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id and(select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) order by encounter_datetime desc limit 1)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "diagnosis_date",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "(select DATE_FORMAT(diagnosis_date, '%d-%M-%Y') from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id and (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) order by encounter_datetime desc limit 1)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "type_of_non_cancer_respiratory_diseases",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "case when (select non_cancer_respiratory_disease_type from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) = 1 and (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) then 'Chronic obstructive pulmonary disease' when (select non_cancer_respiratory_disease_type from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) = 2 and (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) then 'Tuberculosis' when (select non_cancer_respiratory_disease_type from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) = 3 and (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) then 'Aspergillosis' when (select non_cancer_respiratory_disease_type from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) = 4 and (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) then 'Granulomatosis' when (select non_cancer_respiratory_disease_type from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) = 5 and (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) then 'Other (non-coded)'  else 'null' end"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "diagnosis_interval ",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "(SELECT CONCAT(TIMESTAMPDIFF(DAY, DATE(biopsy_workup_date), DATE(diagnosis_date)), ' day(s)') FROM etl.flat_lung_cancer_screening WHERE person_id = p.person_id AND encounter_type = 185 and diagnosis_date > biopsy_workup_date ORDER BY encounter_datetime DESC LIMIT 1)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "referrals",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "case when (select referrals_ordered from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) = 10299 and (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) then 'Lung cancer clinic' when (select referrals_ordered from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) = 8161 and (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) then 'Pulmonary clinic' when (select referrals_ordered from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) = 8724 and (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) then 'Palliative care' when (select referrals_ordered from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) = 5486 and (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) then 'Social support services' when (select referrals_ordered from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) = 10200 and (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) then 'Repeat procedure' when (select referrals_ordered from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) = 6570 and (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) then 'Referral for radiation therapy' when (select referrals_ordered from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) = 5622 and (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) then 'Other (non-coded)' when (select referrals_ordered from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) = 8053 and (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) then 'Oncology services' else 'null' end"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "lung_mass_laterality",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "lung_mass_laterality = 1",
+            "value": "Left"
+          },
+          {
+            "condition": "lung_mass_laterality = 2",
+            "value": "Right"
+          },
+          {
+            "condition": "lung_mass_laterality = 3",
+            "value": "Bilateral"
+          }
+        ]
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "imaging_results_description",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "(select imaging_results_description from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id and (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 185 and person_id = p.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) order by encounter_datetime desc limit 1)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "other_imaging_findings",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "flcs.other_imaging_findings_freetext"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "imaging_workup_date",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "DATE_FORMAT(flcs.imaging_workup_date, '%Y-%m-%d')"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "lung_biopsy_results",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "lung_biopsy_results = 1",
+            "value": "Malignant"
+          },
+          {
+            "condition": "lung_biopsy_results = 2",
+            "value": "Non-cancer respiratory disease"
+          },
+          {
+            "condition": "lung_biopsy_results = 3",
+            "value": "Other"
+          }
+        ]
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "type_of_malignancy",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "type_of_malignancy = 1",
+            "value": "Lung cancer"
+          },
+          {
+            "condition": "type_of_malignancy = 2",
+            "value": "Other"
+          }
+        ]
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "other_malignancy",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "flcs.other_malignancy_freetext"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "pack_years",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "(select sticks_smoked_per_day from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id / 20 * (select years_of_smoking_cigarettes from etl.flat_lung_cancer_screening where encounter_type = 177 and person_id = p.person_id order by encounter_datetime desc limit 1) order by encounter_datetime desc limit 1)"
+      }
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "flcs.age >= ?",
+        "parameterName": "startAge"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "flcs.age <= ?",
+        "parameterName": "endAge"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "DATE(flcs.encounter_datetime) >= ?",
+        "parameterName": "startDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "DATE(flcs.encounter_datetime) <= ?",
+        "parameterName": "endDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "flcs.encounter_type IN (177)"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "flcs.location_uuid in ?",
+        "parameterName": "locationUuids"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "flcs.gender in ?",
+        "parameterName": "genders"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "flcs.location_id not in (195)"
+      }
+    ]
+  },
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["encounter_id"]
+  }
 }

@@ -117,18 +117,18 @@
         },
         {
             "type": "derived_column",
-            "alias": "tb_treatment_received",
+            "alias": "previously_treated_for_tb",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(tb_treatment_received)"
+                "expression": "count(previously_treated_for_tb)"
             }
         },
         {
             "type": "derived_column",
-            "alias": "no_tb_treatment",
+            "alias": "not_previously_treated_for_tb",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(no_tb_treatment)"
+                "expression": "count(not_previously_treated_for_tb)"
             }
         },
         {
@@ -157,10 +157,10 @@
         },
         {
             "type": "derived_column",
-            "alias": "indication_of_mediastial_mass_from_ct_findings",
+            "alias": "indication_of_mediastinal_mass_from_ct_findings",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(indication_of_mediastial_mass_from_ct_findings)"
+                "expression": "count(indication_of_mediastinal_mass_from_ct_findings)"
             }
         },
         {
@@ -189,10 +189,10 @@
         },
         {
             "type": "derived_column",
-            "alias": "non_respiratory_disease",
+            "alias": "non_cancer_respiratory_disease",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(non_respiratory_disease)"
+                "expression": "count(non_cancer_respiratory_disease)"
             }
         },
         {
