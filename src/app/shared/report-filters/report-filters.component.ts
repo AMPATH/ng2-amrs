@@ -60,6 +60,7 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
   @Output() public onIndicatorChange = new EventEmitter<any>();
   @Output() public onDateChange = new EventEmitter<any>();
   @Output() public onYearWeekChange = new EventEmitter<any>();
+  @Output() public onMonthChange = new EventEmitter<any>();
   public genderOptions: Array<any> = [
     {
       value: 'F',
@@ -117,6 +118,7 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
   private _programs: Array<any> = [];
   private _surgeWeeks: any;
   private _currentDepartment = '';
+  month: any;
   constructor(private indicatorResourceService: IndicatorResourceService,
               private dataAnalyticsDashboardService: DataAnalyticsDashboardService,
               private programResourceService: ProgramResourceService,
@@ -209,7 +211,14 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
   public set endDateString(v: string) {
     this.endDate = new Date(v);
   }
-
+  @Input()
+  public get monthString(): string {
+    return this.month ? Moment(this.month).format('YYYY-MM') : Moment().format('YYYY-MM');
+}
+public set monthString(v: string) {
+    this.month = new Date(v);
+    this.onMonthChange.emit(this.month);
+}
   public ngOnInit() {
     if (this.reportType === this.cervicalScreeningReport) {
       this.genderOptions = this.genderOptions.filter(option => {
@@ -437,5 +446,7 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
   public yearWeekChange(value) {
     this.onYearWeekChange.emit(value);
   }
-
+  public monthChange(value) {
+    this.onMonthChange.emit(value);
+  }
 }
