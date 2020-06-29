@@ -511,6 +511,16 @@
       "shared-routes-class": "cdm",
       "requiresPatientEnrollment": true,
       "routes": []
+    },
+    {
+      "programName": "Home Glucose Monitoring Program",
+      "programUuid": "d2090d0b-990a-4b82-98a8-32f987329f63",
+      "baseRoute": "d2090d0b-990a-4b82-98a8-32f987329f63",
+      "alias": "cdm",
+      "published": true,
+      "shared-routes-class": "cdm",
+      "requiresPatientEnrollment": true,
+      "routes": []
     }
   ],
 
