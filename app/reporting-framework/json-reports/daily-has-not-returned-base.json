@@ -155,7 +155,7 @@
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "t21.program_type_id in ?",
+                "conditionExpression": "t21.program_type_id in ? OR t21.program_type_id IS NULL",
                 "parameterName": "programTypeIds"
             },
             {
