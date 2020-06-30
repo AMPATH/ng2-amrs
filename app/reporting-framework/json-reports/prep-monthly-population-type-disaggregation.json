@@ -1,0 +1,70 @@
+{
+    "name": "prepMonthlySummaryPopulationTypeDisaggregation",
+    "version": "1.0",
+    "tag": "",
+    "description": "",
+    "uses": [
+         {
+        "name": "prepMonthlySummaryBaseReport",
+        "version": "1.0",
+        "type": "dataset_def"
+    }],
+    "sources": [
+        {
+            "dataSet": "prepMonthlySummaryBaseReport",
+            "alias": "t5"
+        }
+    ],
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias": "location_uuid",
+            "column": "t5.location_uuid"
+        },
+        {
+            "type": "simple_column",
+            "alias": "population_type",
+            "column": "t5.population_type"
+        },
+        {
+            "type": "derived_column",
+            "alias": "active_on_prep_this_month",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "SUM(t5.active_on_prep_this_month)"
+            }
+        }
+    ],
+    "groupBy": {
+        "groupParam": "groupByParam",
+        "columns": [
+            "population_type",
+            "location_uuid"
+        ],
+        "excludeParam": "excludeParam"
+    },
+    "transFormDirectives": {
+        "joinColumn": "location_id",
+        "skipColumns": [
+            "location_uuid"
+        ],
+        "disaggregationColumns": [
+            "population_type"
+        ]
+    },
+    "dynamicJsonQueryGenerationDirectives": {
+        "patientListGenerator": {
+            "useTemplate": "patient-list-prep-template",
+            "useTemplateVersion": "1.0",
+            "generatingDirectives": {
+                "joinDirectives": {
+                    "joinType": "INNER",
+                    "joinCondition": "<<base_column>> = <<template_column>>",
+                    "baseColumn": "person_id",
+                    "templateColumn": "person_id"
+                }
+            }
+        },
+        "skipParams": []
+    }
+} 

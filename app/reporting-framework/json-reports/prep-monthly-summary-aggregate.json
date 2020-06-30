@@ -1,0 +1,119 @@
+{
+    "name": "prepMonthlySummaryNoDisaggregation",
+    "version": "1.0",
+    "tag": "",
+    "description": "",
+    "uses": [
+         {
+        "name": "prepMonthlySummaryBaseReport",
+        "version": "1.0",
+        "type": "dataset_def"
+    }],
+    "sources": [
+        {
+            "dataSet": "prepMonthlySummaryBaseReport",
+            "alias": "t2"
+        }
+    ],
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias": "location_uuid",
+            "column": "t2.location_uuid"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location_id",
+            "column": "t2.location_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location",
+            "column": "t2.location"
+        },
+        {
+            "type": "derived_column",
+            "alias": "active_on_prep_this_month",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "SUM(t2.active_on_prep_this_month)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "enrolled_in_prep_this_month",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "SUM(t2.enrolled_in_prep_this_month)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "cumulative_prep_ltfu_this_month",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "SUM(t2.cumulative_prep_ltfu_this_month)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "prep_ltfu_this_month",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "SUM(t2.prep_ltfu_this_month)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "prep_discontinued_this_month",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "SUM(t2.prep_discontinued_this_month)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "prep_defaulter_this_month",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "SUM(t2.prep_defaulter_this_month)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "prev_on_prep_and_turned_positive",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "SUM(t2.prev_on_prep_and_turned_positive)"
+            }
+        }
+    ],
+    "groupBy": {
+        "groupParam": "groupByParam",
+        "columns": [
+            "location_uuid"
+        ],
+        "excludeParam": "excludeParam"
+    },
+    "transFormDirectives": {
+        "joinColumn": "location_id",
+        "skipColumns": [
+        ],
+        "disaggregationColumns": [
+        ]
+    },
+    "dynamicJsonQueryGenerationDirectives": {
+        "patientListGenerator": {
+            "useTemplate": "patient-list-prep-template",
+            "useTemplateVersion": "1.0",
+            "generatingDirectives": {
+                "joinDirectives": {
+                    "joinType": "INNER",
+                    "joinCondition": "<<base_column>> = <<template_column>>",
+                    "baseColumn": "person_id",
+                    "templateColumn": "person_id"
+                }
+            }
+        }
+    }
+}

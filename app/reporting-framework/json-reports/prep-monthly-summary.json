@@ -1,0 +1,9 @@
+
+{
+    "reports": [
+        "prepMonthlySummaryNoDisaggregation",
+        "prepMonthlySummaryPopulationTypeDisaggregation",
+        "prepMonthlySummaryBreastFeedingDisaggregation",
+        "prepMonthlySummaryPregnancyDisaggregation"
+    ]
+} 

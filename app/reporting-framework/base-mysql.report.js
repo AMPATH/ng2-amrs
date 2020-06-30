@@ -148,7 +148,12 @@ import * as ltfu_surge_baseline_aggregate_report from './json-reports/ltfus-surg
 import * as patient_list_prep_template from './json-reports/patient-list-prep-template.json';
 
 import * as hiv_latest_clinical_encounter_date_base from './json-reports/hiv-latest-clinical-encounter-date-base.json';
-
+import * as prep_monthly_summary from './json-reports/prep-monthly-summary.json'
+import * as prep_monthly_summary_aggregate_report from './json-reports/prep-monthly-summary-aggregate.json';
+import * as prep_monthly_summary_base_report from './json-reports/prep-monthly-summary-base.json';
+import * as prep_monthly_populationtype_disaggregation from './json-reports/prep-monthly-population-type-disaggregation.json';
+import * as prep_monthly_breastfeeding_disaggregation from './json-reports/prep-monthly-breastfeeding-disaggregation.json';
+import * as prep_monthly_pregnancy_disaggregation from './json-reports/prep-monthly-pregnancy-disaggregation.json';
 export class BaseMysqlReport {
     constructor(reportName, params) {
         this.reportName = reportName;
@@ -628,6 +633,35 @@ export class BaseMysqlReport {
                 case 'retention-report-patient-list-template':
                     resolve({
                         main: this.cloneJsonSchema(retention_report_patient_list_template)
+                    });
+                    break;
+                case 'prepMonthlySummaryReport':
+                    resolve({
+                        main: this.cloneJsonSchema(prep_monthly_summary)
+                    });
+                    break;
+                case 'prepMonthlySummaryNoDisaggregation':
+                    resolve({
+                        main: this.cloneJsonSchema(prep_monthly_summary_aggregate_report),
+                        prepMonthlySummaryBaseReport: this.cloneJsonSchema(prep_monthly_summary_base_report)
+                    });
+                    break;
+                case 'prepMonthlySummaryPopulationTypeDisaggregation':
+                    resolve({
+                        main: this.cloneJsonSchema(prep_monthly_populationtype_disaggregation),
+                        prepMonthlySummaryBaseReport: this.cloneJsonSchema(prep_monthly_summary_base_report)
+                    });
+                    break;
+                case 'prepMonthlySummaryBreastFeedingDisaggregation':
+                    resolve({
+                        main: this.cloneJsonSchema(prep_monthly_breastfeeding_disaggregation),
+                        prepMonthlySummaryBaseReport: this.cloneJsonSchema(prep_monthly_summary_base_report)
+                    });
+                    break;
+                case 'prepMonthlySummaryPregnancyDisaggregation':
+                    resolve({
+                        main: this.cloneJsonSchema(prep_monthly_pregnancy_disaggregation),
+                        prepMonthlySummaryBaseReport: this.cloneJsonSchema(prep_monthly_summary_base_report)
                     });
                     break;
                 default:
