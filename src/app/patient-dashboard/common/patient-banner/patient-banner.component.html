@@ -26,11 +26,20 @@
     </div>
     <div class="row">
       <span style="margin-left:0px;">
+        <span *ngIf="searchIdentifiers">
+          <span *ngIf="searchIdentifiers?.cCC">
+            <span class="id-label">CCC:</span>
+            <span>{{searchIdentifiers?.cCC}}</span>
+          </span>
+          <span *ngIf="!searchIdentifiers?.cCC" style="color: darkorange; border: 1px solid darkorange; padding-left: 4px; padding-top: 2px; padding-bottom: 2px; padding-right: 0px;">
+            <span class="glyphicon glyphicon-info-sign"></span>
+            <span style="margin-left: -5px;">CCC: Not Assigned</span>
+          </span>
+        </span>
         <span *ngIf="searchIdentifiers?.ampathMrsUId"> <span class="id-label">MUI:</span>
           {{ searchIdentifiers?.ampathMrsUId }} &nbsp;&nbsp;&nbsp;&nbsp; </span>
         <span *ngIf="searchIdentifiers?.amrsMrn"> <span class="id-label">MRN:</span> {{ searchIdentifiers?.amrsMrn }}
           &nbsp;&nbsp;&nbsp;&nbsp; </span>
-        <span *ngIf="searchIdentifiers?.cCC"> <span class="id-label">CCC:</span> {{ searchIdentifiers?.cCC }} </span>
         <span *ngIf="searchIdentifiers?.kenyaNationalId"> <span class="id-label">NID:</span>
           {{ searchIdentifiers?.kenyaNationalId }} </span>
         <span *ngIf="searchIdentifiers?.hei"> <span class="id-label">HEI:</span> {{ searchIdentifiers?.hei }} </span>
@@ -79,11 +88,20 @@
       <span *ngIf="patient?.person.dead">Died on
         <strong>{{ patient?.person.deathDate | date: 'dd-MM-yyyy'}}</strong></span>
       <span style="margin-left:0px;">
+        <span *ngIf="searchIdentifiers">
+          <span *ngIf="searchIdentifiers?.cCC">
+            <span class="id-label">CCC:</span>
+            <span>{{searchIdentifiers?.cCC}}</span>
+          </span>
+          <span *ngIf="!searchIdentifiers?.cCC" style="color: darkorange; border: 1px solid darkorange; padding-left: 4px; padding-top: 2px; padding-bottom: 2px; padding-right: 0px;">
+            <span class="glyphicon glyphicon-info-sign"></span>
+            <span style="margin-left: -5px;">CCC: Not Assigned</span>
+          </span>
+        </span>
         <span *ngIf="searchIdentifiers?.ampathMrsUId"> <span class="id-label">MUI:</span>
           {{ searchIdentifiers?.ampathMrsUId }} &nbsp;&nbsp;&nbsp;&nbsp; </span>
         <span *ngIf="searchIdentifiers?.amrsMrn"> <span class="id-label">MRN:</span> {{ searchIdentifiers?.amrsMrn }}
           &nbsp;&nbsp;&nbsp;&nbsp; </span>
-        <span *ngIf="searchIdentifiers?.cCC"> <span class="id-label">CCC:</span> {{ searchIdentifiers?.cCC }} </span>
         <span *ngIf="searchIdentifiers?.kenyaNationalId"> <span class="id-label">NID:</span>
           {{ searchIdentifiers?.kenyaNationalId }} </span>
         <span *ngIf="searchIdentifiers?.hei"> <span class="id-label">HEI:</span> {{ searchIdentifiers?.hei }} </span>
