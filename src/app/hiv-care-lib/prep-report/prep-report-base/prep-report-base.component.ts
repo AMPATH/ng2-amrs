@@ -71,6 +71,7 @@ export class PrepReportBaseComponent implements OnInit {
   public storeParamsInUrl(param) {
     this.params = {
       'locationUuids': param,
+      '_month': Moment(this._month).endOf('month').format('YYYY-MM-DD'),
       'month': Moment(this._month).endOf('month').format('YYYY-MM-DD'),
       'reportName': this.reportName,
       '_date': Moment(this._month).format('DD-MM-YYYY')

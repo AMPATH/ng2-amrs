@@ -22,9 +22,9 @@ export class PrepReportComponent extends PrepReportBaseComponent implements OnIn
   public showInfoMessage = false;
   public isLoading = false;
   ngOnInit() {
+    this.params = {'_month': Moment().format('YYYY-MM-DD')};
     this.route.queryParams.subscribe(
       (params: any) => {
-        this.params = {'_month': Moment().format('YYYY-MM-DD')};
             if (params && params.month) {
                 this.isLoading = true;
                 this.params = params;
