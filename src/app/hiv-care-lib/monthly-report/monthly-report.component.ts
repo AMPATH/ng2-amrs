@@ -19,6 +19,12 @@ export class MonthlyReportComponent implements OnInit {
         description: 'PrEP Monthly Report',
         url: 'prep-report',
         icon: 'fa'
+      },
+      {
+        title: 'Monthly Report',
+        description: 'Patient gains and loses',
+        url: 'patient-gains-and-loses',
+        icon: 'fa'
       }
     ];
   }

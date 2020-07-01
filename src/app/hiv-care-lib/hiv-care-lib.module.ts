@@ -35,7 +35,6 @@ import { MOHReportComponent } from './moh-731-report/moh-731-report-pdf-view.com
 import { MOHReportService } from './moh-731-report/moh-731-report-pdf-view.service';
 import { LocationResourceService } from '../openmrs-api/location-resource.service';
 import { HivSummaryIndicatorBaseComponent } from './hiv-summary-indicators/hiv-summary-report-base.component';
-import { ReportFiltersComponent } from '../shared/report-filters/report-filters.component';
 import { HivSummaryTabularComponent } from './hiv-summary-indicators/hiv-summary-tabular.component';
 import { ClinicFlowComponent } from './clinic-flow/clinic-flow.component';
 import { ClinicFlowHourlyStatsVizComponent } from './clinic-flow/clinic-flow-hourly-stats-viz.component';
@@ -67,7 +66,6 @@ import { HighchartsStatic } from 'angular2-highcharts/dist/HighchartsService';
 import { SurgeReportTabularComponent } from './surge-report/surge-report-tabular.component';
 import { SurgeReportBaseComponent } from './surge-report/surge-report-base.component';
 import { SurgeReportPatientListComponent } from './surge-report/surge-report-patient-list.component';
-import { BsDatepickerModule } from 'ngx-bootstrap';
 export function highchartsFactory() {
   const hc = require('highcharts');
   const hcm = require('highcharts/highcharts-more');
@@ -96,6 +94,10 @@ import { CaseManagementResourceService } from './../etl-api/case-management-reso
 import { PrepReportBaseComponent } from './prep-report/prep-report-base/prep-report-base.component';
 import { PrepReportPatientListComponent } from './prep-report/prep-report-patient-list/prep-report-patient-list.component';
 import { MonthlyReportComponent } from './monthly-report/monthly-report.component';
+// tslint:disable-next-line: max-line-length
+import { PatientGainsAndLosesPatientListComponent } from './patient-gains-and-loses/patient-gains-and-loses-patient-list/patient-gains-and-loses-patient-list.component';
+import { PatientGainLosesReportComponent } from '../clinic-dashboard/hiv/patient-gain-and-loses-report/patient-gain-and-loses-report';
+import { PatientGainsAndLosesComponent } from './patient-gains-and-loses/patient-gains-and-loses.component';
 
 @NgModule({
   imports: [
@@ -221,7 +223,10 @@ import { MonthlyReportComponent } from './monthly-report/monthly-report.componen
     HeiIndicatorsFilterComponent,
     HeiIndicatorsTabularComponent,
     HeiIndicatorsPatientListComponent,
-    HeiIndicatorsPdfViewComponent
+    HeiIndicatorsPdfViewComponent,
+    PatientGainsAndLosesPatientListComponent,
+    PatientGainLosesReportComponent,
+    PatientGainsAndLosesComponent
   ],
   providers: [
     MOHReportService,
