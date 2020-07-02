@@ -4013,5 +4013,29 @@
           }]
     }
   ]
+},
+"d2090d0b-990a-4b82-98a8-32f987329f63": {
+  "name": "HOME GLUCOSE MONITORING PROGRAM",
+  "dataDependencies": [
+  ],
+  "incompatibleWith": [],
+  "visitTypes": [
+  {
+      "uuid": "50249f5b-cf2f-47c4-bd79-400b8865753f",
+      "name": "HGM Adult Visit",
+      "encounterTypes": [{
+          "uuid": "25314148-71b3-485a-a77c-bd767866ee5c",
+          "display": "HOMEGLUCOSEMONITORINGADULT"
+        }]
+  },
+  {
+    "uuid": "eb348297-20d5-4d52-8f67-4623528f77e5",
+    "name": "HGM Pediatric Visit",
+    "encounterTypes": [{
+        "uuid": "07542bc4-77a4-44ff-986b-2f5985a74cd9",
+        "display": "HOMEGLUCOSEMONITORINGPEDS"
+      }]
+  }
+]
 }
 }

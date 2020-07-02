@@ -157,6 +157,10 @@
           {
             "uuid": "ff446cb9-0cf4-4b39-8288-16a43ffcca25",
             "name": "CDM DEFAULTER TRACING PROGRAM"
+          },
+          {
+            "uuid": "d2090d0b-990a-4b82-98a8-32f987329f63",
+            "name": "HOME GLUCOSE MONITORING PROGRAM"
           }
         ]
     },
