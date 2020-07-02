@@ -23,8 +23,8 @@
         },
         {
             "type": "simple_column",
-            "alias": "max_rtc_date",
-            "column": "MAX(rtc_date)"
+            "alias": "latest_rtc_date",
+            "column": "rtc_date"
         },
         {
           "type": "simple_column",
@@ -42,16 +42,6 @@
         "conditions": [
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "t2.rtc_date >= ?",
-                "parameterName": "startDate"
-            },
-            {
-              "filterType": "tableColumns",
-              "conditionExpression": "t2.rtc_date <= ?",
-              "parameterName": "endDate"
-            },
-            {
-                "filterType": "tableColumns",
                 "conditionExpression": "t2.location_id in (?)",
                 "parameterName": "locations"
             },
@@ -59,6 +49,10 @@
                 "filterType": "tableColumns",
                 "conditionExpression": "t2.is_clinical = 1",
                 "parameterName": ""
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "t2.next_clinical_encounter_datetime IS NULL"
             }
         ]
     },
