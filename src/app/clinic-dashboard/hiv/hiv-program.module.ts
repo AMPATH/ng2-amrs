@@ -107,6 +107,9 @@ import { BsDatepickerModule } from 'ngx-bootstrap';
 import { ClinicDashboardRetentionReportComponent } from './retention-report/clinic-dashboard-retention-report.component';
 import { ClinicDashboardCaseManagementComponent } from './case-management/clinic-dashboard-case-management.component';
 import { PrepReportComponent } from './prep-report/prep-report.component';
+import {
+    ClinicDashboardHeiReportComponent
+} from './clinic-dashboard-hei-indicators-report/clinic-dashboard-hei-report.component';
 @NgModule({
     imports: [
         clinicDashboardHivRouting,
@@ -152,7 +155,8 @@ import { PrepReportComponent } from './prep-report/prep-report.component';
         IndicatorSelectComponent,
         DateRangeComponent,
         RangeSliderComponent,
-        RouterModule
+        RouterModule,
+        ClinicDashboardHeiReportComponent
     ],
     declarations: [
         Moh731ReportComponent,
@@ -188,7 +192,8 @@ import { PrepReportComponent } from './prep-report/prep-report.component';
         SurgeReportComponent,
         ClinicDashboardRetentionReportComponent,
         ClinicDashboardCaseManagementComponent,
-        PrepReportComponent
+        PrepReportComponent,
+        ClinicDashboardHeiReportComponent
     ],
     providers: [
         ClinicalSummaryVisualizationService
