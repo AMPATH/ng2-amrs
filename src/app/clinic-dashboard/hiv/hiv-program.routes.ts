@@ -89,6 +89,10 @@ import {
 } from 'src/app/hiv-care-lib/prep-report/prep-report-patient-list/prep-report-patient-list.component';
 import { MonthlyReportComponent } from 'src/app/hiv-care-lib/monthly-report/monthly-report.component';
 
+import {
+    ClinicDashboardHeiReportComponent
+} from './clinic-dashboard-hei-indicators-report/clinic-dashboard-hei-report.component';
+import { HeiIndicatorsPatientListComponent } from './../../hiv-care-lib/hei-indicators-report/hei-indicators-patient-list.component';
 const routes: Routes = [
     {
         path: 'landing-page',
@@ -278,6 +282,19 @@ const routes: Routes = [
             },
         ]
     },
+    {
+        path: 'hei-report',
+        children: [
+            {
+                path: '',
+                component: ClinicDashboardHeiReportComponent
+            },
+            {
+                path: 'patient-list',
+                component: HeiIndicatorsPatientListComponent
+            }
+        ]
+    }
 ];
 
 export const clinicDashboardHivRouting: ModuleWithProviders =

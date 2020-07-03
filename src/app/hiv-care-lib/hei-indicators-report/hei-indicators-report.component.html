@@ -1,0 +1,42 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+                <h4 class="component-title" style="color: green;"><span class="fa fa-bar-chart"></span>HEI Indicators Summary</h4>
+                <div class="alert alert-danger" *ngIf="errorObj.isError">
+                    {{errorObj.message}}
+                </div>
+                <div class="loader" *ngIf="busyIndicator.busy"><span><i class="fa fa-spinner fa-spin">
+                   </i>{{busyIndicator.message}}</span>
+                </div>
+        </div>
+         <div class="col-lg-12 col-md-12 col-sm-12">
+             <hei-indicators-filter 
+                (selectedFilter)="selectedFilter($event)"
+                [locations]="locations"
+             ></hei-indicators-filter>
+         </div>
+         <div class="col-lg-12 col-md-12 col-sm-12">
+
+                <p-tabView (onChange)="onTabChanged($event)">
+                    <p-tabPanel header="Report View" leftIcon="fa-file-pdf-o " [selected]="currentView === 'pdf'">
+                    <app-report-view 
+                        [SummaryData]="heiSummary"  
+                        [sectionDefs]="sectionDefs" 
+                        (CellSelection)="setCellSelection($event, $event)"
+                        [reportDetails]="params"
+                    ></app-report-view>
+                    </p-tabPanel>
+                    <p-tabPanel header="Tabular View"  leftIcon="fa-table" [selected]="currentView === 'tabular'">
+                        <hei-indicators-tabular 
+                        [reportTitle]="summaryTitle"
+                        [heiMonthlySummary]="heiSummary"
+                        [params]="params"
+                        [sectionDefs]="sectionDefs"
+                        [reportType]="'hei-summary'"
+                        ></hei-indicators-tabular>
+                    </p-tabPanel>
+                </p-tabView>
+         </div>
+
+    </div>
+</div>
