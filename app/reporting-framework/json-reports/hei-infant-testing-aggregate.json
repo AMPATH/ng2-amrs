@@ -1,0 +1,128 @@
+{
+    "name": "heiInfantTestingAggregate",
+    "version": "1.0",
+    "tag": "",
+    "description": "",
+    "uses": [
+        {
+            "name": "heiInfantTestingBase",
+            "version": "1.0",
+            "type": "dataset_def"
+        }
+    ],
+    "sources": [
+        {
+            "dataSet": "heiInfantTestingBase",
+            "alias": "hmds"
+        }
+    ],
+    "columns": [
+
+        {
+            "type": "simple_column",
+            "alias":"reporting_month",
+            "column":"hmds.reporting_month"
+        },
+        {
+            "type": "simple_column",
+            "alias":"location",
+            "column":"hmds.location"
+        },
+        {
+            "type": "simple_column",
+            "alias":"location_id",
+            "column":"hmds.location_id"
+        },
+        {
+            "type": "simple_column",
+            "alias":"location_uuid",
+            "column":"hmds.location_uuid"
+        },
+        {
+            "type": "derived_column",
+             "alias":"initial_pcr_less_than_8_wks",
+             "expressionType": "simple_expression",
+             "expressionOptions": {
+                "expression":"COUNT(hmds.initial_pcr_less_than_8_wks)"
+                }
+        },
+        {
+            "type": "derived_column",
+             "alias":"initial_pcr_8_wks_to_12_months",
+             "expressionType": "simple_expression",
+             "expressionOptions": {
+                "expression":"COUNT(hmds.initial_pcr_8_wks_to_12_months)"
+                }
+        },
+        {
+            "type": "derived_column",
+             "alias":"initial_pcr_less_than_12_months",
+             "expressionType": "simple_expression",
+             "expressionOptions": {
+                "expression":"COUNT(hmds.initial_pcr_less_than_12_months)"
+                }
+        },
+        {
+            "type": "derived_column",
+             "alias":"second_pcr_6_months",
+             "expressionType": "simple_expression",
+             "expressionOptions": {
+                "expression":"COUNT(hmds.second_pcr_6_months)"
+                }
+        },
+        {
+            "type": "derived_column",
+             "alias":"third_pcr_12_months",
+             "expressionType": "simple_expression",
+             "expressionOptions": {
+                "expression":"COUNT(hmds.third_pcr_12_months)"
+                }
+        },
+        {
+            "type": "derived_column",
+             "alias":"antibody_at_18_months",
+             "expressionType": "simple_expression",
+             "expressionOptions": {
+                "expression":"COUNT(hmds.antibody_at_18_months)"
+                }
+        },
+        {
+            "type": "derived_column",
+             "alias":"antibody_post_18_months",
+             "expressionType": "simple_expression",
+             "expressionOptions": {
+                "expression":"COUNT(hmds.antibody_post_18_months)"
+                }
+        }
+    ],
+    "groupBy": {
+        "groupParam": "groupByParam",
+        "columns": [
+            "hmds.reporting_month",
+            "hmds.location_id"
+        ],
+        "excludeParam": "excludeParam"
+    },
+    "transFormDirectives": {
+        "joinColumn": "location_id",
+        "skipColumns": [
+        ],
+        "disaggregationColumns": [
+        ]
+    },
+   "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+        "useTemplate": "hei-report-patient-list-template",
+        "useTemplateVersion": "1.0",
+        "generatingDirectives": {
+            "joinDirectives": {
+                "joinType": "INNER",
+                "joinCondition": "<<base_column>> = <<template_column>>",
+                "baseColumn": "person_id",
+                "templateColumn": "person_id"
+            }
+        },
+        "skipParams": []
+    }
+}
+}

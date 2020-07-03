@@ -1,0 +1,144 @@
+{
+    "name": "heiInfantFeedingNoDisaggregationBase",
+    "version": "1.0",
+    "tag": "",
+    "description": "",
+    "uses": [],
+    "sources": [
+        {
+            "table": "etl.hei_monthly_report_dataset",
+            "alias": "hmd"
+        },
+        {
+            "table": "amrs.location",
+            "alias": "l",
+            "join": {
+                "type": "inner",
+                "joinCondition": "hmd.location_id = l.location_id"
+                
+            }
+        }
+    ],
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias":"person_id",
+            "column":"hmd.person_id"
+        },
+        {
+            "type": "simple_column",
+            "alias":"location",
+            "column":"hmd.clinic"
+        },
+        {
+            "type": "simple_column",
+            "alias":"location_uuid",
+            "column":"l.uuid"
+        },
+        {
+            "type": "simple_column",
+            "alias":"location_id",
+            "column":"hmd.location_id"
+        },
+        {
+            "type": "simple_column",
+            "alias":"reporting_month",
+            "column":"DATE_FORMAT(hmd.endDate,'%Y-%m')"
+        },
+        {
+            "type": "simple_column",
+            "alias":"month",
+            "column":"DATE_FORMAT(hmd.endDate,'%Y-%m')"
+        },
+        {
+            "type": "derived_column",
+            "alias": "EBF_at_6_months",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(hmd.infant_feeding_method_this_month = 6 AND hmd.age_in_months = 6,1,null)"
+            }
+            
+            
+        },
+        {
+            "type": "derived_column",
+            "alias": "ERF_at_6_months",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(hmd.infant_feeding_method_this_month = 18 AND hmd.age_in_months = 6,1,null)"
+            }
+            
+            
+        },
+        {
+            "type": "derived_column",
+            "alias": "MF_at_6_months",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(hmd.infant_feeding_method_this_month = 5 AND hmd.age_in_months = 6,1,null)"
+            }
+            
+            
+        },
+        {
+            "type": "derived_column",
+            "alias": "BF_at_12_months",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(hmd.infant_feeding_method_this_month = 9 AND hmd.age_in_months = 12,1,null)"
+            }
+            
+            
+        },
+        {
+            "type": "derived_column",
+            "alias": "Not_BF_at_12_months",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(hmd.infant_feeding_method_this_month = 17 AND hmd.age_in_months = 12,1,null)"
+            }
+            
+            
+        },
+        {
+            "type": "derived_column",
+            "alias": "BF_at_18_months",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(hmd.infant_feeding_method_this_month = 9 AND hmd.age_in_months = 18,1,null)"
+            }
+            
+            
+        },
+        {
+            "type": "derived_column",
+            "alias": "Not_BF_at_18_months",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(hmd.infant_feeding_method_this_month = 17 AND hmd.age_in_months = 18,1,null)"
+            }
+            
+            
+        }
+    ],
+    "filters": {
+        "conditionJoinOperator": "and",
+        "conditions": [
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "hmd.endDate <= ?",
+                "parameterName": "endDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "hmd.endDate >= ?",
+                "parameterName": "startDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "hmd.location_id in (?)",
+                "parameterName": "locations"
+            }
+        ]
+    }
+}

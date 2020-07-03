@@ -154,6 +154,25 @@ import * as prep_monthly_summary_base_report from './json-reports/prep-monthly-s
 import * as prep_monthly_populationtype_disaggregation from './json-reports/prep-monthly-population-type-disaggregation.json';
 import * as prep_monthly_breastfeeding_disaggregation from './json-reports/prep-monthly-breastfeeding-disaggregation.json';
 import * as prep_monthly_pregnancy_disaggregation from './json-reports/prep-monthly-pregnancy-disaggregation.json';
+import * as moh_408 from './json-reports/moh-408.json';
+import * as hei_infant_feeding_aggregate from './json-reports/hei-infant-feeding-aggregate.json';
+import * as hei_infant_feeding_base from './json-reports/hei-infant-feeding-base.json';
+import * as hei_infant_feeding_no_disaggregation_aggregate from './json-reports/hei-infant-feeding-no-disaggregation-aggregate.json';
+import * as hei_infant_feeding_no_disaggregation_base from './json-reports/hei-infant-feeding-no-disaggregation-base.json';
+import * as hei_infant_testing_base from './json-reports/hei-infant-testing-base.json';
+import * as hei_infant_testing_aggregate from './json-reports/hei-infant-testing-aggregate.json';
+import * as hei_retention_pairs_base from './json-reports/hei-retention-pairs-base.json';
+import * as hei_retention_pairs_aggregate from './json-reports/hei-retention-pairs-aggregate.json';
+import * as hei_mother_base from './json-reports/hei-mother-base.json';
+import * as hei_mother_aggregate from './json-reports/hei-mother-aggregate.json';
+import * as hei_program_outcome_base from './json-reports/hei-program-outcome-base.json';
+import * as hei_program_outcome_aggregate from './json-reports/hei-program-outcome-aggregate.json';
+import * as hei_original_cohort_base from './json-reports/hei-original-cohort-base.json';
+import * as hei_original_cohort_aggregate from './json-reports/hei-original-cohort-aggregate.json';
+import * as hei_unknown_program_outcome_aggregate from './json-reports/hei-unknown-program-outcome-aggregate.json';
+import * as hei_unknown_program_outcome_base from './json-reports/hei-unknown-program-outcome-base.json';
+import * as hei_report_patient_list_template from './json-reports/hei-report-patient-list-template.json';
+
 export class BaseMysqlReport {
     constructor(reportName, params) {
         this.reportName = reportName;
@@ -175,7 +194,6 @@ export class BaseMysqlReport {
                         .then((sqlQuery) => {
                             // allow user to use 'null' as parameter values
                             sqlQuery = sqlQuery.replace(/\'null\'/g, "null");
-                            // console.log('sql query', sqlQuery);
 
                             that.reportQuery = sqlQuery;
                             // run query
@@ -664,6 +682,64 @@ export class BaseMysqlReport {
                         prepMonthlySummaryBaseReport: this.cloneJsonSchema(prep_monthly_summary_base_report)
                     });
                     break;
+                case 'MOH-408':
+                    resolve({
+                        main: this.cloneJsonSchema(moh_408)
+                    });
+                    break;
+                case 'heiInfantFeedingAggregate':
+                    resolve({
+                        main: this.cloneJsonSchema(hei_infant_feeding_aggregate),
+                        heiInfantFeedingBase: this.cloneJsonSchema(hei_infant_feeding_base)
+                    });
+                    break;
+                case 'heiInfantFeedingNoDisaggregationAggregate':
+                    resolve({
+                        main: this.cloneJsonSchema(hei_infant_feeding_no_disaggregation_aggregate),
+                        heiInfantFeedingNoDisaggregationBase: this.cloneJsonSchema(hei_infant_feeding_no_disaggregation_base)
+                    });
+                    break;
+                case 'heiInfantTestingAggregate':
+                    resolve({
+                        main: this.cloneJsonSchema(hei_infant_testing_aggregate),
+                        heiInfantTestingBase: this.cloneJsonSchema(hei_infant_testing_base)
+                    });
+                    break;
+                case 'heiRetentionPairsAggregate':
+                    resolve({
+                        main: this.cloneJsonSchema(hei_retention_pairs_aggregate),
+                        heiRetentionPairsBase: this.cloneJsonSchema(hei_retention_pairs_base)
+                    });
+                    break;
+                case 'heiMotherAggregate':
+                    resolve({
+                        main: this.cloneJsonSchema(hei_mother_aggregate),
+                        heiMotherBase: this.cloneJsonSchema(hei_mother_base)
+                    });
+                    break;
+                case 'heiProgramOutcomeAggregate':
+                    resolve({
+                        main: this.cloneJsonSchema(hei_program_outcome_aggregate),
+                        heiProgramOutcomeBase: this.cloneJsonSchema(hei_program_outcome_base)
+                    });
+                    break;
+                case 'heiUknownProgramOutcomeAggregate':
+                    resolve({
+                        main: this.cloneJsonSchema(hei_unknown_program_outcome_aggregate),
+                        heiUknownProgramOutcomeBase: this.cloneJsonSchema(hei_unknown_program_outcome_base)
+                    });
+                    break;
+                case 'heiOriginalCohortAggregate':
+                    resolve({
+                        main: this.cloneJsonSchema(hei_original_cohort_aggregate),
+                        heiOriginalCohortBase: this.cloneJsonSchema(hei_original_cohort_base)
+                    });
+                    break;
+               case 'hei-report-patient-list-template':
+                        resolve({
+                            main: this.cloneJsonSchema(hei_report_patient_list_template)
+                        });
+                        break;
                 default:
                     reject('Unknown report ', reportName);
                     break;

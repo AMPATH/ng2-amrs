@@ -1,0 +1,11 @@
+{
+    "reports": [
+        "heiInfantFeedingAggregate",
+        "heiInfantFeedingNoDisaggregationAggregate",
+        "heiInfantTestingAggregate",
+        "heiRetentionPairsAggregate",
+        "heiProgramOutcomeAggregate",
+        "heiUknownProgramOutcomeAggregate",
+        "heiOriginalCohortAggregate"
+    ]
+}

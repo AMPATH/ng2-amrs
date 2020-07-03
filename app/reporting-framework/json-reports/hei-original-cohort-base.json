@@ -1,0 +1,159 @@
+{
+    "name": "heiOriginalCohortBase",
+    "version": "1.0",
+    "tag": "hei_original_cohort_base",
+    "description": "",
+    "uses": [],
+    "sources": [
+        {
+            "table": "etl.hei_monthly_report_dataset",
+            "alias": "hmd"
+        },
+        {
+            "table": "amrs.location",
+            "alias": "l",
+            "join": {
+                "type": "inner",
+                "joinCondition": "hmd.enrollment_location_id = l.location_id"
+                
+            }
+        },
+        {
+            "table": "etl.flat_hei_summary",
+            "alias": "fhs",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "hmd.person_id = fhs.person_id AND fhs.next_encounter_datetime_hiv IS NULL"
+            }
+        }
+    ],
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias":"person_id",
+            "column":"hmd.person_id"
+        },
+        {
+            "type": "simple_column",
+            "alias":"location",
+            "column":"l.name"
+        },
+        {
+            "type": "simple_column",
+            "alias":"location_uuid",
+            "column":"l.uuid"
+        },
+        {
+            "type": "simple_column",
+            "alias":"location_id",
+            "column":"hmd.enrollment_location_id"
+        },
+        {
+            "type": "simple_column",
+            "alias":"reporting_month",
+            "column":"DATE_FORMAT(hmd.endDate,'%Y-%m')"
+        },
+        {
+            "type": "simple_column",
+            "alias":"month",
+            "column":"DATE_FORMAT(hmd.endDate,'%Y-%m')"
+        },
+        {
+            "type": "derived_column",
+            "alias": "original_cohort_",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression":"IF(hmd.person_id,1,NULL)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "transfer_out_",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression":"IF(fhs.transfer_out = 1,1,NULL)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "pair_net_cohort",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression":"IF(fhs.transfer_out IS NULL,1,NULL)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "status",
+            "expressionType": "case_statement",
+            "expressionOptions": {
+                "caseOptions": [
+                    {
+                        "condition": "(hmd.death_date <= DATE_FORMAT(endDate, '%Y-%m-01') IS NULL AND hmd.mother_alive_this_month = 1 AND hmd.mother_alive_on_child_enrollment = 1 AND ((hmd.retention_status = 'active' AND hmd.hei_outcome_this_month IS NULL) OR hei_outcome_this_month IS NOT NULL))",
+                        "value": "ACTIVE"
+                    },
+                    {
+                        "condition": "hmd.death_date IS NOT NULL",
+                        "value": "DEAD_B"
+                    },
+                    {
+                        "condition": "hmd.mother_alive_on_child_enrollment = 1 AND hmd.mother_alive_this_month = 2",
+                        "value": "DEAD_M"
+                    },
+                    {
+                        "condition": "hmd.retention_status = 'ltfu' AND hei_outcome_this_month IS NULL",
+                        "value": "LTFU"
+                    },
+                    {
+                        "condition": "hmd.mother_alive_on_child_enrollment = 2",
+                        "value": "INVALID"
+                    },
+                    {
+                        "condition": "else",
+                        "value": null
+                    }
+                ]
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "status_date",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "CASE WHEN (hmd.death_date IS NOT NULL) THEN DATE_FORMAT(hmd.death_date,'%Y-%m-%d') WHEN (hmd.mother_alive_on_child_enrollment = 1 AND hmd.mother_alive_this_month = 2) THEN 'DEAD_M' WHEN (hmd.mother_alive_on_child_enrollment = 2) THEN '-' ELSE DATE_FORMAT(hmd.rtc_date,'%Y-%m-%d') END"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "has_status",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression":"1"
+            }
+        }
+    ],
+    "filters": {
+        "conditionJoinOperator": "and",
+        "conditions": [
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "hmd.endDate >= ?",
+                "parameterName": "startDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "hmd.endDate <= ?",
+                "parameterName": "endDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "hmd.enrollment_location_id in (?)",
+                "parameterName": "locations"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "hmd.age_in_months = 24"
+            }
+        ]
+    }
+}

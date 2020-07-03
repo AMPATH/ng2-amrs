@@ -1,0 +1,104 @@
+{
+    "name": "heiUknownProgramOutcomeAggregate",
+    "version": "1.0",
+    "tag": "",
+    "description": "",
+    "uses": [
+        {
+            "name": "heiUknownProgramOutcomeBase",
+            "version": "1.0",
+            "type": "dataset_def"
+        }
+    ],
+    "sources": [
+        {
+            "dataSet": "heiUknownProgramOutcomeBase",
+            "alias": "hmds"
+        }
+    ],
+    "columns": [
+
+        {
+            "type": "simple_column",
+            "alias":"reporting_month",
+            "column":"hmds.reporting_month"
+        },
+        {
+            "type": "simple_column",
+            "alias":"location",
+            "column":"hmds.location"
+        },
+        {
+            "type": "simple_column",
+            "alias":"location_id",
+            "column":"hmds.location_id"
+        },
+        {
+            "type": "simple_column",
+            "alias":"location_uuid",
+            "column":"hmds.location_uuid"
+        },
+        {
+            "type": "derived_column",
+             "alias":"ltfu_uo",
+             "expressionType": "simple_expression",
+             "expressionOptions": {
+                "expression":"COUNT(hmds.ltfu_uo)"
+                }
+        },
+        {
+            "type": "derived_column",
+             "alias":"uninfected_died_uo",
+             "expressionType": "simple_expression",
+             "expressionOptions": {
+                "expression":"COUNT(hmds.uninfected_died_uo)"
+                }
+        },
+        {
+            "type": "derived_column",
+             "alias":"infected_died_uo",
+             "expressionType": "simple_expression",
+             "expressionOptions": {
+                "expression":"COUNT(hmds.infected_died_uo)"
+                }
+        },
+        {
+            "type": "derived_column",
+             "alias":"transfer_out_uo",
+             "expressionType": "simple_expression",
+             "expressionOptions": {
+                "expression":"COUNT(hmds.transfer_out_uo)"
+                }
+        }
+    ],
+    "groupBy": {
+        "groupParam": "groupByParam",
+        "columns": [
+            "hmds.reporting_month",
+            "hmds.location_id"
+        ],
+        "excludeParam": "excludeParam"
+    },
+    "transFormDirectives": {
+        "joinColumn": "location_id",
+        "skipColumns": [
+        ],
+        "disaggregationColumns": [
+        ]
+    },
+   "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+        "useTemplate": "hei-report-patient-list-template",
+        "useTemplateVersion": "1.0",
+        "generatingDirectives": {
+            "joinDirectives": {
+                "joinType": "INNER",
+                "joinCondition": "<<base_column>> = <<template_column>>",
+                "baseColumn": "person_id",
+                "templateColumn": "person_id"
+            }
+        },
+        "skipParams": []
+    }
+}
+}

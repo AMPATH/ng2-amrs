@@ -1,0 +1,96 @@
+{
+    "name": "heiOriginalCohortAggregate",
+    "version": "1.0",
+    "tag": "",
+    "description": "",
+    "uses": [
+        {
+            "name": "heiOriginalCohortBase",
+            "version": "1.0",
+            "type": "dataset_def"
+        }
+    ],
+    "sources": [
+        {
+            "dataSet": "heiOriginalCohortBase",
+            "alias": "hmds"
+        }
+    ],
+    "columns": [
+
+        {
+            "type": "simple_column",
+            "alias":"reporting_month",
+            "column":"hmds.reporting_month"
+        },
+        {
+            "type": "simple_column",
+            "alias":"location",
+            "column":"hmds.location"
+        },
+        {
+            "type": "simple_column",
+            "alias":"location_id",
+            "column":"hmds.location_id"
+        },
+        {
+            "type": "simple_column",
+            "alias":"location_uuid",
+            "column":"hmds.location_uuid"
+        },
+        {
+            "type": "derived_column",
+             "alias":"original_cohort_",
+             "expressionType": "simple_expression",
+             "expressionOptions": {
+                "expression":"COUNT(hmds.original_cohort_)"
+                }
+        },
+        {
+            "type": "derived_column",
+             "alias":"transfer_out_",
+             "expressionType": "simple_expression",
+             "expressionOptions": {
+                "expression":"COUNT(hmds.transfer_out_)"
+                }
+        },
+        {
+            "type": "derived_column",
+             "alias":"pair_net_cohort",
+             "expressionType": "simple_expression",
+             "expressionOptions": {
+                "expression":"COUNT(hmds.pair_net_cohort)"
+                }
+        }
+    ],
+    "groupBy": {
+        "groupParam": "groupByParam",
+        "columns": [
+            "hmds.reporting_month",
+            "hmds.location_id"
+        ],
+        "excludeParam": "excludeParam"
+    },
+    "transFormDirectives": {
+        "joinColumn": "location_id",
+        "skipColumns": [
+        ],
+        "disaggregationColumns": [
+        ]
+    },
+   "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+        "useTemplate": "hei-report-patient-list-template",
+        "useTemplateVersion": "1.0",
+        "generatingDirectives": {
+            "joinDirectives": {
+                "joinType": "INNER",
+                "joinCondition": "<<base_column>> = <<template_column>>",
+                "baseColumn": "person_id",
+                "templateColumn": "person_id"
+            }
+        },
+        "skipParams": []
+    }
+}
+}

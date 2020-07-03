@@ -1,0 +1,187 @@
+{
+    "name": "heiProgramOutcomeBase",
+    "version": "1.0",
+    "tag": "hei_program_outcome_base",
+    "description": "",
+    "uses": [],
+    "sources": [
+        {
+            "table": "etl.hei_monthly_report_dataset",
+            "alias": "hmd"
+        },
+        {
+            "table": "amrs.location",
+            "alias": "l",
+            "join": {
+                "type": "inner",
+                "joinCondition": "hmd.location_id = l.location_id"
+                
+            }
+        },
+        {
+            "table": "etl.flat_hei_summary",
+            "alias": "fhs",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "hmd.person_id = fhs.person_id AND fhs.next_clinical_datetime_hiv IS NULL AND fhs.is_clinical_encounter = 1"
+            }
+        }
+    ],
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias":"person_id",
+            "column":"hmd.person_id"
+        },
+        {
+            "type": "simple_column",
+            "alias":"location",
+            "column":"hmd.clinic"
+        },
+        {
+            "type": "simple_column",
+            "alias":"location_uuid",
+            "column":"l.uuid"
+        },
+        {
+            "type": "simple_column",
+            "alias":"location_id",
+            "column":"hmd.location_id"
+        },
+        {
+            "type": "simple_column",
+            "alias":"reporting_month",
+            "column":"DATE_FORMAT(hmd.endDate,'%Y-%m')"
+        },
+        {
+            "type": "simple_column",
+            "alias":"month",
+            "column":"DATE_FORMAT(hmd.endDate,'%Y-%m')"
+        },
+        {
+            "type": "derived_column",
+            "alias": "infected_24_months",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression":"IF(hmd.hei_outcome_this_month = 6,1,NULL)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "uninfected_24_months",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression":"IF(hmd.hei_outcome_this_month = 5,1,NULL)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "unknown_outcome",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression":"IF(hmd.hei_outcome_this_month in (1,2,3,4) OR hmd.hei_outcome_this_month IS NULL,1,NULL)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "original_cohort",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression":"IF(hmd.enrollment_location_id in ({locations}),1,NULL)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "transfer_in",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression":"IF(transfer_in_this_month = 1 AND hmd.enrollment_location_id NOT IN ({locations}),1,NULL)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "net_cohort_hei_24_months",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression":"IF(hmd.person_id, 1, NULL)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "status",
+            "expressionType": "case_statement",
+            "expressionOptions": {
+                "caseOptions": [
+                    {
+                        "condition": "hmd.hei_outcome_this_month = 6",
+                        "value": "INFECTED"
+                    },
+                    {
+                        "condition": "hmd.hei_outcome_this_month = 5",
+                        "value": "UNINFECTED"
+                    },
+                    {
+                        "condition": "(hmd.hei_outcome_this_month = 3 OR TIMESTAMPDIFF(DAY, fhs.death_date, endDate) >= 0) AND hmd.infection_status_this_month = 1",
+                        "value": "UNINFECTED DEAD"
+                    },
+                    {
+                        "condition": "(hmd.hei_outcome_this_month = 3 OR TIMESTAMPDIFF(DAY, fhs.death_date, endDate) >= 0) AND hmd.infection_status_this_month = 2",
+                        "value": "INFECTED DEAD"
+                    },
+                    {
+                        "condition": "hmd.hei_outcome_this_month = 2 OR (hmd.hei_outcome_this_month IS NULL AND TIMESTAMPDIFF(DAY, fhs.rtc_date, CURDATE()) > 0)",
+                        "value": "LTFU"
+                    },
+                    {
+                        "condition": "hmd.hei_outcome_this_month = 1",
+                        "value": "TRANSFER OUT"
+                    },
+                    {
+                        "condition": "else",
+                        "value": null
+                    }
+                ]
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "status_date",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "CASE WHEN hmd.hei_outcome_this_month in (3,5,6) then DATE_FORMAT(hmd.hiv_dna_pcr_date,'%Y-%m-%d') WHEN hmd.hei_outcome_this_month = 1 then DATE_FORMAT(hmd.transfer_out_date,'%Y-%m-%d') WHEN (hmd.hei_outcome_this_month = 2 OR (hmd.hei_outcome_this_month IS NULL AND TIMESTAMPDIFF(DAY, fhs.rtc_date, CURDATE()) > 0)) THEN DATE_FORMAT(hmd.rtc_date,'%Y-%m-%d') ELSE NULL END"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "has_status",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression":"1"
+            }
+        }
+    ],
+    "filters": {
+        "conditionJoinOperator": "and",
+        "conditions": [
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "hmd.endDate >= ?",
+                "parameterName": "startDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "hmd.endDate <= ?",
+                "parameterName": "endDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "hmd.location_id in (?)",
+                "parameterName": "locations"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "hmd.age_in_months = 24"
+            }
+        ]
+    }
+}

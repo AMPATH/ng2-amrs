@@ -1,0 +1,134 @@
+{
+    "name": "heiRetentionPairsBase",
+    "version": "1.0",
+    "tag": "hei_retention_pairs_base",
+    "description": "",
+    "uses": [],
+    "sources": [
+        {
+            "table": "etl.hei_monthly_report_dataset",
+            "alias": "hmd"
+        },
+        {
+            "table": "amrs.location",
+            "alias": "l",
+            "join": {
+                "type": "inner",
+                "joinCondition": "hmd.location_id = l.location_id"
+                
+            }
+        },
+        {
+            "table": "etl.flat_hei_summary",
+            "alias": "fhs",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "hmd.person_id = fhs.person_id AND fhs.next_clinical_datetime_hiv IS NULL AND fhs.is_clinical_encounter = 1"
+            }
+        }
+    ],
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias":"person_id",
+            "column":"hmd.person_id"
+        },
+        {
+            "type": "simple_column",
+            "alias":"location",
+            "column":"hmd.clinic"
+        },
+        {
+            "type": "simple_column",
+            "alias":"location_uuid",
+            "column":"l.uuid"
+        },
+        {
+            "type": "simple_column",
+            "alias":"location_id",
+            "column":"hmd.location_id"
+        },
+        {
+            "type": "simple_column",
+            "alias":"reporting_month",
+            "column":"DATE_FORMAT(hmd.endDate,'%Y-%m')"
+        },
+        {
+            "type": "simple_column",
+            "alias":"month",
+            "column":"DATE_FORMAT(hmd.endDate,'%Y-%m')"
+        },
+        {
+            "type": "derived_column",
+            "alias": "mother_baby_pairs_24_months_active",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression":"IF(hmd.death_date <= date_format(endDate,'%Y-%m-01') IS NULL AND hmd.mother_alive_this_month = 1 AND hmd.mother_alive_on_child_enrollment = 1 AND ((hmd.retention_status = 'active' AND hmd.hei_outcome_this_month IS NULL) OR hei_outcome_this_month IS NOT NULL),1,NULL)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "dead_b",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression":"IF(hmd.death_date IS NOT NULL  ,1,NULL)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "dead_m",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression":"IF(hmd.mother_alive_on_child_enrollment = 1 AND hmd.mother_alive_this_month = 2  ,1,NULL)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "invalid",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression":"IF(hmd.mother_alive_on_child_enrollment = 2  ,1,NULL)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "ltfu_",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression":"IF(hmd.retention_status = 'ltfu' AND hei_outcome_this_month IS NULL,1,NULL)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "transfer_in_",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression":"IF(fhs.transfer_in = 1,1,NULL)"
+            }
+        }
+    ],
+    "filters": {
+        "conditionJoinOperator": "and",
+        "conditions": [
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "hmd.endDate <= ?",
+                "parameterName": "endDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "hmd.endDate >= ?",
+                "parameterName": "startDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "hmd.location_id in (?)",
+                "parameterName": "locations"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "hmd.age_in_months = 24"
+            }
+        ]
+    }
+}

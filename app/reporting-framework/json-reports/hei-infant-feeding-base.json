@@ -1,0 +1,156 @@
+{
+    "name": "heiInfantFeedingBase",
+    "version": "1.0",
+    "tag": "hei_monthly_summary_base",
+    "description": "",
+    "uses": [],
+    "sources": [
+        {
+            "table": "etl.hei_monthly_report_dataset",
+            "alias": "hmd"
+        },
+        {
+            "table": "amrs.location",
+            "alias": "l",
+            "join": {
+                "type": "inner",
+                "joinCondition": "hmd.location_id = l.location_id"
+                
+            }
+        }
+    ],
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias":"person_id",
+            "column":"hmd.person_id"
+        },
+        {
+            "type": "simple_column",
+            "alias":"location",
+            "column":"hmd.clinic"
+        },
+        {
+            "type": "simple_column",
+            "alias":"location_uuid",
+            "column":"l.uuid"
+        },
+        {
+            "type": "simple_column",
+            "alias":"location_id",
+            "column":"hmd.location_id"
+        },
+        {
+            "type": "simple_column",
+            "alias":"reporting_month",
+            "column":"DATE_FORMAT(hmd.endDate,'%Y-%m')"
+        },
+        {
+            "type": "simple_column",
+            "alias":"month",
+            "column":"DATE_FORMAT(hmd.endDate,'%Y-%m')"
+        },
+        {
+            "type": "derived_column",
+            "alias": "Not_BF",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(hmd.infant_feeding_method_this_month = 17,1,null)"
+            }
+            
+            
+        },
+        {
+            "type": "derived_column",
+            "alias": "MF",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(hmd.infant_feeding_method_this_month = 5,1,null)"
+            }
+            
+            
+        },
+        {
+            "type": "derived_column",
+            "alias": "ERF",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(hmd.infant_feeding_method_this_month = 18,1,null)"
+            }
+            
+            
+        },
+        {
+            "type": "derived_column",
+            "alias": "BF",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(hmd.infant_feeding_method_this_month in(4,6),1,null)"
+            }
+            
+            
+        },
+        {
+            "type": "derived_column",
+            "alias": "age_range",
+            "expressionType": "case_statement",
+            "expressionOptions": {
+                "caseOptions": [
+                    {
+                        "condition": "hmd.age_in_months between 0 and 6",
+                        "value": "6_months"
+                    },
+                    {
+                        "condition": "hmd.age_in_months between 7 and 18",
+                        "value": "7_to_18_months"
+                    },
+                    {
+                        "condition": "hmd.age_in_months = 24",
+                        "value": "24_months"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "status",
+            "expressionType": "case_statement",
+            "expressionOptions": {
+                "caseOptions": [
+                    {
+                        "condition": "hmd.infection_status_this_month = 1",
+                        "value": "uninfected"
+                    },
+                    {
+                        "condition": "hmd.infection_status_this_month = 2",
+                        "value": "infected"
+                    },
+                    {
+                        "condition": "hmd.infection_status_this_month NOT IN (1,2)",
+                        "value": "unknown"
+                    }
+                ]
+            }
+        }
+    ],
+    "filters": {
+        "conditionJoinOperator": "and",
+        "conditions": [
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "hmd.endDate <= ?",
+                "parameterName": "endDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "hmd.endDate >= ?",
+                "parameterName": "startDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "hmd.location_id in (?)",
+                "parameterName": "locations"
+            }
+        ]
+    }
+}
