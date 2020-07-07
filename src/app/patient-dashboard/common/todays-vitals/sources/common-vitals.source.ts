@@ -71,6 +71,13 @@ export class CommonVitalsSource implements VitalSourceInterface {
           label: 'BSA:',
           value: (ob.value).toFixed(2)
         });
+      case 'cd8ead74-96fc-4764-a9fa-c9ee059c59c5':
+        return this.vitalModel.createVital({
+          name: 'disclosure',
+          label: 'Disclosure:',
+          order: 7,
+          value: (ob.value.display)
+        });
       default:
         return this.vitalModel;
     }
