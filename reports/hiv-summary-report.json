@@ -203,6 +203,61 @@
                 "sql":"count(distinct if($expression,t1.person_id,null))"
             },
             {
+                "label":"on_modern_contraception",
+                "expression":"on_modern_contraception",
+                "sql":"count(distinct if($expression,t1.person_id,null))"
+            },
+            {
+                "label":"on_short_term_modern_contraception",
+                "expression":"on_short_term_modern_contraception",
+                "sql":"count(distinct if($expression,t1.person_id,null))"
+            },
+            {
+                "label":"on_long_term_modern_contraception",
+                "expression":"on_long_term_modern_contraception",
+                "sql":"count(distinct if($expression,t1.person_id,null))"
+            },
+            {
+                "label":"not_on_modern_contraception",
+                "expression":"not_on_modern_contraception",
+                "sql":"count(distinct if($expression,t1.person_id,null))"
+            },
+            {
+                "label":"on_short_term_modern_contraception_pnc",
+                "expression":"on_short_term_modern_contraception_pnc",
+                "sql":"count(distinct if($expression,t1.person_id,null))"
+            },
+            {
+                "label":"on_long_term_modern_contraception_pnc",
+                "expression":"on_long_term_modern_contraception_pnc",
+                "sql":"count(distinct if($expression,t1.person_id,null))"
+            },
+            {
+                "label":"on_modern_contraception_pnc",
+                "expression":"on_modern_contraception_pnc",
+                "sql":"count(distinct if($expression,t1.person_id,null))"
+            },
+            {
+                "label":"not_on_modern_contraception_pnc",
+                "expression":"not_on_modern_contraception_pnc",
+                "sql":"count(distinct if($expression,t1.person_id,null))"
+            },
+            {
+                "label":"in_pnc",
+                "expression":"in_pnc",
+                "sql":"count(distinct if($expression,t1.person_id,null))"
+            },
+            {
+                "label":"on_art_and_not_on_modern_contraception",
+                "expression":"on_art_and_not_on_modern_contraception",
+                "sql":"count(distinct if($expression,t1.person_id,null))"
+            },
+            {
+                "label":"started_modern_contraception",
+                "expression":"started_modern_contraception",
+                "sql":"count(distinct if($expression,t1.person_id,null))"
+            },
+            {
                 "label":"pregnant",
                 "expression":"pregnant",
                 "sql":"count(distinct if($expression,t1.person_id,null))"
@@ -210,6 +265,11 @@
             {
                 "label":"pregnant_and_on_arvs",
                 "expression":"pregnant_and_on_arvs",
+                "sql":"count(distinct if($expression,t1.person_id,null))"
+            },
+            {
+                "label":"pregnant_and_started_art",
+                "expression":"pregnant_and_started_art",
                 "sql":"count(distinct if($expression,t1.person_id,null))"
             },
             {

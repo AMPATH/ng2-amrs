@@ -481,6 +481,52 @@ module.exports = function () {
             return matchingName ? matchingName.name : arvNames.join(', ');
         },
 
+        getContraceptiveMethod: function getContraceptiveMethod(str) {
+            if (str === null || str === undefined) return { concept: 1107, name: "NONE", period: null };
+            var contraceptives = [
+                { concept: 190, name: "CONDOMS", period: "Short term" },
+                { concept: 780, name: "ORAL CONTRACEPTION", period: "Short term" },
+                { concept: 907, name: "MEDROXYPROGESTERONE ACETATE", period: "Short term" },
+                { concept: 5278, name: "DIAPHRAGM", period: "Short term" },
+                { concept: 5279, name: "INJECTABLE CONTRACEPTIVE", period: "Long term" },
+                { concept: 5622, name: "OTHER NON-CODED", period: null },
+                { concept: 5275, name: "INTRAUTERINE DEVICE", period: "Long term" },
+                { concept: 5276, name: "FEMALE STERILIZATION", period: "Long term" },
+                { concept: 5277, name: "NATURAL FAMILY PLANNING", period: null },
+                { concept: 1107, name: "NONE", period: null },
+                { concept: 6220, name: "CONTRACEPTIVE IMPLANT", period: "Long term" },
+                { concept: 6218, name: "COMBINED HORMONE ORAL CONTRACEPTIVE PILL", period: "Short term" },
+                { concept: 6219, name: "PERIODIC ABSTINENCE", period: null },
+                { concept: 6217, name: "PROGESTIN PILLS", period: "Short term" },
+                { concept: 6700, name: "TUBAL LIGATION", period: "Long term" },
+                { concept: 6701, name: "VASECTOMY", period: "Long term" },
+                { concept: 5841, name: "HERBAL TRADITIONAL MEDICATIONS", period: "Short term" },
+                { concept: 6717, name: "FEMALE CONDOMS", period: "Short term" },
+                { concept: 6718, name: "MALE CONDOMS", period: "Short term" },
+                { concept: 6725, name: "EMERGENCY CONTRACEPTIVE PILLS", period: "Short term" },
+                { concept: 8134, name: "CONTRACEPTIVE SPONGE", period: "Short term" },
+                { concept: 5274, name: "FAMILY PLANNING VIA ORAL CONTRACEPTIVE PILLS", period: "Short term" },
+                { concept: 1624, name: "DO NOT KNOW", period: null },
+                { concept: 6707, name: "UNDECIDED", period: null },
+                { concept: 8300, name: "LACTATIONAL AMENORRHEA METHOD", period: "Short term" },
+                { concept: 9510, name: "3-YEAR CONTRACEPTIVE IMPLANT", period: "Long term" },
+                { concept: 9511, name: "5-YEAR CONTRACEPTIVE IMPLANT", period: "Long term" },
+                { concept: 1067, name: "UNKNOWN", period: null },
+                { concept: 9734, name: "COPPER INTRAUTERINE DEVICE", period: "Long term" },
+                { concept: 9735, name: "HORMONAL INTRAUTERINE DEVICE", period: "Long term" },
+                { concept: 10956, name: "CONTRACEPTION METHOD UNDECIDED", period: null },
+                { concept: 10817, name: "NORPLANT(IMPLANTABLE CONTRACEPTIVE)", period: "Long term" }
+            ]
+            var contraceptiveMethod = {} | null;
+            _.each(contraceptives, function (contraceptive) {
+                if (contraceptive.concept === str) {
+                    contraceptiveMethod = contraceptive;
+                }
+            });
+            if (contraceptiveMethod === 0 || typeof (contraceptiveMethod) != "object") return { concept: str, name: "UNKNOWN", period: null }
+            return contraceptiveMethod;
+        },
+
         getTestsOrderedNames: function getTestsOrderedNames(str) {
             if (str === null || str === undefined) return "";
             var tests = {
@@ -787,14 +833,13 @@ module.exports = function () {
             return date;
         },
         titleCase: function titleCase(name) {
-          if (name) {
-            name = name.toLowerCase().split(" ");
-            for (var i = 0; i < name.length; i++) {
-              name[i] = name[i].charAt(0).toUpperCase() + name[i].slice(1);
+            if (name) {
+              name = name.toLowerCase().split(" ");
+              for (var i = 0; i < name.length; i++) {
+                name[i] = name[i].charAt(0).toUpperCase() + name[i].slice(1);
+              }
+              return name.join(" ");
             }
-            return name.join(" ");
           }
-        }
-    };
-
+      };  
 }();

@@ -9,3 +9,4 @@ conf_copy/
 etl-daemon.js
 .nyc_output
 coverage
+conf/config-bk.json

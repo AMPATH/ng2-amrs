@@ -219,6 +219,94 @@
         },
         {
             "type": "derived_column",
+            "alias": "on_modern_contraception",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(distinct concat(on_modern_contraception, hsb.person_id))"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "on_short_term_modern_contraception",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(distinct concat(on_short_term_modern_contraception, hsb.person_id))"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "on_long_term_modern_contraception",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(distinct concat(on_long_term_modern_contraception, hsb.person_id))"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "not_on_modern_contraception",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(distinct concat(not_on_modern_contraception, hsb.person_id))"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "on_short_term_modern_contraception_pnc",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(distinct concat(on_short_term_modern_contraception_pnc, hsb.person_id))"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "on_long_term_modern_contraception_pnc",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(distinct concat(on_long_term_modern_contraception_pnc, hsb.person_id))"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "on_modern_contraception_pnc",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(distinct concat(on_modern_contraception_pnc, hsb.person_id))"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "not_on_modern_contraception_pnc",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(distinct concat(not_on_modern_contraception_pnc, hsb.person_id))"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "in_pnc",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(distinct concat(in_pnc, hsb.person_id))"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "on_art_and_not_on_modern_contraception",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(distinct concat(on_art_and_not_on_modern_contraception, hsb.person_id))"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "started_modern_contraception",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(distinct concat(started_modern_contraception, hsb.person_id))"
+            }
+        },
+        {
+            "type": "derived_column",
             "alias": "pregnant",
             "expressionType": "simple_expression",
             "expressionOptions": {

@@ -60,8 +60,10 @@ module.exports = function () {
                     summary.arv_first_regimen_id = summary.arv_first_regimen;
                     summary.cur_arv_meds = helpers.getARVNames(summary.cur_arv_meds);
                     summary.arv_first_regimen = helpers.getARVNames(summary.arv_first_regimen);
+                    summary.contraceptive_method= helpers.getContraceptiveMethod(summary.contraceptive_method);
                     summary['encounter_type_name'] = encounterTypeNames[summary.encounter_type];
                     summary['prev_encounter_type_name'] = encounterTypeNames[summary.prev_encounter_type_hiv];
+                    console.log("menstruaction status", summary.menstruation_status, summary.encounter_datetime);
                 });
 
                 // Return when done.
