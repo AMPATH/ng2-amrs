@@ -3,6 +3,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HeiReportService } from './../../etl-api/hei-report.service';
+import * as Moment from 'moment';
 
 @Component({
   selector: 'hei-indicators-report',
@@ -13,11 +14,14 @@ export class HeiIndicatorsReportComponent
   implements OnInit {
 
   @Input() locations = '';
+  public summaryTitle = 'HEI Monthly Summary Report';
   public params = {
     'startDate': '',
     'endDate': '',
     'locationUuids': '',
-    'displayTabluarFilters': true
+    'displayTabluarFilters': true,
+    'reportName': this.summaryTitle,
+    '_date': Moment().format('MMM YYYY')
   };
 
   public busyIndicator: any = {
@@ -33,7 +37,7 @@ export class HeiIndicatorsReportComponent
   public sectionDefs: any;
   public outcomeSectionDefs: any;
   public currentView = 'pdf';
-  public summaryTitle = 'HEI indicators';
+
 
   constructor(
     private _router: Router,
@@ -54,7 +58,9 @@ export class HeiIndicatorsReportComponent
       'startDate': filterParams.startDate,
       'endDate': filterParams.endDate,
       'locationUuids': this.locations,
-      'displayTabluarFilters': true
+      'displayTabluarFilters': true,
+      'reportName': this.summaryTitle,
+      '_date': Moment(filterParams.startDate).format('MMMM YYYY')
      };
 
   }
@@ -103,7 +109,8 @@ export class HeiIndicatorsReportComponent
         locationUuids: data.location,
         indicators: data.field,
         startDate: this.params.startDate,
-        endDate: this.params.endDate
+        endDate: this.params.endDate,
+        reportName: this.summaryTitle
     };
 
     this._router.navigate(['./patient-list']
