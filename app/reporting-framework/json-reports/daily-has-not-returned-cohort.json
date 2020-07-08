@@ -27,7 +27,7 @@
             "column": "rtc_date"
         },
         {
-          "type": "simple_column",
+            "type": "simple_column",
           "alias": "department_id",
           "column": "department_id"
         },

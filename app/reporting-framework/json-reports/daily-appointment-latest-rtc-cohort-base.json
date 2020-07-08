@@ -32,12 +32,12 @@
         "conditions": [
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "DATE(fa.rtc_date) >= ?",
+                "conditionExpression": "date(fa.rtc_date) >= '{startDate}' OR date(fa.med_pickup_rtc_date) >= '{startDate}'",
                 "parameterName": "startDate"
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "DATE(fa.rtc_date) <= ?",
+                "conditionExpression": "date(fa.rtc_date) <= '{startDate}' OR date(fa.med_pickup_rtc_date) <= '{startDate}'",
                 "parameterName": "endDate"
             },
             {

@@ -65,6 +65,11 @@
         },
         {
             "type": "simple_column",
+            "alias": "med_pick_up_date",
+            "column": "date_format(t2.med_pickup_rtc_date,'%Y-%m-%d')"
+        },
+        {
+            "type": "simple_column",
             "alias": "scheduled_date",
             "column": "date_format(t2.rtc_date,'%Y-%m-%d')"
         },
@@ -73,7 +78,7 @@
             "alias": "patients",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(DATE_FORMAT(t2.rtc_date, '%Y-%m-%d') = '{startDate}',1,null)"
+                "expression": "if(DATE_FORMAT(t2.rtc_date, '%Y-%m-%d') = '{startDate}' OR DATE_FORMAT(t2.med_pickup_rtc_date, '%Y-%m-%d') = '{startDate}',1,null)"
             }
         }
     ],
@@ -82,12 +87,12 @@
         "conditions": [
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "date(t2.rtc_date) >= ?",
+                "conditionExpression": "date(t2.rtc_date) >= '{startDate}' OR date(t2.med_pickup_rtc_date) >= '{startDate}'",
                 "parameterName": "startDate"
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "date(t2.rtc_date) <= ?",
+                "conditionExpression": "date(t2.rtc_date) <= '{startDate}' OR date(t2.med_pickup_rtc_date) <= '{startDate}'",
                 "parameterName": "endDate"
             },
             {

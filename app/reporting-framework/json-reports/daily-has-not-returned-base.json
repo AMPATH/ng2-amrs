@@ -95,6 +95,11 @@
         },
         {
             "type": "simple_column",
+            "alias": "med_pick_up_date",
+            "column": "date_format(t2.med_pickup_rtc_date,'%Y-%m-%d')"
+        },
+        {
+            "type": "simple_column",
             "alias": "transfer_out",
             "column": "t9.transfer_out"
         },
@@ -113,7 +118,7 @@
             "alias": "has_not_returned",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(date(t2.rtc_date) < DATE(NOW()), 1 , NULL)"
+                "expression": "if((date(t2.rtc_date) < DATE(NOW()) OR date(t2.med_pickup_rtc_date) < DATE(NOW()))AND ((t2.department_id = t7.department_id) OR (t2.department_id is NULL AND t7.department_id is NULL)), 1 , NULL)"
             }
         },
         {
@@ -121,7 +126,7 @@
             "alias": "patients",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(date(t2.rtc_date) = DATE('{startDate}') and t2.rtc_date = t7.latest_rtc_date AND  t2.next_program_clinical_datetime IS NULL, 1, null)"
+                "expression": "if((date(t2.rtc_date) = DATE('{startDate}') OR date(t2.med_pickup_rtc_date) = DATE('{startDate}')) and (t2.rtc_date = t7.latest_rtc_date or t2.med_pickup_rtc_date = t7.latest_rtc_date)AND  t2.next_program_clinical_datetime IS NULL, 1, null)"
             }
         }
     ],
@@ -130,12 +135,12 @@
         "conditions": [
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "t2.rtc_date >= ?",
+                "conditionExpression": "date(t2.rtc_date) >= '{startDate}' OR date(t2.med_pickup_rtc_date) >= '{startDate}'",
                 "parameterName": "startDate"
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "t2.rtc_date <= ?",
+                "conditionExpression": "date(t2.rtc_date) <= '{endDate}' OR date(t2.med_pickup_rtc_date) <= '{endDate}'",
                 "parameterName": "endDate"
             },
             {
@@ -180,12 +185,12 @@
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "DATE(t2.rtc_date) < DATE(NOW())",
+                "conditionExpression": "DATE(t2.rtc_date) < DATE(NOW()) OR DATE(t2.med_pickup_rtc_date) < DATE(NOW())",
                 "parameterName": ""
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "DATE(t2.rtc_date) = DATE(t7.latest_rtc_date)",
+                "conditionExpression": "DATE(t2.rtc_date) = DATE(t7.latest_rtc_date) OR DATE(t2.med_pickup_rtc_date) = DATE(t7.latest_rtc_date)",
                 "parameterName": ""
             },
             {
