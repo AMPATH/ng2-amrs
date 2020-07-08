@@ -1,27 +1,59 @@
+
 [![Build Status](https://travis-ci.org/AMPATH/ng2-amrs.svg?branch=master)](https://travis-ci.org/AMPATH/ng2-amrs)
 
-# Ng2Amrs
+# AMPATH POC
 
-This is the point of care system used by Ampath Clinics. It should be compatible with most openmrs versions but it is tested against platform 2.0.2 with the REST module. It also requires https://github.com/AMPATH/etl-rest-server for all features to work properly.
+AMPATH POC is a point of care system used by AMPATH clinics. It provides real-time access to electronic medical records allowing patient records to be accessible during patient-clinician interactions. It also offers clinical decision support via automated reminders, lab integrations, clinic dashboards as well as data analytics and reporting.
 
-## Development server
+AMPATH POC works in conjunction with [AMPATH ETL](https://github.com/ampath/etl-rest-server) and AMRS (AMPATH Medical Records System), a web-based open-source medical records system. It is being used against OpenMRS v2.1.2 in production but it should be compatible with older versions of OpenMRS.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:3000/`. The app will automatically reload if you change any of the source files.
+## Setting up a Dev Environment
 
-## Code scaffolding
+### Prerequisites
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+#### System Requirements
 
-## Build
+Recommended setup:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+- Install [chrome](https://www.google.com/chrome/).
+- Install and setup [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) on your local machine.
+- Install [npm and nodeJS](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm).
+- Install [visual studio code](https://code.visualstudio.com/).
 
-## Running unit tests
+### Setup
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+After you've made sure to have the correct things setup, you should be able to run a few commands to get set up:
 
-## Running end-to-end tests
+```
+git clone https://github.com/AMPATH/ng2-amrs.git
+cd ng2-amrs
+npm install
+```
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+### Running the app
 
-## Further help
+To get the app up and running locally, run:
+
+```
+npm start
+```
+
+Fire up your chrome and go to `https://localhost:3000`. You should see a login screen with the AMPATH logo.
+
+### Running tests
+
+```
+npm test
+```
+
+This command will build the app and launch the [Karma](https://karma-runner.github.io/) test runner. Karma should spin up [several](https://www.npmjs.com/package/karma-parallel) chrome browser instances (equal to the number of cores on your machine) and run the test specs in parallel the specs across them.
+
+### Communication and management
+
+There are a few tools that we use extensively that all AMPATH developers should have set up:
+
+- [JIRA](https://www.atlassian.com/software/jira) for tracking bugs and project management.
+- [Slack](https://slack.com) for project-specific group chats.
+- AMRS is AMPATH's medical records system. You'll need an AMRS account for use with a lot of AMPATH's internal tools, including AMPATH POC.
+
+Access to these platforms is managed by the AMPATH IT team.
