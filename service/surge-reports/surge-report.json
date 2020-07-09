@@ -367,8 +367,8 @@
                 "indicator": "prep_ltfu_this_week"
             },
             {
-                "label": "Prep discounted this week",
-                "description": "Prep discounted this week",
+                "label": "Prep discontinued this week",
+                "description": "Prep discontinued this week",
                 "indicator": "prep_discontinued_this_week"
             },
             {
