@@ -145,7 +145,7 @@
         {
             "type": "simple_column",
             "alias": "days_since_rtc_date",
-            "column": "TIMESTAMPDIFF(DAY,DATE(t4.rtc_date),curdate())"
+            "column": "prep.days_since_rtc_date"
         },
         {
             "type": "simple_column",

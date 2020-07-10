@@ -270,7 +270,7 @@
         {
             "type": "simple_column",
             "alias": "transfer_in_date",
-            "column": "srb.transfer_in_date"
+            "column": "DATE_FORMAT(srb.transfer_in_date, '%Y-%m-%d')"
         },
         {
             "type": "simple_column",
@@ -285,7 +285,7 @@
         {
             "type": "simple_column",
             "alias": "transfer_out_date",
-            "column": "srb.transfer_out_date"
+            "column": "date_format(srb.transfer_out_date,'%Y-%m-%d')"
         },
         {
             "type": "simple_column",
