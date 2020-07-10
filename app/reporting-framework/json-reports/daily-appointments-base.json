@@ -41,7 +41,7 @@
                 "joinCondition": "t2.encounter_id  = fhs.encounter_id"
             }
         }
-    ], 
+    ],
     "columns": [
         {
             "type": "simple_column",
@@ -57,7 +57,7 @@
             "type": "simple_column",
             "alias": "program",
             "column": "pr.name"
-        }, 
+        },
         {
             "type": "simple_column",
             "alias": "rtc_date",
@@ -67,6 +67,15 @@
             "type": "simple_column",
             "alias": "med_pick_up_date",
             "column": "date_format(t2.med_pickup_rtc_date,'%Y-%m-%d')"
+        },
+        {
+            "alias": "prev_clinical_encounter_datetime",
+            "column": "t2.prev_clinical_encounter_datetime"
+        },
+        {
+            "type": "simple_column",
+            "alias": "next_clinical_encounter_datetime",
+            "column": "t2.next_clinical_encounter_datetime"
         },
         {
             "type": "simple_column",
@@ -122,17 +131,17 @@
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression":  "((t2.next_encounter_type<>116  OR  t2.next_encounter_type is null )   OR t2.rtc_date >= t2.next_encounter_datetime)",
+                "conditionExpression": "((t2.next_encounter_type<>116  OR  t2.next_encounter_type is null )   OR t2.rtc_date >= t2.next_encounter_datetime)",
                 "parameterName": ""
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression":  "t2.is_clinical = 1",
+                "conditionExpression": "t2.is_clinical = 1",
                 "parameterName": ""
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression":  "fhs.transfer_out_location_id IS NULL",
+                "conditionExpression": "fhs.transfer_out_location_id IS NULL",
                 "parameterName": ""
             }
         ]
