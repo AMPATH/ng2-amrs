@@ -2107,7 +2107,68 @@
       "a8e7c30d-6d2f-401c-bb52-d4433689a36b",
       "c4246ff0-b081-460c-bcc5-b0678012659e"
     ],
-    "visitTypes": [{
+    "visitTypes": [
+      {
+        "uuid": "dddea595-9814-430d-bed6-cee9ac59b579",
+        "name": "Between Care Visit",
+        "allowedIf": "programLocation !== intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
+        "message": "Patient has to be in a different location from location he was enrolled into HIV care and treatment program and must have a prior clinical encounter",
+        "encounterTypes": [{
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "db9f6a5c-e141-49fc-ad2b-bdce3f9a6c80",
+            "display": "BETWEENCAREVISIT"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
+            "display": "DERMATOLOGYREFERRAL"
+          },
+          {
+            "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
+            "display": "FAMILYSTATUS"
+          },
+          {
+            "uuid": "987009c6-6f24-43f7-9640-c285d6553c63",
+            "display": "DRUGPICKUP"
+          },
+          {
+            "uuid": "466d6707-8429-4e61-b5a0-d63444f5ad35",
+            "display": "COVIDSCREENING"
+          },
+          {
+            "uuid": "afabceae-61d4-42b6-8f6a-fff48a7797ea",
+            "display": "COVIDCASEREPORTING"
+          }
+        ]
+      },
+      {
+        "uuid": "0bcccab0-59ce-4a25-a158-cc722427ff3f",
+        "name": "Treatment Supporter visit",
+        "encounterTypes": [{
+          "uuid": "693559d3-4e44-4d33-83f9-bc70ca56fe34",
+          "display": "TXSUPPORTERMEDREFILL"
+        },
+        {
+          "uuid": "987009c6-6f24-43f7-9640-c285d6553c63",
+          "display": "DRUGPICKUP"
+        },
+        {
+          "uuid": "466d6707-8429-4e61-b5a0-d63444f5ad35",
+          "display": "COVIDSCREENING"
+        },
+        {
+          "uuid": "afabceae-61d4-42b6-8f6a-fff48a7797ea",
+          "display": "COVIDCASEREPORTING"
+        }
+        ]
+      },
+      {
         "uuid": "0d608b80-1cb5-4c85-835a-29072683ca27",
         "name": "Community Visit for Differentiated Care",
         "groupVisit": true,
