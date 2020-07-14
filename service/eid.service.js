@@ -757,7 +757,7 @@ function getCd4TestResultsByPatientIdentifier(patientIdentifier, host, key) {
 }
 
 function saveEidSyncLog(table, fields) {
-
+  
   return db.saveRecord(table, fields);
 }
 

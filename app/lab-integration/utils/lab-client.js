@@ -1,5 +1,6 @@
 const rp = require('request-promise');
 const eidFacilityMap = require('../../../service/eid/eid-facility-mappings');
+// import formurlencoded from 'form-urlencoded';
 export class LabClient {
     config = null;
     constructor(config) {
@@ -74,66 +75,70 @@ export class LabClient {
 
     }
     postDNAPCR(payload) {
-        const options = {
-            uri: `${this.config.serverUrl}/api/eid`,
-            headers: {
-                'apikey': this.config.apiKey
-            },
-            method: 'POST',
-            formData: payload
-        };
-        return rp(options);
+        return this.getPostRequest(payload, `${this.config.serverUrl}/api/eid`,);
     }
 
     postViralLoad(payload) {
-        const options = {
-            uri: `${this.config.serverUrl}/api/vl`,
-            headers: {
-                'apikey': this.config.apiKey
-            },
-            method: 'POST',
-            formData: payload
-        };
-        return rp(options);
+        return this.getPostRequest(payload, `${this.config.serverUrl}/api/vl`);
     }
 
     postCD4(payload) {
+        return this.getPostRequest(payload, `${this.config.serverUrl}/api/cd4`);
+    }
+
+    getPostRequest(payload, endpoint) {
         const options = {
-            uri: `${this.config.serverUrl}/api/cd4`,
+            uri: endpoint,
             headers: {
-                'apikey': this.config.apiKey
+                'apikey': this.config.apiKey,
+                'Content-Type': 'application/x-www-form-urlencoded'
             },
             method: 'POST',
-            formData: payload
+            // json: true,
+            form: payload,
+            timeout: 20000
         };
         return rp(options);
+
     }
 
     getFetchRequest(filterOptions, offset) {
-        process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
+        // process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
         let fetchOffset = 1;
         let facilityCodes = this.getFacitityCodes().join();
         filterOptions.facility_code = facilityCodes;
         if (offset) {
             fetchOffset = offset;
         }
+        // var host = new String(this.config.serverUrl).substr(8);
         var options = {
             uri: `${this.config.serverUrl}/api/function?page=${fetchOffset}`,
             headers: {
-                'apikey': this.config.apiKey
+                'apikey': this.config.apiKey,
+                'Cache-Control': 'no-cache',
+                'Connection': 'keep-alive',
+                'Content-Type': 'application/x-www-form-urlencoded'
             },
             json: true,
             insecure: true,
             method: 'POST',
-            formData: filterOptions
+            timeout: 20000,
+            form: filterOptions
         };
+        // rp(options).then((res)=>{
+        //     console.log('RESULTS', res);
+        // }).catch((err)=>{
+        //     console.error('ERROR', err);
+        // });
         return rp(options);
     }
+
+    
     getFacitityCodes() {
         let facilityCodes = [];
         for (let key in eidFacilityMap) {
             let facility = eidFacilityMap[key];
-            if(facility.mflCode && facility.mflCode !== ''){
+            if (facility.mflCode && facility.mflCode !== '') {
                 facilityCodes.push(facility.mflCode);
             }
         }

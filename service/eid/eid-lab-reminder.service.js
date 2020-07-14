@@ -34,7 +34,7 @@ function pendingEIDReminders(params, config) {
       // merge results from all sites
 
       let mergedResults = [];
-      //console.log('Data',results);
+      // console.log('Data',results);
       for (let result of results) {
         mergedResults = mergedResults.concat(result.result.data)
       }

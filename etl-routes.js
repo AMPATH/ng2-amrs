@@ -3303,9 +3303,15 @@ module.exports = function () {
                             }).then((result) => {
                                 reply(result);
                             }).catch((error) => {
-                                let errorObject = JSON.parse(error.error);
-                                console.error('Error', errorObject);
-                                reply(errorObject.error).code(error.statusCode);
+                                try{
+                                    let errorObject = JSON.parse(error.error);
+                                    console.error('Error', errorObject);
+                                    reply(errorObject.error).code(error.statusCode);
+                                } catch(err) {
+                                    console.error('Error', error);
+                                    throw Boom.badImplementation(error);
+                                }
+                            
                             });
                         } else {
                             console.error('No Lab Specified');
