@@ -3,7 +3,18 @@
     "version": "1.0",
     "tag": "",
     "description": "",
-    "uses": [],
+    "uses": [
+        {
+            "name": "differentiatedCareWeightDataset",
+            "version": "1.0",
+            "type": "dataset_def"
+        },
+        {
+            "name": "differentiatedCareHeightDataset",
+            "version": "1.0",
+            "type": "dataset_def"
+        }
+    ],
     "sources": [
         {
             "table": "etl.flat_hiv_summary_v15b",
@@ -14,7 +25,7 @@
             "alias": "pp_dc",
             "join": {
                 "type": "LEFT",
-                "joinCondition": "pp_dc.patient_id = fhs.person_id AND pp_dc.program_id = 9  and  (pp_dc.date_completed is null || date(pp_dc.date_completed) <= date('{endDate}')) and (date(pp_dc.date_enrolled) >= date('{startDate}') and date(pp_dc.date_enrolled) <= date('{endDate}'))"
+                "joinCondition": "pp_dc.patient_id = fhs.person_id AND pp_dc.program_id in (3,9)  and  (pp_dc.date_completed is null || date(pp_dc.date_completed) >= date('{startDate}')) and  date(pp_dc.date_enrolled) <= date('{endDate}')"
             }
         },
         {
@@ -48,6 +59,38 @@
                 "type": "left",
                 "joinCondition": "person.person_id = fhs.person_id"
             }
+        },
+        {
+            "dataSet": "differentiatedCareWeightDataset",
+            "alias": "wd",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "fhs.person_id = wd.person_id and fhs.location_id = wd.location_id"
+            }
+        },
+        {
+            "table": "etl.flat_vitals",
+            "alias": "fv",
+            "join": {
+                "type": "left",
+                "joinCondition": "fv.person_id = wd.person_id and fv.encounter_datetime = wd.latest_encounter_date and fv.location_id = wd.location_id"
+            }
+        },
+        {
+            "dataSet": "differentiatedCareHeightDataset",
+            "alias": "hd",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "fhs.person_id = hd.person_id and fhs.location_id = hd.location_id"
+            }
+        },
+        {
+            "table": "etl.flat_vitals",
+            "alias": "fvh",
+            "join": {
+                "type": "left",
+                "joinCondition": "fvh.person_id = hd.person_id and fvh.encounter_datetime = hd.latest_encounter_date and fvh.location_id = hd.location_id"
+            }
         }
     ],
     "columns": [
@@ -61,7 +104,7 @@
             "alias": "eligible_for_dc",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(fhs.vl_1 < 401 and (timestampdiff(year,person.birthdate, date('{endDate}')) >= 20) and (timestampdiff(month,fhs.ipt_start_date,if(fhs.ipt_completion_date,fhs.ipt_completion_date,'{endDate}')) >= 6 ) and (timestampdiff(month,fhs.vl_1_date,now()) <= 11 ) and (timestampdiff(month,fhs.arv_start_date, '{endDate}') >= 12) AND pp_dc.program_id IS NULL and pp_viremia.program_id is null and DATE(fhs.prev_rtc_date) = DATE(fhs.encounter_datetime) and fhs.is_pregnant IS NULL, 1, NULL)"
+                "expression": "if(fhs.vl_1 < 401 and fhs.vl_2_date IS NOT NULL AND (TIMESTAMPDIFF(MONTH,fhs.tb_tx_start_date,date('{endDate}')) >=6 OR TIMESTAMPDIFF(MONTH,fhs.tb_tx_start_date,date('{endDate}')) IS NULL) and (timestampdiff(year,person.birthdate, date('{endDate}')) >= 20) and (TIMESTAMPDIFF(MONTH, fhs.ipt_completion_date,date('{endDate}')) >= 6 ) and (timestampdiff(month,fhs.vl_1_date,date('{endDate}')) <= 12 ) and (timestampdiff(month,fhs.arv_first_regimen_start_date, date('{endDate}')) >= 12) AND pp_dc.program_id IS NULL and DATE(fhs.prev_clinical_rtc_date_hiv) = DATE(fhs.encounter_datetime) and fhs.is_clinical_encounter = 1 and fhs.is_pregnant IS NULL and fv.weight/((fvh.height/100) * (fvh.height/100)) >= 18.5 , 1, NULL)"
             }
         },
         {
@@ -107,6 +150,26 @@
             "type": "simple_column",
             "alias": "cur_arv_meds",
             "column": "fhs.cur_arv_meds"
+        },
+        {
+            "type": "simple_column",
+            "alias": "height",
+            "column": "fvh.height"
+        },
+        {
+            "type": "simple_column",
+            "alias": "weight",
+            "column": "fv.weight"
+        },
+        {
+            "type": "simple_column",
+            "alias": "prev_rtc_date",
+            "column": "fhs.prev_rtc_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "bmi",
+            "column": "fv.weight/((fvh.height/100) * (fvh.height/100))"
         }
     ],
     "filters": {
@@ -114,17 +177,12 @@
         "conditions": [
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "date(fhs.encounter_datetime) >= ?",
-                "parameterName": "startDate"
-            },
-            {
-                "filterType": "tableColumns",
                 "conditionExpression": "date(fhs.encounter_datetime) <= ?",
                 "parameterName": "endDate"
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "DATE(fhs.rtc_date) <= DATE_ADD(?, INTERVAL -4 DAY)",
+                "conditionExpression": "Timestampdiff(day, fhs.rtc_date, ?) <= 28",
                 "parameterName": "endDate"
             },
             {
@@ -135,11 +193,6 @@
             {
                 "filterType": "tableColumns",
                 "conditionExpression": "fhs.vl_1 < 401",
-                "parameterName": ""
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "fhs.next_clinical_location_id IS NULL",
                 "parameterName": ""
             },
             {
@@ -159,7 +212,7 @@
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "TIMESTAMPDIFF(DAY, IF(fhs.rtc_date, fhs.rtc_date, DATE_ADD(fhs.encounter_datetime, INTERVAL 30 DAY)), ?) < 90",
+                "conditionExpression": "fhs.rtc_date > ? ",
                 "parameterName": "endDate"
             }
         ]

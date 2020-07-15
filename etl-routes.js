@@ -4492,30 +4492,37 @@ module.exports = function () {
                         }
                     },
                     handler: function (request, reply) {
-                        let requestParams = Object.assign({}, request.query, request.params);
-                        let locationUuids = request.query.locationUuids.split(',')
-                        requestParams.startDate = requestParams.startDate.split('T')[0];
-                        requestParams.endDate = requestParams.endDate.split('T')[0];
-                        let indicators = [];
-                        if (requestParams.indicators) {
-                            indicators = requestParams.indicators.split(',');
-                        }
-                        requestParams.locationUuids = locationUuids;
-                        let report = new PatientlistMysqlReport('differentiatedCareProgramAggregate', requestParams);
-                        report.generatePatientListReport(indicators).then((result) => {
-                            if (result.results.results.length > 0) {
-                                _.each(result.results.results, (item) => {
-                                    item.cur_meds = etlHelpers.getARVNames(item.cur_meds);
-                                    item.vl_1_date = moment(item.vl_1_date).format('DD-MM-YYYY');
-                                });
-                                reply(result);
-                            } else {
-                                reply(result);
-                            }
+                        if (request.query.locationUuids) {
+                            resolveLocationUuidToId.resolveLocationUuidsParamsToIds(request.query)
+                                .then((result) => {
+                                    let requestParams = Object.assign({}, request.query, request.params);
+                                    let locationUuids = request.query.locationUuids.split(',')
+                                    requestParams.startDate = requestParams.startDate.split('T')[0];
+                                    requestParams.endDate = requestParams.endDate.split('T')[0];
+                                    let indicators = [];
+                                    if (requestParams.indicators) {
+                                        indicators = requestParams.indicators.split(',');
+                                    }
+                                    requestParams.locationUuids = locationUuids;
+                                    requestParams.locationIds = result;
 
-                        }).catch((error) => {
-                            reply(error);
-                        });
+                                    let report = new PatientlistMysqlReport('differentiatedCareProgramAggregate', requestParams);
+                                    report.generatePatientListReport(indicators).then((result) => {
+                                        if (result.results.results.length > 0) {
+                                            _.each(result.results.results, (item) => {
+                                                item.cur_meds = etlHelpers.getARVNames(item.cur_meds);
+                                                item.vl_1_date = moment(item.vl_1_date).format('DD-MM-YYYY');
+                                            });
+                                            reply(result);
+                                        } else {
+                                            reply(result);
+                                        }
+
+                                    }).catch((error) => {
+                                        reply(error);
+                                    });
+                                })
+                        };
                     },
                     description: "Get the medical history report",
                     notes: "Returns the the medical history of the selected patient",

@@ -1,0 +1,47 @@
+{
+    "name": "differentiatedCareHeightDataset",
+    "version": "1.0",
+    "tag": "",
+    "description": "",
+    "uses": [],
+    "sources": [
+        {
+            "table": "etl.flat_vitals",
+            "alias": "t1"
+        }
+    ],
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias": "person_id",
+            "column": "t1.person_id"
+        },
+        {
+          "type": "simple_column",
+          "alias": "latest_encounter_date",
+          "column": "MAX(t1.encounter_datetime )"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location_id",
+            "column": "t1.location_id"
+        }
+    ],
+    "filters": {
+        "conditionJoinOperator": "and",
+        "conditions": [
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "t1.height IS NOT NULL AND DATE(encounter_datetime) <= '{endDate}' and location_id in ?",
+                "parameterName": "locationIds"
+            }
+        ]
+    },
+    "groupBy": {
+        "groupParam": "groupByParam",
+        "columns": [
+            "t1.person_id"
+        ],
+        "excludeParam": "excludeParam"
+    }
+}
