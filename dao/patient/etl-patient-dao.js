@@ -63,7 +63,7 @@ module.exports = function () {
                     summary.contraceptive_method= helpers.getContraceptiveMethod(summary.contraceptive_method);
                     summary['encounter_type_name'] = encounterTypeNames[summary.encounter_type];
                     summary['prev_encounter_type_name'] = encounterTypeNames[summary.prev_encounter_type_hiv];
-                    console.log("menstruaction status", summary.menstruation_status, summary.encounter_datetime);
+                    // console.log("menstruaction status", summary.menstruation_status, summary.encounter_datetime);
                 });
 
                 // Return when done.

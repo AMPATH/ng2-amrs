@@ -105,8 +105,10 @@ export class LabClient {
     getFetchRequest(filterOptions, offset) {
         // process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
         let fetchOffset = 1;
-        let facilityCodes = this.getFacitityCodes().join();
-        filterOptions.facility_code = facilityCodes;
+        // let facilityCodes = this.getFacitityCodes().join();
+        // filterOptions.facility_code = facilityCodes;
+        let facilityCodes = this.getFacitityCodesDictionary();
+
         if (offset) {
             fetchOffset = offset;
         }
@@ -125,12 +127,30 @@ export class LabClient {
             timeout: 20000,
             form: filterOptions
         };
-        // rp(options).then((res)=>{
-        //     console.log('RESULTS', res);
-        // }).catch((err)=>{
-        //     console.error('ERROR', err);
-        // });
-        return rp(options);
+        return new Promise((resolve, reject) => {
+            rp(options).then((response)=>{
+                var unknownMFL = [];
+                if(Array.isArray(response.data) && response.data.length > 0) {
+                    response.data = response.data.filter((item) => {
+                        if(facilityCodes[item.facility_code]) {
+                            return true;
+                        } else {
+                            unknownMFL.push(item.facility_code);
+                        }
+                        return false;
+                    });
+                }
+                if(unknownMFL.length > 0) {
+                    // post unknown MFL code to slack
+                    console.warn('Unknown MFL codes', unknownMFL);
+                }
+                // console.log('RESULTS', response);
+                resolve(response);
+            }).catch((err)=>{
+                console.error('LAB INTEGRATION ERROR:', err);
+                reject(err);
+            });
+        });
     }
 
     
@@ -140,6 +160,17 @@ export class LabClient {
             let facility = eidFacilityMap[key];
             if (facility.mflCode && facility.mflCode !== '') {
                 facilityCodes.push(facility.mflCode);
+            }
+        }
+        return facilityCodes;
+    }
+
+    getFacitityCodesDictionary() {
+        let facilityCodes = {};
+        for (let key in eidFacilityMap) {
+            let facility = eidFacilityMap[key];
+            if (facility.mflCode && facility.mflCode !== '') {
+                facilityCodes[facility.mflCode] = facility.mflCode;
             }
         }
         return facilityCodes;
