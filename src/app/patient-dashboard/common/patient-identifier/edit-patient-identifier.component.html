@@ -104,7 +104,7 @@
           <label class="control-label">Patient Identifier Type:</label>
           <select required class="form-control"  [ngModel]="identifierType" (ngModelChange)="selectIdentifierType($event)" >
             <option value=""></option>
-            <option *ngFor="let c of commonIdentifierTypes" [ngValue]="c">{{c.label}}</option>
+            <option *ngFor="let c of commonIdentifierTypes" selected="c.val==='f2d6ff1a-8440-4d35-a150-1d4b5a930c5e'" [ngValue]="c">{{c.label}}</option>
           </select>
           <div ng-messages="personForm.identifierType.$error">
               <div class="help-block" ng-message="required">Identifier Type is required.</div>

@@ -26,6 +26,7 @@ export class PatientInfoComponent implements OnInit, OnDestroy, AfterViewInit {
         this.patient = new Patient({});
         if (patient) {
           this.patient = patient;
+          console.log(this.patient._identifier);
         }
       }
     );
