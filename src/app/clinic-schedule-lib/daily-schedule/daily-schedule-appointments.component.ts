@@ -28,13 +28,31 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
     'visitType': [],
     'encounterType': []
   };
-  public extraColumns: Array<any> = [{
+  public extraColumns: Array<any> = [
+  {
     headerName: 'Program',
     width: 200,
     field: 'program'
-  }];
+  }
+];
   public errors: any[] = [];
+  private _showEarlyAppointments = false;
+  public get showEarlyAppointments() {
+    return this._showEarlyAppointments;
+  }
+  public set showEarlyAppointments(value) {
+    this._showEarlyAppointments = value;
+    if (value) {
+      this.dailyAppointmentsPatientList = this.earlyAppointments;
+    } else {
+      this.dailyAppointmentsPatientList = this.withoutEarlyAppointments;
+    }
+  }
+
   public dailyAppointmentsPatientList: any[] = [];
+  public allAppointments: any[] = [];
+  public withoutEarlyAppointments: any[] = [];
+  public earlyAppointments: any[] = [];
   public loadingDailyAppointments = false;
   public dataLoaded = false;
   public dataAppLoaded  = true;
@@ -105,14 +123,14 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
     this.clinicDashboardCacheService.setIsLoading(this.loadingDailyAppointments);
 
     const result = this.dailyScheduleResource.
-      getDailyAppointments(params);
+    getDailyAppointments(params);
     if (result === null) {
       throw new Error('Null daily appointments observable');
     } else {
       result.pipe(take(1)).subscribe(
         (patientList) => {
           if (patientList) {
-            this.dailyAppointmentsPatientList = patientList;
+            this.processAppointments(patientList);
             this.dataLoaded = true;
           } else {
             this.dataLoaded = true;
@@ -143,13 +161,34 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
 
   }
 
+  public processAppointments(patientList) {
+    this.allAppointments = patientList;
+    this.withoutEarlyAppointments = [];
+    if (Array.isArray(patientList) && patientList.length > 0) {
+      const rtcDate = Moment(this.getQueryParams().startDate);
+      this.withoutEarlyAppointments = patientList.filter(
+        (item) =>
+        !(Moment(item.next_clinical_encounter_datetime).isBefore(rtcDate, 'date') &&
+        rtcDate.isBefore(Moment(item.latest_rtc_date), 'date'))
+        );
+      this.earlyAppointments =  patientList.filter(
+        (item) =>
+        (Moment(item.next_clinical_encounter_datetime).isBefore(rtcDate, 'date') &&
+        rtcDate.isBefore(Moment(item.latest_rtc_date), 'date'))
+        );
+    }
+    this.dailyAppointmentsPatientList = this.withoutEarlyAppointments;
+  }
+
   private initParams() {
     this.loadingDailyAppointments = false;
     this.clinicDashboardCacheService.setIsLoading(this.loadingDailyAppointments);
     this.nextStartIndex = 0;
     this.dataLoaded = false;
+    this._showEarlyAppointments = false;
     this.errors = [];
     this.dailyAppointmentsPatientList = [];
+    console.log('Params', this.getQueryParams());
   }
 
   private getQueryParams() {
