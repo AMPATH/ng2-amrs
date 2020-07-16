@@ -325,7 +325,7 @@ module.exports = function () {
                                 .then((result) => {
                                     let locationIds = result;
                                     request.query.locations = locationIds;
-                                    let combineRequestParams = Object.assign(request.query, request.params);
+                                    let combineRequestParams = Object.assign({}, request.query, request.params);
                                     let service = new MonthlyScheduleService();
                                     service.getMonthlyScheduled(combineRequestParams).then((result) => {
                                         reply(result);
