@@ -79,7 +79,7 @@
         </div>
         <div class="row">
           <div class="col-md-12">
-            <button type="button" (click)="sendFeedBack()" class="btn btn-primary pull-right" [disabled]="!name.valid || name.length < 0 || !departmentIsSelected">Send a message</button>
+            <button type="button" (click)="sendFeedBack()" class="btn btn-primary pull-right" [disabled]="!name.valid || name.length < 0 || !departmentIsSelected || isBusy">Send a message</button>
             <button type="button" (click)="goBack()" class="btn pull-left">Back</button>
           </div>
         </div>
