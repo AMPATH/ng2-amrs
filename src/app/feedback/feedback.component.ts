@@ -23,6 +23,7 @@ export class FeedBackComponent implements OnInit, OnDestroy {
     public department: string;
     public selectedDepartment: string;
     public departmentIsSelected = false;
+    public isBusy = false;
     public payload = {
         name: '',
         phone: '',
@@ -30,7 +31,7 @@ export class FeedBackComponent implements OnInit, OnDestroy {
         location: '',
         department: ''
     };
-    public busy: Subscription;
+    public postSub: Subscription;
     public errorMessage = '';
     public hasError = false;
     public r1 = /^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,3})|(\(?\d{2,3}\)?))/;
@@ -47,20 +48,23 @@ export class FeedBackComponent implements OnInit, OnDestroy {
     }
 
     public ngOnDestroy() {
-        if (this.busy) {
-            this.busy.unsubscribe();
+        if (this.postSub) {
+            this.postSub.unsubscribe();
         }
     }
 
     public sendFeedBack() {
+        if (this.isBusy) { return; }
         this.validatePhoneNumberField(this.payload.phone);
         this.payload.name = this.userService.getLoggedInUser().person.display;
         const location = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject()
             || {};
         this.payload.location = location.display || 'Default location not set';
         this.payload.department = this.selectedDepartment || 'Department not selected';
-        this.busy = this.feedBackService.postFeedback(this.payload).pipe(take(1)).subscribe((res) => {
+        this.isBusy = true;
+        this.postSub = this.feedBackService.postFeedback(this.payload).pipe(take(1)).subscribe((res) => {
             this.success = true;
+            this.isBusy = false;
             console.log('this.payload', this.payload.phone);
             this.payload = {
                 name: '',
@@ -72,6 +76,7 @@ export class FeedBackComponent implements OnInit, OnDestroy {
         }, (error) => {
             console.log('Error');
             this.error = true;
+            this.isBusy = false;
         });
     }
 
