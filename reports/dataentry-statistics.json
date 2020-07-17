@@ -6,7 +6,9 @@
          {"joinType":"JOIN","schema":"amrs","tableName":"encounter","alias":"t2","joinExpression":"t1.encounter_id = t2.encounter_id"},
          {"joinType":"JOIN","schema":"amrs","tableName":"encounter_type","alias":"t3","joinExpression":"t3.encounter_type_id = t2.encounter_type"},
          {"joinType":"JOIN","schema":"amrs","tableName":"provider","alias":"t4","joinExpression":"t4.provider_id = t1.provider_id"},
-         {"joinType":"JOIN","schema":"amrs","tableName":"location","alias":"t5","joinExpression":"t2.location_id = t5.location_id"}
+         {"joinType":"JOIN","schema":"amrs","tableName":"location","alias":"t5","joinExpression":"t2.location_id = t5.location_id"},
+         {"joinType":"JOIN","schema":"amrs","tableName":"visit","alias":"t6","joinExpression":"t6.visit_id = t2.visit_id"},
+         {"joinType":"JOIN","schema":"amrs","tableName":"visit_type","alias":"t7","joinExpression":"t7.visit_type_id = t6.visit_type_id"}
      ],
      "parameters": [
          {"name":"startDate", "defaultValue":["01-01-1980"]},
@@ -15,6 +17,7 @@
          {"name":"providerUuid","defaultValue":[1]},
          {"name":"formIds","defaultValue":[1]},
          {"name":"encounterTypeIds","defaultValue":[1]},
+         {"name":"visitTypeIds","defaultValue":[1]},
          {"name":"groupByDate", "defaultValue":[
              {"label":"date","expression":"date"}
          ]
@@ -34,7 +37,8 @@
          {"expression":"t2.location_id in ?", "parameter":"locations"},
          {"expression":"t4.uuid = ?", "parameter":"providerUuid"},
          {"expression":"t2.form_id in ?", "parameter":"formIds"},
-         {"expression":"t2.encounter_type in ?", "parameter":"encounterTypeIds"}
+         {"expression":"t2.encounter_type in ?", "parameter":"encounterTypeIds"},
+         {"expression":"t7.visit_type_id in ?", "parameter":"visitTypeIds"}
      ],
      "groupClause":[
          {"parameter":"groupByLocationId"},
@@ -97,7 +101,9 @@
       {"joinType":"JOIN","schema":"amrs","tableName":"encounter","alias":"t2","joinExpression":"t1.encounter_id = t2.encounter_id"},
       {"joinType":"JOIN","schema":"amrs","tableName":"encounter_type","alias":"t3","joinExpression":"t3.encounter_type_id = t2.encounter_type"},
       {"joinType":"JOIN","schema":"amrs","tableName":"provider","alias":"t4","joinExpression":"t4.provider_id = t1.provider_id"},
-      {"joinType":"JOIN","schema":"amrs","tableName":"location","alias":"t5","joinExpression":"t2.location_id = t5.location_id"}
+      {"joinType":"JOIN","schema":"amrs","tableName":"location","alias":"t5","joinExpression":"t2.location_id = t5.location_id"},
+      {"joinType":"JOIN","schema":"amrs","tableName":"visit","alias":"t6","joinExpression":"t6.visit_id = t2.visit_id"},
+      {"joinType":"JOIN","schema":"amrs","tableName":"visit_type","alias":"t7","joinExpression":"t7.visit_type_id = t6.visit_type_id"}
   ],
   "parameters": [
       {"name":"startDate", "defaultValue":["01-01-1980"]},
@@ -106,6 +112,7 @@
       {"name":"providerUuid","defaultValue":[1]},
       {"name":"formIds","defaultValue":[1]},
       {"name":"encounterTypeIds","defaultValue":[1]},
+      {"name":"visitTypeIds","defaultValue":[1]},
       {"name":"groupByMonth", "defaultValue":[
           {"label":"month","expression":"month"}
       ]
@@ -125,7 +132,8 @@
       {"expression":"t2.location_id in ?", "parameter":"locations"},
       {"expression":"t4.uuid = ?", "parameter":"providerUuid"},
       {"expression":"t2.form_id in ?", "parameter":"formIds"},
-      {"expression":"t2.encounter_type in ?", "parameter":"encounterTypeIds"}
+      {"expression":"t2.encounter_type in ?", "parameter":"encounterTypeIds"},
+      {"expression":"t7.visit_type_id in ?", "parameter":"visitTypeIds"}
   ],
   "groupClause":[
       {"parameter":"groupByLocationId"},
@@ -201,7 +209,9 @@
      {"joinType":"JOIN","schema":"amrs","tableName":"provider","alias":"t4","joinExpression":"t4.provider_id = t1.provider_id"},
      {"joinType":"JOIN","schema":"amrs","tableName":"person_name","alias":"t5","joinExpression":"t4.person_id = t5.person_id"},
      {"joinType":"JOIN","schema":"etl","tableName":"clinical_encounter_type_map","alias":"t6","joinExpression":"t6.encounter_type = t2.encounter_type"},
-     {"joinType":"JOIN","schema":"amrs","tableName":"location","alias":"t7","joinExpression":"t2.location_id = t7.location_id"}
+     {"joinType":"JOIN","schema":"amrs","tableName":"location","alias":"t7","joinExpression":"t2.location_id = t7.location_id"},
+     {"joinType":"JOIN","schema":"amrs","tableName":"visit","alias":"t8","joinExpression":"t8.visit_id = t2.visit_id"},
+     {"joinType":"JOIN","schema":"amrs","tableName":"visit_type","alias":"t9","joinExpression":"t9.visit_type_id = t8.visit_type_id"}
  ],
  "parameters": [
      {"name":"startDate", "defaultValue":["01-01-1980"]},
@@ -210,6 +220,7 @@
      {"name":"providerUuid","defaultValue":[1]},
      {"name":"formIds","defaultValue":[1]},
      {"name":"encounterTypeIds","defaultValue":[1]},
+     {"name":"visitTypeIds","defaultValue":[1]},
      {"name":"groupByProviderId", "defaultValue":[
          {"label":"provider_id","expression":"provider_id"}
      ]
@@ -229,7 +240,8 @@
      {"expression":"t2.location_id in ?", "parameter":"locations"},
      {"expression":"t4.uuid = ?", "parameter":"providerUuid"},
      {"expression":"t2.form_id in ?", "parameter":"formIds"},
-     {"expression":"t2.encounter_type in ?", "parameter":"encounterTypeIds"}
+     {"expression":"t2.encounter_type in ?", "parameter":"encounterTypeIds"},
+     {"expression":"t9.visit_type_id in ?", "parameter":"visitTypeIds"}
  ],
  "groupClause":[
      {"parameter":"groupByLocationId"},
@@ -310,7 +322,9 @@
      {"joinType":"JOIN","schema":"amrs","tableName":"person_name","alias":"t6","joinExpression":"t4.person_id = t6.person_id"},
      {"joinType":"LEFT OUTER JOIN","schema":"amrs","tableName":"provider","alias":"t9","joinExpression":"t5.person_id = t9.person_id"},
      {"joinType":"JOIN","schema":"etl","tableName":"clinical_encounter_type_map","alias":"t7","joinExpression":"t7.encounter_type = t2.encounter_type"},
-     {"joinType":"JOIN","schema":"amrs","tableName":"location","alias":"t8","joinExpression":"t2.location_id = t8.location_id"}
+     {"joinType":"JOIN","schema":"amrs","tableName":"location","alias":"t8","joinExpression":"t2.location_id = t8.location_id"},
+     {"joinType":"JOIN","schema":"amrs","tableName":"visit","alias":"t10","joinExpression":"t10.visit_id = t2.visit_id"},
+     {"joinType":"JOIN","schema":"amrs","tableName":"visit_type","alias":"t11","joinExpression":"t11.visit_type_id = t10.visit_type_id"}
 
  ],
  "parameters": [
@@ -320,6 +334,7 @@
      {"name":"providerUuid","defaultValue":[1]},
      {"name":"formIds","defaultValue":[1]},
      {"name":"encounterTypeIds","defaultValue":[1]},
+     {"name":"visitTypeIds","defaultValue":[1]},
      {"name":"creatorUuid","defaultValue":[1]},
      {"name":"groupByCreatorId", "defaultValue":[
          {"label":"creator_id","expression":"creator_id"}
@@ -341,7 +356,8 @@
      {"expression":"t4.uuid = ?", "parameter":"providerUuid"},
      {"expression":"t2.form_id in ?", "parameter":"formIds"},
      {"expression":"t2.encounter_type in ?", "parameter":"encounterTypeIds"},
-     {"expression":"t5.uuid in ?", "parameter":"creatorUuid"}
+     {"expression":"t5.uuid in ?", "parameter":"creatorUuid"},
+     {"expression":"t11.visit_type_id in ?", "parameter":"visitTypeIds"}
  ],
  "groupClause":[
      {"parameter":"groupByLocationId"},
@@ -423,7 +439,9 @@
      {"joinType":"JOIN","schema":"amrs","tableName":"encounter","alias":"t2","joinExpression":"t1.encounter_id = t2.encounter_id"},
      {"joinType":"JOIN","schema":"amrs","tableName":"encounter_type","alias":"t3","joinExpression":"t3.encounter_type_id = t2.encounter_type"},
      {"joinType":"JOIN","schema":"amrs","tableName":"provider","alias":"t4","joinExpression":"t4.provider_id = t1.provider_id"},
-     {"joinType":"JOIN","schema":"amrs","tableName":"users","alias":"t5","joinExpression":"t2.creator = t5.user_id"}
+     {"joinType":"JOIN","schema":"amrs","tableName":"users","alias":"t5","joinExpression":"t2.creator = t5.user_id"},
+     {"joinType":"JOIN","schema":"amrs","tableName":"visit","alias":"t6","joinExpression":"t6.visit_id = t2.visit_id"},
+     {"joinType":"JOIN","schema":"amrs","tableName":"visit_type","alias":"t7","joinExpression":"t7.visit_type_id = t6.visit_type_id"}
  ],
  "parameters": [
      {"name":"startDate", "defaultValue":["01-01-1980"]},
@@ -432,6 +450,7 @@
      {"name":"providerUuid","defaultValue":[1]},
      {"name":"formIds","defaultValue":[1]},
      {"name":"encounterTypeIds","defaultValue":[1]},
+     {"name":"visitTypeIds","defaultValue":[1]},
      {"name":"creatorUuid","defaultValue":[1]}
  ],
  "filters": [
@@ -441,7 +460,8 @@
      {"expression":"t4.uuid = ?", "parameter":"providerUuid"},
      {"expression":"t2.form_id in ?", "parameter":"formIds"},
      {"expression":"t2.encounter_type in ?", "parameter":"encounterTypeIds"},
-     {"expression":"t5.uuid = ?", "parameter":"creatorUuid"}
+     {"expression":"t5.uuid = ?", "parameter":"creatorUuid"},
+     {"expression":"t7.visit_type_id in ?", "parameter":"visitTypeIds"}
  ],
  "groupClause":[],
  "indicators": [],
