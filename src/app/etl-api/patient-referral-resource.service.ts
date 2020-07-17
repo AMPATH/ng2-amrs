@@ -12,81 +12,103 @@ export class PatientReferralResourceService {
   public cache;
   private requestUrl = '';
 
-  constructor(protected http: HttpClient, protected appSettingsService: AppSettingsService,
-              private cacheService: DataCacheService) {
-  }
+  constructor(
+    protected http: HttpClient,
+    protected appSettingsService: AppSettingsService,
+    private cacheService: DataCacheService
+  ) { }
 
-  public getUrl(): string {
-    return this.appSettingsService.getEtlRestbaseurl().trim() + 'patient-referrals';
-  }
+  public ETL_PREFIX = this.appSettingsService.getEtlRestbaseurl().trim();
+  public REFERRALS_PATH = this.ETL_PREFIX + 'patient-referrals';
+  public REFERRAL_PATIENT_LIST_PATH = this.ETL_PREFIX + 'referral-patient-list';
+  public REFERRAL_DETAILS_PATH = this.ETL_PREFIX + 'patient-referral-details';
+  public REFERRAL_NOTIFICATION_PATH = this.ETL_PREFIX + 'patient-referral';
 
-  public getPatientListUrl(): string {
-    return this.appSettingsService.getEtlRestbaseurl().trim()
-      + 'referral-patient-list';
-  }
-  public getReferralLocationUrl(): string {
-    return this.appSettingsService.getEtlRestbaseurl().trim()
-      + 'patient-referral-details';
-  }
+  private getUrlRequestParams(params: any): HttpParams {
+    const {
+      department,
+      startAge,
+      endAge,
+      startDate,
+      endDate,
+      gender,
+      notificationStatus,
+      locationUuids,
+      stateUuids,
+      programUuids,
+      providerUuids
+    } = params;
 
-  public getReferralNotificationUrl(): string {
-    return this.appSettingsService.getEtlRestbaseurl().trim()
-      + 'patient-referral';
-  }
-
-  public getUrlRequestParams(params): HttpParams {
     let urlParams: HttpParams = new HttpParams()
-    .set('endDate', params.endDate)
-    .set('startDate', params.startDate);
+      .set('endDate', endDate)
+      .set('startDate', startDate);
 
-    if (params.gender  && params.gender !== 'undefined') {
+    if (gender && gender !== 'undefined') {
       urlParams = urlParams.set('gender', params.gender);
     }
-    if (params.locationUuids  && params.locationUuids !== 'undefined') {
+    if (locationUuids && locationUuids !== 'undefined') {
       urlParams = urlParams.set('locationUuids', params.locationUuids);
     }
-    if (params.startAge  && params.startAge !== 'undefined') {
+    if (startAge && startAge !== 'undefined') {
       urlParams = urlParams.set('startAge', params.startAge);
     }
-    if (params.endAge  && params.endAge !== 'undefined') {
-      urlParams = urlParams.set('endAge', params.endAge);
+    if (endAge && endAge !== 'undefined') {
+      urlParams = urlParams.set('endAge', endAge);
     }
-    if (params.programUuids  && params.programUuids !== 'undefined') {
-      urlParams = urlParams.set('programUuids', params.programUuids);
+    if (programUuids && programUuids !== 'undefined') {
+      urlParams = urlParams.set('programUuids', programUuids);
     }
-    if (params.stateUuids && params.stateUuids !== 'undefined') {
-      urlParams = urlParams.set('stateUuids', params.stateUuids);
+    if (stateUuids && stateUuids !== 'undefined') {
+      urlParams = urlParams.set('stateUuids', stateUuids);
     }
-    if (params.providerUuids  && params.providerUuids !== 'undefined') {
-      urlParams = urlParams.set('providerUuids', params.providerUuids);
+    if (providerUuids && providerUuids !== 'undefined') {
+      urlParams = urlParams.set('providerUuids', providerUuids);
     }
-    if (params.notificationStatus  && params.notificationStatus !== 'undefined') {
-      urlParams = urlParams.set('notificationStatus', params.notificationStatus);
+    if (
+      notificationStatus &&
+      notificationStatus !== 'undefined'
+    ) {
+      urlParams = urlParams.set(
+        'notificationStatus',
+        notificationStatus
+      );
     }
-    // if (params.department && params.department !== 'undefined') {
-    //   urlParams = urlParams.set('department', params.department);
-    // }
+    if (department && department !== 'undefined') {
+      urlParams = urlParams.set('department', department);
+    }
     return urlParams;
   }
 
-  public updateReferralNotificationStatus(payload) {
+  private handleError(error: any) {
+    return observableThrowError(
+      error.message
+        ? error.message
+        : error.status
+          ? `${error.status} - ${error.statusText}`
+          : 'Server Error'
+    );
+  }
+
+  public updateReferralNotificationStatus(payload: any) {
     if (!payload || (payload && !payload.patient_referral_id)) {
       return null;
     }
-    const url = this.getReferralNotificationUrl() + '/' + payload.patient_referral_id;
-    const headers = new HttpHeaders({'Content-Type': 'application/json'});
-    return this.http.post(url, JSON.stringify(payload), {headers}).pipe(
-     catchError(this.handleError));
+    const url =
+      this.REFERRAL_NOTIFICATION_PATH + '/' + payload.patient_referral_id;
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    return this.http
+      .post<any>(url, JSON.stringify(payload), { headers })
+      .pipe(
+        map((response: any) => response),
+        catchError(this.handleError));
   }
 
-  public getPatientReferralReport(params) {
+  public getPatientReferralReport(params: any) {
     const urlParams = this.getUrlRequestParams(params);
-    const url: string = this.getUrl();
-    const request = this.http.get(url, { params: urlParams }).pipe(
-      map((response: Response) => {
-        // console.log('res: ', response);
-        return response;
-      }),
+    const url: string = this.REFERRALS_PATH;
+    const request = this.http.get<any>(url, { params: urlParams }).pipe(
+      map((response: Response) => response),
       catchError(this.handleError)
     );
 
@@ -95,14 +117,18 @@ export class PatientReferralResourceService {
       // clear cache after 1 minute
       const refreshCacheTime = 1 * 60 * 1000;
       this.requestUrl = key;
-      this.cache = this.cacheService.cacheSingleRequest(url, urlParams, request, refreshCacheTime);
+      this.cache = this.cacheService.cacheSingleRequest(
+        url,
+        urlParams,
+        request,
+        refreshCacheTime
+      );
     }
 
-    // this.cacheService.cacheRequest(url, urlParams, request);
     return this.cache;
   }
 
-  public getPatientReferralPatientList(params) {
+  public getPatientReferralPatientList(params: any) {
     const urlParams = this.getUrlRequestParams(params);
     if (!params.startIndex) {
       params.startIndex = '0';
@@ -111,39 +137,41 @@ export class PatientReferralResourceService {
       params.limit = '300';
     }
     urlParams.set('limit', params.limit);
-    const url = this.getPatientListUrl();
-    const request = this.http.get(url, {
-      params: urlParams
-    }).pipe(
-      map((response: any) => {
-        return response.result;
-      }));
+    const url = this.REFERRAL_PATIENT_LIST_PATH;
+    const request = this.http
+      .get<any>(url, {
+        params: urlParams,
+      })
+      .pipe(
+        map((response: any) => response.result)
+      );
 
     const key = url + '?' + urlParams.toString();
     if (key !== this.requestUrl) {
       // clear cache after 1 minute
       const refreshCacheTime = 1 * 60 * 1000;
       this.requestUrl = key;
-      this.cache = this.cacheService.cacheSingleRequest(url, urlParams, request, refreshCacheTime);
+      this.cache = this.cacheService.cacheSingleRequest(
+        url,
+        urlParams,
+        request,
+        refreshCacheTime
+      );
     }
 
-    // this.cacheService.cacheRequest(url, urlParams, request);
     return this.cache;
-
-    /*this.cacheService.cacheRequest(url, urlParams, request);
-    return request;*/
   }
 
-  public getReferralByLocationUuid(locationUuid: string, enrollmentUuid?: string) {
-    const url = this.getReferralLocationUrl()  + '/' + locationUuid + '/' + enrollmentUuid;
-    return this.http.get(url);
-  }
+  public getReferralByLocationUuid(
+    locationUuid: string,
+    enrollmentUuid?: string
+  ) {
+    const url =
+      this.REFERRAL_DETAILS_PATH + '/' + locationUuid + '/' + enrollmentUuid;
 
-  private handleError(error: any) {
-    return observableThrowError(error.message
-      ? error.message
-      : error.status
-        ? `${error.status} - ${error.statusText}`
-        : 'Server Error');
+    return this.http.get<any>(url)
+    .pipe(
+      map((response: any) => response),
+      catchError(this.handleError));
   }
 }

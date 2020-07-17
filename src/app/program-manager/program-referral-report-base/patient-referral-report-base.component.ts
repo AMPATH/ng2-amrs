@@ -128,7 +128,7 @@ export class PatientReferralBaseComponent implements OnInit {
             this.data = groupedProgramData;
           }
         }, (error) => {
-          console.log('error => ', error);
+          console.error('Error fetching referral report: ', error);
           this.isLoadingReport = false;
           this.errorMessage = error;
           this.encounteredError = true;
