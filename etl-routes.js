@@ -3077,6 +3077,12 @@ module.exports = function () {
                                     request.query.encounterTypeIds = results;
                                 }).onResolved = onResolvedPromise;
                         }
+                        if (request.query.visitTypeUuids) {
+                            dao.getIdsByUuidAsyc('amrs.visit_type', 'visit_type_id', 'uuid', request.query.visitTypeUuids,
+                                function (results) {
+                                    request.query.visitTypeIds = results;
+                                }).onResolved = onResolvedPromise;
+                        }
                         if (request.query.locationUuids) {
                             dao.getIdsByUuidAsyc('amrs.location', 'location_id', 'uuid', request.query.locationUuids,
                                 function (results) {

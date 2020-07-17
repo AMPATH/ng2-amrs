@@ -83,6 +83,7 @@ module.exports = function () {
                 countBy: 'encounter', //this gives the ability to count by either person_id or encounter_id,
                 locations: request.query.locationIds,
                 encounterTypeIds: request.query.encounterTypeIds,
+                visitTypeIds: request.query.visitTypeIds,
                 formIds: request.query.formIds,
                 creatoruuid: request.query.creatorUuid
             };
@@ -127,6 +128,10 @@ module.exports = function () {
                     {
                         "name": "encounterTypeIds",
                         "value": where.encounterTypes
+                    },
+                    {
+                        "name": "visitTypeIds",
+                        "value": where.visitTypes
                     }
                 ],
                 groupBy: request.query.groupBy || 'groupByEncounterTypeId',

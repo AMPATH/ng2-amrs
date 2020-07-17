@@ -818,6 +818,13 @@ module.exports = function () {
                 });
                 where.encounterTypes = encounterTypes;
             }
+            if (queryParams.visitTypeIds) {
+                var visitTypes = [];
+                _.each(queryParams.visitTypeIds.split(','), function (visitType) {
+                    visitTypes.push(Number(visitType));
+                });
+                where.visitTypes = visitTypes;
+            }
             if (queryParams.formIds) {
                 var formIds = [];
                 _.each(queryParams.formIds.split(','), function (formid) {
