@@ -8,11 +8,6 @@
             "name": "differentiatedCareWeightDataset",
             "version": "1.0",
             "type": "dataset_def"
-        },
-        {
-            "name": "differentiatedCareHeightDataset",
-            "version": "1.0",
-            "type": "dataset_def"
         }
     ],
     "sources": [
@@ -75,22 +70,6 @@
                 "type": "left",
                 "joinCondition": "fv.person_id = wd.person_id and fv.encounter_datetime = wd.latest_encounter_date and fv.location_id = wd.location_id"
             }
-        },
-        {
-            "dataSet": "differentiatedCareHeightDataset",
-            "alias": "hd",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "fhs.person_id = hd.person_id and fhs.location_id = hd.location_id"
-            }
-        },
-        {
-            "table": "etl.flat_vitals",
-            "alias": "fvh",
-            "join": {
-                "type": "left",
-                "joinCondition": "fvh.person_id = hd.person_id and fvh.encounter_datetime = hd.latest_encounter_date and fvh.location_id = hd.location_id"
-            }
         }
     ],
     "columns": [
@@ -104,7 +83,7 @@
             "alias": "eligible_for_dc",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(fhs.vl_1 < 401 and fhs.vl_2_date IS NOT NULL AND (TIMESTAMPDIFF(MONTH,fhs.tb_tx_start_date,date('{endDate}')) >=6 OR TIMESTAMPDIFF(MONTH,fhs.tb_tx_start_date,date('{endDate}')) IS NULL) and (timestampdiff(year,person.birthdate, date('{endDate}')) >= 20) and (TIMESTAMPDIFF(MONTH, fhs.ipt_completion_date,date('{endDate}')) >= 6 ) and (timestampdiff(month,fhs.vl_1_date,date('{endDate}')) <= 12 ) and (timestampdiff(month,fhs.arv_first_regimen_start_date, date('{endDate}')) >= 12) AND pp_dc.program_id IS NULL and DATE(fhs.prev_clinical_rtc_date_hiv) = DATE(fhs.encounter_datetime) and fhs.is_clinical_encounter = 1 and fhs.is_pregnant IS NULL and fv.weight/((fvh.height/100) * (fvh.height/100)) >= 18.5 , 1, NULL)"
+                "expression": "if(fhs.vl_1 < 401 and fhs.vl_2_date IS NOT NULL AND (TIMESTAMPDIFF(MONTH,fhs.tb_tx_start_date,date('{endDate}')) >=6 OR TIMESTAMPDIFF(MONTH,fhs.tb_tx_start_date,date('{endDate}')) IS NULL) and (timestampdiff(year,person.birthdate, date('{endDate}')) >= 20) and (TIMESTAMPDIFF(MONTH, fhs.ipt_completion_date,date('{endDate}')) >= 6 ) and (timestampdiff(month,fhs.vl_1_date,date('{endDate}')) <= 12 ) and (timestampdiff(month,fhs.arv_first_regimen_start_date, date('{endDate}')) >= 12) AND pp_dc.program_id IS NULL and DATE(fhs.prev_clinical_rtc_date_hiv) = DATE(fhs.encounter_datetime) and fhs.is_clinical_encounter = 1 and fhs.is_pregnant IS NULL and fv.weight/((fv.height/100) * (fv.height/100)) >= 18.5 , 1, NULL)"
             }
         },
         {
@@ -154,7 +133,7 @@
         {
             "type": "simple_column",
             "alias": "height",
-            "column": "fvh.height"
+            "column": "fv.height"
         },
         {
             "type": "simple_column",
@@ -169,7 +148,7 @@
         {
             "type": "simple_column",
             "alias": "bmi",
-            "column": "fv.weight/((fvh.height/100) * (fvh.height/100))"
+            "column": "fv.weight/((fv.height/100) * (fv.height/100))"
         }
     ],
     "filters": {

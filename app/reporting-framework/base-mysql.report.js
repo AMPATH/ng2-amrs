@@ -117,7 +117,7 @@ import * as lung_cancer_patient_list_template from './json-reports/lung-cancer-p
 import * as differentiated_care_program_aggregate from './json-reports/differentiated-care-program-aggregate.json';
 import * as differentiated_care_program_base from './json-reports/differentiated-care-program-base.json';
 import * as differentiated_care_weight_dataset from './json-reports/differentiated-care-weight-dataset.json'
-import * as differentiated_care_height_dataet from './json-reports/differentiated-care-height-dataset.json'
+
 // appointment adherence
 import * as appointment_adherence from './json-reports/retention-report/appointment-adherence.json';
 import * as retention_appointment_adherence_aggregate from './json-reports/retention-appointment-adherence-aggregate';
@@ -582,9 +582,7 @@ export class BaseMysqlReport {
                     resolve({
                         main: this.cloneJsonSchema(differentiated_care_program_aggregate),
                         differentiatedCareProgramBase: this.cloneJsonSchema(differentiated_care_program_base),
-                        differentiatedCareWeightDataset: this.cloneJsonSchema(differentiated_care_weight_dataset),
-                        differentiatedCareHeightDataset: this.cloneJsonSchema(differentiated_care_height_dataet)
-                    });
+                        differentiatedCareWeightDataset: this.cloneJsonSchema(differentiated_care_weight_dataset)                    });
                     break;
                 case 'surgeReport':
                     resolve({
