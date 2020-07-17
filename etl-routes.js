@@ -1360,18 +1360,14 @@ module.exports = function () {
                         if (!authorizer.hasReportAccess(request.query.reportName)) {
                             return reply(Boom.forbidden('Unauthorized'));
                         }
-
                         let requestParams = Object.assign({}, request.query, request.params);
                         requestParams.reportName = 'referralAggregate';
                         let service = new PatientReferralService();
-
-                        service.getPatientListReport2(requestParams).then((result) => {
-
+                        service.getReferralPatientListReport(requestParams).then((result) => {
                             reply(result);
                         }).catch((error) => {
                             reply(error);
                         });
-
                     },
                     description: "Get patient referral for selected clinic",
                     notes: "Returns patient referral for the selected clinic(s),start date, end date",
@@ -4567,13 +4563,11 @@ module.exports = function () {
                         if (!authorizer.hasReportAccess(request.query.reportName)) {
                             return reply(Boom.forbidden('Unauthorized'));
                         }
-
                         let requestParams = Object.assign({}, request.query, request.params);
                         requestParams.reportName = 'referral-patient-peer-navigator-list';
                         let service = new PatientReferralService();
 
-                        service.getPatientListReport3(requestParams).then((result) => {
-
+                        service.getPeerNavigatorReferralPatientList(requestParams).then((result) => {
                             reply(result);
                         }).catch((error) => {
                             reply(error);

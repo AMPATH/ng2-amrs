@@ -142,7 +142,7 @@
         {
             "type": "simple_column",
             "alias": "referral_urgency",
-            "column": "peer_navigation.referal_category"
+            "column": "peer_navigation.referal_urgency"
         },
         {
             "type": "simple_column",

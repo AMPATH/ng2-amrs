@@ -35,6 +35,8 @@ import * as ever_on_art_base from './json-reports/ever-on-art-base.json';
 import * as referral_patient_list_template from './json-reports/referral-patient-list-template.json';
 import * as referral_dataset_base from './json-reports/referral-dataset-base.json';
 import * as referral_aggregate from './json-reports/referral-aggregate.json';
+import * as referral_peer_aggregate from './json-reports/referral-peer-aggregate.json';
+import * as referral_patient_list_peer_base from './json-reports/referral-peer-base.json';
 import * as cdm_dataset_base from './json-reports/cdm/cdm-dataset-base.json';
 
 import * as starting_art_aggregation_age15 from './json-reports/starting-art-aggregation-age15.json';
@@ -133,12 +135,9 @@ import * as retention_intervention_cohort from './json-reports/retention-interve
 import * as retention_ltfu_base from './json-reports/retention-ltfu-base.json';
 import * as retention_ltfu_aggregate from './json-reports/retention-ltfu-aggregate.json';
 
-
 import * as surge_report_base from './json-reports/surge-report-base.json';
 import * as surge_report_aggregate from './json-reports/surge-report-aggregate.json';
 
-import * as referral_patient_list_peer_base from './json-reports/referral-peer-base';
-import * as referral_peer_aggregate from './json-reports/referral-peer-aggregate';
 import * as surge_daily_report_base from './json-reports/surge-daily-report-base';
 import * as surge_daily_report_aggregate from './json-reports/surge-daily-report-aggregate';
 import * as surge from './json-reports/surge-report.json';
@@ -421,6 +420,12 @@ export class BaseMysqlReport {
                         referralDatasetbase: this.cloneJsonSchema(referral_dataset_base)
                     });
                     break;
+                case 'referral-patient-peer-navigator-list':
+                    resolve({
+                        main: this.cloneJsonSchema(referral_peer_aggregate),
+                        referralDatasetbase: this.cloneJsonSchema(referral_patient_list_peer_base)
+                    });
+                    break;
                 case 'StartingARTAggregationAge15':
                     resolve({
                         main: this.cloneJsonSchema(starting_art_aggregation_age15),
@@ -588,12 +593,6 @@ export class BaseMysqlReport {
                     resolve({
                         main: this.cloneJsonSchema(surge_report_aggregate),
                         surgeReport: this.cloneJsonSchema(surge_report_base)
-                    });
-                    break;
-                case 'referral-patient-peer-navigator-list':
-                    resolve({
-                        main: this.cloneJsonSchema(referral_peer_aggregate),
-                        referralDatasetbase: this.cloneJsonSchema(referral_patient_list_peer_base)
                     });
                     break;
                 case 'surgeDailyReport':

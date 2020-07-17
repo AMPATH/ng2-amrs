@@ -1,165 +1,159 @@
 {
-    "name": "referralDataSetbase",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [],
-    "sources": [
-
-        {
-            "table": "amrs.patient_program",
-            "alias": "t3"
-        },
-        {
-            "table": "etl.flat_cdm_peer_navigation",
-            "alias": "n",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "n.person_id  = t3.patient_id"
-            }
-        },         
-        {
-            "table": "amrs.program",
-            "alias": "t5",
-            "join": {
-                "type": "INNER",
-                "joinCondition": "t3.program_id = t5.program_id"
-            }
-        },
-        {
-            "table": "amrs.location",
-            "alias": "t9",
-            "join": {
-                "type": "INNER",
-                "joinCondition": "t3.location_id = t9.location_id"
-            }
-        },
-        {
-            "table": "amrs.location",
-            "alias": "location",
-            "join": {
-                "type": "INNER",
-                "joinCondition": "n.location_id = location.location_id"
-            }
-        },
-        {
-            "table": "amrs.location",
-            "alias": "referral_location",
-            "join": {
-              "type": "INNER",
-              "joinCondition": "n.location_id = referral_location.location_id"
-            }
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "patient_id",
-            "column": "t3.patient_id"
-        },       
-        {
-            "type": "simple_column",
-            "alias": "program",
-            "column": "t5.name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "referal_urgency",
-            "column": "n.referal_urgency"
-        },
-        {
-            "type": "simple_column",
-            "alias": "initial_or_follow_up",
-            "column": "n.initial_or_follow_up"
-        },
-        {
-            "type": "simple_column",
-            "alias": "encounter_type",
-            "column": "n.encounter_type"
-        },
-        {
-            "type": "simple_column",
-            "alias": "is_referal_completed",
-            "column": "n.is_referal_completed"
-        },
-        {
-            "type": "simple_column",
-            "alias": "are_you_the_referring_or_receiving_peer",
-            "column": "n.are_you_the_referring_or_receiving_peer"
-        },
-        {
-            "type": "simple_column",
-            "alias": "referred_in_or_out",
-            "column": "n.referred_in_or_out"
-        },
-        {
-            "type": "simple_column",
-            "alias": "programUuids",
-            "column": "t5.uuid"
-        },
-        {
-            "type": "simple_column",
-            "alias": "program_id",
-            "column": "t5.program_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location",
-            "column": "t9.name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "locationUuids",
-            "column": "t9.uuid"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_id",
-            "column": "t9.location_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "referred_from",
-            "column": "location.name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "referred_to",
-            "column": "referral_location.name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "date_referred",
-            "column": "DATE_FORMAT(n.encounter_datetime, '%Y-%m-%d')"
-        }
-    ],
-    "orderBy": {
-        "orderByParam": "orderByParam",
-        "columns": []
+  "name": "referralDataSetbase",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "amrs.patient_program",
+      "alias": "t3"
     },
-    "filters": {
-        "conditionJoinOperator": "and",
-        "conditions": [
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "DATE_FORMAT(n.encounter_datetime, '%Y-%m-%d') >= ?",
-                "parameterName": "startDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "DATE_FORMAT(n.encounter_datetime, '%Y-%m-%d') <= ?",
-                "parameterName": "endDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "t9.uuid in (?)",
-                "parameterName": "locationUuids"        
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "t5.uuid in  (?)",
-                "parameterName": "programUuids"
-            }
-        ]
+    {
+      "table": "etl.patient_referral",
+      "alias": "t4",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t4.patient_program_id  = t3.patient_program_id"
+      }
+    },
+    {
+      "table": "amrs.program",
+      "alias": "t5",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "t3.program_id = t5.program_id"
+      }
+    },
+    {
+      "table": "amrs.location",
+      "alias": "t9",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "t3.location_id = t9.location_id"
+      }
+    },
+    {
+      "table": "amrs.location",
+      "alias": "location",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "t4.referred_from_location_id = location.location_id"
+      }
+    },
+    {
+      "table": "amrs.location",
+      "alias": "referral_location",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "t4.referred_to_location_id = referral_location.location_id"
+      }
+    },
+    {
+      "table": "amrs.person_attribute",
+      "alias": "pa",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t3.patient_id = pa.person_id AND (pa.voided IS NULL || pa.voided = 0) AND pa.person_attribute_type_id = 28"
+      }
     }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "patient_id",
+      "column": "t3.patient_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "program",
+      "column": "t5.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "programUuids",
+      "column": "t5.uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "program_id",
+      "column": "t5.program_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "t9.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "locationUuids",
+      "column": "t9.uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "t9.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "referred_from",
+      "column": "location.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "referred_to",
+      "column": "referral_location.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "date_referred",
+      "column": "DATE_FORMAT(t4.date_created, '%Y-%m-%d')"
+    },
+    {
+      "type": "derived_column",
+      "alias": "review_status",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if (t4.notification_status IS NULL, 'PENDING', 'DONE')"
+      }
+    }
+  ],
+  "orderBy": {
+    "orderByParam": "orderByParam",
+    "columns": [
+      {
+        "column": "t4.notification_status",
+        "order": "asc"
+      }
+    ]
+  },
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "DATE_FORMAT(t4.date_created, '%Y-%m-%d') >= ?",
+        "parameterName": "startDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "DATE_FORMAT(t4.date_created, '%Y-%m-%d') <= ?",
+        "parameterName": "endDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "t9.uuid in (?)",
+        "parameterName": "locationUuids"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "t5.uuid in  (?)",
+        "parameterName": "programUuids"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "(pa.value IS NULL || pa.value IS true)"
+      }
+    ]
+  }
 }
