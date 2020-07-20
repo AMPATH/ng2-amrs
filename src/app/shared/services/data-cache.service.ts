@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { CacheService } from 'ionic-cache';
+import { AppSettingsService } from 'src/app/app-settings/app-settings.service';
 
 @Injectable()
 export class DataCacheService {
 
-    constructor(protected cache: CacheService) {
+    constructor(protected cache: CacheService, public appSettings: AppSettingsService) {
+        this.cache.enableCache(appSettings.getCacheMode());
     }
 
     // set default cache time in seconds

@@ -10,6 +10,7 @@ export class AppSettingsService {
   public static readonly OPENMRS_SERVER_KEY = 'appSettings.openmrsServer';
   public static readonly ETL_SERVER_KEY = 'appSettings.etlServer';
   private static readonly OPENMRS_REST_SUFFIX = 'ws/rest/v1/';
+  private static readonly cacheCookie = 'cache';
   private _openmrsServer: string;
   private _etlServer: string;
 
@@ -154,5 +155,23 @@ export class AppSettingsService {
     } else {
       return this.getEtlServer() + '/';
     }
+  }
+  public getCacheMode() {
+
+    const cacheModeCookie = this.localStorageService.getItem(AppSettingsService.cacheCookie);
+    if (typeof cacheModeCookie === 'undefined') {
+      return false;
+    } else {
+      if (cacheModeCookie === 'true') {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+  }
+  public setCacheMode(mode: string): void {
+    this.localStorageService.setItem(AppSettingsService.cacheCookie,
+      mode);
   }
 }

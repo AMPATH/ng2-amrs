@@ -73,6 +73,18 @@
       </div>
     </form>
   </div>
+  <div>
+    <form>
+      <div class="form-group">
+          <label class="control-label">Cache </label>
+          <div class="checkbox">
+              <label>
+                <input type="checkbox" id="cacheMode" [(ngModel)]="disableCache"  name="disableCache" (change)="toggleCacheMode()">Enabled
+              </label>
+          </div>
+      </div>
+    </form>
+  </div>
    </div>
 
   <div class="action-buttons pull-right">

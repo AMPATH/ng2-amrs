@@ -7,6 +7,8 @@ import { CacheModule, CacheService } from 'ionic-cache';
 import { DataCacheService } from './data-cache.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
+import { AppSettingsService } from 'src/app/app-settings/app-settings.service';
+import { LocalStorageService } from 'src/app/utils/local-storage.service';
 // Load the implementations that should be tested
 
 class MockCacheStorageService {
@@ -23,6 +25,8 @@ describe('Service : DataCacheService Unit Tests', () => {
       providers: [
         CacheService,
         DataCacheService,
+        AppSettingsService,
+        LocalStorageService,
         {
           provide: CacheStorageService, useFactory: () => {
             return new MockCacheStorageService(null, null);

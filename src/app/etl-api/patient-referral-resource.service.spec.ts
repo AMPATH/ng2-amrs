@@ -27,6 +27,9 @@ class MockAppSettingsService {
   getEtlRestbaseurl() {
     return basePath;
   }
+  getCacheMode() {
+    return true;
+  }
 }
 
 const mockReportParams = {
@@ -42,7 +45,7 @@ const mockReportParams = {
   endAge: 110,
 };
 
-describe('PatientReferralResourceService', () => {
+fdescribe('PatientReferralResourceService', () => {
   let cacheService: DataCacheService;
   let patientReferralResourceService: PatientReferralResourceService;
   let httpMock: HttpTestingController;

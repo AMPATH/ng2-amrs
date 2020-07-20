@@ -7,6 +7,8 @@ import { DataCacheService } from './shared/services/data-cache.service';
 import { CacheService } from 'ionic-cache';
 import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
 import { PouchdbService } from './pouchdb-service/pouchdb.service';
+import { AppSettingsService } from './app-settings/app-settings.service';
+import { LocalStorageService } from './utils/local-storage.service';
 
 class MockCacheStorageService {
   constructor(a, b) { }
@@ -24,7 +26,7 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent
       ],
-      providers: [AppComponent, AppState, DataCacheService, CacheService,
+      providers: [AppComponent, AppState, DataCacheService, CacheService, AppSettingsService, LocalStorageService,
         {
           provide: CacheStorageService, useFactory: () => {
             return new MockCacheStorageService(null, null);
