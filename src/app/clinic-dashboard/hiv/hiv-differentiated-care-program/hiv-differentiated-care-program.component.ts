@@ -45,8 +45,11 @@ export class HivDifferentiatedCareComponent implements OnInit {
   }
 
   public dcIndicators = [
-    { name: 'Patients Eligible', value: 'eligible_for_dc' },
+    { name: 'Total Eligible', value: 'total_eligible_for_dc' },
+    { name: 'Eligible Not Enrolled', value: 'eligible_not_on_dc' },
+    { name: 'Eligible And Enrolled', value: 'eligible_and_on_dc' },
     { name: 'Patients Enrolled', value: 'enrolled_in_dc' },
+    { name: 'Enrolled Not Eligible', value: 'enrolled_not_elligible' },
     { name: 'Patients Active on DC Facility', value: 'enrolled_in_dc_active' },
     { name: 'Patients Active on DC Community', value: 'enrolled_in_dc_community' }
   ];
@@ -112,6 +115,11 @@ export class HivDifferentiatedCareComponent implements OnInit {
         headerName: 'Nearest Center',
         width: 150,
         field: 'nearest_center'
+      },
+      {
+        headerName: 'Community Group',
+        width: 160,
+        field: 'dc_group'
       }
     ];
   }
