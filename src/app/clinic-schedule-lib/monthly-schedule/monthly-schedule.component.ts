@@ -97,12 +97,11 @@ export class MonthlyScheduleBaseComponent implements OnInit, OnDestroy {
   }
 
   public filterSelected($event: any) {
-         this.getCurrentLocation();
          this.params = $event;
          if ($event.resetFilter && $event.resetFilter === true) {
            this.events = [];
          } else {
-           this.getAppointments();
+            this.getCurrentLocation();
          }
   }
 
@@ -111,7 +110,8 @@ export class MonthlyScheduleBaseComponent implements OnInit, OnDestroy {
     take(1)).subscribe((location) => {
       this.location = location;
       const params = this.params;
-      if (params && params.hasOwnProperty('programType')) {
+      if (params && params.hasOwnProperty('programType') && params.endDate !== '') {
+        console.log('params', params);
         this.getAppointments();
       }
     });

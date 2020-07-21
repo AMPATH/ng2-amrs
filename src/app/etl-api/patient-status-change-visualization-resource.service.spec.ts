@@ -14,6 +14,9 @@ class MockAppSettingsService {
   getEtlServer(): string {
     return 'https://etl.ampath.or.ke/etl';
   }
+  getCacheMode() {
+    return true;
+  }
 
 }
 

@@ -20,8 +20,10 @@ export class AppSettingsComponent implements OnInit {
   public urlType: string;
   public serverTemplates: Array<object> = this.getServerTemplates();
   public cookieKey = 'formDebug';
+  public cacheCookie = 'cache';
   public cookieVal: string;
   public hideFields: boolean;
+  public disableCache: boolean;
 
   constructor(private router: Router,
     private appSettingsService: AppSettingsService,
@@ -40,6 +42,7 @@ export class AppSettingsComponent implements OnInit {
     }
 
     this.checkDebugMode();
+    this.disableCache = this.appSettingsService.getCacheMode();
 
   }
 
@@ -155,6 +158,15 @@ export class AppSettingsComponent implements OnInit {
 
     this._cookieService.put(this.cookieKey, this.cookieVal);
   }
+
+  public toggleCacheMode() {
+    this.cookieVal = 'false';
+    if (this.disableCache) {
+      this.cookieVal = 'true';
+    }
+    this.appSettingsService.setCacheMode(this.cookieVal);
+  }
+
   public removeDebugCookie() {
 
     const isCookieSet = this.getDebugMode();
