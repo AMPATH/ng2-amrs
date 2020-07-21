@@ -1,6 +1,5 @@
 import {
-  Component, OnInit, Input, Output,
-  EventEmitter
+  Component, OnInit, Input
 } from '@angular/core';
 import { PatientListColumns } from './patient-list-columns.data';
 import { Router } from '@angular/router';
@@ -11,8 +10,8 @@ const _ = require('lodash');
   selector: 'patient-list',
   templateUrl: './patient-list.component.html'
 })
-export class PatientListComponent implements OnInit {
 
+export class PatientListComponent implements OnInit {
   @Input() public extraColumns: any;
   @Input() public overrideColumns: any;
   @Input() public data: any = [];
@@ -37,7 +36,7 @@ export class PatientListComponent implements OnInit {
   private _dataSource = new BehaviorSubject<any>({});
   constructor(
     private router: Router
-    ) {
+  ) {
   }
 
   public ngOnInit() {
@@ -101,5 +100,4 @@ export class PatientListComponent implements OnInit {
     this.router.navigate(['/patient-dashboard/patient/' + patientUuid +
       '/general/general/landing-page']);
   }
-
 }
