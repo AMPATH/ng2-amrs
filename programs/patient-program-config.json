@@ -3868,6 +3868,16 @@
         }
 
       ]
+    },
+    {
+      "uuid": "f7cadb7e-b8be-4ea4-a6ad-4578aa7d18c9",
+      "name": "BIGPIC PHONE FOLLOW UP VISIT",
+      "encounterTypes": [
+        {
+          "uuid": "0e5b24d2-b642-4c9d-b236-595dab3323cb",
+          "display": "BIGPICTELECARE"
+        }
+      ]
     }]
 
   },
