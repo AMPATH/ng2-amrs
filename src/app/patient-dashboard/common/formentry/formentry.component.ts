@@ -302,6 +302,12 @@ export class FormentryComponent implements OnInit, OnDestroy {
         this.router.navigate(['/patient-dashboard/patient/' +
         this.patient.uuid + '/general/general/group-enrollment'], {queryParams: {referral: true}});
         break;
+      case 'covidScreening':
+        this.showSuccessDialog = false;
+        this.preserveFormAsDraft = false;
+        this.router.navigate(['/patient-dashboard/patient/' +
+        this.patient.uuid + '/hiv/' + this.activeProgram + '/formentry/ab0918de-baf8-4804-86fb-2ff2d7b6943c']);
+        break;
       default:
         console.error('unknown path');
     }
