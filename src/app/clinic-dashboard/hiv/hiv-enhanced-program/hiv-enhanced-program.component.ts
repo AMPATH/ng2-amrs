@@ -20,8 +20,10 @@ export class HivEnhancedComponent implements OnInit {
   public locationUuid = '';
   public indicators;
   public activeTab = {
+    not_virally_suppressed_total: true,
     in_enhanced_care: false,
-    not_in_enhanced_care: true,
+    in_enhanced_care_active: false,
+    not_in_enhanced_care: false,
     in_enhanced_care_vl_due: false,
     mdt_form_completed: false
   };
@@ -166,7 +168,7 @@ export class HivEnhancedComponent implements OnInit {
     if (pathHasHistoricalValues) {
       this.generateReport(this.indicators, this.lowerVl, this.upperVl);
     } else {
-      this.generateReport('not_virally_suppressed_not_in_enhanced_care', this.lowerVl, this.upperVl);
+      this.generateReport('not_virally_suppressed_total', this.lowerVl, this.upperVl);
     }
   }
 
@@ -211,6 +213,10 @@ export class HivEnhancedComponent implements OnInit {
     this.resetTabs();
     const indicator = this.indicators;
     switch (indicator) {
+      case 'not_virally_suppressed_total':
+        this.activeTab.not_virally_suppressed_total = true;
+        this.sectionTittle = 'Patients eligible for Viremia Program (VL > 400)';
+        break;
       case 'not_virally_suppressed_not_in_enhanced_care':
         this.activeTab.not_in_enhanced_care = true;
         this.sectionTittle = 'Patients eligible for Viremia Program (VL > 400 but not enrolled)';
@@ -218,6 +224,10 @@ export class HivEnhancedComponent implements OnInit {
       case 'not_virally_suppressed_in_enhanced_care':
         this.activeTab.in_enhanced_care = true;
         this.sectionTittle = 'All Patients Enrolled in Viremia Program (VL > 400 and enrolled)';
+        break;
+      case 'not_virally_suppressed_in_enhanced_care_active':
+        this.activeTab.in_enhanced_care_active = true;
+        this.sectionTittle = 'All Patients Enrolled in Viremia Program (VL > 400 and enrolled) and active';
         break;
       case 'not_virally_suppressed_in_enhanced_care_vl_due':
         this.activeTab.in_enhanced_care_vl_due = true;
@@ -247,7 +257,9 @@ export class HivEnhancedComponent implements OnInit {
   private resetTabs() {
     this.sectionTittle = '';
     this.activeTab = {
+      not_virally_suppressed_total: false,
       in_enhanced_care: false,
+      in_enhanced_care_active: false,
       not_in_enhanced_care: false,
       in_enhanced_care_vl_due: false,
       mdt_form_completed: false

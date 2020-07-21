@@ -13,11 +13,17 @@
         <div class="row">
                 <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
                         <ul class="nav nav-tabs">
+                                <li class="tablink" [ngClass]="{'active': activeTab.not_virally_suppressed_total}">
+                                        <a class="btn" href="#not_virally_suppressed_total" (click)="generateReport('not_virally_suppressed_total')" data-toggle="tab">Patients Eligible</a>
+                                </li>
                                 <li class="tablink" [ngClass]="{'active': activeTab.not_in_enhanced_care}">
-                                        <a class="btn" href="#not_in_enhanced_care" (click)="generateReport('not_virally_suppressed_not_in_enhanced_care')" data-toggle="tab">Patients Eligible</a>
+                                        <a class="btn" href="#not_in_enhanced_care" (click)="generateReport('not_virally_suppressed_not_in_enhanced_care')" data-toggle="tab">Eligible Not Enrolled</a>
                                 </li>
                                 <li class="tablink" [ngClass]="{'active': activeTab.in_enhanced_care}">
-                                        <a class="btn" href="#in_enhanced_care" (click)="generateReport('not_virally_suppressed_in_enhanced_care')" data-toggle="tab">Patients Enrolled</a>
+                                        <a class="btn" href="#in_enhanced_care" (click)="generateReport('not_virally_suppressed_in_enhanced_care')" data-toggle="tab">Eligible Enrolled</a>
+                                </li>
+                                <li class="tablink" [ngClass]="{'active': activeTab.in_enhanced_care_active}">
+                                        <a class="btn" href="#in_enhanced_care_active" (click)="generateReport('not_virally_suppressed_in_enhanced_care_active')" data-toggle="tab">Enrolled Active</a>
                                 </li>
                                 <li class="tablink" [ngClass]="{'active': activeTab.in_enhanced_care_vl_due}">
                                         <a class="btn" href="#in_enhanced_care_vl_due" (click)="generateReport('not_virally_suppressed_in_enhanced_care_vl_due')" data-toggle="tab">Patients Due for Repeat 3 Months VL</a>
