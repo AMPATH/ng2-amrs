@@ -59,8 +59,8 @@ export class DataEntryStatisticsService {
       if (params.creatorUuid) {
          urlParams = urlParams.set('creatorUuid', params.creatorUuid);
       }
-      if (params.visitTypeUuid) {
-         urlParams = urlParams.set('visitTypeUuid', params.visitTypeUuid);
+      if (params.visitTypeUuids) {
+         urlParams = urlParams.set('visitTypeUuids', params.visitTypeUuids);
       }
 
 
@@ -125,8 +125,8 @@ export class DataEntryStatisticsService {
       if (payload.creatorUuid && payload.creatorUuid.length > 0) {
           param.creatorUuid = payload.creatorUuid;
       }
-      if (payload.visitTyperUuid && payload.visitTyperUuid.length > 0) {
-          param.visitTyperUuid = payload.visitTyperUuid;
+      if (payload.visitTypeUuids && payload.visitTypeUuids.length > 0) {
+          param.visitTypeUuids = payload.visitTypeUuids;
       }
 
 
