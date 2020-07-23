@@ -35,6 +35,11 @@
             "type": "simple_column",
             "alias": "next_clinical_encounter_datetime",
             "column": "next_clinical_encounter_datetime"
+        },
+        {
+            "type": "simple_column",
+            "alias": "program_id",
+            "column": "program_id"
         }
     ],
     "filters": {
