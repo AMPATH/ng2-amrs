@@ -112,6 +112,23 @@ export class HivDifferentiatedCareComponent implements OnInit {
         field: 'previous_vl_date'
       },
       {
+        headerName: 'IPT Start Date',
+        width: 160,
+        field: 'ipt_start_date'
+      },
+      {
+        headerName: 'Has Completed IPT',
+        field: 'completed_IPT',
+        width: 100,
+        cellRenderer: (column: any) => {
+          if (column.value === 1) {
+            return '<input type="checkbox" disabled="disabled" checked="checked">';
+          } else {
+            return '';
+          }
+        }
+      },
+      {
         headerName: 'Nearest Center',
         width: 150,
         field: 'nearest_center'
