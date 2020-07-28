@@ -93,7 +93,7 @@ export class HivDifferentiatedCareComponent implements OnInit {
       },
       {
         headerName: 'Latest VL',
-        width: 75,
+        width: 100,
         field: 'latest_vl'
       },
       {
@@ -103,7 +103,7 @@ export class HivDifferentiatedCareComponent implements OnInit {
       },
       {
         headerName: 'Previous VL',
-        width: 75,
+        width: 100,
         field: 'previous_vl'
       },
       {
@@ -119,7 +119,7 @@ export class HivDifferentiatedCareComponent implements OnInit {
       {
         headerName: 'Has Completed IPT',
         field: 'completed_IPT',
-        width: 100,
+        width: 160,
         cellRenderer: (column: any) => {
           if (column.value === 1) {
             return '<input type="checkbox" disabled="disabled" checked="checked">';
