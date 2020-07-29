@@ -1,41 +1,65 @@
+.modalPosition {
+  display: flex;
+  justify-content: center;
+}
 @media screen and (max-width: 640px) {
-    #search-textbox::-webkit-input-placeholder{
-      font-size:12px;
-    } 
+  #search-textbox::-webkit-input-placeholder {
+    font-size: 12px;
+  }
 }
 @media screen and (max-width: 600px) {
+  .add-relationship-dialog {
+    top: 5px !important;
+  }
+  .scroll-message {
+    display: block;
+  }
+  .modalWidth {
+    width: 580px;
+    height: 75vh;
+  }
+}
 
-  .add-relationship-dialog{
-    top:5px !important;
-   }
-  .scroll-message{
-     display: block;
-   }
-   
+@media (min-width: 601px) and (max-width: 767px){
+  .modalWidth{
+    width: 600px;
+  }
 }
 
 @media screen and (min-width: 601px) {
+  .add-relationship-dialog {
+    top: 130px !important;
+  }
+  .scroll-message {
+    display: none;
+  }
+}
 
-  .add-relationship-dialog{
-    top:130px !important;
-   }
-   .scroll-message{
-     display: none;
-   }
 
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  
+  .modalWidth{
+    width: 767px;
+  }
+  
 }
 
 #add-relationship-dialog-content{
-         max-height: 500px;
-         overflow-y: scroll;
-         padding-bottom: 15px;
+  max-height: 500px;
+  overflow-y: scroll;
+  padding-bottom: 15px;
 }
 .edit-demographics-dialog{
-    top:185px !important;
+top:185px !important;
 }
 .edit-contacts-dialog,.edit-address-dialog{
-   top:185px !important;
+top:185px !important;
 }
 .edit-identifier-dialog{
-   top:185px !important;
+top:185px !important;
+}
+
+.modalCenter {
+  width: 750px;
 }

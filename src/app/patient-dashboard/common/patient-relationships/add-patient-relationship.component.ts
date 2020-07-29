@@ -1,7 +1,7 @@
 
 import { take } from 'rxjs/operators/take';
 import {
-    Component, OnInit, Input, ViewEncapsulation
+    Component, OnInit, Input, ViewEncapsulation, AfterViewInit, ViewChild
 } from '@angular/core';
 import { PatientRelationshipTypeService } from './patient-relation-type.service';
 import * as _ from 'lodash';
@@ -11,6 +11,7 @@ import { RelationshipType } from '../../../models/relationship-type.model';
 import * as Moment from 'moment';
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
 import { Subscription } from 'rxjs';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 
 @Component({
     selector: 'add-relationship',
@@ -18,7 +19,7 @@ import { Subscription } from 'rxjs';
     styleUrls: ['./add-patient-relationship.component.css'],
     encapsulation: ViewEncapsulation.None
 })
-export class AddPatientRelationshipComponent implements OnInit {
+export class AddPatientRelationshipComponent implements OnInit, AfterViewInit {
     public display = false;
     public showSuccessAlert = false;
     public showErrorAlert = false;
@@ -38,11 +39,20 @@ export class AddPatientRelationshipComponent implements OnInit {
     };
     public showScrollMessage: false;
     private subscription: Subscription;
+    modalRef: BsModalRef;
+
+    @ViewChild('template')
+    public addRelationShipComponent;
+
 
     constructor(private patientRelationshipService: PatientRelationshipService,
         private patientRelationshipTypeService: PatientRelationshipTypeService,
         private patientService: PatientService,
-        private appFeatureAnalytics: AppFeatureAnalytics) { }
+        private appFeatureAnalytics: AppFeatureAnalytics,
+        private modalService: BsModalService) { }
+
+    ngAfterViewInit(): void {
+    }
 
     public ngOnInit(): void {
         this.getPatient();
@@ -62,6 +72,7 @@ export class AddPatientRelationshipComponent implements OnInit {
         this.hideResult = true;
         this.display = true;
         this.getRelationShipTypes();
+        this.modalRef = this.modalService.show(this.addRelationShipComponent);
     }
 
     public getRelationShipTypes(): void {
@@ -140,6 +151,7 @@ export class AddPatientRelationshipComponent implements OnInit {
                 display: ''
             }
         };
+        this.modalRef.hide();
 
     }
 
