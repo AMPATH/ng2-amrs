@@ -89,37 +89,37 @@ export class HivEnhancedComponent implements OnInit {
       {
         headerName: 'Latest Appointment',
         width: 200,
-        field: 'last_appointment'
+        field: 'last_appointment_max'
       },
       {
         headerName: 'Latest RTC Date',
         width: 150,
-        field: 'latest_rtc_date'
+        field: 'latest_rtc_date_max'
       },
       {
         headerName: 'Current Regimen',
-        width: 200,
-        field: 'cur_meds'
+        width: 230,
+        field: 'cur_arv_meds_max'
       },
       {
         headerName: 'Latest VL',
-        width: 75,
-        field: 'latest_vl'
+        width: 85,
+        field: 'vl_1_max'
       },
       {
         headerName: 'Latest VL Date',
         width: 150,
-        field: 'latest_vl_date'
+        field: 'vl_1_date_max'
       },
       {
         headerName: 'Previous VL',
-        width: 75,
-        field: 'previous_vl'
+        width: 85,
+        field: 'vl_2_max'
       },
       {
         headerName: 'Previous VL Date',
         width: 150,
-        field: 'previous_vl_date'
+        field: 'vl_2_date_max'
       },
       {
         headerName: 'Nearest Center',
@@ -130,6 +130,13 @@ export class HivEnhancedComponent implements OnInit {
   }
 
   public generateReport(indicator, lowerVl = '401', upperVl = '') {
+    if (this.lowerVl == null) {
+      lowerVl = '401'
+      upperVl = ''
+    } else {
+      lowerVl = this.lowerVl
+      upperVl = this.upperVl
+    }
     this.indicators = indicator;
     this.setActiveTab();
     this.patientData = [];
@@ -165,6 +172,14 @@ export class HivEnhancedComponent implements OnInit {
       this.viremiaFilter = path.queryParams['viremiaFilter'];
     }
 
+    if (path.queryParams['lowerVl']) {
+      this.lowerVl = path.queryParams['lowerVl'];
+    }
+
+    if (path.queryParams['upperVl']) {
+      this.upperVl = path.queryParams['upperVl'];
+    }
+
     if (pathHasHistoricalValues) {
       this.generateReport(this.indicators, this.lowerVl, this.upperVl);
     } else {
@@ -178,7 +193,9 @@ export class HivEnhancedComponent implements OnInit {
       'startDate': this.startDate.toUTCString(),
       'endDate': this.endDate.toUTCString(),
       'indicators': this.indicators,
-      'viremiaFilter': this.viremiaFilter
+      'viremiaFilter': this.viremiaFilter,
+      'lowerVl': this.lowerVl,
+      'upperVl': this.upperVl
     };
     this.location.replaceState(path.toString());
   }
@@ -215,7 +232,7 @@ export class HivEnhancedComponent implements OnInit {
     switch (indicator) {
       case 'not_virally_suppressed_total':
         this.activeTab.not_virally_suppressed_total = true;
-        this.sectionTittle = 'Patients eligible for Viremia Program (VL > 400)';
+        this.sectionTittle = 'Patients eligible for Viremia Program (VL > 400). Patients enrolled in Viremia and patients eligible but not enrolled ';
         break;
       case 'not_virally_suppressed_not_in_enhanced_care':
         this.activeTab.not_in_enhanced_care = true;
