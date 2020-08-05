@@ -131,11 +131,11 @@ export class HivEnhancedComponent implements OnInit {
 
   public generateReport(indicator, lowerVl = '401', upperVl = '') {
     if (this.lowerVl == null) {
-      lowerVl = '401'
-      upperVl = ''
+      lowerVl = '401';
+      upperVl = '';
     } else {
-      lowerVl = this.lowerVl
-      upperVl = this.upperVl
+      lowerVl = this.lowerVl;
+      upperVl = this.upperVl;
     }
     this.indicators = indicator;
     this.setActiveTab();
@@ -232,7 +232,8 @@ export class HivEnhancedComponent implements OnInit {
     switch (indicator) {
       case 'not_virally_suppressed_total':
         this.activeTab.not_virally_suppressed_total = true;
-        this.sectionTittle = 'Patients eligible for Viremia Program (VL > 400). Patients enrolled in Viremia and patients eligible but not enrolled ';
+        // tslint:disable-next-line:max-line-length
+        this.sectionTittle = 'Patients eligible for Viremia Program (VL > 400). Patients enrolled in Viremia and patients eligible but not enrolled';
         break;
       case 'not_virally_suppressed_not_in_enhanced_care':
         this.activeTab.not_in_enhanced_care = true;
