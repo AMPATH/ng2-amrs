@@ -24,6 +24,22 @@
         },
         {
             "type": "derived_column",
+            "alias": "not_virally_suppressed_total",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(distinct concat(ehp.not_virally_suppressed_total, ehp.person_id))"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "not_virally_suppressed_in_enhanced_care_active",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(distinct concat(ehp.not_virally_suppressed_in_enhanced_care_active, ehp.person_id))"
+            }
+        },
+        {
+            "type": "derived_column",
             "alias": "not_virally_suppressed_not_in_enhanced_care",
             "expressionType": "simple_expression",
             "expressionOptions": {

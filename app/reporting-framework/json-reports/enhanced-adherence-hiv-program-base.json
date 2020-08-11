@@ -59,6 +59,14 @@
                 "type": "LEFT",
                 "joinCondition": "pp.patient_id = fhs.person_id AND pp.program_id = 27  and  (pp.date_completed is null || date(pp.date_completed) <= date('{startDate}'))"
             }
+        },
+        {
+            "table": "amrs.encounter_type",
+            "alias": "aet",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "latest_clinical_encounter.encounter_type = aet.encounter_type_id"
+            }
         }
     ],
     "columns": [
@@ -66,6 +74,22 @@
             "type": "simple_column",
             "alias": "person_id",
             "column": "fhs.person_id"
+        },
+        {
+            "type": "derived_column",
+            "alias": "not_virally_suppressed_total",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": " IF(program_id IS NULL or pp.program_id = 27, 1, NULL)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "not_virally_suppressed_in_enhanced_care_active",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "IF(pp.program_id = 27 AND TIMESTAMPDIFF(DAY, latest_clinical_encounter.rtc_date,'{endDate}') <= 28, 1, NULL)"
+            }
         },
         {
             "type": "derived_column",
@@ -88,7 +112,7 @@
             "alias": "not_virally_suppressed_in_enhanced_care_vl_due",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "IF(program_id = 27 AND TIMESTAMPDIFF(DAY, fhs.vl_1_date,'{endDate}') > 90, 1 ,NULL)"
+                "expression": "IF(program_id = 27 AND TIMESTAMPDIFF(DAY, latest_clinical_encounter.vl_1_date,'{endDate}') > 90, 1 ,NULL)"
             }
         },
         {
@@ -101,18 +125,43 @@
         },
         {
             "type": "simple_column",
-            "alias": "vl_1",
-            "column": "fhs.vl_1"
+            "alias": "vl_1_max",
+            "column": "latest_clinical_encounter.vl_1"
         },
         {
             "type": "simple_column",
-            "alias": "vl_1_date",
-            "column": "fhs.vl_1_date"
+            "alias": "vl_1_date_max",
+            "column": "date_format(latest_clinical_encounter.vl_1_date, '%d-%m-%Y')"
         },
         {
             "type": "simple_column",
-            "alias": "cur_arv_meds",
-            "column": "fhs.cur_arv_meds"
+            "alias": "vl_2_max",
+            "column": "latest_clinical_encounter.vl_2"
+        },
+        {
+            "type": "simple_column",
+            "alias": "vl_2_date_max",
+            "column": "date_format(latest_clinical_encounter.vl_2_date, '%d-%m-%Y')"
+        },
+        {
+            "type": "simple_column",
+            "alias": "cur_arv_meds_max",
+            "column": "latest_clinical_encounter.cur_arv_meds"
+        },
+        {
+            "type": "simple_column",
+            "alias": "days_since_rtc",
+            "column": "TIMESTAMPDIFF(DAY, latest_clinical_encounter.rtc_date,'{endDate}')"
+        },
+        {
+            "type": "simple_column",
+            "alias": "last_appointment_max",
+            "column": "CONCAT(COALESCE(DATE_FORMAT(latest_clinical_encounter.encounter_datetime, '%Y-%m-%d'),''),' ',COALESCE(aet.name, ''))"
+        },
+        {
+            "type": "simple_column",
+            "alias": "latest_rtc_date_max",
+            "column": "date_format(latest_clinical_encounter.rtc_date, '%d-%m-%Y')"
         }
     ],
     "filters": {
@@ -120,27 +169,27 @@
         "conditions": [
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "date(fhs.encounter_datetime) >= ?",
+                "conditionExpression": "date(latest_clinical_encounter.encounter_datetime) >= ?",
                 "parameterName": "startDate"
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "date(fhs.encounter_datetime) <= ?",
+                "conditionExpression": "date(latest_clinical_encounter.encounter_datetime) <= ?",
                 "parameterName": "endDate"
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "fhs.location_uuid in (?)",
+                "conditionExpression": "latest_clinical_encounter.location_uuid in (?)",
                 "parameterName": "locationUuids"
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "fhs.vl_1 >= ?",
+                "conditionExpression": "latest_clinical_encounter.vl_1 >= ?",
                 "parameterName": "lower_vl"
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "fhs.vl_1 <= ?",
+                "conditionExpression": "latest_clinical_encounter.vl_1 <= ?",
                 "parameterName": "upper_vl"
             },
             {

@@ -37,7 +37,7 @@
             "alias": "fh",
             "join": {
                 "type": "LEFT",
-                "joinCondition": "t1.person_id = fh.person_id AND fh.next_clinical_location_id IS NULL AND fh.encounter_type NOT IN (99999)"
+                "joinCondition": "t1.person_id = fh.person_id AND fh.next_clinical_location_id IS NULL AND fh.encounter_type NOT IN (99999, 21)"
             }
         },
         {
