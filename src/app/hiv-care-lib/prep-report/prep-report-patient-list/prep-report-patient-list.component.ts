@@ -1,52 +1,44 @@
-import { Component, OnInit } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { PrepReportPatientListComponent } from './prep-report-patient-list.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { AppSettingsService } from 'src/app/app-settings/app-settings.service';
+import { LocalStorageService } from 'src/app/utils/local-storage.service';
+import { RouterTestingModule } from '@angular/router/testing';
+import { routes } from 'src/app/clinic-dashboard/clinic-dashboard.routes';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ClinicDashboardComponent } from 'src/app/clinic-dashboard/clinic-dashboard.component';
 import { PrepResourceService } from 'src/app/etl-api/prep-resource.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Location } from '@angular/common';
-@Component({
-  selector: 'app-prep-report-patient-list',
-  templateUrl: './prep-report-patient-list.component.html',
-  styleUrls: ['./prep-report-patient-list.component.css']
-})
-export class PrepReportPatientListComponent implements OnInit {
-  public params: any;
-  public patientData: any;
-  public extraColumns: Array<any> = [];
-  public isLoading = true;
-  public overrideColumns: Array<any> = [];
-  public selectedIndicator: string;
-  public hasLoadedAll = false;
-  public hasError = false;
+import { SurgeResourceServiceMock } from 'src/app/etl-api/surge-resource-mock';
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private _location: Location,
-    public prepResource: PrepResourceService
-  ) {}
+describe('PrepReportPatientListComponent', () => {
+  let component: PrepReportPatientListComponent;
+  let fixture: ComponentFixture<PrepReportPatientListComponent>;
 
-  ngOnInit() {
-    this.route.queryParams.subscribe(
-      (params) => {
-        if (params && params.month) {
-          this.params = params;
-          this.selectedIndicator = params.indicatorHeader;
-          this.getPatientList(params);
-        }
-      },
-      (error) => {
-        console.error('Error', error);
-      }
-    );
-  }
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [ PrepReportPatientListComponent, ClinicDashboardComponent ],
+      providers: [
+        // { provide: PrepResourceService, useClass: PrepResouceServiceMock },
+        AppSettingsService,
+        LocalStorageService
+      ],
+      imports: [
+        RouterTestingModule.withRoutes(routes),
+        HttpClientTestingModule
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    })
+    .compileComponents();
+  }));
 
-  private getPatientList(params: any) {
-    this.prepResource.getPrepPatientList(params).subscribe((data) => {
-      this.isLoading = false;
-      this.patientData = data.result;
-      this.hasLoadedAll = true;
-    });
-  }
-  public goBack() {
-    this._location.back();
-  }
-}
+  beforeEach(() => {
+    fixture = TestBed.createComponent(PrepReportPatientListComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
