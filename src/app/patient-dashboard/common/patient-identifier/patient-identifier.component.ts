@@ -30,7 +30,5 @@ export class PatientIdentifierComponent implements OnInit {
   constructor() {
   }
 
-  public ngOnInit() {
-
-  }
+  public ngOnInit() { }
 }

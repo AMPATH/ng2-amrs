@@ -31,9 +31,10 @@
             <span class="id-label">CCC:</span>
             <span>{{searchIdentifiers?.cCC}}</span>
           </span>
-          <span *ngIf="!searchIdentifiers?.cCC" style="color: darkorange; border: 1px solid darkorange; padding-left: 4px; padding-top: 2px; padding-bottom: 2px; padding-right: 0px;">
-            <span class="glyphicon glyphicon-info-sign"></span>
-            <span style="margin-left: -5px;">CCC: Not Assigned</span>
+          <span *ngIf="!searchIdentifiers?.cCC" (click)="identifiers.showDialog('add', patient?._identifier,true)"
+                style="color: darkorange; border: 1px solid darkorange; padding-left: 4px; padding-top: 2px; padding-bottom: 2px; padding-right: 0px; cursor: pointer;">
+              <span class="glyphicon glyphicon-info-sign"></span>
+              <span style="margin-left: -5px;">CCC: Not Assigned</span>
           </span>
         </span>
         <span *ngIf="searchIdentifiers?.ampathMrsUId"> <span class="id-label">MUI:</span>
@@ -55,6 +56,10 @@
             aria-labelledby="relationship-link">
             <li *ngFor="let relationship of relationships">
               <a class="dropdown-item" (click)="openRelationshipModal(template,relationship)">{{relationship.display}} ({{ relationship?.relationshipType  }})</a>
+            </li>
+            <li class="divider"></li>
+            <li style="cursor: pointer;">
+              <a (click)="addRelationship.showDialog()" class="dropdown-item"><i class="fa fa-plus"></i> Add</a>
             </li>
           </ul>
         </div>
@@ -93,9 +98,10 @@
             <span class="id-label">CCC:</span>
             <span>{{searchIdentifiers?.cCC}}</span>
           </span>
-          <span *ngIf="!searchIdentifiers?.cCC" style="color: darkorange; border: 1px solid darkorange; padding-left: 4px; padding-top: 2px; padding-bottom: 2px; padding-right: 0px;">
-            <span class="glyphicon glyphicon-info-sign"></span>
-            <span style="margin-left: -5px;">CCC: Not Assigned</span>
+          <span *ngIf="!searchIdentifiers?.cCC" (click)="identifiers.showDialog('add', patient?._identifier,true)"
+                style="color: darkorange; border: 1px solid darkorange; padding-left: 4px; padding-top: 2px; padding-bottom: 2px; padding-right: 0px; cursor: pointer;">
+              <span class="glyphicon glyphicon-info-sign"></span>
+              <span style="margin-left: -5px;">CCC: Not Assigned</span>
           </span>
         </span>
         <span *ngIf="searchIdentifiers?.ampathMrsUId"> <span class="id-label">MUI:</span>
@@ -117,6 +123,10 @@
           aria-labelledby="relationship-link">
           <li *ngFor="let relationship of relationships">
             <a class="dropdown-item" (click)="openRelationshipModal(template,relationship)">{{relationship.display}} ({{ relationship?.relationshipType  }})</a>
+          </li>
+          <li class="divider"></li>
+          <li style="cursor: pointer;">
+            <a (click)="addRelationship.showDialog()" class="dropdown-item"><i class="fa fa-plus"></i> Add</a>
           </li>
         </ul>
       </div>
@@ -193,3 +203,6 @@
     </div>
 </div>
 <div class="margin-bottom-5 clear clear-fix">&nbsp;</div>
+
+<add-relationship #addRelationship></add-relationship>
+<edit-identifiers #identifiers></edit-identifiers>
