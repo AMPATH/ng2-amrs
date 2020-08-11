@@ -45,8 +45,11 @@ export class HivDifferentiatedCareComponent implements OnInit {
   }
 
   public dcIndicators = [
-    { name: 'Patients Eligible', value: 'eligible_for_dc' },
+    { name: 'Total Eligible', value: 'total_eligible_for_dc' },
+    { name: 'Eligible Not Enrolled', value: 'eligible_not_on_dc' },
+    { name: 'Eligible And Enrolled', value: 'eligible_and_on_dc' },
     { name: 'Patients Enrolled', value: 'enrolled_in_dc' },
+    { name: 'Enrolled Not Eligible', value: 'enrolled_not_elligible' },
     { name: 'Patients Active on DC Facility', value: 'enrolled_in_dc_active' },
     { name: 'Patients Active on DC Community', value: 'enrolled_in_dc_community' }
   ];
@@ -90,7 +93,7 @@ export class HivDifferentiatedCareComponent implements OnInit {
       },
       {
         headerName: 'Latest VL',
-        width: 75,
+        width: 100,
         field: 'latest_vl'
       },
       {
@@ -100,7 +103,7 @@ export class HivDifferentiatedCareComponent implements OnInit {
       },
       {
         headerName: 'Previous VL',
-        width: 75,
+        width: 100,
         field: 'previous_vl'
       },
       {
@@ -109,9 +112,31 @@ export class HivDifferentiatedCareComponent implements OnInit {
         field: 'previous_vl_date'
       },
       {
+        headerName: 'IPT Start Date',
+        width: 160,
+        field: 'ipt_start_date'
+      },
+      {
+        headerName: 'Has Completed IPT',
+        field: 'completed_IPT',
+        width: 160,
+        cellRenderer: (column: any) => {
+          if (column.value === 1) {
+            return '<input type="checkbox" disabled="disabled" checked="checked">';
+          } else {
+            return '';
+          }
+        }
+      },
+      {
         headerName: 'Nearest Center',
         width: 150,
         field: 'nearest_center'
+      },
+      {
+        headerName: 'Community Group',
+        width: 160,
+        field: 'dc_group'
       }
     ];
   }
