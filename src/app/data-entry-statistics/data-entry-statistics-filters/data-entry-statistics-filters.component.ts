@@ -372,17 +372,22 @@ export class DataEntryStatisticsFiltersComponent
       const visitTypes = program.visitTypes;
       _.each(visitTypes, (visitType) => {
           const encounterTypes = visitType.encounterTypes;
-          const specificVisitType = {
-            'id': visitType.uuid,
-            'itemName': this.visitNamesMap.get(visitType.uuid)
-          };
-          this.visitMap.set(visitType.uuid, specificVisitType);
-          this.visitEncounterMap.set(visitType.uuid, encounterTypes);
-          visitTypesArray.push(specificVisitType);
-          this.processEncounterTypes(encounterTypes);
+          const visitName = this.visitNamesMap.get(visitType.uuid);
+          if (visitName) {
+
+            const specificVisitType = {
+              'id': visitType.uuid,
+              'itemName': this.visitNamesMap.get(visitType.uuid)
+            };
+            this.visitMap.set(visitType.uuid, specificVisitType);
+            this.visitEncounterMap.set(visitType.uuid, encounterTypes);
+            visitTypesArray.push(specificVisitType);
+            this.processEncounterTypes(encounterTypes);
+
+          }
       });
     });
-    this.visitTypes = visitTypesArray;
+    this.visitTypes = _.uniqBy(visitTypesArray, 'id');
 
   }
   public creatorSelect($event) {
