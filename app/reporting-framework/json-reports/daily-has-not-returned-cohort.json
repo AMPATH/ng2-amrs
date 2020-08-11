@@ -24,7 +24,7 @@
         {
             "type": "simple_column",
             "alias": "latest_rtc_date",
-            "column": "rtc_date"
+            "column": "scheduled_date"
         },
         {
             "type": "simple_column",

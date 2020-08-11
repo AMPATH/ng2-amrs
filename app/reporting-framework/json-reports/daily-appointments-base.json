@@ -80,28 +80,33 @@
         {
             "type": "simple_column",
             "alias": "scheduled_date",
-            "column": "date_format(t2.rtc_date,'%Y-%m-%d')"
+            "column": "date_format(t2.scheduled_date,'%Y-%m-%d')"
         },
         {
             "type": "derived_column",
             "alias": "patients",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(DATE_FORMAT(t2.rtc_date, '%Y-%m-%d') = '{startDate}' OR DATE_FORMAT(t2.med_pickup_rtc_date, '%Y-%m-%d') = '{startDate}',1,null)"
+                "expression": "if(DATE_FORMAT(t2.scheduled_date, '%Y-%m-%d') = '{startDate}',1,null)"
             }
         }
     ],
+    "indexDirectives": [
+        {
+          "type": "force",
+          "indexList": ["location_med_pickup_rtc_date"]
+        }],
     "filters": {
         "conditionJoinOperator": "and",
         "conditions": [
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "date(t2.rtc_date) >= '{startDate}' OR date(t2.med_pickup_rtc_date) >= '{startDate}'",
+                "conditionExpression": "date(t2.scheduled_date) >= '{startDate}'",
                 "parameterName": "startDate"
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "date(t2.rtc_date) <= '{startDate}' OR date(t2.med_pickup_rtc_date) <= '{startDate}'",
+                "conditionExpression": "date(t2.scheduled_date) <= '{endDate}'",
                 "parameterName": "endDate"
             },
             {
@@ -131,7 +136,7 @@
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "((t2.next_encounter_type<>116  OR  t2.next_encounter_type is null )   OR t2.rtc_date >= t2.next_encounter_datetime)",
+                "conditionExpression": "((t2.next_encounter_type<>116  OR  t2.next_encounter_type is null )   OR t2.scheduled_date >= t2.next_encounter_datetime)",
                 "parameterName": ""
             },
             {
@@ -141,7 +146,7 @@
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "fhs.transfer_out_location_id IS NULL",
+                "conditionExpression": "fhs.transfer_out_location_id IS NULL or fhs.transfer_out_location_id <> 9999",
                 "parameterName": ""
             }
         ]
