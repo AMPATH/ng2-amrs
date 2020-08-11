@@ -32,8 +32,8 @@
         "conditions": [
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "t1.height IS NOT NULL AND DATE(encounter_datetime) <= '{endDate}' and location_id in ?",
-                "parameterName": "locationIds"
+                "conditionExpression": "t1.height IS NOT NULL AND DATE(encounter_datetime) <= '{endDate}'",
+                "parameterName": ""
             }
         ]
     },

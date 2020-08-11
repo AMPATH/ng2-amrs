@@ -24,10 +24,34 @@
         },
         {
             "type": "derived_column",
-            "alias": "eligible_for_dc",
+            "alias": "total_eligible_for_dc",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "count(distinct concat(dcp.eligible_for_dc, dcp.person_id))"
+                "expression": "count(distinct concat(dcp.total_eligible_for_dc, dcp.person_id))"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "eligible_not_on_dc",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(distinct concat(dcp.eligible_not_on_dc, dcp.person_id))"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "eligible_and_on_dc",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(distinct concat(dcp.eligible_and_on_dc, dcp.person_id))"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "enrolled_not_elligible",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(distinct concat(dcp.enrolled_not_elligible, dcp.person_id))"
             }
         },
         {
