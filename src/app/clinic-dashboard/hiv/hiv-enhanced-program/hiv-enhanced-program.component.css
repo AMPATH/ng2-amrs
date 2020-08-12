@@ -1,19 +1,26 @@
+
 .nav-tabs {
-    overflow-x: auto;
+    white-space: nowrap;
+    overflow-x: scroll;
     overflow-y: hidden;
     display: -webkit-box;
     display: -moz-box;
+    -webkit-overflow-scrolling: touch;
 }
 
 .tablink {
     display: inline-block;
     background-color: white;
-    float: left;
     border: none;
     outline: none;
     cursor: pointer;
     font-size: 17px;
     width: 25%;
+
+    float: none;
+    margin-left: 0.25%;
+    zoom: 1
+    
 }
 
 .tablink.active {

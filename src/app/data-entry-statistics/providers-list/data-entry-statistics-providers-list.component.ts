@@ -84,6 +84,7 @@ export class DataEntryStatisticsProviderListComponent
           const patientListParams = {
              'providerUuid': column.data.providerUuid,
              'locationUuids': column.data.locationUuid,
+             'visitTypeUuids': this.params.visitTypeUuids,
              'startDate': this.params.startDate,
              'endDate': this.params.endDate
              };
@@ -106,6 +107,7 @@ export class DataEntryStatisticsProviderListComponent
              'providerUuid': column.data.providerUuid,
              'locationUuids': this.params.locationUuids,
              'encounterTypeUuids': column.data.clinicalEncounters,
+             'visitTypeUuids': this.params.visitTypeUuids,
              'startDate': this.params.startDate,
              'endDate': this.params.endDate
              };
@@ -141,6 +143,7 @@ export class DataEntryStatisticsProviderListComponent
                     const patientListParams = {
                        'providerUuid': column.data.providerUuid,
                        'encounterTypeUuids': encounterTypeUuid,
+                       'visitTypeUuids': this.params.visitTypeUuids,
                        'locationUuids': column.data.locationUuid,
                        'startDate': this.params.startDate,
                        'endDate':  this.params.endDate

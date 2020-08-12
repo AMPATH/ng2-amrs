@@ -79,6 +79,7 @@ export class DataEntryStatisticsCreatorsListComponent
           const patientListParams = {
             'creatorUuid': column.data.creatorUuid,
             'locationUuids': column.data.locationUuid,
+            'visitTypeUuids': this.params.visitTypeUuids,
             'startDate': this.params.startDate,
             'endDate': this.params.endDate
           };
@@ -101,6 +102,7 @@ export class DataEntryStatisticsCreatorsListComponent
             'creatorUuid': column.data.creatorUuid,
             'locationUuids': column.data.locationUuid,
             'encounterTypeUuids': column.data.clinicalEncounters,
+            'visitTypeUuids': this.params.visitTypeUuids,
             'startDate': this.params.startDate,
             'endDate': this.params.endDate
           };
@@ -133,6 +135,7 @@ export class DataEntryStatisticsCreatorsListComponent
               const patientListParams = {
                 'creatorUuid': column.data.creatorUuid,
                 'encounterTypeUuids': encounterTypeUuid,
+                'visitTypeUuids': this.params.visitTypeUuids,
                 'locationUuids': column.data.locationUuid,
                 'startDate': this.params.startDate,
                 'endDate': this.params.endDate
