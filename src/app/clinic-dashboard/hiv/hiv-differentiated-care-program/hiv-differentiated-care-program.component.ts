@@ -222,8 +222,8 @@ export class HivDifferentiatedCareComponent implements OnInit {
     if (data.length > 0) {
       const patients = this.sortData(data);
       patients.forEach(patient => {
-        patientArray.push(patient)
-      })
+        patientArray.push(patient);
+      });
     }
     return patientArray;
   }
@@ -252,14 +252,14 @@ export class HivDifferentiatedCareComponent implements OnInit {
     }
   }
 
-  private loadMorePatients() {
+  public loadMorePatients() {
     this.startIndex += 300;
     this.generateReport();
   }
 
   private resetStartIndex() {
     this.startIndex = 0;
-    this.patientData  = []
+    this.patientData  = [];
   }
 
 }

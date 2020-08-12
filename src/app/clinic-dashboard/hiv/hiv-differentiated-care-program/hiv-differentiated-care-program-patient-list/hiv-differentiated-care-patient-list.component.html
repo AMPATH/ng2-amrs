@@ -4,7 +4,7 @@
 <div *ngIf='!hasLoadedAll'>
     <div class="button">
         <button class="btn btn-primary" [ladda]='isLoading' data-size="xs" data-color="blue"
-            (click)="onClickLoadMore.emit()">
+            (click)='loadMore.emit()'>
             <span class=""></span>Load More...</button>
     </div>
 </div>
@@ -14,8 +14,4 @@
             <span style="color:green;" class="glyphicon glyphicon-ok">All records loaded
                 {{ patientData?.length }}</span></b>
     <p>
-</div>
-
-<div *ngIf="hasError">
-    <p class="alert-error alert">Error loading patient list.</p>
 </div>

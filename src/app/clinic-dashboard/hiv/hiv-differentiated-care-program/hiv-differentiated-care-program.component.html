@@ -54,7 +54,7 @@
 			<div class="tab-content">
 				<div class="tab-pane fade in active">
 					<h4 class="center">{{ indicatorName }}</h4>
-					<app-hiv-differentiated-care-patient-list [patientData]="patientData" (onClickLoadMore)="loadMorePatients()"
+					<app-hiv-differentiated-care-patient-list [patientData]="patientData" (loadMore)="loadMorePatients()"
 						[isLoadingPatientList]="isLoadingPatientList" [hasLoadedAll]="hasLoadedAll" [extraColumns]="extraColumns()">
 					</app-hiv-differentiated-care-patient-list>
 				</div>

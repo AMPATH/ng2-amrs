@@ -15,7 +15,7 @@ export class HivDifferentiatedCarePatientListComponent implements OnInit {
   @Input() public extraColumns: any;
   @Input() public hasLoadedAll  = false;
 
-  @Output() onClickLoadMore = new EventEmitter()
+  @Output() loadMore = new EventEmitter();
 
   constructor() {}
 
