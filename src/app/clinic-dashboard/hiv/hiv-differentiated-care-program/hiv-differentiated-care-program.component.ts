@@ -14,7 +14,7 @@ import { HivDifferentiatedCareResourceService } from '../../../etl-api/hiv-diffe
 export class HivDifferentiatedCareComponent implements OnInit {
 
   public title = 'HIV Differentiated Care Program Reports';
-  public patientData: any;
+  public patientData: Array<any> = [];
   public isLoadingPatientList = false;
   public locationUuid = '';
   public indicators: string;
@@ -27,6 +27,9 @@ export class HivDifferentiatedCareComponent implements OnInit {
   public filterCollapsed = false;
   public parentIsBusy = false;
   public missingField = false;
+  public hasLoadedAll = false;
+  public limit = 300;
+  public startIndex = 0;
 
   public get startDateString(): string {
     return this.startDate ? Moment(this.startDate).format('YYYY-MM-DD') : null;
@@ -144,6 +147,7 @@ export class HivDifferentiatedCareComponent implements OnInit {
   public generateReport() {
     this.loadingError = false;
     this.missingField = false;
+    const currentPatients = this.patientData;
     this.patientData = [];
     if (this.indicators && this.startDate && this.endDate && this.locationUuid) {
       const reportSelected = _.find(this.dcIndicators, { value: this.indicators });
@@ -151,9 +155,10 @@ export class HivDifferentiatedCareComponent implements OnInit {
       this.storeReportParamsInUrl();
       this.isLoadingPatientList = true;
       this.hivDifferentiatedCareResourceService.getPatientList(this.toDateString(this.startDate),
-        this.toDateString(this.endDate), this.locationUuid, this.indicators).take(1).subscribe((data) => {
-          this.patientData = this.sortData(data.results.results);
+        this.toDateString(this.endDate), this.locationUuid, this.indicators, this.startIndex, this.limit).take(1).subscribe((data) => {
+          this.patientData = this.appendData(currentPatients, data.results.results);
           this.isLoadingPatientList = false;
+          this.checkOrderLimit(data.results.results.length);
         }, (err) => {
           this.isLoadingPatientList = false;
           this.loadingError = true;
@@ -213,13 +218,48 @@ export class HivDifferentiatedCareComponent implements OnInit {
 
   }
 
+  private appendData(patientArray, data) {
+    if (data.length > 0) {
+      const patients = this.sortData(data);
+      patients.forEach(patient => {
+        patientArray.push(patient)
+      })
+    }
+    return patientArray;
+  }
+
   public onIndicatorChange() {
+    this.resetStartIndex();
     this.indicators = this.selectedIndicator;
+  }
+
+  public onEndDateChange(event) {
+    this.resetStartIndex();
+  }
+
+  public onStartDateChange(event) {
+    this.resetStartIndex();
   }
 
   private toDateString(date: Date): string {
     return Moment(date).utcOffset('+03:00').format();
   }
 
+  public checkOrderLimit(resultCount: number): void {
+    this.hasLoadedAll = false;
+    if (resultCount < this.limit) {
+      this.hasLoadedAll = true;
+    }
+  }
+
+  private loadMorePatients() {
+    this.startIndex += 300;
+    this.generateReport();
+  }
+
+  private resetStartIndex() {
+    this.startIndex = 0;
+    this.patientData  = []
+  }
 
 }

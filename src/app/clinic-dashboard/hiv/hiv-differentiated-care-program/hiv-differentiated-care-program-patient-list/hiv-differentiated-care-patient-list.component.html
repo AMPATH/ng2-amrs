@@ -1,3 +1,21 @@
-<div class="loader" *ngIf="isLoadingPatientList"><span><i class="fa fa-spinner fa-spin"></i>Loading Patient List...</span></div>
+<div class="loader" *ngIf="isLoadingPatientList"><span><i class="fa fa-spinner fa-spin"></i>Loading Patient
+        List...</span></div>
 <patient-list [data]="patientData" [extraColumns]="extraColumns"></patient-list>
-<p>Total Patients: <span class="badge">{{ patientData?.length }}</span></p>
+<div *ngIf='!hasLoadedAll'>
+    <div class="button">
+        <button class="btn btn-primary" [ladda]='isLoading' data-size="xs" data-color="blue"
+            (click)="onClickLoadMore.emit()">
+            <span class=""></span>Load More...</button>
+    </div>
+</div>
+<div *ngIf='hasLoadedAll'>
+    <p class="bg-info" style="padding:4px;">
+        <b>
+            <span style="color:green;" class="glyphicon glyphicon-ok">All records loaded
+                {{ patientData?.length }}</span></b>
+    <p>
+</div>
+
+<div *ngIf="hasError">
+    <p class="alert-error alert">Error loading patient list.</p>
+</div>
