@@ -4501,6 +4501,8 @@ module.exports = function () {
                                     let locationUuids = request.query.locationUuids.split(',')
                                     requestParams.startDate = requestParams.startDate.split('T')[0];
                                     requestParams.endDate = requestParams.endDate.split('T')[0];
+                                    requestParams.limitParam = requestParams.limit;
+                                    requestParams.offSetParam = requestParams.startIndex;
                                     let indicators = [];
                                     if (requestParams.indicators) {
                                         indicators = requestParams.indicators.split(',');
