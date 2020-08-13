@@ -239,8 +239,12 @@ function newViralLoadPresent(data) {
 function pendingViralLoadLabResult(eidResults) {
     // console.log('EID Results', eidResults);
     let incompleteResult = eidResults.find((result)=>{
-        if(result.sample_status){
-            return result.sample_status === 'Incomplete';
+        if(result){
+            if(result.sample_status){
+                return result.sample_status === 'Incomplete';
+            }
+        }else{
+            console.error('EID Result undefined error', result);
         }
         });
   let reminders = [];
