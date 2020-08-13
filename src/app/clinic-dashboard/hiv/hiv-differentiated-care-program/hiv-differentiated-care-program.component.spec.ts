@@ -58,7 +58,7 @@ describe('HivDifferentiatedCareComponent Tests', () => {
 
     it('should have required properties', () => {
         expect(component.isLoadingPatientList).toBe(false);
-        expect(component.patientData).toBeUndefined();
+        expect(component.patientData.length).toBe(0);
         expect(component.indicators).toBeUndefined();
         expect(component.title).toBeDefined();
         expect(component.locationUuid).toBeDefined();
