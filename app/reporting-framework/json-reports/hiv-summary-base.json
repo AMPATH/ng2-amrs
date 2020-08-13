@@ -61,7 +61,7 @@
             "alias": "on_tdf_3tc_efv_400",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "IF(fhs.cur_arv_meds REGEXP '(802.*633.*628)|(802.*628.*633)|(628.*802.*633)|(628.*633.*802)|(633.*802.*628)|(633.*628.*802)' AND fhs.cur_arv_drugs REGEXP '(1088.*598)', 1, NULL) "
+                "expression": "IF(fhs.cur_arv_meds REGEXP '(802.*633.*628)|(802.*628.*633)|(628.*802.*633)|(628.*633.*802)|(633.*802.*628)|(633.*628.*802)' AND fhs.cur_arv_drugs LIKE '%6964=598%', 1, NULL) "
             }
         },
         {
@@ -69,7 +69,7 @@
             "alias": "on_tdf_3tc_efv_600",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "IF(fhs.cur_arv_meds REGEXP '(802.*633.*628)|(802.*628.*633)|(628.*802.*633)|(628.*633.*802)|(633.*802.*628)|(633.*628.*802)' AND (fhs.cur_arv_drugs REGEXP '(1088.*38)' OR fhs.cur_arv_drugs IS NULL), 1, NULL) "
+                "expression": "IF(fhs.cur_arv_meds REGEXP '(802.*633.*628)|(802.*628.*633)|(628.*802.*633)|(628.*633.*802)|(633.*802.*628)|(633.*628.*802)' AND fhs.cur_arv_drugs LIKE '%6964=38%', 1, NULL) "
             }
         },
         {
@@ -484,12 +484,12 @@
         "conditions": [
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "fhs.encounter_datetime >= ?",
+                "conditionExpression": "DATE(fhs.encounter_datetime) >= ?",
                 "parameterName": "startDate"
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "fhs.encounter_datetime <= ?",
+                "conditionExpression": "DATE(fhs.encounter_datetime) <= ?",
                 "parameterName": "endDate"
             },
             {
@@ -524,7 +524,7 @@
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "(fhs.next_clinical_datetime_hiv is null or fhs.next_clinical_datetime_hiv  >= ?)",
+                "conditionExpression": "(fhs.next_clinical_datetime_hiv is null or DATE(fhs.next_clinical_datetime_hiv) > ?)",
                 "parameterName": "endDate"
             }
         ]
