@@ -32,7 +32,7 @@ describe('HIV Differentiated Care Patient List Component Tests', () => {
         expect(comp.endDate).toBeUndefined();
         expect(comp.startDate).toBeUndefined();
         expect(comp.extraColumns).toBeUndefined();
-        expect(comp.patientData).toBeUndefined();
+        expect(comp.patientData.length).toBe(0);
         expect(comp.isLoadingPatientList).toBe(false);
     });
 
