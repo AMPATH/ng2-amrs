@@ -269,6 +269,7 @@ export class HivDifferentiatedCareComponent implements OnInit {
     const formattedMonth = Moment(this.month).format('YYYY-MM-DD');
     this.startDateString = Moment(formattedMonth).startOf('month').format('YYYY-MM-DD');
     this.endDateString = Moment(formattedMonth).endOf('month').format('YYYY-MM-DD');
+    this.patientData  = [];
   }
 
 }

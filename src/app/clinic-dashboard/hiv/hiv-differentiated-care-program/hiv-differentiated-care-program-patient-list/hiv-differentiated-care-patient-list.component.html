@@ -3,7 +3,7 @@
 <patient-list [data]="patientData" [extraColumns]="extraColumns"></patient-list>
 <div *ngIf='!hasLoadedAll'>
     <div class="button">
-        <button class="btn btn-primary" [ladda]='isLoading' data-size="xs" data-color="blue"
+        <button class="btn btn-primary" data-size="xs" data-color="blue"
             (click)='loadMore.emit()'>
             <span class=""></span>Load More...</button>
     </div>
