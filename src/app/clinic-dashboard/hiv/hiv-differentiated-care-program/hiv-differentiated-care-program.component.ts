@@ -14,6 +14,7 @@ import { HivDifferentiatedCareResourceService } from '../../../etl-api/hiv-diffe
 export class HivDifferentiatedCareComponent implements OnInit {
 
   public title = 'HIV Differentiated Care Program Reports';
+  public reportName = 'HIV Differentiated Care Program Reports';
   public patientData: Array<any> = [];
   public isLoadingPatientList = false;
   public locationUuid = '';
@@ -30,6 +31,8 @@ export class HivDifferentiatedCareComponent implements OnInit {
   public hasLoadedAll = false;
   public limit = 300;
   public startIndex = 0;
+  public enabledControls = 'monthControl';
+  public month = 'month';
 
   public get startDateString(): string {
     return this.startDate ? Moment(this.startDate).format('YYYY-MM-DD') : null;
@@ -154,8 +157,8 @@ export class HivDifferentiatedCareComponent implements OnInit {
       this.indicatorName = reportSelected.name;
       this.storeReportParamsInUrl();
       this.isLoadingPatientList = true;
-      this.hivDifferentiatedCareResourceService.getPatientList(this.toDateString(this.startDate),
-        this.toDateString(this.endDate), this.locationUuid, this.indicators, this.startIndex, this.limit).take(1).subscribe((data) => {
+      this.hivDifferentiatedCareResourceService.getPatientList(this.startDateString,
+        this.endDateString, this.locationUuid, this.indicators, this.startIndex, this.limit).take(1).subscribe((data) => {
           this.patientData = this.appendData(currentPatients, data.results.results);
           this.isLoadingPatientList = false;
           this.checkOrderLimit(data.results.results.length);
@@ -193,8 +196,8 @@ export class HivDifferentiatedCareComponent implements OnInit {
   public storeReportParamsInUrl() {
     const path = this.router.parseUrl(this.location.path());
     path.queryParams = {
-      'startDate': this.startDate.toUTCString(),
-      'endDate': this.endDate.toUTCString(),
+      'startDate': this.startDateString,
+      'endDate': this.endDateString,
       'indicators': this.indicators
     };
     this.location.replaceState(path.toString());
@@ -260,6 +263,12 @@ export class HivDifferentiatedCareComponent implements OnInit {
   private resetStartIndex() {
     this.startIndex = 0;
     this.patientData  = [];
+  }
+
+  public onMonthChange(): any {
+    const formattedMonth = Moment(this.month).format('YYYY-MM-DD');
+    this.startDateString = Moment(formattedMonth).startOf('month').format('YYYY-MM-DD');
+    this.endDateString = Moment(formattedMonth).endOf('month').format('YYYY-MM-DD');
   }
 
 }
