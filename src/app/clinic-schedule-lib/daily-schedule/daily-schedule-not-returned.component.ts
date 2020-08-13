@@ -80,7 +80,7 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
      const sub2 = this.route
        .queryParams
        .subscribe((params) => {
-         if (params.programType) {
+         if (params.programType || params.department) {
              this.params = params;
              if (params.resetFilter && params.resetFilter === 'true') {
               this.notReturnedPatientList = [];
@@ -126,7 +126,7 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
     let visitType: any = [];
     let encounterType: any = [];
     let department = '';
-    if (this.params.programType.length > 0) {
+    if (this.params.programType && this.params.programType.length > 0) {
         programType = this.params.programType;
     }
     if (this.params.visitType && this.params.visitType.length > 0) {
