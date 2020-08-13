@@ -23,7 +23,7 @@ import { PatientSearchModule } from '../patient-search/patient-search.module';
 import { PatientProgramService } from './programs/patient-programs.service';
 import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 import { PatientDashboardCdmModule } from './cdm/patient-dashboard-cdm.module';
-import { PatientDashboardOncologyModule } from './oncology/patient-dashboard-cdm.module';
+import { PatientDashboardOncologyModule } from './oncology/patient-dashboard-oncology.module';
 import {
   PatientDashboardDermatologyModule } from './dermatology/patient-dashboard-dermatology.module';
 import { DepartmentProgramsConfigService } from '../etl-api/department-programs-config.service';

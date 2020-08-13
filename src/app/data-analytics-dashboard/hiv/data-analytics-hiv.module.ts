@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
 
 import {
   DateTimePickerModule
-} from 'ngx-openmrs-formentry/dist/ngx-formentry/';
+} from 'ngx-openmrs-formentry/';
 import { DataListsModule } from '../../shared/data-lists/data-lists.module';
 import { AdminDashboardClinicFlowComponent } from './clinic-flow/admin-dashboard-clinic-flow';
 import { HivCareLibModule } from '../../hiv-care-lib/hiv-care-lib.module';
@@ -40,6 +40,9 @@ import { ChangeDepartmentModule } from '../change-department/change-department.m
 import {
   Moh731MonthlyVizComponent
 } from './moh-731-monthly-viz/moh-731-monthly-viz.component';
+import { SurgeReportComponent } from './surge/surge-report.component';
+import { ReportingUtilitiesModule } from 'src/app/reporting-utilities/reporting-utilities.module';
+
 @NgModule({
   imports: [
     dataAnalyticsDashboardHivRouting,
@@ -53,7 +56,8 @@ import {
     DataEntryStatisticsModule,
     PatientProgramEnrollmentModule,
     ChangeDepartmentModule,
-    KibanaLibModule
+    KibanaLibModule,
+    ReportingUtilitiesModule,
   ],
   exports: [
     RouterModule,
@@ -68,7 +72,8 @@ import {
     Moh731ReportComponent,
     Moh731MonthlyVizComponent,
     HivCareComparativeAnalyticsComponent,
-    HivSummaryMonthlyIndicatorsComponent
+    HivSummaryMonthlyIndicatorsComponent,
+    SurgeReportComponent
   ],
   providers: [
     DataAnalyticsDashboardService,

@@ -37,14 +37,14 @@
                             <angular2-multiselect
                                     [data]="visitTypes"
                                     [(ngModel)]="visitType"
-                                    [settings]="multpleSelectDropDownSettings"
-                                    (onSelect)="encounterTypeSelect($event)"
-                                    (onDeSelect)="encounterTypeDeselect($event)"
+                                    [settings]="singleSelectDropDownSettings"
+                                    (onSelect)="visitTypeSelect($event)"
+                                    (onDeSelect)="visitTypeDeselect($event)"
                                     name="provider-filter">
                             </angular2-multiselect>
                       </div>
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <button class="btn filter-btn" (click)="resetEncounterTypes()" *ngIf="encounterType.length > 0"><i class="fa fa-trash fa-fw"></i> Select None</button>
+                            <button class="btn filter-btn" (click)="resetVisitTypes()" *ngIf="visitType.length > 0"><i class="fa fa-trash fa-fw"></i> Select None</button>
                     </div>
                     </div>
             </div>

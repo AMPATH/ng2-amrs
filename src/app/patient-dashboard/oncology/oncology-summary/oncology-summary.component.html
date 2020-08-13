@@ -1,0 +1,15 @@
+<h4 class="component-title"><span class="fa fa-medkit"></span> Oncology Summary</h4>
+<div>
+  <tabset>
+    <!-- Awaits spark etl processes to be deployed-->
+    <!-- <tab heading="{{ program + ' Summary' }}">
+      <oncology-summary-latest [programUuid]="programUuid"></oncology-summary-latest>
+    </tab> -->
+    <tab heading="Medication History">
+      <oncology-medication-history [programUuid]="programUuid"></oncology-medication-history>
+    </tab>
+    <tab heading="Diagnosis History">
+      <oncology-diagnosis-history [programUuid]="programUuid"></oncology-diagnosis-history>
+    </tab>
+  </tabset>
+</div>

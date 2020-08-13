@@ -1,10 +1,12 @@
 import { TestBed, async, inject } from '@angular/core/testing';
+import { Router, ActivatedRoute } from '@angular/router';
+
 import { Observable } from 'rxjs';
+import 'rxjs/add/observable/of';
+
 import {
   PatientStatuChangeVisualizationService
 } from './patient-status-change-visualization.service';
-import { Router, ActivatedRoute } from '@angular/router';
-import 'rxjs/add/observable/of';
 
 describe('PatientStatusChangeVisualizationService', () => {
   const mockRouter = {

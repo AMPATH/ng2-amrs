@@ -1,9 +1,10 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+
 import * as _ from 'lodash';
-import { AgGridNg2 } from 'ag-grid-angular';
-import { Router, ActivatedRoute } from '@angular/router';
 import * as Moment from 'moment';
-import { Subscription } from 'rxjs';
+import { AgGridNg2 } from 'ag-grid-angular';
+
 import {
   PatientReferralResourceService
 } from '../../etl-api/patient-referral-resource.service';
@@ -11,8 +12,7 @@ import { SelectDepartmentService } from '../../shared/services/select-department
 
 @Component({
   selector: 'patient-referral-tabular',
-  templateUrl: 'patient-referral-tabular.component.html',
-  // changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: 'patient-referral-tabular.component.html'
 })
 
 export class PatientReferralTabularComponent implements OnInit {
@@ -61,7 +61,6 @@ export class PatientReferralTabularComponent implements OnInit {
   public set sectionDefs(v: Array<any>) {
     this._sectionDefs = v;
     this.setColumns(v);
-
   }
 
   private _dates: any;
@@ -163,7 +162,6 @@ export class PatientReferralTabularComponent implements OnInit {
       department: this.department
     }).take(1).subscribe((report) => {
       this.patientData = report;
-      // this.patientData ? this.patientData.concat(report) : report;
       this.isLoading = false;
       this.startIndex += report.length;
       if (report.length < 300) {
@@ -192,6 +190,10 @@ export class PatientReferralTabularComponent implements OnInit {
           headerName: 'Referred From'
         },
         {
+          field: 'referred_to',
+          headerName: 'Referred To'
+        },
+        {
           field: 'review_status',
           headerName: 'Review Status',
           cellStyle: function (params) {
@@ -212,20 +214,14 @@ export class PatientReferralTabularComponent implements OnInit {
     });
   }
 
-  public loadMorePatients() {
-    // this.generatePatientListReport();
-  }
-
   public redirectToPatientInfo(patientUuid) {
     if (patientUuid === undefined || patientUuid === null) {
       return;
     }
     this.router.navigate(['/patient-dashboard/patient/' + patientUuid + '/general/general']);
-
   }
 
   private toDateString(date: Date): string {
     return Moment(date).utcOffset('+03:00').format();
   }
-
 }

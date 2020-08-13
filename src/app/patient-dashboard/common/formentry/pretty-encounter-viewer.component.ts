@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
 import { FormSchemaService } from './form-schema.service';
-import { EncounterAdapter, FormFactory, Form, DataSources } from 'ngx-openmrs-formentry/dist/ngx-formentry';
+import { EncounterAdapter, FormFactory, Form, DataSources } from 'ngx-openmrs-formentry';
 import { FormDataSourceService } from './form-data-source.service';
 import { FileUploadResourceService } from '../../../etl-api/file-upload-resource.service';
 import { Patient } from 'src/app/models/patient.model';

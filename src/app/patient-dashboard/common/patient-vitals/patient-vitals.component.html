@@ -1,88 +1,105 @@
 <div>
-<h4 class="component-title"><span class="fa fa-heartbeat"></span> Patient Vitals</h4>
-<div >
-  <!-- <div [ngBusy]="{busy:loadingVitals,message:'Please Wait...'}"></div> -->
-
-  <table class='table table-hover table-striped table-responsive'>
-  <thead>
-  <tr>
-    <th></th>
-    <th>Date</th>
-    <th>BP</th>
-    <th>Pulse</th>
-    <th>Temperature</th>
-    <th>Oxygen Sat</th>
-    <th>Height</th>
-    <th>Weight</th>
-    <th *ngIf="patient && patient?.person.age >= 18 ">BMI</th>
-    <th *ngIf="patient && patient?.person.age < 18 ">Height For Age</th>
-    <th *ngIf="patient && patient?.person.age < 5 ">Weight For Height</th>
-    <th *ngIf="patient && patient?.person.age < 18 && patient?.person.age >= 5 ">BMI For Age</th>
-    <th>BSA</th>
-    <th *ngIf= "isDepartmentOncology">ECOG</th>
-  </tr>
-  </thead>
-  <tr *ngFor="let vitals of vitals; let i = index; ">
-    <td>
-        <span class="glyphicon glyphicon-warning-sign text-danger"
-              *ngIf="(vitals.systolic_bp && (vitals.systolic_bp <= 80 || vitals.systolic_bp >= 140))
+  <h4 class="component-title"><span class="fa fa-heartbeat"></span> Patient Vitals</h4>
+  <div>
+    <table class='table table-hover table-striped table-responsive'>
+      <thead>
+        <tr class="labels">
+          <th></th>
+          <th>Date</th>
+          <th>BP</th>
+          <th>Pulse</th>
+          <th>Temperature</th>
+          <th>Oxygen Sat</th>
+          <th>Height</th>
+          <th>Weight</th>
+          <th *ngIf="patient && patient?.person.age >= 18 ">BMI</th>
+          <th *ngIf="patient && patient?.person.age < 18 ">Height For Age</th>
+          <th *ngIf="patient && patient?.person.age < 5 ">Weight For Height</th>
+          <th *ngIf="patient && patient?.person.age < 18 && patient?.person.age >= 5 ">BMI For Age</th>
+          <th>BSA</th>
+          <th *ngIf="isDepartmentOncology">ECOG</th>
+          <th *ngIf="isDepartmentOncology">INR</th>
+          <th *ngIf="isDepartmentOncology">LCC</th>
+          <th *ngIf="isDepartmentOncology">RCC</th>
+        </tr>
+      </thead>
+      <tr *ngFor="let vitals of vitals; let i = index;" class="vitals">
+        <td>
+          <span class="glyphicon glyphicon-warning-sign text-danger" *ngIf="(vitals.systolic_bp && (vitals.systolic_bp <= 80 || vitals.systolic_bp >= 140))
                   || (vitals.diastolic_bp && (vitals.diastolic_bp <= 50 || vitals.diastolic_bp >= 90)) || (vitals.pulse && vitals.pulse >= 100)
                   || (vitals.temp && (vitals.temp <= 35.0 || vitals.temp >= 38.0)) || (vitals.oxygen_sat && vitals.oxygen_sat <= 89)
-                  || (vitals.BMI && (vitals.BMI <= 18 || vitals.BMI >= 30))" >
-                </span>
-    <td>{{(vitals.encounter_datetime | date:'dd-MM-yyyy')  || '&nbsp;'}}</td>
-    <td>
-      <span [style.color]="(vitals.systolic_bp && (vitals.systolic_bp <= 80 || vitals.systolic_bp >= 140)) ? 'red':''" >{{vitals.systolic_bp && vitals.systolic_bp + "/"}}</span>
-      <span [style.color]="(vitals.diastolic_bp && (vitals.diastolic_bp <= 50 || vitals.diastolic_bp >= 90)) ? 'red':''">{{(vitals.diastolic_bp && vitals.diastolic_bp)  || '&nbsp;'}}</span>
-    </td>
-    <td>
-      <span [style.color]="(vitals.pulse && (vitals.pulse <= 0 || vitals.pulse >= 100))? 'red':''">{{vitals.pulse  || '&nbsp;'}}</span>
-    </td>
-    <td>
-      <span [style.color]="(vitals.temp && (vitals.temp <= 35.0 || vitals.temp >= 38.0)) ? 'red':''" >{{vitals.temp  || '&nbsp;'}}</span>
-    </td>
-    <td>
-      <span [style.color]="(vitals.oxygen_sat && vitals.oxygen_sat <= 89)? 'red':''">{{vitals.oxygen_sat  || '&nbsp;'}}</span>
-    </td>
-    <td>{{vitals.height  || '&nbsp;'}}</td>
-    <td>{{vitals.weight  || '&nbsp;'}}</td>
-    <td *ngIf="patient && patient?.person.age >= 18">
-      <span  [style.color]="(vitals.BMI && (vitals.BMI <= 18 || vitals.BMI >= 30))? 'red':''" >{{vitals?.BMI || '&nbsp;'}}</span>
-    </td>
-    <td *ngIf="patient && patient?.person.age<18"> 
-      <span  [style.color]="vitals.heightForAge && (vitals.heightForAge < 0 )? 'red':''" >{{vitals?.heightForAge || '&nbsp;'}}</span>
-    </td>
-    <td *ngIf="patient && patient?.person.age<5 ">
-      <span  [style.color]="vitals.weightForHeight && (vitals.weightForHeight < 0 )? 'red':''" >{{vitals?.weightForHeight || '&nbsp;'}}</span>
-    </td>
-    <td *ngIf="patient && patient?.person.age<18  && patient?.person.age>4" >
-      <span [style.color]="vitals.bmiForAge && (vitals.bmiForAge < 0 )? 'red':''" >{{vitals?.bmiForAge || '&nbsp;'}}</span>
-    </td>
-    <td>
-      {{vitals.bsa  || '&nbsp;'}}
-    </td>
-    <td *ngIf= "isDepartmentOncology" >
-      {{vitals.ecog  || '&nbsp;'}}
-    </td>
-  </tr>
-</table>
-<!--<pagination-controls (pageChange)="page = $event" style="cursor: pointer;"></pagination-controls>-->
-<div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
-  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
-</div>
-  <div *ngIf="!dataLoaded">
-    <button [disabled]="isLoading" class="btn btn-info" (click)="loadMoreVitals()">
-      <span > Load More </span>
-      <i *ngIf="loadingVitals" class="fa fa-spinner fa-spin fa-1x fa-fw"></i>
-    </button>
+                  || (vitals.BMI && (vitals.BMI <= 18 || vitals.BMI >= 30))">
+          </span>
+        <td>{{(vitals.encounter_datetime | date:'dd-MM-yyyy')  || '&nbsp;'}}</td>
+        <td>
+          <span class="systolic_bp"
+            [style.color]="(vitals.systolic_bp && (vitals.systolic_bp <= 80 || vitals.systolic_bp >= 140)) ? 'red':''">{{vitals.systolic_bp && vitals.systolic_bp + "/"}}</span>
+          <span class="diastolic_bp"
+            [style.color]="(vitals.diastolic_bp && (vitals.diastolic_bp <= 50 || vitals.diastolic_bp >= 90)) ? 'red':''">{{(vitals.diastolic_bp && vitals.diastolic_bp)  || '&nbsp;'}}</span>
+        </td>
+        <td>
+          <span class="pulse"
+            [style.color]="(vitals.pulse && (vitals.pulse <= 0 || vitals.pulse >= 100))? 'red':''">{{vitals.pulse  || '&nbsp;'}}</span>
+        </td>
+        <td>
+          <span class="temp"
+            [style.color]="(vitals.temp && (vitals.temp <= 35.0 || vitals.temp >= 38.0)) ? 'red':''">{{vitals.temp  || '&nbsp;'}}</span>
+        </td>
+        <td>
+          <span
+            [style.color]="(vitals.oxygen_sat && vitals.oxygen_sat <= 89)? 'red':''">{{vitals.oxygen_sat  || '&nbsp;'}}</span>
+        </td>
+        <td>{{vitals.height  || '&nbsp;'}}</td>
+        <td>{{vitals.weight  || '&nbsp;'}}</td>
+        <td *ngIf="patient && patient?.person.age >= 18">
+          <span
+            [style.color]="(vitals.BMI && (vitals.BMI <= 18 || vitals.BMI >= 30))? 'red':''">{{vitals?.BMI || '&nbsp;'}}</span>
+        </td>
+        <td *ngIf="patient && patient?.person.age<18">
+          <span
+            [style.color]="vitals.heightForAge && (vitals.heightForAge < 0 )? 'red':''">{{vitals?.heightForAge || '&nbsp;'}}</span>
+        </td>
+        <td *ngIf="patient && patient?.person.age<5 ">
+          <span
+            [style.color]="vitals.weightForHeight && (vitals.weightForHeight < 0 )? 'red':''">{{vitals?.weightForHeight || '&nbsp;'}}</span>
+        </td>
+        <td *ngIf="patient && patient?.person.age<18  && patient?.person.age>4">
+          <span
+            [style.color]="vitals.bmiForAge && (vitals.bmiForAge < 0 )? 'red':''">{{vitals?.bmiForAge || '&nbsp;'}}</span>
+        </td>
+        <td>
+          {{vitals.bsa  || '&nbsp;'}}
+        </td>
+        <td *ngIf="isDepartmentOncology">
+          {{vitals.ecog  || '&nbsp;'}}
+        </td>
+        <td *ngIf="isDepartmentOncology">
+          {{vitals.inr  || '&nbsp;'}}
+        </td>
+        <td *ngIf="isDepartmentOncology">
+          {{vitals.lcc  || '&nbsp;'}}
+        </td>
+        <td *ngIf="isDepartmentOncology">
+          {{vitals.rcc  || '&nbsp;'}}
+        </td>
+      </tr>
+    </table>
+    <div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
+    </div>
+    <div *ngIf="!dataLoaded">
+      <button [disabled]="isLoading" class="btn btn-info" (click)="loadMoreVitals()">
+        <span> Load More </span>
+        <i *ngIf="loadingVitals" class="fa fa-spinner fa-spin fa-1x fa-fw"></i>
+      </button>
+    </div>
+
+    <div *ngIf='dataLoaded'>
+      <p class="bg-info" style="padding:4px; border-color: gray">
+        <b>
+          <span style="color:green; " class="glyphicon glyphicon-ok">All records loaded
+            {{'[' + vitals.length + ']'}}</span></b>
+        <p>
+    </div>
   </div>
-
-<div *ngIf='dataLoaded'>
-	<p class="bg-info" style="padding:4px; border-color: gray">
-		<b>
-			<span style="color:green; " class="glyphicon glyphicon-ok">All records loaded {{'[' + vitals.length + ']'}}</span></b>
-		<p>
-</div>
-</div>
-
 </div>

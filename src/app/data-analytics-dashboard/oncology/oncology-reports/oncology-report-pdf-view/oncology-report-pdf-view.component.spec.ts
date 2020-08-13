@@ -311,7 +311,6 @@ describe('OncologyReportPdfViewComponent', () => {
     component.params = mockParams.params;
     component.title = mockParams.title;
     component.generatePdf();
-    console.log('component: ', component);
     expect(component.page).toEqual(1);
     component.nextPage();
     // nextPage()

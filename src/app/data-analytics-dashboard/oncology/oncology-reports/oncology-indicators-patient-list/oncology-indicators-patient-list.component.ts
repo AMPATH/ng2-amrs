@@ -50,14 +50,14 @@ export class OncologySummaryIndicatorsPatientListComponent implements OnInit {
 
   public ngOnInit() {
     this.route.queryParams.subscribe((params: any) => {
-        if (params) {
-          this.getPatientList(params);
-          this.title = this.translateIndicator(params.indicators);
-          this.params = params;
-        }
-      }, (error) => {
-        console.error('Error', error);
-      });
+      if (params) {
+        this.getPatientList(params);
+        this.title = this.translateIndicator(params.indicators);
+        this.params = params;
+      }
+    }, (error) => {
+      console.error('Error', error);
+    });
   }
 
   public getPatientList(params) {
@@ -77,7 +77,9 @@ export class OncologySummaryIndicatorsPatientListComponent implements OnInit {
     const columns = [
       {
         headerName: '#',
-        field: 'no'
+        field: 'no',
+        width: 50,
+        pinned: true
       },
       {
         headerName: 'Patient Uuid',
@@ -88,13 +90,27 @@ export class OncologySummaryIndicatorsPatientListComponent implements OnInit {
 
     _.each(patientListCols, (cols: any) => {
       if (cols === 'patient_uuid') {
-
-      } else if (cols === 'encounter_datetime') {
+        return '';
+      } else if (cols === 'person_name') {
         columns.push({
-          headerName: 'Encounter Date',
-          field: cols,
+          headerName: 'Person Name',
+          field: 'person_name',
+          pinned: true,
+          width: 250
+        });
+      } else if (cols === 'via_rtc_date') {
+        columns.push({
+          headerName: 'VIA RTC date',
+          field: 'via_rtc_date',
           hide: false
         });
+      } else if (cols === 'encounter_datetime') {
+          columns.push({
+            headerName: 'Encounter Date',
+            field: 'encounter_datetime',
+            pinned: true,
+            width: 100
+          });
       } else {
         columns.push({
           headerName: this.translateIndicator(cols),
@@ -112,19 +128,18 @@ export class OncologySummaryIndicatorsPatientListComponent implements OnInit {
       return;
     }
     this.router.navigate(['/patient-dashboard/patient/' + patientUuid +
-    '/general/general/landing-page']);
+      '/general/general/landing-page']);
 
   }
 
   public translateIndicator(indicator: string) {
     const indicatorArray = indicator.toLowerCase().split('_');
     if (indicator === 'hiv_status') {
-        return indicatorArray[0].toUpperCase() + ' '
+      return indicatorArray[0].toUpperCase() + ' '
         + indicatorArray[1].charAt(0).toUpperCase() + indicatorArray[1].slice(1);
     } else {
-
       return indicatorArray.map((word) => {
-            return ((word.charAt(0).toUpperCase()) + word.slice(1));
+        return ((word.charAt(0).toUpperCase()) + word.slice(1));
       }).join(' ');
     }
   }

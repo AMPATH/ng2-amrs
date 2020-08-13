@@ -26,7 +26,7 @@ import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { CommonModule } from '@angular/common';
 import { Angulartics2Module } from 'angulartics2';
-import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
+import { DateTimePickerModule } from 'ngx-openmrs-formentry/';
 import {
   ProgramVisitEncounterSearchComponent
 } from './../../program-visit-encounter-search/program-visit-encounter-search.component';

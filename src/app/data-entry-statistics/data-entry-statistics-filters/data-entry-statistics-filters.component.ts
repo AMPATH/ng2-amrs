@@ -12,6 +12,7 @@ import { UserService } from '../../openmrs-api/user.service';
 import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
 import { DataEntryStatisticsService } from '../../etl-api/data-entry-statistics-resource.service';
 import { VisitResourceService} from '../../openmrs-api/visit-resource.service';
+import { PatientProgramResourceService } from './../../etl-api/patient-program-resource.service';
 
 @Component({
   selector: 'data-entry-statistics-filters',
@@ -50,6 +51,8 @@ export class DataEntryStatisticsFiltersComponent
   public visitType: any = [];
   public visitTypes: any = [];
   public visitMap = new Map();
+  public visitNamesMap = new Map();
+  public visitEncounterMap = new Map();
   public providers: any = [];
   public provider = '';
   public selectedStartDate: any = Moment().format();
@@ -129,7 +132,8 @@ export class DataEntryStatisticsFiltersComponent
     private route: ActivatedRoute,
     private router: Router,
     private _dataEntryStatisticsService: DataEntryStatisticsService,
-    private _visitResourceService: VisitResourceService
+    private _visitResourceService: VisitResourceService,
+    private _patientProgramService: PatientProgramResourceService,
   ) { }
 
   public ngOnInit() {
@@ -157,10 +161,23 @@ export class DataEntryStatisticsFiltersComponent
 
   public loadFilters() {
     this.getLocations();
-    this.getDataEntryEncounterTypes();
-    this.getEncounterTypes();
     this.getVisits();
+    this.getDataEntryEncounterTypes();
 
+  }
+  public getProgramVisitsConfig() {
+    return new Promise((resolve, reject) => {
+
+      this._patientProgramService.getAllProgramVisitConfigs().pipe(
+      take(1))
+      .subscribe((programVisits) => {
+        if (programVisits) {
+          this.processGetVisits(programVisits);
+          resolve('success');
+        }
+      });
+
+    });
   }
 
   public loadFilterFromUrlParams(params) {
@@ -332,28 +349,45 @@ export class DataEntryStatisticsFiltersComponent
       });
 
   }
+
   public getVisits() {
-    this._visitResourceService.getVisitTypes(this.params).pipe(take(1)).subscribe((visits) => {
-        if (visits) {
-          const visitType = visits;
-          this.processGetVisits(visitType);
+    this._visitResourceService.getVisitTypes(this.params).pipe(take(1)).subscribe((visitTypes: any) => {
+        if (visitTypes) {
+          this.getVisitNames(visitTypes);
         }
     });
   }
 
-  public  processGetVisits(visitTypes) {
+  public getVisitNames(visitTypes) {
+    _.each(visitTypes, (visitType: any) => {
+        this.visitNamesMap.set(visitType.uuid, visitType.display);
+    });
+    this.getProgramVisitsConfig();
+  }
+
+  public  processGetVisits(programVisits) {
     const visitTypesArray = [];
 
-    _.each(visitTypes, (visitType: any) => {
-      const specificVisitType = {
-        'id': visitType.uuid,
-        'itemName': visitType.display
-      };
-      this.visitMap.set(visitTypes.uuid, specificVisitType);
-      visitTypesArray.push(specificVisitType);
-    });
+    _.each(programVisits, (program: any) => {
+      const visitTypes = program.visitTypes;
+      _.each(visitTypes, (visitType) => {
+          const encounterTypes = visitType.encounterTypes;
+          const visitName = this.visitNamesMap.get(visitType.uuid);
+          if (visitName) {
 
-    this.visitTypes = visitTypesArray;
+            const specificVisitType = {
+              'id': visitType.uuid,
+              'itemName': this.visitNamesMap.get(visitType.uuid)
+            };
+            this.visitMap.set(visitType.uuid, specificVisitType);
+            this.visitEncounterMap.set(visitType.uuid, encounterTypes);
+            visitTypesArray.push(specificVisitType);
+            this.processEncounterTypes(encounterTypes);
+
+          }
+      });
+    });
+    this.visitTypes = _.uniqBy(visitTypesArray, 'id');
 
   }
   public creatorSelect($event) {
@@ -427,20 +461,11 @@ export class DataEntryStatisticsFiltersComponent
     });
   }
 
-  public getEncounterTypes() {
-    this._encounterResourceService.getEncounterTypes('all').pipe(
-      take(1)).subscribe((results) => {
-        if (results) {
-          this.processEncounterTypes(results);
-        }
-      });
-  }
 
-  public processEncounterTypes(encounterTypes) {
-
+  public processEncounterTypes(encounterArray) {
     const encounterTypesArray = [];
 
-    _.each(encounterTypes, (encounterType: any) => {
+    _.each(encounterArray, (encounterType: any) => {
       const specificEncounterType = {
         'id': encounterType.uuid,
         'itemName': encounterType.display
@@ -449,7 +474,18 @@ export class DataEntryStatisticsFiltersComponent
       encounterTypesArray.push(specificEncounterType);
     });
 
-    this.encounterTypes = encounterTypesArray;
+    this.encounterTypes = _.uniqBy(encounterTypesArray, 'id');
+
+  }
+  public loadEncountersFromVisit() {
+    const encounterTypes = [];
+     _.each(this.visitType, (visitType) => {
+          const visitEncounterTypes = this.visitEncounterMap.get(visitType.id);
+            _.each(visitEncounterTypes, (encounterType) => {
+              encounterTypes.push(encounterType);
+            });
+      });
+     this.processEncounterTypes(encounterTypes);
 
   }
 
@@ -458,7 +494,19 @@ export class DataEntryStatisticsFiltersComponent
   }
 
   public visitTypeSelect($event) {
+    this.encounterType = [];
+    this.selectedEncounterTypes = [];
     this.loadSelectedVisitType();
+    this.loadEncountersFromVisit();
+  }
+
+  public visitTypeDeselect($event) {
+    this.visitType = [];
+    this.selectedVisitTypes = [];
+    this.resetEncounterTypes();
+  }
+  public removeSelectedEncounterTypeOnVisitDeselect(visitTypeDeselected) {
+      const visitEncounters = this.visitEncounterMap.get(visitTypeDeselected);
   }
 
   public resetEncounterTypes() {
@@ -486,7 +534,8 @@ export class DataEntryStatisticsFiltersComponent
   }
 
   public loadSelectedVisitType() {
-    const selectedVisitTypes = this.visitTypes;
+    this.selectedVisitTypes = [];
+    const selectedVisitTypes = this.visitType;
     _.each(selectedVisitTypes, (visit: any) => {
 
       this.selectedVisitTypes.push(visit.id);
@@ -665,7 +714,6 @@ export class DataEntryStatisticsFiltersComponent
   public search() {
     this.sendRequest = true;
     this.setQueryParams();
-
   }
 
   public resetDisplayMsg() {
@@ -688,6 +736,7 @@ export class DataEntryStatisticsFiltersComponent
       'visitTypeUuids': this.selectedVisitTypes,
       'view': this.selectedViewType
     };
+
 
     const currentParams = this.route.snapshot.queryParams;
     const navigationData = {
@@ -742,6 +791,7 @@ export class DataEntryStatisticsFiltersComponent
     this.selectedEncounterTypes = [];
     this.selectedVisitTypes = [];
     this.selectedProviderUuid = '';
+    this.visitType = [];
   }
 
   public resetAll() {

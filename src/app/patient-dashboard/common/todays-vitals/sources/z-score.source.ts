@@ -40,7 +40,7 @@ export class ZScoreSource extends CommonVitalsSource implements VitalSourceInter
       source.addToVitalSource(this.vitalModel.createVital({
         name: 'bmiForAge',
         label: 'BMI For Age:',
-        show: !_.isNil(zscore.bmiForAge) && age > 5 && age < 18,
+        show: !_.isNil(zscore.bmiForAge) && age >= 5 && age < 18,
         value: zscore.bmiForAge,
         color: (zscore.bmiForAge) ? 'red' : ''
       }).bmiForAge);

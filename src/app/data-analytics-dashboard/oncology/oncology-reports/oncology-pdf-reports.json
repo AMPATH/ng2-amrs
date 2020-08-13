@@ -1,7 +1,9 @@
 {
-  "reports": [{
+  "reports": [
+    {
       "report_type": "breast-cancer-screening-numbers",
-      "sections": [{
+      "sections": [
+        {
           "section": "total_breast_screened",
           "report_indicators": [
             "total_breast_screened"
@@ -20,32 +22,53 @@
           ]
         },
         {
-          "section": "normal_breast_screening_findings",
+          "section": "normal_findings",
           "report_indicators": [
-            "normal_breast_screening_findings",
-            "normal_breast_screening_findings_below_30yrs",
-            "normal_breast_screening_findings_30_to_40yrs",
-            "normal_breast_screening_findings_41_to_50yrs",
-            "normal_breast_screening_findings_51_to_69yrs",
-            "normal_breast_screening_findings_above_70yrs"
+            "normal_findings",
+            "normal_below_30yrs",
+            "normal_30_to_40yrs",
+            "normal_41_to_50yrs",
+            "normal_51_to_69yrs",
+            "normal_above_70yrs"
           ]
         },
         {
-          "section": "abnormal_breast_screening_findings",
+          "section": "abnormal_findings",
           "report_indicators": [
-            "abnormal_breast_screening_findings",
-            "abnormal_breast_screening_findings_below_30yrs",
-            "abnormal_breast_screening_findings_30_to_40yrs",
-            "abnormal_breast_screening_findings_41_to_50yrs",
-            "abnormal_breast_screening_findings_51_to_69yrs",
-            "abnormal_breast_screening_findings_above_70yrs"
+            "abnormal_findings",
+            "abnormal_below_30yrs",
+            "abnormal_30_to_40yrs",
+            "abnormal_41_to_50yrs",
+            "abnormal_51_to_69yrs",
+            "abnormal_above_70yrs"
+          ]
+        },
+        {
+          "section": "hiv_status",
+          "report_indicators": [
+            "hiv_status",
+            "hiv_positive_25_to_49",
+            "hiv_negative_25_to_49",
+            "hiv_unknown_25_to_49",
+            "hiv_positive_over_50",
+            "hiv_negative_over_50",
+            "hiv_unknown_over_50"
+          ]
+        },
+        {
+          "section": "gender",
+          "report_indicators": [
+            "gender",
+            "male_patients",
+            "female_patients"
           ]
         }
       ]
     },
     {
       "report_type": "cervical-cancer-screening-numbers",
-      "sections": [{
+      "sections": [
+        {
           "section": "total_cervical_screened",
           "report_indicators": [
             "total_cervical_screened"
@@ -64,40 +87,128 @@
           ]
         },
         {
-          "section": "normal_cervical_screening",
+          "section": "normal_findings",
           "report_indicators": [
-            "normal_cervical_screening",
-            "normal_cervical_screening_below_30yrs",
-            "normal_cervical_screening_30_to_40yrs",
-            "normal_cervical_screening_41_to_50yrs",
-            "normal_cervical_screening_51_to_69yrs",
-            "normal_cervical_screening_above_70yrs"
+            "normal_findings",
+            "normal_below_30yrs",
+            "normal_30_to_40yrs",
+            "normal_41_to_50yrs",
+            "normal_51_to_69yrs",
+            "normal_above_70yrs"
           ]
         },
         {
-          "section": "abnormal_cervical_screening",
+          "section": "abnormal_findings",
           "report_indicators": [
-            "abnormal_cervical_screening",
-            "abnormal_cervical_screening_below_30yrs",
-            "abnormal_cervical_screening_30_to_40yrs",
-            "abnormal_cervical_screening_41_to_50yrs",
-            "abnormal_cervical_screening_51_to_69yrs",
-            "abnormal_cervical_screening_above_70yrs"
+            "abnormal_findings",
+            "abnormal_below_30yrs",
+            "abnormal_30_to_40yrs",
+            "abnormal_41_to_50yrs",
+            "abnormal_51_to_69yrs",
+            "abnormal_above_70yrs"
+          ]
+        },
+        {
+          "section": "hiv_status",
+          "report_indicators": [
+            "hiv_status",
+            "hiv_positive_25_to_49",
+            "hiv_negative_25_to_49",
+            "hiv_unknown_25_to_49",
+            "hiv_positive_over_50",
+            "hiv_negative_over_50",
+            "hiv_unknown_over_50"
+          ]
+        },
+        {
+          "section": "procedures_done",
+          "report_indicators": [
+            "procedures_done",
+            "excisional_biopsies",
+            "cryotherapies",
+            "leeps",
+            "polypectomies",
+            "core_needle_biopsies",
+            "pap_smears"
           ]
         }
       ]
     },
     {
       "report_type": "combined-breast-cervical-cancer-screening-numbers",
-      "sections": [{
-        "section": "total_screens",
-        "report_indicators": [
-          "total_screens",
-          "total_breast_screened",
-          "total_cervical_screened",
-          "total_breast_and_cervical_screened"
-        ]
-      }]
+      "sections": [
+        {
+          "section": "total_screens",
+          "report_indicators": [
+            "total_screens",
+            "total_breast_screened",
+            "total_cervical_screened",
+            "total_breast_and_cervical_screened"
+          ]
+        }
+      ]
+    },
+    {
+      "report_type": "lung-cancer-screening-numbers",
+      "sections": [
+        {
+          "section": "total_lung_screened",
+          "report_indicators": [
+            "total_lung_screened",
+            "walk_in",
+            "referred_from_clinic",
+            "cigarette_smoking",
+            "tobacco_use",
+            "chemical_exposure",
+            "asbestos_exposure",
+            "hiv_negative",
+            "hiv_positive",
+            "hiv_status_unknown",
+            "tb_treatment_received",
+            "no_tb_treatment",
+            "normal_xray_results",
+            "abnormal_xray_results",
+            "biopsy_done",
+            "biopsy_not_done",
+            "indication_of_pleural_mass_from_ct_findings",
+            "indication_of_mediastial_mass_from_ct_findings",
+            "indication_of_lung_mass_from_ct_findings",
+            "non_respiratory_disease",
+            "non_small_cell_lung_cancer",
+            "small_cell_lung_cancer"
+          ]
+        }
+      ]
+    },
+    {
+      "report_type": "lung-cancer-treatment-numbers",
+      "sections": [
+        {
+          "section": "enrolled_patients",
+          "report_indicators": [
+            "enrolled_patients",
+            "active_patients",
+            "deceased",
+            "small_cell_lung_cancer",
+            "non_small_cell_lung_cancer",
+            "adenocarcinoma",
+            "epidermoid_carcinoma",
+            "large_cell_carcinoma",
+            "mixed_squamous",
+            "lost_to_follow_up",
+            "stage_one",
+            "stage_two",
+            "stage_three",
+            "stage_four",
+            "limited_stage",
+            "extensive_stage",
+            "for_staging",
+            "chemotherapy",
+            "radiotherapy",
+            "surgery"
+          ]
+        }
+      ]
     }
   ]
 }

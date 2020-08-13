@@ -1,22 +1,16 @@
-/* tslint:disable-next-line: no-shadowed-variable */
-import { take } from 'rxjs/operators';
-
-import { Observable, Subscription } from 'rxjs';
-
-import { map } from 'rxjs/operators';
 import { OnInit, Component, Input, Output, EventEmitter } from '@angular/core';
-import { Http, Response } from '@angular/http';
 
-import * as Moment from 'moment';
-import { HivSummaryResourceService } from '../../../etl-api/hiv-summary-resource.service';
+import { Subscription } from 'rxjs';
+import { take, finalize } from 'rxjs/operators';
+
 import * as _ from 'lodash';
-import { Patient } from '../../../models/patient.model';
 import * as moment from 'moment';
+
+import { Patient } from '../../../models/patient.model';
+import { HivSummaryResourceService } from '../../../etl-api/hiv-summary-resource.service';
 import { LocationResourceService } from '../../../openmrs-api/location-resource.service';
-import { TodaysVitalsService } from '../../common/todays-vitals/todays-vitals.service';
 import { EncounterResourceService } from 'src/app/openmrs-api/encounter-resource.service';
-import { PatientService } from '../../services/patient.service';
-import { getRenderedText } from '@angular/core/src/render3';
+import { UserDefaultPropertiesService } from '../../../user-default-properties/user-default-properties.service';
 
 const mdtProgramUuid = 'c4246ff0-b081-460c-bcc5-b0678012659e';
 const stdProgramUuid = '781d85b0-1359-11df-a1f1-0026b9348838';
@@ -26,50 +20,54 @@ const stdProgramUuid = '781d85b0-1359-11df-a1f1-0026b9348838';
   templateUrl: './hiv-program-snapshot.component.html'
 })
 export class HivProgramSnapshotComponent implements OnInit {
+  @Input() public set program(program) {
+    this.showViremiaAlert = program.uuid === mdtProgramUuid ? true : false;
+    this.hasMoriskyScore = program.uuid === stdProgramUuid ? true : false;
+  }
   @Input() public patient: Patient;
+  @Output() public addBackground = new EventEmitter();
+
   public hasError = false;
   public hasData = false;
   public hasMoriskyScore = false;
+  public clinicalEncounters: any[] = [];
   public patientData: any = {};
   public loadingData = false;
   public hasLoadedData = false;
   public prev_encounter_date: any = '';
   public isVirallyUnsuppressed = false;
-  public isMoriskyProgram = false;
   public patientCareStatus: any;
-  @Output() public addBackground = new EventEmitter();
-  public location: any = {};
+  public hasTransferEncounter = false;
+  public latestEncounterLocation: any = {};
+  public hasSubsequentClinicalEncounter = false;
+  public resolvedCareStatus: any;
+  public showCareStatus = true;
   public backgroundColor: any = {
-    pink: 'pink',
-    yellow: 'yellow'
+    pink: '#FFC0CB',
+    yellow: '#FFFF00'
   };
   public viremiaAlert: string;
   public showViremiaAlert: boolean;
-  lowViremia: boolean;
-  highViremia: boolean;
-  @Input() public set program(program) {
-    program.uuid === mdtProgramUuid ? this.showViremiaAlert = true : this.showViremiaAlert = false;
-    program.uuid === stdProgramUuid ? this.hasMoriskyScore = true : this.hasMoriskyScore = false;
-  }
+  public lowViremia: boolean;
+  public highViremia: boolean;
   public currentPatientSub: Subscription;
 
   public _patient: Patient = new Patient({});
-  private obs: any[] = [];
   public moriskyScore: any = '';
   public moriskyScore4: any = '';
   public moriskyScore8: any = '';
   public ismoriskyScore8 = false;
   public ismoriskyScore4 = false;
-  public MoriskyDenominator: any = '';
+  public moriskyDenominator: any = '';
   public moriskyRating: any = '';
-  public ismoriskyScorePoorOrInadequate = false;
+  public isMoriskyScorePoorOrInadequate = false;
+  private obs: any[] = [];
 
-  constructor(private hivSummaryResourceService: HivSummaryResourceService,
-    private vitalService: TodaysVitalsService,
-    private _encounterResourceService: EncounterResourceService,
-    private patientService: PatientService,
-    private locationResource: LocationResourceService) {
-
+  constructor(
+    private hivSummaryResourceService: HivSummaryResourceService,
+    private encounterResourceService: EncounterResourceService,
+    private locationResource: LocationResourceService,
+    private userDefaultPropertiesService: UserDefaultPropertiesService) {
   }
 
   public ngOnInit() {
@@ -87,26 +85,37 @@ export class HivProgramSnapshotComponent implements OnInit {
   public getHivSummary(patientUuid) {
     this.loadingData = true;
     this.hivSummaryResourceService.getHivSummary(patientUuid, 0, 10).pipe(take(1)).subscribe((results) => {
-      this.loadingData = false;
-      this.hasLoadedData = true;
       let latestVlResult: any;
       let latestVlDate = '';
       let latestVl = null;
+
+      this.loadingData = false;
+      this.hasLoadedData = true;
+
       if (results[0]) {
-        this.patientCareStatus = results[0].patient_care_status;
         latestVlResult = this.getlatestVlResult(results);
         latestVlDate = latestVlResult.vl_1_date;
         latestVl = latestVlResult.vl_1;
         latestVl = latestVlResult.vl_1;
+        this.patientCareStatus = results[0].patient_care_status;
+
         if (this.showViremiaAlert) {
           this.checkViremia(latestVl);
         }
       }
 
-      this.patientData = _.first(_.filter(results, (encounter: any) => {
-        return encounter.is_clinical_encounter === 1;
-      }));
+      this.clinicalEncounters = this.getClinicalEncounters(results);
+      const latestClinicalEncounter = _.first(this.clinicalEncounters);
+
+      this.hasTransferEncounter = this.checkIfHasTransferEncounter(results);
+      const transferEncounterIndex = this.getIndexOfTransferEncounter(results);
+
+      // Did the patient have a clinical encounter following their transfer encounter i.e. did they return to care?
+      this.hasSubsequentClinicalEncounter = (results.indexOf(latestClinicalEncounter) < transferEncounterIndex) ? true : false;
+
+      this.patientData = _.first(this.clinicalEncounters);
       const patientDataCopy = this.patientData;
+
       if (!_.isNil(this.patientData)) {
         // assign latest vl and vl_1_date
         this.patientData = Object.assign(patientDataCopy,
@@ -119,7 +128,7 @@ export class HivProgramSnapshotComponent implements OnInit {
           this.isVirallyUnsuppressed = true;
         }
         this.hasData = true;
-        this.location = null;
+        this.latestEncounterLocation = null;
         if (this.patientData.location_uuid) {
           this.resolveLastEncounterLocation(this.patientData.location_uuid);
         }
@@ -129,13 +138,17 @@ export class HivProgramSnapshotComponent implements OnInit {
 
   public resolveLastEncounterLocation(location_uuid) {
     this.locationResource.getLocationByUuid(location_uuid, true)
-      .subscribe((location) => {
-        this.location = location;
-      }, (error) => {
-        console.error('Error resolving locations', error);
-      });
+      .pipe(
+        finalize(() => {
+          this.resolvedCareStatus = this.getPatientCareStatus(this.patientCareStatus);
+        })).subscribe((location) => {
+          this.latestEncounterLocation = location;
+        }, (error) => {
+          console.error('Error resolving locations', error);
+        });
   }
-  public getPatientCareStatus(id: any) {
+
+  public getPatientCareStatus(care_status_id: any) {
     const translateMap = {
       '159': 'DECEASED',
       '9079': 'UNTRACEABLE',
@@ -143,34 +156,113 @@ export class HivProgramSnapshotComponent implements OnInit {
       '9036': 'HIV NEGATIVE, NO LONGER AT RISK',
       '9083': 'SELF DISENGAGED FROM CARE',
       '6101': 'CONTINUE WITH CARE',
+      '1285': 'TRANSFER CARE TO OTHER CENTER',
       '1286': 'TRANSFER TO AMPATH FACILITY',
-      '9068': 'TRANSFER TO AMPATH FACILITY, NON-AMRS',
       '1287': 'TRANSFER TO NON-AMPATH FACILITY',
+      '9068': 'TRANSFER TO AMPATH FACILITY, NON-AMRS',
       '9504': 'TRANSFER TO MATERNAL CHILD HEALTH',
       '1594': 'PATIENT TRANSFERRED OUT',
-      '1285': 'TRANSFER CARE TO OTHER CENTER',
       '9578': 'ENROLL IN AMPATH FACILITY',
       '9164': 'ENROLL CARE IN ANOTHER HEALTH FACILITY',
       '1732': 'AMPATH CLINIC TRANSFER',
       '9579': 'CONTINUE CARE IN OTHER FACILITY',
       '9580': 'FOLLOW-UP CARE PLAN, NOT SURE',
-      '5622': 'OTHER'
+      '5622': 'OTHER',
+      '10502': 'NON AMPATH CLINIC TRANSFER'
     };
-    // if it is past RTC Date by 1 week and status = continue, can you make background pink
-    if (this.patientCareStatus === 6101 &&
-      moment(this.patientData.rtc_date).add(1, 'week') < moment(new Date())) {
-      const color = this.backgroundColor.pink;
-      this.addBackground.emit(color);
+
+    /*
+      if the patient transferred out and their care status is 'Continue with Care' despite them not returning to care,
+      apply a yellow background on their summary snapshot to mark them out as a Transfer Out.
+    */
+    /*
+      if the patient is active in care with a care status of 'Continue with Care' and they are past their RTC date by
+      over 1 week, apply a pink background to their snapshot summary and hide their care status.
+    */
+    if (care_status_id === 6101) {
+      if (this.hasTransferEncounter && !this.patientReturnedToCare()) {
+        this.showCareStatus = false;
+        this.showYellowBackground();
+      } else if (moment(this.patientData.rtc_date).add(1, 'week') < moment(new Date())) {
+        this.showPinkBackground();
+      }
     }
-    if (this.patientCareStatus === 1287) {
-      const color = this.backgroundColor.yellow;
-      this.addBackground.emit(color);
+
+    // if patient is a Transfer Out, apply a yellow background to their snapshot summary
+    if ((this.hasTransferEncounter && this.isNonAmpathTransferOut(care_status_id))
+        || this.isIntraAmpathTransferFromCurrentLocation(care_status_id)) {
+      this.showYellowBackground();
     }
-    return this._toProperCase(translateMap[id]);
+
+    return this._toProperCase(translateMap[care_status_id]);
+  }
+
+  private checkIfHasTransferEncounter(summaries: any[]): boolean {
+    if (summaries) {
+      return _.some(summaries, (summary: any) => {
+        return summary.encounter_type === 116 && summary.encounter_type_name === 'TRANSFERENCOUNTER';
+      });
+    }
+  }
+
+  private getIndexOfTransferEncounter(summaries: any[]): number {
+    if (summaries) {
+      return _.findIndex(summaries, (summary: any) => {
+        return summary.encounter_type === 116 && summary.encounter_type_name === 'TRANSFERENCOUNTER';
+      });
+    }
+  }
+
+  private getClinicalEncounters(summaries: any[]): any[] {
+    if (summaries) {
+      return _.filter(summaries, (summary: any) => {
+        return summary.is_clinical_encounter === 1;
+      });
+    }
+  }
+
+  private showPinkBackground(): void {
+    const color = this.backgroundColor.pink;
+    this.addBackground.emit(color);
+  }
+
+  private showYellowBackground(): void {
+    const color = this.backgroundColor.yellow;
+    this.addBackground.emit(color);
+  }
+
+  private patientReturnedToCare(): boolean {
+    return this.hasSubsequentClinicalEncounter ? true : false;
+  }
+
+  private isNonAmpathTransferOut(care_status_id) {
+    return care_status_id === 1287 || care_status_id === 5622 || care_status_id === 10502;
+  }
+
+  private isIntraAmpathTransferFromCurrentLocation(care_status_id) {
+    const intraAmpathTransferOutConceptIds = [1285, 1286, 9068, 9504];
+    if (intraAmpathTransferOutConceptIds.includes(care_status_id) && this.hasMatchingLocation()) {
+      return true;
+    }
+
+    if (care_status_id === 9080 && this.hasTransferEncounter && this.hasMatchingLocation()) {
+      return true;
+    }
+
+    if (care_status_id === 1594 && this.hasMatchingLocation()) {
+      return true;
+    }
+    return false;
+  }
+
+  private hasMatchingLocation() {
+    const currentlyLoggedInLocation = this.userDefaultPropertiesService.getCurrentUserDefaultLocation();
+    if (this.latestEncounterLocation) {
+      return this.latestEncounterLocation.display === currentlyLoggedInLocation;
+    }
   }
 
   private getlatestVlResult(hivSummaryData) {
-
     const orderByVlDate = _.orderBy(hivSummaryData, (hivSummary) => {
       return moment(hivSummary.vl_1_date);
     }, ['desc']);
@@ -183,7 +275,9 @@ export class HivProgramSnapshotComponent implements OnInit {
       return txt.charAt(0).toUpperCase() +
         txt.substr(1).toLowerCase();
     });
-  } private checkViremia(latestVl) {
+  }
+
+  private checkViremia(latestVl) {
     if (latestVl >= 1 && latestVl <= 999) {
       this.lowViremia = true;
       this.viremiaAlert = 'Low';
@@ -193,6 +287,7 @@ export class HivProgramSnapshotComponent implements OnInit {
       this.viremiaAlert = 'High';
     }
   }
+
   public getMoriskyScore() {
     const previousEncounters = this.getPreviousEncounters(this.patient.encounters);
     this.getPreviousEncounterDetails(previousEncounters)
@@ -217,14 +312,13 @@ export class HivProgramSnapshotComponent implements OnInit {
           this.setNullMorisky();
         }
         if (this.moriskyScore >= 0 && this.moriskyScore <= 0.25) {
-          this.ismoriskyScorePoorOrInadequate = false;
+          this.isMoriskyScorePoorOrInadequate = false;
         } else if (this.moriskyScore >= 0.5) {
-          this.ismoriskyScorePoorOrInadequate = true;
+          this.isMoriskyScorePoorOrInadequate = true;
         }
       });
   }
 
-// Function to get All Encounters
   public getAllEncounters(encounters) {
     const allEncounters = [];
     encounters = this.patient.encounters;
@@ -234,13 +328,12 @@ export class HivProgramSnapshotComponent implements OnInit {
     return allEncounters;
   }
 
-// Function to get Previous Morisky Encounter Details
   public getPreviousEncounters(allEncounters) {
     const previousEncounters = [];
     _.each(allEncounters, (encounter: any) => {
       const encounterType = encounter.encounterType.uuid;
-      const encounterDate = Moment(encounter.encounterDatetime).format('YYYY-MM-DD-HH');
-      if (encounterType === '8d5b2be0-c2cc-11de-8d13-0010c6dffd0f') {
+      const encounterDate = moment(encounter.encounterDatetime).format('YYYY-MM-DD-HH');
+      if (encounterType === '8d5b2be0-c2cc-11de-8d13-0010c6dffd0f') { // Adult Return encounter
         if (encounterDate === this.getLastAdultReturnEncounterDate(allEncounters)) {
           previousEncounters.push(encounter);
       }
@@ -249,12 +342,11 @@ export class HivProgramSnapshotComponent implements OnInit {
     return previousEncounters;
   }
 
-// Function to get Last Adult Return Encounter Date
   public getLastAdultReturnEncounterDate(allEncounters) {
     const max_date: any[] = [];
     _.each(allEncounters, (encounter: any) => {
-      const encounterDate = Moment(encounter.encounterDatetime).format('YYYY-MM-DD-HH');
-      const today = Moment().format('YYYY-MM-DD-HH');
+      const encounterDate = moment(encounter.encounterDatetime).format('YYYY-MM-DD-HH');
+      const today = moment().format('YYYY-MM-DD-HH');
       if (encounterDate !== today) {
         max_date.push(encounterDate);
       }
@@ -262,7 +354,6 @@ export class HivProgramSnapshotComponent implements OnInit {
     return this.getMaximumDate(max_date);
   }
 
-// Function to get array Previous Morisky Encounter Details
   public getPreviousEncounterDetails(previousEncounters) {
     return new Promise((resolve, reject) => {
       const encounterWithDetails = [];
@@ -276,8 +367,8 @@ export class HivProgramSnapshotComponent implements OnInit {
       _.each(previousEncounters, (encounterDetail: any) => {
         const encounterUuid = encounterDetail.uuid;
         encounterCount++;
-        this._encounterResourceService.getEncounterByUuid(encounterUuid).pipe(
-/* tslint:disable-next-line: no-shadowed-variable */
+        this.encounterResourceService.getEncounterByUuid(encounterUuid).pipe(
+        /* tslint:disable-next-line: no-shadowed-variable */
           take(1)).subscribe((encounterDetail) => {
             encounterWithDetails.push(encounterDetail);
             resultCount++;
@@ -287,10 +378,9 @@ export class HivProgramSnapshotComponent implements OnInit {
     });
   }
 
-// Function to get Morisky 4
   public getMorisky4() {
     this.moriskyScore = this.moriskyScore4;
-    this.MoriskyDenominator = '/4';
+    this.moriskyDenominator = '/4';
     if (this.moriskyScore === 0) {
       this.moriskyRating = 'Good';
     } else if (this.moriskyScore > 0 && this.moriskyScore < 3) {
@@ -298,23 +388,19 @@ export class HivProgramSnapshotComponent implements OnInit {
     }
   }
 
-// Function to get Morisky 8
   public getMorisky8() {
     this.moriskyScore = this.moriskyScore8;
-    this.MoriskyDenominator = '/8';
+    this.moriskyDenominator = '/8';
     this.moriskyRating = 'Poor';
-    this.ismoriskyScorePoorOrInadequate = true;
+    this.isMoriskyScorePoorOrInadequate = true;
   }
 
-// Function to get NUll Morisky score
   public setNullMorisky() {
     this.moriskyScore = '';
-    this.MoriskyDenominator = '';
+    this.moriskyDenominator = '';
     this.moriskyRating = 'No value';
   }
 
-
- // Function to get the maximum date in an array
   public getMaximumDate(all_dates) {
     let max_dt = all_dates[0],
       max_dtObj = new Date(all_dates[0]);

@@ -16,7 +16,7 @@ require('pdfmake/build/vfs_fonts.js');
 @Component({
   selector: 'clinic-lab-orders',
   templateUrl: './clinic-lab-orders.component.html',
-  styleUrls: []
+  styleUrls: ['./clinic-lab-orders.component.css']
 })
 export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
   public location = '';
@@ -29,6 +29,9 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
   public totalSampleNotCollected: any;
   public startDate: any;
   public endDate: any;
+  public limit = 300;
+  public offset = 0;
+  public allOrdersLoaded = false;
   public filterCollapsed: any;
   public isLoadingReport = false;
   public parentIsBusy = false;
@@ -108,7 +111,9 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
     this.clinicLabOrdersResourceService.getClinicLabOrders({
       locationUuids: this.location,
       startDate: this.startDate,
-      endDate: this.endDate
+      endDate: this.endDate,
+      limit: this.limit,
+      offset: this.offset
 
     }).pipe(take(1)).subscribe((results) => {
         if (results) {
@@ -119,6 +124,7 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
           this.results = this.formatDateField(results);
           this.totalOrderds = this.results.length;
           this.totalCounts = this.totalOrderds;
+          this.checkOrderLimit(this.totalOrderds);
         }
         this.isLoadingReport = false;
 
@@ -131,6 +137,12 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
         console.error('error', error);
       });
   }
+  public checkOrderLimit(resultCount: number): void {
+       this.allOrdersLoaded = false;
+       if (resultCount < this.limit) {
+           this.allOrdersLoaded = true;
+       }
+  }
   public getCurrentLocation() {
     this.route.parent.parent.params.subscribe((params) => {
       this.location = params['location_uuid'];
@@ -138,10 +150,12 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
     });
   }
   public startDateChanged(startDate) {
+    this.resetLimit();
     this.setClinicOrderParam(this.location, '', startDate, this.endDate);
   }
 
   public endDateChanged(endDate) {
+    this.resetLimit();
     this.setClinicOrderParam(this.location, '', this.startDate, endDate);
   }
 
@@ -177,6 +191,8 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
          {text: '#', style: 'tableHeader'},
          {text: 'Identifiers', style: 'tableHeader'},
          {text: 'Person Name', style: 'tableHeader'},
+         {text: 'Age', style: 'tableHeader'},
+         {text: 'Gender', style: 'tableHeader'},
          {text: 'Order No', style: 'tableHeader'},
          {text: 'Order Type', style: 'tableHeader'},
          {text: 'Date Ordered', style: 'tableHeader'},
@@ -274,6 +290,8 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
             dataRow.push({text: cnt, style: 'cellData'});
             dataRow.push({text: data.identifiers.replace( /,/g, ', '), style: 'cellData'});
             dataRow.push({text: data.person_name, style: 'cellData'});
+            dataRow.push({text: data.age, style: 'cellData'});
+            dataRow.push({text: data.gender, style: 'cellData'});
             dataRow.push({text: data.orderNumber, style: 'cellData'});
             dataRow.push({text: data.order_type, style: 'cellData'});
             dataRow.push({text: data.DateActivated, style: 'cellData'});
@@ -357,6 +375,18 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
         cellStyle: {
           'white-space': 'normal'
         },
+        filter: 'text'
+      },
+      {
+        headerName: 'Age',
+        field: 'age',
+        width: 90,
+        filter: 'text'
+      },
+      {
+        headerName: 'Gender',
+        field: 'gender',
+        width: 90,
         filter: 'text'
       },
       {
@@ -486,6 +516,15 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
 
     return numbers;
 
+  }
+
+  private loadMoreOrders() {
+     this.limit += 300;
+     this.onClickedGenerate();
+  }
+
+  private resetLimit() {
+    this.limit = 300;
   }
 
 }

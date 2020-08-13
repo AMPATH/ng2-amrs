@@ -179,7 +179,6 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
     this.currentStep = 2;
     this.jumpStep = -1;
     if (this.program) {
-      this.removeMessage();
       this.unenrollAndGoToDetails();
     } else {
       this.showMessage('Please select a program to continue');
@@ -196,7 +195,7 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
         if (this.isReferral) {
           this.referPatient();
         } else {
-          this.isButtonVisible = true;
+          this.isButtonVisible = false;
           this.enrollPatientToProgram();
         }
       }
@@ -226,6 +225,7 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
         });
       }
       this.enrolling = false;
+      this.isButtonVisible = true;
       this.completeEnrollment();
     });
   }
@@ -456,7 +456,6 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
   }
   private loadQueryParams() {
     const queryParams: any = this.route.snapshot.queryParams;
-    console.log('queryParams', queryParams);
     if (queryParams.enrollMentQuestions) {
       this.preFillEnrollmentQuestions(queryParams.enrollMentQuestions);
     }
@@ -574,12 +573,15 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
     if (this.programVisitConfig && !_.isUndefined(this.programVisitConfig.enrollmentAllowed)) {
       if (!this.programVisitConfig.enrollmentAllowed) {
         this.showMessage('The patient is not allowed to be enrolled in this program. ' +
-          'Only female patients are allowed');
+          'Please confirm the sex of the patient.');
+        this.isButtonVisible = false;
       } else {
         this.removeMessage();
+        this.isButtonVisible = true;
       }
     } else {
       this.removeMessage();
+      this.isButtonVisible = true;
     }
   }
 
@@ -672,25 +674,9 @@ export class NewProgramComponent extends ProgramManagerBaseComponent implements 
     this.newlyEnrolledGroup = newGroup;
   }
 
-  getCurrentPatientGroups(patientUuid: string) {
+  public getCurrentPatientGroups(patientUuid: string) {
     this.groupMemberService.getMemberCohortsByPatientUuid(patientUuid).subscribe((groups) => {
       this.patientCurrentGroups = _.filter(groups, (group) => !group.voided);
     });
   }
-
-  public setUserDefaultLocation() {
-    const retroLocation = localStorage.getItem('retroLocation');
-    if (retroLocation) {
-      this.selectedLocation = JSON.parse(retroLocation);
-      return;
-    }
-    const location: any = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
-    if (location) {
-      this.selectedLocation = {
-        value: location.uuid,
-        label: location.display
-      };
-    }
-  }
-
 }

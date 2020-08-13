@@ -20,7 +20,9 @@ export class ClinicLabOrdersResourceService {
     const urlParams: HttpParams = new HttpParams()
       .set('locationUuids', params.locationUuids)
       .set('endDate', params.endDate)
-      .set('startDate', params.startDate);
+      .set('startDate', params.startDate)
+      .set('limit', params.limit)
+      .set('offset', params.offset);
     return this.http.get<any>(url, {
       params: urlParams
     }).pipe(

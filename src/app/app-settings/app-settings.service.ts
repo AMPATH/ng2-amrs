@@ -3,8 +3,8 @@ import { LocalStorageService } from '../utils/local-storage.service';
 
 @Injectable()
 export class AppSettingsService {
-  public static readonly DEFAULT_OPENMRS_SERVER_URL = 'https://amrs.ampath.or.ke:8443/amrs';
-  public static readonly DEFAULT_ETL_SERVER_URL = 'https://amrsreporting.ampath.or.ke:8002/etl';
+  public static readonly DEFAULT_OPENMRS_SERVER_URL = 'https://ngx.ampath.or.ke/amrs';
+  public static readonly DEFAULT_ETL_SERVER_URL = 'https://ngx.ampath.or.ke/etl-latest/etl';
   public static readonly OPENMRS_LIST_STORAGE_KEY = 'appSettings.openmrsServersList';
   public static readonly ETL_LIST_STORAGE_KEY = 'appSettings.etlServersList';
   public static readonly OPENMRS_SERVER_KEY = 'appSettings.openmrsServer';

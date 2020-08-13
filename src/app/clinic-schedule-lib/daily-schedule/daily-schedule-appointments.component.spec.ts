@@ -23,7 +23,7 @@ import { DialogModule, CalendarModule } from 'primeng/primeng';
 import { CacheModule } from 'ionic-cache/dist/cache.module';
 import { DataCacheService } from '../../shared/services/data-cache.service';
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
-import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
+import { DateTimePickerModule } from 'ngx-openmrs-formentry/';
 import {
   ProgramVisitEncounterSearchComponent
 } from './../../program-visit-encounter-search/program-visit-encounter-search.component';

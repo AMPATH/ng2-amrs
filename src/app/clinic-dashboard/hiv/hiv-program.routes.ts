@@ -17,12 +17,14 @@ import {
 import {
     PatientStatusChangeVisualizationContainerComponent
 } from './patient-status-change-visualization/patient-status-change-visualization.container.component';
-import { PatientStatusChangeListComponent
+import {
+    PatientStatusChangeListComponent
 } from './patient-status-change-visualization/patient-status-change-list.component';
 import {
-  VisualizationPatientListComponent
+    VisualizationPatientListComponent
 } from '../../hiv-care-lib/hiv-visualization/visualization-patient-list.component';
-import { Moh731PatientListComponent
+import {
+    Moh731PatientListComponent
 } from './../../hiv-care-lib/moh-731-report/moh-731-patientlist.component';
 import {
     HivDailyScheduleComponent
@@ -30,23 +32,29 @@ import {
 import {
     HivMonthlyScheduleComponent
 } from './monthly-schedule/monthly-schedule.component';
-import { DailyScheduleVisitsComponent
+import {
+    DailyScheduleVisitsComponent
 } from '../../clinic-schedule-lib/daily-schedule/daily-schedule-visits.component';
-import { DailyScheduleAppointmentsComponent
+import {
+    DailyScheduleAppointmentsComponent
 } from '../../clinic-schedule-lib/daily-schedule/daily-schedule-appointments.component';
-import { DailyScheduleNotReturnedComponent
+import {
+    DailyScheduleNotReturnedComponent
 } from '../../clinic-schedule-lib/daily-schedule/daily-schedule-not-returned.component';
-import { DailyScheduleClinicFlowComponent
+import {
+    DailyScheduleClinicFlowComponent
 } from '../hiv/clinic-flow/daily-schedule-clinic-flow.component';
-import { ClinicFlowVisitsComponent
+import {
+    ClinicFlowVisitsComponent
 } from '../../hiv-care-lib/clinic-flow/clinic-flow-visits.component';
 import {
-  ClinicFlowLocationStatsComponent
+    ClinicFlowLocationStatsComponent
 } from '../../hiv-care-lib/clinic-flow/clinic-flow-location-stats.component';
 import {
-  ClinicFlowProviderStatsComponent
+    ClinicFlowProviderStatsComponent
 } from '../../hiv-care-lib/clinic-flow/clinic-flow-provider-stats.component';
-import { ClinicFlowSummaryComponent
+import {
+    ClinicFlowSummaryComponent
 } from '../../hiv-care-lib/clinic-flow/clinic-flow-summary.component';
 import { HivEnhancedComponent } from './hiv-enhanced-program/hiv-enhanced-program.component';
 import { DefaulterListComponent } from '../general/defaulter-list/defaulter-list.component';
@@ -61,6 +69,30 @@ import {
     DashboardsViewerComponent
 } from '../../kibana-lib';
 import { HivDifferentiatedCareComponent } from './hiv-differentiated-care-program/hiv-differentiated-care-program.component';
+import { SurgeReportComponent } from './surge-report/surge-report.component';
+import { SurgeReportPatientListComponent } from 'src/app/hiv-care-lib/surge-report/surge-report-patient-list.component';
+
+import { ClinicDashboardRetentionReportComponent } from './retention-report/clinic-dashboard-retention-report.component';
+import {
+    RetentionReportPatientListComponent
+} from './../../hiv-care-lib/retention-report/retention-report-patient-list.component';
+import { DqaReportsComponent } from 'src/app/hiv-care-lib/dqa-reports/dqa-reports/dqa-reports.component';
+import {
+    ChartAbstractionPatientlistComponent
+} from 'src/app/hiv-care-lib/dqa-reports/chart-abstraction-patientlist/chart-abstraction-patientlist.component';
+
+
+import { ClinicDashboardCaseManagementComponent } from './case-management/clinic-dashboard-case-management.component';
+import { PrepReportComponent } from './prep-report/prep-report.component';
+import {
+    PrepReportPatientListComponent
+} from 'src/app/hiv-care-lib/prep-report/prep-report-patient-list/prep-report-patient-list.component';
+import { MonthlyReportComponent } from 'src/app/hiv-care-lib/monthly-report/monthly-report.component';
+
+import {
+    ClinicDashboardHeiReportComponent
+} from './clinic-dashboard-hei-indicators-report/clinic-dashboard-hei-report.component';
+import { HeiIndicatorsPatientListComponent } from './../../hiv-care-lib/hei-indicators-report/hei-indicators-patient-list.component';
 const routes: Routes = [
     {
         path: 'landing-page',
@@ -69,15 +101,15 @@ const routes: Routes = [
     {
         path: 'patient-status-change-visualization',
         children: [
-          {
-            path: ':view',
-            component: PatientStatusChangeVisualizationContainerComponent
-          },
-          {
-            path: ':view/patient-list',
-            component: PatientStatusChangeListComponent
-          },
-          { path: '', redirectTo: 'cumulative', pathMatch: 'prefix' }
+            {
+                path: ':view',
+                component: PatientStatusChangeVisualizationContainerComponent
+            },
+            {
+                path: ':view/patient-list',
+                component: PatientStatusChangeListComponent
+            },
+            { path: '', redirectTo: 'cumulative', pathMatch: 'prefix' }
         ]
     },
     {
@@ -137,16 +169,16 @@ const routes: Routes = [
             { path: 'daily-appointments', component: DailyScheduleAppointmentsComponent },
             { path: 'daily-not-returned', component: DailyScheduleNotReturnedComponent },
             {
-              path: 'clinic-flow', component: DailyScheduleClinicFlowComponent,
-              children: [
-                { path: 'visits', component: ClinicFlowVisitsComponent },
-                { path: 'summary', component: ClinicFlowSummaryComponent },
-                { path: 'provider-stats', component: ClinicFlowProviderStatsComponent },
-                { path: 'location', component: ClinicFlowLocationStatsComponent },
-                { path: '', redirectTo: 'summary', pathMatch: 'prefix' }
-              ]
+                path: 'clinic-flow', component: DailyScheduleClinicFlowComponent,
+                children: [
+                    { path: 'visits', component: ClinicFlowVisitsComponent },
+                    { path: 'summary', component: ClinicFlowSummaryComponent },
+                    { path: 'provider-stats', component: ClinicFlowProviderStatsComponent },
+                    { path: 'location', component: ClinicFlowLocationStatsComponent },
+                    { path: '', redirectTo: 'summary', pathMatch: 'prefix' }
+                ]
             }
-          ]
+        ]
     },
     {
         path: 'monthly-schedule',
@@ -164,17 +196,18 @@ const routes: Routes = [
         path: 'clinic-lab-orders',
         component: ClinicLabOrdersComponent
     },
-    { path: 'program-enrollment',
-       children: [
-        {
-            path: '',
-            component: PatientsProgramEnrollmentComponent
-        },
-        {
-            path: 'patient-list',
-            component: ProgramEnrollmentPatientListComponent
-        }
-    ]
+    {
+        path: 'program-enrollment',
+        children: [
+            {
+                path: '',
+                component: PatientsProgramEnrollmentComponent
+            },
+            {
+                path: 'patient-list',
+                component: ProgramEnrollmentPatientListComponent
+            }
+        ]
     },
     {
         path: 'hiv-differentiated-care',
@@ -182,7 +215,85 @@ const routes: Routes = [
     },
     {
         path: 'department-select',
-        component : ChangeDepartmentComponent
+        component: ChangeDepartmentComponent
+    },
+    {
+        path: 'surge-reports',
+        component: SurgeReportComponent
+    },
+    {
+        path: 'dqa-reports',
+        children: [
+            {
+                path: 'dqa-report-patientlist',
+                component: ChartAbstractionPatientlistComponent
+            },
+            {
+                path: '',
+                component: DqaReportsComponent
+            }
+        ]
+    },
+    {
+        path: 'surge-reports/surge-report-patientlist',
+        component: SurgeReportPatientListComponent
+    },
+    {
+        path: 'retention-report',
+        children: [
+            {
+                path: '',
+                component: ClinicDashboardRetentionReportComponent
+            },
+            {
+                path: 'patient-list',
+                component: RetentionReportPatientListComponent
+            }
+        ]
+    },
+    {
+        path: 'case-management',
+        children: [
+            {
+                path: '',
+                component: ClinicDashboardCaseManagementComponent
+            }
+        ]
+    },
+    {
+        path: 'monthly-report',
+        children: [
+            {
+                path: '',
+                component: MonthlyReportComponent
+            },
+            {
+                path: 'prep-report',
+                children: [
+                    {
+                        path: '',
+                        component: PrepReportComponent
+                    },
+                    {
+                        path: 'patient-list',
+                        component: PrepReportPatientListComponent
+                    }
+                ]
+            },
+        ]
+    },
+    {
+        path: 'hei-report',
+        children: [
+            {
+                path: '',
+                component: ClinicDashboardHeiReportComponent
+            },
+            {
+                path: 'patient-list',
+                component: HeiIndicatorsPatientListComponent
+            }
+        ]
     }
 ];
 

@@ -1,25 +1,39 @@
-<h4 class="component-title" style="color: green;"><span class="glyphicon glyphicon-equalizer"></span> Patient Referral</h4>
+<h4 class="component-title" style="color: green;">
+  <span class="glyphicon glyphicon-equalizer"></span> Patient Referrals
+</h4>
 <div>
   <div class="row">
     <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-      <div class="alert alert-danger" *ngIf="msgObj.show && msgObj.message !== ''">
+      <div
+        class="alert alert-danger"
+        *ngIf="msgObj.show && msgObj.message !== ''"
+      >
         {{ msgObj.message }}
       </div>
     </div>
   </div>
-  <report-filters [enabledControls]="enabledControls" [(startDate)]="startDate" [(endDate)]="endDate"
-                   (onProgramChange)="getSelectedPrograms($event)"
-                   [reportName]="reportName" [parentIsBusy]="isLoadingReport"
-                   (generateReport)="generateReport()">
+  <report-filters
+    [enabledControls]="enabledControls"
+    [(startDate)]="startDate"
+    [(endDate)]="endDate"
+    (onProgramChange)="getSelectedPrograms($event)"
+    [reportName]="reportName"
+    [parentIsBusy]="isLoadingReport"
+    (generateReport)="generateReport()"
+  >
   </report-filters>
   <div *ngIf="data.length > 0">
-    <patient-referral-tabular [sectionDefs]="sectionsDef" [rowData]="data" [dates]="dates"
-      [programUuids]="programUuids"></patient-referral-tabular>
+    <patient-referral-tabular
+      [sectionDefs]="sectionsDef"
+      [rowData]="data"
+      [dates]="dates"
+      [programUuids]="programUuids"
+    ></patient-referral-tabular>
   </div>
   <div class="row" *ngIf="showEmptyResultsDialog">
     <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
       <div class="alert alert-info">
-        <p>No data to display for the selected program.</p>
+        <p>No data to display for the selected program(s).</p>
       </div>
     </div>
   </div>

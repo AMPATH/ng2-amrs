@@ -29,6 +29,11 @@ export class DailyScheduleResourceService {
         urlParamsObj['locationUuids'] = params.locationUuids;
         urlParamsObj['limit'] = params.limit;
 
+        if (params.department && params.department.length > 0) {
+            if (params.department === 'HIV') {
+            urlParamsObj['department'] = params.department;
+            }
+        }
         if (params.programType && params.programType.length > 0) {
             urlParamsObj['programType'] = params.programType;
         }
@@ -64,6 +69,11 @@ export class DailyScheduleResourceService {
         urlParamsObj['locationUuids'] = params.locationUuids;
         urlParamsObj['limit'] = params.limit;
 
+        if (params.department && params.department.length > 0) {
+            if (params.department === 'HIV') {
+                urlParamsObj['department'] = params.department;
+            }
+        }
         if (params.programType && params.programType.length > 0) {
             urlParamsObj['programType'] = params.programType;
         }
@@ -99,6 +109,11 @@ export class DailyScheduleResourceService {
         urlParamsObj['locationUuids'] = params.locationUuids;
         urlParamsObj['limit'] = params.limit;
 
+        if (params.department && params.department.length > 0) {
+            if (params.department === 'HIV') {
+            urlParamsObj['department'] = params.department;
+            }
+        }
         if (params.programType && params.programType.length > 0) {
             urlParamsObj['programType'] = params.programType;
         }

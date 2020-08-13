@@ -282,6 +282,16 @@
       "routes": []
     },
     {
+      "programName": "Lymphoma Treatment Program",
+      "programUuid": "40677054-c402-4c56-a0e4-5dd7d799b52f",
+      "baseRoute": "40677054-c402-4c56-a0e4-5dd7d799b52f",
+      "alias": "oncology",
+      "published": true,
+      "shared-routes-class": "oncology",
+      "requiresPatientEnrollment": true,
+      "routes": []
+    },
+    {
       "programName": "Hemophilia",
       "programUuid": "a3610ba4-9811-46b3-9628-83ec9310be13",
       "baseRoute": "a3610ba4-9811-46b3-9628-83ec9310be13",
@@ -291,7 +301,6 @@
       "requiresPatientEnrollment": true,
       "routes": []
     },
-
     {
       "programName": "General Oncology",
       "programUuid": "725b5193-3452-43fc-aca3-6a80432d9bfa",
@@ -482,6 +491,36 @@
       "shared-routes-class": "cdm",
       "requiresPatientEnrollment": true,
       "routes": []
+    },
+    {
+      "programName": "Oncology Screening and Diagnosis",
+      "programUuid": "37ff4124-91fd-49e6-8261-057ccfb4fcd0",
+      "baseRoute": "37ff4124-91fd-49e6-8261-057ccfb4fcd0",
+      "alias": "oncology",
+      "published": true,
+      "shared-routes-class": "oncology",
+      "requiresPatientEnrollment": true,
+      "routes": []
+    },
+    {
+      "programName": "CDM Defaulter Tracing",
+      "programUuid": "ff446cb9-0cf4-4b39-8288-16a43ffcca25",
+      "baseRoute": "ff446cb9-0cf4-4b39-8288-16a43ffcca25",
+      "alias": "cdm",
+      "published": true,
+      "shared-routes-class": "cdm",
+      "requiresPatientEnrollment": true,
+      "routes": []
+    },
+    {
+      "programName": "Home Glucose Monitoring Program",
+      "programUuid": "d2090d0b-990a-4b82-98a8-32f987329f63",
+      "baseRoute": "d2090d0b-990a-4b82-98a8-32f987329f63",
+      "alias": "cdm",
+      "published": true,
+      "shared-routes-class": "cdm",
+      "requiresPatientEnrollment": true,
+      "routes": []
     }
   ],
 
@@ -546,6 +585,11 @@
         "url": "patient-vitals",
         "label": "Vitals",
         "icon": "fa fa-heartbeat"
+      },
+      {
+        "url": "oncology-summary",
+        "label": "Oncology Summary",
+        "icon": "fa fa-medkit"
       },
       {
         "url": "lab-data-summary",

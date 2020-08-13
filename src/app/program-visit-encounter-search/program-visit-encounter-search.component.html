@@ -23,6 +23,7 @@
                </div>
                 <div id="filter-search" *ngIf="!loadingFilters && showFilters">
                     <div class="row">
+                        <div id="prgram-filters" *ngIf="showProgramFilters">
                         <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
                             <label class="control-label">Program</label>
                             <angular2-multiselect #programSelect 
@@ -64,6 +65,7 @@
                                                 name="encounterType-filter">
                             </angular2-multiselect>
 
+                        </div>
                         </div>
                         
                         <div class="col-xs-6 col-sm-6 col-md-6" *ngIf="monthControl">

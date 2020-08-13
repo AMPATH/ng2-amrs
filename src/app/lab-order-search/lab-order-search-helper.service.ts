@@ -42,15 +42,11 @@ export class LabOrdersSearchHelperService {
       },
       {
           id: 2,
-          display: 'Venous Blood  (EDTA )'
+          display: 'Whole blood'
       },
       {
           id: 3,
-          display: 'DBS Capillary ( infants)'
-      },
-      {
-          id: 4,
-          display: 'DBS Venous'
+          display: 'DBS'
       }
     ];
   }
@@ -165,7 +161,7 @@ export class LabOrdersSearchHelperService {
     public createViralLoadPayload(order, encounterObs, encounterLocationUuid,
                                   patientIdentifier, patientName, sex, birthDate, dateRecieved,
                                   artStartDateInitial, artStartDateCurrent,
-                                  sampleType, artRegimenIds) {
+                                  sampleType, artRegimenIds, isPregnant = 0, breastfeeding = 0) {
 
       const vlJustificationUuid: any = this.findObsValueByConceptUuid(encounterObs,
         '0a98f01f-57f1-44b7-aacf-e1121650a967');
@@ -184,6 +180,8 @@ export class LabOrdersSearchHelperService {
         sampleType: sampleType,
         artRegimenUuid: artRegimenIds,
         vlJustificationUuid: vlJustificationUuid,
+        isPregnant: isPregnant,
+        breastfeeding: breastfeeding,
         dateDrawn: this.formatDate(order.dateActivated),
         dateReceived: this.formatDate(dateRecieved)
       };

@@ -94,6 +94,7 @@ export class DataEntryStatisticsDailyListComponent
             'providerUuid': this.params.providerUuid,
             'locationUuids': column.data.locationUuid,
             'encounterTypeUuids': column.data.encounterTypeUuid,
+            'visitTypeUuids': this.params.visitTypeUuids,
             'startDate': this.params.startDate,
             'endDate': this.params.endDate
           };
@@ -128,6 +129,7 @@ export class DataEntryStatisticsDailyListComponent
               const patientListParams = {
                 'startDate': Moment(stat.date).format('YYYY-MM-DD'),
                 'encounterTypeUuids': column.data.encounterTypeUuid,
+                'visitTypeUuids': this.params.visitTypeUuids,
                 'endDate': Moment(stat.date).format('YYYY-MM-DD'),
                 'locationUuids': column.data.locationUuid,
                 'providerUuid': this.params.providerUuid,

@@ -9,7 +9,7 @@ import { DataListsModule } from '../shared/data-lists/data-lists.module';
 import {
   AccordionModule, DataTableModule, SharedModule, TabViewModule,
   GrowlModule, PanelModule, ConfirmDialogModule, ConfirmationService,
-  DialogModule, InputTextModule, MessagesModule, InputTextareaModule,
+  DialogModule, InputTextModule, MessagesModule, InputTextareaModule, MultiSelectModule,
   DropdownModule, ButtonModule, CalendarModule
 } from 'primeng/primeng';
 import { Moh731TabularComponent } from './moh-731-report/moh-731-tabular.component';
@@ -17,7 +17,7 @@ import { Moh731ReportFiltersComponent } from './moh-731-report/moh-731-report-fi
 import { Moh731ReportBaseComponent } from './moh-731-report/moh-731-report-base.component';
 import { EtlApi } from '../etl-api/etl-api.module';
 import { Moh731PatientListComponent } from './moh-731-report/moh-731-patientlist.component';
-import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
+import { DateTimePickerModule } from 'ngx-openmrs-formentry/';
 import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 import { MOHReportComponent } from './moh-731-report/moh-731-report-pdf-view.component';
 import { MOHReportService } from './moh-731-report/moh-731-report-pdf-view.service';
@@ -86,7 +86,22 @@ import {
 import {
   ProgramWorkFlowResourceService
 } from '../openmrs-api/program-workflow-resource.service';
+import {
+   HeiIndicatorsReportComponent
+} from './hei-indicators-report/hei-indicators-report.component';
+import {
+   HeiIndicatorsFilterComponent
+} from './hei-indicators-report/hei-indicators-filter.component';
+import {
+  HeiIndicatorsTabularComponent
+} from './hei-indicators-report/hei-indicators-tabular-component';
+import { HeiIndicatorsPatientListComponent } from './hei-indicators-report/hei-indicators-patient-list.component';
+import { HeiIndicatorsPdfViewComponent } from './hei-indicators-report/hei-indicators-pdf-view.component';
 import { HighchartsStatic } from 'angular2-highcharts/dist/HighchartsService';
+import { SurgeReportTabularComponent } from './surge-report/surge-report-tabular.component';
+import { SurgeReportBaseComponent } from './surge-report/surge-report-base.component';
+import { SurgeReportPatientListComponent } from './surge-report/surge-report-patient-list.component';
+import { BsDatepickerModule } from 'ngx-bootstrap';
 export function highchartsFactory() {
   const hc = require('highcharts');
   const hcm = require('highcharts/highcharts-more');
@@ -95,6 +110,28 @@ export function highchartsFactory() {
   hce(hc);
   return hc;
 }
+import { RetentionReportPatientListComponent } from './retention-report/retention-report-patient-list.component';
+import { RetentionReportFiltersComponent } from './retention-report/retention-report-filters.component';
+import { RetentionReportComponent } from './retention-report/retention-report.component';
+import { RetentionReportResourceService } from './../etl-api/retention-report-resource.service';
+import { RetentionReportTabularComponent } from './retention-report/retention-report-tabular.component';
+import { RetentionIndicatorDefComponent } from './retention-report/retention-indicator-definitions.component';
+import { ChartAbstractionPatientlistComponent } from './dqa-reports/chart-abstraction-patientlist/chart-abstraction-patientlist.component';
+import { DqaReportsComponent } from './dqa-reports/dqa-reports/dqa-reports.component';
+import { DqaReportBaseComponent } from './dqa-reports/dqa-report-base/dqa-report-base.component';
+
+import { CaseManagementComponent } from './case-management/case-management.component';
+import { CaseManagementFiltersComponent } from './case-management/case-management-filters.component';
+import { CaseManagementPatientListComponent } from './case-management/case-management-patient-list.component';
+import { AssignCaseManagerComponent } from './case-management/assign-case-manager.component';
+import { CaseManagementIndicatorDefinitionComponent } from './case-management/case-management-indicator-definitions.component';
+
+import { CaseManagementResourceService } from './../etl-api/case-management-resource.service';
+import { PrepReportBaseComponent } from './prep-report/prep-report-base/prep-report-base.component';
+import { PrepReportPatientListComponent } from './prep-report/prep-report-patient-list/prep-report-patient-list.component';
+import { MonthlyReportComponent } from './monthly-report/monthly-report.component';
+
+
 @NgModule({
   imports: [
     RouterModule,
@@ -108,6 +145,7 @@ export function highchartsFactory() {
     DataTableModule,
     SharedModule,
     GrowlModule,
+    MultiSelectModule,
     PanelModule,
     ConfirmDialogModule,
     DialogModule,
@@ -122,7 +160,7 @@ export function highchartsFactory() {
     ChartModule,
     ReportingUtilitiesModule,
     DataListsModule,
-    NgxMyDatePickerModule.forRoot(),
+    NgxMyDatePickerModule.forRoot()
   ],
   exports: [
     Moh731TabularComponent,
@@ -150,7 +188,25 @@ export function highchartsFactory() {
     VisualizationPatientListComponent,
     HivSummaryIndicatorsPatientListComponent,
     HivSummaryMonthlyTabularComponent,
-    HivMonthlySummaryIndicatorsPatientListComponent
+    HivMonthlySummaryIndicatorsPatientListComponent,
+    SurgeReportTabularComponent,
+    SurgeReportBaseComponent,
+    SurgeReportPatientListComponent,
+    RetentionReportPatientListComponent,
+    RetentionReportFiltersComponent,
+    RetentionReportComponent,
+    RetentionReportTabularComponent,
+    RetentionIndicatorDefComponent,
+    CaseManagementComponent,
+    CaseManagementFiltersComponent,
+    CaseManagementPatientListComponent,
+    AssignCaseManagerComponent,
+    CaseManagementIndicatorDefinitionComponent,
+    HeiIndicatorsReportComponent,
+    HeiIndicatorsFilterComponent,
+    HeiIndicatorsTabularComponent,
+    HeiIndicatorsPatientListComponent,
+    HeiIndicatorsPdfViewComponent
   ],
   declarations: [
     Moh731TabularComponent,
@@ -176,11 +232,37 @@ export function highchartsFactory() {
     HivSummaryIndicatorsPatientListComponent,
     HivMonthlySummaryIndicatorBaseComponent,
     HivSummaryMonthlyTabularComponent,
-    HivMonthlySummaryIndicatorsPatientListComponent
+    HivMonthlySummaryIndicatorsPatientListComponent,
+    SurgeReportTabularComponent,
+    SurgeReportBaseComponent,
+    SurgeReportPatientListComponent,
+    RetentionReportPatientListComponent,
+    RetentionReportFiltersComponent,
+    RetentionReportComponent,
+    RetentionReportTabularComponent,
+    RetentionIndicatorDefComponent,
+    ChartAbstractionPatientlistComponent,
+    DqaReportsComponent,
+    DqaReportBaseComponent,
+    CaseManagementComponent,
+    CaseManagementFiltersComponent,
+    CaseManagementPatientListComponent,
+    AssignCaseManagerComponent,
+    CaseManagementIndicatorDefinitionComponent,
+    PrepReportBaseComponent,
+    PrepReportPatientListComponent,
+    MonthlyReportComponent,
+    HeiIndicatorsReportComponent,
+    HeiIndicatorsFilterComponent,
+    HeiIndicatorsTabularComponent,
+    HeiIndicatorsPatientListComponent,
+    HeiIndicatorsPdfViewComponent
   ],
   providers: [MOHReportService,
     LocationResourceService,
     ClinicalSummaryVisualizationService,
+    RetentionReportResourceService,
+    CaseManagementResourceService,
     ProgramWorkFlowResourceService,
     {
       provide: HighchartsStatic,

@@ -4,6 +4,7 @@ import {
   PatientReferralContainerComponent
 } from '../../referral-care-lib/patient-referral.container.component';
 import { PatientReferralComponent } from './patient-referral.component';
+import { StrengthsPatientReferralComponent } from './../referral-strengths/patient-strengths-referral.component';
 
 const routes: Routes = [
   {
@@ -15,6 +16,15 @@ const routes: Routes = [
       }
     ]
   },
+  {
+    path: 'patient-referral-report-strengths',
+    children: [
+      {
+        path: '',
+        component: StrengthsPatientReferralComponent
+      }
+    ]
+  }
 ];
 
 export const patientReferralProgramRouting: ModuleWithProviders =

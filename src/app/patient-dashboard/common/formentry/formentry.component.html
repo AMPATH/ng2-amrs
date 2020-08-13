@@ -1,15 +1,24 @@
 <div class="form-entry">
-  <div class="loader" *ngIf="busyIndicator.busy"><span><i class="fa fa-spinner fa-spin">
-      </i>{{busyIndicator.message}}</span>
+  <div class="loader" *ngIf="busyIndicator.busy">
+    <span>
+      <i class="fa fa-spinner fa-spin"></i>{{busyIndicator.message}}
+    </span>
   </div>
-
+  <div *ngIf="warnMCHTransfer">
+    <div class="alert alert-danger">
+      <h4>
+        Transfer To MCH
+      </h4>
+      <p>Male patients cannot be transferred to MCH. Please correct the transfer out section.</p>
+    </div>
+  </div>
   <div *ngIf="!busyIndicator.busy">
     <div class='col-md-12' *ngIf=form>
       <error-renderer [form]="form"></error-renderer>
       <form [formGroup]="form.rootNode.control">
         <h4 class="component-title"><span class="fa fa-file"></span>{{formName}}</h4>
         <form-renderer [node]="form.rootNode"></form-renderer>
-        <div class="form-row" style="">
+        <div class="form-row">
           <button id="formentry-submit-btn" *ngIf="!formSubmissionErrors" class="btn btn-primary"
             (click)="onSubmit($event)">Save</button>
           <button class="btn btn-danger" (click)="onCancel($event)">Cancel</button>
@@ -29,18 +38,17 @@
           </strong>
         </h5>
       </div>
-      <div class="panel-body">
+      <div class="panel panel-danger">
         <ul class="list-group">
           <li *ngFor="let formError of formSubmissionErrors" class="list-group-item text-danger">{{formError}}</li>
         </ul>
       </div>
       <div class="panel-footer" style="min-height: 50px">
         <button id="formentry-submit-btn" *ngIf="formSubmissionErrors" (click)="retrySubmittingPayload()"
-          class="btn btn-primary pull-right">Retry
-          Saving Form</button>
+          class="btn btn-primary pull-right">Retry Saving Form</button>
       </div>
     </div>
-    <div *ngIf="this.form && !this.form.valid && this.form.showErrors" class="panel panel-danger" style="margin:2px">
+    <div *ngIf="(this.form && !this.form.valid && this.form.showErrors) || warnMCHTransfer" class="panel panel-danger" style="margin:2px">
       <div class="panel-heading">
         <h5>
           <strong class="text-danger">
@@ -76,8 +84,9 @@
       </div>
     </div>
   </div>
-  <p-dialog header="Success" [(visible)]="showSuccessDialog" modal="true" closable="false" minWidth="300"
-    closeresponsive="true">
+
+  <p-dialog header="{{ referralValidity ? 'Success' : 'Error' }}" [(visible)]="showSuccessDialog" 
+    modal="true" closable="false" minWidth="300" closeresponsive="true">
     <p class="text-success" style="margin-bottom: 10px;">
       <span class="fa-stack fa-lg">
         <i class="fa fa-circle-thin fa-stack-2x"></i>
@@ -85,8 +94,7 @@
       </span>
       Form submitted successfully.
     </p>
-    <order-list [submittedOrdersModel]="submittedOrders">
-    </order-list>
+    <order-list [submittedOrdersModel]="submittedOrders"></order-list>
     <div *ngIf="diffCareReferralStatus">
       <strong>Differentiated Care Referral</strong>
       <hr style="margin-top:1px; margin-bottom:1px;" />
@@ -96,21 +104,33 @@
         group enrollment page.
       </div>
     </div>
-    <div *ngIf="referralStatus && !isOncologyReferral">
-      <program-referral-status [status]="referralStatus"></program-referral-status>
+    <div *ngIf="referralStatus && referralStatus.isReferral">
+      <program-referral-status [status]="referralStatus" (referralValidity)="onValidityCheck($event)">
+      </program-referral-status>
     </div>
-    <div *ngIf="referralStatus && isOncologyReferral">
-      <oncology-referral-status [status]="referralStatus"></oncology-referral-status>
+    <div *ngIf="!referralStatus && referralSuccess" class="alert alert-success" style="margin-bottom: 0;">
+      <p style="margin-bottom: 10px;">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-check-circle fa-stack-2x"></i>
+        </span>
+        Patient Referred
+      </p>
+      <h5>
+        The patient was successfully referred to the <strong>{{refProgram}}</strong> at <strong>{{refLocation}}</strong>.
+      </h5>
     </div>
     <div class="ui-dialog-buttonpane ui-helper-clearfix" style="padding: 0;margin-right: -0.4em;">
       <button *ngIf="step" (click)="navigateTo('programManager')" type="button" pButton icon="fa-file"
         label="Back to Program Manager"></button>
-      <button *ngIf="referralStatus && isOncologyReferral" (click)="navigateTo('oncologyReferral')"
+      <button *ngIf="referralStatus && referralStatus.isReferral && referralValidity" (click)="navigateTo('programReferral')"
         class="btn btn-primary" type="button">Complete Referral</button>
-      <button *ngIf="referralStatus && !isOncologyReferral" (click)="navigateTo('programManagerReferral')"
-        class="btn btn-primary" type="button">Complete Referral</button>
+      <!-- <button *ngIf="referralStatus && !programReferral" (click)="navigateTo('programManagerReferral')"
+        class="btn btn-primary" type="button">Complete Referral</button> -->
       <button *ngIf="referralStatus" (click)="onAbortingReferral($event)" type="button"
-        class="btn btn-danger">Cancel</button>
+        class="btn btn-danger">{{ referralValidity ? 'Cancel' : 'Ok' }}</button>
+      <button *ngIf="!referralStatus && !step && form.valueProcessingInfo.formUuid!='ab0918de-baf8-4804-86fb-2ff2d7b6943c' && form.valueProcessingInfo.formUuid!='159e753d-da2d-47da-bbe5-d132b7e26c2e'" (click)="navigateTo('covidScreening')" type="button"
+        class="btn btn-warning">
+        <i class="fa fa-exclamation-triangle"></i> Covid Screening</button>
       <button *ngIf="!referralStatus && !step" (click)="navigateTo('patientDashboard')" type="button"
         class="btn btn-primary">
         <i class="fa fa-user"></i> Patient Dashboard</button>
@@ -127,7 +147,7 @@
   </p-dialog>
   <p-confirmDialog [closable]="false" key="duplicateWarning"></p-confirmDialog>
 
-  <p-dialog [closable]="true" header="Process Referrals" [(visible)]="showProcessReferralsDialog" [modal]="true">
+  <p-dialog heaheaderder="Process Referrals" [(visible)]="showProcessReferralsDialog" [closable]="true" [modal]="true">
     <h4><i class="fa fa-question-circle"></i> You have referred the patient to differentiated care program.</h4>
     <ul class="list-group">
       <li class="list-group-item">

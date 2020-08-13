@@ -1,0 +1,27 @@
+<div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
+</div>
+
+<div class="table-responsive">
+  <table class='table table-hover table-striped table-bordered table-responsive'>
+    <thead>
+      <tr>
+        <th>Date of Diagnosis</th>
+        <th>Oncology Diagnosis</th>
+      </tr>
+    </thead>
+    <tbody *ngIf="summaryLoaded && !hasData">
+      <tr>
+        <td colspan="2">
+          <p class="alert alert-danger">No diagnosis history records available</p>
+        </td>
+      </tr>
+    </tbody>
+    <tbody *ngIf="summaryLoaded && hasData">
+        <tr *ngFor="let diagnosis of diagnosisChanges">
+          <td>{{ diagnosis.diagnosis_date }}</td>
+          <td>{{ diagnosis.diagnosis }}</td>
+        </tr>
+      </tbody>
+  </table>
+</div>

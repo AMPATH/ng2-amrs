@@ -102,7 +102,6 @@ export class PatientReferralBaseComponent implements OnInit {
       };
 
       const department = this.selectDepartmentService.getUserSetDepartment();
-
       this.encounteredError = false;
       this.errorMessage = '';
       this.isLoadingReport = true;
@@ -129,7 +128,7 @@ export class PatientReferralBaseComponent implements OnInit {
             this.data = groupedProgramData;
           }
         }, (error) => {
-          console.log('error => ', error);
+          console.error('Error fetching referral report: ', error);
           this.isLoadingReport = false;
           this.errorMessage = error;
           this.encounteredError = true;

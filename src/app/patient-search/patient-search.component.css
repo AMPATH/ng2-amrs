@@ -29,6 +29,8 @@
     -o-transition: all 0.30s ease-in-out;
     outline: none;
     font-size:20px;
+    /* margin-bottom: 4px; */
+    /* width: 70%; */
 }
 #search-textbox:focus{
     -moz-box-shadow: 0 0 8px #88D5E9;

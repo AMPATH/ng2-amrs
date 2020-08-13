@@ -14,7 +14,7 @@
       <h4 class="component-title">Last Encounter</h4>
       <div class="col-md-12">
         <div class="full-width">
-          <p>Location: {{location?.name}}</p>
+          <p>Location: {{latestEncounterLocation?.name}}</p>
         </div>
       </div>
       <div class="snapshot-body">
@@ -54,22 +54,24 @@
           <div class="col-md-6 col-xs-12">
             <p>RTC Date: {{patientData?.rtc_date | date:'dd-MM-yyyy'}}</p>
           </div>
-          <div class="col-md-6 col-xs-12">
+          <div class="col-md-6 col-xs-12" *ngIf="showCareStatus">
             <p>Care Status:
               <span style="text-transform: capitalize;">
-                {{ getPatientCareStatus(patientCareStatus) }}</span></p>
+                {{ resolvedCareStatus }}
+              </span>
+            </p>
           </div>
         </div>
-        <div class="col-md-12" *ngIf="hasMoriskyScore && !ismoriskyScorePoorOrInadequate">
+        <div class="col-md-12" *ngIf="hasMoriskyScore && !isMoriskyScorePoorOrInadequate">
           <div class="col-md-6 col-xs-12">
             <p>Morisky Score: <span style=" font-weight: 500; padding: 2px 2px 2px 2px;">
-                {{moriskyScore}}{{MoriskyDenominator}} - {{moriskyRating}}</span></p>
+                {{moriskyScore}}{{moriskyDenominator}} - {{moriskyRating}}</span></p>
           </div>
         </div>
-        <div class="col-md-12" *ngIf="hasMoriskyScore && ismoriskyScorePoorOrInadequate">
+        <div class="col-md-12" *ngIf="hasMoriskyScore && isMoriskyScorePoorOrInadequate">
           <div class="col-md-6 col-xs-12">
             <p>Morisky Score: <span class="score" style="color: red; padding: 2px 2px 2px 2px;">
-                {{moriskyScore}}{{MoriskyDenominator}} - {{moriskyRating}}</span></p>
+                {{moriskyScore}}{{moriskyDenominator}} - {{moriskyRating}}</span></p>
           </div>
         </div>
         <div class="clear"></div>

@@ -61,10 +61,12 @@ export class RetrospectiveDataEntryService {
   }
 
   public mappedLocation(location): any {
-    return {
-      value: location.uuid,
-      label: location.display
-    };
+    if (location) {
+      return {
+        value: location.uuid,
+        label: location.display
+      };
+    }
   }
 
   private getSettingsObject(enabled) {

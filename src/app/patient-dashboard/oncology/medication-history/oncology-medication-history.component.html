@@ -1,0 +1,33 @@
+<div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
+</div>
+
+<div class="table-responsive">
+  <table class='table table-hover table-striped table-bordered table-responsive'>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Plan</th>
+        <th>Medication</th>
+        <th>Dose</th>
+        <th>Frequency</th>
+      </tr>
+    </thead>
+    <tbody *ngIf="summaryLoaded && !hasData">
+      <tr>
+        <td colspan="5">
+          <p class="alert alert-danger">No medication change history records available</p>
+        </td>
+      </tr>
+    </tbody>
+    <tbody *ngIf="summaryLoaded && hasData">
+        <tr *ngFor="let change of medicalChanges">
+          <td>{{ change.meds_start_date }}</td>
+          <td>{{ change.chemotherapy_plan }}</td>
+          <td>{{ change.cur_onc_meds }}</td>
+          <td>{{ change.cur_onc_meds_dose }}</td>
+          <td>{{ change.cur_onc_meds_frequency }}</td>
+        </tr>
+    </tbody>
+  </table>
+</div>

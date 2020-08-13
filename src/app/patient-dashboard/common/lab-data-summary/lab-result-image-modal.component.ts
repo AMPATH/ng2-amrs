@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+
 import { BsModalService, BsModalRef ,  ModalDirective } from 'ngx-bootstrap/modal';
 
 
@@ -12,9 +13,13 @@ export class LabResultImageModalComponent implements OnInit, OnChanges {
 public modalRef: BsModalRef;
 @Input() public title = '';
 @Input() public imageLinks = [];
+@Input() public pdfLinks = [];
 @Input() public showImageModal = false;
 @Output() public modalClose = new EventEmitter<boolean>();
 @ViewChild('imageModal') public imageModal: ModalDirective;
+public pdfAvailable = true;
+public imageLinksAvailable = true;
+
 
 
   constructor() {

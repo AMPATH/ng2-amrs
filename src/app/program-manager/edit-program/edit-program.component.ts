@@ -6,6 +6,7 @@ import * as _ from 'lodash';
 
 import { ProgramManagerBaseComponent } from '../base/program-manager-base.component';
 import { PatientService } from '../../patient-dashboard/services/patient.service';
+import { PatientTransferService } from '../../patient-dashboard/common/formentry/patient-transfer.service';
 import { ProgramService } from '../../patient-dashboard/programs/program.service';
 import { DepartmentProgramsConfigService } from '../../etl-api/department-programs-config.service';
 import {
@@ -29,6 +30,7 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
   public formsFilled = false;
 
   constructor(public patientService: PatientService,
+              public patientTransferService: PatientTransferService,
               public programService: ProgramService,
               public router: Router,
               public route: ActivatedRoute,
@@ -55,6 +57,7 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
       this.loadPatientProgramConfig().pipe(take(1)).subscribe((loaded) => {
         if (loaded) {
           this.mapEnrolledProgramsToDepartment(true);
+          this.setUserDefaultLocation();
           if (loaded && params['step']) {
             this.loadOnParamInit(params);
           }
@@ -139,6 +142,14 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
     this.router.navigate([_route], {});
   }
 
+  public goToPatientSearch() {
+    this.router.navigate(['/patient-dashboard/patient-search'], {});
+  }
+
+  public goToPatientDashboard() {
+    this.router.navigate(['/patient-dashboard/patient/' + this.patient.uuid + '/general/general/landing-page'], {});
+  }
+
   public stopPrograms() {
     this.title = 'Stop Program(s)';
     this.theChange = 'stop';
@@ -152,10 +163,10 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
   }
 
   public transferOut() {
-    this.title = 'Transfer out of AMPATH';
+    this.title = 'Patient Program Transfer';
     this.theChange = 'transfer';
-    // only pick nonAmpath transfer in the statechange forms
-    this.pickStateChangeEncounters(['nonAmpath']);
+    // only pick `transfer` in the statechange forms
+    this.pickStateChangeEncounters(['transfer']);
     this.addToStepInfo({
       theChange: this.theChange
     });
@@ -173,9 +184,10 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
     const queryParams = this.route.snapshot.queryParams;
     if (queryParams && !_.isEmpty(queryParams) && queryParams.notice) {
       switch (queryParams.notice) {
-        case 'outreach':
-          this.showMessage('Please complete transfer care process. ' +
-            'Select target programs to continue.', 'info');
+        case 'location':
+          this.title = queryParams.change + ' Program Location Change';
+          this.showMessage('The patient has been transferred to the ' + queryParams.change + ' department at ' +
+            this.selectedLocation.display + ' successfully.', 'info');
           break;
         case 'pmtct':
           this.showMessage('The patient has been transferred to MCH and successfully enrolled in PMTCT.', 'info');
@@ -183,6 +195,11 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
         case 'adherence':
           this.title = 'Program Successfully Started';
           this.showMessage('The patient has been enrolled in Viremia Program successfully.', 'info');
+          break;
+        case 'other':
+          this.title = 'Programs Successfully Stopped';
+          this.showMessage('The patient has been transferred to a Non-Ampath location successfully. All active programs ' +
+            'in the current location have been stopped', 'info');
           break;
         case 'dc':
           this.title = 'Program Successfully Started';
@@ -260,6 +277,10 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
         this.removeMessage();
         this.showMessage('The patient is already enrolled in the program.', 'error');
       }
+    } else if (queryParams && queryParams.stop) {
+      this.stopPatientCurrentLocationPrograms(queryParams.stop);
+    } else if (queryParams && queryParams.change) {
+      this.changePatientProgramLocations(queryParams.change);
     } else {
       this.jumpStep = this.currentStep;
       this.deserializeStepInfo();
@@ -267,7 +288,6 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
         this.formsFilled = true;
       }
     }
-    this.showNoticeIfPossible();
   }
 
   private deserializeStepInfo() {
@@ -282,5 +302,58 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
         + '/general/general/program-manager/edit-program';
       this.router.navigate([_route], {});
     }
+  }
+
+  private stopPatientCurrentLocationPrograms(department: string) {
+    const location = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
+    const departmentPrograms: any = _.find(this.enrolledProgramsByDepartment, (_department: any) => {
+      if (_department.name === department) {
+        _department.show = false;
+        return _department.name === department;
+      }
+    });
+    if (departmentPrograms) {
+      this.programManagerService.editProgramEnrollments(
+        'stop', this.patient, departmentPrograms.programs, location)
+        .pipe(take(1)).subscribe((editedPrograms) => {
+        this.patientService.reloadCurrentPatient();
+        this.theChangeComplete = true;
+        this.showNoticeIfPossible();
+        this.removeTransferInfo();
+        this.patientTransferService.clearTransferState();
+      }, (err) => {
+        console.log('failed to autenroll', err);
+      });
+    }
+  }
+
+  private changePatientProgramLocations(department) {
+    const departmentPrograms: any = _.find(this.enrolledProgramsByDepartment, (_department: any) => {
+      _department.show = false;
+      if (_department.name === department) {
+        return _department.name === department;
+      }
+    });
+
+    if (departmentPrograms) {
+      this.programManagerService.editProgramEnrollments(
+        'transfer', this.patient, departmentPrograms.programs, localStorage.getItem('transferLocation'))
+        .pipe(take(1)).subscribe((editedPrograms) => {
+        this.selectedLocation = (_.last(editedPrograms) as any).location;
+        this.patientService.reloadCurrentPatient();
+        this.theChangeComplete = true;
+        this.showNoticeIfPossible();
+        this.removeTransferInfo();
+        this.patientTransferService.clearTransferState();
+      }, (err) => {
+        console.error('failed to autenroll', err);
+      });
+    }
+  }
+
+  private removeTransferInfo() {
+    localStorage.removeItem('transferLocation');
+    localStorage.removeItem('careStatus');
+    localStorage.removeItem('transferRTC');
   }
 }

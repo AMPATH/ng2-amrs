@@ -17,7 +17,7 @@ import * as OncologyReportConfig from '../oncology-pdf-reports.json';
   providedIn: 'root'
 })
 export class OncologyReportPdfService {
-  public  data: object = null;
+  public data: object = null;
 
   public constructor() { }
 
@@ -102,9 +102,7 @@ export class OncologyReportPdfService {
         });
       });
     }).pipe(first());
-
   }
-
 
   public constructAggregatePdfStructure(data: Array<any>, params: any, title: String): Observable<any> {
     const aggregatedData = this.aggregateData(data, params);
@@ -200,7 +198,6 @@ export class OncologyReportPdfService {
         });
       });
     }).pipe(first());
-
   }
 
   public constructPdfSections(data: Array<any>, params: any): Array<Array<any>> {
@@ -221,9 +218,7 @@ export class OncologyReportPdfService {
           }
         },
         this.constructBodySection(rowSection, params, 'pdf')
-
       ];
-
       sectionsArray.push(section);
     });
 
@@ -232,9 +227,7 @@ export class OncologyReportPdfService {
 
   public constructAggregateOuterLayout(data: Array<any>, params: any): Array<Array<Array<any>>> {
     const sectionsArray: Array<Array<Array<any>>> = [[[]]];
-
     const aggregatedData = this.aggregateData(data, params);
-
     aggregatedData.sections.shift();
 
     const left_temp: Array<Array<any>> = [[]];
@@ -255,7 +248,7 @@ export class OncologyReportPdfService {
     return sectionsArray;
   }
 
-  private  styleAggregateTable(data: Array<Array<any>>) {
+  private styleAggregateTable(data: Array<Array<any>>) {
     return [
       {
         style: 'defaultTable',
@@ -306,8 +299,7 @@ export class OncologyReportPdfService {
   public constructBodySection(data: any, params: any, reportType: String): Array<Array<any>> {
     const tableSegment: Array<Array<any>> = [[]];
     const reportIndicators = this.getReportIndicators(params.type);
-    _.each(reportIndicators,
-      (indicators) => {
+    _.each(reportIndicators, (indicators) => {
         tableSegment.push(this.constructTableLayout(indicators, data));
       });
 
@@ -316,7 +308,6 @@ export class OncologyReportPdfService {
     });
 
     return tableSegment;
-
   }
 
   public getReportIndicators(type: String) {
@@ -327,6 +318,7 @@ export class OncologyReportPdfService {
         sections = report.sections;
       }
     });
+
     return sections;
   }
 
@@ -464,11 +456,11 @@ export class OncologyReportPdfService {
 
   }
 
-  private  _formatDate(date: Date) {
+  private _formatDate(date: Date) {
     return _.isNull(date) ? 'None' : Moment(date).format('DD-MM-YYYY');
   }
 
-  private  getAppVersion(): string {
+  private getAppVersion(): string {
     try {
       return VERSION.version + VERSION.hash;
     } catch (e) {
@@ -476,7 +468,7 @@ export class OncologyReportPdfService {
     }
   }
 
-  private  base64ToUint8Array(base64: any): Uint8Array {
+  private base64ToUint8Array(base64: any): Uint8Array {
     const raw = atob(base64);
     const uint8Array = new Uint8Array(raw.length);
     for (let i = 0; i < raw.length; i++) {
@@ -485,7 +477,7 @@ export class OncologyReportPdfService {
     return uint8Array;
   }
 
-  private  getLogo(url: string, callback: any): void {
+  private getLogo(url: string, callback: any): void {
     const image: any = new Image();
     image.onload = function () {
       const canvas: any = document.createElement('canvas');

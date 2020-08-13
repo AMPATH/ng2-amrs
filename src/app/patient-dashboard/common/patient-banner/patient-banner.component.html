@@ -17,19 +17,33 @@
     <div class="row clearfix">
       <span style="font-weight: bold;font-size:20px">{{ patient?.person.display}}</span>
       <span>{{ patient?.person.gender}}</span>
-      <span>{{ birthdate }} <span *ngIf="birthdate">({{ patient?.person.age }} yo)</span></span>
+      <span>{{ birthdate }} 
+        <span *ngIf="birthdate && patient?.person.age>=18">({{ patient?.person.age }} yo)</span>
+        <span *ngIf="birthdate && patient?.person.age<18">({{ formattedPatientAge }} )</span>
+      </span>
       <span *ngIf="patient?.person.dead">Died on
         <strong>{{ patient?.person.deathDate | date: 'dd-MM-yyyy'}}</strong></span>
     </div>
     <div class="row">
       <span style="margin-left:0px;">
+        <span *ngIf="searchIdentifiers">
+          <span *ngIf="searchIdentifiers?.cCC">
+            <span class="id-label">CCC:</span>
+            <span>{{searchIdentifiers?.cCC}}</span>
+          </span>
+          <span *ngIf="!searchIdentifiers?.cCC" (click)="identifiers.showDialog('add', patient?._identifier,true)"
+                style="color: darkorange; border: 1px solid darkorange; padding-left: 4px; padding-top: 2px; padding-bottom: 2px; padding-right: 0px; cursor: pointer;">
+              <span class="glyphicon glyphicon-info-sign"></span>
+              <span style="margin-left: -5px;">CCC: Not Assigned</span>
+          </span>
+        </span>
         <span *ngIf="searchIdentifiers?.ampathMrsUId"> <span class="id-label">MUI:</span>
           {{ searchIdentifiers?.ampathMrsUId }} &nbsp;&nbsp;&nbsp;&nbsp; </span>
         <span *ngIf="searchIdentifiers?.amrsMrn"> <span class="id-label">MRN:</span> {{ searchIdentifiers?.amrsMrn }}
           &nbsp;&nbsp;&nbsp;&nbsp; </span>
-        <span *ngIf="searchIdentifiers?.cCC"> <span class="id-label">CCC:</span> {{ searchIdentifiers?.cCC }} </span>
         <span *ngIf="searchIdentifiers?.kenyaNationalId"> <span class="id-label">NID:</span>
           {{ searchIdentifiers?.kenyaNationalId }} </span>
+        <span *ngIf="searchIdentifiers?.hei"> <span class="id-label">HEI:</span> {{ searchIdentifiers?.hei }} </span>
         <span *ngIf="attributes?.value"> <span class="id-label">Test Patient:</span> {{ attributes?.value }} </span>
         <span>
         <div *ngIf="patient" class="btn-group pull-right" dropdown>
@@ -42,6 +56,10 @@
             aria-labelledby="relationship-link">
             <li *ngFor="let relationship of relationships">
               <a class="dropdown-item" (click)="openRelationshipModal(template,relationship)">{{relationship.display}} ({{ relationship?.relationshipType  }})</a>
+            </li>
+            <li class="divider"></li>
+            <li style="cursor: pointer;">
+              <a (click)="addRelationship.showDialog()" class="dropdown-item"><i class="fa fa-plus"></i> Add</a>
             </li>
           </ul>
         </div>
@@ -75,13 +93,24 @@
       <span *ngIf="patient?.person.dead">Died on
         <strong>{{ patient?.person.deathDate | date: 'dd-MM-yyyy'}}</strong></span>
       <span style="margin-left:0px;">
+        <span *ngIf="searchIdentifiers">
+          <span *ngIf="searchIdentifiers?.cCC">
+            <span class="id-label">CCC:</span>
+            <span>{{searchIdentifiers?.cCC}}</span>
+          </span>
+          <span *ngIf="!searchIdentifiers?.cCC" (click)="identifiers.showDialog('add', patient?._identifier,true)"
+                style="color: darkorange; border: 1px solid darkorange; padding-left: 4px; padding-top: 2px; padding-bottom: 2px; padding-right: 0px; cursor: pointer;">
+              <span class="glyphicon glyphicon-info-sign"></span>
+              <span style="margin-left: -5px;">CCC: Not Assigned</span>
+          </span>
+        </span>
         <span *ngIf="searchIdentifiers?.ampathMrsUId"> <span class="id-label">MUI:</span>
           {{ searchIdentifiers?.ampathMrsUId }} &nbsp;&nbsp;&nbsp;&nbsp; </span>
         <span *ngIf="searchIdentifiers?.amrsMrn"> <span class="id-label">MRN:</span> {{ searchIdentifiers?.amrsMrn }}
           &nbsp;&nbsp;&nbsp;&nbsp; </span>
-        <span *ngIf="searchIdentifiers?.cCC"> <span class="id-label">CCC:</span> {{ searchIdentifiers?.cCC }} </span>
         <span *ngIf="searchIdentifiers?.kenyaNationalId"> <span class="id-label">NID:</span>
           {{ searchIdentifiers?.kenyaNationalId }} </span>
+        <span *ngIf="searchIdentifiers?.hei"> <span class="id-label">HEI:</span> {{ searchIdentifiers?.hei }} </span>
         <span *ngIf="attributes?.value"> <span class="id-label">Test Patient:</span> {{ attributes?.value }} </span>
       </span>
       <div *ngIf="patient && relationships.length > 0" class="btn-group pull-right" dropdown>
@@ -94,6 +123,10 @@
           aria-labelledby="relationship-link">
           <li *ngFor="let relationship of relationships">
             <a class="dropdown-item" (click)="openRelationshipModal(template,relationship)">{{relationship.display}} ({{ relationship?.relationshipType  }})</a>
+          </li>
+          <li class="divider"></li>
+          <li style="cursor: pointer;">
+            <a (click)="addRelationship.showDialog()" class="dropdown-item"><i class="fa fa-plus"></i> Add</a>
           </li>
         </ul>
       </div>
@@ -170,3 +203,6 @@
     </div>
 </div>
 <div class="margin-bottom-5 clear clear-fix">&nbsp;</div>
+
+<add-relationship #addRelationship></add-relationship>
+<edit-identifiers #identifiers></edit-identifiers>

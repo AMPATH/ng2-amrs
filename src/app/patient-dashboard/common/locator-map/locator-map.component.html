@@ -10,9 +10,20 @@
         <div *ngIf="imageUploadFailed" class="alert alert-danger alert-dismissible" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>            Image not saved try again;
         </div>
-        <file-uploader [(ngModel)]="dataModel" (onClear)="clearPhoto()" (fileChanged)="onFileChange($event)"></file-uploader>
+        <div >
+                <!-- [singleFile]="singleFileInput"  -->
+        <lib-file-uploader [(ngModel)]="dataModel"
+          [srcUrl]="pdfUrl"
+         (uploadData)="onFileChange($event)" 
+         (liveCamera)="liveCamera()" 
+         (_onClear)="clearPhoto()" 
+         (fileChanged)="uploadFile($event)"></lib-file-uploader>
+        </div>
     </div>
     <div *ngIf="dataModel" class="col-md-12">
-        <img class="img-responsive" [src]="dataModel | secure" alt="" />
+                <img *ngIf="!pdfAvailable" class="img-responsive" [src]="dataModel | secure" alt="" />
+                <pdf-viewer *ngIf="pdfAvailable" [src]="pdfUrl"
+                [render-text]="true"
+                style="display: block;"></pdf-viewer>
     </div>
 </div>

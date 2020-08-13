@@ -1,6 +1,9 @@
 <div class="wrapper">
+    <div class="loader" *ngIf="busyIndicator.busy"><span><i class="fa fa-spinner fa-spin">
+            </i>{{busyIndicator.message}}</span>
+    </div>
 
-    <patient-list [data]="notReturnedPatientList" [hivColumns]="true"  [extraColumns]="extraColumns">
+    <patient-list [data]="notReturnedPatientList" [extraColumns]="extraColumns" [hivColumns]="true"  [extraColumns]="extraColumns">
     </patient-list>
 
     <div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">

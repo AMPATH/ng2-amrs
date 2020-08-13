@@ -75,6 +75,18 @@
           "isSideBarOpen": false
         },
         {
+          "url": "moh-731-report",
+          "label": "MOH 731 Reports",
+          "icon": "glyphicon glyphicon-equalizer",
+          "isSideBarOpen": false
+        },
+        {
+          "url": "case-management",
+          "label": "Case Management",
+          "icon": "fa fa-list",
+          "isSideBarOpen": false
+        },
+        {
           "url": "hiv-comparative-chart",
           "label": "Clinical Visualization",
           "icon": "fa fa-line-chart",
@@ -84,12 +96,6 @@
           "url": "patient-status-change-visualization",
           "label": "Patient Care Status",
           "icon": "fa fa-bar-chart",
-          "isSideBarOpen": false
-        },
-        {
-          "url": "moh-731-report",
-          "label": "MOH 731 Reports",
-          "icon": "glyphicon glyphicon-equalizer",
           "isSideBarOpen": false
         },
         {
@@ -123,6 +129,12 @@
           "isSideBarOpen": false
         },
         {
+          "url": "retention-report",
+          "label": "Retention Report",
+          "icon": "fa fa-file",
+          "isSideBarOpen": false
+        },
+        {
           "url": "group-manager",
           "label": "Groups Manager",
           "icon": "fa fa-users",
@@ -144,6 +156,31 @@
           "url": "hiv-differentiated-care",
           "label": "Differentiated Care",
           "icon": "fa fa-th-list",
+          "isSideBarOpen": false
+        },
+
+        {
+          "url": "surge-reports",
+          "label": "Surge Reports",
+          "icon": "fa fa-area-chart",
+          "isSideBarOpen": false
+        },
+        {
+          "url": "monthly-report",
+          "label": "Monthly Reports",
+          "icon": "fa fa-table",
+          "isSideBarOpen": false
+        },
+        {
+          "url": "dqa-reports",
+          "label": "DQA Reports",
+          "icon": "fa fa-pie-chart",
+          "isSideBarOpen": false
+        },
+        {
+          "url": "hei-report",
+          "label": "HEI Report",
+          "icon": "fa fa-line-chart",
           "isSideBarOpen": false
         },
         {
@@ -219,6 +256,12 @@
         {
           "url": "referral/patient-referral-report",
           "label": "Patient Referral",
+          "icon": "fa fa-file-pdf-o",
+          "isSideBarOpen": false
+        },
+        {
+          "url": "referral/patient-referral-report-strengths",
+          "label": "Referral tracking Patient list",
           "icon": "fa fa-file-pdf-o",
           "isSideBarOpen": false
         },

@@ -125,6 +125,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
   public initIdentifier(id) {
     if (id) {
       this.patientIdentifier = id.identifier;
+      this.initialPatientIdentifier = id.identifier;
       this.identifierType = {value: id.identifierType.uuid, label: id.identifierType.name};
       this.preferredIdentifier = id.preferred;
       this.selectedDevice = {value: id.location.uuid, label: id.location.name};
@@ -242,7 +243,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
       if (this.isValidIdentifier) {
         this.patientResourceService.searchPatient(this.patientIdentifier).pipe(take(1)).subscribe(
           (result) => {
-            if (result.length > 0) {
+            if (result.length > 0 && this.identifierHasChanged()) {
               this.identifierValidity = 'This identifier is already in use!';
               this.display = true;
             } else {
@@ -259,6 +260,10 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
         this.identifierValidity = 'Invalid Identifier. Confirm identifier type';
       }
     }
+  }
+
+  public identifierHasChanged() {
+    return this.initialPatientIdentifier !== this.patientIdentifier;
   }
 
   public _keyPress(event: any) {

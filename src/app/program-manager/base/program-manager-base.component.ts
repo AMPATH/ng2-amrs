@@ -285,6 +285,21 @@ export class ProgramManagerBaseComponent implements OnInit {
     return this.patientService.isBusy;
   }
 
+  public setUserDefaultLocation() {
+    const retroLocation = localStorage.getItem('retroLocation');
+    if (retroLocation) {
+      this.selectedLocation = JSON.parse(retroLocation);
+      return;
+    }
+    const location: any = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
+    if (location) {
+      this.selectedLocation = {
+        value: location.uuid,
+        label: location.display
+      };
+    }
+  }
+
   private _filterDepartmentConfigByName() {
     this.programDepartments = _.map(this.departmentConf, (config: any) => {
       return {name: config.name};

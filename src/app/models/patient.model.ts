@@ -91,6 +91,7 @@ export class Patient extends BaseModel {
       const amrsMrn = this.getIdentifierByType(identifier, 'AMRS Medical Record Number');
       const ampathMrsUId = this.getIdentifierByType(identifier, 'AMRS Universal ID');
       const cCC = this.getIdentifierByType(identifier, 'CCC Number');
+      const hei = this.getIdentifierByType(identifier, 'HEI');
       if ((kenyaNationalId) === undefined && (amrsMrn) === undefined &&
         (ampathMrsUId) === undefined && (cCC) === undefined) {
         if ((this._identifier[0].identifier)) {
@@ -103,7 +104,8 @@ export class Patient extends BaseModel {
           'kenyaNationalId': kenyaNationalId,
           'amrsMrn': amrsMrn,
           'ampathMrsUId': ampathMrsUId,
-          'cCC': cCC
+          'cCC': cCC,
+          'hei': hei
         };
       }
       return filteredIdentifiers;

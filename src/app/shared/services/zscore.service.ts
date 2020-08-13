@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
-import { JsExpressionHelper } from 'ngx-openmrs-formentry/dist/ngx-formentry';
+import { JsExpressionHelper } from 'ngx-openmrs-formentry';
 const bfaMale5Above = require('../../../assets/zscore/bfa_boys_5_above.json');
 const wflMaleBelow5 = require('../../../assets/zscore/wfl_boys_below5.json');
 const hfaMale5Above = require('../../../assets/zscore/hfa_boys_5_above.json');
@@ -29,7 +29,7 @@ export class ZscoreService {
           scoreRefModel.weightForHeightRef  = wflFemaleBelow5;
           scoreRefModel.heightForAgeRef = this.getScoreReference(hfaFemaleBelow5, 'Day', ageInDays);
           }
-          if ( age > 5 && age < 18 ) {
+          if ( age >= 5 && age < 18 ) {
             scoreRefModel.bmiForAgeRef =  this.getScoreReference(bfaFemale5Above, 'Month', ageInMonths);
             scoreRefModel.heightForAgeRef = this.getScoreReference(hfaFemale5Above, 'Month', ageInMonths);
           }
@@ -41,7 +41,7 @@ export class ZscoreService {
         scoreRefModel.heightForAgeRef = this.getScoreReference(hfaMaleBelow5, 'Day', ageInDays);
         }
 
-        if ( age > 5 && age < 18 ) {
+        if ( age >= 5 && age < 18 ) {
           scoreRefModel.bmiForAgeRef =  this.getScoreReference(bfaMale5Above, 'Month', ageInMonths);
           scoreRefModel.heightForAgeRef = this.getScoreReference(hfaMale5Above, 'Month', ageInMonths);
         }

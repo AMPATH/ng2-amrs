@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { FormsResourceService } from '../../../openmrs-api/forms-resource.service';
 import { FormSchemaService } from './form-schema.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
-import { FormSchemaCompiler } from 'ngx-openmrs-formentry/dist/ngx-formentry';
+import { FormSchemaCompiler } from 'ngx-openmrs-formentry';
 import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 

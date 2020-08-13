@@ -56,6 +56,7 @@ export class SecurePipe implements PipeTransform, OnDestroy {
             this.previousUrl = url;
             this._internalSubscription = this.fileUploadResourceService
                 .getFile(url).subscribe((m) => {
+
                     const sanitized = this.sanitizer.bypassSecurityTrustUrl(m);
                     this._result.next(sanitized);
                 });

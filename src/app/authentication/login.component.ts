@@ -3,9 +3,18 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { SwUpdate } from '@angular/service-worker';
+import { UpdateAvailableEvent, UpdateActivatedEvent } from '@angular/service-worker/src/low_level';
+
+
+
+import { Subscription, Observable } from 'rxjs';
+import * as _ from 'lodash';
+import { FormSchemaCompiler } from 'ngx-openmrs-formentry';
+
+
 import { AuthenticationService } from '../openmrs-api/authentication.service';
 import { Messages } from '../utils/messages';
-import { Subscription, Observable } from 'rxjs';
 import {
   UserDefaultPropertiesService
 } from '../user-default-properties/user-default-properties.service';
@@ -15,11 +24,7 @@ import { LocalStorageService } from '../utils/local-storage.service';
 import { FormUpdaterService } from '../patient-dashboard/common/formentry/form-updater.service';
 import { FormOrderMetaDataService } from '../patient-dashboard/common/forms/form-order-metadata.service';
 import { FormSchemaService } from '../patient-dashboard/common/formentry/form-schema.service';
-import { FormSchemaCompiler } from 'ngx-openmrs-formentry/dist/ngx-formentry';
 import { FormsResourceService } from '../openmrs-api/forms-resource.service';
-import * as _ from 'lodash';
-import { SwUpdate } from '@angular/service-worker';
-import { UpdateAvailableEvent, UpdateActivatedEvent } from '@angular/service-worker/src/low_level';
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'login',

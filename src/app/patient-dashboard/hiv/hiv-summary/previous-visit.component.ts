@@ -5,7 +5,7 @@ import { PatientService } from '../../services/patient.service';
 import { FormSchemaService } from '../../common/formentry/form-schema.service';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
 import { VisitResourceService } from '../../../openmrs-api/visit-resource.service';
-import { FormFactory, Form, EncounterAdapter, DataSources } from 'ngx-openmrs-formentry/dist/ngx-formentry';
+import { FormFactory, Form, EncounterAdapter, DataSources } from 'ngx-openmrs-formentry';
 import { Patient } from '../../../models/patient.model';
 import { Encounter } from '../../../models/encounter.model';
 import { Subscription } from 'rxjs';

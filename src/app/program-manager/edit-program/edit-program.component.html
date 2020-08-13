@@ -33,8 +33,14 @@
           The patient is not currently enrolled in any program
         </p>
         <div *ngIf="enrolledProgramsByDepartment.length > 0" class="step-buttons">
-          <button type="button" class="btn btn-primary pull-right"
+          <button *ngIf="!theChangeComplete" type="button" class="btn btn-primary pull-right"
                   (click)="goToEditOptions()">Continue
+          </button>
+          <button *ngIf="theChangeComplete" style="margin-left: 12px;" type="button" class="btn btn-primary pull-right"
+                  (click)="goToPatientSearch()">Go to Patient Search
+          </button>
+          <button *ngIf="theChangeComplete" style="margin-left: 12px;" type="button" class="btn btn-primary pull-right"
+                  (click)="goToPatientDashboard()">Go to Patient Dashboard
           </button>
           <span class="clear">&nbsp;</span>
         </div>
@@ -55,19 +61,26 @@
             <hr/>
           </blockquote>
         </div>
-        <div class="step-buttons">
+        <div *ngIf="!theChangeComplete" class="step-buttons">
           <div class="pull-left">
             <button type="button" class="btn btn-danger" (click)="back()">Back</button>
           </div>
           <div class="pull-right">
-            <button type="button" class="btn btn-primary btn-block"
-                    (click)="changeLocation()">Change Location</button>
-            <button type="button" class="btn btn-primary btn-block"
-                    (click)="stopPrograms()">Stop Program</button>
-            <button type="button" class="btn btn-primary btn-block"
-                    (click)="transferOut()">Transfer out of AMPATH</button>
+            <!--<button type="button" class="btn btn-primary btn-block"
+                    (click)="changeLocation()">Change Location</button>-->
+            <button type="button" class="btn btn-primary"
+                    (click)="transferOut()">Transfer Out</button>
+            <button type="button" style="margin-left: 12px;" class="btn btn-danger"
+                    (click)="stopPrograms()">Exit Care</button>
           </div>
           <div class="clear">&nbsp;</div>
+        </div>
+        <div *ngIf="!theChangeComplete" class="panel panel-info">
+          <div class="panel-heading">Please Note:</div>
+          <div class="panel-body">
+            <p><strong>Transfer Out</strong> - Use for positive patients who are transferring to both AMPATH and non-AMPATH. You will be required to fill a transfer out form.</p>
+            <p><strong>Exit Program</strong> - Use for non positive/false positive patients e.g HEI,PreP,PEP. You will be required to fill an exit form.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -78,6 +91,7 @@
         <edit-program-location *ngIf="theChange === 'location'" [patient]="patient"
                                (onBack)="goBack()"
                                [programs]="programsToEdit"
+                               [userLocation]="selectedLocation"
                                (locationChangeComplete)="onStepChangeComplete($event)">
         </edit-program-location>
         <stop-program *ngIf="theChange === 'stop'" [patient]="patient"
@@ -112,8 +126,11 @@
         <div class="step-buttons" *ngIf="theChangeComplete">
           <button type="button" class="btn btn-danger pull-left"
                   (click)="startAgain()">Edit Program</button>
-          <button class="btn pull-right" (click)="goToProgramSummary()">
-            <span>GO TO PROGRAM SUMMARY</span>
+          <button *ngIf="theChangeComplete" style="margin-left: 12px;" type="button" class="btn btn-primary pull-right"
+                  (click)="goToPatientSearch()">Go to Patient Search
+          </button>
+          <button *ngIf="theChangeComplete" style="margin-left: 12px;" type="button" class="btn btn-primary pull-right"
+                  (click)="goToPatientDashboard()">Go to Patient Dashboard
           </button>
           <span class="clear">&nbsp;</span>
         </div>

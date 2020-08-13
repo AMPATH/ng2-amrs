@@ -1,5 +1,5 @@
 import {
-  Component, OnInit, Input
+  Component, OnInit, Input, Output, EventEmitter
 } from '@angular/core';
 @Component({
   selector: 'app-hiv-differentiated-care-patient-list',
@@ -10,9 +10,12 @@ export class HivDifferentiatedCarePatientListComponent implements OnInit {
 
   @Input() public startDate: Date;
   @Input() public endDate: Date;
-  @Input() public patientData: any;
+  @Input() public patientData: Array<any> = [];
   @Input() public isLoadingPatientList = false;
   @Input() public extraColumns: any;
+  @Input() public hasLoadedAll  = false;
+
+  @Output() loadMore = new EventEmitter();
 
   constructor() {}
 

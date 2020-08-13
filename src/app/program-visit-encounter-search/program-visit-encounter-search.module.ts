@@ -7,7 +7,7 @@ import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analyti
 import { DepartmentProgramsConfigService } from './../etl-api/department-programs-config.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
 import { SelectDepartmentService } from './../shared/services/select-department.service';
-import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
+import { DateTimePickerModule } from 'ngx-openmrs-formentry/';
 import { MatTabsModule } from '@angular/material/tabs';
 @NgModule({
     imports: [

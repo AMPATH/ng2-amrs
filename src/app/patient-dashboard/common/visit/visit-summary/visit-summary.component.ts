@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-visit-summary',
@@ -25,7 +26,7 @@ export class VisitSummaryComponent implements OnInit {
 
   public ngOnInit() { }
   public setVisitSummary(data: Array<any>) {
-    this.visitSummaryDetails = data;
+    this.visitSummaryDetails = _.uniqBy(data, 'uuid');
   }
   public viewVisitDetails(visitDetails) {
     this.visitSummarySelected.emit(visitDetails);

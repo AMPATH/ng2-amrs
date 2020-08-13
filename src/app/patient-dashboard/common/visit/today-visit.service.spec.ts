@@ -138,7 +138,6 @@ describe('Service: TodayVisit', () => {
     },
     getPatientVisits: (args): Observable<any> => {
       const obs: Observable<any> = of(visitsSample);
-      console.log('fake visit resource in use');
       return obs.pipe(delay(50));
     },
     saveVisit: (payload) => {

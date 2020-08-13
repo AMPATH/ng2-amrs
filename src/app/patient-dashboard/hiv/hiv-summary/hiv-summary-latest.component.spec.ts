@@ -49,7 +49,7 @@ describe('Component: HivSummaryLatest Unit Tests', () => {
     hivSummaryService = TestBed.get(HivSummaryService);
     patientService = TestBed.get(PatientService);
 
-    component = new HivSummaryLatestComponent(hivSummaryService);
+    component = new HivSummaryLatestComponent(hivSummaryService, patientService);
 
   });
 
@@ -86,6 +86,10 @@ describe('Component: HivSummaryLatest Unit Tests', () => {
     spyOn(component, 'loadHivSummary').and.callThrough();
     component.loadHivSummary();
     expect(component.loadHivSummary).toHaveBeenCalled();
+
+    spyOn(component, 'loadPatient').and.callThrough();
+    component.loadPatient();
+    expect(component.loadPatient).toHaveBeenCalled();
     done();
 
   });

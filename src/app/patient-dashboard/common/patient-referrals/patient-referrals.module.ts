@@ -6,9 +6,7 @@ import { OpenmrsApi } from '../../../openmrs-api/openmrs-api.module';
 import {
   DifferentiatedCareReferralStatusComponent
 } from './differentiated-care-referral-status/differentiated-care-referral-status.component';
-import { OncologyReferralStatusComponent } from './oncology-referral-status/oncology-referral-status.component';
 import { DifferentiatedCareReferralService } from './differentiated-care-referral.service';
-import { OncologyReferralService } from './oncology-referral.service';
 
 @NgModule({
   imports: [
@@ -17,15 +15,12 @@ import { OncologyReferralService } from './oncology-referral.service';
   ],
   declarations: [
     DifferentiatedCareReferralStatusComponent,
-    OncologyReferralStatusComponent
   ],
   exports: [
     DifferentiatedCareReferralStatusComponent,
-    OncologyReferralStatusComponent
   ],
   providers: [
-    DifferentiatedCareReferralService,
-    OncologyReferralService
+    DifferentiatedCareReferralService
   ]
 })
 export class PatientReferralsModule { }

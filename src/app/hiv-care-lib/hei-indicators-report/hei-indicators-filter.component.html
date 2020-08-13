@@ -1,0 +1,41 @@
+<div style="margin-top: 4px; margin-bottom: 4px" class="container-fluid">
+        <div style="padding: 0px; border: 1px double lightgray; border-bottom: 0px; cursor: pointer;" class="row" (click)="filterCollapsed = !filterCollapsed">
+            <span class="text-info" style="margin:2px; font-weight:bold;">
+                <span class="glyphicon glyphicon-filter" style="font-weight: normal;"></span> Report filters</span>
+            <span style="margin:2px;" class="label label-default pull-right">
+                <span class="glyphicon glyphicon-chevron-down" *ngIf="!filterCollapsed"></span>
+                <span class="glyphicon glyphicon-chevron-up" *ngIf="filterCollapsed"></span>
+            </span>
+        </div>
+        <div style="padding: 0px; border: 1px double lightgray" class="row">
+            <div *ngIf="!filterCollapsed">
+                <div class="col-xs-10" style="padding: 4px;border-left: 4px solid lightgray">
+                    <div *ngIf="!isMonthMode"  class="form-row">
+                        <label for="startDate">Start Date</label>
+                        <input id="startDate" type="date" class="form-control" [(ngModel)]="startDateString" />
+                    </div>
+                    <div *ngIf="!isMonthMode"  class="form-row">
+                        <label for="endDate">End Date</label>
+                        <input id="endDate" type="date" class="form-control" [(ngModel)]="endDateString" />
+                    </div>
+                    <div *ngIf="isMonthMode" class="form-row">
+                            <label for="month">Month:</label>
+                            <input id="month" type="month" class="form-control" [(ngModel)]="monthString" />
+                        </div>
+                    <div class="form-row" *ngIf="showIsAggregateControl">
+                        <label for="isAggregate">Aggregate Locations</label>
+                        <input id="isAggregate" type="checkbox" name="aggregated" [checked]="isAggregated" (change)="isAggregated = !isAggregated"
+                        />
+                    </div>
+    
+                </div>
+            </div>
+        </div>
+        <div style="padding: 0px; border: 1px double lightgray" class="row" *ngIf="showLocationsControl">
+            <location-filter [multiple]="true" [locationUuids]="locationUuids" (onLocationChange)="onLocationsSelected($event)"></location-filter>
+        </div>
+        <div class="row" style="margin-top: 4px; padding: 0px;">
+            <button type="button" *ngIf="!parentIsBusy" class="btn btn-primary pull-right" (click)="onClickedGenerate()">Generate Report</button>
+            <span class="pull-right" style="font-weight: bold; color: gray" *ngIf="parentIsBusy">Loading report..</span>
+        </div>
+    </div>

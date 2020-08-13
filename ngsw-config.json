@@ -1,33 +1,33 @@
 {
-  "index": "/index.html",
-  "assetGroups": [{
-    "name": "app",
-    "installMode": "prefetch",
-    "updateMode": "prefetch",
-    "resources": {
-      "files": [
-        "/favicon.ico",
-        "/index.html",
-        "/*.css",
-        "/*.js"
-      ]
-    }
-  }, {
-    "name": "assets",
-    "installMode": "prefetch",
-    "updateMode": "prefetch",
-    "resources": {
-      "files": [
-        "/assets/**",
-        "/*.ttf",
-        "/*.woff2",
-        "/*.svg",
-        "/*.woff",
-        "/*.png",
-        "/*.jpg",
-        "/*.eot",
-        "/fontawesome*"
-      ]
-    }
-  }]
-}
+    "index": "/index.html",
+    "assetGroups": [{
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": [
+          "/favicon.ico",
+          "/index.html",
+          "/*.css",
+          "/*.js"
+        ]
+      }
+    }, {
+      "name": "assets",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": [
+          "/assets/**",
+          "/*.ttf",
+          "/*.woff2",
+          "/*.svg",
+          "/*.woff",
+          "/*.png",
+          "/*.jpg",
+          "/*.eot",
+          "/fontawesome*"
+        ]
+      }
+    }]
+  }

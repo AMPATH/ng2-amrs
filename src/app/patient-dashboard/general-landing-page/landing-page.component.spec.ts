@@ -25,7 +25,7 @@ import {
 import { CacheService } from 'ionic-cache';
 import {
   PatientReferralService
-} from '../../program-manager/patient-referral-service';
+} from '../../program-manager/patient-referral.service';
 import { UserDefaultPropertiesService } from '../../user-default-properties/user-default-properties.service';
 import { PatientProgramResourceService } from '../../etl-api/patient-program-resource.service';
 import { PatientReferralResourceService } from '../../etl-api/patient-referral-resource.service';
@@ -230,7 +230,7 @@ describe('Component: LandingPageComponent', () => {
     component._resetVariables();
   });
 
-  it('should create an instance', (done) => {
+  it('should create an instance', async(() => {
     patientReferral = TestBed.get(PatientReferralService);
     userDefaultPropertiesSetting = TestBed.get(UserDefaultPropertiesService);
     patientProgramResourceService = TestBed.get(PatientProgramResourceService);
@@ -242,8 +242,7 @@ describe('Component: LandingPageComponent', () => {
       patientReferral, userDefaultPropertiesSetting,
       patientProgramResourceService, router);
     expect(component).toBeTruthy();
-    done();
-  });
+  }));
 
   it('should load programs, enrolled and enrollable when `loadProgramBatch` is called',
     (inject([PatientService, ProgramService,

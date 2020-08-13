@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
   DateTimePickerModule
-} from 'ngx-openmrs-formentry/dist/ngx-formentry/';
+} from 'ngx-openmrs-formentry/';
 import { EtlApi } from '../../etl-api/etl-api.module';
 import { DataListsModule } from '../../shared/data-lists/data-lists.module';
 import { analyticsPatientReferralProgramRouting } from './referral-program.routes';

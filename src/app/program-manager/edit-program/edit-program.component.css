@@ -10,3 +10,8 @@ hr {
   margin-top: 5px;
   margin-bottom: 5px;
 }
+
+.panel.panel-info {
+  border: 1px solid #bce8f1;
+  margin-top: 12px;
+}

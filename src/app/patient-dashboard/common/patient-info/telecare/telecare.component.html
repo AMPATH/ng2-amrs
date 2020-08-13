@@ -1,0 +1,23 @@
+<div class="col-md-10 col-lg-10 col-sm-12 col-xs-12">
+  <a *ngIf="consentExist" (click)="fillConsentForm()" class="edit_link"><span><i class="fa fa-edit fa-fw"></i> Change consent</span></a>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+    
+       
+       <tr *ngIf="consentExist">
+         <td><strong>Patient Consented : </strong><span class="{{clientConsent.styling}}">{{clientConsent.value.display}}</span></td>
+         <td *ngIf="clientConsent.dateofConsent"><strong>Consent valid from : </strong> {{clientConsent.dateofConsent}}</td>
+         <td *ngIf="clientConsent.comments"><strong>Comments : </strong>{{clientConsent.comments}}</td>
+       </tr>
+       <tr *ngIf="!consentExist">
+        <a (click)="fillConsentForm()" class="edit_link"><span><i class="fa fa-plus fa-fw"></i> Add consent</span></a>
+       </tr>
+    </tbody>
+  </table>
+</div>

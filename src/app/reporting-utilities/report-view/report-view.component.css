@@ -1,0 +1,90 @@
+table { 
+	width: 100%;
+	table-layout: auto;
+    white-space: nowrap;
+	border-collapse: separate; 
+	margin:5px;	
+	}
+
+.header { 
+	background-color: #337ab7;
+	color: white; 
+	font-weight: bold; 
+	}
+
+td { 
+	padding: 10px; 
+	border: 1px solid #090909; 
+	text-align: centre; 
+	font-size: auto;
+	}
+ th { 
+	padding: 10px; 
+	border: 1px solid #090909; 
+	text-align: left; 
+	font-size: 11px;
+	}
+.first { 
+	padding: 10px; 
+	position: absolute;
+	border: 1px solid #090909; 
+	text-align: left; 
+	font-size: 18px;
+	}
+.labels tr td {
+	background-color: #2cc16a;
+	font-weight: bold;
+	color: #fff;
+}
+
+.label tr td label {
+	display: block;
+}
+caption {
+    padding-top: inherit;
+    padding-bottom: 8px;
+	color: #ffffff;
+	background: #3498db;
+	font-size: medium;
+	font-weight: bold;
+    text-align: center;
+}
+
+
+[data-toggle="toggle"] {
+	display: none;
+}
+.value {
+	cursor: pointer;
+}
+.value:hover {
+	background-color: #337ab7a8;
+	color: white;
+  }
+.padding{
+	margin:2.5px
+}
+  
+  td, th {
+	margin: 0;
+	border: 1px solid grey;
+	white-space: pre-line;
+	border-top-width: 0px;
+  }
+  
+
+.headcol {
+  position: absolute;
+  width: 2em; 
+  left: 0;
+  top: auto;
+  border-top-width: 1px; 
+  /*only relevant for first row*/
+  margin-top: -1px; 
+  /*compensate for top border*/
+ } 
+ .table-content-class {  
+	overflow-x: scroll;   
+}
+
+ 

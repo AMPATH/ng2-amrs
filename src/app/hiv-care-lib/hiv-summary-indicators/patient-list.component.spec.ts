@@ -13,7 +13,7 @@ import {
     HivSummaryIndicatorsResourceService
 } from '../../etl-api/hiv-summary-indicators-resource.service';
 import { HivSummaryIndicatorsPatientListComponent } from './patient-list.component';
-import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
+import { DateTimePickerModule } from 'ngx-openmrs-formentry/';
 
 class MockRouter {
     navigate = jasmine.createSpy('navigate');

@@ -3,6 +3,7 @@ import { TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { Pipe, PipeTransform } from '@angular/core';
+
 import { of } from 'rxjs';
 
 import { LabsResourceService } from '../../../etl-api/labs-resource.service';
@@ -10,6 +11,7 @@ import { PatientService } from '../../services/patient.service';
 import { LabResultComponent } from './lab-result.component';
 import { ZeroVlPipe } from './../../../shared/pipes/zero-vl-pipe';
 import { RouterTestingModule } from '@angular/router/testing';
+import { AppSettingsService } from 'src/app/app-settings/app-settings.service';
 
 @Pipe({ name: 'translate' })
 export class FakeTranslatePipe implements PipeTransform {
@@ -73,6 +75,7 @@ describe('Component: Lab Results Unit Tests', () => {
           provide: PatientService, useValue: fakePatientService
         },
         LabResultComponent,
+        AppSettingsService,
         ZeroVlPipe
       ],
       imports: [RouterTestingModule.withRoutes([])]

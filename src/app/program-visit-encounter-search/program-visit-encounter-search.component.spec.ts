@@ -15,7 +15,7 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2
 import { DepartmentProgramsConfigService } from './../etl-api/department-programs-config.service';
 import { IonicStorageModule } from '@ionic/storage';
 import { SelectDepartmentService } from './../shared/services/select-department.service';
-import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry/';
+import { DateTimePickerModule } from 'ngx-openmrs-formentry/';
 
 import { PatientService } from '../patient-dashboard/services/patient.service';
 import { delay } from 'rxjs/operators';
@@ -41,6 +41,7 @@ const testParams = {
   'visitType': ['5033fbfc-ddc9-4f7f-853d-379659e48bdd']
 };
 const mockEmittedParams = {
+  'department': '',
   'programType': ['b731ba72-cf99-4176-9fcd-37cd186400c7'],
   'visitType': ['5033fbfc-ddc9-4f7f-853d-379659e48bdd'],
   'encounterType': ['f5381269-c889-4c5a-b384-d017441eedae'],

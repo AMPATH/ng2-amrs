@@ -52,6 +52,7 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
   public location: any;
   public locations: Array<any> = [];
   public error: any;
+  public settingMethod: string;
 
   constructor(private router: Router,
     private propertyLocationService: UserDefaultPropertiesService,
@@ -133,20 +134,26 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
     this.retrospectiveDataEntryService.updateProperty('retroVisitTime', time);
   }
 
-  public changeSettings(state: boolean) {
+  public changeSettings(state: boolean, method: string) {
+    this.settingMethod = method;
     if (this.enableRetro) {
-      this.validateSettings(state);
+      this.confirmRetroSettings(state);
     } else {
       this.onSettingsChange.emit(state);
       if (this.dashboardMode) {
         this.isLoading = true;
-        this.router.navigate(['patient-dashboard/patient-search']);
+        this.navigateToPatientSearch();
       }
     }
 
   }
 
-  public validateSettings(state) {
+  public navigateToPatientSearch() {
+    this.router.navigate(['patient-dashboard/patient-search']);
+  }
+
+
+ public validateRetroSetting() {
     const error = {};
     if (_.isNil(this.provider)) {
       error['provider'] = true;
@@ -154,16 +161,27 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
     if (_.isNil(this.visitDate)) {
       error['visitDate'] = true;
     }
+    return error;
+  }
 
+  public confirmRetroSettings(state) {
+    const error = this.validateRetroSetting();
     if (!_.isEmpty(error)) {
       this.updateErrorState(error);
+      if (this.settingMethod === 'update') {
+        this.emitRetroState(state);
+      }
     } else {
       this.onSettingsChange.emit(state);
       if (this.dashboardMode) {
         this.isLoading = true;
-        this.router.navigate(['patient-dashboard/patient-search']);
+        this.navigateToPatientSearch();
       }
     }
+  }
+
+  public emitRetroState(state) {
+      this.onSettingsChange.emit(state);
   }
 
   public updateErrorState(error) {

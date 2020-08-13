@@ -45,6 +45,10 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
     busy: false,
     message: ''
   };
+  public errorObj = {
+     'error': false,
+     'message': ''
+  };
 
   constructor(public route: ActivatedRoute,
     private router: Router,
@@ -76,19 +80,28 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
   }
 
   public loadPatientList(params: any) {
-    console.log('Params', params);
     this.busyIndicator = {
       busy: true,
       message: 'Loading Patient List...please wait'
     };
+    this.resetError();
     const rowCount = 0;
+    let isLegacy = false;
+    let reportName = '';
+    if (params.isLegacy === true || params.isLegacy === 'true') {
+        isLegacy = true;
+        reportName = 'MOH-731-report';
+    } else {
+        reportName = 'MOH-731-report-2017';
+        isLegacy = false;
+    }
     this.moh731PatientListResourceService.getMoh731PatientListReport({
       indicator: params.indicators,
-      isLegacy: Boolean(params.isLegacy),
+      isLegacy: isLegacy,
       startIndex: this.startIndex[params.indicators] ? this.startIndex[params.indicators] : 0,
       startDate: moment(params.startDate).format('YYYY-MM-DD'),
       endDate: moment(params.endDate).endOf('day').format('YYYY-MM-DD'),
-      reportName: Boolean(params.isLegacy) === true ? 'MOH-731-report' : 'MOH-731-report-2017',
+      reportName: reportName,
       locationUuids: _.isArray(params.locations) ? params.locations.join(',') : params.locations
     }).pipe(take(1)).subscribe((data) => {
       this.isLoading = false;
@@ -157,6 +170,10 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
       };
     }, (err) => {
       this.isLoading = false;
+      this.errorObj = {
+         'error': true,
+         'message': 'An error occurred while trying to load the report.Please reload page'
+      };
       this.busyIndicator = {
         busy: false,
         message: ''
@@ -190,6 +207,7 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
   public addExtraColumns(indicators: Array<any>) {
 
     const extraColumns = {
+      location: 'Location',
       enrollment_date: 'Enrollment Date',
       arv_first_regimen_start_date: 'ARVs Initial Start Date',
       cur_regimen_arv_start_date: 'Current ARV Regimen Start Date (edited)',
@@ -236,5 +254,12 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
     return new Promise((resolve) => {
       resolve(matchingIndicator);
     });
+  }
+
+  public resetError() {
+     this.errorObj = {
+       'error': false,
+       'message': ''
+     };
   }
 }

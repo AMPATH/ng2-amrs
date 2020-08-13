@@ -12,7 +12,7 @@ describe('Service: VitalResourceService', () => {
   const startIndex = 0;
   const limit = 2;
   const patientUuid = '1101b7e4-0141-4316-8356-d89fd6b2c766';
-  let url = `https://amrsreporting.ampath.or.ke:8002/etl/patient/1101b7e4-0141-4316-8356-d89fd6b2c766/vitals`;
+  let url = `https://ngx.ampath.or.ke/etl-latest/etl/patient/1101b7e4-0141-4316-8356-d89fd6b2c766/vitals`;
   // add URL params
   url += `?startIndex=${startIndex}`;
   url += `&limit=${limit}`;

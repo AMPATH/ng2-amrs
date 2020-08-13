@@ -1,0 +1,57 @@
+<div class="container-fluid">
+  <div class="loader" *ngIf="busyIndicator.busy"><span><i class="fa fa-spinner fa-spin">
+  </i>{{busyIndicator.message}}</span>
+</div>
+<div class="alert alert-danger fade in" *ngIf="errorObj.isError">
+  <a  class="close" data-dismiss="alert">&times;</a>
+  <p>
+      <small >{{errorObj.message}}</small>
+  </p>
+</div>
+<div class="row">
+     <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+          <case-management-filters
+           [clinicDashboardLocation]="locationUuids"
+           (filterReset)="filterReset($event)"
+          >
+
+          </case-management-filters
+          >
+     </div>
+     <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+      <!-- <assign-case-manager
+        [assignCaseManager]="assignCaseManager"
+      >
+      </assign-case-manager> -->
+     </div>
+     <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+        
+      <case-management-patient-list
+      [rowData]="patientList"
+      (updatePatientList)="updatePatientList($event)"
+      ></case-management-patient-list>
+       
+    </div>
+    <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+      <button class="btn btn-success" (click)="showModal(indicatorModal)">Show Indicator Definitions</button>
+      <ng-template #indicatorModal>
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title pull-left">Case Management Indicator Definitions</h4>
+                  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <case-management-indicator-definitions
+                  [indicatorDefinitions] = "indicatorDefinitions"
+                  >
+                  </case-management-indicator-definitions>
+                </div>
+              </div>
+        </div>
+    </ng-template>
+    </div>
+  </div>
+</div>

@@ -18,14 +18,17 @@ export class HivDifferentiatedCareResourceService {
     }
 
     public getPatientList(startDate: string, endDate: string,
-                          locationUuids: string, indicators: string): Observable<any> {
+                          locationUuids: string, indicators: string,
+                          startIndex, limit): Observable<any> {
         const api: string = this.geturl() + 'differentiated-care-program/patient-list';
 
         const urlParams: HttpParams = new HttpParams()
         .set('startDate', startDate)
         .set('endDate', endDate)
         .set('locationUuids', locationUuids)
-        .set('indicators', indicators);
+        .set('indicators', indicators)
+        .set('startIndex', startIndex)
+        .set('limit', limit);
 
         const request = this.http.get(api, { params: urlParams });
         return this.cacheService.cacheRequest(api, urlParams, request);

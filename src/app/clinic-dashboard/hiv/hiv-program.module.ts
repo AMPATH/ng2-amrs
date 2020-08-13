@@ -11,7 +11,7 @@ import {
 import { AgGridModule } from 'ag-grid-angular/main';
 import {
     DateTimePickerModule
-} from 'ngx-openmrs-formentry/dist/ngx-formentry/';
+} from 'ngx-openmrs-formentry/';
 import { CalendarModule } from 'angular-calendar';
 import { ChartModule } from 'angular2-highcharts';
 import { Moh731ReportComponent } from './moh-731/moh-731-report.component';
@@ -101,6 +101,15 @@ import { HivDifferentiatedCareComponent } from './hiv-differentiated-care-progra
 import {
     HivDifferentiatedCarePatientListComponent
 } from './hiv-differentiated-care-program/hiv-differentiated-care-program-patient-list/hiv-differentiated-care-patient-list.component';
+import { SurgeReportComponent } from './surge-report/surge-report.component';
+import { ReportingUtilitiesModule } from 'src/app/reporting-utilities/reporting-utilities.module';
+import { BsDatepickerModule } from 'ngx-bootstrap';
+import { ClinicDashboardRetentionReportComponent } from './retention-report/clinic-dashboard-retention-report.component';
+import { ClinicDashboardCaseManagementComponent } from './case-management/clinic-dashboard-case-management.component';
+import { PrepReportComponent } from './prep-report/prep-report.component';
+import {
+    ClinicDashboardHeiReportComponent
+} from './clinic-dashboard-hei-indicators-report/clinic-dashboard-hei-report.component';
 @NgModule({
     imports: [
         clinicDashboardHivRouting,
@@ -129,7 +138,9 @@ import {
         DepartmentProgramFilterModule,
         ChangeDepartmentModule,
         GeneralModule,
-        KibanaLibModule
+        KibanaLibModule,
+        ReportingUtilitiesModule,
+        BsDatepickerModule.forRoot()
     ],
     exports: [
         HivSummaryIndicatorComponent,
@@ -144,7 +155,8 @@ import {
         IndicatorSelectComponent,
         DateRangeComponent,
         RangeSliderComponent,
-        RouterModule
+        RouterModule,
+        ClinicDashboardHeiReportComponent
     ],
     declarations: [
         Moh731ReportComponent,
@@ -176,7 +188,12 @@ import {
         Moh731MonthlyVizComponent,
         ClinicKibanaVizComponent,
         HivDifferentiatedCareComponent,
-        HivDifferentiatedCarePatientListComponent
+        HivDifferentiatedCarePatientListComponent,
+        SurgeReportComponent,
+        ClinicDashboardRetentionReportComponent,
+        ClinicDashboardCaseManagementComponent,
+        PrepReportComponent,
+        ClinicDashboardHeiReportComponent
     ],
     providers: [
         ClinicalSummaryVisualizationService

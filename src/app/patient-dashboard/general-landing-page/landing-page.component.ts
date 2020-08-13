@@ -1,4 +1,3 @@
-
 import { forkJoin as observableForkJoin, Subscription, Observable, Subject, BehaviorSubject } from 'rxjs';
 
 import { take, map, first } from 'rxjs/operators';
@@ -14,7 +13,7 @@ import { PatientProgramResourceService } from '../../etl-api/patient-program-res
 import {
   DepartmentProgramsConfigService
 } from '../../etl-api/department-programs-config.service';
-import { PatientReferralService } from '../../program-manager/patient-referral-service';
+import { PatientReferralService } from '../../program-manager/patient-referral.service';
 import {
   UserDefaultPropertiesService
 } from '../../user-default-properties/user-default-properties.service';
@@ -52,11 +51,12 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   public lastEnrolledPrograms: any = [];
   private _datePipe: DatePipe;
   private subscriptions: Subscription[] = [];
+
   constructor(private patientService: PatientService,
-    private patientReferralService: PatientReferralService,
-    private userDefaultPropertiesService: UserDefaultPropertiesService,
-    private patientProgramResourceService: PatientProgramResourceService,
-    private router: Router) {
+              private patientReferralService: PatientReferralService,
+              private userDefaultPropertiesService: UserDefaultPropertiesService,
+              private patientProgramResourceService: PatientProgramResourceService,
+              private router: Router) {
     this._datePipe = new DatePipe('en-US');
   }
 
@@ -68,18 +68,6 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(element => {
       element.unsubscribe();
     });
-  }
-
-  public triggerProgramEnrollment() {
-    const step =  ['step', 3];
-    const queryParams = {
-      program: 'c4246ff0-b081-460c-bcc5-b0678012659e',
-      notice: 'adherence'
-    };
-    this.router.navigate(_.concat(['/patient-dashboard/patient/' +
-      this.patient.uuid + '/general/general/program-manager/edit-program'], step), {
-        queryParams: queryParams
-      });
   }
 
   public showReferralEncounter(row: any) {
@@ -174,20 +162,15 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   }
 
   public fetchPatientProgramVisitConfigs() {
-    this.allProgramVisitConfigs = {};
-    this.patientProgramResourceService.
-      getPatientProgramVisitConfigs(this.patient.uuid).pipe(take(1)).subscribe(
-        (programConfigs) => {
-          this.allProgramVisitConfigs = programConfigs;
-        },
-        (error) => {
-          this.programsBusy = false;
-          this.errors.push({
-            id: 'program configs',
-            message: 'There was an error fetching all the program configs'
-          });
-          console.error('Error fetching program configs', error);
-        });
+    const observer: BehaviorSubject<any[]> = new BehaviorSubject(null);
+    this.patientProgramResourceService.getPatientProgramVisitConfigs(this.patient.uuid).pipe(take(1)).subscribe(
+      (programConfigs) => {
+        observer.next(programConfigs);
+      },
+      (error) => {
+        observer.next(error);
+      });
+    return observer;
   }
 
   public filterRequiredEnrollmentForms(program): string[] {
@@ -202,7 +185,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
 
   public loadProgramManager() {
     this.router.navigate(['/patient-dashboard/patient/' + this.patient.uuid +
-      '/general/general/program-manager/new-program']);
+    '/general/general/program-manager/new-program']);
   }
 
   public viewSummary(program) {
@@ -211,7 +194,7 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   }
 
   private hasValidVisitInReferredLocation(referralEncounter: any, encounters: any[],
-    locationUuid: string) {
+                                          locationUuid: string) {
     // search for visit encounters who's location is the referred to location
     const encounterWithVisit = _.find(encounters, (encounter) => {
       return !_.isNull(encounter.visit) && encounter.visit.location.uuid === locationUuid;
@@ -232,46 +215,9 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
         if (patient) {
           this.programsBusy = false;
           this.patient = patient;
-          const completedPrograms = _.filter(patient.enrolledPrograms, 'dateCompleted');
-          const programGroup: any = _.groupBy(completedPrograms, 'baseRoute');
-          const newArr = [];
-          if (programGroup.hiv) {
-            newArr.push(_.max(programGroup.hiv));
-          }
-          if (programGroup.oncology) {
-            newArr.push(_.max(programGroup.oncology));
-          }
-          if (programGroup.cdm) {
-            newArr.push(_.max(programGroup.cdm));
-          }
-          this.lastEnrolledPrograms = newArr;
+          this.setLastEnrolledPrograms();
           this.enrolledProgrames = _.filter(patient.enrolledPrograms, 'isEnrolled');
-          this.getReferralLocation(this.enrolledProgrames).pipe(take(1)).subscribe((reply: any) => {
-            if (reply) {
-              _.each(this.enrolledProgrames, (program, index) => {
-                const referral = reply[index];
-                if (referral) {
-                  _.extend(program, referral, {
-                    referral_completed: !_.isNil(referral.notification_status)
-                  });
-                  if (this.patientHasBeenSeenInProgram(program)) {
-                    console.log('Patient seen');
-                    program.referral_completed = true;
-                    this.updateReferalNotificationStatus(program).pipe(take(1)).subscribe(() => { });
-                  }
-                }
-              });
-            }
-          }, (err) => {
-            console.log(err);
-            this.errors.push({
-              id: 'Patient Care Programs',
-              message: 'error checking referral state of programs',
-              error: err
-            });
-            this.programsBusy = false;
-          });
-          this.fetchPatientProgramVisitConfigs();
+          this.checkPatientReferrals();
         }
       }, (err) => {
         this.hasError = true;
@@ -284,6 +230,56 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
       });
 
     this.subscriptions.push(sub);
+  }
+
+  private setLastEnrolledPrograms() {
+    const completedPrograms = _.filter(this.patient.enrolledPrograms, 'dateCompleted');
+    const programGroup: any = _.groupBy(completedPrograms, 'baseRoute');
+    const newArr = [];
+    if (programGroup.hiv) {
+      newArr.push(_.max(programGroup.hiv));
+    }
+    if (programGroup.oncology) {
+      newArr.push(_.max(programGroup.oncology));
+    }
+    if (programGroup.cdm) {
+      newArr.push(_.max(programGroup.cdm));
+    }
+    this.lastEnrolledPrograms = newArr;
+  }
+
+  private checkPatientReferrals() {
+    this.getReferralLocation(this.enrolledProgrames).pipe(take(1)).subscribe((reply: any[]) => {
+      if (_.filter(reply, v => !_.isEmpty(v)).length > 0) {
+        this.fetchPatientProgramVisitConfigs().subscribe((configs) => {
+          if (configs) {
+            this.allProgramVisitConfigs = configs;
+            _.each(this.enrolledProgrames, (program, index) => {
+              const referral = reply[index];
+              if (referral) {
+                _.extend(program, referral, {
+                  referral_completed: !_.isNil(referral.notification_status)
+                });
+                if (this.patientHasBeenSeenInProgram(program)) {
+                  program.referral_completed = true;
+                  this.updateReferalNotificationStatus(program).pipe(take(1)).subscribe(() => {});
+                }
+              }
+            });
+          }
+        }, (error) => {
+          this.programsBusy = false;
+          // little importance in communicating this error to the user
+          console.error('Error fetching program configs', error);
+        });
+      } else {
+        this._resetVariables();
+      }
+    }, (err) => {
+      console.log(err);
+      // little importance in communicating this error to the user
+      this.programsBusy = false;
+    });
   }
 
   private updateReferalNotificationStatus(program) {

@@ -1,8 +1,10 @@
 
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { AppSettingsService } from '../app-settings/app-settings.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
+
+import { concat, Observable, of, throwError } from 'rxjs';
+import { flatMap, retryWhen, take } from 'rxjs/operators';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 
 @Injectable()
 export class PatientProgramResourceService {
@@ -19,7 +21,14 @@ export class PatientProgramResourceService {
   public getPatientProgramVisitConfigs(patientUuid: string): Observable<any> {
     let url = this.appSettingsService.getEtlRestbaseurl().trim();
     url += 'patient-program-config?patientUuid=' + patientUuid;
-    return this.http.get(url);
+    return this.http.get(url).pipe(retryWhen((error) => {
+      return error.pipe(flatMap((err: any) => {
+          if (err.status  === 403) {
+            return of(err.status);
+          }
+          return throwError({error: 'No retry'});
+        }), take(2));
+    }));
   }
   /**
    *

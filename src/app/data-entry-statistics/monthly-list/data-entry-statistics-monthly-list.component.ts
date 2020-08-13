@@ -78,6 +78,7 @@ export class DataEntryStatisticsMonthlyListComponent
             'providerUuid': this.params.providerUuid,
             'locationUuids': column.data.locationUuid,
             'encounterTypeUuids': column.data.encounterTypeUuid,
+            'visitTypeUuids': this.params.visitTypeUuids,
             'startDate': this.params.startDate,
             'endDate': this.params.endDate
           };
@@ -109,6 +110,7 @@ export class DataEntryStatisticsMonthlyListComponent
               const patientListParams = {
                 'startDate': monthStart,
                 'encounterTypeUuids': column.data.encounterTypeUuid,
+                'visitTypeUuids': this.params.visitTypeUuids,
                 'locationUuids': column.data.locationUuid,
                 'providerUuid': this.params.providerUuid,
                 'endDate': monthEnd

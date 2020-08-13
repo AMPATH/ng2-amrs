@@ -17,7 +17,8 @@ export class SelectDepartmentService {
     public getDepartment() {
         return this.selectedDepartmentSource.asObservable();
     }
-    public getUserSetDepartment() {
+
+    public getUserSetDepartment(): string {
         const userDefaultDepartment: any = JSON.parse(this.localStorageService.getItem('userDefaultDepartment'));
         // defaults to HIV department
         let department = 'HIV';

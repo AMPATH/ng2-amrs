@@ -19,7 +19,7 @@ import { FormListService } from '../patient-dashboard/common/forms/form-list.ser
 import { FormUpdaterService } from '../patient-dashboard/common/formentry/form-updater.service';
 import { FormOrderMetaDataService } from '../patient-dashboard/common/forms/form-order-metadata.service';
 import { FormSchemaService } from '../patient-dashboard/common/formentry/form-schema.service';
-import { FormSchemaCompiler } from 'ngx-openmrs-formentry/dist/ngx-formentry';
+import { FormSchemaCompiler } from 'ngx-openmrs-formentry';
 import { FormsResourceService } from '../openmrs-api/forms-resource.service';
 import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 import { HttpClientTestingModule } from '@angular/common/http/testing';

@@ -1,7 +1,10 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { DateRangeComponent } from './date-range.component';
-import { DateTimePickerModule } from 'ngx-openmrs-formentry/dist/ngx-formentry';
+
+import { DateTimePickerModule } from 'ngx-openmrs-formentry';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
+
+import { DateRangeComponent } from './date-range.component';
+
 
 describe('Date-range component Tests', () => {
     let comp: DateRangeComponent;

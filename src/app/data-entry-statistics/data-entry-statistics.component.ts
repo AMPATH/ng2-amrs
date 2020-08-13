@@ -46,7 +46,6 @@ export class DataEntryStatisticsComponent
   }
 
   public selectedFilterParams($event) {
-
     this.params = $event;
     this.getDataEntryStats();
 

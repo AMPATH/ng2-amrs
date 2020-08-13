@@ -23,6 +23,8 @@ export class HivSummaryHistoricalComponent implements OnInit, OnDestroy {
     public errors: any = [];
     public isLoading: boolean;
     public nextStartIndex: number = 0;
+    public hasMedicationRtc = false;
+    public hasMdtSessionNo = false;
 
     constructor(private hivSummaryService: HivSummaryService,
         private patientService: PatientService) {
@@ -59,6 +61,20 @@ export class HivSummaryHistoricalComponent implements OnInit, OnDestroy {
         this.subscription.push(patientSub);
     }
 
+    public hasColumnData(data, field): boolean {
+
+        let hasColumnData = false;
+
+        if (data.hasOwnProperty(field)) {
+            if (data[field] !== null) {
+                hasColumnData = true;
+            }
+        }
+
+        return hasColumnData;
+
+    }
+
     public loadHivSummary(patientUuid, nextStartIndex) {
         const summarySub = this.hivSummaryService.getHivSummary(
             patientUuid, nextStartIndex, 20, false).subscribe((data) => {
@@ -68,6 +84,12 @@ export class HivSummaryHistoricalComponent implements OnInit, OnDestroy {
                             if (data.hasOwnProperty(r)) {
                                 const hivsum = data[r];
                                 this.hivSummaries.push(hivsum);
+                                if (this.hasMedicationRtc === false) {
+                                    this.hasMedicationRtc = this.hasColumnData(data[r], 'med_pickup_rtc_date');
+                                }
+                                if (this.hasMdtSessionNo === false) {
+                                    this.hasMdtSessionNo = this.hasColumnData(data[r], 'mdt_session_number');
+                                }
                             }
                         }
                         const size: number = data.length;
