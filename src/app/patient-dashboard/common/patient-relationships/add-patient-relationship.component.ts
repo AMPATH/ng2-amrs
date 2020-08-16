@@ -169,6 +169,7 @@ export class AddPatientRelationshipComponent implements OnInit, AfterViewInit {
                 }
             };
             this.patientService.reloadCurrentPatient();
+            this.modalRef.hide();
         }, 3000);
     }
 

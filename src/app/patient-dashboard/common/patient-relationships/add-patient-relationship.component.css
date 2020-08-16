@@ -48,7 +48,6 @@
 #add-relationship-dialog-content{
   max-height: 500px;
   overflow-y: scroll;
-  padding-bottom: 15px;
 }
 .edit-demographics-dialog{
 top:185px !important;
@@ -62,4 +61,9 @@ top:185px !important;
 
 .modalCenter {
   width: 750px;
+}
+
+.container-fluid {
+  height: fit-content !important;
+  padding-bottom: 15px;
 }
