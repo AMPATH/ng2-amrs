@@ -1013,6 +1013,10 @@
         "message": "Patient must be enrolled both in PMTCT and Viremia.",
         "encounterTypes": [
           {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
             "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
             "display": "ADULTRETURN"
           },
@@ -1056,6 +1060,10 @@
         "allowedIf": "!isFirstPMTCTVisit && isEnrolledInViremiaPMTCT",
         "message": "Patient must be enrolled both in PMTCT and Viremia.",
         "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
           {
             "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
             "display": "ADULTRETURN"
