@@ -165,7 +165,7 @@
             "expressionOptions": {
                 "caseOptions": [
                     {
-                        "condition": "fa.next_clinical_encounter_datetime IS NOT NULL AND TIMESTAMPDIFF(DAY, fa.prev_clinical_rtc_date, fa.encounter_datetime) >= 1 AND intervention.person_id IS NOT NULL",
+                        "condition": "TIMESTAMPDIFF(DAY, fa.prev_clinical_rtc_date, fa.encounter_datetime) >= 1 AND intervention.person_id IS NOT NULL",
                         "value": 1
                     }
                 ]
@@ -178,7 +178,7 @@
             "expressionOptions": {
                 "caseOptions": [
                     {
-                        "condition": "fa.next_clinical_encounter_datetime IS NOT NULL AND TIMESTAMPDIFF(DAY, fa.prev_clinical_rtc_date, fa.encounter_datetime) >= 1 AND intervention.person_id IS NULL",
+                        "condition": "TIMESTAMPDIFF(DAY, fa.prev_clinical_rtc_date, fa.encounter_datetime) >= 1 AND intervention.person_id IS NULL",
                         "value": 1
                     }
                 ]
