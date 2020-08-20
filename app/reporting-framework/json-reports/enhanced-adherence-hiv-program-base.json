@@ -149,9 +149,12 @@
             "column": "latest_clinical_encounter.cur_arv_meds"
         },
         {
-            "type": "simple_column",
+            "type": "derived_column",
             "alias": "days_since_rtc",
-            "column": "TIMESTAMPDIFF(DAY, latest_clinical_encounter.rtc_date,'{endDate}')"
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "TIMESTAMPDIFF(DAY, latest_clinical_encounter.rtc_date,'{endDate}')"
+            }
         },
         {
             "type": "simple_column",
@@ -169,41 +172,51 @@
         "conditions": [
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "date(latest_clinical_encounter.encounter_datetime) >= ?",
+                "conditionExpression": "DATE(fhs.encounter_datetime) >= ?",
                 "parameterName": "startDate"
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "date(latest_clinical_encounter.encounter_datetime) <= ?",
+                "conditionExpression": "DATE(fhs.encounter_datetime) <= ?",
                 "parameterName": "endDate"
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "latest_clinical_encounter.location_uuid in (?)",
+                "conditionExpression": "(DATE(fhs.next_clinical_datetime_hiv) IS NULL OR DATE(fhs.next_clinical_datetime_hiv) > ? )",
+                "parameterName": "endDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fhs.is_clinical_encounter = 1",
+                "parameterName": ""
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "fhs.location_uuid in (?)",
                 "parameterName": "locationUuids"
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "latest_clinical_encounter.vl_1 >= ?",
+                "conditionExpression": "fhs.vl_1 >= ?",
                 "parameterName": "lower_vl"
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "latest_clinical_encounter.vl_1 <= ?",
+                "conditionExpression": "fhs.vl_1 <= ?",
                 "parameterName": "upper_vl"
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "latest_clinical_encounter.death_date <= ? || latest_clinical_encounter.death_date IS NULL",
+                "conditionExpression": "fhs.death_date <= ? || fhs.death_date IS NULL",
                 "parameterName": "endDate"
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "latest_clinical_encounter.transfer_out_location_id IS NULL"
+                "conditionExpression": "fhs.transfer_out_location_id IS NULL"
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "TIMESTAMPDIFF(DAY, latest_clinical_encounter.rtc_date,'{endDate}') < 90",
+                "conditionExpression": "TIMESTAMPDIFF(DAY,fhs.rtc_date,'{endDate}') < 90",
                 "parameterName": "endDate"
             }
         ]
