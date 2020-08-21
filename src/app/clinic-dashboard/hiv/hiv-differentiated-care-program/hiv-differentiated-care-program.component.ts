@@ -73,6 +73,9 @@ export class HivDifferentiatedCareComponent implements OnInit {
       this.locationUuid = url[0].path;
     });
     this.loadReportParamsFromUrl();
+
+    this.startDateString = Moment(this.month, 'YYYY-MM').startOf('month').format('YYYY-MM-DD');
+    this.endDateString = Moment(this.month, 'YYYY-MM').endOf('month').format('YYYY-MM-DD');
   }
 
   public extraColumns() {
@@ -91,6 +94,11 @@ export class HivDifferentiatedCareComponent implements OnInit {
         headerName: 'Latest RTC Date',
         width: 150,
         field: 'latest_rtc_date'
+      },
+      {
+        headerName: 'Status',
+        width: 130,
+        field: 'status'
       },
       {
         headerName: 'Current Regimen',
