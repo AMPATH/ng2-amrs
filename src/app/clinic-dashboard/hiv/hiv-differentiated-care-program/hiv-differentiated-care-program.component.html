@@ -15,7 +15,7 @@
 				<div class="form-group col-md-12">
 					<div class="form-row">
 					  <label for="month">Month:</label>
-					  <input id="month" type="month" class="form-control" [(ngModel)]="month" (change)="onMonthChange($event)"/>
+					  <input id="month" type="month" class="form-control" [(ngModel)]="month" (ngModelChange)="onMonthChange($event)"/>  
 					</div>
 				  </div>
 				<div class="form-group col-md-6">

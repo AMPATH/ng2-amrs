@@ -32,7 +32,7 @@ export class HivDifferentiatedCareComponent implements OnInit {
   public limit = 300;
   public startIndex = 0;
   public enabledControls = 'monthControl';
-  public month = 'month';
+  public month = Moment().format('YYYY-MM');
 
   public get startDateString(): string {
     return this.startDate ? Moment(this.startDate).format('YYYY-MM-DD') : null;
@@ -177,6 +177,7 @@ export class HivDifferentiatedCareComponent implements OnInit {
 
     if (path.queryParams['startDate']) {
       this.startDate = new Date(path.queryParams['startDate']);
+      this.month = Moment(path.queryParams['startDate']).format('YYYY-MM');
     }
 
     if (path.queryParams['endDate']) {
