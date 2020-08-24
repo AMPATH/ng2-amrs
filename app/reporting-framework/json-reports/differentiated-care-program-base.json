@@ -3,71 +3,25 @@
     "version": "1.0",
     "tag": "",
     "description": "",
-    "uses": [
-        {
-            "name": "hivLatestClinicalEncounterDateBase",
-            "version": "1.0",
-            "type": "dataset_def"
-        }
-    ],
+    "uses": [],
     "sources": [
         {
-            "table": "etl.flat_hiv_summary_v15b",
-            "alias": "fhs2"
-        },
-        {
-            "table": "amrs.patient_program",
-            "alias": "pp_dc",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "pp_dc.patient_id = fhs2.person_id AND pp_dc.program_id in (3,9)  and  (pp_dc.date_completed is null || date(pp_dc.date_completed) >= date('{startDate}')) and  date(pp_dc.date_enrolled) <= date('{endDate}')"
-            }
-        },
-        {
-            "table": "etl.flat_cohort_members",
-            "alias": "ch",
-            "join": {
-                "type": "left",
-                "joinCondition": "(ch.person_id = fhs2.person_id)"
-            }
-        },
-        {
-            "table": "amrs.person",
-            "alias": "person",
-            "join": {
-                "type": "left",
-                "joinCondition": "person.person_id = fhs2.person_id"
-            }
-        },
-        {
-            "dataSet": "hivLatestClinicalEncounterDateBase",
-            "alias": "latest_clinical_encounter_date",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "latest_clinical_encounter_date.person_id = fhs2.person_id"
-            }
-        },
-        {
-            "table": "etl.flat_hiv_summary_v15b",
-            "alias": "fhs",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "fhs.person_id = latest_clinical_encounter_date.person_id AND fhs.encounter_datetime = latest_clinical_encounter_date.latest_encounter_date"
-            }
+            "table": "etl.dc_monthly_report_dataset",
+            "alias": "dcr"
         }
     ],
     "columns": [
         {
             "type": "simple_column",
             "alias": "persons_id",
-            "column": "fhs.person_id"
+            "column": "dcr.person_id"
         },
         {
             "type": "derived_column",
             "alias": "total_eligible_for_dc",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(fhs.vl_1 < 401 AND (TIMESTAMPDIFF(MONTH,fhs.tb_tx_start_date,date('{endDate}')) >=6 OR fhs.tb_tx_start_date IS NULL) and (timestampdiff(year,person.birthdate, date('{endDate}')) >= 20) and (timestampdiff(month,fhs.arv_first_regimen_start_date, date('{endDate}')) >= 12) AND (pp_dc.program_id IS NULL or (pp_dc.program_id in (3,9) and pp_dc.date_completed is null)) and DATE(fhs.prev_clinical_rtc_date_hiv) = DATE(fhs.encounter_datetime) and fhs.is_clinical_encounter = 1 and fhs.is_pregnant IS NULL and fhs.weight/((fhs.height/100) * (fhs.height/100)) >= 18.5 , 1, NULL)"
+                "expression": "dcr.total_eligible_for_dc"
             }
         },
         {
@@ -75,7 +29,7 @@
             "alias": "eligible_not_on_dc",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(fhs.vl_1 < 401 AND (TIMESTAMPDIFF(MONTH,fhs.tb_tx_start_date,date('{endDate}')) >=6 OR fhs.tb_tx_start_date IS NULL) and (timestampdiff(year,person.birthdate, date('{endDate}')) >= 20) and (timestampdiff(month,fhs.arv_first_regimen_start_date, date('{endDate}')) >= 12) AND pp_dc.program_id IS NULL and DATE(fhs.prev_clinical_rtc_date_hiv) = DATE(fhs.encounter_datetime) and fhs.is_clinical_encounter = 1 and fhs.is_pregnant IS NULL and fhs.weight/((fhs.height/100) * (fhs.height/100)) >= 18.5 , 1, NULL)"
+                "expression": "dcr.eligible_not_on_dc"
             }
         },
         {
@@ -83,7 +37,7 @@
             "alias": "eligible_and_on_dc",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(fhs.vl_1 < 401 AND (TIMESTAMPDIFF(MONTH,fhs.tb_tx_start_date,date('{endDate}')) >=6 OR fhs.tb_tx_start_date IS NULL) and (timestampdiff(year,person.birthdate, date('{endDate}')) >= 20) and (timestampdiff(month,fhs.arv_first_regimen_start_date, date('{endDate}')) >= 12) AND pp_dc.program_id in (3,9) and pp_dc.date_completed is null and DATE(fhs.prev_clinical_rtc_date_hiv) = DATE(fhs.encounter_datetime) and fhs.is_clinical_encounter = 1 and fhs.is_pregnant IS NULL and fhs.weight/((fhs.height/100) * (fhs.height/100)) >= 18.5 , 1, NULL)"
+                "expression": "eligible_and_on_dc"
             }
         },
         {
@@ -91,7 +45,7 @@
             "alias": "enrolled_not_elligible",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(pp_dc.program_id = 9 and pp_dc.date_completed is null and (fhs.vl_1 > 400 or (TIMESTAMPDIFF(MONTH,fhs.tb_tx_start_date,date('{endDate}')) < 6) or (timestampdiff(year,person.birthdate, date('{endDate}')) < 20) or (timestampdiff(month,fhs.arv_first_regimen_start_date, date('{endDate}')) < 12) or DATE(fhs.prev_clinical_rtc_date_hiv) != DATE(fhs.encounter_datetime) or fhs.is_pregnant IS NOT NULL OR fhs.weight/((fhs.height/100) * (fhs.height/100)) < 18.5), 1, NULL)"
+                "expression": "enrolled_not_eligible"
             }
         },
         {
@@ -99,7 +53,7 @@
             "alias": "enrolled_in_dc",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(pp_dc.program_id = 9 and pp_dc.date_completed is null, 1, NULL)"
+                "expression": "dcr.enrolled_in_dc"
             }
         },
         {
@@ -107,7 +61,7 @@
             "alias": "enrolled_in_dc_community",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(pp_dc.program_id = 9 and pp_dc.date_completed is null and ch.cohort_type_id = 1, 1, NULL)"
+                "expression": "dcr.enrolled_in_dc_community"
             }
         },
         {
@@ -115,65 +69,68 @@
             "alias": "enrolled_in_dc_active",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(pp_dc.program_id = 9 and pp_dc.date_completed is null, 1, NULL)"
+                "expression": "dcr.enrolled_in_dc"
             }
         },
         {
             "type": "simple_column",
             "alias": "vl_1",
-            "column": "fhs.vl_1"
+            "column": "dcr.vl_1"
         },
         {
             "type": "simple_column",
             "alias": "encounter_datetime",
-            "column": "fhs.encounter_datetime"
+            "column": "dcr.encounter_datetime"
         },
         {
             "type": "simple_column",
             "alias": "vl_1_date",
-            "column": "fhs.vl_1_date"
+            "column": "dcr.vl_1_date"
         },
         {
             "type": "simple_column",
             "alias": "cur_arv_meds",
-            "column": "fhs.cur_arv_meds"
+            "column": "dcr.cur_arv_meds_names"
         },
         {
             "type": "simple_column",
             "alias": "height",
-            "column": "fhs.height"
+            "column": "dcr.height"
         },
         {
             "type": "simple_column",
             "alias": "weight",
-            "column": "fhs.weight"
-        },
-        {
-            "type": "simple_column",
-            "alias": "prev_rtc_date",
-            "column": "fhs.prev_rtc_date"
+            "column": "dcr.weight"
         },
         {
             "type": "simple_column",
             "alias": "dc_group",
-            "column": "ch.cohort_name"
+            "column": "dcr.cohort_name"
         },
         {
             "type": "simple_column",
-            "alias": "bmi",
-            "column": "fhs.weight/((fhs.height/100) * (fhs.height/100))"
+            "alias": "status",
+            "column": "dcr.cur_status"
         },
         {
             "type": "simple_column",
             "alias": "ipt_start_date",
-            "column": "date_format(fhs.ipt_start_date,'%Y-%m-%d')"
+            "column": "date_format(dcr.ipt_start_date,'%Y-%m-%d')"
         },
         {
             "type": "derived_column",
             "alias": "completed_IPT",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "if(fhs.ipt_completion_date is not null, 1, 0)"
+                "expression": "if(dcr.ipt_completion_date is not null, 1, 0)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "days_since_rtc",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "TIMESTAMPDIFF(DAY,DATE(dcr.rtc_date),curdate())"
             }
         }
     ],
@@ -182,48 +139,13 @@
         "conditions": [
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "date(fhs.encounter_datetime) >= ?",
-                "parameterName": "startDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "date(fhs.encounter_datetime) <= ?",
+                "conditionExpression": "dcr.end_date = ?",
                 "parameterName": "endDate"
             },
             {
                 "filterType": "tableColumns",
-                "conditionExpression": "Timestampdiff(day, fhs.rtc_date, ?) <= 28",
-                "parameterName": "endDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "fhs.location_uuid in (?)",
+                "conditionExpression": "dcr.location_uuid in (?)",
                 "parameterName": "locationUuids"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "fhs.vl_1 < 401",
-                "parameterName": ""
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "fhs.encounter_type NOT IN (99999)",
-                "parameterName": ""
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "fhs.death_date IS NULL",
-                "parameterName": ""
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "fhs.transfer_out IS NULL",
-                "parameterName": ""
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "fhs.rtc_date > ? ",
-                "parameterName": "endDate"
             }
         ]
     }
