@@ -32,7 +32,8 @@ export class HivDifferentiatedCareComponent implements OnInit {
   public limit = 300;
   public startIndex = 0;
   public enabledControls = 'monthControl';
-  public month = 'month';
+  public month = Moment().format('YYYY-MM');
+  public isPatientListEmpty = true;
 
   public get startDateString(): string {
     return this.startDate ? Moment(this.startDate).format('YYYY-MM-DD') : null;
@@ -73,6 +74,9 @@ export class HivDifferentiatedCareComponent implements OnInit {
       this.locationUuid = url[0].path;
     });
     this.loadReportParamsFromUrl();
+
+    this.startDateString = Moment(this.month, 'YYYY-MM').startOf('month').format('YYYY-MM-DD');
+    this.endDateString = Moment(this.month, 'YYYY-MM').endOf('month').format('YYYY-MM-DD');
   }
 
   public extraColumns() {
@@ -91,6 +95,11 @@ export class HivDifferentiatedCareComponent implements OnInit {
         headerName: 'Latest RTC Date',
         width: 150,
         field: 'latest_rtc_date'
+      },
+      {
+        headerName: 'Status',
+        width: 130,
+        field: 'status'
       },
       {
         headerName: 'Current Regimen',
@@ -161,6 +170,7 @@ export class HivDifferentiatedCareComponent implements OnInit {
         this.endDateString, this.locationUuid, this.indicators, this.startIndex, this.limit).take(1).subscribe((data) => {
           this.patientData = this.appendData(currentPatients, data.results.results);
           this.isLoadingPatientList = false;
+          this.isPatientListEmpty = false;
           this.checkOrderLimit(data.results.results.length);
         }, (err) => {
           this.isLoadingPatientList = false;
@@ -177,6 +187,7 @@ export class HivDifferentiatedCareComponent implements OnInit {
 
     if (path.queryParams['startDate']) {
       this.startDate = new Date(path.queryParams['startDate']);
+      this.month = Moment(path.queryParams['startDate']).format('YYYY-MM');
     }
 
     if (path.queryParams['endDate']) {
@@ -234,6 +245,7 @@ export class HivDifferentiatedCareComponent implements OnInit {
   public onIndicatorChange() {
     this.resetStartIndex();
     this.indicators = this.selectedIndicator;
+    this.isPatientListEmpty = true;
   }
 
   public onEndDateChange(event) {
@@ -270,6 +282,7 @@ export class HivDifferentiatedCareComponent implements OnInit {
     this.startDateString = Moment(formattedMonth).startOf('month').format('YYYY-MM-DD');
     this.endDateString = Moment(formattedMonth).endOf('month').format('YYYY-MM-DD');
     this.patientData  = [];
+    this.isPatientListEmpty = true;
   }
 
 }
