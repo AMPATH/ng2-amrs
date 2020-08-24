@@ -58,7 +58,12 @@
                  "label":"qualifies_differenciated_care",
                  "expression":"qualifies_differenciated_care",
                  "sql":"$expression"
-               }
+               },
+               {
+                "label":"not_completed_ipt",
+                "expression":"not_completed_ipt",
+                "sql":"$expression"
+              }
 
 
            ],

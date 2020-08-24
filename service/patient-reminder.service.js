@@ -170,7 +170,7 @@ function inhReminders(data) {
         data.inh_treatment_days_remaining > 0) {
         reminders.push({
             message: 'Patient has been on INH treatment for the last 5 months, expected to end on (' +
-            Moment(data.ipt_completion_date).format('MM-DD-YYYY') + ') ',
+            Moment(data.ipt_completion_date).format('DD-MM-YYYY') + ') ',
             title: 'INH Treatment Reminder',
             type: 'danger',
             display: {
@@ -411,6 +411,28 @@ function geneXpertReminders(data) {
 
 }
 
+function getIptCompletionReminder(data){
+    let reminders = [];
+
+    if (data.not_completed_ipt) {
+        reminders.push({
+            message: 'Patient started IPT on ' + Moment(data.ipt_start_date).format('DD-MM-YYYY') +' and was supposed to be completed on '+ Moment(data.ipt_start_date).add(6, 'months').format('DD-MM-YYYY'),
+            title: 'IPT Completion Reminder',
+            type: 'warning',
+            display: {
+                banner: true,
+                toast: true
+            }
+        });
+            
+    } else {
+        console.info.call('No IPT Completion Reminder For Selected Patient');
+    }
+    
+    return reminders;
+
+}
+
 function generateReminders(etlResults, eidResults) {
   let reminders = [];
   let patientReminder;
@@ -433,6 +455,7 @@ function generateReminders(etlResults, eidResults) {
   let dna_pcr_reminder = dnaReminder(data);
   let dst_result = dstReminders(data);
   let gene_xpert_result = geneXpertReminders(data);
+  let not_completed_ipt = getIptCompletionReminder(data);
   let currentReminder = [];
   if(pending_vl_lab_result.length> 0) {
     currentReminder = pending_vl_lab_result.concat(inh_reminders);
@@ -446,7 +469,8 @@ function generateReminders(etlResults, eidResults) {
       qualifies_enhanced,
       dna_pcr_reminder,
       dst_result,
-      gene_xpert_result);
+      gene_xpert_result,
+      not_completed_ipt);
   }
   
   reminders = reminders.concat(currentReminder);
