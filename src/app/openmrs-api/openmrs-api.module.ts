@@ -26,6 +26,7 @@ import { CommunityGroupMemberService } from './community-group-member-resource.s
 import { CommunityGroupAttributeService } from './community-group-attribute-resource.service';
 import { CommunityGroupLeaderService } from './community-group-leader-resource.service';
 import { PatientConsentResourceService } from './patient-consent-resource.service';
+import { PersonAttributeResourceService } from './person-attribute-resource.service';
 
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
@@ -57,7 +58,8 @@ import { PatientConsentResourceService } from './patient-consent-resource.servic
     CommunityGroupMemberService,
     CommunityGroupAttributeService,
     CommunityGroupLeaderService,
-    PatientConsentResourceService
+    PatientConsentResourceService,
+    PersonAttributeResourceService
   ],
   exports: []
 })

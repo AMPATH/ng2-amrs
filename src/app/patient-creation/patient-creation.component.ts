@@ -1,4 +1,3 @@
-
 import { take } from 'rxjs/operators';
 import {
   Component, OnInit, Input, Output, OnDestroy, ViewChild, EventEmitter
@@ -22,6 +21,7 @@ import {
 import {
   PatientIdentifierTypeResService
 } from '../openmrs-api/patient-identifierTypes-resource.service';
+import { ConceptResourceService } from './../openmrs-api/concept-resource.service';
 import { constants } from 'os';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap';
@@ -124,6 +124,11 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public generate = true;
   public preferredIdentifier;
   public errorAlerts = [];
+  public occupationConceptUuid = 'a8a0a00e-1350-11df-a1f1-0026b9348838';
+  public occupationAttributeTypeUuid = '9e86409f-9c20-42d0-aeb3-f29a4ca0a7a0';
+  public occupations = [];
+  public occupationConcept: any;
+  public occupation: any;
 
   constructor(
     public toastrService: ToastrService,
@@ -135,12 +140,14 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private sessionStorageService: SessionStorageService,
-    private modalService: BsModalService) {
+    private modalService: BsModalService,
+    private conceptService: ConceptResourceService) {
   }
 
   public ngOnInit() {
     this.getLocations();
     this.getCommonIdentifierTypes();
+    this.getOccupatonConcept();
     this.userId = this.userService.getLoggedInUser().openmrsModel.systemId;
     this.errorAlert = false;
     this.person = this.sessionStorageService.getObject('person');
@@ -159,6 +166,27 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         this.found = true;
       }
     });
+  }
+
+  public getOccupatonConcept() {
+     this.conceptService.getConceptByUuid(this.occupationConceptUuid)
+     .subscribe((concept: any) => {
+       if (concept) {
+           this.occupationConcept = concept;
+           this.setOccupationOptions(concept.answers);
+       }
+     });
+
+  }
+
+  public setOccupationOptions(occupations) {
+    this.occupations = occupations.map((occupation: any) => {
+        return {
+          'val': occupation.uuid,
+          'label': occupation.display
+        };
+    });
+
   }
   public updateBirthDate(birthDate) {
     this.disable = true;
@@ -194,7 +222,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     if (this.getAge(this.birthDate) > 116) {
       this.birthError = 'Please select a valid birthdate or age';
     } else if (
-      !this.givenName || !this.familyName || !this.gender || this.birthError || !this.birthDate
+      !this.givenName || !this.familyName || !this.gender || this.birthError || !this.birthDate || !this.occupation
     ) {
       this.errors = true;
     } else {
@@ -422,6 +450,9 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     if (!this.gender) {
       this.errors = true;
     }
+    if (!this.occupation) {
+      this.errors = true;
+    }
     if (!this.birthDate) {
       this.errors = true;
     }
@@ -500,6 +531,12 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
           attributeType: 'a657a4f1-9c0f-444b-a1fd-445bb91dd12d'
         });
       }
+      if (this.occupation) {
+        attributes.push({
+        'value': this.occupation,
+        'attributeType': this.occupationAttributeTypeUuid
+      });
+    }
 
       const payload = {
         person: {
