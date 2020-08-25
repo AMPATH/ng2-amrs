@@ -541,6 +541,16 @@
       "shared-routes-class": "cdm",
       "requiresPatientEnrollment": true,
       "routes": []
+    },
+    {
+      "programName": "Mental Health Program",
+      "programUuid": "6976b7eb-6d66-4aba-bcc0-cd8be80041cd",
+      "baseRoute": "6976b7eb-6d66-4aba-bcc0-cd8be80041cd",
+      "alias": "cdm",
+      "published": true,
+      "shared-routes-class": "cdm",
+      "requiresPatientEnrollment": true,
+      "routes": []
     }
   ],
 
