@@ -1,5 +1,6 @@
 const rp = require('request-promise');
 const eidFacilityMap = require('../../../service/eid/eid-facility-mappings');
+const db = require('../../../etl-db');
 // import formurlencoded from 'form-urlencoded';
 export class LabClient {
     config = null;
@@ -148,7 +149,11 @@ export class LabClient {
                 resolve(response);
             }).catch((err)=>{
                 console.error('LAB INTEGRATION ERROR:', err);
-                reject(err);
+                this.logRequestError(err,options).then((result) => {
+                    reject(err);
+                }).catch((error) => {
+                    reject(err);
+                });
             });
         });
     }
@@ -175,4 +180,25 @@ export class LabClient {
         }
         return facilityCodes;
     }
+
+    logRequestError(error,options) {
+       // console.log('Logging lab request error...', error);
+       var sql = "INSERT INTO etl.eid_lab_request_errors(error,options)" +
+          " VALUES('" + error + "','" + JSON.stringify(options) + "');";
+    
+        var queryObject = {
+          query: sql,
+          sqlParams: []
+        };
+    
+        return new Promise(function (resolve, reject) {
+          db.queryReportServer(queryObject, function (response) {
+            if (response.error) {
+              reject(response);
+            } else {
+              resolve(response);
+            }
+          });
+        });
+      }
 }
