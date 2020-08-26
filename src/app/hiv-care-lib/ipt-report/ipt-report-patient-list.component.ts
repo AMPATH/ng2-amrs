@@ -23,10 +23,16 @@ export class IptReportPatientListComponent implements OnInit {
     private route: ActivatedRoute,
     private _location: Location,
     public iptReportService: IptReportService
+<<<<<<< HEAD
   ) { }
 
   public ngOnInit() {
     this.addExtraColumns();
+=======
+  ) {}
+
+  public ngOnInit() {
+>>>>>>> HIV-542: Add IPT Module report to POC (#1253)
     this.route.queryParams.subscribe((params: IptReportParams) => {
       if (params) {
         this.params = params;
@@ -36,6 +42,7 @@ export class IptReportPatientListComponent implements OnInit {
     });
   }
 
+<<<<<<< HEAD
   public addExtraColumns() {
     const extraColumns = {
       phone_number: 'Phone Number',
@@ -87,6 +94,8 @@ export class IptReportPatientListComponent implements OnInit {
     );
   }
 
+=======
+>>>>>>> HIV-542: Add IPT Module report to POC (#1253)
   public getPatientList(params: any) {
     this.isLoading = true;
     this.iptReportService.getIptReportPatientList(params).subscribe((data) => {
@@ -96,7 +105,10 @@ export class IptReportPatientListComponent implements OnInit {
       } else {
         this.patientData = data.result;
         this.isLoading = false;
+<<<<<<< HEAD
         this.hasLoadedAll = true;
+=======
+>>>>>>> HIV-542: Add IPT Module report to POC (#1253)
       }
     });
   }

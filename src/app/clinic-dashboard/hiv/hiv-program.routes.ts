@@ -258,8 +258,34 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: HIVListsMicroFrontendComponent
-      }
+        component: MonthlyReportComponent
+      },
+      {
+        path: 'prep-report',
+        children: [
+          {
+            path: '',
+            component: PrepReportComponent
+          },
+          {
+            path: 'patient-list',
+            component: PrepReportPatientListComponent
+          }
+        ]
+      },
+      {
+        path: 'ipt-report',
+        children: [
+          {
+            path: '',
+            component: IptReportComponent
+          },
+          {
+            path: 'ipt-report-patientlist',
+            component: IptReportPatientListComponent
+          }
+        ]
+      },
     ]
   },
   {

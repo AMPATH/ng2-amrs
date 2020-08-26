@@ -97,7 +97,10 @@ import { PrepReportBaseComponent } from './prep-report/prep-report-base/prep-rep
 import { PrepReportPatientListComponent } from './prep-report/prep-report-patient-list/prep-report-patient-list.component';
 import { MonthlyReportComponent } from './monthly-report/monthly-report.component';
 import { IptBaseReportComponent } from './ipt-report/ipt-report-base.component';
+<<<<<<< HEAD
 import { IptReportPatientListComponent } from './ipt-report/ipt-report-patient-list.component';
+=======
+>>>>>>> HIV-542: Add IPT Module report to POC (#1253)
 import { IptTabularReportComponent } from './ipt-report/ipt-report-tabular.component';
 
 @NgModule({
@@ -228,8 +231,12 @@ import { IptTabularReportComponent } from './ipt-report/ipt-report-tabular.compo
     HeiIndicatorsPatientListComponent,
     HeiIndicatorsPdfViewComponent,
     IptBaseReportComponent,
+<<<<<<< HEAD
     IptTabularReportComponent,
     IptReportPatientListComponent
+=======
+    IptTabularReportComponent
+>>>>>>> HIV-542: Add IPT Module report to POC (#1253)
   ],
   providers: [
     MOHReportService,
