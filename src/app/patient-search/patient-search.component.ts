@@ -1,7 +1,9 @@
 /* tslint:disable:no-inferrable-types */
-import {take} from 'rxjs/operators/take';
-import { Component, OnInit, OnDestroy, DoCheck
-  , Output, Input, EventEmitter } from '@angular/core';
+import { take } from 'rxjs/operators/take';
+import {
+  Component, OnInit, OnDestroy, DoCheck
+  , Output, Input, EventEmitter
+} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { PatientSearchService } from './patient-search.service';
@@ -47,6 +49,7 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
   @Output() public patientSelected: EventEmitter<any> = new EventEmitter<any>();
   @Input() public hideResults: boolean = false;
   @Input() public hideRegistration: boolean = false;
+  @Input() public resetResults?: boolean;
 
   private _searchString: string;
   public get searchString(): string {
@@ -73,6 +76,7 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
       } else {
         // load cached result
         this.errorMessage = '';
+      if (!this.resetResults) {
         this.patientSearchService.patientsSearchResults.pipe(take(1)).subscribe(
           (patients) => {
             this.onResultsFound(patients);
@@ -82,6 +86,7 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
           }
         );
       }
+    }
     });
   }
 
