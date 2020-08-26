@@ -14,12 +14,14 @@ import {
 import {
     ProgramWorkFlowStateResourceService
 } from '../../../openmrs-api/program-workflow-state-resource.service';
+import { BsModalService, ModalModule } from 'ngx-bootstrap';
 
 describe('Component: AddRelationship Unit Tests', () => {
 
     let patientRelationshipService: PatientRelationshipService,
         patientRelationshipTypeService: PatientRelationshipTypeService,
-        fakeAppFeatureAnalytics: AppFeatureAnalytics, patientService: PatientService, component;
+        fakeAppFeatureAnalytics: AppFeatureAnalytics, patientService: PatientService, component,
+        bsModalService: BsModalService;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -41,16 +43,19 @@ describe('Component: AddRelationship Unit Tests', () => {
                 ProgramWorkFlowResourceService,
                 ProgramWorkFlowStateResourceService,
                 AppSettingsService,
-                LocalStorageService
-            ]
+                LocalStorageService,
+                BsModalService
+            ],
+            imports: [ModalModule.forRoot()]
         });
 
         patientService = TestBed.get(PatientService);
         patientRelationshipService = TestBed.get(PatientRelationshipService);
         patientRelationshipTypeService = TestBed.get(PatientRelationshipTypeService);
         fakeAppFeatureAnalytics = TestBed.get(AppFeatureAnalytics);
+        bsModalService = TestBed.get(BsModalService);
         component = new AddPatientRelationshipComponent(patientRelationshipService,
-            patientRelationshipTypeService, patientService, fakeAppFeatureAnalytics);
+            patientRelationshipTypeService, patientService, fakeAppFeatureAnalytics, bsModalService);
 
     });
 
