@@ -57,6 +57,7 @@ export class HivDifferentiatedCareComponent implements OnInit {
     { name: 'Eligible And Enrolled', value: 'eligible_and_on_dc' },
     { name: 'Patients Enrolled', value: 'enrolled_in_dc' },
     { name: 'Enrolled Not Eligible', value: 'enrolled_not_elligible' },
+    { name: 'Enrolled and Due For Vl', value: 'enrolled_and_vl_due' },
     { name: 'Patients Active on DC Facility', value: 'enrolled_in_dc_active' },
     { name: 'Patients Active on DC Community', value: 'enrolled_in_dc_community' }
   ];
