@@ -104,7 +104,7 @@
       {
         "uuid": "0ae56e8a-93ed-4071-82f1-0eaf3eb592ff",
         "name": "Adult Transfer In Visit ",
-        "allowedIf": "age >= 20 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit && previousHIVClinicallocation !== programLocation",
+        "allowedIf": "age >= 20 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
         "message": "Patient has to be 20yrs and above , patient's program location should be equal to the last HIV clinical encounter location and should not be the first clinical encounter",
         "encounterTypes": [{
             "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
@@ -249,7 +249,7 @@
       {
         "uuid": "2e67b87c-8843-45b7-a380-3a0e8bd58e4d",
         "name": "Pediatric Transfer In Visit ",
-        "allowedIf": "age <= 14 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit && previousHIVClinicallocation !== programLocation",
+        "allowedIf": "age <= 14 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
         "encounterTypes": [{
             "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
             "display": "HIVTRIAGE"
@@ -385,7 +385,7 @@
       {
         "uuid": "b27e13f7-7118-4c0d-b9d6-b759495991d6",
         "name": "Youth Transfer In Visit ",
-        "allowedIf": "age >= 10 && age <= 24 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit && previousHIVClinicallocation !== programLocation",
+        "allowedIf": "age >= 10 && age <= 24 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
         "message": "Patient has to between 10 and 24yrs , in the location he enrolled into the HIV Care and Treatment program, must have a prior clinical encounter.The program location should be different from the previous encounter location",
         "encounterTypes": [{
             "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
