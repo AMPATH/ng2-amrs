@@ -33,6 +33,7 @@ import { AppSettingsModule } from '../app-settings/app-settings.module';
 import { ToastrModule} from 'ngx-toastr';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AppSettingsService } from '../app-settings/app-settings.service';
+import { ConceptResourceService } from './../openmrs-api/concept-resource.service';
 
 describe('Component: Patient Creation Unit Tests', () => {
 
@@ -73,7 +74,8 @@ describe('Component: Patient Creation Unit Tests', () => {
         LocationResourceService,
         PatientResourceService,
         UserService,
-        DataCacheService
+        DataCacheService,
+        ConceptResourceService
       ]
     });
 

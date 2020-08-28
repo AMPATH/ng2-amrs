@@ -1,0 +1,39 @@
+<p-dialog header="Edit Occupation" [(visible)]="display">
+  <form name="occupationForm" class="form-horizontal">
+    <div class="alert alert-danger" *ngIf="showErrorAlert" style="margin-top:10px">
+      <strong>{{errorTitle}}</strong> {{errorAlert}}
+    </div>
+    <div class="alert alert-success" *ngIf="showSuccessAlert" style="margin-top:10px">
+      <strong>Done!</strong> {{successAlert}}
+    </div>
+    <div class="container-fluid">
+      <div class="row">
+    
+      <div class="form-group">
+        <div class="col-sm-3 col-lg-3 col-xs-12 col-md-3">
+         <label class="control-label">Occupation </label>
+        </div>
+         <div class="col-sm-6 col-lg-6 col-xs-12 col-md-6">
+         <select 
+            class="form-control" 
+            [ngModel]="occupation" 
+            (ngModelChange)="onSelectOccupation($event)" 
+            name="occupationOptions">
+           <option *ngFor="let c of occupations" [ngValue]="c.value">{{c.label}}</option>
+        </select>
+        </div>
+      </div>
+    <div class="form-group">
+      <div class="col-sm-10 col-lg-10 col-xs-12 col-md-10">
+      <br>
+      <button class="btn btn-primary" type="button" (click)="saveOccupation()"><span>Save</span></button>
+      <button class="btn btn-danger pull-right" type="button" (click)="dismissDialog()">
+        <span>Cancel</span></button>
+    </div>
+    </div>
+    </div>
+    </div>
+
+  </form>
+
+</p-dialog>
