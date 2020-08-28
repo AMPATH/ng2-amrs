@@ -146,6 +146,8 @@ import { HivSummaryLatestComponent } from '../hiv/hiv-summary/hiv-summary-latest
 import { AgePipe } from './patient-banner/age.pipe';
 import { PatientTransferService } from './formentry/patient-transfer.service';
 import { TelecareComponent } from './patient-info/telecare/telecare.component';
+import { OccupationComponent } from './patient-info/occupation/occupation.component';
+import { EditOccupationComponent } from './patient-info/occupation/edit-occupation.component';
 
 @NgModule({
   imports: [
@@ -236,7 +238,10 @@ import { TelecareComponent } from './patient-info/telecare/telecare.component';
     OrderByAlphabetPipe,
     OrderByEncounterTimeAscPipe,
     EncounterTypeFilter,
-    PatientImagingComponent],
+    PatientImagingComponent,
+    OccupationComponent,
+    EditOccupationComponent
+  ],
   declarations: [
     VisitSummaryComponent,
     PatientInfoComponent,
@@ -290,7 +295,9 @@ import { TelecareComponent } from './patient-info/telecare/telecare.component';
     // ZeroVlPipe,
     AgePipe,
     PatientImagingComponent,
-    TelecareComponent
+    TelecareComponent,
+    OccupationComponent,
+    EditOccupationComponent
   ],
   providers: [
     {
