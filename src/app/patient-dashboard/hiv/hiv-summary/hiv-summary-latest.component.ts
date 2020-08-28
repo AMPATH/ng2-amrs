@@ -8,6 +8,7 @@ import { Patient } from '../../../models/patient.model';
 import { Subscription } from 'rxjs';
 import * as Moment from 'moment';
 import * as _ from 'lodash';
+import { PatientResourceService } from 'src/app/openmrs-api/patient-resource.service';
 @Component({
   selector: 'hiv-summary-latest',
   templateUrl: './hiv-summary-latest.component.html',
@@ -26,7 +27,7 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
 
   constructor(
     private hivSummaryService: HivSummaryService,
-    private patientService: PatientService
+    private patientResourceService: PatientResourceService
   ) {}
 
   public ngOnInit() {
@@ -35,8 +36,16 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
   }
 
   public loadPatient() {
-    this.patientService.currentlyLoadedPatient.subscribe((data) => {
+    this.patientResourceService.getPatientByUuid(this.patientUuid).subscribe((data: Patient) => {
       this.patient = data;
+    }, (err) => {
+      this.loadingHivSummary = false;
+      this.errors.push({
+        id: 'Hiv Summary',
+        message:
+          'An error occured while loading Hiv Summary. Please try again.',
+      });
+
     });
   }
 
