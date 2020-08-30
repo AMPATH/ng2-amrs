@@ -99,6 +99,7 @@ export class EditOccupationComponent implements OnInit, OnDestroy {
     this.personAttributeService.createPersonAttribute(patientUuid, payload)
     .subscribe((result: any) => {
        this.displaySuccessAlert('Occupation successfully saved');
+       this.patientService.fetchPatientByUuid(patientUuid);
     }, (error: any) => {
        this.displayErrorAlert(error.error);
     });
@@ -153,7 +154,7 @@ export class EditOccupationComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.showErrorAlert = false;
       this.display = false;
-    }, 1000);
+    }, 5000);
   }
 
 }
