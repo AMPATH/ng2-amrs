@@ -17,6 +17,7 @@ export class PatientInfoComponent implements OnInit, OnDestroy, AfterViewInit {
   public subscription: Subscription;
   public routeSub: Subscription;
   public scrollSection = '';
+  public levelOfEducation = '';
   constructor(private appFeatureAnalytics: AppFeatureAnalytics,
     private patientService: PatientService, private route: ActivatedRoute) {
   }
@@ -25,6 +26,7 @@ export class PatientInfoComponent implements OnInit, OnDestroy, AfterViewInit {
       (patient) => {
         this.patient = new Patient({});
         if (patient) {
+          console.log(patient);
           this.patient = patient;
         }
       }

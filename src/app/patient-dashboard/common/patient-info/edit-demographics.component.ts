@@ -7,6 +7,7 @@ import { PersonResourceService } from '../../../openmrs-api/person-resource.serv
 import { ConceptResourceService } from '../../../openmrs-api/concept-resource.service';
 import { Subscription } from 'rxjs';
 import * as moment from 'moment';
+import { PatientCreationService } from 'src/app/patient-creation/patient-creation.service';
 
 @Component({
   selector: 'edit-demographics',
@@ -46,15 +47,20 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
   public showErrorAlert = false;
   public errorAlert: string;
   public errorTitle: string;
+  public levelOfEducation: Array<any>;
+  public patientLevelOfEducation: string;
 
   constructor(private patientService: PatientService,
     private personResourceService: PersonResourceService,
-    private conceptResourceService: ConceptResourceService) {
+    private conceptResourceService: ConceptResourceService,
+    private patientCreationService: PatientCreationService
+    ) {
   }
 
   public ngOnInit(): void {
     this.getPatient();
     this.getCauseOfDeath();
+    this.getLevelsOfEducation();
   }
 
   public ngOnDestroy(): void {
@@ -81,9 +87,18 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
           this.dead = this.patients.person.dead;
           this.deathDate = this.patients.person.deathDate;
           this.causeOfDeath = this.patients.person.causeOfDeathUuId;
+          this.patientLevelOfEducation = this.patients.person.levelOfEducation.value;
         }
       }
     );
+  }
+
+  public getLevelsOfEducation() {
+    this.patientCreationService.getLevelOfEducation().subscribe((education: any) => {
+      if (education) {
+        this.levelOfEducation = education.answers;
+      }
+    });
   }
   public showDialog() {
     this.display = true;
@@ -122,6 +137,10 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
       this.causeOfDeath = null;
     }
 
+  }
+
+  public updateLevelOfEducation(uuid) {
+    this.patientLevelOfEducation = uuid;
   }
 
   public updateDOBDetails(birthdateEstimated) {
@@ -203,6 +222,19 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
     if (this.birthDate == null) {
       this.errors.push({ message: 'Birth Date is required' });
     }
+
+    const personAttributePayload = {
+      attributes: [{
+        value: this.patientLevelOfEducation,
+        attributeType: '2b91b4a5-d421-4a70-bb7c-8adfa083dcef'
+      }]
+    };
+
+    const attributesPayload = this.personResourceService.generatePersonAttributePayload(
+      personAttributePayload,
+      this.patients.person.attributes
+    );
+
     if (this.errors.length === 0) {
       const person = {
         uuid: this.patients.person.uuid
@@ -221,8 +253,8 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
         causeOfDeath: this.causeOfDeath,
         gender: this.gender,
         birthdate: this.birthDate,
-        birthdateEstimated: this.birthdateEstimated
-
+        birthdateEstimated: this.birthdateEstimated,
+        attributes: attributesPayload
       };
       this.personResourceService.saveUpdatePerson(person.uuid, personNamePayload).pipe(take(1)).subscribe(
         (success) => {

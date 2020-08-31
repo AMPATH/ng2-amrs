@@ -4,6 +4,8 @@ import { Subscription } from 'rxjs';
 import { Patient } from '../../../models/patient.model';
 import { PatientService } from '../../services/patient.service';
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
+import { PatientCreationService } from 'src/app/patient-creation/patient-creation.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'patient-demographics',
@@ -18,9 +20,11 @@ export class PatientDemographicsComponent implements OnInit, OnDestroy {
   public busy: Subscription;
   public errors: any = [];
   public subscription: Subscription;
+  public patientLevelOfEducation: any;
 
   constructor(private patientService: PatientService,
-    private appFeatureAnalytics: AppFeatureAnalytics) { }
+    private appFeatureAnalytics: AppFeatureAnalytics,
+    private patientCreationService: PatientCreationService) { }
   public getPatientDemographics() {
     this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
@@ -40,6 +44,20 @@ export class PatientDemographicsComponent implements OnInit, OnDestroy {
     this.getPatientDemographics();
     this.appFeatureAnalytics
       .trackEvent('Patient Dashboard', 'Lab Orders Loaded', 'ngOnInit');
+    this.patientCreationService
+      .getLevelOfEducation()
+      .subscribe(
+        (res: {
+          answers: Array<{ name: { display: string; uuid: string } }>;
+        }) => {
+          if (!_.isEmpty(res)) {
+            this.patientLevelOfEducation = res.answers.find(
+              (edu) =>
+                edu.name.uuid === this.patient.person.levelOfEducation.value
+            );
+          }
+        }
+      );
   }
 
   public ngOnDestroy(): void {
@@ -47,4 +65,5 @@ export class PatientDemographicsComponent implements OnInit, OnDestroy {
       this.subscription.unsubscribe();
     }
   }
+
 }

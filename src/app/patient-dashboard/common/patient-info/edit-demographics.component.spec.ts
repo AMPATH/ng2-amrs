@@ -8,11 +8,13 @@ import { EditDemographicsComponent } from './edit-demographics.component';
 import { PersonResourceService } from '../../../openmrs-api/person-resource.service';
 import { ConceptResourceService  } from '../../../openmrs-api/concept-resource.service';
 import { PatientService } from '../../services/patient.service';
+import { PatientCreationService } from 'src/app/patient-creation/patient-creation.service';
 
 describe('Component: Edit Demographics Unit Tests', () => {
 
   let personResourceService: PersonResourceService, conceptResourceService: ConceptResourceService,
-    fakeAppFeatureAnalytics: AppFeatureAnalytics, patientService: PatientService, component;
+    fakeAppFeatureAnalytics: AppFeatureAnalytics, patientService: PatientService, component,
+    patientCreationService: PatientCreationService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -31,6 +33,9 @@ describe('Component: Edit Demographics Unit Tests', () => {
         {
           provide: PatientService
         },
+        {
+          provide: PatientCreationService
+        },
         AppSettingsService,
         LocalStorageService
       ]
@@ -40,10 +45,12 @@ describe('Component: Edit Demographics Unit Tests', () => {
     conceptResourceService = TestBed.get(ConceptResourceService);
     personResourceService = TestBed.get(PersonResourceService);
     fakeAppFeatureAnalytics = TestBed.get(AppFeatureAnalytics);
+    patientCreationService = TestBed.get(PatientCreationService);
     component = new EditDemographicsComponent(
         patientService,
         personResourceService,
-        conceptResourceService
+        conceptResourceService,
+        patientCreationService
     );
 
   });

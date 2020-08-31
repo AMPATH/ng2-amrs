@@ -75,6 +75,8 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public r1 = /^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,3})|(\(?\d{2,3}\)?))/;
   public r2 = /(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$/;
   public pattern = new RegExp(this.r1.source + this.r2.source);
+  public levelOfEducation: Array<any>;
+  public patientLevelOfEducation: string;
 
   public address1: string;
   public address2: string;
@@ -166,6 +168,22 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         this.found = true;
       }
     });
+    this.patientCreationService
+      .getLevelOfEducation()
+      .subscribe(
+        (res: {
+          answers: Array<{ name: { display: string; uuid: string } }>;
+        }) => {
+          if (!_.isEmpty(res)) {
+            this.levelOfEducation = res.answers.map((education) => {
+              return {
+                value: education.name.uuid,
+                name: education.name.display,
+              };
+            });
+          }
+        }
+      );
   }
 
   public getOccupatonConcept() {
@@ -538,6 +556,13 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       });
     }
 
+      if (this.patientLevelOfEducation) {
+        attributes.push({
+          value: this.patientLevelOfEducation,
+          attributeType: '2b91b4a5-d421-4a70-bb7c-8adfa083dcef'
+        });
+      }
+
       const payload = {
         person: {
           names: [{
@@ -816,6 +841,10 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     const estimateDate = new Date(date).toISOString();
 
     return estimateDate;
+  }
+
+  public updateLevelOfEducation(levelOfEducation) {
+    this.patientLevelOfEducation = levelOfEducation;
   }
 
 }

@@ -168,4 +168,8 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
       : (this.isPatientEnrolledToHIVProgram = false);
   }
 
+  public openAddRelationshipModal(template) {
+    this.modalRef = this.modalService._showModal(template);
+  }
+
 }

@@ -280,6 +280,17 @@
           </div>
         </div>
         <!-- End Of Phone Number -->
+        
+        <div class="row">
+          <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+            <div class="form-group">
+              <label for="levelOfEducation">Level of Education</label>
+              <select class="form-control" name="education" ngModel (change)="updateLevelOfEducation($event.target.value)" >
+                <option *ngFor="let education of levelOfEducation" [value]="education.value">{{education.name}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
 
         <hr class="intro-divider patient-info-divider" />
         <div class="row">

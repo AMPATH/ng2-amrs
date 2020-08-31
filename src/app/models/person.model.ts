@@ -108,6 +108,20 @@ export class Person extends BaseModel {
       }
     }
   }
+  public get levelOfEducation() {
+    const levelOfEducationPersonAttributeTypeUuid = '2b91b4a5-d421-4a70-bb7c-8adfa083dcef';
+    if (this._attributes.length > 0) {
+      for (const attribute of this._attributes) {
+        if (
+          attribute.attributeType &&
+          attribute.attributeType.uuid ===
+          levelOfEducationPersonAttributeTypeUuid
+        ) {
+          return attribute;
+        }
+      }
+    }
+  }
   public get patientPhoneNumber() {
     const phoneNumberPersonAttributeTypeUuid = '72a759a8-1359-11df-a1f1-0026b9348838';
     if (this._attributes) {

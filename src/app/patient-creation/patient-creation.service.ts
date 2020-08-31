@@ -10,6 +10,7 @@ import {
 import { Patient } from '../models/patient.model';
 import * as _ from 'lodash';
 import { HttpClient } from '@angular/common/http';
+import { AppSettingsService } from '../app-settings/app-settings.service';
 
 @Injectable()
 export class PatientCreationService {
@@ -19,7 +20,8 @@ export class PatientCreationService {
 
     constructor(private resouceService: PatientResourceService,
         private patientCreationResourceService: PatientCreationResourceService,
-        private http: HttpClient
+        private http: HttpClient,
+        private appSettingsService: AppSettingsService,
     ) { }
 
     public searchPatient(searchText: string, cached: boolean): Observable<Patient[]> {
@@ -227,5 +229,11 @@ export class PatientCreationService {
                 val: '91099b3f-69be-4607-a309-bd358d85af46'
             }
         ];
+    }
+
+    public getLevelOfEducation() {
+        const amrsUrl = this.appSettingsService.getOpenmrsServer();
+        const highestEducation = 'a89e48ae-1350-11df-a1f1-0026b9348838';
+        return this.http.get(`${amrsUrl}//ws/rest/v1/concept/${highestEducation}?v=custom:(answers:(name:(uuid,display)))`);
     }
 }
