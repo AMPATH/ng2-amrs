@@ -26,6 +26,14 @@
             }
         },
         {
+            "table": "etl.flat_appointment",
+            "alias": "death_reporting",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "death_reporting.person_id = t2.person_id AND death_reporting.encounter_type in (31) AND death_reporting.encounter_datetime >= t2.encounter_datetime"
+            }
+        },
+        {
             "table": "amrs.program",
             "alias": "pr",
             "join": {
@@ -146,7 +154,17 @@
             },
             {
                 "filterType": "tableColumns",
+                "conditionExpression": "t2.is_clinical = 1",
+                "parameterName": ""
+            },
+            {
+                "filterType": "tableColumns",
                 "conditionExpression": "fhs.transfer_out_location_id IS NULL or fhs.transfer_out_location_id <> 9999",
+                "parameterName": ""
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "(death_reporting.encounter_datetime IS NULL) OR (DATE(t2.scheduled_date) < DATE(death_reporting.encounter_datetime))",
                 "parameterName": ""
             }
         ]
