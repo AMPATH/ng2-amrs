@@ -85,12 +85,12 @@ export class Person extends BaseModel {
       }
     }
   }
-  public get patnerPhoneNumber() {
-    const patnerPhoneNumberPersonAttributeTypeUuid = 'b0a08406-09c0-4f8b-8cb5-b22b6d4a8e46';
+  public get partnerPhoneNumber() {
+    const partnerPhoneNumberPersonAttributeTypeUuid = 'b0a08406-09c0-4f8b-8cb5-b22b6d4a8e46';
     if (this._attributes) {
-      const patnerPhoneNumber = this.getPersonAttribute(patnerPhoneNumberPersonAttributeTypeUuid);
-      if (patnerPhoneNumber) {
-        return patnerPhoneNumber;
+      const partnerPhoneNumber = this.getPersonAttribute(partnerPhoneNumberPersonAttributeTypeUuid);
+      if (partnerPhoneNumber) {
+        return partnerPhoneNumber;
       } else {
         return '';
       }
@@ -121,20 +121,20 @@ export class Person extends BaseModel {
   }
   public get contacts() {
     const phoneNumberPersonAttributeTypeUuid = '72a759a8-1359-11df-a1f1-0026b9348838';
-    const patnerPhoneNumberPersonAttributeTypeUuid = 'b0a08406-09c0-4f8b-8cb5-b22b6d4a8e46';
+    const partnerPhoneNumberPersonAttributeTypeUuid = 'b0a08406-09c0-4f8b-8cb5-b22b6d4a8e46';
     const alternativePhoneNumberPersonAttributeTypeUuid = 'c725f524-c14a-4468-ac19-4a0e6661c930';
     const nextofkinPhoneNumberPersonAttributeTypeUuid = 'a657a4f1-9c0f-444b-a1fd-445bb91dd12d';
 
     if (this._attributes) {
       let filteredContacts: {};
-      const patnerPhoneNumber = this.getPersonAttribute(patnerPhoneNumberPersonAttributeTypeUuid);
+      const partnerPhoneNumber = this.getPersonAttribute(partnerPhoneNumberPersonAttributeTypeUuid);
       const patientPhoneNumber = this.getPersonAttribute(phoneNumberPersonAttributeTypeUuid);
       const alternativePhoneNumber =
         this.getPersonAttribute(alternativePhoneNumberPersonAttributeTypeUuid);
       const nextofkinPhoneNumber =
         this.getPersonAttribute(nextofkinPhoneNumberPersonAttributeTypeUuid);
 
-      if ((patnerPhoneNumber) === undefined && (patientPhoneNumber) === undefined &&
+      if ((partnerPhoneNumber) === undefined && (patientPhoneNumber) === undefined &&
         (alternativePhoneNumber) === undefined && (nextofkinPhoneNumber) === undefined &&
         (patientPhoneNumber) === undefined) {
         if ((this._attributes)) {
@@ -144,7 +144,7 @@ export class Person extends BaseModel {
         }
       } else {
         filteredContacts = {
-          patnerPhoneNumber: (patnerPhoneNumber),
+          partnerPhoneNumber: (partnerPhoneNumber),
           patientPhoneNumber: (patientPhoneNumber),
           alternativePhoneNumber: (alternativePhoneNumber),
           nextofkinPhoneNumber: (nextofkinPhoneNumber)

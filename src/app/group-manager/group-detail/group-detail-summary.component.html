@@ -269,16 +269,16 @@
       <div class="row">
         <div class="col-md-6 col-sm-6">
           <label class="control-label">Spouse Phone Number</label>
-          <input type="text" class="form-control" formControlName="patnerPhoneNumber" >
-          <div *ngIf="leaderContactsForm.controls['patnerPhoneNumber'].errors 
-          && (leaderContactsForm.controls['patnerPhoneNumber'].dirty || leaderContactsForm.controls['patnerPhoneNumber'].touched)" class="text-danger">
-              <div [hidden]="!leaderContactsForm.controls['patnerPhoneNumber'].errors.minlength" class="warnings">
+          <input type="text" class="form-control" formControlName="partnerPhoneNumber" >
+          <div *ngIf="leaderContactsForm.controls['partnerPhoneNumber'].errors 
+          && (leaderContactsForm.controls['partnerPhoneNumber'].dirty || leaderContactsForm.controls['partnerPhoneNumber'].touched)" class="text-danger">
+              <div [hidden]="!leaderContactsForm.controls['partnerPhoneNumber'].errors.minlength" class="warnings">
                 Phone number must be at least 10  digits.
               </div>
-              <div [hidden]="!leaderContactsForm.controls['patnerPhoneNumber'].errors.maxlength" class="warnings">
+              <div [hidden]="!leaderContactsForm.controls['partnerPhoneNumber'].errors.maxlength" class="warnings">
                 Phone number  max length is 15 digits.
               </div>
-              <div *ngIf="leaderContactsForm.controls['patnerPhoneNumber'].errors.pattern" class="warnings">
+              <div *ngIf="leaderContactsForm.controls['partnerPhoneNumber'].errors.pattern" class="warnings">
                 Valid phone number is required
               </div>
           </div>
