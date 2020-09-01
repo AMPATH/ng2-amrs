@@ -50,8 +50,8 @@
      </div>
     <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
            <label for="spousePhoneNumber" class="control-label">Spouse Phone Number</label>
-           <input type="text" id="patnerPhoneNumber" class="form-control" name="patnerPhoneNumber" [(ngModel)]="patnerPhoneNumber"
-                 spousePhoneNumber="patnerPhoneNumber" minlength="10" maxlength="15" [pattern]="pattern" #spousePhoneNumber="ngModel" >
+           <input type="text" id="partnerPhoneNumber" class="form-control" name="partnerPhoneNumber" [(ngModel)]="partnerPhoneNumber"
+                 spousePhoneNumber="partnerPhoneNumber" minlength="10" maxlength="15" [pattern]="pattern" #spousePhoneNumber="ngModel" >
            <div *ngIf="spousePhoneNumber.errors && (spousePhoneNumber.dirty || spousePhoneNumber.touched)" class="alert alert-danger">
               <div [hidden]="!spousePhoneNumber.errors.minlength">
                 Phone number must be at least 10  digits.
