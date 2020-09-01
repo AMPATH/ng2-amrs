@@ -5,7 +5,7 @@
   </div>
   <div class="alert alert-error" role="alert" *ngIf="error">
     <p>
-      <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> An error occured while contacting lab for new results.
+      <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> An error occurred while contacting lab for new results.
       Reload the patient dashboard to retry.</p>
   </div>
   <div *ngIf="results.length>0">
@@ -46,7 +46,7 @@
   </div>
 
   <div class="alert" role="alert " *ngIf="!results.length && !fetchingResults && !error">
-    <p><span class="fa fa-check-circle"></span> Lab results are currently up to date</p>
+    <p><button class="btn btn-default" (click)="getNewResults(true)">Check for New Results</button></p>
   </div>
 
 
