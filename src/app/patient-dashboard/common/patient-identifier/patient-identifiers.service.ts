@@ -48,7 +48,8 @@ export class PatientIdentifierService {
       'HEI',
       'KUZA ID',
       'Zuri Health ID',
-      'NAT'
+      'NAT',
+      'BHMI'
     ];
   }
   public patientIdentifierTypeFormat() {
@@ -88,6 +89,10 @@ export class PatientIdentifierService {
       {
         label: 'NAT', format: 'NAT-\\d{5}$', checkdigit: 0,
         val: '22ee6ad7-58fb-4382-9af2-c6a553f3d56a'
+      },
+      {
+        label: 'BHMI', format: 'B\\d{5}-\\d{5}', checkdigit: null,
+        val: '5b91df4a-db7d-4c52-ac85-ac519420d82e'
       }
     ];
   }
