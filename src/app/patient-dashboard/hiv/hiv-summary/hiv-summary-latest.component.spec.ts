@@ -2,7 +2,6 @@ import { TestBed, inject, async } from '@angular/core/testing';
 
 import { HivSummaryService } from './hiv-summary.service';
 import { HivSummaryLatestComponent } from './hiv-summary-latest.component';
-import { PatientService } from '../../services/patient.service';
 import { HivSummaryResourceService } from '../../../etl-api/hiv-summary-resource.service';
 import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
@@ -23,7 +22,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 describe('Component: HivSummaryLatest Unit Tests', () => {
 
   let hivSummaryService: HivSummaryService,
-    patientService: PatientService, component;
+  patientResourceService: PatientResourceService, component;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -31,7 +30,7 @@ describe('Component: HivSummaryLatest Unit Tests', () => {
       providers: [
         HivSummaryService,
         HivSummaryResourceService,
-        PatientService,
+        PatientResourceService,
         ProgramService,
         ProgramResourceService,
         PatientProgramService,
@@ -47,9 +46,9 @@ describe('Component: HivSummaryLatest Unit Tests', () => {
     });
 
     hivSummaryService = TestBed.get(HivSummaryService);
-    patientService = TestBed.get(PatientService);
+    patientResourceService = TestBed.get(PatientResourceService);
 
-    component = new HivSummaryLatestComponent(hivSummaryService, patientService);
+    component = new HivSummaryLatestComponent(hivSummaryService, patientResourceService);
 
   });
 

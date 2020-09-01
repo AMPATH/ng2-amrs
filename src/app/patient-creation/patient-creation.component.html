@@ -46,6 +46,17 @@
             </div>
           </div>
         </div>
+        <div class="col-md-4 col-lg- col-sm-4 col-xs-4">
+          <div class="form-group">
+            <label for="occupation">Occupation <span *ngIf="!occupation" class="required"> *</span></label>
+            <select class="form-control" [(ngModel)]="occupation" name="occupaton">
+              <option *ngFor="let oc of occupations" [value]="oc.val">{{oc.label}}</option>
+            </select>
+            <div *ngIf="errors && !occupation" class="required">
+              <span class="help-block" style="color:red;">Occupation is required!</span>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="row">
         <div class="col-md-8 col-lg-8 col-sm-8 col-xs-8">

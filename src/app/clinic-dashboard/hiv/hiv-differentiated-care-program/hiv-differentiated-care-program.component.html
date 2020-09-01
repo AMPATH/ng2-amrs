@@ -15,7 +15,7 @@
 				<div class="form-group col-md-12">
 					<div class="form-row">
 					  <label for="month">Month:</label>
-					  <input id="month" type="month" class="form-control" [(ngModel)]="month" (change)="onMonthChange($event)"/>
+					  <input id="month" type="month" class="form-control" [(ngModel)]="month" (ngModelChange)="onMonthChange($event)"/>  
 					</div>
 				  </div>
 				<div class="form-group col-md-6">
@@ -33,7 +33,7 @@
 
 			</div>
 		</div>
-		<div class="row" style="margin-top: 4px; padding: 0px;">
+		<div *ngIf="isPatientListEmpty" class="row" style="margin-top: 4px; padding: 0px;">
 			<button type="button" [disabled]="isLoadingPatientList" class="btn btn-primary pull-right"
 				(click)="generateReport()">Generate Report</button>
 				<span class="pull-right" style="font-weight: bold; color: gray" *ngIf="parentIsBusy">Loading report..</span>
