@@ -10,23 +10,19 @@ export class LabsResourceService {
 
     constructor(private http: HttpClient, private appSettingsService: AppSettingsService) { }
     public getNewPatientLabResults(params: { startDate: string, endDate: string,
-      patientUuId: string }) {
-        const urlParams: HttpParams = new HttpParams()
+      patientUuId: string, refresh?: boolean }) {
+        let urlParams: HttpParams = new HttpParams()
         .set('startDate', params.startDate)
         .set('endDate', params.endDate)
         .set('patientUuId', params.patientUuId);
+
+        if (params.refresh) {
+          urlParams = urlParams.set('mode', 'batch');
+        }
         return this.http.get(this.getUrl(),
             { params: urlParams }).pipe(map(this.parseNewLabResults),
             catchError(this.handleError));
     }
-
-  public getUpgradePatientLabResults(params: { patientUuid: string}) {
-    const urlParams: HttpParams = new HttpParams()
-      .set('patientUuid', params.patientUuid);
-    return this.http.get(this.getUpgradeUrl(),
-      { params: urlParams }).pipe(map(this.parseNewLabResults),
-      catchError(this.handleError));
-  }
 
     public getHistoricalPatientLabResults(patientUuId,
                                           params: { startIndex: string, limit: string }) {
@@ -51,10 +47,6 @@ export class LabsResourceService {
     private getUrl() {
         return this.appSettingsService.getEtlRestbaseurl().trim() + 'patient-lab-orders';
     }
-
-  private getUpgradeUrl() {
-    return this.appSettingsService.getEtlRestbaseurl().trim() + 'sync-patient-labs';
-  }
 
     private parseHistoricalLabResults(res) {
         const body = res;
