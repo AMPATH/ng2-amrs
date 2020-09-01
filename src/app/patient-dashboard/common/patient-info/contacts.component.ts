@@ -14,7 +14,7 @@ export class ContactsComponent implements OnInit, OnDestroy {
   public display = false;
   public subscription: Subscription;
   private nextofkinPhoneNumber: number;
-  private patnerPhoneNumber: number;
+  private partnerPhoneNumber: number;
   private patientPhoneNumber: number;
   private alternativePhoneNumber: number;
   private careGivername: string;
@@ -40,7 +40,7 @@ export class ContactsComponent implements OnInit, OnDestroy {
         if (patient) {
           this.patient = patient;
           this.nextofkinPhoneNumber = patient.person.nextofkinPhoneNumber;
-          this.patnerPhoneNumber = patient.person.patnerPhoneNumber;
+          this.partnerPhoneNumber = patient.person.partnerPhoneNumber;
           this.patientPhoneNumber = patient.person.patientPhoneNumber;
           this.alternativePhoneNumber = patient.person.alternativePhoneNumber;
           this.careGivername = patient.person.caregiverName;

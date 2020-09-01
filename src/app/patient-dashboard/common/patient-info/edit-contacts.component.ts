@@ -17,7 +17,7 @@ export class EditContactsComponent implements OnInit, OnDestroy {
   public display = false;
   public patientPhoneNumber: number;
   public alternativePhoneNumber: number;
-  public patnerPhoneNumber: number;
+  public partnerPhoneNumber: number;
   public nextofkinPhoneNumber: number;
   public careGivername: string;
   public relationshipToCareGiver: string;
@@ -61,7 +61,7 @@ export class EditContactsComponent implements OnInit, OnDestroy {
       (patient) => {
         if (patient) {
           this.patient = patient;
-          this.patnerPhoneNumber = this.patient.person.patnerPhoneNumber;
+          this.partnerPhoneNumber = this.patient.person.partnerPhoneNumber;
           this.patientPhoneNumber = this.patient.person.patientPhoneNumber;
           this.alternativePhoneNumber =
             this.patient.person.alternativePhoneNumber;
@@ -88,7 +88,7 @@ export class EditContactsComponent implements OnInit, OnDestroy {
         value: this.nextofkinPhoneNumber,
         attributeType: 'a657a4f1-9c0f-444b-a1fd-445bb91dd12d'
       }, {
-        value: this.patnerPhoneNumber,
+        value: this.partnerPhoneNumber,
         attributeType: 'b0a08406-09c0-4f8b-8cb5-b22b6d4a8e46'
       },
       {

@@ -60,7 +60,7 @@ describe('Component: EditContacts Unit Tests', () => {
       value: 'nextofkinPhoneNumber',
       attributeType: 'a657a4f1-9c0f-444b-a1fd-445bb91dd12d'
     }, {
-      value: 'patnerPhoneNumber',
+      value: 'partnerPhoneNumber',
       attributeType: 'b0a08406-09c0-4f8b-8cb5-b22b6d4a8e46'
     }]
   };
@@ -75,7 +75,7 @@ describe('Component: EditContacts Unit Tests', () => {
     expect(component.display).toBe(false);
     expect(component.alternativePhoneNumber).toBeUndefined();
     expect(component.patientPhoneNumber).toBeUndefined();
-    expect(component.patnerPhoneNumber).toBeUndefined();
+    expect(component.partnerPhoneNumber).toBeUndefined();
     expect(component.nextofkinPhoneNumber).toBeUndefined();
 
     done();

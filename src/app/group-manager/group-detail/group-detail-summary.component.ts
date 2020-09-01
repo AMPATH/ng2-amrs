@@ -208,7 +208,7 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
                 patientPhoneNumber: new FormControl(leader.person.patientPhoneNumber, validators),
                 alternativePhoneNumber: new FormControl(leader.person.alternativePhoneNumber, validators),
                 nextofkinPhoneNumber: new FormControl(leader.person.nextofkinPhoneNumber, validators),
-                patnerPhoneNumber: new FormControl(leader.person.patnerPhoneNumber, validators)
+                partnerPhoneNumber: new FormControl(leader.person.partnerPhoneNumber, validators)
             }
         );
     }
