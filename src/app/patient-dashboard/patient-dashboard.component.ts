@@ -103,7 +103,7 @@ export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
           const sub2 = this.getCombinedResult(patient).pipe(take(1)).subscribe((results: any[]) => {
             // the intention of combining is to have both systems sync. So we take just one result
             if (results.length > 0) {
-              const result = results[1][0];
+              const result = results[0][0];
               if (result.updatedObs && result.updatedObs.length > 0) {
                 const uniqueTests: any = Object.values(result.updatedObs.reduce((acc, cur) => {
                   return Object.assign(acc, { [cur.concept.uuid]: cur });
@@ -150,9 +150,6 @@ export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
       startDate: startDate,
       endDate: endDate,
       patientUuId: patient.person.uuid
-    }));
-    batch.push(this.labsResourceService.getUpgradePatientLabResults({
-      patientUuid: patient.person.uuid
     }));
     return combineLatest(batch);
   }
