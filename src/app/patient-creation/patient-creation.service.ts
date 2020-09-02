@@ -217,6 +217,14 @@ export class PatientCreationService {
             {
                 label: 'KUZA ID', format: '^KUZA\\d{5}$', checkdigit: 0,
                 val: 'd1e5ef63-126f-4b1f-bd3f-496c16c4098d'
+            },
+            {
+                label: 'BHIM', format: '^B\\d{5}-\\d{5}$', checkdigit: 0,
+                val: '5b91df4a-db7d-4c52-ac85-ac519420d82e'
+            },
+            {
+                label: 'PrEP', format: '^\\d{5}-\\d{4}-\\d{5}$', checkdigit: 0,
+                val: '91099b3f-69be-4607-a309-bd358d85af46'
             }
         ];
     }
