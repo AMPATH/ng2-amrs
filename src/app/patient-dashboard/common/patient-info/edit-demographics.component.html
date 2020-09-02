@@ -94,15 +94,6 @@
       </div>
     </div>
 
-    <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
-      <div class="form-group">
-        <label for="levelOfEducation">Highest Education Level</label>
-        <select class="form-control" name="levelOfEducation" [(ngModel)]="patientLevelOfEducation" (ngModelChange)="updateLevelOfEducation($event)" >
-          <option *ngFor="let education of levelOfEducation" [value]="education.name.uuid" >{{education.name.display}}</option>
-        </select>
-      </div>
-    </div>
-
     <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
 
     <button type="submit" class="btn btn-primary" (click)="updateName()">Submit</button>

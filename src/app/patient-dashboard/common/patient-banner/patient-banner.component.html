@@ -70,7 +70,7 @@
             </li>
             <li class="divider"></li>
             <li style="cursor: pointer;">
-              <a (click)="openAddRelationshipModal(relationshipTemplate)" class="dropdown-item"><i class="fa fa-plus"></i> Add</a>
+              <a (click)="addRelationship.showDialog()" class="dropdown-item"><i class="fa fa-plus"></i> Add</a>
             </li>
           </ul>
         </div>
@@ -147,7 +147,7 @@
           </li>
           <li class="divider"></li>
           <li style="cursor: pointer;">
-            <a (click)="openAddRelationshipModal(relationshipTemplate)" class="dropdown-item"><i class="fa fa-plus"></i> Add</a>
+            <a (click)="addRelationship.showDialog()" class="dropdown-item"><i class="fa fa-plus"></i> Add</a>
           </li>
         </ul>
       </div>
@@ -227,36 +227,3 @@
 
 <add-relationship #addRelationship></add-relationship>
 <edit-identifiers #identifiers></edit-identifiers>
-
-<ng-template #relationshipTemplate>
-  <div class="modal-dialog modal-sm modal-lg">
-      <div class="modal-content">
-          <div class="modal-header">
-            <h2 class="modal-title pull-left">
-              Add Relationship
-            </h2>
-            <button type="button" class="close pull-right" aria-label="Close" (click)="closeRelationshipModal()">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div class="container-fluid">
-              <div class="row">
-                  <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-                      <h2>Content Body</h2>
-                  </div>
-                  <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 edit-relationship-col">
-                      <span *ngIf="relationship?.relatedPerson?.uuid">
-                          <button type="button pull-right" (click)="navigateToPatientInfo(relationship?.relatedPerson?.uuid)" class="btn btn-primary pull-right">Edit Relationships</button>
-                      </span>
-                  </div>
-              </div>
-           
-          </div>
-          </div>
-          <div class="modal-footer">
-            <h2>Content Footer</h2>
-          </div>
-    </div>
-  </div>
-</ng-template>

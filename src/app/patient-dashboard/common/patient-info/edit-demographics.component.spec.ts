@@ -13,8 +13,7 @@ import { PatientCreationService } from 'src/app/patient-creation/patient-creatio
 describe('Component: Edit Demographics Unit Tests', () => {
 
   let personResourceService: PersonResourceService, conceptResourceService: ConceptResourceService,
-    fakeAppFeatureAnalytics: AppFeatureAnalytics, patientService: PatientService, component,
-    patientCreationService: PatientCreationService;
+    fakeAppFeatureAnalytics: AppFeatureAnalytics, patientService: PatientService, component;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -45,12 +44,10 @@ describe('Component: Edit Demographics Unit Tests', () => {
     conceptResourceService = TestBed.get(ConceptResourceService);
     personResourceService = TestBed.get(PersonResourceService);
     fakeAppFeatureAnalytics = TestBed.get(AppFeatureAnalytics);
-    patientCreationService = TestBed.get(PatientCreationService);
     component = new EditDemographicsComponent(
         patientService,
         personResourceService,
-        conceptResourceService,
-        patientCreationService
+        conceptResourceService
     );
 
   });

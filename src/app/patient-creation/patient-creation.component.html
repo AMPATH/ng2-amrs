@@ -57,6 +57,17 @@
             </div>
           </div>
         </div>
+          <div class="col-md-4 col-lg- col-sm-4 col-xs-4">
+            <div class="form-group">
+              <label for="levelOfEducation">Highest Education Level <span *ngIf="!patientHighestEducation" class="required"> *</span></label>
+              <select class="form-control" name="education" [(ngModel)]="patientHighestEducation" >
+                <option *ngFor="let level of levelOfEducation" [value]="level.value">{{level.name}}</option>
+              </select>
+              <div *ngIf="errors && !patientHighestEducation" class="required">
+                <span class="help-block" style="color:red;">Highest Education Level</span>
+              </div>
+            </div>
+          </div>
       </div>
       <div class="row">
         <div class="col-md-8 col-lg-8 col-sm-8 col-xs-8">
@@ -83,7 +94,7 @@
         <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
           <button class="btn btn-primary" (click)="createPerson()">
           Next</button>
-          <button *ngIf="givenName && familyName && this.gender && this.birthDate || this.ageEstimate || middleName"
+          <button *ngIf="givenName && familyName && this.gender && this.birthDate || this.ageEstimate || middleName && patientHighestEducation"
             type="button" class="btn btn-danger pull-right" (click)="reset()">Reset</button>
         </div>
         <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
@@ -280,17 +291,6 @@
           </div>
         </div>
         <!-- End Of Phone Number -->
-        
-        <div class="row">
-          <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-            <div class="form-group">
-              <label for="levelOfEducation">Level of Education</label>
-              <select class="form-control" name="education" ngModel (change)="updateLevelOfEducation($event.target.value)" >
-                <option *ngFor="let education of levelOfEducation" [value]="education.value">{{education.name}}</option>
-              </select>
-            </div>
-          </div>
-        </div>
 
         <hr class="intro-divider patient-info-divider" />
         <div class="row">

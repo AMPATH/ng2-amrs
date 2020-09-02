@@ -109,17 +109,10 @@ export class Person extends BaseModel {
     }
   }
   public get levelOfEducation() {
-    const levelOfEducationPersonAttributeTypeUuid = '2b91b4a5-d421-4a70-bb7c-8adfa083dcef';
-    if (this._attributes.length > 0) {
-      for (const attribute of this._attributes) {
-        if (
-          attribute.attributeType &&
-          attribute.attributeType.uuid ===
-          levelOfEducationPersonAttributeTypeUuid
-        ) {
-          return attribute;
-        }
-      }
+    const levelOfEducationPersonAttributeTypeUuid = '352b0d51-63c6-47d0-a295-156bebee4fd5';
+    if (this._attributes && this._attributes.length > 0) {
+      const educationPersonAttribute = this.getPersonAttribute(levelOfEducationPersonAttributeTypeUuid);
+      return educationPersonAttribute ? educationPersonAttribute : null;
     }
   }
   public get patientPhoneNumber() {

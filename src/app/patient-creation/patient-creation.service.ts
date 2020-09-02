@@ -231,9 +231,4 @@ export class PatientCreationService {
         ];
     }
 
-    public getLevelOfEducation() {
-        const amrsUrl = this.appSettingsService.getOpenmrsServer();
-        const highestEducation = 'a89e48ae-1350-11df-a1f1-0026b9348838';
-        return this.http.get(`${amrsUrl}//ws/rest/v1/concept/${highestEducation}?v=custom:(answers:(name:(uuid,display)))`);
-    }
 }

@@ -76,7 +76,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public r2 = /(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$/;
   public pattern = new RegExp(this.r1.source + this.r2.source);
   public levelOfEducation: Array<any>;
-  public patientLevelOfEducation: string;
+  public patientHighestEducation: string;
 
   public address1: string;
   public address2: string;
@@ -131,6 +131,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public occupations = [];
   public occupationConcept: any;
   public occupation: any;
+  public highestEducationConcept = 'a89e48ae-1350-11df-a1f1-0026b9348838';
 
   constructor(
     public toastrService: ToastrService,
@@ -150,6 +151,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     this.getLocations();
     this.getCommonIdentifierTypes();
     this.getOccupatonConcept();
+    this.getEducationLevels();
     this.userId = this.userService.getLoggedInUser().openmrsModel.systemId;
     this.errorAlert = false;
     this.person = this.sessionStorageService.getObject('person');
@@ -168,22 +170,24 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         this.found = true;
       }
     });
-    this.patientCreationService
-      .getLevelOfEducation()
-      .subscribe(
-        (res: {
-          answers: Array<{ name: { display: string; uuid: string } }>;
-        }) => {
-          if (!_.isEmpty(res)) {
-            this.levelOfEducation = res.answers.map((education) => {
-              return {
-                value: education.name.uuid,
-                name: education.name.display,
-              };
-            });
-          }
+  }
+
+  public getEducationLevels() {
+    this.conceptService.getConceptByUuid(this.highestEducationConcept)
+      .subscribe((educationLevels: any) => {
+        if (educationLevels) {
+          this.setHighestEduction(educationLevels.answers);
         }
-      );
+      });
+  }
+
+  public setHighestEduction(educationLevels: Array<any>) {
+    this.levelOfEducation = educationLevels.map((levels: any) => {
+      return {
+        value: levels.uuid,
+        name: levels.display,
+      };
+    });
   }
 
   public getOccupatonConcept() {
@@ -240,7 +244,13 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     if (this.getAge(this.birthDate) > 116) {
       this.birthError = 'Please select a valid birthdate or age';
     } else if (
-      !this.givenName || !this.familyName || !this.gender || this.birthError || !this.birthDate || !this.occupation
+      !this.givenName ||
+      !this.familyName ||
+      !this.gender ||
+      this.birthError ||
+      !this.birthDate ||
+      !this.occupation ||
+      !this.patientHighestEducation
     ) {
       this.errors = true;
     } else {
@@ -252,19 +262,23 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         familyName: this.familyName,
         gender: this.gender,
         birthdate: this.birthDate,
-        birthdateEstimated: this.birthdateEstimated
+        birthdateEstimated: this.birthdateEstimated,
       };
       this.sessionStorageService.setObject('person', this.person);
       const searchString = this.givenName;
-      this.patientCreationService.searchPatient(searchString, false).pipe(
-        take(1)).subscribe((results) => {
+      this.patientCreationService
+        .searchPatient(searchString, false)
+        .pipe(take(1))
+        .subscribe((results) => {
           this.loaderStatus = false;
           if (results.length > 0) {
             const birthdate = this.getAge(this.birthDate);
             results = _.filter(results, (o) => {
-              return (o.person.age === birthdate - 1 ||
+              return (
+                o.person.age === birthdate - 1 ||
                 o.person.age === birthdate ||
-                o.person.age === birthdate + 1);
+                o.person.age === birthdate + 1
+              );
             });
             const res = this.filterPatients(results);
             if (res.length > 0) {
@@ -274,7 +288,6 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
             } else {
               this.continue();
             }
-
           } else {
             this.continue();
           }
@@ -556,10 +569,10 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       });
     }
 
-      if (this.patientLevelOfEducation) {
+      if (this.patientHighestEducation) {
         attributes.push({
-          value: this.patientLevelOfEducation,
-          attributeType: '2b91b4a5-d421-4a70-bb7c-8adfa083dcef'
+          value: this.patientHighestEducation,
+          attributeType: '352b0d51-63c6-47d0-a295-156bebee4fd5'
         });
       }
 
@@ -841,10 +854,6 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     const estimateDate = new Date(date).toISOString();
 
     return estimateDate;
-  }
-
-  public updateLevelOfEducation(levelOfEducation) {
-    this.patientLevelOfEducation = levelOfEducation;
   }
 
 }
