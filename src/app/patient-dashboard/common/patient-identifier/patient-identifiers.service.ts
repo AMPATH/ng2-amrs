@@ -86,7 +86,7 @@ export class PatientIdentifierService {
         val: '9cae9c8a-2821-4aa7-8064-30508e9f62ec'
       },
       {
-        label: 'NAT', format: 'NAT-\\d{5}$', checkdigit: 0,
+        label: 'NAT', format: 'NAT-\\d{4}$', checkdigit: 0,
         val: '22ee6ad7-58fb-4382-9af2-c6a553f3d56a'
       }
     ];
