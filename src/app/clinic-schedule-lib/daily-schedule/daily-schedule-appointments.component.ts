@@ -1,4 +1,4 @@
-import {take} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import {
   ClinicDashboardCacheService
@@ -7,6 +7,7 @@ import { DailyScheduleResourceService } from '../../etl-api/daily-scheduled-reso
 import { BehaviorSubject, Subscription } from 'rxjs';
 import * as Moment from 'moment';
 import { ActivatedRoute } from '@angular/router';
+import { LocalStorageService } from 'src/app/utils/local-storage.service';
 
 @Component({
   selector: 'daily-schedule-appointments',
@@ -75,6 +76,7 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
   private subs: Subscription[] = [];
   constructor(private clinicDashboardCacheService: ClinicDashboardCacheService,
               private dailyScheduleResource: DailyScheduleResourceService,
+              private localStorageService: LocalStorageService,
               private route: ActivatedRoute) {
   }
 
@@ -84,37 +86,42 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
     const sub = this.clinicDashboardCacheService.getCurrentClinic()
       .subscribe((location) => {
         this.selectedClinic = location;
-
+        if (this.clinicDashboardCacheService.didLocationChange(location)) {
+          this.loadData();
+        }
       });
 
     this.subs.push(sub);
 
-    // get the current page url and params
-    const routeSub = this.route
-      .queryParams
-      .subscribe((params: any) => {
-        if (params.programType || params.department) {
-            this.params = params;
-            if (params.resetFilter && params.resetFilter === 'true') {
-              this.dailyAppointmentsPatientList = [];
-            } else {
-              this.initParams();
-              const searchParams = this.getQueryParams();
-              this.getDailyAppointments(searchParams);
-              this.clinicDashboardCacheService.setDailyTabCurrentDate(params.startDate);
-            }
-        } else {
-            this.dailyAppointmentsPatientList = [];
-        }
-      });
-
-      this.subs.push(routeSub);
+    this.loadData();
   }
 
   public ngOnDestroy(): void {
     this.subs.forEach((sub) => {
       sub.unsubscribe();
     });
+  }
+
+  public loadData() {
+    const routeSub = this.route
+      .queryParams
+      .subscribe((params: any) => {
+        if (params.programType || params.department) {
+          this.params = params;
+          if (params.resetFilter && params.resetFilter === 'true') {
+            this.dailyAppointmentsPatientList = [];
+          } else {
+            this.initParams();
+            const searchParams = this.getQueryParams();
+            this.getDailyAppointments(searchParams);
+            this.clinicDashboardCacheService.setDailyTabCurrentDate(params.startDate);
+          }
+        } else {
+          this.dailyAppointmentsPatientList = [];
+        }
+      });
+
+    this.subs.push(routeSub);
   }
 
   public getDailyAppointments(params) {

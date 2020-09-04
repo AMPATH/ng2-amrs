@@ -1,13 +1,14 @@
-import { Component, OnInit, OnDestroy, OnChanges, Input,
-SimpleChange, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+import { BehaviorSubject, Subscription } from 'rxjs';
+import * as Moment from 'moment';
+
 import {
   ClinicDashboardCacheService
 } from '../../clinic-dashboard/services/clinic-dashboard-cache.service';
 import { DailyScheduleResourceService } from '../../etl-api/daily-scheduled-resource.service';
-import { BehaviorSubject, Subscription } from 'rxjs';
-import * as Moment from 'moment';
-import { LocalStorageService } from './../../utils/local-storage.service';
-import { ActivatedRoute } from '@angular/router';
+import { LocalStorageService } from 'src/app/utils/local-storage.service';
 
 @Component({
   selector: 'daily-schedule-visits',
@@ -68,9 +69,22 @@ export class DailyScheduleVisitsComponent implements OnInit, OnDestroy {
     const sub = this.clinicDashboardCacheService.getCurrentClinic()
       .subscribe((location) => {
         this.selectedClinic = location;
+        if (this.clinicDashboardCacheService.didLocationChange(location)) {
+          this.loadData();
+        }
       });
     this.subs.push(sub);
 
+    this.loadData();
+  }
+
+  public ngOnDestroy(): void {
+    this.subs.forEach((sub) => {
+      sub.unsubscribe();
+    });
+  }
+
+  public loadData() {
     const routeSub = this.route
       .queryParams
       .subscribe((params) => {
@@ -91,12 +105,6 @@ export class DailyScheduleVisitsComponent implements OnInit, OnDestroy {
         }
       });
     this.subs.push(routeSub);
-  }
-
-  public ngOnDestroy(): void {
-    this.subs.forEach((sub) => {
-      sub.unsubscribe();
-    });
   }
 
   public loadMoreVisits() {
