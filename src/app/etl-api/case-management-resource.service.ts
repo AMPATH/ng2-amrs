@@ -56,6 +56,15 @@ export class CaseManagementResourceService {
         }
       }
 
+      if (params.hasNoEncounterToday && params.hasNoEncounterToday !== '') {
+        if (params.hasNoEncounterToday === 'true') {
+           urlParams = urlParams.set('hasNoEncounterToday', '1');
+        }
+        if (params.hasNoEncounterToday === 'false') {
+          urlParams = urlParams.set('hasNoEncounterToday', '0');
+        }
+      }
+
       if (params.hasPhoneRTC && params.hasPhoneRTC !== '') {
         if (params.hasPhoneRTC === 'true') {
            urlParams = urlParams.set('hasPhoneRTC', '1');

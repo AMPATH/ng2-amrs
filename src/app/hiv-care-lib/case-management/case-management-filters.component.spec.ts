@@ -55,7 +55,8 @@ const  mockParams = {
   'rtcEndDate': '2020-05-30',
   'phoneFollowUpStartDate': '2020-05-01',
   'filterSet': true,
-  'locationUuid': 'locationUuid'
+  'locationUuid': 'locationUuid',
+  'hasNoEncounterToday': ''
 };
 
 

@@ -30,7 +30,8 @@ export class CaseManagementFiltersComponent implements OnInit, OnChanges {
         'rtcEndDate': '',
         'phoneFollowUpStartDate': '',
         'filterSet': false,
-        'locationUuid': ''
+        'locationUuid': '',
+        'hasNoEncounterToday': ''
     };
 
     public showFilters = true;
@@ -49,6 +50,7 @@ export class CaseManagementFiltersComponent implements OnInit, OnChanges {
     public hasCaseManager: any;
     public hasPhoneRTC = '';
     public isNewlyEnrolled = '';
+    public hasNoEncounterToday = '';
     public minFollowupPeriod = '';
     public maxFollowupPeriod = '';
     public minDefaultPeriod = '';
@@ -140,6 +142,7 @@ export class CaseManagementFiltersComponent implements OnInit, OnChanges {
     }
 
     public setFilters() {
+        console.log('selected is already seen', this.hasNoEncounterToday);
         this.filterSet = true;
         this.setParams();
     }
@@ -159,7 +162,8 @@ export class CaseManagementFiltersComponent implements OnInit, OnChanges {
             'rtcEndDate': this.selectedRtcEndDate,
             'phoneFollowUpStartDate': this.selectedPhoneFollowUpDate,
             'filterSet': this.filterSet,
-            'locationUuid': this.clinicDashboardLocation
+            'locationUuid': this.clinicDashboardLocation,
+            'hasNoEncounterToday': this.hasNoEncounterToday
         };
 
         this.storeReportParamsInUrl(this.params);
@@ -220,6 +224,7 @@ export class CaseManagementFiltersComponent implements OnInit, OnChanges {
             this.hasPhoneRTC = urlParams.hasPhoneRTC;
             this.elevatedVL = urlParams.elevatedVL;
             this.isNewlyEnrolled = urlParams.isNewlyEnrolled;
+            this.hasNoEncounterToday = urlParams.hasNoEncounterToday;
             this.minFollowupPeriod = urlParams.minFollowupPeriod ? urlParams.minFollowupPeriod : '';
             this.maxFollowupPeriod = urlParams.maxFollowupPeriod ? urlParams.maxFollowupPeriod : '';
             this.minDefaultPeriod = urlParams.minDefaultPeriod ? urlParams.minDefaultPeriod : '';
@@ -267,6 +272,12 @@ export class CaseManagementFiltersComponent implements OnInit, OnChanges {
     public onHasPhoneRTCChange($event) {
         this.hasPhoneRTC = $event;
     }
+
+    public onHasNoEncounterTodayChange($event) {
+        // console.log('Changing Encounter', $event);
+        this.hasNoEncounterToday = $event;
+    }
+
     public onIsNewlyEnrolledChange($event) {
         this.isNewlyEnrolled = $event;
     }
@@ -291,6 +302,7 @@ export class CaseManagementFiltersComponent implements OnInit, OnChanges {
             this.hasCaseManager = '';
             this.hasPhoneRTC = '';
             this.isNewlyEnrolled = '';
+            this.hasNoEncounterToday = '';
             this.elevatedVL = '';
             this.minFollowupPeriod = '';
             this.maxFollowupPeriod = '';
