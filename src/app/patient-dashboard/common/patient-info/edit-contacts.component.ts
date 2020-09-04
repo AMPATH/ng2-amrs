@@ -117,7 +117,6 @@ export class EditContactsComponent implements OnInit, OnDestroy {
       this.showSuccessAlert = false;
     }, 1000);
   }
-
   private getPersonAttributeByAttributeTypeUuid(attributes, attributeType) {
     // let attributes = this.patient.person.attributes;
     const attrs = _.filter(attributes,

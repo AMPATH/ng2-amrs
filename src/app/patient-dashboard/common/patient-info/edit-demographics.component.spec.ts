@@ -8,7 +8,6 @@ import { EditDemographicsComponent } from './edit-demographics.component';
 import { PersonResourceService } from '../../../openmrs-api/person-resource.service';
 import { ConceptResourceService  } from '../../../openmrs-api/concept-resource.service';
 import { PatientService } from '../../services/patient.service';
-import { PatientCreationService } from 'src/app/patient-creation/patient-creation.service';
 
 describe('Component: Edit Demographics Unit Tests', () => {
 
@@ -31,9 +30,6 @@ describe('Component: Edit Demographics Unit Tests', () => {
         },
         {
           provide: PatientService
-        },
-        {
-          provide: PatientCreationService
         },
         AppSettingsService,
         LocalStorageService

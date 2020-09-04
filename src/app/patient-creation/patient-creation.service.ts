@@ -10,7 +10,6 @@ import {
 import { Patient } from '../models/patient.model';
 import * as _ from 'lodash';
 import { HttpClient } from '@angular/common/http';
-import { AppSettingsService } from '../app-settings/app-settings.service';
 
 @Injectable()
 export class PatientCreationService {
@@ -20,8 +19,7 @@ export class PatientCreationService {
 
     constructor(private resouceService: PatientResourceService,
         private patientCreationResourceService: PatientCreationResourceService,
-        private http: HttpClient,
-        private appSettingsService: AppSettingsService,
+        private http: HttpClient
     ) { }
 
     public searchPatient(searchText: string, cached: boolean): Observable<Patient[]> {
@@ -230,5 +228,4 @@ export class PatientCreationService {
             }
         ];
     }
-
 }

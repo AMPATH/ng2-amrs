@@ -7,7 +7,6 @@ import { PersonResourceService } from '../../../openmrs-api/person-resource.serv
 import { ConceptResourceService } from '../../../openmrs-api/concept-resource.service';
 import { Subscription } from 'rxjs';
 import * as moment from 'moment';
-import { PatientCreationService } from 'src/app/patient-creation/patient-creation.service';
 
 @Component({
   selector: 'edit-demographics',
@@ -50,8 +49,7 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
 
   constructor(private patientService: PatientService,
     private personResourceService: PersonResourceService,
-    private conceptResourceService: ConceptResourceService
-    ) {
+    private conceptResourceService: ConceptResourceService) {
   }
 
   public ngOnInit(): void {
@@ -87,7 +85,6 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
       }
     );
   }
-
   public showDialog() {
     this.display = true;
   }
@@ -206,8 +203,6 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
     if (this.birthDate == null) {
       this.errors.push({ message: 'Birth Date is required' });
     }
-
-
     if (this.errors.length === 0) {
       const person = {
         uuid: this.patients.person.uuid
@@ -227,6 +222,7 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
         gender: this.gender,
         birthdate: this.birthDate,
         birthdateEstimated: this.birthdateEstimated
+
       };
       this.personResourceService.saveUpdatePerson(person.uuid, personNamePayload).pipe(take(1)).subscribe(
         (success) => {

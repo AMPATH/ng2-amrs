@@ -148,9 +148,6 @@ import { PatientTransferService } from './formentry/patient-transfer.service';
 import { TelecareComponent } from './patient-info/telecare/telecare.component';
 import { OccupationComponent } from './patient-info/occupation/occupation.component';
 import { EditOccupationComponent } from './patient-info/occupation/edit-occupation.component';
-import { PatientEducationComponent } from './patient-info/education/patient-education.component';
-import { AddPatientEducationComponent } from './patient-info/education/add-patient-education.component';
-import { EditPatientEducationComponent } from './patient-info/education/edit-patient-education.component';
 
 @NgModule({
   imports: [
@@ -242,10 +239,7 @@ import { EditPatientEducationComponent } from './patient-info/education/edit-pat
     EncounterTypeFilter,
     PatientImagingComponent,
     OccupationComponent,
-    EditOccupationComponent,
-    PatientEducationComponent,
-    AddPatientEducationComponent,
-    EditPatientEducationComponent
+    EditOccupationComponent
   ],
   declarations: [
     VisitSummaryComponent,
@@ -301,10 +295,7 @@ import { EditPatientEducationComponent } from './patient-info/education/edit-pat
     PatientImagingComponent,
     TelecareComponent,
     OccupationComponent,
-    EditOccupationComponent,
-    PatientEducationComponent,
-    AddPatientEducationComponent,
-    EditPatientEducationComponent
+    EditOccupationComponent
   ],
   providers: [
     {
