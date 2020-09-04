@@ -7,7 +7,6 @@ import * as _ from 'lodash';
 import { ConceptResourceService } from 'src/app/openmrs-api/concept-resource.service';
 import { PersonResourceService } from 'src/app/openmrs-api/person-resource.service';
 import { Subscription } from 'rxjs';
-import { subscribeOn } from 'rxjs/operators';
 
 @Component({
   selector: 'add-patient-education',
@@ -27,7 +26,7 @@ export class AddPatientEducationComponent implements OnInit, OnDestroy {
   public highestEducationConcept = 'a89e48ae-1350-11df-a1f1-0026b9348838';
   public levelOfEducation: any;
   public patientHighestEducation: string;
-  private sub: Array<Subscription>;
+  private sub: Array<Subscription> = [];
 
   constructor(
     private personAttributeService: PersonAttributeResourceService,
