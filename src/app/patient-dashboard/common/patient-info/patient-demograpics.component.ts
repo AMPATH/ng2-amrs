@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { Patient } from '../../../models/patient.model';
 import { PatientService } from '../../services/patient.service';
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
+import { PatientCreationService } from 'src/app/patient-creation/patient-creation.service';
 
 @Component({
   selector: 'patient-demographics',
@@ -20,7 +21,8 @@ export class PatientDemographicsComponent implements OnInit, OnDestroy {
   public subscription: Subscription;
 
   constructor(private patientService: PatientService,
-    private appFeatureAnalytics: AppFeatureAnalytics) { }
+    private appFeatureAnalytics: AppFeatureAnalytics,
+    private patientCreationService: PatientCreationService) { }
   public getPatientDemographics() {
     this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
@@ -47,4 +49,5 @@ export class PatientDemographicsComponent implements OnInit, OnDestroy {
       this.subscription.unsubscribe();
     }
   }
+
 }
