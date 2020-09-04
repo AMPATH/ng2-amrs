@@ -1,5 +1,7 @@
 import { TestBed, inject } from '@angular/core/testing';
+
 import { ClinicDashboardCacheService } from './clinic-dashboard-cache.service';
+import { LocalStorageService } from 'src/app/utils/local-storage.service';
 
 describe('ClinicDashboardCacheService', () => {
 
@@ -7,7 +9,8 @@ describe('ClinicDashboardCacheService', () => {
         TestBed.configureTestingModule({
             declarations: [],
             providers: [
-                ClinicDashboardCacheService
+                ClinicDashboardCacheService,
+                LocalStorageService
             ]
         });
     });

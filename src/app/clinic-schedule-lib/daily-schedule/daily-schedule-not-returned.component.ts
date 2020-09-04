@@ -73,11 +73,24 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
      const sub = this.clinicDashboardCacheService.getCurrentClinic()
        .subscribe((location) => {
          this.selectedClinic = location;
+         if (this.clinicDashboardCacheService.didLocationChange(location)) {
+           this.loadData();
+         }
        });
 
       this.subs.push(sub);
 
-     const sub2 = this.route
+      this.loadData();
+  }
+
+  public ngOnDestroy(): void {
+    this.subs.forEach((sub) => {
+      sub.unsubscribe();
+    });
+  }
+
+  public loadData() {
+    const sub2 = this.route
        .queryParams
        .subscribe((params) => {
          if (params.programType || params.department) {
@@ -97,11 +110,6 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
        this.subs.push(sub2);
   }
 
-  public ngOnDestroy(): void {
-    this.subs.forEach((sub) => {
-      sub.unsubscribe();
-    });
-  }
   public loadMoreNotReturned() {
 
     this.loadingDailyNotReturned = true;
