@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import * as Moment from 'moment';
+
+import { LocalStorageService } from 'src/app/utils/local-storage.service';
 @Injectable()
 export class ClinicDashboardCacheService {
     public dataIsLoading = true;
@@ -16,7 +18,9 @@ export class ClinicDashboardCacheService {
     private dailTabCurrentDateSubject = new BehaviorSubject(this.dailTabCurrentDate);
     private isLoading = new BehaviorSubject(this.dataIsLoading);
     private currentTab = new Subject();
-    constructor() { }
+
+    constructor(private localStorageService: LocalStorageService) { }
+
     public add(key: string, value: any) {
         this.cached[key] = value;
     }
@@ -64,5 +68,14 @@ export class ClinicDashboardCacheService {
 
     public setCurrentClinicDashboardReport(currentReport) {
         this.reportSource.next(currentReport);
+    }
+
+    public didLocationChange(location: string): boolean {
+        const cachedLocation = this.localStorageService.getItem('currentLocation');
+        if (cachedLocation && cachedLocation !== location) {
+            return true;
+        }
+        this.localStorageService.setItem('currentLocation', location);
+        return false;
     }
 }

@@ -1,5 +1,4 @@
-import { Component, OnInit, OnDestroy , AfterViewInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
 import { PatientService } from '../../services/patient.service';
 
@@ -11,17 +10,17 @@ import { Subscription } from 'rxjs';
   templateUrl: './patient-info.component.html',
   styleUrls: ['./patient-info.component.css']
 })
-export class PatientInfoComponent implements OnInit, OnDestroy, AfterViewInit {
-
+export class PatientInfoComponent implements OnInit, OnDestroy {
   public patient: Patient;
-  public subscription: Subscription;
-  public routeSub: Subscription;
-  public scrollSection = '';
-  constructor(private appFeatureAnalytics: AppFeatureAnalytics,
-    private patientService: PatientService, private route: ActivatedRoute) {
-  }
+  public subs: Subscription[] = [];
+
+  constructor(
+    private appFeatureAnalytics: AppFeatureAnalytics,
+    private patientService: PatientService
+  ) {}
+
   public ngOnInit() {
-    this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
+    const patientSub = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         this.patient = new Patient({});
         if (patient) {
@@ -29,42 +28,20 @@ export class PatientInfoComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       }
     );
-    this.appFeatureAnalytics
-      .trackEvent('Patient Dashboard', 'Patient Info Loaded', 'ngOnInit');
-    this.routeSub = this.route.queryParams
-    .subscribe((params: any) => {
-      if (params.scrollSection) {
-          this.scrollSection = params.scrollSection;
-      }
-    });
+    this.appFeatureAnalytics.trackEvent(
+      'Patient Dashboard',
+      'Patient Info Loaded',
+      'ngOnInit'
+    );
+    this.subs.push(patientSub);
   }
 
   public ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
+    if (this.subs.length) {
+      this.subs.forEach((sub: Subscription) => {
+        sub.unsubscribe();
+      });
     }
-    if (this.routeSub) {
-          this.routeSub.unsubscribe();
-    }
-  }
-
-  public ngAfterViewInit() {
-    if (this.scrollSection !== '' || typeof this.scrollSection !== 'undefined') {
-      setTimeout(() => {
-        this.scrollToSection(this.scrollSection);
-      }, 3000);
-
-    }
-  }
-
-  public scrollToSection(section: string) {
-        console.log('scroll section', section);
-        const element = document.getElementById(section);
-        console.log('scroll element', element);
-        element.scrollIntoView({
-          behavior: 'smooth',
-          block: 'center'
-        });
   }
 
 }
