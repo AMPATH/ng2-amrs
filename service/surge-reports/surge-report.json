@@ -262,19 +262,19 @@
         "sectionTitle": "Differentiated Care(DC)",
         "indicators": [
             {
-                "label": "Total eligible for DC (patients on DC and those not on DC)",
-                "description": "DC eligible as of this week both patients on DC and those not on DC",
-                "indicator": "elligible_total_revised"
+                "label": "Total eligible for DC",
+                "description": "Includes both patients on DC and still eligible and those eligible but not yet enrolled to DC",
+                "indicator": "elligible_total"
+            },
+            {
+                "label": "DC eligible and not on DC",
+                "description": "All patients eligible for DC but not on DC",
+                "indicator": "eligible_not_on_dc"
             },
             {
                 "label": "Active on DC as of this week",
                 "description": "Active on DC as of this week",
                 "indicator": "active_on_dc"
-            },
-            {
-                "label": "DC eligible and not on DC",
-                "description": "All patients elligible for DC but not on DC",
-                "indicator": "eligible_not_on_dc"
             },
             {
                 "label": "Enrolled to DC this week",
