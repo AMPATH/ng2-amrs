@@ -1,7 +1,7 @@
 .list-group-item {
-    padding: 4px;
-    margin-right: 0px;
-    margin-left: 0px;
+  padding: 4px;
+  margin-right: 0px;
+  margin-left: 0px;
 }
 
 .list-group {
@@ -9,17 +9,18 @@
 }
 
 .list-group-item:hover {
-    text-decoration: none;
-    background-color: #f5f5f5;
-    cursor: pointer;
+  text-decoration: none;
+  background-color: #f5f5f5;
+  cursor: pointer;
 }
 
 .fa-star {
-  color: gold
+  color: gold;
 }
 
-.form-group , .input-group{
-  width:100%;
+.form-group,
+.input-group {
+  width: 100%;
 }
 
 .form-inline .input-group .input-group-btn {
@@ -30,8 +31,10 @@
   background: none !important;
 }
 
-.ladda-button[disabled], .ladda-button[data-loading], .ladda-button:hover {
-    border-color: transparent;
+.ladda-button[disabled],
+.ladda-button[data-loading],
+.ladda-button:hover {
+  border-color: transparent;
 }
 
 .forms-list {

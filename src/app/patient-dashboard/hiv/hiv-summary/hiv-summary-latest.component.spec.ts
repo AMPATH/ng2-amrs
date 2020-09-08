@@ -23,7 +23,6 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { PatientService } from '../../services/patient.service';
 
 describe('Component: HivSummaryLatest Unit Tests', () => {
-
   let hivSummaryService: HivSummaryService,
     patientResourceService: PatientResourceService, patientService: PatientService, encounterService: EncounterResourceService, component;
 
@@ -63,14 +62,11 @@ describe('Component: HivSummaryLatest Unit Tests', () => {
   });
 
   it('should instantiate the component', (done) => {
-
     expect(component).toBeTruthy();
     done();
-
   });
 
   it('should have required properties', (done) => {
-
     expect(component.hivSummary).toBeUndefined();
     expect(component.loadingHivSummary).toBe(false);
     expect(component.errors.length).toBe(0);
@@ -79,11 +75,9 @@ describe('Component: HivSummaryLatest Unit Tests', () => {
     expect(component.subscription).toBeDefined();
 
     done();
-
   });
 
   it('should have all the required functions defined and callable', (done) => {
-
     spyOn(component, 'ngOnInit').and.callThrough();
     component.ngOnInit();
     expect(component.ngOnInit).toHaveBeenCalled();
@@ -96,7 +90,5 @@ describe('Component: HivSummaryLatest Unit Tests', () => {
     component.loadPatient();
     expect(component.loadPatient).toHaveBeenCalled();
     done();
-
   });
-
 });

@@ -1,16 +1,32 @@
 <busy *ngIf="loadingSummary" [message]="'Please Wait...'"></busy>
 <div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
-  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+    ×
+  </button>
+  {{ error.message }}
 </div>
 <div *ngIf="summaryData">
   <ul class="list-group">
-    <li class="list-group-item">Most Recent Diagnosis: {{ summaryData.diagnosis }}</li>
-    <li class="list-group-item">Cancer Stage: {{ summaryData.overall_cancer_stage_group }}</li>
-    <li class="list-group-item">Treatment plan: {{ summaryData.oncology_treatment_plan }}</li>
+    <li class="list-group-item">
+      Most Recent Diagnosis: {{ summaryData.diagnosis }}
+    </li>
+    <li class="list-group-item">
+      Cancer Stage: {{ summaryData.overall_cancer_stage_group }}
+    </li>
+    <li class="list-group-item">
+      Treatment plan: {{ summaryData.oncology_treatment_plan }}
+    </li>
     <li class="list-group-item">RTC Date: {{ summaryData.rtc_date }}</li>
-    <li class="list-group-item">Medication Initiation Start Date: {{ summaryData.cur_onc_meds_start_date }}</li>
-    <li class="list-group-item">Current Medication Regimen: {{ summaryData.cur_onc_meds }}</li>
-    <li class="list-group-item">Enrollment Date: {{ summaryData.enrollment_date }} </li>
+    <li class="list-group-item">
+      Medication Initiation Start Date:
+      {{ summaryData.cur_onc_meds_start_date }}
+    </li>
+    <li class="list-group-item">
+      Current Medication Regimen: {{ summaryData.cur_onc_meds }}
+    </li>
+    <li class="list-group-item">
+      Enrollment Date: {{ summaryData.enrollment_date }}
+    </li>
   </ul>
 </div>
 <div *ngIf="!summaryData && !loadingSummary">

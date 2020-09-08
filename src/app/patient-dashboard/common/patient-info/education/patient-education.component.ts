@@ -5,7 +5,7 @@ import { ConceptResourceService } from 'src/app/openmrs-api/concept-resource.ser
 @Component({
   selector: 'patient-education',
   templateUrl: './patient-education.component.html',
-  styleUrls: ['./patient-education.component.css'],
+  styleUrls: ['./patient-education.component.css']
 })
 export class PatientEducationComponent implements OnInit {
   public patientHighestEducation: any;

@@ -43,5 +43,4 @@ export class PatientInfoComponent implements OnInit, OnDestroy {
       });
     }
   }
-
 }

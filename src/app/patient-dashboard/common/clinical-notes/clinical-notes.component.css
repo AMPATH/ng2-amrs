@@ -1,11 +1,11 @@
 .table > tbody > tr > td {
-  border-top:none;
+  border-top: none;
 }
 .table-condensed {
   margin-top: -20px;
 }
 hr {
-  border-bottom:1px solid #d2d6de;
+  border-bottom: 1px solid #d2d6de;
 }
 
 .note-label-primary {
@@ -13,7 +13,7 @@ hr {
   font-style: oblique;
   font-weight: 700;
   font-size: 14px;
-  color: #2B3856;
+  color: #2b3856;
 }
 
 .note-label {
@@ -21,34 +21,41 @@ hr {
   color: #5379b7;
 }
 
-.table-striped,.wrapper {
-  border:1px solid #ddd;
+.table-striped,
+.wrapper {
+  border: 1px solid #ddd;
 }
 
 .btn {
   line-height: 1.45857;
 }
 
-.form-group , .input-group{
-  width:100%;
+.form-group,
+.input-group {
+  width: 100%;
 }
 
 .form-inline .input-group .input-group-btn {
   width: 1%;
 }
 
-.alert,.btn.btn-info {
-  margin-left:8px;
-  margin-right:8px;
+.alert,
+.btn.btn-info {
+  margin-left: 8px;
+  margin-right: 8px;
 }
 
-.wrapper{
-  padding-bottom:12px;
-  padding-top:12px;
+.wrapper {
+  padding-bottom: 12px;
+  padding-top: 12px;
 }
 
-.table-striped td { border-top:1px solid #ddd !important;}
-.table-striped tr:first-child td { border-top: none !important;}
+.table-striped td {
+  border-top: 1px solid #ddd !important;
+}
+.table-striped tr:first-child td {
+  border-top: none !important;
+}
 .table-bordered > tbody > tr > td {
   border: 1px solid #ccd7ea !important;
 }

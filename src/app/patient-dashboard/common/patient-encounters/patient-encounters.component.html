@@ -1,11 +1,23 @@
 <div class="encounters">
-  <h4 class="component-title"><span class="icon-i-immunizations"></span> Patient Encounters</h4>
-  <patient-encounter-observations [onEncounterDetail]="onEncounterDetail"
-                                  (isDone)="loadingIndicator($event)"
-                                  [encounter]="selectedEncounter"
-                                  [prettyView]="pretty"></patient-encounter-observations>
-  <encounter-list [encounters]="encounters" [isVisible]="isVisible" [messageType]="messageType" [message]="message"
-                  (isBusy)="loadingIndicator($event)" [encountersLoading]="dataLoading"
-                  (onEncounterObservations)="showEncounterObservations($event)" (onShowPrettyEncounterViewer)="showPrettyEncounterViewer($event)"
-                  (onEncounterEdit)="editEncounter($event)" [encounterTypes]="encounterTypes"></encounter-list>
+  <h4 class="component-title">
+    <span class="icon-i-immunizations"></span> Patient Encounters
+  </h4>
+  <patient-encounter-observations
+    [onEncounterDetail]="onEncounterDetail"
+    (isDone)="loadingIndicator($event)"
+    [encounter]="selectedEncounter"
+    [prettyView]="pretty"
+  ></patient-encounter-observations>
+  <encounter-list
+    [encounters]="encounters"
+    [isVisible]="isVisible"
+    [messageType]="messageType"
+    [message]="message"
+    (isBusy)="loadingIndicator($event)"
+    [encountersLoading]="dataLoading"
+    (onEncounterObservations)="showEncounterObservations($event)"
+    (onShowPrettyEncounterViewer)="showPrettyEncounterViewer($event)"
+    (onEncounterEdit)="editEncounter($event)"
+    [encounterTypes]="encounterTypes"
+  ></encounter-list>
 </div>

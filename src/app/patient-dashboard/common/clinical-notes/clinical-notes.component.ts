@@ -1,4 +1,3 @@
-
 import { take } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -14,7 +13,6 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./clinical-notes.component.css']
 })
 export class ClinicalNotesComponent implements OnInit, OnDestroy {
-
   public dataLoaded = false;
 
   public hasNotes = false;
@@ -40,20 +38,20 @@ export class ClinicalNotesComponent implements OnInit, OnDestroy {
     private notesResource: ClinicalNotesResourceService,
     private appFeatureAnalytics: AppFeatureAnalytics
   ) {
-
     this.helper = new ClinicalNotesHelperService();
   }
 
   public ngOnInit() {
-
-    this.appFeatureAnalytics.trackEvent('Patient Dashboard', 'Clinical Notes Loaded', 'ngOnInit');
+    this.appFeatureAnalytics.trackEvent(
+      'Patient Dashboard',
+      'Clinical Notes Loaded',
+      'ngOnInit'
+    );
 
     this.subscription = this.route.parent.params.subscribe((params: Params) => {
-
       this.patientUuid = params['patient_uuid'];
 
       this.getNotes(0, 10, (err, notes) => {
-
         if (err) {
           console.error(err);
           return;
@@ -62,15 +60,11 @@ export class ClinicalNotesComponent implements OnInit, OnDestroy {
         this.notes = notes;
 
         this.fetching = false;
-
       });
-
     });
-
   }
 
   public ngOnDestroy() {
-
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
@@ -78,13 +72,11 @@ export class ClinicalNotesComponent implements OnInit, OnDestroy {
   }
 
   public getMoreNotes() {
-
     this.nextStartIndex += this.notes.length;
 
     this.fetching = false;
 
     this.getNotes(this.nextStartIndex, 10, (err, notes) => {
-
       if (err) {
         console.error(err);
         return;
@@ -97,39 +89,30 @@ export class ClinicalNotesComponent implements OnInit, OnDestroy {
       } else {
         this.dataLoaded = true;
       }
-
     });
-
   }
 
   public getNotes(startIndex: number, limit: number, cb) {
+    this.isBusy = this.notesResource
+      .getClinicalNotes(this.patientUuid, startIndex, limit)
+      .pipe(take(1))
+      .subscribe(
+        (data: any) => {
+          const _notes = data.notes;
 
-    this.isBusy = this.notesResource.getClinicalNotes(
-      this.patientUuid,
-      startIndex,
-      limit
-    ).pipe(take(1)).subscribe((data: any) => {
+          if (_notes.length > 0) {
+            this.helper.format(_notes);
 
-      const _notes = data.notes;
+            this.hasNotes = true;
+          }
 
-      if (_notes.length > 0) {
+          cb(null, _notes);
+        },
+        (err) => {
+          this.experiencedLoadingError = true;
 
-        this.helper.format(_notes);
-
-        this.hasNotes = true;
-
-      }
-
-      cb(null, _notes);
-
-    }, (err) => {
-
-      this.experiencedLoadingError = true;
-
-      cb(err, null);
-
-    });
-
+          cb(err, null);
+        }
+      );
   }
-
 }

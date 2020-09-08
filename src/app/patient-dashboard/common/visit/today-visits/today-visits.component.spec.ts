@@ -24,29 +24,22 @@ import { FakeDefaultUserPropertiesFactory } from '../../formentry/mock/default-u
 import { TodayVisitsComponent } from './today-visits.component';
 import { AppFeatureAnalytics } from '../../../../shared/app-analytics/app-feature-analytics.service';
 import { FakeAppFeatureAnalytics } from '../../../../shared/app-analytics/app-feature-analytcis.mock';
-import {
-  ProgramWorkFlowResourceService
-} from '../../../../openmrs-api/program-workflow-resource.service';
-import {
-  ProgramWorkFlowStateResourceService
-} from '../../../../openmrs-api/program-workflow-state-resource.service';
-import {
-  FakeRetrospectiveDataEntryService
-} from '../../../../retrospective-data-entry/services/retrospective-data-entry-mock.service';
-import {
-  RetrospectiveDataEntryService
-} from '../../../../retrospective-data-entry/services/retrospective-data-entry.service';
+import { ProgramWorkFlowResourceService } from '../../../../openmrs-api/program-workflow-resource.service';
+import { ProgramWorkFlowStateResourceService } from '../../../../openmrs-api/program-workflow-state-resource.service';
+import { FakeRetrospectiveDataEntryService } from '../../../../retrospective-data-entry/services/retrospective-data-entry-mock.service';
+import { RetrospectiveDataEntryService } from '../../../../retrospective-data-entry/services/retrospective-data-entry.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 class LocationServiceMock {
-  constructor() {
-  }
+  constructor() {}
   public getLocations(): Observable<any> {
     return of([]);
   }
 }
 
 class RouterStub {
-  public navigateByUrl(url: string) { return url; }
+  public navigateByUrl(url: string) {
+    return url;
+  }
 }
 describe('TodayVisitsComponent', () => {
   let component: TodayVisitsComponent;
@@ -58,8 +51,11 @@ describe('TodayVisitsComponent', () => {
         return of({});
       },
       getPatientProgramVisitTypes: (
-        patient: string, program: string,
-        enrollment: string, location: string) => {
+        patient: string,
+        program: string,
+        enrollment: string,
+        location: string
+      ) => {
         return of({});
       }
     };
@@ -87,14 +83,16 @@ describe('TodayVisitsComponent', () => {
         CacheService,
         { provide: Router, useClass: RouterStub },
         {
-          provide: ActivatedRoute, useValue: {
+          provide: ActivatedRoute,
+          useValue: {
             queryParams: of({}),
             snapshot: { params: { program: 'some-uuid' } },
-            params: of({ program: 'some-uuid' }),
+            params: of({ program: 'some-uuid' })
           }
         },
         {
-          provide: UserDefaultPropertiesService, useFactory: () => {
+          provide: UserDefaultPropertiesService,
+          useFactory: () => {
             return new FakeDefaultUserPropertiesFactory();
           }
         },
@@ -102,12 +100,14 @@ describe('TodayVisitsComponent', () => {
         ProgramWorkFlowResourceService,
         ProgramWorkFlowStateResourceService,
         {
-          provide: PatientProgramResourceService, useFactory: () => {
+          provide: PatientProgramResourceService,
+          useFactory: () => {
             return fakePatientProgramResourceService;
           }
         },
         {
-          provide: RetrospectiveDataEntryService, useFactory: () => {
+          provide: RetrospectiveDataEntryService,
+          useFactory: () => {
             return new FakeRetrospectiveDataEntryService();
           }
         },
@@ -122,7 +122,7 @@ describe('TodayVisitsComponent', () => {
         {
           provide: AppFeatureAnalytics,
           useClass: FakeAppFeatureAnalytics
-        },
+        }
       ],
       imports: [
         NgBusyModule,
@@ -134,8 +134,7 @@ describe('TodayVisitsComponent', () => {
         HttpClientTestingModule,
         BrowserAnimationsModule
       ]
-    })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -159,7 +158,6 @@ describe('TodayVisitsComponent', () => {
     expect(component.groupedVisits.length).toEqual(0);
     expect(component.index).toEqual(0);
 
-
     expect(component.toTitleCase).toBeDefined();
     expect(component.handleProgramClassChange).toBeDefined();
     expect(component.handleProgramChange).toBeDefined();
@@ -172,6 +170,5 @@ describe('TodayVisitsComponent', () => {
     expect(component.onVisitLoadedEvent).toBeDefined();
     expect(component.onFormSelected).toBeDefined();
     expect(component.onEncounterSelected).toBeDefined();
-
   });
 });

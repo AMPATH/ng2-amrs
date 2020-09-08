@@ -5,7 +5,6 @@ import { Helpers } from '../../../utils/helpers';
 import * as _ from 'lodash';
 
 export class ClinicalNotesHelperService {
-
   public arvLine: any = {
     1: 'First',
     2: 'Second',
@@ -17,13 +16,11 @@ export class ClinicalNotesHelperService {
   public titleCasePipe: TitleCasePipe;
 
   constructor() {
-
     this.datePipe = new DatePipe('en-US');
     this.titleCasePipe = new TitleCasePipe();
   }
 
   public format(notes: Array<any>): Array<any> {
-
     const notAvailableMessage = 'Not available';
 
     let temp: Array<any> = [];
@@ -64,8 +61,10 @@ export class ClinicalNotesHelperService {
       }
 
       // Format ARV Regimen line
-      if (!Helpers.isNullOrEmpty(note.artRegimen.curArvLine)
-        && _.has(this.arvLine, note.artRegimen.curArvLine)) {
+      if (
+        !Helpers.isNullOrEmpty(note.artRegimen.curArvLine) &&
+        _.has(this.arvLine, note.artRegimen.curArvLine)
+      ) {
         note.artRegimen.curArvLine = this.arvLine[note.artRegimen.curArvLine];
       } else {
         note.artRegimen.curArvLine = 'Not Specified';
@@ -74,15 +73,24 @@ export class ClinicalNotesHelperService {
       if (Helpers.isNullOrEmpty(note.artRegimen.curArvMeds)) {
         note.artRegimen.curArvMeds = false;
       } else {
-        note.artRegimen.curArvMeds = this.titleCasePipe.transform(note.artRegimen.curArvMeds);
-        note.artRegimen.startDate = this.resolveDate(note.artRegimen.arvStartDate);
+        note.artRegimen.curArvMeds = this.titleCasePipe.transform(
+          note.artRegimen.curArvMeds
+        );
+        note.artRegimen.startDate = this.resolveDate(
+          note.artRegimen.arvStartDate
+        );
       }
 
       // Format prophylaxis
-      note.tbProphylaxisPlan.plan = this.titleCasePipe.transform(note.tbProphylaxisPlan.plan);
-      note.tbProphylaxisPlan.startDate = this.resolveDate(note.tbProphylaxisPlan.startDate);
-      note.tbProphylaxisPlan.estimatedEndDate =
-        this.resolveDate(note.tbProphylaxisPlan.estimatedEndDate);
+      note.tbProphylaxisPlan.plan = this.titleCasePipe.transform(
+        note.tbProphylaxisPlan.plan
+      );
+      note.tbProphylaxisPlan.startDate = this.resolveDate(
+        note.tbProphylaxisPlan.startDate
+      );
+      note.tbProphylaxisPlan.estimatedEndDate = this.resolveDate(
+        note.tbProphylaxisPlan.estimatedEndDate
+      );
 
       // format rtc date
       note.rtcDate = this.resolveDate(note.rtcDate);
@@ -115,7 +123,6 @@ export class ClinicalNotesHelperService {
 
   // pipe valid dates only
   private resolveDate(date: string) {
-
     const dateFormat = 'dd-MM-yyyy';
     const parsedDate = Date.parse(date);
 
@@ -123,7 +130,6 @@ export class ClinicalNotesHelperService {
   }
 
   private formatProviders(providers, separator) {
-
     if (providers.length <= 1) {
       return;
     }
@@ -199,5 +205,4 @@ export class ClinicalNotesHelperService {
     }
     return ccHpiAssessment;
   }
-
 }

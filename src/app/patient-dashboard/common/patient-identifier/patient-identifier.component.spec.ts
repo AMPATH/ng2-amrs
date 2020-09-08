@@ -8,16 +8,12 @@ import { PatientIdentifierComponent } from './patient-identifier.component';
 @Directive({
   selector: `ng-content`
 })
-
-export class FakeNgContentDirective {
-}
+export class FakeNgContentDirective {}
 
 @Directive({
   selector: `edit-identifiers`
 })
-
-export class FakeEditIdentifierDirective {
-}
+export class FakeEditIdentifierDirective {}
 
 describe('Component: PatientIdentifier', () => {
   let component: PatientIdentifierComponent;
@@ -27,8 +23,11 @@ describe('Component: PatientIdentifier', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PatientIdentifierComponent, FakeNgContentDirective,
-        FakeEditIdentifierDirective],
+      declarations: [
+        PatientIdentifierComponent,
+        FakeNgContentDirective,
+        FakeEditIdentifierDirective
+      ]
     });
 
     fixture = TestBed.createComponent(PatientIdentifierComponent);
@@ -37,7 +36,6 @@ describe('Component: PatientIdentifier', () => {
 
     de = fixture.debugElement.query(By.css('div'));
     el = de.nativeElement;
-
   });
 
   const identifiers = [
@@ -48,7 +46,7 @@ describe('Component: PatientIdentifier', () => {
         uuid: 'f2d6ff1a-8440-4d35-a150-1d4b5a930c5e'
       },
       location: {
-        'name': 'Location Test'
+        name: 'Location Test'
       },
       uuid: '5bc55bb4-93e3-11e2-8aca-0026b9348838'
     },
@@ -59,7 +57,7 @@ describe('Component: PatientIdentifier', () => {
         uuid: 'f2d6ff1a-8440-4d35-a150-1d4b5a930c5e'
       },
       location: {
-        'name': 'Location Test'
+        name: 'Location Test'
       },
       uuid: '5bc55bb4-93e3-11e2-8aca-0026b9348838'
     },
@@ -70,7 +68,7 @@ describe('Component: PatientIdentifier', () => {
         uuid: 'f2d6ff1a-8440-4d35-a150-1d4b5a930c5e'
       },
       location: {
-        'name': 'Location Test'
+        name: 'Location Test'
       },
       uuid: '5bc55bb4-93e3-11e2-8aca-0026b9348838'
     }
@@ -98,5 +96,4 @@ describe('Component: PatientIdentifier', () => {
     fixture.detectChanges();
     expect(el.querySelectorAll('tr').length).toBeGreaterThan(0);
   });
-
 });

@@ -2,47 +2,85 @@
   <div class="modal-dialog modalPosition">
     <div class="modal-content modalWidth">
       <div class="modal-header">
-        <h2 class="modal-title pull-left">
-          Add Relationship
-        </h2>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="cancelRelationship()">
+        <h2 class="modal-title pull-left">Add Relationship</h2>
+        <button
+          type="button"
+          class="close pull-right"
+          aria-label="Close"
+          (click)="cancelRelationship()"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <div class="container-fluid">
           <div id="add-relationship-dialog-content">
-            <app-patient-search (patientSelected)="relativeSelected($event)" [hideResults]="hideResult" [resetResults]="true"
-            [hideRegistration]="true"></app-patient-search>
+            <app-patient-search
+              (patientSelected)="relativeSelected($event)"
+              [hideResults]="hideResult"
+              [resetResults]="true"
+              [hideRegistration]="true"
+            ></app-patient-search>
           </div>
           <div class="container-fluid">
             <div class="row">
               <form>
-                <div class="form-group" style="height: fit-content !important;">
+                <div class="form-group" style="height: fit-content !important">
                   <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-                    <label class="control-label">Patient Name: </label><span *ngIf="patientToBindRelationship">{{
+                    <label class="control-label">Patient Name: </label
+                    ><span *ngIf="patientToBindRelationship">{{
                       patientToBindRelationship.person.display
-                    }}</span><br />
-                    <label class="control-label" for="relationship">Relationship Type</label>
-                    <select [(ngModel)]="selectedRelationshipType" [ngModelOptions]="{ standalone: true }"
-                      class="form-control">
+                    }}</span
+                    ><br />
+                    <label class="control-label" for="relationship"
+                      >Relationship Type</label
+                    >
+                    <select
+                      [(ngModel)]="selectedRelationshipType"
+                      [ngModelOptions]="{ standalone: true }"
+                      class="form-control"
+                    >
                       <option value="null"></option>
-                      <option *ngFor="
+                      <option
+                        *ngFor="
                           let patientRelationshipType of patientRelationshipTypes
-                        " [ngValue]="patientRelationshipType">{{ patientRelationshipType.display }}</option>
+                        "
+                        [ngValue]="patientRelationshipType"
+                      >
+                        {{ patientRelationshipType.display }}
+                      </option>
                     </select>
-                    <button [disabled]="isLoading" class="btn btn-primary btn-md" style="margin-top: 10px;"
-                      (click)="saveRelationship()">
+                    <button
+                      [disabled]="isLoading"
+                      class="btn btn-primary btn-md"
+                      style="margin-top: 10px"
+                      (click)="saveRelationship()"
+                    >
                       <span>Save</span>
-                      <i *ngIf="isLoading" class="fa fa-spinner fa-spin fa-1x fa-fw"></i>
+                      <i
+                        *ngIf="isLoading"
+                        class="fa fa-spinner fa-spin fa-1x fa-fw"
+                      ></i>
                     </button>
-                    <button class="btn btn-danger pull-right" (click)="cancelRelationship()" style="margin-top: 10px;">
+                    <button
+                      class="btn btn-danger pull-right"
+                      (click)="cancelRelationship()"
+                      style="margin-top: 10px"
+                    >
                       <span>Cancel</span>
                     </button>
-                    <div class="alert alert-success" *ngIf="showSuccessAlert" style="margin-top: 10px;">
+                    <div
+                      class="alert alert-success"
+                      *ngIf="showSuccessAlert"
+                      style="margin-top: 10px"
+                    >
                       <strong>Done!</strong> {{ successAlert }}
                     </div>
-                    <div class="alert alert-danger" *ngIf="showErrorAlert" style="margin-top: 10px;">
+                    <div
+                      class="alert alert-danger"
+                      *ngIf="showErrorAlert"
+                      style="margin-top: 10px"
+                    >
                       <strong>{{ errorTitle }}</strong> {{ errorAlert }}
                     </div>
                   </div>

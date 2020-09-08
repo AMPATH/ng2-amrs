@@ -6,10 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./landing-page.component.css']
 })
 export class DermatologyLandingPageComponent implements OnInit {
-  constructor() {
-  }
+  constructor() {}
 
-  public ngOnInit() {
-  }
-
+  public ngOnInit() {}
 }

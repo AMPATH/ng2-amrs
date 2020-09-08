@@ -20,9 +20,9 @@ describe('FormListService', () => {
         LocalStorageService,
         FormOrderMetaDataService,
         AppSettingsService,
-        HttpClientTestingModule,
+        HttpClientTestingModule
       ],
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule]
     });
 
     service = TestBed.get(FormListService);
@@ -35,20 +35,20 @@ describe('FormListService', () => {
   it('should sort an array of forms given an unsorted array and sorting metadata', () => {
     const favourite = [
       {
-        name: 'form 5',
+        name: 'form 5'
       },
       {
-        name: 'form 3',
-      },
+        name: 'form 3'
+      }
     ];
 
     const defaultOrder = [
       {
-        name: 'form 2',
+        name: 'form 2'
       },
       {
-        name: 'form 3',
-      },
+        name: 'form 3'
+      }
     ];
 
     const expectedOrder = [
@@ -56,38 +56,38 @@ describe('FormListService', () => {
         name: 'form 5',
         published: false,
         uuid: 'uuid5-unpublished',
-        version: '1.0',
+        version: '1.0'
       },
       {
         name: 'form 3',
         published: false,
         uuid: 'uuid3',
-        version: '1.0',
+        version: '1.0'
       },
       {
         name: 'form 2',
         published: true,
         uuid: 'uuid2',
-        version: '1.0',
+        version: '1.0'
       },
       {
         name: 'form 1',
         published: true,
         uuid: 'uuid',
-        version: '1.0',
+        version: '1.0'
       },
       {
         name: 'form 4',
         published: true,
         uuid: 'uuid4',
-        version: '1.0',
+        version: '1.0'
       },
       {
         name: 'form 4',
         published: false,
         uuid: 'uuid4-unpublished',
-        version: '2.0',
-      },
+        version: '2.0'
+      }
     ];
 
     const actualOrder = service.sortFormList(forms, [favourite, defaultOrder]);
@@ -102,20 +102,20 @@ describe('FormListService', () => {
         name: 'form 1',
         published: true,
         uuid: 'uuid',
-        version: '1.0',
+        version: '1.0'
       },
       {
         name: 'form 2',
         published: true,
         uuid: 'uuid2',
-        version: '1.0',
+        version: '1.0'
       },
       {
         name: 'form 4',
         published: true,
         uuid: 'uuid4',
-        version: '1.0',
-      },
+        version: '1.0'
+      }
     ];
 
     const actualFilteredList = service.filterPublishedOpenmrsForms(forms);
@@ -127,11 +127,11 @@ describe('FormListService', () => {
   it('should add favourite property to forms list', () => {
     const favourite = [
       {
-        name: 'form 5',
+        name: 'form 5'
       },
       {
-        name: 'form 3',
-      },
+        name: 'form 3'
+      }
     ];
 
     const expectedfavouriteForms = [
@@ -140,43 +140,43 @@ describe('FormListService', () => {
         published: true,
         uuid: 'uuid',
         version: '1.0',
-        favourite: false,
+        favourite: false
       },
       {
         name: 'form 2',
         published: true,
         uuid: 'uuid2',
         version: '1.0',
-        favourite: false,
+        favourite: false
       },
       {
         name: 'form 3',
         published: false,
         uuid: 'uuid3',
         version: '1.0',
-        favourite: true,
+        favourite: true
       },
       {
         name: 'form 4',
         published: true,
         uuid: 'uuid4',
         version: '1.0',
-        favourite: false,
+        favourite: false
       },
       {
         name: 'form 4',
         published: false,
         uuid: 'uuid4-unpublished',
         version: '2.0',
-        favourite: false,
+        favourite: false
       },
       {
         name: 'form 5',
         published: false,
         uuid: 'uuid5-unpublished',
         version: '1.0',
-        favourite: true,
-      },
+        favourite: true
+      }
     ];
 
     const processFavouriteForms = service.processFavouriteForms(
@@ -207,21 +207,21 @@ describe('FormListService', () => {
   it('should remove version information from an array of forms ', () => {
     const formNames = [
       {
-        name: 'some',
+        name: 'some'
       },
       {
-        name: 'form v1.0',
-      },
+        name: 'form v1.0'
+      }
     ];
     const expectedFormNames = [
       {
         name: 'some',
-        display: 'some',
+        display: 'some'
       },
       {
         name: 'form',
-        display: 'form v1.0',
-      },
+        display: 'form v1.0'
+      }
     ];
     const actualFormNames = service.removeVersionInformationFromForms(
       formNames

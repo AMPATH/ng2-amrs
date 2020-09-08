@@ -63,8 +63,7 @@ export class EditContactsComponent implements OnInit, OnDestroy {
           this.patient = patient;
           this.partnerPhoneNumber = this.patient.person.partnerPhoneNumber;
           this.patientPhoneNumber = this.patient.person.patientPhoneNumber;
-          this.alternativePhoneNumber =
-            this.patient.person.alternativePhoneNumber;
+          this.alternativePhoneNumber = this.patient.person.alternativePhoneNumber;
           this.nextofkinPhoneNumber = this.patient.person.nextofkinPhoneNumber;
           this.careGivername = this.patient.person.caregiverName;
           this.relationshipToCareGiver = this.patient.person.relationshipToCaregiver;
@@ -104,31 +103,33 @@ export class EditContactsComponent implements OnInit, OnDestroy {
         attributeType: 'bb8684a5-ac0b-4c2c-b9a5-1203e99952c2'
       }]
     };
-    const payLoad = this.generatePersonAttributePayload(personAttributePayload,
-      this.patient.person.attributes);
+    const payLoad = this.generatePersonAttributePayload(
+      personAttributePayload,
+      this.patient.person.attributes
+    );
 
     personAttributePayload.attributes = payLoad;
     this.filterUndefinedUuidFromPayLoad(personAttributePayload.attributes);
-    this.personResourceService.saveUpdatePerson(person.uuid, personAttributePayload).subscribe(
-      (success) => {
-        if (success) {
-          this.displaySuccessAlert('Contact saved successfully');
-          this.patientService.reloadCurrentPatient();
+    this.personResourceService
+      .saveUpdatePerson(person.uuid, personAttributePayload)
+      .subscribe(
+        (success) => {
+          if (success) {
+            this.displaySuccessAlert('Contact saved successfully');
+            this.patientService.reloadCurrentPatient();
+          }
+        },
+        (error) => {
+          console.error('error', error);
+          this.errors.push({
+            id: 'patient',
+            message: 'error updating contacts'
+          });
         }
-
-      },
-      (error) => {
-        console.error('error', error);
-        this.errors.push({
-          id: 'patient',
-          message: 'error updating contacts'
-        });
-      }
-    );
+      );
     setTimeout(() => {
       this.display = false;
     }, 1000);
-
   }
   private displaySuccessAlert(message) {
     this.showErrorAlert = false;
@@ -141,46 +142,52 @@ export class EditContactsComponent implements OnInit, OnDestroy {
 
   private getPersonAttributeByAttributeTypeUuid(attributes, attributeType) {
     // let attributes = this.patient.person.attributes;
-    const attrs = _.filter(attributes,
-      (attribute: any) => {
-        if (attribute.attributeType.uuid === attributeType) {
-          return true;
-        } else {
-          return false;
-        }
-
-      });
+    const attrs = _.filter(attributes, (attribute: any) => {
+      if (attribute.attributeType.uuid === attributeType) {
+        return true;
+      } else {
+        return false;
+      }
+    });
     return attrs[0];
   }
   private filterUndefinedUuidFromPayLoad(personAttributePayload) {
     if (personAttributePayload && personAttributePayload.length > 0) {
       for (let i = 0; i < personAttributePayload.length; i++) {
-        if (personAttributePayload[i].uuid === undefined &&
-          personAttributePayload[i].voided === true) {
+        if (
+          personAttributePayload[i].uuid === undefined &&
+          personAttributePayload[i].voided === true
+        ) {
           personAttributePayload.splice(i, 1);
           i--;
         }
       }
     }
   }
-  private generatePersonAttributePayload(personAttributePayload, existingAttributes) {
+  private generatePersonAttributePayload(
+    personAttributePayload,
+    existingAttributes
+  ) {
     const payLoad = [];
     const attributes = personAttributePayload.attributes;
     for (const a in attributes) {
-
       if (attributes.hasOwnProperty(a)) {
         let attr;
         if (attributes[a] !== undefined && attributes[a] !== 'undefined') {
-          attr = this.getPersonAttributeByAttributeTypeUuid(existingAttributes,
-            attributes[a].attributeType);
+          attr = this.getPersonAttributeByAttributeTypeUuid(
+            existingAttributes,
+            attributes[a].attributeType
+          );
           if (attr === undefined) {
             attr = _.filter(attr, (attribute) => {
               return attribute !== undefined && attribute !== null;
             });
-
           }
 
-          if (attr && attributes[a].value === null || attributes[a].value.toString() === '') {
+          if (
+            (attr && attributes[a].value === null) ||
+            attributes[a].value.toString() === ''
+          ) {
             payLoad.push({ uuid: attr.uuid, voided: true });
           } else {
             payLoad.push({
@@ -188,9 +195,7 @@ export class EditContactsComponent implements OnInit, OnDestroy {
               value: attributes[a].value
             });
           }
-
         }
-
       }
     }
     return payLoad;

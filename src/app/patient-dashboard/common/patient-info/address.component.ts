@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs';
   // tslint:disable-next-line:component-selector
   selector: 'address',
   templateUrl: './address.component.html',
-  styleUrls: [],
+  styleUrls: []
 })
 export class AddressComponent implements OnInit, OnDestroy {
   public patients: Patient = new Patient({});
@@ -21,8 +21,7 @@ export class AddressComponent implements OnInit, OnDestroy {
   public latitude: string;
   public longitude: string;
 
-  constructor(private patientService: PatientService,
-  ) { }
+  constructor(private patientService: PatientService) {}
   public ngOnInit(): void {
     this.getPatient();
   }
@@ -53,5 +52,4 @@ export class AddressComponent implements OnInit, OnDestroy {
       }
     );
   }
-
 }

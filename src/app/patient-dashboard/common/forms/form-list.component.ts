@@ -1,4 +1,11 @@
-import { Component, OnInit, Output, Input, EventEmitter, SimpleChange } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Output,
+  Input,
+  EventEmitter,
+  SimpleChange
+} from '@angular/core';
 
 import { Form } from '../../../models/form.model';
 import { FormListService } from './form-list.service';
@@ -42,7 +49,8 @@ export class FormListComponent implements OnInit {
 
   constructor(
     private formListService: FormListService,
-    private formOrderMetaDataService: FormOrderMetaDataService) { }
+    private formOrderMetaDataService: FormOrderMetaDataService
+  ) {}
 
   public ngOnInit() {
     this.getForms();
@@ -50,17 +58,17 @@ export class FormListComponent implements OnInit {
 
   public getForms() {
     this.forms = [];
-    this.formListService.getFormList().subscribe(
-      (forms) => {
-        this.allForms = forms;
-        this.filterOutDisallowedAndCompletedForms();
-      }
-    );
+    this.formListService.getFormList().subscribe((forms) => {
+      this.allForms = forms;
+      this.filterOutDisallowedAndCompletedForms();
+    });
   }
 
   public toggleFavourite($event, form: Form) {
     $event.stopPropagation();
-    if (form === undefined || form === null) { throw new Error('Form is required'); }
+    if (form === undefined || form === null) {
+      throw new Error('Form is required');
+    }
     if (form['favourite'] === true) {
       this.formOrderMetaDataService.removeFavouriteForm(form.name);
     } else {
@@ -98,15 +106,20 @@ export class FormListComponent implements OnInit {
           }
         }
         return true;
-
       });
     } else {
       this.forms = this.allForms;
     }
     // filter by visitTypeForms
-    if (Array.isArray(this.encounterTypeFilter) && this.encounterTypeFilter.length > 0) {
+    if (
+      Array.isArray(this.encounterTypeFilter) &&
+      this.encounterTypeFilter.length > 0
+    ) {
       this.forms = this.forms.filter((form) => {
-        if (form.encounterType && this.encounterTypeFilter.indexOf(form.encounterType.uuid) > -1) {
+        if (
+          form.encounterType &&
+          this.encounterTypeFilter.indexOf(form.encounterType.uuid) > -1
+        ) {
           return true;
         } else {
           return false;

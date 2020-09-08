@@ -1,176 +1,323 @@
-<p-dialog header="Edit patient identifiers" [(visible)]="display" closable="true" styleClass="edit-identifier-dialog">
+<p-dialog
+  header="Edit patient identifiers"
+  [(visible)]="display"
+  closable="true"
+  styleClass="edit-identifier-dialog"
+>
   <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
-          <div class="alert alert-success" *ngIf="showSuccessAlert" style="margin-top:10px">
-            <strong>Done!</strong> {{successAlert}}
-          </div>
-          <div class="alert alert-danger" *ngIf="showErrorAlert" style="margin-top:10px">
-            <strong>{{errorTitle}}</strong> {{errorAlert}}
-          </div>
+    <div class="row">
+      <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+        <div
+          class="alert alert-success"
+          *ngIf="showSuccessAlert"
+          style="margin-top: 10px"
+        >
+          <strong>Done!</strong> {{ successAlert }}
+        </div>
+        <div
+          class="alert alert-danger"
+          *ngIf="showErrorAlert"
+          style="margin-top: 10px"
+        >
+          <strong>{{ errorTitle }}</strong> {{ errorAlert }}
         </div>
       </div>
+    </div>
     <div class="row">
-
       <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
         <div class="form-group">
           <label class="control-label">Patient Identifier Type:</label>
-          <input type="text" [ngModel]="identifierType.label" class="form-control" [disabled]="true" name="">
+          <input
+            type="text"
+            [ngModel]="identifierType.label"
+            class="form-control"
+            [disabled]="true"
+            name=""
+          />
           <div ng-messages="personForm.identifierType.$error">
-              <div class="help-block" ng-message="required">Identifier Type is required.</div>
+            <div class="help-block" ng-message="required">
+              Identifier Type is required.
+            </div>
           </div>
         </div>
       </div>
 
-       <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+      <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
         <div class="form-group">
-           <label class="control-label">Patient Identifier</label>
-           <span class="badge btn pull-right" *ngIf="checkUniversal" (click)="generatePatientIdentifier()">Generate</span>
+          <label class="control-label">Patient Identifier</label>
+          <span
+            class="badge btn pull-right"
+            *ngIf="checkUniversal"
+            (click)="generatePatientIdentifier()"
+            >Generate</span
+          >
           <div [hidden]="showGeneralTexBox">
-           <input type="text" id="patientIdentifier" class="form-control" [(ngModel)]="patientIdentifier" name=""
-                  (ngModelChange)="setPatientIdentifier(patientIdentifier)" > </div>
+            <input
+              type="text"
+              id="patientIdentifier"
+              class="form-control"
+              [(ngModel)]="patientIdentifier"
+              name=""
+              (ngModelChange)="setPatientIdentifier(patientIdentifier)"
+            />
+          </div>
           <div [hidden]="!showNationalIdTexBox">
-          <input type="number" id="patientId" class="form-control" [(ngModel)]="patientIdentifier" name=""
-                 (ngModelChange)="setPatientIdentifier(patientIdentifier)" (keypress) ="_keyPress($event)">
+            <input
+              type="number"
+              id="patientId"
+              class="form-control"
+              [(ngModel)]="patientIdentifier"
+              name=""
+              (ngModelChange)="setPatientIdentifier(patientIdentifier)"
+              (keypress)="_keyPress($event)"
+            />
           </div>
-            <div *ngIf="identifierValidity">
-              <span style="color:red;"><i class="glyphicon glyphicon-exclamation-sign"></i> {{identifierValidity}}</span>
+          <div *ngIf="identifierValidity">
+            <span style="color: red"
+              ><i class="glyphicon glyphicon-exclamation-sign"></i>
+              {{ identifierValidity }}</span
+            >
+          </div>
+          <div ng-messages="patientIdentifier.$error">
+            <div class="help-block" ng-message="required">
+              Identifier is required.
             </div>
-            <div  ng-messages="patientIdentifier.$error">
-              <div class="help-block" ng-message="required">Identifier is required.</div>
-            </div>
-            <div *ngIf="hasError" style="margin-bottom:10px;">
-              <span class="text-danger"> <i class="glyphicon glyphicon-exclamation-sign"></i> {{errorMessage}}</span>
-            </div>
+          </div>
+          <div *ngIf="hasError" style="margin-bottom: 10px">
+            <span class="text-danger">
+              <i class="glyphicon glyphicon-exclamation-sign"></i>
+              {{ errorMessage }}</span
+            >
+          </div>
         </div>
-       </div>
+      </div>
 
-        <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-          <div class="form-group">
-              <label class="control-label">Preferred</label>
-               <select class="form-control" [ngModel]="preferredIdentifier" (ngModelChange)="setPreferredIdentifier($event)">
-                  <option *ngFor="let c of preferOptions" [ngValue]="c.value">{{c.label}}</option>
-              </select>
+      <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+        <div class="form-group">
+          <label class="control-label">Preferred</label>
+          <select
+            class="form-control"
+            [ngModel]="preferredIdentifier"
+            (ngModelChange)="setPreferredIdentifier($event)"
+          >
+            <option *ngFor="let c of preferOptions" [ngValue]="c.value">
+              {{ c.label }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+        <div class="form-group">
+          <label class="control-label">Identifier Location</label>
+          <ng-select
+            class="sharp-corners"
+            id="selectedDevice"
+            (change)="seIdentifierLocation($event)"
+            [placeholder]="'Select a location or type to search...'"
+            [(ngModel)]="selectedDevice"
+            [items]="locations"
+          >
+          </ng-select>
+          <div *ngIf="invalidLocationCheck">
+            <span
+              style="color: red"
+              class="glyphicon glyphicon-exclamation-sign"
+            >
+              {{ invalidLocationCheck }}</span
+            >
           </div>
         </div>
+      </div>
 
-          <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-            <div class="form-group">
-               <label class="control-label">Identifier Location</label>
-                  <ng-select class="sharp-corners" id="selectedDevice" (change)="seIdentifierLocation($event)"
-                            [placeholder]="'Select a location or type to search...'"
-                            [(ngModel)]="selectedDevice" [items]="locations">
-                  </ng-select>
-                  <div *ngIf="invalidLocationCheck"><span style="color:red;" class="glyphicon glyphicon-exclamation-sign">
-                    {{invalidLocationCheck}}</span>
-                  </div>
-                  
-            </div>
-          </div>
-
-           <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" style="margin-bottom:15px">
-            <div class="form-group">
-                          <button ng-disabled="personForm.patientIdentifier.$invalid &&
+      <div
+        class="col-md-12 col-lg-12 col-sm-12 col-xs-12"
+        style="margin-bottom: 15px"
+      >
+        <div class="form-group">
+          <button
+            ng-disabled="personForm.patientIdentifier.$invalid &&
                 personForm.identifierType.$invalid && personForm.selectedLocation.selected.$invalid"
-                        class="btn btn-primary" type="button" (click)="updatePatientIdentifier()">
-                  <span>Save</span></button>
-                <button
-                        class="btn btn-danger pull-right" type="button" (click)="dismissDialog()">
-                  <span>Cancel</span></button>
-            </div>
-           </div>
-
+            class="btn btn-primary"
+            type="button"
+            (click)="updatePatientIdentifier()"
+          >
+            <span>Save</span>
+          </button>
+          <button
+            class="btn btn-danger pull-right"
+            type="button"
+            (click)="dismissDialog()"
+          >
+            <span>Cancel</span>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </p-dialog>
 
 <!-- ADD DIALOG -->
-<p-dialog header="Add Patient Identifiers" [(visible)]="addDialog" closable="true" styleClass="edit-identifier-dialog">
+<p-dialog
+  header="Add Patient Identifiers"
+  [(visible)]="addDialog"
+  closable="true"
+  styleClass="edit-identifier-dialog"
+>
   <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
-          <div class="alert alert-success" *ngIf="showSuccessAlert" style="margin-top:10px">
-            <strong>Done!</strong> {{successAlert}}
-          </div>
-          <div class="alert alert-danger" *ngIf="showErrorAlert" style="margin-top:10px">
-            <strong>{{errorTitle}}</strong> {{errorAlert}}
-          </div>
+    <div class="row">
+      <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+        <div
+          class="alert alert-success"
+          *ngIf="showSuccessAlert"
+          style="margin-top: 10px"
+        >
+          <strong>Done!</strong> {{ successAlert }}
+        </div>
+        <div
+          class="alert alert-danger"
+          *ngIf="showErrorAlert"
+          style="margin-top: 10px"
+        >
+          <strong>{{ errorTitle }}</strong> {{ errorAlert }}
         </div>
       </div>
+    </div>
     <div class="row">
-
       <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
         <div class="form-group">
           <label class="control-label">Patient Identifier Type:</label>
-          <select required class="form-control"  [ngModel]="identifierType" (ngModelChange)="selectIdentifierType($event)" >
+          <select
+            required
+            class="form-control"
+            [ngModel]="identifierType"
+            (ngModelChange)="selectIdentifierType($event)"
+          >
             <option value=""></option>
-            <option *ngFor="let c of commonIdentifierTypes" [ngValue]="c">{{c.label}}</option>
+            <option *ngFor="let c of commonIdentifierTypes" [ngValue]="c">
+              {{ c.label }}
+            </option>
           </select>
           <div ng-messages="personForm.identifierType.$error">
-              <div class="help-block" ng-message="required">Identifier Type is required.</div>
+            <div class="help-block" ng-message="required">
+              Identifier Type is required.
+            </div>
           </div>
         </div>
       </div>
 
-       <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+      <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
         <div class="form-group">
-           <label class="control-label">Patient Identifier</label>
-           <span class="badge btn pull-right" *ngIf="checkUniversal" (click)="generatePatientIdentifier()">Generate</span>
+          <label class="control-label">Patient Identifier</label>
+          <span
+            class="badge btn pull-right"
+            *ngIf="checkUniversal"
+            (click)="generatePatientIdentifier()"
+            >Generate</span
+          >
           <div [hidden]="showGeneralTexBox">
-           <input type="text" id="patientIdentifier" class="form-control" [(ngModel)]="patientIdentifier" name=""
-                  (ngModelChange)="setPatientIdentifier(patientIdentifier)" > </div>
+            <input
+              type="text"
+              id="patientIdentifier"
+              class="form-control"
+              [(ngModel)]="patientIdentifier"
+              name=""
+              (ngModelChange)="setPatientIdentifier(patientIdentifier)"
+            />
+          </div>
           <div [hidden]="!showNationalIdTexBox">
-          <input type="number" id="patientId" class="form-control" [(ngModel)]="patientIdentifier" name=""
-                 (ngModelChange)="setPatientIdentifier(patientIdentifier)" (keypress) ="_keyPress($event)">
+            <input
+              type="number"
+              id="patientId"
+              class="form-control"
+              [(ngModel)]="patientIdentifier"
+              name=""
+              (ngModelChange)="setPatientIdentifier(patientIdentifier)"
+              (keypress)="_keyPress($event)"
+            />
           </div>
-                <div *ngIf="identifierValidity">
-
-            <span style="color:red;" class="glyphicon glyphicon-exclamation-sign">{{identifierValidity}}</span>
+          <div *ngIf="identifierValidity">
+            <span
+              style="color: red"
+              class="glyphicon glyphicon-exclamation-sign"
+              >{{ identifierValidity }}</span
+            >
+          </div>
+          <div ng-messages="patientIdentifier.$error">
+            <div class="help-block" ng-message="required">
+              Identifier is required.
             </div>
-            <div  ng-messages="patientIdentifier.$error">
-              <div class="help-block" ng-message="required">Identifier is required.</div>
-            </div>
-            <div *ngIf="hasError" style="margin-bottom:10px;">
-              <span class="text-danger"> <i class="glyphicon glyphicon-exclamation-sign"></i> {{errorMessage}}</span>
-            </div>
+          </div>
+          <div *ngIf="hasError" style="margin-bottom: 10px">
+            <span class="text-danger">
+              <i class="glyphicon glyphicon-exclamation-sign"></i>
+              {{ errorMessage }}</span
+            >
+          </div>
         </div>
-       </div>
+      </div>
 
-        <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-          <div class="form-group">
-              <label class="control-label">Preferred</label>
-               <select class="form-control" [ngModel]="preferredIdentifier" (ngModelChange)="setPreferredIdentifier($event)">
-                  <option *ngFor="let c of preferOptions" [ngValue]="c.value">{{c.label}}</option>
-              </select>
+      <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+        <div class="form-group">
+          <label class="control-label">Preferred</label>
+          <select
+            class="form-control"
+            [ngModel]="preferredIdentifier"
+            (ngModelChange)="setPreferredIdentifier($event)"
+          >
+            <option *ngFor="let c of preferOptions" [ngValue]="c.value">
+              {{ c.label }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+        <div class="form-group">
+          <label class="control-label">Identifier Location</label>
+          <ng-select
+            class="sharp-corners"
+            id="selectedDevice"
+            (change)="seIdentifierLocation($event)"
+            [placeholder]="'Select a location or type to search...'"
+            [(ngModel)]="selectedDevice"
+            [items]="locations"
+          >
+          </ng-select>
+          <div *ngIf="invalidLocationCheck">
+            <span
+              style="color: red"
+              class="glyphicon glyphicon-exclamation-sign"
+            >
+              {{ invalidLocationCheck }}</span
+            >
           </div>
         </div>
+      </div>
 
-          <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-            <div class="form-group">
-               <label class="control-label">Identifier Location</label>
-                  <ng-select class="sharp-corners" id="selectedDevice" (change)="seIdentifierLocation($event)"
-                            [placeholder]="'Select a location or type to search...'"
-                            [(ngModel)]="selectedDevice" [items]="locations">
-                  </ng-select>
-                  <div *ngIf="invalidLocationCheck"><span style="color:red;" class="glyphicon glyphicon-exclamation-sign">
-                    {{invalidLocationCheck}}</span>
-                  </div>
-                  
-            </div>
-          </div>
-
-           <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" style="margin-bottom:15px">
-            <div class="form-group">
-                          <button ng-disabled="personForm.patientIdentifier.$invalid &&
+      <div
+        class="col-md-12 col-lg-12 col-sm-12 col-xs-12"
+        style="margin-bottom: 15px"
+      >
+        <div class="form-group">
+          <button
+            ng-disabled="personForm.patientIdentifier.$invalid &&
                 personForm.identifierType.$invalid && personForm.selectedLocation.selected.$invalid"
-                        class="btn btn-primary" type="button" (click)="updatePatientIdentifier()">
-                  <span>Save</span></button>
-                <button
-                        class="btn btn-danger pull-right" type="button" (click)="dismissDialog()">
-                  <span>Cancel</span></button>
-            </div>
-           </div>
-
+            class="btn btn-primary"
+            type="button"
+            (click)="updatePatientIdentifier()"
+          >
+            <span>Save</span>
+          </button>
+          <button
+            class="btn btn-danger pull-right"
+            type="button"
+            (click)="dismissDialog()"
+          >
+            <span>Cancel</span>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </p-dialog>

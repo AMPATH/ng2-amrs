@@ -7,7 +7,10 @@ export interface VitalViewInterface {
   order?: number;
   vital?: Vital;
   isCompoundedWith?: string;
-  compoundValue?: ((vital: Vital, compoundWith: string) => string | number) | string | number;
-  color?:  (() => string) | string;
-  show:  ((args?: any) => boolean) | boolean;
+  compoundValue?:
+    | ((vital: Vital, compoundWith: string) => string | number)
+    | string
+    | number;
+  color?: (() => string) | string;
+  show: ((args?: any) => boolean) | boolean;
 }

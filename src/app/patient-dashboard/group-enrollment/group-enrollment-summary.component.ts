@@ -1,4 +1,10 @@
-import { Component, OnInit, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  TemplateRef,
+  ViewChild
+} from '@angular/core';
 import { PatientService } from '../services/patient.service';
 import { CommunityGroupMemberService } from '../../openmrs-api/community-group-member-resource.service';
 import { CommunityGroupService } from '../../openmrs-api/community-group-resource.service';
@@ -15,7 +21,6 @@ import { UserDefaultPropertiesService } from '../../user-default-properties';
   styleUrls: ['./group-enrollment-summary.component.css']
 })
 export class GroupEnrollmentSummaryComponent implements OnInit, OnDestroy {
-
   public departmentConf = require('../../program-visit-encounter-search/department-programs-config.json');
   subscription: Subscription = new Subscription();
   groups: any[];
@@ -34,19 +39,19 @@ export class GroupEnrollmentSummaryComponent implements OnInit, OnDestroy {
   @ViewChild('enrollModal') public enrollModal: BsModalRef;
   enrolledPrograms = [];
 
-  constructor(private patientService: PatientService,
+  constructor(
+    private patientService: PatientService,
     private groupResouceService: CommunityGroupService,
     private groupMemberService: CommunityGroupMemberService,
     private modalService: BsModalService,
     private propertiesDefaultService: UserDefaultPropertiesService,
     private router: Router,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.loadData();
   }
-
-
 
   getPatientGroups(patientUuid: string) {
     return this.groupMemberService.getMemberCohortsByPatientUuid(patientUuid);
@@ -54,7 +59,10 @@ export class GroupEnrollmentSummaryComponent implements OnInit, OnDestroy {
 
   public getGroupsPrograms() {
     _.forEach(this.groups, (group) => {
-      const programUuid = this.groupResouceService.getGroupAttribute('programUuid', group.cohort.attributes);
+      const programUuid = this.groupResouceService.getGroupAttribute(
+        'programUuid',
+        group.cohort.attributes
+      );
       if (programUuid) {
         _.forEach(this.departmentConf, (department) => {
           const programs = department.programs;
@@ -82,8 +90,11 @@ export class GroupEnrollmentSummaryComponent implements OnInit, OnDestroy {
 
   public exitGroup() {
     this.modalRef.hide();
-    this.subscription.add(this.groupMemberService.endMembership(this.groupToUnenroll.uuid, new Date())
-      .subscribe((updatedMember) => this.loadData()));
+    this.subscription.add(
+      this.groupMemberService
+        .endMembership(this.groupToUnenroll.uuid, new Date())
+        .subscribe((updatedMember) => this.loadData())
+    );
   }
 
   public loadData() {
@@ -92,7 +103,10 @@ export class GroupEnrollmentSummaryComponent implements OnInit, OnDestroy {
       .flatMap((patient) => {
         this.patient = patient;
         if (patient) {
-          this.enrolledPrograms = _.filter(patient.enrolledPrograms, (program) => program.isEnrolled);
+          this.enrolledPrograms = _.filter(
+            patient.enrolledPrograms,
+            (program) => program.isEnrolled
+          );
           return this.getPatientGroups(patient.uuid);
         }
         return of(null);
@@ -113,9 +127,9 @@ export class GroupEnrollmentSummaryComponent implements OnInit, OnDestroy {
             this.reloadCount++;
           }
         },
-        (error) => console.log(error));
+        (error) => console.log(error)
+      );
     this.subscription.add(sub);
-
   }
 
   public showTransferModal(selectedGroup, modal) {
@@ -128,7 +142,7 @@ export class GroupEnrollmentSummaryComponent implements OnInit, OnDestroy {
     };
     this.modalRef = this.modalService.show(modal, {
       backdrop: 'static',
-      class: 'modal-lg',
+      class: 'modal-lg'
     });
   }
 
@@ -151,8 +165,6 @@ export class GroupEnrollmentSummaryComponent implements OnInit, OnDestroy {
     this.showSuccessModal(`Successfully enrolled to ${group.name}`);
   }
 
-
-
   public showSuccessModal(msg: string) {
     const modalInitialState = {
       successMsg: msg
@@ -174,8 +186,14 @@ export class GroupEnrollmentSummaryComponent implements OnInit, OnDestroy {
   }
 
   navigateToGroup(groupUuid: string) {
-    const locationUuid = this.propertiesDefaultService.getCurrentUserDefaultLocationObject()['uuid'];
-    this.router.navigate(['/clinic-dashboard/' + locationUuid + '/general/group-manager/group/' + groupUuid]);
+    const locationUuid = this.propertiesDefaultService.getCurrentUserDefaultLocationObject()[
+      'uuid'
+    ];
+    this.router.navigate([
+      '/clinic-dashboard/' +
+        locationUuid +
+        '/general/group-manager/group/' +
+        groupUuid
+    ]);
   }
-
 }

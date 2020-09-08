@@ -1,17 +1,36 @@
 <div class="col-md-10 col-lg-10 col-sm-12 col-xs-12">
-  <table class="table table-striped" *ngIf="identifiers" id="patient_identifier_table">
+  <table
+    class="table table-striped"
+    *ngIf="identifiers"
+    id="patient_identifier_table"
+  >
     <thead></thead>
     <tbody>
-    <tr *ngIf="!hasPreferredIdentifier">
-      <td colspan="3">
-        <p class="alert alert-warning">This patient doesn't have a preferred identifier. Most likely because the patient has been transferred out of AMPATH</p>
-      </td>
-    </tr>
-       <tr *ngFor="let identifier of identifiers">
-         <td><strong>{{identifier.identifierType.name}} : </strong> {{identifier.identifier}} <span class="text-info" *ngIf="identifier.preferred"><strong>[Preferred]</strong></span></td>
-         <td><strong>Location : </strong>{{identifier.location.name}}</td>
-         <td><a (click)="editIdentifiers.showDialog('edit', identifier)" class="edit_link"><span><i class="fa fa-edit fa-fw"></i> Edit</span></a></td>
-       </tr>
+      <tr *ngIf="!hasPreferredIdentifier">
+        <td colspan="3">
+          <p class="alert alert-warning">
+            This patient doesn't have a preferred identifier. Most likely
+            because the patient has been transferred out of AMPATH
+          </p>
+        </td>
+      </tr>
+      <tr *ngFor="let identifier of identifiers">
+        <td>
+          <strong>{{ identifier.identifierType.name }} : </strong>
+          {{ identifier.identifier }}
+          <span class="text-info" *ngIf="identifier.preferred"
+            ><strong>[Preferred]</strong></span
+          >
+        </td>
+        <td><strong>Location : </strong>{{ identifier.location.name }}</td>
+        <td>
+          <a
+            (click)="editIdentifiers.showDialog('edit', identifier)"
+            class="edit_link"
+            ><span><i class="fa fa-edit fa-fw"></i> Edit</span></a
+          >
+        </td>
+      </tr>
     </tbody>
     <edit-identifiers #editIdentifiers></edit-identifiers>
   </table>

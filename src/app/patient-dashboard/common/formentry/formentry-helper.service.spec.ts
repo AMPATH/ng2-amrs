@@ -6,9 +6,7 @@ import { FormentryHelperService } from './formentry-helper.service';
 describe('Service: FormentryHelperService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        FormentryHelperService
-      ]
+      providers: [FormentryHelperService]
     });
   });
 
@@ -20,6 +18,4 @@ describe('Service: FormentryHelperService', () => {
     const service: FormentryHelperService = TestBed.get(FormentryHelperService);
     expect(service).toBeTruthy();
   });
-
 });
-

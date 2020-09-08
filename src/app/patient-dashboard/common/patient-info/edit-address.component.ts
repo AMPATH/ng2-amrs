@@ -8,7 +8,7 @@ import { LocationResourceService } from 'src/app/openmrs-api/location-resource.s
 @Component({
   selector: 'edit-address',
   templateUrl: './edit-address.component.html',
-  styleUrls: [],
+  styleUrls: []
 })
 export class EditAddressComponent implements OnInit, OnDestroy {
   public patients: Patient = new Patient({});
@@ -93,24 +93,26 @@ export class EditAddressComponent implements OnInit, OnDestroy {
         uuid: this.preferredAddressUuid,
       }]
     };
-    this.personResourceService.saveUpdatePerson(person.uuid, personAddressPayload).subscribe(
-      (success) => {
-        if (success) {
-          this.displaySuccessAlert('Address saved successfully');
-          setTimeout(() => {
-            this.display = false;
-            this.patientService.reloadCurrentPatient();
-          }, 2000);
+    this.personResourceService
+      .saveUpdatePerson(person.uuid, personAddressPayload)
+      .subscribe(
+        (success) => {
+          if (success) {
+            this.displaySuccessAlert('Address saved successfully');
+            setTimeout(() => {
+              this.display = false;
+              this.patientService.reloadCurrentPatient();
+            }, 2000);
+          }
+        },
+        (error) => {
+          console.error('error', error);
+          this.errors.push({
+            id: 'patient',
+            message: 'error updating address'
+          });
         }
-      },
-      (error) => {
-        console.error('error', error);
-        this.errors.push({
-          id: 'patient',
-          message: 'error updating address'
-        });
-      }
-    );
+      );
   }
   private displaySuccessAlert(message) {
     this.showErrorAlert = false;

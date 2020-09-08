@@ -15,10 +15,7 @@ describe('Service: DifferentiatedCareReferral', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [],
-      imports: [
-        PatientReferralsModule,
-        HttpClientTestingModule
-      ]
+      imports: [PatientReferralsModule, HttpClientTestingModule]
     });
   });
 
@@ -31,184 +28,204 @@ describe('Service: DifferentiatedCareReferral', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should submit differentiated care encounter type with given rtc date, location and provider',
-    (done) => {
-      const service: DifferentiatedCareReferralService =
-        TestBed.get(DifferentiatedCareReferralService);
-      const encounterService = TestBed.get(EncounterResourceService);
+  it('should submit differentiated care encounter type with given rtc date, location and provider', (done) => {
+    const service: DifferentiatedCareReferralService = TestBed.get(
+      DifferentiatedCareReferralService
+    );
+    const encounterService = TestBed.get(EncounterResourceService);
 
-      const rtcDate: Date = moment().toDate();
-      const encounterDate: Date = moment().toDate();
-
-      const postEncounterSpy = spyOn(encounterService, 'saveEncounter').and.callFake(
-        (payload) => {
-          expect(payload).toEqual(
-            {
-              location: 'location-uuid',
-              patient: 'patient-uuid',
-              encounterProviders: [
-                {
-                  provider: 'provider-uuid',
-                  encounterRole: 'a0b03050-c99b-11e0-9572-0800200c9a66'
-                }],
-              encounterDatetime: service.toOpenmrsDateFormat(encounterDate),
-              encounterType: 'f022c2ec-db69-4403-b515-127be11cde53',
-              obs: [{
-                concept: 'a8a666ba-1350-11df-a1f1-0026b9348838',
-                value: service.toOpenmrsDateFormat(rtcDate)
-              }]
-            }
-          );
-          return of(payload);
-        }
-      );
-
-      service.createDifferentiatedCareEncounter('patient-uuid', 'provider-uuid',
-        encounterDate, rtcDate, 'location-uuid')
-        .subscribe((createdEncounter) => {
-          expect(postEncounterSpy.calls.count()).toBe(1);
-          done();
-        }, (error) => {
-          console.error('did not expect error at this point', error);
-        });
-    });
-
-  it('should enroll the patient to a differentiated care program', (done) => {
-    const service: DifferentiatedCareReferralService =
-      TestBed.get(DifferentiatedCareReferralService);
-    const enrollmentService: ProgramEnrollmentResourceService =
-      TestBed.get(ProgramEnrollmentResourceService);
+    const rtcDate: Date = moment().toDate();
     const encounterDate: Date = moment().toDate();
 
-    const postEnrollmentSpy = spyOn(enrollmentService, 'saveUpdateProgramEnrollment').and.callFake(
-      (payload) => {
-        expect(payload).toEqual(
+    const postEncounterSpy = spyOn(
+      encounterService,
+      'saveEncounter'
+    ).and.callFake((payload) => {
+      expect(payload).toEqual({
+        location: 'location-uuid',
+        patient: 'patient-uuid',
+        encounterProviders: [
           {
-            location: 'location-uuid',
-            patient: 'patient-uuid',
-            program: '334c9e98-173f-4454-a8ce-f80b20b7fdf0',
-            dateEnrolled: service.toOpenmrsDateFormat(encounterDate)
+            provider: 'provider-uuid',
+            encounterRole: 'a0b03050-c99b-11e0-9572-0800200c9a66'
           }
-        );
-        return of(payload);
-      }
-    );
-
-    service.enrollPatientToDifferentiatedCare('patient-uuid', encounterDate,
-      'location-uuid')
-      .subscribe((enrollment) => {
-        expect(postEnrollmentSpy.calls.count()).toBe(1);
-        done();
-      }, (error) => {
-        console.error('did not expect error at this point', error);
+        ],
+        encounterDatetime: service.toOpenmrsDateFormat(encounterDate),
+        encounterType: 'f022c2ec-db69-4403-b515-127be11cde53',
+        obs: [
+          {
+            concept: 'a8a666ba-1350-11df-a1f1-0026b9348838',
+            value: service.toOpenmrsDateFormat(rtcDate)
+          }
+        ]
       });
-  });
-
-  it('should find the active hiv enrollments from a list of enrolllments',
-    () => {
-      const service: DifferentiatedCareReferralService =
-        TestBed.get(DifferentiatedCareReferralService);
-
-      const samplePrograms = [
-        {
-          baseRoute: 'hiv',
-          dateEnrolled: '2017-04-04',
-          dateCompconsted: null,
-          programUuid: 'prog-1'
-        },
-        {
-          baseRoute: 'oncology',
-          dateEnrolled: '2017-04-04',
-          dateCompconsted: null,
-          programUuid: 'prog-2'
-        },
-        {
-          baseRoute: 'hiv',
-          dateEnrolled: '2017-04-04',
-          dateCompconsted: '2017-04-05',
-          programUuid: 'prog-3'
-        },
-        {
-          baseRoute: 'hiv',
-          dateEnrolled: '2017-04-04',
-          dateCompconsted: null,
-          programUuid: 'prog-4'
-        }
-      ];
-
-      const activePrograms =
-        service.filterOutHivActivePrograms(samplePrograms);
-
-      const expectedActives = [
-        samplePrograms[0],
-        samplePrograms[3]
-      ];
-
-      expect(activePrograms).toEqual([]);
+      return of(payload);
     });
 
-  it('should determine if there is an active differentiated care enrollment',
-    () => {
-      const service: DifferentiatedCareReferralService =
-        TestBed.get(DifferentiatedCareReferralService);
-
-      const samplePrograms = [
-        {
-          baseRoute: 'hiv',
-          dateEnrolled: '2017-04-04',
-          dateCompconsted: null,
-          programUuid: 'prog-1'
+    service
+      .createDifferentiatedCareEncounter(
+        'patient-uuid',
+        'provider-uuid',
+        encounterDate,
+        rtcDate,
+        'location-uuid'
+      )
+      .subscribe(
+        (createdEncounter) => {
+          expect(postEncounterSpy.calls.count()).toBe(1);
+          done();
         },
-        {
-          baseRoute: 'hiv',
-          dateEnrolled: '2017-04-04',
-          dateCompconsted: null,
-          programUuid: '334c9e98-173f-4454-a8ce-f80b20b7fdf0'
-        },
-        {
-          baseRoute: 'hiv',
-          dateEnrolled: '2017-04-04',
-          dateCompconsted: '2017-04-04',
-          programUuid: '334c9e98-173f-4454-a8ce-f80b20b7fdf0'
-        }
-      ];
-
-      expect(service.hasActiveDifferentiatedCareEnrollment(samplePrograms)).toBe(false);
-    });
-
-  it('should end active enrollments for a given hiv programs',
-    (done) => {
-      const service: DifferentiatedCareReferralService =
-        TestBed.get(DifferentiatedCareReferralService);
-      const enrollmentService: ProgramEnrollmentResourceService =
-        TestBed.get(ProgramEnrollmentResourceService);
-
-      const dateCompconsted: Date = moment().toDate();
-
-      const postEnrollmentSpy = spyOn(enrollmentService, 'saveUpdateProgramEnrollment').and.callFake(
-        (payload) => {
-          expect(payload).toEqual(
-            {
-              uuid: 'some-uuid',
-              dateCompleted:  service.toOpenmrsDateFormat(dateCompconsted)
-            }
-          );
-          return of(payload);
+        (error) => {
+          console.error('did not expect error at this point', error);
         }
       );
+  });
 
-      service.endProgramEnrollment('some-uuid', dateCompconsted)
-        .subscribe((enrollment) => {
-          expect(postEnrollmentSpy.calls.count()).toBe(1);
-          done();
-        }, (error) => {
-          console.error('did not expect error at this point', error);
-        });
+  it('should enroll the patient to a differentiated care program', (done) => {
+    const service: DifferentiatedCareReferralService = TestBed.get(
+      DifferentiatedCareReferralService
+    );
+    const enrollmentService: ProgramEnrollmentResourceService = TestBed.get(
+      ProgramEnrollmentResourceService
+    );
+    const encounterDate: Date = moment().toDate();
+
+    const postEnrollmentSpy = spyOn(
+      enrollmentService,
+      'saveUpdateProgramEnrollment'
+    ).and.callFake((payload) => {
+      expect(payload).toEqual({
+        location: 'location-uuid',
+        patient: 'patient-uuid',
+        program: '334c9e98-173f-4454-a8ce-f80b20b7fdf0',
+        dateEnrolled: service.toOpenmrsDateFormat(encounterDate)
+      });
+      return of(payload);
     });
 
+    service
+      .enrollPatientToDifferentiatedCare(
+        'patient-uuid',
+        encounterDate,
+        'location-uuid'
+      )
+      .subscribe(
+        (enrollment) => {
+          expect(postEnrollmentSpy.calls.count()).toBe(1);
+          done();
+        },
+        (error) => {
+          console.error('did not expect error at this point', error);
+        }
+      );
+  });
+
+  it('should find the active hiv enrollments from a list of enrolllments', () => {
+    const service: DifferentiatedCareReferralService = TestBed.get(
+      DifferentiatedCareReferralService
+    );
+
+    const samplePrograms = [
+      {
+        baseRoute: 'hiv',
+        dateEnrolled: '2017-04-04',
+        dateCompconsted: null,
+        programUuid: 'prog-1'
+      },
+      {
+        baseRoute: 'oncology',
+        dateEnrolled: '2017-04-04',
+        dateCompconsted: null,
+        programUuid: 'prog-2'
+      },
+      {
+        baseRoute: 'hiv',
+        dateEnrolled: '2017-04-04',
+        dateCompconsted: '2017-04-05',
+        programUuid: 'prog-3'
+      },
+      {
+        baseRoute: 'hiv',
+        dateEnrolled: '2017-04-04',
+        dateCompconsted: null,
+        programUuid: 'prog-4'
+      }
+    ];
+
+    const activePrograms = service.filterOutHivActivePrograms(samplePrograms);
+
+    const expectedActives = [samplePrograms[0], samplePrograms[3]];
+
+    expect(activePrograms).toEqual([]);
+  });
+
+  it('should determine if there is an active differentiated care enrollment', () => {
+    const service: DifferentiatedCareReferralService = TestBed.get(
+      DifferentiatedCareReferralService
+    );
+
+    const samplePrograms = [
+      {
+        baseRoute: 'hiv',
+        dateEnrolled: '2017-04-04',
+        dateCompconsted: null,
+        programUuid: 'prog-1'
+      },
+      {
+        baseRoute: 'hiv',
+        dateEnrolled: '2017-04-04',
+        dateCompconsted: null,
+        programUuid: '334c9e98-173f-4454-a8ce-f80b20b7fdf0'
+      },
+      {
+        baseRoute: 'hiv',
+        dateEnrolled: '2017-04-04',
+        dateCompconsted: '2017-04-04',
+        programUuid: '334c9e98-173f-4454-a8ce-f80b20b7fdf0'
+      }
+    ];
+
+    expect(service.hasActiveDifferentiatedCareEnrollment(samplePrograms)).toBe(
+      false
+    );
+  });
+
+  it('should end active enrollments for a given hiv programs', (done) => {
+    const service: DifferentiatedCareReferralService = TestBed.get(
+      DifferentiatedCareReferralService
+    );
+    const enrollmentService: ProgramEnrollmentResourceService = TestBed.get(
+      ProgramEnrollmentResourceService
+    );
+
+    const dateCompconsted: Date = moment().toDate();
+
+    const postEnrollmentSpy = spyOn(
+      enrollmentService,
+      'saveUpdateProgramEnrollment'
+    ).and.callFake((payload) => {
+      expect(payload).toEqual({
+        uuid: 'some-uuid',
+        dateCompleted: service.toOpenmrsDateFormat(dateCompconsted)
+      });
+      return of(payload);
+    });
+
+    service.endProgramEnrollment('some-uuid', dateCompconsted).subscribe(
+      (enrollment) => {
+        expect(postEnrollmentSpy.calls.count()).toBe(1);
+        done();
+      },
+      (error) => {
+        console.error('did not expect error at this point', error);
+      }
+    );
+  });
+
   it('should end all hiv program enrollments if there are more than one', (done) => {
-    const service: DifferentiatedCareReferralService =
-      TestBed.get(DifferentiatedCareReferralService);
+    const service: DifferentiatedCareReferralService = TestBed.get(
+      DifferentiatedCareReferralService
+    );
 
     const samplePrograms = [
       {
@@ -232,99 +249,118 @@ describe('Service: DifferentiatedCareReferral', () => {
     ];
     const dateCompconsted: Date = moment().toDate();
 
-    const endProgEnrollmentSpy = spyOn(service, 'endProgramEnrollment')
-      .and.callFake((uuid, date) => {
-        return of({
-          uuid: uuid,
-          dateCompconsted: date
-        });
+    const endProgEnrollmentSpy = spyOn(
+      service,
+      'endProgramEnrollment'
+    ).and.callFake((uuid, date) => {
+      return of({
+        uuid: uuid,
+        dateCompconsted: date
       });
+    });
 
-    service.endProgramEnrollments(samplePrograms, dateCompconsted)
-      .subscribe((results) => {
+    service.endProgramEnrollments(samplePrograms, dateCompconsted).subscribe(
+      (results) => {
         expect(endProgEnrollmentSpy.calls.count()).toBe(2);
         expect(endProgEnrollmentSpy.calls.allArgs()).toEqual([
           ['uuid-1', dateCompconsted],
-          ['uuid-2', dateCompconsted],
+          ['uuid-2', dateCompconsted]
         ]);
         done();
-      }, (error) => {
+      },
+      (error) => {
         console.error('did not expect error at this point', error);
-      });
+      }
+    );
   });
 
-  it('should refer patient to the differentiated care program',
-    (done) => {
-      // 1. Create encounter for differentiated care
-      // 2. End enrollment in any hiv related program
-      // 3. Enroll in differentiated care program
-      const service: DifferentiatedCareReferralService =
-        TestBed.get(DifferentiatedCareReferralService);
+  it('should refer patient to the differentiated care program', (done) => {
+    // 1. Create encounter for differentiated care
+    // 2. End enrollment in any hiv related program
+    // 3. Enroll in differentiated care program
+    const service: DifferentiatedCareReferralService = TestBed.get(
+      DifferentiatedCareReferralService
+    );
 
-      const patient = {
-        uuid: 'patient-uuid',
-        enrolledPrograms: [
-          {
-            baseRoute: 'hiv',
-            dateEnrolled: '2017-04-04',
-            dateCompconsted: null,
-            programUuid: 'prog-1',
-            enrolledProgram: {
-              uuid: 'uuid-1'
-            }
-          },
-          {
-            baseRoute: 'hiv',
-            dateEnrolled: '2017-04-04',
-            dateCompconsted: null,
-            programUuid: 'prog-4',
-            enrolledProgram: {
-              uuid: 'uuid-2'
-            }
+    const patient = {
+      uuid: 'patient-uuid',
+      enrolledPrograms: [
+        {
+          baseRoute: 'hiv',
+          dateEnrolled: '2017-04-04',
+          dateCompconsted: null,
+          programUuid: 'prog-1',
+          enrolledProgram: {
+            uuid: 'uuid-1'
           }
-        ]
-      };
+        },
+        {
+          baseRoute: 'hiv',
+          dateEnrolled: '2017-04-04',
+          dateCompconsted: null,
+          programUuid: 'prog-4',
+          enrolledProgram: {
+            uuid: 'uuid-2'
+          }
+        }
+      ]
+    };
 
-      const filterActive = spyOn(service, 'filterOutHivActivePrograms')
-        .and.callThrough();
+    const filterActive = spyOn(
+      service,
+      'filterOutHivActivePrograms'
+    ).and.callThrough();
 
-      const endEnrollmentsSpy = spyOn(service, 'endProgramEnrollments')
-        .and.callFake((enrollments, date) => {
-          const sub = new Subject();
-          setTimeout(() => {
-            sub.next(enrollments);
-          }, 50);
-          return sub;
-        });
+    const endEnrollmentsSpy = spyOn(
+      service,
+      'endProgramEnrollments'
+    ).and.callFake((enrollments, date) => {
+      const sub = new Subject();
+      setTimeout(() => {
+        sub.next(enrollments);
+      }, 50);
+      return sub;
+    });
 
-      const hasActiveSpy = spyOn(service, 'hasActiveDifferentiatedCareEnrollment')
-        .and.callThrough();
+    const hasActiveSpy = spyOn(
+      service,
+      'hasActiveDifferentiatedCareEnrollment'
+    ).and.callThrough();
 
-      const enrollDiffSpy = spyOn(service, 'enrollPatientToDifferentiatedCare')
-        .and.callFake(() => {
-          const sub = new Subject();
-          setTimeout(() => {
-            sub.next({});
-          }, 50);
-          return sub;
-        });
+    const enrollDiffSpy = spyOn(
+      service,
+      'enrollPatientToDifferentiatedCare'
+    ).and.callFake(() => {
+      const sub = new Subject();
+      setTimeout(() => {
+        sub.next({});
+      }, 50);
+      return sub;
+    });
 
-      const createDiffEncSpy = spyOn(service, 'createDifferentiatedCareEncounter')
-        .and.callFake(() => {
-          const sub = new Subject();
-          setTimeout(() => {
-            sub.next({});
-          }, 50);
-          return sub;
-        });
+    const createDiffEncSpy = spyOn(
+      service,
+      'createDifferentiatedCareEncounter'
+    ).and.callFake(() => {
+      const sub = new Subject();
+      setTimeout(() => {
+        sub.next({});
+      }, 50);
+      return sub;
+    });
 
-      const encounterDate = moment().toDate();
-      const rtcDate = moment().toDate();
+    const encounterDate = moment().toDate();
+    const rtcDate = moment().toDate();
 
-      const sub = service.referToDifferentiatedCare(patient,
-        'provider-uuid', encounterDate, rtcDate, 'location-uuid');
-      sub.subscribe((status) => {
-
+    const sub = service.referToDifferentiatedCare(
+      patient,
+      'provider-uuid',
+      encounterDate,
+      rtcDate,
+      'location-uuid'
+    );
+    sub.subscribe(
+      (status) => {
         expect(hasActiveSpy.calls.count()).toBe(1);
         expect(filterActive.calls.count()).toBe(1);
         expect(endEnrollmentsSpy.calls.count()).toBe(0);
@@ -351,9 +387,10 @@ describe('Service: DifferentiatedCareReferral', () => {
         expect(status.diffCareProgramEnrollment.done).toBe(true);
 
         done();
-      }, (error) => {
+      },
+      (error) => {
         console.error('not expecting error with test case');
-      });
-    });
-
+      }
+    );
+  });
 });

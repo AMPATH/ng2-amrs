@@ -1,4 +1,4 @@
-  // tslint:disable:no-output-on-prefix
+// tslint:disable:no-output-on-prefix
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Encounter } from '../../../models/encounter.model';
 import { NgModel } from '@angular/forms';
@@ -6,8 +6,7 @@ import { PatientEncounterProviderPipe } from './patient-encounter-provider.pipe'
 
 @Component({
   selector: 'encounter-list',
-  templateUrl: './encounter-list.component.html',
-
+  templateUrl: './encounter-list.component.html'
 })
 export class EncounterListComponent implements OnInit {
   @Input() public encountersLoading = false;
@@ -19,17 +18,15 @@ export class EncounterListComponent implements OnInit {
   @Output() public isBusy = new EventEmitter();
   @Output() public onShowPrettyEncounterViewer = new EventEmitter();
   @Output() public onEncounterObservations = new EventEmitter();
-  @Input() public encounterTypes: any [];
+  @Input() public encounterTypes: any[];
   @Input() public showPagination = true;
   @Input() public showFilterers = true;
   public selectedEncounterType: any = [];
   public encounterFilterTypeArray: any = [];
 
-  constructor() {
-  }
+  constructor() {}
 
-  public ngOnInit() {
-  }
+  public ngOnInit() {}
 
   public editEncounter(encounter) {
     this.onEncounterEdit.emit(encounter);
@@ -39,7 +36,6 @@ export class EncounterListComponent implements OnInit {
     this.isBusy.emit(true);
     this.onEncounterObservations.emit(encounter);
     // console.log('Show observations', encounter);
-
   }
 
   public showEncounterViewer(encounterObj) {
@@ -59,9 +55,7 @@ export class EncounterListComponent implements OnInit {
     if (count === 0 && selectedEncounterType !== '') {
       this.encounterFilterTypeArray.push(selectedEncounterType);
     } else if (count === 0 && selectedEncounterType === '') {
-
       this.encounterFilterTypeArray = this.encounterTypes;
-
     } else {
       // if all is selected then add all the items in the encounter types array
       alert(selectedEncounterType);

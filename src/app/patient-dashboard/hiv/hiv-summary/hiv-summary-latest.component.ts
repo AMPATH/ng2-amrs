@@ -13,7 +13,7 @@ import { EncounterResourceService } from 'src/app/openmrs-api/encounter-resource
 @Component({
   selector: 'hiv-summary-latest',
   templateUrl: './hiv-summary-latest.component.html',
-  styleUrls: ['./hiv-summary.component.css'],
+  styleUrls: ['./hiv-summary.component.css']
 })
 export class HivSummaryLatestComponent implements OnInit, OnDestroy {
   @Input() patientUuid: string;
@@ -105,17 +105,19 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
   }
 
   public loadPatient() {
-    this.patientResourceService.getPatientByUuid(this.patientUuid).subscribe((data: Patient) => {
-      this.patient = data;
-    }, (err) => {
-      this.loadingHivSummary = false;
-      this.errors.push({
-        id: 'Hiv Summary',
-        message:
-          'An error occured while loading Hiv Summary. Please try again.',
-      });
-
-    });
+    this.patientResourceService.getPatientByUuid(this.patientUuid).subscribe(
+      (data: Patient) => {
+        this.patient = data;
+      },
+      (err) => {
+        this.loadingHivSummary = false;
+        this.errors.push({
+          id: 'Hiv Summary',
+          message:
+            'An error occured while loading Hiv Summary. Please try again.'
+        });
+      }
+    );
   }
 
   public loadHivSummary(patientUuid) {
@@ -177,7 +179,7 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
           this.errors.push({
             id: 'Hiv Summary',
             message:
-              'An error occured while loading Hiv Summary. Please try again.',
+              'An error occured while loading Hiv Summary. Please try again.'
           });
         }
       );
@@ -245,9 +247,13 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
   }
 
   public isPostmenopausal(menstruationStatus: number): boolean {
-      // concept 6496  == post-menopausal
-      if (menstruationStatus === null || menstruationStatus !== 6496) { return false; }
-      if (menstruationStatus === 6496) { return true; }
+    // concept 6496  == post-menopausal
+    if (menstruationStatus === null || menstruationStatus !== 6496) {
+      return false;
+    }
+    if (menstruationStatus === 6496) {
+      return true;
+    }
   }
   private getOvcEnrollments(enrolledPrograms) {
     const ovc = enrolledPrograms.filter(program => program.concept.uuid === 'a89fbb12-1350-11df-a1f1-0026b9348838');

@@ -1,47 +1,52 @@
-<h4 class="component-title"><span class="fa fa-medkit"></span> Monthly Status History</h4>
+<h4 class="component-title">
+  <span class="fa fa-medkit"></span> Monthly Status History
+</h4>
 <p-tabView>
-    <p-tabPanel header="Patient Monthly Status History">
-        <div>
-            <table class="table table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th>Month</th>
-                        <th>Location</th>
-                        <th>Status</th>
-                        <th>Most recent Clinical Encounter Date</th>
-                        <th>Most Recent Clinical RTC</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let item of careStatusHistory">
-                        <td>{{item.month}}</td>
-                        <td>{{item.location}}</td>
-                        <td><strong>{{statusMap[item.next_state]}}</strong></td>
-                        <td>{{item.most_recent_clinical_encounter}}</td>
-                        <td>{{item.rtc_date}}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </p-tabPanel>
-    <p-tabPanel header="Status Definitions">
-        <p-accordion>
-
-            <p-accordionTab [selected]="true" header=" Active:">
-                A patient is active in care if it has been less than 90 days from the RTC date within the given reporting period
-            </p-accordionTab>
-            <p-accordionTab [selected]="false" header="LTFU:">
-                A patient is LTFU if it has been greater than 90 days from the RTC date within the given reporting period
-            </p-accordionTab>
-            <p-accordionTab [selected]="false" header="Self-disengaged:">
-                A patient who has voluntarily removed themselves from care.
-            </p-accordionTab>
-            <p-accordionTab [selected]="false" header="HIV negative:">
-                A patient who has been identified to be HIV negative.
-            </p-accordionTab>
-            <p-accordionTab [selected]="false" header="Dead:">
-                A patient who has died.
-            </p-accordionTab>
-        </p-accordion>
-    </p-tabPanel>
+  <p-tabPanel header="Patient Monthly Status History">
+    <div>
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>Month</th>
+            <th>Location</th>
+            <th>Status</th>
+            <th>Most recent Clinical Encounter Date</th>
+            <th>Most Recent Clinical RTC</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of careStatusHistory">
+            <td>{{ item.month }}</td>
+            <td>{{ item.location }}</td>
+            <td>
+              <strong>{{ statusMap[item.next_state] }}</strong>
+            </td>
+            <td>{{ item.most_recent_clinical_encounter }}</td>
+            <td>{{ item.rtc_date }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </p-tabPanel>
+  <p-tabPanel header="Status Definitions">
+    <p-accordion>
+      <p-accordionTab [selected]="true" header=" Active:">
+        A patient is active in care if it has been less than 90 days from the
+        RTC date within the given reporting period
+      </p-accordionTab>
+      <p-accordionTab [selected]="false" header="LTFU:">
+        A patient is LTFU if it has been greater than 90 days from the RTC date
+        within the given reporting period
+      </p-accordionTab>
+      <p-accordionTab [selected]="false" header="Self-disengaged:">
+        A patient who has voluntarily removed themselves from care.
+      </p-accordionTab>
+      <p-accordionTab [selected]="false" header="HIV negative:">
+        A patient who has been identified to be HIV negative.
+      </p-accordionTab>
+      <p-accordionTab [selected]="false" header="Dead:">
+        A patient who has died.
+      </p-accordionTab>
+    </p-accordion>
+  </p-tabPanel>
 </p-tabView>

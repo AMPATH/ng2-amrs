@@ -1,4 +1,3 @@
-
 import { take } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 
@@ -16,9 +15,7 @@ import { PatientService } from '../../services/patient.service';
   templateUrl: './locator-map.component.html',
   styleUrls: ['./locator-map.css']
 })
-
 export class LocatorMapComponent implements OnInit, OnDestroy {
-
   public dataModel: string;
   public pdfUrl: any;
   public loading = false;
@@ -33,80 +30,104 @@ export class LocatorMapComponent implements OnInit, OnDestroy {
   public fileUuid = null;
   private attributeType = '1a12beb8-a869-42f2-bebe-09834d40fd59';
 
-  constructor(private fileUploadResourceService: FileUploadResourceService,
+  constructor(
+    private fileUploadResourceService: FileUploadResourceService,
     private appSettingsService: AppSettingsService,
     private patientService: PatientService,
-    private personResourceService: PersonResourceService) {
-  }
+    private personResourceService: PersonResourceService
+  ) {}
 
   public ngOnInit() {
-    this.subscriptions.push(this.patientService.currentlyLoadedPatient.subscribe((patient) => {
-
-      if (patient) {
-        this.patient = patient;
-        this.setPhoto();
-      }
-    }));
+    this.subscriptions.push(
+      this.patientService.currentlyLoadedPatient.subscribe((patient) => {
+        if (patient) {
+          this.patient = patient;
+          this.setPhoto();
+        }
+      })
+    );
   }
 
   public ngOnDestroy(): void {
     this.cleanUp();
   }
-  public upload() {
-  }
+  public upload() {}
   public clearValue() {
-   this.fileUuid = null;
-    this.propagateChange( this.fileUuid);
+    this.fileUuid = null;
+    this.propagateChange(this.fileUuid);
   }
   // tslint:disable-next-line:no-shadowed-variable
-  private propagateChange = (_: any) => { };
+  private propagateChange = (_: any) => {};
 
   public onFileChange(fileList) {
     for (const file of fileList) {
       this.uploadFile(file);
     }
-
   }
   public uploadFile(file) {
-    this.subscriptions.push(this.fileUploadResourceService.upload(file).pipe(flatMap((result: any) => {
-      const updatePayload = {
-        attributes: [{
-          attributeType: this.attributeType,
-          value: result.image
-        }]
-      };
-      this.loading = true;
-      this.imageUploadFailed = false;
-      this.imageSaved = false;
-      return this.personResourceService
-        .saveUpdatePerson(this.patient.person.uuid, updatePayload);
-    })).pipe(take(1)).subscribe((patient) => {
-      this.loading = false;
-      this.imageSaved = true;
-      this.patientService.reloadCurrentPatient();
-      this.displaySuccessAlert();
-    }, (error) => {
-      this.imageUploadFailed = true;
-      this.loading = false;
-    }));
+    this.subscriptions.push(
+      this.fileUploadResourceService
+        .upload(file)
+        .pipe(
+          flatMap((result: any) => {
+            const updatePayload = {
+              attributes: [
+                {
+                  attributeType: this.attributeType,
+                  value: result.image
+                }
+              ]
+            };
+            this.loading = true;
+            this.imageUploadFailed = false;
+            this.imageSaved = false;
+            return this.personResourceService.saveUpdatePerson(
+              this.patient.person.uuid,
+              updatePayload
+            );
+          })
+        )
+        .pipe(take(1))
+        .subscribe(
+          (patient) => {
+            this.loading = false;
+            this.imageSaved = true;
+            this.patientService.reloadCurrentPatient();
+            this.displaySuccessAlert();
+          },
+          (error) => {
+            this.imageUploadFailed = true;
+            this.loading = false;
+          }
+        )
+    );
   }
 
   public clearPhoto() {
     this.dataModel = null;
     const updatePayload = {
-      attributes: [{
-        attributeType: this.attributeType,
-        voided: true
-      }]
+      attributes: [
+        {
+          attributeType: this.attributeType,
+          voided: true
+        }
+      ]
     };
     this.loading = true;
-    this.subscriptions.push(this.personResourceService
-      .saveUpdatePerson(this.patient.person.uuid, updatePayload).pipe(take(1)).subscribe((patient) => {
-        this.patientService.reloadCurrentPatient();
-        this.loading = false;
-      }, (error) => {
-        this.loading = false;
-      }));
+    this.subscriptions.push(
+      this.personResourceService
+        .saveUpdatePerson(this.patient.person.uuid, updatePayload)
+        .pipe(take(1))
+        .subscribe(
+          (patient) => {
+            this.patientService.reloadCurrentPatient();
+            this.loading = false;
+          },
+          (error) => {
+            this.loading = false;
+          }
+        )
+    );
   }
 
   public setPhoto() {
@@ -120,15 +141,16 @@ export class LocatorMapComponent implements OnInit, OnDestroy {
     } else {
       this.dataModel = null;
     }
-
   }
   private setPdfUrl() {
     this.loading = true;
-    this.fileUploadResourceService.getFile(this.dataModel, 'pdf').subscribe((file) => {
-      this.pdfAvailable = true;
-      this.pdfUrl = file.changingThisBreaksApplicationSecurity;
-      this.loading = false;
-     });
+    this.fileUploadResourceService
+      .getFile(this.dataModel, 'pdf')
+      .subscribe((file) => {
+        this.pdfAvailable = true;
+        this.pdfUrl = file.changingThisBreaksApplicationSecurity;
+        this.loading = false;
+      });
   }
 
   private cleanUp() {
@@ -151,5 +173,4 @@ export class LocatorMapComponent implements OnInit, OnDestroy {
       this.openCamera = true;
     }
   }
-
 }

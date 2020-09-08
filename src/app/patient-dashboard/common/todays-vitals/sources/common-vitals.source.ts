@@ -5,9 +5,7 @@ import { VitalView } from '../vital-view';
 import { VitalSourceInterface } from './vital-source.interface';
 
 export class CommonVitalsSource implements VitalSourceInterface {
-  constructor(public vitalModel: any | Vital,
-    public patient: Patient) {
-  }
+  constructor(public vitalModel: any | Vital, public patient: Patient) {}
 
   public getVitals(ob: any): VitalView {
     switch (ob.concept.uuid) {
@@ -17,7 +15,7 @@ export class CommonVitalsSource implements VitalSourceInterface {
           label: 'BP:',
           order: 1,
           value: ob.value,
-          color: (ob.value <= 80 || ob.value >= 140) ? 'red' : ''
+          color: ob.value <= 80 || ob.value >= 140 ? 'red' : ''
         });
       case 'a8a65e36-1350-11df-a1f1-0026b9348838':
         return this.vitalModel.createVital({
@@ -25,7 +23,7 @@ export class CommonVitalsSource implements VitalSourceInterface {
           label: 'Diastolic',
           value: ob.value,
           isCompoundedWith: 'systolic',
-          color: (ob.value <= 50 || ob.value >= 90) ? 'red' : ''
+          color: ob.value <= 50 || ob.value >= 90 ? 'red' : ''
         });
       case 'a8a65f12-1350-11df-a1f1-0026b9348838':
         return this.vitalModel.createVital({
@@ -33,7 +31,7 @@ export class CommonVitalsSource implements VitalSourceInterface {
           label: 'Pulse:',
           order: 2,
           value: ob.value,
-          color: (ob.value >= 100) ? 'red' : ''
+          color: ob.value >= 100 ? 'red' : ''
         });
       case 'a8a65fee-1350-11df-a1f1-0026b9348838':
         return this.vitalModel.createVital({
@@ -41,7 +39,7 @@ export class CommonVitalsSource implements VitalSourceInterface {
           label: 'Temperature:',
           order: 3,
           value: ob.value,
-          color: (ob.value <= 35 || ob.value >= 38) ? 'red' : ''
+          color: ob.value <= 35 || ob.value >= 38 ? 'red' : ''
         });
       case 'a8a66354-1350-11df-a1f1-0026b9348838':
         return this.vitalModel.createVital({
@@ -49,7 +47,7 @@ export class CommonVitalsSource implements VitalSourceInterface {
           label: 'Oxygen Saturation:',
           order: 3,
           value: ob.value,
-          color: (ob.value <= 89) ? 'red' : ''
+          color: ob.value <= 89 ? 'red' : ''
         });
       case 'a8a6619c-1350-11df-a1f1-0026b9348838':
         return this.vitalModel.createVital({
@@ -69,14 +67,14 @@ export class CommonVitalsSource implements VitalSourceInterface {
         return this.vitalModel.createVital({
           name: 'bsa',
           label: 'BSA:',
-          value: (ob.value).toFixed(2)
+          value: ob.value.toFixed(2)
         });
       case 'cd8ead74-96fc-4764-a9fa-c9ee059c59c5':
         return this.vitalModel.createVital({
           name: 'disclosure',
           label: 'Disclosure:',
           order: 7,
-          value: (ob.value.display)
+          value: ob.value.display
         });
       default:
         return this.vitalModel;
@@ -86,14 +84,17 @@ export class CommonVitalsSource implements VitalSourceInterface {
   public getBMI(vitalModel, weight, height) {
     let bmi = null;
     if (height && weight) {
-      bmi = (parseInt(weight.value, 10) / (parseInt(height.value, 10) / 100 * height.value / 100)).toFixed(1);
+      bmi = (
+        parseInt(weight.value, 10) /
+        (((parseInt(height.value, 10) / 100) * height.value) / 100)
+      ).toFixed(1);
       return vitalModel.createVital({
         name: 'bmi',
         label: 'BMI (Kg/M2)',
         order: 6,
         show: !_.isNil(bmi) && this.patient.person.age > 18,
         value: bmi,
-        color: (bmi <= 18 || bmi >= 30) ? 'red' : ''
+        color: bmi <= 18 || bmi >= 30 ? 'red' : ''
       }).bmi;
     }
     return this.vitalModel;
