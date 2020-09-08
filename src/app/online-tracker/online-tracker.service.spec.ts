@@ -1,4 +1,3 @@
-
 import { TestBed, async } from '@angular/core/testing';
 import { Observable } from 'rxjs';
 import { SessionService } from '../openmrs-api/session.service';
