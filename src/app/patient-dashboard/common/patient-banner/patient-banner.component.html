@@ -55,6 +55,7 @@
               {{ searchIdentifiers?.kenyaNationalId }} </span>
             <span *ngIf="searchIdentifiers?.hei"> <span class="id-label">HEI:</span> {{ searchIdentifiers?.hei }}
             </span>
+            <span *ngIf="searchIdentifiers?.bhim"> <span class="id-label">BHIM:</span> {{ searchIdentifiers?.bhim }} </span>
             <span *ngIf="attributes?.value"> <span class="id-label">Test Patient:</span> {{ attributes?.value }} </span>
             <span>
         <div *ngIf="patient" class="btn-group pull-right" dropdown>
@@ -132,6 +133,7 @@
         <span *ngIf="searchIdentifiers?.nat"> <span class="id-label">NAT:</span>
           {{ searchIdentifiers?.nat }} </span>
         <span *ngIf="searchIdentifiers?.hei"> <span class="id-label">HEI:</span> {{ searchIdentifiers?.hei }} </span>
+        <span *ngIf="searchIdentifiers?.bhim"> <span class="id-label">BHIM:</span> {{ searchIdentifiers?.bhim }} </span>
         <span *ngIf="attributes?.value"> <span class="id-label">Test Patient:</span> {{ attributes?.value }} </span>
       </span>
       <div *ngIf="patient && relationships.length > 0" class="btn-group pull-right" dropdown>
