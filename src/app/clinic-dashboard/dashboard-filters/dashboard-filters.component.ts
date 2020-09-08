@@ -1,4 +1,11 @@
-import { Component, Input, Output, ViewEncapsulation, OnInit, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  ViewEncapsulation,
+  OnInit,
+  EventEmitter
+} from '@angular/core';
 
 import * as _ from 'lodash';
 import * as moment from 'moment/moment';
@@ -25,7 +32,10 @@ export class DashboardFiltersComponent implements OnInit {
   }
 
   public onDateChanged(range: any) {
-    _.extend(this.filterModel, _.mapValues(range, (_date) =>  moment(_date)));
+    _.extend(
+      this.filterModel,
+      _.mapValues(range, (_date) => moment(_date))
+    );
     this.filterModelChange.emit(this.filterModel);
   }
 

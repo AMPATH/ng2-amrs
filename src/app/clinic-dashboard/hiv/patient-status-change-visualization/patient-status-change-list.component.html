@@ -1,45 +1,74 @@
 <div class="wrapper dashboard-wrapper">
-  <mat-progress-bar  *ngIf="loading"
-                    class="example-margin"
-                    [color]="'primary'"
-                    [mode]="'determinate'"
-                    [value]="progressBarTick"
-                    [bufferValue]="90">
+  <mat-progress-bar
+    *ngIf="loading"
+    class="example-margin"
+    [color]="'primary'"
+    [mode]="'determinate'"
+    [value]="progressBarTick"
+    [bufferValue]="90"
+  >
   </mat-progress-bar>
-    <div class="row">
-        <div class="col-sm-12">
-            <dashboard-filters [options]="options" [(filterModel)]="filterModel" [startDate]="startDate" [endDate]="endDate" (filterModelChange)="filtersChanged($event)">
-            </dashboard-filters>
-        </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <dashboard-filters
+        [options]="options"
+        [(filterModel)]="filterModel"
+        [startDate]="startDate"
+        [endDate]="endDate"
+        (filterModelChange)="filtersChanged($event)"
+      >
+      </dashboard-filters>
     </div>
-    <h4>Patient CareStatus Change | {{selectedIndicator}} </h4>
-
-  <div class="loader" *ngIf="loading"><span><i class="fa fa-spinner fa-spin">
-      </i>{{progressBarTick}}% Loading...</span>
   </div>
-    <div class='row'>
-      <div class="col-sm-12">
-         <div *ngIf="error" class="alert alert-danger">
-            <div>
-                <span><strong>Error fetching data</strong></span>
-                <button class="btn btn-danger pull-right" (click)="loadData()">Reload</button>
-            </div>
+  <h4>Patient CareStatus Change | {{ selectedIndicator }}</h4>
+
+  <div class="loader" *ngIf="loading">
+    <span
+      ><i class="fa fa-spinner fa-spin"> </i>{{ progressBarTick }}%
+      Loading...</span
+    >
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div *ngIf="error" class="alert alert-danger">
+        <div>
+          <span><strong>Error fetching data</strong></span>
+          <button class="btn btn-danger pull-right" (click)="loadData()">
+            Reload
+          </button>
         </div>
-        <patient-list [overrideColumns]="overrideColumns"  [extraColumns]="extraColumns"  [data]="data"></patient-list>
       </div>
+      <patient-list
+        [overrideColumns]="overrideColumns"
+        [extraColumns]="extraColumns"
+        [data]="data"
+      ></patient-list>
     </div>
-</div>
-
-<div *ngIf='!dataLoaded'>
-  <div class="button">
-    <button class="btn btn-primary" [ladda]='loading' data-size="xs" data-color="blue" (click)="getPatients()">
-      <span class=""></span>Load More...</button>
   </div>
 </div>
 
-<div *ngIf='dataLoaded'>
-  <p class="bg-info" style="padding:4px;">
+<div *ngIf="!dataLoaded">
+  <div class="button">
+    <button
+      class="btn btn-primary"
+      [ladda]="loading"
+      data-size="xs"
+      data-color="blue"
+      (click)="getPatients()"
+    >
+      <span class=""></span>Load More...
+    </button>
+  </div>
+</div>
+
+<div *ngIf="dataLoaded">
+  <p class="bg-info" style="padding: 4px">
     <b>
-      <span style="color:green;" class="glyphicon glyphicon-ok">All records loaded {{'[ ' + data.length + ' ]'}}</span></b>
-  <p>
+      <span style="color: green" class="glyphicon glyphicon-ok"
+        >All records loaded {{ '[ ' + data.length + ' ]' }}</span
+      ></b
+    >
+  </p>
+
+  <p></p>
 </div>

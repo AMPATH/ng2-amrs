@@ -12,7 +12,6 @@ import { HivDifferentiatedCareResourceService } from '../../../etl-api/hiv-diffe
   styleUrls: ['./hiv-differentiated-care-program.component.css']
 })
 export class HivDifferentiatedCareComponent implements OnInit {
-
   public title = 'HIV Differentiated Care Program Reports';
   public reportName = 'HIV Differentiated Care Program Reports';
   public patientData: Array<any> = [];
@@ -58,7 +57,10 @@ export class HivDifferentiatedCareComponent implements OnInit {
     { name: 'Patients Enrolled', value: 'enrolled_in_dc' },
     { name: 'Enrolled Not Eligible', value: 'enrolled_not_elligible' },
     { name: 'Patients Active on DC Facility', value: 'enrolled_in_dc_active' },
-    { name: 'Patients Active on DC Community', value: 'enrolled_in_dc_community' }
+    {
+      name: 'Patients Active on DC Community',
+      value: 'enrolled_in_dc_community'
+    }
   ];
 
   constructor(
@@ -66,8 +68,7 @@ export class HivDifferentiatedCareComponent implements OnInit {
     private route: ActivatedRoute,
     private location: Location,
     private hivDifferentiatedCareResourceService: HivDifferentiatedCareResourceService
-  ) {
-  }
+  ) {}
 
   public ngOnInit() {
     this.route.parent.parent.url.subscribe((url) => {
@@ -75,8 +76,12 @@ export class HivDifferentiatedCareComponent implements OnInit {
     });
     this.loadReportParamsFromUrl();
 
-    this.startDateString = Moment(this.month, 'YYYY-MM').startOf('month').format('YYYY-MM-DD');
-    this.endDateString = Moment(this.month, 'YYYY-MM').endOf('month').format('YYYY-MM-DD');
+    this.startDateString = Moment(this.month, 'YYYY-MM')
+      .startOf('month')
+      .format('YYYY-MM-DD');
+    this.endDateString = Moment(this.month, 'YYYY-MM')
+      .endOf('month')
+      .format('YYYY-MM-DD');
   }
 
   public extraColumns() {
@@ -161,22 +166,44 @@ export class HivDifferentiatedCareComponent implements OnInit {
     this.missingField = false;
     const currentPatients = this.patientData;
     this.patientData = [];
-    if (this.indicators && this.startDate && this.endDate && this.locationUuid) {
-      const reportSelected = _.find(this.dcIndicators, { value: this.indicators });
+    if (
+      this.indicators &&
+      this.startDate &&
+      this.endDate &&
+      this.locationUuid
+    ) {
+      const reportSelected = _.find(this.dcIndicators, {
+        value: this.indicators
+      });
       this.indicatorName = reportSelected.name;
       this.storeReportParamsInUrl();
       this.isLoadingPatientList = true;
-      this.hivDifferentiatedCareResourceService.getPatientList(this.startDateString,
-        this.endDateString, this.locationUuid, this.indicators, this.startIndex, this.limit).take(1).subscribe((data) => {
-          this.patientData = this.appendData(currentPatients, data.results.results);
-          this.isLoadingPatientList = false;
-          this.isPatientListEmpty = false;
-          this.checkOrderLimit(data.results.results.length);
-        }, (err) => {
-          this.isLoadingPatientList = false;
-          this.loadingError = true;
-          console.log('DC PatientList Error', err);
-        });
+      this.hivDifferentiatedCareResourceService
+        .getPatientList(
+          this.startDateString,
+          this.endDateString,
+          this.locationUuid,
+          this.indicators,
+          this.startIndex,
+          this.limit
+        )
+        .take(1)
+        .subscribe(
+          (data) => {
+            this.patientData = this.appendData(
+              currentPatients,
+              data.results.results
+            );
+            this.isLoadingPatientList = false;
+            this.isPatientListEmpty = false;
+            this.checkOrderLimit(data.results.results.length);
+          },
+          (err) => {
+            this.isLoadingPatientList = false;
+            this.loadingError = true;
+            console.log('DC PatientList Error', err);
+          }
+        );
     } else {
       this.missingField = true;
     }
@@ -207,35 +234,31 @@ export class HivDifferentiatedCareComponent implements OnInit {
   public storeReportParamsInUrl() {
     const path = this.router.parseUrl(this.location.path());
     path.queryParams = {
-      'startDate': this.startDateString,
-      'endDate': this.endDateString,
-      'indicators': this.indicators
+      startDate: this.startDateString,
+      endDate: this.endDateString,
+      indicators: this.indicators
     };
     this.location.replaceState(path.toString());
   }
 
   private sortData(data) {
-
     const results = [];
 
     if (data.length > 0) {
-
       data.forEach((dt) => {
         if (dt[this.indicators] === 1) {
           results.push(dt);
         }
       });
-
     }
 
     return results;
-
   }
 
   private appendData(patientArray, data) {
     if (data.length > 0) {
       const patients = this.sortData(data);
-      patients.forEach(patient => {
+      patients.forEach((patient) => {
         patientArray.push(patient);
       });
     }
@@ -274,15 +297,18 @@ export class HivDifferentiatedCareComponent implements OnInit {
 
   private resetStartIndex() {
     this.startIndex = 0;
-    this.patientData  = [];
+    this.patientData = [];
   }
 
   public onMonthChange(): any {
     const formattedMonth = Moment(this.month).format('YYYY-MM-DD');
-    this.startDateString = Moment(formattedMonth).startOf('month').format('YYYY-MM-DD');
-    this.endDateString = Moment(formattedMonth).endOf('month').format('YYYY-MM-DD');
-    this.patientData  = [];
+    this.startDateString = Moment(formattedMonth)
+      .startOf('month')
+      .format('YYYY-MM-DD');
+    this.endDateString = Moment(formattedMonth)
+      .endOf('month')
+      .format('YYYY-MM-DD');
+    this.patientData = [];
     this.isPatientListEmpty = true;
   }
-
 }

@@ -1,15 +1,10 @@
-
-import {take} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { Observable, Subscription } from 'rxjs';
-import {
-  ClinicalSummaryVisualizationResourceService
-} from '../../../../etl-api/clinical-summary-visualization-resource.service';
-import {
-  ClinicalSummaryVisualizationService
-} from '../../../../hiv-care-lib/services/clinical-summary-visualization.service';
+import { ClinicalSummaryVisualizationResourceService } from '../../../../etl-api/clinical-summary-visualization-resource.service';
+import { ClinicalSummaryVisualizationService } from '../../../../hiv-care-lib/services/clinical-summary-visualization.service';
 
 @Component({
   selector: 'visualization-patient-list',
@@ -30,10 +25,12 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
   private currentIndicator: string;
   private routeSub = new Subscription();
 
-  constructor(private route: ActivatedRoute,
-              private router: Router,
-              private visualizationResourceService: ClinicalSummaryVisualizationResourceService,
-              private clinicalSummaryVisualizationService: ClinicalSummaryVisualizationService) {
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private visualizationResourceService: ClinicalSummaryVisualizationResourceService,
+    private clinicalSummaryVisualizationService: ClinicalSummaryVisualizationService
+  ) {
     /**
      * Please note that this is a workaround for the dashboardService delay
      * to give you the location UUID.
@@ -44,15 +41,14 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-
     this.routeSub = this.route.params.subscribe((params) => {
       if (params) {
         const monthYear = params['period'].split('|');
         this.reportName = params['report'];
         this.currentIndicator = params['indicator'];
-        this.translatedIndicator =
-          this.clinicalSummaryVisualizationService
-            .translateColumns[this.reportName][this.currentIndicator];
+        this.translatedIndicator = this.clinicalSummaryVisualizationService.translateColumns[
+          this.reportName
+        ][this.currentIndicator];
         this.setDateRange(monthYear);
         this.overrideColumns.push({
           field: 'identifiers',
@@ -60,13 +56,16 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
             this.redirectTopatientInfo(column.data.patient_uuid);
           },
           cellRenderer: (column) => {
-            return '<a href="javascript:void(0);" title="Identifiers">' + column.value + '</a>';
+            return (
+              '<a href="javascript:void(0);" title="Identifiers">' +
+              column.value +
+              '</a>'
+            );
           }
         });
 
         this.loadPatientData(this.reportName);
       }
-
     });
   }
 
@@ -83,21 +82,26 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
 
   public loadPatientData(reportName: string) {
     this.isLoadingPatientList = true;
-    this.visualizationResourceService.getReportOverviewPatientList(reportName, {
-      endDate: this.endDate.endOf('month').format(),
-      indicator: this.currentIndicator,
-      locationUuids: this.locationUuid,
-      startIndex: this.startIndex,
-      startDate: this.startDate.format()
-    }).pipe(take(1)).subscribe((report) => {
-      this.patientData = this.patientData ? this.patientData.concat(report) : report;
-      this.isLoading = false;
-      this.isLoadingPatientList = false;
-      this.startIndex += report.length;
-      if (report.length < 300) {
-        this.dataLoaded = true;
-      }
-    });
+    this.visualizationResourceService
+      .getReportOverviewPatientList(reportName, {
+        endDate: this.endDate.endOf('month').format(),
+        indicator: this.currentIndicator,
+        locationUuids: this.locationUuid,
+        startIndex: this.startIndex,
+        startDate: this.startDate.format()
+      })
+      .pipe(take(1))
+      .subscribe((report) => {
+        this.patientData = this.patientData
+          ? this.patientData.concat(report)
+          : report;
+        this.isLoading = false;
+        this.isLoadingPatientList = false;
+        this.startIndex += report.length;
+        if (report.length < 300) {
+          this.dataLoaded = true;
+        }
+      });
   }
 
   public loadMorePatients() {
@@ -110,8 +114,10 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
     if (patientUuid === undefined || patientUuid === null) {
       return;
     }
-    this.router.navigate(['/patient-dashboard/patient/' + patientUuid +
-      '/general/general/landing-page']);
+    this.router.navigate([
+      '/patient-dashboard/patient/' +
+        patientUuid +
+        '/general/general/landing-page'
+    ]);
   }
-
 }

@@ -2,26 +2,27 @@
 /* tslint:disable:import-blacklist */
 
 import {
-  TestBed, async, fakeAsync, tick, ComponentFixture, ComponentFixtureAutoDetect
+  TestBed,
+  async,
+  fakeAsync,
+  tick,
+  ComponentFixture,
+  ComponentFixtureAutoDetect
 } from '@angular/core/testing';
 import { Observable } from 'rxjs/Rx';
 import { AccordionModule, TabViewModule } from 'primeng/primeng';
-import {
-  ClinicalSummaryVisualizationResourceService
-} from '../../../../etl-api/clinical-summary-visualization-resource.service';
+import { ClinicalSummaryVisualizationResourceService } from '../../../../etl-api/clinical-summary-visualization-resource.service';
 import { ClinicDashboardCacheService } from '../../../services/clinic-dashboard-cache.service';
 import { ArtOverviewIndicatorDefComponent } from './indicator-definitions.component';
 
 class DataStub {
-
   public getArtOverviewReport(payload): Observable<any> {
     return Observable.of({ status: 'okay' });
   }
-
 }
 
 const results = {
-  'results': [
+  results: [
     {
       location_uuid: 'location-uuid',
       location_id: 13,
@@ -34,23 +35,21 @@ const results = {
       on_other_arv_drugs: 15,
       not_on_arv: 17
     }
-
   ],
-  'indicatorDefinitions': [
+  indicatorDefinitions: [
     {
-      'name': 'on_raltegravir',
-      'label': 'patient on_raltegravir',
-      'description': 'A patient is considered to be on \"Raltegravir\" if ',
-      'expression': 'cur_arv_meds regexp '
+      name: 'on_raltegravir',
+      label: 'patient on_raltegravir',
+      description: 'A patient is considered to be on "Raltegravir" if ',
+      expression: 'cur_arv_meds regexp '
     }
   ]
 };
 
 const indicatorDefinitions = [
   {
-    'on_raltegravir': 'A patient is considered to be on \"Raltegravir\" if ',
+    on_raltegravir: 'A patient is considered to be on "Raltegravir" if '
   }
-
 ];
 
 describe('ArtOverviewIndicatorDefComponent', () => {
@@ -62,18 +61,25 @@ describe('ArtOverviewIndicatorDefComponent', () => {
     TestBed.configureTestingModule({
       imports: [TabViewModule, AccordionModule],
       declarations: [ArtOverviewIndicatorDefComponent]
-    }).overrideComponent(ArtOverviewIndicatorDefComponent, {
-      set: {
-        providers: [
-          { provide: ClinicalSummaryVisualizationResourceService, useClass: DataStub },
-          { provide: ComponentFixtureAutoDetect, useValue: true }
-        ]
-      }
-    }).compileComponents()
+    })
+      .overrideComponent(ArtOverviewIndicatorDefComponent, {
+        set: {
+          providers: [
+            {
+              provide: ClinicalSummaryVisualizationResourceService,
+              useClass: DataStub
+            },
+            { provide: ComponentFixtureAutoDetect, useValue: true }
+          ]
+        }
+      })
+      .compileComponents()
       .then(() => {
         fixture = TestBed.createComponent(ArtOverviewIndicatorDefComponent);
         comp = fixture.componentInstance;
-        dataStub = fixture.debugElement.injector.get(ClinicalSummaryVisualizationResourceService);
+        dataStub = fixture.debugElement.injector.get(
+          ClinicalSummaryVisualizationResourceService
+        );
       });
   }));
 
@@ -93,5 +99,4 @@ describe('ArtOverviewIndicatorDefComponent', () => {
     tick(50);
     expect(comp.indicatorDefinitionsArr).toEqual(indicatorDefinitions);
   }));
-
 });
