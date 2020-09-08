@@ -10,62 +10,62 @@ describe('Patient Routes Factory:', () => {
     patientListCohortConfig: {},
     providerDashboardConfig: {},
     patientDashboardConfig: {
-      'id': 'patientDashboard',
-      'name': 'Patient Dashboard',
-      'baseRoute': 'patient-dashboard',
-      'programs': [
+      id: 'patientDashboard',
+      name: 'Patient Dashboard',
+      baseRoute: 'patient-dashboard',
+      programs: [
         {
-          'programName': 'General Info',
-          'programUuid': 'general-uuid',
-          'baseRoute': 'general',
-          'alias': 'general',
-          'published': true,
-          'requiresPatientEnrollment': false,
-          'routes': [
+          programName: 'General Info',
+          programUuid: 'general-uuid',
+          baseRoute: 'general',
+          alias: 'general',
+          published: true,
+          requiresPatientEnrollment: false,
+          routes: [
             {
-              'url': 'patient-info',
-              'label': 'Patient Info',
-              'icon': 'fa fa-clipboard'
+              url: 'patient-info',
+              label: 'Patient Info',
+              icon: 'fa fa-clipboard'
             },
             {
-              'url': 'visit',
-              'label': 'Visit',
-              'icon': 'icon-i-outpatient'
+              url: 'visit',
+              label: 'Visit',
+              icon: 'icon-i-outpatient'
             }
           ]
         },
         {
-          'programName': 'HIV',
-          'programUuid': '781d85b0-1359-11df-a1f1-0026b9348838',
-          'baseRoute': 'hiv',
-          'alias': 'hiv',
-          'published': true,
-          'requiresPatientEnrollment': true,
-          'routes': [
+          programName: 'HIV',
+          programUuid: '781d85b0-1359-11df-a1f1-0026b9348838',
+          baseRoute: 'hiv',
+          alias: 'hiv',
+          published: true,
+          requiresPatientEnrollment: true,
+          routes: [
             {
-              'url': 'hiv-summary',
-              'label': 'HIV Summary',
-              'icon': 'fa fa-medkit'
+              url: 'hiv-summary',
+              label: 'HIV Summary',
+              icon: 'fa fa-medkit'
             },
             {
-              'url': 'hiv-clinical-summary',
-              'label': 'HIV Clinical Summary',
-              'icon': 'fa fa-file-pdf-o'
+              url: 'hiv-clinical-summary',
+              label: 'HIV Clinical Summary',
+              icon: 'fa fa-file-pdf-o'
             }
           ]
         },
         {
-          'programName': 'Oncology',
-          'programUuid': 'onc-uuid',
-          'baseRoute': 'oncology',
-          'alias': 'hiv',
-          'published': false,
-          'requiresPatientEnrollment': true,
-          'routes': [
+          programName: 'Oncology',
+          programUuid: 'onc-uuid',
+          baseRoute: 'oncology',
+          alias: 'hiv',
+          published: false,
+          requiresPatientEnrollment: true,
+          routes: [
             {
-              'url': 'oncology-summary',
-              'label': 'Oncology Summary',
-              'icon': 'icon-i-oncology'
+              url: 'oncology-summary',
+              label: 'Oncology Summary',
+              icon: 'icon-i-oncology'
             }
           ]
         }
@@ -77,23 +77,26 @@ describe('Patient Routes Factory:', () => {
       providers: [
         PatientRoutesFactory,
         {
-          provide: RoutesProviderService, useFactory: () => {
+          provide: RoutesProviderService,
+          useFactory: () => {
             return fakeRoutesProvider;
-          }, deps: []
+          },
+          deps: []
         }
       ]
     });
   });
 
-
-  it('should inject patient routes service',
-    inject([PatientRoutesFactory], (s: PatientRoutesFactory) => {
+  it('should inject patient routes service', inject(
+    [PatientRoutesFactory],
+    (s: PatientRoutesFactory) => {
       expect(s).toBeTruthy();
-    })
-  );
+    }
+  ));
 
-  it('should create a the patient dashboard routes for a given patient',
-    inject([PatientRoutesFactory], (s: PatientRoutesFactory) => {
+  it('should create a the patient dashboard routes for a given patient', inject(
+    [PatientRoutesFactory],
+    (s: PatientRoutesFactory) => {
       const loadedPatient: any = {
         uuid: 'patient-uuid',
         display: 'the patient',
@@ -120,64 +123,64 @@ describe('Patient Routes Factory:', () => {
       const createdRoutes = s.createPatientDashboardRoutes(patient);
 
       expect(createdRoutes.length).toBe(1);
-
-    }));
+    }
+  ));
 
   it('should have related programs shared routes', () => {
     const sampleConfig = {
-      'id': 'patientDashboard',
-      'name': 'Patient Dashboard',
-      'baseRoute': 'patient-dashboard',
-      'programs': [
+      id: 'patientDashboard',
+      name: 'Patient Dashboard',
+      baseRoute: 'patient-dashboard',
+      programs: [
         {
-          'programName': 'General Info',
-          'programUuid': 'general-uuid',
-          'baseRoute': 'general',
-          'alias': 'general',
-          'published': true,
-          'requiresPatientEnrollment': false,
-          'routes': [
+          programName: 'General Info',
+          programUuid: 'general-uuid',
+          baseRoute: 'general',
+          alias: 'general',
+          published: true,
+          requiresPatientEnrollment: false,
+          routes: [
             {
-              'url': 'patient-info',
-              'label': 'Patient Info',
-              'icon': 'fa fa-clipboard'
+              url: 'patient-info',
+              label: 'Patient Info',
+              icon: 'fa fa-clipboard'
             }
           ]
         },
         {
-          'programName': 'HIV',
-          'programUuid': '781d85b0-1359-11df-a1f1-0026b9348838',
-          'baseRoute': 'hiv',
-          'alias': 'hiv',
-          'published': true,
+          programName: 'HIV',
+          programUuid: '781d85b0-1359-11df-a1f1-0026b9348838',
+          baseRoute: 'hiv',
+          alias: 'hiv',
+          published: true,
           'shared-routes-class': 'hiv',
-          'requiresPatientEnrollment': true,
-          'routes': []
+          requiresPatientEnrollment: true,
+          routes: []
         },
         {
-          'programName': 'Oncology',
-          'programUuid': 'onc-uuid',
-          'baseRoute': 'oncology',
-          'alias': 'hiv',
-          'published': false,
+          programName: 'Oncology',
+          programUuid: 'onc-uuid',
+          baseRoute: 'oncology',
+          alias: 'hiv',
+          published: false,
           'shared-routes-class': 'oncology',
-          'requiresPatientEnrollment': true,
-          'routes': []
+          requiresPatientEnrollment: true,
+          routes: []
         }
       ],
-      'sharedRoutes': {
-        'hiv': [
+      sharedRoutes: {
+        hiv: [
           {
-            'url': 'shared-hiv',
-            'label': 'shared-hiv',
-            'icon': 'fa fa-clipboard'
+            url: 'shared-hiv',
+            label: 'shared-hiv',
+            icon: 'fa fa-clipboard'
           }
         ],
-        'oncology': [
+        oncology: [
           {
-            'url': 'shared-oncology',
-            'label': 'shared-oncology',
-            'icon': 'fa fa-clipboard'
+            url: 'shared-oncology',
+            label: 'shared-oncology',
+            icon: 'fa fa-clipboard'
           }
         ]
       }
