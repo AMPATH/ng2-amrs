@@ -1,5 +1,21 @@
-<p-dialog #addCohortDialog header="Add Patient to Patient List" width="80%" [(visible)]="display" modal="true" appendTo="body" styleClass="add-cohort-dialog"
-[draggable]="false">
-    <add-cohort-member #addCohortComp [(patient)]="patient" [(cohort)]="cohort" [(allowCohortEdit)]="allowCohortEdit" [(allowPatientEdit)]="allowPatientEdit" (saved)="onSavedCohortMember()" (cancelled)="onSavedCohortMember()">
-    </add-cohort-member>
+<p-dialog
+  #addCohortDialog
+  header="Add Patient to Patient List"
+  width="80%"
+  [(visible)]="display"
+  modal="true"
+  appendTo="body"
+  styleClass="add-cohort-dialog"
+  [draggable]="false"
+>
+  <add-cohort-member
+    #addCohortComp
+    [(patient)]="patient"
+    [(cohort)]="cohort"
+    [(allowCohortEdit)]="allowCohortEdit"
+    [(allowPatientEdit)]="allowPatientEdit"
+    (saved)="onSavedCohortMember()"
+    (cancelled)="onSavedCohortMember()"
+  >
+  </add-cohort-member>
 </p-dialog>
