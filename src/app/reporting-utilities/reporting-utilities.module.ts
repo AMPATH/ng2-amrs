@@ -3,8 +3,18 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
-  InputTextModule, AccordionModule, SliderModule, PanelModule, MenuModule, MessagesModule,
-  GrowlModule, InputTextareaModule, DropdownModule, ButtonModule, MultiSelectModule, CalendarModule
+  InputTextModule,
+  AccordionModule,
+  SliderModule,
+  PanelModule,
+  MenuModule,
+  MessagesModule,
+  GrowlModule,
+  InputTextareaModule,
+  DropdownModule,
+  ButtonModule,
+  MultiSelectModule,
+  CalendarModule
 } from 'primeng/primeng';
 import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 import { OpenmrsApi } from '../openmrs-api/openmrs-api.module';
@@ -21,7 +31,7 @@ import { ReportViewComponent } from './report-view/report-view.component';
 export function highchartsFactory() {
   const hc = require('highcharts');
   const hcm = require('highcharts/highcharts-more');
-  const hce =   require('highcharts/modules/exporting');
+  const hce = require('highcharts/modules/exporting');
   hcm(hc);
   hce(hc);
   return hc;
@@ -29,19 +39,34 @@ export function highchartsFactory() {
 
 @NgModule({
   imports: [
-    CommonModule, RouterModule, InputTextModule, AccordionModule, NgamrsSharedModule,
-    SliderModule, PanelModule, MenuModule, MessagesModule,
-    GrowlModule, InputTextareaModule, DropdownModule,
-    ButtonModule, FormsModule, ReactiveFormsModule, MultiSelectModule,
-    CalendarModule, OpenmrsApi, EtlApi,
+    CommonModule,
+    RouterModule,
+    InputTextModule,
+    AccordionModule,
+    NgamrsSharedModule,
+    SliderModule,
+    PanelModule,
+    MenuModule,
+    MessagesModule,
+    GrowlModule,
+    InputTextareaModule,
+    DropdownModule,
+    ButtonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MultiSelectModule,
+    CalendarModule,
+    OpenmrsApi,
+    EtlApi,
     ChartModule
   ],
   declarations: [ReportFilterComponent, ReportViewComponent],
-  providers: [{
-    provide: HighchartsStatic,
-    useFactory: highchartsFactory
-  }],
+  providers: [
+    {
+      provide: HighchartsStatic,
+      useFactory: highchartsFactory
+    }
+  ],
   exports: [ReportFilterComponent, ReportViewComponent]
 })
-export class ReportingUtilitiesModule {
-}
+export class ReportingUtilitiesModule {}
