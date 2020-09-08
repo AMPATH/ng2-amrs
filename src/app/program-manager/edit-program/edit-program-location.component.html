@@ -1,49 +1,85 @@
 <busy *ngIf="updating" [message]="'Updating...'"></busy>
-<div style="margin-bottom: 20px;" class="alert alert-danger" *ngIf="hasError">
-  <p>Error editing location. {{message}}</p>
+<div style="margin-bottom: 20px" class="alert alert-danger" *ngIf="hasError">
+  <p>Error editing location. {{ message }}</p>
 </div>
 <div class="step-details" *ngIf="!complete">
   <ng-container *ngFor="let program of programs">
-    <blockquote class="step-details" style="border-left: 0; margin-bottom: 0; padding-bottom: 0;"
-                *ngIf="program && program.dateEnrolled">
-      <p><input checked name="program_{{program.enrolledProgram._openmrsModel.uuid}}" value="{{program.enrolledProgram._openmrsModel.uuid}}"
-                (change)="updateProgramsToEdit($event)" type="checkbox"/>
-        {{program.enrolledProgram._openmrsModel.display}} <span
-          class="pull-right">{{program.enrolledProgram._openmrsModel.location?.display}}</span></p>
-      <footer>Started {{program.dateEnrolled | date: 'longDate'}}</footer>
-      <hr/>
+    <blockquote
+      class="step-details"
+      style="border-left: 0; margin-bottom: 0; padding-bottom: 0"
+      *ngIf="program && program.dateEnrolled"
+    >
+      <p>
+        <input
+          checked
+          name="program_{{ program.enrolledProgram._openmrsModel.uuid }}"
+          value="{{ program.enrolledProgram._openmrsModel.uuid }}"
+          (change)="updateProgramsToEdit($event)"
+          type="checkbox"
+        />
+        {{ program.enrolledProgram._openmrsModel.display }}
+        <span class="pull-right">{{
+          program.enrolledProgram._openmrsModel.location?.display
+        }}</span>
+      </p>
+      <footer>Started {{ program.dateEnrolled | date: 'longDate' }}</footer>
+      <hr />
     </blockquote>
   </ng-container>
-  <div class="row" style="position: relative; padding-bottom: 12px;" *ngIf="!complete">
+  <div
+    class="row"
+    style="position: relative; padding-bottom: 12px"
+    *ngIf="!complete"
+  >
     <div class="col-md-6 col-xs-12 col-sm-6 cell">
-      <location-filter [locationUuids]="transferLocation" [disable-county]="true" [showLabel]="true" (onLocationChange)="selectLocation($event)"></location-filter>
+      <location-filter
+        [locationUuids]="transferLocation"
+        [disable-county]="true"
+        [showLabel]="true"
+        (onLocationChange)="selectLocation($event)"
+      ></location-filter>
     </div>
     <div class="col-md-6 col-xs-12 col-sm-6 cell">
       <label for="enrolledDate">Date Transferred</label>
       <div>
-        <input class="form-control" id="enrolledDate" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
-               [(ngModel)]="dateEnrolled" type="date"/>
+        <input
+          class="form-control"
+          id="enrolledDate"
+          pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
+          [(ngModel)]="dateEnrolled"
+          type="date"
+        />
       </div>
     </div>
   </div>
-
 </div>
-<div style="margin-bottom: 20px;" class="alert alert-success" *ngIf="complete">
+<div style="margin-bottom: 20px" class="alert alert-success" *ngIf="complete">
   <ng-container *ngFor="let program of editedPrograms">
-  <blockquote class="step-details"  *ngIf="program && !program.dateCompleted" style="border-left: 0;margin-bottom: 0;padding-bottom: 0;">
-    <p>{{program.display}} <span
-      class="pull-right">New Location: {{program.location?.display}}</span></p>
-    <footer>Date Changed: <strong>{{program.dateEnrolled | date: 'longDate'}}</strong></footer>
-    <hr/>
-  </blockquote>
+    <blockquote
+      class="step-details"
+      *ngIf="program && !program.dateCompleted"
+      style="border-left: 0; margin-bottom: 0; padding-bottom: 0"
+    >
+      <p>
+        {{ program.display }}
+        <span class="pull-right"
+          >New Location: {{ program.location?.display }}</span
+        >
+      </p>
+      <footer>
+        Date Changed:
+        <strong>{{ program.dateEnrolled | date: 'longDate' }}</strong>
+      </footer>
+      <hr />
+    </blockquote>
   </ng-container>
 </div>
 <div class="step-buttons" *ngIf="!complete">
-  <button  type="button" class="btn btn-danger pull-left"
-          (click)="goBack()">Back
+  <button type="button" class="btn btn-danger pull-left" (click)="goBack()">
+    Back
   </button>
-  <button class="btn btn-primary pull-right"
-          (click)="completeLocationChange()">Change Location
+  <button class="btn btn-primary pull-right" (click)="completeLocationChange()">
+    Change Location
   </button>
   <span class="clear">&nbsp;</span>
 </div>

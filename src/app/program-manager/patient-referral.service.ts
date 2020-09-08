@@ -102,7 +102,7 @@ export class PatientReferralService {
         startDate: params.startDate,
         startAge: params.startAge,
         programUuids: params.programUuids,
-        startIndex: params.startIndex,
+        startIndex: params.startIndex
       }
     );
 

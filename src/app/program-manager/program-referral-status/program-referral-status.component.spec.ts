@@ -23,7 +23,7 @@ import { ProgramWorkFlowStateResourceService } from '../../openmrs-api/program-w
 import { ProviderResourceService } from '../../openmrs-api/provider-resource.service';
 
 class MockCacheStorageService {
-  constructor(a, b) { }
+  constructor(a, b) {}
 
   public ready() {
     return true;
@@ -34,12 +34,10 @@ let component;
 let fixture: ComponentFixture<ProgramReferralStatusComponent>;
 
 describe('ProgramReferralStatusComponent: ', () => {
-  beforeEach(async(() =>  {
+  beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ HttpClientTestingModule ],
-      declarations: [
-        ProgramReferralStatusComponent
-      ],
+      imports: [HttpClientTestingModule],
+      declarations: [ProgramReferralStatusComponent],
       providers: [
         AppSettingsService,
         CacheService,

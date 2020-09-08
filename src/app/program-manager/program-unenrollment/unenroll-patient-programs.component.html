@@ -1,15 +1,28 @@
-<busy *ngIf="unenrollExpressely" [message]="'Unenrolling patient from program...'"></busy>
+<busy
+  *ngIf="unenrollExpressely"
+  [message]="'Unenrolling patient from program...'"
+></busy>
 <ng-container *ngIf="false">
   <div class="alert alert-danger">
-    {{message}}
+    {{ message }}
   </div>
   <div *ngIf="hasValidationErrors">
-    <div *ngFor="let error of enrollmentUdateErrors" class="alert alert-danger alert-dismissible">
-      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-      <em class="text-danger" *ngIf="hasValidationErrors">{{error}}</em>
+    <div
+      *ngFor="let error of enrollmentUdateErrors"
+      class="alert alert-danger alert-dismissible"
+    >
+      <button
+        type="button"
+        class="close"
+        data-dismiss="alert"
+        aria-hidden="true"
+      >
+        ×
+      </button>
+      <em class="text-danger" *ngIf="hasValidationErrors">{{ error }}</em>
     </div>
   </div>
-  <div class="row" style="padding:4px">
+  <div class="row" style="padding: 4px">
     <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
       <table class="table table-striped">
         <thead>
@@ -22,14 +35,17 @@
         <tbody>
           <tr *ngFor="let enrolled of enrolledPrograms">
             <td>
-              {{enrolled.name}}
+              {{ enrolled.name }}
             </td>
             <td>
-              {{enrolled.enrolledDate}}
+              {{ enrolled.enrolledDate }}
             </td>
             <td>
-              <input id="enrollmentDetails{{enrolled.enrollmentUuid}}" [(ngModel)]="enrollmentDetails[enrolled.enrollmentUuid]"
-                type="date" />
+              <input
+                id="enrollmentDetails{{ enrolled.enrollmentUuid }}"
+                [(ngModel)]="enrollmentDetails[enrolled.enrollmentUuid]"
+                type="date"
+              />
             </td>
           </tr>
         </tbody>
@@ -38,11 +54,29 @@
   </div>
   <ng-container *ngIf="encounterTypeFilter.length > 0 && showForms">
     <p>Please fill the following required forms to unenroll the patient</p>
-    <form-list [showFilter]="false" (onFormSelected)="fillUnenrollmentForm($event)" [encounterTypeFilter]="encounterTypeFilter"></form-list>
+    <form-list
+      [showFilter]="false"
+      (onFormSelected)="fillUnenrollmentForm($event)"
+      [encounterTypeFilter]="encounterTypeFilter"
+    ></form-list>
   </ng-container>
   <div class="buttons">
-    <button (click)="onUnenrollmentCancelled()" type="button" id="onNo" class="btn btn-danger pull-left">Cancel</button>
-    <button (click)="showUnenrollmentFormsOrUnenrollOnValidation()" type="button" id="onYes" class="btn btn-primary pull-right">UnEnroll</button>
+    <button
+      (click)="onUnenrollmentCancelled()"
+      type="button"
+      id="onNo"
+      class="btn btn-danger pull-left"
+    >
+      Cancel
+    </button>
+    <button
+      (click)="showUnenrollmentFormsOrUnenrollOnValidation()"
+      type="button"
+      id="onYes"
+      class="btn btn-primary pull-right"
+    >
+      UnEnroll
+    </button>
     <span class="clear">&nbsp;</span>
   </div>
 </ng-container>
