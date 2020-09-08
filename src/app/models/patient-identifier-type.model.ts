@@ -13,5 +13,4 @@ export class PatientIdentifierType extends BaseModel {
   public set name(v: string) {
     this._openmrsModel.name = v;
   }
-
 }

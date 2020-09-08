@@ -2,11 +2,9 @@
 
 // import { TestBed, async, inject, describe, it, expect } from '@angular/core/testing';
 
-import {Encounter} from './encounter.model';
-
+import { Encounter } from './encounter.model';
 
 describe('Model: Encounter', () => {
-
   const existingEncounter: any = {
     uuid: 'uuid',
     display: 'the encounter',
@@ -35,11 +33,19 @@ describe('Model: Encounter', () => {
     const wrappedEnconter: Encounter = new Encounter(existingEncounter);
     expect(wrappedEnconter.uuid).toEqual(existingEncounter.uuid);
     expect(wrappedEnconter.display).toEqual(existingEncounter.display);
-    expect(wrappedEnconter.encounterDatetime).toEqual(new Date(existingEncounter.encounterDatetime));
-    expect(wrappedEnconter.patient.uuid).toEqual(existingEncounter.patient.uuid);
-    expect(wrappedEnconter.location.uuid).toEqual(existingEncounter.location.uuid);
+    expect(wrappedEnconter.encounterDatetime).toEqual(
+      new Date(existingEncounter.encounterDatetime)
+    );
+    expect(wrappedEnconter.patient.uuid).toEqual(
+      existingEncounter.patient.uuid
+    );
+    expect(wrappedEnconter.location.uuid).toEqual(
+      existingEncounter.location.uuid
+    );
     expect(wrappedEnconter.form.uuid).toEqual(existingEncounter.form.uuid);
-    expect(wrappedEnconter.provider.uuid).toEqual(existingEncounter.provider.uuid);
+    expect(wrappedEnconter.provider.uuid).toEqual(
+      existingEncounter.provider.uuid
+    );
     expect(wrappedEnconter.visit.uuid).toEqual(existingEncounter.visit.uuid);
   });
 
@@ -54,7 +60,6 @@ describe('Model: Encounter', () => {
     expect(newPayload.form).toEqual(existingEncounter.form.uuid);
     expect(newPayload.provider).toEqual(existingEncounter.provider.uuid);
     expect(newPayload.visit).toEqual(existingEncounter.visit.uuid);
-
   });
 
   it('should generate an existing encounters payload correctly', () => {
@@ -68,7 +73,5 @@ describe('Model: Encounter', () => {
     expect(newPayload.form).toEqual(existingEncounter.form.uuid);
     expect(newPayload.provider).toEqual(existingEncounter.provider.uuid);
     expect(newPayload.visit).toEqual(existingEncounter.visit.uuid);
-
   });
 });
-

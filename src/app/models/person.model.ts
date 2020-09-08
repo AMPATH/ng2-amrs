@@ -1,9 +1,9 @@
-import {BaseModel} from './base-model.model';
-import {serializable} from './serializable.decorator';
+import { BaseModel } from './base-model.model';
+import { serializable } from './serializable.decorator';
 import './date.extensions';
 
-import {PersonAttribute} from './person-attribute.model';
-import {PersonAddress} from './address.model';
+import { PersonAttribute } from './person-attribute.model';
+import { PersonAddress } from './address.model';
 
 export class Person extends BaseModel {
   private _birthdate: Date;
@@ -63,9 +63,12 @@ export class Person extends BaseModel {
   }
 
   public get healthCenter() {
-    const healthCenterPersonAttributeTypeUuid = '8d87236c-c2cc-11de-8d13-0010c6dffd0f';
+    const healthCenterPersonAttributeTypeUuid =
+      '8d87236c-c2cc-11de-8d13-0010c6dffd0f';
     if (this._attributes) {
-      const location = this.getPersonAttribute(healthCenterPersonAttributeTypeUuid);
+      const location = this.getPersonAttribute(
+        healthCenterPersonAttributeTypeUuid
+      );
       if (location) {
         return location.display;
       } else {
@@ -74,10 +77,12 @@ export class Person extends BaseModel {
     }
   }
   public get nextofkinPhoneNumber() {
-    const nextofkinPhoneNumberPersonAttributeTypeUuid = 'a657a4f1-9c0f-444b-a1fd-445bb91dd12d';
+    const nextofkinPhoneNumberPersonAttributeTypeUuid =
+      'a657a4f1-9c0f-444b-a1fd-445bb91dd12d';
     if (this._attributes) {
-      const nextofkinPhoneNumber =
-        this.getPersonAttribute(nextofkinPhoneNumberPersonAttributeTypeUuid);
+      const nextofkinPhoneNumber = this.getPersonAttribute(
+        nextofkinPhoneNumberPersonAttributeTypeUuid
+      );
       if (nextofkinPhoneNumber) {
         return nextofkinPhoneNumber;
       } else {
@@ -86,9 +91,12 @@ export class Person extends BaseModel {
     }
   }
   public get partnerPhoneNumber() {
-    const partnerPhoneNumberPersonAttributeTypeUuid = 'b0a08406-09c0-4f8b-8cb5-b22b6d4a8e46';
+    const partnerPhoneNumberPersonAttributeTypeUuid =
+      'b0a08406-09c0-4f8b-8cb5-b22b6d4a8e46';
     if (this._attributes) {
-      const partnerPhoneNumber = this.getPersonAttribute(partnerPhoneNumberPersonAttributeTypeUuid);
+      const partnerPhoneNumber = this.getPersonAttribute(
+        partnerPhoneNumberPersonAttributeTypeUuid
+      );
       if (partnerPhoneNumber) {
         return partnerPhoneNumber;
       } else {
@@ -97,10 +105,12 @@ export class Person extends BaseModel {
     }
   }
   public get alternativePhoneNumber() {
-    const alternativePhoneNumberPersonAttributeTypeUuid = 'c725f524-c14a-4468-ac19-4a0e6661c930';
+    const alternativePhoneNumberPersonAttributeTypeUuid =
+      'c725f524-c14a-4468-ac19-4a0e6661c930';
     if (this._attributes) {
-      const alternativePhoneNumber =
-        this.getPersonAttribute(alternativePhoneNumberPersonAttributeTypeUuid);
+      const alternativePhoneNumber = this.getPersonAttribute(
+        alternativePhoneNumberPersonAttributeTypeUuid
+      );
       if (alternativePhoneNumber) {
         return alternativePhoneNumber;
       } else {
@@ -109,18 +119,24 @@ export class Person extends BaseModel {
     }
   }
   public get levelOfEducation() {
-    const levelOfEducationPersonAttributeTypeUuid = '352b0d51-63c6-47d0-a295-156bebee4fd5';
+    const levelOfEducationPersonAttributeTypeUuid =
+      '352b0d51-63c6-47d0-a295-156bebee4fd5';
     if (this._attributes && this._attributes.length > 0) {
-      const educationPersonAttribute = this.getPersonAttribute(levelOfEducationPersonAttributeTypeUuid);
+      const educationPersonAttribute = this.getPersonAttribute(
+        levelOfEducationPersonAttributeTypeUuid
+      );
       return educationPersonAttribute ? educationPersonAttribute : null;
     }
   }
   public get patientPhoneNumber() {
-    const phoneNumberPersonAttributeTypeUuid = '72a759a8-1359-11df-a1f1-0026b9348838';
+    const phoneNumberPersonAttributeTypeUuid =
+      '72a759a8-1359-11df-a1f1-0026b9348838';
     if (this._attributes) {
-      const phoneNumber = this.getPersonAttribute(phoneNumberPersonAttributeTypeUuid);
-      if ( phoneNumber) {
-        return  phoneNumber;
+      const phoneNumber = this.getPersonAttribute(
+        phoneNumberPersonAttributeTypeUuid
+      );
+      if (phoneNumber) {
+        return phoneNumber;
       } else {
         return '';
       }
@@ -175,13 +191,17 @@ export class Person extends BaseModel {
         this.getPersonAttribute(nextofkinPhoneNumberPersonAttributeTypeUuid);
       const caregiverPhoneNumber = this.getPersonAttribute(caregiverPhoneNumberPersonAttributeTypeUuid);
 
-      if ((partnerPhoneNumber) === undefined && (patientPhoneNumber) === undefined &&
-        (alternativePhoneNumber) === undefined && (nextofkinPhoneNumber) === undefined &&
-        (patientPhoneNumber) === undefined) {
-        if ((this._attributes)) {
-          filteredContacts = { 'default': this._attributes };
+      if (
+        partnerPhoneNumber === undefined &&
+        patientPhoneNumber === undefined &&
+        alternativePhoneNumber === undefined &&
+        nextofkinPhoneNumber === undefined &&
+        patientPhoneNumber === undefined
+      ) {
+        if (this._attributes) {
+          filteredContacts = { default: this._attributes };
         } else {
-          filteredContacts = { 'default': '' };
+          filteredContacts = { default: '' };
         }
       } else {
         filteredContacts = {
@@ -194,22 +214,23 @@ export class Person extends BaseModel {
       }
       return filteredContacts;
     } else {
-      return this._attributes = '';
+      return (this._attributes = '');
     }
-
   }
   public getPersonAttribute(personAttributeTypeUuid) {
     if (this._attributes.length > 0) {
       for (const i in this._attributes) {
         if (this._attributes.hasOwnProperty(i)) {
           const attr = this._attributes[i];
-          if (attr.attributeType && attr.attributeType.uuid === personAttributeTypeUuid) {
+          if (
+            attr.attributeType &&
+            attr.attributeType.uuid === personAttributeTypeUuid
+          ) {
             return attr.value;
           }
         }
       }
     }
-
   }
 
   public get addresses(): PersonAddress {
@@ -276,5 +297,4 @@ export class Person extends BaseModel {
   public set causeOfDeathUuId(v: string) {
     this._openmrsModel.causeOfDeathUuId = v;
   }
-
 }

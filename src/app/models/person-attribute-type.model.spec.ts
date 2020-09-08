@@ -1,4 +1,4 @@
-import {PersonAttributeType} from './person-attribute-type.model';
+import { PersonAttributeType } from './person-attribute-type.model';
 
 describe('Model: personAttributeType', () => {
   const existingPersonAttributeType: any = {
@@ -6,8 +6,12 @@ describe('Model: personAttributeType', () => {
   };
 
   it('It should wrap person Attribute type model for display correctly', (done) => {
-    const wrappedPersonAttributeType: PersonAttributeType = new PersonAttributeType(existingPersonAttributeType);
-    expect(wrappedPersonAttributeType.name).toEqual(existingPersonAttributeType.name);
+    const wrappedPersonAttributeType: PersonAttributeType = new PersonAttributeType(
+      existingPersonAttributeType
+    );
+    expect(wrappedPersonAttributeType.name).toEqual(
+      existingPersonAttributeType.name
+    );
     done();
   });
 });
