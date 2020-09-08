@@ -10,15 +10,19 @@ import { SelectDepartmentService } from './../shared/services/select-department.
 import { DateTimePickerModule } from 'ngx-openmrs-formentry/';
 import { MatTabsModule } from '@angular/material/tabs';
 @NgModule({
-    imports: [
-        FormsModule,
-        CommonModule,
-        AngularMultiSelectModule,
-        DateTimePickerModule,
-        MatTabsModule
-    ],
-    exports: [ProgramVisitEncounterSearchComponent],
-    declarations: [ProgramVisitEncounterSearchComponent],
-    providers: [DepartmentProgramsConfigService, DataCacheService, SelectDepartmentService],
+  imports: [
+    FormsModule,
+    CommonModule,
+    AngularMultiSelectModule,
+    DateTimePickerModule,
+    MatTabsModule
+  ],
+  exports: [ProgramVisitEncounterSearchComponent],
+  declarations: [ProgramVisitEncounterSearchComponent],
+  providers: [
+    DepartmentProgramsConfigService,
+    DataCacheService,
+    SelectDepartmentService
+  ]
 })
-export class ProgramVisitEncounterSearchModule { }
+export class ProgramVisitEncounterSearchModule {}

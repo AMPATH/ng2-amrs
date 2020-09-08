@@ -1,158 +1,143 @@
 {
-    "uud1":{
-        "name":"HIV",
-        "programs":[
-            {
-                "uuid":"781d85b0-1359-11df-a1f1-0026b9348838",
-                "name": "HIV TREATMENT"
-            },
-            {
-                "uuid":"f7793d42-11ac-4cfd-9b35-e0a21a7a7c31",
-                "name": "RESISTANCE CLINIC PROGRAM"
-            },
-            {
-                "uuid":"781d897a-1359-11df-a1f1-0026b9348838",
-                "name": "PREVENTION OF MOTHER-TO-CHILD TRANSMISSION OF HIV"
-
-            },
-            {
-                "uuid":"96047aaf-7ab3-45e9-be6a-b61810fe617d",
-                "name": "PEP PROGRAM"
-
-            },
-             {
-                "uuid":"c19aec66-1a40-4588-9b03-b6be55a8dd1d",
-                "name": "PrEP PROGRAM"
-
-            },
-             {
-                "uuid":"334c9e98-173f-4454-a8ce-f80b20b7fdf0",
-                "name": "HIV DIFFERENTIATED CARE PROGRAM"
-
-            },
-            {
-                "uuid":"96ba279b-b23b-4e78-aba9-dcbd46a96b7b",
-                "name": "HIV TRANSIT PROGRAM"
-
-            },
-             {
-                "uuid":"781d8880-1359-11df-a1f1-0026b9348838",
-                "name": "EXPRESS CARE PROGRAM"
-
-            },
-            {
-                "uuid":"c6bf3625-de80-4a88-a913-38273e300a55",
-                "name": "HIV OUTREACH PROGRAM"
-
-            },
-            {
-                "uuid":"c37ca57d-5f7e-41e3-93e0-2cd6cd01de91",
-                "name": "HIV COMMUNITY BASED CARE RESEARCH PROGRAM"
-
-            },
-            {
-                "uuid":"4480c782-ef05-4d88-b2f8-c892c99438f6",
-                "name": "ACTG PROGRAM"
-
-            },
-            {
-                "uuid":"c4246ff0-b081-460c-bcc5-b0678012659e",
-                "name": "VIREMIA PROGRAM"
-
-            },
-            {
-                "uuid":"781d8768-1359-11df-a1f1-0026b9348838",
-                "name": "OVC PROGRAM"
-            },
-             {
-                "uuid":"0904172d-0b6a-40df-b8a2-b3653d16dc45",
-                "name": "TURBO DIFFERENTIATED CARE PILOT PROGRAM"
-            },
-             {
-                "uuid":"6ff0a6dc-ef8f-467a-86fc-9d9b263d8761",
-                "name": "PHARMACOVIGILANCE PROGRAM"
-            }         
-
-        ]
-    },
-     "uud2":{
-        "name":"ONCOLOGY",
-        "programs":[
-            {
-                "uuid":"142939b0-28a9-4649-baf9-a9d012bf3b3d",
-                "name": "BREAST CANCER SCREENING PROGRAM"
-            },
-            {
-                "uuid":"cad71628-692c-4d8f-8dac-b2e20bece27f",
-                "name": "CERVICAL CANCER SCREENING PROGRAM"
-            },
-            {
-                "uuid":"43b42170-b3ce-4e03-9390-6bd78384ac06",
-                "name": "GYN-ONCOLOGY TREATMENT PROGRAM"
-            },
-            {
-                "uuid":"88566621-828f-4569-9af5-c54f8237750a",
-                "name": "BREAST CANCER TREATMENT PROGRAM"
-            },
-            {
-                "uuid":"e48b266e-4d80-41f8-a56a-a8ce5449ebc6",
-                "name": "SICKLE CELL PROGRAM"
-            },
-            {
-                "uuid":"698b7153-bff3-4931-9638-d279ca47b32e",
-                "name": "MULTIPLE MYELOMA PROGRAM"
-            },
-            {
-                "uuid":"a3610ba4-9811-46b3-9628-83ec9310be13",
-                "name": "HEMOPHILIA PROGRAM"
-            },
-            {
-                "uuid":"725b5193-3452-43fc-aca3-6a80432d9bfa",
-                "name": "GENERAL ONCOLOGY PROGRAM"
-            },
-            {
-                "uuid": "418fe011-a903-4862-93d4-5e7c84d9c253",
-                "name": "ANTICOAGULATION TREATMENT PROGRAM"
-            }
-        ]
-    },
-     "uud3":{
-        "name":"CDM",
-        "programs":[
-            {
-                "uuid": "b731ba72-cf99-4176-9fcd-37cd186400c7",
-                "name": "HTN AND DM CARE AT THE SECONDARY CARE LEVEL"
-            },
-            {
-                "uuid": "bd9a8b06-73c7-44a8-928c-5e72247f4c1d",
-                "name": "HTN AND DM CARE AT THE TERTIARY CARE LEVEL PROGRAM"
-            },
-            {
-                "uuid": "876a154d-310d-4caf-8b58-be9dbcc7e753",
-                "name": "HTN AND DM CARE AT THE PRIMARY CARE LEVEL"
-            }
-            
-            
-        ]
-    },
-    "uud4":{
-        "name":"BSG",
-        "programs":[
-            {
-                "uuid":"781d8a88-1359-11df-a1f1-0026b9348838",
-                "name": "BSG PROGRAM"
-            }
-            
-        ]
-    },
-    "uud5":{
-        "name":"DERMATOLOGY",
-        "programs":[
-            {
-                "uuid":"b3575274-1850-429b-bb8f-2ff83faedbaf",
-                "name": "DERMATOLOGY"
-            }
-            
-        ]
-    }
+  "uud1": {
+    "name": "HIV",
+    "programs": [
+      {
+        "uuid": "781d85b0-1359-11df-a1f1-0026b9348838",
+        "name": "HIV TREATMENT"
+      },
+      {
+        "uuid": "f7793d42-11ac-4cfd-9b35-e0a21a7a7c31",
+        "name": "RESISTANCE CLINIC PROGRAM"
+      },
+      {
+        "uuid": "781d897a-1359-11df-a1f1-0026b9348838",
+        "name": "PREVENTION OF MOTHER-TO-CHILD TRANSMISSION OF HIV"
+      },
+      {
+        "uuid": "96047aaf-7ab3-45e9-be6a-b61810fe617d",
+        "name": "PEP PROGRAM"
+      },
+      {
+        "uuid": "c19aec66-1a40-4588-9b03-b6be55a8dd1d",
+        "name": "PrEP PROGRAM"
+      },
+      {
+        "uuid": "334c9e98-173f-4454-a8ce-f80b20b7fdf0",
+        "name": "HIV DIFFERENTIATED CARE PROGRAM"
+      },
+      {
+        "uuid": "96ba279b-b23b-4e78-aba9-dcbd46a96b7b",
+        "name": "HIV TRANSIT PROGRAM"
+      },
+      {
+        "uuid": "781d8880-1359-11df-a1f1-0026b9348838",
+        "name": "EXPRESS CARE PROGRAM"
+      },
+      {
+        "uuid": "c6bf3625-de80-4a88-a913-38273e300a55",
+        "name": "HIV OUTREACH PROGRAM"
+      },
+      {
+        "uuid": "c37ca57d-5f7e-41e3-93e0-2cd6cd01de91",
+        "name": "HIV COMMUNITY BASED CARE RESEARCH PROGRAM"
+      },
+      {
+        "uuid": "4480c782-ef05-4d88-b2f8-c892c99438f6",
+        "name": "ACTG PROGRAM"
+      },
+      {
+        "uuid": "c4246ff0-b081-460c-bcc5-b0678012659e",
+        "name": "VIREMIA PROGRAM"
+      },
+      {
+        "uuid": "781d8768-1359-11df-a1f1-0026b9348838",
+        "name": "OVC PROGRAM"
+      },
+      {
+        "uuid": "0904172d-0b6a-40df-b8a2-b3653d16dc45",
+        "name": "TURBO DIFFERENTIATED CARE PILOT PROGRAM"
+      },
+      {
+        "uuid": "6ff0a6dc-ef8f-467a-86fc-9d9b263d8761",
+        "name": "PHARMACOVIGILANCE PROGRAM"
+      }
+    ]
+  },
+  "uud2": {
+    "name": "ONCOLOGY",
+    "programs": [
+      {
+        "uuid": "142939b0-28a9-4649-baf9-a9d012bf3b3d",
+        "name": "BREAST CANCER SCREENING PROGRAM"
+      },
+      {
+        "uuid": "cad71628-692c-4d8f-8dac-b2e20bece27f",
+        "name": "CERVICAL CANCER SCREENING PROGRAM"
+      },
+      {
+        "uuid": "43b42170-b3ce-4e03-9390-6bd78384ac06",
+        "name": "GYN-ONCOLOGY TREATMENT PROGRAM"
+      },
+      {
+        "uuid": "88566621-828f-4569-9af5-c54f8237750a",
+        "name": "BREAST CANCER TREATMENT PROGRAM"
+      },
+      {
+        "uuid": "e48b266e-4d80-41f8-a56a-a8ce5449ebc6",
+        "name": "SICKLE CELL PROGRAM"
+      },
+      {
+        "uuid": "698b7153-bff3-4931-9638-d279ca47b32e",
+        "name": "MULTIPLE MYELOMA PROGRAM"
+      },
+      {
+        "uuid": "a3610ba4-9811-46b3-9628-83ec9310be13",
+        "name": "HEMOPHILIA PROGRAM"
+      },
+      {
+        "uuid": "725b5193-3452-43fc-aca3-6a80432d9bfa",
+        "name": "GENERAL ONCOLOGY PROGRAM"
+      },
+      {
+        "uuid": "418fe011-a903-4862-93d4-5e7c84d9c253",
+        "name": "ANTICOAGULATION TREATMENT PROGRAM"
+      }
+    ]
+  },
+  "uud3": {
+    "name": "CDM",
+    "programs": [
+      {
+        "uuid": "b731ba72-cf99-4176-9fcd-37cd186400c7",
+        "name": "HTN AND DM CARE AT THE SECONDARY CARE LEVEL"
+      },
+      {
+        "uuid": "bd9a8b06-73c7-44a8-928c-5e72247f4c1d",
+        "name": "HTN AND DM CARE AT THE TERTIARY CARE LEVEL PROGRAM"
+      },
+      {
+        "uuid": "876a154d-310d-4caf-8b58-be9dbcc7e753",
+        "name": "HTN AND DM CARE AT THE PRIMARY CARE LEVEL"
+      }
+    ]
+  },
+  "uud4": {
+    "name": "BSG",
+    "programs": [
+      {
+        "uuid": "781d8a88-1359-11df-a1f1-0026b9348838",
+        "name": "BSG PROGRAM"
+      }
+    ]
+  },
+  "uud5": {
+    "name": "DERMATOLOGY",
+    "programs": [
+      {
+        "uuid": "b3575274-1850-429b-bb8f-2ff83faedbaf",
+        "name": "DERMATOLOGY"
+      }
+    ]
+  }
 }
