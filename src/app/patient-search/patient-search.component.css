@@ -5,38 +5,37 @@
 .input-group-btn > .btn {
   margin-left: 5px;
 }
-.patient-search{
-    background: #FFF;
-    padding-top: 1%;
-    margin-top: 10px;
+.patient-search {
+  background: #fff;
+  padding-top: 1%;
+  margin-top: 10px;
   margin-bottom: 10px;
-    padding-bottom: 10px;
+  padding-bottom: 10px;
 }
-.input-group-btn{
+.input-group-btn {
   font-size: 14px;
 }
 
-#search-textbox{
-
-    box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    border:1px solid #BEBEBE;
-    transition: all 0.30s ease-in-out;
-    -webkit-transition: all 0.30s ease-in-out;
-    -moz-transition: all 0.30s ease-in-out;
-    -ms-transition: all 0.30s ease-in-out;
-    -o-transition: all 0.30s ease-in-out;
-    outline: none;
-    font-size:20px;
-    /* margin-bottom: 4px; */
-    /* width: 70%; */
+#search-textbox {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  border: 1px solid #bebebe;
+  transition: all 0.3s ease-in-out;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  outline: none;
+  font-size: 20px;
+  /* margin-bottom: 4px; */
+  /* width: 70%; */
 }
-#search-textbox:focus{
-    -moz-box-shadow: 0 0 8px #88D5E9;
-    -webkit-box-shadow: 0 0 8px #88D5E9;
-    box-shadow: 0 0 8px #88D5E9;
-    border: 1px solid #88D5E9;
+#search-textbox:focus {
+  -moz-box-shadow: 0 0 8px #88d5e9;
+  -webkit-box-shadow: 0 0 8px #88d5e9;
+  box-shadow: 0 0 8px #88d5e9;
+  border: 1px solid #88d5e9;
 }
 
 .alert {
@@ -61,17 +60,17 @@ button.btn-primary {
 }
 
 .glyphicon {
-  margin-right:7px;
+  margin-right: 7px;
 }
 
 @media screen and (max-width: 640px) {
-    #search-textbox::-webkit-input-placeholder{
-      font-size:14px;
-    }
+  #search-textbox::-webkit-input-placeholder {
+    font-size: 14px;
+  }
 }
 
 @media screen and (min-width: 641px) {
-    #search-textbox::-webkit-input-placeholder{
-      font-size:20px;
-    }
+  #search-textbox::-webkit-input-placeholder {
+    font-size: 20px;
+  }
 }

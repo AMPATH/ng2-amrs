@@ -1,4 +1,3 @@
-
 import { TestBed } from '@angular/core/testing';
 import { PatientSearchService } from './patient-search.service';
 import { PatientResourceService } from '../openmrs-api/patient-resource.service';
@@ -10,9 +9,11 @@ describe('Service: PatientSearch', () => {
       providers: [
         PatientSearchService,
         {
-          provide: PatientResourceService, useFactory: () => {
+          provide: PatientResourceService,
+          useFactory: () => {
             return new FakePatientResourceService(null, null);
-          }, deps: []
+          },
+          deps: []
         }
       ]
     });
@@ -27,11 +28,11 @@ describe('Service: PatientSearch', () => {
     expect(service).toBeTruthy();
   });
 
-
   it('should search for patients by search text', () => {
     const service: PatientSearchService = TestBed.get(PatientSearchService);
-    const fakeRes: FakePatientResourceService =
-      TestBed.get(PatientResourceService) as FakePatientResourceService;
+    const fakeRes: FakePatientResourceService = TestBed.get(
+      PatientResourceService
+    ) as FakePatientResourceService;
     fakeRes.returnErrorOnNext = false;
     const result = service.searchPatient('text', false);
 
@@ -40,25 +41,24 @@ describe('Service: PatientSearch', () => {
       expect(results.length).toBeGreaterThan(0);
       expect(results[0].uuid).toEqual('uuid');
     });
-
   });
-
 
   it('should return an error when patient search is not successful', (done) => {
     const service: PatientSearchService = TestBed.get(PatientSearchService);
-    const fakeRes: FakePatientResourceService =
-      TestBed.get(PatientResourceService) as FakePatientResourceService;
+    const fakeRes: FakePatientResourceService = TestBed.get(
+      PatientResourceService
+    ) as FakePatientResourceService;
 
     // tell mock to return error on next call
     fakeRes.returnErrorOnNext = true;
     const results = service.searchPatient('text', false);
 
-    results.subscribe((result) => {
-    }, (error) => {
+    results.subscribe(
+      (result) => {},
+      (error) => {
         // when it gets here, then it returned an error
         done();
-    });
-
+      }
+    );
   });
 });
-
