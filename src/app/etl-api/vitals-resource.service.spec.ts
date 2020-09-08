@@ -1,5 +1,8 @@
 import { TestBed, async, inject } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController
+} from '@angular/common/http/testing';
 
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { LocalStorageService } from '../utils/local-storage.service';
@@ -19,7 +22,7 @@ describe('Service: VitalResourceService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ HttpClientTestingModule ],
+      imports: [HttpClientTestingModule],
       providers: [
         VitalsResourceService,
         AppSettingsService,
@@ -60,7 +63,6 @@ describe('Service: VitalResourceService', () => {
         location_id: 2
       }
     ];
-
   });
 
   afterEach(() => {
@@ -68,11 +70,12 @@ describe('Service: VitalResourceService', () => {
     TestBed.resetTestingModule();
   });
 
-  it('should be injected with all dependencies',
-    inject([VitalsResourceService], (vitalsResourceService: VitalsResourceService) => {
+  it('should be injected with all dependencies', inject(
+    [VitalsResourceService],
+    (vitalsResourceService: VitalsResourceService) => {
       expect(vitalsResourceService).toBeTruthy();
-    })
-  );
+    }
+  ));
 
   it('should get the API url', () => {
     // tslint:disable-next-line:no-shadowed-variable
@@ -87,7 +90,9 @@ describe('Service: VitalResourceService', () => {
     expect(request.request.method).toBe('GET');
     expect(request.request.url).toContain(patientUuid);
     expect(request.request.params.get('limit')).toEqual(limit.toString());
-    expect(request.request.params.get('startIndex')).toEqual(startIndex.toString());
+    expect(request.request.params.get('startIndex')).toEqual(
+      startIndex.toString()
+    );
     request.flush(expectedResult);
   });
 

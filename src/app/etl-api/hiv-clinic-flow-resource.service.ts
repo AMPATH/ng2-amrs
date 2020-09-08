@@ -1,4 +1,3 @@
-
 import { Injectable } from '@angular/core';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
@@ -12,10 +11,11 @@ export class HivClinicFlowResourceService implements ClinicFlowResource {
   public result = new BehaviorSubject(null);
   private requestUrl = '';
 
-  constructor(protected http: HttpClient,
-              protected appSettingsService: AppSettingsService,
-              private cacheService: DataCacheService) {
-  }
+  constructor(
+    protected http: HttpClient,
+    protected appSettingsService: AppSettingsService,
+    private cacheService: DataCacheService
+  ) {}
 
   public getUrl(reportName): string {
     return this.appSettingsService.getEtlRestbaseurl().trim() + reportName;
@@ -23,8 +23,8 @@ export class HivClinicFlowResourceService implements ClinicFlowResource {
 
   public getClinicFlow(dateStarted, locations) {
     const urlParams: HttpParams = new HttpParams()
-    .set('dateStarted', dateStarted)
-    .set('locationUuids', locations);
+      .set('dateStarted', dateStarted)
+      .set('locationUuids', locations);
     const url = this.getUrl('patient-flow-data');
     const request = this.http.get(url, {
       params: urlParams
@@ -37,9 +37,13 @@ export class HivClinicFlowResourceService implements ClinicFlowResource {
       // clear cache after 1 minute
       const refreshCacheTime = 1 * 60 * 1000;
       this.requestUrl = key;
-      this.cache = this.cacheService.cacheSingleRequest(url, urlParams, request, refreshCacheTime);
+      this.cache = this.cacheService.cacheSingleRequest(
+        url,
+        urlParams,
+        request,
+        refreshCacheTime
+      );
     }
     return this.cache;
   }
-
 }
