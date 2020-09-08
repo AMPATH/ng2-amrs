@@ -12,15 +12,8 @@ import { FormSchemaCompiler } from 'ngx-openmrs-formentry';
 import { FormListService } from '../patient-dashboard/common/forms/form-list.service';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    authRouting,
-    NgamrsSharedModule
-  ],
-  declarations: [
-    LoginComponent,
-    LoginDialogComponent,
-  ],
+  imports: [CommonModule, authRouting, NgamrsSharedModule],
+  declarations: [LoginComponent, LoginDialogComponent],
   providers: [
     FormUpdaterService,
     FormOrderMetaDataService,
@@ -28,8 +21,6 @@ import { FormListService } from '../patient-dashboard/common/forms/form-list.ser
     FormSchemaCompiler,
     FormListService
   ],
-  exports: [
-    LoginComponent
-  ]
+  exports: [LoginComponent]
 })
-export class AuthenticationModule { }
+export class AuthenticationModule {}

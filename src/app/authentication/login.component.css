@@ -6,7 +6,7 @@ body {
 }
 .login section.login-wrapper {
   position: absolute;
-  left:0;
+  left: 0;
   width: 100%;
   height: 100%;
   text-align: center;
@@ -15,33 +15,33 @@ body {
 }
 
 .login section .content-body {
-	padding: 50px;
+  padding: 50px;
   position: relative;
   top: 50%;
   transform: translateY(-50%);
   display: inline-block;
   width: 400px;
-  margin-left:auto;
-  margin-right:auto;
-	background-color: #fff;
-  box-shadow: 0 1px 2px 0 rgba(34, 36, 38, .15);
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #fff;
+  box-shadow: 0 1px 2px 0 rgba(34, 36, 38, 0.15);
   font-size: 14px;
   border-radius: 8px;
-  border: 1px solid rgba(34, 36, 38, .15);
+  border: 1px solid rgba(34, 36, 38, 0.15);
 }
 
 .login section .banner {
-	margin-bottom: 40px;
+  margin-bottom: 40px;
 }
 
 .login .error {
-	color: #d9534f;
-	font-size: 16px;
-	padding: 15px;
+  color: #d9534f;
+  font-size: 16px;
+  padding: 15px;
 }
 
 .login .login-buttons {
-	margin-top: 12px;
+  margin-top: 12px;
 }
 
 .form-group-lg {
@@ -52,28 +52,27 @@ footer .inline {
   display: inline-block;
   margin-right: 12px;
 }
-footer .inline p, footer a.inline {
+footer .inline p,
+footer a.inline {
   margin: 0px;
   line-height: 32px;
 }
 
 .clear {
-	clear: both;
+  clear: both;
 }
 
-button.btn-primary  {
-  padding-left:36px;
+button.btn-primary {
+  padding-left: 36px;
   padding-right: 36px;
 }
 
-
 @media (min-width: 768px) {
-	.login-container {
-		width: 400px;
-	}
+  .login-container {
+    width: 400px;
+  }
 
   footer p {
     font-size: 16px !important;
   }
-
 }
