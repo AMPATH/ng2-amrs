@@ -1,60 +1,107 @@
-<busy *ngIf="!group&&!error" [message]="'Loading Group...'"></busy>
+<busy *ngIf="!group && !error" [message]="'Loading Group...'"></busy>
 <div class="alert alert-danger" *ngIf="error && errorMessage && !group">
-  <b>{{errorMessage}}</b>
+  <b>{{ errorMessage }}</b>
 </div>
-<div class="alert alert-success alert-dismissible fade in" *ngIf="successMessage && group">
+<div
+  class="alert alert-success alert-dismissible fade in"
+  *ngIf="successMessage && group"
+>
   <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-  <b>{{successMessage}}</b>
+  <b>{{ successMessage }}</b>
 </div>
 <div *ngIf="group">
-  <h3 style="margin-bottom: 25px;"> <i class="fa fa-users"></i>
-    <span class="text-bold"> Manage Groups \ {{group.name}}</span>
+  <h3 style="margin-bottom: 25px">
+    <i class="fa fa-users"></i>
+    <span class="text-bold"> Manage Groups \ {{ group.name }}</span>
   </h3>
 
-  <group-detail-summary [_group]="group" (updatedGroup)="onGroupDetailsChanged($event)"></group-detail-summary>
+  <group-detail-summary
+    [_group]="group"
+    (updatedGroup)="onGroupDetailsChanged($event)"
+  ></group-detail-summary>
   <mat-card>
-    <div class="row" style="margin-bottom: 15px;">
-      <h4 class="col-md-5 col-sm-5">
-        Group Members and Meetings
-      </h4>
+    <div class="row" style="margin-bottom: 15px">
+      <h4 class="col-md-5 col-sm-5">Group Members and Meetings</h4>
     </div>
-    <div class="alert alert-warning" *ngIf="!activeMembers.length && group.endDate">
+    <div
+      class="alert alert-warning"
+      *ngIf="!activeMembers.length && group.endDate"
+    >
       The group has no active members, please activate group to enroll.
     </div>
-    <div class="alert alert-warning" *ngIf="!activeMembers.length && !group.endDate">
+    <div
+      class="alert alert-warning"
+      *ngIf="!activeMembers.length && !group.endDate"
+    >
       The group has no active members. Enroll members first.
     </div>
     <div>
-      <div class="row" style="margin: 7px;">
-        <button type="button" style="color:green" (click)="showModal(enrollMembers)" *ngIf="!group.endDate"
-          mat-raised-button>
-          <i class="fa fa-plus"></i> Enroll Members</button>
+      <div class="row" style="margin: 7px">
+        <button
+          type="button"
+          style="color: green"
+          (click)="showModal(enrollMembers)"
+          *ngIf="!group.endDate"
+          mat-raised-button
+        >
+          <i class="fa fa-plus"></i> Enroll Members
+        </button>
         <div class="pull-right">
           <div class="btn-group" role="group">
-            <button type="button" (click)="showModal(editMembership)" mat-raised-button>
-              <span *ngIf="!group.endDate && activeMembers.length">End Memberships </span>
-              <span *ngIf="group.endDate && group.cohortMembers">View Memberships </span>
+            <button
+              type="button"
+              (click)="showModal(editMembership)"
+              mat-raised-button
+            >
+              <span *ngIf="!group.endDate && activeMembers.length"
+                >End Memberships
+              </span>
+              <span *ngIf="group.endDate && group.cohortMembers"
+                >View Memberships
+              </span>
             </button>
 
-            <button type="button" (click)="showModal(startGroupVisitModal)" mat-raised-button [class.ongoing]="visitStartedToday"
-              *ngIf="activeMembers.length && !group.endDate">
+            <button
+              type="button"
+              (click)="showModal(startGroupVisitModal)"
+              mat-raised-button
+              [class.ongoing]="visitStartedToday"
+              *ngIf="activeMembers.length && !group.endDate"
+            >
               <i class="fa fa-group"></i>
               <span *ngIf="!visitStartedToday"> Start Group Meeting</span>
-              <span *ngIf="visitStartedToday"> Started Group Meeting Today</span>
+              <span *ngIf="visitStartedToday">
+                Started Group Meeting Today</span
+              >
             </button>
           </div>
         </div>
       </div>
-      <ag-grid-angular style="width: 100%; height: 450px;" class="ag-blue" [gridOptions]="gridOptions" #dataGrid
-        [rowData]="membersData" [columnDefs]="columns" (cellClicked)='gridOnCellClick($event)' [enableSorting]="true"
-        [enableFilter]="true">
+      <ag-grid-angular
+        style="width: 100%; height: 450px"
+        class="ag-blue"
+        [gridOptions]="gridOptions"
+        #dataGrid
+        [rowData]="membersData"
+        [columnDefs]="columns"
+        (cellClicked)="gridOnCellClick($event)"
+        [enableSorting]="true"
+        [enableFilter]="true"
+      >
       </ag-grid-angular>
-      <div class="row" style="margin-top: 15px;">
+      <div class="row" style="margin-top: 15px">
         <div class="pull-right">
           <div class="card">
-            <mat-radio-group [ngModel]="filter" (ngModelChange)="externalFilterChanged($event)">
-              <mat-radio-button value="all" color="primary">All Members</mat-radio-button>
-              <mat-radio-button value="current" color="primary" [checked]="true">Active Members</mat-radio-button>
+            <mat-radio-group
+              [ngModel]="filter"
+              (ngModelChange)="externalFilterChanged($event)"
+            >
+              <mat-radio-button value="all" color="primary"
+                >All Members</mat-radio-button
+              >
+              <mat-radio-button value="current" color="primary" [checked]="true"
+                >Active Members</mat-radio-button
+              >
             </mat-radio-group>
           </div>
         </div>
@@ -69,7 +116,12 @@
       <span *ngIf="!group.endDate">End Memberships </span>
       <span *ngIf="group.endDate">View Memberships </span>
     </h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()"
+    >
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -92,15 +144,21 @@
                 <td>{{ member.patient.person.display }}</td>
 
                 <td *ngIf="member.phoneNumber">
-                  {{member.phoneNumber.value}}
+                  {{ member.phoneNumber.value }}
                 </td>
-                <td *ngIf="!member.phoneNumber">
-                  -
-                </td>
+                <td *ngIf="!member.phoneNumber">-</td>
 
-                <td>{{ member.startDate | date : 'medium' }}</td>
+                <td>{{ member.startDate | date: 'medium' }}</td>
                 <td>
-                  <button (click)="showDateModal(member, 'End Membership For ' + member.patient.person.display)" class="btn btn-sm btn-danger">
+                  <button
+                    (click)="
+                      showDateModal(
+                        member,
+                        'End Membership For ' + member.patient.person.display
+                      )
+                    "
+                    class="btn btn-sm btn-danger"
+                  >
                     End Membership
                   </button>
                 </td>
@@ -127,13 +185,11 @@
               <tr *ngIf="member.endDate">
                 <td>{{ member.patient.person.display }}</td>
                 <td *ngIf="member.phoneNumber">
-                  {{member.phoneNumber.value}}
+                  {{ member.phoneNumber.value }}
                 </td>
-                <td *ngIf="!member.phoneNumber">
-                  -
-                </td>
-                <td>{{ member.startDate | date : 'medium' }}</td>
-                <td>{{ member.endDate | date : 'medium' }}</td>
+                <td *ngIf="!member.phoneNumber">-</td>
+                <td>{{ member.startDate | date: 'medium' }}</td>
+                <td>{{ member.endDate | date: 'medium' }}</td>
               </tr>
             </ng-container>
           </tbody>
@@ -142,92 +198,186 @@
     </div>
   </div>
 
-
   <div class="modal-footer">
     <div class="btn-group" role="group">
-      <button type="button" (click)="modalRef.hide()" class="btn btn-danger">Cancel</button>
+      <button type="button" (click)="modalRef.hide()" class="btn btn-danger">
+        Cancel
+      </button>
     </div>
-
   </div>
 </ng-template>
 
 <ng-template #enrollMembers>
   <div class="modal-header">
     <h4 class="modal-title pull-left">Add Membership</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()"
+    >
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
     <div class="alert alert-danger" *ngIf="enrollmentErrorMessage">
-      {{enrollmentErrorMessage}}
+      {{ enrollmentErrorMessage }}
     </div>
     <div class="alert alert-info" *ngIf="showEnrollmentButton">
-      <button class="btn btn-xs btn-primary pull-right" (click)="enrollPatienttoProgram()">Enroll</button>
+      <button
+        class="btn btn-xs btn-primary pull-right"
+        (click)="enrollPatienttoProgram()"
+      >
+        Enroll
+      </button>
       The patient is not enrolled in this program.
     </div>
-    <busy *ngIf="validatingEnrollment" [message]="'Validating Enrollment...'"></busy>
-    <app-patient-search (patientSelected)="validateMemberEnrollment($event)" [hideResults]="hideResult"
-      [hideRegistration]="true"></app-patient-search>
+    <busy
+      *ngIf="validatingEnrollment"
+      [message]="'Validating Enrollment...'"
+    ></busy>
+    <app-patient-search
+      (patientSelected)="validateMemberEnrollment($event)"
+      [hideResults]="hideResult"
+      [hideRegistration]="true"
+    ></app-patient-search>
   </div>
   <div class="modal-footer">
     <div class="btn-group" role="group">
-      <button type="button" (click)="modalRef.hide()" class="btn btn-danger">Cancel</button>
+      <button type="button" (click)="modalRef.hide()" class="btn btn-danger">
+        Cancel
+      </button>
     </div>
   </div>
 </ng-template>
 <ng-template #startGroupVisitModal>
   <div class="modal-header">
     <h4 class="modal-title pull-left">Start Group Meeting</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()"
+    >
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
     <form #startVisitForm="ngForm">
-      <div class="alert alert-warning" *ngIf="((selectedPastGroupVisitDate && !retrospectiveOn) || selectedFutureGroupVisitDate) && !visitStartedForThisDate">
+      <div
+        class="alert alert-warning"
+        *ngIf="
+          ((selectedPastGroupVisitDate && !retrospectiveOn) ||
+            selectedFutureGroupVisitDate) &&
+          !visitStartedForThisDate
+        "
+      >
         <b>
           <i class="fa fa-exclamation-triangle"></i>
-          <ng-container *ngIf="selectedPastGroupVisitDate && !retrospectiveOn && !visitStartedForThisDate"> You have
-            selected a past date,
-            please make sure to turn on Retrospective Data Entry to proceed.</ng-container>
+          <ng-container
+            *ngIf="
+              selectedPastGroupVisitDate &&
+              !retrospectiveOn &&
+              !visitStartedForThisDate
+            "
+          >
+            You have selected a past date, please make sure to turn on
+            Retrospective Data Entry to proceed.</ng-container
+          >
           <ng-container *ngIf="selectedFutureGroupVisitDate">
-            You have selected a future date, please select the today's or a past date to proceed.
+            You have selected a future date, please select the today's or a past
+            date to proceed.
           </ng-container>
         </b>
       </div>
       <div class="alert alert-danger" *ngIf="visitStartedForThisDate">
-        <b><i class="fa fa-exclamation-circle"> </i> A visit was already started for this date. Please select a
-          different date to proceed.</b>
+        <b
+          ><i class="fa fa-exclamation-circle"> </i> A visit was already started
+          for this date. Please select a different date to proceed.</b
+        >
       </div>
-      <div class="alert alert-danger" *ngIf="visitStartedToday && !selectedPastGroupVisitDate && !selectedFutureGroupVisitDate">
-        <b><i class="fa fa-exclamation-circle"> </i> A visit was already started for today. Please select a different
-          date to proceed.</b>
+      <div
+        class="alert alert-danger"
+        *ngIf="
+          visitStartedToday &&
+          !selectedPastGroupVisitDate &&
+          !selectedFutureGroupVisitDate
+        "
+      >
+        <b
+          ><i class="fa fa-exclamation-circle"> </i> A visit was already started
+          for today. Please select a different date to proceed.</b
+        >
       </div>
-      <div class="alert alert-info" *ngIf="selectedPastGroupVisitDate && retrospectiveOn && !visitStartedForThisDate && isSameDay(groupVisitDate.formatted, retroVisitDate)">
-        <b> <i class="fa fa-info-circle"> </i> Please note data will be saved Retrospective Data Entry mode. </b>
+      <div
+        class="alert alert-info"
+        *ngIf="
+          selectedPastGroupVisitDate &&
+          retrospectiveOn &&
+          !visitStartedForThisDate &&
+          isSameDay(groupVisitDate.formatted, retroVisitDate)
+        "
+      >
+        <b>
+          <i class="fa fa-info-circle"> </i> Please note data will be saved
+          Retrospective Data Entry mode.
+        </b>
       </div>
-      <div class="alert alert-warning" *ngIf="selectedPastGroupVisitDate && retrospectiveOn && 
-       !isSameDay(groupVisitDate.formatted, retroVisitDate) && !visitStartedForThisDate">
-        <b> <i class="fa fa-exclamation-triangle"></i> Retrospective Data Entry is turned on for {{retroVisitDate}},
-          not for {{groupVisitDate.formatted}}. Make sure the dates are the same. </b>
+      <div
+        class="alert alert-warning"
+        *ngIf="
+          selectedPastGroupVisitDate &&
+          retrospectiveOn &&
+          !isSameDay(groupVisitDate.formatted, retroVisitDate) &&
+          !visitStartedForThisDate
+        "
+      >
+        <b>
+          <i class="fa fa-exclamation-triangle"></i> Retrospective Data Entry is
+          turned on for {{ retroVisitDate }}, not for
+          {{ groupVisitDate.formatted }}. Make sure the dates are the same.
+        </b>
       </div>
       <div class="form-group">
         <label>Visit Type</label>
-        <select type="text" class="form-control" name="visitType" [(ngModel)]="visitType" required>
+        <select
+          type="text"
+          class="form-control"
+          name="visitType"
+          [(ngModel)]="visitType"
+          required
+        >
           <ng-container *ngFor="let item of visitTypes">
-            <option *ngIf="item.display.toLowerCase().includes('community')" [value]="item.uuid">{{item.display}}</option>
+            <option
+              *ngIf="item.display.toLowerCase().includes('community')"
+              [value]="item.uuid"
+            >
+              {{ item.display }}
+            </option>
           </ng-container>
         </select>
       </div>
       <div class="form-group">
         <label for="start-date">Select Date</label>
         <div class="input-group">
-          <input class="form-control" style="float:none" placeholder="Select a date" ngx-mydatepicker name="visitDate"
-            [ngModel]="groupVisitDate" (ngModelChange)="changedGroupVisitDate($event)" #dp="ngx-mydatepicker" required />
+          <input
+            class="form-control"
+            style="float: none"
+            placeholder="Select a date"
+            ngx-mydatepicker
+            name="visitDate"
+            [ngModel]="groupVisitDate"
+            (ngModelChange)="changedGroupVisitDate($event)"
+            #dp="ngx-mydatepicker"
+            required
+          />
 
           <span class="input-group-btn">
-            <button type="button" class="btn btn-default" (click)="dp.toggleCalendar()">
+            <button
+              type="button"
+              class="btn btn-default"
+              (click)="dp.toggleCalendar()"
+            >
               <i class="glyphicon glyphicon-calendar"></i>
             </button>
           </span>
@@ -236,17 +386,38 @@
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-primary" (click)="saveGroupVisit()" [disabled]="!startVisitForm.valid || selectedFutureGroupVisitDate || (selectedPastGroupVisitDate && !retrospectiveOn) || visitStartedForThisDate 
-    || visitStartedToday || (selectedPastGroupVisitDate && retrospectiveOn && !isSameDay(groupVisitDate.formatted, retroVisitDate))">
-      Start Group Meeting </button>
-    <button type="button" class="btn btn-danger" (click)="modalRef.hide()"> Close </button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="saveGroupVisit()"
+      [disabled]="
+        !startVisitForm.valid ||
+        selectedFutureGroupVisitDate ||
+        (selectedPastGroupVisitDate && !retrospectiveOn) ||
+        visitStartedForThisDate ||
+        visitStartedToday ||
+        (selectedPastGroupVisitDate &&
+          retrospectiveOn &&
+          !isSameDay(groupVisitDate.formatted, retroVisitDate))
+      "
+    >
+      Start Group Meeting
+    </button>
+    <button type="button" class="btn btn-danger" (click)="modalRef.hide()">
+      Close
+    </button>
   </div>
 </ng-template>
 
 <ng-template #startPatientVisitWarningModal>
   <div class="modal-header">
     <h4 class="modal-title pull-left">Start Group Meeting</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()"
+    >
       <span aria-hidden="true">&times;</span>
     </button>
   </div>

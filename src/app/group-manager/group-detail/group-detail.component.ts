@@ -1,4 +1,11 @@
-import { Component, OnInit, ViewChild, TemplateRef, OnDestroy, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  TemplateRef,
+  OnDestroy,
+  AfterViewInit
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { BsModalService } from 'ngx-bootstrap';
@@ -24,7 +31,6 @@ import { RisonService } from '../../shared/services/rison-service';
   templateUrl: './group-detail.component.html',
   styleUrls: ['./group-detail.component.css']
 })
-
 export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   retroVisitDate: any;
   visitStartedForThisDate: boolean;
@@ -38,7 +44,8 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(AgGridNg2) dataGrid: AgGridNg2;
   @ViewChild('startGroupVisitModal') startGroupVisitModal: TemplateRef<any>;
   @ViewChild('enrollMembers') enrollMembers: TemplateRef<any>;
-  @ViewChild('startPatientVisitWarningModal') startPatientVisitWarningModal: TemplateRef<any>;
+  @ViewChild('startPatientVisitWarningModal')
+  startPatientVisitWarningModal: TemplateRef<any>;
   public filter = 'current';
   public gridOptions: GridOptions = {
     enableColResize: true,
@@ -76,9 +83,9 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   public visitType = '0d608b80-1cb5-4c85-835a-29072683ca27';
   public currentMonth = Moment().month() + 1;
   public today = {
-    'year': Moment().year(),
-    'month': this.currentMonth,
-    'day': Moment().date()
+    year: Moment().year(),
+    month: this.currentMonth,
+    day: Moment().date()
   };
   public groupVisitDate: any = {
     date: this.today,
@@ -104,7 +111,8 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     queryParams: {}
   };
 
-  constructor(private activatedRoute: ActivatedRoute,
+  constructor(
+    private activatedRoute: ActivatedRoute,
     private communityGroupService: CommunityGroupService,
     private communityGroupMemberService: CommunityGroupMemberService,
     private visitResourceService: VisitResourceService,
@@ -112,7 +120,8 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     private router: Router,
     private modalService: BsModalService,
     private risonService: RisonService,
-    private retrospectiveService: RetrospectiveDataEntryService) { }
+    private retrospectiveService: RetrospectiveDataEntryService
+  ) {}
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe((params) => {
@@ -140,31 +149,50 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   public loadGroup() {
     const uuid = this.activatedRoute.snapshot.paramMap.get('uuid');
-    this.subscriptions.add(this.communityGroupService.getGroupByUuid(uuid).subscribe((res) => {
-      this.group = res;
-      _.forEach(this.group.cohortMembers, (member) => {
-        member['phoneNumber'] = _.filter(member.patient.person.attributes,
-          (attribute) => attribute.attributeType.uuid === '72a759a8-1359-11df-a1f1-0026b9348838')[0];
-      });
-      this.activeMembers = _.filter(res.cohortMembers, (member) => !member.endDate);
-      this.cohortVisits = res.cohortVisits.sort((a: any, b: any) => {
-        return Math.abs(new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
-      });
-      this.groupVisitDate = {
-        date: this.today,
-        jsdate: new Date()
-      };
-      this.checkIfTodayVisitStarted(this.cohortVisits);
-      this.generateMembersData(res.cohortMembers, res.cohortVisits);
-    }, (error) => {
-      this.errorMessage = 'An error occurred while trying to load the group, please check your connection and refresh the page.';
-      this.error = true;
-    }));
+    this.subscriptions.add(
+      this.communityGroupService.getGroupByUuid(uuid).subscribe(
+        (res) => {
+          this.group = res;
+          _.forEach(this.group.cohortMembers, (member) => {
+            member['phoneNumber'] = _.filter(
+              member.patient.person.attributes,
+              (attribute) =>
+                attribute.attributeType.uuid ===
+                '72a759a8-1359-11df-a1f1-0026b9348838'
+            )[0];
+          });
+          this.activeMembers = _.filter(
+            res.cohortMembers,
+            (member) => !member.endDate
+          );
+          this.cohortVisits = res.cohortVisits.sort((a: any, b: any) => {
+            return Math.abs(
+              new Date(b.startDate).getTime() - new Date(a.startDate).getTime()
+            );
+          });
+          this.groupVisitDate = {
+            date: this.today,
+            jsdate: new Date()
+          };
+          this.checkIfTodayVisitStarted(this.cohortVisits);
+          this.generateMembersData(res.cohortMembers, res.cohortVisits);
+        },
+        (error) => {
+          this.errorMessage =
+            'An error occurred while trying to load the group, please check your connection and refresh the page.';
+          this.error = true;
+        }
+      )
+    );
   }
 
   public checkIfTodayVisitStarted(cohortVisits: any[]) {
-    const check = _.filter(cohortVisits, (visit) => Moment(visit.startDate).isSame(Moment(), 'day'));
-    check.length === 0 ? this.visitStartedToday = false : this.visitStartedToday = true;
+    const check = _.filter(cohortVisits, (visit) =>
+      Moment(visit.startDate).isSame(Moment(), 'day')
+    );
+    check.length === 0
+      ? (this.visitStartedToday = false)
+      : (this.visitStartedToday = true);
   }
 
   public generateMembersData(cohortMembers, cohortVisits) {
@@ -174,7 +202,6 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     this.membersData = this.generateRowData(members, cohortVisits);
     this.columns = this.generateColumns(cohortVisits);
   }
-
 
   public gridOnCellClick($event) {
     if (this.group.cohortVisits) {
@@ -187,13 +214,11 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       const personUuid = data[`person_uuid`];
       const program = this.group.attributes.find((a) => {
         return a.cohortAttributeType.name === 'programShortName';
-      }
-      );
+      });
 
       const programUuid = this.group.attributes.find((a) => {
         return a.cohortAttributeType.name === 'programUuid';
-      }
-      );
+      });
       let programShortName = 'hiv';
 
       if (program) {
@@ -201,12 +226,17 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       }
 
       if (programUuid && personUuid) {
-        this.router.navigate([`/patient-dashboard/patient/${personUuid}/`,
-          'hiv', programUuid.value, 'visit'], { queryParams: { groupUuid: this.group.uuid } });
+        this.router.navigate(
+          [
+            `/patient-dashboard/patient/${personUuid}/`,
+            'hiv',
+            programUuid.value,
+            'visit'
+          ],
+          { queryParams: { groupUuid: this.group.uuid } }
+        );
       }
-
     }
-
   }
 
   public showSuccessModal(successMsg: string) {
@@ -218,9 +248,12 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-
-
-  public showDateModal(member: any, title?: string, okBtnText?: string, closeBtnText?: string) {
+  public showDateModal(
+    member: any,
+    title?: string,
+    okBtnText?: string,
+    closeBtnText?: string
+  ) {
     const initialState = {
       label: 'Select Date',
       okBtnText: okBtnText || 'OK',
@@ -248,17 +281,23 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public endMembership(member, date) {
-    const successMsg = `Successfully ended membership for ${member.patient.person.display} on ${Moment(date).format('DD MMMM YYYY')}`;
-    this.subscriptions.add(this.communityGroupMemberService.endMembership(member.uuid, date).subscribe(
-      (response) => {
-        this.reloadData();
-        this.showSuccessModal(successMsg);
-      },
-      (error) => {
-        this.error = true;
-        console.log(error);
-      }
-    ));
+    const successMsg = `Successfully ended membership for ${
+      member.patient.person.display
+    } on ${Moment(date).format('DD MMMM YYYY')}`;
+    this.subscriptions.add(
+      this.communityGroupMemberService
+        .endMembership(member.uuid, date)
+        .subscribe(
+          (response) => {
+            this.reloadData();
+            this.showSuccessModal(successMsg);
+          },
+          (error) => {
+            this.error = true;
+            console.log(error);
+          }
+        )
+    );
   }
 
   generateMemberObject(members) {
@@ -293,11 +332,12 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public getVisitTypes() {
-    this.subscriptions.add(this.visitResourceService.getVisitTypes({}).subscribe((visitTypes) => {
-      this.visitTypes = visitTypes;
-    }));
+    this.subscriptions.add(
+      this.visitResourceService.getVisitTypes({}).subscribe((visitTypes) => {
+        this.visitTypes = visitTypes;
+      })
+    );
   }
-
 
   public saveGroupVisit() {
     this.savingVisit = true;
@@ -307,15 +347,18 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       startDate: this.groupVisitDate.jsdate,
       cohort: this.group.uuid
     };
-    this.communityGroupService.startGroupVisit(groupVisit).subscribe((result) => {
-      this.showSuccessModal('Visit started successfully!');
-      this.savingVisit = false;
-      this.closeModal(this.startGroupVisitModal);
-      this.reloadData();
-    }, (error) => {
-      this.savingVisit = true;
-      this.errorSavingVisit = true;
-    });
+    this.communityGroupService.startGroupVisit(groupVisit).subscribe(
+      (result) => {
+        this.showSuccessModal('Visit started successfully!');
+        this.savingVisit = false;
+        this.closeModal(this.startGroupVisitModal);
+        this.reloadData();
+      },
+      (error) => {
+        this.savingVisit = true;
+        this.errorSavingVisit = true;
+      }
+    );
   }
 
   public ngOnDestroy(): void {
@@ -327,7 +370,6 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   private patientPresent(patient, cohortVisit) {
     let present = false;
     const patientVisit = cohortVisit.cohortMemberVisits.find((v) => {
-
       return v.visit.patient.uuid === patient.uuid;
     });
     if (patientVisit) {
@@ -349,8 +391,10 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       };
       let i = 0;
       for (const cohortVisit of cohortVisits) {
-
-        memberRow[`group_visit_${i}`] = this.patientPresent(member, cohortVisit);
+        memberRow[`group_visit_${i}`] = this.patientPresent(
+          member,
+          cohortVisit
+        );
         memberRow[`group_visit_${i}_uuid`] = cohortVisit.uuid;
         i++;
       }
@@ -366,11 +410,28 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private generateColumns(cohortVisits) {
     const columns = [];
-    columns.push({ headerName: 'Identifiers', field: 'identifiers', pinned: 'left', width: 100 },
+    columns.push(
+      {
+        headerName: 'Identifiers',
+        field: 'identifiers',
+        pinned: 'left',
+        width: 100
+      },
       { headerName: 'Name', field: 'name', pinned: 'left', width: 100 },
       { headerName: 'Contacts', field: 'contacts', pinned: 'left', width: 100 },
-      { headerName: 'Member From', field: 'member_since', pinned: 'left', width: 100 },
-      { headerName: 'Member To', field: 'member_to', pinned: 'left', width: 100 });
+      {
+        headerName: 'Member From',
+        field: 'member_since',
+        pinned: 'left',
+        width: 100
+      },
+      {
+        headerName: 'Member To',
+        field: 'member_to',
+        pinned: 'left',
+        width: 100
+      }
+    );
     let index = 0;
     for (const cohortVisit of cohortVisits) {
       columns.push({
@@ -383,7 +444,6 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
             return `<i class="fa fa-times text-danger"></i>`;
           }
         }
-
       });
       index = index + 1;
     }
@@ -393,15 +453,23 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   public validateMemberEnrollment(patient) {
     this.validatingEnrollment = true;
     this.enrollmentErrorMessage = null;
-    this.communityGroupMemberService.getCurrentlyEnrolledProgramsAndGroups(patient.uuid).subscribe(
-      (results) => {
+    this.communityGroupMemberService
+      .getCurrentlyEnrolledProgramsAndGroups(patient.uuid)
+      .subscribe((results) => {
         const programsEnrolled = results[0];
         const groupsEnrolled = results[1];
         let currentGroupsEnrolled = [];
         if (groupsEnrolled) {
-          currentGroupsEnrolled = _.filter(groupsEnrolled, (group) => !group.voided);
+          currentGroupsEnrolled = _.filter(
+            groupsEnrolled,
+            (group) => !group.voided
+          );
         }
-        const validation = this.communityGroupMemberService.validateMemberEnrollment(programsEnrolled, currentGroupsEnrolled, this.group);
+        const validation = this.communityGroupMemberService.validateMemberEnrollment(
+          programsEnrolled,
+          currentGroupsEnrolled,
+          this.group
+        );
         console.log(validation);
         switch (true) {
           case validation.alreadyEnrolled.found:
@@ -414,8 +482,13 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
             break;
           case validation.enrolledInAnotherGroupInSameProgram.found:
             this.validatingEnrollment = false;
-            const groupToUnenroll = validation.enrolledInAnotherGroupInSameProgram.data;
-            this.showTransferConfirmationModal(this.group, groupToUnenroll, patient);
+            const groupToUnenroll =
+              validation.enrolledInAnotherGroupInSameProgram.data;
+            this.showTransferConfirmationModal(
+              this.group,
+              groupToUnenroll,
+              patient
+            );
             break;
           default:
             this.validatingEnrollment = false;
@@ -426,22 +499,35 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public enrollPatienttoProgram() {
     this.closeModal(this.enrollMembers);
-    this.router.navigate(this.enrollMentModel.enrollMentUrl, { queryParams: this.enrollMentModel.queryParams });
-
+    this.router.navigate(this.enrollMentModel.enrollMentUrl, {
+      queryParams: this.enrollMentModel.queryParams
+    });
   }
   private showEnrollButton(patient) {
     this.showEnrollmentButton = true;
-    const enrollMentUrl = ['patient-dashboard', 'patient', patient.uuid, 'general', 'general', 'program-manager', 'new-program', 'step', 3];
+    const enrollMentUrl = [
+      'patient-dashboard',
+      'patient',
+      patient.uuid,
+      'general',
+      'general',
+      'program-manager',
+      'new-program',
+      'step',
+      3
+    ];
     const programUuid = this.group.attributes.find((a) => {
       return a.cohortAttributeType.name === 'programUuid';
-    }
-    );
+    });
     const queryParams = {
       program: programUuid.value,
       groupUuid: this.group.uuid,
       redirectUrl: this.router.url,
       locationUuid: this.group.location.uuid,
-      enrollMentQuestions: this.risonService.encode({hivStatus: 'positive', enrollToGroup: true})
+      enrollMentQuestions: this.risonService.encode({
+        hivStatus: 'positive',
+        enrollToGroup: true
+      })
     };
     this.enrollMentModel = {
       enrollMentUrl,
@@ -449,11 +535,15 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     };
   }
   private enrollPatientToGroup(group: Group, patient: Patient) {
-    this.communityGroupMemberService.createMember(group.uuid, patient.uuid).subscribe((result) => {
-      this.reloadData();
-      this.modalRef.hide();
-      this.showSuccessMessage(`Successfully enrolled ${patient.person.display} to ${group.name}`);
-    });
+    this.communityGroupMemberService
+      .createMember(group.uuid, patient.uuid)
+      .subscribe((result) => {
+        this.reloadData();
+        this.modalRef.hide();
+        this.showSuccessMessage(
+          `Successfully enrolled ${patient.person.display} to ${group.name}`
+        );
+      });
   }
 
   private showEnrollmentAlert(msg: string) {
@@ -461,36 +551,54 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private transferPatientFromGroup(groupToEnroll, groupToUnenroll, patient) {
-    this.communityGroupMemberService.transferMember(groupToUnenroll, groupToEnroll, patient)
-      .subscribe((res) => {
-        this.reloadData();
-        this.modalRef.hide();
-        this.showSuccessMessage(`Successfully enrolled ${patient.person.display} to ${groupToEnroll.name}`);
-      },
-        (error) => console.log(error));
+    this.communityGroupMemberService
+      .transferMember(groupToUnenroll, groupToEnroll, patient)
+      .subscribe(
+        (res) => {
+          this.reloadData();
+          this.modalRef.hide();
+          this.showSuccessMessage(
+            `Successfully enrolled ${patient.person.display} to ${groupToEnroll.name}`
+          );
+        },
+        (error) => console.log(error)
+      );
   }
 
-  private showTransferConfirmationModal(groupToEnroll, groupToUnenroll, patient) {
-    this.nestedModalRef = this.modalService.show(GroupTransferModalComponent,
-      { initialState: { groupToEnroll, groupToUnenroll, patient } });
+  private showTransferConfirmationModal(
+    groupToEnroll,
+    groupToUnenroll,
+    patient
+  ) {
+    this.nestedModalRef = this.modalService.show(GroupTransferModalComponent, {
+      initialState: { groupToEnroll, groupToUnenroll, patient }
+    });
     this.nestedModalRef.content.onConfirm.subscribe((confirmed) => {
       if (confirmed) {
         this.transferPatientFromGroup(groupToEnroll, groupToUnenroll, patient);
       }
     });
-
   }
 
   public changedGroupVisitDate(date) {
     this.visitStartedToday = false;
-    this.selectedPastGroupVisitDate = Moment(date.formatted).isBefore(Moment(), 'day');
-    this.selectedFutureGroupVisitDate = Moment(date.formatted).isAfter(Moment(), 'day');
+    this.selectedPastGroupVisitDate = Moment(date.formatted).isBefore(
+      Moment(),
+      'day'
+    );
+    this.selectedFutureGroupVisitDate = Moment(date.formatted).isAfter(
+      Moment(),
+      'day'
+    );
     if (this.selectedFutureGroupVisitDate) {
       this.visitStartedForThisDate = false;
       return;
     }
-    this.visitStartedForThisDate = !_.isUndefined(_.find(this.group.cohortVisits,
-      (visit) => Moment(visit.startDate).isSame(date.formatted, 'day')));
+    this.visitStartedForThisDate = !_.isUndefined(
+      _.find(this.group.cohortVisits, (visit) =>
+        Moment(visit.startDate).isSame(date.formatted, 'day')
+      )
+    );
     if (this.visitStartedForThisDate) {
       return;
     }

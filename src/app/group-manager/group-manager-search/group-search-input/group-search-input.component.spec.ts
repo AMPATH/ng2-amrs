@@ -16,15 +16,14 @@ describe('GroupSearchInputComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [GroupSearchInputComponent],
-      imports: [FormsModule,
-        MatSlideToggleModule,
-        HttpClientTestingModule
-      ],
-      providers: [CommunityGroupService, AppSettingsService,
-        LocalStorageService, SessionStorageService
+      imports: [FormsModule, MatSlideToggleModule, HttpClientTestingModule],
+      providers: [
+        CommunityGroupService,
+        AppSettingsService,
+        LocalStorageService,
+        SessionStorageService
       ]
-    })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
