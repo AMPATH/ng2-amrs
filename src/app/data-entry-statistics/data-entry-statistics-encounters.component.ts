@@ -1,6 +1,13 @@
 import {
-  Component, OnInit, AfterViewInit, OnChanges, Output, EventEmitter, Input,
-  ChangeDetectorRef, SimpleChanges
+  Component,
+  OnInit,
+  AfterViewInit,
+  OnChanges,
+  Output,
+  EventEmitter,
+  Input,
+  ChangeDetectorRef,
+  SimpleChanges
 } from '@angular/core';
 
 @Component({
@@ -8,8 +15,8 @@ import {
   templateUrl: './data-entry-statistics-encounters.component.html',
   styleUrls: ['./data-entry-statistics-encounters.component.css']
 })
-export class DataEntryStatisticsEncountersComponent implements OnInit, OnChanges, AfterViewInit {
-
+export class DataEntryStatisticsEncountersComponent
+  implements OnInit, OnChanges, AfterViewInit {
   public title = '';
   @Input() public dataEntryEncounterData: any = [];
   @Input() public params: any;
@@ -23,19 +30,18 @@ export class DataEntryStatisticsEncountersComponent implements OnInit, OnChanges
 
   public dataEntryEncounterColdef: any = [];
 
-  constructor(
-    private _cd: ChangeDetectorRef
-  ) { }
+  constructor(private _cd: ChangeDetectorRef) {}
 
-  public ngOnInit() {
-  }
+  public ngOnInit() {}
   public ngAfterViewInit(): void {
     this._cd.detectChanges();
   }
 
   public ngOnChanges(changes: SimpleChanges) {
-    if (changes.dataEntryEncounterData
-      && this.dataEntryEncounterData.length > 0) {
+    if (
+      changes.dataEntryEncounterData &&
+      this.dataEntryEncounterData.length > 0
+    ) {
       this.processEncounterData(this.params);
     } else {
       this.dataEntryEncounters = [];
@@ -43,12 +49,10 @@ export class DataEntryStatisticsEncountersComponent implements OnInit, OnChanges
   }
 
   public processEncounterData(params: any) {
-
     const viewType = params.subType;
     this.resetAllLists();
 
     switch (viewType) {
-
       case 'by-date-by-encounter-type':
         this.showEncountersList = true;
         this.title = 'Encounters per type per day';
@@ -66,9 +70,7 @@ export class DataEntryStatisticsEncountersComponent implements OnInit, OnChanges
         this.title = 'Encounters per type per Creator';
         break;
       default:
-
     }
-
   }
 
   public resetAllLists() {
@@ -76,13 +78,9 @@ export class DataEntryStatisticsEncountersComponent implements OnInit, OnChanges
     this.showMontlyList = false;
     this.showProviderList = false;
     this.showEncountersList = false;
-
   }
 
   public getPatientListParams($event) {
-
     this.patientListParams.emit($event);
-
   }
-
 }

@@ -1,42 +1,46 @@
 <div class="container-fluid">
-    <div class="row" id="view-filters">
-            <div class="loader" *ngIf="busyIndicator.busy"><span><i class="fa fa-spinner fa-spin">
-                        </i>{{busyIndicator.message}}</span>
-            </div>
-
-            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-                    <h4 class="component-title" style="color: green;"><span class="fa fa-bar-chart"></span>Data Entry Statistics</h4>
-            </div>
-
-            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-
-                  <data-entry-statistics-filters 
-                  (filterParams)="selectedFilterParams($event)"
-                  (viewSelected)="selectedView($event)"
-                  (filterReset)="resetFilter($event)">
-                  </data-entry-statistics-filters>
-
-            </div>
-
-
+  <div class="row" id="view-filters">
+    <div class="loader" *ngIf="busyIndicator.busy">
+      <span
+        ><i class="fa fa-spinner fa-spin"> </i>{{ busyIndicator.message }}</span
+      >
     </div>
-    <div class="row" id="table-section">
-               <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" *ngIf="showPatientList">
-                  <button class="btn btn-primary navigation-btn" 
-                  (click)="showEncounterList()"><i class="fa fa-angle-left"></i> Back to Entry Stats</button>
-               </div>
 
-                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-
-                    <data-entry-statistics-encounters
-                    [dataEntryEncounterData]="dataEntryEncounters"
-                    (patientListParams)="encounterPatientList($event)"
-                    [params]="params"
-                    >
-                    </data-entry-statistics-encounters>
-
-                
-                </div>
+    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+      <h4 class="component-title" style="color: green">
+        <span class="fa fa-bar-chart"></span>Data Entry Statistics
+      </h4>
     </div>
-           
+
+    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+      <data-entry-statistics-filters
+        (filterParams)="selectedFilterParams($event)"
+        (viewSelected)="selectedView($event)"
+        (filterReset)="resetFilter($event)"
+      >
+      </data-entry-statistics-filters>
+    </div>
+  </div>
+  <div class="row" id="table-section">
+    <div
+      class="col-md-12 col-lg-12 col-sm-12 col-xs-12"
+      *ngIf="showPatientList"
+    >
+      <button
+        class="btn btn-primary navigation-btn"
+        (click)="showEncounterList()"
+      >
+        <i class="fa fa-angle-left"></i> Back to Entry Stats
+      </button>
+    </div>
+
+    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+      <data-entry-statistics-encounters
+        [dataEntryEncounterData]="dataEntryEncounters"
+        (patientListParams)="encounterPatientList($event)"
+        [params]="params"
+      >
+      </data-entry-statistics-encounters>
+    </div>
+  </div>
 </div>
