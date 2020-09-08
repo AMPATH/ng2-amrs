@@ -4,10 +4,11 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 @Injectable()
 export class ObsResourceService {
-
-  constructor(protected http: HttpClient, protected appSettingsService: AppSettingsService) { }
+  constructor(
+    protected http: HttpClient,
+    protected appSettingsService: AppSettingsService
+  ) {}
   public getUrl(): string {
-
     return this.appSettingsService.getOpenmrsRestbaseurl().trim();
   }
 
@@ -41,14 +42,19 @@ export class ObsResourceService {
 
   public getObsPatientObsByConcept(uuid, conceptUuuid) {
     const url = this.getUrl() + 'obs';
-    const params = new HttpParams().set('patient', uuid).set('concept', conceptUuuid).set('v', 'full');
+    const params = new HttpParams()
+      .set('patient', uuid)
+      .set('concept', conceptUuuid)
+      .set('v', 'full');
     return this.http.get(url, { params: params });
   }
 
   public getObsPatientObsByConcepts(uuid, conceptUuuid) {
     const url = this.getUrl() + 'obs';
-    const params = new HttpParams().set('patient', uuid).set('concepts', conceptUuuid).set('v', 'full');
+    const params = new HttpParams()
+      .set('patient', uuid)
+      .set('concepts', conceptUuuid)
+      .set('v', 'full');
     return this.http.get(url, { params: params });
   }
-
 }

@@ -3,12 +3,14 @@ import { APP_BASE_HREF } from '@angular/common';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { SessionService } from './session.service';
 import { LocalStorageService } from '../utils/local-storage.service';
-import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
+import {
+  HttpTestingController,
+  HttpClientTestingModule
+} from '@angular/common/http/testing';
 
 // Load the implementations that should be tested
 
 describe('SessionService Unit Tests', () => {
-
   let sessionService: SessionService;
   let httpMock: HttpTestingController;
 
@@ -16,11 +18,7 @@ describe('SessionService Unit Tests', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       declarations: [],
-      providers: [
-        AppSettingsService,
-        SessionService,
-        LocalStorageService
-      ],
+      providers: [AppSettingsService, SessionService, LocalStorageService]
     });
 
     sessionService = TestBed.get(SessionService);
@@ -41,7 +39,6 @@ describe('SessionService Unit Tests', () => {
   });
 
   it('It should return a session', () => {
-
     const res = {
       authenticated: true,
       user: {}
@@ -52,11 +49,10 @@ describe('SessionService Unit Tests', () => {
       password: 'test'
     };
 
-    sessionService.getSession(credentials)
-      .subscribe((response) => {
-        expect(res.authenticated).toBe(true);
-        expect(res.user).toBeTruthy();
-      });
+    sessionService.getSession(credentials).subscribe((response) => {
+      expect(res.authenticated).toBe(true);
+      expect(res.user).toBeTruthy();
+    });
 
     const req = httpMock.expectOne(sessionService.getUrl());
     expect(req.request.method).toBe('GET');
@@ -68,15 +64,13 @@ describe('SessionService Unit Tests', () => {
       authenticated: false,
       user: {}
     };
-    sessionService.deleteSession()
-      .subscribe((response) => {
-        expect(res.authenticated).toBe(false);
-        expect(res.user).toBeTruthy();
-      });
+    sessionService.deleteSession().subscribe((response) => {
+      expect(res.authenticated).toBe(false);
+      expect(res.user).toBeTruthy();
+    });
 
     const req = httpMock.expectOne(sessionService.getUrl());
     expect(req.request.method).toBe('DELETE');
     req.flush(res);
   });
-
 });

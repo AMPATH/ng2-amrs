@@ -15,9 +15,7 @@ import { ConceptResourceService } from './concept-resource.service';
 import { VisitResourceService } from './visit-resource.service';
 import { OrderResourceService } from './order-resource.service';
 import { PatientRelationshipResourceService } from './patient-relationship-resource.service';
-import {
-  PatientRelationshipTypeResourceService
- } from './patient-relationship-type-resource.service';
+import { PatientRelationshipTypeResourceService } from './patient-relationship-type-resource.service';
 import { PatientIdentifierTypeResService } from './patient-identifierTypes-resource.service';
 import { PatientCreationResourceService } from './patient-creation-resource.service';
 import { ObsResourceService } from './obs-resource.service';
@@ -63,6 +61,4 @@ import { PersonAttributeResourceService } from './person-attribute-resource.serv
   ],
   exports: []
 })
-
-export class OpenmrsApi {
-}
+export class OpenmrsApi {}
