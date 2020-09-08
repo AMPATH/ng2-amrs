@@ -1,22 +1,25 @@
 <div class="box-body">
   <div class="component-wrapper">
     <h3 class="text-primary">
-        Useful Links <span style="font-size: 14px;">(click on a link for more information)</span>
-      </h3>
-       <hr style="margin-top: 4px;"/>
+      Useful Links
+      <span style="font-size: 14px"
+        >(click on a link for more information)</span
+      >
+    </h3>
+    <hr style="margin-top: 4px" />
     <div class="useful-links">
-      <h3>
-        General Links:
-      </h3>
+      <h3>General Links:</h3>
       <div class="link-group">
         <p *ngFor="let link of _links" class="link-group-item">
-          <span (click)="goToLink(link.url)" title="{{link.title}}">{{link.title}}</span>
+          <span (click)="goToLink(link.url)" title="{{link.title}}"
+            >{{link.title}}</span
+          >
         </p>
       </div>
     </div>
     <div class="button">
-      <button class="btn btn-info" (click)="goBack()" style="margin-left:0;">
-        <i class="fa  fa-arrow-left"></i>
+      <button class="btn btn-info" (click)="goBack()" style="margin-left: 0">
+        <i class="fa fa-arrow-left"></i>
         <span>Back</span>
       </button>
     </div>
