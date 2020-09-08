@@ -68,18 +68,22 @@ export class HivProgramSnapshotComponent implements OnInit {
     private hivSummaryResourceService: HivSummaryResourceService,
     private encounterResourceService: EncounterResourceService,
     private locationResource: LocationResourceService,
-    private userDefaultPropertiesService: UserDefaultPropertiesService) {
-  }
+    private userDefaultPropertiesService: UserDefaultPropertiesService
+  ) {}
 
   public ngOnInit() {
-    _.delay((patientUuid) => {
-      if (_.isNil(this.patient)) {
-        this.hasError = true;
-      } else {
-        this.hasData = false;
-        this.getHivSummary(patientUuid);
-      }
-    }, 0, this.patient.uuid);
+    _.delay(
+      (patientUuid) => {
+        if (_.isNil(this.patient)) {
+          this.hasError = true;
+        } else {
+          this.hasData = false;
+          this.getHivSummary(patientUuid);
+        }
+      },
+      0,
+      this.patient.uuid
+    );
     this.getMoriskyScore();
   }
 
@@ -104,50 +108,66 @@ export class HivProgramSnapshotComponent implements OnInit {
         if (this.showViremiaAlert) {
           this.checkViremia(latestVl);
         }
-      }
 
-      this.clinicalEncounters = this.getClinicalEncounters(results);
-      const latestClinicalEncounter = _.first(this.clinicalEncounters);
+        this.clinicalEncounters = this.getClinicalEncounters(results);
+        const latestClinicalEncounter = _.first(this.clinicalEncounters);
 
-      this.hasTransferEncounter = this.checkIfHasTransferEncounter(results);
-      const transferEncounterIndex = this.getIndexOfTransferEncounter(results);
+        this.hasTransferEncounter = this.checkIfHasTransferEncounter(results);
+        const transferEncounterIndex = this.getIndexOfTransferEncounter(
+          results
+        );
 
-      // Did the patient have a clinical encounter following their transfer encounter i.e. did they return to care?
-      this.hasSubsequentClinicalEncounter = (results.indexOf(latestClinicalEncounter) < transferEncounterIndex) ? true : false;
+        // Did the patient have a clinical encounter following their transfer encounter i.e. did they return to care?
+        this.hasSubsequentClinicalEncounter =
+          results.indexOf(latestClinicalEncounter) < transferEncounterIndex
+            ? true
+            : false;
 
-      this.patientData = _.first(this.clinicalEncounters);
-      const patientDataCopy = this.patientData;
+        this.patientData = _.first(this.clinicalEncounters);
+        const patientDataCopy = this.patientData;
 
-      if (!_.isNil(this.patientData)) {
-        // assign latest vl and vl_1_date
-        this.patientData = Object.assign(patientDataCopy,
-          { vl_1_date: latestVlDate, vl_1: latestVl });
-        // flag red if VL > 1000 && (vl_1_date > (arv_start_date + 6 months))
-        if ((this.patientData.vl_1 > 1000 && (
-          moment(this.patientData.vl_1_date) >
-          moment(this.patientData.arv_start_date).add(6, 'months')
-        )) || (this.patientData.prev_arv_line !== this.patientData.cur_arv_line)) {
-          this.isVirallyUnsuppressed = true;
+        if (!_.isNil(this.patientData)) {
+          // assign latest vl and vl_1_date
+          this.patientData = Object.assign(patientDataCopy, {
+            vl_1_date: latestVlDate,
+            vl_1: latestVl
+          });
+          // flag red if VL > 1000 && (vl_1_date > (arv_start_date + 6 months))
+          if (
+            (this.patientData.vl_1 > 1000 &&
+              moment(this.patientData.vl_1_date) >
+                moment(this.patientData.arv_start_date).add(6, 'months')) ||
+            this.patientData.prev_arv_line !== this.patientData.cur_arv_line
+          ) {
+            this.isVirallyUnsuppressed = true;
+          }
+          this.hasData = true;
+          this.latestEncounterLocation = null;
+          if (this.patientData.location_uuid) {
+            this.resolveLastEncounterLocation(this.patientData.location_uuid);
+          }
         }
-        this.hasData = true;
-        this.latestEncounterLocation = null;
-        if (this.patientData.location_uuid) {
-          this.resolveLastEncounterLocation(this.patientData.location_uuid);
-        }
-      }
-    });
+      });
   }
 
   public resolveLastEncounterLocation(location_uuid) {
-    this.locationResource.getLocationByUuid(location_uuid, true)
+    this.locationResource
+      .getLocationByUuid(location_uuid, true)
       .pipe(
         finalize(() => {
-          this.resolvedCareStatus = this.getPatientCareStatus(this.patientCareStatus);
-        })).subscribe((location) => {
+          this.resolvedCareStatus = this.getPatientCareStatus(
+            this.patientCareStatus
+          );
+        })
+      )
+      .subscribe(
+        (location) => {
           this.latestEncounterLocation = location;
-        }, (error) => {
+        },
+        (error) => {
           console.error('Error resolving locations', error);
-        });
+        }
+      );
   }
 
   public getPatientCareStatus(care_status_id: any) {
@@ -185,14 +205,19 @@ export class HivProgramSnapshotComponent implements OnInit {
       if (this.hasTransferEncounter && !this.patientReturnedToCare()) {
         this.showCareStatus = false;
         this.showYellowBackground();
-      } else if (moment(this.patientData.rtc_date).add(1, 'week') < moment(new Date())) {
+      } else if (
+        moment(this.patientData.rtc_date).add(1, 'week') < moment(new Date())
+      ) {
         this.showPinkBackground();
       }
     }
 
     // if patient is a Transfer Out, apply a yellow background to their snapshot summary
-    if ((this.hasTransferEncounter && this.isNonAmpathTransferOut(care_status_id))
-        || this.isIntraAmpathTransferFromCurrentLocation(care_status_id)) {
+    if (
+      (this.hasTransferEncounter &&
+        this.isNonAmpathTransferOut(care_status_id)) ||
+      this.isIntraAmpathTransferFromCurrentLocation(care_status_id)
+    ) {
       this.showYellowBackground();
     }
 
@@ -202,7 +227,10 @@ export class HivProgramSnapshotComponent implements OnInit {
   private checkIfHasTransferEncounter(summaries: any[]): boolean {
     if (summaries) {
       return _.some(summaries, (summary: any) => {
-        return summary.encounter_type === 116 && summary.encounter_type_name === 'TRANSFERENCOUNTER';
+        return (
+          summary.encounter_type === 116 &&
+          summary.encounter_type_name === 'TRANSFERENCOUNTER'
+        );
       });
     }
   }
@@ -210,7 +238,10 @@ export class HivProgramSnapshotComponent implements OnInit {
   private getIndexOfTransferEncounter(summaries: any[]): number {
     if (summaries) {
       return _.findIndex(summaries, (summary: any) => {
-        return summary.encounter_type === 116 && summary.encounter_type_name === 'TRANSFERENCOUNTER';
+        return (
+          summary.encounter_type === 116 &&
+          summary.encounter_type_name === 'TRANSFERENCOUNTER'
+        );
       });
     }
   }
@@ -238,16 +269,27 @@ export class HivProgramSnapshotComponent implements OnInit {
   }
 
   private isNonAmpathTransferOut(care_status_id) {
-    return care_status_id === 1287 || care_status_id === 5622 || care_status_id === 10502;
+    return (
+      care_status_id === 1287 ||
+      care_status_id === 5622 ||
+      care_status_id === 10502
+    );
   }
 
   private isIntraAmpathTransferFromCurrentLocation(care_status_id) {
     const intraAmpathTransferOutConceptIds = [1285, 1286, 9068, 9504];
-    if (intraAmpathTransferOutConceptIds.includes(care_status_id) && this.hasMatchingLocation()) {
+    if (
+      intraAmpathTransferOutConceptIds.includes(care_status_id) &&
+      this.hasMatchingLocation()
+    ) {
       return true;
     }
 
-    if (care_status_id === 9080 && this.hasTransferEncounter && this.hasMatchingLocation()) {
+    if (
+      care_status_id === 9080 &&
+      this.hasTransferEncounter &&
+      this.hasMatchingLocation()
+    ) {
       return true;
     }
 
@@ -265,17 +307,20 @@ export class HivProgramSnapshotComponent implements OnInit {
   }
 
   private getlatestVlResult(hivSummaryData) {
-    const orderByVlDate = _.orderBy(hivSummaryData, (hivSummary) => {
-      return moment(hivSummary.vl_1_date);
-    }, ['desc']);
+    const orderByVlDate = _.orderBy(
+      hivSummaryData,
+      (hivSummary) => {
+        return moment(hivSummary.vl_1_date);
+      },
+      ['desc']
+    );
     return orderByVlDate[0];
   }
 
   private _toProperCase(text: string) {
     text = text || '';
     return text.replace(/\w\S*/g, (txt) => {
-      return txt.charAt(0).toUpperCase() +
-        txt.substr(1).toLowerCase();
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     });
   }
 
@@ -291,34 +336,35 @@ export class HivProgramSnapshotComponent implements OnInit {
   }
 
   public getMoriskyScore() {
-    const previousEncounters = this.getPreviousEncounters(this.patient.encounters);
-    this.getPreviousEncounterDetails(previousEncounters)
-      .then((data) => {
-        this.obs = data[0].obs;
-        this.obs.forEach((obs) => {
-          const morisky4_concept_uuid = '315472dc-2b5e-4add-b3b7-bbcf21a8959b';
-          const morisky8_concept_uuid = '857caa4e-b566-4a43-ab78-f911c1a8a727';
-          if (obs.concept.uuid === morisky4_concept_uuid) {
-            this.moriskyScore4 = obs.value;
-            this.ismoriskyScore4 = true;
-          } else if (obs.concept.uuid === morisky8_concept_uuid) {
-            this.ismoriskyScore8 = true;
-            this.moriskyScore8 = obs.value;
-          }
-        });
-        if (this.ismoriskyScore8) {
-          this.getMorisky8();
-        } else if (!this.ismoriskyScore8 && this.ismoriskyScore4) {
-          this.getMorisky4();
-        } else if (!this.ismoriskyScore8 && !this.ismoriskyScore4) {
-          this.setNullMorisky();
-        }
-        if (this.moriskyScore >= 0 && this.moriskyScore <= 0.25) {
-          this.isMoriskyScorePoorOrInadequate = false;
-        } else if (this.moriskyScore >= 0.5) {
-          this.isMoriskyScorePoorOrInadequate = true;
+    const previousEncounters = this.getPreviousEncounters(
+      this.patient.encounters
+    );
+    this.getPreviousEncounterDetails(previousEncounters).then((data) => {
+      this.obs = data[0].obs;
+      this.obs.forEach((obs) => {
+        const morisky4_concept_uuid = '315472dc-2b5e-4add-b3b7-bbcf21a8959b';
+        const morisky8_concept_uuid = '857caa4e-b566-4a43-ab78-f911c1a8a727';
+        if (obs.concept.uuid === morisky4_concept_uuid) {
+          this.moriskyScore4 = obs.value;
+          this.ismoriskyScore4 = true;
+        } else if (obs.concept.uuid === morisky8_concept_uuid) {
+          this.ismoriskyScore8 = true;
+          this.moriskyScore8 = obs.value;
         }
       });
+      if (this.ismoriskyScore8) {
+        this.getMorisky8();
+      } else if (!this.ismoriskyScore8 && this.ismoriskyScore4) {
+        this.getMorisky4();
+      } else if (!this.ismoriskyScore8 && !this.ismoriskyScore4) {
+        this.setNullMorisky();
+      }
+      if (this.moriskyScore >= 0 && this.moriskyScore <= 0.25) {
+        this.isMoriskyScorePoorOrInadequate = false;
+      } else if (this.moriskyScore >= 0.5) {
+        this.isMoriskyScorePoorOrInadequate = true;
+      }
+    });
   }
 
   public getAllEncounters(encounters) {
@@ -334,12 +380,17 @@ export class HivProgramSnapshotComponent implements OnInit {
     const previousEncounters = [];
     _.each(allEncounters, (encounter: any) => {
       const encounterType = encounter.encounterType.uuid;
-      const encounterDate = moment(encounter.encounterDatetime).format('YYYY-MM-DD-HH');
-      if (encounterType === '8d5b2be0-c2cc-11de-8d13-0010c6dffd0f') { // Adult Return encounter
-        if (encounterDate === this.getLastAdultReturnEncounterDate(allEncounters)) {
+      const encounterDate = moment(encounter.encounterDatetime).format(
+        'YYYY-MM-DD-HH'
+      );
+      if (encounterType === '8d5b2be0-c2cc-11de-8d13-0010c6dffd0f') {
+        // Adult Return encounter
+        if (
+          encounterDate === this.getLastAdultReturnEncounterDate(allEncounters)
+        ) {
           previousEncounters.push(encounter);
+        }
       }
-    }
     });
     return previousEncounters;
   }
@@ -347,7 +398,9 @@ export class HivProgramSnapshotComponent implements OnInit {
   public getLastAdultReturnEncounterDate(allEncounters) {
     const max_date: any[] = [];
     _.each(allEncounters, (encounter: any) => {
-      const encounterDate = moment(encounter.encounterDatetime).format('YYYY-MM-DD-HH');
+      const encounterDate = moment(encounter.encounterDatetime).format(
+        'YYYY-MM-DD-HH'
+      );
       const today = moment().format('YYYY-MM-DD-HH');
       if (encounterDate !== today) {
         max_date.push(encounterDate);
@@ -369,10 +422,14 @@ export class HivProgramSnapshotComponent implements OnInit {
       _.each(previousEncounters, (encounterDetail: any) => {
         const encounterUuid = encounterDetail.uuid;
         encounterCount++;
-        this.encounterResourceService.getEncounterByUuid(encounterUuid).pipe(
-        /* tslint:disable-next-line: no-shadowed-variable */
-          take(1)).subscribe((encounterDetail) => {
-            encounterWithDetails.push(encounterDetail);
+        this.encounterResourceService
+          .getEncounterByUuid(encounterUuid)
+          .pipe(
+            /* tslint:disable-next-line: no-shadowed-variable */
+            take(1)
+          )
+          .subscribe((encDetail) => {
+            encounterWithDetails.push(encDetail);
             resultCount++;
             checkCount();
           });
