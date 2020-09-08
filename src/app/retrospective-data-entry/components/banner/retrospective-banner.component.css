@@ -2,7 +2,7 @@
   background: #fff4a3;
   padding-bottom: 2px;
 }
-.dialog-wrapper{
+.dialog-wrapper {
   position: fixed;
   top: 0;
   left: 0;
@@ -12,8 +12,6 @@
   opacity: 0.95;
   z-index: 1000;
 }
-.dialog-wrapper-content{
+.dialog-wrapper-content {
   opacity: 1;
 }
-
-

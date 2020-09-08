@@ -1,8 +1,11 @@
 import { TestBed, async } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController
+} from '@angular/common/http/testing';
 import { RetrospectiveBannerComponent } from './retrospective-banner.component';
-import { RetrospectiveDataEntryService} from '../../services/retrospective-data-entry.service';
-import {RetrospectiveSettingsComponent} from '../settings/settings.component';
+import { RetrospectiveDataEntryService } from '../../services/retrospective-data-entry.service';
+import { RetrospectiveSettingsComponent } from '../settings/settings.component';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { UserDefaultPropertiesService } from '../../../user-default-properties/user-default-properties.service';
 import { UserService } from '../../../openmrs-api/user.service';
@@ -10,17 +13,15 @@ import { SessionStorageService } from '../../../utils/session-storage.service';
 import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
 
-
 describe('RetrospectiveBanner Component', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-     imports: [  HttpClientTestingModule],
-        declarations: [
+      imports: [HttpClientTestingModule],
+      declarations: [
         RetrospectiveBannerComponent,
-        RetrospectiveSettingsComponent,
+        RetrospectiveSettingsComponent
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA,
-               NO_ERRORS_SCHEMA],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
       providers: [
         RetrospectiveDataEntryService,
         UserDefaultPropertiesService,
@@ -28,7 +29,7 @@ describe('RetrospectiveBanner Component', () => {
         SessionStorageService,
         AppSettingsService,
         LocalStorageService
-    ]
+      ]
     }).compileComponents();
   }));
   it('should create the RetrospectiveBanner component', async(() => {
