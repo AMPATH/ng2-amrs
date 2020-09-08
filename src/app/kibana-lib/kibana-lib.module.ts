@@ -9,19 +9,8 @@ import { DashboardsViewerComponent } from './dashboards-viewer/dashboards-viewer
 import { DashboardListComponent } from './dashboard-list/dashboard-list.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        NgamrsSharedModule
-    ],
-    declarations: [
-        DashboardsViewerComponent,
-        DashboardListComponent
-    ],
-    exports: [
-        DashboardsViewerComponent,
-        DashboardListComponent
-    ]
+  imports: [CommonModule, NgamrsSharedModule],
+  declarations: [DashboardsViewerComponent, DashboardListComponent],
+  exports: [DashboardsViewerComponent, DashboardListComponent]
 })
-export class KibanaLibModule {
-
-}
+export class KibanaLibModule {}
