@@ -1,7 +1,7 @@
 language: node_js
 dist: xenial
 node_js:
-- "8"
+- "10"
 services:
 - docker
 - xvfb
@@ -9,7 +9,7 @@ before_install:
   # Updating NPM to relevant version >= 3 on Node.JS LTS
 - npm i -g brfs
 script:
-- prettier --check src/app/
+- npm run prettier:check
 - npm run lint
 - npm run build-prod
 - npm run test

@@ -14,7 +14,8 @@
     "build-prod": "node version.js && bash ./scripts/ng.sh build --prod --aot --optimization=false",
     "serve:prod": "http-server dist/ngx-amrs/ -P https://ngx.ampath.or.ke",
     "prebuild": "node version.js",
-    "prestart": "node version.js"
+    "prestart": "node version.js",
+    "prettier:check": "prettier --check src/app"
   },
   "husky": {
     "hooks": {
@@ -22,7 +23,7 @@
     }
   },
   "lint-staged": {
-    "*.{js,css,md,ts}": ["prettier --write", "npm run lint ngx-amrs"]
+    "*.{js,css,md,ts}": ["prettier --write src/app", "npm run lint ngx-amrs"]
   },
   "private": true,
   "dependencies": {
