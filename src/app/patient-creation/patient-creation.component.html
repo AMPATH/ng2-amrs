@@ -1,34 +1,62 @@
 <div class="box-body">
   <div class="component-wrapper">
     <h2>Patient Registration</h2>
-    <div style="margin-bottom:0.5cm;" *ngIf="!found">
-
+    <div style="margin-bottom: 0.5cm" *ngIf="!found">
       <!-- Start of Demographics -->
       <div class="row">
         <div class="col-md-4">
           <div class="form-group">
-            <label for="givenName">First Name <span *ngIf="!givenName" class="required"> * </span></label>
-            <input type="text" class="form-control" [(ngModel)]="givenName" name="givenName"
-                  placeholder="First Name (Required)" required #fname="ngModel">
+            <label for="givenName"
+              >First Name
+              <span *ngIf="!givenName" class="required"> * </span></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="givenName"
+              name="givenName"
+              placeholder="First Name (Required)"
+              required
+              #fname="ngModel"
+            />
             <div *ngIf="errors && !givenName" class="required">
-              <span class="help-block" style="color:red;">First Name is required!</span>
+              <span class="help-block" style="color: red"
+                >First Name is required!</span
+              >
             </div>
           </div>
         </div>
         <div class="col-md-4">
           <div class="form-group">
             <label for="middleName">Middle Name (Optional)</label>
-            <input type="text" class="form-control" [(ngModel)]="middleName" name="middleName"
-                  placeholder="Middle Name">
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="middleName"
+              name="middleName"
+              placeholder="Middle Name"
+            />
           </div>
         </div>
         <div class="col-md-4">
           <div class="form-group">
-            <label for="familyName">Family Name <span *ngIf="!familyName" class="required"> * </span></label>
-            <input type="text" class="form-control" [(ngModel)]="familyName" name="familyName"
-                  placeholder="Family Name (Required)" required #gname="ngModel">
+            <label for="familyName"
+              >Family Name
+              <span *ngIf="!familyName" class="required"> * </span></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="familyName"
+              name="familyName"
+              placeholder="Family Name (Required)"
+              required
+              #gname="ngModel"
+            />
             <div *ngIf="errors && !familyName" class="required">
-              <span class="help-block" style="color:red;">Family Name is required!</span>
+              <span class="help-block" style="color: red"
+                >Family Name is required!</span
+              >
             </div>
           </div>
         </div>
@@ -37,68 +65,129 @@
       <div class="row">
         <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
           <div class="form-group">
-            <label for="gender">Gender <span *ngIf="!gender" class="required"> * </span></label>
+            <label for="gender"
+              >Gender <span *ngIf="!gender" class="required"> * </span></label
+            >
             <select class="form-control" [(ngModel)]="gender" name="gender">
-              <option *ngFor="let opt of genderOptions" [value]="opt.val">{{opt.label}}</option>
+              <option *ngFor="let opt of genderOptions" [value]="opt.val">
+                {{ opt.label }}
+              </option>
             </select>
             <div *ngIf="errors && !gender" class="required">
-              <span class="help-block" style="color:red;">Gender is required!</span>
+              <span class="help-block" style="color: red"
+                >Gender is required!</span
+              >
             </div>
           </div>
         </div>
         <div class="col-md-4 col-lg- col-sm-4 col-xs-4">
           <div class="form-group">
-            <label for="occupation">Occupation <span *ngIf="!occupation" class="required"> *</span></label>
-            <select class="form-control" [(ngModel)]="occupation" name="occupaton">
-              <option *ngFor="let oc of occupations" [value]="oc.val">{{oc.label}}</option>
+            <label for="occupation"
+              >Occupation
+              <span *ngIf="!occupation" class="required"> *</span></label
+            >
+            <select
+              class="form-control"
+              [(ngModel)]="occupation"
+              name="occupaton"
+            >
+              <option *ngFor="let oc of occupations" [value]="oc.val">
+                {{ oc.label }}
+              </option>
             </select>
             <div *ngIf="errors && !occupation" class="required">
-              <span class="help-block" style="color:red;">Occupation is required!</span>
+              <span class="help-block" style="color: red"
+                >Occupation is required!</span
+              >
             </div>
           </div>
         </div>
-          <div class="col-md-4 col-lg- col-sm-4 col-xs-4">
-            <div class="form-group">
-              <label for="levelOfEducation">Highest Education Level <span *ngIf="!patientHighestEducation" class="required"> *</span></label>
-              <select class="form-control" name="education" [(ngModel)]="patientHighestEducation" >
-                <option *ngFor="let level of levelOfEducation" [value]="level.value">{{level.name}}</option>
-              </select>
-              <div *ngIf="errors && !patientHighestEducation" class="required">
-                <span class="help-block" style="color:red;">Highest Education Level</span>
-              </div>
+        <div class="col-md-4 col-lg- col-sm-4 col-xs-4">
+          <div class="form-group">
+            <label for="levelOfEducation"
+              >Highest Education Level
+              <span *ngIf="!patientHighestEducation" class="required">
+                *</span
+              ></label
+            >
+            <select
+              class="form-control"
+              name="education"
+              [(ngModel)]="patientHighestEducation"
+            >
+              <option
+                *ngFor="let level of levelOfEducation"
+                [value]="level.value"
+              >
+                {{ level.name }}
+              </option>
+            </select>
+            <div *ngIf="errors && !patientHighestEducation" class="required">
+              <span class="help-block" style="color: red"
+                >Highest Education Level</span
+              >
             </div>
           </div>
+        </div>
       </div>
       <div class="row">
         <div class="col-md-8 col-lg-8 col-sm-8 col-xs-8">
-          <div  class="form-group">
-            <label for="birthDate">Birthdate <span>(Format: mm/dd/yyyy)</span> <span *ngIf="!birthDate" class="required"> * </span></label><br>
-            <date-time-picker tabindex="0" [modelValue]="birthDate" [id]="'birthDate'"
-                              (onDateChange)="updateBirthDate($event)"></date-time-picker>
-              <div *ngIf="birthError">
-                <span class="required">{{ birthError }}</span>
-              </div>
-              <div *ngIf="errors && !birthDate" class="required">
-                <span class="help-block" style="color:red;">Birth Date is required!</span>
-              </div>
+          <div class="form-group">
+            <label for="birthDate"
+              >Birthdate <span>(Format: mm/dd/yyyy)</span>
+              <span *ngIf="!birthDate" class="required"> * </span></label
+            ><br />
+            <date-time-picker
+              tabindex="0"
+              [modelValue]="birthDate"
+              [id]="'birthDate'"
+              (onDateChange)="updateBirthDate($event)"
+            ></date-time-picker>
+            <div *ngIf="birthError">
+              <span class="required">{{ birthError }}</span>
+            </div>
+            <div *ngIf="errors && !birthDate" class="required">
+              <span class="help-block" style="color: red"
+                >Birth Date is required!</span
+              >
+            </div>
           </div>
         </div>
         <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
           <div class="form-group">
             <label for="birthdateEstimated">Age</label>
-            <input type="number" min="0" class="form-control" [(ngModel)]="ageEstimate" name="ageEstimate" (ngModelChange)="updateDOBDetails()">
+            <input
+              type="number"
+              min="0"
+              class="form-control"
+              [(ngModel)]="ageEstimate"
+              name="ageEstimate"
+              (ngModelChange)="updateDOBDetails()"
+            />
           </div>
         </div>
       </div>
       <div class="row" *ngIf="patientExists">
         <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-          <button class="btn btn-primary" (click)="createPerson()">
-          Next</button>
-          <button *ngIf="givenName && familyName && this.gender && this.birthDate || this.ageEstimate || middleName && patientHighestEducation"
-            type="button" class="btn btn-danger pull-right" (click)="reset()">Reset</button>
+          <button class="btn btn-primary" (click)="createPerson()">Next</button>
+          <button
+            *ngIf="
+              (givenName && familyName && this.gender && this.birthDate) ||
+              this.ageEstimate ||
+              (middleName && patientHighestEducation)
+            "
+            type="button"
+            class="btn btn-danger pull-right"
+            (click)="reset()"
+          >
+            Reset
+          </button>
         </div>
         <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-          <i *ngIf="loaderStatus" class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>
+          <i
+            *ngIf="loaderStatus"
+            class="fa fa-spinner fa-pulse fa-1x fa-fw"
+          ></i>
         </div>
       </div>
       <!-- End of Demographics -->
@@ -108,27 +197,61 @@
         <hr class="intro-divider patient-info-divider" />
         <div class="row">
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-            <label>Universal ID <span *ngIf="!patientIdentifier" class="required"> * </span></label>
-            <span *ngIf="generate" class="badge btn pull-right" (click)="generatePatientIdentifier()">Generate</span>
+            <label
+              >Universal ID
+              <span *ngIf="!patientIdentifier" class="required">
+                *
+              </span></label
+            >
+            <span
+              *ngIf="generate"
+              class="badge btn pull-right"
+              (click)="generatePatientIdentifier()"
+              >Generate</span
+            >
             <div *ngIf="errors && !patientIdentifier">
-              <div class="help-block" style="color:red;">Universal ID is required!</div>
+              <div class="help-block" style="color: red">
+                Universal ID is required!
+              </div>
             </div>
           </div>
           <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
-            <input type="text" class="form-control" [(ngModel)]="patientIdentifier" [disabled]="editText">
-            <div *ngIf="isError" style="margin-bottom:10px;">
-              <span class="text-danger"> <i class="glyphicon glyphicon-exclamation-sign"></i> {{ errorMessages }}</span>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="patientIdentifier"
+              [disabled]="editText"
+            />
+            <div *ngIf="isError" style="margin-bottom: 10px">
+              <span class="text-danger">
+                <i class="glyphicon glyphicon-exclamation-sign"></i>
+                {{ errorMessages }}</span
+              >
             </div>
-            <div *ngIf="errors && identifiers && patientIdentifier && !identifierAdded">
-              <div class="help-block" style="color:red;">Please add the Universal ID!</div>
+            <div
+              *ngIf="
+                errors && identifiers && patientIdentifier && !identifierAdded
+              "
+            >
+              <div class="help-block" style="color: red">
+                Please add the Universal ID!
+              </div>
             </div>
-            <div *ngIf="!errors && identifiers && patientIdentifier && !identifierAdded">
-              <div class="help-block" style="color:blue;">Please add the Universal ID!</div>
+            <div
+              *ngIf="
+                !errors && identifiers && patientIdentifier && !identifierAdded
+              "
+            >
+              <div class="help-block" style="color: blue">
+                Please add the Universal ID!
+              </div>
             </div>
           </div>
           <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2">
             <div class="form-group">
-              <button class="btn btn-primary" (click)="updateUniversal()">+</button>
+              <button class="btn btn-primary" (click)="updateUniversal()">
+                +
+              </button>
             </div>
           </div>
         </div>
@@ -138,56 +261,94 @@
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
             <div class="form-group">
               <label class="control-label">Patient Identifier Type:</label>
-              <select class="form-control"  [ngModel]="patientIdentifierType" (ngModelChange)="setIdentifierType($event)" >
+              <select
+                class="form-control"
+                [ngModel]="patientIdentifierType"
+                (ngModelChange)="setIdentifierType($event)"
+              >
                 <option></option>
-                <option *ngFor="let c of commonIdentifierTypes" [ngValue]="c">{{ c.label }}</option>
+                <option *ngFor="let c of commonIdentifierTypes" [ngValue]="c">
+                  {{ c.label }}
+                </option>
               </select>
               <div *ngIf="!patientIdentifierType">
-                <div class="help-block" >Identifier Type is required!</div>
+                <div class="help-block">Identifier Type is required!</div>
               </div>
             </div>
-            <div>
-
-            </div>
+            <div></div>
           </div>
 
           <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
             <div class="form-group">
               <label class="control-label">Patient Identifier</label>
-              <input [disabled]="!patientIdentifierType" type="text" id="commonIdentifier" class="form-control" [(ngModel)]="commonIdentifier"
-              (ngModelChange)="checkIdentifier($event)">
+              <input
+                [disabled]="!patientIdentifierType"
+                type="text"
+                id="commonIdentifier"
+                class="form-control"
+                [(ngModel)]="commonIdentifier"
+                (ngModelChange)="checkIdentifier($event)"
+              />
               <div *ngIf="identifierValidity">
-                <span style="color:red;" class="glyphicon glyphicon-exclamation-sign">{{identifierValidity}}</span>
+                <span
+                  style="color: red"
+                  class="glyphicon glyphicon-exclamation-sign"
+                  >{{ identifierValidity }}</span
+                >
               </div>
-              <div *ngIf="hasError" style="margin-bottom:10px;">
-                <span style="color:red;">{{errorMessage}}</span>
+              <div *ngIf="hasError" style="margin-bottom: 10px">
+                <span style="color: red">{{ errorMessage }}</span>
               </div>
-              <div *ngIf="errors  && commonIdentifier && !commonAdded">
-                <div class="help-block" style="color:red;">Please add the Identifier!</div>
+              <div *ngIf="errors && commonIdentifier && !commonAdded">
+                <div class="help-block" style="color: red">
+                  Please add the Identifier!
+                </div>
               </div>
-              <div *ngIf="!errors  && commonIdentifier && !commonAdded">
-                <div class="help-block" style="color: blue;">Please add the Identifier!</div>
+              <div *ngIf="!errors && commonIdentifier && !commonAdded">
+                <div class="help-block" style="color: blue">
+                  Please add the Identifier!
+                </div>
               </div>
             </div>
-
           </div>
 
           <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2">
             <div class="form-group">
-              <label class="control-label">&nbsp;</label><br>
-              <button class="btn btn-primary" (click)="addIdentifier(commonIdentifier)">+</button>
+              <label class="control-label">&nbsp;</label><br />
+              <button
+                class="btn btn-primary"
+                (click)="addIdentifier(commonIdentifier)"
+              >
+                +
+              </button>
             </div>
           </div>
         </div>
         <hr class="intro-divider patient-info-divider" />
         <div class="row">
           <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-            <table class="table table-striped" *ngIf="identifiers.length > 0" id="patient_identifier_table">
+            <table
+              class="table table-striped"
+              *ngIf="identifiers.length > 0"
+              id="patient_identifier_table"
+            >
               <tbody class="ttt">
-                  <tr *ngFor="let identifier of identifiers; let i= index;">
-                    <td><strong>{{ identifier.identifierTypeName }} : </strong> {{identifier.identifier}}</td>
-                    <td><a title="Remove Identifier"><i class="fa fa-trash-o" (click)="removeIdentifer(i, identifier)" aria-hidden="true"  style="color:red;"></i></a></td>
-                  </tr>
+                <tr *ngFor="let identifier of identifiers; let i = index">
+                  <td>
+                    <strong>{{ identifier.identifierTypeName }} : </strong>
+                    {{ identifier.identifier }}
+                  </td>
+                  <td>
+                    <a title="Remove Identifier"
+                      ><i
+                        class="fa fa-trash-o"
+                        (click)="removeIdentifer(i, identifier)"
+                        aria-hidden="true"
+                        style="color: red"
+                      ></i
+                    ></a>
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -195,28 +356,53 @@
 
         <div class="row" *ngIf="identifierAdded && identifiers.length > 1">
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-            <div class="form-group" >
-              <label class="control-label">Select Preferred Identifier <span *ngIf="!preferredIdentifier" class="required"> * </span></label>
-              <select class="form-control" [(ngModel)]="preferredIdentifier" (ngModelChange)="setPreferred($event)">
+            <div class="form-group">
+              <label class="control-label"
+                >Select Preferred Identifier
+                <span *ngIf="!preferredIdentifier" class="required">
+                  *
+                </span></label
+              >
+              <select
+                class="form-control"
+                [(ngModel)]="preferredIdentifier"
+                (ngModelChange)="setPreferred($event)"
+              >
                 <option></option>
-                <option *ngFor="let identifier of identifiers; let i=index;" [ngValue]="identifier">{{ identifier.identifierTypeName }}</option>
+                <option
+                  *ngFor="let identifier of identifiers; let i = index"
+                  [ngValue]="identifier"
+                >
+                  {{ identifier.identifierTypeName }}
+                </option>
               </select>
             </div>
           </div>
         </div>
         <hr class="intro-divider patient-info-divider" />
         <div class="row">
-
           <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
             <div class="form-group">
-                <label class="control-label">Identifier Location <span *ngIf="!selectedLocation" class="required"> * </span></label>
-                  <ng-select class="sharp-corners" id="selectedDevice" (ngModelChange)="setIdentifierLocation($event)"
-                            [placeholder]="'Select a location or type to search...'"
-                            [(ngModel)]="selectedLocation" [items]="locations">
-                  </ng-select>
-                  <div *ngIf="errors && !selectedLocation" class="required">
-                    <span class="help-block" style="color:red;">Location is required!</span>
-                  </div>
+              <label class="control-label"
+                >Identifier Location
+                <span *ngIf="!selectedLocation" class="required">
+                  *
+                </span></label
+              >
+              <ng-select
+                class="sharp-corners"
+                id="selectedDevice"
+                (ngModelChange)="setIdentifierLocation($event)"
+                [placeholder]="'Select a location or type to search...'"
+                [(ngModel)]="selectedLocation"
+                [items]="locations"
+              >
+              </ng-select>
+              <div *ngIf="errors && !selectedLocation" class="required">
+                <span class="help-block" style="color: red"
+                  >Location is required!</span
+                >
+              </div>
             </div>
           </div>
         </div>
@@ -227,29 +413,54 @@
         <div class="row">
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
             <div class="form-group">
-              <label for="phoneNumber" class="control-label">Phone Number</label>
-              <input type="text" id="patientPhoneNumber" class="form-control" [(ngModel)]="patientPhoneNumber"
-                      name="patientPhoneNumber" minlength="10" [pattern]="pattern" #name="ngModel">
-              <div *ngIf="name.errors && (name.dirty || name.touched)" class="alert alert-danger">
-                  <div [hidden]="!name.errors.minlength">
-                    Phone number must be at least 10  digits.
-                  </div>
-                  <div *ngIf="name.errors.pattern">
-                    Valid phone number is required
-                  </div>
+              <label for="phoneNumber" class="control-label"
+                >Phone Number</label
+              >
+              <input
+                type="text"
+                id="patientPhoneNumber"
+                class="form-control"
+                [(ngModel)]="patientPhoneNumber"
+                name="patientPhoneNumber"
+                minlength="10"
+                [pattern]="pattern"
+                #name="ngModel"
+              />
+              <div
+                *ngIf="name.errors && (name.dirty || name.touched)"
+                class="alert alert-danger"
+              >
+                <div [hidden]="!name.errors.minlength">
+                  Phone number must be at least 10 digits.
+                </div>
+                <div *ngIf="name.errors.pattern">
+                  Valid phone number is required
+                </div>
               </div>
             </div>
           </div>
 
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
             <div class="form-group">
-              <label for="alternativePhoneNumber" class="control-label">Alternative Phone Number</label>
-              <input type="text" id="alternativePhoneNumber" class="form-control" [(ngModel)]="alternativePhoneNumber"
-                    name="alternativePhoneNumber" minlength="10" [pattern]="pattern" #names="ngModel">
-              <div *ngIf="names.errors && (names.dirty || names.touched)"
-                  class="alert alert-danger">
+              <label for="alternativePhoneNumber" class="control-label"
+                >Alternative Phone Number</label
+              >
+              <input
+                type="text"
+                id="alternativePhoneNumber"
+                class="form-control"
+                [(ngModel)]="alternativePhoneNumber"
+                name="alternativePhoneNumber"
+                minlength="10"
+                [pattern]="pattern"
+                #names="ngModel"
+              />
+              <div
+                *ngIf="names.errors && (names.dirty || names.touched)"
+                class="alert alert-danger"
+              >
                 <div [hidden]="!names.errors.minlength">
-                  Phone number must be at least 10  digits.
+                  Phone number must be at least 10 digits.
                 </div>
                 <div *ngIf="names.errors.pattern">
                   Valid phone number is required
@@ -261,12 +472,29 @@
         <div class="row">
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
             <div class="form-group">
-              <label for="spousePhoneNumber" class="control-label">Spouse Phone Number</label>
-              <input type="text" id="partnerPhoneNumber" class="form-control" name="partnerPhoneNumber" [(ngModel)]="partnerPhoneNumber"
-                    spousePhoneNumber="partnerPhoneNumber" minlength="10" [pattern]="pattern" #spousePhoneNumber="ngModel" >
-              <div *ngIf="spousePhoneNumber.errors && (spousePhoneNumber.dirty || spousePhoneNumber.touched)" class="alert alert-danger">
+              <label for="spousePhoneNumber" class="control-label"
+                >Spouse Phone Number</label
+              >
+              <input
+                type="text"
+                id="partnerPhoneNumber"
+                class="form-control"
+                name="partnerPhoneNumber"
+                [(ngModel)]="partnerPhoneNumber"
+                spousePhoneNumber="partnerPhoneNumber"
+                minlength="10"
+                [pattern]="pattern"
+                #spousePhoneNumber="ngModel"
+              />
+              <div
+                *ngIf="
+                  spousePhoneNumber.errors &&
+                  (spousePhoneNumber.dirty || spousePhoneNumber.touched)
+                "
+                class="alert alert-danger"
+              >
                 <div [hidden]="!spousePhoneNumber.errors.minlength">
-                  Phone number must be at least 10  digits.
+                  Phone number must be at least 10 digits.
                 </div>
                 <div *ngIf="spousePhoneNumber.errors.pattern">
                   Valid phone number is required
@@ -277,15 +505,29 @@
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
             <div class="form-group">
               <label for="nextOfKin">Next Of Kin Phone Number</label>
-              <input type="text" id="nextofkinPhoneNumber" class="form-control" [(ngModel)]="nextofkinPhoneNumber" nextOfKin="nextofkinPhoneNumber"
-                    minlength="10" [pattern]="pattern" #nextOfKin="ngModel" name="nextofkinPhoneNumber">
-              <div *ngIf="nextOfKin.errors && (nextOfKin.dirty || nextOfKin.touched)" class="alert alert-danger">
-                  <div [hidden]="!nextOfKin.errors.minlength">
-                    Phone number must be at least 10  digits.
-                  </div>
-                  <div *ngIf="nextOfKin.errors.pattern">
-                    Valid phone number is required
-                  </div>
+              <input
+                type="text"
+                id="nextofkinPhoneNumber"
+                class="form-control"
+                [(ngModel)]="nextofkinPhoneNumber"
+                nextOfKin="nextofkinPhoneNumber"
+                minlength="10"
+                [pattern]="pattern"
+                #nextOfKin="ngModel"
+                name="nextofkinPhoneNumber"
+              />
+              <div
+                *ngIf="
+                  nextOfKin.errors && (nextOfKin.dirty || nextOfKin.touched)
+                "
+                class="alert alert-danger"
+              >
+                <div [hidden]="!nextOfKin.errors.minlength">
+                  Phone number must be at least 10 digits.
+                </div>
+                <div *ngIf="nextOfKin.errors.pattern">
+                  Valid phone number is required
+                </div>
               </div>
             </div>
           </div>
@@ -339,27 +581,51 @@
             </div>
           </div>
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-              <div class="form-group">
+            <div class="form-group">
               <label for="address3" class="control-label">Estate</label>
-              <input type="text" id="address3" class="form-control" [(ngModel)]="address3" name="address3">
-              </div>
+              <input
+                type="text"
+                id="address3"
+                class="form-control"
+                [(ngModel)]="address3"
+                name="address3"
+              />
+            </div>
           </div>
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-              <div class="form-group">
-                <label for="cityVillage" class="control-label">City</label>
-                <input type="text" id="cityVillage" class="form-control" [(ngModel)]="cityVillage" name="cityVillage">
-              </div>
+            <div class="form-group">
+              <label for="cityVillage" class="control-label">City</label>
+              <input
+                type="text"
+                id="cityVillage"
+                class="form-control"
+                [(ngModel)]="cityVillage"
+                name="cityVillage"
+              />
+            </div>
           </div>
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
             <div class="form-group">
               <label for="latitude" class="control-label">Latitude</label>
-              <input type="text" id="latitude" class="form-control" [(ngModel)]="latitude" name="latitude">
+              <input
+                type="text"
+                id="latitude"
+                class="form-control"
+                [(ngModel)]="latitude"
+                name="latitude"
+              />
             </div>
           </div>
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
             <div class="form-group">
               <label for="longitude" class="control-label">Longitude</label>
-              <input type="text" id="longitude" class="form-control" [(ngModel)]="longitude" name="longitude">
+              <input
+                type="text"
+                id="longitude"
+                class="form-control"
+                [(ngModel)]="longitude"
+                name="longitude"
+              />
             </div>
           </div>
         </div>
@@ -367,112 +633,223 @@
         <div class="row">
           <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
             <button class="btn btn-primary" (click)="createPatient()">
-
-            Save</button>
-            <button type="button" class="btn btn-danger pull-right" (click)="cancel()">Cancel</button>
+              Save
+            </button>
+            <button
+              type="button"
+              class="btn btn-danger pull-right"
+              (click)="cancel()"
+            >
+              Cancel
+            </button>
           </div>
           <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-            <i *ngIf="loaderStatus" class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>
+            <i
+              *ngIf="loaderStatus"
+              class="fa fa-spinner fa-pulse fa-1x fa-fw"
+            ></i>
           </div>
         </div>
 
-        <div class="row" style="margin-top: 10px;">
-          <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12" *ngIf="errorAlert">
-            <div *ngFor="let error of errorAlerts"  class="alert alert-danger">
+        <div class="row" style="margin-top: 10px">
+          <div
+            class="col-md-12 col-sm-12 col-lg-12 col-xs-12"
+            *ngIf="errorAlert"
+          >
+            <div *ngFor="let error of errorAlerts" class="alert alert-danger">
               <strong>{{ error.code }}</strong>
             </div>
           </div>
         </div>
-
       </div>
-      <br>
+      <br />
       <div class="row" *ngIf="errors">
         <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-          <div class="alert alert-danger" *ngIf="!givenName">First Name is required!</div>
-          <div class="alert alert-danger" *ngIf="!familyName">Family Name is required!</div>
-          <div class="alert alert-danger" *ngIf="!gender">Gender is required!</div>
-          <div class="alert alert-danger" *ngIf="!birthDate">Birth Date is required!</div>
+          <div class="alert alert-danger" *ngIf="!givenName">
+            First Name is required!
+          </div>
+          <div class="alert alert-danger" *ngIf="!familyName">
+            Family Name is required!
+          </div>
+          <div class="alert alert-danger" *ngIf="!gender">
+            Gender is required!
+          </div>
+          <div class="alert alert-danger" *ngIf="!birthDate">
+            Birth Date is required!
+          </div>
           <span *ngIf="!patientExists">
-            <div class="alert alert-danger" *ngIf="identifiers.length === 0 && !patientIdentifier">Universal ID is required!</div>
-            <div class="alert alert-danger" *ngIf="identifiers.length === 0 && patientIdentifier">Please add the Universal ID!</div>
-            <div class="alert alert-danger" *ngIf="commonIdentifier && patientIdentifierType && !preferredIdentifier">Preferred Identifier is required!</div>
-            <div class="alert alert-danger" *ngIf="commonIdentifier && !commonAdded">Please add the Identifier!</div>
-            <div class="alert alert-danger" *ngIf="!selectedLocation">Identifier Location is required!</div>
-
+            <div
+              class="alert alert-danger"
+              *ngIf="identifiers.length === 0 && !patientIdentifier"
+            >
+              Universal ID is required!
+            </div>
+            <div
+              class="alert alert-danger"
+              *ngIf="identifiers.length === 0 && patientIdentifier"
+            >
+              Please add the Universal ID!
+            </div>
+            <div
+              class="alert alert-danger"
+              *ngIf="
+                commonIdentifier &&
+                patientIdentifierType &&
+                !preferredIdentifier
+              "
+            >
+              Preferred Identifier is required!
+            </div>
+            <div
+              class="alert alert-danger"
+              *ngIf="commonIdentifier && !commonAdded"
+            >
+              Please add the Identifier!
+            </div>
+            <div class="alert alert-danger" *ngIf="!selectedLocation">
+              Identifier Location is required!
+            </div>
           </span>
         </div>
       </div>
     </div>
 
-    <div *ngIf="found"  class="panel panel-primary" style="padding:2px;">
-
+    <div *ngIf="found" class="panel panel-primary" style="padding: 2px">
       <div class="panel panel-default">
         <div>
-            <p><strong>Similar Persons</strong></p>
-            <p>If the person exists, Please select from the list below. Otherwise click on the <strong>Create New Patient</strong> to proceed.</p>
+          <p><strong>Similar Persons</strong></p>
+          <p>
+            If the person exists, Please select from the list below. Otherwise
+            click on the <strong>Create New Patient</strong> to proceed.
+          </p>
         </div>
         <div class="container-fluid">
-        <table class="table table-striped table-hover">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Identifier(s)</th>
-              <th>Patient Name</th>
-              <th>Gender</th>
-              <th>Age</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="cursor: pointer;" (click)='selectPatient(patient)' *ngFor="let patient of patientResults | paginate: { itemsPerPage: 10, currentPage: page }; let i = index; ">
-              <td>{{ (i + 1)+ (page - 1) * 10 }}</td>
-              <td>
-                <span *ngIf="patient.searchIdentifiers.kenyaNationalId"> {{patient.searchIdentifiers.kenyaNationalId}}
-                        <span *ngIf="patient.searchIdentifiers.amrsMrn || patient.searchIdentifiers.ampathMrsUId">,</span>
-                </span>
-                <span *ngIf="patient.searchIdentifiers.amrsMrn">{{patient.searchIdentifiers.amrsMrn}}
-                          <span *ngIf="patient.searchIdentifiers.ampathMrsUId">,</span>
-                </span>
-                <span *ngIf="patient.searchIdentifiers.ampathMrsUId">{{patient.searchIdentifiers.ampathMrsUId}}
-                          <span *ngIf="patient.searchIdentifiers.cCC">,</span>
-                </span>
-                <span *ngIf="patient.searchIdentifiers.cCC">{{patient.searchIdentifiers.cCC}}</span>
-                <span *ngIf="patient.searchIdentifiers.default">{{patient.searchIdentifiers.default}}</span>
-
-              </td>
-              <td>{{patient.person.display}}</td>
-              <td>{{patient.person.gender}}</td>
-              <td>{{patient.person.age}}</td>
-            </tr>
-          </tbody>
-        </table>
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Identifier(s)</th>
+                <th>Patient Name</th>
+                <th>Gender</th>
+                <th>Age</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                style="cursor: pointer"
+                (click)="selectPatient(patient)"
+                *ngFor="
+                  let patient of patientResults
+                    | paginate: { itemsPerPage: 10, currentPage: page };
+                  let i = index
+                "
+              >
+                <td>{{ i + 1 + (page - 1) * 10 }}</td>
+                <td>
+                  <span *ngIf="patient.searchIdentifiers.kenyaNationalId">
+                    {{ patient.searchIdentifiers.kenyaNationalId }}
+                    <span
+                      *ngIf="
+                        patient.searchIdentifiers.amrsMrn ||
+                        patient.searchIdentifiers.ampathMrsUId
+                      "
+                      >,</span
+                    >
+                  </span>
+                  <span *ngIf="patient.searchIdentifiers.amrsMrn"
+                    >{{ patient.searchIdentifiers.amrsMrn }}
+                    <span *ngIf="patient.searchIdentifiers.ampathMrsUId"
+                      >,</span
+                    >
+                  </span>
+                  <span *ngIf="patient.searchIdentifiers.ampathMrsUId"
+                    >{{ patient.searchIdentifiers.ampathMrsUId }}
+                    <span *ngIf="patient.searchIdentifiers.cCC">,</span>
+                  </span>
+                  <span *ngIf="patient.searchIdentifiers.cCC">{{
+                    patient.searchIdentifiers.cCC
+                  }}</span>
+                  <span *ngIf="patient.searchIdentifiers.default">{{
+                    patient.searchIdentifiers.default
+                  }}</span>
+                </td>
+                <td>{{ patient.person.display }}</td>
+                <td>{{ patient.person.gender }}</td>
+                <td>{{ patient.person.age }}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
-      <pagination-controls (pageChange)="page = $event" style="cursor: pointer;"></pagination-controls>
-      <button type="button" class="btn btn-primary" (click)="continue()">Create New Patient</button>
-      <button type="button" class="btn btn-default" (click)="back()">Back</button>
+      <pagination-controls
+        (pageChange)="page = $event"
+        style="cursor: pointer"
+      ></pagination-controls>
+      <button type="button" class="btn btn-primary" (click)="continue()">
+        Create New Patient
+      </button>
+      <button type="button" class="btn btn-default" (click)="back()">
+        Back
+      </button>
     </div>
 
     <ng-template #successModal>
-      <div bsModal class="modal-body" [config]="{backdrop: 'static'}">
+      <div bsModal class="modal-body" [config]="{ backdrop: 'static' }">
         <div class="alert alert-success" role="alert">
-          You have successfully registered the patient <strong>{{ createdPatient?.person.display | uppercase }}</strong>
+          You have successfully registered the patient
+          <strong>{{ createdPatient?.person.display | uppercase }}</strong>
         </div>
-        <button type="button" class="btn btn-primary" (click)="loadDashboard(createdPatient)">Load Patient Dashboard</button>
-        <button style="margin-left: 20px;" class="btn btn-primary" (click)="loadProgramManager(createdPatient)">Enroll into Program</button>
-        <button type="button" class="btn btn-danger pull-right" (click)="close()">Close</button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="loadDashboard(createdPatient)"
+        >
+          Load Patient Dashboard
+        </button>
+        <button
+          style="margin-left: 20px"
+          class="btn btn-primary"
+          (click)="loadProgramManager(createdPatient)"
+        >
+          Enroll into Program
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger pull-right"
+          (click)="close()"
+        >
+          Close
+        </button>
       </div>
     </ng-template>
 
     <ng-template #confirmModal>
       <div bsModal class="modal-header">
-        <h4 class="modal-title pull-left" style="color:red;"><span class="glyphicon glyphicon-exclamation-sign"></span> &nbsp; &nbsp; Warning.</h4>
+        <h4 class="modal-title pull-left" style="color: red">
+          <span class="glyphicon glyphicon-exclamation-sign"></span> &nbsp;
+          &nbsp; Warning.
+        </h4>
       </div>
-      <div bsModal class="modal-body" [config]="{backdrop: 'static'}">
+      <div bsModal class="modal-body" [config]="{ backdrop: 'static' }">
         <strong>Are you sure you want to delete this identifier?</strong>
       </div>
       <div bsModal class="modal-footer">
-        <button style="margin-right: 5px;" type="button" class="btn btn-danger pull-right" (click)="check(true)"><span class="glyphicon glyphicon-ok"></span> Yes</button>
-        <button style="margin-right: 5px;" type="button" class="btn btn-primary pull-right" (click)="check(false)"><span class="glyphicon glyphicon-remove"></span> No</button>
+        <button
+          style="margin-right: 5px"
+          type="button"
+          class="btn btn-danger pull-right"
+          (click)="check(true)"
+        >
+          <span class="glyphicon glyphicon-ok"></span> Yes
+        </button>
+        <button
+          style="margin-right: 5px"
+          type="button"
+          class="btn btn-primary pull-right"
+          (click)="check(false)"
+        >
+          <span class="glyphicon glyphicon-remove"></span> No
+        </button>
       </div>
     </ng-template>
   </div>
