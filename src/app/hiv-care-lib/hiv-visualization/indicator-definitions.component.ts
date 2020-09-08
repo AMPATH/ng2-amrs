@@ -11,8 +11,7 @@ import * as _ from 'lodash';
 export class HivCareIndicatorDefComponent implements OnInit {
   public indicatorDefinitionsArr: Array<any>;
   private _data = new BehaviorSubject<any>([]);
-  constructor() {
-  }
+  constructor() {}
   @Input()
   public set indicatorDefinitions(value) {
     this._data.next(value);
@@ -21,12 +20,11 @@ export class HivCareIndicatorDefComponent implements OnInit {
     return this._data.getValue();
   }
   public ngOnInit() {
-    this._data
-      .subscribe((x) => {
-        if (x) {
-          this.createIndicatorDefinitionsDictionary(x);
-        }
-      });
+    this._data.subscribe((x) => {
+      if (x) {
+        this.createIndicatorDefinitionsDictionary(x);
+      }
+    });
   }
 
   public createIndicatorDefinitionsDictionary(indicatorDefinitions) {

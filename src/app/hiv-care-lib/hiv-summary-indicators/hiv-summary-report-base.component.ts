@@ -1,14 +1,16 @@
-
 import { take } from 'rxjs/operators';
-import { Component, OnInit, ViewChild, Output, EventEmitter, Input } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  Output,
+  EventEmitter,
+  Input
+} from '@angular/core';
 
 import * as Moment from 'moment';
-import {
-  HivSummaryIndicatorsResourceService
-} from '../../etl-api/hiv-summary-indicators-resource.service';
-import {
-  DataAnalyticsDashboardService
-} from '../../data-analytics-dashboard/services/data-analytics-dashboard.services';
+import { HivSummaryIndicatorsResourceService } from '../../etl-api/hiv-summary-indicators-resource.service';
+import { DataAnalyticsDashboardService } from '../../data-analytics-dashboard/services/data-analytics-dashboard.services';
 /*import {
   DataAnalyticsDashboardService
 } from '../../data-analytics-dashboard/services/data-analytics.service';*/
@@ -26,7 +28,8 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
   public indicators: string;
   public selectedIndicators = [];
   public selectedGender = [];
-  public enabledControls = 'indicatorsControl,datesControl,' +
+  public enabledControls =
+    'indicatorsControl,datesControl,' +
     'ageControl,genderControl,locationControl';
   public isLoadingReport = false;
   public encounteredError = false;
@@ -69,10 +72,12 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
     this._gender = v;
   }
 
-  constructor(public hivSummaryIndicatorsResourceService: HivSummaryIndicatorsResourceService,
-    public dataAnalyticsDashboardService: DataAnalyticsDashboardService) { }
+  constructor(
+    public hivSummaryIndicatorsResourceService: HivSummaryIndicatorsResourceService,
+    public dataAnalyticsDashboardService: DataAnalyticsDashboardService
+  ) {}
 
-  public ngOnInit() { }
+  public ngOnInit() {}
   public generateReport() {
     // set busy indications variables
     // clear error
@@ -107,16 +112,21 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
         endAge: this.endAge
       };
       this.hivSummaryIndicatorsResourceService
-        .getHivSummaryIndicatorsReport(params).pipe(take(1)).subscribe((data) => {
-          this.isLoadingReport = false;
-          this.sectionsDef = data.indicatorDefinitions;
+        .getHivSummaryIndicatorsReport(params)
+        .pipe(take(1))
+        .subscribe(
+          (data) => {
+            this.isLoadingReport = false;
+            this.sectionsDef = data.indicatorDefinitions;
 
-          this.data = data.result;
-        }, (error) => {
-          this.isLoadingReport = false;
-          this.errorMessage = error;
-          this.encounteredError = true;
-        });
+            this.data = data.result;
+          },
+          (error) => {
+            this.isLoadingReport = false;
+            this.errorMessage = error;
+            this.encounteredError = true;
+          }
+        );
     }
   }
 
@@ -135,7 +145,7 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
         }
       }
     }
-    return this.gender = gender;
+    return (this.gender = gender);
   }
   public getSelectedIndicators(selectedIndicator) {
     let indicators;
@@ -148,7 +158,7 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
         }
       }
     }
-    return this.indicators = indicators;
+    return (this.indicators = indicators);
   }
   public onTabChanged(event) {
     if (event.index === 0) {
@@ -166,7 +176,8 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
       if (i === 0) {
         selectedLocations = selectedLocations + (locationUuids[0] as any).value;
       } else {
-        selectedLocations = selectedLocations + ',' + (locationUuids[i] as any).value;
+        selectedLocations =
+          selectedLocations + ',' + (locationUuids[i] as any).value;
       }
     }
     return selectedLocations;
@@ -175,5 +186,4 @@ export class HivSummaryIndicatorBaseComponent implements OnInit {
   private toDateString(date: Date): string {
     return Moment(date).utcOffset('+03:00').format();
   }
-
 }

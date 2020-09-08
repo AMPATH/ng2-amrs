@@ -1,5 +1,12 @@
 <div *ngIf="!isReleased" class="alert alert-warning">
-    <strong>Viewing a draft Version of the MOH 731 Report. </strong> This report is not officially released, and is likely to change without warning.
+  <strong>Viewing a draft Version of the MOH 731 Report. </strong> This report
+  is not officially released, and is likely to change without warning.
 </div>
-<ag-grid-angular #agGrid style="width: 100%; height: 200px;" class="ag-blue" [rowData]="data" [gridOptions]="gridOptions">
+<ag-grid-angular
+  #agGrid
+  style="width: 100%; height: 200px"
+  class="ag-blue"
+  [rowData]="data"
+  [gridOptions]="gridOptions"
+>
 </ag-grid-angular>

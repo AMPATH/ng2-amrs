@@ -8,9 +8,8 @@ describe('DqaReportsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DqaReportsComponent ]
-    })
-    .compileComponents();
+      declarations: [DqaReportsComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

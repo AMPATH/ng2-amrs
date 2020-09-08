@@ -1,14 +1,16 @@
-
-import {take} from 'rxjs/operators';
-import { Component, OnInit, ViewChild, Output, EventEmitter, Input } from '@angular/core';
+import { take } from 'rxjs/operators';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  Output,
+  EventEmitter,
+  Input
+} from '@angular/core';
 
 import * as Moment from 'moment';
-import {
-  DataAnalyticsDashboardService
-} from '../../data-analytics-dashboard/services/data-analytics-dashboard.services';
-import {
-  HivMonthlySummaryIndicatorsResourceService
-} from '../../etl-api/hiv-monthly-summary-indicators-resource.service';
+import { DataAnalyticsDashboardService } from '../../data-analytics-dashboard/services/data-analytics-dashboard.services';
+import { HivMonthlySummaryIndicatorsResourceService } from '../../etl-api/hiv-monthly-summary-indicators-resource.service';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 
 @Component({
@@ -21,10 +23,11 @@ export class HivMonthlySummaryIndicatorBaseComponent implements OnInit {
   public isAggregated: boolean;
   public startAge = 0;
   public endAge = 120;
-  public indicators: string ;
-  public selectedIndicators  = [];
+  public indicators: string;
+  public selectedIndicators = [];
   public selectedGender = [];
-  public enabledControls = 'indicatorsControl,datesControl,' +
+  public enabledControls =
+    'indicatorsControl,datesControl,' +
     'ageControl,genderControl,locationControl';
   public isLoadingReport = false;
   public encounteredError = false;
@@ -36,7 +39,10 @@ export class HivMonthlySummaryIndicatorBaseComponent implements OnInit {
   @Input() public ageRangeStart: number;
   @Input() public ageRangeEnd: number;
 
-  private _startDate: Date = Moment().subtract(1, 'years').startOf('month').toDate();
+  private _startDate: Date = Moment()
+    .subtract(1, 'years')
+    .startOf('month')
+    .toDate();
   public get startDate(): Date {
     return this._startDate;
   }
@@ -67,14 +73,18 @@ export class HivMonthlySummaryIndicatorBaseComponent implements OnInit {
     this._gender = v;
   }
 
-  constructor(public hivIndicatorsResourceService: HivMonthlySummaryIndicatorsResourceService,
-              public dataAnalyticsDashboardService: DataAnalyticsDashboardService,
-              protected appFeatureAnalytics: AppFeatureAnalytics) { }
+  constructor(
+    public hivIndicatorsResourceService: HivMonthlySummaryIndicatorsResourceService,
+    public dataAnalyticsDashboardService: DataAnalyticsDashboardService,
+    protected appFeatureAnalytics: AppFeatureAnalytics
+  ) {}
 
   public ngOnInit() {
-    this.appFeatureAnalytics
-      .trackEvent('HIV monthly indicators', 'HIV monthly indicators report',
-        'HIV monthly indicators report generated');
+    this.appFeatureAnalytics.trackEvent(
+      'HIV monthly indicators',
+      'HIV monthly indicators report',
+      'HIV monthly indicators report generated'
+    );
   }
   public generateReport() {
     // set busy indications variables
@@ -92,27 +102,32 @@ export class HivMonthlySummaryIndicatorBaseComponent implements OnInit {
     this.isLoadingReport = true;
     this.hivIndicatorsResourceService
       .getHivSummaryMonthlyIndicatorsReport({
-          endDate: this.toDateString(this.endDate),
-          gender: this.gender ? this.gender : undefined,
-          startDate: this.toDateString(this.startDate),
-          indicators: this.indicators,
-          locationUuids: this.getSelectedLocations(this.locationUuids),
-          startAge: this.startAge,
-          endAge: this.endAge
-       }).pipe(take(1)).subscribe(
-      (data) => {
-        this.isLoadingReport = false;
-        this.sectionsDef =   data.indicatorDefinitions;
-        this.data =  this.formatDateField(data.result) ;
-        this.appFeatureAnalytics
-          .trackEvent('HIV monthly indicators', 'HIV monthly indicators report',
-            'HIV monthly indicators report generated');
-
-      }, (error) => {
-        this.isLoadingReport = false;
-        this.errorMessage = error;
-        this.encounteredError = true;
-      });
+        endDate: this.toDateString(this.endDate),
+        gender: this.gender ? this.gender : undefined,
+        startDate: this.toDateString(this.startDate),
+        indicators: this.indicators,
+        locationUuids: this.getSelectedLocations(this.locationUuids),
+        startAge: this.startAge,
+        endAge: this.endAge
+      })
+      .pipe(take(1))
+      .subscribe(
+        (data) => {
+          this.isLoadingReport = false;
+          this.sectionsDef = data.indicatorDefinitions;
+          this.data = this.formatDateField(data.result);
+          this.appFeatureAnalytics.trackEvent(
+            'HIV monthly indicators',
+            'HIV monthly indicators report',
+            'HIV monthly indicators report generated'
+          );
+        },
+        (error) => {
+          this.isLoadingReport = false;
+          this.errorMessage = error;
+          this.encounteredError = true;
+        }
+      );
   }
   public onAgeChangeFinished($event) {
     this.startAge = $event.ageFrom;
@@ -129,7 +144,7 @@ export class HivMonthlySummaryIndicatorBaseComponent implements OnInit {
         }
       }
     }
-    return this.gender = gender;
+    return (this.gender = gender);
   }
   public getSelectedIndicators(selectedIndicator) {
     let indicators;
@@ -142,7 +157,7 @@ export class HivMonthlySummaryIndicatorBaseComponent implements OnInit {
         }
       }
     }
-    return this.indicators = indicators;
+    return (this.indicators = indicators);
   }
   public onTabChanged(event) {
     if (event.index === 0) {
@@ -160,7 +175,8 @@ export class HivMonthlySummaryIndicatorBaseComponent implements OnInit {
       if (i === 0) {
         selectedLocations = selectedLocations + (locationUuids[0] as any).value;
       } else {
-        selectedLocations = selectedLocations + ',' + (locationUuids[i] as any).value;
+        selectedLocations =
+          selectedLocations + ',' + (locationUuids[i] as any).value;
       }
     }
     return selectedLocations;
@@ -182,7 +198,5 @@ export class HivMonthlySummaryIndicatorBaseComponent implements OnInit {
       dates.push(data);
     }
     return dates;
-
   }
-
 }

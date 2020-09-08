@@ -8,7 +8,6 @@ import { Location } from '@angular/common';
   styleUrls: ['./prep-report-patient-list.component.css']
 })
 export class PrepReportPatientListComponent implements OnInit {
-
   public params: any;
   public patientData: any;
   public extraColumns: Array<any> = [];
@@ -18,32 +17,34 @@ export class PrepReportPatientListComponent implements OnInit {
   public hasLoadedAll = false;
   public hasError = false;
 
-  constructor(private router: Router, private route: ActivatedRoute,
-    private _location: Location, public prepResource: PrepResourceService) { }
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private _location: Location,
+    public prepResource: PrepResourceService
+  ) {}
 
   ngOnInit() {
-    this.route
-      .queryParams
-      .subscribe((params) => {
+    this.route.queryParams.subscribe(
+      (params) => {
         if (params && params.month) {
           this.params = params;
           this.selectedIndicator = params.indicatorHeader;
           this.getPatientList(params);
         }
-      }, (error) => {
+      },
+      (error) => {
         console.error('Error', error);
-      });
+      }
+    );
   }
 
   private getPatientList(params: any) {
-        this.prepResource.getPrepPatientList(params)
-          .subscribe(
-            (data) => {
-              this.isLoading = false;
-              this.patientData = data.result;
-              this.hasLoadedAll = true;
-            }
-          );
+    this.prepResource.getPrepPatientList(params).subscribe((data) => {
+      this.isLoading = false;
+      this.patientData = data.result;
+      this.hasLoadedAll = true;
+    });
   }
   public goBack() {
     this._location.back();

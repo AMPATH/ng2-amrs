@@ -1,36 +1,35 @@
-<div >
+<div>
   <div>
-    <hr>
+    <hr />
     <chart *ngIf="options" [options]="options" (redraw)="renderChart()"></chart>
     <div *ngIf="showHivCareTabularView">
-      <hr>
+      <hr />
       <hiv-care-tabularview [data]="data"></hiv-care-tabularview>
     </div>
     <div class="slide-toggle">
       <mat-slide-toggle
-        style="float:right"
+        style="float: right"
         [color]="'primary'"
         [(ngModel)]="showHivCareTabularView"
         [checked]="showHivCareTabularView"
-      ><span *ngIf="!showHivCareTabularView">Show</span> <span *ngIf="showHivCareTabularView">Hide
-    </span>HIV Care Tabular View
+        ><span *ngIf="!showHivCareTabularView">Show</span>
+        <span *ngIf="showHivCareTabularView">Hide </span>HIV Care Tabular View
       </mat-slide-toggle>
     </div>
     <div class="clear" *ngIf="showIndicatorDefinitions"></div>
     <div *ngIf="showIndicatorDefinitions">
-      <hr>
+      <hr />
       <hiv-care-indicator-definitions [indicatorDefinitions]="indicatorDef">
       </hiv-care-indicator-definitions>
     </div>
     <div class="slide-toggle">
       <mat-slide-toggle
-        style="float:right"
+        style="float: right"
         [color]="'primary'"
         [(ngModel)]="showIndicatorDefinitions"
         [checked]="showIndicatorDefinitions"
-      ><span *ngIf="!showIndicatorDefinitions">Show</span> <span
-        *ngIf="showIndicatorDefinitions">Hide</span> Indicator
-        Definitions
+        ><span *ngIf="!showIndicatorDefinitions">Show</span>
+        <span *ngIf="showIndicatorDefinitions">Hide</span> Indicator Definitions
       </mat-slide-toggle>
     </div>
     <div class="clear" *ngIf="showHivCareTabularView"></div>

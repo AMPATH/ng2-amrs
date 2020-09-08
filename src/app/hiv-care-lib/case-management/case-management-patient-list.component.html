@@ -1,21 +1,33 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
-      <h4>{{title}}</h4>
+      <h4>{{ title }}</h4>
       <hr class="intro-divider" width="40%" />
       <div *ngIf="rowData.length === 0">
-          <h4 align="center">No cases to load</h4>
+        <h4 align="center">No cases to load</h4>
       </div>
       <div *ngIf="rowData.length > 0">
         <div *ngIf="!displayMassAssignBtn">
-          <button class="btn btn-success" (click)="massAssignCaseManagers()">Assign Case Manager</button>
+          <button class="btn btn-success" (click)="massAssignCaseManagers()">
+            Assign Case Manager
+          </button>
         </div>
-        <ag-grid-angular #agGrid style="min-width: 100%; height: 500px;" class="ag-blue" [rowData]="rowData"
-          [gridOptions]="gridOptions" [columnDefs]="caseMgmtColdef">
+        <ag-grid-angular
+          #agGrid
+          style="min-width: 100%; height: 500px"
+          class="ag-blue"
+          [rowData]="rowData"
+          [gridOptions]="gridOptions"
+          [columnDefs]="caseMgmtColdef"
+        >
         </ag-grid-angular>
       </div>
-      <button class="btn btn-info pull-right" *ngIf="rowData.length > 0" (click)="exportPatientListToCsv()"
-        style="color: #fff;">
+      <button
+        class="btn btn-info pull-right"
+        *ngIf="rowData.length > 0"
+        (click)="exportPatientListToCsv()"
+        style="color: #fff"
+      >
         <i class="inline fa fa-file-excel-o"></i>
         <span>Export</span>
       </button>
@@ -23,26 +35,48 @@
   </div>
 </div>
 <p-dialog header="Change Case Manager" [(visible)]="display">
-
   <div id="modal-body">
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-          <div class="alert alert-success" *ngIf="showSuccessAlert" style="margin-top:10px">
-            <strong>Done!</strong> {{successAlert}}
+          <div
+            class="alert alert-success"
+            *ngIf="showSuccessAlert"
+            style="margin-top: 10px"
+          >
+            <strong>Done!</strong> {{ successAlert }}
           </div>
-          <div class="alert alert-warning" *ngIf="unAssignFlag" style="margin-top:10px">
+          <div
+            class="alert alert-warning"
+            *ngIf="unAssignFlag"
+            style="margin-top: 10px"
+          >
             <strong>Do you wish to unassign Case Manager?</strong>
           </div>
-          <div class="alert alert-danger" *ngIf="showErrorAlert" style="margin-top:10px">
-            <strong>{{errorTitle}}</strong> {{errorAlert}}
+          <div
+            class="alert alert-danger"
+            *ngIf="showErrorAlert"
+            style="margin-top: 10px"
+          >
+            <strong>{{ errorTitle }}</strong> {{ errorAlert }}
           </div>
-          <div class="alert alert-danger" *ngIf="caseManagers.length === 0" style="margin-top:10px">
-            <h5>There are no case managers assigned for the current location, please contact the system admin</h5>
-        </div>
-        <div class="alert alert-warning" *ngIf="newManager && newManager.person_name==currentManager" style="margin-top:10px">
-          <h5>You have selected the current manager. Select a new manager</h5>
-      </div>
+          <div
+            class="alert alert-danger"
+            *ngIf="caseManagers.length === 0"
+            style="margin-top: 10px"
+          >
+            <h5>
+              There are no case managers assigned for the current location,
+              please contact the system admin
+            </h5>
+          </div>
+          <div
+            class="alert alert-warning"
+            *ngIf="newManager && newManager.person_name == currentManager"
+            style="margin-top: 10px"
+          >
+            <h5>You have selected the current manager. Select a new manager</h5>
+          </div>
         </div>
       </div>
       <div class="row">
@@ -51,27 +85,59 @@
             <div *ngIf="currentManager" class="form-group">
               <label class="control-label">Update Case Manager </label>
               <div class="checkbox">
-                  <label>
-                    <input type="checkbox" id="unAssignFlag" [(ngModel)]="unAssignFlag"  name="unAssignFlag">Unassign Case Manager
-                  </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    id="unAssignFlag"
+                    [(ngModel)]="unAssignFlag"
+                    name="unAssignFlag"
+                  />Unassign Case Manager
+                </label>
               </div>
-          </div>
-            <div class="form-group">
-              <label for="patient" class="control-label">Patient</label>
-              <input type="hidden" id="patientUuid" class="form-control" [(ngModel)]="patientUuid" name="patientUuid">
-              <input type="text" id="patient" class="form-control" [(ngModel)]="patient" name="patient" disabled>
             </div>
             <div class="form-group">
-              <label for="currentManager" class="control-label">Current Manager</label>
-              <input type="text" id="currentManager" class="form-control" [(ngModel)]="currentManager"
-                name="currentManager" disabled>
+              <label for="patient" class="control-label">Patient</label>
+              <input
+                type="hidden"
+                id="patientUuid"
+                class="form-control"
+                [(ngModel)]="patientUuid"
+                name="patientUuid"
+              />
+              <input
+                type="text"
+                id="patient"
+                class="form-control"
+                [(ngModel)]="patient"
+                name="patient"
+                disabled
+              />
+            </div>
+            <div class="form-group">
+              <label for="currentManager" class="control-label"
+                >Current Manager</label
+              >
+              <input
+                type="text"
+                id="currentManager"
+                class="form-control"
+                [(ngModel)]="currentManager"
+                name="currentManager"
+                disabled
+              />
             </div>
             <div class="form-group" *ngIf="!unAssignFlag">
               <label class="control-label">New Manager:</label>
-              <select class="form-control" name="newManager" [(ngModel)]="newManager"
-                (ngModelChange)="setCaseManager($event)">
+              <select
+                class="form-control"
+                name="newManager"
+                [(ngModel)]="newManager"
+                (ngModelChange)="setCaseManager($event)"
+              >
                 <option></option>
-                <option *ngFor="let c of caseManagers" [ngValue]="c">{{ c.person_name }}</option>
+                <option *ngFor="let c of caseManagers" [ngValue]="c">
+                  {{ c.person_name }}
+                </option>
               </select>
               <div *ngIf="!newManager">
                 <div class="help-block">New case Manager is required!</div>
@@ -82,40 +148,75 @@
       </div>
     </div>
   </div>
-  <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" style="padding-top:15px">
-    <button class="btn btn-primary" type="button" (click)="updateCaseManager(false)"><span>Save</span>
+  <div
+    class="col-md-12 col-lg-12 col-sm-12 col-xs-12"
+    style="padding-top: 15px"
+  >
+    <button
+      class="btn btn-primary"
+      type="button"
+      (click)="updateCaseManager(false)"
+    >
+      <span>Save</span>
     </button>
-    <button class="btn btn-danger pull-right" type="button" (click)="dismissDialog()">
-      <span>Cancel</span></button>
+    <button
+      class="btn btn-danger pull-right"
+      type="button"
+      (click)="dismissDialog()"
+    >
+      <span>Cancel</span>
+    </button>
   </div>
 </p-dialog>
-<p-dialog header="Assign Patients to Case Managers" [(visible)]="displayMassAssign">
-
+<p-dialog
+  header="Assign Patients to Case Managers"
+  [(visible)]="displayMassAssign"
+>
   <div id="modal-body">
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-          <div class="" *ngIf="patientList" style="margin-top:10px">
-           <h3> Assigning <strong>{{patientList.length}}</strong> Patients to Case Managers. <strong>{{patientList.length - caseAssignment}} </strong> patients are unassigned</h3>
+          <div class="" *ngIf="patientList" style="margin-top: 10px">
+            <h3>
+              Assigning <strong>{{ patientList.length }}</strong> Patients to
+              Case Managers.
+              <strong>{{ patientList.length - caseAssignment }} </strong>
+              patients are unassigned
+            </h3>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-          <div class="alert alert-success" *ngIf="showSuccessAlert" style="margin-top:10px">
-            <strong>Done!</strong> {{successAlert}}
+          <div
+            class="alert alert-success"
+            *ngIf="showSuccessAlert"
+            style="margin-top: 10px"
+          >
+            <strong>Done!</strong> {{ successAlert }}
           </div>
-          <div class="alert alert-danger" *ngIf="showErrorAlert" style="margin-top:10px">
-            <strong>{{errorTitle}}</strong> {{errorAlert}}
+          <div
+            class="alert alert-danger"
+            *ngIf="showErrorAlert"
+            style="margin-top: 10px"
+          >
+            <strong>{{ errorTitle }}</strong> {{ errorAlert }}
           </div>
-          <div class="alert alert-danger" *ngIf="caseManagers.length === 0" style="margin-top:10px">
-              <h5>There are no case managers assigned for the current location, please contact the system admin</h5>
+          <div
+            class="alert alert-danger"
+            *ngIf="caseManagers.length === 0"
+            style="margin-top: 10px"
+          >
+            <h5>
+              There are no case managers assigned for the current location,
+              please contact the system admin
+            </h5>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="table-responsive">
-          <table class='table table-striped  table-responsive'>
+          <table class="table table-striped table-responsive">
             <thead>
               <tr>
                 <th>Provider</th>
@@ -125,26 +226,53 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let manager of caseManagers; let i=index; trackBy:trackByFn" ngForm>
+              <tr
+                *ngFor="
+                  let manager of caseManagers;
+                  let i = index;
+                  trackBy: trackByFn
+                "
+                ngForm
+              >
+                <td>
+                  <span> {{ manager.person_name }}<br /> </span>
+                </td>
                 <td>
                   <span>
-                    {{ manager.person_name }}<br>
+                    <a
+                      (click)="getPatientList(manager.user_id)"
+                      class="number_assigned_link"
+                      >{{ manager.number_assigned }}</a
+                    ><br />
                   </span>
                 </td>
                 <td>
                   <span>
-                    <a (click)="getPatientList(manager.user_id)" class="number_assigned_link">{{ manager.number_assigned }}</a><br>
+                    <input
+                      type="number"
+                      id="caseForManager{{ i }}"
+                      class="form-control"
+                      name="caseForManager{{ i }}"
+                      [(ngModel)]="caseManagers[i].a"
+                      (change)="
+                        incrementCases(
+                          $event,
+                          manager.user_uuid,
+                          patientList.length,
+                          manager.user_id,
+                          manager.person_name
+                        )
+                      "
+                    /><br />
                   </span>
                 </td>
                 <td>
                   <span>
-                    <input type="number" id="caseForManager{{i}}" class="form-control" name="caseForManager{{i}}" [(ngModel)]="caseManagers[i].a"
-                      (change)="incrementCases($event, manager.user_uuid,patientList.length, manager.user_id, manager.person_name)"><br>
-                  </span>
-                </td>
-                <td>
-                  <span>
-                    {{caseManagers[i].a>0 ? caseManagers[i].a+manager.number_assigned : manager.current_cases}}
+                    {{
+                      caseManagers[i].a > 0
+                        ? caseManagers[i].a + manager.number_assigned
+                        : manager.current_cases
+                    }}
                   </span>
                 </td>
               </tr>
@@ -154,10 +282,23 @@
       </div>
     </div>
   </div>
-  <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" style="padding-top:15px">
-    <button class="btn btn-primary" type="button" (click)="massAssignCaseManagers(true)"><span>Save</span>
+  <div
+    class="col-md-12 col-lg-12 col-sm-12 col-xs-12"
+    style="padding-top: 15px"
+  >
+    <button
+      class="btn btn-primary"
+      type="button"
+      (click)="massAssignCaseManagers(true)"
+    >
+      <span>Save</span>
     </button>
-    <button class="btn btn-danger pull-right" type="button" (click)="dismissDialog()">
-      <span>Cancel</span></button>
+    <button
+      class="btn btn-danger pull-right"
+      type="button"
+      (click)="dismissDialog()"
+    >
+      <span>Cancel</span>
+    </button>
   </div>
 </p-dialog>
