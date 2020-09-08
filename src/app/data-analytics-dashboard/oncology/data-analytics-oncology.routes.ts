@@ -2,12 +2,8 @@ import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { OncologyReportsComponent } from './oncology-reports/oncology-reports.component';
-import {
-  OncologySummaryIndicatorsComponent
-} from './oncology-reports/oncology-summary-indicators/oncology-summary-indicators.component';
-import {
-  OncologySummaryIndicatorsPatientListComponent
-} from './oncology-reports/oncology-indicators-patient-list/oncology-indicators-patient-list.component';
+import { OncologySummaryIndicatorsComponent } from './oncology-reports/oncology-summary-indicators/oncology-summary-indicators.component';
+import { OncologySummaryIndicatorsPatientListComponent } from './oncology-reports/oncology-indicators-patient-list/oncology-indicators-patient-list.component';
 import { AdminDashboardClinicFlowComponent } from '../hiv/clinic-flow/admin-dashboard-clinic-flow';
 import { DataEntryStatisticsComponent } from '../../data-entry-statistics/data-entry-statistics.component';
 import { DataEntryStatisticsPatientListComponent } from '../../data-entry-statistics/data-entry-statistics-patient-list.component';
@@ -25,19 +21,19 @@ const routes: Routes = [
       },
       {
         path: 'breast-cancer-screening-numbers',
-        component: OncologySummaryIndicatorsComponent,
+        component: OncologySummaryIndicatorsComponent
       },
       {
         path: 'cervical-cancer-screening-numbers',
-        component: OncologySummaryIndicatorsComponent,
+        component: OncologySummaryIndicatorsComponent
       },
       {
         path: ':screening-program/patient-list',
-        component: OncologySummaryIndicatorsPatientListComponent,
+        component: OncologySummaryIndicatorsPatientListComponent
       },
       {
         path: 'combined-breast-cervical-cancer-screening-numbers',
-        component: OncologySummaryIndicatorsComponent,
+        component: OncologySummaryIndicatorsComponent
       },
       {
         path: 'lung-cancer-treatment-numbers',
@@ -50,7 +46,8 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'clinic-flow', component: AdminDashboardClinicFlowComponent
+    path: 'clinic-flow',
+    component: AdminDashboardClinicFlowComponent
   },
   {
     path: 'program-enrollment',
@@ -75,7 +72,6 @@ const routes: Routes = [
       {
         path: 'patient-list',
         component: DataEntryStatisticsPatientListComponent
-
       }
     ]
   },
@@ -85,5 +81,6 @@ const routes: Routes = [
   }
 ];
 
-export const DataAnalyticsDashboardOncologyRouting: ModuleWithProviders =
-  RouterModule.forChild(routes);
+export const DataAnalyticsDashboardOncologyRouting: ModuleWithProviders = RouterModule.forChild(
+  routes
+);

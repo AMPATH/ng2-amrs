@@ -5,21 +5,15 @@
       "sections": [
         {
           "section": "total_breast_screened",
-          "report_indicators": [
-            "total_breast_screened"
-          ]
+          "report_indicators": ["total_breast_screened"]
         },
         {
           "section": "normal_breast_call_rate%",
-          "report_indicators": [
-            "normal_breast_call_rate%"
-          ]
+          "report_indicators": ["normal_breast_call_rate%"]
         },
         {
           "section": "abnormal_breast_call_rate%",
-          "report_indicators": [
-            "abnormal_breast_call_rate%"
-          ]
+          "report_indicators": ["abnormal_breast_call_rate%"]
         },
         {
           "section": "normal_findings",
@@ -57,11 +51,7 @@
         },
         {
           "section": "gender",
-          "report_indicators": [
-            "gender",
-            "male_patients",
-            "female_patients"
-          ]
+          "report_indicators": ["gender", "male_patients", "female_patients"]
         }
       ]
     },
@@ -70,21 +60,15 @@
       "sections": [
         {
           "section": "total_cervical_screened",
-          "report_indicators": [
-            "total_cervical_screened"
-          ]
+          "report_indicators": ["total_cervical_screened"]
         },
         {
           "section": "normal_cervical_call_rate%",
-          "report_indicators": [
-            "normal_cervical_call_rate%"
-          ]
+          "report_indicators": ["normal_cervical_call_rate%"]
         },
         {
           "section": "abnormal_cervical_call_rate%",
-          "report_indicators": [
-            "abnormal_cervical_call_rate%"
-          ]
+          "report_indicators": ["abnormal_cervical_call_rate%"]
         },
         {
           "section": "normal_findings",

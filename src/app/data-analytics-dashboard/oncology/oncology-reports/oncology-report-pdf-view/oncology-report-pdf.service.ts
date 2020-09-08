@@ -19,40 +19,46 @@ import * as OncologyReportConfig from '../oncology-pdf-reports.json';
 export class OncologyReportPdfService {
   public data: object = null;
 
-  public constructor() { }
+  public constructor() {}
 
-  public constructPdfStructure(data: Array<any>, params: any, title: String): Observable<any> {
+  public constructPdfStructure(
+    data: Array<any>,
+    params: any,
+    title: String
+  ): Observable<any> {
     return Observable.create((observer: Subject<any>) => {
       this.getLogo('./assets/img/ampath.png', (letterHead) => {
         observer.next({
           pageSize: 'LETTER',
           pageMargins: 42,
           footer: {
-            stack: [{
-              bold: true,
-              color: 'black',
-              text: ' Generated On: ' + new Date(),
-              style: { alignment: 'center', fontSize: 8 }
-            }
+            stack: [
+              {
+                bold: true,
+                color: 'black',
+                text: ' Generated On: ' + new Date(),
+                style: { alignment: 'center', fontSize: 8 }
+              }
             ],
             margin: [42, 20]
           },
-          content: [{
-            stack: [
-              {
-                image: letterHead,
-                width: 150,
-                alignment: 'center'
-              },
+          content: [
+            {
+              stack: [
+                {
+                  image: letterHead,
+                  width: 150,
+                  alignment: 'center'
+                },
 
-              {
-                text: this._formatReportIndicators(title) + ' Report',
-                style: 'mainHeader',
-                alignment: 'center'
-              }
-            ]
-          },
-          this.constructPdfSections(data, params)
+                {
+                  text: this._formatReportIndicators(title) + ' Report',
+                  style: 'mainHeader',
+                  alignment: 'center'
+                }
+              ]
+            },
+            this.constructPdfSections(data, params)
           ],
           styles: {
             header: {
@@ -104,7 +110,11 @@ export class OncologyReportPdfService {
     }).pipe(first());
   }
 
-  public constructAggregatePdfStructure(data: Array<any>, params: any, title: String): Observable<any> {
+  public constructAggregatePdfStructure(
+    data: Array<any>,
+    params: any,
+    title: String
+  ): Observable<any> {
     const aggregatedData = this.aggregateData(data, params);
     this.constructAggregateOuterLayout(data, params);
     return Observable.create((observer: Subject<any>) => {
@@ -113,53 +123,63 @@ export class OncologyReportPdfService {
           pageSize: 'LETTER',
           pageMargins: 42,
           footer: {
-            stack: [{
-              bold: true,
-              color: 'black',
-              text: ' Generated On: ' + new Date(),
-              style: { alignment: 'center', fontSize: 8 }
-            }
+            stack: [
+              {
+                bold: true,
+                color: 'black',
+                text: ' Generated On: ' + new Date(),
+                style: { alignment: 'center', fontSize: 8 }
+              }
             ],
             margin: [42, 20]
           },
-          content: [{
-            stack: [
-              {
-                image: letterHead,
-                width: 150,
-                alignment: 'center'
-              },
-              {
-                text: aggregatedData.locations,
-                margin: [0, 5, 0, 5],
-                alignment: 'center',
-                style: 'locationStyle'
-              },
-              {
-                text: this._formatReportIndicators(title) + ' Aggregate Report',
-                style: 'header',
-                alignment: 'center'
-              },
-              {
-                columns:
-                  [
-                    { width: '*', style: 'dateColumn', text: 'Start Date: ' + params.startDate },
-                    { width: '*', style: 'dateColumn', text: 'End Date: ' + params.endDate }
+          content: [
+            {
+              stack: [
+                {
+                  image: letterHead,
+                  width: 150,
+                  alignment: 'center'
+                },
+                {
+                  text: aggregatedData.locations,
+                  margin: [0, 5, 0, 5],
+                  alignment: 'center',
+                  style: 'locationStyle'
+                },
+                {
+                  text:
+                    this._formatReportIndicators(title) + ' Aggregate Report',
+                  style: 'header',
+                  alignment: 'center'
+                },
+                {
+                  columns: [
+                    {
+                      width: '*',
+                      style: 'dateColumn',
+                      text: 'Start Date: ' + params.startDate
+                    },
+                    {
+                      width: '*',
+                      style: 'dateColumn',
+                      text: 'End Date: ' + params.endDate
+                    }
                   ],
-                bold: true,
-                color: '#2a2a2a',
-                fillColor: '#d3d3d3'
-              },
-              aggregatedData.sections[0].body,
-            ]
-          },
-          {
-            layout: 'noBorders',
-            table: {
-              widths: ['*', '*'],
-              body: this.constructAggregateOuterLayout(data, params)
+                  bold: true,
+                  color: '#2a2a2a',
+                  fillColor: '#d3d3d3'
+                },
+                aggregatedData.sections[0].body
+              ]
+            },
+            {
+              layout: 'noBorders',
+              table: {
+                widths: ['*', '*'],
+                body: this.constructAggregateOuterLayout(data, params)
+              }
             }
-          }
           ],
           styles: {
             header: {
@@ -175,7 +195,7 @@ export class OncologyReportPdfService {
             dateColumn: {
               alignment: 'center',
               fontSize: 10,
-              bold: true,
+              bold: true
             },
             defaultTable: {
               fontSize: 8,
@@ -200,10 +220,13 @@ export class OncologyReportPdfService {
     }).pipe(first());
   }
 
-  public constructPdfSections(data: Array<any>, params: any): Array<Array<any>> {
+  public constructPdfSections(
+    data: Array<any>,
+    params: any
+  ): Array<Array<any>> {
     const sectionsArray: Array<Array<any>> = [[]];
     let section: Array<any> = [];
-    data.forEach(rowSection => {
+    data.forEach((rowSection) => {
       section = [
         {
           style: 'subheader',
@@ -211,8 +234,14 @@ export class OncologyReportPdfService {
             widths: ['*', 'auto'],
             body: [
               [
-                { text: 'Facility Name: ' + rowSection.location_name, style: 'headerStyle' },
-                { text: 'Date: ' + rowSection.encounter_datetime, style: 'headerStyle' }
+                {
+                  text: 'Facility Name: ' + rowSection.location_name,
+                  style: 'headerStyle'
+                },
+                {
+                  text: 'Date: ' + rowSection.encounter_datetime,
+                  style: 'headerStyle'
+                }
               ]
             ]
           }
@@ -225,7 +254,10 @@ export class OncologyReportPdfService {
     return sectionsArray;
   }
 
-  public constructAggregateOuterLayout(data: Array<any>, params: any): Array<Array<Array<any>>> {
+  public constructAggregateOuterLayout(
+    data: Array<any>,
+    params: any
+  ): Array<Array<Array<any>>> {
     const sectionsArray: Array<Array<Array<any>>> = [[[]]];
     const aggregatedData = this.aggregateData(data, params);
     aggregatedData.sections.shift();
@@ -255,7 +287,7 @@ export class OncologyReportPdfService {
         table: {
           widths: ['92%', '8%'],
           body: data
-        },
+        }
       }
     ];
   }
@@ -263,12 +295,22 @@ export class OncologyReportPdfService {
   public constructTableSection(indicator: any, data: any): Array<Array<any>> {
     const reportIndicators: Array<any> = indicator.report_indicators;
     const temp: Array<Array<any>> = [[]];
-    let mappedData: Array<Array<any>> = Object.keys(data).map((key) => [key, data[key]]);
-    mappedData = mappedData.filter(reportIndicator => reportIndicators.includes(reportIndicator[0]));
+    let mappedData: Array<Array<any>> = Object.keys(data).map((key) => [
+      key,
+      data[key]
+    ]);
+    mappedData = mappedData.filter((reportIndicator) =>
+      reportIndicators.includes(reportIndicator[0])
+    );
     _.forEach(mappedData, (reportIndicator) => {
       if (reportIndicator[0] === indicator.section) {
-        temp.push([{ text: this.formatReportIndicators(reportIndicator[0]), style: 'headerstyle' },
-        { text: reportIndicator[1], style: 'headerstyle' }]);
+        temp.push([
+          {
+            text: this.formatReportIndicators(reportIndicator[0]),
+            style: 'headerstyle'
+          },
+          { text: reportIndicator[1], style: 'headerstyle' }
+        ]);
       } else {
         temp.push([
           this.formatReportIndicators(reportIndicator[0]),
@@ -296,12 +338,16 @@ export class OncologyReportPdfService {
     ];
   }
 
-  public constructBodySection(data: any, params: any, reportType: String): Array<Array<any>> {
+  public constructBodySection(
+    data: any,
+    params: any,
+    reportType: String
+  ): Array<Array<any>> {
     const tableSegment: Array<Array<any>> = [[]];
     const reportIndicators = this.getReportIndicators(params.type);
     _.each(reportIndicators, (indicators) => {
-        tableSegment.push(this.constructTableLayout(indicators, data));
-      });
+      tableSegment.push(this.constructTableLayout(indicators, data));
+    });
 
     _.remove(tableSegment, (segment) => {
       return segment.length === 0;
@@ -323,7 +369,9 @@ export class OncologyReportPdfService {
   }
 
   private _formatReportIndicators(indicator: String) {
-    return indicator.replace('-', ' ').replace(/(?:^|\s)\S/g, a => a.toUpperCase());
+    return indicator
+      .replace('-', ' ')
+      .replace(/(?:^|\s)\S/g, (a) => a.toUpperCase());
   }
 
   public formatReportIndicators(indicator: String) {
@@ -354,11 +402,17 @@ export class OncologyReportPdfService {
       _.forEach(mappedData, (sectionData) => {
         if (sectionData[0] === section.section) {
           tempStorage.push([
-            { text: this.formatReportIndicators(sectionData[0]), style: 'headerstyle' },
+            {
+              text: this.formatReportIndicators(sectionData[0]),
+              style: 'headerstyle'
+            },
             { text: sectionData[1], style: 'headerstyle' }
           ]);
         } else {
-          tempStorage.push([this.formatReportIndicators(sectionData[0]), sectionData[1]]);
+          tempStorage.push([
+            this.formatReportIndicators(sectionData[0]),
+            sectionData[1]
+          ]);
         }
       });
 
@@ -371,7 +425,6 @@ export class OncologyReportPdfService {
     pdfBody.sections = _.concat(sections[0], _.chunk(_.slice(sections, 1), 2));
 
     return pdfBody;
-
   }
 
   private mapDataByIndicator(data, indicators): any[] {
@@ -391,18 +444,21 @@ export class OncologyReportPdfService {
     return DataStructHolder;
   }
 
-
-  public generatePdf(data: Array<any>, params: any, title: String): Observable<any> {
+  public generatePdf(
+    data: Array<any>,
+    params: any,
+    title: String
+  ): Observable<any> {
     return Observable.create((observer: Subject<any>) => {
       if (data) {
         this.data = data;
         this.constructPdfStructure(data, params, title)
-          .pipe(take(1)).subscribe(
+          .pipe(take(1))
+          .subscribe(
             (pdfStructure) => {
               const pdfProxy = pdfMake.createPdf(pdfStructure);
               pdfProxy.getBase64((output) => {
-                const int8Array: Uint8Array =
-                  this.base64ToUint8Array(output);
+                const int8Array: Uint8Array = this.base64ToUint8Array(output);
                 const blob = new Blob([int8Array], {
                   type: 'application/pdf'
                 });
@@ -421,20 +477,23 @@ export class OncologyReportPdfService {
         observer.error('some properties are missing');
       }
     }).pipe(first());
-
   }
 
-  public generateAggregatePdf(data: Array<any>, params: any, title: String): Observable<any> {
+  public generateAggregatePdf(
+    data: Array<any>,
+    params: any,
+    title: String
+  ): Observable<any> {
     return Observable.create((observer: Subject<any>) => {
       if (data) {
         this.data = data;
         this.constructAggregatePdfStructure(data, params, title)
-          .pipe(take(1)).subscribe(
+          .pipe(take(1))
+          .subscribe(
             (pdfStructure) => {
               const pdfProxy = pdfMake.createPdf(pdfStructure);
               pdfProxy.getBase64((output) => {
-                const int8Array: Uint8Array =
-                  this.base64ToUint8Array(output);
+                const int8Array: Uint8Array = this.base64ToUint8Array(output);
                 const blob = new Blob([int8Array], {
                   type: 'application/pdf'
                 });
@@ -453,7 +512,6 @@ export class OncologyReportPdfService {
         observer.error('some properties are missing');
       }
     }).pipe(first());
-
   }
 
   private _formatDate(date: Date) {
