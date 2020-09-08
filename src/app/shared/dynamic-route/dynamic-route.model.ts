@@ -1,4 +1,3 @@
-
 export class DynamicRouteModel {
   public dashboardId: string;
   public programs: any;

@@ -1,4 +1,3 @@
-
 .ui-select-container.form-control {
   z-index: 1 !important;
 }
@@ -8,23 +7,20 @@ report-filters {
 }
 
 .ui-select-choices li a {
-
   color: #337ab7 !important;
 }
 
-.ui-select-choices li div.ui-select-choices-row.active a{
-color: #fff !important;
+.ui-select-choices li div.ui-select-choices-row.active a {
+  color: #fff !important;
 }
 
 .ui-select-match-item.btn.btn-default {
   background-color: #428bca;
-    color: #fff;
-    border-color: #428bca;
+  color: #fff;
+  border-color: #428bca;
 }
 
 .ui-select-match-item a.close {
   color: #fff !important;
   opacity: 0.8;
 }
-
-

@@ -1,7 +1,13 @@
 import { take } from 'rxjs/operators';
 import {
-  Component, Output, Input, OnInit, EventEmitter,
-  ViewEncapsulation, ChangeDetectorRef, AfterViewInit
+  Component,
+  Output,
+  Input,
+  OnInit,
+  EventEmitter,
+  ViewEncapsulation,
+  ChangeDetectorRef,
+  AfterViewInit
 } from '@angular/core';
 import { LocationResourceService } from '../../../openmrs-api/location-resource.service';
 import * as _ from 'lodash';
@@ -9,27 +15,28 @@ import * as _ from 'lodash';
 @Component({
   selector: 'location-filter',
   templateUrl: './location-filter.component.html',
-  styles: [`
-    ng-select > div > div.multiple input {
-      width: 100% !important;
-    }
-    .location-filter ng-select > div > div.multiple > div.option {
-      color: #fff !important;
-      border-color: #357ebd !important;
-      flex-shrink: initial;
-      background-color: #428bca !important;
-    }
-    .ng-select .ng-control {
-      border-radius: 0;
-    }
-    .ng-select .ng-arrow-zone {
-      display: none;
-    }
-  `],
+  styles: [
+    `
+      ng-select > div > div.multiple input {
+        width: 100% !important;
+      }
+      .location-filter ng-select > div > div.multiple > div.option {
+        color: #fff !important;
+        border-color: #357ebd !important;
+        flex-shrink: initial;
+        background-color: #428bca !important;
+      }
+      .ng-select .ng-control {
+        border-radius: 0;
+      }
+      .ng-select .ng-arrow-zone {
+        display: none;
+      }
+    `
+  ],
   encapsulation: ViewEncapsulation.None
 })
 export class LocationFilterComponent implements OnInit, AfterViewInit {
-
   public locations = {};
   public counties: any;
   public loading = false;
@@ -64,7 +71,6 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
       this.selectedLocations = v;
       this._locationUuids = v;
     }
-
   }
 
   private _programLocations: Array<any> = [];
@@ -90,9 +96,10 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
     }
   }
   private allEncounterLocations: Array<any> = [];
-  constructor(private locationResourceService: LocationResourceService,
-    private cd: ChangeDetectorRef) {
-  }
+  constructor(
+    private locationResourceService: LocationResourceService,
+    private cd: ChangeDetectorRef
+  ) {}
 
   public ngOnInit() {
     if (this.county) {
@@ -114,7 +121,11 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
       this.selectedCounty = county ? county : 'N/A';
       if (!_.isNil(this.selectedCounty) && this.selectedCounty !== 'N/A') {
         this.getLocationsByCounty().then((countyLocations) => {
-          if (locations && _.isArray(locations) && locations.length < countyLocations.length) {
+          if (
+            locations &&
+            _.isArray(locations) &&
+            locations.length < countyLocations.length
+          ) {
             this.allFromCounty = true;
             this.showReset = false;
             this.allLocations = false;
@@ -123,11 +134,9 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
           }
         });
       } else if (locations && _.isArray(locations) && locations.length === 0) {
-
         this.showReset = false;
         this.allFromCounty = false;
         this.allLocations = true;
-
       }
       this.onLocationChange.emit({
         locations: this.selectedLocations,
@@ -155,48 +164,55 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
 
   public resolveLocationDetails(): void {
     this.loading = true;
-    this.locationResourceService.getLocations().pipe(take(1)).subscribe((locations: any[]) => {
-      const locs = locations.map((location) => {
-        return {
-          value: location.uuid,
-          label: location.display
-        };
-      });
-      this.locationDropdownOptions = locs;
-      this.allEncounterLocations = locs;
-      this.counties = _.groupBy(locations, 'stateProvince');
-      this.countyDropdownOptions = _.compact(_.keys(this.counties));
-      _.each(locations, (location) => {
-        const details = {
-          uuid: location.uuid,
-          district: location.countyDistrict ? location.countyDistrict : 'N/A',
-          county: location.stateProvince ? location.stateProvince : 'N/A',
-          facility: location.name,
-          facilityName: location.name
-        };
-        this.locations[location.uuid] = details;
-      });
-      if (this.county) {
-        this.onCountyChanged(this.selectedCounty);
-      }
-      if (this.locationUuids) {
-        if (typeof this.locationUuids === 'string') {
-          this.selectedLocations = _.first(_.filter(this.locationDropdownOptions,
-            (location) => {
-              return location.value === this.locationUuids;
-            }));
-        } else {
-          this.selectedLocations = this.locationUuids;
+    this.locationResourceService
+      .getLocations()
+      .pipe(take(1))
+      .subscribe(
+        (locations: any[]) => {
+          const locs = locations.map((location) => {
+            return {
+              value: location.uuid,
+              label: location.display
+            };
+          });
+          this.locationDropdownOptions = locs;
+          this.allEncounterLocations = locs;
+          this.counties = _.groupBy(locations, 'stateProvince');
+          this.countyDropdownOptions = _.compact(_.keys(this.counties));
+          _.each(locations, (location) => {
+            const details = {
+              uuid: location.uuid,
+              district: location.countyDistrict
+                ? location.countyDistrict
+                : 'N/A',
+              county: location.stateProvince ? location.stateProvince : 'N/A',
+              facility: location.name,
+              facilityName: location.name
+            };
+            this.locations[location.uuid] = details;
+          });
+          if (this.county) {
+            this.onCountyChanged(this.selectedCounty);
+          }
+          if (this.locationUuids) {
+            if (typeof this.locationUuids === 'string') {
+              this.selectedLocations = _.first(
+                _.filter(this.locationDropdownOptions, (location) => {
+                  return location.value === this.locationUuids;
+                })
+              );
+            } else {
+              this.selectedLocations = this.locationUuids;
+            }
+            this.onLocationSelected(this.selectedLocations);
+          }
+          this.loading = false;
+        },
+        (error: any) => {
+          console.log(error);
+          this.loading = false;
         }
-        this.onLocationSelected(this.selectedLocations);
-      }
-      this.loading = false;
-    }, (error: any) => {
-      console.log(error);
-      this.loading = false;
-    }
-    );
-
+      );
   }
 
   public getLocationsByCounty(): Promise<any> {
@@ -209,7 +225,8 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
     return new Promise((resolve) => {
       // filter the locations
       const filteredCounties = _.filter(this.locations, (location: any) => {
-        const mappedLocations = this.multiple ? _.map(this.selectedLocations, 'value')
+        const mappedLocations = this.multiple
+          ? _.map(this.selectedLocations, 'value')
           : [this.selectedLocations.value];
         return _.includes(mappedLocations, location.uuid);
       });
@@ -236,7 +253,6 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
           };
         });
       });
-
     } else {
       this.allLocations = false;
       this.selectedLocations = this.locationDropdownOptions;
