@@ -112,7 +112,8 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
             'd1e5ef63-126f-4b1f-bd3f-496c16c4098d', // KUZA ID
             '9cae9c8a-2821-4aa7-8064-30508e9f62ec', // ZURI ID
             'f2d6ff1a-8440-4d35-a150-1d4b5a930c5e', // CCC number
-            '22ee6ad7-58fb-4382-9af2-c6a553f3d56a' // NAT ID
+            '22ee6ad7-58fb-4382-9af2-c6a553f3d56a', // NAT ID
+            '5b91df4a-db7d-4c52-ac85-ac519420d82e' // BHIM ID
           ], _id.identifierType.uuid);
           if (hasId) {
             _.remove(this.commonIdentifierTypes, (idType: any) => idType.val === _id.identifierType.uuid);
