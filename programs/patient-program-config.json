@@ -1534,8 +1534,8 @@
           "required": true
         }],
         "discharge": [{
-          "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
-          "name": "AMPATH POC HIV Exit Care Form v1.1",
+          "uuid": "13fdaf27-51a2-4745-8a26-dac250fd29cd",
+          "name": "AMPATH POC OVC Exit Form V1.0",
           "required": true
         }]
       }
@@ -1607,6 +1607,10 @@
           {
             "uuid": "afabceae-61d4-42b6-8f6a-fff48a7797ea",
             "display": "COVIDCASEREPORTING"
+          },
+          {
+            "uuid": "824ca90d-c313-4d7e-bc99-119871d927cb",
+            "display": "OVCNONENROLLMENT"
           }
         ]
       }
@@ -3903,6 +3907,10 @@
         {
           "uuid": "afabceae-61d4-42b6-8f6a-fff48a7797ea",
           "display": "COVIDCASEREPORTING"
+        },
+        {
+          "uuid": "824ca90d-c313-4d7e-bc99-119871d927cb",
+          "display": "OVCNONENROLLMENT"
         }]
       },
       {

@@ -109,6 +109,6 @@ and `server.key`.
 2. Activate the `etl-rest-server` repo on your Travis account.
 3. Setup `DOCKER_PASSWORD` & `DOCKER_USERNAME` under environment variables on your forked repo's settings page on Travis.
 4. Update your local `etl-rest-server` fork i.e. `git pull upstream master`. The CD setup should be in master.
-5. Checkout a branch from master e.g. `git checkout -b test-etl-test-branch`
+5. Checkout a branch from master e.g. `git checkout -b test-etl`
 6. Push that branch i.e. `git push origin <branchname>`
 7. Access your test build via the following url: [https://ngx.ampath.or.ke/etl-backend/branchname/etl](https://ngx.ampath.or.ke/etl-backend/<branchname>/etl) where `branchname` is the name of your branch.
