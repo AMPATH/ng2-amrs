@@ -93,6 +93,7 @@ export class Patient extends BaseModel {
       const cCC = this.getIdentifierByType(identifier, 'CCC Number');
       const hei = this.getIdentifierByType(identifier, 'HEI');
       const nat = this.getIdentifierByType(identifier, 'NAT');
+      const bhim = this.getIdentifierByType(identifier, 'BHIM');
       if ((kenyaNationalId) === undefined && (amrsMrn) === undefined &&
         (ampathMrsUId) === undefined && (cCC) === undefined) {
         if ((this._identifier[0].identifier)) {
@@ -107,7 +108,8 @@ export class Patient extends BaseModel {
           'ampathMrsUId': ampathMrsUId,
           'cCC': cCC,
           'hei': hei,
-          'nat': nat
+          'nat': nat,
+          'bhim': bhim
         };
       }
       return filteredIdentifiers;
