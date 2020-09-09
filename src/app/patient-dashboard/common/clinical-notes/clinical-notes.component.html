@@ -100,6 +100,83 @@
               <hr/>
               <span class="note-label">Assessment: </span>
               <span class="note-info">{{ccHpiAssessment.assessment}}</span>
+              <div *ngIf="note.s4DiscussViralLoad.length > 0">
+                <hr style="margin-bottom: 2px;"/>
+                <span class="label label-default">EAC 4 </span>
+                <div *ngIf="note.s4DiscussViralLoad.length > 0" >
+                  <span class="note-label">Viral Load Discussion: </span>
+                  <span class="note-info">{{note.s4DiscussViralLoad[0].value}}</span>
+                </div>
+              </div>
+              <div *ngIf="note.s3ReviewAdherencePlan.length > 0">
+                <hr style="margin-bottom: 2px;"/>
+                <span class="label label-default">EAC 3 </span>
+                <div *ngIf="note.s3ReviewAdherencePlan.length > 0" >
+                  <span class="note-label">Adherence Review: </span>
+                  <span class="note-info">{{note.s3ReviewAdherencePlan[0].value}}</span>
+                </div>
+                <div *ngIf="note.s3NewIssues.length > 0" >
+                  <span class="note-label">New Issues: </span>
+                  <span class="note-info">{{note.s3NewIssues[0].value}}</span>
+                </div>
+                <div *ngIf="note.s3ReferralsFollowup.length > 0" >
+                  <span class="note-label">Referrals/Networking: </span>
+                  <span class="note-info">{{note.s3ReferralsFollowup[0].value}}</span>
+                </div>
+                <div *ngIf="note.s3AdherencePlan.length > 0" >
+                  <span class="note-label">Adherence Plan: </span>
+                  <span class="note-info">{{note.s3AdherencePlan[0].value}}</span>
+                </div>
+                <div *ngIf="note.s3RepeatViralLoad.length > 0" >
+                  <span class="note-label">Repeat Viral Load?: </span>
+                  <span class="note-info">{{note.s3RepeatViralLoad[0].value}}</span>
+                </div>
+              </div>
+              <div *ngIf="note.s2ReviewAdherencePlan.length > 0">
+                <hr style="margin-bottom: 2px;"/>
+                <span class="label label-default">EAC 2 </span>
+                <div *ngIf="note.s2ReviewAdherencePlan.length > 0" >
+                  <span class="note-label">Adherence Review: </span>
+                  <span class="note-info">{{note.s2ReviewAdherencePlan[0].value}}</span>
+                </div>
+                <div *ngIf="note.s2NewIssues.length > 0" >
+                  <span class="note-label">New Issues: </span>
+                  <span class="note-info">{{note.s2NewIssues[0].value}}</span>
+                </div>
+                <div *ngIf="note.s2ReferralsFollowup.length > 0" >
+                  <span class="note-label">Referrals/Networking: </span>
+                  <span class="note-info">{{note.s2ReferralsFollowup[0].value}}</span>
+                </div>
+                <div *ngIf="note.s2AdherencePlan.length > 0" >
+                  <span class="note-label">Adherence Plan: </span>
+                  <span class="note-info">{{note.s2AdherencePlan[0].value}}</span>
+                </div>
+              </div>
+              <div *ngIf="note.s1CognitiveBarriers.length > 0">
+                <hr style="margin-bottom: 2px;"/>
+                <span class="label label-default">EAC 1 </span>
+                <div *ngIf="note.s1CognitiveBarriers.length > 0" >
+                  <span class="note-label">Barriers: </span>
+                  <!-- <span class="note-label">Cognitive Barriers: </span> -->
+                  <span class="note-info">{{note.s1CognitiveBarriers[0].value}}</span>
+                </div>
+                <div *ngIf="note.s1BehavioralBarriers.length > 0" >
+                  <!-- <span class="note-label">Behavioral Barriers: </span> -->
+                  <span class="note-info">{{note.s1BehavioralBarriers[0].value}}</span>
+                </div>
+                <div *ngIf="note.s1EmotionalBarriers.length > 0" >
+                  <!-- <span class="note-label">Emotional Barriers: </span> -->
+                  <span class="note-info">{{note.s1EmotionalBarriers[0].value}}</span>
+                </div>
+                <div *ngIf="note.s1EconomicBarriers.length > 0" >
+                  <!-- <span class="note-label">Economic Barriers: </span> -->
+                  <span class="note-info">{{note.s1EconomicBarriers[0].value}}</span>
+                </div>
+                <div *ngIf="note.s1AdherencePlan.length > 0" >
+                  <span class="note-label">Adherence Plan: </span>
+                  <span class="note-info">{{note.s1AdherencePlan[0].value}}</span>
+                </div>
+              </div>
             </td>
           </tr>
           <tr *ngFor="let assessment of note.otherAssessment">
