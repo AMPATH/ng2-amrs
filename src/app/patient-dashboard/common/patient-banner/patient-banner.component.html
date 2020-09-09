@@ -5,10 +5,10 @@
     </div>
   </div>
   <!-- <add-to-cohort-dialog *ngIf="showingAddToCohort" [(patient)]="patient" [allowCohortEdit]="true"
-                      (dialogClosed)="onAddingToCohortClosed()">
-</add-to-cohort-dialog>
-<transfer-care-dialog (dialogClosed)="closeDialog()"
-                      *ngIf="manageProgramEnrollment"></transfer-care-dialog>-->
+   (dialogClosed)="onAddingToCohortClosed()">
+   </add-to-cohort-dialog>
+   <transfer-care-dialog (dialogClosed)="closeDialog()"
+   *ngIf="manageProgramEnrollment"></transfer-care-dialog>-->
   <div class="row">
     <div class="container-fluid patient-banner-partially hidden-sm hidden-md hidden-lg hidden-xl  {{ patient.person.dead ? 'banner-danger' : 'banner-info' }}" *ngIf="patient" style="padding: 4px 26px;">
       <div class="pull-left-">
@@ -46,15 +46,25 @@
               {{ searchIdentifiers?.ampathMrsUId }} &nbsp;&nbsp;&nbsp;&nbsp; </span>
             <span *ngIf="searchIdentifiers?.amrsMrn"> <span class="id-label">MRN:</span>
               {{ searchIdentifiers?.amrsMrn }}
-              &nbsp;&nbsp;&nbsp;&nbsp; </span>
-            <span *ngIf="searchIdentifiers?.nat"> <span class="id-label">NAT:</span>
-              {{ searchIdentifiers?.nat }} </span>
-            <span *ngIf="searchIdentifiers?.kenyaNationalId"> <span class="id-label">NID:</span>
-              {{ searchIdentifiers?.kenyaNationalId }} </span>
-            <span *ngIf="searchIdentifiers?.hei"> <span class="id-label">HEI:</span> {{ searchIdentifiers?.hei }}
+              &nbsp;&nbsp;&nbsp;&nbsp;
             </span>
-            <span *ngIf="searchIdentifiers?.bhim"> <span class="id-label">BHIM:</span> {{ searchIdentifiers?.bhim }} </span>
-            <span *ngIf="attributes?.value"> <span class="id-label">Test Patient:</span> {{ attributes?.value }} </span>
+            <span *ngIf="searchIdentifiers?.nat">
+              <span class="id-label">NAT:</span> {{ searchIdentifiers?.nat }}
+            </span>
+            <span *ngIf="searchIdentifiers?.kenyaNationalId">
+              <span class="id-label">NID:</span>
+              {{ searchIdentifiers?.kenyaNationalId }}
+            </span>
+            <span *ngIf="searchIdentifiers?.hei">
+              <span class="id-label">HEI:</span> {{ searchIdentifiers?.hei }}
+            </span>
+            <span *ngIf="searchIdentifiers?.bhim">
+              <span class="id-label">BHIM:</span> {{ searchIdentifiers?.bhim }}
+            </span>
+            <span *ngIf="attributes?.value">
+              <span class="id-label">Test Patient:</span>
+              {{ attributes?.value }}
+            </span>
             <span>
               <span *ngIf="searchIdentifiers?.ovcid"> <span class="id-label">OVC ID:</span>
                 {{ searchIdentifiers?.ovcid }} </span>
@@ -90,10 +100,10 @@
       </div>
     </div>
       <!--<div class="pull-right">
-    <a (click)="showTransferCareModal()" class="pull-right"
-       style="cursor: pointer;margin-left:15px;display: inline-block;"> <span
-      style="display: inline-block;margin-right:5px; height: 43px;line-height: 43px !important;"
-      class="icon-i-family-practice"></span>Manage Enrollment</a>-->
+      <a (click)="showTransferCareModal()" class="pull-right"
+         style="cursor: pointer;margin-left:15px;display: inline-block;"> <span
+        style="display: inline-block;margin-right:5px; height: 43px;line-height: 43px !important;"
+        class="icon-i-family-practice"></span>Manage Enrollment</a>-->
       <!-- <a (click)="addToCohort()" class="pull-right" style="display: inline-block;"> <span
       style="display: inline-block;margin-right:5px; height: 43px;line-height: 43px !important;"
       class="fa fa-plus"></span>Add to Patient List</a>
@@ -242,8 +252,11 @@
             </div>
           </div>
         </div>
-      </ng-template>
+      </div>
     </div>
+    <div class="margin-bottom-5 clear clear-fix">&nbsp;</div>
+    <add-relationship #addRelationship></add-relationship>
+    <edit-identifiers #identifiers></edit-identifiers>
   </div>
 </div>
   <div class="margin-bottom-5 clear clear-fix">&nbsp;</div>
