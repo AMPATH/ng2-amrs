@@ -1,11 +1,11 @@
 [![Build Status](https://travis-ci.org/AMPATH/etl-rest-server.svg?branch=master)](https://travis-ci.org/AMPATH/etl-rest-server)
 
-ETL Rest Server
+ETL REST Server
 ===============
 
-This is node project using hapi to expose rest endpoints providing access to data hosted in ETL flat tables (The tables themselves are flattened derived tables containing data from OpenMRS). There is a separate etl project that is responsible for data generation. You can find the scripts [Here](https://github.com/AMPATH/etl). The project is currently being battle tested in [ng-amrs](https://github.com/AMPATH/ng-amrs).
+This is a node project that uses [hapi](https://github.com/hapijs/hapi) to expose REST endpoints which provide access to data hosted in [ETL](https://en.wikipedia.org/wiki/Extract,_transform,_load) flat tables. These flat tables are flattened derived database tables containing data from OpenMRS. Data generation is done via MySQL stored procedures (found [here](https://github.com/ampath/etl)). This project is currently being battle-tested in production by [AMPATH POC](https://github.com/AMPATH/ng2-amrs).
 
-To setup the project run
+To setup the project, run:
 
 ```$ git clone https://github.com/AMPATH/etl-rest-server.git```
 
