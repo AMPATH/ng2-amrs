@@ -117,8 +117,8 @@ function isInitialPepVisit(patientEncounters) {
 
     let latestPEPEncounterDate = Moment(latestPEPEncounter.encounterDatetime).format();
     duration = today.diff(latestPEPEncounterDate,'days');
-    // if its more than 28 days since their last PEP Initial then they should see a pep initial visit
-    if(duration > 28){
+    // if its more than 60 days since their last PEP Initial then they should see a pep initial visit
+    if(duration > 60){
         isInitialPEPVisit = true;
     }else{
        isInitialPEPVisit = false;
