@@ -6,19 +6,10 @@ import { GroupManagerModule } from '../../group-manager/group-manager.module';
 import { GroupEnrollmentComponent } from './group-enrollment/group-enrollment.component';
 
 @NgModule({
-    declarations: [
-        GroupEnrollmentSummaryComponent,
-        GroupEnrollmentComponent
-    ],
-    imports: [
-        CommonModule,
-        NgamrsSharedModule,
-        GroupManagerModule
-     ],
-    providers: [],
-    entryComponents: [],
-    exports: [
-        GroupEnrollmentComponent
-    ]
+  declarations: [GroupEnrollmentSummaryComponent, GroupEnrollmentComponent],
+  imports: [CommonModule, NgamrsSharedModule, GroupManagerModule],
+  providers: [],
+  entryComponents: [],
+  exports: [GroupEnrollmentComponent]
 })
 export class GroupEnrollmentModule {}

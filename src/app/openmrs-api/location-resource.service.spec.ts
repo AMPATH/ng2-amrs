@@ -4,19 +4,20 @@ import { LocationResourceService } from './location-resource.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
 import { CacheModule, CacheService } from 'ionic-cache';
-import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
+import {
+  HttpTestingController,
+  HttpClientTestingModule
+} from '@angular/common/http/testing';
 import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
 
 class MockCacheStorageService {
-  constructor(a, b) {
-  }
+  constructor(a, b) {}
 
   public ready() {
     return true;
   }
 }
 describe('LocationResourceService Unit Tests', () => {
-
   let service: LocationResourceService;
 
   let httpMock: HttpTestingController;
@@ -34,7 +35,8 @@ describe('LocationResourceService Unit Tests', () => {
         DataCacheService,
         CacheService,
         {
-          provide: CacheStorageService, usefactory: () => {
+          provide: CacheStorageService,
+          usefactory: () => {
             return new MockCacheStorageService(null, null);
           }
         }
@@ -46,7 +48,6 @@ describe('LocationResourceService Unit Tests', () => {
     httpMock = TestBed.get(HttpTestingController);
 
     appSettingsService = TestBed.get(AppSettingsService);
-
   }));
 
   afterEach(() => {
@@ -62,37 +63,36 @@ describe('LocationResourceService Unit Tests', () => {
     tick(50);
     service.getLocations(true);
 
-    const req = httpMock.expectOne(appSettingsService.getOpenmrsRestbaseurl().trim() + 'location' + '?v=full');
+    const req = httpMock.expectOne(
+      appSettingsService.getOpenmrsRestbaseurl().trim() + 'location' + '?v=full'
+    );
     expect(req.request.method).toBe('GET');
-    expect(req.request.urlWithParams)
-      .toContain('/ws/rest/v1/location?v=full');
+    expect(req.request.urlWithParams).toContain('/ws/rest/v1/location?v=full');
   }));
 
   it('It should return an array of location object when getLocation is invoked', () => {
-
     const results = [
       {
         uuid: 'uuid',
         display: 'location'
-      }, {
+      },
+      {
         uuid: 'uuid',
         display: 'location'
       }
     ];
-    service.getLocations()
-      .subscribe((result) => {
-        expect(results).toContain({ uuid: 'uuid', display: 'location' });
-        expect(results).toBeDefined();
+    service.getLocations().subscribe((result) => {
+      expect(results).toContain({ uuid: 'uuid', display: 'location' });
+      expect(results).toBeDefined();
+    });
 
-      });
-
-    const req = httpMock.expectOne(appSettingsService.getOpenmrsRestbaseurl().trim() + 'location' + '?v=full');
+    const req = httpMock.expectOne(
+      appSettingsService.getOpenmrsRestbaseurl().trim() + 'location' + '?v=full'
+    );
     expect(req.request.method).toBe('GET');
-    expect(req.request.urlWithParams)
-      .toContain('/ws/rest/v1/location?v=full');
+    expect(req.request.urlWithParams).toContain('/ws/rest/v1/location?v=full');
     req.flush(results);
   });
-
 
   it('should return a location when the correct uuid is provided without v', () => {
     const locationUuid = 'xxx-xxx-xxx-xxx';
@@ -103,13 +103,18 @@ describe('LocationResourceService Unit Tests', () => {
       }
     ];
 
-    service.getLocationByUuid(locationUuid)
-      .subscribe((result) => {
-        expect(results[0].uuid).toBe('xxx-xxx-xxx-xxx');
-      });
+    service.getLocationByUuid(locationUuid).subscribe((result) => {
+      expect(results[0].uuid).toBe('xxx-xxx-xxx-xxx');
+    });
 
     // stubbing
-    const req = httpMock.expectOne(appSettingsService.getOpenmrsRestbaseurl().trim() + 'location' + '/' + locationUuid + '?v=full');
+    const req = httpMock.expectOne(
+      appSettingsService.getOpenmrsRestbaseurl().trim() +
+        'location' +
+        '/' +
+        locationUuid +
+        '?v=full'
+    );
     expect(req.request.method).toBe('GET');
     expect(req.request.urlWithParams).toContain('location/' + locationUuid);
     expect(req.request.urlWithParams).toContain('v=');
@@ -124,13 +129,20 @@ describe('LocationResourceService Unit Tests', () => {
       }
     ];
 
-    service.getLocationByUuid(locationUuid, false, '9')
+    service
+      .getLocationByUuid(locationUuid, false, '9')
       .subscribe((response) => {
         done();
       });
 
     // stubbing
-    const req = httpMock.expectOne(appSettingsService.getOpenmrsRestbaseurl().trim() + 'location' + '/' + locationUuid + '?v=9');
+    const req = httpMock.expectOne(
+      appSettingsService.getOpenmrsRestbaseurl().trim() +
+        'location' +
+        '/' +
+        locationUuid +
+        '?v=9'
+    );
     expect(req.request.method).toBe('GET');
     expect(req.request.urlWithParams).toContain('location/' + locationUuid);
     expect(req.request.urlWithParams).toContain('v=9');
@@ -149,12 +161,17 @@ describe('LocationResourceService Unit Tests', () => {
         display: ''
       }
     ];
-    service.searchLocation(searchText)
-      .subscribe((data) => {
-        // expect(data.length).toBeGreaterThan(0);
-      });
+    service.searchLocation(searchText).subscribe((data) => {
+      // expect(data.length).toBeGreaterThan(0);
+    });
 
-    const req = httpMock.expectOne(appSettingsService.getOpenmrsRestbaseurl().trim() + 'location' + '?q=' + searchText + '&v=full');
+    const req = httpMock.expectOne(
+      appSettingsService.getOpenmrsRestbaseurl().trim() +
+        'location' +
+        '?q=' +
+        searchText +
+        '&v=full'
+    );
     expect(req.request.method).toBe('GET');
     expect(req.request.urlWithParams).toContain('q=' + searchText);
     expect(req.request.urlWithParams).toContain('v=');
@@ -172,16 +189,20 @@ describe('LocationResourceService Unit Tests', () => {
         display: ''
       }
     ];
-    service.searchLocation(searchText, false, '9')
-      .subscribe((data) => {
-        done();
-      });
+    service.searchLocation(searchText, false, '9').subscribe((data) => {
+      done();
+    });
 
-    const req = httpMock.expectOne(appSettingsService.getOpenmrsRestbaseurl().trim() + 'location' + '?q=' + searchText + '&v=9');
+    const req = httpMock.expectOne(
+      appSettingsService.getOpenmrsRestbaseurl().trim() +
+        'location' +
+        '?q=' +
+        searchText +
+        '&v=9'
+    );
     expect(req.request.method).toBe('GET');
     expect(req.request.urlWithParams).toContain('q=' + searchText);
     expect(req.request.urlWithParams).toContain('v=9');
     req.flush(results);
   });
-
 });

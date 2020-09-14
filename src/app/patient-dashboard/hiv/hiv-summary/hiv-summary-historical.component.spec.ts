@@ -13,22 +13,18 @@ import { PatientProgramService } from '../../programs/patient-programs.service';
 import { RoutesProviderService } from '../../../shared/dynamic-route/route-config-provider.service';
 import { ProgramService } from '../../programs/program.service';
 import { ProgramResourceService } from '../../../openmrs-api/program-resource.service';
-import {
-  ProgramWorkFlowResourceService
-} from '../../../openmrs-api/program-workflow-resource.service';
-import {
-  ProgramWorkFlowStateResourceService
-} from '../../../openmrs-api/program-workflow-state-resource.service';
+import { ProgramWorkFlowResourceService } from '../../../openmrs-api/program-workflow-resource.service';
+import { ProgramWorkFlowStateResourceService } from '../../../openmrs-api/program-workflow-state-resource.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('Component: HivSummaryHistorical Unit Tests', () => {
-
   let hivSummaryService: HivSummaryService,
-    patientService: PatientService, component;
+    patientService: PatientService,
+    component;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ HttpClientTestingModule ],
+      imports: [HttpClientTestingModule],
       providers: [
         HivSummaryService,
         HivSummaryResourceService,
@@ -45,14 +41,15 @@ describe('Component: HivSummaryHistorical Unit Tests', () => {
         AppSettingsService,
         LocalStorageService
       ]
-
     });
 
     hivSummaryService = TestBed.get(HivSummaryService);
     patientService = TestBed.get(PatientService);
 
-    component = new HivSummaryHistoricalComponent(hivSummaryService, patientService);
-
+    component = new HivSummaryHistoricalComponent(
+      hivSummaryService,
+      patientService
+    );
   });
 
   afterEach(() => {
@@ -60,10 +57,8 @@ describe('Component: HivSummaryHistorical Unit Tests', () => {
   });
 
   it('should instantiate the component', (done) => {
-
     expect(component).toBeTruthy();
     done();
-
   });
 
   it('should have required properties', (done) => {
@@ -74,11 +69,9 @@ describe('Component: HivSummaryHistorical Unit Tests', () => {
     expect(component.loadingHivSummary).toBe(false);
     expect(component.errors.length).toBe(0);
     done();
-
   });
 
   it('should have all the required functions defined and callable', (done) => {
-
     spyOn(component, 'ngOnInit').and.callThrough();
     component.ngOnInit();
     expect(component.ngOnInit).toHaveBeenCalled();
@@ -92,27 +85,28 @@ describe('Component: HivSummaryHistorical Unit Tests', () => {
     expect(component.getPatient).toHaveBeenCalled();
 
     done();
-
   });
 
   it('should return true of column exists and has a value', (done) => {
+    const testHasColumn = {
+      med_pickup_rtc_date: '2019-08-26'
+    };
+    const testNoCol = {};
 
-  const testHasColumn = {
-    'med_pickup_rtc_date': '2019-08-26'
-  };
-  const testNoCol = {
-  };
+    const testHasNullColValue = {
+      med_pickup_rtc_date: null
+    };
 
-  const testHasNullColValue = {
-    'med_pickup_rtc_date': null
-  };
+    expect(component.hasColumnData(testHasColumn, 'med_pickup_rtc_date')).toBe(
+      true
+    );
+    expect(component.hasColumnData(testNoCol, 'med_pickup_rtc_date')).toBe(
+      false
+    );
+    expect(
+      component.hasColumnData(testHasNullColValue, 'med_pickup_rtc_date')
+    ).toBe(false);
 
-  expect(component.hasColumnData(testHasColumn, 'med_pickup_rtc_date')).toBe(true);
-  expect(component.hasColumnData(testNoCol, 'med_pickup_rtc_date')).toBe(false);
-  expect(component.hasColumnData(testHasNullColValue, 'med_pickup_rtc_date')).toBe(false);
-
-  done();
-
+    done();
   });
-
 });

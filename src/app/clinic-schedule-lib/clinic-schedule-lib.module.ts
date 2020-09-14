@@ -7,9 +7,7 @@ import { RouterModule } from '@angular/router';
 // } from '@angular/material';
 import { CalendarModule } from 'angular-calendar';
 import { ClinicDashboardCacheService } from '../clinic-dashboard/services/clinic-dashboard-cache.service';
-import {
-  DateTimePickerModule
-} from 'ngx-openmrs-formentry/';
+import { DateTimePickerModule } from 'ngx-openmrs-formentry/';
 import { MatTabsModule } from '@angular/material/tabs';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
@@ -17,15 +15,10 @@ import { EtlApi } from '../etl-api/etl-api.module';
 import { DataListsModule } from '../shared/data-lists/data-lists.module';
 import { MonthlyScheduleBaseComponent } from './monthly-schedule/monthly-schedule.component';
 import { DailyScheduleBaseComponent } from './daily-schedule/daily-schedule.component';
-import { DailyScheduleVisitsComponent
-} from './daily-schedule/daily-schedule-visits.component';
-import { DailyScheduleAppointmentsComponent
-} from './daily-schedule/daily-schedule-appointments.component';
-import { DailyScheduleNotReturnedComponent
-} from './daily-schedule/daily-schedule-not-returned.component';
-import {
-  ProgramVisitEncounterSearchModule
-} from '../program-visit-encounter-search/program-visit-encounter-search.module';
+import { DailyScheduleVisitsComponent } from './daily-schedule/daily-schedule-visits.component';
+import { DailyScheduleAppointmentsComponent } from './daily-schedule/daily-schedule-appointments.component';
+import { DailyScheduleNotReturnedComponent } from './daily-schedule/daily-schedule-not-returned.component';
+import { ProgramVisitEncounterSearchModule } from '../program-visit-encounter-search/program-visit-encounter-search.module';
 @NgModule({
   imports: [
     DateTimePickerModule,
@@ -60,8 +53,6 @@ import {
     DailyScheduleVisitsComponent,
     DailyScheduleNotReturnedComponent
   ],
-  providers: [
-    ClinicDashboardCacheService
-  ]
+  providers: [ClinicDashboardCacheService]
 })
-export class ClinicScheduleLibModule { }
+export class ClinicScheduleLibModule {}

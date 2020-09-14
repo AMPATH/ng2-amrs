@@ -1,13 +1,17 @@
-import { Component, OnInit, AfterViewInit, ChangeDetectorRef, Output } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  AfterViewInit,
+  ChangeDetectorRef,
+  Output
+} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { take } from 'rxjs/operators';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
 
-import {
-  OncologySummaryIndicatorsResourceService
-} from '../../../../etl-api/oncology-summary-indicators-resource.service';
+import { OncologySummaryIndicatorsResourceService } from '../../../../etl-api/oncology-summary-indicators-resource.service';
 import * as OncologyReportConfig from '../oncology-pdf-reports.json';
 import { EventEmitter } from 'events';
 @Component({
@@ -15,8 +19,8 @@ import { EventEmitter } from 'events';
   templateUrl: './oncology-summary-indicators.component.html',
   styleUrls: ['./oncology-summary-indicators.component.css']
 })
-
-export class OncologySummaryIndicatorsComponent implements OnInit, AfterViewInit {
+export class OncologySummaryIndicatorsComponent
+  implements OnInit, AfterViewInit {
   public title = '';
   public monthlySummary: any = [];
   public isPdfReportAvailable = false;
@@ -42,34 +46,36 @@ export class OncologySummaryIndicatorsComponent implements OnInit, AfterViewInit
   @Output() public selectedTab = new EventEmitter();
 
   public errorObj = {
-    'message': '',
-    'isError': false
+    message: '',
+    isError: false
   };
 
   constructor(
     private cd: ChangeDetectorRef,
     private router: Router,
     private route: ActivatedRoute,
-    private oncologySummaryService: OncologySummaryIndicatorsResourceService,
-  ) { }
+    private oncologySummaryService: OncologySummaryIndicatorsResourceService
+  ) {}
 
   public ngOnInit() {
-    this.route.queryParams.subscribe((params) => {
-      if (params) {
-        this.params = params;
+    this.route.queryParams.subscribe(
+      (params) => {
+        if (params) {
+          this.params = params;
 
-        if (params.startDate) {
-          this.reportUuid = params.reportUuid;
-          this.setQueryParams();
-          this.fetchReport();
+          if (params.startDate) {
+            this.reportUuid = params.reportUuid;
+            this.setQueryParams();
+            this.fetchReport();
+          }
+          this.setReportData(params);
         }
-        this.setReportData(params);
+      },
+      (error) => {
+        console.error('Error', error);
       }
-    }, (error) => {
-      console.error('Error', error);
-    });
+    );
     this.checkIsPdfReportAvailable();
-
   }
 
   public ngAfterViewInit() {
@@ -79,7 +85,7 @@ export class OncologySummaryIndicatorsComponent implements OnInit, AfterViewInit
   public checkIsPdfReportAvailable() {
     const reportTypes: Array<any> = [];
     const reports: Array<any> = OncologyReportConfig.reports;
-    reports.forEach(report => {
+    reports.forEach((report) => {
       if (this.params.type === report.report_type) {
         this.isPdfReportAvailable = true;
       }
@@ -120,29 +126,27 @@ export class OncologySummaryIndicatorsComponent implements OnInit, AfterViewInit
     } else {
       this.gender = params.gender;
     }
-
   }
 
   public navigateToHome() {
     this.router.navigate(['../'], {
-      relativeTo: this.route,
-    }
-    );
+      relativeTo: this.route
+    });
   }
 
   public setQueryParams() {
     this.params = {
-      'startAge': this.params.startAge,
-      'endAge': this.params.endAge,
-      'startDate': this.params.startDate,
-      'endDate': this.params.endDate,
-      'gender': this.params.gender,
-      'period': this.params.period,
-      'type': this.params.type,
-      'reportUuid': this.params.reportUuid,
-      'indicators': this.params.indicators,
-      'reportIndex': this.reportIndex,
-      'locationUuids': this.params.locationUuids
+      startAge: this.params.startAge,
+      endAge: this.params.endAge,
+      startDate: this.params.startDate,
+      endDate: this.params.endDate,
+      gender: this.params.gender,
+      period: this.params.period,
+      type: this.params.type,
+      reportUuid: this.params.reportUuid,
+      indicators: this.params.indicators,
+      reportIndex: this.reportIndex,
+      locationUuids: this.params.locationUuids
     };
   }
 
@@ -157,18 +161,21 @@ export class OncologySummaryIndicatorsComponent implements OnInit, AfterViewInit
 
   public fetchReport() {
     this.loading();
-    this.oncologySummaryService.getOncologySummaryMonthlyIndicatorsReport(this.params).pipe(
-      take(1)).subscribe((result) => {
-        this.monthlySummary = result.result;
-        setTimeout(() => this.endLoading(), 800);
-
-      }, (err) => {
-        this.endLoading();
-        this.errorObj = {
-          'isError': true,
-          'message': err.error.message ? err.error.message : ''
-        };
-      }
+    this.oncologySummaryService
+      .getOncologySummaryMonthlyIndicatorsReport(this.params)
+      .pipe(take(1))
+      .subscribe(
+        (result) => {
+          this.monthlySummary = result.result;
+          setTimeout(() => this.endLoading(), 800);
+        },
+        (err) => {
+          this.endLoading();
+          this.errorObj = {
+            isError: true,
+            message: err.error.message ? err.error.message : ''
+          };
+        }
       );
   }
 
@@ -201,6 +208,5 @@ export class OncologySummaryIndicatorsComponent implements OnInit, AfterViewInit
         this.currentView = 'tabular';
     }
     this.selectedTab.emit(this.currentView);
-
   }
 }

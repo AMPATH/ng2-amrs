@@ -16,7 +16,8 @@ import { OncologySummaryResourceService } from '../../../etl-api/oncology-summar
 import { Patient } from '../../../models/patient.model';
 
 const generalOncologyProgramUuid = '725b5193-3452-43fc-aca3-6a80432d9bfa';
-const oncologyScreeningAndDiagnosisProgramUuid = '37ff4124-91fd-49e6-8261-057ccfb4fcd0';
+const oncologyScreeningAndDiagnosisProgramUuid =
+  '37ff4124-91fd-49e6-8261-057ccfb4fcd0';
 
 const patient = new Patient({
   allIdentifiers: '297400783-9',
@@ -182,7 +183,7 @@ const mockIntegratedSummaryData = [
     breast_exam_findings: 1115,
     prior_via_test_result: null,
     via_test_result: null,
-    hiv_status: 664,
+    hiv_status: 664
   },
   {
     encounter_id: 1354963,
@@ -194,8 +195,8 @@ const mockIntegratedSummaryData = [
     prior_via_test_result: 703,
     prior_via_test_result_date: '2019-05-05T00:00:00.000Z',
     via_test_result: 6497,
-    hiv_status: 664,
-  },
+    hiv_status: 664
+  }
 ];
 
 const mockLocationObj = {
@@ -219,7 +220,7 @@ const locationResourceServiceStub = {
 };
 
 class MockCacheStorageService {
-  constructor(a, b) { }
+  constructor(a, b) {}
 
   public ready() {
     return true;
@@ -256,8 +257,7 @@ describe('Component: OncologyProgramSnapshotComponent', () => {
           }
         }
       ]
-    })
-      .compileComponents();
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -283,7 +283,7 @@ describe('Component: OncologyProgramSnapshotComponent', () => {
     expect(component.loadOncologyDataSummary).toBeDefined();
   });
 
-  it('should display the patient\'s snapshot summary after the component initializes', async(() => {
+  it("should display the patient's snapshot summary after the component initializes", async(() => {
     component.patientUuid = patient.uuid;
     fixture.detectChanges();
     expect(component.summaryData).not.toBeDefined('No summary');
@@ -295,21 +295,37 @@ describe('Component: OncologyProgramSnapshotComponent', () => {
       expect(component.hasData).toBe(true);
       expect(component.hasError).toBe(false);
       expect(component.summaryData).toBeDefined();
-      const title = <HTMLElement>nativeElement.querySelector('.component-title');
+      const title = <HTMLElement>(
+        nativeElement.querySelector('.component-title')
+      );
       expect(title.innerHTML).toEqual('Last Encounter');
-      const snapshot = <HTMLElement>nativeElement.querySelector('.snapshot-body');
+      const snapshot = <HTMLElement>(
+        nativeElement.querySelector('.snapshot-body')
+      );
       expect(snapshot.textContent).toContain('Type: ');
-      expect(snapshot.textContent).toContain(mockSummaryData[0].encounter_type_name, 'Encounter type');
+      expect(snapshot.textContent).toContain(
+        mockSummaryData[0].encounter_type_name,
+        'Encounter type'
+      );
       expect(snapshot.textContent).toContain('Diagnosis: ');
-      expect(snapshot.textContent).toContain(mockSummaryData[0].diagnosis, 'Cancer diagnosis');
+      expect(snapshot.textContent).toContain(
+        mockSummaryData[0].diagnosis,
+        'Cancer diagnosis'
+      );
       expect(snapshot.textContent).toContain('Previous Chemotherapy: ');
-      expect(snapshot.textContent).toContain(mockSummaryData[0].chemotherapy_plan, 'Previous chemotherapy');
+      expect(snapshot.textContent).toContain(
+        mockSummaryData[0].chemotherapy_plan,
+        'Previous chemotherapy'
+      );
       expect(snapshot.textContent).toContain('RTC Date: ');
-      expect(snapshot.textContent).toContain(mockSummaryData[0].rtc_date, 'RTC Date');
+      expect(snapshot.textContent).toContain(
+        mockSummaryData[0].rtc_date,
+        'RTC Date'
+      );
     });
   }));
 
-  it('renders the integrated summary snapshot for screening and diagnosis program patients', async (() => {
+  it('renders the integrated summary snapshot for screening and diagnosis program patients', async(() => {
     component.programUuid = oncologyScreeningAndDiagnosisProgramUuid;
     component.patientUuid = screeningPatient.uuid;
     fixture.detectChanges();
@@ -323,19 +339,29 @@ describe('Component: OncologyProgramSnapshotComponent', () => {
       expect(component.hasData).toBe(true);
       expect(component.hasError).toBe(false);
       expect(component.summaryData).toBeDefined();
-      const snapshot = <HTMLElement>nativeElement.querySelector('.snapshot-body');
+      const snapshot = <HTMLElement>(
+        nativeElement.querySelector('.snapshot-body')
+      );
       expect(snapshot.textContent).toContain('Visit: Breast Cancer Screening');
-      expect(snapshot.textContent).toContain('Encounter: BREASTCANCERSCREENING');
+      expect(snapshot.textContent).toContain(
+        'Encounter: BREASTCANCERSCREENING'
+      );
       expect(snapshot.textContent).toContain('Date: January 2, 2020');
       expect(snapshot.textContent).toContain('Location: MTRH Oncology');
-      expect(snapshot.textContent).toContain('Breast screening findings: Normal');
+      expect(snapshot.textContent).toContain(
+        'Breast screening findings: Normal'
+      );
       expect(snapshot.textContent).toContain('HIV status: Negative');
-      expect(snapshot.textContent).toContain('Visit: Cervical Cancer Screening');
+      expect(snapshot.textContent).toContain(
+        'Visit: Cervical Cancer Screening'
+      );
       expect(snapshot.textContent).toContain('Encounter: ONCOLOGYVIA');
       expect(snapshot.textContent).toContain('Date: January 2, 2020');
       expect(snapshot.textContent).toContain('Location: MTRH Oncology');
       expect(snapshot.textContent).toContain('Last VIA test result: Positive');
-      expect(snapshot.textContent).toContain('Date of last VIA test: May 5, 2019');
+      expect(snapshot.textContent).toContain(
+        'Date of last VIA test: May 5, 2019'
+      );
       expect(snapshot.textContent).toContain('HIV status: Negative');
     });
   }));

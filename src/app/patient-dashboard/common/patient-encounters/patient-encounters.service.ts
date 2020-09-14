@@ -1,4 +1,3 @@
-
 import { take } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject, Subscription } from 'rxjs';
@@ -10,14 +9,19 @@ import { Encounter } from '../../../models/encounter.model';
 export class PatientEncounterService {
   public busy: Subscription;
 
-  constructor(private encounterService: EncounterResourceService) {
-  }
+  constructor(private encounterService: EncounterResourceService) {}
 
-  public getEncountersByPatientUuid(patientUuid: string,
+  public getEncountersByPatientUuid(
+    patientUuid: string,
     cached: boolean = false,
-    v: string = null): Observable<Encounter[]> {
-    const encounterResults: BehaviorSubject<Encounter[]> = new BehaviorSubject<Encounter[]>([]);
-    const encounterObservable = this.encounterService.getEncountersByPatientUuid(patientUuid);
+    v: string = null
+  ): Observable<Encounter[]> {
+    const encounterResults: BehaviorSubject<Encounter[]> = new BehaviorSubject<
+      Encounter[]
+    >([]);
+    const encounterObservable = this.encounterService.getEncountersByPatientUuid(
+      patientUuid
+    );
 
     this.busy = encounterObservable.pipe(take(1)).subscribe(
       (encounters) => {
@@ -34,5 +38,4 @@ export class PatientEncounterService {
     );
     return encounterResults.asObservable();
   }
-
 }

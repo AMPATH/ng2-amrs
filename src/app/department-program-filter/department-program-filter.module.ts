@@ -8,14 +8,14 @@ import { DepartmentProgramsConfigService } from './../etl-api/department-program
 import { DataCacheService } from '../shared/services/data-cache.service';
 import { DateTimePickerModule } from 'ngx-openmrs-formentry/';
 @NgModule({
-    imports: [
-        FormsModule,
-        CommonModule,
-        AngularMultiSelectModule,
-        DateTimePickerModule
-    ],
-    exports: [DepartmentProgramFilterComponent],
-    declarations: [DepartmentProgramFilterComponent],
-    providers: [DepartmentProgramsConfigService, DataCacheService],
+  imports: [
+    FormsModule,
+    CommonModule,
+    AngularMultiSelectModule,
+    DateTimePickerModule
+  ],
+  exports: [DepartmentProgramFilterComponent],
+  declarations: [DepartmentProgramFilterComponent],
+  providers: [DepartmentProgramsConfigService, DataCacheService]
 })
-export class DepartmentProgramFilterModule { }
+export class DepartmentProgramFilterModule {}

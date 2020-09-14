@@ -13,18 +13,18 @@ export class OncologySummaryComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private programService: ProgramResourceService
-  ) {
-  }
+  ) {}
 
   public ngOnInit() {
     this.route.params.subscribe((response) => {
       this.programUuid = response['program'];
     });
     if (this.programUuid) {
-      this.programService.getProgramByUuid(this.programUuid).subscribe((response: any) => {
-        this.program = _.startCase(_.lowerCase(response.name));
-      });
+      this.programService
+        .getProgramByUuid(this.programUuid)
+        .subscribe((response: any) => {
+          this.program = _.startCase(_.lowerCase(response.name));
+        });
     }
   }
-
 }

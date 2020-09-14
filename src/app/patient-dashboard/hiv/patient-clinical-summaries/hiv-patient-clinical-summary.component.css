@@ -1,7 +1,5 @@
 @media screen and (max-width: 600px) {
-
-.clinical-summary-col {
+  .clinical-summary-col {
     padding-bottom: 10px;
-}
-
+  }
 }

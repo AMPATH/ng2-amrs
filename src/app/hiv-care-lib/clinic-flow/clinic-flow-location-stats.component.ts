@@ -1,5 +1,11 @@
-
-import { Component, OnInit, OnDestroy, Input, SimpleChange, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  Input,
+  SimpleChange,
+  EventEmitter
+} from '@angular/core';
 import { Injectable, Inject } from '@angular/core';
 
 import { BehaviorSubject, Subscription } from 'rxjs';
@@ -12,7 +18,6 @@ import * as _ from 'lodash';
   selector: 'clinic-flow-location-stats',
   templateUrl: './clinic-flow-location-stats.component.html'
 })
-
 export class ClinicFlowLocationStatsComponent implements OnInit, OnDestroy {
   public errors: any[] = [];
   public clinicFlowData: any[] = [];
@@ -24,31 +29,30 @@ export class ClinicFlowLocationStatsComponent implements OnInit, OnDestroy {
   private selectedDateSubscription: Subscription;
   private clinicFlowSubscription: Subscription;
 
-  constructor(private clinicFlowCacheService: ClinicFlowCacheService,
-              private router: Router,
-              @Inject('ClinicFlowResource') private clinicFlowResource: ClinicFlowResource) { }
+  constructor(
+    private clinicFlowCacheService: ClinicFlowCacheService,
+    private router: Router,
+    @Inject('ClinicFlowResource') private clinicFlowResource: ClinicFlowResource
+  ) {}
 
   public ngOnInit() {
-    this.currentLocationSubscription = this.clinicFlowCacheService.getSelectedLocation()
+    this.currentLocationSubscription = this.clinicFlowCacheService
+      .getSelectedLocation()
       .subscribe((clinic) => {
         this.selectedLocation = clinic;
-        this.selectedDateSubscription = this.clinicFlowCacheService.getSelectedDate()
+        this.selectedDateSubscription = this.clinicFlowCacheService
+          .getSelectedDate()
           .subscribe((date) => {
             this.selectedDate = date;
 
-            if (this.selectedLocation && this.selectedDate
-            ) {
+            if (this.selectedLocation && this.selectedDate) {
               if (this.loadingClinicFlow === false) {
                 this.initParams();
                 this.getClinicFlow(this.selectedDate, this.selectedLocation);
               }
-
             }
-
           });
-
       });
-
   }
 
   public loadSelectedPatient(event: any) {
@@ -61,8 +65,11 @@ export class ClinicFlowLocationStatsComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.router.navigate(['/patient-dashboard/patient/' + patientUuid +
-      '/general/general/landing-page']);
+    this.router.navigate([
+      '/patient-dashboard/patient/' +
+        patientUuid +
+        '/general/general/landing-page'
+    ]);
   }
 
   public columns() {
@@ -81,32 +88,29 @@ export class ClinicFlowLocationStatsComponent implements OnInit, OnDestroy {
     if (this.clinicFlowSubscription) {
       this.clinicFlowSubscription.unsubscribe();
     }
-
   }
 
   public getClinicFlow(dateStated, locations) {
-
     this.initParams();
     this.loadingClinicFlow = true;
     this.clinicFlowCacheService.setIsLoading(this.loadingClinicFlow);
-    const result = this.clinicFlowResource.
-      getClinicFlow(dateStated, locations);
+    const result = this.clinicFlowResource.getClinicFlow(dateStated, locations);
     if (result === null) {
       throw new Error('Null clinic flow observable');
     } else {
       this.clinicFlowSubscription = result.subscribe(
         (locationStats) => {
           if (locationStats.statsByLocation.length > 0) {
-
-            const formatted = this.clinicFlowCacheService.formatData(locationStats.statsByLocation);
+            const formatted = this.clinicFlowCacheService.formatData(
+              locationStats.statsByLocation
+            );
             this.clinicFlowData = this.clinicFlowData.concat(formatted);
           } else {
             this.dataLoaded = true;
           }
           this.loadingClinicFlow = false;
           this.clinicFlowCacheService.setIsLoading(this.loadingClinicFlow);
-        }
-        ,
+        },
         (error) => {
           this.loadingClinicFlow = false;
           this.clinicFlowCacheService.setIsLoading(this.loadingClinicFlow);
@@ -125,5 +129,4 @@ export class ClinicFlowLocationStatsComponent implements OnInit, OnDestroy {
     this.errors = [];
     this.clinicFlowData = [];
   }
-
 }

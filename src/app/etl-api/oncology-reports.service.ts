@@ -12,7 +12,8 @@ export class OncologyReportService {
   constructor(
     protected http: HttpClient,
     protected appSettingsService: AppSettingsService,
-    private cacheService: DataCacheService) {}
+    private cacheService: DataCacheService
+  ) {}
 
   public getBaseUrl(): string {
     return this.appSettingsService.getEtlRestbaseurl().trim();
@@ -22,7 +23,7 @@ export class OncologyReportService {
     const url = this.getBaseUrl() + 'oncology-reports';
     const request = this.http.get(url);
 
-    return this.cacheService.cacheRequest(url, '' , request);
+    return this.cacheService.cacheRequest(url, '', request);
   }
 
   public getSpecificOncologyReport(reportUuid): Observable<any> {
@@ -33,11 +34,11 @@ export class OncologyReportService {
       urlParams = urlParams.set('reportUuid', reportUuid);
     } else {
       return of({
-        'error': 'Null ReportUuid'
+        error: 'Null ReportUuid'
       });
     }
 
     const request = this.http.get(url, { params: urlParams });
-    return this.cacheService.cacheRequest(url, '' , request);
+    return this.cacheService.cacheRequest(url, '', request);
   }
 }

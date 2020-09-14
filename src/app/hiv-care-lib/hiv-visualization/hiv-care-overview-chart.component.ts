@@ -2,8 +2,7 @@ import { Component, ViewEncapsulation, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as _ from 'lodash';
 import { BehaviorSubject } from 'rxjs';
-import { ClinicalSummaryVisualizationService
-} from '../services/clinical-summary-visualization.service';
+import { ClinicalSummaryVisualizationService } from '../services/clinical-summary-visualization.service';
 const highcharts = require('highcharts');
 import * as Moment from 'moment';
 @Component({
@@ -26,9 +25,11 @@ export class HivCareComparativeChartComponent implements OnInit {
   private data: any;
   private _dates: any;
 
-  constructor(private route: ActivatedRoute,
-              private clinicalSummaryVisualizationService: ClinicalSummaryVisualizationService,
-              private router: Router) {
+  constructor(
+    private route: ActivatedRoute,
+    private clinicalSummaryVisualizationService: ClinicalSummaryVisualizationService,
+    private router: Router
+  ) {
     if (!this.options) {
       this.options = {};
     }
@@ -63,23 +64,29 @@ export class HivCareComparativeChartComponent implements OnInit {
   }
 
   public goToPatientList(indicator, filters) {
-
     const dateRange = this.clinicalSummaryVisualizationService.getMonthDateRange(
-      filters.split('/')[0] ,
+      filters.split('/')[0],
       filters.split('/')[1] - 1
-       );
+    );
 
-    this.router.navigate(['./patient-list', 'clinical-hiv-comparative-overview', indicator,
-        dateRange.startDate.format('DD/MM/YYYY') + '|' +
-        dateRange.endDate.format('DD/MM/YYYY')]
-      , {relativeTo: this.route});
+    this.router.navigate(
+      [
+        './patient-list',
+        'clinical-hiv-comparative-overview',
+        indicator,
+        dateRange.startDate.format('DD/MM/YYYY') +
+          '|' +
+          dateRange.endDate.format('DD/MM/YYYY')
+      ],
+      { relativeTo: this.route }
+    );
   }
 
   public renderChart(options) {
     let startDate: any;
     let endDate: any;
     this.processChartData();
-    if ( this._dates) {
+    if (this._dates) {
       startDate = Moment(this._dates.startDate).format('DD-MM-YYYY');
       endDate = Moment(this._dates.endDate).format('DD-MM-YYYY');
     }
@@ -87,7 +94,7 @@ export class HivCareComparativeChartComponent implements OnInit {
     const that = this;
     _.merge(options, {
       colors: ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728'],
-      title : { text : this.chartTitle },
+      title: { text: this.chartTitle },
       subtitle: {
         text: 'Starting from ' + startDate + ' To ' + endDate
       },
@@ -96,7 +103,7 @@ export class HivCareComparativeChartComponent implements OnInit {
         alignTicks: false,
         events: {
           redraw: true
-        },
+        }
       },
       background2: '#F0F0EA',
       plotOptions: {
@@ -107,26 +114,33 @@ export class HivCareComparativeChartComponent implements OnInit {
           cursor: 'pointer',
           point: {
             events: {
-              click: function() {
-                const indicators = that.clinicalSummaryVisualizationService.flipTranlateColumns;
+              click: function () {
+                const indicators =
+                  that.clinicalSummaryVisualizationService.flipTranlateColumns;
                 that.goToPatientList(
-                  indicators['clinical-hiv-comparative-overview'][this.series.name],
-                  this.category);
+                  indicators['clinical-hiv-comparative-overview'][
+                    this.series.name
+                  ],
+                  this.category
+                );
               }
             }
           }
         }
       },
-      xAxis: [{
-        categories: this.xAxisCategories,
-        gridLineWidth: 1,
-        title: {
-          text: 'Date (Month)'
-        },
-        crosshair: true
-      }],
+      xAxis: [
+        {
+          categories: this.xAxisCategories,
+          gridLineWidth: 1,
+          title: {
+            text: 'Date (Month)'
+          },
+          crosshair: true
+        }
+      ],
       yAxis: [
-        { // Primary yAxis
+        {
+          // Primary yAxis
           labels: {
             format: '{value}',
             style: {
@@ -141,7 +155,8 @@ export class HivCareComparativeChartComponent implements OnInit {
             }
           }
         },
-        { // Secondary yAxis
+        {
+          // Secondary yAxis
           title: {
             text: 'Percent (%)',
             rotation: -90,
@@ -160,12 +175,13 @@ export class HivCareComparativeChartComponent implements OnInit {
             }
           },
           opposite: true
-        }],
+        }
+      ],
       tooltip: {
         shared: true
       },
       legend: {
-        layout: 'horizontal',
+        layout: 'horizontal'
       },
       series: [
         {
@@ -203,7 +219,8 @@ export class HivCareComparativeChartComponent implements OnInit {
           tooltip: {
             valueSuffix: ''
           }
-        }],
+        }
+      ]
     });
   }
 
@@ -224,5 +241,4 @@ export class HivCareComparativeChartComponent implements OnInit {
     this.virallySuppressed = [];
     this.percOnArtWithVl = [];
   }
-
 }

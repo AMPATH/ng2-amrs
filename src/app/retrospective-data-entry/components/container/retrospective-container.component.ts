@@ -5,14 +5,8 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './retrospective-container.component.html',
   styleUrls: ['./retrospective-container.component.css']
 })
-
 export class RetrospectiveContainerComponent implements OnInit {
+  public constructor() {}
 
-  public constructor() {
-
-  }
-
-  public ngOnInit() {
-
-  }
+  public ngOnInit() {}
 }

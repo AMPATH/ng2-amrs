@@ -8,7 +8,8 @@ import { ChangeDepartmentComponent } from '../change-department/change-departmen
 import { AdminDashboardClinicFlowComponent } from '../hiv/clinic-flow/admin-dashboard-clinic-flow';
 const routes: Routes = [
   {
-    path: 'clinic-flow', component: AdminDashboardClinicFlowComponent
+    path: 'clinic-flow',
+    component: AdminDashboardClinicFlowComponent
   },
   {
     path: 'program-enrollment',
@@ -33,7 +34,6 @@ const routes: Routes = [
       {
         path: 'patient-list',
         component: DataEntryStatisticsPatientListComponent
-
       }
     ]
   },
@@ -43,5 +43,6 @@ const routes: Routes = [
   }
 ];
 
-export const DataAnalyticsDashboardOncologyRouting: ModuleWithProviders =
-  RouterModule.forChild(routes);
+export const DataAnalyticsDashboardOncologyRouting: ModuleWithProviders = RouterModule.forChild(
+  routes
+);

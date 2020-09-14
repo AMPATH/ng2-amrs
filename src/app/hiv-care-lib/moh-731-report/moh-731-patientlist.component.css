@@ -1,8 +1,8 @@
 .alert {
   margin: 0;
 }
-.section-title{
-  color:green;
+.section-title {
+  color: green;
   font-size: 22px;
 }
 .loader {
@@ -15,7 +15,7 @@
   box-sizing: border-box;
   background-color: #fff;
   color: #fff;
-  opacity: .8;
+  opacity: 0.8;
 }
 
 .loader .fa:before {

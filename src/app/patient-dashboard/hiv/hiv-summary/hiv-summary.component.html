@@ -1,10 +1,22 @@
-<h4 class="component-title"><span class="fa fa-medkit"></span> HIV Summary 
-  <span *ngIf="viremiaAlert" [ngClass]="{'label': true, 'label-danger': highViremia, 'label-warning': lowViremia}">{{viremiaAlert}}</span></h4>
+<h4 class="component-title">
+  <span class="fa fa-medkit"></span> HIV Summary
+  <span
+    *ngIf="viremiaAlert"
+    [ngClass]="{
+      label: true,
+      'label-danger': highViremia,
+      'label-warning': lowViremia
+    }"
+    >{{ viremiaAlert }}</span
+  >
+</h4>
 <div>
   <p-tabView>
     <p-tabPanel header="HIV Summary">
-
-      <hiv-summary-latest  *ngIf="patientUuid" [patientUuid] = "patientUuid"></hiv-summary-latest>
+      <hiv-summary-latest
+        *ngIf="patientUuid"
+        [patientUuid]="patientUuid"
+      ></hiv-summary-latest>
     </p-tabPanel>
     <p-tabPanel header="Historical HIV Summary">
       <hiv-summary-historical></hiv-summary-historical>
@@ -17,6 +29,6 @@
     </p-tabPanel>
     <p-tabPanel header="Previous Visit Summary">
       <previous-visit-details></previous-visit-details>
-      </p-tabPanel>
+    </p-tabPanel>
   </p-tabView>
 </div>

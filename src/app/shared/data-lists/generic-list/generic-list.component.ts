@@ -1,6 +1,13 @@
 import {
-  Component, OnInit, Output, OnDestroy, ViewChild,
-  Input, SimpleChange, EventEmitter, OnChanges
+  Component,
+  OnInit,
+  Output,
+  OnDestroy,
+  ViewChild,
+  Input,
+  SimpleChange,
+  EventEmitter,
+  OnChanges
 } from '@angular/core';
 import { GridOptions } from 'ag-grid/main';
 import { BehaviorSubject } from 'rxjs';
@@ -43,11 +50,9 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
 
   private _data = new BehaviorSubject<any>([]);
   private _dataSource = new BehaviorSubject<any>({});
-  constructor() {
+  constructor() {}
 
-  }
-
-  public ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
+  public ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
     for (const propName in changes) {
       if (propName === 'options') {
         const changedProp = changes[propName];
@@ -57,13 +62,11 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
           this.generateGrid();
         }
       }
-
     }
-
   }
 
   public ngOnInit() {
-      this.generateGrid();
+    this.generateGrid();
   }
 
   public generateGrid() {
@@ -75,12 +78,11 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
     this.gridOptions.showToolPanel = false;
     // ensure that even after sorting the rows maintain order
     this.gridOptions.onSortChanged = () => {
-        this.gridOptions.api.forEachNode((node) => {
-           node.setDataValue('#', node.rowIndex + 1);
-        });
+      this.gridOptions.api.forEachNode((node) => {
+        node.setDataValue('#', node.rowIndex + 1);
+      });
 
-        this.gridOptions.api.refreshCells();
-
+      this.gridOptions.api.refreshCells();
     };
 
     // this.gridOptions.suppressCellSelection = true;
@@ -96,21 +98,21 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
     };
     this.gridOptions.onGridReady = (event) => {
       if (window.innerWidth > 768) {
-       // this.gridOptions.api.sizeColumnsToFit();
-       // do not resize if columns are more than 10
-       if (this.columns.length <= 10) {
-         setTimeout( () => this.gridOptions.api.sizeColumnsToFit(), 300, true);
+        // this.gridOptions.api.sizeColumnsToFit();
+        // do not resize if columns are more than 10
+        if (this.columns.length <= 10) {
+          setTimeout(() => this.gridOptions.api.sizeColumnsToFit(), 300, true);
         }
       }
       // setDatasource() is a grid ready function
       if (this.dataSource) {
-         this.gridOptions.api.setDatasource(this.dataSource);
+        this.gridOptions.api.setDatasource(this.dataSource);
       }
       this.gridOptions.getRowStyle = (params) => {
         return {
-          'font-size': '14px', 'cursor': 'pointer'
+          'font-size': '14px',
+          cursor: 'pointer'
         };
-
       };
 
       // this.gridOptions.getRowHeight = function (params) {
@@ -173,9 +175,9 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
     };
   }
 
-public exportAllData() {
-   this.gridOptions.api.exportDataAsCsv();
-}
+  public exportAllData() {
+    this.gridOptions.api.exportDataAsCsv();
+  }
 
   public ngOnDestroy() {
     this.data = [];
@@ -188,5 +190,4 @@ public exportAllData() {
   public rowSelectedFunc(event) {
     this.onSelectedRow.emit(event);
   }
-
 }

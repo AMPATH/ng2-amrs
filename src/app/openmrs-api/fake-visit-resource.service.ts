@@ -4,8 +4,7 @@ import { Observable, Subject, BehaviorSubject, of } from 'rxjs';
 @Injectable()
 export class FakeVisitResourceService {
   public returnErrorOnNext = false;
-  constructor() {
-  }
+  constructor() {}
 
   public getVisitEncounters(uuid: string): Observable<any> {
     const test: BehaviorSubject<any> = new BehaviorSubject<any>([]);
@@ -89,7 +88,6 @@ export class FakeVisitResourceService {
   }
 
   public getVisitByUuid(uuid: string, urlParams: any): Observable<any> {
-
     const test: BehaviorSubject<any> = new BehaviorSubject<any>([]);
     const visit = {
       uuid: 'visit-uuid',
@@ -107,7 +105,6 @@ export class FakeVisitResourceService {
       }, 500);
       return test.asObservable();
     }
-
   }
 
   public getPatientVisits(uuid: string): Observable<any> {
@@ -122,7 +119,8 @@ export class FakeVisitResourceService {
             form: {
               uuid: 'uuid',
               name: 'Triage Encounter Form v1.0'
-            }, encounterType: {
+            },
+            encounterType: {
               uuid: 'a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7',
               display: 'TRIAGE'
             },
@@ -158,5 +156,4 @@ export class FakeVisitResourceService {
     }
     return test.asObservable();
   }
-
 }

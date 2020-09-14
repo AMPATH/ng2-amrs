@@ -8,8 +8,10 @@ import { SessionStorageService } from '../utils/session-storage.service';
 import { CookieService, CookieModule } from 'ngx-cookie';
 
 import { Constants } from '../utils/constants';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-
+import {
+  HttpClientTestingModule,
+  HttpTestingController
+} from '@angular/common/http/testing';
 
 describe('AuthenticationService Unit Tests', () => {
   let authenticatiService: AuthenticationService;
@@ -27,7 +29,7 @@ describe('AuthenticationService Unit Tests', () => {
         SessionStorageService,
         AuthenticationService,
         CookieService
-      ],
+      ]
     });
 
     authenticatiService = TestBed.get(AuthenticationService);
@@ -49,25 +51,29 @@ describe('AuthenticationService Unit Tests', () => {
       authenticated: true,
       user: {}
     };
-    authenticatiService.authenticate(username, password)
+    authenticatiService
+      .authenticate(username, password)
       .subscribe((response) => {
         expect(res.authenticated).toEqual(true);
         expect(res.user).toBeTruthy();
 
         const expectedCredentials = btoa(username + ':' + password);
-        expect(sessionStorageService.getItem(Constants.CREDENTIALS_KEY))
-          .toEqual(expectedCredentials);
-        expect(sessionStorageService.getItem(Constants.USER_KEY))
-          .toEqual(JSON.stringify({}));
+        expect(
+          sessionStorageService.getItem(Constants.CREDENTIALS_KEY)
+        ).toEqual(expectedCredentials);
+        expect(sessionStorageService.getItem(Constants.USER_KEY)).toEqual(
+          JSON.stringify({})
+        );
       });
   });
 
   it('it should clear user details on logout', () => {
-    authenticatiService.logOut()
-      .subscribe((response) => {
-        expect(response).toEqual({});
-        expect(sessionStorageService.getItem(Constants.CREDENTIALS_KEY)).toEqual(null);
-        expect(sessionStorageService.getItem(Constants.USER_KEY)).toEqual(null);
-      });
+    authenticatiService.logOut().subscribe((response) => {
+      expect(response).toEqual({});
+      expect(sessionStorageService.getItem(Constants.CREDENTIALS_KEY)).toEqual(
+        null
+      );
+      expect(sessionStorageService.getItem(Constants.USER_KEY)).toEqual(null);
+    });
   });
 });

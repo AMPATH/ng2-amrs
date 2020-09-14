@@ -1,50 +1,79 @@
 <div class="snapshot">
   <div *ngIf="hasError">
-    <p class="alert alert-error text-error">Error generating hiv program snapshot</p>
+    <p class="alert alert-error text-error">
+      Error generating hiv program snapshot
+    </p>
   </div>
   <div *ngIf="!hasData && !hasError && hasLoadedData">
-    <p class="alert alert-warning">No patient data to generate HIV program snapshot</p>
+    <p class="alert alert-warning">
+      No patient data to generate HIV program snapshot
+    </p>
   </div>
   <div *ngIf="!hasError && hasData">
     <div *ngIf="viremiaAlert">
-      <p [ngClass]="{'label': true, 'label-danger': highViremia, 'label-warning': lowViremia}">{{viremiaAlert}} Viremia
+      <p
+        [ngClass]="{
+          label: true,
+          'label-danger': highViremia,
+          'label-warning': lowViremia
+        }"
+      >
+        {{ viremiaAlert }} Viremia
       </p>
     </div>
     <div class="snapshot-summary">
       <h4 class="component-title">Last Encounter</h4>
       <div class="col-md-12">
         <div class="full-width">
-          <p>Location: {{latestEncounterLocation?.name}}</p>
+          <p>Location: {{ latestEncounterLocation?.name }}</p>
         </div>
       </div>
       <div class="snapshot-body">
         <div class="col-md-12">
           <div class="col-md-6 col-xs-12">
-            <p>Date:
-              {{patientData?.encounter_datetime |
-          date:'dd-MM-yyyy'}}</p>
+            <p>
+              Date: {{ patientData?.encounter_datetime | date: 'dd-MM-yyyy' }}
+            </p>
           </div>
           <div class="col-md-6 col-xs-12">
-            <p>Type: {{patientData?.encounter_type_name ?
-          patientData?.encounter_type_name : 'None' }}</p>
+            <p>
+              Type:
+              {{
+                patientData?.encounter_type_name
+                  ? patientData?.encounter_type_name
+                  : 'None'
+              }}
+            </p>
           </div>
         </div>
         <div class="col-md-12">
           <div class="col-md-6 col-xs-12">
-            <p>ARV Regimen: {{patientData?.cur_arv_meds}}</p>
+            <p>ARV Regimen: {{ patientData?.cur_arv_meds }}</p>
           </div>
           <div class="col-md-6 col-xs-12">
-            <p [ngClass]="{'text-bold red': isVirallyUnsuppressed}">Last Viral Load: {{patientData?.vl_1 | zeroVl }}
+            <p [ngClass]="{ 'text-bold red': isVirallyUnsuppressed }">
+              Last Viral Load: {{ patientData?.vl_1 | zeroVl }}
               <ng-container *ngIf="patientData.vl_1 !== undefined">
-                (<span>{{patientData?.vl_1_date | date:'dd-MM-yyyy'}}</span>)
+                (<span>{{ patientData?.vl_1_date | date: 'dd-MM-yyyy' }}</span
+                >)
               </ng-container>
             </p>
             <p>
-              <i style="font-size:smaller" class="text-muted" *ngIf="patientData?.isPendingViralLoad?.status">
+              <i
+                style="font-size: smaller"
+                class="text-muted"
+                *ngIf="patientData?.isPendingViralLoad?.status"
+              >
                 There is a Pending Viral Load Test Ordered on:
                 <span
-                  [ngClass]="patientData?.isPendingViralLoad.status === true && patientData?.isPendingViralLoad.days>30?'text-danger':''">
-                  {{patientData?.vl_order_date | date:'dd-MM-yyyy'}}
+                  [ngClass]="
+                    patientData?.isPendingViralLoad.status === true &&
+                    patientData?.isPendingViralLoad.days > 30
+                      ? 'text-danger'
+                      : ''
+                  "
+                >
+                  {{ patientData?.vl_order_date | date: 'dd-MM-yyyy' }}
                 </span>
               </i>
             </p>
@@ -52,33 +81,51 @@
         </div>
         <div class="col-md-12">
           <div class="col-md-6 col-xs-12">
-            <p>RTC Date: {{patientData?.rtc_date | date:'dd-MM-yyyy'}}</p>
+            <p>RTC Date: {{ patientData?.rtc_date | date: 'dd-MM-yyyy' }}</p>
           </div>
           <div class="col-md-6 col-xs-12" *ngIf="showCareStatus">
-            <p>Care Status:
-              <span style="text-transform: capitalize;">
+            <p>
+              Care Status:
+              <span style="text-transform: capitalize">
                 {{ resolvedCareStatus }}
               </span>
             </p>
           </div>
           <div class="col-md-6 col-xs-12" *ngIf="showCareStatus">
-            <p>Disclosure Status:
-              <span style="text-transform: capitalize;">
+            <p>
+              Disclosure Status:
+              <span style="text-transform: capitalize">
                 {{ hivDisclosureStatus }}
               </span>
             </p>
           </div>
         </div>
-        <div class="col-md-12" *ngIf="hasMoriskyScore && !isMoriskyScorePoorOrInadequate">
+        <div
+          class="col-md-12"
+          *ngIf="hasMoriskyScore && !isMoriskyScorePoorOrInadequate"
+        >
           <div class="col-md-6 col-xs-12">
-            <p>Morisky Score: <span style=" font-weight: 500; padding: 2px 2px 2px 2px;">
-                {{moriskyScore}}{{moriskyDenominator}} - {{moriskyRating}}</span></p>
+            <p>
+              Morisky Score:
+              <span style="font-weight: 500; padding: 2px 2px 2px 2px">
+                {{ moriskyScore }}{{ moriskyDenominator }} -
+                {{ moriskyRating }}</span
+              >
+            </p>
           </div>
         </div>
-        <div class="col-md-12" *ngIf="hasMoriskyScore && isMoriskyScorePoorOrInadequate">
+        <div
+          class="col-md-12"
+          *ngIf="hasMoriskyScore && isMoriskyScorePoorOrInadequate"
+        >
           <div class="col-md-6 col-xs-12">
-            <p>Morisky Score: <span class="score" style="color: red; padding: 2px 2px 2px 2px;">
-                {{moriskyScore}}{{moriskyDenominator}} - {{moriskyRating}}</span></p>
+            <p>
+              Morisky Score:
+              <span class="score" style="color: red; padding: 2px 2px 2px 2px">
+                {{ moriskyScore }}{{ moriskyDenominator }} -
+                {{ moriskyRating }}</span
+              >
+            </p>
           </div>
         </div>
         <div class="clear"></div>

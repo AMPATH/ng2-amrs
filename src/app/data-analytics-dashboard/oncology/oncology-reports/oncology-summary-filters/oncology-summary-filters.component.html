@@ -1,25 +1,26 @@
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-            <report-filters 
-                [enabledControls]="enabledControls" 
-                [(startDate)]="startDate" 
-                [(endDate)]="endDate" 
-                [start]="ageRangeStart"
-                [end]="ageRangeEnd" 
-                (onAgeChangeFinish)="onAgeChangeFinished($event)" 
-                (onGenderChange)="getSelectedGender($event)"
-                (selectedPeriodChange)="selectedPeriodChange($event)"
-                (onIndicatorChange)="getSelectedIndicators($event)" 
-                (onselectedLocationChange)="getLocations($event)" 
-                [selectedIndicators]="selectedIndicators"
-                [selectedGender]="selectedGender"
-                [selectedPeriod]="period"
-                [reportName]="reportName"
-                [reportType]="reportType"
-                [parentIsBusy]="isLoadingReport" 
-                (generateReport)="generateReport()">
-            </report-filters>
-        </div>
+  <div class="row">
+    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+      <report-filters
+        [enabledControls]="enabledControls"
+        [(startDate)]="startDate"
+        [(endDate)]="endDate"
+        [start]="ageRangeStart"
+        [end]="ageRangeEnd"
+        (onAgeChangeFinish)="onAgeChangeFinished($event)"
+        (onGenderChange)="getSelectedGender($event)"
+        (selectedPeriodChange)="selectedPeriodChange($event)"
+        (onIndicatorChange)="getSelectedIndicators($event)"
+        (onselectedLocationChange)="getLocations($event)"
+        [selectedIndicators]="selectedIndicators"
+        [selectedGender]="selectedGender"
+        [selectedPeriod]="period"
+        [reportName]="reportName"
+        [reportType]="reportType"
+        [parentIsBusy]="isLoadingReport"
+        (generateReport)="generateReport()"
+      >
+      </report-filters>
     </div>
+  </div>
 </div>

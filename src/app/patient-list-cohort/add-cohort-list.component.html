@@ -1,27 +1,52 @@
 <div class="box-body">
   <div class="component-wrapper">
-    <h4 class="component-title"><span class="glyphicon glyphicon-list"></span> Add New Cohort List</h4>
-  <form name="nameForm">
-    <div *ngIf="errors" style="color: red !important">
-      <div *ngFor="let error of errors">{{error.message}}</div>
-    </div>
-    <div class="alert alert-danger" *ngIf="showErrorAlert" style="margin-top:10px">
-      <strong>{{errorTitle}}</strong> {{errorAlert}}
-    </div>
-    <div class="alert alert-success" *ngIf="successAlert" style="margin-top:10px">
-      <strong>Done!</strong> {{successAlert}}
-    </div>
-    <div class="form-group">
-      <label for="name">Name</label>
-      <input type="text" id="name"  class="form-control" [(ngModel)]="name" name="name" placeholder="Name" >
-    </div>
+    <h4 class="component-title">
+      <span class="glyphicon glyphicon-list"></span> Add New Cohort List
+    </h4>
+    <form name="nameForm">
+      <div *ngIf="errors" style="color: red !important">
+        <div *ngFor="let error of errors">{{ error.message }}</div>
+      </div>
+      <div
+        class="alert alert-danger"
+        *ngIf="showErrorAlert"
+        style="margin-top: 10px"
+      >
+        <strong>{{ errorTitle }}</strong> {{ errorAlert }}
+      </div>
+      <div
+        class="alert alert-success"
+        *ngIf="successAlert"
+        style="margin-top: 10px"
+      >
+        <strong>Done!</strong> {{ successAlert }}
+      </div>
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input
+          type="text"
+          id="name"
+          class="form-control"
+          [(ngModel)]="name"
+          name="name"
+          placeholder="Name"
+        />
+      </div>
 
-    <div class="form-group">
-      <label for="description">Description</label>
-      <input type="text" id="description"  class="form-control" [(ngModel)]="description" name="description" placeholder="Description" >
-    </div>
-    <button type="submit" class="btn btn-primary" (click)="addCohortList()">Submit</button>
-
-  </form>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input
+          type="text"
+          id="description"
+          class="form-control"
+          [(ngModel)]="description"
+          name="description"
+          placeholder="Description"
+        />
+      </div>
+      <button type="submit" class="btn btn-primary" (click)="addCohortList()">
+        Submit
+      </button>
+    </form>
   </div>
 </div>

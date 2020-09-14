@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-occupation',
   templateUrl: './occupation.component.html',
-  styleUrls: ['./occupation.component.css'],
+  styleUrls: ['./occupation.component.css']
 })
 export class OccupationComponent implements OnInit, OnDestroy {
   public subscription: Subscription;
@@ -15,9 +15,7 @@ export class OccupationComponent implements OnInit, OnDestroy {
   public hasOccupation = false;
   @Input() public patient: Patient;
 
-  constructor(
-    private patientService: PatientService
-  ) { }
+  constructor(private patientService: PatientService) {}
   public ngOnInit(): void {
     this.getPatient();
   }
@@ -27,7 +25,6 @@ export class OccupationComponent implements OnInit, OnDestroy {
       this.subscription.unsubscribe();
     }
   }
-
 
   public getPatient() {
     this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
@@ -47,19 +44,16 @@ export class OccupationComponent implements OnInit, OnDestroy {
 
   public getPersonOccupation(person: any) {
     this.currentOccupation = person.attributes.filter((attribute: any) => {
-           return attribute.attributeType.uuid === this.occupationAttributeTypeUuid;
+      return attribute.attributeType.uuid === this.occupationAttributeTypeUuid;
     });
     this.assessCurrentOccupation(this.currentOccupation);
-
   }
 
   public assessCurrentOccupation(currentOccupation: any) {
-    if (currentOccupation.length > 0 ) {
-        this.hasOccupation = true;
+    if (currentOccupation.length > 0) {
+      this.hasOccupation = true;
     } else {
       this.hasOccupation = false;
     }
-
   }
-
 }

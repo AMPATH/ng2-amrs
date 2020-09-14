@@ -6,17 +6,16 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class SessionService {
-
-  constructor(private http: HttpClient, private appSettingsService: AppSettingsService) {
-  }
+  constructor(
+    private http: HttpClient,
+    private appSettingsService: AppSettingsService
+  ) {}
 
   public getUrl(): string {
-
     return this.appSettingsService.getOpenmrsRestbaseurl().trim() + 'session';
   }
 
   public getSession(credentials: any = null) {
-
     let headers = new HttpHeaders();
 
     if (credentials && credentials.username) {
@@ -25,11 +24,10 @@ export class SessionService {
     }
 
     const url = this.getUrl();
-    return this.http.get(url, {headers: headers});
+    return this.http.get(url, { headers: headers });
   }
 
   public deleteSession() {
-
     const url = this.getUrl();
     return this.http.delete(url, {});
   }

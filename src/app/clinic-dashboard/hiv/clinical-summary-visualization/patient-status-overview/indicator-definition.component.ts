@@ -11,8 +11,7 @@ import * as _ from 'lodash';
 export class PatientStatusIndicatorDefComponent implements OnInit {
   public indicatorDes: any;
   private _data = new BehaviorSubject<any>([]);
-  constructor() {
-  }
+  constructor() {}
   @Input()
   set indicatorDefinition(value) {
     this._data.next(value);
@@ -21,12 +20,11 @@ export class PatientStatusIndicatorDefComponent implements OnInit {
     return this._data.getValue();
   }
   public ngOnInit() {
-    this._data
-      .subscribe((x) => {
-        if (x) {
-           this.processResult(x);
-        }
-      });
+    this._data.subscribe((x) => {
+      if (x) {
+        this.processResult(x);
+      }
+    });
   }
   public processResult(result: any[]) {
     const des = [];
@@ -37,6 +35,5 @@ export class PatientStatusIndicatorDefComponent implements OnInit {
     des.push(obj);
 
     this.indicatorDes = des;
-
   }
 }

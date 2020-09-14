@@ -1,4 +1,4 @@
-import { Component, OnInit , OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, timer } from 'rxjs';
 import { OnlineTrackerService } from './online-tracker.service';
 import { takeWhile } from 'rxjs/operators';
@@ -13,13 +13,12 @@ export class OnlineTrackerComponent implements OnInit, OnDestroy {
   public timer: Observable<any>;
   public subscribeToTimer = true;
 
-  constructor(private _onlineTrackerService: OnlineTrackerService) {
-  }
+  constructor(private _onlineTrackerService: OnlineTrackerService) {}
 
   public ngOnInit() {
     this.timer = timer(1000, 30000);
-    this.timer.pipe(
-      takeWhile(() => this.subscribeToTimer))
+    this.timer
+      .pipe(takeWhile(() => this.subscribeToTimer))
       .subscribe((t) => this.getOnlineStatus());
   }
 
@@ -29,13 +28,15 @@ export class OnlineTrackerComponent implements OnInit, OnDestroy {
 
   public getOnlineStatus() {
     this.isUpdating = true;
-    this._onlineTrackerService.updateOnlineStatus()
+    this._onlineTrackerService
+      .updateOnlineStatus()
       .then((results: any) => {
         this.isOnline = results;
         this.isUpdating = false;
-      }).catch((error) => {
-      this.isOnline = false;
-      console.error('ERROR: GetOnline Status Error', error);
-    });
+      })
+      .catch((error) => {
+        this.isOnline = false;
+        console.error('ERROR: GetOnline Status Error', error);
+      });
   }
 }

@@ -14,13 +14,7 @@ import { EtlApi } from '../etl-api/etl-api.module';
 import { OpenmrsApi } from '../openmrs-api/openmrs-api.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    EtlApi,
-    ReactiveFormsModule,
-    OpenmrsApi
-  ],
+  imports: [CommonModule, FormsModule, EtlApi, ReactiveFormsModule, OpenmrsApi],
   declarations: [
     LabOrderSearchContainerComponent,
     LabOrderSearchComponent,
@@ -31,8 +25,6 @@ import { OpenmrsApi } from '../openmrs-api/openmrs-api.module';
     LabOrdersSearchHelperService,
     LabOrderPostService
   ],
-  exports: [
-    LabOrderSearchPostComponent
-  ]
+  exports: [LabOrderSearchPostComponent]
 })
 export class LabOrderSearchModule {}

@@ -4,11 +4,9 @@ import { Constants } from '../../utils/constants';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
   public canActivate() {
-
     // TODO - use angular2 location object
     let previousRoute: string = window.location.toString();
 

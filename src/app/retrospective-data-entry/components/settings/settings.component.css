@@ -1,5 +1,5 @@
 fieldset {
-  padding: .35em .625em .75em;
+  padding: 0.35em 0.625em 0.75em;
   margin: 0 2px;
   border: 1px solid silver;
 }
@@ -20,4 +20,3 @@ fieldset legend {
 md-form-field.md-datepicker {
   position: relative;
 }
-

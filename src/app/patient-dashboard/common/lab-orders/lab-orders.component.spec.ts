@@ -5,29 +5,30 @@ import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-a
 import { PatientService } from '../../services/patient.service';
 import * as _ from 'lodash';
 describe('FeedBackService', () => {
-    let component: LabOrdersComponent;
+  let component: LabOrdersComponent;
 
-    beforeEach(() => {
-        TestBed.configureTestingModule({
-            providers: [
-                PatientService,
-                LabOrdersComponent,
-                {
-                    provide: AppFeatureAnalytics, useFactory: () => {
-                        return new FakeAppFeatureAnalytics();
-                    }, deps: []
-                }
-            ]
-        });
-        component = TestBed.get(LabOrdersComponent);
-
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        PatientService,
+        LabOrdersComponent,
+        {
+          provide: AppFeatureAnalytics,
+          useFactory: () => {
+            return new FakeAppFeatureAnalytics();
+          },
+          deps: []
+        }
+      ]
     });
+    component = TestBed.get(LabOrdersComponent);
+  });
 
-    afterEach(() => {
-        TestBed.resetTestingModule();
-    });
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  });
 
-    it('should be defied', () => {
-        expect(component).toBeDefined();
-    });
+  it('should be defied', () => {
+    expect(component).toBeDefined();
+  });
 });

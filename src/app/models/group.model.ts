@@ -7,7 +7,6 @@ export class Group extends BaseModel {
   constructor(openmrsModel?: any) {
     super(openmrsModel);
     this._openmrsModel.display = this._openmrsModel.name;
-
   }
 
   @serializable()
@@ -18,17 +17,17 @@ export class Group extends BaseModel {
 
   @serializable()
   public get facility() {
-      return this._openmrsModel.location.display;
+    return this._openmrsModel.location.display;
   }
 
   @serializable()
   public get voided() {
-      return this._openmrsModel.voided;
+    return this._openmrsModel.voided;
   }
 
   @serializable()
   public get endDate() {
-      return this._openmrsModel.endDate;
+    return this._openmrsModel.endDate;
   }
 
   @serializable()
@@ -39,25 +38,30 @@ export class Group extends BaseModel {
 
   @serializable()
   public get status() {
-      return this._openmrsModel.voided ? 'Disbanded' : 'Active';
+    return this._openmrsModel.voided ? 'Disbanded' : 'Active';
   }
 
   @serializable()
   public get program() {
     const attrType = 'programUuid';
-    const programUuid = this.getAttribute(attrType, this._openmrsModel.attributes);
+    const programUuid = this.getAttribute(
+      attrType,
+      this._openmrsModel.attributes
+    );
     if (programUuid) {
-       if (program_visits_config[programUuid]) {
-         return program_visits_config[programUuid]['name'];
-       }
+      if (program_visits_config[programUuid]) {
+        return program_visits_config[programUuid]['name'];
+      }
     } else {
       return null;
     }
   }
 
-
   public getAttribute(attributeType, attributes) {
-    const attr = _.filter(attributes, (attribute) => attribute.cohortAttributeType.name === attributeType)[0];
+    const attr = _.filter(
+      attributes,
+      (attribute) => attribute.cohortAttributeType.name === attributeType
+    )[0];
     if (attr) {
       return attr.value;
     }

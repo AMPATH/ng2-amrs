@@ -1,32 +1,45 @@
 <div class="container-fluid">
-<div class="row">
-        <div class="loader" *ngIf="busyIndicator.busy"><span><i class="fa fa-spinner fa-spin">
-            </i>{{busyIndicator.message}}</span>
-         </div>
-    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-        <h4 align="center" class="section-title">Patients Enrolled <span *ngIf="startDate!=''"> as at {{ endDate | date:'dd-MMMM-yyyy'}} </span></h4>
-        <hr class="intro-divider" width="40%"/>
+  <div class="row">
+    <div class="loader" *ngIf="busyIndicator.busy">
+      <span
+        ><i class="fa fa-spinner fa-spin"> </i>{{ busyIndicator.message }}</span
+      >
     </div>
     <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-             <button class="btn btn-primary back-btn" (click)="backToSummary()"><i class="fa fa-angle-left fa-fw"></i>Back to Summary</button>
+      <h4 align="center" class="section-title">
+        Patients Enrolled
+        <span *ngIf="startDate != ''">
+          as at {{ endDate | date: 'dd-MMMM-yyyy' }}
+        </span>
+      </h4>
+      <hr class="intro-divider" width="40%" />
     </div>
-     <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-            <ag-grid-angular  
-               style="width: 100%; height: 500px" 
-               class="ag-blue"
-               #agPatientGrid
-               [enableSorting]="true"
-               [rowData]="enrolledPatientList"
-               [columnDefs]="enrollmentColdef"
-               [pagination]="true"
-               [gridOptions]="gridOptions"
-               >
-            </ag-grid-angular>
-             <button class="btn btn-info pull-right" *ngIf="enrolledPatientList.length > 0" (click)="exportPatientListToCsv()" style="color: #fff;">
-                <i class="inline fa fa-file-excel-o"></i>
-                <span>Export</span>
-              </button>
-
+    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+      <button class="btn btn-primary back-btn" (click)="backToSummary()">
+        <i class="fa fa-angle-left fa-fw"></i>Back to Summary
+      </button>
     </div>
-</div>
+    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+      <ag-grid-angular
+        style="width: 100%; height: 500px"
+        class="ag-blue"
+        #agPatientGrid
+        [enableSorting]="true"
+        [rowData]="enrolledPatientList"
+        [columnDefs]="enrollmentColdef"
+        [pagination]="true"
+        [gridOptions]="gridOptions"
+      >
+      </ag-grid-angular>
+      <button
+        class="btn btn-info pull-right"
+        *ngIf="enrolledPatientList.length > 0"
+        (click)="exportPatientListToCsv()"
+        style="color: #fff"
+      >
+        <i class="inline fa fa-file-excel-o"></i>
+        <span>Export</span>
+      </button>
+    </div>
+  </div>
 </div>

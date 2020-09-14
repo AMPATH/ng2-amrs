@@ -1,208 +1,301 @@
 <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-     <div class="row">
-             <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" *ngIf="displayMsg.show">
-                     <div class="alert alert-danger">
-                           <p>{{displayMsg.message}}</p>
-                     </div>
-             </div>
+  <div class="row">
+    <div
+      class="col-md-12 col-lg-12 col-sm-12 col-xs-12"
+      *ngIf="displayMsg.show"
+    >
+      <div class="alert alert-danger">
+        <p>{{ displayMsg.message }}</p>
+      </div>
+    </div>
 
-             <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-                     <button class="btn btn-primary toggle-filters" (click)="hideFilter()" *ngIf="showFilters" class="pull-right"><i class="fa fa-angle-down fa-2x fa-fw toggle-filters"></i></button>
-                     <button class="btn btn-primary toggle-filters" (click)="showFilter()" *ngIf="!showFilters" class="pull-right"><i class="fa fa-angle-left fa-2x fa-fw toggle-filters"></i></button>
-             </div>
-     </div>
-     <div class="row">
-        <div class="col-md-6 col-lg-6 col-sm-6 col-xs-12">
-           <div class="form-group">
-             <label class="control-label">Select View</label>
-             <angular2-multiselect
-                             [data]="views"
-                             [(ngModel)]="view"
-                             [settings]="singleSelectDropDownSettings"
-                             (onSelect)="selectView($event)"
-                             (onDeSelect)="viewDeselect($event)"
-                             name="view-filter">
-             </angular2-multiselect>
-             </div>
-        </div>
-        <div *ngIf="view.length > 0">
-        <div *ngIf="showFilters">
+    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+      <button
+        class="btn btn-primary toggle-filters"
+        (click)="hideFilter()"
+        *ngIf="showFilters"
+        class="pull-right"
+      >
+        <i class="fa fa-angle-down fa-2x fa-fw toggle-filters"></i>
+      </button>
+      <button
+        class="btn btn-primary toggle-filters"
+        (click)="showFilter()"
+        *ngIf="!showFilters"
+        class="pull-right"
+      >
+        <i class="fa fa-angle-left fa-2x fa-fw toggle-filters"></i>
+      </button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 col-lg-6 col-sm-6 col-xs-12">
+      <div class="form-group">
+        <label class="control-label">Select View</label>
+        <angular2-multiselect
+          [data]="views"
+          [(ngModel)]="view"
+          [settings]="singleSelectDropDownSettings"
+          (onSelect)="selectView($event)"
+          (onDeSelect)="viewDeselect($event)"
+          name="view-filter"
+        >
+        </angular2-multiselect>
+      </div>
+    </div>
+    <div *ngIf="view.length > 0">
+      <div *ngIf="showFilters">
         <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
-            <div class="row input-row">
-                    <div class="form-group">
-                      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <label class="control-label">Visit Type</label>
-                      </div>
-                      <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                            <angular2-multiselect
-                                    [data]="visitTypes"
-                                    [(ngModel)]="visitType"
-                                    [settings]="singleSelectDropDownSettings"
-                                    (onSelect)="visitTypeSelect($event)"
-                                    (onDeSelect)="visitTypeDeselect($event)"
-                                    name="provider-filter">
-                            </angular2-multiselect>
-                      </div>
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <button class="btn filter-btn" (click)="resetVisitTypes()" *ngIf="visitType.length > 0"><i class="fa fa-trash fa-fw"></i> Select None</button>
-                    </div>
-                    </div>
+          <div class="row input-row">
+            <div class="form-group">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <label class="control-label">Visit Type</label>
+              </div>
+              <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                <angular2-multiselect
+                  [data]="visitTypes"
+                  [(ngModel)]="visitType"
+                  [settings]="singleSelectDropDownSettings"
+                  (onSelect)="visitTypeSelect($event)"
+                  (onDeSelect)="visitTypeDeselect($event)"
+                  name="provider-filter"
+                >
+                </angular2-multiselect>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                <button
+                  class="btn filter-btn"
+                  (click)="resetVisitTypes()"
+                  *ngIf="visitType.length > 0"
+                >
+                  <i class="fa fa-trash fa-fw"></i> Select None
+                </button>
+              </div>
             </div>
-       </div>
-      </div>
-      </div>
-    </div>
-</div>
-<div *ngIf="view.length > 0">
-<div *ngIf="showFilters">
-
- <div class="col-md-6 col-lg-6 col-sm-6 col-xs-12">
-     <div class="row input-row">
-         <div class="form-group">
-             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                  <label class="control-label">Location</label>
-             </div>
-             <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                  <angular2-multiselect
-                              [data]="locations"
-                              [(ngModel)]="location"
-                              [settings]="multpleSelectDropDownSettings"
-                              (onSelect)="locationSelect($event)"
-                              (onDeSelect)="locationDeselect($event)"
-                              name="location-filter">
-                  </angular2-multiselect>
-             </div>
-             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                     <button class="btn filter-btn" (click)="resetLocations()" *ngIf="location.length > 0"><i class="fa fa-trash fa-fw"></i> Select None</button>
-             </div>
-         </div>
-     </div>
- </div>
- <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
-     <div class="row input-row">
-             <div class="form-group">
-               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                     <label class="control-label">Encounter Type</label>
-               </div>
-               <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                     <angular2-multiselect
-                             [data]="encounterTypes"
-                             [(ngModel)]="encounterType"
-                             [settings]="multpleSelectDropDownSettings"
-                             (onSelect)="encounterTypeSelect($event)"
-                             (onDeSelect)="encounterTypeDeselect($event)"
-                             name="provider-filter">
-                     </angular2-multiselect>
-               </div>
-             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                     <button class="btn filter-btn" (click)="resetEncounterTypes()" *ngIf="encounterType.length > 0"><i class="fa fa-trash fa-fw"></i> Select None</button>
-             </div>
-             </div>
-     </div>
-</div>
-<div *ngIf="selectedView.encounterTypePerCreator" class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
-   <div class="row input-row">
-     <div class="form-group">
-             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                     <label class="control-label">Creator</label>
-             </div>
-             <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-               <angular2-multiselect
-                      [data]="creators"
-                      [(ngModel)]="creator"
-                      [settings]="multpleSelectDropDownSettings"
-                      (onSelect)="creatorSelect($event)"
-                      (onDeSelect)="creatorDeselect($event)"
-                      (keyup)="searchCreator($event.target.value)"
-                      name="form-filter">
-                 </angular2-multiselect>
-             </div>
-             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                     <button class="btn filter-btn" (click)="resetCreators()" *ngIf="this.creator.length > 0"><i class="fa fa-trash fa-fw"></i> Select None</button>
-             </div>
-     </div>
-   </div>
-</div>
- <div *ngIf="!selectedView.encounterTypePerCreator" class="col-md-6 col-lg-6 col-sm-4 col-xs-12">
- <div class="row input-row">
-    <div class="form-group">
-       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-          <label class="control-label">Provider</label>
-       </div>
-       <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-         <input type="text" class="form-control" id="provider-input" [(ngModel)]="provider" placeholder="Type to search" (keyup)="searchProvider($event.target.value)">
-         <ul *ngIf="providers" class="list-group dynamic-provider-list">
-         <a>
-                 <li class="list-group-item" *ngFor="let provider of providers" (click)="selectProvider(provider)">
-                    {{ provider.name }}
-                 </li>
-         </a>
-         </ul>
-       </div>
-       <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                     <button class="btn filter-btn" (click)="resetProvider()" *ngIf="this.provider.length > 0 "><i class="fa fa-trash fa-fw"></i> Select None</button>
+          </div>
         </div>
+      </div>
     </div>
-   </div>
-</div>
-<div *ngIf="selectedView.encounterTypePerDay ||
-selectedView.encounterTypePerProvider || selectedView.encounterTypePerCreator" class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
-<div class="form-group input-row">
-        <label class="control-label">Start Date</label>
-        <date-time-picker
-                tabindex="0"
-                [modelValue]="selectedStartDate"
-                [id]="'selectedStartDate'"
-                (onDateChange)="getSelectedStartDate($event)">
-       </date-time-picker>
- </div>
-</div>
-
-<div *ngIf="selectedView.encounterTypePerCreator || selectedView.encounterTypePerProvider"
-class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
-    <div class="form-group input-row">
-                <label class="control-label">End Date</label>
-                <date-time-picker
-                        tabindex="0"
-                        [modelValue]="selectedEndDate"
-                        [id]="'selectedEndDate'"
-                        (onDateChange)="getSelectedEndDate($event)">
-               </date-time-picker>
-     </div>
-</div>
-<div *ngIf="selectedView.encounterTypePerMonth" class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
-     <div class="form-group input-row">
-                     <label class="control-label">Start Month</label>
-             <date-time-picker
-                     tabindex="0"
-                     [modelValue]="selectedStartMonth"
-                     [id]="'selectedStartMonth'"
-                     showMonths = "true"
-                     (onDateChange)="getSelectedStartMonth($event)">
-             </date-time-picker>
-     </div>
-</div>
-
-</div>
-<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-     <div clas="row input-row">
-
-          <div class="col-md-2 col-lg-2 col-sm-3 col-xs-12 action-btn-section">
-          <button class="btn btn-primary load-clear" (click)="search()"><i class="fa fa-search fa-fw"></i>Load</button>
-          <button class="btn btn-danger load-clear" (click)="resetAll()"><i class="fa fa-trash fa-fw"></i>Clear</button>
-          </div>
-          <div class="col-md-4 col-lg-4 col-sm-4 col-xs-12 action-btn-section">
-                          <span *ngIf="selectedView.encounterTypePerDay">
-                                          <button class="btn btn-success" (click)="previousWeek()"><i class="fa fa-angle-left fa-fw"></i>Previous 7 days</button>
-                                          <button class="btn btn-success" (click)="nextWeek()">Next 7 days <i class="fa fa-angle-right fa-fw"></i></button>
-                                  </span>
-                          <span *ngIf="selectedView.encounterTypePerMonth">
-                                          <button class="btn btn-success" (click)="previousYear()"><i class="fa fa-angle-left fa-fw"></i>Previous 12 Months</button>
-                                          <button class="btn btn-success" (click)="nextYear()">Next 12 Months <i class="fa fa-angle-right fa-fw"></i></button>
-                          </span>
-
-          </div>
-
   </div>
 </div>
+<div *ngIf="view.length > 0">
+  <div *ngIf="showFilters">
+    <div class="col-md-6 col-lg-6 col-sm-6 col-xs-12">
+      <div class="row input-row">
+        <div class="form-group">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <label class="control-label">Location</label>
+          </div>
+          <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+            <angular2-multiselect
+              [data]="locations"
+              [(ngModel)]="location"
+              [settings]="multpleSelectDropDownSettings"
+              (onSelect)="locationSelect($event)"
+              (onDeSelect)="locationDeselect($event)"
+              name="location-filter"
+            >
+            </angular2-multiselect>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+            <button
+              class="btn filter-btn"
+              (click)="resetLocations()"
+              *ngIf="location.length > 0"
+            >
+              <i class="fa fa-trash fa-fw"></i> Select None
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+      <div class="row input-row">
+        <div class="form-group">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <label class="control-label">Encounter Type</label>
+          </div>
+          <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+            <angular2-multiselect
+              [data]="encounterTypes"
+              [(ngModel)]="encounterType"
+              [settings]="multpleSelectDropDownSettings"
+              (onSelect)="encounterTypeSelect($event)"
+              (onDeSelect)="encounterTypeDeselect($event)"
+              name="provider-filter"
+            >
+            </angular2-multiselect>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+            <button
+              class="btn filter-btn"
+              (click)="resetEncounterTypes()"
+              *ngIf="encounterType.length > 0"
+            >
+              <i class="fa fa-trash fa-fw"></i> Select None
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      *ngIf="selectedView.encounterTypePerCreator"
+      class="col-md-6 col-lg-6 col-sm-12 col-xs-12"
+    >
+      <div class="row input-row">
+        <div class="form-group">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <label class="control-label">Creator</label>
+          </div>
+          <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+            <angular2-multiselect
+              [data]="creators"
+              [(ngModel)]="creator"
+              [settings]="multpleSelectDropDownSettings"
+              (onSelect)="creatorSelect($event)"
+              (onDeSelect)="creatorDeselect($event)"
+              (keyup)="searchCreator($event.target.value)"
+              name="form-filter"
+            >
+            </angular2-multiselect>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+            <button
+              class="btn filter-btn"
+              (click)="resetCreators()"
+              *ngIf="this.creator.length > 0"
+            >
+              <i class="fa fa-trash fa-fw"></i> Select None
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      *ngIf="!selectedView.encounterTypePerCreator"
+      class="col-md-6 col-lg-6 col-sm-4 col-xs-12"
+    >
+      <div class="row input-row">
+        <div class="form-group">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <label class="control-label">Provider</label>
+          </div>
+          <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+            <input
+              type="text"
+              class="form-control"
+              id="provider-input"
+              [(ngModel)]="provider"
+              placeholder="Type to search"
+              (keyup)="searchProvider($event.target.value)"
+            />
+            <ul *ngIf="providers" class="list-group dynamic-provider-list">
+              <a>
+                <li
+                  class="list-group-item"
+                  *ngFor="let provider of providers"
+                  (click)="selectProvider(provider)"
+                >
+                  {{ provider.name }}
+                </li>
+              </a>
+            </ul>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+            <button
+              class="btn filter-btn"
+              (click)="resetProvider()"
+              *ngIf="this.provider.length > 0"
+            >
+              <i class="fa fa-trash fa-fw"></i> Select None
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      *ngIf="
+        selectedView.encounterTypePerDay ||
+        selectedView.encounterTypePerProvider ||
+        selectedView.encounterTypePerCreator
+      "
+      class="col-md-6 col-lg-6 col-sm-12 col-xs-12"
+    >
+      <div class="form-group input-row">
+        <label class="control-label">Start Date</label>
+        <date-time-picker
+          tabindex="0"
+          [modelValue]="selectedStartDate"
+          [id]="'selectedStartDate'"
+          (onDateChange)="getSelectedStartDate($event)"
+        >
+        </date-time-picker>
+      </div>
+    </div>
+
+    <div
+      *ngIf="
+        selectedView.encounterTypePerCreator ||
+        selectedView.encounterTypePerProvider
+      "
+      class="col-md-6 col-lg-6 col-sm-12 col-xs-12"
+    >
+      <div class="form-group input-row">
+        <label class="control-label">End Date</label>
+        <date-time-picker
+          tabindex="0"
+          [modelValue]="selectedEndDate"
+          [id]="'selectedEndDate'"
+          (onDateChange)="getSelectedEndDate($event)"
+        >
+        </date-time-picker>
+      </div>
+    </div>
+    <div
+      *ngIf="selectedView.encounterTypePerMonth"
+      class="col-md-6 col-lg-6 col-sm-12 col-xs-12"
+    >
+      <div class="form-group input-row">
+        <label class="control-label">Start Month</label>
+        <date-time-picker
+          tabindex="0"
+          [modelValue]="selectedStartMonth"
+          [id]="'selectedStartMonth'"
+          showMonths="true"
+          (onDateChange)="getSelectedStartMonth($event)"
+        >
+        </date-time-picker>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+    <div clas="row input-row">
+      <div class="col-md-2 col-lg-2 col-sm-3 col-xs-12 action-btn-section">
+        <button class="btn btn-primary load-clear" (click)="search()">
+          <i class="fa fa-search fa-fw"></i>Load
+        </button>
+        <button class="btn btn-danger load-clear" (click)="resetAll()">
+          <i class="fa fa-trash fa-fw"></i>Clear
+        </button>
+      </div>
+      <div class="col-md-4 col-lg-4 col-sm-4 col-xs-12 action-btn-section">
+        <span *ngIf="selectedView.encounterTypePerDay">
+          <button class="btn btn-success" (click)="previousWeek()">
+            <i class="fa fa-angle-left fa-fw"></i>Previous 7 days
+          </button>
+          <button class="btn btn-success" (click)="nextWeek()">
+            Next 7 days <i class="fa fa-angle-right fa-fw"></i>
+          </button>
+        </span>
+        <span *ngIf="selectedView.encounterTypePerMonth">
+          <button class="btn btn-success" (click)="previousYear()">
+            <i class="fa fa-angle-left fa-fw"></i>Previous 12 Months
+          </button>
+          <button class="btn btn-success" (click)="nextYear()">
+            Next 12 Months <i class="fa fa-angle-right fa-fw"></i>
+          </button>
+        </span>
+      </div>
+    </div>
+  </div>
 </div>

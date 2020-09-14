@@ -10,14 +10,20 @@ describe('Component: PatientEncounters', () => {
   let patientEncounterService: PatientEncounterService,
     patientService: PatientService,
     appFeatureAnalytics: AppFeatureAnalytics,
-    router: Router, route: ActivatedRoute;
+    router: Router,
+    route: ActivatedRoute;
   let component;
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: []
-
     });
-    component = new PatientEncountersComponent(patientEncounterService, patientService, appFeatureAnalytics, router, route);
+    component = new PatientEncountersComponent(
+      patientEncounterService,
+      patientService,
+      appFeatureAnalytics,
+      router,
+      route
+    );
   });
 
   afterEach(() => {

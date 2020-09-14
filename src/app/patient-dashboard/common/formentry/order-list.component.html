@@ -1,13 +1,25 @@
-<div *ngIf="submittedOrdersModel && submittedOrdersModel.orders && submittedOrdersModel.orders.length>0 ">
-	Here are the order(s) submitted:
-	<br>
-	<ul class="list-group text-primary">
-		<span *ngFor="let order of submittedOrdersModel.orders" class="list-group-item">
-				<i *ngIf="order.orderNumber" class="fa fa-check-square" aria-hidden="true"></i>
-				<i *ngIf="!order.orderNumber" class="fa fa-spinner fa-pulse"></i>
-				&nbsp; {{order.display}}
-				<strong *ngIf="order.orderNumber">:&nbsp;{{order.orderNumber}}</strong>
-		</span>
-
-	</ul>
+<div
+  *ngIf="
+    submittedOrdersModel &&
+    submittedOrdersModel.orders &&
+    submittedOrdersModel.orders.length > 0
+  "
+>
+  Here are the order(s) submitted:
+  <br />
+  <ul class="list-group text-primary">
+    <span
+      *ngFor="let order of submittedOrdersModel.orders"
+      class="list-group-item"
+    >
+      <i
+        *ngIf="order.orderNumber"
+        class="fa fa-check-square"
+        aria-hidden="true"
+      ></i>
+      <i *ngIf="!order.orderNumber" class="fa fa-spinner fa-pulse"></i>
+      &nbsp; {{ order.display }}
+      <strong *ngIf="order.orderNumber">:&nbsp;{{ order.orderNumber }}</strong>
+    </span>
+  </ul>
 </div>

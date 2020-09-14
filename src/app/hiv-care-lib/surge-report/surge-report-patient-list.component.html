@@ -8,17 +8,27 @@
   <span><i class="fa fa-spinner fa-spin"></i>Loading...</span>
 </div>
 <h3>
-  <b>{{selectedIndicator}}</b> patient list
+  <b>{{ selectedIndicator }}</b> patient list
 </h3>
 <hr />
-<patient-list [extraColumns]="extraColumns" [overrideColumns]="overrideColumns" [data]="patientData"></patient-list>
+<patient-list
+  [extraColumns]="extraColumns"
+  [overrideColumns]="overrideColumns"
+  [data]="patientData"
+></patient-list>
 
-<div *ngIf='hasLoadedAll'>
-  <p class="bg-info" style="padding:4px;">
+<div *ngIf="hasLoadedAll">
+  <p class="bg-info" style="padding: 4px">
     <b>
-      <span style="color:green;" class="glyphicon glyphicon-ok">All records loaded {{'[ ' + patientData.length + ' ]'}}</span></b>
-  <p>
+      <span style="color: green" class="glyphicon glyphicon-ok"
+        >All records loaded {{ '[ ' + patientData.length + ' ]' }}</span
+      ></b
+    >
+  </p>
+
+  <p></p>
 </div>
+
 <div *ngIf="hasError">
-<p class="alert-error alert">Error loading patient list.</p>
+  <p class="alert-error alert">Error loading patient list.</p>
 </div>

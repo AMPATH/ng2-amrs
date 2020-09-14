@@ -13,14 +13,34 @@
     </div>
   </div>
   <div class="container">
-    <div *ngIf="success" class="alert alert-success alert-dismissible" role="alert">
-      <button type="button" (click)='dismissSuccess()' class="close" data-dismiss="alert" aria-label="Close">
+    <div
+      *ngIf="success"
+      class="alert alert-success alert-dismissible"
+      role="alert"
+    >
+      <button
+        type="button"
+        (click)="dismissSuccess()"
+        class="close"
+        data-dismiss="alert"
+        aria-label="Close"
+      >
         <span aria-hidden="true">&times;</span>
       </button>
       <span> Thanks for your feedback</span>
     </div>
-    <div *ngIf="error" class="alert alert-danger alert-dismissible" role="alert">
-      <button type="button" (click)='dismissError()' class="close" data-dismiss="alert" aria-label="Close">
+    <div
+      *ngIf="error"
+      class="alert alert-danger alert-dismissible"
+      role="alert"
+    >
+      <button
+        type="button"
+        (click)="dismissError()"
+        class="close"
+        data-dismiss="alert"
+        aria-label="Close"
+      >
         <span aria-hidden="true">&times;</span>
       </button>
       <span> There was an error posting your message please try again</span>
@@ -30,12 +50,27 @@
         <div class="row">
           <div class="col-md-12">
             <div class="form-group">
-              <div style="display:inline-block; color:red;">*</div>
-              <div style="display:inline-block; width:98%;">
-                <input type="text" class="form-control" [(ngModel)]="payload.phone" name="phone" autocomplete="off" id="email" required placeholder="Phone"
-                  minlength="10" maxlength="15" [pattern]="patterns" #name="ngModel">
+              <div style="display: inline-block; color: red">*</div>
+              <div style="display: inline-block; width: 98%">
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="payload.phone"
+                  name="phone"
+                  autocomplete="off"
+                  id="email"
+                  required
+                  placeholder="Phone"
+                  minlength="10"
+                  maxlength="15"
+                  [pattern]="patterns"
+                  #name="ngModel"
+                />
               </div>
-              <div *ngIf="name.errors && (name.dirty || name.touched)" class="alert alert-danger">
+              <div
+                *ngIf="name.errors && (name.dirty || name.touched)"
+                class="alert alert-danger"
+              >
                 <div [hidden]="!name.errors.minlength">
                   Phone number must be at least 10 digits.
                 </div>
@@ -47,40 +82,82 @@
                 </div>
               </div>
             </div>
-            <div *ngIf="hasError" style="margin-bottom:10px;">
+            <div *ngIf="hasError" style="margin-bottom: 10px">
               <span class="text-danger">
-                <i class="glyphicon glyphicon-exclamation-sign"></i> {{errorMessage}}</span>
+                <i class="glyphicon glyphicon-exclamation-sign"></i>
+                {{ errorMessage }}</span
+              >
             </div>
           </div>
         </div>
         <div class="row">
           <div class="col-md-12" include="form-input-select()">
             <!--<label>Department</label>-->
-            <div style="display:inline-block; color:red;padding-right:2px;">
+            <div style="display: inline-block; color: red; padding-right: 2px">
               *
             </div>
-            <div style="display:inline-block; width: 98%;">
-              <select class="form-control" [ngModel]="department" [ngModelOptions]="{standalone:true}" (ngModelChange)="getSelectedDepartment($event)">
-                <option [ngValue]="undefined" disabled selected="selected" hidden style="color: gray">Please select department</option>
-                <option *ngFor="let d of programDepartments" [ngValue]="d.name">{{d.name}}</option>
+            <div style="display: inline-block; width: 98%">
+              <select
+                class="form-control"
+                [ngModel]="department"
+                [ngModelOptions]="{ standalone: true }"
+                (ngModelChange)="getSelectedDepartment($event)"
+              >
+                <option
+                  [ngValue]="undefined"
+                  disabled
+                  selected="selected"
+                  hidden
+                  style="color: gray"
+                >
+                  Please select department
+                </option>
+                <option *ngFor="let d of programDepartments" [ngValue]="d.name">
+                  {{ d.name }}
+                </option>
               </select>
             </div>
           </div>
         </div>
-        <div class="row" style="margin-top:15px;">
+        <div class="row" style="margin-top: 15px">
           <div class="col-md-12">
             <div class="form-group">
-              <div style="display:inline-block; color:red; padding-right:2px;">*</div>
-              <div style="display:inline-block; width: 98%;">
-                <textarea class="form-control textarea" rows="3" [(ngModel)]="payload.message" name="Message" id="Message" placeholder="Message"></textarea>
+              <div
+                style="display: inline-block; color: red; padding-right: 2px"
+              >
+                *
+              </div>
+              <div style="display: inline-block; width: 98%">
+                <textarea
+                  class="form-control textarea"
+                  rows="3"
+                  [(ngModel)]="payload.message"
+                  name="Message"
+                  id="Message"
+                  placeholder="Message"
+                ></textarea>
               </div>
             </div>
           </div>
         </div>
         <div class="row">
           <div class="col-md-12">
-            <button type="button" (click)="sendFeedBack()" class="btn btn-primary pull-right" [disabled]="!name.valid || name.length < 0 || !departmentIsSelected || isBusy">Send a message</button>
-            <button type="button" (click)="goBack()" class="btn pull-left">Back</button>
+            <button
+              type="button"
+              (click)="sendFeedBack()"
+              class="btn btn-primary pull-right"
+              [disabled]="
+                !name.valid ||
+                name.length < 0 ||
+                !departmentIsSelected ||
+                isBusy
+              "
+            >
+              Send a message
+            </button>
+            <button type="button" (click)="goBack()" class="btn pull-left">
+              Back
+            </button>
           </div>
         </div>
       </form>

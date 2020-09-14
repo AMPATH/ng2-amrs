@@ -1,5 +1,10 @@
-
-import { Component, OnInit, ChangeDetectionStrategy, Input, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  Input,
+  ViewChild
+} from '@angular/core';
 import * as _ from 'lodash';
 import { AgGridNg2 } from 'ag-grid-angular';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -7,10 +12,9 @@ import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 @Component({
   selector: 'hiv-summary-monthly-tabular',
-  templateUrl: 'hiv-monthly-summary-tabular.component.html',
+  templateUrl: 'hiv-monthly-summary-tabular.component.html'
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
-
 export class HivSummaryMonthlyTabularComponent implements OnInit {
   public startDate: any;
   public endDate: any;
@@ -33,7 +37,6 @@ export class HivSummaryMonthlyTabularComponent implements OnInit {
   public set sectionDefs(v: Array<any>) {
     this._sectionDefs = v;
     this.setColumns(v);
-
   }
   private _dates: any;
   public get dates(): any {
@@ -62,10 +65,9 @@ export class HivSummaryMonthlyTabularComponent implements OnInit {
     this._age = v;
   }
 
-  constructor(private router: Router,
-              private route: ActivatedRoute) { }
+  constructor(private router: Router, private route: ActivatedRoute) {}
 
-  public ngOnInit() { }
+  public ngOnInit() {}
   public setColumns(sectionsData: Array<any>) {
     const defs = [];
     defs.push({
@@ -91,9 +93,13 @@ export class HivSummaryMonthlyTabularComponent implements OnInit {
     }
   }
   public titleCase(str) {
-    return str.toLowerCase().split(' ').map((word) => {
-      return (word.charAt(0).toUpperCase() + word.slice(1));
-    }).join(' ');
+    return str
+      .toLowerCase()
+      .split(' ')
+      .map((word) => {
+        return word.charAt(0).toUpperCase() + word.slice(1);
+      })
+      .join(' ');
   }
 
   public onCellClicked(event) {
@@ -102,14 +108,22 @@ export class HivSummaryMonthlyTabularComponent implements OnInit {
 
   public goToPatientList(data) {
     const endDate = moment(data.data.month).endOf('month').format('DD/MM/YYYY');
-    const startDate = moment(data.data.month).startOf('month').format('DD/MM/YYYY');
+    const startDate = moment(data.data.month)
+      .startOf('month')
+      .format('DD/MM/YYYY');
     this.locationUuids = data.data.location_uuid;
     this.startDate = moment(this._dates.startDate);
     this.endDate = moment(this._dates.endDate);
-    this.router.navigate(['../patient-list', data.colDef.field,
-        startDate + '|' + endDate ,
-    this.gender ? this.gender : 'F,M', this.age.startAge + '|' + this.age.endAge,
-        data.data.location_uuid],
-      { relativeTo: this.route });
+    this.router.navigate(
+      [
+        '../patient-list',
+        data.colDef.field,
+        startDate + '|' + endDate,
+        this.gender ? this.gender : 'F,M',
+        this.age.startAge + '|' + this.age.endAge,
+        data.data.location_uuid
+      ],
+      { relativeTo: this.route }
+    );
   }
 }

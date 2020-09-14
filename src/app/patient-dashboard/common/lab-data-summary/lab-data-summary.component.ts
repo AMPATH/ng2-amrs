@@ -6,13 +6,13 @@ import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-a
   styleUrls: ['./lab-data-summary.component.css']
 })
 export class LabDataSummaryComponent implements OnInit {
-
-  constructor(private appFeatureAnalytics: AppFeatureAnalytics) {
-  }
+  constructor(private appFeatureAnalytics: AppFeatureAnalytics) {}
 
   public ngOnInit() {
-    this.appFeatureAnalytics
-      .trackEvent('Patient Dashboard', 'Lab Data Summary Loaded', 'ngOnInit');
+    this.appFeatureAnalytics.trackEvent(
+      'Patient Dashboard',
+      'Lab Data Summary Loaded',
+      'ngOnInit'
+    );
   }
-
 }

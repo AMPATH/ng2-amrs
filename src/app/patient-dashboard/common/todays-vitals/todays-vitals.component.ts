@@ -33,8 +33,8 @@ export class TodaysVitalsComponent implements OnInit, OnDestroy {
   constructor(
     private patientService: PatientService,
     private vitalService: TodaysVitalsService,
-    private encounterResourceService: EncounterResourceService) {
-  }
+    private encounterResourceService: EncounterResourceService
+  ) {}
 
   public ngOnInit(): void {
     this.vitalSources = [
@@ -61,32 +61,36 @@ export class TodaysVitalsComponent implements OnInit, OnDestroy {
     const todaysEncounters = this.getTodaysEncounters(this.patient.encounters);
     this.getTodaysEncounterDetails(todaysEncounters)
       .then((encounterDetails) => {
-        this.vitalService.getTodaysVitals(patient, encounterDetails, this.vitalSources)
-        .then((data: any) => {
+        this.vitalService
+          .getTodaysVitals(patient, encounterDetails, this.vitalSources)
+          .then((data: any) => {
             if (data) {
               this.loadingTodaysVitals = false;
               this.todaysVitals = _.filter(data, 'show');
               this.dataLoaded = true;
             }
-          }).catch(error => {
+          })
+          .catch((error) => {
             this.loadingTodaysVitals = false;
             this.dataLoaded = true;
             this.errors.push({
               id: 'Todays Vitals',
-              message: 'Error fetching today\'s vitals'
+              message: "Error fetching today's vitals"
             });
           });
-      }).catch((err) => {
-        console.error('Error fetching today\'s vitals', err);
+      })
+      .catch((err) => {
+        console.error("Error fetching today's vitals", err);
       });
   }
-
 
   public getTodaysEncounters(encounters) {
     const today = Moment().format('YYYY-MM-DD');
     const todaysEncounters = [];
     _.each(encounters, (encounter: any) => {
-      const encounterDate = Moment(encounter.encounterDatetime).format('YYYY-MM-DD');
+      const encounterDate = Moment(encounter.encounterDatetime).format(
+        'YYYY-MM-DD'
+      );
       if (encounterDate === today) {
         todaysEncounters.push(encounter);
       }
@@ -108,8 +112,10 @@ export class TodaysVitalsComponent implements OnInit, OnDestroy {
       _.each(todaysEncounters, (todaysEncounter: any) => {
         const encounterUuid = todaysEncounter.uuid;
         encounterCount++;
-        this.encounterResourceService.getEncounterByUuid(encounterUuid).pipe(
-          take(1)).subscribe((encounterDetail) => {
+        this.encounterResourceService
+          .getEncounterByUuid(encounterUuid)
+          .pipe(take(1))
+          .subscribe((encounterDetail) => {
             encounterWithDetails.push(encounterDetail);
             resultCount++;
             checkCount();

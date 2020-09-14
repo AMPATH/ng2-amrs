@@ -6,15 +6,11 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./display-error.component.css']
 })
 export class DisplayErrorComponent implements OnInit {
-
   @Input() public messageType;
   @Input() public message;
   @Input() public isVisible;
 
-  constructor() {
-  }
+  constructor() {}
 
-  public ngOnInit() {
-  }
-
+  public ngOnInit() {}
 }

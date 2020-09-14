@@ -7,7 +7,6 @@ import * as _ from 'lodash';
   styleUrls: ['./visit-summary.component.css']
 })
 export class VisitSummaryComponent implements OnInit {
-
   @Output()
   public visitSummarySelected = new EventEmitter<any>();
   public visitSummaryDetails: any;
@@ -19,18 +18,15 @@ export class VisitSummaryComponent implements OnInit {
   public set visitSummary(v: Array<any>) {
     this._visitSummary = v;
     this.setVisitSummary(v);
-
   }
 
-  constructor() { }
+  constructor() {}
 
-  public ngOnInit() { }
+  public ngOnInit() {}
   public setVisitSummary(data: Array<any>) {
     this.visitSummaryDetails = _.uniqBy(data, 'uuid');
   }
   public viewVisitDetails(visitDetails) {
     this.visitSummarySelected.emit(visitDetails);
-
   }
-
 }

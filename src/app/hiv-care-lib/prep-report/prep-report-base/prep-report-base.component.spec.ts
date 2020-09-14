@@ -16,7 +16,11 @@ describe('PrepReportBaseComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PrepReportBaseComponent, ReportFilterComponent, ClinicDashboardComponent ],
+      declarations: [
+        PrepReportBaseComponent,
+        ReportFilterComponent,
+        ClinicDashboardComponent
+      ],
       providers: [
         // { provide: PrepResourceService, useClass: SurgeResourceServiceMock },
         AppSettingsService,
@@ -26,17 +30,14 @@ describe('PrepReportBaseComponent', () => {
         RouterTestingModule.withRoutes(routes),
         HttpClientTestingModule
       ],
-      schemas: [
-        NO_ERRORS_SCHEMA
-      ]
-    })
-    .compileComponents();
+      schemas: [NO_ERRORS_SCHEMA]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PrepReportBaseComponent);
     component = fixture.componentInstance;
-    component.params = {'_month': '2020-09-12'};
+    component.params = { _month: '2020-09-12' };
     fixture.detectChanges();
   });
 

@@ -26,7 +26,7 @@ const mockPatient = new Patient({
     ampathMrsUId: '297400783-9',
     amrsMrn: '',
     cCC: '',
-    kenyaNationalId: '',
+    kenyaNationalId: ''
   },
   display: '297400783-9 - Test Anticoagulation Treatment',
   encounters: [
@@ -34,20 +34,20 @@ const mockPatient = new Patient({
       encounterDatetime: new Date(),
       encounterType: {
         display: 'ANTICOAGULATION TRIAGE',
-        uuid: '6accd920-6254-4063-bfd1-0e1b70b3f201',
+        uuid: '6accd920-6254-4063-bfd1-0e1b70b3f201'
       },
       form: {
         name: 'ONCOLOGY POC Anticoagulation Triage Form',
-        uuid: '84539fd3-842c-46a7-a595-fc64919badd6',
+        uuid: '84539fd3-842c-46a7-a595-fc64919badd6'
       },
       location: {
         display: 'Location Test',
-        uuid: '18c343eb-b353-462a-9139-b16606e6b6c2',
+        uuid: '18c343eb-b353-462a-9139-b16606e6b6c2'
       },
       patient: {
-        uuid: '7ce98cb8-9785-4467-91cc-64afa2d59763',
-      },
-    },
+        uuid: '7ce98cb8-9785-4467-91cc-64afa2d59763'
+      }
+    }
   ],
   person: {
     age: 30,
@@ -56,8 +56,8 @@ const mockPatient = new Patient({
     display: 'Test Anticoagulation Treatment',
     gender: 'F',
     healthCenter: '',
-    uuid: '7ce98cb8-9785-4467-91cc-64afa2d59763',
-  },
+    uuid: '7ce98cb8-9785-4467-91cc-64afa2d59763'
+  }
 });
 
 class PatientServiceStub {
@@ -99,13 +99,13 @@ describe('Component: PatientInfo', () => {
           useFactory: () => {
             return new FakeAppFeatureAnalytics();
           },
-          deps: [],
+          deps: []
         },
         {
           provide: PatientService,
-          useFactory: () => new PatientServiceStub(mockPatient),
-        },
-      ],
+          useFactory: () => new PatientServiceStub(mockPatient)
+        }
+      ]
     }).compileComponents();
   }));
 
@@ -122,9 +122,13 @@ describe('Component: PatientInfo', () => {
 
   it('renders a page with data about a patient', () => {
     expect(component).toBeTruthy();
-    const pageTitle = <HTMLElement>nativeElement.querySelector('h4.component-title');
+    const pageTitle = <HTMLElement>(
+      nativeElement.querySelector('h4.component-title')
+    );
     expect(pageTitle.innerText).toMatch('Patient Information');
-    const sectionHeaders = nativeElement.querySelectorAll('.info_section_title');
+    const sectionHeaders = nativeElement.querySelectorAll(
+      '.info_section_title'
+    );
     expect(sectionHeaders.length).toEqual(9);
     expect(sectionHeaders[0].innerHTML).toMatch(/Demographics/);
     expect(sectionHeaders[1].innerHTML).toMatch(/Contacts/);

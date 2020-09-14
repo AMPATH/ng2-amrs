@@ -1,11 +1,33 @@
-<div style="margin-top: 4px; margin-bottom: 4px" class="location-filter suggest-container form-group">
-  <div style="padding: 0px; border: 1px double lightgray; border-bottom: 0px; cursor: pointer;" class="_row"
-    (click)="filterCollapsed = !filterCollapsed">
-    <span class="text-info" style="margin:2px; font-weight:bold;"> <span class="glyphicon glyphicon-filter"
-        style="font-weight: normal;"></span>Report filters</span>
-    <span style="margin:2px;" class="label label-default pull-right">
-      <span class="glyphicon glyphicon-chevron-down" *ngIf="!filterCollapsed"></span>
-      <span class="glyphicon glyphicon-chevron-up" *ngIf="filterCollapsed"></span>
+<div
+  style="margin-top: 4px; margin-bottom: 4px"
+  class="location-filter suggest-container form-group"
+>
+  <div
+    style="
+      padding: 0px;
+      border: 1px double lightgray;
+      border-bottom: 0px;
+      cursor: pointer;
+    "
+    class="_row"
+    (click)="filterCollapsed = !filterCollapsed"
+  >
+    <span class="text-info" style="margin: 2px; font-weight: bold">
+      <span
+        class="glyphicon glyphicon-filter"
+        style="font-weight: normal"
+      ></span
+      >Report filters</span
+    >
+    <span style="margin: 2px" class="label label-default pull-right">
+      <span
+        class="glyphicon glyphicon-chevron-down"
+        *ngIf="!filterCollapsed"
+      ></span>
+      <span
+        class="glyphicon glyphicon-chevron-up"
+        *ngIf="filterCollapsed"
+      ></span>
     </span>
   </div>
   <div style="padding: 0px; border: 1px double lightgray" class="_row">
@@ -13,19 +35,36 @@
       <div class="form-group col-md-12" *ngIf="isEnabled('indicatorsControl')">
         <label for="indicator">Indicator </label>
         <div class="input-group">
-          <div class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span></div>
-          <ng-select class="sharp-corners" [multiple]="true" id="indicator"
-            [placeholder]="'Select desired Indicator(s) or type to search...'" [(ngModel)]="selectedIndicators"
-            [items]="indicatorOptions" (change)="onSelectedIndicators($event)">
+          <div class="input-group-addon">
+            <span class="glyphicon glyphicon-map-marker"></span>
+          </div>
+          <ng-select
+            class="sharp-corners"
+            [multiple]="true"
+            id="indicator"
+            [placeholder]="'Select desired Indicator(s) or type to search...'"
+            [(ngModel)]="selectedIndicators"
+            [items]="indicatorOptions"
+            (change)="onSelectedIndicators($event)"
+          >
           </ng-select>
-          <div class="input-group-addon" (click)="selectAll()" style="cursor: pointer;">
+          <div
+            class="input-group-addon"
+            (click)="selectAll()"
+            style="cursor: pointer"
+          >
             <div>
-              <span *ngIf="selectedIndicatorTagsSelectedAll" class="glyphicon glyphicon-trash"></span>
-              <span *ngIf="!selectedIndicatorTagsSelectedAll" class="glyphicon glyphicon-pushpin"></span>
+              <span
+                *ngIf="selectedIndicatorTagsSelectedAll"
+                class="glyphicon glyphicon-trash"
+              ></span>
+              <span
+                *ngIf="!selectedIndicatorTagsSelectedAll"
+                class="glyphicon glyphicon-pushpin"
+              ></span>
               <span *ngIf="!selectedIndicatorTagsSelectedAll">Select All</span>
               <span *ngIf="selectedIndicatorTagsSelectedAll">Select None</span>
             </div>
-
           </div>
         </div>
       </div>
@@ -34,17 +73,25 @@
         <div class="form-group col-md-6">
           <div class="form-row">
             <label for="startDate">Start Date:</label>
-            <input id="startDate" type="date" class="form-control" [(ngModel)]="startDateString" />
+            <input
+              id="startDate"
+              type="date"
+              class="form-control"
+              [(ngModel)]="startDateString"
+            />
           </div>
         </div>
         <div class="form-group col-md-6">
           <div class="form-row">
             <label for="endDate">End Date:</label>
-            <input id="endDate" type="date" class="form-control" [(ngModel)]="endDateString" />
+            <input
+              id="endDate"
+              type="date"
+              class="form-control"
+              [(ngModel)]="endDateString"
+            />
           </div>
-          <div>
-
-          </div>
+          <div></div>
         </div>
         <div class="clear-fix clear"></div>
       </div>
@@ -53,7 +100,12 @@
         <div class="form-group col-md-12">
           <div class="form-row">
             <label for="startDate">Start Date:</label>
-            <input id="startDate" type="date" class="form-control" [(ngModel)]="startDateString" />
+            <input
+              id="startDate"
+              type="date"
+              class="form-control"
+              [(ngModel)]="startDateString"
+            />
           </div>
         </div>
         <div class="clear-fix clear"></div>
@@ -63,8 +115,14 @@
         <div class="form-group col-md-12">
           <div class="form-row">
             <label for="startDate">Week Year:</label>
-            <ng-select [items]="surgeWeeks" bindLabel="name" bind placeholder="Select yearWeek" [(ngModel)]="selectedYearWeek"
-              (change)="yearWeekChange($event)"></ng-select>
+            <ng-select
+              [items]="surgeWeeks"
+              bindLabel="name"
+              bind
+              placeholder="Select yearWeek"
+              [(ngModel)]="selectedYearWeek"
+              (change)="yearWeekChange($event)"
+            ></ng-select>
           </div>
         </div>
         <div class="clear-fix clear"></div>
@@ -73,64 +131,116 @@
       <div class="form-group col-md-12" *ngIf="isEnabled('ageControl')">
         <label for="age">Age Range</label>
         <input type="text" class="slider" />
-
       </div>
       <div class="form-group col-md-12" *ngIf="isEnabled('genderControl')">
         <label for="gender">Select Gender</label>
-        <ng-select class="sharp-corners" [multiple]="true" id="gender" [placeholder]="'Select Gender...'"
-           [items]="genderOptions" [(ngModel)]="selectedGender" ngDefaultControl>
+        <ng-select
+          class="sharp-corners"
+          [multiple]="true"
+          id="gender"
+          [placeholder]="'Select Gender...'"
+          [items]="genderOptions"
+          [(ngModel)]="selectedGender"
+          ngDefaultControl
+        >
         </ng-select>
       </div>
 
       <div class="form-group col-md-12" *ngIf="isEnabled('periodControl')">
         <label for="period">Select Period</label>
-        <ng-select class="sharp-corners" [multiple]="false" id="period" [placeholder]="'Select Period...'"
-          bindLabel="label" bindValue="value" [(ngModel)]="selectedPeriod" [items]="periodOptions"
-          (change)="onPeriodChange($event)">
+        <ng-select
+          class="sharp-corners"
+          [multiple]="false"
+          id="period"
+          [placeholder]="'Select Period...'"
+          bindLabel="label"
+          bindValue="value"
+          [(ngModel)]="selectedPeriod"
+          [items]="periodOptions"
+          (change)="onPeriodChange($event)"
+        >
         </ng-select>
       </div>
 
-      <div class="row" *ngIf="isEnabled('programsControl')" style="margin-left:0; margin-right:0;">
+      <div
+        class="row"
+        *ngIf="isEnabled('programsControl')"
+        style="margin-left: 0; margin-right: 0"
+      >
         <div class="form-group col-md-6 col-xs-12">
           <label for="program">Program </label>
           <div class="input-group">
-            <div class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span></div>
-            <ng-select class="sharp-corners" [multiple]="true" id="program"
-              [placeholder]="'Select desired Program(s) or type to search...'" [(ngModel)]="selectedPrograms"
-              [items]="programOptions">
+            <div class="input-group-addon">
+              <span class="glyphicon glyphicon-map-marker"></span>
+            </div>
+            <ng-select
+              class="sharp-corners"
+              [multiple]="true"
+              id="program"
+              [placeholder]="'Select desired Program(s) or type to search...'"
+              [(ngModel)]="selectedPrograms"
+              [items]="programOptions"
+            >
             </ng-select>
-            <div class="input-group-addon" (click)="selectAllPrograms()" style="cursor: pointer;">
+            <div
+              class="input-group-addon"
+              (click)="selectAllPrograms()"
+              style="cursor: pointer"
+            >
               <div>
-                <span *ngIf="selectedProgramTagsSelectedAll" class="glyphicon glyphicon-trash"></span>
-                <span *ngIf="!selectedProgramTagsSelectedAll" class="glyphicon glyphicon-pushpin"></span>
+                <span
+                  *ngIf="selectedProgramTagsSelectedAll"
+                  class="glyphicon glyphicon-trash"
+                ></span>
+                <span
+                  *ngIf="!selectedProgramTagsSelectedAll"
+                  class="glyphicon glyphicon-pushpin"
+                ></span>
                 <span *ngIf="!selectedProgramTagsSelectedAll">Select All</span>
                 <span *ngIf="selectedProgramTagsSelectedAll">Select None</span>
               </div>
-
             </div>
           </div>
         </div>
       </div>
       <div *ngIf="isEnabled('locationControl')">
-        <location-filter [multiple]="true" [locationUuids]="locations"
-          (onLocationChange)="getSelectedLocations($event)"></location-filter>
+        <location-filter
+          [multiple]="true"
+          [locationUuids]="locations"
+          (onLocationChange)="getSelectedLocations($event)"
+        ></location-filter>
       </div>
       <div class="date-range" *ngIf="isEnabled('monthControl')">
         <div class="form-group col-md-12">
           <div class="form-row">
             <label for="month">Month:</label>
-            <input id="month" type="month" class="form-control" [(ngModel)]="monthString"/>
+            <input
+              id="month"
+              type="month"
+              class="form-control"
+              [(ngModel)]="monthString"
+            />
           </div>
         </div>
         <div class="clear-fix clear"></div>
       </div>
     </div>
   </div>
-  <div class="_row" style="margin-top: 4px; padding: 0px;">
-    <button type="button" *ngIf="!parentIsBusy" class="btn btn-primary pull-right"
-      (click)="onClickedGenerate()">Generate Report</button>
-    <span class="pull-right" style="font-weight: bold; color: gray" *ngIf="parentIsBusy">Loading report..</span>
+  <div class="_row" style="margin-top: 4px; padding: 0px">
+    <button
+      type="button"
+      *ngIf="!parentIsBusy"
+      class="btn btn-primary pull-right"
+      (click)="onClickedGenerate()"
+    >
+      Generate Report
+    </button>
+    <span
+      class="pull-right"
+      style="font-weight: bold; color: gray"
+      *ngIf="parentIsBusy"
+      >Loading report..</span
+    >
     <div class="clear clear-fix"></div>
   </div>
-
 </div>

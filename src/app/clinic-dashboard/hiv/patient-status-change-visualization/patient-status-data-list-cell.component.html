@@ -1,16 +1,30 @@
-<div style="width: 100%; height: 100%" (click)='clicked()'
-     title="{{params.colDef.tooltipTitle}}">
+<div
+  style="width: 100%; height: 100%"
+  (click)="clicked()"
+  title="{{ params.colDef.tooltipTitle }}"
+>
+  <span [style.color]="params.colDef.color || 'deepskyblue'"
+    >{{ params.value }}
+  </span>
 
-  <span [style.color]="params.colDef.color||'deepskyblue'"
-  >{{ params.value }} </span>
-
-  <span *ngIf="
-  params.column.colId==='patients_gained'||
-  params.column.colId==='patients_lost'||
-  params.column.colId==='patient_change_from_past_month'
-">
-    <i *ngIf="params.value>0" style="color: green; float:right" class="fa fa-chevron-circle-up"
-       aria-hidden="true"></i>
-    <i *ngIf="params.value<0" style="color: red; float:right" class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+  <span
+    *ngIf="
+      params.column.colId === 'patients_gained' ||
+      params.column.colId === 'patients_lost' ||
+      params.column.colId === 'patient_change_from_past_month'
+    "
+  >
+    <i
+      *ngIf="params.value > 0"
+      style="color: green; float: right"
+      class="fa fa-chevron-circle-up"
+      aria-hidden="true"
+    ></i>
+    <i
+      *ngIf="params.value < 0"
+      style="color: red; float: right"
+      class="fa fa-chevron-circle-down"
+      aria-hidden="true"
+    ></i>
   </span>
 </div>

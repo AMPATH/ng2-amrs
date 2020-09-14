@@ -4,23 +4,20 @@ import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { DailyScheduleClinicFlowComponent } from './daily-schedule-clinic-flow.component';
 
 describe('Daily-schedule clinic flow component Tests', () => {
-    let comp: DailyScheduleClinicFlowComponent;
-    let fixture: ComponentFixture<DailyScheduleClinicFlowComponent>;
+  let comp: DailyScheduleClinicFlowComponent;
+  let fixture: ComponentFixture<DailyScheduleClinicFlowComponent>;
 
-    beforeEach(async() => {
-        TestBed.configureTestingModule({
-            imports: [DateTimePickerModule,
-                NgxMyDatePickerModule.forRoot(),
-            ],
-            declarations: [DailyScheduleClinicFlowComponent]
-        }).compileComponents();
+  beforeEach(async () => {
+    TestBed.configureTestingModule({
+      imports: [DateTimePickerModule, NgxMyDatePickerModule.forRoot()],
+      declarations: [DailyScheduleClinicFlowComponent]
+    }).compileComponents();
 
-        fixture = TestBed.createComponent(DailyScheduleClinicFlowComponent);
-        comp = fixture.componentInstance;
-    });
+    fixture = TestBed.createComponent(DailyScheduleClinicFlowComponent);
+    comp = fixture.componentInstance;
+  });
 
-    /*it('should be defined', () => {
+  /*it('should be defined', () => {
         expect(comp).toBeDefined();
     });*/
-
 });

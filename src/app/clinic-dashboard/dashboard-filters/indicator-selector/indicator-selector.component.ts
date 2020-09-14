@@ -11,8 +11,7 @@ export class IndicatorSelectComponent implements OnInit {
   // tslint:disable-next-line:no-output-on-prefix
   @Output() public onIndicatorChange = new EventEmitter<any>();
 
-  constructor() {
-  }
+  constructor() {}
 
   public ngOnInit() {
     if (this.selectedIndicators.length > 0) {

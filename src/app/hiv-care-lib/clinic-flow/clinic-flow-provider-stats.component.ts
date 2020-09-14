@@ -1,5 +1,11 @@
-
-import { Component, OnInit, OnDestroy, Input, SimpleChange, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  Input,
+  SimpleChange,
+  ViewChild
+} from '@angular/core';
 import { Injectable, Inject } from '@angular/core';
 
 import { BehaviorSubject, Subscription } from 'rxjs';
@@ -12,7 +18,6 @@ import { AgGridNg2 } from 'ag-grid-angular';
   selector: 'clinic-flow-provider-stats',
   templateUrl: './clinic-flow-provider-stats.component.html'
 })
-
 export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
   public errors: any[] = [];
   public clinicFlowData: any[] = [];
@@ -32,31 +37,30 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
   private selectedDateSubscription: Subscription;
   private clinicFlowSubscription: Subscription;
 
-  constructor(private clinicFlowCacheService: ClinicFlowCacheService,
+  constructor(
+    private clinicFlowCacheService: ClinicFlowCacheService,
     private router: Router,
-    @Inject('ClinicFlowResource') private clinicFlowResource: ClinicFlowResource) { }
+    @Inject('ClinicFlowResource') private clinicFlowResource: ClinicFlowResource
+  ) {}
 
   public ngOnInit() {
-    this.currentLocationSubscription = this.clinicFlowCacheService.getSelectedLocation()
+    this.currentLocationSubscription = this.clinicFlowCacheService
+      .getSelectedLocation()
       .subscribe((clinic) => {
         this.selectedLocation = clinic;
-        this.selectedDateSubscription = this.clinicFlowCacheService.getSelectedDate()
+        this.selectedDateSubscription = this.clinicFlowCacheService
+          .getSelectedDate()
           .subscribe((date) => {
             this.selectedDate = date;
 
-            if (this.selectedLocation && this.selectedDate
-            ) {
+            if (this.selectedLocation && this.selectedDate) {
               if (this.loadingClinicFlow === false) {
                 this.initParams();
                 this.getClinicFlow(this.selectedDate, this.selectedLocation);
               }
-
             }
-
           });
-
       });
-
   }
 
   public loadSelectedPatient(event: any) {
@@ -69,16 +73,21 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.router.navigate(['/patient-dashboard/patient/' + patientUuid +
-      '/general/general/landing-page']);
+    this.router.navigate([
+      '/patient-dashboard/patient/' +
+        patientUuid +
+        '/general/general/landing-page'
+    ]);
   }
 
   public setColumns(sectionsData: Array<any>) {
     let header = [];
     const defs = [];
-    const uniqueKeys = Object.keys(sectionsData.reduce((result, obj) => {
-      return Object.assign(result, obj);
-    }, {}));
+    const uniqueKeys = Object.keys(
+      sectionsData.reduce((result, obj) => {
+        return Object.assign(result, obj);
+      }, {})
+    );
     // move the #seen column to be at index 2
     uniqueKeys.splice(uniqueKeys.indexOf('#_Seen'), 1);
     uniqueKeys.splice(2, 0, '#_Seen');
@@ -98,7 +107,7 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
       _.each(header, (keys) => {
         defs.push({
           headerName: this.titleCase(keys.label),
-          field: keys.label,
+          field: keys.label
         });
       });
       this.gridOptions.columnDefs = defs;
@@ -111,9 +120,13 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
   }
 
   public titleCase(str) {
-    return str.toLowerCase().split('_').map((word) => {
-      return (word.charAt(0).toUpperCase() + word.slice(1));
-    }).join(' ');
+    return str
+      .toLowerCase()
+      .split('_')
+      .map((word) => {
+        return word.charAt(0).toUpperCase() + word.slice(1);
+      })
+      .join(' ');
   }
 
   public ngOnDestroy(): void {
@@ -128,20 +141,16 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
     if (this.clinicFlowSubscription) {
       this.clinicFlowSubscription.unsubscribe();
     }
-
   }
 
   public getClinicFlow(dateStated, locations) {
-
     this.initParams();
     this.loadingClinicFlow = true;
     this.clinicFlowCacheService.setIsLoading(this.loadingClinicFlow);
-    const result = this.clinicFlowResource.
-      getClinicFlow(dateStated, locations);
+    const result = this.clinicFlowResource.getClinicFlow(dateStated, locations);
     if (result === null) {
       throw new Error('Null clinic flow observable');
     } else {
-
       this.clinicFlowSubscription = result.take(1).subscribe(
         (dataList) => {
           console.log('Datalist :::::>>', dataList);
@@ -156,8 +165,7 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
           }
           this.loadingClinicFlow = false;
           this.clinicFlowCacheService.setIsLoading(this.loadingClinicFlow);
-        }
-        ,
+        },
         (error) => {
           this.loadingClinicFlow = false;
           this.clinicFlowCacheService.setIsLoading(this.loadingClinicFlow);
@@ -172,34 +180,35 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
   public transformVisitsToDummyEncounters(result) {
     _.each(result, (data: any) => {
       // reconstructing an array of objects to contain all provider encounters
-      this.providerEncounters.push.apply(this.providerEncounters, data.encounters);
+      this.providerEncounters.push.apply(
+        this.providerEncounters,
+        data.encounters
+      );
 
       /* adding a dummy encounter type to be used to keep track of visits started and the
        details of the person who started the visit
        */
-      this.providerEncounters.unshift(
-        {
-          person_name: data.visit_person_Name,
-          location: data.location,
-          encounter_type: 8888,
-          person_id: data.visit_person_id,
+      this.providerEncounters.unshift({
+        person_name: data.visit_person_Name,
+        location: data.location,
+        encounter_type: 8888,
+        person_id: data.visit_person_id,
 
-          encounter_type_name: 'Visits_Started'
-
-        });
-
+        encounter_type_name: 'Visits_Started'
+      });
     });
-
   }
   public groupEncountersByProvider() {
     const providersPersonIds = [];
     const uniqueProviderPersonIds = {};
     for (const i in this.providerEncounters) {
       if (this.providerEncounters.hasOwnProperty(i)) {
-        if (typeof (uniqueProviderPersonIds[this.providerEncounters[i].person_id]) ===
-          'undefined') {
+        if (
+          typeof uniqueProviderPersonIds[
+            this.providerEncounters[i].person_id
+          ] === 'undefined'
+        ) {
           providersPersonIds.push(this.providerEncounters[i].person_id);
-
         }
         uniqueProviderPersonIds[this.providerEncounters[i].person_id] = 0;
       }
@@ -207,7 +216,6 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
     this._constructFinalProviderReport(providersPersonIds);
   }
   public getTotalPatientSeenByProvider(arrayOfObjects, visits) {
-
     const result = [];
 
     for (const i of arrayOfObjects) {
@@ -215,7 +223,6 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
       let sum = 0;
       for (const x in data) {
         if (x !== visits) {
-
           const value = data[x];
 
           if (typeof value === 'number') {
@@ -225,31 +232,29 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
       }
       data['#_Seen'] = sum;
       result.push(data);
-
     }
     return result;
-
   }
   private _constructFinalProviderReport(providersPersonIds) {
     _.each(providersPersonIds, (provider) => {
       const row = {};
       _.each(this.providerEncounters, (result: any) => {
-
         if (provider === result.person_id) {
           row['Person_Name'] = result.person_name;
           row['Location'] = result.location;
           // count encounter type per provider
-          row[result.encounter_type_name] = (row[result.encounter_type_name] || 0) + 1;
-
+          row[result.encounter_type_name] =
+            (row[result.encounter_type_name] || 0) + 1;
         }
-
       });
 
       this.finalProviderReport.push(row);
     });
 
-    this.finalProviderReport =
-      this.getTotalPatientSeenByProvider(this.finalProviderReport, 'Visits_Started');
+    this.finalProviderReport = this.getTotalPatientSeenByProvider(
+      this.finalProviderReport,
+      'Visits_Started'
+    );
   }
 
   private initParams() {
@@ -262,5 +267,4 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
     this.patientStatuses = [];
     this.providerEncounters = [];
   }
-
 }

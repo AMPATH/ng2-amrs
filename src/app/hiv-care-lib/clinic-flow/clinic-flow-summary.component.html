@@ -1,40 +1,49 @@
 <div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+    ×
+  </button>
+  {{ error.message }}
 </div>
 
-<div style="font-weight: bold; font-size:14px;">
-    <span class="text-warning">  Date: {{selectedDate}}</span> <br/>
-    <span class="text-warning">  Total Visits: {{clinicFlowData.length}}</span> <br/>
-    <span class="text-warning">  Incomplete Visits: {{incompleteVisitsCount}}</span>
+<div style="font-weight: bold; font-size: 14px">
+  <span class="text-warning"> Date: {{ selectedDate }}</span> <br />
+  <span class="text-warning"> Total Visits: {{ clinicFlowData.length }}</span>
+  <br />
+  <span class="text-warning">
+    Incomplete Visits: {{ incompleteVisitsCount }}</span
+  >
 </div>
 
-<div class="panel panel-default" style="font-weight: bold;">
-    <div *ngIf='summarydataLoaded'>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <td></td>
-                    <td>Visit Completion Time (mins)</td>
-                    <td>Triage Waiting Time (mins)</td>
-                    <td>Clinician Waiting Time (mins)</td>
-                </tr>
-            </thead>
+<div class="panel panel-default" style="font-weight: bold">
+  <div *ngIf="summarydataLoaded">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <td></td>
+          <td>Visit Completion Time (mins)</td>
+          <td>Triage Waiting Time (mins)</td>
+          <td>Clinician Waiting Time (mins)</td>
+        </tr>
+      </thead>
 
-            <tr>
-                <td>Average</td>
-                <td>{{averageWaitingTime.averageVisitCompletionTime}}</td>
-                <td>{{averageWaitingTime.averageTriageWaitingTime}}</td>
-                <td>{{averageWaitingTime.averageClinicianWaitingTime}}</td>
-            </tr>
-            <tr>
-                <td>Median</td>
-                <td>{{medianWaitingTime.medianVisitCompletionTime}}</td>
-                <td>{{medianWaitingTime.medianTriageWaitingTime}}</td>
-                <td>{{medianWaitingTime.medianClinicianWaitingTime}}</td>
-            </tr>
-        </table>
-    </div>
+      <tr>
+        <td>Average</td>
+        <td>{{ averageWaitingTime.averageVisitCompletionTime }}</td>
+        <td>{{ averageWaitingTime.averageTriageWaitingTime }}</td>
+        <td>{{ averageWaitingTime.averageClinicianWaitingTime }}</td>
+      </tr>
+      <tr>
+        <td>Median</td>
+        <td>{{ medianWaitingTime.medianVisitCompletionTime }}</td>
+        <td>{{ medianWaitingTime.medianTriageWaitingTime }}</td>
+        <td>{{ medianWaitingTime.medianClinicianWaitingTime }}</td>
+      </tr>
+    </table>
+  </div>
 </div>
-<div id="chartWrapper" style="width:100%; background-color: lightgray; padding:2px;">
-    <clinic-flow-hourly-viz [data]="hourlyStats"></clinic-flow-hourly-viz>
+<div
+  id="chartWrapper"
+  style="width: 100%; background-color: lightgray; padding: 2px"
+>
+  <clinic-flow-hourly-viz [data]="hourlyStats"></clinic-flow-hourly-viz>
 </div>

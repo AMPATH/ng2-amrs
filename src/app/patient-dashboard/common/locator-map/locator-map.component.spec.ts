@@ -20,42 +20,39 @@ import { ProgramResourceService } from 'src/app/openmrs-api/program-resource.ser
 import { EncounterResourceService } from 'src/app/openmrs-api/encounter-resource.service';
 
 describe('Component: Lab Test Orders Unit Tests', () => {
+  let component;
 
-    let component;
-
-    beforeEach(() => {
-        TestBed.configureTestingModule({
-            providers: [
-                LocatorMapComponent,
-                FileUploadResourceService,
-                AppSettingsService,
-                LocalStorageService,
-                PatientService,
-                PatientResourceService,
-                PatientProgramService,
-                RoutesProviderService,
-                ProgramService,
-                ProgramEnrollmentResourceService,
-                ProgramWorkFlowResourceService,
-                ProgramWorkFlowStateResourceService,
-                ProgramResourceService,
-                EncounterResourceService,
-                PersonResourceService
-            ],
-            imports: [HttpClientTestingModule]
-        });
-
-        component = TestBed.get(LocatorMapComponent);
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        LocatorMapComponent,
+        FileUploadResourceService,
+        AppSettingsService,
+        LocalStorageService,
+        PatientService,
+        PatientResourceService,
+        PatientProgramService,
+        RoutesProviderService,
+        ProgramService,
+        ProgramEnrollmentResourceService,
+        ProgramWorkFlowResourceService,
+        ProgramWorkFlowStateResourceService,
+        ProgramResourceService,
+        EncounterResourceService,
+        PersonResourceService
+      ],
+      imports: [HttpClientTestingModule]
     });
 
-    afterEach(() => {
-        TestBed.resetTestingModule();
-    });
+    component = TestBed.get(LocatorMapComponent);
+  });
 
-    it('should instantiate the component', (done) => {
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  });
 
-        expect(component).toBeTruthy();
-        done();
-
-    });
+  it('should instantiate the component', (done) => {
+    expect(component).toBeTruthy();
+    done();
+  });
 });

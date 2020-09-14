@@ -12,7 +12,7 @@ import { take } from 'rxjs/operators';
 @Component({
   selector: 'edit-relationship',
   templateUrl: './edit-patient-relationship.component.html',
-  styleUrls: [],
+  styleUrls: []
 })
 export class EditPatientRelationshipComponent implements OnInit, OnDestroy {
   public selectedRelative: any;
@@ -29,15 +29,20 @@ export class EditPatientRelationshipComponent implements OnInit, OnDestroy {
   public patientUuid: string;
   private subscription: Subscription;
 
-  constructor(private patientRelationshipService: PatientRelationshipService,
+  constructor(
+    private patientRelationshipService: PatientRelationshipService,
     private patientRelationshipTypeService: PatientRelationshipTypeService,
     private patientService: PatientService,
-    private appFeatureAnalytics: AppFeatureAnalytics) { }
+    private appFeatureAnalytics: AppFeatureAnalytics
+  ) {}
 
   public ngOnInit(): void {
     this.getPatient();
-    this.appFeatureAnalytics
-      .trackEvent('Patient Dashboard', 'Edit Patient Relationship Loaded', 'ngOnInit');
+    this.appFeatureAnalytics.trackEvent(
+      'Patient Dashboard',
+      'Edit Patient Relationship Loaded',
+      'ngOnInit'
+    );
   }
 
   public ngOnDestroy() {
@@ -58,17 +63,22 @@ export class EditPatientRelationshipComponent implements OnInit, OnDestroy {
     request.pipe(take(1)).subscribe((relationshipTypes: RelationshipType[]) => {
       if (relationshipTypes) {
         this.patientRelationshipTypes = relationshipTypes;
-        this.selectedRelationshipType = _.find(relationshipTypes,
+        this.selectedRelationshipType = _.find(
+          relationshipTypes,
           (patientRelationshipType: RelationshipType) => {
-            const foundRelationshipType = new RelationshipType(patientRelationshipType);
-            if (foundRelationshipType.uuid === this.selectedRelative.relationshipTypeUuId) {
+            const foundRelationshipType = new RelationshipType(
+              patientRelationshipType
+            );
+            if (
+              foundRelationshipType.uuid ===
+              this.selectedRelative.relationshipTypeUuId
+            ) {
               return foundRelationshipType;
             }
-          });
+          }
+        );
       }
-
     });
-
   }
 
   public getPatient() {
@@ -77,19 +87,24 @@ export class EditPatientRelationshipComponent implements OnInit, OnDestroy {
         if (patient) {
           this.patientUuid = patient.person.uuid;
         }
-      });
+      }
+    );
   }
 
   public updateRelationship() {
     this.isLoading = true;
     _.find(this.relationships, (relationship: Relationship) => {
       const relative = relationship;
-      if (this.selectedRelative.relatedPersonUuid === relative.relatedPersonUuid) {
+      if (
+        this.selectedRelative.relatedPersonUuid === relative.relatedPersonUuid
+      ) {
         const patientRelationshipPayload = {
           relationshipType: this.selectedRelationshipType.uuid
         };
-        this.patientRelationshipService.updateRelationship(relative.uuid,
-          patientRelationshipPayload).pipe(take(1)).subscribe(
+        this.patientRelationshipService
+          .updateRelationship(relative.uuid, patientRelationshipPayload)
+          .pipe(take(1))
+          .subscribe(
             (success) => {
               if (success) {
                 this.displaySuccessAlert('Relationship updated successfully');
@@ -97,9 +112,15 @@ export class EditPatientRelationshipComponent implements OnInit, OnDestroy {
             },
             (error) => {
               this.isLoading = false;
-              console.error('The request failed because of the following ', error);
-              this.displayErrorAlert('The system encountered an error while updating relationship');
-            });
+              console.error(
+                'The request failed because of the following ',
+                error
+              );
+              this.displayErrorAlert(
+                'The system encountered an error while updating relationship'
+              );
+            }
+          );
       }
     });
   }

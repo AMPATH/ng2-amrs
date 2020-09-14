@@ -1,4 +1,3 @@
-
 import { take } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
@@ -10,9 +9,7 @@ import { OrderResourceService } from '../../../openmrs-api/order-resource.servic
 import { LabelService } from './labels/label-service';
 
 import { Subscription } from 'rxjs';
-import {
-  ClinicLabOrdersResourceService
-} from '../../../etl-api/clinic-lab-orders-resource.service';
+import { ClinicLabOrdersResourceService } from '../../../etl-api/clinic-lab-orders-resource.service';
 import { ObsResourceService } from '../../../openmrs-api/obs-resource.service';
 import { DatePipe } from '@angular/common';
 
@@ -58,19 +55,23 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
   public maxDate = new Date();
   private _datePipe: DatePipe;
 
-  constructor(private appFeatureAnalytics: AppFeatureAnalytics,
+  constructor(
+    private appFeatureAnalytics: AppFeatureAnalytics,
     private patientService: PatientService,
     private orderResourceService: OrderResourceService,
     private labelService: LabelService,
     private clinicLabOrdersResourceService: ClinicLabOrdersResourceService,
-    private obsResourceService: ObsResourceService,
+    private obsResourceService: ObsResourceService
   ) {
     this._datePipe = new DatePipe('en-US');
   }
 
   public ngOnInit() {
-    this.appFeatureAnalytics
-      .trackEvent('Patient Dashboard', 'Lab Orders Loaded', 'ngOnInit');
+    this.appFeatureAnalytics.trackEvent(
+      'Patient Dashboard',
+      'Lab Orders Loaded',
+      'ngOnInit'
+    );
     this.getCurrentlyLoadedPatient();
   }
 
@@ -85,18 +86,22 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
       (patient) => {
         if (patient) {
           this.patient = patient;
-          const amrsId = _.find(this.patient.identifiers.openmrsModel,
+          const amrsId = _.find(
+            this.patient.identifiers.openmrsModel,
             (identifer: any) => {
-              if (identifer.identifierType.uuid === '58a4732e-1359-11df-a1f1-0026b9348838') {
+              if (
+                identifer.identifierType.uuid ===
+                '58a4732e-1359-11df-a1f1-0026b9348838'
+              ) {
                 return true;
               }
-            });
+            }
+          );
           if (amrsId) {
             this.patientIdentifer = amrsId.identifier;
           }
           this.getLabOrdersByPatientUuid();
           this.getPatientLabOrders();
-
         }
       }
     );
@@ -106,38 +111,45 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
     this.fetchingResults = true;
     this.isBusy = true;
     const patientUuId = this.patient.uuid;
-    this.orderResourceService.getOrdersByPatientUuid(patientUuId).pipe(
-      take(1)).subscribe((result) => {
-        console.log('result', result);
-        // this.getCorrespingLabOrdersFromAmrs(result.results);
-        this.labPatient = result.results[0].patient;
-        this.labEncouonters = result.results;
-        this.labOrders = result.results;
+    this.orderResourceService
+      .getOrdersByPatientUuid(patientUuId)
+      .pipe(take(1))
+      .subscribe(
+        (result) => {
+          console.log('result', result);
+          // this.getCorrespingLabOrdersFromAmrs(result.results);
+          this.labPatient = result.results[0].patient;
+          this.labEncouonters = result.results;
+          this.labOrders = result.results;
 
-        this.labOrders.sort((a, b) => {
-          const key1 = a.dateActivated;
-          const key2 = b.dateActivated;
-          if (key1 > key2) {
-            return -1;
-          } else if (key1 === key2) {
-            return 0;
-          } else {
-            return 1;
-          }
-        });
-        this.fetchingResults = false;
-        this.isBusy = false;
-      }, (err) => {
-        this.error = err;
-        console.error('error', this.error);
-      });
+          this.labOrders.sort((a, b) => {
+            const key1 = a.dateActivated;
+            const key2 = b.dateActivated;
+            if (key1 > key2) {
+              return -1;
+            } else if (key1 === key2) {
+              return 0;
+            } else {
+              return 1;
+            }
+          });
+          this.fetchingResults = false;
+          this.isBusy = false;
+        },
+        (err) => {
+          this.error = err;
+          console.error('error', this.error);
+        }
+      );
   }
   public getLabOrdersByPatientUuid() {
     this.fetchingResults = true;
     this.isBusy = true;
     const patientUuId = this.patient.uuid;
-    this.clinicLabOrdersResourceService.getLabOrdersByPatientUuid(patientUuId).pipe(
-      take(1)).subscribe((result) => {
+    this.clinicLabOrdersResourceService
+      .getLabOrdersByPatientUuid(patientUuId)
+      .pipe(take(1))
+      .subscribe((result) => {
         this.labOrdersEtl = result;
         console.log('this.labOrdersEtl', this.labOrdersEtl);
         this.labOrdersEtl.sort((a, b) => {
@@ -153,15 +165,16 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
         });
         this.fetchingResults = false;
         this.isBusy = false;
-
       });
-
   }
 
   public postOrderToEid(order: any) {
     this.currentOrder = null;
     this.displayDialog = true;
-    this.currentOrder = this.getCorrespingLabOrdersFromAmrs(this.labEncouonters, order.orderNumber);
+    this.currentOrder = this.getCorrespingLabOrdersFromAmrs(
+      this.labEncouonters,
+      order.orderNumber
+    );
     // this.currentOrder = order;
   }
 
@@ -169,8 +182,7 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
     this.displayDialog = false;
     this.currentOrder = null;
   }
-  public collectionDateChanged(event) {
-  }
+  public collectionDateChanged(event) {}
 
   public printLabel(order) {
     this.labelService.directPrint(this.getLabel(order), this.copies);
@@ -181,30 +193,31 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
     if (order.sample_drawn === 'YES') {
       this.sampleCollected = 'a899b35c-1350-11df-a1f1-0026b9348838';
       this.collectionDate = this._datePipe.transform(
-        order.sample_collection_date, 'yyyy-MM-dd') as any;
+        order.sample_collection_date,
+        'yyyy-MM-dd'
+      ) as any;
       this.disableButton = false;
     }
     if (order.sample_drawn === 'NO') {
       this.hideDateField = true;
       this.sampleCollected = 'a899b42e-1350-11df-a1f1-0026b9348838';
       this.disableButton = false;
-
     }
-    if (order.sample_drawn === null || order.sample_drawn === 'null'
-      || this.sampleCollected === '') {
+    if (
+      order.sample_drawn === null ||
+      order.sample_drawn === 'null' ||
+      this.sampleCollected === ''
+    ) {
       this.sampleCollected = ' ';
       this.disableButton = true;
-      this.maxDate = this._datePipe.transform(
-        new Date(), 'yyyy-MM-dd') as any;
+      this.maxDate = this._datePipe.transform(new Date(), 'yyyy-MM-dd') as any;
       this.collectionDate = '' as any;
-
     }
 
     this.orderUuid = order.uuid;
     this.obsUuid = order.obs_uuid;
 
     this.displaySampleDialog = true;
-
   }
   public dismissSampleDialog() {
     this.displayConfirmDialog = true;
@@ -217,7 +230,7 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
       console.log('this.errors', this.errors);
       return;
     }
-    if (this.collectionDate === '' as any) {
+    if (this.collectionDate === ('' as any)) {
       const clone = { message: 'Date sample collected is required' };
       this.errors.push(clone);
       this.errors = this.errors[0];
@@ -230,11 +243,37 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
       concept: 'dfcdcaf9-5317-4651-9846-9b4fd9334fb9',
       value: this.sampleCollected,
       obsDatetime: this.toDateString(this.collectionDate)
-
     };
     if (this.obsUuid !== null) {
+      this.obsResourceService
+        .voidObs(this.obsUuid)
+        .pipe(take(1))
+        .subscribe(
+          (success) => {
+            if (success) {
+              this.displaySuccessAlert('saved successfully');
+              this.getCurrentlyLoadedPatient();
+              this.getLabOrdersByPatientUuid();
+              setTimeout(() => {
+                this.displaySampleDialog = false;
+              }, 1000);
+            }
+          },
+          (error) => {
+            console.error('error', error);
+            this.errors.push({
+              id: 'patient',
+              message: 'error posting obs'
+            });
+            this.displaySampleDialog = true;
+          }
+        );
+    }
 
-      this.obsResourceService.voidObs(this.obsUuid).pipe(take(1)).subscribe(
+    this.obsResourceService
+      .saveObs(obsPayload)
+      .pipe(take(1))
+      .subscribe(
         (success) => {
           if (success) {
             this.displaySuccessAlert('saved successfully');
@@ -243,7 +282,6 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
             setTimeout(() => {
               this.displaySampleDialog = false;
             }, 1000);
-
           }
         },
         (error) => {
@@ -255,72 +293,43 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
           this.displaySampleDialog = true;
         }
       );
-
-    }
-
-    this.obsResourceService.saveObs(obsPayload).pipe(take(1)).subscribe(
-      (success) => {
-        if (success) {
-          this.displaySuccessAlert('saved successfully');
-          this.getCurrentlyLoadedPatient();
-          this.getLabOrdersByPatientUuid();
-          setTimeout(() => {
-            this.displaySampleDialog = false;
-          }, 1000);
-        }
-      },
-      (error) => {
-        console.error('error', error);
-        this.errors.push({
-          id: 'patient',
-          message: 'error posting obs'
-        });
-        this.displaySampleDialog = true;
-      }
-    );
-
   }
   public onSampleSelectedChange(selected) {
     this.errors = [];
 
     if (selected.target.value === 'a899b42e-1350-11df-a1f1-0026b9348838') {
       this.collectionDate = this._datePipe.transform(
-        new Date(), 'yyyy-MM-dd') as any;
+        new Date(),
+        'yyyy-MM-dd'
+      ) as any;
       this.hideDateField = true;
       this.disableButton = false;
       this.errors = [];
-
     }
     if (selected.target.value === 'a899b35c-1350-11df-a1f1-0026b9348838') {
       this.hideDateField = false;
       this.disableButton = false;
       this.errors = [];
-
     }
-    if (this.sampleCollected !== '' && this.collectionDate === '' as any) {
+    if (this.sampleCollected !== '' && this.collectionDate === ('' as any)) {
       this.disableButton = true;
-
     }
-
   }
   public onDateSelectedChange(event) {
     this.errors = [];
     this.disableButton = false;
-    if (this.collectionDate !== '' as any) {
+    if (this.collectionDate !== ('' as any)) {
       this.disableButton = false;
     }
     if (this.sampleCollected === 'a899b42e-1350-11df-a1f1-0026b9348838') {
       this.disableButton = false;
     }
-    if (this.collectionDate !== '' as any && this.sampleCollected === '') {
+    if (this.collectionDate !== ('' as any) && this.sampleCollected === '') {
       this.disableButton = true;
-
     }
-
   }
   public closeConfirmationDialog() {
     this.displayConfirmDialog = false;
-
   }
   public clearSampleCollectedList() {
     this.sampleCollected = '';
@@ -328,7 +337,6 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
     this.errors = [];
     this.displayConfirmDialog = false;
     this.displaySampleDialog = false;
-
   }
   private displaySuccessAlert(message) {
     this.showErrorAlert = false;
@@ -369,12 +377,9 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
         this.currentOrder = null;
         this.displayDialog = true;
         this.currentOrder = result[i];
-
       }
-
     }
     return this.currentOrder;
-
   }
 
   private selectAll() {

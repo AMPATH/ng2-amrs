@@ -1,14 +1,29 @@
 <div class="program-manager-container">
   <nav mat-tab-nav-bar mat-stretch-tabs>
-    <a mat-tab-link [routerLink]="'program-summary'"
-       routerLinkActive #rls="routerLinkActive"
-       [class.active]="rls.isActive">Program Summary</a>
-    <a mat-tab-link [routerLink]="'new-program'"
-       routerLinkActive #rln="routerLinkActive"
-       [class.active]="rln.isActive">Start Program</a>
-    <a mat-tab-link [routerLink]="'edit-program'"
-       routerLinkActive #rle="routerLinkActive"
-       [class.active]="rle.isActive">Transfer</a>
+    <a
+      mat-tab-link
+      [routerLink]="'program-summary'"
+      routerLinkActive
+      #rls="routerLinkActive"
+      [class.active]="rls.isActive"
+      >Program Summary</a
+    >
+    <a
+      mat-tab-link
+      [routerLink]="'new-program'"
+      routerLinkActive
+      #rln="routerLinkActive"
+      [class.active]="rln.isActive"
+      >Start Program</a
+    >
+    <a
+      mat-tab-link
+      [routerLink]="'edit-program'"
+      routerLinkActive
+      #rle="routerLinkActive"
+      [class.active]="rle.isActive"
+      >Transfer</a
+    >
   </nav>
   <program-manager-base>
     <router-outlet></router-outlet>

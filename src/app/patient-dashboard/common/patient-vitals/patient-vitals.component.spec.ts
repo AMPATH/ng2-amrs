@@ -13,20 +13,14 @@ import { PatientVitalsService } from './patient-vitals.service';
 import { PatientService } from '../../services/patient.service';
 import { VitalsResourceService } from '../../../etl-api/vitals-resource.service';
 import { PatientResourceService } from '../../../openmrs-api/patient-resource.service';
-import {
-  ProgramEnrollmentResourceService
-} from '../../../openmrs-api/program-enrollment-resource.service';
+import { ProgramEnrollmentResourceService } from '../../../openmrs-api/program-enrollment-resource.service';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
 import { PatientProgramService } from '../../programs/patient-programs.service';
 import { RoutesProviderService } from '../../../shared/dynamic-route/route-config-provider.service';
 import { ProgramService } from '../../programs/program.service';
 import { ProgramResourceService } from '../../../openmrs-api/program-resource.service';
-import {
-  ProgramWorkFlowResourceService
-} from '../../../openmrs-api/program-workflow-resource.service';
-import {
-  ProgramWorkFlowStateResourceService
-} from '../../../openmrs-api/program-workflow-state-resource.service';
+import { ProgramWorkFlowResourceService } from '../../../openmrs-api/program-workflow-resource.service';
+import { ProgramWorkFlowStateResourceService } from '../../../openmrs-api/program-workflow-state-resource.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ZscoreService } from 'src/app/shared/services/zscore.service';
 import { SelectDepartmentService } from 'src/app/shared/services/select-department.service';
@@ -173,7 +167,9 @@ const selectDepartmentServiceStub = {
 
 class PatientServiceStub {
   public patient: Patient;
-  public currentlyLoadedPatient: BehaviorSubject<Patient> = new BehaviorSubject(null);
+  public currentlyLoadedPatient: BehaviorSubject<Patient> = new BehaviorSubject(
+    null
+  );
 
   constructor(patient) {
     this.currentlyLoadedPatient.next(patient);
@@ -192,8 +188,8 @@ describe('Component: Vitals Unit Tests', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ HttpClientTestingModule ],
-      declarations: [ PatientVitalsComponent ],
+      imports: [HttpClientTestingModule],
+      declarations: [PatientVitalsComponent],
       providers: [
         AppSettingsService,
         EncounterResourceService,
@@ -223,11 +219,10 @@ describe('Component: Vitals Unit Tests', () => {
         },
         {
           provide: SelectDepartmentService,
-          useValue: selectDepartmentServiceStub,
+          useValue: selectDepartmentServiceStub
         }
       ]
-    })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -278,45 +273,119 @@ describe('Component: Vitals Unit Tests', () => {
       expect(component.loadingVitals).toBeFalsy();
       expect(component.nextStartIndex).toEqual(4);
       expect(vitalsLabels[0].children.length).toEqual(14, 'Fourteen vitals');
-      expect((<HTMLElement>vitalsLabels[0].children[1]).innerText).toEqual('Date');
-      expect((<HTMLElement>vitalsLabels[0].children[2]).innerText).toEqual('BP');
-      expect((<HTMLElement>vitalsLabels[0].children[3]).innerText).toEqual('Pulse');
-      expect((<HTMLElement>vitalsLabels[0].children[4]).innerText).toEqual('Temperature');
-      expect((<HTMLElement>vitalsLabels[0].children[5]).innerText).toEqual('Oxygen Sat');
-      expect((<HTMLElement>vitalsLabels[0].children[6]).innerText).toEqual('Height');
-      expect((<HTMLElement>vitalsLabels[0].children[7]).innerText).toEqual('Weight');
+      expect((<HTMLElement>vitalsLabels[0].children[1]).innerText).toEqual(
+        'Date'
+      );
+      expect((<HTMLElement>vitalsLabels[0].children[2]).innerText).toEqual(
+        'BP'
+      );
+      expect((<HTMLElement>vitalsLabels[0].children[3]).innerText).toEqual(
+        'Pulse'
+      );
+      expect((<HTMLElement>vitalsLabels[0].children[4]).innerText).toEqual(
+        'Temperature'
+      );
+      expect((<HTMLElement>vitalsLabels[0].children[5]).innerText).toEqual(
+        'Oxygen Sat'
+      );
+      expect((<HTMLElement>vitalsLabels[0].children[6]).innerText).toEqual(
+        'Height'
+      );
+      expect((<HTMLElement>vitalsLabels[0].children[7]).innerText).toEqual(
+        'Weight'
+      );
       // Show BMI if patient is older than 18 years old
-      expect((<HTMLElement>vitalsLabels[0].children[8]).innerText).toEqual('BMI');
-      expect((<HTMLElement>vitalsLabels[0].children[9]).innerText).toEqual('BSA');
+      expect((<HTMLElement>vitalsLabels[0].children[8]).innerText).toEqual(
+        'BMI'
+      );
+      expect((<HTMLElement>vitalsLabels[0].children[9]).innerText).toEqual(
+        'BSA'
+      );
       // Show ECOG, INR, LCC and RCC for Hemato-Oncology patients with these values
-      expect((<HTMLElement>vitalsLabels[0].children[10]).innerText).toEqual('ECOG');
-      expect((<HTMLElement>vitalsLabels[0].children[11]).innerText).toEqual('INR');
-      expect((<HTMLElement>vitalsLabels[0].children[12]).innerText).toEqual('LCC');
-      expect((<HTMLElement>vitalsLabels[0].children[13]).innerText).toEqual('RCC');
-      expect((<HTMLElement>vitalsList.children[1]).innerText).toEqual('03-07-2019');
+      expect((<HTMLElement>vitalsLabels[0].children[10]).innerText).toEqual(
+        'ECOG'
+      );
+      expect((<HTMLElement>vitalsLabels[0].children[11]).innerText).toEqual(
+        'INR'
+      );
+      expect((<HTMLElement>vitalsLabels[0].children[12]).innerText).toEqual(
+        'LCC'
+      );
+      expect((<HTMLElement>vitalsLabels[0].children[13]).innerText).toEqual(
+        'RCC'
+      );
+      expect((<HTMLElement>vitalsList.children[1]).innerText).toEqual(
+        '03-07-2019'
+      );
       expect((<HTMLElement>vitalsList.children[2]).innerText).toEqual('150/75');
-      const systolic_bp = <HTMLElement>nativeElement.querySelector('.systolic_bp');
+      const systolic_bp = <HTMLElement>(
+        nativeElement.querySelector('.systolic_bp')
+      );
       expect(systolic_bp).toBeTruthy();
       expect(systolic_bp.innerText).toEqual('150/');
-      expect(systolic_bp.style.cssText).toEqual('color: red;', 'Abnormal systolic value (>= 140)');
-      const diastolic_bp = <HTMLElement>nativeElement.querySelector('.diastolic_bp');
+      expect(systolic_bp.style.cssText).toEqual(
+        'color: red;',
+        'Abnormal systolic value (>= 140)'
+      );
+      const diastolic_bp = <HTMLElement>(
+        nativeElement.querySelector('.diastolic_bp')
+      );
       expect(diastolic_bp).toBeTruthy();
       expect(diastolic_bp.innerText).toEqual('75', 'Normal diastolic value');
-      expect((<HTMLElement>vitalsList.children[3]).innerText).toEqual('92', 'Pulse');
+      expect((<HTMLElement>vitalsList.children[3]).innerText).toEqual(
+        '92',
+        'Pulse'
+      );
       const pulse = <HTMLElement>nativeElement.querySelector('.pulse');
-      expect(pulse.style.cssText).not.toContain('color: red;', 'Normal pulse value');
-      expect((<HTMLElement>vitalsList.children[4]).innerText).toEqual('37', 'Temperature');
+      expect(pulse.style.cssText).not.toContain(
+        'color: red;',
+        'Normal pulse value'
+      );
+      expect((<HTMLElement>vitalsList.children[4]).innerText).toEqual(
+        '37',
+        'Temperature'
+      );
       const temp = <HTMLElement>nativeElement.querySelector('.temp');
-      expect(temp.style.cssText).not.toContain('color: red;', 'Normal temperature value');
-      expect((<HTMLElement>vitalsList.children[5]).innerText).toMatch(/\s*/, 'No oxygen sat value');
-      expect((<HTMLElement>vitalsList.children[6]).innerText).toEqual('171', 'Height');
-      expect((<HTMLElement>vitalsList.children[7]).innerText).toEqual('75', 'Weight');
-      expect((<HTMLElement>vitalsList.children[8]).innerText).toEqual('25.6', 'BMI');
-      expect((<HTMLElement>vitalsList.children[9]).innerText).toMatch(/\s*/, 'No BSA value');
-      expect((<HTMLElement>vitalsList.children[10]).innerText).toMatch(/\s*/, 'No ECOG value');
-      expect((<HTMLElement>vitalsList.children[11]).innerText).toEqual('19', 'INR');
-      expect((<HTMLElement>vitalsList.children[12]).innerText).toEqual('30', 'LCC');
-      expect((<HTMLElement>vitalsList.children[13]).innerText).toEqual('25', 'RCC');
+      expect(temp.style.cssText).not.toContain(
+        'color: red;',
+        'Normal temperature value'
+      );
+      expect((<HTMLElement>vitalsList.children[5]).innerText).toMatch(
+        /\s*/,
+        'No oxygen sat value'
+      );
+      expect((<HTMLElement>vitalsList.children[6]).innerText).toEqual(
+        '171',
+        'Height'
+      );
+      expect((<HTMLElement>vitalsList.children[7]).innerText).toEqual(
+        '75',
+        'Weight'
+      );
+      expect((<HTMLElement>vitalsList.children[8]).innerText).toEqual(
+        '25.6',
+        'BMI'
+      );
+      expect((<HTMLElement>vitalsList.children[9]).innerText).toMatch(
+        /\s*/,
+        'No BSA value'
+      );
+      expect((<HTMLElement>vitalsList.children[10]).innerText).toMatch(
+        /\s*/,
+        'No ECOG value'
+      );
+      expect((<HTMLElement>vitalsList.children[11]).innerText).toEqual(
+        '19',
+        'INR'
+      );
+      expect((<HTMLElement>vitalsList.children[12]).innerText).toEqual(
+        '30',
+        'LCC'
+      );
+      expect((<HTMLElement>vitalsList.children[13]).innerText).toEqual(
+        '25',
+        'RCC'
+      );
     });
   }));
 });

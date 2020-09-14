@@ -1,4 +1,11 @@
-<h4 class="component-title" style="color: green;"><span class="fa fa-line-chart"></span> MOH 731 Monthly Analysis</h4>
-<kibana-viz-host [height]="height" [width]="width" [url]="kibanaVizUrl" (patientNavigationRequested)="onPatientNavigationRequested($event)"
-    (vizUrlChanged)="onVizUrlChanged($event)">
+<h4 class="component-title" style="color: green">
+  <span class="fa fa-line-chart"></span> MOH 731 Monthly Analysis
+</h4>
+<kibana-viz-host
+  [height]="height"
+  [width]="width"
+  [url]="kibanaVizUrl"
+  (patientNavigationRequested)="onPatientNavigationRequested($event)"
+  (vizUrlChanged)="onVizUrlChanged($event)"
+>
 </kibana-viz-host>

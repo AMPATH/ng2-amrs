@@ -1,20 +1,38 @@
 <div class="list-group">
-  <div id="VisitSummaryList" style="margin-bottom: 4px;" *ngFor="let visitSummaryDetails of visitSummaryDetails">
+  <div
+    id="VisitSummaryList"
+    style="margin-bottom: 4px"
+    *ngFor="let visitSummaryDetails of visitSummaryDetails"
+  >
+    <a
+      id="visitSummary"
+      style="width: 100%; text-align: left; font-size: 16px; color: red"
+      (click)="viewVisitDetails(visitSummaryDetails)"
+      class="btn btn-default btn-lg"
+      [ngStyle]="{
+        'border-left':
+          visitSummaryDetails.stopDatetime === null
+            ? '5px solid #80D651'
+            : '5px solid skyblue'
+      }"
+    >
+      {{ visitSummaryDetails.startDatetime | date: 'shortTime' }}
+      <i class="fa fa-sign-in"></i>&nbsp;&nbsp;&nbsp;&nbsp;
 
-    <a id="visitSummary" style="width:100%; text-align: left; font-size: 16px; color: red" (click)="viewVisitDetails(visitSummaryDetails )"
-    class="btn btn-default btn-lg"
-      [ngStyle]="{'border-left': visitSummaryDetails.stopDatetime ===null?'5px solid #80D651':'5px solid skyblue'}">
+      {{ visitSummaryDetails.visitType.name }} -
+      {{ visitSummaryDetails.location.display }} &nbsp;&nbsp;&nbsp;&nbsp;
+      {{ visitSummaryDetails.stopDatetime | date: 'shortTime' }}
+      <span *ngIf="visitSummaryDetails.stopDatetime"
+        ><i class="fa fa-sign-out"></i
+      ></span>
 
-       {{visitSummaryDetails.startDatetime | date:'shortTime'}} <i class="fa fa-sign-in "></i>&nbsp;&nbsp;&nbsp;&nbsp;
-
-       {{visitSummaryDetails.visitType.name}} - {{visitSummaryDetails.location.display}} &nbsp;&nbsp;&nbsp;&nbsp;
-       {{visitSummaryDetails.stopDatetime | date:'shortTime'}}
-      <span *ngIf="visitSummaryDetails.stopDatetime"><i class="fa fa-sign-out"></i></span>
-
-      <div *ngFor="let encounterDetails of visitSummaryDetails.encounters" style="margin-left: 2.5em; margin-top:2px; color: black" >
-          <span class="glyphicon glyphicon-ok-sign text-success"></span> {{encounterDetails.encounterType.display}} Encounter
+      <div
+        *ngFor="let encounterDetails of visitSummaryDetails.encounters"
+        style="margin-left: 2.5em; margin-top: 2px; color: black"
+      >
+        <span class="glyphicon glyphicon-ok-sign text-success"></span>
+        {{ encounterDetails.encounterType.display }} Encounter
       </div>
     </a>
-
   </div>
 </div>

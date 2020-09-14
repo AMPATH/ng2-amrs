@@ -21,7 +21,7 @@ describe('Service: FormSchemaService', () => {
         dataType: 'AmpathJsonSchema',
         name: 'json schema',
         uuid: '57991389-dbd4-4d15-8802-4b1ac560fb57',
-        valueReference: 'adult-return-formClobData-uuid',
+        valueReference: 'adult-return-formClobData-uuid'
       }
     ]
   };
@@ -36,7 +36,7 @@ describe('Service: FormSchemaService', () => {
         alias: 'vt',
         ref: {
           uuid: 'component_vitals_formMetaData-uuid',
-          display: 'vitals component',
+          display: 'vitals component'
         }
       },
       {
@@ -44,7 +44,7 @@ describe('Service: FormSchemaService', () => {
         alias: 'sh',
         ref: {
           uuid: 'component_social-history_formMetaData-uuid',
-          display: 'social history component',
+          display: 'social history component'
         }
       }
     ]
@@ -69,10 +69,7 @@ describe('Service: FormSchemaService', () => {
         AppSettingsService,
         AppSettingsService
       ],
-      imports: [
-        HttpClientTestingModule
-      ]
-
+      imports: [HttpClientTestingModule]
     });
     formSchemaService = TestBed.get(FormSchemaService);
     formsResourceService = TestBed.get(FormsResourceService);
@@ -87,36 +84,46 @@ describe('Service: FormSchemaService', () => {
     expect(formSchemaService).toBeTruthy();
   });
 
-  it('should have all required methods defined and exposed as a public member ' +
-    'for the first time', () => {
+  it(
+    'should have all required methods defined and exposed as a public member ' +
+      'for the first time',
+    () => {
       expect(formSchemaService.getFormSchemaByUuid).toBeTruthy();
-    });
+    }
+  );
 
-  it('should hit the server to fetch Form Metadata when getFormSchemaByUuid is called for the ' +
-    'the first time(**Not cached)', () => {
+  it(
+    'should hit the server to fetch Form Metadata when getFormSchemaByUuid is called for the ' +
+      'the first time(**Not cached)',
+    () => {
       const uuid = 'form-uuid';
 
       spyOn(formsResourceService, 'getFormMetaDataByUuid').and.callThrough();
       formSchemaService.getFormSchemaByUuid(uuid);
       expect(formsResourceService.getFormMetaDataByUuid).toHaveBeenCalled();
-    });
+    }
+  );
 
-  it('should hit the server to fetch Form Clobdata when getFormSchemaByUuid is called for the ' +
-    'the first time(**Not cached)',
+  it(
+    'should hit the server to fetch Form Clobdata when getFormSchemaByUuid is called for the ' +
+      'the first time(**Not cached)',
     () => {
       const uuid = 'form-uuid';
-      spyOn(formsResourceService, 'getFormMetaDataByUuid').and.callFake(function (params) {
-        const subject = new BehaviorSubject<any>({});
-        subject.next(formMetaData);
-        return subject;
-      });
+      spyOn(formsResourceService, 'getFormMetaDataByUuid').and.callFake(
+        function (params) {
+          const subject = new BehaviorSubject<any>({});
+          subject.next(formMetaData);
+          return subject;
+        }
+      );
       spyOn(formsResourceService, 'getFormClobDataByUuid').and.callThrough();
       formSchemaService.getFormSchemaByUuid(uuid);
+    }
+  );
 
-    });
-
-  it('should hit the server several times in order to fetch all referenced form components ' +
-    'when getFormSchemaByUuid is called for the first time(**Not cached)',
+  it(
+    'should hit the server several times in order to fetch all referenced form components ' +
+      'when getFormSchemaByUuid is called for the first time(**Not cached)',
     () => {
       const uuid = 'form-uuid';
       spyOn(formsResourceService, 'getFormMetaDataByUuid').and.callThrough();
@@ -127,25 +134,26 @@ describe('Service: FormSchemaService', () => {
       formsResourceService.getFormMetaDataByUuid(uuid);
       formsResourceService.getFormClobDataByUuid(uuid);
 
-      expect(formsResourceService.getFormClobDataByUuid)
-        .toHaveBeenCalled();
-      expect(formsResourceService.getFormMetaDataByUuid)
-        .toHaveBeenCalled();
-    });
+      expect(formsResourceService.getFormClobDataByUuid).toHaveBeenCalled();
+      expect(formsResourceService.getFormMetaDataByUuid).toHaveBeenCalled();
+    }
+  );
 
-
-  it('should not hit the server to fetch Form Clobdata and Form metadata when compiled ' +
-    'schema is already cached (**Cached)',
+  it(
+    'should not hit the server to fetch Form Clobdata and Form metadata when compiled ' +
+      'schema is already cached (**Cached)',
     () => {
       const uuid = 'form-uuid';
       spyOn(localStorageService, 'getObject').and.callFake(function (params) {
         return compiledSchema; // return cached & compiled schema
       });
-      spyOn(formsResourceService, 'getFormMetaDataByUuid').and.callFake(function (params) {
-        const subject = new BehaviorSubject<any>({});
-        subject.next(formMetaData);
-        return subject;
-      });
+      spyOn(formsResourceService, 'getFormMetaDataByUuid').and.callFake(
+        function (params) {
+          const subject = new BehaviorSubject<any>({});
+          subject.next(formMetaData);
+          return subject;
+        }
+      );
       spyOn(formsResourceService, 'getFormClobDataByUuid').and.callThrough();
       // make the call
       formSchemaService.getFormSchemaByUuid(uuid);
@@ -153,7 +161,6 @@ describe('Service: FormSchemaService', () => {
       expect(formsResourceService.getFormClobDataByUuid).not.toHaveBeenCalled();
       expect(formsResourceService.getFormMetaDataByUuid).not.toHaveBeenCalled();
       expect(localStorageService.getObject).toHaveBeenCalled();
-
-    });
-
+    }
+  );
 });

@@ -1,76 +1,75 @@
-
+{
+  "program": "Breast Cancer",
+  "reports": [
     {
-        "program": "Breast Cancer",
-        "reports" : [
-            {
-                "name": "B1. Breast screening numbers",
-                "indicator": "breast_screening_numbers",
-                "reportDefaults":[
-                   { 
-                       "startDate" : "2018-01-01" ,
-                       "endDate": "2018-12-12"
-                    }
-                ]
-            },
-            {
-                "name": "B2. Normal breast screening findings",
-                "indicator": "normal_breast_screening_findings",
-                "reportDefaults":[
-                   { 
-                       "startDate" : "2018-01-01" ,
-                       "endDate": "2018-12-12"
-                    }
-                ]
-            },
-            {
-                "name": "B3. Abnormal breast screening findings",
-                "indicator": "abnormal_breast_screening_findings",
-                "reportDefaults":[
-                   { 
-                       "startDate" : "2018-01-01" ,
-                       "endDate": "2018-12-12"
-                    }
-                ]
-            },
-            {
-                "name": "B4. Diagnosis interval",
-                "indicator": "diagnosis_interval",
-                "reportDefaults":[
-                   { 
-                       "startDate" : "2018-01-01" ,
-                       "endDate": "2018-12-12"
-                    }
-                ]
-            },
-            {
-                "name": "B5. Number of clients stagged before treatment",
-                "indicator": "number_of_clients_stagged_before_treatment",
-                "reportDefaults":[
-                   { 
-                       "startDate" : "2018-01-01" ,
-                       "endDate": "2018-12-12"
-                    }
-                ]
-            },
-            {
-                "name": "B6. Number of clients referred to breast cancer clinic",
-                "indicator": "number_of_clients_referred_to_breast_cancer_clinic",
-                "reportDefaults":[
-                   { 
-                       "startDate" : "2018-01-01" ,
-                       "endDate": "2018-12-12"
-                    }
-                ]
-            },
-            {
-                "name": "B7. Number of clients getting biopsy results within 2 weeks",
-                "indicator": "number_of_clients_getting_biopsy_results_within_2_weeks",
-                "reportDefaults":[
-                   { 
-                       "startDate" : "2018-01-01" ,
-                       "endDate": "2018-12-12"
-                    }
-                ]
-            }
-        ]
+      "name": "B1. Breast screening numbers",
+      "indicator": "breast_screening_numbers",
+      "reportDefaults": [
+        {
+          "startDate": "2018-01-01",
+          "endDate": "2018-12-12"
+        }
+      ]
+    },
+    {
+      "name": "B2. Normal breast screening findings",
+      "indicator": "normal_breast_screening_findings",
+      "reportDefaults": [
+        {
+          "startDate": "2018-01-01",
+          "endDate": "2018-12-12"
+        }
+      ]
+    },
+    {
+      "name": "B3. Abnormal breast screening findings",
+      "indicator": "abnormal_breast_screening_findings",
+      "reportDefaults": [
+        {
+          "startDate": "2018-01-01",
+          "endDate": "2018-12-12"
+        }
+      ]
+    },
+    {
+      "name": "B4. Diagnosis interval",
+      "indicator": "diagnosis_interval",
+      "reportDefaults": [
+        {
+          "startDate": "2018-01-01",
+          "endDate": "2018-12-12"
+        }
+      ]
+    },
+    {
+      "name": "B5. Number of clients stagged before treatment",
+      "indicator": "number_of_clients_stagged_before_treatment",
+      "reportDefaults": [
+        {
+          "startDate": "2018-01-01",
+          "endDate": "2018-12-12"
+        }
+      ]
+    },
+    {
+      "name": "B6. Number of clients referred to breast cancer clinic",
+      "indicator": "number_of_clients_referred_to_breast_cancer_clinic",
+      "reportDefaults": [
+        {
+          "startDate": "2018-01-01",
+          "endDate": "2018-12-12"
+        }
+      ]
+    },
+    {
+      "name": "B7. Number of clients getting biopsy results within 2 weeks",
+      "indicator": "number_of_clients_getting_biopsy_results_within_2_weeks",
+      "reportDefaults": [
+        {
+          "startDate": "2018-01-01",
+          "endDate": "2018-12-12"
+        }
+      ]
     }
+  ]
+}

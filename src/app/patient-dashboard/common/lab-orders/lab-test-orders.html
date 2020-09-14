@@ -5,15 +5,29 @@
       <div class="col-md-4">
         <div class="form-group">
           <label for="patientIdentifer">Patient Identifer</label>
-          <select *ngIf="patient" class="form-control" [(ngModel)]="patientIdentifer">
-            <option *ngFor="let c of patient.identifiers.openmrsModel" [ngValue]="c.identifier">{{c.identifierType.name}}</option>
+          <select
+            *ngIf="patient"
+            class="form-control"
+            [(ngModel)]="patientIdentifer"
+          >
+            <option
+              *ngFor="let c of patient.identifiers.openmrsModel"
+              [ngValue]="c.identifier"
+            >
+              {{c.identifierType.name}}
+            </option>
           </select>
         </div>
       </div>
       <div class="col-md-4">
         <div class="form-group">
           <label for="patientIdentifer">Collection Date</label>
-          <date-time-picker tabindex="0" [modelValue]="collectionDate" [id]="'collectionDate'" (onDateChange)="collectionDateChanged($event)"></date-time-picker>
+          <date-time-picker
+            tabindex="0"
+            [modelValue]="collectionDate"
+            [id]="'collectionDate'"
+            (onDateChange)="collectionDateChanged($event)"
+          ></date-time-picker>
         </div>
       </div>
       <div class="col-md-4">
@@ -25,7 +39,7 @@
     </div>
     <div>
       <div class="table-responsive">
-        <table class="table table-striped ">
+        <table class="table table-striped">
           <thead>
             <tr>
               <th>Order Date</th>
@@ -37,116 +51,215 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let order of labOrdersEtl | paginate: { itemsPerPage: 10, currentPage: page }; let i = index; ">
+            <tr
+              *ngFor="let order of labOrdersEtl | paginate: { itemsPerPage: 10, currentPage: page }; let i = index; "
+            >
+              <td>{{order.date_activated | date:'dd-MM-yyyy'}}</td>
+              <td>{{order.orderNumber}}</td>
+              <td>{{order.display}}</td>
+              <td>{{order.provider_name}}</td>
               <td>
-                {{order.date_activated | date:'dd-MM-yyyy'}}
+                <span
+                  aria-hidden="true"
+                  *ngIf="order.sample_drawn === 'NO'"
+                  style="color: red; text-align: center"
+                  >{{order.sample_drawn}}</span
+                >
+                <span
+                  aria-hidden="true"
+                  *ngIf="order.sample_drawn === 'YES'"
+                  style="text-align: center"
+                  >{{order.sample_drawn}}</span
+                >
               </td>
               <td>
-                {{order.orderNumber}}
-              </td>
-              <td>
-                {{order.display}}
-              </td>
-              <td>
-                {{order.provider_name}}
-              </td>
-              <td >
-                <span  aria-hidden="true" *ngIf="order.sample_drawn === 'NO'" style="color: red;text-align: center">{{order.sample_drawn}}</span>
-                <span  aria-hidden="true" *ngIf="order.sample_drawn === 'YES'" style="text-align: center">{{order.sample_drawn}}</span>
-              </td>
-              <td>
-                  <button (click)="collectedSample(order)" class="btn default" style="background-color: white;border-width: 1px; border-color: gray">
-                      <span class="fa fa-save" aria-hidden="true"></span>
-                      Sample Collected
-                    </button>
-                <button (click)="postOrderToEid(order)" class="btn default" style="background-color: white;border-width: 1px; border-color: gray">
-              <span class="fa fa-save" aria-hidden="true"></span>
-              Post Order to EID
-            </button>
-            <button [attr.disable]="isPrinting" [disabled] ="order.sample_drawn === null || order.sample_drawn === 'NO'"
-            (click)="printLabel(order)" class="btn" style="background-color: white;">
-    <span class="glyphicon glyphicon-print"  aria-hidden="true"></span>
- </button>
-
+                <button
+                  (click)="collectedSample(order)"
+                  class="btn default"
+                  style="
+                    background-color: white;
+                    border-width: 1px;
+                    border-color: gray;
+                  "
+                >
+                  <span class="fa fa-save" aria-hidden="true"></span>
+                  Sample Collected
+                </button>
+                <button
+                  (click)="postOrderToEid(order)"
+                  class="btn default"
+                  style="
+                    background-color: white;
+                    border-width: 1px;
+                    border-color: gray;
+                  "
+                >
+                  <span class="fa fa-save" aria-hidden="true"></span>
+                  Post Order to EID
+                </button>
+                <button
+                  [attr.disable]="isPrinting"
+                  [disabled]="order.sample_drawn === null || order.sample_drawn === 'NO'"
+                  (click)="printLabel(order)"
+                  class="btn"
+                  style="background-color: white"
+                >
+                  <span
+                    class="glyphicon glyphicon-print"
+                    aria-hidden="true"
+                  ></span>
+                </button>
               </td>
             </tr>
           </tbody>
         </table>
-
       </div>
       <div>
-        <pagination-controls (pageChange)="page = $event" style="cursor: pointer;"></pagination-controls>
+        <pagination-controls
+          (pageChange)="page = $event"
+          style="cursor: pointer"
+        ></pagination-controls>
       </div>
-
     </div>
 
-    <p-dialog header="Post Lab Order" [(visible)]="displayDialog" minHieght="300" position="center" modal="true">
-      <lab-order-search-post [order]="currentOrder" [reset]="currentOrder === null" (resetEvent)="handleResetEvent($event)"></lab-order-search-post>
+    <p-dialog
+      header="Post Lab Order"
+      [(visible)]="displayDialog"
+      minHieght="300"
+      position="center"
+      modal="true"
+    >
+      <lab-order-search-post
+        [order]="currentOrder"
+        [reset]="currentOrder === null"
+        (resetEvent)="handleResetEvent($event)"
+      ></lab-order-search-post>
     </p-dialog>
 
-    <p-dialog header="Clear Sample List" [(visible)]="displayConfirmDialog" modal="modal" width="300" responsive="true">
-        <p>This will clear sample collected field. Are you sure you want to clear the field?</p>
-        <p-footer>
-          <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-            <button type="button" pButton icon="fa-close" (click)="closeConfirmationDialog()" label="No"></button>
-            <button type="button" pButton icon="fa-check" (click)="clearSampleCollectedList()" label="Yes"></button>
-          </div>
-        </p-footer>
-      </p-dialog>
+    <p-dialog
+      header="Clear Sample List"
+      [(visible)]="displayConfirmDialog"
+      modal="modal"
+      width="300"
+      responsive="true"
+    >
+      <p>
+        This will clear sample collected field. Are you sure you want to clear
+        the field?
+      </p>
+      <p-footer>
+        <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+          <button
+            type="button"
+            pButton
+            icon="fa-close"
+            (click)="closeConfirmationDialog()"
+            label="No"
+          ></button>
+          <button
+            type="button"
+            pButton
+            icon="fa-check"
+            (click)="clearSampleCollectedList()"
+            label="Yes"
+          ></button>
+        </div>
+      </p-footer>
+    </p-dialog>
 
-      <p-dialog header="Sample Collected" [(visible)]="displaySampleDialog" styleClass="edit-address-dialog">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-              <div class="alert alert-success" *ngIf="showSuccessAlert" style="margin-top:10px">
-                <strong>Done!</strong> {{successAlert}}
-              </div>
-              <div class="alert alert-danger" *ngIf="showErrorAlert" style="margin-top:10px">
-                <strong>{{errorTitle}}</strong> {{errorAlert}}
-              </div>
+    <p-dialog
+      header="Sample Collected"
+      [(visible)]="displaySampleDialog"
+      styleClass="edit-address-dialog"
+    >
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+            <div
+              class="alert alert-success"
+              *ngIf="showSuccessAlert"
+              style="margin-top: 10px"
+            >
+              <strong>Done!</strong> {{successAlert}}
+            </div>
+            <div
+              class="alert alert-danger"
+              *ngIf="showErrorAlert"
+              style="margin-top: 10px"
+            >
+              <strong>{{errorTitle}}</strong> {{errorAlert}}
             </div>
           </div>
-          <div class="row">
-            <form name="personForm">
-
-
-              <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-                <div *ngIf="errors" style="color: red !important">
-                  <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-                    <div>{{errors.sampleMessage}}</div>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="sample">Sample Collected</label>
-                  <select class="form-control" [(ngModel)]="sampleCollected" name="sampleCollected"
-                          (change)="onSampleSelectedChange($event)">
-                    <option *ngFor="let opt of sampleCollectedOptions" [value]="opt.val">{{opt.label}}</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6" [hidden]="hideDateField">
-                <div *ngIf="errors" style="color: red !important">
-                  <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-                    <div>{{errors.message}}</div>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="date" class="control-label">Date Sample Collected</label>
-                  <input type="date" id="date" class="form-control" [(ngModel)]="collectionDate" name="date" max="{{maxDate}}"
-                         (change)="onDateSelectedChange($event)">
-                </div>
-              </div>
-              <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-                <button class="btn btn-primary" type="button" (click)="saveSampleCollectedObs()"
-                        ><span>Save</span></button>
-                <button class="btn btn-danger pull-right" type="button" (click)="dismissSampleDialog()">
-                  <span>Cancel</span></button>
-                <!--[disabled]="disableButton"-->
-                
-              </div>
-            </form>
-          </div>
         </div>
-      </p-dialog>
-    </div>
+        <div class="row">
+          <form name="personForm">
+            <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+              <div *ngIf="errors" style="color: red !important">
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+                  <div>{{errors.sampleMessage}}</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="sample">Sample Collected</label>
+                <select
+                  class="form-control"
+                  [(ngModel)]="sampleCollected"
+                  name="sampleCollected"
+                  (change)="onSampleSelectedChange($event)"
+                >
+                  <option
+                    *ngFor="let opt of sampleCollectedOptions"
+                    [value]="opt.val"
+                  >
+                    {{opt.label}}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div
+              class="col-md-6 col-lg-6 col-sm-6 col-xs-6"
+              [hidden]="hideDateField"
+            >
+              <div *ngIf="errors" style="color: red !important">
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+                  <div>{{errors.message}}</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="date" class="control-label"
+                  >Date Sample Collected</label
+                >
+                <input
+                  type="date"
+                  id="date"
+                  class="form-control"
+                  [(ngModel)]="collectionDate"
+                  name="date"
+                  max="{{maxDate}}"
+                  (change)="onDateSelectedChange($event)"
+                />
+              </div>
+            </div>
+            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+              <button
+                class="btn btn-primary"
+                type="button"
+                (click)="saveSampleCollectedObs()"
+              >
+                <span>Save</span>
+              </button>
+              <button
+                class="btn btn-danger pull-right"
+                type="button"
+                (click)="dismissSampleDialog()"
+              >
+                <span>Cancel</span>
+              </button>
+              <!--[disabled]="disableButton"-->
+            </div>
+          </form>
+        </div>
+      </div>
+    </p-dialog>
   </div>
+</div>

@@ -8,25 +8,18 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 export const routes: Routes = [
-  { path: '', component: FormVisitTypeSearchComponent },
+  { path: '', component: FormVisitTypeSearchComponent }
 ];
-export const visitTypeSearchRoutes: ModuleWithProviders = RouterModule.forChild(routes);
+export const visitTypeSearchRoutes: ModuleWithProviders = RouterModule.forChild(
+  routes
+);
 @NgModule({
-  declarations: [
-    FormVisitTypeSearchComponent
-  ],
+  declarations: [FormVisitTypeSearchComponent],
   providers: [
-      FormListService,
-      PatientProgramResourceService,
-      FormOrderMetaDataService
+    FormListService,
+    PatientProgramResourceService,
+    FormOrderMetaDataService
   ],
-  imports: [
-    visitTypeSearchRoutes,
-    FormsModule,
-    CommonModule
-  ]
+  imports: [visitTypeSearchRoutes, FormsModule, CommonModule]
 })
-
-export class FormVisitTypeSearchModule {
-
-}
+export class FormVisitTypeSearchModule {}

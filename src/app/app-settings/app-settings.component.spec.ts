@@ -30,7 +30,8 @@ describe('AppSettingsComponent Tests', () => {
         ModalModule.forRoot(),
         UtilsModule,
         RouterTestingModule,
-        CookieModule.forRoot()],
+        CookieModule.forRoot()
+      ],
       declarations: [AppSettingsComponent],
       providers: [
         { provide: APP_BASE_HREF, useValue: '/' },
@@ -39,7 +40,7 @@ describe('AppSettingsComponent Tests', () => {
         SessionService,
         CookieService,
         provideRoutes([])
-      ],
+      ]
     })
       .compileComponents()
       .then(() => {
@@ -59,13 +60,19 @@ describe('AppSettingsComponent Tests', () => {
 
   it('Should display default Openmrs server url', () => {
     fixture.detectChanges();
-    expect(debugElement.nativeElement.textContent).toContain(comp.openmrsServerUrls[0]);
+    expect(debugElement.nativeElement.textContent).toContain(
+      comp.openmrsServerUrls[0]
+    );
   });
 
   it('Should display default ETL server url', () => {
     fixture.autoDetectChanges();
-    const formElements = fixture.debugElement.queryAll(By.css('div .form-group'));
-    expect(formElements[1].nativeElement.textContent).toContain(comp.etlServerUrls[0]);
+    const formElements = fixture.debugElement.queryAll(
+      By.css('div .form-group')
+    );
+    expect(formElements[1].nativeElement.textContent).toContain(
+      comp.etlServerUrls[0]
+    );
   });
 
   it('Should display the Debug Mode Option', () => {

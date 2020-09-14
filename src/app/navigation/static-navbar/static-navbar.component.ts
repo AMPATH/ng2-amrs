@@ -2,8 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { UserService } from '../../openmrs-api/user.service';
-import { UserDefaultPropertiesService
-} from '../../user-default-properties/user-default-properties.service';
+import { UserDefaultPropertiesService } from '../../user-default-properties/user-default-properties.service';
 import { AuthenticationService } from '../../openmrs-api/authentication.service';
 import { User } from '../../models/user.model';
 import { LocalStorageService } from '../../utils/local-storage.service';
@@ -17,13 +16,14 @@ export class StaticNavBarComponent implements OnInit {
   public user: User;
   public userLocation = '';
   public department: any;
-  constructor(private router: Router,
-              private localStore: LocalStorageService,
-              private authenticationService: AuthenticationService,
-              private userDefaultSettingsService: UserDefaultPropertiesService,
-              private userService: UserService,
-              private formUpdaterService: FormUpdaterService) {
-  }
+  constructor(
+    private router: Router,
+    private localStore: LocalStorageService,
+    private authenticationService: AuthenticationService,
+    private userDefaultSettingsService: UserDefaultPropertiesService,
+    private userService: UserService,
+    private formUpdaterService: FormUpdaterService
+  ) {}
 
   public ngOnInit() {
     this.setUserLocation();
@@ -43,13 +43,16 @@ export class StaticNavBarComponent implements OnInit {
     this.user = this.userService.getLoggedInUser();
     this.userDefaultSettingsService.locationSubject.subscribe((location) => {
       if (location) {
-        this.userLocation = JSON.parse(location) ? JSON.parse(location).display : '';
+        this.userLocation = JSON.parse(location)
+          ? JSON.parse(location).display
+          : '';
       } else {
-        const defaultLocation =
-          this.localStore.getItem('userDefaultLocation' + this.user.display);
-        this.userLocation =
-          JSON.parse(defaultLocation) ? JSON.parse(defaultLocation).display :
-            undefined;
+        const defaultLocation = this.localStore.getItem(
+          'userDefaultLocation' + this.user.display
+        );
+        this.userLocation = JSON.parse(defaultLocation)
+          ? JSON.parse(defaultLocation).display
+          : undefined;
       }
     });
   }

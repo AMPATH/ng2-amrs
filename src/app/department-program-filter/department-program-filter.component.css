@@ -1,24 +1,24 @@
-#filter-btns{
-    padding-top: 10px;
+#filter-btns {
+  padding-top: 10px;
 }
-#location-filters{
-    margin-bottom: 15px;
+#location-filters {
+  margin-bottom: 15px;
 }
-#program-visit-encounter-filter{
-    border-style: solid;
-    border-width: 1px;
-    padding: 10px;
-    border-color:  #e0e0e0;
+#program-visit-encounter-filter {
+  border-style: solid;
+  border-width: 1px;
+  padding: 10px;
+  border-color: #e0e0e0;
 }
-.filter-collapse:hover{
+.filter-collapse:hover {
   cursor: pointer;
 }
-.select-btn{
-    height: 42px;
-    width:100%;
-    margin-left: -20px;
+.select-btn {
+  height: 42px;
+  width: 100%;
+  margin-left: -20px;
 }
-.filter-btn{
-    height: 42px;
-    margin-left: -15px;
+.filter-btn {
+  height: 42px;
+  margin-left: -15px;
 }

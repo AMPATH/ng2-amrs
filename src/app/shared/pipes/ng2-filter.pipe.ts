@@ -5,7 +5,6 @@ import { Pipe, Injectable, PipeTransform } from '@angular/core';
   name: 'filterBy',
   pure: false
 })
-
 @Injectable()
 export class Ng2FilterPipe implements PipeTransform {
   public transform(array: any[], filter: any): any {
@@ -75,5 +74,4 @@ export class Ng2FilterPipe implements PipeTransform {
   private isNumber(value) {
     return !isNaN(parseInt(value, 10)) && isFinite(value);
   }
-
 }

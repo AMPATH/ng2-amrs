@@ -5,12 +5,16 @@ import { PatientRemindersComponent } from './patient-reminders.component';
 import { PatientReminderService } from './patient-reminders.service';
 import { PatientService } from '../../services/patient.service';
 import { BehaviorSubject, Observable } from 'rxjs';
-import {
-  ProgramEnrollmentResourceService
-} from '../../../openmrs-api/program-enrollment-resource.service';
+import { ProgramEnrollmentResourceService } from '../../../openmrs-api/program-enrollment-resource.service';
 import { PatientReminderResourceService } from '../../../etl-api/patient-reminder-resource.service';
 import { AppSettingsService } from '../../../app-settings/app-settings.service';
-import { ToastrConfig, ToastrService, Overlay, OverlayContainer, ToastrModule } from 'ngx-toastr';
+import {
+  ToastrConfig,
+  ToastrService,
+  Overlay,
+  OverlayContainer,
+  ToastrModule
+} from 'ngx-toastr';
 import { PatientResourceService } from '../../../openmrs-api/patient-resource.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
@@ -33,7 +37,7 @@ class MockPropertyService {
   }
 
   getLocations() {
-    return (new BehaviorSubject(null)).asObservable();
+    return new BehaviorSubject(null).asObservable();
   }
 
   getUserProperty() {
@@ -42,20 +46,26 @@ class MockPropertyService {
 }
 
 class MockProgramManagerService {
-  editProgramEnrollments(theChange: string, patient: Patient, programs: any[], newLoc?) {
-    return (new BehaviorSubject(null)).asObservable();
+  editProgramEnrollments(
+    theChange: string,
+    patient: Patient,
+    programs: any[],
+    newLoc?
+  ) {
+    return new BehaviorSubject(null).asObservable();
   }
 
   enrollPatient() {
-    return (new BehaviorSubject(null)).asObservable();
+    return new BehaviorSubject(null).asObservable();
   }
 }
 
-const patientProgramResourceService =
-  jasmine.createSpyObj('PatientProgramResourceService', ['getAllProgramVisitConfigs']);
+const patientProgramResourceService = jasmine.createSpyObj(
+  'PatientProgramResourceService',
+  ['getAllProgramVisitConfigs']
+);
 
 describe('Component: PatientReminders', () => {
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
@@ -86,8 +96,8 @@ describe('Component: PatientReminders', () => {
           useClass: MockProgramManagerService
         },
         {
-          provide : PatientProgramResourceService,
-          useValue : patientProgramResourceService
+          provide: PatientProgramResourceService,
+          useValue: patientProgramResourceService
         },
         AppSettingsService,
         ToastrService,
@@ -95,7 +105,6 @@ describe('Component: PatientReminders', () => {
         OverlayContainer
       ],
       imports: [ToastrModule.forRoot(), HttpClientTestingModule]
-
     });
   });
 
@@ -104,14 +113,17 @@ describe('Component: PatientReminders', () => {
   });
 
   it('should instantiate the component', (done) => {
-    const component: PatientRemindersComponent = TestBed.get(PatientRemindersComponent);
+    const component: PatientRemindersComponent = TestBed.get(
+      PatientRemindersComponent
+    );
     expect(component).toBeTruthy();
     done();
-
   });
 
   it('should have all the required functions defined and callable', (done) => {
-    const component: PatientRemindersComponent = TestBed.get(PatientRemindersComponent);
+    const component: PatientRemindersComponent = TestBed.get(
+      PatientRemindersComponent
+    );
     const reminders = [];
     spyOn(component, 'ngOnInit').and.callThrough();
     component.ngOnInit();
@@ -124,11 +136,8 @@ describe('Component: PatientReminders', () => {
     expect(component.constructReminders).toHaveBeenCalled();
 
     done();
-
   });
-
 });
-
 
 class ToastrConfigMock {
   timeOut = 5000;
@@ -136,8 +145,5 @@ class ToastrConfigMock {
   positionClass = 'toast-top-right';
   extendedTimeOut = 1000;
 
-  constructor() {
-  }
-
+  constructor() {}
 }
-

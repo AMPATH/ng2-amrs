@@ -18,7 +18,12 @@ import { MatSidenavModule } from '@angular/material';
 import { MainDashboardModule } from './main-dashboard.module';
 import { SessionService } from '../openmrs-api/session.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { CookieOptionsProvider, CookieService, CookieModule, COOKIE_OPTIONS } from 'ngx-cookie';
+import {
+  CookieOptionsProvider,
+  CookieService,
+  CookieModule,
+  COOKIE_OPTIONS
+} from 'ngx-cookie';
 import { BrowserModule } from '@angular/platform-browser';
 import { InjectionToken } from '@angular/core';
 
@@ -26,7 +31,7 @@ class MockRouter {
   public navigate = jasmine.createSpy('navigate');
 }
 class MockActivatedRoute {
-  public params = of([{ 'id': 1 }]);
+  public params = of([{ id: 1 }]);
 }
 
 describe('Component: MainDashboard', () => {
@@ -55,18 +60,21 @@ describe('Component: MainDashboard', () => {
         CookieOptionsProvider,
         UserDefaultPropertiesService,
         AppState,
-        { provide: Router, useClass: MockRouter }, {
+        { provide: Router, useClass: MockRouter },
+        {
           provide: ActivatedRoute,
           useClass: MockActivatedRoute
         },
         {
-          provide: COOKIE_OPTIONS, useClass: {}
-        }, {
-          provide: InjectionToken, useClass: {}
+          provide: COOKIE_OPTIONS,
+          useClass: {}
+        },
+        {
+          provide: InjectionToken,
+          useClass: {}
         }
       ]
-    })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {

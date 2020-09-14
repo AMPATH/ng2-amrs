@@ -1,7 +1,13 @@
 <div class="gender-select">
   <label for="gender">Select Gender</label>
-    <ng-select class="sharp-corners" [multiple]="true" id="gender" (change)="onGenderSelected($event)"
-               [placeholder]="'Select Gender...'"
-               [(ngModel)]="selectedGender" [items]="genderOptions">
-    </ng-select>
+  <ng-select
+    class="sharp-corners"
+    [multiple]="true"
+    id="gender"
+    (change)="onGenderSelected($event)"
+    [placeholder]="'Select Gender...'"
+    [(ngModel)]="selectedGender"
+    [items]="genderOptions"
+  >
+  </ng-select>
 </div>

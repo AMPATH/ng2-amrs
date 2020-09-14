@@ -15,11 +15,13 @@ export class UsefulLinksComponent implements OnInit {
 
   public _links = [
     {
-      url: 'https://wiki.ampath.or.ke/display/POC/Versions+Of+POC+Troubleshooting+Manual',
+      url:
+        'https://wiki.ampath.or.ke/display/POC/Versions+Of+POC+Troubleshooting+Manual',
       title: 'POC General Troubleshooting Manual (PDF)'
     },
     {
-      url: 'https://wiki.ampath.or.ke/display/ACPS/AMPATH+Clinical+Protocols+and+SOPs',
+      url:
+        'https://wiki.ampath.or.ke/display/ACPS/AMPATH+Clinical+Protocols+and+SOPs',
       title: 'AMPATH Clinical Protocols and SOPs'
     },
     {
@@ -31,7 +33,8 @@ export class UsefulLinksComponent implements OnInit {
       title: 'POC Release Notes '
     },
     {
-      url: 'https://wiki.ampath.or.ke/display/POC/AMPATHPlus+Master+Facility+List+-+MFL',
+      url:
+        'https://wiki.ampath.or.ke/display/POC/AMPATHPlus+Master+Facility+List+-+MFL',
       title: 'MFL Wiki'
     }
   ];
@@ -49,8 +52,8 @@ export class UsefulLinksComponent implements OnInit {
   }
 
   public getFormVisitSearchUrl() {
-
-    this.formVisitSearchUrl = this.currentUrl.href.split('useful-links')[0] + 'form-visit-search';
+    this.formVisitSearchUrl =
+      this.currentUrl.href.split('useful-links')[0] + 'form-visit-search';
 
     this._links.push({
       url: this.formVisitSearchUrl + '',
@@ -58,7 +61,6 @@ export class UsefulLinksComponent implements OnInit {
     });
 
     console.log('formvisiturl', this.formVisitSearchUrl);
-
   }
 
   public goBack() {
@@ -68,5 +70,4 @@ export class UsefulLinksComponent implements OnInit {
   public getexternalLinks(): Array<any> {
     return this._links;
   }
-
 }

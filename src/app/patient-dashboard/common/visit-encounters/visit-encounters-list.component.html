@@ -1,126 +1,207 @@
-<div class="container-fluid"  id="encounter-visit-row">
-<h4 class="component-title" ><i class="fa fa-clipboard fa-fw"></i>{{title}}</h4>
-<div class="loader" *ngIf="busyIndicator.busy"><span><i class="fa fa-spinner fa-spin">
-</i>{{busyIndicator.message}}</span>
-</div>
-<p *ngIf="!busyIndicator.busy && displayArray.length === 0" style="margin-top:40px;">The Patient has no Visits</p>
-<div class="row" >
-	<div class="form-grup">
-		<div class="col-md-2 col-lg-2 col-sm-4">
-		<label class="control-label">Encounter Type Filter</label>
-		<select class="form-control" [(ngModel)]="selectedEncounterType" (ngModelChange)="onEncounterTypeChange(selectedEncounterType)">
-			<option value="">All</option>
-			<option *ngFor="let encounterType of encounterTypesArray | myOrderByAlphabetAsc" [value]="encounterType">
-				{{encounterType}}
-			</option>
-		</select>
-		</div>
-	</div>
-	<div class="form-group">
-		<div class="col-md-10 col-lg-10 col-sm-12">
-				<label class="control-label">Filter Items</label>
-				<div class="row" id="filter_row">
-
-					<div class="chip col-md-2 col-lg-2 col-sm-4"  *ngFor="let filter of encounterFilterTypeArray ;let i = index"  (click)="removeFilterItem(i)">
-						{{filter}}
-				     </div>
-					  <div class="col-md-4 col-lg-4 col-sm-4" *ngIf="encounterFilterTypeArray.length > 0">
-						 <button class="btn btn-danger" (click)="clearEncounterFilter()"><i class="fa fa-trash fa-fw"></i>Remove All</button>
-		              </div>
-			   </div>
-		</div>
-   </div>
-</div>
-<div class="row" id="visits_row" *ngIf="displayArray.length > 0">
-<div class="col-md-12 col-lg-12 col-sm-12">
-<div class="row">
-	<div class="col-md-12">
-		<ul class="list-group visit_list_header">
-					<li class="list-group-item" id="visit_list_item_header">
-						<div class="row">
-								<div class="col-md-2 col-lg-2 col-xs-2 visit_col"><a (click)="sortByDate()">Date/Time<span class="{{dateIcon}}"></span></a></div>
-								<div class="col-md-2 col-lg-2 col-sm-3 col-xs-3 visit_col">Visit</div>
-								<div class="col-md-3 col-lg-3 col-sm-3 col-xs-2 visit_col">Form</div>
-								<div class="col-md-2 col-lg-2 col-sm-2 col-xs-2 visit_col">Provider</div>
-                <div class="col-md-2 col-lg-2 col-sm-1 col-xs-2 visit_col"> Provider Location</div>
-								<div class="col-md-1 col-lg-1 col-sm-1 col-xs-1 visit_col">Actions</div>
-						</div>
-			         </li>
-		</ul>
-	</div>
-</div>
-<div class="row visit_encounter_table">
-	<div class="col-md-12 col-sm-12 col-lg-12">
-			<ul class="list-group visit_list" *ngFor="let visit of displayArray |  myVisitEncountersPipe:encounterFilterTypeArray | paginate: { id:'visits' , itemsPerPage: 5, currentPage: v } ">
-					<li class="list-group-item .visit_list_item">
-						<div class="row {{visit.type}}">
-							 <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2">
-								 {{visit.date}}
-							 </div>
-							 <div class="col-md-2 col-lg-2 col-sm-3 col-xs-3">
-								 {{visit.visit}}
-							 </div>
-							 <div class="col-md-3 col-lg-3 col-sm-2 col-xs-2">
-								 -
-							 </div>
-							 <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"> <!--"col-md-1 col-lg-1 col-sm-2 col-xs-2"-->
-								 {{visit.provider}}
-							  </div>
-              <div class="col-md-1 col-lg-1 col-sm-2 col-xs-2"> <!--col-md-2 col-lg-2 col-sm-2 col-xs-2"-->
-                {{visit.location}}
-              </div>
-						</div>
-						<div class="row encounter_row" *ngFor="let encounter of visit.encounters | encounterTypeFilter:encounterFilterTypeArray | myOrderByTime">
-							<div class="col-md-offset-1 col-md-1   col-sm-2 col-lg-offset-1 col-lg-1 col-xs-2">
-								{{encounter.date}}
-							 </div>
-							 <div class="col-md-2 col-sm-3 col-lg-2 col-xs-3">
-								 {{encounter.encounter}}
-							 </div>
-							 <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
-								 {{encounter.form}}
-							 </div>
-							  <div class="col-md-2 col-sm-2 col-lg-2 col-xs-2">
-								 {{encounter.provider}}
-							 </div>
-                <div class="col-md-2 col-sm-1 col-lg-2 col-xs-1">
-                  {{encounter.location}}
-                </div>
-							  <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1">
-								  <div class="row">
-									  <div class="col-md-3 col-sm-3 col-lg-3" *ngIf="encounter.form.indexOf('POC') > -1">
-											<a *ngIf="encounter.type == 'encounter'" (click)="editEncounter(encounter.encounterObj)">
-													<span class="glyphicon text-primary glyphicon-edit"></span></a>
-									  </div>
-									  <div class="col-md-3 col-sm-3 col-lg-3" *ngIf="encounter.form.indexOf('POC') > -1">
-						 <a *ngIf="encounter.type == 'encounter'" type="button" (click)="showEncounterViewer(encounter.encounterObj)">
-							<span class="glyphicon glyphicon-list-alt"></span>
-						</a>
-						</div>
-						<div class="col-md-3 col-sm-3 col-lg-3">
-						 <a *ngIf="encounter.type == 'encounter'" type="button" (click)="showEncounterObservations(encounter.encounterObj)">
-												<span class="glyphicon text-primary glyphicon-eye-open"></span>
-						 </a>
-						 </div>
-
-								  </div>
-							 </div>
-						</div>
-					</li>
-			</ul>
-	</div>
-</div>
-
-
-
-	<pagination-controls id="visits" (pageChange)="v = $event" style="cursor: pointer;"></pagination-controls>
-
-
-
+<div class="container-fluid" id="encounter-visit-row">
+  <h4 class="component-title">
+    <i class="fa fa-clipboard fa-fw"></i>{{ title }}
+  </h4>
+  <div class="loader" *ngIf="busyIndicator.busy">
+    <span
+      ><i class="fa fa-spinner fa-spin"> </i>{{ busyIndicator.message }}</span
+    >
   </div>
-</div>
+  <p
+    *ngIf="!busyIndicator.busy && displayArray.length === 0"
+    style="margin-top: 40px"
+  >
+    The Patient has no Visits
+  </p>
+  <div class="row">
+    <div class="form-grup">
+      <div class="col-md-2 col-lg-2 col-sm-4">
+        <label class="control-label">Encounter Type Filter</label>
+        <select
+          class="form-control"
+          [(ngModel)]="selectedEncounterType"
+          (ngModelChange)="onEncounterTypeChange(selectedEncounterType)"
+        >
+          <option value="">All</option>
+          <option
+            *ngFor="
+              let encounterType of encounterTypesArray | myOrderByAlphabetAsc
+            "
+            [value]="encounterType"
+          >
+            {{ encounterType }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-md-10 col-lg-10 col-sm-12">
+        <label class="control-label">Filter Items</label>
+        <div class="row" id="filter_row">
+          <div
+            class="chip col-md-2 col-lg-2 col-sm-4"
+            *ngFor="let filter of encounterFilterTypeArray; let i = index"
+            (click)="removeFilterItem(i)"
+          >
+            {{ filter }}
+          </div>
+          <div
+            class="col-md-4 col-lg-4 col-sm-4"
+            *ngIf="encounterFilterTypeArray.length > 0"
+          >
+            <button class="btn btn-danger" (click)="clearEncounterFilter()">
+              <i class="fa fa-trash fa-fw"></i>Remove All
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" id="visits_row" *ngIf="displayArray.length > 0">
+    <div class="col-md-12 col-lg-12 col-sm-12">
+      <div class="row">
+        <div class="col-md-12">
+          <ul class="list-group visit_list_header">
+            <li class="list-group-item" id="visit_list_item_header">
+              <div class="row">
+                <div class="col-md-2 col-lg-2 col-xs-2 visit_col">
+                  <a (click)="sortByDate()"
+                    >Date/Time<span class="{{ dateIcon }}"></span
+                  ></a>
+                </div>
+                <div class="col-md-2 col-lg-2 col-sm-3 col-xs-3 visit_col">
+                  Visit
+                </div>
+                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-2 visit_col">
+                  Form
+                </div>
+                <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2 visit_col">
+                  Provider
+                </div>
+                <div class="col-md-2 col-lg-2 col-sm-1 col-xs-2 visit_col">
+                  Provider Location
+                </div>
+                <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1 visit_col">
+                  Actions
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="row visit_encounter_table">
+        <div class="col-md-12 col-sm-12 col-lg-12">
+          <ul
+            class="list-group visit_list"
+            *ngFor="
+              let visit of displayArray
+                | myVisitEncountersPipe: encounterFilterTypeArray
+                | paginate: { id: 'visits', itemsPerPage: 5, currentPage: v }
+            "
+          >
+            <li class="list-group-item .visit_list_item">
+              <div class="row {{ visit.type }}">
+                <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2">
+                  {{ visit.date }}
+                </div>
+                <div class="col-md-2 col-lg-2 col-sm-3 col-xs-3">
+                  {{ visit.visit }}
+                </div>
+                <div class="col-md-3 col-lg-3 col-sm-2 col-xs-2">-</div>
+                <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2">
+                  <!--"col-md-1 col-lg-1 col-sm-2 col-xs-2"-->
+                  {{ visit.provider }}
+                </div>
+                <div class="col-md-1 col-lg-1 col-sm-2 col-xs-2">
+                  <!--col-md-2 col-lg-2 col-sm-2 col-xs-2"-->
+                  {{ visit.location }}
+                </div>
+              </div>
+              <div
+                class="row encounter_row"
+                *ngFor="
+                  let encounter of visit.encounters
+                    | encounterTypeFilter: encounterFilterTypeArray
+                    | myOrderByTime
+                "
+              >
+                <div
+                  class="col-md-offset-1 col-md-1 col-sm-2 col-lg-offset-1 col-lg-1 col-xs-2"
+                >
+                  {{ encounter.date }}
+                </div>
+                <div class="col-md-2 col-sm-3 col-lg-2 col-xs-3">
+                  {{ encounter.encounter }}
+                </div>
+                <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
+                  {{ encounter.form }}
+                </div>
+                <div class="col-md-2 col-sm-2 col-lg-2 col-xs-2">
+                  {{ encounter.provider }}
+                </div>
+                <div class="col-md-2 col-sm-1 col-lg-2 col-xs-1">
+                  {{ encounter.location }}
+                </div>
+                <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1">
+                  <div class="row">
+                    <div
+                      class="col-md-3 col-sm-3 col-lg-3"
+                      *ngIf="encounter.form.indexOf('POC') > -1"
+                    >
+                      <a
+                        *ngIf="encounter.type == 'encounter'"
+                        (click)="editEncounter(encounter.encounterObj)"
+                      >
+                        <span
+                          class="glyphicon text-primary glyphicon-edit"
+                        ></span
+                      ></a>
+                    </div>
+                    <div
+                      class="col-md-3 col-sm-3 col-lg-3"
+                      *ngIf="encounter.form.indexOf('POC') > -1"
+                    >
+                      <a
+                        *ngIf="encounter.type == 'encounter'"
+                        type="button"
+                        (click)="showEncounterViewer(encounter.encounterObj)"
+                      >
+                        <span class="glyphicon glyphicon-list-alt"></span>
+                      </a>
+                    </div>
+                    <div class="col-md-3 col-sm-3 col-lg-3">
+                      <a
+                        *ngIf="encounter.type == 'encounter'"
+                        type="button"
+                        (click)="
+                          showEncounterObservations(encounter.encounterObj)
+                        "
+                      >
+                        <span
+                          class="glyphicon text-primary glyphicon-eye-open"
+                        ></span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
 
-<patient-encounter-observations  [onEncounterDetail]="onEncounterDetail" [prettyView]="pretty"
-                               [encounter]="selectedEncounter" *ngIf="showVisitsObservations"></patient-encounter-observations>
+      <pagination-controls
+        id="visits"
+        (pageChange)="v = $event"
+        style="cursor: pointer"
+      ></pagination-controls>
+    </div>
+  </div>
 
+  <patient-encounter-observations
+    [onEncounterDetail]="onEncounterDetail"
+    [prettyView]="pretty"
+    [encounter]="selectedEncounter"
+    *ngIf="showVisitsObservations"
+  ></patient-encounter-observations>
 </div>

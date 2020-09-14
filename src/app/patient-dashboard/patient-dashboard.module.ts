@@ -4,8 +4,13 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
 
-import { SharedModule, ConfirmDialogModule, DialogModule, MessagesModule,
-TabViewModule, PanelModule
+import {
+  SharedModule,
+  ConfirmDialogModule,
+  DialogModule,
+  MessagesModule,
+  TabViewModule,
+  PanelModule
 } from 'primeng/primeng';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { routes } from './patient-dashboard.routes';
@@ -24,13 +29,11 @@ import { PatientProgramService } from './programs/patient-programs.service';
 import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 import { PatientDashboardCdmModule } from './cdm/patient-dashboard-cdm.module';
 import { PatientDashboardOncologyModule } from './oncology/patient-dashboard-oncology.module';
-import {
-  PatientDashboardDermatologyModule } from './dermatology/patient-dashboard-dermatology.module';
+import { PatientDashboardDermatologyModule } from './dermatology/patient-dashboard-dermatology.module';
 import { DepartmentProgramsConfigService } from '../etl-api/department-programs-config.service';
 import { SessionStorageService } from '../utils/session-storage.service';
 import { PatientDashboardResolver } from './services/patient-dashboard.resolver';
-import { ProgramManagerModule
-} from '../program-manager/program-manager.module';
+import { ProgramManagerModule } from '../program-manager/program-manager.module';
 import { GroupEnrollmentModule } from './group-enrollment/group-enrollment.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PocHttpInteceptor } from '../shared/services/poc-http-interceptor';
@@ -61,10 +64,7 @@ import { GeneralLandingPageComponent } from './general-landing-page/landing-page
     GroupEnrollmentModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [
-    PatientDashboardComponent,
-    GeneralLandingPageComponent
-  ],
+  declarations: [PatientDashboardComponent, GeneralLandingPageComponent],
   providers: [
     PatientDashboardGuard,
     PatientSearchService,
@@ -82,8 +82,7 @@ import { GeneralLandingPageComponent } from './general-landing-page/landing-page
       multi: true
     }
   ],
-  exports: [
-  ]
+  exports: []
 })
 export class PatientDashboardModule {
   public static routes = routes;

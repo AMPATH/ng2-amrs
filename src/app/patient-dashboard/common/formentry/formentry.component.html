@@ -1,32 +1,48 @@
 <div class="form-entry">
   <div class="loader" *ngIf="busyIndicator.busy">
     <span>
-      <i class="fa fa-spinner fa-spin"></i>{{busyIndicator.message}}
+      <i class="fa fa-spinner fa-spin"></i>{{ busyIndicator.message }}
     </span>
   </div>
   <div *ngIf="warnMCHTransfer">
     <div class="alert alert-danger">
-      <h4>
-        Transfer To MCH
-      </h4>
-      <p>Male patients cannot be transferred to MCH. Please correct the transfer out section.</p>
+      <h4>Transfer To MCH</h4>
+      <p>
+        Male patients cannot be transferred to MCH. Please correct the transfer
+        out section.
+      </p>
     </div>
   </div>
   <div *ngIf="!busyIndicator.busy">
-    <div class='col-md-12' *ngIf=form>
+    <div class="col-md-12" *ngIf="form">
       <error-renderer [form]="form"></error-renderer>
       <form [formGroup]="form.rootNode.control">
-        <h4 class="component-title"><span class="fa fa-file"></span>{{formName}}</h4>
+        <h4 class="component-title">
+          <span class="fa fa-file"></span>{{ formName }}
+        </h4>
         <form-renderer [node]="form.rootNode"></form-renderer>
         <div class="form-row">
-          <button id="formentry-submit-btn" *ngIf="!formSubmissionErrors" class="btn btn-primary"
-            (click)="onSubmit($event)">Save</button>
-          <button class="btn btn-danger" (click)="onCancel($event)">Cancel</button>
+          <button
+            id="formentry-submit-btn"
+            *ngIf="!formSubmissionErrors"
+            class="btn btn-primary"
+            (click)="onSubmit($event)"
+          >
+            Save
+          </button>
+          <button class="btn btn-danger" (click)="onCancel($event)">
+            Cancel
+          </button>
         </div>
       </form>
     </div>
-    <br /> &nbsp;
-    <div *ngIf="formSubmissionErrors" class="panel panel-danger" style="margin:2px">
+    <br />
+    &nbsp;
+    <div
+      *ngIf="formSubmissionErrors"
+      class="panel panel-danger"
+      style="margin: 2px"
+    >
       <div class="panel-heading">
         <h5>
           <strong class="text-danger">
@@ -34,21 +50,40 @@
               <i class="fa fa-circle-thin fa-stack-2x"></i>
               <i class="fa fa-info fa-stack-1x"></i>
             </span>
-            The following error(s) occured while submitting form, please review form and retry saving!
+            The following error(s) occured while submitting form, please review
+            form and retry saving!
           </strong>
         </h5>
       </div>
       <div class="panel panel-danger">
         <ul class="list-group">
-          <li *ngFor="let formError of formSubmissionErrors" class="list-group-item text-danger">{{formError}}</li>
+          <li
+            *ngFor="let formError of formSubmissionErrors"
+            class="list-group-item text-danger"
+          >
+            {{ formError }}
+          </li>
         </ul>
       </div>
       <div class="panel-footer" style="min-height: 50px">
-        <button id="formentry-submit-btn" *ngIf="formSubmissionErrors" (click)="retrySubmittingPayload()"
-          class="btn btn-primary pull-right">Retry Saving Form</button>
+        <button
+          id="formentry-submit-btn"
+          *ngIf="formSubmissionErrors"
+          (click)="retrySubmittingPayload()"
+          class="btn btn-primary pull-right"
+        >
+          Retry Saving Form
+        </button>
       </div>
     </div>
-    <div *ngIf="(this.form && !this.form.valid && this.form.showErrors) || warnMCHTransfer" class="panel panel-danger" style="margin:2px">
+    <div
+      *ngIf="
+        (this.form && !this.form.valid && this.form.showErrors) ||
+        warnMCHTransfer
+      "
+      class="panel panel-danger"
+      style="margin: 2px"
+    >
       <div class="panel-heading">
         <h5>
           <strong class="text-danger">
@@ -56,13 +91,19 @@
               <i class="fa fa-circle-thin fa-stack-2x"></i>
               <i class="fa fa-info fa-stack-1x"></i>
             </span>
-            The form has some validation errors. Scroll to the top of the form to see error list.
+            The form has some validation errors. Scroll to the top of the form
+            to see error list.
           </strong>
         </h5>
       </div>
     </div>
-    <br /> &nbsp;
-    <div *ngIf="formRenderingErrors.length>0" class="panel panel-danger" style="margin:2px">
+    <br />
+    &nbsp;
+    <div
+      *ngIf="formRenderingErrors.length > 0"
+      class="panel panel-danger"
+      style="margin: 2px"
+    >
       <div class="panel-heading">
         <h5>
           <strong class="text-danger">
@@ -70,24 +111,38 @@
               <i class="fa fa-circle-thin fa-stack-2x"></i>
               <i class="fa fa-info fa-stack-1x"></i>
             </span>
-            The following error(s) occured while rendering form, please report this error!
+            The following error(s) occured while rendering form, please report
+            this error!
           </strong>
         </h5>
       </div>
       <div class="panel-body">
         <ul class="list-group">
-          <li *ngFor="let formError of formRenderingErrors" class="list-group-item text-danger">{{formError}}</li>
+          <li
+            *ngFor="let formError of formRenderingErrors"
+            class="list-group-item text-danger"
+          >
+            {{ formError }}
+          </li>
         </ul>
       </div>
       <div class="panel-footer" style="min-height: 50px">
-        <button (click)="loadForm()" class="btn btn-primary pull-right">Retry Loading Form</button>
+        <button (click)="loadForm()" class="btn btn-primary pull-right">
+          Retry Loading Form
+        </button>
       </div>
     </div>
   </div>
 
-  <p-dialog header="{{ referralValidity ? 'Success' : 'Error' }}" [(visible)]="showSuccessDialog" 
-    modal="true" closable="false" minWidth="300" closeresponsive="true">
-    <p class="text-success" style="margin-bottom: 10px;">
+  <p-dialog
+    header="{{ referralValidity ? 'Success' : 'Error' }}"
+    [(visible)]="showSuccessDialog"
+    modal="true"
+    closable="false"
+    minWidth="300"
+    closeresponsive="true"
+  >
+    <p class="text-success" style="margin-bottom: 10px">
       <span class="fa-stack fa-lg">
         <i class="fa fa-circle-thin fa-stack-2x"></i>
         <i class="fa fa-info fa-stack-1x"></i>
@@ -97,88 +152,209 @@
     <order-list [submittedOrdersModel]="submittedOrders"></order-list>
     <div *ngIf="diffCareReferralStatus">
       <strong>Differentiated Care Referral</strong>
-      <hr style="margin-top:1px; margin-bottom:1px;" />
-      <diff-care-referral-status [status]="diffCareReferralStatus"></diff-care-referral-status>
-      <div class="alert alert-info" *ngIf="enrollToGroup" style="margin-top: 21px;">
-        <i class="fa fa-users"></i> You have chosen to also enroll the patient to a group, you will be redirected to the
-        group enrollment page.
+      <hr style="margin-top: 1px; margin-bottom: 1px" />
+      <diff-care-referral-status
+        [status]="diffCareReferralStatus"
+      ></diff-care-referral-status>
+      <div
+        class="alert alert-info"
+        *ngIf="enrollToGroup"
+        style="margin-top: 21px"
+      >
+        <i class="fa fa-users"></i> You have chosen to also enroll the patient
+        to a group, you will be redirected to the group enrollment page.
       </div>
     </div>
     <div *ngIf="referralStatus && referralStatus.isReferral">
-      <program-referral-status [status]="referralStatus" (referralValidity)="onValidityCheck($event)">
+      <program-referral-status
+        [status]="referralStatus"
+        (referralValidity)="onValidityCheck($event)"
+      >
       </program-referral-status>
     </div>
-    <div *ngIf="!referralStatus && referralSuccess" class="alert alert-success" style="margin-bottom: 0;">
-      <p style="margin-bottom: 10px;">
+    <div
+      *ngIf="!referralStatus && referralSuccess"
+      class="alert alert-success"
+      style="margin-bottom: 0"
+    >
+      <p style="margin-bottom: 10px">
         <span class="fa-stack fa-lg">
           <i class="fa fa-check-circle fa-stack-2x"></i>
         </span>
         Patient Referred
       </p>
       <h5>
-        The patient was successfully referred to the <strong>{{refProgram}}</strong> at <strong>{{refLocation}}</strong>.
+        The patient was successfully referred to the
+        <strong>{{ refProgram }}</strong> at <strong>{{ refLocation }}</strong
+        >.
       </h5>
     </div>
-    <div class="ui-dialog-buttonpane ui-helper-clearfix" style="padding: 0;margin-right: -0.4em;">
-      <button *ngIf="step" (click)="navigateTo('programManager')" type="button" pButton icon="fa-file"
-        label="Back to Program Manager"></button>
-      <button *ngIf="referralStatus && referralStatus.isReferral && referralValidity" (click)="navigateTo('programReferral')"
-        class="btn btn-primary" type="button">Complete Referral</button>
+    <div
+      class="ui-dialog-buttonpane ui-helper-clearfix"
+      style="padding: 0; margin-right: -0.4em"
+    >
+      <button
+        *ngIf="step"
+        (click)="navigateTo('programManager')"
+        type="button"
+        pButton
+        icon="fa-file"
+        label="Back to Program Manager"
+      ></button>
+      <button
+        *ngIf="referralStatus && referralStatus.isReferral && referralValidity"
+        (click)="navigateTo('programReferral')"
+        class="btn btn-primary"
+        type="button"
+      >
+        Complete Referral
+      </button>
       <!-- <button *ngIf="referralStatus && !programReferral" (click)="navigateTo('programManagerReferral')"
         class="btn btn-primary" type="button">Complete Referral</button> -->
-      <button *ngIf="referralStatus" (click)="onAbortingReferral($event)" type="button"
-        class="btn btn-danger">{{ referralValidity ? 'Cancel' : 'Ok' }}</button>
-      <button *ngIf="!referralStatus && !step && form.valueProcessingInfo.formUuid!='ab0918de-baf8-4804-86fb-2ff2d7b6943c' && form.valueProcessingInfo.formUuid!='159e753d-da2d-47da-bbe5-d132b7e26c2e'" (click)="navigateTo('covidScreening')" type="button"
-        class="btn btn-warning">
-        <i class="fa fa-exclamation-triangle"></i> Covid Screening</button>
-      <button *ngIf="!referralStatus && !step" (click)="navigateTo('patientDashboard')" type="button"
-        class="btn btn-primary">
-        <i class="fa fa-user"></i> Patient Dashboard</button>
-      <button *ngIf="!referralStatus && !step" (click)="navigateTo('patientSearch')" type="button"
-        class="btn btn-primary">
-        <i class="fa fa-search"></i> Patient Search</button>
-      <button *ngIf="!referralStatus && !step && isGroupVisit" (click)="navigateTo('groupManager')" type="button"
-        class="btn btn-primary">
-        <i class="fa fa-users"></i> Group Manager</button>
-      <button *ngIf="enrollToGroup" (click)="navigateTo('groupEnrollment')" type="button" class="btn btn-primary">
+      <button
+        *ngIf="referralStatus"
+        (click)="onAbortingReferral($event)"
+        type="button"
+        class="btn btn-danger"
+      >
+        {{ referralValidity ? 'Cancel' : 'Ok' }}
+      </button>
+      <button
+        *ngIf="
+          !referralStatus &&
+          !step &&
+          form.valueProcessingInfo.formUuid !=
+            'ab0918de-baf8-4804-86fb-2ff2d7b6943c' &&
+          form.valueProcessingInfo.formUuid !=
+            '159e753d-da2d-47da-bbe5-d132b7e26c2e'
+        "
+        (click)="navigateTo('covidScreening')"
+        type="button"
+        class="btn btn-warning"
+      >
+        <i class="fa fa-exclamation-triangle"></i> Covid Screening
+      </button>
+      <button
+        *ngIf="!referralStatus && !step"
+        (click)="navigateTo('patientDashboard')"
+        type="button"
+        class="btn btn-primary"
+      >
+        <i class="fa fa-user"></i> Patient Dashboard
+      </button>
+      <button
+        *ngIf="!referralStatus && !step"
+        (click)="navigateTo('patientSearch')"
+        type="button"
+        class="btn btn-primary"
+      >
+        <i class="fa fa-search"></i> Patient Search
+      </button>
+      <button
+        *ngIf="!referralStatus && !step && isGroupVisit"
+        (click)="navigateTo('groupManager')"
+        type="button"
+        class="btn btn-primary"
+      >
+        <i class="fa fa-users"></i> Group Manager
+      </button>
+      <button
+        *ngIf="enrollToGroup"
+        (click)="navigateTo('groupEnrollment')"
+        type="button"
+        class="btn btn-primary"
+      >
         <i class="fa fa-users"></i> Group Enrollment
       </button>
     </div>
   </p-dialog>
   <p-confirmDialog [closable]="false" key="duplicateWarning"></p-confirmDialog>
 
-  <p-dialog heaheaderder="Process Referrals" [(visible)]="showProcessReferralsDialog" [closable]="true" [modal]="true">
-    <h4><i class="fa fa-question-circle"></i> You have referred the patient to differentiated care program.</h4>
+  <p-dialog
+    heaheaderder="Process Referrals"
+    [(visible)]="showProcessReferralsDialog"
+    [closable]="true"
+    [modal]="true"
+  >
+    <h4>
+      <i class="fa fa-question-circle"></i> You have referred the patient to
+      differentiated care program.
+    </h4>
     <ul class="list-group">
       <li class="list-group-item">
         <h4>Do you want to enroll the patient to the program?</h4>
         <div class="row">
-          <button class="pull-right btn btn-xs" [ngClass]="{'btn-primary': !enrollToDC, 'btn-default': enrollToDC}"
-            style="margin-left: 11px; margin-right: 7px;" (click)="toggleEnrollToDC()"> <i class="fa fa-close"></i> No
+          <button
+            class="pull-right btn btn-xs"
+            [ngClass]="{
+              'btn-primary': !enrollToDC,
+              'btn-default': enrollToDC
+            }"
+            style="margin-left: 11px; margin-right: 7px"
+            (click)="toggleEnrollToDC()"
+          >
+            <i class="fa fa-close"></i> No
           </button>
-          <button class="pull-right btn btn-xs" [ngClass]="{'btn-primary': enrollToDC, 'btn-default': !enrollToDC}"
-            style="margin-left: 5px;" (click)="toggleEnrollToDC()"> <i class="fa fa-check"></i> Yes</button>
+          <button
+            class="pull-right btn btn-xs"
+            [ngClass]="{
+              'btn-primary': enrollToDC,
+              'btn-default': !enrollToDC
+            }"
+            style="margin-left: 5px"
+            (click)="toggleEnrollToDC()"
+          >
+            <i class="fa fa-check"></i> Yes
+          </button>
         </div>
       </li>
       <li class="list-group-item">
         <h4>Do you want to enroll the patient to a community group?</h4>
         <div class="row">
-          <button class="pull-right btn btn-xs" style="margin-left: 11px; margin-right: 7px;"
-            [ngClass]="{'btn-primary': !enrollToGroup, 'btn-default': enrollToGroup}" (click)="toggleEnrollToGroup()"
-            [disabled]="!enrollToDC">
-            <i class="fa fa-close"></i> No</button>
-          <button class="pull-right btn btn-xs" style="margin-left: 5px;"
-            [ngClass]="{'btn-primary': enrollToGroup, 'btn-default': !enrollToGroup}" (click)="toggleEnrollToGroup()"
-            [disabled]="!enrollToDC">
-            <i class="fa fa-check"></i> Yes</button>
+          <button
+            class="pull-right btn btn-xs"
+            style="margin-left: 11px; margin-right: 7px"
+            [ngClass]="{
+              'btn-primary': !enrollToGroup,
+              'btn-default': enrollToGroup
+            }"
+            (click)="toggleEnrollToGroup()"
+            [disabled]="!enrollToDC"
+          >
+            <i class="fa fa-close"></i> No
+          </button>
+          <button
+            class="pull-right btn btn-xs"
+            style="margin-left: 5px"
+            [ngClass]="{
+              'btn-primary': enrollToGroup,
+              'btn-default': !enrollToGroup
+            }"
+            (click)="toggleEnrollToGroup()"
+            [disabled]="!enrollToDC"
+          >
+            <i class="fa fa-check"></i> Yes
+          </button>
         </div>
       </li>
     </ul>
     <p-footer>
-      <button type="button" class="btn btn-danger pull-left" style="margin-left: 7px"
-        (click)="cancelReferralToDC()">Cancel</button>
-      <button type="button" class="btn btn-primary" style="margin-right: 7px;"
-        (click)="handleReferralToDC()">Proceed</button>
+      <button
+        type="button"
+        class="btn btn-danger pull-left"
+        style="margin-left: 7px"
+        (click)="cancelReferralToDC()"
+      >
+        Cancel
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary"
+        style="margin-right: 7px"
+        (click)="handleReferralToDC()"
+      >
+        Proceed
+      </button>
     </p-footer>
   </p-dialog>
 </div>

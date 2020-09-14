@@ -9,12 +9,18 @@ import { HttpClient } from '@angular/common/http';
 export class FakePatientResourceService extends PatientResourceService {
   public returnErrorOnNext = false;
 
-  constructor(protected http: HttpClient, protected appSettingsService: AppSettingsService) {
+  constructor(
+    protected http: HttpClient,
+    protected appSettingsService: AppSettingsService
+  ) {
     super(http, appSettingsService);
   }
 
-  public searchPatient(searchText: string,
-                       cached: boolean = false, v: string = null): Observable<any> {
+  public searchPatient(
+    searchText: string,
+    cached: boolean = false,
+    v: string = null
+  ): Observable<any> {
     const test: BehaviorSubject<any> = new BehaviorSubject<any>([]);
     const patients = [
       {
@@ -68,7 +74,7 @@ export class FakePatientResourceService extends PatientResourceService {
       {
         uuid: 'uuid',
         display: 'display'
-      },
+      }
     ];
 
     if (!this.returnErrorOnNext) {
@@ -79,13 +85,18 @@ export class FakePatientResourceService extends PatientResourceService {
     return test.asObservable();
   }
 
-  public getPatientByUuid(uuid: string, cached: boolean = false, v: string = null):
-  Observable<any> {
+  public getPatientByUuid(
+    uuid: string,
+    cached: boolean = false,
+    v: string = null
+  ): Observable<any> {
     const subject = new BehaviorSubject<any>({});
-    subject.next(new Patient({
-      uuid: uuid,
-      display: 'display'
-    }));
+    subject.next(
+      new Patient({
+        uuid: uuid,
+        display: 'display'
+      })
+    );
     return subject;
   }
 }

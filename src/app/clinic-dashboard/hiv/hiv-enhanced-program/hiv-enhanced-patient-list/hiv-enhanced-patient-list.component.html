@@ -1,3 +1,7 @@
-<div class="loader" *ngIf="isLoadingPatientList"><span><i class="fa fa-spinner fa-spin"></i>Loading Patient List...</span></div>
+<div class="loader" *ngIf="isLoadingPatientList">
+  <span><i class="fa fa-spinner fa-spin"></i>Loading Patient List...</span>
+</div>
 <patient-list [data]="patientData" [extraColumns]="extraColumns"></patient-list>
-<p>Total Patients: <span class="badge">{{ patientData?.length }}</span></p>
+<p>
+  Total Patients: <span class="badge">{{ patientData?.length }}</span>
+</p>

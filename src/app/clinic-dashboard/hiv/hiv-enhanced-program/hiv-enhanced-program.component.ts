@@ -10,7 +10,6 @@ import { HivEnhancedReportService } from '../../../etl-api/hiv-enhanced-program-
   styleUrls: ['./hiv-enhanced-program.component.css']
 })
 export class HivEnhancedComponent implements OnInit {
-
   public title = 'HIV Viremia Program Reports';
   public patientData: any;
   public lowerVl: string;
@@ -69,8 +68,7 @@ export class HivEnhancedComponent implements OnInit {
     private route: ActivatedRoute,
     private location: Location,
     private hivEnhancedReportService: HivEnhancedReportService
-  ) {
-  }
+  ) {}
 
   public ngOnInit() {
     this.route.parent.parent.url.subscribe((url) => {
@@ -142,19 +140,31 @@ export class HivEnhancedComponent implements OnInit {
     this.patientData = [];
     this.storeReportParamsInUrl();
     this.isLoadingPatientList = true;
-    this.hivEnhancedReportService.getPatientList(this.toDateString(this.startDate),
-      this.toDateString(this.endDate), this.locationUuid, this.indicators, lowerVl, upperVl).take(1).subscribe((data) => {
-        this.patientData = this.sortData(data.results.results);
-        this.isLoadingPatientList = false;
-      }, (err) => {
-        this.isLoadingPatientList = false;
-      });
+    this.hivEnhancedReportService
+      .getPatientList(
+        this.toDateString(this.startDate),
+        this.toDateString(this.endDate),
+        this.locationUuid,
+        this.indicators,
+        lowerVl,
+        upperVl
+      )
+      .take(1)
+      .subscribe(
+        (data) => {
+          this.patientData = this.sortData(data.results.results);
+          this.isLoadingPatientList = false;
+        },
+        (err) => {
+          this.isLoadingPatientList = false;
+        }
+      );
   }
 
   public loadReportParamsFromUrl() {
     const path = this.router.parseUrl(this.location.path());
-    const pathHasHistoricalValues = path.queryParams['startDate'] &&
-      path.queryParams['endDate'];
+    const pathHasHistoricalValues =
+      path.queryParams['startDate'] && path.queryParams['endDate'];
 
     if (path.queryParams['startDate']) {
       this.startDate = new Date(path.queryParams['startDate']);
@@ -183,19 +193,23 @@ export class HivEnhancedComponent implements OnInit {
     if (pathHasHistoricalValues) {
       this.generateReport(this.indicators, this.lowerVl, this.upperVl);
     } else {
-      this.generateReport('not_virally_suppressed_total', this.lowerVl, this.upperVl);
+      this.generateReport(
+        'not_virally_suppressed_total',
+        this.lowerVl,
+        this.upperVl
+      );
     }
   }
 
   public storeReportParamsInUrl() {
     const path = this.router.parseUrl(this.location.path());
     path.queryParams = {
-      'startDate': this.startDate.toUTCString(),
-      'endDate': this.endDate.toUTCString(),
-      'indicators': this.indicators,
-      'viremiaFilter': this.viremiaFilter,
-      'lowerVl': this.lowerVl,
-      'upperVl': this.upperVl
+      startDate: this.startDate.toUTCString(),
+      endDate: this.endDate.toUTCString(),
+      indicators: this.indicators,
+      viremiaFilter: this.viremiaFilter,
+      lowerVl: this.lowerVl,
+      upperVl: this.upperVl
     };
     this.location.replaceState(path.toString());
   }
@@ -205,21 +219,17 @@ export class HivEnhancedComponent implements OnInit {
   }
 
   private sortData(data) {
-
     const results = [];
 
     if (data.length > 0) {
-
       data.forEach((dt) => {
         if (dt[this.indicators] === 1) {
           results.push(dt);
         }
       });
-
     }
 
     return results;
-
   }
 
   private onDateChange() {
@@ -233,33 +243,37 @@ export class HivEnhancedComponent implements OnInit {
       case 'not_virally_suppressed_total':
         this.activeTab.not_virally_suppressed_total = true;
         // tslint:disable-next-line:max-line-length
-        this.sectionTittle = 'Patients eligible for Viremia Program (VL > 400). Patients enrolled in Viremia and patients eligible but not enrolled';
+        this.sectionTittle =
+          'Patients eligible for Viremia Program (VL > 400). Patients enrolled in Viremia and patients eligible but not enrolled';
         break;
       case 'not_virally_suppressed_not_in_enhanced_care':
         this.activeTab.not_in_enhanced_care = true;
-        this.sectionTittle = 'Patients eligible for Viremia Program (VL > 400 but not enrolled)';
+        this.sectionTittle =
+          'Patients eligible for Viremia Program (VL > 400 but not enrolled)';
         break;
       case 'not_virally_suppressed_in_enhanced_care':
         this.activeTab.in_enhanced_care = true;
-        this.sectionTittle = 'All Patients Enrolled in Viremia Program (VL > 400 and enrolled)';
+        this.sectionTittle =
+          'All Patients Enrolled in Viremia Program (VL > 400 and enrolled)';
         break;
       case 'not_virally_suppressed_in_enhanced_care_active':
         this.activeTab.in_enhanced_care_active = true;
-        this.sectionTittle = 'All Patients Enrolled in Viremia Program (VL > 400 and enrolled) and active';
+        this.sectionTittle =
+          'All Patients Enrolled in Viremia Program (VL > 400 and enrolled) and active';
         break;
       case 'not_virally_suppressed_in_enhanced_care_vl_due':
         this.activeTab.in_enhanced_care_vl_due = true;
-        this.sectionTittle = 'Patients enrolled in Viremia Program but have not had a repeat VL result within 3 months of their last VL';
+        this.sectionTittle =
+          'Patients enrolled in Viremia Program but have not had a repeat VL result within 3 months of their last VL';
         break;
       case 'mdt_form_completed':
         this.activeTab.mdt_form_completed = true;
-        this.sectionTittle = 'Patients enrolled in Viremia Program who have not had a MDT Form completed within the last 1 month';
+        this.sectionTittle =
+          'Patients enrolled in Viremia Program who have not had a MDT Form completed within the last 1 month';
         break;
       default:
         break;
-
     }
-
   }
   public viremiaFilterChange(option) {
     const viremiaOption = this.viremiaStatus[option];
@@ -283,5 +297,4 @@ export class HivEnhancedComponent implements OnInit {
       mdt_form_completed: false
     };
   }
-
 }

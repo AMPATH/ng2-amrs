@@ -1,10 +1,10 @@
-.patient-search{
-  background: #FFF;
+.patient-search {
+  background: #fff;
   padding-top: 1%;
   margin-top: 10px;
   padding-bottom: 3%;
 }
-.input-group-btn.large-search{
+.input-group-btn.large-search {
   font-size: 14px;
 }
 .input-group-btn.large-search > .btn {
@@ -19,7 +19,7 @@
   color: #333;
 }
 
-div.input-group-btn{
+div.input-group-btn {
   margin: 0px 5px 0px 5px;
 }
 button.btn-primary.btn-lg {
@@ -31,25 +31,25 @@ button.btn-primary.btn-lg {
 }
 
 .glyphicon {
-  margin-right:7px;
+  margin-right: 7px;
 }
-#creator-row{
+#creator-row {
   margin-top: 5px;
   margin-bottom: 30px;
 }
-.create_group_btn:hover{
+.create_group_btn:hover {
   cursor: pointer;
 }
 
 @media screen and (max-width: 640px) {
-  #search-textbox::-webkit-input-placeholder{
-    font-size:14px;
+  #search-textbox::-webkit-input-placeholder {
+    font-size: 14px;
   }
 }
 
 @media screen and (min-width: 641px) {
-  #search-textbox::-webkit-input-placeholder{
-    font-size:20px;
+  #search-textbox::-webkit-input-placeholder {
+    font-size: 20px;
   }
 }
 .group-search {
@@ -59,10 +59,10 @@ button.btn-primary.btn-lg {
   background-color: white;
   border: none;
 }
-.search{
-  margin-top:15px;
+.search {
+  margin-top: 15px;
 }
-.search-options{
+.search-options {
   margin-top: 20px;
 }
 
@@ -73,5 +73,5 @@ button.btn-primary.btn-lg {
   margin: 0px 5px 0px 5px;
 }
 .mat-raised-button:disabled {
-  background-color: lightskyblue
+  background-color: lightskyblue;
 }

@@ -2,7 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
-  MatProgressSpinnerModule, MatProgressBarModule, MatTabsModule
+  MatProgressSpinnerModule,
+  MatProgressBarModule,
+  MatTabsModule
 } from '@angular/material';
 
 import { DateTimePickerModule } from 'ngx-openmrs-formentry/';
@@ -22,6 +24,6 @@ import { DataListsModule } from '../shared/data-lists/data-lists.module';
   ],
   exports: [],
   declarations: [],
-  providers: [],
+  providers: []
 })
-export class CdmModule { }
+export class CdmModule {}

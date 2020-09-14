@@ -1,15 +1,21 @@
-  
 <div class="container-fluid" id="report-container">
-    <h4 class="component-title" style="color: green;"><span class="fa fa-file fa-fw"></span>{{ title }}</h4>
-    <div class="col-md-12 col-lg-12 col-sm-12" *ngFor="let dqaReport of dqaReportTypes">
-      <div class="list-group">
-        <a (click)="navigateToReport(dqaReport)" class="list-group-item" >
-          <h3>{{ dqaReport.name || titlecase}}</h3>
-          <i class="glyphicon glyphicon-question-sign question-tooltip pull-right"></i>
-          <div class="info-spacing report-info">
-            {{ dqaReport.description }}
-          </div>
-        </a>
-      </div>
+  <h4 class="component-title" style="color: green">
+    <span class="fa fa-file fa-fw"></span>{{ title }}
+  </h4>
+  <div
+    class="col-md-12 col-lg-12 col-sm-12"
+    *ngFor="let dqaReport of dqaReportTypes"
+  >
+    <div class="list-group">
+      <a (click)="navigateToReport(dqaReport)" class="list-group-item">
+        <h3>{{ dqaReport.name || titlecase }}</h3>
+        <i
+          class="glyphicon glyphicon-question-sign question-tooltip pull-right"
+        ></i>
+        <div class="info-spacing report-info">
+          {{ dqaReport.description }}
+        </div>
+      </a>
     </div>
   </div>
+</div>

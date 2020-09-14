@@ -1,4 +1,3 @@
 export interface ClinicFlowResource {
-  getClinicFlow(dateStated: any,
-    locations: any): any;
+  getClinicFlow(dateStated: any, locations: any): any;
 }

@@ -44,7 +44,6 @@ export class PouchdbService {
     //     // TODO: Write code when sync is resume after pause/error
     //     console.log('C2P Resume: ', info);
     //   });
-
     // this._pouchDB.replicate.to(this._couchDB, {
     //   live: true,
     //   retry: true
@@ -67,15 +66,12 @@ export class PouchdbService {
   // then update the rxjs BehaviourSubjects with the
   // results
   private syncStatusUpdate(): void {
-    this.checkPouchCouchSync()
-      .then((result) => {
-        this.syncStatus.next(result);
-      });
-    this.checkCouchUp()
-      .then((result) => {
-        this.couchDbUp.next(result);
-      });
-
+    this.checkPouchCouchSync().then((result) => {
+      this.syncStatus.next(result);
+    });
+    this.checkCouchUp().then((result) => {
+      this.couchDbUp.next(result);
+    });
   }
 
   // part of the JSON returned by PouchDB from the info() method
@@ -86,22 +82,21 @@ export class PouchdbService {
     // if both objects exist then make a Promise from both their
     // info() methods
     if (this._pouchDB && this._couchDB) {
-      return Promise.all([this._pouchDB.info(), this._couchDB.info()])
-        // using the 0 and 1 items in the array of two
-        // that is produced by the Promise
-        // Do some string trickery to get a number for update_seq
-        // and return 'true' if the numbers are equal.
-        .then((results: any[]) => {
-          return (Number(String(results[0]
-            .update_seq)
-            .split('-')[0])
-            ===
-            Number(String(results[1]
-              .update_seq)
-              .split('-')[0]));
-        })
-        // on error just resolve as false
-        .catch((error) => false);
+      return (
+        Promise.all([this._pouchDB.info(), this._couchDB.info()])
+          // using the 0 and 1 items in the array of two
+          // that is produced by the Promise
+          // Do some string trickery to get a number for update_seq
+          // and return 'true' if the numbers are equal.
+          .then((results: any[]) => {
+            return (
+              Number(String(results[0].update_seq).split('-')[0]) ===
+              Number(String(results[1].update_seq).split('-')[0])
+            );
+          })
+          // on error just resolve as false
+          .catch((error) => false)
+      );
     } else {
       // if one of the PouchDB or CouchDB objects doesn't exist yet
       // return resolve false

@@ -1,28 +1,41 @@
 <div [className]="overlayClass" id="notification_overlay">
-<div class="container notifiction_container">
-<div class="row" *ngFor="let notification of displayNotifications; let i = index" [attr.data-index]="i">
-<div class="col-md-5 col-sm-5 col-xs-9 message" id="type_{{notification.alert_type}}">
-    <div class="row">
-        <div class="col-md-12">
-        <div class="message_title">
-            <h4><i class="fa fa-info-circle fa-fw" aria-hidden="true"></i> {{notification.title}} </h4>
+  <div class="container notifiction_container">
+    <div
+      class="row"
+      *ngFor="let notification of displayNotifications; let i = index"
+      [attr.data-index]="i"
+    >
+      <div
+        class="col-md-5 col-sm-5 col-xs-9 message"
+        id="type_{{ notification.alert_type }}"
+      >
+        <div class="row">
+          <div class="col-md-12">
+            <div class="message_title">
+              <h4>
+                <i class="fa fa-info-circle fa-fw" aria-hidden="true"></i>
+                {{ notification.title }}
+              </h4>
 
-            <hr class="intro-divider info_divider" width="30%"/>
+              <hr class="intro-divider info_divider" width="30%" />
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="message-body">
+              <p>{{ notification.message }}</p>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="message-action">
+              <a
+                class="btn btn-primary info_btn okay_btn"
+                (click)="dissmissNotification(i)"
+                >Ok</a
+              >
+            </div>
+          </div>
         </div>
-        </div>
-        <div class="col-md-12">
-        <div class="message-body">
-            <p>{{notification.message}}</p>
-        </div>
-        </div>
-        <div class="col-md-12">
-        <div class="message-action">
-              <a class="btn btn-primary info_btn okay_btn" (click)="dissmissNotification(i)">Ok</a>
-        </div>
-        </div>
+      </div>
     </div>
-
-</div>
-</div>
-</div>
+  </div>
 </div>

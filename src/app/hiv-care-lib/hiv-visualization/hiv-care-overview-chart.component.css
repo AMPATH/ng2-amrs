@@ -8,13 +8,14 @@ chart {
 }
 .chart-inner {
   position: absolute;
-  width: 20%; height: 50%;
+  width: 20%;
+  height: 50%;
 }
 .chart-wrapper {
   position: relative;
   padding-bottom: 40%;
-  width:10%;
-  float:left;
+  width: 10%;
+  float: left;
 }
 
 .highcharts-container {

@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, EventEmitter, Output, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  EventEmitter,
+  Output,
+  OnDestroy
+} from '@angular/core';
 import { Subscription, BehaviorSubject } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { VisitResourceService } from '../../../../openmrs-api/visit-resource.service';
@@ -6,9 +13,7 @@ import * as _ from 'lodash';
 import { PatientService } from '../../../services/patient.service';
 import { LocationResourceService } from '../../../../openmrs-api/location-resource.service';
 import { ConfirmationService } from 'primeng/primeng';
-import {
-  RetrospectiveDataEntryService
-} from '../../../../retrospective-data-entry/services/retrospective-data-entry.service';
+import { RetrospectiveDataEntryService } from '../../../../retrospective-data-entry/services/retrospective-data-entry.service';
 
 @Component({
   selector: 'visit-period',
@@ -16,7 +21,6 @@ import {
   styleUrls: ['./visit-period.component.css']
 })
 export class VisitPeriodComponent implements OnInit, OnDestroy {
-
   public errors: any[] = [];
   public patientSubscription: Subscription;
   public routeSubscription: Subscription;
@@ -55,13 +59,15 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
     this.editLocation = value;
   }
 
-  constructor(private patientService: PatientService, private visitResource: VisitResourceService,
-    private router: Router, private route: ActivatedRoute,
+  constructor(
+    private patientService: PatientService,
+    private visitResource: VisitResourceService,
+    private router: Router,
+    private route: ActivatedRoute,
     private locationResourceService: LocationResourceService,
     private retrospectiveDataEntryService: RetrospectiveDataEntryService,
-    private confirmationService: ConfirmationService) {
-
-  }
+    private confirmationService: ConfirmationService
+  ) {}
 
   public ngOnInit(): void {
     this.subscribeToPatientChangeEvent();
@@ -85,23 +91,27 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
   }
 
   public subscribeToRouteChangeEvent() {
-
     if (this.route && this.route.queryParams) {
       this.routeSubscription = this.route.queryParams.subscribe((params) => {
         this.resetVariables();
-        if (params['visitUuid'] && this.encounterVisitUuid !== params['visitUuid']) {
+        if (
+          params['visitUuid'] &&
+          this.encounterVisitUuid !== params['visitUuid']
+        ) {
           // new form being entered therefore reset enouncter uuid
           this.encounterUuid = undefined;
           this.encounterVisitUuid = params['visitUuid'];
           this.data = this.getVisitPeriod(this.encounterVisitUuid);
           this.editLocation = false;
-        } else if (params['encounter'] && this.encounterUuid !== params['encounter']) {
+        } else if (
+          params['encounter'] &&
+          this.encounterUuid !== params['encounter']
+        ) {
           this.encounterUuid = params['encounter'];
           this.loadVisitByEncounter(this.encounterUuid);
         } else {
           // console.error('No visit or encounter info on url');
         }
-
       });
     }
   }
@@ -118,7 +128,6 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
   }
 
   public subscribeToPatientChangeEvent() {
-
     this.patientSubscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         // this.resetVariables();
@@ -131,49 +140,59 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
         if (this.encounterUuid) {
           this.loadVisitByEncounter(this.encounterUuid);
         }
-      }
-      , (err) => {
+      },
+      (err) => {
         console.error('An error occured while fetching the patient', err);
         this.resetVariables();
         this.errors.push({
           id: 'patient',
           message: 'error fetching patient'
         });
-      });
+      }
+    );
   }
 
   public getLocations() {
     this.loaderStatus = true;
-    this.locationResourceService.getLocations().subscribe((results: any) => {
-      this.locations = results.map((location) => {
-        return {
-          value: location.uuid,
-          label: location.display
-        };
-      });
-      this.loaderStatus = false;
-    }, (error) => {
-      this.loaderStatus = false;
-      console.error('Error loading locations', error);
-    });
+    this.locationResourceService.getLocations().subscribe(
+      (results: any) => {
+        this.locations = results.map((location) => {
+          return {
+            value: location.uuid,
+            label: location.display
+          };
+        });
+        this.loaderStatus = false;
+      },
+      (error) => {
+        this.loaderStatus = false;
+        console.error('Error loading locations', error);
+      }
+    );
   }
 
   public loadedLocation(event) {
-    if (event && this.encounterVisitUuid && this.currentVisit && this.currentVisit.location
-      && this.currentVisit.location.uuid !== event.value) {
-
+    if (
+      event &&
+      this.encounterVisitUuid &&
+      this.currentVisit &&
+      this.currentVisit.location &&
+      this.currentVisit.location.uuid !== event.value
+    ) {
       const visitPayload = {
         location: event.value
       };
 
       this.confirmationService.confirm({
         header: 'Change visit location',
-        message: 'This will change the visit location ' +
+        message:
+          'This will change the visit location ' +
           'upon confirmation. Do you want to continue?',
         accept: () => {
           this.loadingVisit = true;
 
-          this.visitResource.updateVisit(this.encounterVisitUuid, visitPayload)
+          this.visitResource
+            .updateVisit(this.encounterVisitUuid, visitPayload)
             .subscribe((updateVisit) => {
               this.loadingVisit = false;
               this.locationName = updateVisit.location.display;
@@ -181,15 +200,19 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
               this.editedLocation.emit(this.editLocation);
             });
         },
-        reject: () => {
-        }
+        reject: () => {}
       });
     }
   }
 
   private setInitialLocation() {
-    this.locationUuid = this.currentVisit && this.currentVisit.location ?
-      { value: this.currentVisit.location.uuid, label: this.currentVisit.location.display } : '';
+    this.locationUuid =
+      this.currentVisit && this.currentVisit.location
+        ? {
+            value: this.currentVisit.location.uuid,
+            label: this.currentVisit.location.display
+          }
+        : '';
   }
 
   private getEncounterVisit(encounterUuid) {
@@ -209,36 +232,42 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
     } else {
       return null;
     }
-
   }
 
   private getVisitPeriod(uuid) {
-    const custom = 'custom:(uuid,' +
+    const custom =
+      'custom:(uuid,' +
       'location:ref' +
       '),' +
       'visitType:(uuid,name),location:ref,startDatetime,' +
       'stopDatetime,attributes:(uuid,value))';
     this.loadingVisit = true;
-    this.visitSubscription = this.visitResource.getVisitByUuid(uuid, { v: custom })
+    this.visitSubscription = this.visitResource
+      .getVisitByUuid(uuid, { v: custom })
       .subscribe((visit) => {
         this.setVisit(visit);
       });
   }
 
   private setVisit(visit) {
-    this.retrospectiveDataEntryService.retroSettings.subscribe((retroSettings) => {
-      this.stopDatetime = visit.stopDatetime;
-      this.startDatetime = visit.startDatetime;
-      this.currentVisit = visit ? visit : '';
-      this.locationUuid = visit ? { value: visit.location.uuid, label: visit.location.display } : null;
-      this.locationName = visit ? visit.location.display : null;
-      this.encounterVisitUuid = visit ? visit.uuid : null;
-      if (retroSettings && retroSettings.enabled) {
-        this.retroProviderAttribute = retroSettings.provider;
+    this.retrospectiveDataEntryService.retroSettings.subscribe(
+      (retroSettings) => {
+        this.stopDatetime = visit.stopDatetime;
+        this.startDatetime = visit.startDatetime;
+        this.currentVisit = visit ? visit : '';
+        this.locationUuid = visit
+          ? { value: visit.location.uuid, label: visit.location.display }
+          : null;
+        this.locationName = visit ? visit.location.display : null;
+        this.encounterVisitUuid = visit ? visit.uuid : null;
+        if (retroSettings && retroSettings.enabled) {
+          this.retroProviderAttribute = retroSettings.provider;
+        }
+        this.currentVisitType =
+          visit && visit.visitType ? visit.visitType.name : null;
+        this.loadingVisit = false;
       }
-      this.currentVisitType = visit && visit.visitType ? visit.visitType.name : null;
-      this.loadingVisit = false;
-    });
+    );
   }
 
   private resetVariables() {

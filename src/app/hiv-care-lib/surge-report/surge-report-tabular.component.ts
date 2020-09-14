@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  ViewChild,
+  Output,
+  EventEmitter
+} from '@angular/core';
 import { AgGridNg2 } from 'ag-grid-angular';
 import * as _ from 'lodash';
 import { isUndefined, isNullOrUndefined } from 'util';
@@ -50,7 +57,8 @@ export class SurgeReportTabularComponent implements OnInit {
   public constructor(
     public router: Router,
     public route: ActivatedRoute,
-    public location: Location) { }
+    public location: Location
+  ) {}
   public setData(sectionsData: any) {
     this.sectionIndicatorsValues = sectionsData;
   }
@@ -91,7 +99,7 @@ export class SurgeReportTabularComponent implements OnInit {
   private setCellSelection(col?) {
     this.gridOptions.rowSelection = 'single';
     let selectedIndicator: any;
-    this.gridOptions.onCellClicked = e => {
+    this.gridOptions.onCellClicked = (e) => {
       if (e.rowPinned !== 'bottom') {
         selectedIndicator = {
           headerName: e.colDef.headerName,

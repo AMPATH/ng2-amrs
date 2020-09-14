@@ -13,16 +13,16 @@ import { PatientSearchService } from './patient-search.service';
 import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytics.service';
 import { PatientRegistrationModule } from '../patient-creation/patient-creation.module';
 @NgModule({
-    imports: [
-        OpenmrsApi,
-        FormsModule,
-        CommonModule,
-        NgxPaginationModule,
-        PatientRegistrationModule,
-        RouterModule
-    ],
-    exports: [ PatientSearchComponent],
-    declarations: [PatientSearchComponent, PatientSearchContainerComponent],
-    providers: [PatientSearchService, AppFeatureAnalytics],
+  imports: [
+    OpenmrsApi,
+    FormsModule,
+    CommonModule,
+    NgxPaginationModule,
+    PatientRegistrationModule,
+    RouterModule
+  ],
+  exports: [PatientSearchComponent],
+  declarations: [PatientSearchComponent, PatientSearchContainerComponent],
+  providers: [PatientSearchService, AppFeatureAnalytics]
 })
-export class PatientSearchModule { }
+export class PatientSearchModule {}

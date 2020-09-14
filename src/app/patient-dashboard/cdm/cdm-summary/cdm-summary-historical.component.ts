@@ -1,4 +1,4 @@
-import {take} from 'rxjs/operators/take';
+import { take } from 'rxjs/operators/take';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { PatientService } from '../../services/patient.service';
@@ -41,54 +41,62 @@ export class CdmSummaryHistoricalComponent implements OnInit, OnDestroy {
 
   public getPatient() {
     this.loadingCdmSummary = true;
-    this.subscription = this.patientService.currentlyLoadedPatient.pipe(take(1)).subscribe(
-      (patient) => {
-        if (patient) {
+    this.subscription = this.patientService.currentlyLoadedPatient
+      .pipe(take(1))
+      .subscribe(
+        (patient) => {
+          if (patient) {
+            this.loadingCdmSummary = false;
+            this.patient = patient;
+            this.patientUuid = this.patient.person.uuid;
+            this.loadCdmSummary(this.patientUuid, this.nextStartIndex);
+          }
+        },
+        (err) => {
           this.loadingCdmSummary = false;
-          this.patient = patient;
-          this.patientUuid = this.patient.person.uuid;
-          this.loadCdmSummary(this.patientUuid, this.nextStartIndex );
+          this.errors.push({
+            id: 'patient',
+            message: 'error fetching patient'
+          });
         }
-      }, (err) => {
-        this.loadingCdmSummary = false;
-        this.errors.push({
-          id: 'patient',
-          message: 'error fetching patient'
-        });
-      });
+      );
   }
 
   public loadCdmSummary(patientUuid, nextStartIndex) {
-    this.cdmSummaryService.getCdmSummary(patientUuid, this.nextStartIndex, 20, false).pipe(
-    take(1)).subscribe((data) => {
-      if (data) {
-        if (data.length > 0) {
-          for (const r in data) {
-            if (data.hasOwnProperty(r)) {
-              const cdmsum = data[r];
-              this.cdmSummaries.push(cdmsum);
+    this.cdmSummaryService
+      .getCdmSummary(patientUuid, this.nextStartIndex, 20, false)
+      .pipe(take(1))
+      .subscribe(
+        (data) => {
+          if (data) {
+            if (data.length > 0) {
+              for (const r in data) {
+                if (data.hasOwnProperty(r)) {
+                  const cdmsum = data[r];
+                  this.cdmSummaries.push(cdmsum);
+                }
+              }
+              const size = data.length;
+              this.nextStartIndex = this.nextStartIndex + size;
+              this.isLoading = false;
+            } else {
+              this.dataLoaded = true;
             }
           }
-          const size = data.length;
-          this.nextStartIndex = this.nextStartIndex + size;
-          this.isLoading = false;
-        } else {
-            this.dataLoaded = true;
+        },
+        (err) => {
+          this.loadingCdmSummary = false;
+          this.errors.push({
+            id: 'Cdm Summary',
+            message:
+              'An error occured while loading Cdm Summary. Please try again.'
+          });
         }
-      }
-    }, (err) => {
-      this.loadingCdmSummary = false;
-      this.errors.push({
-          id: 'Cdm Summary',
-          message: 'An error occured while loading Cdm Summary. Please try again.'
-      });
-
-    });
+      );
   }
 
   public loadMoreCdmSummary() {
     this.isLoading = true;
     this.loadCdmSummary(this.patientUuid, this.nextStartIndex);
   }
-
 }

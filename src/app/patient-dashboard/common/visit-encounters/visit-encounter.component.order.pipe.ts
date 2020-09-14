@@ -4,7 +4,6 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'myOrderByAlphabetAsc',
   pure: false
 })
-
 export class OrderByAlphabetPipe implements PipeTransform {
   public transform(array: Array<any>): Array<string> {
     array.sort((a: any, b: any) => {

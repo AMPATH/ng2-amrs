@@ -46,10 +46,7 @@ import { PatientReminderCustomComponent } from './patient-dashboard/common/patie
 import { PatientReminderService } from './patient-dashboard/common/patient-reminders/patient-reminders.service';
 
 // Application wide providers
-const APP_PROVIDERS = [
-  ...APP_RESOLVER_PROVIDERS,
-  AppState
-];
+const APP_PROVIDERS = [...APP_RESOLVER_PROVIDERS, AppState];
 
 interface StoreType {
   state: InternalStateType;
@@ -68,7 +65,8 @@ interface StoreType {
     PatientReminderCustomComponent,
     FeedBackComponent
   ],
-  imports: [ // import Angular's modules
+  imports: [
+    // import Angular's modules
     NoopAnimationsModule,
     BrowserModule,
     CommonModule,
@@ -77,16 +75,23 @@ interface StoreType {
     NgamrsSharedModule.forRoot(),
     FormsModule,
     HttpClientModule,
-    RouterModule.forRoot(ROUTES, { paramsInheritanceStrategy: 'always', useHash: true, enableTracing: false }),
+    RouterModule.forRoot(ROUTES, {
+      paramsInheritanceStrategy: 'always',
+      useHash: true,
+      enableTracing: false
+    }),
     Angulartics2Module.forRoot([Angulartics2Piwik]),
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production
+    }),
     ToastrModule.forRoot({
       toastComponent: PatientReminderCustomComponent,
       timeOut: 0
     }),
     CacheModule.forRoot()
   ],
-  providers: [ // expose our Services and Providers into Angular's dependency injection
+  providers: [
+    // expose our Services and Providers into Angular's dependency injection
     APP_PROVIDERS,
     DynamicRoutesService,
     Angulartics2Piwik,
@@ -106,13 +111,10 @@ interface StoreType {
     DataCacheService
   ],
   entryComponents: [PatientReminderCustomComponent],
-  exports: [
-    LabOrderSearchModule
-  ]
+  exports: [LabOrderSearchModule]
 })
 export class AppModule {
-  constructor(public appRef: ApplicationRef, public appState: AppState) {
-  }
+  constructor(public appRef: ApplicationRef, public appState: AppState) {}
 
   public hmrOnInit(store: StoreType) {
     if (!store || !store.state) {
@@ -130,5 +132,4 @@ export class AppModule {
     delete store.state;
     delete store.restoreInputValues;
   }
-
 }
