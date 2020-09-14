@@ -49,7 +49,8 @@ export class PatientIdentifierService {
       'KUZA ID',
       'Zuri Health ID',
       'NAT',
-      'BHIM'
+      'BHIM',
+      'OVC ID'
     ];
   }
   public patientIdentifierTypeFormat() {
@@ -93,7 +94,11 @@ export class PatientIdentifierService {
       {
         label: 'BHIM', format: '^B\\d{5}-\\d{5}$', checkdigit: 0,
         val: '5b91df4a-db7d-4c52-ac85-ac519420d82e'
-      }
+      },
+    {
+      label: 'OVCID', format: '^\\d{7}$', checkdigit: 0,
+      val: 'ace5f7c7-c5f4-4e77-a077-5588a682a0d6'
+    }
     ];
   }
 }

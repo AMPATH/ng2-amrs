@@ -1,14 +1,13 @@
 import { take } from 'rxjs/operators';
 import {
-  Component, OnInit, Input, Output, OnDestroy, ViewChild, EventEmitter
+  Component, OnInit, Output, OnDestroy, ViewChild, EventEmitter
 } from '@angular/core';
-import { Subscription, of } from 'rxjs';
+import { Subscription } from 'rxjs';
 import * as moment from 'moment';
 import * as _ from 'lodash';
 import * as Fuse from 'fuse.js';
 import 'ag-grid-enterprise/main';
-import { Router, ActivatedRoute } from '@angular/router';
-import { DatePipe } from '@angular/common';
+import { Router } from '@angular/router';
 import { Patient } from '../models/patient.model';
 import { UserService } from '../openmrs-api/user.service';
 import { PatientCreationService } from './patient-creation.service';
@@ -27,6 +26,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap';
 import { SessionStorageService } from '../utils/session-storage.service';
 import { ToastrService } from 'ngx-toastr';
+import { PatientRelationshipTypeService } from '../patient-dashboard/common/patient-relationships/patient-relation-type.service';
 
 @Component({
   selector: 'patient-creation',
@@ -41,7 +41,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public patients: Patient = new Patient({});
   public person: any;
   public display = false;
-  public subscription: Subscription;
+  public subscriptions: Subscription[] = [];
   public userId;
   public givenName: string;
   public familyName: string;
@@ -133,6 +133,15 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public occupation: any;
   public highestEducationConcept = 'a89e48ae-1350-11df-a1f1-0026b9348838';
 
+  public careGivername: any;
+  public relationshipToCareGiver: any;
+  public careGiverPhoneNumber: any;
+  public ampathLocations: any;
+  public subcounties: any = [];
+  public wards: any = [];
+  public address7: any;
+  public patientRelationshipTypes: any = [];
+  public selectedRelationshipType: any;
   constructor(
     public toastrService: ToastrService,
     private patientCreationService: PatientCreationService,
@@ -141,10 +150,11 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     private patientIdentifierTypeResService: PatientIdentifierTypeResService,
     private userService: UserService,
     private router: Router,
-    private route: ActivatedRoute,
     private sessionStorageService: SessionStorageService,
     private modalService: BsModalService,
-    private conceptService: ConceptResourceService) {
+    private conceptService: ConceptResourceService,
+    private patientRelationshipTypeService: PatientRelationshipTypeService,
+    ) {
   }
 
   public ngOnInit() {
@@ -152,6 +162,9 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     this.getCommonIdentifierTypes();
     this.getOccupatonConcept();
     this.getEducationLevels();
+    this.getAmpathLocations();
+    this.getRelationShipTypes();
+    this.selectedRelationshipType = undefined;
     this.userId = this.userService.getLoggedInUser().openmrsModel.systemId;
     this.errorAlert = false;
     this.person = this.sessionStorageService.getObject('person');
@@ -384,7 +397,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     this.errorAlert = false;
   }
 
-  public checkIdentifier(identifier) {
+  public checkIdentifier() {
     if (this.patientIdentifierType || this.patientIdentifierType !== '') {
       this.hasError = false;
       this.checkIdentifierFormat();
@@ -576,6 +589,24 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         });
       }
 
+      if (this.careGivername) {
+        attributes.push({
+          value: this.careGivername,
+          attributeType: '48876f06-7493-416e-855d-8413d894ea93'
+        });
+      }
+      if (this.relationshipToCareGiver) {
+        attributes.push({
+          value: this.relationshipToCareGiver,
+          attributeType: '06b0da36-e133-4be6-aec0-31e7ed0e1ac2'
+        });
+      }
+      if (this.careGiverPhoneNumber) {
+        attributes.push({
+          value: this.careGiverPhoneNumber,
+          attributeType: 'bb8684a5-ac0b-4c2c-b9a5-1203e99952c2'
+        });
+      }
       const payload = {
         person: {
           names: [{
@@ -591,6 +622,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
             address1: this.address1,
             address2: this.address2,
             address3: this.address3,
+            address7: this.address7,
             cityVillage: this.cityVillage,
             latitude: this.latitude,
             longitude: this.longitude,
@@ -645,6 +677,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     this.errors = false;
   }
   public ngOnDestroy(): void {
+    this.subscriptions.map(sub => sub.unsubscribe);
   }
 
   public generatePatientIdentifier() {
@@ -671,11 +704,6 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       '/general/general/program-manager/new-program']);
   }
 
-  private getPatientIdentifiers() {
-    this.patientCreationResourceService.getPatientIdentifierTypes().pipe(take(1)).subscribe((data) => {
-      this.patientIdentifierTypes = data;
-    });
-  }
 
   private checkAdded() {
 
@@ -737,7 +765,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         }
 
       },
-      (error) => {
+      () => {
         this.toastrService.error('Error  retrieving common patient identifier types', '', {
           timeOut: 2000,
           positionClass: 'toast-bottom-center'
@@ -766,7 +794,12 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       }
     );
   }
-
+  public getAmpathLocations() {
+    const getLocationsSubscription = this.locationResourceService.getAmpathLocations().subscribe(arg => {
+      this.ampathLocations = arg;
+    });
+    this.subscriptions.push(getLocationsSubscription);
+  }
   private validateFormFields(patientIdentifier) {
 
     if (this.isNullOrUndefined(patientIdentifier)) {
@@ -855,5 +888,27 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
 
     return estimateDate;
   }
-
+  public setCounty(event) {
+    this.address1 = event;
+    const counties1 = this.ampathLocations.counties;
+    this.subcounties = counties1.find(county => county.name === event).subcounties;
+  }
+  public setSubCounty(event) {
+    this.address2 = event;
+    const subcounties = this.subcounties;
+    this.wards = subcounties.find(subcounty => subcounty.name === event).wards;
+  }
+  public setWard(event) {
+    this.address7 = event;
+  }
+  public getRelationShipTypes(): void {
+    const request = this.patientRelationshipTypeService.getRelationshipTypes();
+    request.subscribe((relationshipTypes) => {
+        if (relationshipTypes) {
+            this.patientRelationshipTypes = relationshipTypes;
+        }
+    }, (error) => {
+        console.error('Failed to get relation types because of the following ', error);
+    });
+}
 }

@@ -57,7 +57,7 @@ describe('PatientService Unit Tests', () => {
       'causeOfDeath,preferredName:(uuid,preferred,givenName,middleName,familyName),'
       + 'attributes,preferredAddress:(uuid,preferred,address1,address2,cityVillage,longitude,' +
       'stateProvince,latitude,country,postalCode,countyDistrict,address3,address4,address5' +
-      ',address6)))');
+      ',address6,address7)))');
     expect(req.request.urlWithParams).toContain('patient/' + patientUuid);
     expect(req.request.urlWithParams).toContain('v=');
     expect(req.request.method).toBe('GET');
@@ -104,7 +104,7 @@ describe('PatientService Unit Tests', () => {
       'causeOfDeath,preferredName:(uuid,preferred,givenName,middleName,familyName),'
       + 'attributes,preferredAddress:(uuid,preferred,address1,address2,cityVillage,longitude,' +
       'stateProvince,latitude,country,postalCode,countyDistrict,address3,address4,address5' +
-      ',address6)))');
+      ',address6,address7)))');
     expect(req.request.urlWithParams).toContain('q=' + searchText);
     expect(req.request.urlWithParams).toContain('&v=');
     expect(req.request.method).toBe('GET');
@@ -171,7 +171,7 @@ describe('PatientService Unit Tests', () => {
     'causeOfDeath,preferredName:(uuid,preferred,givenName,middleName,familyName),'
     + 'attributes,preferredAddress:(uuid,preferred,address1,address2,cityVillage,longitude,' +
     'stateProvince,latitude,country,postalCode,countyDistrict,address3,address4,address5' +
-    ',address6)))');
+    ',address6,address7)))');
     expect(req.request.urlWithParams).toContain('q=' + searchText);
     expect(req.request.urlWithParams).toContain('&v=');
     expect(req.request.method).toBe('GET');

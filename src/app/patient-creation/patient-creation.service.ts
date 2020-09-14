@@ -205,10 +205,6 @@ export class PatientCreationService {
                 val: '58a47fae-1359-11df-a1f1-0026b9348838'
             },
             {
-                label: 'OVCID', format: '^\\d{8}-\\d{14}$', checkdigit: null,
-                val: '52b78065-5c0f-4cf8-ab02-6b1b992b18c4'
-            },
-            {
                 label: 'pMTCT ID', format: null, checkdigit: 1,
                 val: '58a47144-1359-11df-a1f1-0026b9348838'
             },
@@ -227,6 +223,10 @@ export class PatientCreationService {
             {
                 label: 'PrEP', format: '^\\d{5}-\\d{4}-\\d{5}$', checkdigit: 0,
                 val: '91099b3f-69be-4607-a309-bd358d85af46'
+            },
+            {
+                label: 'OVC ID', format: '^\\d{7}$', checkdigit: 0,
+                val: 'ace5f7c7-c5f4-4e77-a077-5588a682a0d6'
             }
         ];
     }

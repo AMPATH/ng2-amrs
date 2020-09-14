@@ -289,6 +289,26 @@
               </div>
             </div>
           </div>
+          <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+            <div class="form-group">
+              <label for="careGivername">Caregiver Name</label>
+              <input type="text" class="form-control" [(ngModel)]="careGivername" name="careGivername"
+                placeholder="Caregiver Name" required>
+            </div>
+          </div>
+          <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+            <div class="form-group">
+              <label for="relationshipToCareGiver">Relationship</label>
+              <select [(ngModel)]="relationshipToCareGiver" [ngModelOptions]="{standalone: true}" class="form-control">
+                <option value="null" ></option>
+                          <option  *ngFor="let patientRelationshipType of patientRelationshipTypes" [ngValue]="patientRelationshipType.display">{{patientRelationshipType.display}}</option>
+                      </select>
+            </div>
+          </div>
+          <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
+            <label for="careGiverPhoneNumber">Caregiver Phone Number</label>
+            <input type="text" id="careGiverPhoneNumber" class="form-control" [(ngModel)]="careGiverPhoneNumber" minlength="10" maxlength="15" [pattern]="pattern" name="caregiverPhoneNumber">
+          </div>
         </div>
         <!-- End Of Phone Number -->
 
@@ -297,20 +317,26 @@
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
             <div class="form-group">
               <label for="address1" class="control-label">County</label>
-              <select class="form-control" [(ngModel)]="address1" name="county" (ngModelChange)="updateLocation($event)">
-                <option *ngFor="let county of counties" [value]="county">{{ county }}</option>
-              </select>
-              <div *ngIf="others">
-                  <label for="address1" class="control-label">County: Other (specify)</label>
-                <input type="text" id="address1" class="form-control" [(ngModel)]="address1" name="address1">
-              </div>
+              <select class="form-control" [ngModel]="address1" (ngModelChange)="setCounty($event)" name="address1">
+                <option *ngFor="let c of ampathLocations?.counties" [ngValue]="c.name">{{c.name}}</option>
+            </select>
             </div>
           </div>
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-              <div class="form-group">
+            <div class="form-group">
               <label for="address2" class="control-label">Sub County</label>
-              <input type="text" id="address2" class="form-control" [(ngModel)]="address2" name="address2">
-              </div>
+              <select class="form-control" [ngModel]="address2" (ngModelChange)="setSubCounty($event)" name="address2">
+                <option *ngFor="let subc of subcounties" [ngValue]="subc.name">{{subc.name}}</option>
+            </select>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+            <div class="form-group">
+              <label for="address7" class="control-label">Ward</label>
+              <select class="form-control" [ngModel]="address7" (ngModelChange)="setWard($event)" name="address7">
+                <option *ngFor="let ward of wards" [ngValue]="ward">{{ward}}</option>
+            </select>
+            </div>
           </div>
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
               <div class="form-group">

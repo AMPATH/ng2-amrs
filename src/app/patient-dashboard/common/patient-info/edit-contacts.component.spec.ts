@@ -7,11 +7,14 @@ import { LocalStorageService } from '../../../utils/local-storage.service';
 import { EditContactsComponent } from './edit-contacts.component';
 import { PersonResourceService } from '../../../openmrs-api/person-resource.service';
 import { PatientService } from '../../services/patient.service';
+import { PatientRelationshipTypeService } from '../patient-relationships/patient-relation-type.service';
 
 describe('Component: EditContacts Unit Tests', () => {
 
   let personResourceService: PersonResourceService,
-    fakeAppFeatureAnalytics: AppFeatureAnalytics, patientService: PatientService, component;
+    fakeAppFeatureAnalytics: AppFeatureAnalytics, patientService: PatientService,
+    relationshipTypes: PatientRelationshipTypeService,
+    component;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -27,6 +30,9 @@ describe('Component: EditContacts Unit Tests', () => {
         {
           provide: PatientService
         },
+        {
+          provide: PatientRelationshipTypeService
+        },
         AppSettingsService,
         LocalStorageService
       ]
@@ -34,8 +40,9 @@ describe('Component: EditContacts Unit Tests', () => {
 
     patientService = TestBed.get(PatientService);
     personResourceService = TestBed.get(PersonResourceService);
+    relationshipTypes = TestBed.get(PatientRelationshipTypeService);
     fakeAppFeatureAnalytics = TestBed.get(AppFeatureAnalytics);
-    component = new EditContactsComponent(patientService, personResourceService);
+    component = new EditContactsComponent(patientService, personResourceService, relationshipTypes);
 
   });
 

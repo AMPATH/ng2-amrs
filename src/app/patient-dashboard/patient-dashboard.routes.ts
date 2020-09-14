@@ -33,6 +33,7 @@ import { NewProgramComponent } from '../program-manager/new-program/new-program.
 import { EditProgramComponent } from '../program-manager/edit-program/edit-program.component';
 import { GroupEnrollmentSummaryComponent } from './group-enrollment/group-enrollment-summary.component';
 import { OncologySummaryComponent } from './oncology/oncology-summary/oncology-summary.component';
+import { OvcSnapshotComponent } from './common/ovc-snapshot/ovc-snapshot.component';
 
 
 export const routes = [
@@ -150,6 +151,7 @@ export const routes = [
               }
             ]
           },
+          { path: ':programClass/:program/patient-ovc-enrollment', component: OvcSnapshotComponent },
         ]
       }
     ]

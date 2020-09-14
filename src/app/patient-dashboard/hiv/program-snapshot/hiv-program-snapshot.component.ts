@@ -61,6 +61,7 @@ export class HivProgramSnapshotComponent implements OnInit {
   public moriskyDenominator: any = '';
   public moriskyRating: any = '';
   public isMoriskyScorePoorOrInadequate = false;
+  public hivDisclosureStatus: any;
   private obs: any[] = [];
 
   constructor(
@@ -98,6 +99,7 @@ export class HivProgramSnapshotComponent implements OnInit {
         latestVl = latestVlResult.vl_1;
         latestVl = latestVlResult.vl_1;
         this.patientCareStatus = results[0].patient_care_status;
+        this.hivDisclosureStatus = results[0].hiv_status_disclosed === 1 ? 'Yes' : 'No';
 
         if (this.showViremiaAlert) {
           this.checkViremia(latestVl);
