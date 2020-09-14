@@ -89,24 +89,29 @@ export class HivProgramSnapshotComponent implements OnInit {
 
   public getHivSummary(patientUuid) {
     this.loadingData = true;
-    this.hivSummaryResourceService.getHivSummary(patientUuid, 0, 10).pipe(take(1)).subscribe((results) => {
-      let latestVlResult: any;
-      let latestVlDate = '';
-      let latestVl = null;
+    this.hivSummaryResourceService
+      .getHivSummary(patientUuid, 0, 10)
+      .pipe(take(1))
+      .subscribe((results) => {
+        let latestVlResult: any;
+        let latestVlDate = '';
+        let latestVl = null;
 
-      this.loadingData = false;
-      this.hasLoadedData = true;
+        this.loadingData = false;
+        this.hasLoadedData = true;
 
-      if (results[0]) {
-        latestVlResult = this.getlatestVlResult(results);
-        latestVlDate = latestVlResult.vl_1_date;
-        latestVl = latestVlResult.vl_1;
-        latestVl = latestVlResult.vl_1;
-        this.patientCareStatus = results[0].patient_care_status;
-        this.hivDisclosureStatus = results[0].hiv_status_disclosed === 1 ? 'Yes' : 'No';
+        if (results[0]) {
+          latestVlResult = this.getlatestVlResult(results);
+          latestVlDate = latestVlResult.vl_1_date;
+          latestVl = latestVlResult.vl_1;
+          latestVl = latestVlResult.vl_1;
+          this.patientCareStatus = results[0].patient_care_status;
+          this.hivDisclosureStatus =
+            results[0].hiv_status_disclosed === 1 ? 'Yes' : 'No';
 
-        if (this.showViremiaAlert) {
-          this.checkViremia(latestVl);
+          if (this.showViremiaAlert) {
+            this.checkViremia(latestVl);
+          }
         }
 
         this.clinicalEncounters = this.getClinicalEncounters(results);
@@ -428,8 +433,8 @@ export class HivProgramSnapshotComponent implements OnInit {
             /* tslint:disable-next-line: no-shadowed-variable */
             take(1)
           )
-          .subscribe((encDetail) => {
-            encounterWithDetails.push(encDetail);
+          .subscribe((encounterDetail) => {
+            encounterWithDetails.push(encounterDetail);
             resultCount++;
             checkCount();
           });

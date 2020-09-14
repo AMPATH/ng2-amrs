@@ -60,61 +60,14 @@
           "url": "patient-gene-xpert-images",
           "label": "Gene Xpert Images",
           "icon": "icon-i-laboratory"
+        },
+        {
+          "url": "patient-ovc-enrollment",
+          "label": "OVC",
+          "icon": "fa fa-child"
         }
       ]
     },
-      {
-        "url": "patient-vitals",
-        "label": "Vitals",
-        "icon": "fa fa-heartbeat"
-      },
-      {
-        "url": "patient-encounters",
-        "label": "Encounters",
-        "icon": "icon-i-immunizations"
-      },
-      {
-        "url": "forms",
-        "label": "Forms",
-        "icon": "fa fa-file"
-      },
-      {
-        "url": "lab-data-summary",
-        "label": "Lab Data Summary",
-        "icon": "icon-i-laboratory"
-      },
-      {
-        "url": "lab-orders",
-        "label": "Lab Orders",
-        "icon": "icon-i-pathology"
-      },
-      {
-        "url": "program-manager",
-        "label": "Program Manager",
-        "icon": "icon-i-administration"
-      },
-      {
-        "url": "patient-imaging",
-        "label": "Imaging",
-        "icon": "icon-i-radiology"
-      },
-      {
-        "url": "group-enrollment",
-        "label": "Group Enrollment",
-        "icon": "fa fa-users"
-      },
-      {
-        "url": "patient-gene-xpert-images",
-        "label": "Gene Xpert Images",
-        "icon": "icon-i-laboratory"
-      },
-      {
-        "url": "patient-ovc-enrollment",
-        "label": "OVC",
-        "icon": "fa fa-child"
-      }
-    ]
-  },
     {
       "programName": "Standard HIV Treatment",
       "programUuid": "781d85b0-1359-11df-a1f1-0026b9348838",

@@ -108,28 +108,16 @@ export class Patient extends BaseModel {
       const hei = this.getIdentifierByType(identifier, 'HEI');
       const nat = this.getIdentifierByType(identifier, 'NAT');
       const bhim = this.getIdentifierByType(identifier, 'BHIM');
-<<<<<<< HEAD
       const ovcid = this.getIdentifierByType(identifier, 'OVCID');
       if ((kenyaNationalId) === undefined && (amrsMrn) === undefined &&
         (ampathMrsUId) === undefined && (cCC) === undefined) {
         if ((this._identifier[0].identifier)) {
           filteredIdentifiers = {'default': this._identifier[0].identifier};
-=======
-      if (
-        kenyaNationalId === undefined &&
-        amrsMrn === undefined &&
-        ampathMrsUId === undefined &&
-        cCC === undefined
-      ) {
-        if (this._identifier[0].identifier) {
-          filteredIdentifiers = { default: this._identifier[0].identifier };
->>>>>>> Format CDM-136
         } else {
           filteredIdentifiers = { default: '' };
         }
       } else {
         filteredIdentifiers = {
-<<<<<<< HEAD
           'kenyaNationalId': kenyaNationalId,
           'amrsMrn': amrsMrn,
           'ampathMrsUId': ampathMrsUId,
@@ -138,15 +126,6 @@ export class Patient extends BaseModel {
           'nat': nat,
           'bhim': bhim,
           'ovcid': ovcid,
-=======
-          kenyaNationalId: kenyaNationalId,
-          amrsMrn: amrsMrn,
-          ampathMrsUId: ampathMrsUId,
-          cCC: cCC,
-          hei: hei,
-          nat: nat,
-          bhim: bhim
->>>>>>> Format CDM-136
         };
       }
       return filteredIdentifiers;
