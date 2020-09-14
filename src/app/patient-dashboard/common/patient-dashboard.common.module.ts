@@ -151,6 +151,7 @@ import { EditOccupationComponent } from './patient-info/occupation/edit-occupati
 import { PatientEducationComponent } from './patient-info/education/patient-education.component';
 import { AddPatientEducationComponent } from './patient-info/education/add-patient-education.component';
 import { EditPatientEducationComponent } from './patient-info/education/edit-patient-education.component';
+import { OvcSnapshotComponent } from './ovc-snapshot/ovc-snapshot.component';
 
 @NgModule({
   imports: [
@@ -306,7 +307,8 @@ import { EditPatientEducationComponent } from './patient-info/education/edit-pat
     EditOccupationComponent,
     PatientEducationComponent,
     AddPatientEducationComponent,
-    EditPatientEducationComponent
+    EditPatientEducationComponent,
+    OvcSnapshotComponent
   ],
   providers: [
     {

@@ -1,94 +1,115 @@
-
 <p-dialog header="Edit contacts" [(visible)]="display" styleClass="edit-contacts-dialog">
   <div class="container-fluid">
-  <div class="row" *ngIf="showSuccessAlert">
-     <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-       <div class="alert alert-success" *ngIf="showSuccessAlert" style="margin-top:10px">
-           <strong>Done!</strong> {{successAlert}}
-       </div>
-       <div class="alert alert-danger" *ngIf="showErrorAlert" style="margin-top:10px">
+    <div class="row" *ngIf="showSuccessAlert">
+      <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+        <div class="alert alert-success" *ngIf="showSuccessAlert" style="margin-top:10px">
+          <strong>Done!</strong> {{successAlert}}
+        </div>
+        <div class="alert alert-danger" *ngIf="showErrorAlert" style="margin-top:10px">
           <strong>{{errorTitle}}</strong> {{errorAlert}}
-       </div>
-     </div>
-  </div>
-  <div class="row">
-    <form>
-    <div class="form-group">
-     <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-         <label for="phoneNumber" class="control-label">Phone Number</label>
-         <input type="text" id="patientPhoneNumber" class="form-control" [(ngModel)] = "patientPhoneNumber"
-         name="patientPhoneNumber" minlength="10" maxlength="15" [pattern]="pattern" #name="ngModel">
-          <div *ngIf="name.errors && (name.dirty || name.touched)" class="alert alert-danger">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <form>
+        <div class="form-group">
+          <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+            <label for="phoneNumber" class="control-label">Phone Number</label>
+            <input type="text" id="patientPhoneNumber" class="form-control" [(ngModel)]="patientPhoneNumber"
+              name="patientPhoneNumber" minlength="10" maxlength="15" [pattern]="pattern" #name="ngModel">
+            <div *ngIf="name.errors && (name.dirty || name.touched)" class="alert alert-danger">
               <div [hidden]="!name.errors.minlength">
-                Phone number must be at least 10  digits.
+                Phone number must be at least 10 digits.
               </div>
               <div [hidden]="!name.errors.maxlength">
-                Phone number  max length is 15 digits.
+                Phone number max length is 15 digits.
               </div>
               <div *ngIf="name.errors.pattern">
                 Valid phone number is required
               </div>
+            </div>
           </div>
-     </div>
-
-     <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-       <label for="alternativePhoneNumber" class="control-label">Alternative Phone Number</label>
-       <input type="text" id="alternativePhoneNumber" class="form-control" [(ngModel)]="alternativePhoneNumber"
-         name="alternativePhoneNumber" minlength="10" maxlength="15" [pattern]="pattern" #names="ngModel">
-        <div *ngIf="names.errors && (names.dirty || names.touched)"
-            class="alert alert-danger">
-          <div [hidden]="!names.errors.minlength">
-            Phone number must be at least 10  digits.
+          <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+            <label for="alternativePhoneNumber" class="control-label">Alternative Phone Number</label>
+            <input type="text" id="alternativePhoneNumber" class="form-control" [(ngModel)]="alternativePhoneNumber"
+              name="alternativePhoneNumber" minlength="10" maxlength="15" [pattern]="pattern" #names="ngModel">
+            <div *ngIf="names.errors && (names.dirty || names.touched)" class="alert alert-danger">
+              <div [hidden]="!names.errors.minlength">
+                Phone number must be at least 10 digits.
+              </div>
+              <div [hidden]="!names.errors.maxlength">
+                Phone number max length is 15 digits.
+              </div>
+              <div *ngIf="names.errors.pattern">
+                Valid phone number is required
+              </div>
+            </div>
           </div>
-          <div [hidden]="!names.errors.maxlength">
-            Phone number  max length is 15 digits.
-          </div>
-          <div *ngIf="names.errors.pattern">
-            Valid phone number is required
-          </div>
-        </div>
-     </div>
-    <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-           <label for="spousePhoneNumber" class="control-label">Spouse Phone Number</label>
-           <input type="text" id="patnerPhoneNumber" class="form-control" name="patnerPhoneNumber" [(ngModel)]="patnerPhoneNumber"
-                 spousePhoneNumber="patnerPhoneNumber" minlength="10" maxlength="15" [pattern]="pattern" #spousePhoneNumber="ngModel" >
-           <div *ngIf="spousePhoneNumber.errors && (spousePhoneNumber.dirty || spousePhoneNumber.touched)" class="alert alert-danger">
+          <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+            <label for="spousePhoneNumber" class="control-label">Spouse Phone Number</label>
+            <input type="text" id="partnerPhoneNumber" class="form-control" name="partnerPhoneNumber"
+              [(ngModel)]="partnerPhoneNumber" spousePhoneNumber="partnerPhoneNumber" minlength="10" maxlength="15"
+              [pattern]="pattern" #spousePhoneNumber="ngModel">
+            <div *ngIf="spousePhoneNumber.errors && (spousePhoneNumber.dirty || spousePhoneNumber.touched)"
+              class="alert alert-danger">
               <div [hidden]="!spousePhoneNumber.errors.minlength">
-                Phone number must be at least 10  digits.
+                Phone number must be at least 10 digits.
               </div>
               <div [hidden]="!spousePhoneNumber.errors.maxlength">
-                Phone number  max length is 15 digits.
+                Phone number max length is 15 digits.
               </div>
               <div *ngIf="spousePhoneNumber.errors.pattern">
                 Valid phone number is required
               </div>
-           </div>
-    </div>
-    <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-            <label for="nextOfKin">Next of Kin phone number</label>
-            <input type="text" id="nextofkinPhoneNumber" class="form-control" [(ngModel)]="nextofkinPhoneNumber" nextOfKin="nextofkinPhoneNumber"
-            minlength="10" maxlength="15" [pattern]="pattern" #nextOfKin="ngModel" name="nextofkinPhoneNumber">
-            <div *ngIf="nextOfKin.errors && (nextOfKin.dirty || nextOfKin.touched)" class="alert alert-danger">
-                <div [hidden]="!nextOfKin.errors.minlength">
-                  Phone number must be at least 10  digits.
-                </div>
-                <div [hidden]="!nextOfKin.errors.maxlength">
-                  Phone number  max length is 15 digits.
-                </div>
-                <div *ngIf="nextOfKin.errors.pattern">
-                  Valid phone number is required
-                </div>
             </div>
-    </div>
+          </div>
+          <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+            <label for="nextOfKin">Next of Kin Phone Number</label>
+            <input type="text" id="nextofkinPhoneNumber" class="form-control" [(ngModel)]="nextofkinPhoneNumber"
+              nextOfKin="nextofkinPhoneNumber" minlength="10" maxlength="15" [pattern]="pattern" #nextOfKin="ngModel"
+              name="nextofkinPhoneNumber">
+            <div *ngIf="nextOfKin.errors && (nextOfKin.dirty || nextOfKin.touched)" class="alert alert-danger">
+              <div [hidden]="!nextOfKin.errors.minlength">
+                Phone number must be at least 10 digits.
+              </div>
+              <div [hidden]="!nextOfKin.errors.maxlength">
+                Phone number max length is 15 digits.
+              </div>
+              <div *ngIf="nextOfKin.errors.pattern">
+                Valid phone number is required
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+            <div class="form-group">
+              <label for="careGivername">Caregiver Name</label>
+              <input type="text" class="form-control" [(ngModel)]="careGivername" name="careGivername"
+                placeholder="Caregiver Name" required>
+            </div>
+          </div>
+          <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+            <div class="form-group">
+              <label for="relationshipToCareGiver">Relationship</label>
+              <select [(ngModel)]="relationshipToCareGiver" [ngModelOptions]="{standalone: true}" class="form-control">
+                <option value="null" ></option>
+                          <option  *ngFor="let patientRelationshipType of patientRelationshipTypes" [ngValue]="patientRelationshipType.display">{{patientRelationshipType.display}}</option>
+                      </select>
+              <!-- <input type="text" class="form-control" [(ngModel)]="relationshipToCareGiver"
+                name="relationshipToCareGiver" placeholder="Relation to caregiver" required> -->
+            </div>
+          </div>
+          <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
+            <label for="careGiverPhoneNumber">Caregiver Phone Number</label>
+            <input type="text" id="careGiverPhoneNumber" class="form-control" [(ngModel)]="careGiverPhoneNumber" minlength="10" maxlength="15" [pattern]="pattern" name="caregiverPhoneNumber">
+          </div>
     <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" style="padding-top:15px">
-       <button type="button" (click)="saveAttribute()" class="btn btn-primary" data-color="blue"
-          [disabled]="">Save</button>
-       <button class="btn btn-danger pull-right" type="button" (click)="dismissDialog()">
+      <button type="button" (click)="saveAttribute()" class="btn btn-primary" data-color="blue"
+        [disabled]="">Save</button>
+      <button class="btn btn-danger pull-right" type="button" (click)="dismissDialog()">
         <span>Cancel</span></button>
     </div>
-    </div>
-    </form>
-</div>
+  </div>
+  </form>
+  </div>
   </div>
 </p-dialog>
-

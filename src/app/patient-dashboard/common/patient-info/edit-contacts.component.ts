@@ -5,6 +5,7 @@ import { Patient } from '../../../models/patient.model';
 import * as _ from 'lodash';
 import { PersonResourceService } from '../../../openmrs-api/person-resource.service';
 import { Subscription } from 'rxjs';
+import { PatientRelationshipTypeService } from '../patient-relationships/patient-relation-type.service';
 
 @Component({
   selector: 'edit-contacts-info',
@@ -18,6 +19,9 @@ export class EditContactsComponent implements OnInit, OnDestroy {
   public alternativePhoneNumber: number;
   public patnerPhoneNumber: number;
   public nextofkinPhoneNumber: number;
+  public careGivername: string;
+  public relationshipToCareGiver: string;
+  public careGiverPhoneNumber: number;
   public errors: any = [];
   public subscription: Subscription;
   public r1 = /^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,3})|(\(?\d{2,3}\)?))/;
@@ -27,14 +31,17 @@ export class EditContactsComponent implements OnInit, OnDestroy {
   public showErrorAlert = false;
   public errorAlert: string;
   public errorTitle: string;
+  public patientRelationshipTypes: any = [];
+  public selectedRelationshipType: any;
   public successAlert = '';
-  private isLoading = false;
 
   constructor(private patientService: PatientService,
-    private personResourceService: PersonResourceService) {
+    private personResourceService: PersonResourceService,
+    private patientRelationshipTypeService: PatientRelationshipTypeService) {
   }
   public ngOnInit() {
     this.getPatient();
+    this.getRelationShipTypes();
   }
 
   public ngOnDestroy(): void {
@@ -59,12 +66,14 @@ export class EditContactsComponent implements OnInit, OnDestroy {
           this.alternativePhoneNumber =
             this.patient.person.alternativePhoneNumber;
           this.nextofkinPhoneNumber = this.patient.person.nextofkinPhoneNumber;
+          this.careGivername = this.patient.person.caregiverName;
+          this.relationshipToCareGiver = this.patient.person.relationshipToCaregiver;
+          this.careGiverPhoneNumber = this.patient.person.caregiverPhoneNumber;
         }
       }
     );
   }
   public saveAttribute() {
-    this.isLoading = true;
     const person = {
       uuid: this.patient.person.uuid
     };
@@ -81,6 +90,18 @@ export class EditContactsComponent implements OnInit, OnDestroy {
       }, {
         value: this.patnerPhoneNumber,
         attributeType: 'b0a08406-09c0-4f8b-8cb5-b22b6d4a8e46'
+      },
+      {
+        value: this.careGivername,
+        attributeType: '48876f06-7493-416e-855d-8413d894ea93'
+      },
+      {
+        value: this.relationshipToCareGiver,
+        attributeType: '06b0da36-e133-4be6-aec0-31e7ed0e1ac2'
+      },
+      {
+        value: this.careGiverPhoneNumber,
+        attributeType: 'bb8684a5-ac0b-4c2c-b9a5-1203e99952c2'
       }]
     };
     const payLoad = this.generatePersonAttributePayload(personAttributePayload,
@@ -174,5 +195,16 @@ export class EditContactsComponent implements OnInit, OnDestroy {
     }
     return payLoad;
   }
+
+  public getRelationShipTypes(): void {
+    const request = this.patientRelationshipTypeService.getRelationshipTypes();
+    request.subscribe((relationshipTypes) => {
+        if (relationshipTypes) {
+            this.patientRelationshipTypes = relationshipTypes;
+        }
+    }, (error) => {
+        console.error('Failed to get relation types because of the following ', error);
+    });
+}
 
 }

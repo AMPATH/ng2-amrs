@@ -58,6 +58,11 @@
         "url": "patient-gene-xpert-images",
         "label": "Gene Xpert Images",
         "icon": "icon-i-laboratory"
+      },
+      {
+        "url": "patient-ovc-enrollment",
+        "label": "OVC",
+        "icon": "fa fa-child"
       }
     ]
   },
@@ -335,8 +340,8 @@
       "programName": "OVC",
       "programUuid": "781d8768-1359-11df-a1f1-0026b9348838",
       "baseRoute": "781d8768-1359-11df-a1f1-0026b9348838",
-      "alias": "ovc",
-      "published": false,
+      "alias": "hiv",
+      "published": true,
       "requiresPatientEnrollment": true,
       "routes": [{
         "url": "visit",

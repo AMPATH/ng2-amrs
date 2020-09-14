@@ -126,12 +126,45 @@ export class Person extends BaseModel {
       }
     }
   }
+  public get caregiverName() {
+    const caregiverNamePersonAttributeTypeUuid = '48876f06-7493-416e-855d-8413d894ea93';
+    if (this._attributes) {
+      const caregiverName = this.getPersonAttribute(caregiverNamePersonAttributeTypeUuid);
+      if ( caregiverName) {
+        return  caregiverName;
+      } else {
+        return '';
+      }
+    }
+  }
+  public get relationshipToCaregiver() {
+    const relationshipToCaregiverPersonAttributeTypeUuid = '06b0da36-e133-4be6-aec0-31e7ed0e1ac2';
+    if (this._attributes) {
+      const relationshipToCaregiver = this.getPersonAttribute(relationshipToCaregiverPersonAttributeTypeUuid);
+      if ( relationshipToCaregiver) {
+        return  relationshipToCaregiver;
+      } else {
+        return '';
+      }
+    }
+  }
+  public get caregiverPhoneNumber() {
+    const caregiverPhoneNumberPersonAttributeTypeUuid = 'bb8684a5-ac0b-4c2c-b9a5-1203e99952c2';
+    if (this._attributes) {
+      const caregiverPhoneNumber = this.getPersonAttribute(caregiverPhoneNumberPersonAttributeTypeUuid);
+      if ( caregiverPhoneNumber) {
+        return  caregiverPhoneNumber;
+      } else {
+        return '';
+      }
+    }
+  }
   public get contacts() {
     const phoneNumberPersonAttributeTypeUuid = '72a759a8-1359-11df-a1f1-0026b9348838';
     const patnerPhoneNumberPersonAttributeTypeUuid = 'b0a08406-09c0-4f8b-8cb5-b22b6d4a8e46';
     const alternativePhoneNumberPersonAttributeTypeUuid = 'c725f524-c14a-4468-ac19-4a0e6661c930';
     const nextofkinPhoneNumberPersonAttributeTypeUuid = 'a657a4f1-9c0f-444b-a1fd-445bb91dd12d';
-
+    const caregiverPhoneNumberPersonAttributeTypeUuid = 'bb8684a5-ac0b-4c2c-b9a5-1203e99952c2';
     if (this._attributes) {
       let filteredContacts: {};
       const patnerPhoneNumber = this.getPersonAttribute(patnerPhoneNumberPersonAttributeTypeUuid);
@@ -140,6 +173,7 @@ export class Person extends BaseModel {
         this.getPersonAttribute(alternativePhoneNumberPersonAttributeTypeUuid);
       const nextofkinPhoneNumber =
         this.getPersonAttribute(nextofkinPhoneNumberPersonAttributeTypeUuid);
+      const caregiverPhoneNumber = this.getPersonAttribute(caregiverPhoneNumberPersonAttributeTypeUuid);
 
       if ((patnerPhoneNumber) === undefined && (patientPhoneNumber) === undefined &&
         (alternativePhoneNumber) === undefined && (nextofkinPhoneNumber) === undefined &&
@@ -154,7 +188,8 @@ export class Person extends BaseModel {
           patnerPhoneNumber: (patnerPhoneNumber),
           patientPhoneNumber: (patientPhoneNumber),
           alternativePhoneNumber: (alternativePhoneNumber),
-          nextofkinPhoneNumber: (nextofkinPhoneNumber)
+          nextofkinPhoneNumber: (nextofkinPhoneNumber),
+          caregiverPhoneNumber: (caregiverPhoneNumber)
         };
       }
       return filteredContacts;

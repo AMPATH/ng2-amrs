@@ -44,7 +44,9 @@ export class LocationResourceService {
 
     return this.locations;
   }
-
+  public getAmpathLocations() {
+    return this.http.get('./assets/locations/ampath_facilities.json');
+  }
   public getLocationByUuid(uuid: string, cached: boolean = false, v: string = null):
   Observable<any> {
 

@@ -33,6 +33,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   private patientServiceSubscription: Subscription;
   public relationships: any = [];
   public relationship: Relationship;
+  public ovcEnrollment = false;
   modalRef: BsModalRef;
   modalConfig = {
     backdrop: true,
@@ -52,6 +53,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
         if (patient) {
           this.patient = patient;
           this.searchIdentifiers = patient.searchIdentifiers;
+          this.getOvcEnrollments(patient.enrolledPrograms, patient.person.birthdate);
           const attributes = patient.person.attributes;
           _.each(attributes, (attribute) => {
             // get the test patient attribute
@@ -168,4 +170,13 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
       : (this.isPatientEnrolledToHIVProgram = false);
   }
 
+  private getOvcEnrollments(enrolledPrograms, birthdate) {
+    const todayMoment: any = Moment();
+    const birthDateMoment: any = Moment(birthdate);
+    const years = todayMoment.diff(birthDateMoment, 'year');
+    const ovc = enrolledPrograms.filter(program => program.concept.uuid === 'a89fbb12-1350-11df-a1f1-0026b9348838');
+    if (ovc.length > 0 && ovc[0].isEnrolled && years <= 19) {
+      this.ovcEnrollment = true;
+    }
+  }
 }

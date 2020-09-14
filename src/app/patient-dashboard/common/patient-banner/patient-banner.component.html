@@ -1,51 +1,49 @@
 <div class="container-fluid">
-<div class="row drafted-form-section">
+  <div class="row drafted-form-section">
     <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
       <drafted-form-nav></drafted-form-nav>
     </div>
-</div>
-<!-- <add-to-cohort-dialog *ngIf="showingAddToCohort" [(patient)]="patient" [allowCohortEdit]="true"
+  </div>
+  <!-- <add-to-cohort-dialog *ngIf="showingAddToCohort" [(patient)]="patient" [allowCohortEdit]="true"
                       (dialogClosed)="onAddingToCohortClosed()">
 </add-to-cohort-dialog>
 <transfer-care-dialog (dialogClosed)="closeDialog()"
                       *ngIf="manageProgramEnrollment"></transfer-care-dialog>-->
-<div class="row">
-<div
-  class="container-fluid patient-banner-partially hidden-sm hidden-md hidden-lg hidden-xl  {{ patient.person.dead ? 'banner-danger' : 'banner-info' }}"
-  *ngIf="patient" style="padding: 4px 26px;">
-  <div class="pull-left-">
-    <div class="row clearfix">
-      <span style="font-weight: bold;font-size:20px">{{ patient?.person.display}}</span>
-      <span>{{ patient?.person.gender}}</span>
-      <span>{{ birthdate }}
-        <span *ngIf="birthdate && patient?.person.age>=18">({{ patient?.person.age }} yo)</span>
-        <span *ngIf="birthdate && patient?.person.age<18">({{ formattedPatientAge }} )</span>
-      </span>
-      <span *ngIf="patient?.person.dead">Died on
-        <strong>{{ patient?.person.deathDate | date: 'dd-MM-yyyy'}}</strong></span>
-    </div>
-    <div class="row">
-      <span style="margin-left:0px;">
-       <span *ngIf="searchIdentifiers && !enrolled && isPatientEnrolledToHIVProgram">
-          <span *ngIf="searchIdentifiers?.cCC">
-            <span class="id-label">CCC:</span>
-            <span>{{searchIdentifiers?.cCC}}</span>
+  <div class="row">
+    <div class="container-fluid patient-banner-partially hidden-sm hidden-md hidden-lg hidden-xl  {{ patient.person.dead ? 'banner-danger' : 'banner-info' }}" *ngIf="patient" style="padding: 4px 26px;">
+      <div class="pull-left-">
+        <div class="row clearfix">
+          <span style="font-weight: bold;font-size:20px">{{ patient?.person.display}}</span>
+          <span>{{ patient?.person.gender}}</span>
+          <span>{{ birthdate }}
+            <span *ngIf="birthdate && patient?.person.age>=18">({{ patient?.person.age }} yo)</span>
+            <span *ngIf="birthdate && patient?.person.age<18">({{ formattedPatientAge }} )</span>
           </span>
-          <span *ngIf="!searchIdentifiers?.cCC" (click)="identifiers.showDialog('add', patient?._identifier,true)"
+          <span *ngIf="patient?.person.dead">Died on
+            <strong>{{ patient?.person.deathDate | date: 'dd-MM-yyyy'}}</strong></span>
+        </div>
+        <div class="row">
+          <span style="margin-left:0px;">
+            <span *ngIf="searchIdentifiers && !enrolled && isPatientEnrolledToHIVProgram">
+              <span *ngIf="searchIdentifiers?.cCC">
+                <span class="id-label">CCC:</span>
+                <span>{{searchIdentifiers?.cCC}}</span>
+              </span>
+              <span *ngIf="!searchIdentifiers?.cCC" (click)="identifiers.showDialog('add', patient?._identifier,true)"
                 style="color: darkorange; border: 1px solid darkorange; padding-left: 4px; padding-top: 2px; padding-bottom: 2px; padding-right: 0px; cursor: pointer;">
-              <span class="glyphicon glyphicon-info-sign"></span>
-              <span style="margin-left: -5px;">CCC: Not Assigned</span>
-          </span>
-        </span>
-          <span *ngIf="searchIdentifiers && enrolledToHEIProgram">
-            <span *ngIf="!searchIdentifiers?.hei" (click)="identifiers.showDialog('add', patient?._identifier,true)"
-              style="color: darkorange; border: 1px solid darkorange; padding-left: 4px; padding-top: 2px; padding-bottom: 2px; padding-right: 0px; cursor: pointer;">
-              <span class="glyphicon glyphicon-info-sign"></span>
-              <span style="margin-left: -5px;">HEI: Not Assigned</span>
+                <span class="glyphicon glyphicon-info-sign"></span>
+                <span style="margin-left: -5px;">CCC: Not Assigned</span>
+              </span>
             </span>
-        </span>
-        <span *ngIf="searchIdentifiers?.ampathMrsUId"> <span class="id-label">MUI:</span>
-          {{ searchIdentifiers?.ampathMrsUId }} &nbsp;&nbsp;&nbsp;&nbsp; </span>
+            <span *ngIf="searchIdentifiers && enrolledToHEIProgram">
+              <span *ngIf="!searchIdentifiers?.hei" (click)="identifiers.showDialog('add', patient?._identifier,true)"
+                style="color: darkorange; border: 1px solid darkorange; padding-left: 4px; padding-top: 2px; padding-bottom: 2px; padding-right: 0px; cursor: pointer;">
+                <span class="glyphicon glyphicon-info-sign"></span>
+                <span style="margin-left: -5px;">HEI: Not Assigned</span>
+              </span>
+            </span>
+            <span *ngIf="searchIdentifiers?.ampathMrsUId"> <span class="id-label">MUI:</span>
+              {{ searchIdentifiers?.ampathMrsUId }} &nbsp;&nbsp;&nbsp;&nbsp; </span>
             <span *ngIf="searchIdentifiers?.amrsMrn"> <span class="id-label">MRN:</span>
               {{ searchIdentifiers?.amrsMrn }}
               &nbsp;&nbsp;&nbsp;&nbsp; </span>
@@ -58,107 +56,127 @@
             <span *ngIf="searchIdentifiers?.bhim"> <span class="id-label">BHIM:</span> {{ searchIdentifiers?.bhim }} </span>
             <span *ngIf="attributes?.value"> <span class="id-label">Test Patient:</span> {{ attributes?.value }} </span>
             <span>
-        <div *ngIf="patient" class="btn-group pull-right" dropdown>
-          <button type="button" class="btn btn-default">Relationships</button>
-          <button id="button-split" type="button" dropdownToggle
-            class="btn btn-default dropdown-toggle dropdown-toggle-split" aria-controls="dropdown-split">
-            <span class="caret id-label"></span>
-          </button>
-          <ul id="relationship-dropdown" *dropdownMenu class="dropdown-menu" role="menu"
-            aria-labelledby="relationship-link">
-            <li *ngFor="let relationship of relationships">
-              <a class="dropdown-item" (click)="openRelationshipModal(template,relationship)">{{relationship.display}} ({{ relationship?.relationshipType  }})</a>
-            </li>
-            <li class="divider"></li>
-            <li style="cursor: pointer;">
-              <a (click)="addRelationship.showDialog()" class="dropdown-item"><i class="fa fa-plus"></i> Add</a>
-            </li>
-          </ul>
+              <span *ngIf="searchIdentifiers?.ovcid"> <span class="id-label">OVC ID:</span>
+                {{ searchIdentifiers?.ovcid }} </span>
+              <span *ngIf="ovcEnrollment && searchIdentifiers.ovcid == undefined"
+                (click)="identifiers.showDialog('add', patient?._identifier,true)"
+                style="color: rgb(25, 134, 40); border: 1px solid rgb(25, 134, 40); padding: 1px; cursor: pointer;">
+                <span class="id-label">OVC ID:</span>Not assigned
+              </span>
+              <span>
+                <div *ngIf="patient" class="btn-group pull-right" dropdown>
+                  <button type="button" class="btn btn-default">Relationships</button>
+                  <button id="button-split" type="button" dropdownToggle
+                    class="btn btn-default dropdown-toggle dropdown-toggle-split" aria-controls="dropdown-split">
+                    <span class="caret id-label"></span>
+                  </button>
+                  <ul id="relationship-dropdown" *dropdownMenu class="dropdown-menu" role="menu"
+                    aria-labelledby="relationship-link">
+                    <li *ngFor="let relationship of relationships">
+                      <a class="dropdown-item"
+                        (click)="openRelationshipModal(template,relationship)">{{relationship.display}}
+                        ({{ relationship?.relationshipType  }})</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li style="cursor: pointer;">
+                      <a (click)="addRelationship.showDialog()" class="dropdown-item"><i class="fa fa-plus"></i> Add</a>
+                    </li>
+                  </ul>
+                </div>
+              </span>
+            </span>
+            </span>
         </div>
-        </span>
-      </span>
+      </div>
     </div>
-  </div>
-
-  <!--<div class="pull-right">
+      <!--<div class="pull-right">
     <a (click)="showTransferCareModal()" class="pull-right"
        style="cursor: pointer;margin-left:15px;display: inline-block;"> <span
       style="display: inline-block;margin-right:5px; height: 43px;line-height: 43px !important;"
       class="icon-i-family-practice"></span>Manage Enrollment</a>-->
-  <!-- <a (click)="addToCohort()" class="pull-right" style="display: inline-block;"> <span
+      <!-- <a (click)="addToCohort()" class="pull-right" style="display: inline-block;"> <span
       style="display: inline-block;margin-right:5px; height: 43px;line-height: 43px !important;"
       class="fa fa-plus"></span>Add to Patient List</a>
     <span class="clear"></span>
   </div>-->
-</div>
-<div
-  class="container-fluid patient-banner-partially hidden-xs {{ patient.person.dead ? 'banner-danger' : 'banner-info' }}"
-  *ngIf="patient" style="padding: 12px 26px;">
-  <div class="pull-left-">
-    <div class="row clearfix">
-      <span style="font-weight: bold;font-size:20px">{{ patient?.person.display}}</span>
-      <span>{{ patient?.person.gender}}</span>
-      <span>{{ birthdate }}
-        <span *ngIf="birthdate && patient?.person.age>=18">({{ patient?.person.age }} yo)</span>
-        <span *ngIf="birthdate && patient?.person.age<18">({{ formattedPatientAge }} )</span>
-      </span>
-      <span *ngIf="patient?.person.dead">Died on
-        <strong>{{ patient?.person.deathDate | date: 'dd-MM-yyyy'}}</strong></span>
-      <span style="margin-left:0px;">
-       <span *ngIf="searchIdentifiers && !enrolled && isPatientEnrolledToHIVProgram">
-          <span *ngIf="searchIdentifiers?.cCC">
-            <span class="id-label">CCC:</span>
-            <span>{{searchIdentifiers?.cCC}}</span>
+    <div class="container-fluid patient-banner-partially hidden-xs {{ patient.person.dead ? 'banner-danger' : 'banner-info' }}"
+      *ngIf="patient" style="padding: 12px 26px;">
+      <div class="pull-left-">
+        <div class="row clearfix">
+          <span style="font-weight: bold;font-size:20px">{{ patient?.person.display}}</span>
+          <span>{{ patient?.person.gender}}</span>
+          <span>{{ birthdate }}
+            <span *ngIf="birthdate && patient?.person.age>=18">({{ patient?.person.age }} yo)</span>
+            <span *ngIf="birthdate && patient?.person.age<18">({{ formattedPatientAge }} )</span>
           </span>
-          <span *ngIf="!searchIdentifiers?.cCC" (click)="identifiers.showDialog('add', patient?._identifier,true)"
+          <span *ngIf="patient?.person.dead">Died on
+            <strong>{{ patient?.person.deathDate | date: 'dd-MM-yyyy'}}</strong></span>
+          <span style="margin-left:0px;">
+            <span *ngIf="searchIdentifiers && !enrolled && isPatientEnrolledToHIVProgram">
+              <span *ngIf="searchIdentifiers?.cCC">
+                <span class="id-label">CCC:</span>
+                <span>{{searchIdentifiers?.cCC}}</span>
+              </span>
+              <span *ngIf="!searchIdentifiers?.cCC" (click)="identifiers.showDialog('add', patient?._identifier,true)"
                 style="color: darkorange; border: 1px solid darkorange; padding-left: 4px; padding-top: 2px; padding-bottom: 2px; padding-right: 0px; cursor: pointer;">
-              <span class="glyphicon glyphicon-info-sign"></span>
-              <span style="margin-left: -5px;">CCC: Not Assigned</span>
+                <span class="glyphicon glyphicon-info-sign"></span>
+                <span style="margin-left: -5px;">CCC: Not Assigned</span>
+              </span>
+            </span>
+            <span *ngIf="searchIdentifiers && enrolledToHEIProgram">
+              <span *ngIf="!searchIdentifiers?.hei && enrolledToHEIProgram "
+                (click)="identifiers.showDialog('add', patient?._identifier,true)"
+                style="color: darkorange; border: 1px solid darkorange; padding-left: 4px; padding-top: 2px; padding-bottom: 2px; padding-right: 0px; cursor: pointer;">
+                <span class="glyphicon glyphicon-info-sign"></span>
+                <span style="margin-left: -5px;">HEI: Not Assigned</span>
+              </span>
+            </span>
+            <span *ngIf="searchIdentifiers?.ampathMrsUId"> <span class="id-label">MUI:</span>
+              {{ searchIdentifiers?.ampathMrsUId }} &nbsp;&nbsp;&nbsp;&nbsp; </span>
+            <span *ngIf="searchIdentifiers?.amrsMrn"> <span class="id-label">MRN:</span>
+              {{ searchIdentifiers?.amrsMrn }}
+              &nbsp;&nbsp;&nbsp;&nbsp; </span>
+            <span *ngIf="searchIdentifiers?.kenyaNationalId"> <span class="id-label">NID:</span>
+              {{ searchIdentifiers?.kenyaNationalId }} </span>
+            <span *ngIf="searchIdentifiers?.nat"> <span class="id-label">NAT:</span>
+              {{ searchIdentifiers?.nat }} </span>
+            <span *ngIf="searchIdentifiers?.hei"> <span class="id-label">HEI:</span> {{ searchIdentifiers?.hei }}
+            </span>
+            <span *ngIf="searchIdentifiers?.bhim"> <span class="id-label">BHIM:</span> {{ searchIdentifiers?.bhim }} </span>
+            <span *ngIf="searchIdentifiers?.ovcid"> <span class="id-label">OVC ID:</span> {{ searchIdentifiers?.ovcid }}
+            </span>
+            <span *ngIf="attributes?.value"> <span class="id-label">Test Patient:</span> {{ attributes?.value }} </span>
+            <span *ngIf="ovcEnrollment && searchIdentifiers.ovcid == undefined"
+              (click)="identifiers.showDialog('add', patient?._identifier,true)"
+              style="color: rgb(25, 134, 40); border: 1px solid rgb(25, 134, 40); padding-left: 4px; padding: 1px; cursor: pointer;">
+              <span class="id-label">OVC ID:</span>Not assigned
+            </span>
           </span>
-        </span>
-        <span *ngIf="searchIdentifiers && enrolledToHEIProgram">
-          <span *ngIf="!searchIdentifiers?.hei && enrolledToHEIProgram "
-            (click)="identifiers.showDialog('add', patient?._identifier,true)"
-            style="color: darkorange; border: 1px solid darkorange; padding-left: 4px; padding-top: 2px; padding-bottom: 2px; padding-right: 0px; cursor: pointer;">
-            <span class="glyphicon glyphicon-info-sign"></span>
-            <span style="margin-left: -5px;">HEI: Not Assigned</span>
-          </span>
-        </span>
-        <span *ngIf="searchIdentifiers?.ampathMrsUId"> <span class="id-label">MUI:</span>
-          {{ searchIdentifiers?.ampathMrsUId }} &nbsp;&nbsp;&nbsp;&nbsp; </span>
-        <span *ngIf="searchIdentifiers?.amrsMrn"> <span class="id-label">MRN:</span> {{ searchIdentifiers?.amrsMrn }}
-          &nbsp;&nbsp;&nbsp;&nbsp; </span>
-        <span *ngIf="searchIdentifiers?.kenyaNationalId"> <span class="id-label">NID:</span>
-          {{ searchIdentifiers?.kenyaNationalId }} </span>
-        <span *ngIf="searchIdentifiers?.nat"> <span class="id-label">NAT:</span>
-          {{ searchIdentifiers?.nat }} </span>
-        <span *ngIf="searchIdentifiers?.hei"> <span class="id-label">HEI:</span> {{ searchIdentifiers?.hei }} </span>
-        <span *ngIf="searchIdentifiers?.bhim"> <span class="id-label">BHIM:</span> {{ searchIdentifiers?.bhim }} </span>
-        <span *ngIf="attributes?.value"> <span class="id-label">Test Patient:</span> {{ attributes?.value }} </span>
-      </span>
-      <div *ngIf="patient && relationships.length > 0" class="btn-group pull-right" dropdown>
-        <button type="button" class="btn btn-default">Relationships</button>
-        <button id="button-split" type="button" dropdownToggle
-          class="btn btn-default dropdown-toggle dropdown-toggle-split" aria-controls="dropdown-split">
-          <span class="caret id-label"></span>
-        </button>
-        <ul id="relationship-dropdown" *dropdownMenu class="dropdown-menu" role="menu"
-          aria-labelledby="relationship-link">
-          <li *ngFor="let relationship of relationships">
-            <a class="dropdown-item" (click)="openRelationshipModal(template,relationship)">{{relationship.display}} ({{ relationship?.relationshipType  }})</a>
-          </li>
-          <li class="divider"></li>
-          <li style="cursor: pointer;">
-            <a (click)="addRelationship.showDialog()" class="dropdown-item"><i class="fa fa-plus"></i> Add</a>
-          </li>
-        </ul>
+          <div *ngIf="patient && relationships.length > 0" class="btn-group pull-right" dropdown>
+            <button type="button" class="btn btn-default">Relationships</button>
+            <button id="button-split" type="button" dropdownToggle
+              class="btn btn-default dropdown-toggle dropdown-toggle-split" aria-controls="dropdown-split">
+              <span class="caret id-label"></span>
+            </button>
+            <ul id="relationship-dropdown" *dropdownMenu class="dropdown-menu" role="menu"
+              aria-labelledby="relationship-link">
+              <li *ngFor="let relationship of relationships">
+                <a class="dropdown-item" (click)="openRelationshipModal(template,relationship)">{{relationship.display}}
+                  ({{ relationship?.relationshipType  }})</a>
+              </li>
+              <li class="divider"></li>
+              <li style="cursor: pointer;">
+                <a (click)="addRelationship.showDialog()" class="dropdown-item"><i class="fa fa-plus"></i> Add</a>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
 
 
 
-  <!--<div class="pull-right">
+      <!--<div class="pull-right">
     <a (click)="showTransferCareModal()" class="pull-right"
        style="cursor: pointer;margin-left:15px; display: inline-block;"> <span
       style="display: inline-block;margin-right:5px; height: 43px;line-height: 43px !important;"
@@ -168,64 +186,67 @@
       class="fa fa-plus"></span>Add to Patient List</a>
     <span class="clear"></span>
   </div>-->
-</div>
-</div>
-    <div class="row">
-        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-              <ng-template #template>
-                  <div class="modal-dialog modal-sm modal-lg">
-                      <div class="modal-content">
-                          <div class="modal-header">
-                            <h4 class="modal-title pull-left">
-                              Related Patient Summary Snapshot
-                            </h4>
-                            <button type="button" class="close pull-right" aria-label="Close" (click)="closeRelationshipModal()">
-                              <span aria-hidden="true">&times;</span>
-                            </button>
-                          </div>
-                          <div class="modal-body">
-                            <div class="container-fluid">
-                              <div class="row">
-                                  <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-                                      <div class="alert alert-warning alert-clear">
-                                          <h4>
-                                            <span *ngIf="relationship?.relatedPerson?.display">
-                                              {{ relationship?.relatedPerson?.display }} &nbsp;&nbsp;&nbsp;&nbsp; </span>
-                                            <span *ngIf="relationship?.relatedPerson?.gender">
-                                              {{ relationship?.relatedPerson?.gender }} &nbsp;&nbsp;&nbsp;&nbsp; </span>
-                                            <span *ngIf="relationship?.relatedPerson?.birthdate">
-                                              ({{ relationship?.relatedPerson?.birthdate | ngamrsAge  }} yo) &nbsp;&nbsp;&nbsp;&nbsp; </span>
-                                            <span *ngIf="relationship?.relationshipType"> <span class="id-label">Type:</span>
-                                              {{ relationship?.relationshipType  }} &nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                          </h4>
-                                      </div>
-                                  </div>
-                                  <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 edit-relationship-col">
-                                      <span *ngIf="relationship?.relatedPerson?.uuid">
-                                          <button type="button pull-right" (click)="navigateToPatientInfo(relationship?.relatedPerson?.uuid)" class="btn btn-primary pull-right">Edit Relationships</button>
-                                      </span>
-                                  </div>
-                                  <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-                                      <mat-tab-group animationDuration="0ms">
-                                          <mat-tab label="Hiv Summary Snapshot">
-                                            <hiv-summary-latest *ngIf="relationship" [patientUuid]="relationship.relatedPerson.uuid"></hiv-summary-latest>
-                                          </mat-tab>
-                                        </mat-tab-group>
-                                  </div>
-                              </div>
-
-                          </div>
-                          </div>
-                          <div class="modal-footer">
-                              <button class="btn btn-danger btn-lg pull-right"  (click)="closeRelationshipModal()"  data-dismiss="modal">Close</button>
-                          </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+      <ng-template #template>
+        <div class="modal-dialog modal-sm modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title pull-left">
+                Related Patient Summary Snapshot
+              </h4>
+              <button type="button" class="close pull-right" aria-label="Close" (click)="closeRelationshipModal()">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+                    <div class="alert alert-warning alert-clear">
+                      <h4>
+                        <span *ngIf="relationship?.relatedPerson?.display">
+                          {{ relationship?.relatedPerson?.display }} &nbsp;&nbsp;&nbsp;&nbsp; </span>
+                        <span *ngIf="relationship?.relatedPerson?.gender">
+                          {{ relationship?.relatedPerson?.gender }} &nbsp;&nbsp;&nbsp;&nbsp; </span>
+                        <span *ngIf="relationship?.relatedPerson?.birthdate">
+                          ({{ relationship?.relatedPerson?.birthdate | ngamrsAge  }} yo) &nbsp;&nbsp;&nbsp;&nbsp;
+                        </span>
+                        <span *ngIf="relationship?.relationshipType"> <span class="id-label">Type:</span>
+                          {{ relationship?.relationshipType  }} &nbsp;&nbsp;&nbsp;&nbsp;</span>
+                      </h4>
                     </div>
                   </div>
-              </ng-template>
-        </div>
-    </div>
-</div>
-<div class="margin-bottom-5 clear clear-fix">&nbsp;</div>
+                  <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 edit-relationship-col">
+                    <span *ngIf="relationship?.relatedPerson?.uuid">
+                      <button type="button pull-right"
+                        (click)="navigateToPatientInfo(relationship?.relatedPerson?.uuid)"
+                        class="btn btn-primary pull-right">Edit Relationships</button>
+                    </span>
+                  </div>
+                  <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+                    <mat-tab-group animationDuration="0ms">
+                      <mat-tab label="Hiv Summary Snapshot">
+                        <hiv-summary-latest *ngIf="relationship" [patientUuid]="relationship.relatedPerson.uuid">
+                        </hiv-summary-latest>
+                      </mat-tab>
+                    </mat-tab-group>
+                  </div>
+                </div>
 
-<add-relationship #addRelationship></add-relationship>
-<edit-identifiers #identifiers></edit-identifiers>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-danger btn-lg pull-right" (click)="closeRelationshipModal()"
+                data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>
+  <div class="margin-bottom-5 clear clear-fix">&nbsp;</div>
+  <add-relationship #addRelationship></add-relationship>
+  <edit-identifiers #identifiers></edit-identifiers>

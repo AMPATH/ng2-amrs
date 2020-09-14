@@ -20,6 +20,7 @@ import { ProgramWorkFlowResourceService
 import { ProgramWorkFlowStateResourceService
 } from '../../../openmrs-api/program-workflow-state-resource.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { LocationResourceService } from 'src/app/openmrs-api/location-resource.service';
 
 describe('Component: EditAddress Unit Tests', () => {
 
@@ -51,6 +52,9 @@ describe('Component: EditAddress Unit Tests', () => {
         },
         {
           provide: PatientResourceService,
+        },
+        {
+          provide: LocationResourceService,
         },
         AppSettingsService,
         LocalStorageService
