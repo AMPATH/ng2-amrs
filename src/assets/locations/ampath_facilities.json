@@ -1,0 +1,140 @@
+{
+    "counties": [
+        {
+            "name": "Bungoma",
+            "subcounties": [
+                {
+                    "name":"Webuye West Sub County",
+                    "wards": [
+                        "Sitikho ward",
+                        "Bokoli ward",
+                        "Matulo ward"
+                    ]
+                },
+                {
+                    "name":"Webuye  East Sub County",
+                    "wards": [
+                        "Mihuu Ward"
+                    ]
+                },
+                {
+                    "names":"Mt Elgon Sub County",
+                    "wards": [
+                        "Kaptama Ward"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Busia",
+            "subcounties": [
+                {
+                    "name":"Bunyala Sub County",
+                    "wards": [
+                        "Bunyala West Ward",
+                        "Bunyala South Ward",
+                        "Bunyala Central Ward"
+                    ]
+                },
+                {
+                    "name":"Butula Sub County",
+                    "wards": [
+                        "Marachi West Ward",
+                        "Marachi Central Ward",
+                        "Marachi Central Ward"
+                    ]
+                },
+                {
+                    "name":"Matayos Sub County",
+                    "wards": [
+                        "Matayos South Ward",
+                        "Burumba Ward"
+                    ]
+                },
+                {
+                    "name":"Teso North Sub County",
+                    "wards": [
+                        "Malaba South Ward",
+                        "Malaba South Ward",
+                        "Malaba Central Ward",
+                        "Ang'Urai North Ward",
+                        "Ang'Urai East Ward"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Trans-Nzoia",
+            "subcounties": [
+                {
+                    "name":"Kiminini  Sub County",
+                    "wards": [
+                        "Hospital Ward"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Uasin Gishu",
+            "subcounties": [
+                {
+                    "name":"Ainabkoi Sub County",
+                    "wards": [
+                        "Kaptagat Ward",
+                        "Kapsoya Ward",
+                        "Kapsoya Ward",
+                        "Ainabkoi/Olare Ward"
+                    ]
+                },
+                {
+                    "name":"Kapseret Sub County",
+                    "wards": [
+                        "KIPKENYO WARD"
+                    ]
+                },
+                {
+                    "name":"Kesses Sub County",
+                    "wards": [
+                        "Tulwet/Chuiyat Ward",
+                        "Tulwet/Chuiyat Ward",
+                        "Racecourse Ward"
+                    ]
+                },
+                {
+                    "name":"Moiben Sub County",
+                    "wards": [
+                        "MOIBEN WARD",
+                        "KIMUMU WARD"
+                    ]
+                },
+                {
+                    "name":"Soy Sub County",
+                    "wards": [
+                        "ZIWA SIRIKWA WARD",
+                        "SOY WARD",
+                        "MOI'S BRIDGE WARD"
+                    ]
+                },
+                {
+                    "name":"Turbo Sub County",
+                    "wards": [
+                        "TABSAGOI WARD",
+                        "NGENYILEL WARD",
+                        "HURUMA WARD"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Nandi",
+            "subcounties": [
+                {
+                    "name":"Chesumei Sub County",
+                    "wards": [
+                        "Lelmokwo /Ngechek Ward"
+                    ]
+                }
+            ]
+        }
+    ]
+}

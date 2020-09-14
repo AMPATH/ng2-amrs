@@ -15,6 +15,7 @@ export class AddressComponent implements OnInit, OnDestroy {
   public address1: string;
   public address2: string;
   public address3: string;
+  public address7: string;
   public cityVillage: string;
   public stateProvince: string;
   public latitude: string;
@@ -42,6 +43,7 @@ export class AddressComponent implements OnInit, OnDestroy {
             this.address1 = (this.patients.person.preferredAddress as any).address1;
             this.address2 = (this.patients.person.preferredAddress as any).address2;
             this.address3 = (this.patients.person.preferredAddress as any).address3;
+            this.address7 = (this.patients.person.preferredAddress as any).address7;
             this.cityVillage = (this.patients.person.preferredAddress as any).cityVillage;
             this.stateProvince = (this.patients.person.preferredAddress as any).stateProvince;
             this.latitude = (this.patients.person.preferredAddress as any).latitude;

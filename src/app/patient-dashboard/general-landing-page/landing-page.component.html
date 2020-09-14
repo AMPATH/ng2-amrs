@@ -49,7 +49,8 @@
             <div class="ui-grid-col-12 buttons">
               <a class="btn btn-primary" routerLink="{{row.buttons.landing.url}}"
                  *ngIf="row.isEnrolled">{{row.buttons.landing.display}}</a>
-              <a class="btn btn-info" routerLink="{{row.buttons.visit.url}}" *ngIf="row.isEnrolled">{{row.buttons.visit.display}}</a>
+              <a class="btn btn-info" routerLink="{{row.buttons.visit.url}}" *ngIf="row.program.uuid!=='781d8768-1359-11df-a1f1-0026b9348838'">{{row.buttons.visit.display}}</a>
+              <a class="btn btn-danger" routerLink="{{row.buttons.program_manager.url}}" *ngIf="row.isEnrolled && row.program.uuid=='781d8768-1359-11df-a1f1-0026b9348838'">{{row.buttons.program_manager.display}}</a>
               <a class="btn btn-success" (click)="showReferralEncounter(row)"
                  *ngIf="row.referred_from_location && !row.referral_completed">Referral Details</a>
             </div>

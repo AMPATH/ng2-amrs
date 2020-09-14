@@ -82,6 +82,10 @@ export class PatientProgramService {
                   display: 'Program Visit',
                   url: route ? '/patient-dashboard/patient/' + patientUuid + '/' + route.alias + '/' +
                     route.baseRoute + '/visit' : null
+                },
+                program_manager: {
+                  display: 'Exit',
+                  url: route ? '/patient-dashboard/patient/' + patientUuid + '/general/general/program-manager' : null
                 }
               },
               isEnrolled: !_.isNil(_enrolledProgram) && _.isNull(_enrolledProgram.dateCompleted)

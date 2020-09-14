@@ -7,4 +7,5 @@ export class Patient {
   public amrsMrn: number;
   public cCC: number;
   public kenyaNationalId: number;
+  public ovcid: number;
 }
