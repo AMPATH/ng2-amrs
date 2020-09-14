@@ -51,10 +51,13 @@ export class LocationResourceService {
   public getAmpathLocations() {
     return this.http.get('./assets/locations/ampath_facilities.json');
   }
-  public getLocationByUuid(uuid: string, cached: boolean = false, v: string = null):
-  Observable<any> {
-
-    let url = this.appSettingsService.getOpenmrsRestbaseurl().trim() + 'location';
+  public getLocationByUuid(
+    uuid: string,
+    cached: boolean = false,
+    v: string = null
+  ): Observable<any> {
+    let url =
+      this.appSettingsService.getOpenmrsRestbaseurl().trim() + 'location';
     url += '/' + uuid;
 
     const params: HttpParams = new HttpParams().set(

@@ -29,8 +29,12 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
   public colorCode: any;
   public exitedCare: any;
 
-  constructor(private hivSummaryService: HivSummaryService, private _encounterResource: EncounterResourceService,
-    private patientService: PatientService, private patientResourceService: PatientResourceService) { }
+  constructor(
+    private hivSummaryService: HivSummaryService,
+    private _encounterResource: EncounterResourceService,
+    private patientService: PatientService,
+    private patientResourceService: PatientResourceService
+  ) {}
 
   public ngOnInit() {
     this.loadPatient();
@@ -65,39 +69,44 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
   }
   checkNonEnrollmentandExitEncounter(patient) {
     const encounters = patient.encounters;
-    const nonEnrollmentEncounter = encounters.filter(enc => {
+    const nonEnrollmentEncounter = encounters.filter((enc) => {
       if (enc.encounterType.uuid === '824ca90d-c313-4d7e-bc99-119871d927cb') {
         return enc.uuid;
       }
     });
-    const exitEncounter = encounters.filter(enc => {
+    const exitEncounter = encounters.filter((enc) => {
       if (enc.encounterType.uuid === '06e5321e-fc08-4995-aaa3-19c76b48cd22') {
         this.exitedCare = true;
         return enc.uuid;
       }
     });
     if (exitEncounter.length > 0) {
-      this._encounterResource.getEncounterByUuid(exitEncounter[0].uuid).subscribe(data => {
-        this.colorCode = 'list-group-item-danger';
-        data.obs.filter(ob => {
-          if (ob.concept.uuid === 'a89e3f94-1350-11df-a1f1-0026b9348838') {
-            this.ovcStatus = `Exited:  ${ob.value.display}`;
-          }
+      this._encounterResource
+        .getEncounterByUuid(exitEncounter[0].uuid)
+        .subscribe((data) => {
+          this.colorCode = 'list-group-item-danger';
+          data.obs.filter((ob) => {
+            if (ob.concept.uuid === 'a89e3f94-1350-11df-a1f1-0026b9348838') {
+              this.ovcStatus = `Exited:  ${ob.value.display}`;
+            }
+          });
         });
-      });
     }
     if (nonEnrollmentEncounter.length > 0) {
-      this._encounterResource.getEncounterByUuid(nonEnrollmentEncounter[0].uuid).subscribe(data => {
-        this.colorCode = 'list-group-item-danger';
-        data.obs.filter(ob => {
-          if (ob.concept.uuid === '33d36d0a-4d1b-404c-8f09-e891af4dadbe') {
-            this.ovcStatus = `Decline Reason: ${ob.value}`;
-          } else if (ob.concept.uuid === '06bbb2b0-e2a8-42bc-978f-5dc1eb16ebc1') {
-            this.ovcStatus = `Decline Reason: ${ob.value.display}`;
-          }
+      this._encounterResource
+        .getEncounterByUuid(nonEnrollmentEncounter[0].uuid)
+        .subscribe((data) => {
+          this.colorCode = 'list-group-item-danger';
+          data.obs.filter((ob) => {
+            if (ob.concept.uuid === '33d36d0a-4d1b-404c-8f09-e891af4dadbe') {
+              this.ovcStatus = `Decline Reason: ${ob.value}`;
+            } else if (
+              ob.concept.uuid === '06bbb2b0-e2a8-42bc-978f-5dc1eb16ebc1'
+            ) {
+              this.ovcStatus = `Decline Reason: ${ob.value.display}`;
+            }
+          });
         });
-      });
-
     } else {
       this.ovcStatus = 'Not enrolled. Refer to social worker';
       this.colorCode = 'list-group-item-warning';
@@ -256,7 +265,10 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
     }
   }
   private getOvcEnrollments(enrolledPrograms) {
-    const ovc = enrolledPrograms.filter(program => program.concept.uuid === 'a89fbb12-1350-11df-a1f1-0026b9348838');
+    const ovc = enrolledPrograms.filter(
+      (program) =>
+        program.concept.uuid === 'a89fbb12-1350-11df-a1f1-0026b9348838'
+    );
     if (ovc.length > 0 && ovc[0].isEnrolled) {
       return true;
     }

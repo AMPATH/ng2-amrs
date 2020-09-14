@@ -178,7 +178,10 @@ export const routes = [
               }
             ]
           },
-          { path: ':programClass/:program/patient-ovc-enrollment', component: OvcSnapshotComponent },
+          {
+            path: ':programClass/:program/patient-ovc-enrollment',
+            component: OvcSnapshotComponent
+          }
         ]
       }
     ]

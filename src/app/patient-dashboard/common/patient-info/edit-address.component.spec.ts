@@ -51,7 +51,7 @@ describe('Component: EditAddress Unit Tests', () => {
           provide: PatientResourceService
         },
         {
-          provide: LocationResourceService,
+          provide: LocationResourceService
         },
         AppSettingsService,
         LocalStorageService

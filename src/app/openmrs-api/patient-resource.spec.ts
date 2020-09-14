@@ -48,15 +48,19 @@ describe('PatientService Unit Tests', () => {
       done();
     });
 
-    const req = httpMock.expectOne(service.getUrl() + '/' + patientUuid +
-      '?v=custom:(uuid,display,' +
-      'identifiers:(identifier,uuid,preferred,location:(uuid,name),' +
-      'identifierType:(uuid,name,format,formatDescription,validator)),' +
-      'person:(uuid,display,gender,birthdate,dead,age,deathDate,birthdateEstimated,' +
-      'causeOfDeath,preferredName:(uuid,preferred,givenName,middleName,familyName),'
-      + 'attributes,preferredAddress:(uuid,preferred,address1,address2,cityVillage,longitude,' +
-      'stateProvince,latitude,country,postalCode,countyDistrict,address3,address4,address5' +
-      ',address6,address7)))');
+    const req = httpMock.expectOne(
+      service.getUrl() +
+        '/' +
+        patientUuid +
+        '?v=custom:(uuid,display,' +
+        'identifiers:(identifier,uuid,preferred,location:(uuid,name),' +
+        'identifierType:(uuid,name,format,formatDescription,validator)),' +
+        'person:(uuid,display,gender,birthdate,dead,age,deathDate,birthdateEstimated,' +
+        'causeOfDeath,preferredName:(uuid,preferred,givenName,middleName,familyName),' +
+        'attributes,preferredAddress:(uuid,preferred,address1,address2,cityVillage,longitude,' +
+        'stateProvince,latitude,country,postalCode,countyDistrict,address3,address4,address5' +
+        ',address6,address7)))'
+    );
     expect(req.request.urlWithParams).toContain('patient/' + patientUuid);
     expect(req.request.urlWithParams).toContain('v=');
     expect(req.request.method).toBe('GET');
@@ -92,15 +96,19 @@ describe('PatientService Unit Tests', () => {
       done();
     });
 
-    const req = httpMock.expectOne(service.getUrl() + '?q=' + searchText +
-      '&v=custom:(uuid,display,' +
-      'identifiers:(identifier,uuid,preferred,location:(uuid,name),' +
-      'identifierType:(uuid,name,format,formatDescription,validator)),' +
-      'person:(uuid,display,gender,birthdate,dead,age,deathDate,birthdateEstimated,' +
-      'causeOfDeath,preferredName:(uuid,preferred,givenName,middleName,familyName),'
-      + 'attributes,preferredAddress:(uuid,preferred,address1,address2,cityVillage,longitude,' +
-      'stateProvince,latitude,country,postalCode,countyDistrict,address3,address4,address5' +
-      ',address6,address7)))');
+    const req = httpMock.expectOne(
+      service.getUrl() +
+        '?q=' +
+        searchText +
+        '&v=custom:(uuid,display,' +
+        'identifiers:(identifier,uuid,preferred,location:(uuid,name),' +
+        'identifierType:(uuid,name,format,formatDescription,validator)),' +
+        'person:(uuid,display,gender,birthdate,dead,age,deathDate,birthdateEstimated,' +
+        'causeOfDeath,preferredName:(uuid,preferred,givenName,middleName,familyName),' +
+        'attributes,preferredAddress:(uuid,preferred,address1,address2,cityVillage,longitude,' +
+        'stateProvince,latitude,country,postalCode,countyDistrict,address3,address4,address5' +
+        ',address6,address7)))'
+    );
     expect(req.request.urlWithParams).toContain('q=' + searchText);
     expect(req.request.urlWithParams).toContain('&v=');
     expect(req.request.method).toBe('GET');
@@ -157,15 +165,19 @@ describe('PatientService Unit Tests', () => {
     const searchText = 'test';
 
     service.searchPatient(searchText).subscribe();
-    const req = httpMock.expectOne(service.getUrl() + '?q=' + searchText +
-    '&v=custom:(uuid,display,' +
-    'identifiers:(identifier,uuid,preferred,location:(uuid,name),' +
-    'identifierType:(uuid,name,format,formatDescription,validator)),' +
-    'person:(uuid,display,gender,birthdate,dead,age,deathDate,birthdateEstimated,' +
-    'causeOfDeath,preferredName:(uuid,preferred,givenName,middleName,familyName),'
-    + 'attributes,preferredAddress:(uuid,preferred,address1,address2,cityVillage,longitude,' +
-    'stateProvince,latitude,country,postalCode,countyDistrict,address3,address4,address5' +
-    ',address6,address7)))');
+    const req = httpMock.expectOne(
+      service.getUrl() +
+        '?q=' +
+        searchText +
+        '&v=custom:(uuid,display,' +
+        'identifiers:(identifier,uuid,preferred,location:(uuid,name),' +
+        'identifierType:(uuid,name,format,formatDescription,validator)),' +
+        'person:(uuid,display,gender,birthdate,dead,age,deathDate,birthdateEstimated,' +
+        'causeOfDeath,preferredName:(uuid,preferred,givenName,middleName,familyName),' +
+        'attributes,preferredAddress:(uuid,preferred,address1,address2,cityVillage,longitude,' +
+        'stateProvince,latitude,country,postalCode,countyDistrict,address3,address4,address5' +
+        ',address6,address7)))'
+    );
     expect(req.request.urlWithParams).toContain('q=' + searchText);
     expect(req.request.urlWithParams).toContain('&v=');
     expect(req.request.method).toBe('GET');

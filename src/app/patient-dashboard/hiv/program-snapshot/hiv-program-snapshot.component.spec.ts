@@ -302,8 +302,12 @@ describe('Component: HivProgramSnapshotComponent', () => {
         'Last Viral Load: 2000  (17-03-2019)'
       );
       expect(snapshotRows[4].textContent).toContain('RTC Date: 29-07-2019');
-      expect(snapshotRows[5].textContent).toContain('Care Status:  Continue With Care');
-      expect(snapshotRows[7].textContent).toContain('Morisky Score:  0/4 - Good');
+      expect(snapshotRows[5].textContent).toContain(
+        'Care Status:  Continue With Care'
+      );
+      expect(snapshotRows[7].textContent).toContain(
+        'Morisky Score:  0/4 - Good'
+      );
       expect(snapshotRows[6].textContent).toContain('Disclosure Status:  No');
     });
   }));

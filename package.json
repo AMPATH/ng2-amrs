@@ -23,7 +23,10 @@
     }
   },
   "lint-staged": {
-    "*.{js,css,md,ts}": ["prettier --write src/app", "npm run lint ngx-amrs"]
+    "*.{js,css,md,ts}": [
+      "prettier --write src/app",
+      "npm run lint ngx-amrs"
+    ]
   },
   "private": true,
   "dependencies": {

@@ -109,23 +109,27 @@ export class Patient extends BaseModel {
       const nat = this.getIdentifierByType(identifier, 'NAT');
       const bhim = this.getIdentifierByType(identifier, 'BHIM');
       const ovcid = this.getIdentifierByType(identifier, 'OVCID');
-      if ((kenyaNationalId) === undefined && (amrsMrn) === undefined &&
-        (ampathMrsUId) === undefined && (cCC) === undefined) {
-        if ((this._identifier[0].identifier)) {
-          filteredIdentifiers = {'default': this._identifier[0].identifier};
+      if (
+        kenyaNationalId === undefined &&
+        amrsMrn === undefined &&
+        ampathMrsUId === undefined &&
+        cCC === undefined
+      ) {
+        if (this._identifier[0].identifier) {
+          filteredIdentifiers = { default: this._identifier[0].identifier };
         } else {
           filteredIdentifiers = { default: '' };
         }
       } else {
         filteredIdentifiers = {
-          'kenyaNationalId': kenyaNationalId,
-          'amrsMrn': amrsMrn,
-          'ampathMrsUId': ampathMrsUId,
-          'cCC': cCC,
-          'hei': hei,
-          'nat': nat,
-          'bhim': bhim,
-          'ovcid': ovcid,
+          kenyaNationalId: kenyaNationalId,
+          amrsMrn: amrsMrn,
+          ampathMrsUId: ampathMrsUId,
+          cCC: cCC,
+          hei: hei,
+          nat: nat,
+          bhim: bhim,
+          ovcid: ovcid
         };
       }
       return filteredIdentifiers;
@@ -155,20 +159,26 @@ export class Patient extends BaseModel {
       );
       const cCC = this.getAllIdentifiersByType(identifiers, 'CCC Number');
       const ovcid = this.getIdentifierByType(identifiers, 'OVCID');
-      if ((kenyaNationalId) === undefined && (amrsMrn) === undefined &&
-        (ampathMrsUId) === undefined && (cCC) === undefined) {
-        if ((this._identifier[0].identifier)) {
-          filteredIdentifiers = {'default': this._identifier[0].identifier};
+      if (
+        kenyaNationalId === undefined &&
+        amrsMrn === undefined &&
+        ampathMrsUId === undefined &&
+        cCC === undefined
+      ) {
+        if (this._identifier[0].identifier) {
+          filteredIdentifiers = { default: this._identifier[0].identifier };
         } else {
           filteredIdentifiers = { default: '' };
         }
       } else {
         filteredIdentifiers = {
-          'kenyaNationalId': this._fromArrayToCommaSeparatedString(kenyaNationalId),
-          'amrsMrn': this._fromArrayToCommaSeparatedString(amrsMrn),
-          'ampathMrsUId': this._fromArrayToCommaSeparatedString(ampathMrsUId),
-          'cCC': this._fromArrayToCommaSeparatedString(cCC),
-          'ovcid': this._fromArrayToCommaSeparatedString(ovcid),
+          kenyaNationalId: this._fromArrayToCommaSeparatedString(
+            kenyaNationalId
+          ),
+          amrsMrn: this._fromArrayToCommaSeparatedString(amrsMrn),
+          ampathMrsUId: this._fromArrayToCommaSeparatedString(ampathMrsUId),
+          cCC: this._fromArrayToCommaSeparatedString(cCC),
+          ovcid: this._fromArrayToCommaSeparatedString(ovcid)
         };
       }
       return filteredIdentifiers;

@@ -11,13 +11,9 @@ import { PatientRelationshipTypeService } from '../patient-relationships/patient
 
 describe('Component: EditContacts Unit Tests', () => {
   let personResourceService: PersonResourceService,
-<<<<<<< HEAD
-    fakeAppFeatureAnalytics: AppFeatureAnalytics, patientService: PatientService,
-    relationshipTypes: PatientRelationshipTypeService,
-=======
     fakeAppFeatureAnalytics: AppFeatureAnalytics,
     patientService: PatientService,
->>>>>>> Format src/app/patient-dashboard
+    relationshipTypes: PatientRelationshipTypeService,
     component;
 
   beforeEach(() => {
@@ -46,15 +42,11 @@ describe('Component: EditContacts Unit Tests', () => {
     personResourceService = TestBed.get(PersonResourceService);
     relationshipTypes = TestBed.get(PatientRelationshipTypeService);
     fakeAppFeatureAnalytics = TestBed.get(AppFeatureAnalytics);
-<<<<<<< HEAD
-    component = new EditContactsComponent(patientService, personResourceService, relationshipTypes);
-
-=======
     component = new EditContactsComponent(
       patientService,
-      personResourceService
+      personResourceService,
+      relationshipTypes
     );
->>>>>>> Format src/app/patient-dashboard
   });
 
   afterEach(() => {

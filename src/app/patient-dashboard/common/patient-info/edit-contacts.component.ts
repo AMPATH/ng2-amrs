@@ -35,10 +35,11 @@ export class EditContactsComponent implements OnInit, OnDestroy {
   public selectedRelationshipType: any;
   public successAlert = '';
 
-  constructor(private patientService: PatientService,
+  constructor(
+    private patientService: PatientService,
     private personResourceService: PersonResourceService,
-    private patientRelationshipTypeService: PatientRelationshipTypeService) {
-  }
+    private patientRelationshipTypeService: PatientRelationshipTypeService
+  ) {}
   public ngOnInit() {
     this.getPatient();
     this.getRelationShipTypes();
@@ -77,31 +78,36 @@ export class EditContactsComponent implements OnInit, OnDestroy {
       uuid: this.patient.person.uuid
     };
     const personAttributePayload = {
-      attributes: [{
-        value: this.patientPhoneNumber,
-        attributeType: '72a759a8-1359-11df-a1f1-0026b9348838'
-      }, {
-        value: this.alternativePhoneNumber,
-        attributeType: 'c725f524-c14a-4468-ac19-4a0e6661c930'
-      }, {
-        value: this.nextofkinPhoneNumber,
-        attributeType: 'a657a4f1-9c0f-444b-a1fd-445bb91dd12d'
-      }, {
-        value: this.partnerPhoneNumber,
-        attributeType: 'b0a08406-09c0-4f8b-8cb5-b22b6d4a8e46'
-      },
-      {
-        value: this.careGivername,
-        attributeType: '48876f06-7493-416e-855d-8413d894ea93'
-      },
-      {
-        value: this.relationshipToCareGiver,
-        attributeType: '06b0da36-e133-4be6-aec0-31e7ed0e1ac2'
-      },
-      {
-        value: this.careGiverPhoneNumber,
-        attributeType: 'bb8684a5-ac0b-4c2c-b9a5-1203e99952c2'
-      }]
+      attributes: [
+        {
+          value: this.patientPhoneNumber,
+          attributeType: '72a759a8-1359-11df-a1f1-0026b9348838'
+        },
+        {
+          value: this.alternativePhoneNumber,
+          attributeType: 'c725f524-c14a-4468-ac19-4a0e6661c930'
+        },
+        {
+          value: this.nextofkinPhoneNumber,
+          attributeType: 'a657a4f1-9c0f-444b-a1fd-445bb91dd12d'
+        },
+        {
+          value: this.partnerPhoneNumber,
+          attributeType: 'b0a08406-09c0-4f8b-8cb5-b22b6d4a8e46'
+        },
+        {
+          value: this.careGivername,
+          attributeType: '48876f06-7493-416e-855d-8413d894ea93'
+        },
+        {
+          value: this.relationshipToCareGiver,
+          attributeType: '06b0da36-e133-4be6-aec0-31e7ed0e1ac2'
+        },
+        {
+          value: this.careGiverPhoneNumber,
+          attributeType: 'bb8684a5-ac0b-4c2c-b9a5-1203e99952c2'
+        }
+      ]
     };
     const payLoad = this.generatePersonAttributePayload(
       personAttributePayload,
@@ -203,13 +209,18 @@ export class EditContactsComponent implements OnInit, OnDestroy {
 
   public getRelationShipTypes(): void {
     const request = this.patientRelationshipTypeService.getRelationshipTypes();
-    request.subscribe((relationshipTypes) => {
+    request.subscribe(
+      (relationshipTypes) => {
         if (relationshipTypes) {
-            this.patientRelationshipTypes = relationshipTypes;
+          this.patientRelationshipTypes = relationshipTypes;
         }
-    }, (error) => {
-        console.error('Failed to get relation types because of the following ', error);
-    });
-}
-
+      },
+      (error) => {
+        console.error(
+          'Failed to get relation types because of the following ',
+          error
+        );
+      }
+    );
+  }
 }

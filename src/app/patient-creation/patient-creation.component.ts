@@ -1,6 +1,11 @@
 import { take } from 'rxjs/operators';
 import {
-  Component, OnInit, Output, OnDestroy, ViewChild, EventEmitter
+  Component,
+  OnInit,
+  Output,
+  OnDestroy,
+  ViewChild,
+  EventEmitter
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import * as moment from 'moment';
@@ -147,9 +152,8 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     private sessionStorageService: SessionStorageService,
     private modalService: BsModalService,
     private conceptService: ConceptResourceService,
-    private patientRelationshipTypeService: PatientRelationshipTypeService,
-    ) {
-  }
+    private patientRelationshipTypeService: PatientRelationshipTypeService
+  ) {}
 
   public ngOnInit() {
     this.getLocations();
@@ -620,16 +624,18 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
           birthdate: this.birthDate,
           birthdateEstimated: this.birthdateEstimated,
           attributes: attributes,
-          addresses: [{
-            address1: this.address1,
-            address2: this.address2,
-            address3: this.address3,
-            address7: this.address7,
-            cityVillage: this.cityVillage,
-            latitude: this.latitude,
-            longitude: this.longitude,
-            stateProvince: this.stateProvince
-          }]
+          addresses: [
+            {
+              address1: this.address1,
+              address2: this.address2,
+              address3: this.address3,
+              address7: this.address7,
+              cityVillage: this.cityVillage,
+              latitude: this.latitude,
+              longitude: this.longitude,
+              stateProvince: this.stateProvince
+            }
+          ]
         },
         identifiers: ids
       };
@@ -688,7 +694,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     this.errors = false;
   }
   public ngOnDestroy(): void {
-    this.subscriptions.map(sub => sub.unsubscribe);
+    this.subscriptions.map((sub) => sub.unsubscribe);
   }
 
   public generatePatientIdentifier() {
@@ -720,7 +726,6 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         '/general/general/program-manager/new-program'
     ]);
   }
-
 
   private checkAdded() {
     let found;
@@ -785,12 +790,17 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
             }
           }
         },
-      () => {
-        this.toastrService.error('Error  retrieving common patient identifier types', '', {
-          timeOut: 2000,
-          positionClass: 'toast-bottom-center'
-        });
-      });
+        () => {
+          this.toastrService.error(
+            'Error  retrieving common patient identifier types',
+            '',
+            {
+              timeOut: 2000,
+              positionClass: 'toast-bottom-center'
+            }
+          );
+        }
+      );
   }
 
   private getLocations(): void {
@@ -821,9 +831,11 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       );
   }
   public getAmpathLocations() {
-    const getLocationsSubscription = this.locationResourceService.getAmpathLocations().subscribe(arg => {
-      this.ampathLocations = arg;
-    });
+    const getLocationsSubscription = this.locationResourceService
+      .getAmpathLocations()
+      .subscribe((arg) => {
+        this.ampathLocations = arg;
+      });
     this.subscriptions.push(getLocationsSubscription);
   }
   private validateFormFields(patientIdentifier) {
@@ -919,24 +931,34 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public setCounty(event) {
     this.address1 = event;
     const counties1 = this.ampathLocations.counties;
-    this.subcounties = counties1.find(county => county.name === event).subcounties;
+    this.subcounties = counties1.find(
+      (county) => county.name === event
+    ).subcounties;
   }
   public setSubCounty(event) {
     this.address2 = event;
     const subcounties = this.subcounties;
-    this.wards = subcounties.find(subcounty => subcounty.name === event).wards;
+    this.wards = subcounties.find(
+      (subcounty) => subcounty.name === event
+    ).wards;
   }
   public setWard(event) {
     this.address7 = event;
   }
   public getRelationShipTypes(): void {
     const request = this.patientRelationshipTypeService.getRelationshipTypes();
-    request.subscribe((relationshipTypes) => {
+    request.subscribe(
+      (relationshipTypes) => {
         if (relationshipTypes) {
-            this.patientRelationshipTypes = relationshipTypes;
+          this.patientRelationshipTypes = relationshipTypes;
         }
-    }, (error) => {
-        console.error('Failed to get relation types because of the following ', error);
-    });
-}
+      },
+      (error) => {
+        console.error(
+          'Failed to get relation types because of the following ',
+          error
+        );
+      }
+    );
+  }
 }

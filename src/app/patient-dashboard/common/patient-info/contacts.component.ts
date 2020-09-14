@@ -20,8 +20,7 @@ export class ContactsComponent implements OnInit, OnDestroy {
   private careGivername: string;
   private relationshipToCareGiver: string;
   private careGiverPhoneNumber: number;
-  constructor(private patientService: PatientService) {
-  }
+  constructor(private patientService: PatientService) {}
 
   public ngOnInit() {
     this.getPatient();

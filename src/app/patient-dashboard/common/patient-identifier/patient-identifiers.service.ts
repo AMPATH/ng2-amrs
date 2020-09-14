@@ -113,10 +113,12 @@ export class PatientIdentifierService {
         checkdigit: 0,
         val: '5b91df4a-db7d-4c52-ac85-ac519420d82e'
       },
-    {
-      label: 'OVCID', format: '^\\d{7}$', checkdigit: 0,
-      val: 'ace5f7c7-c5f4-4e77-a077-5588a682a0d6'
-    }
+      {
+        label: 'OVCID',
+        format: '^\\d{7}$',
+        checkdigit: 0,
+        val: 'ace5f7c7-c5f4-4e77-a077-5588a682a0d6'
+      }
     ];
   }
 }

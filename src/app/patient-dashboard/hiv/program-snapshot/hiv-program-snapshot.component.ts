@@ -433,8 +433,8 @@ export class HivProgramSnapshotComponent implements OnInit {
             /* tslint:disable-next-line: no-shadowed-variable */
             take(1)
           )
-          .subscribe((encounterDetail) => {
-            encounterWithDetails.push(encounterDetail);
+          .subscribe((encDetail) => {
+            encounterWithDetails.push(encDetail);
             resultCount++;
             checkCount();
           });
