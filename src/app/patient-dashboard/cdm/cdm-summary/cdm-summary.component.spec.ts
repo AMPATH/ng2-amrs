@@ -11,9 +11,11 @@ describe('Component: CDM Summary', () => {
     TestBed.configureTestingModule({
       providers: [
         {
-          provide: AppFeatureAnalytics, useFactory: () => {
-          return new FakeAppFeatureAnalytics();
-        }, deps: []
+          provide: AppFeatureAnalytics,
+          useFactory: () => {
+            return new FakeAppFeatureAnalytics();
+          },
+          deps: []
         }
       ]
     });
@@ -24,7 +26,9 @@ describe('Component: CDM Summary', () => {
   });
 
   it('should create an instance', () => {
-    const fakeAppFeatureAnalytics: AppFeatureAnalytics = TestBed.get(AppFeatureAnalytics);
+    const fakeAppFeatureAnalytics: AppFeatureAnalytics = TestBed.get(
+      AppFeatureAnalytics
+    );
     const component = new CdmSummaryComponent(fakeAppFeatureAnalytics);
     expect(component).toBeTruthy();
   });

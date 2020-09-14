@@ -9,9 +9,7 @@ export class DifferentiatedCareReferralStatusComponent implements OnInit {
   @Input()
   public status: any = undefined;
 
-  constructor() { }
+  constructor() {}
 
-  public ngOnInit() {
-  }
-
+  public ngOnInit() {}
 }

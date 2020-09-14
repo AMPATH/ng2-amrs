@@ -1,16 +1,15 @@
-
-<div class="loader" *ngIf="loadingPatientStatus"><span><i class="fa fa-spinner fa-spin">
-
-  </i>Loading...</span></div>
+<div class="loader" *ngIf="loadingPatientStatus">
+  <span><i class="fa fa-spinner fa-spin"> </i>Loading...</span>
+</div>
 <p-tabView>
   <p-tabPanel header="Graphical View">
     <div>
-      <chart [options]="options">
-      </chart>
+      <chart [options]="options"> </chart>
     </div>
-
   </p-tabPanel>
   <p-tabPanel header="Indicator Definitions">
-    <patient-status-indicator-definition [indicatorDefinition]="indicatorDef"></patient-status-indicator-definition>
+    <patient-status-indicator-definition
+      [indicatorDefinition]="indicatorDef"
+    ></patient-status-indicator-definition>
   </p-tabPanel>
 </p-tabView>

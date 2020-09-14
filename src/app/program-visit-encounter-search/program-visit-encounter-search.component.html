@@ -1,121 +1,190 @@
 <div class="row" id="program-visit-encounter-filter">
-    <div class="container-fluid">
-        <form class="form-horizontal">
-                <div class="row" *ngIf="loadingFilters">
-                    <div class="col-md-12">
-                          <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i> Loading Saved Filters ...
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-                        <div class="alert alert-danger" *ngIf="message.message !== ''">
-                                {{message.message}}
-                        </div>
-                    </div>
-                    <div class="col-md-8 col-lg-8 col-sm-8 col-xs-8">
-                            <h5 class="report-title">Report Filters</h5>
-                    </div>
-                    <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
-                        <button class="btn btn-primary toggle-filters" (click)="hideFilter()" *ngIf="showFilters" class="pull-right"><i class="fa fa-angle-down fa-2x fa-fw toggle-filters"></i></button>
-                        <button class="btn btn-primary toggle-filters" (click)="showFilter()" *ngIf="!showFilters" class="pull-right"><i class="fa fa-angle-left fa-2x fa-fw toggle-filters"></i></button>
-                    </div>
-                    <hr class="intro-divider" width="100%"/>
-               </div>
-                <div id="filter-search" *ngIf="!loadingFilters && showFilters">
-                    <div class="row">
-                        <div id="prgram-filters" *ngIf="showProgramFilters">
-                        <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
-                            <label class="control-label">Program</label>
-                            <angular2-multiselect #programSelect 
-                                        [data]="programs" 
-                                        [(ngModel)]="program" 
-                                        [settings]="programDropdownSettings" 
-                                        (onSelect)="selectProgram($event)" 
-                                        (onDeSelect)="programDeSelect($event)"
-                                        (onSelectAll)="onSelectAllPrograms($event)"
-                                        (onDeSelectAll)="onDeSelectAllPrograms($event)"
-                                        name="program-filter">
-                            </angular2-multiselect>
-                        </div>
-                        <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12" *ngIf="program.length > 0 && !defaultersControl">
-                                <label class="control-label">Visit Type</label>                                          
-                                <angular2-multiselect #visitTypeFilter
-                                                [data]="visitTypes" 
-                                                [(ngModel)]="visitType"
-                                                [settings]="dropdownSettings" 
-                                                (onSelect)="selectVisitType($event)" 
-                                                (onDeSelect)="visitTypeDeSelect($event)"
-                                                (onSelectAll)="onSelectAllVisitTypes($event)"
-                                                (onDeSelectAll)="onDeSelectAllVisitTypes($event)"
-                                                name="visitType-filter">
-                                </angular2-multiselect>
-                        </div>
-                        <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12" *ngIf="visitType.length > 0 && defaultersControl">
-                        <label class="control-label">Encounter Type</label>
-
-                            
-                            <angular2-multiselect #encounterTypeFilter
-                                                [data]="encounterTypes" 
-                                                [(ngModel)]="encounterType"
-                                                [settings]="dropdownSettings" 
-                                                (onSelect)="selectEncounterType($event)" 
-                                                (onDeSelect)="encounterTypeDeSelect($event)"
-                                                (onSelectAll)="onSelectAllEncounterTypes($event)"
-                                                (onDeSelectAll)="onDeSelectAllEncounterTypes($event)"
-                                                name="encounterType-filter">
-                            </angular2-multiselect>
-
-                        </div>
-                        </div>
-                        
-                        <div class="col-xs-6 col-sm-6 col-md-6" *ngIf="monthControl">
-                            <label for="startDate">Month:</label>
-                            <input id="startDate" type="month" class="form-control" name="month" [(ngModel)]="filterMonth" (ngModelChange)="onMonthChange($event)"/>
-                          
-                          </div>
-                        <div class="col-md-4 col-lg-4 col-sm-4 col-xs-12 action-btn-section" *ngIf="dateControl">
-                                <div class="date-filter">
-                                    <label for="changeDate">Date:</label>
-                                    <date-time-picker tabindex="0" 
-                                        [modelValue]="filterDate" 
-                                        [id]="'changeDate'" 
-                                        (onDateChange)="getSelectedDate($event)"
-                                    ></date-time-picker>
-                                </div>
-                        </div>
-                </div>
-                <div class="row" *ngIf="defaultersControl">
-                    <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
-                        <label for="number-days">Enter Minimum Days Missing</label>
-                        <input type="number" class="form-control" [(ngModel)]="minDefaultPeriod" min="0" name="min-default" />
-                    </div>
-                    <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
-                        <label for="number-days">Enter Maximum Days Missing</label>
-                        <input type="number" class="form-control" [(ngModel)]="maxDefaultPeriod" min="0" name="max-default"/>
-                    </div>
-                </div>
-              
+  <div class="container-fluid">
+    <form class="form-horizontal">
+      <div class="row" *ngIf="loadingFilters">
+        <div class="col-md-12">
+          <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i> Loading Saved
+          Filters ...
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+          <div class="alert alert-danger" *ngIf="message.message !== ''">
+            {{ message.message }}
+          </div>
+        </div>
+        <div class="col-md-8 col-lg-8 col-sm-8 col-xs-8">
+          <h5 class="report-title">Report Filters</h5>
+        </div>
+        <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
+          <button
+            class="btn btn-primary toggle-filters"
+            (click)="hideFilter()"
+            *ngIf="showFilters"
+            class="pull-right"
+          >
+            <i class="fa fa-angle-down fa-2x fa-fw toggle-filters"></i>
+          </button>
+          <button
+            class="btn btn-primary toggle-filters"
+            (click)="showFilter()"
+            *ngIf="!showFilters"
+            class="pull-right"
+          >
+            <i class="fa fa-angle-left fa-2x fa-fw toggle-filters"></i>
+          </button>
+        </div>
+        <hr class="intro-divider" width="100%" />
+      </div>
+      <div id="filter-search" *ngIf="!loadingFilters && showFilters">
+        <div class="row">
+          <div id="prgram-filters" *ngIf="showProgramFilters">
+            <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+              <label class="control-label">Program</label>
+              <angular2-multiselect
+                #programSelect
+                [data]="programs"
+                [(ngModel)]="program"
+                [settings]="programDropdownSettings"
+                (onSelect)="selectProgram($event)"
+                (onDeSelect)="programDeSelect($event)"
+                (onSelectAll)="onSelectAllPrograms($event)"
+                (onDeSelectAll)="onDeSelectAllPrograms($event)"
+                name="program-filter"
+              >
+              </angular2-multiselect>
             </div>
-            <div class="row">
-                <div class="col-md-12 col-lg-12 col-sm-12" id="filter-btns">
-                    <div class="pull-left">
-                        <button class="btn btn-primary btn-search" (click)="setFilter()" *ngIf="!filterSet">Generate Report<i class="fa fa-gear fa-fw"></i></button>
-                        <button class="btn btn-primary btn-search" (click)="setFilter()" *ngIf="filterSet" disabled>Set Filter <i class="fa fa-gear fa-fw"></i></button>
-                        <span> </span>
-                        <span *ngIf="monthControl && filterSet" class="navigate-btn">
-                            <button class="btn btn-success" (click)="previousMonth()"><i class="fa fa-angle-left fa-fw"></i>Previous Month</button>
-                            <button class="btn btn-success" (click)="nextMonth()">Next Month <i class="fa fa-angle-right fa-fw"></i></button>
-                        </span>
-                        <span *ngIf="dateControl && filterSet" class="navigate-btn">
-                            <button class="btn btn-success" (click)="previousDay()"><i class="fa fa-angle-left fa-fw"></i>Previous Day</button>
-                            <button class="btn btn-success" (click)="nextDay()">Next Day <i class="fa fa-angle-right fa-fw"></i></button>
-                        </span>
-                    </div>
-                    <div class="pull-right">
-                        <button class="btn btn-danger btn-search" (click)="resetFilters()">Clear Filters <i class="fa fa-trash fa-fw"></i></button>
-                    </div>
-                </div>
+            <div
+              class="col-md-6 col-lg-6 col-sm-12 col-xs-12"
+              *ngIf="program.length > 0 && !defaultersControl"
+            >
+              <label class="control-label">Visit Type</label>
+              <angular2-multiselect
+                #visitTypeFilter
+                [data]="visitTypes"
+                [(ngModel)]="visitType"
+                [settings]="dropdownSettings"
+                (onSelect)="selectVisitType($event)"
+                (onDeSelect)="visitTypeDeSelect($event)"
+                (onSelectAll)="onSelectAllVisitTypes($event)"
+                (onDeSelectAll)="onDeSelectAllVisitTypes($event)"
+                name="visitType-filter"
+              >
+              </angular2-multiselect>
             </div>
-        </form>
-    </div>
+            <div
+              class="col-md-6 col-lg-6 col-sm-12 col-xs-12"
+              *ngIf="visitType.length > 0 && defaultersControl"
+            >
+              <label class="control-label">Encounter Type</label>
+
+              <angular2-multiselect
+                #encounterTypeFilter
+                [data]="encounterTypes"
+                [(ngModel)]="encounterType"
+                [settings]="dropdownSettings"
+                (onSelect)="selectEncounterType($event)"
+                (onDeSelect)="encounterTypeDeSelect($event)"
+                (onSelectAll)="onSelectAllEncounterTypes($event)"
+                (onDeSelectAll)="onDeSelectAllEncounterTypes($event)"
+                name="encounterType-filter"
+              >
+              </angular2-multiselect>
+            </div>
+          </div>
+
+          <div class="col-xs-6 col-sm-6 col-md-6" *ngIf="monthControl">
+            <label for="startDate">Month:</label>
+            <input
+              id="startDate"
+              type="month"
+              class="form-control"
+              name="month"
+              [(ngModel)]="filterMonth"
+              (ngModelChange)="onMonthChange($event)"
+            />
+          </div>
+          <div
+            class="col-md-4 col-lg-4 col-sm-4 col-xs-12 action-btn-section"
+            *ngIf="dateControl"
+          >
+            <div class="date-filter">
+              <label for="changeDate">Date:</label>
+              <date-time-picker
+                tabindex="0"
+                [modelValue]="filterDate"
+                [id]="'changeDate'"
+                (onDateChange)="getSelectedDate($event)"
+              ></date-time-picker>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="defaultersControl">
+          <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+            <label for="number-days">Enter Minimum Days Missing</label>
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="minDefaultPeriod"
+              min="0"
+              name="min-default"
+            />
+          </div>
+          <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+            <label for="number-days">Enter Maximum Days Missing</label>
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="maxDefaultPeriod"
+              min="0"
+              name="max-default"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12" id="filter-btns">
+          <div class="pull-left">
+            <button
+              class="btn btn-primary btn-search"
+              (click)="setFilter()"
+              *ngIf="!filterSet"
+            >
+              Generate Report<i class="fa fa-gear fa-fw"></i>
+            </button>
+            <button
+              class="btn btn-primary btn-search"
+              (click)="setFilter()"
+              *ngIf="filterSet"
+              disabled
+            >
+              Set Filter <i class="fa fa-gear fa-fw"></i>
+            </button>
+            <span> </span>
+            <span *ngIf="monthControl && filterSet" class="navigate-btn">
+              <button class="btn btn-success" (click)="previousMonth()">
+                <i class="fa fa-angle-left fa-fw"></i>Previous Month
+              </button>
+              <button class="btn btn-success" (click)="nextMonth()">
+                Next Month <i class="fa fa-angle-right fa-fw"></i>
+              </button>
+            </span>
+            <span *ngIf="dateControl && filterSet" class="navigate-btn">
+              <button class="btn btn-success" (click)="previousDay()">
+                <i class="fa fa-angle-left fa-fw"></i>Previous Day
+              </button>
+              <button class="btn btn-success" (click)="nextDay()">
+                Next Day <i class="fa fa-angle-right fa-fw"></i>
+              </button>
+            </span>
+          </div>
+          <div class="pull-right">
+            <button class="btn btn-danger btn-search" (click)="resetFilters()">
+              Clear Filters <i class="fa fa-trash fa-fw"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>

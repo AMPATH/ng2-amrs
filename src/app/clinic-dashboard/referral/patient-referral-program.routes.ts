@@ -1,8 +1,6 @@
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {
-  PatientReferralContainerComponent
-} from '../../referral-care-lib/patient-referral.container.component';
+import { PatientReferralContainerComponent } from '../../referral-care-lib/patient-referral.container.component';
 import { PatientReferralComponent } from './patient-referral.component';
 import { StrengthsPatientReferralComponent } from './../referral-strengths/patient-strengths-referral.component';
 
@@ -27,5 +25,6 @@ const routes: Routes = [
   }
 ];
 
-export const patientReferralProgramRouting: ModuleWithProviders =
-  RouterModule.forChild(routes);
+export const patientReferralProgramRouting: ModuleWithProviders = RouterModule.forChild(
+  routes
+);

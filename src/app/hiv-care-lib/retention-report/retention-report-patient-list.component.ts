@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { Location } from '@angular/common';
@@ -8,13 +7,11 @@ import { RetentionReportResourceService } from '../../etl-api/retention-report-r
 import * as _ from 'lodash';
 
 @Component({
-    selector: 'retention-report-patient-list',
-    templateUrl: './retention-report-patient-list.component.html',
-    styleUrls: ['./retention-report-patient-list.component.css']
+  selector: 'retention-report-patient-list',
+  templateUrl: './retention-report-patient-list.component.html',
+  styleUrls: ['./retention-report-patient-list.component.css']
 })
-
 export class RetentionReportPatientListComponent implements OnInit {
-
   public title = '';
   public patients: any = [];
   public rowData: any = [];
@@ -29,7 +26,7 @@ export class RetentionReportPatientListComponent implements OnInit {
     paginationPageSize: 300,
     onGridSizeChanged: () => {
       if (this.gridOptions.api) {
-       // this.gridOptions.api.sizeColumnsToFit();
+        // this.gridOptions.api.sizeColumnsToFit();
       }
     },
     onGridReady: () => {
@@ -136,7 +133,6 @@ export class RetentionReportPatientListComponent implements OnInit {
       width: 300,
       hide: true
     }
-
   ];
 
   public busyIndicator: any = {
@@ -144,57 +140,63 @@ export class RetentionReportPatientListComponent implements OnInit {
     message: 'Please wait...' // default message
   };
   public errorObj = {
-   'isError': false,
-   'message': ''
+    isError: false,
+    message: ''
   };
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private location: Location,
-    private retentionReportService: RetentionReportResourceService) {
-
-  }
+    private retentionReportService: RetentionReportResourceService
+  ) {}
 
   public ngOnInit() {
-    this.route
-    .queryParams
-    .subscribe((params: any) => {
+    this.route.queryParams.subscribe(
+      (params: any) => {
         if (params) {
           this.getPatientList(params);
           this.title = this.translateIndicator(params.indicators);
           this.params = params;
         }
-      }, (error) => {
+      },
+      (error) => {
         console.error('Error', error);
-      });
-
+      }
+    );
   }
 
   public getPatientList(params) {
     this.loading();
-    this.busy = this.retentionReportService.getRetentionReportPatientList(params)
-      .subscribe((result: any) => {
-        if (result) {
-          const patients = result.result;
-          this.createPatientRowData(patients);
+    this.busy = this.retentionReportService
+      .getRetentionReportPatientList(params)
+      .subscribe(
+        (result: any) => {
+          if (result) {
+            const patients = result.result;
+            this.createPatientRowData(patients);
+            this.endLoading();
+          }
+        },
+        (error) => {
           this.endLoading();
-        }
-      }, (error) => {
-           this.endLoading();
-           this.errorObj = {
-            'isError': true,
-            'message': 'An error occurred while trying to load the patient list.Please reload page'
+          this.errorObj = {
+            isError: true,
+            message:
+              'An error occurred while trying to load the patient list.Please reload page'
           };
-           console.error('ERROR', error);
-      });
+          console.error('ERROR', error);
+        }
+      );
   }
 
   public translateIndicator(indicator: string) {
     const indicatorArray = indicator.toLowerCase().split('_');
-      return indicatorArray.map((word) => {
-            return ((word.charAt(0).toUpperCase()) + word.slice(1));
-      }).join(' ');
+    return indicatorArray
+      .map((word) => {
+        return word.charAt(0).toUpperCase() + word.slice(1);
+      })
+      .join(' ');
   }
 
   public createPatientRowData(patients) {
@@ -208,13 +210,14 @@ export class RetentionReportPatientListComponent implements OnInit {
     this.redirectTopatientInfo(patientUuid);
   }
   public redirectTopatientInfo(patientUuid) {
-
     if (patientUuid === undefined || patientUuid === null) {
       return;
     }
-    this.router.navigate(['/patient-dashboard/patient/' + patientUuid +
-    '/general/general/landing-page']);
-
+    this.router.navigate([
+      '/patient-dashboard/patient/' +
+        patientUuid +
+        '/general/general/landing-page'
+    ]);
   }
   public loading() {
     this.busyIndicator = {
@@ -224,21 +227,20 @@ export class RetentionReportPatientListComponent implements OnInit {
   }
 
   public endLoading() {
-      this.busyIndicator = {
-        busy: false,
-        message: ''
-      };
+    this.busyIndicator = {
+      busy: false,
+      message: ''
+    };
   }
 
   public resetErrorMsg() {
     this.errorObj = {
-      'isError': false,
-      'message': ''
+      isError: false,
+      message: ''
     };
-   }
+  }
 
   public exportPatientListToCsv() {
     this.gridOptions.api.exportDataAsCsv();
   }
-
 }

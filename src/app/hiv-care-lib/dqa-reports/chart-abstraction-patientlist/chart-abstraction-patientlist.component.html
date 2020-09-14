@@ -1,35 +1,52 @@
 <div>
-    <button class="btn btn-primary" (click)="goBack()">
-      <span class="glyphicon glyphicon-arrow-left"></span>
-      <span> Back</span>
-    </button>
-  </div>
-  <div class="loader" *ngIf="isLoading">
-    <span><i class="fa fa-spinner fa-spin"></i>Loading...</span>
-  </div>
-  <h3>
-    DQA patient list
-  </h3>
-  <hr />
-  <patient-list [extraColumns]="extraColumns" [overrideColumns]="overrideColumns" [data]="patientData"></patient-list>
-  <div *ngIf="patientData">
-    <p class="bg-info" style="padding:4px;">
-      <b>
-        <span style="color:green;" class="glyphicon glyphicon-ok">All records loaded
-          {{'[ ' + patientData.length + ' ]'}}</span></b>
-      <p>
-  </div>
-  <div style="display: inline-block;" *ngIf='hasLoadedAll'>
-  
-      <button style=" width: 80px;" [ladda]='isLoading' data-size="xs" data-color="blue" (click)="loadMoreDQAList('next')">
-        <span class=""></span>Next</button>
-  
-      <button style="margin-left: 20px; width: 80px;" [ladda]='isLoading' data-size="xs" data-color="grey"
-        (click)="loadMoreDQAList('all')">
-        <span class=""></span>Load all</button>
-  
-  
-  </div>
-  <div *ngIf="hasError">
-    <p class="alert-error alert">Error loading patient list.</p>
-  </div>
+  <button class="btn btn-primary" (click)="goBack()">
+    <span class="glyphicon glyphicon-arrow-left"></span>
+    <span> Back</span>
+  </button>
+</div>
+<div class="loader" *ngIf="isLoading">
+  <span><i class="fa fa-spinner fa-spin"></i>Loading...</span>
+</div>
+<h3>DQA patient list</h3>
+<hr />
+<patient-list
+  [extraColumns]="extraColumns"
+  [overrideColumns]="overrideColumns"
+  [data]="patientData"
+></patient-list>
+<div *ngIf="patientData">
+  <p class="bg-info" style="padding: 4px">
+    <b>
+      <span style="color: green" class="glyphicon glyphicon-ok"
+        >All records loaded {{ '[ ' + patientData.length + ' ]' }}</span
+      ></b
+    >
+  </p>
+
+  <p></p>
+</div>
+
+<div style="display: inline-block" *ngIf="hasLoadedAll">
+  <button
+    style="width: 80px"
+    [ladda]="isLoading"
+    data-size="xs"
+    data-color="blue"
+    (click)="loadMoreDQAList('next')"
+  >
+    <span class=""></span>Next
+  </button>
+
+  <button
+    style="margin-left: 20px; width: 80px"
+    [ladda]="isLoading"
+    data-size="xs"
+    data-color="grey"
+    (click)="loadMoreDQAList('all')"
+  >
+    <span class=""></span>Load all
+  </button>
+</div>
+<div *ngIf="hasError">
+  <p class="alert-error alert">Error loading patient list.</p>
+</div>

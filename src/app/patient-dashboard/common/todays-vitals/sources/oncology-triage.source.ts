@@ -3,10 +3,10 @@ import { CommonVitalsSource } from './common-vitals.source';
 import { VitalSourceInterface } from './vital-source.interface';
 import { Patient } from '../../../../models/patient.model';
 
-export class OncologyTriageSource extends CommonVitalsSource implements VitalSourceInterface {
-
-  constructor(public model: any | Vital,
-    public patient: Patient) {
+export class OncologyTriageSource
+  extends CommonVitalsSource
+  implements VitalSourceInterface {
+  constructor(public model: any | Vital, public patient: Patient) {
     super(model, patient);
   }
 

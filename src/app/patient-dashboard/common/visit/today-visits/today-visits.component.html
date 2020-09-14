@@ -1,20 +1,47 @@
 <h4 class="component-title">
-  <span class="icon-i-outpatient"></span>Today's Visit </h4>
+  <span class="icon-i-outpatient"></span>Today's Visit
+</h4>
 <!-- <div [ngBusy]="{busy:[isBusy],message:'Loading...'}"></div> -->
 <div>
   <p-tabView (onChange)="handleProgramClassChange($event)">
-    <p-tabPanel [selected]="programClass.class === programClassUuid" *ngFor="let programClass of groupedVisits" header="{{programClass.display + ' (' + programClass.allVisits.length + ')'}}">
-      <div style="padding-left:1px;">
-        <button (click)="handleProgramChange(program)" *ngFor="let program of programClass.programs" type="button" [ngClass]="[programUuid === program.uuid ? 'btn-info':'btn-default']"
-          class="btn program-list">
-          {{ program.display | uppercase}}
+    <p-tabPanel
+      [selected]="programClass.class === programClassUuid"
+      *ngFor="let programClass of groupedVisits"
+      header="{{
+        programClass.display + ' (' + programClass.allVisits.length + ')'
+      }}"
+    >
+      <div style="padding-left: 1px">
+        <button
+          (click)="handleProgramChange(program)"
+          *ngFor="let program of programClass.programs"
+          type="button"
+          [ngClass]="[
+            programUuid === program.uuid ? 'btn-info' : 'btn-default'
+          ]"
+          class="btn program-list"
+        >
+          {{ program.display | uppercase }}
         </button>
-        <visit *ngIf="(programUuid && programUuid !== '' && programClass.class === programClassUuid)" [programUuid]="programUuid"
-          (formSelected)="onFormSelected($event)" (encounterSelected)="onEncounterSelected($event)"></visit>
-        <div *ngIf="programClass.allVisits.length !== 0" style="margin-top: 10px;">
-          <h3>Active/Completed {{programClass.display}} Visits</h3>
+        <visit
+          *ngIf="
+            programUuid &&
+            programUuid !== '' &&
+            programClass.class === programClassUuid
+          "
+          [programUuid]="programUuid"
+          (formSelected)="onFormSelected($event)"
+          (encounterSelected)="onEncounterSelected($event)"
+        ></visit>
+        <div
+          *ngIf="programClass.allVisits.length !== 0"
+          style="margin-top: 10px"
+        >
+          <h3>Active/Completed {{ programClass.display }} Visits</h3>
           <div class="list-group-item">
-            <app-visit-summary [visitSummary]="programClass.allVisits"></app-visit-summary>
+            <app-visit-summary
+              [visitSummary]="programClass.allVisits"
+            ></app-visit-summary>
           </div>
         </div>
       </div>

@@ -10,8 +10,7 @@ describe('VisitSummaryComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [VisitSummaryComponent]
-    })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -28,11 +27,9 @@ describe('VisitSummaryComponent', () => {
     expect(component).toBeTruthy();
   });
   it('should have required properties', () => {
-
     expect(component.setVisitSummary).toBeDefined();
     expect(component.viewVisitDetails).toBeDefined();
     expect(component.visitSummaryDetails).toBeUndefined();
     expect(component.visitSummarySelected).toBeDefined();
-
   });
 });

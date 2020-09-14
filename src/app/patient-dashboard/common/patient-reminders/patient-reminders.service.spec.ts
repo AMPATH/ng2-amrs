@@ -12,9 +12,7 @@ import { HttpClientTestingBackend } from '@angular/common/http/testing/src/backe
 import { map } from 'rxjs/operators';
 
 describe('Service: PatientReminderService', () => {
-
-  let service: PatientReminderService,
-    reminders: Observable<any>;
+  let service: PatientReminderService, reminders: Observable<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -27,9 +25,9 @@ describe('Service: PatientReminderService', () => {
       imports: [HttpClientTestingModule]
     });
     service = TestBed.get(PatientReminderService);
-    reminders = service.getPatientReminders('79803198-2d23-49cd-a7b3-4f672bd8f659');
-
-
+    reminders = service.getPatientReminders(
+      '79803198-2d23-49cd-a7b3-4f672bd8f659'
+    );
   });
 
   afterEach(() => {
@@ -40,19 +38,16 @@ describe('Service: PatientReminderService', () => {
     expect(service).toBeTruthy();
   });
 
-
   it('should load Patient reminders', () => {
     reminders.subscribe((results) => {
       if (results) {
         expect(results).toBeTruthy();
       }
     });
-
   });
 
   it('should call load patient reminders', () => {
-    spyOn(service, 'getPatientReminders').and.callFake((err, data) => {
-    });
+    spyOn(service, 'getPatientReminders').and.callFake((err, data) => {});
     service.getPatientReminders('uuid');
     expect(service.getPatientReminders).toHaveBeenCalled();
   });

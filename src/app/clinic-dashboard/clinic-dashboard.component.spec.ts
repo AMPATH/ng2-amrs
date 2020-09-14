@@ -12,88 +12,89 @@ import { Routes } from '@angular/router';
 import { LocationResourceService } from '../openmrs-api/location-resource.service';
 
 class MockCacheStorageService {
-    constructor(a, b) { }
+  constructor(a, b) {}
 
-    public ready() {
-        return true;
-    }
+  public ready() {
+    return true;
+  }
 }
 
 describe('clinic-dashboard component tests', () => {
-    let comp: ClinicDashboardComponent, service;
-    let fixture: ComponentFixture<ClinicDashboardComponent>;
+  let comp: ClinicDashboardComponent, service;
+  let fixture: ComponentFixture<ClinicDashboardComponent>;
 
-    const routes: Routes = [
-        { path: 'user-default-properties', component: ClinicDashboardComponent }
-    ];
+  const routes: Routes = [
+    { path: 'user-default-properties', component: ClinicDashboardComponent }
+  ];
 
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                RouterTestingModule.withRoutes(routes), FormsModule, NgamrsSharedModule,
-                HttpClientTestingModule
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule.withRoutes(routes),
+        FormsModule,
+        NgamrsSharedModule,
+        HttpClientTestingModule
+      ],
+      declarations: [ClinicDashboardComponent],
+      providers: [
+        CacheService,
+        ClinicDashboardCacheService,
+        ClinicDashboardCacheService,
+        LocalStorageService,
+        {
+          provide: CacheStorageService,
+          useFactory: () => {
+            return new MockCacheStorageService(null, null);
+          }
+        }
+      ]
+    })
+      .compileComponents()
+      .then(() => {
+        fixture = TestBed.createComponent(ClinicDashboardComponent);
+        comp = fixture.componentInstance;
+        service = TestBed.get(LocationResourceService);
+      });
+  }));
 
-            ],
-            declarations: [ClinicDashboardComponent],
-            providers: [
-                CacheService,
-                ClinicDashboardCacheService, ClinicDashboardCacheService,
-                LocalStorageService,
-                {
-                    provide: CacheStorageService, useFactory: () => {
-                        return new MockCacheStorageService(null, null);
-                    }
-                },
-            ]
-        })
-            .compileComponents()
-            .then(() => {
-                fixture = TestBed.createComponent(ClinicDashboardComponent);
-                comp = fixture.componentInstance;
-                service = TestBed.get(LocationResourceService);
-            });
-    }));
+  it('should be defined', () => {
+    expect(comp).toBeTruthy();
+  });
 
-    it('should be defined', () => {
-        expect(comp).toBeTruthy();
-    });
+  it('should have required properties', () => {
+    expect(comp.locationUuid).toBeUndefined();
+    expect(comp.selectedLocation).toBeDefined();
+    expect(comp.selectedDepartment).toBeUndefined();
+    expect(comp.loaderStatus).toBe(false);
+    expect(comp.selectingLocation).toBe(true);
+    expect(comp.locations.length).toBe(0);
+  });
 
-    it('should have required properties', () => {
-        expect(comp.locationUuid).toBeUndefined();
-        expect(comp.selectedLocation).toBeDefined();
-        expect(comp.selectedDepartment).toBeUndefined();
-        expect(comp.loaderStatus).toBe(false);
-        expect(comp.selectingLocation).toBe(true);
-        expect(comp.locations.length).toBe(0);
-    });
+  it('should have all the required functions defined and callable', (done) => {
+    spyOn(comp, 'ngOnInit').and.callThrough();
+    comp.ngOnInit();
+    expect(comp.ngOnInit).toHaveBeenCalled();
 
-    it('should have all the required functions defined and callable', (done) => {
-        spyOn(comp, 'ngOnInit').and.callThrough();
-        comp.ngOnInit();
-        expect(comp.ngOnInit).toHaveBeenCalled();
+    spyOn(comp, 'getUserDepartment').and.callThrough();
+    comp.getUserDepartment();
+    expect(comp.getUserDepartment).toHaveBeenCalled();
 
-        spyOn(comp, 'getUserDepartment').and.callThrough();
-        comp.getUserDepartment();
-        expect(comp.getUserDepartment).toHaveBeenCalled();
+    spyOn(comp, 'locationChanged').and.callThrough();
+    comp.locationChanged('');
+    expect(comp.locationChanged).toHaveBeenCalled();
 
-        spyOn(comp, 'locationChanged').and.callThrough();
-        comp.locationChanged('');
-        expect(comp.locationChanged).toHaveBeenCalled();
+    spyOn(comp, 'getLocations').and.callThrough();
+    comp.getLocations();
+    expect(comp.getLocations).toHaveBeenCalled();
 
-        spyOn(comp, 'getLocations').and.callThrough();
-        comp.getLocations();
-        expect(comp.getLocations).toHaveBeenCalled();
+    spyOn(comp, 'resolveSelectedLocationByUuid').and.callThrough();
+    comp.resolveSelectedLocationByUuid('');
+    expect(comp.resolveSelectedLocationByUuid).toHaveBeenCalled();
 
-        spyOn(comp, 'resolveSelectedLocationByUuid').and.callThrough();
-        comp.resolveSelectedLocationByUuid('');
-        expect(comp.resolveSelectedLocationByUuid).toHaveBeenCalled();
+    spyOn(service, 'getLocations').and.callThrough();
+    service.getLocations();
+    expect(service.getLocations).toHaveBeenCalled();
 
-        spyOn(service, 'getLocations').and.callThrough();
-        service.getLocations();
-        expect(service.getLocations).toHaveBeenCalled();
-
-        done();
-    });
+    done();
+  });
 });
-
-

@@ -1,8 +1,15 @@
-import {Component, OnInit, Output, EventEmitter, OnDestroy, Input} from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Output,
+  EventEmitter,
+  OnDestroy,
+  Input
+} from '@angular/core';
 import * as _ from 'lodash';
-import {CommunityGroupService} from '../../../openmrs-api/community-group-resource.service';
-import {Group} from '../../group-model';
-import {Subscription} from 'rxjs';
+import { CommunityGroupService } from '../../../openmrs-api/community-group-resource.service';
+import { Group } from '../../group-model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'group-search-input',
@@ -21,11 +28,9 @@ export class GroupSearchInputComponent implements OnInit, OnDestroy {
   @Output() hideResults: EventEmitter<boolean> = new EventEmitter();
   @Output() searchResults: EventEmitter<Group[]> = new EventEmitter();
   private subscription = new Subscription();
-  constructor(private groupService: CommunityGroupService) { }
+  constructor(private groupService: CommunityGroupService) {}
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 
   public searchGroup() {
     this.hideResults.emit(false);
@@ -36,16 +41,22 @@ export class GroupSearchInputComponent implements OnInit, OnDestroy {
       this.errorMessage = '';
     }
     if (this.searchString) {
-      this.subscription.add(this.groupService.searchCohort(this.searchString, this.searchByLandmark).subscribe((results) => {
-          this.searchResults.emit(results);
-          this.groupService.saveSearchResults(results);
-          this.totalGroups = results.length;
-          this.isLoading = false;
-        },
-        (error) => {
-          this.isLoading = false;
-          this.errorMessage = 'An error occurred please retry';
-        }));
+      this.subscription.add(
+        this.groupService
+          .searchCohort(this.searchString, this.searchByLandmark)
+          .subscribe(
+            (results) => {
+              this.searchResults.emit(results);
+              this.groupService.saveSearchResults(results);
+              this.totalGroups = results.length;
+              this.isLoading = false;
+            },
+            (error) => {
+              this.isLoading = false;
+              this.errorMessage = 'An error occurred please retry';
+            }
+          )
+      );
     }
   }
 
@@ -65,11 +76,11 @@ export class GroupSearchInputComponent implements OnInit, OnDestroy {
     this.errorMessage = '';
     this.isLoading = false;
     this.lastSearchString = '';
-    this.searchByLandmark ? this.placeholder = searchByLandmarkPlaceholder :
-                            this.placeholder = searchByNameOrNumberPlaceholder;
+    this.searchByLandmark
+      ? (this.placeholder = searchByLandmarkPlaceholder)
+      : (this.placeholder = searchByNameOrNumberPlaceholder);
   }
   public ngOnDestroy() {
     this.subscription.unsubscribe();
   }
-
 }

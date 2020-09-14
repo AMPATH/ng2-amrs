@@ -1,103 +1,103 @@
 {
-    "encounterDatetime": "2017-01-10 00:00:00",
-    "provider": "ef59ac9d-9cca-46c5-ab04-b4d708584e13",
-    "location": "18c343eb-b353-462a-9139-b16606e6b6c2",
-    "encounterType": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
-    "form": "59cbf52d-b214-48c2-b43a-db236b94ec42",
-    "uuid": "27d6b0b2-43ed-424d-b6b5-ebcb3c74749a",
-    "obs": [
-        {
-            "uuid": "edbf58dc-273f-436a-b426-28e4d9b78441",
-            "value": "8b715fed-97f6-4e38-8f6a-c167a42f8923"
-        },
-        {
-            "uuid": "c5322256-850c-487a-8ca3-8564875f9e23",
-            "value": "a89b6440-1350-11df-a1f1-0026b9348838"
-        },
-        {
-            "uuid": "c161bbfd-22c3-4405-90c8-026325ec1797",
-            "value": "a899af10-1350-11df-a1f1-0026b9348838"
-        },
-        {
-            "uuid": "49756f30-c15d-4302-ab47-df58c2ad6c5f",
-            "value": "a899b35c-1350-11df-a1f1-0026b9348838"
-        },
-        {
-            "uuid": "f6848f28-1b56-4ebf-8e91-3cdbcf52c08c",
-            "value": "5da55301-e28e-4fdf-8b64-02622dedc8b0"
-        },
-        {
-            "uuid": "5f575f76-32fb-46c1-81a3-49f74315c198",
-            "value": "bf51f71e-937c-4da5-ae07-654acf59f5bb"
-        },
-        {
-            "uuid": "19c614d1-d837-40e7-9e90-47a096efaca9",
-            "value": "a899ea48-1350-11df-a1f1-0026b9348838"
-        },
-        {
-            "uuid": "5cd9b7dd-f451-47af-b91b-b8d73009a855",
-            "value": "a899b42e-1350-11df-a1f1-0026b9348838"
-        },
-        {
-            "uuid": "98c28369-d8af-4be9-ad2f-295e53922814",
-            "value": "a899b42e-1350-11df-a1f1-0026b9348838"
-        },
-        {
-            "uuid": "38cd940a-e992-49bc-bd5b-07f4fea064fe",
-            "value": "a899b42e-1350-11df-a1f1-0026b9348838"
-        },
-        {
-            "uuid": "3373fb6e-fdeb-435e-8d1e-2800dea854e3",
-            "value": "a899d120-1350-11df-a1f1-0026b9348838"
-        },
-        {
-            "uuid": "e4311e8f-1115-4bb3-95fd-d9174a5a0f82",
-            "value": "a8a4bd42-1350-11df-a1f1-0026b9348838"
-        },
-        {
-            "uuid": "c0177c58-8555-4193-9bdd-ae094368de40",
-            "value": "2017-01-02T00:00:00.000+0300"
-        },
-        {
-            "uuid": "2c8796d6-7518-4737-87d4-0d650a10f20d",
-            "value": "a899b42e-1350-11df-a1f1-0026b9348838"
-        },
-        {
-            "uuid": "21fd76d2-6fea-4c1e-9b08-a79ff53e3707",
-            "value": 22
-        },
-        {
-            "uuid": "3b68ba90-904e-4491-8022-ab14e6cfbaf8",
-            "value": "a899b42e-1350-11df-a1f1-0026b9348838"
-        },
-        {
-            "uuid": "a2785d4b-334a-4cce-9317-ff41b4fd9259",
-            "value": "a899b42e-1350-11df-a1f1-0026b9348838"
-        },
-        {
-            "uuid": "509e7db4-9495-4bbd-bdf6-24ccf08b7290",
-            "value": 1
-        },
-        {
-            "uuid": "6eed98d0-c9e4-48e5-859c-5c6e12f79bc7",
-            "value": 1
-        },
-        {
-            "uuid": "bece9daf-bc11-4284-8be8-6c2feb727cb4",
-            "value": 1
-        },
-        {
-            "uuid": "84669620-82d5-4416-9ad0-ddb6bdd52d2f",
-            "value": "a899b35c-1350-11df-a1f1-0026b9348838"
-        },
-        {
-            "uuid": "7e074a5a-efdf-4113-abf8-dcdab866a96f",
-            "value": "a899b42e-1350-11df-a1f1-0026b9348838"
-        },
-        {
-            "uuid": "2f76d734-0578-44d5-b50e-f0db02a81197",
-            "value": "a899b35c-1350-11df-a1f1-0026b9348838"
-        }
-    ],
-    "orders": []
+  "encounterDatetime": "2017-01-10 00:00:00",
+  "provider": "ef59ac9d-9cca-46c5-ab04-b4d708584e13",
+  "location": "18c343eb-b353-462a-9139-b16606e6b6c2",
+  "encounterType": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+  "form": "59cbf52d-b214-48c2-b43a-db236b94ec42",
+  "uuid": "27d6b0b2-43ed-424d-b6b5-ebcb3c74749a",
+  "obs": [
+    {
+      "uuid": "edbf58dc-273f-436a-b426-28e4d9b78441",
+      "value": "8b715fed-97f6-4e38-8f6a-c167a42f8923"
+    },
+    {
+      "uuid": "c5322256-850c-487a-8ca3-8564875f9e23",
+      "value": "a89b6440-1350-11df-a1f1-0026b9348838"
+    },
+    {
+      "uuid": "c161bbfd-22c3-4405-90c8-026325ec1797",
+      "value": "a899af10-1350-11df-a1f1-0026b9348838"
+    },
+    {
+      "uuid": "49756f30-c15d-4302-ab47-df58c2ad6c5f",
+      "value": "a899b35c-1350-11df-a1f1-0026b9348838"
+    },
+    {
+      "uuid": "f6848f28-1b56-4ebf-8e91-3cdbcf52c08c",
+      "value": "5da55301-e28e-4fdf-8b64-02622dedc8b0"
+    },
+    {
+      "uuid": "5f575f76-32fb-46c1-81a3-49f74315c198",
+      "value": "bf51f71e-937c-4da5-ae07-654acf59f5bb"
+    },
+    {
+      "uuid": "19c614d1-d837-40e7-9e90-47a096efaca9",
+      "value": "a899ea48-1350-11df-a1f1-0026b9348838"
+    },
+    {
+      "uuid": "5cd9b7dd-f451-47af-b91b-b8d73009a855",
+      "value": "a899b42e-1350-11df-a1f1-0026b9348838"
+    },
+    {
+      "uuid": "98c28369-d8af-4be9-ad2f-295e53922814",
+      "value": "a899b42e-1350-11df-a1f1-0026b9348838"
+    },
+    {
+      "uuid": "38cd940a-e992-49bc-bd5b-07f4fea064fe",
+      "value": "a899b42e-1350-11df-a1f1-0026b9348838"
+    },
+    {
+      "uuid": "3373fb6e-fdeb-435e-8d1e-2800dea854e3",
+      "value": "a899d120-1350-11df-a1f1-0026b9348838"
+    },
+    {
+      "uuid": "e4311e8f-1115-4bb3-95fd-d9174a5a0f82",
+      "value": "a8a4bd42-1350-11df-a1f1-0026b9348838"
+    },
+    {
+      "uuid": "c0177c58-8555-4193-9bdd-ae094368de40",
+      "value": "2017-01-02T00:00:00.000+0300"
+    },
+    {
+      "uuid": "2c8796d6-7518-4737-87d4-0d650a10f20d",
+      "value": "a899b42e-1350-11df-a1f1-0026b9348838"
+    },
+    {
+      "uuid": "21fd76d2-6fea-4c1e-9b08-a79ff53e3707",
+      "value": 22
+    },
+    {
+      "uuid": "3b68ba90-904e-4491-8022-ab14e6cfbaf8",
+      "value": "a899b42e-1350-11df-a1f1-0026b9348838"
+    },
+    {
+      "uuid": "a2785d4b-334a-4cce-9317-ff41b4fd9259",
+      "value": "a899b42e-1350-11df-a1f1-0026b9348838"
+    },
+    {
+      "uuid": "509e7db4-9495-4bbd-bdf6-24ccf08b7290",
+      "value": 1
+    },
+    {
+      "uuid": "6eed98d0-c9e4-48e5-859c-5c6e12f79bc7",
+      "value": 1
+    },
+    {
+      "uuid": "bece9daf-bc11-4284-8be8-6c2feb727cb4",
+      "value": 1
+    },
+    {
+      "uuid": "84669620-82d5-4416-9ad0-ddb6bdd52d2f",
+      "value": "a899b35c-1350-11df-a1f1-0026b9348838"
+    },
+    {
+      "uuid": "7e074a5a-efdf-4113-abf8-dcdab866a96f",
+      "value": "a899b42e-1350-11df-a1f1-0026b9348838"
+    },
+    {
+      "uuid": "2f76d734-0578-44d5-b50e-f0db02a81197",
+      "value": "a899b35c-1350-11df-a1f1-0026b9348838"
+    }
+  ],
+  "orders": []
 }

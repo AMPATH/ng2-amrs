@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import {Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { DynamicRoutesService } from '../shared/dynamic-route/dynamic-routes.service';
 import { DynamicRouteModel } from '../shared/dynamic-route/dynamic-route.model';
 import { AuthenticationService } from '../openmrs-api/authentication.service';
@@ -8,9 +8,7 @@ import { UserService } from '../openmrs-api/user.service';
 import { User } from '../models/user.model';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { AppState } from '../app.service';
-import {
-  UserDefaultPropertiesService
-} from '../user-default-properties/user-default-properties.service';
+import { UserDefaultPropertiesService } from '../user-default-properties/user-default-properties.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -32,14 +30,15 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
   public active = false;
   public interval;
   public countDown = 0;
-  constructor(private router: Router,
-              private localStore: LocalStorageService,
-              private dynamicRoutesService: DynamicRoutesService,
-              private authenticationService: AuthenticationService,
-              private userDefaultSettingsService: UserDefaultPropertiesService,
-              private userService: UserService,
-              private appState: AppState
-  ) { }
+  constructor(
+    private router: Router,
+    private localStore: LocalStorageService,
+    private dynamicRoutesService: DynamicRoutesService,
+    private authenticationService: AuthenticationService,
+    private userDefaultSettingsService: UserDefaultPropertiesService,
+    private userService: UserService,
+    private appState: AppState
+  ) {}
 
   public ngOnDestroy() {
     this.appSubscription.unsubscribe();
@@ -55,30 +54,36 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
 
     // Work Around for min-height
     window.dispatchEvent(new Event('resize'));
-    this.dynamicRoutesService.routes.subscribe((result) => {
-      this.routeConfig = (result as DynamicRouteModel);
-      if (this.routeConfig.routes.length > 0 && !this.isMobile) {
-        this.sidebarOpen = true;
-      } else {
-        this.sidebarOpen = false;
-      }
-    },
+    this.dynamicRoutesService.routes.subscribe(
+      (result) => {
+        this.routeConfig = result as DynamicRouteModel;
+        if (this.routeConfig.routes.length > 0 && !this.isMobile) {
+          this.sidebarOpen = true;
+        } else {
+          this.sidebarOpen = false;
+        }
+      },
       (err) => console.error(err),
-      () => console.log('Completed'));
+      () => console.log('Completed')
+    );
     this.user = this.userService.getLoggedInUser();
     this.userDefaultSettingsService.locationSubject.subscribe((location) => {
       if (location) {
-        this.userLocation = JSON.parse(location) ? JSON.parse(location).display : '';
+        this.userLocation = JSON.parse(location)
+          ? JSON.parse(location).display
+          : '';
       } else {
-        const defaultLocation =
-          this.localStore.getItem('userDefaultLocation' + this.user.display);
-        this.userLocation =
-          JSON.parse(defaultLocation) ? JSON.parse(defaultLocation).display :
-            undefined;
+        const defaultLocation = this.localStore.getItem(
+          'userDefaultLocation' + this.user.display
+        );
+        this.userLocation = JSON.parse(defaultLocation)
+          ? JSON.parse(defaultLocation).display
+          : undefined;
       }
     });
 
-    this.appSubscription = this.appState.setupIdleTimer(1000 * 60 * 30)
+    this.appSubscription = this.appState
+      .setupIdleTimer(1000 * 60 * 30)
       .subscribe((status: { idle: boolean }) => {
         this.active = status.idle;
         if (status.idle) {
@@ -99,7 +104,6 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.adjustDashBoard(this.router.url);
     }, 100);
-
   }
 
   public logout() {
@@ -157,7 +161,7 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
         this.countDown = this.countDown - 1;
         this.timer();
       } else if (this.countDown === 0 && this.router.url !== '/login') {
-        console.log('logOut', );
+        console.log('logOut');
         this.logout();
       }
     }, 1000);
@@ -171,5 +175,4 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
       body.classList.add('sidebar-open');
     }, 200);
   }
-
 }

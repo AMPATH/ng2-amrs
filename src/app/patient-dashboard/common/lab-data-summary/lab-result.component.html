@@ -1,33 +1,40 @@
 <!-- <div [ngBusy]="{busy:[fetchingResults],message:'Loading lab data............'}"></div> -->
 <div class="container-fluid">
   <div class="row">
-          <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-                  <!-- <a class="toggle-view" (click)="toggleView()"><i class="fa fa-exchange fa-fw fa-2x"></i> Change View</a> -->
-                  <button class="btn btn-primary" data-color="blue" (click)="toggleView()"><i class="fa fa-exchange fa-fw fa-1x"></i> Change View</button>
-                  <ag-grid-angular #agGrid
-                  style="width: 100%; height: 350px;"
-                  class="ag-blue"
-                  [gridOptions]="gridOptions"
-                  [rowData]="labRowData"
-                  [columnDefs]="labCols"
-                  (cellClicked) = "cellClicked($event)"
-                  >
+    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+      <!-- <a class="toggle-view" (click)="toggleView()"><i class="fa fa-exchange fa-fw fa-2x"></i> Change View</a> -->
+      <button class="btn btn-primary" data-color="blue" (click)="toggleView()">
+        <i class="fa fa-exchange fa-fw fa-1x"></i> Change View
+      </button>
+      <ag-grid-angular
+        #agGrid
+        style="width: 100%; height: 350px"
+        class="ag-blue"
+        [gridOptions]="gridOptions"
+        [rowData]="labRowData"
+        [columnDefs]="labCols"
+        (cellClicked)="cellClicked($event)"
+      >
+      </ag-grid-angular>
+    </div>
 
-                  </ag-grid-angular>
-            </div>
+    <lab-result-image-modal
+      [imageLinks]="imageLinks"
+      [title]="imageTitle"
+      [pdfLinks]="pdfLinks"
+      [showImageModal]="showImageModal"
+      (modalClose)="modalClose($event)"
+    ></lab-result-image-modal>
+    <div *ngIf="dataLoaded">
+      <p class="bg-info" style="padding: 4px">
+        <b>
+          <span style="color: green" class="glyphicon glyphicon-ok"
+            >All records loaded {{ '[ ' + labResults.length + ' ]' }}</span
+          ></b
+        >
+      </p>
 
-  <lab-result-image-modal
-    [imageLinks]="imageLinks"
-    [title]="imageTitle"
-    [pdfLinks]="pdfLinks"
-    [showImageModal]="showImageModal"
-    (modalClose)="modalClose($event)"
-  ></lab-result-image-modal>
-  <div *ngIf='dataLoaded'>
-    <p class="bg-info" style="padding:4px;">
-      <b>
-        <span style="color:green;" class="glyphicon glyphicon-ok">All records loaded {{'[ ' + labResults.length + ' ]'}}</span></b>
-      <p>
+      <p></p>
+    </div>
   </div>
-</div>
 </div>

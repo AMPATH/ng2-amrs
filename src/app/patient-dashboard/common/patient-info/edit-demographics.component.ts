@@ -1,4 +1,3 @@
-
 import { take } from 'rxjs/operators/take';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PatientService } from '../../services/patient.service';
@@ -12,10 +11,9 @@ import { PatientCreationService } from 'src/app/patient-creation/patient-creatio
 @Component({
   selector: 'edit-demographics',
   templateUrl: './edit-demographics.component.html',
-  styleUrls: ['./edit-demographics.component.css'],
+  styleUrls: ['./edit-demographics.component.css']
 })
 export class EditDemographicsComponent implements OnInit, OnDestroy {
-
   public patients: Patient = new Patient({});
   public display = false;
   public subscription: Subscription;
@@ -48,11 +46,11 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
   public errorAlert: string;
   public errorTitle: string;
 
-  constructor(private patientService: PatientService,
+  constructor(
+    private patientService: PatientService,
     private personResourceService: PersonResourceService,
     private conceptResourceService: ConceptResourceService
-    ) {
-  }
+  ) {}
 
   public ngOnInit(): void {
     this.getPatient();
@@ -71,13 +69,18 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
         this.patients = new Patient({});
         if (patient) {
           this.patients = patient;
-          this.givenName = (this.patients.person.preferredName as any).givenName;
-          this.middleName = (this.patients.person.preferredName as any).middleName;
-          this.familyName = (this.patients.person.preferredName as any).familyName;
+          this.givenName = (this.patients.person
+            .preferredName as any).givenName;
+          this.middleName = (this.patients.person
+            .preferredName as any).middleName;
+          this.familyName = (this.patients.person
+            .preferredName as any).familyName;
           this.birthDate = this.patients.person.birthdate;
           this.birthdateEstimated = this.patients.person.birthdateEstimated;
-          this.ispreferred = (this.patients.person.preferredName as any).preferred;
-          this.preferredNameuuid = (this.patients.person.preferredName as any).uuid;
+          this.ispreferred = (this.patients.person
+            .preferredName as any).preferred;
+          this.preferredNameuuid = (this.patients.person
+            .preferredName as any).uuid;
           this.gender = this.patients.person.gender;
           this.healthCenter = this.patients.person.healthCenter;
           this.dead = this.patients.person.dead;
@@ -103,7 +106,6 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
     this.birthDate = birthDate;
   }
   public updateDeathDetails(dead) {
-
     if ((this.dead as any) === 'true') {
       this.dead = true;
     }
@@ -124,11 +126,9 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
       this.deathDate = null;
       this.causeOfDeath = null;
     }
-
   }
 
   public updateDOBDetails(birthdateEstimated) {
-
     if ((this.birthdateEstimated as any) === 'true') {
       this.birthdateEstimated = true;
     }
@@ -136,17 +136,22 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
     if ((this.birthdateEstimated as any) === 'false') {
       this.birthdateEstimated = false;
     }
-
   }
   public getCauseOfDeath() {
     const conceptUid = 'a89df750-1350-11df-a1f1-0026b9348838';
-    this.conceptResourceService.getConceptByUuid(conceptUid).pipe(take(1)).subscribe((data) => {
-      if (data) {
-        this.causesOfDeath = data.answers;
-      }
-    }, (error) => {
-      console.error('Failed to load concepts ', error);
-    });
+    this.conceptResourceService
+      .getConceptByUuid(conceptUid)
+      .pipe(take(1))
+      .subscribe(
+        (data) => {
+          if (data) {
+            this.causesOfDeath = data.answers;
+          }
+        },
+        (error) => {
+          console.error('Failed to load concepts ', error);
+        }
+      );
   }
 
   public updateName() {
@@ -187,7 +192,6 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
     if (!this.dead) {
       this.deathDate = null;
       this.causeOfDeath = null;
-
     } else if (this.dead) {
       if (moment(this.deathDate).isAfter(new Date())) {
         this.errors.push({ message: 'Date date cannot be in future' });
@@ -198,7 +202,6 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
       if (!this.causeOfDeath) {
         this.errors.push({ message: 'Cause of Death is required' });
       }
-
     }
     if (moment(this.birthDate).isAfter(new Date())) {
       this.errors.push({ message: 'Birth Date date cannot be in future' });
@@ -206,7 +209,6 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
     if (this.birthDate == null) {
       this.errors.push({ message: 'Birth Date is required' });
     }
-
 
     if (this.errors.length === 0) {
       const person = {
@@ -220,7 +222,8 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
             middleName: this.middleName,
             preferred: this.ispreferred,
             uuid: this.preferredNameuuid
-          }],
+          }
+        ],
         dead: this.dead,
         deathDate: this.deathDate,
         causeOfDeath: this.causeOfDeath,
@@ -228,21 +231,24 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
         birthdate: this.birthDate,
         birthdateEstimated: this.birthdateEstimated
       };
-      this.personResourceService.saveUpdatePerson(person.uuid, personNamePayload).pipe(take(1)).subscribe(
-        (success) => {
-          if (success) {
-            this.displaySuccessAlert('Demographics saved successfully');
-            this.patientService.reloadCurrentPatient();
+      this.personResourceService
+        .saveUpdatePerson(person.uuid, personNamePayload)
+        .pipe(take(1))
+        .subscribe(
+          (success) => {
+            if (success) {
+              this.displaySuccessAlert('Demographics saved successfully');
+              this.patientService.reloadCurrentPatient();
+            }
+            // this.successAlert = 'Successfully updated Patient Demographics';
+          },
+          (error) => {
+            console.error('error', error);
+            this.errors.push({
+              message: 'Error Updating Demographics!'
+            });
           }
-          // this.successAlert = 'Successfully updated Patient Demographics';
-        },
-        (error) => {
-          console.error('error', error);
-          this.errors.push({
-            message: 'Error Updating Demographics!'
-          });
-        }
-      );
+        );
       setTimeout(() => {
         this.display = false;
       }, 1000);

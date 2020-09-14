@@ -1,4 +1,3 @@
-
 import { FormsModule } from '@angular/forms';
 import { NgamrsSharedModule } from 'src/app/shared/ngamrs-shared.module';
 import { DateTimePickerModule } from 'ngx-openmrs-formentry/';
@@ -8,12 +7,11 @@ import { CaseManagementFiltersComponent } from './case-management-filters.compon
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { CaseManagementResourceService } from './../../etl-api/case-management-resource.service';
 
-
 class MockRouter {
   public navigate = jasmine.createSpy('navigate');
 }
 class MockActivatedRoute {
-  public params = of([{ 'id': 1 }]);
+  public params = of([{ id: 1 }]);
   public snapshot = {
     queryParams: { date: '' }
   };
@@ -31,8 +29,8 @@ const mockCaseManagersResponse = [
 ];
 const mockCaseManagers = [
   {
-      person_name: 'Test Manager 1',
-      user_id: 1
+    person_name: 'Test Manager 1',
+    user_id: 1
   },
   {
     person_name: 'Test Manager 2',
@@ -40,30 +38,32 @@ const mockCaseManagers = [
   }
 ];
 
-const  mockParams = {
-  'caseManagerUserId': [1, 2],
-  'dueForVl': 'true',
-  'elevatedVL': 'true',
-  'hasCaseManager': 'true',
-  'hasPhoneRTC': 'true',
-  'isNewlyEnrolled': 'true',
-  'minDefaultPeriod': '1',
-  'maxDefaultPeriod': '100',
-  'maxFollowupPeriod': '100',
-  'minFollowupPeriod': '1',
-  'rtcStartDate': '2020-05-01',
-  'rtcEndDate': '2020-05-30',
-  'phoneFollowUpStartDate': '2020-05-01',
-  'filterSet': true,
-  'locationUuid': 'locationUuid'
+const mockParams = {
+  caseManagerUserId: [1, 2],
+  dueForVl: 'true',
+  elevatedVL: 'true',
+  hasCaseManager: 'true',
+  hasPhoneRTC: 'true',
+  isNewlyEnrolled: 'true',
+  minDefaultPeriod: '1',
+  maxDefaultPeriod: '100',
+  maxFollowupPeriod: '100',
+  minFollowupPeriod: '1',
+  rtcStartDate: '2020-05-01',
+  rtcEndDate: '2020-05-30',
+  phoneFollowUpStartDate: '2020-05-01',
+  filterSet: true,
+  locationUuid: 'locationUuid'
 };
 
+const caseManagementService = jasmine.createSpyObj(
+  'CaseManagementResourceService',
+  ['getCaseManagers']
+);
 
-
-const caseManagementService = jasmine.createSpyObj('CaseManagementResourceService', ['getCaseManagers']);
-
-const caseManagementResourceServiceSpy = caseManagementService.getCaseManagers
-  .and.returnValue(of(mockCaseManagersResponse));
+const caseManagementResourceServiceSpy = caseManagementService.getCaseManagers.and.returnValue(
+  of(mockCaseManagersResponse)
+);
 
 describe('Component: Case Management Filter', () => {
   let fixture: ComponentFixture<CaseManagementFiltersComponent>;
@@ -73,18 +73,9 @@ describe('Component: Case Management Filter', () => {
   let caseManagementResourceService: CaseManagementResourceService;
 
   beforeEach(async(() => {
-
-
     TestBed.configureTestingModule({
-      imports:
-        [
-          FormsModule,
-          NgamrsSharedModule,
-          DateTimePickerModule
-        ],
-      declarations: [
-        CaseManagementFiltersComponent
-      ],
+      imports: [FormsModule, NgamrsSharedModule, DateTimePickerModule],
+      declarations: [CaseManagementFiltersComponent],
       providers: [
         { provide: Router, useClass: MockRouter },
         {
@@ -96,14 +87,16 @@ describe('Component: Case Management Filter', () => {
           useValue: caseManagementResourceServiceSpy
         }
       ]
-    }).compileComponents()
+    })
+      .compileComponents()
       .then(() => {
         fixture = TestBed.createComponent(CaseManagementFiltersComponent);
         comp = fixture.componentInstance;
-        caseManagementResourceService = fixture.debugElement.injector.get<CaseManagementResourceService>(CaseManagementResourceService);
+        caseManagementResourceService = fixture.debugElement.injector.get<
+          CaseManagementResourceService
+        >(CaseManagementResourceService);
         router = fixture.debugElement.injector.get(Router);
         route = fixture.debugElement.injector.get(ActivatedRoute);
-
       });
   }));
 
@@ -118,24 +111,28 @@ describe('Component: Case Management Filter', () => {
   it('should return correct location params', () => {
     comp.clinicDashboardLocation = 'locationuuid';
     const mockLocationParams = {
-        'locationUuid': comp.clinicDashboardLocation
+      locationUuid: comp.clinicDashboardLocation
     };
-    expect(JSON.stringify(comp.getLocationParams())).toBe(JSON.stringify(mockLocationParams));
+    expect(JSON.stringify(comp.getLocationParams())).toBe(
+      JSON.stringify(mockLocationParams)
+    );
   });
 
   it('should create correct manager dropdown options from manager list', () => {
     comp.processCaseManagers(mockCaseManagers);
     const expectedManagerOptions = [
       {
-          label: 'Test Manager 1',
-          value: 1
+        label: 'Test Manager 1',
+        value: 1
       },
       {
         label: 'Test Manager 2',
         value: 2
-       }
+      }
     ];
-    expect(JSON.stringify(comp.caseManagers)).toBe(JSON.stringify(expectedManagerOptions));
+    expect(JSON.stringify(comp.caseManagers)).toBe(
+      JSON.stringify(expectedManagerOptions)
+    );
   });
 
   it('should set the correct params object from local variables', () => {
@@ -179,7 +176,6 @@ describe('Component: Case Management Filter', () => {
     expect(comp.toggleCaseManagerControl).toHaveBeenCalled();
     expect(comp.hideCaseManagerControl).toBe(true);
     expect(comp.selectedCaseManager).toBe('');
-
   });
 
   it('Assign correct dueforVl on value change', () => {
@@ -193,12 +189,16 @@ describe('Component: Case Management Filter', () => {
   });
 
   it('Assign correct case manager on manager change', () => {
-    const selectedManager = [{
-      'label': 'Test Manager 1',
-       'value' : 1
-    }];
+    const selectedManager = [
+      {
+        label: 'Test Manager 1',
+        value: 1
+      }
+    ];
     comp.onCaseManagerSelected(selectedManager);
-    expect(JSON.stringify(comp.selectedCaseManager)).toBe(JSON.stringify(selectedManager));
+    expect(JSON.stringify(comp.selectedCaseManager)).toBe(
+      JSON.stringify(selectedManager)
+    );
   });
 
   it('Assign correct selected RTC Start date on change', () => {
@@ -226,32 +226,31 @@ describe('Component: Case Management Filter', () => {
   });
 
   it('Reset Filter to clear all variables', () => {
-      spyOn(comp.filterReset, 'emit');
-      spyOn(comp, 'setParams').and.callFake(() => {
-         return true;
-      });
-      comp.resetFilters();
-      expect(comp.dueForVl).toBe('');
-      expect(comp.hasCaseManager).toBe('');
-      expect(comp.hasPhoneRTC).toBe('');
-      expect(comp.isNewlyEnrolled).toBe('');
-      expect(comp.elevatedVL).toBe('');
-      expect(comp.minFollowupPeriod).toBe('');
-      expect(comp.maxFollowupPeriod).toBe('');
-      expect(comp.minDefaultPeriod).toBe('');
-      expect(comp.maxDefaultPeriod).toBe('');
-      expect(comp.selectedCaseManager).toBe('');
-      expect(comp.rtcStartDate).toBe('');
-      expect(comp.selectedRtcStartDate).toBe('');
-      expect(comp.rtcEndDate).toBe('');
-      expect(comp.selectedRtcEndDate).toBe('');
-      expect(comp.phoneFollowUpStartDate).toBe('');
-      expect(comp.selectedPhoneFollowUpDate).toBe('');
-      expect(comp.filterSet).toEqual(false);
-      expect(comp.hideCaseManagerControl).toBe(false);
-      expect(comp.selectedCaseManager).toEqual('');
-      expect(comp.filterReset.emit).toHaveBeenCalledWith(true);
-      expect(comp.setParams).toHaveBeenCalled();
+    spyOn(comp.filterReset, 'emit');
+    spyOn(comp, 'setParams').and.callFake(() => {
+      return true;
+    });
+    comp.resetFilters();
+    expect(comp.dueForVl).toBe('');
+    expect(comp.hasCaseManager).toBe('');
+    expect(comp.hasPhoneRTC).toBe('');
+    expect(comp.isNewlyEnrolled).toBe('');
+    expect(comp.elevatedVL).toBe('');
+    expect(comp.minFollowupPeriod).toBe('');
+    expect(comp.maxFollowupPeriod).toBe('');
+    expect(comp.minDefaultPeriod).toBe('');
+    expect(comp.maxDefaultPeriod).toBe('');
+    expect(comp.selectedCaseManager).toBe('');
+    expect(comp.rtcStartDate).toBe('');
+    expect(comp.selectedRtcStartDate).toBe('');
+    expect(comp.rtcEndDate).toBe('');
+    expect(comp.selectedRtcEndDate).toBe('');
+    expect(comp.phoneFollowUpStartDate).toBe('');
+    expect(comp.selectedPhoneFollowUpDate).toBe('');
+    expect(comp.filterSet).toEqual(false);
+    expect(comp.hideCaseManagerControl).toBe(false);
+    expect(comp.selectedCaseManager).toEqual('');
+    expect(comp.filterReset.emit).toHaveBeenCalledWith(true);
+    expect(comp.setParams).toHaveBeenCalled();
   });
-
 });

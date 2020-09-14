@@ -3,19 +3,18 @@ import { Subscription } from 'rxjs';
 import { ClinicDashboardCacheService } from '../../services/clinic-dashboard-cache.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
-import { DailyScheduleBaseComponent
-} from '../../../clinic-schedule-lib/daily-schedule/daily-schedule.component';
-import {
-    ClinicFlowCacheService
-} from '../../../hiv-care-lib/clinic-flow/clinic-flow-cache.service';
+import { DailyScheduleBaseComponent } from '../../../clinic-schedule-lib/daily-schedule/daily-schedule.component';
+import { ClinicFlowCacheService } from '../../../hiv-care-lib/clinic-flow/clinic-flow-cache.service';
 import { SelectDepartmentService } from './../../../shared/services/select-department.service';
 import * as Moment from 'moment';
 @Component({
   selector: 'hiv-daily-schedule',
-  templateUrl: '../../../clinic-schedule-lib/daily-schedule/daily-schedule.component.html'
+  templateUrl:
+    '../../../clinic-schedule-lib/daily-schedule/daily-schedule.component.html'
 })
-export class HivDailyScheduleComponent  extends
-DailyScheduleBaseComponent implements OnInit, OnDestroy {
+export class HivDailyScheduleComponent
+  extends DailyScheduleBaseComponent
+  implements OnInit, OnDestroy {
   public routeSub: Subscription = new Subscription();
   public myDepartment = 'HIV';
   public _datePipe: DatePipe;
@@ -26,7 +25,7 @@ DailyScheduleBaseComponent implements OnInit, OnDestroy {
     { label: 'Appointments', link: 'daily-appointments' },
     { label: 'Visits', link: 'daily-visits' },
     { label: 'Clinic Flow', link: 'clinic-flow' },
-    { label: 'Has not returned', link: 'daily-not-returned' },
+    { label: 'Has not returned', link: 'daily-not-returned' }
   ];
 
   constructor(
@@ -34,24 +33,25 @@ DailyScheduleBaseComponent implements OnInit, OnDestroy {
     public router: Router,
     public route: ActivatedRoute,
     public clinicFlowCache: ClinicFlowCacheService,
-    private selectDepartmentService: SelectDepartmentService) {
-      super(clinicDashboardCacheService, router, route, clinicFlowCache);
-      this._datePipe = new DatePipe('en-US');
+    private selectDepartmentService: SelectDepartmentService
+  ) {
+    super(clinicDashboardCacheService, router, route, clinicFlowCache);
+    this._datePipe = new DatePipe('en-US');
   }
 
   public ngOnInit() {
     this.setActiveTab();
-    this.paramsSub = this.route
-    .queryParams
-    .subscribe((params) => {
-       if (params.startDate) {
+    this.paramsSub = this.route.queryParams.subscribe((params) => {
+      if (params.startDate) {
         this.selectedDate = Moment(params.startDate).format('MMM  D , YYYY ');
         this.clinicFlowCache.setSelectedDate(this.selectedDate);
-       }
+      }
     });
     this.selectDepartmentService.setDepartment(this.myDepartment);
     this.routeSub = this.route.parent.parent.params.subscribe((params) => {
-      this.clinicDashboardCacheService.setCurrentClinic(params['location_uuid']);
+      this.clinicDashboardCacheService.setCurrentClinic(
+        params['location_uuid']
+      );
     });
     if (this.clinicFlowCache.lastClinicFlowSelectedDate) {
       this.selectedDate = this.clinicFlowCache.lastClinicFlowSelectedDate;
@@ -73,8 +73,6 @@ DailyScheduleBaseComponent implements OnInit, OnDestroy {
       path = this.router.url.substring(0, n !== -1 ? n : path.length);
       path = path.substr(this.router.url.lastIndexOf('/') + 1);
       this.activeLinkIndex = this.tabLinks.findIndex((x) => x.link === path);
-
     }
   }
-
 }

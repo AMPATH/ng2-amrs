@@ -1,23 +1,26 @@
 import {
-  Component, Output, EventEmitter, Input, ViewChildren, OnInit,
+  Component,
+  Output,
+  EventEmitter,
+  Input,
+  ViewChildren,
+  OnInit,
   ViewEncapsulation
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
-import { UpdateAvailableEvent, UpdateActivatedEvent } from '@angular/service-worker/src/low_level';
-
-
+import {
+  UpdateAvailableEvent,
+  UpdateActivatedEvent
+} from '@angular/service-worker/src/low_level';
 
 import { Subscription, Observable } from 'rxjs';
 import * as _ from 'lodash';
 import { FormSchemaCompiler } from 'ngx-openmrs-formentry';
 
-
 import { AuthenticationService } from '../openmrs-api/authentication.service';
 import { Messages } from '../utils/messages';
-import {
-  UserDefaultPropertiesService
-} from '../user-default-properties/user-default-properties.service';
+import { UserDefaultPropertiesService } from '../user-default-properties/user-default-properties.service';
 import { FormListService } from '../patient-dashboard/common/forms/form-list.service';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { LocalStorageService } from '../utils/local-storage.service';
@@ -33,7 +36,6 @@ import { FormsResourceService } from '../openmrs-api/forms-resource.service';
   encapsulation: ViewEncapsulation.None
 })
 export class LoginComponent implements OnInit {
-
   @Output() public loginSuccess = new EventEmitter();
   @Output() public loginFailure = new EventEmitter();
 
@@ -45,19 +47,21 @@ export class LoginComponent implements OnInit {
 
   @ViewChildren('password') public passwordField;
 
-  constructor(private router: Router,
-              private authenticationService: AuthenticationService,
-              private appSettingsService: AppSettingsService,
-              private localStorageService: LocalStorageService,
-              private userDefaultPropertiesService: UserDefaultPropertiesService,
-              private formUpdaterService: FormUpdaterService,
-              private formsResourceService: FormsResourceService,
-              private updates: SwUpdate
-              ) {
-  }
+  constructor(
+    private router: Router,
+    private authenticationService: AuthenticationService,
+    private appSettingsService: AppSettingsService,
+    private localStorageService: LocalStorageService,
+    private userDefaultPropertiesService: UserDefaultPropertiesService,
+    private formUpdaterService: FormUpdaterService,
+    private formsResourceService: FormsResourceService,
+    private updates: SwUpdate
+  ) {}
 
   public ngOnInit() {
-    const settingsFromAppSettings = this.localStorageService.getItem('appSettingsAction');
+    const settingsFromAppSettings = this.localStorageService.getItem(
+      'appSettingsAction'
+    );
     // respect users choice from app settings
     if (!settingsFromAppSettings) {
       const templates = this.appSettingsService.getServerTemplates();
@@ -71,7 +75,7 @@ export class LoginComponent implements OnInit {
 
     // service worker hard reload user if new version is available
     this.isUpdateAvailable().subscribe(() => {
-        window.location.reload();
+      window.location.reload();
     });
   }
 
@@ -80,20 +84,19 @@ export class LoginComponent implements OnInit {
   }
 
   public login(event, username: string, password: string) {
-
     event.stopPropagation();
     event.preventDefault();
 
     const body = JSON.stringify({ username, password });
     const currentRoute = window.location.toString();
 
-    this.busy = this.authenticationService.authenticate(username, password)
+    this.busy = this.authenticationService
+      .authenticate(username, password)
       .subscribe(
         (response: any) => {
           const data = response;
 
           if (data.authenticated) {
-
             /// update forms in cache ////
             const lastChecked = this.formUpdaterService.getDateLastChecked();
             if (lastChecked !== new Date().toDateString()) {
@@ -101,10 +104,10 @@ export class LoginComponent implements OnInit {
             }
 
             if (currentRoute && currentRoute.indexOf('login') !== -1) {
-
-              const previousRoute: string = sessionStorage.getItem('previousRoute');
-              const userDefaultLocation = this.userDefaultPropertiesService
-                .getCurrentUserDefaultLocation();
+              const previousRoute: string = sessionStorage.getItem(
+                'previousRoute'
+              );
+              const userDefaultLocation = this.userDefaultPropertiesService.getCurrentUserDefaultLocation();
 
               if (previousRoute && previousRoute.length > 1) {
                 if (previousRoute && previousRoute.indexOf('login') !== -1) {
@@ -115,17 +118,23 @@ export class LoginComponent implements OnInit {
               } else {
                 this.router.navigate(['/']);
               }
-              if (userDefaultLocation === null ||
+              if (
+                userDefaultLocation === null ||
                 userDefaultLocation === undefined ||
-                this.shouldSetLocation) {
-                this.localStorageService.setItem('lastLoginDate', (new Date())
-                  .toLocaleDateString());
+                this.shouldSetLocation
+              ) {
+                this.localStorageService.setItem(
+                  'lastLoginDate',
+                  new Date().toLocaleDateString()
+                );
                 if (this.shouldRedirect) {
-                  this.router.navigate(['/user-default-properties', { confirm: 1 }]);
+                  this.router.navigate([
+                    '/user-default-properties',
+                    { confirm: 1 }
+                  ]);
                 } else {
                   this.router.navigate(['/user-default-properties']);
                 }
-
               } else {
                 this.router.navigate(['/']);
               }
@@ -142,31 +151,29 @@ export class LoginComponent implements OnInit {
           } else {
             this.error = error.statusText;
           }
-        });
+        }
+      );
 
     this.loginSuccess.emit(true);
-
   }
 
   get shouldSetLocation() {
     const lastLoginDate = this.localStorageService.getItem('lastLoginDate');
-    const today = (new Date()).toLocaleDateString();
+    const today = new Date().toLocaleDateString();
     this.shouldRedirect = true;
-    return (!lastLoginDate || lastLoginDate !== today);
+    return !lastLoginDate || lastLoginDate !== today;
   }
 
   public clearAndFocusPassword() {
-
     this.passwordField.first.nativeElement.focus();
     this.passwordField.first.nativeElement.value = '';
   }
 
   public isUpdateAvailable(): Observable<UpdateAvailableEvent> {
     return this.updates.available;
-}
+  }
 
-public isUpdateActivated(): Observable<UpdateActivatedEvent> {
+  public isUpdateActivated(): Observable<UpdateActivatedEvent> {
     return this.updates.activated;
-}
-
+  }
 }

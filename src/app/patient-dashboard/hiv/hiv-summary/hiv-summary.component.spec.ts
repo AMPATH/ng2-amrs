@@ -20,7 +20,7 @@ import { PdfViewerComponent } from 'ng2-pdf-viewer';
 import { NgBusyModule } from 'ng-busy';
 
 class MockActivatedRoute {
-  public params = Observable.of([{ 'id': 1 }]);
+  public params = Observable.of([{ id: 1 }]);
   public snapshot = {
     queryParams: { filter: '' }
   };
@@ -29,7 +29,7 @@ class MockActivatedRoute {
 describe('Component: Hiv Summary', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ TabViewModule, NgBusyModule],
+      imports: [TabViewModule, NgBusyModule],
       providers: [
         ZeroVlPipe,
         HivSummaryService,
@@ -39,14 +39,22 @@ describe('Component: Hiv Summary', () => {
           useClass: MockActivatedRoute
         },
         {
-          provide: AppFeatureAnalytics, useFactory: () => {
+          provide: AppFeatureAnalytics,
+          useFactory: () => {
             return new FakeAppFeatureAnalytics();
-          }, deps: []
+          },
+          deps: []
         }
       ],
-      declarations: [HivSummaryComponent, HivSummaryLatestComponent, HivSummaryHistoricalComponent,
-        MedicationHistoryComponent, HivPatientClinicalSummaryComponent,
-        PreviousVisitComponent, ZeroVlPipe, PdfViewerComponent
+      declarations: [
+        HivSummaryComponent,
+        HivSummaryLatestComponent,
+        HivSummaryHistoricalComponent,
+        MedicationHistoryComponent,
+        HivPatientClinicalSummaryComponent,
+        PreviousVisitComponent,
+        ZeroVlPipe,
+        PdfViewerComponent
       ]
     });
   });
@@ -60,4 +68,3 @@ describe('Component: Hiv Summary', () => {
     expect(component).toBeTruthy();
   });
 });
-

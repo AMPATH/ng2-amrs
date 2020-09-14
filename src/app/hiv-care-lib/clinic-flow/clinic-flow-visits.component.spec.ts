@@ -1,4 +1,3 @@
-
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async } from '@angular/core/testing';
@@ -12,18 +11,32 @@ import { AppSettingsService } from '../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../utils/local-storage.service';
 import { NgBusyModule, BusyConfig } from 'ng-busy';
 import {
-  Router, ActivatedRoute, Params,
-  RouterModule, ChildrenOutletContexts
+  Router,
+  ActivatedRoute,
+  Params,
+  RouterModule,
+  ChildrenOutletContexts
 } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Http, BaseRequestOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { DataListsModule } from '../../shared/data-lists/data-lists.module';
 import {
-  AccordionModule, DataTableModule, SharedModule, TabViewModule,
-  GrowlModule, PanelModule, ConfirmDialogModule, ConfirmationService,
-  DialogModule, InputTextModule, MessagesModule, InputTextareaModule,
-  DropdownModule, ButtonModule, CalendarModule
+  AccordionModule,
+  DataTableModule,
+  SharedModule,
+  TabViewModule,
+  GrowlModule,
+  PanelModule,
+  ConfirmDialogModule,
+  ConfirmationService,
+  DialogModule,
+  InputTextModule,
+  MessagesModule,
+  InputTextareaModule,
+  DropdownModule,
+  ButtonModule,
+  CalendarModule
 } from 'primeng/primeng';
 import { CacheService } from 'ionic-cache';
 import { DataCacheService } from '../../shared/services/data-cache.service';
@@ -35,21 +48,18 @@ import { Angulartics2Module } from 'angulartics2';
 import { ClinicFlowResource } from '../../etl-api/clinic-flow-resource-interface';
 
 import * as Moment from 'moment';
-import {
-  HivClinicFlowResourceService
-} from '../../etl-api/hiv-clinic-flow-resource.service';
+import { HivClinicFlowResourceService } from '../../etl-api/hiv-clinic-flow-resource.service';
 import { Observable } from 'rxjs';
-import {
-  MockHivClinicFlowResourceService
-} from '../../etl-api/hiv-clinic-flow-resource.service.mock';
+import { MockHivClinicFlowResourceService } from '../../etl-api/hiv-clinic-flow-resource.service.mock';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('Component: ClinicFlowVisitsComponent', () => {
   let component,
     clinicDashBoardCacheService: ClinicDashboardCacheService,
     clinicFlowCacheService: ClinicFlowCacheService,
-    clinicFlowResource: ClinicFlowResource, router: Router, fixture;
-
+    clinicFlowResource: ClinicFlowResource,
+    router: Router,
+    fixture;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -74,14 +84,17 @@ describe('Component: ClinicFlowVisitsComponent', () => {
 
         {
           provide: Router,
-          useClass: class { navigate = jasmine.createSpy('navigate'); }
+          useClass: class {
+            navigate = jasmine.createSpy('navigate');
+          }
         },
         {
-          provide: AppFeatureAnalytics, useFactory: () => {
+          provide: AppFeatureAnalytics,
+          useFactory: () => {
             return new FakeAppFeatureAnalytics();
-          }, deps: []
+          },
+          deps: []
         }
-
       ],
       declarations: [ClinicFlowVisitsComponent],
       imports: [
@@ -94,7 +107,8 @@ describe('Component: ClinicFlowVisitsComponent', () => {
         NgamrsSharedModule,
         NgxMyDatePickerModule.forRoot(),
         MatTabsModule,
-        CommonModule, Angulartics2Module,
+        CommonModule,
+        Angulartics2Module,
         RouterModule
       ]
     });
@@ -111,16 +125,16 @@ describe('Component: ClinicFlowVisitsComponent', () => {
     TestBed.resetTestingModule();
   });
 
-
   it('should create an instance', () => {
-
     clinicFlowCacheService = TestBed.get(ClinicFlowCacheService);
     clinicFlowResource = TestBed.get(HivClinicFlowResourceService);
     clinicDashBoardCacheService = TestBed.get(ClinicDashboardCacheService);
     router = TestBed.get(Router);
     router = TestBed.get(Router);
     component = new ClinicFlowVisitsComponent(
-      clinicFlowCacheService, router, clinicFlowResource
+      clinicFlowCacheService,
+      router,
+      clinicFlowResource
     );
     expect(component).toBeTruthy();
   });
@@ -137,58 +151,65 @@ describe('Component: ClinicFlowVisitsComponent', () => {
     expect(component.selectedLocation).toEqual(undefined);
 
     done();
-
   });
 
-  it('should not pupulate variables when ngOnInit is invoked'
-    + ' when clinicFlowData is empty',
+  it(
+    'should not pupulate variables when ngOnInit is invoked' +
+      ' when clinicFlowData is empty',
     (done) => {
-      const service: ClinicFlowCacheService = TestBed.get(ClinicFlowCacheService);
+      const service: ClinicFlowCacheService = TestBed.get(
+        ClinicFlowCacheService
+      );
       service.setClinicFlowData(undefined);
       component.ngOnInit();
 
-      service.getClinicFlowData().subscribe(data => {
-        expect(data).toEqual(undefined);
-        done();
-      },
-        err => console.log(err),
+      service.getClinicFlowData().subscribe(
+        (data) => {
+          expect(data).toEqual(undefined);
+          done();
+        },
+        (err) => console.log(err),
         () => console.log('Completed')
       );
-    });
+    }
+  );
 
-
-  it('should load clinic flow columns when columns() '
-    + ' is invoked',
+  it(
+    'should load clinic flow columns when columns() ' + ' is invoked',
     (done) => {
       spyOn(component, 'columns').and.callThrough();
       const cols = component.columns();
       expect(component.columns).toHaveBeenCalled();
       expect(cols.length).toEqual(9);
       done();
-    });
+    }
+  );
 
-
-  it('should load clinic flow data and setIsLoading data when getClinicFlow() '
-    + ' is invoked',
+  it(
+    'should load clinic flow data and setIsLoading data when getClinicFlow() ' +
+      ' is invoked',
     (done) => {
-      const service: ClinicFlowCacheService = TestBed.get(ClinicFlowCacheService);
+      const service: ClinicFlowCacheService = TestBed.get(
+        ClinicFlowCacheService
+      );
       component.getClinicFlow('2017-03-29T12:03:48.190Z', 'uuid');
       expect(component.clinicFlowData.length).toEqual(1);
       expect(component.loadingClinicFlow).toEqual(false);
       expect(component.dataLoaded).toEqual(false);
-      service.getIsLoading().subscribe(loading => {
-        expect(loading).toEqual(false);
-        done();
-      },
-        err => console.log(err),
+      service.getIsLoading().subscribe(
+        (loading) => {
+          expect(loading).toEqual(false);
+          done();
+        },
+        (err) => console.log(err),
         () => console.log('Completed')
       );
       done();
-    });
+    }
+  );
 
-
-  it('should load selected patient when loadSelectedPatient '
-    + ' is invoked',
+  it(
+    'should load selected patient when loadSelectedPatient ' + ' is invoked',
     (done) => {
       spyOn(component, 'loadSelectedPatient').and.callThrough();
       component.loadSelectedPatient({ node: { data: { uuid: 'uuid' } } });
@@ -196,10 +217,11 @@ describe('Component: ClinicFlowVisitsComponent', () => {
       component.loadSelectedPatient({ node: { data: { uuid: undefined } } });
       expect(component.loadSelectedPatient).toHaveBeenCalled();
       done();
-    });
+    }
+  );
 
-  it('should load selected patient when loadSelectedPatient '
-    + ' is invoked',
+  it(
+    'should load selected patient when loadSelectedPatient ' + ' is invoked',
     (done) => {
       spyOn(component, 'loadSelectedPatient').and.callThrough();
       component.loadSelectedPatient({ node: { data: { uuid: 'uuid' } } });
@@ -207,5 +229,6 @@ describe('Component: ClinicFlowVisitsComponent', () => {
       component.loadSelectedPatient({ node: { data: { uuid: undefined } } });
       expect(component.loadSelectedPatient).toHaveBeenCalled();
       done();
-    });
+    }
+  );
 });

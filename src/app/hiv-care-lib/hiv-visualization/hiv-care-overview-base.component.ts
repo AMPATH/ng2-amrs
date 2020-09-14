@@ -1,23 +1,18 @@
-
-import {take} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { Component, OnInit, ViewChild } from '@angular/core';
 
 import * as Moment from 'moment';
 
-import { ClinicalSummaryVisualizationResourceService
-} from '../../etl-api/clinical-summary-visualization-resource.service';
+import { ClinicalSummaryVisualizationResourceService } from '../../etl-api/clinical-summary-visualization-resource.service';
 import * as _ from 'lodash';
-import {
-  DataAnalyticsDashboardService
-} from '../../data-analytics-dashboard/services/data-analytics-dashboard.services';
+import { DataAnalyticsDashboardService } from '../../data-analytics-dashboard/services/data-analytics-dashboard.services';
 
 @Component({
   selector: 'hiv-care-visualization-report-base',
   template: 'hiv-care-overview-base.component.html',
-  styleUrls: ['hiv-care-overview-base.component.css'],
+  styleUrls: ['hiv-care-overview-base.component.css']
 })
 export class HivCareComparativeOverviewBaseComponent implements OnInit {
-
   public data = [];
   public hivComparativeChartOptions: any;
   public isLoadingReport = false;
@@ -53,12 +48,12 @@ export class HivCareComparativeOverviewBaseComponent implements OnInit {
     this._locationUuids = v;
   }
 
-  constructor(public visualizationResourceService: ClinicalSummaryVisualizationResourceService,
-              public dataAnalyticsDashboardService: DataAnalyticsDashboardService ) {
-  }
+  constructor(
+    public visualizationResourceService: ClinicalSummaryVisualizationResourceService,
+    public dataAnalyticsDashboardService: DataAnalyticsDashboardService
+  ) {}
 
-  public ngOnInit() {
-  }
+  public ngOnInit() {}
 
   public generateReport() {
     this.loadingHivCare = true;
@@ -72,30 +67,36 @@ export class HivCareComparativeOverviewBaseComponent implements OnInit {
     this.isLoadingReport = true;
     this.data = [];
 
-    this.visualizationResourceService.getHivComparativeOverviewReport({
-      endDate: this.toDateString(this.endDate),
-      gender: 'M,F',
-      indicators: '',
-      groupBy: 'groupByEndDate',
-      locationUuids: this.getSelectedLocations(this.locationUuids),
-      order: 'encounter_datetime|asc',
-      report: 'clinical-hiv-comparative-overview-report',
-      startDate: this.toDateString(this.startDate)
-    }).pipe(take(1)).subscribe(
-      (data) => {
-
-        _.merge(_options,
-          { data: data.result },
-          { indicatorDefinitions: data.indicatorDefinitions });
-        this.hivComparativeChartOptions = _options;
-        this.loadingHivCare = false;
-        this.isLoadingReport = false;
-      }, (error) => {
-        this.loadingHivCare = false;
-        this.errorMessage = error;
-        this.encounteredError = true;
-        this.isLoadingReport = false;
-      });
+    this.visualizationResourceService
+      .getHivComparativeOverviewReport({
+        endDate: this.toDateString(this.endDate),
+        gender: 'M,F',
+        indicators: '',
+        groupBy: 'groupByEndDate',
+        locationUuids: this.getSelectedLocations(this.locationUuids),
+        order: 'encounter_datetime|asc',
+        report: 'clinical-hiv-comparative-overview-report',
+        startDate: this.toDateString(this.startDate)
+      })
+      .pipe(take(1))
+      .subscribe(
+        (data) => {
+          _.merge(
+            _options,
+            { data: data.result },
+            { indicatorDefinitions: data.indicatorDefinitions }
+          );
+          this.hivComparativeChartOptions = _options;
+          this.loadingHivCare = false;
+          this.isLoadingReport = false;
+        },
+        (error) => {
+          this.loadingHivCare = false;
+          this.errorMessage = error;
+          this.encounteredError = true;
+          this.isLoadingReport = false;
+        }
+      );
   }
 
   private getSelectedLocations(locationUuids: Array<string>): string {
@@ -109,7 +110,8 @@ export class HivCareComparativeOverviewBaseComponent implements OnInit {
       if (i === 0) {
         selectedLocations = selectedLocations + (locationUuids[0] as any).value;
       } else {
-        selectedLocations = selectedLocations + ',' + (locationUuids[i] as any).value;
+        selectedLocations =
+          selectedLocations + ',' + (locationUuids[i] as any).value;
       }
     }
     return selectedLocations;

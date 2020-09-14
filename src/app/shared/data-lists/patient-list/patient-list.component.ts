@@ -1,6 +1,4 @@
-import {
-  Component, OnInit, Input
-} from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { PatientListColumns } from './patient-list-columns.data';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
@@ -10,7 +8,6 @@ const _ = require('lodash');
   selector: 'patient-list',
   templateUrl: './patient-list.component.html'
 })
-
 export class PatientListComponent implements OnInit {
   @Input() public extraColumns: any;
   @Input() public overrideColumns: any;
@@ -34,16 +31,12 @@ export class PatientListComponent implements OnInit {
   @Input() public hivColumns = false;
   private _data = new BehaviorSubject<any>([]);
   private _dataSource = new BehaviorSubject<any>({});
-  constructor(
-    private router: Router
-  ) {
-  }
+  constructor(private router: Router) {}
 
   public ngOnInit() {
-    this._data
-      .subscribe((x) => {
-        this.loadedTab = x;
-      });
+    this._data.subscribe((x) => {
+      this.loadedTab = x;
+    });
   }
 
   get columns() {
@@ -64,20 +57,22 @@ export class PatientListComponent implements OnInit {
     if (this.hivColumns) {
       const loadHivColumns = PatientListColumns.hivColumns();
       columns = _.concat(columns, loadHivColumns as Array<object>);
-
     }
     return columns;
   }
 
   get rowData() {
-
     const d: any = this.data || [];
     let count = 1;
     // console.log('Data', this.data);
     _.forEach(d, (row) => {
       if (!row['person_name']) {
-        row['person_name'] = row['given_name'] + ' ' + row['family_name']
-          + ' ' + row['middle_name'];
+        row['person_name'] =
+          row['given_name'] +
+          ' ' +
+          row['family_name'] +
+          ' ' +
+          row['middle_name'];
       }
       count++;
     });
@@ -97,7 +92,10 @@ export class PatientListComponent implements OnInit {
       return;
     }
 
-    this.router.navigate(['/patient-dashboard/patient/' + patientUuid +
-      '/general/general/landing-page']);
+    this.router.navigate([
+      '/patient-dashboard/patient/' +
+        patientUuid +
+        '/general/general/landing-page'
+    ]);
   }
 }

@@ -1,26 +1,60 @@
-<p-dialog header="Edit Relationship" [(visible)]="display" modal="true" responsive="true">
-	<form name="relationshipsForm">
-		<div class="form-group">
-			<div>
-				<label>Patient Name: </label><span *ngIf="selectedRelative">{{selectedRelative.display}}</span><br>
-				<label for="relationship">Relationship Type:</label>
-				<select required [(ngModel)]="selectedRelationshipType" [ngModelOptions]="{standalone: true}" class="form-control">
-                    <option  *ngFor="let patientRelationshipType of patientRelationshipTypes" [ngValue]="patientRelationshipType">{{patientRelationshipType.display}}</option>
-                </select>
-				<button [disabled]="isLoading" class="btn btn-primary btn-md" style="margin-top:10px" (click)="updateRelationship()">
-					<span>Save</span>
-					<i *ngIf="isLoading" class="fa fa-spinner fa-spin fa-1x fa-fw"></i>
-				</button>
-				<button class="btn btn-danger pull-right" (click)="cancelRelationship()" style="margin-top:10px">
-            		<span>Cancel</span>
-          		</button>
-				<div class="alert alert-success" *ngIf="showSuccessAlert" style="margin-top:10px">
-					<strong>Done!</strong> {{successAlert}}
-				</div>
-				<div class="alert alert-danger" *ngIf="showErrorAlert" style="margin-top:10px">
-					<strong>Error!</strong> {{errorAlert}}
-				</div>
-			</div>
-		</div>
-	</form>
+<p-dialog
+  header="Edit Relationship"
+  [(visible)]="display"
+  modal="true"
+  responsive="true"
+>
+  <form name="relationshipsForm">
+    <div class="form-group">
+      <div>
+        <label>Patient Name: </label
+        ><span *ngIf="selectedRelative">{{ selectedRelative.display }}</span
+        ><br />
+        <label for="relationship">Relationship Type:</label>
+        <select
+          required
+          [(ngModel)]="selectedRelationshipType"
+          [ngModelOptions]="{ standalone: true }"
+          class="form-control"
+        >
+          <option
+            *ngFor="let patientRelationshipType of patientRelationshipTypes"
+            [ngValue]="patientRelationshipType"
+          >
+            {{ patientRelationshipType.display }}
+          </option>
+        </select>
+        <button
+          [disabled]="isLoading"
+          class="btn btn-primary btn-md"
+          style="margin-top: 10px"
+          (click)="updateRelationship()"
+        >
+          <span>Save</span>
+          <i *ngIf="isLoading" class="fa fa-spinner fa-spin fa-1x fa-fw"></i>
+        </button>
+        <button
+          class="btn btn-danger pull-right"
+          (click)="cancelRelationship()"
+          style="margin-top: 10px"
+        >
+          <span>Cancel</span>
+        </button>
+        <div
+          class="alert alert-success"
+          *ngIf="showSuccessAlert"
+          style="margin-top: 10px"
+        >
+          <strong>Done!</strong> {{ successAlert }}
+        </div>
+        <div
+          class="alert alert-danger"
+          *ngIf="showErrorAlert"
+          style="margin-top: 10px"
+        >
+          <strong>Error!</strong> {{ errorAlert }}
+        </div>
+      </div>
+    </div>
+  </form>
 </p-dialog>

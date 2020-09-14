@@ -1,8 +1,8 @@
 .banner-info {
-    color: #214a5f;
-    width: 100%;
-    background-color: #d9edf7;
-    padding: 15px;
+  color: #214a5f;
+  width: 100%;
+  background-color: #d9edf7;
+  padding: 15px;
 }
 
 .banner-danger {
@@ -23,65 +23,64 @@
   margin-right: 5px;
 }
 
-@media screen and (max-width: 767px ) and (min-width: 480px ) {
-    .banner-left {
-        float: left;
-        width: 50%;
-    }
-    .banner-right {
-        float: right;
-        width: 50%;
-    }
+@media screen and (max-width: 767px) and (min-width: 480px) {
+  .banner-left {
+    float: left;
+    width: 50%;
+  }
+  .banner-right {
+    float: right;
+    width: 50%;
+  }
 }
 .banner-detail {
-    background-color: white;
+  background-color: white;
 }
 .badge {
-    display: none;
+  display: none;
 }
 .btn-banner {
-    background-color: white;
-    margin: 1px;
+  background-color: white;
+  margin: 1px;
 }
 .badge {
-    display: unset;
+  display: unset;
 }
 
 @media screen and (max-width: 768px) {
-
-    .attributes {
-        width: 100%;
-    }
+  .attributes {
+    width: 100%;
+  }
 }
 
 .sticky {
-    position: fixed;
-    top: 119px;
-    bottom: auto;
-    width: inherit;
-    z-index: 1020;
+  position: fixed;
+  top: 119px;
+  bottom: auto;
+  width: inherit;
+  z-index: 1020;
 }
 
-.sticky .container-fluid.patient-banner-partially{
-     border-bottom: 1px solid #dadada;
+.sticky .container-fluid.patient-banner-partially {
+  border-bottom: 1px solid #dadada;
 }
 
 .id-label {
-    color: darkgray;
+  color: darkgray;
 }
 
 .container-fluid .row span:not(.id-label) {
   padding-right: 12px;
 }
-.alert-clear{
-    margin-bottom: 0;
+.alert-clear {
+  margin-bottom: 0;
 }
-.modal-body-clear{
-    margin-bottom: 5px;
+.modal-body-clear {
+  margin-bottom: 5px;
 }
-.drafted-form-section{
-    background-color: #d9edf7;
+.drafted-form-section {
+  background-color: #d9edf7;
 }
-.edit-relationship-col{
-    padding-top: 5px;
+.edit-relationship-col {
+  padding-top: 5px;
 }

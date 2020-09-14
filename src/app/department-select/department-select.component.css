@@ -1,27 +1,25 @@
-.dept-thumb{
-    padding-top: 80px;
-    padding-bottom: 80px;
-    text-align: center;
-    border-style: solid;
-    border-color: #ededed;
-    color: #203864;
+.dept-thumb {
+  padding-top: 80px;
+  padding-bottom: 80px;
+  text-align: center;
+  border-style: solid;
+  border-color: #ededed;
+  color: #203864;
 }
 .dept-thumb h4 {
-   /* padding-top: 20%; */
+  /* padding-top: 20%; */
 }
-.dept-thumb:hover{
-    background-color: rgba(32, 56, 100, 0.8);
-    color: #FFF;
-    cursor: pointer
+.dept-thumb:hover {
+  background-color: rgba(32, 56, 100, 0.8);
+  color: #fff;
+  cursor: pointer;
 }
-.dept-thumb:hover h4{
-    color: #FFF;
+.dept-thumb:hover h4 {
+  color: #fff;
 }
-.selected-department{
-    background-color: rgba(32, 56, 100, 0.8);
-   
+.selected-department {
+  background-color: rgba(32, 56, 100, 0.8);
 }
-.selected-department h4{
-    color: #FFF !important;
-
+.selected-department h4 {
+  color: #fff !important;
 }

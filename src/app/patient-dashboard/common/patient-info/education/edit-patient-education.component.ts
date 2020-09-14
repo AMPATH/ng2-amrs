@@ -8,7 +8,7 @@ import * as _ from 'lodash';
 
 @Component({
   selector: 'edit-patient-education',
-  templateUrl: './edit-patient-education.component.html',
+  templateUrl: './edit-patient-education.component.html'
 })
 export class EditPatientEducationComponent implements OnInit {
   public display = false;
@@ -26,7 +26,7 @@ export class EditPatientEducationComponent implements OnInit {
   constructor(
     private conceptResourceService: ConceptResourceService,
     private personResourceService: PersonResourceService,
-    private patientService: PatientService,
+    private patientService: PatientService
   ) {}
 
   public ngOnInit() {
@@ -47,7 +47,7 @@ export class EditPatientEducationComponent implements OnInit {
     this.levelOfEducation = educationLevels.map((levels: any) => {
       return {
         value: levels.uuid,
-        name: levels.display,
+        name: levels.display
       };
     });
   }
@@ -58,9 +58,9 @@ export class EditPatientEducationComponent implements OnInit {
       attributes: [
         {
           value: this.selectPatientEducation,
-          attributeType: '352b0d51-63c6-47d0-a295-156bebee4fd5',
-        },
-      ],
+          attributeType: '352b0d51-63c6-47d0-a295-156bebee4fd5'
+        }
+      ]
     };
 
     const payLoad = this.personResourceService.generatePersonAttributePayload(

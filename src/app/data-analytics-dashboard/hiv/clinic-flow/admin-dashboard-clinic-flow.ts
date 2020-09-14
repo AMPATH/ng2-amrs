@@ -3,8 +3,7 @@ import { DatePipe } from '@angular/common';
 
 import * as _ from 'lodash';
 import * as moment from 'moment';
-import { ClinicFlowCacheService
-} from '../../../hiv-care-lib/clinic-flow/clinic-flow-cache.service';
+import { ClinicFlowCacheService } from '../../../hiv-care-lib/clinic-flow/clinic-flow-cache.service';
 
 @Component({
   selector: 'admin-dashboard-clinic-flow',

@@ -1,4 +1,3 @@
-
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -29,17 +28,21 @@ import { ConfirmDialogModule, DialogModule } from 'primeng/primeng';
     UtilsModule,
     NgamrsSharedModule,
     CohortMemberModule,
-    ConfirmDialogModule, DialogModule,
+    ConfirmDialogModule,
+    DialogModule,
     NgxPaginationModule,
     EtlApi
   ],
-  declarations: [CohortListComponent, AddCohortListComponent,
-    EditCohortListComponent, ViewCohortListMembersComponent,
+  declarations: [
+    CohortListComponent,
+    AddCohortListComponent,
+    EditCohortListComponent,
+    ViewCohortListMembersComponent,
     AddCohortMemberContainerComponent,
-    ShareCohortListComponent, UserSearchComponent],
-  providers: [
-    CohortListService
+    ShareCohortListComponent,
+    UserSearchComponent
   ],
+  providers: [CohortListService],
   exports: [
     //  RouterModule,
     CohortListComponent,
@@ -48,8 +51,6 @@ import { ConfirmDialogModule, DialogModule } from 'primeng/primeng';
     ViewCohortListMembersComponent,
     ShareCohortListComponent
   ],
-  schemas: [
-    CUSTOM_ELEMENTS_SCHEMA
-  ]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class PatientListCohortModule { }
+export class PatientListCohortModule {}

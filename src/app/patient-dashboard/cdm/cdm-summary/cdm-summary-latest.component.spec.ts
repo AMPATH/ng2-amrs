@@ -17,31 +17,29 @@ import { ProgramResourceService } from 'src/app/openmrs-api/program-resource.ser
 import { EncounterResourceService } from 'src/app/openmrs-api/encounter-resource.service';
 
 describe('Component: CdmSummaryLatest Unit Tests', () => {
-
   let component: CdmSummaryLatestComponent;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-         AppSettingsService,
-         PatientService,
-         PatientResourceService,
-         LocalStorageService,
-         PatientProgramService,
-         RoutesProviderService,
-         ProgramService,
-         ProgramEnrollmentResourceService,
-         ProgramWorkFlowResourceService,
-         ProgramWorkFlowStateResourceService,
-         ProgramResourceService,
-         EncounterResourceService,
-         CdmSummaryLatestComponent,
-         CdmSummaryResourceService
+        AppSettingsService,
+        PatientService,
+        PatientResourceService,
+        LocalStorageService,
+        PatientProgramService,
+        RoutesProviderService,
+        ProgramService,
+        ProgramEnrollmentResourceService,
+        ProgramWorkFlowResourceService,
+        ProgramWorkFlowStateResourceService,
+        ProgramResourceService,
+        EncounterResourceService,
+        CdmSummaryLatestComponent,
+        CdmSummaryResourceService
       ],
       imports: [HttpClientTestingModule]
     });
     component = TestBed.get(CdmSummaryLatestComponent);
-
   });
 
   afterEach(() => {
@@ -58,5 +56,4 @@ describe('Component: CdmSummaryLatest Unit Tests', () => {
     expect(component.loadCdmSummary).toBeDefined();
     done();
   });
-
 });

@@ -1,10 +1,18 @@
 <div class="suggest-container form-group">
   <label for="indicator">Indicator</label>
   <div class="input-group">
-    <div class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span></div>
-    <ng-select class="sharp-corners" [multiple]="true" id="indicator" (change)="onIndicatorSelected($event)"
-               [placeholder]="'Select desired Indicator(s) or type to search...'"
-               [(ngModel)]="selectedIndicators" [items]="indicatorOptions">
+    <div class="input-group-addon">
+      <span class="glyphicon glyphicon-map-marker"></span>
+    </div>
+    <ng-select
+      class="sharp-corners"
+      [multiple]="true"
+      id="indicator"
+      (change)="onIndicatorSelected($event)"
+      [placeholder]="'Select desired Indicator(s) or type to search...'"
+      [(ngModel)]="selectedIndicators"
+      [items]="indicatorOptions"
+    >
     </ng-select>
     <div class="input-group-addon">
       <i class="glyphicon glyphicon-pushpin"></i>

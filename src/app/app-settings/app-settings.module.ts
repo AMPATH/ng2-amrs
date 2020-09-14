@@ -20,15 +20,8 @@ import { CookieService } from 'ngx-cookie';
     RouterModule.forChild(APP_SETTINGS_ROUTES)
   ],
   declarations: [AppSettingsComponent],
-  providers: [
-    AppSettingsService,
-    CookieService
-  ],
-  exports: [
-    RouterModule
-  ],
-  schemas: [
-    CUSTOM_ELEMENTS_SCHEMA
-  ]
+  providers: [AppSettingsService, CookieService],
+  exports: [RouterModule],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class AppSettingsModule { }
+export class AppSettingsModule {}

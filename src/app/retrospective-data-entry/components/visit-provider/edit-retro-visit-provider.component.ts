@@ -1,4 +1,3 @@
-
 import { take } from 'rxjs/operators';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as _ from 'lodash';
@@ -11,7 +10,6 @@ import { VisitResourceService } from '../../../openmrs-api/visit-resource.servic
   templateUrl: './edit-retro-visit-provider.component.html',
   styleUrls: []
 })
-
 export class EditRetroVisitProviderComponent implements OnInit {
   @Input() public isEditRetroProvider: boolean;
   @Input() public visit: any;
@@ -19,10 +17,10 @@ export class EditRetroVisitProviderComponent implements OnInit {
   public provider: any;
   public providers: any[];
   public saving = false;
-  public constructor(private visitResourceService: VisitResourceService,
-    private providerResourceService: ProviderResourceService) {
-
-  }
+  public constructor(
+    private visitResourceService: VisitResourceService,
+    private providerResourceService: ProviderResourceService
+  ) {}
 
   public ngOnInit() {
     this.fetchProviderOptions();
@@ -63,12 +61,12 @@ export class EditRetroVisitProviderComponent implements OnInit {
         }
       ]
     };
-    this.visitResourceService.updateVisit(this.visit.uuid, visitPayload).pipe(
-      take(1)).subscribe((updateVisit) => {
+    this.visitResourceService
+      .updateVisit(this.visit.uuid, visitPayload)
+      .pipe(take(1))
+      .subscribe((updateVisit) => {
         this.saving = false;
         this.retroVisitProviderChanged.emit(updateVisit);
       });
-
   }
-
 }

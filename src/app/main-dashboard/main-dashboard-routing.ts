@@ -2,20 +2,14 @@ import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { MainDashboardComponent } from './main-dashboard.component';
-import {
-  UserDefaultPropertiesComponent
-} from '../user-default-properties/user-default-properties.component';
+import { UserDefaultPropertiesComponent } from '../user-default-properties/user-default-properties.component';
 import { AuthGuard } from '../shared/guards/auth.guard';
 import { UsefulLinksComponent } from '../useful-links/useful-links.component';
-import {
-  LabOrderSearchContainerComponent
-} from '../lab-order-search/lab-order-search-container.component';
+import { LabOrderSearchContainerComponent } from '../lab-order-search/lab-order-search-container.component';
 import { PatientDashboardModule } from '../patient-dashboard/patient-dashboard.module';
 import { DataAnalyticsModule } from '../data-analytics-dashboard/data-analytics.module';
 import { PatientListCohortModule } from '../patient-list-cohort/patient-list-cohort.module';
-import {
-  RetrospectiveContainerComponent
-} from '../retrospective-data-entry/components/container/retrospective-container.component';
+import { RetrospectiveContainerComponent } from '../retrospective-data-entry/components/container/retrospective-container.component';
 export function patientDashboardModule() {
   return PatientDashboardModule;
 }
@@ -31,16 +25,23 @@ export const dashboardRoutes: Routes = [
     component: MainDashboardComponent,
     canActivate: [AuthGuard],
     children: [
-      { path: '', pathMatch: 'full', redirectTo: 'patient-dashboard/patient-search' },
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'patient-dashboard/patient-search'
+      },
       {
         path: 'clinic-dashboard',
         loadChildren: '../clinic-dashboard#ClinicDashboardModule'
       },
       {
-        path: 'patient-dashboard', loadChildren: '../patient-dashboard#PatientDashboardModule'
+        path: 'patient-dashboard',
+        loadChildren: '../patient-dashboard#PatientDashboardModule'
       },
       {
-        path: 'data-analytics', loadChildren: '../data-analytics-dashboard/data-analytics.module#DataAnalyticsModule'
+        path: 'data-analytics',
+        loadChildren:
+          '../data-analytics-dashboard/data-analytics.module#DataAnalyticsModule'
       },
       {
         path: 'user-default-properties',
@@ -60,11 +61,13 @@ export const dashboardRoutes: Routes = [
       },
       {
         path: 'patient-list-cohort',
-        loadChildren: '../patient-list-cohort/patient-list-cohort.module#PatientListCohortModule'
+        loadChildren:
+          '../patient-list-cohort/patient-list-cohort.module#PatientListCohortModule'
       }
     ]
   }
-
 ];
 
-export const dashboardRouting: ModuleWithProviders = RouterModule.forChild(dashboardRoutes);
+export const dashboardRouting: ModuleWithProviders = RouterModule.forChild(
+  dashboardRoutes
+);

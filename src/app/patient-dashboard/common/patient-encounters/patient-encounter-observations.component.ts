@@ -1,8 +1,15 @@
 // tslint:disable:no-output-on-prefix
 import { take } from 'rxjs/operators';
 import {
-  Component, OnInit, Input, ViewChild,
-  ViewEncapsulation, EventEmitter, Output, OnChanges, SimpleChange
+  Component,
+  OnInit,
+  Input,
+  ViewChild,
+  ViewEncapsulation,
+  EventEmitter,
+  Output,
+  OnChanges,
+  SimpleChange
 } from '@angular/core';
 import { Encounter } from '../../../models/encounter.model';
 import * as _ from 'lodash';
@@ -14,14 +21,11 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
   selector: 'patient-encounter-observations',
   templateUrl: './patient-encounter-observations.component.html',
   styleUrls: ['./patient-encounters.component.css'],
-  entryComponents: [
-    ModalComponent
-  ],
+  entryComponents: [ModalComponent],
   encapsulation: ViewEncapsulation.None
-
 })
-export class PatientEncounterObservationsComponent implements OnInit, OnChanges {
-
+export class PatientEncounterObservationsComponent
+  implements OnInit, OnChanges {
   public obs: any;
   public pretty: boolean;
   public isHidden: Array<boolean> = [];
@@ -40,26 +44,30 @@ export class PatientEncounterObservationsComponent implements OnInit, OnChanges 
   @Output() public onDismiss = new EventEmitter();
   public cssClass = 'obs-dialog';
 
-  constructor(private encounterResource: EncounterResourceService) {
-  }
+  constructor(private encounterResource: EncounterResourceService) {}
 
-  public ngOnInit() {
-
-  }
+  public ngOnInit() {}
 
   public ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
     if (Object.keys(changes).length === 1 && changes['onEncounterDetail']) {
       if (this.pretty) {
         this.showPrettyObsView(this.selectedEncounter);
-      } else { this.showPlainObsView(this.selectedEncounter); }
+      } else {
+        this.showPlainObsView(this.selectedEncounter);
+      }
     }
 
-    if (Object.keys(changes).length === 2 && changes['onEncounterDetail']
-      && changes['prettyView']) {
+    if (
+      Object.keys(changes).length === 2 &&
+      changes['onEncounterDetail'] &&
+      changes['prettyView']
+    ) {
       this.pretty = changes['prettyView'].currentValue;
       if (this.pretty) {
         this.showPrettyObsView(this.selectedEncounter);
-      } else { this.showPlainObsView(this.selectedEncounter); }
+      } else {
+        this.showPlainObsView(this.selectedEncounter);
+      }
     }
 
     for (const propName in changes) {
@@ -72,22 +80,26 @@ export class PatientEncounterObservationsComponent implements OnInit, OnChanges 
         this.isDone.emit(true);
         if (this.pretty) {
           this.showPrettyObsView(encounter);
-        } else { this.showPlainObsView(encounter); }
-
+        } else {
+          this.showPlainObsView(encounter);
+        }
       }
     }
   }
 
   public showPlainObsView(encounter) {
     this.selectedEncounter = encounter;
-    this.encounterResource.getEncounterByUuid(encounter.uuid).pipe(take(1)).subscribe((_encounter) => {
-      // this.modal.dismiss();
-      // console.log(this.modal);
-      // this.modal.visible = true;
-      this.staticModal.show();
-      // this.modal.open();
-      this.obs = this.processEncounter(_encounter);
-    });
+    this.encounterResource
+      .getEncounterByUuid(encounter.uuid)
+      .pipe(take(1))
+      .subscribe((_encounter) => {
+        // this.modal.dismiss();
+        // console.log(this.modal);
+        // this.modal.visible = true;
+        this.staticModal.show();
+        // this.modal.open();
+        this.obs = this.processEncounter(_encounter);
+      });
   }
   public showPrettyObsView(encounter) {
     this.selectedEncounter = encounter;
@@ -116,7 +128,7 @@ export class PatientEncounterObservationsComponent implements OnInit, OnChanges 
     obs.sort((a, b) => {
       const _a = a.concept.name.display.toUpperCase();
       const _b = b.concept.name.display.toUpperCase();
-      return (_a < _b) ? -1 : (_a > _b) ? 1 : 0;
+      return _a < _b ? -1 : _a > _b ? 1 : 0;
     });
 
     _.each(obs, (v: any, i) => {
@@ -127,7 +139,7 @@ export class PatientEncounterObservationsComponent implements OnInit, OnChanges 
         _.each(v.groupMembers, (group: any, index) => {
           _arrValue.push({
             label: group.concept.display.toUpperCase(),
-            value: (_.isObject(group.value) ? group.value.display : group.value)
+            value: _.isObject(group.value) ? group.value.display : group.value
           }); // check;
         });
         _value = _arrValue;
@@ -141,5 +153,4 @@ export class PatientEncounterObservationsComponent implements OnInit, OnChanges 
     this.isDone.emit(false);
     return processedObs;
   }
-
 }

@@ -28,14 +28,18 @@ export class DqaReportBaseComponent implements OnInit {
     });
     this._locationUuids = locationUuids;
   }
-  constructor(private router: Router, private dataAnalyticsDashboardService: DataAnalyticsDashboardService,
-    private route: ActivatedRoute) { }
+  constructor(
+    private router: Router,
+    private dataAnalyticsDashboardService: DataAnalyticsDashboardService,
+    private route: ActivatedRoute
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
   public generateReport() {
-    this.dataAnalyticsDashboardService.getSelectedLocations().pipe(take(1)).subscribe(
-      (data) => {
+    this.dataAnalyticsDashboardService
+      .getSelectedLocations()
+      .pipe(take(1))
+      .subscribe((data) => {
         if (data) {
           console.log(data);
           this.router.navigate([], {
@@ -49,7 +53,6 @@ export class DqaReportBaseComponent implements OnInit {
       });
   }
   private getSelectedLocations(locationUuids: Array<any>): string {
-    return locationUuids.map(location => location.value).join(',');
+    return locationUuids.map((location) => location.value).join(',');
   }
-
 }

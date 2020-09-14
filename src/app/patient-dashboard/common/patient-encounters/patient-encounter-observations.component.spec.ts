@@ -1,4 +1,4 @@
-  // tslint:disable:directive-selector
+// tslint:disable:directive-selector
 import { Directive, Input } from '@angular/core';
 import { FormEntryModule } from 'ngx-openmrs-formentry';
 import { PatientEncounterObservationsComponent } from './patient-encounter-observations.component';
@@ -19,11 +19,9 @@ export class FakeModalHeaderDirective {
 @Directive({
   selector: `modal-body`
 })
-export class FakeModalBodyDirective {
-}
+export class FakeModalBodyDirective {}
 
-export class FakeEncounterResourceService {
-}
+export class FakeEncounterResourceService {}
 
 describe('Component: PatientEncounterObservationsComponent', () => {
   let component: PatientEncounterObservationsComponent;
@@ -46,47 +44,47 @@ describe('Component: PatientEncounterObservationsComponent', () => {
           useFactory: () => {
             return new FakeEncounterResourceService();
           }
-        },
+        }
       ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(PatientEncounterObservationsComponent);
     component = fixture.componentInstance;
     encounter = {
-      'obs': [
+      obs: [
         {
-          'concept': {
-            'name': {
-              'display': 'SKIN EXAM FINDINGS'
+          concept: {
+            name: {
+              display: 'SKIN EXAM FINDINGS'
             }
           },
-          'value': {
-            'display': 'RASH'
+          value: {
+            display: 'RASH'
           },
-          'groupMembers': null
+          groupMembers: null
         },
         {
-          'concept': {
-            'name': {
-              'display': 'TUBERCULOSIS TREATMENT COMPLETED DATE'
+          concept: {
+            name: {
+              display: 'TUBERCULOSIS TREATMENT COMPLETED DATE'
             }
           },
-          'value': 120.0,
-          'groupMembers': null
+          value: 120.0,
+          groupMembers: null
         },
         {
-          'concept': {
-            'name': {
-              'display': 'TUBERCULOSIS TREATMENT COMPLETED DATE'
+          concept: {
+            name: {
+              display: 'TUBERCULOSIS TREATMENT COMPLETED DATE'
             }
           },
-          'groupMembers': [
+          groupMembers: [
             {
-              'concept': {
-                'display': 'TUBERCULOSIS TREATMENT PLAN'
+              concept: {
+                display: 'TUBERCULOSIS TREATMENT PLAN'
               },
-              'value': {
-                'display': 'CONTINUE REGIMEN'
+              value: {
+                display: 'CONTINUE REGIMEN'
               }
             }
           ]
@@ -110,15 +108,20 @@ describe('Component: PatientEncounterObservationsComponent', () => {
   });
 
   it('should process an encounter with non-object observation value', () => {
-    expect(processedObs[1].label).toEqual('TUBERCULOSIS TREATMENT COMPLETED DATE');
+    expect(processedObs[1].label).toEqual(
+      'TUBERCULOSIS TREATMENT COMPLETED DATE'
+    );
     expect(processedObs[1].value).toEqual(120.0);
   });
 
   it('should process an encounter observation with groupMembers', () => {
-    expect(processedObs[2].label).toEqual('TUBERCULOSIS TREATMENT COMPLETED DATE');
+    expect(processedObs[2].label).toEqual(
+      'TUBERCULOSIS TREATMENT COMPLETED DATE'
+    );
     expect(processedObs[2].has_children).toBeTruthy();
-    expect(processedObs[2].value[0].label).toEqual('TUBERCULOSIS TREATMENT PLAN');
+    expect(processedObs[2].value[0].label).toEqual(
+      'TUBERCULOSIS TREATMENT PLAN'
+    );
     expect(processedObs[2].value[0].value).toEqual('CONTINUE REGIMEN');
   });
-
 });

@@ -1,4 +1,9 @@
-import { TestBed, async, ComponentFixture, fakeAsync } from '@angular/core/testing';
+import {
+  TestBed,
+  async,
+  ComponentFixture,
+  fakeAsync
+} from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -19,12 +24,15 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HttpClient } from '@angular/common/http';
 
 class FakeOrderResourceService {
-  searchOrdersById(orderId: string, cached: boolean = false,
-    v: string = null): Observable<any> {
+  searchOrdersById(
+    orderId: string,
+    cached: boolean = false,
+    v: string = null
+  ): Observable<any> {
     return of({
       _body: {
-        'orderNumber': 'ORD-34557',
-        'accessionNumber': null
+        orderNumber: 'ORD-34557',
+        accessionNumber: null
       }
     });
   }
@@ -53,18 +61,24 @@ describe('LabOrderSearchContainerComponent', () => {
         LabOrderSearchComponent,
         LabOrderSearchPostComponent
       ]
-    }).overrideComponent(LabOrderSearchComponent, {
-      set: {
-        providers: [
-          { provide: OrderResourceService, useClass: FakeOrderResourceService },
-          HttpClient
-        ]
-      }
-    }).compileComponents().then(() => {
-      fixture = TestBed.createComponent(LabOrderSearchContainerComponent);
-      labOrderFixture = TestBed.createComponent(LabOrderSearchComponent);
-      currentComp = fixture.componentInstance;
-    });
+    })
+      .overrideComponent(LabOrderSearchComponent, {
+        set: {
+          providers: [
+            {
+              provide: OrderResourceService,
+              useClass: FakeOrderResourceService
+            },
+            HttpClient
+          ]
+        }
+      })
+      .compileComponents()
+      .then(() => {
+        fixture = TestBed.createComponent(LabOrderSearchContainerComponent);
+        labOrderFixture = TestBed.createComponent(LabOrderSearchComponent);
+        currentComp = fixture.componentInstance;
+      });
   }));
 
   afterEach(() => {
@@ -74,16 +88,18 @@ describe('LabOrderSearchContainerComponent', () => {
   it('should render lab-order-search component', (done) => {
     fixture.componentInstance.ngOnInit();
     fixture.detectChanges();
-    expect(fixture.nativeElement
-      .querySelectorAll('lab-order-search').length).toBe(1);
+    expect(
+      fixture.nativeElement.querySelectorAll('lab-order-search').length
+    ).toBe(1);
     done();
   });
 
   it('should render lab-order-search-post component', (done) => {
     fixture.componentInstance.ngOnInit();
     fixture.detectChanges();
-    expect(fixture.nativeElement
-      .querySelectorAll('lab-order-search-post').length).toBe(1);
+    expect(
+      fixture.nativeElement.querySelectorAll('lab-order-search-post').length
+    ).toBe(1);
     done();
   });
 

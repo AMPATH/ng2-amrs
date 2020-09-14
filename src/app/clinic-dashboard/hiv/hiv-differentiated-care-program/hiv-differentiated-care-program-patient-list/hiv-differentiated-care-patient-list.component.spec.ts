@@ -7,39 +7,43 @@ import { HivDifferentiatedCarePatientListComponent } from './hiv-differentiated-
 import { PatientListComponent } from 'src/app/shared/data-lists/patient-list/patient-list.component';
 import { GenericListComponent } from 'src/app/shared/data-lists/generic-list/generic-list.component';
 
-
-
 describe('HIV Differentiated Care Patient List Component Tests', () => {
-    let comp: HivDifferentiatedCarePatientListComponent;
-    let fixture: ComponentFixture<HivDifferentiatedCarePatientListComponent>;
+  let comp: HivDifferentiatedCarePatientListComponent;
+  let fixture: ComponentFixture<HivDifferentiatedCarePatientListComponent>;
 
-    beforeEach(async () => {
-        TestBed.configureTestingModule({
-            imports: [AgGridModule, RouterTestingModule, HttpClientTestingModule],
-            providers: [BaseComponentFactory],
-            declarations: [HivDifferentiatedCarePatientListComponent, PatientListComponent, GenericListComponent]
-        }).compileComponents();
+  beforeEach(async () => {
+    TestBed.configureTestingModule({
+      imports: [AgGridModule, RouterTestingModule, HttpClientTestingModule],
+      providers: [BaseComponentFactory],
+      declarations: [
+        HivDifferentiatedCarePatientListComponent,
+        PatientListComponent,
+        GenericListComponent
+      ]
+    }).compileComponents();
 
-        fixture = TestBed.createComponent(HivDifferentiatedCarePatientListComponent);
-        comp = fixture.componentInstance;
-    });
+    fixture = TestBed.createComponent(
+      HivDifferentiatedCarePatientListComponent
+    );
+    comp = fixture.componentInstance;
+  });
 
-    it('should be defined', () => {
-        expect(comp).toBeDefined();
-    });
+  it('should be defined', () => {
+    expect(comp).toBeDefined();
+  });
 
-    it('should have required properties', () => {
-        expect(comp.endDate).toBeUndefined();
-        expect(comp.startDate).toBeUndefined();
-        expect(comp.extraColumns).toBeUndefined();
-        expect(comp.patientData.length).toBe(0);
-        expect(comp.isLoadingPatientList).toBe(false);
-    });
+  it('should have required properties', () => {
+    expect(comp.endDate).toBeUndefined();
+    expect(comp.startDate).toBeUndefined();
+    expect(comp.extraColumns).toBeUndefined();
+    expect(comp.patientData.length).toBe(0);
+    expect(comp.isLoadingPatientList).toBe(false);
+  });
 
-    it('should have all the required functions defined and callable', (done) => {
-        spyOn(comp, 'ngOnInit').and.callThrough();
-        comp.ngOnInit();
-        expect(comp.ngOnInit).toHaveBeenCalled();
-        done();
-    });
+  it('should have all the required functions defined and callable', (done) => {
+    spyOn(comp, 'ngOnInit').and.callThrough();
+    comp.ngOnInit();
+    expect(comp.ngOnInit).toHaveBeenCalled();
+    done();
+  });
 });

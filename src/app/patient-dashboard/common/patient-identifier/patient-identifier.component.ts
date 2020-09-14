@@ -8,12 +8,14 @@ import { takeWhile, isEmpty } from 'lodash';
   styleUrls: ['./patient-identifier.component.css']
 })
 export class PatientIdentifierComponent implements OnInit {
-
   @Input()
   public set identifiers(identifiers: Array<any>) {
     if (!isEmpty(identifiers)) {
       this._identifiers = identifiers;
-      const preferredIdentifiers = takeWhile(identifiers, (i: any) => i.preferred);
+      const preferredIdentifiers = takeWhile(
+        identifiers,
+        (i: any) => i.preferred
+      );
       if (preferredIdentifiers.length > 0) {
         this.hasPreferredIdentifier = true;
       }
@@ -27,8 +29,7 @@ export class PatientIdentifierComponent implements OnInit {
   public hasPreferredIdentifier = false;
   private _identifiers: Array<{}> = [];
 
-  constructor() {
-  }
+  constructor() {}
 
-  public ngOnInit() { }
+  public ngOnInit() {}
 }

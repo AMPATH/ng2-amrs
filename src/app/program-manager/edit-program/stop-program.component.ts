@@ -16,7 +16,6 @@ export class StopProgramComponent implements OnInit {
     if (value) {
       this.stoppedPrograms = value;
     }
-
   }
 
   @Input()
@@ -36,7 +35,9 @@ export class StopProgramComponent implements OnInit {
       this.completeStopProgram();
     }
   }
-  @Output() public stopProgramComplete: EventEmitter<any> = new EventEmitter(null);
+  @Output() public stopProgramComplete: EventEmitter<any> = new EventEmitter(
+    null
+  );
   // tslint:disable-next-line:no-output-on-prefix
   @Output() public onBack: EventEmitter<any> = new EventEmitter(null);
   public completing = false;
@@ -46,17 +47,19 @@ export class StopProgramComponent implements OnInit {
   public message = '';
   public stoppedPrograms: any[] = [];
   private _patient: Patient;
-  constructor(private programManagerService: ProgramManagerService,
-    private router: Router) {
-  }
+  constructor(
+    private programManagerService: ProgramManagerService,
+    private router: Router
+  ) {}
 
-  public ngOnInit() {
-
-  }
+  public ngOnInit() {}
 
   public showExitForms() {
     _.each(this.programs, (program) => {
-      if (program.stateChangeEncounterTypes && program.stateChangeEncounterTypes.discharge) {
+      if (
+        program.stateChangeEncounterTypes &&
+        program.stateChangeEncounterTypes.discharge
+      ) {
         // at the moment we only have one form. Pick the first
         const form: any = _.first(program.stateChangeEncounterTypes.discharge);
         this.exitEncounters.push(form.uuid);
@@ -68,7 +71,6 @@ export class StopProgramComponent implements OnInit {
     } else {
       this.completeStopProgram();
     }
-
   }
 
   public completeStopProgram() {
@@ -79,24 +81,29 @@ export class StopProgramComponent implements OnInit {
       });
       return program;
     });
-    this.programManagerService.editProgramEnrollments('stop', this.patient,
-      this.programs, null).subscribe((programs) => {
-        if (programs) {
-          this.completing = false;
-          this.hasError = false;
-          this.stopProgramComplete.next(programs);
+    this.programManagerService
+      .editProgramEnrollments('stop', this.patient, this.programs, null)
+      .subscribe(
+        (programs) => {
+          if (programs) {
+            this.completing = false;
+            this.hasError = false;
+            this.stopProgramComplete.next(programs);
+          }
+        },
+        (err) => {
+          this.hasError = true;
+          this.message = 'Could not stop the program';
+          console.log(err);
         }
-      }, (err) => {
-        this.hasError = true;
-        this.message = 'Could not stop the program';
-        console.log(err);
-      });
-
+      );
   }
 
   public fillEnrollmentForm(form) {
-    const _route = '/patient-dashboard/patient/' + this.patient.uuid
-      + '/general/general/formentry';
+    const _route =
+      '/patient-dashboard/patient/' +
+      this.patient.uuid +
+      '/general/general/formentry';
     const routeOptions = {
       queryParams: {
         step: 3,
@@ -115,5 +122,4 @@ export class StopProgramComponent implements OnInit {
       return _program.uuid === event.target.value;
     });
   }
-
 }

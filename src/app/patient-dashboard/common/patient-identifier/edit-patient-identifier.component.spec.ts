@@ -10,32 +10,29 @@ import { PatientService } from '../../services/patient.service';
 import { EditPatientIdentifierComponent } from './edit-patient-identifier.component';
 import { LocationResourceService } from '../../../openmrs-api/location-resource.service';
 import { PatientIdentifierService } from './patient-identifiers.service';
-import {
-  PatientIdentifierTypeResService
-} from '../../../openmrs-api/patient-identifierTypes-resource.service';
+import { PatientIdentifierTypeResService } from '../../../openmrs-api/patient-identifierTypes-resource.service';
 import { CacheModule, CacheService } from 'ionic-cache';
 import { PatientResourceService } from '../../../openmrs-api/patient-resource.service';
 import { UserService } from '../../../openmrs-api/user.service';
-import {
-  PatientCreationResourceService
-} from '../../../openmrs-api/patient-creation-resource.service';
+import { PatientCreationResourceService } from '../../../openmrs-api/patient-creation-resource.service';
 import { DataCacheService } from '../../../shared/services/data-cache.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
 
 class FakeCacheStorageService {
-  constructor(a, b) { }
+  constructor(a, b) {}
 
   public ready() {
     return true;
   }
-
 }
 describe('Component: EditPatientIdentifierComponent Unit Tests', () => {
-
   let personResourceService: PersonResourceService,
-    fakeAppFeatureAnalytics: AppFeatureAnalytics, patientService: PatientService,
-    fixture, component, locationResourceService: LocationResourceService,
+    fakeAppFeatureAnalytics: AppFeatureAnalytics,
+    patientService: PatientService,
+    fixture,
+    component,
+    locationResourceService: LocationResourceService,
     patientIdentifierService: PatientIdentifierService,
     patientIdentifierTypeResService: PatientIdentifierTypeResService,
     patientResourceService: PatientResourceService,
@@ -44,10 +41,7 @@ describe('Component: EditPatientIdentifierComponent Unit Tests', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        CacheModule,
-        HttpClientTestingModule
-      ],
+      imports: [CacheModule, HttpClientTestingModule],
       providers: [
         FakeAppFeatureAnalytics,
         LocationResourceService,
@@ -55,7 +49,8 @@ describe('Component: EditPatientIdentifierComponent Unit Tests', () => {
         DataCacheService,
         CacheService,
         {
-          provide: CacheStorageService, useFactory: () => {
+          provide: CacheStorageService,
+          useFactory: () => {
             return new FakeCacheStorageService(null, null);
           },
           deps: []
@@ -65,7 +60,7 @@ describe('Component: EditPatientIdentifierComponent Unit Tests', () => {
           useClass: FakeAppFeatureAnalytics
         },
         {
-          provide: PersonResourceService,
+          provide: PersonResourceService
         },
         {
           provide: PatientService
@@ -78,9 +73,15 @@ describe('Component: EditPatientIdentifierComponent Unit Tests', () => {
     locationResourceService = TestBed.get(LocationResourceService);
     personResourceService = TestBed.get(PersonResourceService);
     fakeAppFeatureAnalytics = TestBed.get(AppFeatureAnalytics);
-    component = new EditPatientIdentifierComponent(patientService, locationResourceService,
-      patientIdentifierService, patientIdentifierTypeResService, patientResourceService,
-      patientCreationResourceService, userService);
+    component = new EditPatientIdentifierComponent(
+      patientService,
+      locationResourceService,
+      patientIdentifierService,
+      patientIdentifierTypeResService,
+      patientResourceService,
+      patientCreationResourceService,
+      userService
+    );
   });
   afterEach(() => {
     TestBed.resetTestingModule();
@@ -89,7 +90,6 @@ describe('Component: EditPatientIdentifierComponent Unit Tests', () => {
   it('should instantiate the component', (done) => {
     expect(component).toBeTruthy();
     done();
-
   });
   it('should have required properties', (done) => {
     expect(component.display).toBe(false);
@@ -99,33 +99,23 @@ describe('Component: EditPatientIdentifierComponent Unit Tests', () => {
     expect(component.patientIdentifierUuid).toBe('');
 
     done();
-
   });
   it('should have all the required functions defined and callable', (done) => {
-    spyOn(component, 'getPatient').and.callFake((err, data) => {
-    });
-    component.getPatient((err, data) => {
-    });
-    spyOn(component, 'checkIdentifierFormat').and.callFake((err, data) => {
-
-    });
-    component.checkIdentifierFormat((err, data) => {
-    });
+    spyOn(component, 'getPatient').and.callFake((err, data) => {});
+    component.getPatient((err, data) => {});
+    spyOn(component, 'checkIdentifierFormat').and.callFake((err, data) => {});
+    component.checkIdentifierFormat((err, data) => {});
     expect(component.checkIdentifierFormat).toHaveBeenCalled();
 
     done();
-
   });
   it('should fetch location correctly', (done) => {
-    spyOn(locationResourceService, 'getLocations')
-      .and.callFake((param) => {
-        return {
-          uuid: 'location-uuid',
-          display: 'location'
-        };
-      });
+    spyOn(locationResourceService, 'getLocations').and.callFake((param) => {
+      return {
+        uuid: 'location-uuid',
+        display: 'location'
+      };
+    });
     done();
-
   });
-
 });

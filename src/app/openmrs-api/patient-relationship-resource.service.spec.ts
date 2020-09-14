@@ -2,10 +2,12 @@ import { async, inject, TestBed } from '@angular/core/testing';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { PatientRelationshipResourceService } from './patient-relationship-resource.service';
-import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
+import {
+  HttpTestingController,
+  HttpClientTestingModule
+} from '@angular/common/http/testing';
 
 describe('Service: Pratient Relationship ResourceService', () => {
-
   let service: PatientRelationshipResourceService;
   let httpMock: HttpTestingController;
 
@@ -16,13 +18,11 @@ describe('Service: Pratient Relationship ResourceService', () => {
         AppSettingsService,
         LocalStorageService
       ],
-      imports: [
-        HttpClientTestingModule]
+      imports: [HttpClientTestingModule]
     });
 
     service = TestBed.get(PatientRelationshipResourceService);
     httpMock = TestBed.get(HttpTestingController);
-
   });
 
   afterEach(() => {
@@ -51,7 +51,8 @@ describe('Service: Pratient Relationship ResourceService', () => {
         startDate: '2016-07-22T00:00:00.000+0300',
         endDate: null,
         resourceVersion: '1.9'
-      }]
+      }
+    ]
   };
 
   const relationshipPayload = {
@@ -65,25 +66,23 @@ describe('Service: Pratient Relationship ResourceService', () => {
     expect(service).toBeDefined();
   });
 
-  it('should return null when PatientUuid not specified'
-    + 'when fetching patient relationships', async(() => {
-
+  it(
+    'should return null when PatientUuid not specified' +
+      'when fetching patient relationships',
+    async(() => {
       httpMock.expectNone({});
 
       const result = service.getPatientRelationships(null);
       expect(result).toBeNull();
-    }));
-
-
+    })
+  );
 
   it('should call the right endpoint when getting person relationships', (done) => {
-
     const personUuid = 'uuid';
 
-    service.getPatientRelationships(personUuid)
-      .subscribe((response) => {
-        done();
-      });
+    service.getPatientRelationships(personUuid).subscribe((response) => {
+      done();
+    });
 
     const req = httpMock.expectOne(service.getUrl() + '?v=full&person=uuid');
     expect(req.request.method).toBe('GET');
@@ -92,7 +91,6 @@ describe('Service: Pratient Relationship ResourceService', () => {
   });
 
   it('should return null when relationshipPayload not specified', async(() => {
-
     httpMock.expectNone({});
 
     const result = service.saveRelationship(null);
@@ -100,11 +98,9 @@ describe('Service: Pratient Relationship ResourceService', () => {
   }));
 
   it('should call the right endpoint when updating person relationships', (done) => {
-
-    service.saveRelationship(relationshipPayload)
-      .subscribe((response) => {
-        done();
-      });
+    service.saveRelationship(relationshipPayload).subscribe((response) => {
+      done();
+    });
 
     const req = httpMock.expectOne(service.getUrl());
     expect(req.request.method).toBe('POST');
@@ -112,7 +108,6 @@ describe('Service: Pratient Relationship ResourceService', () => {
     req.flush(JSON.stringify(patientRelationshipResponse));
   });
   it('should return null when uuid and payload not specified', async(() => {
-
     httpMock.expectNone({});
 
     const result = service.updateRelationship(null, null);
@@ -120,8 +115,8 @@ describe('Service: Pratient Relationship ResourceService', () => {
   }));
 
   it('should call the right endpoint when updating person relationships', (done) => {
-
-    service.updateRelationship('uuid', relationshipPayload)
+    service
+      .updateRelationship('uuid', relationshipPayload)
       .subscribe((response) => {
         done();
       });
@@ -132,32 +127,26 @@ describe('Service: Pratient Relationship ResourceService', () => {
     req.flush(JSON.stringify(patientRelationshipResponse));
   });
 
-
-  it('should return null when PatientUuid not specified'
-    + 'when deconsting person relationships', async(() => {
+  it(
+    'should return null when PatientUuid not specified' +
+      'when deconsting person relationships',
+    async(() => {
       httpMock.expectNone({});
       const result = service.deleteRelationship(null);
       expect(result).toBeNull();
-    }));
+    })
+  );
 
   it('should call the right endpoint when deconsting person relationships', (done) => {
     const relationshipUuid = 'uuid';
 
-    service.deleteRelationship(relationshipUuid)
-      .subscribe((response) => {
-        done();
-      });
+    service.deleteRelationship(relationshipUuid).subscribe((response) => {
+      done();
+    });
 
     const req = httpMock.expectOne(service.getUrl() + '/' + relationshipUuid);
     expect(req.request.method).toBe('DELETE');
     expect(req.request.url).toBe(service.getUrl() + '/' + relationshipUuid);
     req.flush(JSON.stringify(patientRelationshipResponse));
   });
-
-
 });
-
-
-
-
-

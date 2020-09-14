@@ -21,15 +21,17 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
   public hasError = false;
   public isLoading = true;
 
-  constructor(public dqaResource: DqaChartAbstractionService,
-    private _location: Location, private route: ActivatedRoute, ) { }
+  constructor(
+    public dqaResource: DqaChartAbstractionService,
+    private _location: Location,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
     let requestParams: any;
     this.addExtraColumns();
-    this.route
-      .queryParams
-      .subscribe((params) => {
+    this.route.queryParams.subscribe(
+      (params) => {
         if (params) {
           this.params = params;
           requestParams = {
@@ -40,24 +42,23 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
 
           this.getPatientList(requestParams);
         }
-      }, (error) => {
+      },
+      (error) => {
         console.error('Error', error);
-      });
+      }
+    );
   }
   private getPatientList(params: any) {
-    this.dqaResource.getDqaChartAbstractionReport(params)
-      .subscribe(
-        (data) => {
-          this.patientData = this.patientData.concat(data);
-          this.isLoading = false;
-          console.log(this.allDataLoaded);
-          if (this.allDataLoaded) {
-            this.hasLoadedAll = false;
-          } else {
-            this.hasLoadedAll = true;
-          }
-        }
-      );
+    this.dqaResource.getDqaChartAbstractionReport(params).subscribe((data) => {
+      this.patientData = this.patientData.concat(data);
+      this.isLoading = false;
+      console.log(this.allDataLoaded);
+      if (this.allDataLoaded) {
+        this.hasLoadedAll = false;
+      } else {
+        this.hasLoadedAll = true;
+      }
+    });
   }
   public addExtraColumns() {
     const extraColumns = {
@@ -136,24 +137,24 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
       },
       {
         field: 'weight',
-        width: 150,
+        width: 150
       },
       {
         field: 'Height',
-        width: 150,
+        width: 150
       },
       {
         field: 'BMI',
-        width: 150,
+        width: 150
       },
       {
         field: 'person_id',
-        width: 200,
+        width: 200
       },
       {
         field: 'drugs_given',
-        width: 280,
-      },
+        width: 280
+      }
     );
   }
   public loadMoreDQAList(option) {

@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'add-patient-education',
-  templateUrl: './add-patient-education.component.html',
+  templateUrl: './add-patient-education.component.html'
 })
 export class AddPatientEducationComponent implements OnInit, OnDestroy {
   public displayErrors: boolean;
@@ -65,7 +65,7 @@ export class AddPatientEducationComponent implements OnInit, OnDestroy {
     this.levelOfEducation = educationLevels.map((levels: any) => {
       return {
         value: levels.uuid,
-        name: levels.display,
+        name: levels.display
       };
     });
   }
@@ -74,7 +74,7 @@ export class AddPatientEducationComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     const personAttributePayload = {
       value: this.patientHighestEducation,
-      attributeType: '352b0d51-63c6-47d0-a295-156bebee4fd5',
+      attributeType: '352b0d51-63c6-47d0-a295-156bebee4fd5'
     };
 
     this.personAttributeService

@@ -19,9 +19,7 @@ import { Moh731ReportComponent } from './moh-731/moh-731-report.component';
 import { Moh731PatientListComponent } from './../../hiv-care-lib/moh-731-report/moh-731-patientlist.component';
 import { ChangeDepartmentComponent } from '../change-department/change-department.component';
 import { Moh731MonthlyVizComponent } from './moh-731-monthly-viz/moh-731-monthly-viz.component';
-import {
-  DashboardsViewerComponent
-} from '../../kibana-lib';
+import { DashboardsViewerComponent } from '../../kibana-lib';
 import { SurgeReportComponent } from './surge/surge-report.component';
 import { SurgeReportPatientListComponent } from 'src/app/hiv-care-lib/surge-report/surge-report-patient-list.component';
 import { DqaReportsComponent } from 'src/app/hiv-care-lib/dqa-reports/dqa-reports/dqa-reports.component';
@@ -31,7 +29,8 @@ import { DqaReportBaseComponent } from 'src/app/hiv-care-lib/dqa-reports/dqa-rep
 
 const routes: Routes = [
   {
-    path: 'clinic-flow', component: AdminDashboardClinicFlowComponent
+    path: 'clinic-flow',
+    component: AdminDashboardClinicFlowComponent
   },
   {
     path: 'program-enrollment',
@@ -68,7 +67,7 @@ const routes: Routes = [
       },
       {
         path: 'patient-list/:indicator/:period/:gender/:age/:locationUuids',
-        component: HivSummaryIndicatorsPatientListComponent,
+        component: HivSummaryIndicatorsPatientListComponent
       }
     ]
   },
@@ -99,7 +98,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component:  DashboardsViewerComponent
+        component: DashboardsViewerComponent
       }
     ]
   },
@@ -126,7 +125,6 @@ const routes: Routes = [
       {
         path: 'patient-list',
         component: DataEntryStatisticsPatientListComponent
-
       }
     ]
   },
@@ -161,17 +159,17 @@ const routes: Routes = [
             path: 'dqa-report-patientlist',
             component: ChartAbstractionPatientlistComponent
           }
-
         ]
       },
       {
         path: '',
         component: DqaReportsComponent,
-        data : { multipleLocation : true }
+        data: { multipleLocation: true }
       }
     ]
   }
 ];
 
-export const dataAnalyticsDashboardHivRouting: ModuleWithProviders =
-  RouterModule.forChild(routes);
+export const dataAnalyticsDashboardHivRouting: ModuleWithProviders = RouterModule.forChild(
+  routes
+);

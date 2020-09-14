@@ -1,9 +1,7 @@
-
 <p-accordion>
-    <div *ngFor="let indicator of indicatorDefinitions">
-      <p-accordionTab header="{{indicator.label}}:" [selected]="false">
-        {{indicator.description}}
-      </p-accordionTab>
-    </div>
-  </p-accordion>
-  
+  <div *ngFor="let indicator of indicatorDefinitions">
+    <p-accordionTab header="{{ indicator.label }}:" [selected]="false">
+      {{ indicator.description }}
+    </p-accordionTab>
+  </div>
+</p-accordion>

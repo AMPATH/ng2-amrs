@@ -14,7 +14,8 @@
     "build-prod": "node version.js && bash ./scripts/ng.sh build --prod --aot --optimization=false",
     "serve:prod": "http-server dist/ngx-amrs/ -P https://ngx.ampath.or.ke",
     "prebuild": "node version.js",
-    "prestart": "node version.js"
+    "prestart": "node version.js",
+    "prettier:check": "prettier --check src/app"
   },
   "husky": {
     "hooks": {
@@ -22,7 +23,10 @@
     }
   },
   "lint-staged": {
-    "*.ts": "npm run lint ngx-amrs"
+    "*.{js,css,md,ts}": [
+      "prettier --write src/app",
+      "npm run lint ngx-amrs"
+    ]
   },
   "private": true,
   "dependencies": {
@@ -141,7 +145,7 @@
     "@types/uglify-js": "^2.6.28",
     "codelyzer": "~4.2.1",
     "fs-extra": "^6.0.1",
-    "husky": "^4.2.5",
+    "husky": "^4.3.0",
     "jasmine-core": "^2.99.1",
     "jasmine-spec-reporter": "^4.2.1",
     "karma": "^3.0.0",
@@ -151,7 +155,8 @@
     "karma-jasmine-html-reporter": "^0.2.2",
     "karma-mocha-reporter": "^2.2.5",
     "karma-parallel": "^0.3.1",
-    "lint-staged": "^10.2.13",
+    "lint-staged": "^10.3.0",
+    "prettier": "2.1.1",
     "protractor": "^5.4.0",
     "rxjs-tslint": "^0.1.5",
     "source-map-support": "^0.5.9",

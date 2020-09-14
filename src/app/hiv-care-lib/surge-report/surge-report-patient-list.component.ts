@@ -13,7 +13,6 @@ import { Column } from 'ag-grid';
   styleUrls: ['./surge-report-patient-list.component.css']
 })
 export class SurgeReportPatientListComponent implements OnInit {
-
   public params: any;
   public patientData: any;
   public extraColumns: Array<any> = [];
@@ -23,45 +22,48 @@ export class SurgeReportPatientListComponent implements OnInit {
   public hasLoadedAll = false;
   public hasError = false;
 
-  constructor(private router: Router, private route: ActivatedRoute,
-    private _location: Location, public surgeResource: SurgeResourceService) { }
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private _location: Location,
+    public surgeResource: SurgeResourceService
+  ) {}
 
   ngOnInit() {
     this.addExtraColumns();
-    this.route
-      .queryParams
-      .subscribe((params) => {
+    this.route.queryParams.subscribe(
+      (params) => {
         if (params) {
           this.params = params;
           this.selectedIndicator = params.indicatorHeader;
           this.getPatientList(params);
         }
-      }, (error) => {
+      },
+      (error) => {
         console.error('Error', error);
-      });
+      }
+    );
   }
 
   private getPatientList(params: any) {
     switch (params.currentView) {
       case 'daily':
-        this.surgeResource.getSurgeDailyReportPatientList(params)
-          .subscribe(
-            (data) => {
-              this.isLoading = false;
-              this.patientData = data.results.results;
-              this.hasLoadedAll = true;
-            }
-          );
+        this.surgeResource
+          .getSurgeDailyReportPatientList(params)
+          .subscribe((data) => {
+            this.isLoading = false;
+            this.patientData = data.results.results;
+            this.hasLoadedAll = true;
+          });
         break;
       case 'weekly':
-        this.surgeResource.getSurgeWeeklyPatientList(params)
-          .subscribe(
-            (data) => {
-              this.isLoading = false;
-              this.patientData = data.results.results;
-              this.hasLoadedAll = true;
-            }
-          );
+        this.surgeResource
+          .getSurgeWeeklyPatientList(params)
+          .subscribe((data) => {
+            this.isLoading = false;
+            this.patientData = data.results.results;
+            this.hasLoadedAll = true;
+          });
         break;
     }
   }
@@ -103,7 +105,11 @@ export class SurgeReportPatientListComponent implements OnInit {
       {
         field: 'identifiers',
         cellRenderer: (column) => {
-          return '<a href="javascript:void(0);" title="Identifiers">' + column.value + '</a>';
+          return (
+            '<a href="javascript:void(0);" title="Identifiers">' +
+            column.value +
+            '</a>'
+          );
         }
       },
       {

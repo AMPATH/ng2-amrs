@@ -1,14 +1,11 @@
-import {Program} from './program.model';
-
+import { Program } from './program.model';
 
 describe('Model: Program', () => {
-
   const existingProgram: any = {
     uuid: 'uuid',
     display: 'the program',
     name: 'name',
     description: 'description'
-
   };
 
   it('should wrap openmrs program for display correctly', () => {
@@ -17,10 +14,9 @@ describe('Model: Program', () => {
     expect(wrappedProgram.display).toEqual(existingProgram.display);
     expect(wrappedProgram.name).toEqual(existingProgram.name);
     expect(wrappedProgram.description).toEqual(existingProgram.description);
-
   });
 
-// TODO implement these tests
+  // TODO implement these tests
   /*it('should generate update existing payload correctly',()=>{
 
   });
@@ -34,6 +30,3 @@ describe('Model: Program', () => {
 
   });*/
 });
-
-
-

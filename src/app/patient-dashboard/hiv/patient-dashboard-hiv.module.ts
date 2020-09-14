@@ -2,25 +2,33 @@ import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
-  AccordionModule, DataTableModule, SharedModule, TabViewModule,
-  GrowlModule, PanelModule, ConfirmDialogModule, ConfirmationService,
-  DialogModule, InputTextModule, MessagesModule, InputTextareaModule,
-  DropdownModule, ButtonModule, CalendarModule
+  AccordionModule,
+  DataTableModule,
+  SharedModule,
+  TabViewModule,
+  GrowlModule,
+  PanelModule,
+  ConfirmDialogModule,
+  ConfirmationService,
+  DialogModule,
+  InputTextModule,
+  MessagesModule,
+  InputTextareaModule,
+  DropdownModule,
+  ButtonModule,
+  CalendarModule
 } from 'primeng/primeng';
 import { PreviousVisitComponent } from './hiv-summary/previous-visit.component';
 import { FormEntryModule } from 'ngx-openmrs-formentry';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { OpenmrsApi } from '../../openmrs-api/openmrs-api.module';
-import { HivPatientClinicalSummaryComponent
-} from './patient-clinical-summaries/hiv-patient-clinical-summary.component';
-import { HivProgramSnapshotComponent
-} from './program-snapshot/hiv-program-snapshot.component';
+import { HivPatientClinicalSummaryComponent } from './patient-clinical-summaries/hiv-patient-clinical-summary.component';
+import { HivProgramSnapshotComponent } from './program-snapshot/hiv-program-snapshot.component';
 import { HivSummaryComponent } from './hiv-summary/hiv-summary.component';
 import { HivSummaryHistoricalComponent } from './hiv-summary/hiv-summary-historical.component';
 import { MedicationHistoryComponent } from './hiv-summary/medication-history.component';
 import { GeneXpertImagesComponent } from './genexpert-images/genexpert-images.component';
-import { PatientMonthlyStatusComponent
-} from './patient-status-change/patient-monthly-status.component';
+import { PatientMonthlyStatusComponent } from './patient-status-change/patient-monthly-status.component';
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
 import { PatientDashboardCommonModule } from '../common/patient-dashboard.common.module';
 
@@ -45,7 +53,8 @@ import { HivSummaryResourceService } from '../../etl-api/hiv-summary-resource.se
     OpenmrsApi,
     FormEntryModule,
     TabViewModule,
-    GrowlModule, PanelModule,
+    GrowlModule,
+    PanelModule,
     HttpClientModule
   ],
   exports: [
@@ -54,7 +63,8 @@ import { HivSummaryResourceService } from '../../etl-api/hiv-summary-resource.se
     HivSummaryHistoricalComponent,
     MedicationHistoryComponent,
     PatientMonthlyStatusComponent,
-    PreviousVisitComponent],
+    PreviousVisitComponent
+  ],
   declarations: [
     HivPatientClinicalSummaryComponent,
     HivSummaryComponent,
@@ -73,6 +83,6 @@ import { HivSummaryResourceService } from '../../etl-api/hiv-summary-resource.se
       useClass: PocHttpInteceptor,
       multi: true
     }
-  ],
+  ]
 })
-export class PatientDashboardHivModule { }
+export class PatientDashboardHivModule {}

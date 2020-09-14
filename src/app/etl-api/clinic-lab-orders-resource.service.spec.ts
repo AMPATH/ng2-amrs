@@ -5,7 +5,10 @@ import { ClinicLabOrdersResourceService } from './clinic-lab-orders-resource.ser
 import { DataCacheService } from '../shared/services/data-cache.service';
 import { CacheModule, CacheService } from 'ionic-cache';
 import { HttpClient } from '@angular/common/http';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController
+} from '@angular/common/http/testing';
 const expectedResults = {
   startIndex: 0,
   size: 3,
@@ -40,10 +43,7 @@ describe('ClinicLabOrdersResourceService Tests', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [],
-      imports: [
-        CacheModule,
-        HttpClientTestingModule
-      ],
+      imports: [CacheModule, HttpClientTestingModule],
       providers: [
         HttpClient,
         ClinicLabOrdersResourceService,
@@ -59,37 +59,38 @@ describe('ClinicLabOrdersResourceService Tests', () => {
     TestBed.resetTestingModule();
   });
 
-  it('should be defined',
-    inject([ClinicLabOrdersResourceService], (s: ClinicLabOrdersResourceService) => {
+  it('should be defined', inject(
+    [ClinicLabOrdersResourceService],
+    (s: ClinicLabOrdersResourceService) => {
       expect(s).toBeTruthy();
-    })
-  );
+    }
+  ));
 
-  it('all clinic lab orders resource methods should be defined',
-    inject([ClinicLabOrdersResourceService], (s: ClinicLabOrdersResourceService) => {
+  it('all clinic lab orders resource methods should be defined', inject(
+    [ClinicLabOrdersResourceService],
+    (s: ClinicLabOrdersResourceService) => {
       expect(s.getClinicLabOrders).toBeDefined();
-    })
-  );
+    }
+  ));
 
-  it('should return a list containing clinic lab orders for a given date',
-    inject([ClinicLabOrdersResourceService, HttpTestingController],
-      (s: ClinicLabOrdersResourceService, httpMock: HttpTestingController) => {
+  it('should return a list containing clinic lab orders for a given date', inject(
+    [ClinicLabOrdersResourceService, HttpTestingController],
+    (s: ClinicLabOrdersResourceService, httpMock: HttpTestingController) => {
+      const url =
+        'https://amrsreporting.ampath.or.ke:8002' +
+        '/etl/clinic-lab-orders?' +
+        'locationUuids=uuid' +
+        '&endDate=2017-02-01' +
+        '&startDate=2017-02-01';
 
-        const url = 'https://amrsreporting.ampath.or.ke:8002'
-          + '/etl/clinic-lab-orders?'
-          + 'locationUuids=uuid'
-          + '&endDate=2017-02-01'
-          + '&startDate=2017-02-01';
-
-        s.getClinicLabOrders({
-          startDate: '2017-02-01',
-          locationUuids: 'uuid',
-          endDate: '2017-02-01',
-        }).subscribe((result) => {
-          expect(result).toBeDefined();
-          expect(result).toEqual(expectedResults.result);
-        });
-      })
-  );
-
+      s.getClinicLabOrders({
+        startDate: '2017-02-01',
+        locationUuids: 'uuid',
+        endDate: '2017-02-01'
+      }).subscribe((result) => {
+        expect(result).toBeDefined();
+        expect(result).toEqual(expectedResults.result);
+      });
+    }
+  ));
 });

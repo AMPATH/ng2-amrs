@@ -13,14 +13,10 @@ import { GenderSelectComponent } from './gender-selector/gender-selector.compone
 import { IndicatorSelectComponent } from './indicator-selector/indicator-selector.component';
 import { RangeSliderComponent } from './range-slider/range-slider.component';
 import { ClinicDashboardCacheService } from '../services/clinic-dashboard-cache.service';
-import {
-  ClinicalSummaryVisualizationResourceService
-} from '../../etl-api/clinical-summary-visualization-resource.service';
+import { ClinicalSummaryVisualizationResourceService } from '../../etl-api/clinical-summary-visualization-resource.service';
 import { AppSettingsService } from '../../app-settings/app-settings.service';
 import { DataCacheService } from '../../shared/services/data-cache.service';
-import {
-  ClinicalSummaryVisualizationService
-} from '../../hiv-care-lib/services/clinical-summary-visualization.service';
+import { ClinicalSummaryVisualizationService } from '../../hiv-care-lib/services/clinical-summary-visualization.service';
 // tslint:disable:component-class-suffix
 
 @Component({
@@ -47,19 +43,13 @@ export class FakepatientStatusOverviewChart {
   @Input() options: any;
 }
 
-export class FakeClinicDashboardCacheService {
+export class FakeClinicDashboardCacheService {}
 
-}
+export class FakeClinicalSummaryVisualizationService {}
 
-export class FakeClinicalSummaryVisualizationService {
+export class FakeClinicalSummaryVisualizationResourceService {}
 
-}
-
-export class FakeClinicalSummaryVisualizationResourceService {
-
-}
-
- describe('Component: DashboardFiltersComponent', () => {
+describe('Component: DashboardFiltersComponent', () => {
   let parentComponent: DashboardFiltersComponent;
   let parentFixture;
   beforeEach(() => {
@@ -84,7 +74,8 @@ export class FakeClinicalSummaryVisualizationResourceService {
           useFactory: (appSettingsService, cacheService) =>
             new FakeClinicalSummaryVisualizationResourceService(),
           deps: [AppSettingsService, DataCacheService]
-        }],
+        }
+      ],
       declarations: [
         DashboardFiltersComponent,
         DateRangeComponent,
@@ -131,10 +122,12 @@ export class FakeClinicalSummaryVisualizationResourceService {
     parentFixture.detectChanges();
     parentComponent.filterModelChange.subscribe((vv) => {
       setTimeout(() => {
-        expect(moment(parentComponent.filterModel.startDate)
-          .format('DD/MM/YYYY')).toBe('22/03/2016');
-        expect(moment(parentComponent.filterModel.endDate)
-          .format('DD/MM/YYYY')).toBe('22/03/2017');
+        expect(
+          moment(parentComponent.filterModel.startDate).format('DD/MM/YYYY')
+        ).toBe('22/03/2016');
+        expect(
+          moment(parentComponent.filterModel.endDate).format('DD/MM/YYYY')
+        ).toBe('22/03/2017');
         parentComponent.onDateChanged(vv);
       }, 21);
     });
@@ -227,5 +220,4 @@ export class FakeClinicalSummaryVisualizationResourceService {
     parentFixture.detectChanges();
     done();
   });
-
 });

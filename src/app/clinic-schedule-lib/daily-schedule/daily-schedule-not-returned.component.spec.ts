@@ -4,10 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of } from 'rxjs';
 import { DataListsModule } from '../../shared/data-lists/data-lists.module';
-import { ClinicDashboardCacheService
-} from '../../clinic-dashboard/services/clinic-dashboard-cache.service';
-import { DailyScheduleResourceService
-} from '../../etl-api/daily-scheduled-resource.service';
+import { ClinicDashboardCacheService } from '../../clinic-dashboard/services/clinic-dashboard-cache.service';
+import { DailyScheduleResourceService } from '../../etl-api/daily-scheduled-resource.service';
 import { DailyScheduleNotReturnedComponent } from './daily-schedule-not-returned.component';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 import { FakeAppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytcis.mock';
@@ -20,18 +18,14 @@ import { CacheModule, CacheService } from 'ionic-cache';
 import { DataCacheService } from '../../shared/services/data-cache.service';
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
 import { DateTimePickerModule } from 'ngx-openmrs-formentry/';
-import {
-  ProgramVisitEncounterSearchComponent
-} from './../../program-visit-encounter-search/program-visit-encounter-search.component';
-import { AngularMultiSelectModule
-} from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
-import { DepartmentProgramsConfigService
-} from './../../etl-api/department-programs-config.service';
+import { ProgramVisitEncounterSearchComponent } from './../../program-visit-encounter-search/program-visit-encounter-search.component';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
+import { DepartmentProgramsConfigService } from './../../etl-api/department-programs-config.service';
 
 class MockActivatedRoute {
-  public params = of([{'id': 1}]);
+  public params = of([{ id: 1 }]);
   public snapshot = {
-    queryParams: {filter: ''}
+    queryParams: { filter: '' }
   };
 }
 
@@ -64,14 +58,19 @@ describe('Component: DailyScheduleNotReturned', () => {
           useClass: MockActivatedRoute
         },
         {
-          provide: AppFeatureAnalytics, useFactory: () => {
+          provide: AppFeatureAnalytics,
+          useFactory: () => {
             return new FakeAppFeatureAnalytics();
-          }, deps: []
+          },
+          deps: []
         }
-
       ],
-      declarations: [DailyScheduleNotReturnedComponent, ProgramVisitEncounterSearchComponent],
-      imports: [NgBusyModule,
+      declarations: [
+        DailyScheduleNotReturnedComponent,
+        ProgramVisitEncounterSearchComponent
+      ],
+      imports: [
+        NgBusyModule,
         FormsModule,
         DialogModule,
         CalendarModule,
@@ -80,7 +79,8 @@ describe('Component: DailyScheduleNotReturned', () => {
         DateTimePickerModule,
         DataListsModule,
         AngularMultiSelectModule,
-        NgamrsSharedModule]
+        NgamrsSharedModule
+      ]
     });
   });
 
@@ -90,7 +90,9 @@ describe('Component: DailyScheduleNotReturned', () => {
       component = fixture.componentInstance;
       clinicDashBoardCacheService = TestBed.get(ClinicDashboardCacheService);
       dailyScheduleResource = TestBed.get(DailyScheduleResourceService);
-      departmentProgConfigService = TestBed.get(DepartmentProgramsConfigService);
+      departmentProgConfigService = TestBed.get(
+        DepartmentProgramsConfigService
+      );
       route = TestBed.get(ActivatedRoute);
       localStorageService = TestBed.get(LocalStorageService);
     });
@@ -103,8 +105,7 @@ describe('Component: DailyScheduleNotReturned', () => {
   it('should create an instance', () => {
     expect(component).toBeTruthy();
   });
-    it('should have required properties', (done) => {
-
+  it('should have required properties', (done) => {
     expect(component.notReturnedPatientList.length).toBe(0);
     expect(component.errors.length).toBe(0);
     expect(component.selectedDate).toEqual(undefined);
@@ -113,7 +114,6 @@ describe('Component: DailyScheduleNotReturned', () => {
     expect(component.loadingDailyNotReturned).toEqual(false);
 
     done();
-
   });
 
   it('should call component methods', (done) => {
@@ -149,5 +149,4 @@ describe('Component: DailyScheduleNotReturned', () => {
     expect(params.startIndex).toEqual(0);
     done();
   });
-
 });

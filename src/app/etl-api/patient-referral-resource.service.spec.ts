@@ -1,6 +1,6 @@
 import {
   HttpClientTestingModule,
-  HttpTestingController,
+  HttpTestingController
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
@@ -16,7 +16,7 @@ import { PatientReferralResourceService } from './patient-referral-resource.serv
 const basePath = 'api-base-path/';
 
 class MockCacheStorageService {
-  constructor(a, b) { }
+  constructor(a, b) {}
 
   ready() {
     return true;
@@ -39,7 +39,7 @@ const mockReportParams = {
   gender: 'M,F',
   stateUuids: 'stateUuids-uuid',
   startAge: 0,
-  endAge: 110,
+  endAge: 110
 };
 
 describe('PatientReferralResourceService', () => {
@@ -57,15 +57,15 @@ describe('PatientReferralResourceService', () => {
         PatientReferralResourceService,
         {
           provide: AppSettingsService,
-          useClass: MockAppSettingsService,
+          useClass: MockAppSettingsService
         },
         {
           provide: CacheStorageService,
           useFactory: () => {
             return new MockCacheStorageService(null, null);
-          },
-        },
-      ],
+          }
+        }
+      ]
     });
 
     cacheService = TestBed.get(DataCacheService);
@@ -90,25 +90,26 @@ describe('PatientReferralResourceService', () => {
           program_uuid: 'program_uuid',
           location_id: 13,
           encounter_datetime: '2017-04-26T05:48:32.000Z',
-          received_back: 89,
-        },
+          received_back: 89
+        }
       ],
       indicatorDefinitions: [{}]
     };
 
     const dataCacheServiceSpy: jasmine.Spy = spyOn(
-        cacheService,
-        'cacheSingleRequest'
+      cacheService,
+      'cacheSingleRequest'
     ).and.callFake(() => of(expectedReferralReport));
 
     patientReferralResourceService
       .getPatientReferralReport(mockReportParams)
       .subscribe(
-        referralReport =>
+        (referralReport) =>
           expect(referralReport).toEqual(
-            expectedReferralReport, 'returns the referral report'
+            expectedReferralReport,
+            'returns the referral report'
           ),
-          fail
+        fail
       );
 
     expect(dataCacheServiceSpy).toHaveBeenCalledTimes(1);
@@ -128,8 +129,8 @@ describe('PatientReferralResourceService', () => {
           gender: 'F',
           birthdate: '1982-12-11T21:00:00.000Z',
           age: 34
-        },
-      ],
+        }
+      ]
     };
 
     const dataCacheServiceSpy = spyOn(
@@ -140,13 +141,13 @@ describe('PatientReferralResourceService', () => {
     patientReferralResourceService
       .getPatientReferralPatientList(mockReportParams)
       .subscribe(
-        referralPatientList =>
+        (referralPatientList) =>
           expect(referralPatientList).toEqual(
             expectedReferralPatientList,
             'returns referral patient list data'
           ),
-          fail
-       );
+        fail
+      );
 
     expect(dataCacheServiceSpy).toHaveBeenCalledTimes(1);
   });
@@ -186,10 +187,11 @@ describe('PatientReferralResourceService', () => {
         testPayload.enrollmentUuid
       )
       .subscribe(
-        referralData => expect(referralData).toEqual(
-          expectedReferralData,
-          'returns referral data'
-        ),
+        (referralData) =>
+          expect(referralData).toEqual(
+            expectedReferralData,
+            'returns referral data'
+          ),
         fail
       );
 
@@ -197,7 +199,7 @@ describe('PatientReferralResourceService', () => {
       (r) =>
         r.method === 'GET' &&
         r.url ===
-        `${basePath}patient-referral-details/test-location-uuid/test-enrollment-uuid`
+          `${basePath}patient-referral-details/test-location-uuid/test-enrollment-uuid`
     );
     expect(req.request.method).toEqual('GET');
     req.flush(expectedReferralData);
@@ -213,20 +215,21 @@ describe('PatientReferralResourceService', () => {
       referral_reason: 'Test referral',
       referred_from_location_id: 1,
       referred_to_location_id: 2,
-      voided: 0,
+      voided: 0
     };
 
     const testPayload = {
       notificationStatus: 1,
-      patient_referral_id: 123,
+      patient_referral_id: 123
     };
 
     patientReferralResourceService
       .updateReferralNotificationStatus(testPayload)
       .subscribe(
-        referralData => expect(referralData).toEqual(
-          expectedReferralData,
-          'returns updated referral data'
+        (referralData) =>
+          expect(referralData).toEqual(
+            expectedReferralData,
+            'returns updated referral data'
           ),
         fail
       );

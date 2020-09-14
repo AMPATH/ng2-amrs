@@ -1,22 +1,22 @@
-
-import {map, catchError,  switchMap, combineAll } from 'rxjs/operators';
+import { map, catchError, switchMap, combineAll } from 'rxjs/operators';
 import { Injectable, Component } from '@angular/core';
 import { FormsResourceService } from '../../../openmrs-api/forms-resource.service';
 import { FormListService } from '../forms/form-list.service';
 import { FormSchemaService } from './form-schema.service';
 import * as _ from 'lodash';
-import { Observable, from , of} from 'rxjs';
+import { Observable, from, of } from 'rxjs';
 import { LocalStorageService } from '../../../utils/local-storage.service';
 import { ToastrService } from 'ngx-toastr';
 const LAST_UPDATED = 'formsLastUpdated';
 @Injectable()
 export class FormUpdaterService {
-
-  constructor(private formsResourceService: FormsResourceService,
+  constructor(
+    private formsResourceService: FormsResourceService,
     private formListService: FormListService,
     private formSchemaService: FormSchemaService,
     private localStorageService: LocalStorageService,
-    private toast: ToastrService) { }
+    private toast: ToastrService
+  ) {}
 
   public setDateLastChecked(timestamp: string) {
     this.localStorageService.setItem(LAST_UPDATED, timestamp);
@@ -26,8 +26,13 @@ export class FormUpdaterService {
   }
 
   public getUpdatedForms() {
-    this.checkUpdatedForms().pipe(
-      catchError((error) => { this.toast.clear(); return error; }))
+    this.checkUpdatedForms()
+      .pipe(
+        catchError((error) => {
+          this.toast.clear();
+          return error;
+        })
+      )
       .subscribe((updatedSchemas: any[]) => {
         if (updatedSchemas.length > 0) {
           const filteredSchemas = updatedSchemas.filter((x) => x !== null);
@@ -45,18 +50,19 @@ export class FormUpdaterService {
           this.showPlainToast('No forms in cache to update.', 2000);
         }
       });
-
   }
 
   private doesUpdatedSchemaExist(uuid, cachedSchema): Observable<any> {
     const cache = _.cloneDeep(cachedSchema);
-    return this.formSchemaService.getFormSchemaByUuid(uuid, false).pipe(map((schema) => {
-      if (!_.isEqual(schema.pages, cachedSchema.pages)) {
-        return schema;
-      } else {
-        return null;
-      }
-    }));
+    return this.formSchemaService.getFormSchemaByUuid(uuid, false).pipe(
+      map((schema) => {
+        if (!_.isEqual(schema.pages, cachedSchema.pages)) {
+          return schema;
+        } else {
+          return null;
+        }
+      })
+    );
   }
 
   private checkUpdatedForms() {
@@ -66,8 +72,9 @@ export class FormUpdaterService {
         _.forEach(forms, (form, index) => {
           const cachedSchema = this.localStorageService.getObject(form.uuid);
           if (cachedSchema) {
-            arrayOfObservables
-              .push(this.doesUpdatedSchemaExist(form.uuid, cachedSchema));
+            arrayOfObservables.push(
+              this.doesUpdatedSchemaExist(form.uuid, cachedSchema)
+            );
           }
         });
         if (arrayOfObservables.length > 0) {
@@ -76,8 +83,8 @@ export class FormUpdaterService {
         } else {
           return of([]);
         }
-
-      }));
+      })
+    );
   }
 
   private replaceSchemaInCache(schema) {
@@ -88,19 +95,23 @@ export class FormUpdaterService {
   }
 
   private showToastWithSpinner(message) {
-    this.toast.info(message, '', {progressBar: true,
-                                  progressAnimation: 'increasing',
-                                  easeTime: 150,
-                                  timeOut: 45000,
-                                  positionClass: 'toast-bottom-center'});
+    this.toast.info(message, '', {
+      progressBar: true,
+      progressAnimation: 'increasing',
+      easeTime: 150,
+      timeOut: 45000,
+      positionClass: 'toast-bottom-center'
+    });
   }
 
   private showPlainToast(message: string, duration?: number) {
     if (duration) {
-      this.toast.success(message, '', { timeOut: duration, positionClass: 'toast-bottom-center'});
+      this.toast.success(message, '', {
+        timeOut: duration,
+        positionClass: 'toast-bottom-center'
+      });
     } else {
-      this.toast.success(message, '', { positionClass: 'toast-bottom-center'});
+      this.toast.success(message, '', { positionClass: 'toast-bottom-center' });
     }
-
   }
 }

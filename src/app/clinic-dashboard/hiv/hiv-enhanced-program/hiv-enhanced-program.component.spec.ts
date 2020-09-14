@@ -14,59 +14,78 @@ import { LocalStorageService } from 'src/app/utils/local-storage.service';
 import { DataCacheService } from 'src/app/shared/services/data-cache.service';
 import { CacheService } from 'ionic-cache';
 import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
-import { Routes, ActivatedRoute, ActivatedRouteSnapshot, UrlSegment, Params, Data, Route } from '@angular/router';
+import {
+  Routes,
+  ActivatedRoute,
+  ActivatedRouteSnapshot,
+  UrlSegment,
+  Params,
+  Data,
+  Route
+} from '@angular/router';
 import { of, Observable } from 'rxjs';
 import 'rxjs/add/observable/of';
 import { Type } from '@angular/core';
 
 class MockCacheStorageService {
-    constructor(a, b) { }
+  constructor(a, b) {}
 
-    public ready() {
-        return true;
-    }
+  public ready() {
+    return true;
+  }
 }
 
 describe('HivEnhancedComponent Tests', () => {
-    let component: HivEnhancedComponent;
-    let fixture: ComponentFixture<HivEnhancedComponent>;
+  let component: HivEnhancedComponent;
+  let fixture: ComponentFixture<HivEnhancedComponent>;
 
-    beforeEach(async () => {
+  beforeEach(async () => {
+    TestBed.configureTestingModule({
+      imports: [
+        HttpClientTestingModule,
+        FormsModule,
+        AgGridModule,
+        RouterTestingModule
+      ],
+      declarations: [
+        HivEnhancedComponent,
+        HivEnhancedFiltersComponent,
+        PatientListComponent,
+        HivEnhancedPatientListComponent,
+        GenericListComponent
+      ],
+      providers: [
+        HivEnhancedReportService,
+        LocalStorageService,
+        CacheService,
+        DataCacheService,
+        AppSettingsService,
+        BaseComponentFactory,
+        {
+          provide: CacheStorageService,
+          useFactory: () => {
+            return new MockCacheStorageService(null, null);
+          }
+        }
+      ]
+    }).compileComponents();
 
-        TestBed.configureTestingModule({
-            imports: [HttpClientTestingModule, FormsModule, AgGridModule,
-                RouterTestingModule],
-            declarations: [HivEnhancedComponent, HivEnhancedFiltersComponent,
-                PatientListComponent, HivEnhancedPatientListComponent,
-                GenericListComponent
-            ],
-            providers: [HivEnhancedReportService, LocalStorageService, CacheService,
-                DataCacheService, AppSettingsService, BaseComponentFactory,
-                {
-                    provide: CacheStorageService, useFactory: () => {
-                        return new MockCacheStorageService(null, null);
-                    }
-                }
-            ]
-        }).compileComponents();
+    fixture = TestBed.createComponent(HivEnhancedComponent);
+    component = fixture.componentInstance;
+  });
 
-        fixture = TestBed.createComponent(HivEnhancedComponent);
-        component = fixture.componentInstance;
+  it('should be defined', () => {
+    expect(component).toBeDefined();
+  });
 
-    });
-
-    it('should be defined', () => {
-        expect(component).toBeDefined();
-    });
-
-    it('should have required properties', () => {
-        expect(component.isLoadingPatientList).toBe(false);
-        expect(component.patientData).toBeUndefined();
-        expect(component.sectionTittle).toBeUndefined();
-        expect(component.indicators).toBeUndefined();
-        expect(component.title).toBeDefined();
-        expect(component.locationUuid).toBeDefined();
-        expect(component.activeTab).toBeDefined();
-        expect(component.title).toBe('HIV Viremia Program Reports');
-    });
+  it('should have required properties', () => {
+    expect(component.isLoadingPatientList).toBe(false);
+    expect(component.patientData).toBeUndefined();
+    expect(component.sectionTittle).toBeUndefined();
+    expect(component.indicators).toBeUndefined();
+    expect(component.title).toBeDefined();
+    expect(component.locationUuid).toBeDefined();
+    expect(component.activeTab).toBeDefined();
+    expect(component.title).toBe('HIV Viremia Program Reports');
+  });
 });

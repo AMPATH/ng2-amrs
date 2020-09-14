@@ -3,23 +3,19 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import * as _ from 'lodash';
 
-import {
-  PatientReferralBaseComponent
-} from '../../program-manager/program-referral-report-base/patient-referral-report-base.component';
-import {
-  PatientReferralResourceService
-} from '../../etl-api/patient-referral-resource.service';
-import {
-  DataAnalyticsDashboardService
-} from '../../data-analytics-dashboard/services/data-analytics-dashboard.services';
+import { PatientReferralBaseComponent } from '../../program-manager/program-referral-report-base/patient-referral-report-base.component';
+import { PatientReferralResourceService } from '../../etl-api/patient-referral-resource.service';
+import { DataAnalyticsDashboardService } from '../../data-analytics-dashboard/services/data-analytics-dashboard.services';
 import { LocalStorageService } from '../../utils/local-storage.service';
 import { SelectDepartmentService } from '../../shared/services/select-department.service';
 
 @Component({
   selector: 'patient-referral-report',
-  templateUrl: '../../program-manager/program-referral-report-base/patient-referral-report-base.component.html'
+  templateUrl:
+    '../../program-manager/program-referral-report-base/patient-referral-report-base.component.html'
 })
-export class PatientReferralComponent extends PatientReferralBaseComponent
+export class PatientReferralComponent
+  extends PatientReferralBaseComponent
   implements OnInit {
   public data = [];
   public sectionsDef = [];
@@ -33,9 +29,15 @@ export class PatientReferralComponent extends PatientReferralBaseComponent
     public dataAnalyticsDashboardService: DataAnalyticsDashboardService,
     public localStorageService: LocalStorageService,
     public selectDepartmentService: SelectDepartmentService,
-    public patientReferralResourceService: PatientReferralResourceService) {
-      super(patientReferralResourceService, dataAnalyticsDashboardService, localStorageService, selectDepartmentService);
-    }
+    public patientReferralResourceService: PatientReferralResourceService
+  ) {
+    super(
+      patientReferralResourceService,
+      dataAnalyticsDashboardService,
+      localStorageService,
+      selectDepartmentService
+    );
+  }
 
   public ngOnInit() {
     this.route.parent.parent.parent.parent.params.subscribe((params: any) => {
@@ -48,9 +50,7 @@ export class PatientReferralComponent extends PatientReferralBaseComponent
     });
     this.loadReportParamsFromUrl();
   }
-  public test() {
-
-  }
+  public test() {}
 
   public generateReport() {
     this.storeReportParamsInUrl();
@@ -59,8 +59,8 @@ export class PatientReferralComponent extends PatientReferralBaseComponent
 
   public loadReportParamsFromUrl() {
     const path = this.router.parseUrl(this.location.path());
-    const pathHasHistoricalValues = path.queryParams['startDate'] &&
-      path.queryParams['endDate'];
+    const pathHasHistoricalValues =
+      path.queryParams['startDate'] && path.queryParams['endDate'];
 
     if (path.queryParams['startDate']) {
       this.startDate = new Date(path.queryParams['startDate']);
@@ -72,7 +72,6 @@ export class PatientReferralComponent extends PatientReferralBaseComponent
 
     if (path.queryParams['programUuids']) {
       this.programs = path.queryParams['programUuids'];
-
     }
 
     if (pathHasHistoricalValues) {
@@ -83,8 +82,8 @@ export class PatientReferralComponent extends PatientReferralBaseComponent
   public storeReportParamsInUrl() {
     const path = this.router.parseUrl(this.location.path());
     path.queryParams = {
-      'endDate': this.endDate.toUTCString(),
-      'startDate': this.startDate.toUTCString()
+      endDate: this.endDate.toUTCString(),
+      startDate: this.startDate.toUTCString()
     };
 
     if (!_.isUndefined(this.programs)) {
@@ -97,8 +96,12 @@ export class PatientReferralComponent extends PatientReferralBaseComponent
   }
 
   public translateIndicator(indicator: string) {
-    return indicator.toLowerCase().split('_').map((word) => {
-      return (word.charAt(0) + word.slice(1));
-    }).join(' ');
+    return indicator
+      .toLowerCase()
+      .split('_')
+      .map((word) => {
+        return word.charAt(0) + word.slice(1);
+      })
+      .join(' ');
   }
 }

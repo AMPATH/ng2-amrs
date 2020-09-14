@@ -1,38 +1,64 @@
-<h4 class="component-title" style="color: green;"><span class="fa fa-clock-o"></span> Clinic Flow</h4>
+<h4 class="component-title" style="color: green">
+  <span class="fa fa-clock-o"></span> Clinic Flow
+</h4>
 <div class="filters">
-  <location-filter (onLocationChange)="renderClinicFlow($event)"
-                   [multiple]="true"></location-filter>
+  <location-filter
+    (onLocationChange)="renderClinicFlow($event)"
+    [multiple]="true"
+  ></location-filter>
   <div class="date-filter">
     <div class="col-md-12 form-group">
       <label for="selectedDate">Select Date</label>
-      <date-time-picker tabindex="0" [modelValue]="selectedDate" id="selectedDate"
-                        (onDateChange)="setSelectedDate($event)"></date-time-picker>
+      <date-time-picker
+        tabindex="0"
+        [modelValue]="selectedDate"
+        id="selectedDate"
+        (onDateChange)="setSelectedDate($event)"
+      ></date-time-picker>
     </div>
     <div class="col-md-12 col-xs-12">
       <div class="row">
         <div class="col-md-4 col-xs-4">
-          <button class="btn btn-info previous" style="margin: 0px; float: left;"
-                  (click)="navigateDay(-1)"><span class="glyphicon glyphicon-chevron-left"></span>Previous
-            Day
+          <button
+            class="btn btn-info previous"
+            style="margin: 0px; float: left"
+            (click)="navigateDay(-1)"
+          >
+            <span class="glyphicon glyphicon-chevron-left"></span>Previous Day
           </button>
         </div>
-        <div class="col-md-4 col-xs-4"
-             style="text-align: center; padding:1px; margin:2px 0px 2px 0px; "><span
-          style="font-weight: bold;"> {{selectedDate | date}} </span></div>
+        <div
+          class="col-md-4 col-xs-4"
+          style="text-align: center; padding: 1px; margin: 2px 0px 2px 0px"
+        >
+          <span style="font-weight: bold"> {{selectedDate | date}} </span>
+        </div>
         <div class="col-md-4 col-xs-4">
-          <button class="btn btn-info next" style="margin: 0px; float: right;"
-                  (click)="navigateDay(1)"><span>&nbsp;&nbsp;&nbsp;&nbsp;Next Day</span> <span
-            class="glyphicon glyphicon-chevron-right"></span></button>
+          <button
+            class="btn btn-info next"
+            style="margin: 0px; float: right"
+            (click)="navigateDay(1)"
+          >
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;Next Day</span>
+            <span class="glyphicon glyphicon-chevron-right"></span>
+          </button>
         </div>
       </div>
     </div>
   </div>
 </div>
 <div class="col-md-12 col-xs-12">
-  <hr/>
-  <p class="text-info" *ngIf="!locations || (locations && locations.length == 0)">Please select location(s) to view report</p>
-  <clinic-flow *ngIf="locations && locations.length > 0 " [date]="selectedDate"
-               [locations]="locations"></clinic-flow>
+  <hr />
+  <p
+    class="text-info"
+    *ngIf="!locations || (locations && locations.length == 0)"
+  >
+    Please select location(s) to view report
+  </p>
+  <clinic-flow
+    *ngIf="locations && locations.length > 0 "
+    [date]="selectedDate"
+    [locations]="locations"
+  ></clinic-flow>
 </div>
 <div class="clear"></div>
-

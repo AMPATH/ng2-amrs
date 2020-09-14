@@ -16,51 +16,50 @@ import { DatePipe, CommonModule } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
 
 class MockActivatedRoute {
-    public params = Observable.of([{ 'id': 1 }]);
-    public snapshot = {
-        queryParams: { filter: '' }
-    };
+  public params = Observable.of([{ id: 1 }]);
+  public snapshot = {
+    queryParams: { filter: '' }
+  };
 }
 
 describe('Group Detail Component Tests', () => {
-    let component: GroupDetailComponent;
-    let fixture: ComponentFixture<GroupDetailComponent>;
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                HttpClientTestingModule,
-                FormsModule,
-                AgGridModule,
-                ButtonsModule,
-                NgamrsSharedModule,
-                MatCardModule,
-                MatRadioModule,
-                CommonModule,
-                RouterTestingModule
+  let component: GroupDetailComponent;
+  let fixture: ComponentFixture<GroupDetailComponent>;
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        HttpClientTestingModule,
+        FormsModule,
+        AgGridModule,
+        ButtonsModule,
+        NgamrsSharedModule,
+        MatCardModule,
+        MatRadioModule,
+        CommonModule,
+        RouterTestingModule
+      ],
+      declarations: [
+        GroupDetailComponent,
+        GroupDetailSummaryComponent,
+        GroupEditorComponent,
+        PatientSearchComponent
+      ],
+      providers: [
+        DatePipe,
+        {
+          provide: ActivatedRoute,
+          useClass: MockActivatedRoute
+        }
+      ]
+    })
+      .compileComponents()
+      .then(() => {
+        fixture = TestBed.createComponent(GroupDetailComponent);
+        component = fixture.componentInstance;
+      });
+  }));
 
-
-            ],
-            declarations: [GroupDetailComponent,
-                GroupDetailSummaryComponent,
-                GroupEditorComponent,
-                PatientSearchComponent],
-            providers: [
-                DatePipe,
-                {
-                    provide: ActivatedRoute,
-                    useClass: MockActivatedRoute
-                },
-            ]
-        })
-            .compileComponents()
-            .then(() => {
-                fixture = TestBed.createComponent(GroupDetailComponent);
-                component = fixture.componentInstance;
-            });
-    }));
-
-    it('should be defined', () => {
-        expect(component).toBeDefined();
-    });
-
+  it('should be defined', () => {
+    expect(component).toBeDefined();
+  });
 });

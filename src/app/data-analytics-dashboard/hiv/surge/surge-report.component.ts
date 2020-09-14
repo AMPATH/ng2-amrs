@@ -9,19 +9,23 @@ import { SurgeReportBaseComponent } from 'src/app/hiv-care-lib/surge-report/surg
 import { DataAnalyticsDashboardService } from '../../services/data-analytics-dashboard.services';
 import { SurgeResourceService } from 'src/app/etl-api/surge-resource.service';
 
-
-
 @Component({
   selector: 'surge-report',
-  templateUrl: '../../../hiv-care-lib/surge-report/surge-report-base.component.html',
+  templateUrl:
+    '../../../hiv-care-lib/surge-report/surge-report-base.component.html'
 })
-export class SurgeReportComponent extends SurgeReportBaseComponent implements OnInit {
-
+export class SurgeReportComponent
+  extends SurgeReportBaseComponent
+  implements OnInit {
   public enabledControls = 'weekControl,locationControl';
 
   constructor(
-    public router: Router, public route: ActivatedRoute, public surgeReport: SurgeResourceService,
-    private dataAnalyticsDashboardService: DataAnalyticsDashboardService, private location: Location) {
+    public router: Router,
+    public route: ActivatedRoute,
+    public surgeReport: SurgeResourceService,
+    private dataAnalyticsDashboardService: DataAnalyticsDashboardService,
+    private location: Location
+  ) {
     super(router, route, surgeReport);
   }
 
@@ -40,21 +44,21 @@ export class SurgeReportComponent extends SurgeReportBaseComponent implements On
     this.displayTabularFilters = true;
     switch (this.currentView) {
       case 'daily':
-          state = {
-          '_date': Moment(this.startDate).format('YYYY-MM-DD'),
-          'locationUuids': this.getSelectedLocations(this.locationUuids),
-          'displayTabularFilters': this.displayTabularFilters,
-          'currentView': this.currentView,
-          'reportName': this.reportName
-          };
+        state = {
+          _date: Moment(this.startDate).format('YYYY-MM-DD'),
+          locationUuids: this.getSelectedLocations(this.locationUuids),
+          displayTabularFilters: this.displayTabularFilters,
+          currentView: this.currentView,
+          reportName: this.reportName
+        };
         break;
       case 'weekly':
-         state = {
-          'year_week': this.yearWeek,
-          'locationUuids': this.getSelectedLocations(this.locationUuids),
-          'displayTabularFilters': this.displayTabularFilters,
-          'currentView': this.currentView,
-          'reportName': this.reportName
+        state = {
+          year_week: this.yearWeek,
+          locationUuids: this.getSelectedLocations(this.locationUuids),
+          displayTabularFilters: this.displayTabularFilters,
+          currentView: this.currentView,
+          reportName: this.reportName
         };
         break;
     }
@@ -62,7 +66,7 @@ export class SurgeReportComponent extends SurgeReportBaseComponent implements On
     const stateUrl = rison.encode(state);
     const path = this.router.parseUrl(this.location.path());
     path.queryParams = {
-      'state': stateUrl
+      state: stateUrl
     };
 
     this.params = state;
@@ -88,12 +92,13 @@ export class SurgeReportComponent extends SurgeReportBaseComponent implements On
           break;
       }
     }
-
   }
 
   public setSelectedLocation() {
-    this.dataAnalyticsDashboardService.getSelectedLocations().pipe(take(1)).subscribe(
-      (data) => {
+    this.dataAnalyticsDashboardService
+      .getSelectedLocations()
+      .pipe(take(1))
+      .subscribe((data) => {
         if (data) {
           this.locationUuids = data.locations;
         }
@@ -101,7 +106,7 @@ export class SurgeReportComponent extends SurgeReportBaseComponent implements On
   }
 
   private getSelectedLocations(locationUuids: Array<any>): string {
-    return locationUuids.map(location => location.value).join(',');
+    return locationUuids.map((location) => location.value).join(',');
   }
 
   public onTabChanged(val) {

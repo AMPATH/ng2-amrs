@@ -15,7 +15,7 @@ const mockCreatorResult: any = [
     user_uuid: 'uuuud',
     location: 'MTRH-1',
     locations: 1,
-    location_uuid: 'uuid',
+    location_uuid: 'uuid'
   },
   {
     creator_id: 1,
@@ -59,21 +59,19 @@ describe('Component: Data Entry Creators List', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports:
-        [
-          AgGridModule.withComponents([])
-        ],
-      declarations: [
-        DataEntryStatisticsCreatorsListComponent
-      ],
-      providers: [
-      ]
-    }).compileComponents()
+      imports: [AgGridModule.withComponents([])],
+      declarations: [DataEntryStatisticsCreatorsListComponent],
+      providers: []
+    })
+      .compileComponents()
       .then(() => {
-        fixture = TestBed.createComponent(DataEntryStatisticsCreatorsListComponent);
+        fixture = TestBed.createComponent(
+          DataEntryStatisticsCreatorsListComponent
+        );
         comp = fixture.componentInstance;
-        cd = fixture.debugElement.injector.get<ChangeDetectorRef>(ChangeDetectorRef as any);
-
+        cd = fixture.debugElement.injector.get<ChangeDetectorRef>(
+          ChangeDetectorRef as any
+        );
       });
   }));
 
@@ -99,7 +97,7 @@ describe('Component: Data Entry Creators List', () => {
     const totalCreatorClinicalEncounters = 4;
     const totalsMap = new Map();
     comp.params = {
-      'locationUuids': '08feae7c-1352-11df-a1f1-0026b9348838'
+      locationUuids: '08feae7c-1352-11df-a1f1-0026b9348838'
     };
     totalsMap.set('HIVTRIAGE', 2);
     totalsMap.set('ADULTRETURN', 2);
@@ -115,9 +113,12 @@ describe('Component: Data Entry Creators List', () => {
       ADULTRETURN: 2,
       DIFFERENTIATEDCARECLINICIAN: 2
     };
-    const totalsRow = comp.createTotalsRow(totalsMap, totalCreatorEncounters, totalCreatorClinicalEncounters);
+    const totalsRow = comp.createTotalsRow(
+      totalsMap,
+      totalCreatorEncounters,
+      totalCreatorClinicalEncounters
+    );
     expect(totalsRow).toEqual(expectedTotal);
     done();
   });
-
 });

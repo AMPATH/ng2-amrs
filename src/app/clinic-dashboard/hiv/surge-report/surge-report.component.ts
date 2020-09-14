@@ -5,10 +5,12 @@ import { SurgeResourceService } from 'src/app/etl-api/surge-resource.service';
 
 @Component({
   selector: 'surge-report',
-  templateUrl: '../../../hiv-care-lib/surge-report/surge-report-base.component.html'
+  templateUrl:
+    '../../../hiv-care-lib/surge-report/surge-report-base.component.html'
 })
-export class SurgeReportComponent extends SurgeReportBaseComponent implements OnInit {
-
+export class SurgeReportComponent
+  extends SurgeReportBaseComponent
+  implements OnInit {
   public params: any;
   public surgeReportSummaryData: any = [];
   public columnDefs: any = [];
@@ -18,9 +20,11 @@ export class SurgeReportComponent extends SurgeReportBaseComponent implements On
   public showInfoMessage = false;
   public isLoading = false;
 
-  constructor(public router: Router,
+  constructor(
+    public router: Router,
     public route: ActivatedRoute,
-    public surgeReport: SurgeResourceService) {
+    public surgeReport: SurgeResourceService
+  ) {
     super(router, route, surgeReport);
   }
 
@@ -30,25 +34,24 @@ export class SurgeReportComponent extends SurgeReportBaseComponent implements On
         switch (params.currentView) {
           case 'daily':
             if (params && params._date) {
-                this.isLoading = true;
-                this.params = params;
-                this.getSurgeDailyReport(params);
+              this.isLoading = true;
+              this.params = params;
+              this.getSurgeDailyReport(params);
             }
             break;
           case 'weekly':
             if (params && params.year_week) {
-                this.isLoading = true;
-                this.params = params;
-                this.getSurgeWeeklyReport(params);
+              this.isLoading = true;
+              this.params = params;
+              this.getSurgeWeeklyReport(params);
             }
             break;
         }
       },
-      error => {
+      (error) => {
         console.error('Error', error);
         this.showInfoMessage = true;
       }
     );
   }
-
 }

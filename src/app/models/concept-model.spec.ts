@@ -24,5 +24,3 @@ export class ConceptClass extends BaseModel {
     return this._openmrsModel.retired;
   }
 }
-
-

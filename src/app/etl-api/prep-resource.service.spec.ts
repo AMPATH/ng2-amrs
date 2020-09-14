@@ -12,12 +12,8 @@ import { LocalStorageService } from '../utils/local-storage.service';
 describe('PrepResourceService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        PrepResourceService,
-        AppSettingsService,
-        LocalStorageService
-      ],
-      declarations: [ ClinicDashboardComponent ],
+      providers: [PrepResourceService, AppSettingsService, LocalStorageService],
+      declarations: [ClinicDashboardComponent],
       imports: [
         RouterTestingModule.withRoutes(routes),
         HttpClientTestingModule
@@ -26,7 +22,10 @@ describe('PrepResourceService', () => {
     });
   });
 
-  it('should be created', inject([PrepResourceService], (service: PrepResourceService) => {
-    expect(service).toBeTruthy();
-  }));
+  it('should be created', inject(
+    [PrepResourceService],
+    (service: PrepResourceService) => {
+      expect(service).toBeTruthy();
+    }
+  ));
 });

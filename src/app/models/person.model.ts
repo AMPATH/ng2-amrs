@@ -1,9 +1,9 @@
-import {BaseModel} from './base-model.model';
-import {serializable} from './serializable.decorator';
+import { BaseModel } from './base-model.model';
+import { serializable } from './serializable.decorator';
 import './date.extensions';
 
-import {PersonAttribute} from './person-attribute.model';
-import {PersonAddress} from './address.model';
+import { PersonAttribute } from './person-attribute.model';
+import { PersonAddress } from './address.model';
 
 export class Person extends BaseModel {
   private _birthdate: Date;
@@ -63,9 +63,12 @@ export class Person extends BaseModel {
   }
 
   public get healthCenter() {
-    const healthCenterPersonAttributeTypeUuid = '8d87236c-c2cc-11de-8d13-0010c6dffd0f';
+    const healthCenterPersonAttributeTypeUuid =
+      '8d87236c-c2cc-11de-8d13-0010c6dffd0f';
     if (this._attributes) {
-      const location = this.getPersonAttribute(healthCenterPersonAttributeTypeUuid);
+      const location = this.getPersonAttribute(
+        healthCenterPersonAttributeTypeUuid
+      );
       if (location) {
         return location.display;
       } else {
@@ -74,10 +77,12 @@ export class Person extends BaseModel {
     }
   }
   public get nextofkinPhoneNumber() {
-    const nextofkinPhoneNumberPersonAttributeTypeUuid = 'a657a4f1-9c0f-444b-a1fd-445bb91dd12d';
+    const nextofkinPhoneNumberPersonAttributeTypeUuid =
+      'a657a4f1-9c0f-444b-a1fd-445bb91dd12d';
     if (this._attributes) {
-      const nextofkinPhoneNumber =
-        this.getPersonAttribute(nextofkinPhoneNumberPersonAttributeTypeUuid);
+      const nextofkinPhoneNumber = this.getPersonAttribute(
+        nextofkinPhoneNumberPersonAttributeTypeUuid
+      );
       if (nextofkinPhoneNumber) {
         return nextofkinPhoneNumber;
       } else {
@@ -86,9 +91,12 @@ export class Person extends BaseModel {
     }
   }
   public get partnerPhoneNumber() {
-    const partnerPhoneNumberPersonAttributeTypeUuid = 'b0a08406-09c0-4f8b-8cb5-b22b6d4a8e46';
+    const partnerPhoneNumberPersonAttributeTypeUuid =
+      'b0a08406-09c0-4f8b-8cb5-b22b6d4a8e46';
     if (this._attributes) {
-      const partnerPhoneNumber = this.getPersonAttribute(partnerPhoneNumberPersonAttributeTypeUuid);
+      const partnerPhoneNumber = this.getPersonAttribute(
+        partnerPhoneNumberPersonAttributeTypeUuid
+      );
       if (partnerPhoneNumber) {
         return partnerPhoneNumber;
       } else {
@@ -97,10 +105,12 @@ export class Person extends BaseModel {
     }
   }
   public get alternativePhoneNumber() {
-    const alternativePhoneNumberPersonAttributeTypeUuid = 'c725f524-c14a-4468-ac19-4a0e6661c930';
+    const alternativePhoneNumberPersonAttributeTypeUuid =
+      'c725f524-c14a-4468-ac19-4a0e6661c930';
     if (this._attributes) {
-      const alternativePhoneNumber =
-        this.getPersonAttribute(alternativePhoneNumberPersonAttributeTypeUuid);
+      const alternativePhoneNumber = this.getPersonAttribute(
+        alternativePhoneNumberPersonAttributeTypeUuid
+      );
       if (alternativePhoneNumber) {
         return alternativePhoneNumber;
       } else {
@@ -109,107 +119,140 @@ export class Person extends BaseModel {
     }
   }
   public get levelOfEducation() {
-    const levelOfEducationPersonAttributeTypeUuid = '352b0d51-63c6-47d0-a295-156bebee4fd5';
+    const levelOfEducationPersonAttributeTypeUuid =
+      '352b0d51-63c6-47d0-a295-156bebee4fd5';
     if (this._attributes && this._attributes.length > 0) {
-      const educationPersonAttribute = this.getPersonAttribute(levelOfEducationPersonAttributeTypeUuid);
+      const educationPersonAttribute = this.getPersonAttribute(
+        levelOfEducationPersonAttributeTypeUuid
+      );
       return educationPersonAttribute ? educationPersonAttribute : null;
     }
   }
   public get patientPhoneNumber() {
-    const phoneNumberPersonAttributeTypeUuid = '72a759a8-1359-11df-a1f1-0026b9348838';
+    const phoneNumberPersonAttributeTypeUuid =
+      '72a759a8-1359-11df-a1f1-0026b9348838';
     if (this._attributes) {
-      const phoneNumber = this.getPersonAttribute(phoneNumberPersonAttributeTypeUuid);
-      if ( phoneNumber) {
-        return  phoneNumber;
+      const phoneNumber = this.getPersonAttribute(
+        phoneNumberPersonAttributeTypeUuid
+      );
+      if (phoneNumber) {
+        return phoneNumber;
       } else {
         return '';
       }
     }
   }
   public get caregiverName() {
-    const caregiverNamePersonAttributeTypeUuid = '48876f06-7493-416e-855d-8413d894ea93';
+    const caregiverNamePersonAttributeTypeUuid =
+      '48876f06-7493-416e-855d-8413d894ea93';
     if (this._attributes) {
-      const caregiverName = this.getPersonAttribute(caregiverNamePersonAttributeTypeUuid);
-      if ( caregiverName) {
-        return  caregiverName;
+      const caregiverName = this.getPersonAttribute(
+        caregiverNamePersonAttributeTypeUuid
+      );
+      if (caregiverName) {
+        return caregiverName;
       } else {
         return '';
       }
     }
   }
   public get relationshipToCaregiver() {
-    const relationshipToCaregiverPersonAttributeTypeUuid = '06b0da36-e133-4be6-aec0-31e7ed0e1ac2';
+    const relationshipToCaregiverPersonAttributeTypeUuid =
+      '06b0da36-e133-4be6-aec0-31e7ed0e1ac2';
     if (this._attributes) {
-      const relationshipToCaregiver = this.getPersonAttribute(relationshipToCaregiverPersonAttributeTypeUuid);
-      if ( relationshipToCaregiver) {
-        return  relationshipToCaregiver;
+      const relationshipToCaregiver = this.getPersonAttribute(
+        relationshipToCaregiverPersonAttributeTypeUuid
+      );
+      if (relationshipToCaregiver) {
+        return relationshipToCaregiver;
       } else {
         return '';
       }
     }
   }
   public get caregiverPhoneNumber() {
-    const caregiverPhoneNumberPersonAttributeTypeUuid = 'bb8684a5-ac0b-4c2c-b9a5-1203e99952c2';
+    const caregiverPhoneNumberPersonAttributeTypeUuid =
+      'bb8684a5-ac0b-4c2c-b9a5-1203e99952c2';
     if (this._attributes) {
-      const caregiverPhoneNumber = this.getPersonAttribute(caregiverPhoneNumberPersonAttributeTypeUuid);
-      if ( caregiverPhoneNumber) {
-        return  caregiverPhoneNumber;
+      const caregiverPhoneNumber = this.getPersonAttribute(
+        caregiverPhoneNumberPersonAttributeTypeUuid
+      );
+      if (caregiverPhoneNumber) {
+        return caregiverPhoneNumber;
       } else {
         return '';
       }
     }
   }
   public get contacts() {
-    const phoneNumberPersonAttributeTypeUuid = '72a759a8-1359-11df-a1f1-0026b9348838';
-    const partnerPhoneNumberPersonAttributeTypeUuid = 'b0a08406-09c0-4f8b-8cb5-b22b6d4a8e46';
-    const alternativePhoneNumberPersonAttributeTypeUuid = 'c725f524-c14a-4468-ac19-4a0e6661c930';
-    const nextofkinPhoneNumberPersonAttributeTypeUuid = 'a657a4f1-9c0f-444b-a1fd-445bb91dd12d';
-    const caregiverPhoneNumberPersonAttributeTypeUuid = 'bb8684a5-ac0b-4c2c-b9a5-1203e99952c2';
+    const phoneNumberPersonAttributeTypeUuid =
+      '72a759a8-1359-11df-a1f1-0026b9348838';
+    const partnerPhoneNumberPersonAttributeTypeUuid =
+      'b0a08406-09c0-4f8b-8cb5-b22b6d4a8e46';
+    const alternativePhoneNumberPersonAttributeTypeUuid =
+      'c725f524-c14a-4468-ac19-4a0e6661c930';
+    const nextofkinPhoneNumberPersonAttributeTypeUuid =
+      'a657a4f1-9c0f-444b-a1fd-445bb91dd12d';
+    const caregiverPhoneNumberPersonAttributeTypeUuid =
+      'bb8684a5-ac0b-4c2c-b9a5-1203e99952c2';
     if (this._attributes) {
       let filteredContacts: {};
-      const partnerPhoneNumber = this.getPersonAttribute(partnerPhoneNumberPersonAttributeTypeUuid);
-      const patientPhoneNumber = this.getPersonAttribute(phoneNumberPersonAttributeTypeUuid);
-      const alternativePhoneNumber =
-        this.getPersonAttribute(alternativePhoneNumberPersonAttributeTypeUuid);
-      const nextofkinPhoneNumber =
-        this.getPersonAttribute(nextofkinPhoneNumberPersonAttributeTypeUuid);
-      const caregiverPhoneNumber = this.getPersonAttribute(caregiverPhoneNumberPersonAttributeTypeUuid);
+      const partnerPhoneNumber = this.getPersonAttribute(
+        partnerPhoneNumberPersonAttributeTypeUuid
+      );
+      const patientPhoneNumber = this.getPersonAttribute(
+        phoneNumberPersonAttributeTypeUuid
+      );
+      const alternativePhoneNumber = this.getPersonAttribute(
+        alternativePhoneNumberPersonAttributeTypeUuid
+      );
+      const nextofkinPhoneNumber = this.getPersonAttribute(
+        nextofkinPhoneNumberPersonAttributeTypeUuid
+      );
+      const caregiverPhoneNumber = this.getPersonAttribute(
+        caregiverPhoneNumberPersonAttributeTypeUuid
+      );
 
-      if ((partnerPhoneNumber) === undefined && (patientPhoneNumber) === undefined &&
-        (alternativePhoneNumber) === undefined && (nextofkinPhoneNumber) === undefined &&
-        (patientPhoneNumber) === undefined) {
-        if ((this._attributes)) {
-          filteredContacts = { 'default': this._attributes };
+      if (
+        partnerPhoneNumber === undefined &&
+        patientPhoneNumber === undefined &&
+        alternativePhoneNumber === undefined &&
+        nextofkinPhoneNumber === undefined &&
+        patientPhoneNumber === undefined
+      ) {
+        if (this._attributes) {
+          filteredContacts = { default: this._attributes };
         } else {
-          filteredContacts = { 'default': '' };
+          filteredContacts = { default: '' };
         }
       } else {
         filteredContacts = {
-          partnerPhoneNumber: (partnerPhoneNumber),
-          patientPhoneNumber: (patientPhoneNumber),
-          alternativePhoneNumber: (alternativePhoneNumber),
-          nextofkinPhoneNumber: (nextofkinPhoneNumber),
-          caregiverPhoneNumber: (caregiverPhoneNumber)
+          partnerPhoneNumber: partnerPhoneNumber,
+          patientPhoneNumber: patientPhoneNumber,
+          alternativePhoneNumber: alternativePhoneNumber,
+          nextofkinPhoneNumber: nextofkinPhoneNumber,
+          caregiverPhoneNumber: caregiverPhoneNumber
         };
       }
       return filteredContacts;
     } else {
-      return this._attributes = '';
+      return (this._attributes = '');
     }
-
   }
   public getPersonAttribute(personAttributeTypeUuid) {
     if (this._attributes.length > 0) {
       for (const i in this._attributes) {
         if (this._attributes.hasOwnProperty(i)) {
           const attr = this._attributes[i];
-          if (attr.attributeType && attr.attributeType.uuid === personAttributeTypeUuid) {
+          if (
+            attr.attributeType &&
+            attr.attributeType.uuid === personAttributeTypeUuid
+          ) {
             return attr.value;
           }
         }
       }
     }
-
   }
 
   public get addresses(): PersonAddress {
@@ -276,5 +319,4 @@ export class Person extends BaseModel {
   public set causeOfDeathUuId(v: string) {
     this._openmrsModel.causeOfDeathUuId = v;
   }
-
 }

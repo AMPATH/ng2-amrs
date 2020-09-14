@@ -1,41 +1,39 @@
-
 .nav-tabs {
-    white-space: nowrap;
-    overflow-x: scroll;
-    overflow-y: hidden;
-    display: -webkit-box;
-    display: -moz-box;
-    -webkit-overflow-scrolling: touch;
+  white-space: nowrap;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  display: -webkit-box;
+  display: -moz-box;
+  -webkit-overflow-scrolling: touch;
 }
 
 .tablink {
-    display: inline-block;
-    background-color: white;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    font-size: 17px;
-    width: 25%;
+  display: inline-block;
+  background-color: white;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-size: 17px;
+  width: 25%;
 
-    float: none;
-    margin-left: 0.25%;
-    zoom: 1
-    
+  float: none;
+  margin-left: 0.25%;
+  zoom: 1;
 }
 
 .tablink.active {
-    border-bottom-color : #673ab7;
-    border-bottom-style: solid;
-    background-color: #ddd;
-    border-bottom-width: 2px;
+  border-bottom-color: #673ab7;
+  border-bottom-style: solid;
+  background-color: #ddd;
+  border-bottom-width: 2px;
 }
 .tablink:hover {
-    background-color: #dbdbdb;
+  background-color: #dbdbdb;
 }
-.nav-tabs >li.active > a {
-    border-style: none;
-    background-color: #dbdbdb;
+.nav-tabs > li.active > a {
+  border-style: none;
+  background-color: #dbdbdb;
 }
 .center {
-    text-align: center;
+  text-align: center;
 }

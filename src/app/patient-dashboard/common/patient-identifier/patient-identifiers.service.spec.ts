@@ -32,7 +32,8 @@ describe('Service: PatientIdentifierService', () => {
         DataCacheService,
         CacheService,
         {
-          provide: CacheStorageService, useFactory: () => {
+          provide: CacheStorageService,
+          useFactory: () => {
             return new MockCacheStorageService(null, null);
           }
         }
@@ -45,11 +46,15 @@ describe('Service: PatientIdentifierService', () => {
   });
 
   it('should create an instance', () => {
-    const service: PatientIdentifierService = TestBed.get(PatientIdentifierService);
+    const service: PatientIdentifierService = TestBed.get(
+      PatientIdentifierService
+    );
     expect(service).toBeTruthy();
   });
   it('should return the correct common identifiers', () => {
-    const service: PatientIdentifierService = TestBed.get(PatientIdentifierService);
+    const service: PatientIdentifierService = TestBed.get(
+      PatientIdentifierService
+    );
     const commonIdentifiers = service.commonIdentifierTypes();
     expect(commonIdentifiers[0]).toBe('KENYAN NATIONAL ID NUMBER');
     expect(commonIdentifiers[1]).toBe('AMRS Medical Record Number');
@@ -60,8 +65,9 @@ describe('Service: PatientIdentifierService', () => {
     expect(commonIdentifiers[6]).toBe('KUZA ID');
   });
   it('should return the correct getLuhnCheckDigit', () => {
-    const service: PatientIdentifierService = TestBed.get(PatientIdentifierService);
+    const service: PatientIdentifierService = TestBed.get(
+      PatientIdentifierService
+    );
     const checkDigit = service.getLuhnCheckDigit('number');
   });
 });
-

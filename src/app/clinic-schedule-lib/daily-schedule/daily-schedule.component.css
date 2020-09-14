@@ -2,7 +2,7 @@
   border: none;
   margin-bottom: 12px;
 }
-#daily-schedule-row{
+#daily-schedule-row {
   margin-top: 15px;
 }
 .loader {
@@ -15,7 +15,7 @@
   box-sizing: border-box;
   background-color: #fff;
   color: #fff;
-  opacity: .8;
+  opacity: 0.8;
 }
 
 .loader .fa:before {
@@ -37,11 +37,11 @@
   width: 16px;
   margin-right: 8px;
 }
-.mat-tab-nav-bar{
+.mat-tab-nav-bar {
   background: #337ab7 !important;
 }
-.mat-tab-link{
-  color:#FFF !important;
+.mat-tab-link {
+  color: #fff !important;
   opacity: 1;
   width: 25%;
   border-right-style: solid;

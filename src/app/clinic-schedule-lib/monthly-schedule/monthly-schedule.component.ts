@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit , Input } from '@angular/core';
+import { Component, OnDestroy, OnInit, Input } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { DatePipe } from '@angular/common';
@@ -9,7 +9,11 @@ import {
   CalendarMonthViewDay
 } from 'angular-calendar';
 import {
-  startOfDay, endOfDay, subDays, addDays, endOfMonth,
+  startOfDay,
+  endOfDay,
+  subDays,
+  addDays,
+  endOfMonth,
   isSameDay,
   isSameMonth,
   addHours,
@@ -51,9 +55,9 @@ export class MonthlyScheduleBaseComponent implements OnInit, OnDestroy {
   public viewDate = Moment().format('MMMM YYYY');
   public view = 'month';
   public filter: any = {
-     'programType': [],
-     'visitType': [],
-     'encounterType': []
+    programType: [],
+    visitType: [],
+    encounterType: []
   };
   public busyIndicator: any = {
     busy: false,
@@ -62,33 +66,32 @@ export class MonthlyScheduleBaseComponent implements OnInit, OnDestroy {
   public params: any;
   public events: CalendarEvent[] = [];
   public activeDayIsOpen = false;
-  public location  = '';
+  public location = '';
   public busy: Subscription;
   public fetchError = false;
   public programVisitsEncounters: any = [];
-  public encounterTypes: any [];
-  public monthControl  = true;
+  public encounterTypes: any[];
+  public monthControl = true;
   public trackEncounterTypes: any = [];
   private subs: Subscription[] = [];
   private _datePipe: DatePipe;
 
-  constructor(public monthlyScheduleResourceService: MonthlyScheduleResourceService,
-              public clinicDashboardCacheService: ClinicDashboardCacheService,
-              public router: Router,
-              public _route: ActivatedRoute,
-              public appFeatureAnalytics: AppFeatureAnalytics,
-              public _localstorageService: LocalStorageService,
-              public _patientProgramService: PatientProgramResourceService) {
-  }
+  constructor(
+    public monthlyScheduleResourceService: MonthlyScheduleResourceService,
+    public clinicDashboardCacheService: ClinicDashboardCacheService,
+    public router: Router,
+    public _route: ActivatedRoute,
+    public appFeatureAnalytics: AppFeatureAnalytics,
+    public _localstorageService: LocalStorageService,
+    public _patientProgramService: PatientProgramResourceService
+  ) {}
 
   public ngOnInit() {
     this.getCurrentLocation();
     // this.getAppointments();
   }
 
-  public getParams() {
-
-  }
+  public getParams() {}
 
   public ngOnDestroy(): void {
     this.subs.forEach((sub) => {
@@ -97,24 +100,26 @@ export class MonthlyScheduleBaseComponent implements OnInit, OnDestroy {
   }
 
   public filterSelected($event: any) {
-         this.getCurrentLocation();
-         this.params = $event;
-         if ($event.resetFilter && $event.resetFilter === true) {
-           this.events = [];
-         } else {
-           this.getAppointments();
-         }
+    this.getCurrentLocation();
+    this.params = $event;
+    if ($event.resetFilter && $event.resetFilter === true) {
+      this.events = [];
+    } else {
+      this.getAppointments();
+    }
   }
 
   public getCurrentLocation() {
-    const sub = this.clinicDashboardCacheService.getCurrentClinic().pipe(
-    take(1)).subscribe((location) => {
-      this.location = location;
-      const params = this.params;
-      if (params && params.hasOwnProperty('programType')) {
-        this.getAppointments();
-      }
-    });
+    const sub = this.clinicDashboardCacheService
+      .getCurrentClinic()
+      .pipe(take(1))
+      .subscribe((location) => {
+        this.location = location;
+        const params = this.params;
+        if (params && params.hasOwnProperty('programType')) {
+          this.getAppointments();
+        }
+      });
     this.subs.push(sub);
   }
 
@@ -122,52 +127,58 @@ export class MonthlyScheduleBaseComponent implements OnInit, OnDestroy {
     const date = this.viewDate;
     this.viewDate = Moment().format('YYYY-MM');
     this.router.navigate(['./'], {
-      queryParams: {date: date},
+      queryParams: { date: date },
       relativeTo: this._route
     });
     this.getAppointments();
   }
 
   public getAppointments() {
-      this.fetchError = false;
-      this.setBusy();
-      this.viewDate = Moment(this.params.startDate, 'YYYY-MM-DD').format('MMMM YYYY');
-      this.monthlyScheduleResourceService.getMonthlySchedule({
-      endDate: this.params.endDate,
-      startDate: this.params.startDate,
-      department: this.params.department,
-      programType: this.params.programType,
-      visitType: this.params.visitType,
-      encounterType: this.params.encounterType,
-      locationUuids: this.location, limit: 10000
-    }).pipe(take(1)).subscribe((results) => {
-      this.events = this.processEvents(results);
-      this.setFree();
-    }, (error) => {
-      this.fetchError = true;
-      this.setFree();
-    });
+    this.fetchError = false;
+    this.setBusy();
+    this.viewDate = Moment(this.params.startDate, 'YYYY-MM-DD').format(
+      'MMMM YYYY'
+    );
+    this.monthlyScheduleResourceService
+      .getMonthlySchedule({
+        endDate: this.params.endDate,
+        startDate: this.params.startDate,
+        department: this.params.department,
+        programType: this.params.programType,
+        visitType: this.params.visitType,
+        encounterType: this.params.encounterType,
+        locationUuids: this.location,
+        limit: 10000
+      })
+      .pipe(take(1))
+      .subscribe(
+        (results) => {
+          this.events = this.processEvents(results);
+          this.setFree();
+        },
+        (error) => {
+          this.fetchError = true;
+          this.setFree();
+        }
+      );
   }
 
   public beforeMonthViewRender(days: CalendarMonthViewDay[]): void {
     if (_.isArray(days)) {
-
-      days.forEach(day => {
+      days.forEach((day) => {
         day.badgeTotal = 0;
       });
-
     }
   }
 
   public navigateToDaily(event) {
     const scheduleDate = Moment(event.start).format('YYYY-MM-DD');
-    const params: any = {
-    };
+    const params: any = {};
     const currentQueryParams: any = this._route.snapshot.queryParams;
     // only key to be changed is endDate which is readonly in queryparams
     Object.keys(currentQueryParams).forEach((key) => {
       if (key === 'startDate') {
-         params['startDate'] = scheduleDate;
+        params['startDate'] = scheduleDate;
       } else if (key === 'endDate') {
         params['endDate'] = scheduleDate;
       } else {
@@ -189,11 +200,10 @@ export class MonthlyScheduleBaseComponent implements OnInit, OnDestroy {
       default:
     }
 
-    this.router.navigate(['../daily-schedule/' + link],
-          {
-            queryParams: params,
-            relativeTo : this._route
-          });
+    this.router.navigate(['../daily-schedule/' + link], {
+      queryParams: params,
+      relativeTo: this._route
+    });
   }
 
   public processEvents(results) {
@@ -201,7 +211,6 @@ export class MonthlyScheduleBaseComponent implements OnInit, OnDestroy {
     for (const e of results) {
       /* tslint:disable forin*/
       for (const key in e.count) {
-
         switch (key) {
           case 'scheduled':
             processed.push({
@@ -234,16 +243,19 @@ export class MonthlyScheduleBaseComponent implements OnInit, OnDestroy {
             break;
           default:
         }
-
       }
       /* tslint:enable */
     }
     return processed;
   }
 
-  public dayClicked({date, events}: {date: Date, events: CalendarEvent[]}): void {
-
-  }
+  public dayClicked({
+    date,
+    events
+  }: {
+    date: Date;
+    events: CalendarEvent[];
+  }): void {}
 
   public dateChanged(event) {
     this.viewDate = event;
@@ -251,19 +263,15 @@ export class MonthlyScheduleBaseComponent implements OnInit, OnDestroy {
   }
 
   public setBusy() {
-
     this.busyIndicator = {
       busy: true,
       message: 'Please wait...Loading'
     };
-
   }
   public setFree() {
-
     this.busyIndicator = {
       busy: false,
       message: ''
     };
-
   }
 }

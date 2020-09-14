@@ -1,30 +1,54 @@
-<h4 class="component-title" style="color: green;"><span class="fa fa-calendar-o"></span> Daily Schedule</h4>
-<div style="margin-bottom:0.5cm;">
+<h4 class="component-title" style="color: green">
+  <span class="fa fa-calendar-o"></span> Daily Schedule
+</h4>
+<div style="margin-bottom: 0.5cm">
   <!-- <div [ngBusy]="{busy:loadingData,message:'Please Wait...'}"></div> -->
-  <program-visit-encounter-search 
-    (filterSelected) ="filterSelected($event)" 
+  <program-visit-encounter-search
+    (filterSelected)="filterSelected($event)"
     [dateControl]="true"
     [controlLocation]="'clinic-dashboard'"
-    >
+  >
   </program-visit-encounter-search>
-  <hr>
+  <hr />
   <div class="row" id="daily-schedule-row">
     <div class="col-md-12">
-      <h5 align="center"><b>{{selectedDate}}</b></h5>
+      <h5 align="center">
+        <b>{{ selectedDate }}</b>
+      </h5>
     </div>
     <div class="col-md-12">
-      <hr>
-      <nav mat-tab-nav-bar aria-label="weather navigation links" id="daily-schedule-navbar">
-        <a mat-tab-link *ngFor="let tabLink of tabLinks; let i = index" [routerLink]="tabLink.link" [active]="activeLinkIndex === i"
-          (click)="navigate($event,tabLink.link)">
-            {{tabLink.label}}
+      <hr />
+      <nav
+        mat-tab-nav-bar
+        aria-label="weather navigation links"
+        id="daily-schedule-navbar"
+      >
+        <a
+          mat-tab-link
+          *ngFor="let tabLink of tabLinks; let i = index"
+          [routerLink]="tabLink.link"
+          [active]="activeLinkIndex === i"
+          (click)="navigate($event, tabLink.link)"
+        >
+          {{ tabLink.label }}
         </a>
       </nav>
       <router-outlet></router-outlet>
     </div>
-    <div *ngIf='errors.length>0'>
-      <div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
+    <div *ngIf="errors.length > 0">
+      <div
+        *ngFor="let error of errors"
+        class="alert alert-danger alert-dismissible"
+      >
+        <button
+          type="button"
+          class="close"
+          data-dismiss="alert"
+          aria-hidden="true"
+        >
+          ×
+        </button>
+        {{ error.message }}
       </div>
     </div>
   </div>

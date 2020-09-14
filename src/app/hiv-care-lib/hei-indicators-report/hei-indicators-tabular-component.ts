@@ -1,6 +1,11 @@
-
 import { take } from 'rxjs/operators';
-import { Component, OnInit, Input, OnChanges , SimpleChanges } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  OnChanges,
+  SimpleChanges
+} from '@angular/core';
 import { Subject } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash';
@@ -11,9 +16,7 @@ import * as moment from 'moment';
   templateUrl: './hei-indicators-tabular-component.html',
   styleUrls: ['./hei-indicators-tabular-component.css']
 })
-export class HeiIndicatorsTabularComponent
-  implements OnInit, OnChanges {
-
+export class HeiIndicatorsTabularComponent implements OnInit, OnChanges {
   @Input() heiMonthlySummary = [];
   @Input() params: any;
   @Input() sectionDefs: any;
@@ -26,32 +29,27 @@ export class HeiIndicatorsTabularComponent
     enableSorting: true,
     enableFilter: true,
     showToolPanel: false,
-    groupDefaultExpanded : -1,
+    groupDefaultExpanded: -1,
     onGridSizeChanged: () => {},
     onGridReady: () => {}
   };
 
-  constructor(
-    private _router: Router,
-    private _route: ActivatedRoute
-  ) { }
+  constructor(private _router: Router, private _route: ActivatedRoute) {}
 
-  public ngOnInit() {
-  }
+  public ngOnInit() {}
 
   public ngOnChanges(changes: SimpleChanges) {
     if (changes.heiMonthlySummary) {
-        this.processSummaryData(this.heiMonthlySummary);
+      this.processSummaryData(this.heiMonthlySummary);
     }
     if (changes.sectionDefs) {
-        this.generateColumns(this.sectionDefs);
+      this.generateColumns(this.sectionDefs);
     }
   }
 
   public processSummaryData(results) {
     this.data = results;
     this.setRowData(results);
-
   }
   public onCellClicked(event) {
     this.goToPatientList(event);
@@ -59,71 +57,66 @@ export class HeiIndicatorsTabularComponent
 
   public generateColumns(sectionsData) {
     const defs = [];
-        defs.push({
-            headerName: 'Location',
-            field: 'location',
-            pinned: 'left'
-        });
-        // tslint:disable-next-line:prefer-for-of
-        for (let i = 0; i < sectionsData.length; i++) {
-            const section = sectionsData[i];
-            const created: any = {};
-            created.headerName = section.sectionTitle;
-            created.children = [];
-            // tslint:disable-next-line:prefer-for-of
-            for (let j = 0; j < section.indicators.length; j++) {
-                const child: any = {
-                    headerName: section.indicators[j].label,
-                    field: section.indicators[j].indicator
-                };
-                created.children.push(child);
-            }
-            defs.push(created);
-        }
+    defs.push({
+      headerName: 'Location',
+      field: 'location',
+      pinned: 'left'
+    });
+    // tslint:disable-next-line:prefer-for-of
+    for (let i = 0; i < sectionsData.length; i++) {
+      const section = sectionsData[i];
+      const created: any = {};
+      created.headerName = section.sectionTitle;
+      created.children = [];
+      // tslint:disable-next-line:prefer-for-of
+      for (let j = 0; j < section.indicators.length; j++) {
+        const child: any = {
+          headerName: section.indicators[j].label,
+          field: section.indicators[j].indicator
+        };
+        created.children.push(child);
+      }
+      defs.push(created);
+    }
 
-        this.heiSummaryColdef = defs;
+    this.heiSummaryColdef = defs;
   }
 
-public translateIndicator(indicator: string) {
-  return indicator.toLowerCase().split('_').map((word) => {
-      return ((word.charAt(0).toUpperCase()) + word.slice(1));
-  }).join(' ');
-}
+  public translateIndicator(indicator: string) {
+    return indicator
+      .toLowerCase()
+      .split('_')
+      .map((word) => {
+        return word.charAt(0).toUpperCase() + word.slice(1);
+      })
+      .join(' ');
+  }
 
-public setRowData(allRowsData) {
-  const finalRows = [];
-  _.each(allRowsData, (rowData) => {
-      const rowObj = {
-      };
+  public setRowData(allRowsData) {
+    const finalRows = [];
+    _.each(allRowsData, (rowData) => {
+      const rowObj = {};
       _.each(rowData, (data, index) => {
-          rowObj[index] = data;
-
+        rowObj[index] = data;
       });
       finalRows.push(rowObj);
+    });
 
-  });
+    this.data = finalRows;
+  }
 
-  this.data = finalRows;
+  public goToPatientList(data) {
+    // let queryParams = this.route.snapshot.params;
+    const params: any = {
+      locationUuids: data.data.location_uuid,
+      indicators: data.colDef.field,
+      startDate: this.params.startDate,
+      endDate: this.params.endDate
+    };
 
-}
-
-
-public goToPatientList(data) {
-
-      // let queryParams = this.route.snapshot.params;
-      const params: any = {
-          locationUuids: data.data.location_uuid,
-          indicators: data.colDef.field,
-          startDate: this.params.startDate,
-          endDate: this.params.endDate
-      };
-
-      this._router.navigate(['./patient-list']
-          , {
-              relativeTo: this._route,
-              queryParams: params
-          });
-     }
-
-
+    this._router.navigate(['./patient-list'], {
+      relativeTo: this._route,
+      queryParams: params
+    });
+  }
 }

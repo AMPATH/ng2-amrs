@@ -1,7 +1,13 @@
-  // tslint:disable:no-output-on-prefix
+// tslint:disable:no-output-on-prefix
 import {
-  Component, Input, Output, OnInit,
-  EventEmitter, ElementRef, forwardRef, AfterViewInit
+  Component,
+  Input,
+  Output,
+  OnInit,
+  EventEmitter,
+  ElementRef,
+  forwardRef,
+  AfterViewInit
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -10,8 +16,7 @@ require('ion-rangeslider');
 
 @Component({
   selector: 'range-slider',
-  template: `<label>Age Range</label>
-  <input type="text" class="slider" />`,
+  template: `<label>Age Range</label> <input type="text" class="slider" />`,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -21,7 +26,8 @@ require('ion-rangeslider');
   ],
   styleUrls: ['range-slider.component.css']
 })
-export class RangeSliderComponent implements OnInit, ControlValueAccessor, AfterViewInit {
+export class RangeSliderComponent
+  implements OnInit, ControlValueAccessor, AfterViewInit {
   @Input() public start: number;
   @Input() public end: number;
   @Output() public onAgeChange = new EventEmitter<any>();
@@ -33,7 +39,7 @@ export class RangeSliderComponent implements OnInit, ControlValueAccessor, After
 
   public ngOnInit() {
     if (this.start && this.end) {
-      this.onAgeChangeFinish.emit({ageFrom: this.start, ageTo: this.end});
+      this.onAgeChangeFinish.emit({ ageFrom: this.start, ageTo: this.end });
     }
   }
 
@@ -51,10 +57,10 @@ export class RangeSliderComponent implements OnInit, ControlValueAccessor, After
       force_edges: true,
       keyboard: true,
       onFinish: (data) => {
-        this.onAgeChangeFinish.emit({ageFrom: data.from, ageTo: data.to});
+        this.onAgeChangeFinish.emit({ ageFrom: data.from, ageTo: data.to });
       },
       onChange: (data) => {
-        this.value = {ageFrom: data.from, ageTo: data.to};
+        this.value = { ageFrom: data.from, ageTo: data.to };
       }
     });
     this.initialized = true;
@@ -74,8 +80,12 @@ export class RangeSliderComponent implements OnInit, ControlValueAccessor, After
     }
   }
 
-  public registerOnChange(fn: (_: any) => void): void { this.onChange = fn; }
-  public registerOnTouched(fn: () => void): void { this.onTouched = fn; }
+  public registerOnChange(fn: (_: any) => void): void {
+    this.onChange = fn;
+  }
+  public registerOnTouched(fn: () => void): void {
+    this.onTouched = fn;
+  }
   private onChange = (_) => {};
   private onTouched = () => {};
 }

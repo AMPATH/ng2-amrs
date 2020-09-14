@@ -10,7 +10,9 @@ describe('Component: GenericList', () => {
       providers: [
         {
           provide: Router,
-          useClass: class { navigate = jasmine.createSpy('navigate'); }
+          useClass: class {
+            navigate = jasmine.createSpy('navigate');
+          }
         }
       ]
     });

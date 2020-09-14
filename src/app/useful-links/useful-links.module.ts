@@ -7,12 +7,9 @@ import { USEFUL_LINKS_ROUTE } from './useful-links.routes';
 import { UsefulLinksService } from './useful-links.service';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forChild(USEFUL_LINKS_ROUTE)
-  ],
-  declarations: [ UsefulLinksComponent ],
-  providers: [ UsefulLinksService ],
-  exports: [ RouterModule ]
+  imports: [CommonModule, RouterModule.forChild(USEFUL_LINKS_ROUTE)],
+  declarations: [UsefulLinksComponent],
+  providers: [UsefulLinksService],
+  exports: [RouterModule]
 })
 export class UsefulLinksModule {}

@@ -43,8 +43,6 @@ import { DataEntryStatisticsCreatorsListComponent } from './creators-list/data-e
     DataEntryStatisticsProviderListComponent,
     DataEntryStatisticsCreatorsListComponent
   ],
-  providers: [
-    DataEntryStatisticsService
-  ],
+  providers: [DataEntryStatisticsService]
 })
-export class DataEntryStatisticsModule { }
+export class DataEntryStatisticsModule {}

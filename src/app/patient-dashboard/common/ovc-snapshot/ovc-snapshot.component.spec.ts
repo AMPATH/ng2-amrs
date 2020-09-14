@@ -25,9 +25,7 @@ describe('OvcSnapshotComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule, RouterTestingModule
-      ],
+      imports: [HttpClientTestingModule, RouterTestingModule],
       providers: [
         ZeroVlPipe,
         PatientService,
@@ -43,11 +41,10 @@ describe('OvcSnapshotComponent', () => {
         ProgramWorkFlowResourceService,
         ProgramWorkFlowStateResourceService,
         HivSummaryService,
-        HivSummaryResourceService,
+        HivSummaryResourceService
       ],
-      declarations: [ OvcSnapshotComponent, ZeroVlPipe ]
-    })
-    .compileComponents();
+      declarations: [OvcSnapshotComponent, ZeroVlPipe]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

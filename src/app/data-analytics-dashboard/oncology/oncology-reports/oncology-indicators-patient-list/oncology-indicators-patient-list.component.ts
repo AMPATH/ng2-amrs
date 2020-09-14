@@ -13,13 +13,13 @@ import { OncologySummaryIndicatorsResourceService } from '../../../../etl-api/on
   templateUrl: './oncology-indicators-patient-list.component.html',
   styleUrls: ['./oncology-indicators-patient-list.component.css']
 })
-
 export class OncologySummaryIndicatorsPatientListComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private location: Location,
-    private oncologyIndicatorService: OncologySummaryIndicatorsResourceService) { }
+    private oncologyIndicatorService: OncologySummaryIndicatorsResourceService
+  ) {}
 
   public title = '';
   public patients: any = [];
@@ -49,19 +49,23 @@ export class OncologySummaryIndicatorsPatientListComponent implements OnInit {
   public oncologySummaryColdef: any = [];
 
   public ngOnInit() {
-    this.route.queryParams.subscribe((params: any) => {
-      if (params) {
-        this.getPatientList(params);
-        this.title = this.translateIndicator(params.indicators);
-        this.params = params;
+    this.route.queryParams.subscribe(
+      (params: any) => {
+        if (params) {
+          this.getPatientList(params);
+          this.title = this.translateIndicator(params.indicators);
+          this.params = params;
+        }
+      },
+      (error) => {
+        console.error('Error', error);
       }
-    }, (error) => {
-      console.error('Error', error);
-    });
+    );
   }
 
   public getPatientList(params) {
-    this.busy = this.oncologyIndicatorService.getOncologySummaryMonthlyIndicatorsPatientList(params)
+    this.busy = this.oncologyIndicatorService
+      .getOncologySummaryMonthlyIndicatorsPatientList(params)
       .subscribe((result: any) => {
         if (result) {
           const patients = result.results.results;
@@ -105,12 +109,12 @@ export class OncologySummaryIndicatorsPatientListComponent implements OnInit {
           hide: false
         });
       } else if (cols === 'encounter_datetime') {
-          columns.push({
-            headerName: 'Encounter Date',
-            field: 'encounter_datetime',
-            pinned: true,
-            width: 100
-          });
+        columns.push({
+          headerName: 'Encounter Date',
+          field: 'encounter_datetime',
+          pinned: true,
+          width: 100
+        });
       } else {
         columns.push({
           headerName: this.translateIndicator(cols),
@@ -127,20 +131,28 @@ export class OncologySummaryIndicatorsPatientListComponent implements OnInit {
     if (patientUuid === undefined || patientUuid === null) {
       return;
     }
-    this.router.navigate(['/patient-dashboard/patient/' + patientUuid +
-      '/general/general/landing-page']);
-
+    this.router.navigate([
+      '/patient-dashboard/patient/' +
+        patientUuid +
+        '/general/general/landing-page'
+    ]);
   }
 
   public translateIndicator(indicator: string) {
     const indicatorArray = indicator.toLowerCase().split('_');
     if (indicator === 'hiv_status') {
-      return indicatorArray[0].toUpperCase() + ' '
-        + indicatorArray[1].charAt(0).toUpperCase() + indicatorArray[1].slice(1);
+      return (
+        indicatorArray[0].toUpperCase() +
+        ' ' +
+        indicatorArray[1].charAt(0).toUpperCase() +
+        indicatorArray[1].slice(1)
+      );
     } else {
-      return indicatorArray.map((word) => {
-        return ((word.charAt(0).toUpperCase()) + word.slice(1));
-      }).join(' ');
+      return indicatorArray
+        .map((word) => {
+          return word.charAt(0).toUpperCase() + word.slice(1);
+        })
+        .join(' ');
     }
   }
 
@@ -150,7 +162,7 @@ export class OncologySummaryIndicatorsPatientListComponent implements OnInit {
 
     _.each(patients, (patient: any) => {
       const patientObj = {
-        'no': i
+        no: i
       };
 
       _.forIn(patient, (value, key) => {

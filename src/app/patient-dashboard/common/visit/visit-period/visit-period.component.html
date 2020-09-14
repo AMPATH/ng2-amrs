@@ -1,23 +1,36 @@
 <div class="list-group-item" *ngIf="encounterVisitUuid">
-    <div class="px-nested-panel-heading clearfix">
-      {{currentVisitType}} Started at: <strong>{{startDatetime | date: 'hh:mm:ss a, MMM, dd yyyy'}} </strong>
-      <span *ngIf="stopDatetime">
-       Ended at: <strong>{{stopDatetime | date: 'hh:mm:ss a MMM, dd yyyy'}}</strong>
-       </span>
-      <span>at: <strong>{{locationName}}</strong></span>
-      <span *ngIf="retroProviderAttribute">
-       By: <strong>{{retroProviderAttribute.label}}</strong> - retrospectively
-       </span>
-      <div *ngIf="editLocation">
-        <label> Select location:</label>
-        <ng-select class="sharp-corners" (change)="loadedLocation($event)" [(ngModel)]="locationUuid" [items]="locations">
-        </ng-select>
+  <div class="px-nested-panel-heading clearfix">
+    {{ currentVisitType }} Started at:
+    <strong>{{ startDatetime | date: 'hh:mm:ss a, MMM, dd yyyy' }} </strong>
+    <span *ngIf="stopDatetime">
+      Ended at:
+      <strong>{{ stopDatetime | date: 'hh:mm:ss a MMM, dd yyyy' }}</strong>
+    </span>
+    <span
+      >at: <strong>{{ locationName }}</strong></span
+    >
+    <span *ngIf="retroProviderAttribute">
+      By: <strong>{{ retroProviderAttribute.label }}</strong> - retrospectively
+    </span>
+    <div *ngIf="editLocation">
+      <label> Select location:</label>
+      <ng-select
+        class="sharp-corners"
+        (change)="loadedLocation($event)"
+        [(ngModel)]="locationUuid"
+        [items]="locations"
+      >
+      </ng-select>
 
-        <button class="btn app-btn">
-          <i *ngIf="!loaderStatus" (click)="getLocations()" class="fa  fa-refresh fa-1x fa-fw"></i>
-          <i *ngIf="loaderStatus" class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>
-        </button>
-      </div>
+      <button class="btn app-btn">
+        <i
+          *ngIf="!loaderStatus"
+          (click)="getLocations()"
+          class="fa fa-refresh fa-1x fa-fw"
+        ></i>
+        <i *ngIf="loaderStatus" class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>
+      </button>
     </div>
-    <!-- <div [ngBusy]="{busy:[loadingVisit],message:'Loading visit Details.........'}"></div> -->
+  </div>
+  <!-- <div [ngBusy]="{busy:[loadingVisit],message:'Loading visit Details.........'}"></div> -->
 </div>

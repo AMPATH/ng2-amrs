@@ -1,4 +1,3 @@
-
 export class DashboardModel {
   public analyticsDashboard: object;
   public clinicDashboard: object;

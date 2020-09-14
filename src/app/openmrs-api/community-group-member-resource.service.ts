@@ -28,19 +28,23 @@ export class GroupEnrollmentValidation {
 
 @Injectable()
 export class CommunityGroupMemberService {
-
-  constructor(private http: HttpClient,
+  constructor(
+    private http: HttpClient,
     private _appSettingsService: AppSettingsService,
     private programService: PatientProgramService,
     private communityService: CommunityGroupService,
-    private programEnrollmentService: ProgramEnrollmentResourceService) {
-      this.programEnrollmentService.getProgramUnenrollmentEvent().subscribe((unenrolledProgram) => {
+    private programEnrollmentService: ProgramEnrollmentResourceService
+  ) {
+    this.programEnrollmentService
+      .getProgramUnenrollmentEvent()
+      .subscribe((unenrolledProgram) => {
         if (unenrolledProgram) {
-          return this.unenrollPatientFromCommunityGroupInProgram(unenrolledProgram)
-          .subscribe((res) => console.log(res));
+          return this.unenrollPatientFromCommunityGroupInProgram(
+            unenrolledProgram
+          ).subscribe((res) => console.log(res));
         }
       });
-    }
+  }
 
   public getOpenMrsBaseUrl(): string {
     return this._appSettingsService.getOpenmrsRestbaseurl();
@@ -57,19 +61,35 @@ export class CommunityGroupMemberService {
       endDate: date,
       voided: true
     };
-    return this.http.post(url, body, { headers }).map(res => console.log('ended membership' + res));
+    return this.http
+      .post(url, body, { headers })
+      .map((res) => console.log('ended membership' + res));
   }
 
-  public updatePersonAttribute(personUuid: string, attributeUuid: string, value: any): Observable<any> {
-    const url = this.getOpenMrsBaseUrl() + '/person/' + personUuid + '/attribute/' + attributeUuid;
+  public updatePersonAttribute(
+    personUuid: string,
+    attributeUuid: string,
+    value: any
+  ): Observable<any> {
+    const url =
+      this.getOpenMrsBaseUrl() +
+      '/person/' +
+      personUuid +
+      '/attribute/' +
+      attributeUuid;
     const body = {
       value
     };
     return this.http.post(url, body);
   }
 
-  createPersonAttribute(personUuid: string, attributeType: string, value: any): any {
-    const url = this.getOpenMrsBaseUrl() + '/person/' + personUuid + '/attribute/';
+  createPersonAttribute(
+    personUuid: string,
+    attributeType: string,
+    value: any
+  ): any {
+    const url =
+      this.getOpenMrsBaseUrl() + '/person/' + personUuid + '/attribute/';
     const body = {
       value,
       attributeType
@@ -88,8 +108,9 @@ export class CommunityGroupMemberService {
   }
 
   public transferMember(currentGroup, newGroup, patient) {
-    return this.endMembership(currentGroup.uuid, new Date())
-      .flatMap((res) => this.createMember(newGroup.uuid, patient.uuid));
+    return this.endMembership(currentGroup.uuid, new Date()).flatMap((res) =>
+      this.createMember(newGroup.uuid, patient.uuid)
+    );
   }
 
   getMemberCohortsByPatientUuid(patientUuid: string): Observable<any> {
@@ -97,24 +118,42 @@ export class CommunityGroupMemberService {
     const params = new HttpParams()
       .set('v', 'default')
       .set('patient', patientUuid);
-    return this.http.get<any>(url, {
-      params: params
-    })
+    return this.http
+      .get<any>(url, {
+        params: params
+      })
       .pipe(map((response) => response.results));
   }
 
-  validateMemberEnrollment(programsEnrolled: any, groupsEnrolled: Group[], groupToEnroll: Group): GroupEnrollmentValidation {
+  validateMemberEnrollment(
+    programsEnrolled: any,
+    groupsEnrolled: Group[],
+    groupToEnroll: Group
+  ): GroupEnrollmentValidation {
     // tslint:disable-next-line:prefer-const
     let validations: GroupEnrollmentValidation = new GroupEnrollmentValidation();
     try {
-      const groupProgramUuid = this.communityService.getGroupAttribute('programUuid', groupToEnroll.attributes).value;
-      const patientEnrolledInGroupProgram = this._isPatientEnrolledInGroupProgram(programsEnrolled, groupProgramUuid);
-      const patientEnrolledInAnotherGroupInSameProgram =
-        this._isPatientEnrolledInAnotherGroupInSameProgram(groupsEnrolled, groupProgramUuid);
-      const patientAlreadyEnrolledInGroup = this._isPatientAlreadyEnrolledInGroup(groupsEnrolled, groupToEnroll.uuid);
+      const groupProgramUuid = this.communityService.getGroupAttribute(
+        'programUuid',
+        groupToEnroll.attributes
+      ).value;
+      const patientEnrolledInGroupProgram = this._isPatientEnrolledInGroupProgram(
+        programsEnrolled,
+        groupProgramUuid
+      );
+      const patientEnrolledInAnotherGroupInSameProgram = this._isPatientEnrolledInAnotherGroupInSameProgram(
+        groupsEnrolled,
+        groupProgramUuid
+      );
+      const patientAlreadyEnrolledInGroup = this._isPatientAlreadyEnrolledInGroup(
+        groupsEnrolled,
+        groupToEnroll.uuid
+      );
 
       validations['alreadyEnrolled'] = patientAlreadyEnrolledInGroup;
-      validations['enrolledInAnotherGroupInSameProgram'] = patientEnrolledInAnotherGroupInSameProgram;
+      validations[
+        'enrolledInAnotherGroupInSameProgram'
+      ] = patientEnrolledInAnotherGroupInSameProgram;
       validations['notEnrolledInGroupProgram'] = patientEnrolledInGroupProgram;
       return validations;
     } catch (error) {
@@ -125,13 +164,18 @@ export class CommunityGroupMemberService {
 
   getCurrentlyEnrolledProgramsAndGroups(patientUuid: string) {
     const observables = [];
-    observables.push(this.programService.getCurrentlyEnrolledPatientPrograms(patientUuid));
+    observables.push(
+      this.programService.getCurrentlyEnrolledPatientPrograms(patientUuid)
+    );
     observables.push(this.getMemberCohortsByPatientUuid(patientUuid));
     return combineLatest(observables);
   }
 
   private _isPatientAlreadyEnrolledInGroup(groupsEnrolled, groupToEnrollUuid) {
-    const found = _.find(groupsEnrolled, (group) => group.cohort.uuid === groupToEnrollUuid);
+    const found = _.find(
+      groupsEnrolled,
+      (group) => group.cohort.uuid === groupToEnrollUuid
+    );
     if (found) {
       return {
         found: true,
@@ -145,11 +189,17 @@ export class CommunityGroupMemberService {
     }
   }
 
-  private _isPatientEnrolledInAnotherGroupInSameProgram(groupsEnrolled, groupProgramUuid) {
+  private _isPatientEnrolledInAnotherGroupInSameProgram(
+    groupsEnrolled,
+    groupProgramUuid
+  ) {
     let found;
     let _group;
     _.forEach(groupsEnrolled, (group) => {
-      found = _.find(group.cohort.attributes, (attribute) => attribute.value === groupProgramUuid);
+      found = _.find(
+        group.cohort.attributes,
+        (attribute) => attribute.value === groupProgramUuid
+      );
       if (!_.isUndefined(found)) {
         _group = group;
       }
@@ -166,11 +216,19 @@ export class CommunityGroupMemberService {
         data: null
       };
     }
-
   }
-  private _isPatientEnrolledInGroupProgram(programsEnrolled: any[], groupProgramUuid): any {
-    const currentProgramsEnrolled = _.filter(programsEnrolled, (program) => program.isEnrolled === true);
-    const found = _.find(currentProgramsEnrolled, (program) => program.programUuid === groupProgramUuid);
+  private _isPatientEnrolledInGroupProgram(
+    programsEnrolled: any[],
+    groupProgramUuid
+  ): any {
+    const currentProgramsEnrolled = _.filter(
+      programsEnrolled,
+      (program) => program.isEnrolled === true
+    );
+    const found = _.find(
+      currentProgramsEnrolled,
+      (program) => program.programUuid === groupProgramUuid
+    );
     if (found) {
       return {
         found: true,
@@ -188,39 +246,49 @@ export class CommunityGroupMemberService {
     if (payload['patient'] && payload['program']) {
       const patient = payload['patient'];
       const dateCompleted = payload['dateCompleted'];
-      const formattedDateCompleted  = Moment(dateCompleted).format('YYYY-MM-DD');
+      const formattedDateCompleted = Moment(dateCompleted).format('YYYY-MM-DD');
       const program = payload['program'];
-      const cohortProgramAttributeTypeUuid = '520cd8bb-cc38-4ebd-97cc-6d555ee13a98';
+      const cohortProgramAttributeTypeUuid =
+        '520cd8bb-cc38-4ebd-97cc-6d555ee13a98';
       console.log(payload, 'payload');
-      return this.getMemberCohortsByPatientUuid(patient.uuid).flatMap((memberships) => {
-        const observables = [];
-        _.each(memberships, (membership) => {
-          if (!membership.voided) {
-            console.log('membership not voided');
-            const cohort = membership['cohort'];
-            if (cohort['attributes']) {
+      return this.getMemberCohortsByPatientUuid(patient.uuid).flatMap(
+        (memberships) => {
+          const observables = [];
+          _.each(memberships, (membership) => {
+            if (!membership.voided) {
+              console.log('membership not voided');
+              const cohort = membership['cohort'];
+              if (cohort['attributes']) {
                 console.log(cohort['attributes']);
-                _.each(cohort['attributes'], (attribute) =>  {
-                if (attribute['cohortAttributeType']) {
-                  console.log(attribute['cohortAttributeType']);
-                  if (attribute['cohortAttributeType']['uuid'] === cohortProgramAttributeTypeUuid &&
-                    attribute['value'] === program['uuid']) {
-                      observables.push(this.endMembership(membership['uuid'], formattedDateCompleted));
+                _.each(cohort['attributes'], (attribute) => {
+                  if (attribute['cohortAttributeType']) {
+                    console.log(attribute['cohortAttributeType']);
+                    if (
+                      attribute['cohortAttributeType']['uuid'] ===
+                        cohortProgramAttributeTypeUuid &&
+                      attribute['value'] === program['uuid']
+                    ) {
+                      observables.push(
+                        this.endMembership(
+                          membership['uuid'],
+                          formattedDateCompleted
+                        )
+                      );
                     }
-                }
-              });
+                  }
+                });
+              }
             }
+          });
+          if (observables) {
+            return forkJoin(observables);
+          } else {
+            return of(null);
           }
-        });
-        if (observables) {
-          return forkJoin(observables);
-        } else {
-          return of(null);
         }
-      });
+      );
     } else {
-       return of(null);
+      return of(null);
     }
   }
-
 }

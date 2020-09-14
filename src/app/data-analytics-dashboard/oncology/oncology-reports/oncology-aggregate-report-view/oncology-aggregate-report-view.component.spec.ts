@@ -7,11 +7,14 @@ import { OncologyReportPdfService } from '../oncology-report-pdf-view/oncology-r
 describe('OncologyAggregateReportViewComponent', () => {
   let component: OncologyAggregateReportViewComponent;
   let fixture: ComponentFixture<OncologyAggregateReportViewComponent>;
-  const oncologyReportPdfService = jasmine.createSpyObj('OncologyReportPdfService', ['generatePdf']);
+  const oncologyReportPdfService = jasmine.createSpyObj(
+    'OncologyReportPdfService',
+    ['generatePdf']
+  );
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ OncologyAggregateReportViewComponent ],
+      declarations: [OncologyAggregateReportViewComponent],
       providers: [
         {
           provide: OncologyReportPdfService,
@@ -19,8 +22,7 @@ describe('OncologyAggregateReportViewComponent', () => {
         }
       ],
       schemas: [NO_ERRORS_SCHEMA]
-    })
-    .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
