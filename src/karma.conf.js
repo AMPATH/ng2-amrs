@@ -28,12 +28,9 @@ module.exports = function (config) {
       dir: require('path').join(__dirname, '../coverage'),
       reports: ['html', 'lcovonly'],
       fixWebpackSourcePaths: true,
-      /*thresholds: {
-        statements: 86,
-        lines: 86,
-        branches: 80,
-        functions: 82
-      }*/
+      thresholds: {
+        branches: 51
+      }
     },
     reporters: ['progress', 'kjhtml'],
     // mochaReporter: {
