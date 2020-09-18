@@ -11,7 +11,7 @@
     <p-tabPanel header="Monthly" leftIcon="fa-calendar-o">
       <report-filters
         [enabledControls]="enabledControls"
-        [monthString]="params._month"
+        [monthString]="_month"
         (onMonthChange)="onMonthChange($event)"
         [reportName]="reportName"
         (generateReport)="generateReport()"

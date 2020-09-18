@@ -97,6 +97,12 @@
           "isSideBarOpen": false
         },
         {
+          "url": "monthly-report",
+          "label": "Monthly Reports",
+          "icon": "fa fa-area-chart",
+          "isSideBarOpen": false
+        },
+        {
           "url": "dqa",
           "label": "DQA Reports",
           "icon": "fa fa-pie-chart",

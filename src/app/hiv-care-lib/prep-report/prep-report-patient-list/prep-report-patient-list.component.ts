@@ -25,6 +25,7 @@ export class PrepReportPatientListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.addExtraColumns();
     this.route.queryParams.subscribe(
       (params) => {
         if (params && params.month) {
@@ -46,6 +47,56 @@ export class PrepReportPatientListComponent implements OnInit {
       this.hasLoadedAll = true;
     });
   }
+
+  public addExtraColumns() {
+    const extraColumns = {
+      phone_number: 'Phone',
+      enrollment_date: 'Date Enrolled',
+      last_appointment: 'Last Appointment',
+      prev_rtc_date: 'Previous RTC Date',
+      latest_rtc_date: 'RTC Date',
+      days_since_rtc_date: 'Days missed since RTC',
+      cur_prep_meds_names: 'Current prEp Regimen',
+      latest_vl: 'Latest VL',
+      latest_vl_date: 'Latest VL Date',
+      previous_vl: 'Previous VL',
+      previous_vl_date: 'Previous VL Date',
+      population_type: 'Population Type',
+      population_type_category: 'Population Type Category',
+      nearest_center: 'Estate/Nearest Center'
+    };
+
+    for (const indicator in extraColumns) {
+      if (indicator) {
+        this.extraColumns.push({
+          headerName: extraColumns[indicator],
+          field: indicator
+        });
+      }
+    }
+
+    this.overrideColumns.push(
+      {
+        field: 'identifiers',
+        cellRenderer: (column) => {
+          return (
+            '<a href="javascript:void(0);" title="Identifiers">' +
+            column.value +
+            '</a>'
+          );
+        }
+      },
+      {
+        field: 'last_appointment',
+        width: 200
+      },
+      {
+        field: 'cur_prep_meds_names',
+        width: 150
+      }
+    );
+  }
+
   public goBack() {
     this._location.back();
   }

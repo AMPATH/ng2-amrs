@@ -26,6 +26,7 @@ import { ChangeDepartmentModule } from '../change-department/change-department.m
 import { Moh731MonthlyVizComponent } from './moh-731-monthly-viz/moh-731-monthly-viz.component';
 import { SurgeReportComponent } from './surge/surge-report.component';
 import { ReportingUtilitiesModule } from 'src/app/reporting-utilities/reporting-utilities.module';
+import { PrepReportComponent } from './prep-report/prep-report.component';
 
 @NgModule({
   imports: [
@@ -57,7 +58,8 @@ import { ReportingUtilitiesModule } from 'src/app/reporting-utilities/reporting-
     Moh731MonthlyVizComponent,
     HivCareComparativeAnalyticsComponent,
     HivSummaryMonthlyIndicatorsComponent,
-    SurgeReportComponent
+    SurgeReportComponent,
+    PrepReportComponent
   ],
   providers: [
     DataAnalyticsDashboardService,
