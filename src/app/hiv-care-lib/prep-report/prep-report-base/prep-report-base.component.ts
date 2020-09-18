@@ -76,7 +76,6 @@ export class PrepReportBaseComponent implements OnInit {
       'reportName': this.reportName,
       '_date': Moment(this._month).format('DD-MM-YYYY')
     };
-    // store params in url
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: this.params
@@ -94,27 +93,13 @@ export class PrepReportBaseComponent implements OnInit {
       } else {
         this.showInfoMessage = false;
         this.columnDefs = data.sectionDefinitions;
-        this.prepReportSummaryData = this.formatIndicators(data.result);
+        this.prepReportSummaryData = data.result;
         this.calculateTotalSummary();
         this.isLoading = false;
       }
     });
   }
-  public formatIndicators(indicators) {
-    const colDefsContainer = [];
-    const obj = {};
 
-    for (let i = 0; i < indicators.length; i++) {
-        const o = indicators[i];
-        for (const key in o) {
-            if (typeof o[key] !== 'function') {
-                obj[key] = o[key];
-            }
-        }
-    }
-    colDefsContainer.push(obj);
-    return colDefsContainer;
-  }
   public calculateTotalSummary() {
     const totalsRow = [];
     if (this.prepReportSummaryData.length > 0) {
