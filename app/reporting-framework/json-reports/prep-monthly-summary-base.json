@@ -61,13 +61,23 @@
         },
         {
             "type": "simple_column",
-            "alias": "prep_defaulter_this_month",
-            "column": "prep.prep_defaulter_this_month"
+            "alias": "cumulative_prep_discontinued_this_month",
+            "column": "prep.cumulative_prep_discontinued_this_month"
         },
         {
             "type": "simple_column",
             "alias": "prev_on_prep_and_turned_positive",
             "column": "prep.prev_on_prep_and_turned_positive"
+        },
+        {
+            "type": "simple_column",
+            "alias": "turned_positive_this_month",
+            "column": "prep.turned_positive_this_month"
+        },
+        {
+            "type": "simple_column",
+            "alias": "cumulative_turned_positive_this_month",
+            "column": "prep.cumulative_turned_positive_this_month"
         },
         {
             "type": "simple_column",
@@ -85,6 +95,19 @@
             "column": "prep.gender"
         },
         {
+            "type": "simple_column",
+            "alias": "days_since_rtc_date",
+            "column": "prep.days_since_rtc_date"
+        },
+        {
+            "type": "derived_column",
+            "alias": "general_pop_active",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "IF((prep.population_type = 3  or prep.population_type = 1  or prep.population_type is null) and active_on_prep_this_month = 1 ,1, 0)"
+            }
+        },
+        {
             "type": "derived_column",
             "alias": "population_type",
             "expressionType": "case_statement",
@@ -96,19 +119,15 @@
                     },
                     {
                         "condition": "prep.population_type = 2",
-                        "value": "fisher_folk"
+                        "value": "priority"
                     },
                     {
-                        "condition": "prep.population_type = 3",
-                        "value": "general_pop"
+                        "condition": "prep.population_type = 3  or prep.population_type is null",
+                        "value": "general"
                     },
                     {
                         "condition": "prep.population_type = 4",
-                        "value": "key_pop"
-                    },
-                    {
-                        "condition": "prep.population_type is null",
-                        "value": "unknown"
+                        "value": "key"
                     }
                 ]
             }
@@ -151,6 +170,32 @@
                     {
                         "condition": "prep.is_pregnant is null",
                         "value": "unknown"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "newly_enrolled_pregnant",
+            "expressionType": "case_statement",
+            "expressionOptions": {
+                "caseOptions": [
+                    {
+                        "condition": "prep.is_pregnant = 1 and prep.enrolled_in_prep_this_month = 1",
+                        "value": "is_pregnant"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "newly_enrolled_breastfeeding",
+            "expressionType": "case_statement",
+            "expressionOptions": {
+                "caseOptions": [
+                    {
+                        "condition": "prep.is_breastfeeding = 1 and prep.enrolled_in_prep_this_month = 1",
+                        "value": "is_breastfeeding"
                     }
                 ]
             }

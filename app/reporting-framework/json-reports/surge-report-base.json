@@ -633,10 +633,6 @@
             "alias": "med_surge_ltfus_outcomes_this_week",
             "column": "srb.med_surge_ltfus_outcomes_this_week"
         },
-
-
-
-        
         {
             "type": "simple_column",
             "alias": "med_surge_ltfus_cumulative",

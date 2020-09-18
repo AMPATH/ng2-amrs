@@ -1,5 +1,5 @@
 {
-    "name": "prepMonthlySummaryPopulationTypeDisaggregation",
+    "name": "prepMonthlyNewlyEnrolledBreastFeedingDisaggregation",
     "version": "1.0",
     "tag": "",
     "description": "",
@@ -24,22 +24,22 @@
         },
         {
             "type": "simple_column",
-            "alias": "population_type",
-            "column": "t5.population_type"
+            "alias": "newly_enrolled_breastfeeding",
+            "column": "t5.newly_enrolled_breastfeeding"
         },
         {
             "type": "derived_column",
-            "alias": "active_on_prep_this_month",
+            "alias": "enrolled_in_prep_this_month",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "SUM(t5.active_on_prep_this_month)"
+                "expression": "SUM(t5.enrolled_in_prep_this_month)"
             }
         }
     ],
     "groupBy": {
         "groupParam": "groupByParam",
         "columns": [
-            "population_type",
+            "newly_enrolled_breastfeeding",
             "location_uuid"
         ],
         "excludeParam": "excludeParam"
@@ -47,10 +47,11 @@
     "transFormDirectives": {
         "joinColumn": "location_uuid",
         "skipColumns": [
-            "location_uuid"
+            "location_uuid",
+            "join_location"
         ],
         "disaggregationColumns": [
-            "population_type"
+            "newly_enrolled_breastfeeding"
         ]
     },
     "dynamicJsonQueryGenerationDirectives": {

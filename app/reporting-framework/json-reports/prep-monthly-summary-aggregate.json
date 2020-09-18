@@ -4,11 +4,12 @@
     "tag": "",
     "description": "",
     "uses": [
-         {
-        "name": "prepMonthlySummaryBaseReport",
-        "version": "1.0",
-        "type": "dataset_def"
-    }],
+        {
+            "name": "prepMonthlySummaryBaseReport",
+            "version": "1.0",
+            "type": "dataset_def"
+        }
+    ],
     "sources": [
         {
             "dataSet": "prepMonthlySummaryBaseReport",
@@ -73,10 +74,10 @@
         },
         {
             "type": "derived_column",
-            "alias": "prep_defaulter_this_month",
+            "alias": "cumulative_prep_discontinued_this_month",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "SUM(t2.prep_defaulter_this_month)"
+                "expression": "SUM(t2.cumulative_prep_discontinued_this_month)"
             }
         },
         {
@@ -85,6 +86,30 @@
             "expressionType": "simple_expression",
             "expressionOptions": {
                 "expression": "SUM(t2.prev_on_prep_and_turned_positive)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "turned_positive_this_month",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "SUM(t2.turned_positive_this_month)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "cumulative_turned_positive_this_month",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "SUM(t2.cumulative_turned_positive_this_month)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "general_pop_active",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "SUM(t2.general_pop_active)"
             }
         }
     ],
@@ -96,15 +121,13 @@
         "excludeParam": "excludeParam"
     },
     "transFormDirectives": {
-        "joinColumn": "location_id",
-        "skipColumns": [
-        ],
-        "disaggregationColumns": [
-        ]
+        "joinColumn": "location_uuid",
+        "skipColumns": [],
+        "disaggregationColumns": []
     },
     "dynamicJsonQueryGenerationDirectives": {
         "patientListGenerator": {
-            "useTemplate": "patient-list-prep-template",
+            "useTemplate": "prep-report-patient-list-template",
             "useTemplateVersion": "1.0",
             "generatingDirectives": {
                 "joinDirectives": {
@@ -113,7 +136,8 @@
                     "baseColumn": "person_id",
                     "templateColumn": "person_id"
                 }
-            }
+            },
+            "skipParams": []
         }
     }
 }

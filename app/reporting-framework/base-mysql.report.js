@@ -146,7 +146,7 @@ import * as prep_aggregate_report from './json-reports/prep-aggregate-report.jso
 import * as prep_dataset_report from './json-reports/prep-dataset-report.json';
 import * as ltfu_surge_baseline_report from './json-reports/ltfus-surge-baseline-base.json';
 import * as ltfu_surge_baseline_aggregate_report from './json-reports/ltfus-surge-baseline-aggregate.json';
-import * as patient_list_prep_template from './json-reports/patient-list-prep-template.json';
+import * as prep_report_patient_list_template from './json-reports/prep-report-patient-list-template.json';
 
 import * as hiv_latest_clinical_encounter_date_base from './json-reports/hiv-latest-clinical-encounter-date-base.json';
 import * as prep_monthly_summary from './json-reports/prep-monthly-summary.json'
@@ -155,6 +155,8 @@ import * as prep_monthly_summary_base_report from './json-reports/prep-monthly-s
 import * as prep_monthly_populationtype_disaggregation from './json-reports/prep-monthly-population-type-disaggregation.json';
 import * as prep_monthly_breastfeeding_disaggregation from './json-reports/prep-monthly-breastfeeding-disaggregation.json';
 import * as prep_monthly_pregnancy_disaggregation from './json-reports/prep-monthly-pregnancy-disaggregation.json';
+import * as prep_monthly_newly_enrolled_breastfeeding_disaggregation from  './json-reports/prep-monthly-newly-enrolled-breastfeeding-disaggregation.json';
+import * as prep_monthly_newly_enrolled_pregnancy_disaggregation from './json-reports/prep-monthly-newly-enrolled-pregnancy-disaggregation.json';
 import * as moh_408 from './json-reports/moh-408.json';
 import * as hei_infant_feeding_aggregate from './json-reports/hei-infant-feeding-aggregate.json';
 import * as hei_infant_feeding_base from './json-reports/hei-infant-feeding-base.json';
@@ -260,9 +262,9 @@ export class BaseMysqlReport {
                         main: this.cloneJsonSchema(patient_list_with_contacts_template)
                     });
                     break;
-                case 'patient-list-prep-template':
+                case 'prep-report-patient-list-template':
                     resolve({
-                        main: this.cloneJsonSchema(patient_list_prep_template)
+                        main: this.cloneJsonSchema(prep_report_patient_list_template)
                     });
                     break;
                 case 'mainDatasetAggregate':
@@ -658,7 +660,8 @@ export class BaseMysqlReport {
                     break;
                 case 'prepMonthlySummaryReport':
                     resolve({
-                        main: this.cloneJsonSchema(prep_monthly_summary)
+                        main: this.cloneJsonSchema(prep_monthly_summary),
+                        
                     });
                     break;
                 case 'prepMonthlySummaryNoDisaggregation':
@@ -679,6 +682,18 @@ export class BaseMysqlReport {
                         prepMonthlySummaryBaseReport: this.cloneJsonSchema(prep_monthly_summary_base_report)
                     });
                     break;
+                case 'prepMonthlyNewlyEnrolledBreastFeedingDisaggregation':
+                    resolve({
+                        main: this.cloneJsonSchema(prep_monthly_newly_enrolled_breastfeeding_disaggregation),
+                        prepMonthlySummaryBaseReport: this.cloneJsonSchema(prep_monthly_summary_base_report)
+                    });
+                    break;
+                case 'prepMonthlyNewlyEnrolledPregnancyDisaggregation':
+                    resolve({
+                        main: this.cloneJsonSchema(prep_monthly_newly_enrolled_pregnancy_disaggregation),
+                        prepMonthlySummaryBaseReport: this.cloneJsonSchema(prep_monthly_summary_base_report)
+                    });
+                    break; 
                 case 'prepMonthlySummaryPregnancyDisaggregation':
                     resolve({
                         main: this.cloneJsonSchema(prep_monthly_pregnancy_disaggregation),

@@ -22,6 +22,7 @@ const routes = [
                         let reportParams = etlHelpers.getReportParams('prep-monthly-summary',
                             ['endDate', 'locationUuids'],
                             requestParams);
+                            reportParams.requestParams.isAggregated = true
 
                         let service = new PrepMonthlySummaryService('prepMonthlySummaryReport', reportParams.requestParams);
                         service.getAggregateReport().then((result) => {

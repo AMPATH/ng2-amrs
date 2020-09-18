@@ -20,12 +20,12 @@
                 "indicator": "enrolled_in_prep_this_month"
             },
             {
-                "label": "PrEP Defaulters this month",
-                "indicator": "prep_defaulter_this_month"
-            },
-            {
                 "label": "Discontinued from PrEP",
                 "indicator": "prep_discontinued_this_month"
+            },
+            {
+                "label": "Cumulative Discontinued from PrEP",
+                "indicator": "cumulative_prep_discontinued_this_month"
             },
             {
                 "label": "PrEP LTFUs this month",
@@ -37,7 +37,11 @@
             },
             {
                 "label": "Turned Positive this month",
-                "indicator": "prev_on_prep_and_turned_positive"
+                "indicator": "turned_positive_this_month"
+            },
+            {
+                "label": "Cumulative Turned Positive this month",
+                "indicator": "cumulative_turned_positive_this_month"
             }
         ]
     },
@@ -50,53 +54,36 @@
             },
             {
                 "label": "Key Population",
-                "indicator": "dc__population_type__key_pop__active_on_prep_this_month"
+                "indicator": "dc__population_type__key__active_on_prep_this_month"
             },
             {
                 "label": "General Population",
-                "indicator": "dc__population_type__general_pop__active_on_prep_this_month"
+                "indicator": "general_pop_active"
             },
             {
-                "label": "Fisher Folk",
-                "indicator": "dc__population_type__fisher_folk__active_on_prep_this_month"
-            },
-            {
-                "label": "Unknown Population Type",
-                "indicator": "dc__population_type__unknown__active_on_prep_this_month"
+                "label": "Priority Population",
+                "indicator": "dc__population_type__priority__active_on_prep_this_month"
             }
         ]
     },
     {
-        "sectionTitle": "Active on PrEP by Pregnancy",
+        "sectionTitle": "Pregnancy and Breastfeeding",
         "indicators": [
             {
-                "label": "Pregnant",
+                "label": "Active & Pregnant",
                 "indicator": "dc__is_pregnant__is_pregnant__active_on_prep_this_month"
             },
             {
-                "label": "Not Pregnant",
-                "indicator": "dc__is_pregnant__not_pregnant__active_on_prep_this_month"
+                "label": "Newly Enrolled & Pregnant",
+                "indicator": "dc__newly_enrolled_pregnant__is_pregnant__enrolled_in_prep_this_month"
             },
             {
-                "label": "Unknown",
-                "indicator": "dc__is_pregnant__unknown__active_on_prep_this_month"
-            }
-        ]
-    },
-    {
-        "sectionTitle": "Active on PrEP by Breastfeeding",
-        "indicators": [
-            {
-                "label": "Breastfeeding",
+                "label": "Active & BreastFeeding",
                 "indicator": "dc__is_breastfeeding__is_breastfeeding__active_on_prep_this_month"
             },
             {
-                "label": "Not Breastfeeding",
-                "indicator": "dc__is_breastfeeding__not_breastfeeding__active_on_prep_this_month"
-            },
-            {
-                "label": "Unknown",
-                "indicator": "dc__is_breastfeeding__unknown__active_on_prep_this_month"
+                "label": "Newly Enrolled & BreastFeeding",
+                "indicator": "dc__newly_enrolled_breastfeeding__is_breastfeeding__enrolled_in_prep_this_month"
             }
         ]
     }

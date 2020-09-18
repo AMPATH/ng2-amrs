@@ -4,6 +4,8 @@
         "prepMonthlySummaryNoDisaggregation",
         "prepMonthlySummaryPopulationTypeDisaggregation",
         "prepMonthlySummaryBreastFeedingDisaggregation",
-        "prepMonthlySummaryPregnancyDisaggregation"
+        "prepMonthlySummaryPregnancyDisaggregation",
+        "prepMonthlyNewlyEnrolledBreastFeedingDisaggregation",
+        "prepMonthlyNewlyEnrolledPregnancyDisaggregation"
     ]
 } 
