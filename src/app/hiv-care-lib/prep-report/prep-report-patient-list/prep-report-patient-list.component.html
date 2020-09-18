@@ -11,7 +11,11 @@
   <b>{{ selectedIndicator }}</b> patient list
 </h3>
 <hr />
-<patient-list [extraColumns]="extraColumns" [overrideColumns]="overrideColumns" [data]="patientData"></patient-list>
+<patient-list
+  [extraColumns]="extraColumns"
+  [overrideColumns]="overrideColumns"
+  [data]="patientData"
+></patient-list>
 
 <div *ngIf="hasLoadedAll">
   <p class="bg-info" style="padding: 4px">
