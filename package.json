@@ -11,13 +11,13 @@
     "test-debug": "ng test --browsers ChromeDebug",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "stats": "webpack-bundle-analyzer dist/ngx-amrs/stats.json",
     "build-prod": "node version.js && bash ./scripts/ng.sh build --prod --aot --optimization=false",
-    "build-prod:stats": "npm run build-prod -- --statsJson=true",
+    "build-prod:stats": "npm run build-prod -- --statsJson=true && npm run stats",
     "serve:prod": "http-server dist/ngx-amrs/ -P https://ngx.ampath.or.ke",
     "prebuild": "node version.js",
     "prestart": "node version.js",
-    "prettier:check": "prettier --check src/app",
-    "stats": "webpack-bundle-analyzer dist/ngx-amrs/stats.json"
+    "prettier:check": "prettier --check src/app"
   },
   "husky": {
     "hooks": {
