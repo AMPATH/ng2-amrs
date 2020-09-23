@@ -57,10 +57,6 @@ export class PrepReportPatientListComponent implements OnInit {
       latest_rtc_date: 'RTC Date',
       days_since_rtc_date: 'Days missed since RTC',
       cur_prep_meds_names: 'Current prEp Regimen',
-      latest_vl: 'Latest VL',
-      latest_vl_date: 'Latest VL Date',
-      previous_vl: 'Previous VL',
-      previous_vl_date: 'Previous VL Date',
       population_type: 'Population Type',
       population_type_category: 'Population Type Category',
       nearest_center: 'Estate/Nearest Center'
