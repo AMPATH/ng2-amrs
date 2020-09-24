@@ -34,6 +34,9 @@ import { ToastrModule} from 'ngx-toastr';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { ConceptResourceService } from './../openmrs-api/concept-resource.service';
+import { PatientRelationshipTypeService } from '../patient-dashboard/common/patient-relationships/patient-relation-type.service';
+import { PatientRelationshipTypeResourceService } from '../openmrs-api/patient-relationship-type-resource.service';
+import { PatientEducationService } from '../etl-api/patient-education.service';
 
 describe('Component: Patient Creation Unit Tests', () => {
 
@@ -75,7 +78,10 @@ describe('Component: Patient Creation Unit Tests', () => {
         PatientResourceService,
         UserService,
         DataCacheService,
-        ConceptResourceService
+        ConceptResourceService,
+        PatientRelationshipTypeService,
+        PatientRelationshipTypeResourceService,
+        PatientEducationService
       ]
     });
 

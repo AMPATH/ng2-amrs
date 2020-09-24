@@ -4,8 +4,7 @@ import { Patient } from 'src/app/models/patient.model';
 import { PersonAttributeResourceService } from './../../../../openmrs-api/person-attribute-resource.service';
 import { PatientService } from 'src/app/patient-dashboard/services/patient.service';
 import * as _ from 'lodash';
-import { ConceptResourceService } from 'src/app/openmrs-api/concept-resource.service';
-import { PersonResourceService } from 'src/app/openmrs-api/person-resource.service';
+import { PatientEducationService } from '../../../../../app/etl-api/patient-education.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -31,8 +30,7 @@ export class AddPatientEducationComponent implements OnInit, OnDestroy {
   constructor(
     private personAttributeService: PersonAttributeResourceService,
     private patientService: PatientService,
-    private conceptResourceService: ConceptResourceService,
-    private personResourceService: PersonResourceService
+    private patientEducationService: PatientEducationService
   ) {}
 
   public ngOnInit() {
@@ -52,16 +50,14 @@ export class AddPatientEducationComponent implements OnInit, OnDestroy {
   }
 
   public getEducationLevels() {
-    this.conceptResourceService
-      .getConceptByUuid(this.highestEducationConcept)
-      .subscribe((educationLevels: any) => {
-        if (educationLevels) {
-          this.setHighestEduction(educationLevels.answers);
-        }
-      });
+    this.setHighestEducationLevels(
+      this.patientEducationService.getEducationLevels()
+    );
   }
 
-  public setHighestEduction(educationLevels: Array<any>) {
+  public setHighestEducationLevels(
+    educationLevels: Array<{ uuid: string; display: string }>
+  ) {
     this.levelOfEducation = educationLevels.map((levels: any) => {
       return {
         value: levels.uuid,

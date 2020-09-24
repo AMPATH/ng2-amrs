@@ -44,6 +44,7 @@ import { SurgeResourceService } from './surge-resource.service';
 import { HivDifferentiatedCareResourceService } from './hiv-differentiated-care-resource.service';
 import { OncologySummaryResourceService } from './oncology-summary-resource.service';
 
+import { PatientEducationService } from './patient-education.service';
 import { HeiReportService } from './hei-report.service';
 @NgModule({
   imports: [CommonModule, AppSettingsModule],
@@ -85,7 +86,8 @@ import { HeiReportService } from './hei-report.service';
     HivDifferentiatedCareResourceService,
     OncologySummaryResourceService,
     SurgeResourceService,
-    HeiReportService
+    HeiReportService,
+    PatientEducationService
   ],
   exports: []
 })

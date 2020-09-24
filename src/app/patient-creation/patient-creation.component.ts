@@ -27,6 +27,8 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap';
 import { SessionStorageService } from '../utils/session-storage.service';
 import { ToastrService } from 'ngx-toastr';
+import { PatientRelationshipTypeService } from '../patient-dashboard/common/patient-relationships/patient-relation-type.service';
+import { PatientEducationService } from '../etl-api/patient-education.service';
 
 @Component({
   selector: 'patient-creation',
@@ -144,8 +146,10 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private sessionStorageService: SessionStorageService,
     private modalService: BsModalService,
-    private conceptService: ConceptResourceService) {
-  }
+    private conceptService: ConceptResourceService,
+    private patientRelationshipTypeService: PatientRelationshipTypeService,
+    private patientEducationService: PatientEducationService
+  ) {}
 
   public ngOnInit() {
     this.getLocations();
@@ -173,16 +177,15 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   }
 
   public getEducationLevels() {
-    this.conceptService.getConceptByUuid(this.highestEducationConcept)
-      .subscribe((educationLevels: any) => {
-        if (educationLevels) {
-          this.setHighestEduction(educationLevels.answers);
-        }
-      });
+    this.setHighestEducationLevels(
+      this.patientEducationService.getEducationLevels()
+    );
   }
 
-  public setHighestEduction(educationLevels: Array<any>) {
-    this.levelOfEducation = educationLevels.map((levels: any) => {
+  public setHighestEducationLevels(
+    educationLevels: Array<{ uuid: string; display: string }>
+  ) {
+    this.levelOfEducation = educationLevels.map((levels) => {
       return {
         value: levels.uuid,
         name: levels.display,
