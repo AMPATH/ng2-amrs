@@ -36,7 +36,7 @@ import { OncologySummaryResourceService } from './oncology-summary-resource.serv
 import { KibanaDashboardListService } from './kibana-dashboard-list-service';
 import { HivDifferentiatedCareResourceService } from './hiv-differentiated-care-resource.service';
 import { SurgeResourceService } from './surge-resource.service';
-
+import { PatientEducationService } from './patient-education.service';
 import { HeiReportService } from './hei-report.service';
 @NgModule({
   imports: [CommonModule, AppSettingsModule],
@@ -79,7 +79,8 @@ import { HeiReportService } from './hei-report.service';
     KibanaDashboardListService,
     HivDifferentiatedCareResourceService,
     SurgeResourceService,
-    HeiReportService
+    HeiReportService,
+    PatientEducationService
   ],
   exports: []
 })
