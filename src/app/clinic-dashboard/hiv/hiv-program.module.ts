@@ -104,6 +104,7 @@ import {
     ClinicDashboardHeiReportComponent
 } from './clinic-dashboard-hei-indicators-report/clinic-dashboard-hei-report.component';
 import { ClinicDashboardCaseManagementComponent } from './case-management/clinic-dashboard-case-management.component';
+import { HIVListsMicroFrontendComponent } from './hiv-lists-microfrontend-report/hiv-lists-microfrontend.component';
 @NgModule({
     imports: [
         clinicDashboardHivRouting,
@@ -183,7 +184,8 @@ import { ClinicDashboardCaseManagementComponent } from './case-management/clinic
         HivDifferentiatedCareComponent,
         HivDifferentiatedCarePatientListComponent,
         ClinicDashboardHeiReportComponent,
-        ClinicDashboardCaseManagementComponent
+        ClinicDashboardCaseManagementComponent,
+        HIVListsMicroFrontendComponent
     ],
     providers: [
         ClinicalSummaryVisualizationService

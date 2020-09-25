@@ -153,6 +153,12 @@
           "isSideBarOpen": false
         },
         {
+          "url": "monthly-report",
+          "label": "Monthly Reports",
+          "icon": "fa fa-table",
+          "isSideBarOpen": false
+        },
+        {
         "url": "hiv-differentiated-care",
         "label": "Differentiated Care",
         "icon": "fa fa-th-list",

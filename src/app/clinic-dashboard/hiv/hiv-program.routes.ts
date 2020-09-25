@@ -80,6 +80,7 @@ import {
 import { HeiIndicatorsPatientListComponent } from './../../hiv-care-lib/hei-indicators-report/hei-indicators-patient-list.component';
 
  import { ClinicDashboardCaseManagementComponent } from './case-management/clinic-dashboard-case-management.component';
+import { HIVListsMicroFrontendComponent } from './hiv-lists-microfrontend-report/hiv-lists-microfrontend.component';
 
 const routes: Routes = [
     {
@@ -252,7 +253,16 @@ const routes: Routes = [
                 component: ClinicDashboardCaseManagementComponent
             }
         ]
-    }
+    },
+    {
+      path: 'monthly-report',
+      children: [
+        {
+          path: '',
+          component: HIVListsMicroFrontendComponent
+        }
+      ]
+    },
 ];
 
 export const clinicDashboardHivRouting: ModuleWithProviders =
