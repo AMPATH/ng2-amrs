@@ -43,6 +43,7 @@ export class PrepReportComponent
         month: Moment(this._month).endOf('month').format('YYYY-MM-DD')
       };
       super.generateReport();
+      super.showDraftReportAlert(this._month);
     } else {
       this.errorMessage = 'Locations are required!';
     }

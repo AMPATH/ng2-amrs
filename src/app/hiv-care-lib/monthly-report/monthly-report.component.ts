@@ -15,15 +15,15 @@ export class MonthlyReportComponent implements OnInit {
   ngOnInit() {
     this.dashboards = [
       {
-        title: 'Monthly Report',
-        description: 'PrEP Monthly Report',
+        title: 'PrEP Monthly Report',
+        description: '',
         url: 'prep-report',
         icon: 'fa'
       },
       {
-        title: 'Monthly Report',
-        description: 'Patient gains and loses',
-        url: 'patient-gains-and-loses',
+        title: 'Cross Border Report',
+        description: '',
+        url: 'cross-border-report',
         icon: 'fa'
       }
     ];
