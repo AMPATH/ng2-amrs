@@ -2268,6 +2268,9 @@ module.exports = function () {
                             isAggregated: Joi.boolean()
                                 .optional()
                                 .description("Boolean checking if report is aggregated"),
+                                exclude: Joi.string()
+                                .optional()
+                                .description("Validates which report should be returned")
 
                         }
                     }

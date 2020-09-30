@@ -1,0 +1,123 @@
+[
+    {
+        "sectionTitle": "Cross Border Patients",
+        "indicators": [
+            {
+                "label": "Cross Border Patients",
+                "ref": "HV06-013",
+                "indicator": "is_cross_border_this_month"
+            },
+            {
+                "label": "Uganda",
+                "ref": "HV06-014",
+                "indicator": "is_cross_border_this_month_uganda"
+            },
+            {
+                "label": "Kenya",
+                "ref": "HV06-013",
+                "indicator": "is_cross_border_this_month_kenya"
+            },
+            {
+                "label": "Other Countries",
+                "ref": "HV06-013",
+                "indicator": "is_cross_border_this_month_other"
+            }
+        ]
+    },
+    {
+        "sectionTitle": "International Travels",
+        "indicators": [
+            {
+                "label": "Last 3 months",
+                "ref": "HV06-03",
+                "indicator": "travelled_outside_last_3_months"
+            },
+            {
+                "label": "Last 6 months",
+                "ref": "HV06-04",
+                "indicator": "travelled_outside_last_6_months"
+            },
+            {
+                "label": "Last 12 months",
+                "ref": "HV06-05",
+                "indicator": "travelled_outside_last_12_months"
+            }
+        ]
+    },
+    {
+        "sectionTitle": "HIV Cascade",
+        "indicators": [
+            {
+                "label": "Currently on ART",
+                "ref": "HV06-06",
+                "indicator": "is_cross_border_on_art_this_month"
+            },
+            {
+                "label": "On ART at 12 months",
+                "ref": "HV06-06",
+                "indicator": "is_cross_border_active_on_art_12_month_cohort_this_month"
+            },
+            {
+                "label": "Viral load < 1000 at 12 months",
+                "ref": "HV06-07",
+                "indicator": "is_cross_border_vl_suppressed_this_month"
+            }
+
+        ]
+    },
+    {
+        "sectionTitle": "TB Cascade",
+        "indicators": [
+            {
+                "label": "On Tb Tx",
+                "ref": "HV06-11",
+                "indicator": "is_cross_border_on_tb_tx_this_month"
+            },
+            {
+                "label": "Presumed TB positive",
+                "ref": "HV06-09",
+                "indicator": "is_cross_border_presumed_tb_positive_this_month"
+            },
+            {
+                "label": "Started Tb Tx this month",
+                "ref": "HV06-10",
+                "indicator": "is_cross_border_started_tb_tx_this_month"
+            },
+            {
+                "label": "Completed Tb Tx",
+                "ref": "HV06-015",
+                "indicator": "is_cross_border_completed_tb_tx"
+            },
+            {
+                "label": "Stopped Tb Tx",
+                "ref": "HV06-016",
+                "indicator": "is_cross_border_stopped_tb_tx"
+            },
+            {
+                "label": "On Tb Tx and Transferred Out",
+                "ref": "HV06-017",
+                "indicator": "is_cross_border_on_tb_tx_transferred_out"
+            },
+            {
+                "label": "On Tb Tx and Turned LTFU",
+                "ref": "HV06-018",
+                "indicator": "is_cross_border_on_tb_tx_ltfu"
+            },
+            {
+                "label": "On Tb Tx and Died",
+                "ref": "HV06-019",
+                "indicator": "is_cross_border_on_tb_tx_dead"
+            }
+        ]
+    },
+    {
+        "sectionTitle": "FP/RH and MNCH",
+        "indicators": [
+            {
+                "label": "On Modern Contraception",
+                "ref": "HV06-12",
+                "indicator": "is_cross_border_on_modern_contraception_this_month"
+            }
+        ]
+    }
+]

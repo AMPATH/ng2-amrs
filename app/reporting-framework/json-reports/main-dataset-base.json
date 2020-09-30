@@ -255,7 +255,176 @@
             "type": "simple_column",
             "alias": "f_gte_18_visits",
             "column": "hmsd.f_18_and_older_this_month"
+        },
+        {
+            "type": "derived_column",
+            "alias": "is_cross_border_on_art_this_month",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "IF(hmsd.art_revisit_this_month = 1 and hmsd.is_cross_border_this_month = 1 , 1 , 0)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "is_cross_border_vl_suppressed_this_month",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "IF(hmsd.is_suppressed_this_month = 1 and hmsd.is_cross_border_this_month = 1 and hmsd.status = 'active' , 1 , 0)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "is_cross_border_active_on_art_12_month_cohort_this_month",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "IF(hmsd.active_on_art_12_month_cohort_this_month = 1 and hmsd.is_cross_border_this_month = 1 , 1 , 0)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "is_cross_border_presumed_tb_positive_this_month",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "IF(hmsd.presumed_tb_positive_this_month = 1 and hmsd.is_cross_border_this_month = 1 and hmsd.status = 'active' , 1 , 0)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "is_cross_border_started_tb_tx_this_month",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "IF(hmsd.started_tb_tx_this_month = 1 and hmsd.is_cross_border_this_month = 1 , 1 , 0)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "is_cross_border_on_tb_tx_this_month",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "IF(hmsd.on_tb_tx_this_month = 1 and hmsd.is_cross_border_this_month = 1 and status = 'active' , 1 , 0)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "is_cross_border_completed_tb_tx",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "IF(hmsd.is_cross_border_this_month = 1 and hmsd.tb_tx_end_date is not null , 1 , 0)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "is_cross_border_stopped_tb_tx",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "IF(hmsd.is_cross_border_this_month = 1 and hmsd.tb_tx_stop_date is not null , 1 , 0)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "is_cross_border_on_tb_tx_transferred_out",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "IF(hmsd.on_tb_tx_this_month = 1 and hmsd.is_cross_border_this_month = 1 and status = 'transfer_out' , 1 , 0)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "is_cross_border_on_tb_tx_ltfu",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "IF(hmsd.on_tb_tx_this_month = 1 and hmsd.is_cross_border_this_month = 1 and ( status = 'defaulter' or status = 'ltfu'), 1 , 0)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "is_cross_border_on_tb_tx_dead",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "IF(hmsd.on_tb_tx_this_month = 1 and hmsd.is_cross_border_this_month = 1 and status = 'dead', 1 , 0)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "is_cross_border_on_modern_contraception_this_month",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "IF(hmsd.on_modern_contraception_this_month = 1 and hmsd.is_cross_border_this_month = 1 and hmsd.status = 'active', 1 , 0)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "is_cross_border_country_this_month",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "IF(hmsd.is_cross_border_country_this_month = 1 and hmsd.status = 'active' , 1 , 0)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "is_cross_border_county_this_month",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "IF(hmsd.is_cross_border_county_this_month = 1 and hmsd.status = 'active' , 1 , 0)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "travelled_outside_last_3_months",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "IF(hmsd.travelled_outside_last_3_months = 1 and hmsd.status = 'active' , 1 , 0)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "travelled_outside_last_6_months",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "IF(hmsd.travelled_outside_last_6_months = 1 and hmsd.status = 'active' , 1 , 0)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "travelled_outside_last_12_months",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "IF(hmsd.travelled_outside_last_12_months = 1 and hmsd.status = 'active' , 1 , 0)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "is_cross_border_this_month_kenya",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "IF(hmsd.is_cross_border_this_month = 1 and hmsd.status = 'active' and hmsd.country_of_residence = 11197, 1 , 0)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "is_cross_border_this_month_uganda",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "IF(hmsd.is_cross_border_this_month = 1 and hmsd.status = 'active' and hmsd.country_of_residence = 11118, 1 , 0)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "is_cross_border_this_month_other",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "IF(hmsd.is_cross_border_this_month = 1 and hmsd.status = 'active' and hmsd.country_of_residence is null , 1 , 0)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "is_cross_border_this_month",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "IF(hmsd.is_cross_border_this_month = 1 and hmsd.status = 'active', 1 , 0)"
+            }
         }
+
     ],
     "filters": {
         "conditionJoinOperator": "and",

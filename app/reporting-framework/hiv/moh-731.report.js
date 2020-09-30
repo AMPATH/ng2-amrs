@@ -8,6 +8,7 @@ import {
 const Moment = require('moment');
 const moh731GreenCarddefs = require('./moh-731-2017');
 const moh731BlueCarddefs = require('./moh-731-legacy');
+const cbhipIndicatorDefs = require('./cbhip-indicator-definitions.json');
 const dao = require('../../../etl-dao');
 
 export class Moh731Report extends MultiDatasetPatientlistReport {
@@ -51,11 +52,18 @@ export class Moh731Report extends MultiDatasetPatientlistReport {
                             finalResult[0].location = 'Multiple Locations...';
                         }
 
-                        let moh731defs = that.reportName === 'MOH-731-greencard' ? moh731GreenCarddefs : moh731BlueCarddefs;
+                        let sectionDefs = null;
+
+                        if(that.params.exclude == 'moh731') {
+                            sectionDefs = cbhipIndicatorDefs;
+                        }else {
+                            sectionDefs = that.reportName === 'MOH-731-greencard' ? moh731GreenCarddefs : moh731BlueCarddefs;
+                        }
+                        
                         resolve({
                             queriesAndSchemas: results,
                             result: finalResult,
-                            sectionDefinitions: moh731defs,
+                            sectionDefinitions: sectionDefs,
                             indicatorDefinitions: [],
                             isReleased: that.params.hivMonthlyDatasetSource === 'etl.hiv_monthly_report_dataset_frozen'
                         });

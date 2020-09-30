@@ -217,6 +217,174 @@
             "expressionOptions": {
                 "expression": "sum(hmsd.total_visits)"
             }
+        },
+        {
+            "type": "derived_column",
+            "alias": "is_cross_border_on_art_this_month",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(hmsd.is_cross_border_on_art_this_month)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "is_cross_border_vl_suppressed_this_month",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(hmsd.is_cross_border_vl_suppressed_this_month)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "is_cross_border_active_on_art_12_month_cohort_this_month",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(hmsd.is_cross_border_active_on_art_12_month_cohort_this_month)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "is_cross_border_presumed_tb_positive_this_month",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(hmsd.is_cross_border_presumed_tb_positive_this_month)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "is_cross_border_started_tb_tx_this_month",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(hmsd.is_cross_border_started_tb_tx_this_month)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "is_cross_border_on_tb_tx_this_month",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(hmsd.is_cross_border_on_tb_tx_this_month)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "is_cross_border_completed_tb_tx",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(hmsd.is_cross_border_completed_tb_tx)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "is_cross_border_stopped_tb_tx",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(hmsd.is_cross_border_stopped_tb_tx)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "is_cross_border_on_tb_tx_transferred_out",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(hmsd.is_cross_border_on_tb_tx_transferred_out)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "is_cross_border_on_tb_tx_ltfu",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(hmsd.is_cross_border_on_tb_tx_ltfu)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "is_cross_border_on_tb_tx_dead",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(hmsd.is_cross_border_on_tb_tx_dead)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "is_cross_border_on_modern_contraception_this_month",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(hmsd.is_cross_border_on_modern_contraception_this_month)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "is_cross_border_country_this_month",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(hmsd.is_cross_border_country_this_month)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "is_cross_border_county_this_month",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(hmsd.is_cross_border_county_this_month)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "travelled_outside_last_3_months",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(hmsd.travelled_outside_last_3_months)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "travelled_outside_last_6_months",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(hmsd.travelled_outside_last_6_months)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "travelled_outside_last_12_months",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(hmsd.travelled_outside_last_12_months)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "is_cross_border_this_month_kenya",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(hmsd.is_cross_border_this_month_kenya)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "is_cross_border_this_month_uganda",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(hmsd.is_cross_border_this_month_uganda)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "is_cross_border_this_month_other",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(hmsd.is_cross_border_this_month_other)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "is_cross_border_this_month",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "sum(hmsd.is_cross_border_this_month)"
+            }
         }
     ],
     "groupBy": {
