@@ -2,7 +2,7 @@ sudo: required
 language: node_js
 node_js:
 - '10'
-services:
+services:	
   - docker
 before_install:
   - export TZ=Africa/Nairobi
