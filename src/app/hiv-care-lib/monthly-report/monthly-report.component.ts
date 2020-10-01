@@ -22,8 +22,8 @@ export class MonthlyReportComponent implements OnInit {
         icon: 'fa-calendar-o',
       },
       {
-        title: 'TB in HIV IPT Monthly Report',
-        description: 'TB in HIV IPT Monthly Report',
+        title: 'TB/IPT Monthly Report',
+        description: 'TB/IPT Monthly Report',
         url: 'ipt-report',
         icon: 'fa fa-list-alt',
       },
