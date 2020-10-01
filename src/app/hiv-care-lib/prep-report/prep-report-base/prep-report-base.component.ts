@@ -44,17 +44,19 @@ export class PrepReportBaseComponent implements OnInit {
     this._locationUuids = locationUuids;
   }
 
-  constructor(public router: Router,
-    public route: ActivatedRoute, public prepReport: PrepResourceService) {
-    this.route.queryParams.subscribe(
-      (data) => {
-        data.month === undefined ? this._month = Moment().format('YYYY-MM-DD') : this._month = data.month;
-      }
-    );
+  constructor(
+    public router: Router,
+    public route: ActivatedRoute,
+    public prepReport: PrepResourceService
+  ) {
+    this.route.queryParams.subscribe((data) => {
+      data.month === undefined
+        ? (this._month = Moment().format('YYYY-MM-DD'))
+        : (this._month = data.month);
+    });
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   public onMonthChange(value): any {
     this._month = Moment(value).endOf('month').format('YYYY-MM-DD');
@@ -70,13 +72,12 @@ export class PrepReportBaseComponent implements OnInit {
 
   public storeParamsInUrl(param) {
     this.params = {
-      'locationUuids': param,
-      '_month': Moment(this._month).endOf('month').format('YYYY-MM-DD'),
-      'month': Moment(this._month).endOf('month').format('YYYY-MM-DD'),
-      'reportName': this.reportName,
-      '_date': Moment(this._month).format('DD-MM-YYYY')
+      locationUuids: param,
+      _month: Moment(this._month).endOf('month').format('YYYY-MM-DD'),
+      month: Moment(this._month).endOf('month').format('YYYY-MM-DD'),
+      reportName: this.reportName,
+      _date: Moment(this._month).format('DD-MM-YYYY')
     };
-    // store params in url
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: this.params
@@ -84,9 +85,8 @@ export class PrepReportBaseComponent implements OnInit {
   }
 
   public getPrepMonthlyReport(params: any) {
-
     this.isLoading = true;
-    this.prepReport.getPrepMonthlyReport(params).subscribe(data => {
+    this.prepReport.getPrepMonthlyReport(params).subscribe((data) => {
       if (data.error) {
         this.showInfoMessage = true;
         this.errorMessage = `There has been an error while loading the report, please retry again`;
@@ -94,34 +94,20 @@ export class PrepReportBaseComponent implements OnInit {
       } else {
         this.showInfoMessage = false;
         this.columnDefs = data.sectionDefinitions;
-        this.prepReportSummaryData = this.formatIndicators(data.result);
+        this.prepReportSummaryData = data.result;
         this.calculateTotalSummary();
         this.isLoading = false;
       }
     });
   }
-  public formatIndicators(indicators) {
-    const colDefsContainer = [];
-    const obj = {};
 
-    for (let i = 0; i < indicators.length; i++) {
-        const o = indicators[i];
-        for (const key in o) {
-            if (typeof o[key] !== 'function') {
-                obj[key] = o[key];
-            }
-        }
-    }
-    colDefsContainer.push(obj);
-    return colDefsContainer;
-  }
   public calculateTotalSummary() {
     const totalsRow = [];
     if (this.prepReportSummaryData.length > 0) {
       const totalObj = {
         location: 'Totals'
       };
-      _.each(this.prepReportSummaryData, row => {
+      _.each(this.prepReportSummaryData, (row) => {
         Object.keys(row).map((key) => {
           if (Number.isInteger(row[key]) === true) {
             if (totalObj[key]) {

@@ -31,7 +31,9 @@ export class EditProgramLocationComponent implements OnInit {
   }
   @Input() public patient: Patient;
   @Input() public complete = false;
-  @Output() public locationChangeComplete: EventEmitter<any> = new EventEmitter(null);
+  @Output() public locationChangeComplete: EventEmitter<any> = new EventEmitter(
+    null
+  );
   // tslint:disable-next-line:no-output-on-prefix
   @Output() public onBack: EventEmitter<any> = new EventEmitter(null);
   public updating = false;
@@ -42,10 +44,12 @@ export class EditProgramLocationComponent implements OnInit {
   public message = '';
   private _userLocation: any;
 
-  constructor(private programManagerService: ProgramManagerService,
-              public route: ActivatedRoute,
-              private patientResourceService: PatientResourceService,
-              private patientTransferService: PatientTransferService) {
+  constructor(
+    private programManagerService: ProgramManagerService,
+    public route: ActivatedRoute,
+    private patientResourceService: PatientResourceService,
+    private patientTransferService: PatientTransferService
+  ) {
     this.dateEnrolled = moment().format('YYYY-MM-DD');
   }
 
@@ -65,18 +69,21 @@ export class EditProgramLocationComponent implements OnInit {
       location: this.location.value,
       enrollmentUuid: ''
     };
-    this.programManagerService.enrollPatient(payload).subscribe((newProgram) => {
-      if (newProgram) {
-        localStorage.removeItem('transferLocation');
-        localStorage.removeItem('careStatus');
-        localStorage.removeItem('transferRTC');
-        this.locationChangeComplete.next([newProgram]);
-        this.patientTransferService.clearTransferState();
+    this.programManagerService.enrollPatient(payload).subscribe(
+      (newProgram) => {
+        if (newProgram) {
+          localStorage.removeItem('transferLocation');
+          localStorage.removeItem('careStatus');
+          localStorage.removeItem('transferRTC');
+          this.locationChangeComplete.next([newProgram]);
+          this.patientTransferService.clearTransferState();
+        }
+      },
+      (err) => {
+        console.log(err);
+        this.locationChangeComplete.error(err);
       }
-    }, (err) => {
-      console.log(err);
-      this.locationChangeComplete.error(err);
-    });
+    );
   }
 
   public completeLocationChange() {
@@ -92,32 +99,43 @@ export class EditProgramLocationComponent implements OnInit {
         this.hasError = false;
         this.message = '';
         this.updating = true;
-        this.programManagerService.editProgramEnrollments('location', this.patient,
-          this.programs, this.location.value).subscribe((programs) => {
-          if (programs) {
-            this.transferPreferedIdentifier().subscribe(() => {
+        this.programManagerService
+          .editProgramEnrollments(
+            'location',
+            this.patient,
+            this.programs,
+            this.location.value
+          )
+          .subscribe(
+            (programs) => {
+              if (programs) {
+                this.transferPreferedIdentifier().subscribe(
+                  () => {
+                    this.updating = false;
+                    this.hasError = false;
+                    localStorage.removeItem('transferLocation');
+                    localStorage.removeItem('careStatus');
+                    this.locationChangeComplete.next(programs);
+                  },
+                  (error) => {
+                    this.hasError = true;
+                    this.updating = false;
+                    console.log(error);
+                  }
+                );
+              }
+            },
+            (err) => {
+              console.log(err);
               this.updating = false;
-              this.hasError = false;
-              localStorage.removeItem('transferLocation');
-              localStorage.removeItem('careStatus');
-              this.locationChangeComplete.next(programs);
-            }, (error) => {
               this.hasError = true;
-              this.updating = false;
-              console.log(error);
-            });
-          }
-        }, (err) => {
-          console.log(err);
-          this.updating = false;
-          this.hasError = true;
-        });
+            }
+          );
       }
     } else {
       this.hasError = true;
       this.message = 'Please fill location and date enrolled to proceed';
     }
-
   }
 
   public goBack() {
@@ -143,13 +161,13 @@ export class EditProgramLocationComponent implements OnInit {
     if (retroLocation) {
       const retroLocationObj = JSON.parse(retroLocation);
       this.transferLocation = retroLocationObj.uuid;
-      this.location = {value: retroLocationObj.uuid};
+      this.location = { value: retroLocationObj.uuid };
       return;
     }
     const transferLocation = localStorage.getItem('transferLocation');
     if (transferLocation) {
       this.transferLocation = transferLocation;
-      this.location = {value: transferLocation};
+      this.location = { value: transferLocation };
     } else {
       this.transferLocation = this.userLocation.value;
       this.location = this.userLocation;
@@ -158,10 +176,11 @@ export class EditProgramLocationComponent implements OnInit {
 
   private transferPreferedIdentifier(): Observable<any> {
     // get preferred identifier
-    const preferredIdentifier = _.find(this.patient.openmrsModel.identifiers, 'preferred');
+    const preferredIdentifier = _.find(
+      this.patient.openmrsModel.identifiers,
+      'preferred'
+    );
     if (preferredIdentifier) {
-
-
       const person = {
         uuid: this.patient.person.uuid
       };
@@ -174,9 +193,13 @@ export class EditProgramLocationComponent implements OnInit {
         location: this.location.value // location
       };
 
-      return this.patientResourceService.saveUpdatePatientIdentifier(person.uuid,
-        personIdentifierPayload.uuid, personIdentifierPayload).take(1);
+      return this.patientResourceService
+        .saveUpdatePatientIdentifier(
+          person.uuid,
+          personIdentifierPayload.uuid,
+          personIdentifierPayload
+        )
+        .take(1);
     }
   }
-
 }

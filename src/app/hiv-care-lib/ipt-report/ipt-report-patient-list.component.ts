@@ -7,7 +7,7 @@ import { IptReportService } from 'src/app/etl-api/ipt-report.service';
 @Component({
   selector: 'ipt-patient-list',
   templateUrl: './ipt-report-patient-list.component.html',
-  styleUrls: ['./ipt-report-patient-list.component.css'],
+  styleUrls: ['./ipt-report-patient-list.component.css']
 })
 export class IptReportPatientListComponent implements OnInit {
   public params: IptReportParams;
@@ -23,7 +23,7 @@ export class IptReportPatientListComponent implements OnInit {
     private route: ActivatedRoute,
     private _location: Location,
     public iptReportService: IptReportService
-  ) { }
+  ) {}
 
   public ngOnInit() {
     this.addExtraColumns();
@@ -73,7 +73,11 @@ export class IptReportPatientListComponent implements OnInit {
       {
         field: 'identifiers',
         cellRenderer: (column) => {
-          return '<a href="javascript:void(0);" title="Identifiers">' + column.value + '</a>';
+          return (
+            '<a href="javascript:void(0);" title="Identifiers">' +
+            column.value +
+            '</a>'
+          );
         }
       },
       {

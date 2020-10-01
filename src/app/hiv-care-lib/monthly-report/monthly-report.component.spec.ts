@@ -18,9 +18,8 @@ describe('MonthlyReportComponent', () => {
         RouterTestingModule.withRoutes(routes),
         HttpClientTestingModule
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    })
-      .compileComponents();
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -34,7 +33,12 @@ describe('MonthlyReportComponent', () => {
   });
   it('should have a dashboard component', () => {
     component.dashboards = [
-      { 'title': 'Monthly Report', 'description': 'PrEP Monthly Report', 'url': 'prep-report', 'icon': 'fa' }
+      {
+        title: 'Monthly Report',
+        description: 'PrEP Monthly Report',
+        url: 'prep-report',
+        icon: 'fa'
+      }
     ];
     fixture.detectChanges();
     const appElement = fixture.nativeElement.querySelector('.card-item');

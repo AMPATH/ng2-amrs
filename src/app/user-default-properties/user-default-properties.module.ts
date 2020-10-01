@@ -10,8 +10,7 @@ import { NgBusyModule, BusyConfig } from 'ng-busy';
 import { UserDefaultPropertiesComponent } from './user-default-properties.component';
 import { UserDefaultPropertiesService } from './user-default-properties.service';
 import { DepartmentProgramsConfigService } from './../etl-api/department-programs-config.service';
-import { RetrospectiveDataEntryModule
-} from '../retrospective-data-entry/retrospective-data-entry.module';
+import { RetrospectiveDataEntryModule } from '../retrospective-data-entry/retrospective-data-entry.module';
 
 @NgModule({
   imports: [
@@ -24,16 +23,8 @@ import { RetrospectiveDataEntryModule
     RouterModule.forChild(USER_DEFAULT_PROPERTIES_ROUTE)
   ],
   declarations: [UserDefaultPropertiesComponent],
-  providers: [
-    UserDefaultPropertiesService,
-    DepartmentProgramsConfigService
-  ],
-  exports: [
-    RouterModule,
-    NgBusyModule
-  ],
-  schemas: [
-    CUSTOM_ELEMENTS_SCHEMA
-  ]
+  providers: [UserDefaultPropertiesService, DepartmentProgramsConfigService],
+  exports: [RouterModule, NgBusyModule],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class UserDefaultPropertiesModule {}

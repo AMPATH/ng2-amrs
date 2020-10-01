@@ -1,7 +1,13 @@
 import { Observable } from 'rxjs';
 import { ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { TestBed, async, fakeAsync, ComponentFixture, tick } from '@angular/core/testing';
+import {
+  TestBed,
+  async,
+  fakeAsync,
+  ComponentFixture,
+  tick
+} from '@angular/core/testing';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
 import { AgGridModule } from 'ag-grid-angular';
@@ -19,7 +25,7 @@ const mockProviderResult: any = [
     provider_uuid: 'uuid1',
     location: 'MTRH-1',
     locations: 1,
-    location_uuid: 'uuid',
+    location_uuid: 'uuid'
   },
   {
     encounter_type: 'BETWEENCAREVISIT',
@@ -32,7 +38,7 @@ const mockProviderResult: any = [
     provider_uuid: 'uuid1',
     location: 'MTRH-1',
     locations: 1,
-    location_uuid: 'uuid',
+    location_uuid: 'uuid'
   }
 ];
 
@@ -50,16 +56,18 @@ const mockProviderResultRow: any = [
   }
 ];
 
-const mockProviderRowData = [{
-  providers: 'Test Provider',
-  location: 'MTRH Module 3',
-  locationUuid: '08fec150-1352-11df-a1f1-0026b9348838',
-  providerUuid: 'puuid',
-  clinicalEncounters: [],
-  HIVTRIAGE: 4,
-  total: 4,
-  total_clinical: 0
-}];
+const mockProviderRowData = [
+  {
+    providers: 'Test Provider',
+    location: 'MTRH Module 3',
+    locationUuid: '08fec150-1352-11df-a1f1-0026b9348838',
+    providerUuid: 'puuid',
+    clinicalEncounters: [],
+    HIVTRIAGE: 4,
+    total: 4,
+    total_clinical: 0
+  }
+];
 
 const mockParams = {
   providerUuid: 'puuid',
@@ -77,21 +85,19 @@ describe('Component: Data Entry Provider List', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports:
-        [
-          AgGridModule.withComponents([])
-        ],
-      declarations: [
-        DataEntryStatisticsProviderListComponent
-      ],
-      providers: [
-      ]
-    }).compileComponents()
+      imports: [AgGridModule.withComponents([])],
+      declarations: [DataEntryStatisticsProviderListComponent],
+      providers: []
+    })
+      .compileComponents()
       .then(() => {
-        fixture = TestBed.createComponent(DataEntryStatisticsProviderListComponent);
+        fixture = TestBed.createComponent(
+          DataEntryStatisticsProviderListComponent
+        );
         comp = fixture.componentInstance;
-        cd = fixture.debugElement.injector.get<ChangeDetectorRef>(ChangeDetectorRef as any);
-
+        cd = fixture.debugElement.injector.get<ChangeDetectorRef>(
+          ChangeDetectorRef as any
+        );
       });
   }));
 
@@ -114,12 +120,14 @@ describe('Component: Data Entry Provider List', () => {
 
   it('should generate correct provider rows given provider map', (done: DoneFn) => {
     const providerMapData = {
-      encounters: [{
-        encounterUuid: 'a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7',
-        encounter_type: 'HIVTRIAGE',
-        encounters_count: 4,
-        is_clinical: 0
-      }],
+      encounters: [
+        {
+          encounterUuid: 'a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7',
+          encounter_type: 'HIVTRIAGE',
+          encounters_count: 4,
+          is_clinical: 0
+        }
+      ],
       location: 'MTRH Module 3',
       locationUuid: '08fec150-1352-11df-a1f1-0026b9348838',
       providerName: 'Test Provider',
@@ -148,10 +156,13 @@ describe('Component: Data Entry Provider List', () => {
       total_clinical: 0
     };
     comp.params = mockParams;
-    const rowTotalObj = comp.createTotalsRow(totalsMap, totalProvidersEncounters, totalProviderClinicalEncounters);
+    const rowTotalObj = comp.createTotalsRow(
+      totalsMap,
+      totalProvidersEncounters,
+      totalProviderClinicalEncounters
+    );
     expect(rowTotalObj).toEqual(mockTotalRow);
 
     done();
   });
-
 });

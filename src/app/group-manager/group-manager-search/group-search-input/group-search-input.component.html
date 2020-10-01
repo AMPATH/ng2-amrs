@@ -3,14 +3,32 @@
     <form class="form-horizontal">
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="input-group">
-          <input type="text" id="search-textbox" autocomplete="off" class="form-control input-lg search-texbox"
-            [(ngModel)]="searchString" [ngModelOptions]="{standalone: true}" [placeholder]="placeholder" autofocus="true">
+          <input
+            type="text"
+            id="search-textbox"
+            autocomplete="off"
+            class="form-control input-lg search-texbox"
+            [(ngModel)]="searchString"
+            [ngModelOptions]="{ standalone: true }"
+            [placeholder]="placeholder"
+            autofocus="true"
+          />
           <span class="input-group-btn large-search">
-            <button [disabled]="isLoading || !searchString" class="btn btn-primary btn-lg search_btn" (click)="searchGroup()">
+            <button
+              [disabled]="isLoading || !searchString"
+              class="btn btn-primary btn-lg search_btn"
+              (click)="searchGroup()"
+            >
               <span><i class="fa fa-search"></i> Search </span>
-              <i *ngIf="isLoading" class="fa fa-spinner fa-spin fa-1x fa-fw"></i>
+              <i
+                *ngIf="isLoading"
+                class="fa fa-spinner fa-spin fa-1x fa-fw"
+              ></i>
             </button>
-            <button class="btn btn-danger btn-lg reset_btn" (click)="resetSearchList()">
+            <button
+              class="btn btn-danger btn-lg reset_btn"
+              (click)="resetSearchList()"
+            >
               <i class="fa fa-trash fa-fw"></i> Reset
             </button>
           </span>
@@ -20,19 +38,45 @@
   </div>
 
   <div class="row" *ngIf="isModal">
-    <form class="form-horizontal" #modalSearchForm="ngForm" (ngSubmit)="searchGroup()">
+    <form
+      class="form-horizontal"
+      #modalSearchForm="ngForm"
+      (ngSubmit)="searchGroup()"
+    >
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="input-group">
-          <input type="text" autocomplete="off" class="form-control" [(ngModel)]="searchString" [ngModelOptions]="{standalone: true}"
-            [placeholder]="placeholder" autofocus="true">
-          <div class="input-group-btn" style="margin-left: 15px;">
-            <button mat-raised-button style="color: white;" [disabled]="isLoading || !searchString" type="submit" class="btn btn-primary" (click)="searchGroup()">
+          <input
+            type="text"
+            autocomplete="off"
+            class="form-control"
+            [(ngModel)]="searchString"
+            [ngModelOptions]="{ standalone: true }"
+            [placeholder]="placeholder"
+            autofocus="true"
+          />
+          <div class="input-group-btn" style="margin-left: 15px">
+            <button
+              mat-raised-button
+              style="color: white"
+              [disabled]="isLoading || !searchString"
+              type="submit"
+              class="btn btn-primary"
+              (click)="searchGroup()"
+            >
               <i *ngIf="!isLoading" class="fa fa-search"></i>
-              <i *ngIf="isLoading" class="fa fa-spinner fa-spin fa-1x fa-fw"></i>
+              <i
+                *ngIf="isLoading"
+                class="fa fa-spinner fa-spin fa-1x fa-fw"
+              ></i>
             </button>
           </div>
-          <div class="input-group-btn" style="margin-left: 15px;">
-            <button mat-raised-button style="background: #dd1a15; color: white;" type="reset" (click)="resetSearchList($event)">
+          <div class="input-group-btn" style="margin-left: 15px">
+            <button
+              mat-raised-button
+              style="background: #dd1a15; color: white"
+              type="reset"
+              (click)="resetSearchList($event)"
+            >
               <i class="fa fa-trash"></i>
             </button>
           </div>
@@ -41,19 +85,29 @@
     </form>
   </div>
   <div class="search-options">
-    <mat-slide-toggle (change)="toggleSearchByLandmark($event)" color="primary"><span class="text-info text-bold" style="font-size: 13px;">Search
-        by landmark</span></mat-slide-toggle>
+    <mat-slide-toggle (change)="toggleSearchByLandmark($event)" color="primary"
+      ><span class="text-info text-bold" style="font-size: 13px"
+        >Search by landmark</span
+      ></mat-slide-toggle
+    >
   </div>
   <div class="col-md-12 col-lg-10 col-sm-12 col-xs-12" *ngIf="errorMessage">
     <div class="alert">
-      <span>An error occurred: <i class="total text-bold text-danger">{{errorMessage}}</i></span>
+      <span
+        >An error occurred:
+        <i class="total text-bold text-danger">{{ errorMessage }}</i></span
+      >
     </div>
   </div>
   <div class="col-md-12 col-lg-10 col-sm-12 col-xs-12" *ngIf="totalGroups == 0">
     <div class="alert" *ngIf="lastSearchString">
-      <span>No matching results for <i class="total text-bold">{{lastSearchString}}</i> under
+      <span
+        >No matching results for
+        <i class="total text-bold">{{ lastSearchString }}</i> under
         <ng-container *ngIf="searchByLandmark"> landmark. </ng-container>
-        <ng-container *ngIf="!searchByLandmark"> group name or number.</ng-container>
+        <ng-container *ngIf="!searchByLandmark">
+          group name or number.</ng-container
+        >
       </span>
     </div>
   </div>

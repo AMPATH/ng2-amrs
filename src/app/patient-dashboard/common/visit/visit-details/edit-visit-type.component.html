@@ -1,14 +1,36 @@
 <div *ngIf="isEditVisitType" class="edit-visits">
   <label for="visitType">Select Visit Type:</label>
   <div *ngIf="error.display" class="alert alert-danger alert-dismissible">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-    {{error?.message}}
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+      ×
+    </button>
+    {{ error?.message }}
   </div>
   <div class="visit-type-select">
-    <ng-select class="sharp-corners" name="visitType" (change)="onVisitTypeChanged($event)" [(ngModel)]="visitType" [items]="visitTypes">
+    <ng-select
+      class="sharp-corners"
+      name="visitType"
+      (change)="onVisitTypeChanged($event)"
+      [(ngModel)]="visitType"
+      [items]="visitTypes"
+    >
     </ng-select>
-
   </div>
-  <button *ngIf="!error.display" (click)="saveVisit()" class="btn btn-primary" style="display:inline-block;">Save <i  *ngIf="saving" class='fa fa-circle-o-notch fa-spin'></i></button>
-  <button *ngIf="error.display" (click)="saveVisit()" class="btn btn-primary" style="display:inline-block;" disabled>Save <i  *ngIf="saving" class='fa fa-circle-o-notch fa-spin'></i></button>
+  <button
+    *ngIf="!error.display"
+    (click)="saveVisit()"
+    class="btn btn-primary"
+    style="display: inline-block"
+  >
+    Save <i *ngIf="saving" class="fa fa-circle-o-notch fa-spin"></i>
+  </button>
+  <button
+    *ngIf="error.display"
+    (click)="saveVisit()"
+    class="btn btn-primary"
+    style="display: inline-block"
+    disabled
+  >
+    Save <i *ngIf="saving" class="fa fa-circle-o-notch fa-spin"></i>
+  </button>
 </div>

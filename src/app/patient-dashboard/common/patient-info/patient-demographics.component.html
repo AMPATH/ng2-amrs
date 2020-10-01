@@ -1,4 +1,3 @@
-
 <div class="col-md-10 col-lg-10 col-sm-12 col-xs-12">
   <table class="table table-striped" *ngIf="patient">
     <thead>
@@ -8,22 +7,38 @@
       </tr>
     </thead>
     <tbody>
-       <tr>
-         <td><strong>Name :</strong> {{patient.person.display | uppercase}}</td>
-         <td class="{{ patient.person.dead ? 'text-danger' : '' }}"><strong>Deceased : </strong><span *ngIf="patient.person.dead" class="{{ patient.person.dead ? 'text-danger' : '' }}"><strong>Yes</strong></span><span *ngIf="!patient.person.dead">No</span></td>
-       </tr>
-       <tr>
-         <td><strong>Gender : </strong>{{patient.person.gender}}</td>
-         <td><strong>Cause of Death : </strong>{{patient.person.causeOfDeath}}</td>
-       </tr>
-       <tr>
-         <td><strong>DOB :</strong> {{patient.person.birthdate | stringToDate : 'DD-MM-YYYY'}}</td>
-         <td><strong>Death Date : </strong>{{patient.person.deathDate | date: 'dd-MM-yyyy'}}</td>
-       </tr>
-         <tr>
-           <td><strong>Age  : </strong> {{patient.person.age}}</td>
-         <td>&nbsp;</td>
-       </tr>
+      <tr>
+        <td>
+          <strong>Name :</strong> {{ patient.person.display | uppercase }}
+        </td>
+        <td class="{{ patient.person.dead ? 'text-danger' : '' }}">
+          <strong>Deceased : </strong
+          ><span
+            *ngIf="patient.person.dead"
+            class="{{ patient.person.dead ? 'text-danger' : '' }}"
+            ><strong>Yes</strong></span
+          ><span *ngIf="!patient.person.dead">No</span>
+        </td>
+      </tr>
+      <tr>
+        <td><strong>Gender : </strong>{{ patient.person.gender }}</td>
+        <td>
+          <strong>Cause of Death : </strong>{{ patient.person.causeOfDeath }}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <strong>DOB :</strong>
+          {{ patient.person.birthdate | stringToDate: 'DD-MM-YYYY' }}
+        </td>
+        <td>
+          <strong>Death Date : </strong
+          >{{ patient.person.deathDate | date: 'dd-MM-yyyy' }}
+        </td>
+      </tr>
+      <tr>
+        <td><strong>Age : </strong> {{ patient.person.age }}</td>
+      </tr>
     </tbody>
   </table>
 </div>

@@ -9,9 +9,7 @@ import { PatientService } from '../../patient-dashboard/services/patient.service
 import { PatientTransferService } from '../../patient-dashboard/common/formentry/patient-transfer.service';
 import { ProgramService } from '../../patient-dashboard/programs/program.service';
 import { DepartmentProgramsConfigService } from '../../etl-api/department-programs-config.service';
-import {
-  UserDefaultPropertiesService
-} from '../../user-default-properties/user-default-properties.service';
+import { UserDefaultPropertiesService } from '../../user-default-properties/user-default-properties.service';
 import { PatientProgramResourceService } from '../../etl-api/patient-program-resource.service';
 import { LocalStorageService } from '../../utils/local-storage.service';
 import { ProgramManagerService } from '../program-manager.service';
@@ -21,7 +19,9 @@ import { ProgramManagerService } from '../program-manager.service';
   templateUrl: './edit-program.component.html',
   styleUrls: ['./edit-program.component.css']
 })
-export class EditProgramComponent extends ProgramManagerBaseComponent implements OnInit {
+export class EditProgramComponent
+  extends ProgramManagerBaseComponent
+  implements OnInit {
   public programsToEdit: any[] = [];
   public updating = false;
   public theChange: string;
@@ -29,24 +29,30 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
   public successValue: any;
   public formsFilled = false;
 
-  constructor(public patientService: PatientService,
-              public patientTransferService: PatientTransferService,
-              public programService: ProgramService,
-              public router: Router,
-              public route: ActivatedRoute,
-              public departmentProgramService: DepartmentProgramsConfigService,
-              public userDefaultPropertiesService: UserDefaultPropertiesService,
-              public patientProgramResourceService: PatientProgramResourceService,
-              public cdRef: ChangeDetectorRef,
-              public localStorageService: LocalStorageService,
-              private programManagerService: ProgramManagerService) {
-    super(patientService,
+  constructor(
+    public patientService: PatientService,
+    public patientTransferService: PatientTransferService,
+    public programService: ProgramService,
+    public router: Router,
+    public route: ActivatedRoute,
+    public departmentProgramService: DepartmentProgramsConfigService,
+    public userDefaultPropertiesService: UserDefaultPropertiesService,
+    public patientProgramResourceService: PatientProgramResourceService,
+    public cdRef: ChangeDetectorRef,
+    public localStorageService: LocalStorageService,
+    private programManagerService: ProgramManagerService
+  ) {
+    super(
+      patientService,
       programService,
       router,
       route,
       departmentProgramService,
       userDefaultPropertiesService,
-      patientProgramResourceService, cdRef, localStorageService);
+      patientProgramResourceService,
+      cdRef,
+      localStorageService
+    );
   }
 
   public ngOnInit() {
@@ -54,28 +60,35 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
     this.title = 'Select Programs to edit';
     this.route.params.subscribe((params) => {
       this.getDepartmentConf();
-      this.loadPatientProgramConfig().pipe(take(1)).subscribe((loaded) => {
-        if (loaded) {
-          this.mapEnrolledProgramsToDepartment(true);
-          this.setUserDefaultLocation();
-          if (loaded && params['step']) {
-            this.loadOnParamInit(params);
+      this.loadPatientProgramConfig()
+        .pipe(take(1))
+        .subscribe(
+          (loaded) => {
+            if (loaded) {
+              this.mapEnrolledProgramsToDepartment(true);
+              this.setUserDefaultLocation();
+              if (loaded && params['step']) {
+                this.loadOnParamInit(params);
+              }
+            }
+          },
+          () => {
+            this.loaded = true;
+            this.hasError = true;
           }
-        }
-      }, () => {
-        this.loaded = true;
-        this.hasError = true;
-      });
+        );
     });
-
   }
 
   public updateProgramsToEdit(event, program) {
-    this.programVisitConfig = _.get(this.allPatientProgramVisitConfigs, program.programUuid);
+    this.programVisitConfig = _.get(
+      this.allPatientProgramVisitConfigs,
+      program.programUuid
+    );
     if (this.programVisitConfig && this.hasStateChangeEncounterTypes()) {
       _.extend(program, {
-        stateChangeEncounterTypes:
-        this.programVisitConfig.enrollmentOptions.stateChangeEncounterTypes
+        stateChangeEncounterTypes: this.programVisitConfig.enrollmentOptions
+          .stateChangeEncounterTypes
       });
     }
     if (event.target.checked) {
@@ -129,7 +142,6 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
       this.tick(3000).then(() => {
         this.refreshPatient();
       });
-
     }
   }
 
@@ -137,8 +149,10 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
     this.resetNext();
     this.currentStep = 1;
     this.jumpStep = 1;
-    const _route = '/patient-dashboard/patient/' + this.patient.uuid
-      + '/general/general/program-manager/edit-program';
+    const _route =
+      '/patient-dashboard/patient/' +
+      this.patient.uuid +
+      '/general/general/program-manager/edit-program';
     this.router.navigate([_route], {});
   }
 
@@ -147,7 +161,14 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
   }
 
   public goToPatientDashboard() {
-    this.router.navigate(['/patient-dashboard/patient/' + this.patient.uuid + '/general/general/landing-page'], {});
+    this.router.navigate(
+      [
+        '/patient-dashboard/patient/' +
+          this.patient.uuid +
+          '/general/general/landing-page'
+      ],
+      {}
+    );
   }
 
   public stopPrograms() {
@@ -186,24 +207,42 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
       switch (queryParams.notice) {
         case 'location':
           this.title = queryParams.change + ' Program Location Change';
-          this.showMessage('The patient has been transferred to the ' + queryParams.change + ' department at ' +
-            this.selectedLocation.display + ' successfully.', 'info');
+          this.showMessage(
+            'The patient has been transferred to the ' +
+              queryParams.change +
+              ' department at ' +
+              this.selectedLocation.display +
+              ' successfully.',
+            'info'
+          );
           break;
         case 'pmtct':
-          this.showMessage('The patient has been transferred to MCH and successfully enrolled in PMTCT.', 'info');
+          this.showMessage(
+            'The patient has been transferred to MCH and successfully enrolled in PMTCT.',
+            'info'
+          );
           break;
         case 'adherence':
           this.title = 'Program Successfully Started';
-          this.showMessage('The patient has been enrolled in Viremia Program successfully.', 'info');
+          this.showMessage(
+            'The patient has been enrolled in Viremia Program successfully.',
+            'info'
+          );
           break;
         case 'other':
           this.title = 'Programs Successfully Stopped';
-          this.showMessage('The patient has been transferred to a Non-Ampath location successfully. All active programs ' +
-            'in the current location have been stopped', 'info');
+          this.showMessage(
+            'The patient has been transferred to a Non-Ampath location successfully. All active programs ' +
+              'in the current location have been stopped',
+            'info'
+          );
           break;
         case 'dc':
           this.title = 'Program Successfully Started';
-          this.showMessage('The patient has been enrolled in HIV Differentiated Care Program successfully.', 'info');
+          this.showMessage(
+            'The patient has been enrolled in HIV Differentiated Care Program successfully.',
+            'info'
+          );
           break;
         default:
       }
@@ -220,7 +259,12 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
     if (this.isIncompatibleChoice() && selectedProgram && this.patient) {
       const programs: any[] = [];
       _.each(this.enrolledProgrames, (enrolled: any) => {
-        if (_.includes(_.map(this.incompatibleProgrames, 'uuid'), enrolled.programUuid)) {
+        if (
+          _.includes(
+            _.map(this.incompatibleProgrames, 'uuid'),
+            enrolled.programUuid
+          )
+        ) {
           _.merge(enrolled, {
             dateCompleted: new Date()
           });
@@ -228,22 +272,30 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
         }
       });
       const location = this.localStorageService.getItem('transferLocation');
-      this.programManagerService.editProgramEnrollments(
-        'stop', this.patient, programs, location)
-        .pipe(take(1)).subscribe((editedPrograms) => {
-        if (editedPrograms) {
-          this.autoEnroll(selectedProgram);
-        }
-      }, (err) => {
-        console.log('failed to autenroll', err);
-      });
-    } else if (this.incompatibleCount === 0 && selectedProgram && this.patient) {
+      this.programManagerService
+        .editProgramEnrollments('stop', this.patient, programs, location)
+        .pipe(take(1))
+        .subscribe(
+          (editedPrograms) => {
+            if (editedPrograms) {
+              this.autoEnroll(selectedProgram);
+            }
+          },
+          (err) => {
+            console.log('failed to autenroll', err);
+          }
+        );
+    } else if (
+      this.incompatibleCount === 0 &&
+      selectedProgram &&
+      this.patient
+    ) {
       this.autoEnroll(selectedProgram);
     }
   }
 
   private autoEnroll(selectedProgram: any) {
-    this.updateProgramsToEdit({target: {checked: true}}, selectedProgram);
+    this.updateProgramsToEdit({ target: { checked: true } }, selectedProgram);
     this.goToEditOptions();
     --this.currentStep;
     this.changeLocation();
@@ -256,8 +308,10 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
 
   private pickStateChangeEncounters(target: string[]) {
     const updatedPrograms = _.map(this.programsToEdit, (program) => {
-      program.stateChangeEncounterTypes = _.pick(program.stateChangeEncounterTypes,
-        target);
+      program.stateChangeEncounterTypes = _.pick(
+        program.stateChangeEncounterTypes,
+        target
+      );
       return program;
     });
     this.addToStepInfo({
@@ -275,7 +329,10 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
         this.quickEditProgram(queryParams.program);
       } else {
         this.removeMessage();
-        this.showMessage('The patient is already enrolled in the program.', 'error');
+        this.showMessage(
+          'The patient is already enrolled in the program.',
+          'error'
+        );
       }
     } else if (queryParams && queryParams.stop) {
       this.stopPatientCurrentLocationPrograms(queryParams.stop);
@@ -298,56 +355,82 @@ export class EditProgramComponent extends ProgramManagerBaseComponent implements
     } else {
       this.currentStep = 1;
       this.jumpStep = -1;
-      const _route = '/patient-dashboard/patient/' + this.patient.uuid
-        + '/general/general/program-manager/edit-program';
+      const _route =
+        '/patient-dashboard/patient/' +
+        this.patient.uuid +
+        '/general/general/program-manager/edit-program';
       this.router.navigate([_route], {});
     }
   }
 
   private stopPatientCurrentLocationPrograms(department: string) {
     const location = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
-    const departmentPrograms: any = _.find(this.enrolledProgramsByDepartment, (_department: any) => {
-      if (_department.name === department) {
-        _department.show = false;
-        return _department.name === department;
+    const departmentPrograms: any = _.find(
+      this.enrolledProgramsByDepartment,
+      (_department: any) => {
+        if (_department.name === department) {
+          _department.show = false;
+          return _department.name === department;
+        }
       }
-    });
+    );
     if (departmentPrograms) {
-      this.programManagerService.editProgramEnrollments(
-        'stop', this.patient, departmentPrograms.programs, location)
-        .pipe(take(1)).subscribe((editedPrograms) => {
-        this.patientService.reloadCurrentPatient();
-        this.theChangeComplete = true;
-        this.showNoticeIfPossible();
-        this.removeTransferInfo();
-        this.patientTransferService.clearTransferState();
-      }, (err) => {
-        console.log('failed to autenroll', err);
-      });
+      this.programManagerService
+        .editProgramEnrollments(
+          'stop',
+          this.patient,
+          departmentPrograms.programs,
+          location
+        )
+        .pipe(take(1))
+        .subscribe(
+          (editedPrograms) => {
+            this.patientService.reloadCurrentPatient();
+            this.theChangeComplete = true;
+            this.showNoticeIfPossible();
+            this.removeTransferInfo();
+            this.patientTransferService.clearTransferState();
+          },
+          (err) => {
+            console.log('failed to autenroll', err);
+          }
+        );
     }
   }
 
   private changePatientProgramLocations(department) {
-    const departmentPrograms: any = _.find(this.enrolledProgramsByDepartment, (_department: any) => {
-      _department.show = false;
-      if (_department.name === department) {
-        return _department.name === department;
+    const departmentPrograms: any = _.find(
+      this.enrolledProgramsByDepartment,
+      (_department: any) => {
+        _department.show = false;
+        if (_department.name === department) {
+          return _department.name === department;
+        }
       }
-    });
+    );
 
     if (departmentPrograms) {
-      this.programManagerService.editProgramEnrollments(
-        'transfer', this.patient, departmentPrograms.programs, localStorage.getItem('transferLocation'))
-        .pipe(take(1)).subscribe((editedPrograms) => {
-        this.selectedLocation = (_.last(editedPrograms) as any).location;
-        this.patientService.reloadCurrentPatient();
-        this.theChangeComplete = true;
-        this.showNoticeIfPossible();
-        this.removeTransferInfo();
-        this.patientTransferService.clearTransferState();
-      }, (err) => {
-        console.error('failed to autenroll', err);
-      });
+      this.programManagerService
+        .editProgramEnrollments(
+          'transfer',
+          this.patient,
+          departmentPrograms.programs,
+          localStorage.getItem('transferLocation')
+        )
+        .pipe(take(1))
+        .subscribe(
+          (editedPrograms) => {
+            this.selectedLocation = (_.last(editedPrograms) as any).location;
+            this.patientService.reloadCurrentPatient();
+            this.theChangeComplete = true;
+            this.showNoticeIfPossible();
+            this.removeTransferInfo();
+            this.patientTransferService.clearTransferState();
+          },
+          (err) => {
+            console.error('failed to autenroll', err);
+          }
+        );
     }
   }
 

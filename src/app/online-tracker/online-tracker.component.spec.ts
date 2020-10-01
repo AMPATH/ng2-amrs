@@ -1,8 +1,12 @@
 /* tslint:disable:no-unused-variable */
 
 import {
-  TestBed, async, fakeAsync, ComponentFixture,
-  tick, discardPeriodicTasks
+  TestBed,
+  async,
+  fakeAsync,
+  ComponentFixture,
+  tick,
+  discardPeriodicTasks
 } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 import { OnlineTrackerComponent } from './online-tracker.component';
@@ -15,12 +19,10 @@ import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 class DataStub {
-
   public updateOnlineStatus(): Promise<any> {
     alert('Data stub call');
     return Promise.resolve(true);
   }
-
 }
 
 describe('Component: OnlineTracker', () => {
@@ -44,13 +46,11 @@ describe('Component: OnlineTracker', () => {
     })
       .compileComponents()
       .then(() => {
-
         fixture = TestBed.createComponent(OnlineTrackerComponent);
         debugElement = fixture.debugElement;
         element = fixture.nativeElement;
         component = fixture.componentInstance;
         dataStub = fixture.debugElement.injector.get(OnlineTrackerService);
-
       });
   }));
 
@@ -74,7 +74,6 @@ describe('Component: OnlineTracker', () => {
     expect(component.isUpdating).toBe(false);
     expect(spy.calls.any()).toEqual(true);
     discardPeriodicTasks();
-
   }));
 
   it('should set online to false when updateOnline return false', fakeAsync(() => {
@@ -89,6 +88,5 @@ describe('Component: OnlineTracker', () => {
     expect(component.isUpdating).toBe(false);
     expect(spy.calls.any()).toEqual(true);
     discardPeriodicTasks();
-
   }));
 });

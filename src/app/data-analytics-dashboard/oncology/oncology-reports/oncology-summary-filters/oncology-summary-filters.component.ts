@@ -1,13 +1,17 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  OnChanges,
+  SimpleChanges
+} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import * as _ from 'lodash';
 import * as Moment from 'moment';
 
-import { AppFeatureAnalytics
-} from '../../../../shared/app-analytics/app-feature-analytics.service';
-import { DataAnalyticsDashboardService
-} from '../../../services/data-analytics-dashboard.services';
+import { AppFeatureAnalytics } from '../../../../shared/app-analytics/app-feature-analytics.service';
+import { DataAnalyticsDashboardService } from '../../../services/data-analytics-dashboard.services';
 
 @Component({
   selector: 'oncology-summary-filters',
@@ -29,9 +33,9 @@ export class OncologySummaryFiltersComponent implements OnInit, OnChanges {
   public data = [];
   public sectionsDef = [];
   public isAggregated: boolean;
-  public selectedIndicators  = [];
-  public enabledControls = 'datesControl,' +
-    'ageControl,genderControl,locationControl,periodControl';
+  public selectedIndicators = [];
+  public enabledControls =
+    'datesControl,' + 'ageControl,genderControl,locationControl,periodControl';
   public isLoadingReport = false;
   public encounteredError = false;
   public errorMessage = '';
@@ -47,7 +51,8 @@ export class OncologySummaryFiltersComponent implements OnInit, OnChanges {
     protected appFeatureAnalytics: AppFeatureAnalytics,
     public dataAnalyticsDashboardService: DataAnalyticsDashboardService,
     private router: Router,
-    private route: ActivatedRoute) {}
+    private route: ActivatedRoute
+  ) {}
 
   public ngOnInit() {}
 
@@ -56,8 +61,9 @@ export class OncologySummaryFiltersComponent implements OnInit, OnChanges {
   }
 
   public getLocationsSelected() {
-    this.dataAnalyticsDashboardService.getSelectedMonthlyIndicatorLocations().subscribe(
-      (data)  => {
+    this.dataAnalyticsDashboardService
+      .getSelectedMonthlyIndicatorLocations()
+      .subscribe((data) => {
         if (data) {
           this.locationUuids = data.locations;
         }
@@ -74,8 +80,8 @@ export class OncologySummaryFiltersComponent implements OnInit, OnChanges {
     const selectedGender = [];
     _.each(genderArray, (gender) => {
       selectedGender.push({
-        'label': gender,
-        'value':  gender
+        label: gender,
+        value: gender
       });
     });
     this.selectedGender = selectedGender;
@@ -97,25 +103,24 @@ export class OncologySummaryFiltersComponent implements OnInit, OnChanges {
   public storeReportParamsInUrl() {
     const urlParams = this.route.snapshot.queryParams;
     const queryParams = {
-      'endDate': Moment(this.endDate).format('YYYY-MM-DD'),
-      'startDate': Moment(this.startDate).format('YYYY-MM-DD'),
-      'indicators': this.indicators,
-      'gender': this.gender,
-      'period': this.period,
-      'startAge': this.ageRangeStart,
-      'endAge': this.ageRangeEnd,
-      'type': this.reportType,
-      'report': urlParams.report,
-      'reportIndex': this.reportIndex,
-      'reportUuid': this.reportUuid,
-      'locationUuids': this.getSelectedLocations(this.locationUuids)
+      endDate: Moment(this.endDate).format('YYYY-MM-DD'),
+      startDate: Moment(this.startDate).format('YYYY-MM-DD'),
+      indicators: this.indicators,
+      gender: this.gender,
+      period: this.period,
+      startAge: this.ageRangeStart,
+      endAge: this.ageRangeEnd,
+      type: this.reportType,
+      report: urlParams.report,
+      reportIndex: this.reportIndex,
+      reportUuid: this.reportUuid,
+      locationUuids: this.getSelectedLocations(this.locationUuids)
     };
 
     this.router.navigate(['./'], {
       queryParams: queryParams,
       relativeTo: this.route
     });
-
   }
 
   public getSelectedLocations(locationUuids: Array<string>): string {
@@ -129,7 +134,8 @@ export class OncologySummaryFiltersComponent implements OnInit, OnChanges {
       if (i === 0) {
         selectedLocations = selectedLocations + (locationUuids[0] as any).value;
       } else {
-        selectedLocations = selectedLocations + ',' + (locationUuids[i] as any).value;
+        selectedLocations =
+          selectedLocations + ',' + (locationUuids[i] as any).value;
       }
     }
     return selectedLocations;
@@ -148,7 +154,6 @@ export class OncologySummaryFiltersComponent implements OnInit, OnChanges {
       dates.push(data);
     }
     return dates;
-
   }
   public onAgeChangeFinished($event) {
     this.ageRangeStart = $event.ageFrom;
@@ -184,9 +189,13 @@ export class OncologySummaryFiltersComponent implements OnInit, OnChanges {
   }
 
   public translateIndicator(indicator: string) {
-    return indicator.toLowerCase().split('_').map((word) => {
-      return (word.charAt(0) + word.slice(1));
-    }).join(' ');
+    return indicator
+      .toLowerCase()
+      .split('_')
+      .map((word) => {
+        return word.charAt(0) + word.slice(1);
+      })
+      .join(' ');
   }
 
   public formatGenderToSelectArray(genderParam: string) {

@@ -1,23 +1,21 @@
 .cohort-field {
-    margin: 4px;
-    margin-top: 8px;
-    font-weight: bold;
+  margin: 4px;
+  margin-top: 8px;
+  font-weight: bold;
 }
 
 .selectable-field-wrapper {
-    border: 1px solid lightblue;
-    padding: 4px;
+  border: 1px solid lightblue;
+  padding: 4px;
 }
 
 #add-cohort-member-container {
-    max-height: 500px;
-    overflow-y: scroll;
+  max-height: 500px;
+  overflow-y: scroll;
 }
 
-
 @media screen and (min-width: 768px) {
-   #add-cohort-member-container {
+  #add-cohort-member-container {
     max-height: 500px;
-   }
-
+  }
 }

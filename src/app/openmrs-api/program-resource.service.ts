@@ -1,5 +1,4 @@
-
-import {map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Observable } from 'rxjs';
@@ -9,33 +8,35 @@ import { HttpParams, HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class ProgramResourceService {
-
-  constructor(protected http: HttpClient, protected appSettingsService: AppSettingsService) {
-  }
+  constructor(
+    protected http: HttpClient,
+    protected appSettingsService: AppSettingsService
+  ) {}
 
   public getUrl(): string {
-
     return this.appSettingsService.getOpenmrsRestbaseurl().trim() + 'program';
   }
 
   public getPrograms(): Observable<any> {
-
     const url = this.getUrl();
     const v = 'custom:(uuid,display,allWorkflows,concept:(uuid,display))';
 
-    const params: HttpParams = new HttpParams()
-    .set('v', v);
-    return this.http.get<any>(url, {
-      params: params
-    }).pipe(map((response) => {
-      return this.processPrograms(response.results);
-    }));
+    const params: HttpParams = new HttpParams().set('v', v);
+    return this.http
+      .get<any>(url, {
+        params: params
+      })
+      .pipe(
+        map((response) => {
+          return this.processPrograms(response.results);
+        })
+      );
   }
 
   // get program incompatibilities
 
   public getProgramsIncompatibilities() {
-       return this.http.get('../patient-dashboard/programs/programs.json');
+    return this.http.get('../patient-dashboard/programs/programs.json');
   }
 
   public getProgramByUuid(uuid: string) {

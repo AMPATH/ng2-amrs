@@ -9,7 +9,7 @@ import * as _ from 'lodash';
 @Component({
   selector: 'ipt-base-report',
   templateUrl: './ipt-report-base.component.html',
-  styleUrls: ['./ipt-report-base.component.css'],
+  styleUrls: ['./ipt-report-base.component.css']
 })
 export class IptBaseReportComponent implements OnInit {
   public isLoading = false;
@@ -19,7 +19,7 @@ export class IptBaseReportComponent implements OnInit {
   public params: {
     locationUuids: string;
     endDate: any;
-    displayTabluarFilters: boolean;
+    displayTabularFilters: boolean;
   };
   public showInfoMessage: boolean;
   public statusError: boolean;
@@ -43,7 +43,7 @@ export class IptBaseReportComponent implements OnInit {
     });
   }
 
-  public ngOnInit() { }
+  public ngOnInit() {}
 
   public onMonthChange(value): any {
     this.month = Moment(value).endOf('month').format('YYYY-MM-DD');
@@ -52,22 +52,21 @@ export class IptBaseReportComponent implements OnInit {
   public generateReport() {
     this.isLoading = true;
     this.route.parent.parent.params.subscribe((params: any) => {
-      this.locationUuids = params.location_uuid;
+      this.storeParamsInUrl(params.location_uuid);
     });
-    this.storeParamsinUrl();
     this.getIptReportSummaryData();
   }
 
-  public storeParamsinUrl() {
+  public storeParamsInUrl(param) {
     this.params = {
-      locationUuids: this.locationUuids,
+      locationUuids: param,
       endDate: Moment(this.month).endOf('month').format('YYYY-MM-DD'),
-      displayTabluarFilters: this.displayTabluarFilters,
+      displayTabularFilters: this.displayTabluarFilters
     };
     // store params in url
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: this.params,
+      queryParams: this.params
     });
   }
 
@@ -82,8 +81,8 @@ export class IptBaseReportComponent implements OnInit {
         indicators: value.field,
         indicatorHeader: value.headerName,
         locationUuids: value.location,
-        endDate: this.month,
-      },
+        endDate: this.month
+      }
     });
   }
 
@@ -106,7 +105,7 @@ export class IptBaseReportComponent implements OnInit {
     const totalsRow = [];
     if (this.iptReportData.length > 0) {
       const totalObj = {
-        location: 'Totals',
+        location: 'Totals'
       };
       _.each(this.iptReportData, (row) => {
         Object.keys(row).map((key, index) => {

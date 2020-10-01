@@ -1,21 +1,31 @@
-
-<h4 class="component-title" style="color: green;"><span class="glyphicon glyphicon-equalizer"></span>  HIV Summary Monthly Indicators</h4>
-<div class="loader" *ngIf="isLoadingReport"><span><i class="fa fa-spinner fa-spin">
-      </i>Loading...</span></div>
-<report-filters  [enabledControls]="enabledControls" [(startDate)]="startDate" [(endDate)]="endDate" [start]="ageRangeStart" [end]="ageRangeEnd"
-                (onAgeChangeFinish)="onAgeChangeFinished($event)"
-                     (onGenderChange)="getSelectedGender($event)"
-                     (onIndicatorChange)="getSelectedIndicators($event)"
-                    [selectedIndicators]="selectedIndicators"
-                    [selectedGender]="selectedGender"
-                     [reportName]="reportName" [parentIsBusy]="isLoadingReport"
-                    (generateReport)="generateReport()">
-
+<h4 class="component-title" style="color: green">
+  <span class="glyphicon glyphicon-equalizer"></span> HIV Summary Monthly
+  Indicators
+</h4>
+<div class="loader" *ngIf="isLoadingReport">
+  <span><i class="fa fa-spinner fa-spin"> </i>Loading...</span>
+</div>
+<report-filters
+  [enabledControls]="enabledControls"
+  [(startDate)]="startDate"
+  [(endDate)]="endDate"
+  [start]="ageRangeStart"
+  [end]="ageRangeEnd"
+  (onAgeChangeFinish)="onAgeChangeFinished($event)"
+  (onGenderChange)="getSelectedGender($event)"
+  (onIndicatorChange)="getSelectedIndicators($event)"
+  [selectedIndicators]="selectedIndicators"
+  [selectedGender]="selectedGender"
+  [reportName]="reportName"
+  [parentIsBusy]="isLoadingReport"
+  (generateReport)="generateReport()"
+>
 </report-filters>
 <div class="alert alert-danger fade in" *ngIf="encounteredError">
   <a class="close" data-dismiss="alert">&times;</a>
-  <h4><strong><span class="glyphicon glyphicon-warning-sign"></span> </strong> An error occured while trying to load the report.
-    Please try again.
+  <h4>
+    <strong><span class="glyphicon glyphicon-warning-sign"></span> </strong> An
+    error occured while trying to load the report. Please try again.
   </h4>
   <p>
     <small>{{errorMessage}}</small>
@@ -23,9 +33,18 @@
 </div>
 <div *ngIf="!isLoadingReport && !encounteredError">
   <p-tabView (onChange)="onTabChanged($event)">
-    <p-tabPanel header="Tabular View" leftIcon="fa-table" [selected]="currentView === 'tabular'">
-      <hiv-summary-monthly-tabular [sectionDefs]="sectionsDef"  [rowData]="data" [dates]="dates" [gender]="gender" [age]="age"></hiv-summary-monthly-tabular>
+    <p-tabPanel
+      header="Tabular View"
+      leftIcon="fa-table"
+      [selected]="currentView === 'tabular'"
+    >
+      <hiv-summary-monthly-tabular
+        [sectionDefs]="sectionsDef"
+        [rowData]="data"
+        [dates]="dates"
+        [gender]="gender"
+        [age]="age"
+      ></hiv-summary-monthly-tabular>
     </p-tabPanel>
   </p-tabView>
-
 </div>

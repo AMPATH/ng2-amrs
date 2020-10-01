@@ -1,4 +1,4 @@
-import {ConceptName} from './concept-name.model';
+import { ConceptName } from './concept-name.model';
 
 describe('Model: conceptName', () => {
   const existingConceptName: any = {
@@ -7,9 +7,13 @@ describe('Model: conceptName', () => {
   };
 
   it('it should wrap concept Name Model for display correctly', (done) => {
-    const wrappedConceptNameModel: ConceptName = new ConceptName(existingConceptName);
+    const wrappedConceptNameModel: ConceptName = new ConceptName(
+      existingConceptName
+    );
     expect(wrappedConceptNameModel.name).toEqual(existingConceptName.name);
-    expect(wrappedConceptNameModel.conceptNameType).toEqual(existingConceptName.conceptNameType);
+    expect(wrappedConceptNameModel.conceptNameType).toEqual(
+      existingConceptName.conceptNameType
+    );
     done();
   });
 });

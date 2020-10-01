@@ -10,13 +10,9 @@ describe('GroupEnrollmentComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      providers: [
-        HttpClientTestingModule,
-        NgamrsSharedModule
-      ],
+      providers: [HttpClientTestingModule, NgamrsSharedModule],
       declarations: [GroupEnrollmentComponent]
-    })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -24,5 +20,4 @@ describe('GroupEnrollmentComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
-
 });

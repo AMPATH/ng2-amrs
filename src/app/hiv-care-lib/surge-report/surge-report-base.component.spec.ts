@@ -14,14 +14,16 @@ import { ReportFilterComponent } from 'src/app/reporting-utilities/report-filter
 import { SurgeResourceServiceMock } from 'src/app/etl-api/surge-resource-mock';
 import { Subject } from 'rxjs';
 
-const routes = [{
-  path: 'test',
-  component: SurgeReportTabularComponent
-}];
+const routes = [
+  {
+    path: 'test',
+    component: SurgeReportTabularComponent
+  }
+];
 
 const weeklyQueryParams = {
-  'year_week': 201805,
-  'locationUuids': '294efcca-cf90-40da-8abb-1e082866388d'
+  year_week: 201805,
+  locationUuids: '294efcca-cf90-40da-8abb-1e082866388d'
 };
 
 describe('SurgeReportBaseComponent', () => {
@@ -44,14 +46,11 @@ describe('SurgeReportBaseComponent', () => {
         RouterTestingModule.withRoutes(routes),
         HttpClientTestingModule
       ],
-      schemas: [
-        NO_ERRORS_SCHEMA
-      ]
-    })
-      .compileComponents();
+      schemas: [NO_ERRORS_SCHEMA]
+    }).compileComponents();
   });
 
-  beforeEach(async() => {
+  beforeEach(async () => {
     fixture = TestBed.createComponent(SurgeReportBaseComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -64,7 +63,8 @@ describe('SurgeReportBaseComponent', () => {
   it('should be injected', () => {
     fixture.detectChanges();
     expect(fixture.componentInstance).toBeTruthy();
-    expect(fixture.componentInstance.surgeReport instanceof SurgeResourceService).toBeTruthy();
+    expect(
+      fixture.componentInstance.surgeReport instanceof SurgeResourceService
+    ).toBeTruthy();
   });
-
 });

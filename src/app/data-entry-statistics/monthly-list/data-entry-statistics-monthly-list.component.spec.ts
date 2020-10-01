@@ -4,9 +4,16 @@ import { AgGridModule } from 'ag-grid-angular';
 import { DataEntryStatisticsMonthlyListComponent } from './data-entry-statistics-monthly-list.component';
 
 const mockMonthlyResultRow: any = [
-  { encounterType: 'GENCONSULTATION', encounterUuid: 'uuid1', 'April, 2018': 12, rowTotals: 12 },
   {
-    encounterType: 'OUTREACHFIELDFU', encounterUuid: 'uuid2', 'April, 2018': 2425,
+    encounterType: 'GENCONSULTATION',
+    encounterUuid: 'uuid1',
+    'April, 2018': 12,
+    rowTotals: 12
+  },
+  {
+    encounterType: 'OUTREACHFIELDFU',
+    encounterUuid: 'uuid2',
+    'April, 2018': 2425,
     rowTotals: 2425
   }
 ];
@@ -29,7 +36,7 @@ const mockEncounters = [
     locations: 1,
     month: 'January, 2019',
     month_number: 1,
-    year: 2019,
+    year: 2019
   },
   {
     encounter_type: 'ADULTRETURN',
@@ -81,8 +88,6 @@ const mockEncounters = [
   }
 ];
 
-
-
 describe('Component: Data Entry Monthly List', () => {
   let fixture: ComponentFixture<DataEntryStatisticsMonthlyListComponent>;
   let cd: ChangeDetectorRef;
@@ -90,21 +95,19 @@ describe('Component: Data Entry Monthly List', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports:
-        [
-          AgGridModule.withComponents([])
-        ],
-      declarations: [
-        DataEntryStatisticsMonthlyListComponent
-      ],
-      providers: [
-      ]
-    }).compileComponents()
+      imports: [AgGridModule.withComponents([])],
+      declarations: [DataEntryStatisticsMonthlyListComponent],
+      providers: []
+    })
+      .compileComponents()
       .then(() => {
-        fixture = TestBed.createComponent(DataEntryStatisticsMonthlyListComponent);
+        fixture = TestBed.createComponent(
+          DataEntryStatisticsMonthlyListComponent
+        );
         comp = fixture.componentInstance;
-        cd = fixture.debugElement.injector.get<ChangeDetectorRef>(ChangeDetectorRef as any);
-
+        cd = fixture.debugElement.injector.get<ChangeDetectorRef>(
+          ChangeDetectorRef as any
+        );
       });
   }));
 
@@ -120,9 +123,9 @@ describe('Component: Data Entry Monthly List', () => {
     totalsMap.set('January, 2019', 50);
     const totalEncounters = 50;
     const mockTotalsRow = {
-      'encounterUuid': '',
-      'encounterType': 'Total',
-      'rowTotals': 50,
+      encounterUuid: '',
+      encounterType: 'Total',
+      rowTotals: 50,
       'January, 2019': 50
     };
     const rowTotalObj = comp.createTotalsRow(totalsMap, totalEncounters);
@@ -153,11 +156,11 @@ describe('Component: Data Entry Monthly List', () => {
     const mockMotnhlyRowData = [
       {
         'January, 2019': 1,
-        'encounterTypeUuid': '8d5b27bc-c2cc-11de-8d13-0010c6dffd0f',
-        'encounter_type': 'ADULTINITIAL',
-        'location': 'Test Location',
-        'locationUuid': 'luuid',
-        'rowTotals': 1
+        encounterTypeUuid: '8d5b27bc-c2cc-11de-8d13-0010c6dffd0f',
+        encounter_type: 'ADULTINITIAL',
+        location: 'Test Location',
+        locationUuid: 'luuid',
+        rowTotals: 1
       }
     ];
     encounterMap.set('Test Location', encounterData);
@@ -166,5 +169,4 @@ describe('Component: Data Entry Monthly List', () => {
     expect(comp.setPinnedRow).toHaveBeenCalled();
     done();
   });
-
 });

@@ -1,6 +1,13 @@
 import { FormsModule } from '@angular/forms';
 
-import { async, ComponentFixture, fakeAsync, TestBed, tick, flush } from '@angular/core/testing';
+import {
+  async,
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+  flush
+} from '@angular/core/testing';
 import { LocationResourceService } from '../../../openmrs-api/location-resource.service';
 import { LocationFilterComponent } from './location-filter.component';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -34,8 +41,7 @@ const locations = [
 class FakeLocationResourceService {
   private locations = new BehaviorSubject<any>(null);
 
-  constructor() {
-  }
+  constructor() {}
 
   getLocations(): Observable<any> {
     this.locations.next(locations);
@@ -49,10 +55,7 @@ describe('Component: Location Filter Component', () => {
   let locationResourceService: LocationResourceService;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        FormsModule,
-        HttpClientTestingModule,
-        NgSelectModule],
+      imports: [FormsModule, HttpClientTestingModule, NgSelectModule],
       providers: [
         {
           provide: LocationResourceService,
@@ -79,12 +82,12 @@ describe('Component: Location Filter Component', () => {
   it('should instantiate the component', () => {
     try {
       expect(component).toBeDefined();
-    } catch (e) {
-
-    }
+    } catch (e) {}
   });
-  it('should generate locations, counties, locationDropdownOptions, countyDropdownOptions in ' +
-    'the correct format', fakeAsync(() => {
+  it(
+    'should generate locations, counties, locationDropdownOptions, countyDropdownOptions in ' +
+      'the correct format',
+    fakeAsync(() => {
       spyOn(component, 'resolveLocationDetails').and.callThrough();
       component.resolveLocationDetails();
 
@@ -130,7 +133,7 @@ describe('Component: Location Filter Component', () => {
             display: 'MTRH Module 2'
           }
         ],
-        'Nandi': [
+        Nandi: [
           {
             uuid: '789',
             countyDistrict: 'Kosirai',
@@ -142,14 +145,14 @@ describe('Component: Location Filter Component', () => {
       };
       expect(component.locations).toEqual(_locations);
       expect(component.counties).toEqual(counties);
-      expect(component.locationDropdownOptions).toEqual(
-        [
-          { value: '123', label: 'MTRH Module 1' },
-          { value: '456', label: 'MTRH Module 2' },
-          { value: '789', label: 'Mosoriot' }
-        ]);
+      expect(component.locationDropdownOptions).toEqual([
+        { value: '123', label: 'MTRH Module 1' },
+        { value: '456', label: 'MTRH Module 2' },
+        { value: '789', label: 'Mosoriot' }
+      ]);
       expect(component.countyDropdownOptions).toEqual(['Uasin Gishu', 'Nandi']);
-    }));
+    })
+  );
 
   it('should set locations when a county is given', fakeAsync(() => {
     component.county = 'Uasin Gishu';
@@ -174,8 +177,8 @@ describe('Component: Location Filter Component', () => {
     expect(component.selectedCounty).toEqual('Uasin Gishu');
   }));
 
-  it('should set county when an object of location is given', async() => {
-    component.locationUuids = {value: '123', label: 'MTRH Module 1'};
+  it('should set county when an object of location is given', async () => {
+    component.locationUuids = { value: '123', label: 'MTRH Module 1' };
     await component.ngOnInit();
     // tick();
     fixture.detectChanges();
@@ -196,5 +199,4 @@ describe('Component: Location Filter Component', () => {
     await fixture.whenStable();
     expect(component.selectedCounty).toEqual('N/A');
   });
-
 });

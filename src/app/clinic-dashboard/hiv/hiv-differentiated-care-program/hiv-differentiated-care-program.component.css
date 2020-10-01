@@ -1,9 +1,9 @@
 .center {
-    text-align: center;
+  text-align: center;
 }
 
 .required {
-    padding-right: 25px;
-    color: red;
-    background-position: right top;
+  padding-right: 25px;
+  color: red;
+  background-position: right top;
 }

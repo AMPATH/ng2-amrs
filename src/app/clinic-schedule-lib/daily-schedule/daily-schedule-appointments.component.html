@@ -1,32 +1,61 @@
 <div class="daily-schedule">
-    <div class="loader" *ngIf="busyIndicator.busy"><span><i class="fa fa-spinner fa-spin">
-            </i>{{busyIndicator.message}}</span>
+  <div class="loader" *ngIf="busyIndicator.busy">
+    <span
+      ><i class="fa fa-spinner fa-spin"> </i>{{ busyIndicator.message }}</span
+    >
+  </div>
+  <div>
+    <div style="padding-top: 4px; padding-bottom: 4px">
+      <label
+        >Show Early Appointments:
+        <input
+          style="text-align: center; vertical-align: middle"
+          data-toggle="toggle"
+          type="checkbox"
+          [(ngModel)]="showEarlyAppointments"
+      /></label>
     </div>
-    <div>
-        <div style="padding-top: 4px; padding-bottom: 4px;">
-            <label >Show Early Appointments: <input style="text-align:center; vertical-align:middle" data-toggle="toggle" type="checkbox" [(ngModel)]="showEarlyAppointments" ></label>
-        </div>
+  </div>
+  <patient-list
+    [data]="dailyAppointmentsPatientList"
+    [extraColumns]="extraColumns"
+    [hivColumns]="true"
+  >
+  </patient-list>
+  <div
+    *ngFor="let error of errors"
+    class="alert alert-danger alert-dismissible"
+  >
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+      ×
+    </button>
+    {{ error.message }}
+  </div>
+  <div *ngIf="!dataLoaded">
+    <div class="button">
+      <button
+        class="btn btn-info"
+        (click)="loadMoreAppointments()"
+        style="margin-left: 0"
+      >
+        <i *ngIf="!isLoading" class="fa fa-refresh fa-1x fa-fw"></i>
+        <i *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>
+        <span>Load More...</span>
+      </button>
     </div>
-    <patient-list [data]="dailyAppointmentsPatientList" [extraColumns]="extraColumns" [hivColumns]="true">
-    </patient-list>
-    <div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
-    </div>
-    <div *ngIf='!dataLoaded'>
-        <div class="button">
-            <button class="btn btn-info" (click)="loadMoreAppointments()" style="margin-left:0;">
-              <i *ngIf="!isLoading" class="fa  fa-refresh fa-1x fa-fw"></i>
-              <i *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>
-            <span>Load More...</span>
-            </button>
-        </div>
-    </div>
+  </div>
 
-    <div *ngIf='dataLoaded'>
-        <p class="bg-info" style="padding:4px;">
-            <b>
-			<span style="color:green;">Count: {{dailyAppointmentsPatientList.length }} [All Appointments: {{allAppointments.length }} - Came Early: {{earlyAppointments.length }}]</span></b>
-            <p>
-    </div>
+  <div *ngIf="dataLoaded">
+    <p class="bg-info" style="padding: 4px">
+      <b>
+        <span style="color: green"
+          >Count: {{ dailyAppointmentsPatientList.length }} [All Appointments:
+          {{ allAppointments.length }} - Came Early:
+          {{ earlyAppointments.length }}]</span
+        ></b
+      >
+    </p>
+
+    <p></p>
+  </div>
 </div>
-

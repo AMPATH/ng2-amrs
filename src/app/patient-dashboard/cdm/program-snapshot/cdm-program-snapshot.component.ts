@@ -1,4 +1,3 @@
-
 import { take } from 'rxjs/operators';
 import { OnInit, Component, Input, Output, EventEmitter } from '@angular/core';
 
@@ -19,33 +18,42 @@ export class CdmProgramSnapshotComponent implements OnInit {
   public loadingData = false;
   public hasLoadedData = false;
 
-  constructor(
-    private cdmSummaryResourceService: CdmSummaryResourceService) {
-  }
+  constructor(private cdmSummaryResourceService: CdmSummaryResourceService) {}
 
   public ngOnInit() {
-    _.delay((patientUuid) => {
-      if (_.isNil(this.patient)) {
-        this.hasError = true;
-      } else {
-        this.hasData = false;
-        this.getCdmSummary(patientUuid);
-      }
-    }, 0, this.patient.uuid);
+    _.delay(
+      (patientUuid) => {
+        if (_.isNil(this.patient)) {
+          this.hasError = true;
+        } else {
+          this.hasData = false;
+          this.getCdmSummary(patientUuid);
+        }
+      },
+      0,
+      this.patient.uuid
+    );
   }
 
   public getCdmSummary(patientUuid) {
     this.loadingData = true;
-    this.cdmSummaryResourceService.getCdmSummary(patientUuid, 0, 10).pipe(take(1)).subscribe((results) => {
-      this.loadingData = false;
-      this.hasLoadedData = true;
-      this.hasData = true;
-      this.patientData = _.first(_.filter(results, (encounter: any) => {
-        return encounter.is_clinical_encounter === 1;
-      }));
-    }, (err) => {
-      this.hasError = true;
-    });
+    this.cdmSummaryResourceService
+      .getCdmSummary(patientUuid, 0, 10)
+      .pipe(take(1))
+      .subscribe(
+        (results) => {
+          this.loadingData = false;
+          this.hasLoadedData = true;
+          this.hasData = true;
+          this.patientData = _.first(
+            _.filter(results, (encounter: any) => {
+              return encounter.is_clinical_encounter === 1;
+            })
+          );
+        },
+        (err) => {
+          this.hasError = true;
+        }
+      );
   }
-
 }

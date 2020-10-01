@@ -1,4 +1,9 @@
-import { ComponentFixture, TestBed, async, inject } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  async,
+  inject
+} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { APP_BASE_HREF } from '@angular/common';
 import { AuthenticationService } from '../openmrs-api/authentication.service';
@@ -29,60 +34,66 @@ import { Subject } from 'rxjs';
 
 describe('LoginComponent Unit Tests', () => {
   class MockSwUpdate {
-    $$availableSubj = new Subject<{available: {hash: string}}>();
-    $$activatedSubj = new Subject<{current: {hash: string}}>();
+    $$availableSubj = new Subject<{ available: { hash: string } }>();
+    $$activatedSubj = new Subject<{ current: { hash: string } }>();
 
     available = this.$$availableSubj.asObservable();
     activated = this.$$activatedSubj.asObservable();
 
-    activateUpdate = jasmine.createSpy('MockSwUpdate.activateUpdate')
-                            .and.callFake(() => Promise.resolve());
+    activateUpdate = jasmine
+      .createSpy('MockSwUpdate.activateUpdate')
+      .and.callFake(() => Promise.resolve());
 
-    checkForUpdate = jasmine.createSpy('MockSwUpdate.checkForUpdate')
-                            .and.callFake(() => Promise.resolve());
+    checkForUpdate = jasmine
+      .createSpy('MockSwUpdate.checkForUpdate')
+      .and.callFake(() => Promise.resolve());
   }
   // provide our implementations or mocks to the dependency injector
-  beforeEach(() => TestBed.configureTestingModule({
-    providers: [
-      LoginComponent,
-      AuthenticationService,
-      AppSettingsService,
-      SessionService,
-      LocalStorageService,
-      SessionStorageService,
-      CookieService,
-      provideRoutes([]),
-      UserDefaultPropertiesService,
-      UserService,
-      FormListService,
-      FormsResourceService,
-      FormSchemaCompiler,
-      FormSchemaService,
-      FormUpdaterService,
-      FormOrderMetaDataService,
-      ToastrService,
-      {
-        provide: SwUpdate,
-        useClass: MockSwUpdate
-      }
-    ],
-    imports: [
-      RouterTestingModule,
-      NgamrsSharedModule,
-      CookieModule.forRoot(),
-      HttpClientTestingModule,
-      ToastrModule.forRoot()
-    ]
-  }));
+  beforeEach(() =>
+    TestBed.configureTestingModule({
+      providers: [
+        LoginComponent,
+        AuthenticationService,
+        AppSettingsService,
+        SessionService,
+        LocalStorageService,
+        SessionStorageService,
+        CookieService,
+        provideRoutes([]),
+        UserDefaultPropertiesService,
+        UserService,
+        FormListService,
+        FormsResourceService,
+        FormSchemaCompiler,
+        FormSchemaService,
+        FormUpdaterService,
+        FormOrderMetaDataService,
+        ToastrService,
+        {
+          provide: SwUpdate,
+          useClass: MockSwUpdate
+        }
+      ],
+      imports: [
+        RouterTestingModule,
+        NgamrsSharedModule,
+        CookieModule.forRoot(),
+        HttpClientTestingModule,
+        ToastrModule.forRoot()
+      ]
+    })
+  );
 
   afterEach(() => {
     TestBed.resetTestingModule();
   });
 
-  it('should have required variables', inject([LoginComponent],
+  it('should have required variables', inject(
+    [LoginComponent],
     (loginComponent: LoginComponent) => {
       expect(loginComponent.loginSuccess).toBeTruthy();
       expect(loginComponent.loginFailure).toBeTruthy();
       expect(loginComponent.error).toBe(undefined);
-    }));
+    }
+  ));
 });

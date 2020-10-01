@@ -6,9 +6,7 @@ import * as _ from 'lodash';
 
 import { Patient } from '../../../models/patient.model';
 import { LocationResourceService } from '../../../openmrs-api/location-resource.service';
-import {
-  OncologySummaryResourceService
-} from '../../../etl-api/oncology-summary-resource.service';
+import { OncologySummaryResourceService } from '../../../etl-api/oncology-summary-resource.service';
 
 @Component({
   selector: 'oncology-snapshot',
@@ -30,26 +28,33 @@ export class OncologyProgramSnapshotComponent implements OnInit, OnDestroy {
   public latestEncounterLocation: any;
   public generalOncologyProgramUuid = '725b5193-3452-43fc-aca3-6a80432d9bfa';
   public multipleMyelomaProgramUuid = '698b7153-bff3-4931-9638-d279ca47b32e';
-  public oncologyScreeningAndDiagnosisProgramUuid = '37ff4124-91fd-49e6-8261-057ccfb4fcd0';
+  public oncologyScreeningAndDiagnosisProgramUuid =
+    '37ff4124-91fd-49e6-8261-057ccfb4fcd0';
 
   constructor(
     private oncologySummary: OncologySummaryResourceService,
-    private locationResourceService: LocationResourceService) {
-  }
+    private locationResourceService: LocationResourceService
+  ) {}
 
   public ngOnInit(): void {
-    _.delay((patientUuid) => {
-      if (_.isNil(this.patient)) {
-        this.hasError = true;
-      } else {
-        this.hasData = false;
-        if (this.programUuid === this.oncologyScreeningAndDiagnosisProgramUuid) {
-          this.loadScreeningAndDiagnosisData(patientUuid);
+    _.delay(
+      (patientUuid) => {
+        if (_.isNil(this.patient)) {
+          this.hasError = true;
         } else {
-          this.loadOncologyDataSummary(patientUuid);
+          this.hasData = false;
+          if (
+            this.programUuid === this.oncologyScreeningAndDiagnosisProgramUuid
+          ) {
+            this.loadScreeningAndDiagnosisData(patientUuid);
+          } else {
+            this.loadOncologyDataSummary(patientUuid);
+          }
         }
-      }
-    }, 0, this.patient.uuid);
+      },
+      0,
+      this.patient.uuid
+    );
   }
 
   public ngOnDestroy(): void {
@@ -61,41 +66,47 @@ export class OncologyProgramSnapshotComponent implements OnInit, OnDestroy {
   public loadOncologyDataSummary(patientUuid: any): any {
     if (this.programUuid && patientUuid) {
       this.loadingSummary = true;
-      this.oncologySummary.getOncologySummary(
-        'summary', patientUuid, this.programUuid
-      ).pipe(take(1)).subscribe((summary) => {
-        this.hasLoadedData = true;
-        this.loadingSummary = false;
-        if (summary.length) {
-          if (this.programUuid === this.generalOncologyProgramUuid) {
-            const generalOncologyEncounters = this.getGeneralOncologyEncounters(summary);
-            if (generalOncologyEncounters) {
-              this.summaryData = _.first(generalOncologyEncounters);
+      this.oncologySummary
+        .getOncologySummary('summary', patientUuid, this.programUuid)
+        .pipe(take(1))
+        .subscribe(
+          (summary) => {
+            this.hasLoadedData = true;
+            this.loadingSummary = false;
+            if (summary.length) {
+              if (this.programUuid === this.generalOncologyProgramUuid) {
+                const generalOncologyEncounters = this.getGeneralOncologyEncounters(
+                  summary
+                );
+                if (generalOncologyEncounters) {
+                  this.summaryData = _.first(generalOncologyEncounters);
+                }
+              } else if (this.programUuid === this.multipleMyelomaProgramUuid) {
+                const mmEncounters = this.getMultipleMyelomaEncounters(summary);
+                this.summaryData = _.first(mmEncounters);
+              } else {
+                this.summaryData = summary[0];
+              }
+              if (this.summaryData) {
+                this.hasData = true;
+                this.hasError = false;
+                if (this.summaryData.location_uuid) {
+                  this.resolveLocation(this.summaryData.location_uuid);
+                }
+              }
             }
-          } else if (this.programUuid === this.multipleMyelomaProgramUuid) {
-            const mmEncounters = this.getMultipleMyelomaEncounters(summary);
-            this.summaryData = _.first(mmEncounters);
-          } else {
-            this.summaryData = summary[0];
+          },
+          (error) => {
+            this.loadingSummary = false;
+            this.hasData = false;
+            this.hasError = true;
+            console.error('Error fetching oncology summary: ', error);
+            this.errors.push({
+              id: 'summary',
+              message: 'Error Fetching Summary'
+            });
           }
-          if (this.summaryData) {
-            this.hasData = true;
-            this.hasError = false;
-            if (this.summaryData.location_uuid) {
-              this.resolveLocation(this.summaryData.location_uuid);
-            }
-          }
-        }
-      }, (error) => {
-        this.loadingSummary = false;
-        this.hasData = false;
-        this.hasError = true;
-        console.error('Error fetching oncology summary: ', error);
-        this.errors.push({
-          id: 'summary',
-          message: 'Error Fetching Summary'
-        });
-      });
+        );
     }
   }
 
@@ -125,7 +136,7 @@ export class OncologyProgramSnapshotComponent implements OnInit, OnDestroy {
       '7470': 'Punctuated capillaries',
       '7472': 'Atypical blood vessels',
       '8188': 'Calor',
-      '8189': 'Peau D\'Orange',
+      '8189': "Peau D'Orange",
       '9591': 'Oysterwhite lesion',
       '9592': 'Bright white lesion',
       '9593': 'Friable tissue',
@@ -146,7 +157,11 @@ export class OncologyProgramSnapshotComponent implements OnInit, OnDestroy {
   private getGeneralOncologyEncounters(summaries: any): any[] {
     if (summaries) {
       return _.filter(summaries, (summary: any) => {
-        return summary.is_clinical === 1 && summary.program_id === 6 && (summary.encounter_type === 38 || summary.encounter_type === 39);
+        return (
+          summary.is_clinical === 1 &&
+          summary.program_id === 6 &&
+          (summary.encounter_type === 38 || summary.encounter_type === 39)
+        );
       });
     }
   }
@@ -154,26 +169,32 @@ export class OncologyProgramSnapshotComponent implements OnInit, OnDestroy {
   private getMultipleMyelomaEncounters(summaries: any): any[] {
     if (summaries) {
       return _.filter(summaries, (summary: any) => {
-        return summary.is_clinical === 1
-          && (summary.encounter_type === 89 || summary.encounter_type === 90);
+        return (
+          summary.is_clinical === 1 &&
+          (summary.encounter_type === 89 || summary.encounter_type === 90)
+        );
       });
     }
   }
 
   private resolveLocation(locationUuid: any): any {
-    this.locationResourceService.getLocationByUuid(locationUuid, true)
-      .subscribe((location) => {
-        this.latestEncounterLocation = location;
-      }, (error) => {
-        console.error('Error resolving location: ', error);
-      });
+    this.locationResourceService
+      .getLocationByUuid(locationUuid, true)
+      .subscribe(
+        (location) => {
+          this.latestEncounterLocation = location;
+        },
+        (error) => {
+          console.error('Error resolving location: ', error);
+        }
+      );
   }
 
   private loadScreeningAndDiagnosisData(patientUuid: any): any {
     this.hasData = false;
     this.hasError = false;
-    this.oncologySummary.getIntegratedProgramSnapshot(patientUuid)
-      .subscribe((screeningSummary) => {
+    this.oncologySummary.getIntegratedProgramSnapshot(patientUuid).subscribe(
+      (screeningSummary) => {
         this.loadingSummary = false;
         this.hasLoadedData = true;
         if (screeningSummary.length) {
@@ -182,7 +203,8 @@ export class OncologyProgramSnapshotComponent implements OnInit, OnDestroy {
           this.hasData = true;
           this.hasError = false;
         }
-      }, (error => {
+      },
+      (error) => {
         this.loadingSummary = false;
         this.hasData = false;
         this.hasError = true;
@@ -191,6 +213,7 @@ export class OncologyProgramSnapshotComponent implements OnInit, OnDestroy {
           id: 'summary',
           message: 'Error Fetching Summary'
         });
-      }));
+      }
+    );
   }
 }

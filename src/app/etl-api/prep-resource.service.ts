@@ -11,11 +11,16 @@ export class PrepResourceService {
   public get url(): string {
     return this.appSettingsService.getEtlRestbaseurl().trim();
   }
-  constructor(public http: HttpClient,
-    public appSettingsService: AppSettingsService) { }
+  constructor(
+    public http: HttpClient,
+    public appSettingsService: AppSettingsService
+  ) {}
   public getPrepMonthlyReport(params: any): Observable<any> {
     // tslint:disable-next-line: max-line-length
-    return this.http.get(`${this.url}prep-monthly-summary?endDate=${params.month}&locationUuids=${params.locationUuids}`)
+    return this.http
+      .get(
+        `${this.url}prep-monthly-summary?endDate=${params.month}&locationUuids=${params.locationUuids}`
+      )
       .pipe(
         catchError((err: any) => {
           const error: any = err;
@@ -32,8 +37,11 @@ export class PrepResourceService {
   }
   public getPrepPatientList(params: any): Observable<any> {
     // tslint:disable-next-line: max-line-length
-    return this.http.get(`${this.url}prep-monthly-summary-patient-list?endDate=${params.month}&locationUuids=${params.locationUuids}
-      &indicators=${params.indicators}`)
+    return this.http
+      .get(
+        `${this.url}prep-monthly-summary-patient-list?endDate=${params.month}&locationUuids=${params.locationUuids}
+      &indicators=${params.indicators}`
+      )
       .pipe(
         catchError((err: any) => {
           const error: any = err;

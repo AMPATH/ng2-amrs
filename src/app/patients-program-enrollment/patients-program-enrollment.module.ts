@@ -9,18 +9,18 @@ import { PatientProgramEnrollmentService } from './../etl-api/patient-program-en
 import { ProgramEnrollmentPatientListComponent } from './program-enrollent-patient-list.component';
 import { ProgramEnrollmentSummaryComponent } from './program-enrollment-summary.component';
 @NgModule({
-    imports: [
-        FormsModule,
-        CommonModule,
-        DepartmentProgramFilterModule,
-        AgGridModule
-    ],
-    exports: [ PatientsProgramEnrollmentComponent],
-    declarations: [
-        PatientsProgramEnrollmentComponent,
-        ProgramEnrollmentPatientListComponent,
-        ProgramEnrollmentSummaryComponent
-    ],
-    providers: [PatientProgramEnrollmentService],
+  imports: [
+    FormsModule,
+    CommonModule,
+    DepartmentProgramFilterModule,
+    AgGridModule
+  ],
+  exports: [PatientsProgramEnrollmentComponent],
+  declarations: [
+    PatientsProgramEnrollmentComponent,
+    ProgramEnrollmentPatientListComponent,
+    ProgramEnrollmentSummaryComponent
+  ],
+  providers: [PatientProgramEnrollmentService]
 })
-export class PatientProgramEnrollmentModule { }
+export class PatientProgramEnrollmentModule {}

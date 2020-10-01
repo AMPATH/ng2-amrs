@@ -16,7 +16,7 @@ export class PatientReferralResourceService {
     protected http: HttpClient,
     protected appSettingsService: AppSettingsService,
     private cacheService: DataCacheService
-  ) { }
+  ) {}
 
   public ETL_PREFIX = this.appSettingsService.getEtlRestbaseurl().trim();
   public REFERRALS_PATH = this.ETL_PREFIX + 'patient-referrals';
@@ -64,14 +64,8 @@ export class PatientReferralResourceService {
     if (providerUuids && providerUuids !== 'undefined') {
       urlParams = urlParams.set('providerUuids', providerUuids);
     }
-    if (
-      notificationStatus &&
-      notificationStatus !== 'undefined'
-    ) {
-      urlParams = urlParams.set(
-        'notificationStatus',
-        notificationStatus
-      );
+    if (notificationStatus && notificationStatus !== 'undefined') {
+      urlParams = urlParams.set('notificationStatus', notificationStatus);
     }
     if (department && department !== 'undefined') {
       urlParams = urlParams.set('department', department);
@@ -84,8 +78,8 @@ export class PatientReferralResourceService {
       error.message
         ? error.message
         : error.status
-          ? `${error.status} - ${error.statusText}`
-          : 'Server Error'
+        ? `${error.status} - ${error.statusText}`
+        : 'Server Error'
     );
   }
 
@@ -101,16 +95,19 @@ export class PatientReferralResourceService {
       .post<any>(url, JSON.stringify(payload), { headers })
       .pipe(
         map((response: any) => response),
-        catchError(this.handleError));
+        catchError(this.handleError)
+      );
   }
 
   public getPatientReferralReport(params: any) {
     const urlParams = this.getUrlRequestParams(params);
     const url: string = this.REFERRALS_PATH;
-    const request = this.http.get<any>(url, { params: urlParams }).pipe(
-      map((response: Response) => response),
-      catchError(this.handleError)
-    );
+    const request = this.http
+      .get<any>(url, { params: urlParams })
+      .pipe(
+        map((response: Response) => response),
+        catchError(this.handleError)
+      );
 
     const key = url + '?' + urlParams.toString();
     if (key !== this.requestUrl) {
@@ -140,11 +137,9 @@ export class PatientReferralResourceService {
     const url = this.REFERRAL_PATIENT_LIST_PATH;
     const request = this.http
       .get<any>(url, {
-        params: urlParams,
+        params: urlParams
       })
-      .pipe(
-        map((response: any) => response.result)
-      );
+      .pipe(map((response: any) => response.result));
 
     const key = url + '?' + urlParams.toString();
     if (key !== this.requestUrl) {
@@ -169,9 +164,9 @@ export class PatientReferralResourceService {
     const url =
       this.REFERRAL_DETAILS_PATH + '/' + locationUuid + '/' + enrollmentUuid;
 
-    return this.http.get<any>(url)
-    .pipe(
+    return this.http.get<any>(url).pipe(
       map((response: any) => response),
-      catchError(this.handleError));
+      catchError(this.handleError)
+    );
   }
 }

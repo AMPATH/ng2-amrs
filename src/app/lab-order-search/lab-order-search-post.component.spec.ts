@@ -1,4 +1,9 @@
-import { TestBed, async, ComponentFixture, fakeAsync } from '@angular/core/testing';
+import {
+  TestBed,
+  async,
+  ComponentFixture,
+  fakeAsync
+} from '@angular/core/testing';
 import { Observable } from 'rxjs';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -8,7 +13,7 @@ import { LabOrderSearchPostComponent } from './lab-order-search-post.component';
 import { LabOrdersSearchHelperService } from './lab-order-search-helper.service';
 import { HivSummaryService } from '../patient-dashboard/hiv/hiv-summary/hiv-summary.service';
 import { HivSummaryResourceService } from '../etl-api/hiv-summary-resource.service';
-import { ConceptResourceService  } from '../openmrs-api/concept-resource.service';
+import { ConceptResourceService } from '../openmrs-api/concept-resource.service';
 import { LabOrderResourceService } from '../etl-api/lab-order-resource.service';
 import { LabOrderPostService } from './lab-order-post.service';
 import { AppSettingsService } from '../app-settings/app-settings.service';
@@ -48,7 +53,7 @@ describe('LabOrderSearchPostComponent', () => {
         display: '',
         gender: '',
         birthdate: new Date('01-01-1990'),
-        age: 27,
+        age: 27
       }
     }
   };
@@ -66,17 +71,21 @@ describe('LabOrderSearchPostComponent', () => {
         LocalStorageService,
         AppSettingsService
       ],
-      declarations: [
-        LabOrderSearchPostComponent
-      ]
-    }).overrideComponent(LabOrderSearchPostComponent, {
-      set: {
-        providers: [
-          { provide: LabOrderPostService, useClass: FakeLabOrderResourceService },
-          HttpClient
-        ]
-      }
-    }).compileComponents().then(() => {
+      declarations: [LabOrderSearchPostComponent]
+    })
+      .overrideComponent(LabOrderSearchPostComponent, {
+        set: {
+          providers: [
+            {
+              provide: LabOrderPostService,
+              useClass: FakeLabOrderResourceService
+            },
+            HttpClient
+          ]
+        }
+      })
+      .compileComponents()
+      .then(() => {
         fixture = TestBed.createComponent(LabOrderSearchPostComponent);
       });
   }));
@@ -101,9 +110,9 @@ describe('LabOrderSearchPostComponent', () => {
     fixture.componentInstance.ngOnInit();
     fixture.detectChanges();
     fixture.whenStable().then(() => {
-
-      expect(fixture.nativeElement
-        .querySelectorAll('div.order-info').length).toBe(1);
+      expect(
+        fixture.nativeElement.querySelectorAll('div.order-info').length
+      ).toBe(1);
     });
   }));
 
@@ -119,7 +128,6 @@ describe('LabOrderSearchPostComponent', () => {
     spyOn(comp, 'resetOrder');
 
     fixture.whenStable().then(() => {
-
       const resetButton = fixture.nativeElement.querySelector('#reset-btn');
       expect(resetButton).toBeDefined();
       resetButton.click();
@@ -140,8 +148,9 @@ describe('LabOrderSearchPostComponent', () => {
     spyOn(comp, 'postOrder');
 
     fixture.whenStable().then(() => {
-
-      const submitButton = fixture.nativeElement.querySelector('#post-order-btn');
+      const submitButton = fixture.nativeElement.querySelector(
+        '#post-order-btn'
+      );
       expect(submitButton).toBeDefined();
       submitButton.click();
 

@@ -9,7 +9,6 @@
 
  */
 
-
 import { take } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MOTDNotificationService } from './../etl-api/motd.notification.service';
@@ -21,7 +20,6 @@ import * as Moment from 'moment';
   templateUrl: 'motd-notification.component.html',
   styleUrls: ['motd-notification.component.css']
 })
-
 export class MOTDNotificationComponent implements OnInit {
   public notifications: any = [];
 
@@ -40,27 +38,25 @@ export class MOTDNotificationComponent implements OnInit {
   public cookieKey: string = 'motdKey' + this.currentDate;
   public cookieValue: string = 'motdVal' + this.currentDate;
 
-  constructor(private _motdSservice: MOTDNotificationService,
-    private _cookieService: CookieService) {
-
-  }
+  constructor(
+    private _motdSservice: MOTDNotificationService,
+    private _cookieService: CookieService
+  ) {}
 
   public ngOnInit() {
-
     // this.removeAllCookies();
     this.getMotdNotifications();
-
   }
 
   public getMotdNotifications() {
-    this._motdSservice.getMotdNotification().pipe(
-      take(1)).subscribe((res) => {
+    this._motdSservice
+      .getMotdNotification()
+      .pipe(take(1))
+      .subscribe((res) => {
         this.notifications = res;
 
         if (res.length > 0) {
-
           this.filterNotifications();
-
         }
 
         // console.log('Notification' , this.notifications);
@@ -71,9 +67,7 @@ export class MOTDNotificationComponent implements OnInit {
     // only show notifications not loaded in cookies based on id
     const notifications = this.notifications;
     if (notifications.length > 0) {
-
       notifications.forEach((notification) => {
-
         // console.log('Filter Notification', notification);
 
         const startDate = Moment(notification.startDate);
@@ -93,23 +87,17 @@ export class MOTDNotificationComponent implements OnInit {
          */
 
         if (alertInterval === 1) {
-
           cookieKey = 'motdLoginCookie';
           cookieVal = '' + Math.random();
-
         }
 
         if (alertInterval === 2) {
-
           cookieKey = 'motdNotKey' + this.currentDate;
           cookieVal = 'motdNotVal' + this.currentDate;
-
         }
         if (alertInterval === 3) {
-
           cookieKey = 'motdNotKey' + messageId;
           cookieVal = 'motdNotVal' + messageId;
-
         }
 
         // console.log('Cookie key set', cookieKey);
@@ -117,7 +105,6 @@ export class MOTDNotificationComponent implements OnInit {
         const currentNotificationCookie = this._cookieService.get(cookieKey);
 
         if (typeof currentNotificationCookie === 'undefined') {
-
           // get notifications then add cookie
 
           // check if date is between start and end
@@ -125,7 +112,6 @@ export class MOTDNotificationComponent implements OnInit {
           // console.log('Start Day', this.currentDate);
 
           if (this.currentDate >= startDate && this.currentDate <= endDate) {
-
             // console.log('CookieKey', cookieKey);
 
             this._cookieService.put(cookieKey, cookieVal);
@@ -133,33 +119,26 @@ export class MOTDNotificationComponent implements OnInit {
             this.displayNotifications.push(notification);
 
             this.overlayClass = 'notification_overlay';
-
           }
 
           // this.addTodaysCookie();
-
         } else {
-
         }
         // console.log('Notification', notification);
       });
-
     }
   }
 
   public dissmissNotification(index) {
-
     // check notification length
     this.displayNotifications.splice(index, 1);
 
     if (this.displayNotifications.length === 0) {
       this.overlayClass = 'hide_notifiction_overlay';
     }
-
   }
 
   public removeAllCookies() {
     this._cookieService.removeAll();
   }
-
 }

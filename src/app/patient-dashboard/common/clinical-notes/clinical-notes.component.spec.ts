@@ -15,15 +15,18 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of } from 'rxjs';
 
 describe('Component: Clinical notes Unit Tests', () => {
-
-  let fakeAppFeatureAnalytics: AppFeatureAnalytics, component, notesStub: ClinicalNotesResourceService;
+  let fakeAppFeatureAnalytics: AppFeatureAnalytics,
+    component,
+    notesStub: ClinicalNotesResourceService;
 
   class FakeClinicalNotesResourceService {
-    public getClinicalNotes(patientUuid: string, startIndex: number, limit: number) {
-      return of({ status: 'success' },
-        { res: 'clinical notes' });
+    public getClinicalNotes(
+      patientUuid: string,
+      startIndex: number,
+      limit: number
+    ) {
+      return of({ status: 'success' }, { res: 'clinical notes' });
     }
-
   }
 
   class FakeActivatedRoute {
@@ -49,7 +52,10 @@ describe('Component: Clinical notes Unit Tests', () => {
         { provide: Location, useClass: SpyLocation },
         { provide: ActivatedRoute, useValue: FakeActivatedRoute },
         AppSettingsService,
-        { provide: ClinicalNotesHelperService, useValue: new ClinicalNotesHelperService() },
+        {
+          provide: ClinicalNotesHelperService,
+          useValue: new ClinicalNotesHelperService()
+        },
         LocalStorageService
       ]
     });
@@ -57,7 +63,6 @@ describe('Component: Clinical notes Unit Tests', () => {
     fakeAppFeatureAnalytics = TestBed.get(AppFeatureAnalytics);
     component = TestBed.get(ClinicalNotesComponent);
     notesStub = TestBed.get(ClinicalNotesResourceService);
-
   });
 
   afterEach(() => {
@@ -65,14 +70,11 @@ describe('Component: Clinical notes Unit Tests', () => {
   });
 
   it('should instantiate the component', (done) => {
-
     expect(component).toBeTruthy();
     done();
-
   });
 
   it('should have required properties', (done) => {
-
     expect(component.notes.length).toEqual(0);
     expect(component.isBusy).toBeUndefined();
     expect(component.helper).toBeDefined();
@@ -84,20 +86,16 @@ describe('Component: Clinical notes Unit Tests', () => {
     expect(component.patientUuid).toEqual('');
     expect(component.hasNotes).toEqual(false);
     done();
-
   });
 
   it('should have all the required functions defined and callable', (done) => {
-
-    spyOn(component, 'getNotes').and.callFake((err, data) => { });
-    component.getNotes(0, 10, (err, data) => { });
+    spyOn(component, 'getNotes').and.callFake((err, data) => {});
+    component.getNotes(0, 10, (err, data) => {});
     expect(component.getNotes).toHaveBeenCalled();
 
     spyOn(component, 'getMoreNotes').and.callThrough();
     component.getMoreNotes();
     expect(component.getMoreNotes).toHaveBeenCalled();
     done();
-
   });
-
 });

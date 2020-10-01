@@ -3,12 +3,10 @@ import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
 import { VitalView } from './vital-view';
 
-
 @Injectable()
 export class VitalsDatasource {
   private _vitalSources: VitalView[] = [];
-  constructor() {
-  }
+  constructor() {}
 
   get vitalSources(): any {
     return _.sortBy(_.uniqBy(this._vitalSources, 'name'), 'order');
@@ -20,7 +18,7 @@ export class VitalsDatasource {
 
   addToVitalSource(source: VitalView | VitalView[]) {
     if (_.isArray(source)) {
-        this._vitalSources = _.concat(this._vitalSources, source);
+      this._vitalSources = _.concat(this._vitalSources, source);
     } else {
       this._vitalSources.push(source as VitalView);
     }
@@ -40,5 +38,4 @@ export class VitalsDatasource {
 
     return source;
   }
-
 }

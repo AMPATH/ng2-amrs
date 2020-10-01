@@ -12,24 +12,15 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PocHttpInteceptor } from 'src/app/shared/services/poc-http-interceptor';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    NgamrsSharedModule,
-    HttpClientModule
-  ],
-  exports: [
-    DermatologyLandingPageComponent
-  ],
-  declarations: [
-    DermatologyLandingPageComponent
-  ],
+  imports: [CommonModule, FormsModule, NgamrsSharedModule, HttpClientModule],
+  exports: [DermatologyLandingPageComponent],
+  declarations: [DermatologyLandingPageComponent],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: PocHttpInteceptor,
       multi: true
     }
-  ],
+  ]
 })
-export class PatientDashboardDermatologyModule { }
+export class PatientDashboardDermatologyModule {}

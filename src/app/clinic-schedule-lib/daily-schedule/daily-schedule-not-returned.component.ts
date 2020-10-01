@@ -1,9 +1,13 @@
-
-import {take} from 'rxjs/operators';
-import { Component, OnInit, OnDestroy, Input, SimpleChange, EventEmitter } from '@angular/core';
+import { take } from 'rxjs/operators';
 import {
-  ClinicDashboardCacheService
-} from '../../clinic-dashboard/services/clinic-dashboard-cache.service';
+  Component,
+  OnInit,
+  OnDestroy,
+  Input,
+  SimpleChange,
+  EventEmitter
+} from '@angular/core';
+import { ClinicDashboardCacheService } from '../../clinic-dashboard/services/clinic-dashboard-cache.service';
 import { DailyScheduleResourceService } from '../../etl-api/daily-scheduled-resource.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import * as Moment from 'moment';
@@ -25,31 +29,33 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
   public dataLoaded = false;
   public nextStartIndex = 0;
   public selectedNotReturnedTab: any;
-  public extraColumns: Array<any> = [{
-    headerName: 'Program',
-    width: 200,
-    field: 'program'
-  },
-  {
-    headerName: 'Phone Number',
-    width: 80,
-    field: 'phone_number'
-  }];
+  public extraColumns: Array<any> = [
+    {
+      headerName: 'Program',
+      width: 200,
+      field: 'program'
+    },
+    {
+      headerName: 'Phone Number',
+      width: 80,
+      field: 'phone_number'
+    }
+  ];
   public filter: any = {
-     'programType': [],
-     'visitType': [],
-     'encounterType': []
+    programType: [],
+    visitType: [],
+    encounterType: []
   };
   public params: any = {
-    'programType': [],
-    'visitType': [],
-    'encounterType': []
+    programType: [],
+    visitType: [],
+    encounterType: []
   };
   public busyIndicator: any = {
     busy: false,
     message: 'Please wait...' // default message
   };
-  public encodedParams: string =  encodeURI(JSON.stringify(this.filter));
+  public encodedParams: string = encodeURI(JSON.stringify(this.filter));
   public fetchCount = 0;
   private subs: Subscription[] = [];
   @Input()
@@ -62,39 +68,27 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
   private _data = new BehaviorSubject<any>([]);
   private selectedClinic: any;
 
-  constructor(private clinicDashboardCacheService: ClinicDashboardCacheService,
-              private dailyScheduleResource: DailyScheduleResourceService,
-              private localStorageService: LocalStorageService,
-              private route: ActivatedRoute) {
-  }
+  constructor(
+    private clinicDashboardCacheService: ClinicDashboardCacheService,
+    private dailyScheduleResource: DailyScheduleResourceService,
+    private localStorageService: LocalStorageService,
+    private route: ActivatedRoute
+  ) {}
 
   public ngOnInit() {
-     this.selectedDate = Moment().format('YYYY-MM-DD');
-     const sub = this.clinicDashboardCacheService.getCurrentClinic()
-       .subscribe((location) => {
-         this.selectedClinic = location;
-       });
-
-      this.subs.push(sub);
-
-     const sub2 = this.route
-       .queryParams
-       .subscribe((params) => {
-         if (params.programType || params.department) {
-             this.params = params;
-             if (params.resetFilter && params.resetFilter === 'true') {
-              this.notReturnedPatientList = [];
-             } else {
-              this.initParams();
-              const searchParams = this.getQueryParams();
-              this.getDailyHasNotReturned(searchParams);
-             }
-          } else {
-            this.notReturnedPatientList = [];
+    this.selectedDate = Moment().format('YYYY-MM-DD');
+    const sub = this.clinicDashboardCacheService
+      .getCurrentClinic()
+      .subscribe((location) => {
+        this.selectedClinic = location;
+        if (this.clinicDashboardCacheService.didLocationChange(location)) {
+          this.loadData();
         }
-       });
+      });
 
-       this.subs.push(sub2);
+    this.subs.push(sub);
+
+    this.loadData();
   }
 
   public ngOnDestroy(): void {
@@ -102,8 +96,27 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
       sub.unsubscribe();
     });
   }
-  public loadMoreNotReturned() {
 
+  public loadData() {
+    const sub2 = this.route.queryParams.subscribe((params) => {
+      if (params.programType || params.department) {
+        this.params = params;
+        if (params.resetFilter && params.resetFilter === 'true') {
+          this.notReturnedPatientList = [];
+        } else {
+          this.initParams();
+          const searchParams = this.getQueryParams();
+          this.getDailyHasNotReturned(searchParams);
+        }
+      } else {
+        this.notReturnedPatientList = [];
+      }
+    });
+
+    this.subs.push(sub2);
+  }
+
+  public loadMoreNotReturned() {
     this.loadingDailyNotReturned = true;
     this.clinicDashboardCacheService.setIsLoading(this.loadingDailyNotReturned);
 
@@ -127,7 +140,7 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
     let encounterType: any = [];
     let department = '';
     if (this.params.programType && this.params.programType.length > 0) {
-        programType = this.params.programType;
+      programType = this.params.programType;
     }
     if (this.params.visitType && this.params.visitType.length > 0) {
       visitType = this.params.visitType;
@@ -139,9 +152,9 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
       department = this.params.department;
     }
     if (this.params.startDate) {
-       this.selectedDate = this.params.startDate;
+      this.selectedDate = this.params.startDate;
     } else {
-       this.selectedDate = Moment().format('YYYY-MM-DD');
+      this.selectedDate = Moment().format('YYYY-MM-DD');
     }
     return {
       startDate: this.selectedDate,
@@ -153,14 +166,12 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
       encounterType: encounterType,
       limit: 1000
     };
-
   }
   private getDailyHasNotReturned(params) {
     this.setBusy();
     this.loadingDailyNotReturned = true;
     this.clinicDashboardCacheService.setIsLoading(this.loadingDailyNotReturned);
-    const result = this.dailyScheduleResource.
-      getDailyHasNotReturned(params);
+    const result = this.dailyScheduleResource.getDailyHasNotReturned(params);
 
     if (result === null) {
       throw new Error('Null daily not returned');
@@ -176,13 +187,16 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
           }
           this.setFree();
           this.loadingDailyNotReturned = false;
-          this.clinicDashboardCacheService.setIsLoading(this.loadingDailyNotReturned);
-        }
-        ,
+          this.clinicDashboardCacheService.setIsLoading(
+            this.loadingDailyNotReturned
+          );
+        },
         (error) => {
           this.setFree();
           this.loadingDailyNotReturned = false;
-          this.clinicDashboardCacheService.setIsLoading(this.loadingDailyNotReturned);
+          this.clinicDashboardCacheService.setIsLoading(
+            this.loadingDailyNotReturned
+          );
           this.dataLoaded = true;
           this.errors.push({
             id: 'Daily Schedule Has Not Returned',
@@ -194,20 +208,15 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
   }
 
   private setBusy() {
-
     this.busyIndicator = {
       busy: true,
       message: 'Please wait...Loading'
     };
-
   }
   private setFree() {
-
     this.busyIndicator = {
       busy: false,
       message: ''
     };
-
   }
-
 }

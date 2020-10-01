@@ -17,7 +17,7 @@ describe('PrepReportPatientListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PrepReportPatientListComponent, ClinicDashboardComponent ],
+      declarations: [PrepReportPatientListComponent, ClinicDashboardComponent],
       providers: [
         // { provide: PrepResourceService, useClass: PrepResouceServiceMock },
         AppSettingsService,
@@ -27,9 +27,8 @@ describe('PrepReportPatientListComponent', () => {
         RouterTestingModule.withRoutes(routes),
         HttpClientTestingModule
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    })
-    .compileComponents();
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

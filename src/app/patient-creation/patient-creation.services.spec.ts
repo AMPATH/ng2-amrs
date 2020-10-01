@@ -6,9 +6,7 @@ import { LocalStorageService } from '../utils/local-storage.service';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { PatientCreationService } from './patient-creation.service';
 import { PatientResourceService } from '../openmrs-api/patient-resource.service';
-import {
-  PatientCreationResourceService
-} from '../openmrs-api/patient-creation-resource.service';
+import { PatientCreationResourceService } from '../openmrs-api/patient-creation-resource.service';
 import { Patient } from '../models/patient.model';
 import { httpClient } from '../shared/ngamrs- .module';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -52,7 +50,5 @@ describe('Service: PatientCreation', () => {
       expect(results.length).toBeGreaterThan(0);
       expect(results[0].uuid).toEqual('uuid');
     });
-
   });
-
 });

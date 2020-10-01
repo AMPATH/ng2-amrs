@@ -1,11 +1,8 @@
-
-import {take} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { Component, OnInit, OnChanges, Input, OnDestroy } from '@angular/core';
 import { ClinicDashboardCacheService } from '../../services/clinic-dashboard-cache.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import {
-  DefaulterListResourceService
-} from '../../../etl-api/defaulter-list-resource.service';
+import { DefaulterListResourceService } from '../../../etl-api/defaulter-list-resource.service';
 import { DatePipe } from '@angular/common';
 import * as _ from 'lodash';
 import { Subscription } from 'rxjs';
@@ -16,7 +13,6 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./defaulter-list.component.css']
 })
 export class DefaulterListComponent implements OnInit, OnDestroy {
-
   public minDefaultPeriod: any;
   public maxDefaultPeriod: any;
   public errors: any[] = [];
@@ -32,11 +28,12 @@ export class DefaulterListComponent implements OnInit, OnDestroy {
   public programUuid: any;
   public defaultersControl = true;
 
-  constructor(private clinicDashboardCacheService: ClinicDashboardCacheService,
-              private defaulterListResource: DefaulterListResourceService,
-              private router: Router,
-              private route: ActivatedRoute
-            ) {
+  constructor(
+    private clinicDashboardCacheService: ClinicDashboardCacheService,
+    private defaulterListResource: DefaulterListResourceService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
     this._datePipe = new DatePipe('en-US');
   }
 
@@ -129,12 +126,16 @@ export class DefaulterListComponent implements OnInit, OnDestroy {
       }
       this.loadDefaulterList();
     }
-}
+  }
 
   public loadDefaulterList() {
     this.initParams();
-    const params = this.getQueryParams(this.minDefaultPeriod,
-      this.maxDefaultPeriod, this.selectedClinic, this.programUuid);
+    const params = this.getQueryParams(
+      this.minDefaultPeriod,
+      this.maxDefaultPeriod,
+      this.selectedClinic,
+      this.programUuid
+    );
 
     if (this.selectedClinic) {
       this.getDefaulterList(params);
@@ -158,14 +159,20 @@ export class DefaulterListComponent implements OnInit, OnDestroy {
 
   public loadMoreDefaulterList() {
     this.loadingDefaulterList = true;
-    const params = this.getQueryParams(this.minDefaultPeriod,
-      this.maxDefaultPeriod, this.selectedClinic, this.programUuid);
+    const params = this.getQueryParams(
+      this.minDefaultPeriod,
+      this.maxDefaultPeriod,
+      this.selectedClinic,
+      this.programUuid
+    );
     this.loadDefaulterListFromCachedParams(params);
   }
 
   private getLocation() {
     const routeSub = this.route.parent.parent.params.subscribe((params) => {
-      this.clinicDashboardCacheService.setCurrentClinic(params['location_uuid']);
+      this.clinicDashboardCacheService.setCurrentClinic(
+        params['location_uuid']
+      );
     });
 
     this.subs.push(routeSub);
@@ -178,15 +185,16 @@ export class DefaulterListComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToLocationChangeEvent() {
-  const sub = this.clinicDashboardCacheService.getCurrentClinic()
+    const sub = this.clinicDashboardCacheService
+      .getCurrentClinic()
       .subscribe((location) => {
-      this.selectedClinic = location;
-      if (this.minDefaultPeriod) {
-        this.loadDefaulterList();
-      }
-    });
+        this.selectedClinic = location;
+        if (this.minDefaultPeriod) {
+          this.loadDefaulterList();
+        }
+      });
 
-  this.subs.push(sub);
+    this.subs.push(sub);
   }
 
   private getDatePart(datetime: string) {
@@ -197,17 +205,20 @@ export class DefaulterListComponent implements OnInit, OnDestroy {
   }
 
   private formatDefaulterListData(data) {
-
     const formatedData = data.map((dataItem) => {
       const formatedEncDate = this._datePipe.transform(
-        this.getDatePart(dataItem.encounter_datetime), 'dd-MM-yyyy');
+        this.getDatePart(dataItem.encounter_datetime),
+        'dd-MM-yyyy'
+      );
 
-      const formatedRTCDate = this._datePipe.transform(this.getDatePart(dataItem.rtc_date),
-        'dd-MM-yyyy');
+      const formatedRTCDate = this._datePipe.transform(
+        this.getDatePart(dataItem.rtc_date),
+        'dd-MM-yyyy'
+      );
       return {
         uuid: dataItem.patient_uuid,
-        rtc_date: formatedRTCDate + ' (' + dataItem.days_since_rtc
-        + ' days ago)',
+        rtc_date:
+          formatedRTCDate + ' (' + dataItem.days_since_rtc + ' days ago)',
         days_since_rtc: dataItem.days_since_rtc,
         identifiers: dataItem.identifiers,
         filed_id: dataItem.filed_id,
@@ -239,7 +250,12 @@ export class DefaulterListComponent implements OnInit, OnDestroy {
     this.nextStartIndex = 0;
   }
 
-  private getQueryParams(defaulterPeriod, maxDefaultPeriod, selectedLocation, programUuid) {
+  private getQueryParams(
+    defaulterPeriod,
+    maxDefaultPeriod,
+    selectedLocation,
+    programUuid
+  ) {
     const params = {
       maxDefaultPeriod: maxDefaultPeriod,
       defaulterPeriod: defaulterPeriod,
@@ -250,7 +266,6 @@ export class DefaulterListComponent implements OnInit, OnDestroy {
     };
     this.cacheDefaulterListParam(params);
     return params;
-
   }
 
   private cacheDefaulterListParam(params) {
@@ -272,15 +287,15 @@ export class DefaulterListComponent implements OnInit, OnDestroy {
         (patientList) => {
           if (patientList.length > 0) {
             this.defaulterList = this.defaulterList.concat(
-              this.formatDefaulterListData(patientList));
+              this.formatDefaulterListData(patientList)
+            );
             const size: number = patientList.length;
             this.nextStartIndex = this.nextStartIndex + size;
           } else {
             this.dataLoaded = true;
           }
           this.loadingDefaulterList = false;
-        }
-        ,
+        },
         (error) => {
           this.loadingDefaulterList = false;
           this.errors.push({
@@ -291,5 +306,4 @@ export class DefaulterListComponent implements OnInit, OnDestroy {
       );
     }
   }
-
 }

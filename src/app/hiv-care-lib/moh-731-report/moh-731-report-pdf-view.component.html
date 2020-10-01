@@ -1,46 +1,52 @@
 <div *ngIf="!isReleased" class="alert alert-warning">
-  <strong>Viewing a Draft Version of the MOH 731 Report. </strong> This report is not officially released, and is likely to change without warning.
+  <strong>Viewing a Draft Version of the MOH 731 Report. </strong> This report
+  is not officially released, and is likely to change without warning.
 </div>
 <div class="wrapper">
   <div class="panel panel-info">
-
-    <div class="panel-heading" style="min-height: 50px!important">
-
+    <div class="panel-heading" style="min-height: 50px !important">
       <strong class="text-primary">
-					<span class="fa fa-file-pdf-o">
-
-					</span>
-         MOH 731 Report
-          <div class="btn-group pull-right">
-            <button class="btn btn-primary"
-                    (click)="downloadPdf()" [disabled]="!pdfMakeProxy">
-              <i class="fa fa-download">
-              </i> Download Pdf
-            </button>
-          </div>
-        </strong>
-
-
+        <span class="fa fa-file-pdf-o"> </span>
+        MOH 731 Report
+        <div class="btn-group pull-right">
+          <button
+            class="btn btn-primary"
+            (click)="downloadPdf()"
+            [disabled]="!pdfMakeProxy"
+          >
+            <i class="fa fa-download"> </i> Download Pdf
+          </button>
+        </div>
+      </strong>
     </div>
-    <div class="panel-body" style="background-color: #ECF0F5">
-      <pdf-viewer [src]="pdfSrc" [page]="page" (after-load-complete)="afterLoadCompletes($event)" [original-size]="false" style="display: block;"
-        [render-text]="false" [show-all]="false">
-
+    <div class="panel-body" style="background-color: #ecf0f5">
+      <pdf-viewer
+        [src]="pdfSrc"
+        [page]="page"
+        (after-load-complete)="afterLoadCompletes($event)"
+        [original-size]="false"
+        style="display: block"
+        [render-text]="false"
+        [show-all]="false"
+      >
       </pdf-viewer>
       <!--<object  type="application/pdf" width="100%" height="800" [data]="securedUrl" type="application/pdf"></object>-->
     </div>
     <div class="panel-footer" style="min-height: 50px">
-      <button class="btn btn-default pull-left" (click)="prevPage()" [disabled]="!pdfMakeProxy || page<2">
-          <i class="fa fa-arrow-circle-o-left">
-          </i> Previous Page
-        </button>
-      <button class="btn btn-default pull-right" (click)="nextPage()" [disabled]="!pdfMakeProxy || page>=numberOfPages">
-          Next Page <i class="fa fa-arrow-circle-o-right">
-        </i>
-        </button>
+      <button
+        class="btn btn-default pull-left"
+        (click)="prevPage()"
+        [disabled]="!pdfMakeProxy || page < 2"
+      >
+        <i class="fa fa-arrow-circle-o-left"> </i> Previous Page
+      </button>
+      <button
+        class="btn btn-default pull-right"
+        (click)="nextPage()"
+        [disabled]="!pdfMakeProxy || page >= numberOfPages"
+      >
+        Next Page <i class="fa fa-arrow-circle-o-right"> </i>
+      </button>
     </div>
   </div>
-
-
-
 </div>

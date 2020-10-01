@@ -1,155 +1,263 @@
-<div ></div>
+<div></div>
 <div>
-  <h4 class="component-title"><span class="icon-i-radiology"></span>Imaging Summary</h4>
+  <h4 class="component-title">
+    <span class="icon-i-radiology"></span>Imaging Summary
+  </h4>
   <div>
     <div>
       <div>
-        <div class="input-group" style="width: 100%;margin-top:4px; padding-bottom: 4px; padding-top: 4px">
-          <input type="text" class="form-control" [ngModel]="filterTerm" (ngModelChange)="valueChange($event)" placeholder="Filter List"/>
+        <div
+          class="input-group"
+          style="
+            width: 100%;
+            margin-top: 4px;
+            padding-bottom: 4px;
+            padding-top: 4px;
+          "
+        >
+          <input
+            type="text"
+            class="form-control"
+            [ngModel]="filterTerm"
+            (ngModelChange)="valueChange($event)"
+            placeholder="Filter List"
+          />
           <span class="glyphicon glyphicon-search form-control-feedback"></span>
         </div>
       </div>
     </div>
     <div class="table-responsive">
-      <table class="table table-striped ">
+      <table class="table table-striped">
         <thead>
-        <tr>
-          <th>Study Date</th>
-          <th>Modality</th>
-          <th >Report</th>
-          <th>Image</th>
-          <th>Comments</th>
-          <th>Compare Images</th>
-        </tr>
+          <tr>
+            <th>Study Date</th>
+            <th>Modality</th>
+            <th>Report</th>
+            <th>Image</th>
+            <th>Comments</th>
+            <th>Compare Images</th>
+          </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let order of imagingResults | filterBy: {effectiveDateTime:filterTerm};">
-          <td>
-            {{order?.effectiveDateTime |date:'dd-MMM-yyyy' }}
-          </td>
-          <td>
-            {{order.code?.text}}
-          </td>
-          <td>
-            {{order.report[0]}}<br> {{order.report[1]}} <br> {{order.report[2]}}
-          </td>
-          <td>
-            <button (click)="fetchImageFromRefpacs(order)" class="btn default" [disabled]="!order.imageId"
-                    [style.display]="(result.resourceType === 'OperationOutcome') ? 'none' : '' "
-                    style="background-color: white;border-width: 1px; border-color: gray">
-              <span class="fa fa-camera" aria-hidden="true"></span>
-            </button>
-          </td>
-          <td >
-            <button (click)="likeImage(order)" [disabled]="!order.imageId">
-              <!--[disabled]="o.resource.id !==order.id"-->
-              <span  data-toggle="tooltip" title="Like image"
-                     [style.display]="(result.resourceType === 'OperationOutcome') ? 'none' : '' "
-                     class="fa fa-thumbs-up" aria-hidden="true" style="font-size: 35px;"></span>
-            </button>
-            <button (click)="disLikeImage(order)" [disabled]="!order.imageId">
-              <!--[disabled]="o.resource.id !==order.id"-->
-              <span  data-toggle="tooltip" title="Dislike image"
-                  [style.display]="(result.resourceType === 'OperationOutcome') ? 'none' : '' "
-                  class="fa fa-thumbs-down" aria-hidden="true" style="font-size: 35px;"></span>
-            </button>
-          </td>
-          <td>
-            <span class="checkbox" (click)="compareImageFromRefpacs(order)" style="padding-left: 15px">
-              <label><input type="checkbox" style="zoom:1.5;" value="order.id" [checked]="" [disabled]="!order.imageId"
-                            (ngModelChange)="SelectedValueChange($event)"></label>
-            </span>
-          </td>
-        </tr>
+          <tr
+            *ngFor="
+              let order of imagingResults
+                | filterBy: { effectiveDateTime: filterTerm }
+            "
+          >
+            <td>
+              {{ order?.effectiveDateTime | date: 'dd-MMM-yyyy' }}
+            </td>
+            <td>
+              {{ order.code?.text }}
+            </td>
+            <td>
+              {{ order.report[0] }}<br />
+              {{ order.report[1] }} <br />
+              {{ order.report[2] }}
+            </td>
+            <td>
+              <button
+                (click)="fetchImageFromRefpacs(order)"
+                class="btn default"
+                [disabled]="!order.imageId"
+                [style.display]="
+                  result.resourceType === 'OperationOutcome' ? 'none' : ''
+                "
+                style="
+                  background-color: white;
+                  border-width: 1px;
+                  border-color: gray;
+                "
+              >
+                <span class="fa fa-camera" aria-hidden="true"></span>
+              </button>
+            </td>
+            <td>
+              <button (click)="likeImage(order)" [disabled]="!order.imageId">
+                <!--[disabled]="o.resource.id !==order.id"-->
+                <span
+                  data-toggle="tooltip"
+                  title="Like image"
+                  [style.display]="
+                    result.resourceType === 'OperationOutcome' ? 'none' : ''
+                  "
+                  class="fa fa-thumbs-up"
+                  aria-hidden="true"
+                  style="font-size: 35px"
+                ></span>
+              </button>
+              <button (click)="disLikeImage(order)" [disabled]="!order.imageId">
+                <!--[disabled]="o.resource.id !==order.id"-->
+                <span
+                  data-toggle="tooltip"
+                  title="Dislike image"
+                  [style.display]="
+                    result.resourceType === 'OperationOutcome' ? 'none' : ''
+                  "
+                  class="fa fa-thumbs-down"
+                  aria-hidden="true"
+                  style="font-size: 35px"
+                ></span>
+              </button>
+            </td>
+            <td>
+              <span
+                class="checkbox"
+                (click)="compareImageFromRefpacs(order)"
+                style="padding-left: 15px"
+              >
+                <label
+                  ><input
+                    type="checkbox"
+                    style="zoom: 1.5"
+                    value="order.id"
+                    [checked]=""
+                    [disabled]="!order.imageId"
+                    (ngModelChange)="SelectedValueChange($event)"
+                /></label>
+              </span>
+            </td>
+          </tr>
         </tbody>
       </table>
-
     </div>
-    <div>
-    </div>
-
+    <div></div>
   </div>
 
-  <div class="modal fade" bsModal #staticModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1"
-       role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div
+    class="modal fade"
+    bsModal
+    #staticModal="bs-modal"
+    [config]="{ backdrop: 'static' }"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="mySmallModalLabel"
+    aria-hidden="true"
+  >
     <div class="modal-dialog modal-lg">
       <div class="modal-content" *ngIf="patient">
         <div class="modal-header">
-          <h4 class="modal-title pull-left">Radiology Image |{{this.patient?.person.display}}| {{this.dateReported |date:'dd-MMM-yyyy'}}</h4>
-          <button type="button" class="close pull-right" aria-label="Close" (click)="staticModal.hide()">
+          <h4 class="modal-title pull-left">
+            Radiology Image |{{ this.patient?.person.display }}|
+            {{ this.dateReported | date: 'dd-MMM-yyyy' }}
+          </h4>
+          <button
+            type="button"
+            class="close pull-right"
+            aria-label="Close"
+            (click)="staticModal.hide()"
+          >
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body" *ngIf="imageToShow">
-          <img [src]="imageToShow" class="img-responsive">
-
+          <img [src]="imageToShow" class="img-responsive" />
         </div>
       </div>
     </div>
   </div>
 
-
-  <div class="modal fade" bsModal #staticModalCompare="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1"
-       role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div
+    class="modal fade"
+    bsModal
+    #staticModalCompare="bs-modal"
+    [config]="{ backdrop: 'static' }"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="mySmallModalLabel"
+    aria-hidden="true"
+  >
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title pull-left">{{this.patient?.person.display}}</h4>
-          <button type="button" class="close pull-right" aria-label="Close" (click)="staticModalCompare.hide()">
+          <h4 class="modal-title pull-left">
+            {{ this.patient?.person.display }}
+          </h4>
+          <button
+            type="button"
+            class="close pull-right"
+            aria-label="Close"
+            (click)="staticModalCompare.hide()"
+          >
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
           <div class="row">
             <div *ngFor="let images of compareImages">
-            <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
-              {{images.report}} | {{images.dateReported |date:'dd-MMM-yyyy'}}
-              <img [src]="images.image" class="img-responsive">
+              <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+                {{ images.report }} |
+                {{ images.dateReported | date: 'dd-MMM-yyyy' }}
+                <img [src]="images.image" class="img-responsive" />
+              </div>
             </div>
-            </div>
-
           </div>
-
-
         </div>
       </div>
     </div>
   </div>
 
-
-  <p-dialog header="Comments" [(visible)]="display" styleClass="comments-dialog">
+  <p-dialog
+    header="Comments"
+    [(visible)]="display"
+    styleClass="comments-dialog"
+  >
     <div>
-    <form>
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-          <div class="alert alert-success" *ngIf="showSuccessAlert" style="margin-top:10px">
-            <strong>Done!</strong> {{successAlert}}
+      <form>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+              <div
+                class="alert alert-success"
+                *ngIf="showSuccessAlert"
+                style="margin-top: 10px"
+              >
+                <strong>Done!</strong> {{ successAlert }}
+              </div>
+              <div
+                class="alert alert-danger"
+                *ngIf="showErrorAlert"
+                style="margin-top: 10px"
+              >
+                <strong>{{ errorTitle }}</strong> {{ errorAlert }}
+              </div>
+            </div>
           </div>
-          <div class="alert alert-danger" *ngIf="showErrorAlert" style="margin-top:10px">
-            <strong>{{errorTitle}}</strong> {{errorAlert}}
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <textarea
+                  class="form-control textarea"
+                  rows="3"
+                  [(ngModel)]="message"
+                  name="Message"
+                  id="Message"
+                  placeholder="Message"
+                ></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+            <button
+              class="btn btn-primary"
+              type="button"
+              (click)="createRadiologyComment()"
+            >
+              <span>Save</span>
+            </button>
+            <button
+              class="btn btn-danger pull-right"
+              type="button"
+              (click)="dismissDialog()"
+            >
+              <span>Cancel</span>
+            </button>
           </div>
         </div>
-      </div>
-
-      <div class="row">
-      <div class="col-md-12">
-        <div class="form-group">
-          <textarea class="form-control textarea" rows="3" [(ngModel)]="message" name="Message" id="Message" placeholder="Message"></textarea>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-      <button class="btn btn-primary" type="button" (click)="createRadiologyComment()"><span>Save</span></button>
-      <button class="btn btn-danger pull-right" type="button" (click)="dismissDialog()">
-        <span>Cancel</span></button>
-
-    </div>
-    </div>
-    </form>
+      </form>
     </div>
   </p-dialog>
 </div>
-

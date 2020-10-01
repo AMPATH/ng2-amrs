@@ -1,12 +1,21 @@
-<program-wizard *ngIf="loaded && !hasError" [showNext]="nextStep" [skipTo]="jumpStep" [showPrev]="prevStep"
-                (onStepChanged)="resetNext()">
-  <program-wizard-header [customClass]="customTitleClass" [currentStep]="currentStep"
-                         [steps]="steps" [title]="title"></program-wizard-header>
+<program-wizard
+  *ngIf="loaded && !hasError"
+  [showNext]="nextStep"
+  [skipTo]="jumpStep"
+  [showPrev]="prevStep"
+  (onStepChanged)="resetNext()"
+>
+  <program-wizard-header
+    [customClass]="customTitleClass"
+    [currentStep]="currentStep"
+    [steps]="steps"
+    [title]="title"
+  ></program-wizard-header>
   <p class="alert alert-danger" *ngIf="hasValidationErrors">
-    {{currentError}}
+    {{ currentError }}
   </p>
   <p class="alert alert-info" *ngIf="hasNotice">
-    {{currentNotice}}
+    {{ currentNotice }}
   </p>
   <program-wizard-step [name]="'Select Programs'">
     <div class="wizard-body component">
@@ -14,33 +23,73 @@
         <ng-container *ngFor="let department of enrolledProgramsByDepartment">
           <ng-container *ngIf="department.show">
             <div class="step-name">
-              <h2><i class="fa fa-arrow-right"></i>{{department.name}}</h2>
+              <h2><i class="fa fa-arrow-right"></i>{{ department.name }}</h2>
             </div>
             <ng-container *ngFor="let program of department.programs">
-              <blockquote class="step-details" style="border-left: 0;"
-                          *ngIf="program && program.dateEnrolled && !program.dateCompleted">
-                <p><input name="program_{{program.enrolledProgram._openmrsModel.uuid}}" value="{{program.enrolledProgram._openmrsModel.uuid}}"
-                          (change)="updateProgramsToEdit($event, program)" type="checkbox"/>
-                  {{program.enrolledProgram._openmrsModel.display}} <span
-                    class="pull-right">{{program.enrolledProgram._openmrsModel.location?.display}}</span></p>
-                <footer>Started {{program.dateEnrolled | date: 'longDate'}}</footer>
-                <hr/>
+              <blockquote
+                class="step-details"
+                style="border-left: 0"
+                *ngIf="
+                  program && program.dateEnrolled && !program.dateCompleted
+                "
+              >
+                <p>
+                  <input
+                    name="program_{{
+                      program.enrolledProgram._openmrsModel.uuid
+                    }}"
+                    value="{{ program.enrolledProgram._openmrsModel.uuid }}"
+                    (change)="updateProgramsToEdit($event, program)"
+                    type="checkbox"
+                  />
+                  {{ program.enrolledProgram._openmrsModel.display }}
+                  <span class="pull-right">{{
+                    program.enrolledProgram._openmrsModel.location?.display
+                  }}</span>
+                </p>
+                <footer>
+                  Started {{ program.dateEnrolled | date: 'longDate' }}
+                </footer>
+                <hr />
               </blockquote>
             </ng-container>
           </ng-container>
         </ng-container>
-        <p class="alert alert-danger" *ngIf="loaded && enrolledProgramsByDepartment.length === 0">
+        <p
+          class="alert alert-danger"
+          *ngIf="loaded && enrolledProgramsByDepartment.length === 0"
+        >
           The patient is not currently enrolled in any program
         </p>
-        <div *ngIf="enrolledProgramsByDepartment.length > 0" class="step-buttons">
-          <button *ngIf="!theChangeComplete" type="button" class="btn btn-primary pull-right"
-                  (click)="goToEditOptions()">Continue
+        <div
+          *ngIf="enrolledProgramsByDepartment.length > 0"
+          class="step-buttons"
+        >
+          <button
+            *ngIf="!theChangeComplete"
+            type="button"
+            class="btn btn-primary pull-right"
+            (click)="goToEditOptions()"
+          >
+            Continue
           </button>
-          <button *ngIf="theChangeComplete" style="margin-left: 12px;" type="button" class="btn btn-primary pull-right"
-                  (click)="goToPatientSearch()">Go to Patient Search
+          <button
+            *ngIf="theChangeComplete"
+            style="margin-left: 12px"
+            type="button"
+            class="btn btn-primary pull-right"
+            (click)="goToPatientSearch()"
+          >
+            Go to Patient Search
           </button>
-          <button *ngIf="theChangeComplete" style="margin-left: 12px;" type="button" class="btn btn-primary pull-right"
-                  (click)="goToPatientDashboard()">Go to Patient Dashboard
+          <button
+            *ngIf="theChangeComplete"
+            style="margin-left: 12px"
+            type="button"
+            class="btn btn-primary pull-right"
+            (click)="goToPatientDashboard()"
+          >
+            Go to Patient Dashboard
           </button>
           <span class="clear">&nbsp;</span>
         </div>
@@ -51,35 +100,75 @@
     <div class="wizard-body component">
       <div class="step">
         <div class="step-details" *ngFor="let program of programsToEdit">
-          <blockquote class="step-details" style="border-left: 0;"
-                      *ngIf="!theChangeComplete && program && program.dateEnrolled && !program.dateCompleted">
-            <p><input checked name="program_{{program.enrolledProgram._openmrsModel.uuid}}" value="{{program.enrolledProgram._openmrsModel.uuid}}"
-                      (change)="updateProgramsToEdit($event, program)" type="checkbox"/>
-              {{program.enrolledProgram._openmrsModel.display}} <span
-                class="pull-right">{{program.enrolledProgram._openmrsModel.location?.display}}</span></p>
-            <footer>Started {{program.dateEnrolled | date: 'longDate'}}</footer>
-            <hr/>
+          <blockquote
+            class="step-details"
+            style="border-left: 0"
+            *ngIf="
+              !theChangeComplete &&
+              program &&
+              program.dateEnrolled &&
+              !program.dateCompleted
+            "
+          >
+            <p>
+              <input
+                checked
+                name="program_{{ program.enrolledProgram._openmrsModel.uuid }}"
+                value="{{ program.enrolledProgram._openmrsModel.uuid }}"
+                (change)="updateProgramsToEdit($event, program)"
+                type="checkbox"
+              />
+              {{ program.enrolledProgram._openmrsModel.display }}
+              <span class="pull-right">{{
+                program.enrolledProgram._openmrsModel.location?.display
+              }}</span>
+            </p>
+            <footer>
+              Started {{ program.dateEnrolled | date: 'longDate' }}
+            </footer>
+            <hr />
           </blockquote>
         </div>
         <div *ngIf="!theChangeComplete" class="step-buttons">
           <div class="pull-left">
-            <button type="button" class="btn btn-danger" (click)="back()">Back</button>
+            <button type="button" class="btn btn-danger" (click)="back()">
+              Back
+            </button>
           </div>
           <div class="pull-right">
             <!--<button type="button" class="btn btn-primary btn-block"
                     (click)="changeLocation()">Change Location</button>-->
-            <button type="button" class="btn btn-primary"
-                    (click)="transferOut()">Transfer Out</button>
-            <button type="button" style="margin-left: 12px;" class="btn btn-danger"
-                    (click)="stopPrograms()">Exit Care</button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              (click)="transferOut()"
+            >
+              Transfer Out
+            </button>
+            <button
+              type="button"
+              style="margin-left: 12px"
+              class="btn btn-danger"
+              (click)="stopPrograms()"
+            >
+              Exit Care
+            </button>
           </div>
           <div class="clear">&nbsp;</div>
         </div>
         <div *ngIf="!theChangeComplete" class="panel panel-info">
           <div class="panel-heading">Please Note:</div>
           <div class="panel-body">
-            <p><strong>Transfer Out</strong> - Use for positive patients who are transferring to both AMPATH and non-AMPATH. You will be required to fill a transfer out form.</p>
-            <p><strong>Exit Program</strong> - Use for non positive/false positive patients e.g HEI,PreP,PEP. You will be required to fill an exit form.</p>
+            <p>
+              <strong>Transfer Out</strong> - Use for positive patients who are
+              transferring to both AMPATH and non-AMPATH. You will be required
+              to fill a transfer out form.
+            </p>
+            <p>
+              <strong>Exit Program</strong> - Use for non positive/false
+              positive patients e.g HEI,PreP,PEP. You will be required to fill
+              an exit form.
+            </p>
           </div>
         </div>
       </div>
@@ -88,22 +177,32 @@
   <program-wizard-step [name]="'Program Details Step'">
     <div class="wizard-body component">
       <div class="step">
-        <edit-program-location *ngIf="theChange === 'location'" [patient]="patient"
-                               (onBack)="goBack()"
-                               [programs]="programsToEdit"
-                               [userLocation]="selectedLocation"
-                               (locationChangeComplete)="onStepChangeComplete($event)">
+        <edit-program-location
+          *ngIf="theChange === 'location'"
+          [patient]="patient"
+          (onBack)="goBack()"
+          [programs]="programsToEdit"
+          [userLocation]="selectedLocation"
+          (locationChangeComplete)="onStepChangeComplete($event)"
+        >
         </edit-program-location>
-        <stop-program *ngIf="theChange === 'stop'" [patient]="patient"
-                      (onBack)="goBack()"
-                      [programs]="programsToEdit"
-                      [formsFilled]="formsFilled"
-                      (stopProgramComplete)="onStepChangeComplete($event)">
+        <stop-program
+          *ngIf="theChange === 'stop'"
+          [patient]="patient"
+          (onBack)="goBack()"
+          [programs]="programsToEdit"
+          [formsFilled]="formsFilled"
+          (stopProgramComplete)="onStepChangeComplete($event)"
+        >
         </stop-program>
-        <program-transfer *ngIf="theChange === 'transfer'" [patient]="patient"
-                          (onBack)="goBack()"
-                          [programs]="programsToEdit" [formsFilled]="formsFilled"
-                          (programTransferComplete)="onStepChangeComplete($event)">
+        <program-transfer
+          *ngIf="theChange === 'transfer'"
+          [patient]="patient"
+          (onBack)="goBack()"
+          [programs]="programsToEdit"
+          [formsFilled]="formsFilled"
+          (programTransferComplete)="onStepChangeComplete($event)"
+        >
         </program-transfer>
       </div>
     </div>
@@ -111,26 +210,55 @@
   <program-wizard-step [name]="'Program Edit Success'">
     <div class="wizard-body component">
       <div class="step">
-        <edit-program-location *ngIf="theChange === 'location'" [complete]="theChangeComplete"
-                               (onBack)="goBack()" [editedProgram]="successValue"
-                               [programs]="programsToEdit">
+        <edit-program-location
+          *ngIf="theChange === 'location'"
+          [complete]="theChangeComplete"
+          (onBack)="goBack()"
+          [editedProgram]="successValue"
+          [programs]="programsToEdit"
+        >
         </edit-program-location>
-        <stop-program *ngIf="theChange === 'stop'" [complete]="theChangeComplete"
-                      (onBack)="goBack()" [editedProgram]="successValue"
-                      [programs]="programsToEdit">
+        <stop-program
+          *ngIf="theChange === 'stop'"
+          [complete]="theChangeComplete"
+          (onBack)="goBack()"
+          [editedProgram]="successValue"
+          [programs]="programsToEdit"
+        >
         </stop-program>
-        <program-transfer *ngIf="theChange === 'transfer'" [complete]="theChangeComplete"
-                          (onBack)="goBack()" [editedProgram]="successValue"
-                          [programs]="programsToEdit">
+        <program-transfer
+          *ngIf="theChange === 'transfer'"
+          [complete]="theChangeComplete"
+          (onBack)="goBack()"
+          [editedProgram]="successValue"
+          [programs]="programsToEdit"
+        >
         </program-transfer>
         <div class="step-buttons" *ngIf="theChangeComplete">
-          <button type="button" class="btn btn-danger pull-left"
-                  (click)="startAgain()">Edit Program</button>
-          <button *ngIf="theChangeComplete" style="margin-left: 12px;" type="button" class="btn btn-primary pull-right"
-                  (click)="goToPatientSearch()">Go to Patient Search
+          <button
+            type="button"
+            class="btn btn-danger pull-left"
+            (click)="startAgain()"
+          >
+            Edit Program
           </button>
-          <button *ngIf="theChangeComplete" style="margin-left: 12px;" type="button" class="btn btn-primary pull-right"
-                  (click)="goToPatientDashboard()">Go to Patient Dashboard
+          <button
+            *ngIf="theChangeComplete"
+            style="margin-left: 12px"
+            type="button"
+            class="btn btn-primary pull-right"
+            (click)="goToPatientSearch()"
+          >
+            Go to Patient Search
+          </button>
+          <button
+            *ngIf="theChangeComplete"
+            style="margin-left: 12px"
+            type="button"
+            class="btn btn-primary pull-right"
+            (click)="goToPatientDashboard()"
+          >
+            Go to Patient Dashboard
           </button>
           <span class="clear">&nbsp;</span>
         </div>
@@ -141,5 +269,6 @@
 <busy *ngIf="!loaded" [message]="'Loading...'"></busy>
 <busy *ngIf="refreshingPatient" [message]="'Refreshing Patient Info...'"></busy>
 <p class="alert alert-danger" *ngIf="hasError">
-  Error loading patient program config. Please make sure that your network is working fine.
+  Error loading patient program config. Please make sure that your network is
+  working fine.
 </p>

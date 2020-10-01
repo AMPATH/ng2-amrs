@@ -14,11 +14,13 @@ export class ContactsComponent implements OnInit, OnDestroy {
   public display = false;
   public subscription: Subscription;
   private nextofkinPhoneNumber: number;
-  private patnerPhoneNumber: number;
+  private partnerPhoneNumber: number;
   private patientPhoneNumber: number;
   private alternativePhoneNumber: number;
-  constructor(private patientService: PatientService) {
-  }
+  private careGivername: string;
+  private relationshipToCareGiver: string;
+  private careGiverPhoneNumber: number;
+  constructor(private patientService: PatientService) {}
 
   public ngOnInit() {
     this.getPatient();
@@ -37,12 +39,14 @@ export class ContactsComponent implements OnInit, OnDestroy {
         if (patient) {
           this.patient = patient;
           this.nextofkinPhoneNumber = patient.person.nextofkinPhoneNumber;
-          this.patnerPhoneNumber = patient.person.patnerPhoneNumber;
+          this.partnerPhoneNumber = patient.person.partnerPhoneNumber;
           this.patientPhoneNumber = patient.person.patientPhoneNumber;
           this.alternativePhoneNumber = patient.person.alternativePhoneNumber;
+          this.careGivername = patient.person.caregiverName;
+          this.relationshipToCareGiver = patient.person.relationshipToCaregiver;
+          this.careGiverPhoneNumber = patient.person.caregiverPhoneNumber;
         }
       }
     );
   }
-
 }

@@ -1,98 +1,192 @@
-<add-to-cohort-dialog *ngIf="showingAddToCohort"  [allowPatientEdit]="true" [(cohort)]="cohort"  (dialogClosed)="onAddingToCohortClosed()">
+<add-to-cohort-dialog
+  *ngIf="showingAddToCohort"
+  [allowPatientEdit]="true"
+  [(cohort)]="cohort"
+  (dialogClosed)="onAddingToCohortClosed()"
+>
 </add-to-cohort-dialog>
 
 <div class="box-body">
-
   <div class="component-wrapper">
-
-    <h4 class="component-title"><span class="glyphicon glyphicon-list"></span> Patient List Details
-      <button class="btn btn-primary  pull-right" (click)="navigateBack()">Back to Patient Lists </button>
-
+    <h4 class="component-title">
+      <span class="glyphicon glyphicon-list"></span> Patient List Details
+      <button class="btn btn-primary pull-right" (click)="navigateBack()">
+        Back to Patient Lists
+      </button>
     </h4>
     <div class="component-wrapper">
-
-      <label > Name: </label> {{selectedCohortName}}
-      <a (click)="editCohorts.showDialog()" [class.hidden]="(userAssignedRole === 'view') ? true : null">
-        <span class="glyphicon glyphicon-pencil link" style="cursor: pointer; padding-left: 1em"></span>
+      <label> Name: </label> {{ selectedCohortName }}
+      <a
+        (click)="editCohorts.showDialog()"
+        [class.hidden]="userAssignedRole === 'view' ? true : null"
+      >
+        <span
+          class="glyphicon glyphicon-pencil link"
+          style="cursor: pointer; padding-left: 1em"
+        ></span>
       </a>
-      <a (click)="openConfirmDeleteCohortDialog(selectedCohortUuid)" [class.hidden]="(userAssignedRole !== 'admin') ? true : null">
-        <span class="glyphicon glyphicon-remove link" style="color:red; padding-left: 1em; cursor: pointer"></span></a>
-      <br>
-      <label>Description: </label> {{selectedCohortDescription}}
-        <edit-cohort-list #editCohorts></edit-cohort-list>
+      <a
+        (click)="openConfirmDeleteCohortDialog(selectedCohortUuid)"
+        [class.hidden]="userAssignedRole !== 'admin' ? true : null"
+      >
+        <span
+          class="glyphicon glyphicon-remove link"
+          style="color: red; padding-left: 1em; cursor: pointer"
+        ></span
+      ></a>
+      <br />
+      <label>Description: </label> {{ selectedCohortDescription }}
+      <edit-cohort-list #editCohorts></edit-cohort-list>
     </div>
-    <div class="alert alert-success" *ngIf="showSuccessAlert" style="margin-top:10px">
-            <strong>Done!</strong>{{successAlert}}
-          </div>
+    <div
+      class="alert alert-success"
+      *ngIf="showSuccessAlert"
+      style="margin-top: 10px"
+    >
+      <strong>Done!</strong>{{ successAlert }}
+    </div>
     <div>
       <share-cohort-list></share-cohort-list>
     </div>
 
     <div class="component-wrapper">
-      <h4 class="component-title"><span class="glyphicon glyphicon-list"></span> Members</h4>
+      <h4 class="component-title">
+        <span class="glyphicon glyphicon-list"></span> Members
+      </h4>
       <div>
-        <a (click)="addToCohort()" [class.disabled]="(userAssignedRole === 'view') ? true : false">
-          <span class="fa fa-plus fa-2x" style="cursor: pointer"></span> Add Member
+        <a
+          (click)="addToCohort()"
+          [class.disabled]="userAssignedRole === 'view' ? true : false"
+        >
+          <span class="fa fa-plus fa-2x" style="cursor: pointer"></span> Add
+          Member
         </a>
         <div>
-          <div class="input-group" style="width: 100%; padding-bottom: 4px; padding-top: 4px">
-            <input type="text" class="form-control" [ngModel]="filterTerm" (ngModelChange)="valueChange($event)" placeholder="Filter List"/>
-            <span class="glyphicon glyphicon-search form-control-feedback"></span>
+          <div
+            class="input-group"
+            style="width: 100%; padding-bottom: 4px; padding-top: 4px"
+          >
+            <input
+              type="text"
+              class="form-control"
+              [ngModel]="filterTerm"
+              (ngModelChange)="valueChange($event)"
+              placeholder="Filter List"
+            />
+            <span
+              class="glyphicon glyphicon-search form-control-feedback"
+            ></span>
           </div>
         </div>
       </div>
       <div class="panel panel-default">
         <table class="table table-striped table-hover">
           <thead>
-          <tr >
-            <th>#</th>
-            <th>Identifier(s)</th>
-            <th>Patient Name</th>
-            <th>Gender</th>
-            <th>Age</th>
-            <th></th>
-          </tr>
+            <tr>
+              <th>#</th>
+              <th>Identifier(s)</th>
+              <th>Patient Name</th>
+              <th>Gender</th>
+              <th>Age</th>
+              <th></th>
+            </tr>
           </thead>
           <tbody *ngIf="cohortMembers">
-          <tr style="cursor: pointer;"  (click)="loadPatientData(patient.patient.uuid)"  *ngFor="let patient of cohortMembers | filterBy: {display:filterTerm};
-           let i = index;">
-            <td>{{ i + 1 }}</td>
-            <td>
-              <span *ngFor="let identifier of patient.patient.identifiers">
-                {{identifier.display.split('=')[1]}}
-              </span>
+            <tr
+              style="cursor: pointer"
+              (click)="loadPatientData(patient.patient.uuid)"
+              *ngFor="
+                let patient of cohortMembers
+                  | filterBy: { display: filterTerm };
+                let i = index
+              "
+            >
+              <td>{{ i + 1 }}</td>
+              <td>
+                <span *ngFor="let identifier of patient.patient.identifiers">
+                  {{ identifier.display.split('=')[1] }}
+                </span>
               </td>
-            <td >{{patient.patient.person.display}}</td>
-            <td >{{patient.patient.person.gender}}</td>
-            <td>{{patient.patient.person.age}}</td>
-            <td (click)="$event.stopPropagation()">
-              <a (click)="openConfirmDialog(patient)" [class.disabled]="(userAssignedRole === 'view') ? true : null" >
-                <span class="glyphicon glyphicon-remove link" style="color:red; padding-left: 1em; cursor: pointer"></span></a>
-              <!--(click)="openConfirmDialog(list.uuid)" [class.disabled]="(list.role !== 'admin') ? true : null"-->
-            </td>
-          </tr>
+              <td>{{ patient.patient.person.display }}</td>
+              <td>{{ patient.patient.person.gender }}</td>
+              <td>{{ patient.patient.person.age }}</td>
+              <td (click)="$event.stopPropagation()">
+                <a
+                  (click)="openConfirmDialog(patient)"
+                  [class.disabled]="userAssignedRole === 'view' ? true : null"
+                >
+                  <span
+                    class="glyphicon glyphicon-remove link"
+                    style="color: red; padding-left: 1em; cursor: pointer"
+                  ></span
+                ></a>
+                <!--(click)="openConfirmDialog(list.uuid)" [class.disabled]="(list.role !== 'admin') ? true : null"-->
+              </td>
+            </tr>
           </tbody>
         </table>
-       <!-- <pagination-controls (pageChange)="page = $event" style="cursor: pointer;"></pagination-controls>-->
+        <!-- <pagination-controls (pageChange)="page = $event" style="cursor: pointer;"></pagination-controls>-->
       </div>
     </div>
-</div>
-  <p-dialog header="Delete Member" [(visible)]="displayConfirmDialog" modal="modal" width="300" responsive="true">
-    <p>This will remove <strong>{{selectedMember}}</strong> from this patient list. Are you sure you want to remove this member?</p>
+  </div>
+  <p-dialog
+    header="Delete Member"
+    [(visible)]="displayConfirmDialog"
+    modal="modal"
+    width="300"
+    responsive="true"
+  >
+    <p>
+      This will remove <strong>{{ selectedMember }}</strong> from this patient
+      list. Are you sure you want to remove this member?
+    </p>
     <p-footer>
       <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-        <button type="button" pButton icon="fa-close" (click)="closeConfirmationDialog()" label="No"></button>
-        <button type="button" pButton icon="fa-check" (click)="voidCohortMember()" label="Yes"></button>
+        <button
+          type="button"
+          pButton
+          icon="fa-close"
+          (click)="closeConfirmationDialog()"
+          label="No"
+        ></button>
+        <button
+          type="button"
+          pButton
+          icon="fa-check"
+          (click)="voidCohortMember()"
+          label="Yes"
+        ></button>
       </div>
     </p-footer>
   </p-dialog>
 
-  <p-dialog header="Delete Patient List" [(visible)]="displayConfirmDeleteCohortDialog" modal="modal" width="300" responsive="true">
-    <p>This will remove <strong>{{selectedCohortName}}</strong> patient list. Are you sure you want to remove this patient list?</p>
+  <p-dialog
+    header="Delete Patient List"
+    [(visible)]="displayConfirmDeleteCohortDialog"
+    modal="modal"
+    width="300"
+    responsive="true"
+  >
+    <p>
+      This will remove <strong>{{ selectedCohortName }}</strong> patient list.
+      Are you sure you want to remove this patient list?
+    </p>
     <p-footer>
       <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-        <button type="button" pButton icon="fa-close" (click)="closeConfirmDeleteCohortDialog()" label="No"></button>
-        <button type="button" pButton icon="fa-check" (click)="voidCohortList()" label="Yes"></button>
+        <button
+          type="button"
+          pButton
+          icon="fa-close"
+          (click)="closeConfirmDeleteCohortDialog()"
+          label="No"
+        ></button>
+        <button
+          type="button"
+          pButton
+          icon="fa-check"
+          (click)="voidCohortList()"
+          label="Yes"
+        ></button>
       </div>
     </p-footer>
   </p-dialog>

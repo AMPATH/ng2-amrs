@@ -7,9 +7,8 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./program-manager-container.component.css']
 })
 export class ProgramManagerContainerComponent implements OnInit {
-public queryParams = {};
-  constructor(private route: ActivatedRoute) {
-  }
+  public queryParams = {};
+  constructor(private route: ActivatedRoute) {}
 
   public ngOnInit() {
     this.queryParams = this.route.snapshot.queryParams;

@@ -7,12 +7,12 @@ import { User } from '../../models/user.model';
 
 @Injectable()
 export class AppFeatureAnalytics {
-
   private appUser: User;
 
-  constructor(private angulartics2: Angulartics2,
-              private userService: UserService) {
-  }
+  constructor(
+    private angulartics2: Angulartics2,
+    private userService: UserService
+  ) {}
 
   /**
    *

@@ -6,8 +6,6 @@ body {
   background-color: #fff;
 }
 
-
-
 .app-settings .dropdown-menu li {
   border-bottom: 1px solid #f5f5f5;
 }
@@ -16,22 +14,22 @@ body {
   font-size: 15px !important;
   font-color: #000 !important;
 }
-.app-settings  .content-body {
+.app-settings .content-body {
   background-color: #fff;
   border-radius: 5px;
   padding-left: 10px;
   padding-right: 10px;
   padding-top: 10px;
   padding-bottom: 50px;
-  border: 1px solid rgba(34, 36, 38, .15);
-
+  border: 1px solid rgba(34, 36, 38, 0.15);
 }
 
 footer .inline {
   display: inline-block;
   margin-right: 12px;
 }
-footer .inline p, footer a.inline {
+footer .inline p,
+footer a.inline {
   margin: 0px;
   line-height: 32px;
 }
@@ -42,7 +40,8 @@ footer .inline p, footer a.inline {
 .footer-logo {
   width: 120px;
 }
-.app-loader-logo,  .app-loader-logo-man {
+.app-loader-logo,
+.app-loader-logo-man {
   position: absolute;
   height: 70px;
   top: 0;
@@ -70,7 +69,9 @@ footer .inline p, footer a.inline {
   height: 34px;
 }
 
-.switch input {display:none;}
+.switch input {
+  display: none;
+}
 
 .slider {
   position: absolute;
@@ -80,28 +81,28 @@ footer .inline p, footer a.inline {
   right: 0;
   bottom: 0;
   background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
 .slider:before {
   position: absolute;
-  content: "";
+  content: '';
   height: 26px;
   width: 26px;
   left: 4px;
   bottom: 4px;
   background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
 input:checked + .slider {
-  background-color: #2196F3;
+  background-color: #2196f3;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
+  box-shadow: 0 0 1px #2196f3;
 }
 
 input:checked + .slider:before {
@@ -118,4 +119,3 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
-

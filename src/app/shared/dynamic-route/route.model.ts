@@ -4,8 +4,6 @@ export class RouteModel {
   public initials: string;
   public renderingInfo: any;
   public isDistinct: boolean;
-  public childRoutes: Array<RouteModel> =  [];
-    constructor() {
-
-    }
+  public childRoutes: Array<RouteModel> = [];
+  constructor() {}
 }

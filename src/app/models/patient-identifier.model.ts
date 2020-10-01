@@ -12,7 +12,9 @@ export class PatientIdentifier extends BaseModel {
   public get identifierType(): PatientIdentifierType {
     if (this._identifier === null || this._identifier === undefined) {
       this.initializeNavigationProperty('identifierType');
-      this._identifier = new PatientIdentifierType(this._openmrsModel.identifierType);
+      this._identifier = new PatientIdentifierType(
+        this._openmrsModel.identifierType
+      );
     }
     return this._identifier;
   }
@@ -28,5 +30,4 @@ export class PatientIdentifier extends BaseModel {
   public set identifier(v: string) {
     this._openmrsModel.identifier = v;
   }
-
 }

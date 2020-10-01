@@ -6,19 +6,21 @@ import { Patient } from '../../../models/patient.model';
 import { LocalStorageService } from '../../../utils/local-storage.service';
 @Injectable()
 export class ClinicRoutesFactory {
-
   public selectedDepartment: any;
 
-  constructor(public routesProvider: RoutesProviderService,
-  private _localStorageService: LocalStorageService) { }
+  constructor(
+    public routesProvider: RoutesProviderService,
+    private _localStorageService: LocalStorageService
+  ) {}
 
   public createClinicDashboardRoutes(locationUuid): RouteModel[] {
-
     if (locationUuid === null || locationUuid === undefined) {
       throw new Error('Location is required');
     }
     let selectedDepartment: any;
-    const setDepartment: any = JSON.parse(this._localStorageService.getItem('userDefaultDepartment'));
+    const setDepartment: any = JSON.parse(
+      this._localStorageService.getItem('userDefaultDepartment')
+    );
     selectedDepartment = setDepartment[0].itemName;
     this.selectedDepartment = selectedDepartment;
 
@@ -30,11 +32,7 @@ export class ClinicRoutesFactory {
       for (const department of clinicRoutesConfig.departments) {
         const departmentName = department.departmentName;
         if (departmentName === this.selectedDepartment) {
-
-            routes.push(
-              this.createClinicRouteModel(department, locationUuid)
-            );
-
+          routes.push(this.createClinicRouteModel(department, locationUuid));
         }
       }
     }
@@ -43,13 +41,15 @@ export class ClinicRoutesFactory {
   }
 
   public createAnalyticsDashboardRoutes(): RouteModel[] {
-
     let selectedDepartment: any;
-    const setDepartment: any = JSON.parse(this._localStorageService.getItem('userDefaultDepartment'));
+    const setDepartment: any = JSON.parse(
+      this._localStorageService.getItem('userDefaultDepartment')
+    );
     selectedDepartment = setDepartment[0].itemName;
     this.selectedDepartment = selectedDepartment;
 
-    let analyticsRoutesConfig: any = this.routesProvider.analyticsDashboardConfig;
+    let analyticsRoutesConfig: any = this.routesProvider
+      .analyticsDashboardConfig;
     analyticsRoutesConfig = this.processSharedRoutes(analyticsRoutesConfig);
 
     const routes: RouteModel[] = [];
@@ -57,9 +57,7 @@ export class ClinicRoutesFactory {
       for (const department of analyticsRoutesConfig.departments) {
         const departmentName = department.departmentName;
         if (departmentName === this.selectedDepartment) {
-            routes.push(
-              this.createAnalyticsRouteModel(department)
-            );
+          routes.push(this.createAnalyticsRouteModel(department));
         }
       }
     }
@@ -78,7 +76,10 @@ export class ClinicRoutesFactory {
     return routesConfig;
   }
 
-  private createClinicRouteModel(routInfo: any, locationUuid: string): RouteModel {
+  private createClinicRouteModel(
+    routInfo: any,
+    locationUuid: string
+  ): RouteModel {
     const model = new RouteModel();
     model.label = routInfo.departmentName;
     model.initials = (routInfo.departmentName as string).charAt(0);
@@ -102,15 +103,22 @@ export class ClinicRoutesFactory {
     return model;
   }
 
-  private createClinicChildRoutes(routInfo: any[], clinicRouteModel: RouteModel) {
+  private createClinicChildRoutes(
+    routInfo: any[],
+    clinicRouteModel: RouteModel
+  ) {
     clinicRouteModel.childRoutes = [];
     routInfo.forEach((route) => {
-      clinicRouteModel.childRoutes.push(this.createClinicChildRoute(route,
-        clinicRouteModel));
+      clinicRouteModel.childRoutes.push(
+        this.createClinicChildRoute(route, clinicRouteModel)
+      );
     });
   }
 
-  private createClinicChildRoute(routInfo: any, clinicRouteModel: RouteModel): RouteModel {
+  private createClinicChildRoute(
+    routInfo: any,
+    clinicRouteModel: RouteModel
+  ): RouteModel {
     const model = new RouteModel();
     model.url = clinicRouteModel.url + '/' + routInfo.url;
     model.label = routInfo.label;
@@ -121,5 +129,4 @@ export class ClinicRoutesFactory {
     model.isDistinct = routInfo.isDistinct;
     return model;
   }
-
 }

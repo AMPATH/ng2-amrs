@@ -4,12 +4,8 @@ import * as Moment from 'moment';
 import * as _ from 'lodash';
 import { take } from 'rxjs/operators';
 
-import {
-  DataAnalyticsDashboardService
-} from '../../data-analytics-dashboard/services/data-analytics-dashboard.services';
-import {
-  PatientReferralResourceService
-} from '../../etl-api/patient-referral-resource.service';
+import { DataAnalyticsDashboardService } from '../../data-analytics-dashboard/services/data-analytics-dashboard.services';
+import { PatientReferralResourceService } from '../../etl-api/patient-referral-resource.service';
 import { LocalStorageService } from '../../utils/local-storage.service';
 import { SelectDepartmentService } from '../../shared/services/select-department.service';
 
@@ -22,8 +18,8 @@ export class PatientReferralBaseComponent implements OnInit {
   public sectionsDef = [];
   public isAggregated: boolean;
   public programs: any;
-  public enabledControls = 'datesControl' +
-    'ageControl,genderControl,locationControl';
+  public enabledControls =
+    'datesControl' + 'ageControl,genderControl,locationControl';
   public startAge: number;
   public endAge: number;
   public selectedGender = [];
@@ -36,8 +32,8 @@ export class PatientReferralBaseComponent implements OnInit {
   public programUuids: any;
   public showEmptyResultsDialog = false;
   public msgObj: any = {
-    'message': '',
-    'show': false
+    message: '',
+    show: false
   };
 
   private _startDate: Date = Moment().subtract(1, 'months').toDate();
@@ -71,9 +67,10 @@ export class PatientReferralBaseComponent implements OnInit {
     public patientReferralResourceService: PatientReferralResourceService,
     public dataAnalyticsDashboardService: DataAnalyticsDashboardService,
     public localStorageService: LocalStorageService,
-    public selectDepartmentService: SelectDepartmentService) { }
+    public selectDepartmentService: SelectDepartmentService
+  ) {}
 
-  public ngOnInit() { }
+  public ngOnInit() {}
 
   public resetErrorMessage() {
     this.msgObj = {
@@ -119,20 +116,25 @@ export class PatientReferralBaseComponent implements OnInit {
         });
       }
       this.patientReferralResourceService
-        .getPatientReferralReport(params).pipe(take(1)).subscribe((data) => {
-          this.isLoadingReport = false;
-          const groupedProgramData = this.getProgramData(data);
-          if (groupedProgramData.length === 0) {
-            this.showEmptyResultsDialog = true;
-          } else {
-            this.data = groupedProgramData;
+        .getPatientReferralReport(params)
+        .pipe(take(1))
+        .subscribe(
+          (data) => {
+            this.isLoadingReport = false;
+            const groupedProgramData = this.getProgramData(data);
+            if (groupedProgramData.length === 0) {
+              this.showEmptyResultsDialog = true;
+            } else {
+              this.data = groupedProgramData;
+            }
+          },
+          (error) => {
+            console.error('Error fetching referral report: ', error);
+            this.isLoadingReport = false;
+            this.errorMessage = error;
+            this.encounteredError = true;
           }
-        }, (error) => {
-          console.error('Error fetching referral report: ', error);
-          this.isLoadingReport = false;
-          this.errorMessage = error;
-          this.encounteredError = true;
-        });
+        );
     }
   }
 
@@ -173,7 +175,8 @@ export class PatientReferralBaseComponent implements OnInit {
       if (i === 0) {
         selectedLocations = selectedLocations + (locationUuids[0] as any).value;
       } else {
-        selectedLocations = selectedLocations + ',' + (locationUuids[i] as any).value;
+        selectedLocations =
+          selectedLocations + ',' + (locationUuids[i] as any).value;
       }
     }
     return selectedLocations;

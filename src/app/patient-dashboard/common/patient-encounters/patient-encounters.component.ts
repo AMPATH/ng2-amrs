@@ -14,7 +14,6 @@ import * as _ from 'lodash';
   selector: 'app-patient-encounters',
   templateUrl: './patient-encounters.component.html',
   styleUrls: ['./patient-encounters.component.css']
-
 })
 export class PatientEncountersComponent implements OnInit, OnDestroy {
   public encounters: Encounter[];
@@ -33,16 +32,22 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
     message: 'Fetching encounters hang on...' // default message
   };
   private subscription: Subscription;
-  constructor(private patientEncounterService: PatientEncounterService,
+  constructor(
+    private patientEncounterService: PatientEncounterService,
     private patientService: PatientService,
     private appFeatureAnalytics: AppFeatureAnalytics,
-    private router: Router, private route: ActivatedRoute) { }
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
   public ngOnInit() {
     this.getPatient();
     // load cached result
     // app feature analytics
-    this.appFeatureAnalytics
-      .trackEvent('Patient Dashboard', 'Patient Encounter List Loaded', 'ngOnInit');
+    this.appFeatureAnalytics.trackEvent(
+      'Patient Dashboard',
+      'Patient Encounter List Loaded',
+      'ngOnInit'
+    );
   }
 
   public ngOnDestroy(): void {
@@ -73,7 +78,8 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
             id: 'visit',
             message: 'error fetching visit'
           });
-        });
+        }
+      );
   }
   public loadEncounterTypes(encounters) {
     if (encounters.length > 0) {
@@ -83,16 +89,13 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
 
       this.sortEncounterTpes();
     }
-
   }
   public sortEncounterTpes() {
-
     const newUniqueEncounterTypes = _.uniq(this.encounterTypes);
 
     const sortByAlphOrder = _.sortBy(newUniqueEncounterTypes);
 
     this.encounterTypes = sortByAlphOrder;
-
   }
   public getPatient() {
     this.dataLoading = true;
@@ -102,14 +105,14 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
           this.patient = patient;
           this.loadPatientEncounters(patient.person.uuid);
         }
-      }
-      , (err) => {
-
+      },
+      (err) => {
         this.errors.push({
           id: 'patient',
           message: 'error fetching patient'
         });
-      });
+      }
+    );
   }
 
   public editEncounter(encounter) {
@@ -117,12 +120,12 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
       // get visitType and add it to the url
       let visitType = '';
       if (encounter.visit && encounter.visit !== null) {
-          const visit: any = encounter.visit;
-          visitType = visit.uuid;
+        const visit: any = encounter.visit;
+        visitType = visit.uuid;
       }
       this.router.navigate(['../formentry', encounter.form.uuid], {
         relativeTo: this.route,
-        queryParams: { encounter: encounter.uuid ,  visitTypeUuid: visitType }
+        queryParams: { encounter: encounter.uuid, visitTypeUuid: visitType }
       });
     }
   }
@@ -137,7 +140,6 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
       this.onEncounterDetail = Math.random();
       this.pretty = false;
     }
-
   }
 
   public showPrettyEncounterViewer(encounter) {
@@ -148,7 +150,10 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
     }
   }
 
-  public isBusyIndicator(isBusy: boolean, message: string = 'Please wait...'): void {
+  public isBusyIndicator(
+    isBusy: boolean,
+    message: string = 'Please wait...'
+  ): void {
     if (isBusy === true) {
       this.busyIndicator = {
         busy: true,
@@ -160,6 +165,5 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
         message: message
       };
     }
-
   }
 }

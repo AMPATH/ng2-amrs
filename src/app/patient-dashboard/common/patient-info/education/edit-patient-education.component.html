@@ -1,0 +1,79 @@
+<p-dialog
+  header="Edit Highest Education Level"
+  [(visible)]="display"
+  styleClass="edit-contacts-dialog"
+>
+  <div class="container-fluid">
+    <div class="row" *ngIf="showSuccessAlert">
+      <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+        <div
+          class="alert alert-success"
+          *ngIf="showSuccessAlert"
+          style="margin-top: 10px"
+        >
+          <strong>Done!</strong> {{ successAlert }}
+        </div>
+        <div
+          class="alert alert-danger"
+          *ngIf="showErrorAlert"
+          style="margin-top: 10px"
+        >
+          <strong>{{ errorTitle }}</strong> {{ errorAlert }}
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <form>
+        <div class="form-group">
+          <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+            <div class="form-group">
+              <label for="levelOfEducation">Highest Education Level </label>
+              <select
+                class="form-control"
+                name="education"
+                [ngModel]="this.patient.person.levelOfEducation?.uuid"
+                (ngModelChange)="onSelectEducation($event)"
+              >
+                <option
+                  *ngFor="let level of levelOfEducation"
+                  [value]="level.value"
+                >
+                  {{ level.name }}
+                </option>
+              </select>
+              <div
+                *ngIf="errors && !this.patient.person.levelOfEducation?.uuid"
+                class="required"
+              >
+                <span class="help-block" style="color: red"
+                  >Highest Education Level</span
+                >
+              </div>
+            </div>
+          </div>
+          <div
+            class="col-md-12 col-lg-12 col-sm-12 col-xs-12"
+            style="padding-top: 15px"
+          >
+            <button
+              type="button"
+              (click)="saveAttribute()"
+              class="btn btn-primary"
+              data-color="blue"
+              [disabled]=""
+            >
+              Save
+            </button>
+            <button
+              class="btn btn-danger pull-right"
+              type="button"
+              (click)="dismissDialog()"
+            >
+              <span>Cancel</span>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</p-dialog>

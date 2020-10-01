@@ -1,81 +1,152 @@
-
 <div class="box-body">
   <!-- <div [ngBusy]="{busy:[fetchingResults, isBusy],message:'Please wait loading data...'}"></div> -->
   <div class="component-wrapper">
-    <h4 class="component-title"><span class="glyphicon glyphicon-list"></span> Patient Lists</h4>
-    <div style="width: 100%;margin-top:4px;margin-bottom:4px;">
-      <a (click)="addNewCohort()"   class="add_rel">
-        <span class="fa fa-plus fa-2x" style="cursor: pointer"></span> Create Patient List
+    <h4 class="component-title">
+      <span class="glyphicon glyphicon-list"></span> Patient Lists
+    </h4>
+    <div style="width: 100%; margin-top: 4px; margin-bottom: 4px">
+      <a (click)="addNewCohort()" class="add_rel">
+        <span class="fa fa-plus fa-2x" style="cursor: pointer"></span> Create
+        Patient List
       </a>
       <div>
         <div>
-          <div class="input-group" style="width: 100%;margin-top:4px; padding-bottom: 4px; padding-top: 4px">
-            <input type="text" class="form-control" [ngModel]="filterTerm" (ngModelChange)="valueChange($event)" placeholder="Filter List"/>
-            <span class="glyphicon glyphicon-search form-control-feedback"></span>
+          <div
+            class="input-group"
+            style="
+              width: 100%;
+              margin-top: 4px;
+              padding-bottom: 4px;
+              padding-top: 4px;
+            "
+          >
+            <input
+              type="text"
+              class="form-control"
+              [ngModel]="filterTerm"
+              (ngModelChange)="valueChange($event)"
+              placeholder="Filter List"
+            />
+            <span
+              class="glyphicon glyphicon-search form-control-feedback"
+            ></span>
           </div>
         </div>
       </div>
       <div class="table-responsive">
-        <table class="table table-striped table-hover " style="cursor: pointer" id="mytable">
+        <table
+          class="table table-striped table-hover"
+          style="cursor: pointer"
+          id="mytable"
+        >
           <thead>
-          <tr>
-            <th>Name</th>
-            <th>Role</th>
-            <th>Private/Shared</th>
-            <th>Date Created</th>
-            <th>Description</th>
-            <th>Actions</th>
-          </tr>
+            <tr>
+              <th>Name</th>
+              <th>Role</th>
+              <th>Private/Shared</th>
+              <th>Date Created</th>
+              <th>Description</th>
+              <th>Actions</th>
+            </tr>
           </thead>
           <tbody *ngIf="cohortList">
-          <tr *ngFor="let list of cohortList | filterBy: {name:filterTerm};   let i = index; " (click)="viewCohortListMembers(list)">
-            <td>
-              {{list.name }}
-            </td>
-            <td >
-              {{list.role}}
-            </td>
-            <td>
-              {{list.access}}
-            </td>
-            <td>
-              {{list.date_created | date:'dd-MM-yyyy'}}
-            </td>
-            <td>
-              {{list.description}}
-            </td>
-            <td (click)=" $event.stopPropagation()">
-              <!--<a (click)="viewCohortListMembers(list.uuid, list.description, list.name)" >
+            <tr
+              *ngFor="
+                let list of cohortList | filterBy: { name: filterTerm };
+                let i = index
+              "
+              (click)="viewCohortListMembers(list)"
+            >
+              <td>
+                {{ list.name }}
+              </td>
+              <td>
+                {{ list.role }}
+              </td>
+              <td>
+                {{ list.access }}
+              </td>
+              <td>
+                {{ list.date_created | date: 'dd-MM-yyyy' }}
+              </td>
+              <td>
+                {{ list.description }}
+              </td>
+              <td (click)="$event.stopPropagation()">
+                <!--<a (click)="viewCohortListMembers(list.uuid, list.description, list.name)" >
                 <span style="font-size:14px; padding-left: 1em; cursor: pointer" class="glyphicon glyphicon-zoom-in"></span></a>-->
-              <a (click)="shareCohortList(list.uuid, list.description, list.name)" [class.disabled]="(list.role !== 'admin') ? true : null" >
-                <span style="font-size:14px; padding-left: 1em; cursor: pointer" class="fa fa-share-alt" ></span></a>
-              <a (click)="openConfirmDialog({uuid:list.uuid,name:list.name})" [class.disabled]="(list.role !== 'admin') ? true : null"
-                 ><span class="glyphicon glyphicon-remove link" style="color:red; padding-left: 1em; cursor: pointer" ></span></a>
-            </td>
-          </tr>
+                <a
+                  (click)="
+                    shareCohortList(list.uuid, list.description, list.name)
+                  "
+                  [class.disabled]="list.role !== 'admin' ? true : null"
+                >
+                  <span
+                    style="font-size: 14px; padding-left: 1em; cursor: pointer"
+                    class="fa fa-share-alt"
+                  ></span
+                ></a>
+                <a
+                  (click)="
+                    openConfirmDialog({ uuid: list.uuid, name: list.name })
+                  "
+                  [class.disabled]="list.role !== 'admin' ? true : null"
+                  ><span
+                    class="glyphicon glyphicon-remove link"
+                    style="color: red; padding-left: 1em; cursor: pointer"
+                  ></span
+                ></a>
+              </td>
+            </tr>
           </tbody>
         </table>
-
       </div>
       <!--<div>
         <pagination-controls (pageChange)="page = $event" style="cursor: pointer;"></pagination-controls> date:'dd/MM/yyyy'
       </div>-->
-
     </div>
-
   </div>
-  <div class="alert alert-success" *ngIf="showSuccessAlert" style="margin-top:10px">
-    <strong>Done!</strong> {{successAlert}}
+  <div
+    class="alert alert-success"
+    *ngIf="showSuccessAlert"
+    style="margin-top: 10px"
+  >
+    <strong>Done!</strong> {{ successAlert }}
   </div>
-  <div class="alert alert-danger" *ngIf="showErrorAlert" style="margin-top:10px">
-    <strong>{{errorTitle}}</strong> {{errorAlert}}
+  <div
+    class="alert alert-danger"
+    *ngIf="showErrorAlert"
+    style="margin-top: 10px"
+  >
+    <strong>{{ errorTitle }}</strong> {{ errorAlert }}
   </div>
-  <p-dialog header="Delete Patient List" [(visible)]="displayConfirmDialog" modal="modal" width="300" responsive="true">
-    <p>This will remove <b>{{selectedCohortListName}}</b> patient list. Are you sure you want to remove this patient list?</p>
+  <p-dialog
+    header="Delete Patient List"
+    [(visible)]="displayConfirmDialog"
+    modal="modal"
+    width="300"
+    responsive="true"
+  >
+    <p>
+      This will remove <b>{{ selectedCohortListName }}</b> patient list. Are you
+      sure you want to remove this patient list?
+    </p>
     <p-footer>
       <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-        <button type="button" pButton icon="fa-close" (click)="closeConfirmationDialog()" label="No"></button>
-        <button type="button" pButton icon="fa-check" (click)="voidCohortList()" label="Yes"></button>
+        <button
+          type="button"
+          pButton
+          icon="fa-close"
+          (click)="closeConfirmationDialog()"
+          label="No"
+        ></button>
+        <button
+          type="button"
+          pButton
+          icon="fa-check"
+          (click)="voidCohortList()"
+          label="Yes"
+        ></button>
       </div>
     </p-footer>
   </p-dialog>

@@ -6,9 +6,7 @@ import { Observable, ReplaySubject, Subject, of } from 'rxjs';
 import { first } from 'rxjs/operators';
 @Injectable()
 export class FromentryGuard implements CanDeactivate<FormentryComponent> {
-
-  constructor(private confirmationService: ConfirmationService) {
-  }
+  constructor(private confirmationService: ConfirmationService) {}
 
   public canDeactivate(component: FormentryComponent): Observable<boolean> {
     if (!component.form || !component.form.rootNode.control.dirty) {

@@ -12,8 +12,8 @@ div[class^='col-md'] {
 }
 
 .snapshot {
-  padding-left:15px;
-  padding-right:15px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .snapshot .red {
@@ -24,12 +24,10 @@ div[class^='col-md'] {
   font-size: 22px;
   text-transform: capitalize;
   padding-bottom: 8px;
-  border-bottom: 1px solid rgba(34,36,38,.15);
+  border-bottom: 1px solid rgba(34, 36, 38, 0.15);
   margin-bottom: 8px;
 }
 
 h3 {
   margin-bottom: 0px;
 }
-
-

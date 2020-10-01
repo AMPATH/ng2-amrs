@@ -1,90 +1,191 @@
 <div class="box-body">
   <div class="component-wrapper">
-    <h4 class="component-title"><span class="glyphicon glyphicon-list"></span> Users</h4>
+    <h4 class="component-title">
+      <span class="glyphicon glyphicon-list"></span> Users
+    </h4>
     <div class="panel panel-default">
-      <a (click)="isAddButton()"    class="add_rel" [class.disabled]="(userAssignedRole === 'view') ? true : null">
+      <a
+        (click)="isAddButton()"
+        class="add_rel"
+        [class.disabled]="userAssignedRole === 'view' ? true : null"
+      >
         <!--[class.disabled]="(userAssignedRole !== 'admin') ? true : null"-->
-        <span class="fa fa-plus fa-2x" style="cursor: pointer" ></span> Share with New User
+        <span class="fa fa-plus fa-2x" style="cursor: pointer"></span> Share
+        with New User
       </a>
       <div [hidden]="isUseList">
         <div>
           <div>
-            <div class="input-group" style="width: 100%; padding-bottom: 4px; padding-top: 4px">
-              <input type="text" class="form-control" [ngModel]="filterTerm" (ngModelChange)="valueChange($event)" placeholder="Filter List"/>
-              <span class="glyphicon glyphicon-search form-control-feedback"></span>
+            <div
+              class="input-group"
+              style="width: 100%; padding-bottom: 4px; padding-top: 4px"
+            >
+              <input
+                type="text"
+                class="form-control"
+                [ngModel]="filterTerm"
+                (ngModelChange)="valueChange($event)"
+                placeholder="Filter List"
+              />
+              <span
+                class="glyphicon glyphicon-search form-control-feedback"
+              ></span>
             </div>
           </div>
         </div>
         <table class="table table-striped table-hover">
           <thead>
-          <tr>
-            <th>#</th>
-            <th>User</th>
-            <th>Role</th>
-            <th>Delete</th>
-            <th></th>
-          </tr>
-          </thead >
-          <tbody *ngIf="cohortUsers" >
-          <tr style="cursor: pointer;"  *ngFor="let users of cohortUsers | filterBy: {username:filterTerm};   let i = index;" >
-           <!-- | filterBy: {username:filterTerm};-->
-            <td>{{ i + 1 }}</td>
-            <td>{{users.username}}</td>
-            <td >
-              <div class="dropdown" style="width: 80px !important">
-                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="width: 80px !important"
-                        [class.disabled]="(userAssignedRole === 'view' || users.role === 'admin') ? true : null">{{users.role}}
-                  <span class="caret"> </span></button>
-                <ul class="dropdown-menu">
-                  <li style="cursor: pointer"><a (click)="canEdit(users)">can edit</a></li>
-                  <li style="cursor: pointer"><a (click)="canView(users)">can view</a></li>
-                </ul>
-              </div>
-            </td>
-            <td >
-              <a (click)="openConfirmDialog(users)" [class.hidden]="(users.role === 'admin' || userAssignedRole === 'view') ? true : null"><span class="glyphicon glyphicon-remove link" style="color:red; padding-left: 1em; cursor: pointer"></span></a>
-            </td>
-          </tr>
+            <tr>
+              <th>#</th>
+              <th>User</th>
+              <th>Role</th>
+              <th>Delete</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody *ngIf="cohortUsers">
+            <tr
+              style="cursor: pointer"
+              *ngFor="
+                let users of cohortUsers | filterBy: { username: filterTerm };
+                let i = index
+              "
+            >
+              <!-- | filterBy: {username:filterTerm};-->
+              <td>{{ i + 1 }}</td>
+              <td>{{ users.username }}</td>
+              <td>
+                <div class="dropdown" style="width: 80px !important">
+                  <button
+                    class="btn btn-primary dropdown-toggle"
+                    type="button"
+                    data-toggle="dropdown"
+                    style="width: 80px !important"
+                    [class.disabled]="
+                      userAssignedRole === 'view' || users.role === 'admin'
+                        ? true
+                        : null
+                    "
+                  >
+                    {{ users.role }} <span class="caret"> </span>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li style="cursor: pointer">
+                      <a (click)="canEdit(users)">can edit</a>
+                    </li>
+                    <li style="cursor: pointer">
+                      <a (click)="canView(users)">can view</a>
+                    </li>
+                  </ul>
+                </div>
+              </td>
+              <td>
+                <a
+                  (click)="openConfirmDialog(users)"
+                  [class.hidden]="
+                    users.role === 'admin' || userAssignedRole === 'view'
+                      ? true
+                      : null
+                  "
+                  ><span
+                    class="glyphicon glyphicon-remove link"
+                    style="color: red; padding-left: 1em; cursor: pointer"
+                  ></span
+                ></a>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
       <div [hidden]="isCreateNewUser">
-
-        <user-search (onSelectedUserFromSearch)="getSelectedUser($event)"></user-search>
-          <label > User Name: </label> {{selectedUserToBind}}
-          <div class="input-group" >
-            <label style="line-height: 54px;  margin-right: 12px;" >Role: </label>
-            <div class="input-group" style="float: right; padding-left: 0.5em;margin-bottom: 30px;">
-              <select class="form-control" [ngModel]="preferredRole" (ngModelChange)="setPreferredRole($event)">
-                <option *ngFor="let c of roles" [ngValue]="c.value">{{c.label}}</option>
-              </select>
-            </div>
+        <user-search
+          (onSelectedUserFromSearch)="getSelectedUser($event)"
+        ></user-search>
+        <label> User Name: </label> {{ selectedUserToBind }}
+        <div class="input-group">
+          <label style="line-height: 54px; margin-right: 12px">Role: </label>
+          <div
+            class="input-group"
+            style="float: right; padding-left: 0.5em; margin-bottom: 30px"
+          >
+            <select
+              class="form-control"
+              [ngModel]="preferredRole"
+              (ngModelChange)="setPreferredRole($event)"
+            >
+              <option *ngFor="let c of roles" [ngValue]="c.value">
+                {{ c.label }}
+              </option>
+            </select>
           </div>
-        <div  style="padding-top: 20px">
-          <button type="submit" class="btn btn-primary" style="margin-right: 16px" (click)="ShareCohortWithNewUser()">Share</button>
-          <button type="submit" class="btn btn-primary" style="margin-right: 16px" (click)="cancelSharing()">Cancel</button>
         </div>
-
+        <div style="padding-top: 20px">
+          <button
+            type="submit"
+            class="btn btn-primary"
+            style="margin-right: 16px"
+            (click)="ShareCohortWithNewUser()"
+          >
+            Share
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            style="margin-right: 16px"
+            (click)="cancelSharing()"
+          >
+            Cancel
+          </button>
+        </div>
       </div>
       <div>
-          <div class="alert alert-success" *ngIf="showSuccessAlert" style="margin-top:10px">
-            <strong>Done!</strong> {{successAlert}}
-          </div>
-          <div class="alert alert-danger" *ngIf="showErrorAlert" style="margin-top:10px">
-            <strong>{{errorTitle}}</strong> {{errorAlert}}
-          </div>
-          <p-dialog header="Delete Cohort User" [(visible)]="displayConfirmDialog" modal="modal" width="300" responsive="true">
-            <p> This will remove <strong> {{selectedCohortUserName}}</strong>  from seeing this patient list.
-              Are you sure you want to remove access?</p>
-            <p-footer>
-              <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-                <button type="button" pButton icon="fa-close" (click)="closeConfirmationDialog()" label="No"></button>
-                <button type="button" pButton icon="fa-check" (click)="deleteCohortUser()" label="Yes"></button>
-              </div>
-            </p-footer>
-          </p-dialog>
+        <div
+          class="alert alert-success"
+          *ngIf="showSuccessAlert"
+          style="margin-top: 10px"
+        >
+          <strong>Done!</strong> {{ successAlert }}
+        </div>
+        <div
+          class="alert alert-danger"
+          *ngIf="showErrorAlert"
+          style="margin-top: 10px"
+        >
+          <strong>{{ errorTitle }}</strong> {{ errorAlert }}
+        </div>
+        <p-dialog
+          header="Delete Cohort User"
+          [(visible)]="displayConfirmDialog"
+          modal="modal"
+          width="300"
+          responsive="true"
+        >
+          <p>
+            This will remove <strong> {{ selectedCohortUserName }}</strong> from
+            seeing this patient list. Are you sure you want to remove access?
+          </p>
+          <p-footer>
+            <div
+              class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix"
+            >
+              <button
+                type="button"
+                pButton
+                icon="fa-close"
+                (click)="closeConfirmationDialog()"
+                label="No"
+              ></button>
+              <button
+                type="button"
+                pButton
+                icon="fa-check"
+                (click)="deleteCohortUser()"
+                label="Yes"
+              ></button>
+            </div>
+          </p-footer>
+        </p-dialog>
       </div>
-
+    </div>
   </div>
-</div>
 </div>

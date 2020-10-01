@@ -1,58 +1,61 @@
-
 import { take, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Patient } from '../../../models/patient.model';
 import { Relationship } from '../../../models/relationship.model';
-import {
-  PatientRelationshipResourceService
-} from '../../../openmrs-api/patient-relationship-resource.service';
+import { PatientRelationshipResourceService } from '../../../openmrs-api/patient-relationship-resource.service';
 import * as _ from 'lodash';
 
 @Injectable()
 export class PatientRelationshipService {
   public patientToBindRelationship: Patient;
 
-  constructor(private patientRelationshipResourceService: PatientRelationshipResourceService) {
-  }
+  constructor(
+    private patientRelationshipResourceService: PatientRelationshipResourceService
+  ) {}
 
   public getRelationships(uuid) {
     const relationshipsArr = [];
-    return this.patientRelationshipResourceService.getPatientRelationships(uuid).pipe(
-      map((relationships) => {
-        if (relationships) {
-          for (const relationship of relationships) {
-            if (uuid === relationship.personA.uuid) {
-              const relation = {
-                uuid: relationship.uuid,
-                display: relationship.personB.display,
-                relative: relationship.personB.display,
-                relatedPersonUuid: relationship.personB.uuid,
-                relationshipType: relationship.relationshipType.bIsToA,
-                relationshipTypeUuId: relationship.relationshipType.uuid,
-                relationshipTypeName: relationship.relationshipType.display,
-                relatedPerson: relationship.personB
-              };
-              relationshipsArr.push(new Relationship(relation));
-            } else {
-              const relation = {
-                uuid: relationship.uuid,
-                display: relationship.personA.display,
-                relative: relationship.personA.display,
-                relatedPersonUuid: relationship.personA.uuid,
-                relationshipType: relationship.relationshipType.aIsToB,
-                relatedPerson: relationship.personA,
-                relationshipTypeUuId: relationship.relationshipType.uuid,
-                relationshipTypeName: relationship.relationshipType.display
-              };
-              relationshipsArr.push(new Relationship(relation));
+    return this.patientRelationshipResourceService
+      .getPatientRelationships(uuid)
+      .pipe(
+        map((relationships) => {
+          if (relationships) {
+            for (const relationship of relationships) {
+              if (uuid === relationship.personA.uuid) {
+                const relation = {
+                  uuid: relationship.uuid,
+                  display: relationship.personB.display,
+                  relative: relationship.personB.display,
+                  relatedPersonUuid: relationship.personB.uuid,
+                  relationshipType: relationship.relationshipType.bIsToA,
+                  relationshipTypeUuId: relationship.relationshipType.uuid,
+                  relationshipTypeName: relationship.relationshipType.display,
+                  relatedPerson: relationship.personB
+                };
+                relationshipsArr.push(new Relationship(relation));
+              } else {
+                const relation = {
+                  uuid: relationship.uuid,
+                  display: relationship.personA.display,
+                  relative: relationship.personA.display,
+                  relatedPersonUuid: relationship.personA.uuid,
+                  relationshipType: relationship.relationshipType.aIsToB,
+                  relatedPerson: relationship.personA,
+                  relationshipTypeUuId: relationship.relationshipType.uuid,
+                  relationshipTypeName: relationship.relationshipType.display
+                };
+                relationshipsArr.push(new Relationship(relation));
+              }
             }
+            const orderedRelationshipsArr = this.addOrderProperty(
+              relationshipsArr
+            );
+            orderedRelationshipsArr.sort(this.sortRelationships);
+            return orderedRelationshipsArr;
           }
-          const orderedRelationshipsArr = this.addOrderProperty(relationshipsArr);
-          orderedRelationshipsArr.sort(this.sortRelationships);
-          return orderedRelationshipsArr;
-        }
-      }));
+        })
+      );
   }
 
   public addOrderProperty(relationships): any {
@@ -115,7 +118,10 @@ export class PatientRelationshipService {
     if (!payload || !uuid) {
       return null;
     }
-    return this.patientRelationshipResourceService.updateRelationship(uuid, payload);
+    return this.patientRelationshipResourceService.updateRelationship(
+      uuid,
+      payload
+    );
   }
 
   public voidRelationship(uuid: string) {

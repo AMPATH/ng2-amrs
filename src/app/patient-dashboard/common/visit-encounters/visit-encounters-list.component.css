@@ -1,130 +1,122 @@
-
-.parent{
-    background: #87CEEB !important;
-    color:#214A5F;
-    font-weight: 800;
-    padding:5px;
+.parent {
+  background: #87ceeb !important;
+  color: #214a5f;
+  font-weight: 800;
+  padding: 5px;
 }
 
-th, td {
-    padding: 10px !important;
+th,
+td {
+  padding: 10px !important;
 }
-tr{
-    width:100%;
+tr {
+  width: 100%;
 }
-.visit_list{
-   border-style: none !important;
-   margin-bottom: 0px;
-   border-top-style: none !important;
+.visit_list {
+  border-style: none !important;
+  margin-bottom: 0px;
+  border-top-style: none !important;
 }
-.visit_list .list-group-item{
-    border:none;
+.visit_list .list-group-item {
+  border: none;
 }
-.visit_list_item{
-    padding: 0px;
+.visit_list_item {
+  padding: 0px;
 }
-.visit_col{
-    background-color: #167F92;
-
+.visit_col {
+  background-color: #167f92;
 }
-#visits_row{
-    margin-top: 10px;
-    min-width: 700px;
-    overflow-x: scroll;
+#visits_row {
+  margin-top: 10px;
+  min-width: 700px;
+  overflow-x: scroll;
 }
-.encounter_row{
-    padding-top: 5px;
-    border-bottom-style: solid;
-    border-bottom: 1px solid #ddd;
-    word-wrap: break-word;
-    padding-left: 15px;
+.encounter_row {
+  padding-top: 5px;
+  border-bottom-style: solid;
+  border-bottom: 1px solid #ddd;
+  word-wrap: break-word;
+  padding-left: 15px;
 }
 .encounter_row:nth-child(even) {
-    background-color: #F7F7F9;
+  background-color: #f7f7f9;
 }
-.visit_list_header{
-    border-style: none !important;
-    padding: 5px 0px 5px 0px;
-    margin-bottom: 0px;
-     word-wrap: break-word;
+.visit_list_header {
+  border-style: none !important;
+  padding: 5px 0px 5px 0px;
+  margin-bottom: 0px;
+  word-wrap: break-word;
 }
-#visit_list_item_header{
-
-  background-color: #167F92;
+#visit_list_item_header {
+  background-color: #167f92;
   /* color: #FFF; */
   color: #203864;
- font-weight: 800
-
+  font-weight: 800;
 }
-.visit_col > a{
-
+.visit_col > a {
   color: #203864 !important;
-
 }
 
-.visit_col > a:hover{
-
+.visit_col > a:hover {
   cursor: pointer;
-
 }
 
-
-th a:hover{
-    cursor: pointer;
+th a:hover {
+  cursor: pointer;
 }
 
 .chip {
-    display: inline-block;
-    padding: 0 25px;
-    height: 35px;
-    font-size: 12px;
-    line-height: 35px;
-    border-radius: 25px;
-    background-color: #f1f1f1;
-    margin-bottom: 5px;
-    margin-right:3px;
-    margin-left: 3px;
+  display: inline-block;
+  padding: 0 25px;
+  height: 35px;
+  font-size: 12px;
+  line-height: 35px;
+  border-radius: 25px;
+  background-color: #f1f1f1;
+  margin-bottom: 5px;
+  margin-right: 3px;
+  margin-left: 3px;
 }
 
 .closebtn {
-    padding-left: 10px;
-    color: #888;
-    font-weight: bold;
-    float: right;
-    font-size: 20px;
-    cursor: pointer;
+  padding-left: 10px;
+  color: #888;
+  font-weight: bold;
+  float: right;
+  font-size: 20px;
+  cursor: pointer;
 }
-._parent_td{
-     font-weight: bold;
+._parent_td {
+  font-weight: bold;
 }
 
 .closebtn:hover {
-    color: #000;
+  color: #000;
 }
 
-#filter_row{
-    border-style: none;
-    padding: 0px;
+#filter_row {
+  border-style: none;
+  padding: 0px;
 }
-#visit_filter_row{
-    padding-bottom:20px;
-    padding-top: 20px;
-}
-
-#encounter-visit-row{
-    padding-top: 1%;
-    overflow: scroll;
+#visit_filter_row {
+  padding-bottom: 20px;
+  padding-top: 20px;
 }
 
-#visits_table th{
-  width:20%;
+#encounter-visit-row {
+  padding-top: 1%;
+  overflow: scroll;
+}
+
+#visits_table th {
+  width: 20%;
 }
 .parent td {
-    width: 25%;
+  width: 25%;
 }
 
-.visit_encounter_table{
-    word-wrap: break-word;
-    padding: 3px;
-    font-size: 14px;
+.visit_encounter_table {
+  word-wrap: break-word;
+  padding: 3px;
+  font-size: 14px;
 }

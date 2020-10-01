@@ -8,9 +8,7 @@ import { Angulartics2Piwik } from 'angulartics2/piwik';
  */
 @Injectable()
 export class FakeAppFeatureAnalytics {
-  constructor() { }
+  constructor() {}
 
-  public trackEvent(category: string, action: string, name?: string): void {
-
-  }
+  public trackEvent(category: string, action: string, name?: string): void {}
 }

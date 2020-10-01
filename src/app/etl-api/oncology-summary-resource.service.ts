@@ -8,17 +8,21 @@ import { DataCacheService } from '../shared/services/data-cache.service';
 
 @Injectable()
 export class OncologySummaryResourceService {
-
-  constructor(protected http: HttpClient,
+  constructor(
+    protected http: HttpClient,
     protected appSettingsService: AppSettingsService,
-    private cacheService: DataCacheService) { }
+    private cacheService: DataCacheService
+  ) {}
 
   public getUrl(): string {
-
     return this.appSettingsService.getEtlRestbaseurl().trim() + 'patient';
   }
 
-  public getOncologySummary(report: string, patientUuid: string, programUuid: string): Observable<any> {
+  public getOncologySummary(
+    report: string,
+    patientUuid: string,
+    programUuid: string
+  ): Observable<any> {
     let url = this.getUrl();
     url += '/' + patientUuid + '/oncology/' + report;
 
@@ -28,25 +32,27 @@ export class OncologySummaryResourceService {
       }
     });
 
-    const request = this.http.get<any>(url, {
-      params: urlParams
-    }).pipe(
-      map((response) => {
-        return response.result;
-      }));
+    const request = this.http
+      .get<any>(url, {
+        params: urlParams
+      })
+      .pipe(
+        map((response) => {
+          return response.result;
+        })
+      );
 
     return this.cacheService.cacheRequest(url, urlParams, request);
   }
 
-
   public getIntegratedProgramSnapshot(uuid) {
     let url = this.getUrl();
     url += '/' + uuid + '/oncology/integrated-program';
-    const request = this.http.get<any>(url, {
-    }).pipe(
+    const request = this.http.get<any>(url, {}).pipe(
       map((response) => {
         return response.result;
-      }));
+      })
+    );
 
     return this.cacheService.cacheRequest(url, '', request);
   }

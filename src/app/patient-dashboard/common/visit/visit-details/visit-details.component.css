@@ -1,59 +1,59 @@
 .button-nav {
-    border-radius: 1px !important;
-    padding-bottom: 10px;
+  border-radius: 1px !important;
+  padding-bottom: 10px;
 }
 
 .blocks .btn-primary {
-    margin: 0 2px;
-    border-radius: 0;
+  margin: 0 2px;
+  border-radius: 0;
 }
 
 .add-borders {
-    border: 1px solid #ccc;
-    width: 100%;
-    padding: 0 12px;
-    line-height: 42px;
+  border: 1px solid #ccc;
+  width: 100%;
+  padding: 0 12px;
+  line-height: 42px;
 }
 
 .add-borders a {
-    border-right: 1px solid #ccc;
-    padding: 0 12px;
+  border-right: 1px solid #ccc;
+  padding: 0 12px;
 }
 
 .add-borders a:last-child {
-    border-right: none;
+  border-right: none;
 }
 
 .add-borders a.cancel-edit {
-    color: red !important;
+  color: red !important;
 }
 
 .add-borders a:first-child {
-    padding-left: 0;
+  padding-left: 0;
 }
 
 .add-borders i:before {
-    display: inline-block;
-    margin-right: 5px;
+  display: inline-block;
+  margin-right: 5px;
 }
 
 .locationdetails {
-    margin-bottom: 1px;
+  margin-bottom: 1px;
 }
 
 .reverse-flow {
-    display: -webkit-flex;
-    /* Safari */
-    -webkit-flex-flow: row-reverse wrap;
-    /* Safari 6.1+ */
-    display: flex;
-    flex-flow: row-reverse wrap;
-    border-bottom: 1px solid lightgray;
-    padding-right: 4px;
-    padding-bottom: 2px;
-    margin-bottom: 1px;
-    cursor: pointer;
-    color: gray;
+  display: -webkit-flex;
+  /* Safari */
+  -webkit-flex-flow: row-reverse wrap;
+  /* Safari 6.1+ */
+  display: flex;
+  flex-flow: row-reverse wrap;
+  border-bottom: 1px solid lightgray;
+  padding-right: 4px;
+  padding-bottom: 2px;
+  margin-bottom: 1px;
+  cursor: pointer;
+  color: gray;
 }
 
 .collapse {

@@ -6,17 +6,16 @@ import { Output, Input } from '@angular/core';
   templateUrl: './gender-selector.component.html'
 })
 export class GenderSelectComponent implements OnInit {
-  public  selectedGender: Array<any> = [];
-  public  genderOptions: Array<any>;
+  public selectedGender: Array<any> = [];
+  public genderOptions: Array<any>;
   // tslint:disable-next-line:no-output-on-prefix
   @Output() public onGenderChange = new EventEmitter<any>();
 
-  constructor() {
-  }
+  constructor() {}
 
   public ngOnInit() {
-    if (this.selectedGender.length > 0 ) {
-      this.onGenderChange.emit({gender: this.selectedGender});
+    if (this.selectedGender.length > 0) {
+      this.onGenderChange.emit({ gender: this.selectedGender });
     }
 
     this.genderOptions = [
@@ -33,6 +32,6 @@ export class GenderSelectComponent implements OnInit {
 
   public onGenderSelected(selectedGender) {
     this.selectedGender = selectedGender;
-    this.onGenderChange.emit({gender: this.selectedGender});
+    this.onGenderChange.emit({ gender: this.selectedGender });
   }
 }

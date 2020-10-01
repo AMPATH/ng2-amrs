@@ -22,30 +22,23 @@ import { NgamrsSharedModule } from '../../../../shared/ngamrs-shared.module';
 import { PatientDashboardModule } from '../../../patient-dashboard.module';
 import { PatientProgramResourceService } from '../../../../etl-api/patient-program-resource.service';
 import { TodayVisitService } from '../today-visit.service';
-import {
-  RetrospectiveDataEntryModule
-} from '../../../../retrospective-data-entry/retrospective-data-entry.module';
-import {
-  FakeRetrospectiveDataEntryService
-} from '../../../../retrospective-data-entry/services/retrospective-data-entry-mock.service';
-import {
-  FakeDefaultUserPropertiesFactory
-} from '../../formentry/mock/default-user-properties-factory.service.mock';
-import {
-  RetrospectiveDataEntryService
-} from '../../../../retrospective-data-entry/services/retrospective-data-entry.service';
+import { RetrospectiveDataEntryModule } from '../../../../retrospective-data-entry/retrospective-data-entry.module';
+import { FakeRetrospectiveDataEntryService } from '../../../../retrospective-data-entry/services/retrospective-data-entry-mock.service';
+import { FakeDefaultUserPropertiesFactory } from '../../formentry/mock/default-user-properties-factory.service.mock';
+import { RetrospectiveDataEntryService } from '../../../../retrospective-data-entry/services/retrospective-data-entry.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TodayVisitsComponent } from '../today-visits/today-visits.component';
 
 class RouterStub {
-  public navigateByUrl(url: string) { return url; }
+  public navigateByUrl(url: string) {
+    return url;
+  }
 }
 
 class FakeCacheStorageService {
-  constructor(a, b) {
-  }
+  constructor(a, b) {}
 
   public ready() {
     return true;
@@ -62,9 +55,7 @@ class MockParams {
     return this.params[key];
   }
 }
-const routes: Routes = [
-  { path: 'groupUuid', component: TodayVisitsComponent }
-];
+const routes: Routes = [{ path: 'groupUuid', component: TodayVisitsComponent }];
 
 describe('VisitStarterComponent', () => {
   let component: VisitStarterComponent;
@@ -102,8 +93,11 @@ describe('VisitStarterComponent', () => {
       return of(allProgConfigs);
     },
     getPatientProgramVisitTypes: (
-      patient: string, program: string,
-      enrollment: string, location: string) => {
+      patient: string,
+      program: string,
+      enrollment: string,
+      location: string
+    ) => {
       return of(progConfig);
     }
   };
@@ -151,22 +145,27 @@ describe('VisitStarterComponent', () => {
       providers: [
         ProgramEnrollmentResourceService,
         {
-          provide: UserDefaultPropertiesService, useFactory: () => {
+          provide: UserDefaultPropertiesService,
+          useFactory: () => {
             return new FakeDefaultUserPropertiesFactory();
           }
         },
         {
-          provide: CacheStorageService, useFactory: () => {
+          provide: CacheStorageService,
+          useFactory: () => {
             return new FakeCacheStorageService(null, null);
-          }, deps: []
+          },
+          deps: []
         },
         {
-          provide: RetrospectiveDataEntryService, useFactory: () => {
+          provide: RetrospectiveDataEntryService,
+          useFactory: () => {
             return new FakeRetrospectiveDataEntryService();
           }
         },
         {
-          provide: PatientProgramResourceService, useFactory: () => {
+          provide: PatientProgramResourceService,
+          useFactory: () => {
             return fakePatientProgramResourceService;
           }
         },
@@ -175,7 +174,8 @@ describe('VisitStarterComponent', () => {
           useValue: fakeVisitResourceService
         },
         {
-          provide: ActivatedRoute, useValue: {
+          provide: ActivatedRoute,
+          useValue: {
             queryParams: of(new MockParams({ groupUuid: 'uuid' }))
           }
         },
@@ -195,8 +195,7 @@ describe('VisitStarterComponent', () => {
         BrowserAnimationsModule,
         RouterTestingModule.withRoutes(routes)
       ]
-    })
-      .compileComponents();
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -214,100 +213,101 @@ describe('VisitStarterComponent', () => {
   });
 
   it('should set user default location as the default location of visit on load', () => {
-    const defaultUserService: FakeDefaultUserPropertiesFactory =
-      TestBed.get(UserDefaultPropertiesService);
+    const defaultUserService: FakeDefaultUserPropertiesFactory = TestBed.get(
+      UserDefaultPropertiesService
+    );
     expect(defaultUserService).toBeDefined();
     fixture.detectChanges();
 
-    expect(defaultUserService.getCurrentUserDefaultLocationObject().uuid)
-      .toEqual(component.selectedLocation.value);
+    expect(
+      defaultUserService.getCurrentUserDefaultLocationObject().uuid
+    ).toEqual(component.selectedLocation.value);
   });
 
-  it('should fetch program config for current patient, enrollment, and location',
-    () => {
-      const progService =
-        TestBed.get(PatientProgramResourceService);
-      component.patientUuid = 'uuid';
-      component.programUuid = 'some-program';
-      component.programEnrollmentUuid = 'some-enrollment';
-      component.programVisitsConfig = {};
-      const progVisitTypeSpy =
-        spyOn(progService, 'getPatientProgramVisitTypes')
-          .and.callThrough();
+  it('should fetch program config for current patient, enrollment, and location', () => {
+    const progService = TestBed.get(PatientProgramResourceService);
+    component.patientUuid = 'uuid';
+    component.programUuid = 'some-program';
+    component.programEnrollmentUuid = 'some-enrollment';
+    component.programVisitsConfig = {};
+    const progVisitTypeSpy = spyOn(
+      progService,
+      'getPatientProgramVisitTypes'
+    ).and.callThrough();
 
-      component.getCurrentProgramEnrollmentConfig();
+    component.getCurrentProgramEnrollmentConfig();
 
-      fixture.detectChanges();
+    fixture.detectChanges();
 
-      expect(progVisitTypeSpy.calls.count()).toBe(1);
-      expect(progVisitTypeSpy.calls.mostRecent().args[0]).toEqual('uuid');
-      expect(progVisitTypeSpy.calls.mostRecent().args[1]).toEqual('some-program');
-      expect(progVisitTypeSpy.calls.mostRecent().args[2]).toEqual('some-enrollment');
-      expect(progVisitTypeSpy.calls.mostRecent().args[3]).toEqual(component.selectedLocation.value);
-      expect(component.programVisitsConfig).toEqual(progConfig);
-    });
+    expect(progVisitTypeSpy.calls.count()).toBe(1);
+    expect(progVisitTypeSpy.calls.mostRecent().args[0]).toEqual('uuid');
+    expect(progVisitTypeSpy.calls.mostRecent().args[1]).toEqual('some-program');
+    expect(progVisitTypeSpy.calls.mostRecent().args[2]).toEqual(
+      'some-enrollment'
+    );
+    expect(progVisitTypeSpy.calls.mostRecent().args[3]).toEqual(
+      component.selectedLocation.value
+    );
+    expect(component.programVisitsConfig).toEqual(progConfig);
+  });
 
-  it('should refetch program visit types config when location changes',
-    () => {
-      component.patientUuid = 'uuid';
-      component.programUuid = 'some-program';
-      component.programEnrollmentUuid = 'some-enrollment';
+  it('should refetch program visit types config when location changes', () => {
+    component.patientUuid = 'uuid';
+    component.programUuid = 'some-program';
+    component.programEnrollmentUuid = 'some-enrollment';
 
-      const compGetProgConfigSpy =
-        spyOn(component, 'getCurrentProgramEnrollmentConfig')
-          .and.callThrough();
+    const compGetProgConfigSpy = spyOn(
+      component,
+      'getCurrentProgramEnrollmentConfig'
+    ).and.callThrough();
 
-      component.selectedLocation.value = 'new-location-uuid';
-      fixture.detectChanges();
-      expect(compGetProgConfigSpy.calls.count()).toBe(0);
-    });
+    component.selectedLocation.value = 'new-location-uuid';
+    fixture.detectChanges();
+    expect(compGetProgConfigSpy.calls.count()).toBe(0);
+  });
 
-  it('should populate the UI with visit types for the current program config',
-    () => {
-      component.patientUuid = 'uuid';
-      component.programUuid = 'some-program';
-      component.programEnrollmentUuid = 'some-enrollment';
-      component.selectedLocation.value = 'new-location-uuid';
-      fixture.detectChanges();
-      const de = fixture.debugElement.queryAll(By.css('#allowedVisitList'));
-      expect(de.length).toBe(2);
-      expect(de[0].nativeElement.innerHTML).toContain('Visit One');
-    });
+  it('should populate the UI with visit types for the current program config', () => {
+    component.patientUuid = 'uuid';
+    component.programUuid = 'some-program';
+    component.programEnrollmentUuid = 'some-enrollment';
+    component.selectedLocation.value = 'new-location-uuid';
+    fixture.detectChanges();
+    const de = fixture.debugElement.queryAll(By.css('#allowedVisitList'));
+    expect(de.length).toBe(2);
+    expect(de[0].nativeElement.innerHTML).toContain('Visit One');
+  });
 
-  it('should start a visit for given visit type',
-    () => {
-      const visitService =
-        TestBed.get(VisitResourceService);
+  it('should start a visit for given visit type', () => {
+    const visitService = TestBed.get(VisitResourceService);
 
-      const todayService =
-        TestBed.get(TodayVisitService);
+    const todayService = TestBed.get(TodayVisitService);
 
-      const visitSpy =
-        spyOn(visitService, 'saveVisit')
-          .and.callThrough();
+    const visitSpy = spyOn(visitService, 'saveVisit').and.callThrough();
 
-      const outputSpy = spyOn(component.visitStarted, 'emit')
-        .and.callThrough();
+    const outputSpy = spyOn(component.visitStarted, 'emit').and.callThrough();
 
-      component.patientUuid = 'uuid';
-      component.programUuid = 'some-program';
-      component.programEnrollmentUuid = 'some-enrollment';
-      component.selectedLocation = { value: 'new-location-uuid' };
+    component.patientUuid = 'uuid';
+    component.programUuid = 'some-program';
+    component.programEnrollmentUuid = 'some-enrollment';
+    component.selectedLocation = { value: 'new-location-uuid' };
 
-      component.startVisit('visit-one');
-      fixture.detectChanges();
+    component.startVisit('visit-one');
+    fixture.detectChanges();
 
-      expect(visitSpy.calls.count()).toBe(1);
-      expect(visitSpy.calls.mostRecent().args[0].patient).toEqual('uuid');
-      expect(visitSpy.calls.mostRecent().args[0].location).toEqual('new-location-uuid');
-      // expect(visitSpy.calls.mostRecent().args[0].visitType).toEqual('visit-one');
-      expect(moment(visitSpy.calls.mostRecent().args[0].startDatetime).format('YYYY-MM-DD HH:m:s'))
-        .toEqual(moment().format('YYYY-MM-DD HH:m:s'));
+    expect(visitSpy.calls.count()).toBe(1);
+    expect(visitSpy.calls.mostRecent().args[0].patient).toEqual('uuid');
+    expect(visitSpy.calls.mostRecent().args[0].location).toEqual(
+      'new-location-uuid'
+    );
+    // expect(visitSpy.calls.mostRecent().args[0].visitType).toEqual('visit-one');
+    expect(
+      moment(visitSpy.calls.mostRecent().args[0].startDatetime).format(
+        'YYYY-MM-DD HH:m:s'
+      )
+    ).toEqual(moment().format('YYYY-MM-DD HH:m:s'));
 
-      // should output the returned visit
-      expect(outputSpy.calls.count()).toBe(1);
-      expect(outputSpy.calls.mostRecent().args[0].uuid)
-        .toEqual('visituuid');
-    });
-
+    // should output the returned visit
+    expect(outputSpy.calls.count()).toBe(1);
+    expect(outputSpy.calls.mostRecent().args[0].uuid).toEqual('visituuid');
+  });
 });

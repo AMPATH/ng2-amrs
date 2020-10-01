@@ -2,10 +2,21 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
-  AccordionModule, DataTableModule, SharedModule, TabViewModule,
-  GrowlModule, PanelModule, ConfirmDialogModule, ConfirmationService,
-  DialogModule, InputTextModule, MessagesModule, InputTextareaModule,
-  DropdownModule, ButtonModule, CalendarModule
+  AccordionModule,
+  DataTableModule,
+  SharedModule,
+  TabViewModule,
+  GrowlModule,
+  PanelModule,
+  ConfirmDialogModule,
+  ConfirmationService,
+  DialogModule,
+  InputTextModule,
+  MessagesModule,
+  InputTextareaModule,
+  DropdownModule,
+  ButtonModule,
+  CalendarModule
 } from 'primeng/primeng';
 import { CdmLandingPageComponent } from './landing-page/landing-page.component';
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
@@ -26,16 +37,13 @@ import { CdmMedicationHistoryComponent } from './cdm-summary/medication-history.
     TabViewModule,
     NgxPaginationModule
   ],
-  exports: [
-    CdmLandingPageComponent,
-    CdmSummaryComponent
-  ],
+  exports: [CdmLandingPageComponent, CdmSummaryComponent],
   declarations: [
     CdmLandingPageComponent,
     CdmSummaryComponent,
     CdmSummaryLatestComponent,
     CdmSummaryHistoricalComponent,
     CdmMedicationHistoryComponent
-  ],
+  ]
 })
-export class PatientDashboardCdmModule { }
+export class PatientDashboardCdmModule {}

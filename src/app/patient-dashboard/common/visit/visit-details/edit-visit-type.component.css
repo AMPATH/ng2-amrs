@@ -4,8 +4,10 @@
 }
 
 .visit-type-select {
-  display:inline-block;
-  width:80%;margin:0;
-  position:relative;vertical-align:middle;
+  display: inline-block;
+  width: 80%;
+  margin: 0;
+  position: relative;
+  vertical-align: middle;
   width: 80%;
 }

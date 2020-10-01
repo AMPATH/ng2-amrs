@@ -1,5 +1,5 @@
-import {BaseModel} from './base-model.model';
-import {VitalView} from '../patient-dashboard/common/todays-vitals/vital-view';
+import { BaseModel } from './base-model.model';
+import { VitalView } from '../patient-dashboard/common/todays-vitals/vital-view';
 
 export class Vital extends BaseModel {
   constructor(openmrsModel?: any) {
@@ -15,7 +15,6 @@ export class Vital extends BaseModel {
     if (self['model']) {
       return self['model'];
     }
-
   }
 
   defineVitalFromOptions(options: any) {

@@ -1,5 +1,11 @@
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, async, tick, fakeAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  async,
+  tick,
+  fakeAsync
+} from '@angular/core/testing';
 import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { HivSummaryResourceService } from '../../../etl-api/hiv-summary-resource.service';
 import { HivProgramSnapshotComponent } from './hiv-program-snapshot.component';
@@ -59,8 +65,7 @@ const summaryResult = [
 ];
 
 class FakeHivSummaryResourceService {
-  constructor() {
-  }
+  constructor() {}
 
   getHivSummary(patientUuid, startIndex, size) {
     return of(summaryResult);
@@ -68,8 +73,7 @@ class FakeHivSummaryResourceService {
 }
 
 class FakeAppSettingsService {
-  constructor() {
-  }
+  constructor() {}
 
   getOpenmrsServer() {
     return 'openmrs-url';
@@ -81,16 +85,13 @@ class FakeAppSettingsService {
 }
 
 class FakeLocationResourceService {
-  constructor() {
-  }
+  constructor() {}
 
   getLocationByUuid(locationUuid, fromCache) {
-    return of(
-      {
-        name: 'Location Test',
-        uuid: '18c343eb-b353-462a-9139-b16606e6b6c2'
-      }
-    );
+    return of({
+      name: 'Location Test',
+      uuid: '18c343eb-b353-462a-9139-b16606e6b6c2'
+    });
   }
 }
 
@@ -106,49 +107,47 @@ class FakeEncounterResourceService {
   constructor() {}
 
   getEncounterByUuid(encounterUuid: string) {
-    return of(
-      {
-        encounterDatetime: '2019-02-25T11:15:14.000+0300',
-        encounterType: {
-          display: 'ADULTINITIAL',
-          uuid: '8d5b27bc-c2cc-11de-8d13-0010c6dffd0f'
+    return of({
+      encounterDatetime: '2019-02-25T11:15:14.000+0300',
+      encounterType: {
+        display: 'ADULTINITIAL',
+        uuid: '8d5b27bc-c2cc-11de-8d13-0010c6dffd0f'
+      },
+      form: {
+        name: 'AMPATH POC Adult Return Visit Form v1.5',
+        uuid: 'e44b0612-33d6-4ea7-8334-a8286876146b'
+      },
+      location: {
+        display: 'Location Test',
+        uuid: '18c343eb-b353-462a-9139-b16606e6b6c2'
+      },
+      patient: {
+        uuid: '4a6ff3c6-6f95-41c1-b403-cd210ab7afba'
+      },
+      uuid: 'd673c1d7-718b-4f5c-83a9-4709f4922af9',
+      visit: {
+        visitType: {
+          name: 'RETURN HIV CLINIC VISIT'
         },
-        form: {
-          name: 'AMPATH POC Adult Return Visit Form v1.5',
-          uuid: 'e44b0612-33d6-4ea7-8334-a8286876146b'
-        },
-        location: {
-          display: 'Location Test',
-          uuid: '18c343eb-b353-462a-9139-b16606e6b6c2'
-        },
-        patient: {
-          uuid: '4a6ff3c6-6f95-41c1-b403-cd210ab7afba'
-        },
-        uuid: 'd673c1d7-718b-4f5c-83a9-4709f4922af9',
-        visit: {
-          visitType: {
-            name: 'RETURN HIV CLINIC VISIT'
+        display: 'RETURN HIV CLINIC VISIT @ Location Test - 02/25/2019 09:25',
+        startDatetime: '2019-06-07T09:25:21.000+0300',
+        stopDatetime: null
+      },
+      obs: [
+        {
+          uuid: 'c1fe5975-dab5-4bdd-911b-fb81b3769f6b',
+          obsDatetime: '2019-06-07T11:15:44.000+0300',
+          concept: {
+            uuid: '315472dc-2b5e-4add-b3b7-bbcf21a8959b',
+            name: {
+              display: 'MORISKY 4 MEDICATION ADHERENCE, TOTAL SCORE'
+            }
           },
-          display: 'RETURN HIV CLINIC VISIT @ Location Test - 02/25/2019 09:25',
-          startDatetime: '2019-06-07T09:25:21.000+0300',
-          stopDatetime: null
-        },
-        obs: [
-          {
-            uuid: 'c1fe5975-dab5-4bdd-911b-fb81b3769f6b',
-            obsDatetime: '2019-06-07T11:15:44.000+0300',
-            concept: {
-              uuid: '315472dc-2b5e-4add-b3b7-bbcf21a8959b',
-              name: {
-                display: 'MORISKY 4 MEDICATION ADHERENCE, TOTAL SCORE'
-              }
-            },
-            value: 0,
-            groupMembers: null
-          }
-        ]
-      }
-    );
+          value: 0,
+          groupMembers: null
+        }
+      ]
+    });
   }
 }
 
@@ -195,9 +194,7 @@ describe('Component: HivProgramSnapshotComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule
-      ],
+      imports: [HttpClientTestingModule],
       providers: [
         ZeroVlPipe,
         {
@@ -272,7 +269,7 @@ describe('Component: HivProgramSnapshotComponent', () => {
     expect(component.getMaximumDate).toBeDefined();
   });
 
-  it('should fetch the patient\'s hiv summary and morisky score when the component initializes', async(() => {
+  it("should fetch the patient's hiv summary and morisky score when the component initializes", async(() => {
     expect(component.hasError).toEqual(false);
     expect(component.hasData).toEqual(false);
     fixture.detectChanges();
@@ -289,25 +286,40 @@ describe('Component: HivProgramSnapshotComponent', () => {
       expect(component.moriskyScore8).toBeFalsy();
       expect(component.moriskyRating).toEqual('Good');
       expect(component.isMoriskyScorePoorOrInadequate).toEqual(false);
-      const locationName = <HTMLElement>nativeElement.querySelector('div.full-width');
+      const locationName = <HTMLElement>(
+        nativeElement.querySelector('div.full-width')
+      );
       expect(locationName.innerText).toContain('Location Test');
-      const snapshotRows = nativeElement.querySelectorAll('div.col-md-6.col-xs-12');
+      const snapshotRows = nativeElement.querySelectorAll(
+        'div.col-md-6.col-xs-12'
+      );
       expect(snapshotRows[0].textContent).toContain('Date: 19-07-2019');
       expect(snapshotRows[1].textContent).toContain('Type: ADULTRETURN');
-      expect(snapshotRows[2].textContent).toContain('ARV Regimen: LAMIVUDINE, NEVIRAPINE, TENOFOVIR');
-      expect(snapshotRows[3].textContent).toContain('Last Viral Load: 2000  (17-03-2019)');
+      expect(snapshotRows[2].textContent).toContain(
+        'ARV Regimen: LAMIVUDINE, NEVIRAPINE, TENOFOVIR'
+      );
+      expect(snapshotRows[3].textContent).toContain(
+        'Last Viral Load: 2000  (17-03-2019)'
+      );
       expect(snapshotRows[4].textContent).toContain('RTC Date: 29-07-2019');
-      expect(snapshotRows[5].textContent).toContain('Care Status:  Continue With Care');
-      expect(snapshotRows[6].textContent).toContain('Morisky Score:  0/4 - Good');
+      expect(snapshotRows[5].textContent).toContain(
+        'Care Status:  Continue With Care'
+      );
+      expect(snapshotRows[7].textContent).toContain(
+        'Morisky Score:  0/4 - Good'
+      );
+      expect(snapshotRows[6].textContent).toContain('Disclosure Status:  No');
     });
   }));
 
-  it('should flag the patient\'s viral load red if VL > 1000 && (vl_1_date > (arv_start_date + 6 months))', async(() => {
+  it("should flag the patient's viral load red if VL > 1000 && (vl_1_date > (arv_start_date + 6 months))", async(() => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       expect(component.isVirallyUnsuppressed).toBe(true);
-      const latestVl = <HTMLElement>nativeElement.querySelector('p.text-bold.red');
+      const latestVl = <HTMLElement>(
+        nativeElement.querySelector('p.text-bold.red')
+      );
       expect(latestVl.classList).toContain('text-bold');
       expect(latestVl.classList).toContain('red');
     });
@@ -319,8 +331,12 @@ describe('Component: HivProgramSnapshotComponent', () => {
       fixture.detectChanges();
       expect(component.patientCareStatus).toBeDefined();
       expect(component.patientCareStatus).toEqual(6101);
-      const snapshotRows = nativeElement.querySelectorAll('div.col-md-6.col-xs-12');
-      expect(snapshotRows[5].textContent).toContain('Care Status:  Continue With Care');
+      const snapshotRows = nativeElement.querySelectorAll(
+        'div.col-md-6.col-xs-12'
+      );
+      expect(snapshotRows[5].textContent).toContain(
+        'Care Status:  Continue With Care'
+      );
     });
   }));
 });

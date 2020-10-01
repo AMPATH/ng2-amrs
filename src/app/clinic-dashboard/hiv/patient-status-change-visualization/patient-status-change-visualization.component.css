@@ -2,7 +2,7 @@ chart {
   display: block;
 }
 .wrapper {
-  padding:1px;
+  padding: 1px;
 }
 
 .slide-toggle {
@@ -14,5 +14,3 @@ chart {
 .ui-tabview.ui-tabview-top .ui-tabview-nav li.ui-state-active a {
   color: #fff !important;
 }
-
-

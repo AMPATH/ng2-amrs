@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
@@ -27,8 +34,7 @@ export class AppModalComponent implements OnInit {
   @Output() onDisplayed: EventEmitter<boolean> = new EventEmitter(false);
   constructor() {}
 
-  public ngOnInit() {
-  }
+  public ngOnInit() {}
 
   public closeModal() {
     this.onClose.emit(true);

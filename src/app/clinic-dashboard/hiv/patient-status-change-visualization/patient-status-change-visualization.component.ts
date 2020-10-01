@@ -1,10 +1,19 @@
 import {
-  Component, OnInit, Input, OnChanges, SimpleChanges, ChangeDetectorRef,
-  ViewChild, Output, EventEmitter, ViewEncapsulation, OnDestroy, AfterViewInit, AfterViewChecked
+  Component,
+  OnInit,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  ChangeDetectorRef,
+  ViewChild,
+  Output,
+  EventEmitter,
+  ViewEncapsulation,
+  OnDestroy,
+  AfterViewInit,
+  AfterViewChecked
 } from '@angular/core';
-import {
-  PatientStatuChangeVisualizationService
-} from './patient-status-change-visualization.service';
+import { PatientStatuChangeVisualizationService } from './patient-status-change-visualization.service';
 import * as _ from 'lodash';
 import { Location } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -21,10 +30,8 @@ import * as moment from 'moment/moment';
   styleUrls: ['./patient-status-change-visualization.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-
-export class PatientStatusChangeVisualizationComponent implements OnInit, OnChanges, OnDestroy,
-  AfterViewInit, AfterViewChecked {
-
+export class PatientStatusChangeVisualizationComponent
+  implements OnInit, OnChanges, OnDestroy, AfterViewInit, AfterViewChecked {
   @Input()
   public renderType: string;
   @Input()
@@ -56,19 +63,21 @@ export class PatientStatusChangeVisualizationComponent implements OnInit, OnChan
   public progressBarTick = 30;
   public timerSubscription: Subscription;
 
-  constructor(private patientStatusService: PatientStatuChangeVisualizationService,
-              private location: Location, private route: ActivatedRoute,
-              private router: Router, private cdr: ChangeDetectorRef) {
+  constructor(
+    private patientStatusService: PatientStatuChangeVisualizationService,
+    private location: Location,
+    private route: ActivatedRoute,
+    private router: Router,
+    private cdr: ChangeDetectorRef
+  ) {
     this.analysisTypes = this.patientStatusService.indicatorsKeys;
     this.selectedAnalysisType = this.analysisTypes[0].value;
-
   }
 
   public ngOnChanges(changes: SimpleChanges) {
     if (changes['data']) {
       this.renderView();
     }
-
   }
 
   public ngOnInit() {
@@ -112,8 +121,11 @@ export class PatientStatusChangeVisualizationComponent implements OnInit, OnChan
     this.chartOptions = {};
     const immutableData = [...this.data]; // making sure it is immutable
     const data = this.patientStatusService.processData(
-      this.selectedAnalysisType, immutableData, this.renderType,
-      true);
+      this.selectedAnalysisType,
+      immutableData,
+      this.renderType,
+      true
+    );
     this.chartOptions = this.patientStatusService.generateChart({
       renderType: this.renderType,
       data: data,
@@ -124,11 +136,17 @@ export class PatientStatusChangeVisualizationComponent implements OnInit, OnChan
   public renderDataTable(): void {
     const immutableData = [...this.data]; // making sure it is immutable
     this.dataTable = this.patientStatusService.processData(
-      this.selectedAnalysisType, immutableData, this.renderType,
-      false);
+      this.selectedAnalysisType,
+      immutableData,
+      this.renderType,
+      false
+    );
     const indicatorDefinitions = _.keyBy(this.indicatorDefinitions, 'name');
-    this.columns = this.patientStatusService
-      .generateColumnDefinitions(this.renderType, this.selectedAnalysisType, indicatorDefinitions);
+    this.columns = this.patientStatusService.generateColumnDefinitions(
+      this.renderType,
+      this.selectedAnalysisType,
+      indicatorDefinitions
+    );
     this.gridOptions = {} as GridOptions;
     this.gridOptions.columnDefs = this.columns;
 
@@ -141,13 +159,17 @@ export class PatientStatusChangeVisualizationComponent implements OnInit, OnChan
       this.gridOptions.enableFilter = true;
       this.gridOptions.showToolPanel = false;
       this.gridOptions.getRowStyle = (params) => {
-        return {'font-size': '14px', 'cursor': 'pointer'};
+        return { 'font-size': '14px', cursor: 'pointer' };
       };
-      setTimeout( () => {
-        if (this.gridOptions.api) {
-          this.gridOptions.api.sizeColumnsToFit();
-        }
-      }, 500, true);
+      setTimeout(
+        () => {
+          if (this.gridOptions.api) {
+            this.gridOptions.api.sizeColumnsToFit();
+          }
+        },
+        500,
+        true
+      );
       // setTimeout( () => this.gridOptions.api.sizeColumnsToFit(), 500, true);
     };
   }
@@ -171,7 +193,9 @@ export class PatientStatusChangeVisualizationComponent implements OnInit, OnChan
       this.startDate = new Date(path.queryParams['startDate']);
     } else {
       this.startDate = this.getStartDate();
-      path.queryParams['startDate'] = moment(this.startDate).format('YYYY-MM-DD');
+      path.queryParams['startDate'] = moment(this.startDate).format(
+        'YYYY-MM-DD'
+      );
     }
     // init endDate
     if (path.queryParams['endDate']) {
@@ -183,7 +207,11 @@ export class PatientStatusChangeVisualizationComponent implements OnInit, OnChan
     this.location.replaceState(path.toString());
   }
 
-  public triggerBusyIndicators(interval: number, show: boolean, hasError: boolean = false): void {
+  public triggerBusyIndicators(
+    interval: number,
+    show: boolean,
+    hasError: boolean = false
+  ): void {
     if (show) {
       this.loading = true;
       this.error = false;
@@ -191,13 +219,15 @@ export class PatientStatusChangeVisualizationComponent implements OnInit, OnChan
       if (this.timerSubscription) {
         this.timerSubscription.unsubscribe();
       }
-      this.timerSubscription =
-        TimerObservable.create(2000 * interval, 1000 * interval).subscribe((t) => {
-          if (this.progressBarTick > 100) {
-            this.progressBarTick = 30;
-          }
-          this.progressBarTick++;
-        });
+      this.timerSubscription = TimerObservable.create(
+        2000 * interval,
+        1000 * interval
+      ).subscribe((t) => {
+        if (this.progressBarTick > 100) {
+          this.progressBarTick = 30;
+        }
+        this.progressBarTick++;
+      });
     } else {
       this.error = hasError;
       this.progressBarTick = 100;
@@ -225,5 +255,4 @@ export class PatientStatusChangeVisualizationComponent implements OnInit, OnChan
     const c = new Date(year, month - 1, 0);
     return c;
   }
-
 }

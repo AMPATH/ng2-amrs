@@ -4,12 +4,15 @@ import { IndicatorResourceService } from './indicator-resource.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
 import { CacheService, CacheModule } from 'ionic-cache';
-import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
+import {
+  HttpTestingController,
+  HttpClientTestingModule
+} from '@angular/common/http/testing';
 import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
 
 // Load the implementations that should be tested
 class MockCacheStorageService {
-  constructor(a, b) { }
+  constructor(a, b) {}
 
   public ready() {
     return true;
@@ -29,11 +32,12 @@ describe('IndicatorResourceService Unit Tests', () => {
         DataCacheService,
         CacheService,
         {
-          provide: CacheStorageService, useFactory: () => {
+          provide: CacheStorageService,
+          useFactory: () => {
             return new MockCacheStorageService(null, null);
           }
-        },
-      ],
+        }
+      ]
     });
     service = TestBed.get(IndicatorResourceService);
     httpMock = TestBed.get(HttpTestingController);
@@ -47,25 +51,28 @@ describe('IndicatorResourceService Unit Tests', () => {
     expect(service).toBeDefined();
   });
 
-  it('should have getIndicators defined',
-    inject([IndicatorResourceService],
-      (indicatorResourceService: IndicatorResourceService) => {
-        expect(indicatorResourceService.getReportIndicators({ report: 'reportName' })).toBeTruthy();
-      }));
+  it('should have getIndicators defined', inject(
+    [IndicatorResourceService],
+    (indicatorResourceService: IndicatorResourceService) => {
+      expect(
+        indicatorResourceService.getReportIndicators({ report: 'reportName' })
+      ).toBeTruthy();
+    }
+  ));
 
   it('should make API call with correct URL', () => {
     expect(service.getReportIndicators({ report: 'reportName' }));
-    const result = service.getReportIndicators({ report: 'reportName' }).subscribe();
+    const result = service
+      .getReportIndicators({ report: 'reportName' })
+      .subscribe();
     expect(result).toBeTruthy();
   });
 
   it('It should return an array of Indicator object when getIndicator is invoked', () => {
-
-    service.getReportIndicators({ report: 'reportName' })
+    service
+      .getReportIndicators({ report: 'reportName' })
       .subscribe((response) => {
         expect(response['length']).toBeGreaterThan(1);
-
       });
-
   });
 });

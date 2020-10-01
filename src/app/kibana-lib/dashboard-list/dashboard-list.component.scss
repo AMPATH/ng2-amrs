@@ -11,22 +11,22 @@
   word-wrap: break-word;
   background-color: #fff;
   background-clip: border-box;
-  border: 1px solid rgba(0,0,0,.125);
-  border-radius: .25rem;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
 }
-.card-item{
+.card-item {
   margin-bottom: 10px;
 }
-.dashboard-card{
+.dashboard-card {
   color: #286090;
-  background: #FFF;
+  background: #fff;
   border-style: solid;
   border-color: #286090;
   height: 300px;
-  text-align:  center;
+  text-align: center;
 }
-.dashboard-card:hover{
-  color: #FFF;
+.dashboard-card:hover {
+  color: #fff;
   background: rgba(60, 141, 188, 0.8);
   cursor: pointer;
 }
@@ -35,16 +35,14 @@
   padding-top: 10%;
 }
 .dashboard-card:hover .caption {
-  color: #FFF;
+  color: #fff;
 }
-.dashboard-card .caption .fa{
+.dashboard-card .caption .fa {
   color: #286090;
 }
-.dashboard-card:hover .caption .fa{
-  color: #FFF;
+.dashboard-card:hover .caption .fa {
+  color: #fff;
 }
-.dashboard-divider{
+.dashboard-divider {
   width: 60%;
 }
-
-

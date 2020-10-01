@@ -1,5 +1,13 @@
-<ag-grid-angular #agGrid style="width: 100%; height: 200px;" class="ag-blue" [rowData]="data" [gridOptions]="gridOptions"
-[enableSorting]="true" [enableFilter]="true" (cellClicked)='onCellClicked($event)'>
+<ag-grid-angular
+  #agGrid
+  style="width: 100%; height: 200px"
+  class="ag-blue"
+  [rowData]="data"
+  [gridOptions]="gridOptions"
+  [enableSorting]="true"
+  [enableFilter]="true"
+  (cellClicked)="onCellClicked($event)"
+>
 </ag-grid-angular>
 
 <div>
@@ -8,6 +16,10 @@
   </div>
   <div *ngIf="patientData.length > 0">
     <h3>{{ programName | titlecase }} Peer navigator patient list</h3>
-    <patient-list [extraColumns]="extraColumns" [overrideColumns]="overrideColumns" [data]="patientData"></patient-list>
+    <patient-list
+      [extraColumns]="extraColumns"
+      [overrideColumns]="overrideColumns"
+      [data]="patientData"
+    ></patient-list>
   </div>
 </div>

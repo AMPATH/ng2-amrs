@@ -1,32 +1,32 @@
-
 import { take } from 'rxjs/operators';
 import {
-  Component, OnInit, Input, Output, OnDestroy, ViewChild, EventEmitter
+  Component,
+  OnInit,
+  Output,
+  OnDestroy,
+  ViewChild,
+  EventEmitter
 } from '@angular/core';
-import { Subscription, of } from 'rxjs';
+import { Subscription } from 'rxjs';
 import * as moment from 'moment';
 import * as _ from 'lodash';
 import * as Fuse from 'fuse.js';
 import 'ag-grid-enterprise/main';
-import { Router, ActivatedRoute } from '@angular/router';
-import { DatePipe } from '@angular/common';
+import { Router } from '@angular/router';
 import { Patient } from '../models/patient.model';
 import { UserService } from '../openmrs-api/user.service';
 import { PatientCreationService } from './patient-creation.service';
-import {
-  PatientCreationResourceService
-} from '../openmrs-api/patient-creation-resource.service';
-import {
-  LocationResourceService
-} from '../openmrs-api/location-resource.service';
-import {
-  PatientIdentifierTypeResService
-} from '../openmrs-api/patient-identifierTypes-resource.service';
+import { PatientCreationResourceService } from '../openmrs-api/patient-creation-resource.service';
+import { LocationResourceService } from '../openmrs-api/location-resource.service';
+import { PatientIdentifierTypeResService } from '../openmrs-api/patient-identifierTypes-resource.service';
+import { ConceptResourceService } from './../openmrs-api/concept-resource.service';
 import { constants } from 'os';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap';
 import { SessionStorageService } from '../utils/session-storage.service';
 import { ToastrService } from 'ngx-toastr';
+import { PatientRelationshipTypeService } from '../patient-dashboard/common/patient-relationships/patient-relation-type.service';
+import { PatientEducationService } from '../etl-api/patient-education.service';
 
 @Component({
   selector: 'patient-creation',
@@ -41,7 +41,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public patients: Patient = new Patient({});
   public person: any;
   public display = false;
-  public subscription: Subscription;
+  public subscriptions: Subscription[] = [];
   public userId;
   public givenName: string;
   public familyName: string;
@@ -75,6 +75,8 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public r1 = /^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,3})|(\(?\d{2,3}\)?))/;
   public r2 = /(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$/;
   public pattern = new RegExp(this.r1.source + this.r2.source);
+  public levelOfEducation: Array<any>;
+  public patientHighestEducation: string;
 
   public address1: string;
   public address2: string;
@@ -124,7 +126,22 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public generate = true;
   public preferredIdentifier;
   public errorAlerts = [];
+  public occupationConceptUuid = 'a8a0a00e-1350-11df-a1f1-0026b9348838';
+  public occupationAttributeTypeUuid = '9e86409f-9c20-42d0-aeb3-f29a4ca0a7a0';
+  public occupations = [];
+  public occupationConcept: any;
+  public occupation: any;
+  public highestEducationConcept = 'a89e48ae-1350-11df-a1f1-0026b9348838';
 
+  public careGivername: any;
+  public relationshipToCareGiver: any;
+  public careGiverPhoneNumber: any;
+  public ampathLocations: any;
+  public subcounties: any = [];
+  public wards: any = [];
+  public address7: any;
+  public patientRelationshipTypes: any = [];
+  public selectedRelationshipType: any;
   constructor(
     public toastrService: ToastrService,
     private patientCreationService: PatientCreationService,
@@ -133,14 +150,21 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     private patientIdentifierTypeResService: PatientIdentifierTypeResService,
     private userService: UserService,
     private router: Router,
-    private route: ActivatedRoute,
     private sessionStorageService: SessionStorageService,
-    private modalService: BsModalService) {
-  }
+    private modalService: BsModalService,
+    private conceptService: ConceptResourceService,
+    private patientRelationshipTypeService: PatientRelationshipTypeService,
+    private patientEducationService: PatientEducationService
+  ) {}
 
   public ngOnInit() {
     this.getLocations();
     this.getCommonIdentifierTypes();
+    this.getOccupatonConcept();
+    this.getEducationLevels();
+    this.getAmpathLocations();
+    this.getRelationShipTypes();
+    this.selectedRelationshipType = undefined;
     this.userId = this.userService.getLoggedInUser().openmrsModel.systemId;
     this.errorAlert = false;
     this.person = this.sessionStorageService.getObject('person');
@@ -153,11 +177,51 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       this.ageEstimate = this.getAge(this.person.birthdate);
       this.birthdateEstimated = this.person.birthdateEstimated;
     }
-    this.patientCreationService.getpatientResults().pipe(take(1)).subscribe((res) => {
-      if (res.length > 0) {
-        this.patientResults = res;
-        this.found = true;
-      }
+    this.patientCreationService
+      .getpatientResults()
+      .pipe(take(1))
+      .subscribe((res) => {
+        if (res.length > 0) {
+          this.patientResults = res;
+          this.found = true;
+        }
+      });
+  }
+
+  public getEducationLevels() {
+    this.setHighestEducationLevels(
+      this.patientEducationService.getEducationLevels()
+    );
+  }
+
+  public setHighestEducationLevels(
+    educationLevels: Array<{ uuid: string; display: string }>
+  ) {
+    this.levelOfEducation = educationLevels.map((levels) => {
+      return {
+        value: levels.uuid,
+        name: levels.display
+      };
+    });
+  }
+
+  public getOccupatonConcept() {
+    this.conceptService
+      .getConceptByUuid(this.occupationConceptUuid)
+      .subscribe((concept: any) => {
+        if (concept) {
+          this.occupationConcept = concept;
+          this.setOccupationOptions(concept.answers);
+        }
+      });
+  }
+
+  public setOccupationOptions(occupations) {
+    this.occupations = occupations.map((occupation: any) => {
+      return {
+        val: occupation.uuid,
+        label: occupation.display
+      };
     });
   }
   public updateBirthDate(birthDate) {
@@ -194,7 +258,13 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     if (this.getAge(this.birthDate) > 116) {
       this.birthError = 'Please select a valid birthdate or age';
     } else if (
-      !this.givenName || !this.familyName || !this.gender || this.birthError || !this.birthDate
+      !this.givenName ||
+      !this.familyName ||
+      !this.gender ||
+      this.birthError ||
+      !this.birthDate ||
+      !this.occupation ||
+      !this.patientHighestEducation
     ) {
       this.errors = true;
     } else {
@@ -210,15 +280,19 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       };
       this.sessionStorageService.setObject('person', this.person);
       const searchString = this.givenName;
-      this.patientCreationService.searchPatient(searchString, false).pipe(
-        take(1)).subscribe((results) => {
+      this.patientCreationService
+        .searchPatient(searchString, false)
+        .pipe(take(1))
+        .subscribe((results) => {
           this.loaderStatus = false;
           if (results.length > 0) {
             const birthdate = this.getAge(this.birthDate);
             results = _.filter(results, (o) => {
-              return (o.person.age === birthdate - 1 ||
+              return (
+                o.person.age === birthdate - 1 ||
                 o.person.age === birthdate ||
-                o.person.age === birthdate + 1);
+                o.person.age === birthdate + 1
+              );
             });
             const res = this.filterPatients(results);
             if (res.length > 0) {
@@ -228,7 +302,6 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
             } else {
               this.continue();
             }
-
           } else {
             this.continue();
           }
@@ -243,7 +316,6 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     const fuse = new Fuse(results, options);
     results = fuse.search(this.gender);
     return results;
-
   }
 
   public getAge(dateString) {
@@ -258,8 +330,11 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   }
 
   public selectPatient(patient) {
-    this.router.navigate(['/patient-dashboard/patient/' + patient.uuid +
-      '/general/general/patient-info']);
+    this.router.navigate([
+      '/patient-dashboard/patient/' +
+        patient.uuid +
+        '/general/general/patient-info'
+    ]);
   }
 
   public continue() {
@@ -298,7 +373,6 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         this.errorMessages = '';
       }
     }
-
   }
 
   public setIdentifierType(identifierType) {
@@ -325,7 +399,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     this.errorAlert = false;
   }
 
-  public checkIdentifier(identifier) {
+  public checkIdentifier() {
     if (this.patientIdentifierType || this.patientIdentifierType !== '') {
       this.hasError = false;
       this.checkIdentifierFormat();
@@ -337,7 +411,10 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     if (!this.patientIdentifierType || this.patientIdentifierType === '') {
       this.hasError = true;
       this.setErroMessage('Identifier Type is required!');
-    } else if (this.validateFormFields(commonIdentifier) && this.isValidIdentifier) {
+    } else if (
+      this.validateFormFields(commonIdentifier) &&
+      this.isValidIdentifier
+    ) {
       if (this.identifiers.length > 0) {
         const check = this.checkAdded();
         if (check) {
@@ -364,7 +441,6 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       }
     }
     this.errorAlert = false;
-
   }
 
   public removeIdentifer(i, identifier) {
@@ -420,6 +496,9 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       this.errors = true;
     }
     if (!this.gender) {
+      this.errors = true;
+    }
+    if (!this.occupation) {
       this.errors = true;
     }
     if (!this.birthDate) {
@@ -500,53 +579,98 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
           attributeType: 'a657a4f1-9c0f-444b-a1fd-445bb91dd12d'
         });
       }
+      if (this.occupation) {
+        attributes.push({
+          value: this.occupation,
+          attributeType: this.occupationAttributeTypeUuid
+        });
+      }
 
+      if (this.patientHighestEducation) {
+        attributes.push({
+          value: this.patientHighestEducation,
+          attributeType: '352b0d51-63c6-47d0-a295-156bebee4fd5'
+        });
+      }
+
+      if (this.careGivername) {
+        attributes.push({
+          value: this.careGivername,
+          attributeType: '48876f06-7493-416e-855d-8413d894ea93'
+        });
+      }
+      if (this.relationshipToCareGiver) {
+        attributes.push({
+          value: this.relationshipToCareGiver,
+          attributeType: '06b0da36-e133-4be6-aec0-31e7ed0e1ac2'
+        });
+      }
+      if (this.careGiverPhoneNumber) {
+        attributes.push({
+          value: this.careGiverPhoneNumber,
+          attributeType: 'bb8684a5-ac0b-4c2c-b9a5-1203e99952c2'
+        });
+      }
       const payload = {
         person: {
-          names: [{
-            givenName: this.givenName,
-            middleName: this.middleName,
-            familyName: this.familyName
-          }],
+          names: [
+            {
+              givenName: this.givenName,
+              middleName: this.middleName,
+              familyName: this.familyName
+            }
+          ],
           gender: this.gender,
           birthdate: this.birthDate,
           birthdateEstimated: this.birthdateEstimated,
           attributes: attributes,
-          addresses: [{
-            address1: this.address1,
-            address2: this.address2,
-            address3: this.address3,
-            cityVillage: this.cityVillage,
-            latitude: this.latitude,
-            longitude: this.longitude,
-            stateProvince: this.stateProvince
-          }]
+          addresses: [
+            {
+              address1: this.address1,
+              address2: this.address2,
+              address3: this.address3,
+              address7: this.address7,
+              cityVillage: this.cityVillage,
+              latitude: this.latitude,
+              longitude: this.longitude,
+              stateProvince: this.stateProvince
+            }
+          ]
         },
         identifiers: ids
       };
       this.errorAlerts = [];
-      this.patientCreationResourceService.savePatient(payload).pipe(
-        take(1)).subscribe((success) => {
-          this.loaderStatus = false;
-          this.sessionStorageService.remove('person');
-          this.createdPatient = success;
-          if (this.createdPatient) {
-            this.modalRef = this.modalService.show(this.successModal,
-              { backdrop: 'static', keyboard: false });
+      this.patientCreationResourceService
+        .savePatient(payload)
+        .pipe(take(1))
+        .subscribe(
+          (success) => {
+            this.loaderStatus = false;
+            this.sessionStorageService.remove('person');
+            this.createdPatient = success;
+            if (this.createdPatient) {
+              this.modalRef = this.modalService.show(this.successModal, {
+                backdrop: 'static',
+                keyboard: false
+              });
+            }
+          },
+          (err) => {
+            this.loaderStatus = false;
+            const error = err.error.error.globalErrors;
+            this.errorAlert = true;
+            this.errorAlerts = error;
           }
-        }, (err) => {
-          this.loaderStatus = false;
-          const error = err.error.error.globalErrors;
-          this.errorAlert = true;
-          this.errorAlerts = error;
-        });
-
+        );
     }
   }
   public loadDashboard(createdPatient) {
     this.modalRef.hide();
-    this.router.navigate(['/patient-dashboard/patient/' + createdPatient.person.uuid +
-      '/general/general/patient-info']);
+    this.router.navigate([
+      '/patient-dashboard/patient/' +
+        createdPatient.person.uuid +
+        '/general/general/patient-info'
+    ]);
     this.errorAlert = false;
   }
   public close() {
@@ -570,14 +694,18 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     this.errors = false;
   }
   public ngOnDestroy(): void {
+    this.subscriptions.map((sub) => sub.unsubscribe);
   }
 
   public generatePatientIdentifier() {
-    this.patientCreationService.generateIdentifier(this.userId).pipe(take(1)).subscribe((data: any) => {
-      this.patientIdentifier = data.identifier;
-      this.generate = false;
-      this.editText = true;
-    });
+    this.patientCreationService
+      .generateIdentifier(this.userId)
+      .pipe(take(1))
+      .subscribe((data: any) => {
+        this.patientIdentifier = data.identifier;
+        this.generate = false;
+        this.editText = true;
+      });
     this.errorAlert = false;
   }
 
@@ -592,22 +720,20 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
 
   public loadProgramManager(createdPatient) {
     this.modalRef.hide();
-    this.router.navigate(['/patient-dashboard/patient/' + createdPatient.person.uuid +
-      '/general/general/program-manager/new-program']);
-  }
-
-  private getPatientIdentifiers() {
-    this.patientCreationResourceService.getPatientIdentifierTypes().pipe(take(1)).subscribe((data) => {
-      this.patientIdentifierTypes = data;
-    });
+    this.router.navigate([
+      '/patient-dashboard/patient/' +
+        createdPatient.person.uuid +
+        '/general/general/program-manager/new-program'
+    ]);
   }
 
   private checkAdded() {
-
     let found;
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < this.identifiers.length; i++) {
-      if (this.identifiers[i].identifierType === this.patientIdentifierType.val) {
+      if (
+        this.identifiers[i].identifierType === this.patientIdentifierType.val
+      ) {
         found = true;
         break;
       }
@@ -618,11 +744,12 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   }
 
   private checkUniversal() {
-
     let found = false;
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < this.identifiers.length; i++) {
-      if (this.identifiers[i].identifierType === this.universal.identifierType) {
+      if (
+        this.identifiers[i].identifierType === this.universal.identifierType
+      ) {
         found = true;
         break;
       }
@@ -631,69 +758,87 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   }
 
   private getCommonIdentifierTypes() {
-    this.patientIdentifierTypeResService.getPatientIdentifierTypes().pipe(take(1)).subscribe(
-      (data) => {
-        // tslint:disable-next-line:prefer-for-of
-        for (let i = 0; i < data.length; i++) {
-          if (data[i].name === 'AMRS Universal ID') {
-            this.universal = {
-              identifierType: data[i].uuid,
-              identifierTypeName: data[i].name
-            };
-          } else {
-            this.commonIdentifierTypes.push({
-              val: data[i].uuid,
-              label: data[i].name
-            });
-          }
+    this.patientIdentifierTypeResService
+      .getPatientIdentifierTypes()
+      .pipe(take(1))
+      .subscribe(
+        (data) => {
+          // tslint:disable-next-line:prefer-for-of
+          for (let i = 0; i < data.length; i++) {
+            if (data[i].name === 'AMRS Universal ID') {
+              this.universal = {
+                identifierType: data[i].uuid,
+                identifierTypeName: data[i].name
+              };
+            } else {
+              this.commonIdentifierTypes.push({
+                val: data[i].uuid,
+                label: data[i].name
+              });
+            }
 
-          if (data[i].uuid === '58a47054-1359-11df-a1f1-0026b9348838') {
-            this.commonIdentifierTypeFormats[data[i].uuid] = {
-              format: '^[0-9]*$',
-              checkdigit: data[i].checkDigit
-            };
-          } else {
-            this.commonIdentifierTypeFormats[data[i].uuid] = {
-              format: data[i].format,
-              checkdigit: data[i].checkDigit
-            };
+            if (data[i].uuid === '58a47054-1359-11df-a1f1-0026b9348838') {
+              this.commonIdentifierTypeFormats[data[i].uuid] = {
+                format: '^[0-9]*$',
+                checkdigit: data[i].checkDigit
+              };
+            } else {
+              this.commonIdentifierTypeFormats[data[i].uuid] = {
+                format: data[i].format,
+                checkdigit: data[i].checkDigit
+              };
+            }
           }
-
+        },
+        () => {
+          this.toastrService.error(
+            'Error  retrieving common patient identifier types',
+            '',
+            {
+              timeOut: 2000,
+              positionClass: 'toast-bottom-center'
+            }
+          );
         }
-
-      },
-      (error) => {
-        this.toastrService.error('Error  retrieving common patient identifier types', '', {
-          timeOut: 2000,
-          positionClass: 'toast-bottom-center'
-        });
-      });
+      );
   }
 
   private getLocations(): void {
-    this.locationResourceService.getLocations().pipe(take(1)).subscribe(
-      (locations: any[]) => {
-        this.locations = [];
-        const counties = [];
-        // tslint:disable-next-line:prefer-for-of
-        for (let i = 0; i < locations.length; i++) {
-          this.locations.push({ label: locations[i].name, value: locations[i].uuid });
-          counties.push(locations[i].stateProvince);
+    this.locationResourceService
+      .getLocations()
+      .pipe(take(1))
+      .subscribe(
+        (locations: any[]) => {
+          this.locations = [];
+          const counties = [];
+          // tslint:disable-next-line:prefer-for-of
+          for (let i = 0; i < locations.length; i++) {
+            this.locations.push({
+              label: locations[i].name,
+              value: locations[i].uuid
+            });
+            counties.push(locations[i].stateProvince);
+          }
+          this.counties = _.uniq(counties);
+          this.counties = _.remove(this.counties, (n) => {
+            return n !== null || n === '';
+          });
+          this.counties.push('Other');
+        },
+        (error: any) => {
+          console.error(error);
         }
-        this.counties = _.uniq(counties);
-        this.counties = _.remove(this.counties, (n) => {
-          return n !== null || n === '';
-        });
-        this.counties.push('Other');
-      },
-      (error: any) => {
-        console.error(error);
-      }
-    );
+      );
   }
-
+  public getAmpathLocations() {
+    const getLocationsSubscription = this.locationResourceService
+      .getAmpathLocations()
+      .subscribe((arg) => {
+        this.ampathLocations = arg;
+      });
+    this.subscriptions.push(getLocationsSubscription);
+  }
   private validateFormFields(patientIdentifier) {
-
     if (this.isNullOrUndefined(patientIdentifier)) {
       this.setErroMessage('Patient identifier is required!');
       return false;
@@ -703,8 +848,13 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   }
 
   private isNullOrUndefined(val) {
-    return val === null || val === undefined || val === ''
-      || val === 'null' || val === 'undefined';
+    return (
+      val === null ||
+      val === undefined ||
+      val === '' ||
+      val === 'null' ||
+      val === 'undefined'
+    );
   }
 
   private checkIdentifierFormat() {
@@ -712,7 +862,8 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     this.identifierValidity = '';
     const identifierType = this.patientIdentifierType;
     const identifierTypeSpecifiedFormat = this.patientCreationService.getIdentifierTypeFormat(
-      (identifierType as any).val);
+      (identifierType as any).val
+    );
     let identifierHasCheckDigit = null;
     let identifierHasRegex = null;
 
@@ -724,46 +875,43 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         return;
       }
       if (identifierHasRegex) {
-        this.isValidIdentifier =
-          this.patientCreationService.checkRegexValidity(identifierHasRegex,
-            this.commonIdentifier);
+        this.isValidIdentifier = this.patientCreationService.checkRegexValidity(
+          identifierHasRegex,
+          this.commonIdentifier
+        );
         if (this.isValidIdentifier === false) {
-          this.identifierValidity = 'Invalid Identifier Format. {' + identifierHasRegex + '}';
+          this.identifierValidity =
+            'Invalid Identifier Format. {' + identifierHasRegex + '}';
         }
         return;
       }
-
     } else {
       this.isValidIdentifier = true;
     }
-
   }
 
   private checkLuhnCheckDigit() {
     const checkDigit = this.commonIdentifier.split('-')[1];
-    const expectedCheckDigit =
-      this.patientCreationService.getLuhnCheckDigit(this.commonIdentifier.split('-')[0]);
+    const expectedCheckDigit = this.patientCreationService.getLuhnCheckDigit(
+      this.commonIdentifier.split('-')[0]
+    );
     if (checkDigit === 'undefined' || checkDigit === undefined) {
       this.identifierValidity = 'Invalid Check Digit';
     }
 
     if (expectedCheckDigit === parseInt(checkDigit, 10)) {
-
       this.isValidIdentifier = true;
     } else {
       this.identifierValidity = 'Invalid Check Digit';
     }
-
   }
 
   private setErroMessage(message) {
-
     this.hasError = true;
     this.errorMessage = message;
   }
 
   private calculateAge(age) {
-
     const baseYear = 1970;
     const thisYear = new Date().getFullYear();
     let date;
@@ -780,5 +928,37 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
 
     return estimateDate;
   }
-
+  public setCounty(event) {
+    this.address1 = event;
+    const counties1 = this.ampathLocations.counties;
+    this.subcounties = counties1.find(
+      (county) => county.name === event
+    ).subcounties;
+  }
+  public setSubCounty(event) {
+    this.address2 = event;
+    const subcounties = this.subcounties;
+    this.wards = subcounties.find(
+      (subcounty) => subcounty.name === event
+    ).wards;
+  }
+  public setWard(event) {
+    this.address7 = event;
+  }
+  public getRelationShipTypes(): void {
+    const request = this.patientRelationshipTypeService.getRelationshipTypes();
+    request.subscribe(
+      (relationshipTypes) => {
+        if (relationshipTypes) {
+          this.patientRelationshipTypes = relationshipTypes;
+        }
+      },
+      (error) => {
+        console.error(
+          'Failed to get relation types because of the following ',
+          error
+        );
+      }
+    );
+  }
 }

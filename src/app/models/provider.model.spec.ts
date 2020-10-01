@@ -2,12 +2,9 @@
 
 // import { TestBed, async, inject, describe, it, expect } from '@angular/core/testing';
 
-
-import {Provider} from './provider.model';
-
+import { Provider } from './provider.model';
 
 describe('Model: Provider', () => {
-
   const existingProvider: any = {
     uuid: 'uuid',
     display: 'the provider',
@@ -24,9 +21,4 @@ describe('Model: Provider', () => {
     expect(wrappedProvider.identifier).toEqual(existingProvider.identifier);
     expect(wrappedProvider.person.uuid).toEqual(existingProvider.person.uuid);
   });
-
-
 });
-
-
-

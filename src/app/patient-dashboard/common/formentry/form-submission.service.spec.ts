@@ -1,10 +1,19 @@
-
-import { throwError as observableThrowError, of, Observable, Subject } from 'rxjs';
+import {
+  throwError as observableThrowError,
+  of,
+  Observable,
+  Subject
+} from 'rxjs';
 import { TestBed, async, fakeAsync, inject } from '@angular/core/testing';
 import { LocalStorageService } from '../../../utils/local-storage.service';
 import { FormSubmissionService } from './form-submission.service';
 import {
-  EncounterAdapter, PersonAttribuAdapter, OrderValueAdapter, ObsValueAdapter, ObsAdapterHelper, Form
+  EncounterAdapter,
+  PersonAttribuAdapter,
+  OrderValueAdapter,
+  ObsValueAdapter,
+  ObsAdapterHelper,
+  Form
 } from 'ngx-openmrs-formentry';
 import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
@@ -22,17 +31,14 @@ import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
 import { ZscoreService } from 'src/app/shared/services/zscore.service';
 
 class FakeCacheStorageService {
-  constructor(a, b) {
-  }
+  constructor(a, b) {}
 
   public ready() {
     return true;
   }
-
 }
 
 describe('Service: FormSubmissionService', () => {
-
   // sample field error
   const sampleFieldError: any = {
     error: {
@@ -43,7 +49,8 @@ describe('Service: FormSubmissionService', () => {
         encounterDatetime: [
           {
             code: 'Encounter.datetimeShouldBeInVisitDatesRange',
-            message: 'The encounter datetime should be between the visit start and stop dates.'
+            message:
+              'The encounter datetime should be between the visit start and stop dates.'
           }
         ]
       }
@@ -58,7 +65,7 @@ describe('Service: FormSubmissionService', () => {
     order: [],
     patient: '5ead308a-1359-11df-a1f1-0026b9348838',
     provider: '34',
-    visit: '85a7746e-4d8d-4722-b3eb-ce79195266de',
+    visit: '85a7746e-4d8d-4722-b3eb-ce79195266de'
   };
 
   // sample schema
@@ -67,7 +74,7 @@ describe('Service: FormSubmissionService', () => {
     display: 'form',
     encounterType: {
       uuid: 'type-uuid',
-      display: 'sample',
+      display: 'sample'
     }
   };
 
@@ -88,15 +95,16 @@ describe('Service: FormSubmissionService', () => {
     searchNodeByQuestionId: (param) => {
       return [];
     }
-
   } as Form;
 
   // sample submission error
   const sampleSubmissionError: any = {
-    code: 'org.openmrs.module.webservices.rest.web.resource.impl.BaseDelegatingResource:748',
+    code:
+      'org.openmrs.module.webservices.rest.web.resource.impl.BaseDelegatingResource:748',
     // tslint:disable-next-line:max-line-length
-    detail: 'org.openmrs.module.webservices.rest.web.response.ConversionException: unknown provider ↵',
-    message: 'Unable to convert object into response content',
+    detail:
+      'org.openmrs.module.webservices.rest.web.response.ConversionException: unknown provider ↵',
+    message: 'Unable to convert object into response content'
   };
 
   beforeEach(() => {
@@ -123,14 +131,13 @@ describe('Service: FormSubmissionService', () => {
         CacheService,
         ZscoreService,
         {
-          provide: CacheStorageService, useFactory: () => {
+          provide: CacheStorageService,
+          useFactory: () => {
             return new FakeCacheStorageService(null, null);
           }
         }
       ],
-      imports: [
-        CacheModule, HttpClientTestingModule
-      ]
+      imports: [CacheModule, HttpClientTestingModule]
     });
   });
 
@@ -143,396 +150,469 @@ describe('Service: FormSubmissionService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should submit payload when supplied with a valid form object:: New Form',
-    inject([FormSubmissionService, EncounterResourceService, PersonAttribuAdapter,
-      EncounterAdapter, PersonResourceService],
-      (formSchemaService: FormSubmissionService,
+  it('should submit payload when supplied with a valid form object:: New Form', inject(
+    [
+      FormSubmissionService,
+      EncounterResourceService,
+      PersonAttribuAdapter,
+      EncounterAdapter,
+      PersonResourceService
+    ],
+    (
+      formSchemaService: FormSubmissionService,
+      encounterResourceService: EncounterResourceService,
+      personAttribuAdapter: PersonAttribuAdapter,
+      encounterAdapter: EncounterAdapter,
+      personResourceService: PersonResourceService
+    ) => {
+      // spy encounterResourceService
+      spyOn(encounterResourceService, 'saveEncounter').and.callFake(
+        (payload) => {
+          return of(payload);
+        }
+      );
+
+      // spy personResourceService
+      spyOn(personResourceService, 'saveUpdatePerson').and.callFake(
+        (payload) => {
+          return of(payload);
+        }
+      );
+
+      // encounter adaptor
+      spyOn(encounterAdapter, 'generateFormPayload').and.callFake((payload) => {
+        return sampleEncounterPayload;
+      });
+
+      // person attributes adaptor
+      spyOn(personAttribuAdapter, 'generateFormPayload').and.callFake(
+        (payload) => {
+          return [
+            {
+              attributeType: 'attribute-type-uuid',
+              value: 'Test Race'
+            }
+          ];
+        }
+      );
+
+      formSchemaService.submitPayload(renderableForm as Form);
+      expect(encounterResourceService.saveEncounter).toHaveBeenCalled();
+      expect(personResourceService.saveUpdatePerson).toHaveBeenCalled();
+    }
+  ));
+
+  it('should submit payload when supplied with a valid form object:: Editting Form', inject(
+    [
+      FormSubmissionService,
+      EncounterResourceService,
+      PersonAttribuAdapter,
+      EncounterAdapter,
+      PersonResourceService
+    ],
+    (
+      formSchemaService: FormSubmissionService,
+      encounterResourceService: EncounterResourceService,
+      personAttribuAdapter: PersonAttribuAdapter,
+      encounterAdapter: EncounterAdapter,
+      personResourceService: PersonResourceService
+    ) => {
+      // spy encounterResourceService
+      spyOn(encounterResourceService, 'saveEncounter').and.callFake(
+        (payload) => {
+          return of(payload);
+        }
+      );
+
+      // spy personResourceService
+      spyOn(personResourceService, 'saveUpdatePerson').and.callFake(
+        (payload) => {
+          return of(payload);
+        }
+      );
+
+      // encounter adaptor
+      spyOn(encounterAdapter, 'generateFormPayload').and.callFake((payload) => {
+        return sampleEncounterPayload;
+      });
+
+      // person attributes adaptor
+      spyOn(personAttribuAdapter, 'generateFormPayload').and.callFake(
+        (payload) => {
+          return [
+            {
+              attributeType: 'attribute-type-uuid',
+              value: 'Test Race'
+            }
+          ];
+        }
+      );
+      renderableForm.valueProcessingInfo.encounterUuid = 'sample-uuid';
+      formSchemaService.submitPayload(renderableForm as Form);
+      expect(encounterResourceService.saveEncounter).toHaveBeenCalled();
+      expect(personResourceService.saveUpdatePerson).toHaveBeenCalled();
+    }
+  ));
+
+  it('should not submit personAttribute payload if generated payload is null or empty', inject(
+    [
+      FormSubmissionService,
+      EncounterResourceService,
+      PersonAttribuAdapter,
+      EncounterAdapter,
+      PersonResourceService
+    ],
+    (
+      formSchemaService: FormSubmissionService,
+      encounterResourceService: EncounterResourceService,
+      personAttribuAdapter: PersonAttribuAdapter,
+      encounterAdapter: EncounterAdapter,
+      personResourceService: PersonResourceService
+    ) => {
+      // spy encounterResourceService
+      spyOn(personResourceService, 'saveUpdatePerson').and.callFake(
+        (payload) => {
+          return of(payload);
+        }
+      );
+      // encounter adaptor
+      spyOn(encounterAdapter, 'generateFormPayload').and.callFake((payload) => {
+        return {}; // setting it to empty
+      });
+
+      // person attributes adaptor
+      spyOn(personAttribuAdapter, 'generateFormPayload').and.callFake(
+        (payload) => {
+          return []; // setting it to empty
+        }
+      );
+      // renderable form has no obs, no orders, no encounter and no person attribute
+      formSchemaService.submitPayload(renderableForm as Form);
+      expect(personResourceService.saveUpdatePerson).not.toHaveBeenCalled();
+    }
+  ));
+
+  it(
+    'should not submit encounter payload if generated payload is null or empty' +
+      ' :: Case when creating new form',
+    inject(
+      [
+        FormSubmissionService,
+        EncounterResourceService,
+        PersonAttribuAdapter,
+        EncounterAdapter,
+        PersonResourceService
+      ],
+      (
+        formSchemaService: FormSubmissionService,
         encounterResourceService: EncounterResourceService,
         personAttribuAdapter: PersonAttribuAdapter,
         encounterAdapter: EncounterAdapter,
-        personResourceService: PersonResourceService) => {
-
-        // spy encounterResourceService
-        spyOn(encounterResourceService, 'saveEncounter').and.callFake(
-          (payload) => {
-            return of(payload);
-          });
-
-        // spy personResourceService
-        spyOn(personResourceService, 'saveUpdatePerson').and.callFake(
-          (payload) => {
-            return of(payload);
-          });
-
-        // encounter adaptor
-        spyOn(encounterAdapter, 'generateFormPayload').and.callFake(
-          (payload) => {
-            return sampleEncounterPayload;
-          });
-
-        // person attributes adaptor
-        spyOn(personAttribuAdapter, 'generateFormPayload').and.callFake(
-          (payload) => {
-            return [
-              {
-                attributeType: 'attribute-type-uuid',
-                value: 'Test Race'
-              }
-            ];
-          });
-
-        formSchemaService.submitPayload(renderableForm as Form);
-        expect(encounterResourceService.saveEncounter).toHaveBeenCalled();
-        expect(personResourceService.saveUpdatePerson).toHaveBeenCalled();
-      })
-  );
-
-  it('should submit payload when supplied with a valid form object:: Editting Form',
-    inject([FormSubmissionService, EncounterResourceService, PersonAttribuAdapter,
-      EncounterAdapter, PersonResourceService],
-      (formSchemaService: FormSubmissionService,
-        encounterResourceService: EncounterResourceService,
-        personAttribuAdapter: PersonAttribuAdapter,
-        encounterAdapter: EncounterAdapter,
-        personResourceService: PersonResourceService) => {
-
-        // spy encounterResourceService
-        spyOn(encounterResourceService, 'saveEncounter').and.callFake(
-          (payload) => {
-            return of(payload);
-          });
-
-        // spy personResourceService
-        spyOn(personResourceService, 'saveUpdatePerson').and.callFake(
-          (payload) => {
-            return of(payload);
-          });
-
-        // encounter adaptor
-        spyOn(encounterAdapter, 'generateFormPayload').and.callFake(
-          (payload) => {
-            return sampleEncounterPayload;
-          });
-
-        // person attributes adaptor
-        spyOn(personAttribuAdapter, 'generateFormPayload').and.callFake(
-          (payload) => {
-            return [
-              {
-                attributeType: 'attribute-type-uuid',
-                value: 'Test Race'
-              }
-            ];
-          });
-        renderableForm.valueProcessingInfo.encounterUuid = 'sample-uuid';
-        formSchemaService.submitPayload(renderableForm as Form);
-        expect(encounterResourceService.saveEncounter).toHaveBeenCalled();
-        expect(personResourceService.saveUpdatePerson).toHaveBeenCalled();
-      })
-  );
-
-  it('should not submit personAttribute payload if generated payload is null or empty',
-    inject([FormSubmissionService, EncounterResourceService, PersonAttribuAdapter,
-      EncounterAdapter, PersonResourceService],
-      (formSchemaService: FormSubmissionService,
-        encounterResourceService: EncounterResourceService,
-        personAttribuAdapter: PersonAttribuAdapter,
-        encounterAdapter: EncounterAdapter,
-        personResourceService: PersonResourceService) => {
-
-        // spy encounterResourceService
-        spyOn(personResourceService, 'saveUpdatePerson').and.callFake(
-          (payload) => {
-            return of(payload);
-          });
-        // encounter adaptor
-        spyOn(encounterAdapter, 'generateFormPayload').and.callFake(
-          (payload) => {
-            return {}; // setting it to empty
-          });
-
-        // person attributes adaptor
-        spyOn(personAttribuAdapter, 'generateFormPayload').and.callFake(
-          (payload) => {
-            return []; // setting it to empty
-          });
-        // renderable form has no obs, no orders, no encounter and no person attribute
-        formSchemaService.submitPayload(renderableForm as Form);
-        expect(personResourceService.saveUpdatePerson).not.toHaveBeenCalled();
-      })
-  );
-
-  it('should not submit encounter payload if generated payload is null or empty' +
-    ' :: Case when creating new form',
-    inject([FormSubmissionService, EncounterResourceService, PersonAttribuAdapter,
-      EncounterAdapter, PersonResourceService],
-      (formSchemaService: FormSubmissionService,
-        encounterResourceService: EncounterResourceService,
-        personAttribuAdapter: PersonAttribuAdapter,
-        encounterAdapter: EncounterAdapter,
-        personResourceService: PersonResourceService) => {
-
+        personResourceService: PersonResourceService
+      ) => {
         // case when creating new encounter
         spyOn(encounterResourceService, 'saveEncounter').and.callFake(
           (payload) => {
             return of(payload);
-          });
-
-        // case when creating new encounter
-        spyOn(encounterResourceService, 'updateEncounter').and.callFake(
-          (payload) => {
-            return of(payload);
-          });
-        // encounter adaptor
-        spyOn(encounterAdapter, 'generateFormPayload').and.callFake(
-          (payload) => {
-            return {};
-          });
-
-        // person attributes adaptor
-        spyOn(personAttribuAdapter, 'generateFormPayload').and.callFake(
-          (payload) => {
-            return [];
-          });
-        // renderable form has no obs, no orders, no encounter
-        formSchemaService.submitPayload(renderableForm as Form);
-        expect(encounterResourceService.saveEncounter).not.toHaveBeenCalled();
-        expect(encounterResourceService.updateEncounter).not.toHaveBeenCalled();
-      })
-  );
-
-  it('should not submit encounter payload if generated payload is null or empty' +
-    ' :: Case when editting existing form',
-    inject([FormSubmissionService, EncounterResourceService, PersonAttribuAdapter,
-      EncounterAdapter, PersonResourceService],
-      (formSchemaService: FormSubmissionService,
-        encounterResourceService: EncounterResourceService,
-        personAttribuAdapter: PersonAttribuAdapter,
-        encounterAdapter: EncounterAdapter,
-        personResourceService: PersonResourceService) => {
-
-        // case when creating new encounter
-        spyOn(encounterResourceService, 'saveEncounter').and.callFake(
-          (payload) => {
-            return of(payload);
-          });
+          }
+        );
 
         // case when creating new encounter
         spyOn(encounterResourceService, 'updateEncounter').and.callFake(
           (payload) => {
             return of(payload);
-          });
+          }
+        );
         // encounter adaptor
         spyOn(encounterAdapter, 'generateFormPayload').and.callFake(
           (payload) => {
             return {};
-          });
+          }
+        );
 
         // person attributes adaptor
         spyOn(personAttribuAdapter, 'generateFormPayload').and.callFake(
           (payload) => {
             return [];
-          });
+          }
+        );
+        // renderable form has no obs, no orders, no encounter
+        formSchemaService.submitPayload(renderableForm as Form);
+        expect(encounterResourceService.saveEncounter).not.toHaveBeenCalled();
+        expect(encounterResourceService.updateEncounter).not.toHaveBeenCalled();
+      }
+    )
+  );
+
+  it(
+    'should not submit encounter payload if generated payload is null or empty' +
+      ' :: Case when editting existing form',
+    inject(
+      [
+        FormSubmissionService,
+        EncounterResourceService,
+        PersonAttribuAdapter,
+        EncounterAdapter,
+        PersonResourceService
+      ],
+      (
+        formSchemaService: FormSubmissionService,
+        encounterResourceService: EncounterResourceService,
+        personAttribuAdapter: PersonAttribuAdapter,
+        encounterAdapter: EncounterAdapter,
+        personResourceService: PersonResourceService
+      ) => {
+        // case when creating new encounter
+        spyOn(encounterResourceService, 'saveEncounter').and.callFake(
+          (payload) => {
+            return of(payload);
+          }
+        );
+
+        // case when creating new encounter
+        spyOn(encounterResourceService, 'updateEncounter').and.callFake(
+          (payload) => {
+            return of(payload);
+          }
+        );
+        // encounter adaptor
+        spyOn(encounterAdapter, 'generateFormPayload').and.callFake(
+          (payload) => {
+            return {};
+          }
+        );
+
+        // person attributes adaptor
+        spyOn(personAttribuAdapter, 'generateFormPayload').and.callFake(
+          (payload) => {
+            return [];
+          }
+        );
         // renderable form has no obs, no orders, no encounter
         renderableForm.valueProcessingInfo.encounterUuid = 'sample-uuid';
         formSchemaService.submitPayload(renderableForm as Form);
         expect(encounterResourceService.saveEncounter).not.toHaveBeenCalled();
         expect(encounterResourceService.updateEncounter).not.toHaveBeenCalled();
-      })
+      }
+    )
   );
 
+  it('should throw error when encounter payload fails to save', inject(
+    [
+      FormSubmissionService,
+      EncounterResourceService,
+      PersonAttribuAdapter,
+      EncounterAdapter,
+      PersonResourceService
+    ],
+    (
+      formSchemaService: FormSubmissionService,
+      encounterResourceService: EncounterResourceService,
+      personAttribuAdapter: PersonAttribuAdapter,
+      encounterAdapter: EncounterAdapter,
+      personResourceService: PersonResourceService
+    ) => {
+      // spy encounterResourceService
+      spyOn(encounterResourceService, 'saveEncounter').and.callFake(
+        (payload) => {
+          // throw an error
+          return observableThrowError(sampleSubmissionError);
+        }
+      );
 
-  it('should throw error when encounter payload fails to save',
-    inject([FormSubmissionService, EncounterResourceService, PersonAttribuAdapter,
-      EncounterAdapter, PersonResourceService],
-      (formSchemaService: FormSubmissionService,
-        encounterResourceService: EncounterResourceService,
-        personAttribuAdapter: PersonAttribuAdapter,
-        encounterAdapter: EncounterAdapter,
-        personResourceService: PersonResourceService) => {
+      // spy personResourceService
+      spyOn(personResourceService, 'saveUpdatePerson').and.callFake(
+        (payload) => {
+          return of(payload);
+        }
+      );
 
-        // spy encounterResourceService
-        spyOn(encounterResourceService, 'saveEncounter').and.callFake(
-          (payload) => {
-            // throw an error
-            return observableThrowError(sampleSubmissionError);
-          });
+      // encounter adaptor
+      spyOn(encounterAdapter, 'generateFormPayload').and.callFake((payload) => {
+        return sampleEncounterPayload;
+      });
 
-        // spy personResourceService
-        spyOn(personResourceService, 'saveUpdatePerson').and.callFake(
-          (payload) => {
-            return of(payload);
-          });
+      // person attributes adaptor
+      spyOn(personAttribuAdapter, 'generateFormPayload').and.callFake(
+        (payload) => {
+          return [
+            {
+              attributeType: 'attribute-type-uuid',
+              value: 'Test Race'
+            }
+          ];
+        }
+      );
 
-        // encounter adaptor
-        spyOn(encounterAdapter, 'generateFormPayload').and.callFake(
-          (payload) => {
-            return sampleEncounterPayload;
-          });
+      // spy on
+      let formSubmissionSuccesIndicator = false;
+      let submissionError: any = null;
+      formSchemaService.submitPayload(renderableForm as Form).subscribe(
+        (responses: Array<any>) => {
+          formSubmissionSuccesIndicator = true;
+          submissionError = null;
+          // tslint:disable-next-line:no-unused-expression
+          expect(formSubmissionSuccesIndicator).toBeFalsy;
+        },
+        (err) => {
+          console.error('An error occurred, ---->', err);
+          submissionError = err;
+          formSubmissionSuccesIndicator = false;
+        }
+      );
+      expect(encounterResourceService.saveEncounter).toHaveBeenCalled();
+      expect(personResourceService.saveUpdatePerson).toHaveBeenCalled();
+      // we expect it to throw error
+      // tslint:disable-next-line:no-unused-expression
+      expect(formSubmissionSuccesIndicator).toBeFalsy;
+      // tslint:disable-next-line:no-unused-expression
+      expect(submissionError).not.toBeNull;
+    }
+  ));
 
-        // person attributes adaptor
-        spyOn(personAttribuAdapter, 'generateFormPayload').and.callFake(
-          (payload) => {
-            return [
-              {
-                attributeType: 'attribute-type-uuid',
-                value: 'Test Race'
-              }
-            ];
-          });
+  it('should throw error when personAttribute payload fails to save', inject(
+    [
+      FormSubmissionService,
+      EncounterResourceService,
+      PersonAttribuAdapter,
+      EncounterAdapter,
+      PersonResourceService
+    ],
+    (
+      formSchemaService: FormSubmissionService,
+      encounterResourceService: EncounterResourceService,
+      personAttribuAdapter: PersonAttribuAdapter,
+      encounterAdapter: EncounterAdapter,
+      personResourceService: PersonResourceService
+    ) => {
+      // spy encounterResourceService
+      spyOn(encounterResourceService, 'saveEncounter').and.callFake(
+        (payload) => {
+          return of(payload);
+        }
+      );
 
-        // spy on
-        let formSubmissionSuccesIndicator = false;
-        let submissionError: any = null;
-        formSchemaService.submitPayload(renderableForm as Form).subscribe(
-          (responses: Array<any>) => {
-            formSubmissionSuccesIndicator = true;
-            submissionError = null;
-            // tslint:disable-next-line:no-unused-expression
-            expect(formSubmissionSuccesIndicator).toBeFalsy;
-          },
-          (err) => {
-            console.error('An error occurred, ---->', err);
-            submissionError = err;
-            formSubmissionSuccesIndicator = false;
-          });
-        expect(encounterResourceService.saveEncounter).toHaveBeenCalled();
-        expect(personResourceService.saveUpdatePerson).toHaveBeenCalled();
-        // we expect it to throw error
-        // tslint:disable-next-line:no-unused-expression
-        expect(formSubmissionSuccesIndicator).toBeFalsy;
-        // tslint:disable-next-line:no-unused-expression
-        expect(submissionError).not.toBeNull;
-      })
-  );
+      // spy personResourceService
+      spyOn(personResourceService, 'saveUpdatePerson').and.callFake(
+        (payload) => {
+          // Throw an error
+          return observableThrowError(sampleSubmissionError);
+        }
+      );
 
-  it('should throw error when personAttribute payload fails to save',
-    inject([FormSubmissionService, EncounterResourceService, PersonAttribuAdapter,
-      EncounterAdapter, PersonResourceService],
-      (formSchemaService: FormSubmissionService,
-        encounterResourceService: EncounterResourceService,
-        personAttribuAdapter: PersonAttribuAdapter,
-        encounterAdapter: EncounterAdapter,
-        personResourceService: PersonResourceService) => {
+      // encounter adaptor
+      spyOn(encounterAdapter, 'generateFormPayload').and.callFake((payload) => {
+        return sampleEncounterPayload;
+      });
 
-        // spy encounterResourceService
-        spyOn(encounterResourceService, 'saveEncounter').and.callFake(
-          (payload) => {
-            return of(payload);
-          });
+      // person attributes adaptor
+      spyOn(personAttribuAdapter, 'generateFormPayload').and.callFake(
+        (payload) => {
+          return [
+            {
+              attributeType: 'attribute-type-uuid',
+              value: 'Test Race'
+            }
+          ];
+        }
+      );
 
-        // spy personResourceService
-        spyOn(personResourceService, 'saveUpdatePerson').and.callFake(
-          (payload) => {
-            // Throw an error
-            return observableThrowError(sampleSubmissionError);
-          });
+      // spy on
+      let formSubmissionSuccesIndicator = false;
+      let submissionError: any = null;
+      formSchemaService.submitPayload(renderableForm as Form).subscribe(
+        (responses: Array<any>) => {
+          formSubmissionSuccesIndicator = true;
+          submissionError = null;
+          // tslint:disable-next-line:no-unused-expression
+          expect(formSubmissionSuccesIndicator).toBeFalsy;
+        },
+        (err) => {
+          console.error('An error occurred, ---->', err);
+          submissionError = err;
+          formSubmissionSuccesIndicator = false;
+        }
+      );
+      expect(encounterResourceService.saveEncounter).toHaveBeenCalled();
+      expect(personResourceService.saveUpdatePerson).toHaveBeenCalled();
+      // we expect it to throw error
+      // tslint:disable-next-line:no-unused-expression
+      expect(formSubmissionSuccesIndicator).toBeFalsy;
+      // tslint:disable-next-line:no-unused-expression
+      expect(submissionError).not.toBeNull;
+    }
+  ));
 
-        // encounter adaptor
-        spyOn(encounterAdapter, 'generateFormPayload').and.callFake(
-          (payload) => {
-            return sampleEncounterPayload;
-          });
+  it('should throw error when all payloads fail to save', inject(
+    [
+      FormSubmissionService,
+      EncounterResourceService,
+      PersonAttribuAdapter,
+      EncounterAdapter,
+      PersonResourceService
+    ],
+    (
+      formSchemaService: FormSubmissionService,
+      encounterResourceService: EncounterResourceService,
+      personAttribuAdapter: PersonAttribuAdapter,
+      encounterAdapter: EncounterAdapter,
+      personResourceService: PersonResourceService
+    ) => {
+      // spy encounterResourceService
+      spyOn(encounterResourceService, 'saveEncounter').and.callFake(
+        (payload) => {
+          // Throw an error
+          return observableThrowError(sampleSubmissionError);
+        }
+      );
 
-        // person attributes adaptor
-        spyOn(personAttribuAdapter, 'generateFormPayload').and.callFake(
-          (payload) => {
-            return [
-              {
-                attributeType: 'attribute-type-uuid',
-                value: 'Test Race'
-              }
-            ];
-          });
+      // spy personResourceService
+      spyOn(personResourceService, 'saveUpdatePerson').and.callFake(
+        (payload) => {
+          // Throw an error
+          return observableThrowError(sampleSubmissionError);
+        }
+      );
 
-        // spy on
-        let formSubmissionSuccesIndicator = false;
-        let submissionError: any = null;
-        formSchemaService.submitPayload(renderableForm as Form).subscribe(
-          (responses: Array<any>) => {
-            formSubmissionSuccesIndicator = true;
-            submissionError = null;
-            // tslint:disable-next-line:no-unused-expression
-            expect(formSubmissionSuccesIndicator).toBeFalsy;
-          },
-          err => {
-            console.error('An error occurred, ---->', err);
-            submissionError = err;
-            formSubmissionSuccesIndicator = false;
-          });
-        expect(encounterResourceService.saveEncounter).toHaveBeenCalled();
-        expect(personResourceService.saveUpdatePerson).toHaveBeenCalled();
-        // we expect it to throw error
-        // tslint:disable-next-line:no-unused-expression
-        expect(formSubmissionSuccesIndicator).toBeFalsy;
-        // tslint:disable-next-line:no-unused-expression
-        expect(submissionError).not.toBeNull;
-      })
-  );
+      // encounter adaptor
+      spyOn(encounterAdapter, 'generateFormPayload').and.callFake((payload) => {
+        return sampleEncounterPayload;
+      });
 
-  it('should throw error when all payloads fail to save',
-    inject([FormSubmissionService, EncounterResourceService, PersonAttribuAdapter,
-      EncounterAdapter, PersonResourceService],
-      (formSchemaService: FormSubmissionService,
-        encounterResourceService: EncounterResourceService,
-        personAttribuAdapter: PersonAttribuAdapter,
-        encounterAdapter: EncounterAdapter,
-        personResourceService: PersonResourceService) => {
+      // person attributes adaptor
+      spyOn(personAttribuAdapter, 'generateFormPayload').and.callFake(
+        (payload) => {
+          return [
+            {
+              attributeType: 'attribute-type-uuid',
+              value: 'Test Race'
+            }
+          ];
+        }
+      );
 
-        // spy encounterResourceService
-        spyOn(encounterResourceService, 'saveEncounter').and.callFake(
-          (payload) => {
-            // Throw an error
-            return observableThrowError(sampleSubmissionError);
-          });
-
-        // spy personResourceService
-        spyOn(personResourceService, 'saveUpdatePerson').and.callFake(
-          (payload) => {
-            // Throw an error
-            return observableThrowError(sampleSubmissionError);
-          });
-
-        // encounter adaptor
-        spyOn(encounterAdapter, 'generateFormPayload').and.callFake(
-          (payload) => {
-            return sampleEncounterPayload;
-          });
-
-        // person attributes adaptor
-        spyOn(personAttribuAdapter, 'generateFormPayload').and.callFake(
-          (payload) => {
-            return [
-              {
-                attributeType: 'attribute-type-uuid',
-                value: 'Test Race'
-              }
-            ];
-          });
-
-        // spy on
-        let formSubmissionSuccesIndicator = false;
-        let submissionError: any = null;
-        formSchemaService.submitPayload(renderableForm as Form).subscribe(
-          (responses: Array<any>) => {
-            formSubmissionSuccesIndicator = true;
-            submissionError = null;
-            // tslint:disable-next-line:no-unused-expression
-            expect(formSubmissionSuccesIndicator).toBeFalsy;
-          },
-          (err) => {
-            console.error('An error occurred, ---->', err);
-            submissionError = err;
-            formSubmissionSuccesIndicator = false;
-          });
-        expect(encounterResourceService.saveEncounter).toHaveBeenCalled();
-        expect(personResourceService.saveUpdatePerson).toHaveBeenCalled();
-        // we expect it to throw error
-        /* tslint:disable:no-unused-expression */
-        expect(formSubmissionSuccesIndicator).toBeFalsy;
-        expect(submissionError).not.toBeNull;
-      })
-  );
-
+      // spy on
+      let formSubmissionSuccesIndicator = false;
+      let submissionError: any = null;
+      formSchemaService.submitPayload(renderableForm as Form).subscribe(
+        (responses: Array<any>) => {
+          formSubmissionSuccesIndicator = true;
+          submissionError = null;
+          // tslint:disable-next-line:no-unused-expression
+          expect(formSubmissionSuccesIndicator).toBeFalsy;
+        },
+        (err) => {
+          console.error('An error occurred, ---->', err);
+          submissionError = err;
+          formSubmissionSuccesIndicator = false;
+        }
+      );
+      expect(encounterResourceService.saveEncounter).toHaveBeenCalled();
+      expect(personResourceService.saveUpdatePerson).toHaveBeenCalled();
+      // we expect it to throw error
+      /* tslint:disable:no-unused-expression */
+      expect(formSubmissionSuccesIndicator).toBeFalsy;
+      expect(submissionError).not.toBeNull;
+    }
+  ));
 });
-

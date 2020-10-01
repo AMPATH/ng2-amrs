@@ -9,18 +9,18 @@ import { PatientProgramResourceService } from '../../../etl-api/patient-program-
 import { VisitResourceService } from '../../../openmrs-api/visit-resource.service';
 import { PatientService } from '../../services/patient.service';
 import { TitleCasePipe } from '../../../shared/pipes/title-case.pipe';
-import { RetrospectiveDataEntryService
-} from '../../../retrospective-data-entry/services/retrospective-data-entry.service';
+import { RetrospectiveDataEntryService } from '../../../retrospective-data-entry/services/retrospective-data-entry.service';
 
 export enum VisitsEvent {
   VisitsLoadingStarted,
   VisitsLoaded,
   ErrorLoading,
-  VisitsBecameStale,
+  VisitsBecameStale
 }
 
 @Injectable()
-export class TodayVisitService implements OnDestroy {// SERVICE PROCESSES VISITS PER PATIENT
+export class TodayVisitService implements OnDestroy {
+  // SERVICE PROCESSES VISITS PER PATIENT
   public patient: any;
 
   public patientProgramVisitConfigs: any = {};
@@ -41,14 +41,15 @@ export class TodayVisitService implements OnDestroy {// SERVICE PROCESSES VISITS
 
   private subs: Subscription[] = [];
 
-  constructor(private patientProgramResourceService: PatientProgramResourceService,
-              private visitResourceService: VisitResourceService,
-              private retrospectiveDataEntryService: RetrospectiveDataEntryService,
-              private patientService: PatientService) {
-  }
+  constructor(
+    private patientProgramResourceService: PatientProgramResourceService,
+    private visitResourceService: VisitResourceService,
+    private retrospectiveDataEntryService: RetrospectiveDataEntryService,
+    private patientService: PatientService
+  ) {}
 
   public ngOnDestroy() {
-    this.subs.forEach(sub => {
+    this.subs.forEach((sub) => {
       sub.unsubscribe();
     });
     this.subs = [];
@@ -74,19 +75,22 @@ export class TodayVisitService implements OnDestroy {// SERVICE PROCESSES VISITS
         subject.error('Patient is required');
       }, 0);
     } else {
-      this.patientProgramResourceService.getPatientProgramVisitConfigs(this.patient.uuid).subscribe(
-        (programConfigs) => {
-          this.patientProgramVisitConfigs = programConfigs;
-          subject.next(programConfigs);
-        },
-        (error) => {
-          this.errors.push({
-            id: 'program configs',
-            message: 'There was an error fetching all the program configs'
-          });
-          console.error('Error fetching program configs', error);
-          subject.error(error);
-        });
+      this.patientProgramResourceService
+        .getPatientProgramVisitConfigs(this.patient.uuid)
+        .subscribe(
+          (programConfigs) => {
+            this.patientProgramVisitConfigs = programConfigs;
+            subject.next(programConfigs);
+          },
+          (error) => {
+            this.errors.push({
+              id: 'program configs',
+              message: 'There was an error fetching all the program configs'
+            });
+            console.error('Error fetching program configs', error);
+            subject.error(error);
+          }
+        );
     }
 
     return subject;
@@ -106,26 +110,31 @@ export class TodayVisitService implements OnDestroy {// SERVICE PROCESSES VISITS
         subject.error('Patient is required');
       }, 0);
     } else {
-
       this.visitResourceService
         .getPatientVisits({ patientUuid: this.patient.uuid })
-        .subscribe((visits) => {
-          this.allPatientVisits = visits;
-          this.hasFetchedVisits = true;
-          subject.next(visits);
-        }, (error) => {
-          this.errors.push({
-            id: 'patient visits',
-            message: 'There was an error fetching all the patient visits'
-          });
-          console.error('An error occured while fetching visits', error);
-          subject.error(error);
-        });
+        .subscribe(
+          (visits) => {
+            this.allPatientVisits = visits;
+            this.hasFetchedVisits = true;
+            subject.next(visits);
+          },
+          (error) => {
+            this.errors.push({
+              id: 'patient visits',
+              message: 'There was an error fetching all the patient visits'
+            });
+            console.error('An error occured while fetching visits', error);
+            subject.error(error);
+          }
+        );
     }
     return subject.pipe(delay(100));
   }
 
-  public filterVisitsByVisitTypes(visits: Array<any>, visitTypes: Array<string>): Array<any> {
+  public filterVisitsByVisitTypes(
+    visits: Array<any>,
+    visitTypes: Array<string>
+  ): Array<any> {
     let returnVal = [];
     returnVal = _.filter(visits, (visit) => {
       const inType = _.find(visitTypes, (type) => {
@@ -162,9 +171,11 @@ export class TodayVisitService implements OnDestroy {// SERVICE PROCESSES VISITS
   public filterUnenrolledPrograms(programs: Array<any>): Array<any> {
     let returnVal = [];
     returnVal = _.filter(programs, (program) => {
-      return !_.isUndefined(program.enrolledProgram) &&
+      return (
+        !_.isUndefined(program.enrolledProgram) &&
         !_.isNull(program.enrolledProgram) &&
-        moment(program.dateEnrolled).isValid();
+        moment(program.dateEnrolled).isValid()
+      );
     });
     return returnVal;
   }
@@ -185,31 +196,44 @@ export class TodayVisitService implements OnDestroy {// SERVICE PROCESSES VISITS
   public filterVisitsAndCurrentVisits(programVisitObj, visits) {
     programVisitObj.currentVisit = null;
     // Filter out visits not in the program
-    this.retrospectiveDataEntryService.retroSettings.subscribe((retroSettings) => {
-      let filterVisitDate = moment();
-      if (retroSettings && retroSettings.enabled) {
-        filterVisitDate = moment(retroSettings.visitDate);
-      }
-      const todaysVisits = this.filterVisitsByDate(visits, filterVisitDate.toDate());
-      const programVisits = this.filterVisitsByVisitTypes(todaysVisits,
-        this.getProgramVisitTypesUuid(programVisitObj.config));
-      const orderedVisits = this.sortVisitsByVisitStartDateTime(programVisits);
+    this.retrospectiveDataEntryService.retroSettings.subscribe(
+      (retroSettings) => {
+        let filterVisitDate = moment();
+        if (retroSettings && retroSettings.enabled) {
+          filterVisitDate = moment(retroSettings.visitDate);
+        }
+        const todaysVisits = this.filterVisitsByDate(
+          visits,
+          filterVisitDate.toDate()
+        );
+        const programVisits = this.filterVisitsByVisitTypes(
+          todaysVisits,
+          this.getProgramVisitTypesUuid(programVisitObj.config)
+        );
+        const orderedVisits = this.sortVisitsByVisitStartDateTime(
+          programVisits
+        );
 
-      programVisitObj.visits = orderedVisits;
+        programVisitObj.visits = orderedVisits;
 
-      if (orderedVisits.length > 0 &&
-        moment(orderedVisits[0].startDatetime).isSame(filterVisitDate, 'days')) {
+        if (
+          orderedVisits.length > 0 &&
+          moment(orderedVisits[0].startDatetime).isSame(filterVisitDate, 'days')
+        ) {
           if (orderedVisits[0].patient.uuid === this.patient.uuid) {
             programVisitObj.currentVisit = orderedVisits[0];
           }
-      } else {
-        programVisitObj.currentVisit = null;
+        } else {
+          programVisitObj.currentVisit = null;
+        }
       }
-    });
+    );
   }
 
   public processVisitsForPrograms() {
-    this.enrolledPrograms = this.filterUnenrolledPrograms(this.patient.enrolledPrograms);
+    this.enrolledPrograms = this.filterUnenrolledPrograms(
+      this.patient.enrolledPrograms
+    );
     const programs = this.buildProgramsObject(this.enrolledPrograms);
     for (const o in programs) {
       if (programs[o]) {
@@ -240,36 +264,38 @@ export class TodayVisitService implements OnDestroy {// SERVICE PROCESSES VISITS
           }
 
           // add program
-          classes[c].programs.push(
-            {
-              uuid: o,
-              display: this.programVisits[o].enrollment.program.display,
-              programVisits: this.programVisits[o]
-            }
-          );
+          classes[c].programs.push({
+            uuid: o,
+            display: this.programVisits[o].enrollment.program.display,
+            programVisits: this.programVisits[o]
+          });
 
           // add visits
-          classes[c].allVisits = classes[c].allVisits.concat(this.programVisits[o].visits);
+          classes[c].allVisits = classes[c].allVisits.concat(
+            this.programVisits[o].visits
+          );
         }
       }
-
     }
   }
 
   public loadDataToProcessProgramVisits(): Observable<any> {
     const subject = new Subject();
-    this.fetchPatientProgramVisitConfigs()
-      .subscribe(() => {
-        this.getPatientVisits()
-          .subscribe(() => {
+    this.fetchPatientProgramVisitConfigs().subscribe(
+      () => {
+        this.getPatientVisits().subscribe(
+          () => {
             subject.next({ done: true });
-          }, (error) => {
+          },
+          (error) => {
             subject.error(error);
-          });
+          }
+        );
       },
       (err) => {
         subject.error(err);
-      });
+      }
+    );
 
     return subject;
   }
@@ -293,19 +319,21 @@ export class TodayVisitService implements OnDestroy {// SERVICE PROCESSES VISITS
       }, 0);
     } else {
       this.programVisits = null;
-      this.loadDataToProcessProgramVisits()
-        .subscribe((data) => {
+      this.loadDataToProcessProgramVisits().subscribe(
+        (data) => {
           this.processVisitsForPrograms();
           this.needsVisitReload = false;
           this.isLoading = false;
           this.visitsEvents.next(VisitsEvent.VisitsLoaded);
           subject.next(this.programVisits);
-        }, (error) => {
+        },
+        (error) => {
           this.needsVisitReload = true;
           this.isLoading = false;
           this.visitsEvents.next(VisitsEvent.ErrorLoading);
           subject.error(this.errors);
-        });
+        }
+      );
     }
     return subject;
   }
@@ -316,8 +344,10 @@ export class TodayVisitService implements OnDestroy {// SERVICE PROCESSES VISITS
   }
 
   private getProgramVisitTypesUuid(currentProgramConfig): Array<string> {
-    if (currentProgramConfig &&
-      Array.isArray(currentProgramConfig.visitTypes)) {
+    if (
+      currentProgramConfig &&
+      Array.isArray(currentProgramConfig.visitTypes)
+    ) {
       return _.map(currentProgramConfig.visitTypes, (item) => {
         return (item as any).uuid;
       });
@@ -336,9 +366,7 @@ export class TodayVisitService implements OnDestroy {// SERVICE PROCESSES VISITS
       case 'referral':
         return 'Referred Programs';
       default:
-        return (new TitleCasePipe()).transform(departmentRoute);
+        return new TitleCasePipe().transform(departmentRoute);
     }
-
   }
-
 }

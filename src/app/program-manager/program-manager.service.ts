@@ -15,13 +15,16 @@ import { PersonResourceService } from '../openmrs-api/person-resource.service';
 export class ProgramManagerService {
   public availablePrograms: any[] = [];
   public requiredProgramQuestions: any[] = [];
-  public referralCompleteStatus: BehaviorSubject<any> = new BehaviorSubject(null);
+  public referralCompleteStatus: BehaviorSubject<any> = new BehaviorSubject(
+    null
+  );
 
   constructor(
     private patientReferralService: PatientReferralService,
     private programService: ProgramService,
     private personResourceService: PersonResourceService,
-    private userService: UserService) { }
+    private userService: UserService
+  ) {}
 
   public enrollPatient(payload) {
     return this.patientReferralService.createUpdatePatientEnrollment(payload);
@@ -35,7 +38,7 @@ export class ProgramManagerService {
       state: null
     });
     if (encounter) {
-      _.extend(payload, {encounter: encounter.uuid});
+      _.extend(payload, { encounter: encounter.uuid });
       this.handleReferralWithEncounter(payload);
     } else {
       this.handleReferralWithProvider(payload);
@@ -45,7 +48,12 @@ export class ProgramManagerService {
     return this.referralCompleteStatus;
   }
 
-  public editProgramEnrollments(theChange: string, patient: Patient, programs: any[], newLoc?) {
+  public editProgramEnrollments(
+    theChange: string,
+    patient: Patient,
+    programs: any[],
+    newLoc?
+  ) {
     const programBatch: Array<Observable<any>> = [];
     if (programs.length === 0) {
       return of(null);
@@ -53,22 +61,42 @@ export class ProgramManagerService {
     _.each(programs, (program: any) => {
       const location = program.enrolledProgram._openmrsModel.location.uuid;
       const unenrollPayload = this.programService.createEnrollmentPayload(
-        program.programUuid, patient, this.toOpenmrsDateFormat(program.dateEnrolled || program.enrolledProgram.dateEnrolled),
-        this.toOpenmrsDateFormat(program.dateCompleted || new Date()), location ,
-        program.enrolledProgram._openmrsModel.uuid);
+        program.programUuid,
+        patient,
+        this.toOpenmrsDateFormat(
+          program.dateEnrolled || program.enrolledProgram.dateEnrolled
+        ),
+        this.toOpenmrsDateFormat(program.dateCompleted || new Date()),
+        location,
+        program.enrolledProgram._openmrsModel.uuid
+      );
       /*
-      * if intra-ampath, unenroll and enroll in the new location
-      * Ampath
-      */
+       * if intra-ampath, unenroll and enroll in the new location
+       * Ampath
+       */
       if (theChange === 'location' || (theChange === 'transfer' && newLoc)) {
         const enrollPayload = this.programService.createEnrollmentPayload(
-          program.programUuid, patient, this.toOpenmrsDateFormat(new Date()),
-          null, newLoc, '');
-        programBatch.push(this.programService.saveUpdateProgramEnrollment(unenrollPayload, theChange));
-        programBatch.push(this.programService.saveUpdateProgramEnrollment(enrollPayload));
+          program.programUuid,
+          patient,
+          this.toOpenmrsDateFormat(new Date()),
+          null,
+          newLoc,
+          ''
+        );
+        programBatch.push(
+          this.programService.saveUpdateProgramEnrollment(
+            unenrollPayload,
+            theChange
+          )
+        );
+        programBatch.push(
+          this.programService.saveUpdateProgramEnrollment(enrollPayload)
+        );
       } else {
         // just unenroll
-        programBatch.push(this.programService.saveUpdateProgramEnrollment(unenrollPayload));
+        programBatch.push(
+          this.programService.saveUpdateProgramEnrollment(unenrollPayload)
+        );
       }
     });
     return forkJoin(programBatch);
@@ -82,20 +110,22 @@ export class ProgramManagerService {
 
   private handleReferralWithProvider(payload): void {
     const currentUser = this.userService.getLoggedInUser();
-    this.patientReferralService.getUserProviderDetails(currentUser)
+    this.patientReferralService
+      .getUserProviderDetails(currentUser)
       .then((provider) => {
         if (provider) {
-          _.extend(payload, {provider: provider.uuid});
+          _.extend(payload, { provider: provider.uuid });
           this.enrollPatientInReferredProgram(payload);
         }
       });
   }
 
   private handleReferralWithEncounter(payload: any): void {
-    this.patientReferralService.getEncounterProvider(payload.encounter)
+    this.patientReferralService
+      .getEncounterProvider(payload.encounter)
       .subscribe((provider) => {
         if (provider) {
-          _.extend(payload, {provider: provider.uuid});
+          _.extend(payload, { provider: provider.uuid });
           this.enrollPatientInReferredProgram(payload);
         }
       });
@@ -103,48 +133,61 @@ export class ProgramManagerService {
 
   private enrollPatientInReferredProgram(programInfo) {
     // 1. Enroll patient
-    this.patientReferralService.createUpdatePatientEnrollment({
-      programUuid: programInfo.programUuid,
-      patient: programInfo.patient,
-      location: programInfo.referredToLocation,
-      dateEnrolled: programInfo.dateEnrolled,
-      enrollmentUuid: ''
-    }).subscribe((enrollment) => {
-        // 2. Save encounter
-        _.extend(programInfo, {
-          patientProgram: enrollment.uuid,
-          patient : programInfo.patient.uuid
-        });
-        delete programInfo.submittedEncounter;
-        this.saveReferral(programInfo, enrollment);
-
-      },
-      (error) => {
-        this.handleError(error);
-      });
+    this.patientReferralService
+      .createUpdatePatientEnrollment({
+        programUuid: programInfo.programUuid,
+        patient: programInfo.patient,
+        location: programInfo.referredToLocation,
+        dateEnrolled: programInfo.dateEnrolled,
+        enrollmentUuid: ''
+      })
+      .subscribe(
+        (enrollment) => {
+          // 2. Save encounter
+          _.extend(programInfo, {
+            patientProgram: enrollment.uuid,
+            patient: programInfo.patient.uuid
+          });
+          delete programInfo.submittedEncounter;
+          this.saveReferral(programInfo, enrollment);
+        },
+        (error) => {
+          this.handleError(error);
+        }
+      );
   }
 
   private saveReferral(programInfo, enrollment) {
-    this.patientReferralService.saveReferralEncounter(programInfo)
-      .subscribe((savedEncounter) => {
+    this.patientReferralService.saveReferralEncounter(programInfo).subscribe(
+      (savedEncounter) => {
         // 3. complete referral if its referring back
         if (programInfo.patient_referral_id) {
-          this.patientReferralService.updateReferalNotificationStatus({
-            patient_referral_id: programInfo.patient_referral_id,
-            notificationStatus: 1
-          }).subscribe((response) => {
-            this.handleSuccessfulReferral(response);
-          }, (error) => {
-            console.log('updateReferalNotificationStatus error ====> ', error);
-            // complete the referral anyway
-            this.handleError(error);
-          });
+          this.patientReferralService
+            .updateReferalNotificationStatus({
+              patient_referral_id: programInfo.patient_referral_id,
+              notificationStatus: 1
+            })
+            .subscribe(
+              (response) => {
+                this.handleSuccessfulReferral(response);
+              },
+              (error) => {
+                console.log(
+                  'updateReferalNotificationStatus error ====> ',
+                  error
+                );
+                // complete the referral anyway
+                this.handleError(error);
+              }
+            );
         } else {
           this.handleSuccessfulReferral(enrollment);
         }
-      }, (error) => {
+      },
+      (error) => {
         this.handleError(error);
-      });
+      }
+    );
   }
 
   private handleSuccessfulReferral(response) {

@@ -3,9 +3,6 @@ import { LocalStorageService } from './local-storage.service';
 import { SessionStorageService } from './session-storage.service';
 
 @NgModule({
-  providers: [
-    LocalStorageService,
-    SessionStorageService
-   ]
+  providers: [LocalStorageService, SessionStorageService]
 })
 export class UtilsModule {}

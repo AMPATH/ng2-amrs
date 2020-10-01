@@ -1,0 +1,29 @@
+<div class="col-md-10 col-lg-10 col-sm-12 col-xs-12">
+  <a
+    *ngIf="hasOccupation"
+    (click)="editOccupation.showOccupationDialog('edit')"
+    class="edit_link"
+    ><span><i class="fa fa-edit fa-fw"></i> Edit</span></a
+  >
+  <a
+    *ngIf="!hasOccupation"
+    (click)="editOccupation.showOccupationDialog('add')"
+    class="edit_link"
+    ><span><i class="fa fa-plus fa-fw"></i> Add</span></a
+  >
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let o of currentOccupation">
+        <td><strong>Occupation :</strong> {{ o.display }}</td>
+        <td><strong> </strong></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<app-edit-occupation #editOccupation [patient]="patient"></app-edit-occupation>

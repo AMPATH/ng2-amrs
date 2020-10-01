@@ -6,12 +6,8 @@ import { dashboardRouting } from './main-dashboard-routing';
 import { MainDashboardComponent } from './main-dashboard.component';
 import { UserDefaultPropertiesModule } from '../user-default-properties/';
 import { AgGridModule } from 'ag-grid-angular/main';
-import {
-  LabOrderSearchModule
-} from '../lab-order-search';
-import {
-  UsefulLinksModule
-} from '../useful-links';
+import { LabOrderSearchModule } from '../lab-order-search';
+import { UsefulLinksModule } from '../useful-links';
 import { DataListsModule } from '../shared/data-lists/data-lists.module';
 import { PatientDashboardModule } from '../patient-dashboard/patient-dashboard.module';
 import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
@@ -26,8 +22,7 @@ import { CookieService } from 'ngx-cookie';
 import { DataAnalyticsModule } from '../data-analytics-dashboard/data-analytics.module';
 import { CacheModule } from 'ionic-cache';
 import { NavigationModule } from '../navigation';
-import { RetrospectiveDataEntryModule
-} from '../retrospective-data-entry/retrospective-data-entry.module';
+import { RetrospectiveDataEntryModule } from '../retrospective-data-entry/retrospective-data-entry.module';
 
 @NgModule({
   imports: [
@@ -43,10 +38,7 @@ import { RetrospectiveDataEntryModule
     UserDefaultPropertiesModule,
     RetrospectiveDataEntryModule
   ],
-  declarations: [
-    MainDashboardComponent,
-    MOTDNotificationComponent,
-  ],
+  declarations: [MainDashboardComponent, MOTDNotificationComponent],
   providers: [
     MainDashboardGuard,
     UserService,
@@ -56,8 +48,6 @@ import { RetrospectiveDataEntryModule
     MOTDNotificationService,
     CookieService
   ],
-  exports: [
-    MainDashboardComponent
-  ]
+  exports: [MainDashboardComponent]
 })
-export class MainDashboardModule { }
+export class MainDashboardModule {}

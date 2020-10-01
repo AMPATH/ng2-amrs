@@ -1,6 +1,16 @@
-<program-wizard *ngIf="loaded && !hasError" [showNext]="nextStep" [skipTo]="jumpStep" [showPrev]="prevStep"
-  (onStepChanged)="resetNext()">
-  <program-wizard-header [customClass]="customTitleClass" [currentStep]="currentStep" [steps]="steps" [title]="title"></program-wizard-header>
+<program-wizard
+  *ngIf="loaded && !hasError"
+  [showNext]="nextStep"
+  [skipTo]="jumpStep"
+  [showPrev]="prevStep"
+  (onStepChanged)="resetNext()"
+>
+  <program-wizard-header
+    [customClass]="customTitleClass"
+    [currentStep]="currentStep"
+    [steps]="steps"
+    [title]="title"
+  ></program-wizard-header>
   <p class="alert alert-danger" *ngIf="hasValidationErrors">
     <span [innerHTML]="currentError"></span>
   </p>
@@ -8,18 +18,33 @@
     <div class="wizard-body component">
       <div class="step" *ngIf="programDepartments">
         <div class="step-name">
-          <h2><i class="fa fa-arrow-right"></i> Select Department </h2>
+          <h2><i class="fa fa-arrow-right"></i> Select Department</h2>
         </div>
         <div class="step-details">
-          <mat-radio-group class="vertical-radio-group" [ngModel]="department" (ngModelChange)="selectDepartment($event)">
-            <mat-radio-button class="vertical-radio-button" name="department" *ngFor="let _department of programDepartments"
-              value="{{_department.name}}" color="primary">
-              {{_department.name}}
+          <mat-radio-group
+            class="vertical-radio-group"
+            [ngModel]="department"
+            (ngModelChange)="selectDepartment($event)"
+          >
+            <mat-radio-button
+              class="vertical-radio-button"
+              name="department"
+              *ngFor="let _department of programDepartments"
+              value="{{ _department.name }}"
+              color="primary"
+            >
+              {{ _department.name }}
             </mat-radio-button>
           </mat-radio-group>
         </div>
         <div class="step-buttons">
-          <button type="button" class="btn btn-primary pull-right" (click)="goToProgram()">Continue</button>
+          <button
+            type="button"
+            class="btn btn-primary pull-right"
+            (click)="goToProgram()"
+          >
+            Continue
+          </button>
           <span class="clear">&nbsp;</span>
         </div>
       </div>
@@ -29,20 +54,42 @@
     <div class="wizard-body component">
       <div class="step" *ngIf="availableDepartmentPrograms">
         <div class="step-name">
-          <h2><i class="fa fa-arrow-right"></i> Select Program </h2>
+          <h2><i class="fa fa-arrow-right"></i> Select Program</h2>
         </div>
         <div class="step-details">
-          <mat-radio-group class="vertical-radio-group" [ngModel]="program" (ngModelChange)="selectProgram($event)">
-            <mat-radio-button class="vertical-radio-button" name="program" *ngFor="let _program of availableDepartmentPrograms | GroupByPriority"
-              value="{{_program.uuid}}" color="primary">
-              {{_program.name}}
+          <mat-radio-group
+            class="vertical-radio-group"
+            [ngModel]="program"
+            (ngModelChange)="selectProgram($event)"
+          >
+            <mat-radio-button
+              class="vertical-radio-button"
+              name="program"
+              *ngFor="
+                let _program of availableDepartmentPrograms | GroupByPriority
+              "
+              value="{{ _program.uuid }}"
+              color="primary"
+            >
+              {{ _program.name }}
             </mat-radio-button>
           </mat-radio-group>
-
         </div>
         <div class="step-buttons">
-          <button type="button" class="btn btn-danger pull-left" (click)="back()">Change Department</button>
-          <button type="button" class="btn btn-primary pull-right" (click)="goToDetails()">Continue</button>
+          <button
+            type="button"
+            class="btn btn-danger pull-left"
+            (click)="back()"
+          >
+            Change Department
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary pull-right"
+            (click)="goToDetails()"
+          >
+            Continue
+          </button>
           <span class="clear">&nbsp;</span>
         </div>
       </div>
@@ -51,12 +98,17 @@
   <program-wizard-step [name]="'Program Incompatibility Step'">
     <div class="wizard-body component">
       <div class="step" *ngIf="programIncompatible">
-        <div class="step-name">
-        </div>
+        <div class="step-name"></div>
         <div class="step-details">
-          <unenroll-patient-programs [enrollments]="incompatibleProgrames" [reason]="reasonForUnenroll" [patient]="patient"
-            [unenrollExpressely]="unenrollExpressely" [encounterTypeFilter]="unenrollmentForms" (unenrollmentCompleted)="completeIncompatibilityStep($event)"
-            (unEnrollmentCancelled)="onUnenrollmentCancel($event)"></unenroll-patient-programs>
+          <unenroll-patient-programs
+            [enrollments]="incompatibleProgrames"
+            [reason]="reasonForUnenroll"
+            [patient]="patient"
+            [unenrollExpressely]="unenrollExpressely"
+            [encounterTypeFilter]="unenrollmentForms"
+            (unenrollmentCompleted)="completeIncompatibilityStep($event)"
+            (unEnrollmentCancelled)="onUnenrollmentCancel($event)"
+          ></unenroll-patient-programs>
         </div>
       </div>
     </div>
@@ -66,51 +118,95 @@
       <div class="step" *ngIf="selectedProgram">
         <busy *ngIf="enrolling" [message]="'Enrolling patient'"></busy>
         <div class="step-name">
-          <h2>{{selectedProgram.program._openmrsModel.display}}<span class="text-info" *ngIf="isReferral">(as a
-              referral)</span> </h2>
+          <h2>
+            {{ selectedProgram.program._openmrsModel.display
+            }}<span class="text-info" *ngIf="isReferral">(as a referral)</span>
+          </h2>
         </div>
         <div class="step-details">
           <div class="program-body">
             <div class="program-container-fluid">
-              <div class="row" style="padding:4px">
-                <div style="margin-bottom: 12px;" class="col-md-4 cell" *ngFor="let question of requiredProgramQuestions">
+              <div class="row" style="padding: 4px">
+                <div
+                  style="margin-bottom: 12px"
+                  class="col-md-4 cell"
+                  *ngFor="let question of requiredProgramQuestions"
+                >
                   <ng-container>
-                    <label>{{question.name}}</label>
-                    <select class="form-control" id="{{question.qtype}}" [(ngModel)]="question.value" (change)="onRequiredQuestionChange(question)">
+                    <label>{{ question.name }}</label>
+                    <select
+                      class="form-control"
+                      id="{{ question.qtype }}"
+                      [(ngModel)]="question.value"
+                      (change)="onRequiredQuestionChange(question)"
+                    >
                       <option value=""></option>
                       <ng-container *ngFor="let answer of question.answers">
-                        <option value="{{answer.value}}">
-                          {{answer.label}}
+                        <option value="{{ answer.value }}">
+                          {{ answer.label }}
                         </option>
                       </ng-container>
                     </select>
                   </ng-container>
                 </div>
-                <div style="margin-bottom: 12px;" class="col-md-4 cell">
-                  <label for="enrolledDate">Date <span class="text-info" *ngIf="!isReferral">Enrolled</span><span class="text-info" *ngIf="isReferral">Referred</span></label>
+                <div style="margin-bottom: 12px" class="col-md-4 cell">
+                  <label for="enrolledDate"
+                    >Date
+                    <span class="text-info" *ngIf="!isReferral">Enrolled</span
+                    ><span class="text-info" *ngIf="isReferral"
+                      >Referred</span
+                    ></label
+                  >
                   <div>
-                    <input class="form-control" id="enrolledDate" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" [ngModel]="dateEnrolled"
-                      (ngModelChange)="saveEnrollmentDate($event)" [max]="maxDate" type="date" />
+                    <input
+                      class="form-control"
+                      id="enrolledDate"
+                      pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
+                      [ngModel]="dateEnrolled"
+                      (ngModelChange)="saveEnrollmentDate($event)"
+                      [max]="maxDate"
+                      type="date"
+                    />
                   </div>
                 </div>
 
                 <div class="col-md-4 col-xs-12 cell">
-                  <location-filter [locationUuids]="selectedLocation" (onLocationChange)="getSelectedLocation($event)"
-                    [disable-county]="true">
+                  <location-filter
+                    [locationUuids]="selectedLocation"
+                    (onLocationChange)="getSelectedLocation($event)"
+                    [disable-county]="true"
+                  >
                   </location-filter>
                 </div>
-
               </div>
             </div>
             <ng-container *ngIf="showForms">
-              <p>Please fill the following required forms to enroll the patient</p>
-              <form-list (onFormSelected)="fillEnrollmentForm($event)" [showFilter]="false" [encounterTypeFilter]="enrollmentEncounters"></form-list>
+              <p>
+                Please fill the following required forms to enroll the patient
+              </p>
+              <form-list
+                (onFormSelected)="fillEnrollmentForm($event)"
+                [showFilter]="false"
+                [encounterTypeFilter]="enrollmentEncounters"
+              ></form-list>
             </ng-container>
           </div>
         </div>
         <div class="step-buttons">
-          <button *ngIf="!isReferral" type="button" class="btn btn-danger pull-left" (click)="goBack()">Back</button>
-          <button *ngIf="!showForms" class="btn btn-primary pull-right" [disabled]="!isButtonVisible" (click)="showEnrollmentFormsOrEnrollOnValidation()">
+          <button
+            *ngIf="!isReferral"
+            type="button"
+            class="btn btn-danger pull-left"
+            (click)="goBack()"
+          >
+            Back
+          </button>
+          <button
+            *ngIf="!showForms"
+            class="btn btn-primary pull-right"
+            [disabled]="!isButtonVisible"
+            (click)="showEnrollmentFormsOrEnrollOnValidation()"
+          >
             <span *ngIf="isReferral">Refer</span>
             <span *ngIf="!isReferral">Enroll</span>
           </button>
@@ -120,14 +216,20 @@
     </div>
   </program-wizard-step>
   <program-wizard-step [name]="'Group Enrollment Step'">
-    <busy *ngIf="refreshingPatient" [message]="'Refreshing Patient Info...'"></busy>
+    <busy
+      *ngIf="refreshingPatient"
+      [message]="'Refreshing Patient Info...'"
+    ></busy>
     <div class="wizard-body component" *ngIf="enrollToGroup">
       <div class="step" *ngIf="availableDepartmentPrograms">
         <div class="step-name">
-          <h2><i class="fa fa-arrow-right"></i> Enroll to Group </h2>
+          <h2><i class="fa fa-arrow-right"></i> Enroll to Group</h2>
         </div>
         <div class="step-details">
-          <group-enrollment [state]="groupEnrollmentState" (group)="goToSuccessStep($event)">
+          <group-enrollment
+            [state]="groupEnrollmentState"
+            (group)="goToSuccessStep($event)"
+          >
           </group-enrollment>
         </div>
       </div>
@@ -136,58 +238,116 @@
   <program-wizard-step [name]="'Program Enrollment Success'">
     <div class="wizard-body component">
       <div class="step">
-        <div style="margin-bottom: 20px;" class="alert alert-success" *ngIf="newlyEnrolledProgram && !isReferral">
-          <blockquote class="step-details" style="border-left: 0; padding: 0;">
-            <p>{{newlyEnrolledProgram.display}}<span class="pull-right">{{newlyEnrolledProgram.location?.display}}</span></p>
-            <footer>Started <strong>{{newlyEnrolledProgram.dateEnrolled | date: 'longDate'}}</strong></footer>
+        <div
+          style="margin-bottom: 20px"
+          class="alert alert-success"
+          *ngIf="newlyEnrolledProgram && !isReferral"
+        >
+          <blockquote class="step-details" style="border-left: 0; padding: 0">
+            <p>
+              {{ newlyEnrolledProgram.display
+              }}<span class="pull-right">{{
+                newlyEnrolledProgram.location?.display
+              }}</span>
+            </p>
+            <footer>
+              Started
+              <strong>{{
+                newlyEnrolledProgram.dateEnrolled | date: 'longDate'
+              }}</strong>
+            </footer>
             <ng-container *ngIf="newlyEnrolledProgram.formFilled">
               <strong>Form Completed</strong>
               <hr />
-              <p>{{newlyEnrolledProgram.formFilled}}</p>
+              <p>{{ newlyEnrolledProgram.formFilled }}</p>
             </ng-container>
           </blockquote>
         </div>
-        <div style="margin-bottom: 20px;" class="alert alert-success" *ngIf="newlyEnrolledGroup">
-          <blockquote class="step-details" style="border-left: 0; padding: 0;">
-            <p> <i class="fa fa-users"></i>{{newlyEnrolledGroup.name}}<span class="pull-right">{{newlyEnrolledGroup.location?.display}}</span></p>
-            <footer>Started <strong>{{newlyEnrolledGroup.startDate | date: 'longDate'}}</strong></footer>
+        <div
+          style="margin-bottom: 20px"
+          class="alert alert-success"
+          *ngIf="newlyEnrolledGroup"
+        >
+          <blockquote class="step-details" style="border-left: 0; padding: 0">
+            <p>
+              <i class="fa fa-users"></i>{{ newlyEnrolledGroup.name
+              }}<span class="pull-right">{{
+                newlyEnrolledGroup.location?.display
+              }}</span>
+            </p>
+            <footer>
+              Started
+              <strong>{{
+                newlyEnrolledGroup.startDate | date: 'longDate'
+              }}</strong>
+            </footer>
           </blockquote>
         </div>
-        <div style="margin-bottom: 20px;background-color: #d9edf7 !important;" class="alert alert-info" *ngIf="newlyEnrolledProgram && isReferral">
-          <blockquote class="step-details" style="border-left: 0; padding: 0;">
-            <p>Referral: {{newlyEnrolledProgram.display}}</p>
-            <p>Location Referred To: {{newlyEnrolledProgram.location?.display}}</p>
-            <footer>Referral Date: <strong>{{newlyEnrolledProgram.dateEnrolled | date: 'longDate'}}</strong></footer>
+        <div
+          style="margin-bottom: 20px; background-color: #d9edf7 !important"
+          class="alert alert-info"
+          *ngIf="newlyEnrolledProgram && isReferral"
+        >
+          <blockquote class="step-details" style="border-left: 0; padding: 0">
+            <p>Referral: {{ newlyEnrolledProgram.display }}</p>
+            <p>
+              Location Referred To: {{ newlyEnrolledProgram.location?.display }}
+            </p>
+            <footer>
+              Referral Date:
+              <strong>{{
+                newlyEnrolledProgram.dateEnrolled | date: 'longDate'
+              }}</strong>
+            </footer>
             <ng-container *ngIf="newlyEnrolledProgram.formFilled">
               <strong>Referral Form</strong>
               <hr />
-              <p>{{newlyEnrolledProgram.formFilled}}</p>
+              <p>{{ newlyEnrolledProgram.formFilled }}</p>
             </ng-container>
           </blockquote>
         </div>
-        <ng-container *ngIf="unenrolledProgrames && unenrolledProgrames.length > 0">
+        <ng-container
+          *ngIf="unenrolledProgrames && unenrolledProgrames.length > 0"
+        >
           <h2 class="component-title">Programs Sucessfully Stopped</h2>
-          <div class="alert alert-danger" *ngFor="let program of unenrolledProgrames">
-            <blockquote class="step-details" style="border-left: 0; padding: 0;">
-              <p>{{program.name}}</p>
-              <footer>Started
-                <strong>{{program.enrolledDate | date: 'longDate'}}</strong> and stopped <strong>{{ today | date:
-                  'longDate'}}</strong></footer>
+          <div
+            class="alert alert-danger"
+            *ngFor="let program of unenrolledProgrames"
+          >
+            <blockquote class="step-details" style="border-left: 0; padding: 0">
+              <p>{{ program.name }}</p>
+              <footer>
+                Started
+                <strong>{{ program.enrolledDate | date: 'longDate' }}</strong>
+                and stopped <strong>{{ today | date: 'longDate' }}</strong>
+              </footer>
               <ng-container *ngIf="program.formFilled">
                 <strong>Form Completed</strong>
                 <hr />
-                <p>{{program.formFilled}}</p>
+                <p>{{ program.formFilled }}</p>
               </ng-container>
             </blockquote>
           </div>
         </ng-container>
         <div class="step-buttons">
-          <button type="button" class="btn btn-danger pull-left" (click)="editProgram(newlyEnrolledProgram)">Edit
-            Program</button>
-          <button class="btn btn-primary pull-right" (click)="startVisit()" style="margin-left: 12px;">
+          <button
+            type="button"
+            class="btn btn-danger pull-left"
+            (click)="editProgram(newlyEnrolledProgram)"
+          >
+            Edit Program
+          </button>
+          <button
+            class="btn btn-primary pull-right"
+            (click)="startVisit()"
+            style="margin-left: 12px"
+          >
             <span>START VISIT</span>
           </button>
-          <button class="btn btn-primary pull-right" (click)="goToProgramSummary()">
+          <button
+            class="btn btn-primary pull-right"
+            (click)="goToProgramSummary()"
+          >
             <span>GO TO PROGRAM SUMMARY</span>
           </button>
           <span class="clear">&nbsp;</span>
@@ -198,5 +358,6 @@
 </program-wizard>
 <busy *ngIf="!loaded" [message]="'Loading...'"></busy>
 <p class="alert alert-danger" *ngIf="hasError">
-  Error loading patient program config. Please make sure that your network is working fine.
+  Error loading patient program config. Please make sure that your network is
+  working fine.
 </p>

@@ -8,9 +8,8 @@ describe('ChartAbstractionPatientlistComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ChartAbstractionPatientlistComponent ]
-    })
-    .compileComponents();
+      declarations: [ChartAbstractionPatientlistComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -18,5 +17,4 @@ describe('ChartAbstractionPatientlistComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
-
 });

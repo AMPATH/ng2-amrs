@@ -8,7 +8,6 @@ import { LocalStorageService } from '../utils/local-storage.service';
   styleUrls: ['./data-analytics.component.css']
 })
 export class DataAnalyticsDashboardComponent implements OnInit {
-
   public selectedDepartment: any;
 
   constructor(
@@ -18,21 +17,31 @@ export class DataAnalyticsDashboardComponent implements OnInit {
 
   public ngOnInit() {
     this.selectedDepartment = this.getUserDepartment();
-    const department = this.selectedDepartment.length > 0 ? this.selectedDepartment[0].itemName.toLowerCase() : 'general';
+    const department =
+      this.selectedDepartment.length > 0
+        ? this.selectedDepartment[0].itemName.toLowerCase()
+        : 'general';
     switch (department) {
       case 'hiv':
-        this.router.navigate(['/data-analytics', department, 'hiv-comparative-chart-analytics']);
+        this.router.navigate([
+          '/data-analytics',
+          department,
+          'hiv-comparative-chart-analytics'
+        ]);
         break;
 
       case 'hemato-oncology':
-        this.router.navigate(['/data-analytics', department, 'oncology-reports']);
+        this.router.navigate([
+          '/data-analytics',
+          department,
+          'oncology-reports'
+        ]);
         break;
 
       case 'cdm':
         this.router.navigate(['/data-analytics', department, 'clinic-flow']);
         break;
     }
-
   }
 
   public getUserDepartment() {
