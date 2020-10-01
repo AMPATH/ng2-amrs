@@ -7,7 +7,7 @@ import { IptReportService } from 'src/app/etl-api/ipt-report.service';
 @Component({
   selector: 'ipt-patient-list',
   templateUrl: './ipt-report-patient-list.component.html',
-  styleUrls: ['./ipt-report-patient-list.component.css'],
+  styleUrls: ['./ipt-report-patient-list.component.css']
 })
 export class IptReportPatientListComponent implements OnInit {
   public params: IptReportParams;
@@ -23,16 +23,10 @@ export class IptReportPatientListComponent implements OnInit {
     private route: ActivatedRoute,
     private _location: Location,
     public iptReportService: IptReportService
-<<<<<<< HEAD
-  ) { }
-
-  public ngOnInit() {
-    this.addExtraColumns();
-=======
   ) {}
 
   public ngOnInit() {
->>>>>>> HIV-542: Add IPT Module report to POC (#1253)
+    this.addExtraColumns();
     this.route.queryParams.subscribe((params: IptReportParams) => {
       if (params) {
         this.params = params;
@@ -42,7 +36,6 @@ export class IptReportPatientListComponent implements OnInit {
     });
   }
 
-<<<<<<< HEAD
   public addExtraColumns() {
     const extraColumns = {
       phone_number: 'Phone Number',
@@ -80,7 +73,11 @@ export class IptReportPatientListComponent implements OnInit {
       {
         field: 'identifiers',
         cellRenderer: (column) => {
-          return '<a href="javascript:void(0);" title="Identifiers">' + column.value + '</a>';
+          return (
+            '<a href="javascript:void(0);" title="Identifiers">' +
+            column.value +
+            '</a>'
+          );
         }
       },
       {
@@ -94,8 +91,6 @@ export class IptReportPatientListComponent implements OnInit {
     );
   }
 
-=======
->>>>>>> HIV-542: Add IPT Module report to POC (#1253)
   public getPatientList(params: any) {
     this.isLoading = true;
     this.iptReportService.getIptReportPatientList(params).subscribe((data) => {
@@ -105,10 +100,7 @@ export class IptReportPatientListComponent implements OnInit {
       } else {
         this.patientData = data.result;
         this.isLoading = false;
-<<<<<<< HEAD
         this.hasLoadedAll = true;
-=======
->>>>>>> HIV-542: Add IPT Module report to POC (#1253)
       }
     });
   }
