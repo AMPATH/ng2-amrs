@@ -14,9 +14,15 @@
             <label class="control-label">Occupation </label>
           </div>
           <div class="col-sm-6 col-lg-6 col-xs-12 col-md-6">
-            <select class="form-control" [ngModel]="occupation" (ngModelChange)="onSelectOccupation($event)"
-              name="occupationOptions">
-              <option *ngFor="let c of occupations" [ngValue]="c.value">{{c.label}}</option>
+            <select
+              class="form-control"
+              [ngModel]="occupation"
+              (ngModelChange)="onSelectOccupation($event)"
+              name="occupationOptions"
+            >
+              <option *ngFor="let c of occupations" [ngValue]="c.value">
+                {{ c.label | titlecase }}
+              </option>
             </select>
           </div>
         </div>

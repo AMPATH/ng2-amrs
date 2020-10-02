@@ -9,10 +9,10 @@
       </tr>
     </thead>
     <tbody>
-       <tr *ngFor="let o of currentOccupation">
-         <td><strong>Occupation :</strong> {{o.display}}</td>
-         <td><strong> </strong></td>
-       </tr>
+      <tr *ngFor="let o of currentOccupation">
+        <td><strong>Occupation :</strong> {{ o.display | titlecase }}</td>
+        <td><strong> </strong></td>
+      </tr>
     </tbody>
   </table>
 </div>
