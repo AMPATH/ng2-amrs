@@ -92,7 +92,7 @@
               name="occupaton"
             >
               <option *ngFor="let oc of occupations" [value]="oc.val">
-                {{ oc.label }}
+                {{ oc.label | titlecase }}
               </option>
             </select>
             <div *ngIf="errors && !occupation" class="required">
