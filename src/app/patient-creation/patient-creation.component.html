@@ -119,7 +119,7 @@
                 *ngFor="let level of levelOfEducation"
                 [value]="level.value"
               >
-                {{ level.name }}
+                {{ level.name | titlecase }}
               </option>
             </select>
             <div *ngIf="errors && !patientHighestEducation" class="required">

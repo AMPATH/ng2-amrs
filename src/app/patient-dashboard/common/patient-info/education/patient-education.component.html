@@ -22,7 +22,7 @@
       <tr *ngIf="patient.person.levelOfEducation">
         <td>
           <strong>Highest Education Level :</strong>
-          {{ patient.person.levelOfEducation?.display }}
+          {{ patient.person.levelOfEducation?.display | titlecase }}
         </td>
         <td></td>
       </tr>
