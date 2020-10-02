@@ -28,7 +28,7 @@
               name="occupationOptions"
             >
               <option *ngFor="let c of occupations" [ngValue]="c.value">
-                {{ c.label }}
+                {{ c.label | titlecase }}
               </option>
             </select>
           </div>
