@@ -1,43 +1,58 @@
 <div class="table-responsive">
-	<table class='table table-hover table-striped'>
-		<thead>
-			<tr>
-				<th>Encounter Date</th>
-				<th>Encounter Type</th>
-				<th>RTC Date</th>
-				<th *ngIf="hasMedicationRtc">Medication Pick up Date</th>
-				<th>TB Treatment Start Date</th>
-				<th>TB Treatment End Date</th>
-				<th>ARV Meds</th>
-				<th>CD4 Count</th>
-				<th>Viral Load</th>
-				<th>WHO Stage</th>
-				<th *ngIf="hasMdtSessionNo">EAS</th>
-			</tr>
-		</thead>
-		<tr *ngFor="let hivSummary of hivSummaries" [ngClass]="{danger: (hivSummary.prev_rtc_date &&  hivSummary.encounter_datetime)
-			&& (hivSummary.prev_rtc_date < hivSummary.encounter_datetime)}">
-			<td>{{hivSummary.encounter_datetime | date:'dd-MM-yyyy'}}</td>
-			<td>{{hivSummary.encounter_type_name}}</td>
-			<td>{{hivSummary.rtc_date | date: 'dd-MM-yyyy'}}</td>
-			<td *ngIf="hasMedicationRtc">{{hivSummary.med_pickup_rtc_date | date: 'dd-MM-yyyy'}}</td>
-			<td>{{ hivSummary?.tb_tx_start_date | date:'dd-MM-yyyy'}}</td>
-			<td>{{ hivSummary?.tb_tx_end_date | date:'dd-MM-yyyy'}}</td>
-			<td>{{hivSummary.cur_arv_meds}}</td>
-			<td>{{hivSummary.cd4_1}}
-				<div>
-					<small *ngIf="hivSummary.cd4_1Date" class="text-default">({{hivSummary.cd4_1_date  | date:'dd-MM-yyyy'}})</small>
-				</div>
-			</td>
-			<td>{{hivSummary.vl_1 | zeroVl}}
-				<div>
-					<small *ngIf="hivSummary.vl_1Date" class="text-default">({{hivSummary.vl_1Date  | date:'dd-MM-yyyy'}})</small>
-				</div>
-			</td>
-			<td>{{hivSummary.cur_who_stage}}</td>
-			<td *ngIf="hasMdtSessionNo">{{hivSummary.mdt_session_number}}</td>
-		</tr>
-	</table>
+  <table class="table table-hover table-striped">
+    <thead>
+      <tr>
+        <th>Encounter Date</th>
+        <th>Encounter Type</th>
+        <th>RTC Date</th>
+        <th *ngIf="hasMedicationRtc">Medication Pick up Date</th>
+        <th>TB Treatment Start Date</th>
+        <th>TB Treatment End Date</th>
+        <th>ARV Meds</th>
+        <th>CD4 Count</th>
+        <th>Viral Load</th>
+        <th>WHO Stage</th>
+        <th *ngIf="hasMdtSessionNo">EAC</th>
+      </tr>
+    </thead>
+    <tr
+      *ngFor="let hivSummary of hivSummaries"
+      [ngClass]="{
+        danger:
+          hivSummary.prev_rtc_date &&
+          hivSummary.encounter_datetime &&
+          hivSummary.prev_rtc_date < hivSummary.encounter_datetime
+      }"
+    >
+      <td>{{ hivSummary.encounter_datetime | date: 'dd-MM-yyyy' }}</td>
+      <td>{{ hivSummary.encounter_type_name }}</td>
+      <td>{{ hivSummary.rtc_date | date: 'dd-MM-yyyy' }}</td>
+      <td *ngIf="hasMedicationRtc">
+        {{ hivSummary.med_pickup_rtc_date | date: 'dd-MM-yyyy' }}
+      </td>
+      <td>{{ hivSummary?.tb_tx_start_date | date: 'dd-MM-yyyy' }}</td>
+      <td>{{ hivSummary?.tb_tx_end_date | date: 'dd-MM-yyyy' }}</td>
+      <td>{{ hivSummary.cur_arv_meds }}</td>
+      <td>
+        {{ hivSummary.cd4_1 }}
+        <div>
+          <small *ngIf="hivSummary.cd4_1Date" class="text-default"
+            >({{ hivSummary.cd4_1_date | date: 'dd-MM-yyyy' }})</small
+          >
+        </div>
+      </td>
+      <td>
+        {{ hivSummary.vl_1 | zeroVl }}
+        <div>
+          <small *ngIf="hivSummary.vl_1Date" class="text-default"
+            >({{ hivSummary.vl_1Date | date: 'dd-MM-yyyy' }})</small
+          >
+        </div>
+      </td>
+      <td>{{ hivSummary.cur_who_stage }}</td>
+      <td *ngIf="hasMdtSessionNo">{{ hivSummary.mdt_session_number }}</td>
+    </tr>
+  </table>
 </div>
 
 <div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
