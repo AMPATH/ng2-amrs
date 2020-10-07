@@ -141,6 +141,9 @@ import { AddContactTraceComponent } from './family-testing/contact-trace/add-con
 import { EditContactTraceComponent } from './family-testing/contact-trace/edit-contact-trace.component';
 import { ContactListComponent } from './family-testing/contact-list/contact-list.component';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown'; // import { ProgramVisitEncounterSearchModule } from '../program-visit-encounter-search/program-visit-encounter-search.module';
+import { PatientGainsAndLosesPatientListComponent } from './patient-gains-and-loses/patient-gains-and-loses-patient-list/patient-gains-and-loses-patient-list.component';
+import { PatientGainLosesReportComponent } from '../clinic-dashboard/hiv/patient-gain-and-loses-report/patient-gain-and-loses-report';
+import { PatientGainsAndLosesComponent } from './patient-gains-and-loses/patient-gains-and-loses.component';
 
 @NgModule({
   imports: [
@@ -293,7 +296,10 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2
     ContactProfileComponent,
     AddContactTraceComponent,
     EditContactTraceComponent,
-    ContactListComponent
+    ContactListComponent,
+    PatientGainsAndLosesPatientListComponent,
+    PatientGainLosesReportComponent,
+    PatientGainsAndLosesComponent
   ],
   providers: [MOHReportService,
     LocationResourceService,

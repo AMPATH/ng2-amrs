@@ -1,6 +1,10 @@
 import { take } from 'rxjs/operators';
 import {
-  Component, OnInit, EventEmitter, ElementRef, forwardRef,
+  Component,
+  OnInit,
+  EventEmitter,
+  ElementRef,
+  forwardRef,
   ViewEncapsulation,
   AfterViewInit,
   ChangeDetectorRef
@@ -47,7 +51,8 @@ import { SelectDepartmentService } from './../services/select-department.service
     }
   ]
 })
-export class ReportFiltersComponent implements OnInit, ControlValueAccessor, AfterViewInit {
+export class ReportFiltersComponent
+  implements OnInit, ControlValueAccessor, AfterViewInit {
   public cervicalScreeningReport = 'cervical-cancer-screening-numbers';
   @Input() public start: number;
   @Input() public end: number;
@@ -66,6 +71,8 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
   @Output() public onDateChange = new EventEmitter<any>();
   @Output() public onYearWeekChange = new EventEmitter<any>();
   @Output() public onMonthChange = new EventEmitter<any>();
+  @Output() public startingMonthChange = new EventEmitter<any>();
+  @Output() public endingMonthChange = new EventEmitter<any>();
   public genderOptions: Array<any> = [
     {
       value: 'F',
@@ -123,16 +130,19 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
   private _programs: Array<any> = [];
   private _surgeWeeks: any;
   private _currentDepartment = '';
+  private _startingMonth: Date;
+  private _endingMonth: Date;
   month: any;
-  constructor(private indicatorResourceService: IndicatorResourceService,
-              private dataAnalyticsDashboardService: DataAnalyticsDashboardService,
-              private programResourceService: ProgramResourceService,
-              private programWorkFlowResourceService: ProgramWorkFlowResourceService,
-              private _departmentProgramService: DepartmentProgramsConfigService,
-              private _selectDepartmentService: SelectDepartmentService,
-              private elementRef: ElementRef,
-              private cd: ChangeDetectorRef) {
-}
+  constructor(
+    private indicatorResourceService: IndicatorResourceService,
+    private dataAnalyticsDashboardService: DataAnalyticsDashboardService,
+    private programResourceService: ProgramResourceService,
+    private programWorkFlowResourceService: ProgramWorkFlowResourceService,
+    private _departmentProgramService: DepartmentProgramsConfigService,
+    private _selectDepartmentService: SelectDepartmentService,
+    private elementRef: ElementRef,
+    private cd: ChangeDetectorRef
+  ) {}
   public get startDate(): Date {
     return this._startDate;
   }
@@ -218,15 +228,49 @@ export class ReportFiltersComponent implements OnInit, ControlValueAccessor, Aft
   }
   @Input()
   public get monthString(): string {
-    return this.month ? Moment(this.month).format('YYYY-MM') : Moment().format('YYYY-MM');
-}
-public set monthString(v: string) {
+    return this.month
+      ? Moment(this.month).format('YYYY-MM')
+      : Moment().format('YYYY-MM');
+  }
+  public set monthString(v: string) {
     this.month = new Date(v);
     this.onMonthChange.emit(this.month);
-}
+  }
+  public get startingMonth(): Date {
+    return this._startingMonth;
+  }
+  @Input()
+  public set startingMonth(v: Date) {
+    this._startingMonth = v;
+    this.startingMonthChange.emit(this.startingMonth);
+  }
+  public get endingMonth(): Date {
+    return this._endingMonth;
+  }
+  @Input()
+  public set endingMonth(v: Date) {
+    this._endingMonth = v;
+    this.endingMonthChange.emit(this.endingMonth);
+  }
+  public get startingMonthString(): string {
+    return this.startingMonth
+      ? Moment(this.startingMonth).format('YYYY-MM-DD')
+      : null;
+  }
+  public set startingMonthString(v: string) {
+    this.startingMonth = new Date(v);
+  }
+  public get endingMonthString(): string {
+    return this.endingMonth
+      ? Moment(this.endingMonth).format('YYYY-MM-DD')
+      : null;
+  }
+  public set endingMonthString(v: string) {
+    this.endingMonth = new Date(v);
+  }
   public ngOnInit() {
     if (this.reportType === this.cervicalScreeningReport) {
-      this.genderOptions = this.genderOptions.filter(option => {
+      this.genderOptions = this.genderOptions.filter((option) => {
         return option.value === 'F' && option.label === 'F';
       });
     }
@@ -269,9 +313,9 @@ public set monthString(v: string) {
     this._departmentProgramService
       .getDepartmentPrograms(department)
       .pipe(take(1))
-      .subscribe(results => {
+      .subscribe((results) => {
         if (results) {
-          this.programOptions = _.map(results, result => {
+          this.programOptions = _.map(results, (result) => {
             return { value: result.uuid, label: result.name };
           });
         }
@@ -279,30 +323,37 @@ public set monthString(v: string) {
   }
   public getCachedLocations() {
     if (this._report === 'hiv-summary-report') {
-      this.dataAnalyticsDashboardService.getSelectedIndicatorLocations().pipe(take(1)).subscribe(
-        (data)  => {
+      this.dataAnalyticsDashboardService
+        .getSelectedIndicatorLocations()
+        .pipe(take(1))
+        .subscribe((data) => {
           if (data) {
             this.locations = data.locations;
           }
         });
-    } else if (this._report === 'hiv-summary-monthly-report' ||
-    this._report === 'oncology-summary-monthly-report') {
-      this.dataAnalyticsDashboardService.getSelectedMonthlyIndicatorLocations().pipe(take(1)).subscribe(
-        (data)  => {
+    } else if (
+      this._report === 'hiv-summary-monthly-report' ||
+      this._report === 'oncology-summary-monthly-report'
+    ) {
+      this.dataAnalyticsDashboardService
+        .getSelectedMonthlyIndicatorLocations()
+        .pipe(take(1))
+        .subscribe((data) => {
           if (data) {
             this.locations = data.locations;
           }
         });
     } else {
-      this.dataAnalyticsDashboardService.getSelectedLocations().pipe(take(1)).subscribe(
-        (data)  => {
+      this.dataAnalyticsDashboardService
+        .getSelectedLocations()
+        .pipe(take(1))
+        .subscribe((data) => {
           if (data) {
             this.locations = data.locations;
           }
         });
     }
-
-}
+  }
 
   public onIndicatorSelected(indicator) {
     this.selectedIndicators = indicator;
@@ -337,7 +388,7 @@ public set monthString(v: string) {
       .pipe(take(1))
       .subscribe((results: any[]) => {
         if (results) {
-          this.programOptions = _.map(results, result => {
+          this.programOptions = _.map(results, (result) => {
             return { value: result.uuid, label: result.display };
           });
         }
@@ -409,10 +460,10 @@ public set monthString(v: string) {
       grid_num: 10,
       force_edges: true,
       keyboard: true,
-      onFinish: data => {
+      onFinish: (data) => {
         this.onAgeChangeFinish.emit({ ageFrom: data.from, ageTo: data.to });
       },
-      onChange: data => {
+      onChange: (data) => {
         this.value = { ageFrom: data.from, ageTo: data.to };
       }
     });

@@ -69,10 +69,9 @@ import {
     RetentionReportPatientListComponent
 } from './../../hiv-care-lib/retention-report/retention-report-patient-list.component';
 import { DqaReportsComponent } from 'src/app/hiv-care-lib/dqa-reports/dqa-reports/dqa-reports.component';
-import {
-    ChartAbstractionPatientlistComponent
- } from 'src/app/hiv-care-lib/dqa-reports/chart-abstraction-patientlist/chart-abstraction-patientlist.component';
-import { HivDifferentiatedCareComponent } from './hiv-differentiated-care-program/hiv-differentiated-care-program.component';
+import { PatientGainLosesReportComponent } from './patient-gain-and-loses-report/patient-gain-and-loses-report';
+// tslint:disable-next-line: max-line-length
+import { PatientGainsAndLosesPatientListComponent } from 'src/app/hiv-care-lib/patient-gains-and-loses/patient-gains-and-loses-patient-list/patient-gains-and-loses-patient-list.component';
 
 import {
     ClinicDashboardHeiReportComponent
@@ -95,231 +94,227 @@ import { AddContactTraceComponent } from 'src/app/hiv-care-lib/family-testing/co
 import { EditContactTraceComponent } from 'src/app/hiv-care-lib/family-testing/contact-trace/edit-contact-trace.component';
 
 const routes: Routes = [
-    {
-        path: 'landing-page',
-        component: Moh731ReportComponent // replace with landing page for module
-    },
-    {
-        path: 'patient-status-change-visualization',
-        children: [
-            {
-                path: ':view',
-                component: PatientStatusChangeVisualizationContainerComponent
-            },
-            {
-                path: ':view/patient-list',
-                component: PatientStatusChangeListComponent
-            },
-            { path: '', redirectTo: 'cumulative', pathMatch: 'prefix' }
-        ]
-    },
-    {
-        path: 'moh-731-report',
-        component: Moh731ReportComponent // replace with landing page for module
-    },
-    {
-        path: 'moh-731-report/patient-list',
-        component: Moh731PatientListComponent
-    },
-    {
-        path: 'hiv-summary-indicator-report',
-        children: [
-            {
-                path: '',
-                component: HivSummaryIndicatorComponent
-            },
-            {
-                path: 'patient-list/:indicator/:period/:gender/:age/:locationUuids',
-                component: HivSummaryIndicatorsPatientListComponent,
-            }
-        ]
-    },
-    {
-        path: 'patients-requiring-vl',
-        component: PatientsRequiringVLComponent,
-    },
-    {
-      path: 'hiv-comparative-chart',
-      children: [
-        {
-          path: '',
-          component: HivCareComparativeComponent
-        },
-        {
-          path: 'patient-list/:report/:indicator/:period',
-          component: VisualizationPatientListComponent
-        }
-
-      ]
-
-    },
-    {
+  {
+    path: 'landing-page',
+    component: Moh731ReportComponent // replace with landing page for module
+  },
+  {
+    path: 'patient-status-change-visualization',
+    children: [
+      {
+        path: ':view',
+        component: PatientStatusChangeVisualizationContainerComponent
+      },
+      {
+        path: ':view/patient-list',
+        component: PatientStatusChangeListComponent
+      },
+      { path: '', redirectTo: 'cumulative', pathMatch: 'prefix' }
+    ]
+  },
+  {
+    path: 'moh-731-report',
+    component: Moh731ReportComponent // replace with landing page for module
+  },
+  {
+    path: 'moh-731-report/patient-list',
+    component: Moh731PatientListComponent
+  },
+  {
+    path: 'hiv-summary-indicator-report',
+    children: [
+      {
+        path: '',
+        component: HivSummaryIndicatorComponent
+      },
+      {
+        path: 'patient-list/:indicator/:period/:gender/:age/:locationUuids',
+        component: HivSummaryIndicatorsPatientListComponent
+      }
+    ]
+  },
+  {
+    path: 'patients-requiring-vl',
+    component: PatientsRequiringVLComponent
+  },
+  {
+    path: 'hiv-comparative-chart',
+    children: [
+      {
+        path: '',
+        component: HivCareComparativeComponent
+      },
+      {
+        path: 'patient-list/:report/:indicator/:period',
+        component: VisualizationPatientListComponent
+      }
+    ]
+  },
+  {
+    path: 'daily-schedule',
+    component: HivDailyScheduleComponent,
+    children: [
+      { path: '', redirectTo: 'daily-appointments', pathMatch: 'prefix' },
+      { path: 'daily-visits', component: DailyScheduleVisitsComponent },
+      {
+        path: 'daily-appointments',
+        component: DailyScheduleAppointmentsComponent
+      },
+      {
+        path: 'daily-not-returned',
+        component: DailyScheduleNotReturnedComponent
+      },
+      {
+        path: 'clinic-flow',
+        component: DailyScheduleClinicFlowComponent
+      },
+      {
         path: 'daily-schedule',
         component: HivDailyScheduleComponent,
         children: [
-            { path: '', redirectTo: 'daily-appointments', pathMatch: 'prefix' },
-            { path: 'daily-visits', component: DailyScheduleVisitsComponent },
-            { path: 'daily-appointments', component: DailyScheduleAppointmentsComponent },
-            { path: 'daily-not-returned', component: DailyScheduleNotReturnedComponent },
-            {
-                path: 'clinic-flow', component: DailyScheduleClinicFlowComponent,
-                children: [
-                    { path: 'visits', component: ClinicFlowVisitsComponent },
-                    { path: 'summary', component: ClinicFlowSummaryComponent },
-                    { path: 'provider-stats', component: ClinicFlowProviderStatsComponent },
-                    { path: 'location', component: ClinicFlowLocationStatsComponent },
-                    { path: '', redirectTo: 'summary', pathMatch: 'prefix' }
-                ]
-            }
+          { path: '', redirectTo: 'daily-appointments', pathMatch: 'prefix' },
+          { path: 'daily-visits', component: DailyScheduleVisitsComponent },
+          {
+            path: 'daily-appointments',
+            component: DailyScheduleAppointmentsComponent
+          },
+          {
+            path: 'daily-not-returned',
+            component: DailyScheduleNotReturnedComponent
+          },
+          {
+            path: 'clinic-flow',
+            component: DailyScheduleClinicFlowComponent,
+            children: [
+              { path: 'visits', component: ClinicFlowVisitsComponent },
+              { path: 'summary', component: ClinicFlowSummaryComponent },
+              {
+                path: 'provider-stats',
+                component: ClinicFlowProviderStatsComponent
+              },
+              { path: 'location', component: ClinicFlowLocationStatsComponent },
+              { path: '', redirectTo: 'summary', pathMatch: 'prefix' }
+            ]
+          }
         ]
-    },
-    {
+      },
+      {
         path: 'monthly-schedule',
         component: HivMonthlyScheduleComponent
-    },
-    {
+      },
+      {
         path: 'viremia-reports',
         component: HivEnhancedComponent
-    },
-    {
+      },
+      {
         path: 'defaulter-list',
         component: DefaulterListComponent
-    },
-    {
+      },
+      {
         path: 'clinic-lab-orders',
         component: ClinicLabOrdersComponent
-    },
-    {
+      },
+      {
         path: 'program-enrollment',
         children: [
-            {
-                path: '',
-                component: PatientsProgramEnrollmentComponent
-            },
-            {
-                path: 'patient-list',
-                component: ProgramEnrollmentPatientListComponent
-            }
+          {
+            path: '',
+            component: PatientsProgramEnrollmentComponent
+          },
+          {
+            path: 'patient-list',
+            component: ProgramEnrollmentPatientListComponent
+          }
         ]
-    },
-    {
+      },
+      {
         path: 'hiv-differentiated-care',
         component: HivDifferentiatedCareComponent
-    },
-    {
+      },
+      {
         path: 'department-select',
         component: ChangeDepartmentComponent
-    },
-    {
+      },
+      {
         path: 'surge-reports',
         component: SurgeReportComponent
-    },
-    {
+      },
+      {
         path: 'dqa-reports',
         children: [
-            {
-                path: 'dqa-report-patientlist',
-                component: ChartAbstractionPatientlistComponent
-            },
-            {
-                path: '',
-                component: DqaReportsComponent
-            }
+          {
+            path: 'dqa-report-patientlist',
+            component: ChartAbstractionPatientlistComponent
+          },
+          {
+            path: '',
+            component: DqaReportsComponent
+          }
         ]
-    },
-    {
+      },
+      {
         path: 'surge-reports/surge-report-patientlist',
         component: SurgeReportPatientListComponent
-    },
-    {
+      },
+      {
         path: 'retention-report',
         children: [
-            {
-                path: '',
-                component: ClinicDashboardRetentionReportComponent
-            },
-            {
-                path: 'patient-list',
-                component: RetentionReportPatientListComponent
-            }
+          {
+            path: '',
+            component: ClinicDashboardRetentionReportComponent
+          },
+          {
+            path: 'patient-list',
+            component: RetentionReportPatientListComponent
+          }
         ]
-    },
-    {
-        path: 'hei-report',
-        children: [
-            {
-                path: '',
-                component: ClinicDashboardHeiReportComponent
-            },
-            {
-                path: 'patient-list',
-                component: HeiIndicatorsPatientListComponent
-            }
-        ]
-    },
-    {
+      },
+      {
         path: 'case-management',
         children: [
-            {
-                path: '',
-                component: ClinicDashboardCaseManagementComponent
-            }
+          {
+            path: '',
+            component: ClinicDashboardCaseManagementComponent
+          }
         ]
-    },
-    {
+      },
+      {
         path: 'monthly-report',
         children: [
-            {
+          {
+            path: '',
+            component: MonthlyReportComponent
+          },
+          {
+            path: 'prep-report',
+            children: [
+              {
                 path: '',
-                component: MonthlyReportComponent
-            },
-            {
-                path: 'cross-border-report',
-                component: HIVListsMicroFrontendComponent
-            },
-            {
-                path: 'prep-report',
-                children: [
-                    {
-                        path: '',
-                        component: PrepReportComponent
-                    },
-                    {
-                        path: 'patient-list',
-                        component: PrepReportPatientListComponent
-                    }
-                ]
-            },
-        ]
-    },
-    {
-        path: 'monthly-report',
-        children: [
-            {
+                component: PrepReportComponent
+              },
+              {
+                path: 'patient-list',
+                component: PrepReportPatientListComponent
+              }
+            ]
+          },
+          {
+            path: 'patient-gains-and-loses',
+            children: [
+              {
                 path: '',
-                component: MonthlyReportComponent
-            },
-            {
-                path: 'cross-border-report',
-                component: HIVListsMicroFrontendComponent
-            },
-            {
-                path: 'ipt-report',
-                children: [
-                  {
-                    path: '',
-                    component: IptReportComponent
-                  },
-                  {
-                    path: 'ipt-report-patientlist',
-                    component: IptReportPatientListComponent
-                  }
-                ]
-            }
+                component: PatientGainLosesReportComponent
+              },
+              {
+                path: 'patient-list',
+                component: PatientGainsAndLosesPatientListComponent
+              }
+            ]
+          }
         ]
-    },
-    {
-        path: 'family-testing',
+      },
+      {
+        path: 'hei-report',
         children: [
         {
             path: '',
@@ -338,7 +333,107 @@ const routes: Routes = [
             component: EditContactTraceComponent
         }
         ]
-    }
+      }
+    ]
+  },
+  {
+    path: 'monthly-schedule',
+    component: HivMonthlyScheduleComponent
+  },
+  {
+    path: 'viremia-reports',
+    component: HivEnhancedComponent
+  },
+  {
+    path: 'defaulter-list',
+    component: DefaulterListComponent
+  },
+  {
+    path: 'clinic-lab-orders',
+    component: ClinicLabOrdersComponent
+  },
+  {
+    path: 'program-enrollment',
+    children: [
+      {
+        path: '',
+        component: PatientsProgramEnrollmentComponent
+      },
+      {
+        path: 'patient-list',
+        component: ProgramEnrollmentPatientListComponent
+      }
+    ]
+  },
+  {
+    path: 'department-select',
+    component: ChangeDepartmentComponent
+  },
+  {
+    path: 'surge-reports',
+    component: SurgeReportComponent
+  },
+  {
+    path: 'surge-reports/surge-report-patientlist',
+    component: SurgeReportPatientListComponent
+  },
+  {
+    path: 'retention-report',
+    children: [
+      {
+        path: '',
+        component: ClinicDashboardRetentionReportComponent
+      },
+      {
+        path: 'patient-list',
+        component: RetentionReportPatientListComponent
+      }
+    ]
+  },
+  {
+    path: 'case-management',
+    children: [
+      {
+        path: '',
+        component: ClinicDashboardCaseManagementComponent
+      }
+    ]
+  },
+  {
+    path: 'monthly-report',
+    children: [
+      {
+        path: '',
+        component: HIVListsMicroFrontendComponent
+      },
+      {
+        path: 'patient-gains-and-loses',
+        children: [
+          {
+            path: '',
+            component: PatientGainLosesReportComponent
+          },
+          {
+            path: 'patient-list',
+            component: PatientGainsAndLosesPatientListComponent
+          }
+        ]
+      }
+    ]
+  },
+  {
+    path: 'hei-report',
+    children: [
+      {
+        path: '',
+        component: ClinicDashboardHeiReportComponent
+      },
+      {
+        path: 'patient-list',
+        component: HeiIndicatorsPatientListComponent
+      }
+    ]
+  }
 ];
 
 export const clinicDashboardHivRouting: ModuleWithProviders =
