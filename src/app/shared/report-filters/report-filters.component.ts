@@ -68,6 +68,8 @@ export class ReportFiltersComponent
   @Output() public onDateChange = new EventEmitter<any>();
   @Output() public onYearWeekChange = new EventEmitter<any>();
   @Output() public onMonthChange = new EventEmitter<any>();
+  @Output() public startingMonthChange = new EventEmitter<any>();
+  @Output() public endingMonthChange = new EventEmitter<any>();
   public genderOptions: Array<any> = [
     {
       value: 'F',
@@ -125,6 +127,8 @@ export class ReportFiltersComponent
   private _programs: Array<any> = [];
   private _surgeWeeks: any;
   private _currentDepartment = '';
+  private _startingMonth: Date;
+  private _endingMonth: Date;
   month: any;
   constructor(
     private indicatorResourceService: IndicatorResourceService,
@@ -228,6 +232,38 @@ export class ReportFiltersComponent
   public set monthString(v: string) {
     this.month = new Date(v);
     this.onMonthChange.emit(this.month);
+  }
+  public get startingMonth(): Date {
+    return this._startingMonth;
+  }
+  @Input()
+  public set startingMonth(v: Date) {
+    this._startingMonth = v;
+    this.startingMonthChange.emit(this.startingMonth);
+  }
+  public get endingMonth(): Date {
+    return this._endingMonth;
+  }
+  @Input()
+  public set endingMonth(v: Date) {
+    this._endingMonth = v;
+    this.endingMonthChange.emit(this.endingMonth);
+  }
+  public get startingMonthString(): string {
+    return this.startingMonth
+      ? Moment(this.startingMonth).format('YYYY-MM-DD')
+      : null;
+  }
+  public set startingMonthString(v: string) {
+    this.startingMonth = new Date(v);
+  }
+  public get endingMonthString(): string {
+    return this.endingMonth
+      ? Moment(this.endingMonth).format('YYYY-MM-DD')
+      : null;
+  }
+  public set endingMonthString(v: string) {
+    this.endingMonth = new Date(v);
   }
   public ngOnInit() {
     if (this.reportType === this.cervicalScreeningReport) {
