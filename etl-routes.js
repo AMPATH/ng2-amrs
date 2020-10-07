@@ -68,9 +68,10 @@ var patientReminderService = require('./service/patient-reminder.service.js');
 var  kibanaService = require('./service/kibana.service');
 import { HeiSummaryService } from './service/moh-408-service';
 
-import { 
-    RetentionAppointmentTracingService 
+import {
+    RetentionAppointmentTracingService
 } from './service/retention-appointment-tracing-service';
+import { PatientGainLosesService } from './service/patient-gain-loses.service';
 
 
 module.exports = function () {
@@ -4463,6 +4464,78 @@ module.exports = function () {
             },
             {
                 method: 'GET',
+                path: '/etl/patient-gain-loses-numbers',
+                config: {
+                    auth: 'simple',
+                    plugins: {
+                        'hapiAuthorization': {
+                            role: privileges.canViewClinicDashBoard
+                        },
+                        'openmrsLocationAuthorizer': {
+                            locationParameter: [{
+                                type: 'query',
+                                name: 'locationUuids'
+                            }]
+                        }
+                    },
+                    handler: function (request, reply) {
+                        request.query.reportName = 'patient-gain-and-loses-report';
+                        preRequest.resolveLocationIdsToLocationUuids(request,
+                            function () {
+                                let requestParams = Object.assign({}, request.query, request.params);
+                                let reportParams = etlHelpers.getReportParams('patient-gain-loses-report',
+                                    ['startingMonth', 'endingMonth', 'locationUuid', 'indicators'],requestParams);
+                                let service = new PatientGainLosesService();
+                                service.getAggregateReport(reportParams).then((result) => {
+                                    reply(result);
+                                }).catch((error) => {
+                                    console.error('Error: ', error);
+                                    reply(error);
+                                });
+                            });
+
+                    },
+                    description: 'Get patient gains and loses of a specified location between indicated time (startingMonth and endingMonth) ',
+                    notes: 'Returns aggregates of patient gains and loses',
+                    tags: ['api'],
+                }
+
+            },
+            {
+                method: 'GET',
+                path: '/etl/patient-gain-loses-patient-list',
+                config: {
+                    auth: 'simple',
+                    plugins: {
+                        'openmrsLocationAuthorizer': {
+                            locationParameter: [{
+                                type: 'query',
+                                name: 'locationUuids'
+                            }]
+                        }
+                    },
+                    handler: function (request, reply) {
+                        request.query.reportName = 'patient-gain-lose';
+                        preRequest.resolveLocationIdsToLocationUuids(request,
+                            function () {
+                                let requestParams = Object.assign({}, request.query, request.params);
+                                let service = new PatientGainLosesService();
+                                service.getPatientListReport(requestParams).then((result) => {
+                                    reply(result);
+                                }).catch((error) => {
+                                    reply(error);
+                                });
+                            });
+
+                    },
+                    description: 'Gets a patient list',
+                    notes: 'Returns details of patients filterd by a specified indicator ',
+                    tags: ['api'],
+                }
+
+            },
+            {
+                method: 'GET',
                 path: '/etl/kibana-dashboards',
                 config: {
                     auth: 'simple',
@@ -4715,7 +4788,7 @@ module.exports = function () {
                         });
 
                     }
-                       
+
 
                     },
                     description: 'Get Retention report aggregate data',
@@ -4734,7 +4807,7 @@ module.exports = function () {
                         request.query.reportName = 'retention-summary-report';
                         preRequest.resolveLocationIdsToLocationUuids(request,
                             function () {
-                               
+
 
                                 let requestParams = Object.assign({}, request.query, request.params);
 
@@ -4751,7 +4824,7 @@ module.exports = function () {
                                     reply(error);
                                 });
                             });
-                       
+
 
                     },
                     description: 'Get Retention report Patient list',
