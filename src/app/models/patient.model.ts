@@ -109,11 +109,13 @@ export class Patient extends BaseModel {
       const nat = this.getIdentifierByType(identifier, 'NAT');
       const bhim = this.getIdentifierByType(identifier, 'BHIM');
       const ovcid = this.getIdentifierByType(identifier, 'OVCID');
+      const prep = this.getIdentifierByType(identifier, 'PrEP');
       if (
         kenyaNationalId === undefined &&
         amrsMrn === undefined &&
         ampathMrsUId === undefined &&
-        cCC === undefined
+        cCC === undefined &&
+        prep === undefined
       ) {
         if (this._identifier[0].identifier) {
           filteredIdentifiers = { default: this._identifier[0].identifier };
@@ -129,7 +131,8 @@ export class Patient extends BaseModel {
           hei: hei,
           nat: nat,
           bhim: bhim,
-          ovcid: ovcid
+          ovcid: ovcid,
+          prep: prep
         };
       }
       return filteredIdentifiers;
@@ -159,6 +162,7 @@ export class Patient extends BaseModel {
       );
       const cCC = this.getAllIdentifiersByType(identifiers, 'CCC Number');
       const ovcid = this.getIdentifierByType(identifiers, 'OVCID');
+      const prep = this.getIdentifierByType(identifiers, 'PrEP');
       if (
         kenyaNationalId === undefined &&
         amrsMrn === undefined &&

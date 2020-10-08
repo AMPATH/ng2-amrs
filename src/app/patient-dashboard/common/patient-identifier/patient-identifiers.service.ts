@@ -48,7 +48,8 @@ export class PatientIdentifierService {
       'Zuri Health ID',
       'NAT',
       'BHIM',
-      'OVC ID'
+      'OVC ID',
+      'PrEP'
     ];
   }
   public patientIdentifierTypeFormat() {
@@ -118,6 +119,12 @@ export class PatientIdentifierService {
         format: '^\\d{7}$',
         checkdigit: 0,
         val: 'ace5f7c7-c5f4-4e77-a077-5588a682a0d6'
+      },
+      {
+        label: 'PrEP',
+        format: '^\\d{5}-\\d{4}-\\d{5}$',
+        checkdigit: 0,
+        val: '91099b3f-69be-4607-a309-bd358d85af46'
       }
     ];
   }
