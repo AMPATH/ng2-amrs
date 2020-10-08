@@ -1,4 +1,11 @@
-import { Component, OnInit, Output, EventEmitter, OnDestroy, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Output,
+  EventEmitter,
+  OnDestroy,
+  AfterViewInit
+} from '@angular/core';
 import { Message, Schedule } from 'primeng/primeng';
 import { ClinicDashboardCacheService } from '../../clinic-dashboard/services/clinic-dashboard-cache.service';
 import { DatePipe } from '@angular/common';
@@ -14,18 +21,17 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./daily-schedule.component.css']
 })
 export class DailyScheduleBaseComponent implements OnInit, OnDestroy {
-
   public errors: any[] = [];
   private rlaSafe = false;
   public selectedDate = Moment().format('MMM  D , YYYY ');
   public viewDate = '';
   public changeDate;
   public selectedLocation: any;
-  public loadingData  = true;
+  public loadingData = true;
   public filterSet = false;
   @Output() public selectedSchedule = new EventEmitter();
   public msgs: Message[] = [];
-  public calendarType  = 'daily';
+  public calendarType = 'daily';
   public reportFilter: any = { ageRange: [40, 70] };
   public dataToBind: any = {
     ageRange: [0, 15],
@@ -40,22 +46,24 @@ export class DailyScheduleBaseComponent implements OnInit, OnDestroy {
     { label: 'Appointments', link: 'daily-appointments' },
     { label: 'Visits', link: 'daily-visits' },
     { label: 'Clinic Flow', link: 'clinic-flow' },
-    { label: 'Has not returned', link: 'daily-not-returned' },
+    { label: 'Has not returned', link: 'daily-not-returned' }
   ];
   public _datePipe: DatePipe;
   private subs: Subscription[] = [];
-  constructor(public clinicDashboardCacheService: ClinicDashboardCacheService,
-              public router: Router,
-              public route: ActivatedRoute,
-              public clinicFlowCache: ClinicFlowCacheService) {
+  constructor(
+    public clinicDashboardCacheService: ClinicDashboardCacheService,
+    public router: Router,
+    public route: ActivatedRoute,
+    public clinicFlowCache: ClinicFlowCacheService
+  ) {
     this._datePipe = new DatePipe('en-US');
-
   }
   public ngOnInit() {
     this.setActiveTab();
     const sub = this.clinicDashboardCacheService.getCurrentClinic();
     // this.updateCurrentDate();
-    this.clinicDashboardCacheService.getCurrentClinic()
+    this.clinicDashboardCacheService
+      .getCurrentClinic()
       .subscribe((location) => {
         this.selectedLocation = location;
         this.clinicFlowCache.setSelectedLocation(location);
@@ -64,7 +72,9 @@ export class DailyScheduleBaseComponent implements OnInit, OnDestroy {
     // this.subs.push(sub);
 
     if (this.clinicFlowCache.lastClinicFlowSelectedDate) {
-      this.selectedDate = Moment(this.clinicFlowCache.lastClinicFlowSelectedDate).format('MMM  D , YYYY ');
+      this.selectedDate = Moment(
+        this.clinicFlowCache.lastClinicFlowSelectedDate
+      ).format('MMM  D , YYYY ');
     }
   }
 
@@ -86,7 +96,6 @@ export class DailyScheduleBaseComponent implements OnInit, OnDestroy {
   public updateCurrentDate() {
     if (this.route && this.route.queryParams) {
     }
-
   }
 
   public getSelectedDate(date) {
@@ -107,15 +116,15 @@ export class DailyScheduleBaseComponent implements OnInit, OnDestroy {
   }
 
   public navigateDay(value) {
-
     if (value) {
       const m = Moment(new Date(this.selectedDate));
       const revisedDate = m.add(value, 'd');
 
-      this.selectedDate = this._datePipe.transform(
-        revisedDate, 'yyyy-MM-dd');
+      this.selectedDate = this._datePipe.transform(revisedDate, 'yyyy-MM-dd');
       this.changeDate = new Date(this.selectedDate);
-      this.clinicDashboardCacheService.setDailyTabCurrentDate(this.selectedDate);
+      this.clinicDashboardCacheService.setDailyTabCurrentDate(
+        this.selectedDate
+      );
       this.clinicFlowCache.setSelectedDate(this.selectedDate);
     }
   }
@@ -132,20 +141,19 @@ export class DailyScheduleBaseComponent implements OnInit, OnDestroy {
   }
 
   public filterSelected($event) {
-      this.filterSet = true;
-      // this.selectedDate = this._datePipe.transform( this.selectedDate, 'yyyy-MM-dd');
-      this.selectedDate = Moment($event.startDate).format('MMM  D , YYYY ');
-      this.changeDate = new Date(this.selectedDate);
+    this.filterSet = true;
+    // this.selectedDate = this._datePipe.transform( this.selectedDate, 'yyyy-MM-dd');
+    this.selectedDate = Moment($event.startDate).format('MMM  D , YYYY ');
+    this.changeDate = new Date(this.selectedDate);
   }
   public navigate($event, link) {
     const queryParams = this.route.snapshot.queryParams;
     this.router.navigate(['./' + link], {
-      queryParams : queryParams,
+      queryParams: queryParams,
       relativeTo: this.route
     });
-    setTimeout(( ) => {
+    setTimeout(() => {
       this.setActiveTab();
     }, 100);
   }
-
 }

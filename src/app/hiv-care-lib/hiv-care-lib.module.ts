@@ -7,10 +7,22 @@ import { AgGridModule } from 'ag-grid-angular/main';
 import { ChartModule } from 'angular2-highcharts';
 import { DataListsModule } from '../shared/data-lists/data-lists.module';
 import {
-  AccordionModule, DataTableModule, SharedModule, TabViewModule,
-  GrowlModule, PanelModule, ConfirmDialogModule, ConfirmationService,
-  DialogModule, InputTextModule, MessagesModule, InputTextareaModule, MultiSelectModule,
-  DropdownModule, ButtonModule, CalendarModule
+  AccordionModule,
+  DataTableModule,
+  SharedModule,
+  TabViewModule,
+  GrowlModule,
+  PanelModule,
+  ConfirmDialogModule,
+  ConfirmationService,
+  DialogModule,
+  InputTextModule,
+  MessagesModule,
+  InputTextareaModule,
+  MultiSelectModule,
+  DropdownModule,
+  ButtonModule,
+  CalendarModule
 } from 'primeng/primeng';
 import { Moh731TabularComponent } from './moh-731-report/moh-731-tabular.component';
 import { Moh731ReportFiltersComponent } from './moh-731-report/moh-731-report-filters.component';
@@ -22,86 +34,38 @@ import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 import { MOHReportComponent } from './moh-731-report/moh-731-report-pdf-view.component';
 import { MOHReportService } from './moh-731-report/moh-731-report-pdf-view.service';
 import { LocationResourceService } from '../openmrs-api/location-resource.service';
-import {
-  HivSummaryIndicatorBaseComponent
-} from './hiv-summary-indicators/hiv-summary-report-base.component';
-import {
-  ReportFiltersComponent
-} from '../shared/report-filters/report-filters.component';
+import { HivSummaryIndicatorBaseComponent } from './hiv-summary-indicators/hiv-summary-report-base.component';
 import { HivSummaryTabularComponent } from './hiv-summary-indicators/hiv-summary-tabular.component';
 import { ClinicFlowComponent } from './clinic-flow/clinic-flow.component';
-import {
-  ClinicFlowHourlyStatsVizComponent
-} from './clinic-flow/clinic-flow-hourly-stats-viz.component';
-import {
-  ClinicFlowSummaryComponent
-} from './clinic-flow/clinic-flow-summary.component';
-import {
-  ClinicFlowVisitsComponent
-} from './clinic-flow/clinic-flow-visits.component';
-import {
-  ClinicFlowLocationStatsComponent
-} from './clinic-flow/clinic-flow-location-stats.component';
-import {
-  ClinicFlowProviderStatsComponent
-} from './clinic-flow/clinic-flow-provider-stats.component';
+import { ClinicFlowHourlyStatsVizComponent } from './clinic-flow/clinic-flow-hourly-stats-viz.component';
+import { ClinicFlowSummaryComponent } from './clinic-flow/clinic-flow-summary.component';
+import { ClinicFlowVisitsComponent } from './clinic-flow/clinic-flow-visits.component';
+import { ClinicFlowLocationStatsComponent } from './clinic-flow/clinic-flow-location-stats.component';
+import { ClinicFlowProviderStatsComponent } from './clinic-flow/clinic-flow-provider-stats.component';
 import { ReportingUtilitiesModule } from '../reporting-utilities/reporting-utilities.module';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
-import {
-  HivCareComparativeOverviewBaseComponent
-} from './hiv-visualization/hiv-care-overview-base.component';
-import {
-  HivCareComparativeChartComponent
-} from './hiv-visualization/hiv-care-overview-chart.component';
-import {
-  HivCareIndicatorDefComponent
-} from './hiv-visualization/indicator-definitions.component';
-import {
-  HivCareTabularViewComponent
-} from './hiv-visualization/hiv-care-tabularView.component';
-import {
-  VisualizationPatientListComponent
-} from './hiv-visualization/visualization-patient-list.component';
-import {
-  ClinicalSummaryVisualizationService
-} from './services/clinical-summary-visualization.service';
-import {
-  HivSummaryIndicatorsPatientListComponent
-} from './hiv-summary-indicators/patient-list.component';
-import {
-  PatientsRequiringVLBaseComponent
-} from './patients-requiring-vl/patients-requiring-vl-base.component';
-import {
-  PatientsRequiringVLReportFiltersComponent
-} from './patients-requiring-vl/patients-requiring-vl-report-filters.component';
-import {
-  HivMonthlySummaryIndicatorBaseComponent
-} from './hiv-monthly-summary-indicators/hiv-monthly-summary-report-base';
-import {
-  HivSummaryMonthlyTabularComponent
-} from './hiv-monthly-summary-indicators/hiv-monthly-summary-tabular.component';
-import {
-  HivMonthlySummaryIndicatorsPatientListComponent
-} from './hiv-monthly-summary-indicators/patient-list.component';
-import {
-  ProgramWorkFlowResourceService
-} from '../openmrs-api/program-workflow-resource.service';
-import {
-   HeiIndicatorsReportComponent
-} from './hei-indicators-report/hei-indicators-report.component';
-import {
-   HeiIndicatorsFilterComponent
-} from './hei-indicators-report/hei-indicators-filter.component';
-import {
-  HeiIndicatorsTabularComponent
-} from './hei-indicators-report/hei-indicators-tabular-component';
+import { HivCareComparativeOverviewBaseComponent } from './hiv-visualization/hiv-care-overview-base.component';
+import { HivCareComparativeChartComponent } from './hiv-visualization/hiv-care-overview-chart.component';
+import { HivCareIndicatorDefComponent } from './hiv-visualization/indicator-definitions.component';
+import { HivCareTabularViewComponent } from './hiv-visualization/hiv-care-tabularView.component';
+import { VisualizationPatientListComponent } from './hiv-visualization/visualization-patient-list.component';
+import { ClinicalSummaryVisualizationService } from './services/clinical-summary-visualization.service';
+import { HivSummaryIndicatorsPatientListComponent } from './hiv-summary-indicators/patient-list.component';
+import { PatientsRequiringVLBaseComponent } from './patients-requiring-vl/patients-requiring-vl-base.component';
+import { PatientsRequiringVLReportFiltersComponent } from './patients-requiring-vl/patients-requiring-vl-report-filters.component';
+import { HivMonthlySummaryIndicatorBaseComponent } from './hiv-monthly-summary-indicators/hiv-monthly-summary-report-base';
+import { HivSummaryMonthlyTabularComponent } from './hiv-monthly-summary-indicators/hiv-monthly-summary-tabular.component';
+import { HivMonthlySummaryIndicatorsPatientListComponent } from './hiv-monthly-summary-indicators/patient-list.component';
+import { ProgramWorkFlowResourceService } from '../openmrs-api/program-workflow-resource.service';
+import { HeiIndicatorsReportComponent } from './hei-indicators-report/hei-indicators-report.component';
+import { HeiIndicatorsFilterComponent } from './hei-indicators-report/hei-indicators-filter.component';
+import { HeiIndicatorsTabularComponent } from './hei-indicators-report/hei-indicators-tabular-component';
 import { HeiIndicatorsPatientListComponent } from './hei-indicators-report/hei-indicators-patient-list.component';
 import { HeiIndicatorsPdfViewComponent } from './hei-indicators-report/hei-indicators-pdf-view.component';
 import { HighchartsStatic } from 'angular2-highcharts/dist/HighchartsService';
 import { SurgeReportTabularComponent } from './surge-report/surge-report-tabular.component';
 import { SurgeReportBaseComponent } from './surge-report/surge-report-base.component';
 import { SurgeReportPatientListComponent } from './surge-report/surge-report-patient-list.component';
-import { BsDatepickerModule } from 'ngx-bootstrap';
 export function highchartsFactory() {
   const hc = require('highcharts');
   const hcm = require('highcharts/highcharts-more');
@@ -130,7 +94,10 @@ import { CaseManagementResourceService } from './../etl-api/case-management-reso
 import { PrepReportBaseComponent } from './prep-report/prep-report-base/prep-report-base.component';
 import { PrepReportPatientListComponent } from './prep-report/prep-report-patient-list/prep-report-patient-list.component';
 import { MonthlyReportComponent } from './monthly-report/monthly-report.component';
-
+// tslint:disable-next-line: max-line-length
+import { PatientGainsAndLosesPatientListComponent } from './patient-gains-and-loses/patient-gains-and-loses-patient-list/patient-gains-and-loses-patient-list.component';
+import { PatientGainLosesReportComponent } from '../clinic-dashboard/hiv/patient-gain-and-loses-report/patient-gain-and-loses-report';
+import { PatientGainsAndLosesComponent } from './patient-gains-and-loses/patient-gains-and-loses.component';
 
 @NgModule({
   imports: [
@@ -256,9 +223,13 @@ import { MonthlyReportComponent } from './monthly-report/monthly-report.componen
     HeiIndicatorsFilterComponent,
     HeiIndicatorsTabularComponent,
     HeiIndicatorsPatientListComponent,
-    HeiIndicatorsPdfViewComponent
+    HeiIndicatorsPdfViewComponent,
+    PatientGainsAndLosesPatientListComponent,
+    PatientGainLosesReportComponent,
+    PatientGainsAndLosesComponent
   ],
-  providers: [MOHReportService,
+  providers: [
+    MOHReportService,
     LocationResourceService,
     ClinicalSummaryVisualizationService,
     RetentionReportResourceService,
@@ -270,5 +241,4 @@ import { MonthlyReportComponent } from './monthly-report/monthly-report.componen
     }
   ]
 })
-export class HivCareLibModule {
-}
+export class HivCareLibModule {}

@@ -1,11 +1,48 @@
-<div class="panel-body" style="padding: 0px!important;" *ngFor="let reminder of reminders">
-	<div *ngIf="reminder.type === 'success' && reminder.display.banner === true" class="alert alert-success alert-dismissable" style="padding: 10px!important; margin-bottom: 3px!important;">
-		<a class="close" data-dismiss="alert" aria-label="close" style="right: 0px; !important">&times;</a> {{reminder.message}}
-	</div>
-	<div *ngIf="reminder.type === 'warning' && reminder.display.banner === true" class="alert alert-warning alert-dismissable" style="padding: 10px!important; margin-bottom: 3px!important;">
-		<a class="close" data-dismiss="alert" aria-label="close" style="right: 0px; !important">&times;</a> {{reminder.message}}
-	</div>
-	<div *ngIf="reminder.type === 'danger' && reminder.display.banner === true" class="alert alert-danger alert-dismissable" style="padding: 10px!important; margin-bottom: 3px!important;">
-		<a class="close" data-dismiss="alert" aria-label="close" style="right: 0px; !important">&times;</a> {{reminder.message}}
-	</div>
+<div
+  class="panel-body"
+  style="padding: 0px !important"
+  *ngFor="let reminder of reminders"
+>
+  <div
+    *ngIf="reminder.type === 'success' && reminder.display.banner === true"
+    class="alert alert-success alert-dismissable"
+    style="padding: 10px !important; margin-bottom: 3px !important"
+  >
+    <a
+      class="close"
+      data-dismiss="alert"
+      aria-label="close"
+      style="right: 0px; !important"
+      >&times;</a
+    >
+    {{reminder.message}}
+  </div>
+  <div
+    *ngIf="reminder.type === 'warning' && reminder.display.banner === true"
+    class="alert alert-warning alert-dismissable"
+    style="padding: 10px !important; margin-bottom: 3px !important"
+  >
+    <a
+      class="close"
+      data-dismiss="alert"
+      aria-label="close"
+      style="right: 0px; !important"
+      >&times;</a
+    >
+    {{reminder.message}}
+  </div>
+  <div
+    *ngIf="reminder.type === 'danger' && reminder.display.banner === true"
+    class="alert alert-danger alert-dismissable"
+    style="padding: 10px !important; margin-bottom: 3px !important"
+  >
+    <a
+      class="close"
+      data-dismiss="alert"
+      aria-label="close"
+      style="right: 0px; !important"
+      >&times;</a
+    >
+    {{reminder.message}}
+  </div>
 </div>

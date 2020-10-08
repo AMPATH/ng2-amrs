@@ -1,27 +1,42 @@
 <p-dialog header="Edit Health Center" [(visible)]="display">
   <form name="personForm">
     <div *ngIf="errors" style="color: red !important">
-      <p *ngFor="let error of errors">{{error.message}}</p>
+      <p *ngFor="let error of errors">{{ error.message }}</p>
     </div>
     <div class="form-group">
       <div class="selector location">
         <label> Select New Location:</label>
-        <select class="form-control" name="selectedLocation" [ngModel]="healthCenter"
-                (ngModelChange)="locationChanged($event)">
+        <select
+          class="form-control"
+          name="selectedLocation"
+          [ngModel]="healthCenter"
+          (ngModelChange)="locationChanged($event)"
+        >
           <option value="" [ngValue]="">--</option>
-          <option *ngFor="let location of locations" [ngValue]="location">{{location.label}}</option>
+          <option *ngFor="let location of locations" [ngValue]="location">
+            {{ location.label }}
+          </option>
         </select>
       </div>
       <div>
         <label>Current Health Center</label>
-        <p>{{selectedLocation}}</p>
+        <p>{{ selectedLocation }}</p>
       </div>
-      <br>
-      <button class="btn btn-primary" type="button" (click)="updateHealthCenter()"><span>Save</span></button>
-      <button class="btn btn-danger pull-right" type="button" (click)="dismissDialog()">
-        <span>Cancel</span></button>
-
+      <br />
+      <button
+        class="btn btn-primary"
+        type="button"
+        (click)="updateHealthCenter()"
+      >
+        <span>Save</span>
+      </button>
+      <button
+        class="btn btn-danger pull-right"
+        type="button"
+        (click)="dismissDialog()"
+      >
+        <span>Cancel</span>
+      </button>
     </div>
   </form>
-
 </p-dialog>

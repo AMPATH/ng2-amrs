@@ -8,7 +8,10 @@ import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { PatientVitalsService } from './patient-vitals.service';
 import { VitalsResourceService } from '../../../etl-api/vitals-resource.service';
 import { HttpClientTestingBackend } from '@angular/common/http/testing/src/backend';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController
+} from '@angular/common/http/testing';
 import { ZscoreService } from 'src/app/shared/services/zscore.service';
 import { PatientService } from '../../services/patient.service';
 import { PatientResourceService } from 'src/app/openmrs-api/patient-resource.service';
@@ -22,9 +25,7 @@ import { ProgramResourceService } from 'src/app/openmrs-api/program-resource.ser
 import { EncounterResourceService } from 'src/app/openmrs-api/encounter-resource.service';
 
 describe('Service: PatientVitalsService', () => {
-
-  let service: PatientVitalsService,
-    vitals: Observable<any>;
+  let service: PatientVitalsService, vitals: Observable<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -49,8 +50,6 @@ describe('Service: PatientVitalsService', () => {
     });
     service = TestBed.get(PatientVitalsService);
     // vitals = service.getvitals('de662c03-b9af-4f00-b10e-2bda0440b03b', 0);
-
-
   });
 
   afterEach(() => {

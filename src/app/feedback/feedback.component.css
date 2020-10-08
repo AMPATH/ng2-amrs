@@ -1,10 +1,19 @@
-.contact-form{ margin-top:15px;}
-.contact-form .textarea{ min-height:220px; resize:none;}
-.form-control{ box-shadow:none; border-color:#eee; height:49px;}
+.contact-form {
+  margin-top: 15px;
+}
+.contact-form .textarea {
+  min-height: 220px;
+  resize: none;
+}
+.form-control {
+  box-shadow: none;
+  border-color: #eee;
+  height: 49px;
+}
 .form-control-feedback {
-line-height: 50px;
-top: 0px;
+  line-height: 50px;
+  top: 0px;
 }
 .jumbotron {
-border-radius: 0px;
+  border-radius: 0px;
 }

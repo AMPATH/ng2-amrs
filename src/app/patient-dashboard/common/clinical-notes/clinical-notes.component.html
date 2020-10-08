@@ -2,15 +2,25 @@
 <form class="form-inline">
   <div class="form-group">
     <div class="input-group">
-      <input class="form-control" id="search-textbox" placeholder="Filter..." type="text"/>
+      <input
+        class="form-control"
+        id="search-textbox"
+        placeholder="Filter..."
+        type="text"
+      />
       <div class="input-group-btn">
-        <button class="btn btn-default pull-right" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+        <button class="btn btn-default pull-right" type="submit">
+          <i class="glyphicon glyphicon-search"></i>
+        </button>
       </div>
     </div>
   </div>
 </form>
 <hr />
-<div *ngIf="!hasNotes && !experiencedLoadingError && !fetching" class="alert alert-danger">
+<div
+  *ngIf="!hasNotes && !experiencedLoadingError && !fetching"
+  class="alert alert-danger"
+>
   <p>No notes found</p>
 </div>
 <div *ngIf="experiencedLoadingError" class="alert alert-danger">
@@ -23,103 +33,165 @@
       <td>
         <table class="table table-striped">
           <tbody>
-          <tr>
-            <th>Visit Date:</th>
-            <th>{{note.visitDate}} ({{note.scheduled}})</th>
-          </tr>
-          <tr>
-            <td><strong class="note-label">Provider(s):</strong></td>
-            <td><span *ngFor="let provider of note.providers">
-                <span class="note-info">{{provider.name}} ({{provider.encounterType}}){{provider.separator}}</span>
+            <tr>
+              <th>Visit Date:</th>
+              <th>{{ note.visitDate }} ({{ note.scheduled }})</th>
+            </tr>
+            <tr>
+              <td><strong class="note-label">Provider(s):</strong></td>
+              <td>
+                <span *ngFor="let provider of note.providers">
+                  <span class="note-info"
+                    >{{ provider.name }} ({{ provider.encounterType }}){{
+                      provider.separator
+                    }}</span
+                  >
                 </span>
-            </td>
-          </tr>
-          <tr>
-            <td><strong class="note-label">Last Viral Load: </strong></td>
-            <td *ngIf="!note.lastViralLoad"><span class="note-info">{{notAvailableMessage}}</span></td>
-            <td *ngIf="note.lastViralLoad">{{ note.lastViralLoad.value}} (<span class="note-info">{{note.lastViralLoad.date}}</span>)
-            </td>
-          </tr>
-          <tr>
-            <td><strong class="note-label">Last CD4 Count: </strong></td>
-            <td *ngIf="!note.lastCD4Count"><span class="note-info">{{notAvailableMessage}}</span></td>
-            <td *ngIf="note.lastCD4Count">{{ note.lastCD4Count.value}} (<span class="note-info">{{note.lastCD4Count.date}}</span>)
-            </td>
-          </tr>
-          <tr>
-            <td><strong class="note-label">Vitals: </strong></td>
-            <td>
-              <span class="note-label">Weight</span>(<span class="note-info">{{note.vitals.weight}}</span>),
-              <span class="note-label">Height</span>(<span class="note-info">{{note.vitals.height}}</span>),
-              <span class="note-label">BMI</span>(<span class="note-info">{{note.vitals.bmi}}</span>),
-              <span class="note-label">Oxygen Saturation</span>(<span class="note-info">{{note.vitals.oxygenSaturation}}</span>),
-              <span class="note-label">Temperature</span>(<span class="note-info">{{note.vitals.temperature}}</span>),
-              <span class="note-label">BP(</span><span class="note-info">{{note.vitals.bp}}</span>),
-              <span class="note-label">Pulse</span>(<span class="note-info">{{note.vitals.pulse}}</span>)
-            </td>
-          </tr>
-          <tr>
-            <td><strong class="note-label">Dispensed ARV drugs: </strong></td>
-            <td *ngIf="!note.artRegimen.curArvMeds"><span class="note-info">{{notAvailableMessage}}</span></td>
-            <td *ngIf="note.artRegimen.curArvMeds"><span class="note-info">{{note.artRegimen.curArvMeds}}</span> (
-              <span class="note-label">ARV Start Date: </span><span
-                class="note-info">{{note.artRegimen.startDate}}</span>)
-            </td>
-          </tr>
-          <tr>
-            <td><strong class="note-label">TB Prophylaxis Plan: </strong></td>
-            <td><span class="note-info">{{note.tbProphylaxisPlan.plan}}</span> (
-              <span class="note-label">Start Date: </span><span
-                class="note-info">{{note.tbProphylaxisPlan.startDate}}</span>,
-              <span class="note-label">Estimated End Date: </span><span class="note-info">{{note.tbProphylaxisPlan.estimatedEndDate}}</span>)
-            </td>
-          </tr>
-          <tr>
-            <td><strong class="note-label">RTC Date: </strong></td>
-            <td><span class="note-info">{{note.rtcDate}}</span></td>
-          </tr>
-          <tr *ngIf="!note.hasCcHpiAssessment">
-            <td><strong class="note-label">CC/HPI &amp; Assessemnt: </strong></td>
-            <td><span class="note-info">None</span></td>
-          </tr>
+              </td>
+            </tr>
+            <tr>
+              <td><strong class="note-label">Last Viral Load: </strong></td>
+              <td *ngIf="!note.lastViralLoad">
+                <span class="note-info">{{ notAvailableMessage }}</span>
+              </td>
+              <td *ngIf="note.lastViralLoad">
+                {{ note.lastViralLoad.value }} (<span class="note-info">{{
+                  note.lastViralLoad.date
+                }}</span
+                >)
+              </td>
+            </tr>
+            <tr>
+              <td><strong class="note-label">Last CD4 Count: </strong></td>
+              <td *ngIf="!note.lastCD4Count">
+                <span class="note-info">{{ notAvailableMessage }}</span>
+              </td>
+              <td *ngIf="note.lastCD4Count">
+                {{ note.lastCD4Count.value }} (<span class="note-info">{{
+                  note.lastCD4Count.date
+                }}</span
+                >)
+              </td>
+            </tr>
+            <tr>
+              <td><strong class="note-label">Vitals: </strong></td>
+              <td>
+                <span class="note-label">Weight</span>(<span
+                  class="note-info"
+                  >{{ note.vitals.weight }}</span
+                >), <span class="note-label">Height</span>(<span
+                  class="note-info"
+                  >{{ note.vitals.height }}</span
+                >), <span class="note-label">BMI</span>(<span
+                  class="note-info"
+                  >{{ note.vitals.bmi }}</span
+                >), <span class="note-label">Oxygen Saturation</span>(<span
+                  class="note-info"
+                  >{{ note.vitals.oxygenSaturation }}</span
+                >), <span class="note-label">Temperature</span>(<span
+                  class="note-info"
+                  >{{ note.vitals.temperature }}</span
+                >), <span class="note-label">BP(</span
+                ><span class="note-info">{{ note.vitals.bp }}</span
+                >), <span class="note-label">Pulse</span>(<span
+                  class="note-info"
+                  >{{ note.vitals.pulse }}</span
+                >)
+              </td>
+            </tr>
+            <tr>
+              <td><strong class="note-label">Dispensed ARV drugs: </strong></td>
+              <td *ngIf="!note.artRegimen.curArvMeds">
+                <span class="note-info">{{ notAvailableMessage }}</span>
+              </td>
+              <td *ngIf="note.artRegimen.curArvMeds">
+                <span class="note-info">{{ note.artRegimen.curArvMeds }}</span>
+                ( <span class="note-label">ARV Start Date: </span
+                ><span class="note-info">{{ note.artRegimen.startDate }}</span
+                >)
+              </td>
+            </tr>
+            <tr>
+              <td><strong class="note-label">TB Prophylaxis Plan: </strong></td>
+              <td>
+                <span class="note-info">{{ note.tbProphylaxisPlan.plan }}</span>
+                ( <span class="note-label">Start Date: </span
+                ><span class="note-info">{{
+                  note.tbProphylaxisPlan.startDate
+                }}</span
+                >, <span class="note-label">Estimated End Date: </span
+                ><span class="note-info">{{
+                  note.tbProphylaxisPlan.estimatedEndDate
+                }}</span
+                >)
+              </td>
+            </tr>
+            <tr>
+              <td><strong class="note-label">RTC Date: </strong></td>
+              <td>
+                <span class="note-info">{{ note.rtcDate }}</span>
+              </td>
+            </tr>
+            <tr *ngIf="!note.hasCcHpiAssessment">
+              <td>
+                <strong class="note-label">CC/HPI &amp; Assessemnt: </strong>
+              </td>
+              <td><span class="note-info">None</span></td>
+            </tr>
           </tbody>
         </table>
-        <table *ngIf="note.hasCcHpiAssessment" class="table table-stripped table-condensed table-bordered">
+        <table
+          *ngIf="note.hasCcHpiAssessment"
+          class="table table-stripped table-condensed table-bordered"
+        >
           <thead>
-          <tr>
-            <th width="30%">Encounter</th>
-            <th colspan="2">CC/HPI &amp; Assessment</th>
-          </tr>
+            <tr>
+              <th width="30%">Encounter</th>
+              <th colspan="2">CC/HPI &amp; Assessment</th>
+            </tr>
           </thead>
-          <tbody >
-          <tr *ngFor="let ccHpiAssessment of note.ccHpiAssessment">
-            <td>{{ccHpiAssessment.encounterType}}</td>
-            <td>
-              <span class="note-label">CC/HPI: </span>
-              <span class="note-info">{{ccHpiAssessment.ccHpi}}</span>
-              <hr/>
-              <span class="note-label">Assessment: </span>
-              <span class="note-info">{{ccHpiAssessment.assessment}}</span>
-            </td>
-          </tr>
-          <tr *ngFor="let assessment of note.otherAssessment">
-            <td>{{ assessment.encounterType }}</td>
-            <td>
-              <span class="note-label">Assessment: </span>
-              <span class="note-info">{{ assessment.value }}</span>
-            </td>
-          </tr>
+          <tbody>
+            <tr *ngFor="let ccHpiAssessment of note.ccHpiAssessment">
+              <td>{{ ccHpiAssessment.encounterType }}</td>
+              <td>
+                <span class="note-label">CC/HPI: </span>
+                <span class="note-info">{{ ccHpiAssessment.ccHpi }}</span>
+                <hr />
+                <span class="note-label">Assessment: </span>
+                <span class="note-info">{{ ccHpiAssessment.assessment }}</span>
+              </td>
+            </tr>
+            <tr *ngFor="let assessment of note.otherAssessment">
+              <td>{{ assessment.encounterType }}</td>
+              <td>
+                <span class="note-label">Assessment: </span>
+                <span class="note-info">{{ assessment.value }}</span>
+              </td>
+            </tr>
           </tbody>
         </table>
       </td>
     </tr>
   </table>
-  <button *ngIf='!dataLoaded' class="btn btn-info" (click)="getMoreNotes()">
-    <span>Fetch More notes <i *ngIf="fetching" style="font-size:14px" class="fa fa-spinner fa-spin"></i></span>
+  <button *ngIf="!dataLoaded" class="btn btn-info" (click)="getMoreNotes()">
+    <span
+      >Fetch More notes
+      <i
+        *ngIf="fetching"
+        style="font-size: 14px"
+        class="fa fa-spinner fa-spin"
+      ></i
+    ></span>
   </button>
-  <div *ngIf='dataLoaded'>
+  <div *ngIf="dataLoaded">
     <p class="alert alert-success">
-      <strong><span class="glyphicon glyphicon-ok">All notes loaded [{{ notes.length }}]</span></strong>
-    <p>
+      <strong
+        ><span class="glyphicon glyphicon-ok"
+          >All notes loaded [{{ notes.length }}]</span
+        ></strong
+      >
+    </p>
+
+    <p></p>
   </div>
 </div>

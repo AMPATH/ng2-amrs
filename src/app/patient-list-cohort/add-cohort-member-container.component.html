@@ -1,4 +1,11 @@
 <div class="component-wrapper">
-    <h4 class="component-title"><span class="glyphicon glyphicon-list"></span> Add Patient to Patient List</h4>
-    <add-cohort-member #addCohortComp [(cohortUuid)]="cohortUuid" (saved)="onSavedCohortMember()" (cancelled)="onSavedCohortMember()"></add-cohort-member>
+  <h4 class="component-title">
+    <span class="glyphicon glyphicon-list"></span> Add Patient to Patient List
+  </h4>
+  <add-cohort-member
+    #addCohortComp
+    [(cohortUuid)]="cohortUuid"
+    (saved)="onSavedCohortMember()"
+    (cancelled)="onSavedCohortMember()"
+  ></add-cohort-member>
 </div>

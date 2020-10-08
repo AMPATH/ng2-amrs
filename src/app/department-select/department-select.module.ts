@@ -3,13 +3,9 @@ import { DepartmentSelectComponent } from '../department-select/department-selec
 import { CommonModule } from '@angular/common';
 
 @NgModule({
-  imports: [
-      CommonModule
-  ],
+  imports: [CommonModule],
   exports: [],
-  declarations: [
-    DepartmentSelectComponent
-  ],
-  providers: [],
+  declarations: [DepartmentSelectComponent],
+  providers: []
 })
-export class DepartSelectModule { }
+export class DepartSelectModule {}

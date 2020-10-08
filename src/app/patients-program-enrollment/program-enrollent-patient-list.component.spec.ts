@@ -9,95 +9,89 @@ import { ProgramEnrollmentPatientListComponent } from './program-enrollent-patie
 import { PatientProgramEnrollmentService } from './../etl-api/patient-program-enrollment.service';
 import { UtilsModule } from '../utils/utils.module';
 class MockRouter {
-    public navigate = jasmine.createSpy('navigate');
+  public navigate = jasmine.createSpy('navigate');
 }
 
 const mockParams = {
-    endDate: '2019-01-31',
-    locationUuids: ['luuid'],
-    programType: 'puuid1',
-    startDate: '2019-01-01'
-
+  endDate: '2019-01-31',
+  locationUuids: ['luuid'],
+  programType: 'puuid1',
+  startDate: '2019-01-01'
 };
 
 const mockEnrollments = [
-    {
-        date_completed: '2019-01-03T09:09:49.000Z',
-        death_date: null,
-        enrolled_date: '2019-01-03T09:09:49.000Z',
-        location_id: 1,
-        patient_identifier: '7139799-1, 15204-226',
-        patient_name: 'Test Patient1',
-        patient_program_id: 37,
-        person_id: 1,
-        person_uuid: 'puuid1',
-        program_id: 1,
-        program_name: 'STANDARD HIV TREATMENT',
-        program_uuid: 'uuid1'
-    },
-    {
-        date_completed: null,
-        death_date: null,
-        enrolled_date: '2019-01-01T21:00:00.000Z',
-        location_id: 1,
-        patient_identifier: '16792M-6',
-        patient_name: 'Test Patient2',
-        patient_program_id: 39,
-        person_id: 2,
-        person_uuid: 'puuid2',
-        program_id: 1,
-        program_name: 'STANDARD HIV TREATMENT',
-        program_uuid: 'uuid1'
-    }
+  {
+    date_completed: '2019-01-03T09:09:49.000Z',
+    death_date: null,
+    enrolled_date: '2019-01-03T09:09:49.000Z',
+    location_id: 1,
+    patient_identifier: '7139799-1, 15204-226',
+    patient_name: 'Test Patient1',
+    patient_program_id: 37,
+    person_id: 1,
+    person_uuid: 'puuid1',
+    program_id: 1,
+    program_name: 'STANDARD HIV TREATMENT',
+    program_uuid: 'uuid1'
+  },
+  {
+    date_completed: null,
+    death_date: null,
+    enrolled_date: '2019-01-01T21:00:00.000Z',
+    location_id: 1,
+    patient_identifier: '16792M-6',
+    patient_name: 'Test Patient2',
+    patient_program_id: 39,
+    person_id: 2,
+    person_uuid: 'puuid2',
+    program_id: 1,
+    program_name: 'STANDARD HIV TREATMENT',
+    program_uuid: 'uuid1'
+  }
 ];
 
 const mockEnrolledPatietList = [
-    {
-        identifier: '7139799-1, 15204-226',
-        name: 'Test Patient1',
-        no: 1,
-        patient_uuid: 'puuid1',
-        program: 'STANDARD HIV TREATMENT( Enrolled - 03-Jan-2019)( Completed - 03-Jan-2019) '
-    },
-    {
-        identifier: '16792M-6',
-        name: 'Test Patient2',
-        no: 2,
-        patient_uuid: 'puuid2',
-        program: 'STANDARD HIV TREATMENT( Enrolled - 02-Jan-2019)'
-    }
+  {
+    identifier: '7139799-1, 15204-226',
+    name: 'Test Patient1',
+    no: 1,
+    patient_uuid: 'puuid1',
+    program:
+      'STANDARD HIV TREATMENT( Enrolled - 03-Jan-2019)( Completed - 03-Jan-2019) '
+  },
+  {
+    identifier: '16792M-6',
+    name: 'Test Patient2',
+    no: 2,
+    patient_uuid: 'puuid2',
+    program: 'STANDARD HIV TREATMENT( Enrolled - 02-Jan-2019)'
+  }
 ];
 
 const mockActivatedRoute = {
-    queryParams: {
-      subscribe: jasmine.createSpy('subscribe')
-        .and
-        .returnValue(of(mockParams))
-    }
+  queryParams: {
+    subscribe: jasmine.createSpy('subscribe').and.returnValue(of(mockParams))
+  }
 };
 
-const patientProgramEnrollmentService =
-jasmine.createSpyObj('PatientProgramEnrollmentService', ['getActivePatientEnrollmentPatientList']);
+const patientProgramEnrollmentService = jasmine.createSpyObj(
+  'PatientProgramEnrollmentService',
+  ['getActivePatientEnrollmentPatientList']
+);
 
-const patientProgramEnrollmentServiceSpy =
-patientProgramEnrollmentService.getActivePatientEnrollmentPatientList.and.returnValue( of(mockEnrollments) );
+const patientProgramEnrollmentServiceSpy = patientProgramEnrollmentService.getActivePatientEnrollmentPatientList.and.returnValue(
+  of(mockEnrollments)
+);
 
-const mockLocation =
-jasmine.createSpyObj('Location', ['back']);
+const mockLocation = jasmine.createSpyObj('Location', ['back']);
 
-const mockLocationSpy =
-mockLocation.back;
-
+const mockLocationSpy = mockLocation.back;
 
 class MockGridOptions {
-    public api = {
-        exportDataAsCsv() {
-
-        }
-    };
-
+  public api = {
+    exportDataAsCsv() {}
+  };
 }
-
 
 describe('Component: ProgramEnrollmentPatientListComponent', () => {
   let fixture: ComponentFixture<ProgramEnrollmentPatientListComponent>;
@@ -108,15 +102,8 @@ describe('Component: ProgramEnrollmentPatientListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports:
-      [
-        FormsModule,
-        AgGridModule.withComponents([]),
-        UtilsModule
-      ],
-      declarations: [
-        ProgramEnrollmentPatientListComponent
-      ],
+      imports: [FormsModule, AgGridModule.withComponents([]), UtilsModule],
+      declarations: [ProgramEnrollmentPatientListComponent],
       providers: [
         {
           provide: Router,
@@ -127,23 +114,28 @@ describe('Component: ProgramEnrollmentPatientListComponent', () => {
           useValue: mockActivatedRoute
         },
         {
-            provide : Location,
-            useValue : mockLocation,
+          provide: Location,
+          useValue: mockLocation
         },
         {
-            provide: PatientProgramEnrollmentService,
-            useValue : patientProgramEnrollmentService
+          provide: PatientProgramEnrollmentService,
+          useValue: patientProgramEnrollmentService
         }
       ]
-    }).compileComponents()
+    })
+      .compileComponents()
       .then(() => {
-        fixture = TestBed.createComponent(ProgramEnrollmentPatientListComponent);
+        fixture = TestBed.createComponent(
+          ProgramEnrollmentPatientListComponent
+        );
         comp = fixture.componentInstance;
-        patientsProgramEnrollmentService =
-        fixture.debugElement.injector.get<PatientProgramEnrollmentService>(PatientProgramEnrollmentService);
+        patientsProgramEnrollmentService = fixture.debugElement.injector.get<
+          PatientProgramEnrollmentService
+        >(PatientProgramEnrollmentService);
         router = fixture.debugElement.injector.get<Router>(Router);
-        route = fixture.debugElement.injector.get<ActivatedRoute>(ActivatedRoute);
-
+        route = fixture.debugElement.injector.get<ActivatedRoute>(
+          ActivatedRoute
+        );
       });
   }));
 
@@ -152,11 +144,14 @@ describe('Component: ProgramEnrollmentPatientListComponent', () => {
   });
 
   it('should create an instance', () => {
-      expect(comp).toBeDefined();
+    expect(comp).toBeDefined();
   });
   it('should call enrollment service on getEnrolledPatientList call', () => {
-      comp.getEnrolledPatientList(mockParams);
-      expect(patientProgramEnrollmentServiceSpy.calls.any()).toBe(true, 'getActivePatientEnrollmentPatientList');
+    comp.getEnrolledPatientList(mockParams);
+    expect(patientProgramEnrollmentServiceSpy.calls.any()).toBe(
+      true,
+      'getActivePatientEnrollmentPatientList'
+    );
   });
 
   it('should generate correct enrollment patient list from given params', () => {
@@ -173,6 +168,4 @@ describe('Component: ProgramEnrollmentPatientListComponent', () => {
     comp.backToSummary();
     expect(mockLocationSpy.calls.any()).toBe(true, 'back');
   });
-
-
 });

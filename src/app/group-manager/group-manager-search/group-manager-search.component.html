@@ -7,58 +7,115 @@
             <h2>Group Search</h2>
           </div>
         </div>
-    <group-search-input (searchResults)="onResults($event)" (hideResults)="onReset($event)"></group-search-input>
+        <group-search-input
+          (searchResults)="onResults($event)"
+          (hideResults)="onReset($event)"
+        ></group-search-input>
       </div>
     </div>
     <div *ngIf="searchResults && !hideResults">
       <div *ngIf="searchResults.length">
         <div class="alert">
-            <span class="total text-bold">{{searchResults.length}}</span>
-            <span *ngIf="searchResults.length === 1"> group found</span>
-            <span *ngIf="searchResults.length !== 1"> groups found</span>
-          </div>
-      <group-manager-search-results *ngIf="searchResults.length" [groups]="searchResults" (groupSelected)="onGroupSelected($event)"></group-manager-search-results>
+          <span class="total text-bold">{{ searchResults.length }}</span>
+          <span *ngIf="searchResults.length === 1"> group found</span>
+          <span *ngIf="searchResults.length !== 1"> groups found</span>
+        </div>
+        <group-manager-search-results
+          *ngIf="searchResults.length"
+          [groups]="searchResults"
+          (groupSelected)="onGroupSelected($event)"
+        ></group-manager-search-results>
       </div>
     </div>
-    <div clas="row" style="margin-top: 15px;">
+    <div clas="row" style="margin-top: 15px">
       <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-        <button mat-raised-button (click)="showModal(createGroupModal)" style="background: rgb(245, 245, 245); border-radius: 10px; color: #31708f; font-weight: 700">
-          <span class="fa fa-users"></span> Create New Group</button>
+        <button
+          mat-raised-button
+          (click)="showModal(createGroupModal)"
+          style="
+            background: rgb(245, 245, 245);
+            border-radius: 10px;
+            color: #31708f;
+            font-weight: 700;
+          "
+        >
+          <span class="fa fa-users"></span> Create New Group
+        </button>
 
-          <button mat-raised-button (click)="showGroupsInFacilty()" style="background: rgb(245, 245, 245); border-radius: 10px; color: #31708f; font-weight: 700; margin-left: 15px;">
-              <span class="fa fa-eye"></span> View All Groups In This Facility <i *ngIf="fetchingGroups" class="fa fa-spinner fa-spin"></i>
-            </button>
+        <button
+          mat-raised-button
+          (click)="showGroupsInFacilty()"
+          style="
+            background: rgb(245, 245, 245);
+            border-radius: 10px;
+            color: #31708f;
+            font-weight: 700;
+            margin-left: 15px;
+          "
+        >
+          <span class="fa fa-eye"></span> View All Groups In This Facility
+          <i *ngIf="fetchingGroups" class="fa fa-spinner fa-spin"></i>
+        </button>
       </div>
     </div>
   </div>
 </div>
-<div *ngIf="groupsInCurrentFacility&&!hideGroupsInCurrentFacility" class="container-fluid" style="margin-top: 25px;">
-  <p *ngIf="groupsInCurrentFacility.length === 0" class="text-primary"> No groups in this facility. </p>
-<div class="margin-top: 30px" *ngIf="rowData && groupsInCurrentFacility.length">
-<p></p>
-<div class="margin: 30px">
-<p class="text-primary">Groups In Current Location</p>
-<div class="input-group" style="width: 50%;">
-  <span class="input-group-addon"><i class="fa fa-filter"></i></span>
-  <input class="form-control" [ngModel]="filterText" (ngModelChange)="externalFilterChanged($event)" placeholder="Filter by name, location or status">
-</div>
-<ag-grid-angular style="width: 100%; height: 500px;"  class="ag-blue" 
-[rowData]="rowData" [columnDefs]="columnDefs" [gridOptions]="gridOptions" #dataGrid
-(cellClicked)='gridOnCellClick($event)'>
-    </ag-grid-angular>
+<div
+  *ngIf="groupsInCurrentFacility && !hideGroupsInCurrentFacility"
+  class="container-fluid"
+  style="margin-top: 25px"
+>
+  <p *ngIf="groupsInCurrentFacility.length === 0" class="text-primary">
+    No groups in this facility.
+  </p>
+  <div
+    class="margin-top: 30px"
+    *ngIf="rowData && groupsInCurrentFacility.length"
+  >
+    <p></p>
+    <div class="margin: 30px">
+      <p class="text-primary">Groups In Current Location</p>
+      <div class="input-group" style="width: 50%">
+        <span class="input-group-addon"><i class="fa fa-filter"></i></span>
+        <input
+          class="form-control"
+          [ngModel]="filterText"
+          (ngModelChange)="externalFilterChanged($event)"
+          placeholder="Filter by name, location or status"
+        />
+      </div>
+      <ag-grid-angular
+        style="width: 100%; height: 500px"
+        class="ag-blue"
+        [rowData]="rowData"
+        [columnDefs]="columnDefs"
+        [gridOptions]="gridOptions"
+        #dataGrid
+        (cellClicked)="gridOnCellClick($event)"
+      >
+      </ag-grid-angular>
+    </div>
   </div>
-</div>
 </div>
 
 <ng-template #createGroupModal>
-    <div class="modal-header">
-        <h4 class="modal-title pull-left">Create Group</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Create Group</h4>
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
   <div class="modal-body">
-  <group-editor (newGroup)="navigateToGroupDetails($event, true)" (hide)="modalRef.hide()" (newLocation)="onLocationChange($event)">
-  </group-editor>
+    <group-editor
+      (newGroup)="navigateToGroupDetails($event, true)"
+      (hide)="modalRef.hide()"
+      (newLocation)="onLocationChange($event)"
+    >
+    </group-editor>
   </div>
 </ng-template>

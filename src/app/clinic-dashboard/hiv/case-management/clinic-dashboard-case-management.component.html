@@ -1,11 +1,13 @@
 <div class="row">
   <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
-         <h4 class="component-title" style="color: green;"><span class="fa  fa-file"></span> {{title}}</h4>
-   </div>
-   <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
-           <case-management
-            [dashboardType] = 'dashboardType'
-            [locationUuids]= "locationUuids"
-           ></case-management>
-   </div>
+    <h4 class="component-title" style="color: green">
+      <span class="fa fa-file"></span> {{ title }}
+    </h4>
+  </div>
+  <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+    <case-management
+      [dashboardType]="dashboardType"
+      [locationUuids]="locationUuids"
+    ></case-management>
+  </div>
 </div>

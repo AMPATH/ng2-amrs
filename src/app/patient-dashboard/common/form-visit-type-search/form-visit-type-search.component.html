@@ -1,92 +1,155 @@
 <div class="container-fluid">
-<h3 align="center"><span class="fa fa-info fa-fw"></span>Information on Forms/ Visit Type</h3>
-<hr class="intro-divider" width="40%"/>
-    <div class="row" id="form-visit-row">
-       <h5>Search for Visit type or Form and its associated encounter types and visit types :</h5>
-      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <div class="row">
-                  <div class="form-group">
-                    <div class="col-md-3 col-lg-3 col-sm-3 col-xs-12">
-                      <label class="control-label">Select Main Filter</label>
-                      <select name="filter" class="form-control" [(ngModel)]="mainFilterType" (change)="selectMainFilter($event)">
-                          <option value="">Select Filter Type</option>
-                          <option value="visitType">Visit Type</option>
-                          <option value="form">Form</option>
-                      </select>
-                    </div>
-                    <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3">
-                      <label class="control-label" *ngIf="mainFilterType !== 'visitType' && mainFilterType !== 'form'">Second Filter</label>
-                      <label class="control-label" *ngIf="mainFilterType == 'visitType'">Select Visit Type</label>
-                      <label class="control-label" *ngIf="mainFilterType == 'form'">Select Form Type</label>
-                      <select name="secondaryFilter" class="form-control" [(ngModel)]="secondaryFilter" (change)="selectSecondaryFilter(secondaryFilter)">
-                          <option value="" selected>Select Filter Type </option>
-                          <option value="all">All</option>
-                          <option *ngFor="let secondFilter of secondFilters" [ngValue]="secondFilter">{{secondFilter.name}}</option>
-                      </select>
-                    </div>
-                  </div>
+  <h3 align="center">
+    <span class="fa fa-info fa-fw"></span>Information on Forms/ Visit Type
+  </h3>
+  <hr class="intro-divider" width="40%" />
+  <div class="row" id="form-visit-row">
+    <h5>
+      Search for Visit type or Form and its associated encounter types and visit
+      types :
+    </h5>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="row">
+        <div class="form-group">
+          <div class="col-md-3 col-lg-3 col-sm-3 col-xs-12">
+            <label class="control-label">Select Main Filter</label>
+            <select
+              name="filter"
+              class="form-control"
+              [(ngModel)]="mainFilterType"
+              (change)="selectMainFilter($event)"
+            >
+              <option value="">Select Filter Type</option>
+              <option value="visitType">Visit Type</option>
+              <option value="form">Form</option>
+            </select>
+          </div>
+          <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3">
+            <label
+              class="control-label"
+              *ngIf="
+                mainFilterType !== 'visitType' && mainFilterType !== 'form'
+              "
+              >Second Filter</label
+            >
+            <label class="control-label" *ngIf="mainFilterType == 'visitType'"
+              >Select Visit Type</label
+            >
+            <label class="control-label" *ngIf="mainFilterType == 'form'"
+              >Select Form Type</label
+            >
+            <select
+              name="secondaryFilter"
+              class="form-control"
+              [(ngModel)]="secondaryFilter"
+              (change)="selectSecondaryFilter(secondaryFilter)"
+            >
+              <option value="" selected>Select Filter Type</option>
+              <option value="all">All</option>
+              <option
+                *ngFor="let secondFilter of secondFilters"
+                [ngValue]="secondFilter"
+              >
+                {{ secondFilter.name }}
+              </option>
+            </select>
+          </div>
         </div>
       </div>
-      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="row">
+        <br />
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
           <div class="row">
-             <br>
-              <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-                <div class="row">
-                    <div class="chip"  *ngFor="let filter of selectedFilterArray ;let i = index"  (click)="removeFilterItem(i)">
-                        {{filter.name}}
-                    </div>
-					          <div class="col-md-4 col-lg-4 col-sm-4" *ngIf="selectedFilterArray.length > 0">
-						            <button class="btn btn-danger" (click)="clearSelectedFilter()"><i class="fa fa-trash fa-fw"></i>Remove All</button>
-		               </div>
-                </div>
-              </div>
+            <div
+              class="chip"
+              *ngFor="let filter of selectedFilterArray; let i = index"
+              (click)="removeFilterItem(i)"
+            >
+              {{ filter.name }}
+            </div>
+            <div
+              class="col-md-4 col-lg-4 col-sm-4"
+              *ngIf="selectedFilterArray.length > 0"
+            >
+              <button class="btn btn-danger" (click)="clearSelectedFilter()">
+                <i class="fa fa-trash fa-fw"></i>Remove All
+              </button>
+            </div>
           </div>
-      </div>
-       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-          <div class="row">
-              <div class="col-md-12" id="results-row">
-                <table class="table table-striped" *ngIf="showVisitResults && visitTypeResult.length > 0">
-                  <caption>List of visit types and encounter types that can  be filled for each visit type and condition for starting the visit type</caption>
-                   <thead>
-                     <tr>
-                       <th>Visit Type</th>
-                       <th>Program</th>
-                       <th>Encounter Type</th>
-                       <th>Condition</th>
-                     </tr>
-                   </thead>
-                   <tbody>
-                     <tr *ngFor="let visitResult of visitTypeResult">
-                        <td>{{visitResult.visitType}}</td>
-                        <td>{{visitResult.program}}</td>
-                        <td><span *ngFor="let encounterType of visitResult.encounterType; let i = index">{{i+1}}.{{encounterType.display}} <br *ngIf="(i+1)%3==0"> </span></td>
-                        <td>{{visitResult.condition}}</td>
-                     </tr>
-                   </tbody>
-                </table>
-
-                <table class="table table-striped" *ngIf="showFormResults && formTypeResult.length > 0">
-                   <caption>List of Form types and the visit types that have the form as well as the condition for accessing the form</caption>
-                   <thead>
-                     <tr>
-                       <th>Form</th>
-                       <th>Visit Type</th>
-                       <th>Program</th>
-                       <th>Condition</th>
-                     </tr>
-                   </thead>
-                   <tbody>
-                      <tr *ngFor="let form of formTypeResult">
-                          <td>{{form.form}}</td>
-                          <td> <span *ngFor="let formType of form.visitType; let i = index">{{i+1}}.{{formType}} <br *ngIf="(i+1)%3==0"></span></td>
-                          <td>{{form.program}}</td>
-                          <td>{{form.condition}}</td>
-                      </tr>
-                   </tbody>
-                </table>
-
-              </div>
-          </div>
+        </div>
       </div>
     </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="row">
+        <div class="col-md-12" id="results-row">
+          <table
+            class="table table-striped"
+            *ngIf="showVisitResults && visitTypeResult.length > 0"
+          >
+            <caption>
+              List of visit types and encounter types that can be filled for
+              each visit type and condition for starting the visit type
+            </caption>
+            <thead>
+              <tr>
+                <th>Visit Type</th>
+                <th>Program</th>
+                <th>Encounter Type</th>
+                <th>Condition</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let visitResult of visitTypeResult">
+                <td>{{ visitResult.visitType }}</td>
+                <td>{{ visitResult.program }}</td>
+                <td>
+                  <span
+                    *ngFor="
+                      let encounterType of visitResult.encounterType;
+                      let i = index
+                    "
+                    >{{ i + 1 }}.{{ encounterType.display }}
+                    <br *ngIf="(i + 1) % 3 == 0" />
+                  </span>
+                </td>
+                <td>{{ visitResult.condition }}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <table
+            class="table table-striped"
+            *ngIf="showFormResults && formTypeResult.length > 0"
+          >
+            <caption>
+              List of Form types and the visit types that have the form as well
+              as the condition for accessing the form
+            </caption>
+            <thead>
+              <tr>
+                <th>Form</th>
+                <th>Visit Type</th>
+                <th>Program</th>
+                <th>Condition</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let form of formTypeResult">
+                <td>{{ form.form }}</td>
+                <td>
+                  <span *ngFor="let formType of form.visitType; let i = index"
+                    >{{ i + 1 }}.{{ formType }} <br *ngIf="(i + 1) % 3 == 0"
+                  /></span>
+                </td>
+                <td>{{ form.program }}</td>
+                <td>{{ form.condition }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

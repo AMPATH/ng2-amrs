@@ -31,7 +31,10 @@ describe('Component: PatientBanner', () => {
       providers: [
         PatientBannerComponent,
         PatientService,
-        { provide: PatientRelationshipService, useclass: MockPatientRelationshipService },
+        {
+          provide: PatientRelationshipService,
+          useclass: MockPatientRelationshipService
+        },
         PatientResourceService,
         AppSettingsService,
         LocalStorageService,
@@ -44,7 +47,10 @@ describe('Component: PatientBanner', () => {
         ProgramResourceService,
         EncounterResourceService
       ],
-      imports: [HttpClientTestingModule, ModalModule.forRoot(), RouterTestingModule
+      imports: [
+        HttpClientTestingModule,
+        ModalModule.forRoot(),
+        RouterTestingModule
       ]
     });
     component = TestBed.get(PatientBannerComponent);

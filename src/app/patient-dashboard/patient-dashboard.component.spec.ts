@@ -13,10 +13,13 @@ import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analyti
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { LabsResourceService } from '../etl-api/labs-resource.service';
+import { ProgramEnrollmentResourceService } from '../openmrs-api/program-enrollment-resource.service';
 import {
-  ProgramEnrollmentResourceService
-} from '../openmrs-api/program-enrollment-resource.service';
-import { ToastrService, Overlay, OverlayContainer, ToastrModule } from 'ngx-toastr';
+  ToastrService,
+  Overlay,
+  OverlayContainer,
+  ToastrModule
+} from 'ngx-toastr';
 import { EncounterResourceService } from '../openmrs-api/encounter-resource.service';
 import { PatientProgramService } from './programs/patient-programs.service';
 import { RoutesProviderService } from '../shared/dynamic-route/route-config-provider.service';
@@ -31,12 +34,11 @@ class MockRouter {
   public navigate = jasmine.createSpy('navigate');
 }
 class MockActivatedRoute {
-  public params = of([{ 'id': 1 }]);
+  public params = of([{ id: 1 }]);
 }
 
 class FakeCacheStorageService {
-  constructor(a, b) {
-  }
+  constructor(a, b) {}
 
   public ready() {
     return true;
@@ -44,7 +46,6 @@ class FakeCacheStorageService {
 }
 
 describe('Component: PatientDashboard', () => {
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
@@ -74,10 +75,12 @@ describe('Component: PatientDashboard', () => {
           provide: AppFeatureAnalytics,
           useClass: FakeAppFeatureAnalytics
         },
-        { provide: Router, useClass: MockRouter }, {
+        { provide: Router, useClass: MockRouter },
+        {
           provide: ActivatedRoute,
           useClass: MockActivatedRoute
-        }, DynamicRoutesService,
+        },
+        DynamicRoutesService,
         // {
         //   provide: ToastrConfig, useFactory: () => {
         //     return new ToastrConfigMock();
@@ -87,9 +90,7 @@ describe('Component: PatientDashboard', () => {
         Overlay,
         OverlayContainer
       ],
-      imports: [
-        HttpClientTestingModule,
-        ToastrModule.forRoot()]
+      imports: [HttpClientTestingModule, ToastrModule.forRoot()]
     });
   });
 
@@ -107,7 +108,5 @@ class ToastrConfigMock {
   public closeButton = false;
   public positionClass = 'toast-top-right';
   public extendedTimeOut = 1000;
-  constructor() {
-  }
-
+  constructor() {}
 }

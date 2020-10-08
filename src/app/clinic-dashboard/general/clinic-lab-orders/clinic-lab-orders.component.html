@@ -1,90 +1,164 @@
-<h4 class="component-title" style="color: green;"><span class="icon-i-pathology"></span> Lab Test Orders</h4>
-<div style="margin-bottom:0.5cm;">
-  <div class="loader" *ngIf="isLoadingReport"><span><i class="fa fa-spinner fa-spin">
-      </i>Loading...</span></div>
+<h4 class="component-title" style="color: green">
+  <span class="icon-i-pathology"></span> Lab Test Orders
+</h4>
+<div style="margin-bottom: 0.5cm">
+  <div class="loader" *ngIf="isLoadingReport">
+    <span><i class="fa fa-spinner fa-spin"> </i>Loading...</span>
+  </div>
   <div style="margin-top: 4px; margin-bottom: 4px" class="container-fluid">
-    <div style="padding: 0px; border: 1px double lightgray; border-bottom: 0px; cursor: pointer;" class="row" (click)="filterCollapsed = !filterCollapsed">
-      <span class="text-info" style="margin:2px; font-weight:bold;"> <span class="glyphicon glyphicon-filter" style="font-weight: normal;"></span>        Report filters</span>
-      <span style="margin:2px;" class="label label-default pull-right">
-            <span class="glyphicon glyphicon-chevron-down" *ngIf="!filterCollapsed"></span>
-        <span class="glyphicon glyphicon-chevron-up" *ngIf="filterCollapsed"></span>
-        </span>
+    <div
+      style="
+        padding: 0px;
+        border: 1px double lightgray;
+        border-bottom: 0px;
+        cursor: pointer;
+      "
+      class="row"
+      (click)="filterCollapsed = !filterCollapsed"
+    >
+      <span class="text-info" style="margin: 2px; font-weight: bold">
+        <span
+          class="glyphicon glyphicon-filter"
+          style="font-weight: normal"
+        ></span>
+        Report filters</span
+      >
+      <span style="margin: 2px" class="label label-default pull-right">
+        <span
+          class="glyphicon glyphicon-chevron-down"
+          *ngIf="!filterCollapsed"
+        ></span>
+        <span
+          class="glyphicon glyphicon-chevron-up"
+          *ngIf="filterCollapsed"
+        ></span>
+      </span>
     </div>
     <div style="padding: 0px; border: 1px double lightgray" class="row">
       <div *ngIf="!filterCollapsed">
         <div class="form-group col-md-6">
           <div class="form-row">
             <label for="startDate">Start Date:</label>
-            <input id="startDate" type="date" class="form-control" [(ngModel)]="startDate" (ngModelChange)="startDateChanged($event)" />
+            <input
+              id="startDate"
+              type="date"
+              class="form-control"
+              [(ngModel)]="startDate"
+              (ngModelChange)="startDateChanged($event)"
+            />
           </div>
         </div>
         <div class="form-group col-md-6">
           <div class="form-row">
             <label for="endDate">End Date:</label>
-            <input id="endDate" type="date" class="form-control" [(ngModel)]="endDate" (ngModelChange)="endDateChanged($event)"/>
+            <input
+              id="endDate"
+              type="date"
+              class="form-control"
+              [(ngModel)]="endDate"
+              (ngModelChange)="endDateChanged($event)"
+            />
           </div>
-          <div>
-          </div>
+          <div></div>
         </div>
       </div>
     </div>
-    <div class="row" style="margin-top: 4px; padding: 0px;">
-      <button type="button" *ngIf="!parentIsBusy" class="btn btn-primary pull-right" (click)="onClickedGenerate()">Generate Report</button>
-      <span class="pull-right" style="font-weight: bold; color: gray" *ngIf="parentIsBusy">Loading report..</span>
-
+    <div class="row" style="margin-top: 4px; padding: 0px">
+      <button
+        type="button"
+        *ngIf="!parentIsBusy"
+        class="btn btn-primary pull-right"
+        (click)="onClickedGenerate()"
+      >
+        Generate Report
+      </button>
+      <span
+        class="pull-right"
+        style="font-weight: bold; color: gray"
+        *ngIf="parentIsBusy"
+        >Loading report..</span
+      >
     </div>
   </div>
 </div>
 <div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
-  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-  {{error.message}}
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+    ×
+  </button>
+  {{ error.message }}
 </div>
 <div class="dropdown" style="padding-top: 20px">
-  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">{{selectedVisitType}} ({{totalCounts}})
-    <span class="caret"> </span></button>
+  <button
+    class="btn btn-primary dropdown-toggle"
+    type="button"
+    data-toggle="dropdown"
+  >
+    {{ selectedVisitType }} ({{ totalCounts }}) <span class="caret"> </span>
+  </button>
   <ul class="dropdown-menu">
-    <li style="cursor: pointer"><a (click)="sampleCollected()">Total Sample Collected ({{totalSampleCollected}})</a></li>
-    <li style="cursor: pointer"><a (click)="sampleNotCollected()">Total Sample NOT Collected ({{totalSampleNotCollected}})</a></li>
-    <li style="cursor: pointer"><a (click)="allTestOrdered()">Total Ordered ({{totalOrderds}})</a></li>
+    <li style="cursor: pointer">
+      <a (click)="sampleCollected()"
+        >Total Sample Collected ({{ totalSampleCollected }})</a
+      >
+    </li>
+    <li style="cursor: pointer">
+      <a (click)="sampleNotCollected()"
+        >Total Sample NOT Collected ({{ totalSampleNotCollected }})</a
+      >
+    </li>
+    <li style="cursor: pointer">
+      <a (click)="allTestOrdered()">Total Ordered ({{ totalOrderds }})</a>
+    </li>
   </ul>
 </div>
 
 <div style="padding-top: 20px">
   <div>
-    <ag-grid-angular #agGrid style="width: 100%; height: 350px;" class="ag-blue"
-                     [gridOptions]="gridOptions"
-                     (rowClicked)='onRowClicked($event)'
-                     [rowData]="results"
-                     enableSorting
-                     enableFilter>
-
+    <ag-grid-angular
+      #agGrid
+      style="width: 100%; height: 350px"
+      class="ag-blue"
+      [gridOptions]="gridOptions"
+      (rowClicked)="onRowClicked($event)"
+      [rowData]="results"
+      enableSorting
+      enableFilter
+    >
     </ag-grid-angular>
   </div>
-     <div style="margin: 0px; float: right;">
-       <button class="btn btn-info" (click)="exportAllData()" style="color: #fff;">
-         <i class="inline fa fa-file-excel-o"></i>
-         <span>Export</span>
-       </button>
-     </div>
-
-     <button class="btn btn-primary load-more-btn"
-                    (click)="loadMoreOrders()" 
-                    *ngIf="(results.length>0) && !allOrdersLoaded">
-              <i class="fa fa-refresh">
-              </i> Load More 
+  <div style="margin: 0px; float: right">
+    <button class="btn btn-info" (click)="exportAllData()" style="color: #fff">
+      <i class="inline fa fa-file-excel-o"></i>
+      <span>Export</span>
     </button>
+  </div>
 
-    <button class="btn btn-primary"
-                    (click)="downloadPdf()" [disabled]="!(results.length>0)">
-              <i class="fa fa-download">
-              </i> Download PDF
-    </button>
+  <button
+    class="btn btn-primary load-more-btn"
+    (click)="loadMoreOrders()"
+    *ngIf="results.length > 0 && !allOrdersLoaded"
+  >
+    <i class="fa fa-refresh"> </i> Load More
+  </button>
 
-  <div *ngIf='allOrdersLoaded' class="results-row">
-      <p class="bg-info" style="padding:4px;">
-          <b>
-    <span style="color:green;">All orders Loaded : {{results.length}}</span></b>
-          <p>
+  <button
+    class="btn btn-primary"
+    (click)="downloadPdf()"
+    [disabled]="!(results.length > 0)"
+  >
+    <i class="fa fa-download"> </i> Download PDF
+  </button>
+
+  <div *ngIf="allOrdersLoaded" class="results-row">
+    <p class="bg-info" style="padding: 4px">
+      <b>
+        <span style="color: green"
+          >All orders Loaded : {{ results.length }}</span
+        ></b
+      >
+    </p>
+
+    <p></p>
   </div>
 </div>
 <style>
@@ -93,5 +167,4 @@
     padding: 6px 12px;
     border: 1px solid #ccc;
   }
-
 </style>

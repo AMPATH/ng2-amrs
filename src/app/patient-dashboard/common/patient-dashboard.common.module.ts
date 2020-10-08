@@ -4,12 +4,22 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-
 import {
-  AccordionModule, DataTableModule, SharedModule, TabViewModule,
-  GrowlModule, PanelModule, ConfirmDialogModule, ConfirmationService,
-  DialogModule, InputTextModule, MessagesModule, InputTextareaModule,
-  DropdownModule, ButtonModule, CalendarModule
+  AccordionModule,
+  DataTableModule,
+  SharedModule,
+  TabViewModule,
+  GrowlModule,
+  PanelModule,
+  ConfirmDialogModule,
+  ConfirmationService,
+  DialogModule,
+  InputTextModule,
+  MessagesModule,
+  InputTextareaModule,
+  DropdownModule,
+  ButtonModule,
+  CalendarModule
 } from 'primeng/primeng';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { Angulartics2Module } from 'angulartics2';
@@ -20,13 +30,10 @@ import { DateTimePickerModule } from 'ngx-openmrs-formentry';
 import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
 
-
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
 import { EtlApi } from '../../etl-api/etl-api.module';
 import { PatientInfoComponent } from './patient-info/patient-info.component';
-import {
-  PatientEncountersComponent
-} from './patient-encounters/patient-encounters.component';
+import { PatientEncountersComponent } from './patient-encounters/patient-encounters.component';
 import { PatientVitalsComponent } from './patient-vitals/patient-vitals.component';
 import { FormsComponent } from './forms/forms.component';
 import { LabDataSummaryComponent } from './lab-data-summary/lab-data-summary.component';
@@ -34,9 +41,7 @@ import { LabOrdersComponent } from './lab-orders/lab-orders.component';
 import { ClinicalNotesComponent } from './clinical-notes/clinical-notes.component';
 import { VisitComponent } from './visit/visit.component';
 import { EditVisitTypeComponent } from './visit/visit-details/edit-visit-type.component';
-import {
-  PatientIdentifierComponent
-} from './patient-identifier/patient-identifier.component';
+import { PatientIdentifierComponent } from './patient-identifier/patient-identifier.component';
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
 import { PatientSearchService } from '../../patient-search/patient-search.service';
 import { FormOrderMetaDataService } from './forms/form-order-metadata.service';
@@ -44,9 +49,7 @@ import { FormListService } from './forms/form-list.service';
 import { OpenmrsApi } from '../../openmrs-api/openmrs-api.module';
 import { PatientEncounterService } from './patient-encounters/patient-encounters.service';
 import { EncounterListComponent } from './patient-encounters/encounter-list.component';
-import {
-  PatientEncounterObservationsComponent
-} from './patient-encounters/patient-encounter-observations.component';
+import { PatientEncounterObservationsComponent } from './patient-encounters/patient-encounter-observations.component';
 import { PatientService } from '../services/patient.service';
 import { PatientBannerComponent } from './patient-banner/patient-banner.component';
 import { LabSyncComponent } from './lab-data-summary/lab-sync.component';
@@ -64,9 +67,7 @@ import { PrettyEncounterViewerComponent } from './formentry/pretty-encounter-vie
 import { FormentryHelperService } from './formentry/formentry-helper.service';
 import { FromentryGuard } from './formentry/formentry.guard';
 import { PatientPreviousEncounterService } from '../services/patient-previous-encounter.service';
-import {
-  FormCreationDataResolverService
-} from './formentry/form-creation-data-resolver.service';
+import { FormCreationDataResolverService } from './formentry/form-creation-data-resolver.service';
 import { LabTestOrdersComponent } from './lab-orders/lab-test-orders.component';
 import { FormSubmissionService } from './formentry/form-submission.service';
 import { PatientReminderService } from './patient-reminders/patient-reminders.service';
@@ -76,49 +77,29 @@ import { TodaysVitalsComponent } from './todays-vitals/todays-vitals.component';
 import { TodaysVitalsService } from './todays-vitals/todays-vitals.service';
 import { PatientRemindersComponent } from './patient-reminders/patient-reminders.component';
 import { OrderListComponent } from './formentry/order-list.component';
-import {
-  PatientRelationshipService
-} from './patient-relationships/patient-relationship.service';
-import {
-  PatientRelationshipSearchComponent
-} from './patient-relationships/patient-relationship-search.component';
-import {
-  AddPatientRelationshipComponent
-} from './patient-relationships/add-patient-relationship.component';
-import {
-  EditPatientRelationshipComponent
-} from './patient-relationships/edit-patient-relationship.component';
-import {
-  PatientRelationshipTypeService
-} from './patient-relationships/patient-relation-type.service';
-import {
-  PatientRelationshipsComponent
-} from './patient-relationships/patient-relationships.component';
+import { PatientRelationshipService } from './patient-relationships/patient-relationship.service';
+import { PatientRelationshipSearchComponent } from './patient-relationships/patient-relationship-search.component';
+import { AddPatientRelationshipComponent } from './patient-relationships/add-patient-relationship.component';
+import { EditPatientRelationshipComponent } from './patient-relationships/edit-patient-relationship.component';
+import { PatientRelationshipTypeService } from './patient-relationships/patient-relation-type.service';
+import { PatientRelationshipsComponent } from './patient-relationships/patient-relationships.component';
 import { EditAddressComponent } from './patient-info/edit-address.component';
-import {
-  EditPatientIdentifierComponent
-} from './patient-identifier/edit-patient-identifier.component';
+import { EditPatientIdentifierComponent } from './patient-identifier/edit-patient-identifier.component';
 import { PatientCareStatusResourceService } from '../../etl-api/patient-care-status-resource.service';
 import { PatientIdentifierService } from './patient-identifier/patient-identifiers.service';
 import { EditContactsComponent } from './patient-info/edit-contacts.component';
-import {
-  HivPatientClinicalSummaryService
-} from '../hiv/patient-clinical-summaries/hiv-patient-clinical-summary.service';
+import { HivPatientClinicalSummaryService } from '../hiv/patient-clinical-summaries/hiv-patient-clinical-summary.service';
 import { EditDemographicsComponent } from './patient-info/edit-demographics.component';
 import { VisitPeriodComponent } from './visit/visit-period/visit-period.component';
 import { LocatorMapComponent } from './locator-map/locator-map.component';
 import { SecurePipe } from './locator-map/secure.pipe';
 import { CohortMemberModule } from '../../patient-list-cohort/cohort-member/cohort-member.module';
 import { EditHealtCenterComponent } from './patient-info/edit-healthcenter.component';
-import {
-  VisitEncountersListComponent
-} from './visit-encounters/visit-encounters-list.component';
+import { VisitEncountersListComponent } from './visit-encounters/visit-encounters-list.component';
 import { VisitEncountersComponent } from './visit-encounters/visit-encounters.component';
 import { VisitEncountersPipe } from './visit-encounters/visit-encounters.pipe';
 import { PatientEncounterProviderPipe } from './patient-encounters/patient-encounter-provider.pipe';
-import {
-  OrderByAlphabetPipe
-} from './visit-encounters/visit-encounter.component.order.pipe';
+import { OrderByAlphabetPipe } from './visit-encounters/visit-encounter.component.order.pipe';
 import { OrderByEncounterTimeAscPipe } from './visit-encounters/orderByEncounterTime.pipe';
 import { EncounterTypeFilter } from './patient-encounters/encounter-list.component.filterByEncounterType.pipe';
 import { ZeroVlPipe } from './../../shared/pipes/zero-vl-pipe';
@@ -148,6 +129,10 @@ import { PatientTransferService } from './formentry/patient-transfer.service';
 import { TelecareComponent } from './patient-info/telecare/telecare.component';
 import { OccupationComponent } from './patient-info/occupation/occupation.component';
 import { EditOccupationComponent } from './patient-info/occupation/edit-occupation.component';
+import { PatientEducationComponent } from './patient-info/education/patient-education.component';
+import { AddPatientEducationComponent } from './patient-info/education/add-patient-education.component';
+import { EditPatientEducationComponent } from './patient-info/education/edit-patient-education.component';
+import { OvcSnapshotComponent } from './ovc-snapshot/ovc-snapshot.component';
 
 @NgModule({
   imports: [
@@ -169,16 +154,16 @@ import { EditOccupationComponent } from './patient-info/occupation/edit-occupati
     OpenmrsApi,
     UtilsModule,
     TabViewModule,
-    GrowlModule, PanelModule,
+    GrowlModule,
+    PanelModule,
     FormEntryModule,
     ReactiveFormsModule,
-    ConfirmDialogModule, DialogModule,
+    ConfirmDialogModule,
+    DialogModule,
     EtlApi,
     ButtonModule,
     DateTimePickerModule,
-    AgGridModule.withComponents([
-
-    ]),
+    AgGridModule.withComponents([]),
     NgxFileUploaderModule,
     CohortMemberModule,
     LabOrderSearchModule,
@@ -190,7 +175,7 @@ import { EditOccupationComponent } from './patient-info/occupation/edit-occupati
   ],
   exports: [
     PatientInfoComponent,
-        PatientEncountersComponent,
+    PatientEncountersComponent,
     PatientVitalsComponent,
     FormsComponent,
     LabDataSummaryComponent,
@@ -239,7 +224,10 @@ import { EditOccupationComponent } from './patient-info/occupation/edit-occupati
     EncounterTypeFilter,
     PatientImagingComponent,
     OccupationComponent,
-    EditOccupationComponent
+    EditOccupationComponent,
+    PatientEducationComponent,
+    AddPatientEducationComponent,
+    EditPatientEducationComponent
   ],
   declarations: [
     VisitSummaryComponent,
@@ -295,7 +283,11 @@ import { EditOccupationComponent } from './patient-info/occupation/edit-occupati
     PatientImagingComponent,
     TelecareComponent,
     OccupationComponent,
-    EditOccupationComponent
+    EditOccupationComponent,
+    PatientEducationComponent,
+    AddPatientEducationComponent,
+    EditPatientEducationComponent,
+    OvcSnapshotComponent
   ],
   providers: [
     {
@@ -335,6 +327,7 @@ import { EditOccupationComponent } from './patient-info/occupation/edit-occupati
     ZscoreService,
     VitalsDatasource,
     TodayVisitService,
-    PatientTransferService],
+    PatientTransferService
+  ]
 })
-export class PatientDashboardCommonModule { }
+export class PatientDashboardCommonModule {}

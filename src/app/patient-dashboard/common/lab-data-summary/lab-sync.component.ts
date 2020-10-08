@@ -19,9 +19,10 @@ export class LabSyncComponent implements OnInit, OnDestroy {
   public fetchingResults: boolean;
   private subscription: Subscription;
 
-  constructor(private labsResourceService: LabsResourceService,
-              private patientService: PatientService) {
-  }
+  constructor(
+    private labsResourceService: LabsResourceService,
+    private patientService: PatientService
+  ) {}
 
   public ngOnInit() {
     this.loadingPatient = true;
@@ -42,40 +43,48 @@ export class LabSyncComponent implements OnInit, OnDestroy {
     }
   }
 
-  public getNewResults() {
+  public getNewResults(refresh = false) {
     this.fetchingResults = true;
     this.error = undefined;
-    this.getCombinedResult().pipe(take(1)).subscribe((results: any[]) => {
-      this.fetchingResults = false;
-      // the intention of combining is to have both systems sync. So we take just one result
-      const result = results[1][0];
-      if (result.errors && result.errors.length > 0) {
-        this.error = result.errors;
-      } else {
-        this.results = this.processResult(result.updatedObs);
-      }
-    }, (err) => {
-      this.fetchingResults = false;
-      this.error = err;
-    });
+    this.getCombinedResult(refresh)
+      .pipe(take(1))
+      .subscribe(
+        (results: any[]) => {
+          this.fetchingResults = false;
+          // the intention of combining is to have both systems sync. So we take just one result
+          const result = results[0][0];
+          if (result.errors && result.errors.length > 0) {
+            this.error = result.errors;
+          } else {
+            this.results = this.processResult(result.updatedObs);
+          }
+        },
+        (err) => {
+          this.fetchingResults = false;
+          this.error = err;
+        }
+      );
   }
 
-  public getCombinedResult(): Observable<any[]> {
-    const startDate = Moment('2006-01-01').startOf('day').format('YYYY-MM-DDTHH:mm:ss.SSSZZ');
+  public getCombinedResult(refresh = false): Observable<any[]> {
+    const startDate = Moment('2006-01-01')
+      .startOf('day')
+      .format('YYYY-MM-DDTHH:mm:ss.SSSZZ');
     const endDate = Moment().startOf('day').format('YYYY-MM-DDTHH:mm:ss.SSSZZ');
     const batch: Observable<any>[] = [];
-    batch.push(this.labsResourceService.getNewPatientLabResults({
-      startDate: startDate,
-      endDate: endDate,
-      patientUuId: this.patient.person.uuid
-    }));
-    batch.push(this.labsResourceService.getUpgradePatientLabResults({
-      patientUuid: this.patient.person.uuid
-    }));
+    batch.push(
+      this.labsResourceService.getNewPatientLabResults({
+        startDate: startDate,
+        endDate: endDate,
+        patientUuId: this.patient.person.uuid,
+        refresh: refresh
+      })
+    );
     return combineLatest(batch);
   }
 
   public processResult(results: any) {
+    console.log('Processing Results', results);
 
     const data: any = [];
 

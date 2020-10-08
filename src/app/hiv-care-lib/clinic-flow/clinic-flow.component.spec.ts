@@ -1,5 +1,3 @@
-
-
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async } from '@angular/core/testing';
@@ -8,16 +6,30 @@ import { ClinicFlowCacheService } from '../clinic-flow/clinic-flow-cache.service
 
 import { NgBusyModule, BusyConfig } from 'ng-busy';
 import {
-  Router, ActivatedRoute, Params,
+  Router,
+  ActivatedRoute,
+  Params,
   RouterModule,
   ChildrenOutletContexts
 } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import {
-  AccordionModule, DataTableModule, SharedModule, TabViewModule,
-  GrowlModule, PanelModule, ConfirmDialogModule, ConfirmationService,
-  DialogModule, InputTextModule, MessagesModule, InputTextareaModule,
-  DropdownModule, ButtonModule, CalendarModule, ChartModule
+  AccordionModule,
+  DataTableModule,
+  SharedModule,
+  TabViewModule,
+  GrowlModule,
+  PanelModule,
+  ConfirmDialogModule,
+  ConfirmationService,
+  DialogModule,
+  InputTextModule,
+  MessagesModule,
+  InputTextareaModule,
+  DropdownModule,
+  ButtonModule,
+  CalendarModule,
+  ChartModule
 } from 'primeng/primeng';
 import { CacheService } from 'ionic-cache';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
@@ -48,123 +60,121 @@ import { Observable } from 'rxjs';
 import 'rxjs/add/observable/of';
 
 class MockActivatedRoute {
-  public params = Observable.of([{'id' : 1}]);
+  public params = Observable.of([{ id: 1 }]);
 }
 
 describe('Component: ClinicFlowComponent', () => {
   let component,
-  clinicDashBoardCacheService: ClinicDashboardCacheService,
-  clinicFlowCacheService: ClinicFlowCacheService,
-  clinicFlowResource: ClinicFlowResource, fixture;
+    clinicDashBoardCacheService: ClinicDashboardCacheService,
+    clinicFlowCacheService: ClinicFlowCacheService,
+    clinicFlowResource: ClinicFlowResource,
+    fixture;
 
   let router: Router;
   // tslint:disable-next-line:prefer-const
   let activatedRoute: ActivatedRoute;
 
-beforeEach(() => {
-  TestBed.configureTestingModule({
-    providers: [
-      LocalStorageService,
-      ClinicDashboardCacheService,
-      AppSettingsService,
-      CacheService,
-      DataCacheService,
-      ClinicFlowCacheService,
-      ChildrenOutletContexts,
-      MockHivClinicFlowResourceService,
-      {
-        provide: 'ClinicFlowResource',
-        useExisting: HivClinicFlowResourceService
-      },
-      {
-        provide: HivClinicFlowResourceService,
-        useClass: MockHivClinicFlowResourceService
-      },
-      {
-        provide: ActivatedRoute,
-        useClass: MockActivatedRoute
-      },
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        LocalStorageService,
+        ClinicDashboardCacheService,
+        AppSettingsService,
+        CacheService,
+        DataCacheService,
+        ClinicFlowCacheService,
+        ChildrenOutletContexts,
+        MockHivClinicFlowResourceService,
+        {
+          provide: 'ClinicFlowResource',
+          useExisting: HivClinicFlowResourceService
+        },
+        {
+          provide: HivClinicFlowResourceService,
+          useClass: MockHivClinicFlowResourceService
+        },
+        {
+          provide: ActivatedRoute,
+          useClass: MockActivatedRoute
+        },
 
-      {
-        provide: Router,
-        useClass: class { navigate = jasmine.createSpy('navigate'); }
-      },
-      {
-        provide: AppFeatureAnalytics, useFactory: () => {
-          return new FakeAppFeatureAnalytics();
-        }, deps: []
-      }
-
-    ],
-    declarations: [
-      ClinicFlowComponent,
-      ClinicFlowSummaryComponent,
-      ClinicFlowVisitsComponent,
-      ClinicFlowLocationStatsComponent,
-      ClinicFlowProviderStatsComponent,
-      ClinicFlowHourlyStatsVizComponent,
-      ChartComponent
-    ],
-    imports: [
-      NgBusyModule,
-      FormsModule,
-      DialogModule,
-      CalendarModule,
-      DataListsModule,
-      NgamrsSharedModule,
-      NgxMyDatePickerModule.forRoot(),
-      MatTabsModule,
-      CommonModule,
-      RouterModule,
-      HttpClientTestingModule,
-      ChartModule,
-      Angulartics2Module,
-      RouterModule
-    ]
+        {
+          provide: Router,
+          useClass: class {
+            navigate = jasmine.createSpy('navigate');
+          }
+        },
+        {
+          provide: AppFeatureAnalytics,
+          useFactory: () => {
+            return new FakeAppFeatureAnalytics();
+          },
+          deps: []
+        }
+      ],
+      declarations: [
+        ClinicFlowComponent,
+        ClinicFlowSummaryComponent,
+        ClinicFlowVisitsComponent,
+        ClinicFlowLocationStatsComponent,
+        ClinicFlowProviderStatsComponent,
+        ClinicFlowHourlyStatsVizComponent,
+        ChartComponent
+      ],
+      imports: [
+        NgBusyModule,
+        FormsModule,
+        DialogModule,
+        CalendarModule,
+        DataListsModule,
+        NgamrsSharedModule,
+        NgxMyDatePickerModule.forRoot(),
+        MatTabsModule,
+        CommonModule,
+        RouterModule,
+        HttpClientTestingModule,
+        ChartModule,
+        Angulartics2Module,
+        RouterModule
+      ]
+    });
   });
-});
 
-beforeEach(async(() => {
-  TestBed.compileComponents().then(() => {
-    fixture = TestBed.createComponent(ClinicFlowComponent);
-    component = fixture.componentInstance;
+  beforeEach(async(() => {
+    TestBed.compileComponents().then(() => {
+      fixture = TestBed.createComponent(ClinicFlowComponent);
+      component = fixture.componentInstance;
+    });
+  }));
+
+  afterEach(() => {
+    TestBed.resetTestingModule();
   });
-}));
 
-afterEach(() => {
-  TestBed.resetTestingModule();
-});
+  it('should create an instance', () => {
+    clinicFlowCacheService = TestBed.get(ClinicFlowCacheService);
+    clinicFlowResource = TestBed.get(HivClinicFlowResourceService);
+    clinicDashBoardCacheService = TestBed.get(ClinicDashboardCacheService);
+    router = TestBed.get(Router);
+    router = TestBed.get(Router);
 
-
-it('should create an instance', () => {
-
-  clinicFlowCacheService = TestBed.get(ClinicFlowCacheService);
-  clinicFlowResource = TestBed.get(HivClinicFlowResourceService);
-  clinicDashBoardCacheService = TestBed.get(ClinicDashboardCacheService);
-  router = TestBed.get(Router);
-  router = TestBed.get(Router);
-
-  component = new ClinicFlowComponent(
-    clinicFlowCacheService, activatedRoute, clinicFlowResource
-  );
-  expect(component).toBeTruthy();
-});
+    component = new ClinicFlowComponent(
+      clinicFlowCacheService,
+      activatedRoute,
+      clinicFlowResource
+    );
+    expect(component).toBeTruthy();
+  });
 
   it('should have required properties', (done) => {
     expect(component.ngOnInit).toBeDefined();
     done();
-
   });
 
-  it('should set active tab when ngOnInit is  '
-    + ' is invoked',
-    (done) => {
-      spyOn(component, 'ngOnInit').and.callThrough();
-      component.ngOnInit();
-      expect(component.ngOnInit).toHaveBeenCalled();
-      done();
-    });
-
-
+  it('should set active tab when ngOnInit is  ' + ' is invoked', (done) => {
+    spyOn(component, 'ngOnInit').and.callThrough();
+    component.ngOnInit();
+    expect(component.ngOnInit).toHaveBeenCalled();
+    done();
+  });
 });
-

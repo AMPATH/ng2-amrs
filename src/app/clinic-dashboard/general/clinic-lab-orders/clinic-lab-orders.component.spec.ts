@@ -1,4 +1,3 @@
-
 import { TestBed, inject, async } from '@angular/core/testing';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -9,9 +8,7 @@ import { FakeAppFeatureAnalytics } from '../../../shared/app-analytics/app-featu
 import { AppSettingsService } from '../../../app-settings/app-settings.service';
 import { LocalStorageService } from '../../../utils/local-storage.service';
 import { ClinicLabOrdersComponent } from './clinic-lab-orders.component';
-import {
-  ClinicLabOrdersResourceService
-} from '../../../etl-api/clinic-lab-orders-resource.service';
+import { ClinicLabOrdersResourceService } from '../../../etl-api/clinic-lab-orders-resource.service';
 import { ClinicDashboardCacheService } from '../../services/clinic-dashboard-cache.service';
 import { Observable } from 'rxjs';
 import 'rxjs/add/observable/of';
@@ -48,9 +45,9 @@ const expectedResults = {
 };
 
 describe('Component: Clinical lab orders Unit Tests', () => {
-
   let clinicLabOrdersResourceService: ClinicLabOrdersResourceService,
-    fakeAppFeatureAnalytics: AppFeatureAnalytics, component;
+    fakeAppFeatureAnalytics: AppFeatureAnalytics,
+    component;
   const mockRouter = {
     navigate: jasmine.createSpy('navigate')
   };
@@ -76,16 +73,16 @@ describe('Component: Clinical lab orders Unit Tests', () => {
         },
         AppSettingsService,
         LocalStorageService,
-        ClinicDashboardCacheService,
-
+        ClinicDashboardCacheService
       ],
       imports: [HttpClientTestingModule]
     });
 
-    clinicLabOrdersResourceService = TestBed.get(ClinicLabOrdersResourceService);
+    clinicLabOrdersResourceService = TestBed.get(
+      ClinicLabOrdersResourceService
+    );
     fakeAppFeatureAnalytics = TestBed.get(AppFeatureAnalytics);
     component = TestBed.get(ClinicLabOrdersComponent);
-
   });
 
   afterEach(() => {
@@ -93,13 +90,11 @@ describe('Component: Clinical lab orders Unit Tests', () => {
   });
 
   it('should instantiate the component', (done) => {
-
     expect(component).toBeTruthy();
     done();
   });
 
   it('should have required properties', (done) => {
-
     expect(component.results.length).toEqual(0);
     expect(component.results).toBeDefined();
     expect(component.totalSampleCollected).toBeUndefined();
@@ -118,12 +113,11 @@ describe('Component: Clinical lab orders Unit Tests', () => {
     expect(component.location).toEqual('');
 
     done();
-
   });
 
   it('should have all the required functions defined and callable', (done) => {
-    spyOn(component, 'getCurrentLocation').and.callFake((err, data) => { });
-    component.getCurrentLocation(0, 10, (err, data) => { });
+    spyOn(component, 'getCurrentLocation').and.callFake((err, data) => {});
+    component.getCurrentLocation(0, 10, (err, data) => {});
     expect(component.getCurrentLocation).toHaveBeenCalled();
 
     spyOn(component, 'createColumnDefs').and.callThrough();
@@ -139,5 +133,4 @@ describe('Component: Clinical lab orders Unit Tests', () => {
 
     done();
   });
-
 });

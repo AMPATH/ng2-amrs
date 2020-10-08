@@ -45,7 +45,10 @@ export class DynamicRoutesService {
 
   public setRoutes(route: DynamicRouteModel) {
     if (this.dashboardConfig) {
-      const routes: Array<object> = this.extractRoutes(route, this.dashboardConfig);
+      const routes: Array<object> = this.extractRoutes(
+        route,
+        this.dashboardConfig
+      );
       route.routes = routes;
       Object.assign(this.routesModel, route);
       this.routes.next(this.routesModel);
@@ -64,25 +67,28 @@ export class DynamicRoutesService {
     this.analyticsRoutes.next(aRoutes);
   }
 
-  public extractRoutes(route: DynamicRouteModel, dashboardConfig: object): Array<object> {
+  public extractRoutes(
+    route: DynamicRouteModel,
+    dashboardConfig: object
+  ): Array<object> {
     const dashboard: object = dashboardConfig[route.dashboardId];
     const routes: Array<object> = [];
     // extract routes that is common to all programs
     dashboard['nonProgramRoutes'].forEach((nonProgramRoute: object) => {
-      const url = dashboard['baseRoute'] +
-        this.extractParameter(dashboard['routeParameter'], route)
-        + '/' + nonProgramRoute['url'];
-      routes.push(
-        {
-          url: url,
-          label: nonProgramRoute['label'],
-          icon: nonProgramRoute['icon'],
-          menuStartLetter: this.getMenuStartLetter(nonProgramRoute['label']),
-          isSideBarOpen: nonProgramRoute['isSideBarOpen'],
-          isDistinct: nonProgramRoute['isDistinct'] ? true : false,
-          onClick: this.hideSidebar
-        }
-      );
+      const url =
+        dashboard['baseRoute'] +
+        this.extractParameter(dashboard['routeParameter'], route) +
+        '/' +
+        nonProgramRoute['url'];
+      routes.push({
+        url: url,
+        label: nonProgramRoute['label'],
+        icon: nonProgramRoute['icon'],
+        menuStartLetter: this.getMenuStartLetter(nonProgramRoute['label']),
+        isSideBarOpen: nonProgramRoute['isSideBarOpen'],
+        isDistinct: nonProgramRoute['isDistinct'] ? true : false,
+        onClick: this.hideSidebar
+      });
     });
 
     // extract routes that is program specific
@@ -90,9 +96,11 @@ export class DynamicRoutesService {
       route.programs.forEach((enrolledProgram: ProgramEnrollment) => {
         if (enrolledProgram.program.uuid === program['programUuid']) {
           program['routes'].forEach((programRoute: object) => {
-            const url = dashboard['baseRoute'] +
-              this.extractParameter(dashboard['routeParameter'], route)
-              + '/' + programRoute['url'];
+            const url =
+              dashboard['baseRoute'] +
+              this.extractParameter(dashboard['routeParameter'], route) +
+              '/' +
+              programRoute['url'];
             const singleRoute = {
               url,
               label: programRoute['label'],
@@ -114,9 +122,11 @@ export class DynamicRoutesService {
     // extract routes that is deparment specific
     dashboard['departments'].forEach((department: Array<object>) => {
       department['routes'].forEach((departmentRoute: object) => {
-        const url = dashboard['baseRoute'] +
-          this.extractParameter(dashboard['routeParameter'], route)
-          + '/' + departmentRoute['url'];
+        const url =
+          dashboard['baseRoute'] +
+          this.extractParameter(dashboard['routeParameter'], route) +
+          '/' +
+          departmentRoute['url'];
         const singleRoute = {
           url,
           label: departmentRoute['label'],
@@ -139,14 +149,16 @@ export class DynamicRoutesService {
   }
 
   public hideSidebar($event) {
-
     const body = document.getElementsByTagName('body')[0];
     body.classList.remove('sidebar-collapse');
     body.classList.remove('sidebar-open');
     body.classList.add('sidebar-collapse');
   }
 
-  public extractParameter(routeParameterKey: string, route: DynamicRouteModel): string {
+  public extractParameter(
+    routeParameterKey: string,
+    route: DynamicRouteModel
+  ): string {
     if (routeParameterKey) {
       return '/' + route.params[routeParameterKey];
     } else {

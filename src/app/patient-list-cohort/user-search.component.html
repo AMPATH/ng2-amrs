@@ -1,20 +1,36 @@
 <!--<div class="search-wrapper">-->
-  <div class="box-body">
-    <div class="component-wrapper patient-search">
+<div class="box-body">
+  <div class="component-wrapper patient-search">
     <form>
       <div class="form-group">
         <label for="search-textbox">User Search</label>
         <div class="input-wrapper" [style.margin-right]="adjustInputMargin">
-          <input type="text" id="search-textbox" autocomplete="off" class="form-control input-lg" [(ngModel)]="searchString" [ngModelOptions]="{standalone: true}"
-                 (ngModelChange)="updateUsersCount($event)" placeholder="Enter the User Name"
-                 autofocus="true">
+          <input
+            type="text"
+            id="search-textbox"
+            autocomplete="off"
+            class="form-control input-lg"
+            [(ngModel)]="searchString"
+            [ngModelOptions]="{ standalone: true }"
+            (ngModelChange)="updateUsersCount($event)"
+            placeholder="Enter the User Name"
+            autofocus="true"
+          />
         </div>
         <div class="input-group-btn pull-right">
-          <button [disabled]="isLoading" class="btn btn-primary btn-lg" (click)="loadUsers()">
+          <button
+            [disabled]="isLoading"
+            class="btn btn-primary btn-lg"
+            (click)="loadUsers()"
+          >
             <span><i class="glyphicon glyphicon-search"></i>Search</span>
             <i *ngIf="isLoading" class="fa fa-spinner fa-spin fa-1x fa-fw"></i>
           </button>
-          <button [disabled]="!isResetButton" class="btn btn-danger btn-lg"  (click)="resetSearchList()">
+          <button
+            [disabled]="!isResetButton"
+            class="btn btn-danger btn-lg"
+            (click)="resetSearchList()"
+          >
             <span><i class="glyphicon glyphicon-trash"></i> Reset</span>
           </button>
         </div>
@@ -22,34 +38,52 @@
       </div>
     </form>
     <div *ngIf="searchPanelVisible">
-      <div *ngIf="totalUsers" class="alert"><span class="total text-bold" (ngModel)="totalUsers">{{totalUsers}}
-      </span> users(s) found for <span class="search text-bold">{{searchString}}</span></div>
+      <div *ngIf="totalUsers" class="alert">
+        <span class="total text-bold" (ngModel)="(totalUsers)"
+          >{{ totalUsers }}
+        </span>
+        users(s) found for
+        <span class="search text-bold">{{ searchString }}</span>
+      </div>
 
-      <div [hidden]="!totalUsers" class="panel panel-primary" style="padding:2px;">
+      <div
+        [hidden]="!totalUsers"
+        class="panel panel-primary"
+        style="padding: 2px"
+      >
         <div class="panel panel-default">
           <table class="table table-striped table-hover">
             <thead>
-            <tr>
-              <th>#</th>
-              <th> UserName</th>
-              <th> Name</th>
-              <th></th>
-            </tr>
+              <tr>
+                <th>#</th>
+                <th>UserName</th>
+                <th>Name</th>
+                <th></th>
+              </tr>
             </thead>
             <tbody>
-            <tr style="cursor: pointer;"  *ngFor="let user of users | paginate: { itemsPerPage: 5, currentPage: page} let  i = index;"
-                (click)="selectUser(user)">
-
-              <td>{{ (i + 1) + (page - 1) * 5 }}</td>
-              <td>{{user.username}}</td>
-              <td>{{user.label}}</td>
-            </tr>
+              <tr
+                style="cursor: pointer"
+                *ngFor="
+                  let user of users
+                    | paginate: { itemsPerPage: 5, currentPage: page };
+                  let i = index
+                "
+                (click)="selectUser(user)"
+              >
+                <td>{{ i + 1 + (page - 1) * 5 }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.label }}</td>
+              </tr>
             </tbody>
           </table>
         </div>
-        <pagination-controls (pageChange)="page = $event" style="cursor: pointer;"></pagination-controls>
+        <pagination-controls
+          (pageChange)="page = $event"
+          style="cursor: pointer"
+        ></pagination-controls>
       </div>
     </div>
-    </div>
   </div>
+</div>
 <!--</div>-->

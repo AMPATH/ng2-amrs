@@ -10,23 +10,20 @@ import { AddToCohortDialogComponent } from './add-to-cohort-dialog.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
-    imports: [
-        OpenmrsApi,
-        PatientSearchModule,
-        FormsModule,
-        CommonModule,
-        DialogModule,
-        NgSelectModule
-    ],
-    exports: [
-        AddCohortMemberComponent,
-        AddToCohortDialogComponent
-    ],
-    declarations: [
-        AddCohortMemberComponent,
-        CohortSelectorComponent,
-        AddToCohortDialogComponent
-    ],
-    providers: [],
+  imports: [
+    OpenmrsApi,
+    PatientSearchModule,
+    FormsModule,
+    CommonModule,
+    DialogModule,
+    NgSelectModule
+  ],
+  exports: [AddCohortMemberComponent, AddToCohortDialogComponent],
+  declarations: [
+    AddCohortMemberComponent,
+    CohortSelectorComponent,
+    AddToCohortDialogComponent
+  ],
+  providers: []
 })
-export class CohortMemberModule { }
+export class CohortMemberModule {}

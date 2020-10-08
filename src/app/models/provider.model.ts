@@ -5,9 +5,9 @@ import { Person } from './person.model';
 export class Provider extends BaseModel {
   private _person = this.openmrsModel.person;
 
-    constructor(openmrsModel?: any) {
-        super(openmrsModel);
-    }
+  constructor(openmrsModel?: any) {
+    super(openmrsModel);
+  }
   @serializable()
   public get person(): Person {
     if (this._person === null || this._person === undefined) {
@@ -28,5 +28,4 @@ export class Provider extends BaseModel {
   public set identifier(v: string) {
     this._openmrsModel.identifier = v;
   }
-
 }

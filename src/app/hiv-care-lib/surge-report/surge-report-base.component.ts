@@ -9,7 +9,7 @@ import { SurgeResourceService } from 'src/app/etl-api/surge-resource.service';
 @Component({
   selector: 'surge-report-base',
   templateUrl: './surge-report-base.component.html',
-  styleUrls: ['./surge-report-base.component.css'],
+  styleUrls: ['./surge-report-base.component.css']
 })
 export class SurgeReportBaseComponent implements OnInit {
   public params: any;
@@ -35,7 +35,6 @@ export class SurgeReportBaseComponent implements OnInit {
   public startDate: any;
   public pinnedBottomRowData: any = [];
 
-
   public _locationUuids: any = [];
   public get locationUuids(): Array<string> {
     return this._locationUuids;
@@ -57,32 +56,34 @@ export class SurgeReportBaseComponent implements OnInit {
     public surgeReport: SurgeResourceService
   ) {
     this.generateSurgeWeeks();
-    this.route.queryParams.subscribe(
-      (data) => {
-        data.year_week === undefined ? this.yearWeek = Moment(new Date())
-          .subtract(1, 'week').format('YYYY-[W]WW') : this.yearWeek = data.year_week;
-        this.displayTabularFilters = data.displayTabularFilters;
+    this.route.queryParams.subscribe((data) => {
+      data.year_week === undefined
+        ? (this.yearWeek = Moment(new Date())
+            .subtract(1, 'week')
+            .format('YYYY-[W]WW'))
+        : (this.yearWeek = data.year_week);
+      this.displayTabularFilters = data.displayTabularFilters;
 
-        data._date === undefined ? this.startDate = Moment(new Date()).format('MM-DD-YYYY') :
-          this.startDate = Moment(data._date).format('MM-DD-YYYY');
+      data._date === undefined
+        ? (this.startDate = Moment(new Date()).format('MM-DD-YYYY'))
+        : (this.startDate = Moment(data._date).format('MM-DD-YYYY'));
 
-        if (data.currentView === undefined) {
-          this.currentView = 'weekly';
-        } else {
-          this.currentView = data.currentView;
-          this.currentView === 'daily' ? this.enabledControls = 'dayControl' : this.enabledControls = 'weekControl';
-        }
+      if (data.currentView === undefined) {
+        this.currentView = 'weekly';
+      } else {
+        this.currentView = data.currentView;
+        this.currentView === 'daily'
+          ? (this.enabledControls = 'dayControl')
+          : (this.enabledControls = 'weekControl');
       }
-    );
+    });
   }
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 
   public getSurgeWeeklyReport(params: any) {
     this.isLoading = true;
-    this.surgeReport.getSurgeWeeklyReport(params).subscribe(data => {
+    this.surgeReport.getSurgeWeeklyReport(params).subscribe((data) => {
       if (data.error) {
         this.showInfoMessage = true;
         this.errorMessage = `There has been an error while loading the report, please retry again`;
@@ -99,7 +100,7 @@ export class SurgeReportBaseComponent implements OnInit {
 
   public getSurgeDailyReport(params: any) {
     this.isLoading = true;
-    this.surgeReport.getSurgeDailyReport(params).subscribe(data => {
+    this.surgeReport.getSurgeDailyReport(params).subscribe((data) => {
       if (data.error) {
         this.showInfoMessage = true;
         this.errorMessage = `There has been an error while loading the report, please retry again`;
@@ -125,7 +126,7 @@ export class SurgeReportBaseComponent implements OnInit {
         }
       }
     }
-    return this.indicators = indicators;
+    return (this.indicators = indicators);
   }
 
   public onIndicatorSelected(value) {
@@ -157,24 +158,23 @@ export class SurgeReportBaseComponent implements OnInit {
   }
 
   public storeParamsInUrl(param) {
-
     switch (this.currentView) {
       case 'daily':
         this.params = {
-          '_date': Moment(this.startDate).format('YYYY-MM-DD'),
-          'locationUuids': param,
-          'displayTabularFilters': true,
-          'currentView': this.currentView,
-          'reportName': this.reportName
+          _date: Moment(this.startDate).format('YYYY-MM-DD'),
+          locationUuids: param,
+          displayTabularFilters: true,
+          currentView: this.currentView,
+          reportName: this.reportName
         };
         break;
       case 'weekly':
         this.params = {
-          'year_week': this.yearWeek,
-          'locationUuids': param,
-          'displayTabularFilters': true,
-          'currentView': this.currentView,
-          'reportName': this.reportName
+          year_week: this.yearWeek,
+          locationUuids: param,
+          displayTabularFilters: true,
+          currentView: this.currentView,
+          reportName: this.reportName
         };
         break;
     }
@@ -224,52 +224,54 @@ export class SurgeReportBaseComponent implements OnInit {
   public calculateTotalSummary() {
     const totalsRow = [];
     if (this.surgeReportSummaryData.length > 0) {
-     const totalObj = {
-       location: 'Totals'
-     };
-     _.each(this.surgeReportSummaryData, row => {
-       Object.keys(row).map((key, index) => {
-         if (Number.isInteger(row[key]) === true) {
-           if (totalObj[key]) {
-             totalObj[key] = row[key] + totalObj[key];
-           } else {
-             totalObj[key] = row[key];
-           }
-         } else {
-           if (Number.isNaN(totalObj[key])) {
-             totalObj[key] = 0;
-           }
-           if (totalObj[key] === null) {
-             totalObj[key] = 0;
-           }
-           totalObj[key] = 0 + totalObj[key];
-         }
-       });
-     });
-     totalObj.location = 'Totals';
-     totalsRow.push(totalObj);
-     this.pinnedBottomRowData = totalsRow;
+      const totalObj = {
+        location: 'Totals'
+      };
+      _.each(this.surgeReportSummaryData, (row) => {
+        Object.keys(row).map((key, index) => {
+          if (Number.isInteger(row[key]) === true) {
+            if (totalObj[key]) {
+              totalObj[key] = row[key] + totalObj[key];
+            } else {
+              totalObj[key] = row[key];
+            }
+          } else {
+            if (Number.isNaN(totalObj[key])) {
+              totalObj[key] = 0;
+            }
+            if (totalObj[key] === null) {
+              totalObj[key] = 0;
+            }
+            totalObj[key] = 0 + totalObj[key];
+          }
+        });
+      });
+      totalObj.location = 'Totals';
+      totalsRow.push(totalObj);
+      this.pinnedBottomRowData = totalsRow;
     }
-   }
+  }
 
   public generateSurgeWeeks() {
     for (let i = 0; i < 105; i++) {
       const date = Moment(this.getStartDate()).subtract(i, 'week');
-      this.calendarWeeks.push(
-        {
-          yearWeek: Moment(date).format('YYYY-[W]WW'),
-          name: Moment(date).format('[Week] WW, YYYY')
-            + ' From ' + Moment(date).format('ddd-DD MMM-YYYY') + ' To '
-            + Moment(date).add(6, 'day').format('ddd-DD MMM-YYYY')
-        }
-      );
+      this.calendarWeeks.push({
+        yearWeek: Moment(date).format('YYYY-[W]WW'),
+        name:
+          Moment(date).format('[Week] WW, YYYY') +
+          ' From ' +
+          Moment(date).format('ddd-DD MMM-YYYY') +
+          ' To ' +
+          Moment(date).add(6, 'day').format('ddd-DD MMM-YYYY')
+      });
     }
   }
 
   public getStartDate(): any {
     const now = Moment();
     const startDate = Moment(new Date(now.year(), 11)).add(4, 'week');
-    return (Moment(startDate).subtract(Moment(startDate).weekday(), 'days').format('YYYY-MM-DD'));
+    return Moment(startDate)
+      .subtract(Moment(startDate).weekday(), 'days')
+      .format('YYYY-MM-DD');
   }
-
 }

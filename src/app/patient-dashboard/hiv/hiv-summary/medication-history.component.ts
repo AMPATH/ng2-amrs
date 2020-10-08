@@ -1,4 +1,3 @@
-
 import { take } from 'rxjs/operators/take';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
@@ -18,17 +17,20 @@ export class MedicationHistoryComponent implements OnInit, OnDestroy {
   public subscription: Subscription;
   public previousViralLoad: any;
 
-  constructor(private medicationHistoryResourceService: MedicationHistoryResourceService,
-    private patientService: PatientService) {
-  }
+  constructor(
+    private medicationHistoryResourceService: MedicationHistoryResourceService,
+    private patientService: PatientService
+  ) {}
 
   public fetchMedicationHistory(report, patientUuid): void {
-    this.medicationHistoryResourceService.getReport(report, patientUuid).pipe(
-      take(1)).subscribe(
-        (medication) => {
-          this.encounters = this.convertPreviousVlValueTostring(medication.result);
-        }
-      );
+    this.medicationHistoryResourceService
+      .getReport(report, patientUuid)
+      .pipe(take(1))
+      .subscribe((medication) => {
+        this.encounters = this.convertPreviousVlValueTostring(
+          medication.result
+        );
+      });
   }
 
   public ngOnInit() {
@@ -49,13 +51,14 @@ export class MedicationHistoryComponent implements OnInit, OnDestroy {
           this.patient = patient;
           this.fetchMedicationHistory(reportName, patient.person.uuid);
         }
-      }
-      , (err) => {
+      },
+      (err) => {
         this.errors.push({
           id: 'patient',
           message: 'error fetching medication history'
         });
-      });
+      }
+    );
   }
   private convertPreviousVlValueTostring(result) {
     const previousVl = [];
@@ -74,7 +77,5 @@ export class MedicationHistoryComponent implements OnInit, OnDestroy {
       previousVl.push(data);
     }
     return previousVl;
-
   }
-
 }

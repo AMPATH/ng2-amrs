@@ -1,29 +1,28 @@
-
 <p-accordion>
   <div *ngFor="let indicator of indicatorDefinitionsArr">
     <p-accordionTab header="Patients in Care:" [selected]="true">
-      {{indicator.currently_in_care_total}}
+      {{ indicator.currently_in_care_total }}
     </p-accordionTab>
     <p-accordionTab header="Patients on ART:">
-      {{indicator.on_art_total}}
+      {{ indicator.on_art_total }}
     </p-accordionTab>
     <p-accordionTab header="% on ART with VL:">
-      {{indicator.perc_tested_appropriately}}
+      {{ indicator.perc_tested_appropriately }}
     </p-accordionTab>
     <p-accordionTab header="% Virally Suppressed:">
-      {{indicator.perc_virally_suppressed}}
+      {{ indicator.perc_virally_suppressed }}
     </p-accordionTab>
     <p-accordionTab header="On ART without VL:">
-      {{indicator.not_tested_appropriately}}
+      {{ indicator.not_tested_appropriately }}
     </p-accordionTab>
     <p-accordionTab header="Due For Annual VL:">
-      {{indicator.due_for_annual_vl}}
+      {{ indicator.due_for_annual_vl }}
     </p-accordionTab>
     <p-accordionTab header="Ordered & Pending VL Result:">
-      {{indicator.pending_vl_orders}}
+      {{ indicator.pending_vl_orders }}
     </p-accordionTab>
     <p-accordionTab header="Missing VL Order:">
-      {{indicator.missing_vl_order}}
+      {{ indicator.missing_vl_order }}
     </p-accordionTab>
   </div>
 </p-accordion>

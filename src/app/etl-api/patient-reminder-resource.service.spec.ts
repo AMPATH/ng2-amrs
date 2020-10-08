@@ -4,7 +4,10 @@ import { DatePipe } from '@angular/common';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { PatientReminderResourceService } from './patient-reminder-resource.service';
-import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
+import {
+  HttpTestingController,
+  HttpClientTestingModule
+} from '@angular/common/http/testing';
 
 describe('Patient Reminder Resource Service Unit Tests', () => {
   let service, httpMok;
@@ -23,44 +26,42 @@ describe('Patient Reminder Resource Service Unit Tests', () => {
     });
     service = TestBed.get(PatientReminderResourceService);
     httpMok = TestBed.get(HttpTestingController);
-
   });
 
   afterEach(() => {
     TestBed.resetTestingModule();
   });
 
-  it('should be injected with all dependencies',
-    inject([PatientReminderResourceService],
-      (patientReminderResourceService: PatientReminderResourceService) => {
-        expect(patientReminderResourceService).toBeTruthy();
-      }));
+  it('should be injected with all dependencies', inject(
+    [PatientReminderResourceService],
+    (patientReminderResourceService: PatientReminderResourceService) => {
+      expect(patientReminderResourceService).toBeTruthy();
+    }
+  ));
 
   it('should make API call with the correct url parameters', (done) => {
-    service.getPatientLevelReminders(patientUuid)
-      .subscribe((response) => {
-        done();
-      });
+    service.getPatientLevelReminders(patientUuid).subscribe((response) => {
+      done();
+    });
 
-    const req = httpMok.expectOne(service.getUrl(patientUuid) + '/' + service.referenceDate);
+    const req = httpMok.expectOne(
+      service.getUrl(patientUuid) + '/' + service.referenceDate
+    );
     expect(req.request.method).toBe('GET');
-    expect(req.request.url)
-      .toContain(
-        'etl/patient/79803198-2d23-49cd-a7b3-4f672bd8f659/hiv-clinical-reminder/' + referenceDate
-      );
+    expect(req.request.url).toContain(
+      'etl/patient/79803198-2d23-49cd-a7b3-4f672bd8f659/hiv-clinical-reminder/' +
+        referenceDate
+    );
     req.flush(JSON.stringify({}));
-
   });
-  it('should return an error the api throws an error',
-    async(() => {
-      service.getPatientLevelReminders(patientUuid)
-        .subscribe((data) => {
-        },
-          (error: Error) => {
-            expect(error).toBeTruthy();
-          });
+  it('should return an error the api throws an error', async(() => {
+    service.getPatientLevelReminders(patientUuid).subscribe(
+      (data) => {},
+      (error: Error) => {
+        expect(error).toBeTruthy();
+      }
+    );
 
-      const req = httpMok.expectNone('');
-    }));
-
+    const req = httpMok.expectNone('');
+  }));
 });

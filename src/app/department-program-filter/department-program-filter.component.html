@@ -1,123 +1,181 @@
 <div class="row" id="program-visit-encounter-filter">
-    <div class="container-fluid">
-            <div class="row">
-                    <div class="col-md-10 col-lg-10">
-                                <span class="text-info" style="margin:2px; font-weight:bold;"> <span class="glyphicon glyphicon-filter" style="font-weight: normal;"></span>Report filters</span>
-                    </div>
-                    <div class="col-md-2 col-lg-2 col-sm-12">
-                                <a (click)="collapseFilters()" *ngIf="showFilters" class="filter-collapse pull-right"><span class="glyphicon glyphicon-chevron-down" ></span></a>
-                                <a (click)="expandFilters()"  *ngIf="!showFilters" class="filter-collapse pull-right"><span class="glyphicon glyphicon-chevron-left" ></span></a>
-                    </div>
-                    <hr class="intro-divider" />
-            </div>
-        <div class="row" *ngIf="showFilters">
-            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-                    <form>
-                            <div class="row" *ngIf="loadingFilters">
-                                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-                                        <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i> Loading Saved Filters ...
-                                    </div>
-                            </div>
-                            <div class="row" *ngIf="errorMsg.status">
-                                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-                                            <div class="alert alert-danger">
-                                                    <h5>{{errorMsg.message}}</h5>
-                                            </div>
-                                    </div>
-                            </div>
-                            <div class="row" id="location-filters">
-                                            <div class="col-md-6 col-lg-6 col-sm-6 col-xs-12">
-                                                <div class="form-group">
-                                                    <div class="row">
-                                                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-                                                                <label class="control-label">Location</label>
-                                                        </div>
-                                                        <div class="col-md-10 col-lg-10 col-sm-9 col-xs-9">
-                                                           
-                                                            <angular2-multiselect #locationSelect
-                                                                        [data]="locations" 
-                                                                        [(ngModel)]="location" 
-                                                                        [settings]="locationDropdownSettings" 
-                                                                        (onSelect)="selectLocation($event)" 
-                                                                        (onDeSelect)="locationDeselect($event)"
-                                                                        (onSelectAll)="onSelectAllLocations($event)"
-                                                                        (onDeSelectAll)="onDeSelectAllLocations($event)"
-                                                                        name="location-filter">
-                                                            </angular2-multiselect>
-                                                        </div>
-                                                        <div class="col-md-2 col-lg-2 col-sm-3 col-xs-3">
-                                                               <button *ngIf="multipleLocationsSelected" class="btn filter-btn" (click)="resetLocationSelected()"><i class="fa fa-trash fa-fw"></i> Select None</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-lg-6 col-sm-6 col-xs-12">
-                                            <div class="form-group">
-                                               <label class="control-label">County</label>
-                                                   <angular2-multiselect #countySelect
-                                                               [data]="counties" 
-                                                               [(ngModel)]="county" 
-                                                               [settings]="countyDropdownSettings" 
-                                                               (onSelect)="selectCounty($event)" 
-                                                               (onDeSelect)="countyDeselect($event)"
-                                                               (onSelectAll)="onSelectAllCounties($event)"
-                                                               (onDeSelectAll)="onDeSelectAllCounties($event)"
-                                                               name="county-filter">
-                                                   </angular2-multiselect>
-                                             </div>
-                                            </div>
-                                        <br><br>
-                            </div>
-                            <div class="row" *ngIf="!loadingFilters">
-                                            <div class="col-md-6 col-lg-6 col-sm-6 col-xs-12" *ngIf="showDepartmentFilter">
-                                                      <div class="form-group">
-                                                                <label class="control-label">Department</label>
-                                                                    <angular2-multiselect #departmentSelect
-                                                                                [data]="departments" 
-                                                                                [(ngModel)]="department" 
-                                                                                [settings]="dropdownSettings" 
-                                                                                (onSelect)="selectDepartment($event)" 
-                                                                                (onDeSelect)="departmentDeselect($event)"
-                                                                                (onSelectAll)="onSelectAllDepartments($event)"
-                                                                                (onDeSelectAll)="onDeSelectAllDepartment($event)"
-                                                                                name="department-filter">
-                                                                    </angular2-multiselect>
-                                                        </div>
-                                                </div>
-                                                <div *ngIf="department.length > 0 || !showDepartmentFilter">
-                                                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-12">
-                                                                  <div class="form-group">
-                                                                    <label class="control-label">Program</label>
-                                                                    <angular2-multiselect #programSelect 
-                                                                                [data]="programs" 
-                                                                                [(ngModel)]="program" 
-                                                                                [settings]="programDropdownSettings" 
-                                                                                (onSelect)="selectProgram($event)" 
-                                                                                (onDeSelect)="programDeSelect($event)"
-                                                                                (onSelectAll)="onSelectAllPrograms($event)"
-                                                                                (onDeSelectAll)="onDeSelectAllPrograms($event)"
-                                                                                name="program-filter">
-                                                                    </angular2-multiselect>
-                                                                 </div>
-                                                </div>
-                                                
-                                            </div>
-                                                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-12">
-                                                              <div class="form-group">
-                                                                        <label class="control-label" for="start-date">End Date</label>
-                                                                        <date-time-picker tabindex="0" [modelValue]="selectedEndDate" [id]="'selectedDate'" (onDateChange)="getSelectedEndDate($event)"></date-time-picker>
-                                                              </div>
-                                                </div>
-                        <div class="row">
-                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" id="filter-btns">
-                                <button class="btn btn-primary btn-search" (click)="setFilter()" *ngIf="!filterSet">Load </button>
-                                <button class="btn btn-primary btn-search" (click)="setFilter()" *ngIf="filterSet" disabled>Load</button>
-                                <button class="btn btn-danger btn-search" (click)="resetFilter()">Clear<i class="fa fa-trash fa-fw"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    </form>
-        </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-10 col-lg-10">
+        <span class="text-info" style="margin: 2px; font-weight: bold">
+          <span
+            class="glyphicon glyphicon-filter"
+            style="font-weight: normal"
+          ></span
+          >Report filters</span
+        >
+      </div>
+      <div class="col-md-2 col-lg-2 col-sm-12">
+        <a
+          (click)="collapseFilters()"
+          *ngIf="showFilters"
+          class="filter-collapse pull-right"
+          ><span class="glyphicon glyphicon-chevron-down"></span
+        ></a>
+        <a
+          (click)="expandFilters()"
+          *ngIf="!showFilters"
+          class="filter-collapse pull-right"
+          ><span class="glyphicon glyphicon-chevron-left"></span
+        ></a>
+      </div>
+      <hr class="intro-divider" />
     </div>
-</div>
+    <div class="row" *ngIf="showFilters">
+      <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+        <form>
+          <div class="row" *ngIf="loadingFilters">
+            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+              <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i> Loading Saved
+              Filters ...
+            </div>
+          </div>
+          <div class="row" *ngIf="errorMsg.status">
+            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+              <div class="alert alert-danger">
+                <h5>{{ errorMsg.message }}</h5>
+              </div>
+            </div>
+          </div>
+          <div class="row" id="location-filters">
+            <div class="col-md-6 col-lg-6 col-sm-6 col-xs-12">
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                    <label class="control-label">Location</label>
+                  </div>
+                  <div class="col-md-10 col-lg-10 col-sm-9 col-xs-9">
+                    <angular2-multiselect
+                      #locationSelect
+                      [data]="locations"
+                      [(ngModel)]="location"
+                      [settings]="locationDropdownSettings"
+                      (onSelect)="selectLocation($event)"
+                      (onDeSelect)="locationDeselect($event)"
+                      (onSelectAll)="onSelectAllLocations($event)"
+                      (onDeSelectAll)="onDeSelectAllLocations($event)"
+                      name="location-filter"
+                    >
+                    </angular2-multiselect>
+                  </div>
+                  <div class="col-md-2 col-lg-2 col-sm-3 col-xs-3">
+                    <button
+                      *ngIf="multipleLocationsSelected"
+                      class="btn filter-btn"
+                      (click)="resetLocationSelected()"
+                    >
+                      <i class="fa fa-trash fa-fw"></i> Select None
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6 col-xs-12">
+              <div class="form-group">
+                <label class="control-label">County</label>
+                <angular2-multiselect
+                  #countySelect
+                  [data]="counties"
+                  [(ngModel)]="county"
+                  [settings]="countyDropdownSettings"
+                  (onSelect)="selectCounty($event)"
+                  (onDeSelect)="countyDeselect($event)"
+                  (onSelectAll)="onSelectAllCounties($event)"
+                  (onDeSelectAll)="onDeSelectAllCounties($event)"
+                  name="county-filter"
+                >
+                </angular2-multiselect>
+              </div>
+            </div>
+            <br /><br />
+          </div>
+          <div class="row" *ngIf="!loadingFilters">
+            <div
+              class="col-md-6 col-lg-6 col-sm-6 col-xs-12"
+              *ngIf="showDepartmentFilter"
+            >
+              <div class="form-group">
+                <label class="control-label">Department</label>
+                <angular2-multiselect
+                  #departmentSelect
+                  [data]="departments"
+                  [(ngModel)]="department"
+                  [settings]="dropdownSettings"
+                  (onSelect)="selectDepartment($event)"
+                  (onDeSelect)="departmentDeselect($event)"
+                  (onSelectAll)="onSelectAllDepartments($event)"
+                  (onDeSelectAll)="onDeSelectAllDepartment($event)"
+                  name="department-filter"
+                >
+                </angular2-multiselect>
+              </div>
+            </div>
+            <div *ngIf="department.length > 0 || !showDepartmentFilter">
+              <div class="col-md-6 col-lg-6 col-sm-6 col-xs-12">
+                <div class="form-group">
+                  <label class="control-label">Program</label>
+                  <angular2-multiselect
+                    #programSelect
+                    [data]="programs"
+                    [(ngModel)]="program"
+                    [settings]="programDropdownSettings"
+                    (onSelect)="selectProgram($event)"
+                    (onDeSelect)="programDeSelect($event)"
+                    (onSelectAll)="onSelectAllPrograms($event)"
+                    (onDeSelectAll)="onDeSelectAllPrograms($event)"
+                    name="program-filter"
+                  >
+                  </angular2-multiselect>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6 col-xs-12">
+              <div class="form-group">
+                <label class="control-label" for="start-date">End Date</label>
+                <date-time-picker
+                  tabindex="0"
+                  [modelValue]="selectedEndDate"
+                  [id]="'selectedDate'"
+                  (onDateChange)="getSelectedEndDate($event)"
+                ></date-time-picker>
+              </div>
+            </div>
+            <div class="row">
+              <div
+                class="col-md-12 col-lg-12 col-sm-12 col-xs-12"
+                id="filter-btns"
+              >
+                <button
+                  class="btn btn-primary btn-search"
+                  (click)="setFilter()"
+                  *ngIf="!filterSet"
+                >
+                  Load
+                </button>
+                <button
+                  class="btn btn-primary btn-search"
+                  (click)="setFilter()"
+                  *ngIf="filterSet"
+                  disabled
+                >
+                  Load
+                </button>
+                <button
+                  class="btn btn-danger btn-search"
+                  (click)="resetFilter()"
+                >
+                  Clear<i class="fa fa-trash fa-fw"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>

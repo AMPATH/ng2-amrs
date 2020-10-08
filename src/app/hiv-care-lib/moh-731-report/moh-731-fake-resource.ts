@@ -3,11 +3,15 @@ import { Subject, Observable } from 'rxjs';
 
 Injectable();
 export class Moh731ResourceService {
-  constructor() {
-  }
+  constructor() {}
 
-  public getMoh731Report(locationUuids: string, startDate: string, endDate: string,
-    isLegacyReport: boolean, isAggregated: boolean): Observable<any> {
+  public getMoh731Report(
+    locationUuids: string,
+    startDate: string,
+    endDate: string,
+    isLegacyReport: boolean,
+    isAggregated: boolean
+  ): Observable<any> {
     const subj = new Subject<any>();
     const that = this;
     setTimeout(() => {

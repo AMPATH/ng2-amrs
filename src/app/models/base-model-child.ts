@@ -1,4 +1,4 @@
-import {BaseModel} from './base-model.model';
+import { BaseModel } from './base-model.model';
 
 export class BaseModelChild extends BaseModel {
   constructor() {

@@ -1,16 +1,17 @@
 hr {
-  border-bottom:1px solid #d2d6de;
+  border-bottom: 1px solid #d2d6de;
 }
 .suggest-container {
   position: relative;
 }
 .suggest-container .suggestions {
   position: absolute;
-  top:56px;
-  left:0;
+  top: 56px;
+  left: 0;
 }
 
-.list-group-item:focus, .list-group-item:hover {
+.list-group-item:focus,
+.list-group-item:hover {
   z-index: 2;
   color: #fff;
   background-color: #337ab7;
@@ -18,7 +19,7 @@ hr {
   cursor: pointer;
 }
 
-.list-group-item:hover a{
+.list-group-item:hover a {
   color: #fff;
 }
 
@@ -33,5 +34,5 @@ hr {
 }
 a.disabled {
   pointer-events: none;
-  cursor:default;
+  cursor: default;
 }

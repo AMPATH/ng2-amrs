@@ -1,9 +1,11 @@
 <p-tabView>
-	<p-tabPanel header="Graphical View">
-		<chart [options]="options" (redraw)="renderChart(options)"></chart>
-		<h4 class="pull-right text-muted">Total Patients:{{totalPatients}}</h4>
-	</p-tabPanel>
-	<p-tabPanel header="Indicator Definitions">
-		<art-overview-indicator-definitions [indicatorDefinitions]="indicatorDef"></art-overview-indicator-definitions>
-	</p-tabPanel>
+  <p-tabPanel header="Graphical View">
+    <chart [options]="options" (redraw)="renderChart(options)"></chart>
+    <h4 class="pull-right text-muted">Total Patients:{{ totalPatients }}</h4>
+  </p-tabPanel>
+  <p-tabPanel header="Indicator Definitions">
+    <art-overview-indicator-definitions
+      [indicatorDefinitions]="indicatorDef"
+    ></art-overview-indicator-definitions>
+  </p-tabPanel>
 </p-tabView>

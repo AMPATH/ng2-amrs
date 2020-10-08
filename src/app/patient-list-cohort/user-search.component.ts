@@ -1,9 +1,14 @@
 /* tslint:disable:no-inferrable-types */
 /* tslint:disable:no-output-on-prefix */
-import {take} from 'rxjs/operators/take';
+import { take } from 'rxjs/operators/take';
 import {
-  Component, OnInit, ViewEncapsulation,
-  ViewChild, EventEmitter, Output, OnDestroy
+  Component,
+  OnInit,
+  ViewEncapsulation,
+  ViewChild,
+  EventEmitter,
+  Output,
+  OnDestroy
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -14,7 +19,6 @@ import { UserService } from '../openmrs-api/user.service';
   templateUrl: './user-search.component.html',
   styleUrls: ['./user-search.component.css']
 })
-
 export class UserSearchComponent implements OnInit, OnDestroy {
   public searchString: string;
   public users: any = [];
@@ -29,15 +33,12 @@ export class UserSearchComponent implements OnInit, OnDestroy {
   public errorMessage: string;
   public adjustInputMargin = '240px';
 
-  constructor(private userService: UserService, private router: Router,
-              ) {
-  }
+  constructor(private userService: UserService, private router: Router) {}
 
   public ngOnInit() {
     if (window.innerWidth <= 768) {
       this.adjustInputMargin = '0';
     }
-
   }
 
   public ngOnDestroy() {
@@ -59,21 +60,24 @@ export class UserSearchComponent implements OnInit, OnDestroy {
       this.isLoading = true;
       this.users = [];
       this.userService
-        .searchUsers(this.searchString).pipe(
-        take(1)).subscribe(
+        .searchUsers(this.searchString)
+        .pipe(take(1))
+        .subscribe(
           (data) => {
             if (data.length > 0) {
               this.users = [];
-              for (const user of data ) {
-                this.users.push({label: user.person.display, value: user.uuid,
-                  username: user.username});
+              for (const user of data) {
+                this.users.push({
+                  label: user.person.display,
+                  value: user.uuid,
+                  username: user.username
+                });
               }
               this.totalUsers = this.users.length;
               this.resetInputMargin();
               this.isLoading = false;
             }
             this.isLoading = false;
-
           },
           (error) => {
             this.isLoading = false;
@@ -83,7 +87,6 @@ export class UserSearchComponent implements OnInit, OnDestroy {
         );
 
       this.isResetButton = true;
-
     }
   }
 
@@ -115,5 +118,4 @@ export class UserSearchComponent implements OnInit, OnDestroy {
       this.adjustInputMargin = '240px';
     }
   }
-
 }

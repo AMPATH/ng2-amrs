@@ -24,7 +24,9 @@ describe('AppSettingsServices Unit Tests', () => {
     expect(service.getEtlServer()).toEqual(url);
 
     service.addAndSetUrl(url);
-    expect(service.openmrsServerUrls.length).toEqual(initialNumberOfOpenmrsUrls + 1);
+    expect(service.openmrsServerUrls.length).toEqual(
+      initialNumberOfOpenmrsUrls + 1
+    );
     expect(service.getOpenmrsServer()).toEqual(url);
   });
 
@@ -41,18 +43,23 @@ describe('AppSettingsServices Unit Tests', () => {
     expect(service.getOpenmrsServer()).toEqual(url);
     expect(service.openmrsServerUrls.length).toEqual(
       initialNumberOfOpenmrsUrls + 1,
-      'Number of url should increase by 1 in the list');
+      'Number of url should increase by 1 in the list'
+    );
     expect(service.openmrsServerUrls.indexOf(url)).not.toEqual(-1);
   });
 
   it('Should Return the correct openmrs base rest URL', () => {
     service.setOpenmrsServer(url);
     const expected = url + '/ws/rest/v1/';
-    expect(service.getOpenmrsRestbaseurl()).toEqual(expected,
-      'must be correct Openmrs REST base Url');
+    expect(service.getOpenmrsRestbaseurl()).toEqual(
+      expected,
+      'must be correct Openmrs REST base Url'
+    );
 
     service.setOpenmrsServer(url + '/');
-    expect(service.getOpenmrsRestbaseurl()).toEqual(expected,
-      'must be correct Openmrs REST base Url');
+    expect(service.getOpenmrsRestbaseurl()).toEqual(
+      expected,
+      'must be correct Openmrs REST base Url'
+    );
   });
 });

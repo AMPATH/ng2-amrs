@@ -1,21 +1,27 @@
 <!--component html goes here -->
 <h3 *ngIf="isBusy">Loading available dashboards ...</h3>
-<div *ngIf="!isBusy && errorMessage !== '' " style="border: 1px solid gray; padding: 4px; color:darkred;">
- <span class="fa fa-warning"></span> {{errorMessage}}
+<div
+  *ngIf="!isBusy && errorMessage !== ''"
+  style="border: 1px solid gray; padding: 4px; color: darkred"
+>
+  <span class="fa fa-warning"></span> {{ errorMessage }}
 </div>
-<div *ngIf="!isBusy && errorMessage === '' " >
-<div class="row">
-    <div *ngFor="let dashboard of dashboards" class="card-item col-md-3 col-sm-3 col-lg-3 col-xs-12">
+<div *ngIf="!isBusy && errorMessage === ''">
+  <div class="row">
+    <div
+      *ngFor="let dashboard of dashboards"
+      class="card-item col-md-3 col-sm-3 col-lg-3 col-xs-12"
+    >
       <a (click)="viewDashboard(dashboard)">
-      <div class="thumbnail dashboard-card" style="padding: 4px;">
-          <div class ="caption">
-              <h4>{{dashboard.title}}</h4>
-              <hr class="intro-divider dashboard-divider" />
-              <span class="fa fa-3x {{dashboard.icon}} fa-fw"></span>
-              <h5>{{dashboard.description}}</h5>
+        <div class="thumbnail dashboard-card" style="padding: 4px">
+          <div class="caption">
+            <h4>{{ dashboard.title }}</h4>
+            <hr class="intro-divider dashboard-divider" />
+            <span class="fa fa-3x {{ dashboard.icon }} fa-fw"></span>
+            <h5>{{ dashboard.description }}</h5>
           </div>
         </div>
       </a>
-      </div>
+    </div>
   </div>
 </div>

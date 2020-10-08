@@ -1,54 +1,101 @@
 <div class="container-fluid" id="report-container">
   <div class="row">
-    <div class="loader" *ngIf="busyIndicator.busy"><span><i class="fa fa-spinner fa-spin">
-        </i>{{busyIndicator.message}}</span>
+    <div class="loader" *ngIf="busyIndicator.busy">
+      <span
+        ><i class="fa fa-spinner fa-spin"> </i>{{ busyIndicator.message }}</span
+      >
     </div>
     <div>
-      <h4 class="component-title" style="color: green;"><span class="fa fa-file fa-fw"></span>Oncology Reports</h4>
+      <h4 class="component-title" style="color: green">
+        <span class="fa fa-file fa-fw"></span>Oncology Reports
+      </h4>
     </div>
     <div class="alert alert-danger" *ngIf="errorObj.isError">
-      {{errorObj.message}}
+      {{ errorObj.message }}
     </div>
     <div>
       <div class="pull-left">
-        <h4 class="oncology-title-header"><b>{{title}}</b></h4>
+        <h4 class="oncology-title-header">
+          <b>{{ title }}</b>
+        </h4>
       </div>
       <div class="pull-right">
-        <button class="btn btn-primary summary-nav-btn" (click)="navigateToHome()">Home</button>
+        <button
+          class="btn btn-primary summary-nav-btn"
+          (click)="navigateToHome()"
+        >
+          Home
+        </button>
       </div>
     </div>
     <div>
-      <oncology-summary-filters [startDate]="startDate" [endDate]="endDate" [reportType]="reportType"
-        [reportIndex]="reportIndex" [indicators]="indicators" [ageRangeStart]="startAge" [ageRangeEnd]="endAge"
-        [reportUuid]="reportUuid" [gender]="gender" [period]="period">
+      <oncology-summary-filters
+        [startDate]="startDate"
+        [endDate]="endDate"
+        [reportType]="reportType"
+        [reportIndex]="reportIndex"
+        [indicators]="indicators"
+        [ageRangeStart]="startAge"
+        [ageRangeEnd]="endAge"
+        [reportUuid]="reportUuid"
+        [gender]="gender"
+        [period]="period"
+      >
       </oncology-summary-filters>
     </div>
     <div *ngIf="!isPdfReportAvailable" id="oncology-summary-indicators-table">
-      <oncology-summary-indicators-table [monthlySummary]="monthlySummary" [params]="params">
+      <oncology-summary-indicators-table
+        [monthlySummary]="monthlySummary"
+        [params]="params"
+      >
       </oncology-summary-indicators-table>
     </div>
     <div *ngIf="isPdfReportAvailable">
       <p-tabView (onChange)="onTabChanged($event)">
-        <p-tabPanel header="Tabular View" leftIcon="fa-table" [selected]="currentView === 'tabular'">
+        <p-tabPanel
+          header="Tabular View"
+          leftIcon="fa-table"
+          [selected]="currentView === 'tabular'"
+        >
           <div id="oncology-summary-indicators-table">
-            <oncology-summary-indicators-table [monthlySummary]="monthlySummary" [params]="params">
+            <oncology-summary-indicators-table
+              [monthlySummary]="monthlySummary"
+              [params]="params"
+            >
             </oncology-summary-indicators-table>
           </div>
         </p-tabPanel>
-        <p-tabPanel header="Report View" leftIcon="fa-file-pdf-o " [selected]="currentView === 'pdf'">
+        <p-tabPanel
+          header="Report View"
+          leftIcon="fa-file-pdf-o "
+          [selected]="currentView === 'pdf'"
+        >
           <div>
-            <oncology-report-pdf-view [title]="title" [monthlySummary]="monthlySummary" [params]="params" [currentView]="currentView">
+            <oncology-report-pdf-view
+              [title]="title"
+              [monthlySummary]="monthlySummary"
+              [params]="params"
+              [currentView]="currentView"
+            >
             </oncology-report-pdf-view>
           </div>
         </p-tabPanel>
-        <p-tabPanel header="Aggregate Report View" leftIcon="fa-file-pdf-o " [selected]="currentView === 'agg-pdf'">
-            <div>
-              <oncology-aggregate-report-view [title]="title" [monthlySummary]="monthlySummary" [params]="params" [currentView]="currentView">
-              </oncology-aggregate-report-view>
-            </div>
-          </p-tabPanel>
+        <p-tabPanel
+          header="Aggregate Report View"
+          leftIcon="fa-file-pdf-o "
+          [selected]="currentView === 'agg-pdf'"
+        >
+          <div>
+            <oncology-aggregate-report-view
+              [title]="title"
+              [monthlySummary]="monthlySummary"
+              [params]="params"
+              [currentView]="currentView"
+            >
+            </oncology-aggregate-report-view>
+          </div>
+        </p-tabPanel>
       </p-tabView>
-
     </div>
   </div>
 </div>

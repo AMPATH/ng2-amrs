@@ -1,4 +1,3 @@
-
 import { Injectable } from '@angular/core';
 
 import * as _ from 'lodash';
@@ -7,18 +6,10 @@ import { first, map, take } from 'rxjs/operators';
 
 import { Program } from '../../models/program.model';
 import { ProgramEnrollment } from '../../models/program-enrollment.model';
-import {
-  ProgramResourceService
-} from '../../openmrs-api/program-resource.service';
-import {
-  ProgramEnrollmentResourceService
-} from '../../openmrs-api/program-enrollment-resource.service';
-import {
-  ProgramWorkFlowResourceService
-} from '../../openmrs-api/program-workflow-resource.service';
-import {
-  ProgramWorkFlowStateResourceService
-} from '../../openmrs-api/program-workflow-state-resource.service';
+import { ProgramResourceService } from '../../openmrs-api/program-resource.service';
+import { ProgramEnrollmentResourceService } from '../../openmrs-api/program-enrollment-resource.service';
+import { ProgramWorkFlowResourceService } from '../../openmrs-api/program-workflow-resource.service';
+import { ProgramWorkFlowStateResourceService } from '../../openmrs-api/program-workflow-state-resource.service';
 
 @Injectable()
 export class ProgramService {
@@ -26,10 +17,15 @@ export class ProgramService {
     private programEnrollmentResourceService: ProgramEnrollmentResourceService,
     private programWorkFlowResourceService: ProgramWorkFlowResourceService,
     private programWorkFlowStateResourceService: ProgramWorkFlowStateResourceService,
-    private programResourceService: ProgramResourceService) { }
+    private programResourceService: ProgramResourceService
+  ) {}
 
-  public getPatientEnrolledProgramsByUuid(uuid): Observable<ProgramEnrollment[]> {
-    const patientsObservable = this.programEnrollmentResourceService.getProgramEnrollmentByPatientUuid(uuid);
+  public getPatientEnrolledProgramsByUuid(
+    uuid
+  ): Observable<ProgramEnrollment[]> {
+    const patientsObservable = this.programEnrollmentResourceService.getProgramEnrollmentByPatientUuid(
+      uuid
+    );
 
     if (patientsObservable === null) {
       throw new Error('Null patient programs observable');
@@ -72,8 +68,14 @@ export class ProgramService {
     }
   }
 
-  public createEnrollmentPayload(program, patient, dateEnrolled, dateCompleted,
-    locationUuid, enrollmentUuid): any {
+  public createEnrollmentPayload(
+    program,
+    patient,
+    dateEnrolled,
+    dateCompleted,
+    locationUuid,
+    enrollmentUuid
+  ): any {
     const payLoad = {
       patient: patient.person.uuid,
       program: program,
@@ -99,20 +101,27 @@ export class ProgramService {
     }
     // console.log('Program Enrollment Payload ', JSON.stringify(payLoad));
     return payLoad;
-
   }
 
-  public saveUpdateProgramEnrollment(payload: any, theChange?): Observable<any> {
+  public saveUpdateProgramEnrollment(
+    payload: any,
+    theChange?
+  ): Observable<any> {
     if (!payload) {
       return null;
     }
-    return this.programEnrollmentResourceService.saveUpdateProgramEnrollment(payload, theChange);
+    return this.programEnrollmentResourceService.saveUpdateProgramEnrollment(
+      payload,
+      theChange
+    );
   }
 
   public getProgramWorkFlows(programUuid: string) {
     return Observable.create((observer: Subject<any[]>) => {
-      this.programWorkFlowResourceService.getProgramWorkFlows(programUuid).pipe(
-        take(1)).subscribe((workflows: any) => {
+      this.programWorkFlowResourceService
+        .getProgramWorkFlows(programUuid)
+        .pipe(take(1))
+        .subscribe((workflows: any) => {
           observer.next(workflows.allWorkflows);
         });
     }).pipe(first());
@@ -120,8 +129,10 @@ export class ProgramService {
 
   public getProgramWorkFlowStates(workflowUuid: any) {
     return Observable.create((observer: Subject<any[]>) => {
-      this.programWorkFlowStateResourceService.getProgramWorkFlowState(workflowUuid).pipe(
-        take(1)).subscribe((states) => {
+      this.programWorkFlowStateResourceService
+        .getProgramWorkFlowState(workflowUuid)
+        .pipe(take(1))
+        .subscribe((states) => {
           observer.next(states);
         });
     }).pipe(first());

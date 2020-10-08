@@ -26,8 +26,7 @@ describe('Component: PatientRelationshipSearch', () => {
         PatientRelationshipService,
         PatientRelationshipResourceService
       ],
-      imports: [HttpClientTestingModule,
-        RouterTestingModule]
+      imports: [HttpClientTestingModule, RouterTestingModule]
     });
     componet = TestBed.get(PatientRelationshipSearchComponent);
   });

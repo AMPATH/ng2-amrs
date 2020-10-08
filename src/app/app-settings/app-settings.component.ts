@@ -23,24 +23,24 @@ export class AppSettingsComponent implements OnInit {
   public cookieVal: string;
   public hideFields: boolean;
 
-  constructor(private router: Router,
+  constructor(
+    private router: Router,
     private appSettingsService: AppSettingsService,
     private localStorageService: LocalStorageService,
     private authenticationService: AuthenticationService,
-    private _cookieService: CookieService) { }
+    private _cookieService: CookieService
+  ) {}
 
   public getServerTemplates(): Array<object> {
     return this.appSettingsService.getServerTemplates();
   }
 
   public ngOnInit() {
-
     if (!window.location.host.match(new RegExp('localhost'))) {
       // this.changeServerSettings(templates[0]);
     }
 
     this.checkDebugMode();
-
   }
 
   get openmrsServer(): string {
@@ -95,7 +95,6 @@ export class AppSettingsComponent implements OnInit {
     this.openmrsServer = row.amrsUrl;
     // change etl-server url
     this.etlServer = row.etlUrl;
-
   }
 
   public onDoneClick() {
@@ -109,7 +108,6 @@ export class AppSettingsComponent implements OnInit {
   // check if debug cookie has been set
 
   public checkDebugMode() {
-
     const isCookieSet = this.getDebugMode();
 
     if (isCookieSet === 'undefined') {
@@ -122,13 +120,11 @@ export class AppSettingsComponent implements OnInit {
         this.hideFields = false;
       }
     }
-
   }
 
   // get the debug cookie value
 
   public getDebugMode() {
-
     const debugModeCookie = this._cookieService.get(this.cookieKey);
 
     if (typeof debugModeCookie === 'undefined') {
@@ -136,7 +132,6 @@ export class AppSettingsComponent implements OnInit {
     } else {
       return debugModeCookie;
     }
-
   }
 
   public toggleDebugMode() {
@@ -148,7 +143,6 @@ export class AppSettingsComponent implements OnInit {
       // remove the initial cookie set
       this._cookieService.remove(this.cookieKey);
     } else {
-
     }
 
     this.cookieVal = '' + this.hideFields;
@@ -156,14 +150,12 @@ export class AppSettingsComponent implements OnInit {
     this._cookieService.put(this.cookieKey, this.cookieVal);
   }
   public removeDebugCookie() {
-
     const isCookieSet = this.getDebugMode();
 
     if (isCookieSet === 'true') {
       // remove the cookie set
       this._cookieService.remove(this.cookieKey);
     } else {
-
     }
   }
 }

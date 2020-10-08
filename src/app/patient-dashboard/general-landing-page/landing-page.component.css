@@ -2,10 +2,10 @@ landing-page {
   display: block;
   margin-bottom: 60px;
 }
-@media screen and (min-width:600px) {
-    .program-header {
-        width:70%;
-    }
+@media screen and (min-width: 600px) {
+  .program-header {
+    width: 70%;
+  }
 }
 
 .program-header-wrapper {
@@ -13,7 +13,8 @@ landing-page {
   color: #ccc;
 }
 
-.program .program-header, .program .program-footer{
+.program .program-header,
+.program .program-footer {
   margin: 0 20px 0 20px;
   font-size: 1.72rem;
   border: none;
@@ -26,12 +27,11 @@ landing-page {
   opacity: 0.9;
 }
 
-.program.non-enrolled .program-body{
+.program.non-enrolled .program-body {
   padding: 12px;
 }
 
-.program.non-enrolled .program-header-wrapper{
-
+.program.non-enrolled .program-header-wrapper {
   color: inherit;
 }
 
@@ -41,15 +41,15 @@ landing-page {
 }
 
 .program .program-body {
-  padding-top:12px;
-  padding-bottom:12px;
-  border-left: 1px solid rgba(34, 36, 38, .15);
-  border-right: 1px solid rgba(34, 36, 38, .15);
-  border-bottom: 1px solid rgba(34, 36, 38, .15);
+  padding-top: 12px;
+  padding-bottom: 12px;
+  border-left: 1px solid rgba(34, 36, 38, 0.15);
+  border-right: 1px solid rgba(34, 36, 38, 0.15);
+  border-bottom: 1px solid rgba(34, 36, 38, 0.15);
 }
 
 .program.non-enrolled .program-body {
-  border-top: 1px solid rgba(34, 36, 38, .15);
+  border-top: 1px solid rgba(34, 36, 38, 0.15);
 }
 
 .program .program-footer {
@@ -57,7 +57,7 @@ landing-page {
   color: #fff;
   margin: 0;
   padding: 5px 12px;
-  border: 1px solid rgba(34, 36, 38, .15);
+  border: 1px solid rgba(34, 36, 38, 0.15);
   border-top: 0;
 }
 
@@ -65,7 +65,7 @@ landing-page {
   font-size: 22px;
   text-transform: capitalize;
   padding-bottom: 8px;
-  border-bottom: 1px solid rgba(34,36,38,.15);
+  border-bottom: 1px solid rgba(34, 36, 38, 0.15);
   margin-bottom: 20px;
 }
 
@@ -77,11 +77,11 @@ landing-page {
   font-size: 1rem;
   clear: both;
   text-transform: uppercase;
-  letter-spacing: .05em;
-  color: rgba(0, 0, 0, .85);
+  letter-spacing: 0.05em;
+  color: rgba(0, 0, 0, 0.85);
   user-select: none;
-  border-top: 1px solid rgba(34, 36, 38, .15);
-  border-bottom: 1px solid rgba(255, 255, 255, .1);
+  border-top: 1px solid rgba(34, 36, 38, 0.15);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .program .enrolled {
@@ -95,7 +95,7 @@ landing-page {
 .dropdown a.edit-toggle {
   position: absolute;
   top: -30px;
-  right:12px;
+  right: 12px;
   color: #fff !important;
   display: inline-block;
   cursor: pointer;
@@ -104,7 +104,7 @@ landing-page {
 .open > .edit-dropdown {
   -webkit-transform: scale(1, 1);
   transform: scale(1, 1);
-  opacity:1;
+  opacity: 1;
 }
 
 .edit-dropdown {
@@ -121,7 +121,7 @@ landing-page {
   background-color: #fff;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  border: 1px solid rgba(0,0,0,.15);
+  border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 0;
   box-shadow: none;
   width: calc(100% - 5px);
@@ -149,7 +149,7 @@ landing-page {
 }
 
 h3 {
-  padding-top:0;
+  padding-top: 0;
 }
 
 .program-header-wrapper {
@@ -157,21 +157,21 @@ h3 {
   color: #ccc;
 }
 
-.program.non-enrolled .program-body{
+.program.non-enrolled .program-body {
   padding: 12px;
 }
 
-.program.non-enrolled .program-header-wrapper{
+.program.non-enrolled .program-header-wrapper {
   background-color: darkred;
   color: #ccc;
 }
 
 .program .program-body {
-  padding-top:12px;
-  padding-bottom:12px;
-  border-left: 1px solid rgba(34, 36, 38, .15);
-  border-right: 1px solid rgba(34, 36, 38, .15);
-  border-bottom: 1px solid rgba(34, 36, 38, .15);
+  padding-top: 12px;
+  padding-bottom: 12px;
+  border-left: 1px solid rgba(34, 36, 38, 0.15);
+  border-right: 1px solid rgba(34, 36, 38, 0.15);
+  border-bottom: 1px solid rgba(34, 36, 38, 0.15);
 }
 
 .program .program-footer {
@@ -179,7 +179,7 @@ h3 {
   color: #fff;
   margin: 0;
   padding: 5px;
-  border: 1px solid rgba(34, 36, 38, .15);
+  border: 1px solid rgba(34, 36, 38, 0.15);
   border-top: 0;
 }
 
@@ -195,11 +195,11 @@ h3 {
   font-size: 1rem;
   clear: both;
   text-transform: uppercase;
-  letter-spacing: .05em;
-  color: rgba(0, 0, 0, .85);
+  letter-spacing: 0.05em;
+  color: rgba(0, 0, 0, 0.85);
   user-select: none;
-  border-top: 1px solid rgba(34, 36, 38, .15);
-  border-bottom: 1px solid rgba(255, 255, 255, .1);
+  border-top: 1px solid rgba(34, 36, 38, 0.15);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .program .enrolled {
@@ -219,11 +219,11 @@ h3 {
 .open > .edit-dropdown {
   -webkit-transform: scale(1, 1);
   transform: scale(1, 1);
-  opacity:1;
+  opacity: 1;
 }
 
 .edit-dropdown {
-  opacity:.3;
+  opacity: 0.3;
   -webkit-transform-origin: top;
   transform-origin: top;
   -webkit-animation-fill-mode: forwards;
@@ -252,7 +252,7 @@ landing-page a.btn.btn-info {
 }
 
 .fa-pencil:before {
-  margin-right:5px;
+  margin-right: 5px;
 }
 
 label.buttons {
@@ -270,22 +270,21 @@ label.buttons {
 }
 
 .enroll-button {
-margin-top:-2px;
+  margin-top: -2px;
 }
 
 .refer-status {
-display: block;
-background-color:#ACD5B6;
-color: rgb(2, 2, 26);
-font-size: 2rem;
-
+  display: block;
+  background-color: #acd5b6;
+  color: rgb(2, 2, 26);
+  font-size: 2rem;
 }
 
 .referral-message-container {
   padding: 20px 15px;
   margin-bottom: -26px;
   border-left: 1px solid #dcdcdc;
-  border-right: 1px solid #dcdcdc
+  border-right: 1px solid #dcdcdc;
 }
 
 .buttons button {

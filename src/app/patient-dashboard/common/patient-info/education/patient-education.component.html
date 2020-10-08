@@ -1,0 +1,36 @@
+<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+  <a
+    *ngIf="!patient.person.levelOfEducation"
+    class="link"
+    (click)="addPatientEducation.showEducationDialog()"
+    ><span><i class="fa fa-plus fa-fw"></i> Add</span></a
+  >
+  <a
+    *ngIf="patient.person.levelOfEducation"
+    class="link"
+    (click)="editPatientEducation.showEducationDialog()"
+    ><span><i class="fa fa-edit fa-fw"></i> Edit</span></a
+  >
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="patient.person.levelOfEducation">
+        <td>
+          <strong>Highest Education Level :</strong>
+          {{ patient.person.levelOfEducation?.display | titlecase }}
+        </td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<add-patient-education #addPatientEducation></add-patient-education>
+<edit-patient-education
+  #editPatientEducation
+  [patient]="patient"
+></edit-patient-education>

@@ -1,5 +1,4 @@
-
-import {take} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { SelectItem } from 'primeng/primeng';
 import { ReportFilterModel } from './report-filter.model';
@@ -11,10 +10,8 @@ import { FormsResourceService } from '../../openmrs-api/forms-resource.service';
   selector: 'report-filter',
   templateUrl: 'report-filter.component.html',
   styleUrls: ['report-filter.component.css']
-
 })
 export class ReportFilterComponent implements OnInit {
-
   public genders: SelectItem[];
   public indicators: SelectItem[];
   public locations: SelectItem[];
@@ -30,11 +27,15 @@ export class ReportFilterComponent implements OnInit {
   // tslint:disable-next-line:no-output-on-prefix
   @Output() public onGenerateReport: EventEmitter<any> = new EventEmitter();
   @Input() public reportFilterModel: ReportFilterModel;
-  @Output() public reportFilterModelChange: EventEmitter<any> = new EventEmitter();
+  @Output() public reportFilterModelChange: EventEmitter<
+    any
+  > = new EventEmitter();
 
-  constructor(private indicatorResourceService: IndicatorResourceService,
-              private locationResourceService: LocationResourceService,
-              private formsResourceService: FormsResourceService) {
+  constructor(
+    private indicatorResourceService: IndicatorResourceService,
+    private locationResourceService: LocationResourceService,
+    private formsResourceService: FormsResourceService
+  ) {
     this.reportFilterModel = new ReportFilterModel();
     this.reportFilterModel.ageRange = [1, 50];
     this.showButton = true;
@@ -44,9 +45,7 @@ export class ReportFilterComponent implements OnInit {
   }
 
   public ngOnInit() {
-
     this.renderFilterControls();
-
   }
 
   public handleClick(event: any): void {
@@ -66,7 +65,6 @@ export class ReportFilterComponent implements OnInit {
 
     // init selected gender
     this.reportFilterModel.selectedGender = this.genders[3].value;
-
   }
 
   public renderFilterControls(): void {
@@ -85,49 +83,62 @@ export class ReportFilterComponent implements OnInit {
   }
 
   public fetchLocations(): void {
-    this.locationResourceService.getLocations().pipe(take(1)).subscribe(
-      (locations: any[]) => {
-        this.locations = [];
-        // tslint:disable-next-line:prefer-for-of
-        for (let i = 0; i < locations.length; i++) {
-          this.locations.push({ label: locations[i].name, value: locations[i].uuid });
+    this.locationResourceService
+      .getLocations()
+      .pipe(take(1))
+      .subscribe(
+        (locations: any[]) => {
+          this.locations = [];
+          // tslint:disable-next-line:prefer-for-of
+          for (let i = 0; i < locations.length; i++) {
+            this.locations.push({
+              label: locations[i].name,
+              value: locations[i].uuid
+            });
+          }
+        },
+        (error: any) => {
+          console.error(error);
         }
-      },
-      (error: any) => {
-        console.error(error);
-      }
-    );
+      );
   }
 
   public fetchForms(): void {
-    this.formsResourceService.getForms().pipe(take(1)).subscribe(
-      (forms: any[]) => {
-        this.forms = [];
-        // tslint:disable-next-line:prefer-for-of
-        for (let i = 0; i < forms.length; i++) {
-          this.forms.push({ label: forms[i].name, value: forms[i].uuid });
+    this.formsResourceService
+      .getForms()
+      .pipe(take(1))
+      .subscribe(
+        (forms: any[]) => {
+          this.forms = [];
+          // tslint:disable-next-line:prefer-for-of
+          for (let i = 0; i < forms.length; i++) {
+            this.forms.push({ label: forms[i].name, value: forms[i].uuid });
+          }
+        },
+        (error: any) => {
+          console.error(error);
         }
-      },
-      (error: any) => {
-        console.error(error);
-      }
-    );
+      );
   }
 
   public fetchReportIndicators(): void {
     this.indicatorResourceService
-      .getReportIndicators({ report: this.reportName }).pipe(
-      take(1)).subscribe(
-      (indicators: any[]) => {
-        this.indicators = [];
-        // tslint:disable-next-line:prefer-for-of
-        for (let i = 0; i < indicators.length; i++) {
-          this.indicators.push({ label: indicators[i].label, value: indicators[i].name });
+      .getReportIndicators({ report: this.reportName })
+      .pipe(take(1))
+      .subscribe(
+        (indicators: any[]) => {
+          this.indicators = [];
+          // tslint:disable-next-line:prefer-for-of
+          for (let i = 0; i < indicators.length; i++) {
+            this.indicators.push({
+              label: indicators[i].label,
+              value: indicators[i].name
+            });
+          }
+        },
+        (error: any) => {
+          console.error(error);
         }
-      },
-      (error: any) => {
-        console.error(error);
-      }
       );
   }
 

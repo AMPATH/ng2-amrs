@@ -5,9 +5,7 @@ import * as moment from 'moment';
 import { VisitResourceService } from '../../../../openmrs-api/visit-resource.service';
 import { EncounterResourceService } from '../../../../openmrs-api/encounter-resource.service';
 import { Encounter } from '../../../../models/encounter.model';
-import {
-  RetrospectiveDataEntryService
-} from '../../../../retrospective-data-entry/services/retrospective-data-entry.service';
+import { RetrospectiveDataEntryService } from '../../../../retrospective-data-entry/services/retrospective-data-entry.service';
 
 @Component({
   selector: 'app-visit-details',
@@ -28,18 +26,15 @@ export class VisitDetailsComponent implements OnInit {
   public editingVisitType = false;
   public hideButtonNav = false;
   public message: any = {
-    'title': '',
-    'message': ''
+    title: '',
+    message: ''
   };
 
   public get visitEncounters(): any[] {
-    const mappedEncounters: Encounter[] =
-      new Array<Encounter>();
+    const mappedEncounters: Encounter[] = new Array<Encounter>();
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < this.visit.encounters.length; i++) {
-      mappedEncounters.push(
-        new Encounter(this.visit.encounters[i])
-      );
+      mappedEncounters.push(new Encounter(this.visit.encounters[i]));
     }
     return mappedEncounters;
   }
@@ -76,9 +71,11 @@ export class VisitDetailsComponent implements OnInit {
   }
 
   public get visitWithNoEncounters() {
-    return !(this.visit &&
+    return !(
+      this.visit &&
       Array.isArray(this.visit.encounters) &&
-      this.visit.encounters.length > 0);
+      this.visit.encounters.length > 0
+    );
   }
 
   private _programVisitTypesConfig: any;
@@ -95,26 +92,29 @@ export class VisitDetailsComponent implements OnInit {
   constructor(
     private visitResourceService: VisitResourceService,
     private retrospectiveDataEntryService: RetrospectiveDataEntryService,
-    private encounterResService: EncounterResourceService) {
-  }
+    private encounterResService: EncounterResourceService
+  ) {}
 
   public ngOnInit() {
-    this.retrospectiveDataEntryService.retroSettings.subscribe((retroSettings) => {
-
-      if (retroSettings && retroSettings.enabled) {
-        this.hideButtonNav = true;
-        if (this.modalHasChanges(retroSettings)) {
-          const visitPayload: any  = {
-            location : retroSettings.location.value,
-            visitType: this.visit.visitType.uuid,
-            startDatetime : new Date(retroSettings.visitDate + ', ' + retroSettings.visitTime)
-          };
-          this.updateRetroVisitSettings(visitPayload);
+    this.retrospectiveDataEntryService.retroSettings.subscribe(
+      (retroSettings) => {
+        if (retroSettings && retroSettings.enabled) {
+          this.hideButtonNav = true;
+          if (this.modalHasChanges(retroSettings)) {
+            const visitPayload: any = {
+              location: retroSettings.location.value,
+              visitType: this.visit.visitType.uuid,
+              startDatetime: new Date(
+                retroSettings.visitDate + ', ' + retroSettings.visitTime
+              )
+            };
+            this.updateRetroVisitSettings(visitPayload);
+          }
+        } else {
+          this.hideButtonNav = false;
         }
-      } else {
-        this.hideButtonNav = false;
       }
-    });
+    );
   }
 
   public extractCompletedEncounterTypes() {
@@ -127,7 +127,8 @@ export class VisitDetailsComponent implements OnInit {
   }
 
   public updateRetroVisitSettings(payload) {
-    this.visitResourceService.updateVisit(this.visit.uuid, payload).subscribe((udpatedVisit) => {
+    this.visitResourceService.updateVisit(this.visit.uuid, payload).subscribe(
+      (udpatedVisit) => {
         // this.isBusy = false;
         this.voidVisitEncounters();
         if (udpatedVisit.encounters.length === 0) {
@@ -137,7 +138,8 @@ export class VisitDetailsComponent implements OnInit {
       (error) => {
         this.isBusy = false;
         this.showDeleteEncountersButton = true;
-        this.error = 'An error occured while cancelling visit. Refresh page and retry';
+        this.error =
+          'An error occured while cancelling visit. Refresh page and retry';
         console.error('Error saving visit changes', error);
       }
     );
@@ -145,9 +147,12 @@ export class VisitDetailsComponent implements OnInit {
 
   public extractAllowedEncounterTypesForVisit() {
     this.allowedEncounterTypesUuids = [];
-    if (this.visit && this.visit.visitType
-      && this.programVisitTypesConfig &&
-      Array.isArray(this.programVisitTypesConfig.visitTypes)) {
+    if (
+      this.visit &&
+      this.visit.visitType &&
+      this.programVisitTypesConfig &&
+      Array.isArray(this.programVisitTypesConfig.visitTypes)
+    ) {
       let visitType: any;
       this.programVisitTypesConfig.visitTypes.forEach((element) => {
         if (element.uuid === this.visit.visitType.uuid) {
@@ -169,70 +174,82 @@ export class VisitDetailsComponent implements OnInit {
       this.error = '';
       const visitUuid = this.visit.uuid;
       this.visit = undefined;
-      const custom = 'custom:(uuid,encounters:(uuid,encounterDatetime,' +
+      const custom =
+        'custom:(uuid,encounters:(uuid,encounterDatetime,' +
         'form:(uuid,name),location:ref,' +
         'encounterType:ref,provider:ref),patient:(uuid,uuid),' +
         'visitType:(uuid,name),location:ref,startDatetime,' +
         'stopDatetime,attributes:(uuid,value))';
-      this.visitResourceService.getVisitByUuid(visitUuid,
-        {v: custom})
-        .subscribe((visit) => {
+      this.visitResourceService
+        .getVisitByUuid(visitUuid, { v: custom })
+        .subscribe(
+          (visit) => {
             this.isBusy = false;
             this.visit = visit;
             this.extractAllowedEncounterTypesForVisit();
           },
           (error) => {
             this.isBusy = false;
-            this.error = 'An error occured while reloading the visit. Refresh page and retry';
+            this.error =
+              'An error occured while reloading the visit. Refresh page and retry';
             console.error('Error loading visit', error);
-          });
+          }
+        );
     }
   }
 
   public endCurrentVisit() {
     this.isBusy = true;
     this.error = '';
-    this.visitResourceService.updateVisit(this.visit.uuid, {
-      stopDatetime: new Date()
-    }).subscribe(
-      (udpatedVisit) => {
-        this.isBusy = false;
-        this.visitChanged.next(udpatedVisit);
-        this.reloadVisit();
-      },
-      (error) => {
-        this.isBusy = false;
-        this.error = 'An error occured while saving visit changes. Refresh page and retry';
-        console.error('Error saving visit changes', error);
-      }
-    );
-
+    this.visitResourceService
+      .updateVisit(this.visit.uuid, {
+        stopDatetime: new Date()
+      })
+      .subscribe(
+        (udpatedVisit) => {
+          this.isBusy = false;
+          this.visitChanged.next(udpatedVisit);
+          this.reloadVisit();
+        },
+        (error) => {
+          this.isBusy = false;
+          this.error =
+            'An error occured while saving visit changes. Refresh page and retry';
+          console.error('Error saving visit changes', error);
+        }
+      );
   }
 
   public cancelCurrenVisit() {
     this.isBusy = true;
     this.error = '';
-    this.visitResourceService.updateVisit(this.visit.uuid, {
-      voided: true
-    }).subscribe(
-      (udpatedVisit) => {
-        // this.isBusy = false;
-        this.voidVisitEncounters();
-        if (udpatedVisit.encounters.length === 0) {
-          this.visitCancelled.next(this.visit);
+    this.visitResourceService
+      .updateVisit(this.visit.uuid, {
+        voided: true
+      })
+      .subscribe(
+        (udpatedVisit) => {
+          // this.isBusy = false;
+          this.voidVisitEncounters();
+          if (udpatedVisit.encounters.length === 0) {
+            this.visitCancelled.next(this.visit);
+          }
+        },
+        (error) => {
+          this.isBusy = false;
+          this.showDeleteEncountersButton = true;
+          this.error =
+            'An error occured while cancelling visit. Refresh page and retry';
+          console.error('Error saving visit changes', error);
         }
-      },
-      (error) => {
-        this.isBusy = false;
-        this.showDeleteEncountersButton = true;
-        this.error = 'An error occured while cancelling visit. Refresh page and retry';
-        console.error('Error saving visit changes', error);
-      }
-    );
+      );
   }
 
   public voidVisitEncounters() {
-    if (Array.isArray(this.visit.encounters) && this.visit.encounters.length > 0) {
+    if (
+      Array.isArray(this.visit.encounters) &&
+      this.visit.encounters.length > 0
+    ) {
       const observableBatch: Array<Observable<any>> = [];
       for (const encounter of this.visit.encounters) {
         observableBatch.push(
@@ -242,9 +259,7 @@ export class VisitDetailsComponent implements OnInit {
 
       // forkjoin all requests
       this.isBusy = true;
-      forkJoin(
-        observableBatch
-      ).subscribe(
+      forkJoin(observableBatch).subscribe(
         (data) => {
           this.isBusy = false;
           this.visitCancelled.next(this.visit);
@@ -274,7 +289,8 @@ export class VisitDetailsComponent implements OnInit {
   public confirmAction(action) {
     switch (action) {
       case 'cancel-visit':
-        this.message.title = 'Cancelling a visit deletes all encounters associated with it.';
+        this.message.title =
+          'Cancelling a visit deletes all encounters associated with it.';
         this.message.message = 'Please confirm you wish to cancel this visit:';
         this.confirmingCancelVisit = true;
         break;
@@ -328,7 +344,6 @@ export class VisitDetailsComponent implements OnInit {
     } else {
       this.endCurrentVisit();
     }
-
   }
 
   public onNoDialogConfirmation() {
@@ -338,7 +353,9 @@ export class VisitDetailsComponent implements OnInit {
 
   private modalHasChanges(settings) {
     const visitDate = moment(this.visit.startDatetime).format('YYYY-MM-DD');
-    return this.visit.location.uuid !== settings.location.value || visitDate !== settings.visitDate;
+    return (
+      this.visit.location.uuid !== settings.location.value ||
+      visitDate !== settings.visitDate
+    );
   }
-
 }

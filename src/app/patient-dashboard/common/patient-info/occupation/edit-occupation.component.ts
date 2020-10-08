@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-edit-occupation',
   templateUrl: './edit-occupation.component.html',
-  styleUrls: ['./edit-occupation.component.css'],
+  styleUrls: ['./edit-occupation.component.css']
 })
 export class EditOccupationComponent implements OnInit, OnDestroy {
   public patients: Patient = new Patient({});
@@ -31,7 +31,7 @@ export class EditOccupationComponent implements OnInit, OnDestroy {
     private patientService: PatientService,
     private conceptService: ConceptResourceService,
     private personAttributeService: PersonAttributeResourceService
-  ) { }
+  ) {}
   public ngOnInit(): void {
     this.getOccupatonConcept();
   }
@@ -43,28 +43,27 @@ export class EditOccupationComponent implements OnInit, OnDestroy {
   }
 
   public getOccupatonConcept() {
-     this.conceptService.getConceptByUuid(this.occupationConceptUuid)
-     .subscribe((concept: any) => {
-       if (concept) {
-           this.concept = concept;
-           this.setOccupationOptions(concept.answers);
-       }
-     });
-
+    this.conceptService
+      .getConceptByUuid(this.occupationConceptUuid)
+      .subscribe((concept: any) => {
+        if (concept) {
+          this.concept = concept;
+          this.setOccupationOptions(concept.answers);
+        }
+      });
   }
 
   public setOccupationOptions(occupations) {
     this.occupations = occupations.map((occupation: any) => {
-        return {
-          'value': occupation.uuid,
-          'label': occupation.display
-        };
+      return {
+        value: occupation.uuid,
+        label: occupation.display
+      };
     });
-
   }
 
   public onSelectOccupation($event) {
-   this.selectedOccupation = $event;
+    this.selectedOccupation = $event;
   }
 
   public showOccupationDialog(mode) {
@@ -76,64 +75,72 @@ export class EditOccupationComponent implements OnInit, OnDestroy {
     this.display = false;
   }
   public saveOccupation() {
-     switch (this.saveMode) {
-       case 'add':
-         this.addOccupation();
-         break;
-       case 'edit':
-         this.updateOccupation();
-         break;
-        default:
-          return null;
-
-     }
-
+    switch (this.saveMode) {
+      case 'add':
+        this.addOccupation();
+        break;
+      case 'edit':
+        this.updateOccupation();
+        break;
+      default:
+        return null;
+    }
   }
 
   public addOccupation() {
     const payload = {
-      'value': this.selectedOccupation,
-      'attributeType': this.occupationAttributeTypeUuid
+      value: this.selectedOccupation,
+      attributeType: this.occupationAttributeTypeUuid
     };
     const patientUuid = this.patient.person.uuid;
-    this.personAttributeService.createPersonAttribute(patientUuid, payload)
-    .subscribe((result: any) => {
-       this.displaySuccessAlert('Occupation successfully saved');
-    }, (error: any) => {
-       this.displayErrorAlert(error.error);
-    });
-
+    this.personAttributeService
+      .createPersonAttribute(patientUuid, payload)
+      .subscribe(
+        (result: any) => {
+          this.displaySuccessAlert('Occupation successfully saved');
+          this.patientService.fetchPatientByUuid(patientUuid);
+        },
+        (error: any) => {
+          this.displayErrorAlert(error.error);
+        }
+      );
   }
 
   public updateOccupation() {
     const payload = {
-      'value': this.selectedOccupation,
-      'attributeType': this.occupationAttributeTypeUuid
+      value: this.selectedOccupation,
+      attributeType: this.occupationAttributeTypeUuid
     };
     const patientUuid = this.patient.person.uuid;
     const occupationUuid = this.getCurrentOccupationUuid();
-    this.personAttributeService.updatePersonAttribute(patientUuid, payload, occupationUuid)
-    .subscribe((result) => {
-       this.displaySuccessAlert('Occupation successfully Updated');
-       this.patientService.fetchPatientByUuid(patientUuid);
-    }, (error: any) => {
-       this.displayErrorAlert(error.error);
-    });
-
+    this.personAttributeService
+      .updatePersonAttribute(patientUuid, payload, occupationUuid)
+      .subscribe(
+        (result) => {
+          this.displaySuccessAlert('Occupation successfully Updated');
+          this.patientService.fetchPatientByUuid(patientUuid);
+        },
+        (error: any) => {
+          this.displayErrorAlert(error.error);
+        }
+      );
   }
 
   private getCurrentOccupationUuid() {
     let currentPersonOccupationUuid = '';
-    const currentOccupation: any = this.patient.person.attributes.filter((attribute: any) => {
-      return attribute.attributeType.uuid === this.occupationAttributeTypeUuid;
-    });
+    const currentOccupation: any = this.patient.person.attributes.filter(
+      (attribute: any) => {
+        return (
+          attribute.attributeType.uuid === this.occupationAttributeTypeUuid
+        );
+      }
+    );
     if (currentOccupation.length > 0) {
       if (currentOccupation[0].uuid) {
         currentPersonOccupationUuid = currentOccupation[0].uuid;
       }
     }
-   return currentPersonOccupationUuid;
-
+    return currentPersonOccupationUuid;
   }
 
   private displaySuccessAlert(message) {
@@ -153,7 +160,6 @@ export class EditOccupationComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.showErrorAlert = false;
       this.display = false;
-    }, 1000);
+    }, 5000);
   }
-
 }

@@ -1,6 +1,11 @@
-
 import { throwError as observableThrowError, Observable, of } from 'rxjs';
-import { TestBed, async, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
+import {
+  TestBed,
+  async,
+  ComponentFixture,
+  fakeAsync,
+  tick
+} from '@angular/core/testing';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LabOrderSearchComponent } from './lab-order-search.component';
@@ -8,12 +13,15 @@ import { OrderResourceService } from '../openmrs-api/order-resource.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 class FakeOrderResourceService {
-  public searchOrdersById(orderId: string, cached: boolean = false,
-    v: string = null): Observable<any> {
+  public searchOrdersById(
+    orderId: string,
+    cached: boolean = false,
+    v: string = null
+  ): Observable<any> {
     return of({
       _body: {
-        'orderNumber': 'ORD-34557',
-        'accessionNumber': null
+        orderNumber: 'ORD-34557',
+        accessionNumber: null
       }
     });
   }
@@ -25,22 +33,26 @@ describe('Component: LabOrderSearchComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        HttpClientTestingModule],
+      imports: [FormsModule, ReactiveFormsModule, HttpClientTestingModule],
       declarations: [LabOrderSearchComponent]
-    }).overrideComponent(LabOrderSearchComponent, {
-      set: {
-        providers: [
-          { provide: OrderResourceService, useClass: FakeOrderResourceService }
-        ]
-      }
-    }).compileComponents()
+    })
+      .overrideComponent(LabOrderSearchComponent, {
+        set: {
+          providers: [
+            {
+              provide: OrderResourceService,
+              useClass: FakeOrderResourceService
+            }
+          ]
+        }
+      })
+      .compileComponents()
       .then(() => {
         fixture = TestBed.createComponent(LabOrderSearchComponent);
         comp = fixture.componentInstance;
-        fakeOrderResourceService = fixture.debugElement.injector.get(OrderResourceService);
+        fakeOrderResourceService = fixture.debugElement.injector.get(
+          OrderResourceService
+        );
       });
   }));
 
@@ -51,19 +63,20 @@ describe('Component: LabOrderSearchComponent', () => {
   it('should create the search form with input and search and reset buttons', (done) => {
     fixture.componentInstance.ngOnInit();
     fixture.detectChanges();
-    expect(fixture.nativeElement
-      .querySelectorAll('button').length).toBe(2);
-    expect(fixture.nativeElement
-      .querySelectorAll('input').length).toBe(1);
+    expect(fixture.nativeElement.querySelectorAll('button').length).toBe(2);
+    expect(fixture.nativeElement.querySelectorAll('input').length).toBe(1);
     done();
   });
 
   it('should hit the success callback when searchOrdersById returns success', fakeAsync(() => {
-    const spy = spyOn(fakeOrderResourceService, 'searchOrdersById').and.returnValue(
+    const spy = spyOn(
+      fakeOrderResourceService,
+      'searchOrdersById'
+    ).and.returnValue(
       of({
         _body: {
-          'orderNumber': 'ORD-34557',
-          'accessionNumber': null
+          orderNumber: 'ORD-34557',
+          accessionNumber: null
         }
       })
     );
@@ -74,9 +87,10 @@ describe('Component: LabOrderSearchComponent', () => {
   }));
 
   it('should hit the error callback when searchOrdersById returns an error', fakeAsync(() => {
-    const spy = spyOn(fakeOrderResourceService, 'searchOrdersById').and.returnValue(
-      observableThrowError({ error: '' })
-    );
+    const spy = spyOn(
+      fakeOrderResourceService,
+      'searchOrdersById'
+    ).and.returnValue(observableThrowError({ error: '' }));
     comp.searchOrderId();
     tick(50);
     fixture.detectChanges();

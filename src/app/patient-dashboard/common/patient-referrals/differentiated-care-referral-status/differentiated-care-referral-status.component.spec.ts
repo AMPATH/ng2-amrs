@@ -12,12 +12,13 @@ describe('DifferentiatedCareReferralStatusComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [DifferentiatedCareReferralStatusComponent]
-    })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DifferentiatedCareReferralStatusComponent);
+    fixture = TestBed.createComponent(
+      DifferentiatedCareReferralStatusComponent
+    );
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

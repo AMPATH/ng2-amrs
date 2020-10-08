@@ -15,7 +15,10 @@ import { routes } from './clinic-dashboard.routes';
 import { ClinicDashboardComponent } from './clinic-dashboard.component';
 import { ClinicDashboardGuard } from './clinic-dashboard.guard';
 import {
-  TabViewModule, FieldsetModule, ButtonModule, GrowlModule,
+  TabViewModule,
+  FieldsetModule,
+  ButtonModule,
+  GrowlModule,
   AccordionModule
 } from 'primeng/primeng';
 import { ReportingUtilitiesModule } from '../reporting-utilities/reporting-utilities.module';
@@ -29,10 +32,11 @@ import { CdmModule } from './cdm/cdm-program.module';
 import { HivProgramModule } from './hiv/hiv-program.module';
 import { OncologyProgramModule } from './oncology/oncology-program.module';
 import { ClinicFlowCacheService } from '../hiv-care-lib/clinic-flow/clinic-flow-cache.service';
-import { MatProgressSpinnerModule, MatProgressBarModule } from '@angular/material';
 import {
-  HivClinicFlowResourceService
-} from '../etl-api/hiv-clinic-flow-resource.service';
+  MatProgressSpinnerModule,
+  MatProgressBarModule
+} from '@angular/material';
+import { HivClinicFlowResourceService } from '../etl-api/hiv-clinic-flow-resource.service';
 export function highchartsFactory() {
   const hc = require('highcharts');
   const hm = require('highcharts/highcharts-more');
@@ -42,22 +46,13 @@ export function highchartsFactory() {
   return hc;
 }
 import { CacheModule } from 'ionic-cache';
-import { DataAnalyticsDashboardService
-} from '../data-analytics-dashboard/services/data-analytics-dashboard.services';
-import {
-  ProgramVisitEncounterSearchModule
-} from '../program-visit-encounter-search/program-visit-encounter-search.module';
-import { DepartmentProgramFilterModule
-} from './../department-program-filter/department-program-filter.module';
-import { PatientProgramEnrollmentService
-} from './../etl-api/patient-program-enrollment.service';
-import { PatientProgramEnrollmentModule
-} from './../patients-program-enrollment/patients-program-enrollment.module';
-import {
-  PatientReferralProgramModule
-} from './referral/patient-referral-program.module';
-import { ClinicRoutesFactory
-} from '../navigation/side-navigation/clinic-side-nav/clinic-side-nav-routes.factory';
+import { DataAnalyticsDashboardService } from '../data-analytics-dashboard/services/data-analytics-dashboard.services';
+import { ProgramVisitEncounterSearchModule } from '../program-visit-encounter-search/program-visit-encounter-search.module';
+import { DepartmentProgramFilterModule } from './../department-program-filter/department-program-filter.module';
+import { PatientProgramEnrollmentService } from './../etl-api/patient-program-enrollment.service';
+import { PatientProgramEnrollmentModule } from './../patients-program-enrollment/patients-program-enrollment.module';
+import { PatientReferralProgramModule } from './referral/patient-referral-program.module';
+import { ClinicRoutesFactory } from '../navigation/side-navigation/clinic-side-nav/clinic-side-nav-routes.factory';
 
 @NgModule({
   declarations: [
@@ -123,7 +118,6 @@ import { ClinicRoutesFactory
     DataAnalyticsDashboardService,
     PatientProgramEnrollmentService,
     ClinicRoutesFactory
-
   ],
   entryComponents: []
 })

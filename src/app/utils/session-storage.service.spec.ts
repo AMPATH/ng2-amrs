@@ -1,4 +1,4 @@
-import {SessionStorageService} from './session-storage.service';
+import { SessionStorageService } from './session-storage.service';
 
 describe('LocalStorageService Tests', () => {
   let service: SessionStorageService;
@@ -8,7 +8,8 @@ describe('LocalStorageService Tests', () => {
     property1: 'sessionStorage wrapper',
     property2: 'another property'
   };
- beforeEach(() => {
+
+  beforeEach(() => {
     service = new SessionStorageService();
   });
 
@@ -24,23 +25,24 @@ describe('LocalStorageService Tests', () => {
     service.setItem(keyName, value);
     let v;
     try {
-       v = window.sessionStorage.getItem(keyName);
+      v = window.sessionStorage.getItem(keyName);
     } catch (e) {
       console.error('Error getting item', e);
     }
-    expect(v).toEqual(value,
-      'setItem() should store values');
+    expect(v).toEqual(value, 'setItem() should store values');
   });
+
   it('should return the correct length of sessionStorage', () => {
     window.sessionStorage.setItem(keyName, 'some value');
     expect(service.storageLength).toEqual(1);
   });
 
- it('should store javascript object literals', () => {
+  it('should store javascript object literals', () => {
     service.setObject(keyName, objectValue);
     const stored = window.sessionStorage.getItem(keyName);
     expect(JSON.parse(stored)).toEqual(objectValue, 'setObject()');
   });
+
   it('should retrieve a stored value', () => {
     try {
       window.sessionStorage.setItem(keyName, value);
@@ -49,17 +51,19 @@ describe('LocalStorageService Tests', () => {
     }
     expect(service.getItem(keyName)).toEqual(value, 'getItem()');
   });
+
   it('should remove an existing item', () => {
     window.sessionStorage.setItem(keyName, 'some value');
     service.remove(keyName);
     expect(window.sessionStorage.getItem(keyName)).toBeNull();
   });
+
   it('should clear localStorage', () => {
     service.clear();
     expect(window.sessionStorage.length).toEqual(0);
   });
 
- it('should retrieve the stored javascript object literal', () => {
+  it('should retrieve the stored javascript object literal', () => {
     window.sessionStorage.setItem(keyName, JSON.stringify(objectValue));
     expect(service.getObject(keyName)).toEqual(objectValue, 'getObject()');
   });

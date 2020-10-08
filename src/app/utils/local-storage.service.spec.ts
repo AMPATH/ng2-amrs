@@ -8,7 +8,7 @@ describe('LocalStorageService Tests', () => {
     property1: 'localStorage wrapper',
     property2: 'another property'
   };
- beforeEach(() => {
+  beforeEach(() => {
     service = new LocalStorageService();
   });
 
@@ -24,19 +24,18 @@ describe('LocalStorageService Tests', () => {
     service.setItem(keyName, value);
     let v;
     try {
-       v = window.localStorage.getItem(keyName);
+      v = window.localStorage.getItem(keyName);
     } catch (e) {
       console.error('Error getting item', e);
     }
-    expect(v).toEqual(value,
-      'setItem() should store values');
+    expect(v).toEqual(value, 'setItem() should store values');
   });
   it('should return the correct length of localStorage', () => {
     window.localStorage.setItem(keyName, 'some value');
     expect(service.storageLength).toEqual(1);
   });
 
- it('should store javascript object literals', () => {
+  it('should store javascript object literals', () => {
     service.setObject(keyName, objectValue);
     const stored = window.localStorage.getItem(keyName);
     expect(JSON.parse(stored)).toEqual(objectValue, 'setObject()');
@@ -59,7 +58,7 @@ describe('LocalStorageService Tests', () => {
     expect(window.localStorage.length).toEqual(0);
   });
 
- it('should retrieve the stored javascript object literal', () => {
+  it('should retrieve the stored javascript object literal', () => {
     window.localStorage.setItem(keyName, JSON.stringify(objectValue));
     expect(service.getObject(keyName)).toEqual(objectValue, 'getObject()');
   });

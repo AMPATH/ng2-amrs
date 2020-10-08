@@ -3,7 +3,6 @@
  * More info: https://angular.io/docs/ts/latest/guide/testing.html#!#simple-component-test
  */
 
-
 import { throwError as observableThrowError, Observable, of } from 'rxjs';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
@@ -14,68 +13,73 @@ import { PatientMonthlyStatusComponent } from './patient-monthly-status.componen
 import { PatientCareStatusResourceService } from '../../../etl-api/patient-care-status-resource.service';
 import { PatientService } from '../../services/patient.service';
 class MockPatientService {
-    currentlyLoadedPatient = of({ uuid: '', person: { uuid: 'persion_uui' } });
+  currentlyLoadedPatient = of({ uuid: '', person: { uuid: 'persion_uui' } });
 }
 class MockPatientCareStatusResourceService {
-    getMonthlyPatientCareStatus(options) { return of({ month: '' }); }
+  getMonthlyPatientCareStatus(options) {
+    return of({ month: '' });
+  }
 }
 describe('PatientMonthlyStatusComponent', () => {
-    let fixture: ComponentFixture<PatientMonthlyStatusComponent>;
-    let comp: PatientMonthlyStatusComponent;
-    let dataStub;
+  let fixture: ComponentFixture<PatientMonthlyStatusComponent>;
+  let comp: PatientMonthlyStatusComponent;
+  let dataStub;
 
-    const fakePatientService = {
-        currentlyLoadedPatient: of({ uuid: '', person: { uuid: 'persion_uui' } })
-    };
+  const fakePatientService = {
+    currentlyLoadedPatient: of({ uuid: '', person: { uuid: 'persion_uui' } })
+  };
 
-    const fakeMonthlyStatus = {
-        getMonthlyPatientCareStatus: of({ month: '' })
-    };
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            declarations: [
-                PatientMonthlyStatusComponent
-            ],
-            providers: [
-                {
-                    provide: PatientService,
-                    useClass: MockPatientService
-                },
-                {
-                    provide: PatientCareStatusResourceService,
-                    useClass: MockPatientCareStatusResourceService
-                }],
-            schemas: [NO_ERRORS_SCHEMA]
-        }).compileComponents().then(() => {
-            fixture = TestBed.createComponent(PatientMonthlyStatusComponent);
-            comp = fixture.componentInstance;
-            dataStub = fixture.debugElement.injector.get(PatientCareStatusResourceService);
-            // el = fixture.debugElement.query(By.css('h1'));
-        });
-    }));
-
-    afterEach(() => {
-        TestBed.resetTestingModule();
-    });
-
-    it('Should hit the success when the history is fetched', () => {
-        fixture.detectChanges();
-        const spy = spyOn(dataStub, 'getMonthlyPatientCareStatus').and.returnValue(
-            of([
-                {
-                    month: ''
-                }
-            ])
+  const fakeMonthlyStatus = {
+    getMonthlyPatientCareStatus: of({ month: '' })
+  };
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [PatientMonthlyStatusComponent],
+      providers: [
+        {
+          provide: PatientService,
+          useClass: MockPatientService
+        },
+        {
+          provide: PatientCareStatusResourceService,
+          useClass: MockPatientCareStatusResourceService
+        }
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
+    })
+      .compileComponents()
+      .then(() => {
+        fixture = TestBed.createComponent(PatientMonthlyStatusComponent);
+        comp = fixture.componentInstance;
+        dataStub = fixture.debugElement.injector.get(
+          PatientCareStatusResourceService
         );
-        comp.getCareStatusHistory();
-        fixture.detectChanges();
-    });
+        // el = fixture.debugElement.query(By.css('h1'));
+      });
+  }));
 
-    it('Should hit the error callback when an error occurs', () => {
-        const spy = spyOn(dataStub, 'getMonthlyPatientCareStatus').and.returnValue(
-            observableThrowError({ error: '' })
-        );
-        comp.getCareStatusHistory();
-        expect(spy.calls.any()).toEqual(true);
-    });
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  });
+
+  it('Should hit the success when the history is fetched', () => {
+    fixture.detectChanges();
+    const spy = spyOn(dataStub, 'getMonthlyPatientCareStatus').and.returnValue(
+      of([
+        {
+          month: ''
+        }
+      ])
+    );
+    comp.getCareStatusHistory();
+    fixture.detectChanges();
+  });
+
+  it('Should hit the error callback when an error occurs', () => {
+    const spy = spyOn(dataStub, 'getMonthlyPatientCareStatus').and.returnValue(
+      observableThrowError({ error: '' })
+    );
+    comp.getCareStatusHistory();
+    expect(spy.calls.any()).toEqual(true);
+  });
 });

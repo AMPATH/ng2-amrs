@@ -1,80 +1,102 @@
-<p-panel header="{{reportFilterTitle}}">
-	<div class="ui-grid ui-grid-responsive ui-grid-pad " style="margin: 10px 0px">
+<p-panel header="{{ reportFilterTitle }}">
+  <div class="ui-grid ui-grid-responsive ui-grid-pad" style="margin: 10px 0px">
+    <div class="ui-grid-row ui-fluid" *ngIf="isEnabled('indicatorsControl')">
+      <div class="ui-grid-col-2 change-red">Indicators *:</div>
+      <div class="ui-grid-col-10">
+        <p-multiSelect
+          [options]="indicators"
+          [(ngModel)]="reportFilterModel.selectedIndicators"
+        ></p-multiSelect>
+      </div>
+    </div>
 
-		<div class="ui-grid-row ui-fluid" *ngIf="isEnabled('indicatorsControl')">
-			<div class="ui-grid-col-2 change-red">
-				Indicators *:
-			</div>
-			<div class="ui-grid-col-10">
-				<p-multiSelect [options]="indicators" [(ngModel)]="reportFilterModel.selectedIndicators"></p-multiSelect>
-			</div>
-		</div>
+    <div class="ui-grid-row ui-fluid" *ngIf="isEnabled('locationsControl')">
+      <div class="ui-grid-col-2 change-red">Locations *:</div>
+      <div class="ui-grid-col-10">
+        <p-multiSelect
+          [options]="locations"
+          [(ngModel)]="reportFilterModel.selectedLocations"
+        ></p-multiSelect>
+      </div>
+    </div>
 
-		<div class="ui-grid-row ui-fluid" *ngIf="isEnabled('locationsControl')">
-			<div class="ui-grid-col-2 change-red">
-				Locations *:
-			</div>
-			<div class="ui-grid-col-10">
-				<p-multiSelect [options]="locations" [(ngModel)]="reportFilterModel.selectedLocations"></p-multiSelect>
-			</div>
-		</div>
+    <div class="ui-grid-row ui-fluid" *ngIf="isEnabled('formsControl')">
+      <div class="ui-grid-col-2 change-red">Forms *:</div>
+      <div class="ui-grid-col-10">
+        <p-multiSelect
+          [options]="forms"
+          [(ngModel)]="reportFilterModel.selectedForms"
+        ></p-multiSelect>
+      </div>
+    </div>
 
-        <div class="ui-grid-row ui-fluid" *ngIf="isEnabled('formsControl')">
-			<div class="ui-grid-col-2 change-red">
-				Forms *:
-			</div>
-			<div class="ui-grid-col-10">
-				<p-multiSelect [options]="forms" [(ngModel)]="reportFilterModel.selectedForms"></p-multiSelect>
-			</div>
-		</div>
+    <div
+      class="ui-grid-row make-full-width"
+      *ngIf="isEnabled('startDateControl')"
+    >
+      <div class="ui-grid-col-2">Start Date *:</div>
+      <div class="ui-grid-col-10">
+        <p-calendar
+          [(ngModel)]="reportFilterModel.startDate"
+          [readonlyInput]="false"
+          [showIcon]="true"
+        ></p-calendar>
+      </div>
+    </div>
 
-		<div class="ui-grid-row make-full-width" *ngIf="isEnabled('startDateControl')">
-			<div class="ui-grid-col-2">
-				Start Date *:
-			</div>
-			<div class="ui-grid-col-10">
-				<p-calendar  [(ngModel)]="reportFilterModel.startDate"  [readonlyInput]="false" [showIcon]="true"></p-calendar>
-			</div>
-		</div>
+    <div class="ui-grid-row" *ngIf="isEnabled('endDateControl')">
+      <div class="ui-grid-col-2">End Date *:</div>
+      <div class="ui-grid-col-10">
+        <p-calendar
+          [(ngModel)]="reportFilterModel.endDate"
+          [readonlyInput]="false"
+          [showIcon]="true"
+        >
+        </p-calendar>
+      </div>
+    </div>
 
-		<div class="ui-grid-row" *ngIf="isEnabled('endDateControl')">
-			<div class="ui-grid-col-2">
-				End Date *:
-			</div>
-			<div class="ui-grid-col-10">
-				<p-calendar [(ngModel)]="reportFilterModel.endDate" [readonlyInput]="false" [showIcon]="true">
-				</p-calendar>
-			</div>
-		</div>
+    <div class="ui-grid-row ui-fluid" *ngIf="isEnabled('genderControl')">
+      <div class="ui-grid-col-2">Gender *:</div>
+      <div class="ui-grid-col-10">
+        <p-dropdown
+          [options]="genders"
+          [(ngModel)]="reportFilterModel.selectedGender"
+          [autoWidth]="false"
+        ></p-dropdown>
+      </div>
+    </div>
 
-		<div class="ui-grid-row ui-fluid" *ngIf="isEnabled('genderControl')">
-			<div class="ui-grid-col-2">
-				Gender *:
-			</div>
-			<div class="ui-grid-col-10">
-				<p-dropdown [options]="genders" [(ngModel)]="reportFilterModel.selectedGender" [autoWidth]="false"></p-dropdown>
-			</div>
-		</div>
+    <div class="ui-grid-row ui-fluid" *ngIf="isEnabled('ageRangeControl')">
+      <div class="ui-grid-col-2">
+        Age Range *:(<strong>{{ reportFilterModel.ageRange[0] }}</strong> to
+        <strong>{{ reportFilterModel.ageRange[1] }}</strong
+        >)
+      </div>
+      <div class="ui-grid-col-10">
+        <p-slider
+          [(ngModel)]="reportFilterModel.ageRange"
+          [range]="true"
+          [min]="0"
+          [max]="150"
+          [animate]="true"
+        ></p-slider>
+      </div>
+    </div>
 
-        <div class="ui-grid-row ui-fluid" *ngIf="isEnabled('ageRangeControl')">
-			<div class="ui-grid-col-2">
-				Age Range *:(<strong>{{reportFilterModel.ageRange[0]}}</strong> to <strong>{{reportFilterModel.ageRange[1]}}</strong>)
-			</div>
-			<div class="ui-grid-col-10">
-				<p-slider [(ngModel)]="reportFilterModel.ageRange" [range]="true" [min]="0" [max]="150" [animate]="true"></p-slider>
-			</div>
-		</div>
+    <div class="ui-grid-row ui-fluid" *ngIf="showButton">
+      <div class="ui-grid-col-10"></div>
+      <div class="ui-grid-col-2">
+        <button pButton type="submit" (click)="handleClick($event)">
+          {{ buttonName }}
+        </button>
+      </div>
+    </div>
 
-		<div class="ui-grid-row ui-fluid" *ngIf="showButton">
-			<div class="ui-grid-col-10"></div>
-			<div class="ui-grid-col-2">
-				<button pButton type="submit" (click)="handleClick($event)">{{buttonName}}</button>
-			</div>
-		</div>
-
-		<div style="text-align:center;margin-top:20px" *ngIf="enableDiagnostic">
-			Report Filter Object
-			<br> {{diagnostic}}
-		</div>
-	</div>
+    <div style="text-align: center; margin-top: 20px" *ngIf="enableDiagnostic">
+      Report Filter Object
+      <br />
+      {{ diagnostic }}
+    </div>
+  </div>
 </p-panel>

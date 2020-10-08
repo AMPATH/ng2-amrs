@@ -24,13 +24,21 @@ import { ProgramService } from '../../programs/program.service';
 import { ProgramWorkFlowResourceService } from '../../../openmrs-api/program-workflow-resource.service';
 import { ProgramWorkFlowStateResourceService } from '../../../openmrs-api/program-workflow-state-resource.service';
 import { UserDefaultPropertiesService } from '../../../user-default-properties';
-import { testReferralInfo, testProgramVisitConfig, testUnenrollmentPayload,
-  testPatient2, testReferralPayload, programVisitConfigs } from './mock/formentry-referrals-handler.mock';
+import {
+  testReferralInfo,
+  testProgramVisitConfig,
+  testUnenrollmentPayload,
+  testPatient2,
+  testReferralPayload,
+  programVisitConfigs
+} from './mock/formentry-referrals-handler.mock';
 
 class FakeCacheStorageService {
   constructor(a, b) {}
 
-  public ready() { return true; }
+  public ready() {
+    return true;
+  }
 }
 
 const programManagerServiceStub = {
@@ -57,7 +65,10 @@ let userDefaultPropertiesService;
 describe('Service: FormentryReferralsHandler', () => {
   let form: Form;
   let service: FormentryReferralsHandlerService;
-  const testPatient = new Patient({display: '123456 - Test Patient', uuid: 'test-patient-uuid'});
+  const testPatient = new Patient({
+    display: '123456 - Test Patient',
+    uuid: 'test-patient-uuid'
+  });
 
   const testResults = {
     dateCompleted: null,
@@ -78,23 +89,28 @@ describe('Service: FormentryReferralsHandler', () => {
     voided: false
   };
 
-  localStorageService = jasmine.createSpyObj('LocalStorageService',
-  ['getItem', 'getObject', 'setObject', 'setItem']);
-  userDefaultPropertiesService = jasmine.createSpyObj('UserDefaultPropertiesService',
-    ['getCurrentUserDefaultLocationObject']);
+  localStorageService = jasmine.createSpyObj('LocalStorageService', [
+    'getItem',
+    'getObject',
+    'setObject',
+    'setItem'
+  ]);
+  userDefaultPropertiesService = jasmine.createSpyObj(
+    'UserDefaultPropertiesService',
+    ['getCurrentUserDefaultLocationObject']
+  );
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        PatientReferralsModule
-      ],
+      imports: [HttpClientTestingModule, PatientReferralsModule],
       providers: [
         CacheService,
         {
-          provide: CacheStorageService, useFactory: () => {
+          provide: CacheStorageService,
+          useFactory: () => {
             return new FakeCacheStorageService(null, null);
-          }, deps: []
+          },
+          deps: []
         },
         DataCacheService,
         FormentryReferralsHandlerService,
@@ -130,54 +146,54 @@ describe('Service: FormentryReferralsHandler', () => {
     form = new Form(null, null, null);
 
     // set up spies
-    const getQuestionByIdSpy = spyOn(form, 'searchNodeByQuestionId')
-      .and.callFake((questionId) => {
-        if (questionId === 'rtc') {
-          const found = {
-            control: {
-              value: '2017-12-12'
-            }
-          };
-          return [found];
-        }
-        if (questionId === 'encDate') {
-          const found = {
-            control: {
-              value: '2017-07-07'
-            }
-          };
-          return [found];
-        }
+    const getQuestionByIdSpy = spyOn(
+      form,
+      'searchNodeByQuestionId'
+    ).and.callFake((questionId) => {
+      if (questionId === 'rtc') {
+        const found = {
+          control: {
+            value: '2017-12-12'
+          }
+        };
+        return [found];
+      }
+      if (questionId === 'encDate') {
+        const found = {
+          control: {
+            value: '2017-07-07'
+          }
+        };
+        return [found];
+      }
 
-        if (questionId === 'provider') {
-          const found = {
-            control: {
-              value: 'provider-uuid'
-            }
-          };
-          return [found];
-        }
+      if (questionId === 'provider') {
+        const found = {
+          control: {
+            value: 'provider-uuid'
+          }
+        };
+        return [found];
+      }
 
-        if (questionId === 'location') {
-          const found = {
-            control: {
-              value: 'location-uuid'
-            }
-          };
-          return [found];
-        }
+      if (questionId === 'location') {
+        const found = {
+          control: {
+            value: 'location-uuid'
+          }
+        };
+        return [found];
+      }
 
-        if (questionId === 'referrals') {
-          const found = {
-            control: {
-              value: ['ovc-uuid', service.differentiatedCareConceptUuid]
-            }
-          };
-          return [found];
-        }
-
-      });
-
+      if (questionId === 'referrals') {
+        const found = {
+          control: {
+            value: ['ovc-uuid', service.differentiatedCareConceptUuid]
+          }
+        };
+        return [found];
+      }
+    });
   });
 
   afterEach(() => {
@@ -194,109 +210,162 @@ describe('Service: FormentryReferralsHandler', () => {
     const values = service.extractRequiredValues(form);
     expect(values.hasDifferentiatedCareReferal).toEqual(true);
     expect(moment(values.rtcDate).isSame(moment('2017-12-12'))).toEqual(true);
-    expect(moment(values.encounterDatetime).isSame(moment('2017-07-07'))).toEqual(true);
+    expect(
+      moment(values.encounterDatetime).isSame(moment('2017-07-07'))
+    ).toEqual(true);
     expect(values.providerUuid).toEqual('provider-uuid');
     expect(values.locationUuid).toEqual('location-uuid');
   });
 
   it('should refer to differentiated care program when handleFormReferrals is invoked', (done) => {
-    const diffService: DifferentiatedCareReferralService = TestBed.get(DifferentiatedCareReferralService);
+    const diffService: DifferentiatedCareReferralService = TestBed.get(
+      DifferentiatedCareReferralService
+    );
     const patient: Patient = new Patient({ uuid: 'some-uuid', person: {} });
     const expectedResults = {
       success: true
     };
 
-    const diffCareReferralSpy = spyOn(diffService, 'referToDifferentiatedCare')
-      .and.callFake(() => {
-        const sub = new Subject<any>();
-        setTimeout(() => {
-          sub.next(expectedResults);
-        }, 50);
-        return sub;
-      });
+    const diffCareReferralSpy = spyOn(
+      diffService,
+      'referToDifferentiatedCare'
+    ).and.callFake(() => {
+      const sub = new Subject<any>();
+      setTimeout(() => {
+        sub.next(expectedResults);
+      }, 50);
+      return sub;
+    });
 
-    service.handleFormReferrals(patient, form)
-      .subscribe((results) => {
-        expect(results).toEqual(
-          {
-            success: true,
-            differentiatedCare: expectedResults
-          }
-        );
+    service.handleFormReferrals(patient, form).subscribe(
+      (results) => {
+        expect(results).toEqual({
+          success: true,
+          differentiatedCare: expectedResults
+        });
         done();
-      }, (error) => {
+      },
+      (error) => {
         console.error('Did not expect error with the given test case');
-      });
-    }
-  );
-
-  it('should create an enrollment payload and return it', () => {
-    localStorageService.getItem.and.returnValues(testReferralInfo.referralLocation,
-      JSON.stringify(testReferralInfo.referralVisitEncounter));
-    userDefaultPropertiesService.getCurrentUserDefaultLocationObject.and.returnValue(
-      testCurrentUserDefaultLocationObject);
-
-    const enrollmentPayload = service.createEnrollmentPayload(testPatient, testReferralData);
-    expect(enrollmentPayload.patient).toEqual(testPatient);
-    expect(enrollmentPayload.programUuid).toEqual(testReferralData.programUuid);
-    expect(enrollmentPayload.dateEnrolled).toEqual(moment().format('YYYY-MM-DD'));
-    expect(enrollmentPayload.referredToLocation).toEqual(testReferralInfo.referralLocation);
-    expect(enrollmentPayload.referredFromLocation).toEqual(testCurrentUserDefaultLocationObject.uuid);
-    expect(enrollmentPayload.submittedEncounter).toEqual(testReferralInfo.referralVisitEncounter);
+      }
+    );
   });
 
-  it('should fetch program visit configs and return the config that corresponds to the selected program',
-    async(() => {
-    const programConfigs = service.getPatientProgramVisitConfigs(testPatient,
-      testReferralData.programUuid);
+  it('should create an enrollment payload and return it', () => {
+    localStorageService.getItem.and.returnValues(
+      testReferralInfo.referralLocation,
+      JSON.stringify(testReferralInfo.referralVisitEncounter)
+    );
+    userDefaultPropertiesService.getCurrentUserDefaultLocationObject.and.returnValue(
+      testCurrentUserDefaultLocationObject
+    );
+
+    const enrollmentPayload = service.createEnrollmentPayload(
+      testPatient,
+      testReferralData
+    );
+    expect(enrollmentPayload.patient).toEqual(testPatient);
+    expect(enrollmentPayload.programUuid).toEqual(testReferralData.programUuid);
+    expect(enrollmentPayload.dateEnrolled).toEqual(
+      moment().format('YYYY-MM-DD')
+    );
+    expect(enrollmentPayload.referredToLocation).toEqual(
+      testReferralInfo.referralLocation
+    );
+    expect(enrollmentPayload.referredFromLocation).toEqual(
+      testCurrentUserDefaultLocationObject.uuid
+    );
+    expect(enrollmentPayload.submittedEncounter).toEqual(
+      testReferralInfo.referralVisitEncounter
+    );
+  });
+
+  it('should fetch program visit configs and return the config that corresponds to the selected program', async(() => {
+    const programConfigs = service.getPatientProgramVisitConfigs(
+      testPatient,
+      testReferralData.programUuid
+    );
     expect(programConfigs).toBeDefined();
     expect(programConfigs).toEqual(jasmine.any(Observable));
-    programConfigs.subscribe(programConfig => {
-      expect(programConfig).toEqual(testProgramVisitConfig[testReferralData.programUuid]);
-      expect(programConfig.name).toEqual('HTN-DM PRIMARY CARE');
-      expect(programConfig.dataDependencies).toEqual(
-        testProgramVisitConfig[testReferralData.programUuid].dataDependencies);
-      expect(programConfig.incompatibleWith).toContain('b731ba72-cf99-4176-9fcd-37cd186400c7');
-      expect(programConfig.incompatibleWith).toContain('bd9a8b06-73c7-44a8-928c-5e72247f4c1d');
-      expect(programConfig.HidevisibleLocations.length).toEqual(13, 'Hide 13 Locations');
-      expect(programConfig.stateChangeForms).toEqual(
-        testProgramVisitConfig[testReferralData.programUuid].stateChangeForms);
-      expect(programConfig.visitTypes[0].name).toEqual('DM-HTN Primary Care Visit');
-      expect(programConfig.visitTypes[0].encounterTypes.length).toEqual(2, 'Two visit types');
-    }, err => {
-      fail('Expected program configs, not an error');
-    });
+    programConfigs.subscribe(
+      (programConfig) => {
+        expect(programConfig).toEqual(
+          testProgramVisitConfig[testReferralData.programUuid]
+        );
+        expect(programConfig.name).toEqual('HTN-DM PRIMARY CARE');
+        expect(programConfig.dataDependencies).toEqual(
+          testProgramVisitConfig[testReferralData.programUuid].dataDependencies
+        );
+        expect(programConfig.incompatibleWith).toContain(
+          'b731ba72-cf99-4176-9fcd-37cd186400c7'
+        );
+        expect(programConfig.incompatibleWith).toContain(
+          'bd9a8b06-73c7-44a8-928c-5e72247f4c1d'
+        );
+        expect(programConfig.HidevisibleLocations.length).toEqual(
+          13,
+          'Hide 13 Locations'
+        );
+        expect(programConfig.stateChangeForms).toEqual(
+          testProgramVisitConfig[testReferralData.programUuid].stateChangeForms
+        );
+        expect(programConfig.visitTypes[0].name).toEqual(
+          'DM-HTN Primary Care Visit'
+        );
+        expect(programConfig.visitTypes[0].encounterTypes.length).toEqual(
+          2,
+          'Two visit types'
+        );
+      },
+      (err) => {
+        fail('Expected program configs, not an error');
+      }
+    );
   }));
 
-  it('should unenroll the patient from any enrolled programs that are incompatible with the selected program',
-    async(() => {
-      const programUnenrollmentObs = service.unenrollFromIncompatiblePrograms(testPatient2,
-        testProgramVisitConfig[testReferralData.programUuid]);
-      programUnenrollmentObs.subscribe(res => {
+  it('should unenroll the patient from any enrolled programs that are incompatible with the selected program', async(() => {
+    const programUnenrollmentObs = service.unenrollFromIncompatiblePrograms(
+      testPatient2,
+      testProgramVisitConfig[testReferralData.programUuid]
+    );
+    programUnenrollmentObs.subscribe(
+      (res) => {
         expect(res[0]).toEqual(testUnenrollmentPayload);
-        expect((res[0].dateCompleted).getTime()).toEqual((testUnenrollmentPayload.dateCompleted).getTime());
-      }, err => {
+        expect(res[0].dateCompleted.getTime()).toEqual(
+          testUnenrollmentPayload.dateCompleted.getTime()
+        );
+      },
+      (err) => {
         fail('Expected unenrollment payload, not an error');
-      });
+      }
+    );
   }));
 
   it('should refer a patient to the selected program in the selected location', async(() => {
     const patientReferralStatus = service.refer(testPatient2, testReferralData);
 
-    localStorageService.getItem.and.returnValues(testReferralInfo.referralLocation,
-      JSON.stringify(testReferralInfo.referralVisitEncounter));
+    localStorageService.getItem.and.returnValues(
+      testReferralInfo.referralLocation,
+      JSON.stringify(testReferralInfo.referralVisitEncounter)
+    );
     userDefaultPropertiesService.getCurrentUserDefaultLocationObject.and.returnValue(
-      testCurrentUserDefaultLocationObject);
+      testCurrentUserDefaultLocationObject
+    );
 
-    patientReferralStatus.subscribe(res => {
-      expect(res.notificationStatus).toEqual(null);
-      expect(res.patientProgram).toBeDefined();
-      expect(res.referralReason).toBeDefined();
-      expect(res.referredFromLocation).toBeDefined();
-      expect(res.referredToLocation).toEqual(testReferralInfo.referralLocation);
-      expect(res.programUuid).toEqual(testReferralData.programUuid);
-    }, err => {
-      fail('Expected referral payload, not an error');
-    });
+    patientReferralStatus.subscribe(
+      (res) => {
+        expect(res.notificationStatus).toEqual(null);
+        expect(res.patientProgram).toBeDefined();
+        expect(res.referralReason).toBeDefined();
+        expect(res.referredFromLocation).toBeDefined();
+        expect(res.referredToLocation).toEqual(
+          testReferralInfo.referralLocation
+        );
+        expect(res.programUuid).toEqual(testReferralData.programUuid);
+      },
+      (err) => {
+        fail('Expected referral payload, not an error');
+      }
+    );
   }));
 });

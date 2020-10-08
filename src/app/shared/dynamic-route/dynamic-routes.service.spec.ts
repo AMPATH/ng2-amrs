@@ -5,9 +5,7 @@ import { DynamicRouteModel } from './dynamic-route.model';
 describe('Service: DynamicRoutesService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        DynamicRoutesService,
-      ]
+      providers: [DynamicRoutesService]
     });
   });
 
@@ -30,37 +28,46 @@ describe('Service: DynamicRoutesService', () => {
     expect(service.patientDashboardConfig).toBeTruthy();
   });
 
-  it('should have dashboardConfig property initialized with mandatory dashboards' +
-    'i.e analytics, clinic and patient dashboard ', () => {
-    const service: DynamicRoutesService = TestBed.get(DynamicRoutesService);
-    expect(service.dashboardConfig.analyticsDashboard).toBeTruthy();
-    expect(service.dashboardConfig.clinicDashboard).toBeTruthy();
-    expect(service.dashboardConfig.patientDashboard).toBeTruthy();
-  });
+  it(
+    'should have dashboardConfig property initialized with mandatory dashboards' +
+      'i.e analytics, clinic and patient dashboard ',
+    () => {
+      const service: DynamicRoutesService = TestBed.get(DynamicRoutesService);
+      expect(service.dashboardConfig.analyticsDashboard).toBeTruthy();
+      expect(service.dashboardConfig.clinicDashboard).toBeTruthy();
+      expect(service.dashboardConfig.patientDashboard).toBeTruthy();
+    }
+  );
 
-  it('should set routes when setRoutes() is invoked with a valid ' +
-    'route object of type DynamicRouteModel', (done) => {
-    const service: DynamicRoutesService = TestBed.get(DynamicRoutesService);
-    const dynamicRouteMock: DynamicRouteModel = {
-      dashboardId: 'clinicDashboard',
-      programs: [],
-      moduleLabel: 'Clinic Dashboard',
-      params: {
-        locationUuid: 'location-uuid'
-      },
-      routes: []
-    };
+  it(
+    'should set routes when setRoutes() is invoked with a valid ' +
+      'route object of type DynamicRouteModel',
+    (done) => {
+      const service: DynamicRoutesService = TestBed.get(DynamicRoutesService);
+      const dynamicRouteMock: DynamicRouteModel = {
+        dashboardId: 'clinicDashboard',
+        programs: [],
+        moduleLabel: 'Clinic Dashboard',
+        params: {
+          locationUuid: 'location-uuid'
+        },
+        routes: []
+      };
 
-    service.routes.subscribe(routes => {
-        expect(routes).toEqual(dynamicRouteMock);
-        done();
-      },
-      err => console.log(err),
-      () => console.log('Completed'));
-    service.setRoutes(dynamicRouteMock);
-  });
+      service.routes.subscribe(
+        (routes) => {
+          expect(routes).toEqual(dynamicRouteMock);
+          done();
+        },
+        (err) => console.log(err),
+        () => console.log('Completed')
+      );
+      service.setRoutes(dynamicRouteMock);
+    }
+  );
 
-  it('should generate valid parameter string when extractParameter() is invoked', inject([],
+  it('should generate valid parameter string when extractParameter() is invoked', inject(
+    [],
     fakeAsync(() => {
       const service: DynamicRoutesService = TestBed.get(DynamicRoutesService);
       const dynamicRouteModel: DynamicRouteModel = {
@@ -72,9 +79,12 @@ describe('Service: DynamicRoutesService', () => {
         },
         routes: []
       };
-      const stringParams = service.extractParameter('patientUuid', dynamicRouteModel);
+      const stringParams = service.extractParameter(
+        'patientUuid',
+        dynamicRouteModel
+      );
       tick(50);
       expect(stringParams).toEqual('/patient-uuid');
-
-    })));
+    })
+  ));
 });

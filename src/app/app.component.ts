@@ -14,9 +14,11 @@ export const AgGridLicence: any = undefined;
 export class AppComponent implements OnInit {
   public title = 'Ampath POC';
   private routes: any[];
-  constructor(public appState: AppState,
+  constructor(
+    public appState: AppState,
     public dataCache: DataCacheService,
-    private pouchdbservice: PouchdbService) {
+    private pouchdbservice: PouchdbService
+  ) {
     this.setUpAgGridLicense();
   }
 

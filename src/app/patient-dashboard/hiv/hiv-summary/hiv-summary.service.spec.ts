@@ -8,19 +8,18 @@ import { HivSummaryService } from './hiv-summary.service';
 import { PatientService } from '../../services/patient.service';
 import { HivSummaryResourceService } from '../../../etl-api/hiv-summary-resource.service';
 import { AppSettingsService } from '../../../app-settings/app-settings.service';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController
+} from '@angular/common/http/testing';
 
 describe('Service: HivSummary', () => {
-
-  let service: HivSummaryService,
-    result: Observable<any>;
+  let service: HivSummaryService, result: Observable<any>;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule
-      ],
+      imports: [HttpClientTestingModule],
       providers: [
         HivSummaryService,
         HivSummaryResourceService,
@@ -30,7 +29,11 @@ describe('Service: HivSummary', () => {
     });
     service = TestBed.get(HivSummaryService);
     httpMock = TestBed.get(HttpTestingController);
-    result = service.getHivSummary('de662c03-b9af-4f00-b10e-2bda0440b03b', 0, 20);
+    result = service.getHivSummary(
+      'de662c03-b9af-4f00-b10e-2bda0440b03b',
+      0,
+      20
+    );
   });
 
   afterEach(() => {
@@ -40,7 +43,6 @@ describe('Service: HivSummary', () => {
   it('should create an instance', () => {
     expect(service).toBeTruthy();
   });
-
 
   /*it('should load hiv summary', (done) => {
     result.subscribe((results) => {
@@ -54,24 +56,24 @@ describe('Service: HivSummary', () => {
 
   });*/
 
-
   it('should return an error when load hiv summary is not successful', (done) => {
-
     const patientUuid = 'de662c03-b9af-4f00-b10e-2bda0440b03b';
     const startIndex = 0;
 
-    const url = 'https://amrsreporting.ampath.or.ke:8002/etl/patient/'
-      + patientUuid + '/hiv-summary?startIndex=0&limit=20';
+    const url =
+      'https://amrsreporting.ampath.or.ke:8002/etl/patient/' +
+      patientUuid +
+      '/hiv-summary?startIndex=0&limit=20';
     const req = httpMock.expectNone(url);
 
     expect(req).toBeUndefined();
 
-    service.getHivSummary(patientUuid, 0, 20)
-      .subscribe((response) => {
-      },
-        (error: Error) => {
-          expect(error).toBeTruthy();
-        });
+    service.getHivSummary(patientUuid, 0, 20).subscribe(
+      (response) => {},
+      (error: Error) => {
+        expect(error).toBeTruthy();
+      }
+    );
     done();
   });
 
@@ -110,11 +112,10 @@ describe('Service: HivSummary', () => {
 
     result.subscribe((results) => {
       if (results) {
-        expect(JSON.stringify(results.isPendingCD4))
-          .toContain(JSON.stringify(isPendingCD4Mock));
+        expect(JSON.stringify(results.isPendingCD4)).toContain(
+          JSON.stringify(isPendingCD4Mock)
+        );
       }
     });
-  }
-  );
+  });
 });
-

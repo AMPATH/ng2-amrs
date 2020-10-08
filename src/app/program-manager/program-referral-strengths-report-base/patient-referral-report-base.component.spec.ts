@@ -23,7 +23,7 @@ import { ProgramWorkFlowResourceService } from '../../openmrs-api/program-workfl
 import { SelectDepartmentService } from '../../shared/services/select-department.service';
 
 class MockCacheStorageService {
-  constructor(a, b) { }
+  constructor(a, b) {}
 
   public ready() {
     return true;
@@ -31,45 +31,55 @@ class MockCacheStorageService {
 }
 
 const mockResponse = {
-  groupedResult: [{
+  groupedResult: [
+    {
       location: 'Location Test',
       locationId: 195,
       locationUuids: '18c343eb-b353-462a-9139-b16606e6b6c2',
-      programs: [{
-        counts: 3,
-        location: 'Location Test',
-        locationUuids: '18c343eb-b353-462a-9139-b16606e6b6c2',
-        location_id: 195,
-        program: 'BREAST CANCER SCREENING',
-        programUuids: '142939b0-28a9-4649-baf9-a9d012bf3b3d'
-      }]
-  }],
-  result: [{
-    counts: 3,
-    location: 'Location Test',
-    locationUuids: '18c343eb-b353-462a-9139-b16606e6b6c2',
-    location_id: 195,
-    program: 'BREAST CANCER SCREENING',
-    programUuids: '142939b0-28a9-4649-baf9-a9d012bf3b3d'
-  }],
-  results: [{
-    counts: 3,
-    location: 'Location Test',
-    locationUuids: '18c343eb-b353-462a-9139-b16606e6b6c2',
-    location_id: 195,
-    program: 'BREAST CANCER SCREENING',
-    programUuids: '142939b0-28a9-4649-baf9-a9d012bf3b3d'
-  }]
+      programs: [
+        {
+          counts: 3,
+          location: 'Location Test',
+          locationUuids: '18c343eb-b353-462a-9139-b16606e6b6c2',
+          location_id: 195,
+          program: 'BREAST CANCER SCREENING',
+          programUuids: '142939b0-28a9-4649-baf9-a9d012bf3b3d'
+        }
+      ]
+    }
+  ],
+  result: [
+    {
+      counts: 3,
+      location: 'Location Test',
+      locationUuids: '18c343eb-b353-462a-9139-b16606e6b6c2',
+      location_id: 195,
+      program: 'BREAST CANCER SCREENING',
+      programUuids: '142939b0-28a9-4649-baf9-a9d012bf3b3d'
+    }
+  ],
+  results: [
+    {
+      counts: 3,
+      location: 'Location Test',
+      locationUuids: '18c343eb-b353-462a-9139-b16606e6b6c2',
+      location_id: 195,
+      program: 'BREAST CANCER SCREENING',
+      programUuids: '142939b0-28a9-4649-baf9-a9d012bf3b3d'
+    }
+  ]
 };
 
-const mockProcessedResponse = [{
-  counts: 3,
-  location: 'Location Test',
-  locationUuids: '18c343eb-b353-462a-9139-b16606e6b6c2',
-  location_id: 195,
-  program: 'BREAST CANCER SCREENING',
-  programUuids: '142939b0-28a9-4649-baf9-a9d012bf3b3d'
-}];
+const mockProcessedResponse = [
+  {
+    counts: 3,
+    location: 'Location Test',
+    locationUuids: '18c343eb-b353-462a-9139-b16606e6b6c2',
+    location_id: 195,
+    program: 'BREAST CANCER SCREENING',
+    programUuids: '142939b0-28a9-4649-baf9-a9d012bf3b3d'
+  }
+];
 
 const mockErrorResponse = new HttpErrorResponse({
   error: 'Internal Server Error',
@@ -85,9 +95,16 @@ let getUserSetDepartmentSpy;
 
 describe('StrengthsPatientReferralBaseComponent', () => {
   beforeEach(() => {
-    patientReferralResourceService = jasmine.createSpyObj('PatientReferralResourceService', ['getPatientReferralReport']);
-    selectDepartmentService = jasmine.createSpyObj('SelectDepartmentService', ['getUserSetDepartment']);
-    getUserSetDepartmentSpy = selectDepartmentService.getUserSetDepartment.and.returnValue('ONCOLOGY');
+    patientReferralResourceService = jasmine.createSpyObj(
+      'PatientReferralResourceService',
+      ['getPatientReferralReport']
+    );
+    selectDepartmentService = jasmine.createSpyObj('SelectDepartmentService', [
+      'getUserSetDepartment'
+    ]);
+    getUserSetDepartmentSpy = selectDepartmentService.getUserSetDepartment.and.returnValue(
+      'ONCOLOGY'
+    );
 
     TestBed.configureTestingModule({
       declarations: [
@@ -113,16 +130,14 @@ describe('StrengthsPatientReferralBaseComponent', () => {
           useValue: selectDepartmentService
         },
         {
-          provide: CacheStorageService, useFactory: () => {
+          provide: CacheStorageService,
+          useFactory: () => {
             return new MockCacheStorageService(null, null);
           }
-        },
+        }
       ],
-      imports: [
-        HttpClientTestingModule,
-        FormsModule
-      ],
-      schemas: [ NO_ERRORS_SCHEMA ]
+      imports: [HttpClientTestingModule, FormsModule],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
     fixture = TestBed.createComponent(StrengthsPatientReferralBaseComponent);
@@ -145,7 +160,9 @@ describe('StrengthsPatientReferralBaseComponent', () => {
 
   it('should generate patient referral report from the parameters provided', () => {
     fixture.detectChanges();
-    const getPatientReferralReportSpy = patientReferralResourceService.getPatientReferralReport.and.returnValue(of(mockResponse));
+    const getPatientReferralReportSpy = patientReferralResourceService.getPatientReferralReport.and.returnValue(
+      of(mockResponse)
+    );
     // report hasn't been generated yet
     expect(component.encounteredError).toBeFalsy();
     expect(component.errorMessage).toEqual('');
@@ -157,10 +174,14 @@ describe('StrengthsPatientReferralBaseComponent', () => {
     expect(component.data).toBeDefined();
     expect(component.data).toEqual(mockProcessedResponse);
     expect(component.data[0].location).toEqual('Location Test');
-    expect(component.data[0].locationUuids).toEqual('18c343eb-b353-462a-9139-b16606e6b6c2');
+    expect(component.data[0].locationUuids).toEqual(
+      '18c343eb-b353-462a-9139-b16606e6b6c2'
+    );
     expect(component.data[0].location_id).toEqual(195);
     expect(component.data[0].program).toEqual('BREAST CANCER SCREENING');
-    expect(component.data[0].programUuids).toEqual('142939b0-28a9-4649-baf9-a9d012bf3b3d');
+    expect(component.data[0].programUuids).toEqual(
+      '142939b0-28a9-4649-baf9-a9d012bf3b3d'
+    );
   });
 
   it('should report errors when generating patient referral report fails', () => {
@@ -170,9 +191,11 @@ describe('StrengthsPatientReferralBaseComponent', () => {
     expect(component.errorMessage).toEqual('');
     component.generateReport();
     component.locationUuids = 'xxxx';
-    const getPatientReferralReportSpy = patientReferralResourceService.getPatientReferralReport.and.callFake(() => {
-      return throwError(mockErrorResponse);
-    });
+    const getPatientReferralReportSpy = patientReferralResourceService.getPatientReferralReport.and.callFake(
+      () => {
+        return throwError(mockErrorResponse);
+      }
+    );
     // generate report
     component.programs = '142939b0-28a9-4649-baf9-a9d012bf3b3d';
     component.generateReport();
@@ -188,10 +211,14 @@ describe('StrengthsPatientReferralBaseComponent', () => {
     component.generateReport();
     // no error message
     expect(component.msgObj).toBeDefined();
-    expect(component.msgObj.message).toEqual('Kindly select at least one program');
+    expect(component.msgObj.message).toEqual(
+      'Kindly select at least one program'
+    );
     expect(component.msgObj.show).toBeTruthy();
     fixture.detectChanges();
-    const getPatientReferralReportSpy = patientReferralResourceService.getPatientReferralReport.and.returnValue(of(mockResponse));
+    const getPatientReferralReportSpy = patientReferralResourceService.getPatientReferralReport.and.returnValue(
+      of(mockResponse)
+    );
     component.programs = '142939b0-28a9-4649-baf9-a9d012bf3b3d';
     component.generateReport();
     // error message

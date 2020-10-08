@@ -19,19 +19,21 @@ import { Moh731ReportComponent } from './moh-731/moh-731-report.component';
 import { Moh731PatientListComponent } from './../../hiv-care-lib/moh-731-report/moh-731-patientlist.component';
 import { ChangeDepartmentComponent } from '../change-department/change-department.component';
 import { Moh731MonthlyVizComponent } from './moh-731-monthly-viz/moh-731-monthly-viz.component';
-import {
-  DashboardsViewerComponent
-} from '../../kibana-lib';
+import { DashboardsViewerComponent } from '../../kibana-lib';
 import { SurgeReportComponent } from './surge/surge-report.component';
 import { SurgeReportPatientListComponent } from 'src/app/hiv-care-lib/surge-report/surge-report-patient-list.component';
 import { DqaReportsComponent } from 'src/app/hiv-care-lib/dqa-reports/dqa-reports/dqa-reports.component';
 // tslint:disable-next-line:max-line-length
 import { ChartAbstractionPatientlistComponent } from 'src/app/hiv-care-lib/dqa-reports/chart-abstraction-patientlist/chart-abstraction-patientlist.component';
 import { DqaReportBaseComponent } from 'src/app/hiv-care-lib/dqa-reports/dqa-report-base/dqa-report-base.component';
+import { PrepReportPatientListComponent } from './../../hiv-care-lib/prep-report/prep-report-patient-list/prep-report-patient-list.component';
+import { PrepReportComponent } from './prep-report/prep-report.component';
+import { MonthlyReportComponent } from 'src/app/hiv-care-lib/monthly-report/monthly-report.component';
 
 const routes: Routes = [
   {
-    path: 'clinic-flow', component: AdminDashboardClinicFlowComponent
+    path: 'clinic-flow',
+    component: AdminDashboardClinicFlowComponent
   },
   {
     path: 'program-enrollment',
@@ -68,7 +70,7 @@ const routes: Routes = [
       },
       {
         path: 'patient-list/:indicator/:period/:gender/:age/:locationUuids',
-        component: HivSummaryIndicatorsPatientListComponent,
+        component: HivSummaryIndicatorsPatientListComponent
       }
     ]
   },
@@ -99,7 +101,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component:  DashboardsViewerComponent
+        component: DashboardsViewerComponent
       }
     ]
   },
@@ -126,7 +128,6 @@ const routes: Routes = [
       {
         path: 'patient-list',
         component: DataEntryStatisticsPatientListComponent
-
       }
     ]
   },
@@ -148,6 +149,28 @@ const routes: Routes = [
     ]
   },
   {
+    path: 'monthly-report',
+    children: [
+      {
+        path: '',
+        component: MonthlyReportComponent
+      },
+      {
+        path: 'prep-report',
+        children: [
+          {
+            path: '',
+            component: PrepReportComponent
+          },
+          {
+            path: 'patient-list',
+            component: PrepReportPatientListComponent
+          }
+        ]
+      }
+    ]
+  },
+  {
     path: 'dqa',
     children: [
       {
@@ -161,17 +184,17 @@ const routes: Routes = [
             path: 'dqa-report-patientlist',
             component: ChartAbstractionPatientlistComponent
           }
-
         ]
       },
       {
         path: '',
         component: DqaReportsComponent,
-        data : { multipleLocation : true }
+        data: { multipleLocation: true }
       }
     ]
   }
 ];
 
-export const dataAnalyticsDashboardHivRouting: ModuleWithProviders =
-  RouterModule.forChild(routes);
+export const dataAnalyticsDashboardHivRouting: ModuleWithProviders = RouterModule.forChild(
+  routes
+);

@@ -15,34 +15,30 @@ import { GroupSearchInputComponent } from './group-manager-search/group-search-i
 import { PatientSearchModule } from '../patient-search/patient-search.module';
 
 @NgModule({
-    declarations: [
-        GroupManagerSearchComponent,
-        GroupManagerSearchResultsComponent,
-        GroupDetailComponent,
-        GroupDetailSummaryComponent,
-        DatePickerModalComponent,
-        SuccessModalComponent,
-        GroupEditorComponent,
-        GroupSearchInputComponent,
-        GroupTransferModalComponent
-    ],
-    imports: [
-        CommonModule,
-        FormsModule,
-        NgamrsSharedModule,
-        GroupManagerRouting,
-        PatientSearchModule
-     ],
-    exports: [
-      GroupSearchInputComponent,
-      GroupEditorComponent
-    ],
-    providers: [
-        DatePipe
-    ],
-    entryComponents: [
-        DatePickerModalComponent,
-        SuccessModalComponent,
-        GroupTransferModalComponent    ]
+  declarations: [
+    GroupManagerSearchComponent,
+    GroupManagerSearchResultsComponent,
+    GroupDetailComponent,
+    GroupDetailSummaryComponent,
+    DatePickerModalComponent,
+    SuccessModalComponent,
+    GroupEditorComponent,
+    GroupSearchInputComponent,
+    GroupTransferModalComponent
+  ],
+  imports: [
+    CommonModule,
+    FormsModule,
+    NgamrsSharedModule,
+    GroupManagerRouting,
+    PatientSearchModule
+  ],
+  exports: [GroupSearchInputComponent, GroupEditorComponent],
+  providers: [DatePipe],
+  entryComponents: [
+    DatePickerModalComponent,
+    SuccessModalComponent,
+    GroupTransferModalComponent
+  ]
 })
 export class GroupManagerModule {}

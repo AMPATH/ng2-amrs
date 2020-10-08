@@ -1,32 +1,60 @@
-<h4 class="component-title" style="color: green;"><span class="fa fa-bar-chart"></span> Patient Care Status</h4>
+<h4 class="component-title" style="color: green">
+  <span class="fa fa-bar-chart"></span> Patient Care Status
+</h4>
 <div class="">
-  <div class='row'>
+  <div class="row">
     <div class="col-sm-12">
       <div *ngIf="error" class="alert alert-danger">
         <div>
           <span><strong>Error fetching data</strong></span>
-          <button class="btn btn-danger pull-right" (click)="loadData()">Reload</button>
+          <button class="btn btn-danger pull-right" (click)="loadData()">
+            Reload
+          </button>
         </div>
       </div>
-      <p-tabView   (onChange)="handleTabChange($event)">
-        <p-tabPanel header="Cumulative Analysis"  leftIcon="fa fa-bar-chart" [selected]="currentView === 'cumulativeAnalysis'">
-          <patient-status-change-visualization #cumulativeAnalysis [data]="cumulativeAnalysisResults.result" [renderType]="'cumulativeAnalysis'"
-                                               [showAnalysisTypeSelector]="false" [indicatorDefinitions]="cumulativeAnalysisResults.indicatorDefinitions"
-                                               (filterModelChange)="loadCumulativeAnalysis($event)"
+      <p-tabView (onChange)="handleTabChange($event)">
+        <p-tabPanel
+          header="Cumulative Analysis"
+          leftIcon="fa fa-bar-chart"
+          [selected]="currentView === 'cumulativeAnalysis'"
+        >
+          <patient-status-change-visualization
+            #cumulativeAnalysis
+            [data]="cumulativeAnalysisResults.result"
+            [renderType]="'cumulativeAnalysis'"
+            [showAnalysisTypeSelector]="false"
+            [indicatorDefinitions]="
+              cumulativeAnalysisResults.indicatorDefinitions
+            "
+            (filterModelChange)="loadCumulativeAnalysis($event)"
           ></patient-status-change-visualization>
         </p-tabPanel>
-        <p-tabPanel header="Monthly Analysis" leftIcon="fa fa-line-chart" [selected]="currentView === 'monthlyAnalysis'">
-
-          <patient-status-change-visualization  #monthlyAnalysis  [data]="monthlyAnalysisResults.result" [renderType]="'monthlyAnalysis'"
-                                                (filterModelChange)="loadMonthlyAnalysis($event)"
-                                                [showAnalysisTypeSelector]="true" [indicatorDefinitions]="monthlyAnalysisResults.indicatorDefinitions"
+        <p-tabPanel
+          header="Monthly Analysis"
+          leftIcon="fa fa-line-chart"
+          [selected]="currentView === 'monthlyAnalysis'"
+        >
+          <patient-status-change-visualization
+            #monthlyAnalysis
+            [data]="monthlyAnalysisResults.result"
+            [renderType]="'monthlyAnalysis'"
+            (filterModelChange)="loadMonthlyAnalysis($event)"
+            [showAnalysisTypeSelector]="true"
+            [indicatorDefinitions]="monthlyAnalysisResults.indicatorDefinitions"
           ></patient-status-change-visualization>
         </p-tabPanel>
-        <p-tabPanel header="Cohort Analysis"  leftIcon="fa fa-line-chart" [selected]="currentView === 'cohortAnalysis'">
-
-          <patient-status-change-visualization  #cohortAnalysis [data]="cohortAnalysisResults.result" [renderType]="'cohortAnalysis'"
-                                                (filterModelChange)="loadCohortAnalysis($event)"
-                                                [showAnalysisTypeSelector]="false" [indicatorDefinitions]="cohortAnalysisResults.indicatorDefinitions"
+        <p-tabPanel
+          header="Cohort Analysis"
+          leftIcon="fa fa-line-chart"
+          [selected]="currentView === 'cohortAnalysis'"
+        >
+          <patient-status-change-visualization
+            #cohortAnalysis
+            [data]="cohortAnalysisResults.result"
+            [renderType]="'cohortAnalysis'"
+            (filterModelChange)="loadCohortAnalysis($event)"
+            [showAnalysisTypeSelector]="false"
+            [indicatorDefinitions]="cohortAnalysisResults.indicatorDefinitions"
           ></patient-status-change-visualization>
         </p-tabPanel>
       </p-tabView>

@@ -1,51 +1,184 @@
 <!-- <div [ngBusy]="{busy:[loadingHivSummary],message:'Please Wait...'}"></div> -->
 
 <div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
-  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+    ×
+  </button>
+  {{ error.message }}
 </div>
 
 <div>
   <ul class="list-group">
-    <li *ngIf="eligiblePatient" class="list-group-item" style="font-size:large">
-      <span *ngIf="hivSummary?.contraceptive_method?.period === 'Short term'" class="glyphicon glyphicon-warning-sign warning_text"></span>
-      <span *ngIf="hivSummary?.contraceptive_method?.period === null" class="glyphicon glyphicon-warning-sign text-danger"></span>
-      <span [ngClass]="{'warning_text': hivSummary?.contraceptive_method?.period === 'Short term', 'text-danger': hivSummary?.contraceptive_method?.period === null}">
-        Contraception Method :  {{hivSummary?.contraceptive_method?.period}} {{'(' + hivSummary?.contraceptive_method?.name + ')'| titlecase}}
+    <li
+      *ngIf="eligiblePatient"
+      class="list-group-item"
+      style="font-size: large"
+    >
+      <span
+        *ngIf="hivSummary?.contraceptive_method?.period === 'Short term'"
+        class="glyphicon glyphicon-warning-sign warning_text"
+      ></span>
+      <span
+        *ngIf="hivSummary?.contraceptive_method?.period === null"
+        class="glyphicon glyphicon-warning-sign text-danger"
+      ></span>
+      <span
+        [ngClass]="{
+          warning_text:
+            hivSummary?.contraceptive_method?.period === 'Short term',
+          'text-danger': hivSummary?.contraceptive_method?.period === null
+        }"
+      >
+        Contraception Method : {{ hivSummary?.contraceptive_method?.period }}
+        {{ '(' + hivSummary?.contraceptive_method?.name + ')' | titlecase }}
       </span>
     </li>
-    <li class="list-group-item" style="font-size:large" *ngIf="!eligiblePatient">Contraception Method: <span>{{ineligibiltyReason ? 'Not eligible': ''}} ({{ineligibiltyReason | titlecase}}) </span></li>
-    <li class="list-group-item" style="font-size:large">Last Appt Date: {{hivSummary?.encounter_datetime | date:'dd-MM-yyyy'}} {{hivSummary?.encounter_type_name ? '(' + hivSummary?.encounter_type_name + ')' : '(None)' }}</li>
-    <li class="list-group-item" style="font-size:large">RTC Date: {{hivSummary?.rtc_date | date:'dd-MM-yyyy'}}</li>
-    <li *ngIf="hivSummary?.med_pickup_rtc_date && hivSummary?.med_pickup_rtc_date !== null" class="list-group-item" style="font-size:large">Medication Pick Up Date: {{hivSummary?.med_pickup_rtc_date | date:'dd-MM-yyyy'}}</li>
-    <li class="list-group-item" style="font-size:large">Last Viral Load: {{hivSummary?.vl_1 | zeroVl }} ({{hivSummary?.vl_1_date ? (hivSummary?.vl_1_date | date:'dd-MM-yyyy') : 'None'}})
-      <br/>
-      <i style="font-size:smaller" class="text-muted" *ngIf="hivSummary?.isPendingViralLoad?.status"> There is a Pending Viral Load Test Ordered on:
-        <span [ngClass]="hivSummary?.isPendingViralLoad.status === true && hivSummary?.isPendingViralLoad.days>30?'text-danger':''">
-        {{hivSummary?.vl_order_date | date:'dd-MM-yyyy'}}
+    <li
+      *ngIf="ovcStatus"
+      class="list-group-item {{ colorCode }}"
+      style="font-size: large"
+    >
+      OVC Status: ({{ ovcStatus }})
+    </li>
+    <li
+      class="list-group-item"
+      style="font-size: large"
+      *ngIf="!eligiblePatient"
+    >
+      Contraception Method:
+      <span
+        >{{ ineligibiltyReason ? 'Not eligible' : '' }} ({{
+          ineligibiltyReason | titlecase
+        }})
+      </span>
+    </li>
+    <li class="list-group-item" style="font-size: large">
+      Last Appt Date: {{ hivSummary?.encounter_datetime | date: 'dd-MM-yyyy' }}
+      {{
+        hivSummary?.encounter_type_name
+          ? '(' + hivSummary?.encounter_type_name + ')'
+          : '(None)'
+      }}
+    </li>
+    <li class="list-group-item" style="font-size: large">
+      RTC Date: {{ hivSummary?.rtc_date | date: 'dd-MM-yyyy' }}
+    </li>
+    <li
+      *ngIf="
+        hivSummary?.med_pickup_rtc_date &&
+        hivSummary?.med_pickup_rtc_date !== null
+      "
+      class="list-group-item"
+      style="font-size: large"
+    >
+      Medication Pick Up Date:
+      {{ hivSummary?.med_pickup_rtc_date | date: 'dd-MM-yyyy' }}
+    </li>
+    <li class="list-group-item" style="font-size: large">
+      Last Viral Load: {{ hivSummary?.vl_1 | zeroVl }} ({{
+        hivSummary?.vl_1_date
+          ? (hivSummary?.vl_1_date | date: 'dd-MM-yyyy')
+          : 'None'
+      }})
+      <br />
+      <i
+        style="font-size: smaller"
+        class="text-muted"
+        *ngIf="hivSummary?.isPendingViralLoad?.status"
+      >
+        There is a Pending Viral Load Test Ordered on:
+        <span
+          [ngClass]="
+            hivSummary?.isPendingViralLoad.status === true &&
+            hivSummary?.isPendingViralLoad.days > 30
+              ? 'text-danger'
+              : ''
+          "
+        >
+          {{ hivSummary?.vl_order_date | date: 'dd-MM-yyyy' }}
         </span>
       </i>
     </li>
-    <li class="list-group-item" style="font-size:large">Last CD4 Count: {{hivSummary?.cd4_1}} ({{ hivSummary?.cd4_1_date ? (hivSummary?.cd4_1_date | date:'dd-MM-yyyy') : 'None'}})
-      <br/>
-      <i style="font-size:smaller" class="text-muted" *ngIf="hivSummary?.isPendingCD4?.status"> There is a Pending CD4 Count Test Ordered on:
-      <span [ngClass]="hivSummary?.isPendingCD4.status === true && hivSummary?.isPendingCD4.days>30?'text-danger':''">
-        {{hivSummary?.cd4_order_date | date:'dd-MM-yyyy'}}</span>
+    <li class="list-group-item" style="font-size: large">
+      Last CD4 Count: {{ hivSummary?.cd4_1 }} ({{
+        hivSummary?.cd4_1_date
+          ? (hivSummary?.cd4_1_date | date: 'dd-MM-yyyy')
+          : 'None'
+      }})
+      <br />
+      <i
+        style="font-size: smaller"
+        class="text-muted"
+        *ngIf="hivSummary?.isPendingCD4?.status"
+      >
+        There is a Pending CD4 Count Test Ordered on:
+        <span
+          [ngClass]="
+            hivSummary?.isPendingCD4.status === true &&
+            hivSummary?.isPendingCD4.days > 30
+              ? 'text-danger'
+              : ''
+          "
+        >
+          {{ hivSummary?.cd4_order_date | date: 'dd-MM-yyyy' }}</span
+        >
       </i>
     </li>
-    <li class="list-group-item" style="font-size:large">Current ARV Regimen: {{hivSummary?.cur_arv_meds ? hivSummary?.cur_arv_meds: '(None)' }}</li>
-    <li class="list-group-item" style="font-size:large">Current ARV Regimen Start Date: {{hivSummary?.arv_start_date | date:'dd-MM-yyyy'}}</li>
-    <li class="list-group-item" style="font-size:large">Enrollment Date: {{hivSummary?.enrollment_date | date:'dd-MM-yyyy'}}</li>
-    <li class="list-group-item" style="font-size:large">ARV Initiation Start Date: {{hivSummary?.arv_first_regimen_start_date ? (hivSummary?.arv_first_regimen_start_date | date:'dd-MM-yyyy') : 'Unknown or Not Indicated' }}</li>
-    <li class="list-group-item" style="font-size:large">INH Prophylaxis Start Date : {{hivSummary?.ipt_start_date | date:'dd-MM-yyyy'}}</li>
-    <li class="list-group-item" style="font-size:large">INH Prophylaxis End Date : {{hivSummary?.ipt_completion_date | date:'dd-MM-yyyy'}}
-      <span *ngIf="hivSummary?.ipt_start_date && !isEmptyDate(hivSummary?.ipt_completion_date)">
+    <li class="list-group-item" style="font-size: large">
+      Current ARV Regimen:
+      {{ hivSummary?.cur_arv_meds ? hivSummary?.cur_arv_meds : '(None)' }}
+    </li>
+    <li class="list-group-item" style="font-size: large">
+      Current ARV Regimen Start Date:
+      {{ hivSummary?.arv_start_date | date: 'dd-MM-yyyy' }}
+    </li>
+    <li class="list-group-item" style="font-size: large">
+      Enrollment Date: {{ hivSummary?.enrollment_date | date: 'dd-MM-yyyy' }}
+    </li>
+    <li class="list-group-item" style="font-size: large">
+      ARV Initiation Start Date:
+      {{
+        hivSummary?.arv_first_regimen_start_date
+          ? (hivSummary?.arv_first_regimen_start_date | date: 'dd-MM-yyyy')
+          : 'Unknown or Not Indicated'
+      }}
+    </li>
+    <li class="list-group-item" style="font-size: large">
+      INH Prophylaxis Start Date :
+      {{ hivSummary?.ipt_start_date | date: 'dd-MM-yyyy' }}
+    </li>
+    <li class="list-group-item" style="font-size: large">
+      INH Prophylaxis End Date :
+      {{ hivSummary?.ipt_completion_date | date: 'dd-MM-yyyy' }}
+      <span
+        *ngIf="
+          hivSummary?.ipt_start_date &&
+          !isEmptyDate(hivSummary?.ipt_completion_date)
+        "
+      >
         Not completed
       </span>
     </li>
-    <li class="list-group-item" style="font-size:large">Current WHO Stage: {{hivSummary?.cur_who_stage}}</li>
-    <li class="list-group-item" style="font-size:large">TB Treatment Start Date: {{ hivSummary?.tb_tx_start_date | date:'dd-MM-yyyy'}}</li>
-    <li class="list-group-item" style="font-size:large">TB Treatment End Date: {{ hivSummary?.tb_tx_end_date | date:'dd-MM-yyyy'}}</li>
-    <li *ngIf="hivSummary?.mdt_session_number && hivSummary?.mdt_session_number !== null" class="list-group-item" style="font-size:large">EAS Session: {{hivSummary?.mdt_session_number}}</li>
+    <li class="list-group-item" style="font-size: large">
+      Current WHO Stage: {{ hivSummary?.cur_who_stage }}
+    </li>
+    <li class="list-group-item" style="font-size: large">
+      TB Treatment Start Date:
+      {{ hivSummary?.tb_tx_start_date | date: 'dd-MM-yyyy' }}
+    </li>
+    <li class="list-group-item" style="font-size: large">
+      TB Treatment End Date:
+      {{ hivSummary?.tb_tx_end_date | date: 'dd-MM-yyyy' }}
+    </li>
+    <li
+      *ngIf="
+        hivSummary?.mdt_session_number &&
+        hivSummary?.mdt_session_number !== null
+      "
+      class="list-group-item"
+      style="font-size: large"
+    >
+      EAC Session: {{ hivSummary?.mdt_session_number }}
+    </li>
   </ul>
 </div>
-

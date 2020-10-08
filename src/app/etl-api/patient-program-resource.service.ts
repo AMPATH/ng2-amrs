@@ -1,4 +1,3 @@
-
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
@@ -8,9 +7,10 @@ import { AppSettingsService } from '../app-settings/app-settings.service';
 
 @Injectable()
 export class PatientProgramResourceService {
-
-  constructor(private http: HttpClient, private appSettingsService: AppSettingsService) {
-  }
+  constructor(
+    private http: HttpClient,
+    private appSettingsService: AppSettingsService
+  ) {}
 
   public getAllProgramVisitConfigs(ttl?: number): Observable<any> {
     let url = this.appSettingsService.getEtlRestbaseurl().trim();
@@ -21,14 +21,19 @@ export class PatientProgramResourceService {
   public getPatientProgramVisitConfigs(patientUuid: string): Observable<any> {
     let url = this.appSettingsService.getEtlRestbaseurl().trim();
     url += 'patient-program-config?patientUuid=' + patientUuid;
-    return this.http.get(url).pipe(retryWhen((error) => {
-      return error.pipe(flatMap((err: any) => {
-          if (err.status  === 403) {
-            return of(err.status);
-          }
-          return throwError({error: 'No retry'});
-        }), take(2));
-    }));
+    return this.http.get(url).pipe(
+      retryWhen((error) => {
+        return error.pipe(
+          flatMap((err: any) => {
+            if (err.status === 403) {
+              return of(err.status);
+            }
+            return throwError({ error: 'No retry' });
+          }),
+          take(2)
+        );
+      })
+    );
   }
   /**
    *
@@ -42,14 +47,23 @@ export class PatientProgramResourceService {
    * @memberof PatientProgramResourceService
    */
   public getPatientProgramVisitTypes(
-    patientUuid: string, programUuid: string,
-    enrollmentUuid, locationUuid: string): Observable<any> {
-    const url = this.appSettingsService.getEtlRestbaseurl().trim()
-      + 'patient/' + patientUuid + '/program/' + programUuid +
-      '/enrollment/' + enrollmentUuid;
-    const params: HttpParams = new HttpParams()
-    .set('intendedLocationUuid', (locationUuid && locationUuid.length > 0)
-      ? locationUuid : locationUuid);
+    patientUuid: string,
+    programUuid: string,
+    enrollmentUuid,
+    locationUuid: string
+  ): Observable<any> {
+    const url =
+      this.appSettingsService.getEtlRestbaseurl().trim() +
+      'patient/' +
+      patientUuid +
+      '/program/' +
+      programUuid +
+      '/enrollment/' +
+      enrollmentUuid;
+    const params: HttpParams = new HttpParams().set(
+      'intendedLocationUuid',
+      locationUuid && locationUuid.length > 0 ? locationUuid : locationUuid
+    );
     return this.http.get(url, { params: params });
   }
 }

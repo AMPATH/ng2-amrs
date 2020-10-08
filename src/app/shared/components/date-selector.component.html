@@ -1,31 +1,63 @@
-<div class="container-fluid" style="padding:4px;margin-bottom:0.5cm;">
-    <div class="row" *ngIf="!hideDatePicker" style="margin-bottom:0px;">
-        <div class="form-group">
-            <label for="start-date">Select Date</label>
-            <div class="input-group">
-                <input class="form-control" style="float:none" placeholder="Select a date" ngx-mydatepicker name="mydate" [(ngModel)]="model"
-                    [options]="dateOptions" #dp="ngx-mydatepicker" (dateChanged)="onDateChanged($event)" />
+<div class="container-fluid" style="padding: 4px; margin-bottom: 0.5cm">
+  <div class="row" *ngIf="!hideDatePicker" style="margin-bottom: 0px">
+    <div class="form-group">
+      <label for="start-date">Select Date</label>
+      <div class="input-group">
+        <input
+          class="form-control"
+          style="float: none"
+          placeholder="Select a date"
+          ngx-mydatepicker
+          name="mydate"
+          [(ngModel)]="model"
+          [options]="dateOptions"
+          #dp="ngx-mydatepicker"
+          (dateChanged)="onDateChanged($event)"
+        />
 
-                <span class="input-group-btn">
-                    <!--<button type="button" class="btn btn-default" (click)="dp.clearDate()">
+        <span class="input-group-btn">
+          <!--<button type="button" class="btn btn-default" (click)="dp.clearDate()">
                         <i class="glyphicon glyphicon-remove"></i>
                     </button>-->
-                    <button type="button" class="btn btn-default" (click)="dp.toggleCalendar()">
-                        <i class="glyphicon glyphicon-calendar"></i>
-                    </button>
-                 </span>
-            </div>
-
-        </div>
-
+          <button
+            type="button"
+            class="btn btn-default"
+            (click)="dp.toggleCalendar()"
+          >
+            <i class="glyphicon glyphicon-calendar"></i>
+          </button>
+        </span>
+      </div>
     </div>
-    <div class="row" style="padding:0px; border: 0px solid lightblue; margin-top:0px;">
-        <div class="col-xs-4" style="margin: 0px; padding:1px">
-            <button class="btn btn-info previous" style="margin: 0px; float: left;" (click)="navigateDay(-1)"> <span class="glyphicon glyphicon-chevron-left"></span>Previous Day</button>
-        </div>
-        <div class="col-xs-4" style="text-align: center; padding:1px; margin:2px 0px 2px 0px; "> <span style="font-weight: bold;"> {{selectedDate | date}} </span> </div>
-        <div class="col-xs-4" style="margin: 0px; padding:1px">
-            <button class="btn btn-info next" style="margin: 0px; float: right;" (click)="navigateDay(1)"><span>&nbsp;&nbsp;&nbsp;&nbsp;Next Day</span> <span class="glyphicon glyphicon-chevron-right"></span></button>
-        </div>
+  </div>
+  <div
+    class="row"
+    style="padding: 0px; border: 0px solid lightblue; margin-top: 0px"
+  >
+    <div class="col-xs-4" style="margin: 0px; padding: 1px">
+      <button
+        class="btn btn-info previous"
+        style="margin: 0px; float: left"
+        (click)="navigateDay(-1)"
+      >
+        <span class="glyphicon glyphicon-chevron-left"></span>Previous Day
+      </button>
     </div>
+    <div
+      class="col-xs-4"
+      style="text-align: center; padding: 1px; margin: 2px 0px 2px 0px"
+    >
+      <span style="font-weight: bold"> {{ selectedDate | date }} </span>
+    </div>
+    <div class="col-xs-4" style="margin: 0px; padding: 1px">
+      <button
+        class="btn btn-info next"
+        style="margin: 0px; float: right"
+        (click)="navigateDay(1)"
+      >
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;Next Day</span>
+        <span class="glyphicon glyphicon-chevron-right"></span>
+      </button>
+    </div>
+  </div>
 </div>

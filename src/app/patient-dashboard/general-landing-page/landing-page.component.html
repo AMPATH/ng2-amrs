@@ -1,43 +1,62 @@
-
-
-<busy *ngIf="programsBusy && !hasError" [message]="'Loading patient care programs...'"></busy>
+<busy
+  *ngIf="programsBusy && !hasError"
+  [message]="'Loading patient care programs...'"
+></busy>
 <div class="programs" *ngIf="enrolledProgrames.length > 0 && !hasError">
-  <h4 class="component-title">Patient Care Program Snapshots
-  </h4>
+  <h4 class="component-title">Patient Care Program Snapshots</h4>
 
-  <div style="margin: 4px 0px; padding: 4px;" class="container-fluid alert alert-info">
-    Do you wish to enroll patient into another program? <enrollment-shortcut class="pull-right" ></enrollment-shortcut>
+  <div
+    style="margin: 4px 0px; padding: 4px"
+    class="container-fluid alert alert-info"
+  >
+    Do you wish to enroll patient into another program?
+    <enrollment-shortcut class="pull-right"></enrollment-shortcut>
   </div>
   <div class="program">
-    <ng-container *ngFor="let row of enrolledProgrames; ">
+    <ng-container *ngFor="let row of enrolledProgrames">
       <div class="enrolled">
         <div class="program-header-wrapper">
-          <h2 class="program-header">{{row.program.display}} (Enrolled on
-            {{row.dateEnrolledView}})
+          <h2 class="program-header">
+            {{ row.program.display }} (Enrolled on {{ row.dateEnrolledView }})
           </h2>
-          <div class="alert alert-success" style="margin-bottom: 0;"
-               *ngIf="row.referred_from_location && !row.referral_completed">
-            <p class="">Patient was refered to this clinic on <strong>{{ row.dateEnrolledView
-              }}</strong>
-              from <strong>{{row.referred_from_location}}</strong>
+          <div
+            class="alert alert-success"
+            style="margin-bottom: 0"
+            *ngIf="row.referred_from_location && !row.referral_completed"
+          >
+            <p class="">
+              Patient was refered to this clinic on
+              <strong>{{ row.dateEnrolledView }}</strong> from
+              <strong>{{ row.referred_from_location }}</strong>
             </p>
           </div>
         </div>
-        <div class="program-body" [ngStyle]="{ 'background-color': addBackground  }">
+        <div
+          class="program-body"
+          [ngStyle]="{ 'background-color': addBackground }"
+        >
           <div *ngIf="row.isEnrolled" class="program-info">
             <div class="program-snapshot">
               <div [ngSwitch]="row.baseRoute">
-                <hiv-snapshot (addBackground)="onAddBackground($event)" *ngSwitchCase="'hiv'"
-                              [patient]="patient" [program]="row.program">
+                <hiv-snapshot
+                  (addBackground)="onAddBackground($event)"
+                  *ngSwitchCase="'hiv'"
+                  [patient]="patient"
+                  [program]="row.program"
+                >
                 </hiv-snapshot>
-                <cdm-snapshot (addBackground)="onAddBackground($event)" *ngSwitchCase="'cdm'"
-                              [patient]="patient">
+                <cdm-snapshot
+                  (addBackground)="onAddBackground($event)"
+                  *ngSwitchCase="'cdm'"
+                  [patient]="patient"
+                >
                 </cdm-snapshot>
                 <oncology-snapshot
                   (addBackground)="onAddBackground($event)"
                   *ngSwitchCase="'oncology'"
                   [patient]="patient"
-                  [programUuid]="row.programUuid">
+                  [programUuid]="row.programUuid"
+                >
                 </oncology-snapshot>
               </div>
             </div>
@@ -47,11 +66,35 @@
         <div class="program-footer">
           <div class="input-group">
             <div class="ui-grid-col-12 buttons">
-              <a class="btn btn-primary" routerLink="{{row.buttons.landing.url}}"
-                 *ngIf="row.isEnrolled">{{row.buttons.landing.display}}</a>
-              <a class="btn btn-info" routerLink="{{row.buttons.visit.url}}" *ngIf="row.isEnrolled">{{row.buttons.visit.display}}</a>
-              <a class="btn btn-success" (click)="showReferralEncounter(row)"
-                 *ngIf="row.referred_from_location && !row.referral_completed">Referral Details</a>
+              <a
+                class="btn btn-primary"
+                routerLink="{{ row.buttons.landing.url }}"
+                *ngIf="row.isEnrolled"
+                >{{ row.buttons.landing.display }}</a
+              >
+              <a
+                class="btn btn-info"
+                routerLink="{{ row.buttons.visit.url }}"
+                *ngIf="
+                  row.program.uuid !== '781d8768-1359-11df-a1f1-0026b9348838'
+                "
+                >{{ row.buttons.visit.display }}</a
+              >
+              <a
+                class="btn btn-danger"
+                routerLink="{{ row.buttons.program_manager.url }}"
+                *ngIf="
+                  row.isEnrolled &&
+                  row.program.uuid == '781d8768-1359-11df-a1f1-0026b9348838'
+                "
+                >{{ row.buttons.program_manager.display }}</a
+              >
+              <a
+                class="btn btn-success"
+                (click)="showReferralEncounter(row)"
+                *ngIf="row.referred_from_location && !row.referral_completed"
+                >Referral Details</a
+              >
             </div>
           </div>
         </div>
@@ -61,84 +104,141 @@
 </div>
 <div *ngIf="!programsBusy && enrolledProgrames.length === 0 && !hasError">
   <p class="alert alert-info">
-    The patient is not enrolled in any program. 
-    <button class="btn btn-primary pull-right" (click)="loadProgramManager()">Enroll into Program</button>
+    The patient is not enrolled in any program.
+    <button class="btn btn-primary pull-right" (click)="loadProgramManager()">
+      Enroll into Program
+    </button>
   </p>
 </div>
-<div *ngIf="!programsBusy && lastEnrolledPrograms.length > 0 && enrolledProgrames.length === 0 && !hasError">
+<div
+  *ngIf="
+    !programsBusy &&
+    lastEnrolledPrograms.length > 0 &&
+    enrolledProgrames.length === 0 &&
+    !hasError
+  "
+>
   <h4 class="component-title">Previous Enrolled Programs</h4>
   <table class="table table-stripped">
     <thead>
-    <tr>
-      <th>Program Name</th>
-      <th>Location</th>
-      <th>Started</th>
-      <th>Stopped</th>
-      <th>Summary</th>
-    </tr>
+      <tr>
+        <th>Program Name</th>
+        <th>Location</th>
+        <th>Started</th>
+        <th>Stopped</th>
+        <th>Summary</th>
+      </tr>
     </thead>
     <tbody>
       <ng-container *ngFor="let program of lastEnrolledPrograms">
-        <h5 style="text-transform: uppercase; padding-left: 4px;"><strong>{{ program.baseRoute }}</strong></h5>
+        <h5 style="text-transform: uppercase; padding-left: 4px">
+          <strong>{{ program.baseRoute }}</strong>
+        </h5>
         <tr *ngIf="program.program">
           <td>{{ program.program.display }}</td>
           <td>{{ program.enrolledProgram.location?.display }}</td>
           <td>{{ program.enrolledProgram.dateEnrolled }}</td>
           <td>{{ program.enrolledProgram.dateCompleted }}</td>
-          <td><button class="btn btn-primary" style="color: #fff !important;" (click)="viewSummary(program)">View</button></td>
+          <td>
+            <button
+              class="btn btn-primary"
+              style="color: #fff !important"
+              (click)="viewSummary(program)"
+            >
+              View
+            </button>
+          </td>
         </tr>
       </ng-container>
     </tbody>
   </table>
 </div>
 <div class="errors" *ngIf="errors.length > 0">
-  <p class="alert" *ngFor="let error of errors;">
-    <em class="text-danger">{{error.message}}</em>
+  <p class="alert" *ngFor="let error of errors">
+    <em class="text-danger">{{ error.message }}</em>
   </p>
 </div>
-<div class="modal fade" bsModal #staticModal="bs-modal" [config]="{backdrop: 'static'}"
-     tabindex="-1" role="dialog"
-     aria-hidden="true">
+<div
+  class="modal fade"
+  bsModal
+  #staticModal="bs-modal"
+  [config]="{ backdrop: 'static' }"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h3 class="modal-title pull-left">Submitted Referral Encounter</h3>
-        <button type="button" class="close pull-right" aria-label="Close"
-                (click)="hideEncounterModal()">
+        <button
+          type="button"
+          class="close pull-right"
+          aria-label="Close"
+          (click)="hideEncounterModal()"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <busy *ngIf="loadingEncounter" [message]="'Loading Encounter'"></busy>
-        <p class="obs-wrapper">
+        <p class="obs-wrapper"></p>
         <ul class="nav nav-tabs">
-          <li *ngIf="selectedEncounter" class="active"><a data-toggle="tab" href="#checkinEncounter"
-                                (click)="toggleDetailEncounter()">Referral Encounter</a></li>
-          <li *ngIf="selectedVisitEncounter"><a data-toggle="tab" href="#referringEncounter" (click)="toggleDetailEncounter()">Visit
-            Encounter</a></li>
+          <li *ngIf="selectedEncounter" class="active">
+            <a
+              data-toggle="tab"
+              href="#checkinEncounter"
+              (click)="toggleDetailEncounter()"
+              >Referral Encounter</a
+            >
+          </li>
+          <li *ngIf="selectedVisitEncounter">
+            <a
+              data-toggle="tab"
+              href="#referringEncounter"
+              (click)="toggleDetailEncounter()"
+              >Visit Encounter</a
+            >
+          </li>
         </ul>
         <ng-container *ngIf="selectedVisitEncounter || selectedEncounter">
           <div id="referringEncounter" [hidden]="!showReferralEncounterDetail">
-            <div class="panel panel-default" *ngIf="showReferralEncounterDetail">
-              <p style="font-weight: bold;" class="page-label panel-heading text-primary">Encounter
-                Form</p>
-              <div class="panel-body"><strong>{{selectedEncounter?.form.name}}</strong></div>
+            <div
+              class="panel panel-default"
+              *ngIf="showReferralEncounterDetail"
+            >
+              <p
+                style="font-weight: bold"
+                class="page-label panel-heading text-primary"
+              >
+                Encounter Form
+              </p>
+              <div class="panel-body">
+                <strong>{{ selectedEncounter?.form.name }}</strong>
+              </div>
             </div>
             <pretty-encounter-viewer
-              [encounter]="selectedEncounter"></pretty-encounter-viewer>
+              [encounter]="selectedEncounter"
+            ></pretty-encounter-viewer>
           </div>
           <div id="checkinEncounter" [hidden]="!showVisitEncounterDetail">
             <div class="panel panel-default" *ngIf="showVisitEncounterDetail">
-              <p style="font-weight: bold;" class="page-label panel-heading text-primary">Encounter
-                Form</p>
-              <div class="panel-body"><strong>{{selectedVisitEncounter?.form.name}}</strong></div>
+              <p
+                style="font-weight: bold"
+                class="page-label panel-heading text-primary"
+              >
+                Encounter Form
+              </p>
+              <div class="panel-body">
+                <strong>{{ selectedVisitEncounter?.form.name }}</strong>
+              </div>
             </div>
             <pretty-encounter-viewer
-              [encounter]="selectedVisitEncounter"></pretty-encounter-viewer>
+              [encounter]="selectedVisitEncounter"
+            ></pretty-encounter-viewer>
           </div>
         </ng-container>
       </div>
     </div>
   </div>
 </div>
-

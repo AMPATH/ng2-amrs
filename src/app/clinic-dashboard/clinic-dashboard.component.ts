@@ -1,5 +1,4 @@
-
-import {take} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 /**
  * We're loading this component asynchronously
@@ -8,7 +7,12 @@ import { Component, OnInit } from '@angular/core';
  */
 
 import { LocationResourceService } from '../openmrs-api/location-resource.service';
-import { ActivatedRoute, Router , NavigationEnd , NavigationStart } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router,
+  NavigationEnd,
+  NavigationStart
+} from '@angular/router';
 import { ClinicDashboardCacheService } from './services/clinic-dashboard-cache.service';
 import { UserDefaultPropertiesService } from '../user-default-properties/user-default-properties.service';
 import { LocalStorageService } from '../utils/local-storage.service';
@@ -17,7 +21,6 @@ import { LocalStorageService } from '../utils/local-storage.service';
   templateUrl: 'clinic-dashboard.component.html'
 })
 export class ClinicDashboardComponent implements OnInit {
-
   public locationUuid: string;
   public loaderStatus: boolean;
   public locations = [];
@@ -26,12 +29,14 @@ export class ClinicDashboardComponent implements OnInit {
   public selectedDepartment: any;
   public showLocationFilter = true;
 
-  constructor(private locationResourceService: LocationResourceService,
-              private route: ActivatedRoute, private router: Router,
-              private clinicDashboardCacheService: ClinicDashboardCacheService,
-              private userDefaultProperties: UserDefaultPropertiesService,
-              private localStorageService: LocalStorageService
-            ) {
+  constructor(
+    private locationResourceService: LocationResourceService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private clinicDashboardCacheService: ClinicDashboardCacheService,
+    private userDefaultProperties: UserDefaultPropertiesService,
+    private localStorageService: LocalStorageService
+  ) {
     this.loaderStatus = false;
   }
 
@@ -40,10 +45,10 @@ export class ClinicDashboardComponent implements OnInit {
     this.getLocations();
     this.getUserDepartment();
     this.router.events
-    .filter(event => event instanceof NavigationEnd)
-    .subscribe((event) => {
-      this.hideShowLocationFilter();
-    });
+      .filter((event) => event instanceof NavigationEnd)
+      .subscribe((event) => {
+        this.hideShowLocationFilter();
+      });
   }
 
   public getUserDepartment() {
@@ -61,47 +66,59 @@ export class ClinicDashboardComponent implements OnInit {
     const currentUrl = this.router.url;
     let isHivViz = 1;
     if (currentUrl) {
-        isHivViz = currentUrl.indexOf('hiv-viz');
+      isHivViz = currentUrl.indexOf('hiv-viz');
     }
     if (isHivViz === -1) {
       this.showLocationFilter = true;
     } else {
       this.showLocationFilter = false;
     }
-
   }
 
   public getLocations() {
     this.loaderStatus = true;
-    this.locationResourceService.getLocations().pipe(take(1)).subscribe((results: any) => {
-      this.locations = results.map((location) => {
-        return {
-          value: location.uuid,
-          label: location.display
-        };
-      });
+    this.locationResourceService
+      .getLocations()
+      .pipe(take(1))
+      .subscribe(
+        (results: any) => {
+          this.locations = results.map((location) => {
+            return {
+              value: location.uuid,
+              label: location.display
+            };
+          });
 
-      this.route.params.subscribe((params) => {
-        setTimeout(() => {
-          this.locationUuid = params['location_uuid'];
-          if (this.locationUuid) {
-            this.resolveSelectedLocationByUuid(this.locationUuid);
-            if (this.selectedLocation && this.selectedLocation !== {}) {
-              this.selectingLocation = false;
-            }
-          } else {
-            const userLocation = this.userDefaultProperties.getCurrentUserDefaultLocationObject();
-            const department = this.selectedDepartment.length > 0 ? this.selectedDepartment[0].itemName.toLowerCase() : 'general';
-            this.router.navigate(['/clinic-dashboard', userLocation.uuid,
-              department, 'daily-schedule']);
-          }
-        });
-      });
-      this.loaderStatus = false;
-    }, (error) => {
-      this.loaderStatus = false;
-      console.error(error);
-    });
+          this.route.params.subscribe((params) => {
+            setTimeout(() => {
+              this.locationUuid = params['location_uuid'];
+              if (this.locationUuid) {
+                this.resolveSelectedLocationByUuid(this.locationUuid);
+                if (this.selectedLocation && this.selectedLocation !== {}) {
+                  this.selectingLocation = false;
+                }
+              } else {
+                const userLocation = this.userDefaultProperties.getCurrentUserDefaultLocationObject();
+                const department =
+                  this.selectedDepartment.length > 0
+                    ? this.selectedDepartment[0].itemName.toLowerCase()
+                    : 'general';
+                this.router.navigate([
+                  '/clinic-dashboard',
+                  userLocation.uuid,
+                  department,
+                  'daily-schedule'
+                ]);
+              }
+            });
+          });
+          this.loaderStatus = false;
+        },
+        (error) => {
+          this.loaderStatus = false;
+          console.error(error);
+        }
+      );
   }
 
   public locationChanged($event) {
@@ -121,5 +138,4 @@ export class ClinicDashboardComponent implements OnInit {
       }
     }
   }
-
 }

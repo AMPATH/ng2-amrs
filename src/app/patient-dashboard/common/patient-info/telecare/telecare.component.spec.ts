@@ -43,16 +43,17 @@ describe('TelecareComponent', () => {
         RoutesProviderService,
         TelecareComponent,
         {
-          provide: PatientResourceService,
+          provide: PatientResourceService
         },
         {
           provide: Router,
-          useClass: class { navigate = jasmine.createSpy('navigate'); }
-        },
+          useClass: class {
+            navigate = jasmine.createSpy('navigate');
+          }
+        }
       ],
-      declarations: [ TelecareComponent ]
-    })
-    .compileComponents();
+      declarations: [TelecareComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -64,59 +65,69 @@ describe('TelecareComponent', () => {
   });
 
   it('should create', () => {
-    const rowHtmlElements = fixture.debugElement.nativeElement.querySelectorAll('tbody tr');
+    const rowHtmlElements = fixture.debugElement.nativeElement.querySelectorAll(
+      'tbody tr'
+    );
     expect(rowHtmlElements.length).toBe(1);
     expect(rowHtmlElements[0].innerHTML).toContain('Add consent');
     expect(component).toBeTruthy();
   });
   it('should display values when call consent form is filled', () => {
-    const clientConsentObs = { results: [
-      {
-        'concept': {
-            'uuid': '9d9ccb6b-73ae-48dd-83f9-12c782ce6685',
-            'display': 'PATIENT CONSENT PROVIDED'
-        },
-        'obsDatetime': '2020-05-20T15:04:35.000+0300',
-        'value': {
-            'display': 'NO'
-        },
-        'encounter': {
-            'encounterDatetime': '2020-05-20T15:04:35.000+0300',
-            'encounterType': {
-                'uuid': '5a58f6f5-f5a6-47eb-a644-626abd83f83b'
+    const clientConsentObs = {
+      results: [
+        {
+          concept: {
+            uuid: '9d9ccb6b-73ae-48dd-83f9-12c782ce6685',
+            display: 'PATIENT CONSENT PROVIDED'
+          },
+          obsDatetime: '2020-05-20T15:04:35.000+0300',
+          value: {
+            display: 'NO'
+          },
+          encounter: {
+            encounterDatetime: '2020-05-20T15:04:35.000+0300',
+            encounterType: {
+              uuid: '5a58f6f5-f5a6-47eb-a644-626abd83f83b'
             }
-        }
-    },
-    {
-        'concept': {
-            'uuid': 'a8a06fc6-1350-11df-a1f1-0026b9348838',
-            'display': 'FREETEXT GENERAL'
+          }
         },
-        'obsDatetime': '2020-05-20T15:04:35.000+0300',
-        'value': 'busy\n',
-        'encounter': {
-            'encounterDatetime': '2020-05-20T15:04:35.000+0300',
-            'encounterType': {
-                'uuid': '5a58f6f5-f5a6-47eb-a644-626abd83f83b'
+        {
+          concept: {
+            uuid: 'a8a06fc6-1350-11df-a1f1-0026b9348838',
+            display: 'FREETEXT GENERAL'
+          },
+          obsDatetime: '2020-05-20T15:04:35.000+0300',
+          value: 'busy\n',
+          encounter: {
+            encounterDatetime: '2020-05-20T15:04:35.000+0300',
+            encounterType: {
+              uuid: '5a58f6f5-f5a6-47eb-a644-626abd83f83b'
             }
+          }
         }
-    },
-    ]};
-    spyOn(obsResourceService, 'getObsPatientObsByConcepts').and.returnValue(Observable.of(clientConsentObs));
+      ]
+    };
+    spyOn(obsResourceService, 'getObsPatientObsByConcepts').and.returnValue(
+      Observable.of(clientConsentObs)
+    );
     component.getClientConsent();
     fixture.detectChanges();
-    const noConsentWarning = fixture.debugElement.nativeElement.querySelectorAll('.text-danger');
-    const tdHtmlElements = fixture.debugElement.nativeElement.querySelectorAll('td');
+    const noConsentWarning = fixture.debugElement.nativeElement.querySelectorAll(
+      '.text-danger'
+    );
+    const tdHtmlElements = fixture.debugElement.nativeElement.querySelectorAll(
+      'td'
+    );
     expect(tdHtmlElements.length).toEqual(3);
     expect(noConsentWarning).toBeDefined();
   });
   it('redirect to patient info when patient uuid is present', () => {
-     component.patientUuid = 'd75a7c5a-8cea-419f-9e63-ecf8f1942c6b';
-     component.fillConsentForm();
-     expect(router.navigate).toHaveBeenCalledTimes(1);
+    component.patientUuid = 'd75a7c5a-8cea-419f-9e63-ecf8f1942c6b';
+    component.fillConsentForm();
+    expect(router.navigate).toHaveBeenCalledTimes(1);
   });
   it('fails to redirect to patient info when patient uuid is present', () => {
     component.fillConsentForm();
     expect(router.navigate).toHaveBeenCalledTimes(0);
- });
+  });
 });

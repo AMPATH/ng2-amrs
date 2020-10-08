@@ -4,19 +4,16 @@ import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { VisualizationPatientListComponent } from './visualization.patient-list.component';
 
 describe('Daily-schedule clinic flow component Tests', () => {
-    let comp: VisualizationPatientListComponent;
-    let fixture: ComponentFixture<VisualizationPatientListComponent>;
+  let comp: VisualizationPatientListComponent;
+  let fixture: ComponentFixture<VisualizationPatientListComponent>;
 
-    beforeEach(async() => {
-        TestBed.configureTestingModule({
-            imports: [DateTimePickerModule,
-                NgxMyDatePickerModule.forRoot(),
-            ],
-            declarations: [VisualizationPatientListComponent]
-        }).compileComponents();
+  beforeEach(async () => {
+    TestBed.configureTestingModule({
+      imports: [DateTimePickerModule, NgxMyDatePickerModule.forRoot()],
+      declarations: [VisualizationPatientListComponent]
+    }).compileComponents();
 
-        fixture = TestBed.createComponent(VisualizationPatientListComponent);
-        comp = fixture.componentInstance;
-    });
-
+    fixture = TestBed.createComponent(VisualizationPatientListComponent);
+    comp = fixture.componentInstance;
+  });
 });

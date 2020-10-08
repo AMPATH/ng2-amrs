@@ -1,8 +1,9 @@
 <div class="alert alert-danger" *ngIf="group.endDate">
-  <h4 class="text-danger"> Ended on {{group.endDate | date : 'medium'}}</h4>
-  <h4 class="text-danger"> Reason: <span *ngIf="group.voidReason"> {{group.voidReason}} </span>
+  <h4 class="text-danger">Ended on {{ group.endDate | date: 'medium' }}</h4>
+  <h4 class="text-danger">
+    Reason: <span *ngIf="group.voidReason"> {{ group.voidReason }} </span>
     <span *ngIf="!group.voidReason"> not provided </span>
-  </h4> 
+  </h4>
 </div>
 <mat-card>
   <mat-card-title>
@@ -18,46 +19,89 @@
       </thead>
       <tbody>
         <tr>
-          <td><strong>Group Number: </strong> <span *ngIf="groupNumber">{{groupNumber.value}}</span></td>
-          <td><strong>Group Name: </strong> <span *ngIf="group.name">{{group.name}}</span></td>
-        </tr>
-        <tr>
-          <td><strong>Provider: </strong> <span *ngIf="provider">{{provider.person.display}}</span></td>
-          <td><strong>Facility: </strong> <span *ngIf="group.location">{{group.location.display}}</span></td>
-        </tr>
-        <tr>
-          <td><strong>Members: </strong> 
-            <span *ngIf="activeMembers" style="color:green">(active) {{activeMembers.length}}</span>
-            <span *ngIf="group.cohortMembers" style="color: red"> (inactive) {{ group.cohortMembers.length - activeMembers.length }}</span>
-          </td>
-          <td><strong>Landmark: </strong> <span *ngIf="landmark">{{landmark.value}}</span></td>
-        </tr>
-        <tr>
-          <td><strong>Active Since: </strong> {{group.startDate | date : 'mediumDate'}}</td>
-          <td><strong>Last Meeting: </strong>
-            <span *ngIf="group.cohortVisits[0]">{{group.cohortVisits[0]['startDate'] | date : 'medium'}}</span>
-          <span *ngIf="!group.cohortVisits">None</span></td>
-        </tr>
-        <tr>
-          <td><strong>Leader: </strong>
-            <ng-container *ngIf="currentLeader">
-              <span *ngIf="currentLeader.person"> {{currentLeader.person.display}} ({{leadershipType}}), </span>
-              <span>since {{currentLeader.startDate | date : 'medium'}}</span>
-            </ng-container>
-            <ng-container *ngIf="!currentLeader">
-                No active leader.
-              </ng-container>
+          <td>
+            <strong>Group Number: </strong>
+            <span *ngIf="groupNumber">{{ groupNumber.value }}</span>
           </td>
           <td>
-              <strong>Leader Contacts: </strong>
+            <strong>Group Name: </strong>
+            <span *ngIf="group.name">{{ group.name }}</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <strong>Provider: </strong>
+            <span *ngIf="provider">{{ provider.person.display }}</span>
+          </td>
+          <td>
+            <strong>Facility: </strong>
+            <span *ngIf="group.location">{{ group.location.display }}</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <strong>Members: </strong>
+            <span *ngIf="activeMembers" style="color: green"
+              >(active) {{ activeMembers.length }}</span
+            >
+            <span *ngIf="group.cohortMembers" style="color: red">
+              (inactive)
+              {{ group.cohortMembers.length - activeMembers.length }}</span
+            >
+          </td>
+          <td>
+            <strong>Landmark: </strong>
+            <span *ngIf="landmark">{{ landmark.value }}</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <strong>Active Since: </strong>
+            {{ group.startDate | date: 'mediumDate' }}
+          </td>
+          <td>
+            <strong>Last Meeting: </strong>
+            <span *ngIf="group.cohortVisits[0]">{{
+              group.cohortVisits[0]['startDate'] | date: 'medium'
+            }}</span>
+            <span *ngIf="!group.cohortVisits">None</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <strong>Leader: </strong>
             <ng-container *ngIf="currentLeader">
-              <span *ngIf="currentLeader.person.patientPhoneNumber">{{currentLeader.person.patientPhoneNumber}}
-                  <span class="text-danger" *ngIf="!r1.test(currentLeader.person.patientPhoneNumber) || !r2.test(currentLeader.person.patientPhoneNumber)">
-                      (invalid phone number)
-                    </span>
+              <span *ngIf="currentLeader.person">
+                {{ currentLeader.person.display }} ({{ leadershipType }}),
               </span>
-              <span *ngIf="!currentLeader.person.patientPhoneNumber || currentLeader.person.patientPhoneNumber === ''">Please set leader phone number.</span>
-              
+              <span>since {{ currentLeader.startDate | date: 'medium' }}</span>
+            </ng-container>
+            <ng-container *ngIf="!currentLeader">
+              No active leader.
+            </ng-container>
+          </td>
+          <td>
+            <strong>Leader Contacts: </strong>
+            <ng-container *ngIf="currentLeader">
+              <span *ngIf="currentLeader.person.patientPhoneNumber"
+                >{{ currentLeader.person.patientPhoneNumber }}
+                <span
+                  class="text-danger"
+                  *ngIf="
+                    !r1.test(currentLeader.person.patientPhoneNumber) ||
+                    !r2.test(currentLeader.person.patientPhoneNumber)
+                  "
+                >
+                  (invalid phone number)
+                </span>
+              </span>
+              <span
+                *ngIf="
+                  !currentLeader.person.patientPhoneNumber ||
+                  currentLeader.person.patientPhoneNumber === ''
+                "
+                >Please set leader phone number.</span
+              >
             </ng-container>
             <ng-container *ngIf="!currentLeader">
               <span>N/A</span>
@@ -70,11 +114,48 @@
 
   <div class="row">
     <div class="btn-group pull-right" role="group">
-      <button type="button" mat-raised-button *ngIf="!group.endDate"  (click)="showUpdateGroupModal(updateGroupModal)">Edit Details</button>
-      <button type="button" mat-raised-button  *ngIf="currentLeader && !group.endDate" (click)="showModal(editLeadership)">Edit Leader</button>
-      <button type="button" mat-raised-button *ngIf="!currentLeader && !group.endDate" (click)="showModal(addLeadership)">Add Leader</button>
-      <button type="button" mat-raised-button style="color:red" *ngIf="!group.endDate" (click)="showModal(endGroupModal)">End Group</button>
-      <button type="button" mat-raised-button style="color:green" *ngIf="group.endDate" (click)="activateGroup(group)">Activate Group</button>
+      <button
+        type="button"
+        mat-raised-button
+        *ngIf="!group.endDate"
+        (click)="showUpdateGroupModal(updateGroupModal)"
+      >
+        Edit Details
+      </button>
+      <button
+        type="button"
+        mat-raised-button
+        *ngIf="currentLeader && !group.endDate"
+        (click)="showModal(editLeadership)"
+      >
+        Edit Leader
+      </button>
+      <button
+        type="button"
+        mat-raised-button
+        *ngIf="!currentLeader && !group.endDate"
+        (click)="showModal(addLeadership)"
+      >
+        Add Leader
+      </button>
+      <button
+        type="button"
+        mat-raised-button
+        style="color: red"
+        *ngIf="!group.endDate"
+        (click)="showModal(endGroupModal)"
+      >
+        End Group
+      </button>
+      <button
+        type="button"
+        mat-raised-button
+        style="color: green"
+        *ngIf="group.endDate"
+        (click)="activateGroup(group)"
+      >
+        Activate Group
+      </button>
     </div>
   </div>
 </mat-card>
@@ -83,7 +164,12 @@
 <ng-template #editLeadership>
   <div class="modal-header">
     <h4 class="modal-title pull-left">Edit Leadership</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()"
+    >
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -93,40 +179,81 @@
       <div class="panel-body">
         <form class="form-horizontal" [formGroup]="editLeaderForm">
           <div class="form-group">
-            <label class="col-xs-2">Type <span style="color:red;">*</span></label>
+            <label class="col-xs-2"
+              >Type <span style="color: red">*</span></label
+            >
             <div class="col-xs-10">
               <mat-radio-group formControlName="leadershipType">
-                <mat-radio-button value="peer" color="primary">Peer Leadership</mat-radio-button>
-                <mat-radio-button value="staff" color="primary">Community Staff
-                  Leadership</mat-radio-button>
+                <mat-radio-button value="peer" color="primary"
+                  >Peer Leadership</mat-radio-button
+                >
+                <mat-radio-button value="staff" color="primary"
+                  >Community Staff Leadership</mat-radio-button
+                >
               </mat-radio-group>
             </div>
           </div>
           <div class="form-group">
-            <label class="col-xs-2" >Leader <span style="color:red">*</span></label>
+            <label class="col-xs-2"
+              >Leader <span style="color: red">*</span></label
+            >
 
             <div class="col-xs-10">
-              <ng-select [typeahead]="providerSuggest" *ngIf="staffLeaderOptions" formControlName="staff"
-              bindValue="uuid" bindLabel="display" class="sharp-corners select" [items]="providers">
+              <ng-select
+                [typeahead]="providerSuggest"
+                *ngIf="staffLeaderOptions"
+                formControlName="staff"
+                bindValue="uuid"
+                bindLabel="display"
+                class="sharp-corners select"
+                [items]="providers"
+              >
               </ng-select>
 
-              <select formControlName="peer" *ngIf="peerLeaderOptions && activeMembers.length"
-              class="form-control sharp-corners">
-              <option *ngFor="let member of activeMembers" [value]="member.person.uuid">{{member.person.display}}</option>
+              <select
+                formControlName="peer"
+                *ngIf="peerLeaderOptions && activeMembers.length"
+                class="form-control sharp-corners"
+              >
+                <option
+                  *ngFor="let member of activeMembers"
+                  [value]="member.person.uuid"
+                >
+                  {{ member.person.display }}
+                </option>
               </select>
-             <span class="alert alert-warning" *ngIf="!activeMembers.length && selectedLeadershipType === 'peer'">
-                  Add members to the group to be able to assign peer leadership.
+              <span
+                class="alert alert-warning"
+                *ngIf="
+                  !activeMembers.length && selectedLeadershipType === 'peer'
+                "
+              >
+                Add members to the group to be able to assign peer leadership.
               </span>
             </div>
           </div>
-          <div class="form-group" *ngIf="(activeMembers.length && selectedLeadershipType === 'peer') || selectedLeadershipType === 'staff'">
+          <div
+            class="form-group"
+            *ngIf="
+              (activeMembers.length && selectedLeadershipType === 'peer') ||
+              selectedLeadershipType === 'staff'
+            "
+          >
             <label class="col-xs-2">Contacts</label>
             <div class="col-xs-10">
               <div class="input-group">
-                <input type="text" class="form-control" formControlName="contacts"
-                 placeholder="Click the edit contacts button to add">
-                <div class="input-group-addon" style="cursor: pointer; margin-left: 5px;" (click)="showNestedModal(editContacts)">
-                   <i class="fa fa-edit"></i> Edit Contacts
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="contacts"
+                  placeholder="Click the edit contacts button to add"
+                />
+                <div
+                  class="input-group-addon"
+                  style="cursor: pointer; margin-left: 5px"
+                  (click)="showNestedModal(editContacts)"
+                >
+                  <i class="fa fa-edit"></i> Edit Contacts
                 </div>
               </div>
             </div>
@@ -138,9 +265,12 @@
     <br />
 
     <div class="panel panel-danger" *ngIf="group.cohortLeaders?.length >= 2">
-      <div class="panel-heading" >Previous Leaders</div>
+      <div class="panel-heading">Previous Leaders</div>
       <div id="tablePanelBody" class="panel-body">
-        <table class="table table-striped table-bordered" *ngIf="group.cohortLeaders">
+        <table
+          class="table table-striped table-bordered"
+          *ngIf="group.cohortLeaders"
+        >
           <thead>
             <tr>
               <th>Name</th>
@@ -149,10 +279,20 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let leader of group.cohortLeaders | paginate: { itemsPerPage: 5, currentPage: page }; let i = index; ">
+            <tr
+              *ngFor="
+                let leader of group.cohortLeaders
+                  | paginate: { itemsPerPage: 5, currentPage: page };
+                let i = index
+              "
+            >
               <td *ngIf="leader.endDate">{{ leader.person.display }}</td>
-              <td *ngIf="leader.endDate">{{ leader.startDate | date : 'medium' }}</td>
-              <td *ngIf="leader.endDate">{{ leader.endDate | date : 'medium' }}</td>
+              <td *ngIf="leader.endDate">
+                {{ leader.startDate | date: 'medium' }}
+              </td>
+              <td *ngIf="leader.endDate">
+                {{ leader.endDate | date: 'medium' }}
+              </td>
             </tr>
           </tbody>
         </table>
@@ -160,144 +300,309 @@
     </div>
   </div>
   <div class="modal-footer">
-    <pagination-controls *ngIf="inactiveLeaders.length > 5" (pageChange)="page = $event" style="cursor: pointer;"></pagination-controls>
-    <button type="button" class="btn btn-primary" [disabled]="!editLeaderForm.valid" (click)="updateGroupLeader(editLeaderForm.value)">Save</button>
-    <button type="button" class="btn btn-default" (click)="resetLeader(group)"> Cancel </button>
+    <pagination-controls
+      *ngIf="inactiveLeaders.length > 5"
+      (pageChange)="page = $event"
+      style="cursor: pointer"
+    ></pagination-controls>
+    <button
+      type="button"
+      class="btn btn-primary"
+      [disabled]="!editLeaderForm.valid"
+      (click)="updateGroupLeader(editLeaderForm.value)"
+    >
+      Save
+    </button>
+    <button type="button" class="btn btn-default" (click)="resetLeader(group)">
+      Cancel
+    </button>
   </div>
 </ng-template>
-
-
 
 <ng-template #addLeadership>
   <div class="modal-header">
     <h4 class="modal-title pull-left">Add Leader</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()"
+    >
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-        <form class="form-horizontal" #addLeaderForm="ngForm">
-          <div class="form-group">
-            <label class="col-xs-2">Type <span style="color:red;">*</span></label>
-            <div class="col-xs-10">
-              <mat-radio-group (change)="onDefaultLeadershipTypeChanged($event)">
-                <mat-radio-button value="peer" [checked]="defaultLeadershipType == 'peer'" color="primary">Peer Leadership</mat-radio-button>
-                <mat-radio-button value="staff" [checked]="defaultLeadershipType !== 'peer'" color="primary">Community Staff
-                  Leadership</mat-radio-button>
-              </mat-radio-group>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-xs-2">Leader <span style="color:red">*</span></label>
-            <div class="col-xs-10">
-              <ng-select name="staffLeader" [typeahead]="providerSuggest" *ngIf="defaultLeadershipType == 'staff'" [ngModel]="provider.uuid"
-              bindValue="uuid" bindLabel="display" class="sharp-corners select" [items]="providers">
-              </ng-select>
-              <select *ngIf="defaultLeadershipType != 'staff' && group.cohortMembers.length" name="peerLeader"
-                class="form-control" ngModel>
-                <ng-container *ngFor="let member of activeMembers">
-                <option  [value]="member.person.uuid">{{member.person.display}}</option>
-                </ng-container>
-              </select>
-              <span class="alert alert-warning" *ngIf="defaultLeadershipType != 'staff' && !group.cohortMembers.length">
-                  Add members to the group to be able to assign peer leadership.
-              </span>
-            </div>
-          </div>
-        </form>
-    <br/>
+    <form class="form-horizontal" #addLeaderForm="ngForm">
+      <div class="form-group">
+        <label class="col-xs-2">Type <span style="color: red">*</span></label>
+        <div class="col-xs-10">
+          <mat-radio-group (change)="onDefaultLeadershipTypeChanged($event)">
+            <mat-radio-button
+              value="peer"
+              [checked]="defaultLeadershipType == 'peer'"
+              color="primary"
+              >Peer Leadership</mat-radio-button
+            >
+            <mat-radio-button
+              value="staff"
+              [checked]="defaultLeadershipType !== 'peer'"
+              color="primary"
+              >Community Staff Leadership</mat-radio-button
+            >
+          </mat-radio-group>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-2">Leader <span style="color: red">*</span></label>
+        <div class="col-xs-10">
+          <ng-select
+            name="staffLeader"
+            [typeahead]="providerSuggest"
+            *ngIf="defaultLeadershipType == 'staff'"
+            [ngModel]="provider.uuid"
+            bindValue="uuid"
+            bindLabel="display"
+            class="sharp-corners select"
+            [items]="providers"
+          >
+          </ng-select>
+          <select
+            *ngIf="
+              defaultLeadershipType != 'staff' && group.cohortMembers.length
+            "
+            name="peerLeader"
+            class="form-control"
+            ngModel
+          >
+            <ng-container *ngFor="let member of activeMembers">
+              <option [value]="member.person.uuid">
+                {{ member.person.display }}
+              </option>
+            </ng-container>
+          </select>
+          <span
+            class="alert alert-warning"
+            *ngIf="
+              defaultLeadershipType != 'staff' && !group.cohortMembers.length
+            "
+          >
+            Add members to the group to be able to assign peer leadership.
+          </span>
+        </div>
+      </div>
+    </form>
+    <br />
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-primary" [disabled]="!addLeaderForm.valid" (click)="addGroupLeader(addLeaderForm.value)">Save</button>
-    <button type="button" class="btn btn-default" (click)="resetLeader(group)"> Cancel </button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      [disabled]="!addLeaderForm.valid"
+      (click)="addGroupLeader(addLeaderForm.value)"
+    >
+      Save
+    </button>
+    <button type="button" class="btn btn-default" (click)="resetLeader(group)">
+      Cancel
+    </button>
   </div>
 </ng-template>
-
-
-
-
-
 
 <ng-template #editContacts>
   <div class="modal-header">
     <h4 class="modal-title pull-left">Edit Contacts</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRefNested.hide()">
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRefNested.hide()"
+    >
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body" *ngIf="leaderContactsForm">
-          <form [formGroup]="leaderContactsForm">
+    <form [formGroup]="leaderContactsForm">
       <div class="row">
         <div class="col-md-6 col-sm-6">
           <div class="form-group">
             <label class="control-label">Phone Number</label>
-            <input type="text" class="form-control" formControlName="patientPhoneNumber">
-            <div *ngIf="leaderContactsForm.controls['patientPhoneNumber'].errors && 
-            (leaderContactsForm.controls['patientPhoneNumber'].dirty || leaderContactsForm.controls['patientPhoneNumber'].touched)" class="text-danger">
-                <div [hidden]="!leaderContactsForm.controls['patientPhoneNumber'].errors.minlength" class="warnings">
-                  Phone number must be at least 10  digits.
-                </div>
-                <div [hidden]="!leaderContactsForm.controls['patientPhoneNumber'].errors.maxlength" class="warnings">
-                  Phone number  max length is 15 digits.
-                </div>
-                <div *ngIf="leaderContactsForm.controls['patientPhoneNumber'].errors.pattern" class="warnings">
-                  Valid phone number is required
-                </div>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="patientPhoneNumber"
+            />
+            <div
+              *ngIf="
+                leaderContactsForm.controls['patientPhoneNumber'].errors &&
+                (leaderContactsForm.controls['patientPhoneNumber'].dirty ||
+                  leaderContactsForm.controls['patientPhoneNumber'].touched)
+              "
+              class="text-danger"
+            >
+              <div
+                [hidden]="
+                  !leaderContactsForm.controls['patientPhoneNumber'].errors
+                    .minlength
+                "
+                class="warnings"
+              >
+                Phone number must be at least 10 digits.
+              </div>
+              <div
+                [hidden]="
+                  !leaderContactsForm.controls['patientPhoneNumber'].errors
+                    .maxlength
+                "
+                class="warnings"
+              >
+                Phone number max length is 15 digits.
+              </div>
+              <div
+                *ngIf="
+                  leaderContactsForm.controls['patientPhoneNumber'].errors
+                    .pattern
+                "
+                class="warnings"
+              >
+                Valid phone number is required
+              </div>
             </div>
           </div>
         </div>
         <div class="col-md-6 col-sm-6">
           <div class="form-group">
             <label class="control-label">Alternative Phone Number</label>
-            <input type="text" class="form-control" formControlName="alternativePhoneNumber">
-            <div *ngIf="leaderContactsForm.controls['alternativePhoneNumber'].errors && 
-            (leaderContactsForm.controls['alternativePhoneNumber'].dirty || leaderContactsForm.controls['alternativePhoneNumber'].touched)" class="text-danger">
-                <div [hidden]="!leaderContactsForm.controls['alternativePhoneNumber'].errors.minlength" class="warnings">
-                  Phone number must be at least 10  digits.
-                </div>
-                <div [hidden]="!leaderContactsForm.controls['alternativePhoneNumber'].errors.maxlength" class="warnings">
-                  Phone number  max length is 15 digits.
-                </div>
-                <div *ngIf="leaderContactsForm.controls['alternativePhoneNumber'].errors.pattern" class="warnings">
-                  Valid phone number is required
-                </div>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="alternativePhoneNumber"
+            />
+            <div
+              *ngIf="
+                leaderContactsForm.controls['alternativePhoneNumber'].errors &&
+                (leaderContactsForm.controls['alternativePhoneNumber'].dirty ||
+                  leaderContactsForm.controls['alternativePhoneNumber'].touched)
+              "
+              class="text-danger"
+            >
+              <div
+                [hidden]="
+                  !leaderContactsForm.controls['alternativePhoneNumber'].errors
+                    .minlength
+                "
+                class="warnings"
+              >
+                Phone number must be at least 10 digits.
+              </div>
+              <div
+                [hidden]="
+                  !leaderContactsForm.controls['alternativePhoneNumber'].errors
+                    .maxlength
+                "
+                class="warnings"
+              >
+                Phone number max length is 15 digits.
+              </div>
+              <div
+                *ngIf="
+                  leaderContactsForm.controls['alternativePhoneNumber'].errors
+                    .pattern
+                "
+                class="warnings"
+              >
+                Valid phone number is required
+              </div>
             </div>
           </div>
         </div>
-
       </div>
       <div class="row">
         <div class="col-md-6 col-sm-6">
           <label class="control-label">Spouse Phone Number</label>
-          <input type="text" class="form-control" formControlName="patnerPhoneNumber" >
-          <div *ngIf="leaderContactsForm.controls['patnerPhoneNumber'].errors 
-          && (leaderContactsForm.controls['patnerPhoneNumber'].dirty || leaderContactsForm.controls['patnerPhoneNumber'].touched)" class="text-danger">
-              <div [hidden]="!leaderContactsForm.controls['patnerPhoneNumber'].errors.minlength" class="warnings">
-                Phone number must be at least 10  digits.
-              </div>
-              <div [hidden]="!leaderContactsForm.controls['patnerPhoneNumber'].errors.maxlength" class="warnings">
-                Phone number  max length is 15 digits.
-              </div>
-              <div *ngIf="leaderContactsForm.controls['patnerPhoneNumber'].errors.pattern" class="warnings">
-                Valid phone number is required
-              </div>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="partnerPhoneNumber"
+          />
+          <div
+            *ngIf="
+              leaderContactsForm.controls['partnerPhoneNumber'].errors &&
+              (leaderContactsForm.controls['partnerPhoneNumber'].dirty ||
+                leaderContactsForm.controls['partnerPhoneNumber'].touched)
+            "
+            class="text-danger"
+          >
+            <div
+              [hidden]="
+                !leaderContactsForm.controls['partnerPhoneNumber'].errors
+                  .minlength
+              "
+              class="warnings"
+            >
+              Phone number must be at least 10 digits.
+            </div>
+            <div
+              [hidden]="
+                !leaderContactsForm.controls['partnerPhoneNumber'].errors
+                  .maxlength
+              "
+              class="warnings"
+            >
+              Phone number max length is 15 digits.
+            </div>
+            <div
+              *ngIf="
+                leaderContactsForm.controls['partnerPhoneNumber'].errors.pattern
+              "
+              class="warnings"
+            >
+              Valid phone number is required
+            </div>
           </div>
         </div>
         <div class="col-md-6 col-sm-6">
           <div class="form-group">
             <label class="control-label">Next Of Kin Phone Number</label>
-            <input type="text" class="form-control" formControlName="nextofkinPhoneNumber">
-            <div *ngIf="leaderContactsForm.controls['nextofkinPhoneNumber'].errors
-             && (leaderContactsForm.controls['nextofkinPhoneNumber'].dirty || leaderContactsForm.controls['nextofkinPhoneNumber'].touched)" class="text-danger">
-                <div [hidden]="!leaderContactsForm.controls['nextofkinPhoneNumber'].errors.minlength" class="warnings">
-                  Phone number must be at least 10  digits.
-                </div>
-                <div [hidden]="!leaderContactsForm.controls['nextofkinPhoneNumber'].errors.maxlength" class="warnings">
-                  Phone number  max length is 15 digits.
-                </div>
-                <div *ngIf="leaderContactsForm.controls['nextofkinPhoneNumber'].errors.pattern" class="warnings">
-                  Valid phone number is required
-                </div>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="nextofkinPhoneNumber"
+            />
+            <div
+              *ngIf="
+                leaderContactsForm.controls['nextofkinPhoneNumber'].errors &&
+                (leaderContactsForm.controls['nextofkinPhoneNumber'].dirty ||
+                  leaderContactsForm.controls['nextofkinPhoneNumber'].touched)
+              "
+              class="text-danger"
+            >
+              <div
+                [hidden]="
+                  !leaderContactsForm.controls['nextofkinPhoneNumber'].errors
+                    .minlength
+                "
+                class="warnings"
+              >
+                Phone number must be at least 10 digits.
+              </div>
+              <div
+                [hidden]="
+                  !leaderContactsForm.controls['nextofkinPhoneNumber'].errors
+                    .maxlength
+                "
+                class="warnings"
+              >
+                Phone number max length is 15 digits.
+              </div>
+              <div
+                *ngIf="
+                  leaderContactsForm.controls['nextofkinPhoneNumber'].errors
+                    .pattern
+                "
+                class="warnings"
+              >
+                Valid phone number is required
+              </div>
             </div>
           </div>
         </div>
@@ -306,61 +611,119 @@
     <div class="modal-footer">
       <div class="row">
         <div class="pull-right">
-          <button class="btn btn-primary" style="margin-right: 10px" (click)="updateContacts(selectedLeader, leaderContactsForm.value)">
-            Save </button>
-          <button class="btn btn-danger" style="margin-right: 10px" (click)="modalRefNested.hide()"> Cancel </button>
+          <button
+            class="btn btn-primary"
+            style="margin-right: 10px"
+            (click)="updateContacts(selectedLeader, leaderContactsForm.value)"
+          >
+            Save
+          </button>
+          <button
+            class="btn btn-danger"
+            style="margin-right: 10px"
+            (click)="modalRefNested.hide()"
+          >
+            Cancel
+          </button>
         </div>
       </div>
     </div>
-
   </div>
 </ng-template>
 
 <ng-template #updateGroupModal>
-    <div class="modal-header">
-        <h4 class="modal-title pull-left">Update Group</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Update Group</h4>
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
   <div class="modal-body">
-  <group-editor [state]="state" (updatedGroup)="onGroupDetailsUpdate($event)" (hide)="modalRef.hide()">
-  </group-editor>
+    <group-editor
+      [state]="state"
+      (updatedGroup)="onGroupDetailsUpdate($event)"
+      (hide)="modalRef.hide()"
+    >
+    </group-editor>
   </div>
 </ng-template>
 
 <ng-template #endGroupModal>
-    <div class="modal-header">
-        <h4 class="modal-title pull-left">End {{group.name}}</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form #endGroupForm="ngForm">
-        <div class="form-group">
-          <label for="start-date">Select Date</label>
-          <span class="text-danger">*</span>
-          <div class="input-group">
-            <input class="form-control" style="float:none" placeholder="Select a date" ngx-mydatepicker name="endDate"
-              [(ngModel)]="endDate" #dp="ngx-mydatepicker" name="date" [options]="dateOptions"  required/>
-            <span class="input-group-btn">
-              <button type="button" class="btn btn-default" (click)="dp.toggleCalendar()">
-                <i class="glyphicon glyphicon-calendar"></i>
-              </button>
-            </span>
-          </div>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">End {{ group.name }}</h4>
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form #endGroupForm="ngForm">
+      <div class="form-group">
+        <label for="start-date">Select Date</label>
+        <span class="text-danger">*</span>
+        <div class="input-group">
+          <input
+            class="form-control"
+            style="float: none"
+            placeholder="Select a date"
+            ngx-mydatepicker
+            name="endDate"
+            [(ngModel)]="endDate"
+            #dp="ngx-mydatepicker"
+            name="date"
+            [options]="dateOptions"
+            required
+          />
+          <span class="input-group-btn">
+            <button
+              type="button"
+              class="btn btn-default"
+              (click)="dp.toggleCalendar()"
+            >
+              <i class="glyphicon glyphicon-calendar"></i>
+            </button>
+          </span>
         </div>
-        <div class="form-group">
-          <label for="reason">Reason</label>
-          <span class="text-danger">*</span>
-          <textarea id="reason" class="form-control" name="reason" placeholder=
-          "Enter reason for ending the group" ngModel required></textarea>
-        </div>
-        </form>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="disbandGroup(endGroupForm.value.date.formatted, endGroupForm.value.reason)" [disabled]="!endGroupForm.valid"> End Group</button>
-        <button type="button" class="btn btn-danger" (click)="modalRef.hide()"> Cancel </button>
+      <div class="form-group">
+        <label for="reason">Reason</label>
+        <span class="text-danger">*</span>
+        <textarea
+          id="reason"
+          class="form-control"
+          name="reason"
+          placeholder="Enter reason for ending the group"
+          ngModel
+          required
+        ></textarea>
       </div>
-    </ng-template>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="
+        disbandGroup(
+          endGroupForm.value.date.formatted,
+          endGroupForm.value.reason
+        )
+      "
+      [disabled]="!endGroupForm.valid"
+    >
+      End Group
+    </button>
+    <button type="button" class="btn btn-danger" (click)="modalRef.hide()">
+      Cancel
+    </button>
+  </div>
+</ng-template>

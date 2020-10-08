@@ -1,29 +1,40 @@
 <div class="container-fluid">
-    <div class="row">
-            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" *ngIf="dataEntryEncounterData.length > 0">
-                 <data-entry-statistics-daily-list *ngIf ="showEncountersList"
-                 [dataEntryEncounters]="dataEntryEncounterData"
-                 [params]="params" 
-                 (patientListParams)="getPatientListParams($event)">
-                 </data-entry-statistics-daily-list>
+  <div class="row">
+    <div
+      class="col-md-12 col-lg-12 col-sm-12 col-xs-12"
+      *ngIf="dataEntryEncounterData.length > 0"
+    >
+      <data-entry-statistics-daily-list
+        *ngIf="showEncountersList"
+        [dataEntryEncounters]="dataEntryEncounterData"
+        [params]="params"
+        (patientListParams)="getPatientListParams($event)"
+      >
+      </data-entry-statistics-daily-list>
 
-                 <data-entry-statistics-monthly-list *ngIf ="showMontlyList"
-                 [dataEntryEncounters]="dataEntryEncounterData"
-                 [params]="params" 
-                 (patientListParams)="getPatientListParams($event)">
-                 </data-entry-statistics-monthly-list>
+      <data-entry-statistics-monthly-list
+        *ngIf="showMontlyList"
+        [dataEntryEncounters]="dataEntryEncounterData"
+        [params]="params"
+        (patientListParams)="getPatientListParams($event)"
+      >
+      </data-entry-statistics-monthly-list>
 
-                 <data-entry-statistics-provider-list *ngIf="showProviderList"
-                 [dataEntryEncounters]="dataEntryEncounterData"
-                 [params]="params" 
-                 (patientListParams)="getPatientListParams($event)">
-                 </data-entry-statistics-provider-list>
+      <data-entry-statistics-provider-list
+        *ngIf="showProviderList"
+        [dataEntryEncounters]="dataEntryEncounterData"
+        [params]="params"
+        (patientListParams)="getPatientListParams($event)"
+      >
+      </data-entry-statistics-provider-list>
 
-                 <data-entry-statistics-creators-list *ngIf="showCreatorsList"
-                 [dataEntryEncounters]="dataEntryEncounterData"
-                 [params]="params" 
-                 (patientListParams)="getPatientListParams($event)">
-                 </data-entry-statistics-creators-list>
-            </div>
+      <data-entry-statistics-creators-list
+        *ngIf="showCreatorsList"
+        [dataEntryEncounters]="dataEntryEncounterData"
+        [params]="params"
+        (patientListParams)="getPatientListParams($event)"
+      >
+      </data-entry-statistics-creators-list>
     </div>
+  </div>
 </div>

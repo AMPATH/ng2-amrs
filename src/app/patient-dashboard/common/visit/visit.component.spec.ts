@@ -30,30 +30,26 @@ import { DialogModule } from 'primeng/primeng';
 import { FormsModule } from '@angular/forms';
 import { LocationResourceService } from '../../../openmrs-api/location-resource.service';
 import { TodayVisitService, VisitsEvent } from './today-visit.service';
-import { ProgramWorkFlowResourceService
-} from '../../../openmrs-api/program-workflow-resource.service';
-import { ProgramWorkFlowStateResourceService
-} from '../../../openmrs-api/program-workflow-state-resource.service';
-import { RetrospectiveDataEntryService
-} from '../../../retrospective-data-entry/services/retrospective-data-entry.service';
-import { FakeRetrospectiveDataEntryService
-} from '../../../retrospective-data-entry/services/retrospective-data-entry-mock.service';
+import { ProgramWorkFlowResourceService } from '../../../openmrs-api/program-workflow-resource.service';
+import { ProgramWorkFlowStateResourceService } from '../../../openmrs-api/program-workflow-state-resource.service';
+import { RetrospectiveDataEntryService } from '../../../retrospective-data-entry/services/retrospective-data-entry.service';
+import { FakeRetrospectiveDataEntryService } from '../../../retrospective-data-entry/services/retrospective-data-entry-mock.service';
 import { delay } from 'rxjs/operators';
 
 class LocationServiceMock {
-  constructor() {
-  }
+  constructor() {}
   public getLocations(): Observable<any> {
     return of([]);
   }
 }
 
 class RouterStub {
-  public navigateByUrl(url: string) { return url; }
+  public navigateByUrl(url: string) {
+    return url;
+  }
 }
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 xdescribe('Component: Visit', () => {
-
   let fixture, comp: VisitComponent, nativeElement;
 
   beforeEach(async(() => {
@@ -62,8 +58,11 @@ xdescribe('Component: Visit', () => {
         return of({});
       },
       getPatientProgramVisitTypes: (
-        patient: string, program: string,
-        enrollment: string, location: string) => {
+        patient: string,
+        program: string,
+        enrollment: string,
+        location: string
+      ) => {
         return of({});
       }
     };
@@ -94,20 +93,23 @@ xdescribe('Component: Visit', () => {
         { provide: Router, useClass: RouterStub },
         { provide: ActivatedRoute, useValue: {} },
         {
-          provide: RetrospectiveDataEntryService, useFactory: () => {
-          return new FakeRetrospectiveDataEntryService();
-        }
+          provide: RetrospectiveDataEntryService,
+          useFactory: () => {
+            return new FakeRetrospectiveDataEntryService();
+          }
         },
         ProgramEnrollmentResourceService,
         ProgramWorkFlowResourceService,
         ProgramWorkFlowStateResourceService,
         {
-          provide: UserDefaultPropertiesService, useFactory: () => {
+          provide: UserDefaultPropertiesService,
+          useFactory: () => {
             return new FakeDefaultUserPropertiesFactory();
           }
         },
         {
-          provide: PatientProgramResourceService, useFactory: () => {
+          provide: PatientProgramResourceService,
+          useFactory: () => {
             return fakePatientProgramResourceService;
           }
         },
@@ -138,7 +140,7 @@ xdescribe('Component: Visit', () => {
           uuid: 'uuid',
           person: { uuid: 'uuid' }
         };
-        comp.currentEnrollment = {states: [ ]};
+        comp.currentEnrollment = { states: [] };
         nativeElement = fixture.nativeElement;
         fixture.detectChanges();
       });
@@ -159,7 +161,7 @@ xdescribe('Component: Visit', () => {
     comp.visits = [{}];
     comp.patient = {};
     comp.currentProgramConfig = {};
-    comp.currentEnrollment = {states: []};
+    comp.currentEnrollment = { states: [] };
     comp.currentProgramEnrollmentUuid = 'some-text';
     comp.programVisitsObj = {};
     comp.isBusy = false;
@@ -175,7 +177,6 @@ xdescribe('Component: Visit', () => {
     expect(comp.visits.length).toBe(0);
     expect(comp.isBusy).toBe(true);
     expect(comp.errors.length).toBe(0);
-
   });
 
   it('should react to error loading visits event from visit service', () => {
@@ -203,7 +204,10 @@ xdescribe('Component: Visit', () => {
     comp.patient = null;
     service.patient = { uuid: 'some-uuid', person: { uuid: 'some-uuid' } };
     service.programVisits = { 'some-uuid': {} };
-    const processVisitsSpy = spyOn(comp, 'processProgramVisits').and.returnValue(undefined);
+    const processVisitsSpy = spyOn(
+      comp,
+      'processProgramVisits'
+    ).and.returnValue(undefined);
     service.visitsEvents.next(VisitsEvent.VisitsLoaded);
     fixture.detectChanges();
     expect(comp.programVisitsObj).toEqual({ 'some-uuid': {} });
@@ -215,8 +219,10 @@ xdescribe('Component: Visit', () => {
 
   it('should react to requires visit reload event from visit service', () => {
     const service: TodayVisitService = TestBed.get(TodayVisitService);
-    const visitLoadingTriggeredSpy = spyOn(comp, 'triggerVisitLoading')
-      .and.returnValue(undefined);
+    const visitLoadingTriggeredSpy = spyOn(
+      comp,
+      'triggerVisitLoading'
+    ).and.returnValue(undefined);
     service.visitsEvents.next(VisitsEvent.VisitsBecameStale);
     fixture.detectChanges();
     expect(visitLoadingTriggeredSpy.calls.count()).toBe(1);
@@ -275,7 +281,7 @@ xdescribe('Component: Visit', () => {
     comp.visits = [];
     comp.programUuid = 'some-uuid';
     comp.currentProgramConfig = undefined;
-    comp.currentEnrollment = {states: []};
+    comp.currentEnrollment = { states: [] };
     comp.currentProgramEnrollmentUuid = '';
     comp.programVisitsObj = sampleProgramConfig;
 
@@ -284,21 +290,23 @@ xdescribe('Component: Visit', () => {
 
     expect(comp.visit).toEqual(sampleProgramConfig['some-uuid'].currentVisit);
     expect(comp.visits).toEqual(sampleProgramConfig['some-uuid'].visits);
-    expect(comp.currentProgramConfig).toEqual(sampleProgramConfig['some-uuid'].config);
-    expect(comp.currentEnrollment)
-      .toEqual(sampleProgramConfig['some-uuid'].enrollment.enrolledProgram);
-    expect(comp.currentProgramEnrollmentUuid)
-      .toEqual(sampleProgramConfig['some-uuid'].enrollment.enrolledProgram.uuid);
-
+    expect(comp.currentProgramConfig).toEqual(
+      sampleProgramConfig['some-uuid'].config
+    );
+    expect(comp.currentEnrollment).toEqual(
+      sampleProgramConfig['some-uuid'].enrollment.enrolledProgram
+    );
+    expect(comp.currentProgramEnrollmentUuid).toEqual(
+      sampleProgramConfig['some-uuid'].enrollment.enrolledProgram.uuid
+    );
   });
 
   it('should trigger loading of visits on today visits service', () => {
     const service: TodayVisitService = TestBed.get(TodayVisitService);
 
-    const loadVisitSpy = spyOn(service, 'getProgramVisits')
-      .and.callFake(() => {
-        return of({}).pipe(delay(50));
-      });
+    const loadVisitSpy = spyOn(service, 'getProgramVisits').and.callFake(() => {
+      return of({}).pipe(delay(50));
+    });
 
     comp.triggerVisitLoading();
     fixture.detectChanges();
@@ -309,8 +317,9 @@ xdescribe('Component: Visit', () => {
   it('should make visits stale on visit started event', () => {
     const service: TodayVisitService = TestBed.get(TodayVisitService);
 
-    const makeStaleSpy = spyOn(service, 'makeVisitsStale')
-      .and.returnValue(undefined);
+    const makeStaleSpy = spyOn(service, 'makeVisitsStale').and.returnValue(
+      undefined
+    );
 
     comp.onVisitStartedOrChanged(null);
     fixture.detectChanges();
@@ -322,12 +331,10 @@ xdescribe('Component: Visit', () => {
     const sampleForm = {
       uuid: 'some uuid'
     };
-    comp.formSelected.subscribe(
-      (form) => {
-        expect(form).toBe(sampleForm);
-        done();
-      }
-    );
+    comp.formSelected.subscribe((form) => {
+      expect(form).toBe(sampleForm);
+      done();
+    });
 
     comp.onFormSelected(sampleForm);
     fixture.detectChanges();
@@ -337,15 +344,12 @@ xdescribe('Component: Visit', () => {
     const sampleEncounter = {
       uuid: 'some uuid'
     };
-    comp.encounterSelected.subscribe(
-      (encounter) => {
-        expect(encounter).toBe(sampleEncounter);
-        done();
-      }
-    );
+    comp.encounterSelected.subscribe((encounter) => {
+      expect(encounter).toBe(sampleEncounter);
+      done();
+    });
 
     comp.onEncounterSelected(sampleEncounter);
     fixture.detectChanges();
   });
-
 });

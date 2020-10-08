@@ -10,18 +10,16 @@ import * as Moment from 'moment';
   templateUrl: './hei-indicators-report.component.html',
   styleUrls: ['./hei-indicators-report.component.css']
 })
-export class HeiIndicatorsReportComponent
-  implements OnInit {
-
+export class HeiIndicatorsReportComponent implements OnInit {
   @Input() locations = '';
   public summaryTitle = 'HEI Monthly Summary Report';
   public params = {
-    'startDate': '',
-    'endDate': '',
-    'locationUuids': '',
-    'displayTabluarFilters': true,
-    'reportName': this.summaryTitle,
-    '_date': Moment().format('MMM YYYY')
+    startDate: '',
+    endDate: '',
+    locationUuids: '',
+    displayTabluarFilters: true,
+    reportName: this.summaryTitle,
+    _date: Moment().format('MMM YYYY')
   };
 
   public busyIndicator: any = {
@@ -29,8 +27,8 @@ export class HeiIndicatorsReportComponent
     message: 'Please wait...' // default message
   };
   public errorObj = {
-    'message': '',
-    'isError': false
+    message: '',
+    isError: false
   };
   public heiSummary: any = [];
   public heiOutcomeSummary: any;
@@ -38,15 +36,13 @@ export class HeiIndicatorsReportComponent
   public outcomeSectionDefs: any;
   public currentView = 'pdf';
 
-
   constructor(
     private _router: Router,
     private _route: ActivatedRoute,
     private _heiReportService: HeiReportService
-  ) { }
+  ) {}
 
-  public ngOnInit() {
-  }
+  public ngOnInit() {}
 
   public selectedFilter($event) {
     this.setParams($event);
@@ -54,15 +50,14 @@ export class HeiIndicatorsReportComponent
   }
 
   public setParams(filterParams: any) {
-     this.params = {
-      'startDate': filterParams.startDate,
-      'endDate': filterParams.endDate,
-      'locationUuids': this.locations,
-      'displayTabluarFilters': true,
-      'reportName': this.summaryTitle,
-      '_date': Moment(filterParams.startDate).format('MMMM YYYY')
-     };
-
+    this.params = {
+      startDate: filterParams.startDate,
+      endDate: filterParams.endDate,
+      locationUuids: this.locations,
+      displayTabluarFilters: true,
+      reportName: this.summaryTitle,
+      _date: Moment(filterParams.startDate).format('MMMM YYYY')
+    };
   }
 
   public loading() {
@@ -80,25 +75,26 @@ export class HeiIndicatorsReportComponent
   }
 
   public getHeiSummary(params: any) {
-     this.loading();
-     this._heiReportService.getHeiIndicatorsReport(params).subscribe((result: any) => {
-       if (result) {
-         this.heiSummary = result.result;
-         this.sectionDefs = result.sectionDefinitions;
-         this.endLoading();
-       }
-     }, (err) => {
-      this.endLoading();
-      this.errorObj = {
-        'isError': true,
-        'message': err.error.message ? err.error.message : ''
-      };
-    });
-
+    this.loading();
+    this._heiReportService.getHeiIndicatorsReport(params).subscribe(
+      (result: any) => {
+        if (result) {
+          this.heiSummary = result.result;
+          this.sectionDefs = result.sectionDefinitions;
+          this.endLoading();
+        }
+      },
+      (err) => {
+        this.endLoading();
+        this.errorObj = {
+          isError: true,
+          message: err.error.message ? err.error.message : ''
+        };
+      }
+    );
   }
 
-  public onTabChanged($event) {
-  }
+  public onTabChanged($event) {}
 
   public setCellSelection($event, $event2) {
     this.viewPatientList($event);
@@ -106,19 +102,16 @@ export class HeiIndicatorsReportComponent
 
   public viewPatientList(data) {
     const params: any = {
-        locationUuids: data.location,
-        indicators: data.field,
-        startDate: this.params.startDate,
-        endDate: this.params.endDate,
-        reportName: this.summaryTitle
+      locationUuids: data.location,
+      indicators: data.field,
+      startDate: this.params.startDate,
+      endDate: this.params.endDate,
+      reportName: this.summaryTitle
     };
 
-    this._router.navigate(['./patient-list']
-        , {
-            relativeTo: this._route,
-            queryParams: params
-        });
-   }
-
-
+    this._router.navigate(['./patient-list'], {
+      relativeTo: this._route,
+      queryParams: params
+    });
+  }
 }

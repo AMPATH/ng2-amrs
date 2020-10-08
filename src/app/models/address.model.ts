@@ -1,4 +1,3 @@
-
 import { BaseModel } from './base-model.model';
 import { serializable } from './serializable.decorator';
 

@@ -1,14 +1,19 @@
 <!--component html goes here -->
 <div class="btn-group">
-    <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-        aria-expanded="false">
-      Select Program to Enroll <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu dropdown-menu-right">
-        <li *ngFor="let program of patientEnrollablePrograms">
-          <a (click)="triggerEnrollment(program)">{{program.name}}</a>
-        </li>
-        <!-- <li role="separator" class="divider"></li>
+  <button
+    type="button"
+    class="btn btn-primary btn-sm dropdown-toggle"
+    data-toggle="dropdown"
+    aria-haspopup="true"
+    aria-expanded="false"
+  >
+    Select Program to Enroll <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-right">
+    <li *ngFor="let program of patientEnrollablePrograms">
+      <a (click)="triggerEnrollment(program)">{{ program.name }}</a>
+    </li>
+    <!-- <li role="separator" class="divider"></li>
         <li><a href="#">Separated link</a></li> -->
-    </ul>
+  </ul>
 </div>

@@ -1,21 +1,22 @@
-  /* tslint:disable:no-output-on-prefix
-  */
+/* tslint:disable:no-output-on-prefix
+ */
 
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'program-wizard-step',
-  template:
-    `
-    <div [hidden]="!isActive" [ngClass]="{'active': isActive}">
+  template: `
+    <div [hidden]="!isActive" [ngClass]="{ active: isActive }">
       <ng-content></ng-content>
     </div>
   `,
   styles: [
-    `div.active {
-      display: block;
-      padding-bottom: 20px;
-    }`
+    `
+      div.active {
+        display: block;
+        padding-bottom: 20px;
+      }
+    `
   ]
 })
 export class ProgramWizardStepComponent {
@@ -27,7 +28,7 @@ export class ProgramWizardStepComponent {
 
   private _isActive = false;
 
-  constructor() { }
+  constructor() {}
 
   @Input('isActive')
   set isActive(isActive: boolean) {
@@ -37,5 +38,4 @@ export class ProgramWizardStepComponent {
   get isActive(): boolean {
     return this._isActive;
   }
-
 }

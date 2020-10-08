@@ -1,4 +1,3 @@
-
 import { TestBed, inject, async } from '@angular/core/testing';
 
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
@@ -15,21 +14,20 @@ import { PatientProgramService } from '../../programs/patient-programs.service';
 import { RoutesProviderService } from '../../../shared/dynamic-route/route-config-provider.service';
 import { ProgramService } from '../../programs/program.service';
 import { ProgramResourceService } from '../../../openmrs-api/program-resource.service';
-import { ProgramWorkFlowResourceService
-} from '../../../openmrs-api/program-workflow-resource.service';
-import { ProgramWorkFlowStateResourceService
-} from '../../../openmrs-api/program-workflow-state-resource.service';
+import { ProgramWorkFlowResourceService } from '../../../openmrs-api/program-workflow-resource.service';
+import { ProgramWorkFlowStateResourceService } from '../../../openmrs-api/program-workflow-state-resource.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { LocationResourceService } from 'src/app/openmrs-api/location-resource.service';
 
 describe('Component: EditAddress Unit Tests', () => {
-
   let personResourceService: PersonResourceService,
     patientResourceService: PatientResourceService,
-    fakeAppFeatureAnalytics: AppFeatureAnalytics, component;
+    fakeAppFeatureAnalytics: AppFeatureAnalytics,
+    component;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ HttpClientTestingModule ],
+      imports: [HttpClientTestingModule],
       providers: [
         FakeAppFeatureAnalytics,
         PatientService,
@@ -47,10 +45,13 @@ describe('Component: EditAddress Unit Tests', () => {
           useClass: FakeAppFeatureAnalytics
         },
         {
-          provide: PersonResourceService,
+          provide: PersonResourceService
         },
         {
-          provide: PatientResourceService,
+          provide: PatientResourceService
+        },
+        {
+          provide: LocationResourceService
         },
         AppSettingsService,
         LocalStorageService
@@ -63,13 +64,15 @@ describe('Component: EditAddress Unit Tests', () => {
     component = TestBed.get(EditAddressComponent);
   });
   const personAddressPayload = {
-    addresses: [{
-      address1: '111',
-      address2: '3322',
-      address3: '1228',
-      cityVillage: 'eldoret',
-      stateProvince: 'rift',
-    }]
+    addresses: [
+      {
+        address1: '111',
+        address2: '3322',
+        address3: '1228',
+        cityVillage: 'eldoret',
+        stateProvince: 'rift'
+      }
+    ]
   };
 
   afterEach(() => {
@@ -79,19 +82,16 @@ describe('Component: EditAddress Unit Tests', () => {
   it('should instantiate the component', (done) => {
     expect(component).toBeTruthy();
     done();
-
   });
   it('should have  the required functions defined and callable', (done) => {
-    spyOn(component, 'getPatient').and.callFake((err, data) => { });
-    component.getPatient((err, data) => { });
+    spyOn(component, 'getPatient').and.callFake((err, data) => {});
+    component.getPatient((err, data) => {});
     expect(component.getPatient).toHaveBeenCalled();
     done();
-    spyOn(component, 'updatePersonAddress').and.callFake((err, data) => { });
-    component.updatePersonAddress((err, data) => { });
+    spyOn(component, 'updatePersonAddress').and.callFake((err, data) => {});
+    component.updatePersonAddress((err, data) => {});
     expect(component.updatePersonAddress).toHaveBeenCalled();
     done();
-
-
   });
   it('should have required properties', (done) => {
     expect(component.address1).toBeUndefined();
@@ -103,6 +103,4 @@ describe('Component: EditAddress Unit Tests', () => {
     expect(component.preferredAddressUuid).toBeUndefined();
     done();
   });
-
 });
-

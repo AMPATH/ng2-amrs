@@ -10,9 +10,11 @@ describe('Component: Lab Data Summary', () => {
     TestBed.configureTestingModule({
       providers: [
         {
-          provide: AppFeatureAnalytics, useFactory: () => {
-          return new FakeAppFeatureAnalytics();
-        }, deps: []
+          provide: AppFeatureAnalytics,
+          useFactory: () => {
+            return new FakeAppFeatureAnalytics();
+          },
+          deps: []
         }
       ]
     });
@@ -23,10 +25,10 @@ describe('Component: Lab Data Summary', () => {
   });
 
   it('should create an instance', () => {
-    const fakeAppFeatureAnalytics: AppFeatureAnalytics = TestBed.get(AppFeatureAnalytics);
+    const fakeAppFeatureAnalytics: AppFeatureAnalytics = TestBed.get(
+      AppFeatureAnalytics
+    );
     const component = new LabDataSummaryComponent(fakeAppFeatureAnalytics);
     expect(component).toBeTruthy();
   });
 });
-
-

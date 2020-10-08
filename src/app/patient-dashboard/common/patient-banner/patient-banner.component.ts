@@ -1,4 +1,13 @@
-import { Component, OnInit, OnDestroy, ViewEncapsulation, OnChanges, SimpleChanges, Input, TemplateRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ViewEncapsulation,
+  OnChanges,
+  SimpleChanges,
+  Input,
+  TemplateRef
+} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -12,14 +21,12 @@ import { PatientRelationshipService } from '../patient-relationships/patient-rel
 import { Person } from '../../../models/person.model';
 import { Relationship } from 'src/app/models/relationship.model';
 
-
 @Component({
   selector: 'patient-banner',
   templateUrl: './patient-banner.component.html',
   styleUrls: ['./patient-banner.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-
 export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public patientChanged: any;
   public showingAddToCohort = false;
@@ -33,6 +40,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   private patientServiceSubscription: Subscription;
   public relationships: any = [];
   public relationship: Relationship;
+  public ovcEnrollment = false;
   modalRef: BsModalRef;
   modalConfig = {
     backdrop: true,
@@ -42,8 +50,13 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   private enrolledToHEIProgram: boolean;
   private isPatientEnrolledToHIVProgram: boolean;
 
-  constructor(private patientService: PatientService, private patientRelationshipService: PatientRelationshipService,
-    private modalService: BsModalService, private router: Router, private route: ActivatedRoute) { }
+  constructor(
+    private patientService: PatientService,
+    private patientRelationshipService: PatientRelationshipService,
+    private modalService: BsModalService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   public ngOnInit() {
     this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
@@ -52,19 +65,32 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
         if (patient) {
           this.patient = patient;
           this.searchIdentifiers = patient.searchIdentifiers;
+          this.getOvcEnrollments(
+            patient.enrolledPrograms,
+            patient.person.birthdate
+          );
           const attributes = patient.person.attributes;
           _.each(attributes, (attribute) => {
             // get the test patient attribute
-            if (attribute.attributeType.uuid === '1e38f1ca-4257-4a03-ad5d-f4d972074e69') {
+            if (
+              attribute.attributeType.uuid ===
+              '1e38f1ca-4257-4a03-ad5d-f4d972074e69'
+            ) {
               this.attributes = attribute;
             }
           });
 
           this.birthdate = Moment(patient.person.birthdate).format('l');
-          this.formattedPatientAge = this.getPatientAge(patient.person.birthdate);
+          this.formattedPatientAge = this.getPatientAge(
+            patient.person.birthdate
+          );
           this.getPatientRelationships(patient.uuid);
-          this.isPatientEligableForCCCNumber(_.filter(patient.enrolledPrograms, 'isEnrolled'));
-          this.isEnrolledToHEIProgram(_.filter(patient.enrolledPrograms, 'isEnrolled'));
+          this.isPatientEligableForCCCNumber(
+            _.filter(patient.enrolledPrograms, 'isEnrolled')
+          );
+          this.isEnrolledToHEIProgram(
+            _.filter(patient.enrolledPrograms, 'isEnrolled')
+          );
           this.getHIVPatient(_.filter(patient.enrolledPrograms, 'isEnrolled'));
         } else {
           this.searchIdentifiers = undefined;
@@ -75,7 +101,10 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public ngOnChanges(changes: SimpleChanges) {
-    if (changes['patientChanged'].currentValue !== changes['patientChanged'].previousValue) {
+    if (
+      changes['patientChanged'].currentValue !==
+      changes['patientChanged'].previousValue
+    ) {
       this.ngOnInit();
     }
   }
@@ -110,18 +139,26 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
     const snapshot = this.router.url;
     // if person in patient info then dont navigate
     const patientInfo = snapshot.indexOf('patient-info');
-    this.patientServiceSubscription = this.patientService.setCurrentlyLoadedPatientByUuid(patientUuid).subscribe((patient) => {
-      if (patient) {
-        if (patientInfo === -1) {
-          this.router.navigate(['/patient-dashboard/patient/' + patientUuid + '/general/general/patient-info'], {
-            queryParams: {
-              scrollSection: 'relationship'
-            }
-          });
+    this.patientServiceSubscription = this.patientService
+      .setCurrentlyLoadedPatientByUuid(patientUuid)
+      .subscribe((patient) => {
+        if (patient) {
+          if (patientInfo === -1) {
+            this.router.navigate(
+              [
+                '/patient-dashboard/patient/' +
+                  patientUuid +
+                  '/general/general/patient-info'
+              ],
+              {
+                queryParams: {
+                  scrollSection: 'relationship'
+                }
+              }
+            );
+          }
         }
-
-      }
-    });
+      });
   }
   private getPatientAge(birthdate) {
     if (birthdate) {
@@ -137,12 +174,17 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
     return null;
   }
   private getPatientRelationships(patientUuid): void {
-    this.patientRelationshipService.getRelationships(patientUuid).pipe(
-      take(1)).subscribe((results) => {
-        this.relationships = results;
-      }, (err) => {
-        console.error(err);
-      });
+    this.patientRelationshipService
+      .getRelationships(patientUuid)
+      .pipe(take(1))
+      .subscribe(
+        (results) => {
+          this.relationships = results;
+        },
+        (err) => {
+          console.error(err);
+        }
+      );
   }
 
   private isPatientEligableForCCCNumber(enrolledPrograms: Array<any>) {
@@ -158,7 +200,10 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private isEnrolledToHEIProgram(enrolledPrograms: Array<any>) {
-    this.enrolledToHEIProgram = enrolledPrograms.some(program => program.concept.uuid === '9c64af03-f712-411e-8880-16e98dcdb4a6');
+    this.enrolledToHEIProgram = enrolledPrograms.some(
+      (program) =>
+        program.concept.uuid === '9c64af03-f712-411e-8880-16e98dcdb4a6'
+    );
   }
 
   private getHIVPatient(enrolledPrograms: Array<any>) {
@@ -168,4 +213,16 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
       : (this.isPatientEnrolledToHIVProgram = false);
   }
 
+  private getOvcEnrollments(enrolledPrograms, birthdate) {
+    const todayMoment: any = Moment();
+    const birthDateMoment: any = Moment(birthdate);
+    const years = todayMoment.diff(birthDateMoment, 'year');
+    const ovc = enrolledPrograms.filter(
+      (program) =>
+        program.concept.uuid === 'a89fbb12-1350-11df-a1f1-0026b9348838'
+    );
+    if (ovc.length > 0 && ovc[0].isEnrolled && years <= 19) {
+      this.ovcEnrollment = true;
+    }
+  }
 }

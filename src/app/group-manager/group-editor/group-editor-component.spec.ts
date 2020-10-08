@@ -17,66 +17,65 @@ import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
 import { DepartmentProgramsConfigService } from 'src/app/etl-api/department-programs-config.service';
 
 class MockActivatedRoute {
-    public params = Observable.of([{ 'id': 1 }]);
-    public snapshot = {
-        queryParams: { filter: '' }
-    };
+  public params = Observable.of([{ id: 1 }]);
+  public snapshot = {
+    queryParams: { filter: '' }
+  };
 }
 
 class MockCacheStorageService {
-    constructor(a, b) {
-    }
+  constructor(a, b) {}
 
-    public ready() {
-        return true;
-    }
+  public ready() {
+    return true;
+  }
 }
 
 describe('Group Editor Component Tests', () => {
-    let component: GroupEditorComponent;
-    let fixture: ComponentFixture<GroupEditorComponent>;
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                HttpClientTestingModule,
-                FormsModule,
-                AgGridModule,
-                ButtonsModule,
-                NgamrsSharedModule,
-                MatCardModule,
-                MatRadioModule,
-                CommonModule,
-                RouterTestingModule
+  let component: GroupEditorComponent;
+  let fixture: ComponentFixture<GroupEditorComponent>;
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        HttpClientTestingModule,
+        FormsModule,
+        AgGridModule,
+        ButtonsModule,
+        NgamrsSharedModule,
+        MatCardModule,
+        MatRadioModule,
+        CommonModule,
+        RouterTestingModule
+      ],
+      declarations: [
+        GroupEditorComponent,
+        GroupEditorComponent,
+        PatientSearchComponent
+      ],
+      providers: [
+        DatePipe,
+        CacheService,
+        DepartmentProgramsConfigService,
+        {
+          provide: CacheStorageService,
+          useuseFactory: () => {
+            return new MockCacheStorageService(null, null);
+          }
+        },
+        {
+          provide: ActivatedRoute,
+          useClass: MockActivatedRoute
+        }
+      ]
+    })
+      .compileComponents()
+      .then(() => {
+        fixture = TestBed.createComponent(GroupEditorComponent);
+        component = fixture.componentInstance;
+      });
+  }));
 
-
-            ],
-            declarations: [GroupEditorComponent,
-                GroupEditorComponent,
-                PatientSearchComponent],
-            providers: [
-                DatePipe,
-                CacheService,
-                DepartmentProgramsConfigService,
-                {
-                    provide: CacheStorageService, useuseFactory: () => {
-                        return new MockCacheStorageService(null, null);
-                    }
-                },
-                {
-                    provide: ActivatedRoute,
-                    useClass: MockActivatedRoute
-                },
-            ]
-        })
-            .compileComponents()
-            .then(() => {
-                fixture = TestBed.createComponent(GroupEditorComponent);
-                component = fixture.componentInstance;
-            });
-    }));
-
-    it('should be defined', () => {
-        expect(component).toBeDefined();
-    });
-
+  it('should be defined', () => {
+    expect(component).toBeDefined();
+  });
 });

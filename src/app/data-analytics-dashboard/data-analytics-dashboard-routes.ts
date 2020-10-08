@@ -7,9 +7,7 @@ export const routes: Routes = [
   {
     path: '',
     component: DataAnalyticsDashboardComponent,
-    canActivate: [
-      DataAnalyticsDashboardGuard
-    ],
+    canActivate: [DataAnalyticsDashboardGuard],
     children: [
       {
         path: 'hiv',
@@ -17,19 +15,22 @@ export const routes: Routes = [
       },
       {
         path: 'hemato-oncology',
-        loadChildren: './oncology/data-analytics-oncology.module#DataAnalyticsOncologyModule'
+        loadChildren:
+          './oncology/data-analytics-oncology.module#DataAnalyticsOncologyModule'
       },
       {
         path: 'referral',
-        loadChildren: './referral/referral-program.module#AnalyticsPatientReferralProgramModule'
+        loadChildren:
+          './referral/referral-program.module#AnalyticsPatientReferralProgramModule'
       },
       {
         path: 'cdm',
         loadChildren: './cdm/data-analytics-cdm.module#DataAnalyticsCdmModule'
-      },
+      }
     ]
   }
 ];
 
-export const dataAnalyticsDashboardRouting: ModuleWithProviders =
-  RouterModule.forChild(routes);
+export const dataAnalyticsDashboardRouting: ModuleWithProviders = RouterModule.forChild(
+  routes
+);

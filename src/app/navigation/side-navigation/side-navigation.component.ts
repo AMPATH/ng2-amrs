@@ -11,14 +11,14 @@ export class SideNavigationComponent implements OnInit, OnDestroy {
   @Input('current-dashboard') public currentDashboard: string;
   public routes: Array<any> = [];
   public changingRoutesSub: Subscription;
-  constructor(private dynamicRoutesService: DynamicRoutesService) {
-  }
+  constructor(private dynamicRoutesService: DynamicRoutesService) {}
 
   public ngOnInit() {
-    this.changingRoutesSub =
-      this.dynamicRoutesService.routes.subscribe((next) => {
+    this.changingRoutesSub = this.dynamicRoutesService.routes.subscribe(
+      (next) => {
         this.routes = next['routes'];
-      });
+      }
+    );
   }
 
   public ngOnDestroy() {

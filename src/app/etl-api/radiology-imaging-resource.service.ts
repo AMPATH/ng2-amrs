@@ -1,5 +1,4 @@
-
-import {take} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Observable, Subscriber } from 'rxjs';
@@ -8,12 +7,13 @@ import { HttpParams, HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class RadiologyImagingResourceService {
-
-  constructor(private http: HttpClient, private appSettingsService: AppSettingsService,
-              private domSanitizer: DomSanitizer ) { }
+  constructor(
+    private http: HttpClient,
+    private appSettingsService: AppSettingsService,
+    private domSanitizer: DomSanitizer
+  ) {}
   public getUrl(): string {
-
-    return this.appSettingsService.getEtlRestbaseurl().trim() ;
+    return this.appSettingsService.getEtlRestbaseurl().trim();
   }
   public getPatientImagingReport(patientIdentifier: string): Observable<any> {
     const url = this.getUrl();
@@ -26,8 +26,8 @@ export class RadiologyImagingResourceService {
   public getWadoImageUrl(patientIdentifier: string, id): Observable<any> {
     const url = this.getUrl();
     const params: HttpParams = new HttpParams()
-    .set('patient', patientIdentifier)
-    .set('id', id);
+      .set('patient', patientIdentifier)
+      .set('id', id);
 
     return this.http.get(url + 'radiology-images', {
       responseType: 'text',
@@ -37,8 +37,10 @@ export class RadiologyImagingResourceService {
 
   public getAllPatientImageResult(patientIdentifier: string): Observable<any> {
     const url = this.getUrl();
-    const params: HttpParams = new HttpParams()
-    .set('patient', patientIdentifier);
+    const params: HttpParams = new HttpParams().set(
+      'patient',
+      patientIdentifier
+    );
 
     return this.http.get(url + 'radiology-all-patient-images', {
       params: params
@@ -48,13 +50,14 @@ export class RadiologyImagingResourceService {
   public getPatientImages(url): Observable<any> {
     return new Observable((observer: Subscriber<any>) => {
       let objectUrl: string = null;
-      const headers = new HttpHeaders({ 'Accept': 'image/jpeg' });
+      const headers = new HttpHeaders({ Accept: 'image/jpeg' });
       this.http
         .get(url, {
           headers,
           responseType: 'blob'
-        }).pipe(
-        take(1)).subscribe((m) => {
+        })
+        .pipe(take(1))
+        .subscribe((m) => {
           objectUrl = URL.createObjectURL(m);
           observer.next(objectUrl);
         });
@@ -69,10 +72,9 @@ export class RadiologyImagingResourceService {
   }
 
   public createRadiologyComments(payload) {
-    const url = this.appSettingsService.getEtlRestbaseurl().trim() + 'radiology-comments';
+    const url =
+      this.appSettingsService.getEtlRestbaseurl().trim() + 'radiology-comments';
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post(url, JSON.stringify(payload), {headers});
-
+    return this.http.post(url, JSON.stringify(payload), { headers });
   }
-
 }

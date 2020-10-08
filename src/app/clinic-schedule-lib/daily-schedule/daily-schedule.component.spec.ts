@@ -2,14 +2,16 @@
 
 import { TestBed, async } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Router, ActivatedRoute, ChildrenOutletContexts } from '@angular/router';
+import {
+  Router,
+  ActivatedRoute,
+  ChildrenOutletContexts
+} from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { DailyScheduleBaseComponent } from './daily-schedule.component';
-import {
-  ClinicDashboardCacheService
-} from '../../clinic-dashboard/services/clinic-dashboard-cache.service';
+import { ClinicDashboardCacheService } from '../../clinic-dashboard/services/clinic-dashboard-cache.service';
 import { ClinicFlowCacheService } from '../../hiv-care-lib/clinic-flow/clinic-flow-cache.service';
 
 import { AppFeatureAnalytics } from '../../shared/app-analytics/app-feature-analytics.service';
@@ -27,15 +29,9 @@ import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { CommonModule } from '@angular/common';
 import { Angulartics2Module } from 'angulartics2';
 import { DateTimePickerModule } from 'ngx-openmrs-formentry/';
-import {
-  ProgramVisitEncounterSearchComponent
-} from './../../program-visit-encounter-search/program-visit-encounter-search.component';
-import {
-  AngularMultiSelectModule
-} from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
-import {
-  DepartmentProgramsConfigService
-} from './../../etl-api/department-programs-config.service';
+import { ProgramVisitEncounterSearchComponent } from './../../program-visit-encounter-search/program-visit-encounter-search.component';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
+import { DepartmentProgramsConfigService } from './../../etl-api/department-programs-config.service';
 import { SelectDepartmentService } from './../../shared/services/select-department.service';
 import * as moment from 'moment';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -46,7 +42,8 @@ describe('Component: DailySchedule', () => {
     clinicFlowCacheService: ClinicFlowCacheService,
     activatedRoute: ActivatedRoute,
     departmentProgConfigService: DepartmentProgramsConfigService,
-    router: Router, fixture;
+    router: Router,
+    fixture;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -60,7 +57,8 @@ describe('Component: DailySchedule', () => {
         SelectDepartmentService,
         DepartmentProgramsConfigService,
         {
-          provide: ActivatedRoute, useValue: {
+          provide: ActivatedRoute,
+          useValue: {
             snapshot: {
               queryParams: {}
             }
@@ -73,13 +71,17 @@ describe('Component: DailySchedule', () => {
           }
         },
         {
-          provide: AppFeatureAnalytics, useFactory: () => {
+          provide: AppFeatureAnalytics,
+          useFactory: () => {
             return new FakeAppFeatureAnalytics();
-          }, deps: []
+          },
+          deps: []
         }
-
       ],
-      declarations: [DailyScheduleBaseComponent, ProgramVisitEncounterSearchComponent],
+      declarations: [
+        DailyScheduleBaseComponent,
+        ProgramVisitEncounterSearchComponent
+      ],
       imports: [
         NgBusyModule,
         FormsModule,
@@ -88,7 +90,8 @@ describe('Component: DailySchedule', () => {
         DataListsModule,
         NgamrsSharedModule,
         CacheModule.forRoot(),
-        CommonModule, Angulartics2Module,
+        CommonModule,
+        Angulartics2Module,
         RouterTestingModule,
         HttpClientTestingModule,
         DateTimePickerModule,
@@ -103,7 +106,9 @@ describe('Component: DailySchedule', () => {
       fixture = TestBed.createComponent(DailyScheduleBaseComponent);
       component = fixture.componentInstance;
       clinicDashBoardCacheService = TestBed.get(ClinicDashboardCacheService);
-      departmentProgConfigService = TestBed.get(DepartmentProgramsConfigService);
+      departmentProgConfigService = TestBed.get(
+        DepartmentProgramsConfigService
+      );
       activatedRoute = TestBed.get(ActivatedRoute);
       clinicFlowCacheService = TestBed.get(ClinicFlowCacheService);
       router = TestBed.get(Router);
@@ -126,24 +131,24 @@ describe('Component: DailySchedule', () => {
     expect(component.selectedDate).toEqual(moment().format('MMM  D , YYYY '));
     expect(component.selectedLocation).toEqual(undefined);
     done();
-
   });
 
-  it('should set cached selected date when getSelectedDate is invoked with date ',
-    (done) => {
-      const service = TestBed.get(ClinicFlowCacheService);
-      component.getSelectedDate('2017-01-07');
-      service.getSelectedDate().subscribe((date) => {
-          expect(date).toEqual('2017-01-07');
-          done();
-        },
-        (err) => console.log(err),
-        () => console.log('Completed'));
+  it('should set cached selected date when getSelectedDate is invoked with date ', (done) => {
+    const service = TestBed.get(ClinicFlowCacheService);
+    component.getSelectedDate('2017-01-07');
+    service.getSelectedDate().subscribe(
+      (date) => {
+        expect(date).toEqual('2017-01-07');
+        done();
+      },
+      (err) => console.log(err),
+      () => console.log('Completed')
+    );
+  });
 
-    });
-
-  it('should subscribe to selected date, location and is loading '
-    + ' when ngOnInit is invoked',
+  it(
+    'should subscribe to selected date, location and is loading ' +
+      ' when ngOnInit is invoked',
     (done) => {
       clinicDashBoardCacheService.setCurrentClinic('location-uuid');
       clinicFlowCacheService.setSelectedDate('2012-01-01');
@@ -157,10 +162,12 @@ describe('Component: DailySchedule', () => {
       expect(component.selectedLocation).toEqual('location-uuid');
       expect(component.selectedDate).toEqual('Jan  1 , 2012 ');
       done();
-    });
+    }
+  );
 
-  it('should initialize selected date when ngOnInit '
-    + ' after initilizing data',
+  it(
+    'should initialize selected date when ngOnInit ' +
+      ' after initilizing data',
     (done) => {
       clinicFlowCacheService.setSelectedDate('2017-01-07');
       clinicDashBoardCacheService.setCurrentClinic('location-uuid');
@@ -168,13 +175,14 @@ describe('Component: DailySchedule', () => {
       router = TestBed.get(Router);
 
       component.ngOnInit();
-      clinicFlowCacheService.getSelectedDate().subscribe((date) => {
+      clinicFlowCacheService.getSelectedDate().subscribe(
+        (date) => {
           expect(date).toEqual('2017-01-07');
           done();
         },
         (err) => console.log(err),
-        () => console.log('Completed'));
-
-    });
-
+        () => console.log('Completed')
+      );
+    }
+  );
 });

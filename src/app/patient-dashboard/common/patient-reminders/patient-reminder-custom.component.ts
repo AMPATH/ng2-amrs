@@ -24,13 +24,13 @@ import { Toast, ToastrService, ToastPackage } from 'ngx-toastr';
         })
       ),
       state('active', style({})),
-      state('removed', style({opacity: 0})),
+      state('removed', style({ opacity: 0 })),
       transition(
         'inactive => active',
         animate('{{ easeTime }}ms {{ easing }}')
       ),
       transition('active => removed', animate('{{ easeTime }}ms {{ easing }}'))
-    ]),
+    ])
   ],
   preserveWhitespaces: false
 })

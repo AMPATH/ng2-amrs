@@ -1,59 +1,121 @@
 <div class="container-fluid" id="report-container">
-	<h4 class="component-title" style="color: green;"><span class="fa fa-cart-plus"></span>{{title}}</h4>
-	<div style="margin-top: 4px; margin-bottom: 4px" class="container-fluid">
-		<div style="padding: 0px; border: 1px double lightgray; border-bottom: 0px; cursor: pointer;" class="row"
-			(click)="filterCollapsed = !filterCollapsed">
-			<span class="text-info" style="margin:2px; font-weight:bold;"> <span class="glyphicon glyphicon-filter"
-					style="font-weight: normal;"></span> Report Filters</span>
-			<span style="margin:2px;" class="label label-default pull-right">
-				<span class="glyphicon glyphicon-chevron-down" *ngIf="!filterCollapsed"></span>
-				<span class="glyphicon glyphicon-chevron-up" *ngIf="filterCollapsed"></span>
-			</span>
-		</div>
-		<div style="padding: 0px; border: 1px double lightgray" class="row">
-			<div *ngIf="!filterCollapsed">
-				<div class="form-group col-md-12">
-					<div class="form-row">
-					  <label for="month">Month:</label>
-					  <input id="month" type="month" class="form-control" [(ngModel)]="month" (ngModelChange)="onMonthChange($event)"/>  
-					</div>
-				  </div>
-				<div class="form-group col-md-6">
-					<div class="form-row">
-						<label for="startDate">Select Indicator: <span *ngIf="!indicators" class="required"> *
-							</span></label>
-						<select class="form-control" [(ngModel)]="selectedIndicator" name="selectedIndicator"
-							(ngModelChange)="onIndicatorChange($event)" required>
-							<option *ngFor="let indicator of dcIndicators" [value]="indicator.value">{{ indicator.name}}
-							</option>
-						</select>
-						<span class="required" *ngIf="missingField && ! indicators">Indicator is required!</span>
-					</div>
-				</div>
+  <h4 class="component-title" style="color: green">
+    <span class="fa fa-cart-plus"></span>{{ title }}
+  </h4>
+  <div style="margin-top: 4px; margin-bottom: 4px" class="container-fluid">
+    <div
+      style="
+        padding: 0px;
+        border: 1px double lightgray;
+        border-bottom: 0px;
+        cursor: pointer;
+      "
+      class="row"
+      (click)="filterCollapsed = !filterCollapsed"
+    >
+      <span class="text-info" style="margin: 2px; font-weight: bold">
+        <span
+          class="glyphicon glyphicon-filter"
+          style="font-weight: normal"
+        ></span>
+        Report Filters</span
+      >
+      <span style="margin: 2px" class="label label-default pull-right">
+        <span
+          class="glyphicon glyphicon-chevron-down"
+          *ngIf="!filterCollapsed"
+        ></span>
+        <span
+          class="glyphicon glyphicon-chevron-up"
+          *ngIf="filterCollapsed"
+        ></span>
+      </span>
+    </div>
+    <div style="padding: 0px; border: 1px double lightgray" class="row">
+      <div *ngIf="!filterCollapsed">
+        <div class="form-group col-md-12">
+          <div class="form-row">
+            <label for="month">Month:</label>
+            <input
+              id="month"
+              type="month"
+              class="form-control"
+              [(ngModel)]="month"
+              (ngModelChange)="onMonthChange($event)"
+            />
+          </div>
+        </div>
+        <div class="form-group col-md-6">
+          <div class="form-row">
+            <label for="startDate"
+              >Select Indicator:
+              <span *ngIf="!indicators" class="required"> * </span></label
+            >
+            <select
+              class="form-control"
+              [(ngModel)]="selectedIndicator"
+              name="selectedIndicator"
+              (ngModelChange)="onIndicatorChange($event)"
+              required
+            >
+              <option
+                *ngFor="let indicator of dcIndicators"
+                [value]="indicator.value"
+              >
+                {{ indicator.name }}
+              </option>
+            </select>
+            <span class="required" *ngIf="missingField && !indicators"
+              >Indicator is required!</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      *ngIf="isPatientListEmpty"
+      class="row"
+      style="margin-top: 4px; padding: 0px"
+    >
+      <button
+        type="button"
+        [disabled]="isLoadingPatientList"
+        class="btn btn-primary pull-right"
+        (click)="generateReport()"
+      >
+        Generate Report
+      </button>
+      <span
+        class="pull-right"
+        style="font-weight: bold; color: gray"
+        *ngIf="parentIsBusy"
+        >Loading report..</span
+      >
+    </div>
+  </div>
 
-			</div>
-		</div>
-		<div *ngIf="isPatientListEmpty" class="row" style="margin-top: 4px; padding: 0px;">
-			<button type="button" [disabled]="isLoadingPatientList" class="btn btn-primary pull-right"
-				(click)="generateReport()">Generate Report</button>
-				<span class="pull-right" style="font-weight: bold; color: gray" *ngIf="parentIsBusy">Loading report..</span>
-		</div>
-	</div>
-
-	<div class="row">
-		<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-			<div class="tab-content">
-				<div class="tab-pane fade in active">
-					<h4 class="center">{{ indicatorName }}</h4>
-					<app-hiv-differentiated-care-patient-list [patientData]="patientData" (loadMore)="loadMorePatients()"
-						[isLoadingPatientList]="isLoadingPatientList" [hasLoadedAll]="hasLoadedAll" [extraColumns]="extraColumns()">
-					</app-hiv-differentiated-care-patient-list>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="alert alert-danger fade in" *ngIf="loadingError">
-		<a class="close" data-dismiss="alert">&times;</a>
-		<p><strong><span class="glyphicon glyphicon-warning-sign"></span> </strong> An error occurred while trying to load the report. Please try again.</p>
-	</div>
+  <div class="row">
+    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+      <div class="tab-content">
+        <div class="tab-pane fade in active">
+          <h4 class="center">{{ indicatorName }}</h4>
+          <app-hiv-differentiated-care-patient-list
+            [patientData]="patientData"
+            (loadMore)="loadMorePatients()"
+            [isLoadingPatientList]="isLoadingPatientList"
+            [hasLoadedAll]="hasLoadedAll"
+            [extraColumns]="extraColumns()"
+          >
+          </app-hiv-differentiated-care-patient-list>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="alert alert-danger fade in" *ngIf="loadingError">
+    <a class="close" data-dismiss="alert">&times;</a>
+    <p>
+      <strong><span class="glyphicon glyphicon-warning-sign"></span> </strong>
+      An error occurred while trying to load the report. Please try again.
+    </p>
+  </div>
 </div>

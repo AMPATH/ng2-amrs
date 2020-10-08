@@ -1,31 +1,31 @@
 <div class="row">
-    <div class="col-sm-12 col-lg-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <span>Clinic Flow</span>
-            </div>
-            <div class="panel-body_">
-              <div class="loader" *ngIf="dataLoading">
-                <span><i class="fa fa-spinner fa-spin"></i>Loading...</span>
-              </div>
-              <mat-tab-group [selectedIndex]="selectedTab" *ngIf="!hasError">
-                <mat-tab label="Summary">
-                  <clinic-flow-summary></clinic-flow-summary>
-                </mat-tab>
-                <mat-tab label="Visits">
-                  <clinic-flow-visits></clinic-flow-visits>
-                </mat-tab>
-                <mat-tab label="Provider Statistics">
-                  <clinic-flow-provider-stats></clinic-flow-provider-stats>
-                </mat-tab>
-                <mat-tab label="Location Statistics">
-                  <clinic-flow-location-stats></clinic-flow-location-stats>
-                </mat-tab>
-                <router-outlet></router-outlet>
-              </mat-tab-group>
-
-                <br>
-            </div>
+  <div class="col-sm-12 col-lg-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <span>Clinic Flow</span>
+      </div>
+      <div class="panel-body_">
+        <div class="loader" *ngIf="dataLoading">
+          <span><i class="fa fa-spinner fa-spin"></i>Loading...</span>
         </div>
+        <mat-tab-group [selectedIndex]="selectedTab" *ngIf="!hasError">
+          <mat-tab label="Summary">
+            <clinic-flow-summary></clinic-flow-summary>
+          </mat-tab>
+          <mat-tab label="Visits">
+            <clinic-flow-visits></clinic-flow-visits>
+          </mat-tab>
+          <mat-tab label="Provider Statistics">
+            <clinic-flow-provider-stats></clinic-flow-provider-stats>
+          </mat-tab>
+          <mat-tab label="Location Statistics">
+            <clinic-flow-location-stats></clinic-flow-location-stats>
+          </mat-tab>
+          <router-outlet></router-outlet>
+        </mat-tab-group>
+
+        <br />
+      </div>
     </div>
+  </div>
 </div>

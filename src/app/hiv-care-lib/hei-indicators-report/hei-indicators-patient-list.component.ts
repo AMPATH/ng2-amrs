@@ -13,18 +13,18 @@ import { HeiReportService } from './../../etl-api/hei-report.service';
   templateUrl: './hei-indicators-patient-list.component.html',
   styleUrls: ['./hei-indicators-patient-list.component.css']
 })
-
 export class HeiIndicatorsPatientListComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private location: Location,
-    private heiReportService: HeiReportService) { }
+    private heiReportService: HeiReportService
+  ) {}
 
   public title = '';
   public patients: any = [];
   public rowData: any = [];
-  public patientList: any  = [];
+  public patientList: any = [];
   public params: any;
   public busy: Subscription;
   public gridColumnApi;
@@ -50,19 +50,23 @@ export class HeiIndicatorsPatientListComponent implements OnInit {
   public heiSummaryColdef: any = [];
 
   public ngOnInit() {
-    this.route.queryParams.subscribe((params: any) => {
+    this.route.queryParams.subscribe(
+      (params: any) => {
         if (params) {
           this.getPatientList(params);
           this.title = this.translateIndicator(params.indicators);
           this.params = params;
         }
-      }, (error) => {
+      },
+      (error) => {
         console.error('Error', error);
-      });
+      }
+    );
   }
 
   public getPatientList(params) {
-    this.busy = this.heiReportService.getHeiMonthlySummaryPatientList(params)
+    this.busy = this.heiReportService
+      .getHeiMonthlySummaryPatientList(params)
       .subscribe((result: any) => {
         if (result) {
           const patients = result.result;
@@ -94,29 +98,33 @@ export class HeiIndicatorsPatientListComponent implements OnInit {
       },
       {
         headerName: 'Gender',
-        field: 'gender',
+        field: 'gender'
       },
       {
         headerName: 'Age',
-        field: 'age',
+        field: 'age'
       },
       {
         headerName: 'Identifiers',
         field: 'identifiers',
         cellRenderer: (column) => {
-          return '<a href="javascript:void(0);" title="Identifiers">' + column.value + '</a>';
+          return (
+            '<a href="javascript:void(0);" title="Identifiers">' +
+            column.value +
+            '</a>'
+          );
         },
         onCellClicked: (column) => {
-            this.redirectTopatientInfo(column.data.patient_uuid);
+          this.redirectTopatientInfo(column.data.patient_uuid);
         }
       },
       {
         headerName: 'Date of Birth',
-        field: 'birth_date',
+        field: 'birth_date'
       },
       {
         headerName: 'Date of Enrollment',
-        field: 'enrollment_date',
+        field: 'enrollment_date'
       },
       {
         headerName: 'Status',
@@ -138,7 +146,6 @@ export class HeiIndicatorsPatientListComponent implements OnInit {
       }
     ];
 
-
     this.heiSummaryColdef = columns;
   }
 
@@ -146,21 +153,28 @@ export class HeiIndicatorsPatientListComponent implements OnInit {
     if (patientUuid === undefined || patientUuid === null) {
       return;
     }
-    this.router.navigate(['/patient-dashboard/patient/' + patientUuid +
-    '/general/general/landing-page']);
-
+    this.router.navigate([
+      '/patient-dashboard/patient/' +
+        patientUuid +
+        '/general/general/landing-page'
+    ]);
   }
 
   public translateIndicator(indicator: string) {
     const indicatorArray = indicator.toLowerCase().split('_');
     if (indicator === 'hiv_status') {
-        return indicatorArray[0].toUpperCase() + ' '
-        + indicatorArray[1].charAt(0).toUpperCase() + indicatorArray[1].slice(1);
+      return (
+        indicatorArray[0].toUpperCase() +
+        ' ' +
+        indicatorArray[1].charAt(0).toUpperCase() +
+        indicatorArray[1].slice(1)
+      );
     } else {
-
-      return indicatorArray.map((word) => {
-            return ((word.charAt(0).toUpperCase()) + word.slice(1));
-      }).join(' ');
+      return indicatorArray
+        .map((word) => {
+          return word.charAt(0).toUpperCase() + word.slice(1);
+        })
+        .join(' ');
     }
   }
 
@@ -168,7 +182,7 @@ export class HeiIndicatorsPatientListComponent implements OnInit {
     const patientsRow = [];
 
     _.each(patients, (patient: any, index) => {
-       patient['no'] = index + 1;
+      patient['no'] = index + 1;
 
       patientsRow.push(patient);
     });
@@ -178,16 +192,15 @@ export class HeiIndicatorsPatientListComponent implements OnInit {
 
   public showColumn(column: string) {
     if (this.patients.length > 0) {
-      const firstRow: any  = this.patients[0];
+      const firstRow: any = this.patients[0];
       if (firstRow[column]) {
-         return true;
+        return true;
       } else {
         return false;
       }
     } else {
-       return false;
+      return false;
     }
-
   }
 
   public navigateBack() {
