@@ -37,7 +37,7 @@
             "alias": "fps",
             "join": {
                 "type": "LEFT",
-                "joinCondition": "t1.person_id = fps.person_id AND fps.next_encounter_datetime IS NULL AND fps.encounter_type NOT IN (99999,21) "
+                "joinCondition": "t1.person_id = fps.person_id AND fps.next_encounter_datetime IS NULL AND fps.encounter_type NOT IN (99999)"
             }
         },
         {
@@ -56,7 +56,6 @@
                 "joinCondition": "t1.person_id = pa.person_id"
             }
         }
-
     ],
     "columns": [
         {
@@ -100,16 +99,6 @@
             "expressionOptions": {
                 "expression": " GROUP_CONCAT(DISTINCT contacts.value SEPARATOR ', ')"
             }
-        },
-        {
-            "type": "simple_column",
-            "alias": "latest_rtc_date",
-            "column": "date_format(fps.rtc_date, '%Y-%m-%d')"
-        },
-        {
-            "type": "simple_column",
-            "alias": "last_appointment",
-            "column": "CONCAT(COALESCE(DATE_FORMAT(fps.encounter_datetime, '%Y-%m-%d'),''),' ',COALESCE(et.name, ''))"
         },
         {
             "type": "simple_column",
@@ -195,11 +184,6 @@
         },
         {
             "type": "simple_column",
-            "alias": "prev_rtc_date",
-            "column": "date_format(fps.prev_rtc_date, '%Y-%m-%d')"
-        },
-        {
-            "type": "simple_column",
             "alias": "days_since_rtc",
             "column": "TIMESTAMPDIFF(DAY, prep.rtc_date, curdate())"
         },
@@ -207,9 +191,40 @@
             "type": "simple_column",
             "alias": "death_date",
             "column": "date_format(fps.death_date, '%Y-%m-%d')"
+        },
+        {
+            "type": "derived_column",
+            "alias": "hiv_rapid_test",
+            "expressionType": "case_statement",
+            "expressionOptions": {
+                "caseOptions": [
+                    {
+                        "condition": "fps.hiv_rapid_test_result = 703",
+                        "value": "Positive"
+                    },
+                    {
+                        "condition": "fps.hiv_rapid_test_result = 664",
+                        "value": "Negative"
+                    },
+                    {
+                        "condition": "fps.hiv_rapid_test_result = 1138",
+                        "value": "Indeterminate"
+                    },
+                    {
+                        "condition": "fps.hiv_rapid_test_result = 1304",
+                        "value": "Poor sample quality"
+                    },
+                    {
+                        "condition": "fps.hiv_rapid_test_result = 1067",
+                        "value": "Unknown"
+                    }
+                ]
+            }
         }
     ],
-    "groupBy":{
-        "columns":["t1.person_id"]
+    "groupBy": {
+        "columns": [
+            "t1.person_id"
+        ]
     }
 }

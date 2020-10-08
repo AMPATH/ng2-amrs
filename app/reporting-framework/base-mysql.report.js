@@ -157,6 +157,7 @@ import * as prep_monthly_breastfeeding_disaggregation from './json-reports/prep-
 import * as prep_monthly_pregnancy_disaggregation from './json-reports/prep-monthly-pregnancy-disaggregation.json';
 import * as prep_monthly_newly_enrolled_breastfeeding_disaggregation from  './json-reports/prep-monthly-newly-enrolled-breastfeeding-disaggregation.json';
 import * as prep_monthly_newly_enrolled_pregnancy_disaggregation from './json-reports/prep-monthly-newly-enrolled-pregnancy-disaggregation.json';
+import * as prep_latest_clinical_encounter_date_base from './json-reports/prep_latest_clinical_encounter_date_base.json';
 import * as moh_408 from './json-reports/moh-408.json';
 import * as hei_infant_feeding_aggregate from './json-reports/hei-infant-feeding-aggregate.json';
 import * as hei_infant_feeding_base from './json-reports/hei-infant-feeding-base.json';
@@ -673,43 +674,49 @@ export class BaseMysqlReport {
                 case 'prepMonthlySummaryReport':
                     resolve({
                         main: this.cloneJsonSchema(prep_monthly_summary),
-                        
+                        prepLatestClinicalEncounterDate: this.cloneJsonSchema(prep_latest_clinical_encounter_date_base)
                     });
                     break;
                 case 'prepMonthlySummaryNoDisaggregation':
                     resolve({
                         main: this.cloneJsonSchema(prep_monthly_summary_aggregate_report),
-                        prepMonthlySummaryBaseReport: this.cloneJsonSchema(prep_monthly_summary_base_report)
+                        prepMonthlySummaryBaseReport: this.cloneJsonSchema(prep_monthly_summary_base_report),
+                        prepLatestClinicalEncounterDate: this.cloneJsonSchema(prep_latest_clinical_encounter_date_base)
                     });
                     break;
                 case 'prepMonthlySummaryPopulationTypeDisaggregation':
                     resolve({
                         main: this.cloneJsonSchema(prep_monthly_populationtype_disaggregation),
-                        prepMonthlySummaryBaseReport: this.cloneJsonSchema(prep_monthly_summary_base_report)
+                        prepMonthlySummaryBaseReport: this.cloneJsonSchema(prep_monthly_summary_base_report),
+                        prepLatestClinicalEncounterDate: this.cloneJsonSchema(prep_latest_clinical_encounter_date_base)
                     });
                     break;
                 case 'prepMonthlySummaryBreastFeedingDisaggregation':
                     resolve({
                         main: this.cloneJsonSchema(prep_monthly_breastfeeding_disaggregation),
-                        prepMonthlySummaryBaseReport: this.cloneJsonSchema(prep_monthly_summary_base_report)
+                        prepMonthlySummaryBaseReport: this.cloneJsonSchema(prep_monthly_summary_base_report),
+                        prepLatestClinicalEncounterDate: this.cloneJsonSchema(prep_latest_clinical_encounter_date_base)
                     });
                     break;
                 case 'prepMonthlyNewlyEnrolledBreastFeedingDisaggregation':
                     resolve({
                         main: this.cloneJsonSchema(prep_monthly_newly_enrolled_breastfeeding_disaggregation),
-                        prepMonthlySummaryBaseReport: this.cloneJsonSchema(prep_monthly_summary_base_report)
+                        prepMonthlySummaryBaseReport: this.cloneJsonSchema(prep_monthly_summary_base_report),
+                        prepLatestClinicalEncounterDate: this.cloneJsonSchema(prep_latest_clinical_encounter_date_base)
                     });
                     break;
                 case 'prepMonthlyNewlyEnrolledPregnancyDisaggregation':
                     resolve({
                         main: this.cloneJsonSchema(prep_monthly_newly_enrolled_pregnancy_disaggregation),
-                        prepMonthlySummaryBaseReport: this.cloneJsonSchema(prep_monthly_summary_base_report)
-                    });
+                        prepMonthlySummaryBaseReport: this.cloneJsonSchema(prep_monthly_summary_base_report),
+                        prepLatestClinicalEncounterDate: this.cloneJsonSchema(prep_latest_clinical_encounter_date_base)
+                        });
                     break; 
                 case 'prepMonthlySummaryPregnancyDisaggregation':
                     resolve({
                         main: this.cloneJsonSchema(prep_monthly_pregnancy_disaggregation),
-                        prepMonthlySummaryBaseReport: this.cloneJsonSchema(prep_monthly_summary_base_report)
+                        prepMonthlySummaryBaseReport: this.cloneJsonSchema(prep_monthly_summary_base_report),
+                        prepLatestClinicalEncounterDate: this.cloneJsonSchema(prep_latest_clinical_encounter_date_base)
                     });
                     break;
                 case 'MOH-408':

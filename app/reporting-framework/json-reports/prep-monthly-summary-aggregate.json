@@ -111,6 +111,14 @@
             "expressionOptions": {
                 "expression": "SUM(t2.general_pop_active)"
             }
+        },
+        {
+            "type": "derived_column",
+            "alias": "has_hiv_rapid_test_this_month",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "SUM(t2.has_hiv_rapid_test_this_month)"
+            }
         }
     ],
     "groupBy": {
