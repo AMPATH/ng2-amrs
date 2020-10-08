@@ -27,6 +27,14 @@ export class MonthlyReportComponent implements OnInit {
         icon: 'fa'
       }
     ];
+
+    this.removeCrossBorderReport();
+  }
+
+  public removeCrossBorderReport() {
+    if (this.router.url.includes('data-analytics')) {
+      this.dashboards.splice(-1, 1);
+    }
   }
 
   public viewDashboard(dashboard: any) {
