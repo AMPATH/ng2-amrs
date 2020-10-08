@@ -1,0 +1,194 @@
+{
+    "name": "patientGainLosesAggregateReport",
+    "version": "1.0",
+    "tag": "",
+    "description": "",
+    "uses": [
+         {
+        "name": "patientGainLosesBaseReport",
+        "version": "1.0",
+        "type": "dataset_def"
+    }],
+    "sources": [
+        {
+            "dataSet": "patientGainLosesBaseReport",
+            "alias": "pgl"
+        }
+    ],
+    "columns": [
+        {
+            "type": "derived_column",
+            "alias": "on_art_starting",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "SUM(on_art_starting)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "not_on_art_starting",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "SUM(not_on_art_starting)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "on_art_ending",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "SUM(on_art_ending)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "not_on_art_ending",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "SUM(not_on_art_ending)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "starting_active",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "SUM(starting_active)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "still_active",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "SUM(still_active)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "starting_not_active",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "SUM(starting_not_active)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "newly_enrolled",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "SUM(newly_enrolled)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "transferred_in",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "SUM(transferred_in)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "return_to_care",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "SUM(return_to_care)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "gained_other",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "SUM(gained_other)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "transfer_out",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "SUM(transfer_out)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "transfer_out_undocumented",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "SUM(transfer_out_undocumented)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "transfer_out_documented",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "SUM(transfer_out_documented)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "lost_other",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "SUM(lost_other)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "ltfu",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "SUM(ltfu)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "dead",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "SUM(dead)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "ending_not_active",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "SUM(ending_not_active)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "ending_active",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "SUM(ending_active)"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "total_patients",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "COUNT(*)"
+            }
+        }
+    ],
+    "dynamicJsonQueryGenerationDirectives": {
+        "patientListGenerator": {
+            "useTemplate": "patient-list-template",
+            "useTemplateVersion": "1.0",
+            "generatingDirectives": {
+                "joinDirectives": {
+                    "joinType": "INNER",
+                    "joinCondition": "<<base_column>> = <<template_column>>",
+                    "baseColumn": "person_id",
+                    "templateColumn": "person_id"
+                }
+            }
+        }
+    }
+}

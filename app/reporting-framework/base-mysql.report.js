@@ -157,6 +157,7 @@ import * as prep_monthly_breastfeeding_disaggregation from './json-reports/prep-
 import * as prep_monthly_pregnancy_disaggregation from './json-reports/prep-monthly-pregnancy-disaggregation.json';
 import * as prep_monthly_newly_enrolled_breastfeeding_disaggregation from  './json-reports/prep-monthly-newly-enrolled-breastfeeding-disaggregation.json';
 import * as prep_monthly_newly_enrolled_pregnancy_disaggregation from './json-reports/prep-monthly-newly-enrolled-pregnancy-disaggregation.json';
+import * as prep_latest_clinical_encounter_date_base from './json-reports/prep_latest_clinical_encounter_date_base.json';
 import * as moh_408 from './json-reports/moh-408.json';
 import * as hei_infant_feeding_aggregate from './json-reports/hei-infant-feeding-aggregate.json';
 import * as hei_infant_feeding_base from './json-reports/hei-infant-feeding-base.json';
@@ -176,6 +177,18 @@ import * as hei_unknown_program_outcome_aggregate from './json-reports/hei-unkno
 import * as hei_unknown_program_outcome_base from './json-reports/hei-unknown-program-outcome-base.json';
 import * as hei_report_patient_list_template from './json-reports/hei-report-patient-list-template.json';
 
+import * as patient_gain_loses_base from './json-reports/patient-gain-loses-base.json';
+import * as patient_gain_loses_aggregate from './json-reports/patient-gain-loses-aggregate.json';
+import * as patient_gain_lose_dataset_1 from './json-reports/patient-gain-lose-dataset-1.json';
+import * as patient_gain_lose_dataset_2 from './json-reports/patient-gain-lose-dataset-2.json';
+
+import * as ovc_report from './json-reports/ovc-report.json';
+import * as ovc_in_hiv_dataset_base from './json-reports/ovc-in-hiv-dataset-base.json';
+import * as ovc_in_hiv_dataset_aggregate from './json-reports/ovc-in-hiv-dataset-aggregate.json';
+import * as ovc_in_hei_dataset_base from './json-reports/ovc-in-hei-dataset-base.json';
+import * as ovc_in_hei_dataset_aggregate from './json-reports/ovc-in-hei-dataset-aggregate.json';
+import * as ovc_patient_list_template from './json-reports/ovc-patient-list-template.json';
+import * as ovc_in_hei_patient_list_template from './json-reports/ovc-in-hei-patient-list-template.json';
 export class BaseMysqlReport {
     constructor(reportName, params) {
         this.reportName = reportName;
@@ -661,43 +674,49 @@ export class BaseMysqlReport {
                 case 'prepMonthlySummaryReport':
                     resolve({
                         main: this.cloneJsonSchema(prep_monthly_summary),
-                        
+                        prepLatestClinicalEncounterDate: this.cloneJsonSchema(prep_latest_clinical_encounter_date_base)
                     });
                     break;
                 case 'prepMonthlySummaryNoDisaggregation':
                     resolve({
                         main: this.cloneJsonSchema(prep_monthly_summary_aggregate_report),
-                        prepMonthlySummaryBaseReport: this.cloneJsonSchema(prep_monthly_summary_base_report)
+                        prepMonthlySummaryBaseReport: this.cloneJsonSchema(prep_monthly_summary_base_report),
+                        prepLatestClinicalEncounterDate: this.cloneJsonSchema(prep_latest_clinical_encounter_date_base)
                     });
                     break;
                 case 'prepMonthlySummaryPopulationTypeDisaggregation':
                     resolve({
                         main: this.cloneJsonSchema(prep_monthly_populationtype_disaggregation),
-                        prepMonthlySummaryBaseReport: this.cloneJsonSchema(prep_monthly_summary_base_report)
+                        prepMonthlySummaryBaseReport: this.cloneJsonSchema(prep_monthly_summary_base_report),
+                        prepLatestClinicalEncounterDate: this.cloneJsonSchema(prep_latest_clinical_encounter_date_base)
                     });
                     break;
                 case 'prepMonthlySummaryBreastFeedingDisaggregation':
                     resolve({
                         main: this.cloneJsonSchema(prep_monthly_breastfeeding_disaggregation),
-                        prepMonthlySummaryBaseReport: this.cloneJsonSchema(prep_monthly_summary_base_report)
+                        prepMonthlySummaryBaseReport: this.cloneJsonSchema(prep_monthly_summary_base_report),
+                        prepLatestClinicalEncounterDate: this.cloneJsonSchema(prep_latest_clinical_encounter_date_base)
                     });
                     break;
                 case 'prepMonthlyNewlyEnrolledBreastFeedingDisaggregation':
                     resolve({
                         main: this.cloneJsonSchema(prep_monthly_newly_enrolled_breastfeeding_disaggregation),
-                        prepMonthlySummaryBaseReport: this.cloneJsonSchema(prep_monthly_summary_base_report)
+                        prepMonthlySummaryBaseReport: this.cloneJsonSchema(prep_monthly_summary_base_report),
+                        prepLatestClinicalEncounterDate: this.cloneJsonSchema(prep_latest_clinical_encounter_date_base)
                     });
                     break;
                 case 'prepMonthlyNewlyEnrolledPregnancyDisaggregation':
                     resolve({
                         main: this.cloneJsonSchema(prep_monthly_newly_enrolled_pregnancy_disaggregation),
-                        prepMonthlySummaryBaseReport: this.cloneJsonSchema(prep_monthly_summary_base_report)
-                    });
+                        prepMonthlySummaryBaseReport: this.cloneJsonSchema(prep_monthly_summary_base_report),
+                        prepLatestClinicalEncounterDate: this.cloneJsonSchema(prep_latest_clinical_encounter_date_base)
+                        });
                     break; 
                 case 'prepMonthlySummaryPregnancyDisaggregation':
                     resolve({
                         main: this.cloneJsonSchema(prep_monthly_pregnancy_disaggregation),
-                        prepMonthlySummaryBaseReport: this.cloneJsonSchema(prep_monthly_summary_base_report)
+                        prepMonthlySummaryBaseReport: this.cloneJsonSchema(prep_monthly_summary_base_report),
+                        prepLatestClinicalEncounterDate: this.cloneJsonSchema(prep_latest_clinical_encounter_date_base)
                     });
                     break;
                 case 'MOH-408':
@@ -758,6 +777,38 @@ export class BaseMysqlReport {
                             main: this.cloneJsonSchema(hei_report_patient_list_template)
                         });
                         break;
+                case 'patientGainLoseAggregate':
+                    resolve({
+                        main: this.cloneJsonSchema(patient_gain_loses_aggregate),
+                        patientGainLosesBaseReport: this.cloneJsonSchema(patient_gain_loses_base),
+                        patientGainLoseDatasetOne: this.cloneJsonSchema(patient_gain_lose_dataset_1),
+                        patientGainLoseDatasetTwo: this.cloneJsonSchema(patient_gain_lose_dataset_2)
+                    });
+                    break;
+                case 'ovcReport':
+                    resolve({
+                        main: this.cloneJsonSchema(ovc_report)
+                    });
+                case 'ovcInHivDatasetAggregate':
+                    resolve({
+                        main: this.cloneJsonSchema(ovc_in_hiv_dataset_aggregate),
+                        ovcInHivDatasetBase: this.cloneJsonSchema(ovc_in_hiv_dataset_base)
+                    })
+                case 'ovcInHeiDatasetAggregate':
+                    resolve({
+                        main: this.cloneJsonSchema(ovc_in_hei_dataset_aggregate),
+                        ovcInHeiDatasetBase: this.cloneJsonSchema(ovc_in_hei_dataset_base)
+                    })
+                case 'ovc-patient-list-template':
+                    resolve({
+                        main: this.cloneJsonSchema(ovc_patient_list_template)
+                    });
+                    break;
+                case 'ovc-in-hei-patient-list-template':
+                    resolve({
+                        main: this.cloneJsonSchema(ovc_in_hei_patient_list_template)
+                    })
+                    break;
                 default:
                     reject('Unknown report ', reportName);
                     break;

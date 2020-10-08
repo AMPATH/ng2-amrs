@@ -1,0 +1,99 @@
+{
+    "name": "patientGainLoseDatasetTwo",
+    "version": "1.0",
+    "tag": "",
+    "description": "",
+    "uses": [],
+    "sources": [
+        {
+            "table": "etl.hiv_monthly_report_dataset_frozen",
+            "alias": "t1"
+        }
+    ],
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias": "person_id",
+            "column": "t1.person_id"
+        },
+        {
+          "type": "simple_column",
+          "alias": "ending_month",
+          "column": "t1.endDate"
+        },
+        {
+            "type": "derived_column",
+            "alias": "ending_status",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+              "expression": "case when location_uuid = '{locationUuid}' then status else null end"
+            }
+        },
+        {
+            "type": "simple_column",
+            "alias": "ending_location_uuid",
+            "column": "t1.location_uuid"
+        },
+        {
+            "type": "derived_column",
+            "alias": "on_art_ending",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+              "expression": "(IF(t1.location_uuid = '{locationUuid}' AND t1.status = 'active' AND cur_arv_meds IS NOT NULL, 1, 0))"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "not_on_art_ending",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+              "expression": "(IF(t1.location_uuid = '{locationUuid}' AND t1.status = 'active' AND cur_arv_meds IS NULL, 1, 0))"
+            }
+        },
+        {
+            "type": "simple_column",
+            "alias": "transfer_in_date",
+            "column": "t1.transfer_in_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "transfer_in_location_id",
+            "column": "t1.transfer_in_location_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "transfer_out_date",
+            "column": "t1.transfer_out_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "transfer_out_location_id",
+            "column": "t1.transfer_out_location_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "death_date",
+            "column": "t1.death_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "enrollment_date",
+            "column": "t1.enrollment_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "person_uuid",
+            "column": "t1.person_uuid"
+        }
+    ],
+    "filters": {
+        "conditionJoinOperator": "and",
+        "conditions": [
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "t1.endDate = ?",
+                "parameterName": "endingMonth"
+            }
+        ]
+    }
+}

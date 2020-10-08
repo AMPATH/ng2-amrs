@@ -73,6 +73,14 @@
             }
         },
         {
+            "type": "derived_column",
+            "alias": "enrolled_and_vl_due",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(dcr.enrolled_in_dc = 1 and dcr.patients_due_for_vl = 1, 1, 0)"
+            }
+        },
+        {
             "type": "simple_column",
             "alias": "vl_1",
             "column": "dcr.vl_1"

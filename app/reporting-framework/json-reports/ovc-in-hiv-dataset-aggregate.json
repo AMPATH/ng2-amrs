@@ -1,141 +1,150 @@
 {
-    "name": "prepMonthlySummaryNoDisaggregation",
+    "name": "ovcInHivDatasetAggregate",
     "version": "1.0",
     "tag": "",
     "description": "",
     "uses": [
         {
-            "name": "prepMonthlySummaryBaseReport",
+            "name": "ovcInHivDatasetBase",
             "version": "1.0",
             "type": "dataset_def"
         }
     ],
     "sources": [
         {
-            "dataSet": "prepMonthlySummaryBaseReport",
-            "alias": "t2"
+            "dataSet": "ovcInHivDatasetBase",
+            "alias": "hmsd"
         }
     ],
     "columns": [
         {
-            "type": "simple_column",
-            "alias": "location_uuid",
-            "column": "t2.location_uuid"
+            "type": "derived_column",
+            "alias": "join_location",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "1"
+            }
         },
         {
             "type": "simple_column",
-            "alias": "location_id",
-            "column": "t2.location_id"
+            "alias": "location_uuid",
+            "column": "hmsd.location_uuid"
         },
         {
             "type": "simple_column",
             "alias": "location",
-            "column": "t2.location"
+            "column": "hmsd.location"
+        },
+        {
+            "type": "simple_column",
+            "alias": "gender",
+            "column": "hmsd.gender"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location_id",
+            "column": "hmsd.location_id"
         },
         {
             "type": "derived_column",
-            "alias": "active_on_prep_this_month",
+            "alias": "on_art_this_month",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "SUM(t2.active_on_prep_this_month)"
+                "expression": "sum(hmsd.on_art_this_month)"
             }
         },
         {
             "type": "derived_column",
-            "alias": "enrolled_in_prep_this_month",
+            "alias": "active_in_care_this_month",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "SUM(t2.enrolled_in_prep_this_month)"
+                "expression": "sum(hmsd.active_in_care_this_month)"
             }
         },
         {
             "type": "derived_column",
-            "alias": "cumulative_prep_ltfu_this_month",
+            "alias": "active_and_eligible_for_ovc",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "SUM(t2.cumulative_prep_ltfu_this_month)"
+                "expression": "sum(hmsd.active_and_eligible_for_ovc)"
             }
         },
         {
             "type": "derived_column",
-            "alias": "prep_ltfu_this_month",
+            "alias": "inactive_and_eligible_for_ovc",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "SUM(t2.prep_ltfu_this_month)"
+                "expression": "sum(hmsd.inactive_and_eligible_for_ovc)"
             }
         },
         {
             "type": "derived_column",
-            "alias": "prep_discontinued_this_month",
+            "alias": "enrolled_in_ovc_this_month",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "SUM(t2.prep_discontinued_this_month)"
+                "expression": "sum(hmsd.enrolled_in_ovc_this_month)"
             }
         },
         {
             "type": "derived_column",
-            "alias": "cumulative_prep_discontinued_this_month",
+            "alias": "ovc_non_enrolment_declined",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "SUM(t2.cumulative_prep_discontinued_this_month)"
+                "expression": "sum(hmsd.ovc_non_enrolment_declined)"
             }
         },
         {
             "type": "derived_column",
-            "alias": "prev_on_prep_and_turned_positive",
+            "alias": "ovc_non_enrolment_out_of_catchment_area",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "SUM(t2.prev_on_prep_and_turned_positive)"
+                "expression": "sum(hmsd.ovc_non_enrolment_out_of_catchment_area)"
             }
         },
         {
             "type": "derived_column",
-            "alias": "turned_positive_this_month",
+            "alias": "ovc_non_enrolment_undocumented",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "SUM(t2.turned_positive_this_month)"
+                "expression": "sum(hmsd.ovc_non_enrolment_undocumented)"
             }
         },
         {
             "type": "derived_column",
-            "alias": "cumulative_turned_positive_this_month",
+            "alias": "newly_exited_from_ovc_this_month",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "SUM(t2.cumulative_turned_positive_this_month)"
+                "expression": "sum(hmsd.newly_exited_from_ovc_this_month)"
             }
         },
         {
             "type": "derived_column",
-            "alias": "general_pop_active",
+            "alias": "exited_from_ovc_this_month",
             "expressionType": "simple_expression",
             "expressionOptions": {
-                "expression": "SUM(t2.general_pop_active)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "has_hiv_rapid_test_this_month",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "SUM(t2.has_hiv_rapid_test_this_month)"
+                "expression": "sum(hmsd.exited_from_ovc_this_month)"
             }
         }
     ],
     "groupBy": {
         "groupParam": "groupByParam",
         "columns": [
-            "location_uuid"
+            "location_id"
         ],
         "excludeParam": "excludeParam"
     },
     "transFormDirectives": {
-        "joinColumn": "location_uuid",
-        "skipColumns": [],
+        "joinColumn": "location_id",
+        "joinColumnParam": "joinColumnParam",
+        "skipColumns": [
+            "location_uuid",
+            "join_location"
+        ],
         "disaggregationColumns": []
     },
     "dynamicJsonQueryGenerationDirectives": {
         "patientListGenerator": {
-            "useTemplate": "prep-report-patient-list-template",
+            "useTemplate": "ovc-patient-list-template",
             "useTemplateVersion": "1.0",
             "generatingDirectives": {
                 "joinDirectives": {
@@ -144,8 +153,7 @@
                     "baseColumn": "person_id",
                     "templateColumn": "person_id"
                 }
-            },
-            "skipParams": []
+            }
         }
     }
 }

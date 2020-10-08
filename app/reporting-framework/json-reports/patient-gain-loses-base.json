@@ -1,0 +1,259 @@
+{
+    "name": "patientGainLosesBaseReport",
+    "version": "1.0",
+    "tag": "patient-gain-loses",
+    "description": "Patient gains and loses",
+    "uses": [
+        {
+            "name": "patientGainLoseDatasetOne",
+            "version": "1.0",
+            "type": "dataset_def1"
+        },
+        {
+            "name": "patientGainLoseDatasetTwo",
+            "version": "1.0",
+            "type": "dataset_def2"
+        }
+    ],
+    "sources": [
+        {
+            "dataSet": "patientGainLoseDatasetTwo",
+            "alias": "t3"
+        },
+        {
+            "dataSet": "patientGainLoseDatasetOne",
+            "alias": "t4",
+            "join": {
+                "type": "LEFT",
+                "joinCondition": "t4.person_id = t3.person_id"
+            }
+        }
+    ],
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias": "person_id",
+            "column": "t3.person_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "person_uuid",
+            "column": "person_uuid"
+        },
+        {
+            "type": "simple_column",
+            "alias": "starting_month",
+            "column": "starting_month"
+        },
+        {
+            "type": "simple_column",
+            "alias": "ending_month",
+            "column": "ending_month"
+        },
+        {
+            "type": "simple_column",
+            "alias": "starting_status",
+            "column": "starting_status"
+        },
+        {
+            "type": "simple_column",
+            "alias": "ending_status",
+            "column": "ending_status"
+        },
+        {
+            "type": "simple_column",
+            "alias": "starting_location_uuid",
+            "column": "t4.starting_location_uuid"
+        },
+        {
+            "type": "simple_column",
+            "alias": "ending_location_uuid",
+            "column": "t3.ending_location_uuid"
+        },
+        {
+            "type": "simple_column",
+            "alias": "on_art_starting",
+            "column": "t4.on_art_starting"
+        },
+        {
+            "type": "simple_column",
+            "alias": "not_on_art_starting",
+            "column": "t4.not_on_art_starting"
+        },
+        {
+            "type": "simple_column",
+            "alias": "on_art_ending",
+            "column": "t3.on_art_ending"
+        },
+        {
+            "type": "simple_column",
+            "alias": "not_on_art_ending",
+            "column": "t3.not_on_art_ending"
+        },
+        {
+            "type": "derived_column",
+            "alias": "starting_active",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+              "expression": "(IF(starting_status = 'active', 1, 0))"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "ending_active",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+              "expression": "(IF(ending_status = 'active', 1, 0))"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "starting_not_active",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+              "expression": "CASE WHEN ((IF(starting_status = 'active', 1, 0))) = 0 AND ((IF(ending_status = 'active', 1, 0))) = 1 THEN 1 ELSE 0 END"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "newly_enrolled",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+              "expression": "CASE WHEN (CASE WHEN ((IF(starting_status = 'active', 1, 0))) = 0 AND ((IF(ending_status = 'active', 1, 0))) = 1 THEN 1 ELSE 0 END) = 1 AND t3.enrollment_date >= '{startingMonth}' AND t3.enrollment_date <= '{endingMonth}' THEN 1 ELSE 0 END"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "transferred_in",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+              "expression": "CASE WHEN (CASE WHEN ((IF(starting_status = 'active', 1, 0))) = 0 AND ((IF(ending_status = 'active', 1, 0))) = 1 THEN 1 ELSE 0 END) = 1 AND (CASE WHEN (CASE WHEN ((IF(starting_status = 'active', 1, 0))) = 0 AND ((IF(ending_status = 'active', 1, 0))) = 1 THEN 1 ELSE 0 END) = 1 AND t3.enrollment_date >= '{startingMonth}' AND t3.enrollment_date <= '{endingMonth}' THEN 1 ELSE 0 END) = 0 AND t3.transfer_in_date >= '{startingMonth}' AND t3.transfer_in_date <= '{endingMonth}' THEN 1 ELSE 0 END "
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "return_to_care",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+              "expression": "CASE WHEN (CASE WHEN (CASE WHEN ((IF(starting_status = 'active', 1, 0))) = 0 AND ((IF(ending_status = 'active', 1, 0))) = 1 THEN 1 ELSE 0 END) = 1 AND t3.enrollment_date >= '{startingMonth}' AND t3.enrollment_date <= '{endingMonth}' THEN 1 ELSE 0 END) = 0 AND (CASE WHEN (CASE WHEN ((IF(starting_status = 'active', 1, 0))) = 0 AND ((IF(ending_status = 'active', 1, 0))) = 1 THEN 1 ELSE 0 END) = 1 AND (CASE WHEN (CASE WHEN ((IF(starting_status = 'active', 1, 0))) = 0 AND ((IF(ending_status = 'active', 1, 0))) = 1 THEN 1 ELSE 0 END) = 1 AND t3.enrollment_date >= '{startingMonth}' AND t3.enrollment_date <= '{endingMonth}' THEN 1 ELSE 0 END) = 0 AND t3.transfer_in_date >= '{startingMonth}' AND t3.transfer_in_date <= '{endingMonth}' THEN 1 ELSE 0 END ) = 0 AND ((IF(ending_status = 'active', 1, 0))) = 1 AND (starting_status = 'ltfu' OR starting_status = 'defaulter') THEN 1 ELSE 0 END"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "gained_other",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+              "expression": "CASE WHEN (CASE WHEN (CASE WHEN ((IF(starting_status = 'active', 1, 0))) = 0 AND ((IF(ending_status = 'active', 1, 0))) = 1 THEN 1 ELSE 0 END) = 1 AND t3.enrollment_date >= '{startingMonth}' AND t3.enrollment_date <= '{endingMonth}' THEN 1 ELSE 0 END) = 0 AND (CASE WHEN (CASE WHEN ((IF(starting_status = 'active', 1, 0))) = 0 AND ((IF(ending_status = 'active', 1, 0))) = 1 THEN 1 ELSE 0 END) = 1 AND (CASE WHEN (CASE WHEN ((IF(starting_status = 'active', 1, 0))) = 0 AND ((IF(ending_status = 'active', 1, 0))) = 1 THEN 1 ELSE 0 END) = 1 AND t3.enrollment_date >= '{startingMonth}' AND t3.enrollment_date <= '{endingMonth}' THEN 1 ELSE 0 END) = 0 AND t3.transfer_in_date >= '{startingMonth}' AND t3.transfer_in_date <= '{endingMonth}' THEN 1 ELSE 0 END ) = 0 AND ((IF(starting_status = 'active', 1, 0))) = 0 AND (CASE WHEN (CASE WHEN (CASE WHEN ((IF(starting_status = 'active', 1, 0))) = 0 AND ((IF(ending_status = 'active', 1, 0))) = 1 THEN 1 ELSE 0 END) = 1 AND t3.enrollment_date >= '{startingMonth}' AND t3.enrollment_date <= '{endingMonth}' THEN 1 ELSE 0 END) = 0 AND (CASE WHEN (CASE WHEN ((IF(starting_status = 'active', 1, 0))) = 0 AND ((IF(ending_status = 'active', 1, 0))) = 1 THEN 1 ELSE 0 END) = 1 AND (CASE WHEN (CASE WHEN ((IF(starting_status = 'active', 1, 0))) = 0 AND ((IF(ending_status = 'active', 1, 0))) = 1 THEN 1 ELSE 0 END) = 1 AND t3.enrollment_date >= '{startingMonth}' AND t3.enrollment_date <= '{endingMonth}' THEN 1 ELSE 0 END) = 0 AND t3.transfer_in_date >= '{startingMonth}' AND t3.transfer_in_date <= '{endingMonth}' THEN 1 ELSE 0 END ) = 0 AND ((IF(ending_status = 'active', 1, 0))) = 1 AND (starting_status = 'ltfu' OR starting_status = 'defaulter') THEN 1 ELSE 0 END) = 0 AND ((IF(ending_status = 'active', 1, 0))) = 1 THEN 1 ELSE 0 END"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "transfer_out",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+              "expression": "CASE WHEN (CASE WHEN ((IF(starting_status = 'active', 1, 0))) = 1 AND ((IF(ending_status = 'active', 1, 0))) = 0 THEN 1 ELSE 0 END) = 1 AND starting_location_uuid != ending_location_uuid THEN 1 WHEN (CASE WHEN ((IF(starting_status = 'active', 1, 0))) = 1 AND ((IF(ending_status = 'active', 1, 0))) = 0 THEN 1 ELSE 0 END) = 1 AND ending_status = 'transfer_out' THEN 1 ELSE 0 END"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "ending_not_active",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+              "expression": "CASE WHEN ((IF(starting_status = 'active', 1, 0))) = 1 AND ((IF(ending_status = 'active', 1, 0))) = 0 THEN 1 ELSE 0 END"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "transfer_out_documented",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+              "expression": "CASE WHEN (CASE WHEN (CASE WHEN ((IF(starting_status = 'active', 1, 0))) = 1 AND ((IF(ending_status = 'active', 1, 0))) = 0 THEN 1 ELSE 0 END) = 1 AND starting_location_uuid != ending_location_uuid THEN 1 WHEN (CASE WHEN ((IF(starting_status = 'active', 1, 0))) = 1 AND ((IF(ending_status = 'active', 1, 0))) = 0 THEN 1 ELSE 0 END) = 1 AND ending_status = 'transfer_out' THEN 1 ELSE 0 END) = 1 AND (CASE WHEN ((IF(starting_status = 'active', 1, 0))) = 1 AND ((IF(ending_status = 'active', 1, 0))) = 0 THEN 1 ELSE 0 END) = 1 AND t3.transfer_out_date IS NOT NULL THEN 1 ELSE 0 END"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "transfer_out_undocumented",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+              "expression": "CASE WHEN (CASE WHEN (CASE WHEN ((IF(starting_status = 'active', 1, 0))) = 1 AND ((IF(ending_status = 'active', 1, 0))) = 0 THEN 1 ELSE 0 END) = 1 AND starting_location_uuid != ending_location_uuid THEN 1 WHEN (CASE WHEN ((IF(starting_status = 'active', 1, 0))) = 1 AND ((IF(ending_status = 'active', 1, 0))) = 0 THEN 1 ELSE 0 END) = 1 AND ending_status = 'transfer_out' THEN 1 ELSE 0 END) = 1 AND (CASE WHEN ((IF(starting_status = 'active', 1, 0))) = 1 AND ((IF(ending_status = 'active', 1, 0))) = 0 THEN 1 ELSE 0 END) = 1 AND t3.transfer_out_date IS NULL THEN 1 ELSE 0 END"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "dead",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+              "expression": "CASE WHEN (CASE WHEN ((IF(starting_status = 'active', 1, 0))) = 1 AND ((IF(ending_status = 'active', 1, 0))) = 0 THEN 1 ELSE 0 END) = 1 AND (CASE WHEN (CASE WHEN ((IF(starting_status = 'active', 1, 0))) = 1 AND ((IF(ending_status = 'active', 1, 0))) = 0 THEN 1 ELSE 0 END) = 1 AND starting_location_uuid != ending_location_uuid THEN 1 WHEN (CASE WHEN ((IF(starting_status = 'active', 1, 0))) = 1 AND ((IF(ending_status = 'active', 1, 0))) = 0 THEN 1 ELSE 0 END) = 1 AND ending_status = 'transfer_out' THEN 1 ELSE 0 END) = 0 AND ending_status = 'dead' THEN 1 ELSE 0 END"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "ltfu",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+              "expression": "CASE WHEN (CASE WHEN ((IF(starting_status = 'active', 1, 0))) = 1 AND ((IF(ending_status = 'active', 1, 0))) = 0 THEN 1 ELSE 0 END) = 1 AND (CASE WHEN (CASE WHEN ((IF(starting_status = 'active', 1, 0))) = 1 AND ((IF(ending_status = 'active', 1, 0))) = 0 THEN 1 ELSE 0 END) = 1 AND starting_location_uuid != ending_location_uuid THEN 1 WHEN (CASE WHEN ((IF(starting_status = 'active', 1, 0))) = 1 AND ((IF(ending_status = 'active', 1, 0))) = 0 THEN 1 ELSE 0 END) = 1 AND ending_status = 'transfer_out' THEN 1 ELSE 0 END) = 0 AND (ending_status = 'ltfu' OR ending_status = 'defaulter') THEN 1 ELSE 0 END"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "lost_other",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+              "expression": "CASE WHEN (CASE WHEN ((IF(starting_status = 'active', 1, 0))) = 1 AND ((IF(ending_status = 'active', 1, 0))) = 0 THEN 1 ELSE 0 END) = 1 AND (CASE WHEN (CASE WHEN ((IF(starting_status = 'active', 1, 0))) = 1 AND ((IF(ending_status = 'active', 1, 0))) = 0 THEN 1 ELSE 0 END) = 1 AND starting_location_uuid != ending_location_uuid THEN 1 WHEN (CASE WHEN ((IF(starting_status = 'active', 1, 0))) = 1 AND ((IF(ending_status = 'active', 1, 0))) = 0 THEN 1 ELSE 0 END) = 1 AND ending_status = 'transfer_out' THEN 1 ELSE 0 END) = 0 AND (CASE WHEN (CASE WHEN ((IF(starting_status = 'active', 1, 0))) = 1 AND ((IF(ending_status = 'active', 1, 0))) = 0 THEN 1 ELSE 0 END) = 1 AND (CASE WHEN (CASE WHEN ((IF(starting_status = 'active', 1, 0))) = 1 AND ((IF(ending_status = 'active', 1, 0))) = 0 THEN 1 ELSE 0 END) = 1 AND starting_location_uuid != ending_location_uuid THEN 1 WHEN (CASE WHEN ((IF(starting_status = 'active', 1, 0))) = 1 AND ((IF(ending_status = 'active', 1, 0))) = 0 THEN 1 ELSE 0 END) = 1 AND ending_status = 'transfer_out' THEN 1 ELSE 0 END) = 0 AND ending_status = 'dead' THEN 1 ELSE 0 END) = 0 AND (CASE WHEN (CASE WHEN ((IF(starting_status = 'active', 1, 0))) = 1 AND ((IF(ending_status = 'active', 1, 0))) = 0 THEN 1 ELSE 0 END) = 1 AND (CASE WHEN (CASE WHEN ((IF(starting_status = 'active', 1, 0))) = 1 AND ((IF(ending_status = 'active', 1, 0))) = 0 THEN 1 ELSE 0 END) = 1 AND starting_location_uuid != ending_location_uuid THEN 1 WHEN (CASE WHEN ((IF(starting_status = 'active', 1, 0))) = 1 AND ((IF(ending_status = 'active', 1, 0))) = 0 THEN 1 ELSE 0 END) = 1 AND ending_status = 'transfer_out' THEN 1 ELSE 0 END) = 0 AND (ending_status = 'ltfu' OR ending_status = 'defaulter') THEN 1 ELSE 0 END) = 0 THEN 1 ELSE 0 END"
+            }
+        },
+        {
+            "type": "derived_column",
+            "alias": "still_active",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+              "expression": "CASE WHEN ((IF(starting_status = 'active', 1, 0))) = 1 AND ((IF(ending_status = 'active', 1, 0))) = 1 AND t3.ending_location_uuid = t4.starting_location_uuid THEN 1 ELSE 0 END"
+            }
+        },
+        {
+            "type": "simple_column",
+            "alias": "transfer_in_date",
+            "column": "t3.transfer_in_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "transfer_in_location_id",
+            "column": "t3.transfer_in_location_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "transfer_out_date",
+            "column": "t3.transfer_out_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "transfer_out_location_id",
+            "column": "t3.transfer_out_location_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "death_date",
+            "column": "t3.death_date"
+        },
+        {
+            "type": "simple_column",
+            "alias": "enrollment_date",
+            "column": "t3.enrollment_date"
+        }
+    ],
+    "filters": {
+        "conditionJoinOperator": "AND",
+        "conditions": [
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "",
+                "parameterName": "endingMonth"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "",
+                "parameterName": "startingMonth"
+            }
+        ]
+    }
+}
