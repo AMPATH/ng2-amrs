@@ -95,23 +95,30 @@ export class Patient extends BaseModel {
       const nat = this.getIdentifierByType(identifier, 'NAT');
       const bhim = this.getIdentifierByType(identifier, 'BHIM');
       const ovcid = this.getIdentifierByType(identifier, 'OVCID');
-      if ((kenyaNationalId) === undefined && (amrsMrn) === undefined &&
-        (ampathMrsUId) === undefined && (cCC) === undefined) {
-        if ((this._identifier[0].identifier)) {
-          filteredIdentifiers = {'default': this._identifier[0].identifier};
+      const prep = this.getIdentifierByType(identifier, 'PrEP');
+      if (
+        kenyaNationalId === undefined &&
+        amrsMrn === undefined &&
+        ampathMrsUId === undefined &&
+        cCC === undefined &&
+        prep === undefined
+      ) {
+        if (this._identifier[0].identifier) {
+          filteredIdentifiers = { default: this._identifier[0].identifier };
         } else {
           filteredIdentifiers = {'default': ''};
         }
       } else {
         filteredIdentifiers = {
-          'kenyaNationalId': kenyaNationalId,
-          'amrsMrn': amrsMrn,
-          'ampathMrsUId': ampathMrsUId,
-          'cCC': cCC,
-          'hei': hei,
-          'nat': nat,
-          'bhim': bhim,
-          'ovcid': ovcid,
+          kenyaNationalId: kenyaNationalId,
+          amrsMrn: amrsMrn,
+          ampathMrsUId: ampathMrsUId,
+          cCC: cCC,
+          hei: hei,
+          nat: nat,
+          bhim: bhim,
+          ovcid: ovcid,
+          prep: prep
         };
       }
       return filteredIdentifiers;
@@ -134,10 +141,15 @@ export class Patient extends BaseModel {
       const ampathMrsUId = this.getAllIdentifiersByType(identifiers, 'AMRS Universal ID');
       const cCC = this.getAllIdentifiersByType(identifiers, 'CCC Number');
       const ovcid = this.getIdentifierByType(identifiers, 'OVCID');
-      if ((kenyaNationalId) === undefined && (amrsMrn) === undefined &&
-        (ampathMrsUId) === undefined && (cCC) === undefined) {
-        if ((this._identifier[0].identifier)) {
-          filteredIdentifiers = {'default': this._identifier[0].identifier};
+      const prep = this.getIdentifierByType(identifiers, 'PrEP');
+      if (
+        kenyaNationalId === undefined &&
+        amrsMrn === undefined &&
+        ampathMrsUId === undefined &&
+        cCC === undefined
+      ) {
+        if (this._identifier[0].identifier) {
+          filteredIdentifiers = { default: this._identifier[0].identifier };
         } else {
           filteredIdentifiers = {'default': ''};
         }
