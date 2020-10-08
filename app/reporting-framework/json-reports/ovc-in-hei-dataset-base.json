@@ -1,0 +1,134 @@
+{
+    "name": "ovcInHeiDatasetBase",
+    "version": "1.0",
+    "tag": "",
+    "description": "",
+    "uses": [],
+    "sources": [
+        {
+            "table": "etl.hei_monthly_report_dataset",
+            "alias": "hmsd"
+        },
+        {
+            "table": "amrs.location",
+            "alias": "l",
+            "join": {
+                "type": "INNER",
+                "joinCondition": "l.location_id = hmsd.location_id"
+            }
+        }
+    ],
+    "columns": [
+        {
+            "type": "simple_column",
+            "alias": "gender",
+            "column": "hmsd.gender"
+        },
+        {
+            "type": "simple_column",
+            "alias": "birthdate",
+            "column": "hmsd.birthdate"
+        },
+        {
+            "type": "simple_column",
+            "alias": "age",
+            "column": "hmsd.age"
+        },
+        {
+            "type": "simple_column",
+            "alias": "person_id",
+            "column": "hmsd.person_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location_uuid",
+            "column": "l.uuid"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location",
+            "column": "l.name"
+        },
+        {
+            "type": "simple_column",
+            "alias": "location_id",
+            "column": "hmsd.location_id"
+        },
+        {
+            "type": "simple_column",
+            "alias": "vl_1",
+            "column": "hmsd.vl_1"
+        },
+        {
+            "type": "simple_column",
+            "alias": "status",
+            "column": "hmsd.retention_status"
+        },
+        {
+            "type": "derived_column",
+            "alias": "vl_1_date",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "date_format(hmsd.vl_1_date,'%d-%m-%Y')"
+            }
+        },
+        {
+            "type": "simple_column",
+            "alias": "active_and_eligible_for_ovc",
+            "column": "hmsd.active_and_eligible_for_ovc"
+        },
+        {
+            "type": "simple_column",
+            "alias": "inactive_and_eligible_for_ovc",
+            "column": "hmsd.inactive_and_eligible_for_ovc"
+        },
+        {
+            "type": "simple_column",
+            "alias": "enrolled_in_ovc_this_month",
+            "column": "hmsd.enrolled_in_ovc_this_month"
+        },
+        {
+            "type": "simple_column",
+            "alias": "ovc_non_enrolment_out_of_catchment_area",
+            "column": "hmsd.ovc_non_enrolment_out_of_catchment_area"
+        },
+        {
+            "type": "simple_column",
+            "alias": "ovc_non_enrolment_declined",
+            "column": "hmsd.ovc_non_enrolment_declined"
+        },
+        {
+            "type": "simple_column",
+            "alias": "newly_exited_from_ovc_this_month_hei",
+            "column": "hmsd.newly_exited_from_ovc_this_month"
+        },
+        {
+            "type": "simple_column",
+            "alias": "exited_from_ovc_this_month_hei",
+            "column": "hmsd.exited_from_ovc_this_month"
+        },
+        {
+            "type": "derived_column",
+            "alias": "ovc_non_enrolment_undocumented_hei",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "if(hmsd.active_and_eligible_for_ovc = 1 and (hmsd.enrolled_in_ovc_this_month is null or hmsd.enrolled_in_ovc_this_month = 0 ) and hmsd.ovc_non_enrolment_declined <> 1 and hmsd.ovc_non_enrolment_out_of_catchment_area <> 1, 1,0)"
+            }
+        }
+    ],
+    "filters": {
+        "conditionJoinOperator": "and",
+        "conditions": [
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "endDate = ?",
+                "parameterName": "endDate"
+            },
+            {
+                "filterType": "tableColumns",
+                "conditionExpression": "hmsd.location_id in ?",
+                "parameterName": "locations"
+            }
+        ]
+    }
+}
