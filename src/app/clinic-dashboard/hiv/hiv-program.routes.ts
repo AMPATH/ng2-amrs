@@ -267,6 +267,10 @@ const routes: Routes = [
                 component: MonthlyReportComponent
             },
             {
+                path: 'cross-border-report',
+                component: HIVListsMicroFrontendComponent
+            },
+            {
                 path: 'prep-report',
                 children: [
                     {

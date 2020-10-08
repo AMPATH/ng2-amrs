@@ -30,6 +30,10 @@
     <small>{{errorMessage}}</small>
   </p>
 </div>
+<div *ngIf="!isReleased" class="alert alert-warning">
+  <strong>Viewing a Draft Version of the Report for the chosen month. </strong>
+  This report is likely to change without warning.
+</div>
 <div>
   <p-tabView>
     <p-tabPanel header="Report View" leftIcon="fa-file-pdf-o" [selected]="currentViewBelow === 'pdf'">

@@ -27,7 +27,8 @@ export class PrepReportBaseComponent implements OnInit {
   public reportHead: any;
   public pinnedBottomRowData: any = [];
   public enabledControls = 'monthControl';
-  _month: string;
+  public _month: string;
+  public isReleased = true;
 
   public _locationUuids: any = [];
   public get locationUuids(): Array<string> {
@@ -44,13 +45,21 @@ export class PrepReportBaseComponent implements OnInit {
     this._locationUuids = locationUuids;
   }
 
-  constructor(public router: Router,
-    public route: ActivatedRoute, public prepReport: PrepResourceService) {
-    this.route.queryParams.subscribe(
-      (data) => {
-        data.month === undefined ? this._month = Moment().format('YYYY-MM-DD') : this._month = data.month;
-      }
-    );
+  constructor(
+    public router: Router,
+    public route: ActivatedRoute,
+    public prepReport: PrepResourceService
+  ) {
+    this.route.queryParams.subscribe((data) => {
+      data.month === undefined
+        ? (this._month = Moment()
+            .subtract(1, 'M')
+            .endOf('month')
+            .format('YYYY-MM-DD'))
+        : (this._month = data.month);
+
+      this.showDraftReportAlert(this._month);
+    });
   }
 
   ngOnInit() {
@@ -96,6 +105,7 @@ export class PrepReportBaseComponent implements OnInit {
         this.prepReportSummaryData = data.result;
         this.calculateTotalSummary();
         this.isLoading = false;
+        this.showDraftReportAlert(this._month);
       }
     });
   }
@@ -141,5 +151,13 @@ export class PrepReportBaseComponent implements OnInit {
         currentView: this.currentView
       }
     });
+  }
+
+  public showDraftReportAlert(date) {
+    if (date != null && date >= Moment().endOf('month').format('YYYY-MM-DD')) {
+      this.isReleased = false;
+    } else {
+      this.isReleased = true;
+    }
   }
 }
