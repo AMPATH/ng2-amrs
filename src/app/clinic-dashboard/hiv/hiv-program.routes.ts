@@ -377,18 +377,22 @@ const routes: Routes = [
     children: [
       {
         path: '',
+        component: MonthlyReportComponent
+      },
+      {
+        path: 'cross-border-report',
         component: HIVListsMicroFrontendComponent
       },
       {
-        path: 'patient-gains-and-loses',
+        path: 'prep-report',
         children: [
           {
             path: '',
-            component: PatientGainLosesReportComponent
+            component: PrepReportComponent
           },
           {
             path: 'patient-list',
-            component: PatientGainsAndLosesPatientListComponent
+            component: PrepReportPatientListComponent
           }
         ]
       }
