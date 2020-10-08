@@ -77,6 +77,14 @@
             "expressionOptions": {
                 "expression": "count(distinct concat(dcp.enrolled_in_dc_active, dcp.person_id))"
             }
+        },
+        {
+            "type": "derived_column",
+            "alias": "enrolled_and_vl_due",
+            "expressionType": "simple_expression",
+            "expressionOptions": {
+                "expression": "count(distinct concat(dcp.enrolled_and_vl_due, dcp.person_id))"
+            }
         }
     ],
     "filters": {
