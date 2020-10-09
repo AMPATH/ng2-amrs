@@ -23,7 +23,7 @@ export class MonthlyReportComponent implements OnInit {
         icon: 'fa'
       },
       {
-        title: 'Cross Border Report',
+        title: 'Cross Border and Ovc Report',
         description: '',
         url: 'cross-border-report',
         icon: 'fa'
