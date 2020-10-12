@@ -254,6 +254,13 @@
             }
         }
     ],
+    "groupBy": {
+        "groupParam": "groupByParam",
+        "columns": [
+            "prep.person_id"
+        ],
+        "excludeParam": "excludeParam"
+    },
     "filters": {
         "conditionJoinOperator": "and",
         "conditions": [
