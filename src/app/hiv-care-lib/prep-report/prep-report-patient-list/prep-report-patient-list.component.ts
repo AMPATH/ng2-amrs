@@ -61,6 +61,7 @@ export class PrepReportPatientListComponent implements OnInit {
       days_since_rtc_date: 'Days missed since RTC',
       cur_prep_meds_names: 'Current prEp Regimen',
       hiv_rapid_test: 'HIV Rapid test result',
+      rapid_test_date: 'HIV Rapid test date',
       population_type: 'Population Type',
       population_type_category: 'Population Type Category',
       nearest_center: 'Estate/Nearest Center'
