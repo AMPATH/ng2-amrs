@@ -10,3 +10,4 @@ etl-daemon.js
 .nyc_output
 coverage
 conf/config-bk.json
+.DS_Store
