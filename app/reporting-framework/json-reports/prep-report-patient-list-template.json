@@ -220,6 +220,16 @@
                     }
                 ]
             }
+        },
+        {
+            "type": "simple_column",
+            "alias": "rapid_test_date",
+            "column": "date_format(fps.hiv_rapid_test_date, '%Y-%m-%d')"
+        },
+        {
+            "type": "simple_column",
+            "alias": "turned_positive_date",
+            "column": "date_format(fps.turned_positive_date, '%Y-%m-%d')"
         }
     ],
     "groupBy": {
