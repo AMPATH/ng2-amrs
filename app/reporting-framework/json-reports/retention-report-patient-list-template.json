@@ -13,7 +13,7 @@
             "alias": "person_name",
             "join": {
                 "type": "INNER",
-                "joinCondition": "t1.person_id = person_name.person_id AND (person_name.voided IS NULL || person_name.voided = 0)"
+                "joinCondition": "t1.person_id = person_name.person_id AND (person_name.voided IS NULL || person_name.voided = 0) AND person_name.preferred = 1"
             }
         },
         {
