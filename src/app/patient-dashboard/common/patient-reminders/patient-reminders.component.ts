@@ -62,14 +62,24 @@ export class PatientRemindersComponent implements OnInit, OnDestroy {
   }
 
   public getPatient() {
+    let enrolledToPrep = false;
     const sub = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         if (patient) {
           this.patient = patient;
+          _.each(this.patient.enrolledPrograms, (p) => {
+            if (
+              p.enrolledProgram != null &&
+              p.enrolledProgram.programUuid ===
+                'c19aec66-1a40-4588-9b03-b6be55a8dd1d'
+            ) {
+              enrolledToPrep = true;
+            }
+          });
           const patientUuid = patient.person.uuid;
           if (!this.remindersLoaded) {
             const sub2 = this.patientReminderService
-              .getPatientReminders(patientUuid)
+              .getPatientReminders(patientUuid, enrolledToPrep)
               .subscribe(
                 (data) => {
                   this.remindersLoaded = true;

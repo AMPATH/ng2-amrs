@@ -9,9 +9,12 @@ export class PatientReminderService {
     private patientReminderResourceService: PatientReminderResourceService
   ) {}
 
-  public getPatientReminders(patientUuid: string): Observable<any> {
+  public getPatientReminders(
+    patientUuid: string,
+    enrolledOnPrep = false
+  ): Observable<any> {
     return this.patientReminderResourceService
-      .getPatientLevelReminders(patientUuid)
+      .getPatientLevelReminders(patientUuid, enrolledOnPrep)
       .pipe(
         map((data) => {
           if (data && data.reminders.length > 0) {

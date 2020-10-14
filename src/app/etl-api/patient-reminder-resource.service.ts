@@ -22,13 +22,27 @@ export class PatientReminderResourceService {
     return (
       this.appSettingsService.getEtlRestbaseurl().trim() +
       'patient/' +
-      patientUuid +
-      '/hiv-clinical-reminder'
+      patientUuid
     );
   }
 
-  public getPatientLevelReminders(patientUuid: string): Observable<any> {
-    const url = this.getUrl(patientUuid) + '/' + this.referenceDate;
+  public getPatientLevelReminders(
+    patientUuid: string,
+    enrolledOnPrep = false
+  ): Observable<any> {
+    let url = '';
+    if (enrolledOnPrep) {
+      url =
+        this.getUrl(patientUuid) +
+        '/prep-clinical-reminder/' +
+        this.referenceDate;
+    } else {
+      url =
+        this.getUrl(patientUuid) +
+        '/hiv-clinical-reminder/' +
+        this.referenceDate;
+    }
+
     return this.http.get<any>(url).pipe(
       map((response) => {
         return response.result;

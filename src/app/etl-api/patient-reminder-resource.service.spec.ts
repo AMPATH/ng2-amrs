@@ -39,13 +39,17 @@ describe('Patient Reminder Resource Service Unit Tests', () => {
     }
   ));
 
-  it('should make API call with the correct url parameters', (done) => {
-    service.getPatientLevelReminders(patientUuid).subscribe((response) => {
-      done();
-    });
+  it('should make API call with the correct url parameters for hiv reminders', (done) => {
+    service
+      .getPatientLevelReminders(patientUuid, false)
+      .subscribe((response) => {
+        done();
+      });
 
     const req = httpMok.expectOne(
-      service.getUrl(patientUuid) + '/' + service.referenceDate
+      service.getUrl(patientUuid) +
+        '/hiv-clinical-reminder/' +
+        service.referenceDate
     );
     expect(req.request.method).toBe('GET');
     expect(req.request.url).toContain(
@@ -54,6 +58,27 @@ describe('Patient Reminder Resource Service Unit Tests', () => {
     );
     req.flush(JSON.stringify({}));
   });
+
+  it('should make API call with the correct url parameters for prep reminders', (done) => {
+    service
+      .getPatientLevelReminders(patientUuid, true)
+      .subscribe((response) => {
+        done();
+      });
+
+    const req = httpMok.expectOne(
+      service.getUrl(patientUuid) +
+        '/prep-clinical-reminder/' +
+        service.referenceDate
+    );
+    expect(req.request.method).toBe('GET');
+    expect(req.request.url).toContain(
+      'etl/patient/79803198-2d23-49cd-a7b3-4f672bd8f659/prep-clinical-reminder/' +
+        referenceDate
+    );
+    req.flush(JSON.stringify({}));
+  });
+
   it('should return an error the api throws an error', async(() => {
     service.getPatientLevelReminders(patientUuid).subscribe(
       (data) => {},
