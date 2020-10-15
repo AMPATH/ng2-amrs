@@ -99,6 +99,7 @@ export class PatientRemindersComponent implements OnInit, OnDestroy {
   public constructReminders(reminders) {
     let toast: ActiveToast<any> = null;
     _.each(reminders, (reminder: any) => {
+      this.toastrConfig.reminder = null;
       if (reminder.auto_register) {
         this.toastrConfig.reminder = reminder;
       }
