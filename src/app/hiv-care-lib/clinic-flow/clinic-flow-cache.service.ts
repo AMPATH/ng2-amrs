@@ -142,29 +142,13 @@ export class ClinicFlowCacheService {
       },
       {
         headerName: 'Seen by Clinician',
-        field: 'seenByClinician',
+        field: 'seen_by_clinician_date',
         filter: 'text',
-        width: 140,
+        width: 300,
         cellRenderer: (params) => {
-          let encounterType = '';
-          let date = '';
-          let time = '';
-          if (params.value.time && params.value.encounters) {
-            date = Moment(params.value.time).format('DD-MM-YYYY');
-            time = Moment(params.value.time).format('H:mmA');
-            encounterType = params.value.encounters;
-          }
-
-          return (
-            '<span class="text-warning" style="font-weight:bold;">' +
-            time +
-            '</span> </br>' +
-            '<small>' +
-            date +
-            '</small>' +
-            '</span> </br>' +
-            encounterType
-          );
+          return `<span class="text-warning" style="font-weight:bold;">
+            ${params.value}
+            </span>`;
         }
       },
       {
@@ -181,7 +165,7 @@ export class ClinicFlowCacheService {
       },
       {
         headerName: 'Location',
-        width: 100,
+        width: 200,
         filter: 'text',
         field: 'location',
         cellRenderer: (params) => {
