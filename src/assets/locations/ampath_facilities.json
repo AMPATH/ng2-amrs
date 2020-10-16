@@ -12,16 +12,16 @@
       "name": "Bungoma",
       "subcounties": [
         {
-          "name": "Kabuchai Subcounty",
+          "name": "Kabuchai",
           "wards": [
-            "Bwake/Luuya Ward",
-            "Kabuchai/Chwele Ward",
-            "Mukuyuni Ward",
+            "Bwake/Luuya",
+            "Kabuchai/Chwele",
+            "Mukuyuni",
             "West Nalondo"
           ]
         },
         {
-          "name": "Kanduyi Subcounty",
+          "name": "Kanduyi",
           "wards": [
             "Bukembe East",
             "Bukembe West",
@@ -33,41 +33,31 @@
           ]
         },
         {
-          "name": "Kimilili Subcounty",
+          "name": "Kimilili",
+          "wards": ["Kamukuywa", "Kibingei", "Kimilili", "Maeni"]
+        },
+        {
+          "names": "Mt. Elgon",
+          "wards": ["Elgon", "Kaptama"]
+        },
+        {
+          "name": "Tongaren",
           "wards": [
-            "Kamukuywa Ward",
-            "Kibingei Ward",
-            "Kimilili Ward",
-            "Maeni Ward"
+            "Mbakalo",
+            "Milima",
+            "Naitiri/Kabuyefwer",
+            "Ndalu",
+            "Soysambu/Mitua",
+            "Tongaren"
           ]
         },
         {
-          "names": "Mt. Elgon Subcounty",
-          "wards": ["Elgon Ward", "Kaptama Ward"]
+          "name": "Webuye East",
+          "wards": ["Mihuu", "Maraka", "Ndivisi"]
         },
         {
-          "name": "Tongaren Subcounty",
-          "wards": [
-            "Mbakalo Ward",
-            "Milima Ward",
-            "Naitiri/Kabuyefwer Ward",
-            "Ndalu Ward",
-            "Soysambu/Mitua Ward",
-            "Tongaren Ward"
-          ]
-        },
-        {
-          "name": "Webuye East Subcounty",
-          "wards": ["Mihuu Ward", "Maraka Ward", "Ndivisi Ward"]
-        },
-        {
-          "name": "Webuye West Subcounty",
-          "wards": [
-            "Bokoli ward",
-            "Matulo ward",
-            "Misikhu Ward",
-            "Sitikho ward"
-          ]
+          "name": "Webuye West",
+          "wards": ["Bokoli", "Matulo", "Misikhu", "Sitikho"]
         }
       ]
     },
@@ -75,37 +65,29 @@
       "name": "Busia",
       "subcounties": [
         {
-          "name": "Budalangi Subcounty",
+          "name": "Budalangi",
+          "wards": ["Bunyala Central", "Bunyala North", "Bunyala South"]
+        },
+        {
+          "name": "Butula",
+          "wards": ["Marachi Central", "Marachi North", "Marachi West"]
+        },
+        {
+          "name": "Matayos",
+          "wards": ["Bukhayo West", "Matayos South"]
+        },
+        {
+          "name": "Teso North",
           "wards": [
-            "Bunyala Central Ward",
-            "Bunyala North Ward",
-            "Bunyala South Ward"
+            "Ang'urai East",
+            "Ang'urai North",
+            "Malaba South",
+            "Malaba Central"
           ]
         },
         {
-          "name": "Butula Subcounty",
-          "wards": [
-            "Marachi Central Ward",
-            "Marachi North Ward",
-            "Marachi West Ward"
-          ]
-        },
-        {
-          "name": "Matayos Subcounty",
-          "wards": ["Bukhayo West", "Matayos South Ward"]
-        },
-        {
-          "name": "Teso North Subcounty",
-          "wards": [
-            "Ang'urai East Ward",
-            "Ang'urai North Ward",
-            "Malaba South Ward",
-            "Malaba Central Ward"
-          ]
-        },
-        {
-          "name": "Teso South Subcounty",
-          "wards": ["Ang'orom Ward"]
+          "name": "Teso South",
+          "wards": ["Ang'orom"]
         }
       ]
     },
@@ -113,38 +95,33 @@
       "name": "Elgeyo Marakwet",
       "subcounties": [
         {
-          "name": "Keiyo North Subcounty",
+          "name": "Keiyo North",
+          "wards": ["Emsoo", "Kamariny", "Kapcheptumwa", "Tambach"]
+        },
+        {
+          "name": "Keiyo South",
           "wards": [
-            "Emsoo Ward",
-            "Kamariny Ward",
-            "Kapcheptumwa Ward",
-            "Tambach Ward"
+            "Chepkorio",
+            "Kabiemit",
+            "Kaptarakwa",
+            "Metkei",
+            "Soy North",
+            "Soy South"
           ]
         },
         {
-          "name": "Keiyo South Subcounty",
-          "wards": [
-            "Chepkorio Ward",
-            "Kabiemit Ward",
-            "Kaptarakwa Ward",
-            "Metkei Ward",
-            "Soy North Ward",
-            "Soy South Ward"
-          ]
+          "name": "Marakwet East",
+          "wards": ["Embobut/Embulot", "Endo", "Sambirir"]
         },
         {
-          "name": "Marakwet East Subcounty",
-          "wards": ["Embobut/Embulot Ward", "Endo Ward", "Sambirir Ward"]
-        },
-        {
-          "name": "Marakwet West Subcounty",
+          "name": "Marakwet West",
           "wards": [
-            "Arror Ward",
-            "Cherang'any/Chebororwa Ward",
-            "Kapsowar Ward",
-            "Lelan Ward",
-            "Moiben/Kuserwo Ward",
-            "Sengwer Ward"
+            "Arror",
+            "Cherang'any/Chebororwa",
+            "Kapsowar",
+            "Lelan",
+            "Moiben/Kuserwo",
+            "Sengwer"
           ]
         }
       ]
@@ -173,16 +150,16 @@
       "name": "Kakamega",
       "subcounties": [
         {
-          "name": "Likuyani Subcounty",
-          "wards": ["Sinoko Ward"]
+          "name": "Likuyani",
+          "wards": ["Sinoko"]
         },
         {
-          "name": "Lugari Subcounty",
-          "wards": ["Chekalini Ward", "Lugari Ward", "Mautuma Ward"]
+          "name": "Lugari",
+          "wards": ["Chekalini", "Lugari", "Mautuma"]
         },
         {
-          "name": "Malava Subcounty",
-          "wards": ["South Kabras Ward"]
+          "name": "Malava",
+          "wards": ["South Kabras"]
         }
       ]
     },
@@ -210,16 +187,16 @@
       "name": "Kisumu",
       "subcounties": [
         {
-          "name": "Kisumu East Subcounty",
+          "name": "Kisumu East",
           "wards": ["Kolwa Central"]
         },
         {
-          "name": "Kisumu West Subcounty",
+          "name": "Kisumu West",
           "wards": [
-            "Kisumu North Ward",
-            "North West Kisumu Ward",
-            "South West Kisumu Ward",
-            "West Kisumu Ward"
+            "Kisumu North",
+            "North West Kisumu",
+            "South West Kisumu",
+            "West Kisumu"
           ]
         }
       ]
@@ -284,24 +261,20 @@
       "name": "Nandi",
       "subcounties": [
         {
-          "name": "Chesumei Subcounty",
-          "wards": [
-            "Kaptel/Kamoiywo Ward",
-            "Kosirai Ward",
-            "Lelmokwo/Ngechek Ward"
-          ]
+          "name": "Chesumei",
+          "wards": ["Kaptel/Kamoiywo", "Kosirai", "Lelmokwo/Ngechek"]
         },
         {
-          "name": "Emgwen Subcounty",
-          "wards": ["Kapkangani Ward", "Kapsabet Ward", "Kilibwoni Ward"]
+          "name": "Emgwen",
+          "wards": ["Kapkangani", "Kapsabet", "Kilibwoni"]
         },
         {
-          "name": "Mosop Subcounty",
-          "wards": ["Chepterwai Ward", "Kabiyet Ward"]
+          "name": "Mosop",
+          "wards": ["Chepterwai", "Kabiyet"]
         },
         {
-          "name": "Nandi Hills Subcounty",
-          "wards": ["Chepkunyuk Ward", "Ol'lessos Ward"]
+          "name": "Nandi Hills",
+          "wards": ["Chepkunyuk", "Ol'lessos"]
         }
       ]
     },
@@ -345,43 +318,32 @@
       "name": "Trans Nzoia",
       "subcounties": [
         {
-          "name": "Cherangany Subcounty",
+          "name": "Cherangany",
           "wards": [
-            "Chepsiro/Kiptoror Ward",
-            "Cherangany/Suwerwa Ward",
-            "Kaplamai Ward",
-            "Makutano Ward",
-            "Motosiet Ward",
-            "Sinyerere Ward",
-            "Sitatunga Ward"
+            "Chepsiro/Kiptoror",
+            "Cherangany/Suwerwa",
+            "Kaplamai",
+            "Makutano",
+            "Motosiet",
+            "Sinyerere",
+            "Sitatunga"
           ]
         },
         {
-          "name": "Endebess Subcounty",
-          "wards": ["Chepchoina Ward", "Matumbei Ward"]
+          "name": "Endebess",
+          "wards": ["Chepchoina", "Matumbei"]
         },
         {
-          "name": "Kiminini Subcounty",
-          "wards": [
-            "Hospital Ward",
-            "Nabiswa Ward",
-            "Sikhendu Ward",
-            "Sirende Ward",
-            "Waitaluk Ward"
-          ]
+          "name": "Kiminini",
+          "wards": ["Hospital", "Nabiswa", "Sikhendu", "Sirende", "Waitaluk"]
         },
         {
-          "name": "Kwanza Subcounty",
-          "wards": ["Bidii Ward", "Kapomboi Ward", "Keiyo Ward"]
+          "name": "Kwanza",
+          "wards": ["Bidii", "Kapomboi", "Keiyo"]
         },
         {
-          "name": "Saboti Subcounty",
-          "wards": [
-            "Kinyoro Ward",
-            "Machewa Ward",
-            "Matisi Ward",
-            "Tuwani Ward"
-          ]
+          "name": "Saboti",
+          "wards": ["Kinyoro", "Machewa", "Matisi", "Tuwani"]
         }
       ]
     },
@@ -389,58 +351,47 @@
       "name": "Uasin Gishu",
       "subcounties": [
         {
-          "name": "Ainabkoi Subcounty",
-          "wards": ["Ainabkoi/Olare Ward", "Kapsoya Ward", "Kaptagat Ward"]
+          "name": "Ainabkoi",
+          "wards": ["Ainabkoi/Olare", "Kapsoya", "Kaptagat"]
         },
         {
-          "name": "Kapseret Subcounty",
+          "name": "Kapseret",
+          "wards": ["Kipkenyo", "Langas", "Megun", "Ngeria", "Simat/Kapseret"]
+        },
+        {
+          "name": "Kesses",
           "wards": [
-            "Kipkenyo Ward",
-            "Langas Ward",
-            "Megun Ward",
-            "Ngeria Ward",
-            "Simat/Kapseret Ward"
+            "Cheptiret/Kipchamo",
+            "Racecourse",
+            "Tarakwa",
+            "Tulwet/Chuiyat"
           ]
         },
         {
-          "name": "Kesses Subcounty",
-          "wards": [
-            "Cheptiret/Kipchamo Ward",
-            "Racecourse Ward",
-            "Tarakwa Ward",
-            "Tulwet/Chuiyat Ward"
-          ]
+          "Name": "Moiben",
+          "Wards": ["Karuna/Meibeki", "Kimumu", "Sergoit", "Tembelio"]
         },
         {
-          "Name": "Moiben Subcounty",
+          "Name": "Soy",
           "Wards": [
-            "Karuna/Meibeki Ward",
-            "Kimumu Ward",
-            "Sergoit Ward",
-            "Tembelio Ward"
+            "Kapkures",
+            "Kipsomba",
+            "Kuinet/Kapsuswa",
+            "Moi's Bridge",
+            "Segero/Barsombe",
+            "Soy",
+            "Ziwa Sirikwa"
           ]
         },
         {
-          "Name": "Soy Subcounty",
+          "Name": "Turbo",
           "Wards": [
-            "Kapkures Ward",
-            "Kipsomba Ward",
-            "Kuinet/Kapsuswa Ward",
-            "Moi's Bridge Ward",
-            "Segero/Barsombe Ward",
-            "Soy Ward",
-            "Ziwa Sirikwa Ward"
-          ]
-        },
-        {
-          "Name": "Turbo Subcounty",
-          "Wards": [
-            "Huruma Ward",
-            "Kamagut Ward",
-            "Kapsaos Ward",
-            "Kiplombe Ward",
-            "Ngenyilel Ward",
-            "Tapsagoi Ward"
+            "Huruma",
+            "Kamagut",
+            "Kapsaos",
+            "Kiplombe",
+            "Ngenyilel",
+            "Tapsagoi"
           ]
         }
       ]
@@ -457,20 +408,20 @@
       "name": "West Pokot",
       "subcounties": [
         {
-          "name": "Kacheliba Subcounty",
-          "wards": ["Alale Ward", "Suam Ward"]
+          "name": "Kacheliba",
+          "wards": ["Alale", "Suam"]
         },
         {
-          "name": "Kapenguria Subcounty",
-          "wards": ["Kapenguria Ward", "Mnagei Ward", "Riwo Ward", "Siyoi Ward"]
+          "name": "Kapenguria",
+          "wards": ["Kapenguria", "Mnagei", "Riwo", "Siyoi"]
         },
         {
-          "name": "Pokot South Subcounty",
-          "wards": ["Batei Ward", "Chepareria Ward", "Lelan Ward"]
+          "name": "Pokot South",
+          "wards": ["Batei", "Chepareria", "Lelan"]
         },
         {
-          "name": "Sigor Subcounty",
-          "wards": ["Lomut Ward", "Masool Ward", "Weiwei Ward"]
+          "name": "Sigor",
+          "wards": ["Lomut", "Masool", "Weiwei"]
         }
       ]
     }
