@@ -1,0 +1,393 @@
+{
+  "counties": [
+    {
+      "name": "Bungoma",
+      "subcounties": [
+        {
+          "name": "Kabuchai",
+          "wards": [
+            "Bwake/Luuya",
+            "Kabuchai/Chwele",
+            "Mukuyuni",
+            "West Nalondo"
+          ]
+        },
+        {
+          "name": "Kanduyi",
+          "wards": [
+            "Bukembe East",
+            "Bukembe West",
+            "Khalaba",
+            "Marakaru/Tuuti",
+            "Musikoma",
+            "Township",
+            "West Sangalo"
+          ]
+        },
+        {
+          "name": "Kimilili",
+          "wards": [
+            "Kamukuywa",
+            "Kibingei",
+            "Kimilili",
+            "Maeni"
+          ]
+        },
+        {
+          "name": "Mt. Elgon",
+          "wards": [
+            "Elgon",
+            "Kaptama"
+          ]
+        },
+        {
+          "name": "Tongaren",
+          "wards": [
+            "Mbakalo",
+            "Milima",
+            "Naitiri/Kabuyefwer",
+            "Ndalu",
+            "Soysambu/Mitua",
+            "Tongaren"
+          ]
+        },
+        {
+          "name": "Webuye East",
+          "wards": [
+            "Mihuu",
+            "Maraka",
+            "Ndivisi"
+          ]
+        },
+        {
+          "name": "Webuye West",
+          "wards": [
+            "Bokoli",
+            "Matulo",
+            "Misikhu",
+            "Sitikho"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Busia",
+      "subcounties": [
+        {
+          "name": "Budalangi",
+          "wards": [
+            "Bunyala Central",
+            "Bunyala North",
+            "Bunyala South"
+          ]
+        },
+        {
+          "name": "Butula",
+          "wards": [
+            "Marachi Central",
+            "Marachi North",
+            "Marachi West"
+          ]
+        },
+        {
+          "name": "Matayos",
+          "wards": [
+            "Bukhayo West",
+            "Matayos South"
+          ]
+        },
+        {
+          "name": "Teso North",
+          "wards": [
+            "Ang'urai East",
+            "Ang'urai North",
+            "Malaba South",
+            "Malaba Central"
+          ]
+        },
+        {
+          "name": "Teso South",
+          "wards": [
+            "Ang'orom"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Elgeyo Marakwet",
+      "subcounties": [
+        {
+          "name": "Keiyo North",
+          "wards": [
+            "Emsoo",
+            "Kamariny",
+            "Kapcheptumwa",
+            "Tambach"
+          ]
+        },
+        {
+          "name": "Keiyo South",
+          "wards": [
+            "Chepkorio",
+            "Kabiemit",
+            "Kaptarakwa",
+            "Metkei",
+            "Soy North",
+            "Soy South"
+          ]
+        },
+        {
+          "name": "Marakwet East",
+          "wards": [
+            "Embobut/Embulot",
+            "Endo",
+            "Sambirir"
+          ]
+        },
+        {
+          "name": "Marakwet West",
+          "wards": [
+            "Arror",
+            "Cherang'any/Chebororwa",
+            "Kapsowar",
+            "Lelan",
+            "Moiben/Kuserwo",
+            "Sengwer"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Kakamega",
+      "subcounties": [
+        {
+          "name": "Likuyani",
+          "wards": [
+            "Sinoko"
+          ]
+        },
+        {
+          "name": "Lugari",
+          "wards": [
+            "Chekalini",
+            "Lugari",
+            "Mautuma"
+          ]
+        },
+        {
+          "name": "Malava",
+          "wards": [
+            "South Kabras"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Kisumu",
+      "subcounties": [
+        {
+          "name": "Kisumu East",
+          "wards": [
+            "Kolwa Central"
+          ]
+        },
+        {
+          "name": "Kisumu West",
+          "wards": [
+            "Kisumu North",
+            "North West Kisumu",
+            "South West Kisumu",
+            "West Kisumu"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Nandi",
+      "subcounties": [
+        {
+          "name": "Chesumei",
+          "wards": [
+            "Kaptel/Kamoiywo",
+            "Kosirai",
+            "Lelmokwo/Ngechek"
+          ]
+        },
+        {
+          "name": "Emgwen",
+          "wards": [
+            "Kapkangani",
+            "Kapsabet",
+            "Kilibwoni"
+          ]
+        },
+        {
+          "name": "Mosop",
+          "wards": [
+            "Chepterwai",
+            "Kabiyet"
+          ]
+        },
+        {
+          "name": "Nandi Hills",
+          "wards": [
+            "Chepkunyuk",
+            "Ol'lessos"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Trans Nzoia",
+      "subcounties": [
+        {
+          "name": "Cherangany",
+          "wards": [
+            "Chepsiro/Kiptoror",
+            "Cherangany/Suwerwa",
+            "Kaplamai",
+            "Makutano",
+            "Motosiet",
+            "Sinyerere",
+            "Sitatunga"
+          ]
+        },
+        {
+          "name": "Endebess",
+          "wards": [
+            "Chepchoina",
+            "Matumbei"
+          ]
+        },
+        {
+          "name": "Kiminini",
+          "wards": [
+            "Hospital",
+            "Nabiswa",
+            "Sikhendu",
+            "Sirende",
+            "Waitaluk"
+          ]
+        },
+        {
+          "name": "Kwanza",
+          "wards": [
+            "Bidii",
+            "Kapomboi",
+            "Keiyo"
+          ]
+        },
+        {
+          "name": "Saboti",
+          "wards": [
+            "Kinyoro",
+            "Machewa",
+            "Matisi",
+            "Tuwani"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Uasin Gishu",
+      "subcounties": [
+        {
+          "name": "Ainabkoi",
+          "wards": [
+            "Ainabkoi/Olare",
+            "Kapsoya",
+            "Kaptagat"
+          ]
+        },
+        {
+          "name": "Kapseret",
+          "wards": [
+            "Kipkenyo",
+            "Langas",
+            "Megun",
+            "Ngeria",
+            "Simat/Kapseret"
+          ]
+        },
+        {
+          "name": "Kesses",
+          "wards": [
+            "Cheptiret/Kipchamo",
+            "Racecourse",
+            "Tarakwa",
+            "Tulwet/Chuiyat"
+          ]
+        },
+        {
+          "name": "Moiben",
+          "wards": [
+            "Karuna/Meibeki",
+            "Kimumu",
+            "Sergoit",
+            "Tembelio"
+          ]
+        },
+        {
+          "name": "Soy",
+          "wards": [
+            "Kapkures",
+            "Kipsomba",
+            "Kuinet/Kapsuswa",
+            "Moi's Bridge",
+            "Segero/Barsombe",
+            "Soy",
+            "Ziwa Sirikwa"
+          ]
+        },
+        {
+          "name": "Turbo",
+          "wards": [
+            "Huruma",
+            "Kamagut",
+            "Kapsaos",
+            "Kiplombe",
+            "Ngenyilel",
+            "Tapsagoi"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "West Pokot",
+      "subcounties": [
+        {
+          "name": "Kacheliba",
+          "wards": [
+            "Alale",
+            "Suam"
+          ]
+        },
+        {
+          "name": "Kapenguria",
+          "wards": [
+            "Kapenguria",
+            "Mnagei",
+            "Riwo",
+            "Siyoi"
+          ]
+        },
+        {
+          "name": "Pokot South",
+          "wards": [
+            "Batei",
+            "Chepareria",
+            "Lelan"
+          ]
+        },
+        {
+          "name": "Sigor",
+          "wards": [
+            "Lomut",
+            "Masool",
+            "Weiwei"
+          ]
+        }
+      ]
+    }
+  ]
+}

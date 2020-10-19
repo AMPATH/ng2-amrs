@@ -7,6 +7,17 @@ import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import * as locationIds from '../shared/locations/location_data.json';
+
+export interface CountyData {
+  name: string;
+  subcounties: SubcountyData[];
+}
+
+export interface SubcountyData {
+  name: string;
+  wards: string[];
+}
+
 @Injectable()
 export class LocationResourceService {
   private locations = new ReplaySubject(1);
@@ -48,9 +59,13 @@ export class LocationResourceService {
 
     return this.locations;
   }
-  public getAmpathLocations() {
-    return this.http.get('./assets/locations/ampath_facilities.json');
+
+  public getAdministrativeUnits() {
+    return this.http.get<Record<string, CountyData[]>>(
+      './assets/locations/administrative-units.json'
+    );
   }
+
   public getLocationByUuid(
     uuid: string,
     cached: boolean = false,
