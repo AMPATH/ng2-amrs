@@ -141,31 +141,15 @@ export class ClinicFlowCacheService {
         field: "time_to_be_triaged",
       },
       {
-        headerName: "Seen by Clinician",
-        field: "seenByClinician",
-        filter: "text",
-        width: 140,
+        headerName: 'Seen by Clinician',
+        field: 'seen_by_clinician_date',
+        filter: 'text',
+        width: 300,
         cellRenderer: (params) => {
-          let encounterType = "";
-          let date = "";
-          let time = "";
-          if (params.value.time && params.value.encounters) {
-            date = Moment(params.value.time).format("DD-MM-YYYY");
-            time = Moment(params.value.time).format("H:mmA");
-            encounterType = params.value.encounters;
-          }
-
-          return (
-            '<span class="text-warning" style="font-weight:bold;">' +
-            time +
-            "</span> </br>" +
-            "<small>" +
-            date +
-            "</small>" +
-            "</span> </br>" +
-            encounterType
-          );
-        },
+          return `<span class="text-warning" style="font-weight:bold;">
+            ${params.value}
+            </span>`;
+        }
       },
       {
         headerName: "Clinician Waiting Time (mins)",
@@ -180,10 +164,10 @@ export class ClinicFlowCacheService {
         field: "time_to_complete_visit",
       },
       {
-        headerName: "Location",
-        width: 100,
-        filter: "text",
-        field: "location",
+        headerName: 'Location',
+        width: 200,
+        filter: 'text',
+        field: 'location',
         cellRenderer: (params) => {
           if (params.value === "-") {
             return '<i style="color:red" class="fa fa-minus-square-o" aria-hidden="true"></i>';
