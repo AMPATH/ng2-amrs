@@ -126,21 +126,59 @@
         class="btn btn-primary" type="button">Complete Referral</button>
       <!-- <button *ngIf="referralStatus && !programReferral" (click)="navigateTo('programManagerReferral')"
         class="btn btn-primary" type="button">Complete Referral</button> -->
-      <button *ngIf="referralStatus" (click)="onAbortingReferral($event)" type="button"
-        class="btn btn-danger">{{ referralValidity ? 'Cancel' : 'Ok' }}</button>
-      <button *ngIf="!referralStatus && !step && form.valueProcessingInfo.formUuid!='ab0918de-baf8-4804-86fb-2ff2d7b6943c' && form.valueProcessingInfo.formUuid!='159e753d-da2d-47da-bbe5-d132b7e26c2e'" (click)="navigateTo('covidScreening')" type="button"
-        class="btn btn-warning">
-        <i class="fa fa-exclamation-triangle"></i> Covid Screening</button>
-      <button *ngIf="!referralStatus && !step" (click)="navigateTo('patientDashboard')" type="button"
-        class="btn btn-primary">
-        <i class="fa fa-user"></i> Patient Dashboard</button>
-      <button *ngIf="!referralStatus && !step" (click)="navigateTo('patientSearch')" type="button"
-        class="btn btn-primary">
-        <i class="fa fa-search"></i> Patient Search</button>
-      <button *ngIf="!referralStatus && !step && isGroupVisit" (click)="navigateTo('groupManager')" type="button"
-        class="btn btn-primary">
-        <i class="fa fa-users"></i> Group Manager</button>
-      <button *ngIf="enrollToGroup" (click)="navigateTo('groupEnrollment')" type="button" class="btn btn-primary">
+      <button
+        *ngIf="referralStatus"
+        (click)="onAbortingReferral($event)"
+        type="button"
+        class="btn btn-danger"
+      >
+        {{ referralValidity ? 'Cancel' : 'Ok' }}
+      </button>
+      <button
+        *ngIf="
+          !referralStatus &&
+          !step &&
+          form?.valueProcessingInfo?.formUuid !=
+            'ab0918de-baf8-4804-86fb-2ff2d7b6943c' &&
+          form?.valueProcessingInfo?.formUuid !=
+            '159e753d-da2d-47da-bbe5-d132b7e26c2e'
+        "
+        (click)="navigateTo('covidScreening')"
+        type="button"
+        class="btn btn-warning"
+      >
+        <i class="fa fa-exclamation-triangle"></i> Covid Screening
+      </button>
+      <button
+        *ngIf="!referralStatus && !step"
+        (click)="navigateTo('patientDashboard')"
+        type="button"
+        class="btn btn-primary"
+      >
+        <i class="fa fa-user"></i> Patient Dashboard
+      </button>
+      <button
+        *ngIf="!referralStatus && !step"
+        (click)="navigateTo('patientSearch')"
+        type="button"
+        class="btn btn-primary"
+      >
+        <i class="fa fa-search"></i> Patient Search
+      </button>
+      <button
+        *ngIf="!referralStatus && !step && isGroupVisit"
+        (click)="navigateTo('groupManager')"
+        type="button"
+        class="btn btn-primary"
+      >
+        <i class="fa fa-users"></i> Group Manager
+      </button>
+      <button
+        *ngIf="enrollToGroup"
+        (click)="navigateTo('groupEnrollment')"
+        type="button"
+        class="btn btn-primary"
+      >
         <i class="fa fa-users"></i> Group Enrollment
       </button>
     </div>
