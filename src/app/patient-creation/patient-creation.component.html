@@ -11,6 +11,7 @@
               <span *ngIf="!givenName" class="required"> * </span></label
             >
             <input
+              id="givenName"
               type="text"
               class="form-control"
               [(ngModel)]="givenName"
@@ -30,6 +31,7 @@
           <div class="form-group">
             <label for="middleName">Middle Name (Optional)</label>
             <input
+              id="middleName"
               type="text"
               class="form-control"
               [(ngModel)]="middleName"
@@ -45,6 +47,7 @@
               <span *ngIf="!familyName" class="required"> * </span></label
             >
             <input
+              id="familyName"
               type="text"
               class="form-control"
               [(ngModel)]="familyName"
@@ -68,7 +71,12 @@
             <label for="gender"
               >Gender <span *ngIf="!gender" class="required"> * </span></label
             >
-            <select class="form-control" [(ngModel)]="gender" name="gender">
+            <select
+              id="gender"
+              class="form-control"
+              [(ngModel)]="gender"
+              name="gender"
+            >
               <option *ngFor="let opt of genderOptions" [value]="opt.val">
                 {{ opt.label }}
               </option>
@@ -87,6 +95,7 @@
               <span *ngIf="!occupation" class="required"> *</span></label
             >
             <select
+              id="occupation"
               class="form-control"
               [(ngModel)]="occupation"
               name="occupaton"
@@ -111,6 +120,7 @@
               ></label
             >
             <select
+              id="educationLevel"
               class="form-control"
               name="education"
               [(ngModel)]="patientHighestEducation"
@@ -124,7 +134,7 @@
             </select>
             <div *ngIf="errors && !patientHighestEducation" class="required">
               <span class="help-block" style="color: red"
-                >Highest Education Level</span
+                >Highest education level is required!</span
               >
             </div>
           </div>
@@ -169,8 +179,11 @@
       </div>
       <div class="row" *ngIf="patientExists">
         <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-          <button class="btn btn-primary" (click)="createPerson()">Next</button>
+          <button id="nextBtn" class="btn btn-primary" (click)="createPerson()">
+            Next
+          </button>
           <button
+            id="resetBtn"
             *ngIf="
               (givenName && familyName && this.gender && this.birthDate) ||
               this.ageEstimate ||
@@ -197,13 +210,14 @@
         <hr class="intro-divider patient-info-divider" />
         <div class="row">
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-            <label
+            <label id="universalId"
               >Universal ID
               <span *ngIf="!patientIdentifier" class="required">
                 *
               </span></label
             >
             <span
+              id="generateUniversalId"
               *ngIf="generate"
               class="badge btn pull-right"
               (click)="generatePatientIdentifier()"
@@ -249,7 +263,11 @@
           </div>
           <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2">
             <div class="form-group">
-              <button class="btn btn-primary" (click)="updateUniversal()">
+              <button
+                id="addUniversalId"
+                class="btn btn-primary"
+                (click)="updateUniversalId()"
+              >
                 +
               </button>
             </div>
@@ -262,11 +280,11 @@
             <div class="form-group">
               <label class="control-label">Patient Identifier Type:</label>
               <select
+                id="identifierType"
                 class="form-control"
                 [ngModel]="patientIdentifierType"
                 (ngModelChange)="setIdentifierType($event)"
               >
-                <option></option>
                 <option *ngFor="let c of commonIdentifierTypes" [ngValue]="c">
                   {{ c.label }}
                 </option>
@@ -275,7 +293,6 @@
                 <div class="help-block">Identifier Type is required!</div>
               </div>
             </div>
-            <div></div>
           </div>
 
           <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
@@ -390,12 +407,11 @@
                 </span></label
               >
               <ng-select
-                class="sharp-corners"
-                id="selectedDevice"
-                (ngModelChange)="setIdentifierLocation($event)"
-                [placeholder]="'Select a location or type to search...'"
-                [(ngModel)]="selectedLocation"
                 [items]="locations"
+                class="sharp-corners"
+                [placeholder]="'Select a location or type to search...'"
+                [ngModel]="selectedLocation"
+                (ngModelChange)="setIdentifierLocation($event)"
               >
               </ng-select>
               <div *ngIf="errors && !selectedLocation" class="required">
@@ -586,31 +602,36 @@
             <div class="form-group">
               <label for="address1" class="control-label">County</label>
               <select
+                id="address1"
                 class="form-control"
                 [ngModel]="address1"
                 (ngModelChange)="setCounty($event)"
                 name="address1"
               >
                 <option
-                  *ngFor="let c of ampathLocations?.counties"
-                  [ngValue]="c.name"
+                  *ngFor="let county of administrativeUnits?.counties"
+                  [ngValue]="county.name"
                 >
-                  {{ c.name }}
+                  {{ county.name }}
                 </option>
               </select>
             </div>
           </div>
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
             <div class="form-group">
-              <label for="address2" class="control-label">Sub County</label>
+              <label for="address2" class="control-label">Sub-county</label>
               <select
+                id="address2"
                 class="form-control"
                 [ngModel]="address2"
                 (ngModelChange)="setSubCounty($event)"
                 name="address2"
               >
-                <option *ngFor="let subc of subcounties" [ngValue]="subc.name">
-                  {{ subc.name }}
+                <option
+                  *ngFor="let subcounty of subcounties"
+                  [ngValue]="subcounty.name"
+                >
+                  {{ subcounty.name }}
                 </option>
               </select>
             </div>
@@ -619,6 +640,7 @@
             <div class="form-group">
               <label for="address7" class="control-label">Ward</label>
               <select
+                id="address7"
                 class="form-control"
                 [ngModel]="address7"
                 (ngModelChange)="setWard($event)"
@@ -682,10 +704,15 @@
 
         <div class="row">
           <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-            <button class="btn btn-primary" (click)="createPatient()">
+            <button
+              id="saveBtn"
+              class="btn btn-primary"
+              (click)="createPatient()"
+            >
               Save
             </button>
             <button
+              id="cancelBtn"
               type="button"
               class="btn btn-danger pull-right"
               (click)="cancel()"
@@ -845,7 +872,7 @@
 
     <ng-template #successModal>
       <div bsModal class="modal-body" [config]="{ backdrop: 'static' }">
-        <div class="alert alert-success" role="alert">
+        <div id="successModalMsg" class="alert alert-success" role="alert">
           You have successfully registered the patient
           <strong>{{ createdPatient?.person.display | uppercase }}</strong>
         </div>
