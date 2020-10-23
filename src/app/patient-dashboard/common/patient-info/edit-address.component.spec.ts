@@ -30,10 +30,12 @@ import { Patient } from '../../../models/patient.model';
 const testLocations = [
   {
     name: 'Test A',
+    stateProvince: 'Municipio',
     uuid: 'uuid1'
   },
   {
     name: 'Test B',
+    stateProvince: 'Condado',
     uuid: 'uuid2'
   }
 ];
@@ -195,8 +197,8 @@ describe('Component: EditAddressComponent Unit Tests', () => {
     ).and.callThrough();
 
     // Set new values for county, subcounty, estate and city
-    const countyInput: HTMLInputElement = nativeElement.querySelector(
-      'input#address1'
+    const countySelect: HTMLSelectElement = nativeElement.querySelector(
+      'select#address1'
     );
     const subcountyInput: HTMLInputElement = nativeElement.querySelector(
       'input#address2'
@@ -221,12 +223,12 @@ describe('Component: EditAddressComponent Unit Tests', () => {
     fixture
       .whenStable()
       .then(() => {
-        countyInput.value = 'Municipio';
+        countySelect.value = countySelect.options[0].value;
         subcountyInput.value = 'Subcampo';
         estateInput.value = 'Fazenda';
         cityInput.value = 'Cidade';
 
-        countyInput.dispatchEvent(new Event('input'));
+        countySelect.dispatchEvent(new Event('change'));
         subcountyInput.dispatchEvent(new Event('input'));
         estateInput.dispatchEvent(new Event('input'));
         cityInput.dispatchEvent(new Event('input'));

@@ -31,6 +31,31 @@
               <label id="county" for="address1" class="control-label"
                 >County</label
               >
+              <select
+                id="address1"
+                class="form-control"
+                [(ngModel)]="address1"
+                name="county"
+                (ngModelChange)="updateLocation($event)"
+              >
+                <option
+                  *ngFor="let county of counties"
+                  [selected]="county === address1"
+                  [value]="county"
+                >
+                  {{ county }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div
+            *ngIf="nonCodedCounty"
+            class="col-md-6 col-lg-6 col-sm-6 col-xs-6"
+          >
+            <div class="form-group">
+              <label for="address1" class="control-label"
+                >County: Other (specify)</label
+              >
               <input
                 type="text"
                 id="address1"

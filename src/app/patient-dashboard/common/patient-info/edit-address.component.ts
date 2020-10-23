@@ -1,9 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { PatientService } from '../../services/patient.service';
-import { Patient } from '../../../models/patient.model';
-import { PersonResourceService } from '../../../openmrs-api/person-resource.service';
+
+import * as _ from 'lodash';
 import { Subscription } from 'rxjs';
-import { LocationResourceService } from 'src/app/openmrs-api/location-resource.service';
+import { take } from 'rxjs/operators';
+
+import { Patient } from '../../../models/patient.model';
+import { PatientService } from '../../services/patient.service';
+import { PersonResourceService } from '../../../openmrs-api/person-resource.service';
+import { LocationResourceService } from '../../../openmrs-api/location-resource.service';
 
 @Component({
   selector: 'edit-address',
@@ -12,7 +16,7 @@ import { LocationResourceService } from 'src/app/openmrs-api/location-resource.s
 })
 export class EditAddressComponent implements OnInit, OnDestroy {
   public patient: Patient = new Patient({});
-  public subscription: Subscription[] = [];
+  public subscriptions: Subscription[] = [];
   public display = false;
   public address1: string;
   public address2: string;
@@ -32,20 +36,23 @@ export class EditAddressComponent implements OnInit, OnDestroy {
   public subcounties: any = [];
   public counties: any = [];
   public wards: any = [];
+  public nonCodedCounty = false;
 
   constructor(
     private patientService: PatientService,
     private locationService: LocationResourceService,
+    private locationResourceService: LocationResourceService,
     private personResourceService: PersonResourceService
   ) {}
 
   public ngOnInit(): void {
     this.getPatient();
+    this.getLocations();
   }
 
   public ngOnDestroy(): void {
-    if (this.subscription.length) {
-      this.subscription.map((sub) => sub.unsubscribe);
+    if (this.subscriptions.length) {
+      this.subscriptions.map((sub) => sub.unsubscribe);
     }
   }
 
@@ -83,7 +90,47 @@ export class EditAddressComponent implements OnInit, OnDestroy {
         }
       }
     );
-    this.subscription.push(getPatientSubscription);
+    this.subscriptions.push(getPatientSubscription);
+  }
+
+  private getLocations(): void {
+    const locationResourceServiceSub = this.locationResourceService
+      .getLocations()
+      .pipe(take(1))
+      .subscribe(
+        (locations: any[]) => {
+          this.locations = [];
+          const counties = [];
+          // tslint:disable-next-line:prefer-for-of
+          for (let i = 0; i < locations.length; i++) {
+            this.locations.push({
+              label: locations[i].name,
+              value: locations[i].uuid
+            });
+            counties.push(locations[i].stateProvince);
+          }
+          console.log('counties: ', counties);
+          this.counties = _.uniq(counties);
+          this.counties = _.remove(this.counties, (n) => {
+            return n !== null || n === '';
+          });
+          this.counties.push('Other');
+        },
+        (error: any) => {
+          console.error(error);
+        }
+      );
+
+    this.subscriptions.push(locationResourceServiceSub);
+  }
+
+  public updateLocation(location) {
+    if (location === 'Other') {
+      this.nonCodedCounty = true;
+      this.address1 = '';
+    } else {
+      this.nonCodedCounty = false;
+    }
   }
 
   public showDialog() {
@@ -133,7 +180,7 @@ export class EditAddressComponent implements OnInit, OnDestroy {
         }
       );
 
-    this.subscription.push(saveUpdatePersonSub);
+    this.subscriptions.push(saveUpdatePersonSub);
   }
 
   private displaySuccessAlert(message) {
