@@ -38,9 +38,11 @@ export class EditAddressComponent implements OnInit, OnDestroy {
     private locationService: LocationResourceService,
     private personResourceService: PersonResourceService
   ) {}
+
   public ngOnInit(): void {
     this.getPatient();
   }
+
   public ngOnDestroy(): void {
     if (this.subscription.length) {
       this.subscription.map((sub) => sub.unsubscribe);
@@ -48,13 +50,13 @@ export class EditAddressComponent implements OnInit, OnDestroy {
   }
 
   public getPatient() {
-    const getLocationSubscription = this.locationService
-      .getAmpathLocations()
-      .subscribe((data) => {
-        this.locations = data;
-        console.log(data);
-      });
-    this.subscription.push(getLocationSubscription);
+    // const getLocationSubscription = this.locationService
+    //   .getAmpathLocations()
+    //   .subscribe((data) => {
+    //     this.locations = data;
+    //     console.log(data);
+    //   });
+    // this.subscription.push(getLocationSubscription);
     const getPatientSubscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         this.patients = new Patient({});
@@ -108,7 +110,7 @@ export class EditAddressComponent implements OnInit, OnDestroy {
         }
       ]
     };
-    this.personResourceService
+    const saveUpdatePersonSub = this.personResourceService
       .saveUpdatePerson(person.uuid, personAddressPayload)
       .subscribe(
         (success) => {
@@ -121,13 +123,15 @@ export class EditAddressComponent implements OnInit, OnDestroy {
           }
         },
         (error) => {
-          console.error('error', error);
+          console.error('Error updating addresses: ', error);
           this.errors.push({
             id: 'patient',
             message: 'error updating address'
           });
         }
       );
+
+    this.subscription.push(saveUpdatePersonSub);
   }
   private displaySuccessAlert(message) {
     this.showErrorAlert = false;
