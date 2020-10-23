@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PatientService } from '../../services/patient.service';
 import { Patient } from '../../../models/patient.model';
 import { PersonResourceService } from '../../../openmrs-api/person-resource.service';
@@ -11,7 +11,7 @@ import { LocationResourceService } from 'src/app/openmrs-api/location-resource.s
   styleUrls: []
 })
 export class EditAddressComponent implements OnInit, OnDestroy {
-  public patients: Patient = new Patient({});
+  public patient: Patient = new Patient({});
   public subscription: Subscription[] = [];
   public display = false;
   public address1: string;
@@ -59,25 +59,25 @@ export class EditAddressComponent implements OnInit, OnDestroy {
     // this.subscription.push(getLocationSubscription);
     const getPatientSubscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
-        this.patients = new Patient({});
+        this.patient = new Patient({});
         if (patient) {
-          this.patients = patient;
-          if (this.patients.person.preferredAddress) {
-            this.address1 = (this.patients.person
+          this.patient = patient;
+          if (this.patient.person.preferredAddress) {
+            this.address1 = (this.patient.person
               .preferredAddress as any).address1;
-            this.address2 = (this.patients.person
+            this.address2 = (this.patient.person
               .preferredAddress as any).address2;
-            this.address3 = (this.patients.person
+            this.address3 = (this.patient.person
               .preferredAddress as any).address3;
-            this.address7 = (this.patients.person
+            this.address7 = (this.patient.person
               .preferredAddress as any).address7;
-            this.cityVillage = (this.patients.person
+            this.cityVillage = (this.patient.person
               .preferredAddress as any).cityVillage;
-            this.latitude = (this.patients.person
+            this.latitude = (this.patient.person
               .preferredAddress as any).latitude;
-            this.longitude = (this.patients.person
+            this.longitude = (this.patient.person
               .preferredAddress as any).longitude;
-            this.preferredAddressUuid = (this.patients.person
+            this.preferredAddressUuid = (this.patient.person
               .preferredAddress as any).uuid;
           }
         }
@@ -89,12 +89,14 @@ export class EditAddressComponent implements OnInit, OnDestroy {
   public showDialog() {
     this.display = true;
   }
+
   public dismissDialog() {
     this.display = false;
   }
+
   public updatePersonAddress() {
     const person = {
-      uuid: this.patients.person.uuid
+      uuid: this.patient.person.uuid
     };
     const personAddressPayload = {
       addresses: [
@@ -133,6 +135,7 @@ export class EditAddressComponent implements OnInit, OnDestroy {
 
     this.subscription.push(saveUpdatePersonSub);
   }
+
   private displaySuccessAlert(message) {
     this.showErrorAlert = false;
     this.showSuccessAlert = true;
@@ -141,6 +144,7 @@ export class EditAddressComponent implements OnInit, OnDestroy {
       this.showSuccessAlert = false;
     }, 1000);
   }
+
   public setCounty(event) {
     this.address1 = event;
     const counties1 = this.locations.counties;
@@ -148,6 +152,7 @@ export class EditAddressComponent implements OnInit, OnDestroy {
       (county) => county.name === event
     ).subcounties;
   }
+
   public setSubCounty(event) {
     this.address2 = event;
     const subcounties = this.subcounties;
@@ -155,6 +160,7 @@ export class EditAddressComponent implements OnInit, OnDestroy {
       (subcounty) => subcounty.name === event
     ).wards;
   }
+
   public setWard(event) {
     this.address7 = event;
   }

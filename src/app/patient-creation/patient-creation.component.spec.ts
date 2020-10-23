@@ -6,6 +6,7 @@ import {
   fakeAsync,
   tick
 } from '@angular/core/testing';
+import { click, tickAndDetectChanges } from '../test-helpers';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
@@ -415,26 +416,3 @@ describe('Component: Patient Creation Unit Tests', () => {
     }));
   });
 });
-
-/** Button events to pass to `DebugElement.triggerEventHandler` for RouterLink event handler */
-const ButtonClickEvents = {
-  left: { button: 0 },
-  right: { button: 2 }
-};
-
-/** Simulate element click. Defaults to mouse left-button click event. */
-function click(
-  el: DebugElement | HTMLElement,
-  eventObj: any = ButtonClickEvents.left
-): void {
-  if (el instanceof HTMLElement) {
-    el.click();
-  } else {
-    el.triggerEventHandler('click', eventObj);
-  }
-}
-
-function tickAndDetectChanges(fixture: ComponentFixture<any>) {
-  fixture.detectChanges();
-  tick();
-}
