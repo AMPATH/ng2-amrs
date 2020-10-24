@@ -15,28 +15,28 @@ import { LocationResourceService } from '../../../openmrs-api/location-resource.
   styleUrls: []
 })
 export class EditAddressComponent implements OnInit, OnDestroy {
-  public patient: Patient = new Patient({});
-  public subscriptions: Subscription[] = [];
-  public display = false;
   public address1: string;
   public address2: string;
   public address3: string;
   public address7: string;
-  public latitude: string;
-  public longitude: string;
+  public counties: string[] = [];
   public cityVillage: string;
-  public preferredAddressUuid: string;
-  public errors: any = [];
-  public showSuccessAlert = false;
-  public showErrorAlert = false;
+  public display = false;
   public errorAlert: string;
   public errorTitle: string;
-  public successAlert = '';
-  public locations: any;
-  public subcounties: any = [];
-  public counties: any = [];
-  public wards: any = [];
+  public errors: any = [];
+  public latitude: string;
+  public locations: LocationData[] = [];
+  public longitude: string;
   public nonCodedCounty = false;
+  public patient: Patient = new Patient({});
+  public preferredAddressUuid: string;
+  public showSuccessAlert = false;
+  public showErrorAlert = false;
+  public subscriptions: Subscription[] = [];
+  public successAlert = '';
+  public subcounties: any[] = [];
+  public wards: string[] = [];
 
   constructor(
     private patientService: PatientService,
@@ -45,25 +45,18 @@ export class EditAddressComponent implements OnInit, OnDestroy {
     private personResourceService: PersonResourceService
   ) {}
 
-  public ngOnInit(): void {
+  public ngOnInit() {
     this.getPatient();
     this.getLocations();
   }
 
-  public ngOnDestroy(): void {
+  public ngOnDestroy() {
     if (this.subscriptions.length) {
       this.subscriptions.map((sub) => sub.unsubscribe);
     }
   }
 
   public getPatient() {
-    // const getLocationSubscription = this.locationService
-    //   .getAmpathLocations()
-    //   .subscribe((data) => {
-    //     this.locations = data;
-    //     console.log(data);
-    //   });
-    // this.subscription.push(getLocationSubscription);
     const getPatientSubscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         this.patient = new Patient({});
@@ -93,14 +86,13 @@ export class EditAddressComponent implements OnInit, OnDestroy {
     this.subscriptions.push(getPatientSubscription);
   }
 
-  private getLocations(): void {
+  private getLocations() {
     const locationResourceServiceSub = this.locationResourceService
       .getLocations()
       .pipe(take(1))
       .subscribe(
         (locations: any[]) => {
-          this.locations = [];
-          const counties = [];
+          const counties: string[] = [];
           // tslint:disable-next-line:prefer-for-of
           for (let i = 0; i < locations.length; i++) {
             this.locations.push({
@@ -109,7 +101,6 @@ export class EditAddressComponent implements OnInit, OnDestroy {
             });
             counties.push(locations[i].stateProvince);
           }
-          console.log('counties: ', counties);
           this.counties = _.uniq(counties);
           this.counties = _.remove(this.counties, (n) => {
             return n !== null || n === '';
@@ -117,15 +108,15 @@ export class EditAddressComponent implements OnInit, OnDestroy {
           this.counties.push('Other');
         },
         (error: any) => {
-          console.error(error);
+          console.error('Error fetching locations: ', error);
         }
       );
 
     this.subscriptions.push(locationResourceServiceSub);
   }
 
-  public updateLocation(location) {
-    if (location === 'Other') {
+  public updateLocation(locationName: string) {
+    if (locationName === 'Other') {
       this.nonCodedCounty = true;
       this.address1 = '';
     } else {
@@ -162,8 +153,8 @@ export class EditAddressComponent implements OnInit, OnDestroy {
     const saveUpdatePersonSub = this.personResourceService
       .saveUpdatePerson(person.uuid, personAddressPayload)
       .subscribe(
-        (success) => {
-          if (success) {
+        (savePersonRes) => {
+          if (savePersonRes) {
             this.displaySuccessAlert('Address saved successfully');
             setTimeout(() => {
               this.display = false;
@@ -172,7 +163,7 @@ export class EditAddressComponent implements OnInit, OnDestroy {
           }
         },
         (error) => {
-          console.error('Error updating addresses: ', error);
+          console.error('Error updating address: ', error);
           this.errors.push({
             id: 'patient',
             message: 'error updating address'
@@ -191,24 +182,9 @@ export class EditAddressComponent implements OnInit, OnDestroy {
       this.showSuccessAlert = false;
     }, 1000);
   }
+}
 
-  public setCounty(event) {
-    this.address1 = event;
-    const counties1 = this.locations.counties;
-    this.subcounties = counties1.find(
-      (county) => county.name === event
-    ).subcounties;
-  }
-
-  public setSubCounty(event) {
-    this.address2 = event;
-    const subcounties = this.subcounties;
-    this.wards = subcounties.find(
-      (subcounty) => subcounty.name === event
-    ).wards;
-  }
-
-  public setWard(event) {
-    this.address7 = event;
-  }
+interface LocationData {
+  label: string;
+  value: string;
 }

@@ -703,7 +703,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     this.errors = false;
   }
 
-  public ngOnDestroy(): void {
+  public ngOnDestroy() {
     this.subscriptions.map((sub) => sub.unsubscribe);
   }
 
@@ -746,7 +746,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       });
   }
 
-  private checkAdded() {
+  private checkAdded(): boolean {
     let found;
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < this.identifiers.length; i++) {
@@ -762,7 +762,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     }
   }
 
-  private checkUniversal() {
+  private checkUniversal(): boolean {
     let found = false;
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < this.identifiers.length; i++) {
@@ -822,7 +822,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       );
   }
 
-  private getLocations(): void {
+  private getLocations() {
     const locationResourceServiceSub = this.locationResourceService
       .getLocations()
       .pipe(take(1))
@@ -861,7 +861,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     this.subscriptions.push(getLocationsSubscription);
   }
 
-  private validateFormFields(patientIdentifier) {
+  private validateFormFields(patientIdentifier): boolean {
     if (this.isNullOrUndefined(patientIdentifier)) {
       this.setErroMessage('Patient identifier is required!');
       return false;
@@ -870,7 +870,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     return true;
   }
 
-  private isNullOrUndefined(val) {
+  private isNullOrUndefined(val): boolean {
     return (
       val === null ||
       val === undefined ||
@@ -934,12 +934,11 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     this.errorMessage = message;
   }
 
-  private calculateAge(age) {
+  private calculateAge(age): string {
     const baseYear = 1970;
     const thisYear = new Date().getFullYear();
-    let date;
-
     const yearDiff = thisYear - age;
+    let date;
 
     if (yearDiff < baseYear) {
       date = (baseYear - yearDiff) * -31556926000;
@@ -948,7 +947,6 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     }
 
     const estimateDate = new Date(date).toISOString();
-
     return estimateDate;
   }
 
@@ -972,7 +970,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     this.address7 = event;
   }
 
-  public getRelationshipTypes(): void {
+  public getRelationshipTypes() {
     const request = this.patientRelationshipTypeService.getRelationshipTypes();
     request.subscribe(
       (relationshipTypes) => {
