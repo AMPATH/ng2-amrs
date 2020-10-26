@@ -93,13 +93,12 @@ export class EditAddressComponent implements OnInit, OnDestroy {
       .subscribe(
         (locations: any[]) => {
           const counties: string[] = [];
-          // tslint:disable-next-line:prefer-for-of
-          for (let i = 0; i < locations.length; i++) {
+          for (const location of locations) {
             this.locations.push({
-              label: locations[i].name,
-              value: locations[i].uuid
+              label: location.name,
+              value: location.uuid
             });
-            counties.push(locations[i].stateProvince);
+            counties.push(location.stateProvince);
           }
           this.counties = _.uniq(counties);
           this.counties = _.remove(this.counties, (n) => {
