@@ -1,60 +1,177 @@
-import { TestBed, inject, async } from '@angular/core/testing';
+import { DebugElement } from '@angular/core';
+import {
+  ComponentFixture,
+  TestBed,
+  async,
+  fakeAsync,
+  tick
+} from '@angular/core/testing';
+import { click, tickAndDetectChanges } from '../test-helpers';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
-import { SpyLocation } from '@angular/common/testing';
+import { FormsModule } from '@angular/forms';
+
+import { of } from 'rxjs';
 import { MatSnackBar } from '@angular/material';
+import { Storage } from '@ionic/storage';
+import { CacheModule } from 'ionic-cache/dist/cache.module';
+import { ModalModule } from 'ngx-bootstrap';
+import { ToastrModule } from 'ngx-toastr';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { DateTimePickerModule } from 'ngx-openmrs-formentry';
 
 import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytics.service';
 import { FakeAppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytcis.mock';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { PatientCreationComponent } from './patient-creation.component';
 import { PatientCreationService } from './patient-creation.service';
-import { Observable } from 'rxjs';
-import { BsModalService } from 'ngx-bootstrap/modal';
-
-import {
-  PatientCreationResourceService
-} from '../openmrs-api/patient-creation-resource.service';
-import {
-  LocationResourceService
-} from '../openmrs-api/location-resource.service';
-import {
-  PatientIdentifierTypeResService
-} from '../openmrs-api/patient-identifierTypes-resource.service';
+import { PatientCreationResourceService } from '../openmrs-api/patient-creation-resource.service';
+import { LocationResourceService } from '../openmrs-api/location-resource.service';
+import { PatientIdentifierTypeResService } from '../openmrs-api/patient-identifierTypes-resource.service';
 import { PatientIdentifierService } from '../patient-dashboard/common/patient-identifier/patient-identifiers.service';
 import { PatientResourceService } from '../openmrs-api/patient-resource.service';
 import { UserService } from '../openmrs-api/user.service';
 import { SessionStorageService } from '../utils/session-storage.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
-import { CacheModule } from 'ionic-cache/dist/cache.module';
-import { Storage } from '@ionic/storage';
-import { ModalModule } from 'ngx-bootstrap';
-import { AppSettingsModule } from '../app-settings/app-settings.module';
-import { ToastrModule} from 'ngx-toastr';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { ConceptResourceService } from './../openmrs-api/concept-resource.service';
 import { PatientRelationshipTypeService } from '../patient-dashboard/common/patient-relationships/patient-relation-type.service';
-import { PatientRelationshipTypeResourceService } from '../openmrs-api/patient-relationship-type-resource.service';
 import { PatientEducationService } from '../etl-api/patient-education.service';
 
-describe('Component: Patient Creation Unit Tests', () => {
+const testLocations = [
+  {
+    name: 'Test A',
+    stateProvince: 'Foo',
+    uuid: 'uuid1'
+  },
+  {
+    name: 'Test B',
+    stateProvince: 'Bar',
+    uuid: 'uuid2'
+  }
+];
 
-  let fakeAppFeatureAnalytics: AppFeatureAnalytics, component;
-  beforeEach( async(() => {
+const testConcept = {
+  answers: [
+    { display: 'TEACHER', uuid: 'teacher-uuid' },
+    { display: 'CASUAL WORKER', uuid: 'casual-worker-uuid' },
+    { display: 'HEALTH WORKER', uuid: 'health-worker-uuid' }
+  ],
+  name: {
+    display: 'OCCUPATION',
+    uuid: 'test-occupation-concept-uuid'
+  },
+  uuid: 'test-uuid'
+};
+
+const testEducationLevels = [
+  {
+    uuid: 'a899e0ac-1350-11df-a1f1-0026b9348838',
+    display: 'NONE'
+  },
+  {
+    uuid: 'a8afe910-1350-11df-a1f1-0026b9348838',
+    display: 'PRIMARY SCHOOL'
+  },
+  {
+    uuid: 'a8afe9d8-1350-11df-a1f1-0026b9348838',
+    display: 'SECONDARY SCHOOL'
+  },
+  {
+    uuid: 'a89e4728-1350-11df-a1f1-0026b9348838',
+    display: 'UNIVERSITY'
+  }
+];
+
+const testIdentifierTypes = [
+  { uuid: 'uuid1', name: 'A test ID' },
+  { uuid: 'uuid2', name: 'A sophisticated test ID' },
+  { uuid: 'uuid3', name: 'An everyday test ID' }
+];
+
+const testRelationshipTypes = [
+  { uuid: 'uuid1', aIsToB: 'Parent', bIsToA: 'Child', display: 'Parent/Child' }
+];
+
+const conceptResourceServiceStub = {
+  getConceptByUuid: (uuid) => of(testConcept)
+};
+
+const locationResourceServiceStub = {
+  getLocations: () => of(testLocations)
+};
+
+const patientEducationServiceStub = {
+  getEducationLevels: () => testEducationLevels
+};
+
+const patientIdentifierTypeServiceStub = {
+  getPatientIdentifierTypes: () => of(testIdentifierTypes)
+};
+
+const patientRelationshipTypeServiceStub = {
+  getRelationshipTypes: () => of(testRelationshipTypes)
+};
+
+const patientCreationServiceStub = {
+  getpatientResults: () => of([]),
+  generateIdentifier: (userId) => {
+    return of({ identifier: '123456789-0' });
+  },
+  patientResults: () => of([]),
+  searchPatient: (searchString) => of([])
+};
+
+const userServiceStub = {
+  getLoggedInUser: () => {
+    const openmrsModel = {
+      systemId: 'test-12345'
+    };
+    return {
+      display: 'Test User',
+      openmrsModel: openmrsModel
+    };
+  }
+};
+
+describe('Component: Patient Creation Unit Tests', () => {
+  let component: PatientCreationComponent;
+  let fixture: ComponentFixture<PatientCreationComponent>;
+  let debugElement: DebugElement;
+  let nativeElement: HTMLElement;
+  let patientCreationResourceService: PatientCreationResourceService;
+  let savePatientSpy: jasmine.Spy;
+
+  beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
         ModalModule.forRoot(),
         CacheModule.forRoot(),
         ToastrModule.forRoot(),
-        HttpClientTestingModule
+        FormsModule,
+        DateTimePickerModule,
+        HttpClientTestingModule,
+        NgxPaginationModule,
+        NgSelectModule
       ],
+      declarations: [PatientCreationComponent],
       providers: [
+        MatSnackBar,
+        AppSettingsService,
+        BsModalService,
+        DataCacheService,
         FakeAppFeatureAnalytics,
-        {
-          provide: AppFeatureAnalytics,
-          useClass: FakeAppFeatureAnalytics
-        },
+        LocalStorageService,
+        PatientCreationComponent,
+        PatientCreationService,
+        PatientCreationResourceService,
+        PatientIdentifierTypeResService,
+        PatientIdentifierService,
+        PatientResourceService,
+        SessionStorageService,
+        { provide: AppFeatureAnalytics, useClass: FakeAppFeatureAnalytics },
         {
           provide: Router
         },
@@ -64,73 +181,238 @@ describe('Component: Patient Creation Unit Tests', () => {
         {
           provide: Storage
         },
-        AppSettingsService,
-        LocalStorageService,
-        PatientCreationComponent,
-        MatSnackBar,
-        BsModalService,
-        PatientCreationService,
-        PatientCreationResourceService,
-        PatientIdentifierTypeResService,
-        SessionStorageService,
-        PatientIdentifierService,
-        LocationResourceService,
-        PatientResourceService,
-        UserService,
-        DataCacheService,
-        ConceptResourceService,
-        PatientRelationshipTypeService,
-        PatientRelationshipTypeResourceService,
-        PatientEducationService
+        {
+          provide: ConceptResourceService,
+          useValue: conceptResourceServiceStub
+        },
+        {
+          provide: LocationResourceService,
+          useValue: locationResourceServiceStub
+        },
+        {
+          provide: PatientCreationService,
+          useValue: patientCreationServiceStub
+        },
+        {
+          provide: PatientEducationService,
+          useValue: patientEducationServiceStub
+        },
+        {
+          provide: PatientIdentifierTypeResService,
+          useValue: patientIdentifierTypeServiceStub
+        },
+        {
+          provide: PatientRelationshipTypeService,
+          useValue: patientRelationshipTypeServiceStub
+        },
+        {
+          provide: UserService,
+          useValue: userServiceStub
+        }
       ]
-    });
-
-    fakeAppFeatureAnalytics = TestBed.get(AppFeatureAnalytics);
-    component = TestBed.get(PatientCreationComponent);
-
+    }).compileComponents();
   }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(PatientCreationComponent);
+    component = fixture.componentInstance;
+    debugElement = fixture.debugElement;
+    nativeElement = debugElement.nativeElement;
+    patientCreationResourceService = TestBed.get(
+      PatientCreationResourceService
+    );
+  });
 
   afterEach(() => {
     TestBed.resetTestingModule();
   });
 
-  it('should instantiate the component', (done) => {
-    expect(component).toBeTruthy();
-    done();
+  describe('Init', () => {
+    it('should instantiate the component', () => {
+      fixture.detectChanges();
+      expect(component).toBeDefined();
+      expect(
+        nativeElement.querySelector('.component-wrapper h2').textContent
+      ).toMatch(/Patient Registration/);
+      const formFields = nativeElement.querySelectorAll(
+        '.col-md-4 .form-group'
+      );
+      expect(formFields.length).toEqual(7, '7 initial form fields');
+      expect(formFields[0].textContent).toMatch(/First Name/);
+      expect(formFields[1].textContent).toMatch(/Middle Name \(Optional\)/);
+      expect(formFields[2].textContent).toMatch(/Family Name/);
+      expect(formFields[3].textContent).toMatch(/Gender/);
+      expect(formFields[4].textContent).toMatch(/Occupation/);
+      expect(formFields[5].textContent).toMatch(/Highest Education Level/);
+      expect(formFields[6].textContent).toMatch(/Age/);
+    });
   });
-  it('form should be valid', () => {
-    expect(component.identifierValidity).toBeFalsy();
-  });
-  it('form should be filled with age less than 116 years ', ( ) => {
-    expect(component.birthError).toBeFalsy();
-  });
-  // it('should return the correct age ',()=>{
-  //   const dateString = "2010-08-28T11:43:41+03:00";
-  //   component.today = new Date(2019,08,28);
-  //   const age = component.getAge(dateString);
-  //   expect(age).toBe(9);
-  // });
 
-  it('should set the correct identifier type ', () => {
-    const mockIdentifierType = {
-      'label': 'MTCT Plus ID',
-       'val': '58a46d20-1359-11df-a1f1-0026b9348838'
-    };
-    component.setIdentifierType(mockIdentifierType);
-    const identifierType =  component.patientIdentifierType;
-    expect(JSON.stringify(identifierType)).toBe(JSON.stringify(mockIdentifierType));
-     });
-     it('should set the preffered identifier ', ( ) => {
-      const mockPreferedIdentifierType = {
-        'identifier': '7364732',
-​        'identifierType': '58a48706-1359-11df-a1f1-0026b9348838',
-        'identifierTypeName': 'MTRH CARE Number'
-      };
-      component.setPreferred(mockPreferedIdentifierType);
-      const preferedidentifierType =  component.preferredIdentifier ;
-      expect(JSON.stringify(preferedidentifierType)).toBe(JSON.stringify(mockPreferedIdentifierType ));
-       });
-       it('should filter patients ', ( ) => {
-       });
+  describe('Form actions ', () => {
+    let firstNameInput: HTMLInputElement;
+    let middleNameInput: HTMLInputElement;
+    let familyNameInput: HTMLInputElement;
+    let genderSelect: HTMLSelectElement;
+    let occupationSelect: HTMLSelectElement;
+    let educationLevelSelect: HTMLSelectElement;
 
+    beforeEach(async(() => {
+      fixture.detectChanges();
+      firstNameInput = fixture.nativeElement.querySelector('input#givenName');
+      middleNameInput = fixture.nativeElement.querySelector('input#middleName');
+      familyNameInput = fixture.nativeElement.querySelector('input#familyName');
+      genderSelect = fixture.nativeElement.querySelector('select#gender');
+      occupationSelect = fixture.nativeElement.querySelector(
+        'select#occupation'
+      );
+      educationLevelSelect = fixture.nativeElement.querySelector(
+        'select#educationLevel'
+      );
+
+      firstNameInput.value = 'Test';
+      middleNameInput.value = 'Patient';
+      familyNameInput.value = 'Name';
+      genderSelect.value = genderSelect.options[1].value;
+      occupationSelect.value = occupationSelect.options[1].value;
+      educationLevelSelect.value = educationLevelSelect.options[1].value;
+
+      firstNameInput.dispatchEvent(new Event('input'));
+      middleNameInput.dispatchEvent(new Event('input'));
+      familyNameInput.dispatchEvent(new Event('input'));
+      genderSelect.dispatchEvent(new Event('change'));
+      occupationSelect.dispatchEvent(new Event('change'));
+      educationLevelSelect.dispatchEvent(new Event('change'));
+    }));
+
+    it('should reset the demographics form fields when reset button is clicked', fakeAsync(() => {
+      expect(component.givenName).toEqual('Test');
+      expect(component.middleName).toEqual('Patient');
+      expect(component.familyName).toEqual('Name');
+      expect(component.gender).toEqual('M');
+      expect(component.errors).toEqual(false);
+
+      tickAndDetectChanges(fixture);
+
+      const resetBtn: HTMLButtonElement = nativeElement.querySelector(
+        'button#resetBtn'
+      );
+      click(resetBtn);
+
+      expect(component.givenName).toEqual('');
+      expect(component.familyName).toEqual('');
+      expect(component.middleName).toEqual('');
+      expect(component.gender).toEqual('');
+      expect(component.birthDate).toEqual('');
+      expect(component.ageEstimate).toEqual(null);
+      expect(component.errors).toEqual(false);
+    }));
+
+    it('should submit the form when the save button is clicked after filling the form', fakeAsync(() => {
+      savePatientSpy = spyOn(
+        patientCreationResourceService,
+        'savePatient'
+      ).and.callFake(() => {
+        return of({
+          person: {
+            display: '123456789-0 - Yet Another Test Patient'
+          }
+        });
+      });
+
+      component.updateBirthDate(new Date('01-01-1991'));
+      const nextBtn: HTMLButtonElement = nativeElement.querySelector(
+        'button#nextBtn'
+      );
+      click(nextBtn);
+      tickAndDetectChanges(fixture);
+
+      /*
+       * With demographics filled in, assert that fields from the Identifiers
+       * section and the form action buttons are rendered.
+       */
+      const universalIdLabel: HTMLElement = nativeElement.querySelector(
+        '#universalId'
+      );
+      const identifierTypeSelect: HTMLSelectElement = nativeElement.querySelector(
+        'select#identifierType'
+      );
+      const cancelBtn: HTMLButtonElement = nativeElement.querySelector(
+        'button#cancelBtn'
+      );
+      const saveBtn: HTMLButtonElement = nativeElement.querySelector(
+        'button#saveBtn'
+      );
+      const generateUniversalIdEl: HTMLSpanElement = nativeElement.querySelector(
+        'span#generateUniversalId'
+      );
+      const addUniversalIdBtn: HTMLButtonElement = nativeElement.querySelector(
+        'button#addUniversalId'
+      );
+      const countySelect: HTMLSelectElement = nativeElement.querySelector(
+        'select#address1'
+      );
+      const subcountyInput: HTMLInputElement = nativeElement.querySelector(
+        'input#address2'
+      );
+
+      expect(universalIdLabel).toBeDefined();
+      expect(identifierTypeSelect).toBeDefined();
+      expect(cancelBtn).toBeDefined();
+      expect(saveBtn).toBeDefined();
+
+      click(generateUniversalIdEl);
+      click(addUniversalIdBtn);
+
+      identifierTypeSelect.value = identifierTypeSelect.options[2].value;
+      identifierTypeSelect.dispatchEvent(new Event('change'));
+
+      const identifierLocationSelect: HTMLSelectElement = nativeElement.querySelector(
+        'ng-select'
+      );
+      identifierLocationSelect.value = 'Test';
+      identifierLocationSelect.dispatchEvent(new Event('input'));
+
+      component.selectedLocation = testLocations[0].name;
+      component.identifierLocation = 'uuid2';
+
+      countySelect.value = countySelect.options[0].value;
+      countySelect.dispatchEvent(new Event('change'));
+
+      subcountyInput.value = 'Quux';
+      subcountyInput.dispatchEvent(new Event('input'));
+
+      click(saveBtn);
+      tick(500);
+
+      expect(component.errors).toBeFalsy('no errors');
+      expect(component.errorAlerts.length).toEqual(0);
+      expect(savePatientSpy).toHaveBeenCalledTimes(1);
+      expect(savePatientSpy).toHaveBeenCalledWith(
+        jasmine.objectContaining({
+          person: jasmine.objectContaining({
+            names: jasmine.arrayContaining([
+              jasmine.objectContaining({
+                givenName: 'Test',
+                middleName: 'Patient',
+                familyName: 'Name'
+              })
+            ]),
+            gender: 'M',
+            attributes: jasmine.arrayContaining([
+              {
+                value: 'casual-worker-uuid',
+                attributeType: '9e86409f-9c20-42d0-aeb3-f29a4ca0a7a0'
+              }
+            ]),
+            addresses: jasmine.arrayContaining([
+              jasmine.objectContaining({
+                address1: 'Foo', // county
+                address2: 'Quux' // subcounty
+              })
+            ])
+          })
+        })
+      );
+    }));
+  });
 });
