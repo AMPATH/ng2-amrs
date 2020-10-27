@@ -2,7 +2,6 @@ import {
   Component,
   Output,
   EventEmitter,
-  Input,
   ViewChildren,
   OnInit,
   ViewEncapsulation
@@ -95,7 +94,6 @@ export class LoginComponent implements OnInit {
       .subscribe(
         (response: any) => {
           const data = response;
-
           if (data.authenticated) {
             /// update forms in cache ////
             const lastChecked = this.formUpdaterService.getDateLastChecked();
