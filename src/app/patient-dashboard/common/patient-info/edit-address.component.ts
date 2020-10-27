@@ -1,9 +1,13 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { PatientService } from '../../services/patient.service';
-import { Patient } from '../../../models/patient.model';
-import { PersonResourceService } from '../../../openmrs-api/person-resource.service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+
+import * as _ from 'lodash';
 import { Subscription } from 'rxjs';
-import { LocationResourceService } from 'src/app/openmrs-api/location-resource.service';
+import { take } from 'rxjs/operators';
+
+import { Patient } from '../../../models/patient.model';
+import { PatientService } from '../../services/patient.service';
+import { PersonResourceService } from '../../../openmrs-api/person-resource.service';
+import { LocationResourceService } from '../../../openmrs-api/location-resource.service';
 
 @Component({
   selector: 'edit-address',
@@ -11,88 +15,125 @@ import { LocationResourceService } from 'src/app/openmrs-api/location-resource.s
   styleUrls: []
 })
 export class EditAddressComponent implements OnInit, OnDestroy {
-  public patients: Patient = new Patient({});
-  public subscription: Subscription[] = [];
-  public display = false;
   public address1: string;
   public address2: string;
   public address3: string;
   public address7: string;
-  public latitude: string;
-  public longitude: string;
+  public counties: string[] = [];
   public cityVillage: string;
-  public preferredAddressUuid: string;
-  public errors: any = [];
-  public showSuccessAlert = false;
-  public showErrorAlert = false;
+  public display = false;
   public errorAlert: string;
   public errorTitle: string;
+  public errors: any = [];
+  public latitude: string;
+  public locations: LocationData[] = [];
+  public longitude: string;
+  public nonCodedCounty = false;
+  public patient: Patient = new Patient({});
+  public preferredAddressUuid: string;
+  public showSuccessAlert = false;
+  public showErrorAlert = false;
+  public subscriptions: Subscription[] = [];
   public successAlert = '';
-  public locations: any;
-  public subcounties: any = [];
-  public counties: any = [];
-  public wards: any = [];
+  public subcounties: any[] = [];
+  public wards: string[] = [];
 
   constructor(
     private patientService: PatientService,
     private locationService: LocationResourceService,
+    private locationResourceService: LocationResourceService,
     private personResourceService: PersonResourceService
   ) {}
-  public ngOnInit(): void {
+
+  public ngOnInit() {
     this.getPatient();
+    this.getLocations();
   }
-  public ngOnDestroy(): void {
-    if (this.subscription.length) {
-      this.subscription.map((sub) => sub.unsubscribe);
+
+  public ngOnDestroy() {
+    if (this.subscriptions.length) {
+      this.subscriptions.map((sub) => sub.unsubscribe);
     }
   }
 
   public getPatient() {
-    const getLocationSubscription = this.locationService
-      .getAmpathLocations()
-      .subscribe((data) => {
-        this.locations = data;
-        console.log(data);
-      });
-    this.subscription.push(getLocationSubscription);
     const getPatientSubscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
-        this.patients = new Patient({});
+        this.patient = new Patient({});
         if (patient) {
-          this.patients = patient;
-          if (this.patients.person.preferredAddress) {
-            this.address1 = (this.patients.person
+          this.patient = patient;
+          if (this.patient.person.preferredAddress) {
+            this.address1 = (this.patient.person
               .preferredAddress as any).address1;
-            this.address2 = (this.patients.person
+            this.address2 = (this.patient.person
               .preferredAddress as any).address2;
-            this.address3 = (this.patients.person
+            this.address3 = (this.patient.person
               .preferredAddress as any).address3;
-            this.address7 = (this.patients.person
+            this.address7 = (this.patient.person
               .preferredAddress as any).address7;
-            this.cityVillage = (this.patients.person
+            this.cityVillage = (this.patient.person
               .preferredAddress as any).cityVillage;
-            this.latitude = (this.patients.person
+            this.latitude = (this.patient.person
               .preferredAddress as any).latitude;
-            this.longitude = (this.patients.person
+            this.longitude = (this.patient.person
               .preferredAddress as any).longitude;
-            this.preferredAddressUuid = (this.patients.person
+            this.preferredAddressUuid = (this.patient.person
               .preferredAddress as any).uuid;
           }
         }
       }
     );
-    this.subscription.push(getPatientSubscription);
+    this.subscriptions.push(getPatientSubscription);
+  }
+
+  private getLocations() {
+    const locationResourceServiceSub = this.locationResourceService
+      .getLocations()
+      .pipe(take(1))
+      .subscribe(
+        (locations: any[]) => {
+          const counties: string[] = [];
+          for (const location of locations) {
+            this.locations.push({
+              label: location.name,
+              value: location.uuid
+            });
+            counties.push(location.stateProvince);
+          }
+          this.counties = _.uniq(counties);
+          this.counties = _.remove(this.counties, (n) => {
+            return n !== null || n === '';
+          });
+          this.counties.push('Other');
+        },
+        (error: any) => {
+          console.error('Error fetching locations: ', error);
+        }
+      );
+
+    this.subscriptions.push(locationResourceServiceSub);
+  }
+
+  public updateLocation(locationName: string) {
+    if (locationName === 'Other') {
+      this.nonCodedCounty = true;
+      this.address1 = '';
+    } else {
+      this.nonCodedCounty = false;
+    }
   }
 
   public showDialog() {
     this.display = true;
   }
+
   public dismissDialog() {
     this.display = false;
   }
+
   public updatePersonAddress() {
     const person = {
-      uuid: this.patients.person.uuid
+      uuid: this.patient.person.uuid
     };
     const personAddressPayload = {
       addresses: [
@@ -108,11 +149,11 @@ export class EditAddressComponent implements OnInit, OnDestroy {
         }
       ]
     };
-    this.personResourceService
+    const saveUpdatePersonSub = this.personResourceService
       .saveUpdatePerson(person.uuid, personAddressPayload)
       .subscribe(
-        (success) => {
-          if (success) {
+        (savePersonRes) => {
+          if (savePersonRes) {
             this.displaySuccessAlert('Address saved successfully');
             setTimeout(() => {
               this.display = false;
@@ -121,14 +162,17 @@ export class EditAddressComponent implements OnInit, OnDestroy {
           }
         },
         (error) => {
-          console.error('error', error);
+          console.error('Error updating address: ', error);
           this.errors.push({
             id: 'patient',
             message: 'error updating address'
           });
         }
       );
+
+    this.subscriptions.push(saveUpdatePersonSub);
   }
+
   private displaySuccessAlert(message) {
     this.showErrorAlert = false;
     this.showSuccessAlert = true;
@@ -137,21 +181,9 @@ export class EditAddressComponent implements OnInit, OnDestroy {
       this.showSuccessAlert = false;
     }, 1000);
   }
-  public setCounty(event) {
-    this.address1 = event;
-    const counties1 = this.locations.counties;
-    this.subcounties = counties1.find(
-      (county) => county.name === event
-    ).subcounties;
-  }
-  public setSubCounty(event) {
-    this.address2 = event;
-    const subcounties = this.subcounties;
-    this.wards = subcounties.find(
-      (subcounty) => subcounty.name === event
-    ).wards;
-  }
-  public setWard(event) {
-    this.address7 = event;
-  }
+}
+
+interface LocationData {
+  label: string;
+  value: string;
 }

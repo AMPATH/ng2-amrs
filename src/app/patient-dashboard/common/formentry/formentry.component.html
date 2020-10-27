@@ -223,9 +223,9 @@
         *ngIf="
           !referralStatus &&
           !step &&
-          form.valueProcessingInfo.formUuid !=
+          form?.valueProcessingInfo?.formUuid !=
             'ab0918de-baf8-4804-86fb-2ff2d7b6943c' &&
-          form.valueProcessingInfo.formUuid !=
+          form?.valueProcessingInfo?.formUuid !=
             '159e753d-da2d-47da-bbe5-d132b7e26c2e'
         "
         (click)="navigateTo('covidScreening')"

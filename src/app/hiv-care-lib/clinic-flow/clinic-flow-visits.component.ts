@@ -216,6 +216,14 @@ export class ClinicFlowVisitsComponent implements OnInit, OnDestroy {
             encounters: encounter
           };
           data['seenByClinician'] = seenByClinician;
+
+          let seen = '';
+          if (data.seen_by_clinician !== null) {
+            seen = `${Moment(data.seen_by_clinician).format(
+              'H:mmA DD-MM-YYYY'
+            )} - ${encounter}`;
+          }
+          data['seen_by_clinician_date'] = seen;
           if (data.seen_by_clinician) {
             const triageLoc = this.getTriageLocation(data);
             const clinicianLoc = this.getClinicianLocation(data);

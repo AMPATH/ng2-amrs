@@ -1,18 +1,23 @@
-import { take } from 'rxjs/operators';
 import {
   Component,
-  OnInit,
   Output,
+  OnInit,
   OnDestroy,
   ViewChild,
   EventEmitter
 } from '@angular/core';
-import { Subscription } from 'rxjs';
-import * as moment from 'moment';
-import * as _ from 'lodash';
-import * as Fuse from 'fuse.js';
-import 'ag-grid-enterprise/main';
 import { Router } from '@angular/router';
+
+import 'ag-grid-enterprise/main';
+import * as _ from 'lodash';
+import * as moment from 'moment';
+import * as Fuse from 'fuse.js';
+import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
+
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 import { Patient } from '../models/patient.model';
 import { UserService } from '../openmrs-api/user.service';
 import { PatientCreationService } from './patient-creation.service';
@@ -20,11 +25,7 @@ import { PatientCreationResourceService } from '../openmrs-api/patient-creation-
 import { LocationResourceService } from '../openmrs-api/location-resource.service';
 import { PatientIdentifierTypeResService } from '../openmrs-api/patient-identifierTypes-resource.service';
 import { ConceptResourceService } from './../openmrs-api/concept-resource.service';
-import { constants } from 'os';
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { BsModalRef } from 'ngx-bootstrap';
 import { SessionStorageService } from '../utils/session-storage.service';
-import { ToastrService } from 'ngx-toastr';
 import { PatientRelationshipTypeService } from '../patient-dashboard/common/patient-relationships/patient-relation-type.service';
 import { PatientEducationService } from '../etl-api/patient-education.service';
 
@@ -107,7 +108,6 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public identifierValidity = '';
   public isValidIdentifier = false;
   public ageEstimate: number;
-
   public errors = false;
   public successAlert: any = '';
   public showSuccessAlert = false;
@@ -122,7 +122,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public errorMessages = '';
   public birthError = '';
   public modalRef: BsModalRef;
-  public universal: any;
+  public universal: UniversalID = {};
   public generate = true;
   public preferredIdentifier;
   public errorAlerts = [];
@@ -132,7 +132,6 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public occupationConcept: any;
   public occupation: any;
   public highestEducationConcept = 'a89e48ae-1350-11df-a1f1-0026b9348838';
-
   public careGivername: any;
   public relationshipToCareGiver: any;
   public careGiverPhoneNumber: any;
@@ -142,6 +141,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public address7: any;
   public patientRelationshipTypes: any = [];
   public selectedRelationshipType: any;
+
   constructor(
     public toastrService: ToastrService,
     private patientCreationService: PatientCreationService,
@@ -162,8 +162,8 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     this.getCommonIdentifierTypes();
     this.getOccupatonConcept();
     this.getEducationLevels();
-    this.getAmpathLocations();
-    this.getRelationShipTypes();
+    // this.getAmpathLocations();
+    this.getRelationshipTypes();
     this.selectedRelationshipType = undefined;
     this.userId = this.userService.getLoggedInUser().openmrsModel.systemId;
     this.errorAlert = false;
@@ -177,7 +177,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       this.ageEstimate = this.getAge(this.person.birthdate);
       this.birthdateEstimated = this.person.birthdateEstimated;
     }
-    this.patientCreationService
+    const patientCreationSub = this.patientCreationService
       .getpatientResults()
       .pipe(take(1))
       .subscribe((res) => {
@@ -186,6 +186,8 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
           this.found = true;
         }
       });
+
+    this.subscriptions.push(patientCreationSub);
   }
 
   public getEducationLevels() {
@@ -224,13 +226,14 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       };
     });
   }
+
   public updateBirthDate(birthDate) {
     this.disable = true;
     this.birthDate = birthDate;
     this.ageEstimate = this.getAge(this.birthDate);
 
     if (moment(this.birthDate).isAfter(new Date())) {
-      this.birthError = 'Birth Date date cannot be in future!';
+      this.birthError = 'Birth date cannot be in the future!';
     } else {
       this.birthError = '';
     }
@@ -451,6 +454,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       keyboard: false
     });
   }
+
   public check(value) {
     this.modalRef.hide();
     if (value) {
@@ -504,7 +508,6 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     if (!this.birthDate) {
       this.errors = true;
     }
-
     if (!this.patientIdentifier) {
       this.errors = true;
     }
@@ -640,7 +643,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         identifiers: ids
       };
       this.errorAlerts = [];
-      this.patientCreationResourceService
+      const savePatientSub = this.patientCreationResourceService
         .savePatient(payload)
         .pipe(take(1))
         .subscribe(
@@ -662,8 +665,11 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
             this.errorAlerts = error;
           }
         );
+
+      this.subscriptions.push(savePatientSub);
     }
   }
+
   public loadDashboard(createdPatient) {
     this.modalRef.hide();
     this.router.navigate([
@@ -673,11 +679,13 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     ]);
     this.errorAlert = false;
   }
+
   public close() {
     this.modalRef.hide();
     this.router.navigate(['/patient-dashboard/patient-search']);
     this.errorAlert = false;
   }
+
   public reset() {
     this.givenName = '';
     this.familyName = '';
@@ -688,12 +696,14 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     this.sessionStorageService.remove('person');
     this.errors = false;
   }
+
   public cancel() {
     this.sessionStorageService.remove('person');
     this.router.navigate(['/patient-dashboard/patient-search']);
     this.errors = false;
   }
-  public ngOnDestroy(): void {
+
+  public ngOnDestroy() {
     this.subscriptions.map((sub) => sub.unsubscribe);
   }
 
@@ -727,7 +737,16 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     ]);
   }
 
-  private checkAdded() {
+  private getPatientIdentifiers() {
+    this.patientCreationResourceService
+      .getPatientIdentifierTypes()
+      .pipe(take(1))
+      .subscribe((data) => {
+        this.patientIdentifierTypes = data;
+      });
+  }
+
+  private checkAdded(): boolean {
     let found;
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < this.identifiers.length; i++) {
@@ -743,7 +762,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     }
   }
 
-  private checkUniversal() {
+  private checkUniversal(): boolean {
     let found = false;
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < this.identifiers.length; i++) {
@@ -792,7 +811,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         },
         () => {
           this.toastrService.error(
-            'Error  retrieving common patient identifier types',
+            'Error retrieving common patient identifier types',
             '',
             {
               timeOut: 2000,
@@ -803,21 +822,20 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       );
   }
 
-  private getLocations(): void {
-    this.locationResourceService
+  private getLocations() {
+    const locationResourceServiceSub = this.locationResourceService
       .getLocations()
       .pipe(take(1))
       .subscribe(
         (locations: any[]) => {
           this.locations = [];
           const counties = [];
-          // tslint:disable-next-line:prefer-for-of
-          for (let i = 0; i < locations.length; i++) {
+          for (const location of locations) {
             this.locations.push({
-              label: locations[i].name,
-              value: locations[i].uuid
+              label: location.name,
+              value: location.uuid
             });
-            counties.push(locations[i].stateProvince);
+            counties.push(location.stateProvince);
           }
           this.counties = _.uniq(counties);
           this.counties = _.remove(this.counties, (n) => {
@@ -829,7 +847,10 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
           console.error(error);
         }
       );
+
+    this.subscriptions.push(locationResourceServiceSub);
   }
+
   public getAmpathLocations() {
     const getLocationsSubscription = this.locationResourceService
       .getAmpathLocations()
@@ -838,7 +859,8 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       });
     this.subscriptions.push(getLocationsSubscription);
   }
-  private validateFormFields(patientIdentifier) {
+
+  private validateFormFields(patientIdentifier): boolean {
     if (this.isNullOrUndefined(patientIdentifier)) {
       this.setErroMessage('Patient identifier is required!');
       return false;
@@ -847,7 +869,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     return true;
   }
 
-  private isNullOrUndefined(val) {
+  private isNullOrUndefined(val): boolean {
     return (
       val === null ||
       val === undefined ||
@@ -911,12 +933,11 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     this.errorMessage = message;
   }
 
-  private calculateAge(age) {
+  private calculateAge(age): string {
     const baseYear = 1970;
     const thisYear = new Date().getFullYear();
-    let date;
-
     const yearDiff = thisYear - age;
+    let date;
 
     if (yearDiff < baseYear) {
       date = (baseYear - yearDiff) * -31556926000;
@@ -925,9 +946,9 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     }
 
     const estimateDate = new Date(date).toISOString();
-
     return estimateDate;
   }
+
   public setCounty(event) {
     this.address1 = event;
     const counties1 = this.ampathLocations.counties;
@@ -935,6 +956,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       (county) => county.name === event
     ).subcounties;
   }
+
   public setSubCounty(event) {
     this.address2 = event;
     const subcounties = this.subcounties;
@@ -942,10 +964,12 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       (subcounty) => subcounty.name === event
     ).wards;
   }
+
   public setWard(event) {
     this.address7 = event;
   }
-  public getRelationShipTypes(): void {
+
+  public getRelationshipTypes() {
     const request = this.patientRelationshipTypeService.getRelationshipTypes();
     request.subscribe(
       (relationshipTypes) => {
@@ -961,4 +985,10 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       }
     );
   }
+}
+
+interface UniversalID {
+  identifier?: string;
+  identifierType?: string;
+  identifierTypeName?: string;
 }
