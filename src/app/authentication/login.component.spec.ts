@@ -6,15 +6,15 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { SwUpdate } from '@angular/service-worker';
 
 import { of, Subject } from 'rxjs';
-import { FormSchemaCompiler } from 'ngx-openmrs-formentry';
-import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 
+import { CookieModule, CookieService } from 'ngx-cookie';
+import { FormSchemaCompiler } from 'ngx-openmrs-formentry';
 import { LoginComponent } from './login.component';
-import { CookieModule } from 'ngx-cookie';
+import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 import { ToastrService, ToastrModule } from 'ngx-toastr';
+
 import { AuthenticationService } from '../openmrs-api/authentication.service';
 import { AppSettingsService } from '../app-settings/app-settings.service';
-import { CookieService } from 'ngx-cookie';
 import { FormListService } from '../patient-dashboard/common/forms/form-list.service';
 import { FormOrderMetaDataService } from '../patient-dashboard/common/forms/form-order-metadata.service';
 import { FormSchemaService } from '../patient-dashboard/common/formentry/form-schema.service';
@@ -132,11 +132,11 @@ describe('LoginComponent Unit Tests', () => {
         }
       ],
       imports: [
-        RouterTestingModule,
-        NgamrsSharedModule,
         CookieModule.forRoot(),
+        ToastrModule.forRoot(),
         HttpClientTestingModule,
-        ToastrModule.forRoot()
+        NgamrsSharedModule,
+        RouterTestingModule
       ]
     }).compileComponents()
   );
