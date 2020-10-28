@@ -2,7 +2,9 @@
   <div class="content-body">
     <div>
       <div><img src="./assets/img/ampath.png" width="200" height="40" /></div>
-      <h2><span class="glyphicon glyphicon-hdd"></span> POC Server Settings</h2>
+      <h2 id="title">
+        <span class="glyphicon glyphicon-hdd"></span> POC Server Settings
+      </h2>
       <hr />
     </div>
 
@@ -10,6 +12,7 @@
       <div class="action-buttons">
         <div class="dropdown" dropdown>
           <button
+            id="templates"
             dropdownToggle
             class="btn btn-primary dropdown-toggle"
             type="button"
@@ -27,7 +30,9 @@
             aria-labelledby="dropdownMenu1"
           >
             <li *ngFor="let row of serverTemplates; let index = index">
-              <a (click)="changeServerSettings(row)">{{ row.name }}</a>
+              <a id="templateOption" (click)="changeServerSettings(row)">{{
+                row.name
+              }}</a>
             </li>
           </ul>
         </div>
@@ -42,8 +47,8 @@
             id="openmrsServerUrl"
             required
             [(ngModel)]="openmrsServer"
-            name="openmrsServerUrl"
             #openmrsServerUrl="ngModel"
+            name="openmrsServerUrl"
           >
             <option *ngFor="let url of openmrsServerUrls" [value]="url">
               {{ url }}
@@ -94,7 +99,9 @@
       <div>
         <form>
           <div class="form-group">
-            <label class="control-label">FormEntry Debug Mode </label>
+            <label id="formentryDebug" class="control-label"
+              >FormEntry Debug Mode
+            </label>
             <div class="checkbox">
               <label>
                 <input
@@ -113,11 +120,12 @@
 
     <div class="action-buttons pull-right">
       <button
+        id="saveBtn"
         class="btn btn-primary btn-large"
         type="submit"
         (click)="onDoneClick()"
       >
-        Done
+        Save
       </button>
     </div>
   </div>
@@ -159,6 +167,7 @@
       <div class="modal-body">
         <form #serverUrl="ngForm">
           <input
+            id="addServerUrl"
             type="text"
             placeholder="{{ urlPlaceholder }}"
             class="form-control"
@@ -177,6 +186,7 @@
           Cancel
         </button>
         <button
+          id="saveServerUrl"
           type="button"
           class="btn btn-primary"
           (click)="saveNewURL(newUrl, urlType)"
