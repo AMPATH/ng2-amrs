@@ -1,5 +1,4 @@
-
-[![Build Status](https://travis-ci.org/AMPATH/ng2-amrs.svg?branch=master)](https://travis-ci.org/AMPATH/ng2-amrs)
+[![Build Status](https://travis-ci.com/AMPATH/ng2-amrs.svg?branch=master)](https://travis-ci.com/AMPATH/ng2-amrs)
 
 # AMPATH POC
 
