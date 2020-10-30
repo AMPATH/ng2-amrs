@@ -1,10 +1,12 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+
+import { ModalDirective } from 'ngx-bootstrap/modal';
+import { CookieService } from 'ngx-cookie';
+
 import { AppSettingsService } from './app-settings.service';
 import { AuthenticationService } from '../openmrs-api/authentication.service';
 import { LocalStorageService } from '../utils/local-storage.service';
-import { ModalDirective } from 'ngx-bootstrap/modal';
-import { CookieService } from 'ngx-cookie';
 
 @Component({
   selector: 'app-settings',
@@ -39,7 +41,6 @@ export class AppSettingsComponent implements OnInit {
     if (!window.location.host.match(new RegExp('localhost'))) {
       // this.changeServerSettings(templates[0]);
     }
-
     this.checkDebugMode();
   }
 
@@ -106,7 +107,6 @@ export class AppSettingsComponent implements OnInit {
   }
 
   // check if debug cookie has been set
-
   public checkDebugMode() {
     const isCookieSet = this.getDebugMode();
 
@@ -123,7 +123,6 @@ export class AppSettingsComponent implements OnInit {
   }
 
   // get the debug cookie value
-
   public getDebugMode() {
     const debugModeCookie = this._cookieService.get(this.cookieKey);
 
@@ -136,9 +135,7 @@ export class AppSettingsComponent implements OnInit {
 
   public toggleDebugMode() {
     // check if hidefields cookie has been set
-
     const isCookieSet = this.getDebugMode();
-
     if (isCookieSet === 'true') {
       // remove the initial cookie set
       this._cookieService.remove(this.cookieKey);
@@ -146,9 +143,9 @@ export class AppSettingsComponent implements OnInit {
     }
 
     this.cookieVal = '' + this.hideFields;
-
     this._cookieService.put(this.cookieKey, this.cookieVal);
   }
+
   public removeDebugCookie() {
     const isCookieSet = this.getDebugMode();
 
