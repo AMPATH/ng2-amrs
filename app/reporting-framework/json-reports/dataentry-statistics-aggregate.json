@@ -1,70 +1,68 @@
 {
-    "name": "dataEntryStatisticsAggregate",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [
-        {
-            "name": "dataEntryStatistics",
-            "version": "1.0",
-            "type": "dataset_def"
-        }
-    ],
-    "sources": [
-        {
-            "dataSet": "dataEntryStatistics",
-            "alias": "des"
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "date",
-            "column": "date"
-        },
-        {
-            "type": "simple_column",
-            "alias": "encounter_type_id",
-            "column": "encounter_type_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "encounter_type",
-            "column": "encounter_type"
-        },
-        {
-            "type": "simple_column",
-            "alias": "encounter_type_uuid",
-            "column": "encounter_type_uuid"
-        },
-        {
-            "type": "derived_column",
-            "alias": "encounters_count",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(*)"
-            }
-        }
-    ],
-    "groupBy": {
-        "groupParam": "groupByParam",
-        "columns": [
-            "encounter_type_id"
-        ],
-        "excludeParam": "excludeParam"
-    },
-    "dynamicJsonQueryGenerationDirectives": {
-        "patientListGenerator": {
-            "useTemplate": "patient-list-template",
-            "useTemplateVersion": "1.0",
-            "generatingDirectives": {
-                "joinDirectives": {
-                    "joinType": "INNER",
-                    "joinCondition": "<<base_column>> = <<template_column>>",
-                    "baseColumn": "person_id",
-                    "templateColumn": "person_id"
-                }
-            }
-        }
+  "name": "dataEntryStatisticsAggregate",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [
+    {
+      "name": "dataEntryStatistics",
+      "version": "1.0",
+      "type": "dataset_def"
     }
+  ],
+  "sources": [
+    {
+      "dataSet": "dataEntryStatistics",
+      "alias": "des"
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "date",
+      "column": "date"
+    },
+    {
+      "type": "simple_column",
+      "alias": "encounter_type_id",
+      "column": "encounter_type_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "encounter_type",
+      "column": "encounter_type"
+    },
+    {
+      "type": "simple_column",
+      "alias": "encounter_type_uuid",
+      "column": "encounter_type_uuid"
+    },
+    {
+      "type": "derived_column",
+      "alias": "encounters_count",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(*)"
+      }
+    }
+  ],
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["encounter_type_id"],
+    "excludeParam": "excludeParam"
+  },
+  "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+      "useTemplate": "patient-list-template",
+      "useTemplateVersion": "1.0",
+      "generatingDirectives": {
+        "joinDirectives": {
+          "joinType": "INNER",
+          "joinCondition": "<<base_column>> = <<template_column>>",
+          "baseColumn": "person_id",
+          "templateColumn": "person_id"
+        }
+      }
+    }
+  }
 }

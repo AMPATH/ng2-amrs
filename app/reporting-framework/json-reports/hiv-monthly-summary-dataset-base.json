@@ -1,529 +1,526 @@
 {
-    "name": "hivMonthlySummaryDataSetBase",
-    "version": "1.0",
-    "tag": "hiv_monthly_summary_dataset_base",
-    "description": "",
-    "uses": [],
-    "sources": [
-        {
-            "table": "etl.flat_hiv_summary_v15b",
-            "alias": "fhs"
-        },
-        {
-            "table": "etl.dates",
-            "alias": "dts",
-            "join": {
-                "type": "INNER",
-                "joinCondition": "is_clinical_encounter=1 and encounter_datetime <= dts.endDate and coalesce(fhs.death_date, out_of_care) is null"
-            }
-        },
-        {
-            "table": "amrs.location",
-            "alias": "lct",
-            "join": {
-                "type": "INNER",
-                "joinCondition": "fhs.location_uuid = lct.uuid"
-            }
-        },
-        {
-            "table": "amrs.person",
-            "alias": "t4",
-            "join": {
-                "type": "INNER",
-                "joinCondition": "fhs.person_id = t4.person_id"
-            }
-        }
-    ],
-    "columns": [
-        {
-            "type": "derived_column",
-            "alias": "on_arvs_first_line",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression":"cur_arv_line=1"
-            }
-        },
-        {
-            "type": "derived_column",
-             "alias":"on_arvs_second_line",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                 "expression": "cur_arv_line=2 and coalesce(transfer_out, out_of_care) is null"
-			 }
-        },
-        {
-            "type": "derived_column",
-             "alias":"newly_on_second_line",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                "expression": "cur_arv_line =2 and (arv_start_date between '{startDate}' and '{endDate}')"
-                }
-        },
-        {
-            "type": "derived_column",
-             "alias":"on_arvs_third_line",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                 "expression":"cur_arv_line>2"
-                }
-        },
-        {
-            "type": "derived_column",
-             "alias":"vl_done_past_year",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                "expression": "timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
-                }
-        },
-        {
-            "type": "derived_column",
-             "alias": "vl_done_past_year_relative_to_end_date",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                 "expression": "timestampdiff(week,vl_1_date,'{endDate}') <= 52"
-                }
-        },
-        {
-            "type": "derived_column",
-             "alias":"no_vl_done_past_year",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                "expression": "cur_arv_line is not null and (vl_1_date is null or timestampdiff(week,vl_1_date,encounter_datetime) >= 52)"
-
-                }
-        },
-        {
-            "type": "derived_column",
-             "alias":"on_second_line_not_suppressed",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                 "expression":"vl_1 > 1000 and cur_arv_line =2"
-                }
-        },
-        {
-            "type": "derived_column",
-             "alias":"not_on_arvs_cd4_lte_500",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                 "expression":"arv_start_date is null and cd4_1 < 500"
-                }
-        },
-        {
-            "type": "derived_column",
-             "alias":"vl_done_past_year_lte_1000",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                 "expression":"timestampdiff(week,vl_1_date,encounter_datetime) <= 52 and vl_1 <= 1000"
-                }
-        },
-        {
-            "type": "derived_column",
-             "alias":"vl_done_this_encounter",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                 "expression":"vl_resulted >= 0 and vl_resulted_date=date(encounter_datetime)"
-                }
-        },
-        {
-            "type": "derived_column",
-             "alias":"vl_done_this_encounter_lte_1000",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                 "expression":"vl_resulted <= 1000 and vl_resulted_date = date(encounter_datetime)"
-                }
-        },
-        {
-            "type": "derived_column",
-             "alias":"vl_done_this_encounter_gt_1000",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                "expression": "vl_resulted > 1000 and vl_resulted_date = date(encounter_datetime)"
-                }
-        },
-        {
-            "type": "derived_column",
-             "alias":"vl_ordered",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                 "expression":"date(vl_order_date)=date(encounter_datetime)"
-            }
-        },
-        {
-            "type": "derived_column",
-             "alias":"pending_vl_order",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                 "expression":"timestampdiff(week,vl_order_date,encounter_datetime) >= 0 and vl_1_date < vl_order_date"
-                }
-        },
-        {
-            "type": "derived_column",
-             "alias":"pending_vl_order_no_result_after_4_weeks",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                 "expression":"timestampdiff(week,vl_order_date,encounter_datetime) >= 4 and vl_1_date < vl_order_date"
-                }
-        },
-        {
-            "type": "derived_column",
-             "alias":"on_arvs_lte_26_weeks",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                 "expression":"timestampdiff(week,arv_start_date,encounter_datetime) <= 26"
-                }
-        },
-        {
-            "type": "derived_column",
-             "alias":"on_arvs_lte_52_weeks",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                 "expression":"timestampdiff(week,arv_start_date,encounter_datetime) <= 52 and timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
-                }
-        },
-        {
-            "type": "derived_column",
-             "alias":"on_arvs_lte_52_weeks_and_have_vl",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                 "expression":"timestampdiff(week,arv_start_date,encounter_datetime) <= 52 and timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
-                }
-        },
-        {
-            "type": "derived_column",
-             "alias":"on_arvs_lte_52_weeks_and_have_vl_lte_1000",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                "expression":"timestampdiff(week,arv_start_date,encounter_datetime) <= 52 and timestampdiff(week,vl_1_date,encounter_datetime) <= 52 and vl_1 <= 1000"
-                }
-        },
-        {
-            "type": "derived_column",
-             "alias":"pregnant",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                 "expression":"edd > encounter_datetime"
-                }
-        },
-        {
-            "type": "derived_column",
-             "alias":"pregnant_and_on_arvs",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                 "expression":"edd > encounter_datetime and cur_arv_line is not null"
-                }
-        },
-        {
-            "type": "derived_column",
-             "alias":"virally_suppressed",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                 "expression": "timestampdiff(month,arv_start_date,encounter_datetime) >= 6 and timestampdiff(day, date(vl_1_date), date(dts.endDate)) <= 365 and vl_1 < 1000"
-            }
-        },
-        {
-            "type": "derived_column",
-             "alias":"virally_suppressed_in_past_year",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                 "expression": "vl_1 < 1000 and  timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
-            }
-        },
-        {
-            "type": "derived_column",
-             "alias":"viral_load_resulted_in_past_year",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                 "expression": "vl_1 is not null and  timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
-            }
-
-        },
-        {
-            "type": "derived_column",
-             "alias":"not_virally_suppressed_in_past_year",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                 "expression": "vl_1> 1000 and  timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
-                }
-        },
-        {
-            "type": "derived_column",
-             "alias":"on_arvs_gt_26_weeks",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                 "expression": "timestampdiff(week,arv_start_date,encounter_datetime) > 26"
-                }
-        },
-        {
-            "type": "derived_column",
-             "alias":"num_new_ART_pats_screened_for_tb_started_TB_this_period",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                 "expression": "tb_screen is not null and tb_tx_start_date is not null and  cur_arv_line is not null and coalesce(fhs.death_date, out_of_care) is null and arv_start_date>= '{startDate}' and arv_start_date<= '{endDate}'"
-                }
-        },
-        {
-            "type": "derived_column",
-             "alias":"num_previous_ART_pats_screened_for_tb_started_TB",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                 "expression": "tb_screen is not null and tb_tx_start_date is not null and  cur_arv_line is not null and coalesce(fhs.death_date, out_of_care) is null and arv_start_date< '{startDate}'"
-            }
-        },
-        {
-            "type": "derived_column",
-             "alias":"num_ART_pats_screened_for_tb_started_TB",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                 "expression": "tb_screen is not null and tb_tx_start_date is not null and  cur_arv_line is not null and coalesce(fhs.death_date, out_of_care) is null"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_arvs",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression":"cur_arv_line is not null"
-            }
-        },
-        {
-            "type": "derived_column",
-             "alias":"vl_done_past_year_gt_1000",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                 "expression":"timestampdiff(week,vl_1_date,encounter_datetime) <= 52 and vl_1 > 1000"
-                }
-        },
-        {
-            "type": "derived_column",
-             "alias":"num_ART_patients_completed_6mths_IPT",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                 "expression":"round(datediff(encounter_datetime,ipt_start_date)/30.5) >= 6 or round(datediff(ipt_stop_date,ipt_start_date)/30.5) >= 6  and (coalesce(fhs.death_date, out_of_care) is null)"
-                }
-        },
-        {
-            "type": "derived_column",
-             "alias":"num_ART_patients_newly_started_IPT_less_6mths",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                 "expression":"ipt_start_date is not null or ipt_stop_date is not null and ipt_start_date >=  DATE_ADD('{startDate}', INTERVAL -6 month) and (coalesce(fhs.death_date, out_of_care) is null) "
-                }
-        },
-
-
-        {
-            "type": "derived_column",
-             "alias":"num_ART_pats_screened_for_tb",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                 "expression": "tb_screen is not null and cur_arv_line is not null and coalesce(fhs.death_date, out_of_care) is null"
-                }
-        },
-        {
-            "type": "derived_column",
-            "alias": "age_range",
-            "expressionType": "case_statement",
-            "expressionOptions": {
-                "caseOptions": [
-                    {
-                        "condition": "extract(year from (from_days(datediff(now(),t4.birthdate)))) >= 15",
-                        "value": "15_and_above"
-                    },
-                    {
-                        "condition": "else",
-                        "value": "below_15"
-                    }
-                ]
-            }
-        },
-        {
-            "type": "derived_column",
-             "alias":"num_ART_patients_newly_started_IPT_this_period_less_6mths",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                 "expression": "ipt_start_date is not null or ipt_stop_date is not null and ipt_start_date >=  '{startDate}'"
-                }
-        },
-        {
-            "type": "derived_column",
-             "alias":"num_ART_patients_newly_started_IPT_previous_period_less_6mths",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                 "expression": "ipt_start_date is not null or ipt_stop_date is not null and ipt_start_date <  '{startDate}'"
-                }
-        },
-        {
-            "type": "derived_column",
-             "alias":"num_patients_currently_on_IPT",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                 "expression": "coalesce(fhs.death_date, out_of_care) is null and ipt_start_date is not null and ipt_stop_date is null"
-                }
-        },
-        {
-            "type": "derived_column",
-             "alias":"ever_started_on_IPT",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                 "expression": "ipt_start_date is not null"
-                }
-        },
-        {
-            "type": "derived_column",
-             "alias":"newly_started_IPT",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                 "expression": "date(ipt_start_date) between '{startDate}' and '{endDate}'"
-                }
-        },
-        {
-            "type": "derived_column",
-             "alias":"num_patients_newly_enrolled_newly_started_on_IPT",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                 "expression": "coalesce(fhs.death_date, out_of_care) is null and ipt_start_date is not null and  '{startDate}'<=enrollment_date and enrollment_date<='{endDate}'"
-                }
-        },
-        {
-            "type": "derived_column",
-             "alias":"num_patients_stopped_on_IPT",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                 "expression": "coalesce(fhs.death_date, out_of_care) is null and fhs.ipt_stop_date is not null and  '{startDate}'<=ipt_stop_date<='{endDate}'"
-                }
-        },
-        {
-            "type": "derived_column",
-             "alias":"transfer_in_from_non_Ampath_site",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                "expression": "fhs.transfer_in=1287 and (fhs.encounter_datetime between DATE_FORMAT(dts.endDate, '%Y-%m-01') and dts.endDate)"
-                }
-        },
-        {
-            "type": "derived_column",
-             "alias":"transfer_in_from_Ampath_site",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                 "expression": "fhs.transfer_in=1286 and (fhs.encounter_datetime between DATE_FORMAT(dts.endDate, '%Y-%m-01') and dts.endDate)"
-                }
-        },
-        {
-            "type": "derived_column",
-             "alias":"transfer_in",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                 "expression": "case when date(fhs.hiv_start_date) between DATE_FORMAT(dts.endDate, '%Y-%m-01') and dts.endDate  then null when fhs.transfer_in is not null and (fhs.encounter_datetime between DATE_FORMAT(dts.endDate, '%Y-%m-01') and dts.endDate) then 1 else null end"
-                }
-        },
-        {
-            "type": "derived_column",
-             "alias":"encounter_month",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                 "expression": "MONTH(fhs.encounter_datetime)"
-                }
-        },
-        {
-            "type": "derived_column",
-             "alias":"reporting_month",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                 "expression": "date_format(fhs.encounter_datetime, '%m/%Y')"
-                }
-        },
-        {
-            "type": "derived_column",
-             "alias":"encounter_year",
-             "expressionType": "simple_expression",
-             "expressionOptions": {
-                 "expression": "YEAR(fhs.encounter_datetime)"
-                }
-        },
-        {
-            "type": "simple_column",
-            "alias":"location",
-            "column":"lct.name"
-        },
-        {
-            "type": "simple_column",
-            "alias":"location_uuid",
-            "column":"fhs.location_uuid"
-        },
-        {
-            "type": "simple_column",
-            "alias":"location_id",
-            "column":"fhs.location_id"
-        },
-        {
-            "type": "simple_column",
-            "alias":"encounter_datetime",
-            "column":"fhs.encounter_datetime"
-        },
-        {
-            "type": "simple_column",
-            "alias":"month",
-            "column":"fhs.encounter_datetime"
-        },
-        {
-            "type": "simple_column",
-            "alias":"person_id",
-            "column":"t4.person_id"
-        },
-        {
-            "type": "simple_column",
-            "alias":"gender",
-            "column":"t4.gender"
-        }
-    ],
-    "filters": {
-        "conditionJoinOperator": "and",
-        "conditions": [
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "fhs.encounter_datetime <= ?",
-                "parameterName": "endDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "fhs.encounter_datetime >= ?",
-                "parameterName": "startDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "fhs.location_id in ?",
-                "parameterName": "locations"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "round(datediff(fhs.encounter_datetime,t4.birthdate)/365) >= 0",
-                "parameterName": ""
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "round(datediff(fhs.encounter_datetime,t4.birthdate)/365) <= 120",
-                "parameterName": ""
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "t4.gender in ?",
-                "parameterName": "gender"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "fhs.is_clinical_encounter = 1",
-                "parameterName": ""
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "coalesce(fhs.death_date, out_of_care) is null",
-                "parameterName": ""
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "(fhs.next_clinical_datetime_hiv is null or next_clinical_datetime_hiv  >= dts.endDate)",
-                "parameterName": ""
-            }
-        ]
+  "name": "hivMonthlySummaryDataSetBase",
+  "version": "1.0",
+  "tag": "hiv_monthly_summary_dataset_base",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "etl.flat_hiv_summary_v15b",
+      "alias": "fhs"
+    },
+    {
+      "table": "etl.dates",
+      "alias": "dts",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "is_clinical_encounter=1 and encounter_datetime <= dts.endDate and coalesce(fhs.death_date, out_of_care) is null"
+      }
+    },
+    {
+      "table": "amrs.location",
+      "alias": "lct",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "fhs.location_uuid = lct.uuid"
+      }
+    },
+    {
+      "table": "amrs.person",
+      "alias": "t4",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "fhs.person_id = t4.person_id"
+      }
     }
+  ],
+  "columns": [
+    {
+      "type": "derived_column",
+      "alias": "on_arvs_first_line",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "cur_arv_line=1"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_arvs_second_line",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "cur_arv_line=2 and coalesce(transfer_out, out_of_care) is null"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "newly_on_second_line",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "cur_arv_line =2 and (arv_start_date between '{startDate}' and '{endDate}')"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_arvs_third_line",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "cur_arv_line>2"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "vl_done_past_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "vl_done_past_year_relative_to_end_date",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "timestampdiff(week,vl_1_date,'{endDate}') <= 52"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "no_vl_done_past_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "cur_arv_line is not null and (vl_1_date is null or timestampdiff(week,vl_1_date,encounter_datetime) >= 52)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_second_line_not_suppressed",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "vl_1 > 1000 and cur_arv_line =2"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "not_on_arvs_cd4_lte_500",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "arv_start_date is null and cd4_1 < 500"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "vl_done_past_year_lte_1000",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "timestampdiff(week,vl_1_date,encounter_datetime) <= 52 and vl_1 <= 1000"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "vl_done_this_encounter",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "vl_resulted >= 0 and vl_resulted_date=date(encounter_datetime)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "vl_done_this_encounter_lte_1000",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "vl_resulted <= 1000 and vl_resulted_date = date(encounter_datetime)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "vl_done_this_encounter_gt_1000",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "vl_resulted > 1000 and vl_resulted_date = date(encounter_datetime)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "vl_ordered",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "date(vl_order_date)=date(encounter_datetime)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "pending_vl_order",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "timestampdiff(week,vl_order_date,encounter_datetime) >= 0 and vl_1_date < vl_order_date"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "pending_vl_order_no_result_after_4_weeks",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "timestampdiff(week,vl_order_date,encounter_datetime) >= 4 and vl_1_date < vl_order_date"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_arvs_lte_26_weeks",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "timestampdiff(week,arv_start_date,encounter_datetime) <= 26"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_arvs_lte_52_weeks",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "timestampdiff(week,arv_start_date,encounter_datetime) <= 52 and timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_arvs_lte_52_weeks_and_have_vl",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "timestampdiff(week,arv_start_date,encounter_datetime) <= 52 and timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_arvs_lte_52_weeks_and_have_vl_lte_1000",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "timestampdiff(week,arv_start_date,encounter_datetime) <= 52 and timestampdiff(week,vl_1_date,encounter_datetime) <= 52 and vl_1 <= 1000"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "pregnant",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "edd > encounter_datetime"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "pregnant_and_on_arvs",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "edd > encounter_datetime and cur_arv_line is not null"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "virally_suppressed",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "timestampdiff(month,arv_start_date,encounter_datetime) >= 6 and timestampdiff(day, date(vl_1_date), date(dts.endDate)) <= 365 and vl_1 < 1000"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "virally_suppressed_in_past_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "vl_1 < 1000 and  timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "viral_load_resulted_in_past_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "vl_1 is not null and  timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "not_virally_suppressed_in_past_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "vl_1> 1000 and  timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_arvs_gt_26_weeks",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "timestampdiff(week,arv_start_date,encounter_datetime) > 26"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "num_new_ART_pats_screened_for_tb_started_TB_this_period",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "tb_screen is not null and tb_tx_start_date is not null and  cur_arv_line is not null and coalesce(fhs.death_date, out_of_care) is null and arv_start_date>= '{startDate}' and arv_start_date<= '{endDate}'"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "num_previous_ART_pats_screened_for_tb_started_TB",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "tb_screen is not null and tb_tx_start_date is not null and  cur_arv_line is not null and coalesce(fhs.death_date, out_of_care) is null and arv_start_date< '{startDate}'"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "num_ART_pats_screened_for_tb_started_TB",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "tb_screen is not null and tb_tx_start_date is not null and  cur_arv_line is not null and coalesce(fhs.death_date, out_of_care) is null"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_arvs",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "cur_arv_line is not null"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "vl_done_past_year_gt_1000",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "timestampdiff(week,vl_1_date,encounter_datetime) <= 52 and vl_1 > 1000"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "num_ART_patients_completed_6mths_IPT",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "round(datediff(encounter_datetime,ipt_start_date)/30.5) >= 6 or round(datediff(ipt_stop_date,ipt_start_date)/30.5) >= 6  and (coalesce(fhs.death_date, out_of_care) is null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "num_ART_patients_newly_started_IPT_less_6mths",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "ipt_start_date is not null or ipt_stop_date is not null and ipt_start_date >=  DATE_ADD('{startDate}', INTERVAL -6 month) and (coalesce(fhs.death_date, out_of_care) is null) "
+      }
+    },
+
+    {
+      "type": "derived_column",
+      "alias": "num_ART_pats_screened_for_tb",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "tb_screen is not null and cur_arv_line is not null and coalesce(fhs.death_date, out_of_care) is null"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "age_range",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "extract(year from (from_days(datediff(now(),t4.birthdate)))) >= 15",
+            "value": "15_and_above"
+          },
+          {
+            "condition": "else",
+            "value": "below_15"
+          }
+        ]
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "num_ART_patients_newly_started_IPT_this_period_less_6mths",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "ipt_start_date is not null or ipt_stop_date is not null and ipt_start_date >=  '{startDate}'"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "num_ART_patients_newly_started_IPT_previous_period_less_6mths",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "ipt_start_date is not null or ipt_stop_date is not null and ipt_start_date <  '{startDate}'"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "num_patients_currently_on_IPT",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "coalesce(fhs.death_date, out_of_care) is null and ipt_start_date is not null and ipt_stop_date is null"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "ever_started_on_IPT",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "ipt_start_date is not null"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "newly_started_IPT",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "date(ipt_start_date) between '{startDate}' and '{endDate}'"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "num_patients_newly_enrolled_newly_started_on_IPT",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "coalesce(fhs.death_date, out_of_care) is null and ipt_start_date is not null and  '{startDate}'<=enrollment_date and enrollment_date<='{endDate}'"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "num_patients_stopped_on_IPT",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "coalesce(fhs.death_date, out_of_care) is null and fhs.ipt_stop_date is not null and  '{startDate}'<=ipt_stop_date<='{endDate}'"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "transfer_in_from_non_Ampath_site",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "fhs.transfer_in=1287 and (fhs.encounter_datetime between DATE_FORMAT(dts.endDate, '%Y-%m-01') and dts.endDate)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "transfer_in_from_Ampath_site",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "fhs.transfer_in=1286 and (fhs.encounter_datetime between DATE_FORMAT(dts.endDate, '%Y-%m-01') and dts.endDate)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "transfer_in",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "case when date(fhs.hiv_start_date) between DATE_FORMAT(dts.endDate, '%Y-%m-01') and dts.endDate  then null when fhs.transfer_in is not null and (fhs.encounter_datetime between DATE_FORMAT(dts.endDate, '%Y-%m-01') and dts.endDate) then 1 else null end"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "encounter_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "MONTH(fhs.encounter_datetime)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "reporting_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "date_format(fhs.encounter_datetime, '%m/%Y')"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "encounter_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "YEAR(fhs.encounter_datetime)"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "lct.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "fhs.location_uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "fhs.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "encounter_datetime",
+      "column": "fhs.encounter_datetime"
+    },
+    {
+      "type": "simple_column",
+      "alias": "month",
+      "column": "fhs.encounter_datetime"
+    },
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "t4.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "gender",
+      "column": "t4.gender"
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "fhs.encounter_datetime <= ?",
+        "parameterName": "endDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "fhs.encounter_datetime >= ?",
+        "parameterName": "startDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "fhs.location_id in ?",
+        "parameterName": "locations"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "round(datediff(fhs.encounter_datetime,t4.birthdate)/365) >= 0",
+        "parameterName": ""
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "round(datediff(fhs.encounter_datetime,t4.birthdate)/365) <= 120",
+        "parameterName": ""
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "t4.gender in ?",
+        "parameterName": "gender"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "fhs.is_clinical_encounter = 1",
+        "parameterName": ""
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "coalesce(fhs.death_date, out_of_care) is null",
+        "parameterName": ""
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "(fhs.next_clinical_datetime_hiv is null or next_clinical_datetime_hiv  >= dts.endDate)",
+        "parameterName": ""
+      }
+    ]
+  }
 }

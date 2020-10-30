@@ -1,1057 +1,1057 @@
 {
-    "artRegimen": [
-      {
-        "eidId": "1",
-        "eidCode": "AF2E",
-        "age": "1",
-        "line": "1",
-        "eidDisplay": "TDF+3TC+DTG",
-        "mrsArvRegimen": "10268"
-      },
-      {
-        "eidId": "1",
-        "eidCode": "AF2E",
-        "age": "1",
-        "line": "1",
-        "eidDisplay": "TDF+3TC+DTG",
-        "mrsArvRegimen": "628,802,9759"
-      },
-      {
-        "eidId": "2",
-        "eidCode": "AF2B",
-        "age": "1",
-        "line": "1",
-        "eidDisplay": "TDF+3TC+EFV",
-        "mrsArvRegimen": "6964,32,152,598"
-      },
-      {
-        "eidId": "3",
-        "eidCode": "AF1D",
-        "age": "1",
-        "line": "1",
-        "eidDisplay": "AZT+3TC+DTG",
-        "mrsArvRegimen": ""
-      },
-      {
-        "eidId": "4",
-        "eidCode": "AF1B",
-        "age": "1",
-        "line": "1",
-        "eidDisplay": "AZT+3TC+EFV",
-        "mrsArvRegimen": "9053"
-      },
-      {
-        "eidId": "4",
-        "eidCode": "AF1B",
-        "age": "1",
-        "line": "1",
-        "eidDisplay": "AZT+3TC+EFV",
-        "mrsArvRegimen": "630,633"
-      },
-      {
-        "eidId": "4",
-        "eidCode": "AF1B",
-        "age": "1",
-        "line": "1",
-        "eidDisplay": "AZT+3TC+EFV",
-        "mrsArvRegimen": "628,633,797"
-      },
-      {
-        "eidId": "4",
-        "eidCode": "AF1B",
-        "age": "1",
-        "line": "1",
-        "eidDisplay": "AZT+3TC+EFV",
-        "mrsArvRegimen": "630,633,1065"
-      },
-      {
-        "eidId": "4",
-        "eidCode": "AF1B",
-        "age": "1",
-        "line": "1",
-        "eidDisplay": "AZT+3TC+EFV",
-        "mrsArvRegimen": "630,633,5424"
-      },
-      {
-        "eidDisplay": "EFV/3TC/TDF",
-        "eidId": "4",
-        "eidCode": "AF1B",
-        "age": "1",
-        "line": "1",
-        "mrsArvRegimen": "6964"
-      },
-      {
-        "eidDisplay": "EFV/3TC/TDF",
-        "eidId": "4",
-        "eidCode": "AF1B",
-        "age": "1",
-        "line": "1",
-        "mrsArvRegimen": "633,1400"
-      },
-      {
-        "eidDisplay": "YES/EFV/3TC/TDF",
-        "eidId": "4",
-        "eidCode": "AF1B",
-        "age": "1",
-        "line": "1",
-        "mrsArvRegimen": "1065,6964"
-      },
-      {
-        "eidDisplay": "3TC/TDF/EFV/3TC/TDF",
-        "eidId": "4",
-        "eidCode": "AF1B",
-        "age": "1",
-        "line": "1",
-        "mrsArvRegimen": "1400,6964"
-      },
-      {
-        "eidDisplay": "3TC/EFV/TDF",
-        "eidId": "4",
-        "eidCode": "AF1B",
-        "age": "1",
-        "line": "1",
-        "mrsArvRegimen": "628,633,802"
-      },
-      {
-        "eidDisplay": "EFV/EFV/3TC/TDF",
-        "eidId": "4",
-        "eidCode": "AF1B",
-        "age": "1",
-        "line": "1",
-        "mrsArvRegimen": "633,6964"
-      },
-      {
-        "eidDisplay": "EFV/3TC/TDF/EFV/3TC/TDF",
-        "eidId": "4",
-        "eidCode": "AF1B",
-        "age": "1",
-        "line": "1",
-        "mrsArvRegimen": "6964,6964"
-      },
-      {
-        "eidDisplay": "OTHER/EFV/3TC/TDF",
-        "eidId": "4",
-        "eidCode": "AF1B",
-        "age": "1",
-        "line": "1",
-        "mrsArvRegimen": "5424,6964"
-      },
-      {
-        "eidDisplay": "EFV/YES/3TC/TDF",
-        "eidId": "4",
-        "eidCode": "AF1B",
-        "age": "1",
-        "line": "1",
-        "mrsArvRegimen": "633,1065,1400"
-      },
-      {
-        "eidId": "5",
-        "eidCode": "AF4B",
-        "age": "1",
-        "line": "1",
-        "eidDisplay": "ABC+3TC+EFV",
-        "mrsArvRegimen": ""
-      },
-      {
-        "eidDisplay": "EFV/ABC/3TC",
-        "eidId": "5",
-        "eidCode": "AF4B",
-        "age": "1",
-        "line": "1",
-        "mrsArvRegimen": "633,6679"
-      },
-      {
-        "eidDisplay": "3TC/EFV/ABC",
-        "eidId": "5",
-        "eidCode": "AF4B",
-        "age": "1",
-        "line": "1",
-        "mrsArvRegimen": "628,633,814"
-      },
-      {
-        "eidDisplay": "EFV/YES/ABC/3TC",
-        "eidId": "5",
-        "eidCode": "AF4B",
-        "age": "1",
-        "line": "1",
-        "mrsArvRegimen": "633,1065,6679"
-      },
-      {
-        "eidDisplay": "3TC/EFV/ABC/YES",
-        "eidId": "5",
-        "eidCode": "AF4B",
-        "age": "1",
-        "line": "1",
-        "mrsArvRegimen": "628,633,814,1065"
-      },
-      {
-        "eidDisplay": "3TC/EFV/ABC/3TC",
-        "eidId": "5",
-        "eidCode": "AF4B",
-        "age": "1",
-        "line": "1",
-        "mrsArvRegimen": "628,633,6679"
-      },
-      {
-        "eidId": "6",
-        "eidCode": "AF4C",
-        "age": "1",
-        "line": "1",
-        "eidDisplay": "ABC+3TC+DTG",
-        "mrsArvRegimen": ""
-      },
-      {
-        "eidId": "7",
-        "eidCode": "AF2D",
-        "age": "1",
-        "line": "1",
-        "eidDisplay": "TDF+3TC+ATV/r",
-        "mrsArvRegimen": ""
-      },
-      {
-        "eidDisplay": "3TC/TDF/ATV/R",
-        "eidId": "7",
-        "eidCode": "AF2D",
-        "age": "1",
-        "line": "1",
-        "mrsArvRegimen": "1400,6160"
-      },
-      {
-        "eidDisplay": "3TC/TDF/ATV",
-        "eidId": "7",
-        "eidCode": "AF2D",
-        "age": "1",
-        "line": "1",
-        "mrsArvRegimen": "1400,6159"
-      },
-      {
-        "eidDisplay": "3TC/TDF/OTHER/ATV",
-        "eidId": "7",
-        "eidCode": "AF2D",
-        "age": "1",
-        "line": "1",
-        "mrsArvRegimen": "1400,5424,6159"
-      },
-      {
-        "eidDisplay": "3TC/TDF/OTHER/ATV/R",
-        "eidId": "7",
-        "eidCode": "AF2D",
-        "age": "1",
-        "line": "1",
-        "mrsArvRegimen": "1400,5424,6160"
-      },
-      {
-        "eidId": "8",
-        "eidCode": "AF2F",
-        "age": "1",
-        "line": "1",
-        "eidDisplay": "TDF+3TC+LPV/r",
-        "mrsArvRegimen": "9055"
-      },
-      {
-        "eidDisplay": "LPV/R/3TC/TDF",
-        "eidId": "8",
-        "eidCode": "AF2F",
-        "age": "1",
-        "line": "1",
-        "mrsArvRegimen": "794,1400"
-      },
-      {
-        "eidDisplay": "3TC/LPV/R/3TC/TDF",
-        "eidId": "8",
-        "eidCode": "AF2F",
-        "age": "1",
-        "line": "1",
-        "mrsArvRegimen": "628,794,1400"
-      },
-      {
-        "eidDisplay": "LPV/R/YES/3TC/TDF",
-        "eidId": "8",
-        "eidCode": "AF2F",
-        "age": "1",
-        "line": "1",
-        "mrsArvRegimen": "794,1065,1400"
-      },
-      {
-        "eidId": "9",
-        "eidCode": "AF1E",
-        "age": "1",
-        "line": "1",
-        "eidDisplay": "AZT+3TC+LPV/r",
-        "mrsArvRegimen": ""
-      },
-      {
-        "eidDisplay": "AZT/3TC/LPV/R",
-        "eidId": "9",
-        "eidCode": "AF1E",
-        "age": "1",
-        "line": "1",
-        "mrsArvRegimen": "630,794"
-      },
-      {
-        "eidDisplay": "3TC/LPV/R/AZT",
-        "eidId": "9",
-        "eidCode": "AF1E",
-        "age": "1",
-        "line": "1",
-        "mrsArvRegimen": "628,794,797"
-      },
-      {
-        "eidDisplay": "AZT/3TC/LPV/R/YES",
-        "eidId": "9",
-        "eidCode": "AF1E",
-        "age": "1",
-        "line": "1",
-        "mrsArvRegimen": "630,794,1065"
-      },
-      {
-        "eidId": "10",
-        "eidCode": "AF1F",
-        "age": "1",
-        "line": "1",
-        "eidDisplay": "AZT+3TC+ATV/r",
-        "mrsArvRegimen": "630,6160"
-      },
-      {
-        "eidId": "10",
-        "eidCode": "AF1F",
-        "age": "1",
-        "line": "1",
-        "eidDisplay": "AZT+3TC+ATV/r",
-        "mrsArvRegimen": "630,6159"
-      },
-      {
-        "eidId": "10",
-        "eidCode": "AF1F",
-        "age": "1",
-        "line": "1",
-        "eidDisplay": "AZT+3TC+ATV/r",
-        "mrsArvRegimen": "628,797,6160"
-      },
-      {
-        "eidId": "10",
-        "eidCode": "AF1F",
-        "age": "1",
-        "line": "1",
-        "eidDisplay": "AZT+3TC+ATV/r",
-        "mrsArvRegimen": "630,5424,6159"
-      },
-      {
-        "eidId": "10",
-        "eidCode": "AF1F",
-        "age": "1",
-        "line": "1",
-        "eidDisplay": "AZT/3TC/ATV/R",
-        "mrsArvRegimen": "630,6160"
-      },
-      {
-        "eidId": "10",
-        "eidCode": "AF1F",
-        "age": "1",
-        "line": "1",
-        "eidDisplay": "AZT/3TC/ATV",
-        "mrsArvRegimen": "630,6159"
-      },
-      {
-        "eidId": "10",
-        "eidCode": "AF1F",
-        "age": "1",
-        "line": "1",
-        "eidDisplay": "3TC/AZT/ATV/R",
-        "mrsArvRegimen": "628,797,6160"
-      },
-      {
-        "eidId": "10",
-        "eidCode": "AF1F",
-        "age": "1",
-        "line": "1",
-        "eidDisplay": "AZT/3TC/OTHER/ATV",
-        "mrsArvRegimen": "630,5424,6159"
-      },
-      {
-        "eidId": "11",
-        "eidCode": "AF2A",
-        "age": "1",
-        "line": "1",
-        "eidDisplay": "TDF+3TC+NVP",
-        "mrsArvRegimen": ""
-      },
-      {
-        "eidId": "12",
-        "eidCode": "AF1A",
-        "age": "1",
-        "line": "1",
-        "eidDisplay": "AZT+3TC+NVP",
-        "mrsArvRegimen": "6467,18,19,35,154,159"
-      },
-      {
-        "eidDisplay": "NVP/3TC/AZT",
-        "eidId": "12",
-        "eidCode": "AF1A",
-        "age": "1",
-        "line": "1",
-        "mrsArvRegimen": "6467"
-      },
-      {
-        "eidDisplay": "AZT/3TC/NVP",
-        "eidId": "12",
-        "eidCode": "AF1A",
-        "age": "1",
-        "line": "1",
-        "mrsArvRegimen": "630,631"
-      },
-      {
-        "eidDisplay": "YES/NVP/3TC/AZT",
-        "eidId": "12",
-        "eidCode": "AF1A",
-        "age": "1",
-        "line": "1",
-        "mrsArvRegimen": "1065,6467"
-      },
-      {
-        "eidDisplay": "3TC/NVP/AZT",
-        "eidId": "12",
-        "eidCode": "AF1A",
-        "age": "1",
-        "line": "1",
-        "mrsArvRegimen": "628,631,797"
-      },
-      {
-        "eidDisplay": "AZT/3TC/NVP/3TC/AZT",
-        "eidId": "12",
-        "eidCode": "AF1A",
-        "age": "1",
-        "line": "1",
-        "mrsArvRegimen": "630,6467"
-      },
-      {
-        "eidDisplay": "NVP/NVP/3TC/AZT",
-        "eidId": "12",
-        "eidCode": "AF1A",
-        "age": "1",
-        "line": "1",
-        "mrsArvRegimen": "631,6467"
-      },
-      {
-        "eidDisplay": "NVP/3TC/AZT/NVP/3TC/AZT",
-        "eidId": "12",
-        "eidCode": "AF1A",
-        "age": "1",
-        "line": "1",
-        "mrsArvRegimen": "6467,6467"
-      },
-      {
-        "eidDisplay": "AZT/3TC/NVP/YES",
-        "eidId": "12",
-        "eidCode": "AF1A",
-        "age": "1",
-        "line": "1",
-        "mrsArvRegimen": "630,631,1065"
-      },
-      {
-        "eidId": "13",
-        "eidCode": "AF4A",
-        "age": "1",
-        "line": "1",
-        "eidDisplay": "ABC+3TC+NVP",
-        "mrsArvRegimen": "9050"
-      },
-      {
-        "eidDisplay": "NVP,ABC/3TC",
-        "eidId": "13",
-        "eidCode": "AF4A",
-        "age": "1",
-        "line": "1",
-        "mrsArvRegimen": "631,6679"
-      },
-      {
-        "eidDisplay": "3TC/NVP/ABC",
-        "eidId": "13",
-        "eidCode": "AF4A",
-        "age": "1",
-        "line": "1",
-        "mrsArvRegimen": "628,631,814"
-      },
-      {
-        "eidDisplay": "NVP/YES/ABC/3TC",
-        "eidId": "13",
-        "eidCode": "AF4A",
-        "age": "1",
-        "line": "1",
-        "mrsArvRegimen": "631,1065,6679"
-      },
-      {
-        "eidDisplay": "3TC/NVP/ABC/3TC",
-        "eidId": "13",
-        "eidCode": "AF4A",
-        "age": "1",
-        "line": "1",
-        "mrsArvRegimen": "628,631,6679"
-      },
-      {
-        "eidId": "14",
-        "eidCode": "AF5X",
-        "age": "1",
-        "line": "1",
-        "eidDisplay": "Other",
-        "mrsArvRegimen": "5622"
-      },
-      {
-        "eidId": "15",
-        "eidCode": "AS1A",
-        "age": "1",
-        "line": "2",
-        "eidDisplay": "AZT+3TC+LPV/r",
-        "mrsArvRegimen": ""
-      },
-      {
-        "eidId": "16",
-        "eidCode": "AS1B",
-        "age": "1",
-        "line": "2",
-        "eidDisplay": "AZT+3TC+ATV/r",
-        "mrsArvRegimen": ""
-      },
-      {
-        "eidId": "17",
-        "eidCode": "AS1C",
-        "age": "1",
-        "line": "2",
-        "eidDisplay": "AZT+3TC+DTG",
-        "mrsArvRegimen": ""
-      },
-      {
-        "eidId": "18",
-        "eidCode": "AS2A",
-        "age": "1",
-        "line": "2",
-        "eidDisplay": "TDF+3TC+LPV/r",
-        "mrsArvRegimen": "9055"
-      },
-      {
-        "eidId": "19",
-        "eidCode": "AS2B",
-        "age": "1",
-        "line": "2",
-        "eidDisplay": "TDF+3TC+DTG",
-        "mrsArvRegimen": "10268,597"
-      },
-      {
-        "eidId": "20",
-        "eidCode": "AS2C",
-        "age": "1",
-        "line": "2",
-        "eidDisplay": "TDF+3TC+ATV/r",
-        "mrsArvRegimen": ""
-      },
-      {
-        "eidId": "21",
-        "eidCode": "AS5A",
-        "age": "1",
-        "line": "2",
-        "eidDisplay": "ABC+3TC+LPV/r",
-        "mrsArvRegimen": "9051"
-      },
-      {
-        "eidDisplay": "3TC,LPV/R,ABC",
-        "eidId": "21",
-        "eidCode": "AS5A",
-        "age": "1",
-        "line": "2",
-        "mrsArvRegimen": "628,794,814"
-      },
-      {
-        "eidDisplay": "LPV/R/ABC/3TC",
-        "eidId": "21",
-        "eidCode": "AS5A",
-        "age": "1",
-        "line": "2",
-        "mrsArvRegimen": "794,6679"
-      },
-      {
-        "eidDisplay": "LPV/R/YES/ABC/3TC",
-        "eidId": "21",
-        "eidCode": "AS5A",
-        "age": "1",
-        "line": "2",
-        "mrsArvRegimen": "794,1065,6679"
-      },
-      {
-        "eidDisplay": "3TC/LPV/R/ABC/YES",
-        "eidId": "21",
-        "eidCode": "AS5A",
-        "age": "1",
-        "line": "2",
-        "mrsArvRegimen": "628,794,814,1065"
-      },
-      {
-        "eidDisplay": "3TC/LPV/R/ABC/3TC/TDF",
-        "eidId": "21",
-        "eidCode": "AS5A",
-        "age": "1",
-        "line": "2",
-        "mrsArvRegimen": "628,794,814,1400"
-      },
-      {
-        "eidId": "22",
-        "eidCode": "AS5B",
-        "age": "1",
-        "line": "2",
-        "eidDisplay": "ABC+3TC+LPV/r",
-        "mrsArvRegimen": ""
-      },
-      {
-        "eidDisplay": "3TC/ABC/ATV/R",
-        "eidId": "22",
-        "eidCode": "AS5B",
-        "age": "1",
-        "line": "2",
-        "mrsArvRegimen": "628,814,6160"
-      },
-      {
-        "eidDisplay": "3TC/ABC/ATV",
-        "eidId": "22",
-        "eidCode": "AS5B",
-        "age": "1",
-        "line": "2",
-        "mrsArvRegimen": "628,814,6159"
-      },
-      {
-        "eidDisplay": "3TC/ABC/OTHER/ATV",
-        "eidId": "22",
-        "eidCode": "AS5B",
-        "age": "1",
-        "line": "2",
-        "mrsArvRegimen": "628,814,5424,6159"
-      },
-      {
-        "eidDisplay": "ATV/R/ABC/3TC",
-        "eidId": "22",
-        "eidCode": "AS5B",
-        "age": "1",
-        "line": "2",
-        "mrsArvRegimen": "6160,6679"
-      },
-      {
-        "eidId": "23",
-        "eidCode": "AS5C",
-        "age": "1",
-        "line": "2",
-        "eidDisplay": "ABC+3TC+DTG",
-        "mrsArvRegimen": ""
-      },
-      {
-        "eidId": "24",
-        "eidCode": "AS6X",
-        "age": "1",
-        "line": "2",
-        "eidDisplay": "Other",
-        "mrsArvRegimen": "5622"
-      },
-      {
-        "eidId": "25",
-        "eidCode": "AT2D",
-        "age": "1",
-        "line": "3",
-        "eidDisplay": "TDF+3TC+DTG+DRV/r",
-        "mrsArvRegimen": ""
-      },
-      {
-        "eidId": "26",
-        "eidCode": "AT2E",
-        "age": "1",
-        "line": "3",
-        "eidDisplay": "TDF+3TC+DTG+DRV/r",
-        "mrsArvRegimen": ""
-      },
-      {
-        "eidId": "27",
-        "eidCode": "AT2F",
-        "age": "1",
-        "line": "3",
-        "eidDisplay": "TDF+3TC+DTG+ETV+DRV/r",
-        "mrsArvRegimen": ""
-      },
-      {
-        "eidId": "28",
-        "eidCode": "AT2X",
-        "age": "1",
-        "line": "3",
-        "eidDisplay": "Other",
-        "mrsArvRegimen": "5622"
-      },
-      {
-        "eidId": "29",
-        "eidCode": "CF2B",
-        "age": "2",
-        "line": "1",
-        "eidDisplay": "ABC+3TC+EFV",
-        "mrsArvRegimen": ""
-      },
-      {
-        "eidId": "30",
-        "eidCode": "CF2D",
-        "age": "2",
-        "line": "1",
-        "eidDisplay": "ABC+3TC+LPV/r",
-        "mrsArvRegimen": "9051"
-      },
-      {
-        "eidId": "31",
-        "eidCode": "CF2A",
-        "age": "2",
-        "line": "1",
-        "eidDisplay": "ABC+3TC+NVP",
-        "mrsArvRegimen": "9050"
-      },
-      {
-        "eidId": "32",
-        "eidCode": "CF2F",
-        "age": "2",
-        "line": "1",
-        "eidDisplay": "ABC+3TC+RAL",
-        "mrsArvRegimen": ""
-      },
-      {
-        "eidId": "33",
-        "eidCode": "CF1A",
-        "age": "2",
-        "line": "1",
-        "eidDisplay": "AZT+3TC+NVP",
-        "mrsArvRegimen": "6467"
-      },
-      {
-        "eidId": "34",
-        "eidCode": "CF1B",
-        "age": "2",
-        "line": "1",
-        "eidDisplay": "AZT+3TC+EFV",
-        "mrsArvRegimen": "9053"
-      },
-      {
-        "eidId": "35",
-        "eidCode": "CF1C",
-        "age": "2",
-        "line": "1",
-        "eidDisplay": "AZT+3TC+LPV/r",
-        "mrsArvRegimen": ""
-      },
-      {
-        "eidId": "36",
-        "eidCode": "CF5X",
-        "age": "2",
-        "line": "1",
-        "eidDisplay": "Other",
-        "mrsArvRegimen": "5622"
-      },
-      {
-        "eidId": "37",
-        "eidCode": "CS1A",
-        "age": "2",
-        "line": "2",
-        "eidDisplay": "AZT+3TC+LPV/r",
-        "mrsArvRegimen": ""
-      },
-      {
-        "eidId": "38",
-        "eidCode": "CS2A",
-        "age": "2",
-        "line": "2",
-        "eidDisplay": "AZT+3TC+LPV/r",
-        "mrsArvRegimen": "9051"
-      },
-      {
-        "eidId": "39",
-        "eidCode": "CS1C",
-        "age": "2",
-        "line": "2",
-        "eidDisplay": "AZT+3TC+DRV/r+RAL",
-        "mrsArvRegimen": ""
-      },
-      {
-        "eidId": "40",
-        "eidCode": "CS1C",
-        "age": "2",
-        "line": "2",
-        "eidDisplay": "ABC+3TC+DRV/r+RAL",
-        "mrsArvRegimen": ""
-      },
-      {
-        "eidId": "41",
-        "eidCode": "CS4X",
-        "age": "2",
-        "line": "2",
-        "eidDisplay": "Other",
-        "mrsArvRegimen": "5622"
-      },
-      {
-        "eidId": "42",
-        "eidCode": "CT1H",
-        "age": "2",
-        "line": "3",
-        "eidDisplay": "AZT+3TC+DRV/r+RAL",
-        "mrsArvRegimen": ""
-      },
-      {
-        "eidId": "43",
-        "eidCode": "CT2D",
-        "age": "2",
-        "line": "3",
-        "eidDisplay": "ABC+3TC+DRV/r+RAL",
-        "mrsArvRegimen": ""
-      },
-      {
-        "eidId": "44",
-        "eidCode": "CT3X",
-        "age": "2",
-        "line": "3",
-        "eidDisplay": "Other",
-        "mrsArvRegimen": "5622"
-      }
-    ],
-    "testOrderJustification": {
-      "5931c4d4-4406-4d71-b75d-2205d905cc24": {
-        "eidId": 1,
-        "eidCode": "",
-        "eidDisplay": "Routine VL",
-        "mrsDisplay": ""
-      },
-      "e43ddeb6-3984-499c-a280-3bade1039608": {
-        "eidId": 2,
-        "eidCode": "",
-        "eidDisplay": "Confirmation of Treatment Failure (Repeat VL at 3M)",
-        "mrsDisplay": ""
-      },
-      "a8981934-1350-11df-a1f1-0026b9348838": {
-        "eidId": 3,
-        "eidCode": "",
-        "eidDisplay": "Clinical Failure",
-        "mrsDisplay": ""
-      },
-      "a8a00158-1350-11df-a1f1-0026b9348838": {
-        "eidId": 4,
-        "eidCode": "",
-        "eidDisplay": "Single Drug Substitution",
-        "mrsDisplay": ""
-      },
-      "3966e139-ca69-47c6-aad3-ebd41bb45e28": {
-        "eidId": 5,
-        "eidCode": "",
-        "eidDisplay": "Baseline VL (for infants diagnosed through EID)",
-        "mrsDisplay": ""
-      },
-      "42cdefa2-c306-4d10-a819-c04131c4934e": {
-        "eidId": 6,
-        "eidCode": "",
-        "eidDisplay": "Confirmation of persistent low level viremia (PLLV)",
-        "mrsDisplay": ""
-      },
-      "a8aaf3e2-1350-11df-a1f1-0026b9348838": {
-        "eidId": 7,
-        "eidCode": "",
-        "eidDisplay": "Other",
-        "mrsDisplay": ""
-      },
-      "undefined": {
-        "eidId": 8,
-        "eidCode": "",
-        "eidDisplay": "No Data",
-        "mrsDisplay": ""
-      }
+  "artRegimen": [
+    {
+      "eidId": "1",
+      "eidCode": "AF2E",
+      "age": "1",
+      "line": "1",
+      "eidDisplay": "TDF+3TC+DTG",
+      "mrsArvRegimen": "10268"
     },
-    "dnaPcrEntryPoint": {
-      "a8a09ac8-1350-11df-a1f1-0026b9348838": {
-        "eidDisplay": "OPD",
-        "eidId": 1,
-        "eidCode": "",
-        "mrsDisplay": "OPD"
-      },
-      "3e5ad07b-2ced-4925-8264-cc4d8d1438d4": {
-        "eidDisplay": "Paediatric Ward",
-        "eidId": 2,
-        "eidCode": "",
-        "mrsDisplay": "Peadiatric ward"
-      },
-      "a8a17d80-1350-11df-a1f1-0026b9348838": {
-        "eidDisplay": "MCH/PMTCT",
-        "eidId": 3,
-        "eidCode": "",
-        "mrsDisplay": "MCH"
-      },
-      "a89fbedc-1350-11df-a1f1-0026b9348838": {
-        "eidDisplay": "MCH/PMTCT",
-        "eidId": 3,
-        "eidCode": "",
-        "mrsDisplay": "PMTCT"
-      },
-      "a8a3899a-1350-11df-a1f1-0026b9348838": {
-        "eidDisplay": "CCC/PSC",
-        "eidId": 4,
-        "eidCode": "",
-        "mrsDisplay": "CCC"
-      },
-      "materrnity-uuid": {
-        "eidDisplay": "Materrnity",
-        "eidId": 5,
-        "eidCode": "",
-        "mrsDisplay": "Materrnity"
-      },
-      "a8aaf3e2-1350-11df-a1f1-0026b9348838": {
-        "eidDisplay": "Other",
-        "eidId": 6,
-        "eidCode": "",
-        "mrsDisplay": "Other"
-      },
-      "undefined": {
-        "eidDisplay": "No Data",
-        "eidId": 7,
-        "eidCode": "",
-        "mrsDisplay": "No Data"
-      }
+    {
+      "eidId": "1",
+      "eidCode": "AF2E",
+      "age": "1",
+      "line": "1",
+      "eidDisplay": "TDF+3TC+DTG",
+      "mrsArvRegimen": "628,802,9759"
     },
-    "hivStatus":{
-      "a896f3a6-1350-11df-a1f1-0026b9348838": {
-        "eidId": 2,
-        "eidCode": "",
-        "eidDisplay": "Positive",
-        "mrsDisplay": "Positive"
-      },
-      "a896d2cc-1350-11df-a1f1-0026b9348838": {
-        "eidId": 1,
-        "eidCode": "",
-        "eidDisplay": "Negative",
-        "mrsDisplay": "Negative"
-      },
-      "a899b50a-1350-11df-a1f1-0026b9348838": {
-        "eidId": 0,
-        "eidCode": "",
-        "eidDisplay": "",
-        "mrsDisplay": "Unknown"
-      }
+    {
+      "eidId": "2",
+      "eidCode": "AF2B",
+      "age": "1",
+      "line": "1",
+      "eidDisplay": "TDF+3TC+EFV",
+      "mrsArvRegimen": "6964,32,152,598"
     },
-    "infantProphylaxis":{
-      "a8967656-1350-11df-a1f1-0026b9348838": {
-        "eidId": 1,
-        "eidCode": "",
-        "eidDisplay": "sdNVP only",
-        "mrsDisplay": "sdNVP only"
-      },
-      "6a73f32d-1870-4527-af6e-74443251ded2": {
-        "eidId": 2,
-        "eidCode": "",
-        "eidDisplay": "sdNVP +AZT +3TC",
-        "mrsDisplay": "sdNVP +AZT +3TC"
-      },
-      "a8967656-1350-11df-a1f1-0026b9348838": {
-        "eidId": 10,
-        "eidCode": "",
-        "eidDisplay": "NVP for 6 weeks",
-        "mrsDisplay": "NVP"
-      },
-      "a897ea4a-1350-11df-a1f1-0026b9348838": {
-        "eidId": 5,
-        "eidCode": "",
-        "eidDisplay": "AZT",
-        "mrsDisplay": "AZT"
-      },
-      "a8967656-1350-11df-a1f1-0026b9348838": {
-        "eidId": 5,
-        "eidCode": "",
-        "eidDisplay": "",
-        "mrsDisplay": "NVP during BF period"
-      },
-      "a899e0ac-1350-11df-a1f1-0026b9348838": {
-        "eidId": 0,
-        "eidCode": "",
-        "eidDisplay": "None",
-        "mrsDisplay": "None"
-      },
-      "undefined": {
-        "eidId": 0,
-        "eidCode": "",
-        "eidDisplay": "None",
-        "mrsDisplay": "None"
-      },
-      "a8aaf3e2-1350-11df-a1f1-0026b9348838": {
-        "eidId": 5,
-        "eidCode": "",
-        "eidDisplay": "Other",
-        "mrsDisplay": "Other"
-      }
+    {
+      "eidId": "3",
+      "eidCode": "AF1D",
+      "age": "1",
+      "line": "1",
+      "eidDisplay": "AZT+3TC+DTG",
+      "mrsArvRegimen": ""
     },
-    "pmtctIntervention":{
-      "a8967656-1350-11df-a1f1-0026b9348838": {
-        "eidId": 1,
-        "eidCode": "",
-        "eidDisplay": "sdNVP only",
-        "mrsDisplay": "sdNVP only"
-      },
-      "0906b973-25da-4e87-a272-84692cdd8453": {
-        "eidId":5,
-        "eidDisplay": "Uninterrupted HAART (HAART until end of BF)",
-        "mrsDisplay": "Uninterrupted HAART (HAART until end of BF)"
-      },
-      "6a73f32d-1870-4527-af6e-74443251ded2": {
-        "eidId": 2,
-        "eidCode": "",
-        "eidDisplay": "Sd NVP+AZT+3TC",
-        "mrsDisplay": "AZT (from 14wks or later) + sdNVP + 3TC (Tail)"
-      },
-      "a899ccb6-1350-11df-a1f1-0026b9348838": {
-        "eidId": 7,
-        "eidCode": "",
-        "eidDisplay": "HAART",
-        "mrsDisplay": "HAART"
-      },
-      "a899e0ac-1350-11df-a1f1-0026b9348838": {
-        "eidId": 6,
-        "eidCode": "",
-        "eidDisplay": "None",
-        "mrsDisplay": "None"
-      },
-      "undefined": {
-        "eidId": 6,
-        "eidCode": "",
-        "eidDisplay": "None",
-        "mrsDisplay": "None"
-      },
-      "a8aaf3e2-1350-11df-a1f1-0026b9348838": {
-        "eidId": 5,
-        "eidCode": "",
-        "eidDisplay": "Other",
-        "mrsDisplay": "Other"
-      }
+    {
+      "eidId": "4",
+      "eidCode": "AF1B",
+      "age": "1",
+      "line": "1",
+      "eidDisplay": "AZT+3TC+EFV",
+      "mrsArvRegimen": "9053"
     },
-    "infantFeedingPlan":{
-      "a8a8d9b8-1350-11df-a1f1-0026b9348838": {
-        "eidId":1,
-        "eidCode": "",
-        "eidDisplay": "EBF=Exclusive breastfeeding",
-        "mrsDisplay": "EBF=Exclusive breastfeeding"
-      },
-      "a8a70156-1350-11df-a1f1-0026b9348838": {
-        "eidId": 4,
-        "eidCode": "",
-        "eidDisplay": "ERF=Exclusive replacement feeding",
-        "mrsDisplay": "ERF=Exclusive replacement feeding"
-      },
-      "a89cca10-1350-11df-a1f1-0026b9348838": {
-        "eidId": 2,
-        "eidCode": "",
-        "eidDisplay": "MF=Mixed Feeding",
-        "mrsDisplay": "MF=Mixed Feeding"
-      },
-      "a8ae86e2-1350-11df-a1f1-0026b9348838": {
-        "eidId": 6,
-        "eidCode": "",
-        "eidDisplay": "BF= Breastfeeding",
-        "mrsDisplay": "BF= Breastfeeding"
-      },
-      "a89cc934-1350-11df-a1f1-0026b9348838": {
-        "eidId": 7,
-        "eidCode": "",
-        "eidDisplay": "NBF=Not breastfeeding",
-        "mrsDisplay": "NBF=Not breastfeeding"
-      }
+    {
+      "eidId": "4",
+      "eidCode": "AF1B",
+      "age": "1",
+      "line": "1",
+      "eidDisplay": "AZT+3TC+EFV",
+      "mrsArvRegimen": "630,633"
+    },
+    {
+      "eidId": "4",
+      "eidCode": "AF1B",
+      "age": "1",
+      "line": "1",
+      "eidDisplay": "AZT+3TC+EFV",
+      "mrsArvRegimen": "628,633,797"
+    },
+    {
+      "eidId": "4",
+      "eidCode": "AF1B",
+      "age": "1",
+      "line": "1",
+      "eidDisplay": "AZT+3TC+EFV",
+      "mrsArvRegimen": "630,633,1065"
+    },
+    {
+      "eidId": "4",
+      "eidCode": "AF1B",
+      "age": "1",
+      "line": "1",
+      "eidDisplay": "AZT+3TC+EFV",
+      "mrsArvRegimen": "630,633,5424"
+    },
+    {
+      "eidDisplay": "EFV/3TC/TDF",
+      "eidId": "4",
+      "eidCode": "AF1B",
+      "age": "1",
+      "line": "1",
+      "mrsArvRegimen": "6964"
+    },
+    {
+      "eidDisplay": "EFV/3TC/TDF",
+      "eidId": "4",
+      "eidCode": "AF1B",
+      "age": "1",
+      "line": "1",
+      "mrsArvRegimen": "633,1400"
+    },
+    {
+      "eidDisplay": "YES/EFV/3TC/TDF",
+      "eidId": "4",
+      "eidCode": "AF1B",
+      "age": "1",
+      "line": "1",
+      "mrsArvRegimen": "1065,6964"
+    },
+    {
+      "eidDisplay": "3TC/TDF/EFV/3TC/TDF",
+      "eidId": "4",
+      "eidCode": "AF1B",
+      "age": "1",
+      "line": "1",
+      "mrsArvRegimen": "1400,6964"
+    },
+    {
+      "eidDisplay": "3TC/EFV/TDF",
+      "eidId": "4",
+      "eidCode": "AF1B",
+      "age": "1",
+      "line": "1",
+      "mrsArvRegimen": "628,633,802"
+    },
+    {
+      "eidDisplay": "EFV/EFV/3TC/TDF",
+      "eidId": "4",
+      "eidCode": "AF1B",
+      "age": "1",
+      "line": "1",
+      "mrsArvRegimen": "633,6964"
+    },
+    {
+      "eidDisplay": "EFV/3TC/TDF/EFV/3TC/TDF",
+      "eidId": "4",
+      "eidCode": "AF1B",
+      "age": "1",
+      "line": "1",
+      "mrsArvRegimen": "6964,6964"
+    },
+    {
+      "eidDisplay": "OTHER/EFV/3TC/TDF",
+      "eidId": "4",
+      "eidCode": "AF1B",
+      "age": "1",
+      "line": "1",
+      "mrsArvRegimen": "5424,6964"
+    },
+    {
+      "eidDisplay": "EFV/YES/3TC/TDF",
+      "eidId": "4",
+      "eidCode": "AF1B",
+      "age": "1",
+      "line": "1",
+      "mrsArvRegimen": "633,1065,1400"
+    },
+    {
+      "eidId": "5",
+      "eidCode": "AF4B",
+      "age": "1",
+      "line": "1",
+      "eidDisplay": "ABC+3TC+EFV",
+      "mrsArvRegimen": ""
+    },
+    {
+      "eidDisplay": "EFV/ABC/3TC",
+      "eidId": "5",
+      "eidCode": "AF4B",
+      "age": "1",
+      "line": "1",
+      "mrsArvRegimen": "633,6679"
+    },
+    {
+      "eidDisplay": "3TC/EFV/ABC",
+      "eidId": "5",
+      "eidCode": "AF4B",
+      "age": "1",
+      "line": "1",
+      "mrsArvRegimen": "628,633,814"
+    },
+    {
+      "eidDisplay": "EFV/YES/ABC/3TC",
+      "eidId": "5",
+      "eidCode": "AF4B",
+      "age": "1",
+      "line": "1",
+      "mrsArvRegimen": "633,1065,6679"
+    },
+    {
+      "eidDisplay": "3TC/EFV/ABC/YES",
+      "eidId": "5",
+      "eidCode": "AF4B",
+      "age": "1",
+      "line": "1",
+      "mrsArvRegimen": "628,633,814,1065"
+    },
+    {
+      "eidDisplay": "3TC/EFV/ABC/3TC",
+      "eidId": "5",
+      "eidCode": "AF4B",
+      "age": "1",
+      "line": "1",
+      "mrsArvRegimen": "628,633,6679"
+    },
+    {
+      "eidId": "6",
+      "eidCode": "AF4C",
+      "age": "1",
+      "line": "1",
+      "eidDisplay": "ABC+3TC+DTG",
+      "mrsArvRegimen": ""
+    },
+    {
+      "eidId": "7",
+      "eidCode": "AF2D",
+      "age": "1",
+      "line": "1",
+      "eidDisplay": "TDF+3TC+ATV/r",
+      "mrsArvRegimen": ""
+    },
+    {
+      "eidDisplay": "3TC/TDF/ATV/R",
+      "eidId": "7",
+      "eidCode": "AF2D",
+      "age": "1",
+      "line": "1",
+      "mrsArvRegimen": "1400,6160"
+    },
+    {
+      "eidDisplay": "3TC/TDF/ATV",
+      "eidId": "7",
+      "eidCode": "AF2D",
+      "age": "1",
+      "line": "1",
+      "mrsArvRegimen": "1400,6159"
+    },
+    {
+      "eidDisplay": "3TC/TDF/OTHER/ATV",
+      "eidId": "7",
+      "eidCode": "AF2D",
+      "age": "1",
+      "line": "1",
+      "mrsArvRegimen": "1400,5424,6159"
+    },
+    {
+      "eidDisplay": "3TC/TDF/OTHER/ATV/R",
+      "eidId": "7",
+      "eidCode": "AF2D",
+      "age": "1",
+      "line": "1",
+      "mrsArvRegimen": "1400,5424,6160"
+    },
+    {
+      "eidId": "8",
+      "eidCode": "AF2F",
+      "age": "1",
+      "line": "1",
+      "eidDisplay": "TDF+3TC+LPV/r",
+      "mrsArvRegimen": "9055"
+    },
+    {
+      "eidDisplay": "LPV/R/3TC/TDF",
+      "eidId": "8",
+      "eidCode": "AF2F",
+      "age": "1",
+      "line": "1",
+      "mrsArvRegimen": "794,1400"
+    },
+    {
+      "eidDisplay": "3TC/LPV/R/3TC/TDF",
+      "eidId": "8",
+      "eidCode": "AF2F",
+      "age": "1",
+      "line": "1",
+      "mrsArvRegimen": "628,794,1400"
+    },
+    {
+      "eidDisplay": "LPV/R/YES/3TC/TDF",
+      "eidId": "8",
+      "eidCode": "AF2F",
+      "age": "1",
+      "line": "1",
+      "mrsArvRegimen": "794,1065,1400"
+    },
+    {
+      "eidId": "9",
+      "eidCode": "AF1E",
+      "age": "1",
+      "line": "1",
+      "eidDisplay": "AZT+3TC+LPV/r",
+      "mrsArvRegimen": ""
+    },
+    {
+      "eidDisplay": "AZT/3TC/LPV/R",
+      "eidId": "9",
+      "eidCode": "AF1E",
+      "age": "1",
+      "line": "1",
+      "mrsArvRegimen": "630,794"
+    },
+    {
+      "eidDisplay": "3TC/LPV/R/AZT",
+      "eidId": "9",
+      "eidCode": "AF1E",
+      "age": "1",
+      "line": "1",
+      "mrsArvRegimen": "628,794,797"
+    },
+    {
+      "eidDisplay": "AZT/3TC/LPV/R/YES",
+      "eidId": "9",
+      "eidCode": "AF1E",
+      "age": "1",
+      "line": "1",
+      "mrsArvRegimen": "630,794,1065"
+    },
+    {
+      "eidId": "10",
+      "eidCode": "AF1F",
+      "age": "1",
+      "line": "1",
+      "eidDisplay": "AZT+3TC+ATV/r",
+      "mrsArvRegimen": "630,6160"
+    },
+    {
+      "eidId": "10",
+      "eidCode": "AF1F",
+      "age": "1",
+      "line": "1",
+      "eidDisplay": "AZT+3TC+ATV/r",
+      "mrsArvRegimen": "630,6159"
+    },
+    {
+      "eidId": "10",
+      "eidCode": "AF1F",
+      "age": "1",
+      "line": "1",
+      "eidDisplay": "AZT+3TC+ATV/r",
+      "mrsArvRegimen": "628,797,6160"
+    },
+    {
+      "eidId": "10",
+      "eidCode": "AF1F",
+      "age": "1",
+      "line": "1",
+      "eidDisplay": "AZT+3TC+ATV/r",
+      "mrsArvRegimen": "630,5424,6159"
+    },
+    {
+      "eidId": "10",
+      "eidCode": "AF1F",
+      "age": "1",
+      "line": "1",
+      "eidDisplay": "AZT/3TC/ATV/R",
+      "mrsArvRegimen": "630,6160"
+    },
+    {
+      "eidId": "10",
+      "eidCode": "AF1F",
+      "age": "1",
+      "line": "1",
+      "eidDisplay": "AZT/3TC/ATV",
+      "mrsArvRegimen": "630,6159"
+    },
+    {
+      "eidId": "10",
+      "eidCode": "AF1F",
+      "age": "1",
+      "line": "1",
+      "eidDisplay": "3TC/AZT/ATV/R",
+      "mrsArvRegimen": "628,797,6160"
+    },
+    {
+      "eidId": "10",
+      "eidCode": "AF1F",
+      "age": "1",
+      "line": "1",
+      "eidDisplay": "AZT/3TC/OTHER/ATV",
+      "mrsArvRegimen": "630,5424,6159"
+    },
+    {
+      "eidId": "11",
+      "eidCode": "AF2A",
+      "age": "1",
+      "line": "1",
+      "eidDisplay": "TDF+3TC+NVP",
+      "mrsArvRegimen": ""
+    },
+    {
+      "eidId": "12",
+      "eidCode": "AF1A",
+      "age": "1",
+      "line": "1",
+      "eidDisplay": "AZT+3TC+NVP",
+      "mrsArvRegimen": "6467,18,19,35,154,159"
+    },
+    {
+      "eidDisplay": "NVP/3TC/AZT",
+      "eidId": "12",
+      "eidCode": "AF1A",
+      "age": "1",
+      "line": "1",
+      "mrsArvRegimen": "6467"
+    },
+    {
+      "eidDisplay": "AZT/3TC/NVP",
+      "eidId": "12",
+      "eidCode": "AF1A",
+      "age": "1",
+      "line": "1",
+      "mrsArvRegimen": "630,631"
+    },
+    {
+      "eidDisplay": "YES/NVP/3TC/AZT",
+      "eidId": "12",
+      "eidCode": "AF1A",
+      "age": "1",
+      "line": "1",
+      "mrsArvRegimen": "1065,6467"
+    },
+    {
+      "eidDisplay": "3TC/NVP/AZT",
+      "eidId": "12",
+      "eidCode": "AF1A",
+      "age": "1",
+      "line": "1",
+      "mrsArvRegimen": "628,631,797"
+    },
+    {
+      "eidDisplay": "AZT/3TC/NVP/3TC/AZT",
+      "eidId": "12",
+      "eidCode": "AF1A",
+      "age": "1",
+      "line": "1",
+      "mrsArvRegimen": "630,6467"
+    },
+    {
+      "eidDisplay": "NVP/NVP/3TC/AZT",
+      "eidId": "12",
+      "eidCode": "AF1A",
+      "age": "1",
+      "line": "1",
+      "mrsArvRegimen": "631,6467"
+    },
+    {
+      "eidDisplay": "NVP/3TC/AZT/NVP/3TC/AZT",
+      "eidId": "12",
+      "eidCode": "AF1A",
+      "age": "1",
+      "line": "1",
+      "mrsArvRegimen": "6467,6467"
+    },
+    {
+      "eidDisplay": "AZT/3TC/NVP/YES",
+      "eidId": "12",
+      "eidCode": "AF1A",
+      "age": "1",
+      "line": "1",
+      "mrsArvRegimen": "630,631,1065"
+    },
+    {
+      "eidId": "13",
+      "eidCode": "AF4A",
+      "age": "1",
+      "line": "1",
+      "eidDisplay": "ABC+3TC+NVP",
+      "mrsArvRegimen": "9050"
+    },
+    {
+      "eidDisplay": "NVP,ABC/3TC",
+      "eidId": "13",
+      "eidCode": "AF4A",
+      "age": "1",
+      "line": "1",
+      "mrsArvRegimen": "631,6679"
+    },
+    {
+      "eidDisplay": "3TC/NVP/ABC",
+      "eidId": "13",
+      "eidCode": "AF4A",
+      "age": "1",
+      "line": "1",
+      "mrsArvRegimen": "628,631,814"
+    },
+    {
+      "eidDisplay": "NVP/YES/ABC/3TC",
+      "eidId": "13",
+      "eidCode": "AF4A",
+      "age": "1",
+      "line": "1",
+      "mrsArvRegimen": "631,1065,6679"
+    },
+    {
+      "eidDisplay": "3TC/NVP/ABC/3TC",
+      "eidId": "13",
+      "eidCode": "AF4A",
+      "age": "1",
+      "line": "1",
+      "mrsArvRegimen": "628,631,6679"
+    },
+    {
+      "eidId": "14",
+      "eidCode": "AF5X",
+      "age": "1",
+      "line": "1",
+      "eidDisplay": "Other",
+      "mrsArvRegimen": "5622"
+    },
+    {
+      "eidId": "15",
+      "eidCode": "AS1A",
+      "age": "1",
+      "line": "2",
+      "eidDisplay": "AZT+3TC+LPV/r",
+      "mrsArvRegimen": ""
+    },
+    {
+      "eidId": "16",
+      "eidCode": "AS1B",
+      "age": "1",
+      "line": "2",
+      "eidDisplay": "AZT+3TC+ATV/r",
+      "mrsArvRegimen": ""
+    },
+    {
+      "eidId": "17",
+      "eidCode": "AS1C",
+      "age": "1",
+      "line": "2",
+      "eidDisplay": "AZT+3TC+DTG",
+      "mrsArvRegimen": ""
+    },
+    {
+      "eidId": "18",
+      "eidCode": "AS2A",
+      "age": "1",
+      "line": "2",
+      "eidDisplay": "TDF+3TC+LPV/r",
+      "mrsArvRegimen": "9055"
+    },
+    {
+      "eidId": "19",
+      "eidCode": "AS2B",
+      "age": "1",
+      "line": "2",
+      "eidDisplay": "TDF+3TC+DTG",
+      "mrsArvRegimen": "10268,597"
+    },
+    {
+      "eidId": "20",
+      "eidCode": "AS2C",
+      "age": "1",
+      "line": "2",
+      "eidDisplay": "TDF+3TC+ATV/r",
+      "mrsArvRegimen": ""
+    },
+    {
+      "eidId": "21",
+      "eidCode": "AS5A",
+      "age": "1",
+      "line": "2",
+      "eidDisplay": "ABC+3TC+LPV/r",
+      "mrsArvRegimen": "9051"
+    },
+    {
+      "eidDisplay": "3TC,LPV/R,ABC",
+      "eidId": "21",
+      "eidCode": "AS5A",
+      "age": "1",
+      "line": "2",
+      "mrsArvRegimen": "628,794,814"
+    },
+    {
+      "eidDisplay": "LPV/R/ABC/3TC",
+      "eidId": "21",
+      "eidCode": "AS5A",
+      "age": "1",
+      "line": "2",
+      "mrsArvRegimen": "794,6679"
+    },
+    {
+      "eidDisplay": "LPV/R/YES/ABC/3TC",
+      "eidId": "21",
+      "eidCode": "AS5A",
+      "age": "1",
+      "line": "2",
+      "mrsArvRegimen": "794,1065,6679"
+    },
+    {
+      "eidDisplay": "3TC/LPV/R/ABC/YES",
+      "eidId": "21",
+      "eidCode": "AS5A",
+      "age": "1",
+      "line": "2",
+      "mrsArvRegimen": "628,794,814,1065"
+    },
+    {
+      "eidDisplay": "3TC/LPV/R/ABC/3TC/TDF",
+      "eidId": "21",
+      "eidCode": "AS5A",
+      "age": "1",
+      "line": "2",
+      "mrsArvRegimen": "628,794,814,1400"
+    },
+    {
+      "eidId": "22",
+      "eidCode": "AS5B",
+      "age": "1",
+      "line": "2",
+      "eidDisplay": "ABC+3TC+LPV/r",
+      "mrsArvRegimen": ""
+    },
+    {
+      "eidDisplay": "3TC/ABC/ATV/R",
+      "eidId": "22",
+      "eidCode": "AS5B",
+      "age": "1",
+      "line": "2",
+      "mrsArvRegimen": "628,814,6160"
+    },
+    {
+      "eidDisplay": "3TC/ABC/ATV",
+      "eidId": "22",
+      "eidCode": "AS5B",
+      "age": "1",
+      "line": "2",
+      "mrsArvRegimen": "628,814,6159"
+    },
+    {
+      "eidDisplay": "3TC/ABC/OTHER/ATV",
+      "eidId": "22",
+      "eidCode": "AS5B",
+      "age": "1",
+      "line": "2",
+      "mrsArvRegimen": "628,814,5424,6159"
+    },
+    {
+      "eidDisplay": "ATV/R/ABC/3TC",
+      "eidId": "22",
+      "eidCode": "AS5B",
+      "age": "1",
+      "line": "2",
+      "mrsArvRegimen": "6160,6679"
+    },
+    {
+      "eidId": "23",
+      "eidCode": "AS5C",
+      "age": "1",
+      "line": "2",
+      "eidDisplay": "ABC+3TC+DTG",
+      "mrsArvRegimen": ""
+    },
+    {
+      "eidId": "24",
+      "eidCode": "AS6X",
+      "age": "1",
+      "line": "2",
+      "eidDisplay": "Other",
+      "mrsArvRegimen": "5622"
+    },
+    {
+      "eidId": "25",
+      "eidCode": "AT2D",
+      "age": "1",
+      "line": "3",
+      "eidDisplay": "TDF+3TC+DTG+DRV/r",
+      "mrsArvRegimen": ""
+    },
+    {
+      "eidId": "26",
+      "eidCode": "AT2E",
+      "age": "1",
+      "line": "3",
+      "eidDisplay": "TDF+3TC+DTG+DRV/r",
+      "mrsArvRegimen": ""
+    },
+    {
+      "eidId": "27",
+      "eidCode": "AT2F",
+      "age": "1",
+      "line": "3",
+      "eidDisplay": "TDF+3TC+DTG+ETV+DRV/r",
+      "mrsArvRegimen": ""
+    },
+    {
+      "eidId": "28",
+      "eidCode": "AT2X",
+      "age": "1",
+      "line": "3",
+      "eidDisplay": "Other",
+      "mrsArvRegimen": "5622"
+    },
+    {
+      "eidId": "29",
+      "eidCode": "CF2B",
+      "age": "2",
+      "line": "1",
+      "eidDisplay": "ABC+3TC+EFV",
+      "mrsArvRegimen": ""
+    },
+    {
+      "eidId": "30",
+      "eidCode": "CF2D",
+      "age": "2",
+      "line": "1",
+      "eidDisplay": "ABC+3TC+LPV/r",
+      "mrsArvRegimen": "9051"
+    },
+    {
+      "eidId": "31",
+      "eidCode": "CF2A",
+      "age": "2",
+      "line": "1",
+      "eidDisplay": "ABC+3TC+NVP",
+      "mrsArvRegimen": "9050"
+    },
+    {
+      "eidId": "32",
+      "eidCode": "CF2F",
+      "age": "2",
+      "line": "1",
+      "eidDisplay": "ABC+3TC+RAL",
+      "mrsArvRegimen": ""
+    },
+    {
+      "eidId": "33",
+      "eidCode": "CF1A",
+      "age": "2",
+      "line": "1",
+      "eidDisplay": "AZT+3TC+NVP",
+      "mrsArvRegimen": "6467"
+    },
+    {
+      "eidId": "34",
+      "eidCode": "CF1B",
+      "age": "2",
+      "line": "1",
+      "eidDisplay": "AZT+3TC+EFV",
+      "mrsArvRegimen": "9053"
+    },
+    {
+      "eidId": "35",
+      "eidCode": "CF1C",
+      "age": "2",
+      "line": "1",
+      "eidDisplay": "AZT+3TC+LPV/r",
+      "mrsArvRegimen": ""
+    },
+    {
+      "eidId": "36",
+      "eidCode": "CF5X",
+      "age": "2",
+      "line": "1",
+      "eidDisplay": "Other",
+      "mrsArvRegimen": "5622"
+    },
+    {
+      "eidId": "37",
+      "eidCode": "CS1A",
+      "age": "2",
+      "line": "2",
+      "eidDisplay": "AZT+3TC+LPV/r",
+      "mrsArvRegimen": ""
+    },
+    {
+      "eidId": "38",
+      "eidCode": "CS2A",
+      "age": "2",
+      "line": "2",
+      "eidDisplay": "AZT+3TC+LPV/r",
+      "mrsArvRegimen": "9051"
+    },
+    {
+      "eidId": "39",
+      "eidCode": "CS1C",
+      "age": "2",
+      "line": "2",
+      "eidDisplay": "AZT+3TC+DRV/r+RAL",
+      "mrsArvRegimen": ""
+    },
+    {
+      "eidId": "40",
+      "eidCode": "CS1C",
+      "age": "2",
+      "line": "2",
+      "eidDisplay": "ABC+3TC+DRV/r+RAL",
+      "mrsArvRegimen": ""
+    },
+    {
+      "eidId": "41",
+      "eidCode": "CS4X",
+      "age": "2",
+      "line": "2",
+      "eidDisplay": "Other",
+      "mrsArvRegimen": "5622"
+    },
+    {
+      "eidId": "42",
+      "eidCode": "CT1H",
+      "age": "2",
+      "line": "3",
+      "eidDisplay": "AZT+3TC+DRV/r+RAL",
+      "mrsArvRegimen": ""
+    },
+    {
+      "eidId": "43",
+      "eidCode": "CT2D",
+      "age": "2",
+      "line": "3",
+      "eidDisplay": "ABC+3TC+DRV/r+RAL",
+      "mrsArvRegimen": ""
+    },
+    {
+      "eidId": "44",
+      "eidCode": "CT3X",
+      "age": "2",
+      "line": "3",
+      "eidDisplay": "Other",
+      "mrsArvRegimen": "5622"
+    }
+  ],
+  "testOrderJustification": {
+    "5931c4d4-4406-4d71-b75d-2205d905cc24": {
+      "eidId": 1,
+      "eidCode": "",
+      "eidDisplay": "Routine VL",
+      "mrsDisplay": ""
+    },
+    "e43ddeb6-3984-499c-a280-3bade1039608": {
+      "eidId": 2,
+      "eidCode": "",
+      "eidDisplay": "Confirmation of Treatment Failure (Repeat VL at 3M)",
+      "mrsDisplay": ""
+    },
+    "a8981934-1350-11df-a1f1-0026b9348838": {
+      "eidId": 3,
+      "eidCode": "",
+      "eidDisplay": "Clinical Failure",
+      "mrsDisplay": ""
+    },
+    "a8a00158-1350-11df-a1f1-0026b9348838": {
+      "eidId": 4,
+      "eidCode": "",
+      "eidDisplay": "Single Drug Substitution",
+      "mrsDisplay": ""
+    },
+    "3966e139-ca69-47c6-aad3-ebd41bb45e28": {
+      "eidId": 5,
+      "eidCode": "",
+      "eidDisplay": "Baseline VL (for infants diagnosed through EID)",
+      "mrsDisplay": ""
+    },
+    "42cdefa2-c306-4d10-a819-c04131c4934e": {
+      "eidId": 6,
+      "eidCode": "",
+      "eidDisplay": "Confirmation of persistent low level viremia (PLLV)",
+      "mrsDisplay": ""
+    },
+    "a8aaf3e2-1350-11df-a1f1-0026b9348838": {
+      "eidId": 7,
+      "eidCode": "",
+      "eidDisplay": "Other",
+      "mrsDisplay": ""
+    },
+    "undefined": {
+      "eidId": 8,
+      "eidCode": "",
+      "eidDisplay": "No Data",
+      "mrsDisplay": ""
+    }
+  },
+  "dnaPcrEntryPoint": {
+    "a8a09ac8-1350-11df-a1f1-0026b9348838": {
+      "eidDisplay": "OPD",
+      "eidId": 1,
+      "eidCode": "",
+      "mrsDisplay": "OPD"
+    },
+    "3e5ad07b-2ced-4925-8264-cc4d8d1438d4": {
+      "eidDisplay": "Paediatric Ward",
+      "eidId": 2,
+      "eidCode": "",
+      "mrsDisplay": "Peadiatric ward"
+    },
+    "a8a17d80-1350-11df-a1f1-0026b9348838": {
+      "eidDisplay": "MCH/PMTCT",
+      "eidId": 3,
+      "eidCode": "",
+      "mrsDisplay": "MCH"
+    },
+    "a89fbedc-1350-11df-a1f1-0026b9348838": {
+      "eidDisplay": "MCH/PMTCT",
+      "eidId": 3,
+      "eidCode": "",
+      "mrsDisplay": "PMTCT"
+    },
+    "a8a3899a-1350-11df-a1f1-0026b9348838": {
+      "eidDisplay": "CCC/PSC",
+      "eidId": 4,
+      "eidCode": "",
+      "mrsDisplay": "CCC"
+    },
+    "materrnity-uuid": {
+      "eidDisplay": "Materrnity",
+      "eidId": 5,
+      "eidCode": "",
+      "mrsDisplay": "Materrnity"
+    },
+    "a8aaf3e2-1350-11df-a1f1-0026b9348838": {
+      "eidDisplay": "Other",
+      "eidId": 6,
+      "eidCode": "",
+      "mrsDisplay": "Other"
+    },
+    "undefined": {
+      "eidDisplay": "No Data",
+      "eidId": 7,
+      "eidCode": "",
+      "mrsDisplay": "No Data"
+    }
+  },
+  "hivStatus": {
+    "a896f3a6-1350-11df-a1f1-0026b9348838": {
+      "eidId": 2,
+      "eidCode": "",
+      "eidDisplay": "Positive",
+      "mrsDisplay": "Positive"
+    },
+    "a896d2cc-1350-11df-a1f1-0026b9348838": {
+      "eidId": 1,
+      "eidCode": "",
+      "eidDisplay": "Negative",
+      "mrsDisplay": "Negative"
+    },
+    "a899b50a-1350-11df-a1f1-0026b9348838": {
+      "eidId": 0,
+      "eidCode": "",
+      "eidDisplay": "",
+      "mrsDisplay": "Unknown"
+    }
+  },
+  "infantProphylaxis": {
+    "a8967656-1350-11df-a1f1-0026b9348838": {
+      "eidId": 1,
+      "eidCode": "",
+      "eidDisplay": "sdNVP only",
+      "mrsDisplay": "sdNVP only"
+    },
+    "6a73f32d-1870-4527-af6e-74443251ded2": {
+      "eidId": 2,
+      "eidCode": "",
+      "eidDisplay": "sdNVP +AZT +3TC",
+      "mrsDisplay": "sdNVP +AZT +3TC"
+    },
+    "a8967656-1350-11df-a1f1-0026b9348838": {
+      "eidId": 10,
+      "eidCode": "",
+      "eidDisplay": "NVP for 6 weeks",
+      "mrsDisplay": "NVP"
+    },
+    "a897ea4a-1350-11df-a1f1-0026b9348838": {
+      "eidId": 5,
+      "eidCode": "",
+      "eidDisplay": "AZT",
+      "mrsDisplay": "AZT"
+    },
+    "a8967656-1350-11df-a1f1-0026b9348838": {
+      "eidId": 5,
+      "eidCode": "",
+      "eidDisplay": "",
+      "mrsDisplay": "NVP during BF period"
+    },
+    "a899e0ac-1350-11df-a1f1-0026b9348838": {
+      "eidId": 0,
+      "eidCode": "",
+      "eidDisplay": "None",
+      "mrsDisplay": "None"
+    },
+    "undefined": {
+      "eidId": 0,
+      "eidCode": "",
+      "eidDisplay": "None",
+      "mrsDisplay": "None"
+    },
+    "a8aaf3e2-1350-11df-a1f1-0026b9348838": {
+      "eidId": 5,
+      "eidCode": "",
+      "eidDisplay": "Other",
+      "mrsDisplay": "Other"
+    }
+  },
+  "pmtctIntervention": {
+    "a8967656-1350-11df-a1f1-0026b9348838": {
+      "eidId": 1,
+      "eidCode": "",
+      "eidDisplay": "sdNVP only",
+      "mrsDisplay": "sdNVP only"
+    },
+    "0906b973-25da-4e87-a272-84692cdd8453": {
+      "eidId": 5,
+      "eidDisplay": "Uninterrupted HAART (HAART until end of BF)",
+      "mrsDisplay": "Uninterrupted HAART (HAART until end of BF)"
+    },
+    "6a73f32d-1870-4527-af6e-74443251ded2": {
+      "eidId": 2,
+      "eidCode": "",
+      "eidDisplay": "Sd NVP+AZT+3TC",
+      "mrsDisplay": "AZT (from 14wks or later) + sdNVP + 3TC (Tail)"
+    },
+    "a899ccb6-1350-11df-a1f1-0026b9348838": {
+      "eidId": 7,
+      "eidCode": "",
+      "eidDisplay": "HAART",
+      "mrsDisplay": "HAART"
+    },
+    "a899e0ac-1350-11df-a1f1-0026b9348838": {
+      "eidId": 6,
+      "eidCode": "",
+      "eidDisplay": "None",
+      "mrsDisplay": "None"
+    },
+    "undefined": {
+      "eidId": 6,
+      "eidCode": "",
+      "eidDisplay": "None",
+      "mrsDisplay": "None"
+    },
+    "a8aaf3e2-1350-11df-a1f1-0026b9348838": {
+      "eidId": 5,
+      "eidCode": "",
+      "eidDisplay": "Other",
+      "mrsDisplay": "Other"
+    }
+  },
+  "infantFeedingPlan": {
+    "a8a8d9b8-1350-11df-a1f1-0026b9348838": {
+      "eidId": 1,
+      "eidCode": "",
+      "eidDisplay": "EBF=Exclusive breastfeeding",
+      "mrsDisplay": "EBF=Exclusive breastfeeding"
+    },
+    "a8a70156-1350-11df-a1f1-0026b9348838": {
+      "eidId": 4,
+      "eidCode": "",
+      "eidDisplay": "ERF=Exclusive replacement feeding",
+      "mrsDisplay": "ERF=Exclusive replacement feeding"
+    },
+    "a89cca10-1350-11df-a1f1-0026b9348838": {
+      "eidId": 2,
+      "eidCode": "",
+      "eidDisplay": "MF=Mixed Feeding",
+      "mrsDisplay": "MF=Mixed Feeding"
+    },
+    "a8ae86e2-1350-11df-a1f1-0026b9348838": {
+      "eidId": 6,
+      "eidCode": "",
+      "eidDisplay": "BF= Breastfeeding",
+      "mrsDisplay": "BF= Breastfeeding"
+    },
+    "a89cc934-1350-11df-a1f1-0026b9348838": {
+      "eidId": 7,
+      "eidCode": "",
+      "eidDisplay": "NBF=Not breastfeeding",
+      "mrsDisplay": "NBF=Not breastfeeding"
     }
   }
+}

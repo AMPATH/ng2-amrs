@@ -1,109 +1,109 @@
 {
-    "name": "dataEntryStatistics",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [],
-    "sources": [
-        {
-            "table": "amrs.encounter_provider",
-            "alias": "ep"
-        },
-        {
-            "table": "amrs.encounter",
-            "alias": "e",
-            "join": {
-                "type": "INNER",
-                "joinCondition": "ep.encounter_id = e.encounter_id"
-            }
-        },
-        {
-            "table": "amrs.encounter_type",
-            "alias": "et",
-            "join": {
-                "type": "INNER",
-                "joinCondition": "et.encounter_type_id = e.encounter_type"
-            }
-        },
-        {
-            "table": "amrs.provider",
-            "alias": "p",
-            "join": {
-                "type": "INNER",
-                "joinCondition": "p.provider_id = ep.provider_id"
-            }
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "date",
-            "column": "date(e.encounter_datetime)"
-        },
-        {
-            "type": "simple_column",
-            "alias": "month",
-            "column": "DATE_FORMAT(e.encounter_datetime, '%M, %Y')"
-        },
-        {
-            "type": "simple_column",
-            "alias": "creator_id",
-            "column": "e.creator"
-        },
-        {
-            "type": "simple_column",
-            "alias": "provider_id",
-            "column": "p.provider_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "encounter_type_id",
-            "column": "e.encounter_type"
-        },
-        {
-            "type": "simple_column",
-            "alias": "encounter_type",
-            "column": "et.name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "encounter_type_uuid",
-            "column": "et.uuid"
-        }
-    ],
-    "filters": {
-        "conditionJoinOperator": "and",
-        "conditions": [
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "date(e.encounter_datetime) <= date(?)",
-                "parameterName": "endDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "date(e.encounter_datetime) >= date(?)",
-                "parameterName": "startDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "e.location_id in ?",
-                "parameterName": "locations"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "p.uuid = ?",
-                "parameterName": "providerUuid"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "e.form_id in ?",
-                "parameterName": "encounterTypeIds"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "e.encounter_type in ?",
-                "parameterName": "encounterTypeIds"
-            }
-        ]
+  "name": "dataEntryStatistics",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "amrs.encounter_provider",
+      "alias": "ep"
+    },
+    {
+      "table": "amrs.encounter",
+      "alias": "e",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "ep.encounter_id = e.encounter_id"
+      }
+    },
+    {
+      "table": "amrs.encounter_type",
+      "alias": "et",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "et.encounter_type_id = e.encounter_type"
+      }
+    },
+    {
+      "table": "amrs.provider",
+      "alias": "p",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "p.provider_id = ep.provider_id"
+      }
     }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "date",
+      "column": "date(e.encounter_datetime)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "month",
+      "column": "DATE_FORMAT(e.encounter_datetime, '%M, %Y')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "creator_id",
+      "column": "e.creator"
+    },
+    {
+      "type": "simple_column",
+      "alias": "provider_id",
+      "column": "p.provider_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "encounter_type_id",
+      "column": "e.encounter_type"
+    },
+    {
+      "type": "simple_column",
+      "alias": "encounter_type",
+      "column": "et.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "encounter_type_uuid",
+      "column": "et.uuid"
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "date(e.encounter_datetime) <= date(?)",
+        "parameterName": "endDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "date(e.encounter_datetime) >= date(?)",
+        "parameterName": "startDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "e.location_id in ?",
+        "parameterName": "locations"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "p.uuid = ?",
+        "parameterName": "providerUuid"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "e.form_id in ?",
+        "parameterName": "encounterTypeIds"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "e.encounter_type in ?",
+        "parameterName": "encounterTypeIds"
+      }
+    ]
+  }
 }

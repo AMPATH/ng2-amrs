@@ -1,200 +1,191 @@
 {
-    "name": "mainDatasetAggregateAgeDisaggregation",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [
-        {
-            "name": "mainDataSetBaseAge18",
-            "version": "1.0",
-            "type": "dataset_def"
-        }
-    ],
-    "sources": [
-        {
-            "dataSet": "mainDataSetBaseAge18",
-            "alias": "hmsd"
-        }
-    ],
-    "columns": [
-        {
-            "type": "derived_column",
-            "alias": "join_location",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "1"
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_uuid",
-            "column": "hmsd.location_uuid"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location",
-            "column": "hmsd.location"
-        },
-        {
-            "type": "simple_column",
-            "alias": "gender",
-            "column": "hmsd.gender"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_id",
-            "column": "hmsd.location_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "age_range",
-            "column": "hmsd.age_range"
-        },
-        {
-            "type": "derived_column",
-            "alias": "enrolled_this_month",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(hmsd.enrolled_this_month)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "pre_art",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(hmsd.pre_art)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "current_in_care",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(hmsd.current_in_care)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "active_on_art",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(hmsd.active_on_art)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_ctx_prophylaxis",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(hmsd.on_ctx_prophylaxis)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "screened_for_tb",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(hmsd.screened_for_tb)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "tb_screened_this_visit_this_month",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(hmsd.tb_screened_this_visit_this_month)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "tb_screened_positive",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(hmsd.tb_screened_positive)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "started_ipt",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(hmsd.started_ipt)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "completed_ipt_past_12_months",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(hmsd.completed_ipt_past_12_months)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "condoms_provided",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(hmsd.condoms_provided)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "started_modern_contraception",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(hmsd.condoms_provided)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_modern_contraception",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(hmsd.on_modern_contraception)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "f_gte_18_visits",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(hmsd.f_gte_18_visits)"
-            }
-        }
-    ],
-    "groupBy": {
-        "groupParam": "groupByParam",
-        "columns": [
-            "age_range",
-            "location_id"
-        ],
-        "excludeParam": "excludeParam"
-    },
-    "transFormDirectives": {
-        "joinColumn": "location_id",
-        "joinColumnParam": "joinColumnParam",
-        "skipColumns": [
-            "location_uuid",
-            "gender",
-            "join_location"
-        ],
-        "disaggregationColumns": [
-            "age_range"
-        ]
-    },
-    "dynamicJsonQueryGenerationDirectives": {
-        "patientListGenerator": {
-            "useTemplate": "patient-list-frozen-template",
-            "useTemplateVersion": "1.0",
-            "generatingDirectives": {
-                "joinDirectives": {
-                    "joinType": "INNER",
-                    "joinCondition": "<<base_column>> = <<template_column>>",
-                    "baseColumn": "person_id",
-                    "templateColumn": "person_id"
-                }
-            }
-        }
+  "name": "mainDatasetAggregateAgeDisaggregation",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [
+    {
+      "name": "mainDataSetBaseAge18",
+      "version": "1.0",
+      "type": "dataset_def"
     }
+  ],
+  "sources": [
+    {
+      "dataSet": "mainDataSetBaseAge18",
+      "alias": "hmsd"
+    }
+  ],
+  "columns": [
+    {
+      "type": "derived_column",
+      "alias": "join_location",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "1"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "hmsd.location_uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "hmsd.location"
+    },
+    {
+      "type": "simple_column",
+      "alias": "gender",
+      "column": "hmsd.gender"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "hmsd.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "age_range",
+      "column": "hmsd.age_range"
+    },
+    {
+      "type": "derived_column",
+      "alias": "enrolled_this_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.enrolled_this_month)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "pre_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.pre_art)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "current_in_care",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.current_in_care)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "active_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.active_on_art)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_ctx_prophylaxis",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.on_ctx_prophylaxis)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "screened_for_tb",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.screened_for_tb)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "tb_screened_this_visit_this_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.tb_screened_this_visit_this_month)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "tb_screened_positive",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.tb_screened_positive)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "started_ipt",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.started_ipt)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "completed_ipt_past_12_months",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.completed_ipt_past_12_months)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "condoms_provided",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.condoms_provided)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "started_modern_contraception",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.condoms_provided)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_modern_contraception",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.on_modern_contraception)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "f_gte_18_visits",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.f_gte_18_visits)"
+      }
+    }
+  ],
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["age_range", "location_id"],
+    "excludeParam": "excludeParam"
+  },
+  "transFormDirectives": {
+    "joinColumn": "location_id",
+    "joinColumnParam": "joinColumnParam",
+    "skipColumns": ["location_uuid", "gender", "join_location"],
+    "disaggregationColumns": ["age_range"]
+  },
+  "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+      "useTemplate": "patient-list-frozen-template",
+      "useTemplateVersion": "1.0",
+      "generatingDirectives": {
+        "joinDirectives": {
+          "joinType": "INNER",
+          "joinCondition": "<<base_column>> = <<template_column>>",
+          "baseColumn": "person_id",
+          "templateColumn": "person_id"
+        }
+      }
+    }
+  }
 }

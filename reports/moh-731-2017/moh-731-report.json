@@ -1,45 +1,76 @@
 [
   {
     "name": "MOH-731-report-2017",
-    "table":{"schema":"","tableName":"","alias":"t1","dynamicDataset":"moh-731-2017-any-encounters-within-reporting-period-dataset"},
-    "joins":[
-      {"joinType":"LEFT OUTER JOIN","schema":"","alias":"t2","joinExpression":"t2.joining_location_id = t1.location_id",
-        "dynamicDataset":"moh-731-2017-monthly-dataset"},
-      {"joinType":"LEFT OUTER JOIN","schema":"","alias":"t3","joinExpression":"t3.joining_location_id = t1.location_id",
-        "dynamicDataset":"moh-731-2017-retention-dataset"},
-      {"joinType":"LEFT OUTER JOIN","schema":"","alias":"t4","joinExpression":"t4.joining_location_id = t1.location_id",
-        "dynamicDataset":"moh-731-cumulative-dataset"},
-      {"joinType":"LEFT OUTER JOIN","schema":"","alias":"t5","joinExpression":"t5.joining_location_id = t1.location_id",
-        "dynamicDataset":"PEP-encounters-within-reporting-period-dataset"}
-
+    "table": {
+      "schema": "",
+      "tableName": "",
+      "alias": "t1",
+      "dynamicDataset": "moh-731-2017-any-encounters-within-reporting-period-dataset"
+    },
+    "joins": [
+      {
+        "joinType": "LEFT OUTER JOIN",
+        "schema": "",
+        "alias": "t2",
+        "joinExpression": "t2.joining_location_id = t1.location_id",
+        "dynamicDataset": "moh-731-2017-monthly-dataset"
+      },
+      {
+        "joinType": "LEFT OUTER JOIN",
+        "schema": "",
+        "alias": "t3",
+        "joinExpression": "t3.joining_location_id = t1.location_id",
+        "dynamicDataset": "moh-731-2017-retention-dataset"
+      },
+      {
+        "joinType": "LEFT OUTER JOIN",
+        "schema": "",
+        "alias": "t4",
+        "joinExpression": "t4.joining_location_id = t1.location_id",
+        "dynamicDataset": "moh-731-cumulative-dataset"
+      },
+      {
+        "joinType": "LEFT OUTER JOIN",
+        "schema": "",
+        "alias": "t5",
+        "joinExpression": "t5.joining_location_id = t1.location_id",
+        "dynamicDataset": "PEP-encounters-within-reporting-period-dataset"
+      }
     ],
     "parameters": [
       {
-        "name":"locations",
-        "defaultValue":[]
+        "name": "locations",
+        "defaultValue": []
       },
       {
-        "name":"groupByLocation",
-        "defaultValue":[{"label":"location","expression":"t1.location_id"}]
+        "name": "groupByLocation",
+        "defaultValue": [
+          { "label": "location", "expression": "t1.location_id" }
+        ]
       },
       {
-        "name":"groupByMonth",
-        "defaultValue":[{"expression":"date_format(encounter_datetime,'%m-%Y')", "label":"date"}]
+        "name": "groupByMonth",
+        "defaultValue": [
+          {
+            "expression": "date_format(encounter_datetime,'%m-%Y')",
+            "label": "date"
+          }
+        ]
       }
     ],
     "filters": [
-      {"expression":"t1.location_id in ?","parameter":"locations"}
+      { "expression": "t1.location_id in ?", "parameter": "locations" }
     ],
-    "groupClause":[
-      {"parameter":"groupByLocation"},
-      {"parameter":"groupByMonth"}
+    "groupClause": [
+      { "parameter": "groupByLocation" },
+      { "parameter": "groupByMonth" }
     ],
     "indicators": [],
-    "supplementColumns":[
+    "supplementColumns": [
       {
-        "label":"all",
-        "type":"all",
-        "sql":"*"
+        "label": "all",
+        "type": "all",
+        "sql": "*"
       }
     ]
   }

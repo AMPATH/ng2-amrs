@@ -1,71 +1,69 @@
 {
-    "name": "dailyHasNotReturnedCohort",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [],
-    "sources": [
-        {
-            "table": "etl.flat_appointment",
-            "alias": "t2"
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "person_id",
-            "column": "t2.person_id"
-        },
-        {
-          "type": "simple_column",
-          "alias": "is_clinical",
-          "column": "t2.is_clinical"
-        },
-        {
-            "type": "simple_column",
-            "alias": "latest_rtc_date",
-            "column": "scheduled_date"
-        },
-        {
-            "type": "simple_column",
-          "alias": "department_id",
-          "column": "department_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "next_clinical_encounter_datetime",
-            "column": "next_clinical_encounter_datetime"
-        },
-        {
-            "type": "simple_column",
-            "alias": "program_id",
-            "column": "program_id"
-        }
-    ],
-    "filters": {
-        "conditionJoinOperator": "and",
-        "conditions": [
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "t2.location_id in (?)",
-                "parameterName": "locations"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "t2.is_clinical = 1",
-                "parameterName": ""
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "t2.next_clinical_encounter_datetime IS NULL"
-            }
-        ]
-    },
-    "groupBy": {
-        "groupParam": "groupByParam",
-        "columns": [
-            "person_id"
-        ],
-        "excludeParam": "excludeParam"
+  "name": "dailyHasNotReturnedCohort",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "etl.flat_appointment",
+      "alias": "t2"
     }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "t2.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "is_clinical",
+      "column": "t2.is_clinical"
+    },
+    {
+      "type": "simple_column",
+      "alias": "latest_rtc_date",
+      "column": "scheduled_date"
+    },
+    {
+      "type": "simple_column",
+      "alias": "department_id",
+      "column": "department_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "next_clinical_encounter_datetime",
+      "column": "next_clinical_encounter_datetime"
+    },
+    {
+      "type": "simple_column",
+      "alias": "program_id",
+      "column": "program_id"
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "t2.location_id in (?)",
+        "parameterName": "locations"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "t2.is_clinical = 1",
+        "parameterName": ""
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "t2.next_clinical_encounter_datetime IS NULL"
+      }
+    ]
+  },
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["person_id"],
+    "excludeParam": "excludeParam"
+  }
 }

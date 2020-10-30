@@ -1,210 +1,210 @@
 {
-    "name": "retentionDataSetbase",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [],
-    "sources": [
-        {
-            "table": "<<hivMonthlyDatasetSource>>",
-            "alias": "hmsd"
-        },
-        {
-            "table": "amrs.location",
-            "alias": "l",
-            "join": {
-                "type": "INNER",
-                "joinCondition": "l.location_id = hmsd.location_id"
-            }
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "location_id",
-            "column": "hmsd.location_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_uuid",
-            "column": "l.uuid"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location",
-            "column": "l.name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "person_id",
-            "column": "hmsd.person_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "gender",
-            "column": "hmsd.gender"
-        },
-        {
-            "type": "simple_column",
-            "alias": "birthdate",
-            "column": "hmsd.birthdate"
-        },
-        {
-            "type": "simple_column",
-            "alias": "age",
-            "column": "hmsd.age"
-        },
-        {
-            "type": "simple_column",
-            "alias": "cur_arv_meds",
-            "column": "hmsd.cur_arv_meds"
-        },
-        {
-            "type": "derived_column",
-            "alias": "enrollment_date",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "date_format(hmsd.enrollment_date,'%d-%m-%Y')"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "arv_first_regimen_start_date",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "date_format(hmsd.arv_first_regimen_start_date,'%d-%m-%Y')"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "cur_regimen_arv_start_date",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "date_format(hmsd.arv_start_date,'%d-%m-%Y')"
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "cur_arv_line",
-            "column": "hmsd.cur_arv_line"
-        },
-        {
-            "type": "simple_column",
-            "alias": "vl_1",
-            "column": "hmsd.vl_1"
-        },
-        {
-            "type": "derived_column",
-            "alias": "vl_1_date",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "date_format(hmsd.vl_1_date,'%d-%m-%Y')"
-            }
-        },
-        {
-            "alias": "net_cohort",
-            "expressionOptions": {
-                "expression": "1"
-            },
-            "type": "derived_column",
-            "expressionType": "simple_expression"
-        },
-        {
-            "alias": "active",
-            "expressionOptions": {
-                "expression": "if(status='active',1,null)"
-            },
-            "type": "derived_column",
-            "expressionType": "simple_expression"
-        },
-        {
-            "alias": "ltfu",
-            "expressionOptions": {
-                "expression": "if(status='ltfu',1,null)"
-            },
-            "type": "derived_column",
-            "expressionType": "simple_expression"
-        },
-        {
-            "alias": "dead",
-            "expressionOptions": {
-                "expression": "if(status='dead',1,null)"
-            },
-            "type": "derived_column",
-            "expressionType": "simple_expression"
-        },
-        {
-            "alias": "on_tx",
-            "expressionOptions": {
-                "expression": "if(on_art_this_month=1,1,null)"
-            },
-            "type": "derived_column",
-            "expressionType": "simple_expression"
-        },
-        {
-            "alias": "suppressed",
-            "expressionOptions": {
-                "expression": "if(hmsd.vl_1<1000 and vl_in_past_year=1,1,null)"
-            },
-            "type": "derived_column",
-            "expressionType": "simple_expression"
-        },
-        {
-            "alias": "total_with_vl",
-            "expressionOptions": {
-                "expression": "if(vl_in_past_year=1,1,null)"
-            },
-            "type": "derived_column",
-            "expressionType": "simple_expression"
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_original_first_line",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "IF(status = 'active' AND hmsd.cur_arv_line = 1 AND hmsd.arv_first_regimen = hmsd.cur_arv_meds,1, NULL)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_alternative_first_line",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "IF(status = 'active' AND hmsd.cur_arv_line = 1 AND hmsd.arv_first_regimen <> hmsd.cur_arv_meds,1, NULL)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_second_line",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "IF(status = 'active' AND hmsd.cur_arv_line >= 2,1,NULL)"
-            }
-        }
-    ],
-    "filters": {
-        "conditionJoinOperator": "and",
-        "conditions": [
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "endDate = ?",
-                "parameterName": "endDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "status in ('active','ltfu','dead')",
-                "parameterName": ""
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "hmsd.arv_first_regimen_start_date between date_format(date_sub(endDate,interval 1 year),'%Y-%m-01') and date_sub(endDate,interval 1 year)",
-                "parameterName": ""
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "hmsd.location_id in ?",
-                "parameterName": "locations"
-            }
-        ]
+  "name": "retentionDataSetbase",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "<<hivMonthlyDatasetSource>>",
+      "alias": "hmsd"
+    },
+    {
+      "table": "amrs.location",
+      "alias": "l",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "l.location_id = hmsd.location_id"
+      }
     }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "hmsd.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "l.uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "l.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "hmsd.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "gender",
+      "column": "hmsd.gender"
+    },
+    {
+      "type": "simple_column",
+      "alias": "birthdate",
+      "column": "hmsd.birthdate"
+    },
+    {
+      "type": "simple_column",
+      "alias": "age",
+      "column": "hmsd.age"
+    },
+    {
+      "type": "simple_column",
+      "alias": "cur_arv_meds",
+      "column": "hmsd.cur_arv_meds"
+    },
+    {
+      "type": "derived_column",
+      "alias": "enrollment_date",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "date_format(hmsd.enrollment_date,'%d-%m-%Y')"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "arv_first_regimen_start_date",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "date_format(hmsd.arv_first_regimen_start_date,'%d-%m-%Y')"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "cur_regimen_arv_start_date",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "date_format(hmsd.arv_start_date,'%d-%m-%Y')"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "cur_arv_line",
+      "column": "hmsd.cur_arv_line"
+    },
+    {
+      "type": "simple_column",
+      "alias": "vl_1",
+      "column": "hmsd.vl_1"
+    },
+    {
+      "type": "derived_column",
+      "alias": "vl_1_date",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "date_format(hmsd.vl_1_date,'%d-%m-%Y')"
+      }
+    },
+    {
+      "alias": "net_cohort",
+      "expressionOptions": {
+        "expression": "1"
+      },
+      "type": "derived_column",
+      "expressionType": "simple_expression"
+    },
+    {
+      "alias": "active",
+      "expressionOptions": {
+        "expression": "if(status='active',1,null)"
+      },
+      "type": "derived_column",
+      "expressionType": "simple_expression"
+    },
+    {
+      "alias": "ltfu",
+      "expressionOptions": {
+        "expression": "if(status='ltfu',1,null)"
+      },
+      "type": "derived_column",
+      "expressionType": "simple_expression"
+    },
+    {
+      "alias": "dead",
+      "expressionOptions": {
+        "expression": "if(status='dead',1,null)"
+      },
+      "type": "derived_column",
+      "expressionType": "simple_expression"
+    },
+    {
+      "alias": "on_tx",
+      "expressionOptions": {
+        "expression": "if(on_art_this_month=1,1,null)"
+      },
+      "type": "derived_column",
+      "expressionType": "simple_expression"
+    },
+    {
+      "alias": "suppressed",
+      "expressionOptions": {
+        "expression": "if(hmsd.vl_1<1000 and vl_in_past_year=1,1,null)"
+      },
+      "type": "derived_column",
+      "expressionType": "simple_expression"
+    },
+    {
+      "alias": "total_with_vl",
+      "expressionOptions": {
+        "expression": "if(vl_in_past_year=1,1,null)"
+      },
+      "type": "derived_column",
+      "expressionType": "simple_expression"
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_original_first_line",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(status = 'active' AND hmsd.cur_arv_line = 1 AND hmsd.arv_first_regimen = hmsd.cur_arv_meds,1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_alternative_first_line",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(status = 'active' AND hmsd.cur_arv_line = 1 AND hmsd.arv_first_regimen <> hmsd.cur_arv_meds,1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_second_line",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(status = 'active' AND hmsd.cur_arv_line >= 2,1,NULL)"
+      }
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "endDate = ?",
+        "parameterName": "endDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "status in ('active','ltfu','dead')",
+        "parameterName": ""
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "hmsd.arv_first_regimen_start_date between date_format(date_sub(endDate,interval 1 year),'%Y-%m-01') and date_sub(endDate,interval 1 year)",
+        "parameterName": ""
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "hmsd.location_id in ?",
+        "parameterName": "locations"
+      }
+    ]
+  }
 }

@@ -1,356 +1,356 @@
 {
-    "name": "clinicComparatorBase",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [],
-    "sources": [
-        {
-            "table": "etl.flat_hiv_summary_v15b",
-            "alias": "hmsd"
-        },
-        {
-            "table": "amrs.location",
-            "alias": "l",
-            "join": {
-                "type": "INNER",
-                "joinCondition": "l.location_id = hmsd.location_id"
-            }
-        },
-        {
-            "table": "amrs.person",
-            "alias": "p",
-            "join": {
-                "type": "INNER",
-                "joinCondition": "p.person_id = hmsd.person_id"
-            }
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "person_id",
-            "column": "hmsd.person_id"
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_arvs",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(cur_arv_line is not null,hmsd.person_id,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_arvs_first_line",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(cur_arv_line=1,hmsd.person_id,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_arvs_second_line",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(cur_arv_line=2,hmsd.person_id,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_arvs_third_line",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(cur_arv_line>2,hmsd.person_id,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "vl_done_past_year",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(timestampdiff(week,vl_1_date,encounter_datetime) <= 52,hmsd.person_id,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "no_vl_done_past_year",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(cur_arv_line is not null and (vl_1_date is null or timestampdiff(week,vl_1_date,encounter_datetime) >= 52),hmsd.person_id,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_second_line_not_suppressed",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(vl_1 > 1000 and cur_arv_line =2,hmsd.person_id,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "not_on_arvs_cd4_lte_500",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(arv_start_date is null and cd4_1 < 500,hmsd.person_id,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "vl_done_past_year_lte_1000",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(timestampdiff(week,vl_1_date,encounter_datetime) <= 52 and vl_1 <= 1000,hmsd.person_id,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "vl_done_past_year_gt_1000",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(timestampdiff(week,vl_1_date,encounter_datetime) <= 52 and vl_1 > 1000,hmsd.person_id,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "vl_done_this_encounter",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(vl_resulted >= 0 and vl_resulted_date=date(encounter_datetime),hmsd.person_id,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "vl_done_this_encounter_lte_1000",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(vl_resulted <= 1000 and vl_resulted_date = date(encounter_datetime),hmsd.person_id,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "vl_done_this_encounter_gt_1000",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(vl_resulted > 1000 and vl_resulted_date = date(encounter_datetime),hmsd.person_id,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "vl_ordered",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(date(vl_order_date)=date(encounter_datetime),hmsd.person_id,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "pending_vl_order",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(timestampdiff(week,vl_order_date,encounter_datetime) >= 0 and vl_1_date < vl_order_date,hmsd.person_id,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "pending_vl_order_no_result_after_4_weeks",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(timestampdiff(week,vl_order_date,encounter_datetime) >= 4 and vl_1_date < vl_order_date,hmsd.person_id,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_arvs_lte_26_weeks",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(timestampdiff(week,arv_start_date,encounter_datetime) <= 26,hmsd.person_id,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_arvs_lte_52_weeks",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(timestampdiff(week,arv_start_date,encounter_datetime) <= 52,hmsd.person_id,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_arvs_lte_52_weeks_and_have_vl",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(timestampdiff(week,arv_start_date,encounter_datetime) <= 52 and timestampdiff(week,vl_1_date,encounter_datetime) <= 52,hmsd.person_id,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_arvs_lte_52_weeks_and_have_vl_lte_1000",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(timestampdiff(week,arv_start_date,encounter_datetime) <= 52 and timestampdiff(week,vl_1_date,encounter_datetime) <= 52 and vl_1 <= 1000,hmsd.person_id,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "pregnant",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(edd > encounter_datetime,hmsd.person_id,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "pregnant_and_on_arvs",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(is_pregnant is not null and cur_arv_line is not null,hmsd.person_id,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "newly_enrolled",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(is_clinical_encounter=1 and prev_clinical_datetime_hiv is null,hmsd.person_id,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "enrolled_in_care_total",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if((date(prev_clinical_datetime_hiv) between '{startDate}' and '{endDate}'  or prev_clinical_datetime_hiv is null) and date(enrollment_date) between '{startDate}' and '{endDate}',hmsd.person_id,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "virally_suppressed",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(vl_1 < 1000 and  timestampdiff(week,vl_1_date,encounter_datetime) <= 52,hmsd.person_id,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "virally_suppressed_in_past_year",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(vl_1 < 1000 and  timestampdiff(week,vl_1_date,encounter_datetime) <= 52,hmsd.person_id,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "viral_load_resulted_in_past_year",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(vl_1 is not null and  timestampdiff(week,vl_1_date,encounter_datetime) <= 52,hmsd.person_id,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "not_virally_suppressed_in_past_year",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(vl_1> 1000 and  timestampdiff(week,vl_1_date,encounter_datetime) <= 52,hmsd.person_id,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_arvs_gt_26_weeks",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(timestampdiff(week,arv_start_date,encounter_datetime) > 26,hmsd.person_id,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_arvs_gt_26_weeks",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(timestampdiff(week,arv_start_date,encounter_datetime) > 26,hmsd.person_id,null)"
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "location",
-            "column": "l.name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_id",
-            "column": "hmsd.location_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "encounter_datetime",
-            "column": "hmsd.encounter_datetime"
-        },
-        {
-            "type": "simple_column",
-            "alias": "month",
-            "column": "hmsd.encounter_datetime"
-        },
-        {
-            "type": "simple_column",
-            "alias": "reporting_month",
-            "column": "date_format(hmsd.encounter_datetime, '%m/%Y')"
-        },
-        {
-            "type": "simple_column",
-            "alias": "year",
-            "column": "YEAR(encounter_datetime)"
-        }
-    ],
-    "filters": {
-        "conditionJoinOperator": "and",
-        "conditions": [
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "encounter_datetime >= ?",
-                "parameterName": "startDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "encounter_datetime <= ?",
-                "parameterName": "endDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "location_uuid in ?",
-                "parameterName": "locationUuids"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "round(datediff(hmsd.encounter_datetime,p.birthdate)/365) >= ?",
-                "parameterName": "startAge"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "round(datediff(hmsd.encounter_datetime,p.birthdate)/365) <= ?",
-                "parameterName": "endAge"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "p.gender in ?",
-                "parameterName": "gender"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "is_clinical_encounter = 1",
-                "parameterName": ""
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "coalesce(hmsd.death_date, out_of_care) is null",
-                "parameterName": ""
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "(hmsd.next_clinical_datetime_hiv is null or next_clinical_datetime_hiv  >= ?)",
-                "parameterName": "startDate"
-            }
-        ]
+  "name": "clinicComparatorBase",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "etl.flat_hiv_summary_v15b",
+      "alias": "hmsd"
+    },
+    {
+      "table": "amrs.location",
+      "alias": "l",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "l.location_id = hmsd.location_id"
+      }
+    },
+    {
+      "table": "amrs.person",
+      "alias": "p",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "p.person_id = hmsd.person_id"
+      }
     }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "hmsd.person_id"
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_arvs",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(cur_arv_line is not null,hmsd.person_id,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_arvs_first_line",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(cur_arv_line=1,hmsd.person_id,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_arvs_second_line",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(cur_arv_line=2,hmsd.person_id,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_arvs_third_line",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(cur_arv_line>2,hmsd.person_id,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "vl_done_past_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(timestampdiff(week,vl_1_date,encounter_datetime) <= 52,hmsd.person_id,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "no_vl_done_past_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(cur_arv_line is not null and (vl_1_date is null or timestampdiff(week,vl_1_date,encounter_datetime) >= 52),hmsd.person_id,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_second_line_not_suppressed",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(vl_1 > 1000 and cur_arv_line =2,hmsd.person_id,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "not_on_arvs_cd4_lte_500",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(arv_start_date is null and cd4_1 < 500,hmsd.person_id,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "vl_done_past_year_lte_1000",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(timestampdiff(week,vl_1_date,encounter_datetime) <= 52 and vl_1 <= 1000,hmsd.person_id,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "vl_done_past_year_gt_1000",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(timestampdiff(week,vl_1_date,encounter_datetime) <= 52 and vl_1 > 1000,hmsd.person_id,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "vl_done_this_encounter",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(vl_resulted >= 0 and vl_resulted_date=date(encounter_datetime),hmsd.person_id,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "vl_done_this_encounter_lte_1000",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(vl_resulted <= 1000 and vl_resulted_date = date(encounter_datetime),hmsd.person_id,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "vl_done_this_encounter_gt_1000",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(vl_resulted > 1000 and vl_resulted_date = date(encounter_datetime),hmsd.person_id,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "vl_ordered",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(date(vl_order_date)=date(encounter_datetime),hmsd.person_id,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "pending_vl_order",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(timestampdiff(week,vl_order_date,encounter_datetime) >= 0 and vl_1_date < vl_order_date,hmsd.person_id,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "pending_vl_order_no_result_after_4_weeks",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(timestampdiff(week,vl_order_date,encounter_datetime) >= 4 and vl_1_date < vl_order_date,hmsd.person_id,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_arvs_lte_26_weeks",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(timestampdiff(week,arv_start_date,encounter_datetime) <= 26,hmsd.person_id,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_arvs_lte_52_weeks",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(timestampdiff(week,arv_start_date,encounter_datetime) <= 52,hmsd.person_id,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_arvs_lte_52_weeks_and_have_vl",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(timestampdiff(week,arv_start_date,encounter_datetime) <= 52 and timestampdiff(week,vl_1_date,encounter_datetime) <= 52,hmsd.person_id,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_arvs_lte_52_weeks_and_have_vl_lte_1000",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(timestampdiff(week,arv_start_date,encounter_datetime) <= 52 and timestampdiff(week,vl_1_date,encounter_datetime) <= 52 and vl_1 <= 1000,hmsd.person_id,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "pregnant",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(edd > encounter_datetime,hmsd.person_id,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "pregnant_and_on_arvs",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(is_pregnant is not null and cur_arv_line is not null,hmsd.person_id,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "newly_enrolled",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(is_clinical_encounter=1 and prev_clinical_datetime_hiv is null,hmsd.person_id,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "enrolled_in_care_total",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((date(prev_clinical_datetime_hiv) between '{startDate}' and '{endDate}'  or prev_clinical_datetime_hiv is null) and date(enrollment_date) between '{startDate}' and '{endDate}',hmsd.person_id,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "virally_suppressed",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(vl_1 < 1000 and  timestampdiff(week,vl_1_date,encounter_datetime) <= 52,hmsd.person_id,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "virally_suppressed_in_past_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(vl_1 < 1000 and  timestampdiff(week,vl_1_date,encounter_datetime) <= 52,hmsd.person_id,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "viral_load_resulted_in_past_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(vl_1 is not null and  timestampdiff(week,vl_1_date,encounter_datetime) <= 52,hmsd.person_id,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "not_virally_suppressed_in_past_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(vl_1> 1000 and  timestampdiff(week,vl_1_date,encounter_datetime) <= 52,hmsd.person_id,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_arvs_gt_26_weeks",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(timestampdiff(week,arv_start_date,encounter_datetime) > 26,hmsd.person_id,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_arvs_gt_26_weeks",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(timestampdiff(week,arv_start_date,encounter_datetime) > 26,hmsd.person_id,null)"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "l.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "hmsd.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "encounter_datetime",
+      "column": "hmsd.encounter_datetime"
+    },
+    {
+      "type": "simple_column",
+      "alias": "month",
+      "column": "hmsd.encounter_datetime"
+    },
+    {
+      "type": "simple_column",
+      "alias": "reporting_month",
+      "column": "date_format(hmsd.encounter_datetime, '%m/%Y')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "year",
+      "column": "YEAR(encounter_datetime)"
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "encounter_datetime >= ?",
+        "parameterName": "startDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "encounter_datetime <= ?",
+        "parameterName": "endDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "location_uuid in ?",
+        "parameterName": "locationUuids"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "round(datediff(hmsd.encounter_datetime,p.birthdate)/365) >= ?",
+        "parameterName": "startAge"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "round(datediff(hmsd.encounter_datetime,p.birthdate)/365) <= ?",
+        "parameterName": "endAge"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "p.gender in ?",
+        "parameterName": "gender"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "is_clinical_encounter = 1",
+        "parameterName": ""
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "coalesce(hmsd.death_date, out_of_care) is null",
+        "parameterName": ""
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "(hmsd.next_clinical_datetime_hiv is null or next_clinical_datetime_hiv  >= ?)",
+        "parameterName": "startDate"
+      }
+    ]
+  }
 }

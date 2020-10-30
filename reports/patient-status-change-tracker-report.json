@@ -19,21 +19,15 @@
     "parameters": [
       {
         "name": "startDate",
-        "defaultValue": [
-          "01-01-1980"
-        ]
+        "defaultValue": ["01-01-1980"]
       },
       {
         "name": "endDate",
-        "defaultValue": [
-          "Now()"
-        ]
+        "defaultValue": ["Now()"]
       },
       {
         "name": "locationUuids",
-        "defaultValue": [
-          1
-        ]
+        "defaultValue": [1]
       },
       {
         "name": "locations",
@@ -127,8 +121,6 @@
         "expression": "transfer_in",
         "sql": "count($expression)"
       }
-
-
     ],
     "supplementColumns": [
       {
@@ -177,9 +169,6 @@
       "t1.prev_rtc_date",
       "t1.prev_encounter_datetime_hiv",
       "timestampdiff(day, if(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate)  as days_since_last_RTC"
-
     ]
   }
-
-
 ]

@@ -1,43 +1,43 @@
 {
-    "name": "patientProgramCohort",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [],
-    "sources": [
-        {
-            "table": "amrs.patient_program",
-            "alias": "pp"
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "person_id",
-            "column": "patient_id"
-        },
-        {
-            "type": "derived_column",
-            "alias": "programs",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "GROUP_CONCAT(DISTINCT program_id SEPARATOR ',')"
-            }
-        }
-    ],
-    "filters": {
-        "conditionJoinOperator": "and",
-        "conditions": [
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": " voided = 0",
-                "parameterName": ""
-            }
-        ]
-    },
-    "groupBy": {
-        "groupParam": "groupByParam",
-        "columns":["patient_id"],
-        "excludeParam": "excludeParam"
+  "name": "patientProgramCohort",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "amrs.patient_program",
+      "alias": "pp"
     }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "patient_id"
+    },
+    {
+      "type": "derived_column",
+      "alias": "programs",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "GROUP_CONCAT(DISTINCT program_id SEPARATOR ',')"
+      }
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": " voided = 0",
+        "parameterName": ""
+      }
+    ]
+  },
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["patient_id"],
+    "excludeParam": "excludeParam"
+  }
 }

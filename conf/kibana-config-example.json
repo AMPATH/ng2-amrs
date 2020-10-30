@@ -1,7 +1,6 @@
 {
   "dashboards": [
     {
-
       "id": 1,
       "title": "Dashboard Example",
       "department": "test",
@@ -11,7 +10,6 @@
       "description": "Test Sescription",
       "url": "https://www.test-dashboard.or.ke/test",
       "allowedDashboards": ["clinic", "data-analytics"]
-
     }
   ]
 }

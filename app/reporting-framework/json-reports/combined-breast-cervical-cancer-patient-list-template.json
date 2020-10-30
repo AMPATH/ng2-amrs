@@ -1,92 +1,92 @@
 {
-    "name": "combined_breast_cervical_cancer_patient_list_template",
-    "version": "1.0",
-    "tag": "combined_breast_cervical_cancer_patient_list_template",
-    "description": "Combined Breast and Cervical Cancer patient list template",
-    "sources": [
-        {
-            "table": "amrs.person",
-            "alias": "t1"
-        },
-        {
-            "table": "amrs.person_name",
-            "alias": "person_name",
-            "join": {
-                "type": "INNER",
-                "joinCondition": "t1.person_id = person_name.person_id AND (person_name.voided IS NULL || person_name.voided = 0)"
-            }
-        },
-        {
-            "table": "amrs.patient_identifier",
-            "alias": "id",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "t1.person_id = id.patient_id AND (id.voided IS NULL || id.voided = 0)"
-            }
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "patient_uuid",
-            "column": "t1.uuid"
-        },
-        {
-            "type": "simple_column",
-            "alias": "person_id",
-            "column": "t1.person_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "gender",
-            "column": "t1.gender"
-        },
-        {
-            "type": "simple_column",
-            "alias": "birthdate",
-            "column": "t1.birthdate"
-        },
-        {
-            "type": "derived_column",
-            "alias": "age",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "extract(year from (from_days(datediff(now(),t1.birthdate))))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "person_name",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": " CONCAT(COALESCE(person_name.given_name, ''), ' ', COALESCE(person_name.middle_name, ''), ' ', COALESCE(person_name.family_name, ''))"
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "given_name",
-            "column": "person_name.given_name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "family_name",
-            "column": "person_name.family_name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "middle_name",
-            "column": "person_name.middle_name"
-        },
-        {
-            "type": "derived_column",
-            "alias": "identifiers",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": " GROUP_CONCAT(DISTINCT id.identifier SEPARATOR ', ')"
-            }
-        }
-    ],
-    "groupBy":{
-        "columns":["t1.person_id"]
+  "name": "combined_breast_cervical_cancer_patient_list_template",
+  "version": "1.0",
+  "tag": "combined_breast_cervical_cancer_patient_list_template",
+  "description": "Combined Breast and Cervical Cancer patient list template",
+  "sources": [
+    {
+      "table": "amrs.person",
+      "alias": "t1"
+    },
+    {
+      "table": "amrs.person_name",
+      "alias": "person_name",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "t1.person_id = person_name.person_id AND (person_name.voided IS NULL || person_name.voided = 0)"
+      }
+    },
+    {
+      "table": "amrs.patient_identifier",
+      "alias": "id",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t1.person_id = id.patient_id AND (id.voided IS NULL || id.voided = 0)"
+      }
     }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "patient_uuid",
+      "column": "t1.uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "t1.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "gender",
+      "column": "t1.gender"
+    },
+    {
+      "type": "simple_column",
+      "alias": "birthdate",
+      "column": "t1.birthdate"
+    },
+    {
+      "type": "derived_column",
+      "alias": "age",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "extract(year from (from_days(datediff(now(),t1.birthdate))))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "person_name",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": " CONCAT(COALESCE(person_name.given_name, ''), ' ', COALESCE(person_name.middle_name, ''), ' ', COALESCE(person_name.family_name, ''))"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "given_name",
+      "column": "person_name.given_name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "family_name",
+      "column": "person_name.family_name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "middle_name",
+      "column": "person_name.middle_name"
+    },
+    {
+      "type": "derived_column",
+      "alias": "identifiers",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": " GROUP_CONCAT(DISTINCT id.identifier SEPARATOR ', ')"
+      }
+    }
+  ],
+  "groupBy": {
+    "columns": ["t1.person_id"]
+  }
 }

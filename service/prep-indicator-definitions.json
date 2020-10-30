@@ -1,94 +1,94 @@
 [
-    {
-        "sectionTitle": "",
-        "indicators": [
-            {
-                "label": "Location",
-                "indicator": "location"
-            }
-        ]
-    },
-    {
-        "sectionTitle": "PrEP this month",
-        "indicators": [
-            {
-                "label": "Active on PrEP",
-                "indicator": "active_on_prep_this_month"
-            },
-            {
-                "label": "Newly Enrolled in PrEP",
-                "indicator": "enrolled_in_prep_this_month"
-            },
-            {
-                "label": "Discontinued from PrEP",
-                "indicator": "prep_discontinued_this_month"
-            },
-            {
-                "label": "Cumulative Discontinued from PrEP",
-                "indicator": "cumulative_prep_discontinued_this_month"
-            },
-            {
-                "label": "PrEP LTFUs this month",
-                "indicator": "prep_ltfu_this_month"
-            },
-            {
-                "label": "Cumulative PrEP LTFUs",
-                "indicator": "cumulative_prep_ltfu_this_month"
-            },
-            {
-                "label": "Turned Positive this month",
-                "indicator": "turned_positive_this_month"
-            },
-            {
-                "label": "Cumulative Turned Positive this month",
-                "indicator": "cumulative_turned_positive_this_month"
-            },
-            {
-                "label": "HIV Rapid tests done this month",
-                "indicator": "has_hiv_rapid_test_this_month"
-            }
-        ]
-    },
-    {
-        "sectionTitle": "Active on PrEP by Population Type",
-        "indicators": [
-            {
-                "label": "Discordant Population",
-                "indicator": "dc__population_type__discordant__active_on_prep_this_month"
-            },
-            {
-                "label": "Key Population",
-                "indicator": "dc__population_type__key__active_on_prep_this_month"
-            },
-            {
-                "label": "General Population",
-                "indicator": "general_pop_active"
-            },
-            {
-                "label": "Priority Population",
-                "indicator": "dc__population_type__priority__active_on_prep_this_month"
-            }
-        ]
-    },
-    {
-        "sectionTitle": "Pregnancy and Breastfeeding",
-        "indicators": [
-            {
-                "label": "Active & Pregnant",
-                "indicator": "dc__is_pregnant__is_pregnant__active_on_prep_this_month"
-            },
-            {
-                "label": "Newly Enrolled & Pregnant",
-                "indicator": "dc__newly_enrolled_pregnant__is_pregnant__enrolled_in_prep_this_month"
-            },
-            {
-                "label": "Active & BreastFeeding",
-                "indicator": "dc__is_breastfeeding__is_breastfeeding__active_on_prep_this_month"
-            },
-            {
-                "label": "Newly Enrolled & BreastFeeding",
-                "indicator": "dc__newly_enrolled_breastfeeding__is_breastfeeding__enrolled_in_prep_this_month"
-            }
-        ]
-    }
+  {
+    "sectionTitle": "",
+    "indicators": [
+      {
+        "label": "Location",
+        "indicator": "location"
+      }
+    ]
+  },
+  {
+    "sectionTitle": "PrEP this month",
+    "indicators": [
+      {
+        "label": "Active on PrEP",
+        "indicator": "active_on_prep_this_month"
+      },
+      {
+        "label": "Newly Enrolled in PrEP",
+        "indicator": "enrolled_in_prep_this_month"
+      },
+      {
+        "label": "Discontinued from PrEP",
+        "indicator": "prep_discontinued_this_month"
+      },
+      {
+        "label": "Cumulative Discontinued from PrEP",
+        "indicator": "cumulative_prep_discontinued_this_month"
+      },
+      {
+        "label": "PrEP LTFUs this month",
+        "indicator": "prep_ltfu_this_month"
+      },
+      {
+        "label": "Cumulative PrEP LTFUs",
+        "indicator": "cumulative_prep_ltfu_this_month"
+      },
+      {
+        "label": "Turned Positive this month",
+        "indicator": "turned_positive_this_month"
+      },
+      {
+        "label": "Cumulative Turned Positive this month",
+        "indicator": "cumulative_turned_positive_this_month"
+      },
+      {
+        "label": "HIV Rapid tests done this month",
+        "indicator": "has_hiv_rapid_test_this_month"
+      }
+    ]
+  },
+  {
+    "sectionTitle": "Active on PrEP by Population Type",
+    "indicators": [
+      {
+        "label": "Discordant Population",
+        "indicator": "dc__population_type__discordant__active_on_prep_this_month"
+      },
+      {
+        "label": "Key Population",
+        "indicator": "dc__population_type__key__active_on_prep_this_month"
+      },
+      {
+        "label": "General Population",
+        "indicator": "general_pop_active"
+      },
+      {
+        "label": "Priority Population",
+        "indicator": "dc__population_type__priority__active_on_prep_this_month"
+      }
+    ]
+  },
+  {
+    "sectionTitle": "Pregnancy and Breastfeeding",
+    "indicators": [
+      {
+        "label": "Active & Pregnant",
+        "indicator": "dc__is_pregnant__is_pregnant__active_on_prep_this_month"
+      },
+      {
+        "label": "Newly Enrolled & Pregnant",
+        "indicator": "dc__newly_enrolled_pregnant__is_pregnant__enrolled_in_prep_this_month"
+      },
+      {
+        "label": "Active & BreastFeeding",
+        "indicator": "dc__is_breastfeeding__is_breastfeeding__active_on_prep_this_month"
+      },
+      {
+        "label": "Newly Enrolled & BreastFeeding",
+        "indicator": "dc__newly_enrolled_breastfeeding__is_breastfeeding__enrolled_in_prep_this_month"
+      }
+    ]
+  }
 ]

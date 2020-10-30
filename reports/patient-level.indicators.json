@@ -1,219 +1,218 @@
 [
-
-    {
-        "name":"encounter_type",
-        "label":"encounter type",
-        "description": "encounter_type",
-        "expression": "encounter_type"
-    },
-    {
-        "name":"visit_num",
-        "label":"visit num",
-        "description": "visit_num",
-        "expression": "visit_num"
-    },
-    {
-        "name":"enrollment_date",
-        "label":"enrollment date",
-        "description": "enrollment_date",
-        "expression": "DATE_FORMAT(enrollment_date,'%m-%d-%Y')"
-    },
-    {
-        "name":"death_date",
-        "label":"death date",
-        "description": "death_date",
-        "expression": "DATE_FORMAT(death_date,'%m-%d-%Y')"
-    },
-    {
-        "name":"scheduled_visit",
-        "label":"scheduled visit",
-        "description": "scheduled_visit",
-        "expression": "scheduled_visit"
-    },
-    {
-        "name":"transfer_out",
-        "label":"transfer out",
-        "description": "transfer_out",
-        "expression": "transfer_out"
-    },
-    {
-        "name":"out_of_care",
-        "label":"out of care",
-        "description": "out_of_care",
-        "expression": "out_of_care"
-    },
-    {
-        "name":"prev_rtc_date",
-        "label":"prev rtc date",
-        "description": "prev_rtc_date",
-        "expression": "DATE_FORMAT(prev_rtc_date,'%m-%d-%Y')"
-    },
-    {
-        "name":"rtc_date",
-        "label":"rtc date",
-        "description": "rtc_date",
-        "expression": "DATE_FORMAT(rtc_date,'%m-%d-%Y')"
-    },
-    {
-        "name":"arv_start_date",
-        "label":"arv start date",
-        "description": "arv_start_date",
-        "expression": "DATE_FORMAT(arv_start_date,'%m-%d-%Y')"
-    },
-    {
-        "name":"arv_first_regimen",
-        "label":"arv first regimen",
-        "description": "arv_first_regimen",
-        "expression": "arv_first_regimen"
-    },
-    {
-        "name":"cur_arv_meds",
-        "label":"cur arv meds",
-        "description": "cur_arv_meds",
-        "expression": "cur_arv_meds"
-    },
-    {
-        "name":"cur_arv_line",
-        "label":"cur arv line",
-        "description": "cur_arv_line",
-        "expression": "cur_arv_line"
-    },
-    {
-        "name":"first_evidence_patient_pregnant",
-        "label":"first evidence patient pregnant",
-        "description": "first_evidence_patient_pregnant",
-        "expression": "DATE_FORMAT(first_evidence_patient_pregnant,'%m-%d-%Y')"
-    },
-    {
-        "name":"edd",
-        "label":"edd",
-        "description": "edd",
-        "expression": "edd"
-    },
-    {
-        "name":"tb_tx_start_date",
-        "label":"tb tx start date",
-        "description": "tb_tx_start_date",
-        "expression": "DATE_FORMAT(tb_tx_start_date,'%m-%d-%Y')"
-    },
-    {
-        "name": "is_on_tb_medication",
-        "label": "is_on_tb_medication",
-        "description": "Is on TB medication",
-        "expression": "tb_tx_start_date is not null and timestampdiff(year,tb_tx_start_date,@startDate) <= 1"
-    },
-    {
-        "name":"pcp_prophylaxis_start_date",
-        "label":"pcp prophylaxis start date",
-        "description": "pcp_prophylaxis_start_date",
-        "expression": "DATE_FORMAT(pcp_prophylaxis_start_date,'%m-%d-%Y')"
-    },
-    {
-        "name":"cd4_resulted",
-        "label":"cd4 resulted",
-        "description": "cd4_resulted",
-        "expression": "cd4_resulted"
-    },
-    {
-        "name":"cd4_resulted_date",
-        "label":"cd4 resulted date",
-        "description": "cd4_resulted_date",
-        "expression": "DATE_FORMAT(cd4_resulted_date,'%m-%d-%Y')"
-    },
-    {
-        "name":"cd4_1",
-        "label":"cd4 1",
-        "description": "cd4 1",
-        "expression": "cd4_1"
-    },
-    {
-        "name":"cd4_1_date",
-        "label":"cd4 1 date",
-        "description": "cd4 1 date",
-        "expression": "DATE_FORMAT(cd4_1_date,'%m-%d-%Y')"
-    },
-    {
-        "name":"cd4_2",
-        "label":"cd4 2",
-        "description": "cd4 2",
-        "expression": "cd4_2"
-    },
-    {
-        "name":"cd4_2_date",
-        "label":"cd4 2 date",
-        "description": "cd4 2 date",
-        "expression": "DATE_FORMAT(cd4_2_date,'%m-%d-%Y')"
-    },
-    {
-        "name":"cd4_percent_1",
-        "label":"cd4 percent 1",
-        "description": "cd4 percent 1",
-        "expression": "cd4_percent_1"
-    },
-    {
-        "name":"cd4_percent_1_date",
-        "label":"cd4 percent 1 date",
-        "description": "cd4 percent 1 date",
-        "expression": "DATE_FORMAT(cd4_percent_1_date,'%m-%d-%Y')"
-    },
-    {
-        "name":"cd4_percent_2",
-        "label":"cd4 percent 2",
-        "description": "cd4 percent 2",
-        "expression": "cd4_percent_2"
-    },
-    {
-        "name":"cd4_percent_2_date",
-        "label":"cd4 percent 2 date",
-        "description": "cd4 percent 2 date",
-        "expression": "DATE_FORMAT(cd4_percent_2_date,'%m-%d-%Y')"
-    },
-    {
-        "name":"vl_resulted",
-        "label":"vl resulted",
-        "description": "vl resulted",
-        "expression": "vl_resulted"
-    },
-    {
-        "name":"vl_resulted_date",
-        "label":"vl resulted date",
-        "description": "vl resulted date",
-        "expression": "DATE_FORMAT(vl_resulted_date,'%m-%d-%Y')"
-    },
-    {
-        "name":"vl_1",
-        "label":"vl 1",
-        "description": "vl 1",
-        "expression": "vl_1"
-    },
-    {
-        "name":"vl_1_date",
-        "label":"vl 1 date",
-        "description": "vl 1 date",
-        "expression": "DATE_FORMAT(vl_1_date,'%m-%d-%Y')"
-    },
-    {
-        "name":"vl_2",
-        "label":"vl 2",
-        "description": "vl 2",
-        "expression": "vl_2"
-    },
-    {
-        "name":"vl_2_date",
-        "label":"vl 2 date",
-        "description": "vl 2 date",
-        "expression": "DATE_FORMAT(vl_2_date,'%m-%d-%Y')"
-    },
-    {
-        "name":"vl_order_date",
-        "label":"vl order date",
-        "description": "vl order date",
-        "expression": "DATE_FORMAT(vl_order_date,'%m-%d-%Y')"
-    },
-    {
-        "name":"cd4_order_date",
-        "label":"cd4 order date",
-        "description": "cd4 order date",
-        "expression": "DATE_FORMAT(cd4_order_date,'%m-%d-%Y')"
-    }
+  {
+    "name": "encounter_type",
+    "label": "encounter type",
+    "description": "encounter_type",
+    "expression": "encounter_type"
+  },
+  {
+    "name": "visit_num",
+    "label": "visit num",
+    "description": "visit_num",
+    "expression": "visit_num"
+  },
+  {
+    "name": "enrollment_date",
+    "label": "enrollment date",
+    "description": "enrollment_date",
+    "expression": "DATE_FORMAT(enrollment_date,'%m-%d-%Y')"
+  },
+  {
+    "name": "death_date",
+    "label": "death date",
+    "description": "death_date",
+    "expression": "DATE_FORMAT(death_date,'%m-%d-%Y')"
+  },
+  {
+    "name": "scheduled_visit",
+    "label": "scheduled visit",
+    "description": "scheduled_visit",
+    "expression": "scheduled_visit"
+  },
+  {
+    "name": "transfer_out",
+    "label": "transfer out",
+    "description": "transfer_out",
+    "expression": "transfer_out"
+  },
+  {
+    "name": "out_of_care",
+    "label": "out of care",
+    "description": "out_of_care",
+    "expression": "out_of_care"
+  },
+  {
+    "name": "prev_rtc_date",
+    "label": "prev rtc date",
+    "description": "prev_rtc_date",
+    "expression": "DATE_FORMAT(prev_rtc_date,'%m-%d-%Y')"
+  },
+  {
+    "name": "rtc_date",
+    "label": "rtc date",
+    "description": "rtc_date",
+    "expression": "DATE_FORMAT(rtc_date,'%m-%d-%Y')"
+  },
+  {
+    "name": "arv_start_date",
+    "label": "arv start date",
+    "description": "arv_start_date",
+    "expression": "DATE_FORMAT(arv_start_date,'%m-%d-%Y')"
+  },
+  {
+    "name": "arv_first_regimen",
+    "label": "arv first regimen",
+    "description": "arv_first_regimen",
+    "expression": "arv_first_regimen"
+  },
+  {
+    "name": "cur_arv_meds",
+    "label": "cur arv meds",
+    "description": "cur_arv_meds",
+    "expression": "cur_arv_meds"
+  },
+  {
+    "name": "cur_arv_line",
+    "label": "cur arv line",
+    "description": "cur_arv_line",
+    "expression": "cur_arv_line"
+  },
+  {
+    "name": "first_evidence_patient_pregnant",
+    "label": "first evidence patient pregnant",
+    "description": "first_evidence_patient_pregnant",
+    "expression": "DATE_FORMAT(first_evidence_patient_pregnant,'%m-%d-%Y')"
+  },
+  {
+    "name": "edd",
+    "label": "edd",
+    "description": "edd",
+    "expression": "edd"
+  },
+  {
+    "name": "tb_tx_start_date",
+    "label": "tb tx start date",
+    "description": "tb_tx_start_date",
+    "expression": "DATE_FORMAT(tb_tx_start_date,'%m-%d-%Y')"
+  },
+  {
+    "name": "is_on_tb_medication",
+    "label": "is_on_tb_medication",
+    "description": "Is on TB medication",
+    "expression": "tb_tx_start_date is not null and timestampdiff(year,tb_tx_start_date,@startDate) <= 1"
+  },
+  {
+    "name": "pcp_prophylaxis_start_date",
+    "label": "pcp prophylaxis start date",
+    "description": "pcp_prophylaxis_start_date",
+    "expression": "DATE_FORMAT(pcp_prophylaxis_start_date,'%m-%d-%Y')"
+  },
+  {
+    "name": "cd4_resulted",
+    "label": "cd4 resulted",
+    "description": "cd4_resulted",
+    "expression": "cd4_resulted"
+  },
+  {
+    "name": "cd4_resulted_date",
+    "label": "cd4 resulted date",
+    "description": "cd4_resulted_date",
+    "expression": "DATE_FORMAT(cd4_resulted_date,'%m-%d-%Y')"
+  },
+  {
+    "name": "cd4_1",
+    "label": "cd4 1",
+    "description": "cd4 1",
+    "expression": "cd4_1"
+  },
+  {
+    "name": "cd4_1_date",
+    "label": "cd4 1 date",
+    "description": "cd4 1 date",
+    "expression": "DATE_FORMAT(cd4_1_date,'%m-%d-%Y')"
+  },
+  {
+    "name": "cd4_2",
+    "label": "cd4 2",
+    "description": "cd4 2",
+    "expression": "cd4_2"
+  },
+  {
+    "name": "cd4_2_date",
+    "label": "cd4 2 date",
+    "description": "cd4 2 date",
+    "expression": "DATE_FORMAT(cd4_2_date,'%m-%d-%Y')"
+  },
+  {
+    "name": "cd4_percent_1",
+    "label": "cd4 percent 1",
+    "description": "cd4 percent 1",
+    "expression": "cd4_percent_1"
+  },
+  {
+    "name": "cd4_percent_1_date",
+    "label": "cd4 percent 1 date",
+    "description": "cd4 percent 1 date",
+    "expression": "DATE_FORMAT(cd4_percent_1_date,'%m-%d-%Y')"
+  },
+  {
+    "name": "cd4_percent_2",
+    "label": "cd4 percent 2",
+    "description": "cd4 percent 2",
+    "expression": "cd4_percent_2"
+  },
+  {
+    "name": "cd4_percent_2_date",
+    "label": "cd4 percent 2 date",
+    "description": "cd4 percent 2 date",
+    "expression": "DATE_FORMAT(cd4_percent_2_date,'%m-%d-%Y')"
+  },
+  {
+    "name": "vl_resulted",
+    "label": "vl resulted",
+    "description": "vl resulted",
+    "expression": "vl_resulted"
+  },
+  {
+    "name": "vl_resulted_date",
+    "label": "vl resulted date",
+    "description": "vl resulted date",
+    "expression": "DATE_FORMAT(vl_resulted_date,'%m-%d-%Y')"
+  },
+  {
+    "name": "vl_1",
+    "label": "vl 1",
+    "description": "vl 1",
+    "expression": "vl_1"
+  },
+  {
+    "name": "vl_1_date",
+    "label": "vl 1 date",
+    "description": "vl 1 date",
+    "expression": "DATE_FORMAT(vl_1_date,'%m-%d-%Y')"
+  },
+  {
+    "name": "vl_2",
+    "label": "vl 2",
+    "description": "vl 2",
+    "expression": "vl_2"
+  },
+  {
+    "name": "vl_2_date",
+    "label": "vl 2 date",
+    "description": "vl 2 date",
+    "expression": "DATE_FORMAT(vl_2_date,'%m-%d-%Y')"
+  },
+  {
+    "name": "vl_order_date",
+    "label": "vl order date",
+    "description": "vl order date",
+    "expression": "DATE_FORMAT(vl_order_date,'%m-%d-%Y')"
+  },
+  {
+    "name": "cd4_order_date",
+    "label": "cd4 order date",
+    "description": "cd4 order date",
+    "expression": "DATE_FORMAT(cd4_order_date,'%m-%d-%Y')"
+  }
 ]

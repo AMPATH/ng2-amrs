@@ -1,179 +1,176 @@
 {
-    "name": "prepBaseReport",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [
-        {
-            "name": "prepDatasetReport",
-            "version": "1.0",
-            "type": "dataset_def"
-        }
-    ],
-    "sources": [
-        {
-            "table": "etl.prep_weekly_report_dataset_v1_1",
-            "alias": "prep"
-        },
-        {
-            "table": "amrs.location",
-            "alias": "l",
-            "join": {
-                "type": "INNER",
-                "joinCondition": "l.location_id = prep.location_id"
-            }
-        },
-        {
-            "table": "etl.flat_prep_summary_v1_1",
-            "alias": "t2",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "prep.person_id = t2.person_id"
-            }
-        },
-        {
-            "dataSet": "prepDatasetReport",
-            "alias": "t3",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "t2.person_id = t3.person_id"
-            }
-        },
-        {
-            "table": "etl.flat_prep_summary_v1_1",
-            "alias": "t4",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "t3.person_id = t4.person_id AND t3.latest_encounter_datetime = t4.encounter_datetime"
-            }
-        },
-        {
-            "table": "amrs.encounter_type",
-            "alias": "t5",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "t4.encounter_type = t5.encounter_type_id"
-            }
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "location_uuid",
-            "column": "l.uuid"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_id",
-            "column": "l.location_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location",
-            "column": "l.name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "active_on_prep_this_week",
-            "column": "prep.active_on_prep_this_week"
-        },
-        {
-            "type": "simple_column",
-            "alias": "enrolled_in_prep_this_week",
-            "column": "prep.enrolled_in_prep_this_week"
-        },
-        {
-            "type": "simple_column",
-            "alias": "prep_ltfu_this_week",
-            "column": "prep.prep_ltfu_this_week"
-        },
-        {
-            "type": "simple_column",
-            "alias": "prep_discontinued_this_week",
-            "column": "prep.prep_discontinued_this_week"
-        },
-        {
-            "type": "simple_column",
-            "alias": "prep_defaulter_this_week",
-            "column": "prep.prep_defaulter_this_week"
-        },
-        {
-            "type": "simple_column",
-            "alias": "prev_on_prep_and_turned_positive",
-            "column": "prep.prev_on_prep_and_turned_positive"
-        },
-        {
-            "type": "simple_column",
-            "alias": "status",
-            "column": "prep.status"
-        },
-        {
-            "type": "simple_column",
-            "alias": "age",
-            "column": "prep.age"
-        },
-        {
-            "type": "simple_column",
-            "alias": "gender",
-            "column": "prep.gender"
-        },
-        {
-            "type": "simple_column",
-            "alias": "enrollment_date",
-            "column": "date_format(t4.enrollment_date, '%Y-%m-%d')"
-        },
-        {
-            "type": "simple_column",
-            "alias": "last_appointment",
-            "column": "CONCAT(COALESCE(DATE_FORMAT(t4.encounter_datetime, '%Y-%m-%d'),''),' ',COALESCE(t5.name, ''))"
-        },
-        {
-            "type": "simple_column",
-            "alias": "prev_rtc_date",
-            "column": "date_format(t4.prev_rtc_date, '%Y-%m-%d')"
-        },
-        {
-            "type": "simple_column",
-            "alias": "encounter_date",
-            "column": "date_format(t4.encounter_datetime, '%Y-%m-%d')"
-        },
-        {
-            "type": "simple_column",
-            "alias": "rtc_date",
-            "column": "date_format(t4.rtc_date, '%Y-%m-%d')"
-        },
-        {
-            "type": "simple_column",
-            "alias": "days_since_rtc_date",
-            "column": "prep.days_since_rtc_date"
-        },
-        {
-            "type": "simple_column",
-            "alias": "death_date",
-            "column": "date_format(t4.death_date, '%Y-%m-%d')"
-        }
-
-    ],
-    "filters": {
-        "conditionJoinOperator": "and",
-        "conditions": [
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "week = ? ",
-                "parameterName": "year_week"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "l.uuid in ?",
-                "parameterName": "locationUuids"
-            }
-        ]
-    },
-    "groupBy": {
-        "groupParam": "groupByParam",
-        "columns": [
-            "t2.person_id"
-        ],
-        "excludeParam": "excludeParam"
+  "name": "prepBaseReport",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [
+    {
+      "name": "prepDatasetReport",
+      "version": "1.0",
+      "type": "dataset_def"
     }
+  ],
+  "sources": [
+    {
+      "table": "etl.prep_weekly_report_dataset_v1_1",
+      "alias": "prep"
+    },
+    {
+      "table": "amrs.location",
+      "alias": "l",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "l.location_id = prep.location_id"
+      }
+    },
+    {
+      "table": "etl.flat_prep_summary_v1_1",
+      "alias": "t2",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "prep.person_id = t2.person_id"
+      }
+    },
+    {
+      "dataSet": "prepDatasetReport",
+      "alias": "t3",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t2.person_id = t3.person_id"
+      }
+    },
+    {
+      "table": "etl.flat_prep_summary_v1_1",
+      "alias": "t4",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t3.person_id = t4.person_id AND t3.latest_encounter_datetime = t4.encounter_datetime"
+      }
+    },
+    {
+      "table": "amrs.encounter_type",
+      "alias": "t5",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t4.encounter_type = t5.encounter_type_id"
+      }
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "l.uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "l.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "l.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "active_on_prep_this_week",
+      "column": "prep.active_on_prep_this_week"
+    },
+    {
+      "type": "simple_column",
+      "alias": "enrolled_in_prep_this_week",
+      "column": "prep.enrolled_in_prep_this_week"
+    },
+    {
+      "type": "simple_column",
+      "alias": "prep_ltfu_this_week",
+      "column": "prep.prep_ltfu_this_week"
+    },
+    {
+      "type": "simple_column",
+      "alias": "prep_discontinued_this_week",
+      "column": "prep.prep_discontinued_this_week"
+    },
+    {
+      "type": "simple_column",
+      "alias": "prep_defaulter_this_week",
+      "column": "prep.prep_defaulter_this_week"
+    },
+    {
+      "type": "simple_column",
+      "alias": "prev_on_prep_and_turned_positive",
+      "column": "prep.prev_on_prep_and_turned_positive"
+    },
+    {
+      "type": "simple_column",
+      "alias": "status",
+      "column": "prep.status"
+    },
+    {
+      "type": "simple_column",
+      "alias": "age",
+      "column": "prep.age"
+    },
+    {
+      "type": "simple_column",
+      "alias": "gender",
+      "column": "prep.gender"
+    },
+    {
+      "type": "simple_column",
+      "alias": "enrollment_date",
+      "column": "date_format(t4.enrollment_date, '%Y-%m-%d')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "last_appointment",
+      "column": "CONCAT(COALESCE(DATE_FORMAT(t4.encounter_datetime, '%Y-%m-%d'),''),' ',COALESCE(t5.name, ''))"
+    },
+    {
+      "type": "simple_column",
+      "alias": "prev_rtc_date",
+      "column": "date_format(t4.prev_rtc_date, '%Y-%m-%d')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "encounter_date",
+      "column": "date_format(t4.encounter_datetime, '%Y-%m-%d')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rtc_date",
+      "column": "date_format(t4.rtc_date, '%Y-%m-%d')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "days_since_rtc_date",
+      "column": "prep.days_since_rtc_date"
+    },
+    {
+      "type": "simple_column",
+      "alias": "death_date",
+      "column": "date_format(t4.death_date, '%Y-%m-%d')"
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "week = ? ",
+        "parameterName": "year_week"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "l.uuid in ?",
+        "parameterName": "locationUuids"
+      }
+    ]
+  },
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["t2.person_id"],
+    "excludeParam": "excludeParam"
+  }
 }

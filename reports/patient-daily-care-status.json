@@ -1,51 +1,49 @@
 [
-    {
-        "name": "patient-daily-care-status",
-        "table": {
-            "schema": "etl",
-            "tableName": "flat_hiv_summary_v15b",
-            "alias": "t1"
-        },
-        "joins": [],
-        "parameters": [
-            {
-                "name": "referenceDate",
-                "defaultValue": [
-                    "10-10-2015"
-                ]
-            },
-            {
-                "name": "patient_uuid",
-                "defaultValue": ""
-            }
-        ],
-        "filters": [
-            {
-                "expression": "t1.uuid = ?",
-                "parameter": "patient_uuid"
-            },
-            {
-                "expression": "is_clinical_encounter = 1",
-                "processForce": true
-            },
-            {
-                "expression": "next_clinical_datetime_hiv IS NULL",
-                "processForce": true
-            }
-        ],
-        "groupClause": [
-            {
-                "parameter": "groupByEndDate"
-            }
-        ],
-        "indicators": [
-            {
-                "label": "patient_daily_care_status",
-                "expression": "patient_daily_care_status",
-                "sql": "$expression"
-            }
-        ],
-        "supplementColumns": [],
-        "indicatorHandlers": []
-    }
+  {
+    "name": "patient-daily-care-status",
+    "table": {
+      "schema": "etl",
+      "tableName": "flat_hiv_summary_v15b",
+      "alias": "t1"
+    },
+    "joins": [],
+    "parameters": [
+      {
+        "name": "referenceDate",
+        "defaultValue": ["10-10-2015"]
+      },
+      {
+        "name": "patient_uuid",
+        "defaultValue": ""
+      }
+    ],
+    "filters": [
+      {
+        "expression": "t1.uuid = ?",
+        "parameter": "patient_uuid"
+      },
+      {
+        "expression": "is_clinical_encounter = 1",
+        "processForce": true
+      },
+      {
+        "expression": "next_clinical_datetime_hiv IS NULL",
+        "processForce": true
+      }
+    ],
+    "groupClause": [
+      {
+        "parameter": "groupByEndDate"
+      }
+    ],
+    "indicators": [
+      {
+        "label": "patient_daily_care_status",
+        "expression": "patient_daily_care_status",
+        "sql": "$expression"
+      }
+    ],
+    "supplementColumns": [],
+    "indicatorHandlers": []
+  }
 ]

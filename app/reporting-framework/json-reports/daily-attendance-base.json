@@ -1,101 +1,101 @@
 {
-    "name": "dailyAttendanceBase",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [],
-    "sources": [
-        {
-            "table": "etl.flat_appointment",
-            "alias": "t2"
-        },
-        {
-            "table": "amrs.program",
-            "alias": "pr",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "pr.program_id  = t2.program_id"
-            }
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "person_id",
-            "column": "t2.person_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "encounter_type",
-            "column": "t2.encounter_type"
-        },
-        {
-            "type": "simple_column",
-            "alias": "program",
-            "column": "pr.name"
-        }, 
-        {
-            "type": "simple_column",
-            "alias": "encounter_datetime",
-            "column": "t2.encounter_datetime"
-        },
-        {
-            "type": "simple_column",
-            "alias": "attended_date",
-            "column": "date(t2.encounter_datetime)"
-        },
-        {
-            "type": "derived_column",
-            "alias": "patients",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(DATE_FORMAT(t2.encounter_datetime, '%Y-%m-%d') = '{startDate}',1,null)"
-            }
-        }
-    ],
-    "filters": {
-        "conditionJoinOperator": "and",
-        "conditions": [
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "date(t2.encounter_datetime) >= ?",
-                "parameterName": "startDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "date(t2.encounter_datetime) <= ?",
-                "parameterName": "endDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "t2.location_id in (?)",
-                "parameterName": "locations"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "encounter_type in ?",
-                "parameterName": "encounterIds"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "t2.visit_type_id in ?",
-                "parameterName": "visitTypeIds"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "t2.program_id in ? OR t2.program_id IS NULL",
-                "parameterName": "programTypeIds"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "t2.encounter_type not in (21,99999)",
-                "parameterName": ""
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression":  "t2.is_clinical = 1",
-                "parameterName": ""
-            }
-        ]
+  "name": "dailyAttendanceBase",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "etl.flat_appointment",
+      "alias": "t2"
+    },
+    {
+      "table": "amrs.program",
+      "alias": "pr",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "pr.program_id  = t2.program_id"
+      }
     }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "t2.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "encounter_type",
+      "column": "t2.encounter_type"
+    },
+    {
+      "type": "simple_column",
+      "alias": "program",
+      "column": "pr.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "encounter_datetime",
+      "column": "t2.encounter_datetime"
+    },
+    {
+      "type": "simple_column",
+      "alias": "attended_date",
+      "column": "date(t2.encounter_datetime)"
+    },
+    {
+      "type": "derived_column",
+      "alias": "patients",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(DATE_FORMAT(t2.encounter_datetime, '%Y-%m-%d') = '{startDate}',1,null)"
+      }
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "date(t2.encounter_datetime) >= ?",
+        "parameterName": "startDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "date(t2.encounter_datetime) <= ?",
+        "parameterName": "endDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "t2.location_id in (?)",
+        "parameterName": "locations"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "encounter_type in ?",
+        "parameterName": "encounterIds"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "t2.visit_type_id in ?",
+        "parameterName": "visitTypeIds"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "t2.program_id in ? OR t2.program_id IS NULL",
+        "parameterName": "programTypeIds"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "t2.encounter_type not in (21,99999)",
+        "parameterName": ""
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "t2.is_clinical = 1",
+        "parameterName": ""
+      }
+    ]
+  }
 }

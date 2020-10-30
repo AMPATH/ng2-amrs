@@ -285,10 +285,7 @@
   ],
   "groupBy": {
     "groupParam": "groupByParam",
-    "columns": [
-      "location_id",
-      "DATE(bcsd.encounter_datetime)"
-    ],
+    "columns": ["location_id", "DATE(bcsd.encounter_datetime)"],
     "excludeParam": "excludeParam"
   },
   "dynamicJsonQueryGenerationDirectives": {

@@ -86,26 +86,22 @@
         "expression": "on_art_total",
         "sql": "count(distinct if($expression,t1.person_id,null))"
       },
-        {
-          "label": "on_art_below_1",
-          "expression": "on_art_below_1",
-          "sql": "count(distinct if($expression,t1.person_id,null))",
-          "disaggregation": {
-            "indicator": "on_art_total",
-            "filters": [
-              "age_below_1"
-              ]
-          }
-        },
+      {
+        "label": "on_art_below_1",
+        "expression": "on_art_below_1",
+        "sql": "count(distinct if($expression,t1.person_id,null))",
+        "disaggregation": {
+          "indicator": "on_art_total",
+          "filters": ["age_below_1"]
+        }
+      },
       {
         "label": "on_art_1_to_9",
         "expression": "on_art_1_to_9",
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "on_art_total",
-          "filters": [
-            "age_1_to_9"
-          ]
+          "filters": ["age_1_to_9"]
         }
       },
       {
@@ -114,10 +110,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "on_art_total",
-          "filters": [
-            "male",
-            "age_10_to_14"
-          ]
+          "filters": ["male", "age_10_to_14"]
         }
       },
       {
@@ -126,10 +119,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "on_art_total",
-          "filters": [
-            "female",
-            "age_10_to_14"
-          ]
+          "filters": ["female", "age_10_to_14"]
         }
       },
       {
@@ -138,10 +128,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "on_art_total",
-          "filters": [
-            "male",
-            "age_15_to_19"
-          ]
+          "filters": ["male", "age_15_to_19"]
         }
       },
       {
@@ -150,10 +137,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "on_art_total",
-          "filters": [
-            "female",
-            "age_15_to_19"
-          ]
+          "filters": ["female", "age_15_to_19"]
         }
       },
       {
@@ -162,10 +146,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "on_art_total",
-          "filters": [
-            "male",
-            "age_20_to_24"
-          ]
+          "filters": ["male", "age_20_to_24"]
         }
       },
       {
@@ -174,10 +155,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "on_art_total",
-          "filters": [
-            "female",
-            "age_20_to_24"
-          ]
+          "filters": ["female", "age_20_to_24"]
         }
       },
       {
@@ -186,10 +164,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "on_art_total",
-          "filters": [
-            "male",
-            "age_25_and_older"
-          ]
+          "filters": ["male", "age_25_and_older"]
         }
       },
       {
@@ -198,10 +173,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "on_art_total",
-          "filters": [
-            "female",
-            "age_25_and_older"
-          ]
+          "filters": ["female", "age_25_and_older"]
         }
       }
     ],
@@ -301,9 +273,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "enrolled_in_care_total",
-          "filters": [
-            "age_below_1"
-            ]
+          "filters": ["age_below_1"]
         }
       },
       {
@@ -312,9 +282,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "enrolled_in_care_total",
-          "filters": [
-            "age_1_to_9"
-          ]
+          "filters": ["age_1_to_9"]
         }
       },
       {
@@ -323,10 +291,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "enrolled_in_care_total",
-          "filters": [
-            "male",
-            "age_10_to_14"
-          ]
+          "filters": ["male", "age_10_to_14"]
         }
       },
       {
@@ -335,10 +300,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "enrolled_in_care_total",
-          "filters": [
-            "female",
-            "age_10_to_14"
-          ]
+          "filters": ["female", "age_10_to_14"]
         }
       },
       {
@@ -347,10 +309,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "enrolled_in_care_total",
-          "filters": [
-            "male",
-            "age_15_to_19"
-          ]
+          "filters": ["male", "age_15_to_19"]
         }
       },
       {
@@ -359,10 +318,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "enrolled_in_care_total",
-          "filters": [
-            "female",
-            "age_15_to_19"
-          ]
+          "filters": ["female", "age_15_to_19"]
         }
       },
       {
@@ -371,10 +327,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "enrolled_in_care_total",
-          "filters": [
-            "male",
-            "age_20_to_24"
-          ]
+          "filters": ["male", "age_20_to_24"]
         }
       },
       {
@@ -383,10 +336,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "enrolled_in_care_total",
-          "filters": [
-            "female",
-            "age_20_to_24"
-          ]
+          "filters": ["female", "age_20_to_24"]
         }
       },
       {
@@ -395,10 +345,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "enrolled_in_care_total",
-          "filters": [
-            "male",
-            "age_25_and_older"
-          ]
+          "filters": ["male", "age_25_and_older"]
         }
       },
       {
@@ -407,10 +354,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "enrolled_in_care_total",
-          "filters": [
-            "female",
-            "age_25_and_older"
-          ]
+          "filters": ["female", "age_25_and_older"]
         }
       },
       {
@@ -424,9 +368,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "starting_art_total",
-          "filters": [
-            "age_below_1"
-            ]
+          "filters": ["age_below_1"]
         }
       },
       {
@@ -435,9 +377,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "starting_art_total",
-          "filters": [
-            "age_1_to_9"
-          ]
+          "filters": ["age_1_to_9"]
         }
       },
       {
@@ -446,10 +386,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "starting_art_total",
-          "filters": [
-            "male",
-            "age_10_to_14"
-          ]
+          "filters": ["male", "age_10_to_14"]
         }
       },
       {
@@ -458,10 +395,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "starting_art_total",
-          "filters": [
-            "female",
-            "age_10_to_14"
-          ]
+          "filters": ["female", "age_10_to_14"]
         }
       },
       {
@@ -470,10 +404,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "starting_art_total",
-          "filters": [
-            "male",
-            "age_15_to_19"
-          ]
+          "filters": ["male", "age_15_to_19"]
         }
       },
       {
@@ -482,10 +413,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "starting_art_total",
-          "filters": [
-            "female",
-            "age_15_to_19"
-          ]
+          "filters": ["female", "age_15_to_19"]
         }
       },
       {
@@ -494,10 +422,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "starting_art_total",
-          "filters": [
-            "male",
-            "age_20_to_24"
-          ]
+          "filters": ["male", "age_20_to_24"]
         }
       },
       {
@@ -506,10 +431,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "starting_art_total",
-          "filters": [
-            "female",
-            "age_20_to_24"
-          ]
+          "filters": ["female", "age_20_to_24"]
         }
       },
       {
@@ -518,10 +440,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "starting_art_total",
-          "filters": [
-            "male",
-            "age_25_and_older"
-          ]
+          "filters": ["male", "age_25_and_older"]
         }
       },
       {
@@ -530,10 +449,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "starting_art_total",
-          "filters": [
-            "female",
-            "age_25_and_older"
-          ]
+          "filters": ["female", "age_25_and_older"]
         }
       },
       {
@@ -552,9 +468,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "on_pcp_prophylaxis",
-          "filters": [
-            "age_below_1"
-          ]
+          "filters": ["age_below_1"]
         }
       },
       {
@@ -563,9 +477,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "on_pcp_prophylaxis",
-          "filters": [
-            "age_1_to_9"
-          ]
+          "filters": ["age_1_to_9"]
         }
       },
       {
@@ -574,9 +486,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "on_pcp_prophylaxis",
-          "filters": [
-            "age_10_to_14"
-          ]
+          "filters": ["age_10_to_14"]
         }
       },
       {
@@ -585,9 +495,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "on_pcp_prophylaxis",
-          "filters": [
-            "age_15_to_19"
-          ]
+          "filters": ["age_15_to_19"]
         }
       },
       {
@@ -596,9 +504,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "on_pcp_prophylaxis",
-          "filters": [
-            "age_20_to_24"
-          ]
+          "filters": ["age_20_to_24"]
         }
       },
       {
@@ -607,9 +513,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "on_pcp_prophylaxis",
-          "filters": [
-            "age_25_and_older"
-          ]
+          "filters": ["age_25_and_older"]
         }
       },
       {
@@ -623,9 +527,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "screened_for_tb",
-          "filters": [
-            "age_below_1"
-          ]
+          "filters": ["age_below_1"]
         }
       },
       {
@@ -634,9 +536,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "screened_for_tb",
-          "filters": [
-            "age_1_to_9"
-          ]
+          "filters": ["age_1_to_9"]
         }
       },
       {
@@ -645,9 +545,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "screened_for_tb",
-          "filters": [
-            "age_10_to_14"
-          ]
+          "filters": ["age_10_to_14"]
         }
       },
       {
@@ -656,9 +554,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "screened_for_tb",
-          "filters": [
-            "age_15_to_19"
-          ]
+          "filters": ["age_15_to_19"]
         }
       },
       {
@@ -667,9 +563,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "screened_for_tb",
-          "filters": [
-            "age_20_to_24"
-          ]
+          "filters": ["age_20_to_24"]
         }
       },
       {
@@ -678,9 +572,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "screened_for_tb",
-          "filters": [
-            "age_25_and_older"
-          ]
+          "filters": ["age_25_and_older"]
         }
       },
       {
@@ -694,9 +586,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "newly_started_IPT",
-          "filters": [
-            "age_below_1"
-          ]
+          "filters": ["age_below_1"]
         }
       },
       {
@@ -705,9 +595,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "newly_started_IPT",
-          "filters": [
-            "age_1_to_9"
-          ]
+          "filters": ["age_1_to_9"]
         }
       },
       {
@@ -716,9 +604,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "newly_started_IPT",
-          "filters": [
-            "age_10_to_14"
-          ]
+          "filters": ["age_10_to_14"]
         }
       },
       {
@@ -727,9 +613,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "newly_started_IPT",
-          "filters": [
-            "age_15_to_19"
-          ]
+          "filters": ["age_15_to_19"]
         }
       },
       {
@@ -738,9 +622,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "newly_started_IPT",
-          "filters": [
-            "age_20_to_24"
-          ]
+          "filters": ["age_20_to_24"]
         }
       },
       {
@@ -749,9 +631,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "newly_started_IPT",
-          "filters": [
-            "age_25_and_older"
-          ]
+          "filters": ["age_25_and_older"]
         }
       },
       {
@@ -810,38 +690,38 @@
         "sql": "count(distinct if($expression,t1.person_id,null))"
       },
       {
-        "label":"community_ART_dispensing_male",
-        "expression":"community_ART_dispensing_male",
-        "sql":"count(distinct if($expression,t1.person_id,null))",
+        "label": "community_ART_dispensing_male",
+        "expression": "community_ART_dispensing_male",
+        "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
-          "indicator":"community_ART_dispensing",
+          "indicator": "community_ART_dispensing",
           "filters": ["male"]
         }
       },
       {
-        "label":"community_ART_dispensing_female",
-        "expression":"community_ART_dispensing_female",
-        "sql":"count(distinct if($expression,t1.person_id,null))",
+        "label": "community_ART_dispensing_female",
+        "expression": "community_ART_dispensing_female",
+        "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
-          "indicator":"community_ART_dispensing",
+          "indicator": "community_ART_dispensing",
           "filters": ["female"]
         }
       },
       {
-        "label":"using_modern_contraceptive_method_females_15_and_older",
-        "expression":"using_modern_contraceptive_method_females_15_and_older",
-        "sql":"count(distinct if($expression,t1.person_id,null))",
+        "label": "using_modern_contraceptive_method_females_15_and_older",
+        "expression": "using_modern_contraceptive_method_females_15_and_older",
+        "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
-          "indicator":"using_modern_contracept_method",
-          "filters": ["female","age_15_and_older"]
+          "indicator": "using_modern_contracept_method",
+          "filters": ["female", "age_15_and_older"]
         }
       }
     ],
     "supplementColumns": [
       {
-        "label":"location",
-        "type":"single",
-        "sql":"t2.name"
+        "label": "location",
+        "type": "single",
+        "sql": "t2.name"
       },
       {
         "label": "location_uuid",
@@ -892,7 +772,10 @@
       }
     ],
     "filters": [
-      {"expression":"(t1.next_clinical_datetime_hiv is null or date(t1.next_clinical_datetime_hiv) > ?)", "parameter":"endDate"},
+      {
+        "expression": "(t1.next_clinical_datetime_hiv is null or date(t1.next_clinical_datetime_hiv) > ?)",
+        "parameter": "endDate"
+      },
       {
         "expression": "t1.location_id in ?",
         "parameter": "locations"
@@ -915,7 +798,6 @@
       }
     ],
     "indicators": [
-
       {
         "label": "art_net_cohort_at_12_months",
         "expression": "art_net_cohort_at_12_months",
@@ -942,41 +824,58 @@
   },
   {
     "name": "moh-731-cumulative-dataset",
-    "table":{
-      "schema":"etl",
-      "tableName":"flat_hiv_summary",
-      "alias":"t1"
-      },
-    "joins":[
-      {"joinType":"INNER JOIN","schema":"amrs","tableName":"person","alias":"t3","joinExpression":"t1.person_id = t3.person_id"}
+    "table": {
+      "schema": "etl",
+      "tableName": "flat_hiv_summary",
+      "alias": "t1"
+    },
+    "joins": [
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "person",
+        "alias": "t3",
+        "joinExpression": "t1.person_id = t3.person_id"
+      }
     ],
     "parameters": [
-      {"name":"locations","defaultValue":[]},
-      {"name":"endDate", "defaultValue":["Now()"]},
-      {"name":"groupByPerson", "defaultValue":[
-        {"label":"person_id","expression":"t1.person_id"}
-      ]
+      { "name": "locations", "defaultValue": [] },
+      { "name": "endDate", "defaultValue": ["Now()"] },
+      {
+        "name": "groupByPerson",
+        "defaultValue": [{ "label": "person_id", "expression": "t1.person_id" }]
       },
-      {"name":"groupByLocation", "defaultValue":[
-        {"label":"location","expression":"t1.location_id"}
-      ]
+      {
+        "name": "groupByLocation",
+        "defaultValue": [
+          { "label": "location", "expression": "t1.location_id" }
+        ]
       }
     ],
     "filters": [
-      {"expression":"(t1.next_clinical_datetime_hiv is null or date(t1.next_clinical_datetime_hiv) > ?)", "parameter":"endDate"},
+      {
+        "expression": "(t1.next_clinical_datetime_hiv is null or date(t1.next_clinical_datetime_hiv) > ?)",
+        "parameter": "endDate"
+      },
       {
         "expression": "timestampdiff(day,date(if(t1.rtc_date, rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY))),?) <= 90",
         "parameter": "endDate"
       },
-      {"expression":"t1.is_clinical_encounter = 1", "processForce":true},
-      {"expression":"t1.location_id in ?","parameter":"locations"},
-      {"expression":"coalesce(t1.death_date, out_of_care) is null", "processForce":true},
-      {"expression":"date(t1.encounter_datetime) <= ?", "parameter":"endDate"}
+      { "expression": "t1.is_clinical_encounter = 1", "processForce": true },
+      { "expression": "t1.location_id in ?", "parameter": "locations" },
+      {
+        "expression": "coalesce(t1.death_date, out_of_care) is null",
+        "processForce": true
+      },
+      {
+        "expression": "date(t1.encounter_datetime) <= ?",
+        "parameter": "endDate"
+      }
     ],
-    "groupClause":[
-      {"parameter":"groupByLocation"},
-      {"parameter":"groupByPerson"},
-      {"parameter":"groupByMonth"}
+    "groupClause": [
+      { "parameter": "groupByLocation" },
+      { "parameter": "groupByPerson" },
+      { "parameter": "groupByMonth" }
     ],
     "indicators": [
       {
@@ -989,7 +888,7 @@
         "expression": "viral_load_resulted_in_past_year",
         "sql": "count(distinct if($expression, t1.person_id,null))"
       },
-        {
+      {
         "label": "pre_art_total",
         "expression": "pre_art_total",
         "sql": "count(distinct if($expression, t1.person_id,null))"
@@ -1000,9 +899,7 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "pre_art_total",
-          "filters": [
-            "age_below_15"
-          ]
+          "filters": ["age_below_15"]
         }
       },
       {
@@ -1011,22 +908,20 @@
         "sql": "count(distinct if($expression,t1.person_id,null))",
         "disaggregation": {
           "indicator": "pre_art_total",
-          "filters": [
-            "age_15_and_older"
-          ]
+          "filters": ["age_15_and_older"]
         }
       }
     ],
-    "supplementColumns":[
+    "supplementColumns": [
       {
         "label": "joining_location_id",
         "type": "single",
         "sql": "t1.location_id"
       },
       {
-        "label":"joining_column",
-        "type":"single",
-        "sql":"1"
+        "label": "joining_column",
+        "type": "single",
+        "sql": "1"
       }
     ]
   }

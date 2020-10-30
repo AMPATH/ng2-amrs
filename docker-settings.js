@@ -8,8 +8,8 @@ module.exports = {
     host: '0.0.0.0',
     port: 8002,
     tls: true,
-    key: '/keys/server.key',  // Server Key
-    cert: '/keys/server.crt'    // Certificate to allow TLS access to the server
+    key: '/keys/server.key', // Server Key
+    cert: '/keys/server.crt' // Certificate to allow TLS access to the server
   },
   mysql: {
     connectionLimit: 10,

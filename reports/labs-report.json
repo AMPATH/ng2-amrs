@@ -1,90 +1,119 @@
-   [
-       {
-        "name": "labs-report",
-        "table":{"schema":"etl","tableName":"flat_hiv_summary_v15b","alias":"t1"},
-        "joins":[
-            {"joinType":"INNER JOIN","schema":"amrs","tableName":"location","alias":"t2","joinExpression":"t1.location_uuid = t2.uuid"},
-            {"joinType":"INNER JOIN","schema":"amrs","tableName":"person","alias":"t3","joinExpression":"t1.person_id = t3.person_id"}
-        ],
-        "parameters": [
-            {"name":"startDate", "defaultValue":["10-10-2015"]},
-            {"name":"endDate", "defaultValue":["defaultValue"]},
-            {"name":"locationUuids","defaultValue":[]},
-            {"name":"startAge", "defaultValue":[]},
-            {"name":"endAge", "defaultValue":[]},
-            {"name":"gender", "defaultValue":[]},
-            {"name":"@referenceDate", "defaultValue":["defaultValue"]},
-            {"name":"groupByLocation", "defaultValue":[
-                {"label":"location","expression":"location"}
-            ]
-            },
-            {"name":"groupByYear", "defaultValue":[
-                {"label":"encounter_datetime","expression":"YEAR(encounter_datetime)"}
-            ]
-            },
-            {"name":"groupByMonth", "defaultValue":[
-                {"label":"encounter_datetime","expression":"MONTH(encounter_datetime)"}
-            ]
-            }
-        ],
-        "filters": [
-            {"expression":"t1.location_uuid in ?", "parameter":"locationUuids"},
-            {"expression":"coalesce(t1.death_date, out_of_care) is null", "processForce":true},
-            {
-              "expression": "(t1.next_clinical_datetime_hiv is null or date(t1.next_clinical_datetime_hiv) > ?)",
-              "parameter":"endDate"
-            }
-        ],
-        "groupClause":[
-            {"parameter":"groupByLocation"},
-            {"parameter":"groupByYear"},
-            {"parameter":"groupByMonth"}
-        ],
-        "indicators": [
-              {
-                  "label":"needs_vl_in_period",
-                  "expression":"needs_vl_in_period",
-                  "sql":"$expression"
-              }
-        ],
-        "supplementColumns":[
-               {
-                   "label":"location",
-                   "type":"single",
-                   "sql":"t2.name"
-               },
-               {
-                   "label":"location_uuid",
-                   "type":"single",
-                   "sql":"t1.location_uuid"
-               },
-               {
-                   "label":"location_id",
-                   "type":"single",
-                   "sql":"t1.location_id"
-               },
-               {
-                   "label":"encounter_datetime",
-                   "type":"single",
-                   "sql":"t1.encounter_datetime"
-               },
-               {
-                   "label":"month",
-                   "type":"single",
-                   "sql":"t1.encounter_datetime"
-               }
-           ],
-         "patientListColumns": [
-           "case when (timestampdiff(day,t1.vl_order_date,now()) between 0 and 14) and (t1.vl_1_date is null or t1.vl_order_date > t1.vl_1_date) then true else false end as has_pending_vl_test",
-           "t1.vl_1 as current_vl",
-           "date_format(t1.vl_1_date,'%d-%m-%Y') as current_vl_date",
-           "timestampdiff(day, vl_order_date, now()) as days_since_last_order",
-           "date_format(t1.vl_order_date,'%d-%m-%Y') as last_vl_order_date",
-           "date_format(t1.arv_start_date,'%d-%m-%Y') as cur_regimen_arv_start_date",
-           "t1.cur_arv_line",
-           "t1.cur_arv_meds",
-           "t1.arv_first_regimen",
-           "date_format(t1.encounter_datetime,'%d-%m-%Y') as last_clinical_encounter_datetime "
-         ]
-    }
+[
+  {
+    "name": "labs-report",
+    "table": {
+      "schema": "etl",
+      "tableName": "flat_hiv_summary_v15b",
+      "alias": "t1"
+    },
+    "joins": [
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "location",
+        "alias": "t2",
+        "joinExpression": "t1.location_uuid = t2.uuid"
+      },
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "person",
+        "alias": "t3",
+        "joinExpression": "t1.person_id = t3.person_id"
+      }
+    ],
+    "parameters": [
+      { "name": "startDate", "defaultValue": ["10-10-2015"] },
+      { "name": "endDate", "defaultValue": ["defaultValue"] },
+      { "name": "locationUuids", "defaultValue": [] },
+      { "name": "startAge", "defaultValue": [] },
+      { "name": "endAge", "defaultValue": [] },
+      { "name": "gender", "defaultValue": [] },
+      { "name": "@referenceDate", "defaultValue": ["defaultValue"] },
+      {
+        "name": "groupByLocation",
+        "defaultValue": [{ "label": "location", "expression": "location" }]
+      },
+      {
+        "name": "groupByYear",
+        "defaultValue": [
+          {
+            "label": "encounter_datetime",
+            "expression": "YEAR(encounter_datetime)"
+          }
+        ]
+      },
+      {
+        "name": "groupByMonth",
+        "defaultValue": [
+          {
+            "label": "encounter_datetime",
+            "expression": "MONTH(encounter_datetime)"
+          }
+        ]
+      }
+    ],
+    "filters": [
+      { "expression": "t1.location_uuid in ?", "parameter": "locationUuids" },
+      {
+        "expression": "coalesce(t1.death_date, out_of_care) is null",
+        "processForce": true
+      },
+      {
+        "expression": "(t1.next_clinical_datetime_hiv is null or date(t1.next_clinical_datetime_hiv) > ?)",
+        "parameter": "endDate"
+      }
+    ],
+    "groupClause": [
+      { "parameter": "groupByLocation" },
+      { "parameter": "groupByYear" },
+      { "parameter": "groupByMonth" }
+    ],
+    "indicators": [
+      {
+        "label": "needs_vl_in_period",
+        "expression": "needs_vl_in_period",
+        "sql": "$expression"
+      }
+    ],
+    "supplementColumns": [
+      {
+        "label": "location",
+        "type": "single",
+        "sql": "t2.name"
+      },
+      {
+        "label": "location_uuid",
+        "type": "single",
+        "sql": "t1.location_uuid"
+      },
+      {
+        "label": "location_id",
+        "type": "single",
+        "sql": "t1.location_id"
+      },
+      {
+        "label": "encounter_datetime",
+        "type": "single",
+        "sql": "t1.encounter_datetime"
+      },
+      {
+        "label": "month",
+        "type": "single",
+        "sql": "t1.encounter_datetime"
+      }
+    ],
+    "patientListColumns": [
+      "case when (timestampdiff(day,t1.vl_order_date,now()) between 0 and 14) and (t1.vl_1_date is null or t1.vl_order_date > t1.vl_1_date) then true else false end as has_pending_vl_test",
+      "t1.vl_1 as current_vl",
+      "date_format(t1.vl_1_date,'%d-%m-%Y') as current_vl_date",
+      "timestampdiff(day, vl_order_date, now()) as days_since_last_order",
+      "date_format(t1.vl_order_date,'%d-%m-%Y') as last_vl_order_date",
+      "date_format(t1.arv_start_date,'%d-%m-%Y') as cur_regimen_arv_start_date",
+      "t1.cur_arv_line",
+      "t1.cur_arv_meds",
+      "t1.arv_first_regimen",
+      "date_format(t1.encounter_datetime,'%d-%m-%Y') as last_clinical_encounter_datetime "
+    ]
+  }
 ]

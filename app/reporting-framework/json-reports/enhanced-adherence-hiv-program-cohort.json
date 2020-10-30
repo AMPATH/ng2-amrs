@@ -1,73 +1,71 @@
 {
-    "name": "enhancedAdherenceHIVProgramCohort",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [],
-    "sources": [
-        {
-            "table": "etl.flat_hiv_summary_v15b",
-            "alias": "fhs"
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "person_id",
-            "column": "fhs.person_id"
-        },
-        {
-            "type": "derived_column",
-            "alias": "maxdate",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": " MAX(vl_1_date)"
-            }
-        }
-    ],
-    "filters": {
-        "conditionJoinOperator": "and",
-        "conditions": [
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "date(fhs.encounter_datetime) >= ?",
-                "parameterName": "startDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "date(fhs.encounter_datetime) <= ?",
-                "parameterName": "endDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "fhs.location_uuid in (?)",
-                "parameterName": "locationUuids"
-            },
-            {
-              "filterType": "tableColumns",
-              "conditionExpression": "DATE(fhs.rtc_date) <= DATE_ADD(?, INTERVAL -4 DAY)",
-              "parameterName": "endDate"
-            },
-          {
-            "filterType": "tableColumns",
-            "conditionExpression": "fhs.death_date IS NULL",
-            "parameterName": ""
-          },
-          {
-            "filterType": "tableColumns",
-            "conditionExpression": "fhs.transfer_out IS NULL",
-            "parameterName": ""
-          },
-          {
-            "filterType": "tableColumns",
-            "conditionExpression": "TIMESTAMPDIFF(DAY, IF(fhs.rtc_date, fhs.rtc_date, DATE_ADD(fhs.encounter_datetime, INTERVAL 30 DAY)), ?) < 90",
-            "parameterName": "endDate"
-          }
-        ]
-    },
-    "groupBy": {
-        "columns": [
-            "fhs.person_id"
-        ]
+  "name": "enhancedAdherenceHIVProgramCohort",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "etl.flat_hiv_summary_v15b",
+      "alias": "fhs"
     }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "fhs.person_id"
+    },
+    {
+      "type": "derived_column",
+      "alias": "maxdate",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": " MAX(vl_1_date)"
+      }
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "date(fhs.encounter_datetime) >= ?",
+        "parameterName": "startDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "date(fhs.encounter_datetime) <= ?",
+        "parameterName": "endDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "fhs.location_uuid in (?)",
+        "parameterName": "locationUuids"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "DATE(fhs.rtc_date) <= DATE_ADD(?, INTERVAL -4 DAY)",
+        "parameterName": "endDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "fhs.death_date IS NULL",
+        "parameterName": ""
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "fhs.transfer_out IS NULL",
+        "parameterName": ""
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "TIMESTAMPDIFF(DAY, IF(fhs.rtc_date, fhs.rtc_date, DATE_ADD(fhs.encounter_datetime, INTERVAL 30 DAY)), ?) < 90",
+        "parameterName": "endDate"
+      }
+    ]
+  },
+  "groupBy": {
+    "columns": ["fhs.person_id"]
+  }
 }

@@ -1,72 +1,64 @@
 {
-    "name": "prepMonthlyNewlyEnrolledPregnancyDisaggregation",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [
-        {
-            "name": "prepMonthlySummaryBaseReport",
-            "version": "1.0",
-            "type": "dataset_def"
-        }
-    ],
-    "sources": [
-        {
-            "dataSet": "prepMonthlySummaryBaseReport",
-            "alias": "t5"
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "location_uuid",
-            "column": "t5.location_uuid"
-        },
-        {
-            "type": "simple_column",
-            "alias": "newly_enrolled_pregnant",
-            "column": "t5.newly_enrolled_pregnant"
-        },
-        {
-            "type": "derived_column",
-            "alias": "enrolled_in_prep_this_month",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "SUM(t5.enrolled_in_prep_this_month)"
-            }
-        }
-    ],
-    "groupBy": {
-        "groupParam": "groupByParam",
-        "columns": [
-            "newly_enrolled_pregnant",
-            "location_uuid"
-        ],
-        "excludeParam": "excludeParam"
-    },
-    "transFormDirectives": {
-        "joinColumn": "location_uuid",
-        "skipColumns": [
-            "location_uuid",
-            "join_location"
-        ],
-        "disaggregationColumns": [
-            "newly_enrolled_pregnant"
-        ]
-    },
-    "dynamicJsonQueryGenerationDirectives": {
-        "patientListGenerator": {
-            "useTemplate": "prep-report-patient-list-template",
-            "useTemplateVersion": "1.0",
-            "generatingDirectives": {
-                "joinDirectives": {
-                    "joinType": "INNER",
-                    "joinCondition": "<<base_column>> = <<template_column>>",
-                    "baseColumn": "person_id",
-                    "templateColumn": "person_id"
-                }
-            },
-            "skipParams": []
-        }
+  "name": "prepMonthlyNewlyEnrolledPregnancyDisaggregation",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [
+    {
+      "name": "prepMonthlySummaryBaseReport",
+      "version": "1.0",
+      "type": "dataset_def"
     }
+  ],
+  "sources": [
+    {
+      "dataSet": "prepMonthlySummaryBaseReport",
+      "alias": "t5"
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "t5.location_uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "newly_enrolled_pregnant",
+      "column": "t5.newly_enrolled_pregnant"
+    },
+    {
+      "type": "derived_column",
+      "alias": "enrolled_in_prep_this_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(t5.enrolled_in_prep_this_month)"
+      }
+    }
+  ],
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["newly_enrolled_pregnant", "location_uuid"],
+    "excludeParam": "excludeParam"
+  },
+  "transFormDirectives": {
+    "joinColumn": "location_uuid",
+    "skipColumns": ["location_uuid", "join_location"],
+    "disaggregationColumns": ["newly_enrolled_pregnant"]
+  },
+  "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+      "useTemplate": "prep-report-patient-list-template",
+      "useTemplateVersion": "1.0",
+      "generatingDirectives": {
+        "joinDirectives": {
+          "joinType": "INNER",
+          "joinCondition": "<<base_column>> = <<template_column>>",
+          "baseColumn": "person_id",
+          "templateColumn": "person_id"
+        }
+      },
+      "skipParams": []
+    }
+  }
 }

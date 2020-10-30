@@ -186,8 +186,6 @@
     }
   ],
   "groupBy": {
-    "columns": [
-      "t1.person_id"
-    ]
+    "columns": ["t1.person_id"]
   }
 }

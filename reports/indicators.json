@@ -1,1366 +1,1364 @@
 [
-    {
-        "name": "encounters",
-        "label": "encounters",
-        "description": "Total # of encounters",
-        "expression": "true"
-    },
-    {
-        "name": "patients",
-        "label": "patients",
-        "description": "Total number of patients",
-        "expression": "true"
-    },
-    {
-        "name": "on_arvs",
-        "label": "on arvs",
-        "description": "Total # of patients who are on ARVs",
-        "expression": "cur_arv_line is not null"
-    },
-    {
-        "name": "on_tdf_3tc_efv_400",
-        "label": "On TDF300/3TC300/EFV400",
-        "description": "Total # of patients who are on TENOFOVIR AND LAMIVUDINE AND EFAVIRENZ 400",
-        "expression": "true"
-    },
-    {
-        "name": "on_tdf_3tc_efv_600",
-        "label": "On TDF300/3TC300/EFV600",
-        "description": "Total # of patients who are on TENOFOVIR AND LAMIVUDINE AND EFAVIRENZ 600",
-        "expression": "true"
-    },
-    {
-        "name": "on_tdf_3tc_dtg",
-        "label": "On TDF300/3TC300/DTG50",
-        "description": "Total # of patients who are on TENOFOVIR AND LAMIVUDINE AND DOLUTEGRAVIR",
-        "expression": "true"
-    },
-    {
-        "name": "art_net_cohort_at_12_months",
-        "label": "art net cohort at 12 months",
-        "description": "ART Net Cohort at 12 months",
-        "expression": "date(t1.arv_first_regimen_start_date) >= DATE_SUB(@startDate, INTERVAL 1 YEAR) and date(t1.arv_first_regimen_start_date) <= DATE_SUB(@endDate, INTERVAL 1 YEAR) and coalesce(transfer_out, out_of_care) is null"
-    },
-    {
-        "name": "on_arvs_first_line",
-        "label": "on arvs first line",
-        "description": "# of patient on ARVs first line",
-        "expression": "cur_arv_line=1"
-    },
-    {
-        "name": "total_on_therapy_at_12_months",
-        "label": "total on therapy at 12 months",
-        "description": "# of patients on therapy at 12 months",
-        "expression": "date(t1.arv_first_regimen_start_date) >= DATE_SUB(@startDate, INTERVAL 1 YEAR) and date(t1.arv_first_regimen_start_date) <= DATE_SUB(@endDate, INTERVAL 1 YEAR) and coalesce(t1.death_date, coalesce(transfer_out, out_of_care)) is null and timestampdiff(day,date(if(t1.rtc_date, rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY))),@startDate) <= 90"
-    },
-    {
-        "name": "on_arvs_second_line",
-        "label": "on arvs second line",
-        "description": "# of patient on ARVs second line",
-        "expression": "cur_arv_line=2 and coalesce(transfer_out, out_of_care) is null"
-    },
-    {
-        "name": "on_arvs_third_line",
-        "label": "on arvs third line",
-        "description": "# of patient on ARVs third line",
-        "expression": "cur_arv_line>2"
-    },
-    {
-        "name": "vl_done_past_year",
-        "label": "vl done past year",
-        "description": "# of patient(s) whose Viral Load have been taken in the past 1 year",
-        "expression": "timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
-    },
-    {
-        "name": "vl_done_past_year_relative_to_end_date",
-        "label": "vl done past year relative to end date",
-        "description": "# of patient(s) whose Viral Load have been taken in the past 1 year",
-        "expression": "timestampdiff(week,vl_1_date,@endDate) <= 52"
-    },
-    {
-        "name": "no_vl_done_past_year",
-        "label": "no vl done past year",
-        "description": "# of patient(s) whose Viral Load have not been taken in the past 1 year",
-        "expression": "cur_arv_line is not null and (vl_1_date is null or timestampdiff(week,vl_1_date,encounter_datetime) >= 52)"
-    },
-    {
-        "name": "vl_done_past_year_lte_1000",
-        "label": "vl done past year lte 1000",
-        "description": "# of patient(s) whose Viral Load is Less Than or Equal to 1000",
-        "expression": "timestampdiff(week,vl_1_date,encounter_datetime) <= 52 and vl_1 <= 1000"
-    },
-    {
-        "name": "vl_done_past_year_gt_1000",
-        "label": "vl done past year gt 1000",
-        "description": "# of patient(s) whose Viral Load is Greater Than 1000",
-        "expression": "timestampdiff(week,vl_1_date,encounter_datetime) <= 52 and vl_1 > 1000"
-    },
-    {
-        "name": "vl_done_this_encounter",
-        "label": "vl done this encounter",
-        "description": "# of patient(s) whose Viral Load has been taken in this encounter",
-        "expression": "vl_resulted >= 0 and vl_resulted_date=date(encounter_datetime)"
-    },
-    {
-        "name": "vl_done_this_encounter_lte_1000",
-        "label": "vl done this encounter lte 1000",
-        "description": "# of patient(s) whose Viral Load in this encounter is Less Than 1000",
-        "expression": "vl_resulted <= 1000 and vl_resulted_date = date(encounter_datetime)"
-    },
-    {
-        "name": "vl_done_this_encounter_gt_1000",
-        "label": "vl done this encounter gt 1000",
-        "description": "# of patient(s) whose Viral Load in this encounter is Greater Than 1000",
-        "expression": "vl_resulted > 1000 and vl_resulted_date = date(encounter_datetime)"
-    },
-    {
-        "name": "vl_ordered",
-        "label": "vl ordered",
-        "description": "# of patient(s) whose Viral Load has been ordered",
-        "expression": "date(vl_order_date)=date(encounter_datetime)"
-    },
-    {
-        "name": "pending_vl_order",
-        "label": "pending vl order",
-        "description": "# of patient(s) whose Viral Load has been Ordered but awaiting result",
-        "expression": "timestampdiff(week,vl_order_date,encounter_datetime) >= 0 and vl_1_date < vl_order_date"
-    },
-    {
-        "name": "pending_vl_order_no_result_after_4_weeks",
-        "label": "pending vl order no result after 4 weeks",
-        "description": "# of patient(s) whose Pending Viral Load Result is missing even after 4 weeks",
-        "expression": "timestampdiff(week,vl_order_date,encounter_datetime) >= 4 and vl_1_date < vl_order_date"
-    },
-    {
-        "name": "on_arvs_lte_26_weeks",
-        "label": "on arvs lte 26 weeks",
-        "description": "# of patient(s) who have been on ARVs for the last 26 weeks or less",
-        "expression": "timestampdiff(week,arv_start_date,encounter_datetime) <= 26"
-    },
-    {
-        "name": "on_arvs_lte_52_weeks",
-        "label": "on arvs lte 52 weeks",
-        "description": "# of patient(s) who have been on ARVs for the last 52 weeks or less",
-        "expression": "timestampdiff(week,arv_start_date,encounter_datetime) <= 52"
-    },
-    {
-        "name": "on_arvs_lte_52_weeks_and_have_vl",
-        "label": "on arvs lte 52 weeks and have vl",
-        "description": "# of patient(s) who have been on ARVs for the last 52 weeks or less and have Viral Load",
-        "expression": "timestampdiff(week,arv_start_date,encounter_datetime) <= 52 and timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
-    },
-    {
-        "name": "on_arvs_lte_52_weeks_and_have_vl_lte_1000",
-        "label": "on arvs lte 52 weeks and have vl lte 1000",
-        "description": "# of patient(s) who have been on ARVs for the last 52 weeks or less and their Viral Load is Less Than or Equal to 1000",
-        "expression": "timestampdiff(week,arv_start_date,encounter_datetime) <= 52 and timestampdiff(week,vl_1_date,encounter_datetime) <= 52 and vl_1 <= 1000"
-    },
-    {
-        "name": "not_on_modern_contraception",
-        "label": "not on modern contraception",
-        "description": "# of patients not on modern contraception in a given time period",
-        "expression": "(fhs.contraceptive_method IS NULL OR fhs.contraceptive_method in (6219 , 1624, 6707, 1067, 1107, 10956, 5622, 5277))"
-    },
-    {
-        "name": "on_short_term_modern_contraception_pnc",
-        "label": "On short term modern contraception pnc",
-        "description": "# of patients on short term modern contraception in a given time period and in pnc",
-        "expression": "fhs.visit_type in (68, 55, 52, 18) AND fhs.contraceptive_method is not null AND fhs.contraceptive_method not in (1107, 6700, 9510, 9511, 9734, 9735, 6701)"
-    },
-    {
-        "name": "on_long_term_modern_contraception_pnc",
-        "label": "On long term modern contraception pnc",
-        "description": "# of patients on long term modern contraception in a given time period and in pnc",
-        "expression": "fhs.visit_type in (68, 55, 52, 18) AND fhs.contraceptive_method in (5279,5278,5275,5276,6220,6700,6701,9510,9511,9734,9735,10817)"
-    },
-    {
-        "name": "on_modern_contraception_pnc",
-        "label": "on modern contraception pnc",
-        "description": "# of patients on modern contraception in a given time period",
-        "expression": "fhs.contraceptive_method IS NOT NULL AND fhs.contraceptive_method in (190 , 780, 907, 6218, 6217, 5841, 6717, 6718, 6725, 8134, 5274, 8300, 5279 , 5278, 5275, 5276, 6220, 6700, 6701, 9510, 9511, 9734, 9735, 10817) AND fhs.visit_type in (68, 55, 52, 18)"
-    },
-    {
-        "name": "not_on_modern_contraception_pnc",
-        "label": "not on modern contraception pnc",
-        "description": "# of patients not on modern contraception in a given time period and they are in PNC",
-        "expression": "(fhs.contraceptive_method IS NULL OR fhs.contraceptive_method in (1107, 5277, 6219)) AND fhs.visit_type in (68, 55, 52, 18)"
-    },
-    {
-        "name": "in_pnc",
-        "label": "in pnc",
-        "description": "# of patients with a pnc visit in a given time period",
-        "expression": "fhs.visit_type in (68, 55, 52, 18)"
-    },
-    {
-        "name": "on_art_and_not_on_modern_contraception",
-        "label": "on art and not on modern contraception",
-        "description": "# of patients on art and not on modern contraception in a given time period",
-        "expression": "(fhs.contraceptive_method IS NULL OR fhs.contraceptive_method = 1107) and  cur_arv_line is not null"
-    },
-    {
-        "name": "on_modern_contraception",
-        "label": "on modern contraception",
-        "description": "# of patients on modern contraception in a given time period",
-        "expression": "(fhs.contraceptive_method IS NOT NULL AND fhs.contraceptive_method IN (190 , 780, 907, 6218, 6217, 5841, 6717, 6718, 6725, 8134, 5274, 8300, 5279 , 5278, 5275, 5276, 6220, 6700, 6701, 9510, 9511, 9734, 9735, 10817) )"
-    },
-    {
-        "name": "on_short_term_modern_contraception",
-        "label": "on short term modern contraception",
-        "description": "# of patients on short term modern contraception in a given time period",
-        "expression": "fhs.contraceptive_method is not null AND fhs.contraceptive_method in (190,780,907,6218,6217,5841,6717,6718,6725,8134,5274,8300)"
-    },
-    {
-        "name": "on_long_term_modern_contraception",
-        "label": "on long term modern contraception",
-        "description": "# of patients on long term modern contraception in a given time period",
-        "expression": "fhs.contraceptive_method in (5279,5278,5275,5276,6220,6700,6701,9510,9511,9734,9735,10817)"
-    },
-    {
-        "name": "started_modern_contraception",
-        "label": "started modern contraception",
-        "description": "# of patients who started modern contraception in a given time period",
-        "expression": "date(fhs.modern_contraceptive_method_start_date) between @startDate and @endDate"
-    },
-    {
-        "name": "pregnant",
-        "label": "pregnant",
-        "description": "# of pregnant patients in a given time period",
-        "expression": "edd > encounter_datetime"
-    },
-    {
-        "name": "pregnant_and_on_arvs",
-        "label": "pregnant and on arvs",
-        "description": "# of pregnant patients and are on ARVs in a given time period",
-        "expression": "edd > encounter_datetime and cur_arv_line is not null"
-    },
-    {
-        "name": "pregnant_and_started_art",
-        "label": "pregnant and started art",
-        "description": "# of pregnant patients and started ART in a given time period",
-        "expression": "edd > encounter_datetime and date(fhs.arv_first_regimen_start_date) between @startDate and @endDate"
-    },
-    {
-        "name": "on_pcp_prophylaxis",
-        "label": "on pcp prophylaxis",
-        "description": "on PCP prophylaxis",
-        "expression": "encounter_datetime >= pcp_prophylaxis_start_date and coalesce(t1.death_date, out_of_care) is null"
-    },
-    {
-        "name": "hiv_exposed_infants_below_2_months",
-        "label": "hiv exposed infants 2 months and below",
-        "description": "Total # of infants below 2 months who are exposed to hiv",
-        "expression": "hiv_rapid_test_resulted is not null and DATEDIFF(birthdate, @endDate) <= 60 and coalesce(t1.death_date, out_of_care) is null"
-    },
-    {
-        "name": "hiv_exposed_infants_on_pcp_prophylaxis_2_months_and_below",
-        "label": "hiv exposed infants on pcp prophylaxis 2 months and below",
-        "description": "Total # of hiv exposed infants 2 months and below who are on PCP prophylaxis",
-        "expression": "hiv_rapid_test_resulted is not null and encounter_datetime >= pcp_prophylaxis_start_date and DATEDIFF(birthdate, @endDate) <= 60 and coalesce(t1.death_date, out_of_care) is null"
-    },
-    {
-        "name": "enrolled_in_care_total",
-        "label": "enrolled in care total",
-        "description": "Total # of patients enrolled in care",
-        "expression": "(date(prev_clinical_datetime_hiv) between @startDate and @endDate  or prev_clinical_datetime_hiv is null) and date(enrollment_date) between @startDate and @endDate"
-    },
-    {
-        "name": "currently_in_care_total",
-        "label": "currently in care total",
-        "description": "A patient is in care if it has been less than 90 days from the return to clinic date within the given reporting period.  For example, if at the last clinical encounter, the patient was given an RTC date of February 1, she is active in care in February, March and April. If she does not come back to clinic, she will be first out of care in May. Note, we are using the last RTC  date given by a clinician for this definition.",
-        "expression": "case when date(t1.death_date) <= t2.endDate or (date(outreach_death_date_bncd) <= t2.endDate and date(outreach_date_bncd) <= t2.endDate) then null when t1.transfer_out is not  null or  (outreach_patient_care_status_bncd in (1287,1594,9068,9504,1285) and date(outreach_date_bncd) <=  t2.endDate) or (transfer_transfer_out_bncd is not null and date(transfer_date_bncd) <=  t2.endDate) then null when t1.patient_care_status in (9083) or (outreach_patient_care_status_bncd in (9083) and date(outreach_date_bncd) <=  t2.endDate) then null when (outreach_patient_care_status_bncd in (9036) and date(outreach_date_bncd) <=  t2.endDate) or t1.patient_care_status in (9036) then null when  timestampdiff(day, if(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) <= 90 then 1 end"
-    },
-    {
-        "name": "pre_art_total",
-        "label": "starting art total",
-        "description": "Total # of patients starting ART",
-        "expression": "arv_first_regimen_start_date is null"
-    },
-    {
-        "name": "starting_art_total",
-        "label": "starting art total",
-        "description": "Total # of patients starting ART",
-        "expression": "arv_first_regimen_start_date is not null and date(encounter_datetime) = date(arv_first_regimen_start_date) and (date(arv_first_regimen_start_date) between @startDate and @endDate) and cur_arv_meds is not null and prev_arv_meds is null"
-    },
-    {
-        "name": "starting_art_and_has_tb",
-        "label": "starting_art_and_has_tb",
-        "description": "Starting ART and has TB",
-        "expression": "(tb_tx_start_date is not null and timestampdiff(year,tb_tx_start_date,@startDate) <= 1) and (date(encounter_datetime) = date(arv_first_regimen_start_date) and (date(arv_first_regimen_start_date) between @startDate and @endDate) and cur_arv_meds is not null and prev_arv_meds is null)"
-    },
-    {
-        "name": "revisits_on_art_total",
-        "label": "revisits on art total",
-        "description": "Total # of patient revisits on ART",
-        "expression": "encounter_datetime > arv_start_date and (coalesce(t1.death_date, out_of_care) is null)"
-    },
-    {
-        "name": "on_art_total",
-        "label": "on art total",
-        "description": "A patient is on ART if they are in care and was prescribed ART at their last clinical encounter.",
-        "expression": "encounter_datetime >= arv_start_date"
-    },
-    {
-        "name": "not_on_art_total",
-        "label": "not on art total",
-        "description": "Total # of patients not on ART",
-        "expression": "(encounter_datetime < arv_start_date  or arv_start_date is null)"
-    },
-    {
-        "name": "on_original_first_line",
-        "label": "on original first line",
-        "description": "Total # of patients on original ART regimen",
-        "expression": "cur_arv_meds = arv_first_regimen and cur_arv_line = 1 and date(t1.arv_first_regimen_start_date) >= DATE_SUB(@startDate, INTERVAL 1 YEAR) and date(t1.arv_first_regimen_start_date) <= DATE_SUB(@endDate, INTERVAL 1 YEAR) and coalesce(transfer_out, out_of_care) is null and timestampdiff(day,date(if(t1.rtc_date, rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY))),@endDate) <= 90 "
-    },
-    {
-        "name": "on_alternative_first_line",
-        "label": "on alternative first line",
-        "description": "Total # of patients on original ART regimen",
-        "expression": "cur_arv_meds != arv_first_regimen and cur_arv_line = 1 and date(t1.arv_first_regimen_start_date) >= DATE_SUB(@startDate, INTERVAL 1 YEAR) and date(t1.arv_first_regimen_start_date) <= DATE_SUB(@endDate, INTERVAL 1 YEAR) and coalesce(transfer_out, out_of_care) is null and timestampdiff(day,date(if(t1.rtc_date, rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY))),@endDate) <= 90"
-    },
-    {
-        "name": "on_second_line_or_higher",
-        "label": "on second line or higher",
-        "description": "Total # of patients on original ART regimen",
-        "expression": "cur_arv_meds != arv_first_regimen and cur_arv_line >= 2 and date(t1.arv_first_regimen_start_date) >= DATE_SUB(@startDate, INTERVAL 1 YEAR) and date(t1.arv_first_regimen_start_date) <= DATE_SUB(@endDate, INTERVAL 1 YEAR) and coalesce(transfer_out, out_of_care) is null and timestampdiff(day,date(if(t1.rtc_date, rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY))),@endDate) <= 90"
-    },
-    {
-        "name": "screened_for_tb",
-        "label": "screened for tb",
-        "description": "Total # of  patients screened for TB",
-        "expression": "screened_for_tb and encounter_datetime between @startDate and @endDate"
-    },
-    {
-        "name": "is_on_inh_treatment",
-        "label": "is_on_inh_treatment",
-        "description": "patient is on INH treatment",
-        "expression": "tb_prophylaxis_start_date is not null"
-    },
-    {
-        "name": "using_modern_contracept_method",
-        "label": "using modern contracept method",
-        "description": " # of patients using modern contraceptive methods (IUD, injectables, OCP, e.t.c)",
-        "expression": "using_modern_contraceptive_method = 1 and encounter_datetime between @startDate and @endDate"
-    },
-    {
-        "name": "condoms_provided",
-        "label": "condoms provided",
-        "description": " # of patients provided with condoms",
-        "expression": "condoms_provided = 1 and encounter_datetime between @startDate and @endDate"
-    },
-    {
-        "name": "female_gte_18yo_visits",
-        "label": "female gte 18yo visits",
-        "description": " female patients >= 18",
-        "expression": "gender='F' and timestampdiff(year,birthdate,@endDate) >= 18 and encounter_datetime between @startDate and @endDate"
-    },
-    {
-        "name": "scheduled_visits",
-        "label": "scheduled visits",
-        "description": "Scheduled visit",
-        "expression": "(date(encounter_datetime) = date(prev_rtc_date)) and encounter_datetime between @startDate and @endDate "
-    },
-    {
-        "name": "unscheduled_visits",
-        "label": "unscheduled visits",
-        "description": "Unscheduled visit",
-        "expression": "(date(encounter_datetime) != date(prev_rtc_date)) and encounter_datetime between @startDate and @endDate"
-    },
-    {
-        "name": "early_scheduled_visits",
-        "label": "early scheduled visits",
-        "description": "Early Scheduled visit",
-        "expression": "(date(encounter_datetime) < date(prev_rtc_date)) and encounter_datetime between @startDate and @endDate "
-    },
-    {
-        "name": "late_scheduled_visits",
-        "label": " late scheduled visits",
-        "description": "Late scheduled visit",
-        "expression": "(date(encounter_datetime) > date(prev_rtc_date)) and encounter_datetime between @startDate and @endDate "
-    },
-    {
-        "name": "total_visits",
-        "label": "total visits",
-        "description": "Total # of Hiv Care Visits",
-        "expression": ""
-    },
-    {
-        "name": "on_art",
-        "label": "on art",
-        "description": "Total #  patient on ART",
-        "expression": "encounter_datetime >= arv_start_date and (coalesce(t1.death_date, out_of_care) is null)"
-    },
-    {
-        "name": "ever_on_art",
-        "label": "ever on art",
-        "description": "Total #  patient ever on ART",
-        "expression": "arv_first_regimen_start_date is not null"
-    },
-    {
-        "name": "attended",
-        "label": "attended",
-        "description": "attended",
-        "expression": ""
-    },
-    {
-        "name": "scheduled",
-        "label": "scheduled",
-        "description": "scheduled",
-        "expression": ""
-    },
-    {
-        "name": "defaulted",
-        "label": "defaulted",
-        "description": "defaulted",
-        "expression": ""
-    },
-    {
-        "name": "not_attended",
-        "label": "not attended",
-        "description": "not attended",
-        "expression": "date(t1.rtc_date)<>date(next_clinical_datetime_hiv)"
-    },
-    {
-        "name": "has_not_returned",
-        "label": "has not returned",
-        "description": "has not returned",
-        "expression": "date(t1.rtc_date) < DATE(NOW()) and t1.rtc_date = max_rtc_date AND COALESCE(t1.death_date) IS NULL AND t1.transfer_out IS NULL AND t1.next_clinical_datetime_hiv IS NULL AND t8.person_id is null"
-    },
-    {
-        "name": "virally_suppressed_in_past_year",
-        "label": "virally suppressed in past year",
-        "description": "# of patient(s) who are virally suppressed in the past one year",
-        "expression": "vl_1 < 1000 and  timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
-    },
-    {
-        "name": "viral_load_resulted_in_past_year",
-        "label": "viral load resulted in past year",
-        "description": "patient(s) whose viral load has resulted in the past one year",
-        "expression": "vl_1 is not null and  timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
-    },
-    {
-        "name": "virally_suppressed",
-        "label": "virally suppressed",
-        "description": "# of patient(s) who are virally suppressed",
-        "expression": "timestampdiff(month,arv_start_date,encounter_datetime) >= 6 and timestampdiff(day, date(vl_1_date), date(t2.endDate)) <= 365 and vl_1 < 1000"
-    },
-    {
-        "name": "not_virally_suppressed",
-        "label": "not virally suppressed",
-        "description": "# of patient(s) who are not virally suppressed",
-        "expression": "timestampdiff(month,arv_start_date,encounter_datetime) >= 6 and timestampdiff(day, date(vl_1_date), date(t2.endDate)) <= 365 and vl_1 >= 1000"
-    },
-    {
-        "name": "perc_virally_suppressed",
-        "label": "perc virally suppressed",
-        "description": "The denominator includes those patients who are active in care, on ART, required a viral load and got a viral load. The numerator includes those patients who required a viral load and the result was less than 1000",
-        "expression": ""
-    },
-    {
-        "name": "not_virally_suppressed_in_past_year",
-        "label": "not virally suppressed in past year",
-        "description": "# of patient(s) who are not virally suppressed in the past one year",
-        "expression": "vl_1> 1000 and  timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
-    },
-    {
-        "name": "cd4_order_date",
-        "label": "cd4 order date",
-        "description": "cd4_order_date",
-        "expression": "DATE_FORMAT(cd4_order_date,'%m-%d-%Y')"
-    },
-    {
-        "name": "perc_virally_suppressed_in_past_year",
-        "label": "perc virally suppressed in past year",
-        "description": "% of  patient(s) who are virally suppressed in the past one year",
-        "expression": ""
-    },
-    {
-        "name": "perc_not_virally_suppressed_in_past_year",
-        "label": "perc not virally suppressed in past year",
-        "description": "% of  patient(s) who are not virally suppressed in the past one year",
-        "expression": ""
-    },
-    {
-        "name": "perc_on_arvs",
-        "label": "perc on arvs",
-        "description": "% of patients who are on ARVs",
-        "expression": ""
-    },
-    {
-        "name": "perc_in_care",
-        "label": "perc in care",
-        "description": "% of patients who are in Care",
-        "expression": ""
-    },
-    {
-        "name": "perc_on_arvs_lte_6_months",
-        "label": "perc on arvs lte 6 months",
-        "description": "% of patients who have been on ARVs for less than 6 months",
-        "expression": ""
-    },
-    {
-        "name": "perc_on_arvs_gt_6_months",
-        "label": "perc on arvs gt 6 months",
-        "description": "% of patients who have been on  ARVs for more than 6 months",
-        "expression": ""
-    },
-    {
-        "name": "perc_on_arv_first_line",
-        "label": "perc on arv first line",
-        "description": "% of patients on ARVs first line",
-        "expression": ""
-    },
-    {
-        "name": "perc_on_arv_second_line",
-        "label": "perc on arv second line",
-        "description": "% of patients on ARVs second line",
-        "expression": ""
-    },
-    {
-        "name": "perc_on_arv_gt_third_line",
-        "label": "perc on arv gt third line",
-        "description": "% of patients on ARVs third line or more",
-        "expression": ""
-    },
-    {
-        "name": "perc_with_pending_viral_load",
-        "label": "perc with pending viral load",
-        "description": "% of patients with pending viral load",
-        "expression": ""
-    },
-    {
-        "name": "on_arvs_gt_26_weeks",
-        "label": "on arvs gt 26 weeks",
-        "description": "# of patient(s) who have been on ARVs 26 weeks or more",
-        "expression": "timestampdiff(week,arv_start_date,encounter_datetime) > 26"
-    },
-    {
-        "name": "needs_vl_coded",
-        "label": "needs vl coded",
-        "description": "Patient level coded indicator that determines whether patient requires a Viral load",
-        "expression": "case when (cur_arv_meds is null) then 0 when (timestampdiff(month,vl_1_date, date(@referenceDate)) > 3) and vl_1 > 1000 and arv_start_date < vl_1_date then 1 when (timestampdiff(month,arv_start_date,date(@referenceDate)) between 6 and 12) and (vl_1_date is null or vl_1_date < arv_start_date ) then 2 when (timestampdiff(month,arv_start_date,@referenceDate) > 12) and (vl_1_date is null or timestampdiff(month,vl_1_date,@referenceDate) > 12) then 3 else 0 end"
-    },
-    {
-        "name": "qualifies_differenciated_care",
-        "label": "qualifies for differentiated care",
-        "description": "# A patient who is above 18 yrs and qualifies and with a viral load of less than 1000 and  has been on TB prophylaxis for at least six months.",
-        "expression": "case when vl_1 < 1000 and (timestampdiff(year,birthdate, date(@referenceDate)) > 18) and (timestampdiff(month,tb_prophylaxis_start_date,if(tb_prophylaxis_end_date,tb_prophylaxis_end_date,@referenceDate)) >= 6 ) and (timestampdiff(month,vl_1_date,now()) <= 11 ) then 1 else 0 end"
-
-    },
-    {
-        "name": "needs_vl_in_period",
-        "label": "needs vl in period",
-        "description": "Patient level coded indicator that determines whether patient requires a Viral load",
-        "expression": "case when (cur_arv_meds is not null and vl_1 > 1000) and (timestampdiff(day,vl_1_date, @endDate) >= 90) then true when (timestampdiff(month,arv_start_date, @endDate) <= 12) and (vl_1_date is null or timestampdiff(month,vl_1_date, @endDate) >= 6)  and (timestampdiff(month,arv_start_date, @endDate)>=6) then true when (timestampdiff(month,arv_start_date, @endDate) >= 12) and (vl_1_date is null or timestampdiff(month,vl_1_date, @endDate) >= 12) then true else false end"
-    },
-    {
-        "name": "months_since_last_vl_date",
-        "label": "months since last vl date",
-        "description": "Number of months since last vl date",
-        "expression": "timestampdiff(month,vl_1_date, @referenceDate)"
-    },
-    {
-        "name": "overdue_vl_lab_order",
-        "label": "overdue vl lab order",
-        "description": "Patient level coded indicator that determines whether patient Viral load order is overdue",
-        "expression": "case when (timestampdiff(day,vl_order_date, @referenceDate) >= 14) and (vl_1_date is null or vl_order_date > vl_1_date) and vl_error <> 1 then timestampdiff(day,vl_order_date, @referenceDate) else 0 end "
-    },
-    {
-        "name": "ordered_vl_has_error",
-        "label": "latest ordered vl has error",
-        "description": "Patient level coded indicator that determines whether patient Viral load order is overdue",
-        "expression": "case when vl_error= 1 then 1 else 0 end "
-    },
-    {
-        "name": "needs_cd4_count_coded",
-        "label": "needs cd4 count coded",
-        "description": "Patient level coded indicator that determines whether patient requires a Viral load",
-        "expression": "case when cur_arv_meds is not null and vl_1 > 1000 and timestampdiff(day,cd4_1_date, @referenceDate) >= 90 then 1 when timestampdiff(month,arv_start_date, @referenceDate) <= 12 and (cd4_1_date is null or timestampdiff(month,cd4_1_date, @referenceDate) > 6) then 2 when timestampdiff(month,arv_start_date, @referenceDate) > 12 and (cd4_1_date is null or timestampdiff(month,cd4_1_date, @referenceDate) > 12) then 3 else 0 end"
-    },
-    {
-        "name": "overdue_cd4_count_lab_order",
-        "label": "overdue cd4 count lab order",
-        "description": "Patient level coded indicator that determines whether patient Viral load order is overdue",
-        "expression": "case when timestampdiff(day,cd4_order_date, @referenceDate) > 30 and cd4_1_date is null or cd4_order_date > cd4_1_date then timestampdiff(day,cd4_order_date, @referenceDate) else 0 end "
-    },
-    {
-        "name": "encounters_count",
-        "label": "encounters_count",
-        "description": "",
-        "expression": ""
-    },
-    {
-        "name": "patients_requiring_vl",
-        "label": "patients requiring vl",
-        "description": "patients requiring vl",
-        "expression": "timestampdiff(month,arv_start_date,encounter_datetime) >= 6"
-    },
-    {
-        "name": "tested_appropriately",
-        "label": "tested appropriately",
-        "description": "Patients who are under ART and are missing Viral Load in past year",
-        "expression": "timestampdiff(month, arv_start_date, encounter_datetime) >= 6 and timestampdiff(day, date(vl_1_date), date(t2.endDate)) <= 365"
-    },
-    {
-        "name": "not_tested_appropriately",
-        "label": "not tested appropriately",
-        "description": "Patients who are under ART and are missing Viral Load in past year",
-        "expression": "timestampdiff(month, arv_start_date, encounter_datetime) >= 6 and (timestampdiff(day,vl_1_date, date(t2.endDate)) > 365 or vl_1_date is null)"
-    },
-    {
-        "name": "due_for_annual_vl",
-        "label": "due for annual vl",
-        "description": "In a specific month, these are patients who need new Annual Viral Load  but none was ordered in that month. For example, If a patient had an annual VL on 10/2015, the he/she will be due on 10/2016 and not any other month",
-        "expression": "timestampdiff(month, arv_start_date, encounter_datetime) >= 6 and (DATE_ADD(vl_1_date, INTERVAL 1 YEAR)  between  DATE_FORMAT(t2.endDate,'%Y-%m-01') and t2.endDate) and (orders.date_created is null or orders.concept_id!=856)"
-    },
-    {
-        "name": "pending_vl_orders",
-        "label": "pending vl orders",
-        "description": "In a specific month, these are patients with pending Viral Load Orders that have not resulted.",
-        "expression": "orders.concept_id=856 and (date(orders.date_created)  between  DATE_FORMAT(t2.endDate,'%Y-%m-01') and t2.endDate) and date(vl_1_date) != date(orders.date_created) and  date(vl_1_date) < DATE_FORMAT(t2.endDate,'%Y-%m-01')"
-    },
-    {
-        "name": "missing_vl_order",
-        "label": "missing vl and vl order",
-        "description": " From reporting start-date to a specific month, these are patients on ART, with no Viral Load  and no Viral Load Test Order (Patients whose Viral Load Test Order not placed)",
-        "expression": "timestampdiff(month, arv_start_date, encounter_datetime) >= 6 and (timestampdiff(day,vl_1_date, date(t2.endDate)) > 365 or vl_1_date is null) and (orders.date_created is null or orders.concept_id!=856)"
-    },
-    {
-        "name": "perc_tested_appropriately",
-        "label": "perc tested appropriately",
-        "description": " For this indicator the denominator includes patients who are active in care, on ART and require a viral load. A patient requires a viral load if they have been on ART more than 6 months. The numerator are those patients who are active in care, on ART, required a viral load and got a viral load",
-        "expression": ""
-    },
-    {
-        "name": "deceased_patients",
-        "label": "Deceased Patients",
-        "description": "This indicator includes all patients with patient care status of 'DECEASED'",
-        "expression": "patient_care_status=159"
-    },
-    {
-        "name": "untraceable_patients",
-        "label": "untraceable patients",
-        "description": "This indicator includes all patients with patient care status of 'UNTRACEABLE'",
-        "expression": "patient_care_status=9079"
-    },
-    {
-        "name": "transferred_out_patients",
-        "label": "transferred out patients",
-        "description": "A patient is considered to be transferred out if a provider declares the patient as NON-AMPATH",
-        "expression": "patient_care_status=1287"
-    },
-    {
-        "name": "hiv_negative_patients",
-        "label": "hiv negative patients",
-        "description": "This indicator includes all patients with patient care status of 'HIV NEGATIVE, NO LONGER AT RISK'",
-        "expression": "patient_care_status=9036"
-    },
-    {
-        "name": "patients_continuing_care",
-        "label": "patients continuing care",
-        "description": "This indicator includes all patients with patient care status of 'CONTINUE'",
-        "expression": "(patient_care_status=6101 and timestampdiff(day,rtc_date, @endDate) < 90 and is_clinical_encounter=1 ) or (patient_care_status=6101 and is_clinical_encounter=0 and @endDate > DATE_ADD(prev_clinical_rtc_date_hiv, INTERVAL 90 DAY))"
-    },
-    {
-        "name": "self_disengaged_from_care",
-        "label": "self disengaged from care",
-        "description": "This indicator includes all patients with patient care status of 'SELF DISENGAGED FROM CARE'",
-        "expression": "patient_care_status=9083"
-    },
-    {
-        "name": "defaulters",
-        "label": "defaulters",
-        "description": "This indicator includes all patients with patient care status of 'CONTINUE' and their RTC date is greater than 90 days from the reporting date",
-        "expression": "(patient_care_status=6101 and timestampdiff(day,if(is_clinical_encounter=1,rtc_date,prev_clinical_rtc_date_hiv), @endDate) > 90)"
-    },
-    {
-        "name": "transfer_to_MNCH",
-        "label": "transfer to MNCH",
-        "description": "transfer to MNCH",
-        "expression": "patient_care_status=9504"
-    },
-    {
-        "name": "other_patient_care_status",
-        "label": "other status",
-        "description": "This indicator includes all patients who do not fall in either of the above categories ",
-        "expression": "patient_care_status not in (159,9079,1287,9036,6101,9083)"
-    },
-    {
-        "name": "on_nevirapine",
-        "label": "patient on_nevirapine",
-        "description": "A patient is considered to be on \"Nevirapine\" if current ARV regimen formulation contains: NEVIRAPINE or NEVIRAPINE LAMIVUDINE AND ZIDOVUDINE or STAVUDINE LAMIVUDINE AND NEVIRAPINE",
-        "expression": "cur_arv_meds regexp '(631|6467|792)'"
-    },
-    {
-        "name": "on_lopinavir",
-        "label": "patient on_lopinavir",
-        "description": "A patient is considered to be on \"Lopinavir\" if current ARV regimen formulation contains: Lopinavir or LOPINAVIR AND RITONAVIR.",
-        "expression": "cur_arv_meds regexp '(9026|794)'"
-    },
-    {
-        "name": "on_efavirenz",
-        "label": "patient on_efavirenz",
-        "description": "A patient is considered to be on \"Efavirenz\" if current ARV regimen formulation contains: TDF AND 3TC AND EFV or Efavirenz.",
-        "expression": "cur_arv_meds regexp '(633|6964)'"
-    },
-    {
-        "name": "on_atazanavir",
-        "label": "patient on_atazanavir",
-        "description": "A patient is considered to be using \"Atazanavir\" if current ARV regimen formulation contains: ATAZANAVIR or ATAZANAVIR AND RITONAVIR.",
-        "expression": "cur_arv_meds regexp '(6159|6160)'"
-    },
-    {
-        "name": "on_raltegravir",
-        "label": "patient on_raltegravir",
-        "description": "A patient is considered to be on \"Raltegravir\" if current ARV regimen formulation contains: Raltegravir.",
-        "expression": "cur_arv_meds regexp '(6156)'"
-    },
-    {
-        "name": "on_other_arv_drugs",
-        "label": "patient on_other_arv_drugs",
-        "description": "A patient is considered to be on \"others\" if current ARV regimen formulation neither contains: Raltegravir or Atazanavir or ATAZANAVIR AND RITONAVIR or Efavirenz or TENOFOVIR AND LAMIVUDINE AND EFAVIRENZ or LOPINAVIR or LOPINAVIR AND RITONAVIR or NEVIRAPINE or NEVIRAPINE LAMIVUDINE AND ZIDOVUDINE or STAVUDINE LAMIVUDINE AND NEVIRAPINE.",
-        "expression": "not (cur_arv_meds regexp '(6156|6159|6160|633|6964|9026|794|631|6467|792)')"
-    },
-    {
-        "name": "not_on_arv",
-        "label": "patient not_on_arv",
-        "description": "A patient is considered to be on \"Not on any ARV Drugs\" if he/she is not on any ARV drugs.",
-        "expression": "cur_arv_meds is null"
-    },
-    {
-        "name": "on_second_line_not_suppressed",
-        "label": "on second line not suppressed",
-        "description": "patient on second line not suppressed",
-        "expression": "vl_1 > 1000 and cur_arv_line =2"
-    },
-    {
-        "name": "newly_on_second_line",
-        "label": "newly on second line",
-        "description": "patient newly on second line within a given period",
-        "expression": "cur_arv_line =2 and (arv_start_date between @startDate and @endDate)"
-    },
-    {
-        "name": "newly_enrolled",
-        "label": "newly enrolled",
-        "description": "patients who are newly enrolled",
-        "expression": "is_clinical_encounter=1 and prev_clinical_datetime_hiv is null"
-    },
-    {
-        "name": "new_viral_load_present",
-        "label": "new viral load present",
-        "description": "patient has a new viral load result",
-        "expression": "DATE_ADD(vl_1_date, INTERVAL 90 DAY) > NOW()"
-    },
-    {
-        "name": "not_on_arvs_cd4_lte_500",
-        "label": "not on arvs cd4 lte 500",
-        "description": "patients who qualify for ART but are not on therapy",
-        "expression": "arv_start_date is null and cd4_1 < 500"
-    },
-    {
-        "name": "total_with_vl",
-        "label": "total with vl",
-        "description": "The number of patients who have at least one viral load resulted within 366 days of the end_date (can be more than 1 year",
-        "expression": "timestampdiff(day,vl_1_date,@endDate) <= 366 AND TIMESTAMPDIFF(DAY, vl_2_date, @endDate) <= 366"
-    },
-    {
-        "name": "num_with_two_vls_past_year",
-        "label": "num with two vls past year",
-        "description": "The number of patients who have two viral load results within 366 days of end_date",
-        "expression": "timestampdiff(day,t1.vl_1_date,@endDate) <= 366 and timestampdiff(day,t1.vl_2_date,@endDate) <= 366"
-    },
-    {
-        "name": "num_with_only_one_vl_past_year",
-        "label": "num with only one vl past year",
-        "description": "the number of patients who have only one viral in the past year and no other viral load in past year",
-        "expression": "timestampdiff(day,t1.vl_1_date,@endDate) <= 366 and timestampdiff(day,t1.vl_2_date,@endDate) <= 366"
-    },
-    {
-        "name": "num_with_at_least_one_vl_past_year",
-        "label": "num with at least one vl past year",
-        "description": "the number of patients with at least one viral in the past year and no other viral load in past year",
-        "expression": "timestampdiff(day,t1.vl_1_date,@endDate) <= 366"
-    },
-    {
-        "name": "second_vl_gt_one_yo",
-        "label": "second vl gt one year",
-        "description": "The number of patients who only have a single viral load resulted within 366 days of end_date and another viral load older than one year from year from end_date",
-        "expression": "timestampdiff(day,vl_1_date,@endDate) <= 366 and timestampdiff(day,vl_2_date,@endDate) > 366"
-    },
-    {
-        "name": "last_vl_undetected",
-        "label": "last vl undetected",
-        "description": "Total # of patients with last vl undetected",
-        "expression": "timestampdiff(day,vl_1_date,@endDate) <= 366 and vl_1 = 0"
-    },
-    {
-        "name": "last_vl_unsuppressed",
-        "label": "last vl unsuppressed",
-        "description": "Total  # of patients which have a VL in past year which was unsuppressed.",
-        "expression": "timestampdiff(day,vl_1_date,@endDate) <= 366 and vl_1 >= 1000"
-    },
-    {
-        "name": "last_vl_suppressed",
-        "label": "last vl suppressed",
-        "description": "Total # of patients which have a VL in past year which was unsuppressed",
-        "expression": "timestampdiff(day,vl_1_date,@endDate) <= 366 and vl_1 < 1000"
-    },
-    {
-        "name": "perc_unsuppressed",
-        "label": "perc unsuppressed",
-        "description": "The number of patients with a unsuppressed viral load within 1 year from end date divided by the number of patients with a viral load within 1 year of end date",
-        "expression": ""
-    },
-    {
-        "name": "one_vl_unsuppressed",
-        "label": "one vl unsuppressed",
-        "description": "The number of patients with a single vl within one year of end_date and that vl >= 1000",
-        "expression": "timestampdiff(day,vl_1_date,@endDate) <= 366 and (vl_2 is null or timestampdiff(day,vl_2_date,@endDate) > 366) and vl_1 >= 1000"
-    },
-    {
-        "name": "one_vl_suppressed",
-        "label": "one vl suppressed",
-        "description": "The number of patients with a single vl within one year of end_date and that VL < 1000",
-        "expression": "timestampdiff(day,vl_1_date,@endDate) <= 366 and (vl_2 is null or timestampdiff(day,vl_2_date,@endDate) > 366) and vl_1 < 1000"
-    },
-    {
-        "name": "num_requiring_followup_vl",
-        "label": "num requiring followup vl",
-        "description": "The number of patients with viral load in the past year in which the VL >= 1000 and it’s been more than 90 days between that VL and end_date.",
-        "expression": "timestampdiff(day,vl_2_date,@endDate) <= 366 AND vl_2 >1000 || (timestampdiff(day,vl_1_date,@endDate) <= 366 AND vl_1 > 1000 AND timestampdiff(day,vl_1_date,@endDate) > 90 AND (vl_2 is null or vl_2_date > 1 ))"
-    },
-    {
-        "name": "getting_followup_vl",
-        "label": "getting followup vl",
-        "description": "Number of patients who got a follow-up viral load who needed one",
-        "expression": "TIMESTAMPDIFF(DAY, vl_2_date,@endDate) <= 366 AND vl_2 > 1000"
-    },
-    {
-        "name": "getting_followup_vl_180_days",
-        "label": "getting followup vl",
-        "description": "Number of patients who got a follow-up viral load who needed one and the follow up is within 180 days",
-        "expression": "TIMESTAMPDIFF(DAY, vl_2_date,@endDate) <= 366 AND vl_2 > 1000 AND TIMESTAMPDIFF(DAY, vl_1_date,@endDate) <= 180"
-    },
-    {
-        "name": "perc_getting_followup_vl",
-        "label": "perc getting followup vl",
-        "description": "The numerator is number of patients who got a follow-up viral load who needed one. The denominator is the number of patients who required a follow-up (num_requiring_followup_vl)",
-        "expression": ""
-    },
-    {
-        "name": "perc_getting_followup_vl_180_days",
-        "label": "perc getting followup vl 180 days",
-        "description": "The numerator is number of patients who got a follow-up viral load within 180 days who needed one. The denominator is the number of patients who required a follow-up (num_requiring_followup_vl)",
-        "expression": ""
-    },
-    {
-        "name": "one_vl_unsuppressed_gt_90_days",
-        "label": "one vl unsuppressed gt 90 days",
-        "description": "The number of patients who have a single viral load in the past year which is >= 1000 and the difference between end_date and the vl date is > 90 days",
-        "expression": "TIMESTAMPDIFF(DAY, vl_1_date, @endDate) <= 366  AND (vl_2 IS NULL  OR TIMESTAMPDIFF(DAY, vl_2_date, @endDate > 366)  AND vl_1 >= 1000  AND TIMESTAMPDIFF(DAY, vl_1_date, @endDate > 90"
-    },
-    {
-        "name": "one_vl_unsuppressed_gt_180_days",
-        "label": "one vl unsuppressed gt 180 days",
-        "description": "The number of patients who have a single viral load in the past year which is >= 1000 and the difference between end_date and the vl date is > 180 days",
-        "expression": "TIMESTAMPDIFF(DAY, vl_1_date, @endDate) <= 366  AND (vl_2 IS NULL  OR TIMESTAMPDIFF(DAY, vl_2_date, @endDate > 366)  AND vl_1 >= 1000  AND TIMESTAMPDIFF(DAY, vl_1_date, @endDate > 180"
-    },
-    {
-        "name": "avg_time_since_last_unsuppressed_vl_one_vl",
-        "label": "avg time since last unsuppressed vl one vl",
-        "description": "Avg time since last unsuppressed vl one vl",
-        "expression": "timestampdiff(day,vl_1_date,@endDate) <= 366 and vl_1 > 1000 and (vl_2 is null or timestampdiff(day,vl_2_date,@endDate) > 366)"
-    },
-    {
-        "name": "total_with_two_vls",
-        "label": "total with two vls",
-        "description": "Total # of patients with two vls within one year of end_date.",
-        "expression": "timestampdiff(day,vl_1_date,@endDate) <= 366 and timestampdiff(day,vl_2_date,@endDate) <= 366 and vl_2 >= 1000 and timestampdiff(day,vl_2_date,vl_1_date) > 60"
-    },
-    {
-        "name": "init_vl_unsuppressed_follow_up_unsuppressed",
-        "label": "init vl unsuppressed follow up unsuppressed",
-        "description": "Total #  of patients with an initial viral load >= 1000 with a follow-up viral load >= 1000 where both viral loads are within one year of end_date",
-        "expression": "timestampdiff(day,vl_1_date,@endDate) <= 366 and vl_1 >= 1000 and timestampdiff(day,vl_2_date,@endDate) <= 366 and vl_2 >= 1000 and timestampdiff(day,vl_2_date,vl_1_date) > 60"
-    },
-    {
-        "name": "follow_up_suppressed",
-        "label": "follow up suppressed",
-        "description": "Total # of patients with an initial viral load >= 1000 with a follow-up viral load < 1000 where both viral loads are within one year of end_date",
-        "expression": "timestampdiff(day,vl_1_date,@endDate) <= 366 and vl_1 >= 1000 and timestampdiff(day,vl_2_date,@endDate) <= 366 and vl_2 < 1000 and timestampdiff(day,vl_2_date,vl_1_date) > 60"
-    },
-    {
-        "name": "perc_fu_suppressed",
-        "label": "perc fu suppressed",
-        "description": "Of the cohort of patients with a VL >= 1000, what percentage have a follow-up that is suppressed. The denominator is all the patients with a VL >= 1000 within one year of end_date AND have a follow-up viral load within 1 year of end date",
-        "expression": ""
-    },
-    {
-        "name": "avg_length_btwn_vls_first_unsuppressed",
-        "label": "avg length btwn vls first unsuppressed",
-        "description": "For patients with an initial VL >= 1000 within 1 year of end_date, the average number of days until a follow-up viral load was ordered.",
-        "expression": "timestampdiff(day,vl_1_date,@endDate) <= 366 and timestampdiff(day,vl_2_date,@endDate) <= 366 and vl_2 >= 1000 and timestampdiff(day,vl_2_date,vl_1_date) > 60"
-    },
-    {
-        "name": "days_since_last_vl_first_unsuppressed",
-        "label": "days since last vl first unsuppressed",
-        "description": "avg days since last vl first unsuppressed",
-        "expression": "timestampdiff(day,vl_1_date,@endDate) <= 366 and timestampdiff(day,vl_2_date,@endDate) <= 366 and vl_2 >= 1000 and timestampdiff(day,vl_2_date,vl_1_date) > 60"
-    },
-    {
-        "name": "no_switch_after_unsuppressed",
-        "label": "no switch after unsuppressed",
-        "description": "# The number of patients switched to new regiment after the previous vl vl >= 1000",
-        "expression": "arv_start_date < vl_1_date and vl_1 >= 1000 and timestampdiff(day,vl_1_date,@endDate) <= 366"
-    },
-    {
-        "name": "switch_after_unsuppressed",
-        "label": "switch after unsuppressed",
-        "description": "# of patients  with switch after unsuppressed",
-        "expression": "arv_start_date > vl_1_date and vl_1 >= 1000 and timestampdiff(day,vl_1_date,@endDate) <= 366"
-    },
-    {
-        "name": "no_switch_after_unsuppressed_x1",
-        "label": "no switch after unsuppressed x1",
-        "description": "# The number of patients remaining on same regimen after the previous vl >= 1000",
-        "expression": "arv_start_date < vl_1_date and vl_1 >= 1000 and timestampdiff(day,vl_1_date,@endDate) <= 366  and (vl_2 < 1000 or timestampdiff(day,vl_2_date,@endDate) <= 366)"
-    },
-    {
-        "name": "switch_after_unsuppressed_x1",
-        "label": "switch after unsuppressed x1",
-        "description": "# of patients switched to new regimen after a single, unsuppressed VL in past year",
-        "expression": "arv_start_date > vl_1_date and vl_1 >= 1000 and timestampdiff(day,vl_1_date,@endDate) <= 366  and (vl_2 < 1000 or timestampdiff(day,vl_2_date,@endDate) <= 366)"
-    },
-    {
-        "name": "no_switch_after_unsuppressed_x_2",
-        "label": "no switch after unsuppressed x2",
-        "description": "# of patients not switched to new regimen after two unsuppressed VLs in past year",
-        "expression": "arv_start_date < vl_1_date and vl_1 >= 1000 and timestampdiff(day,vl_1_date,@endDate) <= 366 and vl_2 >= 1000 and timestampdiff(day,vl_2_date,@endDate) <= 366"
-    },
-    {
-        "name": "switch_after_unsuppressed_x_2",
-        "label": "switch after unsuppressed x 2",
-        "description": "# of patients switched to new regimen after two unsuppressed VLs in past year",
-        "expression": "arv_start_date > vl_1_date and vl_1 >= 1000 and timestampdiff(day,vl_1_date,@endDate) <= 366  and (vl_2 < 1000 or timestampdiff(day,vl_2_date,@endDate) <= 366)"
-    },
-    {
-        "name": "avg_time_to_switch_after_unsuppressed",
-        "label": "avg time to switch after unsuppressed",
-        "description": "Average time to switch a patient to a new regimen after an unsuppressed viral load",
-        "expression": "arv_start_date > vl_1_date and vl_1 >= 1000 and timestampdiff(day,vl_1_date,@endDate) <= 366"
-    },
-    {
-        "name": "avg_time_to_switch_after_unsuppressed_x2",
-        "label": "avg time to switch after unsuppressed x2",
-        "description": "Average time to switch a patient to a new regimen after two two unsuppressed viral loads",
-        "expression": "arv_start_date > vl_1_date  AND vl_1 >= 1000  AND TIMESTAMPDIFF(DAY, vl_1_date, NOW()) <= 366  AND vl_2 > 1000  AND TIMESTAMPDIFF(DAY, vl_2_date, NOW()) <= 366,  TIMESTAMPDIFF(DAY,vl_1_date,  arv_start_date)"
-    },
-    {
-        "name": "avg_days_to_switch_after_unsuppressed",
-        "label": "avg days to switch after unsuppressed",
-        "description": "avg time to switch after unsuppressed",
-        "expression": "arv_start_date > vl_1_date and vl_1 >= 1000"
-    },
-    {
-        "name": "num_with_vl_after_switch",
-        "label": "num with vl after switch",
-        "description": "# of patients with vl after switch",
-        "expression": "arv_start_date > vl_2_date and arv_start_date < vl_1_date"
-    },
-    {
-        "name": "num_with_vl_after_switch_suppressed",
-        "label": "num with vl after switch suppressed",
-        "description": "# of patients with suppressed follow-up viral load after a regiment switch",
-        "expression": "arv_start_date > vl_2_date and arv_start_date < vl_1_date and vl_1 < 1000"
-    },
-    {
-        "name": "num_with_vl_after_switch_unsuppressed",
-        "label": "num with vl after switch unsuppressed",
-        "description": "# of patients with unsuppressed follow-up viral load after a regimen switch",
-        "expression": "arv_start_date > vl_2_date and arv_start_date < vl_1_date and vl_1 >= 1000"
-    },
-    {
-        "name": "perc_switched_with_suppressed_fu",
-        "label": "perc switched with suppressed fu",
-        "description": "% of patients switched with suppressed f/u VL",
-        "expression": ""
-    },
-    {
-        "name": "perc_ART_pats_screened_for_TB_receiving_TB_medication",
-        "label": "perc ART pats screened for TB receiving TB medication",
-        "description": "percentage of ART pats who are screened for TB and receiving TB medication",
-        "expression": ""
-    },
-    {
-        "name": "num_ART_pats_screened_for_tb_started_TB",
-        "label": "# ART pats screened for tb started TB",
-        "description": "# of ART patients who are screened for tb and are started on TB medication",
-        "expression": "screened_for_tb is not null and tb_tx_start_date is not null and  cur_arv_line is not null and coalesce(t1.death_date, out_of_care) is null"
-    },
-    {
-        "name": "num_new_ART_pats_screened_for_tb_started_TB_this_period",
-        "label": "#  newly started on ART pats screened for tb started TB this reporting period",
-        "description": "# of newly started on ART patients who are screened for tb and are started on TB medication this reporting period",
-        "expression": "screened_for_tb is not null and tb_tx_start_date is not null and  cur_arv_line is not null and coalesce(t1.death_date, out_of_care) is null and arv_start_date>= @startDate and arv_start_date<= @endDate"
-    },
-    {
-        "name": "num_previous_ART_pats_screened_for_tb_started_TB",
-        "label": "#  previously started on ART pats screened for tb started TB",
-        "description": "# of previously started on ART patients who are screened for tb and are started on TB medication",
-        "expression": "screened_for_tb is not null and tb_tx_start_date is not null and  cur_arv_line is not null and coalesce(t1.death_date, out_of_care) is null and arv_start_date< @startDate"
-    },
-    {
-        "name": "num_ART_pats_screened_for_tb",
-        "label": "# ART pats screened for tb",
-        "description": "# of ART patients who are screened for tb",
-        "expression": "screened_for_tb is not null and cur_arv_line is not null and coalesce(t1.death_date, out_of_care) is null"
-    },
-    {
-        "name": "perc_ART_pats_completed_6mths_IPT",
-        "label": "perc ART pats completed 6mths IPT",
-        "description": "percentage of ART pats who have completed 6 months of IPT therapy",
-        "expression": ""
-    },
-    {
-        "name": "num_ART_patients_completed_6mths_IPT",
-        "label": "# of ART patients who have completed 6mths IPT",
-        "description": "# of ART patients who have completed 6mths of IPT patients",
-        "expression": "round(datediff(encounter_datetime,tb_prophylaxis_start_date)/30.5) >= 6 or round(datediff(tb_prophylaxis_end_date,tb_prophylaxis_start_date)/30.5) >= 6  and (coalesce(t1.death_date, out_of_care) is null)"
-    },
-    {
-        "name": "num_ART_patients_newly_started_IPT_less_6mths",
-        "label": "# ART patients newly started IPT less 6mths",
-        "description": "# ART patients newly started IPT and have completed less than 6mths on therapy",
-        "expression": "tb_prophylaxis_start_date is not null or tb_prophylaxis_end_date is not null and tb_prophylaxis_start_date >=  DATE_ADD(@startDate, INTERVAL -6 month) and (coalesce(t1.death_date, out_of_care) is null) "
-    },
-    {
-        "name": "num_ART_patients_newly_started_IPT_this_period_less_6mths",
-        "label": "# ART patients newly started IPT this period less 6mths",
-        "description": "# of ART patients newly started IPT in this reporting period and have completed less than 6mths on therapy",
-        "expression": "tb_prophylaxis_start_date is not null or tb_prophylaxis_end_date is not null and tb_prophylaxis_start_date >=  @startDate"
-    },
-    {
-        "name": "num_ART_patients_newly_started_IPT_previous_period_less_6mths",
-        "label": "# ART patients newly started IPT in the previous period less 6mths",
-        "description": "# of ART patients newly started IPT in the previous reporting period and have completed less than 6mths on therapy",
-        "expression": "tb_prophylaxis_start_date is not null or tb_prophylaxis_end_date is not null and tb_prophylaxis_start_date <  @startDate"
-    },
-    {
-        "name": "num_ART_patients_newly_started_IPT_previous_period_less_6mths",
-        "label": "# ART patients newly started IPT in the previous period less 6mths",
-        "description": "# of ART patients newly started IPT in the previous reporting period and have completed less than 6mths on therapy",
-        "expression": "tb_prophylaxis_start_date is not null or tb_prophylaxis_end_date is not null and tb_prophylaxis_start_date <  @startDate"
-    },
-    {
-        "name": "num_patients_currently_on_IPT",
-        "label": "# patients currently on IPT",
-        "description": "number of patients currently on IPT",
-        "expression": "coalesce(t1.death_date, out_of_care) is null and tb_prophylaxis_start_date is not null and tb_prophylaxis_end_date is null"
-    },
-    {
-        "name": "num_patients_newly_enrolled_newly_started_on_IPT",
-        "label": "# patients newly enrolled newly started on IPT",
-        "description": "number of patients newly enrolled and newly started on IPT",
-        "expression": "coalesce(t1.death_date, out_of_care) is null and tb_prophylaxis_start_date is not null and  @startDate<=enrollment_date and enrollment_date<=@endDate"
-    },
-    {
-        "name": "num_patients_stopped_on_IPT",
-        "label": "# patients stopped on IPT",
-        "description": "number of patients stopped on IPT",
-        "expression": "coalesce(t1.death_date, out_of_care) is null and t1.tb_prophylaxis_end_date is not null and  @startDate<=tb_prophylaxis_end_date<=@endDate"
-    },
-    {
-        "name": "newly_started_IPT",
-        "label": "# patients newly started IPT",
-        "description": "# eligible patients newly started IPT within the reporting period",
-        "expression": "date(tb_prophylaxis_start_date) between @startDate and @endDate"
-    },
-    {
-        "name": "ever_started_on_IPT",
-        "label": "# patients ever started on IPT",
-        "description": "# eligible patients ever started on IPT within the reporting period",
-        "expression": " tb_prophylaxis_start_date is not null"
-    },
-    {
-        "name": "completed_12_months_IPT",
-        "label": "# patients completed 12 months IPT within reporting period",
-        "description": "# completed 12 months IPT within the reporting period",
-        "expression": "date(tb_prophylaxis_end_date) between @startDate and @endDate and (timestampdiff(month,tb_prophylaxis_start_date, tb_prophylaxis_end_date) >= 12) "
-    },
-    {
-        "name": "started_TB_treatment_within_reporting_period",
-        "label": "# patients started_TB_treatment_within_reporting_period",
-        "description": "Total clients who are started treatment within reporting period",
-        "expression": "tb_tx_start_date is not null and  date(tb_tx_start_date) between @startDate and @endDate"
-    },
-    {
-        "name": "HIV_patients_newly_enrolled_into_TB_treatment",
-        "label": "# patients who were hiv positive before initiating TB treatment within reporting period",
-        "description": "Total clients who were hiv positive before initiating TB treatment within reporting period",
-        "expression": "date(hiv_start_date) < date(tb_tx_start_date) and  date(tb_tx_start_date) between @startDate and @endDate"
-    },
-    {
-        "name": "TB_patients_newly_enrolled_into_HIV_care",
-        "label": "# TB patients who are being enrolled in ART",
-        "description": "TB clients who are enrolled into HIV care within reporting period",
-        "expression": "date(tb_tx_start_date) < date(hiv_start_date) and  date(hiv_start_date) between @startDate and @endDate"
-    },
-    {
-        "name": "newly_identified_HIV_positive_patient_on_TB_treatment",
-        "label": "newly_identified_HIV_positive_patient_on_TB_treatment within reporting period",
-        "description": "[HIV_patients_newly_enrolled_into_TB_treatment]+[TB_patients_newly_enrolled_into_HIV_care]",
-        "expression": ""
-    },
-    {
-        "name": "patients_on_ARV_starting_TB_treatment",
-        "label": "patients_on_ARV_starting_TB_treatment",
-        "description": "TB clients who were  on ARVs before starting TB treatment within reporting period",
-        "expression": " date(arv_first_regimen_start_date) < date(tb_tx_start_date) and  date(tb_tx_start_date) between @startDate and @endDate"
-    },
-    {
-        "name": "TB_patients_starting_ARV_medication",
-        "label": "# TB_patients_starting_ARV_medication",
-        "description": "TB clients who are starting ARV medication within reporting period",
-        "expression": "date(tb_tx_start_date) < date(arv_first_regimen_start_date)  and  date(arv_first_regimen_start_date) between @startDate and @endDate"
-    },
-    {
-        "name": "newly_identified_TB_patients_on_ARVs",
-        "label": "newly_identified_TB_patients_on_ARVs within reporting period",
-        "description": "[TB_patients_starting_ARV_medication]+[patients_on_ARV_starting_TB_treatment]",
-        "expression": ""
-    },
-    {
-        "name": "total_hiv_exposed",
-        "label": "# count of all clients exposed to HIV",
-        "description": "all clients exposed to HIV within reporting period",
-        "expression": "hiv_exposed_occupational is not null"
-    },
-    {
-        "name": "hiv_exposed_occupational",
-        "label": "# count of all clients exposed to HIV (occupational)",
-        "description": "occupational clients exposed to HIV within reporting period",
-        "expression": "hiv_exposed_occupational=1"
-    },
-    {
-        "name": "hiv_exposed_non_occupational",
-        "label": "# count of all clients exposed to HIV (non-occupational)",
-        "description": "non-occupational clients exposed to HIV within reporting period",
-        "expression": "hiv_exposed_occupational=0"
-    },
-    {
-        "name": "total_started_PEP",
-        "label": "# count of all clients exposed to HIV and started PEP",
-        "description": "all clients exposed to HIV and received PEP within reporting period",
-        "expression": "hiv_exposed_occupational is not null and date(pep_start_date) between @startDate and @endDate"
-    },
-    {
-        "name": "started_PEP_occupational",
-        "label": "# count of all clients exposed to HIV (occupational) and started PEP",
-        "description": "occupational clients exposed to HIV and started PEP within reporting period",
-        "expression": "hiv_exposed_occupational=1 and date(pep_start_date) between @startDate and @endDate"
-    },
-    {
-        "name": "started_PEP_non_occupational",
-        "label": "# count of all clients exposed to HIV (non-occupational) and started PEP",
-        "description": "non-occupational clients exposed to HIV and started PEP within reporting period",
-        "expression": "hiv_exposed_occupational=0 and date(pep_start_date) between @startDate and @endDate"
-    },
-    {
-        "name": "total_patients",
-        "label": "total_patients",
-        "description": "These are all patients ever enrolled into care as of end of the reporting month",
-        "expression": "case when date(t1.encounter_datetime) <= t2.endDate then 1 else null end "
-    },
-    {
-        "name": "new_enrollments",
-        "label": "new_enrollments",
-        "description": "These are patients enrolled into care within the reporting month",
-        "expression": "case when date(t1.death_date) <= t2.endDate or (date(outreach_death_date_bncd) <= t2.endDate and date(outreach_date_bncd) <= t2.endDate) then null when t1.transfer_out is not  null or  (outreach_patient_care_status_bncd in (1287,1594,9068,9504,1285) and date(outreach_date_bncd) <=  t2.endDate) or (transfer_transfer_out_bncd is not null and date(transfer_date_bncd) <=  t2.endDate) then null  when t1.patient_care_status in (9083) or (outreach_patient_care_status_bncd in (9083) and date(outreach_date_bncd) <=  t2.endDate) then null when (outreach_patient_care_status_bncd in (9036) and date(outreach_date_bncd) <=  t2.endDate) or t1.patient_care_status in (9036) then null when date(t1.hiv_start_date) between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate  then 1 else null end"
-    },
-    {
-        "name": "transfer_in_from_non_Ampath_site",
-        "label": "transfer_in_from_non_Ampath_site",
-        "description": "These are patients who transferred in form NON AMPATH facility within the reporting month",
-        "expression": "t1.transfer_in=1287 and (t1.encounter_datetime between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate)"
-    },
-    {
-        "name": "transfer_in_from_Ampath_site",
-        "label": "transfer_in_from_Ampath_site",
-        "description": "These are patients who transferred in form AMPATH facility within the reporting month",
-        "expression": "t1.transfer_in=1286 and (t1.encounter_datetime between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate)"
-    },
-    {
-        "name": "transfer_in",
-        "label": "transfer_in",
-        "description": "These are patients who transferred into the selected facility within the reporting month",
-        "expression": "case when date(t1.hiv_start_date) between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate  then null when t1.transfer_in is not null and (t1.encounter_datetime between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate) then 1 else null end "
-    },
-    {
-        "name": "transfer_in_patients",
-        "label": "transfer in patients",
-        "description": "These are patients who transferred into the selected facility within the reporting period",
-        "expression": "t1.transfer_in is not null"
-    },
-    {
-        "name": "transfer_out_patients_this_month",
-        "label": "transfer_out_patients_this_month",
-        "description": "These are patients transferred to other Ampath or NON Ampath facility within the reporting month",
-        "expression": "((t1.death_date is null or t1.death_date > t2.endDate) and (outreach_death_date_bncd is null or outreach_death_date_bncd > t2.endDate)) and ((t1.transfer_out is not null and (t1.encounter_datetime between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate)) or ( (outreach_patient_care_status_bncd in (1287,1594,9068,9504,1285) and date(outreach_date_bncd) <=  t2.endDate) and (outreach_date_bncd between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate))) and ((t1.patient_care_status is null or t1.patient_care_status not in (9036,9083)) and (outreach_patient_care_status_bncd is null or (outreach_patient_care_status_bncd not in (9036,9083) and date(outreach_date_bncd) <=  t2.endDate))) "
-    },
-    {
-        "name": "active_in_care_to_transfer_out",
-        "label": "active_in_care_to_transfer_out",
-        "description": "These are patients who were Active in care in the previous reporting month, but changed to transferred out in this reporting month",
-        "expression": "((t1.death_date is null or t1.death_date > t2.endDate) and (outreach_death_date_bncd is null or outreach_death_date_bncd > t2.endDate)) and ((t1.transfer_out is not null and (t1.encounter_datetime between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate)) or ( (outreach_patient_care_status_bncd in (1287,1594,9068,9504,1285) and date(outreach_date_bncd) <=  t2.endDate) and (outreach_date_bncd between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate))) and ((t1.patient_care_status is null or t1.patient_care_status not in (9036,9083)) and (outreach_patient_care_status_bncd is null or (outreach_patient_care_status_bncd not in (9036,9083) and date(outreach_date_bncd) <=  t2.endDate))) and timestampdiff(day,t1.rtc_date, date_sub(DATE_FORMAT(t2.endDate, '%Y-%m-01'), interval 1 day)) <= 90"
-    },
-    {
-        "name": "transfer_out_patients",
-        "label": "transfer_out_patients",
-        "description": "These are patients ever transferred to other Ampath or NON Ampath facility",
-        "expression": "case when date(t1.death_date) <= t2.endDate or (date(outreach_death_date_bncd) <= t2.endDate and date(outreach_date_bncd) <= t2.endDate) then null  when t1.transfer_out is not null or  (outreach_patient_care_status_bncd in (1287,1594,9068,9504,1285) and date(outreach_date_bncd) <=  t2.endDate) or (transfer_transfer_out_bncd is not null and date(transfer_date_bncd) <=  t2.endDate) then 1 else null end"
-    },
-    {
-        "name": "deaths",
-        "label": "deaths",
-        "description": "These are dead patients ever reported",
-        "expression": "case when date(t1.death_date) <= t2.endDate or (date(outreach_death_date_bncd) <= t2.endDate and date(outreach_date_bncd) <= t2.endDate) then 1 else null end "
-    },
-    {
-        "name": "HIV_negative_patients",
-        "label": "HIV_negative_patients",
-        "description": "These are HIV Negative patients ever reported",
-        "expression": "case when date(t1.death_date) <= t2.endDate or (date(outreach_death_date_bncd) <= t2.endDate and date(outreach_date_bncd) <= t2.endDate) then null  when (outreach_patient_care_status_bncd in (9036) and date(outreach_date_bncd) <=  t2.endDate) or t1.patient_care_status in (9036) then 1 else null end"
-    },
-    {
-        "name": "self_disengaged_patients",
-        "label": "self_disengaged_patients",
-        "description": "These are patients ever disengaged out of care by themselves",
-        "expression": "case when date(t1.death_date) <= t2.endDate or (date(outreach_death_date_bncd) <= t2.endDate and date(outreach_date_bncd) <= t2.endDate) then null when t1.patient_care_status in (9083) or (outreach_patient_care_status_bncd in (9083) and date(outreach_date_bncd) <=  t2.endDate) then 1 else null end "
-    },
-    {
-        "name": "HIV_negative_patients_this_month",
-        "label": "HIV_negative_patients_this_month",
-        "description": "These are HIV Negative patients that were reported within the reporting month",
-        "expression": "case when outreach_death_date_bncd or t1.death_date then null when (outreach_patient_care_status_bncd in (9036) and date(outreach_date_bncd) <=  t2.endDate) and (outreach_date_bncd between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate) then 1 when t1.patient_care_status in (9036) and (t1.encounter_datetime between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate) then 1 else null end"
-    },
-    {
-        "name": "self_disengaged_patients_this_month",
-        "label": "self_disengaged_patients_this_month",
-        "description": "These are patients that have disengaged themselves from care within the reporting month",
-        "expression": "case when outreach_death_date_bncd or t1.death_date then null when (outreach_patient_care_status_bncd in (9083) and date(outreach_date_bncd) <=  t2.endDate) and (outreach_date_bncd between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate) then 1 when t1.patient_care_status in (9083) and (t1.encounter_datetime between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate) then 1 else null end"
-    },
-    {
-        "name": "deaths_this_month",
-        "label": "deaths_this_month",
-        "description": "These are deaths that occurred within the reporting month",
-        "expression": "(t1.death_date between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate) or (outreach_death_date_bncd between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate)"
-    },
-    {
-        "name": "active_in_care_to_death",
-        "label": "active_in_care_to_death",
-        "description": "These are patients who were  Active in care in the previous reporting month, but died within this reporting month",
-        "expression": "(t1.death_date between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate) or (outreach_death_date_bncd between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate) and timestampdiff(day,t1.rtc_date, date_sub(DATE_FORMAT(t2.endDate, '%Y-%m-01'), interval 1 day)) <= 90"
-    },
-    {
-        "name": "LTFU",
-        "label": "LTFU",
-        "description": "A patient is LTFU if it has been greater than 90 days from the RTC date within the given reporting period ",
-        "expression": "case when date(t1.death_date) <= t2.endDate or (date(outreach_death_date_bncd) <= t2.endDate and date(outreach_date_bncd) <= t2.endDate) then null when t1.transfer_out is not  null or  (outreach_patient_care_status_bncd in (1287,1594,9068,9504,1285) and date(outreach_date_bncd) <=  t2.endDate) or (transfer_transfer_out_bncd is not null and date(transfer_date_bncd) <=  t2.endDate) then null when t1.patient_care_status in (9083) or (outreach_patient_care_status_bncd in (9083) and date(outreach_date_bncd) <=  t2.endDate) then null when (outreach_patient_care_status_bncd in (9036) and date(outreach_date_bncd) <=  t2.endDate) or t1.patient_care_status in (9036) then null when timestampdiff(day, if(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) > 90 then 1 else null end"
-    },
-    {
-        "name": "LTFU_this_month",
-        "label": "LTFU_this_month",
-        "description": "Total # of new patients",
-        "expression": "((t1.death_date is null or t1.death_date > t2.endDate) and (outreach_death_date_bncd is null or outreach_death_date_bncd > t2.endDate)) and ((t1.patient_care_status is null or t1.patient_care_status not in (9036,9083)) and (outreach_patient_care_status_bncd is null or (outreach_patient_care_status_bncd not in (9036,9083) and date(outreach_date_bncd) <=  t2.endDate))) and t1.transfer_out is null and  (outreach_patient_care_status_bncd not in (1287,1594,9068,9504,1285) and date(outreach_date_bncd) <=  t2.endDate) and timestampdiff(day, if(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) between 91 and 121"
-    },
-    {
-        "name": "LTFU_to_active_in_care",
-        "label": "LTFU_to_active_in_care",
-        "description": "These are patients who were LTFU in the previous reporting month, but changed to active in care in this reporting month",
-        "expression": "t1.transfer_out is null and  (outreach_patient_care_status_bncd not in (1287,1594,9068,9504,1285) and date(outreach_date_bncd) <=  t2.endDate) and ((t1.death_date is null or t1.death_date > t2.endDate) and (outreach_death_date_bncd is null or outreach_death_date_bncd > t2.endDate)) and date(t1.encounter_datetime) between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate and ((t1.patient_care_status is null or t1.patient_care_status not in (9036,9083)) and (outreach_patient_care_status_bncd is null or (outreach_patient_care_status_bncd not in (9036,9083) and date(outreach_date_bncd) <=  t2.endDate))) and timestampdiff(day, if(t1.prev_clinical_rtc_date_hiv, t1.prev_clinical_rtc_date_hiv, DATE_ADD(t1.prev_clinical_datetime_hiv, INTERVAL 30 DAY)), date_sub(DATE_FORMAT(t2.endDate, '%Y-%m-01'), interval 1 day)) > 90"
-    },
-    {
-        "name": "active_in_care_to_LTFU",
-        "label": "active_in_care_to_LTFU",
-        "description": "These are patient who were Active in care on the previous reporting month, but changed to LTFU in this reporting month",
-        "expression": "t1.transfer_out is null and  (outreach_patient_care_status_bncd not in (1287,1594,9068,9504,1285) and date(outreach_date_bncd) <=  t2.endDate) and ((t1.death_date is null or t1.death_date > t2.endDate) and (outreach_death_date_bncd is null or outreach_death_date_bncd > t2.endDate)) and ((t1.patient_care_status is null or t1.patient_care_status not in (9036,9083)) and (outreach_patient_care_status_bncd is null or (outreach_patient_care_status_bncd not in (9036,9083) and date(outreach_date_bncd) <=  t2.endDate))) and timestampdiff(day, if(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) > 90 and timestampdiff(day,t1.rtc_date, date_sub(DATE_FORMAT(t2.endDate, '%Y-%m-01'), interval 1 day)) <= 90"
-    },
-    {
-        "name": "active_in_care",
-        "label": "active_in_care",
-        "description": "A patient is active in care if it has been less than 90 days from the RTC date within the given reporting period",
-        "expression": "case when date(t1.death_date) <= t2.endDate or (date(outreach_death_date_bncd) <= t2.endDate and date(outreach_date_bncd) <= t2.endDate) then null when t1.transfer_out is not  null or  (outreach_patient_care_status_bncd in (1287,1594,9068,9504,1285) and date(outreach_date_bncd) <=  t2.endDate) or (transfer_transfer_out_bncd is not null and date(transfer_date_bncd) <=  t2.endDate) then null when t1.patient_care_status in (9083) or (outreach_patient_care_status_bncd in (9083) and date(outreach_date_bncd) <=  t2.endDate) then null when (outreach_patient_care_status_bncd in (9036) and date(outreach_date_bncd) <=  t2.endDate) or t1.patient_care_status in (9036) then null when  timestampdiff(day, if(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) <= 90 then 1 end"
-    },
-    {
-        "name": "active_return",
-        "label": "active_return",
-        "description": "These are active patients without including new enrollments and transfer ins: i.e Active Patients - (Transfer In + New Enrollment)",
-        "expression": "case when date(t1.hiv_start_date) between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate  then null when t1.transfer_in is not null and (t1.encounter_datetime between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate) then null when date(t1.death_date) <= t2.endDate or (date(outreach_death_date_bncd) <= t2.endDate and date(outreach_date_bncd) <= t2.endDate) then null when t1.transfer_out is not  null or  (outreach_patient_care_status_bncd in (1287,1594,9068,9504,1285) and date(outreach_date_bncd) <=  t2.endDate) or (transfer_transfer_out_bncd is not null and date(transfer_date_bncd) <=  t2.endDate) then null when t1.patient_care_status in (9083) or (outreach_patient_care_status_bncd in (9083) and date(outreach_date_bncd) <=  t2.endDate) then null  when (outreach_patient_care_status_bncd in (9036) and date(outreach_date_bncd) <=  t2.endDate) or t1.patient_care_status in (9036) then null  when  timestampdiff(day, if(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) <= 90 then 1 else null end"
-    },
-    {
-        "name": "active_in_care_prev_month",
-        "label": "active_in_care_prev_month",
-        "description": "Total # of acive patients prev reporting month",
-        "expression": "timestampdiff(day,t1.rtc_date, date_sub(DATE_FORMAT(t2.endDate, '%Y-%m-01'), interval 1 day)) <= 90"
-    },
-    {
-        "name": "monthly_patient_care_status",
-        "label": "Monthly patient care status",
-        "description": "Care status of patient on a monthly basis",
-        "expression": "CASE WHEN TIMESTAMPDIFF(DAY, IF(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) <= 90 AND t1.transfer_out IS NULL AND COALESCE(t1.death_date, t1.out_of_care) IS NULL THEN 'active' WHEN TIMESTAMPDIFF(DAY, IF(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) > 90 AND transfer_out IS  NULL THEN 'ltfu' WHEN t1.transfer_out IS NOT NULL AND COALESCE(t1.death_date) IS NULL THEN 'transfered_out' END"
-    },
-    {
-        "name": "patient_daily_care_status",
-        "label": "patient_daily_care_status",
-        "description": "Patient daily care status",
-        "expression": "CASE WHEN TIMESTAMPDIFF(DAY, IF(rtc_date, rtc_date, DATE_ADD(encounter_datetime, INTERVAL 30 DAY)),@referenceDate) <= 90 AND transfer_out IS NULL AND COALESCE(death_date, out_of_care) IS NULL THEN 'active' WHEN TIMESTAMPDIFF(DAY, IF(rtc_date, rtc_date, DATE_ADD(encounter_datetime, INTERVAL 30 DAY)), @referenceDate) > 90 THEN 'ltfu' WHEN transfer_out IS NOT NULL AND COALESCE(death_date) IS NULL THEN 'transfered_out' END"
-    },
-    {
-        "name": "community_ART_dispensing",
-        "label": "community_ART_dispensing",
-        "description": "These are patients who are on ART through community dispensing program",
-        "expression": "t1.encounter_type = 128"
-    },
-    {
-        "name": "patients_with_vl_result",
-        "label": "patients with vl result",
-        "description": "# of patients with vl",
-        "expression": "vl_1_date between @startDate and @endDate"
-    },
-    {
-        "name": "vl_suppressed_patients",
-        "label": "vl suppressed patients",
-        "description": "# of patients with vl < 1000",
-        "expression": "vl_1_date between @startDate and @endDate and vl_1 < 1000"
-    },
-    {
-        "name": "vl_unsuppressed_patients",
-        "label": "vl unsuppressed patients",
-        "description": "# of patients with vl >= 1000",
-        "expression": "vl_1_date between @startDate and @endDate and vl_1 >= 1000"
-    },
-    {
-        "name": "active_and_on_art",
-        "label": "Active and on ART",
-        "description": "A patient who meets the definition for active in care and was dispensed ART at the last clinical visit",
-        "expression": "(case when date(t1.death_date) <= t2.endDate or (date(outreach_death_date_bncd) <= t2.endDate and date(outreach_date_bncd) <= t2.endDate) then null when t1.transfer_out is not  null or  (outreach_patient_care_status_bncd in (1287,1594,9068,9504,1285) and date(outreach_date_bncd) <=  t2.endDate) or (transfer_transfer_out_bncd is not null and date(transfer_date_bncd) <=  t2.endDate) then null when t1.patient_care_status in (9083) or (outreach_patient_care_status_bncd in (9083) and date(outreach_date_bncd) <=  t2.endDate) then null when (outreach_patient_care_status_bncd in (9036) and date(outreach_date_bncd) <=  t2.endDate) or t1.patient_care_status in (9036) then null when  timestampdiff(day, if(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) <= 90 then 1 end) and encounter_datetime >= arv_start_date"
-    },
-    {
-        "name": "has_vl_since_oct",
-        "label": "has VL since october",
-        "description": "As of the reporting month, the number of patients who have had a VL since october",
-        "expression": "(case when (date(t2.endDate) > date(DATE_FORMAT(t2.endDate, '%Y-09-01')) and date(vl_1_date) between date(DATE_FORMAT(t2.endDate, '%Y-09-01')) and date(DATE_ADD(DATE_FORMAT(t2.endDate, '%Y-09-01'), INTERVAL 1 YEAR))) then true when (date(t2.endDate) < date(DATE_FORMAT(t2.endDate, '%Y-09-01')) and date(vl_1_date) between date(DATE_SUB(DATE_FORMAT(t2.endDate, '%Y-09-01'), INTERVAL 1 YEAR)) and date(DATE_FORMAT(t2.endDate, '%Y-09-01'))) then true else false end)"
-    },
-    {
-        "name": "virally_suppressed_since_oct",
-        "label": "virally suppressed_since_oct",
-        "description": "# of patient(s) who are virally suppressed",
-        "expression": "vl_1 < 1000 and (case when (date(t2.endDate) > date(DATE_FORMAT(t2.endDate, '%Y-09-01')) and date(vl_1_date) between date(DATE_FORMAT(t2.endDate, '%Y-09-01')) and date(DATE_ADD(DATE_FORMAT(t2.endDate, '%Y-09-01'), INTERVAL 1 YEAR))) then true when (date(t2.endDate) < date(DATE_FORMAT(t2.endDate, '%Y-09-01')) and date(vl_1_date) between date(DATE_SUB(DATE_FORMAT(t2.endDate, '%Y-09-01'), INTERVAL 1 YEAR)) and date(DATE_FORMAT(t2.endDate, '%Y-09-01'))) then true else false end)"
-    },
-    {
-        "name": "perc_virally_suppressed_since_oct",
-        "label": "perc virally suppressed since oct",
-        "description": "The denominator includes those patients (both active and LTFU) who have had a VL since October 1. The numerator includes those patients (both active and LTFU) who have had a VL since October 1 and had Vl < 100",
-        "expression": ""
-    }
-
+  {
+    "name": "encounters",
+    "label": "encounters",
+    "description": "Total # of encounters",
+    "expression": "true"
+  },
+  {
+    "name": "patients",
+    "label": "patients",
+    "description": "Total number of patients",
+    "expression": "true"
+  },
+  {
+    "name": "on_arvs",
+    "label": "on arvs",
+    "description": "Total # of patients who are on ARVs",
+    "expression": "cur_arv_line is not null"
+  },
+  {
+    "name": "on_tdf_3tc_efv_400",
+    "label": "On TDF300/3TC300/EFV400",
+    "description": "Total # of patients who are on TENOFOVIR AND LAMIVUDINE AND EFAVIRENZ 400",
+    "expression": "true"
+  },
+  {
+    "name": "on_tdf_3tc_efv_600",
+    "label": "On TDF300/3TC300/EFV600",
+    "description": "Total # of patients who are on TENOFOVIR AND LAMIVUDINE AND EFAVIRENZ 600",
+    "expression": "true"
+  },
+  {
+    "name": "on_tdf_3tc_dtg",
+    "label": "On TDF300/3TC300/DTG50",
+    "description": "Total # of patients who are on TENOFOVIR AND LAMIVUDINE AND DOLUTEGRAVIR",
+    "expression": "true"
+  },
+  {
+    "name": "art_net_cohort_at_12_months",
+    "label": "art net cohort at 12 months",
+    "description": "ART Net Cohort at 12 months",
+    "expression": "date(t1.arv_first_regimen_start_date) >= DATE_SUB(@startDate, INTERVAL 1 YEAR) and date(t1.arv_first_regimen_start_date) <= DATE_SUB(@endDate, INTERVAL 1 YEAR) and coalesce(transfer_out, out_of_care) is null"
+  },
+  {
+    "name": "on_arvs_first_line",
+    "label": "on arvs first line",
+    "description": "# of patient on ARVs first line",
+    "expression": "cur_arv_line=1"
+  },
+  {
+    "name": "total_on_therapy_at_12_months",
+    "label": "total on therapy at 12 months",
+    "description": "# of patients on therapy at 12 months",
+    "expression": "date(t1.arv_first_regimen_start_date) >= DATE_SUB(@startDate, INTERVAL 1 YEAR) and date(t1.arv_first_regimen_start_date) <= DATE_SUB(@endDate, INTERVAL 1 YEAR) and coalesce(t1.death_date, coalesce(transfer_out, out_of_care)) is null and timestampdiff(day,date(if(t1.rtc_date, rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY))),@startDate) <= 90"
+  },
+  {
+    "name": "on_arvs_second_line",
+    "label": "on arvs second line",
+    "description": "# of patient on ARVs second line",
+    "expression": "cur_arv_line=2 and coalesce(transfer_out, out_of_care) is null"
+  },
+  {
+    "name": "on_arvs_third_line",
+    "label": "on arvs third line",
+    "description": "# of patient on ARVs third line",
+    "expression": "cur_arv_line>2"
+  },
+  {
+    "name": "vl_done_past_year",
+    "label": "vl done past year",
+    "description": "# of patient(s) whose Viral Load have been taken in the past 1 year",
+    "expression": "timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
+  },
+  {
+    "name": "vl_done_past_year_relative_to_end_date",
+    "label": "vl done past year relative to end date",
+    "description": "# of patient(s) whose Viral Load have been taken in the past 1 year",
+    "expression": "timestampdiff(week,vl_1_date,@endDate) <= 52"
+  },
+  {
+    "name": "no_vl_done_past_year",
+    "label": "no vl done past year",
+    "description": "# of patient(s) whose Viral Load have not been taken in the past 1 year",
+    "expression": "cur_arv_line is not null and (vl_1_date is null or timestampdiff(week,vl_1_date,encounter_datetime) >= 52)"
+  },
+  {
+    "name": "vl_done_past_year_lte_1000",
+    "label": "vl done past year lte 1000",
+    "description": "# of patient(s) whose Viral Load is Less Than or Equal to 1000",
+    "expression": "timestampdiff(week,vl_1_date,encounter_datetime) <= 52 and vl_1 <= 1000"
+  },
+  {
+    "name": "vl_done_past_year_gt_1000",
+    "label": "vl done past year gt 1000",
+    "description": "# of patient(s) whose Viral Load is Greater Than 1000",
+    "expression": "timestampdiff(week,vl_1_date,encounter_datetime) <= 52 and vl_1 > 1000"
+  },
+  {
+    "name": "vl_done_this_encounter",
+    "label": "vl done this encounter",
+    "description": "# of patient(s) whose Viral Load has been taken in this encounter",
+    "expression": "vl_resulted >= 0 and vl_resulted_date=date(encounter_datetime)"
+  },
+  {
+    "name": "vl_done_this_encounter_lte_1000",
+    "label": "vl done this encounter lte 1000",
+    "description": "# of patient(s) whose Viral Load in this encounter is Less Than 1000",
+    "expression": "vl_resulted <= 1000 and vl_resulted_date = date(encounter_datetime)"
+  },
+  {
+    "name": "vl_done_this_encounter_gt_1000",
+    "label": "vl done this encounter gt 1000",
+    "description": "# of patient(s) whose Viral Load in this encounter is Greater Than 1000",
+    "expression": "vl_resulted > 1000 and vl_resulted_date = date(encounter_datetime)"
+  },
+  {
+    "name": "vl_ordered",
+    "label": "vl ordered",
+    "description": "# of patient(s) whose Viral Load has been ordered",
+    "expression": "date(vl_order_date)=date(encounter_datetime)"
+  },
+  {
+    "name": "pending_vl_order",
+    "label": "pending vl order",
+    "description": "# of patient(s) whose Viral Load has been Ordered but awaiting result",
+    "expression": "timestampdiff(week,vl_order_date,encounter_datetime) >= 0 and vl_1_date < vl_order_date"
+  },
+  {
+    "name": "pending_vl_order_no_result_after_4_weeks",
+    "label": "pending vl order no result after 4 weeks",
+    "description": "# of patient(s) whose Pending Viral Load Result is missing even after 4 weeks",
+    "expression": "timestampdiff(week,vl_order_date,encounter_datetime) >= 4 and vl_1_date < vl_order_date"
+  },
+  {
+    "name": "on_arvs_lte_26_weeks",
+    "label": "on arvs lte 26 weeks",
+    "description": "# of patient(s) who have been on ARVs for the last 26 weeks or less",
+    "expression": "timestampdiff(week,arv_start_date,encounter_datetime) <= 26"
+  },
+  {
+    "name": "on_arvs_lte_52_weeks",
+    "label": "on arvs lte 52 weeks",
+    "description": "# of patient(s) who have been on ARVs for the last 52 weeks or less",
+    "expression": "timestampdiff(week,arv_start_date,encounter_datetime) <= 52"
+  },
+  {
+    "name": "on_arvs_lte_52_weeks_and_have_vl",
+    "label": "on arvs lte 52 weeks and have vl",
+    "description": "# of patient(s) who have been on ARVs for the last 52 weeks or less and have Viral Load",
+    "expression": "timestampdiff(week,arv_start_date,encounter_datetime) <= 52 and timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
+  },
+  {
+    "name": "on_arvs_lte_52_weeks_and_have_vl_lte_1000",
+    "label": "on arvs lte 52 weeks and have vl lte 1000",
+    "description": "# of patient(s) who have been on ARVs for the last 52 weeks or less and their Viral Load is Less Than or Equal to 1000",
+    "expression": "timestampdiff(week,arv_start_date,encounter_datetime) <= 52 and timestampdiff(week,vl_1_date,encounter_datetime) <= 52 and vl_1 <= 1000"
+  },
+  {
+    "name": "not_on_modern_contraception",
+    "label": "not on modern contraception",
+    "description": "# of patients not on modern contraception in a given time period",
+    "expression": "(fhs.contraceptive_method IS NULL OR fhs.contraceptive_method in (6219 , 1624, 6707, 1067, 1107, 10956, 5622, 5277))"
+  },
+  {
+    "name": "on_short_term_modern_contraception_pnc",
+    "label": "On short term modern contraception pnc",
+    "description": "# of patients on short term modern contraception in a given time period and in pnc",
+    "expression": "fhs.visit_type in (68, 55, 52, 18) AND fhs.contraceptive_method is not null AND fhs.contraceptive_method not in (1107, 6700, 9510, 9511, 9734, 9735, 6701)"
+  },
+  {
+    "name": "on_long_term_modern_contraception_pnc",
+    "label": "On long term modern contraception pnc",
+    "description": "# of patients on long term modern contraception in a given time period and in pnc",
+    "expression": "fhs.visit_type in (68, 55, 52, 18) AND fhs.contraceptive_method in (5279,5278,5275,5276,6220,6700,6701,9510,9511,9734,9735,10817)"
+  },
+  {
+    "name": "on_modern_contraception_pnc",
+    "label": "on modern contraception pnc",
+    "description": "# of patients on modern contraception in a given time period",
+    "expression": "fhs.contraceptive_method IS NOT NULL AND fhs.contraceptive_method in (190 , 780, 907, 6218, 6217, 5841, 6717, 6718, 6725, 8134, 5274, 8300, 5279 , 5278, 5275, 5276, 6220, 6700, 6701, 9510, 9511, 9734, 9735, 10817) AND fhs.visit_type in (68, 55, 52, 18)"
+  },
+  {
+    "name": "not_on_modern_contraception_pnc",
+    "label": "not on modern contraception pnc",
+    "description": "# of patients not on modern contraception in a given time period and they are in PNC",
+    "expression": "(fhs.contraceptive_method IS NULL OR fhs.contraceptive_method in (1107, 5277, 6219)) AND fhs.visit_type in (68, 55, 52, 18)"
+  },
+  {
+    "name": "in_pnc",
+    "label": "in pnc",
+    "description": "# of patients with a pnc visit in a given time period",
+    "expression": "fhs.visit_type in (68, 55, 52, 18)"
+  },
+  {
+    "name": "on_art_and_not_on_modern_contraception",
+    "label": "on art and not on modern contraception",
+    "description": "# of patients on art and not on modern contraception in a given time period",
+    "expression": "(fhs.contraceptive_method IS NULL OR fhs.contraceptive_method = 1107) and  cur_arv_line is not null"
+  },
+  {
+    "name": "on_modern_contraception",
+    "label": "on modern contraception",
+    "description": "# of patients on modern contraception in a given time period",
+    "expression": "(fhs.contraceptive_method IS NOT NULL AND fhs.contraceptive_method IN (190 , 780, 907, 6218, 6217, 5841, 6717, 6718, 6725, 8134, 5274, 8300, 5279 , 5278, 5275, 5276, 6220, 6700, 6701, 9510, 9511, 9734, 9735, 10817) )"
+  },
+  {
+    "name": "on_short_term_modern_contraception",
+    "label": "on short term modern contraception",
+    "description": "# of patients on short term modern contraception in a given time period",
+    "expression": "fhs.contraceptive_method is not null AND fhs.contraceptive_method in (190,780,907,6218,6217,5841,6717,6718,6725,8134,5274,8300)"
+  },
+  {
+    "name": "on_long_term_modern_contraception",
+    "label": "on long term modern contraception",
+    "description": "# of patients on long term modern contraception in a given time period",
+    "expression": "fhs.contraceptive_method in (5279,5278,5275,5276,6220,6700,6701,9510,9511,9734,9735,10817)"
+  },
+  {
+    "name": "started_modern_contraception",
+    "label": "started modern contraception",
+    "description": "# of patients who started modern contraception in a given time period",
+    "expression": "date(fhs.modern_contraceptive_method_start_date) between @startDate and @endDate"
+  },
+  {
+    "name": "pregnant",
+    "label": "pregnant",
+    "description": "# of pregnant patients in a given time period",
+    "expression": "edd > encounter_datetime"
+  },
+  {
+    "name": "pregnant_and_on_arvs",
+    "label": "pregnant and on arvs",
+    "description": "# of pregnant patients and are on ARVs in a given time period",
+    "expression": "edd > encounter_datetime and cur_arv_line is not null"
+  },
+  {
+    "name": "pregnant_and_started_art",
+    "label": "pregnant and started art",
+    "description": "# of pregnant patients and started ART in a given time period",
+    "expression": "edd > encounter_datetime and date(fhs.arv_first_regimen_start_date) between @startDate and @endDate"
+  },
+  {
+    "name": "on_pcp_prophylaxis",
+    "label": "on pcp prophylaxis",
+    "description": "on PCP prophylaxis",
+    "expression": "encounter_datetime >= pcp_prophylaxis_start_date and coalesce(t1.death_date, out_of_care) is null"
+  },
+  {
+    "name": "hiv_exposed_infants_below_2_months",
+    "label": "hiv exposed infants 2 months and below",
+    "description": "Total # of infants below 2 months who are exposed to hiv",
+    "expression": "hiv_rapid_test_resulted is not null and DATEDIFF(birthdate, @endDate) <= 60 and coalesce(t1.death_date, out_of_care) is null"
+  },
+  {
+    "name": "hiv_exposed_infants_on_pcp_prophylaxis_2_months_and_below",
+    "label": "hiv exposed infants on pcp prophylaxis 2 months and below",
+    "description": "Total # of hiv exposed infants 2 months and below who are on PCP prophylaxis",
+    "expression": "hiv_rapid_test_resulted is not null and encounter_datetime >= pcp_prophylaxis_start_date and DATEDIFF(birthdate, @endDate) <= 60 and coalesce(t1.death_date, out_of_care) is null"
+  },
+  {
+    "name": "enrolled_in_care_total",
+    "label": "enrolled in care total",
+    "description": "Total # of patients enrolled in care",
+    "expression": "(date(prev_clinical_datetime_hiv) between @startDate and @endDate  or prev_clinical_datetime_hiv is null) and date(enrollment_date) between @startDate and @endDate"
+  },
+  {
+    "name": "currently_in_care_total",
+    "label": "currently in care total",
+    "description": "A patient is in care if it has been less than 90 days from the return to clinic date within the given reporting period.  For example, if at the last clinical encounter, the patient was given an RTC date of February 1, she is active in care in February, March and April. If she does not come back to clinic, she will be first out of care in May. Note, we are using the last RTC  date given by a clinician for this definition.",
+    "expression": "case when date(t1.death_date) <= t2.endDate or (date(outreach_death_date_bncd) <= t2.endDate and date(outreach_date_bncd) <= t2.endDate) then null when t1.transfer_out is not  null or  (outreach_patient_care_status_bncd in (1287,1594,9068,9504,1285) and date(outreach_date_bncd) <=  t2.endDate) or (transfer_transfer_out_bncd is not null and date(transfer_date_bncd) <=  t2.endDate) then null when t1.patient_care_status in (9083) or (outreach_patient_care_status_bncd in (9083) and date(outreach_date_bncd) <=  t2.endDate) then null when (outreach_patient_care_status_bncd in (9036) and date(outreach_date_bncd) <=  t2.endDate) or t1.patient_care_status in (9036) then null when  timestampdiff(day, if(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) <= 90 then 1 end"
+  },
+  {
+    "name": "pre_art_total",
+    "label": "starting art total",
+    "description": "Total # of patients starting ART",
+    "expression": "arv_first_regimen_start_date is null"
+  },
+  {
+    "name": "starting_art_total",
+    "label": "starting art total",
+    "description": "Total # of patients starting ART",
+    "expression": "arv_first_regimen_start_date is not null and date(encounter_datetime) = date(arv_first_regimen_start_date) and (date(arv_first_regimen_start_date) between @startDate and @endDate) and cur_arv_meds is not null and prev_arv_meds is null"
+  },
+  {
+    "name": "starting_art_and_has_tb",
+    "label": "starting_art_and_has_tb",
+    "description": "Starting ART and has TB",
+    "expression": "(tb_tx_start_date is not null and timestampdiff(year,tb_tx_start_date,@startDate) <= 1) and (date(encounter_datetime) = date(arv_first_regimen_start_date) and (date(arv_first_regimen_start_date) between @startDate and @endDate) and cur_arv_meds is not null and prev_arv_meds is null)"
+  },
+  {
+    "name": "revisits_on_art_total",
+    "label": "revisits on art total",
+    "description": "Total # of patient revisits on ART",
+    "expression": "encounter_datetime > arv_start_date and (coalesce(t1.death_date, out_of_care) is null)"
+  },
+  {
+    "name": "on_art_total",
+    "label": "on art total",
+    "description": "A patient is on ART if they are in care and was prescribed ART at their last clinical encounter.",
+    "expression": "encounter_datetime >= arv_start_date"
+  },
+  {
+    "name": "not_on_art_total",
+    "label": "not on art total",
+    "description": "Total # of patients not on ART",
+    "expression": "(encounter_datetime < arv_start_date  or arv_start_date is null)"
+  },
+  {
+    "name": "on_original_first_line",
+    "label": "on original first line",
+    "description": "Total # of patients on original ART regimen",
+    "expression": "cur_arv_meds = arv_first_regimen and cur_arv_line = 1 and date(t1.arv_first_regimen_start_date) >= DATE_SUB(@startDate, INTERVAL 1 YEAR) and date(t1.arv_first_regimen_start_date) <= DATE_SUB(@endDate, INTERVAL 1 YEAR) and coalesce(transfer_out, out_of_care) is null and timestampdiff(day,date(if(t1.rtc_date, rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY))),@endDate) <= 90 "
+  },
+  {
+    "name": "on_alternative_first_line",
+    "label": "on alternative first line",
+    "description": "Total # of patients on original ART regimen",
+    "expression": "cur_arv_meds != arv_first_regimen and cur_arv_line = 1 and date(t1.arv_first_regimen_start_date) >= DATE_SUB(@startDate, INTERVAL 1 YEAR) and date(t1.arv_first_regimen_start_date) <= DATE_SUB(@endDate, INTERVAL 1 YEAR) and coalesce(transfer_out, out_of_care) is null and timestampdiff(day,date(if(t1.rtc_date, rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY))),@endDate) <= 90"
+  },
+  {
+    "name": "on_second_line_or_higher",
+    "label": "on second line or higher",
+    "description": "Total # of patients on original ART regimen",
+    "expression": "cur_arv_meds != arv_first_regimen and cur_arv_line >= 2 and date(t1.arv_first_regimen_start_date) >= DATE_SUB(@startDate, INTERVAL 1 YEAR) and date(t1.arv_first_regimen_start_date) <= DATE_SUB(@endDate, INTERVAL 1 YEAR) and coalesce(transfer_out, out_of_care) is null and timestampdiff(day,date(if(t1.rtc_date, rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY))),@endDate) <= 90"
+  },
+  {
+    "name": "screened_for_tb",
+    "label": "screened for tb",
+    "description": "Total # of  patients screened for TB",
+    "expression": "screened_for_tb and encounter_datetime between @startDate and @endDate"
+  },
+  {
+    "name": "is_on_inh_treatment",
+    "label": "is_on_inh_treatment",
+    "description": "patient is on INH treatment",
+    "expression": "tb_prophylaxis_start_date is not null"
+  },
+  {
+    "name": "using_modern_contracept_method",
+    "label": "using modern contracept method",
+    "description": " # of patients using modern contraceptive methods (IUD, injectables, OCP, e.t.c)",
+    "expression": "using_modern_contraceptive_method = 1 and encounter_datetime between @startDate and @endDate"
+  },
+  {
+    "name": "condoms_provided",
+    "label": "condoms provided",
+    "description": " # of patients provided with condoms",
+    "expression": "condoms_provided = 1 and encounter_datetime between @startDate and @endDate"
+  },
+  {
+    "name": "female_gte_18yo_visits",
+    "label": "female gte 18yo visits",
+    "description": " female patients >= 18",
+    "expression": "gender='F' and timestampdiff(year,birthdate,@endDate) >= 18 and encounter_datetime between @startDate and @endDate"
+  },
+  {
+    "name": "scheduled_visits",
+    "label": "scheduled visits",
+    "description": "Scheduled visit",
+    "expression": "(date(encounter_datetime) = date(prev_rtc_date)) and encounter_datetime between @startDate and @endDate "
+  },
+  {
+    "name": "unscheduled_visits",
+    "label": "unscheduled visits",
+    "description": "Unscheduled visit",
+    "expression": "(date(encounter_datetime) != date(prev_rtc_date)) and encounter_datetime between @startDate and @endDate"
+  },
+  {
+    "name": "early_scheduled_visits",
+    "label": "early scheduled visits",
+    "description": "Early Scheduled visit",
+    "expression": "(date(encounter_datetime) < date(prev_rtc_date)) and encounter_datetime between @startDate and @endDate "
+  },
+  {
+    "name": "late_scheduled_visits",
+    "label": " late scheduled visits",
+    "description": "Late scheduled visit",
+    "expression": "(date(encounter_datetime) > date(prev_rtc_date)) and encounter_datetime between @startDate and @endDate "
+  },
+  {
+    "name": "total_visits",
+    "label": "total visits",
+    "description": "Total # of Hiv Care Visits",
+    "expression": ""
+  },
+  {
+    "name": "on_art",
+    "label": "on art",
+    "description": "Total #  patient on ART",
+    "expression": "encounter_datetime >= arv_start_date and (coalesce(t1.death_date, out_of_care) is null)"
+  },
+  {
+    "name": "ever_on_art",
+    "label": "ever on art",
+    "description": "Total #  patient ever on ART",
+    "expression": "arv_first_regimen_start_date is not null"
+  },
+  {
+    "name": "attended",
+    "label": "attended",
+    "description": "attended",
+    "expression": ""
+  },
+  {
+    "name": "scheduled",
+    "label": "scheduled",
+    "description": "scheduled",
+    "expression": ""
+  },
+  {
+    "name": "defaulted",
+    "label": "defaulted",
+    "description": "defaulted",
+    "expression": ""
+  },
+  {
+    "name": "not_attended",
+    "label": "not attended",
+    "description": "not attended",
+    "expression": "date(t1.rtc_date)<>date(next_clinical_datetime_hiv)"
+  },
+  {
+    "name": "has_not_returned",
+    "label": "has not returned",
+    "description": "has not returned",
+    "expression": "date(t1.rtc_date) < DATE(NOW()) and t1.rtc_date = max_rtc_date AND COALESCE(t1.death_date) IS NULL AND t1.transfer_out IS NULL AND t1.next_clinical_datetime_hiv IS NULL AND t8.person_id is null"
+  },
+  {
+    "name": "virally_suppressed_in_past_year",
+    "label": "virally suppressed in past year",
+    "description": "# of patient(s) who are virally suppressed in the past one year",
+    "expression": "vl_1 < 1000 and  timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
+  },
+  {
+    "name": "viral_load_resulted_in_past_year",
+    "label": "viral load resulted in past year",
+    "description": "patient(s) whose viral load has resulted in the past one year",
+    "expression": "vl_1 is not null and  timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
+  },
+  {
+    "name": "virally_suppressed",
+    "label": "virally suppressed",
+    "description": "# of patient(s) who are virally suppressed",
+    "expression": "timestampdiff(month,arv_start_date,encounter_datetime) >= 6 and timestampdiff(day, date(vl_1_date), date(t2.endDate)) <= 365 and vl_1 < 1000"
+  },
+  {
+    "name": "not_virally_suppressed",
+    "label": "not virally suppressed",
+    "description": "# of patient(s) who are not virally suppressed",
+    "expression": "timestampdiff(month,arv_start_date,encounter_datetime) >= 6 and timestampdiff(day, date(vl_1_date), date(t2.endDate)) <= 365 and vl_1 >= 1000"
+  },
+  {
+    "name": "perc_virally_suppressed",
+    "label": "perc virally suppressed",
+    "description": "The denominator includes those patients who are active in care, on ART, required a viral load and got a viral load. The numerator includes those patients who required a viral load and the result was less than 1000",
+    "expression": ""
+  },
+  {
+    "name": "not_virally_suppressed_in_past_year",
+    "label": "not virally suppressed in past year",
+    "description": "# of patient(s) who are not virally suppressed in the past one year",
+    "expression": "vl_1> 1000 and  timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
+  },
+  {
+    "name": "cd4_order_date",
+    "label": "cd4 order date",
+    "description": "cd4_order_date",
+    "expression": "DATE_FORMAT(cd4_order_date,'%m-%d-%Y')"
+  },
+  {
+    "name": "perc_virally_suppressed_in_past_year",
+    "label": "perc virally suppressed in past year",
+    "description": "% of  patient(s) who are virally suppressed in the past one year",
+    "expression": ""
+  },
+  {
+    "name": "perc_not_virally_suppressed_in_past_year",
+    "label": "perc not virally suppressed in past year",
+    "description": "% of  patient(s) who are not virally suppressed in the past one year",
+    "expression": ""
+  },
+  {
+    "name": "perc_on_arvs",
+    "label": "perc on arvs",
+    "description": "% of patients who are on ARVs",
+    "expression": ""
+  },
+  {
+    "name": "perc_in_care",
+    "label": "perc in care",
+    "description": "% of patients who are in Care",
+    "expression": ""
+  },
+  {
+    "name": "perc_on_arvs_lte_6_months",
+    "label": "perc on arvs lte 6 months",
+    "description": "% of patients who have been on ARVs for less than 6 months",
+    "expression": ""
+  },
+  {
+    "name": "perc_on_arvs_gt_6_months",
+    "label": "perc on arvs gt 6 months",
+    "description": "% of patients who have been on  ARVs for more than 6 months",
+    "expression": ""
+  },
+  {
+    "name": "perc_on_arv_first_line",
+    "label": "perc on arv first line",
+    "description": "% of patients on ARVs first line",
+    "expression": ""
+  },
+  {
+    "name": "perc_on_arv_second_line",
+    "label": "perc on arv second line",
+    "description": "% of patients on ARVs second line",
+    "expression": ""
+  },
+  {
+    "name": "perc_on_arv_gt_third_line",
+    "label": "perc on arv gt third line",
+    "description": "% of patients on ARVs third line or more",
+    "expression": ""
+  },
+  {
+    "name": "perc_with_pending_viral_load",
+    "label": "perc with pending viral load",
+    "description": "% of patients with pending viral load",
+    "expression": ""
+  },
+  {
+    "name": "on_arvs_gt_26_weeks",
+    "label": "on arvs gt 26 weeks",
+    "description": "# of patient(s) who have been on ARVs 26 weeks or more",
+    "expression": "timestampdiff(week,arv_start_date,encounter_datetime) > 26"
+  },
+  {
+    "name": "needs_vl_coded",
+    "label": "needs vl coded",
+    "description": "Patient level coded indicator that determines whether patient requires a Viral load",
+    "expression": "case when (cur_arv_meds is null) then 0 when (timestampdiff(month,vl_1_date, date(@referenceDate)) > 3) and vl_1 > 1000 and arv_start_date < vl_1_date then 1 when (timestampdiff(month,arv_start_date,date(@referenceDate)) between 6 and 12) and (vl_1_date is null or vl_1_date < arv_start_date ) then 2 when (timestampdiff(month,arv_start_date,@referenceDate) > 12) and (vl_1_date is null or timestampdiff(month,vl_1_date,@referenceDate) > 12) then 3 else 0 end"
+  },
+  {
+    "name": "qualifies_differenciated_care",
+    "label": "qualifies for differentiated care",
+    "description": "# A patient who is above 18 yrs and qualifies and with a viral load of less than 1000 and  has been on TB prophylaxis for at least six months.",
+    "expression": "case when vl_1 < 1000 and (timestampdiff(year,birthdate, date(@referenceDate)) > 18) and (timestampdiff(month,tb_prophylaxis_start_date,if(tb_prophylaxis_end_date,tb_prophylaxis_end_date,@referenceDate)) >= 6 ) and (timestampdiff(month,vl_1_date,now()) <= 11 ) then 1 else 0 end"
+  },
+  {
+    "name": "needs_vl_in_period",
+    "label": "needs vl in period",
+    "description": "Patient level coded indicator that determines whether patient requires a Viral load",
+    "expression": "case when (cur_arv_meds is not null and vl_1 > 1000) and (timestampdiff(day,vl_1_date, @endDate) >= 90) then true when (timestampdiff(month,arv_start_date, @endDate) <= 12) and (vl_1_date is null or timestampdiff(month,vl_1_date, @endDate) >= 6)  and (timestampdiff(month,arv_start_date, @endDate)>=6) then true when (timestampdiff(month,arv_start_date, @endDate) >= 12) and (vl_1_date is null or timestampdiff(month,vl_1_date, @endDate) >= 12) then true else false end"
+  },
+  {
+    "name": "months_since_last_vl_date",
+    "label": "months since last vl date",
+    "description": "Number of months since last vl date",
+    "expression": "timestampdiff(month,vl_1_date, @referenceDate)"
+  },
+  {
+    "name": "overdue_vl_lab_order",
+    "label": "overdue vl lab order",
+    "description": "Patient level coded indicator that determines whether patient Viral load order is overdue",
+    "expression": "case when (timestampdiff(day,vl_order_date, @referenceDate) >= 14) and (vl_1_date is null or vl_order_date > vl_1_date) and vl_error <> 1 then timestampdiff(day,vl_order_date, @referenceDate) else 0 end "
+  },
+  {
+    "name": "ordered_vl_has_error",
+    "label": "latest ordered vl has error",
+    "description": "Patient level coded indicator that determines whether patient Viral load order is overdue",
+    "expression": "case when vl_error= 1 then 1 else 0 end "
+  },
+  {
+    "name": "needs_cd4_count_coded",
+    "label": "needs cd4 count coded",
+    "description": "Patient level coded indicator that determines whether patient requires a Viral load",
+    "expression": "case when cur_arv_meds is not null and vl_1 > 1000 and timestampdiff(day,cd4_1_date, @referenceDate) >= 90 then 1 when timestampdiff(month,arv_start_date, @referenceDate) <= 12 and (cd4_1_date is null or timestampdiff(month,cd4_1_date, @referenceDate) > 6) then 2 when timestampdiff(month,arv_start_date, @referenceDate) > 12 and (cd4_1_date is null or timestampdiff(month,cd4_1_date, @referenceDate) > 12) then 3 else 0 end"
+  },
+  {
+    "name": "overdue_cd4_count_lab_order",
+    "label": "overdue cd4 count lab order",
+    "description": "Patient level coded indicator that determines whether patient Viral load order is overdue",
+    "expression": "case when timestampdiff(day,cd4_order_date, @referenceDate) > 30 and cd4_1_date is null or cd4_order_date > cd4_1_date then timestampdiff(day,cd4_order_date, @referenceDate) else 0 end "
+  },
+  {
+    "name": "encounters_count",
+    "label": "encounters_count",
+    "description": "",
+    "expression": ""
+  },
+  {
+    "name": "patients_requiring_vl",
+    "label": "patients requiring vl",
+    "description": "patients requiring vl",
+    "expression": "timestampdiff(month,arv_start_date,encounter_datetime) >= 6"
+  },
+  {
+    "name": "tested_appropriately",
+    "label": "tested appropriately",
+    "description": "Patients who are under ART and are missing Viral Load in past year",
+    "expression": "timestampdiff(month, arv_start_date, encounter_datetime) >= 6 and timestampdiff(day, date(vl_1_date), date(t2.endDate)) <= 365"
+  },
+  {
+    "name": "not_tested_appropriately",
+    "label": "not tested appropriately",
+    "description": "Patients who are under ART and are missing Viral Load in past year",
+    "expression": "timestampdiff(month, arv_start_date, encounter_datetime) >= 6 and (timestampdiff(day,vl_1_date, date(t2.endDate)) > 365 or vl_1_date is null)"
+  },
+  {
+    "name": "due_for_annual_vl",
+    "label": "due for annual vl",
+    "description": "In a specific month, these are patients who need new Annual Viral Load  but none was ordered in that month. For example, If a patient had an annual VL on 10/2015, the he/she will be due on 10/2016 and not any other month",
+    "expression": "timestampdiff(month, arv_start_date, encounter_datetime) >= 6 and (DATE_ADD(vl_1_date, INTERVAL 1 YEAR)  between  DATE_FORMAT(t2.endDate,'%Y-%m-01') and t2.endDate) and (orders.date_created is null or orders.concept_id!=856)"
+  },
+  {
+    "name": "pending_vl_orders",
+    "label": "pending vl orders",
+    "description": "In a specific month, these are patients with pending Viral Load Orders that have not resulted.",
+    "expression": "orders.concept_id=856 and (date(orders.date_created)  between  DATE_FORMAT(t2.endDate,'%Y-%m-01') and t2.endDate) and date(vl_1_date) != date(orders.date_created) and  date(vl_1_date) < DATE_FORMAT(t2.endDate,'%Y-%m-01')"
+  },
+  {
+    "name": "missing_vl_order",
+    "label": "missing vl and vl order",
+    "description": " From reporting start-date to a specific month, these are patients on ART, with no Viral Load  and no Viral Load Test Order (Patients whose Viral Load Test Order not placed)",
+    "expression": "timestampdiff(month, arv_start_date, encounter_datetime) >= 6 and (timestampdiff(day,vl_1_date, date(t2.endDate)) > 365 or vl_1_date is null) and (orders.date_created is null or orders.concept_id!=856)"
+  },
+  {
+    "name": "perc_tested_appropriately",
+    "label": "perc tested appropriately",
+    "description": " For this indicator the denominator includes patients who are active in care, on ART and require a viral load. A patient requires a viral load if they have been on ART more than 6 months. The numerator are those patients who are active in care, on ART, required a viral load and got a viral load",
+    "expression": ""
+  },
+  {
+    "name": "deceased_patients",
+    "label": "Deceased Patients",
+    "description": "This indicator includes all patients with patient care status of 'DECEASED'",
+    "expression": "patient_care_status=159"
+  },
+  {
+    "name": "untraceable_patients",
+    "label": "untraceable patients",
+    "description": "This indicator includes all patients with patient care status of 'UNTRACEABLE'",
+    "expression": "patient_care_status=9079"
+  },
+  {
+    "name": "transferred_out_patients",
+    "label": "transferred out patients",
+    "description": "A patient is considered to be transferred out if a provider declares the patient as NON-AMPATH",
+    "expression": "patient_care_status=1287"
+  },
+  {
+    "name": "hiv_negative_patients",
+    "label": "hiv negative patients",
+    "description": "This indicator includes all patients with patient care status of 'HIV NEGATIVE, NO LONGER AT RISK'",
+    "expression": "patient_care_status=9036"
+  },
+  {
+    "name": "patients_continuing_care",
+    "label": "patients continuing care",
+    "description": "This indicator includes all patients with patient care status of 'CONTINUE'",
+    "expression": "(patient_care_status=6101 and timestampdiff(day,rtc_date, @endDate) < 90 and is_clinical_encounter=1 ) or (patient_care_status=6101 and is_clinical_encounter=0 and @endDate > DATE_ADD(prev_clinical_rtc_date_hiv, INTERVAL 90 DAY))"
+  },
+  {
+    "name": "self_disengaged_from_care",
+    "label": "self disengaged from care",
+    "description": "This indicator includes all patients with patient care status of 'SELF DISENGAGED FROM CARE'",
+    "expression": "patient_care_status=9083"
+  },
+  {
+    "name": "defaulters",
+    "label": "defaulters",
+    "description": "This indicator includes all patients with patient care status of 'CONTINUE' and their RTC date is greater than 90 days from the reporting date",
+    "expression": "(patient_care_status=6101 and timestampdiff(day,if(is_clinical_encounter=1,rtc_date,prev_clinical_rtc_date_hiv), @endDate) > 90)"
+  },
+  {
+    "name": "transfer_to_MNCH",
+    "label": "transfer to MNCH",
+    "description": "transfer to MNCH",
+    "expression": "patient_care_status=9504"
+  },
+  {
+    "name": "other_patient_care_status",
+    "label": "other status",
+    "description": "This indicator includes all patients who do not fall in either of the above categories ",
+    "expression": "patient_care_status not in (159,9079,1287,9036,6101,9083)"
+  },
+  {
+    "name": "on_nevirapine",
+    "label": "patient on_nevirapine",
+    "description": "A patient is considered to be on \"Nevirapine\" if current ARV regimen formulation contains: NEVIRAPINE or NEVIRAPINE LAMIVUDINE AND ZIDOVUDINE or STAVUDINE LAMIVUDINE AND NEVIRAPINE",
+    "expression": "cur_arv_meds regexp '(631|6467|792)'"
+  },
+  {
+    "name": "on_lopinavir",
+    "label": "patient on_lopinavir",
+    "description": "A patient is considered to be on \"Lopinavir\" if current ARV regimen formulation contains: Lopinavir or LOPINAVIR AND RITONAVIR.",
+    "expression": "cur_arv_meds regexp '(9026|794)'"
+  },
+  {
+    "name": "on_efavirenz",
+    "label": "patient on_efavirenz",
+    "description": "A patient is considered to be on \"Efavirenz\" if current ARV regimen formulation contains: TDF AND 3TC AND EFV or Efavirenz.",
+    "expression": "cur_arv_meds regexp '(633|6964)'"
+  },
+  {
+    "name": "on_atazanavir",
+    "label": "patient on_atazanavir",
+    "description": "A patient is considered to be using \"Atazanavir\" if current ARV regimen formulation contains: ATAZANAVIR or ATAZANAVIR AND RITONAVIR.",
+    "expression": "cur_arv_meds regexp '(6159|6160)'"
+  },
+  {
+    "name": "on_raltegravir",
+    "label": "patient on_raltegravir",
+    "description": "A patient is considered to be on \"Raltegravir\" if current ARV regimen formulation contains: Raltegravir.",
+    "expression": "cur_arv_meds regexp '(6156)'"
+  },
+  {
+    "name": "on_other_arv_drugs",
+    "label": "patient on_other_arv_drugs",
+    "description": "A patient is considered to be on \"others\" if current ARV regimen formulation neither contains: Raltegravir or Atazanavir or ATAZANAVIR AND RITONAVIR or Efavirenz or TENOFOVIR AND LAMIVUDINE AND EFAVIRENZ or LOPINAVIR or LOPINAVIR AND RITONAVIR or NEVIRAPINE or NEVIRAPINE LAMIVUDINE AND ZIDOVUDINE or STAVUDINE LAMIVUDINE AND NEVIRAPINE.",
+    "expression": "not (cur_arv_meds regexp '(6156|6159|6160|633|6964|9026|794|631|6467|792)')"
+  },
+  {
+    "name": "not_on_arv",
+    "label": "patient not_on_arv",
+    "description": "A patient is considered to be on \"Not on any ARV Drugs\" if he/she is not on any ARV drugs.",
+    "expression": "cur_arv_meds is null"
+  },
+  {
+    "name": "on_second_line_not_suppressed",
+    "label": "on second line not suppressed",
+    "description": "patient on second line not suppressed",
+    "expression": "vl_1 > 1000 and cur_arv_line =2"
+  },
+  {
+    "name": "newly_on_second_line",
+    "label": "newly on second line",
+    "description": "patient newly on second line within a given period",
+    "expression": "cur_arv_line =2 and (arv_start_date between @startDate and @endDate)"
+  },
+  {
+    "name": "newly_enrolled",
+    "label": "newly enrolled",
+    "description": "patients who are newly enrolled",
+    "expression": "is_clinical_encounter=1 and prev_clinical_datetime_hiv is null"
+  },
+  {
+    "name": "new_viral_load_present",
+    "label": "new viral load present",
+    "description": "patient has a new viral load result",
+    "expression": "DATE_ADD(vl_1_date, INTERVAL 90 DAY) > NOW()"
+  },
+  {
+    "name": "not_on_arvs_cd4_lte_500",
+    "label": "not on arvs cd4 lte 500",
+    "description": "patients who qualify for ART but are not on therapy",
+    "expression": "arv_start_date is null and cd4_1 < 500"
+  },
+  {
+    "name": "total_with_vl",
+    "label": "total with vl",
+    "description": "The number of patients who have at least one viral load resulted within 366 days of the end_date (can be more than 1 year",
+    "expression": "timestampdiff(day,vl_1_date,@endDate) <= 366 AND TIMESTAMPDIFF(DAY, vl_2_date, @endDate) <= 366"
+  },
+  {
+    "name": "num_with_two_vls_past_year",
+    "label": "num with two vls past year",
+    "description": "The number of patients who have two viral load results within 366 days of end_date",
+    "expression": "timestampdiff(day,t1.vl_1_date,@endDate) <= 366 and timestampdiff(day,t1.vl_2_date,@endDate) <= 366"
+  },
+  {
+    "name": "num_with_only_one_vl_past_year",
+    "label": "num with only one vl past year",
+    "description": "the number of patients who have only one viral in the past year and no other viral load in past year",
+    "expression": "timestampdiff(day,t1.vl_1_date,@endDate) <= 366 and timestampdiff(day,t1.vl_2_date,@endDate) <= 366"
+  },
+  {
+    "name": "num_with_at_least_one_vl_past_year",
+    "label": "num with at least one vl past year",
+    "description": "the number of patients with at least one viral in the past year and no other viral load in past year",
+    "expression": "timestampdiff(day,t1.vl_1_date,@endDate) <= 366"
+  },
+  {
+    "name": "second_vl_gt_one_yo",
+    "label": "second vl gt one year",
+    "description": "The number of patients who only have a single viral load resulted within 366 days of end_date and another viral load older than one year from year from end_date",
+    "expression": "timestampdiff(day,vl_1_date,@endDate) <= 366 and timestampdiff(day,vl_2_date,@endDate) > 366"
+  },
+  {
+    "name": "last_vl_undetected",
+    "label": "last vl undetected",
+    "description": "Total # of patients with last vl undetected",
+    "expression": "timestampdiff(day,vl_1_date,@endDate) <= 366 and vl_1 = 0"
+  },
+  {
+    "name": "last_vl_unsuppressed",
+    "label": "last vl unsuppressed",
+    "description": "Total  # of patients which have a VL in past year which was unsuppressed.",
+    "expression": "timestampdiff(day,vl_1_date,@endDate) <= 366 and vl_1 >= 1000"
+  },
+  {
+    "name": "last_vl_suppressed",
+    "label": "last vl suppressed",
+    "description": "Total # of patients which have a VL in past year which was unsuppressed",
+    "expression": "timestampdiff(day,vl_1_date,@endDate) <= 366 and vl_1 < 1000"
+  },
+  {
+    "name": "perc_unsuppressed",
+    "label": "perc unsuppressed",
+    "description": "The number of patients with a unsuppressed viral load within 1 year from end date divided by the number of patients with a viral load within 1 year of end date",
+    "expression": ""
+  },
+  {
+    "name": "one_vl_unsuppressed",
+    "label": "one vl unsuppressed",
+    "description": "The number of patients with a single vl within one year of end_date and that vl >= 1000",
+    "expression": "timestampdiff(day,vl_1_date,@endDate) <= 366 and (vl_2 is null or timestampdiff(day,vl_2_date,@endDate) > 366) and vl_1 >= 1000"
+  },
+  {
+    "name": "one_vl_suppressed",
+    "label": "one vl suppressed",
+    "description": "The number of patients with a single vl within one year of end_date and that VL < 1000",
+    "expression": "timestampdiff(day,vl_1_date,@endDate) <= 366 and (vl_2 is null or timestampdiff(day,vl_2_date,@endDate) > 366) and vl_1 < 1000"
+  },
+  {
+    "name": "num_requiring_followup_vl",
+    "label": "num requiring followup vl",
+    "description": "The number of patients with viral load in the past year in which the VL >= 1000 and it’s been more than 90 days between that VL and end_date.",
+    "expression": "timestampdiff(day,vl_2_date,@endDate) <= 366 AND vl_2 >1000 || (timestampdiff(day,vl_1_date,@endDate) <= 366 AND vl_1 > 1000 AND timestampdiff(day,vl_1_date,@endDate) > 90 AND (vl_2 is null or vl_2_date > 1 ))"
+  },
+  {
+    "name": "getting_followup_vl",
+    "label": "getting followup vl",
+    "description": "Number of patients who got a follow-up viral load who needed one",
+    "expression": "TIMESTAMPDIFF(DAY, vl_2_date,@endDate) <= 366 AND vl_2 > 1000"
+  },
+  {
+    "name": "getting_followup_vl_180_days",
+    "label": "getting followup vl",
+    "description": "Number of patients who got a follow-up viral load who needed one and the follow up is within 180 days",
+    "expression": "TIMESTAMPDIFF(DAY, vl_2_date,@endDate) <= 366 AND vl_2 > 1000 AND TIMESTAMPDIFF(DAY, vl_1_date,@endDate) <= 180"
+  },
+  {
+    "name": "perc_getting_followup_vl",
+    "label": "perc getting followup vl",
+    "description": "The numerator is number of patients who got a follow-up viral load who needed one. The denominator is the number of patients who required a follow-up (num_requiring_followup_vl)",
+    "expression": ""
+  },
+  {
+    "name": "perc_getting_followup_vl_180_days",
+    "label": "perc getting followup vl 180 days",
+    "description": "The numerator is number of patients who got a follow-up viral load within 180 days who needed one. The denominator is the number of patients who required a follow-up (num_requiring_followup_vl)",
+    "expression": ""
+  },
+  {
+    "name": "one_vl_unsuppressed_gt_90_days",
+    "label": "one vl unsuppressed gt 90 days",
+    "description": "The number of patients who have a single viral load in the past year which is >= 1000 and the difference between end_date and the vl date is > 90 days",
+    "expression": "TIMESTAMPDIFF(DAY, vl_1_date, @endDate) <= 366  AND (vl_2 IS NULL  OR TIMESTAMPDIFF(DAY, vl_2_date, @endDate > 366)  AND vl_1 >= 1000  AND TIMESTAMPDIFF(DAY, vl_1_date, @endDate > 90"
+  },
+  {
+    "name": "one_vl_unsuppressed_gt_180_days",
+    "label": "one vl unsuppressed gt 180 days",
+    "description": "The number of patients who have a single viral load in the past year which is >= 1000 and the difference between end_date and the vl date is > 180 days",
+    "expression": "TIMESTAMPDIFF(DAY, vl_1_date, @endDate) <= 366  AND (vl_2 IS NULL  OR TIMESTAMPDIFF(DAY, vl_2_date, @endDate > 366)  AND vl_1 >= 1000  AND TIMESTAMPDIFF(DAY, vl_1_date, @endDate > 180"
+  },
+  {
+    "name": "avg_time_since_last_unsuppressed_vl_one_vl",
+    "label": "avg time since last unsuppressed vl one vl",
+    "description": "Avg time since last unsuppressed vl one vl",
+    "expression": "timestampdiff(day,vl_1_date,@endDate) <= 366 and vl_1 > 1000 and (vl_2 is null or timestampdiff(day,vl_2_date,@endDate) > 366)"
+  },
+  {
+    "name": "total_with_two_vls",
+    "label": "total with two vls",
+    "description": "Total # of patients with two vls within one year of end_date.",
+    "expression": "timestampdiff(day,vl_1_date,@endDate) <= 366 and timestampdiff(day,vl_2_date,@endDate) <= 366 and vl_2 >= 1000 and timestampdiff(day,vl_2_date,vl_1_date) > 60"
+  },
+  {
+    "name": "init_vl_unsuppressed_follow_up_unsuppressed",
+    "label": "init vl unsuppressed follow up unsuppressed",
+    "description": "Total #  of patients with an initial viral load >= 1000 with a follow-up viral load >= 1000 where both viral loads are within one year of end_date",
+    "expression": "timestampdiff(day,vl_1_date,@endDate) <= 366 and vl_1 >= 1000 and timestampdiff(day,vl_2_date,@endDate) <= 366 and vl_2 >= 1000 and timestampdiff(day,vl_2_date,vl_1_date) > 60"
+  },
+  {
+    "name": "follow_up_suppressed",
+    "label": "follow up suppressed",
+    "description": "Total # of patients with an initial viral load >= 1000 with a follow-up viral load < 1000 where both viral loads are within one year of end_date",
+    "expression": "timestampdiff(day,vl_1_date,@endDate) <= 366 and vl_1 >= 1000 and timestampdiff(day,vl_2_date,@endDate) <= 366 and vl_2 < 1000 and timestampdiff(day,vl_2_date,vl_1_date) > 60"
+  },
+  {
+    "name": "perc_fu_suppressed",
+    "label": "perc fu suppressed",
+    "description": "Of the cohort of patients with a VL >= 1000, what percentage have a follow-up that is suppressed. The denominator is all the patients with a VL >= 1000 within one year of end_date AND have a follow-up viral load within 1 year of end date",
+    "expression": ""
+  },
+  {
+    "name": "avg_length_btwn_vls_first_unsuppressed",
+    "label": "avg length btwn vls first unsuppressed",
+    "description": "For patients with an initial VL >= 1000 within 1 year of end_date, the average number of days until a follow-up viral load was ordered.",
+    "expression": "timestampdiff(day,vl_1_date,@endDate) <= 366 and timestampdiff(day,vl_2_date,@endDate) <= 366 and vl_2 >= 1000 and timestampdiff(day,vl_2_date,vl_1_date) > 60"
+  },
+  {
+    "name": "days_since_last_vl_first_unsuppressed",
+    "label": "days since last vl first unsuppressed",
+    "description": "avg days since last vl first unsuppressed",
+    "expression": "timestampdiff(day,vl_1_date,@endDate) <= 366 and timestampdiff(day,vl_2_date,@endDate) <= 366 and vl_2 >= 1000 and timestampdiff(day,vl_2_date,vl_1_date) > 60"
+  },
+  {
+    "name": "no_switch_after_unsuppressed",
+    "label": "no switch after unsuppressed",
+    "description": "# The number of patients switched to new regiment after the previous vl vl >= 1000",
+    "expression": "arv_start_date < vl_1_date and vl_1 >= 1000 and timestampdiff(day,vl_1_date,@endDate) <= 366"
+  },
+  {
+    "name": "switch_after_unsuppressed",
+    "label": "switch after unsuppressed",
+    "description": "# of patients  with switch after unsuppressed",
+    "expression": "arv_start_date > vl_1_date and vl_1 >= 1000 and timestampdiff(day,vl_1_date,@endDate) <= 366"
+  },
+  {
+    "name": "no_switch_after_unsuppressed_x1",
+    "label": "no switch after unsuppressed x1",
+    "description": "# The number of patients remaining on same regimen after the previous vl >= 1000",
+    "expression": "arv_start_date < vl_1_date and vl_1 >= 1000 and timestampdiff(day,vl_1_date,@endDate) <= 366  and (vl_2 < 1000 or timestampdiff(day,vl_2_date,@endDate) <= 366)"
+  },
+  {
+    "name": "switch_after_unsuppressed_x1",
+    "label": "switch after unsuppressed x1",
+    "description": "# of patients switched to new regimen after a single, unsuppressed VL in past year",
+    "expression": "arv_start_date > vl_1_date and vl_1 >= 1000 and timestampdiff(day,vl_1_date,@endDate) <= 366  and (vl_2 < 1000 or timestampdiff(day,vl_2_date,@endDate) <= 366)"
+  },
+  {
+    "name": "no_switch_after_unsuppressed_x_2",
+    "label": "no switch after unsuppressed x2",
+    "description": "# of patients not switched to new regimen after two unsuppressed VLs in past year",
+    "expression": "arv_start_date < vl_1_date and vl_1 >= 1000 and timestampdiff(day,vl_1_date,@endDate) <= 366 and vl_2 >= 1000 and timestampdiff(day,vl_2_date,@endDate) <= 366"
+  },
+  {
+    "name": "switch_after_unsuppressed_x_2",
+    "label": "switch after unsuppressed x 2",
+    "description": "# of patients switched to new regimen after two unsuppressed VLs in past year",
+    "expression": "arv_start_date > vl_1_date and vl_1 >= 1000 and timestampdiff(day,vl_1_date,@endDate) <= 366  and (vl_2 < 1000 or timestampdiff(day,vl_2_date,@endDate) <= 366)"
+  },
+  {
+    "name": "avg_time_to_switch_after_unsuppressed",
+    "label": "avg time to switch after unsuppressed",
+    "description": "Average time to switch a patient to a new regimen after an unsuppressed viral load",
+    "expression": "arv_start_date > vl_1_date and vl_1 >= 1000 and timestampdiff(day,vl_1_date,@endDate) <= 366"
+  },
+  {
+    "name": "avg_time_to_switch_after_unsuppressed_x2",
+    "label": "avg time to switch after unsuppressed x2",
+    "description": "Average time to switch a patient to a new regimen after two two unsuppressed viral loads",
+    "expression": "arv_start_date > vl_1_date  AND vl_1 >= 1000  AND TIMESTAMPDIFF(DAY, vl_1_date, NOW()) <= 366  AND vl_2 > 1000  AND TIMESTAMPDIFF(DAY, vl_2_date, NOW()) <= 366,  TIMESTAMPDIFF(DAY,vl_1_date,  arv_start_date)"
+  },
+  {
+    "name": "avg_days_to_switch_after_unsuppressed",
+    "label": "avg days to switch after unsuppressed",
+    "description": "avg time to switch after unsuppressed",
+    "expression": "arv_start_date > vl_1_date and vl_1 >= 1000"
+  },
+  {
+    "name": "num_with_vl_after_switch",
+    "label": "num with vl after switch",
+    "description": "# of patients with vl after switch",
+    "expression": "arv_start_date > vl_2_date and arv_start_date < vl_1_date"
+  },
+  {
+    "name": "num_with_vl_after_switch_suppressed",
+    "label": "num with vl after switch suppressed",
+    "description": "# of patients with suppressed follow-up viral load after a regiment switch",
+    "expression": "arv_start_date > vl_2_date and arv_start_date < vl_1_date and vl_1 < 1000"
+  },
+  {
+    "name": "num_with_vl_after_switch_unsuppressed",
+    "label": "num with vl after switch unsuppressed",
+    "description": "# of patients with unsuppressed follow-up viral load after a regimen switch",
+    "expression": "arv_start_date > vl_2_date and arv_start_date < vl_1_date and vl_1 >= 1000"
+  },
+  {
+    "name": "perc_switched_with_suppressed_fu",
+    "label": "perc switched with suppressed fu",
+    "description": "% of patients switched with suppressed f/u VL",
+    "expression": ""
+  },
+  {
+    "name": "perc_ART_pats_screened_for_TB_receiving_TB_medication",
+    "label": "perc ART pats screened for TB receiving TB medication",
+    "description": "percentage of ART pats who are screened for TB and receiving TB medication",
+    "expression": ""
+  },
+  {
+    "name": "num_ART_pats_screened_for_tb_started_TB",
+    "label": "# ART pats screened for tb started TB",
+    "description": "# of ART patients who are screened for tb and are started on TB medication",
+    "expression": "screened_for_tb is not null and tb_tx_start_date is not null and  cur_arv_line is not null and coalesce(t1.death_date, out_of_care) is null"
+  },
+  {
+    "name": "num_new_ART_pats_screened_for_tb_started_TB_this_period",
+    "label": "#  newly started on ART pats screened for tb started TB this reporting period",
+    "description": "# of newly started on ART patients who are screened for tb and are started on TB medication this reporting period",
+    "expression": "screened_for_tb is not null and tb_tx_start_date is not null and  cur_arv_line is not null and coalesce(t1.death_date, out_of_care) is null and arv_start_date>= @startDate and arv_start_date<= @endDate"
+  },
+  {
+    "name": "num_previous_ART_pats_screened_for_tb_started_TB",
+    "label": "#  previously started on ART pats screened for tb started TB",
+    "description": "# of previously started on ART patients who are screened for tb and are started on TB medication",
+    "expression": "screened_for_tb is not null and tb_tx_start_date is not null and  cur_arv_line is not null and coalesce(t1.death_date, out_of_care) is null and arv_start_date< @startDate"
+  },
+  {
+    "name": "num_ART_pats_screened_for_tb",
+    "label": "# ART pats screened for tb",
+    "description": "# of ART patients who are screened for tb",
+    "expression": "screened_for_tb is not null and cur_arv_line is not null and coalesce(t1.death_date, out_of_care) is null"
+  },
+  {
+    "name": "perc_ART_pats_completed_6mths_IPT",
+    "label": "perc ART pats completed 6mths IPT",
+    "description": "percentage of ART pats who have completed 6 months of IPT therapy",
+    "expression": ""
+  },
+  {
+    "name": "num_ART_patients_completed_6mths_IPT",
+    "label": "# of ART patients who have completed 6mths IPT",
+    "description": "# of ART patients who have completed 6mths of IPT patients",
+    "expression": "round(datediff(encounter_datetime,tb_prophylaxis_start_date)/30.5) >= 6 or round(datediff(tb_prophylaxis_end_date,tb_prophylaxis_start_date)/30.5) >= 6  and (coalesce(t1.death_date, out_of_care) is null)"
+  },
+  {
+    "name": "num_ART_patients_newly_started_IPT_less_6mths",
+    "label": "# ART patients newly started IPT less 6mths",
+    "description": "# ART patients newly started IPT and have completed less than 6mths on therapy",
+    "expression": "tb_prophylaxis_start_date is not null or tb_prophylaxis_end_date is not null and tb_prophylaxis_start_date >=  DATE_ADD(@startDate, INTERVAL -6 month) and (coalesce(t1.death_date, out_of_care) is null) "
+  },
+  {
+    "name": "num_ART_patients_newly_started_IPT_this_period_less_6mths",
+    "label": "# ART patients newly started IPT this period less 6mths",
+    "description": "# of ART patients newly started IPT in this reporting period and have completed less than 6mths on therapy",
+    "expression": "tb_prophylaxis_start_date is not null or tb_prophylaxis_end_date is not null and tb_prophylaxis_start_date >=  @startDate"
+  },
+  {
+    "name": "num_ART_patients_newly_started_IPT_previous_period_less_6mths",
+    "label": "# ART patients newly started IPT in the previous period less 6mths",
+    "description": "# of ART patients newly started IPT in the previous reporting period and have completed less than 6mths on therapy",
+    "expression": "tb_prophylaxis_start_date is not null or tb_prophylaxis_end_date is not null and tb_prophylaxis_start_date <  @startDate"
+  },
+  {
+    "name": "num_ART_patients_newly_started_IPT_previous_period_less_6mths",
+    "label": "# ART patients newly started IPT in the previous period less 6mths",
+    "description": "# of ART patients newly started IPT in the previous reporting period and have completed less than 6mths on therapy",
+    "expression": "tb_prophylaxis_start_date is not null or tb_prophylaxis_end_date is not null and tb_prophylaxis_start_date <  @startDate"
+  },
+  {
+    "name": "num_patients_currently_on_IPT",
+    "label": "# patients currently on IPT",
+    "description": "number of patients currently on IPT",
+    "expression": "coalesce(t1.death_date, out_of_care) is null and tb_prophylaxis_start_date is not null and tb_prophylaxis_end_date is null"
+  },
+  {
+    "name": "num_patients_newly_enrolled_newly_started_on_IPT",
+    "label": "# patients newly enrolled newly started on IPT",
+    "description": "number of patients newly enrolled and newly started on IPT",
+    "expression": "coalesce(t1.death_date, out_of_care) is null and tb_prophylaxis_start_date is not null and  @startDate<=enrollment_date and enrollment_date<=@endDate"
+  },
+  {
+    "name": "num_patients_stopped_on_IPT",
+    "label": "# patients stopped on IPT",
+    "description": "number of patients stopped on IPT",
+    "expression": "coalesce(t1.death_date, out_of_care) is null and t1.tb_prophylaxis_end_date is not null and  @startDate<=tb_prophylaxis_end_date<=@endDate"
+  },
+  {
+    "name": "newly_started_IPT",
+    "label": "# patients newly started IPT",
+    "description": "# eligible patients newly started IPT within the reporting period",
+    "expression": "date(tb_prophylaxis_start_date) between @startDate and @endDate"
+  },
+  {
+    "name": "ever_started_on_IPT",
+    "label": "# patients ever started on IPT",
+    "description": "# eligible patients ever started on IPT within the reporting period",
+    "expression": " tb_prophylaxis_start_date is not null"
+  },
+  {
+    "name": "completed_12_months_IPT",
+    "label": "# patients completed 12 months IPT within reporting period",
+    "description": "# completed 12 months IPT within the reporting period",
+    "expression": "date(tb_prophylaxis_end_date) between @startDate and @endDate and (timestampdiff(month,tb_prophylaxis_start_date, tb_prophylaxis_end_date) >= 12) "
+  },
+  {
+    "name": "started_TB_treatment_within_reporting_period",
+    "label": "# patients started_TB_treatment_within_reporting_period",
+    "description": "Total clients who are started treatment within reporting period",
+    "expression": "tb_tx_start_date is not null and  date(tb_tx_start_date) between @startDate and @endDate"
+  },
+  {
+    "name": "HIV_patients_newly_enrolled_into_TB_treatment",
+    "label": "# patients who were hiv positive before initiating TB treatment within reporting period",
+    "description": "Total clients who were hiv positive before initiating TB treatment within reporting period",
+    "expression": "date(hiv_start_date) < date(tb_tx_start_date) and  date(tb_tx_start_date) between @startDate and @endDate"
+  },
+  {
+    "name": "TB_patients_newly_enrolled_into_HIV_care",
+    "label": "# TB patients who are being enrolled in ART",
+    "description": "TB clients who are enrolled into HIV care within reporting period",
+    "expression": "date(tb_tx_start_date) < date(hiv_start_date) and  date(hiv_start_date) between @startDate and @endDate"
+  },
+  {
+    "name": "newly_identified_HIV_positive_patient_on_TB_treatment",
+    "label": "newly_identified_HIV_positive_patient_on_TB_treatment within reporting period",
+    "description": "[HIV_patients_newly_enrolled_into_TB_treatment]+[TB_patients_newly_enrolled_into_HIV_care]",
+    "expression": ""
+  },
+  {
+    "name": "patients_on_ARV_starting_TB_treatment",
+    "label": "patients_on_ARV_starting_TB_treatment",
+    "description": "TB clients who were  on ARVs before starting TB treatment within reporting period",
+    "expression": " date(arv_first_regimen_start_date) < date(tb_tx_start_date) and  date(tb_tx_start_date) between @startDate and @endDate"
+  },
+  {
+    "name": "TB_patients_starting_ARV_medication",
+    "label": "# TB_patients_starting_ARV_medication",
+    "description": "TB clients who are starting ARV medication within reporting period",
+    "expression": "date(tb_tx_start_date) < date(arv_first_regimen_start_date)  and  date(arv_first_regimen_start_date) between @startDate and @endDate"
+  },
+  {
+    "name": "newly_identified_TB_patients_on_ARVs",
+    "label": "newly_identified_TB_patients_on_ARVs within reporting period",
+    "description": "[TB_patients_starting_ARV_medication]+[patients_on_ARV_starting_TB_treatment]",
+    "expression": ""
+  },
+  {
+    "name": "total_hiv_exposed",
+    "label": "# count of all clients exposed to HIV",
+    "description": "all clients exposed to HIV within reporting period",
+    "expression": "hiv_exposed_occupational is not null"
+  },
+  {
+    "name": "hiv_exposed_occupational",
+    "label": "# count of all clients exposed to HIV (occupational)",
+    "description": "occupational clients exposed to HIV within reporting period",
+    "expression": "hiv_exposed_occupational=1"
+  },
+  {
+    "name": "hiv_exposed_non_occupational",
+    "label": "# count of all clients exposed to HIV (non-occupational)",
+    "description": "non-occupational clients exposed to HIV within reporting period",
+    "expression": "hiv_exposed_occupational=0"
+  },
+  {
+    "name": "total_started_PEP",
+    "label": "# count of all clients exposed to HIV and started PEP",
+    "description": "all clients exposed to HIV and received PEP within reporting period",
+    "expression": "hiv_exposed_occupational is not null and date(pep_start_date) between @startDate and @endDate"
+  },
+  {
+    "name": "started_PEP_occupational",
+    "label": "# count of all clients exposed to HIV (occupational) and started PEP",
+    "description": "occupational clients exposed to HIV and started PEP within reporting period",
+    "expression": "hiv_exposed_occupational=1 and date(pep_start_date) between @startDate and @endDate"
+  },
+  {
+    "name": "started_PEP_non_occupational",
+    "label": "# count of all clients exposed to HIV (non-occupational) and started PEP",
+    "description": "non-occupational clients exposed to HIV and started PEP within reporting period",
+    "expression": "hiv_exposed_occupational=0 and date(pep_start_date) between @startDate and @endDate"
+  },
+  {
+    "name": "total_patients",
+    "label": "total_patients",
+    "description": "These are all patients ever enrolled into care as of end of the reporting month",
+    "expression": "case when date(t1.encounter_datetime) <= t2.endDate then 1 else null end "
+  },
+  {
+    "name": "new_enrollments",
+    "label": "new_enrollments",
+    "description": "These are patients enrolled into care within the reporting month",
+    "expression": "case when date(t1.death_date) <= t2.endDate or (date(outreach_death_date_bncd) <= t2.endDate and date(outreach_date_bncd) <= t2.endDate) then null when t1.transfer_out is not  null or  (outreach_patient_care_status_bncd in (1287,1594,9068,9504,1285) and date(outreach_date_bncd) <=  t2.endDate) or (transfer_transfer_out_bncd is not null and date(transfer_date_bncd) <=  t2.endDate) then null  when t1.patient_care_status in (9083) or (outreach_patient_care_status_bncd in (9083) and date(outreach_date_bncd) <=  t2.endDate) then null when (outreach_patient_care_status_bncd in (9036) and date(outreach_date_bncd) <=  t2.endDate) or t1.patient_care_status in (9036) then null when date(t1.hiv_start_date) between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate  then 1 else null end"
+  },
+  {
+    "name": "transfer_in_from_non_Ampath_site",
+    "label": "transfer_in_from_non_Ampath_site",
+    "description": "These are patients who transferred in form NON AMPATH facility within the reporting month",
+    "expression": "t1.transfer_in=1287 and (t1.encounter_datetime between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate)"
+  },
+  {
+    "name": "transfer_in_from_Ampath_site",
+    "label": "transfer_in_from_Ampath_site",
+    "description": "These are patients who transferred in form AMPATH facility within the reporting month",
+    "expression": "t1.transfer_in=1286 and (t1.encounter_datetime between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate)"
+  },
+  {
+    "name": "transfer_in",
+    "label": "transfer_in",
+    "description": "These are patients who transferred into the selected facility within the reporting month",
+    "expression": "case when date(t1.hiv_start_date) between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate  then null when t1.transfer_in is not null and (t1.encounter_datetime between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate) then 1 else null end "
+  },
+  {
+    "name": "transfer_in_patients",
+    "label": "transfer in patients",
+    "description": "These are patients who transferred into the selected facility within the reporting period",
+    "expression": "t1.transfer_in is not null"
+  },
+  {
+    "name": "transfer_out_patients_this_month",
+    "label": "transfer_out_patients_this_month",
+    "description": "These are patients transferred to other Ampath or NON Ampath facility within the reporting month",
+    "expression": "((t1.death_date is null or t1.death_date > t2.endDate) and (outreach_death_date_bncd is null or outreach_death_date_bncd > t2.endDate)) and ((t1.transfer_out is not null and (t1.encounter_datetime between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate)) or ( (outreach_patient_care_status_bncd in (1287,1594,9068,9504,1285) and date(outreach_date_bncd) <=  t2.endDate) and (outreach_date_bncd between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate))) and ((t1.patient_care_status is null or t1.patient_care_status not in (9036,9083)) and (outreach_patient_care_status_bncd is null or (outreach_patient_care_status_bncd not in (9036,9083) and date(outreach_date_bncd) <=  t2.endDate))) "
+  },
+  {
+    "name": "active_in_care_to_transfer_out",
+    "label": "active_in_care_to_transfer_out",
+    "description": "These are patients who were Active in care in the previous reporting month, but changed to transferred out in this reporting month",
+    "expression": "((t1.death_date is null or t1.death_date > t2.endDate) and (outreach_death_date_bncd is null or outreach_death_date_bncd > t2.endDate)) and ((t1.transfer_out is not null and (t1.encounter_datetime between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate)) or ( (outreach_patient_care_status_bncd in (1287,1594,9068,9504,1285) and date(outreach_date_bncd) <=  t2.endDate) and (outreach_date_bncd between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate))) and ((t1.patient_care_status is null or t1.patient_care_status not in (9036,9083)) and (outreach_patient_care_status_bncd is null or (outreach_patient_care_status_bncd not in (9036,9083) and date(outreach_date_bncd) <=  t2.endDate))) and timestampdiff(day,t1.rtc_date, date_sub(DATE_FORMAT(t2.endDate, '%Y-%m-01'), interval 1 day)) <= 90"
+  },
+  {
+    "name": "transfer_out_patients",
+    "label": "transfer_out_patients",
+    "description": "These are patients ever transferred to other Ampath or NON Ampath facility",
+    "expression": "case when date(t1.death_date) <= t2.endDate or (date(outreach_death_date_bncd) <= t2.endDate and date(outreach_date_bncd) <= t2.endDate) then null  when t1.transfer_out is not null or  (outreach_patient_care_status_bncd in (1287,1594,9068,9504,1285) and date(outreach_date_bncd) <=  t2.endDate) or (transfer_transfer_out_bncd is not null and date(transfer_date_bncd) <=  t2.endDate) then 1 else null end"
+  },
+  {
+    "name": "deaths",
+    "label": "deaths",
+    "description": "These are dead patients ever reported",
+    "expression": "case when date(t1.death_date) <= t2.endDate or (date(outreach_death_date_bncd) <= t2.endDate and date(outreach_date_bncd) <= t2.endDate) then 1 else null end "
+  },
+  {
+    "name": "HIV_negative_patients",
+    "label": "HIV_negative_patients",
+    "description": "These are HIV Negative patients ever reported",
+    "expression": "case when date(t1.death_date) <= t2.endDate or (date(outreach_death_date_bncd) <= t2.endDate and date(outreach_date_bncd) <= t2.endDate) then null  when (outreach_patient_care_status_bncd in (9036) and date(outreach_date_bncd) <=  t2.endDate) or t1.patient_care_status in (9036) then 1 else null end"
+  },
+  {
+    "name": "self_disengaged_patients",
+    "label": "self_disengaged_patients",
+    "description": "These are patients ever disengaged out of care by themselves",
+    "expression": "case when date(t1.death_date) <= t2.endDate or (date(outreach_death_date_bncd) <= t2.endDate and date(outreach_date_bncd) <= t2.endDate) then null when t1.patient_care_status in (9083) or (outreach_patient_care_status_bncd in (9083) and date(outreach_date_bncd) <=  t2.endDate) then 1 else null end "
+  },
+  {
+    "name": "HIV_negative_patients_this_month",
+    "label": "HIV_negative_patients_this_month",
+    "description": "These are HIV Negative patients that were reported within the reporting month",
+    "expression": "case when outreach_death_date_bncd or t1.death_date then null when (outreach_patient_care_status_bncd in (9036) and date(outreach_date_bncd) <=  t2.endDate) and (outreach_date_bncd between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate) then 1 when t1.patient_care_status in (9036) and (t1.encounter_datetime between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate) then 1 else null end"
+  },
+  {
+    "name": "self_disengaged_patients_this_month",
+    "label": "self_disengaged_patients_this_month",
+    "description": "These are patients that have disengaged themselves from care within the reporting month",
+    "expression": "case when outreach_death_date_bncd or t1.death_date then null when (outreach_patient_care_status_bncd in (9083) and date(outreach_date_bncd) <=  t2.endDate) and (outreach_date_bncd between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate) then 1 when t1.patient_care_status in (9083) and (t1.encounter_datetime between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate) then 1 else null end"
+  },
+  {
+    "name": "deaths_this_month",
+    "label": "deaths_this_month",
+    "description": "These are deaths that occurred within the reporting month",
+    "expression": "(t1.death_date between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate) or (outreach_death_date_bncd between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate)"
+  },
+  {
+    "name": "active_in_care_to_death",
+    "label": "active_in_care_to_death",
+    "description": "These are patients who were  Active in care in the previous reporting month, but died within this reporting month",
+    "expression": "(t1.death_date between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate) or (outreach_death_date_bncd between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate) and timestampdiff(day,t1.rtc_date, date_sub(DATE_FORMAT(t2.endDate, '%Y-%m-01'), interval 1 day)) <= 90"
+  },
+  {
+    "name": "LTFU",
+    "label": "LTFU",
+    "description": "A patient is LTFU if it has been greater than 90 days from the RTC date within the given reporting period ",
+    "expression": "case when date(t1.death_date) <= t2.endDate or (date(outreach_death_date_bncd) <= t2.endDate and date(outreach_date_bncd) <= t2.endDate) then null when t1.transfer_out is not  null or  (outreach_patient_care_status_bncd in (1287,1594,9068,9504,1285) and date(outreach_date_bncd) <=  t2.endDate) or (transfer_transfer_out_bncd is not null and date(transfer_date_bncd) <=  t2.endDate) then null when t1.patient_care_status in (9083) or (outreach_patient_care_status_bncd in (9083) and date(outreach_date_bncd) <=  t2.endDate) then null when (outreach_patient_care_status_bncd in (9036) and date(outreach_date_bncd) <=  t2.endDate) or t1.patient_care_status in (9036) then null when timestampdiff(day, if(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) > 90 then 1 else null end"
+  },
+  {
+    "name": "LTFU_this_month",
+    "label": "LTFU_this_month",
+    "description": "Total # of new patients",
+    "expression": "((t1.death_date is null or t1.death_date > t2.endDate) and (outreach_death_date_bncd is null or outreach_death_date_bncd > t2.endDate)) and ((t1.patient_care_status is null or t1.patient_care_status not in (9036,9083)) and (outreach_patient_care_status_bncd is null or (outreach_patient_care_status_bncd not in (9036,9083) and date(outreach_date_bncd) <=  t2.endDate))) and t1.transfer_out is null and  (outreach_patient_care_status_bncd not in (1287,1594,9068,9504,1285) and date(outreach_date_bncd) <=  t2.endDate) and timestampdiff(day, if(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) between 91 and 121"
+  },
+  {
+    "name": "LTFU_to_active_in_care",
+    "label": "LTFU_to_active_in_care",
+    "description": "These are patients who were LTFU in the previous reporting month, but changed to active in care in this reporting month",
+    "expression": "t1.transfer_out is null and  (outreach_patient_care_status_bncd not in (1287,1594,9068,9504,1285) and date(outreach_date_bncd) <=  t2.endDate) and ((t1.death_date is null or t1.death_date > t2.endDate) and (outreach_death_date_bncd is null or outreach_death_date_bncd > t2.endDate)) and date(t1.encounter_datetime) between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate and ((t1.patient_care_status is null or t1.patient_care_status not in (9036,9083)) and (outreach_patient_care_status_bncd is null or (outreach_patient_care_status_bncd not in (9036,9083) and date(outreach_date_bncd) <=  t2.endDate))) and timestampdiff(day, if(t1.prev_clinical_rtc_date_hiv, t1.prev_clinical_rtc_date_hiv, DATE_ADD(t1.prev_clinical_datetime_hiv, INTERVAL 30 DAY)), date_sub(DATE_FORMAT(t2.endDate, '%Y-%m-01'), interval 1 day)) > 90"
+  },
+  {
+    "name": "active_in_care_to_LTFU",
+    "label": "active_in_care_to_LTFU",
+    "description": "These are patient who were Active in care on the previous reporting month, but changed to LTFU in this reporting month",
+    "expression": "t1.transfer_out is null and  (outreach_patient_care_status_bncd not in (1287,1594,9068,9504,1285) and date(outreach_date_bncd) <=  t2.endDate) and ((t1.death_date is null or t1.death_date > t2.endDate) and (outreach_death_date_bncd is null or outreach_death_date_bncd > t2.endDate)) and ((t1.patient_care_status is null or t1.patient_care_status not in (9036,9083)) and (outreach_patient_care_status_bncd is null or (outreach_patient_care_status_bncd not in (9036,9083) and date(outreach_date_bncd) <=  t2.endDate))) and timestampdiff(day, if(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) > 90 and timestampdiff(day,t1.rtc_date, date_sub(DATE_FORMAT(t2.endDate, '%Y-%m-01'), interval 1 day)) <= 90"
+  },
+  {
+    "name": "active_in_care",
+    "label": "active_in_care",
+    "description": "A patient is active in care if it has been less than 90 days from the RTC date within the given reporting period",
+    "expression": "case when date(t1.death_date) <= t2.endDate or (date(outreach_death_date_bncd) <= t2.endDate and date(outreach_date_bncd) <= t2.endDate) then null when t1.transfer_out is not  null or  (outreach_patient_care_status_bncd in (1287,1594,9068,9504,1285) and date(outreach_date_bncd) <=  t2.endDate) or (transfer_transfer_out_bncd is not null and date(transfer_date_bncd) <=  t2.endDate) then null when t1.patient_care_status in (9083) or (outreach_patient_care_status_bncd in (9083) and date(outreach_date_bncd) <=  t2.endDate) then null when (outreach_patient_care_status_bncd in (9036) and date(outreach_date_bncd) <=  t2.endDate) or t1.patient_care_status in (9036) then null when  timestampdiff(day, if(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) <= 90 then 1 end"
+  },
+  {
+    "name": "active_return",
+    "label": "active_return",
+    "description": "These are active patients without including new enrollments and transfer ins: i.e Active Patients - (Transfer In + New Enrollment)",
+    "expression": "case when date(t1.hiv_start_date) between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate  then null when t1.transfer_in is not null and (t1.encounter_datetime between DATE_FORMAT(t2.endDate, '%Y-%m-01') and t2.endDate) then null when date(t1.death_date) <= t2.endDate or (date(outreach_death_date_bncd) <= t2.endDate and date(outreach_date_bncd) <= t2.endDate) then null when t1.transfer_out is not  null or  (outreach_patient_care_status_bncd in (1287,1594,9068,9504,1285) and date(outreach_date_bncd) <=  t2.endDate) or (transfer_transfer_out_bncd is not null and date(transfer_date_bncd) <=  t2.endDate) then null when t1.patient_care_status in (9083) or (outreach_patient_care_status_bncd in (9083) and date(outreach_date_bncd) <=  t2.endDate) then null  when (outreach_patient_care_status_bncd in (9036) and date(outreach_date_bncd) <=  t2.endDate) or t1.patient_care_status in (9036) then null  when  timestampdiff(day, if(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) <= 90 then 1 else null end"
+  },
+  {
+    "name": "active_in_care_prev_month",
+    "label": "active_in_care_prev_month",
+    "description": "Total # of acive patients prev reporting month",
+    "expression": "timestampdiff(day,t1.rtc_date, date_sub(DATE_FORMAT(t2.endDate, '%Y-%m-01'), interval 1 day)) <= 90"
+  },
+  {
+    "name": "monthly_patient_care_status",
+    "label": "Monthly patient care status",
+    "description": "Care status of patient on a monthly basis",
+    "expression": "CASE WHEN TIMESTAMPDIFF(DAY, IF(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) <= 90 AND t1.transfer_out IS NULL AND COALESCE(t1.death_date, t1.out_of_care) IS NULL THEN 'active' WHEN TIMESTAMPDIFF(DAY, IF(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) > 90 AND transfer_out IS  NULL THEN 'ltfu' WHEN t1.transfer_out IS NOT NULL AND COALESCE(t1.death_date) IS NULL THEN 'transfered_out' END"
+  },
+  {
+    "name": "patient_daily_care_status",
+    "label": "patient_daily_care_status",
+    "description": "Patient daily care status",
+    "expression": "CASE WHEN TIMESTAMPDIFF(DAY, IF(rtc_date, rtc_date, DATE_ADD(encounter_datetime, INTERVAL 30 DAY)),@referenceDate) <= 90 AND transfer_out IS NULL AND COALESCE(death_date, out_of_care) IS NULL THEN 'active' WHEN TIMESTAMPDIFF(DAY, IF(rtc_date, rtc_date, DATE_ADD(encounter_datetime, INTERVAL 30 DAY)), @referenceDate) > 90 THEN 'ltfu' WHEN transfer_out IS NOT NULL AND COALESCE(death_date) IS NULL THEN 'transfered_out' END"
+  },
+  {
+    "name": "community_ART_dispensing",
+    "label": "community_ART_dispensing",
+    "description": "These are patients who are on ART through community dispensing program",
+    "expression": "t1.encounter_type = 128"
+  },
+  {
+    "name": "patients_with_vl_result",
+    "label": "patients with vl result",
+    "description": "# of patients with vl",
+    "expression": "vl_1_date between @startDate and @endDate"
+  },
+  {
+    "name": "vl_suppressed_patients",
+    "label": "vl suppressed patients",
+    "description": "# of patients with vl < 1000",
+    "expression": "vl_1_date between @startDate and @endDate and vl_1 < 1000"
+  },
+  {
+    "name": "vl_unsuppressed_patients",
+    "label": "vl unsuppressed patients",
+    "description": "# of patients with vl >= 1000",
+    "expression": "vl_1_date between @startDate and @endDate and vl_1 >= 1000"
+  },
+  {
+    "name": "active_and_on_art",
+    "label": "Active and on ART",
+    "description": "A patient who meets the definition for active in care and was dispensed ART at the last clinical visit",
+    "expression": "(case when date(t1.death_date) <= t2.endDate or (date(outreach_death_date_bncd) <= t2.endDate and date(outreach_date_bncd) <= t2.endDate) then null when t1.transfer_out is not  null or  (outreach_patient_care_status_bncd in (1287,1594,9068,9504,1285) and date(outreach_date_bncd) <=  t2.endDate) or (transfer_transfer_out_bncd is not null and date(transfer_date_bncd) <=  t2.endDate) then null when t1.patient_care_status in (9083) or (outreach_patient_care_status_bncd in (9083) and date(outreach_date_bncd) <=  t2.endDate) then null when (outreach_patient_care_status_bncd in (9036) and date(outreach_date_bncd) <=  t2.endDate) or t1.patient_care_status in (9036) then null when  timestampdiff(day, if(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) <= 90 then 1 end) and encounter_datetime >= arv_start_date"
+  },
+  {
+    "name": "has_vl_since_oct",
+    "label": "has VL since october",
+    "description": "As of the reporting month, the number of patients who have had a VL since october",
+    "expression": "(case when (date(t2.endDate) > date(DATE_FORMAT(t2.endDate, '%Y-09-01')) and date(vl_1_date) between date(DATE_FORMAT(t2.endDate, '%Y-09-01')) and date(DATE_ADD(DATE_FORMAT(t2.endDate, '%Y-09-01'), INTERVAL 1 YEAR))) then true when (date(t2.endDate) < date(DATE_FORMAT(t2.endDate, '%Y-09-01')) and date(vl_1_date) between date(DATE_SUB(DATE_FORMAT(t2.endDate, '%Y-09-01'), INTERVAL 1 YEAR)) and date(DATE_FORMAT(t2.endDate, '%Y-09-01'))) then true else false end)"
+  },
+  {
+    "name": "virally_suppressed_since_oct",
+    "label": "virally suppressed_since_oct",
+    "description": "# of patient(s) who are virally suppressed",
+    "expression": "vl_1 < 1000 and (case when (date(t2.endDate) > date(DATE_FORMAT(t2.endDate, '%Y-09-01')) and date(vl_1_date) between date(DATE_FORMAT(t2.endDate, '%Y-09-01')) and date(DATE_ADD(DATE_FORMAT(t2.endDate, '%Y-09-01'), INTERVAL 1 YEAR))) then true when (date(t2.endDate) < date(DATE_FORMAT(t2.endDate, '%Y-09-01')) and date(vl_1_date) between date(DATE_SUB(DATE_FORMAT(t2.endDate, '%Y-09-01'), INTERVAL 1 YEAR)) and date(DATE_FORMAT(t2.endDate, '%Y-09-01'))) then true else false end)"
+  },
+  {
+    "name": "perc_virally_suppressed_since_oct",
+    "label": "perc virally suppressed since oct",
+    "description": "The denominator includes those patients (both active and LTFU) who have had a VL since October 1. The numerator includes those patients (both active and LTFU) who have had a VL since October 1 and had Vl < 100",
+    "expression": ""
+  }
 ]

@@ -1,201 +1,202 @@
 {
-    "name": "clinicHivComparativeOverviewBase",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [],
-    "sources": [
-        {
-            "table": "etl.hiv_monthly_report_dataset_frozen",
-            "alias": "fhs"
-        },
-        {
-            "table": "amrs.orders",
-            "alias": "orders",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "orders.voided=0 and fhs.encounter_id=orders.encounter_id"
-            }
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "location_id",
-            "column": "fhs.location_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_uuid",
-            "column": "fhs.location_uuid"
-        },
-        {
-            "type": "simple_column",
-            "alias": "person_id",
-            "column": "fhs.person_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "birthdate",
-            "column": "fhs.birthdate"
-        },
-        {
-            "type": "simple_column",
-            "alias": "age",
-            "column": "fhs.age"
-        },
-        {
-            "type": "simple_column",
-            "alias": "gender",
-            "column": "fhs.gender"
-        },
-        {
-            "type": "derived_column",
-            "alias": "currently_in_care_total",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "case when status='active' then 1 else null end"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_art_total",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "case when on_art_this_month=1 then 1 else null end"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "not_on_art_total",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "case when on_art_this_month=0 then 1 else null end"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "patients_requiring_vl",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "case when eligible_for_vl=1 AND status = 'active' then 1 else null end"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "tested_appropriately",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(timestampdiff(month, fhs.arv_start_date, fhs.encounter_date) >= 6 and timestampdiff(day, date(fhs.vl_1_date), date(fhs.endDate)) <= 365,1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "not_tested_appropriately",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(timestampdiff(month, fhs.arv_start_date, fhs.encounter_date) >= 6 and (timestampdiff(day,fhs.vl_1_date, date(fhs.endDate)) > 365 or fhs.vl_1_date is null),1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "due_for_annual_vl",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "case when vl_in_past_year=0  AND status = 'active' then 1 else null end"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "pending_vl_orders",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(orders.concept_id=856 and (date(orders.date_created)  between  DATE_FORMAT(fhs.endDate,'%Y-%m-01') and fhs.endDate) and date(fhs.vl_1_date) != date(orders.date_created) and  date(fhs.vl_1_date) < DATE_FORMAT(fhs.endDate,'%Y-%m-01'),1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "missing_vl_order",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(timestampdiff(month, fhs.arv_start_date, fhs.encounter_date) >= 6 and (timestampdiff(day,fhs.vl_1_date, date(fhs.endDate)) > 365 or fhs.vl_1_date is null) and (orders.date_created is null or orders.concept_id!=856),1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "virally_suppressed",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(timestampdiff(month,fhs.arv_start_date,fhs.encounter_date) >= 6 and timestampdiff(day, date(fhs.vl_1_date), date(fhs.endDate)) <= 365 and fhs.vl_1 < 1000,1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "not_virally_suppressed",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(timestampdiff(month,fhs.arv_start_date,fhs.encounter_date) >= 6 and timestampdiff(day, date(fhs.vl_1_date), date(fhs.endDate)) <= 365 and fhs.vl_1 >= 1000,1,null)"
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "reporting_date",
-            "column": "fhs.endDate"
-        },
-        {
-            "type": "simple_column",
-            "alias": "endDate",
-            "column": "fhs.endDate"
-        },
-        {
-            "type": "simple_column",
-            "alias": "end_date",
-            "column": "date(fhs.endDate)"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_uuid",
-            "column": "fhs.location_uuid"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_id",
-            "column": "fhs.location_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "person_id",
-            "column": "fhs.person_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "reporting_month",
-            "column": "date_format(fhs.endDate, '%Y/%m')"
-        }
-    ],
-    "indexDirectives": [
-        {
-          "type": "force",
-          "indexList": ["endDate_location_id"]
-        }],
-    "filters": {
-        "conditionJoinOperator": "and",
-        "conditions": [
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "fhs.endDate > date(?)",
-                "parameterName": "startDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "fhs.endDate <= date(?)",
-                "parameterName": "endDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "fhs.location_id in ?",
-                "parameterName": "locations"
-            }
-        ]
+  "name": "clinicHivComparativeOverviewBase",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "etl.hiv_monthly_report_dataset_frozen",
+      "alias": "fhs"
+    },
+    {
+      "table": "amrs.orders",
+      "alias": "orders",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "orders.voided=0 and fhs.encounter_id=orders.encounter_id"
+      }
     }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "fhs.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "fhs.location_uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "fhs.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "birthdate",
+      "column": "fhs.birthdate"
+    },
+    {
+      "type": "simple_column",
+      "alias": "age",
+      "column": "fhs.age"
+    },
+    {
+      "type": "simple_column",
+      "alias": "gender",
+      "column": "fhs.gender"
+    },
+    {
+      "type": "derived_column",
+      "alias": "currently_in_care_total",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "case when status='active' then 1 else null end"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_art_total",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "case when on_art_this_month=1 then 1 else null end"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "not_on_art_total",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "case when on_art_this_month=0 then 1 else null end"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "patients_requiring_vl",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "case when eligible_for_vl=1 AND status = 'active' then 1 else null end"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "tested_appropriately",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(timestampdiff(month, fhs.arv_start_date, fhs.encounter_date) >= 6 and timestampdiff(day, date(fhs.vl_1_date), date(fhs.endDate)) <= 365,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "not_tested_appropriately",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(timestampdiff(month, fhs.arv_start_date, fhs.encounter_date) >= 6 and (timestampdiff(day,fhs.vl_1_date, date(fhs.endDate)) > 365 or fhs.vl_1_date is null),1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "due_for_annual_vl",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "case when vl_in_past_year=0  AND status = 'active' then 1 else null end"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "pending_vl_orders",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(orders.concept_id=856 and (date(orders.date_created)  between  DATE_FORMAT(fhs.endDate,'%Y-%m-01') and fhs.endDate) and date(fhs.vl_1_date) != date(orders.date_created) and  date(fhs.vl_1_date) < DATE_FORMAT(fhs.endDate,'%Y-%m-01'),1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "missing_vl_order",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(timestampdiff(month, fhs.arv_start_date, fhs.encounter_date) >= 6 and (timestampdiff(day,fhs.vl_1_date, date(fhs.endDate)) > 365 or fhs.vl_1_date is null) and (orders.date_created is null or orders.concept_id!=856),1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "virally_suppressed",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(timestampdiff(month,fhs.arv_start_date,fhs.encounter_date) >= 6 and timestampdiff(day, date(fhs.vl_1_date), date(fhs.endDate)) <= 365 and fhs.vl_1 < 1000,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "not_virally_suppressed",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(timestampdiff(month,fhs.arv_start_date,fhs.encounter_date) >= 6 and timestampdiff(day, date(fhs.vl_1_date), date(fhs.endDate)) <= 365 and fhs.vl_1 >= 1000,1,null)"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "reporting_date",
+      "column": "fhs.endDate"
+    },
+    {
+      "type": "simple_column",
+      "alias": "endDate",
+      "column": "fhs.endDate"
+    },
+    {
+      "type": "simple_column",
+      "alias": "end_date",
+      "column": "date(fhs.endDate)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "fhs.location_uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "fhs.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "fhs.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "reporting_month",
+      "column": "date_format(fhs.endDate, '%Y/%m')"
+    }
+  ],
+  "indexDirectives": [
+    {
+      "type": "force",
+      "indexList": ["endDate_location_id"]
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "fhs.endDate > date(?)",
+        "parameterName": "startDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "fhs.endDate <= date(?)",
+        "parameterName": "endDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "fhs.location_id in ?",
+        "parameterName": "locations"
+      }
+    ]
+  }
 }

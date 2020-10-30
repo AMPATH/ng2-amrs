@@ -1,71 +1,67 @@
 {
-    "name": "LtfuSurgeBaselineAggregateReport",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [
-         {
-        "name": "surgeBaselineReport",
-        "version": "1.0",
-        "type": "dataset_def"
-    }],
-    "sources": [
-        {
-            "dataSet": "surgeBaselineReport",
-            "alias": "lsb"
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "location_uuid",
-            "column": "lsb.location_uuid"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_id",
-            "column": "lsb.location_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location",
-            "column": "lsb.location"
-        },
-        {
-            "type": "derived_column",
-            "alias": "is_ltfu_surge_baseline",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "SUM(lsb.is_ltfu_surge_baseline)"
-            }
-        }
-    ],
-    "groupBy": {
-        "groupParam": "groupByParam",
-        "columns": [
-            "location_uuid"
-        ],
-        "excludeParam": "excludeParam"
-    },
-    "transFormDirectives": {
-        "joinColumn": "location_id",
-        "skipColumns": [
-            "location_uuid",
-            "join_location"
-        ]
-    },
-    "dynamicJsonQueryGenerationDirectives": {
-        "patientListGenerator": {
-            "useTemplate": "patient-list-frozen-template",
-            "useTemplateVersion": "1.0",
-            "generatingDirectives": {
-                "joinDirectives": {
-                    "joinType": "INNER",
-                    "joinCondition": "<<base_column>> = <<template_column>>",
-                    "baseColumn": "person_id",
-                    "templateColumn": "person_id"
-                }
-            }
-        }
+  "name": "LtfuSurgeBaselineAggregateReport",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [
+    {
+      "name": "surgeBaselineReport",
+      "version": "1.0",
+      "type": "dataset_def"
     }
+  ],
+  "sources": [
+    {
+      "dataSet": "surgeBaselineReport",
+      "alias": "lsb"
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "lsb.location_uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "lsb.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "lsb.location"
+    },
+    {
+      "type": "derived_column",
+      "alias": "is_ltfu_surge_baseline",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(lsb.is_ltfu_surge_baseline)"
+      }
+    }
+  ],
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["location_uuid"],
+    "excludeParam": "excludeParam"
+  },
+  "transFormDirectives": {
+    "joinColumn": "location_id",
+    "skipColumns": ["location_uuid", "join_location"]
+  },
+  "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+      "useTemplate": "patient-list-frozen-template",
+      "useTemplateVersion": "1.0",
+      "generatingDirectives": {
+        "joinDirectives": {
+          "joinType": "INNER",
+          "joinCondition": "<<base_column>> = <<template_column>>",
+          "baseColumn": "person_id",
+          "templateColumn": "person_id"
+        }
+      }
+    }
+  }
 }

@@ -1,6 +1,6 @@
-const Promise = require("bluebird");
-const scopeBuilder = require("./scope-builder.service");
-const dataResolver = require("./patient-data-resolver.service");
+const Promise = require('bluebird');
+const scopeBuilder = require('./scope-builder.service');
+const dataResolver = require('./patient-data-resolver.service');
 const expressionRunner = require('../expression-runner/expression-runner');
 
 const def = {
@@ -36,8 +36,13 @@ function separateAllowedDisallowedVisitTypes(scope, visitTypes) {
   return separated;
 }
 
-function getPatientVisitTypes(patientUuid, programUuid, programEnrollmentUuid,
-  intendedVisitLocationUuid, allProgramsConfig) {
+function getPatientVisitTypes(
+  patientUuid,
+  programUuid,
+  programEnrollmentUuid,
+  intendedVisitLocationUuid,
+  allProgramsConfig
+) {
   return new Promise((success, error) => {
     const program = allProgramsConfig[programUuid];
     if (!program) {
@@ -46,16 +51,14 @@ function getPatientVisitTypes(patientUuid, programUuid, programEnrollmentUuid,
     }
 
     // resolve data dependencies
-    dataResolver.getAllDataDependencies(
-      program.dataDependencies || [],
-      patientUuid, 
-      {
+    dataResolver
+      .getAllDataDependencies(program.dataDependencies || [], patientUuid, {
         programUuid: programUuid,
         programEnrollmentUuid: programEnrollmentUuid,
         intendedVisitLocationUuid: intendedVisitLocationUuid
       })
       .then((dataObject) => {
-        // add missing properties 
+        // add missing properties
         dataObject.programUuid = programUuid;
         dataObject.intendedVisitLocationUuid = intendedVisitLocationUuid;
 
@@ -63,7 +66,10 @@ function getPatientVisitTypes(patientUuid, programUuid, programEnrollmentUuid,
         const scopeObj = scopeBuilder.buildScope(dataObject);
         const visits = program.visitTypes;
 
-        program.visitTypes = separateAllowedDisallowedVisitTypes(scopeObj, visits);
+        program.visitTypes = separateAllowedDisallowedVisitTypes(
+          scopeObj,
+          visits
+        );
 
         success(program);
       })
@@ -72,6 +78,6 @@ function getPatientVisitTypes(patientUuid, programUuid, programEnrollmentUuid,
         error({
           message: 'Error resolving data dependencies'
         });
-      })
+      });
   });
 }

@@ -77,7 +77,6 @@
         "type": "single",
         "sql": "case when t2.role is null then 'private' else 'shared' end"
       }
-      ]
-
+    ]
   }
 ]

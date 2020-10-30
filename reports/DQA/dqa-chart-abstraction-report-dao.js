@@ -1,12 +1,12 @@
 import QueryService from '../../app/database-access/query.service';
 
 export class DQAChartAbstractionDAO {
+  constructor() {}
 
-    constructor() { }
-
-    getDQAChartAbstractionReport(locations, limit, offset) {
-        let runner = this.getSqlRunner();
-        let sqlQuery = `
+  getDQAChartAbstractionReport(locations, limit, offset) {
+    let runner = this.getSqlRunner();
+    let sqlQuery =
+      `
         SELECT 
         uuid, 
         person_id, 
@@ -72,7 +72,9 @@ export class DQAChartAbstractionDAO {
             is_clinical_encounter = 1
                 AND encounter_datetime < NOW()
                 AND encounter_datetime > '2018-01-01'
-                AND h.location_id IN (` + locations + `)
+                AND h.location_id IN (` +
+      locations +
+      `)
         ORDER BY encounter_datetime DESC
         LIMIT 10000000) clinical
         GROUP BY person_id
@@ -90,7 +92,9 @@ export class DQAChartAbstractionDAO {
         FROM
             etl.flat_vitals
         WHERE
-            location_id IN (` + locations + `)
+            location_id IN (` +
+      locations +
+      `)
                 AND encounter_datetime <= NOW()
                 AND encounter_datetime > '2018-01-01'
                 AND (height IS NOT NULL OR weight IS NOT NULL)
@@ -98,22 +102,26 @@ export class DQAChartAbstractionDAO {
         LIMIT 10000000) vitals
         GROUP BY v_person_id
         ORDER BY v_person_id DESC) AS vitals ON (hiv.person_id = vitals.v_person_id)
-        ORDER BY encounter_datetime desc limit ` + limit + ` offset ` + offset + `; `;
-        return new Promise((resolve, reject) => {
-            runner.executeQuery(sqlQuery)
-                .then((results) => {
-                    resolve({
-                        results: results
-                    });
-                })
-                .catch((error) => {
-                    reject(error)
-                });
+        ORDER BY encounter_datetime desc limit ` +
+      limit +
+      ` offset ` +
+      offset +
+      `; `;
+    return new Promise((resolve, reject) => {
+      runner
+        .executeQuery(sqlQuery)
+        .then((results) => {
+          resolve({
+            results: results
+          });
+        })
+        .catch((error) => {
+          reject(error);
         });
-    }
+    });
+  }
 
-    getSqlRunner() {
-        return new QueryService();
-    }
-
+  getSqlRunner() {
+    return new QueryService();
+  }
 }

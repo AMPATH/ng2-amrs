@@ -1,47 +1,55 @@
 {
-  "patientLabResultsSchema":{
-     "name": "etl_sync_log",
-     "table": {
-       "schema": "etl",
-       "tableName": "eid_sync_log",
-       "alias": "t1"
-     },
-     "joins": [],
-     "columns": ["TIMESTAMPDIFF(HOUR,date_updated,now())", "person_uuid", "date_updated", "date_created", "status", "message", "site"],
-     "parameters": [
-         {
-           "name": "TIMESTAMPDIFF(HOUR,date_updated,now())",
-           "defaultValue":["defaultValue"]
-         },
-         {
-           "name": "person_uuid=?",
-           "defaultValue": ["defaultValue"]
-         },
-         {
-           "name": "date_updated",
-           "defaultValue": ["defaultValue"]
-         },
-         {
-           "name": "date_created=?",
-           "defaultValue": ["defaultValue"]
-         },
-         {
-           "name": "status=?",
-           "defaultValue": ["defaultValue"]
-         },
-         {
-           "name": "message=?",
-           "defaultValue": ["defaultValue"]
-         }
-     ],
-     "filters": [
-         {
-           "expression": "person_uuid=?",
-           "parameter": "person_uuid"
-         }
-     ],
-     "groupClause": [],
-     "indicators": [],
-     "supplementColumns": []
-   }
+  "patientLabResultsSchema": {
+    "name": "etl_sync_log",
+    "table": {
+      "schema": "etl",
+      "tableName": "eid_sync_log",
+      "alias": "t1"
+    },
+    "joins": [],
+    "columns": [
+      "TIMESTAMPDIFF(HOUR,date_updated,now())",
+      "person_uuid",
+      "date_updated",
+      "date_created",
+      "status",
+      "message",
+      "site"
+    ],
+    "parameters": [
+      {
+        "name": "TIMESTAMPDIFF(HOUR,date_updated,now())",
+        "defaultValue": ["defaultValue"]
+      },
+      {
+        "name": "person_uuid=?",
+        "defaultValue": ["defaultValue"]
+      },
+      {
+        "name": "date_updated",
+        "defaultValue": ["defaultValue"]
+      },
+      {
+        "name": "date_created=?",
+        "defaultValue": ["defaultValue"]
+      },
+      {
+        "name": "status=?",
+        "defaultValue": ["defaultValue"]
+      },
+      {
+        "name": "message=?",
+        "defaultValue": ["defaultValue"]
+      }
+    ],
+    "filters": [
+      {
+        "expression": "person_uuid=?",
+        "parameter": "person_uuid"
+      }
+    ],
+    "groupClause": [],
+    "indicators": [],
+    "supplementColumns": []
+  }
 }

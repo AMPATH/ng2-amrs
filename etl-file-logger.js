@@ -1,7 +1,7 @@
-'use strict'
+'use strict';
 var winston = require('winston');
 var path = require('path');
-var _ = require('underscore')
+var _ = require('underscore');
 
 var moduleDefinition = {
   logRequestError: logRequestError,
@@ -18,10 +18,10 @@ function logRequestError(message, fileName, absolutePath) {
         filename: fileName || 'server-request-logs.log',
         handleExceptions: true,
         json: true,
-        colorize: false,
-      }),
+        colorize: false
+      })
     ],
-    exitOnError: false,
+    exitOnError: false
   });
   logger.add(require('winston-daily-rotate-file'), {
     filename: absolutePath + fileName || 'server-request-logs.log'
@@ -40,10 +40,10 @@ function logger(filePath) {
         filename: fileName || 'server-request-logs.log',
         handleExceptions: true,
         json: true,
-        colorize: false,
-      }),
+        colorize: false
+      })
     ],
-    exitOnError: false,
+    exitOnError: false
   });
 
   logger.add(require('winston-daily-rotate-file'), {

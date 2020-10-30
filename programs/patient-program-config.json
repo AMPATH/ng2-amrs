@@ -7,38 +7,45 @@
       "hivLastTenClinicalEncounters"
     ],
     "enrollmentOptions": {
-      "requiredProgramQuestions": [{
-        "qtype": "hivStatus",
-        "name": "Patient HIV status",
-        "enrollIf": "positive",
-        "value": null,
-        "answers": [{
-            "value": "positive",
-            "label": "Positive"
-          },
-          {
-            "value": "negative",
-            "label": "Negative"
-          },
-          {
-            "value": "exposed",
-            "label": "Exposed"
-          }
-        ]
-      }],
+      "requiredProgramQuestions": [
+        {
+          "qtype": "hivStatus",
+          "name": "Patient HIV status",
+          "enrollIf": "positive",
+          "value": null,
+          "answers": [
+            {
+              "value": "positive",
+              "label": "Positive"
+            },
+            {
+              "value": "negative",
+              "label": "Negative"
+            },
+            {
+              "value": "exposed",
+              "label": "Exposed"
+            }
+          ]
+        }
+      ],
       "allowMultipleEnrollment": false,
       "stateChangeEncounterTypes": {
         "enrollment": [],
-        "transfer": [{
-          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
-          "name": "AMPATH POC Transfer Out Form v0.01",
-          "required": true
-        }],
-        "discharge": [{
-          "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
-          "name": "AMPATH POC HIV Exit Care Form v1.1",
-          "required": true
-        }]
+        "transfer": [
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "name": "AMPATH POC Transfer Out Form v0.01",
+            "required": true
+          }
+        ],
+        "discharge": [
+          {
+            "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
+            "name": "AMPATH POC HIV Exit Care Form v1.1",
+            "required": true
+          }
+        ]
       }
     },
     "incompatibleWith": [
@@ -52,14 +59,15 @@
       "a8e7c30d-6d2f-401c-bb52-d4433689a36b",
       "f7793d42-11ac-4cfd-9b35-e0a21a7a7c31",
       "c4246ff0-b081-460c-bcc5-b0678012659e"
-
     ],
-    "visitTypes": [{
+    "visitTypes": [
+      {
         "uuid": "33d13ffb-5f0e-427e-ab80-637491fb6526",
         "name": "Adult HIV Initial Visit ",
         "allowedIf": "age >= 20 && programLocation === intendedVisitLocationUuid && isFirstAMPATHHIVVisit",
         "message": "Patient has to be 20yrs and above, in the location he enrolled into the HIV Care and Treatment program and there must not be prior clinical encounter.",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
             "display": "HIVTRIAGE"
           },
@@ -106,7 +114,8 @@
         "name": "Adult Transfer In Visit ",
         "allowedIf": "age >= 20 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
         "message": "Patient has to be 20yrs and above , patient's program location should be equal to the last HIV clinical encounter location and should not be the first clinical encounter",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
             "display": "HIVTRIAGE"
           },
@@ -149,7 +158,8 @@
         "name": "Adult HIV Return Visit ",
         "allowedIf": "age >= 20 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
         "message": "Patient has to be 20yrs and above, in the location he enrolled into the HIV Care and Treatment program  and there must be a prior clinical encounter.",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
             "display": "HIVTRIAGE"
           },
@@ -204,7 +214,8 @@
         "name": "Pediatric HIV Initial Visit ",
         "allowedIf": "age <= 14 && programLocation === intendedVisitLocationUuid && isFirstAMPATHHIVVisit",
         "message": "Patient has to be 14rs and below ,in the location he enrolled into the HIV Care and Treatment program and there must not be prior clinical encounter.",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
             "display": "HIVTRIAGE"
           },
@@ -250,7 +261,8 @@
         "uuid": "2e67b87c-8843-45b7-a380-3a0e8bd58e4d",
         "name": "Pediatric Transfer In Visit ",
         "allowedIf": "age <= 14 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
             "display": "HIVTRIAGE"
           },
@@ -293,7 +305,8 @@
         "name": "Pediatric HIV Return Visit ",
         "allowedIf": "age <= 14 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
         "message": "Patient has to be 14yrs and below, in the location enrolled into the HIV Care and Treatment program and it must not be the initial clinical encounter.",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
             "display": "HIVTRIAGE"
           },
@@ -340,7 +353,8 @@
         "name": "Youth HIV Initial Visit ",
         "allowedIf": "age >= 10 && age <= 24 && programLocation === intendedVisitLocationUuid && isFirstAMPATHHIVVisit",
         "message": "Patient has to between 10 and 24yrs , in the location he enrolled into the HIV Care and Treatment program and must not have a prior clinical encounter",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
             "display": "HIVTRIAGE"
           },
@@ -387,7 +401,8 @@
         "name": "Youth Transfer In Visit ",
         "allowedIf": "age >= 10 && age <= 24 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
         "message": "Patient has to between 10 and 24yrs , in the location he enrolled into the HIV Care and Treatment program, must have a prior clinical encounter.The program location should be different from the previous encounter location",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
             "display": "HIVTRIAGE"
           },
@@ -430,7 +445,8 @@
         "name": "Youth HIV Return Visit ",
         "allowedIf": "age >= 10 && age <= 24 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
         "message": "Patient has to between 10 and 24yrs , in the location he enrolled into the HIV Care and Treatment program and must have a prior clinical encounter",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
             "display": "HIVTRIAGE"
           },
@@ -477,7 +493,8 @@
         "name": "Between Care Visit ",
         "allowedIf": "programLocation !== intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
         "message": "Patient has to be in a different location from location he was enrolled into HIV care and treatment program and must have a prior clinical encounter",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
             "display": "HIVTRIAGE"
           },
@@ -515,7 +532,8 @@
         "uuid": "578a6132-4686-4190-809f-3f8f49bdd1c6",
         "allowedIf": "programLocation === intendedVisitLocationUuid && isFirstAMPATHHIVVisit",
         "name": "Linkage Visit",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "93b4c47b-ce5c-4d83-bef2-f941199e999d",
             "display": "PHCTLINKAGE"
           },
@@ -536,7 +554,8 @@
       {
         "uuid": "fcc9a836-0200-45f2-81b4-b4a687a10247",
         "name": "Treatment Supporter Visit",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "693559d3-4e44-4d33-83f9-bc70ca56fe34",
             "display": "TXSUPPORTERMEDREFILL"
           },
@@ -565,7 +584,8 @@
       {
         "uuid": "06eca2a8-1da9-4ac4-95c6-15afedd4de21",
         "name": "HIV Lab Visit",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "5ef97eed-18f5-40f6-9fbf-a11b1f06484a",
             "display": "LABORDERENCOUNTER"
           },
@@ -586,7 +606,8 @@
       {
         "uuid": "40353c46-cd54-4629-a5d1-0a1f1108b19f",
         "name": "Inpatient peer visit",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
             "display": "INPATIENTPEER"
           },
@@ -607,7 +628,8 @@
       {
         "uuid": "f75d41c7-e09d-4e98-9b24-78a4ca1c1229",
         "name": "Phone Follow Up Visit",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
             "display": "TELECARE"
           },
@@ -622,26 +644,26 @@
   "725b5193-3452-43fc-aca3-6a80432d9bfa": {
     "name": " GENERAL ONCOLOGY PROGRAM",
     "incompatibleWith": [],
-    "dataDependencies": [
-      "patient",
-      "enrollment",
-      "patientEncounters"
-    ],
+    "dataDependencies": ["patient", "enrollment", "patientEncounters"],
     "enrollmentOptions": {
       "requiredProgramQuestions": [],
       "allowMultipleEnrollment": false,
       "stateChangeEncounterTypes": {
         "enrollment": [],
-        "transfer": [{
-          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
-          "name": "AMPATH POC Transfer Out Form v0.01",
-          "required": true
-        }],
-        "discharge": [{
-          "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
-          "name": "AMPATH POC HIV Exit Care Form v1.1",
-          "required": true
-        }]
+        "transfer": [
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "name": "AMPATH POC Transfer Out Form v0.01",
+            "required": true
+          }
+        ],
+        "discharge": [
+          {
+            "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
+            "name": "AMPATH POC HIV Exit Care Form v1.1",
+            "required": true
+          }
+        ]
       }
     },
     "visitTypes": [
@@ -654,18 +676,22 @@
           {
             "uuid": "d17b3adc-0837-4ac6-862b-0953fc664cb8",
             "display": "OncologyInitial"
-          }, {
+          },
+          {
             "uuid": "5fa823ce-7592-482f-a0aa-361abf326ade",
             "display": "HematOncologyTriage"
-          }, {
+          },
+          {
             "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
             "display": "DEATHREPORT"
-          }, {
+          },
+          {
             "uuid": "81166f83-1ee6-486e-8f56-aca528fc0fc0",
             "display": "GENCONSULTATION"
           }
         ]
-      }, {
+      },
+      {
         "uuid": "273590f7-7c5a-494e-8b60-5be909083f4b",
         "name": "General Oncology Return Visit",
         "message": "Patient must have a prior clinical encounter.",
@@ -674,15 +700,18 @@
           {
             "uuid": "eeb9600c-314f-4071-9122-133ff3da37bb",
             "display": "OncologyReturn"
-          }, {
+          },
+          {
             "uuid": "5fa823ce-7592-482f-a0aa-361abf326ade",
             "display": "HematOncologyTriage"
-          }, {
+          },
+          {
             "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
             "display": "DEATHREPORT"
           }
         ]
-      }, {
+      },
+      {
         "uuid": "c1be5560-5efe-493c-96f9-e40f0a724142",
         "name": "Oncology Lab Visit",
         "encounterTypes": [
@@ -691,7 +720,8 @@
             "display": "ONCOLOGYLABENTRY"
           }
         ]
-      }, {
+      },
+      {
         "uuid": "fac19544-1478-483f-8d4f-3792b1282981",
         "name": "Oncology Pharmacy Visit",
         "encounterTypes": [
@@ -716,41 +746,48 @@
       "allowMultipleEnrollment": false,
       "stateChangeEncounterTypes": {
         "enrollment": [],
-        "transfer": [{
-          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
-          "name": "AMPATH POC Transfer Out Form v0.01",
-          "required": true
-        }],
-        "discharge": [{
-          "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
-          "name": "AMPATH POC HIV Exit Care Form v1.1",
-          "required": true
-        }]
+        "transfer": [
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "name": "AMPATH POC Transfer Out Form v0.01",
+            "required": true
+          }
+        ],
+        "discharge": [
+          {
+            "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
+            "name": "AMPATH POC HIV Exit Care Form v1.1",
+            "required": true
+          }
+        ]
       }
     },
-    "visitTypes": [{
-      "uuid": "5033fbfc-ddc9-4f7f-853d-379659e48bdd",
-      "name": "DM-HTN Health Center visit",
-      "allowedIf": "inCareUuid === '496cf7a6-eb2c-40b2-85e6-fbd7a885e66e'",
-      "message": "Patient must be `in care` state",
-      "encounterTypes": [{
-          "uuid": "f5381269-c889-4c5a-b384-d017441eedae",
-          "display": "CDMTRIAGE"
-        },
-        {
-          "uuid": "4f5d5b20-083b-4686-be5f-5f2cc71d74e5",
-          "display": "HTNDMRETRUN"
-        },
-        {
-          "uuid": "9af62145-1114-4711-a2b4-1c23ae69eb46",
-          "display": "HTNDMINITIAL"
-        },
-        {
-          "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
-          "display": "DEATHREPORT"
-        }
-      ]
-    }]
+    "visitTypes": [
+      {
+        "uuid": "5033fbfc-ddc9-4f7f-853d-379659e48bdd",
+        "name": "DM-HTN Health Center visit",
+        "allowedIf": "inCareUuid === '496cf7a6-eb2c-40b2-85e6-fbd7a885e66e'",
+        "message": "Patient must be `in care` state",
+        "encounterTypes": [
+          {
+            "uuid": "f5381269-c889-4c5a-b384-d017441eedae",
+            "display": "CDMTRIAGE"
+          },
+          {
+            "uuid": "4f5d5b20-083b-4686-be5f-5f2cc71d74e5",
+            "display": "HTNDMRETRUN"
+          },
+          {
+            "uuid": "9af62145-1114-4711-a2b4-1c23ae69eb46",
+            "display": "HTNDMINITIAL"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          }
+        ]
+      }
+    ]
   },
   "fc15ac01-5381-4854-bf5e-917c907aa77f": {
     "name": "CDM PROGRAM",
@@ -760,13 +797,13 @@
       "hivLastTenClinicalEncounters"
     ],
     "incompatibleWith": [],
-    "visitTypes": [{
-      "uuid": "8072afd0-0cd9-409e-914d-1833e83943f7",
-      "name": "CDM Visit",
-      "encounterTypes": [
-
-      ]
-    }]
+    "visitTypes": [
+      {
+        "uuid": "8072afd0-0cd9-409e-914d-1833e83943f7",
+        "name": "CDM Visit",
+        "encounterTypes": []
+      }
+    ]
   },
   "bd9a8b06-73c7-44a8-928c-5e72247f4c1d": {
     "name": "HTN-DM TERTIARY CARE",
@@ -780,52 +817,61 @@
       "allowMultipleEnrollment": false,
       "stateChangeEncounterTypes": {
         "enrollment": [],
-        "transfer": [{
-          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
-          "name": "AMPATH POC Transfer Out Form v0.01",
-          "required": true
-        }],
-        "discharge": [{
-          "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
-          "name": "AMPATH POC HIV Exit Care Form v1.1",
-          "required": true
-        }],
-        "referral": [{
-          "uuid": "6a50f1d5-9f33-41ae-b2e7-7fd8267c181e",
-          "name": "CDM DM-HTN Referral Form v1.1",
-          "required": true
-        }]
+        "transfer": [
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "name": "AMPATH POC Transfer Out Form v0.01",
+            "required": true
+          }
+        ],
+        "discharge": [
+          {
+            "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
+            "name": "AMPATH POC HIV Exit Care Form v1.1",
+            "required": true
+          }
+        ],
+        "referral": [
+          {
+            "uuid": "6a50f1d5-9f33-41ae-b2e7-7fd8267c181e",
+            "name": "CDM DM-HTN Referral Form v1.1",
+            "required": true
+          }
+        ]
       }
     },
     "incompatibleWith": [
       "b731ba72-cf99-4176-9fcd-37cd186400c7",
       "876a154d-310d-4caf-8b58-be9dbcc7e753"
     ],
-    "visitTypes": [{
-      "uuid": "67da2bee-70de-451c-8002-75429c71c46c",
-      "name": "DM-HTN Tertiary visit",
-      "encounterTypes": [{
-          "uuid": "f5381269-c889-4c5a-b384-d017441eedae",
-          "display": "CDMTRIAGE"
-        },
-        {
-          "uuid": "14c3b999-2d5c-4c2e-b173-5212b9170652",
-          "display": "COEDMINITIAL"
-        },
-        {
-          "uuid": "0d2ff377-a3df-453e-ae20-e92da3aa3a17",
-          "display": "COEDMRETURN"
-        },
-        {
-          "uuid": "db9b637c-6289-4259-a66a-326b2d2f2a5d",
-          "display": "HTNDMPEDINITIAL"
-        },
-        {
-          "uuid": "f26104d5-45bc-4b19-acf9-8207e414a579",
-          "display": "HTNDMPEDRETURN"
-        }
-      ]
-    }]
+    "visitTypes": [
+      {
+        "uuid": "67da2bee-70de-451c-8002-75429c71c46c",
+        "name": "DM-HTN Tertiary visit",
+        "encounterTypes": [
+          {
+            "uuid": "f5381269-c889-4c5a-b384-d017441eedae",
+            "display": "CDMTRIAGE"
+          },
+          {
+            "uuid": "14c3b999-2d5c-4c2e-b173-5212b9170652",
+            "display": "COEDMINITIAL"
+          },
+          {
+            "uuid": "0d2ff377-a3df-453e-ae20-e92da3aa3a17",
+            "display": "COEDMRETURN"
+          },
+          {
+            "uuid": "db9b637c-6289-4259-a66a-326b2d2f2a5d",
+            "display": "HTNDMPEDINITIAL"
+          },
+          {
+            "uuid": "f26104d5-45bc-4b19-acf9-8207e414a579",
+            "display": "HTNDMPEDRETURN"
+          }
+        ]
+      }
+    ]
   },
   "b731ba72-cf99-4176-9fcd-37cd186400c7": {
     "name": "HTN-DM SECONDARY CARE",
@@ -834,7 +880,8 @@
       "enrollment",
       "hivLastTenClinicalEncounters"
     ],
-    "HidevisibleLocations": [{
+    "HidevisibleLocations": [
+      {
         "uuid": "08feb2dc-1352-11df-a1f1-0026b9348838",
         "display": "Turbo"
       },
@@ -848,11 +895,13 @@
       "allowMultipleEnrollment": false,
       "stateChangeEncounterTypes": {
         "enrollment": [],
-        "referral": [{
-          "uuid": "6a50f1d5-9f33-41ae-b2e7-7fd8267c181e",
-          "name": "CDM DM-HTN Referral Form v1.1",
-          "required": true
-        }],
+        "referral": [
+          {
+            "uuid": "6a50f1d5-9f33-41ae-b2e7-7fd8267c181e",
+            "name": "CDM DM-HTN Referral Form v1.1",
+            "required": true
+          }
+        ],
         "incompatible": []
       }
     },
@@ -860,27 +909,30 @@
       "876a154d-310d-4caf-8b58-be9dbcc7e753",
       "bd9a8b06-73c7-44a8-928c-5e72247f4c1d"
     ],
-    "visitTypes": [{
-      "uuid": "5033fbfc-ddc9-4f7f-853d-379659e48bdd",
-      "name": "DM-HTN Secondary Visit",
-      "transitionStateOnVisitStart": {
-        "state": "inCare",
-        "uuid": "72443cac-4822-4dce-8460-794af7af8167"
-      },
-      "encounterTypes": [{
-          "uuid": "f5381269-c889-4c5a-b384-d017441eedae",
-          "display": "CDMTRIAGE"
+    "visitTypes": [
+      {
+        "uuid": "5033fbfc-ddc9-4f7f-853d-379659e48bdd",
+        "name": "DM-HTN Secondary Visit",
+        "transitionStateOnVisitStart": {
+          "state": "inCare",
+          "uuid": "72443cac-4822-4dce-8460-794af7af8167"
         },
-        {
-          "uuid": "9af62145-1114-4711-a2b4-1c23ae69eb46",
-          "display": "HTNDMINITIAL"
-        },
-        {
-          "uuid": "4f5d5b20-083b-4686-be5f-5f2cc71d74e5",
-          "display": "HTNDMRETRUN"
-        }
-      ]
-    }]
+        "encounterTypes": [
+          {
+            "uuid": "f5381269-c889-4c5a-b384-d017441eedae",
+            "display": "CDMTRIAGE"
+          },
+          {
+            "uuid": "9af62145-1114-4711-a2b4-1c23ae69eb46",
+            "display": "HTNDMINITIAL"
+          },
+          {
+            "uuid": "4f5d5b20-083b-4686-be5f-5f2cc71d74e5",
+            "display": "HTNDMRETRUN"
+          }
+        ]
+      }
+    ]
   },
   "876a154d-310d-4caf-8b58-be9dbcc7e753": {
     "name": "HTN-DM PRIMARY CARE",
@@ -898,15 +950,18 @@
       "allowMultipleEnrollment": false,
       "stateChangeEncounterTypes": {
         "enrollment": [],
-        "referral": [{
-          "uuid": "6a50f1d5-9f33-41ae-b2e7-7fd8267c181e",
-          "name": "CDM DM-HTN Referral Form v1.1",
-          "required": true
-        }],
+        "referral": [
+          {
+            "uuid": "6a50f1d5-9f33-41ae-b2e7-7fd8267c181e",
+            "name": "CDM DM-HTN Referral Form v1.1",
+            "required": true
+          }
+        ],
         "incompatible": []
       }
     },
-    "HidevisibleLocations": [{
+    "HidevisibleLocations": [
+      {
         "uuid": "0900880a-1352-11df-a1f1-0026b9348838",
         "display": "Chepsaita"
       },
@@ -959,7 +1014,8 @@
         "display": "West Clinic Health Centre"
       }
     ],
-    "stateChangeForms": [{
+    "stateChangeForms": [
+      {
         "type": "inCare",
         "uuid": "72443cac-4822-4dce-8460-794af7af8167",
         "forms": []
@@ -967,37 +1023,44 @@
       {
         "type": "referred",
         "uuid": "0c5565c5-45cf-40ab-aa6d-5694aeabae18",
-        "forms": [{
-          "uuid": "6a50f1d5-9f33-41ae-b2e7-7fd8267c181e",
-          "required": true
-        }]
+        "forms": [
+          {
+            "uuid": "6a50f1d5-9f33-41ae-b2e7-7fd8267c181e",
+            "required": true
+          }
+        ]
       },
       {
         "type": "referredBack",
         "uuid": "15977097-13b7-4186-80a7-a78535f27866",
-        "forms": [{
-          "uuid": "6a50f1d5-9f33-41ae-b2e7-7fd8267c181e",
-          "required": true
-        }]
+        "forms": [
+          {
+            "uuid": "6a50f1d5-9f33-41ae-b2e7-7fd8267c181e",
+            "required": true
+          }
+        ]
       }
     ],
-    "visitTypes": [{
-      "uuid": "8072afd0-0cd9-409e-914d-1833e83943f7",
-      "name": "DM-HTN Primary Care Visit",
-      "transitionStateOnVisitStart": {
-        "state": "inCare",
-        "uuid": "72443cac-4822-4dce-8460-794af7af8167"
-      },
-      "encounterTypes": [{
-          "uuid": "f5381269-c889-4c5a-b384-d017441eedae",
-          "display": "CDMTRIAGE"
+    "visitTypes": [
+      {
+        "uuid": "8072afd0-0cd9-409e-914d-1833e83943f7",
+        "name": "DM-HTN Primary Care Visit",
+        "transitionStateOnVisitStart": {
+          "state": "inCare",
+          "uuid": "72443cac-4822-4dce-8460-794af7af8167"
         },
-        {
-          "uuid": "1871ce37-7def-4335-972f-9861195ba683",
-          "display": "CDMDispensary"
-        }
-      ]
-    }]
+        "encounterTypes": [
+          {
+            "uuid": "f5381269-c889-4c5a-b384-d017441eedae",
+            "display": "CDMTRIAGE"
+          },
+          {
+            "uuid": "1871ce37-7def-4335-972f-9861195ba683",
+            "display": "CDMDispensary"
+          }
+        ]
+      }
+    ]
   },
   "781d897a-1359-11df-a1f1-0026b9348838": {
     "name": "PREVENTION OF MOTHER-TO-CHILD TRANSMISSION OF HIV(pMTCT)",
@@ -1010,12 +1073,14 @@
     ],
     "enrollmentOptions": {
       "enrollIf": "gender === 'F'",
-      "requiredProgramQuestions": [{
+      "requiredProgramQuestions": [
+        {
           "qtype": "hivStatus",
           "name": "Patient HIV status",
           "enrollIf": "positive",
           "value": null,
-          "answers": [{
+          "answers": [
+            {
               "value": "positive",
               "label": "Positive"
             },
@@ -1034,7 +1099,8 @@
           "name": "Pregnancy Status",
           "enrollIf": "positive",
           "value": null,
-          "answers": [{
+          "answers": [
+            {
               "value": "positive",
               "label": "Yes"
             },
@@ -1043,36 +1109,43 @@
               "label": "No"
             }
           ],
-          "relatedQuestions": [{
-            "qtype": "motherStatus",
-            "name": "Does the mother have a child <2 years?",
-            "enrollIf": "yes",
-            "showIfParent": "negative",
-            "value": null,
-            "answers": [{
-                "value": "yes",
-                "label": "Yes"
-              },
-              {
-                "value": "no",
-                "label": "No"
-              }
-            ]
-          }]
+          "relatedQuestions": [
+            {
+              "qtype": "motherStatus",
+              "name": "Does the mother have a child <2 years?",
+              "enrollIf": "yes",
+              "showIfParent": "negative",
+              "value": null,
+              "answers": [
+                {
+                  "value": "yes",
+                  "label": "Yes"
+                },
+                {
+                  "value": "no",
+                  "label": "No"
+                }
+              ]
+            }
+          ]
         }
       ],
       "stateChangeEncounterTypes": {
         "enrollment": [],
-        "transfer": [{
-          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
-          "name": "AMPATH POC Transfer Out Form v0.01",
-          "required": true
-        }],
-        "discharge": [{
-          "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
-          "name": "AMPATH POC HIV Exit Care Form v1.1",
-          "required": true
-        }]
+        "transfer": [
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "name": "AMPATH POC Transfer Out Form v0.01",
+            "required": true
+          }
+        ],
+        "discharge": [
+          {
+            "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
+            "name": "AMPATH POC HIV Exit Care Form v1.1",
+            "required": true
+          }
+        ]
       }
     },
     "incompatibleWith": [
@@ -1197,12 +1270,14 @@
             "display": "HIVCLINICALREFERRAL"
           }
         ]
-      }, {
+      },
+      {
         "uuid": "42de8e7e-24b2-4c16-b62b-137eb2c55ede",
         "message": "Patient must not have prior clinical encounter.",
         "allowedIf": "age > 2 && isFirstPMTCTVisit",
         "name": "PMTCT Antenatal Initial Visit",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "8d5b27bc-c2cc-11de-8d13-0010c6dffd0f",
             "display": "ADULTINITIAL"
           },
@@ -1249,7 +1324,8 @@
         "message": "Patient must have prior clinical encounter.",
         "allowedIf": "!isFirstPMTCTVisit && !isEnrolledInViremiaPMTCT",
         "name": "PMTCT Antenatal Return Visit",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
             "display": "ADULTRETURN"
           },
@@ -1300,7 +1376,8 @@
         "message": "Patient must not have prior clinical encounter.",
         "allowedIf": "isFirstPMTCTVisit",
         "name": "PMTCT Postnatal Initial Visit",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "8d5b27bc-c2cc-11de-8d13-0010c6dffd0f",
             "display": "ADULTINITIAL"
           },
@@ -1351,7 +1428,8 @@
         "message": "Patient must have prior clinical encounter.",
         "allowedIf": "!isFirstPMTCTVisit && !isEnrolledInViremiaPMTCT",
         "name": "PMTCT Postnatal Return Visit",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
             "display": "ADULTRETURN"
           },
@@ -1402,7 +1480,8 @@
         "message": "Patient must have no prior clinical encounter.",
         "allowedIf": "age >= 0 && age <= 2 && programLocation === intendedVisitLocationUuid && isFirstAMPATHHIVVisit",
         "name": "Pediatric PMTCT Initial Visit",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "8d5b2dde-c2cc-11de-8d13-0010c6dffd0f",
             "display": "PEDSINITIAL"
           },
@@ -1443,7 +1522,8 @@
       {
         "uuid": "18f59064-961e-4d51-9ccf-e950f04b4c66",
         "name": "Treatment Supporter Visit",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "693559d3-4e44-4d33-83f9-bc70ca56fe34",
             "display": "TXSUPPORTERMEDREFILL"
           },
@@ -1472,7 +1552,8 @@
       {
         "uuid": "06eca2a8-1da9-4ac4-95c6-15afedd4de21",
         "name": "HIV Lab Visit",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "5ef97eed-18f5-40f6-9fbf-a11b1f06484a",
             "display": "LABORDERENCOUNTER"
           },
@@ -1493,23 +1574,26 @@
       {
         "uuid": "40353c46-cd54-4629-a5d1-0a1f1108b19f",
         "name": "Inpatient peer visit",
-        "encounterTypes": [{
-          "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
-          "display": "INPATIENTPEER"
-        },
-        {
-          "uuid": "466d6707-8429-4e61-b5a0-d63444f5ad35",
-          "display": "COVIDSCREENING"
-        },
-        {
-          "uuid": "afabceae-61d4-42b6-8f6a-fff48a7797ea",
-          "display": "COVIDCASEREPORTING"
-        }]
+        "encounterTypes": [
+          {
+            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
+            "display": "INPATIENTPEER"
+          },
+          {
+            "uuid": "466d6707-8429-4e61-b5a0-d63444f5ad35",
+            "display": "COVIDSCREENING"
+          },
+          {
+            "uuid": "afabceae-61d4-42b6-8f6a-fff48a7797ea",
+            "display": "COVIDCASEREPORTING"
+          }
+        ]
       },
       {
         "uuid": "d7fdac11-2df0-4f18-968e-ad5e064bedf1",
         "name": "Phone Follow Up Visit",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
             "display": "TELECARE"
           },
@@ -1528,16 +1612,20 @@
       "allowMultipleEnrollment": false,
       "stateChangeEncounterTypes": {
         "enrollment": [],
-        "transfer": [{
-          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
-          "name": "AMPATH POC Transfer Out Form v0.01",
-          "required": true
-        }],
-        "discharge": [{
-          "uuid": "06e5321e-fc08-4995-aaa3-19c76b48cd22",
-          "name": "AMPATH POC OVC Exit Form V1.0",
-          "required": true
-        }]
+        "transfer": [
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "name": "AMPATH POC Transfer Out Form v0.01",
+            "required": true
+          }
+        ],
+        "discharge": [
+          {
+            "uuid": "06e5321e-fc08-4995-aaa3-19c76b48cd22",
+            "name": "AMPATH POC OVC Exit Form V1.0",
+            "required": true
+          }
+        ]
       }
     },
     "dataDependencies": [
@@ -1546,12 +1634,14 @@
       "hivLastTenClinicalEncounters"
     ],
     "incompatibleWith": [],
-    "visitTypes": [{
+    "visitTypes": [
+      {
         "uuid": "0883d972-4122-454d-a746-9d28ecb23b66",
         "name": "OVC Referral Visit",
         "allowedIf": "inCareUuid === '72443cac-4822-4dce-8460-794af7af8167'",
         "message": "Patient must be `in care` state",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
             "display": "TRANSFERENCOUNTER"
           },
@@ -1576,7 +1666,8 @@
       {
         "uuid": "e2c37c46-3ee9-4cff-9af6-aa5c41fb30da",
         "name": "OVC Visit ",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
             "display": "HIVTRIAGE"
           },
@@ -1621,11 +1712,13 @@
     "enrollmentOptions": {
       "stateChangeEncounterTypes": {
         "enrollment": [],
-        "transfer": [{
-          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
-          "name": "AMPATH POC Transfer Out Form v0.01",
-          "required": true
-        }],
+        "transfer": [
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "name": "AMPATH POC Transfer Out Form v0.01",
+            "required": true
+          }
+        ],
         "discharge": []
       }
     },
@@ -1649,16 +1742,20 @@
       "allowMultipleEnrollment": false,
       "stateChangeEncounterTypes": {
         "enrollment": [],
-        "transfer": [{
-          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
-          "name": "AMPATH POC Transfer Out Form v0.01",
-          "required": true
-        }],
-        "discharge": [{
-          "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
-          "name": "AMPATH POC HIV Exit Care Form v1.1",
-          "required": true
-        }]
+        "transfer": [
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "name": "AMPATH POC Transfer Out Form v0.01",
+            "required": true
+          }
+        ],
+        "discharge": [
+          {
+            "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
+            "name": "AMPATH POC HIV Exit Care Form v1.1",
+            "required": true
+          }
+        ]
       }
     },
     "incompatibleWith": [],
@@ -1673,37 +1770,44 @@
       "patientEncounters"
     ],
     "enrollmentOptions": {
-      "requiredProgramQuestions": [{
-        "qtype": "hivStatus",
-        "name": "Patient HIV status",
-        "enrollIf": "negative",
-        "value": null,
-        "answers": [{
-            "value": "positive",
-            "label": "Positive"
-          },
-          {
-            "value": "negative",
-            "label": "Negative"
-          },
-          {
-            "value": "exposed",
-            "label": "Exposed"
-          }
-        ]
-      }],
+      "requiredProgramQuestions": [
+        {
+          "qtype": "hivStatus",
+          "name": "Patient HIV status",
+          "enrollIf": "negative",
+          "value": null,
+          "answers": [
+            {
+              "value": "positive",
+              "label": "Positive"
+            },
+            {
+              "value": "negative",
+              "label": "Negative"
+            },
+            {
+              "value": "exposed",
+              "label": "Exposed"
+            }
+          ]
+        }
+      ],
       "stateChangeEncounterTypes": {
         "enrollment": [],
-        "transfer": [{
-          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
-          "name": "AMPATH POC Transfer Out Form v0.01",
-          "required": true
-        }],
-        "discharge": [{
-          "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
-          "name": "AMPATH POC HIV Exit Care Form v1.1",
-          "required": true
-        }]
+        "transfer": [
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "name": "AMPATH POC Transfer Out Form v0.01",
+            "required": true
+          }
+        ],
+        "discharge": [
+          {
+            "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
+            "name": "AMPATH POC HIV Exit Care Form v1.1",
+            "required": true
+          }
+        ]
       }
     },
     "incompatibleWith": [
@@ -1792,7 +1896,8 @@
       {
         "uuid": "06eca2a8-1da9-4ac4-95c6-15afedd4de21",
         "name": "HIV Lab Visit",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "5ef97eed-18f5-40f6-9fbf-a11b1f06484a",
             "display": "LABORDERENCOUNTER"
           },
@@ -1813,7 +1918,8 @@
       {
         "uuid": "40353c46-cd54-4629-a5d1-0a1f1108b19f",
         "name": "Inpatient peer visit",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
             "display": "INPATIENTPEER"
           },
@@ -1830,7 +1936,8 @@
       {
         "uuid": "9cbec0ea-9091-4a1d-9d2d-a3bbc295a04f",
         "name": "Phone Follow Up Visit",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
             "display": "TELECARE"
           },
@@ -1851,37 +1958,44 @@
       "patientEncounters"
     ],
     "enrollmentOptions": {
-      "requiredProgramQuestions": [{
-        "qtype": "hivStatus",
-        "name": "Patient HIV status",
-        "enrollIf": "negative",
-        "value": null,
-        "answers": [{
-            "value": "positive",
-            "label": "Positive"
-          },
-          {
-            "value": "negative",
-            "label": "Negative"
-          },
-          {
-            "value": "exposed",
-            "label": "Exposed"
-          }
-        ]
-      }],
+      "requiredProgramQuestions": [
+        {
+          "qtype": "hivStatus",
+          "name": "Patient HIV status",
+          "enrollIf": "negative",
+          "value": null,
+          "answers": [
+            {
+              "value": "positive",
+              "label": "Positive"
+            },
+            {
+              "value": "negative",
+              "label": "Negative"
+            },
+            {
+              "value": "exposed",
+              "label": "Exposed"
+            }
+          ]
+        }
+      ],
       "stateChangeEncounterTypes": {
         "enrollment": [],
-        "transfer": [{
-          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
-          "name": "AMPATH POC Transfer Out Form v0.01",
-          "required": true
-        }],
-        "discharge": [{
-          "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
-          "name": "AMPATH POC HIV Exit Care Form v1.1",
-          "required": true
-        }]
+        "transfer": [
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "name": "AMPATH POC Transfer Out Form v0.01",
+            "required": true
+          }
+        ],
+        "discharge": [
+          {
+            "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
+            "name": "AMPATH POC HIV Exit Care Form v1.1",
+            "required": true
+          }
+        ]
       }
     },
     "incompatibleWith": [
@@ -1900,7 +2014,8 @@
         "name": "PrEP Initial Visit",
         "allowedIf": "isFirstPrEPVisit",
         "message": "Patient must not have a prior clinical encounter.",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
             "display": "HIVTRIAGE"
           },
@@ -1947,7 +2062,8 @@
         "name": "PrEP Return Visit",
         "allowedIf": "!isFirstPrEPVisit",
         "message": "Patient must have a prior clinical encounter.",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
             "display": "HIVTRIAGE"
           },
@@ -1992,7 +2108,8 @@
       {
         "uuid": "06eca2a8-1da9-4ac4-95c6-15afedd4de21",
         "name": "HIV Lab Visit",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "5ef97eed-18f5-40f6-9fbf-a11b1f06484a",
             "display": "LABORDERENCOUNTER"
           },
@@ -2013,7 +2130,8 @@
       {
         "uuid": "40353c46-cd54-4629-a5d1-0a1f1108b19f",
         "name": "Inpatient peer visit",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
             "display": "INPATIENTPEER"
           },
@@ -2030,7 +2148,8 @@
       {
         "uuid": "c2c3cde9-5a3f-4fc3-8976-1c4d29ad0dbe",
         "name": "Phone Follow Up Visit",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
             "display": "TELECARE"
           },
@@ -2050,46 +2169,53 @@
       "hivLastTenClinicalEncounters"
     ],
     "enrollmentOptions": {
-      "requiredProgramQuestions": [{
-        "qtype": "hivStatus",
-        "name": "Patient HIV status",
-        "enrollIf": "positive",
-        "value": null,
-        "answers": [{
-            "value": "positive",
-            "label": "Positive"
-          },
-          {
-            "value": "negative",
-            "label": "Negative"
-          },
-          {
-            "value": "exposed",
-            "label": "Exposed"
-          }
-        ]
-      }],
+      "requiredProgramQuestions": [
+        {
+          "qtype": "hivStatus",
+          "name": "Patient HIV status",
+          "enrollIf": "positive",
+          "value": null,
+          "answers": [
+            {
+              "value": "positive",
+              "label": "Positive"
+            },
+            {
+              "value": "negative",
+              "label": "Negative"
+            },
+            {
+              "value": "exposed",
+              "label": "Exposed"
+            }
+          ]
+        }
+      ],
       "stateChangeEncounterTypes": {
         "enrollment": [],
-        "transfer": [{
-          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
-          "name": "AMPATH POC Transfer Out Form v0.01",
-          "required": true
-        }],
-        "discharge": [{
-          "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
-          "name": "AMPATH POC HIV Exit Care Form v1.1",
-          "required": true
-        }]
+        "transfer": [
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "name": "AMPATH POC Transfer Out Form v0.01",
+            "required": true
+          }
+        ],
+        "discharge": [
+          {
+            "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
+            "name": "AMPATH POC HIV Exit Care Form v1.1",
+            "required": true
+          }
+        ]
       }
     },
-    "incompatibleWith": [
-      "781d85b0-1359-11df-a1f1-0026b9348838"
-    ],
-    "visitTypes": [{
+    "incompatibleWith": ["781d85b0-1359-11df-a1f1-0026b9348838"],
+    "visitTypes": [
+      {
         "uuid": "dcdefd27-82b9-48e3-821b-3ffc6463564e",
         "name": "Resistance Clinic Visit ",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
             "display": "HIVTRIAGE"
           },
@@ -2142,7 +2268,8 @@
       {
         "uuid": "06eca2a8-1da9-4ac4-95c6-15afedd4de21",
         "name": "HIV Lab Visit",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "5ef97eed-18f5-40f6-9fbf-a11b1f06484a",
             "display": "LABORDERENCOUNTER"
           },
@@ -2163,7 +2290,8 @@
       {
         "uuid": "40353c46-cd54-4629-a5d1-0a1f1108b19f",
         "name": "Inpatient peer visit",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
             "display": "INPATIENTPEER"
           },
@@ -2180,7 +2308,8 @@
       {
         "uuid": "e547296d-c7b2-42da-9147-3d73dc55de33",
         "name": "Phone Follow Up Visit",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
             "display": "TELECARE"
           },
@@ -2204,35 +2333,43 @@
       "allowMultipleEnrollment": false,
       "stateChangeEncounterTypes": {
         "enrollment": [],
-        "transfer": [{
-          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
-          "name": "AMPATH POC Transfer Out Form v0.01",
-          "required": true
-        }],
-        "discharge": [{
-          "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
-          "name": "AMPATH POC HIV Exit Care Form v1.1",
-          "required": true
-        }]
+        "transfer": [
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "name": "AMPATH POC Transfer Out Form v0.01",
+            "required": true
+          }
+        ],
+        "discharge": [
+          {
+            "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
+            "name": "AMPATH POC HIV Exit Care Form v1.1",
+            "required": true
+          }
+        ]
       }
     },
     "incompatibleWith": [],
-    "visitTypes": [{
-      "uuid": "404e44e7-f2b0-4f20-bf14-bfb98bac75df",
-      "name": "HIV Social Work Visit ",
-      "encounterTypes": [{
-        "uuid": "7cc419d5-b145-4315-a0a8-4614b710ff5f",
-        "display": "SOCIALWORKSUPPORT"
-      },
+    "visitTypes": [
       {
-        "uuid": "466d6707-8429-4e61-b5a0-d63444f5ad35",
-        "display": "COVIDSCREENING"
-      },
-      {
-        "uuid": "afabceae-61d4-42b6-8f6a-fff48a7797ea",
-        "display": "COVIDCASEREPORTING"
-      }]
-    }]
+        "uuid": "404e44e7-f2b0-4f20-bf14-bfb98bac75df",
+        "name": "HIV Social Work Visit ",
+        "encounterTypes": [
+          {
+            "uuid": "7cc419d5-b145-4315-a0a8-4614b710ff5f",
+            "display": "SOCIALWORKSUPPORT"
+          },
+          {
+            "uuid": "466d6707-8429-4e61-b5a0-d63444f5ad35",
+            "display": "COVIDSCREENING"
+          },
+          {
+            "uuid": "afabceae-61d4-42b6-8f6a-fff48a7797ea",
+            "display": "COVIDCASEREPORTING"
+          }
+        ]
+      }
+    ]
   },
   "334c9e98-173f-4454-a8ce-f80b20b7fdf0": {
     "name": "HIV DIFFERENTIATED CARE PROGRAM",
@@ -2243,12 +2380,14 @@
       "hivLastEncounter"
     ],
     "enrollmentOptions": {
-      "requiredProgramQuestions": [{
+      "requiredProgramQuestions": [
+        {
           "qtype": "hivStatus",
           "name": "Patient HIV status",
           "enrollIf": "positive",
           "value": null,
-          "answers": [{
+          "answers": [
+            {
               "value": "positive",
               "label": "Positive"
             },
@@ -2267,7 +2406,8 @@
           "name": "Enroll to community group",
           "enrollIf": "",
           "value": "",
-          "answers": [{
+          "answers": [
+            {
               "value": true,
               "label": "Yes"
             },
@@ -2280,16 +2420,20 @@
       ],
       "stateChangeEncounterTypes": {
         "enrollment": [],
-        "transfer": [{
-          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
-          "name": "AMPATH POC Transfer Out Form v0.01",
-          "required": true
-        }],
-        "discharge": [{
-          "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
-          "name": "AMPATH POC HIV Exit Care Form v1.1",
-          "required": true
-        }]
+        "transfer": [
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "name": "AMPATH POC Transfer Out Form v0.01",
+            "required": true
+          }
+        ],
+        "discharge": [
+          {
+            "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
+            "name": "AMPATH POC HIV Exit Care Form v1.1",
+            "required": true
+          }
+        ]
       }
     },
     "incompatibleWith": [
@@ -2309,7 +2453,8 @@
         "name": "Between Care Visit",
         "allowedIf": "programLocation !== intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
         "message": "Patient has to be in a different location from location he was enrolled into HIV care and treatment program and must have a prior clinical encounter",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
             "display": "HIVTRIAGE"
           },
@@ -2354,37 +2499,39 @@
       {
         "uuid": "0bcccab0-59ce-4a25-a158-cc722427ff3f",
         "name": "Treatment Supporter visit",
-        "encounterTypes": [{
-          "uuid": "693559d3-4e44-4d33-83f9-bc70ca56fe34",
-          "display": "TXSUPPORTERMEDREFILL"
-        },
-        {
-          "uuid": "987009c6-6f24-43f7-9640-c285d6553c63",
-          "display": "DRUGPICKUP"
-        },
-        {
-          "uuid": "466d6707-8429-4e61-b5a0-d63444f5ad35",
-          "display": "COVIDSCREENING"
-        },
-        {
-          "uuid": "afabceae-61d4-42b6-8f6a-fff48a7797ea",
-          "display": "COVIDCASEREPORTING"
-        },
-        {
-          "uuid": "a393699f-8e99-4727-81c3-873873022dd8",
-          "display": "MOBILITYSCREENING"
-        },
-        {
-          "uuid": "5b1ef308-ed8f-4a86-88a0-c29a30246740",
-          "display": "HIVCLINICALREFERRAL"
-        }
+        "encounterTypes": [
+          {
+            "uuid": "693559d3-4e44-4d33-83f9-bc70ca56fe34",
+            "display": "TXSUPPORTERMEDREFILL"
+          },
+          {
+            "uuid": "987009c6-6f24-43f7-9640-c285d6553c63",
+            "display": "DRUGPICKUP"
+          },
+          {
+            "uuid": "466d6707-8429-4e61-b5a0-d63444f5ad35",
+            "display": "COVIDSCREENING"
+          },
+          {
+            "uuid": "afabceae-61d4-42b6-8f6a-fff48a7797ea",
+            "display": "COVIDCASEREPORTING"
+          },
+          {
+            "uuid": "a393699f-8e99-4727-81c3-873873022dd8",
+            "display": "MOBILITYSCREENING"
+          },
+          {
+            "uuid": "5b1ef308-ed8f-4a86-88a0-c29a30246740",
+            "display": "HIVCLINICALREFERRAL"
+          }
         ]
       },
       {
         "uuid": "0d608b80-1cb5-4c85-835a-29072683ca27",
         "name": "Community Visit for Differentiated Care",
         "groupVisit": true,
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "0e9e0b44-5650-4d07-8ccc-77c3dca9cbbf",
             "display": "DIFFERENTIATEDCARECOMMUNITY"
           },
@@ -2452,7 +2599,8 @@
       {
         "uuid": "06eca2a8-1da9-4ac4-95c6-15afedd4de21",
         "name": "HIV Lab Visit",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "5ef97eed-18f5-40f6-9fbf-a11b1f06484a",
             "display": "LABORDERENCOUNTER"
           },
@@ -2524,7 +2672,8 @@
       {
         "uuid": "7bb2d036-d25e-4c00-b732-6b597f0a1d12",
         "name": "Phone Follow Up Visit",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
             "display": "TELECARE"
           },
@@ -2544,37 +2693,44 @@
       "hivLastTenClinicalEncounters"
     ],
     "enrollmentOptions": {
-      "requiredProgramQuestions": [{
-        "qtype": "hivStatus",
-        "name": "Patient HIV status",
-        "enrollIf": "positive",
-        "value": null,
-        "answers": [{
-            "value": "positive",
-            "label": "Positive"
-          },
-          {
-            "value": "negative",
-            "label": "Negative"
-          },
-          {
-            "value": "exposed",
-            "label": "Exposed"
-          }
-        ]
-      }],
+      "requiredProgramQuestions": [
+        {
+          "qtype": "hivStatus",
+          "name": "Patient HIV status",
+          "enrollIf": "positive",
+          "value": null,
+          "answers": [
+            {
+              "value": "positive",
+              "label": "Positive"
+            },
+            {
+              "value": "negative",
+              "label": "Negative"
+            },
+            {
+              "value": "exposed",
+              "label": "Exposed"
+            }
+          ]
+        }
+      ],
       "stateChangeEncounterTypes": {
         "enrollment": [],
-        "transfer": [{
-          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
-          "name": "AMPATH POC Transfer Out Form v0.01",
-          "required": true
-        }],
-        "discharge": [{
-          "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
-          "name": "AMPATH POC HIV Exit Care Form v1.1",
-          "required": true
-        }]
+        "transfer": [
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "name": "AMPATH POC Transfer Out Form v0.01",
+            "required": true
+          }
+        ],
+        "discharge": [
+          {
+            "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
+            "name": "AMPATH POC HIV Exit Care Form v1.1",
+            "required": true
+          }
+        ]
       }
     },
     "incompatibleWith": [
@@ -2587,10 +2743,12 @@
       "0904172d-0b6a-40df-b8a2-b3653d16dc45",
       "a8e7c30d-6d2f-401c-bb52-d4433689a36b"
     ],
-    "visitTypes": [{
+    "visitTypes": [
+      {
         "uuid": "52e67f49-4ec3-41b2-bfe2-93144ea03eb2",
         "name": "Transit Care Visit ",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
             "display": "HIVTRIAGE"
           },
@@ -2628,7 +2786,8 @@
       {
         "uuid": "06eca2a8-1da9-4ac4-95c6-15afedd4de21",
         "name": "HIV Lab Visit",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "5ef97eed-18f5-40f6-9fbf-a11b1f06484a",
             "display": "LABORDERENCOUNTER"
           },
@@ -2649,7 +2808,8 @@
       {
         "uuid": "40353c46-cd54-4629-a5d1-0a1f1108b19f",
         "name": "Inpatient peer visit",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
             "display": "INPATIENTPEER"
           }
@@ -2659,63 +2819,59 @@
   },
   "43b42170-b3ce-4e03-9390-6bd78384ac06": {
     "name": "GYN-ONCOLOGY TREATMENT PROGRAM",
-    "dataDependencies": [
-      "patient"
-    ],
+    "dataDependencies": ["patient"],
     "enrollmentOptions": {
       "enrollIf": "gender === 'F'"
     },
     "incompatibleWith": [],
-    "visitTypes": [{
-      "uuid": "b12cb85e-0c1e-4372-92ed-3bedcec1b105",
-      "name": "Cervical Cancer Treatment ",
-      "encounterTypes": [{
-          "uuid": "5fa823ce-7592-482f-a0aa-361abf326ade",
-          "display": "HematOncologyTriage"
-        },
-        {
-          "uuid": "c87c5b9a-9bb6-4afe-88c6-2deb7fb49320",
-          "display": "GYNONCOLOGYINITIAL "
-        },
-        {
-          "uuid": "57bd19b1-d64c-4cde-b436-0167f1276d9a",
-          "display": "GYNONCOLOGYOVARIAN"
-        },
-        {
-          "uuid": "d84854b0-e9a9-4953-8888-3dbc701771f0",
-          "display": "GYNONCOLOGYCERVICAL"
-        },
-        {
-          "uuid": "9b763f62-7d2b-4fde-9de6-e6162422b17d",
-          "display": "GYNONCOLOGYCERVICALSURGICAL"
-        },
-        {
-          "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
-          "display": "DEATHREPORT"
-        },
-        {
-          "uuid": "2cd62224-5507-48ee-a7b3-55f66162b148",
-          "display": "ONCOLOGYLABENTRY"
-        },
-        {
-          "uuid": "466d6707-8429-4e61-b5a0-d63444f5ad35",
-          "display": "COVIDSCREENING"
-        },
-        {
-          "uuid": "afabceae-61d4-42b6-8f6a-fff48a7797ea",
-          "display": "COVIDCASEREPORTING"
-        }
-
-      ]
-    }]
+    "visitTypes": [
+      {
+        "uuid": "b12cb85e-0c1e-4372-92ed-3bedcec1b105",
+        "name": "Cervical Cancer Treatment ",
+        "encounterTypes": [
+          {
+            "uuid": "5fa823ce-7592-482f-a0aa-361abf326ade",
+            "display": "HematOncologyTriage"
+          },
+          {
+            "uuid": "c87c5b9a-9bb6-4afe-88c6-2deb7fb49320",
+            "display": "GYNONCOLOGYINITIAL "
+          },
+          {
+            "uuid": "57bd19b1-d64c-4cde-b436-0167f1276d9a",
+            "display": "GYNONCOLOGYOVARIAN"
+          },
+          {
+            "uuid": "d84854b0-e9a9-4953-8888-3dbc701771f0",
+            "display": "GYNONCOLOGYCERVICAL"
+          },
+          {
+            "uuid": "9b763f62-7d2b-4fde-9de6-e6162422b17d",
+            "display": "GYNONCOLOGYCERVICALSURGICAL"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "2cd62224-5507-48ee-a7b3-55f66162b148",
+            "display": "ONCOLOGYLABENTRY"
+          },
+          {
+            "uuid": "466d6707-8429-4e61-b5a0-d63444f5ad35",
+            "display": "COVIDSCREENING"
+          },
+          {
+            "uuid": "afabceae-61d4-42b6-8f6a-fff48a7797ea",
+            "display": "COVIDCASEREPORTING"
+          }
+        ]
+      }
+    ]
   },
   "88566621-828f-4569-9af5-c54f8237750a": {
     "name": "BREAST CANCER TREATMENT PROGRAM",
-    "dataDependencies": [
-      "patient",
-      "enrollment",
-      "patientEncounters"
-    ],
+    "dataDependencies": ["patient", "enrollment", "patientEncounters"],
     "incompatibleWith": [],
     "visitTypes": [
       {
@@ -2727,15 +2883,18 @@
           {
             "uuid": "9ad5292c-14c3-489b-9c14-5f816e839691",
             "display": "BreastCancerInitial"
-          }, {
+          },
+          {
             "uuid": "5fa823ce-7592-482f-a0aa-361abf326ade",
             "display": "HematOncologyTriage"
-          }, {
+          },
+          {
             "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
             "display": "DEATHREPORT"
           }
         ]
-      }, {
+      },
+      {
         "uuid": "2307390b-3464-435e-9c14-86041da9c8d8",
         "name": "Breast Cancer Return Visit",
         "message": "Patient must have a prior clinical encounter.",
@@ -2744,15 +2903,18 @@
           {
             "uuid": "e58469f1-f6be-4e53-a843-fb06f93c60ba",
             "display": "BreastCancerReturn"
-          }, {
+          },
+          {
             "uuid": "5fa823ce-7592-482f-a0aa-361abf326ade",
             "display": "HematOncologyTriage"
-          }, {
+          },
+          {
             "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
             "display": "DEATHREPORT"
           }
         ]
-      }, {
+      },
+      {
         "uuid": "c1be5560-5efe-493c-96f9-e40f0a724142",
         "name": "Oncology Lab Visit",
         "encounterTypes": [
@@ -2760,8 +2922,9 @@
             "uuid": "2cd62224-5507-48ee-a7b3-55f66162b148",
             "display": "ONCOLOGYLABENTRY"
           }
-        ] 
-      }, {
+        ]
+      },
+      {
         "uuid": "fac19544-1478-483f-8d4f-3792b1282981",
         "name": "Oncology Pharmacy Visit",
         "encounterTypes": [
@@ -2775,11 +2938,7 @@
   },
   "e8bc5036-1462-44fa-bcfe-ced21eae2790": {
     "name": "LUNG CANCER TREATMENT PROGRAM",
-    "dataDependencies": [
-      "patient",
-      "enrollment",
-      "patientEncounters"
-    ],
+    "dataDependencies": ["patient", "enrollment", "patientEncounters"],
     "incompatibleWith": [],
     "visitTypes": [
       {
@@ -2791,15 +2950,18 @@
           {
             "uuid": "be7b0971-b2ab-4f4d-88c7-e7322aa58dbb",
             "display": "LUNGCANCERINITIAL"
-          }, {
+          },
+          {
             "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
             "display": "DEATHREPORT"
-          }, {
+          },
+          {
             "uuid": "5fa823ce-7592-482f-a0aa-361abf326ade",
             "display": "HematOncologyTriage"
           }
         ]
-      }, {
+      },
+      {
         "uuid": "7b7f4505-80f9-4762-b153-3397d14355b0",
         "name": "Lung Cancer Return Visit",
         "message": "Patient must have a prior clinical encounter.",
@@ -2808,15 +2970,18 @@
           {
             "uuid": "eca95bb1-b651-45b7-85f8-2d3ce7e8313e",
             "display": "LUNGCANCERRETURN"
-          }, {
+          },
+          {
             "uuid": "5fa823ce-7592-482f-a0aa-361abf326ade",
             "display": "HematOncologyTriage"
-          }, {
+          },
+          {
             "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
             "display": "DEATHREPORT"
           }
         ]
-      }, {
+      },
+      {
         "uuid": "c1be5560-5efe-493c-96f9-e40f0a724142",
         "name": "Oncology Lab Visit",
         "encounterTypes": [
@@ -2825,7 +2990,8 @@
             "display": "ONCOLOGYLABENTRY"
           }
         ]
-      }, {
+      },
+      {
         "uuid": "fac19544-1478-483f-8d4f-3792b1282981",
         "name": "Oncology Pharmacy Visit",
         "encounterTypes": [
@@ -2839,11 +3005,7 @@
   },
   "e48b266e-4d80-41f8-a56a-a8ce5449ebc6": {
     "name": "SICKLE CELL PROGRAM",
-    "dataDependencies": [
-      "patient",
-      "enrollment",
-      "patientEncounters"
-    ],
+    "dataDependencies": ["patient", "enrollment", "patientEncounters"],
     "incompatibleWith": [],
     "visitTypes": [
       {
@@ -2865,7 +3027,8 @@
             "display": "DEATHREPORT"
           }
         ]
-      }, {
+      },
+      {
         "uuid": "cfedf31e-95f4-4248-9b1f-42844b4e8f3b",
         "name": "Sickle Cell Return Visit",
         "message": "Patient must have a prior clinical encounter.",
@@ -2874,15 +3037,18 @@
           {
             "uuid": "3a0e7e4e-426e-4dc7-8f60-9114c43432eb",
             "display": "SICKLECELLRETURN"
-          }, {
+          },
+          {
             "uuid": "5fa823ce-7592-482f-a0aa-361abf326ade",
             "display": "HematOncologyTriage"
-          }, {
+          },
+          {
             "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
             "display": "DEATHREPORT"
           }
         ]
-      }, {
+      },
+      {
         "uuid": "c1be5560-5efe-493c-96f9-e40f0a724142",
         "name": "Oncology Lab Visit",
         "encounterTypes": [
@@ -2890,8 +3056,9 @@
             "uuid": "2cd62224-5507-48ee-a7b3-55f66162b148",
             "display": "ONCOLOGYLABENTRY"
           }
-        ] 
-      }, {
+        ]
+      },
+      {
         "uuid": "fac19544-1478-483f-8d4f-3792b1282981",
         "name": "Oncology Pharmacy Visit",
         "encounterTypes": [
@@ -2905,11 +3072,7 @@
   },
   "698b7153-bff3-4931-9638-d279ca47b32e": {
     "name": "MULTIPLE MYELOMA PROGRAM",
-    "dataDependencies": [
-      "patient",
-      "enrollment",
-      "patientEncounters"
-    ],
+    "dataDependencies": ["patient", "enrollment", "patientEncounters"],
     "incompatibleWith": [],
     "visitTypes": [
       {
@@ -2921,15 +3084,18 @@
           {
             "uuid": "bf762b3e-b60a-436a-a40b-f874c59869ec",
             "display": "MULTIPLEMYELOMAINITIAL"
-          }, {
+          },
+          {
             "uuid": "5fa823ce-7592-482f-a0aa-361abf326ade",
             "display": "HematOncologyTriage"
-          }, {
+          },
+          {
             "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
             "display": "DEATHREPORT"
           }
         ]
-      }, {
+      },
+      {
         "uuid": "a6b65bf3-2577-414a-becf-18fe530353ea",
         "name": "Multiple Myeloma Return Visit",
         "message": "Patient must have a prior clinical encounter.",
@@ -2938,15 +3104,18 @@
           {
             "uuid": "50f307c4-b92e-4a41-bbbb-5cee1bd1c561",
             "display": "MULTIPLEMYELOMARETURN"
-          }, {
+          },
+          {
             "uuid": "5fa823ce-7592-482f-a0aa-361abf326ade",
             "display": "HematOncologyTriage"
-          }, {
+          },
+          {
             "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
             "display": "DEATHREPORT"
           }
         ]
-      }, {
+      },
+      {
         "uuid": "c1be5560-5efe-493c-96f9-e40f0a724142",
         "name": "Oncology Lab Visit",
         "encounterTypes": [
@@ -2954,8 +3123,9 @@
             "uuid": "2cd62224-5507-48ee-a7b3-55f66162b148",
             "display": "ONCOLOGYLABENTRY"
           }
-        ] 
-      }, {
+        ]
+      },
+      {
         "uuid": "fac19544-1478-483f-8d4f-3792b1282981",
         "name": "Oncology Pharmacy Visit",
         "encounterTypes": [
@@ -2969,11 +3139,7 @@
   },
   "a3610ba4-9811-46b3-9628-83ec9310be13": {
     "name": "HEMOPHILIA PROGRAM",
-    "dataDependencies": [
-      "patient",
-      "enrollment",
-      "patientEncounters"
-    ],
+    "dataDependencies": ["patient", "enrollment", "patientEncounters"],
     "incompatibleWith": [],
     "visitTypes": [
       {
@@ -2985,15 +3151,18 @@
           {
             "uuid": "3945005a-c24f-478b-90ec-4af84ffcdf6b",
             "display": "HEMOPHILIAINITIAL"
-          }, {
+          },
+          {
             "uuid": "5fa823ce-7592-482f-a0aa-361abf326ade",
             "display": "HematOncologyTriage"
-          }, {
+          },
+          {
             "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
             "display": "DEATHREPORT"
           }
-        ] 
-      }, {
+        ]
+      },
+      {
         "uuid": "1d644de3-b206-414d-a2a9-e1cefd554dd3",
         "name": "Hemophilia Return Visit",
         "message": "Patient must have a prior clinical encounter.",
@@ -3002,15 +3171,18 @@
           {
             "uuid": "36927b3c-db32-4063-90df-e45640e9aabc",
             "display": "HEMOPHILIARETURN"
-          }, {
+          },
+          {
             "uuid": "5fa823ce-7592-482f-a0aa-361abf326ade",
             "display": "HematOncologyTriage"
-          }, {
+          },
+          {
             "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
             "display": "DEATHREPORT"
           }
         ]
-      }, {
+      },
+      {
         "uuid": "c1be5560-5efe-493c-96f9-e40f0a724142",
         "name": "Oncology Lab Visit",
         "encounterTypes": [
@@ -3018,8 +3190,9 @@
             "uuid": "2cd62224-5507-48ee-a7b3-55f66162b148",
             "display": "ONCOLOGYLABENTRY"
           }
-        ] 
-      }, {
+        ]
+      },
+      {
         "uuid": "fac19544-1478-483f-8d4f-3792b1282981",
         "name": "Oncology Pharmacy Visit",
         "encounterTypes": [
@@ -3033,11 +3206,7 @@
   },
   "418fe011-a903-4862-93d4-5e7c84d9c253": {
     "name": "ANTICOAGULATION TREATMENT PROGRAM",
-    "dataDependencies": [
-      "patient",
-      "enrollment",
-      "patientEncounters"
-    ],
+    "dataDependencies": ["patient", "enrollment", "patientEncounters"],
     "incompatibleWith": [],
     "visitTypes": [
       {
@@ -3094,10 +3263,7 @@
   },
   "40677054-c402-4c56-a0e4-5dd7d799b52f": {
     "name": "LYMPHOMA TREATMENT PROGRAM",
-    "dataDependencies": [
-      "patient",
-      "enrollment"
-    ],
+    "dataDependencies": ["patient", "enrollment"],
     "incompatibleWith": [],
     "visitTypes": [
       {
@@ -3131,37 +3297,44 @@
   "781d8880-1359-11df-a1f1-0026b9348838": {
     "name": "EXPRESS CARE PROGRAM",
     "enrollmentOptions": {
-      "requiredProgramQuestions": [{
-        "qtype": "hivStatus",
-        "name": "Patient HIV status",
-        "enrollIf": "positive",
-        "value": null,
-        "answers": [{
-          "value": "positive",
-          "label": "Positive"
-        },
-          {
-            "value": "negative",
-            "label": "Negative"
-          },
-          {
-            "value": "exposed",
-            "label": "Exposed"
-          }
-        ]
-      }],
+      "requiredProgramQuestions": [
+        {
+          "qtype": "hivStatus",
+          "name": "Patient HIV status",
+          "enrollIf": "positive",
+          "value": null,
+          "answers": [
+            {
+              "value": "positive",
+              "label": "Positive"
+            },
+            {
+              "value": "negative",
+              "label": "Negative"
+            },
+            {
+              "value": "exposed",
+              "label": "Exposed"
+            }
+          ]
+        }
+      ],
       "stateChangeEncounterTypes": {
         "enrollment": [],
-        "transfer": [{
-          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
-          "name": "AMPATH POC Transfer Out Form v0.01",
-          "required": true
-        }],
-        "discharge": [{
-          "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
-          "name": "AMPATH POC HIV Exit Care Form v1.1",
-          "required": true
-        }]
+        "transfer": [
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "name": "AMPATH POC Transfer Out Form v0.01",
+            "required": true
+          }
+        ],
+        "discharge": [
+          {
+            "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
+            "name": "AMPATH POC HIV Exit Care Form v1.1",
+            "required": true
+          }
+        ]
       }
     },
     "dataDependencies": [
@@ -3178,12 +3351,14 @@
       "96ba279b-b23b-4e78-aba9-dcbd46a96b7b",
       "a8e7c30d-6d2f-401c-bb52-d4433689a36b"
     ],
-    "visitTypes": [{
+    "visitTypes": [
+      {
         "uuid": "0883d972-4122-454d-a746-9d28ecb23b66",
         "name": "Express Care Program Referral Visit",
         "allowedIf": "inCareUuid === '72443cac-4822-4dce-8460-794af7af8167'",
         "message": "Patient must be `in care` state",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
             "display": "TRANSFERENCOUNTER"
           },
@@ -3208,7 +3383,8 @@
       {
         "uuid": "e2c37c46-3ee9-4cff-9af6-aa5c41fb30da",
         "name": "Express Care Visit ",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
             "display": "HIVTRIAGE"
           },
@@ -3246,7 +3422,8 @@
       {
         "uuid": "9cbec0ea-9091-4a1d-9d2d-a3bbc295a04f",
         "name": "Phone Follow Up Visit",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
             "display": "TELECARE"
           },
@@ -3266,44 +3443,53 @@
       "hivLastTenClinicalEncounters"
     ],
     "enrollmentOptions": {
-      "requiredProgramQuestions": [{
-        "qtype": "hivStatus",
-        "name": "Patient HIV status",
-        "enrollIf": "positive",
-        "value": null,
-        "answers": [{
-            "value": "positive",
-            "label": "Positive"
-          },
-          {
-            "value": "negative",
-            "label": "Negative"
-          },
-          {
-            "value": "exposed",
-            "label": "Exposed"
-          }
-        ]
-      }],
+      "requiredProgramQuestions": [
+        {
+          "qtype": "hivStatus",
+          "name": "Patient HIV status",
+          "enrollIf": "positive",
+          "value": null,
+          "answers": [
+            {
+              "value": "positive",
+              "label": "Positive"
+            },
+            {
+              "value": "negative",
+              "label": "Negative"
+            },
+            {
+              "value": "exposed",
+              "label": "Exposed"
+            }
+          ]
+        }
+      ],
       "stateChangeEncounterTypes": {
         "enrollment": [],
-        "transfer": [{
-          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
-          "name": "AMPATH POC Transfer Out Form v0.01",
-          "required": true
-        }],
-        "discharge": [{
-          "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
-          "name": "AMPATH POC HIV Exit Care Form v1.1",
-          "required": true
-        }]
+        "transfer": [
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "name": "AMPATH POC Transfer Out Form v0.01",
+            "required": true
+          }
+        ],
+        "discharge": [
+          {
+            "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
+            "name": "AMPATH POC HIV Exit Care Form v1.1",
+            "required": true
+          }
+        ]
       }
     },
     "incompatibleWith": [],
-    "visitTypes": [{
+    "visitTypes": [
+      {
         "uuid": "260c2535-f946-44ea-a038-34cc4f8174be",
         "name": "Outreach Visit ",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "df5547bc-1350-11df-a1f1-0026b9348838",
             "display": "OUTREACHFIELDFU"
           },
@@ -3336,7 +3522,8 @@
       {
         "uuid": "06eca2a8-1da9-4ac4-95c6-15afedd4de21",
         "name": "HIV Lab Visit",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "5ef97eed-18f5-40f6-9fbf-a11b1f06484a",
             "display": "LABORDERENCOUNTER"
           },
@@ -3357,7 +3544,8 @@
       {
         "uuid": "40353c46-cd54-4629-a5d1-0a1f1108b19f",
         "name": "Inpatient peer visit",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
             "display": "INPATIENTPEER"
           },
@@ -3381,37 +3569,44 @@
       "hivLastTenClinicalEncounters"
     ],
     "enrollmentOptions": {
-      "requiredProgramQuestions": [{
-        "qtype": "hivStatus",
-        "name": "Patient HIV status",
-        "enrollIf": "positive",
-        "value": null,
-        "answers": [{
-            "value": "positive",
-            "label": "Positive"
-          },
-          {
-            "value": "negative",
-            "label": "Negative"
-          },
-          {
-            "value": "exposed",
-            "label": "Exposed"
-          }
-        ]
-      }],
+      "requiredProgramQuestions": [
+        {
+          "qtype": "hivStatus",
+          "name": "Patient HIV status",
+          "enrollIf": "positive",
+          "value": null,
+          "answers": [
+            {
+              "value": "positive",
+              "label": "Positive"
+            },
+            {
+              "value": "negative",
+              "label": "Negative"
+            },
+            {
+              "value": "exposed",
+              "label": "Exposed"
+            }
+          ]
+        }
+      ],
       "stateChangeEncounterTypes": {
         "enrollment": [],
-        "transfer": [{
-          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
-          "name": "AMPATH POC Transfer Out Form v0.01",
-          "required": true
-        }],
-        "discharge": [{
-          "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
-          "name": "AMPATH POC HIV Exit Care Form v1.1",
-          "required": true
-        }]
+        "transfer": [
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "name": "AMPATH POC Transfer Out Form v0.01",
+            "required": true
+          }
+        ],
+        "discharge": [
+          {
+            "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
+            "name": "AMPATH POC HIV Exit Care Form v1.1",
+            "required": true
+          }
+        ]
       }
     },
     "incompatibleWith": [
@@ -3425,10 +3620,12 @@
       "c6bf3625-de80-4a88-a913-38273e300a55",
       "a8e7c30d-6d2f-401c-bb52-d4433689a36b"
     ],
-    "visitTypes": [{
+    "visitTypes": [
+      {
         "uuid": "b8516e6e-17c6-4f28-bc3d-ec58d591e455",
         "name": "ACTG Visit",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
             "display": "HIVTRIAGE"
           },
@@ -3453,7 +3650,8 @@
       {
         "uuid": "06eca2a8-1da9-4ac4-95c6-15afedd4de21",
         "name": "HIV Lab Visit",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "5ef97eed-18f5-40f6-9fbf-a11b1f06484a",
             "display": "LABORDERENCOUNTER"
           },
@@ -3474,7 +3672,8 @@
       {
         "uuid": "40353c46-cd54-4629-a5d1-0a1f1108b19f",
         "name": "Inpatient peer visit",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
             "display": "INPATIENTPEER"
           },
@@ -3496,7 +3695,8 @@
       "allowMultipleEnrollment": false,
       "requiredProgramEnrollment": []
     },
-    "stateChangeForms": [{
+    "stateChangeForms": [
+      {
         "type": "inCare",
         "uuid": "72443cac-4822-4dce-8460-794af7af8167",
         "forms": []
@@ -3514,18 +3714,22 @@
       {
         "type": "referred",
         "uuid": "0c5565c5-45cf-40ab-aa6d-5694aeabae18",
-        "forms": [{
-          "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
-          "required": true
-        }]
+        "forms": [
+          {
+            "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
+            "required": true
+          }
+        ]
       },
       {
         "type": "referredBack",
         "uuid": "15977097-13b7-4186-80a7-a78535f27866",
-        "forms": [{
-          "uuid": "a70681eb-2238-48c6-b135-4ac9d9afea51",
-          "required": true
-        }]
+        "forms": [
+          {
+            "uuid": "a70681eb-2238-48c6-b135-4ac9d9afea51",
+            "required": true
+          }
+        ]
       },
       {
         "type": "pendingTransfer",
@@ -3535,18 +3739,22 @@
       {
         "type": "transferOut",
         "uuid": "5520f234-258e-49f0-97ab-701b98fab608",
-        "forms": [{
-          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
-          "required": true
-        }]
+        "forms": [
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "required": true
+          }
+        ]
       },
       {
         "type": "referOut",
         "uuid": "24a2769a-296b-44bc-b50c-70089e0958db",
-        "forms": [{
-          "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
-          "required": true
-        }]
+        "forms": [
+          {
+            "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
+            "required": true
+          }
+        ]
       }
     ],
     "dataDependencies": [
@@ -3554,28 +3762,33 @@
       "enrollment",
       "hivLastTenClinicalEncounters"
     ],
-    "visitTypes": [{
-      "uuid": "567e4bde-cc1f-45d7-9c5c-93d0b04d8ced",
-      "name": "Dermatology Encounter Visit",
-      "encounterTypes": [{
-          "uuid": "4587a5ab-0aad-4312-9eaa-b57151599729",
-          "display": "DERMATOLOGY"
-        },
-        {
-          "uuid": "9150f9e5-d284-45e0-9702-faf8d2bcd1f9",
-          "display": "DERMRETURN"
-        },
-        {
-          "uuid": "fa49ec8b-1f19-41b2-ade2-e31ae291196b",
-          "display": "DERMINITIAL"
-        }
-
-      ]
-    }]
+    "visitTypes": [
+      {
+        "uuid": "567e4bde-cc1f-45d7-9c5c-93d0b04d8ced",
+        "name": "Dermatology Encounter Visit",
+        "encounterTypes": [
+          {
+            "uuid": "4587a5ab-0aad-4312-9eaa-b57151599729",
+            "display": "DERMATOLOGY"
+          },
+          {
+            "uuid": "9150f9e5-d284-45e0-9702-faf8d2bcd1f9",
+            "display": "DERMRETURN"
+          },
+          {
+            "uuid": "fa49ec8b-1f19-41b2-ade2-e31ae291196b",
+            "display": "DERMINITIAL"
+          }
+        ]
+      }
+    ]
   },
   "c4246ff0-b081-460c-bcc5-b0678012659e": {
     "name": "VIREMIA PROGRAM",
-    "incompatibleWith": ["781d85b0-1359-11df-a1f1-0026b9348838", "334c9e98-173f-4454-a8ce-f80b20b7fdf0"],
+    "incompatibleWith": [
+      "781d85b0-1359-11df-a1f1-0026b9348838",
+      "334c9e98-173f-4454-a8ce-f80b20b7fdf0"
+    ],
     "dataDependencies": [
       "patient",
       "enrollment",
@@ -3583,44 +3796,53 @@
       "patientEnrollment"
     ],
     "enrollmentOptions": {
-      "requiredProgramQuestions": [{
-        "qtype": "hivStatus",
-        "name": "Patient HIV status",
-        "enrollIf": "positive",
-        "value": null,
-        "answers": [{
-            "value": "positive",
-            "label": "Positive"
-          },
-          {
-            "value": "negative",
-            "label": "Negative"
-          },
-          {
-            "value": "exposed",
-            "label": "Exposed"
-          }
-        ]
-      }],
+      "requiredProgramQuestions": [
+        {
+          "qtype": "hivStatus",
+          "name": "Patient HIV status",
+          "enrollIf": "positive",
+          "value": null,
+          "answers": [
+            {
+              "value": "positive",
+              "label": "Positive"
+            },
+            {
+              "value": "negative",
+              "label": "Negative"
+            },
+            {
+              "value": "exposed",
+              "label": "Exposed"
+            }
+          ]
+        }
+      ],
       "stateChangeEncounterTypes": {
         "enrollment": [],
-        "transfer": [{
-          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
-          "name": "AMPATH POC Transfer Out Form v0.01",
-          "required": true
-        }],
-        "discharge": [{
-          "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
-          "name": "AMPATH POC HIV Exit Care Form v1.1",
-          "required": true
-        }]
+        "transfer": [
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "name": "AMPATH POC Transfer Out Form v0.01",
+            "required": true
+          }
+        ],
+        "discharge": [
+          {
+            "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
+            "name": "AMPATH POC HIV Exit Care Form v1.1",
+            "required": true
+          }
+        ]
       }
     },
-    "visitTypes": [{
+    "visitTypes": [
+      {
         "uuid": "6c5d74f4-943f-489a-b1c4-b2accfae92fb",
         "name": "Viremia Visit",
         "allowedIf": "!isEnrolledInViremiaPMTCT",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
             "display": "HIVTRIAGE"
           },
@@ -3674,7 +3896,8 @@
         "uuid": "06eca2a8-1da9-4ac4-95c6-15afedd4de21",
         "name": "HIV Lab Visit",
         "allowedIf": "!isEnrolledInViremiaPMTCT",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "5ef97eed-18f5-40f6-9fbf-a11b1f06484a",
             "display": "LABORDERENCOUNTER"
           },
@@ -3695,7 +3918,8 @@
       {
         "uuid": "0b26e1ca-8b32-40e9-af4d-aa1c2cc68a58",
         "name": "Phone Follow Up Visit",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
             "display": "TELECARE"
           },
@@ -3708,30 +3932,31 @@
       {
         "uuid": "52fddd42-f9ea-4946-8733-f0e584360780",
         "name": "Treatment Supporter visit",
-        "encounterTypes": [{
-          "uuid": "693559d3-4e44-4d33-83f9-bc70ca56fe34",
-          "display": "TXSUPPORTERMEDREFILL"
-        },
-        {
-          "uuid": "987009c6-6f24-43f7-9640-c285d6553c63",
-          "display": "DRUGPICKUP"
-        },
-        {
-          "uuid": "466d6707-8429-4e61-b5a0-d63444f5ad35",
-          "display": "COVIDSCREENING"
-        },
-        {
-          "uuid": "afabceae-61d4-42b6-8f6a-fff48a7797ea",
-          "display": "COVIDCASEREPORTING"
-        },
-        {
-          "uuid": "a393699f-8e99-4727-81c3-873873022dd8",
-          "display": "MOBILITYSCREENING"
-        },
-        {
-          "uuid": "5b1ef308-ed8f-4a86-88a0-c29a30246740",
-          "display": "HIVCLINICALREFERRAL"
-        }
+        "encounterTypes": [
+          {
+            "uuid": "693559d3-4e44-4d33-83f9-bc70ca56fe34",
+            "display": "TXSUPPORTERMEDREFILL"
+          },
+          {
+            "uuid": "987009c6-6f24-43f7-9640-c285d6553c63",
+            "display": "DRUGPICKUP"
+          },
+          {
+            "uuid": "466d6707-8429-4e61-b5a0-d63444f5ad35",
+            "display": "COVIDSCREENING"
+          },
+          {
+            "uuid": "afabceae-61d4-42b6-8f6a-fff48a7797ea",
+            "display": "COVIDCASEREPORTING"
+          },
+          {
+            "uuid": "a393699f-8e99-4727-81c3-873873022dd8",
+            "display": "MOBILITYSCREENING"
+          },
+          {
+            "uuid": "5b1ef308-ed8f-4a86-88a0-c29a30246740",
+            "display": "HIVCLINICALREFERRAL"
+          }
         ]
       },
       {
@@ -3739,7 +3964,8 @@
         "name": "Between Care Visit",
         "allowedIf": "programLocation !== intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
         "message": "Patient has to be in a different location from location he was enrolled into HIV care and treatment program and must have a prior clinical encounter",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
             "display": "HIVTRIAGE"
           },
@@ -3785,53 +4011,61 @@
     "enrollmentOptions": {
       "stateChangeEncounterTypes": {
         "enrollment": [],
-        "transfer": [{
-          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
-          "name": "AMPATH POC Transfer Out Form v0.01",
-          "required": true
-        }],
-        "discharge": [{
-          "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
-          "name": "AMPATH POC HIV Exit Care Form v1.1",
-          "required": true
-        }]
+        "transfer": [
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "name": "AMPATH POC Transfer Out Form v0.01",
+            "required": true
+          }
+        ],
+        "discharge": [
+          {
+            "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
+            "name": "AMPATH POC HIV Exit Care Form v1.1",
+            "required": true
+          }
+        ]
       }
     },
     "incompatibleWith": [],
-    "visitTypes": [{
-      "uuid": "62b3d72c-a00b-46a8-af7b-e8f0c3186664",
-      "name": "DTG Pharmaco-vigilance visit",
-      "encounterTypes": [{
-          "uuid": "85523cbc-6b8c-4b9d-91a6-a9e6ae012e7f",
-          "display": "PHARMACOVIGILANCECLINICAL"
-        },
-        {
-          "uuid": "655c3451-172e-4c85-960a-392e4284ef92",
-          "display": "PHARMACOVIGILANCEPEER"
-        },
-        {
-          "uuid": "466d6707-8429-4e61-b5a0-d63444f5ad35",
-          "display": "COVIDSCREENING"
-        },
-        {
-          "uuid": "afabceae-61d4-42b6-8f6a-fff48a7797ea",
-          "display": "COVIDCASEREPORTING"
-        }
-      ]
-    },
-    {
-      "uuid": "2b9be1a5-0686-4d55-8383-d7c107f3aea3",
-      "name": "Phone Follow Up Visit",
-      "encounterTypes": [{
-          "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
-          "display": "TELECARE"
-        },
-        {
-          "uuid": "5a58f6f5-f5a6-47eb-a644-626abd83f83b",
-          "display": "CALLCONSENT"
-        }
-      ]
-    }]
+    "visitTypes": [
+      {
+        "uuid": "62b3d72c-a00b-46a8-af7b-e8f0c3186664",
+        "name": "DTG Pharmaco-vigilance visit",
+        "encounterTypes": [
+          {
+            "uuid": "85523cbc-6b8c-4b9d-91a6-a9e6ae012e7f",
+            "display": "PHARMACOVIGILANCECLINICAL"
+          },
+          {
+            "uuid": "655c3451-172e-4c85-960a-392e4284ef92",
+            "display": "PHARMACOVIGILANCEPEER"
+          },
+          {
+            "uuid": "466d6707-8429-4e61-b5a0-d63444f5ad35",
+            "display": "COVIDSCREENING"
+          },
+          {
+            "uuid": "afabceae-61d4-42b6-8f6a-fff48a7797ea",
+            "display": "COVIDCASEREPORTING"
+          }
+        ]
+      },
+      {
+        "uuid": "2b9be1a5-0686-4d55-8383-d7c107f3aea3",
+        "name": "Phone Follow Up Visit",
+        "encounterTypes": [
+          {
+            "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
+            "display": "TELECARE"
+          },
+          {
+            "uuid": "5a58f6f5-f5a6-47eb-a644-626abd83f83b",
+            "display": "CALLCONSENT"
+          }
+        ]
+      }
+    ]
   },
   "a8e7c30d-6d2f-401c-bb52-d4433689a36b": {
     "name": "HEI PROGRAM",
@@ -3841,37 +4075,44 @@
       "hivLastTenClinicalEncounters"
     ],
     "enrollmentOptions": {
-      "requiredProgramQuestions": [{
-        "qtype": "hivStatus",
-        "name": "Mother's HIV status",
-        "enrollIf": "positive",
-        "value": null,
-        "answers": [{
-            "value": "positive",
-            "label": "Positive"
-          },
-          {
-            "value": "negative",
-            "label": "Negative"
-          },
-          {
-            "value": "exposed",
-            "label": "Exposed"
-          }
-        ]
-      }],
+      "requiredProgramQuestions": [
+        {
+          "qtype": "hivStatus",
+          "name": "Mother's HIV status",
+          "enrollIf": "positive",
+          "value": null,
+          "answers": [
+            {
+              "value": "positive",
+              "label": "Positive"
+            },
+            {
+              "value": "negative",
+              "label": "Negative"
+            },
+            {
+              "value": "exposed",
+              "label": "Exposed"
+            }
+          ]
+        }
+      ],
       "stateChangeEncounterTypes": {
         "enrollment": [],
-        "transfer": [{
-          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
-          "name": "AMPATH POC Transfer Out Form v0.01",
-          "required": true
-        }],
-        "discharge": [{
-          "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
-          "name": "AMPATH POC HIV Exit Care Form v1.1",
-          "required": true
-        }]
+        "transfer": [
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "name": "AMPATH POC Transfer Out Form v0.01",
+            "required": true
+          }
+        ],
+        "discharge": [
+          {
+            "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
+            "name": "AMPATH POC HIV Exit Care Form v1.1",
+            "required": true
+          }
+        ]
       }
     },
     "incompatibleWith": [
@@ -3884,39 +4125,46 @@
       "781d8880-1359-11df-a1f1-0026b9348838",
       "0904172d-0b6a-40df-b8a2-b3653d16dc45"
     ],
-    "visitTypes": [{
+    "visitTypes": [
+      {
         "uuid": "097e4a13-f874-4ecc-b5c9-122ade250f99",
         "name": "HEI Visit",
-        "encounterTypes": [{
-          "uuid": "5e019c94-0f80-49b7-8593-28100eb4f787",
-          "display": "HEIFOLLOWUP"
-        }, {
-          "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
-          "display": "HIVTRIAGE"
-        }, {
-          "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
-          "display": "DEATHREPORT"
-        }, {
-          "uuid": "df5547bc-1350-11df-a1f1-0026b9348838",
-          "display": "OUTREACHFIELDFU"
-        },
-        {
-          "uuid": "466d6707-8429-4e61-b5a0-d63444f5ad35",
-          "display": "COVIDSCREENING"
-        },
-        {
-          "uuid": "afabceae-61d4-42b6-8f6a-fff48a7797ea",
-          "display": "COVIDCASEREPORTING"
-        },
-        {
-          "uuid": "824ca90d-c313-4d7e-bc99-119871d927cb",
-          "display": "OVCNONENROLLMENT"
-        }]
+        "encounterTypes": [
+          {
+            "uuid": "5e019c94-0f80-49b7-8593-28100eb4f787",
+            "display": "HEIFOLLOWUP"
+          },
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
+            "display": "DEATHREPORT"
+          },
+          {
+            "uuid": "df5547bc-1350-11df-a1f1-0026b9348838",
+            "display": "OUTREACHFIELDFU"
+          },
+          {
+            "uuid": "466d6707-8429-4e61-b5a0-d63444f5ad35",
+            "display": "COVIDSCREENING"
+          },
+          {
+            "uuid": "afabceae-61d4-42b6-8f6a-fff48a7797ea",
+            "display": "COVIDCASEREPORTING"
+          },
+          {
+            "uuid": "824ca90d-c313-4d7e-bc99-119871d927cb",
+            "display": "OVCNONENROLLMENT"
+          }
+        ]
       },
       {
         "uuid": "015af4d4-67cb-45a3-9929-8dbd53b1e47c",
         "name": "Treatment Supporter Visit",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "693559d3-4e44-4d33-83f9-bc70ca56fe34",
             "display": "TXSUPPORTERMEDREFILL"
           },
@@ -3937,7 +4185,8 @@
       {
         "uuid": "06eca2a8-1da9-4ac4-95c6-15afedd4de21",
         "name": "HIV Lab Visit",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "5ef97eed-18f5-40f6-9fbf-a11b1f06484a",
             "display": "LABORDERENCOUNTER"
           },
@@ -3958,7 +4207,8 @@
       {
         "uuid": "40353c46-cd54-4629-a5d1-0a1f1108b19f",
         "name": "Inpatient peer visit",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
             "display": "INPATIENTPEER"
           },
@@ -3975,7 +4225,8 @@
       {
         "uuid": "8ec3bb23-6d7d-4638-9b2a-16b070760e34",
         "name": "HEI Phone Follow Up Visit",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
             "display": "TELECARE"
           },
@@ -3986,7 +4237,6 @@
         ]
       }
     ]
-
   },
   "03552f68-8233-4793-8353-3db1847bb617": {
     "name": "NUTRITION PROGRAM",
@@ -3999,27 +4249,34 @@
     "enrollmentOptions": {
       "stateChangeEncounterTypes": {
         "enrollment": [],
-        "transfer": [{
-          "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
-          "name": "AMPATH POC Transfer Out Form v0.01",
-          "required": true
-        }],
-        "discharge": [{
-          "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
-          "name": "AMPATH POC HIV Exit Care Form v1.1",
-          "required": true
-        }]
+        "transfer": [
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "name": "AMPATH POC Transfer Out Form v0.01",
+            "required": true
+          }
+        ],
+        "discharge": [
+          {
+            "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
+            "name": "AMPATH POC HIV Exit Care Form v1.1",
+            "required": true
+          }
+        ]
       }
     },
-    "visitTypes": [{
-      "uuid": "540444dc-5dc1-436b-90f0-0dceb7c7df89",
-      "name": "Nutrition Visit",
-      "encounterTypes": [{
-        "uuid": "3cd9dd0a-a5d1-4482-9f45-a0fea4f5e556",
-        "display": "NUTRITIONENCOUNTER"
-      }]
-    }]
-
+    "visitTypes": [
+      {
+        "uuid": "540444dc-5dc1-436b-90f0-0dceb7c7df89",
+        "name": "Nutrition Visit",
+        "encounterTypes": [
+          {
+            "uuid": "3cd9dd0a-a5d1-4482-9f45-a0fea4f5e556",
+            "display": "NUTRITIONENCOUNTER"
+          }
+        ]
+      }
+    ]
   },
   "da0c184e-751c-4b7e-a761-a60dc2d3f798": {
     "name": "INTEGRATED SCREENING PROGRAM",
@@ -4029,49 +4286,50 @@
       "hivLastTenClinicalEncounters"
     ],
     "incompatibleWith": [],
-    "visitTypes": [{
-      "uuid": "c7fd1d31-da42-4a5b-ba76-80c1439b1865",
-      "name": "Integrated Screening Visit",
-      "encounterTypes": [{
-          "uuid": "344719af-b526-46d3-b7f1-64e9ae618619",
-          "display": "HTNDMSCREENING"
-        },
-        {
-          "uuid": "a8ab57df-a539-4a37-9eba-8f9ebd96809e",
-          "display": "FPSCREENING"
-        },
-        {
-          "uuid": "30787193-3a03-443e-b025-f55c126793eb",
-          "display": "MENTALHEALTHSCREENING"
-        }
-      ]
-    },
-    {
-      "uuid": "cc50bea5-9ca2-4505-876c-90400c3347cd",
-      "name": "CDM Confirmatory Screening Visit",
-      "encounterTypes": [
-        {
-          "uuid": "3339810c-4980-4325-9825-0f0ed0c2da4a",
-          "display": "CDMSCREENINGCONFIRMATORY"
-        }
-      ]
-      
-    },
-    {
-      "uuid": "9cbec0ea-9091-4a1d-9d2d-a3bbc295a04f",
-      "name": "Phone Follow Up Visit",
-      "encounterTypes": [{
-          "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
-          "display": "TELECARE"
-        },
-        {
-          "uuid": "5a58f6f5-f5a6-47eb-a644-626abd83f83b",
-          "display": "CALLCONSENT"
-        }
-      ]
-    }
-  ]
-
+    "visitTypes": [
+      {
+        "uuid": "c7fd1d31-da42-4a5b-ba76-80c1439b1865",
+        "name": "Integrated Screening Visit",
+        "encounterTypes": [
+          {
+            "uuid": "344719af-b526-46d3-b7f1-64e9ae618619",
+            "display": "HTNDMSCREENING"
+          },
+          {
+            "uuid": "a8ab57df-a539-4a37-9eba-8f9ebd96809e",
+            "display": "FPSCREENING"
+          },
+          {
+            "uuid": "30787193-3a03-443e-b025-f55c126793eb",
+            "display": "MENTALHEALTHSCREENING"
+          }
+        ]
+      },
+      {
+        "uuid": "cc50bea5-9ca2-4505-876c-90400c3347cd",
+        "name": "CDM Confirmatory Screening Visit",
+        "encounterTypes": [
+          {
+            "uuid": "3339810c-4980-4325-9825-0f0ed0c2da4a",
+            "display": "CDMSCREENINGCONFIRMATORY"
+          }
+        ]
+      },
+      {
+        "uuid": "9cbec0ea-9091-4a1d-9d2d-a3bbc295a04f",
+        "name": "Phone Follow Up Visit",
+        "encounterTypes": [
+          {
+            "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
+            "display": "TELECARE"
+          },
+          {
+            "uuid": "5a58f6f5-f5a6-47eb-a644-626abd83f83b",
+            "display": "CALLCONSENT"
+          }
+        ]
+      }
+    ]
   },
   "f5cbf61f-eadc-4fe6-999c-2dfe9556df95": {
     "name": "BIGPIC PROGRAM",
@@ -4081,35 +4339,36 @@
       "hivLastTenClinicalEncounters"
     ],
     "incompatibleWith": [],
-    "visitTypes": [{
-      "uuid": "f13f49ca-36b3-4abb-a24e-1776803ca69b",
-      "name": "GROUP CARE VISIT",
-      "encounterTypes": [{
-          "uuid": "d54ce118-ce48-4e94-9315-ffe81df085fb",
-          "display": "BIGPICADULTRETURN"
-        },
-        {
-          "uuid": "9bc0fa73-474e-45ab-bdac-7282e95d856f",
-          "display": "ONCOLOGYDYSPLASIA"
-        },
-        {
-          "uuid": "238625fc-8a25-44b2-aa5a-8bf48fa0e18d",
-          "display": "ONCOLOGYVIA"
-        }
-
-      ]
-    },
-    {
-      "uuid": "f7cadb7e-b8be-4ea4-a6ad-4578aa7d18c9",
-      "name": "BIGPIC PHONE FOLLOW UP VISIT",
-      "encounterTypes": [
-        {
-          "uuid": "0e5b24d2-b642-4c9d-b236-595dab3323cb",
-          "display": "BIGPICTELECARE"
-        }
-      ]
-    }]
-
+    "visitTypes": [
+      {
+        "uuid": "f13f49ca-36b3-4abb-a24e-1776803ca69b",
+        "name": "GROUP CARE VISIT",
+        "encounterTypes": [
+          {
+            "uuid": "d54ce118-ce48-4e94-9315-ffe81df085fb",
+            "display": "BIGPICADULTRETURN"
+          },
+          {
+            "uuid": "9bc0fa73-474e-45ab-bdac-7282e95d856f",
+            "display": "ONCOLOGYDYSPLASIA"
+          },
+          {
+            "uuid": "238625fc-8a25-44b2-aa5a-8bf48fa0e18d",
+            "display": "ONCOLOGYVIA"
+          }
+        ]
+      },
+      {
+        "uuid": "f7cadb7e-b8be-4ea4-a6ad-4578aa7d18c9",
+        "name": "BIGPIC PHONE FOLLOW UP VISIT",
+        "encounterTypes": [
+          {
+            "uuid": "0e5b24d2-b642-4c9d-b236-595dab3323cb",
+            "display": "BIGPICTELECARE"
+          }
+        ]
+      }
+    ]
   },
   "62741bb8-949e-4acc-9e38-50d9d874c1fb": {
     "name": "BI KUZA AFYA PROGRAM",
@@ -4119,10 +4378,12 @@
       "hivLastTenClinicalEncounters"
     ],
     "incompatibleWith": [],
-    "visitTypes": [{
+    "visitTypes": [
+      {
         "uuid": "6deaadcf-a347-4af9-9b08-5ddba646d64e",
         "name": "Primary Care Level Visit",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "f5381269-c889-4c5a-b384-d017441eedae",
             "display": "CDMTRIAGE"
           },
@@ -4139,7 +4400,8 @@
       {
         "uuid": "031044cf-441f-48f7-9374-629852b403d2",
         "name": "Secondary Care Level Visit",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "f5381269-c889-4c5a-b384-d017441eedae",
             "display": "CDMTRIAGE"
           },
@@ -4160,7 +4422,8 @@
       {
         "uuid": "4a68cc05-11b4-4c4d-9808-b924db52cd04",
         "name": "Tertiary Care Level Visit ",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "f5381269-c889-4c5a-b384-d017441eedae",
             "display": "CDMTRIAGE"
           },
@@ -4182,34 +4445,34 @@
   },
   "a15a58a4-0daa-4195-bf29-b4bccd5df01e": {
     "name": "REFERRAL PEER NAVIGATOR PROGRAM",
-    "dataDependencies": [
-    ],
+    "dataDependencies": [],
     "incompatibleWith": [],
-    "visitTypes": [{
+    "visitTypes": [
+      {
         "uuid": "0af25783-0446-48ac-9690-d4277793183d",
         "name": "Referral Peer Navigator Visit",
         "encounterTypes": [
-        {
-          "uuid": "02e75e2d-a809-4458-a77e-c1883e897c36",
-          "display": "PEERNAVIGATORFOLLOWUP"
-        }
+          {
+            "uuid": "02e75e2d-a809-4458-a77e-c1883e897c36",
+            "display": "PEERNAVIGATORFOLLOWUP"
+          }
         ]
       }
     ]
   },
   "37ff4124-91fd-49e6-8261-057ccfb4fcd0": {
     "name": "ONCOLOGY SCREENING AND DIAGNOSIS PROGRAM",
-    "dataDependencies": [
-      "patient"
-    ],
+    "dataDependencies": ["patient"],
     "incompatibleWith": [],
-    "enrollmentOptions": { 
+    "enrollmentOptions": {
       "stateChangeEncounterTypes": {
-        "referral": [{
-          "uuid": "ff13c7ad-9552-4d94-881b-dbad1116f7f7",
-          "name": "Oncology POC Screening Referral Form V1.0",
-          "required": true
-        }]
+        "referral": [
+          {
+            "uuid": "ff13c7ad-9552-4d94-881b-dbad1116f7f7",
+            "name": "Oncology POC Screening Referral Form V1.0",
+            "required": true
+          }
+        ]
       }
     },
     "visitTypes": [
@@ -4248,11 +4511,13 @@
           "requiredProgramQuestions": [],
           "allowMultipleEnrollment": false,
           "stateChangeEncounterTypes": {
-            "referral": [{
-              "uuid": "ff13c7ad-9552-4d94-881b-dbad1116f7f7",
-              "name": "Oncology POC Screening Referral Form V1.0",
-              "required": true
-            }]
+            "referral": [
+              {
+                "uuid": "ff13c7ad-9552-4d94-881b-dbad1116f7f7",
+                "name": "Oncology POC Screening Referral Form V1.0",
+                "required": true
+              }
+            ]
           }
         },
         "encounterTypes": [
@@ -4318,65 +4583,73 @@
   },
   "ff446cb9-0cf4-4b39-8288-16a43ffcca25": {
     "name": "CDM DEFAULTER TRACING PROGRAM",
-    "dataDependencies": [
-    ],
+    "dataDependencies": [],
     "incompatibleWith": [],
-    "visitTypes": [{
+    "visitTypes": [
+      {
         "uuid": "35fc940e-ca50-4d28-bc47-81a383c04a44",
         "name": "CDM Defaulter Tracing Visit",
-        "encounterTypes": [{
+        "encounterTypes": [
+          {
             "uuid": "61ff98fb-0d6f-4789-a4c8-d2d2bfe287ab",
             "display": "CDMDEFAULTERTRACING"
-          }]
-    }
-  ]
-},
-"d2090d0b-990a-4b82-98a8-32f987329f63": {
-  "name": "HOME GLUCOSE MONITORING PROGRAM",
-  "dataDependencies": [
-  ],
-  "incompatibleWith": [],
-  "visitTypes": [
-  {
-      "uuid": "50249f5b-cf2f-47c4-bd79-400b8865753f",
-      "name": "HGM Adult Visit",
-      "encounterTypes": [{
-          "uuid": "25314148-71b3-485a-a77c-bd767866ee5c",
-          "display": "HOMEGLUCOSEMONITORINGADULT"
-        }]
+          }
+        ]
+      }
+    ]
   },
-  {
-    "uuid": "eb348297-20d5-4d52-8f67-4623528f77e5",
-    "name": "HGM Pediatric Visit",
-    "encounterTypes": [{
-        "uuid": "07542bc4-77a4-44ff-986b-2f5985a74cd9",
-        "display": "HOMEGLUCOSEMONITORINGPEDS"
-      }]
-  }
-]
-},
-"6976b7eb-6d66-4aba-bcc0-cd8be80041cd": {
-  "name": "MENTAL HEALTH PROGRAM",
-  "dataDependencies": [
-  ],
-  "incompatibleWith": [],
-  "visitTypes": [
-  {
-      "uuid": "6960d9c7-f54b-4dd5-abb6-9b710a2716df",
-      "name": "Mental Health Initial Visit",
-      "encounterTypes": [{
-          "uuid": "c9c2aa71-bd29-444e-b77b-31eead82fdaf",
-          "display": "CDMMENTALHEALTHINITIAL"
-        }]
+  "d2090d0b-990a-4b82-98a8-32f987329f63": {
+    "name": "HOME GLUCOSE MONITORING PROGRAM",
+    "dataDependencies": [],
+    "incompatibleWith": [],
+    "visitTypes": [
+      {
+        "uuid": "50249f5b-cf2f-47c4-bd79-400b8865753f",
+        "name": "HGM Adult Visit",
+        "encounterTypes": [
+          {
+            "uuid": "25314148-71b3-485a-a77c-bd767866ee5c",
+            "display": "HOMEGLUCOSEMONITORINGADULT"
+          }
+        ]
+      },
+      {
+        "uuid": "eb348297-20d5-4d52-8f67-4623528f77e5",
+        "name": "HGM Pediatric Visit",
+        "encounterTypes": [
+          {
+            "uuid": "07542bc4-77a4-44ff-986b-2f5985a74cd9",
+            "display": "HOMEGLUCOSEMONITORINGPEDS"
+          }
+        ]
+      }
+    ]
   },
-  {
-    "uuid": "3a7c6dc0-ce13-4332-99d6-c0ebf2d3d472",
-    "name": "Mental Health Return Visit",
-    "encounterTypes": [{
-        "uuid": "c2d4a901-8007-4e36-8f50-5b19eb293451",
-        "display": "CDMMENTALHEALTHRETURN"
-      }]
+  "6976b7eb-6d66-4aba-bcc0-cd8be80041cd": {
+    "name": "MENTAL HEALTH PROGRAM",
+    "dataDependencies": [],
+    "incompatibleWith": [],
+    "visitTypes": [
+      {
+        "uuid": "6960d9c7-f54b-4dd5-abb6-9b710a2716df",
+        "name": "Mental Health Initial Visit",
+        "encounterTypes": [
+          {
+            "uuid": "c9c2aa71-bd29-444e-b77b-31eead82fdaf",
+            "display": "CDMMENTALHEALTHINITIAL"
+          }
+        ]
+      },
+      {
+        "uuid": "3a7c6dc0-ce13-4332-99d6-c0ebf2d3d472",
+        "name": "Mental Health Return Visit",
+        "encounterTypes": [
+          {
+            "uuid": "c2d4a901-8007-4e36-8f50-5b19eb293451",
+            "display": "CDMMENTALHEALTHRETURN"
+          }
+        ]
+      }
+    ]
   }
-]
-}
 }

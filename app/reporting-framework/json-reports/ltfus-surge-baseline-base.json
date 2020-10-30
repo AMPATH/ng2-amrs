@@ -1,143 +1,143 @@
 {
-    "name": "surgeBaselineReport",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [],
-    "sources": [
-        {
-            "table": "etl.surge_weekly_report_dataset_frozen",
-            "alias": "lsbr"
-        },
-        {
-            "table": "amrs.location",
-            "alias": "l",
-            "join": {
-                "type": "INNER",
-                "joinCondition": "l.location_id = lsbr.baseline_location"
-            }
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "person_id",
-            "column": "lsbr.person_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "is_ltfu_surge_baseline",
-            "column": "lsbr.is_ltfu_surge_baseline"
-        },
-        {
-            "type": "simple_column",
-            "alias": "baseline_location",
-            "column": "lsbr.baseline_location"
-        },
-        {
-            "type": "simple_column",
-            "alias": "transfer_out_date",
-            "column": "lsbr.transfer_out_date"
-        },
-        {
-            "type": "simple_column",
-            "alias": "week_patient_became_active",
-            "column": "lsbr.week_patient_became_active"
-        },
-        {
-            "type": "simple_column",
-            "alias": "clinical_visit_num",
-            "column": "lsbr.clinical_visit_num"
-        },
-        {
-            "type": "simple_column",
-            "alias": "days_since_rtc_date",
-            "column": "lsbr.days_since_rtc_date"
-        },
-        {
-            "type": "simple_column",
-            "alias": "status",
-            "column": "lsbr.status"
-        },
-        {
-            "type": "simple_column",
-            "alias": "prev_status",
-            "column": "lsbr.prev_status"
-        },
-        {
-            "type": "simple_column",
-            "alias": "cur_status",
-            "column": "lsbr.cur_status"
-        },
-        {
-            "type": "simple_column",
-            "alias": "death_date",
-            "column": "lsbr.death_date"
-        },
-        {
-            "type": "simple_column",
-            "alias": "arv_first_regimen_location_id",
-            "column": "lsbr.arv_first_regimen_location_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "arv_first_regimen",
-            "column": "lsbr.arv_first_regimen"
-        },
-        {
-            "type": "simple_column",
-            "alias": "active_to_ltfu_count",
-            "column": "lsbr.active_to_ltfu_count"
-        },
-        {
-            "type": "simple_column",
-            "alias": "arv_first_regimen_names",
-            "column": "lsbr.arv_first_regimen_names"
-        },
-        {
-            "type": "simple_column",
-            "alias": "age",
-            "column": "lsbr.age"
-        },
-        {
-            "type": "simple_column",
-            "alias": "gender",
-            "column": "lsbr.gender"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_uuid",
-            "column": "l.uuid"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_id",
-            "column": "l.location_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location",
-            "column": "l.name"
-        }
-    ],
-    "filters": {
-        "conditionJoinOperator": "and",
-        "conditions": [
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "year_week = ? ",
-                "parameterName": "year_week"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": " l.uuid in ?",
-                "parameterName": "locationUuids"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": " lsbr.is_ltfu_surge_baseline = 1",
-                "parameterName": ""
-            }
-        ]
+  "name": "surgeBaselineReport",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "etl.surge_weekly_report_dataset_frozen",
+      "alias": "lsbr"
+    },
+    {
+      "table": "amrs.location",
+      "alias": "l",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "l.location_id = lsbr.baseline_location"
+      }
     }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "lsbr.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "is_ltfu_surge_baseline",
+      "column": "lsbr.is_ltfu_surge_baseline"
+    },
+    {
+      "type": "simple_column",
+      "alias": "baseline_location",
+      "column": "lsbr.baseline_location"
+    },
+    {
+      "type": "simple_column",
+      "alias": "transfer_out_date",
+      "column": "lsbr.transfer_out_date"
+    },
+    {
+      "type": "simple_column",
+      "alias": "week_patient_became_active",
+      "column": "lsbr.week_patient_became_active"
+    },
+    {
+      "type": "simple_column",
+      "alias": "clinical_visit_num",
+      "column": "lsbr.clinical_visit_num"
+    },
+    {
+      "type": "simple_column",
+      "alias": "days_since_rtc_date",
+      "column": "lsbr.days_since_rtc_date"
+    },
+    {
+      "type": "simple_column",
+      "alias": "status",
+      "column": "lsbr.status"
+    },
+    {
+      "type": "simple_column",
+      "alias": "prev_status",
+      "column": "lsbr.prev_status"
+    },
+    {
+      "type": "simple_column",
+      "alias": "cur_status",
+      "column": "lsbr.cur_status"
+    },
+    {
+      "type": "simple_column",
+      "alias": "death_date",
+      "column": "lsbr.death_date"
+    },
+    {
+      "type": "simple_column",
+      "alias": "arv_first_regimen_location_id",
+      "column": "lsbr.arv_first_regimen_location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "arv_first_regimen",
+      "column": "lsbr.arv_first_regimen"
+    },
+    {
+      "type": "simple_column",
+      "alias": "active_to_ltfu_count",
+      "column": "lsbr.active_to_ltfu_count"
+    },
+    {
+      "type": "simple_column",
+      "alias": "arv_first_regimen_names",
+      "column": "lsbr.arv_first_regimen_names"
+    },
+    {
+      "type": "simple_column",
+      "alias": "age",
+      "column": "lsbr.age"
+    },
+    {
+      "type": "simple_column",
+      "alias": "gender",
+      "column": "lsbr.gender"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "l.uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "l.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "l.name"
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "year_week = ? ",
+        "parameterName": "year_week"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": " l.uuid in ?",
+        "parameterName": "locationUuids"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": " lsbr.is_ltfu_surge_baseline = 1",
+        "parameterName": ""
+      }
+    ]
+  }
 }

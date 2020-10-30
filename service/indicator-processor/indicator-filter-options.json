@@ -1,54 +1,51 @@
 [
   {
-    "control":"ageRangeFilter",
-    "type":"numeric",
+    "control": "ageRangeFilter",
+    "type": "numeric",
     "label": "Age Range",
-    "expression":"timestampdiff(year,t3.birthdate,t2.endDate) > @min and timestampdiff(year,t3.birthdate,t2.endDate) <= @max",
+    "expression": "timestampdiff(year,t3.birthdate,t2.endDate) > @min and timestampdiff(year,t3.birthdate,t2.endDate) <= @max",
     "options": {
       "min": 0,
       "max": 100
     }
-
   },
   {
-    "control":"ageGroupFilter",
-    "type":"coded",
+    "control": "ageGroupFilter",
+    "type": "coded",
     "label": "Age Group",
-    "expression":"timestampdiff(year,t3.birthdate,t2.endDate) >= @min and timestampdiff(year,t3.birthdate,t2.endDate) <= @max",
+    "expression": "timestampdiff(year,t3.birthdate,t2.endDate) >= @min and timestampdiff(year,t3.birthdate,t2.endDate) <= @max",
     "options": [
-      {"queryParam":[0,5], "value":"0_to_5", "label":"0 to 5"},
-      {"queryParam":[6,10], "value":"6_to_10", "label":"6 to 10"},
-      {"queryParam":[11,15], "value":"11_to_15", "label":"11 to 15"},
-      {"queryParam":[16,20], "value":"16_to_20", "label":"16 to 20"},
-      {"queryParam":[21,25], "value":"21_to_25", "label":"21 to 25"},
-      {"queryParam":[26,30], "value":"26_to_30", "label":"26 to 30"}
+      { "queryParam": [0, 5], "value": "0_to_5", "label": "0 to 5" },
+      { "queryParam": [6, 10], "value": "6_to_10", "label": "6 to 10" },
+      { "queryParam": [11, 15], "value": "11_to_15", "label": "11 to 15" },
+      { "queryParam": [16, 20], "value": "16_to_20", "label": "16 to 20" },
+      { "queryParam": [21, 25], "value": "21_to_25", "label": "21 to 25" },
+      { "queryParam": [26, 30], "value": "26_to_30", "label": "26 to 30" }
     ]
-
-
   },
   {
-    "control":"genderFilter",
-    "type":"coded",
+    "control": "genderFilter",
+    "type": "coded",
     "label": "Gender",
-    "expression":"t3.gender='@gender'",
-    "options":[
-      {"value":"male", "queryParam":"M", "label":"Male"},
-      {"value":"female", "queryParam":"F", "label":"Female"}
+    "expression": "t3.gender='@gender'",
+    "options": [
+      { "value": "male", "queryParam": "M", "label": "Male" },
+      { "value": "female", "queryParam": "F", "label": "Female" }
     ]
-
   },
   {
-    "control":"patientCareStatusFilter",
-    "type":"coded",
+    "control": "patientCareStatusFilter",
+    "type": "coded",
     "label": "Patient Care Status",
-    "expression":"case when date(t1.death_date) <= t2.endDate or (date(outreach_death_date_bncd) <= t2.endDate and date(outreach_date_bncd) <= t2.endDate) then null when t1.transfer_out is not  null or  (outreach_patient_care_status_bncd in (1287,1594,9068,9504,1285) and date(outreach_date_bncd) <=  t2.endDate) or (transfer_transfer_out_bncd is not null and date(transfer_date_bncd) <=  t2.endDate) then null when t1.patient_care_status in (9083) or (outreach_patient_care_status_bncd in (9083) and date(outreach_date_bncd) <=  t2.endDate) then null when (outreach_patient_care_status_bncd in (9036) and date(outreach_date_bncd) <=  t2.endDate) or t1.patient_care_status in (9036) then null when timestampdiff(day, if(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) @paramBound then 1 else null end",
+    "expression": "case when date(t1.death_date) <= t2.endDate or (date(outreach_death_date_bncd) <= t2.endDate and date(outreach_date_bncd) <= t2.endDate) then null when t1.transfer_out is not  null or  (outreach_patient_care_status_bncd in (1287,1594,9068,9504,1285) and date(outreach_date_bncd) <=  t2.endDate) or (transfer_transfer_out_bncd is not null and date(transfer_date_bncd) <=  t2.endDate) then null when t1.patient_care_status in (9083) or (outreach_patient_care_status_bncd in (9083) and date(outreach_date_bncd) <=  t2.endDate) then null when (outreach_patient_care_status_bncd in (9036) and date(outreach_date_bncd) <=  t2.endDate) or t1.patient_care_status in (9036) then null when timestampdiff(day, if(t1.rtc_date, t1.rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)), t2.endDate) @paramBound then 1 else null end",
     "options": [
-      {"queryParam":">90", "value":"ltfu","label":"LTFU"},
-      {"queryParam":"between 0 and 91", "value":"defaulter", "label":"Defaulter"},
-      {"queryParam":"<1", "value":"active_in_care", "label":"ActiveInCare"}
+      { "queryParam": ">90", "value": "ltfu", "label": "LTFU" },
+      {
+        "queryParam": "between 0 and 91",
+        "value": "defaulter",
+        "label": "Defaulter"
+      },
+      { "queryParam": "<1", "value": "active_in_care", "label": "ActiveInCare" }
     ]
-
-
   }
-
 ]

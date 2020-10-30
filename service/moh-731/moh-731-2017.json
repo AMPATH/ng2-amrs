@@ -1,542 +1,542 @@
 [
-    {
-        "sectionTitle": "3.1 Enrolled in Care",
-        "indicators": [
-            {
-                "label": "Enrolled in care - Below 1yr",
-                "ref": "HV03-001",
-                "indicator": "enrolled_in_care_below_1"
-            },
-            {
-                "label": "Enrolled in care - 1 to 9yrs",
-                "ref": "HV03-002",
-                "indicator": "enrolled_in_care_1_to_9"
-            },
-            {
-                "label": "Enrolled in care - 10 to 14yrs(M)",
-                "ref": "HV03-003",
-                "indicator": "enrolled_in_care_males_10_to_14"
-            },
-            {
-                "label": "Enrolled in care - 10 to 14yrs(F)",
-                "ref": "HV03-004",
-                "indicator": "enrolled_in_care_females_10_to_14"
-            },
-            {
-                "label": "Enrolled in care - 15 to 19yrs(M)",
-                "ref": "HV03-005",
-                "indicator": "enrolled_in_care_males_15_to_19"
-            },
-            {
-                "label": "Enrolled in care - 15 to 19yrs(F)",
-                "ref": "HV03-006",
-                "indicator": "enrolled_in_care_females_15_to_19"
-            },
-            {
-                "label": "Enrolled in care - 20 to 24yrs(M)",
-                "ref": "HV03-007",
-                "indicator": "enrolled_in_care_males_20_to_24"
-            },
-            {
-                "label": "Enrolled in care - 20 to 24yrs(F)",
-                "ref": "HV03-008",
-                "indicator": "enrolled_in_care_females_20_to_24"
-            },
-            {
-                "label": "Enrolled in care - 25yrs and older(M)",
-                "ref": "HV03-009",
-                "indicator": "enrolled_in_care_males_25_and_older"
-            },
-            {
-                "label": "Enrolled in care - 25yrs and older(F)",
-                "ref": "HV03-010",
-                "indicator": "enrolled_in_care_females_25_and_older"
-            },
-            {
-                "label": "Enrolled in care - Total (Sum HV03-001 to HV03-010)",
-                "ref": "HV03-011",
-                "indicator": "enrolled_in_care_total"
-            },
-            {
-                "label": "Enrolled in care - key population",
-                "ref": "HV03-012",
-                "indicator": "enrolled_in_care_total"
-            }
-        ]
-    },
-    {
-        "sectionTitle": "3.2 Current On Pre ART",
-        "indicators": [
-            {
-                "label": "In Pre ART - 0 to 14yrs",
-                "ref": "HV03-013",
-                "indicator": "pre_art_total_below_15"
-            },
-            {
-                "label": "In Pre ART - 15yrs and older",
-                "ref": "HV03-014",
-                "indicator": "pre_art_total_15_and_older"
-            },
-            {
-                "label": "In Pre ART - Total (Sum HV03-013 to HV013-014)",
-                "ref": "HV03-015",
-                "indicator": "pre_art_total"
-            }
-        ]
-    },
-    {
-        "sectionTitle": "3.3 Starting ART",
-        "indicators": [
-            {
-                "label": "Starting ART - Below 1yr",
-                "ref": "HV03-016",
-                "indicator": "starting_art_below_1"
-            },
-            {
-                "label": "Starting ART - 1 to 9yrs",
-                "ref": "HV03-017",
-                "indicator": "starting_art_1_to_9"
-            },
-            {
-                "label": "Starting ART - 10 to 14yrs(M)",
-                "ref": "HV03-018",
-                "indicator": "starting_art_males_10_to_14"
-            },
-            {
-                "label": "Starting ART - 10 to 14yrs(F)",
-                "ref": "HV03-019",
-                "indicator": "starting_art_females_10_to_14"
-            },
-            {
-                "label": "Starting ART - 15 to 19yrs(M)",
-                "ref": "HV03-020",
-                "indicator": "starting_art_males_15_to_19"
-            },
-            {
-                "label": "Starting ART - 15 to 19yrs(F)",
-                "ref": "HV03-021",
-                "indicator": "starting_art_females_15_to_19"
-            },
-            {
-                "label": "Starting ART - 20 to 24yrs(M)",
-                "ref": "HV03-022",
-                "indicator": "starting_art_males_20_to_24"
-            },
-            {
-                "label": "Starting ART - 20 to 24yrs(F)",
-                "ref": "HV03-023",
-                "indicator": "starting_art_females_20_to_24"
-            },
-            {
-                "label": "Starting ART - 25 and older(M)",
-                "ref": "HV03-024",
-                "indicator": "starting_art_males_25_and_older"
-            },
-            {
-                "label": "Starting ART - 25 and older(F)",
-                "ref": "HV03-025",
-                "indicator": "starting_art_females_25_and_older"
-            },
-            {
-                "label": "Starting on ART - Total (Sum HV03-016 to HV03-025)",
-                "ref": "HV03-026",
-                "indicator": "starting_art_total"
-            },
-            {
-                "label": "Starting on ART - key population",
-                "ref": "HV03-027",
-                "indicator": ""
-            }
-        ]
-    },
-    {
-        "sectionTitle": "3.4 Currently on ART [ALL] - (Add 3.2 and 3.3 e.g HV03-34=HV03-20+HV03-28)",
-        "indicators": [
-            {
-                "label": "Currently on ART - Below 1yr",
-                "ref": "HV03-028",
-                "indicator": "on_art_below_1"
-            },
-            {
-                "label": "Currently on ART - 1 to 9yrs",
-                "ref": "HV03-029",
-                "indicator": "on_art_1_to_9"
-            },
-            {
-                "label": "Currently on ART - 10 to 14yrs(M)",
-                "ref": "HV03-030",
-                "indicator": "on_art_males_10_to_14"
-            },
-            {
-                "label": "Currently on ART - 10 to 14yrs(F)",
-                "ref": "HV03-031",
-                "indicator": "on_art_females_10_to_14"
-            },
-            {
-                "label": "Currently on ART - 15 to 19yrs(M)",
-                "ref": "HV03-032",
-                "indicator": "on_art_males_15_to_19"
-            },
-            {
-                "label": "Currently on ART - 15 to 19yrs(F)",
-                "ref": "HV03-033",
-                "indicator": "on_art_females_15_to_19"
-            },
-            {
-                "label": "Currently on ART - 20 to 24yrs(M)",
-                "ref": "HV03-034",
-                "indicator": "on_art_males_20_to_24"
-            },
-            {
-                "label": "Currently on ART - 20 to 24yrs(F)",
-                "ref": "HV03-035",
-                "indicator": "on_art_females_20_to_24"
-            },
-            {
-                "label": "Currently on ART - 25yrs and older(M)",
-                "ref": "HV03-036",
-                "indicator": "on_art_males_25_and_older"
-            },
-            {
-                "label": "Currently on ART - 25yrs and older(F)",
-                "ref": "HV03-037",
-                "indicator": "on_art_females_25_and_older"
-            },
-            {
-                "label": "Total currently on ART (Sum HV03-028 to HV03-037)",
-                "ref": "HV03-038",
-                "indicator": "on_art_total"
-            },
-            {
-                "label": "Currently on ART - key population",
-                "ref": "HV03-039",
-                "indicator": ""
-            }
-        ]
-    },
-    {
-        "sectionTitle": "3.5 Survival and Retention on ART at 12 months",
-        "indicators": [
-            {
-                "label": "On ART  at 12 months",
-                "ref": "HV03-040",
-                "indicator": "total_on_therapy_at_12_months"
-            },
-            {
-                "label": "ART Net Cohort at 12 months",
-                "ref": "HV03-041",
-                "indicator": "art_net_cohort_at_12_months"
-            },
-            {
-                "label": "Viral load less than 1000 at 12 months",
-                "ref": "HV03-042",
-                "indicator": "virally_suppressed_in_past_year"
-            },
-            {
-                "label": "Viral load results at 12 months",
-                "ref": "HV03-043",
-                "indicator": "viral_load_resulted_in_past_year"
-            }
-        ]
-    },
-    {
-        "sectionTitle": "3.6 On Cotrimoxazole Prophylaxis (within 2 months)",
-        "indicators": [
-            {
-                "label": "On CTX - Below 1yr",
-                "ref": "HV03-044",
-                "indicator": "on_pcp_prophylaxis_below_1"
-            },
-            {
-                "label": "On CTX - 1 to 9yrs",
-                "ref": "HV03-045",
-                "indicator": "on_pcp_prophylaxis_1_to_9"
-            },
-            {
-                "label": "On CTX - 10 to 14yrs",
-                "ref": "HV03-046",
-                "indicator": "on_pcp_prophylaxis_10_to_14"
-            },
-            {
-                "label": "On CTX - 15 to 19yrs",
-                "ref": "HV03-047",
-                "indicator": "on_pcp_prophylaxis_15_to_19"
-            },
-            {
-                "label": "On CTX - 20 to 24yrs",
-                "ref": "HV03-048",
-                "indicator": "on_pcp_prophylaxis_20_to_24"
-            },
-            {
-                "label": "On CTX - 25yrs and older",
-                "ref": "HV03-049",
-                "indicator": "on_pcp_prophylaxis_25_and_older"
-            },
-            {
-                "label": "Total on CTX (Sum HV03-044 TO HV03-049)",
-                "ref": "HV03-050",
-                "indicator": "on_pcp_prophylaxis"
-            }
-        ]
-    },
-    {
-        "sectionTitle": "3.7 Screening",
-        "indicators": [
-            {
-                "label": "Screened for TB - Below 1yrs(M)",
-                "ref": "HV03-051",
-                "indicator": "screened_for_tb_below_1"
-            },
-            {
-                "label": "Screened for TB - 1 to 9yrs",
-                "ref": "HV03-052",
-                "indicator": "screened_for_tb_1_to_9"
-            },
-            {
-                "label": "Screened for TB - 10 to 14yrs",
-                "ref": "HV03-053",
-                "indicator": "screened_for_tb_10_to_14"
-            },
-            {
-                "label": "Screened for TB - 15 to 19yrs",
-                "ref": "HV03-054",
-                "indicator": "screened_for_tb_15_to_19"
-            },
-            {
-                "label": "Screened for TB - 20 to 24yrs",
-                "ref": "HV03-055",
-                "indicator": "screened_for_tb_20_to_24"
-            },
-            {
-                "label": "Screened for TB - 25yrs & older",
-                "ref": "HV03-056",
-                "indicator": "screened_for_tb_25_and_older"
-            },
-            {
-                "label": "Total Screened for TB (Sum HV03-51 to HV03-56)",
-                "ref": "HV03-057",
-                "indicator": "screened_for_tb"
-            },
-            {
-                "label": "Presumed TB Total ",
-                "ref": "HV03-058",
-                "indicator": ""
-            }
-        ]
-    },
-    {
-        "sectionTitle": "3.8 Starting IPT",
-        "indicators": [
-            {
-                "label": "Starting IPT - Below 1yrs",
-                "ref": "HV03-059",
-                "indicator": "newly_started_IPT_below_1"
-            },
-            {
-                "label": "Starting IPT - 1 to 9yrs",
-                "ref": "HV03-060",
-                "indicator": "newly_started_IPT_1_to_9"
-            },
-            {
-                "label": "Starting IPT - 10 to 14yrs",
-                "ref": "HV03-061",
-                "indicator": "newly_started_IPT_10_to_14"
-            },
-            {
-                "label": "Starting IPT - 15 to 19yrs",
-                "ref": "HV03-062",
-                "indicator": "newly_started_IPT_15_to_19"
-            },
-            {
-                "label": "Starting IPT  - 20 to 24yrs",
-                "ref": "HV03-063",
-                "indicator": "newly_started_IPT_20_to_24"
-            },
-            {
-                "label": "Starting IPT - 25yrs and older(F)",
-                "ref": "HV03-064",
-                "indicator": "newly_started_IPT_25_and_older"
-            },
-            {
-                "label": "Total Starting IPT (Sum HV03-059 to HV03-064)",
-                "ref": "HV03-065",
-                "indicator": "newly_started_IPT"
-            },
-            {
-                "label": "Completed IPT 12months ",
-                "ref": "HV03-066",
-                "indicator": "completed_12_months_IPT"
-            }
-        ]
-    },
-    {
-        "sectionTitle": "3.9 Nutrition and HIV",
-        "indicators": [
-            {
-                "label": "Nutrition Assess less than 15yrs",
-                "ref": "HV03-067",
-                "indicator": ""
-            },
-            {
-                "label": "Nutrition Assess greater than 15yrs",
-                "ref": "HV03-068",
-                "indicator": ""
-            },
-            {
-                "label": "Nutrition Assess Total (Sum HV03-067 to HV03-068)",
-                "ref": "HV03-069",
-                "indicator": ""
-            },
-            {
-                "label": "Malnourished less than 15",
-                "ref": "HV03-070",
-                "indicator": ""
-            },
-            {
-                "label": "Malnourished greater than 15",
-                "ref": "HV03-071",
-                "indicator": ""
-            },
-            {
-                "label": "Malnourished Total (Sum HV03-070 to HV03-071)",
-                "ref": "HV03-072",
-                "indicator": ""
-            },
-            {
-                "label": "FBP Provided less than 15",
-                "ref": "HV03-073",
-                "indicator": ""
-            },
-            {
-                "label": "FBP Provided greater than 15",
-                "ref": "HV03-074",
-                "indicator": ""
-            },
-            {
-                "label": "FBP Provided (Sum HV03-073 to HV03-074)",
-                "ref": "HV03-075",
-                "indicator": ""
-            }
-        ]
-    },
-    {
-        "sectionTitle": "3.10 HIV in TB Clinic",
-        "indicators": [
-            {
-                "label": "TB cases New",
-                "ref": "HV03-076",
-                "indicator": "started_TB_treatment_within_reporting_period"
-            },
-            {
-                "label": "TB cases KP",
-                "ref": "HV03-077",
-                "indicator": "HIV_patients_newly_enrolled_into_TB_treatment"
-            },
-            {
-                "label": "TB Cases Tested HIV",
-                "ref": "HV03-078",
-                "indicator": ""
-            },
-            {
-                "label": "TB Known Status (Sum HV03-077 and HV03-078)",
-                "ref": "HV03-079",
-                "indicator": ""
-            },
-            {
-                "label": "TB New HIV Positive",
-                "ref": "HV03-080",
-                "indicator": "TB_patients_newly_enrolled_into_HIV_care"
-            },
-            {
-                "label": "TB TOTAL HIV Positive (Sum HV03-077 and HV03-080)",
-                "ref": "HV03-081",
-                "indicator": "newly_identified_HIV_positive_patient_on_TB_treatment"
-            },
-            {
-                "label": "TB already on HAART",
-                "ref": "HV03-082",
-                "indicator": "patients_on_ARV_starting_TB_treatment"
-            },
-            {
-                "label": "TB starting HAART",
-                "ref": "HV03-083",
-                "indicator": "TB_patients_starting_ARV_medication"
-            },
-            {
-                "label": "TB  Total on HAART (Sum HV03-082 and HV03-083)",
-                "ref": "HV03-084",
-                "indicator": "newly_identified_TB_patients_on_ARVs"
-            }
-        ]
-    },
-    {
-        "sectionTitle": "3.11 Community Dispensing of ARVs",
-        "indicators": [
-            {
-                "label": "Community ART current(M)",
-                "ref": "HV03-085",
-                "indicator": "community_ART_dispensing_male"
-            },
-            {
-                "label": "Community ART current(F)",
-                "ref": "HV03-086",
-                "indicator": "community_ART_dispensing_female"
-            }
-        ]
-    },
-    {
-        "sectionTitle": "3.12 Family planning & CaCx screen in HIV CCC",
-        "indicators": [
-            {
-                "label": "Screen CaCx New F18+",
-                "ref": "HV03-087",
-                "indicator": ""
-            },
-            {
-                "label": "Clinical visits F18+",
-                "ref": "HV03-089",
-                "indicator": "female_gte_18yo_visits"
-            },
-            {
-                "label": "On modern FP F15+",
-                "ref": "HV03-090",
-                "indicator": ""
-            }
-        ]
-    },
-    {
-        "sectionTitle": "5. Post Exposure Prophylaxis",
-        "indicators": [
-            {
-                "label": "Exposed Occupational",
-                "ref": "HV05-01",
-                "indicator": "hiv_exposed_occupational"
-            },
-            {
-                "label": "Exposed Other",
-                "ref": "HV05-02",
-                "indicator": "hiv_exposed_non_occupational"
-            },
-            {
-                "label": "Exposed Total (Sum HV05-01 and HV05-02)",
-                "ref": "HV05-03",
-                "indicator": "total_hiv_exposed"
-            },
-            {
-                "label": "PEP Occupational",
-                "ref": "HV05-04",
-                "indicator": "started_PEP_occupational"
-            },
-            {
-                "label": "PEP Other",
-                "ref": "HV05-05",
-                "indicator": "started_PEP_non_occupational"
-            },
-            {
-                "label": "PEP Total (Sum HV05-04 and HV05-05)",
-                "ref": "HV03-06",
-                "indicator": "total_started_PEP"
-            }
-        ]
-    }
+  {
+    "sectionTitle": "3.1 Enrolled in Care",
+    "indicators": [
+      {
+        "label": "Enrolled in care - Below 1yr",
+        "ref": "HV03-001",
+        "indicator": "enrolled_in_care_below_1"
+      },
+      {
+        "label": "Enrolled in care - 1 to 9yrs",
+        "ref": "HV03-002",
+        "indicator": "enrolled_in_care_1_to_9"
+      },
+      {
+        "label": "Enrolled in care - 10 to 14yrs(M)",
+        "ref": "HV03-003",
+        "indicator": "enrolled_in_care_males_10_to_14"
+      },
+      {
+        "label": "Enrolled in care - 10 to 14yrs(F)",
+        "ref": "HV03-004",
+        "indicator": "enrolled_in_care_females_10_to_14"
+      },
+      {
+        "label": "Enrolled in care - 15 to 19yrs(M)",
+        "ref": "HV03-005",
+        "indicator": "enrolled_in_care_males_15_to_19"
+      },
+      {
+        "label": "Enrolled in care - 15 to 19yrs(F)",
+        "ref": "HV03-006",
+        "indicator": "enrolled_in_care_females_15_to_19"
+      },
+      {
+        "label": "Enrolled in care - 20 to 24yrs(M)",
+        "ref": "HV03-007",
+        "indicator": "enrolled_in_care_males_20_to_24"
+      },
+      {
+        "label": "Enrolled in care - 20 to 24yrs(F)",
+        "ref": "HV03-008",
+        "indicator": "enrolled_in_care_females_20_to_24"
+      },
+      {
+        "label": "Enrolled in care - 25yrs and older(M)",
+        "ref": "HV03-009",
+        "indicator": "enrolled_in_care_males_25_and_older"
+      },
+      {
+        "label": "Enrolled in care - 25yrs and older(F)",
+        "ref": "HV03-010",
+        "indicator": "enrolled_in_care_females_25_and_older"
+      },
+      {
+        "label": "Enrolled in care - Total (Sum HV03-001 to HV03-010)",
+        "ref": "HV03-011",
+        "indicator": "enrolled_in_care_total"
+      },
+      {
+        "label": "Enrolled in care - key population",
+        "ref": "HV03-012",
+        "indicator": "enrolled_in_care_total"
+      }
+    ]
+  },
+  {
+    "sectionTitle": "3.2 Current On Pre ART",
+    "indicators": [
+      {
+        "label": "In Pre ART - 0 to 14yrs",
+        "ref": "HV03-013",
+        "indicator": "pre_art_total_below_15"
+      },
+      {
+        "label": "In Pre ART - 15yrs and older",
+        "ref": "HV03-014",
+        "indicator": "pre_art_total_15_and_older"
+      },
+      {
+        "label": "In Pre ART - Total (Sum HV03-013 to HV013-014)",
+        "ref": "HV03-015",
+        "indicator": "pre_art_total"
+      }
+    ]
+  },
+  {
+    "sectionTitle": "3.3 Starting ART",
+    "indicators": [
+      {
+        "label": "Starting ART - Below 1yr",
+        "ref": "HV03-016",
+        "indicator": "starting_art_below_1"
+      },
+      {
+        "label": "Starting ART - 1 to 9yrs",
+        "ref": "HV03-017",
+        "indicator": "starting_art_1_to_9"
+      },
+      {
+        "label": "Starting ART - 10 to 14yrs(M)",
+        "ref": "HV03-018",
+        "indicator": "starting_art_males_10_to_14"
+      },
+      {
+        "label": "Starting ART - 10 to 14yrs(F)",
+        "ref": "HV03-019",
+        "indicator": "starting_art_females_10_to_14"
+      },
+      {
+        "label": "Starting ART - 15 to 19yrs(M)",
+        "ref": "HV03-020",
+        "indicator": "starting_art_males_15_to_19"
+      },
+      {
+        "label": "Starting ART - 15 to 19yrs(F)",
+        "ref": "HV03-021",
+        "indicator": "starting_art_females_15_to_19"
+      },
+      {
+        "label": "Starting ART - 20 to 24yrs(M)",
+        "ref": "HV03-022",
+        "indicator": "starting_art_males_20_to_24"
+      },
+      {
+        "label": "Starting ART - 20 to 24yrs(F)",
+        "ref": "HV03-023",
+        "indicator": "starting_art_females_20_to_24"
+      },
+      {
+        "label": "Starting ART - 25 and older(M)",
+        "ref": "HV03-024",
+        "indicator": "starting_art_males_25_and_older"
+      },
+      {
+        "label": "Starting ART - 25 and older(F)",
+        "ref": "HV03-025",
+        "indicator": "starting_art_females_25_and_older"
+      },
+      {
+        "label": "Starting on ART - Total (Sum HV03-016 to HV03-025)",
+        "ref": "HV03-026",
+        "indicator": "starting_art_total"
+      },
+      {
+        "label": "Starting on ART - key population",
+        "ref": "HV03-027",
+        "indicator": ""
+      }
+    ]
+  },
+  {
+    "sectionTitle": "3.4 Currently on ART [ALL] - (Add 3.2 and 3.3 e.g HV03-34=HV03-20+HV03-28)",
+    "indicators": [
+      {
+        "label": "Currently on ART - Below 1yr",
+        "ref": "HV03-028",
+        "indicator": "on_art_below_1"
+      },
+      {
+        "label": "Currently on ART - 1 to 9yrs",
+        "ref": "HV03-029",
+        "indicator": "on_art_1_to_9"
+      },
+      {
+        "label": "Currently on ART - 10 to 14yrs(M)",
+        "ref": "HV03-030",
+        "indicator": "on_art_males_10_to_14"
+      },
+      {
+        "label": "Currently on ART - 10 to 14yrs(F)",
+        "ref": "HV03-031",
+        "indicator": "on_art_females_10_to_14"
+      },
+      {
+        "label": "Currently on ART - 15 to 19yrs(M)",
+        "ref": "HV03-032",
+        "indicator": "on_art_males_15_to_19"
+      },
+      {
+        "label": "Currently on ART - 15 to 19yrs(F)",
+        "ref": "HV03-033",
+        "indicator": "on_art_females_15_to_19"
+      },
+      {
+        "label": "Currently on ART - 20 to 24yrs(M)",
+        "ref": "HV03-034",
+        "indicator": "on_art_males_20_to_24"
+      },
+      {
+        "label": "Currently on ART - 20 to 24yrs(F)",
+        "ref": "HV03-035",
+        "indicator": "on_art_females_20_to_24"
+      },
+      {
+        "label": "Currently on ART - 25yrs and older(M)",
+        "ref": "HV03-036",
+        "indicator": "on_art_males_25_and_older"
+      },
+      {
+        "label": "Currently on ART - 25yrs and older(F)",
+        "ref": "HV03-037",
+        "indicator": "on_art_females_25_and_older"
+      },
+      {
+        "label": "Total currently on ART (Sum HV03-028 to HV03-037)",
+        "ref": "HV03-038",
+        "indicator": "on_art_total"
+      },
+      {
+        "label": "Currently on ART - key population",
+        "ref": "HV03-039",
+        "indicator": ""
+      }
+    ]
+  },
+  {
+    "sectionTitle": "3.5 Survival and Retention on ART at 12 months",
+    "indicators": [
+      {
+        "label": "On ART  at 12 months",
+        "ref": "HV03-040",
+        "indicator": "total_on_therapy_at_12_months"
+      },
+      {
+        "label": "ART Net Cohort at 12 months",
+        "ref": "HV03-041",
+        "indicator": "art_net_cohort_at_12_months"
+      },
+      {
+        "label": "Viral load less than 1000 at 12 months",
+        "ref": "HV03-042",
+        "indicator": "virally_suppressed_in_past_year"
+      },
+      {
+        "label": "Viral load results at 12 months",
+        "ref": "HV03-043",
+        "indicator": "viral_load_resulted_in_past_year"
+      }
+    ]
+  },
+  {
+    "sectionTitle": "3.6 On Cotrimoxazole Prophylaxis (within 2 months)",
+    "indicators": [
+      {
+        "label": "On CTX - Below 1yr",
+        "ref": "HV03-044",
+        "indicator": "on_pcp_prophylaxis_below_1"
+      },
+      {
+        "label": "On CTX - 1 to 9yrs",
+        "ref": "HV03-045",
+        "indicator": "on_pcp_prophylaxis_1_to_9"
+      },
+      {
+        "label": "On CTX - 10 to 14yrs",
+        "ref": "HV03-046",
+        "indicator": "on_pcp_prophylaxis_10_to_14"
+      },
+      {
+        "label": "On CTX - 15 to 19yrs",
+        "ref": "HV03-047",
+        "indicator": "on_pcp_prophylaxis_15_to_19"
+      },
+      {
+        "label": "On CTX - 20 to 24yrs",
+        "ref": "HV03-048",
+        "indicator": "on_pcp_prophylaxis_20_to_24"
+      },
+      {
+        "label": "On CTX - 25yrs and older",
+        "ref": "HV03-049",
+        "indicator": "on_pcp_prophylaxis_25_and_older"
+      },
+      {
+        "label": "Total on CTX (Sum HV03-044 TO HV03-049)",
+        "ref": "HV03-050",
+        "indicator": "on_pcp_prophylaxis"
+      }
+    ]
+  },
+  {
+    "sectionTitle": "3.7 Screening",
+    "indicators": [
+      {
+        "label": "Screened for TB - Below 1yrs(M)",
+        "ref": "HV03-051",
+        "indicator": "screened_for_tb_below_1"
+      },
+      {
+        "label": "Screened for TB - 1 to 9yrs",
+        "ref": "HV03-052",
+        "indicator": "screened_for_tb_1_to_9"
+      },
+      {
+        "label": "Screened for TB - 10 to 14yrs",
+        "ref": "HV03-053",
+        "indicator": "screened_for_tb_10_to_14"
+      },
+      {
+        "label": "Screened for TB - 15 to 19yrs",
+        "ref": "HV03-054",
+        "indicator": "screened_for_tb_15_to_19"
+      },
+      {
+        "label": "Screened for TB - 20 to 24yrs",
+        "ref": "HV03-055",
+        "indicator": "screened_for_tb_20_to_24"
+      },
+      {
+        "label": "Screened for TB - 25yrs & older",
+        "ref": "HV03-056",
+        "indicator": "screened_for_tb_25_and_older"
+      },
+      {
+        "label": "Total Screened for TB (Sum HV03-51 to HV03-56)",
+        "ref": "HV03-057",
+        "indicator": "screened_for_tb"
+      },
+      {
+        "label": "Presumed TB Total ",
+        "ref": "HV03-058",
+        "indicator": ""
+      }
+    ]
+  },
+  {
+    "sectionTitle": "3.8 Starting IPT",
+    "indicators": [
+      {
+        "label": "Starting IPT - Below 1yrs",
+        "ref": "HV03-059",
+        "indicator": "newly_started_IPT_below_1"
+      },
+      {
+        "label": "Starting IPT - 1 to 9yrs",
+        "ref": "HV03-060",
+        "indicator": "newly_started_IPT_1_to_9"
+      },
+      {
+        "label": "Starting IPT - 10 to 14yrs",
+        "ref": "HV03-061",
+        "indicator": "newly_started_IPT_10_to_14"
+      },
+      {
+        "label": "Starting IPT - 15 to 19yrs",
+        "ref": "HV03-062",
+        "indicator": "newly_started_IPT_15_to_19"
+      },
+      {
+        "label": "Starting IPT  - 20 to 24yrs",
+        "ref": "HV03-063",
+        "indicator": "newly_started_IPT_20_to_24"
+      },
+      {
+        "label": "Starting IPT - 25yrs and older(F)",
+        "ref": "HV03-064",
+        "indicator": "newly_started_IPT_25_and_older"
+      },
+      {
+        "label": "Total Starting IPT (Sum HV03-059 to HV03-064)",
+        "ref": "HV03-065",
+        "indicator": "newly_started_IPT"
+      },
+      {
+        "label": "Completed IPT 12months ",
+        "ref": "HV03-066",
+        "indicator": "completed_12_months_IPT"
+      }
+    ]
+  },
+  {
+    "sectionTitle": "3.9 Nutrition and HIV",
+    "indicators": [
+      {
+        "label": "Nutrition Assess less than 15yrs",
+        "ref": "HV03-067",
+        "indicator": ""
+      },
+      {
+        "label": "Nutrition Assess greater than 15yrs",
+        "ref": "HV03-068",
+        "indicator": ""
+      },
+      {
+        "label": "Nutrition Assess Total (Sum HV03-067 to HV03-068)",
+        "ref": "HV03-069",
+        "indicator": ""
+      },
+      {
+        "label": "Malnourished less than 15",
+        "ref": "HV03-070",
+        "indicator": ""
+      },
+      {
+        "label": "Malnourished greater than 15",
+        "ref": "HV03-071",
+        "indicator": ""
+      },
+      {
+        "label": "Malnourished Total (Sum HV03-070 to HV03-071)",
+        "ref": "HV03-072",
+        "indicator": ""
+      },
+      {
+        "label": "FBP Provided less than 15",
+        "ref": "HV03-073",
+        "indicator": ""
+      },
+      {
+        "label": "FBP Provided greater than 15",
+        "ref": "HV03-074",
+        "indicator": ""
+      },
+      {
+        "label": "FBP Provided (Sum HV03-073 to HV03-074)",
+        "ref": "HV03-075",
+        "indicator": ""
+      }
+    ]
+  },
+  {
+    "sectionTitle": "3.10 HIV in TB Clinic",
+    "indicators": [
+      {
+        "label": "TB cases New",
+        "ref": "HV03-076",
+        "indicator": "started_TB_treatment_within_reporting_period"
+      },
+      {
+        "label": "TB cases KP",
+        "ref": "HV03-077",
+        "indicator": "HIV_patients_newly_enrolled_into_TB_treatment"
+      },
+      {
+        "label": "TB Cases Tested HIV",
+        "ref": "HV03-078",
+        "indicator": ""
+      },
+      {
+        "label": "TB Known Status (Sum HV03-077 and HV03-078)",
+        "ref": "HV03-079",
+        "indicator": ""
+      },
+      {
+        "label": "TB New HIV Positive",
+        "ref": "HV03-080",
+        "indicator": "TB_patients_newly_enrolled_into_HIV_care"
+      },
+      {
+        "label": "TB TOTAL HIV Positive (Sum HV03-077 and HV03-080)",
+        "ref": "HV03-081",
+        "indicator": "newly_identified_HIV_positive_patient_on_TB_treatment"
+      },
+      {
+        "label": "TB already on HAART",
+        "ref": "HV03-082",
+        "indicator": "patients_on_ARV_starting_TB_treatment"
+      },
+      {
+        "label": "TB starting HAART",
+        "ref": "HV03-083",
+        "indicator": "TB_patients_starting_ARV_medication"
+      },
+      {
+        "label": "TB  Total on HAART (Sum HV03-082 and HV03-083)",
+        "ref": "HV03-084",
+        "indicator": "newly_identified_TB_patients_on_ARVs"
+      }
+    ]
+  },
+  {
+    "sectionTitle": "3.11 Community Dispensing of ARVs",
+    "indicators": [
+      {
+        "label": "Community ART current(M)",
+        "ref": "HV03-085",
+        "indicator": "community_ART_dispensing_male"
+      },
+      {
+        "label": "Community ART current(F)",
+        "ref": "HV03-086",
+        "indicator": "community_ART_dispensing_female"
+      }
+    ]
+  },
+  {
+    "sectionTitle": "3.12 Family planning & CaCx screen in HIV CCC",
+    "indicators": [
+      {
+        "label": "Screen CaCx New F18+",
+        "ref": "HV03-087",
+        "indicator": ""
+      },
+      {
+        "label": "Clinical visits F18+",
+        "ref": "HV03-089",
+        "indicator": "female_gte_18yo_visits"
+      },
+      {
+        "label": "On modern FP F15+",
+        "ref": "HV03-090",
+        "indicator": ""
+      }
+    ]
+  },
+  {
+    "sectionTitle": "5. Post Exposure Prophylaxis",
+    "indicators": [
+      {
+        "label": "Exposed Occupational",
+        "ref": "HV05-01",
+        "indicator": "hiv_exposed_occupational"
+      },
+      {
+        "label": "Exposed Other",
+        "ref": "HV05-02",
+        "indicator": "hiv_exposed_non_occupational"
+      },
+      {
+        "label": "Exposed Total (Sum HV05-01 and HV05-02)",
+        "ref": "HV05-03",
+        "indicator": "total_hiv_exposed"
+      },
+      {
+        "label": "PEP Occupational",
+        "ref": "HV05-04",
+        "indicator": "started_PEP_occupational"
+      },
+      {
+        "label": "PEP Other",
+        "ref": "HV05-05",
+        "indicator": "started_PEP_non_occupational"
+      },
+      {
+        "label": "PEP Total (Sum HV05-04 and HV05-05)",
+        "ref": "HV03-06",
+        "indicator": "total_started_PEP"
+      }
+    ]
+  }
 ]

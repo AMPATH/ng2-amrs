@@ -1,66 +1,64 @@
 {
-    "name": "everOnARTAggregate",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [
-        {
-            "name": "everOnARTBase",
-            "version": "1.0",
-            "type": "dataset_def"
-        }
-    ],
-    "sources": [
-        {
-            "dataSet": "everOnARTBase",
-            "alias": "hmsd"
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "person_id",
-            "column": "hmsd.person_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_id",
-            "column": "hmsd.location_id"
-        },
-        {
-            "type": "derived_column",
-            "alias": "ever_on_art",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(hmsd.ever_on_art, hmsd.person_id))"
-            }
-        }
-    ],
-    "groupBy": {
-        "groupParam": "groupByParam",
-        "columns": [
-            "location_id"
-        ],
-        "excludeParam": "excludeParam"
-    },
-    "transFormDirectives": {
-        "joinColumn": "location_id",
-        "joinColumnParam": "joinColumnParam",
-        "skipColumns": ["join_location"],
-        "disaggregationColumns": []
-    },
-    "dynamicJsonQueryGenerationDirectives": {
-        "patientListGenerator": {
-            "useTemplate": "patient-list-template",
-            "useTemplateVersion": "1.0",
-            "generatingDirectives": {
-                "joinDirectives": {
-                    "joinType": "INNER",
-                    "joinCondition": "<<base_column>> = <<template_column>>",
-                    "baseColumn": "person_id",
-                    "templateColumn": "person_id"
-                }
-            }
-        }
+  "name": "everOnARTAggregate",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [
+    {
+      "name": "everOnARTBase",
+      "version": "1.0",
+      "type": "dataset_def"
     }
+  ],
+  "sources": [
+    {
+      "dataSet": "everOnARTBase",
+      "alias": "hmsd"
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "hmsd.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "hmsd.location_id"
+    },
+    {
+      "type": "derived_column",
+      "alias": "ever_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(hmsd.ever_on_art, hmsd.person_id))"
+      }
+    }
+  ],
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["location_id"],
+    "excludeParam": "excludeParam"
+  },
+  "transFormDirectives": {
+    "joinColumn": "location_id",
+    "joinColumnParam": "joinColumnParam",
+    "skipColumns": ["join_location"],
+    "disaggregationColumns": []
+  },
+  "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+      "useTemplate": "patient-list-template",
+      "useTemplateVersion": "1.0",
+      "generatingDirectives": {
+        "joinDirectives": {
+          "joinType": "INNER",
+          "joinCondition": "<<base_column>> = <<template_column>>",
+          "baseColumn": "person_id",
+          "templateColumn": "person_id"
+        }
+      }
+    }
+  }
 }

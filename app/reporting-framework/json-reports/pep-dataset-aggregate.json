@@ -1,121 +1,117 @@
 {
-    "name": "pepDatasetAggregate",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [{
-        "name": "pepDataSetbase",
-        "version": "1.0",
-        "type": "dataset_def"
-    }],
-    "sources": [{
-        "dataSet": "pepDataSetbase",
-        "alias": "hmsd"
-    }],
-    "columns": [
-        {
-            "type": "derived_column",
-            "alias": "join_location",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "1"
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_id",
-            "column": "hmsd.location_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_uuid",
-            "column": "hmsd.location_uuid"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location",
-            "column": "hmsd.location"
-        },
-        {
-            "type": "derived_column",
-            "alias": "total_hiv_exposed",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(hmsd.total_hiv_exposed, hmsd.person_id))"
-            }
-        
-        },
-        {
-            "type": "derived_column",
-            "alias": "hiv_exposed_occupational",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(hmsd.hiv_exposed_occupational,hmsd.person_id))"
-            }
-        
-        },
-        {
-            "type": "derived_column",
-            "alias": "hiv_exposed_non_occupational",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(hmsd.hiv_exposed_non_occupational,hmsd.person_id))"
-            }
-        
-        },
-        {
-            "type": "derived_column",
-            "alias": "total_started_PEP",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(hmsd.total_started_PEP,hmsd.person_id))"
-            }
-        
-        },
-        {
-            "type": "derived_column",
-            "alias": "started_PEP_occupational",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat( hmsd.started_PEP_occupational,hmsd.person_id))"
-            }
-        
-        },
-        {
-            "type": "derived_column",
-            "alias": "started_PEP_non_occupational",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(hmsd.started_PEP_non_occupational,hmsd.person_id))"
-            }
-        
-        }
-    ],
-    "groupBy": {
-        "groupParam": "groupByParam",
-        "columns": [
-            "location_id"
-        ],
-        "excludeParam": "excludeParam"
-    },
-    "transFormDirectives": {
-        "joinColumn": "location_id",
-        "joinColumnParam": "joinColumnParam",
-        "skipColumns": ["join_location"],
-        "disaggregationColumns": []
-    },
-    "dynamicJsonQueryGenerationDirectives": {
-        "patientListGenerator": {
-            "useTemplate": "patient-list-template",
-            "useTemplateVersion": "1.0",
-            "generatingDirectives": {
-                "joinDirectives": {
-                    "joinType": "INNER",
-                    "joinCondition": "<<base_column>> = <<template_column>>",
-                    "baseColumn": "person_id",
-                    "templateColumn": "person_id"
-                }
-            }
-        }
+  "name": "pepDatasetAggregate",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [
+    {
+      "name": "pepDataSetbase",
+      "version": "1.0",
+      "type": "dataset_def"
     }
+  ],
+  "sources": [
+    {
+      "dataSet": "pepDataSetbase",
+      "alias": "hmsd"
+    }
+  ],
+  "columns": [
+    {
+      "type": "derived_column",
+      "alias": "join_location",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "1"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "hmsd.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "hmsd.location_uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "hmsd.location"
+    },
+    {
+      "type": "derived_column",
+      "alias": "total_hiv_exposed",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(hmsd.total_hiv_exposed, hmsd.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_exposed_occupational",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(hmsd.hiv_exposed_occupational,hmsd.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_exposed_non_occupational",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(hmsd.hiv_exposed_non_occupational,hmsd.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "total_started_PEP",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(hmsd.total_started_PEP,hmsd.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "started_PEP_occupational",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat( hmsd.started_PEP_occupational,hmsd.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "started_PEP_non_occupational",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(hmsd.started_PEP_non_occupational,hmsd.person_id))"
+      }
+    }
+  ],
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["location_id"],
+    "excludeParam": "excludeParam"
+  },
+  "transFormDirectives": {
+    "joinColumn": "location_id",
+    "joinColumnParam": "joinColumnParam",
+    "skipColumns": ["join_location"],
+    "disaggregationColumns": []
+  },
+  "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+      "useTemplate": "patient-list-template",
+      "useTemplateVersion": "1.0",
+      "generatingDirectives": {
+        "joinDirectives": {
+          "joinType": "INNER",
+          "joinCondition": "<<base_column>> = <<template_column>>",
+          "baseColumn": "person_id",
+          "templateColumn": "person_id"
+        }
+      }
+    }
+  }
 }

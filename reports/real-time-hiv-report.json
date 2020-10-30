@@ -1,214 +1,220 @@
 [
-    {
-        "name": "real-time-hiv-report",
-        "table":{"schema":"etl","tableName":"flat_hiv_summary","alias":"t1"},
-        "joins":[
-        ],
-        "parameters": [
-            {"name":"start_date", "defaultValue":["01-10-2016"]},
-            {"name":"report_date", "defaultValue":["Now()"]},
-            {"name":"projection_date", "defaultValue":["2018-09-01"]},
-            {"name":"locations","defaultValue":[1]}
-        ],
-        "filters": [
-            {"expression":"encounter_datetime between @start_date and @report_date"},
-            {"expression":"is_clinical_encounter = 1", "processForce":true},
-            {"expression":"next_clinical_datetime_hiv is null", "processForce":true},
-            {"expression":"(death_date is null or death_date > @report_date)", "processForce":true},
-            {"expression":"(transfer_out is null or transfer_date_bncd > @report_date)", "processForce":true}
-
-        ],
-        "groupClause":[
-            {"parameter":"groupBylocation_id"}
-        ],
-        "indicators": [
-            {
-                "label":"patients",
-                "expression":"patients",
-                "sql":"count(distinct person_id)"
-            },
-            {
-                "label":"on_arvs",
-                "expression":"on_arvs",
-                "sql":"count(if($expression,1,null))"
-
-            },
-             {
-                "label":"not_on_art",
-                "expression":"not_on_art",
-                "sql":"count(if($expression,1,null))"
-
-            },
-            {
-                "label":"on_arvs_first_line",
-                "expression":"on_arvs_first_line",
-                "sql":"count(if($expression,1,null))"
-            },
-             {
-                "label":"non_arvs_first_line",
-                "expression":"non_arvs_first_line",
-                "sql":"count(if($expression,1,null))"
-            },
-            {
-                "label":"active_in_care1",
-                "expression":"active_in_care1",
-                "sql":"count(if($expression,1,null))"
-            },
-            {
-                "label":"active_in_care_not_on_art",
-                "expression":"active_in_care_not_on_art",
-                "sql":"count(if($expression,1,null))"
-            },
-            {
-                "label":"active_in_care_on_art",
-                "expression":"active_in_care_on_art",
-                "sql":"count(if($expression,t1.person_id,null))"
-            },
-            {
-                "label":"active_in_care_on_first_line",
-                "expression":"active_in_care_on_first_liner",
-                "sql":"count(if($expression,1,null))"
-            },
-            {
-                "label": "active_in_care_not_on_first_line",
-                "expression": "active_in_care_not_on_first_line",
-                "sql": "count(if($expression,1,null))"
-            },
-            {
-                "label":"ltf",
-                "expression":"ltf",
-                "sql":"count(if($expression,1,null))"
-            },
-            {
-                "label":"ltf_on_art",
-                "expression":"ltf_on_art",
-                "sql":"count(if($expression,1,null))"
-            },
-            {
-                "label":"ltf_not_on_art",
-                "expression":"ltf_not_on_art",
-                "sql":"count(if($expression,1,null))"
-            },
-            {
-                "label":"ltf_on_first_line",
-                "expression":"ltf_on_first_line",
-                "sql":"count(if($expression,1,null))"
-            },
-            {
-                "label":"ltf_not_on_first_line",
-                "expression":"ltf_not_on_first_line",
-                "sql":"count(if($expression,1,null))"
-            },
-            {
-                "label":"qualify_for_vl",
-                "expression":"qualify_for_vl",
-                "sql":"count(if($expression,1,null))"
-            },
-            {
-                "label":"have_vl_past_one_year",
-                "expression":"have_vl_past_one_year",
-                "sql":"count(if($expression,1,null))"
-            },
-            {
-                "label":"have_no_vl_past_one_year",
-                "expression":"have_no_vl_past_one_year",
-                "sql":"count(if($expression,1,null))"
-            },
-            {
-                "label":"vl_suppressed",
-                "expression":"vl_suppressed",
-                "sql":"count(if($expression,1,null))"
-            },
-            {
-                "label":"vl_non_suppressed",
-                "expression":"vl_non_suppressed",
-                "sql":"count(if($expression,1,null))"
-            },
-            {
-                "label":"active_qualify_for_vls",
-                "expression":"active_qualify_for_vl",
-                "sql":"count(if($expression,1,null))"
-            },
-            {
-                "label":"active_have_vl_past_one_year",
-                "expression":"active_have_vl_past_one_year",
-                "sql":"count(if($expression,1,null))"
-            },
-            {
-                "label":"active_have_no_vl_past_one_year",
-                "expression":"active_have_no_vl_past_one_year",
-                "sql":"count(if($expression,1,null))"
-            },
-            {
-                "label":"active_vl_suppressed",
-                "expression":"active_vl_suppressed",
-                "sql":"count(if($expression,1,null))"
-            },
-            {
-                "label":"active_vl_non_suppressed",
-                "expression":"active_vl_non_suppressed",
-                "sql":"count(if($expression,1,null))"
-            },
-            {
-                "label":"ltf_qualify_for_vl",
-                "expression":"ltf_qualify_for_vl",
-                "sql":"count(if($expression,1,null))"
-            },
-            {
-                "label":"ltf_have_vl_past_one_year",
-                "expression":"ltf_have_vl_past_one_year",
-                "sql":"count(if($expression,1,null))"
-            },
-            {
-                "label":"ltf_have_no_vl_past_one_year",
-                "expression":"ltf_have_no_vl_past_one_year",
-                "sql": "count(if($expression,1,null))"
-            },
-            {
-                "label":"ltf_vl_suppressed",
-                "expression":"ltf_vl_suppressed",
-                "sql": "count(if($expression,1,null))"
-
-            },
-            {
-                "label":"ltf_vl_non_suppressed",
-                "expression":"ltf_vl_non_suppressed",
-                "sql": "count(if($expression,1,null))"
-
-            },
-            {
-                "label":"projection_qualify_for_vl",
-                "expression":"projection_qualify_for_vl",
-                "sql": "count(if($expression,1,null))"
-
-            },
-            {
-                "label":"projection_have_no_vl_past_one_year",
-                "expression":"projection_have_no_vl_past_one_year",
-                "sql": "count(if($expression,1,null))"
-            },
-            {
-                "label":"projection_vl_suppressed",
-                "expression":"projection_vl_suppressed",
-                "sql": "count(if($expression,1,null))"
-            },
-            {
-                "label":"projection_vl_non_suppressed",
-                "expression":"projection_vl_non_suppressed",
-                "sql": "count(if($expression,1,null))"
-            }
-        ],
-        "supplementColumns":[
-            {
-                "label":"person_id",
-                "type":"single",
-                "sql":"t1.person_id"
-            },
-            {
-                "label":"location_uuid",
-                "type":"single",
-                "sql":"location_uuid"
-            }        
-        ]
-    }
+  {
+    "name": "real-time-hiv-report",
+    "table": {
+      "schema": "etl",
+      "tableName": "flat_hiv_summary",
+      "alias": "t1"
+    },
+    "joins": [],
+    "parameters": [
+      { "name": "start_date", "defaultValue": ["01-10-2016"] },
+      { "name": "report_date", "defaultValue": ["Now()"] },
+      { "name": "projection_date", "defaultValue": ["2018-09-01"] },
+      { "name": "locations", "defaultValue": [1] }
+    ],
+    "filters": [
+      {
+        "expression": "encounter_datetime between @start_date and @report_date"
+      },
+      { "expression": "is_clinical_encounter = 1", "processForce": true },
+      {
+        "expression": "next_clinical_datetime_hiv is null",
+        "processForce": true
+      },
+      {
+        "expression": "(death_date is null or death_date > @report_date)",
+        "processForce": true
+      },
+      {
+        "expression": "(transfer_out is null or transfer_date_bncd > @report_date)",
+        "processForce": true
+      }
+    ],
+    "groupClause": [{ "parameter": "groupBylocation_id" }],
+    "indicators": [
+      {
+        "label": "patients",
+        "expression": "patients",
+        "sql": "count(distinct person_id)"
+      },
+      {
+        "label": "on_arvs",
+        "expression": "on_arvs",
+        "sql": "count(if($expression,1,null))"
+      },
+      {
+        "label": "not_on_art",
+        "expression": "not_on_art",
+        "sql": "count(if($expression,1,null))"
+      },
+      {
+        "label": "on_arvs_first_line",
+        "expression": "on_arvs_first_line",
+        "sql": "count(if($expression,1,null))"
+      },
+      {
+        "label": "non_arvs_first_line",
+        "expression": "non_arvs_first_line",
+        "sql": "count(if($expression,1,null))"
+      },
+      {
+        "label": "active_in_care1",
+        "expression": "active_in_care1",
+        "sql": "count(if($expression,1,null))"
+      },
+      {
+        "label": "active_in_care_not_on_art",
+        "expression": "active_in_care_not_on_art",
+        "sql": "count(if($expression,1,null))"
+      },
+      {
+        "label": "active_in_care_on_art",
+        "expression": "active_in_care_on_art",
+        "sql": "count(if($expression,t1.person_id,null))"
+      },
+      {
+        "label": "active_in_care_on_first_line",
+        "expression": "active_in_care_on_first_liner",
+        "sql": "count(if($expression,1,null))"
+      },
+      {
+        "label": "active_in_care_not_on_first_line",
+        "expression": "active_in_care_not_on_first_line",
+        "sql": "count(if($expression,1,null))"
+      },
+      {
+        "label": "ltf",
+        "expression": "ltf",
+        "sql": "count(if($expression,1,null))"
+      },
+      {
+        "label": "ltf_on_art",
+        "expression": "ltf_on_art",
+        "sql": "count(if($expression,1,null))"
+      },
+      {
+        "label": "ltf_not_on_art",
+        "expression": "ltf_not_on_art",
+        "sql": "count(if($expression,1,null))"
+      },
+      {
+        "label": "ltf_on_first_line",
+        "expression": "ltf_on_first_line",
+        "sql": "count(if($expression,1,null))"
+      },
+      {
+        "label": "ltf_not_on_first_line",
+        "expression": "ltf_not_on_first_line",
+        "sql": "count(if($expression,1,null))"
+      },
+      {
+        "label": "qualify_for_vl",
+        "expression": "qualify_for_vl",
+        "sql": "count(if($expression,1,null))"
+      },
+      {
+        "label": "have_vl_past_one_year",
+        "expression": "have_vl_past_one_year",
+        "sql": "count(if($expression,1,null))"
+      },
+      {
+        "label": "have_no_vl_past_one_year",
+        "expression": "have_no_vl_past_one_year",
+        "sql": "count(if($expression,1,null))"
+      },
+      {
+        "label": "vl_suppressed",
+        "expression": "vl_suppressed",
+        "sql": "count(if($expression,1,null))"
+      },
+      {
+        "label": "vl_non_suppressed",
+        "expression": "vl_non_suppressed",
+        "sql": "count(if($expression,1,null))"
+      },
+      {
+        "label": "active_qualify_for_vls",
+        "expression": "active_qualify_for_vl",
+        "sql": "count(if($expression,1,null))"
+      },
+      {
+        "label": "active_have_vl_past_one_year",
+        "expression": "active_have_vl_past_one_year",
+        "sql": "count(if($expression,1,null))"
+      },
+      {
+        "label": "active_have_no_vl_past_one_year",
+        "expression": "active_have_no_vl_past_one_year",
+        "sql": "count(if($expression,1,null))"
+      },
+      {
+        "label": "active_vl_suppressed",
+        "expression": "active_vl_suppressed",
+        "sql": "count(if($expression,1,null))"
+      },
+      {
+        "label": "active_vl_non_suppressed",
+        "expression": "active_vl_non_suppressed",
+        "sql": "count(if($expression,1,null))"
+      },
+      {
+        "label": "ltf_qualify_for_vl",
+        "expression": "ltf_qualify_for_vl",
+        "sql": "count(if($expression,1,null))"
+      },
+      {
+        "label": "ltf_have_vl_past_one_year",
+        "expression": "ltf_have_vl_past_one_year",
+        "sql": "count(if($expression,1,null))"
+      },
+      {
+        "label": "ltf_have_no_vl_past_one_year",
+        "expression": "ltf_have_no_vl_past_one_year",
+        "sql": "count(if($expression,1,null))"
+      },
+      {
+        "label": "ltf_vl_suppressed",
+        "expression": "ltf_vl_suppressed",
+        "sql": "count(if($expression,1,null))"
+      },
+      {
+        "label": "ltf_vl_non_suppressed",
+        "expression": "ltf_vl_non_suppressed",
+        "sql": "count(if($expression,1,null))"
+      },
+      {
+        "label": "projection_qualify_for_vl",
+        "expression": "projection_qualify_for_vl",
+        "sql": "count(if($expression,1,null))"
+      },
+      {
+        "label": "projection_have_no_vl_past_one_year",
+        "expression": "projection_have_no_vl_past_one_year",
+        "sql": "count(if($expression,1,null))"
+      },
+      {
+        "label": "projection_vl_suppressed",
+        "expression": "projection_vl_suppressed",
+        "sql": "count(if($expression,1,null))"
+      },
+      {
+        "label": "projection_vl_non_suppressed",
+        "expression": "projection_vl_non_suppressed",
+        "sql": "count(if($expression,1,null))"
+      }
+    ],
+    "supplementColumns": [
+      {
+        "label": "person_id",
+        "type": "single",
+        "sql": "t1.person_id"
+      },
+      {
+        "label": "location_uuid",
+        "type": "single",
+        "sql": "location_uuid"
+      }
+    ]
+  }
 ]

@@ -1,67 +1,65 @@
 {
-    "name": "dailyAppointmentsAggregate",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [
-        {
-            "name": "dailyAppointmentsBase",
-            "version": "1.0",
-            "type": "dataset_def"
-        }
-    ],
-    "sources": [
-        {
-            "dataSet": "dailyAppointmentsBase",
-            "alias": "t2"
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "person_id",
-            "column": "t2.person_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "encounter_type",
-            "column": "t2.encounter_type"
-        },
-        {
-            "type": "simple_column",
-            "alias": "scheduled",
-            "column": "count(distinct t2.person_id)"
-        },
-        {
-            "type": "simple_column",
-            "alias": "scheduled_date",
-            "column": "scheduled_date"
-        },
-        {
-            "type": "simple_column",
-            "alias": "patients",
-            "column": "patients"
-        }
-    ],
-    "groupBy": {
-        "groupParam": "groupByParam",
-        "columns": [
-            "scheduled_date"
-        ],
-        "excludeParam": "excludeParam"
-    },
-    "dynamicJsonQueryGenerationDirectives": {
-        "patientListGenerator": {
-            "useTemplate": "patient-list-schedules-template",
-            "useTemplateVersion": "1.0",
-            "generatingDirectives": {
-                "joinDirectives": {
-                    "joinType": "INNER",
-                    "joinCondition": "<<base_column>> = <<template_column>>",
-                    "baseColumn": "person_id",
-                    "templateColumn": "person_id"
-                }
-            }
-        }
+  "name": "dailyAppointmentsAggregate",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [
+    {
+      "name": "dailyAppointmentsBase",
+      "version": "1.0",
+      "type": "dataset_def"
     }
+  ],
+  "sources": [
+    {
+      "dataSet": "dailyAppointmentsBase",
+      "alias": "t2"
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "t2.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "encounter_type",
+      "column": "t2.encounter_type"
+    },
+    {
+      "type": "simple_column",
+      "alias": "scheduled",
+      "column": "count(distinct t2.person_id)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "scheduled_date",
+      "column": "scheduled_date"
+    },
+    {
+      "type": "simple_column",
+      "alias": "patients",
+      "column": "patients"
+    }
+  ],
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["scheduled_date"],
+    "excludeParam": "excludeParam"
+  },
+  "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+      "useTemplate": "patient-list-schedules-template",
+      "useTemplateVersion": "1.0",
+      "generatingDirectives": {
+        "joinDirectives": {
+          "joinType": "INNER",
+          "joinCondition": "<<base_column>> = <<template_column>>",
+          "baseColumn": "person_id",
+          "templateColumn": "person_id"
+        }
+      }
+    }
+  }
 }

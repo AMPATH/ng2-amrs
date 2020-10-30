@@ -1,279 +1,277 @@
 {
-    "name": "prepMonthlySummaryBaseReport",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [
-        {
-            "name": "prepLatestClinicalEncounterDate",
-            "version": "1.0",
-            "type": "dataset_def"
-        }
-    ],
-    "sources": [
-        {
-            "table": "etl.prep_monthly_report_dataset",
-            "alias": "prep"
-        },
-        {
-            "table": "amrs.location",
-            "alias": "l",
-            "join": {
-                "type": "INNER",
-                "joinCondition": "l.location_id = prep.location_id"
-            }
-        },
-        {
-            "dataSet": "prepLatestClinicalEncounterDate",
-            "alias": "latest_enc",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "latest_enc.person_id = prep.person_id"
-            }
-        },
-        {
-            "table": "etl.flat_prep_summary_v1_1",
-            "alias": "prep_summary",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "latest_enc.person_id = prep_summary.person_id AND prep_summary.encounter_datetime = latest_enc.latest_encounter_date"
-            }
-        },
-        {
-            "table": "amrs.encounter_type",
-            "alias": "e",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "prep_summary.encounter_type = e.encounter_type_id"
-            }
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "location_uuid",
-            "column": "l.uuid"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_id",
-            "column": "l.location_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location",
-            "column": "l.name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "active_on_prep_this_month",
-            "column": "prep.active_on_prep_this_month"
-        },
-        {
-            "type": "simple_column",
-            "alias": "enrolled_in_prep_this_month",
-            "column": "prep.enrolled_in_prep_this_month"
-        },
-        {
-            "type": "simple_column",
-            "alias": "cumulative_prep_ltfu_this_month",
-            "column": "prep.cumulative_prep_ltfu_this_month"
-        },
-        {
-            "type": "simple_column",
-            "alias": "prep_ltfu_this_month",
-            "column": "prep.prep_ltfu_this_month"
-        },
-        {
-            "type": "simple_column",
-            "alias": "prep_discontinued_this_month",
-            "column": "prep.prep_discontinued_this_month"
-        },
-        {
-            "type": "simple_column",
-            "alias": "cumulative_prep_discontinued_this_month",
-            "column": "prep.cumulative_prep_discontinued_this_month"
-        },
-        {
-            "type": "simple_column",
-            "alias": "prev_on_prep_and_turned_positive",
-            "column": "prep.prev_on_prep_and_turned_positive"
-        },
-        {
-            "type": "simple_column",
-            "alias": "turned_positive_this_month",
-            "column": "prep.turned_positive_this_month"
-        },
-        {
-            "type": "simple_column",
-            "alias": "cumulative_turned_positive_this_month",
-            "column": "prep.cumulative_turned_positive_this_month"
-        },
-        {
-            "type": "simple_column",
-            "alias": "status",
-            "column": "prep.status"
-        },
-        {
-            "type": "simple_column",
-            "alias": "age",
-            "column": "prep.age"
-        },
-        {
-            "type": "simple_column",
-            "alias": "gender",
-            "column": "prep.gender"
-        },
-        {
-            "type": "simple_column",
-            "alias": "days_since_rtc_date",
-            "column": "prep.days_since_rtc_date"
-        },
-        {
-            "type": "simple_column",
-            "alias": "latest_rtc_date",
-            "column": "date_format(prep_summary.rtc_date, '%Y-%m-%d')"
-        },
-        {
-            "type": "simple_column",
-            "alias": "last_appointment",
-            "column": "CONCAT(COALESCE(DATE_FORMAT(prep_summary.encounter_datetime, '%Y-%m-%d'),''),' ',COALESCE(e.name, ''))"
-        },
-        {
-            "type": "simple_column",
-            "alias": "prev_rtc_date",
-            "column": "date_format(prep_summary.prev_rtc_date, '%Y-%m-%d')"
-        },
-        {
-            "type": "derived_column",
-            "alias": "general_pop_active",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "IF((prep.population_type = 3  or prep.population_type = 1  or prep.population_type is null) and active_on_prep_this_month = 1 ,1, 0)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "population_type",
-            "expressionType": "case_statement",
-            "expressionOptions": {
-                "caseOptions": [
-                    {
-                        "condition": "prep.population_type = 1",
-                        "value": "discordant"
-                    },
-                    {
-                        "condition": "prep.population_type = 2",
-                        "value": "priority"
-                    },
-                    {
-                        "condition": "prep.population_type = 3  or prep.population_type is null",
-                        "value": "general"
-                    },
-                    {
-                        "condition": "prep.population_type = 4",
-                        "value": "key"
-                    }
-                ]
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "is_breastfeeding",
-            "expressionType": "case_statement",
-            "expressionOptions": {
-                "caseOptions": [
-                    {
-                        "condition": "prep.is_breastfeeding = 1",
-                        "value": "is_breastfeeding"
-                    },
-                    {
-                        "condition": "prep.is_breastfeeding = 0",
-                        "value": "not_breastfeeding"
-                    },
-                    {
-                        "condition": "prep.is_breastfeeding is null",
-                        "value": "unknown"
-                    }
-                ]
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "is_pregnant",
-            "expressionType": "case_statement",
-            "expressionOptions": {
-                "caseOptions": [
-                    {
-                        "condition": "prep.is_pregnant = 1",
-                        "value": "is_pregnant"
-                    },
-                    {
-                        "condition": "prep.is_pregnant = 0",
-                        "value": "not_pregnant"
-                    },
-                    {
-                        "condition": "prep.is_pregnant is null",
-                        "value": "unknown"
-                    }
-                ]
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "newly_enrolled_pregnant",
-            "expressionType": "case_statement",
-            "expressionOptions": {
-                "caseOptions": [
-                    {
-                        "condition": "prep.is_pregnant = 1 and prep.enrolled_in_prep_this_month = 1",
-                        "value": "is_pregnant"
-                    }
-                ]
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "newly_enrolled_breastfeeding",
-            "expressionType": "case_statement",
-            "expressionOptions": {
-                "caseOptions": [
-                    {
-                        "condition": "prep.is_breastfeeding = 1 and prep.enrolled_in_prep_this_month = 1",
-                        "value": "is_breastfeeding"
-                    }
-                ]
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "has_hiv_rapid_test_this_month",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "IF((prep.status = 'active' or prep.status = 'defaulter') and has_hiv_rapid_test_this_month = 1 ,1, 0)"
-            }
-        }
-    ],
-    "groupBy": {
-        "groupParam": "groupByParam",
-        "columns": [
-            "prep.person_id"
-        ],
-        "excludeParam": "excludeParam"
-    },
-    "filters": {
-        "conditionJoinOperator": "and",
-        "conditions": [
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "endDate = ? ",
-                "parameterName": "endDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "l.uuid in ?",
-                "parameterName": "locationUuids"
-            }
-        ]
+  "name": "prepMonthlySummaryBaseReport",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [
+    {
+      "name": "prepLatestClinicalEncounterDate",
+      "version": "1.0",
+      "type": "dataset_def"
     }
+  ],
+  "sources": [
+    {
+      "table": "etl.prep_monthly_report_dataset",
+      "alias": "prep"
+    },
+    {
+      "table": "amrs.location",
+      "alias": "l",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "l.location_id = prep.location_id"
+      }
+    },
+    {
+      "dataSet": "prepLatestClinicalEncounterDate",
+      "alias": "latest_enc",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "latest_enc.person_id = prep.person_id"
+      }
+    },
+    {
+      "table": "etl.flat_prep_summary_v1_1",
+      "alias": "prep_summary",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "latest_enc.person_id = prep_summary.person_id AND prep_summary.encounter_datetime = latest_enc.latest_encounter_date"
+      }
+    },
+    {
+      "table": "amrs.encounter_type",
+      "alias": "e",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "prep_summary.encounter_type = e.encounter_type_id"
+      }
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "l.uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "l.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "l.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "active_on_prep_this_month",
+      "column": "prep.active_on_prep_this_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "enrolled_in_prep_this_month",
+      "column": "prep.enrolled_in_prep_this_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "cumulative_prep_ltfu_this_month",
+      "column": "prep.cumulative_prep_ltfu_this_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "prep_ltfu_this_month",
+      "column": "prep.prep_ltfu_this_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "prep_discontinued_this_month",
+      "column": "prep.prep_discontinued_this_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "cumulative_prep_discontinued_this_month",
+      "column": "prep.cumulative_prep_discontinued_this_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "prev_on_prep_and_turned_positive",
+      "column": "prep.prev_on_prep_and_turned_positive"
+    },
+    {
+      "type": "simple_column",
+      "alias": "turned_positive_this_month",
+      "column": "prep.turned_positive_this_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "cumulative_turned_positive_this_month",
+      "column": "prep.cumulative_turned_positive_this_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "status",
+      "column": "prep.status"
+    },
+    {
+      "type": "simple_column",
+      "alias": "age",
+      "column": "prep.age"
+    },
+    {
+      "type": "simple_column",
+      "alias": "gender",
+      "column": "prep.gender"
+    },
+    {
+      "type": "simple_column",
+      "alias": "days_since_rtc_date",
+      "column": "prep.days_since_rtc_date"
+    },
+    {
+      "type": "simple_column",
+      "alias": "latest_rtc_date",
+      "column": "date_format(prep_summary.rtc_date, '%Y-%m-%d')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "last_appointment",
+      "column": "CONCAT(COALESCE(DATE_FORMAT(prep_summary.encounter_datetime, '%Y-%m-%d'),''),' ',COALESCE(e.name, ''))"
+    },
+    {
+      "type": "simple_column",
+      "alias": "prev_rtc_date",
+      "column": "date_format(prep_summary.prev_rtc_date, '%Y-%m-%d')"
+    },
+    {
+      "type": "derived_column",
+      "alias": "general_pop_active",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF((prep.population_type = 3  or prep.population_type = 1  or prep.population_type is null) and active_on_prep_this_month = 1 ,1, 0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "population_type",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "prep.population_type = 1",
+            "value": "discordant"
+          },
+          {
+            "condition": "prep.population_type = 2",
+            "value": "priority"
+          },
+          {
+            "condition": "prep.population_type = 3  or prep.population_type is null",
+            "value": "general"
+          },
+          {
+            "condition": "prep.population_type = 4",
+            "value": "key"
+          }
+        ]
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "is_breastfeeding",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "prep.is_breastfeeding = 1",
+            "value": "is_breastfeeding"
+          },
+          {
+            "condition": "prep.is_breastfeeding = 0",
+            "value": "not_breastfeeding"
+          },
+          {
+            "condition": "prep.is_breastfeeding is null",
+            "value": "unknown"
+          }
+        ]
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "is_pregnant",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "prep.is_pregnant = 1",
+            "value": "is_pregnant"
+          },
+          {
+            "condition": "prep.is_pregnant = 0",
+            "value": "not_pregnant"
+          },
+          {
+            "condition": "prep.is_pregnant is null",
+            "value": "unknown"
+          }
+        ]
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "newly_enrolled_pregnant",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "prep.is_pregnant = 1 and prep.enrolled_in_prep_this_month = 1",
+            "value": "is_pregnant"
+          }
+        ]
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "newly_enrolled_breastfeeding",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "prep.is_breastfeeding = 1 and prep.enrolled_in_prep_this_month = 1",
+            "value": "is_breastfeeding"
+          }
+        ]
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "has_hiv_rapid_test_this_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF((prep.status = 'active' or prep.status = 'defaulter') and has_hiv_rapid_test_this_month = 1 ,1, 0)"
+      }
+    }
+  ],
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["prep.person_id"],
+    "excludeParam": "excludeParam"
+  },
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "endDate = ? ",
+        "parameterName": "endDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "l.uuid in ?",
+        "parameterName": "locationUuids"
+      }
+    ]
+  }
 }

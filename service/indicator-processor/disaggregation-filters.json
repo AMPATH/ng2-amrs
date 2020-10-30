@@ -1,55 +1,55 @@
 {
-    "female": {
-      "label": "female",
-      "expression": "gender='F'",
-      "description": "by gender (F)"
-    },
-    "male": {
-      "label": "male",
-      "expression": "gender='M'",
-      "description": "by gender (M)"
-    },
+  "female": {
+    "label": "female",
+    "expression": "gender='F'",
+    "description": "by gender (F)"
+  },
+  "male": {
+    "label": "male",
+    "expression": "gender='M'",
+    "description": "by gender (M)"
+  },
 
-    "age_below_1": {
-      "label": "age_below_1",
-      "expression": "timestampdiff(year,birthdate,@endDate) < 1",
-      "description": "by age (< 15)"
-    },
-    "age_1_to_9": {
-      "label": "age_1_to_9",
-      "expression": "timestampdiff(year,birthdate,@endDate) >= 1 and timestampdiff(year,birthdate,@endDate) <= 9",
-      "description": "by age (>=1 and <=9)"
-    },
+  "age_below_1": {
+    "label": "age_below_1",
+    "expression": "timestampdiff(year,birthdate,@endDate) < 1",
+    "description": "by age (< 15)"
+  },
+  "age_1_to_9": {
+    "label": "age_1_to_9",
+    "expression": "timestampdiff(year,birthdate,@endDate) >= 1 and timestampdiff(year,birthdate,@endDate) <= 9",
+    "description": "by age (>=1 and <=9)"
+  },
 
-    "age_15_and_older": {
-      "label": "age_15_and_older",
-      "expression": "timestampdiff(year,birthdate,@endDate) >= 15",
-      "description": "by age (>= 15)"
-    },
-    "age_below_15": {
-      "label": "age_below_15",
-      "expression": "timestampdiff(year,birthdate,@endDate) < 15",
-      "description": "by age (< 15)"
-    },
+  "age_15_and_older": {
+    "label": "age_15_and_older",
+    "expression": "timestampdiff(year,birthdate,@endDate) >= 15",
+    "description": "by age (>= 15)"
+  },
+  "age_below_15": {
+    "label": "age_below_15",
+    "expression": "timestampdiff(year,birthdate,@endDate) < 15",
+    "description": "by age (< 15)"
+  },
 
-    "age_10_to_14": {
-      "label": "age_10_to_14",
-      "expression": "timestampdiff(year,birthdate,@endDate) >= 10 and timestampdiff(year,birthdate,@endDate) <= 14",
-      "description": "by age (>=10 and <=14)"
-    },
-    "age_15_to_19": {
-      "label": "age_15_to_19",
-      "expression": "timestampdiff(year,birthdate,@endDate) >= 15 and timestampdiff(year,birthdate,@endDate) <= 19",
-      "description": "by age (>=15 and <=19)"
-    },
-    "age_20_to_24": {
-      "label": "age_20_to_24",
-      "expression": "timestampdiff(year,birthdate,@endDate) >= 20 and timestampdiff(year,birthdate,@endDate) <= 24",
-      "description": "by age (>=20 and <=24)"
-    },
-    "age_25_and_older": {
-      "label": "age_25_and_older",
-      "expression": "timestampdiff(year,birthdate,@endDate) >= 25",
-      "description": "by age (>=25)"
-    }
+  "age_10_to_14": {
+    "label": "age_10_to_14",
+    "expression": "timestampdiff(year,birthdate,@endDate) >= 10 and timestampdiff(year,birthdate,@endDate) <= 14",
+    "description": "by age (>=10 and <=14)"
+  },
+  "age_15_to_19": {
+    "label": "age_15_to_19",
+    "expression": "timestampdiff(year,birthdate,@endDate) >= 15 and timestampdiff(year,birthdate,@endDate) <= 19",
+    "description": "by age (>=15 and <=19)"
+  },
+  "age_20_to_24": {
+    "label": "age_20_to_24",
+    "expression": "timestampdiff(year,birthdate,@endDate) >= 20 and timestampdiff(year,birthdate,@endDate) <= 24",
+    "description": "by age (>=20 and <=24)"
+  },
+  "age_25_and_older": {
+    "label": "age_25_and_older",
+    "expression": "timestampdiff(year,birthdate,@endDate) >= 25",
+    "description": "by age (>=25)"
+  }
 }

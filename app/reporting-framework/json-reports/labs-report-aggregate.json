@@ -1,103 +1,103 @@
 {
-    "name": "labsReportAggregate",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [
-        {
-            "name": "labsReportBase",
-            "version": "1.0",
-            "type": "dataset_def"
-        }
-    ],
-    "sources": [
-        {
-            "dataSet": "labsReportBase",
-            "alias": "t1"
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "person_id",
-            "column": "t1.person_id"
-        },
-        {
-            "type": "derived_column",
-            "alias": "needs_vl_in_period",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct needs_vl_in_period)"
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "location",
-            "column": "l.name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_id",
-            "column": "t1.location_id"
-        },
-        {
-        "type": "simple_column",
-        "alias": "location_uuid",
-        "column": "t1.location_uuid"
-        },
-        {
-            "type": "simple_column",
-            "alias": "encounter_datetime",
-            "column": "t1.encounter_datetime"
-        },
-        {
-            "type": "simple_column",
-            "alias": "month",
-            "column": "MONTH(encounter_datetime)"
-        },
-        {
-            "type": "simple_column",
-            "alias": "reporting_month",
-            "column": "date_format(t1.encounter_datetime, '%m/%Y')"
-        },
-        {
-            "type": "simple_column",
-            "alias": "year",
-            "column": "YEAR(encounter_datetime)"
-        }
-    ],
-    "filters": {
-        "conditionJoinOperator": "and",
-        "conditions": [
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "(t1.next_clinical_datetime_hiv is null or date(t1.next_clinical_datetime_hiv) > ?)",
-                "parameterName": "endDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "location_uuid in ?",
-                "parameterName": "locationUuids"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "coalesce(t1.death_date, out_of_care) is null",
-                "parameterName": ""
-            }
-        ]
-    },
-    "dynamicJsonQueryGenerationDirectives": {
-        "patientListGenerator": {
-            "useTemplate": "patients-requiring-viral-load-template",
-            "useTemplateVersion": "1.0",
-            "generatingDirectives": {
-                "joinDirectives": {
-                    "joinType": "INNER",
-                    "joinCondition": "<<base_column>> = <<template_column>>",
-                    "baseColumn": "person_id",
-                    "templateColumn": "person_id"
-                }
-            }
-        }
+  "name": "labsReportAggregate",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [
+    {
+      "name": "labsReportBase",
+      "version": "1.0",
+      "type": "dataset_def"
     }
+  ],
+  "sources": [
+    {
+      "dataSet": "labsReportBase",
+      "alias": "t1"
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "t1.person_id"
+    },
+    {
+      "type": "derived_column",
+      "alias": "needs_vl_in_period",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct needs_vl_in_period)"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "l.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "t1.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "t1.location_uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "encounter_datetime",
+      "column": "t1.encounter_datetime"
+    },
+    {
+      "type": "simple_column",
+      "alias": "month",
+      "column": "MONTH(encounter_datetime)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "reporting_month",
+      "column": "date_format(t1.encounter_datetime, '%m/%Y')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "year",
+      "column": "YEAR(encounter_datetime)"
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "(t1.next_clinical_datetime_hiv is null or date(t1.next_clinical_datetime_hiv) > ?)",
+        "parameterName": "endDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "location_uuid in ?",
+        "parameterName": "locationUuids"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "coalesce(t1.death_date, out_of_care) is null",
+        "parameterName": ""
+      }
+    ]
+  },
+  "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+      "useTemplate": "patients-requiring-viral-load-template",
+      "useTemplateVersion": "1.0",
+      "generatingDirectives": {
+        "joinDirectives": {
+          "joinType": "INNER",
+          "joinCondition": "<<base_column>> = <<template_column>>",
+          "baseColumn": "person_id",
+          "templateColumn": "person_id"
+        }
+      }
+    }
+  }
 }

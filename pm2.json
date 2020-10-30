@@ -1,10 +1,11 @@
 {
-    "apps" : [{
-      "name"        : "etl-server",
-      "script"      : "/opt/etl/etl-server.js",
-      "watch"       : false,
-      "exec_interpreter" : "babel-node",
-      "exec_mode"        : "fork"
-    }]
-  }
-  
+  "apps": [
+    {
+      "name": "etl-server",
+      "script": "/opt/etl/etl-server.js",
+      "watch": false,
+      "exec_interpreter": "babel-node",
+      "exec_mode": "fork"
+    }
+  ]
+}

@@ -1,158 +1,158 @@
 {
-    "name": "StartingARTSetBaseAgeGreen",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [],
-    "sources": [
-        {
-            "table": "<<hivMonthlyDatasetSource>>",
-            "alias": "hmsd"
-        },
-        {
-            "table": "amrs.location",
-            "alias": "l",
-            "join": {
-                "type": "INNER",
-                "joinCondition": "l.location_id = hmsd.location_id"
-            }
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "gender",
-            "column": "hmsd.gender"
-        },
-        {
-            "type": "simple_column",
-            "alias": "birthdate",
-            "column": "hmsd.birthdate"
-        },
-        {
-            "type": "simple_column",
-            "alias": "age",
-            "column": "hmsd.age"
-        },
-        {
-            "type": "simple_column",
-            "alias": "person_id",
-            "column": "hmsd.person_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_uuid",
-            "column": "l.uuid"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_id",
-            "column": "hmsd.arv_first_regimen_location_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location",
-            "column": "l.name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "cur_arv_meds",
-            "column": "hmsd.cur_arv_meds"
-        },
-        {
-            "type": "derived_column",
-            "alias": "enrollment_date",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "date_format(hmsd.enrollment_date,'%d-%m-%Y')"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "age_range",
-            "expressionType": "case_statement",
-            "expressionOptions": {
-                "caseOptions": [
-                    {
-                        "condition": "hmsd.age < 1",
-                        "value": "0_to_1"
-                    },
-                    {
-                        "condition": "hmsd.age between 1 and 9",
-                        "value": "1_to_9"
-                    },
-                    {
-                        "condition": "hmsd.age between 10 and 14",
-                        "value": "10_to_14"
-                    },
-                    {
-                        "condition": "hmsd.age between 15 and 19",
-                        "value": "15_to_19"
-                    },
-                    {
-                        "condition": "hmsd.age between 20 and 24",
-                        "value": "20_to_24"
-                    },
-                    {
-                        "condition": "else",
-                        "value": "older_than_24"
-                    }
-                ]
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "started_art",
-            "column": "started_art_this_month"
-        },
-        {
-            "type": "derived_column",
-            "alias": "arv_first_regimen_start_date",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "date_format(hmsd.arv_first_regimen_start_date,'%d-%m-%Y')"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "cur_regimen_arv_start_date",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "date_format(hmsd.arv_start_date,'%d-%m-%Y')"
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "cur_arv_line",
-            "column": "hmsd.cur_arv_line"
-        },
-        {
-            "type": "simple_column",
-            "alias": "vl_1",
-            "column": "hmsd.vl_1"
-        },
-        {
-            "type": "derived_column",
-            "alias": "vl_1_date",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "date_format(hmsd.vl_1_date,'%d-%m-%Y')"
-            }
-        }
-    ],
-    "filters": {
-        "conditionJoinOperator": "and",
-        "conditions": [
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "endDate = ?",
-                "parameterName": "endDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "hmsd.arv_first_regimen_location_id in ?",
-                "parameterName": "locations"
-            }
-        ]
+  "name": "StartingARTSetBaseAgeGreen",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "<<hivMonthlyDatasetSource>>",
+      "alias": "hmsd"
+    },
+    {
+      "table": "amrs.location",
+      "alias": "l",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "l.location_id = hmsd.location_id"
+      }
     }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "gender",
+      "column": "hmsd.gender"
+    },
+    {
+      "type": "simple_column",
+      "alias": "birthdate",
+      "column": "hmsd.birthdate"
+    },
+    {
+      "type": "simple_column",
+      "alias": "age",
+      "column": "hmsd.age"
+    },
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "hmsd.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "l.uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "hmsd.arv_first_regimen_location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "l.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "cur_arv_meds",
+      "column": "hmsd.cur_arv_meds"
+    },
+    {
+      "type": "derived_column",
+      "alias": "enrollment_date",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "date_format(hmsd.enrollment_date,'%d-%m-%Y')"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "age_range",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "hmsd.age < 1",
+            "value": "0_to_1"
+          },
+          {
+            "condition": "hmsd.age between 1 and 9",
+            "value": "1_to_9"
+          },
+          {
+            "condition": "hmsd.age between 10 and 14",
+            "value": "10_to_14"
+          },
+          {
+            "condition": "hmsd.age between 15 and 19",
+            "value": "15_to_19"
+          },
+          {
+            "condition": "hmsd.age between 20 and 24",
+            "value": "20_to_24"
+          },
+          {
+            "condition": "else",
+            "value": "older_than_24"
+          }
+        ]
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "started_art",
+      "column": "started_art_this_month"
+    },
+    {
+      "type": "derived_column",
+      "alias": "arv_first_regimen_start_date",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "date_format(hmsd.arv_first_regimen_start_date,'%d-%m-%Y')"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "cur_regimen_arv_start_date",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "date_format(hmsd.arv_start_date,'%d-%m-%Y')"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "cur_arv_line",
+      "column": "hmsd.cur_arv_line"
+    },
+    {
+      "type": "simple_column",
+      "alias": "vl_1",
+      "column": "hmsd.vl_1"
+    },
+    {
+      "type": "derived_column",
+      "alias": "vl_1_date",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "date_format(hmsd.vl_1_date,'%d-%m-%Y')"
+      }
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "endDate = ?",
+        "parameterName": "endDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "hmsd.arv_first_regimen_location_id in ?",
+        "parameterName": "locations"
+      }
+    ]
+  }
 }

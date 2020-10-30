@@ -1,92 +1,88 @@
 {
-    "name": "everOnARTDisaggregation",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [
-        {
-            "name": "everOnARTBase",
-            "version": "1.0",
-            "type": "dataset_def"
-        }
-    ],
-    "sources": [
-        {
-            "dataSet": "everOnARTBase",
-            "alias": "hmsd"
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "person_id",
-            "column": "hmsd.person_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_id",
-            "column": "hmsd.location_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_uuid",
-            "column": "hmsd.location_uuid"
-        },
-        {
-            "type": "simple_column",
-            "alias": "gender",
-            "column": "hmsd.gender"
-        },
-        {
-            "type": "simple_column",
-            "alias": "age_range",
-            "column": "hmsd.age_range"
-        },
-        {
-            "type": "derived_column",
-            "alias": "ever_on_art",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(hmsd.ever_on_art, hmsd.person_id))"
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "gender",
-            "column": "hmsd.gender"
-        },
-        {
-            "type": "simple_column",
-            "alias": "age_range",
-            "column": "hmsd.age_range"
-        }
-    ],
-    "groupBy": {
-        "groupParam": "groupByParam",
-        "columns": [
-            "gender",
-            "age_range",
-            "location_id"
-        ],
-        "excludeParam": "excludeParam"
-    },
-    "transFormDirectives": {
-        "joinColumn": "location_id",
-        "skipColumns": ["location_uuid","join_location","person_id"],
-        "disaggregationColumns": ["gender", "age_range"]
-    },
-    "dynamicJsonQueryGenerationDirectives": {
-        "patientListGenerator": {
-            "useTemplate": "patient-list-template",
-            "useTemplateVersion": "1.0",
-            "generatingDirectives": {
-                "joinDirectives": {
-                    "joinType": "INNER",
-                    "joinCondition": "<<base_column>> = <<template_column>>",
-                    "baseColumn": "person_id",
-                    "templateColumn": "person_id"
-                }
-            }
-        }
+  "name": "everOnARTDisaggregation",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [
+    {
+      "name": "everOnARTBase",
+      "version": "1.0",
+      "type": "dataset_def"
     }
+  ],
+  "sources": [
+    {
+      "dataSet": "everOnARTBase",
+      "alias": "hmsd"
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "hmsd.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "hmsd.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "hmsd.location_uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "gender",
+      "column": "hmsd.gender"
+    },
+    {
+      "type": "simple_column",
+      "alias": "age_range",
+      "column": "hmsd.age_range"
+    },
+    {
+      "type": "derived_column",
+      "alias": "ever_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(hmsd.ever_on_art, hmsd.person_id))"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "gender",
+      "column": "hmsd.gender"
+    },
+    {
+      "type": "simple_column",
+      "alias": "age_range",
+      "column": "hmsd.age_range"
+    }
+  ],
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["gender", "age_range", "location_id"],
+    "excludeParam": "excludeParam"
+  },
+  "transFormDirectives": {
+    "joinColumn": "location_id",
+    "skipColumns": ["location_uuid", "join_location", "person_id"],
+    "disaggregationColumns": ["gender", "age_range"]
+  },
+  "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+      "useTemplate": "patient-list-template",
+      "useTemplateVersion": "1.0",
+      "generatingDirectives": {
+        "joinDirectives": {
+          "joinType": "INNER",
+          "joinCondition": "<<base_column>> = <<template_column>>",
+          "baseColumn": "person_id",
+          "templateColumn": "person_id"
+        }
+      }
+    }
+  }
 }

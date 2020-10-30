@@ -1,191 +1,179 @@
 {
-    "uud1":{
-        "name":"HIV",
-        "programs":[
-            {
-                "uuid":"781d85b0-1359-11df-a1f1-0026b9348838",
-                "name": "STANDARD HIV TREATMENT"
-            },
-            {
-                "uuid":"f7793d42-11ac-4cfd-9b35-e0a21a7a7c31",
-                "name": "RESISTANCE CLINIC PROGRAM"
-            },
-            {
-                "uuid":"781d897a-1359-11df-a1f1-0026b9348838",
-                "name": "PREVENTION OF MOTHER-TO-CHILD TRANSMISSION OF HIV"
-
-            },
-            {
-                "uuid":"96047aaf-7ab3-45e9-be6a-b61810fe617d",
-                "name": "PEP PROGRAM"
-
-            },
-             {
-                "uuid":"c19aec66-1a40-4588-9b03-b6be55a8dd1d",
-                "name": "PrEP PROGRAM"
-
-            },
-             {
-                "uuid":"334c9e98-173f-4454-a8ce-f80b20b7fdf0",
-                "name": "HIV DIFFERENTIATED CARE PROGRAM"
-
-            },
-            {
-                "uuid":"96ba279b-b23b-4e78-aba9-dcbd46a96b7b",
-                "name": "HIV TRANSIT PROGRAM"
-
-            },
-             {
-                "uuid":"781d8880-1359-11df-a1f1-0026b9348838",
-                "name": "EXPRESS CARE PROGRAM"
-
-            },
-            {
-                "uuid":"c6bf3625-de80-4a88-a913-38273e300a55",
-                "name": "HIV RETENTION PROGRAM"
-
-            },
-            {
-                "uuid":"4480c782-ef05-4d88-b2f8-c892c99438f6",
-                "name": "ACTG PROGRAM"
-
-            },
-            {
-                "uuid":"c4246ff0-b081-460c-bcc5-b0678012659e",
-                "name": "VIREMIA PROGRAM"
-
-            },
-            {
-                "uuid":"781d8768-1359-11df-a1f1-0026b9348838",
-                "name": "OVC PROGRAM"
-            },
-            {
-                "uuid":"6ff0a6dc-ef8f-467a-86fc-9d9b263d8761",
-                "name": "DTG PHARMACO-VIGILANCE"
-            },
-            {
-                "uuid": "a8e7c30d-6d2f-401c-bb52-d4433689a36b",
-                "name": "HEI PROGRAM"
-            },
-            {
-                "uuid": "a685c057-d475-42ef-bb33-8b0c1d73b122",
-                "name": "HIV SOCIAL WORK PROGRAM"
-            },
-            {
-                "uuid": "03552f68-8233-4793-8353-3db1847bb617",
-                "name": "NUTRITION PROGRAM"
-            }
-        ]
-    },
-     "uud2":{
-        "name":"HEMATO-ONCOLOGY",
-        "programs":[
-            {
-                "uuid":"43b42170-b3ce-4e03-9390-6bd78384ac06",
-                "name": "GYN-ONCOLOGY TREATMENT PROGRAM"
-            },
-            {
-                "uuid":"88566621-828f-4569-9af5-c54f8237750a",
-                "name": "BREAST CANCER TREATMENT PROGRAM"
-            },
-            {
-                "uuid":"e48b266e-4d80-41f8-a56a-a8ce5449ebc6",
-                "name": "SICKLE CELL PROGRAM"
-            },
-            {
-                "uuid":"698b7153-bff3-4931-9638-d279ca47b32e",
-                "name": "MULTIPLE MYELOMA PROGRAM"
-            },
-            {
-                "uuid":"a3610ba4-9811-46b3-9628-83ec9310be13",
-                "name": "HEMOPHILIA PROGRAM"
-            },
-            {
-                "uuid":"725b5193-3452-43fc-aca3-6a80432d9bfa",
-                "name": "GENERAL ONCOLOGY PROGRAM"
-            },
-            {
-                "uuid":"e8bc5036-1462-44fa-bcfe-ced21eae2790",
-                "name": "LUNG CANCER TREATMENT PROGRAM"
-            },
-            {
-                "uuid": "418fe011-a903-4862-93d4-5e7c84d9c253",
-                "name": "ANTICOAGULATION TREATMENT PROGRAM"
-            },
-            {
-              "uuid": "40677054-c402-4c56-a0e4-5dd7d799b52f",
-              "name": "LYMPHOMA TREATMENT PROGRAM"
-            },
-            {
-                "uuid": "37ff4124-91fd-49e6-8261-057ccfb4fcd0",
-                "name": "ONCOLOGY SCREENING AND DIAGNOSIS PROGRAM"
-            }
-        ]
-    },
-     "uud3":{
-        "name":"CDM",
-        "programs":[
-
-            {
-                "uuid":"b731ba72-cf99-4176-9fcd-37cd186400c7",
-                "name": "HTN AND DM CARE AT THE SECONDARY CARE LEVEL"
-            },
-            {
-                "uuid":"bd9a8b06-73c7-44a8-928c-5e72247f4c1d",
-                "name": "HTN AND DM CARE AT THE TERTIARY CARE LEVEL PROGRAM"
-            },
-            {
-                "uuid":"876a154d-310d-4caf-8b58-be9dbcc7e753",
-                "name": "HTN AND DM CARE AT THE PRIMARY CARE LEVEL"
-            },
-            {
-                "uuid": "da0c184e-751c-4b7e-a761-a60dc2d3f798",
-                "name": "INTEGRATED SCREENING PROGRAM"
-            },
-            {
-                "uuid": "f5cbf61f-eadc-4fe6-999c-2dfe9556df95",
-                "name": "BIGPIC PROGRAM"
-            },
-            {
-              "uuid": "62741bb8-949e-4acc-9e38-50d9d874c1fb",
-              "name": "BI KUZA AFYA PROGRAM "
-          },
-          {
-            "uuid": "a15a58a4-0daa-4195-bf29-b4bccd5df01e",
-            "name": "REFERRAL PEER NAVIGATOR PROGRAM"
-          },
-          {
-            "uuid": "ff446cb9-0cf4-4b39-8288-16a43ffcca25",
-            "name": "CDM DEFAULTER TRACING PROGRAM"
-          },
-          {
-            "uuid": "d2090d0b-990a-4b82-98a8-32f987329f63",
-            "name": "HOME GLUCOSE MONITORING PROGRAM"
-          },
-          {
-            "uuid": "6976b7eb-6d66-4aba-bcc0-cd8be80041cd",
-            "name": "MENTAL HEALTH PROGRAM"
-          }
-        ]
-    },
-    "uud4":{
-        "name":"BSG",
-        "programs":[
-            {
-                "uuid":"781d8a88-1359-11df-a1f1-0026b9348838",
-                "name": "BSG PROGRAM"
-            }
-
-        ]
-    },
-    "uud5":{
-        "name":"DERMATOLOGY",
-        "programs":[
-            {
-                "uuid":"b3575274-1850-429b-bb8f-2ff83faedbaf",
-                "name": "DERMATOLOGY"
-            }
-
-        ]
-    }
+  "uud1": {
+    "name": "HIV",
+    "programs": [
+      {
+        "uuid": "781d85b0-1359-11df-a1f1-0026b9348838",
+        "name": "STANDARD HIV TREATMENT"
+      },
+      {
+        "uuid": "f7793d42-11ac-4cfd-9b35-e0a21a7a7c31",
+        "name": "RESISTANCE CLINIC PROGRAM"
+      },
+      {
+        "uuid": "781d897a-1359-11df-a1f1-0026b9348838",
+        "name": "PREVENTION OF MOTHER-TO-CHILD TRANSMISSION OF HIV"
+      },
+      {
+        "uuid": "96047aaf-7ab3-45e9-be6a-b61810fe617d",
+        "name": "PEP PROGRAM"
+      },
+      {
+        "uuid": "c19aec66-1a40-4588-9b03-b6be55a8dd1d",
+        "name": "PrEP PROGRAM"
+      },
+      {
+        "uuid": "334c9e98-173f-4454-a8ce-f80b20b7fdf0",
+        "name": "HIV DIFFERENTIATED CARE PROGRAM"
+      },
+      {
+        "uuid": "96ba279b-b23b-4e78-aba9-dcbd46a96b7b",
+        "name": "HIV TRANSIT PROGRAM"
+      },
+      {
+        "uuid": "781d8880-1359-11df-a1f1-0026b9348838",
+        "name": "EXPRESS CARE PROGRAM"
+      },
+      {
+        "uuid": "c6bf3625-de80-4a88-a913-38273e300a55",
+        "name": "HIV RETENTION PROGRAM"
+      },
+      {
+        "uuid": "4480c782-ef05-4d88-b2f8-c892c99438f6",
+        "name": "ACTG PROGRAM"
+      },
+      {
+        "uuid": "c4246ff0-b081-460c-bcc5-b0678012659e",
+        "name": "VIREMIA PROGRAM"
+      },
+      {
+        "uuid": "781d8768-1359-11df-a1f1-0026b9348838",
+        "name": "OVC PROGRAM"
+      },
+      {
+        "uuid": "6ff0a6dc-ef8f-467a-86fc-9d9b263d8761",
+        "name": "DTG PHARMACO-VIGILANCE"
+      },
+      {
+        "uuid": "a8e7c30d-6d2f-401c-bb52-d4433689a36b",
+        "name": "HEI PROGRAM"
+      },
+      {
+        "uuid": "a685c057-d475-42ef-bb33-8b0c1d73b122",
+        "name": "HIV SOCIAL WORK PROGRAM"
+      },
+      {
+        "uuid": "03552f68-8233-4793-8353-3db1847bb617",
+        "name": "NUTRITION PROGRAM"
+      }
+    ]
+  },
+  "uud2": {
+    "name": "HEMATO-ONCOLOGY",
+    "programs": [
+      {
+        "uuid": "43b42170-b3ce-4e03-9390-6bd78384ac06",
+        "name": "GYN-ONCOLOGY TREATMENT PROGRAM"
+      },
+      {
+        "uuid": "88566621-828f-4569-9af5-c54f8237750a",
+        "name": "BREAST CANCER TREATMENT PROGRAM"
+      },
+      {
+        "uuid": "e48b266e-4d80-41f8-a56a-a8ce5449ebc6",
+        "name": "SICKLE CELL PROGRAM"
+      },
+      {
+        "uuid": "698b7153-bff3-4931-9638-d279ca47b32e",
+        "name": "MULTIPLE MYELOMA PROGRAM"
+      },
+      {
+        "uuid": "a3610ba4-9811-46b3-9628-83ec9310be13",
+        "name": "HEMOPHILIA PROGRAM"
+      },
+      {
+        "uuid": "725b5193-3452-43fc-aca3-6a80432d9bfa",
+        "name": "GENERAL ONCOLOGY PROGRAM"
+      },
+      {
+        "uuid": "e8bc5036-1462-44fa-bcfe-ced21eae2790",
+        "name": "LUNG CANCER TREATMENT PROGRAM"
+      },
+      {
+        "uuid": "418fe011-a903-4862-93d4-5e7c84d9c253",
+        "name": "ANTICOAGULATION TREATMENT PROGRAM"
+      },
+      {
+        "uuid": "40677054-c402-4c56-a0e4-5dd7d799b52f",
+        "name": "LYMPHOMA TREATMENT PROGRAM"
+      },
+      {
+        "uuid": "37ff4124-91fd-49e6-8261-057ccfb4fcd0",
+        "name": "ONCOLOGY SCREENING AND DIAGNOSIS PROGRAM"
+      }
+    ]
+  },
+  "uud3": {
+    "name": "CDM",
+    "programs": [
+      {
+        "uuid": "b731ba72-cf99-4176-9fcd-37cd186400c7",
+        "name": "HTN AND DM CARE AT THE SECONDARY CARE LEVEL"
+      },
+      {
+        "uuid": "bd9a8b06-73c7-44a8-928c-5e72247f4c1d",
+        "name": "HTN AND DM CARE AT THE TERTIARY CARE LEVEL PROGRAM"
+      },
+      {
+        "uuid": "876a154d-310d-4caf-8b58-be9dbcc7e753",
+        "name": "HTN AND DM CARE AT THE PRIMARY CARE LEVEL"
+      },
+      {
+        "uuid": "da0c184e-751c-4b7e-a761-a60dc2d3f798",
+        "name": "INTEGRATED SCREENING PROGRAM"
+      },
+      {
+        "uuid": "f5cbf61f-eadc-4fe6-999c-2dfe9556df95",
+        "name": "BIGPIC PROGRAM"
+      },
+      {
+        "uuid": "62741bb8-949e-4acc-9e38-50d9d874c1fb",
+        "name": "BI KUZA AFYA PROGRAM "
+      },
+      {
+        "uuid": "a15a58a4-0daa-4195-bf29-b4bccd5df01e",
+        "name": "REFERRAL PEER NAVIGATOR PROGRAM"
+      },
+      {
+        "uuid": "ff446cb9-0cf4-4b39-8288-16a43ffcca25",
+        "name": "CDM DEFAULTER TRACING PROGRAM"
+      },
+      {
+        "uuid": "d2090d0b-990a-4b82-98a8-32f987329f63",
+        "name": "HOME GLUCOSE MONITORING PROGRAM"
+      },
+      {
+        "uuid": "6976b7eb-6d66-4aba-bcc0-cd8be80041cd",
+        "name": "MENTAL HEALTH PROGRAM"
+      }
+    ]
+  },
+  "uud4": {
+    "name": "BSG",
+    "programs": [
+      {
+        "uuid": "781d8a88-1359-11df-a1f1-0026b9348838",
+        "name": "BSG PROGRAM"
+      }
+    ]
+  },
+  "uud5": {
+    "name": "DERMATOLOGY",
+    "programs": [
+      {
+        "uuid": "b3575274-1850-429b-bb8f-2ff83faedbaf",
+        "name": "DERMATOLOGY"
+      }
+    ]
+  }
 }

@@ -1,69 +1,71 @@
 {
-    "name": "flatLabsAndImagingDataSetbase",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [],
-    "sources": [
-        {
-            "table": "etl.flat_labs_and_imaging",
-            "alias": "t1"
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "person_uuid",
-            "column": "t1.uuid"
-        },
-        {
-            "type": "simple_column",
-            "alias": "vl_error_order_date",
-            "column": "t1.test_datetime"
-        },
-        {
-            "type": "derived_column",
-            "alias": "ordered_vl_has_error",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "case when vl_error= 1 then 1 else 0 end"
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "gene_expert_image",
-            "column": "t1.gene_expert_image"
-        },
-        {
-            "type": "simple_column",
-            "alias": "dst_image",
-            "column": "t1.dst_image"
-        }
-    ],
-    "filters": {
-        "conditionJoinOperator": "and",
-        "conditions": [
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "t1.uuid = ?",
-                "parameterName": "patientUuid"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "t1.test_datetime < ?",
-                "parameterName": "referenceDate"
-            }
-        ]
+  "name": "flatLabsAndImagingDataSetbase",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "etl.flat_labs_and_imaging",
+      "alias": "t1"
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "person_uuid",
+      "column": "t1.uuid"
     },
-    "orderBy": {
-        "orderByParam": "orderByParam",
-        "columns": [{
-          "column": "test_datetime",
-          "order": "desc"
-    }]
-   },
-   "paging":  {                                                                                                                                                                                                                                                                                                                                                                              
-    "offSetParam":"offSetParam",                                                                                                                                                                                                                                                                                                                                                             
-    "limitParam": "limitParam"                                                                                                                                                                                                                                                                                                                                                               
-  }  
+    {
+      "type": "simple_column",
+      "alias": "vl_error_order_date",
+      "column": "t1.test_datetime"
+    },
+    {
+      "type": "derived_column",
+      "alias": "ordered_vl_has_error",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "case when vl_error= 1 then 1 else 0 end"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "gene_expert_image",
+      "column": "t1.gene_expert_image"
+    },
+    {
+      "type": "simple_column",
+      "alias": "dst_image",
+      "column": "t1.dst_image"
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "t1.uuid = ?",
+        "parameterName": "patientUuid"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "t1.test_datetime < ?",
+        "parameterName": "referenceDate"
+      }
+    ]
+  },
+  "orderBy": {
+    "orderByParam": "orderByParam",
+    "columns": [
+      {
+        "column": "test_datetime",
+        "order": "desc"
+      }
+    ]
+  },
+  "paging": {
+    "offSetParam": "offSetParam",
+    "limitParam": "limitParam"
+  }
 }

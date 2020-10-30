@@ -1,104 +1,101 @@
 {
-    "name": "currentlyEnrolledPatientsBase",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [],
-    "sources": [
-        {
-            "table": "amrs.patient_program",
-            "alias": "pp"
-        },
-        {
-            "table": "amrs.program",
-            "alias": "pr",
-            "join": {
-                "type": "INNER",
-                "joinCondition": "pr.program_id = pp.program_id"
-            }
-        },
-        {
-            "table": "amrs.person",
-            "alias": "p1",
-            "join": {
-                "type": "INNER",
-                "joinCondition": "p1.person_id = pp.patient_id"
-            }
-        },
-        {
-            "table": "amrs.patient_identifier",
-            "alias": "i",
-            "join": {
-                "type": "INNER",
-                "joinCondition": "i.patient_id = pp.patient_id"
-            }
-        },
-        {
-            "table": "amrs.person_attribute",
-            "alias": "t5",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "p1.person_id = t5.person_id AND t5.person_attribute_type_id = 28 AND t5.voided  = 0"
-            }
-        }
-    ],
-    "columns": [
-
-        {
-            "type": "simple_column",
-            "alias": "",
-            "column": "distinct pp.patient_id,pp.program_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "program_name",
-            "column": "pr.name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "program_uuid",
-            "column": "pr.uuid"
-        },
-        {
-            "type": "simple_column",
-            "alias": "date_completed",
-            "column": "pp.date_completed"
-        },
-        {
-            "type": "simple_column",
-            "alias": "date_enrolled",
-            "column": "pp.date_enrolled"
-        }
-       
-    ],
-    "filters": {
-        "conditionJoinOperator": "and",
-        "conditions": [
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "pp.program_id IN ?",
-                "parameterName": "programTypeIds"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "pp.location_id IN ?",
-                "parameterName": "locations"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "(pp.date_enrolled IS NULL || pp.date_enrolled <= ?)",
-                "parameterName": "endDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "(pp.date_completed IS NULL || pp.date_completed >= ?)",
-                "parameterName": "endDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "pp.voided IS NULL or pp.voided = 0 "
-            }
-           
-        ]
+  "name": "currentlyEnrolledPatientsBase",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "amrs.patient_program",
+      "alias": "pp"
+    },
+    {
+      "table": "amrs.program",
+      "alias": "pr",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "pr.program_id = pp.program_id"
+      }
+    },
+    {
+      "table": "amrs.person",
+      "alias": "p1",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "p1.person_id = pp.patient_id"
+      }
+    },
+    {
+      "table": "amrs.patient_identifier",
+      "alias": "i",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "i.patient_id = pp.patient_id"
+      }
+    },
+    {
+      "table": "amrs.person_attribute",
+      "alias": "t5",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "p1.person_id = t5.person_id AND t5.person_attribute_type_id = 28 AND t5.voided  = 0"
+      }
     }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "",
+      "column": "distinct pp.patient_id,pp.program_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "program_name",
+      "column": "pr.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "program_uuid",
+      "column": "pr.uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "date_completed",
+      "column": "pp.date_completed"
+    },
+    {
+      "type": "simple_column",
+      "alias": "date_enrolled",
+      "column": "pp.date_enrolled"
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "pp.program_id IN ?",
+        "parameterName": "programTypeIds"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "pp.location_id IN ?",
+        "parameterName": "locations"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "(pp.date_enrolled IS NULL || pp.date_enrolled <= ?)",
+        "parameterName": "endDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "(pp.date_completed IS NULL || pp.date_completed >= ?)",
+        "parameterName": "endDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "pp.voided IS NULL or pp.voided = 0 "
+      }
+    ]
+  }
 }

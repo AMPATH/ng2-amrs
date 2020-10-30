@@ -1,43 +1,42 @@
 {
-    "name": "patient_daily_care_status",
-    "version": "1.0",
-    "tag": "patient_daily_care_status",
-    "description": "Patient Daily Care Status",
-    "sources": [
-        {
-            "table": "etl.flat_hiv_summary_v15b",
-            "alias": "t1"
-        }
-    ],
-    "columns": [
-        {
-            "type": "derived_column",
-            "alias": "patient_daily_care_status",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "CASE WHEN TIMESTAMPDIFF(DAY, IF(rtc_date, rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)),'{referenceDate}') <= 90 AND transfer_out IS NULL AND COALESCE(death_date, out_of_care) IS NULL THEN 'active' WHEN TIMESTAMPDIFF(DAY, IF(rtc_date, rtc_date, DATE_ADD(encounter_datetime, INTERVAL 30 DAY)), '{referenceDate}') > 90 THEN 'ltfu' WHEN transfer_out IS NOT NULL AND COALESCE(death_date) IS NULL THEN 'transfered_out' END"
-            }
-        }
-    ],
-    "filters": {
-        "conditionJoinOperator": "and",
-        "conditions": [
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "t1.uuid = ?",
-                "parameterName": "patient_uuid"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "is_clinical_encounter = 1",
-                "parameterName": ""
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "next_clinical_datetime_hiv IS NULL",
-                "parameterName": ""
-            }
-        ]
+  "name": "patient_daily_care_status",
+  "version": "1.0",
+  "tag": "patient_daily_care_status",
+  "description": "Patient Daily Care Status",
+  "sources": [
+    {
+      "table": "etl.flat_hiv_summary_v15b",
+      "alias": "t1"
     }
-
+  ],
+  "columns": [
+    {
+      "type": "derived_column",
+      "alias": "patient_daily_care_status",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "CASE WHEN TIMESTAMPDIFF(DAY, IF(rtc_date, rtc_date, DATE_ADD(t1.encounter_datetime, INTERVAL 30 DAY)),'{referenceDate}') <= 90 AND transfer_out IS NULL AND COALESCE(death_date, out_of_care) IS NULL THEN 'active' WHEN TIMESTAMPDIFF(DAY, IF(rtc_date, rtc_date, DATE_ADD(encounter_datetime, INTERVAL 30 DAY)), '{referenceDate}') > 90 THEN 'ltfu' WHEN transfer_out IS NOT NULL AND COALESCE(death_date) IS NULL THEN 'transfered_out' END"
+      }
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "t1.uuid = ?",
+        "parameterName": "patient_uuid"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "is_clinical_encounter = 1",
+        "parameterName": ""
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "next_clinical_datetime_hiv IS NULL",
+        "parameterName": ""
+      }
+    ]
+  }
 }

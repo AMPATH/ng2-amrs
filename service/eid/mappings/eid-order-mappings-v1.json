@@ -415,7 +415,7 @@
       "mrsDisplay": "No Data"
     }
   },
-  "hivStatus":{
+  "hivStatus": {
     "a896f3a6-1350-11df-a1f1-0026b9348838": {
       "eidId": 2,
       "eidDisplay": "Positive",
@@ -432,7 +432,7 @@
       "mrsDisplay": "Unknown"
     }
   },
-  "infantProphylaxis":{
+  "infantProphylaxis": {
     "a8967656-1350-11df-a1f1-0026b9348838": {
       "eidId": 1,
       "eidDisplay": "sdNVP only",
@@ -474,14 +474,14 @@
       "mrsDisplay": "Other"
     }
   },
-  "pmtctIntervention":{
+  "pmtctIntervention": {
     "a8967656-1350-11df-a1f1-0026b9348838": {
       "eidId": 1,
       "eidDisplay": "sdNVP only",
       "mrsDisplay": "sdNVP only"
     },
     "0906b973-25da-4e87-a272-84692cdd8453": {
-      "eidId":5,
+      "eidId": 5,
       "eidDisplay": "Uninterrupted HAART (HAART until end of BF)",
       "mrsDisplay": "Uninterrupted HAART (HAART until end of BF)"
     },
@@ -511,9 +511,9 @@
       "mrsDisplay": "Other"
     }
   },
-  "infantFeedingPlan":{
+  "infantFeedingPlan": {
     "a8a8d9b8-1350-11df-a1f1-0026b9348838": {
-      "eidId":1,
+      "eidId": 1,
       "eidDisplay": "EBF=Exclusive breastfeeding",
       "mrsDisplay": "EBF=Exclusive breastfeeding"
     },

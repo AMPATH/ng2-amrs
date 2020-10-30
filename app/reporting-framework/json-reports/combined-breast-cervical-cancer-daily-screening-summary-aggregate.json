@@ -1,92 +1,89 @@
 {
-    "name": "combinedBreastCervicalCancerDailySummaryAggregate",
-    "version": "1.0",
-    "tag": "combined_breast_cervical_cancer_summary_aggregate",
-    "uses": [
-        {
-            "name": "combinedBreastCervicalCancerDailySummaryBase",
-            "version": "1.0",
-            "type": "dataset_def"
-        }
-    ],
-    "sources": [
-        {
-            "dataSet": "combinedBreastCervicalCancerDailySummaryBase",
-            "alias": "bcsd"
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "location_name",
-            "column": "location_name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_uuid",
-            "column": "location_uuid"
-        },
-        {
-            "type": "derived_column",
-            "alias": "encounter_datetime",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "date_format(bcsd.encounter_datetime, '%d-%m-%Y')"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "total_breast_screened",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(bcsd.total_breast_screened)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "total_cervical_screened",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(bcsd.total_cervical_screened)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "total_breast_and_cervical_screened",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(bcsd.both_cervical_and_breast)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "total_screens",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "(sum(bcsd.both_cervical_and_breast) * 2) + sum(bcsd.total_cervical_screened) + sum(bcsd.total_breast_screened)"
-            }
-        }
-    ],
-    "groupBy": {
-        "groupParam": "groupByParam",
-        "columns": [
-            "location_id",
-            "DATE(bcsd.encounter_datetime)"
-        ],
-        "excludeParam": "excludeParam"
-    },
-    "dynamicJsonQueryGenerationDirectives": {
-        "patientListGenerator": {
-            "useTemplate": "combined_breast_cervical_cancer_patient_list_template",
-            "useTemplateVersion": "1.0",
-            "generatingDirectives": {
-                "joinDirectives": {
-                    "joinType": "INNER",
-                    "joinCondition": "<<base_column>> = <<template_column>>",
-                    "baseColumn": "patient_id",
-                    "templateColumn": "person_id"
-                }
-            }
-        }
+  "name": "combinedBreastCervicalCancerDailySummaryAggregate",
+  "version": "1.0",
+  "tag": "combined_breast_cervical_cancer_summary_aggregate",
+  "uses": [
+    {
+      "name": "combinedBreastCervicalCancerDailySummaryBase",
+      "version": "1.0",
+      "type": "dataset_def"
     }
+  ],
+  "sources": [
+    {
+      "dataSet": "combinedBreastCervicalCancerDailySummaryBase",
+      "alias": "bcsd"
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "location_name",
+      "column": "location_name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "location_uuid"
+    },
+    {
+      "type": "derived_column",
+      "alias": "encounter_datetime",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "date_format(bcsd.encounter_datetime, '%d-%m-%Y')"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "total_breast_screened",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(bcsd.total_breast_screened)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "total_cervical_screened",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(bcsd.total_cervical_screened)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "total_breast_and_cervical_screened",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(bcsd.both_cervical_and_breast)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "total_screens",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "(sum(bcsd.both_cervical_and_breast) * 2) + sum(bcsd.total_cervical_screened) + sum(bcsd.total_breast_screened)"
+      }
+    }
+  ],
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["location_id", "DATE(bcsd.encounter_datetime)"],
+    "excludeParam": "excludeParam"
+  },
+  "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+      "useTemplate": "combined_breast_cervical_cancer_patient_list_template",
+      "useTemplateVersion": "1.0",
+      "generatingDirectives": {
+        "joinDirectives": {
+          "joinType": "INNER",
+          "joinCondition": "<<base_column>> = <<template_column>>",
+          "baseColumn": "patient_id",
+          "templateColumn": "person_id"
+        }
+      }
+    }
+  }
 }

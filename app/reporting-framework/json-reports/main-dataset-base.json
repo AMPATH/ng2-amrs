@@ -1,444 +1,443 @@
 {
-    "name": "mainDataSetBase",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [],
-    "sources": [
-        {
-            "table": "<<hivMonthlyDatasetSource>>",
-            "alias": "hmsd"
-        },
-        {
-            "table": "amrs.location",
-            "alias": "l",
-            "join": {
-                "type": "INNER",
-                "joinCondition": "l.location_id = hmsd.location_id"
-            }
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "gender",
-            "column": "hmsd.gender"
-        },
-        {
-            "type": "simple_column",
-            "alias": "birthdate",
-            "column": "hmsd.birthdate"
-        },
-        {
-            "type": "simple_column",
-            "alias": "age",
-            "column": "hmsd.age"
-        },
-        {
-            "type": "simple_column",
-            "alias": "person_id",
-            "column": "hmsd.person_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_uuid",
-            "column": "l.uuid"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location",
-            "column": "l.name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_id",
-            "column": "hmsd.location_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "cur_arv_meds",
-            "column": "hmsd.cur_arv_meds"
-        },
-        {
-            "type": "derived_column",
-            "alias": "enrollment_date",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "date_format(hmsd.enrollment_date,'%d-%m-%Y')"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "arv_first_regimen_start_date",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "date_format(hmsd.arv_first_regimen_start_date,'%d-%m-%Y')"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "cur_regimen_arv_start_date",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "date_format(hmsd.arv_start_date,'%d-%m-%Y')"
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "cur_arv_line",
-            "column": "hmsd.cur_arv_line"
-        },
-        {
-            "type": "simple_column",
-            "alias": "vl_1",
-            "column": "hmsd.vl_1"
-        },
-        {
-            "type": "derived_column",
-            "alias": "vl_1_date",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "date_format(hmsd.vl_1_date,'%d-%m-%Y')"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "age_range",
-            "expressionType": "case_statement",
-            "expressionOptions": {
-                "caseOptions": [
-                    {
-                        "condition": "hmsd.age < 1",
-                        "value": "0_to_1"
-                    },
-                    {
-                        "condition": "hmsd.age between 1 and 9",
-                        "value": "1_to_9"
-                    },
-                    {
-                        "condition": "hmsd.age between 10 and 14",
-                        "value": "10_to_14"
-                    },
-                    {
-                        "condition": "hmsd.age between 15 and 19",
-                        "value": "15_to_19"
-                    },
-                    {
-                        "condition": "hmsd.age between 20 and 24",
-                        "value": "20_to_24"
-                    },
-                    {
-                        "condition": "else",
-                        "value": "older_than_24"
-                    }
-                ]
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "enrolled_this_month",
-            "column": "hmsd.enrolled_this_month"
-        },
-        {
-            "type": "simple_column",
-            "alias": "art_revisit_this_month",
-            "column": "hmsd.art_revisit_this_month"
-        },
-        {
-            "type": "simple_column",
-            "alias": "current_in_care",
-            "column": "hmsd.active_in_care_this_month"
-        },
-        {
-            "type": "simple_column",
-            "alias": "pre_art",
-            "column": "hmsd.is_pre_art_this_month"
-        },
-        {
-            "type": "simple_column",
-            "alias": "started_art_pregnant",
-            "column": "hmsd.is_pregnant_and_started_art_this_month"
-        },
-        {
-            "type": "simple_column",
-            "alias": "started_art_and_has_tb",
-            "column": "hmsd.on_tb_tx_and_started_art_this_month"
-        },
-        {
-            "type": "simple_column",
-            "alias": "active_on_art",
-            "column": "hmsd.on_art_this_month"
-        },
-        {
-            "type": "simple_column",
-            "alias": "on_ctx_prophylaxis",
-            "column": "hmsd.on_pcp_prophylaxis_this_month"
-        },
-        {
-            "type": "simple_column",
-            "alias": "current_on_art",
-            "column": "hmsd.on_art_this_month"
-        },
-        {
-            "type": "simple_column",
-            "alias": "screened_for_tb",
-            "column": "hmsd.tb_screened_active_this_month"
-        },
-        {
-            "type": "simple_column",
-            "alias": "tb_screened_this_visit_this_month",
-            "column": "hmsd.tb_screened_this_visit_this_month"
-        },
-        {
-            "type": "simple_column",
-            "alias": "tb_screened_positive",
-            "column": "hmsd.presumed_tb_positive_this_month"
-        },
-        {
-            "type": "derived_column",
-            "alias": "screened_for_cervical_ca",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "0"
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "started_ipt",
-            "column": "hmsd.started_ipt_this_month"
-        },
-        {
-            "type": "derived_column",
-            "alias": "completed_ipt_past_12_months",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "completed_ipt_past_12_months"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "condoms_provided",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "condoms_provided_this_month"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "started_modern_contraception",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "started_modern_contraception_this_month"
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "on_modern_contraception",
-            "column": "hmsd.on_modern_contraception_this_month"
-        },
-        {
-            "type": "simple_column",
-            "alias": "scheduled_visits",
-            "column": "hmsd.scheduled_this_month"
-        },
-        {
-            "type": "simple_column",
-            "alias": "unscheduled_visits",
-            "column": "hmsd.unscheduled_this_month"
-        },
-        {
-            "type": "simple_column",
-            "alias": "total_visits",
-            "column": "hmsd.visit_this_month"
-        },
-        {
-            "type": "simple_column",
-            "alias": "f_gte_18_visits",
-            "column": "hmsd.f_18_and_older_this_month"
-        },
-        {
-            "type": "derived_column",
-            "alias": "is_cross_border_on_art_this_month",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "IF(hmsd.art_revisit_this_month = 1 and hmsd.is_cross_border_this_month = 1 , 1 , 0)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "is_cross_border_vl_suppressed_this_month",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "IF(hmsd.is_suppressed_this_month = 1 and hmsd.is_cross_border_this_month = 1 and hmsd.status = 'active' , 1 , 0)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "is_cross_border_active_on_art_12_month_cohort_this_month",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "IF(hmsd.active_on_art_12_month_cohort_this_month = 1 and hmsd.is_cross_border_this_month = 1 , 1 , 0)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "is_cross_border_presumed_tb_positive_this_month",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "IF(hmsd.presumed_tb_positive_this_month = 1 and hmsd.is_cross_border_this_month = 1 and hmsd.status = 'active' , 1 , 0)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "is_cross_border_started_tb_tx_this_month",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "IF(hmsd.started_tb_tx_this_month = 1 and hmsd.is_cross_border_this_month = 1 , 1 , 0)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "is_cross_border_on_tb_tx_this_month",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "IF(hmsd.on_tb_tx_this_month = 1 and hmsd.is_cross_border_this_month = 1 and status = 'active' , 1 , 0)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "is_cross_border_completed_tb_tx",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "IF(hmsd.is_cross_border_this_month = 1 and hmsd.tb_tx_end_date is not null , 1 , 0)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "is_cross_border_stopped_tb_tx",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "IF(hmsd.is_cross_border_this_month = 1 and hmsd.tb_tx_stop_date is not null , 1 , 0)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "is_cross_border_on_tb_tx_transferred_out",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "IF(hmsd.on_tb_tx_this_month = 1 and hmsd.is_cross_border_this_month = 1 and status = 'transfer_out' , 1 , 0)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "is_cross_border_on_tb_tx_ltfu",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "IF(hmsd.on_tb_tx_this_month = 1 and hmsd.is_cross_border_this_month = 1 and ( status = 'defaulter' or status = 'ltfu'), 1 , 0)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "is_cross_border_on_tb_tx_dead",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "IF(hmsd.on_tb_tx_this_month = 1 and hmsd.is_cross_border_this_month = 1 and status = 'dead', 1 , 0)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "is_cross_border_on_modern_contraception_this_month",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "IF(hmsd.on_modern_contraception_this_month = 1 and hmsd.is_cross_border_this_month = 1 and hmsd.status = 'active', 1 , 0)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "is_cross_border_country_this_month",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "IF(hmsd.is_cross_border_country_this_month = 1 and hmsd.status = 'active' , 1 , 0)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "is_cross_border_county_this_month",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "IF(hmsd.is_cross_border_county_this_month = 1 and hmsd.status = 'active' , 1 , 0)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "travelled_outside_last_3_months",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "IF(hmsd.travelled_outside_last_3_months = 1 and hmsd.status = 'active' , 1 , 0)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "travelled_outside_last_6_months",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "IF(hmsd.travelled_outside_last_6_months = 1 and hmsd.status = 'active' , 1 , 0)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "travelled_outside_last_12_months",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "IF(hmsd.travelled_outside_last_12_months = 1 and hmsd.status = 'active' , 1 , 0)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "is_cross_border_this_month_kenya",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "IF(hmsd.is_cross_border_this_month = 1 and hmsd.status = 'active' and hmsd.country_of_residence = 11197, 1 , 0)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "is_cross_border_this_month_uganda",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "IF(hmsd.is_cross_border_this_month = 1 and hmsd.status = 'active' and hmsd.country_of_residence = 11118, 1 , 0)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "is_cross_border_this_month_other",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "IF(hmsd.is_cross_border_this_month = 1 and hmsd.status = 'active' and hmsd.country_of_residence is null , 1 , 0)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "is_cross_border_this_month",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "IF(hmsd.is_cross_border_this_month = 1 and hmsd.status = 'active', 1 , 0)"
-            }
-        }
-
-    ],
-    "filters": {
-        "conditionJoinOperator": "and",
-        "conditions": [
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "endDate = ?",
-                "parameterName": "endDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "hmsd.location_id in ?",
-                "parameterName": "locations"
-            }
-        ]
+  "name": "mainDataSetBase",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "<<hivMonthlyDatasetSource>>",
+      "alias": "hmsd"
+    },
+    {
+      "table": "amrs.location",
+      "alias": "l",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "l.location_id = hmsd.location_id"
+      }
     }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "gender",
+      "column": "hmsd.gender"
+    },
+    {
+      "type": "simple_column",
+      "alias": "birthdate",
+      "column": "hmsd.birthdate"
+    },
+    {
+      "type": "simple_column",
+      "alias": "age",
+      "column": "hmsd.age"
+    },
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "hmsd.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "l.uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "l.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "hmsd.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "cur_arv_meds",
+      "column": "hmsd.cur_arv_meds"
+    },
+    {
+      "type": "derived_column",
+      "alias": "enrollment_date",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "date_format(hmsd.enrollment_date,'%d-%m-%Y')"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "arv_first_regimen_start_date",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "date_format(hmsd.arv_first_regimen_start_date,'%d-%m-%Y')"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "cur_regimen_arv_start_date",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "date_format(hmsd.arv_start_date,'%d-%m-%Y')"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "cur_arv_line",
+      "column": "hmsd.cur_arv_line"
+    },
+    {
+      "type": "simple_column",
+      "alias": "vl_1",
+      "column": "hmsd.vl_1"
+    },
+    {
+      "type": "derived_column",
+      "alias": "vl_1_date",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "date_format(hmsd.vl_1_date,'%d-%m-%Y')"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "age_range",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "hmsd.age < 1",
+            "value": "0_to_1"
+          },
+          {
+            "condition": "hmsd.age between 1 and 9",
+            "value": "1_to_9"
+          },
+          {
+            "condition": "hmsd.age between 10 and 14",
+            "value": "10_to_14"
+          },
+          {
+            "condition": "hmsd.age between 15 and 19",
+            "value": "15_to_19"
+          },
+          {
+            "condition": "hmsd.age between 20 and 24",
+            "value": "20_to_24"
+          },
+          {
+            "condition": "else",
+            "value": "older_than_24"
+          }
+        ]
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "enrolled_this_month",
+      "column": "hmsd.enrolled_this_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "art_revisit_this_month",
+      "column": "hmsd.art_revisit_this_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "current_in_care",
+      "column": "hmsd.active_in_care_this_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "pre_art",
+      "column": "hmsd.is_pre_art_this_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "started_art_pregnant",
+      "column": "hmsd.is_pregnant_and_started_art_this_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "started_art_and_has_tb",
+      "column": "hmsd.on_tb_tx_and_started_art_this_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "active_on_art",
+      "column": "hmsd.on_art_this_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "on_ctx_prophylaxis",
+      "column": "hmsd.on_pcp_prophylaxis_this_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "current_on_art",
+      "column": "hmsd.on_art_this_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "screened_for_tb",
+      "column": "hmsd.tb_screened_active_this_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "tb_screened_this_visit_this_month",
+      "column": "hmsd.tb_screened_this_visit_this_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "tb_screened_positive",
+      "column": "hmsd.presumed_tb_positive_this_month"
+    },
+    {
+      "type": "derived_column",
+      "alias": "screened_for_cervical_ca",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "0"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "started_ipt",
+      "column": "hmsd.started_ipt_this_month"
+    },
+    {
+      "type": "derived_column",
+      "alias": "completed_ipt_past_12_months",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "completed_ipt_past_12_months"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "condoms_provided",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "condoms_provided_this_month"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "started_modern_contraception",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "started_modern_contraception_this_month"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "on_modern_contraception",
+      "column": "hmsd.on_modern_contraception_this_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "scheduled_visits",
+      "column": "hmsd.scheduled_this_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "unscheduled_visits",
+      "column": "hmsd.unscheduled_this_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "total_visits",
+      "column": "hmsd.visit_this_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "f_gte_18_visits",
+      "column": "hmsd.f_18_and_older_this_month"
+    },
+    {
+      "type": "derived_column",
+      "alias": "is_cross_border_on_art_this_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(hmsd.art_revisit_this_month = 1 and hmsd.is_cross_border_this_month = 1 , 1 , 0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "is_cross_border_vl_suppressed_this_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(hmsd.is_suppressed_this_month = 1 and hmsd.is_cross_border_this_month = 1 and hmsd.status = 'active' , 1 , 0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "is_cross_border_active_on_art_12_month_cohort_this_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(hmsd.active_on_art_12_month_cohort_this_month = 1 and hmsd.is_cross_border_this_month = 1 , 1 , 0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "is_cross_border_presumed_tb_positive_this_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(hmsd.presumed_tb_positive_this_month = 1 and hmsd.is_cross_border_this_month = 1 and hmsd.status = 'active' , 1 , 0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "is_cross_border_started_tb_tx_this_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(hmsd.started_tb_tx_this_month = 1 and hmsd.is_cross_border_this_month = 1 , 1 , 0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "is_cross_border_on_tb_tx_this_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(hmsd.on_tb_tx_this_month = 1 and hmsd.is_cross_border_this_month = 1 and status = 'active' , 1 , 0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "is_cross_border_completed_tb_tx",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(hmsd.is_cross_border_this_month = 1 and hmsd.tb_tx_end_date is not null , 1 , 0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "is_cross_border_stopped_tb_tx",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(hmsd.is_cross_border_this_month = 1 and hmsd.tb_tx_stop_date is not null , 1 , 0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "is_cross_border_on_tb_tx_transferred_out",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(hmsd.on_tb_tx_this_month = 1 and hmsd.is_cross_border_this_month = 1 and status = 'transfer_out' , 1 , 0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "is_cross_border_on_tb_tx_ltfu",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(hmsd.on_tb_tx_this_month = 1 and hmsd.is_cross_border_this_month = 1 and ( status = 'defaulter' or status = 'ltfu'), 1 , 0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "is_cross_border_on_tb_tx_dead",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(hmsd.on_tb_tx_this_month = 1 and hmsd.is_cross_border_this_month = 1 and status = 'dead', 1 , 0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "is_cross_border_on_modern_contraception_this_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(hmsd.on_modern_contraception_this_month = 1 and hmsd.is_cross_border_this_month = 1 and hmsd.status = 'active', 1 , 0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "is_cross_border_country_this_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(hmsd.is_cross_border_country_this_month = 1 and hmsd.status = 'active' , 1 , 0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "is_cross_border_county_this_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(hmsd.is_cross_border_county_this_month = 1 and hmsd.status = 'active' , 1 , 0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "travelled_outside_last_3_months",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(hmsd.travelled_outside_last_3_months = 1 and hmsd.status = 'active' , 1 , 0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "travelled_outside_last_6_months",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(hmsd.travelled_outside_last_6_months = 1 and hmsd.status = 'active' , 1 , 0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "travelled_outside_last_12_months",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(hmsd.travelled_outside_last_12_months = 1 and hmsd.status = 'active' , 1 , 0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "is_cross_border_this_month_kenya",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(hmsd.is_cross_border_this_month = 1 and hmsd.status = 'active' and hmsd.country_of_residence = 11197, 1 , 0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "is_cross_border_this_month_uganda",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(hmsd.is_cross_border_this_month = 1 and hmsd.status = 'active' and hmsd.country_of_residence = 11118, 1 , 0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "is_cross_border_this_month_other",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(hmsd.is_cross_border_this_month = 1 and hmsd.status = 'active' and hmsd.country_of_residence is null , 1 , 0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "is_cross_border_this_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(hmsd.is_cross_border_this_month = 1 and hmsd.status = 'active', 1 , 0)"
+      }
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "endDate = ?",
+        "parameterName": "endDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "hmsd.location_id in ?",
+        "parameterName": "locations"
+      }
+    ]
+  }
 }

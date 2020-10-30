@@ -1,181 +1,179 @@
 {
-    "name": "clinicHivComparativeOverviewAggregate",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [
-        {
-            "name": "clinicHivComparativeOverviewBase",
-            "version": "1.0",
-            "type": "dataset_def"
-        }
-    ],
-    "sources": [
-        {
-            "dataSet": "clinicHivComparativeOverviewBase",
-            "alias": "hmsd"
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "location_id",
-            "column": "location_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_uuid",
-            "column": "location_uuid"
-        },
-        {
-            "type": "simple_column",
-            "alias": "person_id",
-            "column": "person_id"
-        },
-        {
-            "type": "derived_column",
-            "alias": "currently_in_care_total",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct  concat(currently_in_care_total, hmsd.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_art_total",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(on_art_total, hmsd.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "not_on_art_total",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(not_on_art_total, hmsd.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "patients_requiring_vl",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(patients_requiring_vl, hmsd.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "tested_appropriately",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(tested_appropriately, hmsd.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "not_tested_appropriately",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(not_tested_appropriately, hmsd.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "due_for_annual_vl",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(due_for_annual_vl, hmsd.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "pending_vl_orders",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(pending_vl_orders, hmsd.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "missing_vl_order",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(missing_vl_order, hmsd.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "virally_suppressed",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(virally_suppressed, hmsd.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "not_virally_suppressed",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(not_virally_suppressed, hmsd.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "perc_tested_appropriately",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(count(distinct concat(tested_appropriately, hmsd.person_id))=0, 0,(count(distinct concat(tested_appropriately, hmsd.person_id))/count(distinct concat(patients_requiring_vl, hmsd.person_id))*100))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "perc_virally_suppressed",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(count(distinct concat(virally_suppressed, hmsd.person_id))=0, 0,(count(distinct concat(virally_suppressed, hmsd.person_id))/count(distinct concat(tested_appropriately, hmsd.person_id))*100))"
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "reporting_date",
-            "column": "reporting_date"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_uuid",
-            "column": "location_uuid"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_id",
-            "column": "location_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "reporting_month",
-            "column": "reporting_month"
-        }
-    ],
-    "groupBy": {
-        "groupParam": "groupByParam",
-        "columns": [
-            "endDate"
-        ],
-        "excludeParam": "excludeParam"
-    },
-    "dynamicJsonQueryGenerationDirectives": {
-        "patientListGenerator": {
-            "useTemplate": "patient-list-frozen-template",
-            "useTemplateVersion": "1.0",
-            "generatingDirectives": {
-                "joinDirectives": {
-                    "joinType": "INNER",
-                    "joinCondition": "<<base_column>> = <<template_column>>",
-                    "baseColumn": "person_id",
-                    "templateColumn": "person_id"
-                }
-            }
-        }
+  "name": "clinicHivComparativeOverviewAggregate",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [
+    {
+      "name": "clinicHivComparativeOverviewBase",
+      "version": "1.0",
+      "type": "dataset_def"
     }
+  ],
+  "sources": [
+    {
+      "dataSet": "clinicHivComparativeOverviewBase",
+      "alias": "hmsd"
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "location_uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "person_id"
+    },
+    {
+      "type": "derived_column",
+      "alias": "currently_in_care_total",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct  concat(currently_in_care_total, hmsd.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_art_total",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(on_art_total, hmsd.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "not_on_art_total",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(not_on_art_total, hmsd.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "patients_requiring_vl",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(patients_requiring_vl, hmsd.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "tested_appropriately",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(tested_appropriately, hmsd.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "not_tested_appropriately",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(not_tested_appropriately, hmsd.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "due_for_annual_vl",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(due_for_annual_vl, hmsd.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "pending_vl_orders",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(pending_vl_orders, hmsd.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "missing_vl_order",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(missing_vl_order, hmsd.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "virally_suppressed",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(virally_suppressed, hmsd.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "not_virally_suppressed",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(not_virally_suppressed, hmsd.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "perc_tested_appropriately",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(count(distinct concat(tested_appropriately, hmsd.person_id))=0, 0,(count(distinct concat(tested_appropriately, hmsd.person_id))/count(distinct concat(patients_requiring_vl, hmsd.person_id))*100))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "perc_virally_suppressed",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(count(distinct concat(virally_suppressed, hmsd.person_id))=0, 0,(count(distinct concat(virally_suppressed, hmsd.person_id))/count(distinct concat(tested_appropriately, hmsd.person_id))*100))"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "reporting_date",
+      "column": "reporting_date"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "location_uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "reporting_month",
+      "column": "reporting_month"
+    }
+  ],
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["endDate"],
+    "excludeParam": "excludeParam"
+  },
+  "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+      "useTemplate": "patient-list-frozen-template",
+      "useTemplateVersion": "1.0",
+      "generatingDirectives": {
+        "joinDirectives": {
+          "joinType": "INNER",
+          "joinCondition": "<<base_column>> = <<template_column>>",
+          "baseColumn": "person_id",
+          "templateColumn": "person_id"
+        }
+      }
+    }
+  }
 }

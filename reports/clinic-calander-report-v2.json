@@ -1,453 +1,439 @@
 [
-    {
-        "name": "attended",
-        "table": {
-            "schema": "etl",
-            "tableName": "flat_hiv_summary",
-            "alias": "t1"
-        },
-        "joins": [
-            {
-                "joinType": "INNER JOIN",
-                "schema": "amrs",
-                "tableName": "visit",
-                "alias": "t2",
-                "joinExpression": "t1.visit_id  = t2.visit_id"
-            },
-            {
-                "joinType": "INNER JOIN",
-                "schema": "etl",
-                "tableName": "program_visit_map",
-                "alias": "t3",
-                "joinExpression": "t2.visit_type_id  = t3.visit_type_id"
-            }
-        ],
-        "parameters": [
-            {
-                "name": "groupByAttendedDate",
-                "defaultValue": [
-                    {
-                        "label": "attended_date",
-                        "expression": "attended_date"
-                    }
-                ]
-            },
-            {
-                "name": "startDate",
-                "defaultValue": [
-                    "10-10-2015"
-                ]
-            },
-            {
-                "name": "endDate",
-                "defaultValue": [
-                    "defaultValue"
-                ]
-            },
-            {
-                "name": "locationUuids",
-                "defaultValue": []
-            },
-            {
-                "name": "encounterIds",
-                "defaultValue": -1
-            },
-            {
-                "name": "visitTypeIds",
-                "defaultValue": -1
-            },
-            {
-                "name": "programTypeIds",
-                "defaultValue": -1
-            }
-        ],
-        "filters": [
-            {
-                "expression": "date(t1.encounter_datetime) >= ?",
-                "parameter": "startDate"
-            },
-            {
-                "expression": "date(t1.encounter_datetime) <= ?",
-                "parameter": "endDate"
-            },
-            {
-                "expression": "t1.location_uuid in (?) ",
-                "parameter": "locationUuids"
-            },
-            {
-                "expression": "t1.encounter_type in ? ",
-                "parameter": "encounterIds"
-            },
-            {
-                "expression": "t3.visit_type_id in ?",
-                "parameter": "visitTypeIds"
-            },
-            {
-                "expression": "t3.program_type_id in ?",
-                "parameter": "programTypeIds"
-            },
-            {
-                "expression": "coalesce(t1.death_date) is null",
-                "processForce": true,
-                "parameter": ""
-            },
-            {
-                "expression": "t1.encounter_type not in (21,99999)",
-                "processForce": true
-            }
-        ],
-        "groupClause": [
-            {
-                "parameter": "groupByAttendedDate"
-            },
-            {
-                "parameter": "groupByw"
-            }
-        ],
-        "indicators": [],
-        "supplementColumns": [
-            {
-                "label": "attended_date",
-                "type": "single",
-                "sql": "date(t1.encounter_datetime)"
-            },
-            {
-                "label": "attended",
-                "type": "single",
-                "sql": "count(distinct person_id)"
-            }
-        ]
+  {
+    "name": "attended",
+    "table": {
+      "schema": "etl",
+      "tableName": "flat_hiv_summary",
+      "alias": "t1"
     },
-    {
-        "name": "has-not-returned-report",
-        "table": {
-            "schema": "etl",
-            "tableName": "flat_hiv_summary",
-            "alias": "t1"
-        },
-        "joins": [
-            {
-                "joinType": "INNER JOIN",
-                "schema": "",
-                "alias": "t7",
-                "joinExpression": "t1.person_id = t7.person_id",
-                "dynamicDataset": "has-not-returned-cohort"
-            },
-            {
-                "joinType": "LEFT OUTER JOIN",
-                "schema": "etl",
-                "tableName": "flat_hiv_summary",
-                "alias": "t8",
-                "joinExpression": "(t1.person_id = t8.person_id AND t8.encounter_type = 116 AND t1.encounter_datetime < t8.encounter_datetime)"
-            },
-             {
-                "joinType": "INNER JOIN",
-                "schema": "amrs",
-                "tableName": "visit",
-                "alias": "t2",
-                "joinExpression": "t1.visit_id  = t2.visit_id"
-            },
-            {
-                "joinType": "INNER JOIN",
-                "schema": "etl",
-                "tableName": "program_visit_map",
-                "alias": "t3",
-                "joinExpression": "t2.visit_type_id  = t3.visit_type_id"
-            }
-        ],
-        "parameters": [
-            {
-                "name": "startDate",
-                "defaultValue": [
-                    "10-10-2015"
-                ]
-            },
-            {
-                "name": "endDate",
-                "defaultValue": [
-                    "30-10-2015"
-                ]
-            },
-            {
-                "name": "locationUuids",
-                "defaultValue": []
-            },
-            {
-                "name": "encounterIds",
-                "defaultValue": -1
-            },
-            {
-                "name": "visitTypeIds",
-                "defaultValue": -1
-            },
-            {
-                "name": "programTypeIds",
-                "defaultValue": -1
-            },
-            {
-                "name": "groupByDate",
-                "defaultValue": [
-                    {
-                        "label": "d",
-                        "expression": "d"
-                    }
-                ]
-            }
-        ],
-        "filters": [
-            {
-                "expression": "t1.rtc_date >= ?",
-                "parameter": "startDate"
-            },
-            {
-                "expression": "t1.rtc_date <= ?",
-                "parameter": "endDate"
-            },
-            {
-                "expression": "t1.encounter_type in ?",
-                "parameter": "encounterIds"
-            },
-            {
-                "expression": "t3.visit_type_id in ?",
-                "parameter": "visitTypeIds"
-            },
-            {
-                "expression": "t3.program_type_id in ?",
-                "parameter": "programTypeIds"
-            },
-            {
-                "expression": "t1.location_uuid in (?)",
-                "parameter": "locationUuids"
-            },
-            {
-                "expression": "coalesce(t1.transfer_out) is null",
-                "processForce": true
-            },
-            {
-                "expression": "coalesce(t1.death_date) is null",
-                "processForce": true
-            },
-            {
-                "expression": "t1.next_clinical_datetime_hiv IS NULL",
-                "processForce": true
-            },
-            {
-                "expression": "t1.encounter_type != 110",
-                "processForce": true
-            },
-            {
-                "expression": "DATE(max_rtc_date) < DATE(NOW())",
-                "processForce": true
-            },
-            {
-                "expression": "t1.rtc_date = max_rtc_date",
-                "processForce": true
-            }
-        ],
-        "groupClause": [
-            {
-                "parameter": "groupByDate",
-                "processForce": true
-            }
-        ],
-        "indicators": [
-            {
-                "label": "has_not_returned",
-                "expression": "has_not_returned",
-                "sql": "count(distinct if($expression, t1.person_id, null))"
-            }
-        ],
-        "supplementColumns": [
-            {
-                "label": "d",
-                "type": "single",
-                "sql": "date_format(t1.rtc_date,'%Y-%m-%d')"
-            }
+    "joins": [
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "visit",
+        "alias": "t2",
+        "joinExpression": "t1.visit_id  = t2.visit_id"
+      },
+      {
+        "joinType": "INNER JOIN",
+        "schema": "etl",
+        "tableName": "program_visit_map",
+        "alias": "t3",
+        "joinExpression": "t2.visit_type_id  = t3.visit_type_id"
+      }
+    ],
+    "parameters": [
+      {
+        "name": "groupByAttendedDate",
+        "defaultValue": [
+          {
+            "label": "attended_date",
+            "expression": "attended_date"
+          }
         ]
+      },
+      {
+        "name": "startDate",
+        "defaultValue": ["10-10-2015"]
+      },
+      {
+        "name": "endDate",
+        "defaultValue": ["defaultValue"]
+      },
+      {
+        "name": "locationUuids",
+        "defaultValue": []
+      },
+      {
+        "name": "encounterIds",
+        "defaultValue": -1
+      },
+      {
+        "name": "visitTypeIds",
+        "defaultValue": -1
+      },
+      {
+        "name": "programTypeIds",
+        "defaultValue": -1
+      }
+    ],
+    "filters": [
+      {
+        "expression": "date(t1.encounter_datetime) >= ?",
+        "parameter": "startDate"
+      },
+      {
+        "expression": "date(t1.encounter_datetime) <= ?",
+        "parameter": "endDate"
+      },
+      {
+        "expression": "t1.location_uuid in (?) ",
+        "parameter": "locationUuids"
+      },
+      {
+        "expression": "t1.encounter_type in ? ",
+        "parameter": "encounterIds"
+      },
+      {
+        "expression": "t3.visit_type_id in ?",
+        "parameter": "visitTypeIds"
+      },
+      {
+        "expression": "t3.program_type_id in ?",
+        "parameter": "programTypeIds"
+      },
+      {
+        "expression": "coalesce(t1.death_date) is null",
+        "processForce": true,
+        "parameter": ""
+      },
+      {
+        "expression": "t1.encounter_type not in (21,99999)",
+        "processForce": true
+      }
+    ],
+    "groupClause": [
+      {
+        "parameter": "groupByAttendedDate"
+      },
+      {
+        "parameter": "groupByw"
+      }
+    ],
+    "indicators": [],
+    "supplementColumns": [
+      {
+        "label": "attended_date",
+        "type": "single",
+        "sql": "date(t1.encounter_datetime)"
+      },
+      {
+        "label": "attended",
+        "type": "single",
+        "sql": "count(distinct person_id)"
+      }
+    ]
+  },
+  {
+    "name": "has-not-returned-report",
+    "table": {
+      "schema": "etl",
+      "tableName": "flat_hiv_summary",
+      "alias": "t1"
     },
-    {
-        "name": "has-not-returned-cohort",
-        "table": {
-            "schema": "etl",
-            "tableName": "flat_hiv_summary",
-            "alias": "t2"
-        },
-        "joins": [],
-        "parameters": [
-            {
-                "name": "startDate",
-                "defaultValue": [
-                    "10-10-2015"
-                ]
-            },
-            {
-                "name": "locationUuids",
-                "defaultValue": []
-            },
-            {
-                "name": "groupByPerson",
-                "defaultValue": [
-                    {
-                        "label": "person_id",
-                        "expression": "person_id"
-                    }
-                ]
-            }
-        ],
-        "filters": [
-            {
-                "expression": "t2.rtc_date >= ?",
-                "parameter": "startDate"
-            },
-            {
-                "expression": "t2.location_uuid in (?)",
-                "parameter": "locationUuids"
-            }
-        ],
-        "groupClause": [
-            {
-                "parameter": "groupByPerson"
-            }
-        ],
-        "indicators": [],
-        "supplementColumns": [
-            {
-                "label": "person_id",
-                "type": "single",
-                "sql": "person_id"
-            },
-            {
-                "label": "max_rtc_date",
-                "type": "single",
-                "sql": "MAX(rtc_date)"
-            }
+    "joins": [
+      {
+        "joinType": "INNER JOIN",
+        "schema": "",
+        "alias": "t7",
+        "joinExpression": "t1.person_id = t7.person_id",
+        "dynamicDataset": "has-not-returned-cohort"
+      },
+      {
+        "joinType": "LEFT OUTER JOIN",
+        "schema": "etl",
+        "tableName": "flat_hiv_summary",
+        "alias": "t8",
+        "joinExpression": "(t1.person_id = t8.person_id AND t8.encounter_type = 116 AND t1.encounter_datetime < t8.encounter_datetime)"
+      },
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "visit",
+        "alias": "t2",
+        "joinExpression": "t1.visit_id  = t2.visit_id"
+      },
+      {
+        "joinType": "INNER JOIN",
+        "schema": "etl",
+        "tableName": "program_visit_map",
+        "alias": "t3",
+        "joinExpression": "t2.visit_type_id  = t3.visit_type_id"
+      }
+    ],
+    "parameters": [
+      {
+        "name": "startDate",
+        "defaultValue": ["10-10-2015"]
+      },
+      {
+        "name": "endDate",
+        "defaultValue": ["30-10-2015"]
+      },
+      {
+        "name": "locationUuids",
+        "defaultValue": []
+      },
+      {
+        "name": "encounterIds",
+        "defaultValue": -1
+      },
+      {
+        "name": "visitTypeIds",
+        "defaultValue": -1
+      },
+      {
+        "name": "programTypeIds",
+        "defaultValue": -1
+      },
+      {
+        "name": "groupByDate",
+        "defaultValue": [
+          {
+            "label": "d",
+            "expression": "d"
+          }
         ]
+      }
+    ],
+    "filters": [
+      {
+        "expression": "t1.rtc_date >= ?",
+        "parameter": "startDate"
+      },
+      {
+        "expression": "t1.rtc_date <= ?",
+        "parameter": "endDate"
+      },
+      {
+        "expression": "t1.encounter_type in ?",
+        "parameter": "encounterIds"
+      },
+      {
+        "expression": "t3.visit_type_id in ?",
+        "parameter": "visitTypeIds"
+      },
+      {
+        "expression": "t3.program_type_id in ?",
+        "parameter": "programTypeIds"
+      },
+      {
+        "expression": "t1.location_uuid in (?)",
+        "parameter": "locationUuids"
+      },
+      {
+        "expression": "coalesce(t1.transfer_out) is null",
+        "processForce": true
+      },
+      {
+        "expression": "coalesce(t1.death_date) is null",
+        "processForce": true
+      },
+      {
+        "expression": "t1.next_clinical_datetime_hiv IS NULL",
+        "processForce": true
+      },
+      {
+        "expression": "t1.encounter_type != 110",
+        "processForce": true
+      },
+      {
+        "expression": "DATE(max_rtc_date) < DATE(NOW())",
+        "processForce": true
+      },
+      {
+        "expression": "t1.rtc_date = max_rtc_date",
+        "processForce": true
+      }
+    ],
+    "groupClause": [
+      {
+        "parameter": "groupByDate",
+        "processForce": true
+      }
+    ],
+    "indicators": [
+      {
+        "label": "has_not_returned",
+        "expression": "has_not_returned",
+        "sql": "count(distinct if($expression, t1.person_id, null))"
+      }
+    ],
+    "supplementColumns": [
+      {
+        "label": "d",
+        "type": "single",
+        "sql": "date_format(t1.rtc_date,'%Y-%m-%d')"
+      }
+    ]
+  },
+  {
+    "name": "has-not-returned-cohort",
+    "table": {
+      "schema": "etl",
+      "tableName": "flat_hiv_summary",
+      "alias": "t2"
     },
-    {
-        "name": "scheduled",
-        "table": {
-            "schema": "etl",
-            "tableName": "flat_hiv_summary",
-            "alias": "t1"
-        },
-        "joins": [
-             {
-                "joinType": "INNER JOIN",
-                "schema": "amrs",
-                "tableName": "visit",
-                "alias": "t2",
-                "joinExpression": "t1.visit_id  = t2.visit_id"
-            },
-            {
-                "joinType": "INNER JOIN",
-                "schema": "etl",
-                "tableName": "program_visit_map",
-                "alias": "t3",
-                "joinExpression": "t2.visit_type_id  = t3.visit_type_id"
-            }
-        ],
-        "parameters": [
-            {
-                "name": "groupByRtcDate",
-                "defaultValue": [
-                    {
-                        "label": "scheduled_date",
-                        "expression": "scheduled_date"
-                    }
-                ]
-            },
-            {
-                "name": "startDate",
-                "defaultValue": [
-                    "10-10-2015"
-                ]
-            },
-            {
-                "name": "endDate",
-                "defaultValue": [
-                    "30-10-2015"
-                ]
-            },
-            {
-                "name": "locationUuids",
-                "defaultValue": []
-            },
-            {
-                "name": "encounterIds",
-                "defaultValue": -1
-            },
-            {
-                "name": "visitTypeIds",
-                "defaultValue": -1
-            },
-            {
-                "name": "programTypeIds",
-                "defaultValue": -1
-            }
-        ],
-        "filters": [
-            {
-                "expression": "date(t1.rtc_date) >= ?",
-                "parameter": "startDate"
-            },
-            {
-                "expression": "date(t1.rtc_date) <= ?",
-                "parameter": "endDate"
-            },
-            {
-                "expression": "t1.location_uuid in (?)",
-                "parameter": "locationUuids"
-            },
-            {
-                "expression": "t1.encounter_type in ?",
-                "parameter": "encounterIds"
-            },
-             {
-                "expression": "t3.visit_type_id in ?",
-                "parameter": "visitTypeIds"
-            },
-            {
-                "expression": "t3.program_type_id in ?",
-                "parameter": "programTypeIds"
-            },
-            {
-                "expression": "coalesce(t1.transfer_out) is null",
-                "processForce": true
-            },
-            {
-                "expression": "coalesce(t1.death_date) is null",
-                "processForce": true
-            },
-            {
-                "expression": "t1.encounter_type not in (99999)",
-                "processForce": true
-            }
-        ],
-        "groupClause": [
-            {
-                "parameter": "groupByRtcDate"
-            },
-            {
-                "parameter": "groupByw"
-            }
-        ],
-        "indicators": [],
-        "supplementColumns": [
-            {
-                "label": "scheduled_date",
-                "type": "single",
-                "sql": "date_format(t1.rtc_date,'%Y-%m-%d')"
-            },
-            {
-                "label": "scheduled",
-                "type": "single",
-                "sql": "count(distinct t1.person_id)"
-            },
-            {
-                "label": "followed_up_by_outreach",
-                "type": "single",
-                "sql": "if(next_encounter_type_hiv =21, 1,0)"
-            }
+    "joins": [],
+    "parameters": [
+      {
+        "name": "startDate",
+        "defaultValue": ["10-10-2015"]
+      },
+      {
+        "name": "locationUuids",
+        "defaultValue": []
+      },
+      {
+        "name": "groupByPerson",
+        "defaultValue": [
+          {
+            "label": "person_id",
+            "expression": "person_id"
+          }
         ]
-    }
+      }
+    ],
+    "filters": [
+      {
+        "expression": "t2.rtc_date >= ?",
+        "parameter": "startDate"
+      },
+      {
+        "expression": "t2.location_uuid in (?)",
+        "parameter": "locationUuids"
+      }
+    ],
+    "groupClause": [
+      {
+        "parameter": "groupByPerson"
+      }
+    ],
+    "indicators": [],
+    "supplementColumns": [
+      {
+        "label": "person_id",
+        "type": "single",
+        "sql": "person_id"
+      },
+      {
+        "label": "max_rtc_date",
+        "type": "single",
+        "sql": "MAX(rtc_date)"
+      }
+    ]
+  },
+  {
+    "name": "scheduled",
+    "table": {
+      "schema": "etl",
+      "tableName": "flat_hiv_summary",
+      "alias": "t1"
+    },
+    "joins": [
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "visit",
+        "alias": "t2",
+        "joinExpression": "t1.visit_id  = t2.visit_id"
+      },
+      {
+        "joinType": "INNER JOIN",
+        "schema": "etl",
+        "tableName": "program_visit_map",
+        "alias": "t3",
+        "joinExpression": "t2.visit_type_id  = t3.visit_type_id"
+      }
+    ],
+    "parameters": [
+      {
+        "name": "groupByRtcDate",
+        "defaultValue": [
+          {
+            "label": "scheduled_date",
+            "expression": "scheduled_date"
+          }
+        ]
+      },
+      {
+        "name": "startDate",
+        "defaultValue": ["10-10-2015"]
+      },
+      {
+        "name": "endDate",
+        "defaultValue": ["30-10-2015"]
+      },
+      {
+        "name": "locationUuids",
+        "defaultValue": []
+      },
+      {
+        "name": "encounterIds",
+        "defaultValue": -1
+      },
+      {
+        "name": "visitTypeIds",
+        "defaultValue": -1
+      },
+      {
+        "name": "programTypeIds",
+        "defaultValue": -1
+      }
+    ],
+    "filters": [
+      {
+        "expression": "date(t1.rtc_date) >= ?",
+        "parameter": "startDate"
+      },
+      {
+        "expression": "date(t1.rtc_date) <= ?",
+        "parameter": "endDate"
+      },
+      {
+        "expression": "t1.location_uuid in (?)",
+        "parameter": "locationUuids"
+      },
+      {
+        "expression": "t1.encounter_type in ?",
+        "parameter": "encounterIds"
+      },
+      {
+        "expression": "t3.visit_type_id in ?",
+        "parameter": "visitTypeIds"
+      },
+      {
+        "expression": "t3.program_type_id in ?",
+        "parameter": "programTypeIds"
+      },
+      {
+        "expression": "coalesce(t1.transfer_out) is null",
+        "processForce": true
+      },
+      {
+        "expression": "coalesce(t1.death_date) is null",
+        "processForce": true
+      },
+      {
+        "expression": "t1.encounter_type not in (99999)",
+        "processForce": true
+      }
+    ],
+    "groupClause": [
+      {
+        "parameter": "groupByRtcDate"
+      },
+      {
+        "parameter": "groupByw"
+      }
+    ],
+    "indicators": [],
+    "supplementColumns": [
+      {
+        "label": "scheduled_date",
+        "type": "single",
+        "sql": "date_format(t1.rtc_date,'%Y-%m-%d')"
+      },
+      {
+        "label": "scheduled",
+        "type": "single",
+        "sql": "count(distinct t1.person_id)"
+      },
+      {
+        "label": "followed_up_by_outreach",
+        "type": "single",
+        "sql": "if(next_encounter_type_hiv =21, 1,0)"
+      }
+    ]
+  }
 ]

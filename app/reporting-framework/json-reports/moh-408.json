@@ -1,11 +1,11 @@
 {
-    "reports": [
-        "heiInfantFeedingAggregate",
-        "heiInfantFeedingNoDisaggregationAggregate",
-        "heiInfantTestingAggregate",
-        "heiRetentionPairsAggregate",
-        "heiProgramOutcomeAggregate",
-        "heiUknownProgramOutcomeAggregate",
-        "heiOriginalCohortAggregate"
-    ]
+  "reports": [
+    "heiInfantFeedingAggregate",
+    "heiInfantFeedingNoDisaggregationAggregate",
+    "heiInfantTestingAggregate",
+    "heiRetentionPairsAggregate",
+    "heiProgramOutcomeAggregate",
+    "heiUknownProgramOutcomeAggregate",
+    "heiOriginalCohortAggregate"
+  ]
 }

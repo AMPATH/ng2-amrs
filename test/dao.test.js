@@ -22,9 +22,7 @@ var baseUrl = 'http://localhost:8002';
 chai.use(sinonChai);
 
 describe('ETL-SERVER TESTS', function () {
-
   describe('Testing DAO', function () {
-
     // example showing how to use a stub to fake a method
     var stub;
     beforeEach(function (done) {
@@ -38,76 +36,74 @@ describe('ETL-SERVER TESTS', function () {
       stub.restore();
     });
 
-    it('should create the right query parts object when getPatient is called',
-      function (done) {
-        // stub.callsArgWithAsync(1, null, { result:mockData.getPatientMockData() });
-        stub.yields({
-          startIndex: 0,
-          size: 1,
-          result: mockData.getPatientMockData()
-        });
-        var options = {
-          params: {
-            uuid: '123'
-          },
-          query: {
-            order: null,
-            fields: null,
-            startIndex: null,
-            limit: null
-          }
-        };
+    it('should create the right query parts object when getPatient is called', function (done) {
+      // stub.callsArgWithAsync(1, null, { result:mockData.getPatientMockData() });
+      stub.yields({
+        startIndex: 0,
+        size: 1,
+        result: mockData.getPatientMockData()
+      });
+      var options = {
+        params: {
+          uuid: '123'
+        },
+        query: {
+          order: null,
+          fields: null,
+          startIndex: null,
+          limit: null
+        }
+      };
 
-        // stub.withArgsWithAsync(options).yieldsTo(mockData.getPatientMockData());
+      // stub.withArgsWithAsync(options).yieldsTo(mockData.getPatientMockData());
 
-        dao.getPatient(options, function (res) {
-          // console.log('body2  ++', res);
-          done();
-        });
-
-        // console.log('body2  ++', stub.args[0][0]);
-        var queryParts = stub.args[0][0];
-        //get patient always fetched data from etl.flat_hiv_summary
-        expect(queryParts.table).to.equal('etl.flat_hiv_summary');
-        // if fields is null output all columns
-        expect(queryParts.columns).to.equal('*');
-
-        expect(queryParts.where).to.include(options.params.uuid);
+      dao.getPatient(options, function (res) {
+        // console.log('body2  ++', res);
+        done();
       });
 
-    it('should create the right fields property when getPatient is called',
-      function (done) {
-        // stub.callsArgWithAsync(1, null, { result:mockData.getPatientMockData() });
-        stub.yields({
-          startIndex: 0,
-          size: 1,
-          result: mockData.getPatientMockData()
-        });
-        var options = {
-          params: {
-            uuid: '124'
-          },
-          query: {
-            order: null,
-            fields: ['a', 'b', 'c'],
-            startIndex: null,
-            limit: null
-          }
-        };
+      // console.log('body2  ++', stub.args[0][0]);
+      var queryParts = stub.args[0][0];
+      //get patient always fetched data from etl.flat_hiv_summary
+      expect(queryParts.table).to.equal('etl.flat_hiv_summary');
+      // if fields is null output all columns
+      expect(queryParts.columns).to.equal('*');
 
-        dao.getPatient(options, function (res) {
-          // console.log('bodyxx  ++', res);
-          done();
-        });
+      expect(queryParts.where).to.include(options.params.uuid);
+    });
 
-        // console.log('bodyxx  ++', stub.args[0][0]);
-        var queryParts = stub.args[0][0];
-
-        expect(queryParts.columns).to.be.an('array');
-        expect(queryParts.columns).to.include('a');
-        expect(queryParts.columns).to.include('b');
-        expect(queryParts.columns).to.include('c');
+    it('should create the right fields property when getPatient is called', function (done) {
+      // stub.callsArgWithAsync(1, null, { result:mockData.getPatientMockData() });
+      stub.yields({
+        startIndex: 0,
+        size: 1,
+        result: mockData.getPatientMockData()
       });
+      var options = {
+        params: {
+          uuid: '124'
+        },
+        query: {
+          order: null,
+          fields: ['a', 'b', 'c'],
+          startIndex: null,
+          limit: null
+        }
+      };
+
+      dao.getPatient(options, function (res) {
+        // console.log('bodyxx  ++', res);
+        done();
+      });
+
+      // console.log('bodyxx  ++', stub.args[0][0]);
+      var queryParts = stub.args[0][0];
+
+      expect(queryParts.columns).to.be.an('array');
+      expect(queryParts.columns).to.include('a');
+      expect(queryParts.columns).to.include('b');
+      expect(queryParts.columns).to.include('c');
+    });
   });
 
   // describe('Tests for /etl/custom_data Endpoint', function() {

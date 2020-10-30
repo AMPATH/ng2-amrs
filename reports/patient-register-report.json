@@ -1,438 +1,447 @@
-[{
-  "name": "patient-register-report",
-  "table": {
-    "schema": "etl",
-    "tableName": "flat_hiv_summary",
-    "alias": "t1"
-  },
-  "joins": [{
-      "joinType": "INNER JOIN",
-      "schema": "amrs",
-      "tableName": "location",
-      "alias": "t2",
-      "joinExpression": "t1.location_uuid = t2.uuid"
+[
+  {
+    "name": "patient-register-report",
+    "table": {
+      "schema": "etl",
+      "tableName": "flat_hiv_summary",
+      "alias": "t1"
     },
-    {
-      "joinType": "INNER JOIN",
-      "schema": "amrs",
-      "tableName": "person_name",
-      "alias": "t3",
-      "joinExpression": "t1.person_id = t3.person_id and (t3.voided is null || t3.voided = 0)"
-    },
-    {
-      "joinType": "LEFT OUTER JOIN",
-      "schema": "amrs",
-      "tableName": "patient_identifier",
-      "alias": "t4",
-      "joinExpression": "t1.person_id = t4.patient_id"
-    },
-    {
-      "joinType": "INNER JOIN",
-      "schema": "amrs",
-      "tableName": "person",
-      "alias": "t5",
-      "joinExpression": "t1.person_id = t5.person_id"
-    }
-  ],
-  "parameters": [{
-      "name": "startDate",
-      "defaultValue": ["10-10-2015"]
-    },
-    {
-      "name": "endDate",
-      "defaultValue": ["defaultValue"]
-    },
-    {
-      "name": "locationUuids",
-      "defaultValue": []
-    },
-    {
-      "name": "startAge",
-      "defaultValue": []
-    },
-    {
-      "name": "endAge",
-      "defaultValue": []
-    },
-    {
-      "name": "gender",
-      "defaultValue": []
-    },
-    {
-      "name": "groupByEncounter",
-      "defaultValue": [{
-        "label": "encounter",
-        "expression": "encounter_id"
-      }]
-    }
-  ],
-  "filters": [{
-      "expression": "t1.encounter_datetime >= ?",
-      "parameter": "startDate"
-    },
-    {
-      "expression": "t1.encounter_datetime <= ?",
-      "parameter": "endDate"
-    },
-    {
-      "expression": "t1.location_uuid in ?",
-      "parameter": "locationUuids"
-    },
-    {
-      "expression": "round(datediff(t1.encounter_datetime,t5.birthdate)/365) >= ?",
-      "parameter": "startAge"
-    },
-    {
-      "expression": "round(datediff(t1.encounter_datetime,t5.birthdate)/365) <= ?",
-      "parameter": "endAge"
-    },
-    {
-      "expression": "t5.gender in ?",
-      "parameter": "gender"
-    }
-  ],
-  "groupClause": [{
-    "parameter": "groupByEncounter"
-  }],
-  "indicators": [{
-      "label": "on_arvs",
-      "expression": "on_arvs",
-      "sql": "if($expression,true,false)"
+    "joins": [
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "location",
+        "alias": "t2",
+        "joinExpression": "t1.location_uuid = t2.uuid"
+      },
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "person_name",
+        "alias": "t3",
+        "joinExpression": "t1.person_id = t3.person_id and (t3.voided is null || t3.voided = 0)"
+      },
+      {
+        "joinType": "LEFT OUTER JOIN",
+        "schema": "amrs",
+        "tableName": "patient_identifier",
+        "alias": "t4",
+        "joinExpression": "t1.person_id = t4.patient_id"
+      },
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "person",
+        "alias": "t5",
+        "joinExpression": "t1.person_id = t5.person_id"
+      }
+    ],
+    "parameters": [
+      {
+        "name": "startDate",
+        "defaultValue": ["10-10-2015"]
+      },
+      {
+        "name": "endDate",
+        "defaultValue": ["defaultValue"]
+      },
+      {
+        "name": "locationUuids",
+        "defaultValue": []
+      },
+      {
+        "name": "startAge",
+        "defaultValue": []
+      },
+      {
+        "name": "endAge",
+        "defaultValue": []
+      },
+      {
+        "name": "gender",
+        "defaultValue": []
+      },
+      {
+        "name": "groupByEncounter",
+        "defaultValue": [
+          {
+            "label": "encounter",
+            "expression": "encounter_id"
+          }
+        ]
+      }
+    ],
+    "filters": [
+      {
+        "expression": "t1.encounter_datetime >= ?",
+        "parameter": "startDate"
+      },
+      {
+        "expression": "t1.encounter_datetime <= ?",
+        "parameter": "endDate"
+      },
+      {
+        "expression": "t1.location_uuid in ?",
+        "parameter": "locationUuids"
+      },
+      {
+        "expression": "round(datediff(t1.encounter_datetime,t5.birthdate)/365) >= ?",
+        "parameter": "startAge"
+      },
+      {
+        "expression": "round(datediff(t1.encounter_datetime,t5.birthdate)/365) <= ?",
+        "parameter": "endAge"
+      },
+      {
+        "expression": "t5.gender in ?",
+        "parameter": "gender"
+      }
+    ],
+    "groupClause": [
+      {
+        "parameter": "groupByEncounter"
+      }
+    ],
+    "indicators": [
+      {
+        "label": "on_arvs",
+        "expression": "on_arvs",
+        "sql": "if($expression,true,false)"
+      },
+      {
+        "label": "on_arvs_first_line",
+        "expression": "on_arvs_first_line",
+        "sql": "if($expression,true,false)"
+      },
+      {
+        "label": "on_arvs_second_line",
+        "expression": "on_arvs_second_line",
+        "sql": "if($expression,true,false)"
+      },
+      {
+        "label": "prev_rtc_date",
+        "expression": "prev_rtc_date",
+        "sql": "$expression"
+      },
+      {
+        "label": "rtc_date",
+        "expression": "rtc_date",
+        "sql": "$expression"
+      },
+      {
+        "label": "arv_start_date",
+        "expression": "arv_start_date",
+        "sql": "$expression"
+      },
+      {
+        "label": "arv_first_regimen",
+        "expression": "arv_first_regimen",
+        "sql": "$expression"
+      },
+      {
+        "label": "cur_arv_meds",
+        "expression": "cur_arv_meds",
+        "sql": "$expression"
+      },
+      {
+        "label": "on_arvs_third_line",
+        "expression": "on_arvs_third_line",
+        "sql": "if($expression,true,false)"
+      },
+      {
+        "label": "vl_done_past_year",
+        "expression": "vl_done_past_year",
+        "sql": "if($expression,true,false)"
+      },
+      {
+        "label": "no_vl_done_past_year",
+        "expression": "no_vl_done_past_year",
+        "sql": "if($expression,true,false)"
+      },
+      {
+        "label": "vl_done_past_year_lte_1000",
+        "expression": "vl_done_past_year_lte_1000",
+        "sql": "if($expression,true,false)"
+      },
+      {
+        "label": "vl_done_past_year_gt_1000",
+        "expression": "vl_done_past_year_gt_1000",
+        "sql": "if($expression,true,false)"
+      },
+      {
+        "label": "vl_done_this_encounter",
+        "expression": "vl_done_this_encounter",
+        "sql": "if($expression,true,false)"
+      },
+      {
+        "label": "vl_done_this_encounter_lte_1000",
+        "expression": "vl_done_this_encounter_lte_1000",
+        "sql": "if($expression,true,false)"
+      },
+      {
+        "label": "vl_done_this_encounter_gt_1000",
+        "expression": "vl_done_this_encounter_gt_1000",
+        "sql": "if($expression,true,false)"
+      },
+      {
+        "label": "vl_ordered",
+        "expression": "vl_ordered",
+        "sql": "if($expression,true,false)"
+      },
+      {
+        "label": "pending_vl_order",
+        "expression": "pending_vl_order",
+        "sql": "if($expression,true,false)"
+      },
+      {
+        "label": "pending_vl_order_no_result_after_4_weeks",
+        "expression": "pending_vl_order_no_result_after_4_weeks",
+        "sql": "if($expression,true,false)"
+      },
+      {
+        "label": "on_arvs_lte_26_weeks",
+        "expression": "on_arvs_lte_26_weeks",
+        "sql": "if($expression,true,false)"
+      },
+      {
+        "label": "on_arvs_lte_52_weeks",
+        "expression": "on_arvs_lte_52_weeks",
+        "sql": "if($expression,true,false)"
+      },
+      {
+        "label": "on_arvs_lte_52_weeks_and_have_vl",
+        "expression": "on_arvs_lte_52_weeks_and_have_vl",
+        "sql": "if($expression,true,false)"
+      },
+      {
+        "label": "on_arvs_lte_52_weeks_and_have_vl_lte_1000",
+        "expression": "on_arvs_lte_52_weeks_and_have_vl_lte_1000",
+        "sql": "if($expression,true,false)"
+      },
+      {
+        "label": "not_on_arvs_cd4_lte_500",
+        "expression": "not_on_arvs_cd4_lte_500",
+        "sql": "if($expression,true,false)"
+      },
+      {
+        "label": "pregnant",
+        "expression": "pregnant",
+        "sql": "if($expression,true,false)"
+      },
+      {
+        "label": "pregnant_and_on_arvs",
+        "expression": "pregnant_and_on_arvs",
+        "sql": "if($expression,true,false)"
+      },
 
-    },
-    {
-      "label": "on_arvs_first_line",
-      "expression": "on_arvs_first_line",
-      "sql": "if($expression,true,false)"
-    },
-    {
-      "label": "on_arvs_second_line",
-      "expression": "on_arvs_second_line",
-      "sql": "if($expression,true,false)"
-    },
-    {
-      "label": "prev_rtc_date",
-      "expression": "prev_rtc_date",
-      "sql": "$expression"
-    },
-    {
-      "label": "rtc_date",
-      "expression": "rtc_date",
-      "sql": "$expression"
-    },
-    {
-      "label": "arv_start_date",
-      "expression": "arv_start_date",
-      "sql": "$expression"
-    },
-    {
-      "label": "arv_first_regimen",
-      "expression": "arv_first_regimen",
-      "sql": "$expression"
-    },
-    {
-      "label": "cur_arv_meds",
-      "expression": "cur_arv_meds",
-      "sql": "$expression"
-    },
-    {
-      "label": "on_arvs_third_line",
-      "expression": "on_arvs_third_line",
-      "sql": "if($expression,true,false)"
-    },
-    {
-      "label": "vl_done_past_year",
-      "expression": "vl_done_past_year",
-      "sql": "if($expression,true,false)"
-    },
-    {
-      "label": "no_vl_done_past_year",
-      "expression": "no_vl_done_past_year",
-      "sql": "if($expression,true,false)"
-    },
-    {
-      "label": "vl_done_past_year_lte_1000",
-      "expression": "vl_done_past_year_lte_1000",
-      "sql": "if($expression,true,false)"
-    },
-    {
-      "label": "vl_done_past_year_gt_1000",
-      "expression": "vl_done_past_year_gt_1000",
-      "sql": "if($expression,true,false)"
-    },
-    {
-      "label": "vl_done_this_encounter",
-      "expression": "vl_done_this_encounter",
-      "sql": "if($expression,true,false)"
-    },
-    {
-      "label": "vl_done_this_encounter_lte_1000",
-      "expression": "vl_done_this_encounter_lte_1000",
-      "sql": "if($expression,true,false)"
-    },
-    {
-      "label": "vl_done_this_encounter_gt_1000",
-      "expression": "vl_done_this_encounter_gt_1000",
-      "sql": "if($expression,true,false)"
-    },
-    {
-      "label": "vl_ordered",
-      "expression": "vl_ordered",
-      "sql": "if($expression,true,false)"
-    },
-    {
-      "label": "pending_vl_order",
-      "expression": "pending_vl_order",
-      "sql": "if($expression,true,false)"
-    },
-    {
-      "label": "pending_vl_order_no_result_after_4_weeks",
-      "expression": "pending_vl_order_no_result_after_4_weeks",
-      "sql": "if($expression,true,false)"
-    },
-    {
-      "label": "on_arvs_lte_26_weeks",
-      "expression": "on_arvs_lte_26_weeks",
-      "sql": "if($expression,true,false)"
-    },
-    {
-      "label": "on_arvs_lte_52_weeks",
-      "expression": "on_arvs_lte_52_weeks",
-      "sql": "if($expression,true,false)"
-    },
-    {
-      "label": "on_arvs_lte_52_weeks_and_have_vl",
-      "expression": "on_arvs_lte_52_weeks_and_have_vl",
-      "sql": "if($expression,true,false)"
-    },
-    {
-      "label": "on_arvs_lte_52_weeks_and_have_vl_lte_1000",
-      "expression": "on_arvs_lte_52_weeks_and_have_vl_lte_1000",
-      "sql": "if($expression,true,false)"
-    },
-    {
-      "label": "not_on_arvs_cd4_lte_500",
-      "expression": "not_on_arvs_cd4_lte_500",
-      "sql": "if($expression,true,false)"
-    },
-    {
-      "label": "pregnant",
-      "expression": "pregnant",
-      "sql": "if($expression,true,false)"
-    },
-    {
-      "label": "pregnant_and_on_arvs",
-      "expression": "pregnant_and_on_arvs",
-      "sql": "if($expression,true,false)"
-    },
-
-    {
-      "label": "encounter_type",
-      "expression": "encounter_type",
-      "sql": "$expression"
-    },
-    {
-      "label": "visit_num",
-      "expression": "visit_num",
-      "sql": "$expression"
-    },
-    {
-      "label": "newly_enrolled",
-      "expression": "newly_enrolled",
-      "sql": "$expression"
-    },
-    {
-      "label": "enrollment_date",
-      "expression": "enrollment_date",
-      "sql": "$expression"
-    },
-    {
-      "label": "death_date",
-      "expression": "death_date",
-      "sql": "$expression"
-    },
-    {
-      "label": "scheduled_visit",
-      "expression": "scheduled_visit",
-      "sql": "$expression"
-    },
-    {
-      "label": "transfer_out",
-      "expression": "transfer_out",
-      "sql": "$expression"
-    },
-    {
-      "label": "out_of_care",
-      "expression": "out_of_care",
-      "sql": "$expression"
-    },
-    {
-      "label": "cur_arv_line",
-      "expression": "cur_arv_line",
-      "sql": "$expression"
-    },
-    {
-      "label": "first_evidence_patient_pregnant",
-      "expression": "first_evidence_patient_pregnant",
-      "sql": "$expression"
-    },
-    {
-      "label": "edd",
-      "expression": "edd",
-      "sql": "$expression"
-    },
-    {
-      "label": "screened_for_tb",
-      "expression": "screened_for_tb",
-      "sql": "$expression"
-    },
-    {
-      "label": "tb_tx_start_date",
-      "expression": "tb_tx_start_date",
-      "sql": "$expression"
-    },
-    {
-      "label": "pcp_prophylaxis_start_date",
-      "expression": "pcp_prophylaxis_start_date",
-      "sql": "$expression"
-    },
-    {
-      "label": "cd4_resulted",
-      "expression": "cd4_resulted",
-      "sql": "$expression"
-    },
-    {
-      "label": "cd4_resulted_date",
-      "expression": "cd4_resulted_date",
-      "sql": "$expression"
-    },
-    {
-      "label": "cd4_1",
-      "expression": "cd4_1",
-      "sql": "$expression"
-    },
-    {
-      "label": "cd4_1_date",
-      "expression": "cd4_1_date",
-      "sql": "$expression"
-    },
-    {
-      "label": "cd4_2",
-      "expression": "cd4_2",
-      "sql": "$expression"
-    },
-    {
-      "label": "cd4_2_date",
-      "expression": "cd4_2_date",
-      "sql": "$expression"
-    },
-    {
-      "label": "cd4_percent_1",
-      "expression": "cd4_percent_1",
-      "sql": "$expression"
-    },
-    {
-      "label": "cd4_percent_1_date",
-      "expression": "cd4_percent_1_date",
-      "sql": "$expression"
-    },
-    {
-      "label": "cd4_percent_2",
-      "expression": "cd4_percent_2",
-      "sql": "$expression"
-    },
-    {
-      "label": "cd4_percent_2_date",
-      "expression": "cd4_percent_2_date",
-      "sql": "$expression"
-    },
-    {
-      "label": "vl_resulted",
-      "expression": "vl_resulted",
-      "sql": "$expression"
-    },
-    {
-      "label": "vl_resulted_date",
-      "expression": "vl_resulted_date",
-      "sql": "$expression"
-    },
-    {
-      "label": "vl_1",
-      "expression": "vl_1",
-      "sql": "$expression"
-    },
-    {
-      "label": "vl_1_date",
-      "expression": "vl_1_date",
-      "sql": "$expression"
-    },
-    {
-      "label": "vl_2",
-      "expression": "vl_2",
-      "sql": "$expression"
-    },
-    {
-      "label": "vl_2_date",
-      "expression": "vl_2_date",
-      "sql": "$expression"
-    },
-    {
-      "label": "vl_order_date",
-      "expression": "vl_order_date",
-      "sql": "$expression"
-    },
-    {
-      "label": "cd4_order_date",
-      "expression": "cd4_order_date",
-      "sql": "$expression"
-    }
-
-  ],
-  "supplementColumns": [{
-      "label": "location",
-      "type": "single",
-      "sql": "t2.name"
-    },
-    {
-      "label": "location_uuid",
-      "type": "single",
-      "sql": "t1.location_uuid"
-    },
-    {
-      "label": "location_id",
-      "type": "single",
-      "sql": "t1.location_id"
-    },
-    {
-      "label": "encounter_date",
-      "type": "single",
-      "sql": "t1.encounter_datetime"
-    },
-    {
-      "label": "person_id",
-      "type": "single",
-      "sql": "t1.person_id"
-    },
-    {
-      "label": "person_uuid",
-      "type": "single",
-      "sql": "t1.uuid"
-    },
-    {
-      "label": "identifiers",
-      "type": "multiple",
-      "sql": "group_concat(distinct t4.identifier separator ', ')"
-    },
-    {
-      "label": "person_name",
-      "type": "multiple",
-      "sql": "concat(COALESCE(t3.given_name,''),' ',COALESCE(t3.middle_name,''),' ',COALESCE(t3.family_name,''))"
-    }
-  ],
-  "indicatorHandlers": [{
-    "processor": "convertConceptIdToName",
-    "indicators": ["arv_first_regimen", "cur_arv_meds"]
-  }]
-
-
-}]
+      {
+        "label": "encounter_type",
+        "expression": "encounter_type",
+        "sql": "$expression"
+      },
+      {
+        "label": "visit_num",
+        "expression": "visit_num",
+        "sql": "$expression"
+      },
+      {
+        "label": "newly_enrolled",
+        "expression": "newly_enrolled",
+        "sql": "$expression"
+      },
+      {
+        "label": "enrollment_date",
+        "expression": "enrollment_date",
+        "sql": "$expression"
+      },
+      {
+        "label": "death_date",
+        "expression": "death_date",
+        "sql": "$expression"
+      },
+      {
+        "label": "scheduled_visit",
+        "expression": "scheduled_visit",
+        "sql": "$expression"
+      },
+      {
+        "label": "transfer_out",
+        "expression": "transfer_out",
+        "sql": "$expression"
+      },
+      {
+        "label": "out_of_care",
+        "expression": "out_of_care",
+        "sql": "$expression"
+      },
+      {
+        "label": "cur_arv_line",
+        "expression": "cur_arv_line",
+        "sql": "$expression"
+      },
+      {
+        "label": "first_evidence_patient_pregnant",
+        "expression": "first_evidence_patient_pregnant",
+        "sql": "$expression"
+      },
+      {
+        "label": "edd",
+        "expression": "edd",
+        "sql": "$expression"
+      },
+      {
+        "label": "screened_for_tb",
+        "expression": "screened_for_tb",
+        "sql": "$expression"
+      },
+      {
+        "label": "tb_tx_start_date",
+        "expression": "tb_tx_start_date",
+        "sql": "$expression"
+      },
+      {
+        "label": "pcp_prophylaxis_start_date",
+        "expression": "pcp_prophylaxis_start_date",
+        "sql": "$expression"
+      },
+      {
+        "label": "cd4_resulted",
+        "expression": "cd4_resulted",
+        "sql": "$expression"
+      },
+      {
+        "label": "cd4_resulted_date",
+        "expression": "cd4_resulted_date",
+        "sql": "$expression"
+      },
+      {
+        "label": "cd4_1",
+        "expression": "cd4_1",
+        "sql": "$expression"
+      },
+      {
+        "label": "cd4_1_date",
+        "expression": "cd4_1_date",
+        "sql": "$expression"
+      },
+      {
+        "label": "cd4_2",
+        "expression": "cd4_2",
+        "sql": "$expression"
+      },
+      {
+        "label": "cd4_2_date",
+        "expression": "cd4_2_date",
+        "sql": "$expression"
+      },
+      {
+        "label": "cd4_percent_1",
+        "expression": "cd4_percent_1",
+        "sql": "$expression"
+      },
+      {
+        "label": "cd4_percent_1_date",
+        "expression": "cd4_percent_1_date",
+        "sql": "$expression"
+      },
+      {
+        "label": "cd4_percent_2",
+        "expression": "cd4_percent_2",
+        "sql": "$expression"
+      },
+      {
+        "label": "cd4_percent_2_date",
+        "expression": "cd4_percent_2_date",
+        "sql": "$expression"
+      },
+      {
+        "label": "vl_resulted",
+        "expression": "vl_resulted",
+        "sql": "$expression"
+      },
+      {
+        "label": "vl_resulted_date",
+        "expression": "vl_resulted_date",
+        "sql": "$expression"
+      },
+      {
+        "label": "vl_1",
+        "expression": "vl_1",
+        "sql": "$expression"
+      },
+      {
+        "label": "vl_1_date",
+        "expression": "vl_1_date",
+        "sql": "$expression"
+      },
+      {
+        "label": "vl_2",
+        "expression": "vl_2",
+        "sql": "$expression"
+      },
+      {
+        "label": "vl_2_date",
+        "expression": "vl_2_date",
+        "sql": "$expression"
+      },
+      {
+        "label": "vl_order_date",
+        "expression": "vl_order_date",
+        "sql": "$expression"
+      },
+      {
+        "label": "cd4_order_date",
+        "expression": "cd4_order_date",
+        "sql": "$expression"
+      }
+    ],
+    "supplementColumns": [
+      {
+        "label": "location",
+        "type": "single",
+        "sql": "t2.name"
+      },
+      {
+        "label": "location_uuid",
+        "type": "single",
+        "sql": "t1.location_uuid"
+      },
+      {
+        "label": "location_id",
+        "type": "single",
+        "sql": "t1.location_id"
+      },
+      {
+        "label": "encounter_date",
+        "type": "single",
+        "sql": "t1.encounter_datetime"
+      },
+      {
+        "label": "person_id",
+        "type": "single",
+        "sql": "t1.person_id"
+      },
+      {
+        "label": "person_uuid",
+        "type": "single",
+        "sql": "t1.uuid"
+      },
+      {
+        "label": "identifiers",
+        "type": "multiple",
+        "sql": "group_concat(distinct t4.identifier separator ', ')"
+      },
+      {
+        "label": "person_name",
+        "type": "multiple",
+        "sql": "concat(COALESCE(t3.given_name,''),' ',COALESCE(t3.middle_name,''),' ',COALESCE(t3.family_name,''))"
+      }
+    ],
+    "indicatorHandlers": [
+      {
+        "processor": "convertConceptIdToName",
+        "indicators": ["arv_first_regimen", "cur_arv_meds"]
+      }
+    ]
+  }
+]

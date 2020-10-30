@@ -1,304 +1,353 @@
 {
-    "indicatorDefinitions": [{
-        "name": "patients",
-        "label": "patients",
-        "description": "Total number of patients",
-        "expression": "true"
-    }, {
-        "name": "on_arvs",
-        "label": "on arvs",
-        "description": "Total # of patients who are on ARVs",
-        "expression": "cur_arv_line is not null"
+  "indicatorDefinitions": [
+    {
+      "name": "patients",
+      "label": "patients",
+      "description": "Total number of patients",
+      "expression": "true"
     },
     {
-        "name": "on_tdf_3tc_efv_400",
-        "label": "tdf 3tc efv 400",
-        "description": "Total # of patients who are on TENOFOVIR AND LAMIVUDINE AND EFAVIRENZ 400",
-        "expression": ""
+      "name": "on_arvs",
+      "label": "on arvs",
+      "description": "Total # of patients who are on ARVs",
+      "expression": "cur_arv_line is not null"
     },
     {
-        "name": "on_tdf_3tc_efv_600",
-        "label": "tdf 3tc efv 600",
-        "description": "Total # of patients who are on TENOFOVIR AND LAMIVUDINE AND EFAVIRENZ 600",
-        "expression": ""
+      "name": "on_tdf_3tc_efv_400",
+      "label": "tdf 3tc efv 400",
+      "description": "Total # of patients who are on TENOFOVIR AND LAMIVUDINE AND EFAVIRENZ 400",
+      "expression": ""
     },
     {
-        "name": "on_tdf_3tc_dtg",
-        "label": "tdf 3tc dtg",
-        "description": "Total # of patients who are on TENOFOVIR AND LAMIVUDINE AND DOLUTEGRAVIR",
-        "expression": ""
+      "name": "on_tdf_3tc_efv_600",
+      "label": "tdf 3tc efv 600",
+      "description": "Total # of patients who are on TENOFOVIR AND LAMIVUDINE AND EFAVIRENZ 600",
+      "expression": ""
+    },
+    {
+      "name": "on_tdf_3tc_dtg",
+      "label": "tdf 3tc dtg",
+      "description": "Total # of patients who are on TENOFOVIR AND LAMIVUDINE AND DOLUTEGRAVIR",
+      "expression": ""
+    },
+
+    {
+      "name": "on_arvs_first_line",
+      "label": "on arvs first line",
+      "description": "# of patient on ARVs first line",
+      "expression": "cur_arv_line=1"
+    },
+    {
+      "name": "on_arvs_second_line",
+      "label": "on arvs second line",
+      "description": "# of patient on ARVs second line",
+      "expression": "cur_arv_line=2 and coalesce(transfer_out, out_of_care) is null"
+    },
+    {
+      "name": "newly_on_second_line",
+      "label": "newly on second line",
+      "description": "patient newly on second line within a given period",
+      "expression": "cur_arv_line =2 and (arv_start_date between @startDate and @endDate)"
+    },
+    {
+      "name": "on_arvs_third_line",
+      "label": "on arvs third line",
+      "description": "# of patient on ARVs third line",
+      "expression": "cur_arv_line>2"
+    },
+    {
+      "name": "vl_done_past_year",
+      "label": "vl done past year",
+      "description": "# of patient(s) whose Viral Load have been taken in the past 1 year",
+      "expression": "timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
+    },
+    {
+      "name": "vl_done_past_year_relative_to_end_date",
+      "label": "vl done past year relative to end date",
+      "description": "# of patient(s) whose Viral Load have been taken in the past 1 year",
+      "expression": "timestampdiff(week,vl_1_date,@endDate) <= 52"
+    },
+    {
+      "name": "no_vl_done_past_year",
+      "label": "no vl done past year",
+      "description": "# of patient(s) whose Viral Load have not been taken in the past 1 year",
+      "expression": "cur_arv_line is not null and (vl_1_date is null or timestampdiff(week,vl_1_date,encounter_datetime) >= 52)"
+    },
+    {
+      "name": "vl_done_past_year_lte_1000",
+      "label": "vl done past year lte 1000",
+      "description": "# of patient(s) whose Viral Load is Less Than or Equal to 1000",
+      "expression": "timestampdiff(week,vl_1_date,encounter_datetime) <= 52 and vl_1 <= 1000"
+    },
+    {
+      "name": "on_second_line_not_suppressed",
+      "label": "on second line not suppressed",
+      "description": "patient on second line not suppressed",
+      "expression": "vl_1 > 1000 and cur_arv_line =2"
+    },
+    {
+      "name": "not_on_arvs_cd4_lte_500",
+      "label": "not on arvs cd4 lte 500",
+      "description": "patients who qualify for ART but are not on therapy",
+      "expression": "arv_start_date is null and cd4_1 < 500"
+    },
+    {
+      "name": "vl_done_past_year_gt_1000",
+      "label": "vl done past year gt 1000",
+      "description": "# of patient(s) whose Viral Load is Greater Than 1000",
+      "expression": "timestampdiff(week,vl_1_date,encounter_datetime) <= 52 and vl_1 > 1000"
+    },
+    {
+      "name": "vl_done_this_encounter",
+      "label": "vl done this encounter",
+      "description": "# of patient(s) whose Viral Load has been taken in this encounter",
+      "expression": "vl_resulted >= 0 and vl_resulted_date=date(encounter_datetime)"
+    },
+    {
+      "name": "vl_done_this_encounter_lte_1000",
+      "label": "vl done this encounter lte 1000",
+      "description": "# of patient(s) whose Viral Load in this encounter is Less Than 1000",
+      "expression": "vl_resulted <= 1000 and vl_resulted_date = date(encounter_datetime)"
+    },
+    {
+      "name": "vl_done_this_encounter_gt_1000",
+      "label": "vl done this encounter gt 1000",
+      "description": "# of patient(s) whose Viral Load in this encounter is Greater Than 1000",
+      "expression": "vl_resulted > 1000 and vl_resulted_date = date(encounter_datetime)"
+    },
+    {
+      "name": "vl_ordered",
+      "label": "vl ordered",
+      "description": "# of patient(s) whose Viral Load has been ordered",
+      "expression": "date(vl_order_date)=date(encounter_datetime)"
+    },
+    {
+      "name": "pending_vl_order",
+      "label": "pending vl order",
+      "description": "# of patient(s) whose Viral Load has been Ordered but awaiting result",
+      "expression": "timestampdiff(week,vl_order_date,encounter_datetime) >= 0 and vl_1_date < vl_order_date"
+    },
+    {
+      "name": "pending_vl_order_no_result_after_4_weeks",
+      "label": "pending vl order no result after 4 weeks",
+      "description": "# of patient(s) whose Pending Viral Load Result is missing even after 4 weeks",
+      "expression": "timestampdiff(week,vl_order_date,encounter_datetime) >= 4 and vl_1_date < vl_order_date"
+    },
+    {
+      "name": "on_arvs_lte_26_weeks",
+      "label": "on arvs lte 26 weeks",
+      "description": "# of patient(s) who have been on ARVs for the last 26 weeks or less",
+      "expression": "timestampdiff(week,arv_start_date,encounter_datetime) <= 26"
+    },
+    {
+      "name": "on_arvs_lte_52_weeks",
+      "label": "on arvs lte 52 weeks",
+      "description": "# of patient(s) who have been on ARVs for the last 52 weeks or less",
+      "expression": "timestampdiff(week,arv_start_date,encounter_datetime) <= 52"
+    },
+    {
+      "name": "on_arvs_lte_52_weeks_and_have_vl",
+      "label": "on arvs lte 52 weeks and have vl",
+      "description": "# of patient(s) who have been on ARVs for the last 52 weeks or less and have Viral Load",
+      "expression": "timestampdiff(week,arv_start_date,encounter_datetime) <= 52 and timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
+    },
+    {
+      "name": "on_arvs_lte_52_weeks_and_have_vl_lte_1000",
+      "label": "on arvs lte 52 weeks and have vl lte 1000",
+      "description": "# of patient(s) who have been on ARVs for the last 52 weeks or less and their Viral Load is Less Than or Equal to 1000",
+      "expression": "timestampdiff(week,arv_start_date,encounter_datetime) <= 52 and timestampdiff(week,vl_1_date,encounter_datetime) <= 52 and vl_1 <= 1000"
+    },
+    {
+      "name": "on_modern_contraception",
+      "label": "on modern contraception",
+      "description": "# of patients on modern contraception in a given time period",
+      "expression": "fhs.contraceptive_method IS NOT NULL AND fhs.contraceptive_method IN (190 , 780, 907, 6218, 6217, 5841, 6717, 6718, 6725, 8134, 5274, 8300, 5279 , 5278, 5275, 5276, 6220, 6700, 6701, 9510, 9511, 9734, 9735, 10817)"
+    },
+    {
+      "name": "not_on_modern_contraception",
+      "label": "not on modern contraception",
+      "description": "# of patients not on modern contraception in a given time period",
+      "expression": "(fhs.contraceptive_method IS NULL OR fhs.contraceptive_method in (6219 , 1624, 6707, 1067, 1107, 10956, 5622, 5277))"
+    },
+    {
+      "name": "on_short_term_modern_contraception",
+      "label": "On short term modern contraception",
+      "description": "# of patients on short term modern contraception in a given time period",
+      "expression": "fhs.contraceptive_method is not null AND fhs.contraceptive_method not in (190, 6717, 6718, 1107, 6700, 9510, 9511, 9734, 9735, 6701) OR (fhs.contraceptive_method = 8300)"
+    },
+    {
+      "name": "on_long_term_modern_contraception",
+      "label": "On long term modern contraception",
+      "description": "# of patients on long term modern contraception in a given time period",
+      "expression": "fhs.contraceptive_method in (5279,5278,5275,5276,6220,6700,6701,9510,9511,9734,9735,10817)"
+    },
+    {
+      "name": "on_short_term_modern_contraception_pnc",
+      "label": "On short term modern contraception pnc",
+      "description": "# of patients on short term modern contraception in a given time period and in pnc",
+      "expression": "fhs.visit_type in (68, 55, 52, 18) AND fhs.contraceptive_method is not null AND fhs.contraceptive_method  in (190,780,907,6218,6217,5841,6717,6718,6725,8134,5274,8300)"
+    },
+    {
+      "name": "on_long_term_modern_contraception_pnc",
+      "label": "On long term modern contraception pnc",
+      "description": "# of patients on long term modern contraception in a given time period and in pnc",
+      "expression": "fhs.visit_type in (68, 55, 52, 18) AND fhs.contraceptive_method in (5279,5278,5275,5276,6220,6700,6701,9510,9511,9734,9735,10817)"
+    },
+    {
+      "name": "on_modern_contraception_pnc",
+      "label": "on modern contraception pnc",
+      "description": "# of patients on modern contraception in a given time period",
+      "expression": "fhs.contraceptive_method IS NOT NULL AND fhs.contraceptive_method in (190 , 780, 907, 6218, 6217, 5841, 6717, 6718, 6725, 8134, 5274, 8300, 5279 , 5278, 5275, 5276, 6220, 6700, 6701, 9510, 9511, 9734, 9735, 10817) AND fhs.visit_type in (68, 55, 52, 18)"
+    },
+    {
+      "name": "not_on_modern_contraception_pnc",
+      "label": "not on modern contraception pnc",
+      "description": "# of patients not on modern contraception in a given time period and they are in PNC",
+      "expression": "(fhs.contraceptive_method IS NULL OR fhs.contraceptive_method in (6219 , 1624, 6707, 1067, 1107, 10956, 5622, 5277 )) AND fhs.visit_type in (68, 55, 52, 18)"
+    },
+    {
+      "name": "in_pnc",
+      "label": "in pnc",
+      "description": "# of patients with a pnc visit in a given time period",
+      "expression": "fhs.visit_type in (68, 55, 52, 18)"
+    },
+    {
+      "name": "on_art_and_not_on_modern_contraception",
+      "label": "on art and not on modern contraception",
+      "description": "# of patients on art and not on modern contraception in a given time period",
+      "expression": "(fhs.contraceptive_method IS NULL or fhs.contraceptive_method = 1107) and  cur_arv_line is not null"
+    },
+    {
+      "name": "started_modern_contraception",
+      "label": "started modern contraception",
+      "description": "# of patients who started modern contraception in a given time period",
+      "expression": "date(fhs.modern_contraceptive_method_start_date) between @startDate and @endDate"
+    },
+    {
+      "name": "pregnant",
+      "label": "pregnant",
+      "description": "# of pregnant patients in a given time period",
+      "expression": "count(distinct concat(on_modern_contraception, hsb.person_id))"
+    },
+    {
+      "name": "pregnant_and_on_arvs",
+      "label": "pregnant and on arvs",
+      "description": "# of pregnant patients and are on ARVs in a given time period",
+      "expression": "edd > encounter_datetime and cur_arv_line is not null"
+    },
+    {
+      "name": "pregnant_and_started_art",
+      "label": "pregnant and started art",
+      "description": "# of pregnant patients and started ART in a given time period",
+      "expression": "edd > encounter_datetime and date(fhs.arv_first_regimen_start_date) between @startDate and @endDate"
+    },
+    {
+      "name": "viral_load_resulted_in_past_year",
+      "label": "viral load resulted in past year",
+      "description": "patient(s) whose viral load has resulted in the past one year",
+      "expression": "vl_1 is not null and  timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
+    },
+    {
+      "name": "virally_suppressed_in_past_year",
+      "label": "virally suppressed in past year",
+      "description": "# of patient(s) who are virally suppressed in the past one year",
+      "expression": "vl_1 < 1000 and  timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
+    },
+    {
+      "name": "not_virally_suppressed_in_past_year",
+      "label": "not virally suppressed in past year",
+      "description": "# of patient(s) who are not virally suppressed in the past one year",
+      "expression": "vl_1> 1000 and  timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
+    },
+    {
+      "name": "perc_virally_suppressed_in_past_year",
+      "label": "perc virally suppressed in past year",
+      "description": "% of  patient(s) who are virally suppressed in the past one year",
+      "expression": ""
+    },
+    {
+      "name": "perc_not_virally_suppressed_in_past_year",
+      "label": "perc not virally suppressed in past year",
+      "description": "% of  patient(s) who are not virally suppressed in the past one year",
+      "expression": ""
+    },
+    {
+      "name": "perc_on_arvs",
+      "label": "perc on arvs",
+      "description": "% of patients who are on ARVs",
+      "expression": ""
+    },
+    {
+      "name": "perc_on_arv_first_line",
+      "label": "perc on arv first line",
+      "description": "% of patients on ARVs first line",
+      "expression": ""
+    },
+    {
+      "name": "perc_on_arv_second_line",
+      "label": "perc on arv second line",
+      "description": "% of patients on ARVs second line",
+      "expression": ""
+    },
+    {
+      "name": "perc_with_pending_viral_load",
+      "label": "perc with pending viral load",
+      "description": "% of patients with pending viral load",
+      "expression": ""
+    },
+    {
+      "name": "perc_on_arvs_lte_6_months",
+      "label": "perc on arvs lte 6 months",
+      "description": "% of patients who have been on ARVs for less than 6 months",
+      "expression": ""
+    },
+    {
+      "name": "on_arvs_gt_26_weeks",
+      "label": "on arvs gt 26 weeks",
+      "description": "# of patient(s) who have been on ARVs 26 weeks or more",
+      "expression": "timestampdiff(week,arv_start_date,encounter_datetime) > 26"
+    },
+    {
+      "name": "perc_on_arvs_gt_6_months",
+      "label": "perc on arvs gt 6 months",
+      "description": "% of patients who have been on  ARVs for more than 6 months",
+      "expression": ""
+    },
+    {
+      "name": "transfer_in_patients",
+      "label": "transfer in patients",
+      "description": "These are patients who transferred into the selected facility within the reporting period",
+      "expression": "t1.transfer_in is not null"
+    },
+    {
+      "name": "patients_with_vl_result",
+      "label": "patients with vl result",
+      "description": "# of patients with vl",
+      "expression": "vl_1_date between @startDate and @endDate"
+    },
+    {
+      "name": "vl_suppressed_patients",
+      "label": "vl suppressed patients",
+      "description": "# of patients with vl < 1000",
+      "expression": "vl_1_date between @startDate and @endDate and vl_1 < 1000"
+    },
+    {
+      "name": "vl_unsuppressed_patients",
+      "label": "vl unsuppressed patients",
+      "description": "# of patients with vl >= 1000",
+      "expression": "vl_1_date between @startDate and @endDate and vl_1 >= 1000"
+    },
+    {
+      "name": "early_scheduled_visits",
+      "label": "early scheduled visits",
+      "description": "Early Scheduled visit",
+      "expression": "(date(encounter_datetime) < date(prev_rtc_date)) and encounter_datetime between @startDate and @endDate "
+    },
+    {
+      "name": "late_scheduled_visits",
+      "label": " late scheduled visits",
+      "description": "Late scheduled visit",
+      "expression": "(date(encounter_datetime) > date(prev_rtc_date)) and encounter_datetime between @startDate and @endDate "
     }
-    
-    , {
-        "name": "on_arvs_first_line",
-        "label": "on arvs first line",
-        "description": "# of patient on ARVs first line",
-        "expression": "cur_arv_line=1"
-    }, {
-        "name": "on_arvs_second_line",
-        "label": "on arvs second line",
-        "description": "# of patient on ARVs second line",
-        "expression": "cur_arv_line=2 and coalesce(transfer_out, out_of_care) is null"
-    }, {
-        "name": "newly_on_second_line",
-        "label": "newly on second line",
-        "description": "patient newly on second line within a given period",
-        "expression": "cur_arv_line =2 and (arv_start_date between @startDate and @endDate)"
-    }, {
-        "name": "on_arvs_third_line",
-        "label": "on arvs third line",
-        "description": "# of patient on ARVs third line",
-        "expression": "cur_arv_line>2"
-    }, {
-        "name": "vl_done_past_year",
-        "label": "vl done past year",
-        "description": "# of patient(s) whose Viral Load have been taken in the past 1 year",
-        "expression": "timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
-    }, {
-        "name": "vl_done_past_year_relative_to_end_date",
-        "label": "vl done past year relative to end date",
-        "description": "# of patient(s) whose Viral Load have been taken in the past 1 year",
-        "expression": "timestampdiff(week,vl_1_date,@endDate) <= 52"
-    }, {
-        "name": "no_vl_done_past_year",
-        "label": "no vl done past year",
-        "description": "# of patient(s) whose Viral Load have not been taken in the past 1 year",
-        "expression": "cur_arv_line is not null and (vl_1_date is null or timestampdiff(week,vl_1_date,encounter_datetime) >= 52)"
-    }, {
-        "name": "vl_done_past_year_lte_1000",
-        "label": "vl done past year lte 1000",
-        "description": "# of patient(s) whose Viral Load is Less Than or Equal to 1000",
-        "expression": "timestampdiff(week,vl_1_date,encounter_datetime) <= 52 and vl_1 <= 1000"
-    }, {
-        "name": "on_second_line_not_suppressed",
-        "label": "on second line not suppressed",
-        "description": "patient on second line not suppressed",
-        "expression": "vl_1 > 1000 and cur_arv_line =2"
-    }, {
-        "name": "not_on_arvs_cd4_lte_500",
-        "label": "not on arvs cd4 lte 500",
-        "description": "patients who qualify for ART but are not on therapy",
-        "expression": "arv_start_date is null and cd4_1 < 500"
-    }, {
-        "name": "vl_done_past_year_gt_1000",
-        "label": "vl done past year gt 1000",
-        "description": "# of patient(s) whose Viral Load is Greater Than 1000",
-        "expression": "timestampdiff(week,vl_1_date,encounter_datetime) <= 52 and vl_1 > 1000"
-    }, {
-        "name": "vl_done_this_encounter",
-        "label": "vl done this encounter",
-        "description": "# of patient(s) whose Viral Load has been taken in this encounter",
-        "expression": "vl_resulted >= 0 and vl_resulted_date=date(encounter_datetime)"
-    }, {
-        "name": "vl_done_this_encounter_lte_1000",
-        "label": "vl done this encounter lte 1000",
-        "description": "# of patient(s) whose Viral Load in this encounter is Less Than 1000",
-        "expression": "vl_resulted <= 1000 and vl_resulted_date = date(encounter_datetime)"
-    }, {
-        "name": "vl_done_this_encounter_gt_1000",
-        "label": "vl done this encounter gt 1000",
-        "description": "# of patient(s) whose Viral Load in this encounter is Greater Than 1000",
-        "expression": "vl_resulted > 1000 and vl_resulted_date = date(encounter_datetime)"
-    }, {
-        "name": "vl_ordered",
-        "label": "vl ordered",
-        "description": "# of patient(s) whose Viral Load has been ordered",
-        "expression": "date(vl_order_date)=date(encounter_datetime)"
-    }, {
-        "name": "pending_vl_order",
-        "label": "pending vl order",
-        "description": "# of patient(s) whose Viral Load has been Ordered but awaiting result",
-        "expression": "timestampdiff(week,vl_order_date,encounter_datetime) >= 0 and vl_1_date < vl_order_date"
-    }, {
-        "name": "pending_vl_order_no_result_after_4_weeks",
-        "label": "pending vl order no result after 4 weeks",
-        "description": "# of patient(s) whose Pending Viral Load Result is missing even after 4 weeks",
-        "expression": "timestampdiff(week,vl_order_date,encounter_datetime) >= 4 and vl_1_date < vl_order_date"
-    }, {
-        "name": "on_arvs_lte_26_weeks",
-        "label": "on arvs lte 26 weeks",
-        "description": "# of patient(s) who have been on ARVs for the last 26 weeks or less",
-        "expression": "timestampdiff(week,arv_start_date,encounter_datetime) <= 26"
-    }, {
-        "name": "on_arvs_lte_52_weeks",
-        "label": "on arvs lte 52 weeks",
-        "description": "# of patient(s) who have been on ARVs for the last 52 weeks or less",
-        "expression": "timestampdiff(week,arv_start_date,encounter_datetime) <= 52"
-    }, {
-        "name": "on_arvs_lte_52_weeks_and_have_vl",
-        "label": "on arvs lte 52 weeks and have vl",
-        "description": "# of patient(s) who have been on ARVs for the last 52 weeks or less and have Viral Load",
-        "expression": "timestampdiff(week,arv_start_date,encounter_datetime) <= 52 and timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
-    }, {
-        "name": "on_arvs_lte_52_weeks_and_have_vl_lte_1000",
-        "label": "on arvs lte 52 weeks and have vl lte 1000",
-        "description": "# of patient(s) who have been on ARVs for the last 52 weeks or less and their Viral Load is Less Than or Equal to 1000",
-        "expression": "timestampdiff(week,arv_start_date,encounter_datetime) <= 52 and timestampdiff(week,vl_1_date,encounter_datetime) <= 52 and vl_1 <= 1000"
-    }, {
-        "name": "on_modern_contraception",
-        "label": "on modern contraception",
-        "description": "# of patients on modern contraception in a given time period",
-        "expression": "fhs.contraceptive_method IS NOT NULL AND fhs.contraceptive_method IN (190 , 780, 907, 6218, 6217, 5841, 6717, 6718, 6725, 8134, 5274, 8300, 5279 , 5278, 5275, 5276, 6220, 6700, 6701, 9510, 9511, 9734, 9735, 10817)"
-    },{
-        "name": "not_on_modern_contraception",
-        "label": "not on modern contraception",
-        "description": "# of patients not on modern contraception in a given time period",
-        "expression": "(fhs.contraceptive_method IS NULL OR fhs.contraceptive_method in (6219 , 1624, 6707, 1067, 1107, 10956, 5622, 5277))"
-    },{
-        "name": "on_short_term_modern_contraception",
-        "label": "On short term modern contraception",
-        "description": "# of patients on short term modern contraception in a given time period",
-        "expression": "fhs.contraceptive_method is not null AND fhs.contraceptive_method not in (190, 6717, 6718, 1107, 6700, 9510, 9511, 9734, 9735, 6701) OR (fhs.contraceptive_method = 8300)"
-    },{
-        "name": "on_long_term_modern_contraception",
-        "label": "On long term modern contraception",
-        "description": "# of patients on long term modern contraception in a given time period",
-        "expression": "fhs.contraceptive_method in (5279,5278,5275,5276,6220,6700,6701,9510,9511,9734,9735,10817)"
-    },
-    {
-        "name": "on_short_term_modern_contraception_pnc",
-        "label": "On short term modern contraception pnc",
-        "description": "# of patients on short term modern contraception in a given time period and in pnc",
-        "expression": "fhs.visit_type in (68, 55, 52, 18) AND fhs.contraceptive_method is not null AND fhs.contraceptive_method  in (190,780,907,6218,6217,5841,6717,6718,6725,8134,5274,8300)"
-    },
-    {
-        "name": "on_long_term_modern_contraception_pnc",
-        "label": "On long term modern contraception pnc",
-        "description": "# of patients on long term modern contraception in a given time period and in pnc",
-        "expression": "fhs.visit_type in (68, 55, 52, 18) AND fhs.contraceptive_method in (5279,5278,5275,5276,6220,6700,6701,9510,9511,9734,9735,10817)"
-    },
-    {
-        "name": "on_modern_contraception_pnc",
-        "label": "on modern contraception pnc",
-        "description": "# of patients on modern contraception in a given time period",
-        "expression": "fhs.contraceptive_method IS NOT NULL AND fhs.contraceptive_method in (190 , 780, 907, 6218, 6217, 5841, 6717, 6718, 6725, 8134, 5274, 8300, 5279 , 5278, 5275, 5276, 6220, 6700, 6701, 9510, 9511, 9734, 9735, 10817) AND fhs.visit_type in (68, 55, 52, 18)"
-    },
-    {
-        "name": "not_on_modern_contraception_pnc",
-        "label": "not on modern contraception pnc",
-        "description": "# of patients not on modern contraception in a given time period and they are in PNC",
-        "expression": "(fhs.contraceptive_method IS NULL OR fhs.contraceptive_method in (6219 , 1624, 6707, 1067, 1107, 10956, 5622, 5277 )) AND fhs.visit_type in (68, 55, 52, 18)"
-    },
-    {
-        "name": "in_pnc",
-        "label": "in pnc",
-        "description": "# of patients with a pnc visit in a given time period",
-        "expression": "fhs.visit_type in (68, 55, 52, 18)"
-    },
-    {
-        "name": "on_art_and_not_on_modern_contraception",
-        "label": "on art and not on modern contraception",
-        "description": "# of patients on art and not on modern contraception in a given time period",
-        "expression": "(fhs.contraceptive_method IS NULL or fhs.contraceptive_method = 1107) and  cur_arv_line is not null"
-    },{
-        "name": "started_modern_contraception",
-        "label": "started modern contraception",
-        "description": "# of patients who started modern contraception in a given time period",
-        "expression": "date(fhs.modern_contraceptive_method_start_date) between @startDate and @endDate"
-    }, {
-        "name": "pregnant",
-        "label": "pregnant",
-        "description": "# of pregnant patients in a given time period",
-        "expression": "count(distinct concat(on_modern_contraception, hsb.person_id))"
-    }, {
-        "name": "pregnant_and_on_arvs",
-        "label": "pregnant and on arvs",
-        "description": "# of pregnant patients and are on ARVs in a given time period",
-        "expression": "edd > encounter_datetime and cur_arv_line is not null"
-    },{
-        "name": "pregnant_and_started_art",
-        "label": "pregnant and started art",
-        "description": "# of pregnant patients and started ART in a given time period",
-        "expression": "edd > encounter_datetime and date(fhs.arv_first_regimen_start_date) between @startDate and @endDate"
-    }, {
-        "name": "viral_load_resulted_in_past_year",
-        "label": "viral load resulted in past year",
-        "description": "patient(s) whose viral load has resulted in the past one year",
-        "expression": "vl_1 is not null and  timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
-    }, {
-        "name": "virally_suppressed_in_past_year",
-        "label": "virally suppressed in past year",
-        "description": "# of patient(s) who are virally suppressed in the past one year",
-        "expression": "vl_1 < 1000 and  timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
-    }, {
-        "name": "not_virally_suppressed_in_past_year",
-        "label": "not virally suppressed in past year",
-        "description": "# of patient(s) who are not virally suppressed in the past one year",
-        "expression": "vl_1> 1000 and  timestampdiff(week,vl_1_date,encounter_datetime) <= 52"
-    }, {
-        "name": "perc_virally_suppressed_in_past_year",
-        "label": "perc virally suppressed in past year",
-        "description": "% of  patient(s) who are virally suppressed in the past one year",
-        "expression": ""
-    }, {
-        "name": "perc_not_virally_suppressed_in_past_year",
-        "label": "perc not virally suppressed in past year",
-        "description": "% of  patient(s) who are not virally suppressed in the past one year",
-        "expression": ""
-    }, {
-        "name": "perc_on_arvs",
-        "label": "perc on arvs",
-        "description": "% of patients who are on ARVs",
-        "expression": ""
-    }, {
-        "name": "perc_on_arv_first_line",
-        "label": "perc on arv first line",
-        "description": "% of patients on ARVs first line",
-        "expression": ""
-    }, {
-        "name": "perc_on_arv_second_line",
-        "label": "perc on arv second line",
-        "description": "% of patients on ARVs second line",
-        "expression": ""
-    }, {
-        "name": "perc_with_pending_viral_load",
-        "label": "perc with pending viral load",
-        "description": "% of patients with pending viral load",
-        "expression": ""
-    }, {
-        "name": "perc_on_arvs_lte_6_months",
-        "label": "perc on arvs lte 6 months",
-        "description": "% of patients who have been on ARVs for less than 6 months",
-        "expression": ""
-    }, {
-        "name": "on_arvs_gt_26_weeks",
-        "label": "on arvs gt 26 weeks",
-        "description": "# of patient(s) who have been on ARVs 26 weeks or more",
-        "expression": "timestampdiff(week,arv_start_date,encounter_datetime) > 26"
-    }, {
-        "name": "perc_on_arvs_gt_6_months",
-        "label": "perc on arvs gt 6 months",
-        "description": "% of patients who have been on  ARVs for more than 6 months",
-        "expression": ""
-    }, {
-        "name": "transfer_in_patients",
-        "label": "transfer in patients",
-        "description": "These are patients who transferred into the selected facility within the reporting period",
-        "expression": "t1.transfer_in is not null"
-    }, {
-        "name": "patients_with_vl_result",
-        "label": "patients with vl result",
-        "description": "# of patients with vl",
-        "expression": "vl_1_date between @startDate and @endDate"
-    }, {
-        "name": "vl_suppressed_patients",
-        "label": "vl suppressed patients",
-        "description": "# of patients with vl < 1000",
-        "expression": "vl_1_date between @startDate and @endDate and vl_1 < 1000"
-    }, {
-        "name": "vl_unsuppressed_patients",
-        "label": "vl unsuppressed patients",
-        "description": "# of patients with vl >= 1000",
-        "expression": "vl_1_date between @startDate and @endDate and vl_1 >= 1000"
-    }, {
-        "name": "early_scheduled_visits",
-        "label": "early scheduled visits",
-        "description": "Early Scheduled visit",
-        "expression": "(date(encounter_datetime) < date(prev_rtc_date)) and encounter_datetime between @startDate and @endDate "
-    }, {
-        "name": "late_scheduled_visits",
-        "label": " late scheduled visits",
-        "description": "Late scheduled visit",
-        "expression": "(date(encounter_datetime) > date(prev_rtc_date)) and encounter_datetime between @startDate and @endDate "
-    }]
+  ]
 }

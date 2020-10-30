@@ -270,7 +270,7 @@
       "expressionType": "simple_expression",
       "expressionOptions": {
         "expression": "count(procedures_done)"
-      } 
+      }
     },
     {
       "type": "derived_column",

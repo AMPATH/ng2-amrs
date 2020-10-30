@@ -1,59 +1,55 @@
 {
-    "name": "dailyAttendanceAggregate",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [
-        {
-            "name": "dailyAttendanceBase",
-            "version": "1.0",
-            "type": "dataset_def"
-        }
-    ],
-    "sources": [
-        {
-            "dataSet": "dailyAttendanceBase",
-            "alias": "t2"
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "attended_date",
-            "column": "attended_date"
-        },
-        {
-            "type": "simple_column",
-            "alias": "attended",
-            "column": "count(distinct person_id)"
-        },
-        {
-            "type": "simple_column",
-            "alias": "patients",
-            "column": "patients"
-        }
-    ],
-    "groupBy": {
-        "groupParam": "groupByParam",
-        "columns": [
-            "attended_date"
-        ],
-        "excludeParam": "excludeParam"
-    },
-    "dynamicJsonQueryGenerationDirectives": {
-        "patientListGenerator": {
-            "useTemplate": "patient-list-schedules-template",
-            "useTemplateVersion": "1.0",
-            "generatingDirectives": {
-                "joinDirectives": {
-                    "joinType": "INNER",
-                    "joinCondition": "<<base_column>> = <<template_column>>",
-                    "baseColumn": "person_id",
-                    "templateColumn": "person_id"
-                }
-            }
-        }
+  "name": "dailyAttendanceAggregate",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [
+    {
+      "name": "dailyAttendanceBase",
+      "version": "1.0",
+      "type": "dataset_def"
     }
-
-
+  ],
+  "sources": [
+    {
+      "dataSet": "dailyAttendanceBase",
+      "alias": "t2"
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "attended_date",
+      "column": "attended_date"
+    },
+    {
+      "type": "simple_column",
+      "alias": "attended",
+      "column": "count(distinct person_id)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "patients",
+      "column": "patients"
+    }
+  ],
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["attended_date"],
+    "excludeParam": "excludeParam"
+  },
+  "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+      "useTemplate": "patient-list-schedules-template",
+      "useTemplateVersion": "1.0",
+      "generatingDirectives": {
+        "joinDirectives": {
+          "joinType": "INNER",
+          "joinCondition": "<<base_column>> = <<template_column>>",
+          "baseColumn": "person_id",
+          "templateColumn": "person_id"
+        }
+      }
+    }
+  }
 }

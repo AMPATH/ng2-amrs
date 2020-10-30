@@ -16,14 +16,18 @@
       }
     ],
     "parameters": [
-        {"name": "patientUuid"},        
-        {"name":"groupByCurArvMeds", "defaultValue":[
-                {"label":"cur_arv_meds","expression":"t1.cur_arv_meds"}
-        ]},            
-        {"name":"groupByPrevArvMeds", "defaultValue":[
-                {"label":"prev_arv_meds","expression":"t1.prev_arv_meds"}
-            ]
-            
+      { "name": "patientUuid" },
+      {
+        "name": "groupByCurArvMeds",
+        "defaultValue": [
+          { "label": "cur_arv_meds", "expression": "t1.cur_arv_meds" }
+        ]
+      },
+      {
+        "name": "groupByPrevArvMeds",
+        "defaultValue": [
+          { "label": "prev_arv_meds", "expression": "t1.prev_arv_meds" }
+        ]
       }
     ],
     "filters": [
@@ -32,12 +36,16 @@
         "parameter": "patientUuid"
       }
     ],
-    "groupClause":[
-      {"parameter":"groupByCurArvMeds"},
-      {"parameter":"groupByPrevArvMeds"}
+    "groupClause": [
+      { "parameter": "groupByCurArvMeds" },
+      { "parameter": "groupByPrevArvMeds" }
     ],
     "orderBy": [
-      {"column":"t1.encounter_datetime", "order":"desc", "name":"orderByDate"}
+      {
+        "column": "t1.encounter_datetime",
+        "order": "desc",
+        "name": "orderByDate"
+      }
     ],
     "indicators": [],
     "supplementColumns": [
@@ -67,9 +75,15 @@
         "sql": "DATE_FORMAT(t1.vl_1_date,'%d-%m-%Y')"
       }
     ],
-    "indicatorHandlers":[
-      {"processor":"findChanges","indicators":["previous_regimen","current_regimen"]},
-      {"processor":"convertConceptIdToName","indicators":["previous_regimen","current_regimen"]}
+    "indicatorHandlers": [
+      {
+        "processor": "findChanges",
+        "indicators": ["previous_regimen", "current_regimen"]
+      },
+      {
+        "processor": "convertConceptIdToName",
+        "indicators": ["previous_regimen", "current_regimen"]
+      }
     ]
   }
 ]

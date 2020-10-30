@@ -1,89 +1,90 @@
 {
-    "name": "cohort_report",
-    "version": "1.0",
-    "tag": "cohort_report",
-    "description": "Cohort Report",
-    "sources": [
-        {
-            "table": "amrs.cohort",
-            "alias": "t1"
-        },
-        {
-            "table": "etl.cohort_user",
-            "alias": "t2",
-            "join": {
-                "type": "LEFT OUTER",
-                "joinCondition": "t1.cohort_id  = t2.cohort_id and t2.voided=0"
-            }
-        },
-        {
-            "table": "amrs.users",
-            "alias": "t3",
-            "join": {
-                "type": "INNER",
-                "joinCondition": "t1.creator = t3.user_id or t2.user_id = t3.user_id"
-            }
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "name",
-            "column": "distinct t1.name"
-          },
-          {
-            "type": "simple_column",
-            "alias": "description",
-            "column": "t1.description"
-          },
-          {
-            "type": "simple_column",
-            "alias": "date_created",
-            "column": "t1.date_created"
-          },
-          {
-            "type": "simple_column",
-            "alias": "cohort_id",
-            "column": "t1.cohort_id"
-          },
-          {
-            "type": "simple_column",
-            "alias": "uuid",
-            "column": "t1.uuid"
-          },
-          {
-            "type": "derived_column",
-            "alias": "role",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "case when t2.role is null or t2.user_id != t3.user_id then'admin' else t2.role end"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "access",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression":"case when t2.role is null then 'private' else 'shared' end"
-            }
-        }
-    ],
-    "filters": {
-        "conditionJoinOperator": "and",
-        "conditions": [
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "t1.voided=0 and t3.uuid = ?",
-                "parameterName": "userUuid"
-            }
-        ]
+  "name": "cohort_report",
+  "version": "1.0",
+  "tag": "cohort_report",
+  "description": "Cohort Report",
+  "sources": [
+    {
+      "table": "amrs.cohort",
+      "alias": "t1"
     },
-    "orderBy": {
-        "orderByParam": "orderByParam",
-        "columns": [{
-          "column": "t1.name",
-          "order": "asc"
-    }]
-   }
-
+    {
+      "table": "etl.cohort_user",
+      "alias": "t2",
+      "join": {
+        "type": "LEFT OUTER",
+        "joinCondition": "t1.cohort_id  = t2.cohort_id and t2.voided=0"
+      }
+    },
+    {
+      "table": "amrs.users",
+      "alias": "t3",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "t1.creator = t3.user_id or t2.user_id = t3.user_id"
+      }
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "name",
+      "column": "distinct t1.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "description",
+      "column": "t1.description"
+    },
+    {
+      "type": "simple_column",
+      "alias": "date_created",
+      "column": "t1.date_created"
+    },
+    {
+      "type": "simple_column",
+      "alias": "cohort_id",
+      "column": "t1.cohort_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "uuid",
+      "column": "t1.uuid"
+    },
+    {
+      "type": "derived_column",
+      "alias": "role",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "case when t2.role is null or t2.user_id != t3.user_id then'admin' else t2.role end"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "access",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "case when t2.role is null then 'private' else 'shared' end"
+      }
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "t1.voided=0 and t3.uuid = ?",
+        "parameterName": "userUuid"
+      }
+    ]
+  },
+  "orderBy": {
+    "orderByParam": "orderByParam",
+    "columns": [
+      {
+        "column": "t1.name",
+        "order": "asc"
+      }
+    ]
+  }
 }

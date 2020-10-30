@@ -1,72 +1,71 @@
 {
-    "name": "dailyAppointmentlatestRtcCohortBase",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [],
-    "sources": [
-        {
-            "table": "etl.flat_appointment",
-            "alias": "fa"
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "encounter_id",
-            "column": "fa.encounter_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "max_encounter_id",
-            "column": "MAX(fa.encounter_id)"
-        },
-        {
-            "type": "simple_column",
-            "alias": "person_id",
-            "column": "person_id"
-        }
-    ],
-    "indexDirectives": [
-        {
-          "type": "force",
-          "indexList": ["location_med_pickup_rtc_date"]
-        }],
-    "filters": {
-        "conditionJoinOperator": "and",
-        "conditions": [
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "date(fa.scheduled_date) >= '{startDate}'",
-                "parameterName": "startDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "date(fa.scheduled_date) <= '{startDate}'",
-                "parameterName": "endDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "fa.location_id in (?)",
-                "parameterName": "locations"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "fa.is_clinical = 1 OR fa.encounter_type = 186",
-                "parameterName": ""
-            },
-            {
-              "filterType": "tableColumns",
-              "conditionExpression": "fa.encounter_type NOT IN (21 , 99999)",
-              "parameterName": ""
-            }
-        ]
-    },
-    "groupBy": {
-        "groupParam": "groupByParam",
-        "columns": [
-            "person_id"
-        ],
-        "excludeParam": "excludeParam"
+  "name": "dailyAppointmentlatestRtcCohortBase",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "etl.flat_appointment",
+      "alias": "fa"
     }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "encounter_id",
+      "column": "fa.encounter_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "max_encounter_id",
+      "column": "MAX(fa.encounter_id)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "person_id"
+    }
+  ],
+  "indexDirectives": [
+    {
+      "type": "force",
+      "indexList": ["location_med_pickup_rtc_date"]
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "date(fa.scheduled_date) >= '{startDate}'",
+        "parameterName": "startDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "date(fa.scheduled_date) <= '{startDate}'",
+        "parameterName": "endDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "fa.location_id in (?)",
+        "parameterName": "locations"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "fa.is_clinical = 1 OR fa.encounter_type = 186",
+        "parameterName": ""
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "fa.encounter_type NOT IN (21 , 99999)",
+        "parameterName": ""
+      }
+    ]
+  },
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["person_id"],
+    "excludeParam": "excludeParam"
+  }
 }

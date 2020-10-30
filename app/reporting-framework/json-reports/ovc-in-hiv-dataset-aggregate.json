@@ -1,159 +1,154 @@
 {
-    "name": "ovcInHivDatasetAggregate",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [
-        {
-            "name": "ovcInHivDatasetBase",
-            "version": "1.0",
-            "type": "dataset_def"
-        }
-    ],
-    "sources": [
-        {
-            "dataSet": "ovcInHivDatasetBase",
-            "alias": "hmsd"
-        }
-    ],
-    "columns": [
-        {
-            "type": "derived_column",
-            "alias": "join_location",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "1"
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_uuid",
-            "column": "hmsd.location_uuid"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location",
-            "column": "hmsd.location"
-        },
-        {
-            "type": "simple_column",
-            "alias": "gender",
-            "column": "hmsd.gender"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_id",
-            "column": "hmsd.location_id"
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_art_this_month",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(hmsd.on_art_this_month)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "active_in_care_this_month",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(hmsd.active_in_care_this_month)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "active_and_eligible_for_ovc",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(hmsd.active_and_eligible_for_ovc)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "inactive_and_eligible_for_ovc",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(hmsd.inactive_and_eligible_for_ovc)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "enrolled_in_ovc_this_month",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(hmsd.enrolled_in_ovc_this_month)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "ovc_non_enrolment_declined",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(hmsd.ovc_non_enrolment_declined)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "ovc_non_enrolment_out_of_catchment_area",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(hmsd.ovc_non_enrolment_out_of_catchment_area)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "ovc_non_enrolment_undocumented",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(hmsd.ovc_non_enrolment_undocumented)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "newly_exited_from_ovc_this_month",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(hmsd.newly_exited_from_ovc_this_month)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "exited_from_ovc_this_month",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "sum(hmsd.exited_from_ovc_this_month)"
-            }
-        }
-    ],
-    "groupBy": {
-        "groupParam": "groupByParam",
-        "columns": [
-            "location_id"
-        ],
-        "excludeParam": "excludeParam"
-    },
-    "transFormDirectives": {
-        "joinColumn": "location_id",
-        "joinColumnParam": "joinColumnParam",
-        "skipColumns": [
-            "location_uuid",
-            "join_location"
-        ],
-        "disaggregationColumns": []
-    },
-    "dynamicJsonQueryGenerationDirectives": {
-        "patientListGenerator": {
-            "useTemplate": "ovc-patient-list-template",
-            "useTemplateVersion": "1.0",
-            "generatingDirectives": {
-                "joinDirectives": {
-                    "joinType": "INNER",
-                    "joinCondition": "<<base_column>> = <<template_column>>",
-                    "baseColumn": "person_id",
-                    "templateColumn": "person_id"
-                }
-            }
-        }
+  "name": "ovcInHivDatasetAggregate",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [
+    {
+      "name": "ovcInHivDatasetBase",
+      "version": "1.0",
+      "type": "dataset_def"
     }
+  ],
+  "sources": [
+    {
+      "dataSet": "ovcInHivDatasetBase",
+      "alias": "hmsd"
+    }
+  ],
+  "columns": [
+    {
+      "type": "derived_column",
+      "alias": "join_location",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "1"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "hmsd.location_uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "hmsd.location"
+    },
+    {
+      "type": "simple_column",
+      "alias": "gender",
+      "column": "hmsd.gender"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "hmsd.location_id"
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_art_this_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.on_art_this_month)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "active_in_care_this_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.active_in_care_this_month)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "active_and_eligible_for_ovc",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.active_and_eligible_for_ovc)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "inactive_and_eligible_for_ovc",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.inactive_and_eligible_for_ovc)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "enrolled_in_ovc_this_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.enrolled_in_ovc_this_month)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "ovc_non_enrolment_declined",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.ovc_non_enrolment_declined)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "ovc_non_enrolment_out_of_catchment_area",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.ovc_non_enrolment_out_of_catchment_area)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "ovc_non_enrolment_undocumented",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.ovc_non_enrolment_undocumented)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "newly_exited_from_ovc_this_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.newly_exited_from_ovc_this_month)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "exited_from_ovc_this_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.exited_from_ovc_this_month)"
+      }
+    }
+  ],
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["location_id"],
+    "excludeParam": "excludeParam"
+  },
+  "transFormDirectives": {
+    "joinColumn": "location_id",
+    "joinColumnParam": "joinColumnParam",
+    "skipColumns": ["location_uuid", "join_location"],
+    "disaggregationColumns": []
+  },
+  "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+      "useTemplate": "ovc-patient-list-template",
+      "useTemplateVersion": "1.0",
+      "generatingDirectives": {
+        "joinDirectives": {
+          "joinType": "INNER",
+          "joinCondition": "<<base_column>> = <<template_column>>",
+          "baseColumn": "person_id",
+          "templateColumn": "person_id"
+        }
+      }
+    }
+  }
 }

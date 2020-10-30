@@ -1,180 +1,180 @@
 {
-    "name": "ovcInHivDatasetBase",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [],
-    "sources": [
-        {
-            "table": "<<hivMonthlyDatasetSource>>",
-            "alias": "hmsd"
-        },
-        {
-            "table": "amrs.location",
-            "alias": "l",
-            "join": {
-                "type": "INNER",
-                "joinCondition": "l.location_id = hmsd.location_id"
-            }
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "gender",
-            "column": "hmsd.gender"
-        },
-        {
-            "type": "simple_column",
-            "alias": "birthdate",
-            "column": "hmsd.birthdate"
-        },
-        {
-            "type": "simple_column",
-            "alias": "age",
-            "column": "hmsd.age"
-        },
-        {
-            "type": "simple_column",
-            "alias": "person_id",
-            "column": "hmsd.person_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_uuid",
-            "column": "l.uuid"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location",
-            "column": "l.name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_id",
-            "column": "hmsd.location_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "status",
-            "column": "hmsd.status"
-        },
-        {
-            "type": "simple_column",
-            "alias": "cur_arv_meds",
-            "column": "hmsd.cur_arv_meds"
-        },
-        {
-            "type": "derived_column",
-            "alias": "enrollment_date",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "date_format(hmsd.enrollment_date,'%d-%m-%Y')"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "arv_first_regimen_start_date",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "date_format(hmsd.arv_first_regimen_start_date,'%d-%m-%Y')"
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "cur_arv_line",
-            "column": "hmsd.cur_arv_line"
-        },
-        {
-            "type": "simple_column",
-            "alias": "vl_1",
-            "column": "hmsd.vl_1"
-        },
-        {
-            "type": "derived_column",
-            "alias": "vl_1_date",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "date_format(hmsd.vl_1_date,'%d-%m-%Y')"
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "enrolled_this_month",
-            "column": "hmsd.enrolled_this_month"
-        },
-        {
-            "type": "simple_column",
-            "alias": "on_art_this_month",
-            "column": "hmsd.on_art_this_month"
-        },
-        {
-            "type": "simple_column",
-            "alias": "active_in_care_this_month",
-            "column": "hmsd.active_in_care_this_month"
-        },
-        {
-            "type": "simple_column",
-            "alias": "active_and_eligible_for_ovc",
-            "column": "hmsd.active_and_eligible_for_ovc"
-        },
-        {
-            "type": "simple_column",
-            "alias": "inactive_and_eligible_for_ovc",
-            "column": "hmsd.inactive_and_eligible_for_ovc"
-        },
-        {
-            "type": "simple_column",
-            "alias": "enrolled_in_ovc_this_month",
-            "column": "hmsd.enrolled_in_ovc_this_month"
-        },
-        {
-            "type": "simple_column",
-            "alias": "ovc_non_enrolment_declined",
-            "column": "hmsd.ovc_non_enrolment_declined"
-        },
-        {
-            "type": "simple_column",
-            "alias": "ovc_non_enrolment_out_of_catchment_area",
-            "column": "hmsd.ovc_non_enrolment_out_of_catchment_area"
-        },
-        {
-            "type": "simple_column",
-            "alias": "newly_exited_from_ovc_this_month",
-            "column": "hmsd.newly_exited_from_ovc_this_month"
-        },
-        {
-            "type": "simple_column",
-            "alias": "exited_from_ovc_this_month",
-            "column": "hmsd.exited_from_ovc_this_month"
-        },
-        {
-            "type": "derived_column",
-            "alias": "ovc_non_enrolment_undocumented",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(hmsd.active_and_eligible_for_ovc = 1 and (hmsd.enrolled_in_ovc_this_month is null or hmsd.enrolled_in_ovc_this_month = 0 ) and hmsd.ovc_non_enrolment_declined <> 1 and hmsd.ovc_non_enrolment_out_of_catchment_area <> 1, 1,0)"
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "due_for_vl_this_month",
-            "column": "hmsd.due_for_vl_this_month"
-        }
-    ],
-    "filters": {
-        "conditionJoinOperator": "and",
-        "conditions": [
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "endDate = ?",
-                "parameterName": "endDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "hmsd.location_id in ?",
-                "parameterName": "locations"
-            }
-        ]
+  "name": "ovcInHivDatasetBase",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "<<hivMonthlyDatasetSource>>",
+      "alias": "hmsd"
+    },
+    {
+      "table": "amrs.location",
+      "alias": "l",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "l.location_id = hmsd.location_id"
+      }
     }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "gender",
+      "column": "hmsd.gender"
+    },
+    {
+      "type": "simple_column",
+      "alias": "birthdate",
+      "column": "hmsd.birthdate"
+    },
+    {
+      "type": "simple_column",
+      "alias": "age",
+      "column": "hmsd.age"
+    },
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "hmsd.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "l.uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "l.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "hmsd.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "status",
+      "column": "hmsd.status"
+    },
+    {
+      "type": "simple_column",
+      "alias": "cur_arv_meds",
+      "column": "hmsd.cur_arv_meds"
+    },
+    {
+      "type": "derived_column",
+      "alias": "enrollment_date",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "date_format(hmsd.enrollment_date,'%d-%m-%Y')"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "arv_first_regimen_start_date",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "date_format(hmsd.arv_first_regimen_start_date,'%d-%m-%Y')"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "cur_arv_line",
+      "column": "hmsd.cur_arv_line"
+    },
+    {
+      "type": "simple_column",
+      "alias": "vl_1",
+      "column": "hmsd.vl_1"
+    },
+    {
+      "type": "derived_column",
+      "alias": "vl_1_date",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "date_format(hmsd.vl_1_date,'%d-%m-%Y')"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "enrolled_this_month",
+      "column": "hmsd.enrolled_this_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "on_art_this_month",
+      "column": "hmsd.on_art_this_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "active_in_care_this_month",
+      "column": "hmsd.active_in_care_this_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "active_and_eligible_for_ovc",
+      "column": "hmsd.active_and_eligible_for_ovc"
+    },
+    {
+      "type": "simple_column",
+      "alias": "inactive_and_eligible_for_ovc",
+      "column": "hmsd.inactive_and_eligible_for_ovc"
+    },
+    {
+      "type": "simple_column",
+      "alias": "enrolled_in_ovc_this_month",
+      "column": "hmsd.enrolled_in_ovc_this_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ovc_non_enrolment_declined",
+      "column": "hmsd.ovc_non_enrolment_declined"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ovc_non_enrolment_out_of_catchment_area",
+      "column": "hmsd.ovc_non_enrolment_out_of_catchment_area"
+    },
+    {
+      "type": "simple_column",
+      "alias": "newly_exited_from_ovc_this_month",
+      "column": "hmsd.newly_exited_from_ovc_this_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "exited_from_ovc_this_month",
+      "column": "hmsd.exited_from_ovc_this_month"
+    },
+    {
+      "type": "derived_column",
+      "alias": "ovc_non_enrolment_undocumented",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(hmsd.active_and_eligible_for_ovc = 1 and (hmsd.enrolled_in_ovc_this_month is null or hmsd.enrolled_in_ovc_this_month = 0 ) and hmsd.ovc_non_enrolment_declined <> 1 and hmsd.ovc_non_enrolment_out_of_catchment_area <> 1, 1,0)"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "due_for_vl_this_month",
+      "column": "hmsd.due_for_vl_this_month"
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "endDate = ?",
+        "parameterName": "endDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "hmsd.location_id in ?",
+        "parameterName": "locations"
+      }
+    ]
+  }
 }

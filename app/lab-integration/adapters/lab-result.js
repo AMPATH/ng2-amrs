@@ -3,12 +3,12 @@ import * as _ from 'lodash';
 var eidRestFormatter = require('../../../eid-rest-formatter');
 
 export default class LabResult {
-  constructor (data) {
-    if(!data) {
+  constructor(data) {
+    if (!data) {
       throw new LabResultFormatError('No Lab result data provided');
     }
-    
-    if(_.isNil(data.conceptUuid) || _.isNil(data.result)) {
+
+    if (_.isNil(data.conceptUuid) || _.isNil(data.result)) {
       throw new LabResultFormatError('Malformed Result given');
     }
     this.concept = data.conceptUuid;

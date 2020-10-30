@@ -1,221 +1,218 @@
 {
-    "name": "cdmDataSetbase",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [],
-    "sources": [
-
-        {
-            "table": "etl.flat_cdm",
-            "alias": "t1"
-        },
-        {
-            "table": "amrs.person",
-            "alias": "t2",
-            "join": {
-                "type": "INNER",
-                "joinCondition": "t2.person_id = t1.person_id"
-            }
-        },
-        {
-            "table": "amrs.person_name",
-            "alias": "t3",
-            "join": {
-                "type": "INNER",
-                "joinCondition": "t3.person_id = t2.person_id"
-            }
-        },        
-        {
-            "table": "amrs.encounter_type",
-            "alias": "t4",
-            "join": {
-                "type": "INNER",
-                "joinCondition": "t4.encounter_type_id = t1.encounter_type"
-            }
-        }        
-    ],
-    "columns": [        
-      
-        {
-            "type": "simple_column",
-            "alias": "person_id",
-            "column": "t1.person_id"
-        },      
-        {
-            "type": "simple_column",
-            "alias": "encounter_id",
-            "column": "t1.encounter_id"
-        },      
-        {
-            "type": "simple_column",
-            "alias": "encounter_type",
-            "column": "t4.name"
-        },      
-        {
-            "type": "simple_column",
-            "alias": "encounter_type_description",
-            "column": "t4.description"
-        },      
-        {
-            "type": "simple_column",
-            "alias": "encounter_datetime",
-            "column": "t1.encounter_datetime"
-        },      
-        {
-            "type": "simple_column",
-            "alias": "is_clinical_encounter",
-            "column": "t1.is_clinical_encounter"
-        },      
-        {
-            "type": "simple_column",
-            "alias": "rtc_date",
-            "column": "t1.rtc_date"
-        },
-        {
-            "type": "simple_column",
-            "alias": "prev_encounter_datetime_cdm",
-            "column": "t1.prev_encounter_datetime_cdm"
-        },
-        {
-            "type": "simple_column",
-            "alias": "prev_clinical_datetime_cdm",
-            "column": "t1.prev_clinical_datetime_cdm"
-        },
-        {
-            "type": "simple_column",
-            "alias": "prev_encounter_type_cdm",
-            "column": "t1.prev_encounter_type_cdm"
-        },
-        {
-            "type": "simple_column",
-            "alias": "next_encounter_datetime_cdm",
-            "column": "t1.next_encounter_datetime_cdm"
-        },
-        {
-            "type": "simple_column",
-            "alias": "death_date",
-            "column": "t1.death_date"
-        },
-        {
-            "type": "simple_column",
-            "alias": "sbp",
-            "column": "t1.sbp"
-        },
-        {
-            "type": "simple_column",
-            "alias": "dbp",
-            "column": "t1.dbp"
-        },
-        {
-            "type": "simple_column",
-            "alias": "rbs",
-            "column": "t1.rbs"
-        },
-        {
-            "type": "simple_column",
-            "alias": "fbs",
-            "column": "t1.fbs"
-        },
-        {
-            "type": "simple_column",
-            "alias": "hb_a1c",
-            "column": "t1.hb_a1c"
-        },
-        {
-            "type": "simple_column",
-            "alias": "hb_a1c_date",
-            "column": "t1.hb_a1c_date"
-        },
-        {
-            "type": "simple_column",
-            "alias": "dm_status",
-            "column": "t1.dm_status"
-        },
-        {
-            "type": "simple_column",
-            "alias": "htn_status",
-            "column": "t1.htn_status"
-        },
-        {
-            "type": "simple_column",
-            "alias": "dm_meds",
-            "column": "t1.dm_meds"
-        },
-        {
-            "type": "simple_column",
-            "alias": "htn_meds",
-            "column": "t1.htn_meds"
-        },
-        {
-            "type": "simple_column",
-            "alias": "lmp",
-            "column": "t1.lmp"
-        },
-        {
-            "type": "simple_column",
-            "alias": "pulse",
-            "column": "t1.pulse"
-        },
-        {
-            "type": "simple_column",
-            "alias": "creatinine",
-            "column": "t1.creatinine"
-        },
-        {
-            "type": "simple_column",
-            "alias": "creatinine_date",
-            "column": "t1.creatinine_date"
-        },
-        {
-            "type": "simple_column",
-            "alias": "total_cholesterol",
-            "column": "t1.total_cholesterol"
-        },
-        {
-            "type": "simple_column",
-            "alias": "ldl",
-            "column": "t1.ldl"
-        },
-        {
-            "type": "simple_column",
-            "alias": "triglycerides",
-            "column": "t1.triglycerides"
-        },
-        {
-            "type": "simple_column",
-            "alias": "lipid_panel_date",
-            "column": "t1.lipid_panel_date"
-        },
-        {
-            "type": "simple_column",
-            "alias": "problems",
-            "column": "t1.problems"
-        },
-        {
-            "type": "simple_column",
-            "alias": "prescriptions",
-            "column": "t1.prescriptions"
-        }
-    ],
-    "filters": {
-        "conditionJoinOperator": "and",
-        "conditions": [
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "t1.uuid in (?)",
-                "parameterName": "patientUuids"        
-            }
-        ]
+  "name": "cdmDataSetbase",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "etl.flat_cdm",
+      "alias": "t1"
     },
-    "orderBy": {
-        "orderByParam": "orderByParam",
-        "columns": [{
-            "column": "encounter_datetime",
-            "order": "desc"
-        }
-            
-        ]
-
+    {
+      "table": "amrs.person",
+      "alias": "t2",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "t2.person_id = t1.person_id"
+      }
+    },
+    {
+      "table": "amrs.person_name",
+      "alias": "t3",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "t3.person_id = t2.person_id"
+      }
+    },
+    {
+      "table": "amrs.encounter_type",
+      "alias": "t4",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "t4.encounter_type_id = t1.encounter_type"
+      }
     }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "t1.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "encounter_id",
+      "column": "t1.encounter_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "encounter_type",
+      "column": "t4.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "encounter_type_description",
+      "column": "t4.description"
+    },
+    {
+      "type": "simple_column",
+      "alias": "encounter_datetime",
+      "column": "t1.encounter_datetime"
+    },
+    {
+      "type": "simple_column",
+      "alias": "is_clinical_encounter",
+      "column": "t1.is_clinical_encounter"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rtc_date",
+      "column": "t1.rtc_date"
+    },
+    {
+      "type": "simple_column",
+      "alias": "prev_encounter_datetime_cdm",
+      "column": "t1.prev_encounter_datetime_cdm"
+    },
+    {
+      "type": "simple_column",
+      "alias": "prev_clinical_datetime_cdm",
+      "column": "t1.prev_clinical_datetime_cdm"
+    },
+    {
+      "type": "simple_column",
+      "alias": "prev_encounter_type_cdm",
+      "column": "t1.prev_encounter_type_cdm"
+    },
+    {
+      "type": "simple_column",
+      "alias": "next_encounter_datetime_cdm",
+      "column": "t1.next_encounter_datetime_cdm"
+    },
+    {
+      "type": "simple_column",
+      "alias": "death_date",
+      "column": "t1.death_date"
+    },
+    {
+      "type": "simple_column",
+      "alias": "sbp",
+      "column": "t1.sbp"
+    },
+    {
+      "type": "simple_column",
+      "alias": "dbp",
+      "column": "t1.dbp"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rbs",
+      "column": "t1.rbs"
+    },
+    {
+      "type": "simple_column",
+      "alias": "fbs",
+      "column": "t1.fbs"
+    },
+    {
+      "type": "simple_column",
+      "alias": "hb_a1c",
+      "column": "t1.hb_a1c"
+    },
+    {
+      "type": "simple_column",
+      "alias": "hb_a1c_date",
+      "column": "t1.hb_a1c_date"
+    },
+    {
+      "type": "simple_column",
+      "alias": "dm_status",
+      "column": "t1.dm_status"
+    },
+    {
+      "type": "simple_column",
+      "alias": "htn_status",
+      "column": "t1.htn_status"
+    },
+    {
+      "type": "simple_column",
+      "alias": "dm_meds",
+      "column": "t1.dm_meds"
+    },
+    {
+      "type": "simple_column",
+      "alias": "htn_meds",
+      "column": "t1.htn_meds"
+    },
+    {
+      "type": "simple_column",
+      "alias": "lmp",
+      "column": "t1.lmp"
+    },
+    {
+      "type": "simple_column",
+      "alias": "pulse",
+      "column": "t1.pulse"
+    },
+    {
+      "type": "simple_column",
+      "alias": "creatinine",
+      "column": "t1.creatinine"
+    },
+    {
+      "type": "simple_column",
+      "alias": "creatinine_date",
+      "column": "t1.creatinine_date"
+    },
+    {
+      "type": "simple_column",
+      "alias": "total_cholesterol",
+      "column": "t1.total_cholesterol"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ldl",
+      "column": "t1.ldl"
+    },
+    {
+      "type": "simple_column",
+      "alias": "triglycerides",
+      "column": "t1.triglycerides"
+    },
+    {
+      "type": "simple_column",
+      "alias": "lipid_panel_date",
+      "column": "t1.lipid_panel_date"
+    },
+    {
+      "type": "simple_column",
+      "alias": "problems",
+      "column": "t1.problems"
+    },
+    {
+      "type": "simple_column",
+      "alias": "prescriptions",
+      "column": "t1.prescriptions"
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "t1.uuid in (?)",
+        "parameterName": "patientUuids"
+      }
+    ]
+  },
+  "orderBy": {
+    "orderByParam": "orderByParam",
+    "columns": [
+      {
+        "column": "encounter_datetime",
+        "order": "desc"
+      }
+    ]
+  }
 }

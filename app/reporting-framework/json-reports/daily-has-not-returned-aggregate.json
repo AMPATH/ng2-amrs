@@ -1,67 +1,65 @@
 {
-    "name": "dailyHasNotReturnedAggregate",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [
-        {
-            "name": "dailyHasNotReturnedBase",
-            "version": "1.0",
-            "type": "dataset_def"
-        }
-    ],
-    "sources": [
-        {
-            "dataSet": "dailyHasNotReturnedBase",
-            "alias": "t2"
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "person_id",
-            "column": "t2.person_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "encounter_type",
-            "column": "t2.encounter_type"
-        },
-        {
-            "type": "simple_column",
-            "alias": "has_not_returned",
-            "column": "count(distinct if(has_not_returned, t2.person_id, null))"
-        },
-        {
-            "type": "simple_column",
-            "alias": "patients",
-            "column": "patients"
-        },
-        {
-            "type": "simple_column",
-            "alias": "d",
-            "column": "t2.d"
-        }
-    ],
-    "groupBy": {
-        "groupParam": "groupByParam",
-        "columns": [
-            "d"
-        ],
-        "excludeParam": "excludeParam"
-    },
-    "dynamicJsonQueryGenerationDirectives": {
-        "patientListGenerator": {
-            "useTemplate": "patient-list-with-contacts-template",
-            "useTemplateVersion": "1.0",
-            "generatingDirectives": {
-                "joinDirectives": {
-                    "joinType": "INNER",
-                    "joinCondition": "<<base_column>> = <<template_column>>",
-                    "baseColumn": "person_id",
-                    "templateColumn": "person_id"
-                }
-            }
-        }
+  "name": "dailyHasNotReturnedAggregate",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [
+    {
+      "name": "dailyHasNotReturnedBase",
+      "version": "1.0",
+      "type": "dataset_def"
     }
+  ],
+  "sources": [
+    {
+      "dataSet": "dailyHasNotReturnedBase",
+      "alias": "t2"
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "t2.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "encounter_type",
+      "column": "t2.encounter_type"
+    },
+    {
+      "type": "simple_column",
+      "alias": "has_not_returned",
+      "column": "count(distinct if(has_not_returned, t2.person_id, null))"
+    },
+    {
+      "type": "simple_column",
+      "alias": "patients",
+      "column": "patients"
+    },
+    {
+      "type": "simple_column",
+      "alias": "d",
+      "column": "t2.d"
+    }
+  ],
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["d"],
+    "excludeParam": "excludeParam"
+  },
+  "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+      "useTemplate": "patient-list-with-contacts-template",
+      "useTemplateVersion": "1.0",
+      "generatingDirectives": {
+        "joinDirectives": {
+          "joinType": "INNER",
+          "joinCondition": "<<base_column>> = <<template_column>>",
+          "baseColumn": "person_id",
+          "templateColumn": "person_id"
+        }
+      }
+    }
+  }
 }

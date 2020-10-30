@@ -1,78 +1,78 @@
 {
-    "name": "everOnARTBase",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [],
-    "sources": [
-        {
-            "table": "etl.flat_hiv_summary_v15b",
-            "alias": "hmsd"
-        },
-        {
-            "table": "amrs.person",
-            "alias": "ps",
-            "join": {
-                "type": "INNER",
-                "joinCondition": "ps.person_id = hmsd.person_id"
-            }
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "person_id",
-            "column": "hmsd.person_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "gender",
-            "column": "ps.gender"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_uuid",
-            "column": "hmsd.location_uuid"
-        },
-        {
-            "type": "derived_column",
-            "alias": "age_range",
-            "expressionType": "case_statement",
-            "expressionOptions": {
-                "caseOptions": [
-                    {
-                        "condition": "extract(year from (from_days(datediff(now(),ps.birthdate)))) >= 15",
-                        "value": "15_and_above"
-                    },
-                    {
-                        "condition": "else",
-                        "value": "below_15"
-                    }
-                ]
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_id",
-            "column": "hmsd.location_id"
-        },
-        {
-            "type": "derived_column",
-            "alias": "ever_on_art",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "case when hmsd.arv_first_regimen_start_date IS NOT NULL AND hmsd.location_id = hmsd.arv_first_regimen_location_id then 1 else null end"
-            }
-        }
-    ],
-    "filters": {
-        "conditionJoinOperator": "and",
-        "conditions": [
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "hmsd.location_id in ?",
-                "parameterName": "locations"
-            }
-        ]
+  "name": "everOnARTBase",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "etl.flat_hiv_summary_v15b",
+      "alias": "hmsd"
+    },
+    {
+      "table": "amrs.person",
+      "alias": "ps",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "ps.person_id = hmsd.person_id"
+      }
     }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "hmsd.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "gender",
+      "column": "ps.gender"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "hmsd.location_uuid"
+    },
+    {
+      "type": "derived_column",
+      "alias": "age_range",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "extract(year from (from_days(datediff(now(),ps.birthdate)))) >= 15",
+            "value": "15_and_above"
+          },
+          {
+            "condition": "else",
+            "value": "below_15"
+          }
+        ]
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "hmsd.location_id"
+    },
+    {
+      "type": "derived_column",
+      "alias": "ever_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "case when hmsd.arv_first_regimen_start_date IS NOT NULL AND hmsd.location_id = hmsd.arv_first_regimen_location_id then 1 else null end"
+      }
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "hmsd.location_id in ?",
+        "parameterName": "locations"
+      }
+    ]
+  }
 }

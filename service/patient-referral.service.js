@@ -1,9 +1,9 @@
-import { PatientlistMysqlReport } from "../app/reporting-framework/patientlist-mysql.report";
-import { PatientReferralAggregateService } from "./patient-referral-aggregate.service";
-import { titleCase } from "../etl-helpers";
+import { PatientlistMysqlReport } from '../app/reporting-framework/patientlist-mysql.report';
+import { PatientReferralAggregateService } from './patient-referral-aggregate.service';
+import { titleCase } from '../etl-helpers';
 
-const dao = require("../etl-dao");
-const Promise = require("bluebird");
+const dao = require('../etl-dao');
+const Promise = require('bluebird');
 
 export class PatientReferralService {
   getAggregateReport(reportParams) {
@@ -15,12 +15,12 @@ export class PatientReferralService {
       : null;
     reportParams.notificationStatus = reportParams.notificationStatus
       ? null
-      : "null";
+      : 'null';
     return new Promise(function (resolve, reject) {
-      reportParams.groupBy = "groupByLocation,groupByProgram";
-      reportParams.countBy = "num_persons";
+      reportParams.groupBy = 'groupByLocation,groupByProgram';
+      reportParams.countBy = 'num_persons';
       let report = new PatientReferralAggregateService(
-        "referralAggregate",
+        'referralAggregate',
         reportParams
       );
       Promise.join(report.generateReport(reportParams), (results) => {
@@ -34,7 +34,7 @@ export class PatientReferralService {
 
   getPatientListReport(reportParams) {
     return new Promise(function (resolve, reject) {
-      reportParams.groupBy = "groupByPerson";
+      reportParams.groupBy = 'groupByPerson';
       Promise.join(dao.runReport(reportParams), (results) => {
         resolve(results);
       }).catch((errors) => {
@@ -45,10 +45,10 @@ export class PatientReferralService {
 
   getReferralPatientListReport(reportParams) {
     return new Promise(function (resolve, reject) {
-      reportParams.groupBy = "groupByPerson";
+      reportParams.groupBy = 'groupByPerson';
       reportParams.notificationStatus = reportParams.notificationStatus
         ? null
-        : "null";
+        : 'null';
       let reportName = reportParams.reportName;
       let report = new PatientlistMysqlReport(reportName, reportParams);
 
@@ -74,12 +74,12 @@ export class PatientReferralService {
 
   getPeerNavigatorReferralPatientList(reportParams) {
     return new Promise(function (resolve, reject) {
-      reportParams.groupBy = "groupByPerson";
+      reportParams.groupBy = 'groupByPerson';
       reportParams.notificationStatus = reportParams.notificationStatus
         ? null
-        : "null";
+        : 'null';
       let report = new PatientlistMysqlReport(
-        "referral-patient-peer-navigator-list",
+        'referral-patient-peer-navigator-list',
         reportParams
       );
       Promise.join(report.generatePatientListReport([]), (results) => {

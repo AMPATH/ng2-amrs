@@ -80,23 +80,24 @@
       }
     ],
     "parameters": [
-      {"name":"startDate", "defaultValue":["10-10-2010"]},
-      {"name":"endDate", "defaultValue":["defaultValue"]},
-      {"name":"locationUuids","defaultValue":[]},
-      {"name":"programUuids","defaultValue":[]},
-      {"name":"providerUuids","defaultValue":[]},
-      {"name":"stateUuids","defaultValue":[]},
-      {"name":"conceptUuids","defaultValue":[]},
-      {"name":"startAge", "defaultValue":[]},
-      {"name":"endAge", "defaultValue":[]},
-      {"name":"gender", "defaultValue":[]},
-      {"name":"groupByLocation", "defaultValue":[
-        {
-          "label": "location",
-          "expression": "t4.location_id"
-        }
-
-      ]
+      { "name": "startDate", "defaultValue": ["10-10-2010"] },
+      { "name": "endDate", "defaultValue": ["defaultValue"] },
+      { "name": "locationUuids", "defaultValue": [] },
+      { "name": "programUuids", "defaultValue": [] },
+      { "name": "providerUuids", "defaultValue": [] },
+      { "name": "stateUuids", "defaultValue": [] },
+      { "name": "conceptUuids", "defaultValue": [] },
+      { "name": "startAge", "defaultValue": [] },
+      { "name": "endAge", "defaultValue": [] },
+      { "name": "gender", "defaultValue": [] },
+      {
+        "name": "groupByLocation",
+        "defaultValue": [
+          {
+            "label": "location",
+            "expression": "t4.location_id"
+          }
+        ]
       },
       {
         "name": "groupByState",
@@ -118,7 +119,6 @@
       }
     ],
     "filters": [
-
       {
         "expression": "t2.uuid in ?",
         "parameter": "programUuids"
@@ -129,8 +129,8 @@
       },
 
       {
-        "expression":"t10.gender in ?",
-        "parameter":"gender"
+        "expression": "t10.gender in ?",
+        "parameter": "gender"
       },
       {
         "expression": "t8.uuid in ?",
@@ -141,19 +141,18 @@
         "parameter": "providerUuids"
       },
       {
-        "expression":"DATE_FORMAT(t5.date_created, '%Y-%m-%d') >= ?",
-        "parameter":"startDate"
+        "expression": "DATE_FORMAT(t5.date_created, '%Y-%m-%d') >= ?",
+        "parameter": "startDate"
       },
       {
-        "expression":" DATE_FORMAT(t5.date_created, '%Y-%m-%d') <= ?",
-        "parameter":"endDate"
+        "expression": " DATE_FORMAT(t5.date_created, '%Y-%m-%d') <= ?",
+        "parameter": "endDate"
       }
     ],
     "groupClause": [
-      {"parameter":"groupByLocation"},
-      {"parameter":"groupByProgram"},
-      {"parameter":"groupByState"}
-
+      { "parameter": "groupByLocation" },
+      { "parameter": "groupByProgram" },
+      { "parameter": "groupByState" }
     ],
     "orderBy": [],
     "indicators": [],
@@ -236,8 +235,6 @@
         "indicators": []
       }
     ]
-
-
   },
   {
     "name": "referral-patient-list",
@@ -326,22 +323,23 @@
       }
     ],
     "parameters": [
-      {"name":"startDate", "defaultValue":["10-10-2010"]},
-      {"name":"endDate", "defaultValue":["defaultValue"]},
-      {"name":"locationUuids","defaultValue":[]},
-      {"name":"programUuids","defaultValue":[]},
-      {"name":"stateUuids","defaultValue":[]},
-      {"name":"startAge", "defaultValue":[]},
-      {"name":"endAge", "defaultValue":[]},
-      {"name":"gender", "defaultValue":[]},
-      {"name":"providerUuids", "defaultValue":[]},
-      {"name":"groupByLocation", "defaultValue":[
-        {
-          "label": "location",
-          "expression": "t1.location_id"
-        }
-
-      ]
+      { "name": "startDate", "defaultValue": ["10-10-2010"] },
+      { "name": "endDate", "defaultValue": ["defaultValue"] },
+      { "name": "locationUuids", "defaultValue": [] },
+      { "name": "programUuids", "defaultValue": [] },
+      { "name": "stateUuids", "defaultValue": [] },
+      { "name": "startAge", "defaultValue": [] },
+      { "name": "endAge", "defaultValue": [] },
+      { "name": "gender", "defaultValue": [] },
+      { "name": "providerUuids", "defaultValue": [] },
+      {
+        "name": "groupByLocation",
+        "defaultValue": [
+          {
+            "label": "location",
+            "expression": "t1.location_id"
+          }
+        ]
       },
       {
         "name": "groupByState",
@@ -373,12 +371,12 @@
     ],
     "filters": [
       {
-        "expression":"DATE_FORMAT(t6.date_created, '%Y-%m-%d') >= ?",
-        "parameter":"startDate"
+        "expression": "DATE_FORMAT(t6.date_created, '%Y-%m-%d') >= ?",
+        "parameter": "startDate"
       },
       {
-        "expression":" DATE_FORMAT(t6.date_created, '%Y-%m-%d') <= ?",
-        "parameter":"endDate"
+        "expression": " DATE_FORMAT(t6.date_created, '%Y-%m-%d') <= ?",
+        "parameter": "endDate"
       },
       {
         "expression": "t9.uuid in ?",
@@ -444,12 +442,12 @@
         "type": "single",
         "sql": "extract(year from (from_days(datediff(now(),t4.birthdate))))"
       },
-     {
+      {
         "label": "program_name",
         "type": "single",
         "sql": "t5.name"
       },
-       {
+      {
         "label": "location_name",
         "type": "single",
         "sql": "t9.name"
@@ -458,7 +456,6 @@
         "label": "state_name",
         "type": "single",
         "sql": "t8.name"
-
       },
       {
         "label": "current_state_date",
@@ -468,7 +465,7 @@
       {
         "label": "initial_referral_date",
         "type": "single",
-        "sql":  "t10.date_created"
+        "sql": "t10.date_created"
       }
     ]
   }

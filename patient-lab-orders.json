@@ -1,19 +1,17 @@
 {
-  "patientLabOrderSchema":{
-     "name": "patient-lab-orders",
-     "table":{"schema":"amrs","tableName":"obs ","alias":"t1"},
-     "joins":[],
-     "parameters": [
-         {"name":"person_id", "defaultValue":["defaultValue"]},
-         {"name":"encounter_id", "defaultValue":["defaultValue"]},
-         {"name":"location_id","defaultValue":["defaultValue"]},
-         {"name":"obs_datetime", "defaultValue":["defaultValue"]}
-     ],
-     "filters": [
-         {"expression":"t1.person_id= ?", "parameter":"person_id"}
-     ],
-     "groupClause":[],
-     "indicators": [],
-     "supplementColumns":[]
- }
+  "patientLabOrderSchema": {
+    "name": "patient-lab-orders",
+    "table": { "schema": "amrs", "tableName": "obs ", "alias": "t1" },
+    "joins": [],
+    "parameters": [
+      { "name": "person_id", "defaultValue": ["defaultValue"] },
+      { "name": "encounter_id", "defaultValue": ["defaultValue"] },
+      { "name": "location_id", "defaultValue": ["defaultValue"] },
+      { "name": "obs_datetime", "defaultValue": ["defaultValue"] }
+    ],
+    "filters": [{ "expression": "t1.person_id= ?", "parameter": "person_id" }],
+    "groupClause": [],
+    "indicators": [],
+    "supplementColumns": []
+  }
 }

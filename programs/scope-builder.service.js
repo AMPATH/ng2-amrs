@@ -9,7 +9,7 @@ module.exports = def;
 
 function buildScope(dataDictionary) {
   const scope = {};
-  
+
   if (dataDictionary.patient) {
     buildPatientScopeMembers(scope, dataDictionary.patient);
   }
@@ -19,15 +19,17 @@ function buildScope(dataDictionary) {
   }
 
   if (dataDictionary.patientEnrollment) {
-    const activeEnrollments = _.filter(dataDictionary.patientEnrollment, { dateCompleted: null});
+    const activeEnrollments = _.filter(dataDictionary.patientEnrollment, {
+      dateCompleted: null
+    });
     let isEnrolledInPMTCT = false;
     let isEnrolledInViremia = false;
-    
+
     activeEnrollments.forEach((item) => {
       if (item.program.uuid === 'c4246ff0-b081-460c-bcc5-b0678012659e') {
         isEnrolledInViremia = true;
       }
-      
+
       if (item.program.uuid === '781d897a-1359-11df-a1f1-0026b9348838') {
         isEnrolledInPMTCT = true;
       }
@@ -41,8 +43,11 @@ function buildScope(dataDictionary) {
   }
 
   if (dataDictionary.hivLastTenClinicalEncounters) {
-    buildHivScopeMembers(scope, dataDictionary.hivLastTenClinicalEncounters,
-    dataDictionary.intendedVisitLocationUuid);
+    buildHivScopeMembers(
+      scope,
+      dataDictionary.hivLastTenClinicalEncounters,
+      dataDictionary.intendedVisitLocationUuid
+    );
   }
 
   if (dataDictionary.hivLastEncounter) {
@@ -56,12 +61,16 @@ function buildScope(dataDictionary) {
   if (dataDictionary.intendedVisitLocationUuid) {
     scope.intendedVisitLocationUuid = dataDictionary.intendedVisitLocationUuid;
   }
- 
+
   if (dataDictionary.patientEncounters) {
     scope.patientEncounters = dataDictionary.patientEncounters;
     scope.programUuid = dataDictionary.programUuid;
     buildHivScopeMembers(scope, dataDictionary.patientEncounters);
-    buildOncologyScopeMembers(scope, dataDictionary.patientEncounters, dataDictionary.programUuid);
+    buildOncologyScopeMembers(
+      scope,
+      dataDictionary.patientEncounters,
+      dataDictionary.programUuid
+    );
   }
 
   // add other methods to build the scope objects
@@ -74,7 +83,11 @@ function buildPatientScopeMembers(scope, patient) {
 }
 
 function isIntraTransfer(lastTenHivSummary, intendedVisitLocationUuid) {
-  if (intendedVisitLocationUuid && Array.isArray(lastTenHivSummary) && lastTenHivSummary.length > 0) {
+  if (
+    intendedVisitLocationUuid &&
+    Array.isArray(lastTenHivSummary) &&
+    lastTenHivSummary.length > 0
+  ) {
     return intendedVisitLocationUuid !== lastTenHivSummary[0].location_uuid;
   } else {
     return false;
@@ -103,29 +116,30 @@ function isInitialPepVisit(patientEncounters) {
 
   let orderedPEPEncounters = [];
   let duration = 0;
-  
-  if(initialPEPEncounters.length > 0){
-     // order pep initial from the latest pep encounter
-      orderedPEPEncounters = initialPEPEncounters.sort((a,b) => {
-          var dateA = new Date(a.encounterDatetime);
-          var dateB = new Date(b.encounterDatetime);
-          return dateB - dateA;
-      });
+
+  if (initialPEPEncounters.length > 0) {
+    // order pep initial from the latest pep encounter
+    orderedPEPEncounters = initialPEPEncounters.sort((a, b) => {
+      var dateA = new Date(a.encounterDatetime);
+      var dateB = new Date(b.encounterDatetime);
+      return dateB - dateA;
+    });
     const today = Moment(new Date());
 
     let latestPEPEncounter = orderedPEPEncounters[0];
 
-    let latestPEPEncounterDate = Moment(latestPEPEncounter.encounterDatetime).format();
-    duration = today.diff(latestPEPEncounterDate,'days');
+    let latestPEPEncounterDate = Moment(
+      latestPEPEncounter.encounterDatetime
+    ).format();
+    duration = today.diff(latestPEPEncounterDate, 'days');
     // if its more than 60 days since their last PEP Initial then they should see a pep initial visit
-    if(duration > 120){
-        isInitialPEPVisit = true;
-    }else{
-       isInitialPEPVisit = false;
+    if (duration > 120) {
+      isInitialPEPVisit = true;
+    } else {
+      isInitialPEPVisit = false;
     }
-
   }
- 
+
   return isInitialPEPVisit;
 }
 
@@ -176,26 +190,34 @@ function isInitialOncologyVisit(encounters, programUuid) {
   ];
 
   let initialOncologyEncounters = [];
-  let initialEncounterType = oncologyProgramEncounterTypeMap.find(e => e.programUuid === programUuid);
-  
+  let initialEncounterType = oncologyProgramEncounterTypeMap.find(
+    (e) => e.programUuid === programUuid
+  );
+
   if (initialEncounterType) {
-    initialOncologyEncounters = _.filter(encounters, encounter => {
-      return initialEncounterType.initialEncounterUuid === encounter.encounterType.uuid
+    initialOncologyEncounters = _.filter(encounters, (encounter) => {
+      return (
+        initialEncounterType.initialEncounterUuid ===
+        encounter.encounterType.uuid
+      );
     });
   }
   return initialOncologyEncounters.length === 0;
 }
 
 function buildProgramScopeMembers(scope, programEnrollment) {
-  if (programEnrollment && programEnrollment.location &&
-    programEnrollment.location.uuid) {
+  if (
+    programEnrollment &&
+    programEnrollment.location &&
+    programEnrollment.location.uuid
+  ) {
     scope.programLocation = programEnrollment.location.uuid;
   }
-  
+
   if (programEnrollment && programEnrollment.states) {
     const states = programEnrollment.states;
-    const currentState = states.filter(state => state.endDate === null);
-    
+    const currentState = states.filter((state) => state.endDate === null);
+
     if (currentState.length > 0) {
       const state = currentState[0].state;
       scope.inCareUuid = state.concept.uuid;
@@ -203,13 +225,20 @@ function buildProgramScopeMembers(scope, programEnrollment) {
   }
 }
 
-function buildHivScopeMembers(scope, lastTenHivSummary, intendedVisitLocationUuid) {
+function buildHivScopeMembers(
+  scope,
+  lastTenHivSummary,
+  intendedVisitLocationUuid
+) {
   if (Array.isArray(lastTenHivSummary) && lastTenHivSummary.length > 0) {
     scope.isFirstAMPATHHIVVisit = false;
     scope.previousHIVClinicallocation = lastTenHivSummary[0].location_uuid;
   } else {
     // its first AMPATH visit if its not an intra transfer
-    scope.isFirstAMPATHHIVVisit = !isIntraTransfer(lastTenHivSummary, intendedVisitLocationUuid);
+    scope.isFirstAMPATHHIVVisit = !isIntraTransfer(
+      lastTenHivSummary,
+      intendedVisitLocationUuid
+    );
     scope.previousHIVClinicallocation = null;
   }
 
@@ -219,5 +248,8 @@ function buildHivScopeMembers(scope, lastTenHivSummary, intendedVisitLocationUui
 }
 
 function buildOncologyScopeMembers(scope, patientEncounters, programUuid) {
-  scope.isFirstOncologyVisit = isInitialOncologyVisit(scope.patientEncounters, programUuid);
+  scope.isFirstOncologyVisit = isInitialOncologyVisit(
+    scope.patientEncounters,
+    programUuid
+  );
 }

@@ -1,422 +1,422 @@
 [
-   {
-      "sectionTitle": "3.1 On Cotrimoxazole Prophylaxis (within 2 months)",
-      "indicators": [
-         {
-            "label": "HIV Exposed Infants (within 2 months)",
-            "ref": "HV03-01",
-            "indicator": "hiv_exposed_infants_below_2_months"
-         },
-         {
-            "label": "HIV Exposed Infant (Eligible for CTX within 2 months)",
-            "ref": "HV03-02",
-            "indicator": "hiv_exposed_infants_on_pcp_prophylaxis_2_months_and_below"
-         },
-         {
-            "label": "On CTX Below 15 yrs(M)",
-            "ref": "HV03-03",
-            "indicator": "dc__gender__M__age_range__below_15_years__on_ctx_prophylaxis"
-         },
-         {
-            "label": "On CTX Below 15 yrs(F)",
-            "ref": "HV03-04",
-            "indicator": "dc__gender__F__age_range__below_15_years__on_ctx_prophylaxis"
-         },
-         {
-            "label": "On CTX 15 yrs and Older(M)",
-            "ref": "HV03-05",
-            "indicator": "dc__gender__M__age_range__older_than_15__on_ctx_prophylaxis"
-         },
-         {
-            "label": "On CTX 15 yrs and Older(F)",
-            "ref": "HV03-06",
-            "indicator": "dc__gender__F__age_range__older_than_15__on_ctx_prophylaxis"
-         },
-         {
-            "label": "Total on CTX (Sum HV03-03 TO HV03-06)",
-            "ref": "HV03-07",
-            "indicator": "on_ctx_prophylaxis"
-         }
-      ]
-   },
-   {
-      "sectionTitle": "3.2 Enrolled in Care",
-      "indicators": [
-         {
-            "label": "Enrolled in care Below 1yr(M)",
-            "ref": "HV03-08",
-            "indicator": "dc__gender__M__age_range__0_to_1__enrolled_this_month"
-         },
-         {
-            "label": "Enrolled in care Below 1yr(F)",
-            "ref": "HV03-08",
-            "indicator": "dc__gender__F__age_range__0_to_1__enrolled_this_month"
-         },
-         {
-            "label": "Enrolled in care Below 15yrs(M)",
-            "ref": "HV03-09",
-            "indicator": "dc__gender__M__age_range__below_15_years__enrolled_this_month"
-         },
-         {
-            "label": "Enrolled in care Below 15yrs(F)",
-            "ref": "HV03-10",
-            "indicator": "dc__gender__F__age_range__below_15_years__enrolled_this_month"
-         },
-         {
-            "label": "Enrolled in care 15yrs & Older(M)",
-            "ref": "HV03-11",
-            "indicator": "dc__gender__M__age_range__older_than_15__enrolled_this_month"
-         },
-         {
-            "label": "Enrolled in care 15yrs & Older(F)",
-            "ref": "HV03-12",
-            "indicator": "dc__gender__F__age_range__older_than_15__enrolled_this_month"
-         },
-         {
-            "label": "Enrolled in care - Total (Sum HV03-09 to HV03-12)",
-            "ref": "HV03-13",
-            "indicator": "enrolled_this_month"
-         }
-      ]
-   },
-   {
-      "sectionTitle": "3.3 Currently in Care -(from the total sheet-this month only and from last 2 months)",
-      "indicators": [
-         {
-            "label": "Currently in care Below 1yr(M)",
-            "ref": "HV03-14",
-            "indicator": "dc__gender__M__age_range__0_to_1__current_in_care"
-         },
-         {
-            "label": "Currently in care Below 1yr(F)",
-            "ref": "HV03-14",
-            "indicator": "dc__gender__F__age_range__0_to_1__current_in_care"
-         },
-         {
-            "label": "Currently in care Below 15yrs(M)",
-            "ref": "HV03-15",
-            "indicator": "dc__gender__M__age_range__below_15_years__current_in_care"
-         },
-         {
-            "label": "Currently in care Below 15yrs(F)",
-            "ref": "HV03-16",
-            "indicator": "dc__gender__F__age_range__below_15_years__current_in_care"
-         },
-         {
-            "label": "Currently in care 15yrs and older(M)",
-            "ref": "HV03-17",
-            "indicator": "dc__gender__M__age_range__older_than_15__current_in_care"
-         },
-         {
-            "label": "Currently in care 15yrs and older(F)",
-            "ref": "HV03-18",
-            "indicator": "dc__gender__F__age_range__older_than_15__current_in_care"
-         },
-         {
-            "label": "Currently in Care-Total (Sum HV03-15 to HV03-18)",
-            "ref": "HV03-19",
-            "indicator": "current_in_care"
-         }
-      ]
-   },
-   {
-      "sectionTitle": "3.4 Starting ART",
-      "indicators": [
-         {
-            "label": "Starting ART -Below 1yr(M)",
-            "ref": "HV03-20",
-            "indicator": "dc__age_range__0_to_1__gender__M__started_art"
-         },
-         {
-            "label": "Starting ART -Below 1yr(F)",
-            "ref": "HV03-20",
-            "indicator": "dc__age_range__0_to_1__gender__F__started_art"
-         },
-         {
-            "label": "Starting ART -Below 15yrs(M)",
-            "ref": "HV03-21",
-            "indicator": "dc__age_range__below_15_years__gender__M__started_art"
-         },
-         {
-            "label": "Starting ART -Below 15yrs(F)",
-            "ref": "HV03-22",
-            "indicator": "dc__age_range__below_15_years__gender__F__started_art"
-         },
-         {
-            "label": "Starting ART -15yr and Older(M)",
-            "ref": "HV03-23",
-            "indicator": "dc__age_range__older_than_15__gender__M__started_art"
-         },
-         {
-            "label": "Starting ART -15yr and Older(F)",
-            "ref": "HV03-24",
-            "indicator": "dc__age_range__older_than_15__gender__F__started_art"
-         },
-         {
-            "label": "Starting on ART -Total (Sum HV03-21 to HV03-24)",
-            "ref": "HV03-25",
-            "indicator": "started_art"
-         },
-         {
-            "label": "Starting -Pregnant",
-            "ref": "HV03-26",
-            "indicator": "started_art_pregnant"
-         },
-         {
-            "label": "Starting -TB Patient",
-            "ref": "HV03-27",
-            "indicator": "started_art_and_has_tb"
-         }
-      ]
-   },
-   {
-      "sectionTitle": "3.5 Revisits on ART (from the tally sheet -this month only and from last 2 months)",
-      "indicators": [
-         {
-            "label": "Revisit on ART -Below 1yr(M)",
-            "ref": "HV03-28",
-            "indicator": "dc__gender__M__age_range__0_to_1__art_revisit_this_month"
-         },
-         {
-            "label": "Revisit on ART -Below 1yr(F)",
-            "ref": "HV03-28",
-            "indicator": "dc__gender__F__age_range__0_to_1__art_revisit_this_month"
-         },
-         {
-            "label": "Revisit on ART -Below 15yrs(M)",
-            "ref": "HV03-29",
-            "indicator": "dc__gender__M__age_range__below_15_years__art_revisit_this_month"
-         },
-         {
-            "label": "Revisit on ART -Below 15yrs(F)",
-            "ref": "HV03-30",
-            "indicator": "dc__gender__F__age_range__below_15_years__art_revisit_this_month"
-         },
-         {
-            "label": "Revisit on ART -15yrs and older(M)",
-            "ref": "HV03-31",
-            "indicator": "dc__gender__M__age_range__older_than_15__art_revisit_this_month"
-         },
-         {
-            "label": "Revisit on ART -15yrs and older(F)",
-            "ref": "HV03-32",
-            "indicator": "dc__gender__F__age_range__older_than_15__art_revisit_this_month"
-         },
-         {
-            "label": "Total Revisit on ART (Sum HV03-29 to HV03-32)",
-            "ref": "HV03-33",
-            "indicator": "art_revisit_this_month"
-         }
-      ]
-   },
-   {
-      "sectionTitle": "3.6 Currently on ART [ALL] - (Add 3.4 and 3.5 e.g HV03-34=HV03-20+HV03-28)",
-      "indicators": [
-         {
-            "label": "Currently on ART - Below 1yr(M)",
-            "ref": "HV03-34",
-            "indicator": "dc__gender__M__age_range__0_to_1__current_on_art"
-         },
-         {
-            "label": "Currently on ART - Below 1yr(F)",
-            "ref": "HV03-34",
-            "indicator": "dc__gender__F__age_range__0_to_1__current_on_art"
-         },
-         {
-            "label": "Currently on ART - Below 15 yrs(M)",
-            "ref": "HV03-35",
-            "indicator": "dc__gender__M__age_range__below_15_years__current_on_art"
-         },
-         {
-            "label": "Currently on ART - Below 15 yrs(F)",
-            "ref": "HV03-36",
-            "indicator": "dc__gender__F__age_range__below_15_years__current_on_art"
-         },
-         {
-            "label": "Currently on ART -15yr and older(M)",
-            "ref": "HV03-37",
-            "indicator": "dc__gender__M__age_range__older_than_15__current_on_art"
-         },
-         {
-            "label": "Currently on ART -15yr and older(F)",
-            "ref": "HV03-38",
-            "indicator": "dc__gender__F__age_range__older_than_15__current_on_art"
-         },
-         {
-            "label": "Total currently on ART (Sum HV03-35 to HV03-38)",
-            "ref": "HV03-39",
-            "indicator": "current_on_art"
-         }
-      ]
-   },
-   {
-      "sectionTitle": "3.7 Cumulative Ever on ART",
-      "indicators": [
-         {
-            "label": "Ever on ART - Below 15yrs(M)",
-            "ref": "HV03-40",
-            "indicator": "dc__gender__M__age_range__below_15__ever_on_art"
-         },
-         {
-            "label": "Ever on ART - Below 15yrs(F)",
-            "ref": "HV03-41",
-            "indicator": "dc__gender__F__age_range__below_15__ever_on_art"
-         },
-         {
-            "label": "Ever on ART - 15yrs & older(M)",
-            "ref": "HV03-42",
-            "indicator": "dc__gender__M__age_range__15_and_above__ever_on_art"
-         },
-         {
-            "label": "Ever on ART - 15yrs & older(F)",
-            "ref": "HV03-43",
-            "indicator": "dc__gender__F__age_range__15_and_above__ever_on_art"
-         },
-         {
-            "label": "Total Ever on ART (Sum HV03-40 to HV03-43)",
-            "ref": "HV03-44",
-            "indicator": "ever_on_art"
-         }
-      ]
-   },
-   {
-      "sectionTitle": "3.8 Survival and Retention on ART at 12 months",
-      "indicators": [
-         {
-            "label": "ART Net Cohort at 12 months",
-            "ref": "HV03-45",
-            "indicator": "net_cohort"
-         },
-         {
-            "label": "On Original 1st Line at 12 months",
-            "ref": "HV03-46",
-            "indicator": "on_original_first_line"
-         },
-         {
-            "label": "On alternative 1st Line at 12 months",
-            "ref": "HV03-47",
-            "indicator": "on_alternative_first_line"
-         },
-         {
-            "label": "On 2nd Line (or higher) at 12 months",
-            "ref": "HV03-48",
-            "indicator": "on_second_line"
-         },
-         {
-            "label": "Total on therapy at 12 months (Sum HV03-46 to HV03-48)",
-            "ref": "HV03-49",
-            "indicator": "on_tx"
-         }
-      ]
-   },
-   {
-      "sectionTitle": "3.9 Screening",
-      "indicators": [
-         {
-            "label": "Screened for TB -Below 15yrs(M)",
-            "ref": "HV03-50",
-            "indicator": "dc__gender__M__age_range__below_15_years__tb_screened_this_visit_this_month"
-         },
-         {
-            "label": "Screened for TB -Below 15yrs(F)",
-            "ref": "HV03-51",
-            "indicator": "dc__gender__F__age_range__below_15_years__tb_screened_this_visit_this_month"
-         },
-         {
-            "label": "Screened for TB -15yrs & older(M)",
-            "ref": "HV03-52",
-            "indicator": "dc__gender__M__age_range__older_than_15__tb_screened_this_visit_this_month"
-         },
-         {
-            "label": "Screened for TB -15yrs & older(F)",
-            "ref": "HV03-53",
-            "indicator": "dc__gender__F__age_range__older_than_15__tb_screened_this_visit_this_month"
-         },
-         {
-            "label": "Total Screened for TB (Sum HV03-50 to HV03-53)",
-            "ref": "HV03-54",
-            "indicator": "tb_screened_this_visit_this_month"
-         },
-         {
-            "label": "Screened for cervical cancer (F 18 years and older)",
-            "ref": "HV03-55",
-            "indicator": "Screened_for_cervical_cancer"
-         }
-      ]
-   },
-   {
-      "sectionTitle": "3.10 Prevention with Positives",
-      "indicators": [
-         {
-            "label": "Modern contraceptive methods",
-            "ref": "HV09-04",
-            "indicator": "on_modern_contraception"
-         },
-         {
-            "label": "Provided with condoms",
-            "ref": "HV09-05",
-            "indicator": "condoms_provided"
-         }
-      ]
-   },
-   {
-      "sectionTitle": "3.11 HIV Care Visits",
-      "indicators": [
-         {
-            "label": "Females (18 years and older)",
-            "ref": "HV03-70",
-            "indicator": "f_gte_18_visits"
-         },
-         {
-            "label": "Scheduled",
-            "ref": "HV03-71",
-            "indicator": "scheduled_visits"
-         },
-         {
-            "label": "Unscheduled",
-            "ref": "HV03-72",
-            "indicator": "unscheduled_visits"
-         },
-         {
-            "label": "Total HIV Care visit",
-            "ref": "HV03-73",
-            "indicator": "total_visits"
-         }
-      ]
-   },
-   {
-      "sectionTitle": "5. Post Exposure Prophylaxis",
-      "indicators": [
-         {
-            "label": "Exposed Occupational",
-            "ref": "HV05-01",
-            "indicator": "hiv_exposed_occupational"
-         },
-         {
-            "label": "Exposed Other",
-            "ref": "HV05-02",
-            "indicator": "hiv_exposed_non_occupational"
-         },
-         {
-            "label": "Exposed Total (Sum HV05-01 and HV05-02)",
-            "ref": "HV05-03",
-            "indicator": "total_hiv_exposed"
-         },
-         {
-            "label": "PEP Occupational",
-            "ref": "HV05-04",
-            "indicator": "started_PEP_occupational"
-         },
-         {
-            "label": "PEP Other",
-            "ref": "HV05-05",
-            "indicator": "started_PEP_non_occupational"
-         },
-         {
-            "label": "PEP Total (Sum HV05-04 and HV05-05)",
-            "ref": "HV03-06",
-            "indicator": "total_started_PEP"
-         }
-      ]
-   }
+  {
+    "sectionTitle": "3.1 On Cotrimoxazole Prophylaxis (within 2 months)",
+    "indicators": [
+      {
+        "label": "HIV Exposed Infants (within 2 months)",
+        "ref": "HV03-01",
+        "indicator": "hiv_exposed_infants_below_2_months"
+      },
+      {
+        "label": "HIV Exposed Infant (Eligible for CTX within 2 months)",
+        "ref": "HV03-02",
+        "indicator": "hiv_exposed_infants_on_pcp_prophylaxis_2_months_and_below"
+      },
+      {
+        "label": "On CTX Below 15 yrs(M)",
+        "ref": "HV03-03",
+        "indicator": "dc__gender__M__age_range__below_15_years__on_ctx_prophylaxis"
+      },
+      {
+        "label": "On CTX Below 15 yrs(F)",
+        "ref": "HV03-04",
+        "indicator": "dc__gender__F__age_range__below_15_years__on_ctx_prophylaxis"
+      },
+      {
+        "label": "On CTX 15 yrs and Older(M)",
+        "ref": "HV03-05",
+        "indicator": "dc__gender__M__age_range__older_than_15__on_ctx_prophylaxis"
+      },
+      {
+        "label": "On CTX 15 yrs and Older(F)",
+        "ref": "HV03-06",
+        "indicator": "dc__gender__F__age_range__older_than_15__on_ctx_prophylaxis"
+      },
+      {
+        "label": "Total on CTX (Sum HV03-03 TO HV03-06)",
+        "ref": "HV03-07",
+        "indicator": "on_ctx_prophylaxis"
+      }
+    ]
+  },
+  {
+    "sectionTitle": "3.2 Enrolled in Care",
+    "indicators": [
+      {
+        "label": "Enrolled in care Below 1yr(M)",
+        "ref": "HV03-08",
+        "indicator": "dc__gender__M__age_range__0_to_1__enrolled_this_month"
+      },
+      {
+        "label": "Enrolled in care Below 1yr(F)",
+        "ref": "HV03-08",
+        "indicator": "dc__gender__F__age_range__0_to_1__enrolled_this_month"
+      },
+      {
+        "label": "Enrolled in care Below 15yrs(M)",
+        "ref": "HV03-09",
+        "indicator": "dc__gender__M__age_range__below_15_years__enrolled_this_month"
+      },
+      {
+        "label": "Enrolled in care Below 15yrs(F)",
+        "ref": "HV03-10",
+        "indicator": "dc__gender__F__age_range__below_15_years__enrolled_this_month"
+      },
+      {
+        "label": "Enrolled in care 15yrs & Older(M)",
+        "ref": "HV03-11",
+        "indicator": "dc__gender__M__age_range__older_than_15__enrolled_this_month"
+      },
+      {
+        "label": "Enrolled in care 15yrs & Older(F)",
+        "ref": "HV03-12",
+        "indicator": "dc__gender__F__age_range__older_than_15__enrolled_this_month"
+      },
+      {
+        "label": "Enrolled in care - Total (Sum HV03-09 to HV03-12)",
+        "ref": "HV03-13",
+        "indicator": "enrolled_this_month"
+      }
+    ]
+  },
+  {
+    "sectionTitle": "3.3 Currently in Care -(from the total sheet-this month only and from last 2 months)",
+    "indicators": [
+      {
+        "label": "Currently in care Below 1yr(M)",
+        "ref": "HV03-14",
+        "indicator": "dc__gender__M__age_range__0_to_1__current_in_care"
+      },
+      {
+        "label": "Currently in care Below 1yr(F)",
+        "ref": "HV03-14",
+        "indicator": "dc__gender__F__age_range__0_to_1__current_in_care"
+      },
+      {
+        "label": "Currently in care Below 15yrs(M)",
+        "ref": "HV03-15",
+        "indicator": "dc__gender__M__age_range__below_15_years__current_in_care"
+      },
+      {
+        "label": "Currently in care Below 15yrs(F)",
+        "ref": "HV03-16",
+        "indicator": "dc__gender__F__age_range__below_15_years__current_in_care"
+      },
+      {
+        "label": "Currently in care 15yrs and older(M)",
+        "ref": "HV03-17",
+        "indicator": "dc__gender__M__age_range__older_than_15__current_in_care"
+      },
+      {
+        "label": "Currently in care 15yrs and older(F)",
+        "ref": "HV03-18",
+        "indicator": "dc__gender__F__age_range__older_than_15__current_in_care"
+      },
+      {
+        "label": "Currently in Care-Total (Sum HV03-15 to HV03-18)",
+        "ref": "HV03-19",
+        "indicator": "current_in_care"
+      }
+    ]
+  },
+  {
+    "sectionTitle": "3.4 Starting ART",
+    "indicators": [
+      {
+        "label": "Starting ART -Below 1yr(M)",
+        "ref": "HV03-20",
+        "indicator": "dc__age_range__0_to_1__gender__M__started_art"
+      },
+      {
+        "label": "Starting ART -Below 1yr(F)",
+        "ref": "HV03-20",
+        "indicator": "dc__age_range__0_to_1__gender__F__started_art"
+      },
+      {
+        "label": "Starting ART -Below 15yrs(M)",
+        "ref": "HV03-21",
+        "indicator": "dc__age_range__below_15_years__gender__M__started_art"
+      },
+      {
+        "label": "Starting ART -Below 15yrs(F)",
+        "ref": "HV03-22",
+        "indicator": "dc__age_range__below_15_years__gender__F__started_art"
+      },
+      {
+        "label": "Starting ART -15yr and Older(M)",
+        "ref": "HV03-23",
+        "indicator": "dc__age_range__older_than_15__gender__M__started_art"
+      },
+      {
+        "label": "Starting ART -15yr and Older(F)",
+        "ref": "HV03-24",
+        "indicator": "dc__age_range__older_than_15__gender__F__started_art"
+      },
+      {
+        "label": "Starting on ART -Total (Sum HV03-21 to HV03-24)",
+        "ref": "HV03-25",
+        "indicator": "started_art"
+      },
+      {
+        "label": "Starting -Pregnant",
+        "ref": "HV03-26",
+        "indicator": "started_art_pregnant"
+      },
+      {
+        "label": "Starting -TB Patient",
+        "ref": "HV03-27",
+        "indicator": "started_art_and_has_tb"
+      }
+    ]
+  },
+  {
+    "sectionTitle": "3.5 Revisits on ART (from the tally sheet -this month only and from last 2 months)",
+    "indicators": [
+      {
+        "label": "Revisit on ART -Below 1yr(M)",
+        "ref": "HV03-28",
+        "indicator": "dc__gender__M__age_range__0_to_1__art_revisit_this_month"
+      },
+      {
+        "label": "Revisit on ART -Below 1yr(F)",
+        "ref": "HV03-28",
+        "indicator": "dc__gender__F__age_range__0_to_1__art_revisit_this_month"
+      },
+      {
+        "label": "Revisit on ART -Below 15yrs(M)",
+        "ref": "HV03-29",
+        "indicator": "dc__gender__M__age_range__below_15_years__art_revisit_this_month"
+      },
+      {
+        "label": "Revisit on ART -Below 15yrs(F)",
+        "ref": "HV03-30",
+        "indicator": "dc__gender__F__age_range__below_15_years__art_revisit_this_month"
+      },
+      {
+        "label": "Revisit on ART -15yrs and older(M)",
+        "ref": "HV03-31",
+        "indicator": "dc__gender__M__age_range__older_than_15__art_revisit_this_month"
+      },
+      {
+        "label": "Revisit on ART -15yrs and older(F)",
+        "ref": "HV03-32",
+        "indicator": "dc__gender__F__age_range__older_than_15__art_revisit_this_month"
+      },
+      {
+        "label": "Total Revisit on ART (Sum HV03-29 to HV03-32)",
+        "ref": "HV03-33",
+        "indicator": "art_revisit_this_month"
+      }
+    ]
+  },
+  {
+    "sectionTitle": "3.6 Currently on ART [ALL] - (Add 3.4 and 3.5 e.g HV03-34=HV03-20+HV03-28)",
+    "indicators": [
+      {
+        "label": "Currently on ART - Below 1yr(M)",
+        "ref": "HV03-34",
+        "indicator": "dc__gender__M__age_range__0_to_1__current_on_art"
+      },
+      {
+        "label": "Currently on ART - Below 1yr(F)",
+        "ref": "HV03-34",
+        "indicator": "dc__gender__F__age_range__0_to_1__current_on_art"
+      },
+      {
+        "label": "Currently on ART - Below 15 yrs(M)",
+        "ref": "HV03-35",
+        "indicator": "dc__gender__M__age_range__below_15_years__current_on_art"
+      },
+      {
+        "label": "Currently on ART - Below 15 yrs(F)",
+        "ref": "HV03-36",
+        "indicator": "dc__gender__F__age_range__below_15_years__current_on_art"
+      },
+      {
+        "label": "Currently on ART -15yr and older(M)",
+        "ref": "HV03-37",
+        "indicator": "dc__gender__M__age_range__older_than_15__current_on_art"
+      },
+      {
+        "label": "Currently on ART -15yr and older(F)",
+        "ref": "HV03-38",
+        "indicator": "dc__gender__F__age_range__older_than_15__current_on_art"
+      },
+      {
+        "label": "Total currently on ART (Sum HV03-35 to HV03-38)",
+        "ref": "HV03-39",
+        "indicator": "current_on_art"
+      }
+    ]
+  },
+  {
+    "sectionTitle": "3.7 Cumulative Ever on ART",
+    "indicators": [
+      {
+        "label": "Ever on ART - Below 15yrs(M)",
+        "ref": "HV03-40",
+        "indicator": "dc__gender__M__age_range__below_15__ever_on_art"
+      },
+      {
+        "label": "Ever on ART - Below 15yrs(F)",
+        "ref": "HV03-41",
+        "indicator": "dc__gender__F__age_range__below_15__ever_on_art"
+      },
+      {
+        "label": "Ever on ART - 15yrs & older(M)",
+        "ref": "HV03-42",
+        "indicator": "dc__gender__M__age_range__15_and_above__ever_on_art"
+      },
+      {
+        "label": "Ever on ART - 15yrs & older(F)",
+        "ref": "HV03-43",
+        "indicator": "dc__gender__F__age_range__15_and_above__ever_on_art"
+      },
+      {
+        "label": "Total Ever on ART (Sum HV03-40 to HV03-43)",
+        "ref": "HV03-44",
+        "indicator": "ever_on_art"
+      }
+    ]
+  },
+  {
+    "sectionTitle": "3.8 Survival and Retention on ART at 12 months",
+    "indicators": [
+      {
+        "label": "ART Net Cohort at 12 months",
+        "ref": "HV03-45",
+        "indicator": "net_cohort"
+      },
+      {
+        "label": "On Original 1st Line at 12 months",
+        "ref": "HV03-46",
+        "indicator": "on_original_first_line"
+      },
+      {
+        "label": "On alternative 1st Line at 12 months",
+        "ref": "HV03-47",
+        "indicator": "on_alternative_first_line"
+      },
+      {
+        "label": "On 2nd Line (or higher) at 12 months",
+        "ref": "HV03-48",
+        "indicator": "on_second_line"
+      },
+      {
+        "label": "Total on therapy at 12 months (Sum HV03-46 to HV03-48)",
+        "ref": "HV03-49",
+        "indicator": "on_tx"
+      }
+    ]
+  },
+  {
+    "sectionTitle": "3.9 Screening",
+    "indicators": [
+      {
+        "label": "Screened for TB -Below 15yrs(M)",
+        "ref": "HV03-50",
+        "indicator": "dc__gender__M__age_range__below_15_years__tb_screened_this_visit_this_month"
+      },
+      {
+        "label": "Screened for TB -Below 15yrs(F)",
+        "ref": "HV03-51",
+        "indicator": "dc__gender__F__age_range__below_15_years__tb_screened_this_visit_this_month"
+      },
+      {
+        "label": "Screened for TB -15yrs & older(M)",
+        "ref": "HV03-52",
+        "indicator": "dc__gender__M__age_range__older_than_15__tb_screened_this_visit_this_month"
+      },
+      {
+        "label": "Screened for TB -15yrs & older(F)",
+        "ref": "HV03-53",
+        "indicator": "dc__gender__F__age_range__older_than_15__tb_screened_this_visit_this_month"
+      },
+      {
+        "label": "Total Screened for TB (Sum HV03-50 to HV03-53)",
+        "ref": "HV03-54",
+        "indicator": "tb_screened_this_visit_this_month"
+      },
+      {
+        "label": "Screened for cervical cancer (F 18 years and older)",
+        "ref": "HV03-55",
+        "indicator": "Screened_for_cervical_cancer"
+      }
+    ]
+  },
+  {
+    "sectionTitle": "3.10 Prevention with Positives",
+    "indicators": [
+      {
+        "label": "Modern contraceptive methods",
+        "ref": "HV09-04",
+        "indicator": "on_modern_contraception"
+      },
+      {
+        "label": "Provided with condoms",
+        "ref": "HV09-05",
+        "indicator": "condoms_provided"
+      }
+    ]
+  },
+  {
+    "sectionTitle": "3.11 HIV Care Visits",
+    "indicators": [
+      {
+        "label": "Females (18 years and older)",
+        "ref": "HV03-70",
+        "indicator": "f_gte_18_visits"
+      },
+      {
+        "label": "Scheduled",
+        "ref": "HV03-71",
+        "indicator": "scheduled_visits"
+      },
+      {
+        "label": "Unscheduled",
+        "ref": "HV03-72",
+        "indicator": "unscheduled_visits"
+      },
+      {
+        "label": "Total HIV Care visit",
+        "ref": "HV03-73",
+        "indicator": "total_visits"
+      }
+    ]
+  },
+  {
+    "sectionTitle": "5. Post Exposure Prophylaxis",
+    "indicators": [
+      {
+        "label": "Exposed Occupational",
+        "ref": "HV05-01",
+        "indicator": "hiv_exposed_occupational"
+      },
+      {
+        "label": "Exposed Other",
+        "ref": "HV05-02",
+        "indicator": "hiv_exposed_non_occupational"
+      },
+      {
+        "label": "Exposed Total (Sum HV05-01 and HV05-02)",
+        "ref": "HV05-03",
+        "indicator": "total_hiv_exposed"
+      },
+      {
+        "label": "PEP Occupational",
+        "ref": "HV05-04",
+        "indicator": "started_PEP_occupational"
+      },
+      {
+        "label": "PEP Other",
+        "ref": "HV05-05",
+        "indicator": "started_PEP_non_occupational"
+      },
+      {
+        "label": "PEP Total (Sum HV05-04 and HV05-05)",
+        "ref": "HV03-06",
+        "indicator": "total_started_PEP"
+      }
+    ]
+  }
 ]

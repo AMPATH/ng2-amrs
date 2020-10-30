@@ -124,12 +124,10 @@
     "parameters": [
       {
         "name": "dateActivated",
-        "defaultValue": [
-          "10-10-2015"
-        ]
+        "defaultValue": ["10-10-2015"]
       },
-      {"name":"startDate", "defaultValue":["10-10-2015"]},
-      {"name":"endDate", "defaultValue":["defaultValue"]},
+      { "name": "startDate", "defaultValue": ["10-10-2015"] },
+      { "name": "endDate", "defaultValue": ["defaultValue"] },
       {
         "name": "locations"
       },
@@ -151,7 +149,7 @@
           }
         ]
       },
-      {"name": "patientUuid"}
+      { "name": "patientUuid" }
     ],
     "filters": [
       {
@@ -159,12 +157,12 @@
         "parameter": "dateActivated"
       },
       {
-        "expression":"date(t1.date_activated) >= ?",
-        "parameter":"startDate"
+        "expression": "date(t1.date_activated) >= ?",
+        "parameter": "startDate"
       },
       {
-        "expression":"date(t1.date_activated) <= ?",
-        "parameter":"endDate"
+        "expression": "date(t1.date_activated) <= ?",
+        "parameter": "endDate"
       },
       {
         "expression": "t2.location_id in ?",
@@ -187,9 +185,7 @@
         "parameter": "groupByOrderId"
       }
     ],
-    "orderBy": [
-
-    ],
+    "orderBy": [],
     "indicators": [],
     "supplementColumns": [
       {
@@ -268,9 +264,9 @@
         "sql": "concat(COALESCE(t3.given_name,''),' ',COALESCE(t3.middle_name,''),' ',COALESCE(t3.family_name,''))"
       },
       {
-        "label":"location_name",
-        "type":"single",
-        "sql":"t5.name"
+        "label": "location_name",
+        "type": "single",
+        "sql": "t5.name"
       },
       {
         "label": "gender",
@@ -283,14 +279,14 @@
         "sql": "extract(year from (from_days(datediff(now(),t6.birthdate))))"
       },
       {
-        "label":"locationUuid",
-        "type":"single",
-        "sql":"t5.uuid"
+        "label": "locationUuid",
+        "type": "single",
+        "sql": "t5.uuid"
       },
       {
-        "label":"location_id",
-        "type":"single",
-        "sql":"t5.location_id"
+        "label": "location_id",
+        "type": "single",
+        "sql": "t5.location_id"
       },
       {
         "label": "patient_uuid",
@@ -338,22 +334,20 @@
         "sql": "fhs.cur_arv_meds"
       },
       {
-          "type": "simple_column",
-          "alias": "previous_vl",
-          "column": "fhs.vl_2"
+        "type": "simple_column",
+        "alias": "previous_vl",
+        "column": "fhs.vl_2"
       },
       {
-          "type": "simple_column",
-          "alias": "previous_vl_date",
-          "column": "date_format(fhs.vl_2_date, '%Y-%m-%d')"
+        "type": "simple_column",
+        "alias": "previous_vl_date",
+        "column": "date_format(fhs.vl_2_date, '%Y-%m-%d')"
       },
       {
-          "type": "simple_column",
-          "alias": "nearest_center",
-          "column": "pa.address3"
+        "type": "simple_column",
+        "alias": "nearest_center",
+        "column": "pa.address3"
       }
-
     ]
-
   }
 ]

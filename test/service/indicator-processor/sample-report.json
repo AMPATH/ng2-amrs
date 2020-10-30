@@ -32,15 +32,11 @@
   "parameters": [
     {
       "name": "startDate",
-      "defaultValue": [
-        "01-01-1980"
-      ]
+      "defaultValue": ["01-01-1980"]
     },
     {
       "name": "endDate",
-      "defaultValue": [
-        "Now()"
-      ]
+      "defaultValue": ["Now()"]
     },
     {
       "name": "locations",

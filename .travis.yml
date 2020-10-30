@@ -1,8 +1,8 @@
 sudo: required
 language: node_js
 node_js:
-- '10'
-services:	
+  - '10'
+services:
   - docker
 before_install:
   - export TZ=Africa/Nairobi
@@ -13,12 +13,12 @@ before_install:
 addons:
   apt:
     sources:
-    - ubuntu-toolchain-r-test
+      - ubuntu-toolchain-r-test
     packages:
-    - g++-5
+      - g++-5
 script:
-- npm test
-- npm start
+  - npm test
+  - npm start
 env:
   - CXX=g++-5
 deploy:

@@ -1,86 +1,83 @@
 {
-    "name": "medicalHistoryDataSetBase",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [],
-    "sources": [
-        {
-            "table": "etl.flat_hiv_summary_v15b",
-            "alias": "t1"
-        },
-        {
-            "table": "amrs.person",
-            "alias": "t2",
-            "join": {
-                "type": "INNER",
-                "joinCondition": "t1.person_id=t2.person_id"
-            }
-        }
-    ],
-    "columns": [
-        {
-            "type": "derived_column",
-            "alias": "encounter_datetime",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "DATE_FORMAT(t1.encounter_datetime,'%d-%m-%Y')"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "previous_vl_date",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "DATE_FORMAT(t1.vl_1_date,'%d-%m-%Y')"
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias":"current_regimen",
-            "column": "t1.cur_arv_meds"
-          },
-          {
-            "type": "simple_column",
-            "alias":"previous_regimen",
-            "column": "t1.prev_arv_meds"
-          },
-          {
-            "type": "simple_column",
-            "alias":"previous_vl",
-            "column": "t1.vl_1"
-          },
-          {
-            "type": "simple_column",
-            "alias":"previous_vl_date",
-            "column": "DATE_FORMAT(t1.vl_1_date,'%d-%m-%Y')"
-          }
-    ],
-    "filters": {
-        "conditionJoinOperator": "and",
-        "conditions": [
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "t2.uuid  =  ?",
-                "parameterName": "patientUuid"
-            }
-        ]
+  "name": "medicalHistoryDataSetBase",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "etl.flat_hiv_summary_v15b",
+      "alias": "t1"
     },
-    "groupBy": {
-        "groupParam": "groupByParam",
-        "columns": [
-            "cur_arv_meds",
-            "prev_arv_meds"
-        ],
-        "excludeParam": "excludeParam"
-    },
-    "orderBy": {
-        "orderByParam": "orderByParam",
-        "columns": [
-            {
-            "column": "t1.encounter_datetime",
-            "order": "desc"
-            }
-        ]
+    {
+      "table": "amrs.person",
+      "alias": "t2",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "t1.person_id=t2.person_id"
+      }
     }
+  ],
+  "columns": [
+    {
+      "type": "derived_column",
+      "alias": "encounter_datetime",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "DATE_FORMAT(t1.encounter_datetime,'%d-%m-%Y')"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "previous_vl_date",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "DATE_FORMAT(t1.vl_1_date,'%d-%m-%Y')"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "current_regimen",
+      "column": "t1.cur_arv_meds"
+    },
+    {
+      "type": "simple_column",
+      "alias": "previous_regimen",
+      "column": "t1.prev_arv_meds"
+    },
+    {
+      "type": "simple_column",
+      "alias": "previous_vl",
+      "column": "t1.vl_1"
+    },
+    {
+      "type": "simple_column",
+      "alias": "previous_vl_date",
+      "column": "DATE_FORMAT(t1.vl_1_date,'%d-%m-%Y')"
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "t2.uuid  =  ?",
+        "parameterName": "patientUuid"
+      }
+    ]
+  },
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["cur_arv_meds", "prev_arv_meds"],
+    "excludeParam": "excludeParam"
+  },
+  "orderBy": {
+    "orderByParam": "orderByParam",
+    "columns": [
+      {
+        "column": "t1.encounter_datetime",
+        "order": "desc"
+      }
+    ]
+  }
 }

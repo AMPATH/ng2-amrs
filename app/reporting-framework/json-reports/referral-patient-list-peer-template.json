@@ -1,158 +1,156 @@
 {
-    "name": "referral_patient_list_peer_template",
-    "version": "1.0",
-    "tag": "referral_patient_list_peer_template",
-    "description": "Referral peer patient list template",
-    "sources": [
-        {
-            "table": "amrs.person",
-            "alias": "t1"
-        },
-        {
-            "table": "amrs.person_name",
-            "alias": "person_name",
-            "join": {
-                "type": "INNER",
-                "joinCondition": "t1.person_id = person_name.person_id AND (person_name.voided IS NULL || person_name.voided = 0) AND person_name.preferred = 1"
-            }
-        },
-        {
-            "table": "amrs.patient_identifier",
-            "alias": "id",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "t1.person_id = id.patient_id AND (id.voided IS NULL || id.voided = 0)"
-            }
-        },
-        {
-            "table": "amrs.person_attribute",
-            "alias": "contacts",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "t1.person_id = contacts.person_id AND (contacts.voided IS NULL || contacts.voided = 0) AND contacts.person_attribute_type_id = 10"
-            }
-        },
-        {
-            "table": "etl.flat_cdm_peer_navigation",
-            "alias": "peer_navigation",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "peer_navigation.person_id = t1.person_id"
-            }
-        },
-        {
-            "table": "etl.flat_cdm_peer_navigation",
-            "alias": "peer_initial",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "peer_initial.person_id = t1.person_id AND peer_initial.encounter_type = 192"
-            }
-        }
-        {
-            "table": "etl.flat_cdm_peer_navigation",
-            "alias": "peer_follow_up",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "peer_follow_up.person_id = t1.person_id AND peer_follow_up.encounter_type = 193"
-            }
-        }
-
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "patient_uuid",
-            "column": "t1.uuid"
-        },
-        {
-            "type": "derived_column",
-            "alias": "uuid",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "t1.uuid"
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "person_id",
-            "column": "t1.person_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "gender",
-            "column": "t1.gender"
-        },
-        {
-            "type": "simple_column",
-            "alias": "birthdate",
-            "column": "t1.birthdate"
-        },
-        {
-            "type": "derived_column",
-            "alias": "phone_number",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if (contacts.value IS NULL, '', contacts.value)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "age",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "extract(year from (from_days(datediff(now(),t1.birthdate))))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "person_name",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "CONCAT(COALESCE(person_name.given_name, ''), ' ', COALESCE(person_name.middle_name, ''), ' ', COALESCE(person_name.family_name, ''))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "identifiers",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": " GROUP_CONCAT(DISTINCT id.identifier SEPARATOR ', ')"
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "is_referral_complete",
-            "column": "peer_navigation.is_referal_completed"
-        },
-        {
-            "type": "simple_column",
-            "alias": "patient_referal_status",
-            "column": "peer_navigation.patient_referal_status"
-        },
-        {
-            "type": "simple_column",
-            "alias": "encounter_type",
-            "column": "peer_navigation.encounter_type"
-        },
-        {
-            "type": "derived_column",
-            "alias": "initial_encounter",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if (peer_initial.encounter_type =192, 1, 0)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "follow_up_encounter",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if (peer_follow_up.encounter_type =193, 1, 0)"
-            }
-        }
-
-    ],
-    "groupBy":{
-        "columns":["t1.person_id"]
+  "name": "referral_patient_list_peer_template",
+  "version": "1.0",
+  "tag": "referral_patient_list_peer_template",
+  "description": "Referral peer patient list template",
+  "sources": [
+    {
+      "table": "amrs.person",
+      "alias": "t1"
+    },
+    {
+      "table": "amrs.person_name",
+      "alias": "person_name",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "t1.person_id = person_name.person_id AND (person_name.voided IS NULL || person_name.voided = 0) AND person_name.preferred = 1"
+      }
+    },
+    {
+      "table": "amrs.patient_identifier",
+      "alias": "id",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t1.person_id = id.patient_id AND (id.voided IS NULL || id.voided = 0)"
+      }
+    },
+    {
+      "table": "amrs.person_attribute",
+      "alias": "contacts",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t1.person_id = contacts.person_id AND (contacts.voided IS NULL || contacts.voided = 0) AND contacts.person_attribute_type_id = 10"
+      }
+    },
+    {
+      "table": "etl.flat_cdm_peer_navigation",
+      "alias": "peer_navigation",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "peer_navigation.person_id = t1.person_id"
+      }
+    },
+    {
+      "table": "etl.flat_cdm_peer_navigation",
+      "alias": "peer_initial",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "peer_initial.person_id = t1.person_id AND peer_initial.encounter_type = 192"
+      }
+    },
+    {
+      "table": "etl.flat_cdm_peer_navigation",
+      "alias": "peer_follow_up",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "peer_follow_up.person_id = t1.person_id AND peer_follow_up.encounter_type = 193"
+      }
     }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "patient_uuid",
+      "column": "t1.uuid"
+    },
+    {
+      "type": "derived_column",
+      "alias": "uuid",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "t1.uuid"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "t1.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "gender",
+      "column": "t1.gender"
+    },
+    {
+      "type": "simple_column",
+      "alias": "birthdate",
+      "column": "t1.birthdate"
+    },
+    {
+      "type": "derived_column",
+      "alias": "phone_number",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if (contacts.value IS NULL, '', contacts.value)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "age",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "extract(year from (from_days(datediff(now(),t1.birthdate))))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "person_name",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "CONCAT(COALESCE(person_name.given_name, ''), ' ', COALESCE(person_name.middle_name, ''), ' ', COALESCE(person_name.family_name, ''))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "identifiers",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": " GROUP_CONCAT(DISTINCT id.identifier SEPARATOR ', ')"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "is_referral_complete",
+      "column": "peer_navigation.is_referal_completed"
+    },
+    {
+      "type": "simple_column",
+      "alias": "patient_referal_status",
+      "column": "peer_navigation.patient_referal_status"
+    },
+    {
+      "type": "simple_column",
+      "alias": "encounter_type",
+      "column": "peer_navigation.encounter_type"
+    },
+    {
+      "type": "derived_column",
+      "alias": "initial_encounter",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if (peer_initial.encounter_type =192, 1, 0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "follow_up_encounter",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if (peer_follow_up.encounter_type =193, 1, 0)"
+      }
+    }
+  ],
+  "groupBy": {
+    "columns": ["t1.person_id"]
+  }
 }

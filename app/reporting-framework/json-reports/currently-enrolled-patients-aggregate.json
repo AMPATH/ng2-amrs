@@ -1,57 +1,55 @@
 {
-    "name": "currentlyEnrolledPtaientsAggregate",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [
-        {
-            "name": "currentlyEnrolledPatientsBase",
-            "version": "1.0",
-            "type": "dataset_def"
-        }
-    ],
-    "sources": [
-        {
-            "dataSet": "currentlyEnrolledPatientsBase",
-            "alias": "pl"
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "enrollment_count",
-            "column": "count(distinct pl.patient_id,pl.program_id)"
-        },
-        {
-            "type": "simple_column",
-            "alias": "program_name",
-            "column": "pl.program_name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "program_uuid",
-            "column": "pl.program_uuid"
-        }
-    ],
-    "groupBy": {
-        "groupParam": "groupByParam",
-        "columns": [
-            "pl.program_id"
-        ],
-        "excludeParam": "excludeParam"
-    },
-    "dynamicJsonQueryGenerationDirectives": {
-        "patientListGenerator": {
-            "useTemplate": "patient-list-template",
-            "useTemplateVersion": "1.0",
-            "generatingDirectives": {
-                "joinDirectives": {
-                    "joinType": "INNER",
-                    "joinCondition": "<<base_column>> = <<template_column>>",
-                    "baseColumn": "patient_id",
-                    "templateColumn": "person_id"
-                }
-            }
-        }
+  "name": "currentlyEnrolledPtaientsAggregate",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [
+    {
+      "name": "currentlyEnrolledPatientsBase",
+      "version": "1.0",
+      "type": "dataset_def"
     }
+  ],
+  "sources": [
+    {
+      "dataSet": "currentlyEnrolledPatientsBase",
+      "alias": "pl"
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "enrollment_count",
+      "column": "count(distinct pl.patient_id,pl.program_id)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "program_name",
+      "column": "pl.program_name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "program_uuid",
+      "column": "pl.program_uuid"
+    }
+  ],
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["pl.program_id"],
+    "excludeParam": "excludeParam"
+  },
+  "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+      "useTemplate": "patient-list-template",
+      "useTemplateVersion": "1.0",
+      "generatingDirectives": {
+        "joinDirectives": {
+          "joinType": "INNER",
+          "joinCondition": "<<base_column>> = <<template_column>>",
+          "baseColumn": "patient_id",
+          "templateColumn": "person_id"
+        }
+      }
+    }
+  }
 }

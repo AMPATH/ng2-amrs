@@ -1,299 +1,297 @@
 {
-    "name": "patientFlow",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [],
-    "sources": [
-        {
-            "table": "amrs.visit",
-            "alias": "t1"
-        },
-        {
-            "table": "amrs.encounter",
-            "alias": "t4",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "t1.visit_id=t4.visit_id"
-            }
-        },
-        {
-            "table": "amrs.person_name",
-            "alias": "t2",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "t1.patient_id  = t2.person_id and (t2.voided is null || t2.voided = 0)"
-            }
-        },
-        {
-            "table": "amrs.patient_identifier",
-            "alias": "t3",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "t1.patient_id  = t3.patient_id"
-            }
-        },
-        {
-            "table": "amrs.person",
-            "alias": "t5",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "t1.patient_id = t5.person_id"
-            }
-        },
-        {
-            "table": "amrs.encounter_provider",
-            "alias": "t6",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "t4.encounter_id=t6.encounter_id"
-            }
-        },
-        {
-            "table": "amrs.provider",
-            "alias": "t7",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "t7.provider_id = t6.provider_id"
-            }
-        },
-        {
-            "table": "amrs.encounter_type",
-            "alias": "t9",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "t9.encounter_type_id=t4.encounter_type"
-            }
-        },
-        {
-            "table": "etl.clinical_encounter_type_map",
-            "alias": "t13",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "t9.encounter_type_id= t13.encounter_type"
-            }
-        },
-        {
-            "table": "amrs.person_name",
-            "alias": "t8",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "t7.person_id  = t8.person_id and (t8.voided is null || t8.voided = 0)"
-            }
-        },
-        {
-            "table": "amrs.users",
-            "alias": "t10",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "t1.creator  = t10.user_id"
-            }
-        },
-        {
-            "table": "amrs.person_name",
-            "alias": "t11",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "t10.person_id  = t11.person_id and (t11.voided is null || t11.voided = 0)"
-            }
-        },
-        {
-            "table": "amrs.location",
-            "alias": "t12",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "t1.location_id  = t12.location_id"
-            }
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "visit_id",
-            "column": "t1.visit_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "visit_start",
-            "column": "t1.date_started"
-        },
-        {
-            "type": "derived_column",
-            "alias": "triaged",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "case when t4.encounter_type=110 then t4.encounter_datetime else null end"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "time_to_be_triaged",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "case when t4.encounter_type=110 then TIMESTAMPDIFF(MINUTE,t1.date_started,t4.encounter_datetime) else null end"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "seen_by_clinician",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "case when t13.is_clinical = 1 then t4.encounter_datetime else null end"
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "visit_end",
-            "column": "t1.date_stopped"
-        },
-        {
-            "type": "simple_column",
-            "alias": "creator",
-            "column": "t1.creator"
-        },
-        {
-            "type": "simple_column",
-            "alias": "encounter_type",
-            "column": "t4.encounter_type"
-        },
-        {
-            "type": "simple_column",
-            "alias": "encounter_type_name",
-            "column": "t9.name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "encounter_start",
-            "column": "t4.encounter_datetime"
-        },
-        {
-            "type": "simple_column",
-            "alias": "encounter_end",
-            "column": "t4.date_created"
-        },
-        {
-            "type": "simple_column",
-            "alias": "patient_id",
-            "column": "t1.patient_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "patient_uuid",
-            "column": "t5.uuid"
-        },
-        {
-            "type": "simple_column",
-            "alias": "given_name",
-            "column": "t2.given_name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "middle_name",
-            "column": "t2.middle_name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "family_name",
-            "column": "t2.family_name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "identifiers",
-            "column": "group_concat(distinct t3.identifier)"
-        },
-        {
-            "type": "simple_column",
-            "alias": "person_id",
-            "column": "t7.person_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "visit_person_id",
-            "column": "t10.person_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "provider_given_name",
-            "column": "t8.given_name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "provider_middle_name",
-            "column": "t8.middle_name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "provider_family_name",
-            "column": "t8.family_name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "Visit_creator",
-            "column": "t10.creator"
-        },
-        {
-            "type": "simple_column",
-            "alias": "visit_start_given_name",
-            "column": "t11.given_name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "visit_start_middle_name",
-            "column": "t11.middle_name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "visit_start_family_name",
-            "column": "t11.family_name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location",
-            "column": "t12.name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_id",
-            "column": "t12.location_id"
-        }
-    ],
-    "filters": {
-        "conditionJoinOperator": "and",
-        "conditions": [
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "date(t1.date_started) = ?",
-                "parameterName": "dateStarted"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "t1.location_id in ?",
-                "parameterName": "locations"
-            }
-        ]
+  "name": "patientFlow",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "amrs.visit",
+      "alias": "t1"
     },
-    "orderBy":{
-        "orderByParam": "orderByParam",
-        "columns": [
-            {
-                "column": "t1.date_started",
-                "order": "asc"
-             },
-             {
-                "column": "gender",
-                "order": "t1.visit_id"
-             },
-             {
-                "column": "t4.date_created",
-                "order": "asc"
-             }
-        ]
+    {
+      "table": "amrs.encounter",
+      "alias": "t4",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t1.visit_id=t4.visit_id"
+      }
     },
-    "groupBy": {
-        "groupParam": "groupByParam",
-        "columns": [
-            "t4.encounter_id"
-        ],
-        "excludeParam": "excludeParam"
+    {
+      "table": "amrs.person_name",
+      "alias": "t2",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t1.patient_id  = t2.person_id and (t2.voided is null || t2.voided = 0)"
+      }
+    },
+    {
+      "table": "amrs.patient_identifier",
+      "alias": "t3",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t1.patient_id  = t3.patient_id"
+      }
+    },
+    {
+      "table": "amrs.person",
+      "alias": "t5",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t1.patient_id = t5.person_id"
+      }
+    },
+    {
+      "table": "amrs.encounter_provider",
+      "alias": "t6",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t4.encounter_id=t6.encounter_id"
+      }
+    },
+    {
+      "table": "amrs.provider",
+      "alias": "t7",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t7.provider_id = t6.provider_id"
+      }
+    },
+    {
+      "table": "amrs.encounter_type",
+      "alias": "t9",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t9.encounter_type_id=t4.encounter_type"
+      }
+    },
+    {
+      "table": "etl.clinical_encounter_type_map",
+      "alias": "t13",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t9.encounter_type_id= t13.encounter_type"
+      }
+    },
+    {
+      "table": "amrs.person_name",
+      "alias": "t8",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t7.person_id  = t8.person_id and (t8.voided is null || t8.voided = 0)"
+      }
+    },
+    {
+      "table": "amrs.users",
+      "alias": "t10",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t1.creator  = t10.user_id"
+      }
+    },
+    {
+      "table": "amrs.person_name",
+      "alias": "t11",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t10.person_id  = t11.person_id and (t11.voided is null || t11.voided = 0)"
+      }
+    },
+    {
+      "table": "amrs.location",
+      "alias": "t12",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t1.location_id  = t12.location_id"
+      }
     }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "visit_id",
+      "column": "t1.visit_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "visit_start",
+      "column": "t1.date_started"
+    },
+    {
+      "type": "derived_column",
+      "alias": "triaged",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "case when t4.encounter_type=110 then t4.encounter_datetime else null end"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "time_to_be_triaged",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "case when t4.encounter_type=110 then TIMESTAMPDIFF(MINUTE,t1.date_started,t4.encounter_datetime) else null end"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "seen_by_clinician",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "case when t13.is_clinical = 1 then t4.encounter_datetime else null end"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "visit_end",
+      "column": "t1.date_stopped"
+    },
+    {
+      "type": "simple_column",
+      "alias": "creator",
+      "column": "t1.creator"
+    },
+    {
+      "type": "simple_column",
+      "alias": "encounter_type",
+      "column": "t4.encounter_type"
+    },
+    {
+      "type": "simple_column",
+      "alias": "encounter_type_name",
+      "column": "t9.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "encounter_start",
+      "column": "t4.encounter_datetime"
+    },
+    {
+      "type": "simple_column",
+      "alias": "encounter_end",
+      "column": "t4.date_created"
+    },
+    {
+      "type": "simple_column",
+      "alias": "patient_id",
+      "column": "t1.patient_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "patient_uuid",
+      "column": "t5.uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "given_name",
+      "column": "t2.given_name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "middle_name",
+      "column": "t2.middle_name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "family_name",
+      "column": "t2.family_name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "identifiers",
+      "column": "group_concat(distinct t3.identifier)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "t7.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "visit_person_id",
+      "column": "t10.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "provider_given_name",
+      "column": "t8.given_name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "provider_middle_name",
+      "column": "t8.middle_name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "provider_family_name",
+      "column": "t8.family_name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "Visit_creator",
+      "column": "t10.creator"
+    },
+    {
+      "type": "simple_column",
+      "alias": "visit_start_given_name",
+      "column": "t11.given_name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "visit_start_middle_name",
+      "column": "t11.middle_name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "visit_start_family_name",
+      "column": "t11.family_name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "t12.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "t12.location_id"
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "date(t1.date_started) = ?",
+        "parameterName": "dateStarted"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "t1.location_id in ?",
+        "parameterName": "locations"
+      }
+    ]
+  },
+  "orderBy": {
+    "orderByParam": "orderByParam",
+    "columns": [
+      {
+        "column": "t1.date_started",
+        "order": "asc"
+      },
+      {
+        "column": "gender",
+        "order": "t1.visit_id"
+      },
+      {
+        "column": "t4.date_created",
+        "order": "asc"
+      }
+    ]
+  },
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["t4.encounter_id"],
+    "excludeParam": "excludeParam"
+  }
 }

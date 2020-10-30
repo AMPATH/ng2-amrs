@@ -2,46 +2,56 @@
   {
     "program": "Breast Cancer Screening",
     "uuid": "142939b0-28a9-4649-baf9-a9d012bf3b3d",
-    "reports": [{
-      "name": "B1. Breast cancer screening numbers",
-      "type": "breast-cancer-screening-numbers",
-      "description": "Breast cancer screening numbers contains the following indicators - total breast screened, normal breast screened, abnormal breast screening findings, breast call rate, biopsy within 2 weeks, clients staged before treatment and total referred for follow up"
-    }]
+    "reports": [
+      {
+        "name": "B1. Breast cancer screening numbers",
+        "type": "breast-cancer-screening-numbers",
+        "description": "Breast cancer screening numbers contains the following indicators - total breast screened, normal breast screened, abnormal breast screening findings, breast call rate, biopsy within 2 weeks, clients staged before treatment and total referred for follow up"
+      }
+    ]
   },
   {
     "program": "Cervical Cancer Screening",
     "uuid": "cad71628-692c-4d8f-8dac-b2e20bece27f",
-    "reports": [{
-      "name": "C1. Cervical cancer screening numbers",
-      "type": "cervical-cancer-screening-numbers",
-      "description": "Cervical cancer screening numbers contains the following indicators - total cervical screened, normal cervical screened,abnormal cervical screening findings, cervical call rate, biopsy within 2 weeks, clients staged before treatment and total referred for follow up"
-    }]
+    "reports": [
+      {
+        "name": "C1. Cervical cancer screening numbers",
+        "type": "cervical-cancer-screening-numbers",
+        "description": "Cervical cancer screening numbers contains the following indicators - total cervical screened, normal cervical screened,abnormal cervical screening findings, cervical call rate, biopsy within 2 weeks, clients staged before treatment and total referred for follow up"
+      }
+    ]
   },
-  { 
+  {
     "program": "Lung Cancer Screening",
     "uuid": "b2db2bdf-67e9-42c5-858c-c7e435742ef5",
-    "reports": [{
-      "name": "L1. Lung cancer screening numbers",
-      "type": "lung-cancer-screening-numbers",
-      "description": "Lung cancer screening numbers contains the following indicators - total screened, walk-in, referred from clinic, cigarette smoking, tobacco smoking, chemical exposure, asbestos exposure, HIV positive, HIV negative, HIV status unknown, TB treatment received, no TB treatment, normal X-ray results, abnormal X-ray results, normal CT-scan results, indication of lung mass from CT findings, indication of mediastial mass from CT findings indication of pleural mass from CT findings, biopsy done, biopsy not done, non-respiratory disease, non-small-cell lung cancer, small-cell-lung cancer"
-    }]
+    "reports": [
+      {
+        "name": "L1. Lung cancer screening numbers",
+        "type": "lung-cancer-screening-numbers",
+        "description": "Lung cancer screening numbers contains the following indicators - total screened, walk-in, referred from clinic, cigarette smoking, tobacco smoking, chemical exposure, asbestos exposure, HIV positive, HIV negative, HIV status unknown, TB treatment received, no TB treatment, normal X-ray results, abnormal X-ray results, normal CT-scan results, indication of lung mass from CT findings, indication of mediastial mass from CT findings indication of pleural mass from CT findings, biopsy done, biopsy not done, non-respiratory disease, non-small-cell lung cancer, small-cell-lung cancer"
+      }
+    ]
   },
   {
     "program": "Lung Cancer Treatment",
     "uuid": "1a5a9a8d-f4a8-4c48-b63a-22f84530b4b9",
-    "reports": [{
-      "name": "L2. Lung cancer treatment numbers",
-      "type": "lung-cancer-treatment-numbers",
-      "description": "Lung cancer treatment numbers contains the following indicators - total patients, walk-in, referred from clinic, diagnosis without procedures done, diagnosis with procedures, non-small cell lung cancer, epidermoid carcinoma / squamous cell carcinoma, adenocarcinoma, large cell carcinoma, mixed squamous, small cell lung cancer, stage I, stage II, stage III, stage IV, limited stage, extensive stage, chemotherapy, radiotherapy, surgery"
-    }]
+    "reports": [
+      {
+        "name": "L2. Lung cancer treatment numbers",
+        "type": "lung-cancer-treatment-numbers",
+        "description": "Lung cancer treatment numbers contains the following indicators - total patients, walk-in, referred from clinic, diagnosis without procedures done, diagnosis with procedures, non-small cell lung cancer, epidermoid carcinoma / squamous cell carcinoma, adenocarcinoma, large cell carcinoma, mixed squamous, small cell lung cancer, stage I, stage II, stage III, stage IV, limited stage, extensive stage, chemotherapy, radiotherapy, surgery"
+      }
+    ]
   },
   {
     "program": "Breast and Cervical Cancer Screening",
     "uuid": "b2837614-e144-4bec-abc2-e9f5e3116bb9",
-    "reports": [{
-      "name": "BC1. Breast and Cervical cancer screening numbers",
-      "type": "combined-breast-cervical-cancer-screening-numbers",
-      "description": "Combined breast and cervical cancer screening numbers contains the following indicators - total breast screened, total cervical screened, total breast and cervical screened"
-    }]
+    "reports": [
+      {
+        "name": "BC1. Breast and Cervical cancer screening numbers",
+        "type": "combined-breast-cervical-cancer-screening-numbers",
+        "description": "Combined breast and cervical cancer screening numbers contains the following indicators - total breast screened, total cervical screened, total breast and cervical screened"
+      }
+    ]
   }
 ]

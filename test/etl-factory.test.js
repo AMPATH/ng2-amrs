@@ -7,7 +7,7 @@ var mockData = require('./mock/mock-data');
 var _ = require('underscore');
 var Hapi = require('hapi');
 var fakeServer = require('./sinon-server-1.17.3');
-var queryParams = { reportName: "test-report-01" };
+var queryParams = { reportName: 'test-report-01' };
 var reports = mockData.getReportMock();
 
 var reportFactory = require('../etl-factory');
@@ -17,12 +17,6 @@ global.should = chai.should;
 global.Assertion = chai.Assertion;
 global.assert = chai.assert;
 
-
 chai.use(sinonChai);
 
-describe('ETL-SERVER TESTS REPORT FACTORY TESTS', function () {
-
-
-});
-
-
+describe('ETL-SERVER TESTS REPORT FACTORY TESTS', function () {});

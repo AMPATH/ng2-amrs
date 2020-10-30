@@ -1,148 +1,144 @@
 {
-    "name": "clinic_lab_orders_report",
-    "version": "1.0",
-    "tag": "clinic_lab_orders_report",
-    "description": "Clinic Lab Orders Report",
-    "sources": [
-        {
-            "table": "amrs.orders",
-            "alias": "t1"
-        },
-        {
-            "table": "amrs.encounter",
-            "alias": "t2",
-            "join": {
-                "type": "LEFT OUTER",
-                "joinCondition": "t1.encounter_id=t2.encounter_id"
-            }
-        },
-        {
-            "table": "amrs.person_name",
-            "alias": "t3",
-            "join": {
-                "type": "LEFT OUTER",
-                "joinCondition": "t1.patient_id  = t3.person_id and (t3.voided is null || t3.voided = 0)"
-            }
-        },
-        {
-            "table": "amrs.patient_identifier",
-            "alias": "t4",
-            "join": {
-                "type": "LEFT OUTER",
-                "joinCondition": "t1.patient_id  = t4.patient_id"
-            }
-        },
-        {
-            "table": "amrs.location",
-            "alias": "t5",
-            "join": {
-                "type": "LEFT OUTER",
-                "joinCondition": "t2.location_id  = t5.location_id"
-            }
-        },
-        {
-            "table": "amrs.person",
-            "alias": "t6",
-            "join": {
-                "type": "LEFT OUTER",
-                "joinCondition": "t1.patient_id  = t6.person_id"
-            }
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "order_no",
-            "column": "t1.order_number"
-          },
-          {
-            "type": "simple_column",
-            "alias": "order_type",
-            "column": "t1.concept_id"
-          },
-          {
-            "type": "simple_column",
-            "alias": "date_activated",
-            "column": "t1.date_activated"
-          },
-          {
-            "type": "simple_column",
-            "alias": "patient_id",
-            "column": "t1.patient_id"
-          },
-          {
-            "type": "simple_column",
-            "alias": "given_name",
-            "column": "t3.given_name"
-          },
-          {
-            "type": "simple_column",
-            "alias": "middle_name",
-            "column": "t3.middle_name"
-          },
-          {
-            "type": "simple_column",
-            "alias": "family_name",
-            "column": "t3.family_name"
-          },
-          {
-            "type": "derived_column",
-            "alias": "identifiers",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "group_concat(distinct t4.identifier)"
-            }
-          },
-          {
-            "type": "derived_column",
-            "alias": "person_name",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": " CONCAT(COALESCE(t3.given_name, ''), ' ', COALESCE(t3.middle_name, ''), ' ', COALESCE(t3.family_name, ''))"
-            }
-          },
-          {
-            "type": "simple_column",
-            "alias":"location",
-            "column":"t5.name"
-          },
-          {
-            "type": "simple_column",
-            "alias":"location_id",
-            "column":"t5.location_id"
-          },
-          {
-            "type": "simple_column",
-            "alias": "patient_uuid",
-            "column": "t6.uuid"
-          }
-
-    ],
-    "groupBy": {
-        "groupParam": "groupByParam",
-        "columns": [
-            "t3.person_id"
-        ],
-        "excludeParam": "excludeParam"
+  "name": "clinic_lab_orders_report",
+  "version": "1.0",
+  "tag": "clinic_lab_orders_report",
+  "description": "Clinic Lab Orders Report",
+  "sources": [
+    {
+      "table": "amrs.orders",
+      "alias": "t1"
     },
-    "filters": {
-        "conditionJoinOperator": "and",
-        "conditions": [
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "date(t1.date_activated) = ?",
-                "parameterName": "dateActivated"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "t2.location_id in ?",
-                "parameterName": "locations"
-            }
-        ]
-    },
-    "paging":  {
-        "offSetParam":"offSetParam",
-        "limitParam": "limitParam"
+    {
+      "table": "amrs.encounter",
+      "alias": "t2",
+      "join": {
+        "type": "LEFT OUTER",
+        "joinCondition": "t1.encounter_id=t2.encounter_id"
       }
-
+    },
+    {
+      "table": "amrs.person_name",
+      "alias": "t3",
+      "join": {
+        "type": "LEFT OUTER",
+        "joinCondition": "t1.patient_id  = t3.person_id and (t3.voided is null || t3.voided = 0)"
+      }
+    },
+    {
+      "table": "amrs.patient_identifier",
+      "alias": "t4",
+      "join": {
+        "type": "LEFT OUTER",
+        "joinCondition": "t1.patient_id  = t4.patient_id"
+      }
+    },
+    {
+      "table": "amrs.location",
+      "alias": "t5",
+      "join": {
+        "type": "LEFT OUTER",
+        "joinCondition": "t2.location_id  = t5.location_id"
+      }
+    },
+    {
+      "table": "amrs.person",
+      "alias": "t6",
+      "join": {
+        "type": "LEFT OUTER",
+        "joinCondition": "t1.patient_id  = t6.person_id"
+      }
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "order_no",
+      "column": "t1.order_number"
+    },
+    {
+      "type": "simple_column",
+      "alias": "order_type",
+      "column": "t1.concept_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "date_activated",
+      "column": "t1.date_activated"
+    },
+    {
+      "type": "simple_column",
+      "alias": "patient_id",
+      "column": "t1.patient_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "given_name",
+      "column": "t3.given_name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "middle_name",
+      "column": "t3.middle_name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "family_name",
+      "column": "t3.family_name"
+    },
+    {
+      "type": "derived_column",
+      "alias": "identifiers",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "group_concat(distinct t4.identifier)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "person_name",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": " CONCAT(COALESCE(t3.given_name, ''), ' ', COALESCE(t3.middle_name, ''), ' ', COALESCE(t3.family_name, ''))"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "t5.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "t5.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "patient_uuid",
+      "column": "t6.uuid"
+    }
+  ],
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["t3.person_id"],
+    "excludeParam": "excludeParam"
+  },
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "date(t1.date_activated) = ?",
+        "parameterName": "dateActivated"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "t2.location_id in ?",
+        "parameterName": "locations"
+      }
+    ]
+  },
+  "paging": {
+    "offSetParam": "offSetParam",
+    "limitParam": "limitParam"
+  }
 }

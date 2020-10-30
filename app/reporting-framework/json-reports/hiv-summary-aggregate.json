@@ -1,568 +1,564 @@
 {
-    "name": "hivSummaryBaseAggregate",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [
-        {
-            "name": "hivSummaryBase",
-            "version": "1.0",
-            "type": "dataset_def"
-        }
-    ],
-    "sources": [
-        {
-            "dataSet": "hivSummaryBase",
-            "alias": "hsb"
-        }
-    ],
-    "columns": [
-        {
-            "type": "derived_column",
-            "alias": "patients",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct person_id)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_tdf_3tc_efv_400",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(on_tdf_3tc_efv_400, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_tdf_3tc_efv_600",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(on_tdf_3tc_efv_600, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_tdf_3tc_dtg",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(on_tdf_3tc_dtg, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_arvs",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(on_arvs, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_arvs_first_line",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(on_arvs_first_line, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_arvs_second_line",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(on_arvs_second_line, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "newly_on_second_line",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(newly_on_second_line, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_arvs_third_line",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(on_arvs_third_line, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "vl_done_past_year",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(vl_done_past_year, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "no_vl_done_past_year",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(no_vl_done_past_year, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_second_line_not_suppressed",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(on_second_line_not_suppressed, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "not_on_arvs_cd4_lte_500",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(not_on_arvs_cd4_lte_500, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "vl_done_past_year_lte_1000",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(vl_done_past_year_lte_1000, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "vl_done_past_year_gt_1000",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(vl_done_past_year_gt_1000, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "vl_done_this_encounter",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(vl_done_this_encounter, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "vl_done_this_encounter_lte_1000",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(vl_done_this_encounter_lte_1000, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "vl_done_this_encounter_gt_1000",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(vl_done_this_encounter_gt_1000, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "vl_ordered",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(vl_ordered, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "pending_vl_order",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(pending_vl_order, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "pending_vl_order_no_result_after_4_weeks",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(pending_vl_order_no_result_after_4_weeks, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_arvs_lte_26_weeks",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(on_arvs_lte_26_weeks, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_arvs_lte_52_weeks",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(on_arvs_lte_52_weeks, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_arvs_lte_52_weeks_and_have_vl",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(on_arvs_lte_52_weeks_and_have_vl, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_arvs_lte_52_weeks_and_have_vl_lte_1000",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(on_arvs_lte_52_weeks_and_have_vl_lte_1000, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_modern_contraception",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(on_modern_contraception, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_short_term_modern_contraception",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(on_short_term_modern_contraception, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_long_term_modern_contraception",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(on_long_term_modern_contraception, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "not_on_modern_contraception",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(not_on_modern_contraception, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_short_term_modern_contraception_pnc",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(on_short_term_modern_contraception_pnc, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_long_term_modern_contraception_pnc",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(on_long_term_modern_contraception_pnc, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_modern_contraception_pnc",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(on_modern_contraception_pnc, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "not_on_modern_contraception_pnc",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(not_on_modern_contraception_pnc, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "in_pnc",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(in_pnc, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_art_and_not_on_modern_contraception",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(on_art_and_not_on_modern_contraception, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "started_modern_contraception",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(started_modern_contraception, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "pregnant",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(pregnant, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "pregnant_and_on_arvs",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(pregnant_and_on_arvs, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "newly_enrolled",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(newly_enrolled, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "enrolled_in_care_total",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(enrolled_in_care_total, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "virally_suppressed",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(virally_suppressed, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "virally_suppressed_in_past_year",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(virally_suppressed_in_past_year, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "viral_load_resulted_in_past_year",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(viral_load_resulted_in_past_year, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "not_virally_suppressed_in_past_year",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(not_virally_suppressed_in_past_year, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_arvs_gt_26_weeks",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(on_arvs_gt_26_weeks, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "perc_virally_suppressed_in_past_year",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(virally_suppressed_in_past_year, hsb.person_id))/count(distinct concat(viral_load_resulted_in_past_year, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "perc_not_virally_suppressed_in_past_year",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(not_virally_suppressed_in_past_year, hsb.person_id)) / count(distinct concat(viral_load_resulted_in_past_year, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "perc_on_arvs",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(on_arvs, hsb.person_id)) / count(distinct person_id)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "perc_on_arv_first_line",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(on_arvs_first_line, hsb.person_id)) / count(distinct concat(on_arvs, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "perc_on_arv_second_line",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(on_arvs_second_line, hsb.person_id)) / count(distinct concat(on_arvs, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "perc_on_arv_third_line",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(on_arvs_third_line, hsb.person_id)) / count(distinct concat(on_arvs, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "perc_with_pending_viral_load",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(pending_vl_order, hsb.person_id)) / count(distinct concat(on_arvs, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "perc_on_arvs_lte_6_months",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(on_arvs_lte_26_weeks, hsb.person_id)) / count(distinct concat(on_arvs, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "perc_on_arvs_gt_6_months",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(on_arvs_gt_26_weeks, hsb.person_id)) / count(distinct concat(on_arvs, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "patients_with_vl_result",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(patients_with_vl_result, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "transfer_in_patients",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(transfer_in_patients, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "vl_done_past_year_relative_to_end_date",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(vl_done_past_year_relative_to_end_date, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "late_scheduled_visits",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(late_scheduled_visits, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "vl_suppressed_patients",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(vl_suppressed_patients, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "vl_unsuppressed_patients",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(vl_unsuppressed_patients, hsb.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "early_scheduled_visits",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(early_scheduled_visits, hsb.person_id))"
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "location",
-            "column": "location"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_id",
-            "column": "hsb.location_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "encounter_datetime",
-            "column": "hsb.encounter_datetime"
-        },
-        {
-            "type": "simple_column",
-            "alias": "month",
-            "column": "hsb.encounter_datetime"
-        },
-        {
-            "type": "simple_column",
-            "alias": "month",
-            "column": "date_format(encounter_datetime, '%m/%Y')"
-        },
-        {
-            "type": "simple_column",
-            "alias": "reporting_month",
-            "column": "reporting_month"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_uuid",
-            "column": "location_uuid"
-        }
-    ],
-    "groupBy": {
-        "groupParam": "groupByParam",
-        "columns": [
-            "location_id"
-        ],
-        "excludeParam": "excludeParam"
-    },
-    "dynamicJsonQueryGenerationDirectives": {
-        "patientListGenerator": {
-            "useTemplate": "patient-list-template",
-            "useTemplateVersion": "1.0",
-            "generatingDirectives": {
-                "joinDirectives": {
-                    "joinType": "INNER",
-                    "joinCondition": "<<base_column>> = <<template_column>>",
-                    "baseColumn": "person_id",
-                    "templateColumn": "person_id"
-                }
-            },
-            "skipParams": [
-                "gender"
-            ]
-        }
+  "name": "hivSummaryBaseAggregate",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [
+    {
+      "name": "hivSummaryBase",
+      "version": "1.0",
+      "type": "dataset_def"
     }
+  ],
+  "sources": [
+    {
+      "dataSet": "hivSummaryBase",
+      "alias": "hsb"
+    }
+  ],
+  "columns": [
+    {
+      "type": "derived_column",
+      "alias": "patients",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct person_id)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_tdf_3tc_efv_400",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(on_tdf_3tc_efv_400, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_tdf_3tc_efv_600",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(on_tdf_3tc_efv_600, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_tdf_3tc_dtg",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(on_tdf_3tc_dtg, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_arvs",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(on_arvs, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_arvs_first_line",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(on_arvs_first_line, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_arvs_second_line",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(on_arvs_second_line, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "newly_on_second_line",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(newly_on_second_line, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_arvs_third_line",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(on_arvs_third_line, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "vl_done_past_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(vl_done_past_year, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "no_vl_done_past_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(no_vl_done_past_year, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_second_line_not_suppressed",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(on_second_line_not_suppressed, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "not_on_arvs_cd4_lte_500",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(not_on_arvs_cd4_lte_500, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "vl_done_past_year_lte_1000",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(vl_done_past_year_lte_1000, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "vl_done_past_year_gt_1000",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(vl_done_past_year_gt_1000, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "vl_done_this_encounter",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(vl_done_this_encounter, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "vl_done_this_encounter_lte_1000",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(vl_done_this_encounter_lte_1000, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "vl_done_this_encounter_gt_1000",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(vl_done_this_encounter_gt_1000, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "vl_ordered",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(vl_ordered, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "pending_vl_order",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(pending_vl_order, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "pending_vl_order_no_result_after_4_weeks",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(pending_vl_order_no_result_after_4_weeks, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_arvs_lte_26_weeks",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(on_arvs_lte_26_weeks, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_arvs_lte_52_weeks",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(on_arvs_lte_52_weeks, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_arvs_lte_52_weeks_and_have_vl",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(on_arvs_lte_52_weeks_and_have_vl, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_arvs_lte_52_weeks_and_have_vl_lte_1000",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(on_arvs_lte_52_weeks_and_have_vl_lte_1000, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_modern_contraception",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(on_modern_contraception, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_short_term_modern_contraception",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(on_short_term_modern_contraception, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_long_term_modern_contraception",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(on_long_term_modern_contraception, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "not_on_modern_contraception",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(not_on_modern_contraception, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_short_term_modern_contraception_pnc",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(on_short_term_modern_contraception_pnc, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_long_term_modern_contraception_pnc",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(on_long_term_modern_contraception_pnc, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_modern_contraception_pnc",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(on_modern_contraception_pnc, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "not_on_modern_contraception_pnc",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(not_on_modern_contraception_pnc, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "in_pnc",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(in_pnc, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_art_and_not_on_modern_contraception",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(on_art_and_not_on_modern_contraception, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "started_modern_contraception",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(started_modern_contraception, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "pregnant",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(pregnant, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "pregnant_and_on_arvs",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(pregnant_and_on_arvs, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "newly_enrolled",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(newly_enrolled, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "enrolled_in_care_total",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(enrolled_in_care_total, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "virally_suppressed",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(virally_suppressed, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "virally_suppressed_in_past_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(virally_suppressed_in_past_year, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "viral_load_resulted_in_past_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(viral_load_resulted_in_past_year, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "not_virally_suppressed_in_past_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(not_virally_suppressed_in_past_year, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_arvs_gt_26_weeks",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(on_arvs_gt_26_weeks, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "perc_virally_suppressed_in_past_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(virally_suppressed_in_past_year, hsb.person_id))/count(distinct concat(viral_load_resulted_in_past_year, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "perc_not_virally_suppressed_in_past_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(not_virally_suppressed_in_past_year, hsb.person_id)) / count(distinct concat(viral_load_resulted_in_past_year, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "perc_on_arvs",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(on_arvs, hsb.person_id)) / count(distinct person_id)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "perc_on_arv_first_line",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(on_arvs_first_line, hsb.person_id)) / count(distinct concat(on_arvs, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "perc_on_arv_second_line",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(on_arvs_second_line, hsb.person_id)) / count(distinct concat(on_arvs, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "perc_on_arv_third_line",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(on_arvs_third_line, hsb.person_id)) / count(distinct concat(on_arvs, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "perc_with_pending_viral_load",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(pending_vl_order, hsb.person_id)) / count(distinct concat(on_arvs, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "perc_on_arvs_lte_6_months",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(on_arvs_lte_26_weeks, hsb.person_id)) / count(distinct concat(on_arvs, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "perc_on_arvs_gt_6_months",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(on_arvs_gt_26_weeks, hsb.person_id)) / count(distinct concat(on_arvs, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "patients_with_vl_result",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(patients_with_vl_result, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "transfer_in_patients",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(transfer_in_patients, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "vl_done_past_year_relative_to_end_date",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(vl_done_past_year_relative_to_end_date, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "late_scheduled_visits",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(late_scheduled_visits, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "vl_suppressed_patients",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(vl_suppressed_patients, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "vl_unsuppressed_patients",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(vl_unsuppressed_patients, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "early_scheduled_visits",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(early_scheduled_visits, hsb.person_id))"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "location"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "hsb.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "encounter_datetime",
+      "column": "hsb.encounter_datetime"
+    },
+    {
+      "type": "simple_column",
+      "alias": "month",
+      "column": "hsb.encounter_datetime"
+    },
+    {
+      "type": "simple_column",
+      "alias": "month",
+      "column": "date_format(encounter_datetime, '%m/%Y')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "reporting_month",
+      "column": "reporting_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "location_uuid"
+    }
+  ],
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["location_id"],
+    "excludeParam": "excludeParam"
+  },
+  "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+      "useTemplate": "patient-list-template",
+      "useTemplateVersion": "1.0",
+      "generatingDirectives": {
+        "joinDirectives": {
+          "joinType": "INNER",
+          "joinCondition": "<<base_column>> = <<template_column>>",
+          "baseColumn": "person_id",
+          "templateColumn": "person_id"
+        }
+      },
+      "skipParams": ["gender"]
+    }
+  }
 }

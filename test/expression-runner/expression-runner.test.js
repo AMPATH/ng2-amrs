@@ -18,38 +18,33 @@ var baseUrl = 'http://localhost:8002';
 chai.use(sinonChai);
 
 describe('EXPRESSION RUNNER:', function () {
+  beforeEach(function (done) {
+    done();
+  });
 
-    beforeEach(function (done) {
-        done();
-    });
+  afterEach(function () {});
 
-    afterEach(function () {
-    });
+  it('should load expression runner module', function () {
+    expect(expressionRunner).to.be.defined;
+  });
 
-    it('should load expression runner module',
-        function () {
-            expect(expressionRunner).to.be.defined;
-        });
+  it('should run an expession given a scope and an expression', function () {
+    var scope = {
+      programLocationUuid: 'some uuid',
+      intentedVisitUuid: 'some other uuid',
+      age: 8,
+      sum: function (a, b) {
+        return a + b;
+      }
+    };
 
+    var expression = "programLocationUuid === 'some uuid' && age > 7";
+    var expression2 = 'programLocationUuid === intentedVisitUuid';
+    var expression3 =
+      'programLocationUuid !== intentedVisitUuid && sum(1,2) === 3';
 
-    it('should run an expession given a scope and an expression',
-        function () {
-            var scope = {
-                programLocationUuid: 'some uuid',
-                intentedVisitUuid: 'some other uuid',
-                age: 8,
-                sum: function(a,b) {
-                    return a + b;
-                }
-            };
-
-            var expression = "programLocationUuid === 'some uuid' && age > 7";
-            var expression2 = "programLocationUuid === intentedVisitUuid";
-            var expression3 = "programLocationUuid !== intentedVisitUuid && sum(1,2) === 3";
-
-            expect(expressionRunner.run(expression, scope)).to.be.true;
-            expect(expressionRunner.run(expression2, scope)).to.be.false;
-            expect(expressionRunner.run(expression3, scope)).to.be.true;
-        });
-
+    expect(expressionRunner.run(expression, scope)).to.be.true;
+    expect(expressionRunner.run(expression2, scope)).to.be.false;
+    expect(expressionRunner.run(expression3, scope)).to.be.true;
+  });
 });

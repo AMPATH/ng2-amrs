@@ -9,116 +9,106 @@ var expect = chai.expect;
 chai.use(sinonChai);
 
 describe('Patient List COMPARE TESTS', function () {
+  beforeEach(function (done) {
+    done();
+  });
 
-    beforeEach(function (done) {
+  afterEach(function () {});
 
-        done();
-    });
+  it('should load eid-obs-compare module', function () {
+    expect(listCompare).to.be.defined;
+  });
 
-    afterEach(function () {
+  it('should compare 2 patient lists and output the comparison details', function () {
+    var incomingList = [
+      {
+        person_id: 1
+      },
+      {
+        person_id: 2
+      },
+      {
+        person_id: 3
+      },
+      {
+        person_id: 4
+      }
+    ];
 
-    });
+    var pocList = [
+      {
+        person_id: 3
+      },
+      {
+        person_id: 4
+      },
+      {
+        person_id: 5
+      },
+      {
+        person_id: 6
+      }
+    ];
 
-    it('should load eid-obs-compare module',
-        function () {
-            expect(listCompare).to.be.defined;
-        });
+    var expectedSetDifference = {
+      both: [
+        {
+          person_id: 3
+        },
+        {
+          person_id: 4
+        }
+      ],
+      onlyPoc: [
+        {
+          person_id: 5
+        },
+        {
+          person_id: 6
+        }
+      ],
+      onlyIncoming: [
+        {
+          person_id: 1
+        },
+        {
+          person_id: 2
+        }
+      ],
+      summaryStats: {
+        totalPoc: 4,
+        totalIncoming: 4,
+        totalBoth: 2,
+        totalOnlyPoc: 2,
+        totalOnlyIncoming: 2
+      }
+    };
 
-    it('should compare 2 patient lists and output the comparison details',
-        function () {
-            var incomingList = [
-                {
-                    person_id: 1
-                },
-                {
-                    person_id: 2
-                },
-                {
-                    person_id: 3
-                },
-                {
-                    person_id: 4
-                }
+    var actual = listCompare.fullPatientListComparison(incomingList, pocList);
 
-            ];
+    expect(actual).to.deep.equal(expectedSetDifference);
+  });
 
-            var pocList = [
-                {
-                    person_id: 3
-                },
-                {
-                    person_id: 4
-                },
-                {
-                    person_id: 5
-                },
-                {
-                    person_id: 6
-                }
-            ];
+  it('should transform patient ids to patient objects', function () {
+    var patientObjects = [
+      {
+        person_id: 1
+      },
+      {
+        person_id: 2
+      },
+      {
+        person_id: 3
+      },
+      {
+        person_id: 4
+      }
+    ];
 
-            var expectedSetDifference = {
-                both: [
-                    {
-                        person_id: 3
-                    },
-                    {
-                        person_id: 4
-                    }
-                ],
-                onlyPoc: [
-                    {
-                        person_id: 5
-                    },
-                    {
-                        person_id: 6
-                    }
-                ],
-                onlyIncoming: [
-                    {
-                        person_id: 1
-                    },
-                    {
-                        person_id: 2
-                    }
-                ]
-                ,
-                summaryStats: {
-                    totalPoc: 4,
-                    totalIncoming: 4,
-                    totalBoth: 2,
-                    totalOnlyPoc: 2,
-                    totalOnlyIncoming: 2
-                }
-            };
+    var patientIds = [1, 2, 3, 4];
 
-            var actual = listCompare.fullPatientListComparison(incomingList, pocList);
+    var actual = listCompare.toArrayOfPatientObjects(patientIds);
 
-            expect(actual).to.deep.equal(expectedSetDifference);
-        });
-
-    it('should transform patient ids to patient objects',
-        function () {
-            var patientObjects = [
-                {
-                    person_id: 1
-                },
-                {
-                    person_id: 2
-                },
-                {
-                    person_id: 3
-                },
-                {
-                    person_id: 4
-                }
-            ];
-
-            var patientIds = [1, 2, 3, 4];
-
-            var actual = listCompare.toArrayOfPatientObjects(patientIds);
-
-            expect(actual).to.deep.equal(patientObjects);
-        });
-
+    expect(actual).to.deep.equal(patientObjects);
+  });
 });

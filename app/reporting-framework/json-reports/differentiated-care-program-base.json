@@ -1,160 +1,160 @@
 {
-    "name": "differentiatedCareProgramBase",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [],
-    "sources": [
-        {
-            "table": "etl.dc_monthly_report_dataset",
-            "alias": "dcr"
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "persons_id",
-            "column": "dcr.person_id"
-        },
-        {
-            "type": "derived_column",
-            "alias": "total_eligible_for_dc",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "dcr.total_eligible_for_dc"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "eligible_not_on_dc",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "dcr.eligible_not_on_dc"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "eligible_and_on_dc",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "eligible_and_on_dc"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "enrolled_not_elligible",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "enrolled_not_eligible"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "enrolled_in_dc",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "dcr.enrolled_in_dc"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "enrolled_in_dc_community",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "dcr.enrolled_in_dc_community"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "enrolled_in_dc_active",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "dcr.enrolled_in_dc"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "enrolled_and_vl_due",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(dcr.enrolled_in_dc = 1 and dcr.patients_due_for_vl = 1, 1, 0)"
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "vl_1",
-            "column": "dcr.vl_1"
-        },
-        {
-            "type": "simple_column",
-            "alias": "encounter_datetime",
-            "column": "dcr.encounter_datetime"
-        },
-        {
-            "type": "simple_column",
-            "alias": "vl_1_date",
-            "column": "dcr.vl_1_date"
-        },
-        {
-            "type": "simple_column",
-            "alias": "cur_arv_meds",
-            "column": "dcr.cur_arv_meds_names"
-        },
-        {
-            "type": "simple_column",
-            "alias": "height",
-            "column": "dcr.height"
-        },
-        {
-            "type": "simple_column",
-            "alias": "weight",
-            "column": "dcr.weight"
-        },
-        {
-            "type": "simple_column",
-            "alias": "dc_group",
-            "column": "dcr.cohort_name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "status",
-            "column": "dcr.cur_status"
-        },
-        {
-            "type": "simple_column",
-            "alias": "ipt_start_date",
-            "column": "date_format(dcr.ipt_start_date,'%Y-%m-%d')"
-        },
-        {
-            "type": "derived_column",
-            "alias": "completed_IPT",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(dcr.ipt_completion_date is not null, 1, 0)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "days_since_rtc",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "TIMESTAMPDIFF(DAY,DATE(dcr.rtc_date),curdate())"
-            }
-        }
-    ],
-    "filters": {
-        "conditionJoinOperator": "and",
-        "conditions": [
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "dcr.end_date = ?",
-                "parameterName": "endDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "dcr.location_uuid in (?)",
-                "parameterName": "locationUuids"
-            }
-        ]
+  "name": "differentiatedCareProgramBase",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "etl.dc_monthly_report_dataset",
+      "alias": "dcr"
     }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "persons_id",
+      "column": "dcr.person_id"
+    },
+    {
+      "type": "derived_column",
+      "alias": "total_eligible_for_dc",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "dcr.total_eligible_for_dc"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "eligible_not_on_dc",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "dcr.eligible_not_on_dc"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "eligible_and_on_dc",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "eligible_and_on_dc"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "enrolled_not_elligible",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "enrolled_not_eligible"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "enrolled_in_dc",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "dcr.enrolled_in_dc"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "enrolled_in_dc_community",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "dcr.enrolled_in_dc_community"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "enrolled_in_dc_active",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "dcr.enrolled_in_dc"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "enrolled_and_vl_due",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(dcr.enrolled_in_dc = 1 and dcr.patients_due_for_vl = 1, 1, 0)"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "vl_1",
+      "column": "dcr.vl_1"
+    },
+    {
+      "type": "simple_column",
+      "alias": "encounter_datetime",
+      "column": "dcr.encounter_datetime"
+    },
+    {
+      "type": "simple_column",
+      "alias": "vl_1_date",
+      "column": "dcr.vl_1_date"
+    },
+    {
+      "type": "simple_column",
+      "alias": "cur_arv_meds",
+      "column": "dcr.cur_arv_meds_names"
+    },
+    {
+      "type": "simple_column",
+      "alias": "height",
+      "column": "dcr.height"
+    },
+    {
+      "type": "simple_column",
+      "alias": "weight",
+      "column": "dcr.weight"
+    },
+    {
+      "type": "simple_column",
+      "alias": "dc_group",
+      "column": "dcr.cohort_name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "status",
+      "column": "dcr.cur_status"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ipt_start_date",
+      "column": "date_format(dcr.ipt_start_date,'%Y-%m-%d')"
+    },
+    {
+      "type": "derived_column",
+      "alias": "completed_IPT",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(dcr.ipt_completion_date is not null, 1, 0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "days_since_rtc",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "TIMESTAMPDIFF(DAY,DATE(dcr.rtc_date),curdate())"
+      }
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "dcr.end_date = ?",
+        "parameterName": "endDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "dcr.location_uuid in (?)",
+        "parameterName": "locationUuids"
+      }
+    ]
+  }
 }

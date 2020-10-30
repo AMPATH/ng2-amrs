@@ -1,105 +1,103 @@
 {
-    "name": "enhancedAdherenceHIVProgramAggregate",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [
-        {
-            "name": "enhancedAdherenceHIVProgramBase",
-            "version": "1.0",
-            "type": "dataset_def"
-        }
-    ],
-    "sources": [
-        {
-            "dataSet": "enhancedAdherenceHIVProgramBase",
-            "alias": "ehp"
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "person_id",
-            "column": "ehp.person_id"
-        },
-        {
-            "type": "derived_column",
-            "alias": "not_virally_suppressed_total",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(ehp.not_virally_suppressed_total, ehp.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "not_virally_suppressed_in_enhanced_care_active",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(ehp.not_virally_suppressed_in_enhanced_care_active, ehp.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "not_virally_suppressed_not_in_enhanced_care",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(ehp.not_virally_suppressed_not_in_enhanced_care, ehp.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "not_virally_suppressed_in_enhanced_care",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(ehp.not_virally_suppressed_in_enhanced_care, ehp.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "not_virally_suppressed_in_enhanced_care_vl_due",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct concat(ehp.not_virally_suppressed_in_enhanced_care_vl_due, ehp.person_id))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "mdt_form_completed",
-            "expressionType": "derived_column",
-            "expressionOptions": {
-                "expression": "count(distinct concat(ehp.mdt_form_completed, ehp.person_id))"
-            }
-        }
-    ],
-    "filters": {
-        "conditionJoinOperator": "and",
-        "conditions": [
-        ]
-    },
-    "groupBy": {
-        "groupParam": "groupByParam",
-        "columns": [
-        ],
-        "excludeParam": "excludeParam"
-    },
-    "transFormDirectives": {
-        "joinColumn": "",
-        "joinColumnParam": "",
-        "skipColumns": [""],
-        "disaggregationColumns": []
-    },
-    "dynamicJsonQueryGenerationDirectives": {
-        "patientListGenerator": {
-            "useTemplate": "patient-list-with-contacts-template",
-            "useTemplateVersion": "1.0",
-            "generatingDirectives": {
-                "joinDirectives": {
-                    "joinType": "INNER",
-                    "joinCondition": "<<base_column>> = <<template_column>>",
-                    "baseColumn": "person_id",
-                    "templateColumn": "person_id"
-                }
-            }
-        }
+  "name": "enhancedAdherenceHIVProgramAggregate",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [
+    {
+      "name": "enhancedAdherenceHIVProgramBase",
+      "version": "1.0",
+      "type": "dataset_def"
     }
+  ],
+  "sources": [
+    {
+      "dataSet": "enhancedAdherenceHIVProgramBase",
+      "alias": "ehp"
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "ehp.person_id"
+    },
+    {
+      "type": "derived_column",
+      "alias": "not_virally_suppressed_total",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(ehp.not_virally_suppressed_total, ehp.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "not_virally_suppressed_in_enhanced_care_active",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(ehp.not_virally_suppressed_in_enhanced_care_active, ehp.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "not_virally_suppressed_not_in_enhanced_care",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(ehp.not_virally_suppressed_not_in_enhanced_care, ehp.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "not_virally_suppressed_in_enhanced_care",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(ehp.not_virally_suppressed_in_enhanced_care, ehp.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "not_virally_suppressed_in_enhanced_care_vl_due",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(ehp.not_virally_suppressed_in_enhanced_care_vl_due, ehp.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "mdt_form_completed",
+      "expressionType": "derived_column",
+      "expressionOptions": {
+        "expression": "count(distinct concat(ehp.mdt_form_completed, ehp.person_id))"
+      }
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": []
+  },
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": [],
+    "excludeParam": "excludeParam"
+  },
+  "transFormDirectives": {
+    "joinColumn": "",
+    "joinColumnParam": "",
+    "skipColumns": [""],
+    "disaggregationColumns": []
+  },
+  "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+      "useTemplate": "patient-list-with-contacts-template",
+      "useTemplateVersion": "1.0",
+      "generatingDirectives": {
+        "joinDirectives": {
+          "joinType": "INNER",
+          "joinCondition": "<<base_column>> = <<template_column>>",
+          "baseColumn": "person_id",
+          "templateColumn": "person_id"
+        }
+      }
+    }
+  }
 }

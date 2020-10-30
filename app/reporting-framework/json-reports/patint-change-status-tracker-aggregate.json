@@ -1,126 +1,124 @@
 {
-    "name": "patintChangeStatusTrackerDataSetbase",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [
-        {
-            "name": "patintChangeStatusTrackerDataSetbase",
-            "version": "1.0",
-            "type": "dataset_def"
-        }
-    ],
-    "sources": [
-        {
-            "dataSet": "patintChangeStatusTrackerDataSetbase",
-            "alias": "hmsd"
-        }
-    ],
-    "columns": [
-        {
-            "type": "derived_column",
-            "alias": "total_patients",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(hmsd.person_id)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "active_in_care",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(hmsd.active_in_care)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "active_return",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(hmsd.active_return)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "LTFU",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(hmsd.LTFU)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "deaths",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(hmsd.deaths)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "transfer_out_patients",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(hmsd.transfer_out_patients)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "new_enrollments",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(hmsd.new_enrollments)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "transfer_in",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(hmsd.transfer_in)"
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "reporting_date",
-            "column": "hmsd.reporting_date"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_uuid",
-            "column": "hmsd.location_uuid"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_id",
-            "column": "hmsd.location_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "reporting_month",
-            "column": "hmsd.reporting_month"
-        }
-    ],
-    "groupBy": {
-        "groupParam": "groupByParam",
-        "columns": [
-            "reporting_date"
-        ],
-        "excludeParam": "excludeParam"
-    },
-    "dynamicJsonQueryGenerationDirectives": {
-        "patientListGenerator": {
-            "useTemplate": "patient-list-frozen-template",
-            "useTemplateVersion": "1.0",
-            "generatingDirectives": {
-                "joinDirectives": {
-                    "joinType": "INNER",
-                    "joinCondition": "<<base_column>> = <<template_column>>",
-                    "baseColumn": "person_id",
-                    "templateColumn": "person_id"
-                }
-            }
-        }
+  "name": "patintChangeStatusTrackerDataSetbase",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [
+    {
+      "name": "patintChangeStatusTrackerDataSetbase",
+      "version": "1.0",
+      "type": "dataset_def"
     }
+  ],
+  "sources": [
+    {
+      "dataSet": "patintChangeStatusTrackerDataSetbase",
+      "alias": "hmsd"
+    }
+  ],
+  "columns": [
+    {
+      "type": "derived_column",
+      "alias": "total_patients",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(hmsd.person_id)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "active_in_care",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(hmsd.active_in_care)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "active_return",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(hmsd.active_return)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "LTFU",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(hmsd.LTFU)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "deaths",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(hmsd.deaths)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "transfer_out_patients",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(hmsd.transfer_out_patients)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "new_enrollments",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(hmsd.new_enrollments)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "transfer_in",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(hmsd.transfer_in)"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "reporting_date",
+      "column": "hmsd.reporting_date"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "hmsd.location_uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "hmsd.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "reporting_month",
+      "column": "hmsd.reporting_month"
+    }
+  ],
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["reporting_date"],
+    "excludeParam": "excludeParam"
+  },
+  "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+      "useTemplate": "patient-list-frozen-template",
+      "useTemplateVersion": "1.0",
+      "generatingDirectives": {
+        "joinDirectives": {
+          "joinType": "INNER",
+          "joinCondition": "<<base_column>> = <<template_column>>",
+          "baseColumn": "person_id",
+          "templateColumn": "person_id"
+        }
+      }
+    }
+  }
 }

@@ -1,2172 +1,2171 @@
 {
-    "08feae7c-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 1,
-        "mrsDisplay": "MTRH Module 1",
-        "cityVillage": "Eldoret",
-        "county": "",
-        "description": "Moi Teaching and Referral Hospital - Module 1",
-        "mflCode": "15204",
-        "eidDisplay": ""
-    },
-    "08feb14c-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 2,
-        "mrsDisplay": "Mosoriot",
-        "cityVillage": "",
-        "county": "",
-        "description": "Mosoriot Outpatient Center",
-        "mflCode": "15229",
-        "eidDisplay": ""
-    },
-    "08feb2dc-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 3,
-        "mrsDisplay": "Turbo",
-        "cityVillage": "",
-        "county": "Rift Valley",
-        "description": "Turbo heath center Clinic",
-        "mflCode": "15753",
-        "eidDisplay": ""
-    },
-    "08feb444-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 4,
-        "mrsDisplay": "Burnt Forest",
-        "cityVillage": "Burnt Forest",
-        "county": "Rift Valley",
-        "description": "Burnt Forest RHDC Clinic",
-        "mflCode": "16347",
-        "eidDisplay": ""
-    },
-    "08feb5b6-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 5,
-        "mrsDisplay": "Amukura",
-        "cityVillage": "Malaba",
-        "county": "Western",
-        "description": "Amukura Health Center",
-        "mflCode": "15798",
-        "eidDisplay": ""
-    },
-    "08feb6b0-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 6,
-        "mrsDisplay": "Naitiri",
-        "cityVillage": "Naitiri",
-        "county": "Western",
-        "description": "Naitiri Health center",
-        "mflCode": "16061",
-        "eidDisplay": ""
-    },
-    "08feb7b4-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 7,
-        "mrsDisplay": "Chulaimbo",
-        "cityVillage": "Maseno",
-        "county": "Nyanza",
-        "description": "Chulaimbo Sub-district hospital (Clinic)",
-        "mflCode": "13528",
-        "eidDisplay": ""
-    },
-    "08feb8ae-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 8,
-        "mrsDisplay": "Webuye",
-        "cityVillage": "Webuye",
-        "county": "Western",
-        "description": "Webuye Hospital ",
-        "mflCode": "16161",
-        "eidDisplay": ""
-    },
-    "08feb9a8-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 9,
-        "mrsDisplay": "Mt. Elgon",
-        "cityVillage": "",
-        "county": "",
-        "description": "Mount Elgon Clinic (Kapsokwony)",
-        "mflCode": "16025",
-        "eidDisplay": ""
-    },
-    "08feba98-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 10,
-        "mrsDisplay": "Kapenguria",
-        "cityVillage": "",
-        "county": "",
-        "description": "Kapenguria Clinic",
-        "mflCode": "19088",
-        "eidDisplay": ""
-    },
-    "08febb92-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 11,
-        "mrsDisplay": "Kitale",
-        "cityVillage": "",
-        "county": "",
-        "description": "Kitale District Hospital",
-        "mflCode": "14947",
-        "eidDisplay": ""
-    },
-    "08febf52-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 12,
-        "mrsDisplay": "Teso",
-        "cityVillage": "",
-        "county": "",
-        "description": "Teso Clinic",
-        "mflCode": "16150",
-        "eidDisplay": ""
-    },
-    "08fec056-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 13,
-        "mrsDisplay": "MTRH Module 2",
-        "cityVillage": "",
-        "county": "",
-        "description": "Moi Teaching and Referral Hospital - Module 2",
-        "mflCode": "15204",
-        "eidDisplay": ""
-    },
-    "08fec150-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 14,
-        "mrsDisplay": "MTRH Module 3",
-        "cityVillage": "",
-        "county": "",
-        "description": "Moi Teaching and Referral Hospital - Module 3",
-        "mflCode": "15204",
-        "eidDisplay": ""
-    },
-    "08fec24a-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 15,
-        "mrsDisplay": "MTRH Module 4",
-        "cityVillage": "",
-        "county": "",
-        "description": "Moi Teaching and Referral Hospital - Module 4",
-        "mflCode": "15204",
-        "eidDisplay": ""
-    },
-    "08fec33a-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 16,
-        "mrsDisplay": "Unknown",
-        "cityVillage": null,
-        "county": null,
-        "description": "Unknown Location",
-        "mflCode": "",
-        "eidDisplay": ""
-    },
-    "08fec42a-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 17,
-        "mrsDisplay": "Iten",
-        "cityVillage": null,
-        "county": null,
-        "description": "Iten Clinic",
-        "mflCode": "14586",
-        "eidDisplay": ""
-    },
-    "08fec51a-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 18,
-        "mrsDisplay": "Kabarnet",
-        "cityVillage": null,
-        "county": null,
-        "description": "Kabarnet Clinic",
-        "mflCode": "14607",
-        "eidDisplay": ""
-    },
-    "08fec60a-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 19,
-        "mrsDisplay": "Busia",
-        "cityVillage": "Busia",
-        "county": "Western",
-        "description": "Busia Clinic",
-        "mflCode": "15834",
-        "eidDisplay": ""
-    },
-    "08fec704-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 20,
-        "mrsDisplay": "Port Victoria",
-        "cityVillage": "Port Victoria",
-        "county": "Western",
-        "description": "Port Victoria AMPATH clinic",
-        "mflCode": "16091",
-        "eidDisplay": ""
-    },
-    "08fec808-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 21,
-        "mrsDisplay": "Non-AMPATH Site",
-        "cityVillage": "",
-        "county": "",
-        "description": "All clinical locations outside the AMPATH system.",
-        "mflCode": "",
-        "eidDisplay": ""
-    },
-    "08fec916-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 22,
-        "mrsDisplay": "None",
-        "cityVillage": "",
-        "county": "",
-        "description": "No location.",
-        "mflCode": "",
-        "eidDisplay": ""
-    },
-    "09004e76-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 23,
-        "mrsDisplay": "Khuyangu",
-        "cityVillage": "Khuyangu",
-        "county": "Western",
-        "description": "Khuyangu District Hospital ",
-        "mflCode": "15939",
-        "eidDisplay": ""
-    },
-    "09004fca-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 24,
-        "mrsDisplay": "Chulaimbo Module 1",
-        "cityVillage": "Maseno",
-        "county": "Nyanza",
-        "description": "Chulaimbo Adult Clinic",
-        "mflCode": "13528",
-        "eidDisplay": ""
-    },
-    "090050ce-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 25,
-        "mrsDisplay": "Chulaimbo Module 2",
-        "cityVillage": "Maseno",
-        "county": "Nyanza",
-        "description": "Chulaimbo Pediatric Clinic",
-        "mflCode": "13528",
-        "eidDisplay": ""
-    },
-    "090051c8-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 26,
-        "mrsDisplay": "Busia Module 1",
-        "cityVillage": "Busia",
-        "county": "Western",
-        "description": "Busia Module 1",
-        "mflCode": "15834",
-        "eidDisplay": ""
-    },
-    "090052b8-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 27,
-        "mrsDisplay": "Busia Module 2",
-        "cityVillage": "",
-        "county": "",
-        "description": "Busia Module 2",
-        "mflCode": "15834",
-        "eidDisplay": ""
-    },
-    "090053b2-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 28,
-        "mrsDisplay": "Ziwa",
-        "cityVillage": null,
-        "county": null,
-        "description": "Ziwa Clinic",
-        "mflCode": "15788",
-        "eidDisplay": ""
-    },
-    "090054a2-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 30,
-        "mrsDisplay": "Anderson",
-        "cityVillage": null,
-        "county": null,
-        "description": "Anderson Clinic",
-        "mflCode": "14203",
-        "eidDisplay": ""
-    },
-    "0900559c-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 31,
-        "mrsDisplay": "Uasin Gishu District Hospital",
-        "cityVillage": "",
-        "county": "",
-        "description": "Uasin Gishu District Hospital (DH)",
-        "mflCode": "15758",
-        "eidDisplay": ""
-    },
-    "090056be-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 32,
-        "mrsDisplay": "Eldoret Catholic Church(IDP)",
-        "cityVillage": "Eldoret",
-        "county": "",
-        "description": "Internally Displaced AMPATH Patients",
-        "mflCode": "",
-        "eidDisplay": ""
-    },
-    "090057cc-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 33,
-        "mrsDisplay": "Eldoret Police Station(IDP)",
-        "cityVillage": "Eldoret",
-        "county": "",
-        "description": "Internally Displaced AMPATH Patients",
-        "mflCode": "",
-        "eidDisplay": ""
-    },
-    "090058e4-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 34,
-        "mrsDisplay": "Majengo (Our Lady) Church(IDP)",
-        "cityVillage": "",
-        "county": "",
-        "description": "Internally Displaced AMPATH Patients",
-        "mflCode": "",
-        "eidDisplay": ""
-    },
-    "090059f2-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 35,
-        "mrsDisplay": "Turbo Police Station",
-        "cityVillage": "Turbo",
-        "county": "",
-        "description": "Internally Displaced AMPATH Patients",
-        "mflCode": "",
-        "eidDisplay": ""
-    },
-    "09005b0a-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 36,
-        "mrsDisplay": "Nakuru(IDP)",
-        "cityVillage": "Nakuru",
-        "county": "",
-        "description": "Internally Displaced AMPATH Patients",
-        "mflCode": "",
-        "eidDisplay": ""
-    },
-    "09005c0e-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 37,
-        "mrsDisplay": "Nairobi(IDP)",
-        "cityVillage": "Nairobi",
-        "county": "",
-        "description": "Internally Displaced AMPATH Patients",
-        "mflCode": "",
-        "eidDisplay": ""
-    },
-    "09005d1c-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 38,
-        "mrsDisplay": "Eldoret Showground(IDP)",
-        "cityVillage": "Eldoret",
-        "county": "",
-        "description": "Internally Displaced AMPATH Patients",
-        "mflCode": "",
-        "eidDisplay": ""
-    },
-    "09005e34-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 39,
-        "mrsDisplay": "Yamumbi (IDP)",
-        "cityVillage": "",
-        "county": "",
-        "description": "Internally Displaced AMPATH Patients",
-        "mflCode": "",
-        "eidDisplay": ""
-    },
-    "09005f38-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 40,
-        "mrsDisplay": "Matharu Center(IDP)",
-        "cityVillage": "",
-        "county": "",
-        "description": "Internally Displaced AMPATH Patients",
-        "mflCode": "",
-        "eidDisplay": ""
-    },
-    "09006050-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 41,
-        "mrsDisplay": "Munyaka PCEA Church(IDP)",
-        "cityVillage": "",
-        "county": "",
-        "description": "Internally Displaced AMPATH Patients",
-        "mflCode": "",
-        "eidDisplay": ""
-    },
-    "0900615e-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 42,
-        "mrsDisplay": "Maji Mazuri(IDP)",
-        "cityVillage": "",
-        "county": "",
-        "description": "Internally Displaced AMPATH Patients",
-        "mflCode": "",
-        "eidDisplay": ""
-    },
-    "0900626c-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 43,
-        "mrsDisplay": "Kamara(IDP)",
-        "cityVillage": "",
-        "county": "",
-        "description": "Internally Displaced AMPATH Patients",
-        "mflCode": "",
-        "eidDisplay": ""
-    },
-    "09006370-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 44,
-        "mrsDisplay": "Eldamaravine Police Station(IDP)",
-        "cityVillage": "",
-        "county": "",
-        "description": "Internally Displaced AMPATH Patients",
-        "mflCode": "",
-        "eidDisplay": ""
-    },
-    "0900647e-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 45,
-        "mrsDisplay": "Moisbridge(IDP)",
-        "cityVillage": "",
-        "county": "",
-        "description": "Internally Displaced AMPATH Patients",
-        "mflCode": "",
-        "eidDisplay": ""
-    },
-    "09006582-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 46,
-        "mrsDisplay": "Langas police station(IDP)",
-        "cityVillage": "",
-        "county": "",
-        "description": "Internally Displaced AMPATH Patients",
-        "mflCode": "",
-        "eidDisplay": ""
-    },
-    "09007acc-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 47,
-        "mrsDisplay": "Timboroa Police Station",
-        "cityVillage": "",
-        "county": "",
-        "description": "Internally Displaced AMPATH Patients",
-        "mflCode": "",
-        "eidDisplay": ""
-    },
-    "09007be4-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 48,
-        "mrsDisplay": "Bishop Muge(IDP)",
-        "cityVillage": "",
-        "county": "",
-        "description": "Internally Displaced AMPATH Patients",
-        "mflCode": "",
-        "eidDisplay": ""
-    },
-    "09007ce8-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 49,
-        "mrsDisplay": "Kipkenyo(IDP)",
-        "cityVillage": "",
-        "county": "",
-        "description": "Internally Displaced AMPATH Patients",
-        "mflCode": "",
-        "eidDisplay": ""
-    },
-    "09007df6-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 50,
-        "mrsDisplay": "Endebes(IDP)",
-        "cityVillage": "",
-        "county": "",
-        "description": "Internally Displaced AMPATH Patients",
-        "mflCode": "",
-        "eidDisplay": ""
-    },
-    "09007efa-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 51,
-        "mrsDisplay": "Kachibora(IDP)",
-        "cityVillage": "",
-        "county": "",
-        "description": "Internally Displaced AMPATH Patients",
-        "mflCode": "",
-        "eidDisplay": ""
-    },
-    "09007ffe-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 52,
-        "mrsDisplay": "Cherangany(IDP)",
-        "cityVillage": "",
-        "county": "",
-        "description": "Internally Displaced AMPATH Patients",
-        "mflCode": "",
-        "eidDisplay": ""
-    },
-    "09008102-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 53,
-        "mrsDisplay": "Nzioa Scheme",
-        "cityVillage": "",
-        "county": "",
-        "description": "Internally Displaced AMPATH Patients",
-        "mflCode": "",
-        "eidDisplay": ""
-    },
-    "09008206-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 54,
-        "mrsDisplay": "Plateau Mission Hospital",
-        "cityVillage": "",
-        "county": "Rift valley",
-        "description": "Burnt Forest Satellite Clinic",
-        "mflCode": "15464",
-        "eidDisplay": ""
-    },
-    "0900831e-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 55,
-        "mrsDisplay": "Bumala A",
-        "cityVillage": "Bumala",
-        "county": "Western",
-        "description": "Bumala \"A\" Health Center(Busia Satellite Clinic)",
-        "mflCode": "15823",
-        "eidDisplay": ""
-    },
-    "09008422-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 56,
-        "mrsDisplay": "Eldoret Prison",
-        "cityVillage": null,
-        "county": null,
-        "description": "Satellite Clinic of MTRH Module 3",
-        "mflCode": "15204",
-        "eidDisplay": ""
-    },
-    "0900851c-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 57,
-        "mrsDisplay": "Kitale Prison",
-        "cityVillage": "",
-        "county": "",
-        "description": "Satellite Clinic of Kitale",
-        "mflCode": "14947",
-        "eidDisplay": ""
-    },
-    "09008620-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 58,
-        "mrsDisplay": "Ngeria Prison",
-        "cityVillage": null,
-        "county": null,
-        "description": "Satellite Clinic of MTRH Module 3",
-        "mflCode": "15204",
-        "eidDisplay": ""
-    },
-    "0900871a-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 59,
-        "mrsDisplay": "MAUTUMA",
-        "cityVillage": null,
-        "county": null,
-        "description": "Satellite Clinic of Turbo",
-        "mflCode": "16010",
-        "eidDisplay": ""
-    },
-    "0900880a-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 60,
-        "mrsDisplay": "Chepsaita",
-        "cityVillage": "Turbo",
-        "county": "Uasin Gishu",
-        "description": "Chepsaita Dispensary(Turbo Satellite Clinic)",
-        "mflCode": "14358",
-        "eidDisplay": ""
-    },
-    "09008904-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 61,
-        "mrsDisplay": "KAPTAGAT",
-        "cityVillage": null,
-        "county": null,
-        "description": "Satellite Clinic of Burnt Forest",
-        "mflCode": "16347",
-        "eidDisplay": ""
-    },
-    "090089ea-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 62,
-        "mrsDisplay": "KESSES",
-        "cityVillage": null,
-        "county": null,
-        "description": "Satellite Clinic of Burnt Forest",
-        "mflCode": "16347",
-        "eidDisplay": ""
-    },
-    "09008ada-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 63,
-        "mrsDisplay": "LUKOLIS",
-        "cityVillage": "Malaba",
-        "county": "Western",
-        "description": "Lukolis Dispensary(Amukura satellite clinic)",
-        "mflCode": "15968",
-        "eidDisplay": ""
-    },
-    "09008fda-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 64,
-        "mrsDisplay": "BOKOLI",
-        "cityVillage": "Bokoli",
-        "county": "Western",
-        "description": "Bokoli Hospital(Webuye satellite clinic)",
-        "mflCode": "15808",
-        "eidDisplay": ""
-    },
-    "090090d4-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 65,
-        "mrsDisplay": "ANGURAI",
-        "cityVillage": "Malaba",
-        "county": "Western",
-        "description": "Angurai Health Center(Teso satellite clinic)",
-        "mflCode": "15800",
-        "eidDisplay": ""
-    },
-    "090091c4-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 66,
-        "mrsDisplay": "Cheptais",
-        "cityVillage": "Cheptais",
-        "county": "Western",
-        "description": "Cheptais Sub-District Hospital(Mt. Elgon Satellite Clinic)",
-        "mflCode": "15855",
-        "eidDisplay": ""
-    },
-    "090092b4-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 67,
-        "mrsDisplay": "CHESKAKI",
-        "cityVillage": "",
-        "county": "",
-        "description": "Mt. Elgon Satellite Clinic",
-        "mflCode": "15856",
-        "eidDisplay": ""
-    },
-    "0900939a-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 68,
-        "mrsDisplay": "MARIGAT",
-        "cityVillage": null,
-        "county": null,
-        "description": "Satellite Clinic of Kabarnet",
-        "mflCode": "15138",
-        "eidDisplay": ""
-    },
-    "0900948a-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 69,
-        "mrsDisplay": "Huruma SDH",
-        "cityVillage": null,
-        "county": null,
-        "description": "Satellite Clinic of Uasin Gishu District Hospital",
-        "mflCode": "14555",
-        "eidDisplay": ""
-    },
-    "0900a9ac-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 70,
-        "mrsDisplay": "Pioneer Sub-District Hospital",
-        "cityVillage": "",
-        "county": "",
-        "description": "Satellite clinic for Mosoriot Health Centre",
-        "mflCode": "15463",
-        "eidDisplay": ""
-    },
-    "0900aace-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 71,
-        "mrsDisplay": "Mois Bridge",
-        "cityVillage": "",
-        "county": "",
-        "description": "Moi's Bridge Clinic",
-        "mflCode": "15209",
-        "eidDisplay": ""
-    },
-    "0900abdc-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 72,
-        "mrsDisplay": "Moi University",
-        "cityVillage": "Kesses",
-        "county": "",
-        "description": "Moi University  Main Campus clinic",
-        "mflCode": "15205",
-        "eidDisplay": ""
-    },
-    "0900acea-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 73,
-        "mrsDisplay": "Soy",
-        "cityVillage": "",
-        "county": "",
-        "description": "Soy Clinic",
-        "mflCode": "15623",
-        "eidDisplay": ""
-    },
-    "0900adee-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 74,
-        "mrsDisplay": "Mihuu ",
-        "cityVillage": "Webuye",
-        "county": "Western",
-        "description": "Mihuu Dispensary(Webuye satellite clinic)",
-        "mflCode": "16161",
-        "eidDisplay": ""
-    },
-    "0900aefc-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 75,
-        "mrsDisplay": "Sinoko",
-        "cityVillage": "Misikhu",
-        "county": "Western",
-        "description": "Sinoko Dispensary(Bungoma East)",
-        "mflCode": "16126",
-        "eidDisplay": ""
-    },
-    "0900b000-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 76,
-        "mrsDisplay": "Milo",
-        "cityVillage": "WE",
-        "county": "we",
-        "description": "Milo Health Center (Satellite clinic to Webuye)",
-        "mflCode": "16161",
-        "eidDisplay": ""
-    },
-    "0900b104-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 77,
-        "mrsDisplay": "Moiben",
-        "cityVillage": "",
-        "county": "",
-        "description": "Satellite Clinic of Ziwa",
-        "mflCode": "15206",
-        "eidDisplay": ""
-    },
-    "0900b212-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 78,
-        "mrsDisplay": "Mukhobola",
-        "cityVillage": "",
-        "county": "",
-        "description": "Mukhobola Clinic ",
-        "mflCode": "16029",
-        "eidDisplay": ""
-    },
-    "0900b316-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 79,
-        "mrsDisplay": "Nambale",
-        "cityVillage": "",
-        "county": "",
-        "description": "Nambale Clinic ",
-        "mflCode": "16066",
-        "eidDisplay": ""
-    },
-    "0900b424-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 80,
-        "mrsDisplay": "MOI BARRACKS",
-        "cityVillage": "",
-        "county": "Rift valley",
-        "description": "Satellite Clinic of Module 3",
-        "mflCode": "15204",
-        "eidDisplay": ""
-    },
-    "0900b532-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 81,
-        "mrsDisplay": "Busia Prison",
-        "cityVillage": "15834",
-        "county": "Western",
-        "description": "Busia Satellite Clinic",
-        "mflCode": "15834",
-        "eidDisplay": ""
-    },
-    "0900b636-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 82,
-        "mrsDisplay": "Saboti",
-        "cityVillage": "",
-        "county": "Rift Valley",
-        "description": "Kitale satellite clinic",
-        "mflCode": "14947",
-        "eidDisplay": ""
-    },
-    "0900b74e-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 83,
-        "mrsDisplay": "Bumala B",
-        "cityVillage": "Busia",
-        "county": "Western",
-        "description": "Bumala \"B\" Health Center (Khunyangu Satellite clinic)",
-        "mflCode": "15824",
-        "eidDisplay": ""
-    },
-    "0900b866-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 84,
-        "mrsDisplay": "MOI TEACHING AND REFERRAL HOSPITAL",
-        "cityVillage": "",
-        "county": "",
-        "description": "Primary Health Care Clinic Location",
-        "mflCode": "15204",
-        "eidDisplay": ""
-    },
-    "0900b974-1352-11df-a1f1-0026b9348838": {
-        "mrsId": 85,
-        "mrsDisplay": "Makutano",
-        "cityVillage": "",
-        "county": "Western",
-        "description": "Satellite Clinic Site for Naitiri",
-        "mflCode": "16061",
-        "eidDisplay": ""
-    },
-    "25972cec-2e14-4047-a537-404c6ad18389": {
-        "mrsId": 86,
-        "mrsDisplay": "Kaptama (Friends) dispensary",
-        "cityVillage": "Kaptama",
-        "county": "Western",
-        "description": "Satellite clinic of Mount Elgon(Kapsokwony)\r\n",
-        "mflCode": "15925",
-        "eidDisplay": ""
-    },
-    "ffb2c2f0-a62c-4be8-960a-05b704bd66cd": {
-        "mrsId": 87,
-        "mrsDisplay": "Sio Port",
-        "cityVillage": "",
-        "county": "",
-        "description": "Sio port",
-        "mflCode": "16128",
-        "eidDisplay": ""
-    },
-    "1be88533-0a70-40a4-9c45-1a7a936fd23a": {
-        "mrsId": 88,
-        "mrsDisplay": "Tulwet",
-        "cityVillage": "Tulwet",
-        "county": "Rift Valley",
-        "description": "Satellite clinic of Kitale",
-        "mflCode": "14947",
-        "eidDisplay": ""
-    },
-    "8d502f10-dcaf-41fc-8677-34a6b498ac7a": {
-        "mrsId": 89,
-        "mrsDisplay": "Kopsiro",
-        "cityVillage": "Kopsiro",
-        "county": "Western",
-        "description": "Satellite Clinic of Mt. elgon.",
-        "mflCode": "15956",
-        "eidDisplay": ""
-    },
-    "7a8c0cc5-be43-48e1-aa41-33cb1e9cc26f": {
-        "mrsId": 90,
-        "mrsDisplay": "Changara",
-        "cityVillage": "Changara",
-        "county": "Western",
-        "description": "Teso Satellte Clinic",
-        "mflCode": "16421",
-        "eidDisplay": ""
-    },
-    "cb31d052-b668-4321-80ad-c0aaa571f87b": {
-        "mrsId": 91,
-        "mrsDisplay": "Malaba",
-        "cityVillage": "Malaba",
-        "county": "Western",
-        "description": "Satellite clinic of Teso",
-        "mflCode": "15993",
-        "eidDisplay": ""
-    },
-    "096ac36e-47f9-49e0-a62b-d87a09753b61": {
-        "mrsId": 92,
-        "mrsDisplay": "Amase",
-        "cityVillage": "Amagoro",
-        "county": "Western",
-        "description": "Amase Dispensary(Amukura satellite clinic)",
-        "mflCode": "15797",
-        "eidDisplay": ""
-    },
-    "69d9a87d-18f2-4113-840d-95668d1e9e16": {
-        "mrsId": 93,
-        "mrsDisplay": "Obekai",
-        "cityVillage": "Busia",
-        "county": "Western",
-        "description": "Obekai Dispensary(Amukura satellite clinic)",
-        "mflCode": "16087",
-        "eidDisplay": ""
-    },
-    "19874e26-f614-47bb-99c7-a3756bfe3c64": {
-        "mrsId": 94,
-        "mrsDisplay": "Tambach",
-        "cityVillage": "",
-        "county": "Rift valley",
-        "description": "Satellite Clinic to Iten",
-        "mflCode": "15703",
-        "eidDisplay": ""
-    },
-    "bcc27a76-1980-4efe-b72e-ca40019ef6ce": {
-        "mrsId": 95,
-        "mrsDisplay": "Tenges",
-        "cityVillage": "",
-        "county": "Rift Valley",
-        "description": "Satellite clinic to Kabarnet.",
-        "mflCode": "15718",
-        "eidDisplay": ""
-    },
-    "dba01903-14bd-4978-9264-f6ca896b0ca4": {
-        "mrsId": 96,
-        "mrsDisplay": "Kibisi",
-        "cityVillage": "",
-        "county": "Western",
-        "description": "Satellite clinic to Naitiri",
-        "mflCode": "15943",
-        "eidDisplay": ""
-    },
-    "56cf9621-d946-4ac0-a587-4024792c0934": {
-        "mrsId": 97,
-        "mrsDisplay": "Sango",
-        "cityVillage": "",
-        "county": "Western",
-        "description": "Satellite clinic to Naitiri.",
-        "mflCode": "17986",
-        "eidDisplay": ""
-    },
-    "65bdb112-a254-4cf9-a5a7-29dce997312d": {
-        "mrsId": 98,
-        "mrsDisplay": "AIC Diguna Royal Toto Childrens Home,Ngechek",
-        "cityVillage": "Mosoriot",
-        "county": "Riftvalley",
-        "description": "Mosoriot satellite clinic",
-        "mflCode": "15229",
-        "eidDisplay": ""
-    },
-    "851d4b92-763a-4c4a-a9bc-63b12586429f": {
-        "mrsId": 99,
-        "mrsDisplay": "Lupida",
-        "cityVillage": "Nambale",
-        "county": "Western",
-        "description": "Nambale Satellite Clinic",
-        "mflCode": "15975",
-        "eidDisplay": ""
-    },
-    "00b47ef5-a29b-40a2-a7f4-6851df8d6532": {
-        "mrsId": 100,
-        "mrsDisplay": "Osieko",
-        "cityVillage": "",
-        "county": "",
-        "description": "A satellite to Port Victoria",
-        "mflCode": "17680",
-        "eidDisplay": ""
-    },
-    "79fcf21c-8a00-44ba-9555-dde4dd877c4a": {
-        "mrsId": 101,
-        "mrsDisplay": "Room 7",
-        "cityVillage": "",
-        "county": "",
-        "description": "Casualty",
-        "mflCode": "",
-        "eidDisplay": ""
-    },
-    "6cd0b441-d644-487c-8466-5820a73f9ce5": {
-        "mrsId": 102,
-        "mrsDisplay": "Elgeyo Border",
-        "cityVillage": "",
-        "county": "",
-        "description": "These is a health centre ",
-        "mflCode": "14437",
-        "eidDisplay": ""
-    },
-    "2b0419c2-275f-4354-8b49-4c97d033ecbb": {
-        "mrsId": 103,
-        "mrsDisplay": "Riat",
-        "cityVillage": "",
-        "county": "",
-        "description": "This is a dispensary and its Chulaimbo's Satellites",
-        "mflCode": "14046",
-        "eidDisplay": ""
-    },
-    "01c73fdc-65ce-4349-abdf-bbc554178b47": {
-        "mrsId": 104,
-        "mrsDisplay": "Sunga",
-        "cityVillage": "",
-        "county": "",
-        "description": "This is a dispensary and its Chulaimbo's Satellites",
-        "mflCode": "17175",
-        "eidDisplay": ""
-    },
-    "b5d03983-f24e-4fdc-9ff5-33fc87dee02b": {
-        "mrsId": 105,
-        "mrsDisplay": "Siriba",
-        "cityVillage": "",
-        "county": "",
-        "description": "This is a dispensary and its Chulaimbo's Satellites",
-        "mflCode": "14094",
-        "eidDisplay": ""
-    },
-    "8f537fab-0b7f-4b72-a462-042eefad058c": {
-        "mrsId": 106,
-        "mrsDisplay": "Kamolo",
-        "cityVillage": "",
-        "county": "",
-        "description": "satelite at Kamolo Dispensary,to be run by Teso, AMPATH clinic",
-        "mflCode": "17242",
-        "eidDisplay": ""
-    },
-    "8ce15cad-c7ff-41d9-b55c-5230116c3bf7": {
-        "mrsId": 107,
-        "mrsDisplay": "Kapteren Health Center",
-        "cityVillage": "",
-        "county": "",
-        "description": "A satellite of Iten Clinic",
-        "mflCode": "14781",
-        "eidDisplay": ""
-    },
-    "27edd245-5205-4e66-82bd-d314c547d16b": {
-        "mrsId": 108,
-        "mrsDisplay": "Madende Health Center",
-        "cityVillage": "",
-        "county": "",
-        "description": "A satellite of Nambale",
-        "mflCode": "15985",
-        "eidDisplay": ""
-    },
-    "e2d2926e-49e6-4a27-b701-73b6e263a4fd": {
-        "mrsId": 109,
-        "mrsDisplay": "Rai-plywood",
-        "cityVillage": "Huruma",
-        "county": "Rift Valley",
-        "description": "Satellite clinic to UGDH",
-        "mflCode": "14555",
-        "eidDisplay": ""
-    },
-    "4fb82b14-c0e4-46d0-9864-a36e2d6b6c8a": {
-        "mrsId": 110,
-        "mrsDisplay": "Mogoget",
-        "cityVillage": "",
-        "county": "",
-        "description": "Dispensary in Kosirai Division",
-        "mflCode": "15194",
-        "eidDisplay": ""
-    },
-    "53c7ebb2-78c2-4ce3-a504-f37a6cb998aa": {
-        "mrsId": 111,
-        "mrsDisplay": "Birbiriet",
-        "cityVillage": null,
-        "county": null,
-        "description": "Dispensary in Kosirai Division",
-        "mflCode": "14257",
-        "eidDisplay": ""
-    },
-    "17cc5ee1-b702-4b4b-9ea7-9fc7083dd56e": {
-        "mrsId": 112,
-        "mrsDisplay": "Itigo",
-        "cityVillage": "",
-        "county": "",
-        "description": "Dispensary in Kosirai Division",
-        "mflCode": "14587",
-        "eidDisplay": ""
-    },
-    "469471e2-5b1e-46be-9232-a738f8cd717b": {
-        "mrsId": 113,
-        "mrsDisplay": "Lelmokwo",
-        "cityVillage": "",
-        "county": "",
-        "description": "Dispensary in Kosirai Division",
-        "mflCode": "15022",
-        "eidDisplay": ""
-    },
-    "8eedf128-40ed-4fba-9240-3cc92234720f": {
-        "mrsId": 114,
-        "mrsDisplay": "Kokwet",
-        "cityVillage": "",
-        "county": "",
-        "description": "Dispensary in Kosirai Division",
-        "mflCode": "14977",
-        "eidDisplay": ""
-    },
-    "a30955e0-275f-48ca-974d-438368a0685a": {
-        "mrsId": 115,
-        "mrsDisplay": "Ngechek",
-        "cityVillage": "",
-        "county": "",
-        "description": "Dispensary in Kosirai Division",
-        "mflCode": "15342",
-        "eidDisplay": ""
-    },
-    "96d2964e-8cec-4eca-ad05-a9c1fb29a045": {
-        "mrsId": 116,
-        "mrsDisplay": "cheramei",
-        "cityVillage": "",
-        "county": "",
-        "description": "Dispensary in Turbo Division",
-        "mflCode": "14377",
-        "eidDisplay": ""
-    },
-    "2003e950-5b62-4330-a94c-cf8165f75084": {
-        "mrsId": 117,
-        "mrsDisplay": "Murgusi",
-        "cityVillage": "",
-        "county": "",
-        "description": "Dispensary in Turbo Division",
-        "mflCode": "15255",
-        "eidDisplay": ""
-    },
-    "441451e5-aabd-4e71-87dd-8b7c5f651434": {
-        "mrsId": 118,
-        "mrsDisplay": "Cheplaskei",
-        "cityVillage": null,
-        "county": null,
-        "description": "Dispensary in Turbo Division",
-        "mflCode": "14354",
-        "eidDisplay": ""
-    },
-    "4de54b6f-6f60-4b56-a801-087603d2f294": {
-        "mrsId": 119,
-        "mrsDisplay": "Sigot",
-        "cityVillage": "",
-        "county": "",
-        "description": "Dispensary in Turbo Division",
-        "mflCode": "15753",
-        "eidDisplay": ""
-    },
-    "f030c7f2-9790-41d0-a704-f5a164909d17": {
-        "mrsId": 120,
-        "mrsDisplay": "Sugoi A",
-        "cityVillage": "",
-        "county": "",
-        "description": "Dispensary in Turbo Division",
-        "mflCode": "17331",
-        "eidDisplay": ""
-    },
-    "a27cec49-110c-41a1-9a6f-964d6ac2359d": {
-        "mrsId": 121,
-        "mrsDisplay": "Sugoi B",
-        "cityVillage": "",
-        "county": "",
-        "description": "Dispensary in Turbo Division",
-        "mflCode": "15680",
-        "eidDisplay": ""
-    },
-    "d09c6925-1e9a-4973-921d-d0014d7825ec": {
-        "mrsId": 122,
-        "mrsDisplay": "Chepkemel",
-        "cityVillage": "",
-        "county": "",
-        "description": "Dispensary in Turbo Division",
-        "mflCode": "14337",
-        "eidDisplay": ""
-    },
-    "12aeb8ab-690c-47e0-b41f-e261dac1279c": {
-        "mrsId": 123,
-        "mrsDisplay": "Chepkemel",
-        "cityVillage": "",
-        "county": "",
-        "description": "Dispensary in Turbo Division",
-        "mflCode": "14339",
-        "eidDisplay": ""
-    },
-    "eb32b031-30df-40d9-8aef-d88fbb763852": {
-        "mrsId": 124,
-        "mrsDisplay": "Akichelesit",
-        "cityVillage": "",
-        "county": "",
-        "description": "Dispensary in Teso Division",
-        "mflCode": "15792",
-        "eidDisplay": ""
-    },
-    "291bdf8e-93ed-4898-a58f-7d9f7f74128e": {
-        "mrsId": 125,
-        "mrsDisplay": "Aboloi",
-        "cityVillage": "",
-        "county": "",
-        "description": "Dispensary in Teso Division",
-        "mflCode": "15789",
-        "eidDisplay": ""
-    },
-    "1243cf8b-fced-482c-9d95-c92f28bfcbea": {
-        "mrsId": 126,
-        "mrsDisplay": "Moding",
-        "cityVillage": "",
-        "county": "",
-        "description": "Dispensary in Teso Division",
-        "mflCode": "16021",
-        "eidDisplay": ""
-    },
-    "e8c7759a-c99a-46de-82f8-d7c9f67eb237": {
-        "mrsId": 127,
-        "mrsDisplay": "Sambut ",
-        "cityVillage": "",
-        "county": "",
-        "description": "Sambut - Dispensary in Turbo division",
-        "mflCode": "15525",
-        "eidDisplay": ""
-    },
-    "00ce435c-3f27-4e89-a7f8-80fd102ff410": {
-        "mrsId": 128,
-        "mrsDisplay": "Ngenyilel",
-        "cityVillage": "",
-        "county": "",
-        "description": "Dispensary in Turbo division",
-        "mflCode": "15344",
-        "eidDisplay": ""
-    },
-    "2b338894-e81d-48e9-83d5-9280c8f549d4": {
-        "mrsId": 129,
-        "mrsDisplay": "Sosiani",
-        "cityVillage": "",
-        "county": "",
-        "description": "Health Centre in Turbo division",
-        "mflCode": "15616",
-        "eidDisplay": ""
-    },
-    "1d3bc503-925b-4a31-91da-337b611cc27a": {
-        "mrsId": 130,
-        "mrsDisplay": "Matayos Health Centre",
-        "cityVillage": "",
-        "county": "Western",
-        "description": "New site from Aphia",
-        "mflCode": "16004",
-        "eidDisplay": ""
-    },
-    "5c8705ef-3a36-4806-a907-381232f88834": {
-        "mrsId": 131,
-        "mrsDisplay": "Chebaiywa",
-        "cityVillage": "",
-        "county": "",
-        "description": "Used by CDM team and their forms being entered to AMRS",
-        "mflCode": "17243",
-        "eidDisplay": ""
-    },
-    "8bb0593f-5dca-4828-a443-53d41f040d8c": {
-        "mrsId": 132,
-        "mrsDisplay": "Kapsara Sub-district hospital",
-        "cityVillage": "",
-        "county": "",
-        "description": "New location in Kitale",
-        "mflCode": "14753",
-        "eidDisplay": ""
-    },
-    "a8f5b2b9-d2f0-454b-a7aa-46a1fbca17d3": {
-        "mrsId": 133,
-        "mrsDisplay": "Chepterit ",
-        "cityVillage": "",
-        "county": "",
-        "description": "A dispensary in Mosoriot Division",
-        "mflCode": "14368",
-        "eidDisplay": ""
-    },
-    "e05cbb83-9418-4ebc-9240-ae2512d70321": {
-        "mrsId": 134,
-        "mrsDisplay": "Kapyemit",
-        "cityVillage": "",
-        "county": "",
-        "description": "A dispensary in Turbo division and Uasin Gishu county",
-        "mflCode": "14799",
-        "eidDisplay": ""
-    },
-    "b77f94ea-62ea-469a-8a88-5aa2d33bdaaf": {
-        "mrsId": 135,
-        "mrsDisplay": "Kaborom",
-        "cityVillage": "",
-        "county": "Western",
-        "description": " Dispensary - a satellite of Mt Elgon.\r\n    ",
-        "mflCode": "15910",
-        "eidDisplay": ""
-    },
-    "e2546b92-17df-4640-a38b-c4f30b0cfd81": {
-        "mrsId": 136,
-        "mrsDisplay": "Murgor Hills",
-        "cityVillage": "",
-        "county": "",
-        "description": "A dispensary in Turbo",
-        "mflCode": "15254",
-        "eidDisplay": ""
-    },
-    "3e04788f-6761-412a-8db6-08a713f59afc": {
-        "mrsId": 137,
-        "mrsDisplay": "Osorongai",
-        "cityVillage": "",
-        "county": "",
-        "description": "A dispensary in Turbo",
-        "mflCode": "15449",
-        "eidDisplay": ""
-    },
-    "098148c6-9ffd-4c30-9dca-c8fa26c39eaf": {
-        "mrsId": 138,
-        "mrsDisplay": "Family Health Care Otpions Kenya - Eldoret",
-        "cityVillage": "Eldoret",
-        "county": "",
-        "description": "Private Hospital in Eldoret",
-        "mflCode": "16348",
-        "eidDisplay": ""
-    },
-    "b0773cd5-e0c0-4cc7-8cbd-482407311b50": {
-        "mrsId": 139,
-        "mrsDisplay": "Elgon View Hospital",
-        "cityVillage": "Eldoret",
-        "county": "",
-        "description": "Private Hospital in Eldoret",
-        "mflCode": "14438",
-        "eidDisplay": ""
-    },
-    "dfa41633-bef8-4465-b773-8254cef7cc7f": {
-        "mrsId": 140,
-        "mrsDisplay": "Cedar Clinical Associates",
-        "cityVillage": "Eldoret",
-        "county": "",
-        "description": "Private Hospital in Eldoret",
-        "mflCode": "14280",
-        "eidDisplay": ""
-    },
-    "2f4c8dde-1bc1-4224-9e1e-a4d915e74210": {
-        "mrsId": 141,
-        "mrsDisplay": "Glory health centre and Chemists",
-        "cityVillage": "Eldoret",
-        "county": "",
-        "description": "Private Hospital in Eldoret",
-        "mflCode": "",
-        "eidDisplay": ""
-    },
-    "22ef1733-f776-4d04-bf5d-2e0c48fe3ca5": {
-        "mrsId": 142,
-        "mrsDisplay": "Amani Health Centre",
-        "cityVillage": "Eldoret",
-        "county": "",
-        "description": "Private Hospital in Eldoret",
-        "mflCode": "",
-        "eidDisplay": ""
-    },
-    "d29bad2f-0b89-402f-835e-4e37c7d9334a": {
-        "mrsId": 143,
-        "mrsDisplay": "Gynocare Health Centre",
-        "cityVillage": "Eldoret",
-        "county": "",
-        "description": "Private Hospital in Eldoret",
-        "mflCode": "19205",
-        "eidDisplay": ""
-    },
-    "f83a6fbc-ad66-491e-82d3-72155661c498": {
-        "mrsId": 144,
-        "mrsDisplay": "St. Marys Health Centre - Kapsoya",
-        "cityVillage": "Eldoret",
-        "county": "",
-        "description": "Private Hospital in Eldoret",
-        "mflCode": "15655",
-        "eidDisplay": ""
-    },
-    "f4121927-e8ac-46d1-8b7d-fa6d9adcb677": {
-        "mrsId": 145,
-        "mrsDisplay": "SOS Medical Centre - Eldoret",
-        "cityVillage": "Eldoret",
-        "county": "",
-        "description": "Private Hospital in Eldoret",
-        "mflCode": "17945",
-        "eidDisplay": ""
-    },
-    "b99d3714-9715-484e-8ad9-bf0ada16fdf4": {
-        "mrsId": 146,
-        "mrsDisplay": "Imani Hospital ",
-        "cityVillage": "Eldoret",
-        "county": "",
-        "description": "Private Hospital in Eldoret",
-        "mflCode": "16357",
-        "eidDisplay": ""
-    },
-    "f6d67dad-cdf4-4756-82c8-cb34d1eecc3a": {
-        "mrsId": 147,
-        "mrsDisplay": "Fountain Health Centre",
-        "cityVillage": "Eldoret",
-        "county": "",
-        "description": "Private Hospital in Eldoret",
-        "mflCode": "19173",
-        "eidDisplay": ""
-    },
-    "294efcca-cf90-40da-8abb-1e082866388d": {
-        "mrsId": 148,
-        "mrsDisplay": "St. Luke",
-        "cityVillage": null,
-        "county": null,
-        "description": "A Private Hospital in Eldoret",
-        "mflCode": "18776",
-        "eidDisplay": ""
-    },
-    "8f1c7aca-97e5-4cca-be46-21969abde1c8": {
-        "mrsId": 149,
-        "mrsDisplay": "EldoretHosp",
-        "cityVillage": null,
-        "county": null,
-        "description": "A private hospital in Eldoret.",
-        "mflCode": "14435",
-        "eidDisplay": ""
-    },
-    "717758f6-8dec-443e-bf1c-ca0bf8a5ec6d": {
-        "mrsId": 150,
-        "mrsDisplay": "Sisenye Dispensary",
-        "cityVillage": null,
-        "county": null,
-        "description": "Dispensary in Bunyala sub-county",
-        "mflCode": "16131",
-        "eidDisplay": ""
-    },
-    "fece02d9-b3cd-4eaf-802f-8ad33ace4c30": {
-        "mrsId": 151,
-        "mrsDisplay": "Rukala Dispensary",
-        "cityVillage": null,
-        "county": null,
-        "description": "Dispensary in Bunyala Sub-County.",
-        "mflCode": "16095",
-        "eidDisplay": ""
-    },
-    "68df53ea-d990-4769-ae2d-34ec85218325": {
-        "mrsId": 152,
-        "mrsDisplay": "Budalangi Dispensary",
-        "cityVillage": null,
-        "county": null,
-        "description": "A dispensary in Bunyala Sub-county",
-        "mflCode": "15811",
-        "eidDisplay": ""
-    },
-    "0c2b5af9-43e1-4182-9292-59f499d23c9c": {
-        "mrsId": 153,
-        "mrsDisplay": "Reale Hospital",
-        "cityVillage": "Eldoret",
-        "county": "Uasin-Gishu",
-        "description": "Private Hospital in Eldoret\r\nunder the Private Sector Engagement program\r\n(formally PPP)",
-        "mflCode": "18983",
-        "eidDisplay": ""
-    },
-    "402e0744-82be-4784-bb6e-e5a30d1055cf": {
-        "mrsId": 154,
-        "mrsDisplay": "sokyot",
-        "cityVillage": "Kosachei",
-        "county": "Uasin Gishu",
-        "description": "A community based in Turbo",
-        "mflCode": "",
-        "eidDisplay": ""
-    },
-    "3824461a-1289-4108-b5b0-98f0f6f8f509": {
-        "mrsId": 155,
-        "mrsDisplay": "Turbo/Kaptebee",
-        "cityVillage": null,
-        "county": "UasinGishu",
-        "description": "A community in Turbo",
-        "mflCode": "15753",
-        "eidDisplay": ""
-    },
-    "ac339ab6-49e3-4b33-949d-505358797d5a": {
-        "mrsId": 156,
-        "mrsDisplay": "Ngechek",
-        "cityVillage": "kapngetich",
-        "county": "Nandi",
-        "description": "A community In Kosirai Division",
-        "mflCode": "15342",
-        "eidDisplay": ""
-    },
-    "8bfe3e63-ce86-4d5b-b3ae-b9ec13628530": {
-        "mrsId": 157,
-        "mrsDisplay": "Tuigoin",
-        "cityVillage": "Suigoi",
-        "county": "Uasin Gishu",
-        "description": "A community Unit in Turbo Division",
-        "mflCode": "",
-        "eidDisplay": ""
-    },
-    "825a2541-49ff-41b5-b267-7ff0a059f290": {
-        "mrsId": 158,
-        "mrsDisplay": "Leseru",
-        "cityVillage": "Chemalal",
-        "county": "Uasin Gishu",
-        "description": "A community Unit in Turbo Division",
-        "mflCode": "",
-        "eidDisplay": ""
-    },
-    "1dc7a1c9-e553-48a9-8a1e-e97b18a480c5": {
-        "mrsId": 159,
-        "mrsDisplay": "Kosirai",
-        "cityVillage": "Belekenya",
-        "county": "Nandi",
-        "description": "A community Unit in Kosirai Division",
-        "mflCode": "",
-        "eidDisplay": ""
-    },
-    "52645ed9-c8c4-4912-b66a-a05b201ddb5f": {
-        "mrsId": 160,
-        "mrsDisplay": "Mutwot",
-        "cityVillage": "Mutwot Village",
-        "county": "Nandi",
-        "description": "A Community unit in Kosirai Division",
-        "mflCode": "",
-        "eidDisplay": ""
-    },
-    "a4001a80-ac34-4a6f-a7fd-80d689f2b18b": {
-        "mrsId": 161,
-        "mrsDisplay": "Laikipia",
-        "cityVillage": null,
-        "county": "Laikipia",
-        "description": "An amrs site in Laikipia County",
-        "mflCode": "",
-        "eidDisplay": ""
-    },
-    "25ff6c5b-d46d-4d8c-bf4c-dae135efa70b": {
-        "mrsId": 162,
-        "mrsDisplay": "Sirimba Mission Hospital",
-        "cityVillage": null,
-        "county": "Busia",
-        "description": "A health Facility in Busia County",
-        "mflCode": "16129",
-        "eidDisplay": ""
-    },
-    "cf044cde-d23b-4bf2-a152-e83a0e9a2288": {
-        "mrsId": 163,
-        "mrsDisplay": "Nasewa Health Centre",
-        "cityVillage": null,
-        "county": "Busia",
-        "description": "A Health Facility in Nasewa",
-        "mflCode": "16074",
-        "eidDisplay": ""
-    },
-    "751a05f1-6889-48ec-911b-d626ac02d9cd": {
-        "mrsId": 164,
-        "mrsDisplay": "Mabunge",
-        "cityVillage": null,
-        "county": "Busia",
-        "description": "A community unit in Nasewa",
-        "mflCode": "Mabunge",
-        "eidDisplay": ""
-    },
-    "f7896a4a-2348-4493-ac02-0772255f49f6": {
-        "mrsId": 165,
-        "mrsDisplay": "Buyama",
-        "cityVillage": null,
-        "county": "Busia",
-        "description": "A community unit in Nasewa",
-        "mflCode": "Buyama",
-        "eidDisplay": ""
-    },
-    "356f3aaa-bd92-4823-a602-33ea6efe44d4": {
-        "mrsId": 166,
-        "mrsDisplay": "Lung'a",
-        "cityVillage": null,
-        "county": "Busia",
-        "description": "A community unit in Nasewa",
-        "mflCode": "16074",
-        "eidDisplay": ""
-    },
-    "eb85f1ae-6d39-4929-bd99-2002f4eb96a8": {
-        "mrsId": 167,
-        "mrsDisplay": "Nasewa",
-        "cityVillage": null,
-        "county": "Busia",
-        "description": "A community unit in Nasewa",
-        "mflCode": "16074",
-        "eidDisplay": ""
-    },
-    "97157544-80c4-469d-b7bc-92e3053ded8e": {
-        "mrsId": 168,
-        "mrsDisplay": "Sikarira Dispensary",
-        "cityVillage": null,
-        "county": "Busia",
-        "description": "A health facility in Sikarira",
-        "mflCode": "16485",
-        "eidDisplay": ""
-    },
-    "a49aa7a3-c5ae-4c7a-a6a0-3b9e5ba60522": {
-        "mrsId": 169,
-        "mrsDisplay": "Bulwani",
-        "cityVillage": null,
-        "county": "Busia",
-        "description": "A Community Unit in Bwaliro",
-        "mflCode": "15822",
-        "eidDisplay": ""
-    },
-    "b940a5af-07ce-4fb0-ae5c-3271943c8ce1": {
-        "mrsId": 170,
-        "mrsDisplay": "Kanjala",
-        "cityVillage": null,
-        "county": "Busia",
-        "description": "A community unit in Sikarira",
-        "mflCode": "16485",
-        "eidDisplay": ""
-    },
-    "1e92054b-9aed-42b7-b358-95cd311f98e2": {
-        "mrsId": 171,
-        "mrsDisplay": "Sirimba Mission Hospital",
-        "cityVillage": null,
-        "county": "Busia",
-        "description": "A health Facility in Busia County",
-        "mflCode": "16129",
-        "eidDisplay": ""
-    },
-    "8d2265b4-d311-4a92-a792-2097d22ac174": {
-        "mrsId": 172,
-        "mrsDisplay": "Ruambwa",
-        "cityVillage": null,
-        "county": "Busia",
-        "description": "A community unit in Sirimba",
-        "mflCode": "16129",
-        "eidDisplay": ""
-    },
-    "7f95db31-e91b-4753-8b92-1d52aa9b4abf": {
-        "mrsId": 173,
-        "mrsDisplay": "Ikonzo Dispensary",
-        "cityVillage": null,
-        "county": "Busia",
-        "description": "A Health Facility in Busia",
-        "mflCode": "17165",
-        "eidDisplay": ""
-    },
-    "c88683c8-988c-4580-afaa-c2909597f758": {
-        "mrsId": 174,
-        "mrsDisplay": "Namwitsula",
-        "cityVillage": null,
-        "county": "Busia",
-        "description": "A community unit in Ikonzo",
-        "mflCode": "17165",
-        "eidDisplay": ""
-    },
-    "57e7d161-13da-464f-a7b5-bffbade5b2de": {
-        "mrsId": 175,
-        "mrsDisplay": "Ikonzo",
-        "cityVillage": null,
-        "county": "Busia",
-        "description": "A community Unit in Ikonzo",
-        "mflCode": "17165",
-        "eidDisplay": ""
-    },
-    "d83e9d9e-8211-414d-8269-7b9308184b82": {
-        "mrsId": 176,
-        "mrsDisplay": "West Clinic Health Centre",
-        "cityVillage": null,
-        "county": "Uasin Gishu",
-        "description": "A health facility in Uasin Gishu",
-        "mflCode": "",
-        "eidDisplay": ""
-    },
-    "d332cd41-99d5-47bb-baab-0b61a59aadc2": {
-        "mrsId": 177,
-        "mrsDisplay": "Kibulgeng",
-        "cityVillage": null,
-        "county": "Uasin Gihu",
-        "description": "A community facility in Uasin Gishu",
-        "mflCode": "",
-        "eidDisplay": ""
-    },
-    "b35dfc65-80f8-41fa-9932-cd347edd346d": {
-        "mrsId": 178,
-        "mrsDisplay": "Bujumba Dispensary",
-        "cityVillage": null,
-        "county": "Busia",
-        "description": "Is a health Facility in Bujumba",
-        "mflCode": "15816",
-        "eidDisplay": ""
-    },
-    "1646cb1f-2e3c-4ca3-9157-a4ad2f67fe38": {
-        "mrsId": 179,
-        "mrsDisplay": "Bujumba",
-        "cityVillage": null,
-        "county": "Busia",
-        "description": "Is a community Facility in Bujumba",
-        "mflCode": "15816",
-        "eidDisplay": ""
-    },
-    "956794fa-2193-4ff6-bad1-65b947d0faa3": {
-        "mrsId": 183,
-        "mrsDisplay": "Ikonzo Dispensary",
-        "cityVillage": null,
-        "county": "Busia",
-        "description": "A dispensary in Busia",
-        "mflCode": "17165",
-        "eidDisplay": ""
-    },
-    "49066b8b-2b9a-43cf-b3e4-18d3759ecd00": {
-        "mrsId": 184,
-        "mrsDisplay": "Ikonzo Dispensary",
-        "cityVillage": null,
-        "county": "Busia",
-        "description": "A dispensary in Busia",
-        "mflCode": "17165",
-        "eidDisplay": ""
-    },
-    "cb0a7e64-dd5d-4c46-9cb3-c382d95e9c50": {
-        "mrsId": 185,
-        "mrsDisplay": "Sikarira",
-        "cityVillage": null,
-        "county": "Busia",
-        "description": "A community unit in Ikonzo",
-        "mflCode": "16485",
-        "eidDisplay": ""
-    },
-    "e155b8b0-e89d-4916-8b6c-3af9d93b582b": {
-        "mrsId": 186,
-        "mrsDisplay": "MTRH-Memorial Hospital",
-        "cityVillage": null,
-        "county": "Uasin Gishu",
-        "description": "PPP Clinic",
-        "mflCode": "15204",
-        "eidDisplay": ""
-    },
-    "e02b0e78-4312-4006-9e39-0994a759acb2": {
-        "mrsId": 187,
-        "mrsDisplay": "Chep'ngoror Dispensary",
-        "cityVillage": null,
-        "county": "A dispensary in Burnt forest",
-        "description": "A dispensary in Burnt Forest",
-        "mflCode": "16347",
-        "eidDisplay": ""
-    },
-    "659f2926-4712-4bd9-a532-7c1b20a0d47b": {
-        "mrsId": 188,
-        "mrsDisplay": "Matunda Health Centre",
-        "cityVillage": null,
-        "county": "Uasin Gishu",
-        "description": "A community unit in Matunda",
-        "mflCode": "16364",
-        "eidDisplay": ""
-    },
-    "f8bf061a-8ef2-4145-9522-03e642d23eaf": {
-        "mrsId": 189,
-        "mrsDisplay": "Endebes Health Centre",
-        "cityVillage": null,
-        "county": "trans nzoia",
-        "description": "A Health Centre in Trans nzoia",
-        "mflCode": "14455",
-        "eidDisplay": ""
-    },
-    "67001f34-4df1-4cfa-8552-04d5236dd3a3": {
-        "mrsId": 190,
-        "mrsDisplay": "Kwanza Health Centre",
-        "cityVillage": null,
-        "county": "Trans-Nzoia",
-        "description": "A Health Facility in Trans Nzoia",
-        "mflCode": "15003",
-        "eidDisplay": ""
-    },
-    "4dbd0c2b-cb9f-491a-8dbc-c4e552db1515": {
-        "mrsId": 191,
-        "mrsDisplay": "Anderson",
-        "cityVillage": null,
-        "county": "Transzoia",
-        "description": "A health centre in transzoia",
-        "mflCode": "",
-        "eidDisplay": ""
-    },
-    "b56b5219-0c8f-4520-810e-ba43302c63eb": {
-        "mrsId": 192,
-        "mrsDisplay": "Kapsoya Health Centre",
-        "cityVillage": null,
-        "county": "Uasin Gishu",
-        "description": "A health centre in Kapsoya",
-        "mflCode": "14769",
-        "eidDisplay": ""
-    },
-    "c8ede412-a5da-47be-ae7f-f76a4ffc5065": {
-        "mrsId": 193,
-        "mrsDisplay": "Sister Freda Medical",
-        "cityVillage": "Kitale",
-        "county": "Trans Nzoia",
-        "description": "A Health facility in Trans Nzoia",
-        "mflCode": "14947",
-        "eidDisplay": ""
-    },
-    "b3bf1ec7-ea9c-4bc6-af5b-ddb6864b7975": {
-        "mrsId": 194,
-        "mrsDisplay": "St. Ladislaus Dispensary",
-        "cityVillage": null,
-        "county": "Uasin Gishu",
-        "description": "A health facility in Uasin Gishu County",
-        "mflCode": "16345",
-        "eidDisplay": ""
-    },
-    "18c343eb-b353-462a-9139-b16606e6b6c2": {
-        "mrsId": 195,
-        "mrsDisplay": "Location Test",
-        "cityVillage": null,
-        "county": "test",
-        "description": "This is a test location for POC Testers.",
-        "mflCode": "15204",
-        "eidDisplay": ""
-    },
-    "10446739-2ef2-4fb3-b134-29840d97acbe": {
-        "mrsId": 198,
-        "mrsDisplay": "MTRH Adolescent Clinic",
-        "cityVillage": "Eldoret",
-        "county": "",
-        "description": "Moi Teaching and Referral Hospital Adolescent Clinic.",
-        "mflCode": "15204",
-        "eidDisplay": ""
-    },
-    "af0d01d4-7c15-491d-be73-50512ab67e3a":{
-        "mrsId": 211,
-        "mrsDisplay": "Alphima Medical Clinic",
-        "cityVillage": "Eldoret",
-        "county": "",
-        "description": "A Private Hospital in Eldoret.",
-        "mflCode": "23646",
-        "eidDisplay": ""
-    },
-    "538c14c2-c98a-49a2-9e11-0af6f7b912dc":{
-        "mrsId": 196,
-        "mrsDisplay": "Mediheal Hospital",
-        "cityVillage": "Eldoret",
-        "county": "",
-        "description": "A ppp Clinic in Eldoret",
-        "mflCode": "15167",
-        "eidDisplay": ""
-
-    },
-    "02e85257-94d6-43bf-8603-322248c1a210": {
-        "mrsId": 197,
-        "mrsDisplay": "MTRH MCH",
-        "description": "Used to collect PMTCT data.",
-        "mflCode": "15204",
-        "county": "Uasin Gishu",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-        "4ff7f723-95ce-4481-ba47-6539f22aae3c": {
-        "mrsId": 199,
-        "mrsDisplay": "MTRH Nyayo Ward",
-        "description": "MTRH clinic Nyayo Ward",
-        "mflCode": "15204",
-        "county": "Uasin Gishu",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-      "3ce46ae0-7eca-48c9-86d3-d5bdde1c7dab": {
-        "mrsId": 200,
-        "mrsDisplay": "MTRH Mother & Baby Ward",
-        "description": "MTRH Mother & Baby Ward",
-        "mflCode": "15204",
-        "county": "Uasin Gishu",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-     "0d599936-1a29-464b-87ad-c92cf51a6a84": {
-        "mrsId": 201,
-        "mrsDisplay": "MTRH Pediatric Ward",
-        "description": "MTRH Pediatric Ward",
-        "mflCode": "15204",
-        "county": "Uasin Gishu",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-     "2a901f42-bf51-428c-8be3-a135075abcb2": {
-        "mrsId": 202,
-        "mrsDisplay": "MTRH Other",
-        "description": "MTRH Other",
-        "mflCode": "15204",
-        "county": "Uasin Gishu",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-     "20bd486d-5c84-44f4-9ffa-2f1c1d9e79f8": {
-        "mrsId": 203,
-        "mrsDisplay": "Langas",
-        "description": "Facility",
-        "mflCode": "15011",
-        "county": "Uasin Gishu",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-     "20967b54-63b5-4311-a68e-2fc04406e56a": {
-        "mrsId": 204,
-        "mrsDisplay": "MTRH Oncology",
-        "description": "Moi Teaching and Referral Hospital - \nOncology",
-        "mflCode": "15204",
-        "county": "Uasin Gishu",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-     "584b1638-b11d-4cbe-8e81-ff25b684d63c": {
-        "mrsId": 205,
-        "mrsDisplay": "Busagwa Dispensary",
-        "description": "Busagwa Dispensary",
-        "mflCode": "21037",
-        "county": "Busia",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-     "7fb68709-6e7b-4eaf-a984-ea111fa45853": {
-        "mrsId": 206,
-        "mrsDisplay": "MTRH ACTG",
-        "description": "MTRH ACTG",
-        "mflCode": "15204",
-        "county": "Uasin Gishu",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-     "1ee4e702-913b-40a6-ab9c-26f9b4fced1c": {
-        "mrsId": 208,
-        "mrsDisplay": "Huruma MCH",
-        "description": "Huruma MCH",
-        "mflCode": "14555",
-        "county": "Uasin Gishu",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-     "7bc85590-2de6-4780-b4d8-f167b71c1834": {
-        "mrsId": 209,
-        "mrsDisplay": "Kakamega",
-        "description": "Is a Kakamega County Referral hospital",
-        "mflCode": null,
-        "county": "Kakamega",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-     "d4f8de72-5058-4db8-b556-324c7020b83b": {
-        "mrsId": 210,
-        "mrsDisplay": "Homabay",
-        "description": "Oncology site",
-        "mflCode": null,
-        "county": "Homabay",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-     "21beec4b-d6d0-4fe3-9711-acab0d577067": {
-        "mrsId": 212,
-        "mrsDisplay": "Jaramogi Oginga Odinga TRH",
-        "description": "Jaramogi Oginga Odinga Training and Referral Hospital.",
-        "mflCode": "13939",
-        "county": "Kisumu",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-     "db2bdd7c-5fe6-4ea3-adc1-d2d8dfb3d658": {
-        "mrsId": 213,
-        "mrsDisplay": "Bomet",
-        "description": "Oncology clinic at Bomet",
-        "mflCode": null,
-        "county": "Kericho",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-     "1ce5034b-f05d-46b6-910f-fc959e091641": {
-        "mrsId": 214,
-        "mrsDisplay": "Kapenguria County Referral Hospital",
-        "description": "Referral hospital in Kapenguria.",
-        "mflCode": "14701",
-        "county": "West Pokot",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-     "c54cbafc-3d6a-41a0-ae6c-ef40df16e2c9": {
-        "mrsId": 215,
-        "mrsDisplay": "Hamisi Sub County Hospital",
-        "description": "A sub county hospital in Hamisi",
-        "mflCode": null,
-        "county": "Vihiga",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-     "3acdbf65-644a-44c6-b6fa-9dad734ec442": {
-        "mrsId": 216,
-        "mrsDisplay": "BUTERE",
-        "description": "An Oncology Clinic",
-        "mflCode": null,
-        "county": "Kakamega",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-      "2a7ef5d8-28b6-4285-8313-c356ebbd3305": {
-        "mrsId": 219,
-        "mrsDisplay": "St. Elizabeth Lwak Mission Health center",
-        "description": "A health Center in Siaya County",
-        "mflCode": null,
-        "county": "Siaya",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-     "d6155afe-9258-4632-9723-08de6d7e2602": {
-        "mrsId": 220,
-        "mrsDisplay": "Madiany sub county hospital",
-        "description": "Madiany sub county in Siaya County- Oncology study",
-        "mflCode": "13747",
-        "county": "Siaya",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-     "3d65bfd3-c134-4133-a7aa-f44a2206f403": {
-        "mrsId": 221,
-        "mrsDisplay": "Bungoma County Referral Hospital",
-        "description": "A referral hospital in Bungoma county",
-        "mflCode": "15828",
-        "county": "Bungoma",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-     "bf02fef0-0330-4247-82b0-d9ed490206a2": {
-        "mrsId": 222,
-        "mrsDisplay": "Nyahururu District Hospital",
-        "description": "A district Hospital in Laikipia County",
-        "mflCode": "10890",
-        "county": "Laikipia",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-     "68cb63f3-992d-4fd0-a80d-47a27fcf8021": {
-        "mrsId": 223,
-        "mrsDisplay": "MTRH TB",
-        "description": "TB Clinic at MTRH",
-        "mflCode": "15204",
-        "county": "Uasin Gishu",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-     "dfc36b77-c059-4a29-8a92-a40d5ad60774": {
-        "mrsId": 224,
-        "mrsDisplay": "Chemundu Dispensary",
-        "description": "A dispensary in Nandi County.",
-        "mflCode": "14324",
-        "county": "Nandi",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-      "261a0504-17fa-4fae-989f-4d4f30767842": {
-        "mrsId": 225,
-        "mrsDisplay": "AIC Kapsowar Mission Hospital",
-        "description": "Mission Hospital in Kapsowar.",
-        "mflCode": "14767",
-        "county": "Elgeyo Marakwet",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-     "65225dcd-81cc-4c8f-92e1-bb687995cf24": {
-        "mrsId": 226,
-        "mrsDisplay": "Vihiga County Referral Hospital.",
-        "description": "Referral Hospital in Vihiga county.",
-        "mflCode": "16157",
-        "county": "Vihiga",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-     "a36c86bb-7ca3-4319-8674-28c66ba14deb": {
-        "mrsId": 227,
-        "mrsDisplay": "Iten MCH",
-        "description": "An mch facility",
-        "mflCode": "14586",
-        "county": "Elgeyo Marakwet",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-     "535dc3bd-842b-4ca1-bc7c-357635ab985e": {
-        "mrsId": 229,
-        "mrsDisplay": "Kitale MCH",
-        "description": "mch clinic at kitale",
-        "mflCode": "14947",
-        "county": "transzoia",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-     "17c97881-90e5-43c8-b8a3-cc0322f89a89": {
-        "mrsId": 230,
-        "mrsDisplay": "Busia MCH",
-        "description": "mch clinic at busia.",
-        "mflCode": "15834",
-        "county": "Busia",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-     "f2320960-28de-41cf-b7d5-4734b75bafef": {
-        "mrsId": 231,
-        "mrsDisplay": "Chulaimbo MCH",
-        "description": "mch clinic at chulaimbo.",
-        "mflCode": "13528",
-        "county": "Kisumu",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-     "aa65d6b1-fad8-46a7-94cb-f5247d21509d": {
-        "mrsId": 232,
-        "mrsDisplay": "Meru County Referral Hospital",
-        "description": null,
-        "mflCode": "12516",
-        "county": "Meru County",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-     "ff95cb97-3d9e-4016-aff9-930fed3c55ec": {
-        "mrsId": 233,
-        "mrsDisplay": "Sori Lake side Hospital",
-        "description": "A hospital in Migori County",
-        "mflCode": "14098",
-        "county": "Migori",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-     "c79828e4-16cd-4c30-8164-13d6005aa879": {
-        "mrsId": 234,
-        "mrsDisplay": "Nyamira County Referral Hospital",
-        "description": "Nyamira County Referral Hospital - Oncology Clinic",
-        "mflCode": "13912",
-        "county": "Nyamira",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-     "dbe94e9c-c882-4ec0-9edc-d0038069cd00": {
-        "mrsId": 235,
-        "mrsDisplay": "Webuye Health Centre",
-        "description": "Health Centre in Bungoma County",
-        "mflCode": "16160",
-        "county": "Bungoma",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-     "c0f4fd82-0d65-4b0b-aa04-be5914063959": {
-        "mrsId": 236,
-        "mrsDisplay": "Mulachi Dispensary",
-        "description": "A dispensary in Bungoma County",
-        "mflCode": null,
-        "county": "Bungoma",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-     "cb7fae6f-8daa-4a84-b4b0-7a1852b0526c": {
-        "mrsId": 237,
-        "mrsDisplay": "Lukusi Dispensary",
-        "description": "A dispensary in Bungoma County",
-        "mflCode": "16711",
-        "county": "Bungoma",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-      "e2bb5611-a016-4440-951d-f35e42ad4821": {
-        "mrsId": 238,
-        "mrsDisplay": "Khaoya Dispensary",
-        "description": "A dispensary in Bungoma County",
-        "mflCode": "15933",
-        "county": "Bungoma",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-     "df1f80fa-8c43-429d-93b9-bc01d0c898cf": {
-        "mrsId": 239,
-        "mrsDisplay": "Miendo Dispensary",
-        "description": "A dispensary in Bungoma County",
-        "mflCode": "16015",
-        "county": "Bungoma",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-     "52d0a75a-b281-4f6d-a7c4-07c0cd5b1ee4": {
-        "mrsId": 240,
-        "mrsDisplay": "Matulo Dispensary",
-        "description": "A dispensary in Bungoma County",
-        "mflCode": "16389",
-        "county": "Bungoma",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-     "61492482-4cde-4c71-8d20-e5ab9e858583": {
-        "mrsId": 241,
-        "mrsDisplay": "Khayaya Dispensary",
-        "description": "A dispensary in Bungoma County",
-        "mflCode": "16710",
-        "county": "Bungoma",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-      "89442596-43af-4e32-a185-d1b5fbd86549": {
-        "mrsId": 242,
-        "mrsDisplay": "Namwatikho Dispensary",
-        "description": "A dispensary in Bungoma County",
-        "mflCode": "22501",
-        "county": "Bungoma",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-     "90d8e717-36a6-4df2-a321-2fb2e9956bc0": {
-        "mrsId": 243,
-        "mrsDisplay": "Mukhe Dispensary",
-        "description": "A dispensary in Bungoma County",
-        "mflCode": "16028",
-        "county": "Bungoma",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-     "299c8c3a-121a-4931-b1fa-fff949292ac3": {
-        "mrsId": 244,
-        "mrsDisplay": "Khalala Dispensary",
-        "description": "A dispensary in Bungoma County",
-        "mflCode": "18362",
-        "county": "Bungoma",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-     "a568c19e-cfcb-416a-83ae-9c24b72d2c38": {
-        "mrsId": 245,
-        "mrsDisplay": "Chemalal Dispensary",
-        "description": "A dispensary in Bungoma County",
-        "mflCode": null,
-        "county": "Bungoma",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-      "6ae719f8-1805-4680-82d3-2bf58c617047": {
-        "mrsId": 246,
-        "mrsDisplay": "Namarambi Dispensary",
-        "description": "A dispensary in Bungoma County",
-        "mflCode": "21771",
-        "county": "Bungoma",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-     "122addaa-dc8a-4e86-ad76-695aa35e2f6e": {
-        "mrsId": 247,
-        "mrsDisplay": "Lurare Dispensary",
-        "description": "CDM site",
-        "mflCode": "15976",
-        "county": "Bungoma",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-     "34aec983-646e-4d8f-93a9-fa8156de15ec": {
-        "mrsId": 248,
-        "mrsDisplay": "Garissa County Referral Hospital",
-        "description": "This is an Oncology clinic that the AMPATH oncology will be supporting.",
-        "mflCode": "13346",
-        "county": "Garissa",
-        "cityVillage": "",
-        "eidDisplay": ""
-      },
-      "379ff09d-c72f-4859-a9dc-3c0295738252": {
-        "mrsId": 249,
-        "mrsDisplay": "MTRH Anti-coagulation",
-        "description": "oncology anti-coagulation treatment.",
-        "mflCode": "15204",
-        "county": "Uasin Gishu",
-        "cityVillage": "",
-        "eidDisplay": ""
-      }
+  "08feae7c-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 1,
+    "mrsDisplay": "MTRH Module 1",
+    "cityVillage": "Eldoret",
+    "county": "",
+    "description": "Moi Teaching and Referral Hospital - Module 1",
+    "mflCode": "15204",
+    "eidDisplay": ""
+  },
+  "08feb14c-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 2,
+    "mrsDisplay": "Mosoriot",
+    "cityVillage": "",
+    "county": "",
+    "description": "Mosoriot Outpatient Center",
+    "mflCode": "15229",
+    "eidDisplay": ""
+  },
+  "08feb2dc-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 3,
+    "mrsDisplay": "Turbo",
+    "cityVillage": "",
+    "county": "Rift Valley",
+    "description": "Turbo heath center Clinic",
+    "mflCode": "15753",
+    "eidDisplay": ""
+  },
+  "08feb444-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 4,
+    "mrsDisplay": "Burnt Forest",
+    "cityVillage": "Burnt Forest",
+    "county": "Rift Valley",
+    "description": "Burnt Forest RHDC Clinic",
+    "mflCode": "16347",
+    "eidDisplay": ""
+  },
+  "08feb5b6-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 5,
+    "mrsDisplay": "Amukura",
+    "cityVillage": "Malaba",
+    "county": "Western",
+    "description": "Amukura Health Center",
+    "mflCode": "15798",
+    "eidDisplay": ""
+  },
+  "08feb6b0-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 6,
+    "mrsDisplay": "Naitiri",
+    "cityVillage": "Naitiri",
+    "county": "Western",
+    "description": "Naitiri Health center",
+    "mflCode": "16061",
+    "eidDisplay": ""
+  },
+  "08feb7b4-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 7,
+    "mrsDisplay": "Chulaimbo",
+    "cityVillage": "Maseno",
+    "county": "Nyanza",
+    "description": "Chulaimbo Sub-district hospital (Clinic)",
+    "mflCode": "13528",
+    "eidDisplay": ""
+  },
+  "08feb8ae-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 8,
+    "mrsDisplay": "Webuye",
+    "cityVillage": "Webuye",
+    "county": "Western",
+    "description": "Webuye Hospital ",
+    "mflCode": "16161",
+    "eidDisplay": ""
+  },
+  "08feb9a8-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 9,
+    "mrsDisplay": "Mt. Elgon",
+    "cityVillage": "",
+    "county": "",
+    "description": "Mount Elgon Clinic (Kapsokwony)",
+    "mflCode": "16025",
+    "eidDisplay": ""
+  },
+  "08feba98-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 10,
+    "mrsDisplay": "Kapenguria",
+    "cityVillage": "",
+    "county": "",
+    "description": "Kapenguria Clinic",
+    "mflCode": "19088",
+    "eidDisplay": ""
+  },
+  "08febb92-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 11,
+    "mrsDisplay": "Kitale",
+    "cityVillage": "",
+    "county": "",
+    "description": "Kitale District Hospital",
+    "mflCode": "14947",
+    "eidDisplay": ""
+  },
+  "08febf52-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 12,
+    "mrsDisplay": "Teso",
+    "cityVillage": "",
+    "county": "",
+    "description": "Teso Clinic",
+    "mflCode": "16150",
+    "eidDisplay": ""
+  },
+  "08fec056-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 13,
+    "mrsDisplay": "MTRH Module 2",
+    "cityVillage": "",
+    "county": "",
+    "description": "Moi Teaching and Referral Hospital - Module 2",
+    "mflCode": "15204",
+    "eidDisplay": ""
+  },
+  "08fec150-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 14,
+    "mrsDisplay": "MTRH Module 3",
+    "cityVillage": "",
+    "county": "",
+    "description": "Moi Teaching and Referral Hospital - Module 3",
+    "mflCode": "15204",
+    "eidDisplay": ""
+  },
+  "08fec24a-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 15,
+    "mrsDisplay": "MTRH Module 4",
+    "cityVillage": "",
+    "county": "",
+    "description": "Moi Teaching and Referral Hospital - Module 4",
+    "mflCode": "15204",
+    "eidDisplay": ""
+  },
+  "08fec33a-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 16,
+    "mrsDisplay": "Unknown",
+    "cityVillage": null,
+    "county": null,
+    "description": "Unknown Location",
+    "mflCode": "",
+    "eidDisplay": ""
+  },
+  "08fec42a-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 17,
+    "mrsDisplay": "Iten",
+    "cityVillage": null,
+    "county": null,
+    "description": "Iten Clinic",
+    "mflCode": "14586",
+    "eidDisplay": ""
+  },
+  "08fec51a-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 18,
+    "mrsDisplay": "Kabarnet",
+    "cityVillage": null,
+    "county": null,
+    "description": "Kabarnet Clinic",
+    "mflCode": "14607",
+    "eidDisplay": ""
+  },
+  "08fec60a-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 19,
+    "mrsDisplay": "Busia",
+    "cityVillage": "Busia",
+    "county": "Western",
+    "description": "Busia Clinic",
+    "mflCode": "15834",
+    "eidDisplay": ""
+  },
+  "08fec704-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 20,
+    "mrsDisplay": "Port Victoria",
+    "cityVillage": "Port Victoria",
+    "county": "Western",
+    "description": "Port Victoria AMPATH clinic",
+    "mflCode": "16091",
+    "eidDisplay": ""
+  },
+  "08fec808-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 21,
+    "mrsDisplay": "Non-AMPATH Site",
+    "cityVillage": "",
+    "county": "",
+    "description": "All clinical locations outside the AMPATH system.",
+    "mflCode": "",
+    "eidDisplay": ""
+  },
+  "08fec916-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 22,
+    "mrsDisplay": "None",
+    "cityVillage": "",
+    "county": "",
+    "description": "No location.",
+    "mflCode": "",
+    "eidDisplay": ""
+  },
+  "09004e76-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 23,
+    "mrsDisplay": "Khuyangu",
+    "cityVillage": "Khuyangu",
+    "county": "Western",
+    "description": "Khuyangu District Hospital ",
+    "mflCode": "15939",
+    "eidDisplay": ""
+  },
+  "09004fca-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 24,
+    "mrsDisplay": "Chulaimbo Module 1",
+    "cityVillage": "Maseno",
+    "county": "Nyanza",
+    "description": "Chulaimbo Adult Clinic",
+    "mflCode": "13528",
+    "eidDisplay": ""
+  },
+  "090050ce-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 25,
+    "mrsDisplay": "Chulaimbo Module 2",
+    "cityVillage": "Maseno",
+    "county": "Nyanza",
+    "description": "Chulaimbo Pediatric Clinic",
+    "mflCode": "13528",
+    "eidDisplay": ""
+  },
+  "090051c8-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 26,
+    "mrsDisplay": "Busia Module 1",
+    "cityVillage": "Busia",
+    "county": "Western",
+    "description": "Busia Module 1",
+    "mflCode": "15834",
+    "eidDisplay": ""
+  },
+  "090052b8-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 27,
+    "mrsDisplay": "Busia Module 2",
+    "cityVillage": "",
+    "county": "",
+    "description": "Busia Module 2",
+    "mflCode": "15834",
+    "eidDisplay": ""
+  },
+  "090053b2-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 28,
+    "mrsDisplay": "Ziwa",
+    "cityVillage": null,
+    "county": null,
+    "description": "Ziwa Clinic",
+    "mflCode": "15788",
+    "eidDisplay": ""
+  },
+  "090054a2-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 30,
+    "mrsDisplay": "Anderson",
+    "cityVillage": null,
+    "county": null,
+    "description": "Anderson Clinic",
+    "mflCode": "14203",
+    "eidDisplay": ""
+  },
+  "0900559c-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 31,
+    "mrsDisplay": "Uasin Gishu District Hospital",
+    "cityVillage": "",
+    "county": "",
+    "description": "Uasin Gishu District Hospital (DH)",
+    "mflCode": "15758",
+    "eidDisplay": ""
+  },
+  "090056be-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 32,
+    "mrsDisplay": "Eldoret Catholic Church(IDP)",
+    "cityVillage": "Eldoret",
+    "county": "",
+    "description": "Internally Displaced AMPATH Patients",
+    "mflCode": "",
+    "eidDisplay": ""
+  },
+  "090057cc-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 33,
+    "mrsDisplay": "Eldoret Police Station(IDP)",
+    "cityVillage": "Eldoret",
+    "county": "",
+    "description": "Internally Displaced AMPATH Patients",
+    "mflCode": "",
+    "eidDisplay": ""
+  },
+  "090058e4-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 34,
+    "mrsDisplay": "Majengo (Our Lady) Church(IDP)",
+    "cityVillage": "",
+    "county": "",
+    "description": "Internally Displaced AMPATH Patients",
+    "mflCode": "",
+    "eidDisplay": ""
+  },
+  "090059f2-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 35,
+    "mrsDisplay": "Turbo Police Station",
+    "cityVillage": "Turbo",
+    "county": "",
+    "description": "Internally Displaced AMPATH Patients",
+    "mflCode": "",
+    "eidDisplay": ""
+  },
+  "09005b0a-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 36,
+    "mrsDisplay": "Nakuru(IDP)",
+    "cityVillage": "Nakuru",
+    "county": "",
+    "description": "Internally Displaced AMPATH Patients",
+    "mflCode": "",
+    "eidDisplay": ""
+  },
+  "09005c0e-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 37,
+    "mrsDisplay": "Nairobi(IDP)",
+    "cityVillage": "Nairobi",
+    "county": "",
+    "description": "Internally Displaced AMPATH Patients",
+    "mflCode": "",
+    "eidDisplay": ""
+  },
+  "09005d1c-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 38,
+    "mrsDisplay": "Eldoret Showground(IDP)",
+    "cityVillage": "Eldoret",
+    "county": "",
+    "description": "Internally Displaced AMPATH Patients",
+    "mflCode": "",
+    "eidDisplay": ""
+  },
+  "09005e34-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 39,
+    "mrsDisplay": "Yamumbi (IDP)",
+    "cityVillage": "",
+    "county": "",
+    "description": "Internally Displaced AMPATH Patients",
+    "mflCode": "",
+    "eidDisplay": ""
+  },
+  "09005f38-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 40,
+    "mrsDisplay": "Matharu Center(IDP)",
+    "cityVillage": "",
+    "county": "",
+    "description": "Internally Displaced AMPATH Patients",
+    "mflCode": "",
+    "eidDisplay": ""
+  },
+  "09006050-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 41,
+    "mrsDisplay": "Munyaka PCEA Church(IDP)",
+    "cityVillage": "",
+    "county": "",
+    "description": "Internally Displaced AMPATH Patients",
+    "mflCode": "",
+    "eidDisplay": ""
+  },
+  "0900615e-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 42,
+    "mrsDisplay": "Maji Mazuri(IDP)",
+    "cityVillage": "",
+    "county": "",
+    "description": "Internally Displaced AMPATH Patients",
+    "mflCode": "",
+    "eidDisplay": ""
+  },
+  "0900626c-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 43,
+    "mrsDisplay": "Kamara(IDP)",
+    "cityVillage": "",
+    "county": "",
+    "description": "Internally Displaced AMPATH Patients",
+    "mflCode": "",
+    "eidDisplay": ""
+  },
+  "09006370-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 44,
+    "mrsDisplay": "Eldamaravine Police Station(IDP)",
+    "cityVillage": "",
+    "county": "",
+    "description": "Internally Displaced AMPATH Patients",
+    "mflCode": "",
+    "eidDisplay": ""
+  },
+  "0900647e-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 45,
+    "mrsDisplay": "Moisbridge(IDP)",
+    "cityVillage": "",
+    "county": "",
+    "description": "Internally Displaced AMPATH Patients",
+    "mflCode": "",
+    "eidDisplay": ""
+  },
+  "09006582-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 46,
+    "mrsDisplay": "Langas police station(IDP)",
+    "cityVillage": "",
+    "county": "",
+    "description": "Internally Displaced AMPATH Patients",
+    "mflCode": "",
+    "eidDisplay": ""
+  },
+  "09007acc-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 47,
+    "mrsDisplay": "Timboroa Police Station",
+    "cityVillage": "",
+    "county": "",
+    "description": "Internally Displaced AMPATH Patients",
+    "mflCode": "",
+    "eidDisplay": ""
+  },
+  "09007be4-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 48,
+    "mrsDisplay": "Bishop Muge(IDP)",
+    "cityVillage": "",
+    "county": "",
+    "description": "Internally Displaced AMPATH Patients",
+    "mflCode": "",
+    "eidDisplay": ""
+  },
+  "09007ce8-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 49,
+    "mrsDisplay": "Kipkenyo(IDP)",
+    "cityVillage": "",
+    "county": "",
+    "description": "Internally Displaced AMPATH Patients",
+    "mflCode": "",
+    "eidDisplay": ""
+  },
+  "09007df6-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 50,
+    "mrsDisplay": "Endebes(IDP)",
+    "cityVillage": "",
+    "county": "",
+    "description": "Internally Displaced AMPATH Patients",
+    "mflCode": "",
+    "eidDisplay": ""
+  },
+  "09007efa-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 51,
+    "mrsDisplay": "Kachibora(IDP)",
+    "cityVillage": "",
+    "county": "",
+    "description": "Internally Displaced AMPATH Patients",
+    "mflCode": "",
+    "eidDisplay": ""
+  },
+  "09007ffe-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 52,
+    "mrsDisplay": "Cherangany(IDP)",
+    "cityVillage": "",
+    "county": "",
+    "description": "Internally Displaced AMPATH Patients",
+    "mflCode": "",
+    "eidDisplay": ""
+  },
+  "09008102-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 53,
+    "mrsDisplay": "Nzioa Scheme",
+    "cityVillage": "",
+    "county": "",
+    "description": "Internally Displaced AMPATH Patients",
+    "mflCode": "",
+    "eidDisplay": ""
+  },
+  "09008206-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 54,
+    "mrsDisplay": "Plateau Mission Hospital",
+    "cityVillage": "",
+    "county": "Rift valley",
+    "description": "Burnt Forest Satellite Clinic",
+    "mflCode": "15464",
+    "eidDisplay": ""
+  },
+  "0900831e-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 55,
+    "mrsDisplay": "Bumala A",
+    "cityVillage": "Bumala",
+    "county": "Western",
+    "description": "Bumala \"A\" Health Center(Busia Satellite Clinic)",
+    "mflCode": "15823",
+    "eidDisplay": ""
+  },
+  "09008422-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 56,
+    "mrsDisplay": "Eldoret Prison",
+    "cityVillage": null,
+    "county": null,
+    "description": "Satellite Clinic of MTRH Module 3",
+    "mflCode": "15204",
+    "eidDisplay": ""
+  },
+  "0900851c-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 57,
+    "mrsDisplay": "Kitale Prison",
+    "cityVillage": "",
+    "county": "",
+    "description": "Satellite Clinic of Kitale",
+    "mflCode": "14947",
+    "eidDisplay": ""
+  },
+  "09008620-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 58,
+    "mrsDisplay": "Ngeria Prison",
+    "cityVillage": null,
+    "county": null,
+    "description": "Satellite Clinic of MTRH Module 3",
+    "mflCode": "15204",
+    "eidDisplay": ""
+  },
+  "0900871a-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 59,
+    "mrsDisplay": "MAUTUMA",
+    "cityVillage": null,
+    "county": null,
+    "description": "Satellite Clinic of Turbo",
+    "mflCode": "16010",
+    "eidDisplay": ""
+  },
+  "0900880a-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 60,
+    "mrsDisplay": "Chepsaita",
+    "cityVillage": "Turbo",
+    "county": "Uasin Gishu",
+    "description": "Chepsaita Dispensary(Turbo Satellite Clinic)",
+    "mflCode": "14358",
+    "eidDisplay": ""
+  },
+  "09008904-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 61,
+    "mrsDisplay": "KAPTAGAT",
+    "cityVillage": null,
+    "county": null,
+    "description": "Satellite Clinic of Burnt Forest",
+    "mflCode": "16347",
+    "eidDisplay": ""
+  },
+  "090089ea-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 62,
+    "mrsDisplay": "KESSES",
+    "cityVillage": null,
+    "county": null,
+    "description": "Satellite Clinic of Burnt Forest",
+    "mflCode": "16347",
+    "eidDisplay": ""
+  },
+  "09008ada-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 63,
+    "mrsDisplay": "LUKOLIS",
+    "cityVillage": "Malaba",
+    "county": "Western",
+    "description": "Lukolis Dispensary(Amukura satellite clinic)",
+    "mflCode": "15968",
+    "eidDisplay": ""
+  },
+  "09008fda-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 64,
+    "mrsDisplay": "BOKOLI",
+    "cityVillage": "Bokoli",
+    "county": "Western",
+    "description": "Bokoli Hospital(Webuye satellite clinic)",
+    "mflCode": "15808",
+    "eidDisplay": ""
+  },
+  "090090d4-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 65,
+    "mrsDisplay": "ANGURAI",
+    "cityVillage": "Malaba",
+    "county": "Western",
+    "description": "Angurai Health Center(Teso satellite clinic)",
+    "mflCode": "15800",
+    "eidDisplay": ""
+  },
+  "090091c4-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 66,
+    "mrsDisplay": "Cheptais",
+    "cityVillage": "Cheptais",
+    "county": "Western",
+    "description": "Cheptais Sub-District Hospital(Mt. Elgon Satellite Clinic)",
+    "mflCode": "15855",
+    "eidDisplay": ""
+  },
+  "090092b4-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 67,
+    "mrsDisplay": "CHESKAKI",
+    "cityVillage": "",
+    "county": "",
+    "description": "Mt. Elgon Satellite Clinic",
+    "mflCode": "15856",
+    "eidDisplay": ""
+  },
+  "0900939a-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 68,
+    "mrsDisplay": "MARIGAT",
+    "cityVillage": null,
+    "county": null,
+    "description": "Satellite Clinic of Kabarnet",
+    "mflCode": "15138",
+    "eidDisplay": ""
+  },
+  "0900948a-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 69,
+    "mrsDisplay": "Huruma SDH",
+    "cityVillage": null,
+    "county": null,
+    "description": "Satellite Clinic of Uasin Gishu District Hospital",
+    "mflCode": "14555",
+    "eidDisplay": ""
+  },
+  "0900a9ac-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 70,
+    "mrsDisplay": "Pioneer Sub-District Hospital",
+    "cityVillage": "",
+    "county": "",
+    "description": "Satellite clinic for Mosoriot Health Centre",
+    "mflCode": "15463",
+    "eidDisplay": ""
+  },
+  "0900aace-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 71,
+    "mrsDisplay": "Mois Bridge",
+    "cityVillage": "",
+    "county": "",
+    "description": "Moi's Bridge Clinic",
+    "mflCode": "15209",
+    "eidDisplay": ""
+  },
+  "0900abdc-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 72,
+    "mrsDisplay": "Moi University",
+    "cityVillage": "Kesses",
+    "county": "",
+    "description": "Moi University  Main Campus clinic",
+    "mflCode": "15205",
+    "eidDisplay": ""
+  },
+  "0900acea-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 73,
+    "mrsDisplay": "Soy",
+    "cityVillage": "",
+    "county": "",
+    "description": "Soy Clinic",
+    "mflCode": "15623",
+    "eidDisplay": ""
+  },
+  "0900adee-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 74,
+    "mrsDisplay": "Mihuu ",
+    "cityVillage": "Webuye",
+    "county": "Western",
+    "description": "Mihuu Dispensary(Webuye satellite clinic)",
+    "mflCode": "16161",
+    "eidDisplay": ""
+  },
+  "0900aefc-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 75,
+    "mrsDisplay": "Sinoko",
+    "cityVillage": "Misikhu",
+    "county": "Western",
+    "description": "Sinoko Dispensary(Bungoma East)",
+    "mflCode": "16126",
+    "eidDisplay": ""
+  },
+  "0900b000-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 76,
+    "mrsDisplay": "Milo",
+    "cityVillage": "WE",
+    "county": "we",
+    "description": "Milo Health Center (Satellite clinic to Webuye)",
+    "mflCode": "16161",
+    "eidDisplay": ""
+  },
+  "0900b104-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 77,
+    "mrsDisplay": "Moiben",
+    "cityVillage": "",
+    "county": "",
+    "description": "Satellite Clinic of Ziwa",
+    "mflCode": "15206",
+    "eidDisplay": ""
+  },
+  "0900b212-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 78,
+    "mrsDisplay": "Mukhobola",
+    "cityVillage": "",
+    "county": "",
+    "description": "Mukhobola Clinic ",
+    "mflCode": "16029",
+    "eidDisplay": ""
+  },
+  "0900b316-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 79,
+    "mrsDisplay": "Nambale",
+    "cityVillage": "",
+    "county": "",
+    "description": "Nambale Clinic ",
+    "mflCode": "16066",
+    "eidDisplay": ""
+  },
+  "0900b424-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 80,
+    "mrsDisplay": "MOI BARRACKS",
+    "cityVillage": "",
+    "county": "Rift valley",
+    "description": "Satellite Clinic of Module 3",
+    "mflCode": "15204",
+    "eidDisplay": ""
+  },
+  "0900b532-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 81,
+    "mrsDisplay": "Busia Prison",
+    "cityVillage": "15834",
+    "county": "Western",
+    "description": "Busia Satellite Clinic",
+    "mflCode": "15834",
+    "eidDisplay": ""
+  },
+  "0900b636-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 82,
+    "mrsDisplay": "Saboti",
+    "cityVillage": "",
+    "county": "Rift Valley",
+    "description": "Kitale satellite clinic",
+    "mflCode": "14947",
+    "eidDisplay": ""
+  },
+  "0900b74e-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 83,
+    "mrsDisplay": "Bumala B",
+    "cityVillage": "Busia",
+    "county": "Western",
+    "description": "Bumala \"B\" Health Center (Khunyangu Satellite clinic)",
+    "mflCode": "15824",
+    "eidDisplay": ""
+  },
+  "0900b866-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 84,
+    "mrsDisplay": "MOI TEACHING AND REFERRAL HOSPITAL",
+    "cityVillage": "",
+    "county": "",
+    "description": "Primary Health Care Clinic Location",
+    "mflCode": "15204",
+    "eidDisplay": ""
+  },
+  "0900b974-1352-11df-a1f1-0026b9348838": {
+    "mrsId": 85,
+    "mrsDisplay": "Makutano",
+    "cityVillage": "",
+    "county": "Western",
+    "description": "Satellite Clinic Site for Naitiri",
+    "mflCode": "16061",
+    "eidDisplay": ""
+  },
+  "25972cec-2e14-4047-a537-404c6ad18389": {
+    "mrsId": 86,
+    "mrsDisplay": "Kaptama (Friends) dispensary",
+    "cityVillage": "Kaptama",
+    "county": "Western",
+    "description": "Satellite clinic of Mount Elgon(Kapsokwony)\r\n",
+    "mflCode": "15925",
+    "eidDisplay": ""
+  },
+  "ffb2c2f0-a62c-4be8-960a-05b704bd66cd": {
+    "mrsId": 87,
+    "mrsDisplay": "Sio Port",
+    "cityVillage": "",
+    "county": "",
+    "description": "Sio port",
+    "mflCode": "16128",
+    "eidDisplay": ""
+  },
+  "1be88533-0a70-40a4-9c45-1a7a936fd23a": {
+    "mrsId": 88,
+    "mrsDisplay": "Tulwet",
+    "cityVillage": "Tulwet",
+    "county": "Rift Valley",
+    "description": "Satellite clinic of Kitale",
+    "mflCode": "14947",
+    "eidDisplay": ""
+  },
+  "8d502f10-dcaf-41fc-8677-34a6b498ac7a": {
+    "mrsId": 89,
+    "mrsDisplay": "Kopsiro",
+    "cityVillage": "Kopsiro",
+    "county": "Western",
+    "description": "Satellite Clinic of Mt. elgon.",
+    "mflCode": "15956",
+    "eidDisplay": ""
+  },
+  "7a8c0cc5-be43-48e1-aa41-33cb1e9cc26f": {
+    "mrsId": 90,
+    "mrsDisplay": "Changara",
+    "cityVillage": "Changara",
+    "county": "Western",
+    "description": "Teso Satellte Clinic",
+    "mflCode": "16421",
+    "eidDisplay": ""
+  },
+  "cb31d052-b668-4321-80ad-c0aaa571f87b": {
+    "mrsId": 91,
+    "mrsDisplay": "Malaba",
+    "cityVillage": "Malaba",
+    "county": "Western",
+    "description": "Satellite clinic of Teso",
+    "mflCode": "15993",
+    "eidDisplay": ""
+  },
+  "096ac36e-47f9-49e0-a62b-d87a09753b61": {
+    "mrsId": 92,
+    "mrsDisplay": "Amase",
+    "cityVillage": "Amagoro",
+    "county": "Western",
+    "description": "Amase Dispensary(Amukura satellite clinic)",
+    "mflCode": "15797",
+    "eidDisplay": ""
+  },
+  "69d9a87d-18f2-4113-840d-95668d1e9e16": {
+    "mrsId": 93,
+    "mrsDisplay": "Obekai",
+    "cityVillage": "Busia",
+    "county": "Western",
+    "description": "Obekai Dispensary(Amukura satellite clinic)",
+    "mflCode": "16087",
+    "eidDisplay": ""
+  },
+  "19874e26-f614-47bb-99c7-a3756bfe3c64": {
+    "mrsId": 94,
+    "mrsDisplay": "Tambach",
+    "cityVillage": "",
+    "county": "Rift valley",
+    "description": "Satellite Clinic to Iten",
+    "mflCode": "15703",
+    "eidDisplay": ""
+  },
+  "bcc27a76-1980-4efe-b72e-ca40019ef6ce": {
+    "mrsId": 95,
+    "mrsDisplay": "Tenges",
+    "cityVillage": "",
+    "county": "Rift Valley",
+    "description": "Satellite clinic to Kabarnet.",
+    "mflCode": "15718",
+    "eidDisplay": ""
+  },
+  "dba01903-14bd-4978-9264-f6ca896b0ca4": {
+    "mrsId": 96,
+    "mrsDisplay": "Kibisi",
+    "cityVillage": "",
+    "county": "Western",
+    "description": "Satellite clinic to Naitiri",
+    "mflCode": "15943",
+    "eidDisplay": ""
+  },
+  "56cf9621-d946-4ac0-a587-4024792c0934": {
+    "mrsId": 97,
+    "mrsDisplay": "Sango",
+    "cityVillage": "",
+    "county": "Western",
+    "description": "Satellite clinic to Naitiri.",
+    "mflCode": "17986",
+    "eidDisplay": ""
+  },
+  "65bdb112-a254-4cf9-a5a7-29dce997312d": {
+    "mrsId": 98,
+    "mrsDisplay": "AIC Diguna Royal Toto Childrens Home,Ngechek",
+    "cityVillage": "Mosoriot",
+    "county": "Riftvalley",
+    "description": "Mosoriot satellite clinic",
+    "mflCode": "15229",
+    "eidDisplay": ""
+  },
+  "851d4b92-763a-4c4a-a9bc-63b12586429f": {
+    "mrsId": 99,
+    "mrsDisplay": "Lupida",
+    "cityVillage": "Nambale",
+    "county": "Western",
+    "description": "Nambale Satellite Clinic",
+    "mflCode": "15975",
+    "eidDisplay": ""
+  },
+  "00b47ef5-a29b-40a2-a7f4-6851df8d6532": {
+    "mrsId": 100,
+    "mrsDisplay": "Osieko",
+    "cityVillage": "",
+    "county": "",
+    "description": "A satellite to Port Victoria",
+    "mflCode": "17680",
+    "eidDisplay": ""
+  },
+  "79fcf21c-8a00-44ba-9555-dde4dd877c4a": {
+    "mrsId": 101,
+    "mrsDisplay": "Room 7",
+    "cityVillage": "",
+    "county": "",
+    "description": "Casualty",
+    "mflCode": "",
+    "eidDisplay": ""
+  },
+  "6cd0b441-d644-487c-8466-5820a73f9ce5": {
+    "mrsId": 102,
+    "mrsDisplay": "Elgeyo Border",
+    "cityVillage": "",
+    "county": "",
+    "description": "These is a health centre ",
+    "mflCode": "14437",
+    "eidDisplay": ""
+  },
+  "2b0419c2-275f-4354-8b49-4c97d033ecbb": {
+    "mrsId": 103,
+    "mrsDisplay": "Riat",
+    "cityVillage": "",
+    "county": "",
+    "description": "This is a dispensary and its Chulaimbo's Satellites",
+    "mflCode": "14046",
+    "eidDisplay": ""
+  },
+  "01c73fdc-65ce-4349-abdf-bbc554178b47": {
+    "mrsId": 104,
+    "mrsDisplay": "Sunga",
+    "cityVillage": "",
+    "county": "",
+    "description": "This is a dispensary and its Chulaimbo's Satellites",
+    "mflCode": "17175",
+    "eidDisplay": ""
+  },
+  "b5d03983-f24e-4fdc-9ff5-33fc87dee02b": {
+    "mrsId": 105,
+    "mrsDisplay": "Siriba",
+    "cityVillage": "",
+    "county": "",
+    "description": "This is a dispensary and its Chulaimbo's Satellites",
+    "mflCode": "14094",
+    "eidDisplay": ""
+  },
+  "8f537fab-0b7f-4b72-a462-042eefad058c": {
+    "mrsId": 106,
+    "mrsDisplay": "Kamolo",
+    "cityVillage": "",
+    "county": "",
+    "description": "satelite at Kamolo Dispensary,to be run by Teso, AMPATH clinic",
+    "mflCode": "17242",
+    "eidDisplay": ""
+  },
+  "8ce15cad-c7ff-41d9-b55c-5230116c3bf7": {
+    "mrsId": 107,
+    "mrsDisplay": "Kapteren Health Center",
+    "cityVillage": "",
+    "county": "",
+    "description": "A satellite of Iten Clinic",
+    "mflCode": "14781",
+    "eidDisplay": ""
+  },
+  "27edd245-5205-4e66-82bd-d314c547d16b": {
+    "mrsId": 108,
+    "mrsDisplay": "Madende Health Center",
+    "cityVillage": "",
+    "county": "",
+    "description": "A satellite of Nambale",
+    "mflCode": "15985",
+    "eidDisplay": ""
+  },
+  "e2d2926e-49e6-4a27-b701-73b6e263a4fd": {
+    "mrsId": 109,
+    "mrsDisplay": "Rai-plywood",
+    "cityVillage": "Huruma",
+    "county": "Rift Valley",
+    "description": "Satellite clinic to UGDH",
+    "mflCode": "14555",
+    "eidDisplay": ""
+  },
+  "4fb82b14-c0e4-46d0-9864-a36e2d6b6c8a": {
+    "mrsId": 110,
+    "mrsDisplay": "Mogoget",
+    "cityVillage": "",
+    "county": "",
+    "description": "Dispensary in Kosirai Division",
+    "mflCode": "15194",
+    "eidDisplay": ""
+  },
+  "53c7ebb2-78c2-4ce3-a504-f37a6cb998aa": {
+    "mrsId": 111,
+    "mrsDisplay": "Birbiriet",
+    "cityVillage": null,
+    "county": null,
+    "description": "Dispensary in Kosirai Division",
+    "mflCode": "14257",
+    "eidDisplay": ""
+  },
+  "17cc5ee1-b702-4b4b-9ea7-9fc7083dd56e": {
+    "mrsId": 112,
+    "mrsDisplay": "Itigo",
+    "cityVillage": "",
+    "county": "",
+    "description": "Dispensary in Kosirai Division",
+    "mflCode": "14587",
+    "eidDisplay": ""
+  },
+  "469471e2-5b1e-46be-9232-a738f8cd717b": {
+    "mrsId": 113,
+    "mrsDisplay": "Lelmokwo",
+    "cityVillage": "",
+    "county": "",
+    "description": "Dispensary in Kosirai Division",
+    "mflCode": "15022",
+    "eidDisplay": ""
+  },
+  "8eedf128-40ed-4fba-9240-3cc92234720f": {
+    "mrsId": 114,
+    "mrsDisplay": "Kokwet",
+    "cityVillage": "",
+    "county": "",
+    "description": "Dispensary in Kosirai Division",
+    "mflCode": "14977",
+    "eidDisplay": ""
+  },
+  "a30955e0-275f-48ca-974d-438368a0685a": {
+    "mrsId": 115,
+    "mrsDisplay": "Ngechek",
+    "cityVillage": "",
+    "county": "",
+    "description": "Dispensary in Kosirai Division",
+    "mflCode": "15342",
+    "eidDisplay": ""
+  },
+  "96d2964e-8cec-4eca-ad05-a9c1fb29a045": {
+    "mrsId": 116,
+    "mrsDisplay": "cheramei",
+    "cityVillage": "",
+    "county": "",
+    "description": "Dispensary in Turbo Division",
+    "mflCode": "14377",
+    "eidDisplay": ""
+  },
+  "2003e950-5b62-4330-a94c-cf8165f75084": {
+    "mrsId": 117,
+    "mrsDisplay": "Murgusi",
+    "cityVillage": "",
+    "county": "",
+    "description": "Dispensary in Turbo Division",
+    "mflCode": "15255",
+    "eidDisplay": ""
+  },
+  "441451e5-aabd-4e71-87dd-8b7c5f651434": {
+    "mrsId": 118,
+    "mrsDisplay": "Cheplaskei",
+    "cityVillage": null,
+    "county": null,
+    "description": "Dispensary in Turbo Division",
+    "mflCode": "14354",
+    "eidDisplay": ""
+  },
+  "4de54b6f-6f60-4b56-a801-087603d2f294": {
+    "mrsId": 119,
+    "mrsDisplay": "Sigot",
+    "cityVillage": "",
+    "county": "",
+    "description": "Dispensary in Turbo Division",
+    "mflCode": "15753",
+    "eidDisplay": ""
+  },
+  "f030c7f2-9790-41d0-a704-f5a164909d17": {
+    "mrsId": 120,
+    "mrsDisplay": "Sugoi A",
+    "cityVillage": "",
+    "county": "",
+    "description": "Dispensary in Turbo Division",
+    "mflCode": "17331",
+    "eidDisplay": ""
+  },
+  "a27cec49-110c-41a1-9a6f-964d6ac2359d": {
+    "mrsId": 121,
+    "mrsDisplay": "Sugoi B",
+    "cityVillage": "",
+    "county": "",
+    "description": "Dispensary in Turbo Division",
+    "mflCode": "15680",
+    "eidDisplay": ""
+  },
+  "d09c6925-1e9a-4973-921d-d0014d7825ec": {
+    "mrsId": 122,
+    "mrsDisplay": "Chepkemel",
+    "cityVillage": "",
+    "county": "",
+    "description": "Dispensary in Turbo Division",
+    "mflCode": "14337",
+    "eidDisplay": ""
+  },
+  "12aeb8ab-690c-47e0-b41f-e261dac1279c": {
+    "mrsId": 123,
+    "mrsDisplay": "Chepkemel",
+    "cityVillage": "",
+    "county": "",
+    "description": "Dispensary in Turbo Division",
+    "mflCode": "14339",
+    "eidDisplay": ""
+  },
+  "eb32b031-30df-40d9-8aef-d88fbb763852": {
+    "mrsId": 124,
+    "mrsDisplay": "Akichelesit",
+    "cityVillage": "",
+    "county": "",
+    "description": "Dispensary in Teso Division",
+    "mflCode": "15792",
+    "eidDisplay": ""
+  },
+  "291bdf8e-93ed-4898-a58f-7d9f7f74128e": {
+    "mrsId": 125,
+    "mrsDisplay": "Aboloi",
+    "cityVillage": "",
+    "county": "",
+    "description": "Dispensary in Teso Division",
+    "mflCode": "15789",
+    "eidDisplay": ""
+  },
+  "1243cf8b-fced-482c-9d95-c92f28bfcbea": {
+    "mrsId": 126,
+    "mrsDisplay": "Moding",
+    "cityVillage": "",
+    "county": "",
+    "description": "Dispensary in Teso Division",
+    "mflCode": "16021",
+    "eidDisplay": ""
+  },
+  "e8c7759a-c99a-46de-82f8-d7c9f67eb237": {
+    "mrsId": 127,
+    "mrsDisplay": "Sambut ",
+    "cityVillage": "",
+    "county": "",
+    "description": "Sambut - Dispensary in Turbo division",
+    "mflCode": "15525",
+    "eidDisplay": ""
+  },
+  "00ce435c-3f27-4e89-a7f8-80fd102ff410": {
+    "mrsId": 128,
+    "mrsDisplay": "Ngenyilel",
+    "cityVillage": "",
+    "county": "",
+    "description": "Dispensary in Turbo division",
+    "mflCode": "15344",
+    "eidDisplay": ""
+  },
+  "2b338894-e81d-48e9-83d5-9280c8f549d4": {
+    "mrsId": 129,
+    "mrsDisplay": "Sosiani",
+    "cityVillage": "",
+    "county": "",
+    "description": "Health Centre in Turbo division",
+    "mflCode": "15616",
+    "eidDisplay": ""
+  },
+  "1d3bc503-925b-4a31-91da-337b611cc27a": {
+    "mrsId": 130,
+    "mrsDisplay": "Matayos Health Centre",
+    "cityVillage": "",
+    "county": "Western",
+    "description": "New site from Aphia",
+    "mflCode": "16004",
+    "eidDisplay": ""
+  },
+  "5c8705ef-3a36-4806-a907-381232f88834": {
+    "mrsId": 131,
+    "mrsDisplay": "Chebaiywa",
+    "cityVillage": "",
+    "county": "",
+    "description": "Used by CDM team and their forms being entered to AMRS",
+    "mflCode": "17243",
+    "eidDisplay": ""
+  },
+  "8bb0593f-5dca-4828-a443-53d41f040d8c": {
+    "mrsId": 132,
+    "mrsDisplay": "Kapsara Sub-district hospital",
+    "cityVillage": "",
+    "county": "",
+    "description": "New location in Kitale",
+    "mflCode": "14753",
+    "eidDisplay": ""
+  },
+  "a8f5b2b9-d2f0-454b-a7aa-46a1fbca17d3": {
+    "mrsId": 133,
+    "mrsDisplay": "Chepterit ",
+    "cityVillage": "",
+    "county": "",
+    "description": "A dispensary in Mosoriot Division",
+    "mflCode": "14368",
+    "eidDisplay": ""
+  },
+  "e05cbb83-9418-4ebc-9240-ae2512d70321": {
+    "mrsId": 134,
+    "mrsDisplay": "Kapyemit",
+    "cityVillage": "",
+    "county": "",
+    "description": "A dispensary in Turbo division and Uasin Gishu county",
+    "mflCode": "14799",
+    "eidDisplay": ""
+  },
+  "b77f94ea-62ea-469a-8a88-5aa2d33bdaaf": {
+    "mrsId": 135,
+    "mrsDisplay": "Kaborom",
+    "cityVillage": "",
+    "county": "Western",
+    "description": " Dispensary - a satellite of Mt Elgon.\r\n    ",
+    "mflCode": "15910",
+    "eidDisplay": ""
+  },
+  "e2546b92-17df-4640-a38b-c4f30b0cfd81": {
+    "mrsId": 136,
+    "mrsDisplay": "Murgor Hills",
+    "cityVillage": "",
+    "county": "",
+    "description": "A dispensary in Turbo",
+    "mflCode": "15254",
+    "eidDisplay": ""
+  },
+  "3e04788f-6761-412a-8db6-08a713f59afc": {
+    "mrsId": 137,
+    "mrsDisplay": "Osorongai",
+    "cityVillage": "",
+    "county": "",
+    "description": "A dispensary in Turbo",
+    "mflCode": "15449",
+    "eidDisplay": ""
+  },
+  "098148c6-9ffd-4c30-9dca-c8fa26c39eaf": {
+    "mrsId": 138,
+    "mrsDisplay": "Family Health Care Otpions Kenya - Eldoret",
+    "cityVillage": "Eldoret",
+    "county": "",
+    "description": "Private Hospital in Eldoret",
+    "mflCode": "16348",
+    "eidDisplay": ""
+  },
+  "b0773cd5-e0c0-4cc7-8cbd-482407311b50": {
+    "mrsId": 139,
+    "mrsDisplay": "Elgon View Hospital",
+    "cityVillage": "Eldoret",
+    "county": "",
+    "description": "Private Hospital in Eldoret",
+    "mflCode": "14438",
+    "eidDisplay": ""
+  },
+  "dfa41633-bef8-4465-b773-8254cef7cc7f": {
+    "mrsId": 140,
+    "mrsDisplay": "Cedar Clinical Associates",
+    "cityVillage": "Eldoret",
+    "county": "",
+    "description": "Private Hospital in Eldoret",
+    "mflCode": "14280",
+    "eidDisplay": ""
+  },
+  "2f4c8dde-1bc1-4224-9e1e-a4d915e74210": {
+    "mrsId": 141,
+    "mrsDisplay": "Glory health centre and Chemists",
+    "cityVillage": "Eldoret",
+    "county": "",
+    "description": "Private Hospital in Eldoret",
+    "mflCode": "",
+    "eidDisplay": ""
+  },
+  "22ef1733-f776-4d04-bf5d-2e0c48fe3ca5": {
+    "mrsId": 142,
+    "mrsDisplay": "Amani Health Centre",
+    "cityVillage": "Eldoret",
+    "county": "",
+    "description": "Private Hospital in Eldoret",
+    "mflCode": "",
+    "eidDisplay": ""
+  },
+  "d29bad2f-0b89-402f-835e-4e37c7d9334a": {
+    "mrsId": 143,
+    "mrsDisplay": "Gynocare Health Centre",
+    "cityVillage": "Eldoret",
+    "county": "",
+    "description": "Private Hospital in Eldoret",
+    "mflCode": "19205",
+    "eidDisplay": ""
+  },
+  "f83a6fbc-ad66-491e-82d3-72155661c498": {
+    "mrsId": 144,
+    "mrsDisplay": "St. Marys Health Centre - Kapsoya",
+    "cityVillage": "Eldoret",
+    "county": "",
+    "description": "Private Hospital in Eldoret",
+    "mflCode": "15655",
+    "eidDisplay": ""
+  },
+  "f4121927-e8ac-46d1-8b7d-fa6d9adcb677": {
+    "mrsId": 145,
+    "mrsDisplay": "SOS Medical Centre - Eldoret",
+    "cityVillage": "Eldoret",
+    "county": "",
+    "description": "Private Hospital in Eldoret",
+    "mflCode": "17945",
+    "eidDisplay": ""
+  },
+  "b99d3714-9715-484e-8ad9-bf0ada16fdf4": {
+    "mrsId": 146,
+    "mrsDisplay": "Imani Hospital ",
+    "cityVillage": "Eldoret",
+    "county": "",
+    "description": "Private Hospital in Eldoret",
+    "mflCode": "16357",
+    "eidDisplay": ""
+  },
+  "f6d67dad-cdf4-4756-82c8-cb34d1eecc3a": {
+    "mrsId": 147,
+    "mrsDisplay": "Fountain Health Centre",
+    "cityVillage": "Eldoret",
+    "county": "",
+    "description": "Private Hospital in Eldoret",
+    "mflCode": "19173",
+    "eidDisplay": ""
+  },
+  "294efcca-cf90-40da-8abb-1e082866388d": {
+    "mrsId": 148,
+    "mrsDisplay": "St. Luke",
+    "cityVillage": null,
+    "county": null,
+    "description": "A Private Hospital in Eldoret",
+    "mflCode": "18776",
+    "eidDisplay": ""
+  },
+  "8f1c7aca-97e5-4cca-be46-21969abde1c8": {
+    "mrsId": 149,
+    "mrsDisplay": "EldoretHosp",
+    "cityVillage": null,
+    "county": null,
+    "description": "A private hospital in Eldoret.",
+    "mflCode": "14435",
+    "eidDisplay": ""
+  },
+  "717758f6-8dec-443e-bf1c-ca0bf8a5ec6d": {
+    "mrsId": 150,
+    "mrsDisplay": "Sisenye Dispensary",
+    "cityVillage": null,
+    "county": null,
+    "description": "Dispensary in Bunyala sub-county",
+    "mflCode": "16131",
+    "eidDisplay": ""
+  },
+  "fece02d9-b3cd-4eaf-802f-8ad33ace4c30": {
+    "mrsId": 151,
+    "mrsDisplay": "Rukala Dispensary",
+    "cityVillage": null,
+    "county": null,
+    "description": "Dispensary in Bunyala Sub-County.",
+    "mflCode": "16095",
+    "eidDisplay": ""
+  },
+  "68df53ea-d990-4769-ae2d-34ec85218325": {
+    "mrsId": 152,
+    "mrsDisplay": "Budalangi Dispensary",
+    "cityVillage": null,
+    "county": null,
+    "description": "A dispensary in Bunyala Sub-county",
+    "mflCode": "15811",
+    "eidDisplay": ""
+  },
+  "0c2b5af9-43e1-4182-9292-59f499d23c9c": {
+    "mrsId": 153,
+    "mrsDisplay": "Reale Hospital",
+    "cityVillage": "Eldoret",
+    "county": "Uasin-Gishu",
+    "description": "Private Hospital in Eldoret\r\nunder the Private Sector Engagement program\r\n(formally PPP)",
+    "mflCode": "18983",
+    "eidDisplay": ""
+  },
+  "402e0744-82be-4784-bb6e-e5a30d1055cf": {
+    "mrsId": 154,
+    "mrsDisplay": "sokyot",
+    "cityVillage": "Kosachei",
+    "county": "Uasin Gishu",
+    "description": "A community based in Turbo",
+    "mflCode": "",
+    "eidDisplay": ""
+  },
+  "3824461a-1289-4108-b5b0-98f0f6f8f509": {
+    "mrsId": 155,
+    "mrsDisplay": "Turbo/Kaptebee",
+    "cityVillage": null,
+    "county": "UasinGishu",
+    "description": "A community in Turbo",
+    "mflCode": "15753",
+    "eidDisplay": ""
+  },
+  "ac339ab6-49e3-4b33-949d-505358797d5a": {
+    "mrsId": 156,
+    "mrsDisplay": "Ngechek",
+    "cityVillage": "kapngetich",
+    "county": "Nandi",
+    "description": "A community In Kosirai Division",
+    "mflCode": "15342",
+    "eidDisplay": ""
+  },
+  "8bfe3e63-ce86-4d5b-b3ae-b9ec13628530": {
+    "mrsId": 157,
+    "mrsDisplay": "Tuigoin",
+    "cityVillage": "Suigoi",
+    "county": "Uasin Gishu",
+    "description": "A community Unit in Turbo Division",
+    "mflCode": "",
+    "eidDisplay": ""
+  },
+  "825a2541-49ff-41b5-b267-7ff0a059f290": {
+    "mrsId": 158,
+    "mrsDisplay": "Leseru",
+    "cityVillage": "Chemalal",
+    "county": "Uasin Gishu",
+    "description": "A community Unit in Turbo Division",
+    "mflCode": "",
+    "eidDisplay": ""
+  },
+  "1dc7a1c9-e553-48a9-8a1e-e97b18a480c5": {
+    "mrsId": 159,
+    "mrsDisplay": "Kosirai",
+    "cityVillage": "Belekenya",
+    "county": "Nandi",
+    "description": "A community Unit in Kosirai Division",
+    "mflCode": "",
+    "eidDisplay": ""
+  },
+  "52645ed9-c8c4-4912-b66a-a05b201ddb5f": {
+    "mrsId": 160,
+    "mrsDisplay": "Mutwot",
+    "cityVillage": "Mutwot Village",
+    "county": "Nandi",
+    "description": "A Community unit in Kosirai Division",
+    "mflCode": "",
+    "eidDisplay": ""
+  },
+  "a4001a80-ac34-4a6f-a7fd-80d689f2b18b": {
+    "mrsId": 161,
+    "mrsDisplay": "Laikipia",
+    "cityVillage": null,
+    "county": "Laikipia",
+    "description": "An amrs site in Laikipia County",
+    "mflCode": "",
+    "eidDisplay": ""
+  },
+  "25ff6c5b-d46d-4d8c-bf4c-dae135efa70b": {
+    "mrsId": 162,
+    "mrsDisplay": "Sirimba Mission Hospital",
+    "cityVillage": null,
+    "county": "Busia",
+    "description": "A health Facility in Busia County",
+    "mflCode": "16129",
+    "eidDisplay": ""
+  },
+  "cf044cde-d23b-4bf2-a152-e83a0e9a2288": {
+    "mrsId": 163,
+    "mrsDisplay": "Nasewa Health Centre",
+    "cityVillage": null,
+    "county": "Busia",
+    "description": "A Health Facility in Nasewa",
+    "mflCode": "16074",
+    "eidDisplay": ""
+  },
+  "751a05f1-6889-48ec-911b-d626ac02d9cd": {
+    "mrsId": 164,
+    "mrsDisplay": "Mabunge",
+    "cityVillage": null,
+    "county": "Busia",
+    "description": "A community unit in Nasewa",
+    "mflCode": "Mabunge",
+    "eidDisplay": ""
+  },
+  "f7896a4a-2348-4493-ac02-0772255f49f6": {
+    "mrsId": 165,
+    "mrsDisplay": "Buyama",
+    "cityVillage": null,
+    "county": "Busia",
+    "description": "A community unit in Nasewa",
+    "mflCode": "Buyama",
+    "eidDisplay": ""
+  },
+  "356f3aaa-bd92-4823-a602-33ea6efe44d4": {
+    "mrsId": 166,
+    "mrsDisplay": "Lung'a",
+    "cityVillage": null,
+    "county": "Busia",
+    "description": "A community unit in Nasewa",
+    "mflCode": "16074",
+    "eidDisplay": ""
+  },
+  "eb85f1ae-6d39-4929-bd99-2002f4eb96a8": {
+    "mrsId": 167,
+    "mrsDisplay": "Nasewa",
+    "cityVillage": null,
+    "county": "Busia",
+    "description": "A community unit in Nasewa",
+    "mflCode": "16074",
+    "eidDisplay": ""
+  },
+  "97157544-80c4-469d-b7bc-92e3053ded8e": {
+    "mrsId": 168,
+    "mrsDisplay": "Sikarira Dispensary",
+    "cityVillage": null,
+    "county": "Busia",
+    "description": "A health facility in Sikarira",
+    "mflCode": "16485",
+    "eidDisplay": ""
+  },
+  "a49aa7a3-c5ae-4c7a-a6a0-3b9e5ba60522": {
+    "mrsId": 169,
+    "mrsDisplay": "Bulwani",
+    "cityVillage": null,
+    "county": "Busia",
+    "description": "A Community Unit in Bwaliro",
+    "mflCode": "15822",
+    "eidDisplay": ""
+  },
+  "b940a5af-07ce-4fb0-ae5c-3271943c8ce1": {
+    "mrsId": 170,
+    "mrsDisplay": "Kanjala",
+    "cityVillage": null,
+    "county": "Busia",
+    "description": "A community unit in Sikarira",
+    "mflCode": "16485",
+    "eidDisplay": ""
+  },
+  "1e92054b-9aed-42b7-b358-95cd311f98e2": {
+    "mrsId": 171,
+    "mrsDisplay": "Sirimba Mission Hospital",
+    "cityVillage": null,
+    "county": "Busia",
+    "description": "A health Facility in Busia County",
+    "mflCode": "16129",
+    "eidDisplay": ""
+  },
+  "8d2265b4-d311-4a92-a792-2097d22ac174": {
+    "mrsId": 172,
+    "mrsDisplay": "Ruambwa",
+    "cityVillage": null,
+    "county": "Busia",
+    "description": "A community unit in Sirimba",
+    "mflCode": "16129",
+    "eidDisplay": ""
+  },
+  "7f95db31-e91b-4753-8b92-1d52aa9b4abf": {
+    "mrsId": 173,
+    "mrsDisplay": "Ikonzo Dispensary",
+    "cityVillage": null,
+    "county": "Busia",
+    "description": "A Health Facility in Busia",
+    "mflCode": "17165",
+    "eidDisplay": ""
+  },
+  "c88683c8-988c-4580-afaa-c2909597f758": {
+    "mrsId": 174,
+    "mrsDisplay": "Namwitsula",
+    "cityVillage": null,
+    "county": "Busia",
+    "description": "A community unit in Ikonzo",
+    "mflCode": "17165",
+    "eidDisplay": ""
+  },
+  "57e7d161-13da-464f-a7b5-bffbade5b2de": {
+    "mrsId": 175,
+    "mrsDisplay": "Ikonzo",
+    "cityVillage": null,
+    "county": "Busia",
+    "description": "A community Unit in Ikonzo",
+    "mflCode": "17165",
+    "eidDisplay": ""
+  },
+  "d83e9d9e-8211-414d-8269-7b9308184b82": {
+    "mrsId": 176,
+    "mrsDisplay": "West Clinic Health Centre",
+    "cityVillage": null,
+    "county": "Uasin Gishu",
+    "description": "A health facility in Uasin Gishu",
+    "mflCode": "",
+    "eidDisplay": ""
+  },
+  "d332cd41-99d5-47bb-baab-0b61a59aadc2": {
+    "mrsId": 177,
+    "mrsDisplay": "Kibulgeng",
+    "cityVillage": null,
+    "county": "Uasin Gihu",
+    "description": "A community facility in Uasin Gishu",
+    "mflCode": "",
+    "eidDisplay": ""
+  },
+  "b35dfc65-80f8-41fa-9932-cd347edd346d": {
+    "mrsId": 178,
+    "mrsDisplay": "Bujumba Dispensary",
+    "cityVillage": null,
+    "county": "Busia",
+    "description": "Is a health Facility in Bujumba",
+    "mflCode": "15816",
+    "eidDisplay": ""
+  },
+  "1646cb1f-2e3c-4ca3-9157-a4ad2f67fe38": {
+    "mrsId": 179,
+    "mrsDisplay": "Bujumba",
+    "cityVillage": null,
+    "county": "Busia",
+    "description": "Is a community Facility in Bujumba",
+    "mflCode": "15816",
+    "eidDisplay": ""
+  },
+  "956794fa-2193-4ff6-bad1-65b947d0faa3": {
+    "mrsId": 183,
+    "mrsDisplay": "Ikonzo Dispensary",
+    "cityVillage": null,
+    "county": "Busia",
+    "description": "A dispensary in Busia",
+    "mflCode": "17165",
+    "eidDisplay": ""
+  },
+  "49066b8b-2b9a-43cf-b3e4-18d3759ecd00": {
+    "mrsId": 184,
+    "mrsDisplay": "Ikonzo Dispensary",
+    "cityVillage": null,
+    "county": "Busia",
+    "description": "A dispensary in Busia",
+    "mflCode": "17165",
+    "eidDisplay": ""
+  },
+  "cb0a7e64-dd5d-4c46-9cb3-c382d95e9c50": {
+    "mrsId": 185,
+    "mrsDisplay": "Sikarira",
+    "cityVillage": null,
+    "county": "Busia",
+    "description": "A community unit in Ikonzo",
+    "mflCode": "16485",
+    "eidDisplay": ""
+  },
+  "e155b8b0-e89d-4916-8b6c-3af9d93b582b": {
+    "mrsId": 186,
+    "mrsDisplay": "MTRH-Memorial Hospital",
+    "cityVillage": null,
+    "county": "Uasin Gishu",
+    "description": "PPP Clinic",
+    "mflCode": "15204",
+    "eidDisplay": ""
+  },
+  "e02b0e78-4312-4006-9e39-0994a759acb2": {
+    "mrsId": 187,
+    "mrsDisplay": "Chep'ngoror Dispensary",
+    "cityVillage": null,
+    "county": "A dispensary in Burnt forest",
+    "description": "A dispensary in Burnt Forest",
+    "mflCode": "16347",
+    "eidDisplay": ""
+  },
+  "659f2926-4712-4bd9-a532-7c1b20a0d47b": {
+    "mrsId": 188,
+    "mrsDisplay": "Matunda Health Centre",
+    "cityVillage": null,
+    "county": "Uasin Gishu",
+    "description": "A community unit in Matunda",
+    "mflCode": "16364",
+    "eidDisplay": ""
+  },
+  "f8bf061a-8ef2-4145-9522-03e642d23eaf": {
+    "mrsId": 189,
+    "mrsDisplay": "Endebes Health Centre",
+    "cityVillage": null,
+    "county": "trans nzoia",
+    "description": "A Health Centre in Trans nzoia",
+    "mflCode": "14455",
+    "eidDisplay": ""
+  },
+  "67001f34-4df1-4cfa-8552-04d5236dd3a3": {
+    "mrsId": 190,
+    "mrsDisplay": "Kwanza Health Centre",
+    "cityVillage": null,
+    "county": "Trans-Nzoia",
+    "description": "A Health Facility in Trans Nzoia",
+    "mflCode": "15003",
+    "eidDisplay": ""
+  },
+  "4dbd0c2b-cb9f-491a-8dbc-c4e552db1515": {
+    "mrsId": 191,
+    "mrsDisplay": "Anderson",
+    "cityVillage": null,
+    "county": "Transzoia",
+    "description": "A health centre in transzoia",
+    "mflCode": "",
+    "eidDisplay": ""
+  },
+  "b56b5219-0c8f-4520-810e-ba43302c63eb": {
+    "mrsId": 192,
+    "mrsDisplay": "Kapsoya Health Centre",
+    "cityVillage": null,
+    "county": "Uasin Gishu",
+    "description": "A health centre in Kapsoya",
+    "mflCode": "14769",
+    "eidDisplay": ""
+  },
+  "c8ede412-a5da-47be-ae7f-f76a4ffc5065": {
+    "mrsId": 193,
+    "mrsDisplay": "Sister Freda Medical",
+    "cityVillage": "Kitale",
+    "county": "Trans Nzoia",
+    "description": "A Health facility in Trans Nzoia",
+    "mflCode": "14947",
+    "eidDisplay": ""
+  },
+  "b3bf1ec7-ea9c-4bc6-af5b-ddb6864b7975": {
+    "mrsId": 194,
+    "mrsDisplay": "St. Ladislaus Dispensary",
+    "cityVillage": null,
+    "county": "Uasin Gishu",
+    "description": "A health facility in Uasin Gishu County",
+    "mflCode": "16345",
+    "eidDisplay": ""
+  },
+  "18c343eb-b353-462a-9139-b16606e6b6c2": {
+    "mrsId": 195,
+    "mrsDisplay": "Location Test",
+    "cityVillage": null,
+    "county": "test",
+    "description": "This is a test location for POC Testers.",
+    "mflCode": "15204",
+    "eidDisplay": ""
+  },
+  "10446739-2ef2-4fb3-b134-29840d97acbe": {
+    "mrsId": 198,
+    "mrsDisplay": "MTRH Adolescent Clinic",
+    "cityVillage": "Eldoret",
+    "county": "",
+    "description": "Moi Teaching and Referral Hospital Adolescent Clinic.",
+    "mflCode": "15204",
+    "eidDisplay": ""
+  },
+  "af0d01d4-7c15-491d-be73-50512ab67e3a": {
+    "mrsId": 211,
+    "mrsDisplay": "Alphima Medical Clinic",
+    "cityVillage": "Eldoret",
+    "county": "",
+    "description": "A Private Hospital in Eldoret.",
+    "mflCode": "23646",
+    "eidDisplay": ""
+  },
+  "538c14c2-c98a-49a2-9e11-0af6f7b912dc": {
+    "mrsId": 196,
+    "mrsDisplay": "Mediheal Hospital",
+    "cityVillage": "Eldoret",
+    "county": "",
+    "description": "A ppp Clinic in Eldoret",
+    "mflCode": "15167",
+    "eidDisplay": ""
+  },
+  "02e85257-94d6-43bf-8603-322248c1a210": {
+    "mrsId": 197,
+    "mrsDisplay": "MTRH MCH",
+    "description": "Used to collect PMTCT data.",
+    "mflCode": "15204",
+    "county": "Uasin Gishu",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "4ff7f723-95ce-4481-ba47-6539f22aae3c": {
+    "mrsId": 199,
+    "mrsDisplay": "MTRH Nyayo Ward",
+    "description": "MTRH clinic Nyayo Ward",
+    "mflCode": "15204",
+    "county": "Uasin Gishu",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "3ce46ae0-7eca-48c9-86d3-d5bdde1c7dab": {
+    "mrsId": 200,
+    "mrsDisplay": "MTRH Mother & Baby Ward",
+    "description": "MTRH Mother & Baby Ward",
+    "mflCode": "15204",
+    "county": "Uasin Gishu",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "0d599936-1a29-464b-87ad-c92cf51a6a84": {
+    "mrsId": 201,
+    "mrsDisplay": "MTRH Pediatric Ward",
+    "description": "MTRH Pediatric Ward",
+    "mflCode": "15204",
+    "county": "Uasin Gishu",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "2a901f42-bf51-428c-8be3-a135075abcb2": {
+    "mrsId": 202,
+    "mrsDisplay": "MTRH Other",
+    "description": "MTRH Other",
+    "mflCode": "15204",
+    "county": "Uasin Gishu",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "20bd486d-5c84-44f4-9ffa-2f1c1d9e79f8": {
+    "mrsId": 203,
+    "mrsDisplay": "Langas",
+    "description": "Facility",
+    "mflCode": "15011",
+    "county": "Uasin Gishu",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "20967b54-63b5-4311-a68e-2fc04406e56a": {
+    "mrsId": 204,
+    "mrsDisplay": "MTRH Oncology",
+    "description": "Moi Teaching and Referral Hospital - \nOncology",
+    "mflCode": "15204",
+    "county": "Uasin Gishu",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "584b1638-b11d-4cbe-8e81-ff25b684d63c": {
+    "mrsId": 205,
+    "mrsDisplay": "Busagwa Dispensary",
+    "description": "Busagwa Dispensary",
+    "mflCode": "21037",
+    "county": "Busia",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "7fb68709-6e7b-4eaf-a984-ea111fa45853": {
+    "mrsId": 206,
+    "mrsDisplay": "MTRH ACTG",
+    "description": "MTRH ACTG",
+    "mflCode": "15204",
+    "county": "Uasin Gishu",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "1ee4e702-913b-40a6-ab9c-26f9b4fced1c": {
+    "mrsId": 208,
+    "mrsDisplay": "Huruma MCH",
+    "description": "Huruma MCH",
+    "mflCode": "14555",
+    "county": "Uasin Gishu",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "7bc85590-2de6-4780-b4d8-f167b71c1834": {
+    "mrsId": 209,
+    "mrsDisplay": "Kakamega",
+    "description": "Is a Kakamega County Referral hospital",
+    "mflCode": null,
+    "county": "Kakamega",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "d4f8de72-5058-4db8-b556-324c7020b83b": {
+    "mrsId": 210,
+    "mrsDisplay": "Homabay",
+    "description": "Oncology site",
+    "mflCode": null,
+    "county": "Homabay",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "21beec4b-d6d0-4fe3-9711-acab0d577067": {
+    "mrsId": 212,
+    "mrsDisplay": "Jaramogi Oginga Odinga TRH",
+    "description": "Jaramogi Oginga Odinga Training and Referral Hospital.",
+    "mflCode": "13939",
+    "county": "Kisumu",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "db2bdd7c-5fe6-4ea3-adc1-d2d8dfb3d658": {
+    "mrsId": 213,
+    "mrsDisplay": "Bomet",
+    "description": "Oncology clinic at Bomet",
+    "mflCode": null,
+    "county": "Kericho",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "1ce5034b-f05d-46b6-910f-fc959e091641": {
+    "mrsId": 214,
+    "mrsDisplay": "Kapenguria County Referral Hospital",
+    "description": "Referral hospital in Kapenguria.",
+    "mflCode": "14701",
+    "county": "West Pokot",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "c54cbafc-3d6a-41a0-ae6c-ef40df16e2c9": {
+    "mrsId": 215,
+    "mrsDisplay": "Hamisi Sub County Hospital",
+    "description": "A sub county hospital in Hamisi",
+    "mflCode": null,
+    "county": "Vihiga",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "3acdbf65-644a-44c6-b6fa-9dad734ec442": {
+    "mrsId": 216,
+    "mrsDisplay": "BUTERE",
+    "description": "An Oncology Clinic",
+    "mflCode": null,
+    "county": "Kakamega",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "2a7ef5d8-28b6-4285-8313-c356ebbd3305": {
+    "mrsId": 219,
+    "mrsDisplay": "St. Elizabeth Lwak Mission Health center",
+    "description": "A health Center in Siaya County",
+    "mflCode": null,
+    "county": "Siaya",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "d6155afe-9258-4632-9723-08de6d7e2602": {
+    "mrsId": 220,
+    "mrsDisplay": "Madiany sub county hospital",
+    "description": "Madiany sub county in Siaya County- Oncology study",
+    "mflCode": "13747",
+    "county": "Siaya",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "3d65bfd3-c134-4133-a7aa-f44a2206f403": {
+    "mrsId": 221,
+    "mrsDisplay": "Bungoma County Referral Hospital",
+    "description": "A referral hospital in Bungoma county",
+    "mflCode": "15828",
+    "county": "Bungoma",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "bf02fef0-0330-4247-82b0-d9ed490206a2": {
+    "mrsId": 222,
+    "mrsDisplay": "Nyahururu District Hospital",
+    "description": "A district Hospital in Laikipia County",
+    "mflCode": "10890",
+    "county": "Laikipia",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "68cb63f3-992d-4fd0-a80d-47a27fcf8021": {
+    "mrsId": 223,
+    "mrsDisplay": "MTRH TB",
+    "description": "TB Clinic at MTRH",
+    "mflCode": "15204",
+    "county": "Uasin Gishu",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "dfc36b77-c059-4a29-8a92-a40d5ad60774": {
+    "mrsId": 224,
+    "mrsDisplay": "Chemundu Dispensary",
+    "description": "A dispensary in Nandi County.",
+    "mflCode": "14324",
+    "county": "Nandi",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "261a0504-17fa-4fae-989f-4d4f30767842": {
+    "mrsId": 225,
+    "mrsDisplay": "AIC Kapsowar Mission Hospital",
+    "description": "Mission Hospital in Kapsowar.",
+    "mflCode": "14767",
+    "county": "Elgeyo Marakwet",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "65225dcd-81cc-4c8f-92e1-bb687995cf24": {
+    "mrsId": 226,
+    "mrsDisplay": "Vihiga County Referral Hospital.",
+    "description": "Referral Hospital in Vihiga county.",
+    "mflCode": "16157",
+    "county": "Vihiga",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "a36c86bb-7ca3-4319-8674-28c66ba14deb": {
+    "mrsId": 227,
+    "mrsDisplay": "Iten MCH",
+    "description": "An mch facility",
+    "mflCode": "14586",
+    "county": "Elgeyo Marakwet",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "535dc3bd-842b-4ca1-bc7c-357635ab985e": {
+    "mrsId": 229,
+    "mrsDisplay": "Kitale MCH",
+    "description": "mch clinic at kitale",
+    "mflCode": "14947",
+    "county": "transzoia",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "17c97881-90e5-43c8-b8a3-cc0322f89a89": {
+    "mrsId": 230,
+    "mrsDisplay": "Busia MCH",
+    "description": "mch clinic at busia.",
+    "mflCode": "15834",
+    "county": "Busia",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "f2320960-28de-41cf-b7d5-4734b75bafef": {
+    "mrsId": 231,
+    "mrsDisplay": "Chulaimbo MCH",
+    "description": "mch clinic at chulaimbo.",
+    "mflCode": "13528",
+    "county": "Kisumu",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "aa65d6b1-fad8-46a7-94cb-f5247d21509d": {
+    "mrsId": 232,
+    "mrsDisplay": "Meru County Referral Hospital",
+    "description": null,
+    "mflCode": "12516",
+    "county": "Meru County",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "ff95cb97-3d9e-4016-aff9-930fed3c55ec": {
+    "mrsId": 233,
+    "mrsDisplay": "Sori Lake side Hospital",
+    "description": "A hospital in Migori County",
+    "mflCode": "14098",
+    "county": "Migori",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "c79828e4-16cd-4c30-8164-13d6005aa879": {
+    "mrsId": 234,
+    "mrsDisplay": "Nyamira County Referral Hospital",
+    "description": "Nyamira County Referral Hospital - Oncology Clinic",
+    "mflCode": "13912",
+    "county": "Nyamira",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "dbe94e9c-c882-4ec0-9edc-d0038069cd00": {
+    "mrsId": 235,
+    "mrsDisplay": "Webuye Health Centre",
+    "description": "Health Centre in Bungoma County",
+    "mflCode": "16160",
+    "county": "Bungoma",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "c0f4fd82-0d65-4b0b-aa04-be5914063959": {
+    "mrsId": 236,
+    "mrsDisplay": "Mulachi Dispensary",
+    "description": "A dispensary in Bungoma County",
+    "mflCode": null,
+    "county": "Bungoma",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "cb7fae6f-8daa-4a84-b4b0-7a1852b0526c": {
+    "mrsId": 237,
+    "mrsDisplay": "Lukusi Dispensary",
+    "description": "A dispensary in Bungoma County",
+    "mflCode": "16711",
+    "county": "Bungoma",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "e2bb5611-a016-4440-951d-f35e42ad4821": {
+    "mrsId": 238,
+    "mrsDisplay": "Khaoya Dispensary",
+    "description": "A dispensary in Bungoma County",
+    "mflCode": "15933",
+    "county": "Bungoma",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "df1f80fa-8c43-429d-93b9-bc01d0c898cf": {
+    "mrsId": 239,
+    "mrsDisplay": "Miendo Dispensary",
+    "description": "A dispensary in Bungoma County",
+    "mflCode": "16015",
+    "county": "Bungoma",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "52d0a75a-b281-4f6d-a7c4-07c0cd5b1ee4": {
+    "mrsId": 240,
+    "mrsDisplay": "Matulo Dispensary",
+    "description": "A dispensary in Bungoma County",
+    "mflCode": "16389",
+    "county": "Bungoma",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "61492482-4cde-4c71-8d20-e5ab9e858583": {
+    "mrsId": 241,
+    "mrsDisplay": "Khayaya Dispensary",
+    "description": "A dispensary in Bungoma County",
+    "mflCode": "16710",
+    "county": "Bungoma",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "89442596-43af-4e32-a185-d1b5fbd86549": {
+    "mrsId": 242,
+    "mrsDisplay": "Namwatikho Dispensary",
+    "description": "A dispensary in Bungoma County",
+    "mflCode": "22501",
+    "county": "Bungoma",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "90d8e717-36a6-4df2-a321-2fb2e9956bc0": {
+    "mrsId": 243,
+    "mrsDisplay": "Mukhe Dispensary",
+    "description": "A dispensary in Bungoma County",
+    "mflCode": "16028",
+    "county": "Bungoma",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "299c8c3a-121a-4931-b1fa-fff949292ac3": {
+    "mrsId": 244,
+    "mrsDisplay": "Khalala Dispensary",
+    "description": "A dispensary in Bungoma County",
+    "mflCode": "18362",
+    "county": "Bungoma",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "a568c19e-cfcb-416a-83ae-9c24b72d2c38": {
+    "mrsId": 245,
+    "mrsDisplay": "Chemalal Dispensary",
+    "description": "A dispensary in Bungoma County",
+    "mflCode": null,
+    "county": "Bungoma",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "6ae719f8-1805-4680-82d3-2bf58c617047": {
+    "mrsId": 246,
+    "mrsDisplay": "Namarambi Dispensary",
+    "description": "A dispensary in Bungoma County",
+    "mflCode": "21771",
+    "county": "Bungoma",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "122addaa-dc8a-4e86-ad76-695aa35e2f6e": {
+    "mrsId": 247,
+    "mrsDisplay": "Lurare Dispensary",
+    "description": "CDM site",
+    "mflCode": "15976",
+    "county": "Bungoma",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "34aec983-646e-4d8f-93a9-fa8156de15ec": {
+    "mrsId": 248,
+    "mrsDisplay": "Garissa County Referral Hospital",
+    "description": "This is an Oncology clinic that the AMPATH oncology will be supporting.",
+    "mflCode": "13346",
+    "county": "Garissa",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "379ff09d-c72f-4859-a9dc-3c0295738252": {
+    "mrsId": 249,
+    "mrsDisplay": "MTRH Anti-coagulation",
+    "description": "oncology anti-coagulation treatment.",
+    "mflCode": "15204",
+    "county": "Uasin Gishu",
+    "cityVillage": "",
+    "eidDisplay": ""
+  }
 }

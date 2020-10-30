@@ -1,238 +1,238 @@
 {
-    "name": "lungCancerMonthlySummaryAggregate",
-    "version": "1.0",
-    "tag": "lung_cancer_summary_aggregate",
-    "uses": [
-        {
-            "name": "lungCancerMonthlySummaryBase",
-            "version": "1.0",
-            "type": "dataset_def"
-        }
-    ],
-    "sources": [
-        {
-            "dataSet": "lungCancerMonthlySummaryBase",
-            "alias": "lcsd"
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "location_name",
-            "column": "location_name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_uuid",
-            "column": "location_uuid"
-        },
-        {
-            "type": "derived_column",
-            "alias": "encounter_datetime",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "date_format(lcsd.encounter_datetime, '%m-%Y')"
-            }
-        },
-        
-        {
-            "type": "derived_column",
-            "alias": "total_lung_screened",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(person_id)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "walk_in",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(walk_in)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "referred_from_clinic",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(referred_from_clinic)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "cigarette_smoking",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(cigarette_smoking)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "uses_tobacco",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(uses_tobacco)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "chemical_exposure",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(chemical_exposure)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "asbestos_exposure",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(asbestos_exposure)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "hiv_positive",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(hiv_positive)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "hiv_negative",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(hiv_negative)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "hiv_status_unknown",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(hiv_status_unknown)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "previously_treated_for_tb",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(previously_treated_for_tb)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "not_previously_treated_for_tb",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(not_previously_treated_for_tb)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "normal_xray_results",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(normal_xray_results)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "abnormal_xray_results",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(abnormal_xray_results)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "biopsy_done",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(biopsy_done)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "biopsy_not_done",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(biopsy_not_done)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "indication_of_lung_mass_from_ct_findings",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(indication_of_lung_mass_from_ct_findings)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "indication_of_mediastinal_mass_from_ct_findings",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(indication_of_mediastinal_mass_from_ct_findings)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "indication_of_pleural_mass_from_ct_findings",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(indication_of_pleural_mass_from_ct_findings)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "non_cancer_respiratory_disease",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(non_cancer_respiratory_disease)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "non_small_cell_lung_cancer",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(non_small_cell_lung_cancer)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "small_cell_lung_cancer",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(small_cell_lung_cancer)"
-            }
-        }
-    ],
-    "groupBy": {
-        "groupParam": "groupByParam",
-        "columns": [
-            "location_id",
-            "year(lcsd.encounter_datetime)",
-            "month(lcsd.encounter_datetime)"
-        ],
-        "excludeParam": "excludeParam"
-    },
-    "dynamicJsonQueryGenerationDirectives": {
-        "patientListGenerator": {
-            "useTemplate": "lung_cancer_patient_list_template",
-            "useTemplateVersion": "1.0",
-            "generatingDirectives": {
-                "joinDirectives": {
-                    "joinType": "INNER",
-                    "joinCondition": "<<base_column>> = <<template_column>>",
-                    "baseColumn": "person_id",
-                    "templateColumn": "person_id"
-                }
-            }
-        }
+  "name": "lungCancerMonthlySummaryAggregate",
+  "version": "1.0",
+  "tag": "lung_cancer_summary_aggregate",
+  "uses": [
+    {
+      "name": "lungCancerMonthlySummaryBase",
+      "version": "1.0",
+      "type": "dataset_def"
     }
+  ],
+  "sources": [
+    {
+      "dataSet": "lungCancerMonthlySummaryBase",
+      "alias": "lcsd"
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "location_name",
+      "column": "location_name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "location_uuid"
+    },
+    {
+      "type": "derived_column",
+      "alias": "encounter_datetime",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "date_format(lcsd.encounter_datetime, '%m-%Y')"
+      }
+    },
+
+    {
+      "type": "derived_column",
+      "alias": "total_lung_screened",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(person_id)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "walk_in",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(walk_in)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "referred_from_clinic",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(referred_from_clinic)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "cigarette_smoking",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(cigarette_smoking)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "uses_tobacco",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(uses_tobacco)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "chemical_exposure",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(chemical_exposure)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "asbestos_exposure",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(asbestos_exposure)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_positive",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(hiv_positive)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_negative",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(hiv_negative)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_status_unknown",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(hiv_status_unknown)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "previously_treated_for_tb",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(previously_treated_for_tb)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "not_previously_treated_for_tb",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(not_previously_treated_for_tb)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "normal_xray_results",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(normal_xray_results)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "abnormal_xray_results",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(abnormal_xray_results)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "biopsy_done",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(biopsy_done)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "biopsy_not_done",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(biopsy_not_done)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "indication_of_lung_mass_from_ct_findings",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(indication_of_lung_mass_from_ct_findings)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "indication_of_mediastinal_mass_from_ct_findings",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(indication_of_mediastinal_mass_from_ct_findings)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "indication_of_pleural_mass_from_ct_findings",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(indication_of_pleural_mass_from_ct_findings)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "non_cancer_respiratory_disease",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(non_cancer_respiratory_disease)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "non_small_cell_lung_cancer",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(non_small_cell_lung_cancer)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "small_cell_lung_cancer",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(small_cell_lung_cancer)"
+      }
+    }
+  ],
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": [
+      "location_id",
+      "year(lcsd.encounter_datetime)",
+      "month(lcsd.encounter_datetime)"
+    ],
+    "excludeParam": "excludeParam"
+  },
+  "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+      "useTemplate": "lung_cancer_patient_list_template",
+      "useTemplateVersion": "1.0",
+      "generatingDirectives": {
+        "joinDirectives": {
+          "joinType": "INNER",
+          "joinCondition": "<<base_column>> = <<template_column>>",
+          "baseColumn": "person_id",
+          "templateColumn": "person_id"
+        }
+      }
+    }
+  }
 }

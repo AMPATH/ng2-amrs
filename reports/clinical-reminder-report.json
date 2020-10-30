@@ -1,202 +1,219 @@
-   [
-       {
-        "name": "clinical-reminder-report",
-           "table":{"schema":"etl","tableName":"flat_hiv_summary_v15b","alias":"t1", "indexExpression":"FORCE INDEX (person_uuid)"},
-           "joins":[
-             {"joinType":"LEFT OUTER JOIN","schema":"etl","tableName":"flat_labs_and_imaging","alias":"t2","joinExpression":"date(t1.encounter_datetime) = date(t2.test_datetime)"},
-             {"joinType":"INNER JOIN","schema":"amrs","tableName":"person","alias":"t5","joinExpression":"t5.person_id = t1.person_id"},
-             {"joinType":"LEFT OUTER JOIN","schema":"","alias":"t3","joinExpression":"t3.person_uuid = t1.uuid",
-               "dynamicDataset":"labs_and_imaging_dataset"}
-           ],
-           "parameters": [
-               {"name":"patientUuid", "defaultValue":[]},
-               {"name":"@referenceDate", "defaultValue":["defaultValue"]}
-           ],
-           "filters": [
-             {"expression":"t1.uuid = ?", "parameter":"patientUuid"},
-             {"expression":"t1.encounter_datetime < ?", "parameter":"@referenceDate"}
-           ],
-           "groupClause":[
-           ],
-           "indicators": [
-               {
-                "label":"needs_vl_coded",
-                "expression":"needs_vl_coded",
-                "sql":"$expression"
-               },
-               {
-                 "label":"overdue_vl_lab_order",
-                 "expression":"overdue_vl_lab_order",
-                 "sql":"$expression"
-               },
-               {
-                 "label":"new_viral_load_present",
-                 "expression":"new_viral_load_present",
-                 "sql":"$expression"
-               },
-               {
-                 "label":"needs_cd4_count_coded",
-                 "expression":"needs_cd4_count_coded",
-                 "sql":"$expression"
-               },
-               {
-                 "label":"months_since_last_vl_date",
-                 "expression":"months_since_last_vl_date",
-                 "sql":"$expression"
-               },
-               {
-                 "label":"overdue_cd4_count_lab_order",
-                 "expression":"overdue_cd4_count_lab_order",
-                 "sql":"$expression"
-               },
-               {
-                 "label":"is_on_inh_treatment",
-                 "expression":"is_on_inh_treatment",
-                 "sql":"$expression"
-               },
-              {
-                 "label":"qualifies_differenciated_care",
-                 "expression":"qualifies_differenciated_care",
-                 "sql":"$expression"
-               },
-               {
-                "label":"not_completed_ipt",
-                "expression":"not_completed_ipt",
-                "sql":"$expression"
-              }
+[
+  {
+    "name": "clinical-reminder-report",
+    "table": {
+      "schema": "etl",
+      "tableName": "flat_hiv_summary_v15b",
+      "alias": "t1",
+      "indexExpression": "FORCE INDEX (person_uuid)"
+    },
+    "joins": [
+      {
+        "joinType": "LEFT OUTER JOIN",
+        "schema": "etl",
+        "tableName": "flat_labs_and_imaging",
+        "alias": "t2",
+        "joinExpression": "date(t1.encounter_datetime) = date(t2.test_datetime)"
+      },
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "person",
+        "alias": "t5",
+        "joinExpression": "t5.person_id = t1.person_id"
+      },
+      {
+        "joinType": "LEFT OUTER JOIN",
+        "schema": "",
+        "alias": "t3",
+        "joinExpression": "t3.person_uuid = t1.uuid",
+        "dynamicDataset": "labs_and_imaging_dataset"
+      }
+    ],
+    "parameters": [
+      { "name": "patientUuid", "defaultValue": [] },
+      { "name": "@referenceDate", "defaultValue": ["defaultValue"] }
+    ],
+    "filters": [
+      { "expression": "t1.uuid = ?", "parameter": "patientUuid" },
+      {
+        "expression": "t1.encounter_datetime < ?",
+        "parameter": "@referenceDate"
+      }
+    ],
+    "groupClause": [],
+    "indicators": [
+      {
+        "label": "needs_vl_coded",
+        "expression": "needs_vl_coded",
+        "sql": "$expression"
+      },
+      {
+        "label": "overdue_vl_lab_order",
+        "expression": "overdue_vl_lab_order",
+        "sql": "$expression"
+      },
+      {
+        "label": "new_viral_load_present",
+        "expression": "new_viral_load_present",
+        "sql": "$expression"
+      },
+      {
+        "label": "needs_cd4_count_coded",
+        "expression": "needs_cd4_count_coded",
+        "sql": "$expression"
+      },
+      {
+        "label": "months_since_last_vl_date",
+        "expression": "months_since_last_vl_date",
+        "sql": "$expression"
+      },
+      {
+        "label": "overdue_cd4_count_lab_order",
+        "expression": "overdue_cd4_count_lab_order",
+        "sql": "$expression"
+      },
+      {
+        "label": "is_on_inh_treatment",
+        "expression": "is_on_inh_treatment",
+        "sql": "$expression"
+      },
+      {
+        "label": "qualifies_differenciated_care",
+        "expression": "qualifies_differenciated_care",
+        "sql": "$expression"
+      },
+      {
+        "label": "not_completed_ipt",
+        "expression": "not_completed_ipt",
+        "sql": "$expression"
+      }
+    ],
+    "supplementColumns": [
+      {
+        "label": "last_encounter_date",
+        "type": "single",
+        "sql": "t1.encounter_datetime"
+      },
+      {
+        "label": "birth_date",
+        "type": "single",
+        "sql": "t5.birthdate"
+      },
+      {
+        "label": "person_id",
+        "type": "single",
+        "sql": "t1.person_id"
+      },
+      {
+        "label": "person_uuid",
+        "type": "single",
+        "sql": "t1.uuid"
+      },
+      {
+        "label": "arv_start_date",
+        "type": "single",
+        "sql": "t1.arv_start_date"
+      },
+      {
+        "label": "cur_arv_meds",
+        "type": "single",
+        "sql": "t1.cur_arv_meds"
+      },
+      {
+        "label": "viral_load",
+        "type": "single",
+        "sql": "t1.vl_1"
+      },
+      {
+        "label": "vl_order_date",
+        "type": "single",
+        "sql": "t1.vl_order_date"
+      },
+      {
+        "label": "last_vl_date",
+        "type": "single",
+        "sql": "t1.vl_1_date"
+      },
+      {
+        "label": "vl_error",
+        "type": "single",
+        "sql": "t2.vl_error"
+      },
+      {
+        "label": "vl_error_date",
+        "type": "single",
+        "sql": "t2.test_datetime"
+      },
+      {
+        "label": "ordered_vl_has_error",
+        "type": "single",
+        "sql": "t3.ordered_vl_has_error"
+      },
+      {
+        "label": "vl_error_order_date",
+        "type": "single",
+        "sql": "t3.vl_error_order_date"
+      },
+      {
+        "label": "tb_prophylaxis_end_date",
+        "type": "single",
+        "sql": "DATE_ADD(t1.tb_prophylaxis_start_date, INTERVAL 180 DAY)"
+      },
+      {
+        "label": "tb_prophylaxis_start_date",
+        "type": "single",
+        "sql": "t1.tb_prophylaxis_start_date"
+      },
+      {
+        "label": "inh_treatment_days_remaining",
+        "type": "single",
+        "sql": "DATEDIFF(DATE_ADD(t1.tb_prophylaxis_start_date, INTERVAL 180 DAY), now())"
+      }
+    ],
+    "orderBy": [
+      { "column": "encounter_datetime", "order": "desc", "name": "orderByDate" }
+    ]
+  },
 
-
-           ],
-           "supplementColumns":[
-
-             {
-                 "label":"last_encounter_date",
-                 "type":"single",
-                 "sql":"t1.encounter_datetime"
-             },
-             {
-                 "label":"birth_date",
-                 "type":"single",
-                 "sql":"t5.birthdate"
-             },
-             {
-                   "label":"person_id",
-                   "type":"single",
-                   "sql":"t1.person_id"
-             },
-             {
-                   "label":"person_uuid",
-                   "type":"single",
-                   "sql":"t1.uuid"
-             },
-             {
-                   "label":"arv_start_date",
-                   "type":"single",
-                   "sql":"t1.arv_start_date"
-              },
-              {
-                   "label":"cur_arv_meds",
-                   "type":"single",
-                   "sql":"t1.cur_arv_meds"
-               },
-               {
-                   "label":"viral_load",
-                   "type":"single",
-                   "sql":"t1.vl_1"
-               },
-               {
-                   "label":"vl_order_date",
-                   "type":"single",
-                   "sql":"t1.vl_order_date"
-               },
-               {
-                   "label":"last_vl_date",
-                   "type":"single",
-                   "sql":"t1.vl_1_date"
-               },
-             {
-               "label":"vl_error",
-               "type":"single",
-               "sql":"t2.vl_error"
-             },
-             {
-               "label":"vl_error_date",
-               "type":"single",
-               "sql":"t2.test_datetime"
-             },
-             {
-               "label":"ordered_vl_has_error",
-               "type":"single",
-               "sql":"t3.ordered_vl_has_error"
-             },
-             {
-               "label":"vl_error_order_date",
-               "type":"single",
-               "sql":"t3.vl_error_order_date"
-             },
-             {
-               "label":"tb_prophylaxis_end_date",
-               "type":"single",
-               "sql":"DATE_ADD(t1.tb_prophylaxis_start_date, INTERVAL 180 DAY)"
-             },
-             {
-               "label":"tb_prophylaxis_start_date",
-               "type":"single",
-               "sql":"t1.tb_prophylaxis_start_date"
-             },
-             {
-               "label":"inh_treatment_days_remaining",
-               "type":"single",
-               "sql":"DATEDIFF(DATE_ADD(t1.tb_prophylaxis_start_date, INTERVAL 180 DAY), now())"
-             }
-
-
-           ],
-           "orderBy":[
-             {"column":"encounter_datetime", "order":"desc", "name":"orderByDate"}
-           ]
-
-       },
-
-       {
-         "name": "labs_and_imaging_dataset",
-         "table":{"schema":"etl","tableName":"flat_labs_and_imaging","alias":"t1"},
-         "joins":[],
-         "parameters": [
-           {"name":"patientUuid", "defaultValue":[]},
-           {"name":"@referenceDate", "defaultValue":["defaultValue"]}
-         ],
-         "filters": [
-           {"expression":"t1.uuid = ?", "parameter":"patientUuid"},
-           {"expression":"t1.test_datetime < ?", "parameter":"@referenceDate"}
-         ],
-         "groupClause":[
-         ],
-         "indicators": [
-           {
-             "label":"ordered_vl_has_error",
-             "expression":"ordered_vl_has_error",
-             "sql":"$expression"
-           }
-
-         ],
-         "supplementColumns":[
-           {
-             "label":"person_uuid",
-             "type":"single",
-             "sql":"t1.uuid"
-           },
-           {
-             "label":"vl_error_order_date",
-             "type":"single",
-             "sql":"t1.test_datetime"
-           }
-
-         ],
-         "orderBy":[
-           {"column":"test_datetime", "order":"desc", "name":"orderByDate"}
-         ]
-       }
-
-
-   ]
+  {
+    "name": "labs_and_imaging_dataset",
+    "table": {
+      "schema": "etl",
+      "tableName": "flat_labs_and_imaging",
+      "alias": "t1"
+    },
+    "joins": [],
+    "parameters": [
+      { "name": "patientUuid", "defaultValue": [] },
+      { "name": "@referenceDate", "defaultValue": ["defaultValue"] }
+    ],
+    "filters": [
+      { "expression": "t1.uuid = ?", "parameter": "patientUuid" },
+      { "expression": "t1.test_datetime < ?", "parameter": "@referenceDate" }
+    ],
+    "groupClause": [],
+    "indicators": [
+      {
+        "label": "ordered_vl_has_error",
+        "expression": "ordered_vl_has_error",
+        "sql": "$expression"
+      }
+    ],
+    "supplementColumns": [
+      {
+        "label": "person_uuid",
+        "type": "single",
+        "sql": "t1.uuid"
+      },
+      {
+        "label": "vl_error_order_date",
+        "type": "single",
+        "sql": "t1.test_datetime"
+      }
+    ],
+    "orderBy": [
+      { "column": "test_datetime", "order": "desc", "name": "orderByDate" }
+    ]
+  }
+]

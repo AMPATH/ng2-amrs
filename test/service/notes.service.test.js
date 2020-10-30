@@ -24,26 +24,28 @@
       vitals = etlMocks.getVitalsMock();
 
       function getEstimatedDate(startDate, period) {
-        return moment(startDate).add(period, 'months')
-          .toDate().toISOString();
+        return moment(startDate).add(period, 'months').toDate().toISOString();
       }
       // bmi
       var bmi = math.round(utils.calculateBMI(vitals.weight, vitals.height), 1);
       expectedNote = {
         visitDate: hivSummary.encounter_datetime,
         scheduled: hivSummary.scheduled_visit,
-        providers: [{
-          uuid: 'pd13dddc-1359-11df-a1f1-0026b9348838',
-          name: 'Unknown Unknown Unknown',
-          encounterType: 'ADULTRETURN'
-        }, {
-          uuid: 'pb6e31da-1359-11df-a1f1-0026b9348838',
-          name: 'Giniton Giniton Giniton',
-          encounterType: 'TRIAGE'
-        }],
+        providers: [
+          {
+            uuid: 'pd13dddc-1359-11df-a1f1-0026b9348838',
+            name: 'Unknown Unknown Unknown',
+            encounterType: 'ADULTRETURN'
+          },
+          {
+            uuid: 'pb6e31da-1359-11df-a1f1-0026b9348838',
+            name: 'Giniton Giniton Giniton',
+            encounterType: 'TRIAGE'
+          }
+        ],
         lastViralLoad: {
           value: hivSummary.vl_1,
-          date: hivSummary.vl_1_date,
+          date: hivSummary.vl_1_date
         },
         lastCD4Count: {
           value: hivSummary.cd4_1,
@@ -58,7 +60,9 @@
           plan: 'START DRUGS',
           startDate: hivSummary.tb_prophylaxis_start_date,
           estimatedEndDate: getEstimatedDate(
-            hivSummary.tb_prophylaxis_start_date, 6)
+            hivSummary.tb_prophylaxis_start_date,
+            6
+          )
         },
         ccHpi: [],
         assessment: [],
@@ -77,49 +81,52 @@
       };
     });
 
-    it('generateNote() should generate a correct note given all required ' +
-      'parameters', function () {
+    it(
+      'generateNote() should generate a correct note given all required ' +
+        'parameters',
+      function () {
         var aNote = noteGS.generateNote(hivSummary, vitals, encounters);
         // console.log('expected', JSON.stringify(expectedNote,null,2));
         // console.log('aNote',JSON.stringify(aNote,null,2));
         expect(aNote).to.be.an.object;
         expect(aNote).to.deep.equal(expectedNote);
-      });
+      }
+    );
 
     it('generateNotes() should generate an expected array of notes', function () {
-      var expectedNote ={
-            visitDate: '2016-04-11T21:00:00.000Z',
-            scheduled: null,
-            providers: [],
-            lastViralLoad: { value: 0, date: '2015-06-14T21:00:00.000Z' },
-            lastCD4Count: { value: 149, date: '2013-09-29T21:00:00.000Z' },
-            artRegimen: {
-              curArvMeds: 'TDF AND 3TC AND EFV',
-              curArvLine: 1,
-              arvStartDate: '2013-12-09T21:00:00.000Z'
-            },
-            tbProphylaxisPlan: {
-              plan: '',
-              startDate: '',
-              estimatedEndDate: ''
-            },
-            ccHpi: [],
-            assessment: [],
-            otherAssessment: [],
-            vitals: {
-              weight: '',
-              height: '',
-              bmi: '',
-              temperature: '',
-              oxygenSaturation: '',
-              systolicBp: '',
-              diastolicBp: '',
-              pulse: '' 
-            },
-            rtcDate: '2016-04-17T21:00:00.000Z'
+      var expectedNote = {
+        visitDate: '2016-04-11T21:00:00.000Z',
+        scheduled: null,
+        providers: [],
+        lastViralLoad: { value: 0, date: '2015-06-14T21:00:00.000Z' },
+        lastCD4Count: { value: 149, date: '2013-09-29T21:00:00.000Z' },
+        artRegimen: {
+          curArvMeds: 'TDF AND 3TC AND EFV',
+          curArvLine: 1,
+          arvStartDate: '2013-12-09T21:00:00.000Z'
+        },
+        tbProphylaxisPlan: {
+          plan: '',
+          startDate: '',
+          estimatedEndDate: ''
+        },
+        ccHpi: [],
+        assessment: [],
+        otherAssessment: [],
+        vitals: {
+          weight: '',
+          height: '',
+          bmi: '',
+          temperature: '',
+          oxygenSaturation: '',
+          systolicBp: '',
+          diastolicBp: '',
+          pulse: ''
+        },
+        rtcDate: '2016-04-17T21:00:00.000Z'
       };
       var expected = [expectedNote];
-     // console.log('expected===',expected)
+      // console.log('expected===',expected)
       var notes = noteGS.generateNotes(encounters, [hivSummary], [vitals]);
       expect(notes).to.be.an.array;
       expect(notes.length).to.equal(1);
@@ -133,19 +140,19 @@
 
       // Change encounterDatetime to have slightly different time
       adultReturn.encounterDatetime = '2016-04-11T11:18:10.000+0300';
-      triage.encounterDatetime = '2016-04-11T11:17:30.000+0300';  // happen earlier
+      triage.encounterDatetime = '2016-04-11T11:17:30.000+0300'; // happen earlier
 
       // Inject assessment in triage & adult return mocks.
       var triageAssessment = {
-        'concept': {
-          'uuid': ASSESSMENT,
-          'name': {
-            'uuid': 'some-name-uuid',
-            'name': 'ASSESSMENT'
+        concept: {
+          uuid: ASSESSMENT,
+          name: {
+            uuid: 'some-name-uuid',
+            name: 'ASSESSMENT'
           }
         },
-        'value': 'High Blood pressure, low weight',
-        'groupMembers': null
+        value: 'High Blood pressure, low weight',
+        groupMembers: null
       };
 
       triage.obs.push(triageAssessment);

@@ -1,532 +1,532 @@
 {
-    "name": "hivSummaryBase",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [],
-    "sources": [
-        {
-            "table": "etl.flat_hiv_summary_v15b",
-            "alias": "fhs"
-        },
-        {
-            "table": "amrs.location",
-            "alias": "l",
-            "join": {
-                "type": "INNER",
-                "joinCondition": "l.location_id = fhs.location_id"
-            }
-        },
-        {
-            "table": "amrs.person",
-            "alias": "p",
-            "join": {
-                "type": "INNER",
-                "joinCondition": "fhs.person_id = p.person_id"
-            }
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "person_id",
-            "column": "fhs.person_id"
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_arvs",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(fhs.cur_arv_line is not null,1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_arvs_first_line",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(fhs.cur_arv_line=1,1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_arvs_second_line",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(fhs.cur_arv_line=2,1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_tdf_3tc_efv_400",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "IF(fhs.cur_arv_meds REGEXP '(802.*633.*628)|(802.*628.*633)|(628.*802.*633)|(628.*633.*802)|(633.*802.*628)|(633.*628.*802)' AND fhs.cur_arv_drugs LIKE '%6964=598%', 1, NULL) "
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_tdf_3tc_efv_600",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "IF(fhs.cur_arv_meds REGEXP '(802.*633.*628)|(802.*628.*633)|(628.*802.*633)|(628.*633.*802)|(633.*802.*628)|(633.*628.*802)' AND fhs.cur_arv_drugs LIKE '%6964=38%', 1, NULL) "
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_tdf_3tc_dtg",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "IF(fhs.cur_arv_meds REGEXP '(802.*9759.*628)|(802.*628.*9759)|(628.*802.*9759)|(628.*9759.*802)|(9759.*802.*628)|(9759.*628.*802)',1,NULL) "
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "newly_on_second_line",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(fhs.cur_arv_line=2 and fhs.arv_start_date between '{startDate}' and '{endDate}',1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_arvs_third_line",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(fhs.cur_arv_line>2,1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "vl_done_past_year",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(timestampdiff(week,fhs.vl_1_date,fhs.encounter_datetime) <= 52,1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "vl_done_past_year_relative_to_end_date",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(timestampdiff(week,fhs.vl_1_date,'{endDate}') <= 52,1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "no_vl_done_past_year",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(fhs.cur_arv_line is not null and (fhs.vl_1_date is null or timestampdiff(week,fhs.vl_1_date,fhs.encounter_datetime) >= 52),1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_second_line_not_suppressed",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(fhs.vl_1 > 1000 and fhs.cur_arv_line =2,1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "not_on_arvs_cd4_lte_500",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(fhs.arv_start_date is null and fhs.cd4_1 < 500,1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "vl_done_past_year_lte_1000",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(timestampdiff(week,fhs.vl_1_date,fhs.encounter_datetime) <= 52 and fhs.vl_1 <= 1000,1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "vl_done_past_year_gt_1000",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(timestampdiff(week,fhs.vl_1_date,fhs.encounter_datetime) <= 52 and fhs.vl_1 > 1000,1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "vl_done_this_encounter",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(fhs.vl_resulted >= 0 and fhs.vl_resulted_date=date(fhs.encounter_datetime),1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "vl_done_this_encounter_lte_1000",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(fhs.vl_resulted <= 1000 and fhs.vl_resulted_date = date(fhs.encounter_datetime),1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "vl_done_this_encounter_gt_1000",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(fhs.vl_resulted > 1000 and fhs.vl_resulted_date = date(fhs.encounter_datetime),1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "vl_ordered",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(date(fhs.vl_order_date)=date(fhs.encounter_datetime),1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "pending_vl_order",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(timestampdiff(week,fhs.vl_order_date,fhs.encounter_datetime) >= 0 and fhs.vl_1_date < fhs.vl_order_date,1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "pending_vl_order_no_result_after_4_weeks",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(timestampdiff(week,fhs.vl_order_date,fhs.encounter_datetime) >= 4 and fhs.vl_1_date < fhs.vl_order_date,1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_arvs_lte_26_weeks",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(timestampdiff(week,fhs.arv_start_date,fhs.encounter_datetime) <= 26,1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_arvs_lte_52_weeks",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(timestampdiff(week,fhs.arv_start_date,fhs.encounter_datetime) <= 52,1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_arvs_lte_52_weeks_and_have_vl",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(timestampdiff(week,fhs.arv_start_date,fhs.encounter_datetime) <= 52 and timestampdiff(week,fhs.vl_1_date,fhs.encounter_datetime) <= 52,1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_arvs_lte_52_weeks_and_have_vl_lte_1000",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(timestampdiff(week,fhs.arv_start_date,fhs.encounter_datetime) <= 52 and timestampdiff(week,fhs.vl_1_date,fhs.encounter_datetime) <= 52 and fhs.vl_1 <= 1000,1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_modern_contraception",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if((fhs.contraceptive_method IS NOT NULL AND fhs.contraceptive_method IN (190 , 780, 907, 6218, 6217, 5841, 6717, 6718, 6725, 8134, 5274, 8300, 5279 , 5278, 5275, 5276, 6220, 6700, 6701, 9510, 9511, 9734, 9735, 10817)),1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_short_term_modern_contraception",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(fhs.contraceptive_method is not null AND fhs.contraceptive_method in (190,780,907,6218,6217,5841,6717,6718,6725,8134,5274,8300),1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_long_term_modern_contraception",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(fhs.contraceptive_method in (5279,5278,5275,5276,6220,6700,6701,9510,9511,9734,9735,10817),1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_short_term_modern_contraception_pnc",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(fhs.visit_type in (68, 55, 52, 18) AND fhs.contraceptive_method is not null AND fhs.contraceptive_method in (190,780,907,6218,6217,5841,6717,6718,6725,8134,5274,8300), 1, null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_long_term_modern_contraception_pnc",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(fhs.visit_type in (68, 55, 52, 18) AND fhs.contraceptive_method in (5279,5278,5275,5276,6220,6700,6701,9510,9511,9734,9735,10817), 1, null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_modern_contraception_pnc",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(fhs.contraceptive_method IS NOT NULL AND fhs.contraceptive_method IN (190 , 780, 907, 6218, 6217, 5841, 6717, 6718, 6725, 8134, 5274, 8300, 5279 , 5278, 5275, 5276, 6220, 6700, 6701, 9510, 9511, 9734, 9735, 10817) AND fhs.visit_type in (68, 55, 52, 18), 1, null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "not_on_modern_contraception",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if((fhs.contraceptive_method IS NULL or fhs.contraceptive_method in (6219 , 1624, 6707, 1067, 1107, 10956, 5622, 5277)),1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "not_on_modern_contraception_pnc",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if((fhs.contraceptive_method IS NULL or fhs.contraceptive_method in (6219 , 1624, 6707, 1067, 1107, 10956, 5622, 5277)) AND fhs.visit_type in (68, 55, 52, 18) ,1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "in_pnc",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(fhs.visit_type in (68, 55, 52, 18) ,1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_art_and_not_on_modern_contraception",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if((fhs.contraceptive_method IS NULL OR fhs.contraceptive_method = 1107) and fhs.cur_arv_line is not null,1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "started_modern_contraception",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(date(fhs.modern_contraceptive_method_start_date) between '{startDate}' and '{endDate}',1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "pregnant",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(fhs.is_pregnant is not null,1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "pregnant_and_on_arvs",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(fhs.is_pregnant is not null and fhs.cur_arv_line is not null,1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "pregnant_and_started_art",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(fhs.is_pregnant is not null and date(fhs.arv_first_regimen_start_date) between '{startDate}' and '{endDate}',1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "newly_enrolled",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(fhs.is_clinical_encounter=1 and fhs.prev_clinical_datetime_hiv is null,1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "enrolled_in_care_total",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if((date(fhs.prev_clinical_datetime_hiv) between '{startDate}' and '{endDate}'  or fhs.prev_clinical_datetime_hiv is null) and date(fhs.enrollment_date) between '{startDate}' and '{endDate}',1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "virally_suppressed",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(fhs.vl_1 < 1000 and  timestampdiff(week,fhs.vl_1_date,fhs.encounter_datetime) <= 52,1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "patients_with_vl_result",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(fhs.vl_1_date between '{startDate}' and '{endDate}',1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "virally_suppressed_in_past_year",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(fhs.vl_1 < 1000 and  timestampdiff(week,fhs.vl_1_date,fhs.encounter_datetime) <= 52,1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "viral_load_resulted_in_past_year",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(fhs.vl_1 is not null and  timestampdiff(week,fhs.vl_1_date,fhs.encounter_datetime) <= 52,1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "not_virally_suppressed_in_past_year",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(fhs.vl_1> 1000 and  timestampdiff(week,fhs.vl_1_date,fhs.encounter_datetime) <= 52,1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_arvs_gt_26_weeks",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(timestampdiff(week,fhs.arv_start_date,fhs.encounter_datetime) > 26,1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "transfer_in_patients",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(fhs.transfer_in is not null,1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "vl_suppressed_patients",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(fhs.vl_1_date between '{startDate}' and '{endDate}' and fhs.vl_1 < 100,1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "vl_unsuppressed_patients",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(fhs.vl_1_date between '{startDate}' and '{endDate}' and fhs.vl_1 >= 1000,1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "early_scheduled_visits",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if((date(fhs.encounter_datetime) < date(fhs.prev_rtc_date)) and fhs.encounter_datetime between '{startDate}' and '{endDate}',1,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "late_scheduled_visits",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if((date(fhs.encounter_datetime) > date(fhs.prev_rtc_date)) and fhs.encounter_datetime between '{startDate}' and '{endDate}',1,null)"
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "location",
-            "column": "l.name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_id",
-            "column": "fhs.location_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_uuid",
-            "column": "fhs.location_uuid"
-        },
-        {
-            "type": "simple_column",
-            "alias": "encounter_datetime",
-            "column": "fhs.encounter_datetime"
-        },
-        {
-            "type": "simple_column",
-            "alias": "month",
-            "column": "fhs.encounter_datetime"
-        },
-        {
-            "type": "simple_column",
-            "alias": "reporting_month",
-            "column": "date_format(fhs.encounter_datetime, '%m/%Y')"
-        }
-    ],
-    "filters": {
-        "conditionJoinOperator": "and",
-        "conditions": [
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "DATE(fhs.encounter_datetime) >= ?",
-                "parameterName": "startDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "DATE(fhs.encounter_datetime) <= ?",
-                "parameterName": "endDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "fhs.location_uuid in ?",
-                "parameterName": "locationUuids"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "round(datediff(fhs.encounter_datetime,p.birthdate)/365) >= ?",
-                "parameterName": "startAge"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "round(datediff(fhs.encounter_datetime,p.birthdate)/365) <= ?",
-                "parameterName": "endAge"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "p.gender in ?",
-                "parameterName": "gender"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "fhs.is_clinical_encounter = 1",
-                "parameterName": ""
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "coalesce(fhs.death_date, fhs.out_of_care) is null",
-                "parameterName": ""
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "(fhs.next_clinical_datetime_hiv is null or DATE(fhs.next_clinical_datetime_hiv) > ?)",
-                "parameterName": "endDate"
-            }
-        ]
+  "name": "hivSummaryBase",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "etl.flat_hiv_summary_v15b",
+      "alias": "fhs"
+    },
+    {
+      "table": "amrs.location",
+      "alias": "l",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "l.location_id = fhs.location_id"
+      }
+    },
+    {
+      "table": "amrs.person",
+      "alias": "p",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "fhs.person_id = p.person_id"
+      }
     }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "fhs.person_id"
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_arvs",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fhs.cur_arv_line is not null,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_arvs_first_line",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fhs.cur_arv_line=1,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_arvs_second_line",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fhs.cur_arv_line=2,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_tdf_3tc_efv_400",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(fhs.cur_arv_meds REGEXP '(802.*633.*628)|(802.*628.*633)|(628.*802.*633)|(628.*633.*802)|(633.*802.*628)|(633.*628.*802)' AND fhs.cur_arv_drugs LIKE '%6964=598%', 1, NULL) "
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_tdf_3tc_efv_600",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(fhs.cur_arv_meds REGEXP '(802.*633.*628)|(802.*628.*633)|(628.*802.*633)|(628.*633.*802)|(633.*802.*628)|(633.*628.*802)' AND fhs.cur_arv_drugs LIKE '%6964=38%', 1, NULL) "
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_tdf_3tc_dtg",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(fhs.cur_arv_meds REGEXP '(802.*9759.*628)|(802.*628.*9759)|(628.*802.*9759)|(628.*9759.*802)|(9759.*802.*628)|(9759.*628.*802)',1,NULL) "
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "newly_on_second_line",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fhs.cur_arv_line=2 and fhs.arv_start_date between '{startDate}' and '{endDate}',1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_arvs_third_line",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fhs.cur_arv_line>2,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "vl_done_past_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(timestampdiff(week,fhs.vl_1_date,fhs.encounter_datetime) <= 52,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "vl_done_past_year_relative_to_end_date",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(timestampdiff(week,fhs.vl_1_date,'{endDate}') <= 52,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "no_vl_done_past_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fhs.cur_arv_line is not null and (fhs.vl_1_date is null or timestampdiff(week,fhs.vl_1_date,fhs.encounter_datetime) >= 52),1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_second_line_not_suppressed",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fhs.vl_1 > 1000 and fhs.cur_arv_line =2,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "not_on_arvs_cd4_lte_500",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fhs.arv_start_date is null and fhs.cd4_1 < 500,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "vl_done_past_year_lte_1000",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(timestampdiff(week,fhs.vl_1_date,fhs.encounter_datetime) <= 52 and fhs.vl_1 <= 1000,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "vl_done_past_year_gt_1000",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(timestampdiff(week,fhs.vl_1_date,fhs.encounter_datetime) <= 52 and fhs.vl_1 > 1000,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "vl_done_this_encounter",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fhs.vl_resulted >= 0 and fhs.vl_resulted_date=date(fhs.encounter_datetime),1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "vl_done_this_encounter_lte_1000",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fhs.vl_resulted <= 1000 and fhs.vl_resulted_date = date(fhs.encounter_datetime),1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "vl_done_this_encounter_gt_1000",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fhs.vl_resulted > 1000 and fhs.vl_resulted_date = date(fhs.encounter_datetime),1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "vl_ordered",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(date(fhs.vl_order_date)=date(fhs.encounter_datetime),1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "pending_vl_order",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(timestampdiff(week,fhs.vl_order_date,fhs.encounter_datetime) >= 0 and fhs.vl_1_date < fhs.vl_order_date,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "pending_vl_order_no_result_after_4_weeks",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(timestampdiff(week,fhs.vl_order_date,fhs.encounter_datetime) >= 4 and fhs.vl_1_date < fhs.vl_order_date,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_arvs_lte_26_weeks",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(timestampdiff(week,fhs.arv_start_date,fhs.encounter_datetime) <= 26,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_arvs_lte_52_weeks",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(timestampdiff(week,fhs.arv_start_date,fhs.encounter_datetime) <= 52,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_arvs_lte_52_weeks_and_have_vl",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(timestampdiff(week,fhs.arv_start_date,fhs.encounter_datetime) <= 52 and timestampdiff(week,fhs.vl_1_date,fhs.encounter_datetime) <= 52,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_arvs_lte_52_weeks_and_have_vl_lte_1000",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(timestampdiff(week,fhs.arv_start_date,fhs.encounter_datetime) <= 52 and timestampdiff(week,fhs.vl_1_date,fhs.encounter_datetime) <= 52 and fhs.vl_1 <= 1000,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_modern_contraception",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((fhs.contraceptive_method IS NOT NULL AND fhs.contraceptive_method IN (190 , 780, 907, 6218, 6217, 5841, 6717, 6718, 6725, 8134, 5274, 8300, 5279 , 5278, 5275, 5276, 6220, 6700, 6701, 9510, 9511, 9734, 9735, 10817)),1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_short_term_modern_contraception",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fhs.contraceptive_method is not null AND fhs.contraceptive_method in (190,780,907,6218,6217,5841,6717,6718,6725,8134,5274,8300),1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_long_term_modern_contraception",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fhs.contraceptive_method in (5279,5278,5275,5276,6220,6700,6701,9510,9511,9734,9735,10817),1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_short_term_modern_contraception_pnc",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fhs.visit_type in (68, 55, 52, 18) AND fhs.contraceptive_method is not null AND fhs.contraceptive_method in (190,780,907,6218,6217,5841,6717,6718,6725,8134,5274,8300), 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_long_term_modern_contraception_pnc",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fhs.visit_type in (68, 55, 52, 18) AND fhs.contraceptive_method in (5279,5278,5275,5276,6220,6700,6701,9510,9511,9734,9735,10817), 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_modern_contraception_pnc",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fhs.contraceptive_method IS NOT NULL AND fhs.contraceptive_method IN (190 , 780, 907, 6218, 6217, 5841, 6717, 6718, 6725, 8134, 5274, 8300, 5279 , 5278, 5275, 5276, 6220, 6700, 6701, 9510, 9511, 9734, 9735, 10817) AND fhs.visit_type in (68, 55, 52, 18), 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "not_on_modern_contraception",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((fhs.contraceptive_method IS NULL or fhs.contraceptive_method in (6219 , 1624, 6707, 1067, 1107, 10956, 5622, 5277)),1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "not_on_modern_contraception_pnc",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((fhs.contraceptive_method IS NULL or fhs.contraceptive_method in (6219 , 1624, 6707, 1067, 1107, 10956, 5622, 5277)) AND fhs.visit_type in (68, 55, 52, 18) ,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "in_pnc",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fhs.visit_type in (68, 55, 52, 18) ,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_art_and_not_on_modern_contraception",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((fhs.contraceptive_method IS NULL OR fhs.contraceptive_method = 1107) and fhs.cur_arv_line is not null,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "started_modern_contraception",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(date(fhs.modern_contraceptive_method_start_date) between '{startDate}' and '{endDate}',1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "pregnant",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fhs.is_pregnant is not null,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "pregnant_and_on_arvs",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fhs.is_pregnant is not null and fhs.cur_arv_line is not null,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "pregnant_and_started_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fhs.is_pregnant is not null and date(fhs.arv_first_regimen_start_date) between '{startDate}' and '{endDate}',1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "newly_enrolled",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fhs.is_clinical_encounter=1 and fhs.prev_clinical_datetime_hiv is null,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "enrolled_in_care_total",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((date(fhs.prev_clinical_datetime_hiv) between '{startDate}' and '{endDate}'  or fhs.prev_clinical_datetime_hiv is null) and date(fhs.enrollment_date) between '{startDate}' and '{endDate}',1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "virally_suppressed",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fhs.vl_1 < 1000 and  timestampdiff(week,fhs.vl_1_date,fhs.encounter_datetime) <= 52,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "patients_with_vl_result",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fhs.vl_1_date between '{startDate}' and '{endDate}',1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "virally_suppressed_in_past_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fhs.vl_1 < 1000 and  timestampdiff(week,fhs.vl_1_date,fhs.encounter_datetime) <= 52,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "viral_load_resulted_in_past_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fhs.vl_1 is not null and  timestampdiff(week,fhs.vl_1_date,fhs.encounter_datetime) <= 52,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "not_virally_suppressed_in_past_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fhs.vl_1> 1000 and  timestampdiff(week,fhs.vl_1_date,fhs.encounter_datetime) <= 52,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_arvs_gt_26_weeks",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(timestampdiff(week,fhs.arv_start_date,fhs.encounter_datetime) > 26,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "transfer_in_patients",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fhs.transfer_in is not null,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "vl_suppressed_patients",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fhs.vl_1_date between '{startDate}' and '{endDate}' and fhs.vl_1 < 100,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "vl_unsuppressed_patients",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fhs.vl_1_date between '{startDate}' and '{endDate}' and fhs.vl_1 >= 1000,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "early_scheduled_visits",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((date(fhs.encounter_datetime) < date(fhs.prev_rtc_date)) and fhs.encounter_datetime between '{startDate}' and '{endDate}',1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "late_scheduled_visits",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((date(fhs.encounter_datetime) > date(fhs.prev_rtc_date)) and fhs.encounter_datetime between '{startDate}' and '{endDate}',1,null)"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "l.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "fhs.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "fhs.location_uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "encounter_datetime",
+      "column": "fhs.encounter_datetime"
+    },
+    {
+      "type": "simple_column",
+      "alias": "month",
+      "column": "fhs.encounter_datetime"
+    },
+    {
+      "type": "simple_column",
+      "alias": "reporting_month",
+      "column": "date_format(fhs.encounter_datetime, '%m/%Y')"
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "DATE(fhs.encounter_datetime) >= ?",
+        "parameterName": "startDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "DATE(fhs.encounter_datetime) <= ?",
+        "parameterName": "endDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "fhs.location_uuid in ?",
+        "parameterName": "locationUuids"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "round(datediff(fhs.encounter_datetime,p.birthdate)/365) >= ?",
+        "parameterName": "startAge"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "round(datediff(fhs.encounter_datetime,p.birthdate)/365) <= ?",
+        "parameterName": "endAge"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "p.gender in ?",
+        "parameterName": "gender"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "fhs.is_clinical_encounter = 1",
+        "parameterName": ""
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "coalesce(fhs.death_date, fhs.out_of_care) is null",
+        "parameterName": ""
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "(fhs.next_clinical_datetime_hiv is null or DATE(fhs.next_clinical_datetime_hiv) > ?)",
+        "parameterName": "endDate"
+      }
+    ]
+  }
 }

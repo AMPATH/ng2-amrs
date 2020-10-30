@@ -36,7 +36,7 @@
         "alias": "t5",
         "joinExpression": "t1.visit_id  = t5.visit_id"
       },
-       {
+      {
         "joinType": "INNER JOIN",
         "schema": "etl",
         "tableName": "program_visit_map",
@@ -47,9 +47,7 @@
     "parameters": [
       {
         "name": "startDate",
-        "defaultValue": [
-          "10-10-2015"
-        ]
+        "defaultValue": ["10-10-2015"]
       },
       {
         "name": "locations",
@@ -63,7 +61,7 @@
         "name": "visitTypeIds",
         "defaultValue": [-1]
       },
-       {
+      {
         "name": "programTypeIds",
         "defaultValue": [-1]
       },
@@ -92,8 +90,8 @@
         "parameter": ""
       },
       {
-         "expression": "coalesce(t1.transfer_out) is null",
-         "processForce": true
+        "expression": "coalesce(t1.transfer_out) is null",
+        "processForce": true
       },
       {
         "expression": "t1.encounter_type in ?",
@@ -209,7 +207,7 @@
         "alias": "t5",
         "joinExpression": "t1.visit_id  = t5.visit_id"
       },
-       {
+      {
         "joinType": "INNER JOIN",
         "schema": "etl",
         "tableName": "program_visit_map",
@@ -220,9 +218,7 @@
     "parameters": [
       {
         "name": "startDate",
-        "defaultValue": [
-          "10-10-2015"
-        ]
+        "defaultValue": ["10-10-2015"]
       },
       {
         "name": "locations",
@@ -232,11 +228,11 @@
         "name": "encounterIds",
         "defaultValue": [-1]
       },
-       {
+      {
         "name": "visitTypeIds",
         "defaultValue": [-1]
       },
-       {
+      {
         "name": "programTypeIds",
         "defaultValue": [-1]
       },
@@ -259,7 +255,7 @@
         "expression": "t1.location_id in (?)",
         "parameter": "locations"
       },
-       {
+      {
         "expression": "encounter_type in ?",
         "parameter": "encounterIds"
       },
@@ -347,9 +343,7 @@
     "parameters": [
       {
         "name": "startDate",
-        "defaultValue": [
-          "10-10-2015"
-        ]
+        "defaultValue": ["10-10-2015"]
       },
       {
         "name": "locations",
@@ -410,7 +404,7 @@
         "alias": "t3",
         "joinExpression": "t1.person_id  = t3.person_id and (t3.voided is null || t3.voided = 0)"
       },
-       {
+      {
         "joinType": "INNER JOIN",
         "schema": "amrs",
         "tableName": "encounter_type",
@@ -459,7 +453,7 @@
         "alias": "t10",
         "joinExpression": "t1.visit_id  = t10.visit_id"
       },
-       {
+      {
         "joinType": "INNER JOIN",
         "schema": "etl",
         "tableName": "program_visit_map",
@@ -470,9 +464,7 @@
     "parameters": [
       {
         "name": "startDate",
-        "defaultValue": [
-          "10-10-2015"
-        ]
+        "defaultValue": ["10-10-2015"]
       },
       {
         "name": "locations",
@@ -482,11 +474,11 @@
         "name": "encounterIds",
         "defaultValue": [-1]
       },
-       {
+      {
         "name": "visitTypeIds",
         "defaultValue": [-1]
       },
-       {
+      {
         "name": "programTypeIds",
         "defaultValue": [-1]
       },

@@ -1,209 +1,201 @@
 {
-    "name": "combinedBreastCervicalCancerMonthlySummaryBase",
-    "version": "1.0",
-    "tag": "combined_breast_cervical_cancer_monthly_summary_base",
-    "uses": [],
-    "sources": [
-        {
-            "table": "amrs.encounter",
-            "alias": "e"
-        },
-        {
-            "table": "etl.flat_breast_cancer_screening",
-            "alias": "fbcs",
-            "join":{
-                "type":"left",
-                "joinCondition": "e.encounter_id = fbcs.encounter_id"
-            }
-        },
-        {
-            "table": "etl.flat_cervical_cancer_screening",
-            "alias": "fccs",
-            "join":{
-                "type":"left",
-                "joinCondition": "e.encounter_id = fccs.encounter_id"
-            }
-        },
-        {
-            "table": "amrs.person_name",
-            "alias": "patient_name",
-            "join": {
-                "type": "inner",
-                "joinCondition": "e.patient_id = patient_name.person_id and (patient_name.voided is null || patient_name.voided = 0)"
-
-            }
-        },
-        {
-            "table": "amrs.patient_identifier",
-            "alias": "patient_id",
-            "join": {
-                "type": "inner",
-                "joinCondition": "e.patient_id = patient_id.patient_id and (patient_id.voided is null || patient_id.voided = 0)"
-
-            }
-
-        },
-        {
-            "table": "amrs.location",
-            "alias": "l",
-            "join": {
-                "type": "inner",
-                "joinCondition": "e.location_id = l.location_id"
-
-            }
-        },
-        {
-            "table": "amrs.person_attribute",
-            "alias": "p",
-            "join": {
-                "type": "left",
-                "joinCondition": "e.patient_id = p.person_id and (p.voided is null || p.voided = 0 and (p.person_attribute_type_id = 10))"
-
-            }
-        },
-        {
-            "table": "amrs.person",
-            "alias": "person",
-            "join": {
-                "type": "left",
-                "joinCondition": "e.patient_id = person.person_id and (person.voided is null || person.voided = 0 )"
-
-            }
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "fbcs_person_id",
-            "column": "fbcs.person_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "fccs_person_id",
-            "column": "fccs.person_id"
-        },
-        {
-            "type": "derived_column",
-            "alias": "person_name",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "concat(coalesce(patient_name.given_name, ''), ' ', coalesce(patient_name.middle_name, ''), ' ', coalesce(patient_name.family_name, ''))"
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "phone_number",
-            "column": "p.value"
-        },
-        {
-            "type": "derived_column",
-            "alias": "identifiers",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "group_concat(distinct patient_id.identifier separator ', ')"
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "gender",
-            "column": "person.gender"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_id",
-            "column": "l.location_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_uuid",
-            "column": "l.uuid"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_name",
-            "column": "l.name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "encounter_datetime",
-            "column": "DATE_FORMAT(e.encounter_datetime, '%Y-%m-%d')"
-        },
-        {
-            "type": "derived_column",
-            "alias": "total_breast_screened",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "IF((fbcs.person_id IS NOT NULL) AND (fccs.person_id IS NULL), 1, 0)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "total_cervical_screened",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "IF((fccs.person_id IS NOT NULL) AND (fbcs.person_id IS NULL), 1, 0)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "both_cervical_and_breast",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "IF (fccs.person_id = fbcs.person_id,1,0)"
-            }
-        }
-
-
-    ],
-    "filters": {
-        "conditionJoinOperator": "and",
-        "conditions": [
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "(fbcs.age OR fccs.age >= ?)",
-                "parameterName": "startAge"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "(fbcs.age OR fccs.age <= ?)",
-                "parameterName": "endAge"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "DATE(e.encounter_datetime) >= ?    ",
-                "parameterName": "startDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "DATE(e.encounter_datetime) <= ? ",
-                "parameterName": "endDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "e.encounter_type in (86,69)"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "l.uuid in ?",
-                "parameterName": "locationUuids"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "person.gender in ?",
-                "parameterName": "genders"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "l.location_id not in (195)"
-            }
-        ]
+  "name": "combinedBreastCervicalCancerMonthlySummaryBase",
+  "version": "1.0",
+  "tag": "combined_breast_cervical_cancer_monthly_summary_base",
+  "uses": [],
+  "sources": [
+    {
+      "table": "amrs.encounter",
+      "alias": "e"
     },
-    "groupBy": {
-        "groupParam": "groupByParam",
-        "columns": [
-            "e.encounter_id",
-            "l.location_id",
-            "DATE_FORMAT(e.encounter_datetime, '%M-%Y')"
-        ]
+    {
+      "table": "etl.flat_breast_cancer_screening",
+      "alias": "fbcs",
+      "join": {
+        "type": "left",
+        "joinCondition": "e.encounter_id = fbcs.encounter_id"
+      }
+    },
+    {
+      "table": "etl.flat_cervical_cancer_screening",
+      "alias": "fccs",
+      "join": {
+        "type": "left",
+        "joinCondition": "e.encounter_id = fccs.encounter_id"
+      }
+    },
+    {
+      "table": "amrs.person_name",
+      "alias": "patient_name",
+      "join": {
+        "type": "inner",
+        "joinCondition": "e.patient_id = patient_name.person_id and (patient_name.voided is null || patient_name.voided = 0)"
+      }
+    },
+    {
+      "table": "amrs.patient_identifier",
+      "alias": "patient_id",
+      "join": {
+        "type": "inner",
+        "joinCondition": "e.patient_id = patient_id.patient_id and (patient_id.voided is null || patient_id.voided = 0)"
+      }
+    },
+    {
+      "table": "amrs.location",
+      "alias": "l",
+      "join": {
+        "type": "inner",
+        "joinCondition": "e.location_id = l.location_id"
+      }
+    },
+    {
+      "table": "amrs.person_attribute",
+      "alias": "p",
+      "join": {
+        "type": "left",
+        "joinCondition": "e.patient_id = p.person_id and (p.voided is null || p.voided = 0 and (p.person_attribute_type_id = 10))"
+      }
+    },
+    {
+      "table": "amrs.person",
+      "alias": "person",
+      "join": {
+        "type": "left",
+        "joinCondition": "e.patient_id = person.person_id and (person.voided is null || person.voided = 0 )"
+      }
     }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "fbcs_person_id",
+      "column": "fbcs.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "fccs_person_id",
+      "column": "fccs.person_id"
+    },
+    {
+      "type": "derived_column",
+      "alias": "person_name",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "concat(coalesce(patient_name.given_name, ''), ' ', coalesce(patient_name.middle_name, ''), ' ', coalesce(patient_name.family_name, ''))"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "phone_number",
+      "column": "p.value"
+    },
+    {
+      "type": "derived_column",
+      "alias": "identifiers",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "group_concat(distinct patient_id.identifier separator ', ')"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "gender",
+      "column": "person.gender"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "l.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "l.uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_name",
+      "column": "l.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "encounter_datetime",
+      "column": "DATE_FORMAT(e.encounter_datetime, '%Y-%m-%d')"
+    },
+    {
+      "type": "derived_column",
+      "alias": "total_breast_screened",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF((fbcs.person_id IS NOT NULL) AND (fccs.person_id IS NULL), 1, 0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "total_cervical_screened",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF((fccs.person_id IS NOT NULL) AND (fbcs.person_id IS NULL), 1, 0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "both_cervical_and_breast",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF (fccs.person_id = fbcs.person_id,1,0)"
+      }
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "(fbcs.age OR fccs.age >= ?)",
+        "parameterName": "startAge"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "(fbcs.age OR fccs.age <= ?)",
+        "parameterName": "endAge"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "DATE(e.encounter_datetime) >= ?    ",
+        "parameterName": "startDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "DATE(e.encounter_datetime) <= ? ",
+        "parameterName": "endDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "e.encounter_type in (86,69)"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "l.uuid in ?",
+        "parameterName": "locationUuids"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "person.gender in ?",
+        "parameterName": "genders"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "l.location_id not in (195)"
+      }
+    ]
+  },
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": [
+      "e.encounter_id",
+      "l.location_id",
+      "DATE_FORMAT(e.encounter_datetime, '%M-%Y')"
+    ]
+  }
 }

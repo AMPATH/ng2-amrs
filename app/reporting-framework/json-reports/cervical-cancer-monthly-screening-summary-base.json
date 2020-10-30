@@ -832,8 +832,6 @@
   },
   "groupBy": {
     "groupParam": "groupByParam",
-    "columns": [
-      "fccs.encounter_id"
-    ]
+    "columns": ["fccs.encounter_id"]
   }
 }

@@ -1,124 +1,124 @@
 {
-    "name": "retentionVisitsAggregate",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [{
-        "name": "retentionVisitsBase",
-        "version": "1.0",
-        "type": "dataset_def"
-    }],
-    "sources": [{
-        "dataSet": "retentionVisitsBase",
-        "alias": "rb"
-    }],
-    "columns": [{
-            "type": "simple_column",
-            "alias": "location_id",
-            "column": "rb.location_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_name",
-            "column": "rb.location_name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_uuid",
-            "column": "rb.location_uuid"
-        },
-        {
-            "type": "derived_column",
-            "alias": "report_date",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "DATE_FORMAT(rb.report_date, '%Y-%m-%d')"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "attended_clinic_on_date_scheduled",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "COUNT(rb.attended_clinic_on_date_scheduled)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "unscheduled_early_visits",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "COUNT(rb.unscheduled_early_visits)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "unscheduled_late_visits",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "COUNT(rb.unscheduled_late_visits)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "newly_enrolled",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "COUNT(rb.newly_enrolled)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "returned_after_intervention",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "COUNT(rb.returned_after_intervention)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "returned_without_intervention",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "COUNT(rb.returned_without_intervention)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "transfer_in",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "COUNT(rb.transfer_in)"
-            }
-        }
-    ],
-    "groupBy": {
-        "groupParam": "groupByParam",
-        "columns": [
-            "location_id",
-            "DATE(rb.report_date)"
-        ],
-        "excludeParam": "excludeParam"
-    },
-    "transFormDirectives": {
-        "joinColumn": "report_date",
-        "skipColumns": [
-        ],
-        "disaggregationColumns": [
-        ]
-    },
-    "dynamicJsonQueryGenerationDirectives": {
-        "patientListGenerator": {
-            "useTemplate": "retention-report-patient-list-template",
-            "useTemplateVersion": "1.0",
-            "generatingDirectives": {
-                "joinDirectives": {
-                    "joinType": "INNER",
-                    "joinCondition": "<<base_column>> = <<template_column>>",
-                    "baseColumn": "person_id",
-                    "templateColumn": "person_id"
-                }
-            }
-        }
+  "name": "retentionVisitsAggregate",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [
+    {
+      "name": "retentionVisitsBase",
+      "version": "1.0",
+      "type": "dataset_def"
     }
+  ],
+  "sources": [
+    {
+      "dataSet": "retentionVisitsBase",
+      "alias": "rb"
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "rb.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_name",
+      "column": "rb.location_name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "rb.location_uuid"
+    },
+    {
+      "type": "derived_column",
+      "alias": "report_date",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "DATE_FORMAT(rb.report_date, '%Y-%m-%d')"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "attended_clinic_on_date_scheduled",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(rb.attended_clinic_on_date_scheduled)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "unscheduled_early_visits",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(rb.unscheduled_early_visits)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "unscheduled_late_visits",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(rb.unscheduled_late_visits)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "newly_enrolled",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(rb.newly_enrolled)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "returned_after_intervention",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(rb.returned_after_intervention)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "returned_without_intervention",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(rb.returned_without_intervention)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "transfer_in",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(rb.transfer_in)"
+      }
+    }
+  ],
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["location_id", "DATE(rb.report_date)"],
+    "excludeParam": "excludeParam"
+  },
+  "transFormDirectives": {
+    "joinColumn": "report_date",
+    "skipColumns": [],
+    "disaggregationColumns": []
+  },
+  "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+      "useTemplate": "retention-report-patient-list-template",
+      "useTemplateVersion": "1.0",
+      "generatingDirectives": {
+        "joinDirectives": {
+          "joinType": "INNER",
+          "joinCondition": "<<base_column>> = <<template_column>>",
+          "baseColumn": "person_id",
+          "templateColumn": "person_id"
+        }
+      }
+    }
+  }
 }

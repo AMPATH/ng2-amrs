@@ -4,27 +4,32 @@ var _ = require('underscore');
 var cache = require('../../session-cache');
 var etlLogger = require('../../etl-file-logger');
 
-module.exports = function () {
+module.exports = (function () {
+  function logError(request, reply) {
+    var data = request.payload || request.body;
 
-    function logError(request, reply) {
+    var username =
+      request.auth && request.auth.credentials
+        ? request.auth.credentials.username
+        : '';
 
-      var data = request.payload || request.body;
+    var file = '/tmp/form-submit-errors_' + username + '.log';
 
-      var username = (request.auth && request.auth.credentials) ? request.auth.credentials.username : '';
+    var logger = etlLogger.logger(file);
+    logger.error(
+      '-----------------------------------------------------------------------------------------------------------------------'
+    );
+    logger.error(data);
+    logger.error(
+      '-----------------------------------------------------------------------------------------------------------------------'
+    );
+    logger.close();
+    reply({
+      message: 'ok'
+    });
+  }
 
-      var file = '/tmp/form-submit-errors_' + username + '.log';
-
-      var logger = etlLogger.logger(file);
-      logger.error('-----------------------------------------------------------------------------------------------------------------------')
-      logger.error(data);
-      logger.error('-----------------------------------------------------------------------------------------------------------------------')
-      logger.close();
-      reply({
-          message: 'ok'
-      });
-    }
-
-    return {
-        logError: logError
-    }
-}();
+  return {
+    logError: logError
+  };
+})();

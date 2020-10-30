@@ -1,23 +1,28 @@
-const Promise = require("bluebird");
+const Promise = require('bluebird');
 const db = require('../etl-db');
 export class PatientMonthlyStatusHistory {
-      resolvePersonId(personUuid) {
-            let query = "Select * from amrs.person where uuid = ? limit 1"
-            let params = [personUuid];
-            return new Promise(function (resolve, reject) {
-                  db.queryReportServer({ query: query, sqlParams: params }, (result) => {
-                        resolve(result);
-                  })
-            });
-      }
-      getPatientMonthlyStatusHistory(personUuid, startDate, endDate) {
-
-
-            return this.resolvePersonId(personUuid).then((person => {
-                  if (person.result && person.result.length > 0) {
-                        let personId = person.result[0].person_id;
-                        let params = [startDate, endDate, personId, startDate, endDate, personId];
-                        let query = `SELECT p1                                                  AS person_id, 
+  resolvePersonId(personUuid) {
+    let query = 'Select * from amrs.person where uuid = ? limit 1';
+    let params = [personUuid];
+    return new Promise(function (resolve, reject) {
+      db.queryReportServer({ query: query, sqlParams: params }, (result) => {
+        resolve(result);
+      });
+    });
+  }
+  getPatientMonthlyStatusHistory(personUuid, startDate, endDate) {
+    return this.resolvePersonId(personUuid).then((person) => {
+      if (person.result && person.result.length > 0) {
+        let personId = person.result[0].person_id;
+        let params = [
+          startDate,
+          endDate,
+          personId,
+          startDate,
+          endDate,
+          personId
+        ];
+        let query = `SELECT p1                                                  AS person_id, 
        Date_format(e2, '%d-%m-%Y')                         AS 
        most_recent_clinical_encounter, 
        l3.name                                             AS location, 
@@ -492,19 +497,20 @@ FROM   (SELECT t1.person_id                AS p1,
          ON l3.location_id = l2
        JOIN amrs.encounter_type AS et1 
          ON et1.encounter_type_id = encounter_type; 
-                `
-                        return new Promise(function (resolve, reject) {
-                              db.queryReportServer({ query: query, sqlParams: params }, (result) => {
-                                    resolve(result);
-                              })
-                        });
-                  } else {
-                        return new Promise(function (resolve, reject) {
-                              reject({ error: 'Could not resolve patient id' });
-                        })
-                  }
-            }))
-
+                `;
+        return new Promise(function (resolve, reject) {
+          db.queryReportServer(
+            { query: query, sqlParams: params },
+            (result) => {
+              resolve(result);
+            }
+          );
+        });
+      } else {
+        return new Promise(function (resolve, reject) {
+          reject({ error: 'Could not resolve patient id' });
+        });
       }
-
+    });
+  }
 }

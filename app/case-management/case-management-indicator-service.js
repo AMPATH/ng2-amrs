@@ -4,11 +4,10 @@ var defs = {
   getIndicatorDefinitions: getIndicatorDefinitions
 };
 
-function getIndicatorDefinitions(){
-
-  return new Promise((resolve , reject) => {
-       resolve (indicatorsDefs)
+function getIndicatorDefinitions() {
+  return new Promise((resolve, reject) => {
+    resolve(indicatorsDefs);
   });
 }
 
-module.exports  = defs;
+module.exports = defs;

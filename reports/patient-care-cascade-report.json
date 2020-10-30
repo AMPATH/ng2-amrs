@@ -1,134 +1,129 @@
 [
-    {
-        "name": "patient-care-cascade-report",
-        "table": {
-            "schema": "etl",
-            "tableName": "dates",
-            "alias": "t2"
-        },
-        "joins": [
-            {
-                "joinType": "JOIN",
-                "schema": "etl",
-                "tableName": "flat_hiv_summary",
-                "alias": "t1",
-                "indexExpression": "FORCE INDEX (loc_id_enc_date_next_clinic)",
-                "joinExpression": "date(t1.encounter_datetime) <= date(t2.endDate)"
-            },
-            {
-                "joinType": "LEFT OUTER JOIN",
-                "schema": "amrs",
-                "tableName": "orders",
-                "alias": "orders",
-                "joinExpression": "orders.voided=0 and t1.encounter_id=orders.encounter_id"
-            }
-        ],
-        "parameters": [
-            {
-                "name": "startDate",
-                "defaultValue": [
-                    "01-01-1980"
-                ]
-            },
-            {
-                "name": "endDate",
-                "defaultValue": [
-                    "Now()"
-                ]
-            },
-            {"name":"locations","defaultValue":[]},
-            {
-                "name": "groupByEndDate",
-                "defaultValue": [
-                    {
-                        "label": "endDate",
-                        "expression": "endDate"
-                    }
-                ]
-            }
-        ],
-        "filters": [
-            {
-                "expression": "t2.endDate >= date(?)",
-                "parameter": "startDate"
-            },
-            {
-                "expression": "t2.endDate <= date(?)",
-                "parameter": "endDate"
-            },
-            {
-                "expression": "t1.location_id in ?",
-                "parameter": "locations"
-            },
-            {
-                "expression": "t1.is_clinical_encounter=1",
-                "processForce": true
-            },
-            {
-                "expression": "(t1.next_clinical_datetime_hiv is null or date(t1.next_clinical_datetime_hiv) > t2.endDate)",
-                "processForce": true
-            }
-        ],
-        "groupClause": [
-            {
-                "parameter": "groupByEndDate"
-            }
-        ],
-        "indicators": [
-            {
-                "label": "currently_in_care_total",
-                "expression": "currently_in_care_total",
-                "sql": "count(distinct if($expression, person_id,null))"
-            },
-            {
-                "label": "active_and_on_art",
-                "expression": "active_and_on_art",
-                "sql": "count(distinct if($expression, person_id,null))"
-            },
-            {
-                "label": "LTFU",
-                "expression": "LTFU",
-                "sql": "count($expression)"
-            },
-            {
-                "label": "has_vl_since_oct",
-                "expression": "has_vl_since_oct",
-                "sql": "count(distinct if($expression, person_id,null))"
-            },
-
-            {
-                "label": "virally_suppressed_since_oct",
-                "expression": "virally_suppressed_since_oct",
-                "sql": "count(distinct if($expression, person_id,null))"
-            },
-            {
-                "label": "perc_virally_suppressed_since_oct",
-                "expression": "perc_virally_suppressed_since_oct",
-                "sql": "if([virally_suppressed_since_oct]=0, 0,([virally_suppressed_since_oct]/[has_vl_since_oct])*100)"
-            }
-
-        ],
-        "supplementColumns": [
-            {
-                "label": "reporting_date",
-                "type": "single",
-                "sql": "t2.endDate"
-            },
-            {
-                "label": "location_uuid",
-                "type": "single",
-                "sql": "t1.location_uuid"
-            },
-            {
-                "label": "location_id",
-                "type": "single",
-                "sql": "t1.location_id"
-            },
-            {
-                "label": "reporting_month",
-                "type": "single",
-                "sql": "date_format(t2.endDate, '%m/%Y')"
-            }
+  {
+    "name": "patient-care-cascade-report",
+    "table": {
+      "schema": "etl",
+      "tableName": "dates",
+      "alias": "t2"
+    },
+    "joins": [
+      {
+        "joinType": "JOIN",
+        "schema": "etl",
+        "tableName": "flat_hiv_summary",
+        "alias": "t1",
+        "indexExpression": "FORCE INDEX (loc_id_enc_date_next_clinic)",
+        "joinExpression": "date(t1.encounter_datetime) <= date(t2.endDate)"
+      },
+      {
+        "joinType": "LEFT OUTER JOIN",
+        "schema": "amrs",
+        "tableName": "orders",
+        "alias": "orders",
+        "joinExpression": "orders.voided=0 and t1.encounter_id=orders.encounter_id"
+      }
+    ],
+    "parameters": [
+      {
+        "name": "startDate",
+        "defaultValue": ["01-01-1980"]
+      },
+      {
+        "name": "endDate",
+        "defaultValue": ["Now()"]
+      },
+      { "name": "locations", "defaultValue": [] },
+      {
+        "name": "groupByEndDate",
+        "defaultValue": [
+          {
+            "label": "endDate",
+            "expression": "endDate"
+          }
         ]
-    }
+      }
+    ],
+    "filters": [
+      {
+        "expression": "t2.endDate >= date(?)",
+        "parameter": "startDate"
+      },
+      {
+        "expression": "t2.endDate <= date(?)",
+        "parameter": "endDate"
+      },
+      {
+        "expression": "t1.location_id in ?",
+        "parameter": "locations"
+      },
+      {
+        "expression": "t1.is_clinical_encounter=1",
+        "processForce": true
+      },
+      {
+        "expression": "(t1.next_clinical_datetime_hiv is null or date(t1.next_clinical_datetime_hiv) > t2.endDate)",
+        "processForce": true
+      }
+    ],
+    "groupClause": [
+      {
+        "parameter": "groupByEndDate"
+      }
+    ],
+    "indicators": [
+      {
+        "label": "currently_in_care_total",
+        "expression": "currently_in_care_total",
+        "sql": "count(distinct if($expression, person_id,null))"
+      },
+      {
+        "label": "active_and_on_art",
+        "expression": "active_and_on_art",
+        "sql": "count(distinct if($expression, person_id,null))"
+      },
+      {
+        "label": "LTFU",
+        "expression": "LTFU",
+        "sql": "count($expression)"
+      },
+      {
+        "label": "has_vl_since_oct",
+        "expression": "has_vl_since_oct",
+        "sql": "count(distinct if($expression, person_id,null))"
+      },
+
+      {
+        "label": "virally_suppressed_since_oct",
+        "expression": "virally_suppressed_since_oct",
+        "sql": "count(distinct if($expression, person_id,null))"
+      },
+      {
+        "label": "perc_virally_suppressed_since_oct",
+        "expression": "perc_virally_suppressed_since_oct",
+        "sql": "if([virally_suppressed_since_oct]=0, 0,([virally_suppressed_since_oct]/[has_vl_since_oct])*100)"
+      }
+    ],
+    "supplementColumns": [
+      {
+        "label": "reporting_date",
+        "type": "single",
+        "sql": "t2.endDate"
+      },
+      {
+        "label": "location_uuid",
+        "type": "single",
+        "sql": "t1.location_uuid"
+      },
+      {
+        "label": "location_id",
+        "type": "single",
+        "sql": "t1.location_id"
+      },
+      {
+        "label": "reporting_month",
+        "type": "single",
+        "sql": "date_format(t2.endDate, '%m/%Y')"
+      }
+    ]
+  }
 ]

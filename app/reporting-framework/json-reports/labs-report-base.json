@@ -1,146 +1,146 @@
 {
-    "name": "labsReportBase",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [],
-    "sources": [
-        {
-            "table": "etl.flat_hiv_summary_v15b",
-            "alias": "t2"
-        },
-        {
-            "table": "amrs.location",
-            "alias": "l",
-            "join": {
-                "type": "INNER",
-                "joinCondition": "t2.location_uuid = l.uuid"
-            }
-        },
-        {
-            "table": "amrs.person",
-            "alias": "t3",
-            "join": {
-                "type": "INNER",
-                "joinCondition": "t3.person_id = t2.person_id"
-            }
-        },
-        {
-            "table": "amrs.person_attribute",
-            "alias": "contacts",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "t2.person_id = contacts.person_id AND (contacts.voided IS NULL || contacts.voided = 0) AND contacts.person_attribute_type_id in (10, 48)"
-            }
-        },
-        {
-            "table": "amrs.encounter_type",
-            "alias": "et",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "t2.encounter_type = et.encounter_type_id"
-            }
-        },
-        {
-            "table": "amrs.person_address",
-            "alias": "pa",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "t2.person_id = pa.person_id"
-            }
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "person_id",
-            "column": "t2.person_id"
-        },
-        {
-            "type": "derived_column",
-            "alias": "needs_vl_in_period",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(case when (t2.cur_arv_meds is not null and t2.vl_1 > 1000) and (timestampdiff(day,t2.vl_1_date, '{endDate}') >= 90) then true when (timestampdiff(month,t2.arv_start_date, '{endDate}') <= 12) and (t2.vl_1_date is null or timestampdiff(month,t2.vl_1_date, '{endDate}') >= 6)  and (timestampdiff(month,t2.arv_start_date, '{endDate}')>=6) then true when (timestampdiff(month,t2.arv_start_date, '{endDate}') >= 12) and (t2.vl_1_date is null or timestampdiff(month,t2.vl_1_date, '{endDate}') >= 12) then true else false end,1,0)"
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "location",
-            "column": "l.name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_id",
-            "column": "t2.location_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_uuid",
-            "column": "t2.location_uuid"
-        },
-        {
-            "type": "simple_column",
-            "alias": "encounter_datetime",
-            "column": "t2.encounter_datetime"
-        },
-        {
-            "type": "simple_column",
-            "alias": "month",
-            "column": "MONTH(t2.encounter_datetime)"
-        },
-        {
-            "type": "simple_column",
-            "alias": "reporting_month",
-            "column": "date_format(t2.encounter_datetime, '%m/%Y')"
-        },
-        {
-            "type": "simple_column",
-            "alias": "year",
-            "column": "YEAR(t2.encounter_datetime)"
-        },
-        {
-            "type": "derived_column",
-            "alias": "phone_number",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": " GROUP_CONCAT(DISTINCT contacts.value SEPARATOR ', ')"
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "latest_rtc_date",
-            "column": "date_format(t2.rtc_date, '%Y-%m-%d')"
-        },
-        {
-            "type": "simple_column",
-            "alias": "last_appointment",
-            "column": "CONCAT(COALESCE(DATE_FORMAT(t2.encounter_datetime, '%Y-%m-%d'),''),' ',COALESCE(et.name, ''))"
-        },
-        {
-            "type": "simple_column",
-            "alias": "cur_meds",
-            "column": "t2.cur_arv_meds"
-        }
-    ],
-    "filters": {
-        "conditionJoinOperator": "and",
-        "conditions": [
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "(t2.next_clinical_datetime_hiv is null or date(t2.next_clinical_datetime_hiv) > ?)",
-                "parameterName": "endDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "t2.location_uuid in ?",
-                "parameterName": "locationUuids"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "coalesce(t2.death_date, t2.out_of_care) is null",
-                "parameterName": ""
-            }
-        ]
+  "name": "labsReportBase",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "etl.flat_hiv_summary_v15b",
+      "alias": "t2"
+    },
+    {
+      "table": "amrs.location",
+      "alias": "l",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "t2.location_uuid = l.uuid"
+      }
+    },
+    {
+      "table": "amrs.person",
+      "alias": "t3",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "t3.person_id = t2.person_id"
+      }
+    },
+    {
+      "table": "amrs.person_attribute",
+      "alias": "contacts",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t2.person_id = contacts.person_id AND (contacts.voided IS NULL || contacts.voided = 0) AND contacts.person_attribute_type_id in (10, 48)"
+      }
+    },
+    {
+      "table": "amrs.encounter_type",
+      "alias": "et",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t2.encounter_type = et.encounter_type_id"
+      }
+    },
+    {
+      "table": "amrs.person_address",
+      "alias": "pa",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t2.person_id = pa.person_id"
+      }
     }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "t2.person_id"
+    },
+    {
+      "type": "derived_column",
+      "alias": "needs_vl_in_period",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(case when (t2.cur_arv_meds is not null and t2.vl_1 > 1000) and (timestampdiff(day,t2.vl_1_date, '{endDate}') >= 90) then true when (timestampdiff(month,t2.arv_start_date, '{endDate}') <= 12) and (t2.vl_1_date is null or timestampdiff(month,t2.vl_1_date, '{endDate}') >= 6)  and (timestampdiff(month,t2.arv_start_date, '{endDate}')>=6) then true when (timestampdiff(month,t2.arv_start_date, '{endDate}') >= 12) and (t2.vl_1_date is null or timestampdiff(month,t2.vl_1_date, '{endDate}') >= 12) then true else false end,1,0)"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "l.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "t2.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "t2.location_uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "encounter_datetime",
+      "column": "t2.encounter_datetime"
+    },
+    {
+      "type": "simple_column",
+      "alias": "month",
+      "column": "MONTH(t2.encounter_datetime)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "reporting_month",
+      "column": "date_format(t2.encounter_datetime, '%m/%Y')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "year",
+      "column": "YEAR(t2.encounter_datetime)"
+    },
+    {
+      "type": "derived_column",
+      "alias": "phone_number",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": " GROUP_CONCAT(DISTINCT contacts.value SEPARATOR ', ')"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "latest_rtc_date",
+      "column": "date_format(t2.rtc_date, '%Y-%m-%d')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "last_appointment",
+      "column": "CONCAT(COALESCE(DATE_FORMAT(t2.encounter_datetime, '%Y-%m-%d'),''),' ',COALESCE(et.name, ''))"
+    },
+    {
+      "type": "simple_column",
+      "alias": "cur_meds",
+      "column": "t2.cur_arv_meds"
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "(t2.next_clinical_datetime_hiv is null or date(t2.next_clinical_datetime_hiv) > ?)",
+        "parameterName": "endDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "t2.location_uuid in ?",
+        "parameterName": "locationUuids"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "coalesce(t2.death_date, t2.out_of_care) is null",
+        "parameterName": ""
+      }
+    ]
+  }
 }

@@ -1,646 +1,735 @@
-[{
- "name": "hiv-care-continuum",
- "table":{"schema":"etl","tableName":"flat_hiv_summary","alias":"t1"},
- "joins":[
-     {"joinType":"INNER JOIN","schema":"amrs","tableName":"location","alias":"t2","joinExpression":"t1.location_uuid = t2.uuid"}
- ],
- "parameters": [
-     {"name":"startDate", "defaultValue":["10-10-2015"]},
-     {"name":"endDate", "defaultValue":["defaultValue"]},
-     {"name":"locations","defaultValue":[]},
-     {"name":"groupByLocation", "defaultValue":[
-         {"label":"location","expression":"location"}
-     ]
-     },
-     {"name":"groupByYear", "defaultValue":[
-         {"label":"encounter_datetime","expression":"YEAR(encounter_datetime)"}
-     ]
-     },
-     {"name":"groupByMonth", "defaultValue":[
-         {"label":"encounter_datetime","expression":"MONTH(encounter_datetime)"}
-     ]
-     }
- ],
- "filters": [
-     {"expression":"t1.encounter_datetime >= ?", "parameter":"startDate"},
-     {"expression":"t1.encounter_datetime <= ?", "parameter":"endDate"},
-     {"expression":"t1.location_id in ?", "parameter":"locations"}
- ],
- "groupClause":[
-     {"parameter":"groupByLocation"},
-     {"parameter":"groupByYear"},
-     {"parameter":"groupByMonth"}
- ],
- "indicators": [
-   {
-       "label":"patients",
-       "expression":"patients",
-       "sql":"count(distinct person_id)"
-   },
-   {
-       "label":"on_arvs",
-       "expression":"on_arvs",
-       "sql":"count(distinct if($expression,person_id,0))"
-
-   },
-   {
-       "label":"enrolled_in_care_total",
-      "expression":"enrolled_in_care_total",
-       "sql": "count(distinct if($expression,person_id,0))"
-
-   },
-   {
-       "label":"virally_suppressed_in_past_year",
-      "expression":"virally_suppressed_in_past_year",
-       "sql": "count(distinct if($expression,person_id,0))"
-
-   },
-   {
-       "label":"not_virally_suppressed_in_past_year",
-      "expression":"not_virally_suppressed_in_past_year",
-       "sql": "count(distinct if($expression,person_id,0))"
-
-   },
-     {
-         "label":"perc_on_arvs",
-         "expression":"perc_on_arvs",
-         "sql":"[on_arvs]/[patients]"
-     },
-     {
-         "label":"perc_in_care",
-         "expression":"perc_in_care",
-         "sql":"[enrolled_in_care_total]/[patients]"
-     },
-     {
-         "label":"perc_virally_suppressed_in_past_year",
-         "expression":"perc_virally_suppressed_in_past_year",
-         "sql":"[virally_suppressed_in_past_year]/[patients]"
-     },
-     {
-         "label":"perc_not_virally_suppressed_in_past_year",
-         "expression":"perc_virally_suppressed_in_past_year",
-         "sql":"[not_virally_suppressed_in_past_year]/[patients]"
-     },
-     {
-         "label":"perc_on_arv_first_line",
-         "expression":"perc_on_arv_first_line",
-         "sql":"[on_arvs_first_line]/[on_arvs]"
-     },
-     {
-         "label":"perc_on_arv_second_line",
-         "expression":"perc_on_arv_second_line",
-         "sql":"[on_arvs_second_line]/[on_arvs]"
-     },
-     {
-         "label":"perc_on_arv_third_line",
-         "expression":"perc_on_arv_third_line",
-         "sql":"[on_arvs_third_line]/[on_arvs]"
-     },
-     {
-         "label":"perc_with_pending_viral_load",
-         "expression":"perc_with_pending_viral_load",
-         "sql":"[pending_vl_order]/[on_arvs]"
-     },
-     {
-         "label":"pending_vl_order",
-         "expression":"pending_vl_order",
-         "sql": "count(distinct if($expression,person_id,0))"
-     },
-     {
-         "label":"perc_on_arvs_lte_6_months",
-         "expression":"perc_on_arvs_lte_6_months",
-         "sql":"[on_arvs_lte_26_weeks]/[on_arvs]"
-     },
-     {
-         "label":"on_arvs_third_line",
-         "expression":"on_arvs_third_line",
-         "sql": "count(distinct if($expression,person_id,0))"
-     },
-     {
-         "label":"on_arvs_lte_26_weeks",
-         "expression":"on_arvs_lte_26_weeks",
-         "sql": "count(distinct if($expression,person_id,0))"
-     },
-     {
-         "label":"on_arvs_gt_26_weeks",
-         "expression":"on_arvs_gt_26_weeks",
-         "sql": "count(distinct if($expression,person_id,0))"
-     },
-     {
-         "label":"on_arvs_second_line",
-         "expression":"on_arvs_second_line",
-         "sql": "count(distinct if($expression,person_id,0))"
-     },
-     {
-         "label":"on_arvs_first_line",
-         "expression":"on_arvs_first_line",
-         "sql": "count(distinct if($expression,person_id,0))"
-     },
-     {
-         "label":"on_arvs_lte_26_weeks",
-         "expression":"on_arvs_lte_26_weeks",
-         "sql": "count(distinct if($expression,person_id,0))"
-     }
- ],
- "supplementColumns":[
-        {
-            "label":"location",
-            "type":"single",
-            "sql":"t2.name"
-        },
-        {
-            "label":"location_uuid",
-            "type":"single",
-            "sql":"t1.location_uuid"
-        },
-        {
-            "label":"location_id",
-            "type":"single",
-            "sql":"t1.location_id"
-        },
-        {
-            "label":"encounter_datetime",
-            "type":"single",
-            "sql":"t1.encounter_datetime"
-        },
-        {
-            "label":"month",
-            "type":"single",
-            "sql":"t1.encounter_datetime"
-        }
+[
+  {
+    "name": "hiv-care-continuum",
+    "table": {
+      "schema": "etl",
+      "tableName": "flat_hiv_summary",
+      "alias": "t1"
+    },
+    "joins": [
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "location",
+        "alias": "t2",
+        "joinExpression": "t1.location_uuid = t2.uuid"
+      }
+    ],
+    "parameters": [
+      { "name": "startDate", "defaultValue": ["10-10-2015"] },
+      { "name": "endDate", "defaultValue": ["defaultValue"] },
+      { "name": "locations", "defaultValue": [] },
+      {
+        "name": "groupByLocation",
+        "defaultValue": [{ "label": "location", "expression": "location" }]
+      },
+      {
+        "name": "groupByYear",
+        "defaultValue": [
+          {
+            "label": "encounter_datetime",
+            "expression": "YEAR(encounter_datetime)"
+          }
+        ]
+      },
+      {
+        "name": "groupByMonth",
+        "defaultValue": [
+          {
+            "label": "encounter_datetime",
+            "expression": "MONTH(encounter_datetime)"
+          }
+        ]
+      }
+    ],
+    "filters": [
+      { "expression": "t1.encounter_datetime >= ?", "parameter": "startDate" },
+      { "expression": "t1.encounter_datetime <= ?", "parameter": "endDate" },
+      { "expression": "t1.location_id in ?", "parameter": "locations" }
+    ],
+    "groupClause": [
+      { "parameter": "groupByLocation" },
+      { "parameter": "groupByYear" },
+      { "parameter": "groupByMonth" }
+    ],
+    "indicators": [
+      {
+        "label": "patients",
+        "expression": "patients",
+        "sql": "count(distinct person_id)"
+      },
+      {
+        "label": "on_arvs",
+        "expression": "on_arvs",
+        "sql": "count(distinct if($expression,person_id,0))"
+      },
+      {
+        "label": "enrolled_in_care_total",
+        "expression": "enrolled_in_care_total",
+        "sql": "count(distinct if($expression,person_id,0))"
+      },
+      {
+        "label": "virally_suppressed_in_past_year",
+        "expression": "virally_suppressed_in_past_year",
+        "sql": "count(distinct if($expression,person_id,0))"
+      },
+      {
+        "label": "not_virally_suppressed_in_past_year",
+        "expression": "not_virally_suppressed_in_past_year",
+        "sql": "count(distinct if($expression,person_id,0))"
+      },
+      {
+        "label": "perc_on_arvs",
+        "expression": "perc_on_arvs",
+        "sql": "[on_arvs]/[patients]"
+      },
+      {
+        "label": "perc_in_care",
+        "expression": "perc_in_care",
+        "sql": "[enrolled_in_care_total]/[patients]"
+      },
+      {
+        "label": "perc_virally_suppressed_in_past_year",
+        "expression": "perc_virally_suppressed_in_past_year",
+        "sql": "[virally_suppressed_in_past_year]/[patients]"
+      },
+      {
+        "label": "perc_not_virally_suppressed_in_past_year",
+        "expression": "perc_virally_suppressed_in_past_year",
+        "sql": "[not_virally_suppressed_in_past_year]/[patients]"
+      },
+      {
+        "label": "perc_on_arv_first_line",
+        "expression": "perc_on_arv_first_line",
+        "sql": "[on_arvs_first_line]/[on_arvs]"
+      },
+      {
+        "label": "perc_on_arv_second_line",
+        "expression": "perc_on_arv_second_line",
+        "sql": "[on_arvs_second_line]/[on_arvs]"
+      },
+      {
+        "label": "perc_on_arv_third_line",
+        "expression": "perc_on_arv_third_line",
+        "sql": "[on_arvs_third_line]/[on_arvs]"
+      },
+      {
+        "label": "perc_with_pending_viral_load",
+        "expression": "perc_with_pending_viral_load",
+        "sql": "[pending_vl_order]/[on_arvs]"
+      },
+      {
+        "label": "pending_vl_order",
+        "expression": "pending_vl_order",
+        "sql": "count(distinct if($expression,person_id,0))"
+      },
+      {
+        "label": "perc_on_arvs_lte_6_months",
+        "expression": "perc_on_arvs_lte_6_months",
+        "sql": "[on_arvs_lte_26_weeks]/[on_arvs]"
+      },
+      {
+        "label": "on_arvs_third_line",
+        "expression": "on_arvs_third_line",
+        "sql": "count(distinct if($expression,person_id,0))"
+      },
+      {
+        "label": "on_arvs_lte_26_weeks",
+        "expression": "on_arvs_lte_26_weeks",
+        "sql": "count(distinct if($expression,person_id,0))"
+      },
+      {
+        "label": "on_arvs_gt_26_weeks",
+        "expression": "on_arvs_gt_26_weeks",
+        "sql": "count(distinct if($expression,person_id,0))"
+      },
+      {
+        "label": "on_arvs_second_line",
+        "expression": "on_arvs_second_line",
+        "sql": "count(distinct if($expression,person_id,0))"
+      },
+      {
+        "label": "on_arvs_first_line",
+        "expression": "on_arvs_first_line",
+        "sql": "count(distinct if($expression,person_id,0))"
+      },
+      {
+        "label": "on_arvs_lte_26_weeks",
+        "expression": "on_arvs_lte_26_weeks",
+        "sql": "count(distinct if($expression,person_id,0))"
+      }
+    ],
+    "supplementColumns": [
+      {
+        "label": "location",
+        "type": "single",
+        "sql": "t2.name"
+      },
+      {
+        "label": "location_uuid",
+        "type": "single",
+        "sql": "t1.location_uuid"
+      },
+      {
+        "label": "location_id",
+        "type": "single",
+        "sql": "t1.location_id"
+      },
+      {
+        "label": "encounter_datetime",
+        "type": "single",
+        "sql": "t1.encounter_datetime"
+      },
+      {
+        "label": "month",
+        "type": "single",
+        "sql": "t1.encounter_datetime"
+      }
     ]
-},
-{
- "name": "hiv-care-continuum-enrolled",
- "table":{"schema":"etl","tableName":"flat_hiv_summary","alias":"t1"},
- "joins":[
-     {"joinType":"INNER JOIN","schema":"amrs","tableName":"location","alias":"t2","joinExpression":"t1.location_uuid = t2.uuid"}
- ],
- "parameters": [
-     {"name":"startDate", "defaultValue":["10-10-2015"]},
-     {"name":"endDate", "defaultValue":["defaultValue"]},
-     {"name":"locations","defaultValue":[]},
-     {"name":"groupByLocation", "defaultValue":[
-         {"label":"location","expression":"location"}
-     ]
-     },
-     {"name":"groupByYear", "defaultValue":[
-         {"label":"encounter_datetime","expression":"YEAR(encounter_datetime)"}
-     ]
-     },
-     {"name":"groupByMonth", "defaultValue":[
-         {"label":"encounter_datetime","expression":"MONTH(encounter_datetime)"}
-     ]
-     }
- ],
- "filters": [
-     {"expression":"t1.enrollment_date >= ?", "parameter":"startDate"},
-     {"expression":"t1.enrollment_date <= ?", "parameter":"endDate"},
-     {"expression":"t1.location_id in ?", "parameter":"locations"}
- ],
- "groupClause":[
-     {"parameter":"groupByLocation"},
-     {"parameter":"groupByYear"},
-     {"parameter":"groupByMonth"}
- ],
- "indicators": [
-   {
-       "label":"patients",
-       "expression":"patients",
-       "sql":"count(distinct person_id)"
-   },
-   {
-       "label":"on_arvs",
-       "expression":"on_arvs",
-       "sql":"count(distinct if($expression,person_id,0))"
-
-   },
-   {
-       "label":"enrolled_in_care_total",
-      "expression":"enrolled_in_care_total",
-       "sql": "count(distinct if($expression,person_id,0))"
-
-   },
-   {
-       "label":"virally_suppressed_in_past_year",
-      "expression":"virally_suppressed_in_past_year",
-       "sql": "count(distinct if($expression,person_id,0))"
-
-   },
-     {
-         "label":"perc_on_arvs",
-         "expression":"perc_on_arvs",
-         "sql":"[on_arvs]/[patients]"
-     },
-     {
-         "label":"perc_in_care",
-         "expression":"perc_in_care",
-         "sql":"[enrolled_in_care_total]/[patients]"
-     },
-     {
-         "label":"perc_virally_suppressed_in_past_year",
-         "expression":"perc_virally_suppressed_in_past_year",
-         "sql":"[virally_suppressed_in_past_year]/[patients]"
-     }
- ],
- "supplementColumns":[
-        {
-            "label":"location",
-            "type":"single",
-            "sql":"t2.name"
-        },
-        {
-            "label":"location_uuid",
-            "type":"single",
-            "sql":"t1.location_uuid"
-        },
-        {
-            "label":"location_id",
-            "type":"single",
-            "sql":"t1.location_id"
-        },
-        {
-            "label":"encounter_datetime",
-            "type":"single",
-            "sql":"t1.encounter_datetime"
-        },
-        {
-            "label":"month",
-            "type":"single",
-            "sql":"t1.encounter_datetime"
-        }
+  },
+  {
+    "name": "hiv-care-continuum-enrolled",
+    "table": {
+      "schema": "etl",
+      "tableName": "flat_hiv_summary",
+      "alias": "t1"
+    },
+    "joins": [
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "location",
+        "alias": "t2",
+        "joinExpression": "t1.location_uuid = t2.uuid"
+      }
+    ],
+    "parameters": [
+      { "name": "startDate", "defaultValue": ["10-10-2015"] },
+      { "name": "endDate", "defaultValue": ["defaultValue"] },
+      { "name": "locations", "defaultValue": [] },
+      {
+        "name": "groupByLocation",
+        "defaultValue": [{ "label": "location", "expression": "location" }]
+      },
+      {
+        "name": "groupByYear",
+        "defaultValue": [
+          {
+            "label": "encounter_datetime",
+            "expression": "YEAR(encounter_datetime)"
+          }
+        ]
+      },
+      {
+        "name": "groupByMonth",
+        "defaultValue": [
+          {
+            "label": "encounter_datetime",
+            "expression": "MONTH(encounter_datetime)"
+          }
+        ]
+      }
+    ],
+    "filters": [
+      { "expression": "t1.enrollment_date >= ?", "parameter": "startDate" },
+      { "expression": "t1.enrollment_date <= ?", "parameter": "endDate" },
+      { "expression": "t1.location_id in ?", "parameter": "locations" }
+    ],
+    "groupClause": [
+      { "parameter": "groupByLocation" },
+      { "parameter": "groupByYear" },
+      { "parameter": "groupByMonth" }
+    ],
+    "indicators": [
+      {
+        "label": "patients",
+        "expression": "patients",
+        "sql": "count(distinct person_id)"
+      },
+      {
+        "label": "on_arvs",
+        "expression": "on_arvs",
+        "sql": "count(distinct if($expression,person_id,0))"
+      },
+      {
+        "label": "enrolled_in_care_total",
+        "expression": "enrolled_in_care_total",
+        "sql": "count(distinct if($expression,person_id,0))"
+      },
+      {
+        "label": "virally_suppressed_in_past_year",
+        "expression": "virally_suppressed_in_past_year",
+        "sql": "count(distinct if($expression,person_id,0))"
+      },
+      {
+        "label": "perc_on_arvs",
+        "expression": "perc_on_arvs",
+        "sql": "[on_arvs]/[patients]"
+      },
+      {
+        "label": "perc_in_care",
+        "expression": "perc_in_care",
+        "sql": "[enrolled_in_care_total]/[patients]"
+      },
+      {
+        "label": "perc_virally_suppressed_in_past_year",
+        "expression": "perc_virally_suppressed_in_past_year",
+        "sql": "[virally_suppressed_in_past_year]/[patients]"
+      }
+    ],
+    "supplementColumns": [
+      {
+        "label": "location",
+        "type": "single",
+        "sql": "t2.name"
+      },
+      {
+        "label": "location_uuid",
+        "type": "single",
+        "sql": "t1.location_uuid"
+      },
+      {
+        "label": "location_id",
+        "type": "single",
+        "sql": "t1.location_id"
+      },
+      {
+        "label": "encounter_datetime",
+        "type": "single",
+        "sql": "t1.encounter_datetime"
+      },
+      {
+        "label": "month",
+        "type": "single",
+        "sql": "t1.encounter_datetime"
+      }
     ]
-}
-,
-{
- "name": "hiv-care-continuum-on-arv-past-6-months",
- "table":{"schema":"etl","tableName":"flat_hiv_summary","alias":"t1"},
- "joins":[
-     {"joinType":"INNER JOIN","schema":"amrs","tableName":"location","alias":"t2","joinExpression":"t1.location_uuid = t2.uuid"}
- ],
- "parameters": [
-     {"name":"startDate", "defaultValue":["10-10-2015"]},
-     {"name":"endDate", "defaultValue":["defaultValue"]},
-     {"name":"locations","defaultValue":[]},
-     {"name":"groupByLocation", "defaultValue":[
-         {"label":"location","expression":"location"}
-     ]
-     },
-     {"name":"groupByYear", "defaultValue":[
-         {"label":"encounter_datetime","expression":"YEAR(encounter_datetime)"}
-     ]
-     },
-     {"name":"groupByMonth", "defaultValue":[
-         {"label":"encounter_datetime","expression":"MONTH(encounter_datetime)"}
-     ]
-     }
- ],
- "filters": [
-     {"expression":"timestampdiff(month,?,t1.arv_start_date) > 6", "parameter":"startDate"},
-     {"expression":"t1.location_id in ?", "parameter":"locations"}
- ],
- "groupClause":[
-     {"parameter":"groupByLocation"},
-     {"parameter":"groupByYear"},
-     {"parameter":"groupByMonth"}
- ],
- "indicators": [
-   {
-       "label":"patients",
-       "expression":"patients",
-       "sql":"count(distinct person_id)"
-   },
-   {
-       "label":"on_arvs",
-       "expression":"on_arvs",
-       "sql":"count(distinct if($expression,person_id,0))"
-
-   },
-   {
-       "label":"enrolled_in_care_total",
-      "expression":"enrolled_in_care_total",
-       "sql": "count(distinct if($expression,person_id,0))"
-
-   },
-   {
-       "label":"virally_suppressed_in_past_year",
-      "expression":"virally_suppressed_in_past_year",
-       "sql": "count(distinct if($expression,person_id,0))"
-
-   },
-   {
-       "label":"not_virally_suppressed_in_past_year",
-      "expression":"not_virally_suppressed_in_past_year",
-       "sql": "count(distinct if($expression,person_id,0))"
-
-   },
-     {
-         "label":"perc_in_care",
-         "expression":"perc_in_care",
-         "sql":"[enrolled_in_care_total]/[patients]"
-     },
-     {
-         "label":"perc_virally_suppressed_in_past_year",
-         "expression":"perc_virally_suppressed_in_past_year",
-         "sql":"[virally_suppressed_in_past_year]/[on_arvs]"
-     },
-     {
-         "label":"perc_not_virally_suppressed_in_past_year",
-         "expression":"perc_not_virally_suppressed_in_past_year",
-         "sql":"[not_virally_suppressed_in_past_year]/[on_arvs]"
-     }
- ],
- "supplementColumns":[
-        {
-            "label":"location",
-            "type":"single",
-            "sql":"t2.name"
-        },
-        {
-            "label":"location_uuid",
-            "type":"single",
-            "sql":"t1.location_uuid"
-        },
-        {
-            "label":"location_id",
-            "type":"single",
-            "sql":"t1.location_id"
-        },
-        {
-            "label":"encounter_datetime",
-            "type":"single",
-            "sql":"t1.encounter_datetime"
-        },
-        {
-            "label":"month",
-            "type":"single",
-            "sql":"t1.encounter_datetime"
-        }
+  },
+  {
+    "name": "hiv-care-continuum-on-arv-past-6-months",
+    "table": {
+      "schema": "etl",
+      "tableName": "flat_hiv_summary",
+      "alias": "t1"
+    },
+    "joins": [
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "location",
+        "alias": "t2",
+        "joinExpression": "t1.location_uuid = t2.uuid"
+      }
+    ],
+    "parameters": [
+      { "name": "startDate", "defaultValue": ["10-10-2015"] },
+      { "name": "endDate", "defaultValue": ["defaultValue"] },
+      { "name": "locations", "defaultValue": [] },
+      {
+        "name": "groupByLocation",
+        "defaultValue": [{ "label": "location", "expression": "location" }]
+      },
+      {
+        "name": "groupByYear",
+        "defaultValue": [
+          {
+            "label": "encounter_datetime",
+            "expression": "YEAR(encounter_datetime)"
+          }
+        ]
+      },
+      {
+        "name": "groupByMonth",
+        "defaultValue": [
+          {
+            "label": "encounter_datetime",
+            "expression": "MONTH(encounter_datetime)"
+          }
+        ]
+      }
+    ],
+    "filters": [
+      {
+        "expression": "timestampdiff(month,?,t1.arv_start_date) > 6",
+        "parameter": "startDate"
+      },
+      { "expression": "t1.location_id in ?", "parameter": "locations" }
+    ],
+    "groupClause": [
+      { "parameter": "groupByLocation" },
+      { "parameter": "groupByYear" },
+      { "parameter": "groupByMonth" }
+    ],
+    "indicators": [
+      {
+        "label": "patients",
+        "expression": "patients",
+        "sql": "count(distinct person_id)"
+      },
+      {
+        "label": "on_arvs",
+        "expression": "on_arvs",
+        "sql": "count(distinct if($expression,person_id,0))"
+      },
+      {
+        "label": "enrolled_in_care_total",
+        "expression": "enrolled_in_care_total",
+        "sql": "count(distinct if($expression,person_id,0))"
+      },
+      {
+        "label": "virally_suppressed_in_past_year",
+        "expression": "virally_suppressed_in_past_year",
+        "sql": "count(distinct if($expression,person_id,0))"
+      },
+      {
+        "label": "not_virally_suppressed_in_past_year",
+        "expression": "not_virally_suppressed_in_past_year",
+        "sql": "count(distinct if($expression,person_id,0))"
+      },
+      {
+        "label": "perc_in_care",
+        "expression": "perc_in_care",
+        "sql": "[enrolled_in_care_total]/[patients]"
+      },
+      {
+        "label": "perc_virally_suppressed_in_past_year",
+        "expression": "perc_virally_suppressed_in_past_year",
+        "sql": "[virally_suppressed_in_past_year]/[on_arvs]"
+      },
+      {
+        "label": "perc_not_virally_suppressed_in_past_year",
+        "expression": "perc_not_virally_suppressed_in_past_year",
+        "sql": "[not_virally_suppressed_in_past_year]/[on_arvs]"
+      }
+    ],
+    "supplementColumns": [
+      {
+        "label": "location",
+        "type": "single",
+        "sql": "t2.name"
+      },
+      {
+        "label": "location_uuid",
+        "type": "single",
+        "sql": "t1.location_uuid"
+      },
+      {
+        "label": "location_id",
+        "type": "single",
+        "sql": "t1.location_id"
+      },
+      {
+        "label": "encounter_datetime",
+        "type": "single",
+        "sql": "t1.encounter_datetime"
+      },
+      {
+        "label": "month",
+        "type": "single",
+        "sql": "t1.encounter_datetime"
+      }
     ]
-},
+  },
 
-{
- "name": "hiv-care-continuum-virally-suppressed",
- "table":{"schema":"etl","tableName":"flat_hiv_summary","alias":"t1"},
- "joins":[
-     {"joinType":"INNER JOIN","schema":"amrs","tableName":"location","alias":"t2","joinExpression":"t1.location_uuid = t2.uuid"}
- ],
- "parameters": [
-     {"name":"startDate", "defaultValue":["10-10-2015"]},
-     {"name":"endDate", "defaultValue":["defaultValue"]},
-     {"name":"locations","defaultValue":[]},
-     {"name":"groupByLocation", "defaultValue":[
-         {"label":"location","expression":"location"}
-     ]
-     },
-     {"name":"groupByYear", "defaultValue":[
-         {"label":"encounter_datetime","expression":"YEAR(encounter_datetime)"}
-     ]
-     },
-     {"name":"groupByMonth", "defaultValue":[
-         {"label":"encounter_datetime","expression":"MONTH(encounter_datetime)"}
-     ]
-     }
- ],
- "filters": [
-     {"expression":"t1.encounter_datetime >= ?", "parameter":"startDate"},
-     {"expression":"t1.encounter_datetime <= ?", "parameter":"endDate"},
-     {"expression":"t1.location_id in ?", "parameter":"locations"}
- ],
- "groupClause":[
-     {"parameter":"groupByLocation"},
-     {"parameter":"groupByYear"},
-     {"parameter":"groupByMonth"}
- ],
- "indicators": [
-   {
-       "label":"patients",
-       "expression":"patients",
-       "sql":"count(distinct person_id)"
-   },
-   {
-       "label":"on_arvs",
-       "expression":"on_arvs",
-       "sql":"count(distinct if($expression,person_id,0))"
-
-   } ,
-   {
-       "label":"on_arvs_lte_26_weeks",
-       "expression":"on_arvs_lte_26_weeks",
-       "sql": "count(distinct if($expression,person_id,0))"
-   },
-   {
-       "label":"on_arvs_gt_26_weeks",
-       "expression":"on_arvs_gt_26_weeks",
-       "sql": "count(distinct if($expression,person_id,0))"
-   },
-   {
-       "label":"on_arvs_second_line",
-       "expression":"on_arvs_second_line",
-       "sql": "count(distinct if($expression,person_id,0))"
-   },
-   {
-       "label":"on_arvs_first_line",
-       "expression":"on_arvs_first_line",
-       "sql": "count(distinct if($expression,person_id,0))"
-   },
-   {
-       "label":"on_arvs_lte_26_weeks",
-       "expression":"on_arvs_lte_26_weeks",
-       "sql": "count(distinct if($expression,person_id,0))"
-   },
-   {
-       "label":"on_arvs_third_line",
-       "expression":"on_arvs_third_line",
-       "sql": "count(distinct if($expression,person_id,0))"
-   },
-     {
-         "label":"perc_on_arv_first_line",
-         "expression":"perc_on_arv_first_line",
-         "sql":"[on_arvs_first_line]/[on_arvs]"
-     },
-     {
-         "label":"perc_on_arv_second_line",
-         "expression":"perc_on_arv_second_line",
-         "sql":"[on_arvs_second_line]/[on_arvs]"
-     },
-     {
-         "label":"perc_on_arv_third_line",
-         "expression":"perc_on_arv_third_line",
-         "sql":"[on_arvs_third_line]/[on_arvs]"
-     },
-     {
-         "label":"perc_on_arvs_lte_6_months",
-         "expression":"perc_on_arvs_lte_6_months",
-         "sql":"[on_arvs_lte_26_weeks]/[on_arvs]"
-     }
- ],
- "supplementColumns":[
-        {
-            "label":"location",
-            "type":"single",
-            "sql":"t2.name"
-        },
-        {
-            "label":"location_uuid",
-            "type":"single",
-            "sql":"t1.location_uuid"
-        },
-        {
-            "label":"location_id",
-            "type":"single",
-            "sql":"t1.location_id"
-        },
-        {
-            "label":"encounter_datetime",
-            "type":"single",
-            "sql":"t1.encounter_datetime"
-        },
-        {
-            "label":"month",
-            "type":"single",
-            "sql":"t1.encounter_datetime"
-        }
+  {
+    "name": "hiv-care-continuum-virally-suppressed",
+    "table": {
+      "schema": "etl",
+      "tableName": "flat_hiv_summary",
+      "alias": "t1"
+    },
+    "joins": [
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "location",
+        "alias": "t2",
+        "joinExpression": "t1.location_uuid = t2.uuid"
+      }
+    ],
+    "parameters": [
+      { "name": "startDate", "defaultValue": ["10-10-2015"] },
+      { "name": "endDate", "defaultValue": ["defaultValue"] },
+      { "name": "locations", "defaultValue": [] },
+      {
+        "name": "groupByLocation",
+        "defaultValue": [{ "label": "location", "expression": "location" }]
+      },
+      {
+        "name": "groupByYear",
+        "defaultValue": [
+          {
+            "label": "encounter_datetime",
+            "expression": "YEAR(encounter_datetime)"
+          }
+        ]
+      },
+      {
+        "name": "groupByMonth",
+        "defaultValue": [
+          {
+            "label": "encounter_datetime",
+            "expression": "MONTH(encounter_datetime)"
+          }
+        ]
+      }
+    ],
+    "filters": [
+      { "expression": "t1.encounter_datetime >= ?", "parameter": "startDate" },
+      { "expression": "t1.encounter_datetime <= ?", "parameter": "endDate" },
+      { "expression": "t1.location_id in ?", "parameter": "locations" }
+    ],
+    "groupClause": [
+      { "parameter": "groupByLocation" },
+      { "parameter": "groupByYear" },
+      { "parameter": "groupByMonth" }
+    ],
+    "indicators": [
+      {
+        "label": "patients",
+        "expression": "patients",
+        "sql": "count(distinct person_id)"
+      },
+      {
+        "label": "on_arvs",
+        "expression": "on_arvs",
+        "sql": "count(distinct if($expression,person_id,0))"
+      },
+      {
+        "label": "on_arvs_lte_26_weeks",
+        "expression": "on_arvs_lte_26_weeks",
+        "sql": "count(distinct if($expression,person_id,0))"
+      },
+      {
+        "label": "on_arvs_gt_26_weeks",
+        "expression": "on_arvs_gt_26_weeks",
+        "sql": "count(distinct if($expression,person_id,0))"
+      },
+      {
+        "label": "on_arvs_second_line",
+        "expression": "on_arvs_second_line",
+        "sql": "count(distinct if($expression,person_id,0))"
+      },
+      {
+        "label": "on_arvs_first_line",
+        "expression": "on_arvs_first_line",
+        "sql": "count(distinct if($expression,person_id,0))"
+      },
+      {
+        "label": "on_arvs_lte_26_weeks",
+        "expression": "on_arvs_lte_26_weeks",
+        "sql": "count(distinct if($expression,person_id,0))"
+      },
+      {
+        "label": "on_arvs_third_line",
+        "expression": "on_arvs_third_line",
+        "sql": "count(distinct if($expression,person_id,0))"
+      },
+      {
+        "label": "perc_on_arv_first_line",
+        "expression": "perc_on_arv_first_line",
+        "sql": "[on_arvs_first_line]/[on_arvs]"
+      },
+      {
+        "label": "perc_on_arv_second_line",
+        "expression": "perc_on_arv_second_line",
+        "sql": "[on_arvs_second_line]/[on_arvs]"
+      },
+      {
+        "label": "perc_on_arv_third_line",
+        "expression": "perc_on_arv_third_line",
+        "sql": "[on_arvs_third_line]/[on_arvs]"
+      },
+      {
+        "label": "perc_on_arvs_lte_6_months",
+        "expression": "perc_on_arvs_lte_6_months",
+        "sql": "[on_arvs_lte_26_weeks]/[on_arvs]"
+      }
+    ],
+    "supplementColumns": [
+      {
+        "label": "location",
+        "type": "single",
+        "sql": "t2.name"
+      },
+      {
+        "label": "location_uuid",
+        "type": "single",
+        "sql": "t1.location_uuid"
+      },
+      {
+        "label": "location_id",
+        "type": "single",
+        "sql": "t1.location_id"
+      },
+      {
+        "label": "encounter_datetime",
+        "type": "single",
+        "sql": "t1.encounter_datetime"
+      },
+      {
+        "label": "month",
+        "type": "single",
+        "sql": "t1.encounter_datetime"
+      }
     ]
-},
-{
- "name": "hiv-care-continuum-not-virally-suppressed",
- "table":{"schema":"etl","tableName":"flat_hiv_summary","alias":"t1"},
- "joins":[
-     {"joinType":"INNER JOIN","schema":"amrs","tableName":"location","alias":"t2","joinExpression":"t1.location_uuid = t2.uuid"}
- ],
- "parameters": [
-     {"name":"startDate", "defaultValue":["10-10-2015"]},
-     {"name":"endDate", "defaultValue":["defaultValue"]},
-     {"name":"locations","defaultValue":[]},
-     {"name":"groupByLocation", "defaultValue":[
-         {"label":"location","expression":"location"}
-     ]
-     },
-     {"name":"groupByYear", "defaultValue":[
-         {"label":"encounter_datetime","expression":"YEAR(encounter_datetime)"}
-     ]
-     },
-     {"name":"groupByMonth", "defaultValue":[
-         {"label":"encounter_datetime","expression":"MONTH(encounter_datetime)"}
-     ]
-     }
- ],
- "filters": [
-     {"expression":"t1.encounter_datetime >= ?", "parameter":"startDate"},
-     {"expression":"t1.encounter_datetime <= ?", "parameter":"endDate"},
-     {"expression":"t1.location_id in ?", "parameter":"locations"}
- ],
- "groupClause":[
-     {"parameter":"groupByLocation"},
-     {"parameter":"groupByYear"},
-     {"parameter":"groupByMonth"}
- ],
- "indicators": [
-   {
-       "label":"patients",
-       "expression":"patients",
-       "sql":"count(distinct person_id)"
-   },
-   {
-       "label":"on_arvs",
-       "expression":"on_arvs",
-       "sql":"count(distinct if($expression,person_id,0))"
-
-   } ,
-   {
-       "label":"on_arvs_lte_26_weeks",
-       "expression":"on_arvs_lte_26_weeks",
-       "sql": "count(distinct if($expression,person_id,0))"
-   },
-   {
-       "label":"on_arvs_gt_26_weeks",
-       "expression":"on_arvs_gt_26_weeks",
-       "sql": "count(distinct if($expression,person_id,0))"
-   },
-   {
-       "label":"on_arvs_second_line",
-       "expression":"on_arvs_second_line",
-       "sql": "count(distinct if($expression,person_id,0))"
-   },
-   {
-       "label":"on_arvs_first_line",
-       "expression":"on_arvs_first_line",
-       "sql": "count(distinct if($expression,person_id,0))"
-   },
-   {
-       "label":"on_arvs_lte_26_weeks",
-       "expression":"on_arvs_lte_26_weeks",
-       "sql": "count(distinct if($expression,person_id,0))"
-   },
-   {
-       "label":"on_arvs_third_line",
-       "expression":"on_arvs_third_line",
-       "sql": "count(distinct if($expression,person_id,0))"
-   },
-   {
-       "label":"pending_vl_order",
-       "expression":"pending_vl_order",
-       "sql": "count(distinct if($expression,person_id,0))"
-   },
-     {
-         "label":"perc_on_arv_first_line",
-         "expression":"perc_on_arv_first_line",
-         "sql":"[on_arvs_first_line]/[on_arvs]"
-     },
-     {
-         "label":"perc_on_arv_second_line",
-         "expression":"perc_on_arv_second_line",
-         "sql":"[on_arvs_second_line]/[on_arvs]"
-     },
-     {
-         "label":"perc_on_arv_third_line",
-         "expression":"perc_on_arv_third_line",
-         "sql":"[on_arvs_third_line]/[on_arvs]"
-     },
-     {
-         "label":"perc_on_arvs_lte_6_months",
-         "expression":"perc_on_arvs_lte_6_months",
-         "sql":"[on_arvs_lte_26_weeks]/[patients]"
-     },
-     {
-         "label":"perc_with_pending_viral_load",
-         "expression":"perc_with_pending_viral_load",
-         "sql":"[pending_vl_order]/[on_arvs]"
-     },
-     {
-         "label":"perc_on_arvs_gt_6_months",
-         "expression":"perc_on_arvs_gt_6_months",
-         "sql":"[on_arvs_gt_26_weeks]/[patients]"
-     }
- ],
- "supplementColumns":[
-        {
-            "label":"location",
-            "type":"single",
-            "sql":"t2.name"
-        },
-        {
-            "label":"location_uuid",
-            "type":"single",
-            "sql":"t1.location_uuid"
-        },
-        {
-            "label":"location_id",
-            "type":"single",
-            "sql":"t1.location_id"
-        },
-        {
-            "label":"encounter_datetime",
-            "type":"single",
-            "sql":"t1.encounter_datetime"
-        },
-        {
-            "label":"month",
-            "type":"single",
-            "sql":"t1.encounter_datetime"
-        }
+  },
+  {
+    "name": "hiv-care-continuum-not-virally-suppressed",
+    "table": {
+      "schema": "etl",
+      "tableName": "flat_hiv_summary",
+      "alias": "t1"
+    },
+    "joins": [
+      {
+        "joinType": "INNER JOIN",
+        "schema": "amrs",
+        "tableName": "location",
+        "alias": "t2",
+        "joinExpression": "t1.location_uuid = t2.uuid"
+      }
+    ],
+    "parameters": [
+      { "name": "startDate", "defaultValue": ["10-10-2015"] },
+      { "name": "endDate", "defaultValue": ["defaultValue"] },
+      { "name": "locations", "defaultValue": [] },
+      {
+        "name": "groupByLocation",
+        "defaultValue": [{ "label": "location", "expression": "location" }]
+      },
+      {
+        "name": "groupByYear",
+        "defaultValue": [
+          {
+            "label": "encounter_datetime",
+            "expression": "YEAR(encounter_datetime)"
+          }
+        ]
+      },
+      {
+        "name": "groupByMonth",
+        "defaultValue": [
+          {
+            "label": "encounter_datetime",
+            "expression": "MONTH(encounter_datetime)"
+          }
+        ]
+      }
+    ],
+    "filters": [
+      { "expression": "t1.encounter_datetime >= ?", "parameter": "startDate" },
+      { "expression": "t1.encounter_datetime <= ?", "parameter": "endDate" },
+      { "expression": "t1.location_id in ?", "parameter": "locations" }
+    ],
+    "groupClause": [
+      { "parameter": "groupByLocation" },
+      { "parameter": "groupByYear" },
+      { "parameter": "groupByMonth" }
+    ],
+    "indicators": [
+      {
+        "label": "patients",
+        "expression": "patients",
+        "sql": "count(distinct person_id)"
+      },
+      {
+        "label": "on_arvs",
+        "expression": "on_arvs",
+        "sql": "count(distinct if($expression,person_id,0))"
+      },
+      {
+        "label": "on_arvs_lte_26_weeks",
+        "expression": "on_arvs_lte_26_weeks",
+        "sql": "count(distinct if($expression,person_id,0))"
+      },
+      {
+        "label": "on_arvs_gt_26_weeks",
+        "expression": "on_arvs_gt_26_weeks",
+        "sql": "count(distinct if($expression,person_id,0))"
+      },
+      {
+        "label": "on_arvs_second_line",
+        "expression": "on_arvs_second_line",
+        "sql": "count(distinct if($expression,person_id,0))"
+      },
+      {
+        "label": "on_arvs_first_line",
+        "expression": "on_arvs_first_line",
+        "sql": "count(distinct if($expression,person_id,0))"
+      },
+      {
+        "label": "on_arvs_lte_26_weeks",
+        "expression": "on_arvs_lte_26_weeks",
+        "sql": "count(distinct if($expression,person_id,0))"
+      },
+      {
+        "label": "on_arvs_third_line",
+        "expression": "on_arvs_third_line",
+        "sql": "count(distinct if($expression,person_id,0))"
+      },
+      {
+        "label": "pending_vl_order",
+        "expression": "pending_vl_order",
+        "sql": "count(distinct if($expression,person_id,0))"
+      },
+      {
+        "label": "perc_on_arv_first_line",
+        "expression": "perc_on_arv_first_line",
+        "sql": "[on_arvs_first_line]/[on_arvs]"
+      },
+      {
+        "label": "perc_on_arv_second_line",
+        "expression": "perc_on_arv_second_line",
+        "sql": "[on_arvs_second_line]/[on_arvs]"
+      },
+      {
+        "label": "perc_on_arv_third_line",
+        "expression": "perc_on_arv_third_line",
+        "sql": "[on_arvs_third_line]/[on_arvs]"
+      },
+      {
+        "label": "perc_on_arvs_lte_6_months",
+        "expression": "perc_on_arvs_lte_6_months",
+        "sql": "[on_arvs_lte_26_weeks]/[patients]"
+      },
+      {
+        "label": "perc_with_pending_viral_load",
+        "expression": "perc_with_pending_viral_load",
+        "sql": "[pending_vl_order]/[on_arvs]"
+      },
+      {
+        "label": "perc_on_arvs_gt_6_months",
+        "expression": "perc_on_arvs_gt_6_months",
+        "sql": "[on_arvs_gt_26_weeks]/[patients]"
+      }
+    ],
+    "supplementColumns": [
+      {
+        "label": "location",
+        "type": "single",
+        "sql": "t2.name"
+      },
+      {
+        "label": "location_uuid",
+        "type": "single",
+        "sql": "t1.location_uuid"
+      },
+      {
+        "label": "location_id",
+        "type": "single",
+        "sql": "t1.location_id"
+      },
+      {
+        "label": "encounter_datetime",
+        "type": "single",
+        "sql": "t1.encounter_datetime"
+      },
+      {
+        "label": "month",
+        "type": "single",
+        "sql": "t1.encounter_datetime"
+      }
     ]
-}
-
+  }
 ]

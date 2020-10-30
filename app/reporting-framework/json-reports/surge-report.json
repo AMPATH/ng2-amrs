@@ -1,7 +1,3 @@
 {
-    "reports": [
-        "surgeReport",
-        "prepReport",
-        "surgeBaselineReport"
-    ]
+  "reports": ["surgeReport", "prepReport", "surgeBaselineReport"]
 }

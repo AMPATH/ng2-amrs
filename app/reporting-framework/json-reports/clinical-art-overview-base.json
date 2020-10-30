@@ -1,116 +1,116 @@
 {
-    "name": "clinicalArtOverviewBase",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [],
-    "sources": [
-        {
-            "table": "etl.flat_hiv_summary_v15b",
-            "alias": "t1"
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "location_uuid",
-            "column": "t1.location_uuid"
-        },
-        {
-            "type": "simple_column",
-            "alias": "person_id",
-            "column": "t1.person_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_id",
-            "column": "t1.location_id"
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_nevirapine",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(cur_arv_meds regexp '(631|6467|792)', person_id,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_lopinavir",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(cur_arv_meds regexp '(9026|794)', person_id,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_efavirenz",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(cur_arv_meds regexp '(633|6964)', person_id,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_atazanavir",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(cur_arv_meds regexp '(6159|6160)', person_id,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_raltegravir",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(cur_arv_meds regexp '(6156)', person_id,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_other_arv_drugs",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(not (cur_arv_meds regexp '(6156|6159|6160|633|6964|9026|794|631|6467|792)'), person_id,null)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "not_on_arv",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if(cur_arv_meds is null,person_id,null)"
-            }
-        }
-    ],
-    "filters": {
-        "conditionJoinOperator": "and",
-        "conditions": [
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "t1.encounter_datetime >= ?",
-                "parameterName": "startDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "t1.encounter_datetime <= ?",
-                "parameterName": "endDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "t1.location_uuid in (?)",
-                "parameterName": "locationUuids"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "t1.is_clinical_encounter = 1",
-                "parameterName": ""
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "(t1.next_encounter_datetime_hiv is null or t1.next_encounter_datetime_hiv  > ?)",
-                "parameterName": "endDate"
-            }
-        ]
+  "name": "clinicalArtOverviewBase",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "etl.flat_hiv_summary_v15b",
+      "alias": "t1"
     }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "t1.location_uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "t1.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "t1.location_id"
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_nevirapine",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(cur_arv_meds regexp '(631|6467|792)', person_id,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_lopinavir",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(cur_arv_meds regexp '(9026|794)', person_id,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_efavirenz",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(cur_arv_meds regexp '(633|6964)', person_id,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_atazanavir",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(cur_arv_meds regexp '(6159|6160)', person_id,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_raltegravir",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(cur_arv_meds regexp '(6156)', person_id,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_other_arv_drugs",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(not (cur_arv_meds regexp '(6156|6159|6160|633|6964|9026|794|631|6467|792)'), person_id,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "not_on_arv",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(cur_arv_meds is null,person_id,null)"
+      }
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "t1.encounter_datetime >= ?",
+        "parameterName": "startDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "t1.encounter_datetime <= ?",
+        "parameterName": "endDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "t1.location_uuid in (?)",
+        "parameterName": "locationUuids"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "t1.is_clinical_encounter = 1",
+        "parameterName": ""
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "(t1.next_encounter_datetime_hiv is null or t1.next_encounter_datetime_hiv  > ?)",
+        "parameterName": "endDate"
+      }
+    ]
+  }
 }

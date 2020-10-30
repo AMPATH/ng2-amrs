@@ -1,82 +1,82 @@
 [
-    {
-        "sectionTitle": "",
-        "indicators": [
-            {
-                "label": "Location",
-                "indicator": "location"
-            }
-        ]
-    },
-    {
-        "sectionTitle": "OVC in Hiv",
-        "indicators": [
-            {
-                "label": "Active in Care",
-                "indicator": "active_in_care_this_month"
-            },
-            {
-                "label": "Active in Care and Eligible for OVC",
-                "indicator": "active_and_eligible_for_ovc"
-            },
-            {
-                "label": "Eligible and Enrolled in OVC",
-                "indicator": "enrolled_in_ovc_this_month"
-            },
-            {
-                "label": "Eligible for OVC and NOT Enrolled",
-                "indicator": "ovc_non_enrolment_undocumented"
-            },
-            {
-                "label": "Declined OVC Enrollment",
-                "indicator": "ovc_non_enrolment_declined"
-            },
-            {
-                "label": "Out of OVC Catchment Area",
-                "indicator": "ovc_non_enrolment_out_of_catchment_area"
-            },
-            {
-                "label": "Newly Exited this month",
-                "indicator": "newly_exited_from_ovc_this_month"
-            },
-            {
-                "label": "Cumulative Exited",
-                "indicator": "exited_from_ovc_this_month"
-            }
-        ]
-    },
-    {
-        "sectionTitle": "OVC in Hei",
-        "indicators": [
-            {
-                "label": "Active and Eligible for OVC",
-                "indicator": "active_and_eligible_for_ovc_hei"
-            },
+  {
+    "sectionTitle": "",
+    "indicators": [
+      {
+        "label": "Location",
+        "indicator": "location"
+      }
+    ]
+  },
+  {
+    "sectionTitle": "OVC in Hiv",
+    "indicators": [
+      {
+        "label": "Active in Care",
+        "indicator": "active_in_care_this_month"
+      },
+      {
+        "label": "Active in Care and Eligible for OVC",
+        "indicator": "active_and_eligible_for_ovc"
+      },
+      {
+        "label": "Eligible and Enrolled in OVC",
+        "indicator": "enrolled_in_ovc_this_month"
+      },
+      {
+        "label": "Eligible for OVC and NOT Enrolled",
+        "indicator": "ovc_non_enrolment_undocumented"
+      },
+      {
+        "label": "Declined OVC Enrollment",
+        "indicator": "ovc_non_enrolment_declined"
+      },
+      {
+        "label": "Out of OVC Catchment Area",
+        "indicator": "ovc_non_enrolment_out_of_catchment_area"
+      },
+      {
+        "label": "Newly Exited this month",
+        "indicator": "newly_exited_from_ovc_this_month"
+      },
+      {
+        "label": "Cumulative Exited",
+        "indicator": "exited_from_ovc_this_month"
+      }
+    ]
+  },
+  {
+    "sectionTitle": "OVC in Hei",
+    "indicators": [
+      {
+        "label": "Active and Eligible for OVC",
+        "indicator": "active_and_eligible_for_ovc_hei"
+      },
 
-            {
-                "label": "Enrolled in OVC",
-                "indicator": "enrolled_in_ovc_this_month_hei"
-            },
-            {
-                "label": "Eligible for OVC and NOT Enrolled",
-                "indicator": "ovc_non_enrolment_undocumented_hei"
-            },
-            {
-                "label": "Declined OVC Enrollment",
-                "indicator": "ovc_non_enrolment_declined_hei"
-            },
-            {
-                "label": "Out of Catchment Area",
-                "indicator": "ovc_non_enrolment_out_of_catchment_area_hei"
-            },
-            {
-                "label": "Newly Exited this month",
-                "indicator": "newly_exited_from_ovc_this_month_hei"
-            },
-            {
-                "label": "Cumulative Exited",
-                "indicator": "exited_from_ovc_this_month_hei"
-            }
-        ]
-    }
+      {
+        "label": "Enrolled in OVC",
+        "indicator": "enrolled_in_ovc_this_month_hei"
+      },
+      {
+        "label": "Eligible for OVC and NOT Enrolled",
+        "indicator": "ovc_non_enrolment_undocumented_hei"
+      },
+      {
+        "label": "Declined OVC Enrollment",
+        "indicator": "ovc_non_enrolment_declined_hei"
+      },
+      {
+        "label": "Out of Catchment Area",
+        "indicator": "ovc_non_enrolment_out_of_catchment_area_hei"
+      },
+      {
+        "label": "Newly Exited this month",
+        "indicator": "newly_exited_from_ovc_this_month_hei"
+      },
+      {
+        "label": "Cumulative Exited",
+        "indicator": "exited_from_ovc_this_month_hei"
+      }
+    ]
+  }
 ]

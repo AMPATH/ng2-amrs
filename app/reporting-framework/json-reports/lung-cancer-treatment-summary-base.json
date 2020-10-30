@@ -3,7 +3,8 @@
   "version": "1.0",
   "tag": "lung_cancer_treatment_summary_base",
   "uses": [],
-  "sources": [{
+  "sources": [
+    {
       "table": "etl.flat_lung_cancer_treatment",
       "alias": "flct"
     },
@@ -64,7 +65,8 @@
       }
     }
   ],
-  "columns": [{
+  "columns": [
+    {
       "type": "simple_column",
       "alias": "person_id",
       "column": "flct.person_id"
@@ -301,7 +303,8 @@
   ],
   "filters": {
     "conditionJoinOperator": "and",
-    "conditions": [{
+    "conditions": [
+      {
         "filterType": "tableColumns",
         "conditionExpression": "flct.age >= ?",
         "parameterName": "startAge"

@@ -1,66 +1,66 @@
 {
-    "name": "patientGainLoseDatasetOne",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [],
-    "sources": [
-        {
-            "table": "etl.hiv_monthly_report_dataset_frozen",
-            "alias": "t2"
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "person_id",
-            "column": "t2.person_id"
-        },
-        {
-          "type": "simple_column",
-          "alias": "starting_month",
-          "column": "t2.endDate"
-        },
-        {
-            "type": "simple_column",
-            "alias": "starting_status",
-            "column": "t2.status"
-        },
-        {
-            "type": "derived_column",
-            "alias": "on_art_starting",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-              "expression": "(IF(t2.status = 'active' AND cur_arv_meds is not null, 1, 0))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "not_on_art_starting",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-              "expression": "(IF(t2.status = 'active' AND cur_arv_meds is null, 1, 0))"
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "starting_location_uuid",
-            "column": "t2.location_uuid"
-        }
-    ],
-    "filters": {
-        "conditionJoinOperator": "and",
-        "conditions": [
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "t2.location_uuid = ?",
-                "parameterName": "locationUuid"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "t2.endDate = ?",
-                "parameterName": "startingMonth"
-            }
-        ]
+  "name": "patientGainLoseDatasetOne",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "etl.hiv_monthly_report_dataset_frozen",
+      "alias": "t2"
     }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "t2.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "starting_month",
+      "column": "t2.endDate"
+    },
+    {
+      "type": "simple_column",
+      "alias": "starting_status",
+      "column": "t2.status"
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_art_starting",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "(IF(t2.status = 'active' AND cur_arv_meds is not null, 1, 0))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "not_on_art_starting",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "(IF(t2.status = 'active' AND cur_arv_meds is null, 1, 0))"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "starting_location_uuid",
+      "column": "t2.location_uuid"
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "t2.location_uuid = ?",
+        "parameterName": "locationUuid"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "t2.endDate = ?",
+        "parameterName": "startingMonth"
+      }
+    ]
+  }
 }

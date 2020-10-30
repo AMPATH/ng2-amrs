@@ -1,82 +1,78 @@
 {
-    "name": "dataDatasetAggregate",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [
-        {
-            "name": "referralDatasetbase",
-            "version": "1.0",
-            "type": "dataset_def"
-        }
-    ],
-    "sources": [
-        {
-            "dataSet": "referralDatasetbase",
-            "alias": "hmsd"
-        }
-    ],
-    "columns": [
-
-        {
-            "type": "simple_column",
-            "alias": "program",
-            "column": "hmsd.program"
-        },
-        {
-            "type": "simple_column",
-            "alias": "programUuids",
-            "column": "hmsd.programUuids"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_id",
-            "column": "hmsd.location_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location",
-            "column": "hmsd.location"
-        },
-        {
-            "type": "simple_column",
-            "alias": "locationUuids",
-            "column": "hmsd.locationUuids"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_id",
-            "column": "hmsd.location_id"
-        },
-        {
-            "type": "derived_column",
-            "alias": "counts",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "count(distinct hmsd.patient_id,hmsd.programUuids)"
-            }
-        }
-    ],
-    "groupBy": {
-        "groupParam": "groupByParam",
-        "columns": [
-            "location_id",
-            "program_id"
-        ],
-        "excludeParam": "excludeParam"
-    },
-    "dynamicJsonQueryGenerationDirectives": {
-        "patientListGenerator": {
-            "useTemplate": "referral-patient-list-template",
-            "useTemplateVersion": "1.0",
-            "generatingDirectives": {
-                "joinDirectives": {
-                    "joinType": "INNER",
-                    "joinCondition": "<<base_column>> = <<template_column>>",
-                    "baseColumn": "patient_id",
-                    "templateColumn": "person_id"
-                }
-            }
-        }
+  "name": "dataDatasetAggregate",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [
+    {
+      "name": "referralDatasetbase",
+      "version": "1.0",
+      "type": "dataset_def"
     }
+  ],
+  "sources": [
+    {
+      "dataSet": "referralDatasetbase",
+      "alias": "hmsd"
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "program",
+      "column": "hmsd.program"
+    },
+    {
+      "type": "simple_column",
+      "alias": "programUuids",
+      "column": "hmsd.programUuids"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "hmsd.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "hmsd.location"
+    },
+    {
+      "type": "simple_column",
+      "alias": "locationUuids",
+      "column": "hmsd.locationUuids"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "hmsd.location_id"
+    },
+    {
+      "type": "derived_column",
+      "alias": "counts",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct hmsd.patient_id,hmsd.programUuids)"
+      }
+    }
+  ],
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["location_id", "program_id"],
+    "excludeParam": "excludeParam"
+  },
+  "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+      "useTemplate": "referral-patient-list-template",
+      "useTemplateVersion": "1.0",
+      "generatingDirectives": {
+        "joinDirectives": {
+          "joinType": "INNER",
+          "joinCondition": "<<base_column>> = <<template_column>>",
+          "baseColumn": "patient_id",
+          "templateColumn": "person_id"
+        }
+      }
+    }
+  }
 }

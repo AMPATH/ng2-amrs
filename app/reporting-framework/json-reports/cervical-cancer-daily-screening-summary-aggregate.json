@@ -270,7 +270,7 @@
       "expressionType": "simple_expression",
       "expressionOptions": {
         "expression": "count(procedures_done)"
-      } 
+      }
     },
     {
       "type": "derived_column",
@@ -323,10 +323,7 @@
   ],
   "groupBy": {
     "groupParam": "groupByParam",
-    "columns": [
-      "location_id",
-      "DATE(t1.encounter_datetime)"
-    ],
+    "columns": ["location_id", "DATE(t1.encounter_datetime)"],
     "excludeParam": "excludeParam"
   },
   "dynamicJsonQueryGenerationDirectives": {

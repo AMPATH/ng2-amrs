@@ -1,109 +1,109 @@
 {
-    "name": "referral_patient_list_template",
-    "version": "1.0",
-    "tag": "referral_patient_list_template",
-    "description": "Referral patient list template",
-    "sources": [
-        {
-            "table": "amrs.person",
-            "alias": "t1"
-        },
-        {
-            "table": "amrs.person_name",
-            "alias": "person_name",
-            "join": {
-                "type": "INNER",
-                "joinCondition": "t1.person_id = person_name.person_id AND (person_name.voided IS NULL || person_name.voided = 0) AND person_name.preferred = 1"
-            }
-        },
-        {
-            "table": "amrs.patient_identifier",
-            "alias": "id",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "t1.person_id = id.patient_id AND (id.voided IS NULL || id.voided = 0)"
-            }
-        },
-        {
-            "table": "amrs.person_attribute",
-            "alias": "contacts",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "t1.person_id = contacts.person_id AND (contacts.voided IS NULL || contacts.voided = 0) AND contacts.person_attribute_type_id = 10"
-            }
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "patient_uuid",
-            "column": "t1.uuid"
-        },
-        {
-            "type": "derived_column",
-            "alias": "uuid",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "t1.uuid"
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "person_id",
-            "column": "t1.person_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "gender",
-            "column": "t1.gender"
-        },
-        {
-            "type": "simple_column",
-            "alias": "birthdate",
-            "column": "t1.birthdate"
-        },
-        {
-            "type": "derived_column",
-            "alias": "phone_number",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if (contacts.value IS NULL, '', contacts.value)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "provider_encounter",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "IF(t5.uuid = '731ba72-cf99-4176-9fcd-37cd186400c7' OR t5.uuid ='876a154d-310d-4caf-8b58-be9dbcc7e753' OR t5.uuid ='bd9a8b06-73c7-44a8-928c-5e72247f4c1d' , 1,0)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "age",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "extract(year from (from_days(datediff(now(),t1.birthdate))))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "person_name",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "CONCAT(COALESCE(person_name.given_name, ''), ' ', COALESCE(person_name.middle_name, ''), ' ', COALESCE(person_name.family_name, ''))"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "identifiers",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": " GROUP_CONCAT(DISTINCT id.identifier SEPARATOR ', ')"
-            }
-        }
-    ],
-    "groupBy":{
-        "columns":["t1.person_id"]
+  "name": "referral_patient_list_template",
+  "version": "1.0",
+  "tag": "referral_patient_list_template",
+  "description": "Referral patient list template",
+  "sources": [
+    {
+      "table": "amrs.person",
+      "alias": "t1"
+    },
+    {
+      "table": "amrs.person_name",
+      "alias": "person_name",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "t1.person_id = person_name.person_id AND (person_name.voided IS NULL || person_name.voided = 0) AND person_name.preferred = 1"
+      }
+    },
+    {
+      "table": "amrs.patient_identifier",
+      "alias": "id",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t1.person_id = id.patient_id AND (id.voided IS NULL || id.voided = 0)"
+      }
+    },
+    {
+      "table": "amrs.person_attribute",
+      "alias": "contacts",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t1.person_id = contacts.person_id AND (contacts.voided IS NULL || contacts.voided = 0) AND contacts.person_attribute_type_id = 10"
+      }
     }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "patient_uuid",
+      "column": "t1.uuid"
+    },
+    {
+      "type": "derived_column",
+      "alias": "uuid",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "t1.uuid"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "t1.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "gender",
+      "column": "t1.gender"
+    },
+    {
+      "type": "simple_column",
+      "alias": "birthdate",
+      "column": "t1.birthdate"
+    },
+    {
+      "type": "derived_column",
+      "alias": "phone_number",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if (contacts.value IS NULL, '', contacts.value)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "provider_encounter",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(t5.uuid = '731ba72-cf99-4176-9fcd-37cd186400c7' OR t5.uuid ='876a154d-310d-4caf-8b58-be9dbcc7e753' OR t5.uuid ='bd9a8b06-73c7-44a8-928c-5e72247f4c1d' , 1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "age",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "extract(year from (from_days(datediff(now(),t1.birthdate))))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "person_name",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "CONCAT(COALESCE(person_name.given_name, ''), ' ', COALESCE(person_name.middle_name, ''), ' ', COALESCE(person_name.family_name, ''))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "identifiers",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": " GROUP_CONCAT(DISTINCT id.identifier SEPARATOR ', ')"
+      }
+    }
+  ],
+  "groupBy": {
+    "columns": ["t1.person_id"]
+  }
 }

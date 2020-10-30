@@ -18,52 +18,45 @@ var baseUrl = 'http://localhost:8002';
 chai.use(sinonChai);
 
 describe('SCOPE BUILDER SERVICE:', function () {
+  beforeEach(function (done) {
+    done();
+  });
 
-    beforeEach(function (done) {
-        done();
-    });
+  afterEach(function () {});
 
-    afterEach(function () {
-    });
+  it('should load scope builder service', function () {
+    expect(scopeBuilder).to.be.defined;
+  });
 
-    it('should load scope builder service',
-        function () {
-            expect(scopeBuilder).to.be.defined;
-        });
+  it('should build a scope object', function () {
+    var dataDictionary = {
+      patient: {
+        person: {
+          age: 20,
+          gender: 'F'
+        }
+      },
+      intendedVisitLocationUuid: 'location-uuid',
+      enrollment: {
+        uuid: 'some uuid',
+        program: {
+          uuid: 'some program'
+        },
+        location: {
+          uuid: 'some location uuid'
+        }
+      }
+    };
 
-    it('should build a scope object',
-        function () {
+    var expectedScopeObject = {
+      age: 20,
+      gender: 'F',
+      intendedVisitLocationUuid: 'location-uuid',
+      programLocation: 'some location uuid'
+    };
 
-            var dataDictionary = {
-                'patient' : {
-                    'person' : {
-                        age: 20,
-                      gender: 'F'
-                    }
-                },
-                'intendedVisitLocationUuid' : 'location-uuid',
-                'enrollment': {
-                    'uuid': 'some uuid',
-                    'program': {
-                        'uuid':'some program'
-                    },
-                    'location': {
-                        'uuid': 'some location uuid'
-                    }
-                }
-            };
+    var actualScope = scopeBuilder.buildScope(dataDictionary);
 
-            var expectedScopeObject = {
-                age: 20,
-                gender: 'F',
-                intendedVisitLocationUuid: 'location-uuid',
-                programLocation: 'some location uuid'
-            };
-
-            var actualScope = scopeBuilder.buildScope(dataDictionary);
-
-            expect(expectedScopeObject).to.deep.equal(actualScope);
-
-        });
-
+    expect(expectedScopeObject).to.deep.equal(actualScope);
+  });
 });

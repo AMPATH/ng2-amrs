@@ -6,20 +6,12 @@ var squel = require('squel');
 var _ = require('underscore');
 var moment = require('moment');
 
-
 var apiHivUnenrollCall = {
   unEnrollHivCall: unEnrollHivCall
 };
 
 module.exports = apiHivUnenrollCall;
 
-
 function unEnrollHivCall() {
-
-  return new Promise(function (resolve, reject) {
-
-    
-
-  });
-
-};
+  return new Promise(function (resolve, reject) {});
+}

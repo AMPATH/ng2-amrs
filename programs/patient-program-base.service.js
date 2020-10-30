@@ -20,30 +20,46 @@ function getAllProgramsConfig() {
 }
 
 function getPatientProgramEnrollmentVisits(
-  patientUuid, programUuid, enrollmentUuid,
-  intendedVisitLocationUuid) {
-
+  patientUuid,
+  programUuid,
+  enrollmentUuid,
+  intendedVisitLocationUuid
+) {
   const clone = getAllProgramsConfig();
 
   return programVisitTypes.getPatientVisitTypes(
-    patientUuid, programUuid, enrollmentUuid, intendedVisitLocationUuid || '', clone
+    patientUuid,
+    programUuid,
+    enrollmentUuid,
+    intendedVisitLocationUuid || '',
+    clone
   );
 }
 
-function validateEnrollmentOptions (patient) {
+function validateEnrollmentOptions(patient) {
   const clone = getAllProgramsConfig();
   return programValidationService.validateEnrollmentOptions(patient, clone);
 }
 
-function getPatientProgramVisits(patientUuid, programUuid, enrollment, locationUuid) {
+function getPatientProgramVisits(
+  patientUuid,
+  programUuid,
+  enrollment,
+  locationUuid
+) {
   return new Promise(function (success, error) {
     getPatientProgramEnrollmentVisits(
-      patientUuid, programUuid, enrollment, locationUuid
-    ).then((programVisits) => {
-      success(programVisits);
-    }).catch((err) => {
-      console.error('Error fetching program enrollment visits: ', err);
-      error(err);
-    });
+      patientUuid,
+      programUuid,
+      enrollment,
+      locationUuid
+    )
+      .then((programVisits) => {
+        success(programVisits);
+      })
+      .catch((err) => {
+        console.error('Error fetching program enrollment visits: ', err);
+        error(err);
+      });
   });
 }

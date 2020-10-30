@@ -1,92 +1,96 @@
 [
   {
     "name": "moh-731-12month-cohort-one-row-per-encounter",
-    "table":{
-      "schema":"etl",
-      "tableName":"flat_hiv_summary",
+    "table": {
+      "schema": "etl",
+      "tableName": "flat_hiv_summary",
       "indexExpression": "FORCE INDEX (location_uuid_rtc_date)",
-      "alias":"t1"
-      },
-    "joins":[],
+      "alias": "t1"
+    },
+    "joins": [],
     "parameters": [
-      {"name":"locationUuids","defaultValue":[]},
-      {"name":"endDate", "defaultValue":"2015-10-31"},
-      {"name":"startDate", "defaultValue":"2015-10-31"},
-      {"name":"groupByPerson", "defaultValue":[
-        {"label":"person_id","expression":"t1.person_id"}
-      ]
+      { "name": "locationUuids", "defaultValue": [] },
+      { "name": "endDate", "defaultValue": "2015-10-31" },
+      { "name": "startDate", "defaultValue": "2015-10-31" },
+      {
+        "name": "groupByPerson",
+        "defaultValue": [{ "label": "person_id", "expression": "t1.person_id" }]
       }
     ],
     "filters": [
-      {"expression":"t1.location_uuid in ?","parameter":"locationUuids"},
-      {"expression":"date(t1.arv_first_regimen_start_date) >= DATE_SUB( ?, INTERVAL 1 YEAR)", "parameter":"startDate"},
-      {"expression":"date(t1.arv_first_regimen_start_date) <= DATE_SUB( ?, INTERVAL 1 YEAR)", "parameter":"endDate"},
-      {"expression":"t1.is_clinical_encounter = 1", "processForce":true}
+      { "expression": "t1.location_uuid in ?", "parameter": "locationUuids" },
+      {
+        "expression": "date(t1.arv_first_regimen_start_date) >= DATE_SUB( ?, INTERVAL 1 YEAR)",
+        "parameter": "startDate"
+      },
+      {
+        "expression": "date(t1.arv_first_regimen_start_date) <= DATE_SUB( ?, INTERVAL 1 YEAR)",
+        "parameter": "endDate"
+      },
+      { "expression": "t1.is_clinical_encounter = 1", "processForce": true }
     ],
-    "groupClause":[
-      {"parameter":"groupByPerson"}
-    ],
+    "groupClause": [{ "parameter": "groupByPerson" }],
     "indicators": [],
-    "supplementColumns":[
+    "supplementColumns": [
       {
-        "label":"person_id",
-        "type":"single",
-        "sql":"t1.person_id"
+        "label": "person_id",
+        "type": "single",
+        "sql": "t1.person_id"
       },
       {
-        "label":"location_uuid",
-        "type":"single",
-        "sql":"t1.location_uuid"
+        "label": "location_uuid",
+        "type": "single",
+        "sql": "t1.location_uuid"
       },
       {
-        "label":"location_id",
-        "type":"single",
-        "sql":"t1.location_id"
+        "label": "location_id",
+        "type": "single",
+        "sql": "t1.location_id"
       },
       {
-        "label":"cur_arv_line",
-        "type":"single",
-        "sql":"mid(max(concat(encounter_datetime,cur_arv_line)),20)"
+        "label": "cur_arv_line",
+        "type": "single",
+        "sql": "mid(max(concat(encounter_datetime,cur_arv_line)),20)"
       },
       {
-        "label":"cur_arv_meds",
-        "type":"single",
-        "sql":"mid(max(concat(encounter_datetime,cur_arv_meds)),20)"
+        "label": "cur_arv_meds",
+        "type": "single",
+        "sql": "mid(max(concat(encounter_datetime,cur_arv_meds)),20)"
       },
       {
-        "label":"arv_first_regimen",
-        "type":"single",
-        "sql":"mid(max(concat(encounter_datetime,arv_first_regimen)),20)"
+        "label": "arv_first_regimen",
+        "type": "single",
+        "sql": "mid(max(concat(encounter_datetime,arv_first_regimen)),20)"
       },
       {
-        "label":"rtc_date",
-        "type":"single",
-        "sql":"mid(max(concat(encounter_datetime,rtc_date)),20)"
+        "label": "rtc_date",
+        "type": "single",
+        "sql": "mid(max(concat(encounter_datetime,rtc_date)),20)"
       },
       {
-        "label":"encounter_datetime",
-        "type":"single",
-        "sql":"max(encounter_datetime)"
+        "label": "encounter_datetime",
+        "type": "single",
+        "sql": "max(encounter_datetime)"
       },
       {
-        "label":"death_date",
-        "type":"single",
-        "sql":"max(t1.death_date)"
+        "label": "death_date",
+        "type": "single",
+        "sql": "max(t1.death_date)"
       },
       {
-        "label":"transfer_out",
-        "type":"single",
-        "sql":"max(transfer_out)"
+        "label": "transfer_out",
+        "type": "single",
+        "sql": "max(transfer_out)"
       },
       {
-        "label":"out_of_care",
-        "type":"single",
-        "sql":"max(out_of_care)"
+        "label": "out_of_care",
+        "type": "single",
+        "sql": "max(out_of_care)"
       },
       {
-        "label":"arv_first_regimen_start_date",
-        "type":"single",
-        "sql":"arv_first_regimen_start_date"
+        "label": "arv_first_regimen_start_date",
+        "type": "single",
+        "sql": "arv_first_regimen_start_date"
       }
     ]
   }

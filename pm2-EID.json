@@ -1,17 +1,18 @@
 {
-    "apps" : [
-      {
-        "name"        : "eid-sync",
-        "script"      : "/opt/etl/worker/eid-sync.js",
-        "watch"       : false,
-        "exec_interpreter" : "babel-node",
-        "exec_mode"        : "fork"
-      },{
-      "name"        : "etl-server",
-      "script"      : "/opt/etl/etl-server.js",
-      "watch"       : false,
-      "exec_interpreter" : "babel-node",
-      "exec_mode"        : "fork"
-    }]
-  }
-  
+  "apps": [
+    {
+      "name": "eid-sync",
+      "script": "/opt/etl/worker/eid-sync.js",
+      "watch": false,
+      "exec_interpreter": "babel-node",
+      "exec_mode": "fork"
+    },
+    {
+      "name": "etl-server",
+      "script": "/opt/etl/etl-server.js",
+      "watch": false,
+      "exec_interpreter": "babel-node",
+      "exec_mode": "fork"
+    }
+  ]
+}

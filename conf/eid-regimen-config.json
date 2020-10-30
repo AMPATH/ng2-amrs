@@ -1,10 +1,9 @@
 {
-    "eid_regimen_config":[
-        {
-            "version": 2,
-            "column": "eidCode",
-            "tag": "eid config version two"
-        }
-    ]
-
+  "eid_regimen_config": [
+    {
+      "version": 2,
+      "column": "eidCode",
+      "tag": "eid config version two"
+    }
+  ]
 }

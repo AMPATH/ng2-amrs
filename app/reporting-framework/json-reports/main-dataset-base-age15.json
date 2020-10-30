@@ -1,224 +1,224 @@
 {
-    "name": "mainDataSetBaseAge15",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [],
-    "sources": [
-        {
-            "table": "<<hivMonthlyDatasetSource>>",
-            "alias": "hmsd"
-        },
-        {
-            "table": "amrs.location",
-            "alias": "l",
-            "join": {
-                "type": "INNER",
-                "joinCondition": "l.location_id = hmsd.location_id"
-            }
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "gender",
-            "column": "hmsd.gender"
-        },
-        {
-            "type": "simple_column",
-            "alias": "birthdate",
-            "column": "hmsd.birthdate"
-        },
-        {
-            "type": "simple_column",
-            "alias": "age",
-            "column": "hmsd.age"
-        },
-        {
-            "type": "simple_column",
-            "alias": "person_id",
-            "column": "hmsd.person_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_uuid",
-            "column": "l.uuid"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location",
-            "column": "l.name"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_id",
-            "column": "hmsd.location_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "cur_arv_meds",
-            "column": "hmsd.cur_arv_meds"
-        },
-        {
-            "type": "derived_column",
-            "alias": "enrollment_date",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "date_format(hmsd.enrollment_date,'%d-%m-%Y')"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "arv_first_regimen_start_date",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "date_format(hmsd.arv_first_regimen_start_date,'%d-%m-%Y')"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "cur_regimen_arv_start_date",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "date_format(hmsd.arv_start_date,'%d-%m-%Y')"
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "cur_arv_line",
-            "column": "hmsd.cur_arv_line"
-        },
-        {
-            "type": "simple_column",
-            "alias": "vl_1",
-            "column": "hmsd.vl_1"
-        },
-        {
-            "type": "derived_column",
-            "alias": "vl_1_date",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "date_format(hmsd.vl_1_date,'%d-%m-%Y')"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "age_range",
-            "expressionType": "case_statement",
-            "expressionOptions": {
-                "caseOptions": [
-                    {
-                        "condition": "hmsd.age >= 15",
-                        "value": "older_than_15"
-                    },
-                    {
-                        "condition": "else",
-                        "value": "below_15_years"
-                    }
-                ]
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "enrolled_this_month",
-            "column": "hmsd.enrolled_this_month"
-        },
-        {
-            "type": "simple_column",
-            "alias": "current_in_care",
-            "column": "hmsd.active_in_care_this_month"
-        },
-        {
-            "type": "simple_column",
-            "alias": "pre_art",
-            "column": "hmsd.is_pre_art_this_month"
-        },
-        {
-            "type": "simple_column",
-            "alias": "active_on_art",
-            "column": "hmsd.on_art_this_month"
-        },
-        {
-            "type": "simple_column",
-            "alias": "on_ctx_prophylaxis",
-            "column": "hmsd.on_pcp_prophylaxis_this_month"
-        },
-        {
-            "type": "simple_column",
-            "alias": "screened_for_tb",
-            "column": "hmsd.tb_screened_active_this_month"
-        },
-        {
-            "type": "simple_column",
-            "alias": "tb_screened_this_visit_this_month",
-            "column": "hmsd.tb_screened_this_visit_this_month"
-        },
-        {
-            "type": "simple_column",
-            "alias": "tb_screened_positive",
-            "column": "hmsd.presumed_tb_positive_this_month"
-        },
-        {
-            "type": "derived_column",
-            "alias": "screened_for_cervical_ca",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "0"
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "started_ipt",
-            "column": "hmsd.started_ipt_this_month"
-        },
-        {
-            "type": "derived_column",
-            "alias": "completed_ipt_past_12_months",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "completed_ipt_past_12_months"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "condoms_provided",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "condoms_provided_this_month"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "started_modern_contraception",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "started_modern_contraception_this_month"
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "on_modern_contraception",
-            "column": "hmsd.on_modern_contraception_this_month"
-        },
-        {
-            "type": "simple_column",
-            "alias": "f_gte_18_visits",
-            "column": "hmsd.f_18_and_older_this_month"
-        }
-    ],
-    "filters": {
-        "conditionJoinOperator": "and",
-        "conditions": [
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "endDate = ?",
-                "parameterName": "endDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "hmsd.location_id in ?",
-                "parameterName": "locations"
-            }
-        ]
+  "name": "mainDataSetBaseAge15",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "<<hivMonthlyDatasetSource>>",
+      "alias": "hmsd"
+    },
+    {
+      "table": "amrs.location",
+      "alias": "l",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "l.location_id = hmsd.location_id"
+      }
     }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "gender",
+      "column": "hmsd.gender"
+    },
+    {
+      "type": "simple_column",
+      "alias": "birthdate",
+      "column": "hmsd.birthdate"
+    },
+    {
+      "type": "simple_column",
+      "alias": "age",
+      "column": "hmsd.age"
+    },
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "hmsd.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "l.uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "l.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "hmsd.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "cur_arv_meds",
+      "column": "hmsd.cur_arv_meds"
+    },
+    {
+      "type": "derived_column",
+      "alias": "enrollment_date",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "date_format(hmsd.enrollment_date,'%d-%m-%Y')"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "arv_first_regimen_start_date",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "date_format(hmsd.arv_first_regimen_start_date,'%d-%m-%Y')"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "cur_regimen_arv_start_date",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "date_format(hmsd.arv_start_date,'%d-%m-%Y')"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "cur_arv_line",
+      "column": "hmsd.cur_arv_line"
+    },
+    {
+      "type": "simple_column",
+      "alias": "vl_1",
+      "column": "hmsd.vl_1"
+    },
+    {
+      "type": "derived_column",
+      "alias": "vl_1_date",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "date_format(hmsd.vl_1_date,'%d-%m-%Y')"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "age_range",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "hmsd.age >= 15",
+            "value": "older_than_15"
+          },
+          {
+            "condition": "else",
+            "value": "below_15_years"
+          }
+        ]
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "enrolled_this_month",
+      "column": "hmsd.enrolled_this_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "current_in_care",
+      "column": "hmsd.active_in_care_this_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "pre_art",
+      "column": "hmsd.is_pre_art_this_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "active_on_art",
+      "column": "hmsd.on_art_this_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "on_ctx_prophylaxis",
+      "column": "hmsd.on_pcp_prophylaxis_this_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "screened_for_tb",
+      "column": "hmsd.tb_screened_active_this_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "tb_screened_this_visit_this_month",
+      "column": "hmsd.tb_screened_this_visit_this_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "tb_screened_positive",
+      "column": "hmsd.presumed_tb_positive_this_month"
+    },
+    {
+      "type": "derived_column",
+      "alias": "screened_for_cervical_ca",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "0"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "started_ipt",
+      "column": "hmsd.started_ipt_this_month"
+    },
+    {
+      "type": "derived_column",
+      "alias": "completed_ipt_past_12_months",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "completed_ipt_past_12_months"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "condoms_provided",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "condoms_provided_this_month"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "started_modern_contraception",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "started_modern_contraception_this_month"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "on_modern_contraception",
+      "column": "hmsd.on_modern_contraception_this_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "f_gte_18_visits",
+      "column": "hmsd.f_18_and_older_this_month"
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "endDate = ?",
+        "parameterName": "endDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "hmsd.location_id in ?",
+        "parameterName": "locations"
+      }
+    ]
+  }
 }

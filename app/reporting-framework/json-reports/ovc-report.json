@@ -1,6 +1,3 @@
 {
-    "reports": [
-        "ovcInHivDatasetAggregate",
-        "ovcInHeiDatasetAggregate"
-    ]
+  "reports": ["ovcInHivDatasetAggregate", "ovcInHeiDatasetAggregate"]
 }

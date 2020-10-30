@@ -1,84 +1,80 @@
 [
-    {
-        "name": "patient-monthly-care-status-report",
-        "table": {
-            "schema": "etl",
-            "tableName": "flat_hiv_summary",
-            "alias": "t1"
-        },
-        "joins": [
-            {
-                "joinType": "INNER JOIN",
-                "schema": "etl",
-                "tableName": "dates",
-                "alias": "t2",
-                "joinExpression": "t1.encounter_datetime <= t2.endDate"
-            }
-        ],
-        "parameters": [
-            {
-                "name": "startDate",
-                "defaultValue": [
-                    "10-10-2015"
-                ]
-            },
-            {
-                "name": "endDate",
-                "defaultValue": [
-                    "defaultValue"
-                ]
-            },
-            {
-                "name": "patient_uuid",
-                "defaultValue": ""
-            },
-            {
-                "name": "groupByEndDate",
-                "defaultValue": [
-                    {
-                        "label": "endDate",
-                        "expression": "endDate"
-                    }
-                ]
-            }
-        ],
-        "filters": [
-            {
-                "expression": "t1.uuid = ?",
-                "parameter": "patient_uuid"
-            },
-            {
-                "expression": "(t1.next_clinical_datetime_hiv IS NULL OR t1.next_clinical_datetime_hiv > t2.endDate)",
-                "processForce": true
-            },
-            {
-                "expression": "t2.endDate >=  ?",
-                "parameter": "startDate"
-            },
-            {
-                "expression": "t2.endDate <=  ?",
-                "parameter": "endDate"
-            }
-        ],
-        "groupClause": [
-            {
-                "parameter": "groupByEndDate"
-            }
-        ],
-        "indicators": [
-            {
-                "label": "monthly_patient_care_status",
-                "expression": "monthly_patient_care_status",
-                "sql": "$expression"
-            }
-        ],
-        "supplementColumns": [
-            {
-                "label": "month",
-                "type": "single",
-                "sql": "DATE_FORMAT(t2.endDate,'%M %Y')"
-            }
-        ],
-        "indicatorHandlers": []
-    }
+  {
+    "name": "patient-monthly-care-status-report",
+    "table": {
+      "schema": "etl",
+      "tableName": "flat_hiv_summary",
+      "alias": "t1"
+    },
+    "joins": [
+      {
+        "joinType": "INNER JOIN",
+        "schema": "etl",
+        "tableName": "dates",
+        "alias": "t2",
+        "joinExpression": "t1.encounter_datetime <= t2.endDate"
+      }
+    ],
+    "parameters": [
+      {
+        "name": "startDate",
+        "defaultValue": ["10-10-2015"]
+      },
+      {
+        "name": "endDate",
+        "defaultValue": ["defaultValue"]
+      },
+      {
+        "name": "patient_uuid",
+        "defaultValue": ""
+      },
+      {
+        "name": "groupByEndDate",
+        "defaultValue": [
+          {
+            "label": "endDate",
+            "expression": "endDate"
+          }
+        ]
+      }
+    ],
+    "filters": [
+      {
+        "expression": "t1.uuid = ?",
+        "parameter": "patient_uuid"
+      },
+      {
+        "expression": "(t1.next_clinical_datetime_hiv IS NULL OR t1.next_clinical_datetime_hiv > t2.endDate)",
+        "processForce": true
+      },
+      {
+        "expression": "t2.endDate >=  ?",
+        "parameter": "startDate"
+      },
+      {
+        "expression": "t2.endDate <=  ?",
+        "parameter": "endDate"
+      }
+    ],
+    "groupClause": [
+      {
+        "parameter": "groupByEndDate"
+      }
+    ],
+    "indicators": [
+      {
+        "label": "monthly_patient_care_status",
+        "expression": "monthly_patient_care_status",
+        "sql": "$expression"
+      }
+    ],
+    "supplementColumns": [
+      {
+        "label": "month",
+        "type": "single",
+        "sql": "DATE_FORMAT(t2.endDate,'%M %Y')"
+      }
+    ],
+    "indicatorHandlers": []
+  }
 ]

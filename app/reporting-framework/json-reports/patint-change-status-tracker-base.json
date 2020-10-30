@@ -1,142 +1,142 @@
 {
-    "name": "patintChangeStatusTrackerDataSetbase",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [],
-    "sources": [
-        {
-            "table": "etl.hiv_monthly_report_dataset_frozen",
-            "alias": "fhs"
-        },
-        {
-            "table": "amrs.location",
-            "alias": "l",
-            "join": {
-                "type": "INNER",
-                "joinCondition": "l.location_id = fhs.location_id"
-            }
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "person_id",
-            "column": "fhs.person_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "gender",
-            "column": "fhs.gender"
-        },
-        {
-            "type": "simple_column",
-            "alias": "birthdate",
-            "column": "fhs.birthdate"
-        },
-        {
-            "type": "simple_column",
-            "alias": "age",
-            "column": "fhs.age"
-        },
-        {
-            "type": "derived_column",
-            "alias": "active_in_care",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "case when status='active' then 1 else null end"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "active_return",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "case when status='active' and art_revisit_this_month = 1 then 1 else null end"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "LTFU",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "case when status='ltfu' then 1 else null end"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "deaths",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "case when status='dead' then 1 else null end"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "transfer_out_patients",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "case when status='transfer_out' then 1 else null end"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "new_enrollments",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "case when enrolled_this_month=1 then 1 else null end"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "transfer_in",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "case when transfer_in_this_month = 1 then 1 else null end"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "reporting_month",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "date_format(fhs.endDate, '%m/%Y') "
-            }
-        },
-        {
-            "type": "simple_column",
-            "alias": "reporting_date",
-            "column": "fhs.endDate"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_uuid",
-            "column": "fhs.location_uuid"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_id",
-            "column": "fhs.location_id"
-        }
-    ],
-    "filters": {
-        "conditionJoinOperator": "and",
-        "conditions": [
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "endDate >= ?",
-                "parameterName": "startDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "endDate <= ?",
-                "parameterName": "endDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "fhs.location_id in ?",
-                "parameterName": "locations"
-            }
-        ]
+  "name": "patintChangeStatusTrackerDataSetbase",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "etl.hiv_monthly_report_dataset_frozen",
+      "alias": "fhs"
+    },
+    {
+      "table": "amrs.location",
+      "alias": "l",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "l.location_id = fhs.location_id"
+      }
     }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "fhs.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "gender",
+      "column": "fhs.gender"
+    },
+    {
+      "type": "simple_column",
+      "alias": "birthdate",
+      "column": "fhs.birthdate"
+    },
+    {
+      "type": "simple_column",
+      "alias": "age",
+      "column": "fhs.age"
+    },
+    {
+      "type": "derived_column",
+      "alias": "active_in_care",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "case when status='active' then 1 else null end"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "active_return",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "case when status='active' and art_revisit_this_month = 1 then 1 else null end"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "LTFU",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "case when status='ltfu' then 1 else null end"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "deaths",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "case when status='dead' then 1 else null end"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "transfer_out_patients",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "case when status='transfer_out' then 1 else null end"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "new_enrollments",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "case when enrolled_this_month=1 then 1 else null end"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "transfer_in",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "case when transfer_in_this_month = 1 then 1 else null end"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "reporting_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "date_format(fhs.endDate, '%m/%Y') "
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "reporting_date",
+      "column": "fhs.endDate"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "fhs.location_uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "fhs.location_id"
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "endDate >= ?",
+        "parameterName": "startDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "endDate <= ?",
+        "parameterName": "endDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "fhs.location_id in ?",
+        "parameterName": "locations"
+      }
+    ]
+  }
 }

@@ -1,213 +1,213 @@
 {
-    "name": "dailyHasNotReturnedBase",
-    "version": "1.0",
-    "tag": "",
-    "description": "",
-    "uses": [
-        {
-            "name": "dailyHasNotReturnedCohort",
-            "version": "1.0",
-            "type": "dataset_def"
-        }
-    ],
-    "sources": [
-        {
-            "table": "etl.flat_appointment",
-            "alias": "t2"
-        },
-        {
-            "table": "etl.flat_appointment",
-            "alias": "t8",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "t2.person_id = t8.person_id and t8.encounter_type=116 and t2.encounter_datetime < t8.encounter_datetime"
-            }
-        },
-        {
-            "table": "etl.flat_hiv_summary_v15b",
-            "alias": "t9",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "t9.encounter_id = t2.encounter_id"
-            }
-        },
-        {
-            "table": "amrs.person",
-            "alias": "t10",
-            "join": {
-                "type": "INNER",
-                "joinCondition": "t2.person_id  = t10.person_id"
-            }
-        },
-        {
-            "table": "amrs.visit",
-            "alias": "t20",
-            "join": {
-                "type": "INNER",
-                "joinCondition": "t2.visit_id  = t20.visit_id"
-            }
-        },
-        {
-            "table": "etl.program_visit_map",
-            "alias": "t21",
-            "join": {
-                "type": "INNER",
-                "joinCondition": "t21.visit_type_id  = t20.visit_type_id"
-            }
-        },
-        {
-            "dataSet": "dailyHasNotReturnedCohort",
-            "alias": "t7",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "t2.person_id = t7.person_id"
-            }
-        },
-        {
-            "table": "amrs.program",
-            "alias": "pr",
-            "join": {
-                "type": "LEFT",
-                "joinCondition": "pr.program_id  = t2.program_id"
-            }
-        }
-    ],
-    "columns": [
-        {
-            "type": "simple_column",
-            "alias": "person_id",
-            "column": "t2.person_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "encounter_type",
-            "column": "t2.encounter_type"
-        },
-        {
-            "type": "simple_column",
-            "alias": "program",
-            "column": "pr.name"
-        }, 
-        {
-            "type": "simple_column",
-            "alias": "d",
-            "column": "date_format(t2.scheduled_date,'%Y-%m-%d')"
-        },
-        {
-            "type": "simple_column",
-            "alias": "med_pick_up_date",
-            "column": "date_format(t2.med_pickup_rtc_date,'%Y-%m-%d')"
-        },
-        {
-            "type": "simple_column",
-            "alias": "transfer_out",
-            "column": "t9.transfer_out"
-        },
-        {
-            "type": "simple_column",
-            "alias": "location_id",
-            "column": "t2.location_id"
-        },
-        {
-            "type": "simple_column",
-            "alias": "prev_location_id",
-            "column": "t9.prev_clinical_location_id"
-        },
-        {
-            "type": "derived_column",
-            "alias": "has_not_returned",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if((date(t2.scheduled_date) < DATE(NOW())) AND ((t2.department_id = t7.department_id) OR (t2.department_id is NULL AND t7.department_id is NULL)), 1 , NULL)"
-            }
-        },
-        {
-            "type": "derived_column",
-            "alias": "patients",
-            "expressionType": "simple_expression",
-            "expressionOptions": {
-                "expression": "if((date(t2.scheduled_date) = DATE('{startDate}')) and (t2.scheduled_date = t7.latest_rtc_date)AND  t2.next_program_clinical_datetime IS NULL, 1, null)"
-            }
-        }
-    ],
-    "filters": {
-        "conditionJoinOperator": "and",
-        "conditions": [
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "date(t2.scheduled_date) >= '{startDate}'",
-                "parameterName": "startDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "date(t2.scheduled_date) <= '{endDate}'",
-                "parameterName": "endDate"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "t2.location_id in (?)",
-                "parameterName": "locations"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "t2.encounter_type in ?",
-                "parameterName": "encounterIds"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "t21.visit_type_id in ?",
-                "parameterName": "visitTypeIds"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "t21.program_type_id in ? OR t7.program_id IS NULL",
-                "parameterName": "programTypeIds"
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "t2.next_program_clinical_datetime IS NULL",
-                "parameterName": ""
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "t2.encounter_type != 110",
-                "parameterName": ""
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "t2.next_clinical_encounter_datetime IS NULL",
-                "parameterName": ""
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression":  "t7.is_clinical = 1",
-                "parameterName": ""
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "DATE(t2.scheduled_date) < DATE(NOW())",
-                "parameterName": ""
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "DATE(t2.scheduled_date) = DATE(t7.latest_rtc_date)",
-                "parameterName": ""
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "t10.dead = 0",
-                "parameterName": ""
-            },
-            {
-                "filterType": "tableColumns",
-                "conditionExpression": "t9.transfer_out_location_id is NULL || t9.transfer_out_location_id <> 9999",
-                "parameterName": ""
-            },
-            {
-              "filterType": "tableColumns",
-              "conditionExpression": "t9.out_of_care is NULL",
-              "parameterName": ""
-            }
-        ]
+  "name": "dailyHasNotReturnedBase",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [
+    {
+      "name": "dailyHasNotReturnedCohort",
+      "version": "1.0",
+      "type": "dataset_def"
     }
+  ],
+  "sources": [
+    {
+      "table": "etl.flat_appointment",
+      "alias": "t2"
+    },
+    {
+      "table": "etl.flat_appointment",
+      "alias": "t8",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t2.person_id = t8.person_id and t8.encounter_type=116 and t2.encounter_datetime < t8.encounter_datetime"
+      }
+    },
+    {
+      "table": "etl.flat_hiv_summary_v15b",
+      "alias": "t9",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t9.encounter_id = t2.encounter_id"
+      }
+    },
+    {
+      "table": "amrs.person",
+      "alias": "t10",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "t2.person_id  = t10.person_id"
+      }
+    },
+    {
+      "table": "amrs.visit",
+      "alias": "t20",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "t2.visit_id  = t20.visit_id"
+      }
+    },
+    {
+      "table": "etl.program_visit_map",
+      "alias": "t21",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "t21.visit_type_id  = t20.visit_type_id"
+      }
+    },
+    {
+      "dataSet": "dailyHasNotReturnedCohort",
+      "alias": "t7",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t2.person_id = t7.person_id"
+      }
+    },
+    {
+      "table": "amrs.program",
+      "alias": "pr",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "pr.program_id  = t2.program_id"
+      }
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "t2.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "encounter_type",
+      "column": "t2.encounter_type"
+    },
+    {
+      "type": "simple_column",
+      "alias": "program",
+      "column": "pr.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "d",
+      "column": "date_format(t2.scheduled_date,'%Y-%m-%d')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "med_pick_up_date",
+      "column": "date_format(t2.med_pickup_rtc_date,'%Y-%m-%d')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "transfer_out",
+      "column": "t9.transfer_out"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "t2.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "prev_location_id",
+      "column": "t9.prev_clinical_location_id"
+    },
+    {
+      "type": "derived_column",
+      "alias": "has_not_returned",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((date(t2.scheduled_date) < DATE(NOW())) AND ((t2.department_id = t7.department_id) OR (t2.department_id is NULL AND t7.department_id is NULL)), 1 , NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "patients",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((date(t2.scheduled_date) = DATE('{startDate}')) and (t2.scheduled_date = t7.latest_rtc_date)AND  t2.next_program_clinical_datetime IS NULL, 1, null)"
+      }
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "date(t2.scheduled_date) >= '{startDate}'",
+        "parameterName": "startDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "date(t2.scheduled_date) <= '{endDate}'",
+        "parameterName": "endDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "t2.location_id in (?)",
+        "parameterName": "locations"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "t2.encounter_type in ?",
+        "parameterName": "encounterIds"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "t21.visit_type_id in ?",
+        "parameterName": "visitTypeIds"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "t21.program_type_id in ? OR t7.program_id IS NULL",
+        "parameterName": "programTypeIds"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "t2.next_program_clinical_datetime IS NULL",
+        "parameterName": ""
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "t2.encounter_type != 110",
+        "parameterName": ""
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "t2.next_clinical_encounter_datetime IS NULL",
+        "parameterName": ""
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "t7.is_clinical = 1",
+        "parameterName": ""
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "DATE(t2.scheduled_date) < DATE(NOW())",
+        "parameterName": ""
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "DATE(t2.scheduled_date) = DATE(t7.latest_rtc_date)",
+        "parameterName": ""
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "t10.dead = 0",
+        "parameterName": ""
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "t9.transfer_out_location_id is NULL || t9.transfer_out_location_id <> 9999",
+        "parameterName": ""
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "t9.out_of_care is NULL",
+        "parameterName": ""
+      }
+    ]
+  }
 }

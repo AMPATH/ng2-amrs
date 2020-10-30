@@ -1009,8 +1009,6 @@
   },
   "groupBy": {
     "groupParam": "groupByParam",
-    "columns": [
-      "encounter_id"
-    ]
+    "columns": ["encounter_id"]
   }
 }

@@ -2,36 +2,35 @@
 // create a unique, global symbol name
 // -----------------------------------
 
-const MODULE_KEY = Symbol.for("App.Ampath.etl");
+const MODULE_KEY = Symbol.for('App.Ampath.etl');
 
 // check if the global object has this symbol
 // add it if it does not have the symbol, yet
 // ------------------------------------------
 
 var globalSymbols = Object.getOwnPropertySymbols(global);
-var hasFoo = (globalSymbols.indexOf(MODULE_KEY) > -1);
+var hasFoo = globalSymbols.indexOf(MODULE_KEY) > -1;
 
 if (!hasFoo) {
-    global[MODULE_KEY] = {
-    };
+  global[MODULE_KEY] = {};
 }
 
 // define the singleton API
 // ------------------------
 var cachedAgents = {};
 var singleton = {
-    saveAgent: function (key, agent) {
-        cachedAgents[key] = agent;
-    },
-    getAgent: function (key) {
-        return cachedAgents[key];
-    }
+  saveAgent: function (key, agent) {
+    cachedAgents[key] = agent;
+  },
+  getAgent: function (key) {
+    return cachedAgents[key];
+  }
 };
 
-Object.defineProperty(singleton, "instance", {
-    get: function () {
-        return global[MODULE_KEY];
-    }
+Object.defineProperty(singleton, 'instance', {
+  get: function () {
+    return global[MODULE_KEY];
+  }
 });
 
 // ensure the API is never changed
