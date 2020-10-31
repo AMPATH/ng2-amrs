@@ -7,6 +7,8 @@
     "build": "ng build",
     "build:prod": "ng build --prod",
     "test": "ng test --watch=false",
+    "test:watch": "ng test --watch=true",
+    "test:coverage": "ng test --no-watch --code-coverage",
     "test-folder": "tslint -c tslint.json",
     "test-debug": "ng test --browsers ChromeDebug",
     "lint": "ng lint",
