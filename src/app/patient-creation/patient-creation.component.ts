@@ -86,7 +86,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public longitude: string;
   public latitude: string;
   public stateProvince: string;
-  public others = false;
+  public nonCodedCounty = false;
 
   public patientIdentifiers = [];
   public patientIdentifier: string;
@@ -721,10 +721,10 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
 
   public updateLocation(location) {
     if (location === 'Other') {
-      this.others = true;
+      this.nonCodedCounty = true;
       this.address1 = '';
     } else {
-      this.others = false;
+      this.nonCodedCounty = false;
     }
   }
 
