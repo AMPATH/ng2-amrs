@@ -50,6 +50,11 @@ const testLocations = [
     name: 'Test B',
     stateProvince: 'Bar',
     uuid: 'uuid2'
+  },
+  {
+    name: 'Test Other',
+    stateProvince: 'Other',
+    uuid: 'uuid3'
   }
 ];
 
@@ -307,112 +312,132 @@ describe('Component: Patient Creation Unit Tests', () => {
       expect(component.errors).toEqual(false);
     }));
 
-    it('should submit the form when the save button is clicked after filling the form', fakeAsync(() => {
-      savePatientSpy = spyOn(
-        patientCreationResourceService,
-        'savePatient'
-      ).and.callFake(() => {
-        return of({
-          person: {
-            display: '123456789-0 - Yet Another Test Patient'
-          }
-        });
+    describe('Form actions: ', () => {
+      let nextBtn: HTMLButtonElement;
+      let universalIdLabel: HTMLElement;
+      let identifierTypeSelect: HTMLSelectElement;
+      let cancelBtn: HTMLButtonElement;
+      let saveBtn: HTMLButtonElement;
+      let generateUniversalIdEl: HTMLSpanElement;
+      let addUniversalIdBtn: HTMLButtonElement;
+      let countySelect: HTMLSelectElement;
+      let subcountyInput: HTMLInputElement;
+
+      beforeEach(() => {
+        component.updateBirthDate(new Date('01-01-1991'));
+        nextBtn = nativeElement.querySelector('button#nextBtn');
+        click(nextBtn);
+        fixture.detectChanges();
+
+        universalIdLabel = nativeElement.querySelector('#universalId');
+        identifierTypeSelect = nativeElement.querySelector(
+          'select#identifierType'
+        );
+        cancelBtn = nativeElement.querySelector('button#cancelBtn');
+        saveBtn = nativeElement.querySelector('button#saveBtn');
+        generateUniversalIdEl = nativeElement.querySelector(
+          'span#generateUniversalId'
+        );
+        addUniversalIdBtn = nativeElement.querySelector(
+          'button#addUniversalId'
+        );
+        countySelect = nativeElement.querySelector('select#address1');
+        subcountyInput = nativeElement.querySelector('input#address2');
       });
 
-      component.updateBirthDate(new Date('01-01-1991'));
-      const nextBtn: HTMLButtonElement = nativeElement.querySelector(
-        'button#nextBtn'
-      );
-      click(nextBtn);
-      tickAndDetectChanges(fixture);
+      it('should render a text input for entering county name when `Other` is selected', () => {
+        countySelect.value = countySelect.options[2].value;
+        countySelect.dispatchEvent(new Event('change'));
+        fixture.detectChanges();
 
-      /*
-       * With demographics filled in, assert that fields from the Identifiers
-       * section and the form action buttons are rendered.
-       */
-      const universalIdLabel: HTMLElement = nativeElement.querySelector(
-        '#universalId'
-      );
-      const identifierTypeSelect: HTMLSelectElement = nativeElement.querySelector(
-        'select#identifierType'
-      );
-      const cancelBtn: HTMLButtonElement = nativeElement.querySelector(
-        'button#cancelBtn'
-      );
-      const saveBtn: HTMLButtonElement = nativeElement.querySelector(
-        'button#saveBtn'
-      );
-      const generateUniversalIdEl: HTMLSpanElement = nativeElement.querySelector(
-        'span#generateUniversalId'
-      );
-      const addUniversalIdBtn: HTMLButtonElement = nativeElement.querySelector(
-        'button#addUniversalId'
-      );
-      const countySelect: HTMLSelectElement = nativeElement.querySelector(
-        'select#address1'
-      );
-      const subcountyInput: HTMLInputElement = nativeElement.querySelector(
-        'input#address2'
-      );
+        const nonCodedCountyInput: HTMLInputElement = nativeElement.querySelector(
+          'input#address1NonCoded'
+        );
+        expect(nonCodedCountyInput).toBeDefined();
 
-      expect(universalIdLabel).toBeDefined();
-      expect(identifierTypeSelect).toBeDefined();
-      expect(cancelBtn).toBeDefined();
-      expect(saveBtn).toBeDefined();
+        nonCodedCountyInput.value = 'Foobar';
+        nonCodedCountyInput.dispatchEvent(new Event('input'));
+        fixture.detectChanges();
 
-      click(generateUniversalIdEl);
-      click(addUniversalIdBtn);
+        expect(nonCodedCountyInput.value).toEqual('Foobar');
+      });
 
-      identifierTypeSelect.value = identifierTypeSelect.options[2].value;
-      identifierTypeSelect.dispatchEvent(new Event('change'));
+      it('should submit the form when the save button is clicked after filling the form', fakeAsync(() => {
+        savePatientSpy = spyOn(
+          patientCreationResourceService,
+          'savePatient'
+        ).and.callFake(() => {
+          return of({
+            person: {
+              display: '123456789-0 - Yet Another Test Patient'
+            }
+          });
+        });
 
-      const identifierLocationSelect: HTMLSelectElement = nativeElement.querySelector(
-        'ng-select'
-      );
-      identifierLocationSelect.value = 'Test';
-      identifierLocationSelect.dispatchEvent(new Event('input'));
+        /*
+         * With demographics filled in, assert that fields from the Identifiers
+         * section and the form action buttons are rendered.
+         */
 
-      component.selectedLocation = testLocations[0].name;
-      component.identifierLocation = 'uuid2';
+        expect(universalIdLabel).toBeDefined();
+        expect(identifierTypeSelect).toBeDefined();
+        expect(cancelBtn).toBeDefined();
+        expect(saveBtn).toBeDefined();
 
-      countySelect.value = countySelect.options[0].value;
-      countySelect.dispatchEvent(new Event('change'));
+        click(generateUniversalIdEl);
+        click(addUniversalIdBtn);
 
-      subcountyInput.value = 'Quux';
-      subcountyInput.dispatchEvent(new Event('input'));
+        identifierTypeSelect.value = identifierTypeSelect.options[2].value;
+        identifierTypeSelect.dispatchEvent(new Event('change'));
 
-      click(saveBtn);
-      tick(500);
+        const identifierLocationSelect: HTMLSelectElement = nativeElement.querySelector(
+          'ng-select'
+        );
+        identifierLocationSelect.value = 'Test';
+        identifierLocationSelect.dispatchEvent(new Event('input'));
 
-      expect(component.errors).toBeFalsy('no errors');
-      expect(component.errorAlerts.length).toEqual(0);
-      expect(savePatientSpy).toHaveBeenCalledTimes(1);
-      expect(savePatientSpy).toHaveBeenCalledWith(
-        jasmine.objectContaining({
-          person: jasmine.objectContaining({
-            names: jasmine.arrayContaining([
-              jasmine.objectContaining({
-                givenName: 'Test',
-                middleName: 'Patient',
-                familyName: 'Name'
-              })
-            ]),
-            gender: 'M',
-            attributes: jasmine.arrayContaining([
-              {
-                value: 'casual-worker-uuid',
-                attributeType: '9e86409f-9c20-42d0-aeb3-f29a4ca0a7a0'
-              }
-            ]),
-            addresses: jasmine.arrayContaining([
-              jasmine.objectContaining({
-                address1: 'Foo', // county
-                address2: 'Quux' // subcounty
-              })
-            ])
+        component.selectedLocation = testLocations[0].name;
+        component.identifierLocation = 'uuid2';
+
+        countySelect.value = countySelect.options[0].value;
+        countySelect.dispatchEvent(new Event('change'));
+
+        subcountyInput.value = 'Quux';
+        subcountyInput.dispatchEvent(new Event('input'));
+
+        click(saveBtn);
+        tick(500);
+
+        expect(component.errors).toBeFalsy('no errors');
+        expect(component.errorAlerts.length).toEqual(0);
+        expect(savePatientSpy).toHaveBeenCalledTimes(1);
+        expect(savePatientSpy).toHaveBeenCalledWith(
+          jasmine.objectContaining({
+            person: jasmine.objectContaining({
+              names: jasmine.arrayContaining([
+                jasmine.objectContaining({
+                  givenName: 'Test',
+                  middleName: 'Patient',
+                  familyName: 'Name'
+                })
+              ]),
+              gender: 'M',
+              attributes: jasmine.arrayContaining([
+                {
+                  value: 'casual-worker-uuid',
+                  attributeType: '9e86409f-9c20-42d0-aeb3-f29a4ca0a7a0'
+                }
+              ]),
+              addresses: jasmine.arrayContaining([
+                jasmine.objectContaining({
+                  address1: 'Foo', // county
+                  address2: 'Quux' // subcounty
+                })
+              ])
+            })
           })
-        })
-      );
-    }));
+        );
+      }));
+    });
   });
 });

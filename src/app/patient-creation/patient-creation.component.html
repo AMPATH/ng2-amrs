@@ -615,18 +615,24 @@
                   {{ county }}
                 </option>
               </select>
-              <div *ngIf="others">
-                <label for="address1" class="control-label"
-                  >County: Other (specify)</label
-                >
-                <input
-                  type="text"
-                  id="address1"
-                  class="form-control"
-                  [(ngModel)]="address1"
-                  name="address1"
-                />
-              </div>
+            </div>
+          </div>
+          <div
+            id="nonCodedCounty"
+            *ngIf="nonCodedCounty"
+            class="col-md-6 col-lg-6 col-sm-6 col-xs-6"
+          >
+            <div class="form-group">
+              <label for="address1" class="control-label"
+                >County: Other (specify)</label
+              >
+              <input
+                type="text"
+                id="address1NonCoded"
+                class="form-control"
+                [(ngModel)]="address1"
+                name="address1"
+              />
             </div>
           </div>
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
