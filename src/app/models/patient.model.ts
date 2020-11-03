@@ -101,7 +101,8 @@ export class Patient extends BaseModel {
         amrsMrn === undefined &&
         ampathMrsUId === undefined &&
         cCC === undefined &&
-        prep === undefined
+        prep === undefined &&
+        ovcid === undefined
       ) {
         if (this._identifier[0].identifier) {
           filteredIdentifiers = { default: this._identifier[0].identifier };
@@ -146,7 +147,8 @@ export class Patient extends BaseModel {
         kenyaNationalId === undefined &&
         amrsMrn === undefined &&
         ampathMrsUId === undefined &&
-        cCC === undefined
+        cCC === undefined &&
+        ovcid === undefined
       ) {
         if (this._identifier[0].identifier) {
           filteredIdentifiers = { default: this._identifier[0].identifier };
@@ -155,11 +157,17 @@ export class Patient extends BaseModel {
         }
       } else {
         filteredIdentifiers = {
-          'kenyaNationalId': this._fromArrayToCommaSeparatedString(kenyaNationalId),
-          'amrsMrn': this._fromArrayToCommaSeparatedString(amrsMrn),
-          'ampathMrsUId': this._fromArrayToCommaSeparatedString(ampathMrsUId),
-          'cCC': this._fromArrayToCommaSeparatedString(cCC),
-          'ovcid': this._fromArrayToCommaSeparatedString(ovcid),
+          kenyaNationalId: this._fromArrayToCommaSeparatedString(
+            kenyaNationalId
+          ),
+          amrsMrn: amrsMrn
+            ? this._fromArrayToCommaSeparatedString(amrsMrn)
+            : amrsMrn,
+          ampathMrsUId: ampathMrsUId
+            ? this._fromArrayToCommaSeparatedString(ampathMrsUId)
+            : ampathMrsUId,
+          cCC: cCC ? this._fromArrayToCommaSeparatedString(cCC) : cCC,
+          ovcid: ovcid ? this._fromArrayToCommaSeparatedString(ovcid) : ovcid
         };
       }
       return filteredIdentifiers;
