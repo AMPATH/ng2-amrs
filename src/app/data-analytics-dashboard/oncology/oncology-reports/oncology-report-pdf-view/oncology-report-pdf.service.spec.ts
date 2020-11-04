@@ -173,12 +173,12 @@ describe('OncologyReportPdfService: ', () => {
             'center'
           );
           expect(pdfStructure.footer.stack[0].style.fontSize).toEqual(8);
+          done();
         },
         (err) => {
           console.error('Err: ', err);
         }
       );
-    done();
   });
 
   it('constructAggregatePdfStructure returns the observable result of creating an aggregated PDF document', () => {
