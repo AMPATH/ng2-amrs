@@ -17,6 +17,7 @@ addons:
     packages:
       - g++-5
 script:
+  - npm run prettier:check
   - npm test
   - npm start
 env:
