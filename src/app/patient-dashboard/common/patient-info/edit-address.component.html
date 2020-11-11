@@ -8,6 +8,7 @@
       <div class="row">
         <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
           <div
+            id="successMsg"
             class="alert alert-success"
             *ngIf="showSuccessAlert"
             style="margin-top: 10px"
@@ -27,57 +28,60 @@
         <form name="personForm">
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
             <div class="form-group">
-              <label for="address1" class="control-label">County</label>
+              <label id="county" for="address1" class="control-label"
+                >County</label
+              >
               <select
+                id="address1"
                 class="form-control"
-                [ngModel]="address1"
-                (ngModelChange)="setCounty($event)"
-                name="address1"
+                [(ngModel)]="address1"
+                name="county"
+                (ngModelChange)="updateLocation($event)"
               >
                 <option
-                  *ngFor="let c of locations?.counties"
-                  [ngValue]="c.name"
+                  *ngFor="let county of counties"
+                  [selected]="county === address1"
+                  [value]="county"
                 >
-                  {{ c.name }}
+                  {{ county }}
                 </option>
               </select>
-              <!-- <input type="text" id="address1" class="form-control" [(ngModel)]="address1" name="address1"> -->
+            </div>
+          </div>
+          <div
+            *ngIf="nonCodedCounty"
+            class="col-md-6 col-lg-6 col-sm-6 col-xs-6"
+          >
+            <div class="form-group">
+              <label for="address1" class="control-label"
+                >County: Other (specify)</label
+              >
+              <input
+                type="text"
+                id="address1"
+                class="form-control"
+                [(ngModel)]="address1"
+                name="address1"
+              />
             </div>
           </div>
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
             <div class="form-group">
-              <label for="address2" class="control-label">Sub County</label>
-              <select
+              <label id="subcounty" for="address2" class="control-label"
+                >Subcounty</label
+              >
+              <input
+                type="text"
+                id="address2"
                 class="form-control"
-                [ngModel]="address2"
-                (ngModelChange)="setSubCounty($event)"
+                [(ngModel)]="address2"
                 name="address2"
-              >
-                <option *ngFor="let subc of subcounties" [ngValue]="subc.name">
-                  {{ subc.name }}
-                </option>
-              </select>
+              />
             </div>
           </div>
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
             <div class="form-group">
-              <label for="address7" class="control-label">Ward</label>
-              <select
-                class="form-control"
-                [ngModel]="address7"
-                (ngModelChange)="setWard($event)"
-                name="address7"
-              >
-                <option *ngFor="let ward of wards" [ngValue]="ward">
-                  {{ ward }}
-                </option>
-              </select>
-              <!-- <input type="text" id="address7" class="form-control" [(ngModel)]="address7" name="address7"> -->
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-            <div class="form-group">
-              <label for="address3" class="control-label"
+              <label id="estate" for="address3" class="control-label"
                 >Estate/Nearest Center</label
               >
               <input
@@ -91,7 +95,9 @@
           </div>
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
             <div class="form-group">
-              <label for="cityVillage" class="control-label">City</label>
+              <label id="city" for="cityVillage" class="control-label"
+                >City</label
+              >
               <input
                 type="text"
                 id="cityVillage"
@@ -110,6 +116,7 @@
     style="padding-top: 15px"
   >
     <button
+      id="saveBtn"
       class="btn btn-primary"
       type="button"
       (click)="updatePersonAddress()"
@@ -117,6 +124,7 @@
       <span>Save</span>
     </button>
     <button
+      id="cancelBtn"
       class="btn btn-danger pull-right"
       type="button"
       (click)="dismissDialog()"

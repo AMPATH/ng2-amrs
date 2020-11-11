@@ -116,7 +116,7 @@ export class PatientIdentifierService {
       },
       {
         label: 'OVCID',
-        format: '^\\d{7}$',
+        format: '^\\d{6,8}$',
         checkdigit: 0,
         val: 'ace5f7c7-c5f4-4e77-a077-5588a682a0d6'
       },

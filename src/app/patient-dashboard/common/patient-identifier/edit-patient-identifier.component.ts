@@ -1,17 +1,18 @@
-import { take } from 'rxjs/operators/take';
 import { Component, OnInit, OnDestroy } from '@angular/core';
+
+import { take } from 'rxjs/operators/take';
+import { Subscription } from 'rxjs';
+import * as _ from 'lodash';
+import { isArray } from 'util';
+
 import { PatientService } from '../../services/patient.service';
 import { Patient } from '../../../models/patient.model';
-import * as _ from 'lodash';
 import { LocationResourceService } from '../../../openmrs-api/location-resource.service';
 import { PatientIdentifierService } from './patient-identifiers.service';
-import { PatientIdentifierTypeResService } from '../../../openmrs-api/patient-identifierTypes-resource.service';
 import { PatientResourceService } from '../../../openmrs-api/patient-resource.service';
 import { UserService } from '../../../openmrs-api/user.service';
 import { PatientCreationResourceService } from '../../../openmrs-api/patient-creation-resource.service';
-import { Subscription } from 'rxjs';
-import { FormControl } from '@angular/forms';
-import { isArray } from 'util';
+import { PatientIdentifierTypeResService } from 'src/app/openmrs-api/patient-identifierTypes-resource.service';
 
 @Component({
   selector: 'edit-identifiers',
@@ -382,30 +383,41 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
 
   private checkIdentifierFormat() {
     this.identifierValidity = '';
-    const selectedIdentifierType: any = this.identifierType;
-    if (selectedIdentifierType) {
-      const identifierHasFormat = selectedIdentifierType.format;
-      const identifierHasCheckDigit = selectedIdentifierType.checkdigit;
-      if (identifierHasCheckDigit) {
-        this.checkLuhnCheckDigit();
-        if (!this.isValidIdentifier) {
-          this.identifierValidity = 'Invalid Check Digit.';
-          return;
-        }
-      }
-
-      if (identifierHasFormat) {
-        this.isValidIdentifier = this.patientIdentifierService.checkRegexValidity(
-          identifierHasFormat,
-          this.patientIdentifier
+    if (this.identifierType) {
+      const patientIdentifierTypeFormat = this.patientIdentifierService
+        .patientIdentifierTypeFormat()
+        .filter(
+          (identifierTypeFormat) =>
+            identifierTypeFormat.label === this.identifierType.label
         );
-        if (!this.isValidIdentifier) {
-          this.identifierValidity =
-            'Invalid Identifier Format. {' + identifierHasFormat + '}';
-          return;
+      if (patientIdentifierTypeFormat.length) {
+        const selectedIdentifierType: PatientIdentifierFormat =
+          patientIdentifierTypeFormat[0];
+        if (selectedIdentifierType) {
+          const identifierHasFormat = selectedIdentifierType.format;
+          const identifierHasCheckDigit = selectedIdentifierType.checkdigit;
+          if (identifierHasCheckDigit) {
+            this.checkLuhnCheckDigit();
+            if (!this.isValidIdentifier) {
+              this.identifierValidity = 'Invalid Check Digit.';
+              return;
+            }
+          }
+
+          if (identifierHasFormat) {
+            this.isValidIdentifier = this.patientIdentifierService.checkRegexValidity(
+              identifierHasFormat,
+              this.patientIdentifier
+            );
+            if (!this.isValidIdentifier) {
+              this.identifierValidity =
+                'Invalid Identifier Format. {' + identifierHasFormat + '}';
+              return;
+            }
+          }
+          this.isValidIdentifier = true;
         }
       }
-      this.isValidIdentifier = true;
     }
   }
 
@@ -498,4 +510,11 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
       return false;
     }
   }
+}
+
+interface PatientIdentifierFormat {
+  label: string;
+  format: string;
+  checkdigit: number;
+  val: string;
 }
