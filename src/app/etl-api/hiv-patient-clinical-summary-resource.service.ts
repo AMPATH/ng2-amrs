@@ -14,8 +14,8 @@ export class HivPatientClinicalSummaryResourceService {
       '/patient/' + patientUuid + '/hiv-patient-clinical-summary';
 
     const params: HttpParams = new HttpParams()
-    .set('startIndex', 0 as any as string)
-    .set('limit', 10 as any as string);
+      .set('startIndex', (0 as any) as string)
+      .set('limit', (20 as any) as string);
 
     return this.http.get(api, {params: params});
   }
