@@ -111,6 +111,36 @@
           </tr>
           </tbody>
         </table>
+        <table
+          *ngIf="
+            note.mdtHistory.adherence.length > 0 ||
+            note.mdtHistory.exam.length > 0
+          "
+          class="table table-stripped table-condensed table-bordered"
+        >
+          <thead>
+            <tr>
+              <th width="30%">Encounter</th>
+              <th colspan="2">MDT History Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let adherence of note.mdtHistory.adherence">
+              <td>{{ adherence.encounterType }}</td>
+              <td>
+                <span class="note-label">Adherence History: </span>
+                <span class="note-info">{{ adherence.value }}</span>
+              </td>
+            </tr>
+            <tr *ngFor="let exam of note.mdtHistory.exam">
+              <td>{{ exam.encounterType }}</td>
+              <td>
+                <span class="note-label">Physical Examination History: </span>
+                <span class="note-info">{{ exam.value }}</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </td>
     </tr>
   </table>
