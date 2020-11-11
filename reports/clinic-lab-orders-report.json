@@ -48,21 +48,14 @@
         "schema": "amrs",
         "tableName": "obs",
         "alias": "t7",
-        "joinExpression": "t1.order_id  = t7.order_id and (t7.voided is null || t7.voided = 0)"
+        "joinExpression": "t1.order_id  = t7.order_id and (t7.voided is null || t7.voided = 0) AND t7.concept_id = 10189"
       },
       {
         "joinType": "LEFT OUTER JOIN",
         "schema": "amrs",
         "tableName": "concept_name",
         "alias": "t8",
-        "joinExpression": "t7.concept_id  = t8.concept_id"
-      },
-      {
-        "joinType": "LEFT OUTER JOIN",
-        "schema": "amrs",
-        "tableName": "concept_name",
-        "alias": "t9",
-        "joinExpression": "t7.value_coded  = t9.concept_id"
+        "joinExpression": "t7.value_coded  = t8.concept_id"
       },
       {
         "joinType": "LEFT OUTER JOIN",
@@ -231,7 +224,7 @@
       {
         "label": "sample_drawn",
         "type": "single",
-        "sql": "t9.name"
+        "sql": "t8.name"
       },
       {
         "label": "sample_collection_date",
