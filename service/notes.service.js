@@ -17,7 +17,9 @@
     CC_HPI: 'a89ffbf4-1350-11df-a1f1-0026b9348838',
     ASSESSMENT: '23f710cc-7f9c-4255-9b6b-c3e240215dba',
     TB_PROPHY_PLAN: 'a89c1cfa-1350-11df-a1f1-0026b9348838',
-    OTHER_ASSESSMENT: '5e4dc798-2cce-4a1a-97e9-bcf22d64b07c'
+    OTHER_ASSESSMENT: '5e4dc798-2cce-4a1a-97e9-bcf22d64b07c',
+    MDT_ADHERENCE_NOTES: 'd9390b4c-11c5-4005-822e-d72dea27ba7f',
+    MDT_EXAM_NOTES: 'a8a0cc32-1350-11df-a1f1-0026b9348838'
   };
 
   var encOrder = {
@@ -167,7 +169,11 @@
         diastolicBp: noInfo,
         pulse: noInfo
       },
-      rtcDate: hivSummary.rtc_date
+      rtcDate: hivSummary.rtc_date,
+      mdtHistory: {
+        adherence: '',
+        exam: ''
+      }
     };
 
     if (vitals && !_.isEmpty(vitals)) {
@@ -235,6 +241,32 @@
         hivSummary,
         __findObsWithGivenConcept
       );
+
+      //get mdt adherence notes
+
+      note.mdtHistory.adherence = _findTextObsValue(
+        encounters,
+        CONCEPT_UUIDS.MDT_ADHERENCE_NOTES,
+        __findObsWithGivenConcept
+      );
+
+      // Sort assessment
+      note.mdtHistory.adherence.sort(function (ass1, ass2) {
+        return moment(ass1.obsDatetime).diff(ass2.obsDatetime);
+      });
+
+      //get mdt exam notes
+
+      note.mdtHistory.exam = _findTextObsValue(
+        encounters,
+        CONCEPT_UUIDS.MDT_EXAM_NOTES,
+        __findObsWithGivenConcept
+      );
+
+      // Sort exam notes
+      note.mdtHistory.exam.sort(function (ass1, ass2) {
+        return moment(ass1.obsDatetime).diff(ass2.obsDatetime);
+      });
     } else {
       console.log('encounters array is null or empty');
     }
