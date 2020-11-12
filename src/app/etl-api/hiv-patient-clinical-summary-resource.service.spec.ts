@@ -45,7 +45,7 @@ describe('HivPatientClinicalSummaryResourceService Unit Tests', () => {
       appSettingsService.getEtlServer() +
         '/patient/' +
         patientUuid +
-        '/hiv-patient-clinical-summary?startIndex=0&limit=10'
+        '/hiv-patient-clinical-summary?startIndex=0&limit=20'
     );
     expect(req.request.urlWithParams).toContain('startIndex=');
     expect(req.request.urlWithParams).toContain('limit=');
@@ -80,7 +80,7 @@ describe('HivPatientClinicalSummaryResourceService Unit Tests', () => {
       appSettingsService.getEtlServer() +
         '/patient/' +
         patientUuid +
-        '/hiv-patient-clinical-summary?startIndex=0&limit=10'
+        '/hiv-patient-clinical-summary?startIndex=0&limit=20'
     );
     expect(req.request.method).toBe('GET');
     req.flush(res);
@@ -104,7 +104,7 @@ describe('HivPatientClinicalSummaryResourceService Unit Tests', () => {
       appSettingsService.getEtlServer() +
         '/patient/' +
         patientUuid +
-        '/hiv-patient-clinical-summary?startIndex=0&limit=10'
+        '/hiv-patient-clinical-summary?startIndex=0&limit=20'
     );
     expect(req.request.method).toBe('GET');
     req.flush({

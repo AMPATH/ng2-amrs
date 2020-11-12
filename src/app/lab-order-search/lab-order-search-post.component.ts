@@ -94,6 +94,7 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
   public ngOnChanges(changes: SimpleChanges) {
     this.clearErrorMessage();
     this.orderPostSuccessful = null;
+    this.setDefaultPmtctCategory();
 
     const reset: any = changes['reset'];
     const order: any = changes['order'];
@@ -147,9 +148,18 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
         Array.isArray(obs[i].groupMembers) &&
         obs[i].groupMembers.length > 0
       ) {
-        return this.findObs(obs[i].groupMembers, uuid);
+        const conceptObs = this.findObsInGroupMember(obs[i].groupMembers, uuid);
+        if (conceptObs.length > 0) {
+          return conceptObs[0];
+        }
       }
     }
+  }
+  public findObsInGroupMember(groupMember: any, conceptUuid: string) {
+    const conceptObs = groupMember.filter((obs: any) => {
+      return obs.concept.uuid === conceptUuid;
+    });
+    return conceptObs;
   }
 
   public setJustification() {
@@ -428,5 +438,9 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
 
   private setDefaultLocation() {
     this.selectedLabLocation = 'ampath';
+  }
+  private setDefaultPmtctCategory() {
+    this.isBreastfeeding = false;
+    this.isPregnant = false;
   }
 }
