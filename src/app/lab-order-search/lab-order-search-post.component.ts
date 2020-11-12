@@ -87,6 +87,7 @@ public ngOnInit() {
    public ngOnChanges(changes: SimpleChanges) {
     this.clearErrorMessage();
     this.orderPostSuccessful = null;
+    this.setDefaultPmtctCategory();
 
     const reset: any = changes['reset'];
     const order: any = changes['order'];
@@ -374,5 +375,9 @@ public ngOnInit() {
 
   private setDefaultLocation() {
     this.selectedLabLocation = 'ampath';
+  }
+  private setDefaultPmtctCategory() {
+    this.isBreastfeeding = false;
+    this.isPregnant = false;
   }
 }
