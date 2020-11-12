@@ -94,6 +94,7 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
   public ngOnChanges(changes: SimpleChanges) {
     this.clearErrorMessage();
     this.orderPostSuccessful = null;
+    this.setDefaultPmtctCategory();
 
     const reset: any = changes['reset'];
     const order: any = changes['order'];
@@ -437,5 +438,9 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
 
   private setDefaultLocation() {
     this.selectedLabLocation = 'ampath';
+  }
+  private setDefaultPmtctCategory() {
+    this.isBreastfeeding = false;
+    this.isPregnant = false;
   }
 }
