@@ -255,6 +255,22 @@ export class Person extends BaseModel {
     }
   }
 
+  public getPersonAttributeInfo(personAttributeTypeUuid) {
+    if (this._attributes.length > 0) {
+      for (const i in this._attributes) {
+        if (this._attributes.hasOwnProperty(i)) {
+          const attr = this._attributes[i];
+          if (
+            attr.attributeType &&
+            attr.attributeType.uuid === personAttributeTypeUuid
+          ) {
+            return attr;
+          }
+        }
+      }
+    }
+  }
+
   public get addresses(): PersonAddress {
     if (this._address === null || this._address === undefined) {
       this.initializeNavigationProperty('');
