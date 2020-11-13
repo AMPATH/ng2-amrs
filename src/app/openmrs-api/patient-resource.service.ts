@@ -14,7 +14,7 @@ export class PatientResourceService {
     'identifierType:(uuid,name,format,formatDescription,validator)),' +
     'person:(uuid,display,gender,birthdate,dead,age,deathDate,birthdateEstimated,' +
     'causeOfDeath,preferredName:(uuid,preferred,givenName,middleName,familyName),' +
-    'attributes,preferredAddress:(uuid,preferred,address1,address2,cityVillage,longitude,' +
+    'attributes:(uuid,display,value,attributeType,dateCreated,dateChanged),preferredAddress:(uuid,preferred,address1,address2,cityVillage,longitude,' +
     'stateProvince,latitude,country,postalCode,countyDistrict,address3,address4,address5' +
     ',address6,address7)))';
 

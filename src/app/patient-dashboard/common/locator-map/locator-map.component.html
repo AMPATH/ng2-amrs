@@ -46,6 +46,10 @@
     </div>
   </div>
   <div *ngIf="dataModel" class="col-md-12">
+    <span
+      ><b>Last Updated : </b>
+      {{ lastUpdatedDate | date: 'MMM dd, yyyy hh:mm a' }}
+    </span>
     <img
       *ngIf="!pdfAvailable"
       class="img-responsive"

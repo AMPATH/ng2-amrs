@@ -17,6 +17,8 @@ import { PatientService } from '../../services/patient.service';
 })
 export class LocatorMapComponent implements OnInit, OnDestroy {
   public dataModel: string;
+  public mapInfo: any;
+  public lastUpdatedDate: string;
   public pdfUrl: any;
   public loading = false;
   public pdfAvailable = false;
@@ -134,6 +136,12 @@ export class LocatorMapComponent implements OnInit, OnDestroy {
     const photo = this.patient.person.getPersonAttribute(this.attributeType);
     if (photo) {
       this.dataModel = photo;
+      this.mapInfo = this.patient.person.getPersonAttributeInfo(
+        this.attributeType
+      );
+      this.lastUpdatedDate = this.mapInfo.dateChanged
+        ? this.mapInfo.dateChanged
+        : this.mapInfo.dateCreated;
       const re = /pdf/gi;
       if (this.dataModel.search(re) !== -1) {
         this.setPdfUrl();
