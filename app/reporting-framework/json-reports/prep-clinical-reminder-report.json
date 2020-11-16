@@ -1,0 +1,173 @@
+{
+  "name": "prepClinicalRemainder",
+  "version": "1.0",
+  "tag": "prepClinicalRemainder",
+  "description": "",
+  "uses": [
+    {
+      "name": "prepLatestClinicalEncounterDate",
+      "version": "1.0",
+      "type": "dataset_def"
+    },
+    {
+      "name": "prepInitialClinicalEncounterDate",
+      "version": "1.0",
+      "type": "dataset_def"
+    }
+  ],
+  "sources": [
+    {
+      "table": "amrs.person",
+      "alias": "t"
+    },
+    {
+      "dataSet": "prepLatestClinicalEncounterDate",
+      "alias": "latest_enc",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "latest_enc.person_id = t.person_id"
+      }
+    },
+    {
+      "table": "etl.flat_prep_summary_v1_1",
+      "alias": "prep",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "latest_enc.person_id = prep.person_id AND prep.encounter_datetime = latest_enc.latest_encounter_date"
+      }
+    },
+    {
+      "dataSet": "prepInitialClinicalEncounterDate",
+      "alias": "initial_enc",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "initial_enc.person_id = t.person_id"
+      }
+    },
+    {
+      "table": "etl.flat_prep_summary_v1_1",
+      "alias": "prep_init",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "initial_enc.person_id = prep_init.person_id AND prep_init.encounter_datetime = initial_enc.initial_encounter_date"
+      }
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "uuid",
+      "column": "t.uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "prep.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "encounter_datetime",
+      "column": "date_format(prep.encounter_datetime, '%Y-%m-%d')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "encounter_id",
+      "column": "prep.encounter_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "days_since_rtc",
+      "column": "TIMESTAMPDIFF(DAY, prep.rtc_date, curdate())"
+    },
+    {
+      "type": "simple_column",
+      "alias": "hiv_rapid_test_result",
+      "column": "prep.hiv_rapid_test_result"
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_rapid_test_value",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "prep.hiv_rapid_test_result = 703",
+            "value": "positive"
+          },
+          {
+            "condition": "prep.hiv_rapid_test_result = 664",
+            "value": "negative"
+          },
+          {
+            "condition": "prep.hiv_rapid_test_result = 1138",
+            "value": "indeterminate"
+          },
+          {
+            "condition": "prep.hiv_rapid_test_result = 1304",
+            "value": "poor sample quality"
+          },
+          {
+            "condition": "prep.hiv_rapid_test_result = 1067",
+            "value": "unknown"
+          }
+        ]
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "rapid_test_date",
+      "column": "date_format(prep.hiv_rapid_test_date, '%Y-%m-%d')"
+    },
+    {
+      "type": "derived_column",
+      "alias": "due_for_hiv_rapid_test",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "case when timestampdiff(day,prep.hiv_rapid_test_date, '{referenceDate}') > 90 then 1 else 0 end "
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "enrollment_date",
+      "column": "prep.enrollment_date"
+    },
+    {
+      "type": "simple_column",
+      "alias": "days_since_enrolment_date",
+      "column": "timestampdiff(day,prep.enrollment_date, curdate())"
+    },
+    {
+      "type": "simple_column",
+      "alias": "days_since_initial_date",
+      "column": "timestampdiff(day,prep_init.encounter_datetime, curdate())"
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "t.uuid = ?",
+        "parameterName": "patientUuid"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "prep.encounter_datetime < ?",
+        "parameterName": "referenceDate"
+      }
+    ]
+  },
+  "orderBy": {
+    "orderByParam": "orderByParam",
+    "columns": [
+      {
+        "column": "prep.encounter_datetime",
+        "order": "desc"
+      }
+    ]
+  },
+  "paging": {
+    "offSetParam": "offSetParam",
+    "limitParam": "limitParam"
+  }
+}

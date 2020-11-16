@@ -70,6 +70,7 @@ import { HeiSummaryService } from './service/moh-408-service';
 
 import { RetentionAppointmentTracingService } from './service/retention-appointment-tracing-service';
 import { PatientGainLosesService } from './service/patient-gain-loses.service';
+import { PrepReminderService } from './service/prep-reminder/prep-reminder.service';
 
 module.exports = (function () {
   var routes = [
@@ -821,26 +822,22 @@ module.exports = (function () {
           }
         },
         handler: function (request, reply) {
-          let EIDLabReminderService = require('./service/eid/eid-lab-reminder.service');
-          EIDLabReminderService.pendingEIDReminders(
-            request.params,
-            config.hivLabSystem
-          )
-            .then((eidReminders) => {
-              let combineRequestParams = Object.assign(
-                {},
-                request.query,
-                request.params
-              );
-              combineRequestParams.limitParam = 1;
+          let combineRequestParams = Object.assign(
+            {},
+            request.query,
+            request.params
+          );
+          combineRequestParams.limitParam = 1;
+          let prepReminder = new PrepReminderService();
+          prepReminder.isPatientEnrolledInPrep(request.params).then((b) => {
+            if (b) {
               let reportParams = etlHelpers.getReportParams(
-                'clinical-reminder-report',
+                'prepClinicalReminder',
                 ['referenceDate', 'patientUuid', 'offSetParam', 'limitParam'],
                 combineRequestParams
               );
-
               let report = new BaseMysqlReport(
-                'clinicalReminderReport',
+                'prepClinicalReminderReport',
                 reportParams.requestParams
               );
               report
@@ -848,32 +845,88 @@ module.exports = (function () {
                 .then((results) => {
                   try {
                     if (results.results.results.length > 0) {
-                      let processedResults = patientReminderService.generateReminders(
-                        results.results.results,
-                        eidReminders
+                      let processedResults = prepReminder.generateReminders(
+                        results.results.results
                       );
-                      results.result = processedResults;
+                      results.result = {
+                        person_id: results.results.results[0].person_id,
+                        person_uuid: results.results.results[0].uuid,
+                        reminders: processedResults
+                      };
                     } else {
                       results.result = {
-                        person_uuid: combineRequestParams.person_uuid,
+                        person_uuid: combineRequestParams.patientUuid,
                         reminders: []
                       };
                     }
                     reply(results);
                   } catch (error) {
-                    console.log('Error generating reminders', error);
+                    console.log('Error generating prep reminders', error);
                     reply(Boom.badImplementation('An internal error occurred'));
                   }
                 })
                 .catch((error) => {
-                  console.log('Error generating reminders', error);
+                  console.log('Error generating prep reminders', error);
                   reply(Boom.badImplementation('An internal error occurred'));
                 });
-            })
-            .catch((err) => {
-              console.log('EID lab results err', err);
-              reply(err);
-            });
+            } else {
+              let EIDLabReminderService = require('./service/eid/eid-lab-reminder.service');
+              EIDLabReminderService.pendingEIDReminders(
+                request.params,
+                config.hivLabSystem
+              )
+                .then((eidReminders) => {
+                  let reportParams = etlHelpers.getReportParams(
+                    'clinical-reminder-report',
+                    [
+                      'referenceDate',
+                      'patientUuid',
+                      'offSetParam',
+                      'limitParam'
+                    ],
+                    combineRequestParams
+                  );
+                  let report = new BaseMysqlReport(
+                    'clinicalReminderReport',
+                    reportParams.requestParams
+                  );
+                  report
+                    .generateReport()
+                    .then((results) => {
+                      try {
+                        if (results.results.results.length > 0) {
+                          let processedResults = patientReminderService.generateReminders(
+                            results.results.results,
+                            eidReminders
+                          );
+                          results.result = processedResults;
+                        } else {
+                          results.result = {
+                            person_uuid: combineRequestParams.person_uuid,
+                            reminders: []
+                          };
+                        }
+                        reply(results);
+                      } catch (error) {
+                        console.log('Error generating reminders', error);
+                        reply(
+                          Boom.badImplementation('An internal error occurred')
+                        );
+                      }
+                    })
+                    .catch((error) => {
+                      console.log('Error generating reminders', error);
+                      reply(
+                        Boom.badImplementation('An internal error occurred')
+                      );
+                    });
+                })
+                .catch((err) => {
+                  console.log('EID lab results err', err);
+                  reply(err);
+                });
+            }
+          });
         },
         description:
           'Get a list of reminders for selected patient and indicators',

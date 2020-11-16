@@ -154,6 +154,8 @@ import * as prep_monthly_pregnancy_disaggregation from './json-reports/prep-mont
 import * as prep_monthly_newly_enrolled_breastfeeding_disaggregation from './json-reports/prep-monthly-newly-enrolled-breastfeeding-disaggregation.json';
 import * as prep_monthly_newly_enrolled_pregnancy_disaggregation from './json-reports/prep-monthly-newly-enrolled-pregnancy-disaggregation.json';
 import * as prep_latest_clinical_encounter_date_base from './json-reports/prep_latest_clinical_encounter_date_base.json';
+import * as prep_initial_encounter_date from './json-reports/prep-initial-encounter-date.json';
+import * as prep_clinical_remainder from './json-reports/prep-clinical-reminder-report.json';
 import * as moh_408 from './json-reports/moh-408.json';
 import * as hei_infant_feeding_aggregate from './json-reports/hei-infant-feeding-aggregate.json';
 import * as hei_infant_feeding_base from './json-reports/hei-infant-feeding-base.json';
@@ -967,6 +969,17 @@ export class BaseMysqlReport {
         case 'ovc-in-hei-patient-list-template':
           resolve({
             main: this.cloneJsonSchema(ovc_in_hei_patient_list_template)
+          });
+          break;
+        case 'prepClinicalReminderReport':
+          resolve({
+            main: this.cloneJsonSchema(prep_clinical_remainder),
+            prepLatestClinicalEncounterDate: this.cloneJsonSchema(
+              prep_latest_clinical_encounter_date_base
+            ),
+            prepInitialClinicalEncounterDate: this.cloneJsonSchema(
+              prep_initial_encounter_date
+            )
           });
           break;
         default:
