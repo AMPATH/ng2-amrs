@@ -15,7 +15,7 @@ module.exports = function (config) {
       require('karma-parallel')
     ],
     parallelOptions: {
-      executors: (Math.ceil(require('os').cpus().length)),
+      executors: Math.ceil(require('os').cpus().length),
       shardStrategy: 'round-robin'
     },
     client: {
@@ -27,27 +27,22 @@ module.exports = function (config) {
     coverageIstanbulReporter: {
       dir: require('path').join(__dirname, '../coverage'),
       reports: ['html', 'lcovonly'],
-      fixWebpackSourcePaths: true,
-      /*thresholds: {
-        statements: 86,
-        lines: 86,
-        branches: 80,
-        functions: 82
-      }*/
+      fixWebpackSourcePaths: true
     },
-    reporters: ['progress', 'kjhtml'],
-    // mochaReporter: {
-    //   output: 'minimal'
-    // },
+    reporters: ['mocha', 'kjhtml'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome'],
+    browsers: ['Chrome', 'ChromeHeadlessCI'],
     customLaunchers: {
       ChromeDebug: {
         base: 'Chrome',
         flags: ['--remote-debugging-port=9333']
+      },
+      ChromeHeadlessCI: {
+        base: 'ChromeHeadless',
+        flags: ['--no-sandbox']
       }
     },
     singleRun: false,
