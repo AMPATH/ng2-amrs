@@ -72,6 +72,7 @@ import { ClinicDashboardCaseManagementComponent } from './case-management/clinic
 import { PrepReportComponent } from './prep-report/prep-report.component';
 import { ClinicDashboardHeiReportComponent } from './clinic-dashboard-hei-indicators-report/clinic-dashboard-hei-report.component';
 import { HIVListsMicroFrontendComponent } from './hiv-lists-microfrontend-report/hiv-lists-microfrontend.component';
+import { FamilyTestingComponent } from './family-testing/family-testing.component';
 
 @NgModule({
   imports: [
@@ -157,7 +158,8 @@ import { HIVListsMicroFrontendComponent } from './hiv-lists-microfrontend-report
     ClinicDashboardCaseManagementComponent,
     PrepReportComponent,
     ClinicDashboardHeiReportComponent,
-    HIVListsMicroFrontendComponent
+    HIVListsMicroFrontendComponent,
+    FamilyTestingComponent
   ],
   providers: [ClinicalSummaryVisualizationService],
   entryComponents: [PatientStatusDatalistCellComponent]

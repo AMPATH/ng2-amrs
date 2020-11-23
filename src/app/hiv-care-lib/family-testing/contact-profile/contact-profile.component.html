@@ -1,0 +1,63 @@
+<div class="alert alert-danger fade in" *ngIf="showInfoMessage">
+  <a href="#" class="close" data-dismiss="alert">&times;</a>
+  <h4 *ngIf="!statusError">
+    <strong><span class="glyphicon glyphicon-warning-sign"></span> </strong>
+    An error occurred while trying to load data. Please try again.
+  </h4>
+  <p>
+    <small>{{ errorMessage }}</small>
+  </p>
+</div>
+<div>
+  <div class="loader" *ngIf="isLoading">
+    <span><i class="fa fa-spinner fa-spin"></i>Loading...</span>
+  </div>
+
+  <div class="contact-profile-container">
+    <div class="contact-profile-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <h5>Contact Name: <b>{{ contactInformation.fm_name }}</b></h5>
+            <h5>Relationship: <b>{{ contactInformation.relationship_type }}</b></h5>
+            <h5>Gender: <b>{{ contactInformation.fm_gender }}</b></h5>
+          </div>
+          <div class="col-md-4">
+            <h5>Age: <b>{{ contactInformation.fm_age }}</b></h5>  
+            <h5>Physical Address: <b>{{ contactInformation.fm_address }}</b></h5>
+            <h5>Phone Number: <b>{{ contactInformation.fm_phone }}</b></h5>
+          </div>
+          <div class="col-md-4">
+            <h5>Reported test result: <b>{{ contactInformation.fm_status }}</b></h5>
+            <h5>Eligible for testing: <b>{{ contactInformation.test_eligible }}</b></h5>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top: 1rem">
+      <h3><b>Trace History</b></h3>
+      <ag-grid-angular
+        *ngIf="contactTraceHistory.length"
+        #agGrid
+        style="width: 100%; height: 150px"
+        class="ag-blue"
+        [rowData]="contactTraceHistory"
+        [gridOptions]="gridOptions"
+        [frameworkComponents]="frameworkComponents"
+      >
+      </ag-grid-angular>
+    </div>
+    <hr />
+    <div>
+      <button [disabled]="!isContactEligible" (click)="openAddTraceModal()" class="btn btn-success">
+        Add Trace
+      </button>
+    </div>
+    <div *ngIf="contactNotEligible">
+      <h3><b>This contact is not eligible for testing</b></h3>
+    </div>
+    <div *ngIf="isTracedTested">
+      <h3><b>This contact has been traced and tested</b></h3>
+    </div>
+  </div>
+</div>

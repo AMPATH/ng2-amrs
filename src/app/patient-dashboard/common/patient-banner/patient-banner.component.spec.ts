@@ -19,6 +19,10 @@ import { PatientRelationshipService } from '../patient-relationships/patient-rel
 import { of } from 'rxjs';
 import { ModalModule } from 'ngx-bootstrap';
 import { RouterTestingModule } from '@angular/router/testing';
+import { UserDefaultPropertiesService } from 'src/app/user-default-properties';
+import { UserService } from 'src/app/openmrs-api/user.service';
+import { SessionStorageService } from 'src/app/utils/session-storage.service';
+
 class MockPatientRelationshipService {
   getRelationships(patientUuid) {
     return of([]);
@@ -45,7 +49,10 @@ describe('Component: PatientBanner', () => {
         ProgramWorkFlowResourceService,
         ProgramWorkFlowStateResourceService,
         ProgramResourceService,
-        EncounterResourceService
+        EncounterResourceService,
+        UserService,
+        UserDefaultPropertiesService,
+        SessionStorageService
       ],
       imports: [
         HttpClientTestingModule,

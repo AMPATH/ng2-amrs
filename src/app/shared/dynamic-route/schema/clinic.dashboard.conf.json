@@ -122,6 +122,12 @@
           "isSideBarOpen": false
         },
         {
+          "url": "family-testing",
+          "label": "Family Testing",
+          "icon": "fa fa-users",
+          "isSideBarOpen": false
+        },
+        {
           "url": "program-enrollment",
           "label": "Program Enrollment",
           "icon": "fa fa-list-alt",
