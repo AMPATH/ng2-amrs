@@ -17,6 +17,14 @@
     },
     {
       "table": "etl.flat_labs_and_imaging",
+      "alias": "s",
+      "join": {
+        "type": "left",
+        "joinCondition": "s.person_id = t1.person_id AND s.antibody_screen IS NOT NULL"
+      }
+    },
+    {
+      "table": "etl.flat_labs_and_imaging",
       "alias": "t2",
       "join": {
         "type": "left",
@@ -94,7 +102,7 @@
       "alias": "overdue_vl_lab_order",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "case when (timestampdiff(day,vl_order_date, '{referenceDate}') >= 14) and (vl_1_date is null or vl_order_date > vl_1_date) and vl_error <> 1 then timestampdiff(day,vl_order_date, '{referenceDate}') else 0 end"
+        "expression": "case when (timestampdiff(day,vl_order_date, '{referenceDate}') >= 14) and (vl_1_date is null or vl_order_date > vl_1_date) and t2.vl_error <> 1 then timestampdiff(day,vl_order_date, '{referenceDate}') else 0 end"
       }
     },
     {
@@ -265,7 +273,7 @@
       "alias": "dna_pcr_reminder",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "case when t9.program_id is not null and timestampdiff(month,t5.birthdate, '{referenceDate}') between 0 and 2 then 1 when t9.program_id is not null and timestampdiff(month,t5.birthdate, '{referenceDate}') = 6 then 2 when t9.program_id is not null and timestampdiff(month,t5.birthdate, '{referenceDate}') = 12 then 3 when t9.program_id is not null and timestampdiff(month,t5.birthdate, '{referenceDate}') between 18 and 24 then 4 else 0 end"
+        "expression": "case when t9.program_id is not null AND s.antibody_screen is NULL and timestampdiff(month,t5.birthdate, '{referenceDate}') between 0 and 2 then 1 when t9.program_id is not null AND s.antibody_screen is NULL and timestampdiff(month,t5.birthdate, '{referenceDate}') = 6 then 2 when t9.program_id is not null AND s.antibody_screen is NULL and timestampdiff(month,t5.birthdate, '{referenceDate}') = 12 then 3 when t9.program_id is not null AND s.antibody_screen is NULL and timestampdiff(month,t5.birthdate, '{referenceDate}') between 18 and 24 then 4 else 0 end"
       }
     },
     {
