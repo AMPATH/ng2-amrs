@@ -490,7 +490,7 @@
       {
         "label": "Screen CaCx New F18+",
         "ref": "HV03-087",
-        "indicator": ""
+        "indicator": "dc__age_range__18_and_above__screened_for_cervical_ca"
       },
       {
         "label": "Clinical visits F18+",

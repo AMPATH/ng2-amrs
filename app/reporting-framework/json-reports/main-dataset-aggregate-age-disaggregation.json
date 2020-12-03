@@ -177,6 +177,14 @@
       "expressionOptions": {
         "expression": "sum(hmsd.f_gte_18_visits)"
       }
+    },
+    {
+      "type": "derived_column",
+      "alias": "screened_for_cervical_ca",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.screened_for_cervical_ca)"
+      }
     }
   ],
   "groupBy": {
