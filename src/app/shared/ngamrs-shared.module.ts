@@ -73,6 +73,7 @@ import { AppModalComponent } from './modal/app-modal.component';
 import { PocHttpInteceptor } from './services/poc-http-interceptor';
 import { SelectDepartmentService } from './services/select-department.service';
 import { RisonService } from './services/rison-service';
+import { SnakeCaseToTitlePipe } from './pipes/snake-case-to-title.pipe';
 
 @NgModule({
   imports: [
@@ -112,28 +113,83 @@ import { RisonService } from './services/rison-service';
     DataListsModule,
     AgGridModule,
     RetrospectiveDataEntryModule,
-    ConfirmDialogModule, DialogModule,
-    MatSnackBarModule, NgxPaginationModule,
-    MatRadioModule, MatMenuModule, MatIconModule,
-    MatExpansionModule, MatButtonModule, MatTooltipModule,
-    PdfViewerModule, ReactiveFormsModule
+    ConfirmDialogModule,
+    DialogModule,
+    MatSnackBarModule,
+    NgxPaginationModule,
+    MatRadioModule,
+    MatMenuModule,
+    MatIconModule,
+    MatExpansionModule,
+    MatButtonModule,
+    MatTooltipModule,
+    PdfViewerModule,
+    ReactiveFormsModule
   ],
-  exports: [NgBusyModule, LaddaModule, NgSelectModule, DisplayErrorComponent, AppModalComponent, AgGridModule,
-    RetrospectiveDataEntryModule, MatCardModule, PatientEncounterObservationsComponent,
-    StringToDatePipe, Ng2FilterPipe, OnlineTrackerComponent, HivProgramSnapshotComponent,
-    BuildVersionComponent, FormListComponent, ReportFiltersComponent, ZeroVlPipe, PrettyEncounterViewerComponent,
-    DateSelectorComponent, PdfViewerModule , NgxMyDatePickerModule,
-    OpenmrsApi, EtlApi, Ng2Bs3ModalModule, ModalModule, BsDropdownModule, TooltipModule,
-    LocationFilterComponent, Angulartics2Module, MatSnackBarModule, MatTabsModule, ReactiveFormsModule,
-    MatProgressBarModule, MatProgressSpinnerModule, MatSlideToggleModule, NgxPaginationModule, MatButtonModule,
-    CdmProgramSnapshotComponent, MatRadioModule, FormsModule, MatMenuModule, MatIconModule, MatExpansionModule, MatTooltipModule],
+  exports: [
+    NgBusyModule,
+    LaddaModule,
+    NgSelectModule,
+    DisplayErrorComponent,
+    AppModalComponent,
+    AgGridModule,
+    RetrospectiveDataEntryModule,
+    MatCardModule,
+    PatientEncounterObservationsComponent,
+    StringToDatePipe,
+    Ng2FilterPipe,
+    OnlineTrackerComponent,
+    HivProgramSnapshotComponent,
+    BuildVersionComponent,
+    FormListComponent,
+    ReportFiltersComponent,
+    ZeroVlPipe,
+    PrettyEncounterViewerComponent,
+    DateSelectorComponent,
+    PdfViewerModule,
+    NgxMyDatePickerModule,
+    OpenmrsApi,
+    EtlApi,
+    Ng2Bs3ModalModule,
+    ModalModule,
+    BsDropdownModule,
+    TooltipModule,
+    LocationFilterComponent,
+    Angulartics2Module,
+    MatSnackBarModule,
+    MatTabsModule,
+    ReactiveFormsModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
+    MatSlideToggleModule,
+    NgxPaginationModule,
+    MatButtonModule,
+    CdmProgramSnapshotComponent,
+    MatRadioModule,
+    FormsModule,
+    MatMenuModule,
+    MatIconModule,
+    MatExpansionModule,
+    MatTooltipModule,
+    SnakeCaseToTitlePipe
+  ],
   declarations: [
-    DisplayErrorComponent, StringToDatePipe, ZeroVlPipe, Ng2FilterPipe, HivProgramSnapshotComponent,
-    FormListComponent, ReportFiltersComponent,
-    OnlineTrackerComponent, AppModalComponent,
-    BuildVersionComponent, DateSelectorComponent,
-    PatientEncounterObservationsComponent, PrettyEncounterViewerComponent,
-    CdmProgramSnapshotComponent
+    DisplayErrorComponent,
+    StringToDatePipe,
+    ZeroVlPipe,
+    Ng2FilterPipe,
+    HivProgramSnapshotComponent,
+    FormListComponent,
+    ReportFiltersComponent,
+    OnlineTrackerComponent,
+    AppModalComponent,
+    BuildVersionComponent,
+    DateSelectorComponent,
+    PatientEncounterObservationsComponent,
+    PrettyEncounterViewerComponent,
+    CdmProgramSnapshotComponent,
+
+    SnakeCaseToTitlePipe
   ],
   providers: [Ng2FilterPipe, StringToDatePipe, ZeroVlPipe, RoutesProviderService,
     HivSummaryService, RisonService, SelectDepartmentService,
@@ -141,8 +197,9 @@ import { RisonService } from './services/rison-service';
       provide: HTTP_INTERCEPTORS,
       useClass: PocHttpInteceptor,
       multi: true
-    }
-  ],
+    },
+    SnakeCaseToTitlePipe
+  ]
 })
 export class NgamrsSharedModule {
 
