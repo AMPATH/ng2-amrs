@@ -200,6 +200,48 @@
             </tr>
           </tbody>
         </table>
+        <table
+          *ngIf="note.eacSession?.hasEacSession"
+          class="table table-stripped table-condensed table-bordered"
+        >
+          <thead>
+            <tr>
+              <th colspan="2">EAC Notes</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let session of note.eacSession | keyvalue">
+              <ng-container *ngIf="session.key !== 'hasEacSession'">
+                <td>
+                  <strong class="note-label"
+                    >{{ session.key | titlecase }}
+                  </strong>
+                </td>
+                <td>
+                  <table class="table table-striped">
+                    <tr *ngFor="let s of session.value | keyvalue">
+                      <td *ngIf="s.value.length > 0">
+                        <tr>
+                          <td>
+                            <b>{{ s.key | snakeCaseToTitle }} : </b>
+                          </td>
+                          <td>
+                            <tr *ngFor="let n of s.value">
+                              <td>
+                                <span class="note-info"> {{ n.value }} </span>
+                              </td>
+                            </tr>
+                          </td>
+                        </tr>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </ng-container>
+            </tr>
+          </tbody>
+        </table>
       </td>
     </tr>
   </table>

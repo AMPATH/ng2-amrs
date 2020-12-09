@@ -73,6 +73,7 @@ import { SelectDepartmentService } from './services/select-department.service';
 import { RisonService } from './services/rison-service';
 import { KibanaVizHostComponent } from './kibana-viz-host/kibana-viz-host.component';
 import { KibanaVizComponent } from './kibana-viz/kibana-viz.component';
+import { SnakeCaseToTitlePipe } from './pipes/snake-case-to-title.pipe';
 
 @NgModule({
   imports: [
@@ -171,7 +172,8 @@ import { KibanaVizComponent } from './kibana-viz/kibana-viz.component';
     MatMenuModule,
     MatIconModule,
     MatExpansionModule,
-    MatTooltipModule
+    MatTooltipModule,
+    SnakeCaseToTitlePipe
   ],
   declarations: [
     DisplayErrorComponent,
@@ -189,7 +191,9 @@ import { KibanaVizComponent } from './kibana-viz/kibana-viz.component';
     DateSelectorComponent,
     PatientEncounterObservationsComponent,
     PrettyEncounterViewerComponent,
-    CdmProgramSnapshotComponent
+    CdmProgramSnapshotComponent,
+
+    SnakeCaseToTitlePipe
   ],
   providers: [
     Ng2FilterPipe,
@@ -203,7 +207,8 @@ import { KibanaVizComponent } from './kibana-viz/kibana-viz.component';
       provide: HTTP_INTERCEPTORS,
       useClass: PocHttpInteceptor,
       multi: true
-    }
+    },
+    SnakeCaseToTitlePipe
   ]
 })
 export class NgamrsSharedModule {
