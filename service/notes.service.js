@@ -19,7 +19,23 @@
     TB_PROPHY_PLAN: 'a89c1cfa-1350-11df-a1f1-0026b9348838',
     OTHER_ASSESSMENT: '5e4dc798-2cce-4a1a-97e9-bcf22d64b07c',
     MDT_ADHERENCE_NOTES: 'd9390b4c-11c5-4005-822e-d72dea27ba7f',
-    MDT_EXAM_NOTES: 'a8a0cc32-1350-11df-a1f1-0026b9348838'
+    MDT_EXAM_NOTES: 'a8a0cc32-1350-11df-a1f1-0026b9348838',
+    COGNITIVE_BARRIERS_ASSESSMENT: '28026dea-3b8d-4d70-9d16-cf40a7f0692c',
+    BEHAVIORAL_BARRIERS_ASSESSMENT: 'ed60ef1e-663e-4034-91ff-8d2e601e0fdc',
+    EMOTIONAL_BARRIERS_ASSESSMENT: '276f872a-34b4-4bf0-b57c-3d912c4720a4',
+    SOCIO_ECONOMIC_BARRIERS_ASSESSMENT: '5c941db9-4a23-411d-8517-f60e8b7e459d',
+    REFERRALS_ORDERED: 'a89c2344-1350-11df-a1f1-0026b9348838',
+    ENHANCED_ADHERENCE_SESSION_1: 'b951337b-21c0-4b6f-81a4-24f10e9c5819',
+    ENHANCED_ADHERENCE_SESSION_2: 'b6741855-f9e0-456c-ac50-e864638cccd1',
+    EMERGING_ISSUES: 'e3162a57-0ad3-4d9d-9aca-dfbf74762075',
+    REFERRAL_FOLLOW_UP: 'f0949b84-f742-4364-a5fc-ecdd9d3c0a07',
+    EAC2_ADHERENCE_PLAN: '984b1200-c5ec-41f9-8e76-1d894312eb41',
+    EAC3_ADHERENCE_PLAN_REVIEW: 'a486c342-fa15-4965-bbad-ff5c312deeae',
+    EAC3_EMERGING_ISSUES: '2ea6f19b-ba12-4d98-8b96-0b3977093899',
+    EAC3_REFERRAL_FOLLOW_UP: 'e7517430-55a4-4673-9d17-736fc1445aaa',
+    EAC3_ADHERENCE_PLAN: 'cb7eaa9d-a3b1-4f68-8d29-fd2be936be33',
+    EAC_VIRAL_LOAD_TEST: '08d99781-41c2-42a1-b8bc-d50b3c84e5d5',
+    EAC_VIRAL_LOAD_RESULT: 'abb4c3f3-2a2f-4736-96e0-5b9cf63cd6b2'
   };
 
   var encOrder = {
@@ -173,6 +189,32 @@
       mdtHistory: {
         adherence: '',
         exam: ''
+      },
+      eacSession: {
+        session1: {
+          cognitive_barriers: '',
+          behavioral_barriers: '',
+          emotional_barriers: '',
+          socio_economic_barriers: '',
+          enhanced_adherence_session: ''
+        },
+        session2: {
+          review_adherence_plan: '',
+          new_issues: '',
+          referral_and_networking: '',
+          adherence_plan: ''
+        },
+        session3: {
+          adherence_plan_review: '',
+          new_issues: '',
+          referral_and_networking: '',
+          adherence_plan: '',
+          repeat_viral_load: ''
+        },
+        session4: {
+          viral_load_results: ''
+        },
+        hasEacSession: false
       }
     };
 
@@ -267,6 +309,176 @@
       note.mdtHistory.exam.sort(function (ass1, ass2) {
         return moment(ass1.obsDatetime).diff(ass2.obsDatetime);
       });
+
+      note.eacSession.session1.cognitive_barriers = _findTextObsValue(
+        encounters,
+        CONCEPT_UUIDS.COGNITIVE_BARRIERS_ASSESSMENT,
+        __findObsWithGivenConcept
+      );
+
+      note.eacSession.session1.cognitive_barriers.sort(function (ass1, ass2) {
+        return moment(ass1.obsDatetime).diff(ass2.obsDatetime);
+      });
+
+      note.eacSession.session1.behavioral_barriers = _findTextObsValue(
+        encounters,
+        CONCEPT_UUIDS.BEHAVIORAL_BARRIERS_ASSESSMENT,
+        __findObsWithGivenConcept
+      );
+
+      note.eacSession.session1.behavioral_barriers.sort(function (ass1, ass2) {
+        return moment(ass1.obsDatetime).diff(ass2.obsDatetime);
+      });
+
+      note.eacSession.session1.emotional_barriers = _findTextObsValue(
+        encounters,
+        CONCEPT_UUIDS.EMOTIONAL_BARRIERS_ASSESSMENT,
+        __findObsWithGivenConcept
+      );
+
+      note.eacSession.session1.emotional_barriers.sort(function (ass1, ass2) {
+        return moment(ass1.obsDatetime).diff(ass2.obsDatetime);
+      });
+
+      note.eacSession.session1.socio_economic_barriers = _findTextObsValue(
+        encounters,
+        CONCEPT_UUIDS.SOCIO_ECONOMIC_BARRIERS_ASSESSMENT,
+        __findObsWithGivenConcept
+      );
+
+      note.eacSession.session1.socio_economic_barriers.sort(function (
+        ass1,
+        ass2
+      ) {
+        return moment(ass1.obsDatetime).diff(ass2.obsDatetime);
+      });
+
+      note.eacSession.session1.enhanced_adherence_session = _findTextObsValue(
+        encounters,
+        CONCEPT_UUIDS.ENHANCED_ADHERENCE_SESSION_1,
+        __findObsWithGivenConcept
+      );
+
+      note.eacSession.session1.enhanced_adherence_session.sort(function (
+        ass1,
+        ass2
+      ) {
+        return moment(ass1.obsDatetime).diff(ass2.obsDatetime);
+      });
+
+      note.eacSession.session2.review_adherence_plan = _findTextObsValue(
+        encounters,
+        CONCEPT_UUIDS.ENHANCED_ADHERENCE_SESSION_2,
+        __findObsWithGivenConcept
+      );
+
+      note.eacSession.session2.review_adherence_plan.sort(function (
+        ass1,
+        ass2
+      ) {
+        return moment(ass1.obsDatetime).diff(ass2.obsDatetime);
+      });
+
+      note.eacSession.session2.new_issues = _findTextObsValue(
+        encounters,
+        CONCEPT_UUIDS.EMERGING_ISSUES,
+        __findObsWithGivenConcept
+      );
+
+      note.eacSession.session2.new_issues.sort(function (ass1, ass2) {
+        return moment(ass1.obsDatetime).diff(ass2.obsDatetime);
+      });
+
+      note.eacSession.session2.referral_and_networking = _findTextObsValue(
+        encounters,
+        CONCEPT_UUIDS.REFERRAL_FOLLOW_UP,
+        __findObsWithGivenConcept
+      );
+
+      note.eacSession.session2.referral_and_networking.sort(function (
+        ass1,
+        ass2
+      ) {
+        return moment(ass1.obsDatetime).diff(ass2.obsDatetime);
+      });
+
+      note.eacSession.session2.adherence_plan = _findTextObsValue(
+        encounters,
+        CONCEPT_UUIDS.EAC2_ADHERENCE_PLAN,
+        __findObsWithGivenConcept
+      );
+
+      note.eacSession.session2.adherence_plan.sort(function (ass1, ass2) {
+        return moment(ass1.obsDatetime).diff(ass2.obsDatetime);
+      });
+
+      note.eacSession.session3.adherence_plan_review = _findTextObsValue(
+        encounters,
+        CONCEPT_UUIDS.EAC3_ADHERENCE_PLAN_REVIEW,
+        __findObsWithGivenConcept
+      );
+
+      note.eacSession.session3.adherence_plan_review.sort(function (
+        ass1,
+        ass2
+      ) {
+        return moment(ass1.obsDatetime).diff(ass2.obsDatetime);
+      });
+
+      note.eacSession.session3.new_issues = _findTextObsValue(
+        encounters,
+        CONCEPT_UUIDS.EAC3_EMERGING_ISSUES,
+        __findObsWithGivenConcept
+      );
+
+      note.eacSession.session3.new_issues.sort(function (ass1, ass2) {
+        return moment(ass1.obsDatetime).diff(ass2.obsDatetime);
+      });
+
+      note.eacSession.session3.referral_and_networking = _findTextObsValue(
+        encounters,
+        CONCEPT_UUIDS.EAC3_REFERRAL_FOLLOW_UP,
+        __findObsWithGivenConcept
+      );
+
+      note.eacSession.session3.referral_and_networking.sort(function (
+        ass1,
+        ass2
+      ) {
+        return moment(ass1.obsDatetime).diff(ass2.obsDatetime);
+      });
+
+      note.eacSession.session3.adherence_plan = _findTextObsValue(
+        encounters,
+        CONCEPT_UUIDS.EAC3_ADHERENCE_PLAN,
+        __findObsWithGivenConcept
+      );
+
+      note.eacSession.session3.adherence_plan.sort(function (ass1, ass2) {
+        return moment(ass1.obsDatetime).diff(ass2.obsDatetime);
+      });
+
+      note.eacSession.session3.repeat_viral_load = _findTextObsValue(
+        encounters,
+        CONCEPT_UUIDS.EAC_VIRAL_LOAD_TEST,
+        __findObsWithGivenConcept
+      );
+
+      note.eacSession.session3.repeat_viral_load.sort(function (ass1, ass2) {
+        return moment(ass1.obsDatetime).diff(ass2.obsDatetime);
+      });
+
+      note.eacSession.session4.viral_load_results = _findTextObsValue(
+        encounters,
+        CONCEPT_UUIDS.EAC_VIRAL_LOAD_RESULT,
+        __findObsWithGivenConcept
+      );
+
+      note.eacSession.session4.viral_load_results.sort(function (ass1, ass2) {
+        return moment(ass1.obsDatetime).diff(ass2.obsDatetime);
+      });
+
+      note.eacSession.hasEacSession = hasEacSessionData(note.eacSession);
     } else {
       console.log('encounters array is null or empty');
     }
@@ -417,6 +629,20 @@
       tbProphy.estimatedEndDate = 'N/A';
     }
     return tbProphy;
+  }
+
+  function hasEacSessionData(eacSession) {
+    let hasEacSession = false;
+    Object.keys(eacSession).forEach((key) => {
+      const session = eacSession[key];
+      if (!hasEacSession) {
+        hasEacSession = Object.keys(session).some((key2) => {
+          const specificSession = session[key2];
+          return specificSession.length > 0;
+        });
+      }
+    });
+    return hasEacSession;
   }
 
   module.exports = {
