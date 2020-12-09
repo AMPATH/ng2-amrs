@@ -159,14 +159,6 @@
       "column": "hmsd.presumed_tb_positive_this_month"
     },
     {
-      "type": "derived_column",
-      "alias": "screened_for_cervical_ca",
-      "expressionType": "simple_expression",
-      "expressionOptions": {
-        "expression": "0"
-      }
-    },
-    {
       "type": "simple_column",
       "alias": "started_ipt",
       "column": "hmsd.started_ipt_this_month"
@@ -204,6 +196,11 @@
       "type": "simple_column",
       "alias": "f_gte_18_visits",
       "column": "hmsd.f_18_and_older_this_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "screened_for_cervical_ca",
+      "column": "hmsd.ca_cx_screened_active_this_month"
     }
   ],
   "filters": {
