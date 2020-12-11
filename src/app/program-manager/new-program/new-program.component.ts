@@ -48,6 +48,18 @@ export class NewProgramComponent
   public groupEnrollmentState: any;
   public patientCurrentGroups: any;
   public retroSettings: any;
+  public isCCCIdentifierAssigned: Boolean = false;
+  public isHEIIdAssigned: Boolean = false;
+  public programsWithCCCValidation = [
+    '781d85b0-1359-11df-a1f1-0026b9348838',
+    '781d897a-1359-11df-a1f1-0026b9348838',
+    '334c9e98-173f-4454-a8ce-f80b20b7fdf0',
+    'c4246ff0-b081-460c-bcc5-b0678012659e',
+    '6ff0a6dc-ef8f-467a-86fc-9d9b263d8761',
+    'c6bf3625-de80-4a88-a913-38273e300a55',
+    '96ba279b-b23b-4e78-aba9-dcbd46a96b7b',
+    'f7793d42-11ac-4cfd-9b35-e0a21a7a7c31'
+  ];
 
   constructor(
     public patientService: PatientService,
@@ -139,6 +151,7 @@ export class NewProgramComponent
     this.checkForRequiredQuestions();
     this.checkIfEnrollmentIsAllowed();
     this.goToDetails();
+    this.validatePatientIdentifiers(this.patient);
   }
 
   public goToProgram() {
@@ -378,8 +391,27 @@ export class NewProgramComponent
       this.enrollToGroup = question.value;
     }
 
+    this.isButtonVisible = false;
     if (questionWithWrongAnswer) {
       this.preQualifyProgramEnrollment(questionWithWrongAnswer);
+    } else if (
+      this.programsWithCCCValidation.indexOf(this.selectedProgram.programUuid) >
+        -1 &&
+      question.value === 'positive' &&
+      this.isCCCIdentifierAssigned === false
+    ) {
+      this.showMessage(
+        `Patient requires ccc identifier before being enrolled to this program.`
+      );
+    } else if (
+      this.selectedProgram.programUuid ===
+        'a8e7c30d-6d2f-401c-bb52-d4433689a36b' &&
+      question.value === 'positive' &&
+      this.isHEIIdAssigned === false
+    ) {
+      this.showMessage(
+        'Patient requires hei identifier before being enrolled to hei program.'
+      );
     } else {
       this.removeMessage();
       this.isButtonVisible = true;
@@ -691,9 +723,6 @@ export class NewProgramComponent
         .showMessage(`The question <strong><em>${question.name}</em></strong> MUST be
           '${requiredStatus.label}' to be able to enroll the patient into this program`);
       this.isButtonVisible = false;
-    } else {
-      this.removeMessage();
-      this.isButtonVisible = true;
     }
   }
 
@@ -775,5 +804,19 @@ export class NewProgramComponent
       .subscribe((groups) => {
         this.patientCurrentGroups = _.filter(groups, (group) => !group.voided);
       });
+  }
+
+  public validatePatientIdentifiers(patient: any) {
+    patient.identifiers.openmrsModel.forEach((element) => {
+      if (
+        element.identifierType.uuid === 'f2d6ff1a-8440-4d35-a150-1d4b5a930c5e'
+      ) {
+        this.isCCCIdentifierAssigned = true;
+      } else if (
+        element.identifierType.uuid === 'ead42a8f-203e-4b11-a942-df03a460d617'
+      ) {
+        this.isHEIIdAssigned = true;
+      }
+    });
   }
 }
