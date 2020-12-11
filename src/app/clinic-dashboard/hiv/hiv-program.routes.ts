@@ -86,6 +86,8 @@ import {
     PrepReportPatientListComponent
 } from 'src/app/hiv-care-lib/prep-report/prep-report-patient-list/prep-report-patient-list.component';
 import { MonthlyReportComponent } from 'src/app/hiv-care-lib/monthly-report/monthly-report.component';
+import { IptReportComponent } from './ipt-report/ipt-report.component';
+import { IptReportPatientListComponent } from 'src/app/hiv-care-lib/ipt-report/ipt-report-patient-list.component';
 
 const routes: Routes = [
     {
@@ -285,6 +287,32 @@ const routes: Routes = [
             },
         ]
     },
+    {
+        path: 'monthly-report',
+        children: [
+            {
+                path: '',
+                component: MonthlyReportComponent
+            },
+            {
+                path: 'cross-border-report',
+                component: HIVListsMicroFrontendComponent
+            },
+            {
+                path: 'ipt-report',
+                children: [
+                  {
+                    path: '',
+                    component: IptReportComponent
+                  },
+                  {
+                    path: 'ipt-report-patientlist',
+                    component: IptReportPatientListComponent
+                  }
+                ]
+            }
+        ]
+    }
 ];
 
 export const clinicDashboardHivRouting: ModuleWithProviders =

@@ -39,6 +39,7 @@ import { ChangeDepartmentModule } from '../change-department/change-department.m
 import { SurgeReportComponent } from './surge/surge-report.component';
 import { ReportingUtilitiesModule } from 'src/app/reporting-utilities/reporting-utilities.module';
 import { PrepReportComponent } from './prep-report/prep-report.component';
+import { IPTReportComponent } from './ipt-report/ipt-report.component';
 
 @NgModule({
   imports: [
@@ -69,7 +70,8 @@ import { PrepReportComponent } from './prep-report/prep-report.component';
     HivCareComparativeAnalyticsComponent,
     HivSummaryMonthlyIndicatorsComponent,
     SurgeReportComponent,
-    PrepReportComponent
+    PrepReportComponent,
+    IPTReportComponent
   ],
   providers: [
     DataAnalyticsDashboardService,

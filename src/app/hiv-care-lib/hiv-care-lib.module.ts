@@ -130,7 +130,9 @@ import { CaseManagementResourceService } from './../etl-api/case-management-reso
 import { PrepReportBaseComponent } from './prep-report/prep-report-base/prep-report-base.component';
 import { PrepReportPatientListComponent } from './prep-report/prep-report-patient-list/prep-report-patient-list.component';
 import { MonthlyReportComponent } from './monthly-report/monthly-report.component';
-
+// tslint:disable-next-line: max-line-length
+import { IptReportPatientListComponent } from 'src/app/hiv-care-lib/ipt-report/ipt-report-patient-list.component';
+import { IptBaseReportComponent } from 'src/app/hiv-care-lib/ipt-report/ipt-report-base.component';
 
 @NgModule({
   imports: [
@@ -257,6 +259,13 @@ import { MonthlyReportComponent } from './monthly-report/monthly-report.componen
     PrepReportBaseComponent,
     PrepReportPatientListComponent,
     MonthlyReportComponent,
+    HeiIndicatorsReportComponent,
+    HeiIndicatorsFilterComponent,
+    HeiIndicatorsTabularComponent,
+    HeiIndicatorsPatientListComponent,
+    HeiIndicatorsPdfViewComponent,
+    IptBaseReportComponent,
+    IptReportPatientListComponent
   ],
   providers: [MOHReportService,
     LocationResourceService,

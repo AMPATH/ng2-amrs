@@ -106,6 +106,7 @@ import {
 import { ClinicDashboardCaseManagementComponent } from './case-management/clinic-dashboard-case-management.component';
 import { HIVListsMicroFrontendComponent } from './hiv-lists-microfrontend-report/hiv-lists-microfrontend.component';
 import { PrepReportComponent } from './prep-report/prep-report.component';
+import { IptReportComponent } from './ipt-report/ipt-report.component';
 @NgModule({
     imports: [
         clinicDashboardHivRouting,
@@ -135,7 +136,8 @@ import { PrepReportComponent } from './prep-report/prep-report.component';
         ChangeDepartmentModule,
         GeneralModule,
         ReportingUtilitiesModule,
-        BsDatepickerModule.forRoot()
+        BsDatepickerModule.forRoot(),
+        // IptReportComponent
     ],
     exports: [
         HivSummaryIndicatorComponent,
@@ -187,7 +189,8 @@ import { PrepReportComponent } from './prep-report/prep-report.component';
         ClinicDashboardHeiReportComponent,
         ClinicDashboardCaseManagementComponent,
         HIVListsMicroFrontendComponent,
-        PrepReportComponent
+        PrepReportComponent,
+        IptReportComponent
     ],
     providers: [
         ClinicalSummaryVisualizationService
