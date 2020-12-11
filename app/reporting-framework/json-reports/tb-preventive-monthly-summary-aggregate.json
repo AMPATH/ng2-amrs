@@ -1,0 +1,195 @@
+{
+  "name": "TbPreventiveMonthlySummaryAggregate",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [
+    {
+      "name": "TbPreventiveDataSetBase",
+      "version": "1.0",
+      "type": "dataset_def"
+    }
+  ],
+  "sources": [
+    {
+      "dataSet": "TbPreventiveDataSetBase",
+      "alias": "hmsd"
+    }
+  ],
+  "columns": [
+    {
+      "type": "derived_column",
+      "alias": "join_location",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "1"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "hmsd.location_uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "hmsd.location"
+    },
+    {
+      "type": "simple_column",
+      "alias": "gender",
+      "column": "hmsd.gender"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "hmsd.location_id"
+    },
+
+    {
+      "type": "derived_column",
+      "alias": "on_art_this_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.on_art_this_month)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_tb_tx_this_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.on_tb_tx_this_month)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "active_in_care_this_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.active_in_care_this_month)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "started_art_this_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.started_art_this_month)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_tb_tx_and_started_art_this_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.on_tb_tx_and_started_art_this_month)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "started_tb_tx_this_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.started_tb_tx_this_month)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "active_not_on_tb_ipt",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.active_not_on_tb_ipt)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "tb_screened_active_this_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.tb_screened_active_this_month)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "tb_screened_and_visit_this_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.tb_screened_and_visit_this_month)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "tb_screened_active_this_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.tb_screened_active_this_month)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "active_not_screened",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.active_not_screened)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_art_this_month_screened",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.on_art_this_month_screened)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_art_this_month_not_screened",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.on_art_this_month_not_screened)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "active_this_month_screened_within_last_6months",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.active_this_month_screened_within_last_6months)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "active_this_month_not_screened_within_last_6months",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.active_this_month_not_screened_within_last_6months)"
+      }
+    }
+  ],
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["location_id"],
+    "excludeParam": "excludeParam"
+  },
+  "transFormDirectives": {
+    "joinColumn": "location_id",
+    "joinColumnParam": "joinColumnParam",
+    "skipColumns": ["location_uuid", "join_location"],
+    "disaggregationColumns": []
+  },
+  "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+      "useTemplate": "patient-list-frozen-template",
+      "useTemplateVersion": "1.0",
+      "generatingDirectives": {
+        "joinDirectives": {
+          "joinType": "INNER",
+          "joinCondition": "<<base_column>> = <<template_column>>",
+          "baseColumn": "person_id",
+          "templateColumn": "person_id"
+        }
+      }
+    }
+  }
+}

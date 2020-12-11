@@ -107,6 +107,11 @@
     },
     {
       "type": "simple_column",
+      "alias": "prev_clinical_rtc_date_hiv",
+      "column": "date_format(fh.prev_clinical_rtc_date_hiv, '%Y-%m-%d')"
+    },
+    {
+      "type": "simple_column",
       "alias": "latest_vl",
       "column": "fh.vl_1"
     },
@@ -139,6 +144,47 @@
       "type": "simple_column",
       "alias": "previous_vl_date",
       "column": "date_format(fh.vl_2_date, '%Y-%m-%d')"
+    },
+    {
+      "type": "derived_column",
+      "alias": "tb_tx_stop_reason",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "tb_tx_stop_reason = 1267",
+            "value": "Completed"
+          },
+          {
+            "condition": "tb_tx_stop_reason = 7043",
+            "value": "Drug out of stock"
+          },
+          {
+            "condition": "tb_tx_stop_reason = 7065",
+            "value": "Pill burden"
+          },
+          {
+            "condition": "tb_tx_stop_reason = 1259",
+            "value": "Changing to adult regimen"
+          },
+          {
+            "condition": "tb_tx_stop_reason = 44",
+            "value": "Pregnancy"
+          },
+          {
+            "condition": "tb_tx_stop_reason = 7061",
+            "value": "Risk of pregnancy"
+          },
+          {
+            "condition": "tb_tx_stop_reason = 102",
+            "value": "Toxicity"
+          },
+          {
+            "condition": "tb_tx_stop_reason = 5622",
+            "value": "Other"
+          }
+        ]
+      }
     },
     {
       "type": "simple_column",

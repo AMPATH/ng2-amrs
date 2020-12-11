@@ -1,0 +1,6 @@
+{
+  "reports": [
+    "TbPreventiveIptMonthlySummaryAggregate",
+    "TbPreventiveMonthlySummaryAggregate"
+  ]
+}
