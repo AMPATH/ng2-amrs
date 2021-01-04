@@ -32,6 +32,9 @@ import * as _ from 'lodash';
       .ng-select .ng-arrow-zone {
         display: none;
       }
+      .mr-1 {
+        margin-right: 1rem;
+      }
     `
   ],
   encapsulation: ViewEncapsulation.None
