@@ -37,6 +37,9 @@ import { SelectDepartmentService } from './../services/select-department.service
         flex-shrink: initial;
         background-color: #428bca !important;
       }
+      .mr-1 {
+        margin-right: 1rem;
+      }
     `
   ],
   encapsulation: ViewEncapsulation.None,
