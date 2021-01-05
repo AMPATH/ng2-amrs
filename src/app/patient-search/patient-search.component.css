@@ -5,14 +5,16 @@
 .input-group-btn > .btn {
   margin-left: 5px;
 }
-.patient-search{
-    background: #FFF;
-    padding-top: 1%;
-    margin-top: 10px;
+
+.patient-search {
+  background: #fff;
+  padding-top: 1%;
+  margin-top: 10px;
   margin-bottom: 10px;
     padding-bottom: 10px;
 }
-.input-group-btn{
+
+.input-group-btn {
   font-size: 14px;
 }
 

@@ -9,23 +9,28 @@ import * as _ from 'lodash';
 @Component({
   selector: 'location-filter',
   templateUrl: './location-filter.component.html',
-  styles: [`
-    ng-select > div > div.multiple input {
-      width: 100% !important;
-    }
-    .location-filter ng-select > div > div.multiple > div.option {
-      color: #fff !important;
-      border-color: #357ebd !important;
-      flex-shrink: initial;
-      background-color: #428bca !important;
-    }
-    .ng-select .ng-control {
-      border-radius: 0;
-    }
-    .ng-select .ng-arrow-zone {
-      display: none;
-    }
-  `],
+  styles: [
+    `
+      ng-select > div > div.multiple input {
+        width: 100% !important;
+      }
+      .location-filter ng-select > div > div.multiple > div.option {
+        color: #fff !important;
+        border-color: #357ebd !important;
+        flex-shrink: initial;
+        background-color: #428bca !important;
+      }
+      .ng-select .ng-control {
+        border-radius: 0;
+      }
+      .ng-select .ng-arrow-zone {
+        display: none;
+      }
+      .mr-1 {
+        margin-right: 1rem;
+      }
+    `
+  ],
   encapsulation: ViewEncapsulation.None
 })
 export class LocationFilterComponent implements OnInit, AfterViewInit {

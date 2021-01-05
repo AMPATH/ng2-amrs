@@ -1,115 +1,215 @@
 <div class="box-body">
-	<div class="component-wrapper">
-		<div class="patient-search">
-			<div clas="row">
-				<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-						<h2>{{title}}</h2>
-				</div>
-			</div>
-			<div class="row">
-				<div class="container-fluid">
-					<form class="form-horizontal">
-						<div class="col-lg-12 col-md-12 col-sm-12">
-							<div class="input-group hidden-xs">
-								<input type="text" id="search-textbox" autocomplete="off" class="form-control input-lg search-texbox" [(ngModel)]="searchString" [ngModelOptions]="{standalone: true}"
-											(ngModelChange)="updatePatientCount($event)" placeholder="Enter the Patient Name or Identifier" autofocus="true">
-											
-								<div class="input-group-btn">
-									<button [disabled]="isLoading" class="btn btn-primary btn-lg search_btn" (click)="loadPatient()">
-										<span><i class="glyphicon glyphicon-search"></i> <span>Search</span></span>
-										<i *ngIf="isLoading" class="fa fa-spinner fa-spin fa-1x fa-fw"></i>
-									</button>
-									<button [disabled]="!isResetButton" class="btn btn-danger btn-lg reset_btn" (click)="resetSearchList()">
-										<i class="fa fa-trash fa-fw"></i> <span>Reset</span>
-									</button>
-								</div>
-							</div>
-							<div class="visible-xs-* hidden-sm hidden-md hidden-lg">
-								<input type="text" id="search-textbox" autocomplete="off" class="form-control input-lg search-texbox" [(ngModel)]="searchString" [ngModelOptions]="{standalone: true}"
-											(ngModelChange)="updatePatientCount($event)" placeholder="Enter the Patient Name or Identifier" autofocus="true">
-								<br/>		
-								<div class="input-group-btn pl-right">
-									<button [disabled]="isLoading" class="btn btn-primary btn-lg search_btn" style="margin-left: 0px;" (click)="loadPatient()">
-										<span><i class="glyphicon glyphicon-search"></i></span>
-										<i *ngIf="isLoading" class="fa fa-spinner fa-spin fa-1x fa-fw"></i>
-									</button>
-									<button [disabled]="!isResetButton" class="btn btn-danger btn-lg reset_btn" (click)="resetSearchList()">
-										<i class="fa fa-trash fa-fw"></i>
-									</button>
-									<span *ngIf="!hideRegistration" class="badge pull-right" style="background-color: whitesmoke !important; padding: 15px; font-size: 16px;">
-										<a routerLink="patient-registration">New Patient</a>
-									</span>
-								</div>
-							</div>
-						</div>
-					</form>
-					<div class="col-md-12 col-lg-10 col-sm-12 col-xs-12" *ngIf="noMatchingResults===true">
-						<div  class="alert">
-							<span>No Matching results for <i class="total text-bold">{{lastSearchString}}</i></span>
-						</div>
-					</div>
-					<div class="col-md-12 col-lg-10 col-sm-12 col-xs-12" *ngIf="!hideResults">
-						<br>
-					<div *ngIf="hasConductedSearch===true > 0" class="alert"><span class="total text-bold" (ngModel)="totalPatients">{{totalPatients}}</span>
-						<span *ngIf="totalPatients === 1"> patient found</span>
-						<span *ngIf="totalPatients !== 1"> patients found</span>
-					</div>
-					</div>
-					<div *ngIf="!hideResults"  class="panel panel-primary" style="padding:2px;">
+  <div class="component-wrapper">
+    <div class="patient-search">
+      <div clas="row">
+        <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+          <h2>{{ title }}</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="container-fluid">
+          <form class="form-horizontal">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="input-group hidden-xs">
+                <input
+                  type="text"
+                  id="search-textbox"
+                  autocomplete="off"
+                  class="form-control input-lg search-texbox"
+                  [(ngModel)]="searchString"
+                  [ngModelOptions]="{ standalone: true }"
+                  (ngModelChange)="updatePatientCount($event)"
+                  placeholder="Enter the Patient Name or Identifier"
+                  autofocus="true"
+                />
 
-						<div class="panel panel-default">
-							<div class="container-fluid">
-							<table class="table table-striped table-hover">
-								<thead>
-									<tr>
-										<th>#</th>
-										<th>Identifier(s)</th>
-										<th>Patient Name</th>
-										<th>Gender</th>
-										<th>Age</th>
-										<th></th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr style="cursor: pointer;" (click)='selectPatient(patient)' *ngFor="let patient of patients | paginate: { itemsPerPage: 10, currentPage: page }; let i = index; ">
-										<td>{{ (i + 1)+ (page - 1) * 10 }}</td>
-										<td>
-											<span *ngIf="patient.searchIdentifiers.kenyaNationalId"> {{patient.searchIdentifiers.kenyaNationalId}}
-												<span *ngIf="patient.searchIdentifiers.amrsMrn || patient.searchIdentifiers.ampathMrsUId">,</span>
-											</span>
-											<span *ngIf="patient.searchIdentifiers.amrsMrn">{{patient.searchIdentifiers.amrsMrn}}
-												<span *ngIf="patient.searchIdentifiers.ampathMrsUId">,</span>
-											</span>
-											<span *ngIf="patient.searchIdentifiers.ampathMrsUId">{{patient.searchIdentifiers.ampathMrsUId}}
-												<span *ngIf="patient.searchIdentifiers.cCC">,</span>
-											</span>
-											<span *ngIf="patient.searchIdentifiers.cCC">{{patient.searchIdentifiers.cCC}}</span>
-											<span *ngIf="patient.searchIdentifiers.default">{{patient.searchIdentifiers.default}}</span>
-
-										</td>
-										<td>{{patient.person.display}}</td>
-										<td>{{patient.person.gender}}</td>
-										<td>{{patient.person.age}}</td>
-									</tr>
-								</tbody>
-							</table>
-							</div>
-						</div>
-						<pagination-controls (pageChange)="page = $event" style="cursor: pointer;"></pagination-controls>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="hidden-xs">
-			<div clas="row" *ngIf="!hideRegistration" >
-				<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-					<span class="badge" style="background-color: whitesmoke !important; padding: 10px; font-size: 16px;">
-						<a routerLink="patient-registration"><span class="glyphicon glyphicon-user"></span> Register New Patient</a>
-					</span>
-				</div>
-				<div class="clear">&nbsp;</div>
-			</div>
-		</div>
-	</div>
+                <div class="input-group-btn">
+                  <button
+                    [disabled]="isLoading"
+                    class="btn btn-primary btn-lg search_btn"
+                    (click)="loadPatient()"
+                  >
+                    <i class="glyphicon glyphicon-search"></i>
+                    <span>Search</span>
+                    <i
+                      *ngIf="isLoading"
+                      class="fa fa-spinner fa-spin fa-1x fa-fw"
+                    ></i>
+                  </button>
+                  <button
+                    [disabled]="!isResetButton"
+                    class="btn btn-danger btn-lg reset_btn"
+                    (click)="resetSearchList()"
+                  >
+                    <i class="glyphicon glyphicon-trash"></i>
+                    <span>Reset</span>
+                  </button>
+                </div>
+              </div>
+              <div class="visible-xs-* hidden-sm hidden-md hidden-lg">
+                <input
+                  type="text"
+                  id="search-textbox"
+                  autocomplete="off"
+                  class="form-control input-lg search-texbox"
+                  [(ngModel)]="searchString"
+                  [ngModelOptions]="{ standalone: true }"
+                  (ngModelChange)="updatePatientCount($event)"
+                  placeholder="Enter the Patient Name or Identifier"
+                  autofocus="true"
+                />
+                <br />
+                <div class="input-group-btn pl-right">
+                  <button
+                    [disabled]="isLoading"
+                    class="btn btn-lg btn-primary"
+                    style="margin-left: 0px"
+                    (click)="loadPatient()"
+                  >
+                    <i class="glyphicon glyphicon-search"></i>
+                    <i
+                      *ngIf="isLoading"
+                      class="fa fa-spinner fa-spin fa-1x fa-fw"
+                    ></i>
+                  </button>
+                  <button
+                    [disabled]="!isResetButton"
+                    class="btn btn-lg btn-danger"
+                    (click)="resetSearchList()"
+                  >
+                    <i class="glyphicon glyphicon-trash"></i>
+                  </button>
+                  <span
+                    *ngIf="!hideRegistration"
+                    class="badge pull-right"
+                    style="
+                      background-color: whitesmoke !important;
+                      padding: 15px;
+                      font-size: 16px;
+                    "
+                  >
+                    <a routerLink="patient-registration">New Patient</a>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </form>
+          <div
+            class="col-md-12 col-lg-10 col-sm-12 col-xs-12"
+            *ngIf="noMatchingResults === true"
+          >
+            <div class="alert">
+              <span
+                >No Matching results for
+                <i class="total text-bold">{{ lastSearchString }}</i></span
+              >
+            </div>
+          </div>
+          <div
+            class="col-md-12 col-lg-10 col-sm-12 col-xs-12"
+            *ngIf="!hideResults"
+          >
+            <br />
+            <div *ngIf="hasConductedSearch === true > 0" class="alert">
+              <span class="total text-bold" (ngModel)="(totalPatients)">{{
+                totalPatients
+              }}</span>
+              <span *ngIf="totalPatients === 1"> patient found</span>
+              <span *ngIf="totalPatients !== 1"> patients found</span>
+            </div>
+          </div>
+          <div
+            *ngIf="!hideResults"
+            class="panel panel-primary"
+            style="padding: 2px"
+          >
+            <div class="panel panel-default">
+              <div class="container-fluid">
+                <table class="table table-striped table-hover">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Identifier(s)</th>
+                      <th>Patient Name</th>
+                      <th>Gender</th>
+                      <th>Age</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      style="cursor: pointer"
+                      (click)="selectPatient(patient)"
+                      *ngFor="
+                        let patient of patients
+                          | paginate: { itemsPerPage: 10, currentPage: page };
+                        let i = index
+                      "
+                    >
+                      <td>{{ i + 1 + (page - 1) * 10 }}</td>
+                      <td>
+                        <span *ngIf="patient.searchIdentifiers.kenyaNationalId">
+                          {{ patient.searchIdentifiers.kenyaNationalId }}
+                          <span
+                            *ngIf="
+                              patient.searchIdentifiers.amrsMrn ||
+                              patient.searchIdentifiers.ampathMrsUId
+                            "
+                            >,</span
+                          >
+                        </span>
+                        <span *ngIf="patient.searchIdentifiers.amrsMrn"
+                          >{{ patient.searchIdentifiers.amrsMrn }}
+                          <span *ngIf="patient.searchIdentifiers.ampathMrsUId"
+                            >,</span
+                          >
+                        </span>
+                        <span *ngIf="patient.searchIdentifiers.ampathMrsUId"
+                          >{{ patient.searchIdentifiers.ampathMrsUId }}
+                          <span *ngIf="patient.searchIdentifiers.cCC">,</span>
+                        </span>
+                        <span *ngIf="patient.searchIdentifiers.cCC">{{
+                          patient.searchIdentifiers.cCC
+                        }}</span>
+                        <span *ngIf="patient.searchIdentifiers.default">{{
+                          patient.searchIdentifiers.default
+                        }}</span>
+                      </td>
+                      <td>{{ patient.person.display }}</td>
+                      <td>{{ patient.person.gender }}</td>
+                      <td>{{ patient.person.age }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <pagination-controls
+              (pageChange)="page = $event"
+              style="cursor: pointer"
+            ></pagination-controls>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hidden-xs">
+      <div clas="row" *ngIf="!hideRegistration">
+        <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+          <span
+            class="badge"
+            style="
+              background-color: whitesmoke !important;
+              padding: 10px;
+              font-size: 16px;
+            "
+          >
+            <a routerLink="patient-registration"
+              ><span class="glyphicon glyphicon-user"></span> Register New
+              Patient</a
+            >
+          </span>
+        </div>
+        <div class="clear">&nbsp;</div>
+      </div>
+    </div>
+  </div>
 </div>
-

@@ -18,13 +18,36 @@
                  [(ngModel)]="selectedLocations" [items]="locationDropdownOptions">
       </ng-select>
       <div class="input-group-addon">
-               <div>
-                  <span  style="cursor: pointer;" *ngIf="showReset" class="glyphicon glyphicon-trash"></span>
-                  <span  style="cursor: pointer;" *ngIf="!showReset" class="glyphicon glyphicon-pushpin"></span>
-                  <span  style="cursor: pointer;" *ngIf="allLocations && multiple" (click)="pickAllLocations()" >Select all</span>
-                 <span  style="cursor: pointer;"  *ngIf="allFromCounty" (click)="pickAllLocations()" >Select all from this county</span>
-                  <span  style="cursor: pointer;" *ngIf="showReset" (click)="resetLocations()">Select None</span>
-                </div>
+        <div>
+          <span
+            style="cursor: pointer"
+            *ngIf="showReset"
+            class="glyphicon glyphicon-trash mr-1"
+          ></span>
+          <span
+            style="cursor: pointer"
+            *ngIf="!showReset"
+            class="glyphicon glyphicon-pushpin mr-1"
+          ></span>
+          <span
+            style="cursor: pointer"
+            *ngIf="allLocations && multiple"
+            (click)="pickAllLocations()"
+            >Select all</span
+          >
+          <span
+            style="cursor: pointer"
+            *ngIf="allFromCounty"
+            (click)="pickAllLocations()"
+            >Select all from this county</span
+          >
+          <span
+            style="cursor: pointer"
+            *ngIf="showReset"
+            (click)="resetLocations()"
+            >Select None</span
+          >
+        </div>
       </div>
     </div>
   </div>

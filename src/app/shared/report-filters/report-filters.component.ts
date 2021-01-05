@@ -22,17 +22,22 @@ import { SelectDepartmentService } from './../services/select-department.service
   selector: 'report-filters',
   // styleUrls: ['report-filters.component.css'],
   templateUrl: 'report-filters.component.html',
-  styles: [`
-    ng-select > div > div.multiple input {
-      width: 100% !important;
-    }
-    .location-filter ng-select > div > div.multiple > div.option {
-      color: #fff !important;
-      border-color: #357ebd !important;
-      flex-shrink: initial;
-      background-color: #428bca !important;
-    }
-  `],
+  styles: [
+    `
+      ng-select > div > div.multiple input {
+        width: 100% !important;
+      }
+      .location-filter ng-select > div > div.multiple > div.option {
+        color: #fff !important;
+        border-color: #357ebd !important;
+        flex-shrink: initial;
+        background-color: #428bca !important;
+      }
+      .mr-1 {
+        margin-right: 1rem;
+      }
+    `
+  ],
   encapsulation: ViewEncapsulation.None,
   providers: [
     {

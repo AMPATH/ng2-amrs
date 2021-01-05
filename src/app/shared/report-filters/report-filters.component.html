@@ -20,8 +20,14 @@
           </ng-select>
           <div class="input-group-addon" (click)="selectAll()" style="cursor: pointer;">
             <div>
-              <span *ngIf="selectedIndicatorTagsSelectedAll" class="glyphicon glyphicon-trash"></span>
-              <span *ngIf="!selectedIndicatorTagsSelectedAll" class="glyphicon glyphicon-pushpin"></span>
+              <span
+                *ngIf="selectedIndicatorTagsSelectedAll"
+                class="glyphicon glyphicon-trash mr-1"
+              ></span>
+              <span
+                *ngIf="!selectedIndicatorTagsSelectedAll"
+                class="glyphicon glyphicon-pushpin mr-1"
+              ></span>
               <span *ngIf="!selectedIndicatorTagsSelectedAll">Select All</span>
               <span *ngIf="selectedIndicatorTagsSelectedAll">Select None</span>
             </div>
@@ -101,8 +107,14 @@
             </ng-select>
             <div class="input-group-addon" (click)="selectAllPrograms()" style="cursor: pointer;">
               <div>
-                <span *ngIf="selectedProgramTagsSelectedAll" class="glyphicon glyphicon-trash"></span>
-                <span *ngIf="!selectedProgramTagsSelectedAll" class="glyphicon glyphicon-pushpin"></span>
+                <span
+                  *ngIf="selectedProgramTagsSelectedAll"
+                  class="glyphicon glyphicon-trash mr-1"
+                ></span>
+                <span
+                  *ngIf="!selectedProgramTagsSelectedAll"
+                  class="glyphicon glyphicon-pushpin mr-1"
+                ></span>
                 <span *ngIf="!selectedProgramTagsSelectedAll">Select All</span>
                 <span *ngIf="selectedProgramTagsSelectedAll">Select None</span>
               </div>
