@@ -123,4 +123,14 @@ describe('SurgeResourceService()', () => {
 
     req.flush(mockReply.results);
   });
+
+  it('should retrieve surge weeks', () => {
+    service.getSurgeWeeks().subscribe((response: Response) => {
+      expect(response).toBeDefined();
+    });
+
+    const req = http.expectOne(mockUrl + 'surge-weeks');
+    expect(req.request.method).toBe('GET');
+    req.flush(mockReply.results);
+  });
 });
