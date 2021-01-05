@@ -3,13 +3,13 @@
     <ul class="nav navbar-nav">
       <li class="menu-left patient" routerLinkActive="active">
         <a routerLink="/patient-dashboard/patient-search">
-          <i class="fa fa-search"></i>
+          <i class="fa fa-search mr-1"></i>
           <span class="hidden-xs hidden-sm">Patient Search</span>
         </a>
       </li>
       <li class="menu-left clinic" routerLinkActive="active">
         <a routerLink="/clinic-dashboard">
-          <i class="fa fa-user-md"></i>
+          <i class="fa fa-user-md mr-1"></i>
           <span class="hidden-xs hidden-sm">Clinic Dashboard</span>
         </a>
       </li>
@@ -19,14 +19,14 @@
         routerLinkActive="trail"
       >
         <a dropdownToggle class="dropdown-toggle" data-toggle="dropdown">
-          <i class="fa fa-th"></i>
-          <span class="hidden-xs hidden-sm">More</span>
+          <i class="fa fa-th mr-1"></i>
+          <span class="hidden-xs hidden-sm mr-1">More</span>
           <span class="caret"></span>
         </a>
         <ul *dropdownMenu class="dropdown-menu">
           <li class="lab-order-search">
             <a routerLink="/lab-order-search" routerLinkActive="active">
-              <i class="icon-pathology"></i>
+              <i class="icon-pathology mr-1"></i>
               <span>Lab Order Search</span>
             </a>
           </li>
@@ -45,7 +45,7 @@
       >
         <a dropdownToggle class="dropdown-toggle" data-toggle="dropdown">
           <i class="fa fa-user"></i>
-          <span class="username hidden-xs">{{ user.display }}</span>
+          <span class="username hidden-xs mr-1">{{ user.display }}</span>
           <span class="caret"></span>
         </a>
         <ul *dropdownMenu class="dropdown-menu">

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { UserService } from '../../openmrs-api/user.service';
@@ -10,12 +10,13 @@ import { FormUpdaterService } from '../../patient-dashboard/common/formentry/for
 @Component({
   selector: 'static-navbar',
   templateUrl: './static-navbar.component.html',
-  styles: []
+  styles: ['.mr-1 { margin-right: 1rem }']
 })
 export class StaticNavBarComponent implements OnInit {
   public user: User;
   public userLocation = '';
   public department: any;
+
   constructor(
     private router: Router,
     private localStore: LocalStorageService,
@@ -32,6 +33,7 @@ export class StaticNavBarComponent implements OnInit {
       this.department = JSON.parse(department)[0].itemName;
     }
   }
+
   public logout() {
     this.router.navigateByUrl('/login').then((result) => {
       if (result) {
@@ -39,6 +41,7 @@ export class StaticNavBarComponent implements OnInit {
       }
     });
   }
+
   private setUserLocation() {
     this.user = this.userService.getLoggedInUser();
     this.userDefaultSettingsService.locationSubject.subscribe((location) => {
