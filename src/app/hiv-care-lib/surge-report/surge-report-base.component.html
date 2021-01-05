@@ -5,20 +5,45 @@
 </div>
 
 <p-tabView (onChange)="onTabChanged($event)">
-    <div *ngIf="isReleased">
-        <p-tabPanel header=" Daily" leftIcon="fa-calendar-o " [selected]="currentView === 'daily'">
-            <report-filters [enabledControls]="enabledControls" (startDateChange)="onStartDateChange($event)"
-                [startDate]="startDate" [endDate]="startDate" [reportName]="reportName"
-                (generateReport)="generateReport()">
-            </report-filters>
-        </p-tabPanel>
-    </div>
-    <p-tabPanel header=" Weekly" leftIcon="fa-calendar" [selected]="currentView != 'daily'">
-        <report-filters [enabledControls]="enabledControls" [startWeekString]="yearWeek" [reportName]="reportName"
-            [selectedYearWeek]="yearWeek" (onYearWeekChange)="onYearWeekChange($event)" [surgeWeeks]="calendarWeeks"
-            (generateReport)="generateReport()">
+  <div *ngIf="isReleased">
+    <p-tabPanel
+      header=" Daily"
+      leftIcon="fa-calendar-o "
+      [selected]="currentView === 'daily'"
+    >
+      <div *ngIf="isWeekDateLoaded">
+        <report-filters
+          *ngIf="isWeekDateLoaded"
+          [enabledControls]="enabledControls"
+          (startDateChange)="onStartDateChange($event)"
+          [startDate]="startDate"
+          [endDate]="startDate"
+          [reportName]="reportName"
+          (generateReport)="generateReport()"
+        >
         </report-filters>
+      </div>
     </p-tabPanel>
+  </div>
+
+  <p-tabPanel
+    header=" Weekly"
+    leftIcon="fa-calendar"
+    [selected]="currentView != 'daily'"
+  >
+    <div *ngIf="isWeekDateLoaded">
+      <report-filters
+        [enabledControls]="enabledControls"
+        [startWeekString]="yearWeek"
+        [reportName]="reportName"
+        [selectedYearWeek]="yearWeek"
+        (onYearWeekChange)="onYearWeekChange($event)"
+        [surgeWeeks]="calendarWeeks"
+        (generateReport)="generateReport()"
+      >
+      </report-filters>
+    </div>
+  </p-tabPanel>
 </p-tabView>
 
 <div class="alert alert-danger fade in" *ngIf="showInfoMessage">

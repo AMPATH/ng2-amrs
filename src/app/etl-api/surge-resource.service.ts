@@ -91,4 +91,20 @@ export class SurgeResourceService {
         })
       );
   }
+
+  public getSurgeWeeks(): Observable<any> {
+    return this.http.get(`${this.url}surge-weeks`).pipe(
+      map((response: Response) => {
+        return response;
+      }),
+      catchError((err: Error) => {
+        const error: any = err;
+        const errorObj = {
+          error: error.status,
+          message: error.statusText
+        };
+        return Observable.of(errorObj);
+      })
+    );
+  }
 }
