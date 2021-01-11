@@ -66,10 +66,10 @@ export class OncologySummaryIndicatorsPatientListComponent implements OnInit {
   public getPatientList(params) {
     this.busy = this.oncologyIndicatorService
       .getOncologySummaryMonthlyIndicatorsPatientList(params)
-      .subscribe((result: any) => {
-        if (result) {
-          const patients = result.results.results;
-          const patientListCols = result.patientListCols;
+      .subscribe((patientListData) => {
+        if (patientListData) {
+          const patients = patientListData.results.results;
+          const patientListCols = patientListData.patientListCols;
           this.patients = patients;
           this.generateDynamicPatientListCols(patientListCols);
           this.processPatientList(patients);
@@ -104,8 +104,14 @@ export class OncologySummaryIndicatorsPatientListComponent implements OnInit {
         });
       } else if (cols === 'via_rtc_date') {
         columns.push({
-          headerName: 'VIA RTC date',
+          headerName: 'RTC date',
           field: 'via_rtc_date',
+          hide: false
+        });
+      } else if (cols === 'breast_rtc_date') {
+        columns.push({
+          headerName: 'RTC date',
+          field: 'breast_rtc_date',
           hide: false
         });
       } else if (cols === 'encounter_datetime') {
