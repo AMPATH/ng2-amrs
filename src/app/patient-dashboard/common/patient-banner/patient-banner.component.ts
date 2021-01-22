@@ -20,7 +20,9 @@ import { Patient } from '../../../models/patient.model';
 import { PatientRelationshipService } from '../patient-relationships/patient-relationship.service';
 import { Person } from '../../../models/person.model';
 import { Relationship } from 'src/app/models/relationship.model';
-
+import { UserDefaultPropertiesService } from 'src/app/user-default-properties/user-default-properties.service';
+import { FamilyTestingService } from 'src/app/etl-api/family-testing-resource.service';
+import { EncounterResourceService } from 'src/app/openmrs-api/encounter-resource.service';
 @Component({
   selector: 'patient-banner',
   templateUrl: './patient-banner.component.html',
@@ -49,13 +51,20 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   private enrolled: boolean;
   private enrolledToHEIProgram: boolean;
   private isPatientEnrolledToHIVProgram: boolean;
+  private currentLocation: { uuid: string; display: string };
+  public familyTestingEncounterUuid: string;
+  public displayContacts = false;
+  public patientEncounters: Array<any> = [];
 
   constructor(
     private patientService: PatientService,
     private patientRelationshipService: PatientRelationshipService,
     private modalService: BsModalService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private propertyLocationService: UserDefaultPropertiesService,
+    private familyTestingService: FamilyTestingService,
+    private encounterResourceService: EncounterResourceService
   ) {}
 
   public ngOnInit() {
@@ -92,12 +101,21 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
             _.filter(patient.enrolledPrograms, 'isEnrolled')
           );
           this.getHIVPatient(_.filter(patient.enrolledPrograms, 'isEnrolled'));
+          this.familyTestingService
+            .getPatientEncounters(this.patient.uuid)
+            .subscribe((response: any) => {
+              this.familyTestingEncounterUuid = _.first<any>(
+                response.results
+              ).uuid;
+            });
+          this.getPatientEncounters();
         } else {
           this.searchIdentifiers = undefined;
           this.birthdate = undefined;
         }
       }
     );
+    this.currentLocation = this.propertyLocationService.getCurrentUserDefaultLocation();
   }
 
   public ngOnChanges(changes: SimpleChanges) {
@@ -224,5 +242,52 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
     if (ovc.length > 0 && ovc[0].isEnrolled && years <= 19) {
       this.ovcEnrollment = true;
     }
+  }
+
+  /* Family History */
+  public navigateToFamilyHistory() {
+    if (this.familyTestingEncounterUuid == null) {
+      const familyPartnerHistoryFormV1 = `3fbc8512-b37b-4bc2-a0f4-8d0ac7955127`;
+      const url = `/patient-dashboard/patient/${this.patient.uuid}/general/general/formentry/${familyPartnerHistoryFormV1}`;
+      this.router.navigate([url], {
+        queryParams: {
+          encounter: this.familyTestingEncounterUuid,
+          visitTypeUuid: ''
+        }
+      });
+      this.displayContacts = false;
+    } else {
+      this.displayContacts = true;
+    }
+  }
+
+  public updateContacts() {
+    console.log('this.patient.uuid ', this.patient.uuid);
+    const encounterUuid = _.first(this.patientEncounters).uuid;
+    const familyPartnerHistoryForm = `3fbc8512-b37b-4bc2-a0f4-8d0ac7955127`;
+    const url = `/patient-dashboard/patient/${this.patient.uuid}/general/general/formentry/${familyPartnerHistoryForm}`;
+    this.router.navigate([url], {
+      queryParams: { encounter: encounterUuid, visitTypeUuid: '' }
+    });
+    this.displayContacts = false;
+  }
+
+  public onClickCancel(val) {
+    this.displayContacts = false;
+  }
+
+  public getPatientEncounters() {
+    const familyAndPartnerTestingFormUuid =
+      '3fbc8512-b37b-4bc2-a0f4-8d0ac7955127';
+    this.encounterResourceService
+      .getEncountersByPatientUuid(this.patient.uuid, false, null)
+      .pipe(take(1))
+      .subscribe((resp) => {
+        this.patientEncounters = resp.reverse().filter((encounter) => {
+          if (encounter.form) {
+            return encounter.form.uuid === familyAndPartnerTestingFormUuid;
+          }
+        });
+      });
   }
 }

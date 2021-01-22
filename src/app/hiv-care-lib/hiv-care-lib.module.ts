@@ -98,7 +98,18 @@ import { MonthlyReportComponent } from './monthly-report/monthly-report.componen
 import { PatientGainsAndLosesPatientListComponent } from './patient-gains-and-loses/patient-gains-and-loses-patient-list/patient-gains-and-loses-patient-list.component';
 import { PatientGainLosesReportComponent } from '../clinic-dashboard/hiv/patient-gain-and-loses-report/patient-gain-and-loses-report';
 import { PatientGainsAndLosesComponent } from './patient-gains-and-loses/patient-gains-and-loses.component';
-
+import { FamilyTestingBaseComponent } from './family-testing/family-testing-base.component';
+import { FamilyTestingPatientlistComponent } from './family-testing/family-testing-patient-list.component';
+import { FamilyTestingTreeComponent } from './family-testing/family-testing-tree.component';
+import { FamilyTestingContactComponent } from './family-testing/family-testing-contact-list.component';
+import { FamilyTestingButtonRendererComponent } from './family-testing/button-render/button-renderer.component';
+import { PrettyEncounterViewerComponent } from '../patient-dashboard/common/formentry/pretty-encounter-viewer.component';
+import { FormDataSourceService } from '../patient-dashboard/common/formentry/form-data-source.service';
+import { ZscoreService } from '../shared/services/zscore.service';
+import { ContactProfileComponent } from './family-testing/contact-profile/contact-profile.component';
+import { AddContactTraceComponent } from './family-testing/contact-trace/add-contact-trace.component';
+import { EditContactTraceComponent } from './family-testing/contact-trace/edit-contact-trace.component';
+import { ContactListComponent } from './family-testing/contact-list/contact-list.component';
 @NgModule({
   imports: [
     RouterModule,
@@ -127,7 +138,8 @@ import { PatientGainsAndLosesComponent } from './patient-gains-and-loses/patient
     ChartModule,
     ReportingUtilitiesModule,
     DataListsModule,
-    NgxMyDatePickerModule.forRoot()
+    NgxMyDatePickerModule.forRoot(),
+    AgGridModule.withComponents([FamilyTestingButtonRendererComponent])
   ],
   exports: [
     Moh731TabularComponent,
@@ -173,7 +185,16 @@ import { PatientGainsAndLosesComponent } from './patient-gains-and-loses/patient
     HeiIndicatorsFilterComponent,
     HeiIndicatorsTabularComponent,
     HeiIndicatorsPatientListComponent,
-    HeiIndicatorsPdfViewComponent
+    HeiIndicatorsPdfViewComponent,
+    FamilyTestingBaseComponent,
+    FamilyTestingPatientlistComponent,
+    FamilyTestingTreeComponent,
+    FamilyTestingContactComponent,
+    FamilyTestingButtonRendererComponent,
+    ContactProfileComponent,
+    AddContactTraceComponent,
+    EditContactTraceComponent,
+    ContactListComponent
   ],
   declarations: [
     Moh731TabularComponent,
@@ -226,7 +247,16 @@ import { PatientGainsAndLosesComponent } from './patient-gains-and-loses/patient
     HeiIndicatorsPdfViewComponent,
     PatientGainsAndLosesPatientListComponent,
     PatientGainLosesReportComponent,
-    PatientGainsAndLosesComponent
+    PatientGainsAndLosesComponent,
+    FamilyTestingBaseComponent,
+    FamilyTestingPatientlistComponent,
+    FamilyTestingTreeComponent,
+    FamilyTestingContactComponent,
+    FamilyTestingButtonRendererComponent,
+    ContactProfileComponent,
+    AddContactTraceComponent,
+    EditContactTraceComponent,
+    ContactListComponent
   ],
   providers: [
     MOHReportService,
@@ -238,7 +268,9 @@ import { PatientGainsAndLosesComponent } from './patient-gains-and-loses/patient
     {
       provide: HighchartsStatic,
       useFactory: highchartsFactory
-    }
+    },
+    FormDataSourceService,
+    ZscoreService
   ]
 })
 export class HivCareLibModule {}
