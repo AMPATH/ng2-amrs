@@ -29,35 +29,55 @@ export class FamilyTestingPatientlistComponent implements OnInit {
   public patientData = [];
   private columnDefs = [
     {
-      headerName: '#',
-      colId: 'rowNum',
-      valueGetter: 'node.rowIndex + 1',
-      width: 80,
+      field: 'person_name',
+      headerName: 'Index Name',
+      rowGroup: true,
+      hide: true,
       pinned: 'left'
     },
     {
       field: 'identifiers',
       headerName: 'Identifiers',
+      hide: true,
+      rowGroup: true,
       pinned: 'left',
       cellRenderer: (column) => {
-        return (
-          '<a href="javascript:void(0);" title="Identifiers">' +
-          column.value +
-          '</a>'
-        );
+        if (column.value === undefined || column.value === null) {
+          return '';
+        } else {
+          return (
+            '<a href="javascript:void(0);" title="Identifiers">' +
+            column.value +
+            '</a>'
+          );
+        }
       }
     },
-    { field: 'person_name', headerName: 'Index Name' },
+    { field: 'fm_name', headerName: 'Contact Name' },
     { field: 'fm_gender', headerName: 'Gender' },
-    { field: 'patient_program_name', headerName: 'Program Name' },
-    { field: 'phone_number', headerName: 'Telephone Number' },
-    { field: 'contacts_count', headerName: 'Family count' },
-    { field: 'nearest_center', headerName: 'Nearest Center' }
+    { field: 'fm_phone', headerName: 'Telephone Number' },
+    { field: 'relationship_type', headerName: 'Relationship' },
+    { field: 'fm_age', headerName: 'Age' },
+    { field: 'fm_status', headerName: 'Reported HIV status' },
+    { field: 'reported_test_date', headerName: 'Reported HIV test date' },
+    {
+      field: 'test_eligible',
+      headerName: 'Eligible for HIV testing'
+    },
+    {
+      field: 'preferred_testing_date',
+      headerName: 'Preferred date of testing'
+    },
+    { field: 'test_result_value', headerName: 'Current test results' },
+    { field: 'enrolled', headerName: 'In care' },
+    { field: 'ccc_number', headerName: 'CCC Number' },
+    { field: 'fm_facility_enrolled', headerName: 'Nearest Center' }
   ];
   @Output()
   public patientSelected = new EventEmitter();
   public ngOnInit() {
     this.gridOptions.columnDefs = this.columnDefs;
+    this.gridOptions.groupDefaultExpanded = -1;
     this.setCellSelection();
   }
 
@@ -71,7 +91,8 @@ export class FamilyTestingPatientlistComponent implements OnInit {
     this.gridOptions.rowSelection = 'single';
     let selectedIndicator: any;
     this.gridOptions.onCellClicked = (e) => {
-      if (e.rowPinned !== 'bottom') {
+      console.log(e);
+      if (e.data) {
         selectedIndicator = {
           patient_uuid: e.data.patient_uuid
         };
