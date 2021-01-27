@@ -55,4 +55,20 @@ export class PatientReminderCustomComponent extends Toast {
     }, 500);
     return false;
   }
+
+  public addContacts(event) {
+    event.stopPropagation();
+    setTimeout(() => {
+      this.toastPackage.triggerAction((this.options as any).reminder);
+    }, 500);
+    return false;
+  }
+
+  public updateContacts(event) {
+    event.stopPropagation();
+    setTimeout(() => {
+      this.toastPackage.triggerAction((this.options as any).reminder);
+    }, 500);
+    return false;
+  }
 }

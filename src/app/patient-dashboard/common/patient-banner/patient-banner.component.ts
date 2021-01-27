@@ -253,7 +253,12 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
       this.displayContacts = true;
     }
   }
-
+  public addContacts() {
+    const familyPartnerHistoryForm = `3fbc8512-b37b-4bc2-a0f4-8d0ac7955127`;
+    const url = `/patient-dashboard/patient/${this.patient.uuid}/general/general/formentry/${familyPartnerHistoryForm}`;
+    this.router.navigate([url], {});
+    this.displayContacts = false;
+  }
   public updateContacts() {
     console.log('this.patient.uuid ', this.patient.uuid);
     const encounterUuid = _.first(this.patientEncounters).uuid;

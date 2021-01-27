@@ -148,7 +148,7 @@ class FakeUserDefaultPropertiesService {
 
   public setUserProperty(propertyKey: string, property: string) {}
 }
-describe('Component: LandingPageComponent', () => {
+fdescribe('Component: LandingPageComponent', () => {
   let component, fixture;
   let router: Router;
   let patientReferral;

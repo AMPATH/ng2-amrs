@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { ActiveToast, ToastPackage, ToastrService } from 'ngx-toastr';
@@ -30,6 +31,7 @@ export class PatientRemindersComponent implements OnInit, OnDestroy {
     preventDuplicates: true
   };
   private remindersLoaded = false;
+  private encounterUuid: string;
 
   constructor(
     private toastrService: ToastrService,
@@ -38,7 +40,8 @@ export class PatientRemindersComponent implements OnInit, OnDestroy {
     private userDefaultPropertiesService: UserDefaultPropertiesService,
     private programManagerService: ProgramManagerService,
     public patientProgramResourceService: PatientProgramResourceService,
-    private appFeatureAnalytics: AppFeatureAnalytics
+    private appFeatureAnalytics: AppFeatureAnalytics,
+    private router: Router
   ) {}
 
   public ngOnInit(): void {
@@ -66,6 +69,7 @@ export class PatientRemindersComponent implements OnInit, OnDestroy {
       (patient) => {
         if (patient) {
           this.patient = patient;
+          this.getFamilyHistoryEncounter(patient.encounters);
           const patientUuid = patient.person.uuid;
           if (!this.remindersLoaded) {
             const sub2 = this.patientReminderService
@@ -99,7 +103,7 @@ export class PatientRemindersComponent implements OnInit, OnDestroy {
   public constructReminders(reminders) {
     let toast: ActiveToast<any> = null;
     _.each(reminders, (reminder: any) => {
-      if (reminder.auto_register) {
+      if (reminder.action) {
         this.toastrConfig.reminder = reminder;
       }
       if (reminder.type === 'success') {
@@ -146,6 +150,26 @@ export class PatientRemindersComponent implements OnInit, OnDestroy {
           }
         });
         this.subscriptions.push(sub3);
+      }
+
+      if (reminder.addContacts) {
+        this.toastrConfig.reminder = reminder;
+        const sub5 = toast.onAction.take(1).subscribe((_reminder) => {
+          if (_reminder && _reminder.addContacts) {
+            const sub6 = this.addContacts(toast);
+          }
+        });
+        this.subscriptions.push(sub5);
+      }
+
+      if (!reminder.addContacts) {
+        this.toastrConfig.reminder = reminder;
+        const sub5 = toast.onAction.take(1).subscribe((_reminder) => {
+          if (_reminder && !_reminder.addContacts) {
+            const sub6 = this.updateContacts(toast);
+          }
+        });
+        this.subscriptions.push(sub5);
       }
     });
   }
@@ -227,5 +251,30 @@ export class PatientRemindersComponent implements OnInit, OnDestroy {
         }
       );
     return incompatibleListObs;
+  }
+
+  public addContacts(toast) {
+    const url = `/patient-dashboard/patient/${this.patient.uuid}/general/general/formentry/3fbc8512-b37b-4bc2-a0f4-8d0ac7955127`;
+    this.router.navigate([url], {});
+    this.toastrService.remove(toast.toastId);
+  }
+
+  public updateContacts(toast) {
+    const url = `/patient-dashboard/patient/${this.patient.uuid}/general/general/formentry/3fbc8512-b37b-4bc2-a0f4-8d0ac7955127`;
+    this.router.navigate([url], {
+      queryParams: {
+        encounter: this.encounterUuid,
+        visitTypeUuid: ''
+      }
+    });
+    this.toastrService.remove(toast.toastId);
+  }
+
+  public getFamilyHistoryEncounter(encounters) {
+    encounters.forEach((enc) => {
+      if (enc.encounterType.uuid === '975ae894-7660-4224-b777-468c2e710a2a') {
+        this.encounterUuid = enc.uuid;
+      }
+    });
   }
 }
