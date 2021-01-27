@@ -54,6 +54,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   private currentLocation: { uuid: string; display: string };
   public familyTestingEncounterUuid: string;
   public displayContacts = false;
+  public contactsExist = false;
   public patientEncounters: Array<any> = [];
 
   constructor(
@@ -104,9 +105,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
           this.familyTestingService
             .getPatientEncounters(this.patient.uuid)
             .subscribe((response: any) => {
-              this.familyTestingEncounterUuid = _.first<any>(
-                response.results
-              ).uuid;
+              this.familyTestingEncounterUuid = _.first<any>(response.results);
             });
           this.getPatientEncounters();
         } else {
@@ -247,16 +246,10 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   /* Family History */
   public navigateToFamilyHistory() {
     if (this.familyTestingEncounterUuid == null) {
-      const familyPartnerHistoryFormV1 = `3fbc8512-b37b-4bc2-a0f4-8d0ac7955127`;
-      const url = `/patient-dashboard/patient/${this.patient.uuid}/general/general/formentry/${familyPartnerHistoryFormV1}`;
-      this.router.navigate([url], {
-        queryParams: {
-          encounter: this.familyTestingEncounterUuid,
-          visitTypeUuid: ''
-        }
-      });
-      this.displayContacts = false;
+      this.contactsExist = false;
+      this.displayContacts = true;
     } else {
+      this.contactsExist = true;
       this.displayContacts = true;
     }
   }

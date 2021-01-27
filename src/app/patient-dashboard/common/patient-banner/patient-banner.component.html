@@ -483,14 +483,24 @@
     styleClass="contact-list-dialog"
   >
     <div class="container-fluid">
-      <app-contact-list
-      ></app-contact-list>
+      <app-contact-list></app-contact-list>
     </div>
     <div class="container">
       <div class="row">
         <div class="col-sm-2">
-          <button class="btn btn-primary" (click)="updateContacts()">
-            Add/Update Contacts
+          <button
+            *ngIf="contactsExist"
+            class="btn btn-primary"
+            (click)="updateContacts()"
+          >
+            Update Contacts
+          </button>
+          <button
+            *ngIf="!contactsExist"
+            class="btn btn-primary"
+            (click)="navigateToFamilyHistory()"
+          >
+            Add Contacts
           </button>
         </div>
         <div class="col-sm-1"></div>

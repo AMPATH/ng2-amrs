@@ -235,6 +235,26 @@
         <i class="fa fa-exclamation-triangle"></i> Covid Screening
       </button>
       <button
+        *ngIf="
+          !referralStatus &&
+          !step &&
+          form?.valueProcessingInfo?.formUuid !=
+            'ab0918de-baf8-4804-86fb-2ff2d7b6943c' &&
+          form?.valueProcessingInfo?.formUuid !=
+            '3fbc8512-b37b-4bc2-a0f4-8d0ac7955127'
+        "
+        (click)="navigateTo('familyHistory')"
+        type="button"
+        class="btn btn-primary"
+      >
+        <span *ngIf="!updateContacts"
+          ><i class="fa fa-plus"></i> Add Contacts</span
+        >
+        <span *ngIf="updateContacts"
+          ><i class="fa fa-edit"></i> Update Contacts</span
+        >
+      </button>
+      <button
         *ngIf="!referralStatus && !step"
         (click)="navigateTo('patientDashboard')"
         type="button"
