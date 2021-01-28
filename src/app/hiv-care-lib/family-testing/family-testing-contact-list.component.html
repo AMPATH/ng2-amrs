@@ -7,29 +7,47 @@
 <hr />
 
 <div *ngIf="familyTestingContactList.length > 0">
-  <div class="btn-group">
-    <button
-      class="btn"
-      [ngClass]="{
-        'btn-default': !displayFamilyTree,
-        'btn-success': displayFamilyTree
-      }"
-      (click)="toggleTreeView()"
-    >
-      <span class="glyphicon glyphicon-list-alt"></span>
-      <span> List of Contacts</span>
-    </button>
-    <button
-      class="btn"
-      [ngClass]="{
-        'btn-default': displayFamilyTree,
-        'btn-success': !displayFamilyTree
-      }"
-      (click)="toggleTreeView()"
-    >
-      <span class="glyphicon glyphicon-tree-conifer"></span>
-      <span> Tree View</span>
-    </button>
+  <div class="contact-profile-container">
+    <div class="contact-profile-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="btn-group">
+              <button
+                class="btn"
+                [ngClass]="{
+                  'btn-default': !displayFamilyTree,
+                  'btn-success': displayFamilyTree
+                }"
+                (click)="toggleTreeView()"
+              >
+                <span class="glyphicon glyphicon-list-alt"></span>
+                <span> List of Contacts</span>
+              </button>
+              <button
+                class="btn"
+                [ngClass]="{
+                  'btn-default': displayFamilyTree,
+                  'btn-success': !displayFamilyTree
+                }"
+                (click)="toggleTreeView()"
+              >
+                <span class="glyphicon glyphicon-tree-conifer"></span>
+                <span> Tree View</span>
+              </button>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <h6 class="text-info">
+              <span
+                ><strong>{{ indexName | uppercase }}</strong></span
+              >
+            </h6>
+          </div>
+          <div class="col-md-3"></div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <hr />

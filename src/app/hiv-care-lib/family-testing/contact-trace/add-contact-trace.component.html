@@ -1,16 +1,39 @@
 <div class="add-trace-container">
   <div class="title">
-    <button
-      type="button"
-      class="btn btn-primary"
-      style="width: fit-content"
-      (click)="goBack()"
-    >
-      Back
-    </button>
-    <h4 class="component-title text-success">
-      <span class="fa fa-area-chart"></span>Add Contact Trace
-    </h4>
+    <div class="row">
+      <div class="form-group" style="margin-left: 15px">
+        <button
+          type="button"
+          class="btn btn-primary"
+          style="width: fit-content"
+          (click)="goBack()"
+        >
+          Back
+        </button>
+      </div>
+    </div>
+
+    <div class="contact-profile-container">
+      <div class="contact-profile-section">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-3">
+              <h4 class="component-title text-success">
+                <span class="fa fa-plus">Add Contact Trace</span>
+              </h4>
+            </div>
+            <div class="col-md-3">
+              <h5 class="component-title text-info">
+                <span *ngIf="contactInfo"
+                  ><strong>{{ contactInfo.fm_name }}</strong></span
+                >
+              </h5>
+            </div>
+            <div class="col-md-3"></div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="row">
     <div class="col-md-4">
@@ -61,25 +84,6 @@
         </select>
       </div>
     </div>
-    <div class="col-md-12" *ngIf="displayNotContactedReasons">
-      <div class="form-group">
-        <label for="contactStatus">Reason not contacted</label>
-        <select
-          name="contactStatus"
-          class="form-control"
-          id="contactStatus"
-          [value]="selectedNotContactedStatusReasons"
-          (change)="onNotContactedChange($event)"
-        >
-          <option
-            *ngFor="let opt of notContactedStatusReasons"
-            [value]="opt.val"
-          >
-            {{ opt.label }}
-          </option>
-        </select>
-      </div>
-    </div>
     <div class="col-md-12">
       <div class="form-group">
         <label for="remarks">Remarks</label>
@@ -98,6 +102,22 @@
       <button class="btn btn-success float-right" (click)="saveContactTrace()">
         Add Contact Trace
       </button>
+      <button
+        *ngIf="openFamilyTestingForm"
+        style="margin-left: 15px"
+        class="btn btn-success float-right"
+        (click)="openFamilyHistoryForm()"
+      >
+        Update Status
+      </button>
+      <span
+        *ngIf="openFamilyTestingForm"
+        style="margin-left: 20px"
+        class="component-title text-warning"
+        ><strong
+          ><i>Take note of the contacts name before clicking update</i></strong
+        ></span
+      >
     </div>
   </div>
 </div>

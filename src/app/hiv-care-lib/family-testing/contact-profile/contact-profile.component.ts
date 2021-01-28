@@ -39,20 +39,7 @@ export class ContactProfileComponent implements OnInit {
     { field: 'contact_date', headerName: 'Contacted Date' },
     { field: 'contact_type', headerName: 'Contact Type' },
     { field: 'contact_status', headerName: 'Contact status' },
-    { field: 'remarks', headerName: 'Remarks' },
-    {
-      headerName: 'Actions',
-      cellRenderer: 'buttonRenderer',
-      cellRendererParams: {
-        onClick: this.onEditClicked.bind(this),
-        label: 'Edit'
-      },
-      width: 80,
-      pinned: 'left',
-      cellStyle: () => {
-        return { display: 'flex', alignItems: 'center' };
-      }
-    }
+    { field: 'remarks', headerName: 'Remarks' }
   ];
 
   ngOnInit(): void {
