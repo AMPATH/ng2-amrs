@@ -673,24 +673,25 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
             this.loaderStatus = false;
             this.sessionStorageService.remove('person');
             this.createdPatient = success;
-            if (this.createdPatient) {
+            if (this.createdPatient && !this.patientObsGroupId) {
               this.modalRef = this.modalService.show(this.successModal, {
                 backdrop: 'static',
                 keyboard: false
               });
-              if (this.patientObsGroupId) {
-                const patient: Patient = success as Patient;
-                this.patientCreationResourceService
-                  .updatePatientContact(patient.uuid, this.patientObsGroupId)
-                  .subscribe((response) => {
-                    this.router.navigate(
-                      [
-                        `patient-dashboard/patient/${patient.uuid}/general/general/formentry/47b4c0d8-d8e1-4a67-833a-813c3a877665`
-                      ],
-                      {}
-                    );
-                  });
-              }
+            } else if (this.patientObsGroupId) {
+              const patient: Patient = success as Patient;
+              this.patientCreationResourceService
+                .updatePatientContact(
+                  patient.person.uuid,
+                  this.patientObsGroupId
+                )
+                .subscribe((response) => {
+                  this.router.navigate([
+                    '/patient-dashboard/patient/' +
+                      patient.person.uuid +
+                      '/general/general/landing-page'
+                  ]);
+                });
             }
           },
           (err) => {
