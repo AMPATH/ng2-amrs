@@ -30,9 +30,16 @@ export class FamilyTestingPatientlistComponent implements OnInit {
     {
       field: 'person_name',
       headerName: 'Index Name',
-      rowGroup: true,
-      hide: true,
-      pinned: 'left'
+      rowGroup: false,
+      hide: false,
+      pinned: 'left',
+      cellRenderer: (column) => {
+        return (
+          '<a href="javascript:void(0);" title="Identifiers">' +
+          column.value +
+          '</a>'
+        );
+      }
     },
     {
       field: 'identifiers',
@@ -52,7 +59,11 @@ export class FamilyTestingPatientlistComponent implements OnInit {
         }
       }
     },
-    { field: 'fm_name', headerName: 'Contact Name' },
+    {
+      field: 'fm_name',
+      headerName: 'Contact Name',
+      filter: 'agTextColumnFilter'
+    },
     { field: 'fm_gender', headerName: 'Gender' },
     { field: 'fm_phone', headerName: 'Telephone Number' },
     { field: 'relationship_type', headerName: 'Relationship' },
@@ -95,6 +106,11 @@ export class FamilyTestingPatientlistComponent implements OnInit {
   public ngOnInit() {
     this.gridOptions.columnDefs = this.columnDefs;
     this.gridOptions.groupDefaultExpanded = -1;
+    this.gridOptions.enableFilter = true;
+    (this.gridOptions.groupRemoveSingleChildren = false),
+      // this.gridOptions.groupHideOpenParents= true;
+      (this.gridOptions.groupUseEntireRow = true);
+    // this.gridOptions.defaulColDef= {filter:true},
     this.setCellSelection();
   }
 
