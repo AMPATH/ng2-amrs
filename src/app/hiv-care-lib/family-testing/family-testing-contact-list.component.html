@@ -184,6 +184,7 @@
               "
               (click)="onPatientRegister()"
               [disabled]="this.selectedRow?.rowData?.fm_uuid"
+              [disabled]="this.selectedRow?.rowData?.test_result_value!='POSITIVE'"
             >
               <span class="glyphicon glyphicon glyphicon-plus"></span> Register
             </button>
