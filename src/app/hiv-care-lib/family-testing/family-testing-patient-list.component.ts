@@ -10,7 +10,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { AgGridNg2 } from 'ag-grid-angular';
-import * as rison from 'rison-node';
 
 @Component({
   selector: 'family-testing-patient-list',
@@ -69,8 +68,8 @@ export class FamilyTestingPatientlistComponent implements OnInit {
       headerName: 'Preferred date of testing'
     },
     { field: 'test_result_value', headerName: 'Current test results' },
-    { field: 'enrolled', headerName: 'In care' },
-    { field: 'facility_enrolled', headerName: 'Location Enrolled' },
+    { field: 'enrolled', headerName: 'Enrolled in care' },
+    { field: 'facility_enrolled', headerName: 'Facility Enrolled' },
     {
       field: 'ccc_number',
       headerName: 'CCC Number',
