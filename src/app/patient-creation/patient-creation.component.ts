@@ -685,7 +685,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
                   .subscribe((response) => {
                     this.router.navigate(
                       [
-                        `patient-dashboard/patient/${patient.uuid}/general/general/landing-page`
+                        `patient-dashboard/patient/${patient.uuid}/general/general/formentry/47b4c0d8-d8e1-4a67-833a-813c3a877665`
                       ],
                       {}
                     );
