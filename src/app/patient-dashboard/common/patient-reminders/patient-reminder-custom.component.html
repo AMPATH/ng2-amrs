@@ -30,7 +30,7 @@
   {{ message }}
 </div>
 <a
-  *ngIf="_options.reminder.auto_register"
+  *ngIf="_options.reminder && _options.reminder.auto_register"
   style="margin-top: 5px; display: block"
   class="btn btn-default"
   (click)="autoEnrollToProgram($event)"
@@ -39,7 +39,7 @@
 </a>
 
 <a
-  *ngIf="_options.reminder.addContacts"
+  *ngIf="_options.reminder && _options.reminder.addContacts"
   style="margin-top: 5px; display: block"
   class="btn btn-default"
   (click)="addContacts($event)"
@@ -48,7 +48,7 @@
 </a>
 
 <a
-  *ngIf="!_options.reminder.addContacts"
+  *ngIf="_options.reminder && !_options.reminder.addContacts"
   style="margin-top: 5px; display: block"
   class="btn btn-default"
   (click)="updateContacts($event)"
