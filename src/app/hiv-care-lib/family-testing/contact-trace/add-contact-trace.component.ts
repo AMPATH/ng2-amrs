@@ -8,7 +8,6 @@ import * as _ from 'lodash';
 import * as Moment from 'moment';
 import { FamilyTestingService } from 'src/app/etl-api/family-testing-resource.service';
 import { EncounterResourceService } from './../../../openmrs-api/encounter-resource.service';
-import { LocalStorageService } from './../../../utils/local-storage.service';
 @Component({
   selector: 'add-contact-trace',
   templateUrl: './add-contact-trace.component.html',
@@ -23,7 +22,6 @@ export class AddContactTraceComponent implements OnInit {
     { label: 'Phone tracing', val: 1555 },
     { label: 'Physical tracing', val: 10791 }
   ];
-  public displayNotContactedReasons: boolean;
   public selectedContactType: number;
   public contactedDate: string = Moment(new Date()).format('YYYY-MM-DD');
   public contactStatus: Array<{ label: string; val: number }> = [
@@ -32,37 +30,21 @@ export class AddContactTraceComponent implements OnInit {
   ];
   public selectedContactedStatus: string;
   public remarks;
-  public physicalNotContactedReasons = [
-    { label: 'No locator information', val: 1550 },
-    { label: 'Incorrect locator information', val: 1561 },
-    { label: 'Migrated ', val: 1562 },
-    { label: 'Not found at home', val: 1563 },
-    { label: 'Died ', val: 1593 },
-    { label: 'other ', val: 5622 }
-  ];
+  public contactInfo: any;
 
-  public phoneNotContactedReasons = [
-    { label: 'No locator information', val: 1550 },
-    { label: 'Calls not going through', val: 1560 },
-    { label: 'Incorrect locator information', val: 1561 },
-    { label: 'Died', val: 1593 },
-    { label: 'other', val: 5622 }
-  ];
   public notContactedStatusReasons = [];
   // concept 1107 === None
   public selectedNotContactedStatusReasons = 1107;
   public contactId: number;
+  public openFamilyTestingForm = false;
 
   public ngOnInit() {
     this.route.parent.queryParams.subscribe((param) => {
-      if (param) {
+      if (param.contact_id) {
         this.contactId = Number(param.contact_id);
+        this.getContactInfo(this.contactId);
       }
     });
-    this.patientUuid = localStorage.getItem('family_testing_patient_uuid');
-    if (this.patientUuid != null) {
-      this.getPatientEncounters(this.patientUuid);
-    }
   }
 
   constructor(
@@ -70,8 +52,7 @@ export class AddContactTraceComponent implements OnInit {
     private location: Location,
     private route: ActivatedRoute,
     public router: Router,
-    private encounterResourceService: EncounterResourceService,
-    private localStorageService: LocalStorageService
+    private encounterResourceService: EncounterResourceService
   ) {}
 
   public saveContactTrace() {
@@ -80,13 +61,11 @@ export class AddContactTraceComponent implements OnInit {
       contact_date: this.contactedDate,
       contact_type: this.selectedContactType,
       contact_status: this.selectedContactedStatus,
-      reason_not_contacted: this.selectedNotContactedStatusReasons,
+      reason_not_contacted: 0,
       remarks: this.remarks
     };
     this.familyTestingService.savePatientContactTrace(payload).subscribe(
-      (response: Response) => {
-        this.location.back();
-      },
+      (response: Response) => {},
       (err) => {
         console.error(err);
       }
@@ -95,19 +74,14 @@ export class AddContactTraceComponent implements OnInit {
 
   public onContactTypeChange(contact) {
     this.selectedContactType = contact.target.value;
-    if (Number(contact.target.value) === 10791) {
-      this.notContactedStatusReasons = this.physicalNotContactedReasons;
-    } else {
-      this.notContactedStatusReasons = this.phoneNotContactedReasons;
-    }
   }
 
   public onContactStatusChange(status) {
     this.selectedContactedStatus = status.target.value;
     if (Number(status.target.value) === 1065) {
-      // this.saveContactTrace();
-      this.openFamilyHistoryForm();
-      this.displayNotContactedReasons = true;
+      this.openFamilyTestingForm = true;
+    } else {
+      this.openFamilyTestingForm = false;
     }
   }
 
@@ -132,6 +106,18 @@ export class AddContactTraceComponent implements OnInit {
             return encounter.form.uuid === familyAndPartnerTestingFormUuid;
           }
         });
+      });
+  }
+
+  public getContactInfo(contact_id) {
+    this.familyTestingService
+      .getContactTraceHistory(contact_id)
+      .subscribe((res) => {
+        if (res) {
+          this.contactInfo = res.result[0];
+          this.patientUuid = res.result[0].patient_uuid;
+          this.getPatientEncounters(this.patientUuid);
+        }
       });
   }
 

@@ -10,7 +10,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { AgGridNg2 } from 'ag-grid-angular';
-import * as rison from 'rison-node';
 
 @Component({
   selector: 'family-testing-patient-list',
@@ -69,9 +68,27 @@ export class FamilyTestingPatientlistComponent implements OnInit {
       headerName: 'Preferred date of testing'
     },
     { field: 'test_result_value', headerName: 'Current test results' },
-    { field: 'enrolled', headerName: 'In care' },
-    { field: 'ccc_number', headerName: 'CCC Number' },
-    { field: 'fm_facility_enrolled', headerName: 'Nearest Center' }
+    { field: 'enrolled', headerName: 'Enrolled in care' },
+    { field: 'facility_enrolled', headerName: 'Facility Enrolled' },
+    {
+      field: 'ccc_number',
+      headerName: 'CCC Number',
+      onCellClicked: (column) => {
+        if (column.value != null) {
+          this.onContactIdentifierClicked(column.data.fm_uuid);
+        }
+      },
+      cellRenderer: (column) => {
+        if (column.value == null) {
+          return '';
+        }
+        return (
+          '<a href="javascript:void(0);" title="ccc_number">' +
+          column.value +
+          '</a>'
+        );
+      }
+    }
   ];
   @Output()
   public patientSelected = new EventEmitter();
@@ -102,5 +119,11 @@ export class FamilyTestingPatientlistComponent implements OnInit {
   }
   public exportAllData() {
     this.agGrid.api.exportDataAsCsv();
+  }
+
+  public onContactIdentifierClicked(uuid) {
+    this.router.navigate([
+      '/patient-dashboard/patient/' + uuid + '/general/general/landing-page'
+    ]);
   }
 }

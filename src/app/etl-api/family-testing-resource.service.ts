@@ -94,7 +94,7 @@ export class FamilyTestingService {
     );
   }
 
-  public getContactTraceHistory(contactId: number) {
+  public getContactTraceHistory(contactId: number): Observable<any> {
     return this.http.get(
       `${this.url}contact-tracing-history?contact_id=${contactId}`
     );
