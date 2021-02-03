@@ -34,6 +34,9 @@
         </div>
       </div>
     </div>
+    <div *ngIf="showAlertSuccess">
+      <p class="alert alert-success alert-dismissible">Contact trace saved</p>
+    </div>
   </div>
   <div class="row">
     <div class="col-md-4">
@@ -70,7 +73,7 @@
     </div>
     <div class="col-md-4">
       <div class="form-group">
-        <label for="contactStatus">Update Contact</label>
+        <label for="contactStatus">Contact Status</label>
         <select
           name="contactStatus"
           class="form-control"
@@ -79,6 +82,25 @@
           [value]="selectedContactedStatus"
         >
           <option *ngFor="let opt of contactStatus" [value]="opt.val">
+            {{ opt.label }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-12" *ngIf="displayNotContactedReasons">
+      <div class="form-group">
+        <label for="contactStatus">Reason not contacted</label>
+        <select
+          name="contactStatus"
+          class="form-control"
+          id="contactStatus"
+          [value]="selectedNotContactedStatusReasons"
+          (change)="onNotContactedChange($event)"
+        >
+          <option
+            *ngFor="let opt of notContactedStatusReasons"
+            [value]="opt.val"
+          >
             {{ opt.label }}
           </option>
         </select>
@@ -99,8 +121,12 @@
   </div>
   <div class="row">
     <div class="form-group" style="margin-left: 15px">
-      <button class="btn btn-success float-right" (click)="saveContactTrace()">
-        Add Contact Trace
+      <button
+        [disabled]="disableSaveButton"
+        class="btn btn-success float-right"
+        (click)="saveContactTrace()"
+      >
+        Save Trace
       </button>
       <button
         *ngIf="openFamilyTestingForm"
@@ -108,7 +134,7 @@
         class="btn btn-success float-right"
         (click)="openFamilyHistoryForm()"
       >
-        Update Status
+        Update Contact
       </button>
       <span
         *ngIf="openFamilyTestingForm"

@@ -79,8 +79,8 @@ export class FamilyTestingPatientlistComponent implements OnInit {
       headerName: 'Preferred date of testing'
     },
     { field: 'test_result_value', headerName: 'Current test results' },
-    { field: 'enrolled', headerName: 'Enrolled in care' },
-    { field: 'facility_enrolled', headerName: 'Facility Enrolled' },
+    { field: 'enrolled', headerName: 'In care' },
+    { field: 'fm_facility_enrolled', headerName: 'Location Enrolled' },
     {
       field: 'ccc_number',
       headerName: 'CCC Number',

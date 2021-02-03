@@ -39,6 +39,7 @@ export class ContactProfileComponent implements OnInit {
     { field: 'contact_date', headerName: 'Contacted Date' },
     { field: 'contact_type', headerName: 'Contact Type' },
     { field: 'contact_status', headerName: 'Contact status' },
+    { field: 'reason_not_contacted', headerName: 'Reason not contacted' },
     { field: 'remarks', headerName: 'Remarks' }
   ];
 
