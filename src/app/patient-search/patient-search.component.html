@@ -29,10 +29,8 @@
                     class="btn btn-primary btn-lg search_btn"
                     (click)="loadPatient()"
                   >
-                    <span
-                      ><i class="glyphicon glyphicon-search"></i>
-                      <span>Search</span></span
-                    >
+                    <i class="glyphicon glyphicon-search"></i>
+                    <span>Search</span>
                     <i
                       *ngIf="isLoading"
                       class="fa fa-spinner fa-spin fa-1x fa-fw"
@@ -43,7 +41,8 @@
                     class="btn btn-danger btn-lg reset_btn"
                     (click)="resetSearchList()"
                   >
-                    <i class="fa fa-trash fa-fw"></i> <span>Reset</span>
+                    <i class="glyphicon glyphicon-trash"></i>
+                    <span>Reset</span>
                   </button>
                 </div>
               </div>
@@ -63,11 +62,11 @@
                 <div class="input-group-btn pl-right">
                   <button
                     [disabled]="isLoading"
-                    class="btn btn-primary btn-lg search_btn"
+                    class="btn btn-lg btn-primary"
                     style="margin-left: 0px"
                     (click)="loadPatient()"
                   >
-                    <span><i class="glyphicon glyphicon-search"></i></span>
+                    <i class="glyphicon glyphicon-search"></i>
                     <i
                       *ngIf="isLoading"
                       class="fa fa-spinner fa-spin fa-1x fa-fw"
@@ -75,10 +74,10 @@
                   </button>
                   <button
                     [disabled]="!isResetButton"
-                    class="btn btn-danger btn-lg reset_btn"
+                    class="btn btn-lg btn-danger"
                     (click)="resetSearchList()"
                   >
-                    <i class="fa fa-trash fa-fw"></i>
+                    <i class="glyphicon glyphicon-trash"></i>
                   </button>
                   <span
                     *ngIf="!hideRegistration"
