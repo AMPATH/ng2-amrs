@@ -35,20 +35,19 @@ export class AddContactTraceComponent implements OnInit {
   public contactInfo: any;
 
   public physicalNotContactedReasons = [
-    { label: 'No locator information', val: 1550 },
-    { label: 'Incorrect locator information', val: 1561 },
-    { label: 'Migrated ', val: 1562 },
-    { label: 'Not found at home', val: 1563 },
-    { label: 'Died ', val: 1593 },
-    { label: 'other ', val: 5622 }
+    { label: 'Incorrect locator information', val: 1 },
+    { label: 'Not found/Travelled', val: 2 },
+    { label: 'Not known in the area', val: 3 },
+    { label: 'Relocated ', val: 4 },
+    { label: 'Deceased', val: 5 },
+    { label: 'Other ', val: 6 }
   ];
 
   public phoneNotContactedReasons = [
-    { label: 'No locator information', val: 1550 },
-    { label: 'Calls not going through', val: 1560 },
-    { label: 'Incorrect locator information', val: 1561 },
-    { label: 'Died', val: 1593 },
-    { label: 'other', val: 5622 }
+    { label: 'Invalid phone number', val: 7 },
+    { label: 'Phone off', val: 8 },
+    { label: 'Wrong phone number', val: 9 },
+    { label: 'other', val: 6 }
   ];
 
   public notContactedStatusReasons = [];
