@@ -48,7 +48,7 @@
 </a>
 
 <a
-  *ngIf="_options.reminder && !_options.reminder.addContacts"
+  *ngIf="_options.reminder && _options.reminder.updateContacts"
   style="margin-top: 5px; display: block"
   class="btn btn-default"
   (click)="updateContacts($event)"

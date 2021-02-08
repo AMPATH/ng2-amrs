@@ -162,10 +162,10 @@ export class PatientRemindersComponent implements OnInit, OnDestroy {
         this.subscriptions.push(sub5);
       }
 
-      if (!reminder.addContacts) {
+      if (reminder.updateContacts) {
         this.toastrConfig.reminder = reminder;
         const sub5 = toast.onAction.take(1).subscribe((_reminder) => {
-          if (_reminder && !_reminder.addContacts) {
+          if (_reminder && _reminder.updateContacts) {
             const sub6 = this.updateContacts(toast);
           }
         });
