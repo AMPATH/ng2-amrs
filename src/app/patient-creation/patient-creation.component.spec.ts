@@ -9,8 +9,9 @@ import {
 import { click, tickAndDetectChanges } from '../test-helpers';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
 
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { MatSnackBar } from '@angular/material';
 import { Storage } from '@ionic/storage';
 import { CacheModule } from 'ionic-cache/dist/cache.module';
@@ -141,6 +142,10 @@ const userServiceStub = {
   }
 };
 
+const mockActivatedRoute = {
+  queryParams: of({ abc: 'testABC' })
+};
+
 describe('Component: Patient Creation Unit Tests', () => {
   let component: PatientCreationComponent;
   let fixture: ComponentFixture<PatientCreationComponent>;
@@ -181,7 +186,8 @@ describe('Component: Patient Creation Unit Tests', () => {
           provide: Router
         },
         {
-          provide: ActivatedRoute
+          provide: ActivatedRoute,
+          useValue: mockActivatedRoute
         },
         {
           provide: Storage
@@ -234,6 +240,7 @@ describe('Component: Patient Creation Unit Tests', () => {
 
   describe('Init', () => {
     it('should instantiate the component', () => {
+      TestBed.get(ActivatedRoute);
       fixture.detectChanges();
       expect(component).toBeDefined();
       expect(
@@ -290,6 +297,7 @@ describe('Component: Patient Creation Unit Tests', () => {
     }));
 
     it('should reset the demographics form fields when reset button is clicked', fakeAsync(() => {
+      TestBed.get(ActivatedRoute);
       expect(component.givenName).toEqual('Test');
       expect(component.middleName).toEqual('Patient');
       expect(component.familyName).toEqual('Name');
