@@ -98,6 +98,8 @@ import { MonthlyReportComponent } from './monthly-report/monthly-report.componen
 import { PatientGainsAndLosesPatientListComponent } from './patient-gains-and-loses/patient-gains-and-loses-patient-list/patient-gains-and-loses-patient-list.component';
 import { PatientGainLosesReportComponent } from '../clinic-dashboard/hiv/patient-gain-and-loses-report/patient-gain-and-loses-report';
 import { PatientGainsAndLosesComponent } from './patient-gains-and-loses/patient-gains-and-loses.component';
+import { IptReportPatientListComponent } from 'src/app/hiv-care-lib/ipt-report/ipt-report-patient-list.component';
+import { IptBaseReportComponent } from 'src/app/hiv-care-lib/ipt-report/ipt-report-base.component';
 
 @NgModule({
   imports: [
@@ -226,7 +228,9 @@ import { PatientGainsAndLosesComponent } from './patient-gains-and-loses/patient
     HeiIndicatorsPdfViewComponent,
     PatientGainsAndLosesPatientListComponent,
     PatientGainLosesReportComponent,
-    PatientGainsAndLosesComponent
+    PatientGainsAndLosesComponent,
+    IptBaseReportComponent,
+    IptReportPatientListComponent
   ],
   providers: [
     MOHReportService,
