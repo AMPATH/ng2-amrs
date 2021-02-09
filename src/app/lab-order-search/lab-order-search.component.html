@@ -1,33 +1,49 @@
-
-    <form>
-      <div class="form-group">
-        <label for="search-textbox" class="control-label"><h2>Search by Order ID</h2></label>
-        <div class="row">
-          <div class="col-md-8 col-lg-9 col-sm-8 col-xs-8">
-              <input id="search-textbox" type="text" class="form-control input-lg"
-                    placeholder="Enter Order ID and press enter or click search button"
-                    [ngModelOptions]="{standalone: true}" [(ngModel)]="orderId"
-                    (ngModelChange)="onValueChange($event)" (paste)="onPaste($event)"
-                    (keyup)="onPaste($event)" (keypress)="onKeyPress($event)" />
-          </div>
-          <div class="col-md-4 col-lg-3 col-sm-4 col-xs-4">
-              <button id="search" [disabled]="isEnabled" class="btn btn-primary"
-                      (click)="searchOrderId()">
-                <span class="glyphicon glyphicon-search"></span> Search
-                <i *ngIf="isLoading" class="fa fa-spinner fa-spin fa-1x fa-fw"></i>
-              </button>
-              <button id="reset" [disabled]="!isResetButton" class="btn btn-danger"
-                      (click)="resetSearch()">
-                <span class="glyphicon glyphicon-trash"></span> Reset
-              </button>
-          </div>
-        </div>
-        <div class="clear"></div>
+<form>
+  <div class="form-group">
+    <label for="search-textbox" class="control-label"
+      ><h2>Search by Order ID</h2></label
+    >
+    <div class="row">
+      <div class="col-md-8 col-lg-9 col-sm-8 col-xs-8">
+        <input
+          id="search-textbox"
+          type="text"
+          class="form-control input-lg"
+          placeholder="Enter Order ID and press enter or click search button"
+          [ngModelOptions]="{ standalone: true }"
+          [(ngModel)]="orderId"
+          (ngModelChange)="onValueChange($event)"
+          (paste)="onPaste($event)"
+          (keyup)="onPaste($event)"
+          (keypress)="onKeyPress($event)"
+        />
       </div>
-      <p *ngIf="hasError">
-        <strong class="text-danger">Invalid order ID</strong>
-      </p>
-      <p *ngIf="orderDeleted">
-        <strong class="text-danger">Sorry, this order was deleted</strong>
-      </p>
-    </form>
+      <div class="col-md-4 col-lg-3 col-sm-4 col-xs-4">
+        <button
+          id="search"
+          [disabled]="isEnabled"
+          class="btn btn-primary"
+          (click)="searchOrderId()"
+        >
+          <span class="glyphicon glyphicon-search"></span> Search
+          <i *ngIf="isLoading" class="fa fa-spinner fa-spin fa-1x fa-fw"></i>
+        </button>
+        <button
+          id="reset"
+          [disabled]="!isResetButton"
+          class="btn btn-danger"
+          (click)="resetSearch()"
+        >
+          <span class="glyphicon glyphicon-trash"></span> Reset
+        </button>
+      </div>
+    </div>
+    <div class="clear"></div>
+  </div>
+  <p *ngIf="hasError">
+    <strong class="text-danger">Please enter a valid order number</strong>
+  </p>
+  <p *ngIf="orderDeleted">
+    <strong class="text-danger">Sorry, this order was deleted</strong>
+  </p>
+</form>
