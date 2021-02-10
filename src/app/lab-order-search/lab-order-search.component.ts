@@ -108,6 +108,7 @@ export class LabOrderSearchComponent implements OnInit {
           // this.resetSearch();
         },
         (err) => {
+          this.onOrderRecieved.emit(null);
           this.hasError = true;
           this.isLoading = false;
           this.orderDeleted = false;
