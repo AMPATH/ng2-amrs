@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { TestBed, async } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
@@ -92,7 +93,13 @@ describe('Component: PatientReminders', () => {
         AppSettingsService,
         ToastrService,
         Overlay,
-        OverlayContainer
+        OverlayContainer,
+        {
+          provide: Router,
+          useClass: class {
+            public navigate = jasmine.createSpy('navigate');
+          }
+        }
       ],
       imports: [ToastrModule.forRoot(), HttpClientTestingModule]
 

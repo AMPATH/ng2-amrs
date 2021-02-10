@@ -88,6 +88,11 @@ import {
 import { MonthlyReportComponent } from 'src/app/hiv-care-lib/monthly-report/monthly-report.component';
 import { IptReportComponent } from './ipt-report/ipt-report.component';
 import { IptReportPatientListComponent } from 'src/app/hiv-care-lib/ipt-report/ipt-report-patient-list.component';
+import { FamilyTestingComponent } from './family-testing/family-testing.component';
+import { FamilyTestingBaseComponent } from 'src/app/hiv-care-lib/family-testing/family-testing-base.component';
+import { FamilyTestingContactComponent } from 'src/app/hiv-care-lib/family-testing/family-testing-contact-list.component';
+import { AddContactTraceComponent } from 'src/app/hiv-care-lib/family-testing/contact-trace/add-contact-trace.component';
+import { EditContactTraceComponent } from 'src/app/hiv-care-lib/family-testing/contact-trace/edit-contact-trace.component';
 
 const routes: Routes = [
     {
@@ -311,6 +316,27 @@ const routes: Routes = [
                   }
                 ]
             }
+        ]
+    },
+    {
+        path: 'family-testing',
+        children: [
+        {
+            path: '',
+            component: FamilyTestingBaseComponent
+        },
+        {
+            path: 'contact-list',
+            component: FamilyTestingContactComponent
+        },
+        {
+            path: 'contact-list/add-contact-trace',
+            component: AddContactTraceComponent
+        },
+        {
+            path: 'contact-list/edit-contact-trace',
+            component: EditContactTraceComponent
+        }
         ]
     }
 ];

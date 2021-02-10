@@ -12,6 +12,29 @@
      [class]="_options.messageClass" [attr.aria-label]="message">
   {{ message }}
 </div>
-<a *ngIf="_options.reminder" style="margin-top: 5px; display: block;" class="btn btn-default" (click)="autoEnrollToProgram($event)">
+<a
+  *ngIf="_options.reminder && _options.reminder.auto_register"
+  style="margin-top: 5px; display: block"
+  class="btn btn-default"
+  (click)="autoEnrollToProgram($event)"
+>
   Enroll
+</a>
+
+<a
+  *ngIf="_options.reminder && _options.reminder.addContacts"
+  style="margin-top: 5px; display: block"
+  class="btn btn-default"
+  (click)="addContacts($event)"
+>
+  Add Contacts
+</a>
+
+<a
+  *ngIf="_options.reminder && _options.reminder.updateContacts"
+  style="margin-top: 5px; display: block"
+  class="btn btn-default"
+  (click)="updateContacts($event)"
+>
+  Update Contacts
 </a>

@@ -8,8 +8,7 @@ import { ChartModule } from 'angular2-highcharts';
 import { DataListsModule } from '../shared/data-lists/data-lists.module';
 import {
   AccordionModule, DataTableModule, SharedModule, TabViewModule,
-  GrowlModule, PanelModule, ConfirmDialogModule, ConfirmationService,
-  DialogModule, InputTextModule, MessagesModule, InputTextareaModule, MultiSelectModule,
+  GrowlModule, PanelModule, ConfirmDialogModule, DialogModule, InputTextModule, MessagesModule, InputTextareaModule, MultiSelectModule,
   DropdownModule, ButtonModule, CalendarModule
 } from 'primeng/primeng';
 import { Moh731TabularComponent } from './moh-731-report/moh-731-tabular.component';
@@ -25,9 +24,6 @@ import { LocationResourceService } from '../openmrs-api/location-resource.servic
 import {
   HivSummaryIndicatorBaseComponent
 } from './hiv-summary-indicators/hiv-summary-report-base.component';
-import {
-  ReportFiltersComponent
-} from '../shared/report-filters/report-filters.component';
 import { HivSummaryTabularComponent } from './hiv-summary-indicators/hiv-summary-tabular.component';
 import { ClinicFlowComponent } from './clinic-flow/clinic-flow.component';
 import {
@@ -101,7 +97,6 @@ import { HighchartsStatic } from 'angular2-highcharts/dist/HighchartsService';
 import { SurgeReportTabularComponent } from './surge-report/surge-report-tabular.component';
 import { SurgeReportBaseComponent } from './surge-report/surge-report-base.component';
 import { SurgeReportPatientListComponent } from './surge-report/surge-report-patient-list.component';
-import { BsDatepickerModule } from 'ngx-bootstrap';
 export function highchartsFactory() {
   const hc = require('highcharts');
   const hcm = require('highcharts/highcharts-more');
@@ -134,6 +129,17 @@ import { MonthlyReportComponent } from './monthly-report/monthly-report.componen
 import { IptReportPatientListComponent } from 'src/app/hiv-care-lib/ipt-report/ipt-report-patient-list.component';
 import { IptBaseReportComponent } from 'src/app/hiv-care-lib/ipt-report/ipt-report-base.component';
 
+import { FamilyTestingBaseComponent } from './family-testing/family-testing-base.component';
+import { FamilyTestingPatientlistComponent } from './family-testing/family-testing-patient-list.component';
+import { FamilyTestingTreeComponent } from './family-testing/family-testing-tree.component';
+import { FamilyTestingContactComponent } from './family-testing/family-testing-contact-list.component';
+import { FamilyTestingButtonRendererComponent } from './family-testing/button-render/button-renderer.component';
+import { FormDataSourceService } from '../patient-dashboard/common/formentry/form-data-source.service';
+import { ZscoreService } from '../shared/services/zscore.service';
+import { ContactProfileComponent } from './family-testing/contact-profile/contact-profile.component';
+import { AddContactTraceComponent } from './family-testing/contact-trace/add-contact-trace.component';
+import { EditContactTraceComponent } from './family-testing/contact-trace/edit-contact-trace.component';
+import { ContactListComponent } from './family-testing/contact-list/contact-list.component';
 @NgModule({
   imports: [
     RouterModule,
@@ -162,7 +168,8 @@ import { IptBaseReportComponent } from 'src/app/hiv-care-lib/ipt-report/ipt-repo
     ChartModule,
     ReportingUtilitiesModule,
     DataListsModule,
-    NgxMyDatePickerModule.forRoot()
+    NgxMyDatePickerModule.forRoot(),
+    AgGridModule.withComponents([FamilyTestingButtonRendererComponent])
   ],
   exports: [
     Moh731TabularComponent,
@@ -208,7 +215,16 @@ import { IptBaseReportComponent } from 'src/app/hiv-care-lib/ipt-report/ipt-repo
     CaseManagementFiltersComponent,
     CaseManagementPatientListComponent,
     AssignCaseManagerComponent,
-    CaseManagementIndicatorDefinitionComponent
+    CaseManagementIndicatorDefinitionComponent,
+    FamilyTestingBaseComponent,
+    FamilyTestingPatientlistComponent,
+    FamilyTestingTreeComponent,
+    FamilyTestingContactComponent,
+    FamilyTestingButtonRendererComponent,
+    ContactProfileComponent,
+    AddContactTraceComponent,
+    EditContactTraceComponent,
+    ContactListComponent
   ],
   declarations: [
     Moh731TabularComponent,
@@ -265,7 +281,16 @@ import { IptBaseReportComponent } from 'src/app/hiv-care-lib/ipt-report/ipt-repo
     HeiIndicatorsPatientListComponent,
     HeiIndicatorsPdfViewComponent,
     IptBaseReportComponent,
-    IptReportPatientListComponent
+    IptReportPatientListComponent,
+    FamilyTestingBaseComponent,
+    FamilyTestingPatientlistComponent,
+    FamilyTestingTreeComponent,
+    FamilyTestingContactComponent,
+    FamilyTestingButtonRendererComponent,
+    ContactProfileComponent,
+    AddContactTraceComponent,
+    EditContactTraceComponent,
+    ContactListComponent
   ],
   providers: [MOHReportService,
     LocationResourceService,
@@ -276,7 +301,9 @@ import { IptBaseReportComponent } from 'src/app/hiv-care-lib/ipt-report/ipt-repo
     {
       provide: HighchartsStatic,
       useFactory: highchartsFactory
-    }
+    },
+    FormDataSourceService,
+    ZscoreService
   ]
 })
 export class HivCareLibModule {

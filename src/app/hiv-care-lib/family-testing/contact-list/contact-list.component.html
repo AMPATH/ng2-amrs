@@ -1,0 +1,16 @@
+<div style="margin-top: 1rem">
+  <ag-grid-angular
+    *ngIf="indexContacts.length"
+    #agGrid
+    style="width: 100%; height: 250px; length: 400px"
+    class="ag-blue"
+    [rowData]="indexContacts"
+    [gridOptions]="gridOptions"
+  >
+    ></ag-grid-angular
+  >
+  <hr />
+  <div *ngIf="!indexContacts.length">
+    <h4>No contact history available</h4>
+  </div>
+</div>

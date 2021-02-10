@@ -40,7 +40,7 @@ export class PatientCreationResourceService {
     const url = this.appSettingsService.getAmrsIdentifierRestbaseurl().trim() + '/generateidentifier';
     return this.http.post(url, user);
 
-}
+  }
 
   public savePatient(payload) {
     const url = this.url();
@@ -48,4 +48,13 @@ export class PatientCreationResourceService {
     return this.http.post(url, JSON.stringify(payload), {headers});
   }
 
+  public updatePatientContact(patientUuid: string, obsGroupUuid: string) {
+    const url = this.appSettingsService.getEtlRestbaseurl().trim();
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.put(
+      `${url}update-contact`,
+      { uuid: patientUuid, obs_group_id: obsGroupUuid },
+      { headers }
+    );
+  }
 }

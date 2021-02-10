@@ -152,6 +152,7 @@ import { PatientEducationComponent } from './patient-info/education/patient-educ
 import { AddPatientEducationComponent } from './patient-info/education/add-patient-education.component';
 import { EditPatientEducationComponent } from './patient-info/education/edit-patient-education.component';
 import { OvcSnapshotComponent } from './ovc-snapshot/ovc-snapshot.component';
+import { UserDefaultPropertiesService } from 'src/app/user-default-properties/user-default-properties.service';
 
 @NgModule({
   imports: [
@@ -348,6 +349,8 @@ import { OvcSnapshotComponent } from './ovc-snapshot/ovc-snapshot.component';
     ZscoreService,
     VitalsDatasource,
     TodayVisitService,
-    PatientTransferService],
+    PatientTransferService,
+    UserDefaultPropertiesService
+  ]
 })
 export class PatientDashboardCommonModule { }

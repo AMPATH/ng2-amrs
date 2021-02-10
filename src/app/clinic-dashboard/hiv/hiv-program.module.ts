@@ -107,6 +107,7 @@ import { ClinicDashboardCaseManagementComponent } from './case-management/clinic
 import { HIVListsMicroFrontendComponent } from './hiv-lists-microfrontend-report/hiv-lists-microfrontend.component';
 import { PrepReportComponent } from './prep-report/prep-report.component';
 import { IptReportComponent } from './ipt-report/ipt-report.component';
+import { FamilyTestingComponent } from './family-testing/family-testing.component';
 @NgModule({
     imports: [
         clinicDashboardHivRouting,
@@ -190,7 +191,8 @@ import { IptReportComponent } from './ipt-report/ipt-report.component';
         ClinicDashboardCaseManagementComponent,
         HIVListsMicroFrontendComponent,
         PrepReportComponent,
-        IptReportComponent
+        IptReportComponent,
+        FamilyTestingComponent
     ],
     providers: [
         ClinicalSummaryVisualizationService

@@ -41,7 +41,6 @@ import {
 } from '../../../user-default-properties/user-default-properties.service';
 import { UserService } from '../../../openmrs-api/user.service';
 import { PatientConsentResourceService } from './../../../openmrs-api/patient-consent-resource.service';
-
 @Component({
   selector: 'app-formentry',
   templateUrl: './formentry.component.html',
@@ -102,6 +101,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
   private visitUuid: string = null;
   private hasCallConsent = false;
+  private familyTestingEncounterUuid: any;
+  private updateContacts: boolean;
 
   constructor(
     private appFeatureAnalytics: AppFeatureAnalytics,
@@ -308,6 +309,28 @@ export class FormentryComponent implements OnInit, OnDestroy {
         this.preserveFormAsDraft = false;
         this.router.navigate(['/patient-dashboard/patient/' +
         this.patient.uuid + '/hiv/' + this.activeProgram + '/formentry/ab0918de-baf8-4804-86fb-2ff2d7b6943c']);
+        break;
+      case 'familyHistory':
+        this.showSuccessDialog = false;
+        this.preserveFormAsDraft = false;
+        if (this.familyTestingEncounterUuid) {
+          const familyPartnerHistoryFormV1 = `3fbc8512-b37b-4bc2-a0f4-8d0ac7955127`;
+          const url = `/patient-dashboard/patient/${this.patient.uuid}/general/general/formentry/${familyPartnerHistoryFormV1}`;
+          this.router.navigate([url], {
+            queryParams: {
+              encounter: this.familyTestingEncounterUuid.uuid,
+              visitTypeUuid: ''
+            }
+          });
+        } else {
+          this.router.navigate([
+            '/patient-dashboard/patient/' +
+              this.patient.uuid +
+              '/hiv/' +
+              this.activeProgram +
+              '/formentry/3fbc8512-b37b-4bc2-a0f4-8d0ac7955127'
+          ]);
+        }
         break;
       default:
         console.error('unknown path');
@@ -729,6 +752,15 @@ export class FormentryComponent implements OnInit, OnDestroy {
         this.patientTransferService.prefillTransferOptions();
       }
 
+      //  Check if contacts exist
+      this.familyTestingEncounterUuid = this.patient.encounters.find(
+        (encounter) =>
+          encounter.encounterType.uuid ===
+          '975ae894-7660-4224-b777-468c2e710a2a'
+      );
+      if (this.familyTestingEncounterUuid) {
+        this.updateContacts = true;
+      }
     } catch (ex) {
       // TODO Handle all form rendering errors
       console.error('An error occured while rendering form:', ex);

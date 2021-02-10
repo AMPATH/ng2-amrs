@@ -6,7 +6,8 @@ import {
   ViewChild,
   EventEmitter
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 import 'ag-grid-enterprise/main';
 import * as _ from 'lodash';
@@ -78,6 +79,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public pattern = new RegExp(this.r1.source + this.r2.source);
   public levelOfEducation: Array<any>;
   public patientHighestEducation: string;
+  public patientObsGroupId: string;
 
   public address1: string;
   public address2: string;
@@ -154,7 +156,8 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     private modalService: BsModalService,
     private conceptService: ConceptResourceService,
     private patientRelationshipTypeService: PatientRelationshipTypeService,
-    private patientEducationService: PatientEducationService
+    private patientEducationService: PatientEducationService,
+    private route: ActivatedRoute
   ) {}
 
   public ngOnInit() {
@@ -186,8 +189,27 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
           this.found = true;
         }
       });
-
+    this.loadNewPatientInfoFromUrl();
     this.subscriptions.push(patientCreationSub);
+  }
+
+  public loadNewPatientInfoFromUrl() {
+    this.route.queryParams.subscribe(
+      (params: any) => {
+        if (params) {
+          this.givenName = params.givenName;
+          this.familyName = params.familyName;
+          this.middleName = params.middleName;
+          this.ageEstimate = params.age;
+          this.birthDate = params.dateOfBirth;
+          this.gender = params.gender;
+          this.patientObsGroupId = params.obs_group_id;
+        }
+      },
+      (error) => {
+        console.error('Error', error);
+      }
+    );
   }
 
   public getEducationLevels() {
@@ -651,11 +673,25 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
             this.loaderStatus = false;
             this.sessionStorageService.remove('person');
             this.createdPatient = success;
-            if (this.createdPatient) {
+            if (this.createdPatient && !this.patientObsGroupId) {
               this.modalRef = this.modalService.show(this.successModal, {
                 backdrop: 'static',
                 keyboard: false
               });
+            } else if (this.patientObsGroupId) {
+              const patient: Patient = success as Patient;
+              this.patientCreationResourceService
+                .updatePatientContact(
+                  patient.person.uuid,
+                  this.patientObsGroupId
+                )
+                .subscribe((response) => {
+                  this.router.navigate([
+                    '/patient-dashboard/patient/' +
+                      patient.person.uuid +
+                      '/general/general/landing-page'
+                  ]);
+                });
             }
           },
           (err) => {
