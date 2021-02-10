@@ -1,0 +1,149 @@
+<div class="add-trace-container">
+  <div class="title">
+    <div class="row">
+      <div class="form-group" style="margin-left: 15px">
+        <button
+          type="button"
+          class="btn btn-primary"
+          style="width: fit-content"
+          (click)="goBack()"
+        >
+          Back
+        </button>
+      </div>
+    </div>
+
+    <div class="contact-profile-container">
+      <div class="contact-profile-section">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-3">
+              <h4 class="component-title text-success">
+                <span class="fa fa-plus">Add Contact Trace</span>
+              </h4>
+            </div>
+            <div class="col-md-3">
+              <h5 class="component-title text-info">
+                <span *ngIf="contactInfo"
+                  ><strong>{{ contactInfo.fm_name }}</strong></span
+                >
+              </h5>
+            </div>
+            <div class="col-md-3"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="showAlertSuccess">
+      <p class="alert alert-success alert-dismissible">Contact trace saved</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="form-group">
+        <div class="form-group">
+          <label for="encounterDate">Tracing Date</label>
+          <input
+            [(ngModel)]="contactedDate"
+            type="date"
+            class="form-control"
+            name="encounterDate"
+            id="encounterDate"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="form-group">
+        <label for="contactType">Contact Type</label>
+        <select
+          name="contactType"
+          class="form-control"
+          id="contactType"
+          (change)="onContactTypeChange($event)"
+          [value]="selectedContactType"
+        >
+          <option *ngFor="let opt of contactType" [value]="opt.val">
+            {{ opt.label }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <label for="contactStatus">Contact Status</label>
+        <select
+          name="contactStatus"
+          class="form-control"
+          id="contactStatus"
+          (change)="onContactStatusChange($event)"
+          [value]="selectedContactedStatus"
+        >
+          <option *ngFor="let opt of contactStatus" [value]="opt.val">
+            {{ opt.label }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-12" *ngIf="displayNotContactedReasons">
+      <div class="form-group">
+        <label for="contactStatus">Reason not contacted</label>
+        <select
+          name="contactStatus"
+          class="form-control"
+          id="contactStatus"
+          [value]="selectedNotContactedStatusReasons"
+          (change)="onNotContactedChange($event)"
+        >
+          <option
+            *ngFor="let opt of notContactedStatusReasons"
+            [value]="opt.val"
+          >
+            {{ opt.label }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="form-group">
+        <label for="remarks">Remarks</label>
+        <input
+          [(ngModel)]="remarks"
+          type="text"
+          name="remarks"
+          id="remarks"
+          class="form-control"
+        />
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="form-group" style="margin-left: 15px">
+      <button
+        [disabled]="disableSaveButton"
+        class="btn btn-success float-right"
+        (click)="saveContactTrace()"
+      >
+        Save Trace
+      </button>
+      <button
+        *ngIf="openFamilyTestingForm"
+        style="margin-left: 15px"
+        class="btn btn-success float-right"
+        (click)="openFamilyHistoryForm()"
+      >
+        Update Contact
+      </button>
+      <span
+        *ngIf="openFamilyTestingForm"
+        style="margin-left: 20px"
+        class="component-title text-warning"
+        ><strong
+          ><i>Take note of the contacts name before clicking update</i></strong
+        ></span
+      >
+    </div>
+  </div>
+</div>

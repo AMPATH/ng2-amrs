@@ -1,0 +1,106 @@
+<div class="add-trace-container">
+  <div class="title">
+    <button
+      type="button"
+      class="btn btn-primary"
+      style="width: fit-content"
+      (click)="goBack()"
+    >
+      Back
+    </button>
+    <h4 class="component-title text-success">
+      <span class="fa fa-area-chart"></span> Edit Contact Trace
+    </h4>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="form-group">
+        <div class="form-group">
+          <label for="encounterDate">Encounter Date</label>
+          <input
+            [(ngModel)]="contactedDate"
+            type="date"
+            class="form-control"
+            name="encounterDate"
+            id="encounterDate"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="form-group">
+        <label for="contactType">Contact Type</label>
+        <select
+          name="contactType"
+          class="form-control"
+          id="contactType"
+          (change)="onContactTypeChange($event)"
+          [value]="selectedContactType"
+        >
+          <option *ngFor="let opt of contactType" [value]="opt.val">
+            {{ opt.label }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <label for="contactStatus">Contact Status</label>
+        <select
+          name="contactStatus"
+          class="form-control"
+          id="contactStatus"
+          (change)="onContactStatusChange($event)"
+          [value]="selectedContactedStatus"
+        >
+          <option *ngFor="let opt of contactStatus" [value]="opt.val">
+            {{ opt.label }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-12" *ngIf="displayNotContactedReasons">
+      <div class="form-group">
+        <label for="contactStatus">Reason not contacted</label>
+        <select
+          name="contactStatus"
+          class="form-control"
+          id="contactStatus"
+          [value]="selectedNotContactedStatusReasons"
+          (change)="onNotContactedChange($event)"
+        >
+          <option
+            *ngFor="let opt of notContactedStatusReasons"
+            [value]="opt.val"
+          >
+            {{ opt.label }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="form-group">
+        <label for="remarks">Remarks</label>
+        <input
+          [(ngModel)]="remarks"
+          type="text"
+          name="remarks"
+          id="remarks"
+          class="form-control"
+        />
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="form-group" style="margin-left: 15px">
+      <button
+        class="btn btn-success float-right"
+        (click)="updateContactTrace()"
+      >
+        Edit Contact Trace
+      </button>
+    </div>
+  </div>
+</div>

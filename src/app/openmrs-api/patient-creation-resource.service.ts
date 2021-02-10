@@ -54,4 +54,14 @@ export class PatientCreationResourceService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post(url, JSON.stringify(payload), { headers });
   }
+
+  public updatePatientContact(patientUuid: string, obsGroupUuid: string) {
+    const url = this.appSettingsService.getEtlRestbaseurl().trim();
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.put(
+      `${url}update-contact`,
+      { uuid: patientUuid, obs_group_id: obsGroupUuid },
+      { headers }
+    );
+  }
 }

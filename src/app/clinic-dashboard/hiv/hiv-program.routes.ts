@@ -48,6 +48,11 @@ import { PatientGainsAndLosesPatientListComponent } from 'src/app/hiv-care-lib/p
 import { ClinicDashboardHeiReportComponent } from './clinic-dashboard-hei-indicators-report/clinic-dashboard-hei-report.component';
 import { HeiIndicatorsPatientListComponent } from './../../hiv-care-lib/hei-indicators-report/hei-indicators-patient-list.component';
 import { HIVListsMicroFrontendComponent } from './hiv-lists-microfrontend-report/hiv-lists-microfrontend.component';
+import { FamilyTestingComponent } from './family-testing/family-testing.component';
+import { FamilyTestingBaseComponent } from 'src/app/hiv-care-lib/family-testing/family-testing-base.component';
+import { FamilyTestingContactComponent } from 'src/app/hiv-care-lib/family-testing/family-testing-contact-list.component';
+import { AddContactTraceComponent } from 'src/app/hiv-care-lib/family-testing/contact-trace/add-contact-trace.component';
+import { EditContactTraceComponent } from 'src/app/hiv-care-lib/family-testing/contact-trace/edit-contact-trace.component';
 
 const routes: Routes = [
   {
@@ -408,6 +413,27 @@ const routes: Routes = [
       {
         path: 'patient-list',
         component: HeiIndicatorsPatientListComponent
+      }
+    ]
+  },
+  {
+    path: 'family-testing',
+    children: [
+      {
+        path: '',
+        component: FamilyTestingBaseComponent
+      },
+      {
+        path: 'contact-list',
+        component: FamilyTestingContactComponent
+      },
+      {
+        path: 'contact-list/add-contact-trace',
+        component: AddContactTraceComponent
+      },
+      {
+        path: 'contact-list/edit-contact-trace',
+        component: EditContactTraceComponent
       }
     ]
   }

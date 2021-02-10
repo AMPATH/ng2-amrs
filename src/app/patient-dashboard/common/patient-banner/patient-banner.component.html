@@ -134,6 +134,14 @@
               >
                 <span class="id-label">OVC ID:</span>Not assigned
               </span>
+              <span *ngIf="patient?.person.display">
+                <button
+                  class="btn btn-primary"
+                  (click)="navigateToFamilyHistory()"
+                >
+                  Family History
+                </button>
+              </span>
               <span>
                 <div *ngIf="patient" class="btn-group pull-right" dropdown>
                   <button type="button" class="btn btn-default">
@@ -313,6 +321,13 @@
               <span class="id-label">OVC ID:</span>Not assigned
             </span>
           </span>
+          <span
+            *ngIf="patient?.person.display && isPatientEnrolledToHIVProgram"
+          >
+            <button class="btn btn-primary" (click)="navigateToFamilyHistory()">
+              Family History
+            </button>
+          </span>
           <div
             *ngIf="patient && relationships.length > 0"
             class="btn-group pull-right"
@@ -461,4 +476,40 @@
   <div class="margin-bottom-5 clear clear-fix">&nbsp;</div>
   <add-relationship #addRelationship></add-relationship>
   <edit-identifiers #identifiers></edit-identifiers>
+
+  <p-dialog
+    header="List of contacts"
+    [(visible)]="displayContacts"
+    styleClass="contact-list-dialog"
+  >
+    <div class="container-fluid">
+      <app-contact-list></app-contact-list>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-2">
+          <button
+            *ngIf="contactsExist"
+            class="btn btn-primary"
+            (click)="updateContacts()"
+          >
+            Update Contacts
+          </button>
+          <button
+            *ngIf="!contactsExist"
+            class="btn btn-primary"
+            (click)="addContacts()"
+          >
+            Add Contacts
+          </button>
+        </div>
+        <div class="col-sm-1"></div>
+        <div class="col-sm-3">
+          <button class="btn btn-warning" (click)="onClickCancel(false)">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </p-dialog>
 </div>

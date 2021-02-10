@@ -1,0 +1,21 @@
+.contact-profile-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-profile-section {
+  display: flex;
+  justify-content: space-between;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: fit-content;
+  font-size: 14px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.grid-container > div {
+  text-align: left;
+}
