@@ -51,6 +51,8 @@ export class FamilyTestingContactComponent implements OnInit {
 
   public displayFamilyTree = true;
   public indexName = '';
+  public familyAndPartnerTestingFormUuid =
+    '3fbc8512-b37b-4bc2-a0f4-8d0ac7955127';
   private columnDefs = [
     {
       headerName: '#',
@@ -154,15 +156,13 @@ export class FamilyTestingContactComponent implements OnInit {
   }
 
   public getPatientEncounters() {
-    const familyAndPartnerTestingFormUuid =
-      '3fbc8512-b37b-4bc2-a0f4-8d0ac7955127';
     this.encounterResourceService
       .getEncountersByPatientUuid(this.patientUuid, false, null)
       .pipe(take(1))
       .subscribe((resp) => {
         this.patientEncounters = resp.reverse().filter((encounter) => {
           if (encounter.form) {
-            return encounter.form.uuid === familyAndPartnerTestingFormUuid;
+            return encounter.form.uuid === this.familyAndPartnerTestingFormUuid;
           }
         });
       });
@@ -224,8 +224,7 @@ export class FamilyTestingContactComponent implements OnInit {
 
   public onEditClick() {
     const encounterUuid = _.first(this.patientEncounters).uuid;
-    const familyPartnerHistoryFormV1 = `3fbc8512-b37b-4bc2-a0f4-8d0ac7955127`;
-    const url = `/patient-dashboard/patient/${this.patientUuid}/general/general/formentry/${familyPartnerHistoryFormV1}`;
+    const url = `/patient-dashboard/patient/${this.patientUuid}/general/general/formentry/${this.familyAndPartnerTestingFormUuid}`;
     this.router.navigate([url], {
       queryParams: { encounter: encounterUuid, visitTypeUuid: '' }
     });
@@ -277,7 +276,6 @@ export class FamilyTestingContactComponent implements OnInit {
   }
 
   public declineDelete(): void {
-    console.log('Delete Action Rejected');
     this.deleteModalRef.hide();
   }
 

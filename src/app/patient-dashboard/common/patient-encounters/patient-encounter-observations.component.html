@@ -23,7 +23,7 @@
       </div>
       <div class="modal-body">
         <div class="obs-wrapper" *ngIf="onEncounterDetail && !pretty">
-          <!-- <ul class="obs-list">
+          <ul class="obs-list">
             <li
               *ngFor="let _obs of obs; let _index = index"
               [ngSwitch]="_obs.has_children"
@@ -61,7 +61,7 @@
                 </a>
               </div>
             </li>
-          </ul> -->
+          </ul>
         </div>
         <div class="obs-wrapper" *ngIf="pretty">
           <pretty-encounter-viewer

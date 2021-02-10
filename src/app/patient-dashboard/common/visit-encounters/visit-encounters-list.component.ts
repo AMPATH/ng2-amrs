@@ -291,7 +291,6 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
   }
 
   public editEncounter(encounter: any) {
-    console.log(encounter);
     if (encounter) {
       // get visitType and add it to the url
       const visitTypeUuid = this.getVisitTypeUuid(encounter);

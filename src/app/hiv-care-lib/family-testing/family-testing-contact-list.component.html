@@ -183,7 +183,7 @@
                   : 'btn btn-default'
               "
               (click)="onPatientRegister()"
-              [disabled]='this.selectedRow?.rowData?.disableRegisterAction'
+              [disabled]="this.selectedRow?.rowData?.disableRegisterAction"
             >
               <span class="glyphicon glyphicon glyphicon-plus"></span> Register
             </button>

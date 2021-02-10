@@ -55,6 +55,8 @@ export class AddContactTraceComponent implements OnInit {
   public openFamilyTestingForm = false;
   public showAlertSuccess = false;
   public disableSaveButton = true;
+  public familyAndPartnerTestingFormUuid =
+    '3fbc8512-b37b-4bc2-a0f4-8d0ac7955127';
 
   public ngOnInit() {
     this.route.parent.queryParams.subscribe((param) => {
@@ -82,10 +84,16 @@ export class AddContactTraceComponent implements OnInit {
     const payload = {
       contact_id: this.contactId,
       contact_date: this.contactedDate,
-      contact_type: this.selectedContactType,
-      contact_status: this.selectedContactedStatus,
-      reason_not_contacted: this.selectedNotContactedStatusReasons,
-      remarks: this.remarks
+      contact_type: this.selectedContactType
+        ? this.selectedContactType
+        : this.selectedContactType,
+      contact_status: this.selectedContactedStatus
+        ? this.selectedContactedStatus
+        : 0,
+      reason_not_contacted: this.selectedNotContactedStatusReasons
+        ? this.selectedNotContactedStatusReasons
+        : 0,
+      remarks: this.remarks ? this.remarks : ''
     };
     this.familyTestingService.savePatientContactTrace(payload).subscribe(
       (response: Response) => {
@@ -124,23 +132,20 @@ export class AddContactTraceComponent implements OnInit {
 
   public openFamilyHistoryForm() {
     const encounterUuid = _.first(this.patientEncounters).uuid;
-    const familyPartnerHistoryFormV1 = `3fbc8512-b37b-4bc2-a0f4-8d0ac7955127`;
-    const url = `/patient-dashboard/patient/${this.patientUuid}/general/general/formentry/${familyPartnerHistoryFormV1}`;
+    const url = `/patient-dashboard/patient/${this.patientUuid}/general/general/formentry/${this.familyAndPartnerTestingFormUuid}`;
     this.router.navigate([url], {
       queryParams: { encounter: encounterUuid, visitTypeUuid: '' }
     });
   }
 
   public getPatientEncounters(patientUuid) {
-    const familyAndPartnerTestingFormUuid =
-      '3fbc8512-b37b-4bc2-a0f4-8d0ac7955127';
     this.encounterResourceService
       .getEncountersByPatientUuid(patientUuid, false, null)
       .pipe(take(1))
       .subscribe((resp) => {
         this.patientEncounters = resp.reverse().filter((encounter) => {
           if (encounter.form) {
-            return encounter.form.uuid === familyAndPartnerTestingFormUuid;
+            return encounter.form.uuid === this.familyAndPartnerTestingFormUuid;
           }
         });
       });

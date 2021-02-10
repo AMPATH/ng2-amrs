@@ -87,7 +87,7 @@ export class EditContactTraceComponent implements OnInit {
     };
     this.familyTestingService.updatePatientContactTrace(payload).subscribe(
       (response: Response) => {
-        this.location.back();
+        this.goBack();
       },
       (err) => {
         console.error(err);

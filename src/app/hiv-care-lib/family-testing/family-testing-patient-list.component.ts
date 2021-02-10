@@ -108,9 +108,7 @@ export class FamilyTestingPatientlistComponent implements OnInit {
     this.gridOptions.groupDefaultExpanded = -1;
     this.gridOptions.enableFilter = true;
     (this.gridOptions.groupRemoveSingleChildren = false),
-      // this.gridOptions.groupHideOpenParents= true;
       (this.gridOptions.groupUseEntireRow = true);
-    // this.gridOptions.defaulColDef= {filter:true},
     this.setCellSelection();
   }
 
@@ -124,7 +122,6 @@ export class FamilyTestingPatientlistComponent implements OnInit {
     this.gridOptions.rowSelection = 'single';
     let selectedIndicator: any;
     this.gridOptions.onCellClicked = (e) => {
-      console.log(e);
       if (e.data) {
         selectedIndicator = {
           patient_uuid: e.data.patient_uuid

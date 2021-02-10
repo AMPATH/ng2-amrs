@@ -48,7 +48,6 @@ export class ContactProfileComponent implements OnInit {
       .getContactTraceHistory(this.contactInformation.obs_group_id)
       .subscribe((data: any) => {
         if (data.error) {
-          console.log(data.error);
           this.showInfoMessage = true;
           this.errorMessage = `There has been an error while loading the contact history data, please retry again`;
           this.isLoading = false;
@@ -59,14 +58,16 @@ export class ContactProfileComponent implements OnInit {
       });
     this.gridOptions.columnDefs = this.columnDefs;
 
-    if (this.contactInformation.eligible_for_tracing === 2) {
-      this.isContactEligible = true;
-    }
-    if (this.contactInformation.eligible_for_tracing === 0) {
-      this.contactNotEligible = true;
-    }
-    if (this.contactInformation.eligible_for_tracing === 1) {
-      this.isTracedTested = true;
+    switch (this.contactInformation.eligible_for_tracing) {
+      case 0:
+        this.contactNotEligible = true;
+        break;
+      case 1:
+        this.isTracedTested = true;
+        break;
+      case 2:
+        this.isContactEligible = true;
+        break;
     }
   }
 
