@@ -1,0 +1,38 @@
+name: etl-rest-server CI
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x, 10.x]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Cache node modules
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: copy config.json file
+        uses: canastro/copy-file-action@master
+        with:
+          source: 'conf/config.example.json'
+          target: 'conf/config.json'
+      - name: Install all dependencies
+        run: npm i
+      - name: Install node-gyp
+        run: npm install -g node-gyp
+      - name: Prettier check
+        run: npm run prettier:check
+      - name: Start server
+        run: npm start
