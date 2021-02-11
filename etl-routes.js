@@ -895,18 +895,22 @@ module.exports = (function () {
                     .then((results) => {
                       try {
                         if (results.results.results.length > 0) {
-                          let processedResults = patientReminderService.generateReminders(
-                            results.results.results,
-                            eidReminders
-                          );
-                          results.result = processedResults;
+                          patientReminderService
+                            .generateReminders(
+                              results.results.results,
+                              eidReminders
+                            )
+                            .then((res) => {
+                              results.result = res;
+                              reply(results);
+                            });
                         } else {
                           results.result = {
                             person_uuid: combineRequestParams.person_uuid,
                             reminders: []
                           };
+                          reply(results);
                         }
-                        reply(results);
                       } catch (error) {
                         console.log('Error generating reminders', error);
                         reply(

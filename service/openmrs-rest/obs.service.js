@@ -323,6 +323,21 @@ module.exports = (function () {
     });
   }
 
+  function voidObs(uuid) {
+    var uri = getRestResource(
+      '/' + config.openmrs.applicationName + '/ws/rest/v1/obs/' + uuid
+    );
+    return new Promise(function (resolve, reject) {
+      rp.deleteRequestPromise(uri)
+        .then(function (result) {
+          resolve(result);
+        })
+        .catch(function (error) {
+          reject(error);
+        });
+    });
+  }
+
   return {
     getPatientIdentifiers: getPatientIdentifiers,
     getPatientAllTestObsByPatientUuId: getPatientAllTestObsByPatientUuId,
@@ -331,6 +346,7 @@ module.exports = (function () {
     postAllObsToAMRS: postAllObsToAMRS,
     postObsToAMRS: postObsToAMRS,
     getAmrsPatientObsByDate: getAmrsPatientObsByDate,
-    getPatientTodaysTestObsByPatientUuId: getPatientTodaysTestObsByPatientUuId
+    getPatientTodaysTestObsByPatientUuId: getPatientTodaysTestObsByPatientUuId,
+    voidObs: voidObs
   };
 })();
