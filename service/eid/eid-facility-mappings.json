@@ -2167,5 +2167,14 @@
     "county": "Uasin Gishu",
     "cityVillage": "",
     "eidDisplay": ""
+  },
+  "88506d5f-8b48-42ca-88ab-c2855bca9ee2": {
+    "mrsId": 313,
+    "mrsDisplay": "Matayos MCH",
+    "description": "Matayos Health Centre MCH",
+    "mflCode": "16004",
+    "county": "Busia",
+    "cityVillage": "",
+    "eidDisplay": ""
   }
 }
