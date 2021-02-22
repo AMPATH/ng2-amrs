@@ -400,6 +400,19 @@ const routes: Routes = [
             component: PrepReportPatientListComponent
           }
         ]
+      },
+      {
+        path: 'patient-gains-and-loses',
+        children: [
+          {
+            path: '',
+            component: PatientGainLosesReportComponent
+          },
+          {
+            path: 'patient-list',
+            component: PatientGainsAndLosesPatientListComponent
+          }
+        ]
       }
     ]
   },
