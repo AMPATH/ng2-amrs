@@ -20,7 +20,7 @@
     }
   },
   "lint-staged": {
-    "*.{js,css,md}": "prettier --write"
+    "*.{js,css,md,json}": "prettier --write"
   },
   "pre-commit": "npm test",
   "author": "AMPATH DEVS",
