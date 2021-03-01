@@ -24,6 +24,8 @@ export class OncologySummaryIndicatorsComponent
   public title = '';
   public monthlySummary: any = [];
   public isPdfReportAvailable = false;
+  public isCervicalScreeningReport = false;
+  public sectionDefinitions: any;
   public params: any;
   public reportType = '';
   public startDate: string = Moment().startOf('year').format('YYYY-MM-DD');
@@ -49,6 +51,7 @@ export class OncologySummaryIndicatorsComponent
     message: '',
     isError: false
   };
+  public cervicalScreeningReport = /CervicalCancerMonthlyReportAggregate/i;
 
   constructor(
     private cd: ChangeDetectorRef,
@@ -166,6 +169,11 @@ export class OncologySummaryIndicatorsComponent
       .pipe(take(1))
       .subscribe(
         (result) => {
+          const { name } = result.schemas.main;
+          if (name.match(this.cervicalScreeningReport)) {
+            this.isCervicalScreeningReport = true;
+            this.sectionDefinitions = result.sectionDefinitions;
+          }
           this.monthlySummary = result.result;
           setTimeout(() => this.endLoading(), 800);
         },

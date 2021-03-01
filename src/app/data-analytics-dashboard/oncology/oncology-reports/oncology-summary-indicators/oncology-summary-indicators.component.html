@@ -44,25 +44,38 @@
       </oncology-summary-filters>
     </div>
     <div *ngIf="!isPdfReportAvailable" id="oncology-summary-indicators-table">
-      <oncology-summary-indicators-table
-        [monthlySummary]="monthlySummary"
-        [params]="params"
-      >
-      </oncology-summary-indicators-table>
+      <div *ngIf="cervicalScreeningReport">CERVICAL SCREENING REPORT YO!</div>
+      <div *ngIf="!cervicalScreeningReport">
+        <oncology-summary-indicators-table
+          [monthlySummary]="monthlySummary"
+          [params]="params"
+        >
+        </oncology-summary-indicators-table>
+      </div>
     </div>
     <div *ngIf="isPdfReportAvailable">
+      <pre>OR HERE!</pre>
       <p-tabView (onChange)="onTabChanged($event)">
         <p-tabPanel
           header="Tabular View"
           leftIcon="fa-table"
           [selected]="currentView === 'tabular'"
         >
-          <div id="oncology-summary-indicators-table">
+          <div
+            *ngIf="!cervicalScreeningReport"
+            id="oncology-summary-indicators-table"
+          >
             <oncology-summary-indicators-table
               [monthlySummary]="monthlySummary"
               [params]="params"
             >
             </oncology-summary-indicators-table>
+          </div>
+          <div
+            *ngIf="cervicalScreeningReport"
+            id="oncology-summary-indicators-table"
+          >
+            <cervical-screening-report-tabular></cervical-screening-report-tabular>
           </div>
         </p-tabPanel>
         <p-tabPanel
