@@ -75,7 +75,11 @@
             *ngIf="cervicalScreeningReport"
             id="oncology-summary-indicators-table"
           >
-            <cervical-screening-report-tabular></cervical-screening-report-tabular>
+            <cervical-screening-report-tabular
+              [monthlySummary]="monthlySummary"
+              [params]="params"
+              [sectionDefinitions]="sectionDefinitions"
+            ></cervical-screening-report-tabular>
           </div>
         </p-tabPanel>
         <p-tabPanel

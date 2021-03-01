@@ -171,6 +171,7 @@ export class OncologySummaryIndicatorsComponent
         (result) => {
           const { name } = result.schemas.main;
           if (name.match(this.cervicalScreeningReport)) {
+            console.log('result: ', result);
             this.isCervicalScreeningReport = true;
             this.sectionDefinitions = result.sectionDefinitions;
           }

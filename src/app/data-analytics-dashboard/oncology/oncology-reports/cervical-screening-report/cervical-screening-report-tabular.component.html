@@ -4,10 +4,8 @@
     style="width: 100%; height: 100%"
     id="cervicalScreeningReport"
     class="ag-blue"
-    [columnDefs]="columnDefs"
     [defaultColDef]="defaultColDef"
-    [debug]="true"
-    [rowData]="rowData"
-    (gridReady)="onGridReady($event)"
+    [gridOptions]="gridOptions"
+    [rowData]="monthlySummary"
   ></ag-grid-angular>
 </div>
