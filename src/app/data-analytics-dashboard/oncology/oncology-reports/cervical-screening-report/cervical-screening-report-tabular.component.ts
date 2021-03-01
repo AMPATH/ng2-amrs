@@ -8,6 +8,8 @@ import { AgGridNg2 } from 'ag-grid-angular';
 })
 export class CervicalScreeningReportTabularComponent {
   @ViewChild('agGrid')
+  public agGrid: AgGridNg2;
+  
   @Input()
   public params: any;
   @Input() public indicator: any;
@@ -30,7 +32,6 @@ export class CervicalScreeningReportTabularComponent {
     this.setColumns(v);
   }
 
-  public agGrid: AgGridNg2;
   public sectionIndicatorsValues: Array<any>;
   public gridOptions: any = {};
   public headers = [];
@@ -82,6 +83,7 @@ export class CervicalScreeningReportTabularComponent {
           // width: 360
         };
         created.children.push(child);
+        console.log('children: ', created.children);
       }
       defs.push(created);
     }
