@@ -38,6 +38,7 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
   @Input() public modalMode: boolean;
   @Input() public bannerMode: boolean;
   @Input() public dashboardMode: boolean;
+  @Input() public settingsObject: any;
   // tslint:disable-next-line:no-output-on-prefix
   @Output() public onSettingsChange: EventEmitter<boolean> = new EventEmitter();
   public user: User;
@@ -76,6 +77,13 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
       this.localStorageService.getItem('enableRetro') === 'true';
     this.currentLocation = this.propertyLocationService.getCurrentUserDefaultLocationObject();
     this._init();
+
+    if (this.settingsObject) {
+      this.provider = this.settingsObject.provider;
+      this.location = this.settingsObject.location;
+      this.visitDate = this.settingsObject.visitDate;
+      this.visitTime = this.settingsObject.visitTime;
+    }
   }
 
   public ngOnDestroy() {

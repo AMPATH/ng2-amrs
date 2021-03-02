@@ -142,21 +142,30 @@ export class VisitStarterComponent implements OnInit, OnDestroy {
   }
   public setUserDefaultLocation() {
     const location: any = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
-    this.retrospectiveDataEntryService.retroSettings.subscribe(
-      (retroSettings) => {
-        if (location && location.uuid) {
-          if (retroSettings && retroSettings.enabled) {
-            this.selectedLocation = retroSettings.location;
-            this.retroSettings = retroSettings;
-          } else {
-            this.selectedLocation = {
-              value: location.uuid,
-              label: location.display
-            };
+    if (
+      this.retrospectiveDataEntryService.retroSettings.value == null &&
+      this.retrospectiveDataEntryService.getProperty('enableRetro')
+    ) {
+      this.selectedLocation = JSON.parse(
+        this.retrospectiveDataEntryService.getProperty('retroLocation')
+      );
+    } else {
+      this.retrospectiveDataEntryService.retroSettings.subscribe(
+        (retroSettings) => {
+          if (location && location.uuid) {
+            if (retroSettings && retroSettings.enabled) {
+              this.selectedLocation = retroSettings.location;
+              this.retroSettings = retroSettings;
+            } else {
+              this.selectedLocation = {
+                value: location.uuid,
+                label: location.display
+              };
+            }
           }
         }
-      }
-    );
+      );
+    }
   }
 
   public getCurrentProgramEnrollmentConfig() {

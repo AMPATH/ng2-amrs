@@ -11,6 +11,7 @@ import { RetrospectiveDataEntryService } from '../../services/retrospective-data
 export class RetrospectiveBannerComponent implements OnInit {
   public displayDialog = false;
   public retroEnabled = false;
+  public settingsObject: any;
   public constructor(
     private retrospectiveDataEntryService: RetrospectiveDataEntryService
   ) {}
@@ -25,6 +26,9 @@ export class RetrospectiveBannerComponent implements OnInit {
           this.displayDialog = false;
         }
         this.retroEnabled = enabled;
+        this.settingsObject = this.retrospectiveDataEntryService.getSettingsObject(
+          this.retroEnabled
+        );
       }
     );
   }

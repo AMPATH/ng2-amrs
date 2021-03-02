@@ -416,49 +416,87 @@ export class FormentryComponent implements OnInit, OnDestroy {
     let location = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
     const currentUser = this.userService.getLoggedInUser();
     let currentDate = moment().format();
-    this.retrospectiveDataEntryService.retroSettings.subscribe(
-      (retroSettings) => {
-        if (retroSettings && retroSettings.enabled) {
-          location = {
-            uuid: retroSettings.location.value,
-            display: retroSettings.location.label
-          };
-          currentDate = moment(this.setRetroDateTime(retroSettings)).format();
-        }
-
-        const encounterDate = this.form.searchNodeByQuestionId('encDate');
-        if (encounterDate.length > 0) {
-          encounterDate[0].control.setValue(currentDate);
-        }
-        const encounterLocation = this.form.searchNodeByQuestionId(
-          'location',
-          'encounterLocation'
-        );
-        if (encounterLocation.length > 0 && location) {
-          this.encounterLocation = {
-            value: location.uuid,
-            label: location.display
-          };
-          encounterLocation[0].control.setValue(location.uuid);
-        }
-
-        const encounterProvider = this.form.searchNodeByQuestionId(
-          'provider',
-          'encounterProvider'
-        );
-        if (
-          encounterProvider.length > 0 &&
-          this.compiledSchemaWithEncounter &&
-          this.compiledSchemaWithEncounter.provider !== {}
-        ) {
-          let provider = this.compiledSchemaWithEncounter.provider.uuid;
+    if (
+      this.retrospectiveDataEntryService.retroSettings.value == null &&
+      this.retrospectiveDataEntryService.getProperty('enableRetro')
+    ) {
+      const retroLocation = JSON.parse(
+        this.retrospectiveDataEntryService.getProperty('retroLocation')
+      );
+      location = {
+        uuid: retroLocation.value,
+        display: retroLocation.label
+      };
+      const retroEncounterTime = {
+        visitDate: this.retrospectiveDataEntryService.getProperty(
+          'retroVisitDate'
+        ),
+        visitTime: '04:44:44'
+      };
+      currentDate = moment(this.setRetroDateTime(retroEncounterTime)).format();
+      let provider = this.compiledSchemaWithEncounter.provider.uuid;
+      provider = JSON.parse(
+        this.retrospectiveDataEntryService.getProperty('retroProvider')
+      );
+      this.setFormDefaultValues(null, provider.value, currentDate, location);
+    } else {
+      this.retrospectiveDataEntryService.retroSettings.subscribe(
+        (retroSettings) => {
           if (retroSettings && retroSettings.enabled) {
-            provider = retroSettings.provider.value;
+            location = {
+              uuid: retroSettings.location.value,
+              display: retroSettings.location.label
+            };
+            currentDate = moment(this.setRetroDateTime(retroSettings)).format();
           }
-          encounterProvider[0].control.setValue(provider);
+          const provider = this.compiledSchemaWithEncounter.provider.uuid;
+          this.setFormDefaultValues(
+            retroSettings,
+            provider,
+            currentDate,
+            location
+          );
         }
-      }
+      );
+    }
+  }
+
+  public setFormDefaultValues(
+    retroSettings,
+    provider,
+    currentDate,
+    location: any
+  ) {
+    const encounterDate = this.form.searchNodeByQuestionId('encDate');
+    if (encounterDate.length > 0) {
+      encounterDate[0].control.setValue(currentDate);
+    }
+    const encounterLocation = this.form.searchNodeByQuestionId(
+      'location',
+      'encounterLocation'
     );
+    if (encounterLocation.length > 0 && location) {
+      this.encounterLocation = {
+        value: location.uuid,
+        label: location.display
+      };
+      encounterLocation[0].control.setValue(location.uuid);
+    }
+
+    const encounterProvider = this.form.searchNodeByQuestionId(
+      'provider',
+      'encounterProvider'
+    );
+    if (
+      encounterProvider.length > 0 &&
+      this.compiledSchemaWithEncounter &&
+      this.compiledSchemaWithEncounter.provider !== {}
+    ) {
+      if (retroSettings && retroSettings.enabled) {
+        provider = retroSettings.provider.value;
+      }
+      encounterProvider[0].control.setValue(provider);
+    }
   }
 
   public onAbortingReferral(event) {
@@ -1148,17 +1186,13 @@ export class FormentryComponent implements OnInit, OnDestroy {
       this.submittedOrders.orders = [];
       this.warnMCHTransfer = false;
       // submit form
-      this.retrospectiveDataEntryService.retroSettings.subscribe(
-        (retroSettings) => {
-          if (retroSettings && retroSettings.enabled) {
-            if (this.formSubmissionService.getSubmitStatus() === true) {
-              this.confirmRetrospectiveSubmission(payloadTypes);
-            }
-          } else {
-            this.saveEncounterOrUpdateOnCheckDuplicate(payloadTypes);
-          }
+      if (this.retrospectiveDataEntryService.getProperty('enableRetro')) {
+        if (this.formSubmissionService.getSubmitStatus() === true) {
+          this.confirmRetrospectiveSubmission(payloadTypes);
         }
-      );
+      } else {
+        this.saveEncounterOrUpdateOnCheckDuplicate(payloadTypes);
+      }
     } else {
       this.form.markInvalidControls(this.form.rootNode);
       this.enableSubmitBtn();
