@@ -71,7 +71,7 @@ export class RetrospectiveDataEntryService {
     }
   }
 
-  private getSettingsObject(enabled) {
+  public getSettingsObject(enabled) {
     const provider = this.userDefaultPropertiesService.getUserProperty(
       'retroProvider'
     );

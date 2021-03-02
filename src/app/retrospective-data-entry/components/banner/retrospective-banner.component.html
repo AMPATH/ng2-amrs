@@ -2,6 +2,7 @@
   <retrospective-data-entry-settings
     (onSettingsChange)="toggleDialog($event)"
     [bannerMode]="true"
+    [settingsObject]="settingsObject"
   ></retrospective-data-entry-settings>
   <div class="dialog-wrapper" *ngIf="displayDialog">
     <div class="dialog-wrapper-content">

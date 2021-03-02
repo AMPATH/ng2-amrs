@@ -250,24 +250,41 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
   }
 
   private setVisit(visit) {
-    this.retrospectiveDataEntryService.retroSettings.subscribe(
-      (retroSettings) => {
-        this.stopDatetime = visit.stopDatetime;
-        this.startDatetime = visit.startDatetime;
-        this.currentVisit = visit ? visit : '';
-        this.locationUuid = visit
-          ? { value: visit.location.uuid, label: visit.location.display }
-          : null;
-        this.locationName = visit ? visit.location.display : null;
-        this.encounterVisitUuid = visit ? visit.uuid : null;
-        if (retroSettings && retroSettings.enabled) {
-          this.retroProviderAttribute = retroSettings.provider;
+    if (
+      this.retrospectiveDataEntryService.retroSettings.value == null &&
+      this.retrospectiveDataEntryService.getProperty('enableRetro')
+    ) {
+      this.retroProviderAttribute = JSON.parse(
+        this.retrospectiveDataEntryService.getProperty('retroProvider')
+      );
+      const retroLocation = JSON.parse(
+        this.retrospectiveDataEntryService.getProperty('retroLocation')
+      );
+      this.locationUuid = retroLocation.value;
+      this.locationName = retroLocation.label;
+      this.startDatetime =
+        this.retrospectiveDataEntryService.getProperty('retroVisitDate') +
+        ' 04:44:44';
+    } else {
+      this.retrospectiveDataEntryService.retroSettings.subscribe(
+        (retroSettings) => {
+          this.startDatetime = visit.startDatetime;
+          this.locationUuid = visit
+            ? { value: visit.location.uuid, label: visit.location.display }
+            : null;
+          this.locationName = visit ? visit.location.display : null;
+          if (retroSettings && retroSettings.enabled) {
+            this.retroProviderAttribute = retroSettings.provider;
+          }
         }
-        this.currentVisitType =
-          visit && visit.visitType ? visit.visitType.name : null;
-        this.loadingVisit = false;
-      }
-    );
+      );
+    }
+    this.stopDatetime = visit.stopDatetime;
+    this.encounterVisitUuid = visit ? visit.uuid : null;
+    this.currentVisit = visit ? visit : '';
+    this.currentVisitType =
+      visit && visit.visitType ? visit.visitType.name : null;
+    this.loadingVisit = false;
   }
 
   private resetVariables() {
