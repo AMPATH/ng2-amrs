@@ -10,7 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { AgGridNg2 } from 'ag-grid-angular';
-
+import * as Moment from 'moment';
 @Component({
   selector: 'family-testing-patient-list',
   templateUrl: './family-testing-patient-list.component.html',
@@ -60,30 +60,56 @@ export class FamilyTestingPatientlistComponent implements OnInit {
       }
     },
     {
+      field: 'patient_program_name',
+      headerName: 'Patient Program'
+    },
+    {
       field: 'fm_name',
       headerName: 'Contact Name',
       filter: 'agTextColumnFilter'
     },
-    { field: 'fm_gender', headerName: 'Gender' },
-    { field: 'fm_phone', headerName: 'Telephone Number' },
-    { field: 'relationship_type', headerName: 'Relationship' },
-    { field: 'fm_age', headerName: 'Age' },
-    { field: 'fm_status', headerName: 'Reported HIV status' },
-    { field: 'reported_test_date', headerName: 'Reported HIV test date' },
+    {
+      field: 'date_elicited',
+      headerName: 'Date Elicited',
+      width: 100,
+      cellRenderer: (column) => {
+        return Moment(column.value).format('DD/MM/YYYY');
+      }
+    },
+    { field: 'fm_phone', headerName: 'Telephone Number', width: 130 },
+    { field: 'relationship_type', headerName: 'Relationship', width: 130 },
+    { field: 'fm_age', headerName: 'Age', width: 80 },
+    { field: 'fm_status', headerName: 'Reported HIV status', width: 150 },
+    {
+      field: 'reported_test_date',
+      headerName: 'Reported test date',
+      width: 150
+    },
     {
       field: 'test_eligible',
-      headerName: 'Eligible for HIV testing'
+      headerName: 'Eligible for testing',
+      width: 150
     },
     {
       field: 'preferred_testing_date',
-      headerName: 'Preferred date of testing'
+      headerName: 'Preferred date of testing',
+      width: 180
     },
-    { field: 'test_result_value', headerName: 'Current test results' },
-    { field: 'enrolled', headerName: 'In care' },
-    { field: 'fm_facility_enrolled', headerName: 'Location Enrolled' },
+    {
+      field: 'test_result_value',
+      headerName: 'Current test results',
+      width: 150
+    },
+    { field: 'enrolled', headerName: 'In care', width: 80 },
+    {
+      field: 'fm_facility_enrolled',
+      headerName: 'Location Enrolled',
+      width: 130
+    },
     {
       field: 'ccc_number',
       headerName: 'CCC Number',
+      width: 130,
       onCellClicked: (column) => {
         if (column.value != null) {
           this.onContactIdentifierClicked(column.data.fm_uuid);
