@@ -15,6 +15,7 @@ import * as _ from 'lodash';
 import { PDFDocumentProxy } from 'pdfjs-dist';
 
 import { OncologyReportPdfService } from './oncology-report-pdf.service';
+import { Params } from '@angular/router';
 
 @Component({
   selector: 'oncology-report-pdf-view',
@@ -24,8 +25,8 @@ import { OncologyReportPdfService } from './oncology-report-pdf.service';
 export class OncologyReportPdfViewComponent
   implements OnInit, OnDestroy, OnChanges {
   @Input() public title: String;
-  @Input() public monthlySummary: Array<any> = [];
-  @Input() public params: any;
+  @Input() public monthlySummary: Array<Record<string, number | string>> = [];
+  @Input() public params: Params;
   @Input() public currentView: String;
   public pdfSrc: string = null;
   public page = 1;

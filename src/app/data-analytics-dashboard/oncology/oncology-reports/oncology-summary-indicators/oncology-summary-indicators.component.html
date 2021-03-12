@@ -43,12 +43,27 @@
       >
       </oncology-summary-filters>
     </div>
-    <div *ngIf="!isPdfReportAvailable" id="oncology-summary-indicators-table">
-      <oncology-summary-indicators-table
-        [monthlySummary]="monthlySummary"
-        [params]="params"
+    <div *ngIf="!isPdfReportAvailable">
+      <div
+        *ngIf="isCervicalScreeningReport"
+        id="cervical-screening-moh-412-summary-indicators-table"
       >
-      </oncology-summary-indicators-table>
+        <cervical-screening-report-tabular
+          [monthlySummary]="monthlySummary"
+          [params]="params"
+          [columnDefinitions]="columnDefinitions"
+        ></cervical-screening-report-tabular>
+      </div>
+      <div
+        *ngIf="!isCervicalScreeningReport"
+        id="oncology-summary-indicators-table"
+      >
+        <oncology-summary-indicators-table
+          [monthlySummary]="monthlySummary"
+          [params]="params"
+        >
+        </oncology-summary-indicators-table>
+      </div>
     </div>
     <div *ngIf="isPdfReportAvailable">
       <p-tabView (onChange)="onTabChanged($event)">
@@ -57,17 +72,30 @@
           leftIcon="fa-table"
           [selected]="currentView === 'tabular'"
         >
-          <div id="oncology-summary-indicators-table">
+          <div
+            *ngIf="!isCervicalScreeningReport"
+            id="oncology-summary-indicators-table"
+          >
             <oncology-summary-indicators-table
               [monthlySummary]="monthlySummary"
               [params]="params"
             >
             </oncology-summary-indicators-table>
           </div>
+          <div
+            *ngIf="isCervicalScreeningReport"
+            id="cervical-screening-moh-412-summary-indicators-table"
+          >
+            <cervical-screening-report-tabular
+              [monthlySummary]="monthlySummary"
+              [params]="params"
+              [columnDefinitions]="columnDefinitions"
+            ></cervical-screening-report-tabular>
+          </div>
         </p-tabPanel>
         <p-tabPanel
           header="Report View"
-          leftIcon="fa-file-pdf-o "
+          leftIcon="fa-file-pdf-o"
           [selected]="currentView === 'pdf'"
         >
           <div>
@@ -82,7 +110,7 @@
         </p-tabPanel>
         <p-tabPanel
           header="Aggregate Report View"
-          leftIcon="fa-file-pdf-o "
+          leftIcon="fa-file-pdf-o"
           [selected]="currentView === 'agg-pdf'"
         >
           <div>

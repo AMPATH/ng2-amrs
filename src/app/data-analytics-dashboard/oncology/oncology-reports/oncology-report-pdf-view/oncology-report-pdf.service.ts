@@ -423,25 +423,7 @@ export class OncologyReportPdfService {
     });
 
     pdfBody.sections = _.concat(sections[0], _.chunk(_.slice(sections, 1), 2));
-
     return pdfBody;
-  }
-
-  private mapDataByIndicator(data, indicators): any[] {
-    const DataHolder = {};
-    _.each(data, (_data) => {
-      _.each(indicators, (indicator) => {
-        DataHolder[indicator] = _.sumBy(data, indicator);
-      });
-    });
-    const DataStructHolder = [];
-    _.each(DataHolder, (value: any, prop) => {
-      if (prop.match(/%/)) {
-        value = (parseFloat(value) / data.length).toFixed(2);
-      }
-      DataStructHolder.push([prop, value]);
-    });
-    return DataStructHolder;
   }
 
   public generatePdf(
@@ -548,5 +530,22 @@ export class OncologyReportPdfService {
     };
 
     image.src = url;
+  }
+
+  private mapDataByIndicator(data, indicators): any[] {
+    const DataHolder = {};
+    _.each(data, (_data) => {
+      _.each(indicators, (indicator) => {
+        DataHolder[indicator] = _.sumBy(data, indicator);
+      });
+    });
+    const DataStructHolder = [];
+    _.each(DataHolder, (value: any, prop) => {
+      if (prop.match(/%/)) {
+        value = (parseFloat(value) / data.length).toFixed(2);
+      }
+      DataStructHolder.push([prop, value]);
+    });
+    return DataStructHolder;
   }
 }

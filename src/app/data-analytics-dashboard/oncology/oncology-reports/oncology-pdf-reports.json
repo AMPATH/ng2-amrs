@@ -59,61 +59,198 @@
       "report_type": "cervical-cancer-screening-numbers",
       "sections": [
         {
-          "section": "total_cervical_screened",
-          "report_indicators": ["total_cervical_screened"]
-        },
-        {
-          "section": "normal_cervical_call_rate%",
-          "report_indicators": ["normal_cervical_call_rate%"]
-        },
-        {
-          "section": "abnormal_cervical_call_rate%",
-          "report_indicators": ["abnormal_cervical_call_rate%"]
-        },
-        {
-          "section": "normal_findings",
+          "section": "total_screened",
           "report_indicators": [
-            "normal_findings",
-            "normal_below_30yrs",
-            "normal_30_to_40yrs",
-            "normal_41_to_50yrs",
-            "normal_51_to_69yrs",
-            "normal_above_70yrs"
+            "total_screened",
+            "clients_screened_under_25_hiv_pos",
+            "clients_screened_under_25_hiv_neg",
+            "clients_screened_under_25_hiv_unknown",
+            "clients_screened_25_to_49_hiv_pos",
+            "clients_screened_25_to_49_hiv_neg",
+            "clients_screened_25_to_49_hiv_unknown",
+            "clients_screened_over_50_hiv_pos",
+            "clients_screened_over_50_hiv_neg",
+            "clients_screened_over_50_hiv_unknown"
           ]
         },
         {
-          "section": "abnormal_findings",
+          "section": "total_positive_awe",
           "report_indicators": [
-            "abnormal_findings",
-            "abnormal_below_30yrs",
-            "abnormal_30_to_40yrs",
-            "abnormal_41_to_50yrs",
-            "abnormal_51_to_69yrs",
-            "abnormal_above_70yrs"
+            "total_positive_awe",
+            "positive_awe_under_25_hiv_pos",
+            "positive_awe_under_25_hiv_neg",
+            "positive_awe_under_25_hiv_unknown",
+            "positive_awe_25_to_49_hiv_pos",
+            "positive_awe_25_to_49_hiv_neg",
+            "positive_awe_25_to_49_hiv_unknown",
+            "positive_awe_over_50_hiv_pos",
+            "positive_awe_over_50_hiv_neg",
+            "positive_awe_over_50_hiv_unknown"
           ]
         },
         {
-          "section": "hiv_status",
+          "section": "total_positive_suspicious_ca",
           "report_indicators": [
-            "hiv_status",
-            "hiv_positive_25_to_49",
-            "hiv_negative_25_to_49",
-            "hiv_unknown_25_to_49",
-            "hiv_positive_over_50",
-            "hiv_negative_over_50",
-            "hiv_unknown_over_50"
+            "total_positive_suspicious_ca",
+            "positive_suspicious_ca_under_25_hiv_pos",
+            "positive_suspicious_ca_under_25_hiv_neg",
+            "positive_suspicious_ca_under_25_hiv_unknown",
+            "positive_suspicious_ca_25_to_49_hiv_pos",
+            "positive_suspicious_ca_25_to_49_hiv_neg",
+            "positive_suspicious_ca_25_to_49_hiv_unknown",
+            "positive_suspicious_ca_over_50_hiv_pos",
+            "positive_suspicious_ca_over_50_hiv_neg",
+            "positive_suspicious_ca_over_50_hiv_unknown"
           ]
         },
         {
-          "section": "procedures_done",
+          "section": "total_via_or_via_vili_negative",
           "report_indicators": [
-            "procedures_done",
-            "excisional_biopsies",
-            "cryotherapies",
-            "leeps",
-            "polypectomies",
-            "core_needle_biopsies",
-            "pap_smears"
+            "total_via_or_via_vili_negative",
+            "via_or_via_vili_negative_under_25_hiv_pos",
+            "via_or_via_vili_negative_under_25_hiv_neg",
+            "via_or_via_vili_negative_under_25_hiv_unknown",
+            "via_or_via_vili_negative_25_to_49_hiv_pos",
+            "via_or_via_vili_negative_25_to_49_hiv_neg",
+            "via_or_via_vili_negative_25_to_49_hiv_unknown",
+            "via_or_via_vili_negative_over_50_hiv_pos",
+            "via_or_via_vili_negative_over_50_hiv_neg",
+            "via_or_via_vili_negative_over_50_hiv_unknown"
+          ]
+        },
+        {
+          "section": "total_initial_screenings",
+          "report_indicators": [
+            "total_initial_screenings",
+            "initial_screening_visit_under_25_hiv_pos",
+            "initial_screening_visit_under_25_hiv_neg",
+            "initial_screening_visit_under_25_hiv_unknown",
+            "initial_screening_visit_25_to_49_hiv_pos",
+            "initial_screening_visit_25_to_49_hiv_neg",
+            "initial_screening_visit_25_to_49_hiv_unknown",
+            "initial_screening_visit_over_50_hiv_pos",
+            "initial_screening_visit_over_50_hiv_neg",
+            "initial_screening_visit_over_50_hiv_unknown"
+          ]
+        },
+        {
+          "section": "total_routine_screenings",
+          "report_indicators": [
+            "total_routine_screenings",
+            "routine_screening_visit_under_25_hiv_pos",
+            "routine_screening_visit_under_25_hiv_neg",
+            "routine_screening_visit_under_25_hiv_unknown",
+            "routine_screening_visit_25_to_49_hiv_pos",
+            "routine_screening_visit_25_to_49_hiv_neg",
+            "routine_screening_visit_25_to_49_hiv_unknown",
+            "routine_screening_visit_over_50_hiv_pos",
+            "routine_screening_visit_over_50_hiv_neg",
+            "routine_screening_visit_over_50_hiv_unknown"
+          ]
+        },
+        {
+          "section": "total_post_treatment_screenings",
+          "report_indicators": [
+            "total_post_treatment_screenings",
+            "post_treatment_screening_visit_under_25_hiv_pos",
+            "post_treatment_screening_visit_under_25_hiv_neg",
+            "post_treatment_screening_visit_under_25_hiv_unknown",
+            "post_treatment_screening_visit_25_to_49_hiv_pos",
+            "post_treatment_screening_visit_25_to_49_hiv_neg",
+            "post_treatment_screening_visit_25_to_49_hiv_unknown",
+            "post_treatment_screening_visit_over_50_hiv_pos",
+            "post_treatment_screening_visit_over_50_hiv_neg",
+            "post_treatment_screening_visit_over_50_hiv_unknown"
+          ]
+        },
+        {
+          "section": "total_booked_for_leep",
+          "report_indicators": [
+            "total_booked_for_leep",
+            "booked_for_leep_under_25_hiv_pos",
+            "booked_for_leep_under_25_hiv_neg",
+            "booked_for_leep_under_25_hiv_unknown",
+            "booked_for_leep_25_to_49_hiv_pos",
+            "booked_for_leep_25_to_49_hiv_neg",
+            "booked_for_leep_25_to_49_hiv_unknown",
+            "booked_for_leep_over_50_hiv_pos",
+            "booked_for_leep_over_50_hiv_neg",
+            "booked_for_leep_over_50_hiv_unknown"
+          ]
+        },
+        {
+          "section": "total_leeps_done",
+          "report_indicators": [
+            "total_leeps_done",
+            "leep_done_under_25_hiv_pos",
+            "leep_done_under_25_hiv_neg",
+            "leep_done_under_25_hiv_unknown",
+            "leep_done_25_to_49_hiv_pos",
+            "leep_done_25_to_49_hiv_neg",
+            "leep_done_25_to_49_hiv_unknown",
+            "leep_done_over_50_hiv_pos",
+            "leep_done_over_50_hiv_neg",
+            "leep_done_over_50_hiv_unknown"
+          ]
+        },
+        {
+          "section": "total_eligible_for_cryo",
+          "report_indicators": [
+            "total_eligible_for_cryo",
+            "eligible_for_cryo_under_25_hiv_pos",
+            "eligible_for_cryo_under_25_hiv_neg",
+            "eligible_for_cryo_under_25_hiv_unknown",
+            "eligible_for_cryo_25_to_49_hiv_pos",
+            "eligible_for_cryo_25_to_49_hiv_neg",
+            "eligible_for_cryo_25_to_49_hiv_unknown",
+            "eligible_for_cryo_over_50_hiv_pos",
+            "eligible_for_cryo_over_50_hiv_neg",
+            "eligible_for_cryo_over_50_hiv_unknown"
+          ]
+        },
+        {
+          "section": "total_cryos_done",
+          "report_indicators": [
+            "total_cryos_done",
+            "cryo_done_under_25_hiv_pos",
+            "cryo_done_under_25_hiv_neg",
+            "cryo_done_under_25_hiv_unknown",
+            "cryo_done_25_to_49_hiv_pos",
+            "cryo_done_25_to_49_hiv_neg",
+            "cryo_done_25_to_49_hiv_unknown",
+            "cryo_done_over_50_hiv_pos",
+            "cryo_done_over_50_hiv_neg",
+            "cryo_done_over_50_hiv_unknown"
+          ]
+        },
+        {
+          "section": "total_eligible_for_pap_smear",
+          "report_indicators": [
+            "total_eligible_for_pap_smear",
+            "eligible_for_pap_smear_under_25_hiv_pos",
+            "eligible_for_pap_smear_under_25_hiv_neg",
+            "eligible_for_pap_smear_under_25_hiv_unknown",
+            "eligible_for_pap_smear_25_to_49_hiv_pos",
+            "eligible_for_pap_smear_25_to_49_hiv_neg",
+            "eligible_for_pap_smear_25_to_49_hiv_unknown",
+            "eligible_for_pap_smear_over_50_hiv_pos",
+            "eligible_for_pap_smear_over_50_hiv_neg",
+            "eligible_for_pap_smear_over_50_hiv_unknown"
+          ]
+        },
+        {
+          "section": "total_pap_smears_done",
+          "report_indicators": [
+            "total_pap_smears_done",
+            "pap_smear_done_under_25_hiv_pos",
+            "pap_smear_done_under_25_hiv_neg",
+            "pap_smear_done_under_25_hiv_unknown",
+            "pap_smear_done_25_to_49_hiv_pos",
+            "pap_smear_done_25_to_49_hiv_neg",
+            "pap_smear_done_25_to_49_hiv_unknown",
+            "pap_smear_done_over_50_hiv_pos",
+            "pap_smear_done_over_50_hiv_neg",
+            "pap_smear_done_over_50_hiv_unknown"
           ]
         }
       ]

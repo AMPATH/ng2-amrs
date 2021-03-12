@@ -24,6 +24,10 @@ const routes: Routes = [
         component: OncologySummaryIndicatorsComponent
       },
       {
+        path: 'cervical-cancer-screening-numbers-moh-412',
+        component: OncologySummaryIndicatorsComponent
+      },
+      {
         path: 'cervical-cancer-screening-numbers',
         component: OncologySummaryIndicatorsComponent
       },
