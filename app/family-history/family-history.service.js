@@ -182,7 +182,7 @@ export class FamilyTestingService {
           when reason_not_contacted = 8 then 'Phone off' 
           when reason_not_contacted = 9 then 'Wrong phone number' 
         end as reason_not_contacted
-        from etl.contact_tracing t1 join etl.flat_family_testing t2 on (t1.contact_id = t2.obs_group_id) 
+        from etl.flat_family_testing t2 left join etl.contact_tracing t1 on (t1.contact_id = t2.obs_group_id) 
         where obs_group_id = ${params.contact_id}`;
       queryParts = {
         sql: sql
