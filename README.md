@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/AMPATH/ng2-amrs.svg?branch=master)](https://travis-ci.com/AMPATH/ng2-amrs)
+[![Ng2-amrs CI](https://github.com/AMPATH/ng2-amrs/actions/workflows/main.yml/badge.svg)](https://github.com/AMPATH/ng2-amrs/actions/workflows/main.yml)
 
 # AMPATH POC
 
