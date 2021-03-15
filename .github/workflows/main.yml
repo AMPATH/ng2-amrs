@@ -1,14 +1,13 @@
-name: Ng2-amrs CI
+name: POC CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -17,7 +16,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-
       - name: Cache node modules
         uses: actions/cache@v1
         with:
