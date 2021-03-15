@@ -27,7 +27,7 @@
     }
   },
   "lint-staged": {
-    "*.{js,css,md,ts}": [
+    "*.{js,json,css,md,ts}": [
       "prettier --write",
       "ng lint ngx-amrs"
     ]
