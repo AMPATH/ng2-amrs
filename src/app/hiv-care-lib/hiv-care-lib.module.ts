@@ -110,11 +110,14 @@ import { ContactProfileComponent } from './family-testing/contact-profile/contac
 import { AddContactTraceComponent } from './family-testing/contact-trace/add-contact-trace.component';
 import { EditContactTraceComponent } from './family-testing/contact-trace/edit-contact-trace.component';
 import { ContactListComponent } from './family-testing/contact-list/contact-list.component';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown'; // import { ProgramVisitEncounterSearchModule } from '../program-visit-encounter-search/program-visit-encounter-search.module';
+
 @NgModule({
   imports: [
     RouterModule,
     AgGridModule.withComponents([]),
     FormsModule,
+    AngularMultiSelectModule,
     DataListsModule,
     NgamrsSharedModule,
     DateTimePickerModule,

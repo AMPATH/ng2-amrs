@@ -73,7 +73,7 @@ import { PrepReportComponent } from './prep-report/prep-report.component';
 import { ClinicDashboardHeiReportComponent } from './clinic-dashboard-hei-indicators-report/clinic-dashboard-hei-report.component';
 import { HIVListsMicroFrontendComponent } from './hiv-lists-microfrontend-report/hiv-lists-microfrontend.component';
 import { FamilyTestingComponent } from './family-testing/family-testing.component';
-
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 @NgModule({
   imports: [
     clinicDashboardHivRouting,
@@ -104,7 +104,8 @@ import { FamilyTestingComponent } from './family-testing/family-testing.componen
     GeneralModule,
     KibanaLibModule,
     ReportingUtilitiesModule,
-    BsDatepickerModule.forRoot()
+    BsDatepickerModule.forRoot(),
+    AngularMultiSelectModule
   ],
   exports: [
     HivSummaryIndicatorComponent,

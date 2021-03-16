@@ -51,6 +51,7 @@ export class FamilyTestingContactComponent implements OnInit {
 
   public displayFamilyTree = true;
   public indexName = '';
+  public indexUuid = '';
   public familyAndPartnerTestingFormUuid =
     '3fbc8512-b37b-4bc2-a0f4-8d0ac7955127';
   private columnDefs = [
@@ -177,6 +178,7 @@ export class FamilyTestingContactComponent implements OnInit {
           this.isLoading = false;
           this.familyTestingContactList = data.result;
           this.indexName = data.result[0].person_name;
+          this.indexUuid = data.result[0].patient_uuid;
         }
       });
   }
@@ -314,6 +316,14 @@ export class FamilyTestingContactComponent implements OnInit {
   public onContactIdentifierClicked(uuid) {
     this.router.navigate([
       '/patient-dashboard/patient/' + uuid + '/general/general/landing-page'
+    ]);
+  }
+
+  public openIndexDashboard() {
+    this.router.navigate([
+      '/patient-dashboard/patient/' +
+        this.indexUuid +
+        '/general/general/landing-page'
     ]);
   }
 }
