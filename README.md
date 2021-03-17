@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/AMPATH/etl-rest-server.svg?branch=master)](https://travis-ci.com/AMPATH/etl-rest-server)
+[![etl-rest-server CI](https://github.com/AMPATH/etl-rest-server/actions/workflows/main.yml/badge.svg)](https://github.com/AMPATH/etl-rest-server/actions/workflows/main.yml)
 
 # ETL REST Server
 
