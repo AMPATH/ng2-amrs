@@ -9,7 +9,6 @@ import { PocHttpInteceptor } from 'src/app/shared/services/poc-http-interceptor'
 import { PanelModule } from 'primeng/primeng';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { OncologyLandingPageComponent } from './landing-page/landing-page.component';
 import { OncologySummaryComponent } from './oncology-summary/oncology-summary.component';
 import { OncologySummaryLatestComponent } from './oncology-summary/oncology-summary-latest.component';
 import { OncologyDiagnosisHistoryComponent } from './diagnosis-history/oncology-diagnosis-history.component';
@@ -25,13 +24,8 @@ import { OncologyProgramSnapshotComponent } from './program-snapshot/oncology-pr
     TabsModule.forRoot(),
     NgxPaginationModule
   ],
-  exports: [
-    OncologyLandingPageComponent,
-    OncologySummaryComponent,
-    OncologyProgramSnapshotComponent
-  ],
+  exports: [OncologySummaryComponent, OncologyProgramSnapshotComponent],
   declarations: [
-    OncologyLandingPageComponent,
     OncologySummaryComponent,
     OncologySummaryLatestComponent,
     OncologyDiagnosisHistoryComponent,
