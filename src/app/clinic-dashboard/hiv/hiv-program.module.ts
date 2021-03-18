@@ -108,6 +108,7 @@ import { HIVListsMicroFrontendComponent } from './hiv-lists-microfrontend-report
 import { PrepReportComponent } from './prep-report/prep-report.component';
 import { IptReportComponent } from './ipt-report/ipt-report.component';
 import { FamilyTestingComponent } from './family-testing/family-testing.component';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 @NgModule({
     imports: [
         clinicDashboardHivRouting,
@@ -138,6 +139,7 @@ import { FamilyTestingComponent } from './family-testing/family-testing.componen
         GeneralModule,
         ReportingUtilitiesModule,
         BsDatepickerModule.forRoot(),
+        AngularMultiSelectModule
         // IptReportComponent
     ],
     exports: [
