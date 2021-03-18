@@ -78,7 +78,11 @@ export class FamilyTestingContactComponent implements OnInit {
     { field: 'fm_phone', headerName: 'Telephone Number', width: 130 },
     { field: 'relationship_type', headerName: 'Relationship', width: 130 },
     { field: 'fm_age', headerName: 'Age', width: 80 },
-    { field: 'fm_status', headerName: 'Reported HIV status', width: 150 },
+    {
+      field: 'modified_fm_status',
+      headerName: 'Reported HIV status',
+      width: 150
+    },
     {
       field: 'reported_test_date',
       headerName: 'Reported test date',
@@ -93,6 +97,11 @@ export class FamilyTestingContactComponent implements OnInit {
       field: 'preferred_testing_date',
       headerName: 'Preferred date of testing',
       width: 180
+    },
+    {
+      field: 'modified_current_test_date',
+      headerName: 'Current test date',
+      width: 150
     },
     {
       field: 'test_result_value',

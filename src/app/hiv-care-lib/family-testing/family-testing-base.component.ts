@@ -61,30 +61,45 @@ export class FamilyTestingBaseComponent implements OnInit {
       if (_.isEmpty(params)) {
         this.route.parent.parent.params.subscribe((urlParams: any) => {
           this.locationUuid = urlParams.location_uuid;
+          localStorage.setItem(
+            'familyTestingSCurrentLocation',
+            this.locationUuid
+          );
 
           if (this.locationUuid) {
-            this.generateReport();
+            this.resetFilters();
           }
         });
       } else {
-        this.locationUuid = params.location_uuid ? params.location_uuid : '';
-        this.elicitedStartDate = params.start_date ? params.start_date : '';
-        this.elicitedEndDate = params.end_date ? params.end_date : '';
-        this.isEligible = params.eligible ? params.eligible : '';
-        const cachedPrograms = this.localStorage.getItem(
-          'familyTestingSelectedPrograms'
-        );
-        this.programUuids = cachedPrograms ? cachedPrograms.split(',') : [];
-
-        if (this.programUuids.length > 0) {
-          this.disableGenerateButton = true;
+        if (
+          localStorage.getItem('familyTestingSCurrentLocation') !==
+          params.location_uuid
+        ) {
+          this.resetFilters();
+          localStorage.setItem(
+            'familyTestingSCurrentLocation',
+            this.locationUuid
+          );
         } else {
-          this.disableGenerateButton = false;
-        }
+          this.locationUuid = params.location_uuid ? params.location_uuid : '';
+          this.elicitedStartDate = params.start_date ? params.start_date : '';
+          this.elicitedEndDate = params.end_date ? params.end_date : '';
+          this.isEligible = params.eligible ? params.eligible : '';
+          const cachedPrograms = this.localStorage.getItem(
+            'familyTestingSelectedPrograms'
+          );
+          this.programUuids = cachedPrograms ? cachedPrograms.split(',') : [];
 
-        this.setParams();
-        if (this.locationUuid) {
-          this.generateReport();
+          if (this.programUuids.length > 0) {
+            this.disableGenerateButton = true;
+          } else {
+            this.disableGenerateButton = false;
+          }
+
+          this.setParams();
+          if (this.locationUuid) {
+            this.generateReport();
+          }
         }
       }
     });
@@ -141,6 +156,7 @@ export class FamilyTestingBaseComponent implements OnInit {
 
   public onLocationChange(location_uuid) {
     this.locationUuid = location_uuid;
+    this.resetFilters();
   }
 
   public onPatientSelected(params: any) {
