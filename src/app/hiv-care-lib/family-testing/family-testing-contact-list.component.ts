@@ -51,6 +51,7 @@ export class FamilyTestingContactComponent implements OnInit {
 
   public displayFamilyTree = true;
   public indexName = '';
+  public indexUuid = '';
   public familyAndPartnerTestingFormUuid =
     '3fbc8512-b37b-4bc2-a0f4-8d0ac7955127';
   private columnDefs = [
@@ -77,7 +78,11 @@ export class FamilyTestingContactComponent implements OnInit {
     { field: 'fm_phone', headerName: 'Telephone Number', width: 130 },
     { field: 'relationship_type', headerName: 'Relationship', width: 130 },
     { field: 'fm_age', headerName: 'Age', width: 80 },
-    { field: 'fm_status', headerName: 'Reported HIV status', width: 150 },
+    {
+      field: 'modified_fm_status',
+      headerName: 'Reported HIV status',
+      width: 150
+    },
     {
       field: 'reported_test_date',
       headerName: 'Reported test date',
@@ -92,6 +97,11 @@ export class FamilyTestingContactComponent implements OnInit {
       field: 'preferred_testing_date',
       headerName: 'Preferred date of testing',
       width: 180
+    },
+    {
+      field: 'modified_current_test_date',
+      headerName: 'Current test date',
+      width: 150
     },
     {
       field: 'test_result_value',
@@ -177,6 +187,7 @@ export class FamilyTestingContactComponent implements OnInit {
           this.isLoading = false;
           this.familyTestingContactList = data.result;
           this.indexName = data.result[0].person_name;
+          this.indexUuid = data.result[0].patient_uuid;
         }
       });
   }
@@ -314,6 +325,14 @@ export class FamilyTestingContactComponent implements OnInit {
   public onContactIdentifierClicked(uuid) {
     this.router.navigate([
       '/patient-dashboard/patient/' + uuid + '/general/general/landing-page'
+    ]);
+  }
+
+  public openIndexDashboard() {
+    this.router.navigate([
+      '/patient-dashboard/patient/' +
+        this.indexUuid +
+        '/general/general/landing-page'
     ]);
   }
 }

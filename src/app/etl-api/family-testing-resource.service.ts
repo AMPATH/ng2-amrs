@@ -39,11 +39,39 @@ export class FamilyTestingService {
       );
   }
 
-  public getFamilyTreePatientList(locationUuid: string): Observable<any> {
+  public getUrlRequestParams(params): HttpParams {
+    let urlParams: HttpParams = new HttpParams();
+
+    if (params.locationUuid && params.locationUuid !== '') {
+      urlParams = urlParams.set('locationUuid', params.locationUuid);
+    }
+
+    if (params.isEligible && params.isEligible !== '') {
+      urlParams = urlParams.set('eligible', params.isEligible);
+    }
+
+    if (params.start_date && params.start_date !== '') {
+      urlParams = urlParams.set('start_date', params.start_date);
+    }
+
+    if (params.end_date && params.end_date !== '') {
+      urlParams = urlParams.set('end_date', params.end_date);
+    }
+
+    if (params.programType && params.programType !== '') {
+      urlParams = urlParams.set('program_type', params.programType);
+    }
+
+    return urlParams;
+  }
+
+  public getFamilyTreePatientList(params): Observable<any> {
+    const urlParams = this.getUrlRequestParams(params);
+    const url = this.url + 'family-history-patient-list';
     return this.http
-      .get(
-        `${this.url}family-history-patient-list?locationUuid=${locationUuid}`
-      )
+      .get(url, {
+        params: urlParams
+      })
       .pipe(
         catchError((err: any) => {
           const error: any = err;

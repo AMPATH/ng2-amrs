@@ -1,3 +1,7 @@
+<h3 *ngIf="hasContacts" style="margin-top: 0px">
+  Last date of elicitation
+  <span style="color: firebrick">{{ maxElicitationDate }}</span>
+</h3>
 <div style="margin-top: 1rem">
   <ag-grid-angular
     *ngIf="indexContacts.length"
