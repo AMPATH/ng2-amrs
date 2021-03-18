@@ -14,8 +14,15 @@ const routes = [
       },
       handler: function (request, reply) {
         let familyTestingService = new FamilyTestingService();
+        let params = {
+          locationUuid: request.query.locationUuid,
+          eligible: request.query.eligible,
+          start_date: request.query.start_date,
+          end_date: request.query.end_date,
+          programs: request.query.program_type
+        };
 
-        familyTestingService.getPatientList(request.query).then((result) => {
+        familyTestingService.getPatientList(params).then((result) => {
           if (result.error) {
             reply(result);
           } else {

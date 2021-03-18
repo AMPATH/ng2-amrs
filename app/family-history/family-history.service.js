@@ -5,6 +5,7 @@ export class FamilyTestingService {
   getPatientList = (params) => {
     return new Promise((resolve, reject) => {
       let queryParts = {};
+      let where = '';
       let sql = `SELECT 
       t1.*, t2.contacts_count,
       case 
@@ -15,6 +16,7 @@ export class FamilyTestingService {
         case 
           when test_result = 703 then 'POSITIVE' 
           when test_result = 664 then 'NEGATIVE' 
+          when test_result = 1138 then 'INDETERMINATE'
           else null 
         end as test_result_value,
         case 
@@ -26,7 +28,12 @@ export class FamilyTestingService {
         case 
           when facility_enrolled is not null then facility_enrolled  
         end as fm_facility_enrolled,
-        date_format(preferred_testing_date,"%d-%m-%Y") as preferred_testing_date
+        date_format(preferred_testing_date,"%d-%m-%Y") as preferred_testing_date,
+        case 
+          when fm_status is null then 'UNKNOWN' 
+          else fm_status 
+        end as modified_fm_status,
+        date_format(current_test_date,"%d-%m-%Y") as current_test_date
         FROM
             etl.flat_family_testing t1
                 INNER JOIN
@@ -34,14 +41,42 @@ export class FamilyTestingService {
                 patient_id, COUNT(*) AS 'contacts_count'
             FROM
                 etl.flat_family_testing
-            WHERE
-                location_uuid = '${params.locationUuid}'
-            GROUP BY patient_id) t2 ON (t1.patient_id = t2.patient_id)
-        WHERE
-            location_uuid = '${params.locationUuid}'`;
+                WHERE
+            location_uuid = '${params.locationUuid}'
+        GROUP BY patient_id) t2 ON (t1.patient_id = t2.patient_id)
+            
+        `;
+
+      where = `
+      WHERE
+      location_uuid = '${params.locationUuid}'`;
+
+      if (params.start_date != null && params.end_date != null) {
+        where =
+          where +
+          `  and date(date_elicited) between date('${params.start_date}') and date('${params.end_date}')`;
+      }
+
+      if (params.eligible != null) {
+        where = where + `  and eligible_for_testing = '${params.eligible}'`;
+      }
+
+      if (params.programs != undefined) {
+        let program = '';
+        const programs = params.programs.split(',');
+        for (let i = 0; i < programs.length; i++) {
+          if (i == programs.length - 1) {
+            program += `'${programs[i]}'`;
+          } else {
+            program += `'${programs[i]}',`;
+          }
+        }
+
+        where = where + `  and patient_program_uuid in (${program})`;
+      }
 
       queryParts = {
-        sql: sql
+        sql: sql + where
       };
       return db.queryServer(queryParts, function (result) {
         result.sql = sql;
@@ -60,11 +95,12 @@ export class FamilyTestingService {
         when test_result = 664 then true
         else false
       end as disableRegisterAction,
-        case 
-          when test_result = 703 then 'POSITIVE' 
-          when test_result = 664 then 'NEGATIVE' 
-          else null 
-        end as test_result_value,
+      case 
+        when test_result = 703 then 'POSITIVE' 
+        when test_result = 664 then 'NEGATIVE' 
+        when test_result = 1138 then 'INDETERMINATE'
+        else null 
+      end as test_result_value,
         case 
           when in_care = 1065 then 'YES' 
           when in_care = 1066 then 'NO' 
@@ -84,7 +120,12 @@ export class FamilyTestingService {
         case 
           when facility_enrolled is not null then facility_enrolled  
         end as fm_facility_enrolled,
-        date_format(preferred_testing_date,"%d-%m-%Y") as preferred_testing_date
+        date_format(preferred_testing_date,"%d-%m-%Y") as preferred_testing_date,
+        case 
+        when fm_status is null then 'UNKNOWN' 
+          else fm_status 
+        end as modified_fm_status,
+        date_format(current_test_date,"%d-%m-%Y") as current_test_date
       from etl.flat_family_testing where patient_uuid = '${params.patientUuid}'`;
       /*
       1.eligible_for_tracing = 0, not eligible for testing 
