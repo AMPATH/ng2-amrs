@@ -33,7 +33,7 @@ export class FamilyTestingService {
           when fm_status is null then 'UNKNOWN' 
           else fm_status 
         end as modified_fm_status,
-        date_format(current_test_date,"%d-%m-%Y") as current_test_date
+        date_format(current_test_date,"%d-%m-%Y") as modified_current_test_date
         FROM
             etl.flat_family_testing t1
                 INNER JOIN
@@ -125,7 +125,7 @@ export class FamilyTestingService {
         when fm_status is null then 'UNKNOWN' 
           else fm_status 
         end as modified_fm_status,
-        date_format(current_test_date,"%d-%m-%Y") as current_test_date
+        date_format(current_test_date,"%d-%m-%Y") as modified_current_test_date
       from etl.flat_family_testing where patient_uuid = '${params.patientUuid}'`;
       /*
       1.eligible_for_tracing = 0, not eligible for testing 
