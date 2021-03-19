@@ -105,6 +105,8 @@ export class PatientRemindersComponent implements OnInit, OnDestroy {
     _.each(reminders, (reminder: any) => {
       if (reminder.action) {
         this.toastrConfig.reminder = reminder;
+      } else {
+        this.toastrConfig.reminder = null;
       }
       if (reminder.type === 'success') {
         toast = this.toastrService.success(
