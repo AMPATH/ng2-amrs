@@ -87,6 +87,14 @@
     },
     {
       "type": "derived_column",
+      "alias": "eligible_for_enrolment",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.eligible_for_enrolment)"
+      }
+    },
+    {
+      "type": "derived_column",
       "alias": "ovc_non_enrolment_declined",
       "expressionType": "simple_expression",
       "expressionOptions": {

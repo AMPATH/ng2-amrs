@@ -124,19 +124,36 @@
       "column": "hmsd.inactive_and_eligible_for_ovc"
     },
     {
-      "type": "simple_column",
+      "type": "derived_column",
       "alias": "enrolled_in_ovc_this_month",
-      "column": "hmsd.enrolled_in_ovc_this_month"
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(hmsd.active_and_eligible_for_ovc = 1 and hmsd.enrolled_in_ovc_this_month = 1 and hmsd.ovc_non_enrolment_declined <> 1 and hmsd.ovc_non_enrolment_out_of_catchment_area <> 1 and hmsd.exited_from_ovc_this_month <> 1,1,0)"
+      }
     },
     {
-      "type": "simple_column",
+      "type": "derived_column",
+      "alias": "eligible_for_enrolment",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(hmsd.active_and_eligible_for_ovc = 1 and hmsd.enrolled_in_ovc_this_month <>1 and hmsd.ovc_non_enrolment_declined <> 1 and hmsd.ovc_non_enrolment_out_of_catchment_area <> 1 and hmsd.exited_from_ovc_this_month <> 1, 1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
       "alias": "ovc_non_enrolment_declined",
-      "column": "hmsd.ovc_non_enrolment_declined"
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(hmsd.active_and_eligible_for_ovc = 1 and hmsd.ovc_non_enrolment_declined = 1 and hmsd.exited_from_ovc_this_month <> 1, 1,0)"
+      }
     },
     {
-      "type": "simple_column",
+      "type": "derived_column",
       "alias": "ovc_non_enrolment_out_of_catchment_area",
-      "column": "hmsd.ovc_non_enrolment_out_of_catchment_area"
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(hmsd.active_and_eligible_for_ovc = 1 and hmsd.ovc_non_enrolment_out_of_catchment_area = 1 and hmsd.exited_from_ovc_this_month <> 1, 1,0)"
+      }
     },
     {
       "type": "simple_column",
@@ -144,9 +161,12 @@
       "column": "hmsd.newly_exited_from_ovc_this_month"
     },
     {
-      "type": "simple_column",
+      "type": "derived_column",
       "alias": "exited_from_ovc_this_month",
-      "column": "hmsd.exited_from_ovc_this_month"
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(hmsd.active_and_eligible_for_ovc = 1 and hmsd.exited_from_ovc_this_month = 1  and hmsd.ovc_non_enrolment_declined <> 1 and hmsd.ovc_non_enrolment_out_of_catchment_area <> 1,1,0)"
+      }
     },
     {
       "type": "derived_column",

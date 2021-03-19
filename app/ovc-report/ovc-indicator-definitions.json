@@ -12,20 +12,16 @@
     "sectionTitle": "OVC in Hiv",
     "indicators": [
       {
-        "label": "Active in Care",
-        "indicator": "active_in_care_this_month"
-      },
-      {
-        "label": "Active in Care and Eligible for OVC",
+        "label": "Active Clients (19yrs and below)",
         "indicator": "active_and_eligible_for_ovc"
       },
       {
-        "label": "Eligible and Enrolled in OVC",
+        "label": "Enrolled in OVC",
         "indicator": "enrolled_in_ovc_this_month"
       },
       {
-        "label": "Eligible for OVC and NOT Enrolled",
-        "indicator": "ovc_non_enrolment_undocumented"
+        "label": "Eligible for OVC Enrolment",
+        "indicator": "eligible_for_enrolment"
       },
       {
         "label": "Declined OVC Enrollment",
@@ -36,29 +32,24 @@
         "indicator": "ovc_non_enrolment_out_of_catchment_area"
       },
       {
-        "label": "Newly Exited this month",
-        "indicator": "newly_exited_from_ovc_this_month"
-      },
-      {
-        "label": "Cumulative Exited",
+        "label": "Clients Exited OVC",
         "indicator": "exited_from_ovc_this_month"
       }
     ]
   },
   {
-    "sectionTitle": "OVC in Hei",
+    "sectionTitle": "OVC in Hei (18months old and below negative clients)",
     "indicators": [
       {
-        "label": "Active and Eligible for OVC",
+        "label": "Active OVC Clients",
         "indicator": "active_and_eligible_for_ovc_hei"
       },
-
       {
         "label": "Enrolled in OVC",
         "indicator": "enrolled_in_ovc_this_month_hei"
       },
       {
-        "label": "Eligible for OVC and NOT Enrolled",
+        "label": "Eligible for OVC Enrolment",
         "indicator": "ovc_non_enrolment_undocumented_hei"
       },
       {
@@ -70,11 +61,7 @@
         "indicator": "ovc_non_enrolment_out_of_catchment_area_hei"
       },
       {
-        "label": "Newly Exited this month",
-        "indicator": "newly_exited_from_ovc_this_month_hei"
-      },
-      {
-        "label": "Cumulative Exited",
+        "label": "Clients Exited OVC",
         "indicator": "exited_from_ovc_this_month_hei"
       }
     ]

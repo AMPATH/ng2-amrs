@@ -5,6 +5,7 @@ const _ = require('lodash');
 var rp = require('../request-config');
 var config = require('../conf/config.json');
 var encounter_service = require('./openmrs-rest/encounter');
+var program_service = require('./openmrs-rest/program.service');
 
 var serviceDef = {
   generateReminders: generateReminders,
@@ -115,6 +116,15 @@ function viralLoadReminders(data) {
 }
 
 function checkAge(dateString) {
+  isInfant(dateString);
+  if (calculateAge(dateString) <= 24) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+function calculateAge(dateString) {
   let today = new Date();
   let birthDate = new Date(dateString);
   let age = today.getFullYear() - birthDate.getFullYear();
@@ -122,12 +132,7 @@ function checkAge(dateString) {
   if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
     age--;
   }
-  isInfant(dateString);
-  if (age <= 24) {
-    return false;
-  } else {
-    return true;
-  }
+  return age;
 }
 
 function isInfant(dateString) {
@@ -547,6 +552,35 @@ function getFamilyTestingReminder(patientUuid) {
   });
 }
 
+function ovcUnenrollmentReminder(data) {
+  let reminders = [];
+  return getPatientPrograms(data.person_uuid, {
+    openmrsBaseUrl: ''
+  }).then((programs) => {
+    if (programs.results.length > 0) {
+      _.each(programs.results, function (result) {
+        if (
+          result.program.uuid === '781d8768-1359-11df-a1f1-0026b9348838' &&
+          result.dateCompleted == null &&
+          calculateAge(data.birth_date) > 19
+        ) {
+          reminders.push({
+            message:
+              'Patient 20 years and above, qualifies to be transitioned out of OVC',
+            title: 'OVC Transition Reminder',
+            type: 'info',
+            display: {
+              banner: true,
+              toast: true
+            }
+          });
+        }
+      });
+    }
+    return reminders;
+  });
+}
+
 async function generateReminders(etlResults, eidResults) {
   let reminders = [];
   let patientReminder;
@@ -572,6 +606,7 @@ async function generateReminders(etlResults, eidResults) {
   let dst_result = dstReminders(data);
   let gene_xpert_result = geneXpertReminders(data);
   let not_completed_ipt = getIptCompletionReminder(data);
+  let unenrol_ovc_reminder = await ovcUnenrollmentReminder(data);
   let contact_tracing_reminder = await getFamilyTestingReminder(
     etlResults[0].person_uuid
   );
@@ -591,7 +626,8 @@ async function generateReminders(etlResults, eidResults) {
       dst_result,
       gene_xpert_result,
       not_completed_ipt,
-      contact_tracing_reminder
+      contact_tracing_reminder,
+      unenrol_ovc_reminder
     );
   }
 
@@ -618,6 +654,19 @@ function getEncountersByEncounterType(patient_uuid) {
       .getEncountersByEncounterType(patient_uuid, family_testing_encounter)
       .then((encounters) => {
         resolve(encounters);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+}
+
+function getPatientPrograms(uuid, params) {
+  return new Promise((resolve, reject) => {
+    program_service
+      .getProgramEnrollmentByPatientUuid(uuid, params)
+      .then((programs) => {
+        resolve(programs);
       })
       .catch((err) => {
         reject(err);
