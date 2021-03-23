@@ -52,14 +52,14 @@ export const routes = [
             pathMatch: 'full'
           },
           {
+            // Landing page for HIV programs
             path: 'hiv/:program/landing-page',
-            // HIV related programs Landing Page
             component: HivSummaryComponent
           },
           {
-            // Oncology related Program Landing Page
+            // Landing page for Oncology programs
             path: 'oncology/:program/landing-page',
-            component: OncologySummaryComponent
+            component: GeneralLandingPageComponent
           },
           {
             path: 'cdm/:program/landing-page', // CDM Landing Page

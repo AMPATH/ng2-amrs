@@ -600,11 +600,6 @@
         "icon": "fa fa-heartbeat"
       },
       {
-        "url": "oncology-summary",
-        "label": "Oncology Summary",
-        "icon": "fa fa-medkit"
-      },
-      {
         "url": "lab-data-summary",
         "label": "Lab Data Summary",
         "icon": "icon-i-laboratory"
