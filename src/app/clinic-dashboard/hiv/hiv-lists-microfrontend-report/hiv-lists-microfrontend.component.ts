@@ -15,9 +15,10 @@ import { LocalStorageService } from 'src/app/utils/local-storage.service';
 })
 export class HIVListsMicroFrontendComponent implements OnDestroy, OnInit {
   public url: SafeResourceUrl;
-  private baseUrl = 'https://ngx.ampath.or.ke';
+  private baseUrl = 'http://localhost:8080';
   private subscription: Array<Subscription> = [];
   private locationUuid: any;
+  private returnToUrl: string;
 
   messageHandler(messageEvent: MessageEvent) {
     if (this.validateMessageEvent(messageEvent)) {
@@ -26,9 +27,8 @@ export class HIVListsMicroFrontendComponent implements OnDestroy, OnInit {
   }
 
   sendMessageToReportIframe(message: any) {
-    document
-      .getElementsByTagName('iframe')[0]
-      .contentWindow.postMessage(message, this.baseUrl);
+    const microFrontendFrame = document.getElementsByTagName('iframe')[0];
+    microFrontendFrame.contentWindow.postMessage(message, '*');
   }
 
   constructor(
@@ -43,12 +43,12 @@ export class HIVListsMicroFrontendComponent implements OnDestroy, OnInit {
       this.locationUuid = params.location_uuid;
     });
     this.url = this.sanitizer.bypassSecurityTrustResourceUrl(
-      `${this.baseUrl}/amrs/spa/home`
+      `${this.baseUrl}/openmrs/spa/home`
     );
     window.addEventListener('message', this.messageHandler.bind(this), false);
   }
 
-  public redirectTopatientInfo(patientUuid) {
+  public redirectTopatientInfo(patientUuid, returnToUrl) {
     if (patientUuid === undefined || patientUuid === null) {
       return;
     }
@@ -61,6 +61,9 @@ export class HIVListsMicroFrontendComponent implements OnDestroy, OnInit {
 
   public ngOnInit() {
     this.getLocationUuid();
+    this.route.parent.queryParamMap.subscribe((params: any) => {
+      this.returnToUrl = params.params.returnToUrl;
+    });
   }
 
   public storeParamsInUrl(param) {
@@ -87,7 +90,9 @@ export class HIVListsMicroFrontendComponent implements OnDestroy, OnInit {
 
   public getLocationUuid() {
     this.route.params.subscribe((params) => {
+      console.log(params);
       this.locationUuid = params;
+      this.returnToUrl = params.returnToUrl;
       this.sendMessageToReportIframe(this.locationUuid);
       this.localStorageService.setItem('location_uuid', params.location_uuid);
     });
@@ -105,7 +110,8 @@ export class HIVListsMicroFrontendComponent implements OnDestroy, OnInit {
             Constants.CREDENTIALS_KEY
           ),
           baseEtlUrl: this.appSettingService.getEtlServer(),
-          locationUuid: this.locationUuid
+          locationUuid: this.locationUuid,
+          returnToUrl: this.returnToUrl
         });
       }
       return true;
@@ -116,10 +122,13 @@ export class HIVListsMicroFrontendComponent implements OnDestroy, OnInit {
   private handleMessageFunction(action: string, message: MessageEvent) {
     switch (action) {
       case 'navigate':
-        this.redirectTopatientInfo(message.data.navigate.patientUuid);
+        this.redirectTopatientInfo(
+          message.data.navigate.patientUuid,
+          message.data.navigate.returnToUrl
+        );
         break;
       case 'storeParamsInUrl':
-        this.storeParamsInUrl(message.data.storeParamsInUrl.params);
+        this.storeParamsInUrl(message.data.storeParamsInUrl);
         break;
       case 'loadParamsFromURL':
         this.loadParamsFromURL();
