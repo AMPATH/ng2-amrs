@@ -4684,6 +4684,10 @@
         "name": "Mental Health Initial Visit",
         "encounterTypes": [
           {
+            "uuid": "f5381269-c889-4c5a-b384-d017441eedae",
+            "display": "CDMTRIAGE"
+          },
+          {
             "uuid": "c9c2aa71-bd29-444e-b77b-31eead82fdaf",
             "display": "CDMMENTALHEALTHINITIAL"
           }
@@ -4693,6 +4697,10 @@
         "uuid": "3a7c6dc0-ce13-4332-99d6-c0ebf2d3d472",
         "name": "Mental Health Return Visit",
         "encounterTypes": [
+          {
+            "uuid": "f5381269-c889-4c5a-b384-d017441eedae",
+            "display": "CDMTRIAGE"
+          },
           {
             "uuid": "c2d4a901-8007-4e36-8f50-5b19eb293451",
             "display": "CDMMENTALHEALTHRETURN"
