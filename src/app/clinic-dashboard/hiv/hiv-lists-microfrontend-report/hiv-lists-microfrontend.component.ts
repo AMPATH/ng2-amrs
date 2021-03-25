@@ -15,7 +15,7 @@ import { LocalStorageService } from 'src/app/utils/local-storage.service';
 })
 export class HIVListsMicroFrontendComponent implements OnDestroy, OnInit {
   public url: SafeResourceUrl;
-  private baseUrl = 'http://localhost:8080';
+  private baseUrl = 'https://ngx.ampath.or.ke/';
   private subscription: Array<Subscription> = [];
   private locationUuid: any;
   private returnToUrl: string;
@@ -28,7 +28,7 @@ export class HIVListsMicroFrontendComponent implements OnDestroy, OnInit {
 
   sendMessageToReportIframe(message: any) {
     const microFrontendFrame = document.getElementsByTagName('iframe')[0];
-    microFrontendFrame.contentWindow.postMessage(message, '*');
+    microFrontendFrame.contentWindow.postMessage(message, this.baseUrl);
   }
 
   constructor(
@@ -61,9 +61,7 @@ export class HIVListsMicroFrontendComponent implements OnDestroy, OnInit {
 
   public ngOnInit() {
     this.getLocationUuid();
-    this.route.parent.queryParamMap.subscribe((params: any) => {
-      this.returnToUrl = params.params.returnToUrl;
-    });
+    this.loadParamsFromURL();
   }
 
   public storeParamsInUrl(param) {
@@ -78,6 +76,7 @@ export class HIVListsMicroFrontendComponent implements OnDestroy, OnInit {
     const loadParamsSub = this.route.queryParams.subscribe(
       (params: any) => {
         if (params) {
+          this.returnToUrl = params.returnToUrl;
           this.sendMessageToReportIframe(params);
         }
       },
@@ -145,5 +144,6 @@ export class HIVListsMicroFrontendComponent implements OnDestroy, OnInit {
         sub.unsubscribe();
       });
     }
+    this.returnToUrl = null;
   }
 }
