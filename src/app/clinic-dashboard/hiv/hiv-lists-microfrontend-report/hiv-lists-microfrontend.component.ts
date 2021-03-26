@@ -15,7 +15,7 @@ import { LocalStorageService } from 'src/app/utils/local-storage.service';
 })
 export class HIVListsMicroFrontendComponent implements OnDestroy, OnInit {
   public url: SafeResourceUrl;
-  private baseUrl = 'https://ngx.ampath.or.ke/';
+  private baseUrl = 'https://ngx.ampath.or.ke';
   private subscription: Array<Subscription> = [];
   private locationUuid: any;
   private returnToUrl: string;
@@ -43,7 +43,7 @@ export class HIVListsMicroFrontendComponent implements OnDestroy, OnInit {
       this.locationUuid = params.location_uuid;
     });
     this.url = this.sanitizer.bypassSecurityTrustResourceUrl(
-      `${this.baseUrl}/openmrs/spa/home`
+      `${this.baseUrl}/amrs/spa/home`
     );
     window.addEventListener('message', this.messageHandler.bind(this), false);
   }
@@ -89,7 +89,6 @@ export class HIVListsMicroFrontendComponent implements OnDestroy, OnInit {
 
   public getLocationUuid() {
     this.route.params.subscribe((params) => {
-      console.log(params);
       this.locationUuid = params;
       this.returnToUrl = params.returnToUrl;
       this.sendMessageToReportIframe(this.locationUuid);
