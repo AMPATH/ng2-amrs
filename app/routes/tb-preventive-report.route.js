@@ -77,6 +77,12 @@ const routes = [
           service
             .generatePatientListReport(requestParams.indicators.split(','))
             .then((results) => {
+              _.each(results.result, (item) => {
+                item.arv_first_regimen = etlHelpers.getARVNames(
+                  item.arv_first_regimen
+                );
+                item.cur_meds = etlHelpers.getARVNames(item.cur_meds);
+              });
               reply(results);
             })
             .catch((err) => {
