@@ -18,6 +18,7 @@ export class HIVListsMicroFrontendComponent implements OnDestroy, OnInit {
   private baseUrl = 'https://ngx.ampath.or.ke';
   private subscription: Array<Subscription> = [];
   private locationUuid: any;
+  private returnToUrl: string;
 
   messageHandler(messageEvent: MessageEvent) {
     if (this.validateMessageEvent(messageEvent)) {
@@ -26,9 +27,8 @@ export class HIVListsMicroFrontendComponent implements OnDestroy, OnInit {
   }
 
   sendMessageToReportIframe(message: any) {
-    document
-      .getElementsByTagName('iframe')[0]
-      .contentWindow.postMessage(message, this.baseUrl);
+    const microFrontendFrame = document.getElementsByTagName('iframe')[0];
+    microFrontendFrame.contentWindow.postMessage(message, this.baseUrl);
   }
 
   constructor(
@@ -48,7 +48,7 @@ export class HIVListsMicroFrontendComponent implements OnDestroy, OnInit {
     window.addEventListener('message', this.messageHandler.bind(this), false);
   }
 
-  public redirectTopatientInfo(patientUuid) {
+  public redirectTopatientInfo(patientUuid, returnToUrl) {
     if (patientUuid === undefined || patientUuid === null) {
       return;
     }
@@ -61,6 +61,7 @@ export class HIVListsMicroFrontendComponent implements OnDestroy, OnInit {
 
   public ngOnInit() {
     this.getLocationUuid();
+    this.loadParamsFromURL();
   }
 
   public storeParamsInUrl(param) {
@@ -75,6 +76,7 @@ export class HIVListsMicroFrontendComponent implements OnDestroy, OnInit {
     const loadParamsSub = this.route.queryParams.subscribe(
       (params: any) => {
         if (params) {
+          this.returnToUrl = params.returnToUrl;
           this.sendMessageToReportIframe(params);
         }
       },
@@ -88,6 +90,7 @@ export class HIVListsMicroFrontendComponent implements OnDestroy, OnInit {
   public getLocationUuid() {
     this.route.params.subscribe((params) => {
       this.locationUuid = params;
+      this.returnToUrl = params.returnToUrl;
       this.sendMessageToReportIframe(this.locationUuid);
       this.localStorageService.setItem('location_uuid', params.location_uuid);
     });
@@ -105,7 +108,8 @@ export class HIVListsMicroFrontendComponent implements OnDestroy, OnInit {
             Constants.CREDENTIALS_KEY
           ),
           baseEtlUrl: this.appSettingService.getEtlServer(),
-          locationUuid: this.locationUuid
+          locationUuid: this.locationUuid,
+          returnToUrl: this.returnToUrl
         });
       }
       return true;
@@ -116,10 +120,13 @@ export class HIVListsMicroFrontendComponent implements OnDestroy, OnInit {
   private handleMessageFunction(action: string, message: MessageEvent) {
     switch (action) {
       case 'navigate':
-        this.redirectTopatientInfo(message.data.navigate.patientUuid);
+        this.redirectTopatientInfo(
+          message.data.navigate.patientUuid,
+          message.data.navigate.returnToUrl
+        );
         break;
       case 'storeParamsInUrl':
-        this.storeParamsInUrl(message.data.storeParamsInUrl.params);
+        this.storeParamsInUrl(message.data.storeParamsInUrl);
         break;
       case 'loadParamsFromURL':
         this.loadParamsFromURL();
@@ -136,5 +143,6 @@ export class HIVListsMicroFrontendComponent implements OnDestroy, OnInit {
         sub.unsubscribe();
       });
     }
+    this.returnToUrl = null;
   }
 }
