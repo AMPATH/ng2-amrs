@@ -102,7 +102,7 @@
         "indicator": "med_defaulters"
       },
       {
-        "label": "LTFUs this week (patients who bacame LTFU this week)",
+        "label": "LTFUs this week (patients who became LTFU this week)",
         "description": "Patients who became LTFU this week",
         "indicator": "newly_ltfu_this_week"
       },
