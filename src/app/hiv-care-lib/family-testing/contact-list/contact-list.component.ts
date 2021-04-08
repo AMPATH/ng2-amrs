@@ -28,6 +28,7 @@ export class ContactListComponent implements OnInit {
     { field: 'fm_gender', headerName: 'Gender', width: 100 },
     { field: 'relationship_type', headerName: 'Relationship' },
     { field: 'fm_age', headerName: 'Age', width: 100 },
+    { field: 'fm_gender', headerName: 'Gender', width: 80 },
     {
       field: 'preferred_testing_date',
       headerName: 'Preferred date of testing',
