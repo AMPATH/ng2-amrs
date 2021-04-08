@@ -78,6 +78,7 @@ export class FamilyTestingContactComponent implements OnInit {
     { field: 'fm_phone', headerName: 'Telephone Number', width: 130 },
     { field: 'relationship_type', headerName: 'Relationship', width: 130 },
     { field: 'fm_age', headerName: 'Age', width: 80 },
+    { field: 'fm_gender', headerName: 'Gender', width: 80 },
     {
       field: 'modified_fm_status',
       headerName: 'Reported HIV status',
