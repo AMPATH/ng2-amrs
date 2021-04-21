@@ -23,7 +23,7 @@ export class MonthlyReportComponent implements OnInit {
         icon: 'fa'
       },
       {
-        title: 'TB/IPT therapy report',
+        title: 'TB Treatment Therapy report',
         description: '',
         url: 'ipt-report',
         icon: 'fa'
