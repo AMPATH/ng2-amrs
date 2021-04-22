@@ -74,6 +74,8 @@ import { ClinicDashboardHeiReportComponent } from './clinic-dashboard-hei-indica
 import { HIVListsMicroFrontendComponent } from './hiv-lists-microfrontend-report/hiv-lists-microfrontend.component';
 import { FamilyTestingComponent } from './family-testing/family-testing.component';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
+import { IptReportComponent } from './ipt-report/ipt-report.component';
+
 @NgModule({
   imports: [
     clinicDashboardHivRouting,
@@ -160,7 +162,8 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2
     PrepReportComponent,
     ClinicDashboardHeiReportComponent,
     HIVListsMicroFrontendComponent,
-    FamilyTestingComponent
+    FamilyTestingComponent,
+    IptReportComponent
   ],
   providers: [ClinicalSummaryVisualizationService],
   entryComponents: [PatientStatusDatalistCellComponent]
