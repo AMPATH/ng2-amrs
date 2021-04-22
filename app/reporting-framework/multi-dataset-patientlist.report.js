@@ -1,7 +1,6 @@
 import { Promise } from 'bluebird';
 import { MultiDatasetReport } from './multi-dataset.report';
 import { PatientlistMysqlReport } from './patientlist-mysql.report';
-import { interfaces } from 'mocha';
 var helpers = require('../../etl-helpers');
 
 let mockPatientList = [
