@@ -165,6 +165,54 @@
       "expressionOptions": {
         "expression": "sum(hmsd.active_this_month_not_screened_within_last_6months)"
       }
+    },
+    {
+      "type": "derived_column",
+      "alias": "presumed_tb_positive_this_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.presumed_tb_positive_this_month)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "confirmed_tb_positive_this_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.confirmed_tb_positive_this_month)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "tb_screened_current_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.tb_screened_current_month)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "visit_this_month_not_screened",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.visit_this_month_not_screened)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "tb_screened_negative_current_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.tb_screened_negative_current_month)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "completed_ipt_past_6_months",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.completed_ipt_past_6_months)"
+      }
     }
   ],
   "groupBy": {

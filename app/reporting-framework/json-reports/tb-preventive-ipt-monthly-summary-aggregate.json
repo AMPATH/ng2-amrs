@@ -55,6 +55,22 @@
     },
     {
       "type": "derived_column",
+      "alias": "completed_ipt",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.completed_ipt)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "never_on_ipt",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.never_on_ipt)"
+      }
+    },
+    {
+      "type": "derived_column",
       "alias": "completed_ipt_past_12_months",
       "expressionType": "simple_expression",
       "expressionOptions": {
@@ -87,6 +103,30 @@
     },
     {
       "type": "derived_column",
+      "alias": "on_ipt_current_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.on_ipt_current_month)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "visit_this_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.visit_this_month)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "screened_negative_undocumented",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.screened_negative_undocumented)"
+      }
+    },
+    {
+      "type": "derived_column",
       "alias": "completed_ipt_this_month",
       "expressionType": "simple_expression",
       "expressionOptions": {
@@ -107,6 +147,38 @@
       "expressionType": "simple_expression",
       "expressionOptions": {
         "expression": "sum(hmsd.started_ipt_6months)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "starting_art_and_tpt_this_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.starting_art_and_tpt_this_month)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "starting_tpt_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.starting_tpt_on_art)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_art_on_ipt_this_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.on_art_on_ipt_this_month)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "ever_screened",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.ever_screened)"
       }
     }
   ],

@@ -104,7 +104,7 @@
     {
       "type": "simple_column",
       "alias": "started_ipt_this_month",
-      "column": "IF(hmsd.started_ipt_this_month = 1 AND status = 'active',1,0)"
+      "column": "IF(hmsd.tb_screened_active_this_month = 1 and hmsd.presumed_tb_positive_this_month = 0 AND hmsd.tb_screening_datetime between date_format(endDate,'%Y-%m-01') and endDate and hmsd.started_ipt_this_month = 1 AND status = 'active',1,0)"
     },
     {
       "type": "simple_column",
@@ -116,7 +116,7 @@
       "alias": "completed_ipt_this_month",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "IF(hmsd.ipt_completion_date BETWEEN DATE_FORMAT(hmsd.enddate, '%y-%m-01') AND hmsd.enddate,1,0)"
+        "expression": "IF(hmsd.tb_screened_active_this_month = 1 and hmsd.presumed_tb_positive_this_month = 0 AND hmsd.tb_screening_datetime between date_format(endDate,'%Y-%m-01') and endDate and  hmsd.ipt_start_date is not null AND hmsd.ipt_completion_date is not null AND status = 'active',1,0)"
       }
     },
     {
@@ -132,7 +132,7 @@
       "alias": "stopped_ipt_this_month",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "IF(hmsd.ipt_stop_date BETWEEN DATE_FORMAT(hmsd.enddate, '%y-%m-01') AND hmsd.enddate,1,0)"
+        "expression": "IF(hmsd.tb_screened_active_this_month = 1 and hmsd.presumed_tb_positive_this_month = 0 AND hmsd.tb_screening_datetime between date_format(endDate,'%Y-%m-01') and endDate and hmsd.ipt_start_date is not null AND hmsd.ipt_completion_date is null and hmsd.ipt_stop_date is not null AND status = 'active',1,0)"
       }
     },
     {
@@ -142,6 +142,40 @@
       "expressionOptions": {
         "expression": "IF(on_ipt_this_month = 1 AND status = 'active',1,0)"
       }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_ipt_current_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(hmsd.tb_screened_active_this_month = 1 and hmsd.presumed_tb_positive_this_month = 0 AND hmsd.tb_screening_datetime between date_format(endDate,'%Y-%m-01') and endDate and on_ipt_this_month = 1 AND status = 'active',1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "screened_negative_undocumented",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(hmsd.tb_screened_active_this_month = 1 and hmsd.presumed_tb_positive_this_month = 0 AND hmsd.tb_screening_datetime between date_format(endDate,'%Y-%m-01') and endDate and (on_ipt_this_month = 0 or on_ipt_this_month is null) and hmsd.ipt_start_date is null AND hmsd.ipt_completion_date is null and hmsd.ipt_stop_date is null AND status = 'active' ,1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "visit_this_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(hmsd.visit_this_month = 1 AND hmsd.tb_screening_datetime between date_format(endDate,'%Y-%m-01') and endDate AND status = 'active',1,0)"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "completed_ipt",
+      "column": "IF(hmsd.active_in_care_this_month = 1 AND status = 'active' and ( (hmsd.ipt_start_date is not null AND hmsd.ipt_completion_date is not null) or (hmsd.ipt_start_date is null AND hmsd.ipt_completion_date is not null) or (hmsd.ipt_start_date is not null AND hmsd.ipt_completion_date is null) ) ,1,0)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "never_on_ipt",
+      "column": "IF(hmsd.active_in_care_this_month = 1 AND status = 'active' and hmsd.ipt_start_date is null AND hmsd.ipt_completion_date is null,1,0)"
     },
     {
       "type": "simple_column",
@@ -186,7 +220,7 @@
     {
       "type": "simple_column",
       "alias": "on_tb_tx_and_started_art_this_month",
-      "column": "IF(hmsd.on_tb_tx_and_started_art_this_month AND status = 'active',1,0)"
+      "column": "IF(hmsd.on_tb_tx_and_started_art_this_month = 1 AND status = 'active',1,0)"
     },
     {
       "type": "simple_column",
@@ -195,8 +229,28 @@
     },
     {
       "type": "simple_column",
+      "alias": "tb_screened_current_month",
+      "column": "IF(hmsd.tb_screened_active_this_month = 1 AND hmsd.tb_screening_datetime between date_format(endDate,'%Y-%m-01') and endDate,1,0)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "visit_this_month_not_screened",
+      "column": "IF(hmsd.visit_this_month = 1 AND status = 'active' AND hmsd.tb_screening_datetime not between date_format(endDate,'%Y-%m-01') and endDate,1,0)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "tb_screened_negative_current_month",
+      "column": "IF(hmsd.tb_screened_active_this_month = 1 and hmsd.presumed_tb_positive_this_month = 0 AND hmsd.tb_screening_datetime between date_format(endDate,'%Y-%m-01') and endDate AND status = 'active',1,0)"
+    },
+    {
+      "type": "simple_column",
       "alias": "presumed_tb_positive_this_month",
       "column": "hmsd.presumed_tb_positive_this_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "confirmed_tb_positive_this_month",
+      "column": "IF(hmsd.confirmed_tb_positive_this_month = 1 OR started_tb_tx_this_month = 1 AND status = 'active',1,0)"
     },
     {
       "type": "simple_column",
@@ -317,6 +371,38 @@
             "value": "Continue on IPT"
           }
         ]
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "starting_art_and_tpt_this_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(hmsd.started_art_this_month = 1 AND hmsd.started_ipt_this_month = 1 AND status = 'active',1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "starting_tpt_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(hmsd.on_art_this_month = 1 AND status = 'active' AND hmsd.started_ipt_this_month = 1 AND status = 'active',1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_art_on_ipt_this_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(hmsd.on_ipt_this_month = 1 AND hmsd.on_art_this_month = 1 AND status = 'active',1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "ever_screened",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(hmsd.on_art_this_month = 1 AND hmsd.tb_screening_datetime is not null AND status = 'active',1,0)"
       }
     }
   ],

@@ -12,78 +12,118 @@
     "sectionTitle": "Overview",
     "indicators": [
       {
-        "label": "All Active patients",
+        "label": "Active clients in care",
         "indicator": "active_in_care_this_month"
+      },
+      {
+        "label": "Active clients on ART",
+        "indicator": "on_art_this_month"
+      },
+      {
+        "label": "On ART active on TPT",
+        "indicator": "on_art_on_ipt_this_month"
       },
       {
         "label": "Active on TB treatment",
         "indicator": "on_tb_tx_this_month"
       },
       {
-        "label": "Started TB this month",
-        "indicator": "started_tb_tx_this_month"
+        "label": "Completed TPT (Ever on TPT)",
+        "indicator": "completed_ipt"
       },
       {
-        "label": "Active not on TB/IPT",
-        "indicator": "active_not_on_tb_ipt"
+        "label": "Completed TPT 6months",
+        "indicator": "completed_ipt_past_6_months"
       },
       {
-        "label": "Active and on ART",
-        "indicator": "on_art_this_month"
+        "label": "Completed TPT 12months",
+        "indicator": "completed_ipt_past_12_months"
+      },
+      {
+        "label": "Never on TPT",
+        "indicator": "never_on_ipt"
+      },
+      {
+        "label": "TB Screened on their last visit",
+        "indicator": "ever_screened"
       }
     ]
   },
   {
-    "sectionTitle": "IPT in HIV",
+    "sectionTitle": "TB Screening/TPT this month",
     "indicators": [
       {
-        "label": "Active and on IPT",
-        "indicator": "on_ipt_this_month"
+        "label": "Visits this month",
+        "indicator": "visit_this_month"
       },
       {
-        "label": "Starting IPT this month",
+        "label": "Clients Screened for TB",
+        "indicator": "tb_screened_current_month"
+      },
+      {
+        "label": "Presumed to have TB",
+        "indicator": "presumed_tb_positive_this_month"
+      },
+      {
+        "label": "Confirmed to have TB",
+        "indicator": "confirmed_tb_positive_this_month"
+      },
+      {
+        "label": "Started TB treatment",
+        "indicator": "started_tb_tx_this_month"
+      },
+      {
+        "label": "Screened Negative for TB",
+        "indicator": "tb_screened_negative_current_month"
+      },
+      {
+        "label": "Active on TPT",
+        "indicator": "on_ipt_current_month"
+      },
+      {
+        "label": "Started TPT this month",
         "indicator": "started_ipt_this_month"
       },
       {
+        "label": "Completed TPT",
+        "indicator": "completed_ipt_this_month"
+      },
+      {
+        "label": "Stopped TPT",
+        "indicator": "stopped_ipt_this_month"
+      },
+      {
+        "label": "Screened Negative for TB TPT outcome unknown",
+        "indicator": "screened_negative_undocumented"
+      }
+    ]
+  },
+  {
+    "sectionTitle": "Additional Indicators",
+    "indicators": [
+      {
         "label": "Starting ART this month",
         "indicator": "started_art_this_month"
+      },
+      {
+        "label": "Started TPT and on ART",
+        "indicator": "starting_tpt_on_art"
+      },
+      {
+        "label": "Starting TPT and ART this month",
+        "indicator": "starting_art_and_tpt_this_month"
       },
       {
         "label": "Starting ART on tb tx",
         "indicator": "on_tb_tx_and_started_art_this_month"
       },
       {
-        "label": "Starting IPT 6 months ago",
+        "label": "Started TPT 6 months ago",
         "indicator": "started_ipt_6months"
       },
       {
-        "label": "Starting IPT 12 months ago",
+        "label": "Started TPT 12 months ago",
         "indicator": "started_ipt_12months"
-      },
-      {
-        "label": "Completed IPT 12months",
-        "indicator": "completed_ipt_past_12_months"
-      },
-      {
-        "label": "Completed IPT this month",
-        "indicator": "completed_ipt_this_month"
-      },
-      {
-        "label": "Stopped IPT this month",
-        "indicator": "stopped_ipt_this_month"
-      }
-    ]
-  },
-  {
-    "sectionTitle": "TB Screening",
-    "indicators": [
-      {
-        "label": "On ART and screened within last 6months",
-        "indicator": "active_this_month_screened_within_last_6months"
-      },
-      {
-        "label": "On ART and not screened within last 6months",
-        "indicator": "active_this_month_not_screened_within_last_6months"
       }
     ]
   }
