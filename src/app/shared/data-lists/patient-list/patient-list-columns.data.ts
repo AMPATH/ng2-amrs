@@ -47,58 +47,63 @@ export class PatientListColumns {
         ];
     }
 
-    public static hivColumns() {
-        return [
-            {
-                headerName: 'Phone Number',
-                width: 150,
-                field: 'phone_number'
-            },
-            {
-                headerName: 'Latest Appointment',
-                width: 200,
-                field: 'last_appointment'
-            },
-            {
-                headerName: 'Visit Type',
-                width: 200,
-                field: 'visit_type'
-            },
-            {
-                headerName: 'Latest RTC Date',
-                width: 150,
-                field: 'latest_rtc_date'
-            },
-            {
-                headerName: 'Current Regimen',
-                width: 200,
-                field: 'cur_meds'
-            },
-            {
-                headerName: 'Latest VL',
-                width: 75,
-                field: 'latest_vl'
-            },
-            {
-                headerName: 'Latest VL Date',
-                width: 150,
-                field: 'latest_vl_date'
-            },
-            {
-              headerName: 'Previous VL',
-              width: 75,
-              field: 'previous_vl'
-            },
-            {
-              headerName: 'Previous VL Date',
-              width: 150,
-              field: 'previous_vl_date'
-            },
-            {
-              headerName: 'Nearest Center',
-              width: 150,
-              field: 'nearest_center'
-            }
-        ];
-    }
+  public static hivColumns() {
+    return [
+      {
+        headerName: 'Phone Number',
+        width: 150,
+        field: 'phone_number'
+      },
+      {
+        headerName: 'Latest Appointment',
+        width: 200,
+        field: 'last_appointment'
+      },
+      {
+        headerName: 'Visit Type',
+        width: 200,
+        field: 'visit_type'
+      },
+      {
+        headerName: 'Latest RTC Date',
+        width: 150,
+        field: 'latest_rtc_date'
+      },
+      {
+        headerName: 'Med Pickup RTC',
+        width: 150,
+        field: 'med_pick_up_date'
+      },
+      {
+        headerName: 'Current Regimen',
+        width: 200,
+        field: 'cur_meds'
+      },
+      {
+        headerName: 'Latest VL',
+        width: 75,
+        field: 'latest_vl'
+      },
+      {
+        headerName: 'Latest VL Date',
+        width: 150,
+        field: 'latest_vl_date'
+      },
+      {
+        headerName: 'Previous VL',
+        width: 75,
+        field: 'previous_vl'
+      },
+      {
+        headerName: 'Previous VL Date',
+        width: 150,
+        field: 'previous_vl_date'
+      },
+      {
+        headerName: 'Nearest Center',
+        width: 150,
+        field: 'nearest_center'
+      }
+    ];
+  }
 }
