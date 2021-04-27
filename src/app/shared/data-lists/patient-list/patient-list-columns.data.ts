@@ -69,6 +69,11 @@ export class PatientListColumns {
         field: 'latest_rtc_date'
       },
       {
+        headerName: 'Med Pickup RTC',
+        width: 150,
+        field: 'med_pick_up_date'
+      },
+      {
         headerName: 'Current Regimen',
         width: 200,
         field: 'cur_meds'
