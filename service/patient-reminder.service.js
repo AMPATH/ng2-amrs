@@ -40,7 +40,7 @@ function viralLoadReminders(data) {
   if (!isAdult && data.months_since_last_vl_date >= 6) {
     reminders.push({
       message:
-        'Patient requires viral load. Patients who are between 0-24 years old ' +
+        'Patient requires a viral load test. Patients who are between 0-24 years old ' +
         'require a viral load test every 6 months. ' +
         labMessage,
       title: 'Viral Load Reminder',
@@ -57,7 +57,7 @@ function viralLoadReminders(data) {
   ) {
     reminders.push({
       message:
-        'Patient requires viral load. Patients older than 25 years and newly on ART require ' +
+        'Patient requires a viral load test. Patients older than 25 years and newly on ART require ' +
         'a viral load test every 6 months. ' +
         labMessage,
       title: 'Viral Load Reminder',
@@ -87,7 +87,7 @@ function viralLoadReminders(data) {
   } else if (data.needs_vl_coded === 4) {
     reminders.push({
       message:
-        'Patient requires viral load. A pregnant or breastfeeding patient  with vl > 400 requires ' +
+        'Patient requires viral load. A pregnant or breastfeeding patient with vl > 400 requires ' +
         'a viral load test every 3 months. ' +
         labMessage,
       title: 'Viral Load Reminder',
@@ -100,7 +100,7 @@ function viralLoadReminders(data) {
   } else if (data.needs_vl_coded === 5) {
     reminders.push({
       message:
-        'Patient requires viral load. A pregnant or breastfeeding patient with vl<= 400 requires ' +
+        'Patient requires viral load. A pregnant or breastfeeding patient with vl <= 400 requires ' +
         'a viral load test every 6 months. ' +
         labMessage,
       title: 'Viral Load Reminder',
@@ -163,7 +163,7 @@ function qualifiesDifferenciatedReminders(data) {
   ) {
     reminders.push({
       message:
-        'Patient qualifies for differentiated care. Viral load is <= 400 and age >= 20. ' +
+        'Patient qualifies for Differentiated Care. Viral load is <= 400 and age >= 20. ' +
         diffMessage,
       title: 'Differentiated Care Reminder',
       type: 'warning',
@@ -176,7 +176,7 @@ function qualifiesDifferenciatedReminders(data) {
     });
   } else {
     console.info.call(
-      'No Differenciated Care Reminder For Selected Patient' +
+      'No Differentiated Care reminder For Selected Patient' +
         data.qualifies_differenciated_care
     );
   }
@@ -221,7 +221,7 @@ function inhReminders(data) {
   ) {
     reminders.push({
       message:
-        'Patient has been on INH treatment for the last 5 months, expected to end on (' +
+        'Patient has been on INH treatment for the last 5 months. Expected to end on (' +
         Moment(data.ipt_completion_date).format('DD-MM-YYYY') +
         ') ',
       title: 'INH Treatment Reminder',
@@ -243,7 +243,7 @@ function viralLoadErrors(data) {
         'Viral load test that was ordered on: (' +
         Moment(data.vl_error_order_date).format('DD-MM-YYYY') +
         ') ' +
-        'resulted to an error. Please re-order.',
+        'resulted in an error. Please re-order.',
       title: 'Lab Error Reminder',
       type: 'danger',
       display: {
@@ -314,7 +314,7 @@ function pendingViralLoadLabResult(eidResults) {
     let dateCollected = Moment(incompleteResult.date_collected);
     reminders.push({
       message:
-        'Patient lab Order No.' +
+        `The patient's Lab Order No.` +
         incompleteResult.order_number +
         ' is currently being processed. Sample' +
         ' collected on ' +
@@ -338,7 +338,7 @@ function qualifiesEnhancedReminders(data) {
     case 1:
       reminders.push({
         message:
-          'The Patient’s viral load is greater than 400. Patients with viral load greater than 400 should be enrolled in the Viremia Program.',
+          'The Patient’s viral load is greater than 400. Patients with viral load greater than 400 should be enrolled in the Viremia program.',
         title: 'Viremia Program',
         type: 'warning',
         display: {
@@ -352,7 +352,7 @@ function qualifiesEnhancedReminders(data) {
     case 2:
       reminders.push({
         message:
-          'The patient is eligible to return to the Standard HIV Program.',
+          'The patient is eligible to return to the Standard HIV program.',
         title: 'Viremia Program',
         type: 'warning',
         display: {
@@ -437,7 +437,7 @@ function dnaReminder(data) {
         break;
       default:
         console.info.call(
-          'No DNA/PCR Reminder For Selected Patient' + data.qna_pcr_reminder
+          'No DNA/PCR Reminder For Selected Patient' + data.dna_pcr_reminder
         );
     }
   }
@@ -452,7 +452,7 @@ function dstReminders(data) {
   if (data.has_dst_result === 1) {
     reminders.push({
       message:
-        'New DRT/DST Image result : (collected on ' +
+        'New DRT/DST Image result: (collected on ' +
         Moment(data.test_date).format('DD-MM-YYYY') +
         ').',
       title: 'DRT/DST Reminders',
@@ -471,7 +471,7 @@ function geneXpertReminders(data) {
   if (data.has_gene_xpert_result === 1) {
     reminders.push({
       message:
-        'New GeneXpert Image result : (collected on ' +
+        'New GeneXpert Image result: (collected on ' +
         Moment(data.test_date).format('DD-MM-YYYY') +
         ').',
       title: 'GeneXpert Reminders',
@@ -515,7 +515,7 @@ function getFamilyTestingReminder(patientUuid) {
     if (res.results.length == 0) {
       reminders.push({
         message:
-          'No contact tracing has been done for this index, please fill the  contact tracing form',
+          'No contact tracing has been done for this index, please fill the contact tracing form',
         title: 'Contact Tracing Reminder',
         type: 'warning',
         display: {
@@ -536,7 +536,7 @@ function getFamilyTestingReminder(patientUuid) {
       if (months > 6) {
         reminders.push({
           message:
-            "It's six months since patient's contacts were last updated, click update to add more contacts",
+            "It's been six months since the patient's contacts were last updated, click update to add more contacts",
           title: 'Contact Tracing Reminder',
           type: 'info',
           display: {
@@ -566,7 +566,7 @@ function ovcUnenrollmentReminder(data) {
         ) {
           reminders.push({
             message:
-              'Patient 20 years and above, qualifies to be transitioned out of OVC',
+              'Patient is 20 years or older, qualifies to be transitioned out of OVC',
             title: 'OVC Transition Reminder',
             type: 'info',
             display: {
