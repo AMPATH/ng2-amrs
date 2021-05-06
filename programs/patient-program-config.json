@@ -2368,6 +2368,10 @@
             "display": "DERMATOLOGYREFERRAL"
           },
           {
+            "uuid": "cb5c0abd-0817-40e3-9413-8669561fadb9",
+            "display": "HIVHOMEVISIT"
+          },
+          {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
             "display": "FAMILYSTATUS"
           },
@@ -3551,6 +3555,10 @@
             "display": "FAMILYSTATUS"
           },
           {
+            "uuid": "cb5c0abd-0817-40e3-9413-8669561fadb9",
+            "display": "HIVHOMEVISIT"
+          },
+          {
             "uuid": "466d6707-8429-4e61-b5a0-d63444f5ad35",
             "display": "COVIDSCREENING"
           },
@@ -4006,6 +4014,10 @@
           {
             "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
             "display": "DERMATOLOGYREFERRAL"
+          },
+          {
+            "uuid": "cb5c0abd-0817-40e3-9413-8669561fadb9",
+            "display": "HIVHOMEVISIT"
           },
           {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
