@@ -7,7 +7,7 @@ export class FamilyTestingService {
       let queryParts = {};
       let where = '';
       let sql = `SELECT 
-      t1.*, t2.contacts_count,
+      t1.*, t2.contacts_count,p.gender as index_gender,
       case 
           when eligible_for_testing = 1065 then 'YES' 
           when eligible_for_testing = 1066 then 'No' 
@@ -44,7 +44,7 @@ export class FamilyTestingService {
                 WHERE
             location_uuid = '${params.locationUuid}'
         GROUP BY patient_id) t2 ON (t1.patient_id = t2.patient_id)
-            
+            INNER JOIN amrs.person p on (t1.patient_id = p.person_id)
         `;
 
       where = `
