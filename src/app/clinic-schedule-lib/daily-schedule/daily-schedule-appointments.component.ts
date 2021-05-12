@@ -30,6 +30,11 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
       headerName: 'Program',
       width: 200,
       field: 'program'
+    },
+    {
+      headerName: 'ART start date',
+      width: 120,
+      field: 'arv_first_regimen_start_date'
     }
   ];
   public errors: any[] = [];

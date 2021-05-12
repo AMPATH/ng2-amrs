@@ -36,9 +36,9 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
       field: 'program'
     },
     {
-      headerName: 'Phone Number',
-      width: 80,
-      field: 'phone_number'
+      headerName: 'ART start date',
+      width: 120,
+      field: 'arv_first_regimen_start_date'
     }
   ];
   public filter: any = {
