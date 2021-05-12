@@ -25,16 +25,18 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
   public dataLoaded = false;
   public nextStartIndex = 0;
   public selectedNotReturnedTab: any;
-  public extraColumns: Array<any> = [{
-    headerName: 'Program',
-    width: 200,
-    field: 'program'
-  },
-  {
-    headerName: 'Phone Number',
-    width: 80,
-    field: 'phone_number'
-  }];
+  public extraColumns: Array<any> = [
+    {
+      headerName: 'Program',
+      width: 200,
+      field: 'program'
+    },
+    {
+      headerName: 'ART start date',
+      width: 120,
+      field: 'arv_first_regimen_start_date'
+    }
+  ];
   public filter: any = {
      'programType': [],
      'visitType': [],

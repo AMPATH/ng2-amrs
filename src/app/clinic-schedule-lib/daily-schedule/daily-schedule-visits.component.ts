@@ -24,12 +24,19 @@ export class DailyScheduleVisitsComponent implements OnInit, OnDestroy {
   public dataLoaded  = false;
   public currentTabLoaded = false;
   public selectedVisitTab: any;
-  public nextStartIndex  = 0;
-  public extraColumns: Array<any> = [{
-    headerName: 'Program',
-    width: 200,
-    field: 'program'
-  }];
+  public nextStartIndex = 0;
+  public extraColumns: Array<any> = [
+    {
+      headerName: 'Program',
+      width: 200,
+      field: 'program'
+    },
+    {
+      headerName: 'ART start date',
+      width: 120,
+      field: 'arv_first_regimen_start_date'
+    }
+  ];
   public filter: any = {
      'programType': [],
      'visitType': [],
