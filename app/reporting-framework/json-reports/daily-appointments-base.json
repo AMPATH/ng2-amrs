@@ -97,6 +97,11 @@
       "expressionOptions": {
         "expression": "if(DATE_FORMAT(t2.scheduled_date, '%Y-%m-%d') = '{startDate}',1,null)"
       }
+    },
+    {
+      "type": "simple_column",
+      "alias": "arv_first_regimen_start_date",
+      "column": "date_format(fhs.arv_first_regimen_start_date,'%Y-%m-%d')"
     }
   ],
   "indexDirectives": [

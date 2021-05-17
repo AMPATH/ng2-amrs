@@ -16,6 +16,14 @@
         "type": "LEFT",
         "joinCondition": "pr.program_id  = t2.program_id"
       }
+    },
+    {
+      "table": "etl.flat_hiv_summary_v15b",
+      "alias": "fhs",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t2.encounter_id  = fhs.encounter_id"
+      }
     }
   ],
   "columns": [
@@ -51,6 +59,11 @@
       "expressionOptions": {
         "expression": "if(DATE_FORMAT(t2.encounter_datetime, '%Y-%m-%d') = '{startDate}',1,null)"
       }
+    },
+    {
+      "type": "simple_column",
+      "alias": "arv_first_regimen_start_date",
+      "column": "date_format(fhs.arv_first_regimen_start_date,'%Y-%m-%d')"
     }
   ],
   "filters": {
