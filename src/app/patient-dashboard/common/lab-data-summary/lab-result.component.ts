@@ -103,8 +103,17 @@ export class LabResultComponent implements OnInit, OnDestroy {
     'gene_expert_image': {
       'test': 'GeneExpert Image'
     },
-    'dst_image': {
-      'test': 'DST Image'
+    dst_image: {
+      test: 'DST Image'
+    },
+    via_or_via_vili: {
+      test: 'VIA or VIA/VILI'
+    },
+    pap_smear: {
+      test: 'PAP Smear'
+    },
+    hpv: {
+      test: 'HPV Test'
     }
   };
 
