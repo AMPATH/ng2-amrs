@@ -429,6 +429,9 @@ module.exports = (function () {
         row.nitrites = helpers.getConceptName(row.nitrites);
         row.chest_xray = helpers.getConceptName(row.chest_xray);
         row.ecg = helpers.getConceptName(row.ecg);
+        row.via_or_via_vili = helpers.getConceptName(row.via_or_via_vili);
+        row.pap_smear = helpers.getConceptName(row.pap_smear);
+        row.hpv = helpers.getConceptName(row.hpv);
         row.test_datetime = row.test_datetime.toString();
       });
       var arr = result.result;
