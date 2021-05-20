@@ -1,0 +1,41 @@
+<div class="row" id="gains-losses-filter">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+        <div class="alert alert-danger fade in" *ngIf="errorObj.isError">
+          <a class="close" data-dismiss="alert">&times;</a>
+          <p>
+            <small>{{ errorObj.message }}</small>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <form class="form-horizontal">
+        <div class="form-group">
+          <div class="col-md-3 col-lg-3 col-sm-3 col-xs-12">
+            <label for="month">Month: </label>
+            <input
+              id="startDate"
+              type="month"
+              class="form-control"
+              [(ngModel)]="monthString"
+              id="startDate"
+              name="startDate"
+            />
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+            <button class="btn btn-primary btn-search" (click)="setFilter()">
+              Generate Report
+            </button>
+            <button class="btn btn-danger pull-right" (click)="resetFilter()">
+              Reset <i class="fa fa-trash fa-fw"></i>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

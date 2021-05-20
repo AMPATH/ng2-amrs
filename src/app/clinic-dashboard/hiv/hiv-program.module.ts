@@ -74,6 +74,7 @@ import { ClinicDashboardHeiReportComponent } from './clinic-dashboard-hei-indica
 import { HIVListsMicroFrontendComponent } from './hiv-lists-microfrontend-report/hiv-lists-microfrontend.component';
 import { FamilyTestingComponent } from './family-testing/family-testing.component';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
+import { ClinicDashboardGainsAndLossesComponent } from './patient-gain-and-loses-report/clinic-dashboard-gains-and-losses.component';
 @NgModule({
   imports: [
     clinicDashboardHivRouting,
@@ -121,7 +122,8 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2
     DateRangeComponent,
     RangeSliderComponent,
     RouterModule,
-    ClinicDashboardHeiReportComponent
+    ClinicDashboardHeiReportComponent,
+    ClinicDashboardGainsAndLossesComponent
   ],
   declarations: [
     Moh731ReportComponent,
@@ -160,7 +162,8 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2
     PrepReportComponent,
     ClinicDashboardHeiReportComponent,
     HIVListsMicroFrontendComponent,
-    FamilyTestingComponent
+    FamilyTestingComponent,
+    ClinicDashboardGainsAndLossesComponent
   ],
   providers: [ClinicalSummaryVisualizationService],
   entryComponents: [PatientStatusDatalistCellComponent]

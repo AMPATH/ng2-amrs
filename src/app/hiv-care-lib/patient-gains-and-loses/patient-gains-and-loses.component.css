@@ -11,7 +11,7 @@
 }
 .report-indicators {
   font-weight: 500;
-  font-size: 2rem;
+  font-size: 1.8rem;
 }
 .header {
   font-weight: bold;
@@ -73,4 +73,8 @@
 
 .numbers_link:hover {
   cursor: pointer;
+}
+.analysis-title {
+  font-size: 2rem;
+  text-align: left;
 }

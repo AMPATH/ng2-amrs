@@ -41,8 +41,8 @@ import { ClinicDashboardCaseManagementComponent } from './case-management/clinic
 import { PrepReportComponent } from './prep-report/prep-report.component';
 import { PrepReportPatientListComponent } from 'src/app/hiv-care-lib/prep-report/prep-report-patient-list/prep-report-patient-list.component';
 import { MonthlyReportComponent } from 'src/app/hiv-care-lib/monthly-report/monthly-report.component';
-import { PatientGainLosesReportComponent } from './patient-gain-and-loses-report/patient-gain-and-loses-report';
 // tslint:disable-next-line: max-line-length
+import { ClinicDashboardGainsAndLossesComponent } from './patient-gain-and-loses-report/clinic-dashboard-gains-and-losses.component';
 import { PatientGainsAndLosesPatientListComponent } from 'src/app/hiv-care-lib/patient-gains-and-loses/patient-gains-and-loses-patient-list/patient-gains-and-loses-patient-list.component';
 
 import { ClinicDashboardHeiReportComponent } from './clinic-dashboard-hei-indicators-report/clinic-dashboard-hei-report.component';
@@ -272,7 +272,7 @@ const routes: Routes = [
             children: [
               {
                 path: '',
-                component: PatientGainLosesReportComponent
+                component: ClinicDashboardGainsAndLossesComponent
               },
               {
                 path: 'patient-list',
@@ -398,6 +398,19 @@ const routes: Routes = [
           {
             path: 'patient-list',
             component: PrepReportPatientListComponent
+          }
+        ]
+      },
+      {
+        path: 'patient-gains-and-loses',
+        children: [
+          {
+            path: '',
+            component: ClinicDashboardGainsAndLossesComponent
+          },
+          {
+            path: 'patient-list',
+            component: PatientGainsAndLosesPatientListComponent
           }
         ]
       }

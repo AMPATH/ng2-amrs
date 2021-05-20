@@ -96,7 +96,6 @@ import { PrepReportPatientListComponent } from './prep-report/prep-report-patien
 import { MonthlyReportComponent } from './monthly-report/monthly-report.component';
 // tslint:disable-next-line: max-line-length
 import { PatientGainsAndLosesPatientListComponent } from './patient-gains-and-loses/patient-gains-and-loses-patient-list/patient-gains-and-loses-patient-list.component';
-import { PatientGainLosesReportComponent } from '../clinic-dashboard/hiv/patient-gain-and-loses-report/patient-gain-and-loses-report';
 import { PatientGainsAndLosesComponent } from './patient-gains-and-loses/patient-gains-and-loses.component';
 import { FamilyTestingBaseComponent } from './family-testing/family-testing-base.component';
 import { FamilyTestingPatientlistComponent } from './family-testing/family-testing-patient-list.component';
@@ -112,6 +111,7 @@ import { EditContactTraceComponent } from './family-testing/contact-trace/edit-c
 import { ContactListComponent } from './family-testing/contact-list/contact-list.component';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown'; // import { ProgramVisitEncounterSearchModule } from '../program-visit-encounter-search/program-visit-encounter-search.module';
 
+import { PatientGainsFiltersComponent } from './patient-gains-and-loses/patient-gains-and-losses-filters/patient-gains-and-losses-filter.component';
 @NgModule({
   imports: [
     RouterModule,
@@ -197,7 +197,8 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2
     ContactProfileComponent,
     AddContactTraceComponent,
     EditContactTraceComponent,
-    ContactListComponent
+    ContactListComponent,
+    PatientGainsAndLosesComponent
   ],
   declarations: [
     Moh731TabularComponent,
@@ -249,7 +250,6 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2
     HeiIndicatorsPatientListComponent,
     HeiIndicatorsPdfViewComponent,
     PatientGainsAndLosesPatientListComponent,
-    PatientGainLosesReportComponent,
     PatientGainsAndLosesComponent,
     FamilyTestingBaseComponent,
     FamilyTestingPatientlistComponent,
@@ -259,7 +259,9 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2
     ContactProfileComponent,
     AddContactTraceComponent,
     EditContactTraceComponent,
-    ContactListComponent
+    ContactListComponent,
+    PatientGainsAndLosesComponent,
+    PatientGainsFiltersComponent
   ],
   providers: [
     MOHReportService,
