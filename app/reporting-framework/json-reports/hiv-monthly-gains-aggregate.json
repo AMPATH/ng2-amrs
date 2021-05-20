@@ -1,0 +1,144 @@
+{
+  "name": "hivMonthlyGainsAggregate",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [
+    {
+      "name": "hivMonthlyGainsBase",
+      "version": "1.0",
+      "type": "dataset_def"
+    }
+  ],
+  "sources": [
+    {
+      "dataSet": "hivMonthlyGainsBase",
+      "alias": "b"
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "end_date",
+      "column": "b.end_date"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "b.location_id"
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_art_ending",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.on_art_ending)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "not_on_art_ending",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.not_on_art_ending)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "still_active",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(b.still_active)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "ending_active",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(b.ending_active)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "ending_not_active",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(b.ending_not_active)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "starting_not_active",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(b.starting_not_active)"
+      }
+    },
+
+    {
+      "type": "derived_column",
+      "alias": "ending_new_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(b.ending_new_on_art)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "newly_enrolled",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.newly_enrolled)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "transferred_in",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.transferred_in)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "return_to_care",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.return_to_care)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "gained_other",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.gained_other)"
+      }
+    }
+  ],
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["location_id"],
+    "excludeParam": "excludeParam"
+  },
+  "transFormDirectives": {
+    "joinColumn": "location_id",
+    "skipColumns": [],
+    "disaggregationColumns": []
+  },
+  "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+      "useTemplate": "patient-gains-and-losses-patient-list-template",
+      "useTemplateVersion": "1.0",
+      "generatingDirectives": {
+        "joinDirectives": {
+          "joinType": "INNER",
+          "joinCondition": "<<base_column>> = <<template_column>>",
+          "baseColumn": "person_id",
+          "templateColumn": "person_id"
+        }
+      }
+    }
+  }
+}

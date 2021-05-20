@@ -1,0 +1,119 @@
+{
+  "name": "hivMonthlyLossesAggregate",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [
+    {
+      "name": "hivMonthlyLossesBase",
+      "version": "1.0",
+      "type": "dataset_def"
+    }
+  ],
+  "sources": [
+    {
+      "dataSet": "hivMonthlyLossesBase",
+      "alias": "b"
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "end_date",
+      "column": "b.end_date"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "b.location_id"
+    },
+    {
+      "type": "derived_column",
+      "alias": "active_total",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(b.person_id)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_art_starting",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.on_art_starting)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "not_on_art_starting",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.not_on_art_starting)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "starting_active",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.starting_active)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "dead",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.dead)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "defaulter",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.defaulter)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "ltfu",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.ltfu)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "transfer_out",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.transfer_out)"
+      }
+    }
+  ],
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["location_id"],
+    "excludeParam": "excludeParam"
+  },
+  "transFormDirectives": {
+    "joinColumn": "location_id",
+    "skipColumns": [],
+    "disaggregationColumns": []
+  },
+  "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+      "useTemplate": "patient-gains-and-losses-patient-list-template",
+      "useTemplateVersion": "1.0",
+      "generatingDirectives": {
+        "joinDirectives": {
+          "joinType": "INNER",
+          "joinCondition": "<<base_column>> = <<template_column>>",
+          "baseColumn": "person_id",
+          "templateColumn": "person_id"
+        }
+      }
+    }
+  }
+}

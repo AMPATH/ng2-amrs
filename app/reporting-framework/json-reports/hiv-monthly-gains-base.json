@@ -1,0 +1,162 @@
+{
+  "name": "hivMonthlyGainsBase",
+  "version": "1.0",
+  "tag": "hiv_monthly_gains_base",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "etl.hiv_monthly_report_dataset_frozen",
+      "alias": "c"
+    },
+    {
+      "table": "etl.hiv_monthly_report_dataset_frozen",
+      "alias": "p",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "c.person_id = p.person_id AND p.endDate = '{startingMonth}'"
+      }
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "c.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "end_date",
+      "column": "DATE(c.endDate)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "c.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "prev_location_id",
+      "column": "c.prev_location_id"
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_art_ending",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(c.on_art_this_month = 1, 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "not_on_art_ending",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(c.on_art_this_month = 0 and c.status = 'active', 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "starting_not_active",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "CASE WHEN c.status = 'active' and p.status != 'active'  and c.location_id = p.location_id then 1 WHEN c.status = 'active' and p.status is null then 1 WHEN c.status = 'active' and p.status != 'active'  and c.location_id != p.location_id then 1  WHEN c.status = 'active' and p.status = 'active'  and c.location_id != p.location_id then 1 else null end"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "ending_active",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(c.status = 'active', 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "ending_not_active",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(c.status != 'active' AND (p.status = 'active' OR p.status IS NULL), 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "still_active",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(c.status = 'active' AND p.status = 'active' AND c.location_id = p.location_id, 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "ending_new_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(c.started_art_this_month = 1 = 1, 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "newly_enrolled",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(c.enrolled_this_month = 1 AND c.transfer_in_this_month = 0,1,NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "transferred_in",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": " CASE WHEN c.transfer_in_this_month = 1 AND (c.location_id != p.location_id OR p.location_id IS NULL) THEN 1 WHEN c.transfer_in_this_month = 0 AND c.location_id != p.location_id THEN 1 ELSE NULL END"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "return_to_care",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(c.status = 'active' AND p.status != 'active' AND p.person_id IS NOT NULL AND c.location_id = p.location_id, 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "dead",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(c.status = 'dead' AND c.location_id = p.location_id, 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "gained_other",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "CASE WHEN c.status = 'active' AND p.status IS NULL AND c.transfer_in_this_month = 0 AND c.enrolled_this_month = 0 THEN 1 ELSE NULL END"
+      }
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "c.endDate = ?",
+        "parameterName": "endingMonth"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "c.location_id in (?)",
+        "parameterName": "locations"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "c.status = 'active'"
+      }
+    ]
+  },
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["person_id"]
+  }
+}
