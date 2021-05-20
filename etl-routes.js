@@ -72,6 +72,8 @@ import { RetentionAppointmentTracingService } from './service/retention-appointm
 import { PatientGainLosesService } from './service/patient-gain-loses.service';
 import { PrepReminderService } from './service/prep-reminder/prep-reminder.service';
 
+import { HIVGainsAndLossesService } from './service/gains-and-losses/hiv-gains-losses-service';
+
 module.exports = (function () {
   var routes = [
     {
@@ -5303,94 +5305,6 @@ module.exports = (function () {
     },
     {
       method: 'GET',
-      path: '/etl/patient-gain-loses-numbers',
-      config: {
-        auth: 'simple',
-        plugins: {
-          hapiAuthorization: {
-            role: privileges.canViewClinicDashBoard
-          },
-          openmrsLocationAuthorizer: {
-            locationParameter: [
-              {
-                type: 'query',
-                name: 'locationUuids'
-              }
-            ]
-          }
-        },
-        handler: function (request, reply) {
-          request.query.reportName = 'patient-gain-and-loses-report';
-          preRequest.resolveLocationIdsToLocationUuids(request, function () {
-            let requestParams = Object.assign(
-              {},
-              request.query,
-              request.params
-            );
-            let reportParams = etlHelpers.getReportParams(
-              'patient-gain-loses-report',
-              ['startingMonth', 'endingMonth', 'locationUuid', 'indicators'],
-              requestParams
-            );
-            let service = new PatientGainLosesService();
-            service
-              .getAggregateReport(reportParams)
-              .then((result) => {
-                reply(result);
-              })
-              .catch((error) => {
-                console.error('Error: ', error);
-                reply(error);
-              });
-          });
-        },
-        description:
-          'Get patient gains and loses of a specified location between indicated time (startingMonth and endingMonth) ',
-        notes: 'Returns aggregates of patient gains and loses',
-        tags: ['api']
-      }
-    },
-    {
-      method: 'GET',
-      path: '/etl/patient-gain-loses-patient-list',
-      config: {
-        auth: 'simple',
-        plugins: {
-          openmrsLocationAuthorizer: {
-            locationParameter: [
-              {
-                type: 'query',
-                name: 'locationUuids'
-              }
-            ]
-          }
-        },
-        handler: function (request, reply) {
-          request.query.reportName = 'patient-gain-lose';
-          preRequest.resolveLocationIdsToLocationUuids(request, function () {
-            let requestParams = Object.assign(
-              {},
-              request.query,
-              request.params
-            );
-            let service = new PatientGainLosesService();
-            service
-              .getPatientListReport(requestParams)
-              .then((result) => {
-                reply(result);
-              })
-              .catch((error) => {
-                reply(error);
-              });
-          });
-        },
-        description: 'Gets a patient list',
-        notes: 'Returns details of patients filterd by a specified indicator ',
-        tags: ['api']
-      }
-    },
-    {
-      method: 'GET',
       path: '/etl/kibana-dashboards',
       config: {
         auth: 'simple',
@@ -5841,6 +5755,93 @@ module.exports = (function () {
         },
         description: 'HEI summary Patient list',
         notes: 'Returns HEI summary patient list',
+        tags: ['api']
+      }
+    },
+    {
+      method: 'GET',
+      path: '/etl/patient-gain-loses-numbers',
+      config: {
+        auth: 'simple',
+        plugins: {},
+        handler: function (request, reply) {
+          if (request.query.locationUuid) {
+            request.query.locationUuids = request.query.locationUuid;
+            preRequest.resolveLocationIdsToLocationUuids(request, function () {
+              let requestParams = Object.assign(
+                {},
+                request.query,
+                request.params
+              );
+              let reportParams = etlHelpers.getReportParams(
+                'monthly-gains-and-losses',
+                ['startDate', 'endDate', 'locations'],
+                requestParams
+              );
+              let hivGainsLossesService = new HIVGainsAndLossesService(
+                'monthly-gains-and-losses',
+                reportParams.requestParams
+              );
+              hivGainsLossesService
+                .generateReport()
+                .then((result) => {
+                  reply(result);
+                })
+                .catch((error) => {
+                  console.error('Error: ', error);
+                  reply(error);
+                });
+            });
+          }
+        },
+        description: 'HIV Gains annd losses report',
+        notes: 'HIV Gains annd losses report',
+        tags: ['api']
+      }
+    },
+    {
+      method: 'GET',
+      path: '/etl/patient-gain-loses-patient-list',
+      config: {
+        auth: 'simple',
+        plugins: {},
+        handler: function (request, reply) {
+          if (request.query.locationUuid) {
+            request.query.locationUuids = request.query.locationUuid;
+            request.query.reportName = 'monthly-gains-and-losses';
+            preRequest.resolveLocationIdsToLocationUuids(request, function () {
+              let requestParams = Object.assign(
+                {},
+                request.query,
+                request.params
+              );
+              console.log('requestParams', requestParams);
+              let requestCopy = _.cloneDeep(requestParams);
+              let reportParams = etlHelpers.getReportParams(
+                request.query.reportName,
+                ['startDate', 'endDate', 'locationUuids', 'genders'],
+                requestParams
+              );
+              requestCopy.locations = reportParams.requestParams.locations;
+
+              let hivGainsLossesService = new HIVGainsAndLossesService(
+                'monthly-gains-and-losses',
+                requestCopy
+              );
+
+              hivGainsLossesService
+                .generatePatientListReport(requestParams.indicators.split(','))
+                .then((results) => {
+                  reply(results);
+                })
+                .catch((err) => {
+                  reply(Boom.internal('An error occured', err));
+                });
+            });
+          }
+        },
+        description: 'HIV Gains annd losses Patient list',
+        notes: 'Returns HIV Gains annd losses Patient List',
         tags: ['api']
       }
     }

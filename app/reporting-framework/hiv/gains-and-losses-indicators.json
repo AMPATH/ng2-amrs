@@ -1,0 +1,9 @@
+{
+  "indicators": [
+    {
+      "label": "Active",
+      "name": "active",
+      "description": ""
+    }
+  ]
+}

@@ -192,6 +192,13 @@ import * as tb_preventive_ipt_monthly_summary_aggregate from './json-reports/tb-
 import * as tb_preventive_monthly_summary_aggregate from './json-reports/tb-preventive-monthly-summary-aggregate.json';
 import * as tb_preventive_dataSet_base from './json-reports/tb-preventive-dataset-base.json';
 import * as tb_preventive_report from './json-reports/tb-preventive-report.json';
+
+import * as monthly_gains_losses from './json-reports/gains-and-losses/monthly-gains-and-losses.json';
+import * as hiv_monthly_loss_aggregate from './json-reports/hiv-monthly-losses-aggregate.json';
+import * as hiv_monthly_loss_base from './json-reports/hiv-monthly-losses-base.json';
+import * as hiv_monthly_gains_aggregate from './json-reports/hiv-monthly-gains-aggregate.json';
+import * as hiv_monthly_gains_base from './json-reports/hiv-monthly-gains-base.json';
+import * as patient_gains_and_losses_patient_list_template from './json-reports/patient-gains-and-losses-patient-list-template.json';
 export class BaseMysqlReport {
   constructor(reportName, params) {
     this.reportName = reportName;
@@ -1007,6 +1014,28 @@ export class BaseMysqlReport {
             main: this.cloneJsonSchema(tb_preventive_monthly_summary_aggregate),
             TbPreventiveDataSetBase: this.cloneJsonSchema(
               tb_preventive_dataSet_base
+            )
+          });
+          break;
+        case 'monthly-gains-and-losses':
+          resolve({
+            main: this.cloneJsonSchema(monthly_gains_losses)
+          });
+          break;
+        case 'hivMonthlyLossesAggregate':
+          resolve({
+            main: this.cloneJsonSchema(hiv_monthly_loss_aggregate),
+            hivMonthlyLossesBase: this.cloneJsonSchema(hiv_monthly_loss_base)
+          });
+        case 'hivMonthlyGainsAggregate':
+          resolve({
+            main: this.cloneJsonSchema(hiv_monthly_gains_aggregate),
+            hivMonthlyGainsBase: this.cloneJsonSchema(hiv_monthly_gains_base)
+          });
+        case 'patient-gains-and-losses-patient-list-template':
+          resolve({
+            main: this.cloneJsonSchema(
+              patient_gains_and_losses_patient_list_template
             )
           });
           break;

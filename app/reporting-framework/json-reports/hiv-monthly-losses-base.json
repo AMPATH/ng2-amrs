@@ -1,0 +1,260 @@
+{
+  "name": "hivMonthlyLossesBase",
+  "version": "1.0",
+  "tag": "hiv_monthly_losses_base",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "etl.hiv_monthly_report_dataset_frozen",
+      "alias": "c"
+    },
+    {
+      "table": "etl.hiv_monthly_report_dataset_frozen",
+      "alias": "n",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "c.person_id = n.person_id AND n.endDate = '{endingMonth}'"
+      }
+    },
+    {
+      "table": "amrs.location",
+      "alias": "nl",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "nl.location_id = n.location_id"
+      }
+    },
+    {
+      "table": "amrs.location",
+      "alias": "cl",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "cl.location_id = c.location_id"
+      }
+    },
+    {
+      "table": "etl.flat_appointment",
+      "alias": "dr",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "dr.person_id = c.person_id AND dr.encounter_type in (31)"
+      }
+    },
+    {
+      "table": "etl.flat_appointment",
+      "alias": "to",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "to.person_id = n.person_id AND to.encounter_type = 116 AND DATE(to.encounter_datetime) = n.transfer_out_date"
+      }
+    },
+    {
+      "table": "amrs.obs",
+      "alias": "eo",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "to.person_id = n.person_id AND to.encounter_id = eo.encounter_id AND eo.concept_id = 9082"
+      }
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "c.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "end_date",
+      "column": "DATE(n.endDate)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "c.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "prev_location_id",
+      "column": "c.prev_location_id"
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_art_starting",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(c.on_art_this_month = 1, 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "not_on_art_starting",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(c.on_art_this_month = 0, 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "starting_active",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(c.status = 'active', 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "dead",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(n.status = 'dead' AND c.location_id = n.location_id, 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "death_date",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(n.status = 'dead',DATE_FORMAT(n.death_date,'%Y-%m-%d'),NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "death_report_date",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "DATE_FORMAT(dr.encounter_datetime,'%Y-%m-%d')"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "transfer_out",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "CASE when n.status = 'transfer_out' then 1 when n.status != 'transfer_out' AND n.location_id != c.location_id then 1 ELSE NULL END"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "transfer_out_date",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "CASE WHEN c.transfer_out_this_month = 1 then DATE_FORMAT(c.transfer_out_date,'%Y-%m-%d') WHEN c.transfer_out_this_month = 0 AND n.location_id != c.location_id THEN DATE_FORMAT(c.encounter_date,'%Y-%m-%d') ELSE NULL END"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "transfer_out_location",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "CASE WHEN n.status = 'transfer_out' THEN nl.name WHEN n.status != 'transfer_out' AND n.location_id != c.location_id THEN nl.name ELSE NULL END"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "transfer_out_type",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "c.transfer_out_location_id = 9998 AND cl.parent_location = nl.parent_location",
+            "value": "INTRA-AMPATH"
+          },
+          {
+            "condition": "c.transfer_out_location_id is NULL AND c.transfer_out_date is NOT NULL AND cl.parent_location = nl.parent_location  AND c.location_id != n.location_id",
+            "value": "INTRA-AMPATH"
+          },
+          {
+            "condition": "c.location_id != n.location_id AND cl.parent_location = nl.parent_location",
+            "value": "INTRA-AMPATH"
+          },
+          {
+            "condition": "c.location_id != n.location_id AND cl.parent_location != nl.parent_location",
+            "value": "INTER-AMPATH"
+          },
+          {
+            "condition": "c.location_id != n.location_id AND eo.value_coded is NULL AND NOT (cl.parent_location <=> nl.parent_location)",
+            "value": "INTER-AMPATH"
+          },
+          {
+            "condition": "eo.value_coded = 1285",
+            "value": "INTER-AMPATH"
+          },
+          {
+            "condition": "eo.value_coded = 10502",
+            "value": "NON-AMPATH"
+          },
+          {
+            "condition": "eo.value_coded = 5622",
+            "value": "OTHER"
+          },
+          {
+            "condition": "eo.value_coded = 1287",
+            "value": "NON-AMPATH"
+          },
+          {
+            "condition": "eo.value_coded = 9068",
+            "value": "AMPATH, NON-AMRS"
+          },
+          {
+            "condition": "else",
+            "value": "null"
+          }
+        ]
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "ltfu",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(n.status IN ('ltfu') AND c.location_id = n.location_id,1,NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "defaulter",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(n.status IN ('defaulter') AND c.location_id = n.location_id,1,NULL)"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "days_since_rtc",
+      "column": "n.days_since_rtc_date"
+    },
+    {
+      "type": "derived_column",
+      "alias": "days_since_ltfu",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(n.days_since_rtc_date > 90,n.days_since_rtc_date - 90,NULL)"
+      }
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "c.endDate = ?",
+        "parameterName": "startingMonth"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "c.location_id in (?)",
+        "parameterName": "locations"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "c.status = 'active'"
+      }
+    ]
+  },
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["person_id"]
+  }
+}
