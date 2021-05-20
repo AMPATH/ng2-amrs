@@ -25,6 +25,12 @@ export class MonthlyReportComponent implements OnInit {
         description: '',
         url: 'cross-border-report',
         icon: 'fa'
+      },
+      {
+        title: 'Patient gains and loses',
+        description: '',
+        url: 'patient-gains-and-loses',
+        icon: 'fa'
       }
     ];
 
