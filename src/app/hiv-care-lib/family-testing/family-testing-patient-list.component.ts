@@ -11,6 +11,7 @@ import { Location } from '@angular/common';
 
 import { AgGridNg2 } from 'ag-grid-angular';
 import * as Moment from 'moment';
+import { GridOptions } from 'ag-grid';
 @Component({
   selector: 'family-testing-patient-list',
   templateUrl: './family-testing-patient-list.component.html',
@@ -19,7 +20,7 @@ import * as Moment from 'moment';
 export class FamilyTestingPatientlistComponent implements OnInit {
   public hasLoadedAll: true;
   public hasError: false;
-  public gridOptions: any = {
+  public gridOptions: GridOptions = {
     columnDefs: []
   };
   @ViewChild('agGrid')
@@ -28,25 +29,11 @@ export class FamilyTestingPatientlistComponent implements OnInit {
   public patientData = [];
   private columnDefs = [
     {
-      field: 'person_name',
-      headerName: 'Index Name',
-      rowGroup: false,
-      hide: false,
-      pinned: 'left',
-      cellRenderer: (column) => {
-        return (
-          '<a href="javascript:void(0);" title="Identifiers">' +
-          column.value +
-          '</a>'
-        );
-      }
-    },
-    {
       field: 'identifiers',
       headerName: 'Identifiers',
-      hide: true,
       rowGroup: true,
       pinned: 'left',
+      width: 200,
       cellRenderer: (column) => {
         if (column.value === undefined || column.value === null) {
           return '';
@@ -60,8 +47,17 @@ export class FamilyTestingPatientlistComponent implements OnInit {
       }
     },
     {
+      field: 'person_name',
+      headerName: 'Index Name'
+    },
+    {
       field: 'index_gender',
       headerName: 'Index Gender',
+      width: 120
+    },
+    {
+      field: 'phone_number',
+      headerName: 'Index Phone',
       width: 120
     },
     {
