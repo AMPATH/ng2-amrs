@@ -129,6 +129,8 @@ import { MonthlyReportComponent } from './monthly-report/monthly-report.componen
 import { IptReportPatientListComponent } from 'src/app/hiv-care-lib/ipt-report/ipt-report-patient-list.component';
 import { IptBaseReportComponent } from 'src/app/hiv-care-lib/ipt-report/ipt-report-base.component';
 
+import { PatientGainsAndLosesPatientListComponent } from './patient-gains-and-loses/patient-gains-and-loses-patient-list/patient-gains-and-loses-patient-list.component';
+import { PatientGainsAndLosesComponent } from './patient-gains-and-loses/patient-gains-and-loses.component';
 import { FamilyTestingBaseComponent } from './family-testing/family-testing-base.component';
 import { FamilyTestingPatientlistComponent } from './family-testing/family-testing-patient-list.component';
 import { FamilyTestingTreeComponent } from './family-testing/family-testing-tree.component';
@@ -141,10 +143,8 @@ import { AddContactTraceComponent } from './family-testing/contact-trace/add-con
 import { EditContactTraceComponent } from './family-testing/contact-trace/edit-contact-trace.component';
 import { ContactListComponent } from './family-testing/contact-list/contact-list.component';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown'; // import { ProgramVisitEncounterSearchModule } from '../program-visit-encounter-search/program-visit-encounter-search.module';
-import { PatientGainsAndLosesPatientListComponent } from './patient-gains-and-loses/patient-gains-and-loses-patient-list/patient-gains-and-loses-patient-list.component';
-import { PatientGainLosesReportComponent } from '../clinic-dashboard/hiv/patient-gain-and-loses-report/patient-gain-and-loses-report';
-import { PatientGainsAndLosesComponent } from './patient-gains-and-loses/patient-gains-and-loses.component';
 
+import { PatientGainsFiltersComponent } from './patient-gains-and-loses/patient-gains-and-losses-filters/patient-gains-and-losses-filter.component';
 @NgModule({
   imports: [
     RouterModule,
@@ -230,7 +230,8 @@ import { PatientGainsAndLosesComponent } from './patient-gains-and-loses/patient
     ContactProfileComponent,
     AddContactTraceComponent,
     EditContactTraceComponent,
-    ContactListComponent
+    ContactListComponent,
+    PatientGainsAndLosesComponent
   ],
   declarations: [
     Moh731TabularComponent,
@@ -288,6 +289,8 @@ import { PatientGainsAndLosesComponent } from './patient-gains-and-loses/patient
     HeiIndicatorsPdfViewComponent,
     IptBaseReportComponent,
     IptReportPatientListComponent,
+    PatientGainsAndLosesPatientListComponent,
+    PatientGainsAndLosesComponent,
     FamilyTestingBaseComponent,
     FamilyTestingPatientlistComponent,
     FamilyTestingTreeComponent,
@@ -298,8 +301,8 @@ import { PatientGainsAndLosesComponent } from './patient-gains-and-loses/patient
     EditContactTraceComponent,
     ContactListComponent,
     PatientGainsAndLosesPatientListComponent,
-    PatientGainLosesReportComponent,
-    PatientGainsAndLosesComponent
+    PatientGainsAndLosesComponent,
+    PatientGainsFiltersComponent
   ],
   providers: [MOHReportService,
     LocationResourceService,

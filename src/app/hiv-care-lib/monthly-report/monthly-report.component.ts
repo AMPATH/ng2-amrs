@@ -21,15 +21,21 @@ export class MonthlyReportComponent implements OnInit {
         icon: 'fa'
       },
       {
-        title: 'Cross Border and Ovc Report',
+        title: 'TB Treatment Therapy report',
         description: '',
-        url: 'cross-border-report',
+        url: 'ipt-report',
         icon: 'fa'
       },
       {
         title: 'Patient gains and loses',
         description: '',
         url: 'patient-gains-and-loses',
+        icon: 'fa'
+      },
+      {
+        title: 'Cross Border and Ovc Report',
+        description: '',
+        url: 'cross-border-report',
         icon: 'fa'
       }
     ];

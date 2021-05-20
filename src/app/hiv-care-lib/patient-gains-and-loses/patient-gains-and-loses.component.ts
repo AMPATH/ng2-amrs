@@ -1,16 +1,17 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnInit, Input, Output } from '@angular/core';
 import * as _ from 'lodash';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as Moment from 'moment';
 import { PatientGainLoseResourceService } from 'src/app/etl-api/patient-gain-lose-resource.service';
+import { ClinicDashboardCacheService } from './../../clinic-dashboard/services/clinic-dashboard-cache.service';
 @Component({
   selector: 'app-patient-gains-and-loses',
   templateUrl: './patient-gains-and-loses.component.html',
   styleUrls: ['./patient-gains-and-loses.component.css']
 })
 export class PatientGainsAndLosesComponent implements OnInit {
-  @Output()
-  public params: any;
+  @Output() public params: any;
+  @Input() public locationUuids: '';
   public indicators: string;
   public selectedIndicators = [];
   public patientGainAndLoseSummaryData: any = [];
@@ -26,76 +27,61 @@ export class PatientGainsAndLosesComponent implements OnInit {
   public isLoadingReport = false;
   public reportHead: any;
   public pinnedBottomRowData: any = [];
-  public enabledControls = 'monthIntervalControls';
+  public enabledControls = 'monthControl';
   _month: string;
+  public proxyRetention = 0;
+
+  public netGainLoss = 0;
 
   public _locationUuids: any = [];
-  public get locationUuids(): Array<string> {
-    return this._locationUuids;
-  }
 
-  public set locationUuids(v: Array<string>) {
-    const locationUuids = [];
-    _.each(v, (location: any) => {
-      if (location.value) {
-        locationUuids.push(location);
-      }
-    });
-    this._locationUuids = locationUuids;
-  }
-  private _startDate: Date = Moment()
+  public startMonth: Date = Moment()
+    .subtract(2, 'months')
+    .endOf('month')
+    .toDate();
+  public endMonth: Date = Moment()
     .subtract(1, 'months')
     .endOf('month')
     .toDate();
-  public get startDate(): Date {
-    return this._startDate;
-  }
-
-  public set startDate(v: Date) {
-    this._startDate = v;
-  }
-
-  private _endDate: Date = Moment()
-    .subtract(1, 'months')
-    .endOf('month')
-    .toDate();
-  public get endDate(): Date {
-    return this._endDate;
-  }
-
-  public set endDate(v: Date) {
-    this._endDate = v;
-  }
   constructor(
     public router: Router,
     public route: ActivatedRoute,
-    public patientGainLose: PatientGainLoseResourceService
+    public patientGainLose: PatientGainLoseResourceService,
+    private clinicDashboardCacheService: ClinicDashboardCacheService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.clinicDashboardCacheService
+      .getCurrentClinic()
+      .subscribe((currentClinic) => {
+        this.locationUuids = currentClinic;
+      });
+    this.route.queryParams.subscribe(
+      (params: any) => {
+        if (params) {
+          if (params.startingMonth) {
+            this.params = params;
+            this.startMonth = Moment(params.startingMonth).toDate();
+            this.endMonth = Moment(params.endingMonth).toDate();
+            this.generateReport();
+          }
+        }
+      },
+      (error) => {
+        console.error('Error', error);
+      }
+    );
+  }
 
   public generateReport() {
-    console.log(this._startDate);
-    console.log(this._endDate);
-    this.route.parent.parent.params.subscribe((params: any) => {
-      this.storeParamsInUrl(params.location_uuid);
-    });
     this.patientGainAndLoseSummaryData = [];
     this.getPatientGainAndLoseReport(this.params);
   }
 
-  public storeParamsInUrl(param) {
-    this.params = {
-      locationUuids: param,
-      startingMonth: Moment(this.startDate).endOf('month').format('YYYY-MM-DD'),
-      endingMonth: Moment(this.endDate).endOf('month').format('YYYY-MM-DD'),
-      reportName: this.reportName,
-      _date: Moment(this._month).format('DD-MM-YYYY')
-    };
-    // store params in url
+  public storeParamsInUrl(params) {
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: this.params
+      queryParams: params
     });
   }
 
@@ -104,7 +90,6 @@ export class PatientGainsAndLosesComponent implements OnInit {
     this.patientGainLose
       .getPatientGainAndLoseReport(params)
       .subscribe((data) => {
-        console.log(data);
         if (data.error) {
           this.encounteredError = true;
           this.showInfoMessage = true;
@@ -115,6 +100,8 @@ export class PatientGainsAndLosesComponent implements OnInit {
           this.encounteredError = false;
           this.showInfoMessage = false;
           this.patientGainAndLoseSummaryData = data.result[0];
+          this.proxyRetention = data.proxyRetention;
+          this.calculateNetGainLoss(this.patientGainAndLoseSummaryData);
           this.patientGainAndLoseSummaryData.startingMonth = Moment(
             this.params.startingMonth
           ).format('MMMM');
@@ -139,5 +126,24 @@ export class PatientGainsAndLosesComponent implements OnInit {
         locationUuids: this.params.locationUuids
       }
     });
+  }
+  public filterSet($event: any) {
+    this.endMonth = $event.endingMonth;
+    this.startMonth = $event.startingMonth;
+    this.setParams();
+    this.storeParamsInUrl(this.params);
+  }
+
+  public setParams() {
+    this.params = {
+      locationUuids: this.locationUuids,
+      startingMonth: this.startMonth,
+      endingMonth: this.endMonth,
+      reportName: this.reportName,
+      _date: Moment(this._month).format('DD-MM-YYYY')
+    };
+  }
+  public calculateNetGainLoss(data: any) {
+    this.netGainLoss = data.ending_active - data.starting_active;
   }
 }
