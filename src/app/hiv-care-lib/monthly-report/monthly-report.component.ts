@@ -45,7 +45,7 @@ export class MonthlyReportComponent implements OnInit {
 
   public removeCrossBorderReport() {
     if (this.router.url.includes('data-analytics')) {
-      this.dashboards.splice(-1, 1);
+      this.dashboards.splice(2, 2);
     }
   }
 
