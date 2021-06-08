@@ -6,6 +6,7 @@ var rp = require('../request-config');
 var config = require('../conf/config.json');
 var encounter_service = require('./openmrs-rest/encounter');
 var program_service = require('./openmrs-rest/program.service');
+const cervicalCancerScreeningService = require('./cervical-cancer-screening-service');
 
 var serviceDef = {
   generateReminders: generateReminders,
@@ -592,6 +593,8 @@ async function generateReminders(etlResults, eidResults) {
   }
 
   let data = etlResults[0];
+
+  const person_id = etlResults[0].person_id;
   let new_vl = newViralLoadPresent(data);
   let vl_Errors = viralLoadErrors(data);
   let pending_vl_orders = pendingViralOrder(data);
@@ -611,6 +614,10 @@ async function generateReminders(etlResults, eidResults) {
     etlResults[0].person_uuid
   );
 
+  let cervical_screening_reminder = await getCerivalScreeningReminder(
+    person_id
+  );
+
   let currentReminder = [];
   if (pending_vl_lab_result.length > 0) {
     currentReminder = pending_vl_lab_result.concat(inh_reminders);
@@ -627,7 +634,8 @@ async function generateReminders(etlResults, eidResults) {
       gene_xpert_result,
       not_completed_ipt,
       contact_tracing_reminder,
-      unenrol_ovc_reminder
+      unenrol_ovc_reminder,
+      cervical_screening_reminder
     );
   }
 
@@ -672,4 +680,42 @@ function getPatientPrograms(uuid, params) {
         reject(err);
       });
   });
+}
+
+function getCerivalScreeningReminder(personId) {
+  return new Promise((resolve, reject) => {
+    cervicalCancerScreeningService
+      .getPatientLatestCericalScreeningResult(personId)
+      .then((result) => {
+        console.log(result);
+        let reminder = [];
+        if (result.size > 0) {
+          reminder = generateCervicalScreeningReminder(result.result[0]);
+        }
+        resolve(reminder);
+      })
+      .catch((error) => {
+        resolve([]);
+        console.log('Error', error);
+      });
+  });
+}
+
+function generateCervicalScreeningReminder(data) {
+  let reminders = [];
+  if (data.qualifies_for_via_or_via_vili_retest === 1) {
+    reminders.push({
+      message:
+        'Patient is due for a repeat cervical cancer screening test. Last test result was Normal on ' +
+        Moment(data.test_datetime).format('DD-MM-YYYY') +
+        '.',
+      title: 'Cervical Cancer Screening Reminder',
+      type: 'danger',
+      display: {
+        banner: true,
+        toast: true
+      }
+    });
+  }
+  return reminders;
 }
