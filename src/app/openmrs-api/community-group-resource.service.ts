@@ -12,6 +12,8 @@ import { Constants } from '../utils/constants';
 export class CommunityGroupService {
   public cachedResults: BehaviorSubject<any[]> = new BehaviorSubject([]);
   public v = 'full';
+  public _v =
+    'custom:(uuid,name,description,location,startDate,endDate,attributes)';
 
   constructor(
     private http: HttpClient,
@@ -46,7 +48,7 @@ export class CommunityGroupService {
   public getGroupByGroupNumber(groupNumber: string): Observable<any> {
     const params = new HttpParams()
       .set('attributes', `"groupNumber":"${groupNumber}"`)
-      .set('v', this.v)
+      .set('v', this._v)
       .set('cohortType', 'community_group');
 
     const url = this.getOpenMrsBaseUrl() + '/cohort';
@@ -59,7 +61,7 @@ export class CommunityGroupService {
 
   public getGroupByName(name: string): Observable<any> {
     const params = new HttpParams()
-      .set('v', this.v)
+      .set('v', this._v)
       .set('q', name)
       .set('cohortType', 'community_group');
 
@@ -71,7 +73,7 @@ export class CommunityGroupService {
   }
 
   public getGroupByUuid(groupUuid: string): Observable<any> {
-    const params = new HttpParams().set('v', 'full');
+    const params = new HttpParams().set('v', this.v);
     const url = this.getOpenMrsBaseUrl() + '/cohort' + `/${groupUuid}`;
     return this.http.get(url, {
       params: params
@@ -172,7 +174,7 @@ export class CommunityGroupService {
   public getGroupsByLandmark(landmark: string) {
     const params = new HttpParams()
       .set('attributes', `"landmark":"${landmark}"`)
-      .set('v', this.v)
+      .set('v', this._v)
       .set('cohortType', 'community_group');
 
     const url = this.getOpenMrsBaseUrl() + '/cohort';
@@ -193,7 +195,7 @@ export class CommunityGroupService {
   public getGroupsByLocationUuid(locationUuid: string) {
     const params = new HttpParams()
       .set('location', `${locationUuid}`)
-      .set('v', this.v);
+      .set('v', this._v);
     const url = this.getOpenMrsBaseUrl() + '/cohort';
     return this.http
       .get<any>(url, { params })

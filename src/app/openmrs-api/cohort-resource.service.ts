@@ -18,7 +18,10 @@ export class CohortResourceService {
   }
 
   public getAllCohorts(): Observable<any> {
-    const params = new HttpParams().set('v', 'full');
+    const params = new HttpParams().set(
+      'v',
+      'custom:(uuid,name,description,location,startDate,endDate,attributes)'
+    );
 
     const allCohortsUrl: string = this.baseOpenMrsUrl + 'cohort';
 
