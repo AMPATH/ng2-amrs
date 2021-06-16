@@ -164,7 +164,7 @@
       "alias": "visit_this_month",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "IF(hmsd.visit_this_month = 1 AND hmsd.tb_screening_datetime between date_format(endDate,'%Y-%m-01') and endDate AND status = 'active',1,0)"
+        "expression": "IF(hmsd.visit_this_month = 1 AND hmsd.encounter_date between date_format(endDate,'%Y-%m-01') and endDate AND status = 'active',1,0)"
       }
     },
     {
