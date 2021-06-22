@@ -48,6 +48,7 @@ export class NewProgramComponent
   public groupEnrollmentState: any;
   public patientCurrentGroups: any;
   public retroSettings: any;
+  public enrollPatientToGroup = false;
 
   constructor(
     public patientService: PatientService,
@@ -98,7 +99,6 @@ export class NewProgramComponent
               );
               this.department = dept[0].itemName;
               this.selectDepartment(dept[0].itemName);
-              console.log('Group', this.route.snapshot.queryParams.program);
               if (this.route.snapshot.queryParams.program) {
                 this.selectProgram(this.route.snapshot.queryParams.program);
               }
@@ -485,10 +485,15 @@ export class NewProgramComponent
   }
 
   private loadOnParamInit(params: any) {
-    console.log('Params', params);
     this.currentStep = parseInt(params.step, 10);
     this.jumpStep = this.currentStep;
 
+    const queryParams: any = this.route.snapshot.queryParams;
+    const enrollMentQuestionsObject = this.risonService.decode(
+      queryParams.enrollMentQuestions
+    );
+
+    this.enrollPatientToGroup = enrollMentQuestionsObject.enrollPatient;
     this.deserializeStepInfo();
     if (this.currentStep === 3) {
       this.unenrollAndGoToDetails();
@@ -497,7 +502,7 @@ export class NewProgramComponent
       this.jumpStep = 6;
       if (this.isReferral) {
         this.referPatient();
-      } else {
+      } else if (!this.enrollPatientToGroup) {
         this.enrollPatientToProgram();
       }
     }
@@ -544,7 +549,27 @@ export class NewProgramComponent
   }
 
   private completeEnrollment() {
-    if (this.enrollToGroup === 'true') {
+    if (this.enrollPatientToGroup) {
+      let count = 1;
+      this.refreshPatient().subscribe((refreshing) => {
+        if (!refreshing) {
+          this.groupEnrollmentState = {
+            patient: this.patient,
+            action: 'Enroll',
+            currentEnrolledPrograms: _.filter(
+              this.enrolledProgrames,
+              (program) => program.isEnrolled
+            ),
+            currentGroups: this.patientCurrentGroups
+          };
+          if (count === 1) {
+            this.currentStep++;
+            this.nextStep = true;
+            count++;
+          }
+        }
+      });
+    } else if (this.enrollToGroup === 'true') {
       let count = 1;
       this.refreshPatient().subscribe((refreshing) => {
         if (!refreshing) {
@@ -626,18 +651,25 @@ export class NewProgramComponent
       this.filterStateChangeEncounterTypes();
       this.serializeStepInfo();
       this.unenrollExpressely = true;
+      if (this.enrollPatientToGroup) {
+        this.enrollPatientToProgram();
+      }
     } else {
       this.skipIncompatibilityStep();
     }
   }
 
   private skipIncompatibilityStep() {
-    const program = this.route.snapshot.queryParams.program;
-    this.currentStep = this.currentStep + (program ? 1 : 2);
-    this.jumpStep = this.currentStep;
-    this.title = 'Start';
-    // Had to add this to make the next step work
-    this.localStorageService.setObject('pm-data', this.stepInfo);
+    if (this.enrollPatientToGroup) {
+      this.enrollPatientToProgram();
+    } else {
+      const program = this.route.snapshot.queryParams.program;
+      this.currentStep = this.currentStep + (program ? 1 : 2);
+      this.jumpStep = this.currentStep;
+      this.title = 'Start';
+      // Had to add this to make the next step work
+      this.localStorageService.setObject('pm-data', this.stepInfo);
+    }
   }
 
   private checkIfEnrollmentIsAllowed(): void {

@@ -220,7 +220,7 @@
       *ngIf="refreshingPatient"
       [message]="'Refreshing Patient Info...'"
     ></busy>
-    <div class="wizard-body component" *ngIf="enrollToGroup">
+    <div class="wizard-body component" *ngIf="'enrollToGroup' || 'enrollPatientToGroup'">
       <div class="step" *ngIf="availableDepartmentPrograms">
         <div class="step-name">
           <h2><i class="fa fa-arrow-right"></i> Enroll to Group</h2>
