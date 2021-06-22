@@ -205,7 +205,7 @@
             *ngIf="!showForms"
             class="btn btn-primary pull-right"
             [disabled]="!isButtonVisible"
-            (click)="showEnrollmentFormsOrEnrollOnValidation()"
+            (click)="showDcGroupUnEnrollmentModal(dcGroupAutoUnEnrollmentWarning)"
           >
             <span *ngIf="isReferral">Refer</span>
             <span *ngIf="!isReferral">Enroll</span>
@@ -361,3 +361,22 @@
   Error loading patient program config. Please make sure that your network is
   working fine.
 </p>
+<ng-template #dcGroupAutoUnEnrollmentWarning>
+  <div class="modal-header">
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Patient will automatically be auto unenrolled from DC group</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" (click)="modalRef.hide()">Cancel</button>
+    <button class="btn btn-danger" (click)="showEnrollmentFormsOrEnrollOnValidation()">Continue</button>
+  </div>
+</ng-template>

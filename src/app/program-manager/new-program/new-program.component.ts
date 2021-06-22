@@ -1,10 +1,12 @@
+import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { take } from 'rxjs/operators';
 import {
   Component,
   OnInit,
   OnDestroy,
   ChangeDetectorRef,
-  SimpleChanges
+  SimpleChanges,
+  TemplateRef
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -49,6 +51,8 @@ export class NewProgramComponent
   public patientCurrentGroups: any;
   public retroSettings: any;
   public enrollPatientToGroup = false;
+  public modalRef: BsModalRef;
+  public autoEnrolFromGroup = false;
 
   constructor(
     public patientService: PatientService,
@@ -64,7 +68,8 @@ export class NewProgramComponent
     private programManagerService: ProgramManagerService,
     private locationResourceService: LocationResourceService,
     private groupMemberService: CommunityGroupMemberService,
-    private risonService: RisonService
+    private risonService: RisonService,
+    private modalService: BsModalService
   ) {
     super(
       patientService,
@@ -203,6 +208,7 @@ export class NewProgramComponent
   }
 
   public showEnrollmentFormsOrEnrollOnValidation() {
+    this.modalRef.hide();
     if (this.formValidated() && !this.hasValidationErrors) {
       this.filterStateChangeEncounterTypes();
       // if there are no required forms, go ahead and enroll the patient
@@ -637,6 +643,9 @@ export class NewProgramComponent
   private unenrollAndGoToDetails() {
     if (this.isIncompatibleChoice()) {
       _.each(this.incompatibleProgrames, (program) => {
+        if (program.uuid === '334c9e98-173f-4454-a8ce-f80b20b7fdf0') {
+          this.autoEnrolFromGroup = true;
+        }
         _.extend(program, {
           formFilled: this.getFilledForm(_.first(this.unenrollmentForms))
         });
@@ -807,5 +816,13 @@ export class NewProgramComponent
       .subscribe((groups) => {
         this.patientCurrentGroups = _.filter(groups, (group) => !group.voided);
       });
+  }
+
+  public showDcGroupUnEnrollmentModal(modal: TemplateRef<any>) {
+    if (this.autoEnrolFromGroup && this.patientCurrentGroups.length > 0) {
+      this.modalRef = this.modalService.show(modal, { class: 'modal-lg' });
+    } else {
+      this.showEnrollmentFormsOrEnrollOnValidation();
+    }
   }
 }
