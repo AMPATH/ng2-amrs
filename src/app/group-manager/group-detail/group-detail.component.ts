@@ -270,6 +270,9 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public showModal(templateRef: TemplateRef<any>) {
+    if (this.modalRef) {
+      this.modalRef.hide();
+    }
     this.modalRef = this.modalService.show(templateRef, {
       animated: true,
       class: 'modal-lg'
