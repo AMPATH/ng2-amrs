@@ -268,11 +268,39 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
 
       this.checkIdentifierFormat();
       if (this.isValidIdentifier) {
+        const parentIdTypes = [
+          'ace5f7c7-c5f4-4e77-a077-5588a682a0d6',
+          '58a47054-1359-11df-a1f1-0026b9348838'
+        ];
+        let hasSameIdTypeAndValue = false;
+        const idType = this.identifierType.val
+          ? this.identifierType.val
+          : this.identifierType.value;
         this.patientResourceService
           .searchPatient(this.patientIdentifier)
           .pipe(take(1))
           .subscribe((result) => {
             if (result.length > 0 && this.identifierHasChanged()) {
+              _.each(result, (ids) => {
+                _.each(ids.identifiers, (id) => {
+                  if (
+                    id.identifier === this.patientIdentifier &&
+                    id.identifierType.uuid === idType
+                  ) {
+                    return (hasSameIdTypeAndValue = true);
+                  } else if (
+                    id.identifier === this.patientIdentifier &&
+                    parentIdTypes.includes(id.identifierType.uuid) &&
+                    parentIdTypes.includes(idType)
+                  ) {
+                    return (hasSameIdTypeAndValue = false);
+                  } else {
+                    hasSameIdTypeAndValue = true;
+                  }
+                });
+              });
+            }
+            if (hasSameIdTypeAndValue) {
               this.identifierValidity = 'This identifier is already in use!';
               this.display = true;
             } else {
