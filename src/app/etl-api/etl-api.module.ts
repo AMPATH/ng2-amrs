@@ -30,14 +30,14 @@ import { PatientProgramResourceService } from "./patient-program-resource.servic
 import { PatientReferralResourceService } from "./patient-referral-resource.service";
 import { CdmSummaryResourceService } from "./cdm-summary-resource.service";
 // import { ReferralProviderResourceService } from './referral-provider-resource.service';
-import { RadiologyImagingResourceService } from "./radiology-imaging-resource.service";
-import { HivEnhancedReportService } from "./hiv-enhanced-program-report.service";
-import { SurgeResourceService } from "./surge-resource.service";
-import { HivDifferentiatedCareResourceService } from "./hiv-differentiated-care-resource.service";
-import { OncologySummaryResourceService } from "./oncology-summary-resource.service";
-
-import { PatientEducationService } from "./patient-education.service";
-import { HeiReportService } from "./hei-report.service";
+import { RadiologyImagingResourceService } from './radiology-imaging-resource.service';
+import { HivEnhancedReportService } from './hiv-enhanced-program-report.service';
+import { OncologySummaryResourceService } from './oncology-summary-resource.service';
+import { HivDifferentiatedCareResourceService } from './hiv-differentiated-care-resource.service';
+import { SurgeResourceService } from './surge-resource.service';
+import { PatientEducationService } from './patient-education.service';
+import { HeiReportService } from './hei-report.service';
+import { CervicalCancerScreeningSummaResourceService } from './cervical-cancer-screening-summary-resource.service';
 @NgModule({
   imports: [CommonModule, AppSettingsModule],
   declarations: [],
@@ -80,6 +80,7 @@ import { HeiReportService } from "./hei-report.service";
     SurgeResourceService,
     HeiReportService,
     PatientEducationService,
+    CervicalCancerScreeningSummaResourceService
   ],
   exports: [],
 })

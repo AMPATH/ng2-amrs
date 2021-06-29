@@ -1,28 +1,30 @@
 import { TestBed, inject, async } from "@angular/core/testing";
 
-import { HivSummaryService } from "./hiv-summary.service";
-import { HivSummaryLatestComponent } from "./hiv-summary-latest.component";
-import { HivSummaryResourceService } from "../../../etl-api/hiv-summary-resource.service";
-import { AppSettingsService } from "../../../app-settings/app-settings.service";
-import { LocalStorageService } from "../../../utils/local-storage.service";
-import { FakeAppFeatureAnalytics } from "../../../shared/app-analytics/app-feature-analytcis.mock";
-import { PatientResourceService } from "../../../openmrs-api/patient-resource.service";
-import { ProgramEnrollmentResourceService } from "../../../openmrs-api/program-enrollment-resource.service";
-import { EncounterResourceService } from "../../../openmrs-api/encounter-resource.service";
-import { PatientProgramService } from "../../programs/patient-programs.service";
-import { RoutesProviderService } from "../../../shared/dynamic-route/route-config-provider.service";
-import { ProgramService } from "../../programs/program.service";
-import { ProgramResourceService } from "../../../openmrs-api/program-resource.service";
-import { ProgramWorkFlowResourceService } from "../../../openmrs-api/program-workflow-resource.service";
-import { ProgramWorkFlowStateResourceService } from "../../../openmrs-api/program-workflow-state-resource.service";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { PatientService } from "../../services/patient.service";
+import { HivSummaryService } from './hiv-summary.service';
+import { HivSummaryLatestComponent } from './hiv-summary-latest.component';
+import { HivSummaryResourceService } from '../../../etl-api/hiv-summary-resource.service';
+import { AppSettingsService } from '../../../app-settings/app-settings.service';
+import { LocalStorageService } from '../../../utils/local-storage.service';
+import { FakeAppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytcis.mock';
+import { PatientResourceService } from '../../../openmrs-api/patient-resource.service';
+import { ProgramEnrollmentResourceService } from '../../../openmrs-api/program-enrollment-resource.service';
+import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
+import { PatientProgramService } from '../../programs/patient-programs.service';
+import { RoutesProviderService } from '../../../shared/dynamic-route/route-config-provider.service';
+import { ProgramService } from '../../programs/program.service';
+import { ProgramResourceService } from '../../../openmrs-api/program-resource.service';
+import { ProgramWorkFlowResourceService } from '../../../openmrs-api/program-workflow-resource.service';
+import { ProgramWorkFlowStateResourceService } from '../../../openmrs-api/program-workflow-state-resource.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { PatientService } from '../../services/patient.service';
+import { CervicalCancerScreeningSummaResourceService } from './../../../etl-api/cervical-cancer-screening-summary-resource.service';
 
 describe("Component: HivSummaryLatest Unit Tests", () => {
   let hivSummaryService: HivSummaryService,
     patientResourceService: PatientResourceService,
     patientService: PatientService,
     encounterService: EncounterResourceService,
+    cervicalCancerScreeningSummaResourceService: CervicalCancerScreeningSummaResourceService,
     component;
 
   beforeEach(() => {
@@ -44,19 +46,24 @@ describe("Component: HivSummaryLatest Unit Tests", () => {
         AppSettingsService,
         LocalStorageService,
         PatientService,
-      ],
+        CervicalCancerScreeningSummaResourceService
+      ]
     });
 
     hivSummaryService = TestBed.get(HivSummaryService);
     patientResourceService = TestBed.get(PatientResourceService);
     patientService = TestBed.get(PatientService);
     encounterService = TestBed.get(EncounterResourceService);
+    cervicalCancerScreeningSummaResourceService = TestBed.get(
+      CervicalCancerScreeningSummaResourceService
+    );
 
     component = new HivSummaryLatestComponent(
       hivSummaryService,
       encounterService,
       patientService,
-      patientResourceService
+      patientResourceService,
+      cervicalCancerScreeningSummaResourceService
     );
   });
 

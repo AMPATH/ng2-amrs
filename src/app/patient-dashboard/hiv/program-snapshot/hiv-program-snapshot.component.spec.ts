@@ -13,14 +13,15 @@ import { ZeroVlPipe } from "./../../../shared/pipes/zero-vl-pipe";
 
 import { of } from "rxjs";
 
-import { LocationResourceService } from "../../../openmrs-api/location-resource.service";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { EncounterResourceService } from "src/app/openmrs-api/encounter-resource.service";
-import { LocalStorageService } from "../../../utils/local-storage.service";
-import { SessionStorageService } from "../../../utils/session-storage.service";
-import { UserDefaultPropertiesService } from "../../../user-default-properties/user-default-properties.service";
-import { UserService } from "../../../openmrs-api/user.service";
-import { Patient } from "../../../models/patient.model";
+import { LocationResourceService } from '../../../openmrs-api/location-resource.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { EncounterResourceService } from 'src/app/openmrs-api/encounter-resource.service';
+import { LocalStorageService } from '../../../utils/local-storage.service';
+import { SessionStorageService } from '../../../utils/session-storage.service';
+import { UserDefaultPropertiesService } from '../../../user-default-properties/user-default-properties.service';
+import { UserService } from '../../../openmrs-api/user.service';
+import { Patient } from '../../../models/patient.model';
+import { CervicalCancerScreeningSummaResourceService } from './../../../etl-api/cervical-cancer-screening-summary-resource.service';
 
 const summaryResult = [
   {
@@ -184,9 +185,29 @@ const testPatient = new Patient({
   uuid: "4a6ff3c6-6f95-41c1-b403-cd210ab7afba",
 });
 
-describe("Component: HivProgramSnapshotComponent", () => {
+class FakeCervicalCancerScreeningSummaResourceService {
+  constructor() {}
+
+  getCervicalCancerScreeningSummary() {
+    return of([
+      {
+        hpv: null,
+        pap_smear: null,
+        person_id: 1,
+        test: 'VIA or VIA/VILI',
+        test_date: '04-02-2020',
+        uuid: '5eaab558-1359-11df-a1f1-0026b9348838',
+        via_or_via_vili: 1115,
+        via_test_result: 'NORMAL'
+      }
+    ]);
+  }
+}
+
+describe('Component: HivProgramSnapshotComponent', () => {
   let hivService: HivSummaryResourceService;
   let appSettingsService: AppSettingsService;
+  let cervicalCancerScreeningSummaResourceService: CervicalCancerScreeningSummaResourceService;
   let component: HivProgramSnapshotComponent;
   let fixture: ComponentFixture<HivProgramSnapshotComponent>;
   let debugElement: DebugElement;
@@ -220,6 +241,10 @@ describe("Component: HivProgramSnapshotComponent", () => {
           useClass: FakeUserDefaultPropertiesService,
         },
         UserService,
+        {
+          provide: CervicalCancerScreeningSummaResourceService,
+          useClass: FakeCervicalCancerScreeningSummaResourceService
+        }
       ],
       declarations: [HivProgramSnapshotComponent, ZeroVlPipe],
     }).compileComponents();
@@ -230,6 +255,9 @@ describe("Component: HivProgramSnapshotComponent", () => {
     component = fixture.componentInstance;
     appSettingsService = TestBed.get(AppSettingsService);
     hivService = TestBed.get(HivSummaryResourceService);
+    cervicalCancerScreeningSummaResourceService = TestBed.get(
+      CervicalCancerScreeningSummaResourceService
+    );
     debugElement = fixture.debugElement;
     nativeElement = debugElement.nativeElement;
 
