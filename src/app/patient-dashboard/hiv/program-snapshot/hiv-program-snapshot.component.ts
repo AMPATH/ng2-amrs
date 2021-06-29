@@ -64,7 +64,7 @@ export class HivProgramSnapshotComponent implements OnInit {
   public isMoriskyScorePoorOrInadequate = false;
   public hivDisclosureStatus: any;
   public latestCervicalScreeningSummary = [];
-  public cervicalScreeningSummary: any;
+  public cervicalScreeningSummary = [];
   private obs: any[] = [];
 
   constructor(
