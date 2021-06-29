@@ -73,6 +73,7 @@ import { PatientGainLosesService } from './service/patient-gain-loses.service';
 import { PrepReminderService } from './service/prep-reminder/prep-reminder.service';
 
 import { HIVGainsAndLossesService } from './service/gains-and-losses/hiv-gains-losses-service';
+const cervicalCancerScreeningService = require('./service/cervical-cancer-screening-service');
 
 module.exports = (function () {
   var routes = [
@@ -5843,6 +5844,25 @@ module.exports = (function () {
         description: 'HIV Gains annd losses Patient list',
         notes: 'Returns HIV Gains annd losses Patient List',
         tags: ['api']
+      }
+    },
+    {
+      method: 'GET',
+      path: '/etl/patient-cervical-cancer-screening-summary',
+      config: {
+        auth: 'simple',
+        plugins: {},
+        handler: function (request, reply) {
+          const patientUuid = request.query.uuid;
+          cervicalCancerScreeningService
+            .getPatientCervicalCancerScreeningSummary(patientUuid)
+            .then((results) => {
+              reply(results);
+            })
+            .catch((error) => {
+              reply(Boom.internal('An error occured', error));
+            });
+        }
       }
     }
   ];
