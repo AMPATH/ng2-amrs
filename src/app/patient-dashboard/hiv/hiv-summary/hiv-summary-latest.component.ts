@@ -10,6 +10,7 @@ import * as Moment from 'moment';
 import * as _ from 'lodash';
 import { PatientResourceService } from 'src/app/openmrs-api/patient-resource.service';
 import { EncounterResourceService } from 'src/app/openmrs-api/encounter-resource.service';
+import { CervicalCancerScreeningSummaResourceService } from './../../../etl-api/cervical-cancer-screening-summary-resource.service';
 @Component({
   selector: 'hiv-summary-latest',
   templateUrl: './hiv-summary-latest.component.html',
@@ -28,17 +29,21 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
   public ovcStatus: any;
   public colorCode: any;
   public exitedCare: any;
+  public latestCervicalScreeningSummary = [];
+  public cervicalScreeningSummary: any;
 
   constructor(
     private hivSummaryService: HivSummaryService,
     private _encounterResource: EncounterResourceService,
     private patientService: PatientService,
-    private patientResourceService: PatientResourceService
+    private patientResourceService: PatientResourceService,
+    private cervicalCancerScreeningSummaryService: CervicalCancerScreeningSummaResourceService
   ) {}
 
   public ngOnInit() {
     this.loadPatient();
     this.loadHivSummary(this.patientUuid);
+    this.getPatientCervicalScreeningSummary(this.patientUuid);
     this.checkOvcStatus();
   }
   checkOvcStatus() {
@@ -272,5 +277,22 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
     if (ovc.length > 0 && ovc[0].isEnrolled) {
       return true;
     }
+  }
+  public getPatientCervicalScreeningSummary(patientUuid: string): void {
+    this.cervicalCancerScreeningSummaryService
+      .getCervicalCancerScreeningSummary(patientUuid)
+      .subscribe(
+        (result) => {
+          if (result) {
+            this.cervicalScreeningSummary = result;
+            if (result.length > 0) {
+              this.latestCervicalScreeningSummary = result[0];
+            }
+          }
+        },
+        (error) => {
+          console.log('Error', error);
+        }
+      );
   }
 }

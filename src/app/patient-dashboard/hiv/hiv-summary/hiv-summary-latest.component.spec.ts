@@ -17,12 +17,14 @@ import { ProgramWorkFlowResourceService } from '../../../openmrs-api/program-wor
 import { ProgramWorkFlowStateResourceService } from '../../../openmrs-api/program-workflow-state-resource.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { PatientService } from '../../services/patient.service';
+import { CervicalCancerScreeningSummaResourceService } from './../../../etl-api/cervical-cancer-screening-summary-resource.service';
 
 describe('Component: HivSummaryLatest Unit Tests', () => {
   let hivSummaryService: HivSummaryService,
     patientResourceService: PatientResourceService,
     patientService: PatientService,
     encounterService: EncounterResourceService,
+    cervicalCancerScreeningSummaResourceService: CervicalCancerScreeningSummaResourceService,
     component;
 
   beforeEach(() => {
@@ -43,7 +45,8 @@ describe('Component: HivSummaryLatest Unit Tests', () => {
         ProgramWorkFlowStateResourceService,
         AppSettingsService,
         LocalStorageService,
-        PatientService
+        PatientService,
+        CervicalCancerScreeningSummaResourceService
       ]
     });
 
@@ -51,12 +54,16 @@ describe('Component: HivSummaryLatest Unit Tests', () => {
     patientResourceService = TestBed.get(PatientResourceService);
     patientService = TestBed.get(PatientService);
     encounterService = TestBed.get(EncounterResourceService);
+    cervicalCancerScreeningSummaResourceService = TestBed.get(
+      CervicalCancerScreeningSummaResourceService
+    );
 
     component = new HivSummaryLatestComponent(
       hivSummaryService,
       encounterService,
       patientService,
-      patientResourceService
+      patientResourceService,
+      cervicalCancerScreeningSummaResourceService
     );
   });
 

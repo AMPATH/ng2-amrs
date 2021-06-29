@@ -11,6 +11,7 @@ import { HivSummaryResourceService } from '../../../etl-api/hiv-summary-resource
 import { LocationResourceService } from '../../../openmrs-api/location-resource.service';
 import { EncounterResourceService } from 'src/app/openmrs-api/encounter-resource.service';
 import { UserDefaultPropertiesService } from '../../../user-default-properties/user-default-properties.service';
+import { CervicalCancerScreeningSummaResourceService } from './../../../etl-api/cervical-cancer-screening-summary-resource.service';
 
 const mdtProgramUuid = 'c4246ff0-b081-460c-bcc5-b0678012659e';
 const stdProgramUuid = '781d85b0-1359-11df-a1f1-0026b9348838';
@@ -62,13 +63,16 @@ export class HivProgramSnapshotComponent implements OnInit {
   public moriskyRating: any = '';
   public isMoriskyScorePoorOrInadequate = false;
   public hivDisclosureStatus: any;
+  public latestCervicalScreeningSummary = [];
+  public cervicalScreeningSummary: any;
   private obs: any[] = [];
 
   constructor(
     private hivSummaryResourceService: HivSummaryResourceService,
     private encounterResourceService: EncounterResourceService,
     private locationResource: LocationResourceService,
-    private userDefaultPropertiesService: UserDefaultPropertiesService
+    private userDefaultPropertiesService: UserDefaultPropertiesService,
+    private cervicalCancerScreeningSummaryService: CervicalCancerScreeningSummaResourceService
   ) {}
 
   public ngOnInit() {
@@ -79,6 +83,7 @@ export class HivProgramSnapshotComponent implements OnInit {
         } else {
           this.hasData = false;
           this.getHivSummary(patientUuid);
+          this.getPatientCervicalScreeningSummary(patientUuid);
         }
       },
       0,
@@ -475,5 +480,23 @@ export class HivProgramSnapshotComponent implements OnInit {
       }
     });
     return max_dt;
+  }
+
+  public getPatientCervicalScreeningSummary(patientUuid: string): void {
+    this.cervicalCancerScreeningSummaryService
+      .getCervicalCancerScreeningSummary(patientUuid)
+      .subscribe(
+        (result) => {
+          if (result) {
+            this.cervicalScreeningSummary = result;
+            if (result.length > 0) {
+              this.latestCervicalScreeningSummary = result[0];
+            }
+          }
+        },
+        (error) => {
+          console.log('Error', error);
+        }
+      );
   }
 }
