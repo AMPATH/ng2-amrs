@@ -180,5 +180,21 @@
     >
       EAC Session: {{ hivSummary?.mdt_session_number }}
     </li>
+    <li
+      *ngIf="cervicalScreeningSummary.length > 0"
+      class="list-group-item"
+      style="font-size: large"
+    >
+      Cervical Cancer Screening Date:
+      {{ latestCervicalScreeningSummary?.test_date }}
+    </li>
+    <li
+      *ngIf="cervicalScreeningSummary.length > 0"
+      class="list-group-item"
+      style="font-size: large"
+    >
+      Cervical Cancer Screening Result:
+      {{ latestCervicalScreeningSummary?.via_test_result }}
+    </li>
   </ul>
 </div>

@@ -99,6 +99,22 @@
               </span>
             </p>
           </div>
+          <div class="col-md-12" *ngIf="cervicalScreeningSummary.length > 0">
+            <div class="col-md-12 col-xs-12">
+              <p>
+                Cervical Cancer Screening :
+                <span>
+                  {{ latestCervicalScreeningSummary.test }}
+                </span>
+                <span style="text-transform: capitalize">
+                  ({{ latestCervicalScreeningSummary.test_date }}) :
+                </span>
+                <span style="text-transform: capitalize">
+                  {{ latestCervicalScreeningSummary?.via_test_result }}
+                </span>
+              </p>
+            </div>
+          </div>
         </div>
         <div
           class="col-md-12"
