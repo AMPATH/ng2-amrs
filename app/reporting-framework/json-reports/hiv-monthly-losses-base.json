@@ -34,27 +34,19 @@
       }
     },
     {
-      "table": "etl.flat_appointment",
-      "alias": "dr",
-      "join": {
-        "type": "LEFT",
-        "joinCondition": "dr.person_id = c.person_id AND dr.encounter_type in (31)"
-      }
-    },
-    {
-      "table": "etl.flat_appointment",
+      "table": "etl.flat_transfers",
       "alias": "to",
       "join": {
         "type": "LEFT",
-        "joinCondition": "to.person_id = n.person_id AND to.encounter_type = 116 AND DATE(to.encounter_datetime) = n.transfer_out_date"
+        "joinCondition": "to.person_id = n.person_id AND DATE(to.encounter_datetime) = DATE(n.transfer_out_date)"
       }
     },
     {
-      "table": "amrs.obs",
-      "alias": "eo",
+      "table": "etl.flat_death_reporting",
+      "alias": "d",
       "join": {
         "type": "LEFT",
-        "joinCondition": "to.person_id = n.person_id AND to.encounter_id = eo.encounter_id AND eo.concept_id = 9082"
+        "joinCondition": "d.person_id = n.person_id"
       }
     }
   ],
@@ -124,7 +116,120 @@
       "alias": "death_report_date",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "DATE_FORMAT(dr.encounter_datetime,'%Y-%m-%d')"
+        "expression": "DATE_FORMAT(d.encounter_datetime,'%Y-%m-%d')"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "cause_of_death",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "d.cause_of_death = 1548",
+            "value": "HEALTH ISSUES"
+          },
+          {
+            "condition": "d.cause_of_death = 84",
+            "value": "ACCIDENT"
+          },
+          {
+            "condition": "d.cause_of_death = 1572",
+            "value": "MURDER"
+          },
+          {
+            "condition": "d.cause_of_death = 1571",
+            "value": "SUICIDE"
+          },
+          {
+            "condition": "d.cause_of_death = 1593",
+            "value": "PATIENT DIED"
+          },
+          {
+            "condition": "d.cause_of_death = 7257",
+            "value": "MATERNAL DEATH"
+          },
+          {
+            "condition": "d.cause_of_death = 1067",
+            "value": "UNKNOWN"
+          },
+          {
+            "condition": "d.cause_of_death = 16",
+            "value": "DIARRHEA"
+          },
+          {
+            "condition": "d.cause_of_death = 86",
+            "value": "ACCIDENT"
+          },
+          {
+            "condition": "d.cause_of_death = 507",
+            "value": "KAPOSI SARCOMA"
+          },
+          {
+            "condition": "d.cause_of_death = 5041",
+            "value": "HIV STAGING - LYMPHOMA"
+          },
+          {
+            "condition": "d.cause_of_death = 123",
+            "value": "MALARIA"
+          },
+          {
+            "condition": "d.cause_of_death = 60",
+            "value": "MENINGITIS"
+          },
+          {
+            "condition": "d.cause_of_death = 43",
+            "value": "PNEUMONIA"
+          },
+          {
+            "condition": "d.cause_of_death = 60",
+            "value": "MENINGITIS"
+          },
+          {
+            "condition": "d.cause_of_death = 58",
+            "value": "TUBERCULOSIS"
+          },
+          {
+            "condition": "d.cause_of_death = 102",
+            "value": "TOXICITY"
+          },
+          {
+            "condition": "d.cause_of_death = 58",
+            "value": "TUBERCULOSIS"
+          },
+          {
+            "condition": "d.cause_of_death = 10363",
+            "value": "HIV RESULTING IN CANCER DISEASE"
+          },
+          {
+            "condition": "d.cause_of_death = 10364",
+            "value": "HIV RESULTING IN INFECTIOUS OR PARASITIC DISEASE"
+          },
+          {
+            "condition": "d.cause_of_death = 10366",
+            "value": "NATURAL CAUSE"
+          },
+          {
+            "condition": "d.cause_of_death = 10367",
+            "value": "DEATH DUE TO NON NATURAL CAUSE"
+          },
+          {
+            "condition": "d.cause_of_death = 10365",
+            "value": "NON INFECTIOUS HIV RELATED DISEASE"
+          },
+          {
+            "condition": "d.cause_of_death = 10367",
+            "value": "DEATH DUE TO NON NATURAL CAUSE"
+          },
+          {
+            "condition": "d.cause_of_death = 6483",
+            "value": "CANCER"
+          },
+          {
+            "condition": "d.cause_of_death = 903",
+            "value": "HYPERTENSION"
+          }
+        ]
       }
     },
     {
@@ -148,7 +253,7 @@
       "alias": "transfer_out_location",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "CASE WHEN n.status = 'transfer_out' THEN nl.name WHEN n.status != 'transfer_out' AND n.location_id != c.location_id THEN nl.name ELSE NULL END"
+        "expression": "CASE WHEN n.status = 'transfer_out' THEN to.transfer_to_location WHEN n.status != 'transfer_out' AND n.location_id != c.location_id THEN nl.name ELSE NULL END"
       }
     },
     {
@@ -174,27 +279,27 @@
             "value": "INTER-AMPATH"
           },
           {
-            "condition": "c.location_id != n.location_id AND eo.value_coded is NULL AND NOT (cl.parent_location <=> nl.parent_location)",
+            "condition": "to.patient_care_status = 9504",
             "value": "INTER-AMPATH"
           },
           {
-            "condition": "eo.value_coded = 1285",
+            "condition": "to.patient_care_status = 1285",
             "value": "INTER-AMPATH"
           },
           {
-            "condition": "eo.value_coded = 10502",
+            "condition": "to.patient_care_status = 10502",
             "value": "NON-AMPATH"
           },
           {
-            "condition": "eo.value_coded = 5622",
+            "condition": "to.patient_care_status = 5622",
             "value": "OTHER"
           },
           {
-            "condition": "eo.value_coded = 1287",
+            "condition": "to.patient_care_status = 1287",
             "value": "NON-AMPATH"
           },
           {
-            "condition": "eo.value_coded = 9068",
+            "condition": "to.patient_care_status = 9068",
             "value": "AMPATH, NON-AMRS"
           },
           {
@@ -231,6 +336,22 @@
       "expressionType": "simple_expression",
       "expressionOptions": {
         "expression": "IF(n.days_since_rtc_date > 90,n.days_since_rtc_date - 90,NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "loss",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "CASE WHEN n.status = 'transfer_out' THEN 1 WHEN n.status != 'transfer_out' AND n.location_id != c.location_id THEN 1 WHEN n.status = 'dead' AND c.location_id = n.location_id THEN 1 WHEN n.status IN ('ltfu') AND c.location_id = n.location_id THEN 1 WHEN n.status IN ('defaulter') AND c.location_id = n.location_id THEN 1 ELSE NULL END"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "loss_status",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "CASE WHEN n.status = 'transfer_out' THEN 'Transfer Out' WHEN n.status != 'transfer_out' AND n.location_id != c.location_id THEN 'Transfer Out' WHEN n.status = 'dead' AND c.location_id = n.location_id THEN 'Dead' WHEN n.status IN ('ltfu') AND c.location_id = n.location_id THEN 'Ltfu/IIT' WHEN n.status IN ('defaulter') AND c.location_id = n.location_id THEN 'Ltfu/IIT' ELSE NULL END "
       }
     }
   ],

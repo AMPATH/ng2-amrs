@@ -115,6 +115,14 @@
       "expressionOptions": {
         "expression": "SUM(b.gained_other)"
       }
+    },
+    {
+      "type": "derived_column",
+      "alias": "gain",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.gain)"
+      }
     }
   ],
   "groupBy": {
