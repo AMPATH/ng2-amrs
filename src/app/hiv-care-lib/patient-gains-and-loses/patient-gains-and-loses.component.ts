@@ -43,6 +43,7 @@ export class PatientGainsAndLosesComponent implements OnInit {
     .subtract(1, 'months')
     .endOf('month')
     .toDate();
+  public isDraftReport = false;
   constructor(
     public router: Router,
     public route: ActivatedRoute,
@@ -87,6 +88,7 @@ export class PatientGainsAndLosesComponent implements OnInit {
 
   public getPatientGainAndLoseReport(params) {
     this.isLoadingReport = true;
+    this.isDraftReport = false;
     this.patientGainLose
       .getPatientGainAndLoseReport(params)
       .subscribe((data) => {
@@ -101,6 +103,7 @@ export class PatientGainsAndLosesComponent implements OnInit {
           this.showInfoMessage = false;
           this.patientGainAndLoseSummaryData = data.result[0];
           this.proxyRetention = data.proxyRetention;
+          this.isDraftReport = data.isDraftReport;
           this.calculateNetGainLoss(this.patientGainAndLoseSummaryData);
           this.patientGainAndLoseSummaryData.startingMonth = Moment(
             this.params.startingMonth
