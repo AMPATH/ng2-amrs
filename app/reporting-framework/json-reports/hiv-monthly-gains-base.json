@@ -6,11 +6,11 @@
   "uses": [],
   "sources": [
     {
-      "table": "etl.hiv_monthly_report_dataset_frozen",
+      "table": "<<hivMonthlyGainsEndingDatasetSource>>",
       "alias": "c"
     },
     {
-      "table": "etl.hiv_monthly_report_dataset_frozen",
+      "table": "<<hivMonthlyGainsStartingDatasetSource>>",
       "alias": "p",
       "join": {
         "type": "LEFT",
