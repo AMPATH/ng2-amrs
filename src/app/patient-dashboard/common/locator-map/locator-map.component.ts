@@ -131,6 +131,7 @@ export class LocatorMapComponent implements OnInit, OnDestroy {
   }
 
   public setPhoto() {
+    this.resetValues();
     const photo = this.patient.person.getPersonAttribute(this.attributeType);
     if (photo) {
       this.dataModel = photo;
@@ -172,5 +173,9 @@ export class LocatorMapComponent implements OnInit, OnDestroy {
     } else {
       this.openCamera = true;
     }
+  }
+  public resetValues(): void {
+    this.dataModel = null;
+    this.pdfAvailable = false;
   }
 }
