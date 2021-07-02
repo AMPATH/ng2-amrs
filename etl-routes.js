@@ -4067,11 +4067,19 @@ module.exports = (function () {
       config: {
         auth: 'simple',
         handler: function (request, reply) {
-          var replyPayload = {};
-          var image = etlHelpers.decodeBase64Image(request.payload.data);
-          var imageTypeRegularExpression = /\/(.*?)$/;
-          var imageTypeDetected = image.type.match(imageTypeRegularExpression);
-          var seed = crypto.randomBytes(20);
+          let replyPayload = {};
+          let data;
+          if (request.payload.data) {
+            data = request.payload.data;
+          } else if (request.payload._imageAsDataUrl) {
+            data = request.payload._imageAsDataUrl;
+          }
+          const image = etlHelpers.decodeBase64Image(data);
+          const imageTypeRegularExpression = /\/(.*?)$/;
+          const imageTypeDetected = image.type.match(
+            imageTypeRegularExpression
+          );
+          const seed = crypto.randomBytes(20);
           var uniqueSHA1String = crypto
             .createHash('sha1')
             .update(seed)
