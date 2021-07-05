@@ -14,6 +14,9 @@
   <p class="alert alert-danger" *ngIf="hasValidationErrors">
     <span [innerHTML]="currentError"></span>
   </p>
+  <p class="alert alert-info" *ngIf="hasNotice">
+    <span [innerHTML]="currentNotice"></span>
+  </p>
   <program-wizard-step [name]="'Department Step'">
     <div class="wizard-body component">
       <div class="step" *ngIf="programDepartments">
@@ -373,7 +376,7 @@
     </button>
   </div>
   <div class="modal-body">
-    <p>Patient will automatically be auto unenrolled from DC group</p>
+    <p>Patient will be auto unenrolled from DC group, do you wish to proceed</p>
   </div>
   <div class="modal-footer">
     <button class="btn btn-primary" (click)="modalRef.hide()">Cancel</button>

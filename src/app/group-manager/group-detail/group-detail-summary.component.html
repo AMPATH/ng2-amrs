@@ -61,7 +61,7 @@
           </td>
           <td>
             <strong>Last Meeting: </strong>
-            <span *ngIf="group.cohortVisits[0]">{{
+            <span *ngIf="group.cohortVisits && group.cohortVisits[0]">{{
               group.cohortVisits[0]['startDate'] | date: 'medium'
             }}</span>
             <span *ngIf="!group.cohortVisits">None</span>

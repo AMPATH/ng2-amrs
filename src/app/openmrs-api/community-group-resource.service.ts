@@ -48,7 +48,7 @@ export class CommunityGroupService {
   public getGroupByGroupNumber(groupNumber: string): Observable<any> {
     const params = new HttpParams()
       .set('attributes', `"groupNumber":"${groupNumber}"`)
-      .set('v', this._v)
+      .set('v', this.v)
       .set('cohortType', 'community_group');
 
     const url = this.getOpenMrsBaseUrl() + '/cohort';
@@ -61,7 +61,7 @@ export class CommunityGroupService {
 
   public getGroupByName(name: string): Observable<any> {
     const params = new HttpParams()
-      .set('v', this._v)
+      .set('v', this.v)
       .set('q', name)
       .set('cohortType', 'community_group');
 
@@ -123,7 +123,7 @@ export class CommunityGroupService {
   }
 
   public disbandGroup(uuid: string, endDate: Date, reason: string): any {
-    const url = this.getOpenMrsBaseUrl() + '/cohort' + ` /${uuid}`;
+    const url = this.getOpenMrsBaseUrl() + '/cohort' + `/${uuid}?v=full`;
     const body = {
       endDate: endDate,
       voided: true,
@@ -174,7 +174,7 @@ export class CommunityGroupService {
   public getGroupsByLandmark(landmark: string) {
     const params = new HttpParams()
       .set('attributes', `"landmark":"${landmark}"`)
-      .set('v', this._v)
+      .set('v', this.v)
       .set('cohortType', 'community_group');
 
     const url = this.getOpenMrsBaseUrl() + '/cohort';

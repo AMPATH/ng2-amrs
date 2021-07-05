@@ -208,7 +208,9 @@ export class NewProgramComponent
   }
 
   public showEnrollmentFormsOrEnrollOnValidation() {
-    this.modalRef.hide();
+    if (this.modalRef) {
+      this.modalRef.hide();
+    }
     if (this.formValidated() && !this.hasValidationErrors) {
       this.filterStateChangeEncounterTypes();
       // if there are no required forms, go ahead and enroll the patient
@@ -572,6 +574,10 @@ export class NewProgramComponent
             this.currentStep++;
             this.nextStep = true;
             count++;
+            this.showMessage(
+              `Patient auto-enrolled into DC program, Continue enrolling patient into existing or new DC group`,
+              `info`
+            );
           }
         }
       });
@@ -808,6 +814,7 @@ export class NewProgramComponent
     this.currentStep++;
     this.nextStep = true;
     this.newlyEnrolledGroup = newGroup;
+    this.removeMessage();
   }
 
   public getCurrentPatientGroups(patientUuid: string) {
