@@ -9,6 +9,11 @@
     >
     </app-gains-and-losses-report-filters>
   </div>
+  <div *ngIf="isDraftReport" class="alert alert-warning">
+    <strong>Viewing a draft Version of the Gains and Losses Report. </strong>
+    This report is not officially released, and is likely to change without
+    warning.
+  </div>
   <div class="row" *ngIf="locationUuids">
     <div class="col-sm-12">
       <div class="loader" *ngIf="isLoadingReport">
