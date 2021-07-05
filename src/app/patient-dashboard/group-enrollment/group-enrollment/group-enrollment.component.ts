@@ -13,6 +13,8 @@ import * as _ from 'lodash';
 import { CommunityGroupMemberService } from '../../../openmrs-api/community-group-member-resource.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { combineLatest, Subscription } from 'rxjs';
+import { RisonService } from './../../../shared/services/rison-service';
+import { Router, ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'group-enrollment',
   templateUrl: './group-enrollment.component.html',
@@ -37,11 +39,11 @@ export class GroupEnrollmentComponent implements OnInit, OnDestroy {
   @Output() hide: EventEmitter<boolean> = new EventEmitter();
   @Output() group: EventEmitter<any> = new EventEmitter();
   @Input() public set state(state: any) {
-    this.currentGroups = state.currentGroups;
-    this.currentEnrolledPrograms = state.currentEnrolledPrograms;
-    this.action = state.action;
-    this.patient = state.patient;
-    this.selectedGroup = state.selectedGroup;
+    this.currentGroups = state ? state.currentGroups : [];
+    this.currentEnrolledPrograms = state ? state.currentEnrolledPrograms : [];
+    this.action = state ? state.action : 'Enroll';
+    this.patient = state ? state.patient : '';
+    this.selectedGroup = state ? state.selectedGroup : '';
     this.getGroupsPrograms();
   }
   @ViewChild('transferGroupConfirmationModal') transferGroupConfirmationModal;
@@ -50,7 +52,10 @@ export class GroupEnrollmentComponent implements OnInit, OnDestroy {
   constructor(
     private communityGroupService: CommunityGroupService,
     private groupMemberService: CommunityGroupMemberService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private router: Router,
+    private risonService: RisonService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {}
@@ -75,6 +80,18 @@ export class GroupEnrollmentComponent implements OnInit, OnDestroy {
   }
 
   public onEnrollmentTypeChange($event: MatRadioChange) {
+    let enrolledInDc = false;
+    _.forEach(this.currentEnrolledPrograms, (currentProgram) => {
+      if (
+        currentProgram.programUuid === '334c9e98-173f-4454-a8ce-f80b20b7fdf0'
+      ) {
+        enrolledInDc = true;
+      }
+    });
+
+    if (!enrolledInDc) {
+      this.errorMessage = `Patient needs to be enrolled in DC program first.`;
+    }
     this.enrollmentType = $event.value;
   }
 
@@ -98,7 +115,7 @@ export class GroupEnrollmentComponent implements OnInit, OnDestroy {
       this.searchResults.length === 0 &&
       results.length > 0
     ) {
-      this.errorMessage = `Patient needs to be enrolled in DC program first before enrolling in a community group.`;
+      this.errorMessage = `Patient needs to be enrolled in DC program first.`;
     } else {
       this.errorMessage = null;
     }
@@ -204,5 +221,33 @@ export class GroupEnrollmentComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  public enrollPatienttoProgram() {
+    this.hide.emit(true);
+    const enrollMentUrl = [
+      'patient-dashboard',
+      'patient',
+      this.patient.uuid,
+      'general',
+      'general',
+      'program-manager',
+      'new-program',
+      'step',
+      3
+    ];
+
+    const queryParams = {
+      program: '334c9e98-173f-4454-a8ce-f80b20b7fdf0',
+      redirectUrl: this.router.url,
+      enrollMentQuestions: this.risonService.encode({
+        hivStatus: 'positive',
+        enrollPatient: true
+      })
+    };
+
+    this.router.navigate(enrollMentUrl, {
+      queryParams: queryParams
+    });
   }
 }

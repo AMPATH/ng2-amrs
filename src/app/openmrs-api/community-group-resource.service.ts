@@ -12,6 +12,8 @@ import { Constants } from '../utils/constants';
 export class CommunityGroupService {
   public cachedResults: BehaviorSubject<any[]> = new BehaviorSubject([]);
   public v = 'full';
+  public _v =
+    'custom:(uuid,name,description,location,startDate,endDate,attributes)';
 
   constructor(
     private http: HttpClient,
@@ -71,7 +73,7 @@ export class CommunityGroupService {
   }
 
   public getGroupByUuid(groupUuid: string): Observable<any> {
-    const params = new HttpParams().set('v', 'full');
+    const params = new HttpParams().set('v', this.v);
     const url = this.getOpenMrsBaseUrl() + '/cohort' + `/${groupUuid}`;
     return this.http.get(url, {
       params: params
@@ -121,7 +123,7 @@ export class CommunityGroupService {
   }
 
   public disbandGroup(uuid: string, endDate: Date, reason: string): any {
-    const url = this.getOpenMrsBaseUrl() + '/cohort' + ` /${uuid}`;
+    const url = this.getOpenMrsBaseUrl() + '/cohort' + `/${uuid}?v=full`;
     const body = {
       endDate: endDate,
       voided: true,
@@ -193,7 +195,7 @@ export class CommunityGroupService {
   public getGroupsByLocationUuid(locationUuid: string) {
     const params = new HttpParams()
       .set('location', `${locationUuid}`)
-      .set('v', this.v);
+      .set('v', this._v);
     const url = this.getOpenMrsBaseUrl() + '/cohort';
     return this.http
       .get<any>(url, { params })
