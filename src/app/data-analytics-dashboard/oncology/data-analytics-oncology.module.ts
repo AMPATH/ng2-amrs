@@ -14,6 +14,7 @@ import { OncologyReportService } from '../../etl-api/oncology-reports.service';
 import { OncologySummaryIndicatorsComponent } from './oncology-reports/oncology-summary-indicators/oncology-summary-indicators.component';
 import { OncologySummaryFiltersComponent } from './oncology-reports/oncology-summary-filters/oncology-summary-filters.component';
 import { OncologySummaryIndicatorsResourceService } from '../../etl-api/oncology-summary-indicators-resource.service';
+import { CervicalScreeningReportTabularComponent } from './oncology-reports/cervical-screening-report/cervical-screening-report-tabular.component';
 import { OncologySummaryIndicatorsTableComponent } from './oncology-reports/oncology-summary-indicators-table/oncology-summary-indicators-table.component';
 import { OncologySummaryIndicatorsPatientListComponent } from './oncology-reports/oncology-indicators-patient-list/oncology-indicators-patient-list.component';
 import { NgBusyModule } from 'ng-busy';
@@ -44,6 +45,7 @@ import { OncologyAggregateReportViewComponent } from './oncology-reports/oncolog
     OncologySummaryIndicatorsPatientListComponent
   ],
   declarations: [
+    CervicalScreeningReportTabularComponent,
     OncologyReportsComponent,
     OncologySummaryIndicatorsComponent,
     OncologySummaryFiltersComponent,

@@ -1,0 +1,27 @@
+<div class="container-fluid" id="cervicalScreeningReportContainer">
+  <div class="row">
+    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+      <ag-grid-angular
+        #agGrid
+        style="width: 100%; height: 500px"
+        id="cervicalScreeningReport"
+        class="ag-blue"
+        (cellClicked)="onCellClicked($event)"
+        [gridOptions]="gridOptions"
+        [pinnedBottomRowData]="pinnedBottomRowData"
+        [rowData]="monthlySummary"
+        [overlayNoRowsTemplate]="overlayNoRowsTemplate"
+      ></ag-grid-angular>
+      <button
+        class="btn btn-info pull-right"
+        id="exportBtn"
+        *ngIf="monthlySummary && monthlySummary.length"
+        (click)="exportToCsv()"
+        style="color: #fff"
+      >
+        <i class="inline fa fa-file-excel-o"></i>
+        <span>Export</span>
+      </button>
+    </div>
+  </div>
+</div>

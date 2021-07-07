@@ -5,7 +5,7 @@ import {
   ChangeDetectorRef,
   Output
 } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { take } from 'rxjs/operators';
 import * as _ from 'lodash';
@@ -14,6 +14,14 @@ import * as Moment from 'moment';
 import { OncologySummaryIndicatorsResourceService } from '../../../../etl-api/oncology-summary-indicators-resource.service';
 import * as OncologyReportConfig from '../oncology-pdf-reports.json';
 import { EventEmitter } from 'events';
+
+interface ETLReport {
+  result: Array<Record<string, number | string>>;
+  columnDefinitions?: Array<Record<string, string>>;
+  schemas: Record<string, any>;
+  sqlQuery: string;
+}
+
 @Component({
   selector: 'oncology-summary-indicators-summary',
   templateUrl: './oncology-summary-indicators.component.html',
@@ -21,34 +29,34 @@ import { EventEmitter } from 'events';
 })
 export class OncologySummaryIndicatorsComponent
   implements OnInit, AfterViewInit {
+  @Output() public selectedTab = new EventEmitter();
   public title = '';
-  public monthlySummary: any = [];
-  public isPdfReportAvailable = false;
-  public params: any;
-  public reportType = '';
+  public monthlySummary: Array<Record<string, number | string>> = [];
+  public columnDefinitions: Array<Record<string, string>>;
   public startDate: string = Moment().startOf('year').format('YYYY-MM-DD');
   public endDate: string = Moment().endOf('month').format('YYYY-MM-DD');
+  public isPdfReportAvailable = false;
+  public isCervicalScreeningReport = false;
+  public gender: Array<string> = ['M', 'F'];
+  public params: Params;
+  public reportType = '';
   public startAge = 0;
   public endAge = 120;
   public indicators = '';
   public period = 'monthly';
-  public specificOncologyReport: any;
   public reportUuid = '';
   public reportIndex = 0;
-  public report: any;
-  public currentReport: any;
-  public gender: any = ['M', 'F'];
   public currentView = 'tabular';
-  public busyIndicator: any = {
+  public busyIndicator: Record<string, boolean | string> = {
     busy: false,
-    message: 'Please wait...' // default message
+    message: 'Loading report...' // default message
   };
-  @Output() public selectedTab = new EventEmitter();
 
   public errorObj = {
     message: '',
     isError: false
   };
+  public cervicalScreeningReport = /^cervical-cancer-screening-numbers(-moh-412$)*/;
 
   constructor(
     private cd: ChangeDetectorRef,
@@ -62,6 +70,10 @@ export class OncologySummaryIndicatorsComponent
       (params) => {
         if (params) {
           this.params = params;
+
+          if (params.type.match(this.cervicalScreeningReport)) {
+            this.isCervicalScreeningReport = true;
+          }
 
           if (params.startDate) {
             this.reportUuid = params.reportUuid;
@@ -165,8 +177,11 @@ export class OncologySummaryIndicatorsComponent
       .getOncologySummaryMonthlyIndicatorsReport(this.params)
       .pipe(take(1))
       .subscribe(
-        (result) => {
-          this.monthlySummary = result.result;
+        (aggregateReport: ETLReport) => {
+          this.monthlySummary = aggregateReport.result;
+          if (aggregateReport.columnDefinitions) {
+            this.columnDefinitions = aggregateReport.columnDefinitions;
+          }
           setTimeout(() => this.endLoading(), 800);
         },
         (err) => {
