@@ -90,6 +90,14 @@
       "expressionOptions": {
         "expression": "SUM(b.transfer_out)"
       }
+    },
+    {
+      "type": "derived_column",
+      "alias": "loss",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.loss)"
+      }
     }
   ],
   "groupBy": {

@@ -71,7 +71,6 @@ import { HeiSummaryService } from './service/moh-408-service';
 import { RetentionAppointmentTracingService } from './service/retention-appointment-tracing-service';
 import { PatientGainLosesService } from './service/patient-gain-loses.service';
 import { PrepReminderService } from './service/prep-reminder/prep-reminder.service';
-
 import { HIVGainsAndLossesService } from './service/gains-and-losses/hiv-gains-losses-service';
 const cervicalCancerScreeningService = require('./service/cervical-cancer-screening-service');
 
