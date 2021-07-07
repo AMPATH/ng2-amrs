@@ -86,11 +86,14 @@
       </a>
     </div>
     <div class="card-item col-md-2 col-sm-2 col-lg-2 col-xs-12">
-      <a>
-        <div class="thumbnail dashboard-card" style="padding: 4px">
-          <div class="caption">
-            <span class="gain-text-color">Gained</span>
-            <hr class="intro-divider dashboard-divider" />
+      <div class="thumbnail dashboard-card" style="padding: 4px">
+        <div class="caption">
+          <span class="gain-text-color">Gained</span>
+          <hr class="intro-divider dashboard-divider" />
+          <a
+            class="numbers_link"
+            (click)="onIndicatorSelected('gain', 'Gained')"
+          >
             <h4 class="gain-text-color numbers_text">
               +{{
                 patientGainAndLoseSummaryData?.return_to_care +
@@ -99,9 +102,9 @@
                   patientGainAndLoseSummaryData?.gained_other
               }}
             </h4>
-          </div>
+          </a>
         </div>
-      </a>
+      </div>
     </div>
     <div class="card-item col-md-2 col-sm-2 col-lg-2 col-xs-12">
       <a>
@@ -109,14 +112,19 @@
           <div class="caption">
             <span class="loss-text-color">Lost</span>
             <hr class="intro-divider dashboard-divider" />
-            <h4 class="loss-text-color numbers_text">
-              -{{
-                patientGainAndLoseSummaryData?.transfer_out +
-                  patientGainAndLoseSummaryData?.dead +
-                  patientGainAndLoseSummaryData?.defaulter +
-                  patientGainAndLoseSummaryData?.ltfu
-              }}
-            </h4>
+            <a
+              class="numbers_link"
+              (click)="onIndicatorSelected('loss', 'Lost')"
+            >
+              <h4 class="loss-text-color numbers_text">
+                -{{
+                  patientGainAndLoseSummaryData?.transfer_out +
+                    patientGainAndLoseSummaryData?.dead +
+                    patientGainAndLoseSummaryData?.defaulter +
+                    patientGainAndLoseSummaryData?.ltfu
+                }}
+              </h4>
+            </a>
           </div>
         </div>
       </a>
@@ -288,10 +296,7 @@
                     <tr>
                       <th class="report-indicators"><b>Gains</b></th>
                       <td class="numbers_link report-indicators">
-                        <a
-                          (click)="
-                            onIndicatorSelected('starting_not_active', 'Gains')
-                          "
+                        <a (click)="onIndicatorSelected('gain', 'Gains')"
                           ><b>{{
                             patientGainAndLoseSummaryData?.starting_not_active
                           }}</b></a
