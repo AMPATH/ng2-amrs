@@ -22,6 +22,10 @@ import { DataAnalyticsHivModule } from '../hiv/data-analytics-hiv.module';
 import { TabViewModule } from 'primeng/primeng';
 import { OncologyReportPdfViewComponent } from './oncology-reports/oncology-report-pdf-view/oncology-report-pdf-view.component';
 import { OncologyAggregateReportViewComponent } from './oncology-reports/oncology-aggregate-report-view/oncology-aggregate-report-view.component';
+import { MOH412ReportComponent } from './oncology-reports/moh-412-report/moh-412/moh-412-report.component';
+import { MOH412TabularComponent } from './oncology-reports/moh-412-report/moh-412-table/moh-412-tabular.component';
+import { MOH412FilterComponent } from './oncology-reports/moh-412-report/moh-412-filters/moh-412-filter.component';
+import { MOH412PatientListComponent } from './oncology-reports/moh-412-report/moh-412-patient-list/moh-412-patient-list.component';
 @NgModule({
   imports: [
     DataAnalyticsDashboardOncologyRouting,
@@ -41,7 +45,11 @@ import { OncologyAggregateReportViewComponent } from './oncology-reports/oncolog
     OncologySummaryIndicatorsComponent,
     OncologySummaryFiltersComponent,
     OncologySummaryIndicatorsTableComponent,
-    OncologySummaryIndicatorsPatientListComponent
+    OncologySummaryIndicatorsPatientListComponent,
+    MOH412ReportComponent,
+    MOH412TabularComponent,
+    MOH412FilterComponent,
+    MOH412PatientListComponent
   ],
   declarations: [
     OncologyReportsComponent,
@@ -50,7 +58,11 @@ import { OncologyAggregateReportViewComponent } from './oncology-reports/oncolog
     OncologySummaryIndicatorsTableComponent,
     OncologySummaryIndicatorsPatientListComponent,
     OncologyReportPdfViewComponent,
-    OncologyAggregateReportViewComponent
+    OncologyAggregateReportViewComponent,
+    MOH412ReportComponent,
+    MOH412TabularComponent,
+    MOH412FilterComponent,
+    MOH412PatientListComponent
   ],
   providers: [
     DataAnalyticsDashboardService,

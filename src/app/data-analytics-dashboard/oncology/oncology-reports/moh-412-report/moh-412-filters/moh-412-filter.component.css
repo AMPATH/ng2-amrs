@@ -1,0 +1,11 @@
+#moh-412-filter {
+  border-style: solid;
+  border: 1px double lightgray;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-bottom: 10px;
+}
