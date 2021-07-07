@@ -16,6 +16,22 @@
         "type": "LEFT",
         "joinCondition": "c.person_id = p.person_id AND p.endDate = '{startingMonth}'"
       }
+    },
+    {
+      "table": "amrs.location",
+      "alias": "pl",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "p.location_id = pl.location_id"
+      }
+    },
+    {
+      "table": "etl.flat_hiv_transfer_in",
+      "alias": "ft",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "ft.person_id = c.person_id"
+      }
     }
   ],
   "columns": [
@@ -113,6 +129,14 @@
     },
     {
       "type": "derived_column",
+      "alias": "transferred_in_location",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": " CASE WHEN c.transfer_in_this_month = 1 AND c.location_id != p.location_id AND p.location_id IS not NULL THEN pl.name WHEN c.transfer_in_this_month = 1 AND p.location_id IS NULL and ft.transfer_from_location IS NOT NULL THEN ft.transfer_from_location WHEN c.transfer_in_this_month = 0 AND c.location_id != p.location_id THEN pl.name ELSE NULL END"
+      }
+    },
+    {
+      "type": "derived_column",
       "alias": "return_to_care",
       "expressionType": "simple_expression",
       "expressionOptions": {
@@ -133,6 +157,22 @@
       "expressionType": "simple_expression",
       "expressionOptions": {
         "expression": "CASE WHEN c.status = 'active' AND p.status IS NULL AND c.transfer_in_this_month = 0 AND c.enrolled_this_month = 0 THEN 1 ELSE NULL END"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "gain",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "CASE WHEN c.enrolled_this_month = 1 AND c.transfer_in_this_month = 0 then 1 WHEN c.transfer_in_this_month = 1 AND (c.location_id != p.location_id OR p.location_id IS NULL) THEN 1 WHEN c.transfer_in_this_month = 0 AND c.location_id != p.location_id THEN 1 WHEN c.status = 'active' AND p.status != 'active' AND p.person_id IS NOT NULL AND c.location_id = p.location_id THEN 1 WHEN c.status = 'active' AND p.status IS NULL AND c.transfer_in_this_month = 0 AND c.enrolled_this_month = 0 THEN 1 ELSE NULL END"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "gain_status",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "CASE WHEN c.enrolled_this_month = 1 AND c.transfer_in_this_month = 0 THEN 'Newly Enrolled' WHEN c.transfer_in_this_month = 1 AND (c.location_id != p.location_id OR p.location_id IS NULL) THEN 'Transferred in' WHEN c.transfer_in_this_month = 0 AND c.location_id != p.location_id THEN 'Transferred in' WHEN c.status = 'active' AND p.status != 'active' AND p.person_id IS NOT NULL AND c.location_id = p.location_id THEN 'Returned to Care' WHEN c.status = 'active' AND p.status IS NULL AND c.transfer_in_this_month = 0 AND c.enrolled_this_month = 0 THEN 'Other' ELSE NULL END"
       }
     }
   ],
