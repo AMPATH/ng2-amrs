@@ -15,7 +15,7 @@ import { LocalStorageService } from 'src/app/utils/local-storage.service';
 })
 export class HIVListsMicroFrontendComponent implements OnDestroy, OnInit {
   public url: SafeResourceUrl;
-  private baseUrl = 'https://ngx.ampath.or.ke';
+  private baseUrl = 'https://kibana.ampath.or.ke';
   private subscription: Array<Subscription> = [];
   private locationUuid: any;
 
@@ -43,7 +43,7 @@ export class HIVListsMicroFrontendComponent implements OnDestroy, OnInit {
       this.locationUuid = params.location_uuid;
     });
     this.url = this.sanitizer.bypassSecurityTrustResourceUrl(
-      `${this.baseUrl}/amrs/spa/home`
+      `${this.baseUrl}/upgrade/spa/hiv-clinic-dashboard`
     );
     window.addEventListener('message', this.messageHandler.bind(this), false);
   }
