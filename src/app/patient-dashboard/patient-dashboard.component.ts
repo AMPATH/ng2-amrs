@@ -114,7 +114,11 @@ export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
                 // the intention of combining is to have both systems sync. So we take just one result
                 if (results.length > 0) {
                   const result = results[0][0];
-                  if (result.updatedObs && result.updatedObs.length > 0) {
+                  if (
+                    result &&
+                    result.updatedObs &&
+                    result.updatedObs.length > 0
+                  ) {
                     const uniqueTests: any = Object.values(
                       result.updatedObs.reduce((acc, cur) => {
                         return Object.assign(acc, { [cur.concept.uuid]: cur });

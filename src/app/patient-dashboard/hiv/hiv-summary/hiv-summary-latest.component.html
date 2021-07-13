@@ -181,7 +181,7 @@
       EAC Session: {{ hivSummary?.mdt_session_number }}
     </li>
     <li
-      *ngIf="cervicalScreeningSummary.length > 0"
+      *ngIf="cervicalScreeningSummary && cervicalScreeningSummary.length > 0"
       class="list-group-item"
       style="font-size: large"
     >
@@ -189,7 +189,7 @@
       {{ latestCervicalScreeningSummary?.test_date }}
     </li>
     <li
-      *ngIf="cervicalScreeningSummary.length > 0"
+      *ngIf="cervicalScreeningSummary && cervicalScreeningSummary.length > 0"
       class="list-group-item"
       style="font-size: large"
     >
