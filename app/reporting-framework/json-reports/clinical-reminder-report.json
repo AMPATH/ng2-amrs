@@ -165,6 +165,11 @@
     },
     {
       "type": "simple_column",
+      "alias": "gender",
+      "column": "t5.gender"
+    },
+    {
+      "type": "simple_column",
       "alias": "person_id",
       "column": "t1.person_id"
     },

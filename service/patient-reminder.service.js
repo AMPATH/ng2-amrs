@@ -85,7 +85,7 @@ function viralLoadReminders(data) {
         toast: true
       }
     });
-  } else if (data.needs_vl_coded === 4) {
+  } else if (data.needs_vl_coded === 4 && data.gender === 'F') {
     reminders.push({
       message:
         'Patient requires viral load. A pregnant or breastfeeding patient with vl > 400 requires ' +
@@ -98,7 +98,7 @@ function viralLoadReminders(data) {
         toast: true
       }
     });
-  } else if (data.needs_vl_coded === 5) {
+  } else if (data.needs_vl_coded === 5 && data.gender === 'F') {
     reminders.push({
       message:
         'Patient requires viral load. A pregnant or breastfeeding patient with vl <= 400 requires ' +
