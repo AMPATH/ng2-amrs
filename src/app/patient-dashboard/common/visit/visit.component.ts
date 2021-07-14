@@ -18,6 +18,7 @@ import { CommunityGroupMemberService } from '../../../openmrs-api/community-grou
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { ViewChild } from '@angular/core';
 import { PatientService } from '../../services/patient.service';
+import { PatientProgramResourceService } from 'src/app/etl-api/patient-program-resource.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -63,12 +64,14 @@ export class VisitComponent implements OnInit, OnDestroy {
   };
   public patientEnrolledInGroup = false;
   public communityEnrollmentSuccessMessage;
+  public programVisitsConfig = {};
 
   constructor(
     private todayVisitService: TodayVisitService,
     private communityGroupMemberService: CommunityGroupMemberService,
     private bsModalService: BsModalService,
-    private patientService: PatientService
+    private patientService: PatientService,
+    private patientProgramResourceService: PatientProgramResourceService
   ) {}
 
   public ngOnInit() {
@@ -270,6 +273,14 @@ export class VisitComponent implements OnInit, OnDestroy {
       this.currentProgramConfig = config;
       this.currentEnrollment = currentEnrollment;
       this.currentProgramEnrollmentUuid = this.currentEnrollment.uuid;
+      if (this.visit) {
+        this.getCurrentProgramEnrollmentConfig(
+          this.visit.patient.uuid,
+          this.programUuid,
+          this.currentProgramEnrollmentUuid,
+          this.visit.location.uuid
+        );
+      }
     }
   }
 
@@ -281,5 +292,32 @@ export class VisitComponent implements OnInit, OnDestroy {
       (error) => {}
     );
     this.subs.push(sub);
+  }
+
+  public getCurrentProgramEnrollmentConfig(
+    patientUuid,
+    programUuid,
+    programEnrollmentUuid,
+    locationUuid
+  ) {
+    if (programEnrollmentUuid === '') {
+      return;
+    }
+    this.patientProgramResourceService
+      .getPatientProgramVisitTypes(
+        patientUuid,
+        programUuid,
+        programEnrollmentUuid,
+        locationUuid
+      )
+      .take(1)
+      .subscribe(
+        (progConfig) => {
+          this.programVisitsConfig = progConfig;
+        },
+        (error) => {
+          console.error('Error loading the program visit configs', error);
+        }
+      );
   }
 }
