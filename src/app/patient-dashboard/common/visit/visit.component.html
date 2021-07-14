@@ -83,6 +83,7 @@
       (formSelected)="onFormSelected($event)"
       (visitCancelled)="onVisitStartedOrChanged($event)"
       (visitChanged)="onVisitStartedOrChanged($event)"
+      [validatedEncountersConfig]="programVisitsConfig"
     >
     </app-visit-details>
   </div>

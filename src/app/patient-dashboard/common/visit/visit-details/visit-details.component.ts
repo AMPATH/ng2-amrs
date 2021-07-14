@@ -1,12 +1,13 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Observable, forkJoin } from 'rxjs';
 import * as moment from 'moment';
+import _ from 'underscore';
 
 import { VisitResourceService } from '../../../../openmrs-api/visit-resource.service';
 import { EncounterResourceService } from '../../../../openmrs-api/encounter-resource.service';
 import { Encounter } from '../../../../models/encounter.model';
 import { RetrospectiveDataEntryService } from '../../../../retrospective-data-entry/services/retrospective-data-entry.service';
-
+import { PatientProgramResourceService } from 'src/app/etl-api/patient-program-resource.service';
 @Component({
   selector: 'app-visit-details',
   templateUrl: './visit-details.component.html',
@@ -86,13 +87,27 @@ export class VisitDetailsComponent implements OnInit {
   @Input()
   public set programVisitTypesConfig(v: any) {
     this._programVisitTypesConfig = v;
-    this.extractAllowedEncounterTypesForVisit();
   }
 
+  public hasValidatedEncounters = false;
+  private _validatedEncountersConfig: any;
+  public get validatedEncountersConfig(): any {
+    return this._validatedEncountersConfig;
+  }
+
+  @Input()
+  public set validatedEncountersConfig(v: any) {
+    if (!_.isEmpty(v)) {
+      this.hasValidatedEncounters = true;
+      this.extractAllowedEncounterTypesForVisit(v);
+    }
+    this._validatedEncountersConfig = v;
+  }
   constructor(
     private visitResourceService: VisitResourceService,
     private retrospectiveDataEntryService: RetrospectiveDataEntryService,
-    private encounterResService: EncounterResourceService
+    private encounterResService: EncounterResourceService,
+    private patientProgramResourceService: PatientProgramResourceService
   ) {}
 
   public ngOnInit() {
@@ -145,7 +160,32 @@ export class VisitDetailsComponent implements OnInit {
     );
   }
 
-  public extractAllowedEncounterTypesForVisit() {
+  public getCurrentProgramEnrollmentConfig(patientUuid, locationUuid) {
+    if (this.programEnrollmentUuid === '') {
+      return;
+    }
+    this.validatedEncountersConfig = {};
+    this.error = '';
+    this.patientProgramResourceService
+      .getPatientProgramVisitTypes(
+        patientUuid,
+        this.programUuid,
+        this.programEnrollmentUuid,
+        locationUuid
+      )
+      .take(1)
+      .subscribe(
+        (progConfig) => {
+          this.validatedEncountersConfig = progConfig;
+          this.extractAllowedEncounterTypesForVisit(progConfig);
+        },
+        (error) => {
+          console.error('Error loading the program visit configs', error);
+        }
+      );
+  }
+
+  public extractAllowedEncounterTypesForVisit(programConfig) {
     this.allowedEncounterTypesUuids = [];
     if (
       this.visit &&
@@ -153,17 +193,24 @@ export class VisitDetailsComponent implements OnInit {
       this.programVisitTypesConfig &&
       Array.isArray(this.programVisitTypesConfig.visitTypes)
     ) {
-      let visitType: any;
-      this.programVisitTypesConfig.visitTypes.forEach((element) => {
-        if (element.uuid === this.visit.visitType.uuid) {
-          visitType = element;
-        }
-      });
-
-      if (visitType && Array.isArray(visitType.encounterTypes)) {
-        this.allowedEncounterTypesUuids = visitType.encounterTypes.map((a) => {
-          return a.uuid;
+      if (this.hasValidatedEncounters) {
+        let visitType: any;
+        programConfig.visitTypes.allowed.forEach((element) => {
+          if (element.uuid === this.visit.visitType.uuid) {
+            visitType = element;
+          }
         });
+
+        if (
+          visitType &&
+          Array.isArray(visitType.encounterTypes.allowedEncounters)
+        ) {
+          this.allowedEncounterTypesUuids = visitType.encounterTypes.allowedEncounters.map(
+            (a) => {
+              return a.uuid;
+            }
+          );
+        }
       }
     }
   }
@@ -186,7 +233,10 @@ export class VisitDetailsComponent implements OnInit {
           (visit) => {
             this.isBusy = false;
             this.visit = visit;
-            this.extractAllowedEncounterTypesForVisit();
+            this.getCurrentProgramEnrollmentConfig(
+              this.visit.patient.uuid,
+              this.visit.location.uuid
+            );
           },
           (error) => {
             this.isBusy = false;

@@ -159,7 +159,7 @@
   </div>
   <span style="padding: 10px"></span>
 
-  <div>
+  <div *ngIf="hasValidatedEncounters">
     <div class="reverse-flow" (click)="formsCollapsed = !formsCollapsed">
       <i *ngIf="formsCollapsed" class="glyphicon glyphicon-chevron-down"></i>
       <i *ngIf="!formsCollapsed" class="glyphicon glyphicon-chevron-up"></i>
