@@ -5,8 +5,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class PatientCreationResourceService {
-  private idgenUrl = 'https://ngx.ampath.or.ke/amrs-id-generator';
-
   constructor(
     protected http: HttpClient,
     protected appSettingsService: AppSettingsService
@@ -45,7 +43,9 @@ export class PatientCreationResourceService {
   }
 
   public generateIdentifier(user) {
-    const url = this.idgenUrl + '/generateidentifier';
+    const url =
+      this.appSettingsService.getAmrsIdentifierRestbaseurl().trim() +
+      '/generateidentifier';
     return this.http.post(url, user);
   }
 

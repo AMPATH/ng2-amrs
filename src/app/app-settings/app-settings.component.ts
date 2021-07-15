@@ -60,6 +60,14 @@ export class AppSettingsComponent implements OnInit {
     this.appSettingsService.setEtlServer(value);
   }
 
+  get amrsIdGenServer(): string {
+    return this.appSettingsService.getAmrsIdGenServer();
+  }
+
+  set amrsIdGenServer(value: string) {
+    this.appSettingsService.setAmrsIdGenServer(value);
+  }
+
   get openmrsServerUrls(): string[] {
     return this.appSettingsService.openmrsServerUrls;
   }
@@ -68,22 +76,32 @@ export class AppSettingsComponent implements OnInit {
     return this.appSettingsService.etlServerUrls;
   }
 
+  get amrsIdGenServerUrls(): string[] {
+    return this.appSettingsService.amrsIdGenServerUrls;
+  }
+
   public showNewUrlForm(event) {
     this.newUrl = null;
     if (event && event.srcElement) {
       const srcId = event.srcElement.id;
-      if (srcId === 'etlUrlBtn') {
-        this.urlPlaceholder = 'http://localhost:8002/etl';
-        this.urlType = 'etl';
-      } else {
-        // openmrsUrlBtn
-        this.urlPlaceholder = 'http://localhost:8080/openmrs';
-        this.urlType = 'openmrs';
+      switch (srcId) {
+        case 'etlUrlBtn':
+          this.urlPlaceholder = 'http://localhost:8002/etl';
+          this.urlType = 'etl';
+          break;
+        case 'openmrsUrlBtn':
+          this.urlPlaceholder = 'http://localhost:8080/openmrs';
+          this.urlType = 'openmrs';
+          break;
+        case 'amrsIdGenUrlBtn':
+          this.urlPlaceholder = 'http://localhost:8002/amrs-id-generator';
+          this.urlType = 'amrsIdGen';
+          break;
+        default:
+          this.urlPlaceholder = '';
       }
-    } else {
-      this.urlPlaceholder = '';
+      this.urlModal.show();
     }
-    this.urlModal.show();
   }
 
   public saveNewURL(url: string, urlType: string = 'openmrs') {
@@ -96,6 +114,8 @@ export class AppSettingsComponent implements OnInit {
     this.openmrsServer = row.amrsUrl;
     // change etl-server url
     this.etlServer = row.etlUrl;
+
+    this.amrsIdGenServer = row.amrsIdGenUrl;
   }
 
   public onDoneClick() {
