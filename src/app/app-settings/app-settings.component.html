@@ -96,12 +96,42 @@
     </div>
 
     <div>
+      <form #idGenUrl="ngForm">
+        <div class="form-group">
+          <label for="amrsIdGenServerUrl"
+            >AMRS Universal ID Generator URL:</label
+          >
+          {{ amrsIdGenServer }}
+          <select
+            class="form-control"
+            id="amrsIdGenServerUrl"
+            required
+            [(ngModel)]="amrsIdGenServer"
+            name="amrsIdGenServerUrl"
+            #idGenServerUrl="ngModel"
+          >
+            <option *ngFor="let url of amrsIdGenServerUrls" [value]="url">
+              {{ url }}
+            </option>
+          </select>
+        </div>
+
+        <button
+          type="button"
+          class="btn btn-default"
+          (click)="showNewUrlForm($event)"
+          id="amrsIdGenUrlBtn"
+        >
+          Add New
+        </button>
+      </form>
+    </div>
+
+    <div>
       <div>
         <form>
           <div class="form-group">
-            <label id="formentryDebug" class="control-label"
-              >FormEntry Debug Mode
-            </label>
+            <label class="control-label">FormEntry Debug Mode </label>
             <div class="checkbox">
               <label>
                 <input

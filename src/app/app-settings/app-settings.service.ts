@@ -7,14 +7,23 @@ export class AppSettingsService {
     'https://ngx.ampath.or.ke/amrs';
   public static readonly DEFAULT_ETL_SERVER_URL =
     'https://ngx.ampath.or.ke/etl-latest/etl';
+  public static readonly DEFAULT_AMRSIDGEN_SERVER_URL =
+    'https://ngx.ampath.or.ke/amrs-id-generator';
+
   public static readonly OPENMRS_LIST_STORAGE_KEY =
     'appSettings.openmrsServersList';
   public static readonly ETL_LIST_STORAGE_KEY = 'appSettings.etlServersList';
+  public static readonly AMRSIDGEN_SERVER_LIST_KEY =
+    'appSettings.amrsIdGenServerList';
+
   public static readonly OPENMRS_SERVER_KEY = 'appSettings.openmrsServer';
   public static readonly ETL_SERVER_KEY = 'appSettings.etlServer';
+  public static readonly AMRSIDGEN_SERVER_KEY = 'appSettings.amrsIdGenServer';
+
   private static readonly OPENMRS_REST_SUFFIX = 'ws/rest/v1/';
   private _openmrsServer: string;
   private _etlServer: string;
+  private _amrsIdGenServer: string;
 
   private _openmrsServerUrls = [
     'http://localhost:8080/openmrs',
@@ -33,21 +42,29 @@ export class AppSettingsService {
     'https://ngx.ampath.or.ke/etl-latest/etl'
   ];
 
+  private _amrsIdGenServerUrls = [
+    '/amrs-id-generator',
+    'https://ngx.ampath.or.ke/amrs-id-generator'
+  ];
+
   private templates = [
     {
       name: 'AMRS POC',
       amrsUrl: '/amrs',
-      etlUrl: '/etl-latest/etl'
+      etlUrl: '/etl-latest/etl',
+      amrsIdGenUrl: '/amrs-id-generator'
     },
     {
       name: 'AMRS POC Beta',
       amrsUrl: '/amrs',
-      etlUrl: 'https://ngx.ampath.or.ke/etl-server-beta/etl'
+      etlUrl: 'https://ngx.ampath.or.ke/etl-server-beta/etl',
+      amrsIdGenUrl: '/amrs-id-generator'
     },
     {
       name: 'AMRS Test',
       amrsUrl: '/test-amrs',
-      etlUrl: '/etl-server-test-worcester/etl'
+      etlUrl: '/etl-server-test-worcester/etl',
+      amrsIdGenUrl: '/amrs-id-generator'
     }
   ];
 
@@ -57,6 +74,10 @@ export class AppSettingsService {
 
   get etlServerUrls(): string[] {
     return this._etlServerUrls;
+  }
+
+  get amrsIdGenServerUrls(): string[] {
+    return this._amrsIdGenServerUrls;
   }
 
   constructor(private localStorageService: LocalStorageService) {
@@ -101,6 +122,27 @@ export class AppSettingsService {
     } else {
       this.setEtlServer(AppSettingsService.DEFAULT_ETL_SERVER_URL);
     }
+
+    const cachedAmrsIdGenUrls = localStorageService.getItem(
+      AppSettingsService.AMRSIDGEN_SERVER_LIST_KEY
+    );
+    if (cachedAmrsIdGenUrls) {
+      this._amrsIdGenServerUrls = JSON.parse(cachedAmrsIdGenUrls);
+    } else {
+      localStorageService.setItem(
+        AppSettingsService.AMRSIDGEN_SERVER_LIST_KEY,
+        JSON.stringify(this.amrsIdGenServerUrls)
+      );
+    }
+
+    const cachedAmrsIdGenUrl = localStorageService.getItem(
+      AppSettingsService.AMRSIDGEN_SERVER_KEY
+    );
+    if (cachedAmrsIdGenUrl) {
+      this._amrsIdGenServer = cachedAmrsIdGenUrl;
+    } else {
+      this.setAmrsIdGenServer(AppSettingsService.DEFAULT_AMRSIDGEN_SERVER_URL);
+    }
   }
 
   public getServerTemplates(): Array<object> {
@@ -140,13 +182,41 @@ export class AppSettingsService {
     this._etlServer = value;
   }
 
+  public setAmrsIdGenServer(value: string): void {
+    if (this._amrsIdGenServerUrls.indexOf(value) === -1) {
+      this.addAmrsIdGenUrl(value);
+    }
+    this.localStorageService.setItem(
+      AppSettingsService.AMRSIDGEN_SERVER_KEY,
+      value
+    );
+    this._amrsIdGenServer = value;
+  }
+
+  public getAmrsIdGenServer(): string {
+    return (
+      this.localStorageService.getItem(
+        AppSettingsService.AMRSIDGEN_SERVER_KEY
+      ) || this._amrsIdGenServer
+    );
+  }
+
   public addAndSetUrl(url: string, urlType: string = 'openmrs') {
-    if (urlType === 'etl') {
-      this.addEtlUrl(url);
-      this.setEtlServer(url);
-    } else {
-      this.addOpenmrsUrl(url);
-      this.setOpenmrsServer(url);
+    switch (urlType) {
+      case 'etl':
+        this.addEtlUrl(url);
+        this.setEtlServer(url);
+        break;
+      case 'openmrs':
+        this.addOpenmrsUrl(url);
+        this.setOpenmrsServer(url);
+        break;
+      case 'amrsIdGen':
+        this.addAmrsIdGenUrl(url);
+        this.setAmrsIdGenServer(url);
+        break;
+      default:
+        break;
     }
   }
 
@@ -166,6 +236,14 @@ export class AppSettingsService {
     );
   }
 
+  public addAmrsIdGenUrl(url: string): void {
+    this.amrsIdGenServerUrls.push(url);
+    this.localStorageService.setObject(
+      AppSettingsService.AMRSIDGEN_SERVER_LIST_KEY,
+      this.amrsIdGenServerUrls
+    );
+  }
+
   public getOpenmrsRestbaseurl(): string {
     if (this.getOpenmrsServer().endsWith('/')) {
       return this.getOpenmrsServer() + AppSettingsService.OPENMRS_REST_SUFFIX;
@@ -182,5 +260,9 @@ export class AppSettingsService {
     } else {
       return this.getEtlServer() + '/';
     }
+  }
+
+  public getAmrsIdentifierRestbaseurl(): string {
+    return this.getAmrsIdGenServer();
   }
 }
