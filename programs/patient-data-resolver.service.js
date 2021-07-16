@@ -4,6 +4,7 @@ const patientService = require('../service/openmrs-rest/patient.service.js');
 const programService = require('../service/openmrs-rest/program.service');
 const etlHivSummary = require('../dao/patient/etl-patient-hiv-summary-dao');
 const encounterService = require('../service/openmrs-rest/encounter');
+var _ = require('underscore');
 
 const availableKeys = {
   patient: getPatient,
@@ -12,7 +13,8 @@ const availableKeys = {
   hivLastTenClinicalEncounters: gethivLastTenClinicalEncounters,
   hivLastEncounter: getPatientLastEncounter,
   patientEnrollment: getPatientEnrollement,
-  patientEncounters: getPatientEncounters
+  patientEncounters: getPatientEncounters,
+  isPatientTransferredOut: checkTransferOut
 };
 
 const def = {
@@ -22,7 +24,8 @@ const def = {
   getAllDataDependencies: getAllDataDependencies,
   availableKeys: availableKeys,
   getPatientLastEncounter: getPatientLastEncounter,
-  getPatientEncounters: getPatientEncounters
+  getPatientEncounters: getPatientEncounters,
+  checkTransferOut: checkTransferOut
 };
 
 module.exports = def;
@@ -79,6 +82,25 @@ function getProgramEnrollment(patientUuid, params) {
       })
       .then((enrollment) => {
         resolve(enrollment);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+function checkTransferOut(patientUuid, params) {
+  return new Promise((resolve, reject) => {
+    getPatientEncounters(patientUuid)
+      .then((encounters) => {
+        if (
+          _.last(encounters).encounterType.uuid ===
+          'cbe2d31d-2201-44ce-b52e-fbd5dc7cff33'
+        ) {
+          resolve(true);
+        } else {
+          resolve(false);
+        }
       })
       .catch((error) => {
         reject(error);

@@ -73,6 +73,10 @@ function buildScope(dataDictionary) {
     );
   }
 
+  if (dataDictionary.isPatientTransferredOut) {
+    scope.isPatientTransferredOut = dataDictionary.isPatientTransferredOut;
+  }
+
   // add other methods to build the scope objects
   return scope;
 }

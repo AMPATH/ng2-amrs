@@ -4,7 +4,8 @@
     "dataDependencies": [
       "patient",
       "enrollment",
-      "hivLastTenClinicalEncounters"
+      "hivLastTenClinicalEncounters",
+      "isPatientTransferredOut"
     ],
     "enrollmentOptions": {
       "requiredProgramQuestions": [
@@ -116,7 +117,7 @@
       {
         "uuid": "0ae56e8a-93ed-4071-82f1-0eaf3eb592ff",
         "name": "Adult Transfer In Visit ",
-        "allowedIf": "age >= 20 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
+        "allowedIf": "age >= 20 && programLocation === intendedVisitLocationUuid && isPatientTransferredOut && !isFirstAMPATHHIVVisit",
         "message": "Patient has to be 20yrs and above , patient's program location should be equal to the last HIV clinical encounter location and should not be the first clinical encounter",
         "encounterTypes": [
           {
@@ -276,7 +277,7 @@
       {
         "uuid": "2e67b87c-8843-45b7-a380-3a0e8bd58e4d",
         "name": "Pediatric Transfer In Visit ",
-        "allowedIf": "age <= 14 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
+        "allowedIf": "age <= 14 && programLocation === intendedVisitLocationUuid && isPatientTransferredOut && !isFirstAMPATHHIVVisit",
         "encounterTypes": [
           {
             "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
@@ -427,7 +428,7 @@
       {
         "uuid": "b27e13f7-7118-4c0d-b9d6-b759495991d6",
         "name": "Youth Transfer In Visit ",
-        "allowedIf": "age >= 10 && age <= 24 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
+        "allowedIf": "age >= 10 && age <= 24 && programLocation === intendedVisitLocationUuid && isPatientTransferredOut && !isFirstAMPATHHIVVisit",
         "message": "Patient has to between 10 and 24yrs , in the location he enrolled into the HIV Care and Treatment program, must have a prior clinical encounter.The program location should be different from the previous encounter location",
         "encounterTypes": [
           {
@@ -1109,7 +1110,8 @@
       "enrollment",
       "hivLastTenClinicalEncounters",
       "patientEnrollment",
-      "patientEncounters"
+      "patientEncounters",
+      "isPatientTransferredOut"
     ],
     "enrollmentOptions": {
       "enrollIf": "gender === 'F'",
@@ -1202,7 +1204,7 @@
       {
         "uuid": "53b856ad-21ef-4745-9acd-81aca01bba31",
         "name": "PMTCT Viremia Antenatal Return Visit",
-        "allowedIf": "!isFirstPMTCTVisit && isEnrolledInViremiaPMTCT",
+        "allowedIf": "!isFirstPMTCTVisit && isEnrolledInViremiaPMTCT && programLocation === intendedVisitLocationUuid",
         "message": "Patient must be enrolled both in PMTCT and Viremia.",
         "encounterTypes": [
           {
@@ -1262,7 +1264,7 @@
       {
         "uuid": "53954785-4d53-4012-8f30-1c37fa870906",
         "name": "PMTCT Viremia Postnatal Return Visit",
-        "allowedIf": "!isFirstPMTCTVisit && isEnrolledInViremiaPMTCT",
+        "allowedIf": "!isFirstPMTCTVisit && isEnrolledInViremiaPMTCT && programLocation === intendedVisitLocationUuid",
         "message": "Patient must be enrolled both in PMTCT and Viremia.",
         "encounterTypes": [
           {
@@ -1374,7 +1376,7 @@
       {
         "uuid": "02e3ce61-fa24-445e-a1f0-6e3299142966",
         "message": "Patient must have prior clinical encounter.",
-        "allowedIf": "!isFirstPMTCTVisit && !isEnrolledInViremiaPMTCT",
+        "allowedIf": "!isFirstPMTCTVisit && !isEnrolledInViremiaPMTCT && programLocation === intendedVisitLocationUuid",
         "name": "PMTCT Antenatal Return Visit",
         "encounterTypes": [
           {
@@ -1486,7 +1488,7 @@
       {
         "uuid": "0b1b6194-d2d5-4e4b-9f7c-c3b778ccc354",
         "message": "Patient must have prior clinical encounter.",
-        "allowedIf": "!isFirstPMTCTVisit && !isEnrolledInViremiaPMTCT",
+        "allowedIf": "!isFirstPMTCTVisit && !isEnrolledInViremiaPMTCT && programLocation === intendedVisitLocationUuid",
         "name": "PMTCT Postnatal Return Visit",
         "encounterTypes": [
           {
@@ -1584,90 +1586,6 @@
         ]
       },
       {
-        "uuid": "18f59064-961e-4d51-9ccf-e950f04b4c66",
-        "name": "Treatment Supporter Visit",
-        "encounterTypes": [
-          {
-            "uuid": "693559d3-4e44-4d33-83f9-bc70ca56fe34",
-            "display": "TXSUPPORTERMEDREFILL"
-          },
-          {
-            "uuid": "987009c6-6f24-43f7-9640-c285d6553c63",
-            "display": "DRUGPICKUP"
-          },
-          {
-            "uuid": "466d6707-8429-4e61-b5a0-d63444f5ad35",
-            "display": "COVIDSCREENING"
-          },
-          {
-            "uuid": "afabceae-61d4-42b6-8f6a-fff48a7797ea",
-            "display": "COVIDCASEREPORTING"
-          },
-          {
-            "uuid": "a393699f-8e99-4727-81c3-873873022dd8",
-            "display": "MOBILITYSCREENING"
-          },
-          {
-            "uuid": "5b1ef308-ed8f-4a86-88a0-c29a30246740",
-            "display": "HIVCLINICALREFERRAL"
-          }
-        ]
-      },
-      {
-        "uuid": "06eca2a8-1da9-4ac4-95c6-15afedd4de21",
-        "name": "HIV Lab Visit",
-        "encounterTypes": [
-          {
-            "uuid": "5ef97eed-18f5-40f6-9fbf-a11b1f06484a",
-            "display": "LABORDERENCOUNTER"
-          },
-          {
-            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
-            "display": "POCLAB"
-          },
-          {
-            "uuid": "466d6707-8429-4e61-b5a0-d63444f5ad35",
-            "display": "COVIDSCREENING"
-          },
-          {
-            "uuid": "afabceae-61d4-42b6-8f6a-fff48a7797ea",
-            "display": "COVIDCASEREPORTING"
-          }
-        ]
-      },
-      {
-        "uuid": "40353c46-cd54-4629-a5d1-0a1f1108b19f",
-        "name": "Inpatient peer visit",
-        "encounterTypes": [
-          {
-            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
-            "display": "INPATIENTPEER"
-          },
-          {
-            "uuid": "466d6707-8429-4e61-b5a0-d63444f5ad35",
-            "display": "COVIDSCREENING"
-          },
-          {
-            "uuid": "afabceae-61d4-42b6-8f6a-fff48a7797ea",
-            "display": "COVIDCASEREPORTING"
-          }
-        ]
-      },
-      {
-        "uuid": "d7fdac11-2df0-4f18-968e-ad5e064bedf1",
-        "name": "Phone Follow Up Visit",
-        "encounterTypes": [
-          {
-            "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
-            "display": "TELECARE"
-          },
-          {
-            "uuid": "5a58f6f5-f5a6-47eb-a644-626abd83f83b",
-            "display": "CALLCONSENT"
-          }
-        ]
-      },
-      {
         "uuid": "cac0c7d2-8f2e-440a-a88e-feeb8d49bd88",
         "name": "Between Care Visit",
         "allowedIf": "programLocation !== intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
@@ -1720,6 +1638,90 @@
           {
             "uuid": "8010fabc-2e58-4160-a201-fce9c609d2fa",
             "display": "COVIDASSESSMENT"
+          }
+        ]
+      },
+      {
+        "uuid": "18f59064-961e-4d51-9ccf-e950f04b4c66",
+        "name": "Treatment Supporter Visit",
+        "encounterTypes": [
+          {
+            "uuid": "693559d3-4e44-4d33-83f9-bc70ca56fe34",
+            "display": "TXSUPPORTERMEDREFILL"
+          },
+          {
+            "uuid": "987009c6-6f24-43f7-9640-c285d6553c63",
+            "display": "DRUGPICKUP"
+          },
+          {
+            "uuid": "466d6707-8429-4e61-b5a0-d63444f5ad35",
+            "display": "COVIDSCREENING"
+          },
+          {
+            "uuid": "afabceae-61d4-42b6-8f6a-fff48a7797ea",
+            "display": "COVIDCASEREPORTING"
+          },
+          {
+            "uuid": "a393699f-8e99-4727-81c3-873873022dd8",
+            "display": "MOBILITYSCREENING"
+          },
+          {
+            "uuid": "5b1ef308-ed8f-4a86-88a0-c29a30246740",
+            "display": "HIVCLINICALREFERRAL"
+          }
+        ]
+      },
+      {
+        "uuid": "40353c46-cd54-4629-a5d1-0a1f1108b19f",
+        "name": "Inpatient peer visit",
+        "encounterTypes": [
+          {
+            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
+            "display": "INPATIENTPEER"
+          },
+          {
+            "uuid": "466d6707-8429-4e61-b5a0-d63444f5ad35",
+            "display": "COVIDSCREENING"
+          },
+          {
+            "uuid": "afabceae-61d4-42b6-8f6a-fff48a7797ea",
+            "display": "COVIDCASEREPORTING"
+          }
+        ]
+      },
+      {
+        "uuid": "06eca2a8-1da9-4ac4-95c6-15afedd4de21",
+        "name": "HIV Lab Visit",
+        "encounterTypes": [
+          {
+            "uuid": "5ef97eed-18f5-40f6-9fbf-a11b1f06484a",
+            "display": "LABORDERENCOUNTER"
+          },
+          {
+            "uuid": "5544894d-8add-4521-a0ea-c124c5886c8b",
+            "display": "POCLAB"
+          },
+          {
+            "uuid": "466d6707-8429-4e61-b5a0-d63444f5ad35",
+            "display": "COVIDSCREENING"
+          },
+          {
+            "uuid": "afabceae-61d4-42b6-8f6a-fff48a7797ea",
+            "display": "COVIDCASEREPORTING"
+          }
+        ]
+      },
+      {
+        "uuid": "d7fdac11-2df0-4f18-968e-ad5e064bedf1",
+        "name": "Phone Follow Up Visit",
+        "encounterTypes": [
+          {
+            "uuid": "cac3b8e5-d8f8-4d4f-b791-8c43b4cc674b",
+            "display": "TELECARE"
+          },
+          {
+            "uuid": "5a58f6f5-f5a6-47eb-a644-626abd83f83b",
+            "display": "CALLCONSENT"
           }
         ]
       }
@@ -2509,7 +2511,8 @@
       "patient",
       "enrollment",
       "hivLastTenClinicalEncounters",
-      "hivLastEncounter"
+      "hivLastEncounter",
+      "isPatientTransferredOut"
     ],
     "enrollmentOptions": {
       "requiredProgramQuestions": [
@@ -3938,7 +3941,8 @@
       "patient",
       "enrollment",
       "hivLastTenClinicalEncounters",
-      "patientEnrollment"
+      "patientEnrollment",
+      "isPatientTransferredOut"
     ],
     "enrollmentOptions": {
       "requiredProgramQuestions": [
@@ -4090,6 +4094,36 @@
         ]
       },
       {
+        "uuid": "52fddd42-f9ea-4946-8733-f0e584360780",
+        "name": "Treatment Supporter visit",
+        "encounterTypes": [
+          {
+            "uuid": "693559d3-4e44-4d33-83f9-bc70ca56fe34",
+            "display": "TXSUPPORTERMEDREFILL"
+          },
+          {
+            "uuid": "987009c6-6f24-43f7-9640-c285d6553c63",
+            "display": "DRUGPICKUP"
+          },
+          {
+            "uuid": "466d6707-8429-4e61-b5a0-d63444f5ad35",
+            "display": "COVIDSCREENING"
+          },
+          {
+            "uuid": "afabceae-61d4-42b6-8f6a-fff48a7797ea",
+            "display": "COVIDCASEREPORTING"
+          },
+          {
+            "uuid": "a393699f-8e99-4727-81c3-873873022dd8",
+            "display": "MOBILITYSCREENING"
+          },
+          {
+            "uuid": "5b1ef308-ed8f-4a86-88a0-c29a30246740",
+            "display": "HIVCLINICALREFERRAL"
+          }
+        ]
+      },
+      {
         "uuid": "06eca2a8-1da9-4ac4-95c6-15afedd4de21",
         "name": "HIV Lab Visit",
         "allowedIf": "!isEnrolledInViremiaPMTCT",
@@ -4123,36 +4157,6 @@
           {
             "uuid": "5a58f6f5-f5a6-47eb-a644-626abd83f83b",
             "display": "CALLCONSENT"
-          }
-        ]
-      },
-      {
-        "uuid": "52fddd42-f9ea-4946-8733-f0e584360780",
-        "name": "Treatment Supporter visit",
-        "encounterTypes": [
-          {
-            "uuid": "693559d3-4e44-4d33-83f9-bc70ca56fe34",
-            "display": "TXSUPPORTERMEDREFILL"
-          },
-          {
-            "uuid": "987009c6-6f24-43f7-9640-c285d6553c63",
-            "display": "DRUGPICKUP"
-          },
-          {
-            "uuid": "466d6707-8429-4e61-b5a0-d63444f5ad35",
-            "display": "COVIDSCREENING"
-          },
-          {
-            "uuid": "afabceae-61d4-42b6-8f6a-fff48a7797ea",
-            "display": "COVIDCASEREPORTING"
-          },
-          {
-            "uuid": "a393699f-8e99-4727-81c3-873873022dd8",
-            "display": "MOBILITYSCREENING"
-          },
-          {
-            "uuid": "5b1ef308-ed8f-4a86-88a0-c29a30246740",
-            "display": "HIVCLINICALREFERRAL"
           }
         ]
       }
@@ -4286,6 +4290,7 @@
       {
         "uuid": "097e4a13-f874-4ecc-b5c9-122ade250f99",
         "name": "HEI Visit",
+        "allowedIf": "programLocation === intendedVisitLocationUuid",
         "encounterTypes": [
           {
             "uuid": "5e019c94-0f80-49b7-8593-28100eb4f787",
