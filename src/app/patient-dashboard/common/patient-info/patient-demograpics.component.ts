@@ -1,15 +1,15 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from "@angular/core";
 
-import { Subscription } from 'rxjs';
-import { Patient } from '../../../models/patient.model';
-import { PatientService } from '../../services/patient.service';
-import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
-import { PatientCreationService } from 'src/app/patient-creation/patient-creation.service';
+import { Subscription } from "rxjs";
+import { Patient } from "../../../models/patient.model";
+import { PatientService } from "../../services/patient.service";
+import { AppFeatureAnalytics } from "../../../shared/app-analytics/app-feature-analytics.service";
+import { PatientCreationService } from "src/app/patient-creation/patient-creation.service";
 
 @Component({
-  selector: 'patient-demographics',
-  templateUrl: './patient-demographics.component.html',
-  styleUrls: ['./patient-demographics.component.css']
+  selector: "patient-demographics",
+  templateUrl: "./patient-demographics.component.html",
+  styleUrls: ["./patient-demographics.component.css"],
 })
 export class PatientDemographicsComponent implements OnInit, OnDestroy {
   public patient: Patient = new Patient({});
@@ -20,9 +20,11 @@ export class PatientDemographicsComponent implements OnInit, OnDestroy {
   public errors: any = [];
   public subscription: Subscription;
 
-  constructor(private patientService: PatientService,
+  constructor(
+    private patientService: PatientService,
     private appFeatureAnalytics: AppFeatureAnalytics,
-    private patientCreationService: PatientCreationService) { }
+    private patientCreationService: PatientCreationService
+  ) {}
   public getPatientDemographics() {
     this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
@@ -30,18 +32,22 @@ export class PatientDemographicsComponent implements OnInit, OnDestroy {
         if (patient) {
           this.patient = patient;
         }
-      }, (err) => {
-
+      },
+      (err) => {
         this.errors.push({
-          id: 'patient-demographics',
-          message: 'error fetching patient'
+          id: "patient-demographics",
+          message: "error fetching patient",
         });
-      });
+      }
+    );
   }
   public ngOnInit() {
     this.getPatientDemographics();
-    this.appFeatureAnalytics
-      .trackEvent('Patient Dashboard', 'Lab Orders Loaded', 'ngOnInit');
+    this.appFeatureAnalytics.trackEvent(
+      "Patient Dashboard",
+      "Lab Orders Loaded",
+      "ngOnInit"
+    );
   }
 
   public ngOnDestroy(): void {
@@ -49,5 +55,4 @@ export class PatientDemographicsComponent implements OnInit, OnDestroy {
       this.subscription.unsubscribe();
     }
   }
-
 }

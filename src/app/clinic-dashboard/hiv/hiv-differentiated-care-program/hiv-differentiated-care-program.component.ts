@@ -1,26 +1,25 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
-import * as Moment from 'moment';
-import * as _ from 'lodash';
+import { Component, OnInit } from "@angular/core";
+import { Router, ActivatedRoute } from "@angular/router";
+import { Location } from "@angular/common";
+import * as Moment from "moment";
+import * as _ from "lodash";
 
-import { HivDifferentiatedCareResourceService } from '../../../etl-api/hiv-differentiated-care-resource.service';
+import { HivDifferentiatedCareResourceService } from "../../../etl-api/hiv-differentiated-care-resource.service";
 
 @Component({
-  selector: 'app-hiv-differentiated-care',
-  templateUrl: './hiv-differentiated-care-program.component.html',
-  styleUrls: ['./hiv-differentiated-care-program.component.css']
+  selector: "app-hiv-differentiated-care",
+  templateUrl: "./hiv-differentiated-care-program.component.html",
+  styleUrls: ["./hiv-differentiated-care-program.component.css"],
 })
 export class HivDifferentiatedCareComponent implements OnInit {
-
-  public title = 'HIV Differentiated Care Program Reports';
-  public reportName = 'HIV Differentiated Care Program Reports';
+  public title = "HIV Differentiated Care Program Reports";
+  public reportName = "HIV Differentiated Care Program Reports";
   public patientData: Array<any> = [];
   public isLoadingPatientList = false;
-  public locationUuid = '';
+  public locationUuid = "";
   public indicators: string;
   public sectionTittle: string;
-  public startDate: Date = Moment().subtract(1, 'months').toDate();
+  public startDate: Date = Moment().subtract(1, "months").toDate();
   public endDate: Date = new Date();
   public selectedIndicator: string;
   public indicatorName: string;
@@ -31,12 +30,12 @@ export class HivDifferentiatedCareComponent implements OnInit {
   public hasLoadedAll = false;
   public limit = 300;
   public startIndex = 0;
-  public enabledControls = 'monthControl';
-  public month = Moment().format('YYYY-MM');
+  public enabledControls = "monthControl";
+  public month = Moment().format("YYYY-MM");
   public isPatientListEmpty = true;
 
   public get startDateString(): string {
-    return this.startDate ? Moment(this.startDate).format('YYYY-MM-DD') : null;
+    return this.startDate ? Moment(this.startDate).format("YYYY-MM-DD") : null;
   }
 
   public set startDateString(v: string) {
@@ -44,7 +43,7 @@ export class HivDifferentiatedCareComponent implements OnInit {
   }
 
   public get endDateString(): string {
-    return this.endDate ? Moment(this.endDate).format('YYYY-MM-DD') : null;
+    return this.endDate ? Moment(this.endDate).format("YYYY-MM-DD") : null;
   }
 
   public set endDateString(v: string) {
@@ -52,14 +51,17 @@ export class HivDifferentiatedCareComponent implements OnInit {
   }
 
   public dcIndicators = [
-    { name: 'Total Eligible', value: 'total_eligible_for_dc' },
-    { name: 'Eligible Not Enrolled', value: 'eligible_not_on_dc' },
-    { name: 'Eligible And Enrolled', value: 'eligible_and_on_dc' },
-    { name: 'Patients Enrolled', value: 'enrolled_in_dc' },
-    { name: 'Enrolled Not Eligible', value: 'enrolled_not_elligible' },
-    { name: 'Enrolled and Due For Vl', value: 'enrolled_and_vl_due' },
-    { name: 'Patients Active on DC Facility', value: 'enrolled_in_dc_active' },
-    { name: 'Patients Active on DC Community', value: 'enrolled_in_dc_community' }
+    { name: "Total Eligible", value: "total_eligible_for_dc" },
+    { name: "Eligible Not Enrolled", value: "eligible_not_on_dc" },
+    { name: "Eligible And Enrolled", value: "eligible_and_on_dc" },
+    { name: "Patients Enrolled", value: "enrolled_in_dc" },
+    { name: "Enrolled Not Eligible", value: "enrolled_not_elligible" },
+    { name: "Enrolled and Due For Vl", value: "enrolled_and_vl_due" },
+    { name: "Patients Active on DC Facility", value: "enrolled_in_dc_active" },
+    {
+      name: "Patients Active on DC Community",
+      value: "enrolled_in_dc_community",
+    },
   ];
 
   constructor(
@@ -67,8 +69,7 @@ export class HivDifferentiatedCareComponent implements OnInit {
     private route: ActivatedRoute,
     private location: Location,
     private hivDifferentiatedCareResourceService: HivDifferentiatedCareResourceService
-  ) {
-  }
+  ) {}
 
   public ngOnInit() {
     this.route.parent.parent.url.subscribe((url) => {
@@ -76,84 +77,88 @@ export class HivDifferentiatedCareComponent implements OnInit {
     });
     this.loadReportParamsFromUrl();
 
-    this.startDateString = Moment(this.month, 'YYYY-MM').startOf('month').format('YYYY-MM-DD');
-    this.endDateString = Moment(this.month, 'YYYY-MM').endOf('month').format('YYYY-MM-DD');
+    this.startDateString = Moment(this.month, "YYYY-MM")
+      .startOf("month")
+      .format("YYYY-MM-DD");
+    this.endDateString = Moment(this.month, "YYYY-MM")
+      .endOf("month")
+      .format("YYYY-MM-DD");
   }
 
   public extraColumns() {
     return [
       {
-        headerName: 'Phone Number',
+        headerName: "Phone Number",
         width: 150,
-        field: 'phone_number'
+        field: "phone_number",
       },
       {
-        headerName: 'Latest Appointment',
+        headerName: "Latest Appointment",
         width: 200,
-        field: 'last_appointment'
+        field: "last_appointment",
       },
       {
-        headerName: 'Latest RTC Date',
+        headerName: "Latest RTC Date",
         width: 150,
-        field: 'latest_rtc_date'
+        field: "latest_rtc_date",
       },
       {
-        headerName: 'Status',
+        headerName: "Status",
         width: 130,
-        field: 'status'
+        field: "status",
       },
       {
-        headerName: 'Current Regimen',
+        headerName: "Current Regimen",
         width: 200,
-        field: 'cur_meds'
+        field: "cur_meds",
       },
       {
-        headerName: 'Latest VL',
+        headerName: "Latest VL",
         width: 100,
-        field: 'latest_vl'
+        field: "latest_vl",
       },
       {
-        headerName: 'Latest VL Date',
+        headerName: "Latest VL Date",
         width: 150,
-        field: 'latest_vl_date'
+        field: "latest_vl_date",
       },
       {
-        headerName: 'Previous VL',
+        headerName: "Previous VL",
         width: 100,
-        field: 'previous_vl'
+        field: "previous_vl",
       },
       {
-        headerName: 'Previous VL Date',
+        headerName: "Previous VL Date",
         width: 150,
-        field: 'previous_vl_date'
+        field: "previous_vl_date",
       },
       {
-        headerName: 'IPT Start Date',
+        headerName: "IPT Start Date",
         width: 160,
-        field: 'ipt_start_date'
+        field: "ipt_start_date",
       },
       {
-        headerName: 'Has Completed IPT',
-        field: 'completed_IPT',
+        headerName: "Has Completed IPT",
+        field: "completed_IPT",
         width: 160,
         cellRenderer: (column: any) => {
           if (column.value === 1) {
             return '<input type="checkbox" disabled="disabled" checked="checked">';
           } else {
-            return '';
+            return "";
           }
-        }
+        },
       },
       {
-        headerName: 'Nearest Center',
+        headerName: "Nearest Center",
         width: 150,
-        field: 'nearest_center'
+        field: "nearest_center",
       },
       {
-        headerName: 'Community Group',
+        headerName: "Community Group",
         width: 160,
-        field: 'dc_group'
-      }
+        field: "dc_group",
+      },
     ];
   }
 
@@ -162,22 +167,44 @@ export class HivDifferentiatedCareComponent implements OnInit {
     this.missingField = false;
     const currentPatients = this.patientData;
     this.patientData = [];
-    if (this.indicators && this.startDate && this.endDate && this.locationUuid) {
-      const reportSelected = _.find(this.dcIndicators, { value: this.indicators });
+    if (
+      this.indicators &&
+      this.startDate &&
+      this.endDate &&
+      this.locationUuid
+    ) {
+      const reportSelected = _.find(this.dcIndicators, {
+        value: this.indicators,
+      });
       this.indicatorName = reportSelected.name;
       this.storeReportParamsInUrl();
       this.isLoadingPatientList = true;
-      this.hivDifferentiatedCareResourceService.getPatientList(this.startDateString,
-        this.endDateString, this.locationUuid, this.indicators, this.startIndex, this.limit).take(1).subscribe((data) => {
-          this.patientData = this.appendData(currentPatients, data.results.results);
-          this.isLoadingPatientList = false;
-          this.isPatientListEmpty = false;
-          this.checkOrderLimit(data.results.results.length);
-        }, (err) => {
-          this.isLoadingPatientList = false;
-          this.loadingError = true;
-          console.log('DC PatientList Error', err);
-        });
+      this.hivDifferentiatedCareResourceService
+        .getPatientList(
+          this.startDateString,
+          this.endDateString,
+          this.locationUuid,
+          this.indicators,
+          this.startIndex,
+          this.limit
+        )
+        .take(1)
+        .subscribe(
+          (data) => {
+            this.patientData = this.appendData(
+              currentPatients,
+              data.results.results
+            );
+            this.isLoadingPatientList = false;
+            this.isPatientListEmpty = false;
+            this.checkOrderLimit(data.results.results.length);
+          },
+          (err) => {
+            this.isLoadingPatientList = false;
+            this.loadingError = true;
+            console.log("DC PatientList Error", err);
+          }
+        );
     } else {
       this.missingField = true;
     }
@@ -186,17 +213,17 @@ export class HivDifferentiatedCareComponent implements OnInit {
   public loadReportParamsFromUrl() {
     const path = this.router.parseUrl(this.location.path());
 
-    if (path.queryParams['startDate']) {
-      this.startDate = new Date(path.queryParams['startDate']);
-      this.month = Moment(path.queryParams['startDate']).format('YYYY-MM');
+    if (path.queryParams["startDate"]) {
+      this.startDate = new Date(path.queryParams["startDate"]);
+      this.month = Moment(path.queryParams["startDate"]).format("YYYY-MM");
     }
 
-    if (path.queryParams['endDate']) {
-      this.endDate = new Date(path.queryParams['endDate']);
+    if (path.queryParams["endDate"]) {
+      this.endDate = new Date(path.queryParams["endDate"]);
     }
 
-    if (path.queryParams['indicators']) {
-      this.indicators = path.queryParams['indicators'];
+    if (path.queryParams["indicators"]) {
+      this.indicators = path.queryParams["indicators"];
       this.selectedIndicator = this.indicators;
     }
 
@@ -208,35 +235,31 @@ export class HivDifferentiatedCareComponent implements OnInit {
   public storeReportParamsInUrl() {
     const path = this.router.parseUrl(this.location.path());
     path.queryParams = {
-      'startDate': this.startDateString,
-      'endDate': this.endDateString,
-      'indicators': this.indicators
+      startDate: this.startDateString,
+      endDate: this.endDateString,
+      indicators: this.indicators,
     };
     this.location.replaceState(path.toString());
   }
 
   private sortData(data) {
-
     const results = [];
 
     if (data.length > 0) {
-
       data.forEach((dt) => {
         if (dt[this.indicators] === 1) {
           results.push(dt);
         }
       });
-
     }
 
     return results;
-
   }
 
   private appendData(patientArray, data) {
     if (data.length > 0) {
       const patients = this.sortData(data);
-      patients.forEach(patient => {
+      patients.forEach((patient) => {
         patientArray.push(patient);
       });
     }
@@ -258,7 +281,7 @@ export class HivDifferentiatedCareComponent implements OnInit {
   }
 
   private toDateString(date: Date): string {
-    return Moment(date).utcOffset('+03:00').format();
+    return Moment(date).utcOffset("+03:00").format();
   }
 
   public checkOrderLimit(resultCount: number): void {
@@ -275,15 +298,18 @@ export class HivDifferentiatedCareComponent implements OnInit {
 
   private resetStartIndex() {
     this.startIndex = 0;
-    this.patientData  = [];
+    this.patientData = [];
   }
 
   public onMonthChange(): any {
-    const formattedMonth = Moment(this.month).format('YYYY-MM-DD');
-    this.startDateString = Moment(formattedMonth).startOf('month').format('YYYY-MM-DD');
-    this.endDateString = Moment(formattedMonth).endOf('month').format('YYYY-MM-DD');
-    this.patientData  = [];
+    const formattedMonth = Moment(this.month).format("YYYY-MM-DD");
+    this.startDateString = Moment(formattedMonth)
+      .startOf("month")
+      .format("YYYY-MM-DD");
+    this.endDateString = Moment(formattedMonth)
+      .endOf("month")
+      .format("YYYY-MM-DD");
+    this.patientData = [];
     this.isPatientListEmpty = true;
   }
-
 }

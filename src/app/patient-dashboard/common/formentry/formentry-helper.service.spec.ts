@@ -1,14 +1,12 @@
 /* tslint:disable:no-unused-variable */
 
-import { TestBed, async, fakeAsync, inject } from '@angular/core/testing';
-import { FormentryHelperService } from './formentry-helper.service';
+import { TestBed, async, fakeAsync, inject } from "@angular/core/testing";
+import { FormentryHelperService } from "./formentry-helper.service";
 
-describe('Service: FormentryHelperService', () => {
+describe("Service: FormentryHelperService", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        FormentryHelperService
-      ]
+      providers: [FormentryHelperService],
     });
   });
 
@@ -16,10 +14,8 @@ describe('Service: FormentryHelperService', () => {
     TestBed.resetTestingModule();
   });
 
-  it('should create an instance of FormentryHelperService', () => {
+  it("should create an instance of FormentryHelperService", () => {
     const service: FormentryHelperService = TestBed.get(FormentryHelperService);
     expect(service).toBeTruthy();
   });
-
 });
-

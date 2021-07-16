@@ -1,42 +1,42 @@
-.picker-calendar .picker-calendar-row{
-width:400px !important;
+.picker-calendar .picker-calendar-row {
+  width: 400px !important;
 }
 
-.list-group-item:focus, .list-group-item:hover {
-    z-index: 2;
-    color: #fff;
-    background-color: #337ab7;
-    border-color: #337ab7;
-    cursor: pointer;
-  }
-  
-  .list-group-item:hover a{
-    color: #fff;
-  }
-  .filter-input{
-    margin: 5px;
-    margin-bottom: 5px;
+.list-group-item:focus,
+.list-group-item:hover {
+  z-index: 2;
+  color: #fff;
+  background-color: #337ab7;
+  border-color: #337ab7;
+  cursor: pointer;
+}
 
-  }
-  .toggle-filters{
-    color: green;
-  }
-  .dynamic-provider-list{
-    z-index: 1;
-    position: absolute;
-    width: 400px;;
-  }
-  .action-btn-section button{
-    margin-top: 10px;
-  }
+.list-group-item:hover a {
+  color: #fff;
+}
+.filter-input {
+  margin: 5px;
+  margin-bottom: 5px;
+}
+.toggle-filters {
+  color: green;
+}
+.dynamic-provider-list {
+  z-index: 1;
+  position: absolute;
+  width: 400px;
+}
+.action-btn-section button {
+  margin-top: 10px;
+}
 
-  #provider-input{
-     height:45px;
-  }
-  .filter-btn {
-    height: 42px;
-    margin-left: -15px;
-  }
-  .input-row{
-    margin-top: 10px;
-  }
+#provider-input {
+  height: 45px;
+}
+.filter-btn {
+  height: 42px;
+  margin-left: -15px;
+}
+.input-row {
+  margin-top: 10px;
+}

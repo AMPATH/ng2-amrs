@@ -1,48 +1,44 @@
 #filter-btns {
-    padding-top: 40px;
+  padding-top: 40px;
 }
-.filter-label{
-    margin-right: 5px;
+.filter-label {
+  margin-right: 5px;
 }
-.select-all:hover{
-    cursor: pointer;
+.select-all:hover {
+  cursor: pointer;
 }
-.clear-all:hover{
-    cursor: pointer;
+.clear-all:hover {
+  cursor: pointer;
 }
-.date-filter{
-    padding-top: 10px;
+.date-filter {
+  padding-top: 10px;
 }
-#program-visit-encounter-filter{
-    border-style: solid;
-    border: 1px double lightgray;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-left: 15px;
-    padding-right: 15px;
-    margin-left: 5px;
-    margin-right: 5px;
-    margin-bottom: 10px;
+#program-visit-encounter-filter {
+  border-style: solid;
+  border: 1px double lightgray;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-bottom: 10px;
 }
-.report-title{
-    color: #31708f;
-    margin: 2px;
-    font-weight: bold;
+.report-title {
+  color: #31708f;
+  margin: 2px;
+  font-weight: bold;
 }
-.navigate-btn button{
-    margin-left: 5px;
+.navigate-btn button {
+  margin-left: 5px;
 }
 
 .row {
-    margin-bottom: 5px;
+  margin-bottom: 5px;
 }
 
-
 @media (max-width: 600px) {
-
-  .filter-add-on{
-      display: none;
+  .filter-add-on {
+    display: none;
   }
- 
-  
 }

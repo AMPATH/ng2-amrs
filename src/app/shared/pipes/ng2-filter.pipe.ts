@@ -1,17 +1,16 @@
 /* tslint:disable:forin */
-import { Pipe, Injectable, PipeTransform } from '@angular/core';
+import { Pipe, Injectable, PipeTransform } from "@angular/core";
 
 @Pipe({
-  name: 'filterBy',
-  pure: false
+  name: "filterBy",
+  pure: false,
 })
-
 @Injectable()
 export class Ng2FilterPipe implements PipeTransform {
   public transform(array: any[], filter: any): any {
     const type = typeof filter;
 
-    if (type === 'string') {
+    if (type === "string") {
       if (this.isNumber(filter)) {
         return array.filter(this.filterDefault(filter));
       }
@@ -19,7 +18,7 @@ export class Ng2FilterPipe implements PipeTransform {
       return array.filter(this.filterByString(filter));
     }
 
-    if (type === 'object') {
+    if (type === "object") {
       return array.filter(this.filterByObject(filter));
     }
 
@@ -43,9 +42,9 @@ export class Ng2FilterPipe implements PipeTransform {
         const type = typeof value[key];
         let isMatching;
 
-        if (type === 'string') {
+        if (type === "string") {
           isMatching = this.filterByString(filter[key])(value[key]);
-        } else if (type === 'object') {
+        } else if (type === "object") {
           isMatching = this.filterByObject(filter[key])(value[key]);
         } else {
           isMatching = this.filterDefault(filter[key])(value[key]);
@@ -75,5 +74,4 @@ export class Ng2FilterPipe implements PipeTransform {
   private isNumber(value) {
     return !isNaN(parseInt(value, 10)) && isFinite(value);
   }
-
 }

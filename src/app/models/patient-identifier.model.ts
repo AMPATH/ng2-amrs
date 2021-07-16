@@ -1,6 +1,6 @@
-import { BaseModel } from './base-model.model';
-import { serializable, serialize } from './serializable.decorator';
-import { PatientIdentifierType } from './patient-identifier-type.model';
+import { BaseModel } from "./base-model.model";
+import { serializable, serialize } from "./serializable.decorator";
+import { PatientIdentifierType } from "./patient-identifier-type.model";
 
 export class PatientIdentifier extends BaseModel {
   private _identifier: PatientIdentifierType;
@@ -11,8 +11,10 @@ export class PatientIdentifier extends BaseModel {
   @serializable()
   public get identifierType(): PatientIdentifierType {
     if (this._identifier === null || this._identifier === undefined) {
-      this.initializeNavigationProperty('identifierType');
-      this._identifier = new PatientIdentifierType(this._openmrsModel.identifierType);
+      this.initializeNavigationProperty("identifierType");
+      this._identifier = new PatientIdentifierType(
+        this._openmrsModel.identifierType
+      );
     }
     return this._identifier;
   }
@@ -28,5 +30,4 @@ export class PatientIdentifier extends BaseModel {
   public set identifier(v: string) {
     this._openmrsModel.identifier = v;
   }
-
 }

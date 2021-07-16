@@ -1,41 +1,45 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import {
+  Component,
+  OnInit,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from "@angular/core";
+import { Router, ActivatedRoute } from "@angular/router";
 
-import * as _ from 'lodash';
-import * as Moment from 'moment';
+import * as _ from "lodash";
+import * as Moment from "moment";
 
-import { AppFeatureAnalytics
-} from '../../../../shared/app-analytics/app-feature-analytics.service';
-import { DataAnalyticsDashboardService
-} from '../../../services/data-analytics-dashboard.services';
+import { AppFeatureAnalytics } from "../../../../shared/app-analytics/app-feature-analytics.service";
+import { DataAnalyticsDashboardService } from "../../../services/data-analytics-dashboard.services";
 
 @Component({
-  selector: 'oncology-summary-filters',
-  templateUrl: './oncology-summary-filters.component.html',
-  styleUrls: ['./oncology-summary-filters.component.css']
+  selector: "oncology-summary-filters",
+  templateUrl: "./oncology-summary-filters.component.html",
+  styleUrls: ["./oncology-summary-filters.component.css"],
 })
 export class OncologySummaryFiltersComponent implements OnInit, OnChanges {
   @Input() public startDate;
   @Input() public endDate;
-  @Input() public reportType = '';
-  @Input() public indicators = '';
+  @Input() public reportType = "";
+  @Input() public indicators = "";
   @Input() public ageRangeStart: number;
   @Input() public ageRangeEnd: number;
   @Input() public reportIndex: number;
   @Input() public reportUuid: number;
-  @Input() public period = '';
+  @Input() public period = "";
   @Input() public gender: any = [];
-  public title = 'Filters';
+  public title = "Filters";
   public data = [];
   public sectionsDef = [];
   public isAggregated: boolean;
-  public selectedIndicators  = [];
-  public enabledControls = 'datesControl,' +
-    'ageControl,genderControl,locationControl,periodControl';
+  public selectedIndicators = [];
+  public enabledControls =
+    "datesControl," + "ageControl,genderControl,locationControl,periodControl";
   public isLoadingReport = false;
   public encounteredError = false;
-  public errorMessage = '';
-  public reportName = 'oncology-summary-monthly-report';
+  public errorMessage = "";
+  public reportName = "oncology-summary-monthly-report";
   public dates: any;
   public age: any;
   public selectedGender: any = [];
@@ -47,7 +51,8 @@ export class OncologySummaryFiltersComponent implements OnInit, OnChanges {
     protected appFeatureAnalytics: AppFeatureAnalytics,
     public dataAnalyticsDashboardService: DataAnalyticsDashboardService,
     private router: Router,
-    private route: ActivatedRoute) {}
+    private route: ActivatedRoute
+  ) {}
 
   public ngOnInit() {}
 
@@ -56,8 +61,9 @@ export class OncologySummaryFiltersComponent implements OnInit, OnChanges {
   }
 
   public getLocationsSelected() {
-    this.dataAnalyticsDashboardService.getSelectedMonthlyIndicatorLocations().subscribe(
-      (data)  => {
+    this.dataAnalyticsDashboardService
+      .getSelectedMonthlyIndicatorLocations()
+      .subscribe((data) => {
         if (data) {
           this.locationUuids = data.locations;
         }
@@ -74,8 +80,8 @@ export class OncologySummaryFiltersComponent implements OnInit, OnChanges {
     const selectedGender = [];
     _.each(genderArray, (gender) => {
       selectedGender.push({
-        'label': gender,
-        'value':  gender
+        label: gender,
+        value: gender,
       });
     });
     this.selectedGender = selectedGender;
@@ -90,46 +96,46 @@ export class OncologySummaryFiltersComponent implements OnInit, OnChanges {
     this.getLocationsSelected();
     this.storeReportParamsInUrl();
     this.encounteredError = false;
-    this.errorMessage = '';
+    this.errorMessage = "";
     this.isLoadingReport = false;
   }
 
   public storeReportParamsInUrl() {
     const urlParams = this.route.snapshot.queryParams;
     const queryParams = {
-      'endDate': Moment(this.endDate).format('YYYY-MM-DD'),
-      'startDate': Moment(this.startDate).format('YYYY-MM-DD'),
-      'indicators': this.indicators,
-      'gender': this.gender,
-      'period': this.period,
-      'startAge': this.ageRangeStart,
-      'endAge': this.ageRangeEnd,
-      'type': this.reportType,
-      'report': urlParams.report,
-      'reportIndex': this.reportIndex,
-      'reportUuid': this.reportUuid,
-      'locationUuids': this.getSelectedLocations(this.locationUuids)
+      endDate: Moment(this.endDate).format("YYYY-MM-DD"),
+      startDate: Moment(this.startDate).format("YYYY-MM-DD"),
+      indicators: this.indicators,
+      gender: this.gender,
+      period: this.period,
+      startAge: this.ageRangeStart,
+      endAge: this.ageRangeEnd,
+      type: this.reportType,
+      report: urlParams.report,
+      reportIndex: this.reportIndex,
+      reportUuid: this.reportUuid,
+      locationUuids: this.getSelectedLocations(this.locationUuids),
     };
 
-    this.router.navigate(['./'], {
+    this.router.navigate(["./"], {
       queryParams: queryParams,
-      relativeTo: this.route
+      relativeTo: this.route,
     });
-
   }
 
   public getSelectedLocations(locationUuids: Array<string>): string {
     if (!locationUuids || locationUuids.length === 0) {
-      return '';
+      return "";
     }
 
-    let selectedLocations = '';
+    let selectedLocations = "";
 
     for (let i = 0; i < locationUuids.length; i++) {
       if (i === 0) {
         selectedLocations = selectedLocations + (locationUuids[0] as any).value;
       } else {
-        selectedLocations = selectedLocations + ',' + (locationUuids[i] as any).value;
+        selectedLocations =
+          selectedLocations + "," + (locationUuids[i] as any).value;
       }
     }
     return selectedLocations;
@@ -141,14 +147,13 @@ export class OncologySummaryFiltersComponent implements OnInit, OnChanges {
       const data = item;
       for (const r in data) {
         if (data.hasOwnProperty(r)) {
-          const month = Moment(data.month).format('MMM, YYYY');
-          data['reporting_month'] = month;
+          const month = Moment(data.month).format("MMM, YYYY");
+          data["reporting_month"] = month;
         }
       }
       dates.push(data);
     }
     return dates;
-
   }
   public onAgeChangeFinished($event) {
     this.ageRangeStart = $event.ageFrom;
@@ -158,7 +163,7 @@ export class OncologySummaryFiltersComponent implements OnInit, OnChanges {
   public getSelectedGender(selectedGender) {
     const gender: any = [];
     _.each(selectedGender, (specGender: any) => {
-      if (typeof specGender === 'string') {
+      if (typeof specGender === "string") {
         gender.push(specGender);
       } else {
         gender.push(specGender.value);
@@ -170,41 +175,45 @@ export class OncologySummaryFiltersComponent implements OnInit, OnChanges {
   public getSelectedIndicators(selectedIndicator) {}
 
   public formatIndicatorsToSelectArray(indicatorParam: string) {
-    const arr = indicatorParam.split(',');
+    const arr = indicatorParam.split(",");
     _.each(arr, (indicator) => {
       const text = this.translateIndicator(indicator);
       const id = indicator;
 
       const data = {
         value: id,
-        label: text
+        label: text,
       };
       this.selectedIndicators.push(data.value);
     });
   }
 
   public translateIndicator(indicator: string) {
-    return indicator.toLowerCase().split('_').map((word) => {
-      return (word.charAt(0) + word.slice(1));
-    }).join(' ');
+    return indicator
+      .toLowerCase()
+      .split("_")
+      .map((word) => {
+        return word.charAt(0) + word.slice(1);
+      })
+      .join(" ");
   }
 
   public formatGenderToSelectArray(genderParam: string) {
     if (genderParam.length > 1) {
-      const arr = genderParam.split(',');
+      const arr = genderParam.split(",");
       _.each(arr, (gender) => {
         const id = gender;
-        const text = gender === 'M' ? 'Male' : 'Female';
+        const text = gender === "M" ? "Male" : "Female";
         const data = {
           id: id,
-          text: text
+          text: text,
         };
         this.selectedGender.push(data);
       });
     } else {
       const data = {
         id: genderParam,
-        text: genderParam === 'M' ? 'Male' : 'Female'
+        text: genderParam === "M" ? "Male" : "Female",
       };
       this.selectedGender.push(data);
     }

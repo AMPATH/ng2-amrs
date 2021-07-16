@@ -1,16 +1,16 @@
-import { take } from 'rxjs/operators';
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import * as _ from 'lodash';
-import * as Moment from 'moment';
-import { DepartmentProgramsConfigService } from 'src/app/etl-api/department-programs-config.service';
-import { FamilyTestingService } from 'src/app/etl-api/family-testing-resource.service';
-import { LocalStorageService } from 'src/app/utils/local-storage.service';
+import { take } from "rxjs/operators";
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import * as _ from "lodash";
+import * as Moment from "moment";
+import { DepartmentProgramsConfigService } from "src/app/etl-api/department-programs-config.service";
+import { FamilyTestingService } from "src/app/etl-api/family-testing-resource.service";
+import { LocalStorageService } from "src/app/utils/local-storage.service";
 
 @Component({
-  selector: 'family-testing-base-report',
-  templateUrl: './family-testing-base.component.html',
-  styleUrls: ['./family-testing-base.component.css']
+  selector: "family-testing-base-report",
+  templateUrl: "./family-testing-base.component.html",
+  styleUrls: ["./family-testing-base.component.css"],
 })
 export class FamilyTestingBaseComponent implements OnInit {
   public isLoading: boolean;
@@ -18,21 +18,21 @@ export class FamilyTestingBaseComponent implements OnInit {
   public endDate: Date = new Date();
   public locationUuid: string;
   public statusError = false;
-  public errorMessage = '';
+  public errorMessage = "";
   public showInfoMessage = false;
   public params: any;
   public familyTestingPatientList: Array<any>;
-  public reportName = 'FamilyTesting';
-  public isEligible = '';
-  public elicitedStartDate = '';
-  public elicitedEndDate = '';
+  public reportName = "FamilyTesting";
+  public isEligible = "";
+  public elicitedStartDate = "";
+  public elicitedEndDate = "";
   public programDropdownSettings: any = {
     singleSelection: false,
-    text: 'Select or enter to search',
-    selectAllText: 'Select All',
-    unSelectAllText: 'UnSelect All',
+    text: "Select or enter to search",
+    selectAllText: "Select All",
+    unSelectAllText: "UnSelect All",
     enableSearchFilter: true,
-    maxHeight: 200
+    maxHeight: 200,
   };
   public departmentPrograms: any;
   public programs: Array<any> = [];
@@ -43,17 +43,17 @@ export class FamilyTestingBaseComponent implements OnInit {
 
   public isEligibleOptions = [
     {
-      label: '',
-      value: ''
+      label: "",
+      value: "",
     },
     {
-      label: 'Yes',
-      value: '1065'
+      label: "Yes",
+      value: "1065",
     },
     {
-      label: 'No',
-      value: '1066'
-    }
+      label: "No",
+      value: "1066",
+    },
   ];
 
   public ngOnInit() {
@@ -62,7 +62,7 @@ export class FamilyTestingBaseComponent implements OnInit {
         this.route.parent.parent.params.subscribe((urlParams: any) => {
           this.locationUuid = urlParams.location_uuid;
           localStorage.setItem(
-            'familyTestingSCurrentLocation',
+            "familyTestingSCurrentLocation",
             this.locationUuid
           );
 
@@ -72,23 +72,23 @@ export class FamilyTestingBaseComponent implements OnInit {
         });
       } else {
         if (
-          localStorage.getItem('familyTestingSCurrentLocation') !==
+          localStorage.getItem("familyTestingSCurrentLocation") !==
           params.location_uuid
         ) {
           this.resetFilters();
           localStorage.setItem(
-            'familyTestingSCurrentLocation',
+            "familyTestingSCurrentLocation",
             this.locationUuid
           );
         } else {
-          this.locationUuid = params.location_uuid ? params.location_uuid : '';
-          this.elicitedStartDate = params.start_date ? params.start_date : '';
-          this.elicitedEndDate = params.end_date ? params.end_date : '';
-          this.isEligible = params.eligible ? params.eligible : '';
+          this.locationUuid = params.location_uuid ? params.location_uuid : "";
+          this.elicitedStartDate = params.start_date ? params.start_date : "";
+          this.elicitedEndDate = params.end_date ? params.end_date : "";
+          this.isEligible = params.eligible ? params.eligible : "";
           const cachedPrograms = this.localStorage.getItem(
-            'familyTestingSelectedPrograms'
+            "familyTestingSelectedPrograms"
           );
-          this.programUuids = cachedPrograms ? cachedPrograms.split(',') : [];
+          this.programUuids = cachedPrograms ? cachedPrograms.split(",") : [];
 
           if (this.programUuids.length > 0) {
             this.disableGenerateButton = true;
@@ -142,13 +142,13 @@ export class FamilyTestingBaseComponent implements OnInit {
         eligible: this.isEligible,
         start_date: this.elicitedStartDate,
         end_date: this.elicitedEndDate,
-        program_type: this.programUuids.toString()
-      }
+        program_type: this.programUuids.toString(),
+      },
     });
 
     if (!_.isEmpty(this.programUuids)) {
       this.localStorage.setItem(
-        'familyTestingSelectedPrograms',
+        "familyTestingSelectedPrograms",
         this.programUuids.toString()
       );
     }
@@ -160,9 +160,9 @@ export class FamilyTestingBaseComponent implements OnInit {
   }
 
   public onPatientSelected(params: any) {
-    this.router.navigate(['contact-list'], {
+    this.router.navigate(["contact-list"], {
       relativeTo: this.route,
-      queryParams: { patient_uuid: params.patient_uuid }
+      queryParams: { patient_uuid: params.patient_uuid },
     });
   }
 
@@ -171,11 +171,11 @@ export class FamilyTestingBaseComponent implements OnInit {
   }
 
   public getSelectedElicitedStartDate($event) {
-    this.elicitedStartDate = Moment($event).format('YYYY-MM-DD');
+    this.elicitedStartDate = Moment($event).format("YYYY-MM-DD");
   }
 
   public getSelectedElicitedEndDate($event) {
-    this.elicitedEndDate = Moment($event).format('YYYY-MM-DD');
+    this.elicitedEndDate = Moment($event).format("YYYY-MM-DD");
   }
 
   public setParams() {
@@ -197,23 +197,23 @@ export class FamilyTestingBaseComponent implements OnInit {
       isEligible: this.isEligible,
       start_date: this.elicitedStartDate,
       end_date: this.elicitedEndDate,
-      programType: this.programUuids.toString()
+      programType: this.programUuids.toString(),
     };
   }
 
   public resetFilters() {
-    this.isEligible = '';
-    this.elicitedStartDate = '';
-    this.elicitedEndDate = '';
+    this.isEligible = "";
+    this.elicitedStartDate = "";
+    this.elicitedEndDate = "";
     this.programUuids = [];
     this.program = [];
-    this.localStorage.remove('familyTestingSelectedPrograms');
+    this.localStorage.remove("familyTestingSelectedPrograms");
     this.generateReport();
   }
 
   public getDepartmentPrograms() {
     this.departmentProgramService
-      .getDepartmentPrograms('HIV')
+      .getDepartmentPrograms("HIV")
       .pipe(take(1))
       .subscribe((result) => {
         this.departmentPrograms = result;
@@ -228,7 +228,7 @@ export class FamilyTestingBaseComponent implements OnInit {
       const programName = program.name;
       const programObj = {
         id: programUuid,
-        itemName: programName
+        itemName: programName,
       };
       programsArray.push(programObj);
     });
@@ -240,7 +240,7 @@ export class FamilyTestingBaseComponent implements OnInit {
     if (programs !== undefined) {
       const selectedPrograms = [];
       this.getDepartmentPrograms();
-      programs = programs.split(',');
+      programs = programs.split(",");
       _.each(this.departmentPrograms, (p: any) => {
         if (programs.includes(p.uuid)) {
           selectedPrograms.push(p);

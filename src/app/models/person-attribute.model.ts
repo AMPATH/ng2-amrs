@@ -1,6 +1,6 @@
-import {BaseModel} from './base-model.model';
-import {serializable} from './serializable.decorator';
-import {PersonAttributeType} from './person-attribute-type.model';
+import { BaseModel } from "./base-model.model";
+import { serializable } from "./serializable.decorator";
+import { PersonAttributeType } from "./person-attribute-type.model";
 
 export class PersonAttribute extends BaseModel {
   private _attributeType: PersonAttributeType;
@@ -12,8 +12,10 @@ export class PersonAttribute extends BaseModel {
   @serializable(true, false)
   public get attributeType(): PersonAttributeType {
     if (this._attributeType === null || this._attributeType === undefined) {
-      this.initializeNavigationProperty('');
-      this._attributeType = new PersonAttributeType(this._openmrsModel.attributeType);
+      this.initializeNavigationProperty("");
+      this._attributeType = new PersonAttributeType(
+        this._openmrsModel.attributeType
+      );
     }
     return this._attributeType;
   }
@@ -22,5 +24,4 @@ export class PersonAttribute extends BaseModel {
     this._openmrsModel.attributeType = v.openmrsModel;
     this._attributeType = v;
   }
-
 }

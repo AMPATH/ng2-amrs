@@ -1,15 +1,19 @@
-import {ConceptName} from './concept-name.model';
+import { ConceptName } from "./concept-name.model";
 
-describe('Model: conceptName', () => {
+describe("Model: conceptName", () => {
   const existingConceptName: any = {
-    name: 'name',
-    conceptNameType: 'concept name type'
+    name: "name",
+    conceptNameType: "concept name type",
   };
 
-  it('it should wrap concept Name Model for display correctly', (done) => {
-    const wrappedConceptNameModel: ConceptName = new ConceptName(existingConceptName);
+  it("it should wrap concept Name Model for display correctly", (done) => {
+    const wrappedConceptNameModel: ConceptName = new ConceptName(
+      existingConceptName
+    );
     expect(wrappedConceptNameModel.name).toEqual(existingConceptName.name);
-    expect(wrappedConceptNameModel.conceptNameType).toEqual(existingConceptName.conceptNameType);
+    expect(wrappedConceptNameModel.conceptNameType).toEqual(
+      existingConceptName.conceptNameType
+    );
     done();
   });
 });

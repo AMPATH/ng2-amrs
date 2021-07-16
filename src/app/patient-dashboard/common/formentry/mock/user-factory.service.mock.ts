@@ -1,9 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 
 @Injectable()
 export class FakeUserFactory {
-  constructor() {
-  }
+  constructor() {}
 
   public getLoggedInUser(): any {
     return null;

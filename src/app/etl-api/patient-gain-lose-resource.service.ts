@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { AppSettingsService } from '../app-settings/app-settings.service';
-import { Observable } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { AppSettingsService } from "../app-settings/app-settings.service";
+import { Observable } from "rxjs";
+import { catchError, map } from "rxjs/operators";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class PatientGainLoseResourceService {
   public get url(): string {
@@ -26,7 +26,7 @@ export class PatientGainLoseResourceService {
           const error: any = err;
           const errorObj = {
             error: error.status,
-            message: error.statusText
+            message: error.statusText,
           };
           return Observable.of(errorObj);
         }),
@@ -46,7 +46,7 @@ export class PatientGainLoseResourceService {
           const error: any = err;
           const errorObj = {
             error: error.status,
-            message: error.statusText
+            message: error.statusText,
           };
           return Observable.of(errorObj);
         }),

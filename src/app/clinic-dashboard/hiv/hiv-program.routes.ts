@@ -306,7 +306,7 @@ const routes: Routes = [
         component: EditContactTraceComponent,
       },
     ],
-  }
+  },
 ];
 
 export const clinicDashboardHivRouting: ModuleWithProviders = RouterModule.forChild(

@@ -1,1 +1,1 @@
-export * from './online-tracker.component';
+export * from "./online-tracker.component";

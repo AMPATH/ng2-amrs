@@ -1,32 +1,59 @@
-<h4 class="component-title" style="color: green;"><span class="icon-i-laboratory"></span>  Patients Requiring Viral Load Order</h4>
-<div class="loader" *ngIf="isLoadingReport"><span><i class="fa fa-spinner fa-spin">
-      </i>Loading...</span></div>
-<patients-requiring-vl-report-filters [(startDate)]="startDate" [(endDate)]="endDate" [parentIsBusy]="isLoadingReport"
-    (generateReport)="generateReport()">
+<h4 class="component-title" style="color: green">
+  <span class="icon-i-laboratory"></span> Patients Requiring Viral Load Order
+</h4>
+<div class="loader" *ngIf="isLoadingReport">
+  <span><i class="fa fa-spinner fa-spin"> </i>Loading...</span>
+</div>
+<patients-requiring-vl-report-filters
+  [(startDate)]="startDate"
+  [(endDate)]="endDate"
+  [parentIsBusy]="isLoadingReport"
+  (generateReport)="generateReport()"
+>
 </patients-requiring-vl-report-filters>
 
 <div class="alert alert-danger fade in" *ngIf="encounteredError">
-    <a class="close" data-dismiss="alert">&times;</a>
-    <h4><strong><span class="glyphicon glyphicon-warning-sign"></span> </strong> An error occurred while trying to load the report.
-        Please try again.
-    </h4>
-    <p>
-        <small>{{errorMessage}}</small>
-    </p>
+  <a class="close" data-dismiss="alert">&times;</a>
+  <h4>
+    <strong><span class="glyphicon glyphicon-warning-sign"></span> </strong> An
+    error occurred while trying to load the report. Please try again.
+  </h4>
+  <p>
+    <small>{{ errorMessage }}</small>
+  </p>
 </div>
-<hr>
-<div  *ngIf="!encounteredError && data.length > 0">
+<hr />
+<div *ngIf="!encounteredError && data.length > 0">
   <div class="form-group col-md-16">
     <div class="form-row">
-        <label for="currentVLDate">Show Patients With Most Recent VL Before:</label>
-        <input id="currentVLDate" [(ngModel)]="selectedCurrentVLDate" class="form-control" type="date" (ngModelChange)="onCurrentVLDateChanged($event)"/>
+      <label for="currentVLDate"
+        >Show Patients With Most Recent VL Before:</label
+      >
+      <input
+        id="currentVLDate"
+        [(ngModel)]="selectedCurrentVLDate"
+        class="form-control"
+        type="date"
+        (ngModelChange)="onCurrentVLDateChanged($event)"
+      />
     </div>
- </div>
-  <patient-list [extraColumns]="extraColumns()" [overrideColumns]="overrideColumns"  [data]="filteredData" [hivColumns]="true"></patient-list>
-  <div *ngIf='!isLoadingReport'>
-    <p class="bg-info" style="padding:4px;">
+  </div>
+  <patient-list
+    [extraColumns]="extraColumns()"
+    [overrideColumns]="overrideColumns"
+    [data]="filteredData"
+    [hivColumns]="true"
+  ></patient-list>
+  <div *ngIf="!isLoadingReport">
+    <p class="bg-info" style="padding: 4px">
       <b>
-        <span style="color:green;" class="glyphicon glyphicon-ok"> Showing {{'[' + filteredData.length + '/' + data.length+']'}}</span></b>
-    <p>
+        <span style="color: green" class="glyphicon glyphicon-ok">
+          Showing
+          {{ "[" + filteredData.length + "/" + data.length + "]" }}</span
+        ></b
+      >
+    </p>
+
+    <p></p>
   </div>
 </div>

@@ -10,29 +10,28 @@ app-patient-encounters {
 
 patient-encounter-observations {
   display: block;
-  padding:15px;
+  padding: 15px;
 }
 
 ul.obs-list ul.description {
   opacity: 0;
-  height:0px;
-
+  height: 0px;
 }
 .chip {
-    display: inline-block;
-    padding: 0 25px;
-    height: 35px;
-    font-size: 12px;
-    line-height: 35px;
-    border-radius: 25px;
-    background-color: #f1f1f1;
-    margin-bottom: 5px;
-    margin-right:3px;
-    margin-left: 3px;
+  display: inline-block;
+  padding: 0 25px;
+  height: 35px;
+  font-size: 12px;
+  line-height: 35px;
+  border-radius: 25px;
+  background-color: #f1f1f1;
+  margin-bottom: 5px;
+  margin-right: 3px;
+  margin-left: 3px;
 }
 
 ul.obs-list li.obs_parent a:focus ul.description {
-  height:auto;
+  height: auto;
   transition: visibility 1s, opacity 0.5s linear;
   opacity: 1;
 }
@@ -57,13 +56,13 @@ li.obs_parent a {
 }
 
 li.obs_parent a > span {
-  line-height:36px;
+  line-height: 36px;
 }
 
 .obs_parent span.fa {
   position: absolute;
   right: 15px;
-  color:#fff;
+  color: #fff;
   top: 0;
 }
 
@@ -73,7 +72,6 @@ ul {
 }
 ul.obs-list {
   list-style-position: outside;
-
 }
 
 ul li {
@@ -86,7 +84,7 @@ ul.obs-list li ul.obs_children {
 }
 
 ul.obs_children {
-  padding-left:15px;
+  padding-left: 15px;
   list-style-position: inside;
   margin-left: -5px;
   background: #fff;
@@ -97,6 +95,6 @@ ul.obs_children {
 .obs_value {
   color: green;
 }
-.modal-body > .obs-wrapper pretty-encounter-viewer{
- overflow-wrap: break-word !important;
+.modal-body > .obs-wrapper pretty-encounter-viewer {
+  overflow-wrap: break-word !important;
 }

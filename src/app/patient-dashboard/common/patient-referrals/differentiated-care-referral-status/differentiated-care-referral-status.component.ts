@@ -1,17 +1,15 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input } from "@angular/core";
 
 @Component({
-  selector: 'diff-care-referral-status',
-  templateUrl: './differentiated-care-referral-status.component.html',
-  styleUrls: ['./differentiated-care-referral-status.component.css']
+  selector: "diff-care-referral-status",
+  templateUrl: "./differentiated-care-referral-status.component.html",
+  styleUrls: ["./differentiated-care-referral-status.component.css"],
 })
 export class DifferentiatedCareReferralStatusComponent implements OnInit {
   @Input()
   public status: any = undefined;
 
-  constructor() { }
+  constructor() {}
 
-  public ngOnInit() {
-  }
-
+  public ngOnInit() {}
 }

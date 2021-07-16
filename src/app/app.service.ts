@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Injectable } from "@angular/core";
+import { Subject } from "rxjs";
 export interface InternalStateType {
   [key: string]: any;
 }
@@ -10,17 +10,15 @@ export class AppState {
   public idleTimer: Subject<any> = new Subject();
   public _state: InternalStateType = {};
   private timeoutID;
-  constructor() {
-
-  }
+  constructor() {}
 
   // already return a clone of the current state
   get state() {
-    return this._state = this._clone(this._state);
+    return (this._state = this._clone(this._state));
   }
   // never allow mutation
   set state(value) {
-    throw new Error('do not mutate the `.state` directly');
+    throw new Error("do not mutate the `.state` directly");
   }
 
   public get(prop?: any) {
@@ -31,31 +29,33 @@ export class AppState {
 
   public set(prop: string, value: any) {
     // internally mutate our state
-    return this._state[prop] = value;
+    return (this._state[prop] = value);
   }
   public setupIdleTimer(idleTimeout) {
     // console.log('calling setupIdleTimer');
     this.idleTimeout = idleTimeout;
-    window.addEventListener('mousemove', this.resetTimer.bind(this), false);
-    window.addEventListener('mousedown', this.resetTimer.bind(this), false);
-    window.addEventListener('keypress', this.resetTimer.bind(this), false);
-    window.addEventListener('DOMMouseScroll', this.resetTimer.bind(this), false);
-    window.addEventListener('mousewheel', this.resetTimer.bind(this), false);
-    window.addEventListener('touchmove', this.resetTimer.bind(this), false);
-    window.addEventListener('MSPointerMove', this.resetTimer.bind(this), false);
+    window.addEventListener("mousemove", this.resetTimer.bind(this), false);
+    window.addEventListener("mousedown", this.resetTimer.bind(this), false);
+    window.addEventListener("keypress", this.resetTimer.bind(this), false);
+    window.addEventListener(
+      "DOMMouseScroll",
+      this.resetTimer.bind(this),
+      false
+    );
+    window.addEventListener("mousewheel", this.resetTimer.bind(this), false);
+    window.addEventListener("touchmove", this.resetTimer.bind(this), false);
+    window.addEventListener("MSPointerMove", this.resetTimer.bind(this), false);
 
     this.startTimer();
     return this.idleTimer;
   }
 
   public startTimer() {
-    this.timeoutID = setTimeout(this.goInactive.bind(this),
-      this.idleTimeout);
+    this.timeoutID = setTimeout(this.goInactive.bind(this), this.idleTimeout);
     // console.log('calling timeoutid', this.timeoutID, window);
   }
 
   public resetTimer(e) {
-
     // let taskid = this.timeoutID.data.handleId;
     // console.log('Resetting timer!', this.timeoutID, taskid);
     window.clearTimeout(this.timeoutID);
@@ -85,5 +85,4 @@ export class AppState {
     // simple object clone
     return JSON.parse(JSON.stringify(object));
   }
-
 }

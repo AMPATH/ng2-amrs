@@ -1,1 +1,1 @@
-export { ClinicDashboardModule } from './clinic-dashboard.module';
+export { ClinicDashboardModule } from "./clinic-dashboard.module";

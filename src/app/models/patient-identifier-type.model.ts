@@ -1,5 +1,5 @@
-import { BaseModel } from './base-model.model';
-import { serializable, serialize } from './serializable.decorator';
+import { BaseModel } from "./base-model.model";
+import { serializable, serialize } from "./serializable.decorator";
 
 export class PatientIdentifierType extends BaseModel {
   constructor(openmrsModel?: any) {
@@ -13,5 +13,4 @@ export class PatientIdentifierType extends BaseModel {
   public set name(v: string) {
     this._openmrsModel.name = v;
   }
-
 }

@@ -1,16 +1,16 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from "@angular/core";
 
-import { PatientService } from '../../services/patient.service';
-import { Patient } from '../../../models/patient.model';
-import * as _ from 'lodash';
-import { PersonResourceService } from '../../../openmrs-api/person-resource.service';
-import { Subscription } from 'rxjs';
-import { PatientRelationshipTypeService } from '../patient-relationships/patient-relation-type.service';
+import { PatientService } from "../../services/patient.service";
+import { Patient } from "../../../models/patient.model";
+import * as _ from "lodash";
+import { PersonResourceService } from "../../../openmrs-api/person-resource.service";
+import { Subscription } from "rxjs";
+import { PatientRelationshipTypeService } from "../patient-relationships/patient-relation-type.service";
 
 @Component({
-  selector: 'edit-contacts-info',
-  templateUrl: './edit-contacts.component.html',
-  styleUrls: []
+  selector: "edit-contacts-info",
+  templateUrl: "./edit-contacts.component.html",
+  styleUrls: [],
 })
 export class EditContactsComponent implements OnInit, OnDestroy {
   public patient: Patient = new Patient({});
@@ -33,12 +33,13 @@ export class EditContactsComponent implements OnInit, OnDestroy {
   public errorTitle: string;
   public patientRelationshipTypes: any = [];
   public selectedRelationshipType: any;
-  public successAlert = '';
+  public successAlert = "";
 
-  constructor(private patientService: PatientService,
+  constructor(
+    private patientService: PatientService,
     private personResourceService: PersonResourceService,
-    private patientRelationshipTypeService: PatientRelationshipTypeService) {
-  }
+    private patientRelationshipTypeService: PatientRelationshipTypeService
+  ) {}
   public ngOnInit() {
     this.getPatient();
     this.getRelationShipTypes();
@@ -63,8 +64,7 @@ export class EditContactsComponent implements OnInit, OnDestroy {
           this.patient = patient;
           this.partnerPhoneNumber = this.patient.person.partnerPhoneNumber;
           this.patientPhoneNumber = this.patient.person.patientPhoneNumber;
-          this.alternativePhoneNumber =
-            this.patient.person.alternativePhoneNumber;
+          this.alternativePhoneNumber = this.patient.person.alternativePhoneNumber;
           this.nextofkinPhoneNumber = this.patient.person.nextofkinPhoneNumber;
           this.careGivername = this.patient.person.caregiverName;
           this.relationshipToCareGiver = this.patient.person.relationshipToCaregiver;
@@ -75,60 +75,67 @@ export class EditContactsComponent implements OnInit, OnDestroy {
   }
   public saveAttribute() {
     const person = {
-      uuid: this.patient.person.uuid
+      uuid: this.patient.person.uuid,
     };
     const personAttributePayload = {
-      attributes: [{
-        value: this.patientPhoneNumber,
-        attributeType: '72a759a8-1359-11df-a1f1-0026b9348838'
-      }, {
-        value: this.alternativePhoneNumber,
-        attributeType: 'c725f524-c14a-4468-ac19-4a0e6661c930'
-      }, {
-        value: this.nextofkinPhoneNumber,
-        attributeType: 'a657a4f1-9c0f-444b-a1fd-445bb91dd12d'
-      }, {
-        value: this.partnerPhoneNumber,
-        attributeType: 'b0a08406-09c0-4f8b-8cb5-b22b6d4a8e46'
-      },
-      {
-        value: this.careGivername,
-        attributeType: '48876f06-7493-416e-855d-8413d894ea93'
-      },
-      {
-        value: this.relationshipToCareGiver,
-        attributeType: '06b0da36-e133-4be6-aec0-31e7ed0e1ac2'
-      },
-      {
-        value: this.careGiverPhoneNumber,
-        attributeType: 'bb8684a5-ac0b-4c2c-b9a5-1203e99952c2'
-      }]
+      attributes: [
+        {
+          value: this.patientPhoneNumber,
+          attributeType: "72a759a8-1359-11df-a1f1-0026b9348838",
+        },
+        {
+          value: this.alternativePhoneNumber,
+          attributeType: "c725f524-c14a-4468-ac19-4a0e6661c930",
+        },
+        {
+          value: this.nextofkinPhoneNumber,
+          attributeType: "a657a4f1-9c0f-444b-a1fd-445bb91dd12d",
+        },
+        {
+          value: this.partnerPhoneNumber,
+          attributeType: "b0a08406-09c0-4f8b-8cb5-b22b6d4a8e46",
+        },
+        {
+          value: this.careGivername,
+          attributeType: "48876f06-7493-416e-855d-8413d894ea93",
+        },
+        {
+          value: this.relationshipToCareGiver,
+          attributeType: "06b0da36-e133-4be6-aec0-31e7ed0e1ac2",
+        },
+        {
+          value: this.careGiverPhoneNumber,
+          attributeType: "bb8684a5-ac0b-4c2c-b9a5-1203e99952c2",
+        },
+      ],
     };
-    const payLoad = this.generatePersonAttributePayload(personAttributePayload,
-      this.patient.person.attributes);
+    const payLoad = this.generatePersonAttributePayload(
+      personAttributePayload,
+      this.patient.person.attributes
+    );
 
     personAttributePayload.attributes = payLoad;
     this.filterUndefinedUuidFromPayLoad(personAttributePayload.attributes);
-    this.personResourceService.saveUpdatePerson(person.uuid, personAttributePayload).subscribe(
-      (success) => {
-        if (success) {
-          this.displaySuccessAlert('Contact saved successfully');
-          this.patientService.reloadCurrentPatient();
+    this.personResourceService
+      .saveUpdatePerson(person.uuid, personAttributePayload)
+      .subscribe(
+        (success) => {
+          if (success) {
+            this.displaySuccessAlert("Contact saved successfully");
+            this.patientService.reloadCurrentPatient();
+          }
+        },
+        (error) => {
+          console.error("error", error);
+          this.errors.push({
+            id: "patient",
+            message: "error updating contacts",
+          });
         }
-
-      },
-      (error) => {
-        console.error('error', error);
-        this.errors.push({
-          id: 'patient',
-          message: 'error updating contacts'
-        });
-      }
-    );
+      );
     setTimeout(() => {
       this.display = false;
     }, 1000);
-
   }
   private displaySuccessAlert(message) {
     this.showErrorAlert = false;
@@ -141,56 +148,60 @@ export class EditContactsComponent implements OnInit, OnDestroy {
 
   private getPersonAttributeByAttributeTypeUuid(attributes, attributeType) {
     // let attributes = this.patient.person.attributes;
-    const attrs = _.filter(attributes,
-      (attribute: any) => {
-        if (attribute.attributeType.uuid === attributeType) {
-          return true;
-        } else {
-          return false;
-        }
-
-      });
+    const attrs = _.filter(attributes, (attribute: any) => {
+      if (attribute.attributeType.uuid === attributeType) {
+        return true;
+      } else {
+        return false;
+      }
+    });
     return attrs[0];
   }
   private filterUndefinedUuidFromPayLoad(personAttributePayload) {
     if (personAttributePayload && personAttributePayload.length > 0) {
       for (let i = 0; i < personAttributePayload.length; i++) {
-        if (personAttributePayload[i].uuid === undefined &&
-          personAttributePayload[i].voided === true) {
+        if (
+          personAttributePayload[i].uuid === undefined &&
+          personAttributePayload[i].voided === true
+        ) {
           personAttributePayload.splice(i, 1);
           i--;
         }
       }
     }
   }
-  private generatePersonAttributePayload(personAttributePayload, existingAttributes) {
+  private generatePersonAttributePayload(
+    personAttributePayload,
+    existingAttributes
+  ) {
     const payLoad = [];
     const attributes = personAttributePayload.attributes;
     for (const a in attributes) {
-
       if (attributes.hasOwnProperty(a)) {
         let attr;
-        if (attributes[a] !== undefined && attributes[a] !== 'undefined') {
-          attr = this.getPersonAttributeByAttributeTypeUuid(existingAttributes,
-            attributes[a].attributeType);
+        if (attributes[a] !== undefined && attributes[a] !== "undefined") {
+          attr = this.getPersonAttributeByAttributeTypeUuid(
+            existingAttributes,
+            attributes[a].attributeType
+          );
           if (attr === undefined) {
             attr = _.filter(attr, (attribute) => {
               return attribute !== undefined && attribute !== null;
             });
-
           }
 
-          if (attr && attributes[a].value === null || attributes[a].value.toString() === '') {
+          if (
+            (attr && attributes[a].value === null) ||
+            attributes[a].value.toString() === ""
+          ) {
             payLoad.push({ uuid: attr.uuid, voided: true });
           } else {
             payLoad.push({
               attributeType: attributes[a].attributeType,
-              value: attributes[a].value
+              value: attributes[a].value,
             });
           }
-
         }
-
       }
     }
     return payLoad;
@@ -198,13 +209,18 @@ export class EditContactsComponent implements OnInit, OnDestroy {
 
   public getRelationShipTypes(): void {
     const request = this.patientRelationshipTypeService.getRelationshipTypes();
-    request.subscribe((relationshipTypes) => {
+    request.subscribe(
+      (relationshipTypes) => {
         if (relationshipTypes) {
-            this.patientRelationshipTypes = relationshipTypes;
+          this.patientRelationshipTypes = relationshipTypes;
         }
-    }, (error) => {
-        console.error('Failed to get relation types because of the following ', error);
-    });
-}
-
+      },
+      (error) => {
+        console.error(
+          "Failed to get relation types because of the following ",
+          error
+        );
+      }
+    );
+  }
 }

@@ -1,18 +1,26 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  OnChanges,
+  SimpleChanges,
+} from "@angular/core";
 
-import * as jspdf from 'jspdf';
-import html2canvas from 'html2canvas';
-import * as pdfMake from 'pdfmake/build/pdfmake.js';
-import { Observable, Subject } from 'rxjs';
-import { first, take } from 'rxjs/operators';
-import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
-import { PDFDocumentProxy } from 'pdfjs-dist';
-import * as _ from 'lodash';
+import * as jspdf from "jspdf";
+import html2canvas from "html2canvas";
+import * as pdfMake from "pdfmake/build/pdfmake.js";
+import { Observable, Subject } from "rxjs";
+import { first, take } from "rxjs/operators";
+import { SafeResourceUrl, DomSanitizer } from "@angular/platform-browser";
+import { PDFDocumentProxy } from "pdfjs-dist";
+import * as _ from "lodash";
 
 @Component({
-  selector: 'app-report-view',
-  templateUrl: './report-view.component.html',
-  styleUrls: ['./report-view.component.css']
+  selector: "app-report-view",
+  templateUrl: "./report-view.component.html",
+  styleUrls: ["./report-view.component.css"],
 })
 export class ReportViewComponent implements OnInit, OnChanges {
   @Input() SummaryData = [];
@@ -24,7 +32,7 @@ export class ReportViewComponent implements OnInit, OnChanges {
   private _rowDefs: Array<any>;
   public test = [];
   public gridOptions: any = {
-    columnDefs: []
+    columnDefs: [],
   };
   public pdfvalue: any;
   public pdfSrc: string = null;
@@ -44,10 +52,9 @@ export class ReportViewComponent implements OnInit, OnChanges {
   @Output()
   public CellSelection = new EventEmitter();
 
-  constructor(private domSanitizer: DomSanitizer) { }
+  constructor(private domSanitizer: DomSanitizer) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
   public ngOnChanges(changes: SimpleChanges) {
     if (changes.SummaryData) {
       this.sectionIndicatorsValues = this.SummaryData;
@@ -65,7 +72,7 @@ export class ReportViewComponent implements OnInit, OnChanges {
       created.headerName = section.sectionTitle;
       const header = {
         label: section.sectionTitle,
-        value: i
+        value: i,
       };
       this.headers.push(header);
       created.children = [];
@@ -77,17 +84,20 @@ export class ReportViewComponent implements OnInit, OnChanges {
           description: section.indicators[j].description,
           value: [],
           width: 360,
-          total: 0
+          total: 0,
         };
-        this.sectionIndicatorsValues.forEach(element => {
+        this.sectionIndicatorsValues.forEach((element) => {
           const val: any = {
-            location: element['location_uuid'],
-            value: '-'
+            location: element["location_uuid"],
+            value: "-",
           };
-          if (element[indicatorDefinition] || element[indicatorDefinition] === 0) {
+          if (
+            element[indicatorDefinition] ||
+            element[indicatorDefinition] === 0
+          ) {
             val.value = element[indicatorDefinition];
             sumOfValue.push(val.value);
-            locations.push(element['location_uuid']);
+            locations.push(element["location_uuid"]);
           }
 
           child.value.push(val);
@@ -99,12 +109,12 @@ export class ReportViewComponent implements OnInit, OnChanges {
           if (_.isString(sum)) {
             child.total = {
               location: locations,
-              value: 'Total'
+              value: "Total",
             };
           } else {
             child.total = {
               location: locations,
-              value: sum
+              value: sum,
             };
           }
           sumOfValue = [];
@@ -117,24 +127,31 @@ export class ReportViewComponent implements OnInit, OnChanges {
     this.gridOptions.columnDefs = defs;
   }
   public setCellSelection(col, val) {
-    const selectedIndicator = { headerName: col.headerName, field: col.field, location: val.location };
+    const selectedIndicator = {
+      headerName: col.headerName,
+      field: col.field,
+      location: val.location,
+    };
     this.CellSelection.emit(selectedIndicator);
   }
   public searchIndicator() {
     this.setColumns(this.sectionDefs);
     if (this.selectedResult.length > 0) {
-      this.gridOptions.columnDefs.forEach(object => {
+      this.gridOptions.columnDefs.forEach((object) => {
         const make = {
-          headerName: '',
-          children: []
+          headerName: "",
+          children: [],
         };
-        object.children.forEach(object2 => {
-          if (object2['headerName'].toLowerCase().match(this.selectedResult) !== null) {
-            make.headerName = object['headerName'];
+        object.children.forEach((object2) => {
+          if (
+            object2["headerName"].toLowerCase().match(this.selectedResult) !==
+            null
+          ) {
+            make.headerName = object["headerName"];
             make.children.push(object2);
           }
         });
-        if (make.headerName !== '') {
+        if (make.headerName !== "") {
           this.test.push(make);
         }
       });
@@ -149,7 +166,7 @@ export class ReportViewComponent implements OnInit, OnChanges {
     this.setColumns(this.sectionDefs);
     const value = [];
     if (this.selectedIndicatorsList.length) {
-      this.selectedIndicatorsList.forEach(indicator => {
+      this.selectedIndicatorsList.forEach((indicator) => {
         value.push(this.gridOptions.columnDefs[indicator]);
       });
       this.gridOptions.columnDefs = value;
@@ -159,34 +176,46 @@ export class ReportViewComponent implements OnInit, OnChanges {
   }
   public downloadPdf() {
     this.pdfvalue = this.bodyValues();
-    this.generatePdf().pipe(take(1)).subscribe(
-      (pdf) => {
-        this.pdfSrc = pdf.pdfSrc;
-        this.pdfMakeProxy = pdf.pdfProxy;
-        this.securedUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(this.pdfSrc);
-        this.isBusy = false;
-        this.downloadPdfView();
-      },
-      (err) => {
-        this.errorFlag = true;
-        this.isBusy = false;
-      }
-    );
+    this.generatePdf()
+      .pipe(take(1))
+      .subscribe(
+        (pdf) => {
+          this.pdfSrc = pdf.pdfSrc;
+          this.pdfMakeProxy = pdf.pdfProxy;
+          this.securedUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
+            this.pdfSrc
+          );
+          this.isBusy = false;
+          this.downloadPdfView();
+        },
+        (err) => {
+          this.errorFlag = true;
+          this.isBusy = false;
+        }
+      );
   }
   public generatePdf(): Observable<any> {
-    const width: any = ['*', '*'];
-    this.sectionIndicatorsValues.forEach(element => {
-      width.push('*');
+    const width: any = ["*", "*"];
+    this.sectionIndicatorsValues.forEach((element) => {
+      width.push("*");
     });
     const dd: any = {
       content: [
-        { text: this.reportDetails.reportName.toUpperCase(), margin: [0, 20, 0, 8], style: 'title' },
         {
-          text: this.reportDetails.year_week === undefined ?
-            this.reportDetails._date : this.reportDetails.year_week, margin: [0, 8, 0, 8], style: 'title'
+          text: this.reportDetails.reportName.toUpperCase(),
+          margin: [0, 20, 0, 8],
+          style: "title",
         },
         {
-          style: 'tableExample',
+          text:
+            this.reportDetails.year_week === undefined
+              ? this.reportDetails._date
+              : this.reportDetails.year_week,
+          margin: [0, 8, 0, 8],
+          style: "title",
+        },
+        {
+          style: "tableExample",
           table: {
             headerRows: 2,
             widths: width,
@@ -194,65 +223,63 @@ export class ReportViewComponent implements OnInit, OnChanges {
           },
           layout: {
             fillColor: function (rowIndex, node, columnIndex) {
-              return (rowIndex % 2 === 0) ? '#CCCCCC' : null;
-            }
-          }
+              return rowIndex % 2 === 0 ? "#CCCCCC" : null;
+            },
+          },
         },
       ],
       styles: {
         header: {
           fontSize: 12,
           bold: true,
-          margin: [0, 0, 0, 10]
+          margin: [0, 0, 0, 10],
         },
         total: {
           fontSize: 9,
           bold: true,
-          margin: [0, 10, 0, 5]
+          margin: [0, 10, 0, 5],
         },
         title: {
           fontSize: 8,
-          bold: true
+          bold: true,
         },
         subheader: {
           fontSize: 7,
           bold: true,
-          margin: [0, 1, 0, 1]
+          margin: [0, 1, 0, 1],
         },
         tableExample: {
           fontSize: 9,
-          margin: [5, 0, 0, 5]
+          margin: [5, 0, 0, 5],
         },
         tableHeader: {
           bold: true,
           fontSize: 10,
-          color: 'white'
-        }
+          color: "white",
+        },
       },
       defaultStyle: {
         // alignment: 'justify'
-      }
+      },
     };
     if (this.sectionIndicatorsValues.length >= 10) {
-      dd.pageOrientation = 'landscape';
+      dd.pageOrientation = "landscape";
     }
     const pdfStructure = dd;
     return Observable.create((observer: Subject<any>) => {
       // JSON stringify and parse was done to handle a potential bug in pdfMake
       const p = JSON.stringify(pdfStructure);
       const x = JSON.parse(p);
-      const pdfProxy = pdfMake.createPdf(x
-      );
+      const pdfProxy = pdfMake.createPdf(x);
       pdfProxy.getBase64((output) => {
-        const int8Array: Uint8Array =
-          this._base64ToUint8Array(output);
+        const int8Array: Uint8Array = this._base64ToUint8Array(output);
         const blob = new Blob([int8Array], {
-          type: 'application/pdf'
+          type: "application/pdf",
         });
         observer.next({
           pdfSrc: URL.createObjectURL(blob),
           pdfDefinition: pdfStructure,
-          pdfProxy: pdfProxy
+          pdfProxy: pdfProxy,
         });
       });
     }).pipe(first());
@@ -268,32 +295,38 @@ export class ReportViewComponent implements OnInit, OnChanges {
   public bodyValues() {
     const body = [];
     // let span = 0;
-    this.gridOptions.columnDefs.forEach(columnDefs => {
+    this.gridOptions.columnDefs.forEach((columnDefs) => {
       const head = [];
       const part = {
-        text: columnDefs.headerName, style: 'tableHeader', fillColor: '#337ab7',
-        colSpan: this.sectionIndicatorsValues.length + this.pdfWidth, alignment: 'left'
+        text: columnDefs.headerName,
+        style: "tableHeader",
+        fillColor: "#337ab7",
+        colSpan: this.sectionIndicatorsValues.length + this.pdfWidth,
+        alignment: "left",
       };
       head.push(part);
       body.push(head);
-      columnDefs.children.forEach(col => {
+      columnDefs.children.forEach((col) => {
         const sec = [];
         const test = {
-          text: col.headerName, style: 'subheader',
-          alignment: 'left'
+          text: col.headerName,
+          style: "subheader",
+          alignment: "left",
         };
         sec.push(test);
-        col.value.forEach(element => {
+        col.value.forEach((element) => {
           const value = {
-            text: element.value, style: 'subheader',
-            alignment: 'center'
+            text: element.value,
+            style: "subheader",
+            alignment: "center",
           };
           sec.push(value);
         });
         if (this.multipleLocations) {
           sec.push({
-            text: col.total.value, style: 'title',
-            alignment: 'centre'
+            text: col.total.value,
+            style: "title",
+            alignment: "centre",
           });
         }
         body.push(sec);
@@ -302,7 +335,6 @@ export class ReportViewComponent implements OnInit, OnChanges {
     return body;
   }
 
-
   public nextPage(): void {
     this.page++;
   }
@@ -310,11 +342,6 @@ export class ReportViewComponent implements OnInit, OnChanges {
     this.page--;
   }
   public downloadPdfView(): void {
-    this.pdfMakeProxy
-      .download((this.reportDetails.reportName) + '.pdf');
+    this.pdfMakeProxy.download(this.reportDetails.reportName + ".pdf");
   }
 }
-
-
-
-

@@ -1,54 +1,47 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { NO_ERRORS_SCHEMA } from "@angular/core";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { FormsModule } from "@angular/forms";
+import { Router, ActivatedRoute } from "@angular/router";
 
-import { Observable, of } from 'rxjs';
-import { DialogModule } from 'primeng/primeng';
-import { CacheService } from 'ionic-cache';
-import { NgBusyModule } from 'ng-busy';
+import { Observable, of } from "rxjs";
+import { DialogModule } from "primeng/primeng";
+import { CacheService } from "ionic-cache";
+import { NgBusyModule } from "ng-busy";
 
-import { DataCacheService } from '../../../../shared/services/data-cache.service';
-import { UserDefaultPropertieservice } from '../../../../../user-default-properties/user-default-properties.service';
-import { ProgramEnrollmentResourceService } from '../../../../openmrs-api/program-enrollment-resource.service';
-import { PatientProgramResourceService } from '../../../../etl-api/patient-program-resource.service';
-import { VisitResourceService } from '../../../../openmrs-api/visit-resource.service';
-import { LocationResourceService } from '../../../../openmrs-api/location-resource.service';
-import { UserDefaultPropertiesModule } from '../../../../user-default-properties/user-default-properties.module';
-import { UserDefaultPropertiesService } from '../../../../user-default-properties/user-default-properties.service';
-import { NgamrsSharedModule } from '../../../../shared/ngamrs-shared.module';
-import { PatientDashboardModule } from '../../../patient-dashboard.module';
-import { FakeDefaultUserPropertiesFactory } from '../../formentry/mock/default-user-properties-factory.service.mock';
-import { TodayVisitsComponent } from './today-visits.component';
-import { AppFeatureAnalytics } from '../../../../shared/app-analytics/app-feature-analytics.service';
-import { FakeAppFeatureAnalytics } from '../../../../shared/app-analytics/app-feature-analytcis.mock';
-import {
-  ProgramWorkFlowResourceService
-} from '../../../../openmrs-api/program-workflow-resource.service';
-import {
-  ProgramWorkFlowStateResourceService
-} from '../../../../openmrs-api/program-workflow-state-resource.service';
-import {
-  FakeRetrospectiveDataEntryService
-} from '../../../../retrospective-data-entry/services/retrospective-data-entry-mock.service';
-import {
-  RetrospectiveDataEntryService
-} from '../../../../retrospective-data-entry/services/retrospective-data-entry.service';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { DataCacheService } from "../../../../shared/services/data-cache.service";
+import { UserDefaultPropertieservice } from "../../../../../user-default-properties/user-default-properties.service";
+import { ProgramEnrollmentResourceService } from "../../../../openmrs-api/program-enrollment-resource.service";
+import { PatientProgramResourceService } from "../../../../etl-api/patient-program-resource.service";
+import { VisitResourceService } from "../../../../openmrs-api/visit-resource.service";
+import { LocationResourceService } from "../../../../openmrs-api/location-resource.service";
+import { UserDefaultPropertiesModule } from "../../../../user-default-properties/user-default-properties.module";
+import { UserDefaultPropertiesService } from "../../../../user-default-properties/user-default-properties.service";
+import { NgamrsSharedModule } from "../../../../shared/ngamrs-shared.module";
+import { PatientDashboardModule } from "../../../patient-dashboard.module";
+import { FakeDefaultUserPropertiesFactory } from "../../formentry/mock/default-user-properties-factory.service.mock";
+import { TodayVisitsComponent } from "./today-visits.component";
+import { AppFeatureAnalytics } from "../../../../shared/app-analytics/app-feature-analytics.service";
+import { FakeAppFeatureAnalytics } from "../../../../shared/app-analytics/app-feature-analytcis.mock";
+import { ProgramWorkFlowResourceService } from "../../../../openmrs-api/program-workflow-resource.service";
+import { ProgramWorkFlowStateResourceService } from "../../../../openmrs-api/program-workflow-state-resource.service";
+import { FakeRetrospectiveDataEntryService } from "../../../../retrospective-data-entry/services/retrospective-data-entry-mock.service";
+import { RetrospectiveDataEntryService } from "../../../../retrospective-data-entry/services/retrospective-data-entry.service";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
 class LocationServiceMock {
-  constructor() {
-  }
+  constructor() {}
   public getLocations(): Observable<any> {
     return of([]);
   }
 }
 
 class RouterStub {
-  public navigateByUrl(url: string) { return url; }
+  public navigateByUrl(url: string) {
+    return url;
+  }
 }
-describe('TodayVisitsComponent', () => {
+describe("TodayVisitsComponent", () => {
   let component: TodayVisitsComponent;
   let fixture: ComponentFixture<TodayVisitsComponent>;
 
@@ -58,10 +51,13 @@ describe('TodayVisitsComponent', () => {
         return of({});
       },
       getPatientProgramVisitTypes: (
-        patient: string, program: string,
-        enrollment: string, location: string) => {
+        patient: string,
+        program: string,
+        enrollment: string,
+        location: string
+      ) => {
         return of({});
-      }
+      },
     };
 
     const fakeVisitResourceService = {
@@ -76,7 +72,7 @@ describe('TodayVisitsComponent', () => {
       },
       updateVisit: (uuid, payload) => {
         return of(null);
-      }
+      },
     };
 
     TestBed.configureTestingModule({
@@ -87,41 +83,45 @@ describe('TodayVisitsComponent', () => {
         CacheService,
         { provide: Router, useClass: RouterStub },
         {
-          provide: ActivatedRoute, useValue: {
+          provide: ActivatedRoute,
+          useValue: {
             queryParams: of({}),
-            snapshot: { params: { program: 'some-uuid' } },
-            params: of({ program: 'some-uuid' }),
-          }
+            snapshot: { params: { program: "some-uuid" } },
+            params: of({ program: "some-uuid" }),
+          },
         },
         {
-          provide: UserDefaultPropertiesService, useFactory: () => {
+          provide: UserDefaultPropertiesService,
+          useFactory: () => {
             return new FakeDefaultUserPropertiesFactory();
-          }
+          },
         },
         ProgramEnrollmentResourceService,
         ProgramWorkFlowResourceService,
         ProgramWorkFlowStateResourceService,
         {
-          provide: PatientProgramResourceService, useFactory: () => {
+          provide: PatientProgramResourceService,
+          useFactory: () => {
             return fakePatientProgramResourceService;
-          }
+          },
         },
         {
-          provide: RetrospectiveDataEntryService, useFactory: () => {
+          provide: RetrospectiveDataEntryService,
+          useFactory: () => {
             return new FakeRetrospectiveDataEntryService();
-          }
+          },
         },
         {
           provide: VisitResourceService,
-          useValue: fakeVisitResourceService
+          useValue: fakeVisitResourceService,
         },
         {
           provide: LocationResourceService,
-          useClass: LocationServiceMock
+          useClass: LocationServiceMock,
         },
         {
           provide: AppFeatureAnalytics,
-          useClass: FakeAppFeatureAnalytics
+          useClass: FakeAppFeatureAnalytics,
         },
       ],
       imports: [
@@ -132,10 +132,9 @@ describe('TodayVisitsComponent', () => {
         NgamrsSharedModule,
         PatientDashboardModule,
         HttpClientTestingModule,
-        BrowserAnimationsModule
-      ]
-    })
-      .compileComponents();
+        BrowserAnimationsModule,
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -148,17 +147,16 @@ describe('TodayVisitsComponent', () => {
     TestBed.resetTestingModule();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
-  it('should have required properties', () => {
+  it("should have required properties", () => {
     expect(component.programClassUuid).toBeDefined();
     expect(component.programUuid).toBeDefined();
     expect(component.isBusy).toEqual(false);
     expect(component.errors.length).toEqual(0);
     expect(component.groupedVisits.length).toEqual(0);
     expect(component.index).toEqual(0);
-
 
     expect(component.toTitleCase).toBeDefined();
     expect(component.handleProgramClassChange).toBeDefined();
@@ -172,6 +170,5 @@ describe('TodayVisitsComponent', () => {
     expect(component.onVisitLoadedEvent).toBeDefined();
     expect(component.onFormSelected).toBeDefined();
     expect(component.onEncounterSelected).toBeDefined();
-
   });
 });

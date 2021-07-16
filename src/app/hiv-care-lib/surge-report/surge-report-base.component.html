@@ -1,7 +1,9 @@
-<h4 class="component-title text-success"><span class="fa fa-area-chart"></span>Surge Reports</h4>
+<h4 class="component-title text-success">
+  <span class="fa fa-area-chart"></span>Surge Reports
+</h4>
 
 <div class="loader" *ngIf="isLoading">
-    <span><i class="fa fa-spinner fa-spin"></i>Loading...</span>
+  <span><i class="fa fa-spinner fa-spin"></i>Loading...</span>
 </div>
 
 <p-tabView (onChange)="onTabChanged($event)">
@@ -47,27 +49,43 @@
 </p-tabView>
 
 <div class="alert alert-danger fade in" *ngIf="showInfoMessage">
-    <a href="#" class="close" data-dismiss="alert">&times;</a>
-    <h4 *ngIf="!statusError"><strong><span class="glyphicon glyphicon-warning-sign"></span> </strong> An error occurred
-        while trying to load the report.
-        Please try again.
-    </h4>
-    <p>
-        <small>{{errorMessage}}</small>
-    </p>
+  <a href="#" class="close" data-dismiss="alert">&times;</a>
+  <h4 *ngIf="!statusError">
+    <strong><span class="glyphicon glyphicon-warning-sign"></span> </strong> An
+    error occurred while trying to load the report. Please try again.
+  </h4>
+  <p>
+    <small>{{ errorMessage }}</small>
+  </p>
 </div>
 
-
 <div>
-    <p-tabView>
-        <p-tabPanel header="Report View" leftIcon="fa-file-pdf-o" [selected]="currentViewBelow === 'pdf'">
-            <app-report-view [SummaryData]="surgeReportSummaryData" [sectionDefs]="columnDefs"
-                (CellSelection)="onIndicatorSelected($event)" [reportDetails]="params"></app-report-view>
-        </p-tabPanel>
-        <p-tabPanel header="Tabular View" leftIcon="fa-table" [selected]="currentViewBelow === 'tabular'">
-            <surge-report-tabular [surgeReportSummaryData]="surgeReportSummaryData" [sectionDefs]="columnDefs"
-                (indicatorSelected)="onIndicatorSelected($event)" [pinnedBottomRowData]="pinnedBottomRowData" [displayTabularFilters]="displayTabularFilters">
-            </surge-report-tabular>
-        </p-tabPanel>
-    </p-tabView>
+  <p-tabView>
+    <p-tabPanel
+      header="Report View"
+      leftIcon="fa-file-pdf-o"
+      [selected]="currentViewBelow === 'pdf'"
+    >
+      <app-report-view
+        [SummaryData]="surgeReportSummaryData"
+        [sectionDefs]="columnDefs"
+        (CellSelection)="onIndicatorSelected($event)"
+        [reportDetails]="params"
+      ></app-report-view>
+    </p-tabPanel>
+    <p-tabPanel
+      header="Tabular View"
+      leftIcon="fa-table"
+      [selected]="currentViewBelow === 'tabular'"
+    >
+      <surge-report-tabular
+        [surgeReportSummaryData]="surgeReportSummaryData"
+        [sectionDefs]="columnDefs"
+        (indicatorSelected)="onIndicatorSelected($event)"
+        [pinnedBottomRowData]="pinnedBottomRowData"
+        [displayTabularFilters]="displayTabularFilters"
+      >
+      </surge-report-tabular>
+    </p-tabPanel>
+  </p-tabView>
 </div>

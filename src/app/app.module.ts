@@ -1,55 +1,52 @@
-import '../styles/styles.scss';
-import { NgModule, ApplicationRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import "../styles/styles.scss";
+import { NgModule, ApplicationRef } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 
-import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { FormsModule } from "@angular/forms";
+import { RouterModule } from "@angular/router";
 
-import { AuthGuard } from './shared/guards/auth.guard';
-import { LoginGuard } from './shared/guards/login.guard';
-import { Angulartics2Module } from 'angulartics2';
-import { Angulartics2Piwik } from 'angulartics2/piwik';
-import { NgamrsSharedModule } from './shared/ngamrs-shared.module';
+import { AuthGuard } from "./shared/guards/auth.guard";
+import { LoginGuard } from "./shared/guards/login.guard";
+import { Angulartics2Module } from "angulartics2";
+import { Angulartics2Piwik } from "angulartics2/piwik";
+import { NgamrsSharedModule } from "./shared/ngamrs-shared.module";
 
 /*
  * Platform and Environment providers/directives/pipes
  */
-import { ROUTES } from './app-routing.module';
+import { ROUTES } from "./app-routing.module";
 // App is our top level component
-import { AppComponent } from './app.component';
-import { APP_RESOLVER_PROVIDERS } from './app.resolver';
-import { AppState, InternalStateType } from './app.service';
-import { NoContentComponent } from './no-content';
-import { DynamicRoutesService } from './shared/dynamic-route/dynamic-routes.service';
-import { AppFeatureAnalytics } from './shared/app-analytics/app-feature-analytics.service';
-import { TitleCasePipe } from './shared/pipes/title-case.pipe';
-import { LocalStorageService } from './utils/local-storage.service';
-import { CacheModule } from 'ionic-cache';
-import { DataCacheService } from './shared/services/data-cache.service';
-import { FeedBackComponent } from './feedback';
+import { AppComponent } from "./app.component";
+import { APP_RESOLVER_PROVIDERS } from "./app.resolver";
+import { AppState, InternalStateType } from "./app.service";
+import { NoContentComponent } from "./no-content";
+import { DynamicRoutesService } from "./shared/dynamic-route/dynamic-routes.service";
+import { AppFeatureAnalytics } from "./shared/app-analytics/app-feature-analytics.service";
+import { TitleCasePipe } from "./shared/pipes/title-case.pipe";
+import { LocalStorageService } from "./utils/local-storage.service";
+import { CacheModule } from "ionic-cache";
+import { DataCacheService } from "./shared/services/data-cache.service";
+import { FeedBackComponent } from "./feedback";
 // import { FormVisitTypeSearchModule } from './patient-dashboard/common/form-visit-type-search/form-visit-type-search.module';
-import { LabOrderSearchModule } from './lab-order-search/lab-order-search.module';
-import { ModalModule } from 'ngx-bootstrap/modal';
+import { LabOrderSearchModule } from "./lab-order-search/lab-order-search.module";
+import { ModalModule } from "ngx-bootstrap/modal";
 
-import { CookieModule } from 'ngx-cookie';
-import { OnlineTrackerService } from './online-tracker/online-tracker.service';
-import { PouchdbService } from './pouchdb-service/pouchdb.service';
-import { DepartmentProgramsConfigService } from './etl-api/department-programs-config.service';
-import { BrowserModule } from '@angular/platform-browser';
-import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { PocHttpInteceptor } from './shared/services/poc-http-interceptor';
-import { ToastrModule } from 'ngx-toastr';
-import { PatientReminderCustomComponent } from './patient-dashboard/common/patient-reminders/patient-reminder-custom.component';
-import { PatientReminderService } from './patient-dashboard/common/patient-reminders/patient-reminders.service';
+import { CookieModule } from "ngx-cookie";
+import { OnlineTrackerService } from "./online-tracker/online-tracker.service";
+import { PouchdbService } from "./pouchdb-service/pouchdb.service";
+import { DepartmentProgramsConfigService } from "./etl-api/department-programs-config.service";
+import { BrowserModule } from "@angular/platform-browser";
+import { ServiceWorkerModule } from "@angular/service-worker";
+import { environment } from "../environments/environment";
+import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
+import { PocHttpInteceptor } from "./shared/services/poc-http-interceptor";
+import { ToastrModule } from "ngx-toastr";
+import { PatientReminderCustomComponent } from "./patient-dashboard/common/patient-reminders/patient-reminder-custom.component";
+import { PatientReminderService } from "./patient-dashboard/common/patient-reminders/patient-reminders.service";
 
 // Application wide providers
-const APP_PROVIDERS = [
-  ...APP_RESOLVER_PROVIDERS,
-  AppState
-];
+const APP_PROVIDERS = [...APP_RESOLVER_PROVIDERS, AppState];
 
 interface StoreType {
   state: InternalStateType;
@@ -66,9 +63,10 @@ interface StoreType {
     TitleCasePipe,
     NoContentComponent,
     PatientReminderCustomComponent,
-    FeedBackComponent
+    FeedBackComponent,
   ],
-  imports: [ // import Angular's modules
+  imports: [
+    // import Angular's modules
     NoopAnimationsModule,
     BrowserModule,
     CommonModule,
@@ -77,16 +75,23 @@ interface StoreType {
     NgamrsSharedModule.forRoot(),
     FormsModule,
     HttpClientModule,
-    RouterModule.forRoot(ROUTES, { paramsInheritanceStrategy: 'always', useHash: true, enableTracing: false }),
+    RouterModule.forRoot(ROUTES, {
+      paramsInheritanceStrategy: "always",
+      useHash: true,
+      enableTracing: false,
+    }),
     Angulartics2Module.forRoot([Angulartics2Piwik]),
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    ServiceWorkerModule.register("ngsw-worker.js", {
+      enabled: environment.production,
+    }),
     ToastrModule.forRoot({
       toastComponent: PatientReminderCustomComponent,
-      timeOut: 0
+      timeOut: 0,
     }),
-    CacheModule.forRoot()
+    CacheModule.forRoot(),
   ],
-  providers: [ // expose our Services and Providers into Angular's dependency injection
+  providers: [
+    // expose our Services and Providers into Angular's dependency injection
     APP_PROVIDERS,
     DynamicRoutesService,
     Angulartics2Piwik,
@@ -100,19 +105,16 @@ interface StoreType {
     {
       provide: HTTP_INTERCEPTORS,
       useClass: PocHttpInteceptor,
-      multi: true
+      multi: true,
     },
     PatientReminderService,
-    DataCacheService
+    DataCacheService,
   ],
   entryComponents: [PatientReminderCustomComponent],
-  exports: [
-    LabOrderSearchModule
-  ]
+  exports: [LabOrderSearchModule],
 })
 export class AppModule {
-  constructor(public appRef: ApplicationRef, public appState: AppState) {
-  }
+  constructor(public appRef: ApplicationRef, public appState: AppState) {}
 
   public hmrOnInit(store: StoreType) {
     if (!store || !store.state) {
@@ -121,7 +123,7 @@ export class AppModule {
     // set state
     this.appState._state = store.state;
     // set input values
-    if ('restoreInputValues' in store) {
+    if ("restoreInputValues" in store) {
       const restoreInputValues = store.restoreInputValues;
       setTimeout(restoreInputValues);
     }
@@ -130,5 +132,4 @@ export class AppModule {
     delete store.state;
     delete store.restoreInputValues;
   }
-
 }

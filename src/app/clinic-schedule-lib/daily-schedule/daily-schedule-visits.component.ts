@@ -1,57 +1,54 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, OnDestroy, Input } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 
-import { BehaviorSubject, Subscription } from 'rxjs';
-import * as Moment from 'moment';
+import { BehaviorSubject, Subscription } from "rxjs";
+import * as Moment from "moment";
 
-import {
-  ClinicDashboardCacheService
-} from '../../clinic-dashboard/services/clinic-dashboard-cache.service';
-import { DailyScheduleResourceService } from '../../etl-api/daily-scheduled-resource.service';
-import { LocalStorageService } from 'src/app/utils/local-storage.service';
+import { ClinicDashboardCacheService } from "../../clinic-dashboard/services/clinic-dashboard-cache.service";
+import { DailyScheduleResourceService } from "../../etl-api/daily-scheduled-resource.service";
+import { LocalStorageService } from "src/app/utils/local-storage.service";
 
 @Component({
-  selector: 'daily-schedule-visits',
-  templateUrl: './daily-schedule-visits.component.html',
-  styleUrls: ['./daily-schedule.component.css']
+  selector: "daily-schedule-visits",
+  templateUrl: "./daily-schedule-visits.component.html",
+  styleUrls: ["./daily-schedule.component.css"],
 })
 export class DailyScheduleVisitsComponent implements OnInit, OnDestroy {
-
   @Input() public selectedDate: any;
   public errors: any[] = [];
   public dailyVisitsPatientList: any[] = [];
   public loadingDailyVisits = false;
-  public dataLoaded  = false;
+  public dataLoaded = false;
   public currentTabLoaded = false;
   public selectedVisitTab: any;
   public nextStartIndex = 0;
   public extraColumns: Array<any> = [
     {
-      headerName: 'Program',
+      headerName: "Program",
       width: 200,
-      field: 'program'
+      field: "program",
     },
     {
-      headerName: 'ART start date',
+      headerName: "ART start date",
       width: 120,
-      field: 'arv_first_regimen_start_date'
-    }
+      field: "arv_first_regimen_start_date",
+    },
   ];
   public filter: any = {
-     'programType': [],
-     'visitType': [],
-     'encounterType': []
+    programType: [],
+    visitType: [],
+    encounterType: [],
   };
   public params: any = {
-    'programType': [],
-    'visitType': [],
-    'encounterType': []
+    programType: [],
+    visitType: [],
+    encounterType: [],
   };
   public busyIndicator: any = {
     busy: false,
-    message: 'Please wait...' // default message
+    message: "Please wait...", // default message
   };
-  public fetchCount  = 0;
+  public fetchCount = 0;
   @Input() public tab: any;
   @Input() public newList: any;
 
@@ -65,15 +62,17 @@ export class DailyScheduleVisitsComponent implements OnInit, OnDestroy {
   private _data = new BehaviorSubject<any>([]);
   private selectedClinic: any;
   private subs: Subscription[] = [];
-  constructor(private clinicDashboardCacheService: ClinicDashboardCacheService,
-              private dailyScheduleResource: DailyScheduleResourceService,
-              private localStorageService: LocalStorageService,
-              private route: ActivatedRoute) {
-  }
+  constructor(
+    private clinicDashboardCacheService: ClinicDashboardCacheService,
+    private dailyScheduleResource: DailyScheduleResourceService,
+    private localStorageService: LocalStorageService,
+    private route: ActivatedRoute
+  ) {}
 
   public ngOnInit() {
-    this.selectedDate = Moment().format('YYYY-MM-DD');
-    const sub = this.clinicDashboardCacheService.getCurrentClinic()
+    this.selectedDate = Moment().format("YYYY-MM-DD");
+    const sub = this.clinicDashboardCacheService
+      .getCurrentClinic()
       .subscribe((location) => {
         this.selectedClinic = location;
         if (this.clinicDashboardCacheService.didLocationChange(location)) {
@@ -92,47 +91,42 @@ export class DailyScheduleVisitsComponent implements OnInit, OnDestroy {
   }
 
   public loadData() {
-    const routeSub = this.route
-      .queryParams
-      .subscribe((params) => {
-        if (params) {
-          if (params.programType || params.department) {
-            this.initParams();
-            this.params = params;
-            const searchParams = this.getQueryParams();
-            if (params.resetFilter && params.resetFilter === 'true') {
-                this.dailyVisitsPatientList = [];
-            } else {
-               this.getDailyVisits(searchParams);
-            }
-          } else {
+    const routeSub = this.route.queryParams.subscribe((params) => {
+      if (params) {
+        if (params.programType || params.department) {
+          this.initParams();
+          this.params = params;
+          const searchParams = this.getQueryParams();
+          if (params.resetFilter && params.resetFilter === "true") {
             this.dailyVisitsPatientList = [];
+          } else {
+            this.getDailyVisits(searchParams);
           }
-
+        } else {
+          this.dailyVisitsPatientList = [];
         }
-      });
+      }
+    });
     this.subs.push(routeSub);
   }
 
   public loadMoreVisits() {
-
     this.loadingDailyVisits = true;
     this.clinicDashboardCacheService.setIsLoading(this.loadingDailyVisits);
     const params = this.getQueryParams();
     this.getDailyVisits(params);
-
   }
 
   public getQueryParams() {
     let programType: any = [];
     let visitType: any = [];
     let encounterType: any = [];
-    let department = '';
+    let department = "";
     if (this.params.department && this.params.department.length > 0) {
       department = this.params.department;
     }
     if (this.params.programType && this.params.programType.length > 0) {
-        programType = this.params.programType;
+      programType = this.params.programType;
     }
     if (this.params.visitType && this.params.visitType.length > 0) {
       visitType = this.params.visitType;
@@ -141,11 +135,9 @@ export class DailyScheduleVisitsComponent implements OnInit, OnDestroy {
       encounterType = this.params.encounterType;
     }
     if (this.params.startDate) {
-
       this.selectedDate = this.params.startDate;
-
     } else {
-       this.selectedDate = Moment().format('YYYY-MM-DD');
+      this.selectedDate = Moment().format("YYYY-MM-DD");
     }
     return {
       startDate: this.selectedDate,
@@ -155,9 +147,8 @@ export class DailyScheduleVisitsComponent implements OnInit, OnDestroy {
       programType: programType,
       visitType: visitType,
       encounterType: encounterType,
-      limit: 1000
+      limit: 1000,
     };
-
   }
 
   private initParams() {
@@ -173,11 +164,10 @@ export class DailyScheduleVisitsComponent implements OnInit, OnDestroy {
     this.setBusy();
     this.loadingDailyVisits = true;
     this.clinicDashboardCacheService.setIsLoading(this.loadingDailyVisits);
-    const result = this.dailyScheduleResource.
-      getDailyVisits(params);
+    const result = this.dailyScheduleResource.getDailyVisits(params);
 
     if (result === null) {
-      throw new Error('Null daily appointments observable');
+      throw new Error("Null daily appointments observable");
     } else {
       result.subscribe(
         (patientList) => {
@@ -190,17 +180,20 @@ export class DailyScheduleVisitsComponent implements OnInit, OnDestroy {
           }
           this.setFree();
           this.loadingDailyVisits = false;
-          this.clinicDashboardCacheService.setIsLoading(this.loadingDailyVisits);
-        }
-        ,
+          this.clinicDashboardCacheService.setIsLoading(
+            this.loadingDailyVisits
+          );
+        },
         (error) => {
           this.setFree();
           this.loadingDailyVisits = false;
-          this.clinicDashboardCacheService.setIsLoading(this.loadingDailyVisits);
+          this.clinicDashboardCacheService.setIsLoading(
+            this.loadingDailyVisits
+          );
           this.dataLoaded = true;
           this.errors.push({
-            id: 'Daily Visits',
-            message: 'error fetching daily visits'
+            id: "Daily Visits",
+            message: "error fetching daily visits",
           });
         }
       );
@@ -208,20 +201,15 @@ export class DailyScheduleVisitsComponent implements OnInit, OnDestroy {
   }
 
   private setBusy() {
-
     this.busyIndicator = {
       busy: true,
-      message: 'Please wait...Loading'
+      message: "Please wait...Loading",
     };
-
   }
   private setFree() {
-
     this.busyIndicator = {
       busy: false,
-      message: ''
+      message: "",
     };
-
   }
-
 }

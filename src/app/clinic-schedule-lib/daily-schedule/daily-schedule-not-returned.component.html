@@ -1,25 +1,51 @@
 <div class="wrapper">
-    <div class="loader" *ngIf="busyIndicator.busy"><span><i class="fa fa-spinner fa-spin">
-            </i>{{busyIndicator.message}}</span>
-    </div>
+  <div class="loader" *ngIf="busyIndicator.busy">
+    <span
+      ><i class="fa fa-spinner fa-spin"> </i>{{ busyIndicator.message }}</span
+    >
+  </div>
 
-    <patient-list [data]="notReturnedPatientList" [extraColumns]="extraColumns" [hivColumns]="true"  [extraColumns]="extraColumns">
-    </patient-list>
+  <patient-list
+    [data]="notReturnedPatientList"
+    [extraColumns]="extraColumns"
+    [hivColumns]="true"
+    [extraColumns]="extraColumns"
+  >
+  </patient-list>
 
-    <div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
+  <div
+    *ngFor="let error of errors"
+    class="alert alert-danger alert-dismissible"
+  >
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+      ×
+    </button>
+    {{ error.message }}
+  </div>
+  <div *ngIf="!dataLoaded">
+    <div class="button">
+      <button
+        class="btn btn-primary"
+        [ladda]="isLoading"
+        data-size="xs"
+        data-color="blue"
+        (click)="loadMoreNotReturned()"
+      >
+        <span class=""></span>Load More...
+      </button>
     </div>
-    <div *ngIf='!dataLoaded'>
-        <div class="button">
-            <button class="btn btn-primary" [ladda]='isLoading' data-size="xs" data-color="blue" (click)="loadMoreNotReturned()">
-    <span class=""></span>Load More...</button>
-        </div>
-    </div>
+  </div>
 
-    <div *ngIf='dataLoaded'>
-        <p class="bg-info" style="padding:4px;">
-            <b>
-			<span style="color:green;" class="glyphicon glyphicon-ok">All records loaded {{'[ ' + notReturnedPatientList.length + ' ]'}}</span></b>
-            <p>
-    </div>
+  <div *ngIf="dataLoaded">
+    <p class="bg-info" style="padding: 4px">
+      <b>
+        <span style="color: green" class="glyphicon glyphicon-ok"
+          >All records loaded
+          {{ "[ " + notReturnedPatientList.length + " ]" }}</span
+        ></b
+      >
+    </p>
+
+    <p></p>
+  </div>
 </div>

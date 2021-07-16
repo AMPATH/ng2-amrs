@@ -1,16 +1,24 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, OnDestroy } from '@angular/core';
-import * as _ from 'lodash';
-import { CommunityGroupService } from '../../openmrs-api/community-group-resource.service';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
-import * as Moment from 'moment';
-import { Subscription } from 'rxjs';
-import { DatePickerModalComponent } from '../modals/date-picker-modal.component';
-import { Group } from '../../models/group.model';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  ViewChild,
+  OnDestroy,
+} from "@angular/core";
+import * as _ from "lodash";
+import { CommunityGroupService } from "../../openmrs-api/community-group-resource.service";
+import { BsModalRef, BsModalService } from "ngx-bootstrap";
+import * as Moment from "moment";
+import { Subscription } from "rxjs";
+import { DatePickerModalComponent } from "../modals/date-picker-modal.component";
+import { Group } from "../../models/group.model";
 
 @Component({
-    selector: 'group-manager-search-results',
-    templateUrl: './group-manager-search-results.component.html',
-    styleUrls: ['./group-manager-search-results.component.css']
+  selector: "group-manager-search-results",
+  templateUrl: "./group-manager-search-results.component.html",
+  styleUrls: ["./group-manager-search-results.component.css"],
 })
 export class GroupManagerSearchResultsComponent implements OnInit, OnDestroy {
   public _groups: Group[];
@@ -20,20 +28,22 @@ export class GroupManagerSearchResultsComponent implements OnInit, OnDestroy {
   @Input() set groups(groups: any) {
     this._groups = groups.map((group) => new Group(group));
   }
-  @Output() groupSelected: EventEmitter < string > = new EventEmitter();
-  @ViewChild('successModal') public successModal: BsModalRef;
+  @Output() groupSelected: EventEmitter<string> = new EventEmitter();
+  @ViewChild("successModal") public successModal: BsModalRef;
 
   public endDate = {
     date: {
-      'year': Moment().year(),
-      'month': Moment().month(),
-      'day': Moment().date()
+      year: Moment().year(),
+      month: Moment().month(),
+      day: Moment().date(),
     },
-    jsdate: new Date()
+    jsdate: new Date(),
   };
 
-  constructor(private communityGroupService: CommunityGroupService,
-              private modalService: BsModalService) {}
+  constructor(
+    private communityGroupService: CommunityGroupService,
+    private modalService: BsModalService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -42,23 +52,30 @@ export class GroupManagerSearchResultsComponent implements OnInit, OnDestroy {
   }
 
   public getAttribute(attributeType, attributes) {
-    const attr = this.communityGroupService.getGroupAttribute(attributeType, attributes);
+    const attr = this.communityGroupService.getGroupAttribute(
+      attributeType,
+      attributes
+    );
     if (attr) {
       return attr.value;
     }
-    return '-';
+    return "-";
   }
 
-
-  public showDisbandDateModal(group: any, title: string, okBtnText ?: string, closeBtnText ?: string) {
+  public showDisbandDateModal(
+    group: any,
+    title: string,
+    okBtnText?: string,
+    closeBtnText?: string
+  ) {
     const initialState = {
-      label: 'Select Date',
-      okBtnText: okBtnText || 'OK',
-      closeBtnText: closeBtnText || 'Cancel',
-      title: title
+      label: "Select Date",
+      okBtnText: okBtnText || "OK",
+      closeBtnText: closeBtnText || "Cancel",
+      title: title,
     };
     this.modalRef = this.modalService.show(DatePickerModalComponent, {
-      initialState
+      initialState,
     });
     this.modalRef.content.onSave.subscribe((date) => {
       this.modalRef.hide();
@@ -67,34 +84,38 @@ export class GroupManagerSearchResultsComponent implements OnInit, OnDestroy {
   }
 
   public showSuccessModal() {
-    this.modalRef = this.modalService.show(
-      this.successModal, {
-        animated: true
-      });
+    this.modalRef = this.modalService.show(this.successModal, {
+      animated: true,
+    });
   }
 
   public disband(group: any, endDate: Date) {
     const index = _.indexOf(this._groups, group);
     this.modalRef.hide();
-    this.subscription.add(this.communityGroupService.disbandGroup(group.uuid, endDate, '').subscribe(
+    this.subscription.add(
+      this.communityGroupService
+        .disbandGroup(group.uuid, endDate, "")
+        .subscribe(
+          (updatedGroup) => {
+            this._groups[index] = updatedGroup;
+          },
+          (error) => {
+            console.log(error);
+          }
+        )
+    );
+  }
+
+  public activateGroup(group) {
+    const index = _.indexOf(this._groups, group);
+    this.communityGroupService.activateGroup(group.uuid).subscribe(
       (updatedGroup) => {
         this._groups[index] = updatedGroup;
       },
       (error) => {
         console.log(error);
       }
-    ));
-  }
-
-  public activateGroup(group) {
-    const index = _.indexOf(this._groups, group);
-    this.communityGroupService.activateGroup(group.uuid).subscribe(
-        (updatedGroup) => {
-            this._groups[index] = updatedGroup;
-        },
-     (error) => {
-         console.log(error);
-     });
+    );
   }
 
   ngOnDestroy(): void {

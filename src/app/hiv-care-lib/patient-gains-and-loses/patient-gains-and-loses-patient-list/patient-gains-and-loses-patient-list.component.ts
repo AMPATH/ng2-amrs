@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { PatientGainLoseResourceService } from 'src/app/etl-api/patient-gain-lose-resource.service';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
-import { GridOptions } from 'ag-grid';
+import { Component, OnInit } from "@angular/core";
+import { PatientGainLoseResourceService } from "src/app/etl-api/patient-gain-lose-resource.service";
+import { Router, ActivatedRoute } from "@angular/router";
+import { Location } from "@angular/common";
+import { GridOptions } from "ag-grid";
 @Component({
-  selector: 'app-patient-gains-and-loses-patient-list',
-  templateUrl: './patient-gains-and-loses-patient-list.component.html',
-  styleUrls: ['./patient-gains-and-loses-patient-list.component.css']
+  selector: "app-patient-gains-and-loses-patient-list",
+  templateUrl: "./patient-gains-and-loses-patient-list.component.html",
+  styleUrls: ["./patient-gains-and-loses-patient-list.component.css"],
 })
 export class PatientGainsAndLosesPatientListComponent implements OnInit {
   public params: any;
@@ -21,33 +21,33 @@ export class PatientGainsAndLosesPatientListComponent implements OnInit {
   public patientListColdefs = [];
   public normalColdefs = [
     {
-      headerName: 'No',
-      field: 'no',
+      headerName: "No",
+      field: "no",
       width: 50,
       pinned: true,
-      valueGetter: this.getRowNNumber
+      valueGetter: this.getRowNNumber,
     },
     {
-      headerName: 'Identifiers',
-      field: 'identifiers',
+      headerName: "Identifiers",
+      field: "identifiers",
       width: 250,
       pinned: true,
       cellRenderer: (column: any) => {
         return (
           '<a href="javascript:void(0);" title="Identifiers">' +
           column.value +
-          '</a>'
+          "</a>"
         );
-      }
+      },
     },
     {
-      headerName: 'Name',
-      field: 'person_name',
+      headerName: "Name",
+      field: "person_name",
       width: 250,
-      pinned: true
+      pinned: true,
     },
-    { headerName: 'Gender', field: 'gender', width: 100 },
-    { headerName: 'Age', field: 'age', width: 100 }
+    { headerName: "Gender", field: "gender", width: 100 },
+    { headerName: "Age", field: "age", width: 100 },
   ];
   public gridOptions: GridOptions = {
     enableColResize: true,
@@ -56,12 +56,12 @@ export class PatientGainsAndLosesPatientListComponent implements OnInit {
     showToolPanel: false,
     pagination: true,
     paginationPageSize: 300,
-    rowSelection: 'multiple',
+    rowSelection: "multiple",
     onGridSizeChanged: () => {
       if (this.gridOptions.api) {
         // this.gridOptions.api.sizeColumnsToFit();
       }
-    }
+    },
   };
 
   constructor(
@@ -82,7 +82,7 @@ export class PatientGainsAndLosesPatientListComponent implements OnInit {
         }
       },
       (error) => {
-        console.error('Error', error);
+        console.error("Error", error);
       }
     );
   }
@@ -117,9 +117,9 @@ export class PatientGainsAndLosesPatientListComponent implements OnInit {
       return;
     }
     this.router.navigate([
-      '/patient-dashboard/patient/' +
+      "/patient-dashboard/patient/" +
         patientUuid +
-        '/general/general/landing-page'
+        "/general/general/landing-page",
     ]);
   }
 

@@ -1,91 +1,92 @@
-import { ModuleWithProviders } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { HivSummaryIndicatorComponent } from './hiv-summary-indicators/hiv-summary-indicator.component';
-import { HivSummaryIndicatorsPatientListComponent } from '../../hiv-care-lib/hiv-summary-indicators/patient-list.component';
-import { HivCareComparativeComponent } from './hiv-visualization/hiv-care-overview.component';
-import { VisualizationPatientListComponent } from '../../hiv-care-lib/hiv-visualization/visualization-patient-list.component';
-import { AdminDashboardClinicFlowComponent } from './clinic-flow/admin-dashboard-clinic-flow';
-import { HivCareComparativeAnalyticsComponent } from './hiv-data-visualization/hiv-overview-visualization';
-import { HivSummaryIndicatorsComponent } from './hiv-summary-indicators/hiv-summary-indicators';
-import { DataAnalyticsDashboardComponent } from '../data-analytics.component';
-import { DataAnalyticsDashboardGuard } from '../data-analytics-guard';
-import { HivSummaryMonthlyIndicatorsComponent } from './hiv-summary-monthly-indicators/hiv-summary-monthly-indicators';
-import { HivMonthlySummaryIndicatorsPatientListComponent } from '../../hiv-care-lib/hiv-monthly-summary-indicators/patient-list.component';
-import { PatientsProgramEnrollmentComponent } from '../../patients-program-enrollment/patients-program-enrollment.component';
-import { ProgramEnrollmentPatientListComponent } from './../../patients-program-enrollment/program-enrollent-patient-list.component';
-import { DataEntryStatisticsComponent } from './../../data-entry-statistics/data-entry-statistics.component';
-import { DataEntryStatisticsPatientListComponent } from './../../data-entry-statistics/data-entry-statistics-patient-list.component';
-import { Moh731ReportComponent } from './moh-731/moh-731-report.component';
-import { Moh731PatientListComponent } from './../../hiv-care-lib/moh-731-report/moh-731-patientlist.component';
-import { ChangeDepartmentComponent } from '../change-department/change-department.component';
+import { ModuleWithProviders } from "@angular/core";
+import { Routes, RouterModule } from "@angular/router";
+import { HivSummaryIndicatorComponent } from "./hiv-summary-indicators/hiv-summary-indicator.component";
+import { HivSummaryIndicatorsPatientListComponent } from "../../hiv-care-lib/hiv-summary-indicators/patient-list.component";
+import { HivCareComparativeComponent } from "./hiv-visualization/hiv-care-overview.component";
+import { VisualizationPatientListComponent } from "../../hiv-care-lib/hiv-visualization/visualization-patient-list.component";
+import { AdminDashboardClinicFlowComponent } from "./clinic-flow/admin-dashboard-clinic-flow";
+import { HivCareComparativeAnalyticsComponent } from "./hiv-data-visualization/hiv-overview-visualization";
+import { HivSummaryIndicatorsComponent } from "./hiv-summary-indicators/hiv-summary-indicators";
+import { DataAnalyticsDashboardComponent } from "../data-analytics.component";
+import { DataAnalyticsDashboardGuard } from "../data-analytics-guard";
+import { HivSummaryMonthlyIndicatorsComponent } from "./hiv-summary-monthly-indicators/hiv-summary-monthly-indicators";
+import { HivMonthlySummaryIndicatorsPatientListComponent } from "../../hiv-care-lib/hiv-monthly-summary-indicators/patient-list.component";
+import { PatientsProgramEnrollmentComponent } from "../../patients-program-enrollment/patients-program-enrollment.component";
+import { ProgramEnrollmentPatientListComponent } from "./../../patients-program-enrollment/program-enrollent-patient-list.component";
+import { DataEntryStatisticsComponent } from "./../../data-entry-statistics/data-entry-statistics.component";
+import { DataEntryStatisticsPatientListComponent } from "./../../data-entry-statistics/data-entry-statistics-patient-list.component";
+import { Moh731ReportComponent } from "./moh-731/moh-731-report.component";
+import { Moh731PatientListComponent } from "./../../hiv-care-lib/moh-731-report/moh-731-patientlist.component";
+import { ChangeDepartmentComponent } from "../change-department/change-department.component";
 
-import { SurgeReportComponent } from './surge/surge-report.component';
-import { SurgeReportPatientListComponent } from 'src/app/hiv-care-lib/surge-report/surge-report-patient-list.component';
-import { DqaReportsComponent } from 'src/app/hiv-care-lib/dqa-reports/dqa-reports/dqa-reports.component';
+import { SurgeReportComponent } from "./surge/surge-report.component";
+import { SurgeReportPatientListComponent } from "src/app/hiv-care-lib/surge-report/surge-report-patient-list.component";
+import { DqaReportsComponent } from "src/app/hiv-care-lib/dqa-reports/dqa-reports/dqa-reports.component";
 // tslint:disable-next-line:max-line-length
-import { ChartAbstractionPatientlistComponent } from 'src/app/hiv-care-lib/dqa-reports/chart-abstraction-patientlist/chart-abstraction-patientlist.component';
-import { DqaReportBaseComponent } from 'src/app/hiv-care-lib/dqa-reports/dqa-report-base/dqa-report-base.component';
-import { PrepReportPatientListComponent } from './../../hiv-care-lib/prep-report/prep-report-patient-list/prep-report-patient-list.component';
-import { PrepReportComponent } from './prep-report/prep-report.component';
-import { MonthlyReportComponent } from 'src/app/hiv-care-lib/monthly-report/monthly-report.component';
-import { IptReportPatientListComponent } from 'src/app/hiv-care-lib/ipt-report/ipt-report-patient-list.component';
-import { IPTReportComponent } from './ipt-report/ipt-report.component';
+import { ChartAbstractionPatientlistComponent } from "src/app/hiv-care-lib/dqa-reports/chart-abstraction-patientlist/chart-abstraction-patientlist.component";
+import { DqaReportBaseComponent } from "src/app/hiv-care-lib/dqa-reports/dqa-report-base/dqa-report-base.component";
+import { PrepReportPatientListComponent } from "./../../hiv-care-lib/prep-report/prep-report-patient-list/prep-report-patient-list.component";
+import { PrepReportComponent } from "./prep-report/prep-report.component";
+import { MonthlyReportComponent } from "src/app/hiv-care-lib/monthly-report/monthly-report.component";
+import { IptReportPatientListComponent } from "src/app/hiv-care-lib/ipt-report/ipt-report-patient-list.component";
+import { IPTReportComponent } from "./ipt-report/ipt-report.component";
 
 const routes: Routes = [
   {
-    path: 'clinic-flow', component: AdminDashboardClinicFlowComponent
+    path: "clinic-flow",
+    component: AdminDashboardClinicFlowComponent,
   },
   {
-    path: 'program-enrollment',
+    path: "program-enrollment",
     children: [
       {
-        path: '',
-        component: PatientsProgramEnrollmentComponent
+        path: "",
+        component: PatientsProgramEnrollmentComponent,
       },
       {
-        path: 'patient-list',
-        component: ProgramEnrollmentPatientListComponent
-      }
-    ]
+        path: "patient-list",
+        component: ProgramEnrollmentPatientListComponent,
+      },
+    ],
   },
   {
-    path: 'hiv-comparative-chart-analytics',
+    path: "hiv-comparative-chart-analytics",
     children: [
       {
-        path: '',
-        component: HivCareComparativeAnalyticsComponent
+        path: "",
+        component: HivCareComparativeAnalyticsComponent,
       },
       {
-        path: 'patient-list/:report/:indicator/:period',
-        component: VisualizationPatientListComponent
-      }
-    ]
+        path: "patient-list/:report/:indicator/:period",
+        component: VisualizationPatientListComponent,
+      },
+    ],
   },
   {
-    path: 'hiv-summary-indicator-report',
+    path: "hiv-summary-indicator-report",
     children: [
       {
-        path: '',
-        component: HivSummaryIndicatorsComponent
+        path: "",
+        component: HivSummaryIndicatorsComponent,
       },
       {
-        path: 'patient-list/:indicator/:period/:gender/:age/:locationUuids',
+        path: "patient-list/:indicator/:period/:gender/:age/:locationUuids",
         component: HivSummaryIndicatorsPatientListComponent,
-      }
-    ]
+      },
+    ],
   },
   {
-    path: 'moh-731-report',
+    path: "moh-731-report",
     children: [
       {
-        path: '',
-        component: Moh731ReportComponent
+        path: "",
+        component: Moh731ReportComponent,
       },
       {
-        path: 'patient-list',
-        component: Moh731PatientListComponent
-      }
-    ]
+        path: "patient-list",
+        component: Moh731PatientListComponent,
+      },
+    ],
   },
   // {
   //   path: 'hiv-summary-monthly-indicator-report',
@@ -101,96 +102,95 @@ const routes: Routes = [
   //   ]
   // },
   {
-    path: 'data-entry-statistics',
+    path: "data-entry-statistics",
     children: [
       {
-        path: '',
-        component: DataEntryStatisticsComponent
+        path: "",
+        component: DataEntryStatisticsComponent,
       },
       {
-        path: 'patient-list',
-        component: DataEntryStatisticsPatientListComponent
-
-      }
-    ]
+        path: "patient-list",
+        component: DataEntryStatisticsPatientListComponent,
+      },
+    ],
   },
   {
-    path: 'select-department',
-    component: ChangeDepartmentComponent
+    path: "select-department",
+    component: ChangeDepartmentComponent,
   },
   {
-    path: 'surge',
+    path: "surge",
     children: [
       {
-        path: 'surge-report-patientlist',
-        component: SurgeReportPatientListComponent
+        path: "surge-report-patientlist",
+        component: SurgeReportPatientListComponent,
       },
       {
-        path: '',
-        component: SurgeReportComponent
-      }
-    ]
+        path: "",
+        component: SurgeReportComponent,
+      },
+    ],
   },
   {
-    path: 'monthly-report',
+    path: "monthly-report",
     children: [
       {
-        path: '',
-        component: MonthlyReportComponent
+        path: "",
+        component: MonthlyReportComponent,
       },
       {
-        path: 'prep-report',
+        path: "prep-report",
         children: [
           {
-            path: '',
-            component: PrepReportComponent
+            path: "",
+            component: PrepReportComponent,
           },
           {
-            path: 'patient-list',
-            component: PrepReportPatientListComponent
-          }
-        ]
+            path: "patient-list",
+            component: PrepReportPatientListComponent,
+          },
+        ],
       },
       {
-        path: 'ipt-report',
+        path: "ipt-report",
         children: [
           {
-            path: '',
-            component: IPTReportComponent
+            path: "",
+            component: IPTReportComponent,
           },
           {
-            path: 'ipt-report-patientlist',
-            component: IptReportPatientListComponent
-          }
-        ]
-      }
-    ]
+            path: "ipt-report-patientlist",
+            component: IptReportPatientListComponent,
+          },
+        ],
+      },
+    ],
   },
   {
-    path: 'dqa',
+    path: "dqa",
     children: [
       {
-        path: 'dqa-filter',
+        path: "dqa-filter",
         children: [
           {
-            path: '',
-            component: DqaReportBaseComponent
+            path: "",
+            component: DqaReportBaseComponent,
           },
           {
-            path: 'dqa-report-patientlist',
-            component: ChartAbstractionPatientlistComponent
-          }
-
-        ]
+            path: "dqa-report-patientlist",
+            component: ChartAbstractionPatientlistComponent,
+          },
+        ],
       },
       {
-        path: '',
+        path: "",
         component: DqaReportsComponent,
-        data : { multipleLocation : true }
-      }
-    ]
-  }
+        data: { multipleLocation: true },
+      },
+    ],
+  },
 ];
 
-export const dataAnalyticsDashboardHivRouting: ModuleWithProviders =
-  RouterModule.forChild(routes);
+export const dataAnalyticsDashboardHivRouting: ModuleWithProviders = RouterModule.forChild(
+  routes
+);

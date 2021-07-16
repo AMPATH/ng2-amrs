@@ -8,14 +8,13 @@
 }
 
 .input-group-btn {
-
 }
 
 .input-group-btn > .btn {
   margin-left: 5px;
 }
 .input-wrapper {
-  width:100%;
+  width: 100%;
   margin-right: 0;
 }
 .alert {
@@ -35,7 +34,7 @@
   padding: 11px 16px 10px 16px;
 }
 
-.ladda-button[data-size=xs] .ladda-label {
+.ladda-button[data-size="xs"] .ladda-label {
   font-size: 18px !important;
 }
 

@@ -13,7 +13,7 @@
   grid-template-columns: 1fr 1fr;
   height: fit-content;
   font-size: 14px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .grid-container > div {

@@ -1,20 +1,19 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
-import * as _ from 'lodash';
-import { AppFeatureAnalytics } from '../../../../shared/app-analytics/app-feature-analytics.service';
-import { TodayVisitService, VisitsEvent } from '../today-visit.service';
-import { TitleCasePipe } from '../../../../shared/pipes/title-case.pipe';
-import { PatientService } from '../../../services/patient.service';
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Router, ActivatedRoute } from "@angular/router";
+import { Subscription } from "rxjs";
+import * as _ from "lodash";
+import { AppFeatureAnalytics } from "../../../../shared/app-analytics/app-feature-analytics.service";
+import { TodayVisitService, VisitsEvent } from "../today-visit.service";
+import { TitleCasePipe } from "../../../../shared/pipes/title-case.pipe";
+import { PatientService } from "../../../services/patient.service";
 @Component({
-  selector: 'app-today-visits',
-  templateUrl: './today-visits.component.html',
-  styleUrls: ['./today-visits.component.css']
+  selector: "app-today-visits",
+  templateUrl: "./today-visits.component.html",
+  styleUrls: ["./today-visits.component.css"],
 })
 export class TodayVisitsComponent implements OnInit, OnDestroy {
-
-  public programClassUuid = '';
-  public programUuid = '';
+  public programClassUuid = "";
+  public programUuid = "";
   public isBusy = false;
   public errors = [];
   public groupedVisits = [];
@@ -28,25 +27,28 @@ export class TodayVisitsComponent implements OnInit, OnDestroy {
     private appFeatureAnalytics: AppFeatureAnalytics,
     private route: ActivatedRoute,
     private patientService: PatientService
-  ) { }
+  ) {}
 
   public ngOnInit() {
     this.getPatientUuid();
     // app feature analytics
-    this.appFeatureAnalytics
-      .trackEvent('Patient Dashboard', 'Patient Visits Loaded', 'ngOnInit');
+    this.appFeatureAnalytics.trackEvent(
+      "Patient Dashboard",
+      "Patient Visits Loaded",
+      "ngOnInit"
+    );
   }
 
   public ngOnDestroy(): void {
-    this.subs.forEach(sub => {
+    this.subs.forEach((sub) => {
       sub.unsubscribe();
     });
     this.subs = [];
   }
 
   public getPatientUuid() {
-   const sub = this.patientService.currentlyLoadedPatient.subscribe(
-    (patient) => {
+    const sub = this.patientService.currentlyLoadedPatient.subscribe(
+      (patient) => {
         if (patient !== null) {
           this.patient = patient;
           this.todayVisitService.patient = this.patient;
@@ -56,13 +58,13 @@ export class TodayVisitsComponent implements OnInit, OnDestroy {
           this.subscribeToVisitsServiceEvents();
           this.checkForAlreadyLoadedVisits();
         }
-    });
+      }
+    );
     this.subs.push(sub);
-
   }
 
   public toTitleCase(text: string): string {
-    return (new TitleCasePipe()).transform(text);
+    return new TitleCasePipe().transform(text);
   }
 
   public handleProgramClassChange(e) {
@@ -71,13 +73,13 @@ export class TodayVisitsComponent implements OnInit, OnDestroy {
       this.handleProgramChange(this.groupedVisits[e.index].programs[0]);
       // console.log('selected index ', this.programClassUuid);
     } else {
-      this.programClassUuid = '';
+      this.programClassUuid = "";
     }
-    this.programUuid = '';
+    this.programUuid = "";
   }
 
   public handleProgramChange(program) {
-    this.programUuid = '';
+    this.programUuid = "";
     setTimeout(() => {
       this.programUuid = program.uuid;
       this.todayVisitService.getProgramVisits();
@@ -88,45 +90,43 @@ export class TodayVisitsComponent implements OnInit, OnDestroy {
     const sub = this.route.params.subscribe((params) => {
       if (params) {
         // console.log('params', params);
-        this.programClassUuid = params['programClass'];
-        this.handleProgramChange({ uuid: params['program'] });
+        this.programClassUuid = params["programClass"];
+        this.handleProgramChange({ uuid: params["program"] });
       }
     });
     this.subs.push(sub);
   }
 
   public checkForAlreadyLoadedVisits() {
-    if (_.isEmpty(this.todayVisitService.programVisits) ||
-      this.todayVisitService.needsVisitReload) {
+    if (
+      _.isEmpty(this.todayVisitService.programVisits) ||
+      this.todayVisitService.needsVisitReload
+    ) {
       this.triggerVisitLoading();
     } else {
       this.onVisitLoadedEvent();
     }
-
   }
 
   public subscribeToVisitsServiceEvents() {
-    this.todayVisitService.visitsEvents
-      .subscribe((event: VisitsEvent) => {
-        switch (event) {
-          case VisitsEvent.VisitsLoadingStarted:
-            this.onProgramVisitsLoadingStarted();
-            break;
-          case VisitsEvent.ErrorLoading:
-            this.onProgramVisitsLoadingError();
-            break;
-          case VisitsEvent.VisitsLoaded:
-            this.onVisitLoadedEvent();
-            break;
-          case VisitsEvent.VisitsBecameStale:
-            this.triggerVisitLoading();
-            break;
-          default:
-            break;
-        }
-
-      });
-
+    this.todayVisitService.visitsEvents.subscribe((event: VisitsEvent) => {
+      switch (event) {
+        case VisitsEvent.VisitsLoadingStarted:
+          this.onProgramVisitsLoadingStarted();
+          break;
+        case VisitsEvent.ErrorLoading:
+          this.onProgramVisitsLoadingError();
+          break;
+        case VisitsEvent.VisitsLoaded:
+          this.onVisitLoadedEvent();
+          break;
+        case VisitsEvent.VisitsBecameStale:
+          this.triggerVisitLoading();
+          break;
+        default:
+          break;
+      }
+    });
   }
 
   public onProgramVisitsLoadingStarted() {
@@ -144,8 +144,12 @@ export class TodayVisitsComponent implements OnInit, OnDestroy {
   public triggerVisitLoading() {
     this.onProgramVisitsLoadingStarted();
     this.todayVisitService.patient = this.patient;
-    const sub = this.todayVisitService.getProgramVisits()
-      .subscribe(() => { }, (error) => { console.log('ERROR', error); });
+    const sub = this.todayVisitService.getProgramVisits().subscribe(
+      () => {},
+      (error) => {
+        console.log("ERROR", error);
+      }
+    );
     this.subs.push(sub);
   }
 
@@ -157,23 +161,23 @@ export class TodayVisitsComponent implements OnInit, OnDestroy {
 
   public onFormSelected(selected) {
     if (selected) {
-      this.router.navigate(['../formentry', selected.form.uuid],
-        {
-          relativeTo: this.route,
-          queryParams: { visitUuid: selected.visit.uuid ,
-            visitTypeUuid : selected.visit.visitType.uuid },
-            queryParamsHandling: 'merge'
-        });
+      this.router.navigate(["../formentry", selected.form.uuid], {
+        relativeTo: this.route,
+        queryParams: {
+          visitUuid: selected.visit.uuid,
+          visitTypeUuid: selected.visit.visitType.uuid,
+        },
+        queryParamsHandling: "merge",
+      });
     }
   }
 
   public onEncounterSelected(encounter) {
     if (encounter) {
-      this.router.navigate(['../formentry', encounter.form.uuid], {
+      this.router.navigate(["../formentry", encounter.form.uuid], {
         relativeTo: this.route,
-        queryParams: { encounter: encounter.uuid }
+        queryParams: { encounter: encounter.uuid },
       });
     }
   }
-
 }

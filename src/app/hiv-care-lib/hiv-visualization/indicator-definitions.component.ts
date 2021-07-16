@@ -1,18 +1,17 @@
-import { Component, ViewEncapsulation, Input, OnInit } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import * as _ from 'lodash';
+import { Component, ViewEncapsulation, Input, OnInit } from "@angular/core";
+import { BehaviorSubject } from "rxjs";
+import * as _ from "lodash";
 
 @Component({
-  selector: 'hiv-care-indicator-definitions',
+  selector: "hiv-care-indicator-definitions",
   styleUrls: [],
-  templateUrl: 'indicator-definitions.component.html',
-  encapsulation: ViewEncapsulation.None
+  templateUrl: "indicator-definitions.component.html",
+  encapsulation: ViewEncapsulation.None,
 })
 export class HivCareIndicatorDefComponent implements OnInit {
   public indicatorDefinitionsArr: Array<any>;
   private _data = new BehaviorSubject<any>([]);
-  constructor() {
-  }
+  constructor() {}
   @Input()
   public set indicatorDefinitions(value) {
     this._data.next(value);
@@ -21,12 +20,11 @@ export class HivCareIndicatorDefComponent implements OnInit {
     return this._data.getValue();
   }
   public ngOnInit() {
-    this._data
-      .subscribe((x) => {
-        if (x) {
-          this.createIndicatorDefinitionsDictionary(x);
-        }
-      });
+    this._data.subscribe((x) => {
+      if (x) {
+        this.createIndicatorDefinitionsDictionary(x);
+      }
+    });
   }
 
   public createIndicatorDefinitionsDictionary(indicatorDefinitions) {

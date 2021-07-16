@@ -1,20 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Location } from '@angular/common';
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Location } from "@angular/common";
 
-import { IptReportService } from 'src/app/etl-api/ipt-report.service';
-import * as Moment from 'moment';
-import * as _ from 'lodash';
+import { IptReportService } from "src/app/etl-api/ipt-report.service";
+import * as Moment from "moment";
+import * as _ from "lodash";
 
 @Component({
-  selector: 'ipt-base-report',
-  templateUrl: './ipt-report-base.component.html',
-  styleUrls: ['./ipt-report-base.component.css']
+  selector: "ipt-base-report",
+  templateUrl: "./ipt-report-base.component.html",
+  styleUrls: ["./ipt-report-base.component.css"],
 })
 export class IptBaseReportComponent implements OnInit {
   public isLoading = false;
-  public enabledControls = 'monthControl';
-  public reportName = 'Ipt Report';
+  public enabledControls = "monthControl";
+  public reportName = "Ipt Report";
   public locationUuids;
   public params: {
     locationUuids: string;
@@ -23,7 +23,7 @@ export class IptBaseReportComponent implements OnInit {
   };
   public showInfoMessage: boolean;
   public statusError: boolean;
-  public errorMessage = '';
+  public errorMessage = "";
   public columnDefs: any = [];
   public iptReportData: any = [];
   public displayTabluarFilters = false;
@@ -38,7 +38,7 @@ export class IptBaseReportComponent implements OnInit {
   ) {
     this.route.queryParams.subscribe((data) => {
       data.endDate === undefined
-        ? (this.month = Moment().endOf('month').format('YYYY-MM-DD'))
+        ? (this.month = Moment().endOf("month").format("YYYY-MM-DD"))
         : (this.month = data.month);
     });
   }
@@ -46,7 +46,7 @@ export class IptBaseReportComponent implements OnInit {
   public ngOnInit() {}
 
   public onMonthChange(value): any {
-    this.month = Moment(value).endOf('month').format('YYYY-MM-DD');
+    this.month = Moment(value).endOf("month").format("YYYY-MM-DD");
   }
 
   public generateReport() {
@@ -60,13 +60,13 @@ export class IptBaseReportComponent implements OnInit {
   public storeParamsInUrl(param) {
     this.params = {
       locationUuids: param,
-      endDate: Moment(this.month).endOf('month').format('YYYY-MM-DD'),
-      displayTabularFilters: this.displayTabluarFilters
+      endDate: Moment(this.month).endOf("month").format("YYYY-MM-DD"),
+      displayTabularFilters: this.displayTabluarFilters,
     };
     // store params in url
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: this.params
+      queryParams: this.params,
     });
   }
 
@@ -75,14 +75,14 @@ export class IptBaseReportComponent implements OnInit {
     headerName: string;
     location: string;
   }) {
-    this.router.navigate(['ipt-report-patientlist'], {
+    this.router.navigate(["ipt-report-patientlist"], {
       relativeTo: this.route,
       queryParams: {
         indicators: value.field,
         indicatorHeader: value.headerName,
         locationUuids: value.location,
-        endDate: this.month
-      }
+        endDate: this.month,
+      },
     });
   }
 
@@ -105,7 +105,7 @@ export class IptBaseReportComponent implements OnInit {
     const totalsRow = [];
     if (this.iptReportData.length > 0) {
       const totalObj = {
-        location: 'Totals'
+        location: "Totals",
       };
       _.each(this.iptReportData, (row) => {
         Object.keys(row).map((key, index) => {
@@ -126,7 +126,7 @@ export class IptBaseReportComponent implements OnInit {
           }
         });
       });
-      totalObj.location = 'Totals';
+      totalObj.location = "Totals";
       totalsRow.push(totalObj);
       this.pinnedBottomRowData = totalsRow;
     }
@@ -134,7 +134,7 @@ export class IptBaseReportComponent implements OnInit {
 
   public goBack() {
     const currentUrl = this._location.path();
-    const previousUrl = currentUrl.substring(0, currentUrl.lastIndexOf('/'));
+    const previousUrl = currentUrl.substring(0, currentUrl.lastIndexOf("/"));
     this.router.navigate([previousUrl]);
   }
 }

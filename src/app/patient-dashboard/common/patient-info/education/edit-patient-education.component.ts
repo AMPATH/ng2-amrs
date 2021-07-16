@@ -1,14 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from "@angular/core";
 
-import { Patient } from 'src/app/models/patient.model';
-import { PersonResourceService } from 'src/app/openmrs-api/person-resource.service';
-import { PatientService } from 'src/app/patient-dashboard/services/patient.service';
-import * as _ from 'lodash';
-import { PatientEducationService } from 'src/app/etl-api/patient-education.service';
+import { Patient } from "src/app/models/patient.model";
+import { PersonResourceService } from "src/app/openmrs-api/person-resource.service";
+import { PatientService } from "src/app/patient-dashboard/services/patient.service";
+import * as _ from "lodash";
+import { PatientEducationService } from "src/app/etl-api/patient-education.service";
 
 @Component({
-  selector: 'edit-patient-education',
-  templateUrl: './edit-patient-education.component.html',
+  selector: "edit-patient-education",
+  templateUrl: "./edit-patient-education.component.html",
 })
 export class EditPatientEducationComponent implements OnInit {
   public display = false;
@@ -18,7 +18,7 @@ export class EditPatientEducationComponent implements OnInit {
   public errorAlert: string;
   public showSuccessAlert = false;
   public showErrorAlert = false;
-  public highestEducationConcept = 'a89e48ae-1350-11df-a1f1-0026b9348838';
+  public highestEducationConcept = "a89e48ae-1350-11df-a1f1-0026b9348838";
   public levelOfEducation: any;
   public selectPatientEducation: string;
   @Input() public patient: Patient;
@@ -26,7 +26,7 @@ export class EditPatientEducationComponent implements OnInit {
   constructor(
     private patientEducationService: PatientEducationService,
     private personResourceService: PersonResourceService,
-    private patientService: PatientService,
+    private patientService: PatientService
   ) {}
 
   public ngOnInit() {
@@ -56,7 +56,7 @@ export class EditPatientEducationComponent implements OnInit {
       attributes: [
         {
           value: this.selectPatientEducation,
-          attributeType: '352b0d51-63c6-47d0-a295-156bebee4fd5',
+          attributeType: "352b0d51-63c6-47d0-a295-156bebee4fd5",
         },
       ],
     };
@@ -71,13 +71,13 @@ export class EditPatientEducationComponent implements OnInit {
       .subscribe(
         (success) => {
           if (success) {
-            this.displaySuccessAlert('Education level save successfully');
+            this.displaySuccessAlert("Education level save successfully");
             this.patientService.reloadCurrentPatient();
           }
         },
         (error) => {
-          console.error('error', error);
-          this.displayErrorAlert('Error updating patient education');
+          console.error("error", error);
+          this.displayErrorAlert("Error updating patient education");
         }
       );
   }

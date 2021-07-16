@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { DqaReportsComponent } from './dqa-reports.component';
+import { DqaReportsComponent } from "./dqa-reports.component";
 
-describe('DqaReportsComponent', () => {
+describe("DqaReportsComponent", () => {
   let component: DqaReportsComponent;
   let fixture: ComponentFixture<DqaReportsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DqaReportsComponent ]
-    })
-    .compileComponents();
+      declarations: [DqaReportsComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

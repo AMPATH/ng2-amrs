@@ -1,30 +1,37 @@
 import {
-  Component, OnInit, Input, OnChanges, SimpleChanges, ChangeDetectorRef,
-  ViewChild, Output, EventEmitter, ViewEncapsulation, OnDestroy, AfterViewInit, AfterViewChecked
-} from '@angular/core';
-import {
-  PatientStatuChangeVisualizationService
-} from './patient-status-change-visualization.service';
-import * as _ from 'lodash';
-import { Location } from '@angular/common';
-import { Router, ActivatedRoute } from '@angular/router';
-import { GridOptions } from 'ag-grid';
-import { AgGridNg2 } from 'ag-grid-angular';
-import { Subscription } from 'rxjs';
-import { TimerObservable } from 'rxjs/observable/TimerObservable';
-import * as moment from 'moment/moment';
+  Component,
+  OnInit,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  ChangeDetectorRef,
+  ViewChild,
+  Output,
+  EventEmitter,
+  ViewEncapsulation,
+  OnDestroy,
+  AfterViewInit,
+  AfterViewChecked,
+} from "@angular/core";
+import { PatientStatuChangeVisualizationService } from "./patient-status-change-visualization.service";
+import * as _ from "lodash";
+import { Location } from "@angular/common";
+import { Router, ActivatedRoute } from "@angular/router";
+import { GridOptions } from "ag-grid";
+import { AgGridNg2 } from "ag-grid-angular";
+import { Subscription } from "rxjs";
+import { TimerObservable } from "rxjs/observable/TimerObservable";
+import * as moment from "moment/moment";
 
 @Component({
-  selector: 'patient-status-change-visualization',
-  templateUrl: './patient-status-change-visualization.component.html',
+  selector: "patient-status-change-visualization",
+  templateUrl: "./patient-status-change-visualization.component.html",
   providers: [PatientStatuChangeVisualizationService],
-  styleUrls: ['./patient-status-change-visualization.component.css'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ["./patient-status-change-visualization.component.css"],
+  encapsulation: ViewEncapsulation.None,
 })
-
-export class PatientStatusChangeVisualizationComponent implements OnInit, OnChanges, OnDestroy,
-  AfterViewInit, AfterViewChecked {
-
+export class PatientStatusChangeVisualizationComponent
+  implements OnInit, OnChanges, OnDestroy, AfterViewInit, AfterViewChecked {
   @Input()
   public renderType: string;
   @Input()
@@ -39,7 +46,7 @@ export class PatientStatusChangeVisualizationComponent implements OnInit, OnChan
   public analysisTypes: Array<any> = [];
   public selectedAnalysisType: string = null;
   public gridOptions: GridOptions;
-  @ViewChild('agGrid')
+  @ViewChild("agGrid")
   public agGrid: AgGridNg2;
   @Output() public filterModelChange = new EventEmitter<any>();
 
@@ -47,7 +54,7 @@ export class PatientStatusChangeVisualizationComponent implements OnInit, OnChan
   public startDate: Date = new Date();
   public endDate: Date = new Date();
   public options: any = {
-    date_range: true
+    date_range: true,
   };
   public showIndicatorDefinitions = false;
   public showTable = true;
@@ -56,19 +63,21 @@ export class PatientStatusChangeVisualizationComponent implements OnInit, OnChan
   public progressBarTick = 30;
   public timerSubscription: Subscription;
 
-  constructor(private patientStatusService: PatientStatuChangeVisualizationService,
-              private location: Location, private route: ActivatedRoute,
-              private router: Router, private cdr: ChangeDetectorRef) {
+  constructor(
+    private patientStatusService: PatientStatuChangeVisualizationService,
+    private location: Location,
+    private route: ActivatedRoute,
+    private router: Router,
+    private cdr: ChangeDetectorRef
+  ) {
     this.analysisTypes = this.patientStatusService.indicatorsKeys;
     this.selectedAnalysisType = this.analysisTypes[0].value;
-
   }
 
   public ngOnChanges(changes: SimpleChanges) {
-    if (changes['data']) {
+    if (changes["data"]) {
       this.renderView();
     }
-
   }
 
   public ngOnInit() {
@@ -92,7 +101,7 @@ export class PatientStatusChangeVisualizationComponent implements OnInit, OnChan
     if ($event) {
       this.selectedAnalysisType = $event;
       const path = this.router.parseUrl(this.location.path());
-      path.queryParams['analysis'] = $event;
+      path.queryParams["analysis"] = $event;
       this.location.replaceState(path.toString());
       this.renderView();
     }
@@ -100,8 +109,8 @@ export class PatientStatusChangeVisualizationComponent implements OnInit, OnChan
 
   public onFilterModelChange(event) {
     const params = {};
-    params['startDate'] = event.startDate.format('YYYY-MM-DD');
-    params['endDate'] = event.endDate.format('YYYY-MM-DD');
+    params["startDate"] = event.startDate.format("YYYY-MM-DD");
+    params["endDate"] = event.endDate.format("YYYY-MM-DD");
     const path = this.router.parseUrl(this.location.path());
     path.queryParams = params;
     this.location.replaceState(path.toString());
@@ -112,23 +121,32 @@ export class PatientStatusChangeVisualizationComponent implements OnInit, OnChan
     this.chartOptions = {};
     const immutableData = [...this.data]; // making sure it is immutable
     const data = this.patientStatusService.processData(
-      this.selectedAnalysisType, immutableData, this.renderType,
-      true);
+      this.selectedAnalysisType,
+      immutableData,
+      this.renderType,
+      true
+    );
     this.chartOptions = this.patientStatusService.generateChart({
       renderType: this.renderType,
       data: data,
-      analysisType: this.selectedAnalysisType
+      analysisType: this.selectedAnalysisType,
     });
   }
 
   public renderDataTable(): void {
     const immutableData = [...this.data]; // making sure it is immutable
     this.dataTable = this.patientStatusService.processData(
-      this.selectedAnalysisType, immutableData, this.renderType,
-      false);
-    const indicatorDefinitions = _.keyBy(this.indicatorDefinitions, 'name');
-    this.columns = this.patientStatusService
-      .generateColumnDefinitions(this.renderType, this.selectedAnalysisType, indicatorDefinitions);
+      this.selectedAnalysisType,
+      immutableData,
+      this.renderType,
+      false
+    );
+    const indicatorDefinitions = _.keyBy(this.indicatorDefinitions, "name");
+    this.columns = this.patientStatusService.generateColumnDefinitions(
+      this.renderType,
+      this.selectedAnalysisType,
+      indicatorDefinitions
+    );
     this.gridOptions = {} as GridOptions;
     this.gridOptions.columnDefs = this.columns;
 
@@ -141,13 +159,17 @@ export class PatientStatusChangeVisualizationComponent implements OnInit, OnChan
       this.gridOptions.enableFilter = true;
       this.gridOptions.showToolPanel = false;
       this.gridOptions.getRowStyle = (params) => {
-        return {'font-size': '14px', 'cursor': 'pointer'};
+        return { "font-size": "14px", cursor: "pointer" };
       };
-      setTimeout( () => {
-        if (this.gridOptions.api) {
-          this.gridOptions.api.sizeColumnsToFit();
-        }
-      }, 500, true);
+      setTimeout(
+        () => {
+          if (this.gridOptions.api) {
+            this.gridOptions.api.sizeColumnsToFit();
+          }
+        },
+        500,
+        true
+      );
       // setTimeout( () => this.gridOptions.api.sizeColumnsToFit(), 500, true);
     };
   }
@@ -160,30 +182,36 @@ export class PatientStatusChangeVisualizationComponent implements OnInit, OnChan
   public initRoutesParam(): void {
     const path = this.router.parseUrl(this.location.path());
     // init analysis
-    if (path.queryParams['analysis']) {
-      this.selectedAnalysisType = path.queryParams['analysis'];
+    if (path.queryParams["analysis"]) {
+      this.selectedAnalysisType = path.queryParams["analysis"];
     } else {
-      this.selectedAnalysisType = 'active_return';
-      path.queryParams['analysis'] = this.selectedAnalysisType;
+      this.selectedAnalysisType = "active_return";
+      path.queryParams["analysis"] = this.selectedAnalysisType;
     }
     // init startDate
-    if (path.queryParams['startDate']) {
-      this.startDate = new Date(path.queryParams['startDate']);
+    if (path.queryParams["startDate"]) {
+      this.startDate = new Date(path.queryParams["startDate"]);
     } else {
       this.startDate = this.getStartDate();
-      path.queryParams['startDate'] = moment(this.startDate).format('YYYY-MM-DD');
+      path.queryParams["startDate"] = moment(this.startDate).format(
+        "YYYY-MM-DD"
+      );
     }
     // init endDate
-    if (path.queryParams['endDate']) {
-      this.endDate = new Date(path.queryParams['endDate']);
+    if (path.queryParams["endDate"]) {
+      this.endDate = new Date(path.queryParams["endDate"]);
     } else {
       this.endDate = this.getEndDate();
-      path.queryParams['endDate'] = moment(this.endDate).format('YYYY-MM-DD');
+      path.queryParams["endDate"] = moment(this.endDate).format("YYYY-MM-DD");
     }
     this.location.replaceState(path.toString());
   }
 
-  public triggerBusyIndicators(interval: number, show: boolean, hasError: boolean = false): void {
+  public triggerBusyIndicators(
+    interval: number,
+    show: boolean,
+    hasError: boolean = false
+  ): void {
     if (show) {
       this.loading = true;
       this.error = false;
@@ -191,13 +219,15 @@ export class PatientStatusChangeVisualizationComponent implements OnInit, OnChan
       if (this.timerSubscription) {
         this.timerSubscription.unsubscribe();
       }
-      this.timerSubscription =
-        TimerObservable.create(2000 * interval, 1000 * interval).subscribe((t) => {
-          if (this.progressBarTick > 100) {
-            this.progressBarTick = 30;
-          }
-          this.progressBarTick++;
-        });
+      this.timerSubscription = TimerObservable.create(
+        2000 * interval,
+        1000 * interval
+      ).subscribe((t) => {
+        if (this.progressBarTick > 100) {
+          this.progressBarTick = 30;
+        }
+        this.progressBarTick++;
+      });
     } else {
       this.error = hasError;
       this.progressBarTick = 100;
@@ -225,5 +255,4 @@ export class PatientStatusChangeVisualizationComponent implements OnInit, OnChan
     const c = new Date(year, month - 1, 0);
     return c;
   }
-
 }

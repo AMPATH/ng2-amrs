@@ -1,17 +1,17 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Observable } from 'rxjs';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { Observable } from "rxjs";
 
-import { PatientGainsAndLosesComponent } from './patient-gains-and-loses.component';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { AppSettingsService } from 'src/app/app-settings/app-settings.service';
-import { LocalStorageService } from 'src/app/utils/local-storage.service';
-import { RouterTestingModule } from '@angular/router/testing';
-import { routes } from 'src/app/clinic-dashboard/clinic-dashboard.routes';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ClinicDashboardComponent } from 'src/app/clinic-dashboard/clinic-dashboard.component';
-import { ClinicDashboardCacheService } from './../../clinic-dashboard/services/clinic-dashboard-cache.service';
+import { PatientGainsAndLosesComponent } from "./patient-gains-and-loses.component";
+import { NO_ERRORS_SCHEMA } from "@angular/core";
+import { AppSettingsService } from "src/app/app-settings/app-settings.service";
+import { LocalStorageService } from "src/app/utils/local-storage.service";
+import { RouterTestingModule } from "@angular/router/testing";
+import { routes } from "src/app/clinic-dashboard/clinic-dashboard.routes";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { ClinicDashboardComponent } from "src/app/clinic-dashboard/clinic-dashboard.component";
+import { ClinicDashboardCacheService } from "./../../clinic-dashboard/services/clinic-dashboard-cache.service";
 
-describe('PatientGainsAndLosesComponent', () => {
+describe("PatientGainsAndLosesComponent", () => {
   let component: PatientGainsAndLosesComponent;
   let fixture: ComponentFixture<PatientGainsAndLosesComponent>;
 
@@ -22,9 +22,12 @@ describe('PatientGainsAndLosesComponent', () => {
       providers: [
         AppSettingsService,
         LocalStorageService,
-        ClinicDashboardCacheService
+        ClinicDashboardCacheService,
       ],
-      imports: [RouterTestingModule.withRoutes(routes), HttpClientTestingModule]
+      imports: [
+        RouterTestingModule.withRoutes(routes),
+        HttpClientTestingModule,
+      ],
     }).compileComponents();
   }));
 
@@ -34,7 +37,7 @@ describe('PatientGainsAndLosesComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

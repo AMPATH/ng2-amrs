@@ -1,24 +1,24 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from "@angular/core";
 
-import * as _ from 'lodash';
-import * as Moment from 'moment';
-import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import * as _ from "lodash";
+import * as Moment from "moment";
+import { Subscription } from "rxjs";
+import { take } from "rxjs/operators";
 
-import { CommonVitalsSource } from './sources/common-vitals.source';
-import { EncounterResourceService } from './../../../openmrs-api/encounter-resource.service';
-import { HivTriageSource } from './sources/hiv-triage.source';
-import { PatientService } from '../../services/patient.service';
-import { Patient } from '../../../models/patient.model';
-import { Vital } from '../../../models/vital.model';
-import { TodaysVitalsService } from './todays-vitals.service';
-import { OncologyTriageSource } from './sources/oncology-triage.source';
-import { ZScoreSource } from './sources/z-score.source';
+import { CommonVitalsSource } from "./sources/common-vitals.source";
+import { EncounterResourceService } from "./../../../openmrs-api/encounter-resource.service";
+import { HivTriageSource } from "./sources/hiv-triage.source";
+import { PatientService } from "../../services/patient.service";
+import { Patient } from "../../../models/patient.model";
+import { Vital } from "../../../models/vital.model";
+import { TodaysVitalsService } from "./todays-vitals.service";
+import { OncologyTriageSource } from "./sources/oncology-triage.source";
+import { ZScoreSource } from "./sources/z-score.source";
 
 @Component({
-  selector: 'todays-vitals',
-  templateUrl: './todays-vitals.component.html',
-  styleUrls: ['./todays-vitals.component.css']
+  selector: "todays-vitals",
+  templateUrl: "./todays-vitals.component.html",
+  styleUrls: ["./todays-vitals.component.css"],
 })
 export class TodaysVitalsComponent implements OnInit, OnDestroy {
   public patient: Patient = new Patient({});
@@ -33,15 +33,15 @@ export class TodaysVitalsComponent implements OnInit, OnDestroy {
   constructor(
     private patientService: PatientService,
     private vitalService: TodaysVitalsService,
-    private encounterResourceService: EncounterResourceService) {
-  }
+    private encounterResourceService: EncounterResourceService
+  ) {}
 
   public ngOnInit(): void {
     this.vitalSources = [
       CommonVitalsSource,
       HivTriageSource,
       OncologyTriageSource,
-      ZScoreSource
+      ZScoreSource,
     ];
     this.subscribeToPatientChangeEvent();
   }
@@ -61,32 +61,36 @@ export class TodaysVitalsComponent implements OnInit, OnDestroy {
     const todaysEncounters = this.getTodaysEncounters(this.patient.encounters);
     this.getTodaysEncounterDetails(todaysEncounters)
       .then((encounterDetails) => {
-        this.vitalService.getTodaysVitals(patient, encounterDetails, this.vitalSources)
-        .then((data: any) => {
+        this.vitalService
+          .getTodaysVitals(patient, encounterDetails, this.vitalSources)
+          .then((data: any) => {
             if (data) {
               this.loadingTodaysVitals = false;
-              this.todaysVitals = _.filter(data, 'show');
+              this.todaysVitals = _.filter(data, "show");
               this.dataLoaded = true;
             }
-          }).catch(error => {
+          })
+          .catch((error) => {
             this.loadingTodaysVitals = false;
             this.dataLoaded = true;
             this.errors.push({
-              id: 'Todays Vitals',
-              message: 'Error fetching today\'s vitals'
+              id: "Todays Vitals",
+              message: "Error fetching today's vitals",
             });
           });
-      }).catch((err) => {
-        console.error('Error fetching today\'s vitals', err);
+      })
+      .catch((err) => {
+        console.error("Error fetching today's vitals", err);
       });
   }
 
-
   public getTodaysEncounters(encounters) {
-    const today = Moment().format('YYYY-MM-DD');
+    const today = Moment().format("YYYY-MM-DD");
     const todaysEncounters = [];
     _.each(encounters, (encounter: any) => {
-      const encounterDate = Moment(encounter.encounterDatetime).format('YYYY-MM-DD');
+      const encounterDate = Moment(encounter.encounterDatetime).format(
+        "YYYY-MM-DD"
+      );
       if (encounterDate === today) {
         todaysEncounters.push(encounter);
       }
@@ -108,8 +112,10 @@ export class TodaysVitalsComponent implements OnInit, OnDestroy {
       _.each(todaysEncounters, (todaysEncounter: any) => {
         const encounterUuid = todaysEncounter.uuid;
         encounterCount++;
-        this.encounterResourceService.getEncounterByUuid(encounterUuid).pipe(
-          take(1)).subscribe((encounterDetail) => {
+        this.encounterResourceService
+          .getEncounterByUuid(encounterUuid)
+          .pipe(take(1))
+          .subscribe((encounterDetail) => {
             encounterWithDetails.push(encounterDetail);
             resultCount++;
             checkCount();

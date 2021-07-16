@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from "@angular/core";
+import { Router, ActivatedRoute } from "@angular/router";
 
 @Component({
-  selector: 'app-monthly-report',
-  templateUrl: './monthly-report.component.html'
+  selector: "app-monthly-report",
+  templateUrl: "./monthly-report.component.html",
 })
 export class MonthlyReportComponent implements OnInit {
   public isBusy = false;
-  public errorMessage = '';
+  public errorMessage = "";
 
   public dashboards: Array<any> = [];
   constructor(public router: Router, public route: ActivatedRoute) {}
@@ -15,43 +15,43 @@ export class MonthlyReportComponent implements OnInit {
   ngOnInit() {
     this.dashboards = [
       {
-        title: 'PrEP Monthly Report',
-        description: '',
-        url: 'prep-report',
-        icon: 'fa'
+        title: "PrEP Monthly Report",
+        description: "",
+        url: "prep-report",
+        icon: "fa",
       },
       {
-        title: 'TB Treatment Therapy report',
-        description: '',
-        url: 'ipt-report',
-        icon: 'fa'
+        title: "TB Treatment Therapy report",
+        description: "",
+        url: "ipt-report",
+        icon: "fa",
       },
       {
-        title: 'Patient gains and loses',
-        description: '',
-        url: 'patient-gains-and-loses',
-        icon: 'fa'
+        title: "Patient gains and loses",
+        description: "",
+        url: "patient-gains-and-loses",
+        icon: "fa",
       },
       {
-        title: 'Cross Border and Ovc Report',
-        description: '',
-        url: 'cross-border-report',
-        icon: 'fa'
-      }
+        title: "Cross Border and Ovc Report",
+        description: "",
+        url: "cross-border-report",
+        icon: "fa",
+      },
     ];
 
     this.removeCrossBorderReport();
   }
 
   public removeCrossBorderReport() {
-    if (this.router.url.includes('data-analytics')) {
+    if (this.router.url.includes("data-analytics")) {
       this.dashboards.splice(2, 2);
     }
   }
 
   public viewDashboard(dashboard: any) {
     this.router.navigate([dashboard.url], {
-      relativeTo: this.route
+      relativeTo: this.route,
     });
   }
 }

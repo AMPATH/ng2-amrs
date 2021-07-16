@@ -1,42 +1,58 @@
-<busy *ngIf="!loaded && !hasError" [message]="'Loading patient programs...'"></busy>
+<busy
+  *ngIf="!loaded && !hasError"
+  [message]="'Loading patient programs...'"
+></busy>
 <table mat-table *ngIf="loaded && !hasError">
   <thead>
-  <tr>
-    <th>Program Name</th>
-    <th>Location</th>
-    <th>Started</th>
-    <th>Stopped</th>
-  </tr>
+    <tr>
+      <th>Program Name</th>
+      <th>Location</th>
+      <th>Started</th>
+      <th>Stopped</th>
+    </tr>
   </thead>
   <tbody>
-  <tr *ngIf="loaded && enrolledProgramsByDepartment.length === 0">
-    <td colspan="4">
-      <div class="pad-20">
-        <p>Patient is not enrolled in any programs</p>
-        <p>Press <strong>START NEW PROGRAM</strong> in bar above</p>
-      </div>
-    </td>
-  </tr>
-  <ng-container *ngFor="let department of enrolledProgramsByDepartment">
-    <ng-container *ngIf="department.show">
-      <tr>
-        <td colspan="4">
-          <h3 style="margin-bottom: 0;">{{department.name}} <a *ngIf="department.programs?.length > 0" style="color: #fff !important;" class="btn btn-primary pull-right" (click)="goToProgramLandingPage(department)">View Summary</a></h3>
-          <hr style="margin-top: 10px;margin-bottom: 10px;"/>
-        </td>
-      </tr>
-      <ng-container *ngFor="let program of department.programs">
-        <tr [ngClass]="{'text-bold text-info': !program.dateCompleted}" *ngIf="program.program">
-          <td>{{program.program.display}}</td>
-          <td>{{program.enrolledProgram.location?.display}}</td>
-          <td>{{program.enrolledProgram.dateEnrolled}}</td>
-          <td>{{program.enrolledProgram.dateCompleted}}</td>
+    <tr *ngIf="loaded && enrolledProgramsByDepartment.length === 0">
+      <td colspan="4">
+        <div class="pad-20">
+          <p>Patient is not enrolled in any programs</p>
+          <p>Press <strong>START NEW PROGRAM</strong> in bar above</p>
+        </div>
+      </td>
+    </tr>
+    <ng-container *ngFor="let department of enrolledProgramsByDepartment">
+      <ng-container *ngIf="department.show">
+        <tr>
+          <td colspan="4">
+            <h3 style="margin-bottom: 0">
+              {{ department.name }}
+              <a
+                *ngIf="department.programs?.length > 0"
+                style="color: #fff !important"
+                class="btn btn-primary pull-right"
+                (click)="goToProgramLandingPage(department)"
+                >View Summary</a
+              >
+            </h3>
+            <hr style="margin-top: 10px; margin-bottom: 10px" />
+          </td>
         </tr>
+        <ng-container *ngFor="let program of department.programs">
+          <tr
+            [ngClass]="{ 'text-bold text-info': !program.dateCompleted }"
+            *ngIf="program.program"
+          >
+            <td>{{ program.program.display }}</td>
+            <td>{{ program.enrolledProgram.location?.display }}</td>
+            <td>{{ program.enrolledProgram.dateEnrolled }}</td>
+            <td>{{ program.enrolledProgram.dateCompleted }}</td>
+          </tr>
+        </ng-container>
       </ng-container>
     </ng-container>
-  </ng-container>
   </tbody>
 </table>
 <p class="alert alert-danger" *ngIf="hasError">
-  Error loading patient program config. Please make sure that your network is working fine.
+  Error loading patient program config. Please make sure that your network is
+  working fine.
 </p>

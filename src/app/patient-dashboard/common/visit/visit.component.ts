@@ -1,34 +1,38 @@
-import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
-
-import * as _ from 'lodash';
-import { Subscription, Observable } from 'rxjs';
-
-import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
-import { TodayVisitService, VisitsEvent } from './today-visit.service';
-import { TitleCasePipe } from '../../../shared/pipes/title-case.pipe';
 import {
-  UserDefaultPropertiesService
-} from '../../../user-default-properties/user-default-properties.service';
-import { CommunityGroupMemberService } from '../../../openmrs-api/community-group-member-resource.service';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap';
-import { ViewChild } from '@angular/core';
-import { PatientService } from '../../services/patient.service';
+  Component,
+  OnInit,
+  OnDestroy,
+  Input,
+  Output,
+  EventEmitter,
+} from "@angular/core";
+
+import * as _ from "lodash";
+import { Subscription, Observable } from "rxjs";
+
+import { EncounterResourceService } from "../../openmrs-api/encounter-resource.service";
+import { TodayVisitService, VisitsEvent } from "./today-visit.service";
+import { TitleCasePipe } from "../../../shared/pipes/title-case.pipe";
+import { UserDefaultPropertiesService } from "../../../user-default-properties/user-default-properties.service";
+import { CommunityGroupMemberService } from "../../../openmrs-api/community-group-member-resource.service";
+import { BsModalService, BsModalRef } from "ngx-bootstrap";
+import { ViewChild } from "@angular/core";
+import { PatientService } from "../../services/patient.service";
 
 @Component({
   // tslint:disable-next-line:component-selector
-  selector: 'visit',
-  templateUrl: 'visit.component.html',
-  styleUrls: ['visit.component.css']
+  selector: "visit",
+  templateUrl: "visit.component.html",
+  styleUrls: ["visit.component.css"],
 })
 export class VisitComponent implements OnInit, OnDestroy {
-
   public currentProgramConfig: any;
   public showVisitStartedMsg = false;
   public patients: any;
   private subs: Subscription[] = [];
 
   @Input()
-  public programUuid = '';
+  public programUuid = "";
 
   @Output()
   public formSelected = new EventEmitter<any>();
@@ -37,7 +41,7 @@ export class VisitComponent implements OnInit, OnDestroy {
   public encounterSelected = new EventEmitter<any>();
 
   public enrolledPrograms: Array<any> = [];
-  public currentProgramEnrollmentUuid = '';
+  public currentProgramEnrollmentUuid = "";
   public currentEnrollment: any = undefined;
   public visit: any;
   public visits: Array<any> = [];
@@ -48,10 +52,15 @@ export class VisitComponent implements OnInit, OnDestroy {
   public isBusy = false;
   private todayVisitsEventSub: Subscription;
 
-  @ViewChild('enrollModal') public enrollModal;
+  @ViewChild("enrollModal") public enrollModal;
   public modalRef: BsModalRef;
   public currentCommunityGroups: any[] = [];
-  public modalState: { action: string; currentGroups: any; currentEnrolledPrograms: any[]; patient: any; };
+  public modalState: {
+    action: string;
+    currentGroups: any;
+    currentEnrolledPrograms: any[];
+    patient: any;
+  };
   public patientEnrolledInGroup = false;
   public communityEnrollmentSuccessMessage;
 
@@ -60,7 +69,7 @@ export class VisitComponent implements OnInit, OnDestroy {
     private communityGroupMemberService: CommunityGroupMemberService,
     private bsModalService: BsModalService,
     private patientService: PatientService
-  ) { }
+  ) {}
 
   public ngOnInit() {
     this.getPatientUuid();
@@ -74,7 +83,7 @@ export class VisitComponent implements OnInit, OnDestroy {
     if (this.todayVisitsEventSub) {
       this.todayVisitsEventSub.unsubscribe();
     }
-    this.subs.forEach(sub => {
+    this.subs.forEach((sub) => {
       sub.unsubscribe();
     });
     this.subs = [];
@@ -83,54 +92,59 @@ export class VisitComponent implements OnInit, OnDestroy {
   public getPatientUuid() {
     const sub = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
-          if (patient !== null) {
-            this.patient = patient;
-            this.subscribeToVisitsServiceEvents();
-            this.checkForAlreadyLoadedVisits();
-            this.checkIfPatientEnrolledInGroup();
-          }
-      });
+        if (patient !== null) {
+          this.patient = patient;
+          this.subscribeToVisitsServiceEvents();
+          this.checkForAlreadyLoadedVisits();
+          this.checkIfPatientEnrolledInGroup();
+        }
+      }
+    );
 
     this.subs.push(sub);
   }
 
   public checkIfPatientEnrolledInGroup() {
     this.isBusy = true;
-    const DIFFERENTIATED_CARE = '334c9e98-173f-4454-a8ce-f80b20b7fdf0';
+    const DIFFERENTIATED_CARE = "334c9e98-173f-4454-a8ce-f80b20b7fdf0";
     if (this.programUuid === DIFFERENTIATED_CARE) {
-      this.communityGroupMemberService.getMemberCohortsByPatientUuid(this.patient.uuid)
-      .subscribe((groups) => {
-                 this.isBusy = false;
-                 if (!_.isEmpty(groups)) {
-                    _.forEach(groups, (group) => {
-                            if (!group.voided) {
-                              this.currentCommunityGroups.push(group);
-                              const groupProgram = _.filter(group.cohort.attributes,
-                                (attribute) => attribute.cohortAttributeType.name === 'programUuid')[0];
-                              if (groupProgram) {
-                                const groupProgramUuid = groupProgram['value'];
-                                if (groupProgramUuid === this.programUuid) {
-                                    this.patientEnrolledInGroup = true;
-                                    return false;
-                              }
-                            }
-                          }
-                        });
-                      }
-                    });
+      this.communityGroupMemberService
+        .getMemberCohortsByPatientUuid(this.patient.uuid)
+        .subscribe((groups) => {
+          this.isBusy = false;
+          if (!_.isEmpty(groups)) {
+            _.forEach(groups, (group) => {
+              if (!group.voided) {
+                this.currentCommunityGroups.push(group);
+                const groupProgram = _.filter(
+                  group.cohort.attributes,
+                  (attribute) =>
+                    attribute.cohortAttributeType.name === "programUuid"
+                )[0];
+                if (groupProgram) {
+                  const groupProgramUuid = groupProgram["value"];
+                  if (groupProgramUuid === this.programUuid) {
+                    this.patientEnrolledInGroup = true;
+                    return false;
                   }
+                }
+              }
+            });
+          }
+        });
+    }
   }
 
   public enrollInGroup() {
     this.modalState = {
-      action: 'Enroll',
+      action: "Enroll",
       currentGroups: this.currentCommunityGroups,
-      currentEnrolledPrograms: [{programUuid: this.programUuid}],
-      patient: this.patient
+      currentEnrolledPrograms: [{ programUuid: this.programUuid }],
+      patient: this.patient,
     };
     this.modalRef = this.bsModalService.show(this.enrollModal, {
-      backdrop: 'static',
-      class: 'modal-lg'
+      backdrop: "static",
+      class: "modal-lg",
     });
   }
 
@@ -138,7 +152,7 @@ export class VisitComponent implements OnInit, OnDestroy {
     this.modalRef.hide();
     this.patientEnrolledInGroup = true;
     this.communityEnrollmentSuccessMessage = `Successfully enrolled to ${group.name}`;
-    setTimeout(() => this.communityEnrollmentSuccessMessage = null, 5000);
+    setTimeout(() => (this.communityEnrollmentSuccessMessage = null), 5000);
   }
 
   public getVisitStartedMsgStatus() {
@@ -150,22 +164,23 @@ export class VisitComponent implements OnInit, OnDestroy {
   }
 
   public toTitleCase(text: string): string {
-    return (new TitleCasePipe()).transform(text);
+    return new TitleCasePipe().transform(text);
   }
 
   public checkForAlreadyLoadedVisits() {
-    if (_.isEmpty(this.todayVisitService.programVisits) ||
-      this.todayVisitService.needsVisitReload) {
+    if (
+      _.isEmpty(this.todayVisitService.programVisits) ||
+      this.todayVisitService.needsVisitReload
+    ) {
       this.triggerVisitLoading();
     } else {
       this.onVisitLoadedEvent();
     }
-
   }
 
   public subscribeToVisitsServiceEvents() {
-    const sub = this.todayVisitService.visitsEvents
-      .subscribe((event: VisitsEvent) => {
+    const sub = this.todayVisitService.visitsEvents.subscribe(
+      (event: VisitsEvent) => {
         switch (event) {
           case VisitsEvent.VisitsLoadingStarted:
             this.onProgramVisitsLoadingStarted();
@@ -182,12 +197,11 @@ export class VisitComponent implements OnInit, OnDestroy {
           default:
             break;
         }
-
-      });
-      this.subs.push(sub);
+      }
+    );
+    this.subs.push(sub);
 
     this.getVisitStartedMsgStatus();
-
   }
 
   public onProgramVisitsLoadingStarted() {
@@ -198,7 +212,7 @@ export class VisitComponent implements OnInit, OnDestroy {
     // this.patient = undefined;
     this.currentProgramConfig = undefined;
     this.currentEnrollment = undefined;
-    this.currentProgramEnrollmentUuid = '';
+    this.currentProgramEnrollmentUuid = "";
     this.programVisitsObj = undefined;
   }
 
@@ -213,8 +227,7 @@ export class VisitComponent implements OnInit, OnDestroy {
     this.programVisitsObj = null;
     this.programVisitsObj = this.todayVisitService.programVisits;
     this.isBusy = false;
-    this.patient = this.patient === null ?
-      undefined : this.patient;
+    this.patient = this.patient === null ? undefined : this.patient;
     this.processProgramVisits();
   }
 
@@ -240,15 +253,16 @@ export class VisitComponent implements OnInit, OnDestroy {
       let visits = [];
       let config = [];
       let currentEnrollment = {
-        'uuid': ''
+        uuid: "",
       };
-      if (typeof this.programVisitsObj[this.programUuid] === 'undefined') {
+      if (typeof this.programVisitsObj[this.programUuid] === "undefined") {
         returnedVisit = null;
       } else {
         returnedVisit = this.programVisitsObj[this.programUuid].currentVisit;
         visits = this.programVisitsObj[this.programUuid].visits;
         config = this.programVisitsObj[this.programUuid].config;
-        currentEnrollment = this.programVisitsObj[this.programUuid].enrollment.enrolledProgram;
+        currentEnrollment = this.programVisitsObj[this.programUuid].enrollment
+          .enrolledProgram;
       }
 
       this.visit = returnedVisit;
@@ -262,8 +276,10 @@ export class VisitComponent implements OnInit, OnDestroy {
   public triggerVisitLoading() {
     this.onProgramVisitsLoadingStarted();
     this.todayVisitService.patient = this.patient;
-    const sub = this.todayVisitService.getProgramVisits()
-      .subscribe(() => { }, (error) => { });
-      this.subs.push(sub);
+    const sub = this.todayVisitService.getProgramVisits().subscribe(
+      () => {},
+      (error) => {}
+    );
+    this.subs.push(sub);
   }
 }

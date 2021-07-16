@@ -1,24 +1,24 @@
 .badge {
-    float: left;
-    font-size: 10px;
-    text-transform: uppercase;
+  float: left;
+  font-size: 10px;
+  text-transform: uppercase;
 }
 .list-group-horizontal .list-group-item {
-	display: inline-block;
+  display: inline-block;
 }
 .list-group-horizontal .list-group-item {
-	margin-bottom: 0;
-	margin-right: 0;
-    width: 50%;
+  margin-bottom: 0;
+  margin-right: 0;
+  width: 50%;
 }
 .list-group-horizontal .list-group-item:first-child {
-	border-top-right-radius:0;
-	border-bottom-left-radius:4px;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 4px;
 }
 .list-group-horizontal .list-group-item:last-child {
-	border-top-right-radius:4px;
-	border-bottom-left-radius:0;
+  border-top-right-radius: 4px;
+  border-bottom-left-radius: 0;
 }
-.edit-identifier-dialog{
-   top:170px !important;
+.edit-identifier-dialog {
+  top: 170px !important;
 }

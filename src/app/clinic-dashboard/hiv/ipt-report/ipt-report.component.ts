@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
+import { Component, OnInit } from "@angular/core";
+import { Router, ActivatedRoute } from "@angular/router";
+import { Location } from "@angular/common";
 
-import { IptBaseReportComponent } from 'src/app/hiv-care-lib/ipt-report/ipt-report-base.component';
-import { IptReportService } from 'src/app/etl-api/ipt-report.service';
-import * as _ from 'lodash';
-import * as Moment from 'moment';
+import { IptBaseReportComponent } from "src/app/hiv-care-lib/ipt-report/ipt-report-base.component";
+import { IptReportService } from "src/app/etl-api/ipt-report.service";
+import * as _ from "lodash";
+import * as Moment from "moment";
 
 @Component({
-  selector: 'ipt-report',
-  templateUrl: '../../../hiv-care-lib/ipt-report/ipt-report-base.component.html'
+  selector: "ipt-report",
+  templateUrl:
+    "../../../hiv-care-lib/ipt-report/ipt-report-base.component.html",
 })
 export class IptReportComponent
   extends IptBaseReportComponent

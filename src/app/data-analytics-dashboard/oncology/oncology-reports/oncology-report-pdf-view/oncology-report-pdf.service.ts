@@ -1,223 +1,252 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 
-import { take } from 'rxjs/operators/take';
-import { Observable, Subject, of } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { take } from "rxjs/operators/take";
+import { Observable, Subject, of } from "rxjs";
+import { first } from "rxjs/operators";
 
-import * as _ from 'lodash';
-import * as Moment from 'moment';
-import * as pdfMake from 'pdfmake/build/pdfmake.js';
-import 'pdfmake/build/vfs_fonts.js';
-import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+import * as _ from "lodash";
+import * as Moment from "moment";
+import * as pdfMake from "pdfmake/build/pdfmake.js";
+import "pdfmake/build/vfs_fonts.js";
+import * as pdfFonts from "pdfmake/build/vfs_fonts";
 
-import { VERSION } from 'src/environments/version';
-import * as OncologyReportConfig from '../oncology-pdf-reports.json';
+import { VERSION } from "src/environments/version";
+import * as OncologyReportConfig from "../oncology-pdf-reports.json";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class OncologyReportPdfService {
   public data: object = null;
 
-  public constructor() { }
+  public constructor() {}
 
-  public constructPdfStructure(data: Array<any>, params: any, title: String): Observable<any> {
+  public constructPdfStructure(
+    data: Array<any>,
+    params: any,
+    title: String
+  ): Observable<any> {
     return Observable.create((observer: Subject<any>) => {
-      this.getLogo('./assets/img/ampath.png', (letterHead) => {
+      this.getLogo("./assets/img/ampath.png", (letterHead) => {
         observer.next({
-          pageSize: 'LETTER',
+          pageSize: "LETTER",
           pageMargins: 42,
           footer: {
-            stack: [{
-              bold: true,
-              color: 'black',
-              text: ' Generated On: ' + new Date(),
-              style: { alignment: 'center', fontSize: 8 }
-            }
-            ],
-            margin: [42, 20]
-          },
-          content: [{
             stack: [
               {
-                image: letterHead,
-                width: 150,
-                alignment: 'center'
+                bold: true,
+                color: "black",
+                text: " Generated On: " + new Date(),
+                style: { alignment: "center", fontSize: 8 },
               },
-
-              {
-                text: this._formatReportIndicators(title) + ' Report',
-                style: 'mainHeader',
-                alignment: 'center'
-              }
-            ]
+            ],
+            margin: [42, 20],
           },
-          this.constructPdfSections(data, params)
+          content: [
+            {
+              stack: [
+                {
+                  image: letterHead,
+                  width: 150,
+                  alignment: "center",
+                },
+
+                {
+                  text: this._formatReportIndicators(title) + " Report",
+                  style: "mainHeader",
+                  alignment: "center",
+                },
+              ],
+            },
+            this.constructPdfSections(data, params),
           ],
           styles: {
             header: {
               fontSize: 14,
               bold: true,
-              margin: [0, 0, 0, 10]
+              margin: [0, 0, 0, 10],
             },
             mainHeader: {
               fontSize: 18,
               bold: true,
-              margin: [0, 10, 0, 10]
+              margin: [0, 10, 0, 10],
             },
             subheader: {
               fontSize: 10,
               bold: true,
-              fillColor: '#979799',
-              margin: [0, 10, 0, 0]
+              fillColor: "#979799",
+              margin: [0, 10, 0, 0],
             },
             headerstyle: {
               fontSize: 10,
               bold: true,
-              color: '#2a2a2a',
-              fillColor: '#d3d3d3'
+              color: "#2a2a2a",
+              fillColor: "#d3d3d3",
             },
             defaultTable: {
               fontSize: 10,
-              margin: [0, 0, 0, 5]
+              margin: [0, 0, 0, 5],
             },
             tableHeader: {
               bold: true,
               fontSize: 10,
-              color: 'black'
+              color: "black",
             },
             columns: {
               fontSize: 11,
-              margin: [5, 2, 10, 20]
+              margin: [5, 2, 10, 20],
             },
             indicatorTitle: {
               fontSize: 12,
               bold: true,
-              margin: [0, 5, 0, 5]
-            }
+              margin: [0, 5, 0, 5],
+            },
           },
           defaultStyle: {
-            fontSize: 8
-          }
+            fontSize: 8,
+          },
         });
       });
     }).pipe(first());
   }
 
-  public constructAggregatePdfStructure(data: Array<any>, params: any, title: String): Observable<any> {
+  public constructAggregatePdfStructure(
+    data: Array<any>,
+    params: any,
+    title: String
+  ): Observable<any> {
     const aggregatedData = this.aggregateData(data, params);
     this.constructAggregateOuterLayout(data, params);
     return Observable.create((observer: Subject<any>) => {
-      this.getLogo('./assets/img/ampath.png', (letterHead) => {
+      this.getLogo("./assets/img/ampath.png", (letterHead) => {
         observer.next({
-          pageSize: 'LETTER',
+          pageSize: "LETTER",
           pageMargins: 42,
           footer: {
-            stack: [{
-              bold: true,
-              color: 'black',
-              text: ' Generated On: ' + new Date(),
-              style: { alignment: 'center', fontSize: 8 }
-            }
-            ],
-            margin: [42, 20]
-          },
-          content: [{
             stack: [
               {
-                image: letterHead,
-                width: 150,
-                alignment: 'center'
-              },
-              {
-                text: aggregatedData.locations,
-                margin: [0, 5, 0, 5],
-                alignment: 'center',
-                style: 'locationStyle'
-              },
-              {
-                text: this._formatReportIndicators(title) + ' Aggregate Report',
-                style: 'header',
-                alignment: 'center'
-              },
-              {
-                columns:
-                  [
-                    { width: '*', style: 'dateColumn', text: 'Start Date: ' + params.startDate },
-                    { width: '*', style: 'dateColumn', text: 'End Date: ' + params.endDate }
-                  ],
                 bold: true,
-                color: '#2a2a2a',
-                fillColor: '#d3d3d3'
+                color: "black",
+                text: " Generated On: " + new Date(),
+                style: { alignment: "center", fontSize: 8 },
               },
-              aggregatedData.sections[0].body,
-            ]
+            ],
+            margin: [42, 20],
           },
-          {
-            layout: 'noBorders',
-            table: {
-              widths: ['*', '*'],
-              body: this.constructAggregateOuterLayout(data, params)
-            }
-          }
+          content: [
+            {
+              stack: [
+                {
+                  image: letterHead,
+                  width: 150,
+                  alignment: "center",
+                },
+                {
+                  text: aggregatedData.locations,
+                  margin: [0, 5, 0, 5],
+                  alignment: "center",
+                  style: "locationStyle",
+                },
+                {
+                  text:
+                    this._formatReportIndicators(title) + " Aggregate Report",
+                  style: "header",
+                  alignment: "center",
+                },
+                {
+                  columns: [
+                    {
+                      width: "*",
+                      style: "dateColumn",
+                      text: "Start Date: " + params.startDate,
+                    },
+                    {
+                      width: "*",
+                      style: "dateColumn",
+                      text: "End Date: " + params.endDate,
+                    },
+                  ],
+                  bold: true,
+                  color: "#2a2a2a",
+                  fillColor: "#d3d3d3",
+                },
+                aggregatedData.sections[0].body,
+              ],
+            },
+            {
+              layout: "noBorders",
+              table: {
+                widths: ["*", "*"],
+                body: this.constructAggregateOuterLayout(data, params),
+              },
+            },
           ],
           styles: {
             header: {
               fontSize: 14,
               bold: true,
-              margin: [0, 0, 0, 10]
+              margin: [0, 0, 0, 10],
             },
             locationStyle: {
               fontSize: 12,
               bold: true,
-              margin: [0, 10, 0, 5]
+              margin: [0, 10, 0, 5],
             },
             dateColumn: {
-              alignment: 'center',
+              alignment: "center",
               fontSize: 10,
               bold: true,
             },
             defaultTable: {
               fontSize: 8,
-              margin: [0, 10, 0, 5]
+              margin: [0, 10, 0, 5],
             },
             headerstyle: {
               fontSize: 8,
               bold: true,
-              color: '#2a2a2a',
-              fillColor: '#d3d3d3'
+              color: "#2a2a2a",
+              fillColor: "#d3d3d3",
             },
             aggTable: {
               fontSize: 8,
-              margin: [0, 10, 0, 5]
-            }
+              margin: [0, 10, 0, 5],
+            },
           },
           defaultStyle: {
-            fontSize: 8
-          }
+            fontSize: 8,
+          },
         });
       });
     }).pipe(first());
   }
 
-  public constructPdfSections(data: Array<any>, params: any): Array<Array<any>> {
+  public constructPdfSections(
+    data: Array<any>,
+    params: any
+  ): Array<Array<any>> {
     const sectionsArray: Array<Array<any>> = [[]];
     let section: Array<any> = [];
-    data.forEach(rowSection => {
+    data.forEach((rowSection) => {
       section = [
         {
-          style: 'subheader',
+          style: "subheader",
           table: {
-            widths: ['*', 'auto'],
+            widths: ["*", "auto"],
             body: [
               [
-                { text: 'Facility Name: ' + rowSection.location_name, style: 'headerStyle' },
-                { text: 'Date: ' + rowSection.encounter_datetime, style: 'headerStyle' }
-              ]
-            ]
-          }
+                {
+                  text: "Facility Name: " + rowSection.location_name,
+                  style: "headerStyle",
+                },
+                {
+                  text: "Date: " + rowSection.encounter_datetime,
+                  style: "headerStyle",
+                },
+              ],
+            ],
+          },
         },
-        this.constructBodySection(rowSection, params, 'pdf')
+        this.constructBodySection(rowSection, params, "pdf"),
       ];
       sectionsArray.push(section);
     });
@@ -225,7 +254,10 @@ export class OncologyReportPdfService {
     return sectionsArray;
   }
 
-  public constructAggregateOuterLayout(data: Array<any>, params: any): Array<Array<Array<any>>> {
+  public constructAggregateOuterLayout(
+    data: Array<any>,
+    params: any
+  ): Array<Array<Array<any>>> {
     const sectionsArray: Array<Array<Array<any>>> = [[[]]];
     const aggregatedData = this.aggregateData(data, params);
     aggregatedData.sections.shift();
@@ -251,28 +283,38 @@ export class OncologyReportPdfService {
   private styleAggregateTable(data: Array<Array<any>>) {
     return [
       {
-        style: 'defaultTable',
+        style: "defaultTable",
         table: {
-          widths: ['92%', '8%'],
-          body: data
+          widths: ["92%", "8%"],
+          body: data,
         },
-      }
+      },
     ];
   }
 
   public constructTableSection(indicator: any, data: any): Array<Array<any>> {
     const reportIndicators: Array<any> = indicator.report_indicators;
     const temp: Array<Array<any>> = [[]];
-    let mappedData: Array<Array<any>> = Object.keys(data).map((key) => [key, data[key]]);
-    mappedData = mappedData.filter(reportIndicator => reportIndicators.includes(reportIndicator[0]));
+    let mappedData: Array<Array<any>> = Object.keys(data).map((key) => [
+      key,
+      data[key],
+    ]);
+    mappedData = mappedData.filter((reportIndicator) =>
+      reportIndicators.includes(reportIndicator[0])
+    );
     _.forEach(mappedData, (reportIndicator) => {
       if (reportIndicator[0] === indicator.section) {
-        temp.push([{ text: this.formatReportIndicators(reportIndicator[0]), style: 'headerstyle' },
-        { text: reportIndicator[1], style: 'headerstyle' }]);
+        temp.push([
+          {
+            text: this.formatReportIndicators(reportIndicator[0]),
+            style: "headerstyle",
+          },
+          { text: reportIndicator[1], style: "headerstyle" },
+        ]);
       } else {
         temp.push([
           this.formatReportIndicators(reportIndicator[0]),
-          reportIndicator[1]
+          reportIndicator[1],
         ]);
       }
     });
@@ -286,22 +328,26 @@ export class OncologyReportPdfService {
   public constructTableLayout(indicator: any, data: any): Array<any> {
     return [
       {
-        style: 'defaultTable',
+        style: "defaultTable",
         headerRows: 1,
         table: {
-          widths: ['94%', '6%'],
-          body: this.constructTableSection(indicator, data)
-        }
-      }
+          widths: ["94%", "6%"],
+          body: this.constructTableSection(indicator, data),
+        },
+      },
     ];
   }
 
-  public constructBodySection(data: any, params: any, reportType: String): Array<Array<any>> {
+  public constructBodySection(
+    data: any,
+    params: any,
+    reportType: String
+  ): Array<Array<any>> {
     const tableSegment: Array<Array<any>> = [[]];
     const reportIndicators = this.getReportIndicators(params.type);
     _.each(reportIndicators, (indicators) => {
-        tableSegment.push(this.constructTableLayout(indicators, data));
-      });
+      tableSegment.push(this.constructTableLayout(indicators, data));
+    });
 
     _.remove(tableSegment, (segment) => {
       return segment.length === 0;
@@ -323,11 +369,13 @@ export class OncologyReportPdfService {
   }
 
   private _formatReportIndicators(indicator: String) {
-    return indicator.replace('-', ' ').replace(/(?:^|\s)\S/g, a => a.toUpperCase());
+    return indicator
+      .replace("-", " ")
+      .replace(/(?:^|\s)\S/g, (a) => a.toUpperCase());
   }
 
   public formatReportIndicators(indicator: String) {
-    const word: String = indicator.replace(/_/g, ' ');
+    const word: String = indicator.replace(/_/g, " ");
     return word.charAt(0).toUpperCase() + word.slice(1);
   }
 
@@ -335,7 +383,7 @@ export class OncologyReportPdfService {
     const report_config: Array<any> = OncologyReportConfig.reports;
     let sections: Array<any> = [];
     const pdfBody: any = {};
-    pdfBody.locations = _.join(_.uniq(_.map(data, 'location_name')), ', ');
+    pdfBody.locations = _.join(_.uniq(_.map(data, "location_name")), ", ");
     report_config.forEach((config: any) => {
       if (config.report_type === params.type) {
         sections = config.sections;
@@ -354,11 +402,17 @@ export class OncologyReportPdfService {
       _.forEach(mappedData, (sectionData) => {
         if (sectionData[0] === section.section) {
           tempStorage.push([
-            { text: this.formatReportIndicators(sectionData[0]), style: 'headerstyle' },
-            { text: sectionData[1], style: 'headerstyle' }
+            {
+              text: this.formatReportIndicators(sectionData[0]),
+              style: "headerstyle",
+            },
+            { text: sectionData[1], style: "headerstyle" },
           ]);
         } else {
-          tempStorage.push([this.formatReportIndicators(sectionData[0]), sectionData[1]]);
+          tempStorage.push([
+            this.formatReportIndicators(sectionData[0]),
+            sectionData[1],
+          ]);
         }
       });
 
@@ -371,7 +425,6 @@ export class OncologyReportPdfService {
     pdfBody.sections = _.concat(sections[0], _.chunk(_.slice(sections, 1), 2));
 
     return pdfBody;
-
   }
 
   private mapDataByIndicator(data, indicators): any[] {
@@ -391,25 +444,28 @@ export class OncologyReportPdfService {
     return DataStructHolder;
   }
 
-
-  public generatePdf(data: Array<any>, params: any, title: String): Observable<any> {
+  public generatePdf(
+    data: Array<any>,
+    params: any,
+    title: String
+  ): Observable<any> {
     return Observable.create((observer: Subject<any>) => {
       if (data) {
         this.data = data;
         this.constructPdfStructure(data, params, title)
-          .pipe(take(1)).subscribe(
+          .pipe(take(1))
+          .subscribe(
             (pdfStructure) => {
               const pdfProxy = pdfMake.createPdf(pdfStructure);
               pdfProxy.getBase64((output) => {
-                const int8Array: Uint8Array =
-                  this.base64ToUint8Array(output);
+                const int8Array: Uint8Array = this.base64ToUint8Array(output);
                 const blob = new Blob([int8Array], {
-                  type: 'application/pdf'
+                  type: "application/pdf",
                 });
                 observer.next({
                   pdfSrc: URL.createObjectURL(blob),
                   pdfDefinition: pdfStructure,
-                  pdfProxy: pdfProxy
+                  pdfProxy: pdfProxy,
                 });
               });
             },
@@ -418,30 +474,33 @@ export class OncologyReportPdfService {
             }
           );
       } else {
-        observer.error('some properties are missing');
+        observer.error("some properties are missing");
       }
     }).pipe(first());
-
   }
 
-  public generateAggregatePdf(data: Array<any>, params: any, title: String): Observable<any> {
+  public generateAggregatePdf(
+    data: Array<any>,
+    params: any,
+    title: String
+  ): Observable<any> {
     return Observable.create((observer: Subject<any>) => {
       if (data) {
         this.data = data;
         this.constructAggregatePdfStructure(data, params, title)
-          .pipe(take(1)).subscribe(
+          .pipe(take(1))
+          .subscribe(
             (pdfStructure) => {
               const pdfProxy = pdfMake.createPdf(pdfStructure);
               pdfProxy.getBase64((output) => {
-                const int8Array: Uint8Array =
-                  this.base64ToUint8Array(output);
+                const int8Array: Uint8Array = this.base64ToUint8Array(output);
                 const blob = new Blob([int8Array], {
-                  type: 'application/pdf'
+                  type: "application/pdf",
                 });
                 observer.next({
                   pdfSrc: URL.createObjectURL(blob),
                   pdfDefinition: pdfStructure,
-                  pdfProxy: pdfProxy
+                  pdfProxy: pdfProxy,
                 });
               });
             },
@@ -450,21 +509,20 @@ export class OncologyReportPdfService {
             }
           );
       } else {
-        observer.error('some properties are missing');
+        observer.error("some properties are missing");
       }
     }).pipe(first());
-
   }
 
   private _formatDate(date: Date) {
-    return _.isNull(date) ? 'None' : Moment(date).format('DD-MM-YYYY');
+    return _.isNull(date) ? "None" : Moment(date).format("DD-MM-YYYY");
   }
 
   private getAppVersion(): string {
     try {
       return VERSION.version + VERSION.hash;
     } catch (e) {
-      return '2';
+      return "2";
     }
   }
 
@@ -480,13 +538,13 @@ export class OncologyReportPdfService {
   private getLogo(url: string, callback: any): void {
     const image: any = new Image();
     image.onload = function () {
-      const canvas: any = document.createElement('canvas');
+      const canvas: any = document.createElement("canvas");
       canvas.width = this.naturalWidth;
       canvas.height = this.naturalHeight;
 
-      canvas.getContext('2d').drawImage(this, 0, 0);
+      canvas.getContext("2d").drawImage(this, 0, 0);
 
-      callback(canvas.toDataURL('image/png'));
+      callback(canvas.toDataURL("image/png"));
     };
 
     image.src = url;

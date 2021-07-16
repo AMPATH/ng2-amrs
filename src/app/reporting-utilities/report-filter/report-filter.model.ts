@@ -1,17 +1,15 @@
 export class ReportFilterModel {
+  public selectedGender: string[];
 
-    public selectedGender: string[];
+  public startDate: Date;
 
-    public startDate: Date;
+  public endDate: Date;
 
-    public endDate: Date;
+  public selectedIndicators: string[];
 
-    public selectedIndicators: string[];
+  public ageRange: number[];
 
-    public ageRange: number[];
+  public selectedLocations: string[];
 
-    public selectedLocations: string[];
-
-    public selectedForms: string[];
-
+  public selectedForms: string[];
 }

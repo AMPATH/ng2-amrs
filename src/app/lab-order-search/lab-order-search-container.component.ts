@@ -1,20 +1,17 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from "@angular/core";
 
 @Component({
-  selector: 'lab-order-search-container',
-  templateUrl: './lab-order-search-container.component.html',
+  selector: "lab-order-search-container",
+  templateUrl: "./lab-order-search-container.component.html",
 })
 export class LabOrderSearchContainerComponent implements OnInit {
-
   public order: any;
   public orderPosted = false;
   public reset = false;
 
-  constructor() {
-  }
+  constructor() {}
 
-  public ngOnInit() {
-  }
+  public ngOnInit() {}
 
   public orderReceieved(order) {
     this.reset = false;

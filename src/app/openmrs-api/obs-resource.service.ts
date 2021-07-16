@@ -1,23 +1,24 @@
-import { Injectable } from '@angular/core';
-import { AppSettingsService } from '../app-settings/app-settings.service';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Injectable } from "@angular/core";
+import { AppSettingsService } from "../app-settings/app-settings.service";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 
 @Injectable()
 export class ObsResourceService {
-
-  constructor(protected http: HttpClient, protected appSettingsService: AppSettingsService) { }
+  constructor(
+    protected http: HttpClient,
+    protected appSettingsService: AppSettingsService
+  ) {}
   public getUrl(): string {
-
     return this.appSettingsService.getOpenmrsRestbaseurl().trim();
   }
 
   public saveObs(payload) {
-    console.log('payload', payload);
+    console.log("payload", payload);
     if (!payload) {
       return null;
     }
-    const url = this.getUrl() + 'obs';
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const url = this.getUrl() + "obs";
+    const headers = new HttpHeaders({ "Content-Type": "application/json" });
     return this.http.post(url, JSON.stringify(payload), { headers });
   }
 
@@ -25,8 +26,8 @@ export class ObsResourceService {
     if (!payload || !uuid) {
       return null;
     }
-    const url = this.getUrl() + 'obs/' + uuid;
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const url = this.getUrl() + "obs/" + uuid;
+    const headers = new HttpHeaders({ "Content-Type": "application/json" });
     return this.http.post(url, JSON.stringify(payload), { headers });
   }
 
@@ -34,21 +35,26 @@ export class ObsResourceService {
     if (!uuid) {
       return null;
     }
-    const url = this.getUrl() + 'obs/' + uuid + '?!purge';
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const url = this.getUrl() + "obs/" + uuid + "?!purge";
+    const headers = new HttpHeaders({ "Content-Type": "application/json" });
     return this.http.delete(url, { headers });
   }
 
   public getObsPatientObsByConcept(uuid, conceptUuuid) {
-    const url = this.getUrl() + 'obs';
-    const params = new HttpParams().set('patient', uuid).set('concept', conceptUuuid).set('v', 'full');
+    const url = this.getUrl() + "obs";
+    const params = new HttpParams()
+      .set("patient", uuid)
+      .set("concept", conceptUuuid)
+      .set("v", "full");
     return this.http.get(url, { params: params });
   }
 
   public getObsPatientObsByConcepts(uuid, conceptUuuid) {
-    const url = this.getUrl() + 'obs';
-    const params = new HttpParams().set('patient', uuid).set('concepts', conceptUuuid).set('v', 'full');
+    const url = this.getUrl() + "obs";
+    const params = new HttpParams()
+      .set("patient", uuid)
+      .set("concepts", conceptUuuid)
+      .set("v", "full");
     return this.http.get(url, { params: params });
   }
-
 }

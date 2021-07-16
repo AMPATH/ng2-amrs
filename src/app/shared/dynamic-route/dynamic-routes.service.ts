@@ -1,23 +1,23 @@
-import { Injectable } from '@angular/core';
-import { Observable, ReplaySubject } from 'rxjs';
-import { DynamicRouteModel } from './dynamic-route.model';
-import { ProgramEnrollment } from '../../models/program-enrollment.model';
-import { DashboardModel } from './dashboard.model';
-import { RouteModel } from './route.model';
+import { Injectable } from "@angular/core";
+import { Observable, ReplaySubject } from "rxjs";
+import { DynamicRouteModel } from "./dynamic-route.model";
+import { ProgramEnrollment } from "../../models/program-enrollment.model";
+import { DashboardModel } from "./dashboard.model";
+import { RouteModel } from "./route.model";
 @Injectable()
 export class DynamicRoutesService {
   public routes = new ReplaySubject(1);
   public patientRoutes = new ReplaySubject<Array<RouteModel>>(1);
   public clinicRoutes = new ReplaySubject<Array<RouteModel>>(1);
   public analyticsRoutes = new ReplaySubject<Array<RouteModel>>(1);
-  public selectedDepartment = 'HIV';
+  public selectedDepartment = "HIV";
   public routesModel = {};
   public dashboardConfig: DashboardModel = null;
-  public analyticsDashboardConfig: object = require('./schema/analytics.dashboard.conf.json');
-  public clinicDashboardConfig: object = require('./schema/clinic.dashboard.conf.json');
-  public patientDashboardConfig: object = require('./schema/patient.dashboard.conf.json');
-  public patientListCohortConfig: object = require('./schema/patientlist.dashboard.conf.json');
-  public providerDashboardConfig: object = require('./schema/provider.dashboard.conf.json');
+  public analyticsDashboardConfig: object = require("./schema/analytics.dashboard.conf.json");
+  public clinicDashboardConfig: object = require("./schema/clinic.dashboard.conf.json");
+  public patientDashboardConfig: object = require("./schema/patient.dashboard.conf.json");
+  public patientListCohortConfig: object = require("./schema/patientlist.dashboard.conf.json");
+  public providerDashboardConfig: object = require("./schema/provider.dashboard.conf.json");
 
   constructor() {
     this.dashboardConfig = {
@@ -25,17 +25,17 @@ export class DynamicRoutesService {
       clinicDashboard: this.clinicDashboardConfig,
       patientDashboard: this.patientDashboardConfig,
       patientListCohorts: this.patientListCohortConfig,
-      providerDashboard: this.providerDashboardConfig
+      providerDashboard: this.providerDashboardConfig,
     };
   }
 
   public resetRoutes() {
     Object.assign(this.routesModel, {
-      dashboardId: '',
+      dashboardId: "",
       programs: [],
-      moduleLabel: '',
+      moduleLabel: "",
       params: {},
-      routes: []
+      routes: [],
     });
     this.routes.next(this.routesModel);
     this.patientRoutes.next(new Array<RouteModel>());
@@ -45,7 +45,10 @@ export class DynamicRoutesService {
 
   public setRoutes(route: DynamicRouteModel) {
     if (this.dashboardConfig) {
-      const routes: Array<object> = this.extractRoutes(route, this.dashboardConfig);
+      const routes: Array<object> = this.extractRoutes(
+        route,
+        this.dashboardConfig
+      );
       route.routes = routes;
       Object.assign(this.routesModel, route);
       this.routes.next(this.routesModel);
@@ -64,45 +67,50 @@ export class DynamicRoutesService {
     this.analyticsRoutes.next(aRoutes);
   }
 
-  public extractRoutes(route: DynamicRouteModel, dashboardConfig: object): Array<object> {
+  public extractRoutes(
+    route: DynamicRouteModel,
+    dashboardConfig: object
+  ): Array<object> {
     const dashboard: object = dashboardConfig[route.dashboardId];
     const routes: Array<object> = [];
     // extract routes that is common to all programs
-    dashboard['nonProgramRoutes'].forEach((nonProgramRoute: object) => {
-      const url = dashboard['baseRoute'] +
-        this.extractParameter(dashboard['routeParameter'], route)
-        + '/' + nonProgramRoute['url'];
-      routes.push(
-        {
-          url: url,
-          label: nonProgramRoute['label'],
-          icon: nonProgramRoute['icon'],
-          menuStartLetter: this.getMenuStartLetter(nonProgramRoute['label']),
-          isSideBarOpen: nonProgramRoute['isSideBarOpen'],
-          isDistinct: nonProgramRoute['isDistinct'] ? true : false,
-          onClick: this.hideSidebar
-        }
-      );
+    dashboard["nonProgramRoutes"].forEach((nonProgramRoute: object) => {
+      const url =
+        dashboard["baseRoute"] +
+        this.extractParameter(dashboard["routeParameter"], route) +
+        "/" +
+        nonProgramRoute["url"];
+      routes.push({
+        url: url,
+        label: nonProgramRoute["label"],
+        icon: nonProgramRoute["icon"],
+        menuStartLetter: this.getMenuStartLetter(nonProgramRoute["label"]),
+        isSideBarOpen: nonProgramRoute["isSideBarOpen"],
+        isDistinct: nonProgramRoute["isDistinct"] ? true : false,
+        onClick: this.hideSidebar,
+      });
     });
 
     // extract routes that is program specific
-    dashboard['programs'].forEach((program: Array<object>) => {
+    dashboard["programs"].forEach((program: Array<object>) => {
       route.programs.forEach((enrolledProgram: ProgramEnrollment) => {
-        if (enrolledProgram.program.uuid === program['programUuid']) {
-          program['routes'].forEach((programRoute: object) => {
-            const url = dashboard['baseRoute'] +
-              this.extractParameter(dashboard['routeParameter'], route)
-              + '/' + programRoute['url'];
+        if (enrolledProgram.program.uuid === program["programUuid"]) {
+          program["routes"].forEach((programRoute: object) => {
+            const url =
+              dashboard["baseRoute"] +
+              this.extractParameter(dashboard["routeParameter"], route) +
+              "/" +
+              programRoute["url"];
             const singleRoute = {
               url,
-              label: programRoute['label'],
-              icon: programRoute['icon'],
-              menuStartLetter: this.getMenuStartLetter(programRoute['label']),
-              isSideBarOpen: programRoute['isSideBarOpen'],
-              isDistinct: programRoute['isDistinct'] ? true : false,
-              onClick: this.hideSidebar
+              label: programRoute["label"],
+              icon: programRoute["icon"],
+              menuStartLetter: this.getMenuStartLetter(programRoute["label"]),
+              isSideBarOpen: programRoute["isSideBarOpen"],
+              isDistinct: programRoute["isDistinct"] ? true : false,
+              onClick: this.hideSidebar,
             };
-            const index = routes.findIndex((x) => x['url'] === url);
+            const index = routes.findIndex((x) => x["url"] === url);
             if (index === -1) {
               routes.push(singleRoute);
             }
@@ -112,19 +120,21 @@ export class DynamicRoutesService {
     });
 
     // extract routes that is deparment specific
-    dashboard['departments'].forEach((department: Array<object>) => {
-      department['routes'].forEach((departmentRoute: object) => {
-        const url = dashboard['baseRoute'] +
-          this.extractParameter(dashboard['routeParameter'], route)
-          + '/' + departmentRoute['url'];
+    dashboard["departments"].forEach((department: Array<object>) => {
+      department["routes"].forEach((departmentRoute: object) => {
+        const url =
+          dashboard["baseRoute"] +
+          this.extractParameter(dashboard["routeParameter"], route) +
+          "/" +
+          departmentRoute["url"];
         const singleRoute = {
           url,
-          label: departmentRoute['label'],
-          icon: departmentRoute['icon'],
-          menuStartLetter: this.getMenuStartLetter(departmentRoute['label']),
-          isSideBarOpen: departmentRoute['isSideBarOpen'],
-          isDistinct: departmentRoute['isDistinct'] ? true : false,
-          onClick: this.hideSidebar
+          label: departmentRoute["label"],
+          icon: departmentRoute["icon"],
+          menuStartLetter: this.getMenuStartLetter(departmentRoute["label"]),
+          isSideBarOpen: departmentRoute["isSideBarOpen"],
+          isDistinct: departmentRoute["isDistinct"] ? true : false,
+          onClick: this.hideSidebar,
         };
         routes.push(singleRoute);
       });
@@ -135,22 +145,24 @@ export class DynamicRoutesService {
 
   public getMenuStartLetter(label: string) {
     label = label.trim();
-    return label === 'Lab Orders' ? 'O' : label.substring(0, 1);
+    return label === "Lab Orders" ? "O" : label.substring(0, 1);
   }
 
   public hideSidebar($event) {
-
-    const body = document.getElementsByTagName('body')[0];
-    body.classList.remove('sidebar-collapse');
-    body.classList.remove('sidebar-open');
-    body.classList.add('sidebar-collapse');
+    const body = document.getElementsByTagName("body")[0];
+    body.classList.remove("sidebar-collapse");
+    body.classList.remove("sidebar-open");
+    body.classList.add("sidebar-collapse");
   }
 
-  public extractParameter(routeParameterKey: string, route: DynamicRouteModel): string {
+  public extractParameter(
+    routeParameterKey: string,
+    route: DynamicRouteModel
+  ): string {
     if (routeParameterKey) {
-      return '/' + route.params[routeParameterKey];
+      return "/" + route.params[routeParameterKey];
     } else {
-      return '';
+      return "";
     }
   }
 }

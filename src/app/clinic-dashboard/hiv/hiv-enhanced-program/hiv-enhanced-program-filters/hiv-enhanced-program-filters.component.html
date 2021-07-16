@@ -1,50 +1,99 @@
 <div style="margin-top: 4px; margin-bottom: 4px" class="container-fluid">
-    <div style="padding: 0px; border: 1px double lightgray; border-bottom: 0px; cursor: pointer;" class="row"
-        (click)="filterCollapsed = !filterCollapsed">
-        <span class="text-info" style="margin:2px; font-weight:bold;"> <span class="glyphicon glyphicon-filter"
-                style="font-weight: normal;"></span> Report filters</span>
-        <span style="margin:2px;" class="label label-default pull-right">
-            <span class="glyphicon glyphicon-chevron-down" *ngIf="!filterCollapsed"></span>
-            <span class="glyphicon glyphicon-chevron-up" *ngIf="filterCollapsed"></span>
-        </span>
-    </div>
-    <div style="padding: 0px; border: 1px double lightgray" class="row">
-        <div *ngIf="!filterCollapsed">
-            <div class="form-group col-md-6">
-                <div class="form-row">
-                    <label for="startDate">Start Date:</label>
-                    <input id="startDate" type="date" class="form-control" [(ngModel)]="startDateString" />
-                </div>
-            </div>
-            <div class="form-group col-md-6">
-                <div class="form-row">
-                    <label for="endDate">End Date:</label>
-                    <input id="endDate" type="date" class="form-control" [(ngModel)]="endDateString" />
-                </div>
-                <div>
-
-                </div>
-            </div>
-
-            <div class="form-group col-md-6">
-                <div class="form-row">
-                    <label class="radio-inline">
-                        <input [ngModel]="viremiaOption" value="all" type="radio" (click)="optionSelected('all')" name="optradio" checked>All
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" [ngModel]="viremiaOption" value="lowViremia" (click)="optionSelected('lowViremia')" name="optradio">Low Viremia
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" [ngModel]="viremiaOption" value="highViremia" (click)="optionSelected('highViremia')" name="optradio">High Viremia
-                    </label>
-                </div>
-                <div>
-
-                </div>
-            </div>
+  <div
+    style="
+      padding: 0px;
+      border: 1px double lightgray;
+      border-bottom: 0px;
+      cursor: pointer;
+    "
+    class="row"
+    (click)="filterCollapsed = !filterCollapsed"
+  >
+    <span class="text-info" style="margin: 2px; font-weight: bold">
+      <span
+        class="glyphicon glyphicon-filter"
+        style="font-weight: normal"
+      ></span>
+      Report filters</span
+    >
+    <span style="margin: 2px" class="label label-default pull-right">
+      <span
+        class="glyphicon glyphicon-chevron-down"
+        *ngIf="!filterCollapsed"
+      ></span>
+      <span
+        class="glyphicon glyphicon-chevron-up"
+        *ngIf="filterCollapsed"
+      ></span>
+    </span>
+  </div>
+  <div style="padding: 0px; border: 1px double lightgray" class="row">
+    <div *ngIf="!filterCollapsed">
+      <div class="form-group col-md-6">
+        <div class="form-row">
+          <label for="startDate">Start Date:</label>
+          <input
+            id="startDate"
+            type="date"
+            class="form-control"
+            [(ngModel)]="startDateString"
+          />
         </div>
+      </div>
+      <div class="form-group col-md-6">
+        <div class="form-row">
+          <label for="endDate">End Date:</label>
+          <input
+            id="endDate"
+            type="date"
+            class="form-control"
+            [(ngModel)]="endDateString"
+          />
+        </div>
+        <div></div>
+      </div>
+
+      <div class="form-group col-md-6">
+        <div class="form-row">
+          <label class="radio-inline">
+            <input
+              [ngModel]="viremiaOption"
+              value="all"
+              type="radio"
+              (click)="optionSelected('all')"
+              name="optradio"
+              checked
+            />All
+          </label>
+          <label class="radio-inline">
+            <input
+              type="radio"
+              [ngModel]="viremiaOption"
+              value="lowViremia"
+              (click)="optionSelected('lowViremia')"
+              name="optradio"
+            />Low Viremia
+          </label>
+          <label class="radio-inline">
+            <input
+              type="radio"
+              [ngModel]="viremiaOption"
+              value="highViremia"
+              (click)="optionSelected('highViremia')"
+              name="optradio"
+            />High Viremia
+          </label>
+        </div>
+        <div></div>
+      </div>
     </div>
-    <div class="row" style="margin-top: 4px; padding: 0px;">
-        <span class="pull-right" style="font-weight: bold; color: gray" *ngIf="parentIsBusy">Loading report..</span>
-    </div>
+  </div>
+  <div class="row" style="margin-top: 4px; padding: 0px">
+    <span
+      class="pull-right"
+      style="font-weight: bold; color: gray"
+      *ngIf="parentIsBusy"
+      >Loading report..</span
+    >
+  </div>
 </div>

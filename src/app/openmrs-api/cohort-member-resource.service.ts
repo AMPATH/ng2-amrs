@@ -1,80 +1,78 @@
-
-import {map} from 'rxjs/operators';
-import { Observable } from 'rxjs';
-import { Injectable } from '@angular/core';
-import { AppSettingsService } from '../app-settings/app-settings.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { map } from "rxjs/operators";
+import { Observable } from "rxjs";
+import { Injectable } from "@angular/core";
+import { AppSettingsService } from "../app-settings/app-settings.service";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 
 @Injectable()
 export class CohortMemberResourceService {
+  public baseOpenMrsUrl: string = this.getOpenMrsBaseUrl();
 
-    public baseOpenMrsUrl: string = this.getOpenMrsBaseUrl();
+  constructor(
+    private _http: HttpClient,
+    private _appSettingsService: AppSettingsService
+  ) {}
 
-    constructor(private _http: HttpClient , private _appSettingsService: AppSettingsService) {
+  public getOpenMrsBaseUrl(): string {
+    return this._appSettingsService.getOpenmrsRestbaseurl().trim();
+  }
+
+  // Fetch all non-retired
+
+  public getAllCohortMembers(parentUuid): Observable<any> {
+    if (!parentUuid) {
+      return null;
     }
 
-    public getOpenMrsBaseUrl(): string {
+    const allCohortMembersUrl: string =
+      this.baseOpenMrsUrl + "cohort/" + parentUuid + "/member";
 
-        return this._appSettingsService.getOpenmrsRestbaseurl().trim();
+    return this._http.get<any>(allCohortMembersUrl).pipe(
+      map((response) => {
+        return response.results;
+      })
+    );
+  }
+
+  // Fetch specific Cohort
+
+  public getCohortMember(parentUuid, uuid): Observable<any> {
+    if (!parentUuid || !uuid) {
+      return null;
     }
 
-    // Fetch all non-retired
+    const cohortUrl =
+      this.baseOpenMrsUrl + "cohort/" + parentUuid + "/member/" + uuid;
+    const headers = new HttpHeaders({ "Content-Type": "application/json" });
+    return this._http.get(cohortUrl, { headers });
+  }
 
-    public getAllCohortMembers(parentUuid): Observable <any> {
-
-         if (!parentUuid) {
-            return null;
-          }
-
-         const allCohortMembersUrl: string = this.baseOpenMrsUrl + 'cohort/' + parentUuid + '/member';
-
-         return this._http.get<any>(allCohortMembersUrl).pipe(
-           map((response) => {
-               return response.results;
-           }));
+  // Add Cohort member
+  public addCohortMember(parentUuid, payload): Observable<any> {
+    if (!payload || !parentUuid) {
+      return null;
     }
 
-    // Fetch specific Cohort
+    const addCohortUrl: string =
+      this.baseOpenMrsUrl + "cohort/" + parentUuid + "/member";
+    const headers = new HttpHeaders({ "Content-Type": "application/json" });
 
-    public getCohortMember(parentUuid, uuid): Observable <any> {
+    return this._http.post(addCohortUrl, JSON.stringify(payload), { headers });
+  }
 
-         if (!parentUuid || !uuid) {
-            return null;
-          }
+  // Retire/Void Cohort
 
-         const cohortUrl = this.baseOpenMrsUrl + 'cohort/' + parentUuid + '/member/' + uuid;
-         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-         return this._http.get(cohortUrl, {headers});
+  public retireCohortMember(parentUuid, uuid): Observable<any> {
+    if (!uuid || !parentUuid) {
+      return null;
     }
 
-    // Add Cohort member
-    public addCohortMember(parentUuid, payload): Observable <any> {
+    const retireRestUrl =
+      "cohort/" + parentUuid + "/member/" + uuid + "?!purge";
 
-         if (!payload || !parentUuid) {
-            return null;
-          }
+    const retireCohortUrl: string = this.baseOpenMrsUrl + retireRestUrl;
+    const headers = new HttpHeaders({ "Content-Type": "application/json" });
 
-         const addCohortUrl: string = this.baseOpenMrsUrl + 'cohort/' + parentUuid + '/member';
-         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-
-         return this._http.post(addCohortUrl , JSON.stringify(payload), {headers});
-    }
-
-    // Retire/Void Cohort
-
-    public retireCohortMember(parentUuid , uuid ): Observable<any> {
-
-         if (!uuid || !parentUuid) {
-            return null;
-          }
-
-         const retireRestUrl = 'cohort/' + parentUuid + '/member/' + uuid + '?!purge';
-
-         const retireCohortUrl: string = this.baseOpenMrsUrl + retireRestUrl;
-         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-
-         return this._http.delete(retireCohortUrl, {headers});
-
-    }
-
+    return this._http.delete(retireCohortUrl, { headers });
+  }
 }

@@ -1,6 +1,5 @@
-
-import { BaseModel } from './base-model.model';
-import { serializable } from './serializable.decorator';
+import { BaseModel } from "./base-model.model";
+import { serializable } from "./serializable.decorator";
 
 export class PersonAddress extends BaseModel {
   constructor(openmrsModel?: any) {

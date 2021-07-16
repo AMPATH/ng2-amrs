@@ -1,20 +1,23 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, ViewChild } from '@angular/core';
-import * as _ from 'lodash';
-import { AgGridNg2 } from 'ag-grid-angular';
-import { Router, ActivatedRoute } from '@angular/router';
-import * as Moment from 'moment';
-import { Subscription } from 'rxjs';
 import {
-  PatientReferralResourceService
-} from '../../etl-api/patient-referral-resource.service';
-import { SelectDepartmentService } from '../../shared/services/select-department.service';
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  Input,
+  ViewChild,
+} from "@angular/core";
+import * as _ from "lodash";
+import { AgGridNg2 } from "ag-grid-angular";
+import { Router, ActivatedRoute } from "@angular/router";
+import * as Moment from "moment";
+import { Subscription } from "rxjs";
+import { PatientReferralResourceService } from "../../etl-api/patient-referral-resource.service";
+import { SelectDepartmentService } from "../../shared/services/select-department.service";
 
 @Component({
-  selector: 'patient-referral-tabular-strengths',
-  templateUrl: 'patient-referral-tabular.component.html',
+  selector: "patient-referral-tabular-strengths",
+  templateUrl: "patient-referral-tabular.component.html",
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
-
 export class StrengthsPatientReferralTabularComponent implements OnInit {
   public startDate: any;
   public endDate: any;
@@ -27,12 +30,12 @@ export class StrengthsPatientReferralTabularComponent implements OnInit {
   public isLoading = false;
   public dataLoaded = false;
   public gridOptions: any = {
-    columnDefs: []
+    columnDefs: [],
   };
   public department: any;
 
   /* tslint:disable:no-input-rename */
-  @Input('rowData')
+  @Input("rowData")
   public set data(v: any[]) {
     if (v.length > 0) {
       this._data = v;
@@ -47,9 +50,9 @@ export class StrengthsPatientReferralTabularComponent implements OnInit {
 
   private _data: Array<any>;
 
-  @ViewChild('agGrid')
+  @ViewChild("agGrid")
   public agGrid: AgGridNg2;
-  private _notificationStatus = 'All';
+  private _notificationStatus = "All";
 
   private _sectionDefs: Array<any>;
 
@@ -57,11 +60,10 @@ export class StrengthsPatientReferralTabularComponent implements OnInit {
     return this._sectionDefs;
   }
 
-  @Input('sectionDefs')
+  @Input("sectionDefs")
   public set sectionDefs(v: Array<any>) {
     this._sectionDefs = v;
     this.setColumns(v);
-
   }
 
   private _dates: any;
@@ -69,7 +71,7 @@ export class StrengthsPatientReferralTabularComponent implements OnInit {
     return this._dates;
   }
 
-  @Input('dates')
+  @Input("dates")
   public set dates(v: any) {
     this._dates = v;
   }
@@ -80,7 +82,7 @@ export class StrengthsPatientReferralTabularComponent implements OnInit {
     return this._programUuid;
   }
 
-  @Input('programUuids')
+  @Input("programUuids")
   public set programUuids(v: any) {
     this._programUuid = v;
   }
@@ -88,29 +90,31 @@ export class StrengthsPatientReferralTabularComponent implements OnInit {
   constructor(
     private router: Router,
     public selectDepartmentService: SelectDepartmentService,
-    public resourceService: PatientReferralResourceService) {
-  }
+    public resourceService: PatientReferralResourceService
+  ) {}
 
-  public ngOnInit() { }
+  public ngOnInit() {}
 
   public setColumns(sectionsData: Array<any>) {
     const defs = [];
-    defs.push({
-      headerName: 'Location',
-      field: 'location',
-      // pinned: 'left',
-      rowGroup: true,
-      hide: true
-    },
+    defs.push(
       {
-        headerName: 'Program',
-        field: 'program'
-      });
+        headerName: "Location",
+        field: "location",
+        // pinned: 'left',
+        rowGroup: true,
+        hide: true,
+      },
+      {
+        headerName: "Program",
+        field: "program",
+      }
+    );
     if (this.data) {
       _.each(sectionsData, (data) => {
         defs.push({
           headerName: this.titleCase(data.name),
-          field: data.name
+          field: data.name,
         });
       });
     }
@@ -123,25 +127,32 @@ export class StrengthsPatientReferralTabularComponent implements OnInit {
     this.gridOptions.enableFilter = false;
     this.gridOptions.toolPanelSuppressSideButtons = true;
     this.gridOptions.getRowStyle = (params) => {
-      return { 'font-size': '14px', 'cursor': 'pointer' };
+      return { "font-size": "14px", cursor: "pointer" };
     };
 
     this.gridOptions.onGridReady = (event) => {
-      setTimeout(() => {
-        if (this.gridOptions.api) {
-          this.agGrid.api.setColumnDefs(defs);
-          this.gridOptions.api.sizeColumnsToFit();
-          // this.gridOptions.groupDefaultExpanded = -1;
-        }
-      }, 500, true);
+      setTimeout(
+        () => {
+          if (this.gridOptions.api) {
+            this.agGrid.api.setColumnDefs(defs);
+            this.gridOptions.api.sizeColumnsToFit();
+            // this.gridOptions.groupDefaultExpanded = -1;
+          }
+        },
+        500,
+        true
+      );
     };
-
   }
 
   public titleCase(str) {
-    return str.toLowerCase().split('_').map((word) => {
-      return (word.charAt(0).toUpperCase() + word.slice(1));
-    }).join(' ');
+    return str
+      .toLowerCase()
+      .split("_")
+      .map((word) => {
+        return word.charAt(0).toUpperCase() + word.slice(1);
+      })
+      .join(" ");
   }
 
   public onCellClicked(event) {
@@ -151,137 +162,142 @@ export class StrengthsPatientReferralTabularComponent implements OnInit {
 
   public generatePatientListReport(data) {
     this.isLoading = true;
-    const filterLocation = data.data.locationUuids ? data.data.locationUuids : null;
+    const filterLocation = data.data.locationUuids
+      ? data.data.locationUuids
+      : null;
     this.department = this.selectDepartmentService.getUserSetDepartment();
-    this.resourceService.getPatientReferralPatientList({
-      endDate: this.toDateString(this._dates.endDate),
-      locationUuids: filterLocation,
-      startDate: this.toDateString(this._dates.startDate),
-      programUuids: data.data.programUuids ? data.data.programUuids : null,
-      startIndex: this.startIndex ? this.startIndex : null,
-      notificationStatus: null,
-      department: this.department
-    }).take(1).subscribe((report) => {
-      this.patientData = report;
-      // this.patientData ? this.patientData.concat(report) : report;
-      this.isLoading = false;
-      this.startIndex += report.length;
-      if (report.length < 300) {
-        this.dataLoaded = true;
-      }
-      this.overrideColumns.push(
-        {
-          field: 'identifiers',
-          headerName: 'Identifier',
+    this.resourceService
+      .getPatientReferralPatientList({
+        endDate: this.toDateString(this._dates.endDate),
+        locationUuids: filterLocation,
+        startDate: this.toDateString(this._dates.startDate),
+        programUuids: data.data.programUuids ? data.data.programUuids : null,
+        startIndex: this.startIndex ? this.startIndex : null,
+        notificationStatus: null,
+        department: this.department,
+      })
+      .take(1)
+      .subscribe((report) => {
+        this.patientData = report;
+        // this.patientData ? this.patientData.concat(report) : report;
+        this.isLoading = false;
+        this.startIndex += report.length;
+        if (report.length < 300) {
+          this.dataLoaded = true;
+        }
+        this.overrideColumns.push({
+          field: "identifiers",
+          headerName: "Identifier",
           onCellClicked: (column) => {
             this.redirectToPatientInfo(column.data.patient_uuid);
           },
           cellRenderer: (column) => {
-            return '<a href="javascript:void(0);" title="Identifiers">'
-              + column.value + '</a>';
-          }
-        }
-      );
-      this.extraColumns.push(
-        {
-          field: 'referal_urgency',
-          headerName: 'Referral Urgency',
-          cellRenderer: (params) => {
-            if (params.value === 1) {
-              return 'Urgent Referral';  // 1 is urgent referral(UR)
-            } else {
-               return 'Non-Urgent Referral';
-            }
-          }
-        },
-        {
-          field: 'provider_encounter',
-          checkboxSelection: false,
-          headerName: 'Provider Encounter',
-          cellRenderer: (params) => {
-            const input = document.createElement('input');
-            input.type = 'checkbox';
-            input.checked = params.value;
-            if (params.value === 1) {
-              input.checked = true;
+            return (
+              '<a href="javascript:void(0);" title="Identifiers">' +
+              column.value +
+              "</a>"
+            );
+          },
+        });
+        this.extraColumns.push(
+          {
+            field: "referal_urgency",
+            headerName: "Referral Urgency",
+            cellRenderer: (params) => {
+              if (params.value === 1) {
+                return "Urgent Referral"; // 1 is urgent referral(UR)
               } else {
-                input.checked = false;
+                return "Non-Urgent Referral";
               }
-           return input;
-          }
-        },
-        {
-          field: 'are_you_the_referring_or_receiving_peer',
-          checkboxSelection: false,
-          headerName: 'Peer Initial Encounter',
-          cellRenderer: (params) => {
-            const input = document.createElement('input');
-            input.type = 'checkbox';
-            input.checked = params.value;
-            if (params.value === 1) {
-              input.checked = true;
-              } else {
-                input.checked = false;
-              }
-           return input;
-          }
-        },
-        {
-          field: 'are_you_the_referring_or_receiving_peer',
-          checkboxSelection: false,
-          headerName: 'Peer Follow Up',
-          cellRenderer: (params) => {
-            const input = document.createElement('input');
-            input.type = 'checkbox';
-            input.checked = params.value;
-            if (params.value === 2) {
-              input.checked = true;
-              } else {
-                input.checked = false;
-              }
-           return input;
-          }
-        },
-        {
-          field: 'is_referal_completed',
-          checkboxSelection: false,
-          headerName: 'Referral Completed',
-          cellRenderer: (params) => {
-            const input = document.createElement('input');
-            input.type = 'checkbox';
-            if (params.value === 1 ) {
+            },
+          },
+          {
+            field: "provider_encounter",
+            checkboxSelection: false,
+            headerName: "Provider Encounter",
+            cellRenderer: (params) => {
+              const input = document.createElement("input");
+              input.type = "checkbox";
+              input.checked = params.value;
+              if (params.value === 1) {
                 input.checked = true;
               } else {
                 input.checked = false;
               }
-           return input;
-          }
-        },
-        {
-          field: 'referred_in_or_out',
-          checkboxSelection: false,
-          headerName: 'Refered in or out',
-          cellRenderer: (params) => {
-            const input = document.createElement('input');
-            input.type = 'checkbox';
-            if (params.value === null || params.value === 1 ) {
-
-               return 'IN';     // 1 is in
+              return input;
+            },
+          },
+          {
+            field: "are_you_the_referring_or_receiving_peer",
+            checkboxSelection: false,
+            headerName: "Peer Initial Encounter",
+            cellRenderer: (params) => {
+              const input = document.createElement("input");
+              input.type = "checkbox";
+              input.checked = params.value;
+              if (params.value === 1) {
+                input.checked = true;
               } else {
-                return 'OUT'; // 2 is out
+                input.checked = false;
               }
+              return input;
+            },
+          },
+          {
+            field: "are_you_the_referring_or_receiving_peer",
+            checkboxSelection: false,
+            headerName: "Peer Follow Up",
+            cellRenderer: (params) => {
+              const input = document.createElement("input");
+              input.type = "checkbox";
+              input.checked = params.value;
+              if (params.value === 2) {
+                input.checked = true;
+              } else {
+                input.checked = false;
+              }
+              return input;
+            },
+          },
+          {
+            field: "is_referal_completed",
+            checkboxSelection: false,
+            headerName: "Referral Completed",
+            cellRenderer: (params) => {
+              const input = document.createElement("input");
+              input.type = "checkbox";
+              if (params.value === 1) {
+                input.checked = true;
+              } else {
+                input.checked = false;
+              }
+              return input;
+            },
+          },
+          {
+            field: "referred_in_or_out",
+            checkboxSelection: false,
+            headerName: "Refered in or out",
+            cellRenderer: (params) => {
+              const input = document.createElement("input");
+              input.type = "checkbox";
+              if (params.value === null || params.value === 1) {
+                return "IN"; // 1 is in
+              } else {
+                return "OUT"; // 2 is out
+              }
+            },
+          },
+          {
+            field: "date_referred",
+            headerName: "Date Referred",
+          },
+          {
+            field: "referred_from",
+            headerName: "Referred From",
           }
-        },
-        {
-          field: 'date_referred',
-          headerName: 'Date Referred'
-        },
-        {
-          field: 'referred_from',
-          headerName: 'Referred From'
-        }
-      );
-    });
+        );
+      });
   }
 
   public loadMorePatients() {
@@ -292,12 +308,12 @@ export class StrengthsPatientReferralTabularComponent implements OnInit {
     if (patientUuid === undefined || patientUuid === null) {
       return;
     }
-    this.router.navigate(['/patient-dashboard/patient/' + patientUuid + '/general/general']);
-
+    this.router.navigate([
+      "/patient-dashboard/patient/" + patientUuid + "/general/general",
+    ]);
   }
 
   private toDateString(date: Date): string {
-    return Moment(date).utcOffset('+03:00').format();
+    return Moment(date).utcOffset("+03:00").format();
   }
-
 }

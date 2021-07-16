@@ -4,35 +4,35 @@ import {
   state,
   style,
   transition,
-  trigger
-} from '@angular/animations';
-import { Component } from '@angular/core';
+  trigger,
+} from "@angular/animations";
+import { Component } from "@angular/core";
 
-import { Toast, ToastrService, ToastPackage } from 'ngx-toastr';
+import { Toast, ToastrService, ToastPackage } from "ngx-toastr";
 
 @Component({
-  selector: 'custom-toast-reminder',
-  styleUrls: ['./patient-reminder-custom.component.css'],
-  templateUrl: './patient-reminder-custom.component.html',
+  selector: "custom-toast-reminder",
+  styleUrls: ["./patient-reminder-custom.component.css"],
+  templateUrl: "./patient-reminder-custom.component.html",
   animations: [
-    trigger('flyInOut', [
+    trigger("flyInOut", [
       state(
-        'inactive',
+        "inactive",
         style({
-          display: 'none',
-          opacity: 0
+          display: "none",
+          opacity: 0,
         })
       ),
-      state('active', style({})),
-      state('removed', style({opacity: 0})),
+      state("active", style({})),
+      state("removed", style({ opacity: 0 })),
       transition(
-        'inactive => active',
-        animate('{{ easeTime }}ms {{ easing }}')
+        "inactive => active",
+        animate("{{ easeTime }}ms {{ easing }}")
       ),
-      transition('active => removed', animate('{{ easeTime }}ms {{ easing }}'))
+      transition("active => removed", animate("{{ easeTime }}ms {{ easing }}")),
     ]),
   ],
-  preserveWhitespaces: false
+  preserveWhitespaces: false,
 })
 export class PatientReminderCustomComponent extends Toast {
   public enrolling = false;
@@ -43,7 +43,7 @@ export class PatientReminderCustomComponent extends Toast {
     public toastPackage: ToastPackage
   ) {
     super(toastrService, toastPackage);
-    this.options['timeOut'] = 0;
+    this.options["timeOut"] = 0;
     Object.assign(this._options, this.options);
   }
 

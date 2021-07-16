@@ -1,47 +1,47 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { Location } from "@angular/common";
 
-import * as rison from 'rison-node';
-import * as Moment from 'moment';
-import { FamilyTestingService } from 'src/app/etl-api/family-testing-resource.service';
+import * as rison from "rison-node";
+import * as Moment from "moment";
+import { FamilyTestingService } from "src/app/etl-api/family-testing-resource.service";
 
 @Component({
-  selector: 'edit-contact-trace',
-  styleUrls: ['./edit-contact-trace.component.css'],
-  templateUrl: './edit-contact-trace.component.html'
+  selector: "edit-contact-trace",
+  styleUrls: ["./edit-contact-trace.component.css"],
+  templateUrl: "./edit-contact-trace.component.html",
 })
 export class EditContactTraceComponent implements OnInit {
   public contactType: Array<{ label: string; val: number }> = [
-    { label: 'Phone tracing', val: 1555 },
-    { label: 'Physical tracing', val: 10791 }
+    { label: "Phone tracing", val: 1555 },
+    { label: "Physical tracing", val: 10791 },
   ];
   public displayNotContactedReasons: boolean;
   public selectedContactType: number;
-  public contactedDate: string = Moment(new Date()).format('YYYY-MM-DD');
+  public contactedDate: string = Moment(new Date()).format("YYYY-MM-DD");
   public contactStatus: Array<{ label: string; val: number }> = [
-    { label: 'Contacted and linked', val: 1065 },
-    { label: 'Contacted but not linked', val: 1066 },
-    { label: 'Not contacted', val: 1118 }
+    { label: "Contacted and linked", val: 1065 },
+    { label: "Contacted but not linked", val: 1066 },
+    { label: "Not contacted", val: 1118 },
   ];
   public selectedContactedStatus;
   public remarks;
   public physicalNotContactedReasons = [
-    { label: 'No locator information', val: 1550 },
-    { label: 'Incorrect locator information', val: 1561 },
-    { label: 'Migrated ', val: 1562 },
-    { label: 'Not found at home', val: 1563 },
-    { label: 'Calls not going through', val: 1550 },
-    { label: 'Died ', val: 1593 },
-    { label: 'other ', val: 5622 }
+    { label: "No locator information", val: 1550 },
+    { label: "Incorrect locator information", val: 1561 },
+    { label: "Migrated ", val: 1562 },
+    { label: "Not found at home", val: 1563 },
+    { label: "Calls not going through", val: 1550 },
+    { label: "Died ", val: 1593 },
+    { label: "other ", val: 5622 },
   ];
 
   public phoneNotContactedReasons = [
-    { label: 'No locator information', val: 1550 },
-    { label: 'Calls not going through', val: 1560 },
-    { label: 'Incorrect locator information', val: 1561 },
-    { label: 'Died', val: 1593 },
-    { label: 'other', val: 5622 }
+    { label: "No locator information", val: 1550 },
+    { label: "Calls not going through", val: 1560 },
+    { label: "Incorrect locator information", val: 1561 },
+    { label: "Died", val: 1593 },
+    { label: "other", val: 5622 },
   ];
   public notContactedStatusReasons = [];
   // concept 1107 === None
@@ -53,11 +53,11 @@ export class EditContactTraceComponent implements OnInit {
     this.router.queryParams.subscribe((params) => {
       const contactInformation = rison.decode(params.state);
       this.contactedDate = Moment(contactInformation.contact_date).format(
-        'YYYY-MM-DD'
+        "YYYY-MM-DD"
       );
       this.remarks = contactInformation.remarks;
       this.selectedContactType =
-        contactInformation.contact_type === 'Phone tracing' ? 1555 : 10791;
+        contactInformation.contact_type === "Phone tracing" ? 1555 : 10791;
       this.selectedContactedStatus = Number(
         this.contactStatus.find(
           (status) => status.label === contactInformation.contact_status
@@ -83,7 +83,7 @@ export class EditContactTraceComponent implements OnInit {
       contact_type: Number(this.selectedContactType),
       contact_status: Number(this.selectedContactedStatus),
       reason_not_contacted: Number(this.selectedNotContactedStatusReasons),
-      remarks: this.remarks
+      remarks: this.remarks,
     };
     this.familyTestingService.updatePatientContactTrace(payload).subscribe(
       (response: Response) => {

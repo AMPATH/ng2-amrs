@@ -1,15 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 
 @Component({
-  selector: 'cdm-landing-page',
-  templateUrl: './landing-page.component.html',
-  styleUrls: ['./landing-page.component.css']
+  selector: "cdm-landing-page",
+  templateUrl: "./landing-page.component.html",
+  styleUrls: ["./landing-page.component.css"],
 })
 export class CdmLandingPageComponent implements OnInit {
-  constructor() {
-  }
+  constructor() {}
 
-  public ngOnInit() {
-  }
-
+  public ngOnInit() {}
 }

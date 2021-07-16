@@ -1,31 +1,36 @@
-import { Component, OnInit, Input, Output, EventEmitter, TemplateRef, ViewChild, OnDestroy } from '@angular/core';
-import { DatePipe } from '@angular/common';
-
-import * as moment from 'moment';
-import { isEqual } from 'lodash';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap';
-
-import { UserDefaultPropertiesService } from '../../../../user-default-properties/index';
-import { PatientProgramResourceService } from '../../../../etl-api/patient-program-resource.service';
-import { VisitResourceService } from '../../../../openmrs-api/visit-resource.service';
-import { TodayVisitService } from '../today-visit.service';
 import {
-  RetrospectiveDataEntryService
-} from '../../../../retrospective-data-entry/services/retrospective-data-entry.service';
-import { CommunityGroupMemberService } from '../../../../openmrs-api/community-group-member-resource.service';
-import { CommunityGroupService } from '../../../../openmrs-api/community-group-resource.service';
-import { ProviderResourceService } from '../../../../openmrs-api/provider-resource.service';
-import { Subscription } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  TemplateRef,
+  ViewChild,
+  OnDestroy,
+} from "@angular/core";
+import { DatePipe } from "@angular/common";
+
+import * as moment from "moment";
+import { isEqual } from "lodash";
+import { BsModalService, BsModalRef } from "ngx-bootstrap";
+
+import { UserDefaultPropertiesService } from "../../../../user-default-properties/index";
+import { PatientProgramResourceService } from "../../../../etl-api/patient-program-resource.service";
+import { VisitResourceService } from "../../../../openmrs-api/visit-resource.service";
+import { TodayVisitService } from "../today-visit.service";
+import { RetrospectiveDataEntryService } from "../../../../retrospective-data-entry/services/retrospective-data-entry.service";
+import { CommunityGroupMemberService } from "../../../../openmrs-api/community-group-member-resource.service";
+import { CommunityGroupService } from "../../../../openmrs-api/community-group-resource.service";
+import { ProviderResourceService } from "../../../../openmrs-api/provider-resource.service";
+import { Subscription } from "rxjs";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
-  selector: 'app-visit-starter',
-  templateUrl: './visit-starter.component.html',
-  styleUrls: ['./visit-starter.component.css']
+  selector: "app-visit-starter",
+  templateUrl: "./visit-starter.component.html",
+  styleUrls: ["./visit-starter.component.css"],
 })
 export class VisitStarterComponent implements OnInit, OnDestroy {
-
-
   public programVisitsConfig: any = {};
   public modalRef: BsModalRef;
   @Output()
@@ -33,7 +38,7 @@ export class VisitStarterComponent implements OnInit, OnDestroy {
 
   public isBusy = false;
   public startedVisit = false;
-  public error = '';
+  public error = "";
   public infoMessage: any = [];
   public patientCohort: any = [];
   public cohostVisitsDropdownOptions: any[];
@@ -43,7 +48,7 @@ export class VisitStarterComponent implements OnInit, OnDestroy {
   public retroSettings: any;
   public _patientEnrolledInGroup: boolean;
   public groupVisitStartedFromClinicDashboard: boolean;
-  @ViewChild('startGroupVisitModal') public startGroupVisitModal;
+  @ViewChild("startGroupVisitModal") public startGroupVisitModal;
   private _patientUuid: string;
   @Input() set patientEnrolledInGroup(enrolled: boolean) {
     this._patientEnrolledInGroup = enrolled;
@@ -86,18 +91,22 @@ export class VisitStarterComponent implements OnInit, OnDestroy {
   }
 
   public get visitTypes(): Array<any> {
-    if (this.programVisitsConfig &&
+    if (
+      this.programVisitsConfig &&
       this.programVisitsConfig.visitTypes &&
-      this.programVisitsConfig.visitTypes.allowed) {
+      this.programVisitsConfig.visitTypes.allowed
+    ) {
       return this.programVisitsConfig.visitTypes.allowed;
     }
     return [];
   }
 
   public get disallowedVisitTypes(): Array<any> {
-    if (this.programVisitsConfig &&
+    if (
+      this.programVisitsConfig &&
       this.programVisitsConfig.visitTypes &&
-      this.programVisitsConfig.visitTypes.disallowed) {
+      this.programVisitsConfig.visitTypes.disallowed
+    ) {
       return this.programVisitsConfig.visitTypes.disallowed;
     }
     return [];
@@ -114,13 +123,13 @@ export class VisitStarterComponent implements OnInit, OnDestroy {
     private communityGroupService: CommunityGroupService,
     private datePipe: DatePipe,
     private route: ActivatedRoute,
-    private providerResourceService: ProviderResourceService,
-  ) { }
+    private providerResourceService: ProviderResourceService
+  ) {}
 
   public ngOnInit() {
     this.setUserDefaultLocation();
     this.route.queryParams.subscribe((queryParams) => {
-      if (queryParams['groupUuid']) {
+      if (queryParams["groupUuid"]) {
         this._patientEnrolledInGroup = true;
         this.groupVisitStartedFromClinicDashboard = true;
       }
@@ -128,112 +137,134 @@ export class VisitStarterComponent implements OnInit, OnDestroy {
     // this.getCurrentProgramEnrollmentConfig();
   }
 
-
   public ngOnDestroy(): void {
     this._subscription.unsubscribe();
   }
   public setUserDefaultLocation() {
     const location: any = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
-    this.retrospectiveDataEntryService.retroSettings.subscribe((retroSettings) => {
-      if (location && location.uuid) {
-        if (retroSettings && retroSettings.enabled) {
-          this.selectedLocation = retroSettings.location;
-          this.retroSettings = retroSettings;
-        } else {
-          this.selectedLocation = {
-            value: location.uuid,
-            label: location.display
-          };
+    this.retrospectiveDataEntryService.retroSettings.subscribe(
+      (retroSettings) => {
+        if (location && location.uuid) {
+          if (retroSettings && retroSettings.enabled) {
+            this.selectedLocation = retroSettings.location;
+            this.retroSettings = retroSettings;
+          } else {
+            this.selectedLocation = {
+              value: location.uuid,
+              label: location.display,
+            };
+          }
         }
       }
-    });
+    );
   }
 
   public getCurrentProgramEnrollmentConfig() {
-    if (this.programEnrollmentUuid === '') {
+    if (this.programEnrollmentUuid === "") {
       return;
     }
     this.isBusy = true;
     this.programVisitsConfig = {};
-    this.error = '';
-    this._subscription.add(this.patientProgramResourceService
-      .getPatientProgramVisitTypes(this.patientUuid,
-      this.programUuid, this.programEnrollmentUuid, this.selectedLocation.value)
-      .take(1).subscribe(
-      (progConfig) => {
-        this.isBusy = false;
-        this.programVisitsConfig = progConfig;
-      },
-      (error) => {
-        this.isBusy = false;
-        this.error = 'Error loading the program visit configs. Please refresh page and retry.';
-        console.error('Error loading the program visit configs', error);
-      }));
+    this.error = "";
+    this._subscription.add(
+      this.patientProgramResourceService
+        .getPatientProgramVisitTypes(
+          this.patientUuid,
+          this.programUuid,
+          this.programEnrollmentUuid,
+          this.selectedLocation.value
+        )
+        .take(1)
+        .subscribe(
+          (progConfig) => {
+            this.isBusy = false;
+            this.programVisitsConfig = progConfig;
+          },
+          (error) => {
+            this.isBusy = false;
+            this.error =
+              "Error loading the program visit configs. Please refresh page and retry.";
+            console.error("Error loading the program visit configs", error);
+          }
+        )
+    );
   }
 
-
   public startVisit(visitType) {
-      this.selectedVisitType = visitType;
-      if (visitType.groupVisit) {
-        this._subscription.add(this.communityGroupMemberService
-          .getMemberCohortsByPatientUuid(this.patientUuid).subscribe((patientCohorts) => {
-          this.patientCohort = patientCohorts.find((c) => {
-            const attribute = c.cohort.attributes.find((a) => a.value === '334c9e98-173f-4454-a8ce-f80b20b7fdf0' && c.voided === false);
-            return attribute !== undefined;
-          });
-         if (this.patientCohort) {
-                this.cohostVisitsDropdownOptions = this.patientCohort.cohort.cohortVisits.map((v) => {
-                return {
-                        value: v.uuid,
-                        label: `${this.datePipe.transform(v.startDate)} Meeting`
-                      };
-            });
-          }
-        }, (error) => {
-              console.log('Error', error);
-        }));
-        this.modalRef = this.modalService.show(this.startGroupVisitModal);
-      } else {
-        if (!this.startedVisit) {
-          this.saveVisit(this.selectedVisitType);
-        }
+    this.selectedVisitType = visitType;
+    if (visitType.groupVisit) {
+      this._subscription.add(
+        this.communityGroupMemberService
+          .getMemberCohortsByPatientUuid(this.patientUuid)
+          .subscribe(
+            (patientCohorts) => {
+              this.patientCohort = patientCohorts.find((c) => {
+                const attribute = c.cohort.attributes.find(
+                  (a) =>
+                    a.value === "334c9e98-173f-4454-a8ce-f80b20b7fdf0" &&
+                    c.voided === false
+                );
+                return attribute !== undefined;
+              });
+              if (this.patientCohort) {
+                this.cohostVisitsDropdownOptions = this.patientCohort.cohort.cohortVisits.map(
+                  (v) => {
+                    return {
+                      value: v.uuid,
+                      label: `${this.datePipe.transform(v.startDate)} Meeting`,
+                    };
+                  }
+                );
+              }
+            },
+            (error) => {
+              console.log("Error", error);
+            }
+          )
+      );
+      this.modalRef = this.modalService.show(this.startGroupVisitModal);
+    } else {
+      if (!this.startedVisit) {
+        this.saveVisit(this.selectedVisitType);
+      }
     }
-
-    }
+  }
 
   public saveVisit(visitType) {
-    this.retrospectiveDataEntryService.retroSettings.subscribe((retroSettings) => {
-    const visitTypeUuid = visitType.uuid;
-    this.startedVisit = true;
-    this.isBusy = true;
-    this.error = '';
-    const payload = {
-      patient: this.patientUuid,
-      location: this.selectedLocation.value,
-      startDatetime: new Date(),
-      visitType: visitTypeUuid
-    };
+    this.retrospectiveDataEntryService.retroSettings.subscribe(
+      (retroSettings) => {
+        const visitTypeUuid = visitType.uuid;
+        this.startedVisit = true;
+        this.isBusy = true;
+        this.error = "";
+        const payload = {
+          patient: this.patientUuid,
+          location: this.selectedLocation.value,
+          startDatetime: new Date(),
+          visitType: visitTypeUuid,
+        };
 
-    if (retroSettings && retroSettings.enabled) {
-      payload.location = retroSettings.location.value;
-      payload.startDatetime = this.setRetroDateTime(retroSettings);
-      payload['attributes'] = [
-        {
-          attributeType: '3bb41949-6596-4ff9-a54f-d3d7883a69ed',
-          value: 'true'
+        if (retroSettings && retroSettings.enabled) {
+          payload.location = retroSettings.location.value;
+          payload.startDatetime = this.setRetroDateTime(retroSettings);
+          payload["attributes"] = [
+            {
+              attributeType: "3bb41949-6596-4ff9-a54f-d3d7883a69ed",
+              value: "true",
+            },
+          ];
         }
-      ];
-    }
-    if (visitType.groupVisit) {
-      this.saveGroupVisit();
-    } else {
-      this.saveIndividualVisit(payload);
-    }
-  });
+        if (visitType.groupVisit) {
+          this.saveGroupVisit();
+        } else {
+          this.saveIndividualVisit(payload);
+        }
+      }
+    );
   }
 
   public getCohort() {
-   return this.patientCohort.cohort.cohortVisits.find((v) => {
+    return this.patientCohort.cohort.cohortVisits.find((v) => {
       return v.uuid === this.selectedCohortVisit.value;
     });
   }
@@ -247,17 +278,22 @@ export class VisitStarterComponent implements OnInit, OnDestroy {
           startDatetime: cohortVisit.startDate,
           visitType: cohortVisit.visitType.uuid,
         },
-        cohortVisit: cohortVisit.uuid
+        cohortVisit: cohortVisit.uuid,
       };
-      this._subscription.add(this.communityGroupService.startIndividualVisit(groupPayload).subscribe((v) => {
-        this.isBusy = false;
-        this.visitStarted.emit(v.visit);
-        this.modalRef.hide();
-      }, (error) => {
-        console.log('Error', error);
-      }));
+      this._subscription.add(
+        this.communityGroupService.startIndividualVisit(groupPayload).subscribe(
+          (v) => {
+            this.isBusy = false;
+            this.visitStarted.emit(v.visit);
+            this.modalRef.hide();
+          },
+          (error) => {
+            console.log("Error", error);
+          }
+        )
+      );
     } else {
-      console.log('Cohort Visit Not found ');
+      console.log("Cohort Visit Not found ");
     }
   }
 
@@ -272,11 +308,10 @@ export class VisitStarterComponent implements OnInit, OnDestroy {
       (error) => {
         setTimeout(() => {
           this.isBusy = false;
-          this.error = 'Error starting visit';
+          this.error = "Error starting visit";
           this.startedVisit = false;
           this.todayVisitService.hideVisitStartedMessage();
-          console.error('Error starting visit', error);
-
+          console.error("Error starting visit", error);
         }, 3000);
       }
     );
@@ -287,50 +322,83 @@ export class VisitStarterComponent implements OnInit, OnDestroy {
 
   public onCohortChange($event) {
     this.retrospectiveDataEntryService.updateRetroSettings();
-    this.retrospectiveDataEntryService.retroSettings.subscribe((retroSettings) => {
-      const cohortVisit = this.getCohort();
-      const selectedDatePast = moment(cohortVisit.startDate).isBefore(moment(), 'day');
-      if (retroSettings) {
-        const retroDateEqualToCohortVisitDate = retroSettings &&
-        moment(cohortVisit.startDate).isSame(moment(retroSettings.visitDate), 'day');
-        this.isGroupRetrospective = !(selectedDatePast && retroDateEqualToCohortVisitDate);
-      } else {
-        this.isGroupRetrospective = selectedDatePast;
+    this.retrospectiveDataEntryService.retroSettings.subscribe(
+      (retroSettings) => {
+        const cohortVisit = this.getCohort();
+        const selectedDatePast = moment(cohortVisit.startDate).isBefore(
+          moment(),
+          "day"
+        );
+        if (retroSettings) {
+          const retroDateEqualToCohortVisitDate =
+            retroSettings &&
+            moment(cohortVisit.startDate).isSame(
+              moment(retroSettings.visitDate),
+              "day"
+            );
+          this.isGroupRetrospective = !(
+            selectedDatePast && retroDateEqualToCohortVisitDate
+          );
+        } else {
+          this.isGroupRetrospective = selectedDatePast;
+        }
       }
-
-
-    });
+    );
   }
 
   public activateRetrospectiveDataEntry(cohortVisit) {
-    const providerAttribute = this.communityGroupService.getGroupAttribute('provider', this.patientCohort.cohort.attributes);
+    const providerAttribute = this.communityGroupService.getGroupAttribute(
+      "provider",
+      this.patientCohort.cohort.attributes
+    );
     if (providerAttribute && providerAttribute.value) {
-      const v = 'custom:(person:(uuid,display,attributes:(attributeType:(uuid),value,display)),uuid)';
+      const v =
+        "custom:(person:(uuid,display,attributes:(attributeType:(uuid),value,display)),uuid)";
       this.isBusy = true;
-      this._subscription.add(this.providerResourceService.getProviderByPersonUuid(providerAttribute.value, v)
-        .subscribe((provider: any) => {
-          this.isBusy = false;
-          this.retrospectiveDataEntryService.updateProperty('retroVisitDate', moment(cohortVisit.startDate).format('YYYY-MM-DD'));
-          this.retrospectiveDataEntryService.updateProperty('retroLocation',
-            JSON.stringify({ label: cohortVisit.location.display, value: cohortVisit.location.uuid }));
-          this.retrospectiveDataEntryService.updateProperty('retroProvider',
-            JSON.stringify({ label: provider.person.display, value: provider.person.uuid, providerUuid: provider.person.uuid }));
-          this.retrospectiveDataEntryService.updateProperty('enableRetro', true);
-        }, (error) => {
-          this.isBusy = false;
-          console.log(error);
-        }));
+      this._subscription.add(
+        this.providerResourceService
+          .getProviderByPersonUuid(providerAttribute.value, v)
+          .subscribe(
+            (provider: any) => {
+              this.isBusy = false;
+              this.retrospectiveDataEntryService.updateProperty(
+                "retroVisitDate",
+                moment(cohortVisit.startDate).format("YYYY-MM-DD")
+              );
+              this.retrospectiveDataEntryService.updateProperty(
+                "retroLocation",
+                JSON.stringify({
+                  label: cohortVisit.location.display,
+                  value: cohortVisit.location.uuid,
+                })
+              );
+              this.retrospectiveDataEntryService.updateProperty(
+                "retroProvider",
+                JSON.stringify({
+                  label: provider.person.display,
+                  value: provider.person.uuid,
+                  providerUuid: provider.person.uuid,
+                })
+              );
+              this.retrospectiveDataEntryService.updateProperty(
+                "enableRetro",
+                true
+              );
+            },
+            (error) => {
+              this.isBusy = false;
+              console.log(error);
+            }
+          )
+      );
     }
   }
 
   public setRetroDateTime(settings) {
-    return new Date(settings.visitDate + ', ' + settings.visitTime);
+    return new Date(settings.visitDate + ", " + settings.visitTime);
   }
-
-
 
   public showModal(modal: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(modal, { class: 'modal-lg' });
+    this.modalRef = this.modalService.show(modal, { class: "modal-lg" });
   }
-
 }

@@ -1,46 +1,69 @@
 <div class="container-fluid" id="add-cohort-member-container">
-    <div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12">
-            <div id="cohort-section" class="cohort-field">
-                <div *ngIf="!showCohortSelector">
-                    <button type="button" [(disabled)]="!allowCohortEdit"  class="btn btn-default btn-sm" (click)="showCohortSelectorComponent()">
-                        <span class="fa fa-exchange"></span>
-                    </button>
-                    <span style="font-size: 18px;"> Patient List: {{cohort? (cohort.display ?  cohort.display : cohort.name):''}} </span>
-                </div>
-                <div *ngIf="showCohortSelector" class="selectable-field-wrapper">
-                    <cohort-selector (cohortSelected)="cohortSelected($event)"></cohort-selector>
-                </div>
-            </div>
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12">
+      <div id="cohort-section" class="cohort-field">
+        <div *ngIf="!showCohortSelector">
+          <button
+            type="button"
+            [(disabled)]="!allowCohortEdit"
+            class="btn btn-default btn-sm"
+            (click)="showCohortSelectorComponent()"
+          >
+            <span class="fa fa-exchange"></span>
+          </button>
+          <span style="font-size: 18px">
+            Patient List:
+            {{ cohort ? (cohort.display ? cohort.display : cohort.name) : "" }}
+          </span>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12">
-                <div id="patient-section" class="cohort-field">
-                    <div *ngIf="!showPatientSearch">
-                        <button type="button" [(disabled)]="!allowPatientEdit" class="btn btn-default btn-sm" (click)="showPatientSearchComponent()">
-                            <span class="fa fa-exchange"></span>
-                        </button>
-                        <span style="font-size: 18px;"> Patient: {{patient? patient.person.display :''}}</span>
-                    </div>
-                    <div *ngIf="showPatientSearch" class="selectable-field-wrapper">
-                        <span style="margin-bottom: 20px;">Search and select patient to add to patient list:</span>
-                        <br/>
-                        <app-patient-search (patientSelected)='patientSelected($event)' [hideResults]="hideResult"></app-patient-search>  
-                    </div>
-                </div>
+        <div *ngIf="showCohortSelector" class="selectable-field-wrapper">
+          <cohort-selector
+            (cohortSelected)="cohortSelected($event)"
+          ></cohort-selector>
         </div>
+      </div>
     </div>
-    <div *ngIf="hasError" style="margin: 4px; border:1px solid darkred; padding:4px;">
-        <span class="text-danger" style="font-size: 18px;">
-        <span class="fa fa-exclamation-circle"></span> <span>{{errorMessage}}</span>
-        </span>
+  </div>
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12">
+      <div id="patient-section" class="cohort-field">
+        <div *ngIf="!showPatientSearch">
+          <button
+            type="button"
+            [(disabled)]="!allowPatientEdit"
+            class="btn btn-default btn-sm"
+            (click)="showPatientSearchComponent()"
+          >
+            <span class="fa fa-exchange"></span>
+          </button>
+          <span style="font-size: 18px">
+            Patient: {{ patient ? patient.person.display : "" }}</span
+          >
+        </div>
+        <div *ngIf="showPatientSearch" class="selectable-field-wrapper">
+          <span style="margin-bottom: 20px"
+            >Search and select patient to add to patient list:</span
+          >
+          <br />
+          <app-patient-search
+            (patientSelected)="patientSelected($event)"
+            [hideResults]="hideResult"
+          ></app-patient-search>
+        </div>
+      </div>
     </div>
-    <div style="margin-top:4px; padding:4px;">
-        <button type="button" class="btn btn-primary" (click)="save()">Save</button>
-        <button type="button" class="btn " (click)="cancel()">
-            Cancel
-        </button>
-    </div>
+  </div>
+  <div
+    *ngIf="hasError"
+    style="margin: 4px; border: 1px solid darkred; padding: 4px"
+  >
+    <span class="text-danger" style="font-size: 18px">
+      <span class="fa fa-exclamation-circle"></span>
+      <span>{{ errorMessage }}</span>
+    </span>
+  </div>
+  <div style="margin-top: 4px; padding: 4px">
+    <button type="button" class="btn btn-primary" (click)="save()">Save</button>
+    <button type="button" class="btn" (click)="cancel()">Cancel</button>
+  </div>
 </div>
-

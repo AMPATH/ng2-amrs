@@ -1,40 +1,70 @@
 <busy *ngIf="completing" [message]="'Completing programs...'"></busy>
-<div style="margin-bottom: 20px;" class="alert alert-danger" *ngIf="hasError">
-  <p>Error stopping program. {{message}}</p>
+<div style="margin-bottom: 20px" class="alert alert-danger" *ngIf="hasError">
+  <p>Error stopping program. {{ message }}</p>
 </div>
 <p class="alert alert-warning" *ngIf="!complete">
   The following program(s) are going to be stopped
 </p>
 <div class="step-details" *ngFor="let program of programs">
-  <blockquote class="step-details" style="border-left: 0;margin-bottom: 0; padding-bottom: 0;"
-              *ngIf="program && program.dateEnrolled && !program.dateCompleted">
-    <p><input checked name="program_{{program.enrolledProgram._openmrsModel.uuid}}" value="{{program.enrolledProgram._openmrsModel.uuid}}"
-              (change)="updateProgramsToEdit($event)" type="checkbox"/>
-      {{program.enrolledProgram._openmrsModel.display}} <span
-        class="pull-right">{{program.enrolledProgram._openmrsModel.location?.display}}</span></p>
-    <footer>Started {{program.dateEnrolled | date: 'longDate'}}</footer>
-    <hr/>
+  <blockquote
+    class="step-details"
+    style="border-left: 0; margin-bottom: 0; padding-bottom: 0"
+    *ngIf="program && program.dateEnrolled && !program.dateCompleted"
+  >
+    <p>
+      <input
+        checked
+        name="program_{{ program.enrolledProgram._openmrsModel.uuid }}"
+        value="{{ program.enrolledProgram._openmrsModel.uuid }}"
+        (change)="updateProgramsToEdit($event)"
+        type="checkbox"
+      />
+      {{ program.enrolledProgram._openmrsModel.display }}
+      <span class="pull-right">{{
+        program.enrolledProgram._openmrsModel.location?.display
+      }}</span>
+    </p>
+    <footer>Started {{ program.dateEnrolled | date: "longDate" }}</footer>
+    <hr />
   </blockquote>
 </div>
 <ng-container *ngIf="!complete && showForms && exitEncounters.length > 0">
   <p>Please fill the following required forms to enroll the patient</p>
-  <form-list (onFormSelected)="fillEnrollmentForm($event)" [showFilter]="false" [encounterTypeFilter]="exitEncounters"></form-list>
+  <form-list
+    (onFormSelected)="fillEnrollmentForm($event)"
+    [showFilter]="false"
+    [encounterTypeFilter]="exitEncounters"
+  ></form-list>
 </ng-container>
-<div style="margin-bottom: 12px;" class="alert alert-danger" *ngIf="complete">
+<div style="margin-bottom: 12px" class="alert alert-danger" *ngIf="complete">
   <h2 class="component-title">Program(s) Successfully Stopped</h2>
   <div class="step-details" *ngFor="let program of stoppedPrograms">
-    <blockquote class="step-details" style="border-left: 0;margin-bottom: 0; padding-bottom: 0;"
-                *ngIf="program && program.dateCompleted">
-      <p>{{program.display}} <span
-          class="pull-right">{{program.location?.display}}</span></p>
-      <footer>Started <strong>{{program.dateEnrolled | date: 'longDate'}}</strong> and stopped <strong>{{program.dateCompleted | date: 'longDate'}}</strong></footer>
-      <hr/>
+    <blockquote
+      class="step-details"
+      style="border-left: 0; margin-bottom: 0; padding-bottom: 0"
+      *ngIf="program && program.dateCompleted"
+    >
+      <p>
+        {{ program.display }}
+        <span class="pull-right">{{ program.location?.display }}</span>
+      </p>
+      <footer>
+        Started
+        <strong>{{ program.dateEnrolled | date: "longDate" }}</strong> and
+        stopped <strong>{{ program.dateCompleted | date: "longDate" }}</strong>
+      </footer>
+      <hr />
     </blockquote>
   </div>
 </div>
 <div class="step-buttons">
-  <button *ngIf="!complete" type="button" class="btn btn-danger pull-left"
-          (click)="goBack()">Back
+  <button
+    *ngIf="!complete"
+    type="button"
+    class="btn btn-danger pull-left"
+    (click)="goBack()"
+  >
+    Back
   </button>
   <span class="clear">&nbsp;</span>
 </div>

@@ -1,30 +1,45 @@
 <div class="alert alert-warning" *ngIf="action.toLowerCase() == 'transfer'">
-  Please note aside from enrolling the patient to a new group, this action will unenroll patient from
-  {{selectedGroup.cohort.name}}.
+  Please note aside from enrolling the patient to a new group, this action will
+  unenroll patient from
+  {{ selectedGroup.cohort.name }}.
 </div>
 <mat-card>
   <mat-radio-group (change)="onEnrollmentTypeChange($event)">
     <div class="text-center">
       <mat-radio-button value="existing" [checked]="true" color="primary">
-        <span class="matradiolabel">Enroll Into Existing Group </span></mat-radio-button>
+        <span class="matradiolabel"
+          >Enroll Into Existing Group
+        </span></mat-radio-button
+      >
       <mat-radio-button value="new" color="primary">
-        <span class="matradiolabel">Enroll Into New Group</span></mat-radio-button>
+        <span class="matradiolabel"
+          >Enroll Into New Group</span
+        ></mat-radio-button
+      >
     </div>
   </mat-radio-group>
 </mat-card>
 <div *ngIf="enrollmentType == 'existing'" class="well">
-  <h4 style="font-size: 15px; font-weight: 600; " class="text-info">Group Search</h4>
+  <h4 style="font-size: 15px; font-weight: 600" class="text-info">
+    Group Search
+  </h4>
   <div class="search-input">
-    <group-search-input (searchResults)="onResults($event)" [isModal]="true" (hideResults)="hideSearchResults($event)"></group-search-input>
+    <group-search-input
+      (searchResults)="onResults($event)"
+      [isModal]="true"
+      (hideResults)="hideSearchResults($event)"
+    ></group-search-input>
   </div>
   <div *ngIf="errorMessage">
-    <span class="text-danger">{{errorMessage}}</span>
+    <span class="text-danger">{{ errorMessage }}</span>
   </div>
   <div id="search-results" *ngIf="searchResults && !hideResults">
     <div *ngIf="searchResults.length">
       <h5 class="text-info">Select group to enroll patient:</h5>
       <form #groupForm="ngForm">
-        <table class="table table-hover table-bordered table-responsive table-striped">
+        <table
+          class="table table-hover table-bordered table-responsive table-striped"
+        >
           <thead>
             <tr>
               <td></td>
@@ -35,23 +50,46 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let result of searchResults | paginate: { itemsPerPage: 10, currentPage: page }; let i = index; ">
+            <tr
+              *ngFor="
+                let result of searchResults
+                  | paginate: { itemsPerPage: 10, currentPage: page };
+                let i = index
+              "
+            >
               <td>
-                <input *ngIf="!result.currentlyEnrolled && !result.endDate" type="radio" [value]="result" name="group" ngModel required>
-                <span style="color:green" *ngIf="result.currentlyEnrolled"> Already Enrolled</span>
-                <span class="fa fa-check-cross" style="color:red" *ngIf="result.endDate"> Group Inactive</span>
+                <input
+                  *ngIf="!result.currentlyEnrolled && !result.endDate"
+                  type="radio"
+                  [value]="result"
+                  name="group"
+                  ngModel
+                  required
+                />
+                <span style="color: green" *ngIf="result.currentlyEnrolled">
+                  Already Enrolled</span
+                >
+                <span
+                  class="fa fa-check-cross"
+                  style="color: red"
+                  *ngIf="result.endDate"
+                >
+                  Group Inactive</span
+                >
               </td>
               <td>
-                {{getAttribute('groupNumber', result.attributes)}}
+                {{ getAttribute("groupNumber", result.attributes) }}
               </td>
               <td>
-                {{result.name | uppercase}}
+                {{ result.name | uppercase }}
               </td>
               <td>
-                {{getAttribute('landmark', result.attributes)}}
+                {{ getAttribute("landmark", result.attributes) }}
               </td>
               <td>
-                <span *ngIf="result.location">{{result.location.display}}</span>
+                <span *ngIf="result.location">{{
+                  result.location.display
+                }}</span>
                 <span *ngIf="!result.location">-</span>
               </td>
             </tr>
@@ -59,39 +97,75 @@
         </table>
 
         <div class="row">
-          <pagination-controls *ngIf="searchResults.length > 10" (pageChange)="page = $event" style="cursor: pointer;"></pagination-controls>
+          <pagination-controls
+            *ngIf="searchResults.length > 10"
+            (pageChange)="page = $event"
+            style="cursor: pointer"
+          ></pagination-controls>
         </div>
       </form>
       <div class="row">
-      <button type="button" class="btn btn-danger pull-left" (click)="hideComponent()"> Cancel </button>
-      <button type="submit" class="btn btn-primary pull-right" (click)="enroll(groupForm.value.group)" [disabled]="!groupForm.valid">
-        {{action}} </button>
+        <button
+          type="button"
+          class="btn btn-danger pull-left"
+          (click)="hideComponent()"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          class="btn btn-primary pull-right"
+          (click)="enroll(groupForm.value.group)"
+          [disabled]="!groupForm.valid"
+        >
+          {{ action }}
+        </button>
       </div>
     </div>
   </div>
 </div>
 <div *ngIf="enrollmentType == 'new'" class="well">
-  <h4 style="font-size: 15px; font-weight: 600; " class="text-info">Create Group</h4>
+  <h4 style="font-size: 15px; font-weight: 600" class="text-info">
+    Create Group
+  </h4>
   <div class="create-group">
-    <group-editor (newGroup)="enroll($event)" [state]="{ actionButtonText: 'Create and Enroll' }" (hide)="hideComponent()"></group-editor>
+    <group-editor
+      (newGroup)="enroll($event)"
+      [state]="{ actionButtonText: 'Create and Enroll' }"
+      (hide)="hideComponent()"
+    ></group-editor>
   </div>
 </div>
-
 
 <ng-template #transferGroupConfirmationModal>
   <div class="modal-header">
     Warning
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()"
+    >
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <h5> {{patient.person.display}} is enrolled in {{groupToUnenroll.cohort.name}} under
-      {{groupToUnenroll.program.name}}.
-      Would you like to <b>unenroll</b> from <b>{{groupToUnenroll.cohort.name}}</b> and <b>enroll</b> in <b>{{groupToEnroll.name}}</b>?</h5>
+    <h5>
+      {{ patient.person.display }} is enrolled in
+      {{ groupToUnenroll.cohort.name }} under
+      {{ groupToUnenroll.program.name }}. Would you like to <b>unenroll</b> from
+      <b>{{ groupToUnenroll.cohort.name }}</b> and <b>enroll</b> in
+      <b>{{ groupToEnroll.name }}</b
+      >?
+    </h5>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-danger" (click)="transferGroup(groupToUnenroll, groupToEnroll)"> OK </button>
-    <button class="btn btn-default" (click)="hide()"> Cancel </button>
+    <button
+      class="btn btn-danger"
+      (click)="transferGroup(groupToUnenroll, groupToEnroll)"
+    >
+      OK
+    </button>
+    <button class="btn btn-default" (click)="hide()">Cancel</button>
   </div>
 </ng-template>

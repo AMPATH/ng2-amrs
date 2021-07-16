@@ -3,24 +3,24 @@ import {
   OnInit,
   ViewChild,
   ElementRef,
-  TemplateRef
-} from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Location } from '@angular/common';
+  TemplateRef,
+} from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Location } from "@angular/common";
 
-import { AgGridNg2 } from 'ag-grid-angular';
-import { take } from 'rxjs/operators';
-import { BsModalRef, BsModalService, ModalDirective } from 'ngx-bootstrap';
-import { FamilyTestingService } from 'src/app/etl-api/family-testing-resource.service';
-import { FamilyTestingButtonRendererComponent } from './button-render/button-renderer.component';
-import { EncounterResourceService } from 'src/app/openmrs-api/encounter-resource.service';
-import { LocalStorageService } from './../../utils/local-storage.service';
-import * as _ from 'lodash';
-import * as Moment from 'moment';
+import { AgGridNg2 } from "ag-grid-angular";
+import { take } from "rxjs/operators";
+import { BsModalRef, BsModalService, ModalDirective } from "ngx-bootstrap";
+import { FamilyTestingService } from "src/app/etl-api/family-testing-resource.service";
+import { FamilyTestingButtonRendererComponent } from "./button-render/button-renderer.component";
+import { EncounterResourceService } from "src/app/openmrs-api/encounter-resource.service";
+import { LocalStorageService } from "./../../utils/local-storage.service";
+import * as _ from "lodash";
+import * as Moment from "moment";
 @Component({
-  selector: 'family-testing-contact-list',
-  templateUrl: './family-testing-contact-list.component.html',
-  styleUrls: ['./family-testing-contact-list.component.css']
+  selector: "family-testing-contact-list",
+  templateUrl: "./family-testing-contact-list.component.html",
+  styleUrls: ["./family-testing-contact-list.component.css"],
 })
 export class FamilyTestingContactComponent implements OnInit {
   public selectedEncounter: any;
@@ -36,88 +36,88 @@ export class FamilyTestingContactComponent implements OnInit {
   private frameworkComponents: any;
   public patientUuid: string;
   public gridOptions: any = {
-    columnDefs: []
+    columnDefs: [],
   };
-  @ViewChild('agGrid')
+  @ViewChild("agGrid")
   public agGrid: AgGridNg2;
-  @ViewChild('staticModal')
+  @ViewChild("staticModal")
   public staticModal: ModalDirective;
-  @ViewChild('actionModal')
+  @ViewChild("actionModal")
   public actionModal: ModalDirective;
-  @ViewChild('addContactTrace')
+  @ViewChild("addContactTrace")
   public addContactTraceModal: ModalDirective;
 
   public deleteModalRef: BsModalRef;
 
   public displayFamilyTree = true;
-  public indexName = '';
-  public indexUuid = '';
+  public indexName = "";
+  public indexUuid = "";
   public familyAndPartnerTestingFormUuid =
-    '3fbc8512-b37b-4bc2-a0f4-8d0ac7955127';
+    "3fbc8512-b37b-4bc2-a0f4-8d0ac7955127";
   private columnDefs = [
     {
-      headerName: '#',
-      colId: 'rowNum',
-      valueGetter: 'node.rowIndex + 1',
+      headerName: "#",
+      colId: "rowNum",
+      valueGetter: "node.rowIndex + 1",
       width: 40,
-      pinned: 'left'
+      pinned: "left",
     },
     {
-      field: 'fm_name',
-      headerName: 'Contact Name',
-      filter: 'agTextColumnFilter'
+      field: "fm_name",
+      headerName: "Contact Name",
+      filter: "agTextColumnFilter",
     },
     {
-      field: 'date_elicited',
-      headerName: 'Date Elicited',
+      field: "date_elicited",
+      headerName: "Date Elicited",
       width: 100,
       cellRenderer: (column) => {
-        return Moment(column.value).format('DD/MM/YYYY');
-      }
+        return Moment(column.value).format("DD/MM/YYYY");
+      },
     },
-    { field: 'fm_phone', headerName: 'Telephone Number', width: 130 },
-    { field: 'relationship_type', headerName: 'Relationship', width: 130 },
-    { field: 'fm_age', headerName: 'Age', width: 80 },
-    { field: 'fm_gender', headerName: 'Gender', width: 80 },
+    { field: "fm_phone", headerName: "Telephone Number", width: 130 },
+    { field: "relationship_type", headerName: "Relationship", width: 130 },
+    { field: "fm_age", headerName: "Age", width: 80 },
+    { field: "fm_gender", headerName: "Gender", width: 80 },
     {
-      field: 'modified_fm_status',
-      headerName: 'Reported HIV status',
-      width: 150
-    },
-    {
-      field: 'reported_test_date',
-      headerName: 'Reported test date',
-      width: 150
+      field: "modified_fm_status",
+      headerName: "Reported HIV status",
+      width: 150,
     },
     {
-      field: 'test_eligible',
-      headerName: 'Eligible for testing',
-      width: 150
+      field: "reported_test_date",
+      headerName: "Reported test date",
+      width: 150,
     },
     {
-      field: 'preferred_testing_date',
-      headerName: 'Preferred date of testing',
-      width: 180
+      field: "test_eligible",
+      headerName: "Eligible for testing",
+      width: 150,
     },
     {
-      field: 'modified_current_test_date',
-      headerName: 'Current test date',
-      width: 150
+      field: "preferred_testing_date",
+      headerName: "Preferred date of testing",
+      width: 180,
     },
     {
-      field: 'test_result_value',
-      headerName: 'Current test results',
-      width: 150
-    },
-    { field: 'enrolled', headerName: 'In care', width: 80 },
-    {
-      field: 'fm_facility_enrolled',
-      headerName: 'Location Enrolled',
-      width: 130
+      field: "modified_current_test_date",
+      headerName: "Current test date",
+      width: 150,
     },
     {
-      field: 'ccc_number',
-      headerName: 'CCC Number',
+      field: "test_result_value",
+      headerName: "Current test results",
+      width: 150,
+    },
+    { field: "enrolled", headerName: "In care", width: 80 },
+    {
+      field: "fm_facility_enrolled",
+      headerName: "Location Enrolled",
+      width: 130,
+    },
+    {
+      field: "ccc_number",
+      headerName: "CCC Number",
       width: 130,
       onCellClicked: (column) => {
         if (column.value != null) {
@@ -126,28 +126,28 @@ export class FamilyTestingContactComponent implements OnInit {
       },
       cellRenderer: (column) => {
         if (column.value == null) {
-          return '';
+          return "";
         }
         return (
           '<a href="javascript:void(0);" title="ccc_number">' +
           column.value +
-          '</a>'
+          "</a>"
         );
-      }
+      },
     },
     {
-      headerName: 'Actions',
-      cellRenderer: 'buttonRenderer',
+      headerName: "Actions",
+      cellRenderer: "buttonRenderer",
       cellRendererParams: {
         onClick: this.onActionsClicked.bind(this),
-        label: 'Actions'
+        label: "Actions",
       },
       width: 80,
-      pinned: 'left',
+      pinned: "left",
       cellStyle: () => {
-        return { display: 'flex', alignItems: 'center' };
-      }
-    }
+        return { display: "flex", alignItems: "center" };
+      },
+    },
   ];
 
   public ngOnInit() {
@@ -170,7 +170,7 @@ export class FamilyTestingContactComponent implements OnInit {
     private localStorageService: LocalStorageService
   ) {
     this.frameworkComponents = {
-      buttonRenderer: FamilyTestingButtonRendererComponent
+      buttonRenderer: FamilyTestingButtonRendererComponent,
     };
   }
 
@@ -255,7 +255,7 @@ export class FamilyTestingContactComponent implements OnInit {
   }
 
   public onAddContactClick() {
-    const defaulterTracingFormV1Uuid = 'bf6d0d9a-e6af-48fd-9245-6d1939adb37d';
+    const defaulterTracingFormV1Uuid = "bf6d0d9a-e6af-48fd-9245-6d1939adb37d";
     const url = `/patient-dashboard/patient/${this.patientUuid}/general/general/formentry/${defaulterTracingFormV1Uuid}`;
     this.router.navigate([url], {});
   }
@@ -264,7 +264,7 @@ export class FamilyTestingContactComponent implements OnInit {
     const encounterUuid = _.first(this.patientEncounters).uuid;
     const url = `/patient-dashboard/patient/${this.patientUuid}/general/general/formentry/${this.familyAndPartnerTestingFormUuid}`;
     this.router.navigate([url], {
-      queryParams: { encounter: encounterUuid, visitTypeUuid: '' }
+      queryParams: { encounter: encounterUuid, visitTypeUuid: "" },
     });
   }
 
@@ -276,7 +276,7 @@ export class FamilyTestingContactComponent implements OnInit {
   public onPatientRegister() {
     this.actionModal.hide();
     const { event, rowData } = this.selectedRow;
-    const [givenName, middleName, familyName] = rowData.fm_name.split(' ');
+    const [givenName, middleName, familyName] = rowData.fm_name.split(" ");
     const patientRegistrationUrl = `/patient-dashboard/patient-search/patient-registration`;
     this.router.navigate([patientRegistrationUrl], {
       queryParams: {
@@ -286,14 +286,14 @@ export class FamilyTestingContactComponent implements OnInit {
         age: rowData.fm_age,
         dateOfBirth: rowData.fm_dob,
         gender: rowData.fm_gender,
-        obs_group_id: rowData.obs_group_id
-      }
+        obs_group_id: rowData.obs_group_id,
+      },
     });
   }
 
   openModal(template: TemplateRef<any>) {
     this.deleteModalRef = this.modalService.show(template, {
-      class: 'modal-sm'
+      class: "modal-sm",
     });
   }
 
@@ -319,21 +319,21 @@ export class FamilyTestingContactComponent implements OnInit {
 
   private setPatientUuid(uuid: string) {
     if (uuid != null) {
-      this.localStorageService.setItem('family_testing_patient_uuid', uuid);
+      this.localStorageService.setItem("family_testing_patient_uuid", uuid);
     }
   }
 
   public onContactIdentifierClicked(uuid) {
     this.router.navigate([
-      '/patient-dashboard/patient/' + uuid + '/general/general/landing-page'
+      "/patient-dashboard/patient/" + uuid + "/general/general/landing-page",
     ]);
   }
 
   public openIndexDashboard() {
     this.router.navigate([
-      '/patient-dashboard/patient/' +
+      "/patient-dashboard/patient/" +
         this.indexUuid +
-        '/general/general/landing-page'
+        "/general/general/landing-page",
     ]);
   }
 }

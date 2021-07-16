@@ -1,29 +1,33 @@
-import { take } from 'rxjs/operators';
+import { take } from "rxjs/operators";
 import {
-  Component, OnInit, OnDestroy, AfterViewInit, Output,
-  EventEmitter, ChangeDetectorRef
-} from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import * as _ from 'lodash';
-import * as Moment from 'moment';
-import { LocationResourceService } from '../openmrs-api/location-resource.service';
-import { ClinicDashboardCacheService } from 'src/app/clinic-dashboard/services/clinic-dashboard-cache.service';
-import { DepartmentProgramsConfigService } from './../etl-api/department-programs-config.service';
-import { LocalStorageService } from 'src/app/utils/local-storage.service';
+  Component,
+  OnInit,
+  OnDestroy,
+  AfterViewInit,
+  Output,
+  EventEmitter,
+  ChangeDetectorRef,
+} from "@angular/core";
+import { Router, ActivatedRoute } from "@angular/router";
+import * as _ from "lodash";
+import * as Moment from "moment";
+import { LocationResourceService } from "../openmrs-api/location-resource.service";
+import { ClinicDashboardCacheService } from "src/app/clinic-dashboard/services/clinic-dashboard-cache.service";
+import { DepartmentProgramsConfigService } from "./../etl-api/department-programs-config.service";
+import { LocalStorageService } from "src/app/utils/local-storage.service";
 
 @Component({
-  selector: 'department-program-filter',
-  templateUrl: './department-program-filter.component.html',
-  styleUrls: ['./department-program-filter.component.css']
+  selector: "department-program-filter",
+  templateUrl: "./department-program-filter.component.html",
+  styleUrls: ["./department-program-filter.component.css"],
 })
-
-export class DepartmentProgramFilterComponent implements OnInit, OnDestroy, AfterViewInit {
-
+export class DepartmentProgramFilterComponent
+  implements OnInit, OnDestroy, AfterViewInit {
   public selectedProgram: string;
   public programs: Array<any> = [];
   public departmenProgramtConfig: any = [];
-  public currentDepartment = '';
-  public defaultLocation = '';
+  public currentDepartment = "";
+  public defaultLocation = "";
   public programVisitsConfig: any[];
   public selectedProgramType: any = [];
   public program: any = [];
@@ -36,49 +40,50 @@ export class DepartmentProgramFilterComponent implements OnInit, OnDestroy, Afte
   public departments: any = [];
   public showSelectedPrograms = true;
   public trackPrograms: any = [];
-  public selectedStartDate: string = Moment().startOf('month').format('YYYY-MM-DD');
-  public selectedEndDate: string = Moment().endOf('month').format('YYYY-MM-DD');
+  public selectedStartDate: string = Moment()
+    .startOf("month")
+    .format("YYYY-MM-DD");
+  public selectedEndDate: string = Moment().endOf("month").format("YYYY-MM-DD");
   public params: any = {
-    'startDate': this.selectedStartDate,
-    'endDate': this.selectedEndDate,
-    'locationUuids': [],
-    'programType': [],
-    'department': []
+    startDate: this.selectedStartDate,
+    endDate: this.selectedEndDate,
+    locationUuids: [],
+    programType: [],
+    department: [],
   };
   public dropdownSettings: any = {
-    'singleSelection': false,
-    'enableCheckAll': true,
-    'text': 'Select or enter to search',
-    'selectAllText': 'Select All',
-    'unSelectAllText': 'UnSelect All',
-    'enableSearchFilter': true
+    singleSelection: false,
+    enableCheckAll: true,
+    text: "Select or enter to search",
+    selectAllText: "Select All",
+    unSelectAllText: "UnSelect All",
+    enableSearchFilter: true,
   };
   public showFilters = true;
   public locationDropdownSettings: any = {
-    'enableCheckAll': false,
-    'singleSelection': false,
-    'text': 'Select or enter to search',
-    'selectAllText': 'Select All',
-    'unSelectAllText': 'UnSelect All',
-    'enableSearchFilter': true,
+    enableCheckAll: false,
+    singleSelection: false,
+    text: "Select or enter to search",
+    selectAllText: "Select All",
+    unSelectAllText: "UnSelect All",
+    enableSearchFilter: true,
   };
   public programDropdownSettings: any = {
-    'singleSelection': false,
-    'enableCheckAll': true,
-    'text': 'Select or enter to search',
-    'selectAllText': 'Select All',
-    'unSelectAllText': 'UnSelect All',
-    'enableSearchFilter': true,
-    'badgeShowLimit': 10
+    singleSelection: false,
+    enableCheckAll: true,
+    text: "Select or enter to search",
+    selectAllText: "Select All",
+    unSelectAllText: "UnSelect All",
+    enableSearchFilter: true,
+    badgeShowLimit: 10,
   };
   public countyDropdownSettings: any = {
-    'enableCheckAll': false,
-    'singleSelection': true,
-    'text': 'Select or enter to search',
-    'selectAllText': 'Select All',
-    'unSelectAllText': 'UnSelect All',
-    'enableSearchFilter': true,
-
+    enableCheckAll: false,
+    singleSelection: true,
+    text: "Select or enter to search",
+    selectAllText: "Select All",
+    unSelectAllText: "UnSelect All",
+    enableSearchFilter: true,
   };
   public loadingFilters = true;
   public locations: any = [];
@@ -90,8 +95,8 @@ export class DepartmentProgramFilterComponent implements OnInit, OnDestroy, Afte
   public selectedLocation: any = [];
   public selectedFiltersOkay = true;
   public errorMsg: any = {
-    'status': false,
-    'message': ''
+    status: false,
+    message: "",
   };
   public subscriptionsArray = [];
 
@@ -108,17 +113,15 @@ export class DepartmentProgramFilterComponent implements OnInit, OnDestroy, Afte
     private _clinicDashboardCacheService: ClinicDashboardCacheService,
     private localStorageService: LocalStorageService,
     private route: ActivatedRoute,
-    private router: Router) {
-
-  }
+    private router: Router
+  ) {}
 
   public ngOnInit() {
     this.showHideDepartment().then((success) => {
-    this.loadAllFilterParams().then((result) => {
-         this.loadingFilters = false;
-         this.route
-          .queryParams
-          .subscribe((params) => {
+      this.loadAllFilterParams().then((result) => {
+        this.loadingFilters = false;
+        this.route.queryParams.subscribe(
+          (params) => {
             if (params) {
               this.params = params;
               // cater for endpoints taking long to return data
@@ -126,122 +129,119 @@ export class DepartmentProgramFilterComponent implements OnInit, OnDestroy, Afte
                 this.loadFilterFromUrlParams(params);
               }, 1000);
             }
-          }, (error) => {
-            console.error('Error', error);
-          });
-          });
-
+          },
+          (error) => {
+            console.error("Error", error);
+          }
+        );
+      });
     });
-
   }
 
   public showHideDepartment() {
     return new Promise((resolve, reject) => {
-    const currentUrl = this.router.url;
-    let isClinicDashboard = -1;
-    if (currentUrl) {
-        isClinicDashboard = currentUrl.indexOf('clinic-dashboard');
-    }
-    if (isClinicDashboard === -1) {
+      const currentUrl = this.router.url;
+      let isClinicDashboard = -1;
+      if (currentUrl) {
+        isClinicDashboard = currentUrl.indexOf("clinic-dashboard");
+      }
+      if (isClinicDashboard === -1) {
         this.showDepartmentFilter = true;
-        this.getDepartmentConfig().then((success) => {
-        });
-    } else {
-       this.showDepartmentFilter = false;
-       this.getDepartmentConfig();
-       // if clinic dashboard do not show departments only programs
-       this.getDefaultDepartment();
-    }
+        this.getDepartmentConfig().then((success) => {});
+      } else {
+        this.showDepartmentFilter = false;
+        this.getDepartmentConfig();
+        // if clinic dashboard do not show departments only programs
+        this.getDefaultDepartment();
+      }
 
-    resolve('success');
-
-  });
-
+      resolve("success");
+    });
   }
 
   public getSelectedLocation() {
-    const sub = this._clinicDashboardCacheService.getCurrentClinic().subscribe((clinic) => {
-      if (clinic) {
-        this.defaultLocation = clinic;
-        const locations = this.loadFilterFromMap(clinic, this.locationMap);
-        this.location = locations;
-
-      }
-    });
+    const sub = this._clinicDashboardCacheService
+      .getCurrentClinic()
+      .subscribe((clinic) => {
+        if (clinic) {
+          this.defaultLocation = clinic;
+          const locations = this.loadFilterFromMap(clinic, this.locationMap);
+          this.location = locations;
+        }
+      });
 
     this.subscriptionsArray.push(sub);
-
-
   }
 
   public loadFilterFromUrlParams(params) {
     const newParams: any = {
-      'startDate': '',
-      'endDate': '',
-      'locationUuids': [],
-      'programType': [],
-
+      startDate: "",
+      endDate: "",
+      locationUuids: [],
+      programType: [],
     };
 
     if (params.endDate) {
-
-        if (params.locationUuids) {
-          this.location = [];
-          const locations = this.loadFilterFromMap(params.locationUuids, this.locationMap);
-          this.location = locations;
-          newParams.locationUuids = params.locationUuids;
-
-        } else {
-          newParams.locationUuids = [];
-        }
-        if (params.endDate) {
-          this.selectedEndDate = params.endDate;
-          newParams.endDate = this.params.endDate;
-        } else {
-          newParams.endDate = this.selectedEndDate;
-        }
-        if (params.department) {
-          this.department = [];
-          const departmentTypes = this.loadFilterFromMap(params.department, this.departmentMap);
-          this.department = departmentTypes;
-          let deptArray = [];
-          if (this.isString(params.department)) {
-              deptArray = (params.department).split(',');
-          } else {
-               deptArray = params.department;
-          }
-          this.getProgramsFromDeptArray(deptArray);
-
-        }
-        if (params.programType) {
-          this.program = [];
-          const programTypes = this.loadFilterFromMap(params.programType, this.programMap);
-          if (this.showSelectedPrograms) {
-            this.program = programTypes;
-          }
-          newParams.programType = params.programType;
-
-        } else {
-          newParams.programType = [];
-        }
-
-        this.emitParams(newParams);
-
+      if (params.locationUuids) {
+        this.location = [];
+        const locations = this.loadFilterFromMap(
+          params.locationUuids,
+          this.locationMap
+        );
+        this.location = locations;
+        newParams.locationUuids = params.locationUuids;
       } else {
-        // if no params is set load default location
-        this.getSelectedLocation();
+        newParams.locationUuids = [];
+      }
+      if (params.endDate) {
+        this.selectedEndDate = params.endDate;
+        newParams.endDate = this.params.endDate;
+      } else {
+        newParams.endDate = this.selectedEndDate;
+      }
+      if (params.department) {
+        this.department = [];
+        const departmentTypes = this.loadFilterFromMap(
+          params.department,
+          this.departmentMap
+        );
+        this.department = departmentTypes;
+        let deptArray = [];
+        if (this.isString(params.department)) {
+          deptArray = params.department.split(",");
+        } else {
+          deptArray = params.department;
+        }
+        this.getProgramsFromDeptArray(deptArray);
+      }
+      if (params.programType) {
+        this.program = [];
+        const programTypes = this.loadFilterFromMap(
+          params.programType,
+          this.programMap
+        );
+        if (this.showSelectedPrograms) {
+          this.program = programTypes;
+        }
+        newParams.programType = params.programType;
+      } else {
+        newParams.programType = [];
       }
 
+      this.emitParams(newParams);
+    } else {
+      // if no params is set load default location
+      this.getSelectedLocation();
+    }
   }
 
   public isString(value) {
-    if (typeof value === 'string') {
+    if (typeof value === "string") {
       return true;
     } else {
       return false;
     }
   }
-
 
   public loadFilterFromMap(values: any, map) {
     const filterArray = [];
@@ -253,97 +253,85 @@ export class DepartmentProgramFilterComponent implements OnInit, OnDestroy, Afte
         const selectedType = map.get(value);
         filterArray.push(selectedType);
       }
-
     }
     return filterArray;
-
   }
 
   public getDefaultDepartment() {
-
-    const defaultDepartment: any = JSON.parse(this.localStorageService.getItem('userDefaultDepartment'));
+    const defaultDepartment: any = JSON.parse(
+      this.localStorageService.getItem("userDefaultDepartment")
+    );
     if (defaultDepartment) {
-
       this.currentDepartment = defaultDepartment[0].itemName;
       this.getDepartmentPrograms(defaultDepartment[0].itemName);
-
     }
-
   }
 
   public getDepartmentPrograms(department) {
-
     const programs = [];
 
-    this._departmentProgramService.getDepartmentPrograms(department).pipe(
-      take(1))
+    this._departmentProgramService
+      .getDepartmentPrograms(department)
+      .pipe(take(1))
       .subscribe((result) => {
-          this.departmentPrograms = result;
-          this.programs = result.map((program: any) => {
-            const specificProgram = {
-              id: program.uuid,
-              itemName: program.name
-            };
-            this.programMap.set(program.uuid, specificProgram);
-            return specificProgram;
-          });
+        this.departmentPrograms = result;
+        this.programs = result.map((program: any) => {
+          const specificProgram = {
+            id: program.uuid,
+            itemName: program.name,
+          };
+          this.programMap.set(program.uuid, specificProgram);
+          return specificProgram;
+        });
       });
-
   }
 
-
   public getDepartmentConfig() {
-
     return new Promise((resolve, reject) => {
-      this.departmentProgramService.getDartmentProgramsConfig().pipe(
-        take(1)).subscribe((results) => {
+      this.departmentProgramService
+        .getDartmentProgramsConfig()
+        .pipe(take(1))
+        .subscribe((results) => {
           if (results) {
             this.departmenProgramtConfig = results;
             this.loadAllDepartments();
-            resolve('sucesss');
+            resolve("sucesss");
           }
         });
     });
-
   }
 
   public loadAllDepartments() {
-
     const departments = [];
 
     _.each(this.departmenProgramtConfig, (department: any, index) => {
-
-       const specificDept = {
+      const specificDept = {
         itemName: department.name,
-        id: index
+        id: index,
       };
-       departments.push(specificDept);
-       this.departmentMap.set(index, specificDept);
-  });
+      departments.push(specificDept);
+      this.departmentMap.set(index, specificDept);
+    });
 
-  this.departments = departments;
-
+    this.departments = departments;
   }
 
   public loadProgramsAndDepartments() {
-
-
     const departments = [];
     const programs = [];
 
     _.each(this.departmenProgramtConfig, (department: any, index) => {
-        if (department.name === this.currentDepartment) {
-
-         const specificDept = {
+      if (department.name === this.currentDepartment) {
+        const specificDept = {
           itemName: department.name,
-          id: index
+          id: index,
         };
-         departments.push(specificDept);
-         this.departmentMap.set(index, specificDept);
+        departments.push(specificDept);
+        this.departmentMap.set(index, specificDept);
         _.each(department.programs, (deptProgram: any) => {
           const specificProgram = {
-              itemName : deptProgram.name,
-              id : deptProgram.uuid
+            itemName: deptProgram.name,
+            id: deptProgram.uuid,
           };
           programs.push(deptProgram.uuid, specificProgram);
           this.programMap.set(deptProgram.uuid, specificProgram);
@@ -353,53 +341,47 @@ export class DepartmentProgramFilterComponent implements OnInit, OnDestroy, Afte
 
     this.programs = programs;
     this.departments = departments;
-
   }
 
   public loadAllFilterParams() {
-
     return new Promise((resolve, reject) => {
-         this.getAllLocations().then((success) => {
-          resolve('Success');
-         });
+      this.getAllLocations().then((success) => {
+        resolve("Success");
+      });
     });
-
   }
 
   public getAllLocations() {
-
     return new Promise((resolve, reject) => {
-
-      this._locationResourceService.getLocations().pipe(
-        take(1)).subscribe((location) => {
+      this._locationResourceService
+        .getLocations()
+        .pipe(take(1))
+        .subscribe((location) => {
           if (location) {
             this.setLocations(location);
-            resolve('success');
+            resolve("success");
           }
         });
-
-      });
-
+    });
   }
 
   public getProgramsFromDeptArray(departments) {
     const programs = [];
     _.each(this.departmenProgramtConfig, (department: any, index) => {
-          const departmentProgs = department.programs;
-          _.each(departmentProgs, (program) => {
-              const specificProgram = {
-                'itemName': program.name,
-                'id': program.uuid
-              };
-              if (departments.indexOf(index) !== -1 ) {
-                  programs.push(specificProgram);
-              }
-              this.programMap.set(program.uuid, specificProgram);
-          });
+      const departmentProgs = department.programs;
+      _.each(departmentProgs, (program) => {
+        const specificProgram = {
+          itemName: program.name,
+          id: program.uuid,
+        };
+        if (departments.indexOf(index) !== -1) {
+          programs.push(specificProgram);
+        }
+        this.programMap.set(program.uuid, specificProgram);
+      });
     });
 
     this.programs = programs;
-
   }
 
   public setLocations(locations) {
@@ -408,9 +390,15 @@ export class DepartmentProgramFilterComponent implements OnInit, OnDestroy, Afte
     const trackCounty: any = [];
     let countyNo = 1;
     _.each(locations, (location: any) => {
-      const specificCountyObj: any = { 'id': countyNo, 'itemName': location.stateProvince };
-      const specificLocation: any = { 'id': location.uuid, 'itemName': location.display };
-      if (location.stateProvince !== '') {
+      const specificCountyObj: any = {
+        id: countyNo,
+        itemName: location.stateProvince,
+      };
+      const specificLocation: any = {
+        id: location.uuid,
+        itemName: location.display,
+      };
+      if (location.stateProvince !== "") {
         this.locationMap.set(location.uuid, specificLocation);
         this.setCounties(specificCountyObj.itemName, specificLocation);
         locationsArray.push(specificLocation);
@@ -419,7 +407,6 @@ export class DepartmentProgramFilterComponent implements OnInit, OnDestroy, Afte
           trackCounty.push(specificCountyObj.itemName);
         }
         countyNo++;
-
       }
     });
     this.locations = locationsArray;
@@ -428,7 +415,7 @@ export class DepartmentProgramFilterComponent implements OnInit, OnDestroy, Afte
 
   public setCounties(county, location) {
     const countySavedObj: any = this.countyMap.get(county);
-    if (typeof countySavedObj === 'undefined') {
+    if (typeof countySavedObj === "undefined") {
       const countyLocations = [];
       countyLocations.push(location);
       this.countyMap.set(county, countyLocations);
@@ -437,12 +424,10 @@ export class DepartmentProgramFilterComponent implements OnInit, OnDestroy, Afte
       countyLocations.push(location);
       this.countyMap.set(county, countyLocations);
     }
-
   }
 
   public emitParams(params) {
     this.filterSelected.emit(params);
-
   }
   public setFilter() {
     this.filterSet = true;
@@ -456,9 +441,8 @@ export class DepartmentProgramFilterComponent implements OnInit, OnDestroy, Afte
   }
 
   public setParams() {
-
-    const startDate = Moment(this.selectedStartDate).format('YYYY-MM-DD');
-    const endDate = Moment(this.selectedEndDate).format('YYYY-MM-DD');
+    const startDate = Moment(this.selectedStartDate).format("YYYY-MM-DD");
+    const endDate = Moment(this.selectedEndDate).format("YYYY-MM-DD");
     const programUuids = [];
     const departmentUuid = [];
 
@@ -470,7 +454,6 @@ export class DepartmentProgramFilterComponent implements OnInit, OnDestroy, Afte
       _.each(this.department, (department: any) => {
         departmentUuid.push(department.id);
       });
-
     } else if (this.department.length > 0 && this.program.length > 0) {
       this.showSelectedPrograms = true;
       _.each(this.program, (program: any) => {
@@ -491,7 +474,6 @@ export class DepartmentProgramFilterComponent implements OnInit, OnDestroy, Afte
       });
     } else {
       this.showSelectedPrograms = false;
-
     }
     // get location ids
     const locationUuids = [];
@@ -500,25 +482,23 @@ export class DepartmentProgramFilterComponent implements OnInit, OnDestroy, Afte
     });
 
     this.params = {
-      'startDate': startDate,
-      'endDate': endDate,
-      'locationUuids': locationUuids,
-      'programType': programUuids
-
+      startDate: startDate,
+      endDate: endDate,
+      locationUuids: locationUuids,
+      programType: programUuids,
     };
     // only add department if it has been selected
     if (departmentUuid.length > 0) {
-          this.params['department'] = departmentUuid;
+      this.params["department"] = departmentUuid;
     }
 
     this.passParamsToUrl(this.params);
-
   }
 
   public validateFilterSelected() {
-    this.errorMsg = { 'status': false, 'message': '' };
+    this.errorMsg = { status: false, message: "" };
     if (this.selectedEndDate === null) {
-      this.selectedEndDate = Moment().endOf('month').format('YYYY-MM-DD');
+      this.selectedEndDate = Moment().endOf("month").format("YYYY-MM-DD");
     }
     return true;
   }
@@ -556,7 +536,6 @@ export class DepartmentProgramFilterComponent implements OnInit, OnDestroy, Afte
   }
   public programDeSelect($event) {
     this.filterSet = false;
-
   }
   public selectCounty($event) {
     this.filterSet = false;
@@ -573,36 +552,29 @@ export class DepartmentProgramFilterComponent implements OnInit, OnDestroy, Afte
   public countyDeselect($event) {
     this.removeCountyLocations($event.itemName);
     this.multipleLocationsSelected = false;
-
   }
   public removeCountyLocations(county) {
-
-    const countyLocations = (this.countyMap.get(county)).reverse();
+    const countyLocations = this.countyMap.get(county).reverse();
     _.each(countyLocations, (countyLocation: any) => {
       const locationId = countyLocation.id;
       _.each(this.location, (location: any, index) => {
         const selectedLocationId = location.id;
         if (selectedLocationId === locationId) {
-
           this.location.splice(index, 1);
         }
-
       });
     });
-
   }
   public selectLocation($event) {
     this.filterSet = false;
     this.multipleLocationsSelected = true;
     this.county = [];
-
   }
   public locationDeselect($event) {
     this.filterSet = false;
     if (this.location.length === 0) {
       this.multipleLocationsSelected = false;
     }
-
   }
   public onSelectAllLocations($event) {
     this.filterSet = false;
@@ -617,28 +589,26 @@ export class DepartmentProgramFilterComponent implements OnInit, OnDestroy, Afte
     this.initializeParams();
     this.department = [];
     this.errorMsg = {
-       'status': false,
-       'message': ''
+      status: false,
+      message: "",
     };
     this.program = [];
     this.county = [];
     this.location = [];
     this.filterReset.emit(true);
     this.filterSet = false;
-
   }
   public initializeParams() {
-    this.selectedStartDate = Moment().startOf('month').format('YYYY-MM-DD');
-    this.selectedEndDate = Moment().endOf('month').format('YYYY-MM-DD');
+    this.selectedStartDate = Moment().startOf("month").format("YYYY-MM-DD");
+    this.selectedEndDate = Moment().endOf("month").format("YYYY-MM-DD");
     this.selectedProgramType = [];
     this.selectedProgramType = [];
     this.params = {
-      'startDate': this.selectedStartDate,
-      'endDate': this.selectedEndDate,
-      'locationUuids': [],
-      'programType': []
+      startDate: this.selectedStartDate,
+      endDate: this.selectedEndDate,
+      locationUuids: [],
+      programType: [],
     };
-
   }
   public resetLocationSelected() {
     this.multipleLocationsSelected = false;
@@ -650,7 +620,6 @@ export class DepartmentProgramFilterComponent implements OnInit, OnDestroy, Afte
   }
 
   public departmentDeselect($event) {
-
     const departmentUuid = $event.id;
     const departmentPrograms = [];
 
@@ -667,11 +636,9 @@ export class DepartmentProgramFilterComponent implements OnInit, OnDestroy, Afte
     this.filterSet = false;
 
     this.cd.detectChanges();
-
   }
 
   public removeProgramTypes(programUuids) {
-
     for (let i = this.programs.length - 1; i >= 0; i--) {
       const programUuid = this.programs[i].id;
       if (_.includes(programUuids, programUuid) === true) {
@@ -687,21 +654,18 @@ export class DepartmentProgramFilterComponent implements OnInit, OnDestroy, Afte
         this.program.splice(i, 1);
       }
     }
-
   }
 
   public passParamsToUrl(params) {
-
     const navigationData = {
       queryParams: params,
-      replaceUrl: true
+      replaceUrl: true,
     };
 
     const currentUrl = this.router.url;
-    const routeUrl = currentUrl.split('?')[0];
+    const routeUrl = currentUrl.split("?")[0];
     this.router.navigate([routeUrl], navigationData);
     this.filterSet = false;
-
   }
 
   public getPrograms(departmentSelected) {
@@ -711,18 +675,15 @@ export class DepartmentProgramFilterComponent implements OnInit, OnDestroy, Afte
       if (department.name === departmentSelected.itemName) {
         const deptPrograms = department.programs;
         _.each(deptPrograms, (program: any) => {
-          const specificProgram = { 'id': program.uuid, 'itemName': program.name };
+          const specificProgram = { id: program.uuid, itemName: program.name };
           if (_.includes(this.trackPrograms, program.uuid) === false) {
             this.programs.push(specificProgram);
             this.trackPrograms.push(program.uuid);
           }
         });
-
       }
-
     });
   }
-
 
   public ngOnDestroy() {
     this.subscriptionsArray.forEach((subscription) => {
@@ -730,12 +691,7 @@ export class DepartmentProgramFilterComponent implements OnInit, OnDestroy, Afte
     });
   }
 
-  public onSelectAllPrograms($event) {
+  public onSelectAllPrograms($event) {}
 
-  }
-
-  public ngAfterViewInit() {
-
-  }
-
+  public ngAfterViewInit() {}
 }

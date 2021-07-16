@@ -1,5 +1,5 @@
-import { VitalViewInterface } from './vital-view.interface';
-import { Vital } from '../../../models/vital.model';
+import { VitalViewInterface } from "./vital-view.interface";
+import { Vital } from "../../../models/vital.model";
 
 export class VitalView implements VitalViewInterface {
   public label: string;

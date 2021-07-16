@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { ChartAbstractionPatientlistComponent } from './chart-abstraction-patientlist.component';
+import { ChartAbstractionPatientlistComponent } from "./chart-abstraction-patientlist.component";
 
-describe('ChartAbstractionPatientlistComponent', () => {
+describe("ChartAbstractionPatientlistComponent", () => {
   let component: ChartAbstractionPatientlistComponent;
   let fixture: ComponentFixture<ChartAbstractionPatientlistComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ChartAbstractionPatientlistComponent ]
-    })
-    .compileComponents();
+      declarations: [ChartAbstractionPatientlistComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -18,5 +17,4 @@ describe('ChartAbstractionPatientlistComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
-
 });

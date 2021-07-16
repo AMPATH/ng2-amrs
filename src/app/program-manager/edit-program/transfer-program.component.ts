@@ -1,20 +1,22 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import { Router } from "@angular/router";
 
-import * as _ from 'lodash';
-import { Patient } from '../../models/patient.model';
-import { ProgramManagerService } from '../program-manager.service';
-import { PatientResourceService } from '../../openmrs-api/patient-resource.service';
-import { Observable, of } from 'rxjs';
+import * as _ from "lodash";
+import { Patient } from "../../models/patient.model";
+import { ProgramManagerService } from "../program-manager.service";
+import { PatientResourceService } from "../../openmrs-api/patient-resource.service";
+import { Observable, of } from "rxjs";
 @Component({
-  selector: 'program-transfer',
-  templateUrl: './transfer-program.component.html',
+  selector: "program-transfer",
+  templateUrl: "./transfer-program.component.html",
   styles: [
-      `.panel.panel-info {
-      border: 1px solid #bce8f1;
-      margin-top: 12px;
-    }`
-  ]
+    `
+      .panel.panel-info {
+        border: 1px solid #bce8f1;
+        margin-top: 12px;
+      }
+    `,
+  ],
 })
 export class TransferProgramComponent implements OnInit {
   @Input() public programs: any[] = [];
@@ -45,7 +47,9 @@ export class TransferProgramComponent implements OnInit {
     return this._formsFilled;
   }
 
-  @Output() public programTransferComplete: EventEmitter<any> = new EventEmitter(null);
+  @Output() public programTransferComplete: EventEmitter<
+    any
+  > = new EventEmitter(null);
   // tslint:disable-next-line:no-output-on-prefix
   @Output() public onBack: EventEmitter<any> = new EventEmitter(null);
   public transferring = false;
@@ -53,22 +57,25 @@ export class TransferProgramComponent implements OnInit {
   public showForms = false;
   public exitEncounters: string[] = [];
   public hasError = false;
-  public message = '';
+  public message = "";
   public transferLocation;
   private _formsFilled = false;
   private _patient: Patient;
 
-  constructor(private programManagerService: ProgramManagerService,
-              private patientResourceService: PatientResourceService,
-              private router: Router) {
-  }
+  constructor(
+    private programManagerService: ProgramManagerService,
+    private patientResourceService: PatientResourceService,
+    private router: Router
+  ) {}
 
-  public ngOnInit() {
-  }
+  public ngOnInit() {}
 
   public showExitForms() {
     _.each(this.programs, (program) => {
-      if (program.stateChangeEncounterTypes && program.stateChangeEncounterTypes.transfer) {
+      if (
+        program.stateChangeEncounterTypes &&
+        program.stateChangeEncounterTypes.transfer
+      ) {
         // at the moment we only have one form. Pick the first
         const form: any = _.first(program.stateChangeEncounterTypes.transfer);
         this.exitEncounters.push(form.uuid);
@@ -80,7 +87,6 @@ export class TransferProgramComponent implements OnInit {
     } else {
       this.completeProgramTransfer();
     }
-
   }
 
   public completeProgramTransfer() {
@@ -88,40 +94,54 @@ export class TransferProgramComponent implements OnInit {
     this.transferring = true;
     this.programs = _.map(this.programs, (program) => {
       _.merge(program, {
-        dateCompleted: new Date()
+        dateCompleted: new Date(),
       });
       return program;
     });
 
-    this.programManagerService.editProgramEnrollments('transfer', this.patient,
-      this.programs, this.location ? this.location.value : null).subscribe((programs) => {
-      if (programs) {
-        this.updatePreferedIdentifier(!this.location).subscribe((success) => {
-          this.transferring = false;
-          this.hasError = false;
-          this.formsFilled = false;
-          this.programTransferComplete.next(programs);
-        }, (err) => {
-          this.showError('Could not remove preferred patient identifier');
+    this.programManagerService
+      .editProgramEnrollments(
+        "transfer",
+        this.patient,
+        this.programs,
+        this.location ? this.location.value : null
+      )
+      .subscribe(
+        (programs) => {
+          if (programs) {
+            this.updatePreferedIdentifier(!this.location).subscribe(
+              (success) => {
+                this.transferring = false;
+                this.hasError = false;
+                this.formsFilled = false;
+                this.programTransferComplete.next(programs);
+              },
+              (err) => {
+                this.showError("Could not remove preferred patient identifier");
+                console.log(err);
+              }
+            );
+          } else {
+            this.showError("Could not update patient programs");
+          }
+        },
+        (err) => {
+          this.showError("Could not update patient programs");
           console.log(err);
-        });
-      } else {
-        this.showError('Could not update patient programs');
-      }
-    }, (err) => {
-      this.showError('Could not update patient programs');
-      console.log(err);
-    });
+        }
+      );
   }
 
   public fillEnrollmentForm(form) {
-    const _route = '/patient-dashboard/patient/' + this.patient.uuid
-      + '/general/general/formentry';
+    const _route =
+      "/patient-dashboard/patient/" +
+      this.patient.uuid +
+      "/general/general/formentry";
     const routeOptions = {
       queryParams: {
         step: 3,
-        parentComponent: 'programManager:edit'
-      }
+        parentComponent: "programManager:edit",
+      },
     };
     this.router.navigate([_route, form.uuid], routeOptions);
   }
@@ -144,14 +164,19 @@ export class TransferProgramComponent implements OnInit {
 
   private updatePreferedIdentifier(remove?: boolean): Observable<any> {
     // get preferred identifier
-    const preferredIdentifier = _.find(this.patient.openmrsModel.identifiers, 'preferred');
+    const preferredIdentifier = _.find(
+      this.patient.openmrsModel.identifiers,
+      "preferred"
+    );
     if (preferredIdentifier) {
       const personIdentifierPayload: any = {
         uuid: preferredIdentifier.uuid,
         identifier: preferredIdentifier.identifier, // patientIdentifier
         identifierType: preferredIdentifier.identifierType.uuid, // identifierType
         preferred: true,
-        location: this.location ? this.location.value : preferredIdentifier.location.uuid // location
+        location: this.location
+          ? this.location.value
+          : preferredIdentifier.location.uuid, // location
       };
       if (remove) {
         _.merge(personIdentifierPayload, {
@@ -159,19 +184,23 @@ export class TransferProgramComponent implements OnInit {
         });
       }
 
-      return this.patientResourceService.saveUpdatePatientIdentifier(this.patient.person.uuid,
-        personIdentifierPayload.uuid, personIdentifierPayload).take(1);
+      return this.patientResourceService
+        .saveUpdatePatientIdentifier(
+          this.patient.person.uuid,
+          personIdentifierPayload.uuid,
+          personIdentifierPayload
+        )
+        .take(1);
     } else {
       return of({});
     }
   }
 
   private preSelectLocation() {
-    const transferLocation = localStorage.getItem('transferLocation');
+    const transferLocation = localStorage.getItem("transferLocation");
     if (transferLocation) {
       this.transferLocation = transferLocation;
-      this.location = {value: transferLocation};
+      this.location = { value: transferLocation };
     }
   }
-
 }

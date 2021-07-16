@@ -1,23 +1,51 @@
 <div *ngIf="status">
   <div *ngIf="!status.successful">
-    <span class="text-danger"><strong><i class="fa fa-info"></i> There was an error trying to refer patient to differentiated care.</strong></span>
+    <span class="text-danger"
+      ><strong
+        ><i class="fa fa-info"></i> There was an error trying to refer patient
+        to differentiated care.</strong
+      ></span
+    >
   </div>
-  <div *ngIf="(status.successful && !status.alreadyReferred)">
-    <span class="text-success"><strong> <i class="fa fa-check" aria-hidden="true"></i> Referal to differentiated care was successful.</strong></span>
+  <div *ngIf="status.successful && !status.alreadyReferred">
+    <span class="text-success"
+      ><strong>
+        <i class="fa fa-check" aria-hidden="true"></i> Referal to differentiated
+        care was successful.</strong
+      ></span
+    >
   </div>
-  <div *ngIf="(status.successful && status.alreadyReferred)">
-    <span class="text-success"><strong> <i class="fa fa-check" aria-hidden="true"></i> Patient is already enrolled in a differentiated care program.</strong></span>
+  <div *ngIf="status.successful && status.alreadyReferred">
+    <span class="text-success"
+      ><strong>
+        <i class="fa fa-check" aria-hidden="true"></i> Patient is already
+        enrolled in a differentiated care program.</strong
+      ></span
+    >
   </div>
 
-  <div style="margin-left: 20px;" *ngIf="(status.encounterCreation.done || status.otherHivProgUnenrollment.done || status.diffCareProgramEnrollment.done)">
+  <div
+    style="margin-left: 20px"
+    *ngIf="
+      status.encounterCreation.done ||
+      status.otherHivProgUnenrollment.done ||
+      status.diffCareProgramEnrollment.done
+    "
+  >
     <div *ngIf="status.diffCareProgramEnrollment.done">
       <strong>Differentiated Care Program Enrollment</strong>
       <div class="left-tabbed">
         <div class="text-danger" *ngIf="status.diffCareProgramEnrollment.error">
-            <i class="fa fa-times" aria-hidden="true"></i> Error enrolling patient into the differentiated care program. Please enroll patient to differentiated care program.
+          <i class="fa fa-times" aria-hidden="true"></i> Error enrolling patient
+          into the differentiated care program. Please enroll patient to
+          differentiated care program.
         </div>
-        <div class="text-success" *ngIf="!(status.diffCareProgramEnrollment.error)">
-          <i class="fa fa-check-square" aria-hidden="true"></i> Enrolled patient into differentiated care program.
+        <div
+          class="text-success"
+          *ngIf="!status.diffCareProgramEnrollment.error"
+        >
+          <i class="fa fa-check-square" aria-hidden="true"></i> Enrolled patient
+          into differentiated care program.
         </div>
       </div>
     </div>
@@ -25,10 +53,12 @@
       <strong>Differentiated Care Encounter Creation</strong>
       <div class="left-tabbed">
         <div class="text-danger" *ngIf="status.encounterCreation.error">
-            <i class="fa fa-times" aria-hidden="true"></i> Error creating differentiated care encounter with RTC date.
+          <i class="fa fa-times" aria-hidden="true"></i> Error creating
+          differentiated care encounter with RTC date.
         </div>
-        <div class="text-success" *ngIf="!(status.encounterCreation.error)">
-          <i class="fa fa-check-square" aria-hidden="true"></i> Created a differentiated care encounter with selected RTC date.
+        <div class="text-success" *ngIf="!status.encounterCreation.error">
+          <i class="fa fa-check-square" aria-hidden="true"></i> Created a
+          differentiated care encounter with selected RTC date.
         </div>
       </div>
     </div>
@@ -36,10 +66,16 @@
       <strong>Un-enrolling from other HIV-related Programs</strong>
       <div class="left-tabbed">
         <div class="text-danger" *ngIf="status.otherHivProgUnenrollment.error">
-            <i class="fa fa-times" aria-hidden="true"></i> Error unenrolling patient from other HIV-related programs. Please unenroll patients from other programs.
+          <i class="fa fa-times" aria-hidden="true"></i> Error unenrolling
+          patient from other HIV-related programs. Please unenroll patients from
+          other programs.
         </div>
-        <div class="text-success" *ngIf="!(status.otherHivProgUnenrollment.error)">
-          <i class="fa fa-check-square" aria-hidden="true"></i> Un-enrolled patient from other HIV-related programs.
+        <div
+          class="text-success"
+          *ngIf="!status.otherHivProgUnenrollment.error"
+        >
+          <i class="fa fa-check-square" aria-hidden="true"></i> Un-enrolled
+          patient from other HIV-related programs.
         </div>
       </div>
     </div>

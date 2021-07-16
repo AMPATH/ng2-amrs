@@ -1,20 +1,20 @@
-import { take } from 'rxjs/operators';
-import { Component, Output, OnInit, EventEmitter, Input } from '@angular/core';
-import { OrderResourceService } from '../openmrs-api/order-resource.service';
+import { take } from "rxjs/operators";
+import { Component, Output, OnInit, EventEmitter, Input } from "@angular/core";
+import { OrderResourceService } from "../openmrs-api/order-resource.service";
 
 @Component({
-  selector: 'lab-order-search',
-  templateUrl: './lab-order-search.component.html',
-  styleUrls: ['./lab-order-search.component.css']
+  selector: "lab-order-search",
+  templateUrl: "./lab-order-search.component.html",
+  styleUrls: ["./lab-order-search.component.css"],
 })
 export class LabOrderSearchComponent implements OnInit {
   // tslint:disable-next-line:no-output-on-prefix
   @Output() public onOrderRecieved = new EventEmitter<any>();
   // tslint:disable-next-line:no-output-on-prefix
   @Output() public onReset = new EventEmitter<any>();
-  public orderId = '';
+  public orderId = "";
   public isResetButton = true;
-  public adjustedInputMargin = '240px';
+  public adjustedInputMargin = "240px";
   public isLoading = false;
   public hasError = false;
   public orderDeleted = false;
@@ -24,7 +24,7 @@ export class LabOrderSearchComponent implements OnInit {
   @Input()
   set reset(value) {
     if (value === true && this.orderId.length > 0) {
-      this.orderId = '';
+      this.orderId = "";
     }
     this._reset = value;
   }
@@ -36,22 +36,22 @@ export class LabOrderSearchComponent implements OnInit {
   private hasBeenSearched = false;
 
   private customOrderObjectDefinition: string =
-    'custom:(display,uuid,orderNumber,voided,' +
-    'accessionNumber,orderReason,orderReasonNonCoded,urgency,action,commentToFulfiller,' +
-    'dateActivated,instructions,orderer:default,encounter:full,patient:(uuid,display,' +
-    'identifiers:(identifier,uuid,preferred,' +
-    'identifierType:(uuid,name,format,formatDescription,validator)),' +
-    'person:(uuid,display,gender,birthdate,dead,age,deathDate,' +
-    'causeOfDeath,preferredName:(uuid,preferred,givenName,middleName,familyName),' +
-    'attributes,preferredAddress:(uuid,preferred,address1,address2,cityVillage,' +
-    'stateProvince,country,postalCode,countyDistrict,address3,address4,address5,' +
-    'address6))),concept:ref)';
+    "custom:(display,uuid,orderNumber,voided," +
+    "accessionNumber,orderReason,orderReasonNonCoded,urgency,action,commentToFulfiller," +
+    "dateActivated,instructions,orderer:default,encounter:full,patient:(uuid,display," +
+    "identifiers:(identifier,uuid,preferred," +
+    "identifierType:(uuid,name,format,formatDescription,validator))," +
+    "person:(uuid,display,gender,birthdate,dead,age,deathDate," +
+    "causeOfDeath,preferredName:(uuid,preferred,givenName,middleName,familyName)," +
+    "attributes,preferredAddress:(uuid,preferred,address1,address2,cityVillage," +
+    "stateProvince,country,postalCode,countyDistrict,address3,address4,address5," +
+    "address6))),concept:ref)";
 
   constructor(private orderResourceService: OrderResourceService) {}
 
   public ngOnInit() {
     if (window.innerWidth <= 768) {
-      this.adjustedInputMargin = '0';
+      this.adjustedInputMargin = "0";
     }
   }
 
@@ -64,7 +64,7 @@ export class LabOrderSearchComponent implements OnInit {
   public onPaste(event) {
     // detect the end of barcode reading
     const search = event.target.value;
-    if (search.substr(-1) === '$') {
+    if (search.substr(-1) === "$") {
       if (!this.hasBeenSearched) {
         this.orderId = this.formatOrderId(search);
         this.searchOrderId();
@@ -73,7 +73,7 @@ export class LabOrderSearchComponent implements OnInit {
   }
 
   public formatOrderId(value: string) {
-    return value.replace('$', '');
+    return value.replace("$", "");
   }
 
   public onValueChange(value) {
@@ -85,7 +85,7 @@ export class LabOrderSearchComponent implements OnInit {
 
   public searchOrderId() {
     if (window.innerWidth > 768) {
-      this.adjustedInputMargin = '267px';
+      this.adjustedInputMargin = "267px";
     }
     this.isResetButton = false;
     this.hasBeenSearched = true;
@@ -121,7 +121,7 @@ export class LabOrderSearchComponent implements OnInit {
 
   public resetInputMargin() {
     if (window.innerWidth > 768) {
-      this.adjustedInputMargin = '240px';
+      this.adjustedInputMargin = "240px";
     }
   }
 
@@ -130,7 +130,7 @@ export class LabOrderSearchComponent implements OnInit {
   }
 
   public resetSearch() {
-    this.orderId = '';
+    this.orderId = "";
     this.isResetButton = false;
     this.isLoading = false;
     this.hasError = false;

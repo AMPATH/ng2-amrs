@@ -1,14 +1,14 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
-import { PatientService } from '../../services/patient.service';
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { AppFeatureAnalytics } from "../../../shared/app-analytics/app-feature-analytics.service";
+import { PatientService } from "../../services/patient.service";
 
-import { Patient } from '../../../models/patient.model';
-import { Subscription } from 'rxjs';
+import { Patient } from "../../../models/patient.model";
+import { Subscription } from "rxjs";
 
 @Component({
-  selector: 'app-patient-info',
-  templateUrl: './patient-info.component.html',
-  styleUrls: ['./patient-info.component.css']
+  selector: "app-patient-info",
+  templateUrl: "./patient-info.component.html",
+  styleUrls: ["./patient-info.component.css"],
 })
 export class PatientInfoComponent implements OnInit, OnDestroy {
   public patient: Patient;
@@ -29,9 +29,9 @@ export class PatientInfoComponent implements OnInit, OnDestroy {
       }
     );
     this.appFeatureAnalytics.trackEvent(
-      'Patient Dashboard',
-      'Patient Info Loaded',
-      'ngOnInit'
+      "Patient Dashboard",
+      "Patient Info Loaded",
+      "ngOnInit"
     );
     this.subs.push(patientSub);
   }
@@ -43,5 +43,4 @@ export class PatientInfoComponent implements OnInit, OnDestroy {
       });
     }
   }
-
 }

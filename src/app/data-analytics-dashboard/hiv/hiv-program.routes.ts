@@ -1,138 +1,117 @@
-import { ModuleWithProviders } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { ModuleWithProviders } from "@angular/core";
+import { Routes, RouterModule } from "@angular/router";
 
-import {
-  HivSummaryIndicatorComponent
-} from './hiv-summary-indicators/hiv-summary-indicator.component';
-import {
-  HivSummaryIndicatorsPatientListComponent
-} from '../../hiv-care-lib/hiv-summary-indicators/patient-list.component';
-import {
-  HivCareComparativeComponent
-} from './hiv-visualization/hiv-care-overview.component';
-import {
-  VisualizationPatientListComponent
-} from '../../hiv-care-lib/hiv-visualization/visualization-patient-list.component';
-import {
-  AdminDashboardClinicFlowComponent
-} from './clinic-flow/admin-dashboard-clinic-flow';
-import {
-  HivCareComparativeAnalyticsComponent
-} from './hiv-data-visualization/hiv-overview-visualization';
-import {
-  HivSummaryIndicatorsComponent
-} from './hiv-summary-indicators/hiv-summary-indicators';
-import { DataAnalyticsDashboardComponent } from '../data-analytics.component';
-import { DataAnalyticsDashboardGuard } from '../data-analytics-guard';
-import {
-  HivSummaryMonthlyIndicatorsComponent
-} from './hiv-summary-monthly-indicators/hiv-summary-monthly-indicators';
-import {
-  HivMonthlySummaryIndicatorsPatientListComponent
-} from '../../hiv-care-lib/hiv-monthly-summary-indicators/patient-list.component';
+import { HivSummaryIndicatorComponent } from "./hiv-summary-indicators/hiv-summary-indicator.component";
+import { HivSummaryIndicatorsPatientListComponent } from "../../hiv-care-lib/hiv-summary-indicators/patient-list.component";
+import { HivCareComparativeComponent } from "./hiv-visualization/hiv-care-overview.component";
+import { VisualizationPatientListComponent } from "../../hiv-care-lib/hiv-visualization/visualization-patient-list.component";
+import { AdminDashboardClinicFlowComponent } from "./clinic-flow/admin-dashboard-clinic-flow";
+import { HivCareComparativeAnalyticsComponent } from "./hiv-data-visualization/hiv-overview-visualization";
+import { HivSummaryIndicatorsComponent } from "./hiv-summary-indicators/hiv-summary-indicators";
+import { DataAnalyticsDashboardComponent } from "../data-analytics.component";
+import { DataAnalyticsDashboardGuard } from "../data-analytics-guard";
+import { HivSummaryMonthlyIndicatorsComponent } from "./hiv-summary-monthly-indicators/hiv-summary-monthly-indicators";
+import { HivMonthlySummaryIndicatorsPatientListComponent } from "../../hiv-care-lib/hiv-monthly-summary-indicators/patient-list.component";
 
-import {
-  Moh731ReportComponent
-} from './moh-731/moh-731-report.component';
+import { Moh731ReportComponent } from "./moh-731/moh-731-report.component";
 
-import {
-  Moh731MonthlyVizComponent
-} from './moh-731-monthly-viz/moh-731-monthly-viz.component';
+import { Moh731MonthlyVizComponent } from "./moh-731-monthly-viz/moh-731-monthly-viz.component";
 
-import {
-  DashboardsViewerComponent
-} from '../../kibana-lib';
+import { DashboardsViewerComponent } from "../../kibana-lib";
 
 const routes: Routes = [
   {
-    path: '',
+    path: "",
     children: [
       {
-        path: '', component: DataAnalyticsDashboardComponent,
-        canActivate: [
-          DataAnalyticsDashboardGuard
-        ],
-        canDeactivate: [
-          DataAnalyticsDashboardGuard
-        ],
+        path: "",
+        component: DataAnalyticsDashboardComponent,
+        canActivate: [DataAnalyticsDashboardGuard],
+        canDeactivate: [DataAnalyticsDashboardGuard],
         children: [
           {
-            path: '', redirectTo: 'hiv-comparative-chart-analytics', pathMatch: 'full'
+            path: "",
+            redirectTo: "hiv-comparative-chart-analytics",
+            pathMatch: "full",
           },
           {
-            path: 'clinic-flow', component: AdminDashboardClinicFlowComponent
+            path: "clinic-flow",
+            component: AdminDashboardClinicFlowComponent,
           },
           {
-            path: 'hiv-comparative-chart-analytics',
+            path: "hiv-comparative-chart-analytics",
             children: [
               {
-                path: '',
-                component: HivCareComparativeAnalyticsComponent
+                path: "",
+                component: HivCareComparativeAnalyticsComponent,
               },
               {
-                path: 'patient-list/:report/:indicator/:period',
-                component: VisualizationPatientListComponent
-              }
-            ]
+                path: "patient-list/:report/:indicator/:period",
+                component: VisualizationPatientListComponent,
+              },
+            ],
           },
           {
-            path: 'hiv-summary-indicator-report',
+            path: "hiv-summary-indicator-report",
             children: [
               {
-                path: '',
-                component: HivSummaryIndicatorsComponent
+                path: "",
+                component: HivSummaryIndicatorsComponent,
               },
               {
-                path: 'patient-list/:indicator/:period/:gender/:age/:locationUuids',
+                path:
+                  "patient-list/:indicator/:period/:gender/:age/:locationUuids",
                 component: HivSummaryIndicatorsPatientListComponent,
-              }
-            ]
+              },
+            ],
           },
           {
-            path: 'moh-731-report',
+            path: "moh-731-report",
             children: [
               {
-                path: '',
-                component: Moh731ReportComponent
-              }
-            ]
+                path: "",
+                component: Moh731ReportComponent,
+              },
+            ],
           },
           {
-            path: 'moh-731-monthly',
+            path: "moh-731-monthly",
             children: [
               {
-                path: '',
-                component: Moh731MonthlyVizComponent
-              }
-            ]
+                path: "",
+                component: Moh731MonthlyVizComponent,
+              },
+            ],
           },
           {
-            path: 'hiv-viz',
+            path: "hiv-viz",
             children: [
               {
-                path: '',
-                component: DashboardsViewerComponent
-              }
-            ]
+                path: "",
+                component: DashboardsViewerComponent,
+              },
+            ],
           },
           {
-            path: 'hiv-summary-monthly-indicator-report',
+            path: "hiv-summary-monthly-indicator-report",
             children: [
               {
-                path: '',
-                component: HivSummaryMonthlyIndicatorsComponent
+                path: "",
+                component: HivSummaryMonthlyIndicatorsComponent,
               },
               {
-                path: 'patient-list/:indicator/:period/:gender/:age/:locationUuids',
+                path:
+                  "patient-list/:indicator/:period/:gender/:age/:locationUuids",
                 component: HivMonthlySummaryIndicatorsPatientListComponent,
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  }
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
 ];
 
-export const dataAnalyticsDashboardHivRouting: ModuleWithProviders =
-  RouterModule.forChild(routes);
+export const dataAnalyticsDashboardHivRouting: ModuleWithProviders = RouterModule.forChild(
+  routes
+);

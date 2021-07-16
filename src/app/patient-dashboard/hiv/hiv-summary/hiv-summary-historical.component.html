@@ -24,20 +24,20 @@
           hivSummary.prev_rtc_date < hivSummary.encounter_datetime
       }"
     >
-      <td>{{ hivSummary.encounter_datetime | date: 'dd-MM-yyyy' }}</td>
+      <td>{{ hivSummary.encounter_datetime | date: "dd-MM-yyyy" }}</td>
       <td>{{ hivSummary.encounter_type_name }}</td>
-      <td>{{ hivSummary.rtc_date | date: 'dd-MM-yyyy' }}</td>
+      <td>{{ hivSummary.rtc_date | date: "dd-MM-yyyy" }}</td>
       <td *ngIf="hasMedicationRtc">
-        {{ hivSummary.med_pickup_rtc_date | date: 'dd-MM-yyyy' }}
+        {{ hivSummary.med_pickup_rtc_date | date: "dd-MM-yyyy" }}
       </td>
-      <td>{{ hivSummary?.tb_tx_start_date | date: 'dd-MM-yyyy' }}</td>
-      <td>{{ hivSummary?.tb_tx_end_date | date: 'dd-MM-yyyy' }}</td>
+      <td>{{ hivSummary?.tb_tx_start_date | date: "dd-MM-yyyy" }}</td>
+      <td>{{ hivSummary?.tb_tx_end_date | date: "dd-MM-yyyy" }}</td>
       <td>{{ hivSummary.cur_arv_meds }}</td>
       <td>
         {{ hivSummary.cd4_1 }}
         <div>
           <small *ngIf="hivSummary.cd4_1Date" class="text-default"
-            >({{ hivSummary.cd4_1_date | date: 'dd-MM-yyyy' }})</small
+            >({{ hivSummary.cd4_1_date | date: "dd-MM-yyyy" }})</small
           >
         </div>
       </td>
@@ -45,7 +45,7 @@
         {{ hivSummary.vl_1 | zeroVl }}
         <div>
           <small *ngIf="hivSummary.vl_1Date" class="text-default"
-            >({{ hivSummary.vl_1Date | date: 'dd-MM-yyyy' }})</small
+            >({{ hivSummary.vl_1Date | date: "dd-MM-yyyy" }})</small
           >
         </div>
       </td>
@@ -56,18 +56,30 @@
 </div>
 
 <div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
-  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error.message}}
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+    ×
+  </button>
+  {{ error.message }}
 </div>
 <div *ngIf="!dataLoaded">
-	<button [disabled]="isLoading" class="btn btn-primary" (click)="loadMoreHivSummary()">
-        <span><i class="glyphicon glyphicon-refresh"></i>Load More</span>
-        <i *ngIf="isLoading" class="fa fa-spinner fa-spin fa-1x fa-fw"></i>
-    </button>
+  <button
+    [disabled]="isLoading"
+    class="btn btn-primary"
+    (click)="loadMoreHivSummary()"
+  >
+    <span><i class="glyphicon glyphicon-refresh"></i>Load More</span>
+    <i *ngIf="isLoading" class="fa fa-spinner fa-spin fa-1x fa-fw"></i>
+  </button>
 </div>
 
-<div *ngIf='dataLoaded'>
-	<p class="bg-info" style="padding:4px;">
-		<b>
-			<span style="color:green;" class="glyphicon glyphicon-ok">All records loaded {{'[ ' + hivSummaries.length + ' ]'}}</span></b>
-		<p>
+<div *ngIf="dataLoaded">
+  <p class="bg-info" style="padding: 4px">
+    <b>
+      <span style="color: green" class="glyphicon glyphicon-ok"
+        >All records loaded {{ "[ " + hivSummaries.length + " ]" }}</span
+      ></b
+    >
+  </p>
+
+  <p></p>
 </div>

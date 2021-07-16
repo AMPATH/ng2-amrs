@@ -1,4 +1,4 @@
-import { Vital } from '../../../models/vital.model';
+import { Vital } from "../../../models/vital.model";
 
 export interface VitalViewInterface {
   value?: ((vital: Vital) => string | number) | string | number;
@@ -7,7 +7,10 @@ export interface VitalViewInterface {
   order?: number;
   vital?: Vital;
   isCompoundedWith?: string;
-  compoundValue?: ((vital: Vital, compoundWith: string) => string | number) | string | number;
-  color?:  (() => string) | string;
-  show:  ((args?: any) => boolean) | boolean;
+  compoundValue?:
+    | ((vital: Vital, compoundWith: string) => string | number)
+    | string
+    | number;
+  color?: (() => string) | string;
+  show: ((args?: any) => boolean) | boolean;
 }

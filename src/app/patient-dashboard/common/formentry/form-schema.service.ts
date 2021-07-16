@@ -1,18 +1,18 @@
-import { Injectable } from '@angular/core';
-import { ReplaySubject, BehaviorSubject, Observable, Subject } from 'rxjs';
-import { concat, first } from 'rxjs/operators';
+import { Injectable } from "@angular/core";
+import { ReplaySubject, BehaviorSubject, Observable, Subject } from "rxjs";
+import { concat, first } from "rxjs/operators";
 
-import { FormsResourceService } from '../../../openmrs-api/forms-resource.service';
-import { LocalStorageService } from '../../../utils/local-storage.service';
-import { FormSchemaCompiler } from 'ngx-openmrs-formentry';
+import { FormsResourceService } from "../../../openmrs-api/forms-resource.service";
+import { LocalStorageService } from "../../../utils/local-storage.service";
+import { FormSchemaCompiler } from "ngx-openmrs-formentry";
 
 @Injectable()
 export class FormSchemaService {
-
-  constructor(private formsResourceService: FormsResourceService,
-              private localStorage: LocalStorageService,
-              private formSchemaCompiler: FormSchemaCompiler) {
-  }
+  constructor(
+    private formsResourceService: FormsResourceService,
+    private localStorage: LocalStorageService,
+    private formSchemaCompiler: FormSchemaCompiler
+  ) {}
 
   /**
    *
@@ -23,27 +23,33 @@ export class FormSchemaService {
    *
    * @memberOf FormSchemaService
    */
-  public getFormSchemaByUuid(formUuid: string, cached: boolean = true): ReplaySubject<any> {
+  public getFormSchemaByUuid(
+    formUuid: string,
+    cached: boolean = true
+  ): ReplaySubject<any> {
     const formSchema: ReplaySubject<any> = new ReplaySubject(1);
-    const cachedCompiledSchema: any = this.getCachedCompiledSchemaByUuid(formUuid);
+    const cachedCompiledSchema: any = this.getCachedCompiledSchemaByUuid(
+      formUuid
+    );
     if (cachedCompiledSchema && cached === true) {
       formSchema.next(cachedCompiledSchema);
     } else {
-      this.getFormSchemaByUuidFromServer(formUuid)
-        .subscribe(
+      this.getFormSchemaByUuidFromServer(formUuid).subscribe(
         (unCompiledSchema: any) => {
           const form: any = unCompiledSchema.form;
-          const referencedComponents: any = unCompiledSchema.referencedComponents;
+          const referencedComponents: any =
+            unCompiledSchema.referencedComponents;
           // add from metadata to the uncompiled schema
-          this.formsResourceService.getFormMetaDataByUuid(formUuid)
-            .subscribe(
+          this.formsResourceService.getFormMetaDataByUuid(formUuid).subscribe(
             (formMetadataObject: any) => {
               formMetadataObject.pages = form.pages || [];
               formMetadataObject.referencedForms = form.referencedForms || [];
               formMetadataObject.processor = form.processor;
               // compile schema
-              const compiledSchema: any = this.formSchemaCompiler
-                .compileFormSchema(formMetadataObject, referencedComponents);
+              const compiledSchema: any = this.formSchemaCompiler.compileFormSchema(
+                formMetadataObject,
+                referencedComponents
+              );
               // now cache the compiled schema
               this.cacheCompiledSchemaByUuid(formUuid, compiledSchema);
               // return the compiled schema
@@ -53,14 +59,13 @@ export class FormSchemaService {
               console.error(err);
               formSchema.error(err);
             }
-            );
+          );
         },
         (err) => {
           console.error(err);
           formSchema.error(err);
         }
-        );
-
+      );
     }
     return formSchema;
   }
@@ -73,15 +78,15 @@ export class FormSchemaService {
     this.localStorage.setObject(formUuid, schema);
   }
 
-  private getFormSchemaByUuidFromServer(formUuid: string): ReplaySubject<object> {
+  private getFormSchemaByUuidFromServer(
+    formUuid: string
+  ): ReplaySubject<object> {
     const formSchema: ReplaySubject<any> = new ReplaySubject(1);
-    this.fetchFormSchemaUsingFormMetadata(formUuid)
-      .subscribe(
+    this.fetchFormSchemaUsingFormMetadata(formUuid).subscribe(
       (schema: object) => {
         // check whether whether formSchema has references b4 hitting getFormSchemaWithReferences
-        if (schema['referencedForms'] && schema['referencedForms'].length > 0) {
-          this.getFormSchemaWithReferences(schema)
-            .subscribe(
+        if (schema["referencedForms"] && schema["referencedForms"].length > 0) {
+          this.getFormSchemaWithReferences(schema).subscribe(
             (form: object) => {
               formSchema.next(form);
             },
@@ -89,31 +94,29 @@ export class FormSchemaService {
               console.error(err);
               formSchema.error(err);
             }
-            );
+          );
         } else {
           formSchema.next({
             form: schema,
-            referencedComponents: []
+            referencedComponents: [],
           });
         }
-
       },
       (err) => {
         console.error(err);
         formSchema.error(err);
       }
-      );
+    );
     return formSchema;
   }
 
   private getFormSchemaWithReferences(schema: any): ReplaySubject<any> {
     const formSchemaWithReferences: ReplaySubject<any> = new ReplaySubject(1);
-    this.fetchFormSchemaReferences(schema)
-      .subscribe(
+    this.fetchFormSchemaReferences(schema).subscribe(
       (schemaReferences: Array<any>) => {
         const forms: object = {
           form: schema,
-          referencedComponents: schemaReferences
+          referencedComponents: schemaReferences,
         };
         formSchemaWithReferences.next(forms);
       },
@@ -121,9 +124,8 @@ export class FormSchemaService {
         console.error(err);
         formSchemaWithReferences.error(err);
       }
-      );
+    );
     return formSchemaWithReferences;
-
   }
 
   private fetchFormSchemaReferences(formSchema: any): Observable<any> {
@@ -131,7 +133,9 @@ export class FormSchemaService {
     const observableBatch: Array<Observable<any>> = [];
     const referencedForms: Array<any> = formSchema.referencedForms;
     if (Array.isArray(referencedForms) && referencedForms.length > 0) {
-      const referencedUuids: Array<string> = this.getFormUuidArray(referencedForms);
+      const referencedUuids: Array<string> = this.getFormUuidArray(
+        referencedForms
+      );
       referencedUuids.forEach((referencedUuid: any, key) => {
         observableBatch.push(
           this.fetchFormSchemaUsingFormMetadata(referencedUuid)
@@ -153,7 +157,9 @@ export class FormSchemaService {
 
       let concatenatedObservables = observableBatch[0];
       for (let i = 1; i < observableBatch.length; i++) {
-        concatenatedObservables = concatenatedObservables.pipe(concat(observableBatch[i]));
+        concatenatedObservables = concatenatedObservables.pipe(
+          concat(observableBatch[i])
+        );
       }
       concatenatedObservables.subscribe(
         (schema) => {
@@ -166,38 +172,42 @@ export class FormSchemaService {
           observer.next(schemaReferences);
         }
       );
-
     }).pipe(first());
   }
 
   private fetchFormSchemaUsingFormMetadata(formUuid: string): Observable<any> {
     return Observable.create((observer: Subject<any>) => {
-      return this.formsResourceService.getFormMetaDataByUuid(formUuid)
+      return this.formsResourceService
+        .getFormMetaDataByUuid(formUuid)
         .subscribe(
-        (formMetadataObject: any) => {
-          if (formMetadataObject.resources.length > 0) {
-            this.formsResourceService
-              .getFormClobDataByUuid(formMetadataObject.resources[0].valueReference)
-              .subscribe(
-              (clobData: any) => {
-                observer.next(clobData);
-                // observer.compconste();
-              },
-              (err) => {
-                console.error(err);
-                observer.error(err);
-              });
-          } else {
-            observer.error(formMetadataObject.display +
-              ':This formMetadataObject has no resource');
+          (formMetadataObject: any) => {
+            if (formMetadataObject.resources.length > 0) {
+              this.formsResourceService
+                .getFormClobDataByUuid(
+                  formMetadataObject.resources[0].valueReference
+                )
+                .subscribe(
+                  (clobData: any) => {
+                    observer.next(clobData);
+                    // observer.compconste();
+                  },
+                  (err) => {
+                    console.error(err);
+                    observer.error(err);
+                  }
+                );
+            } else {
+              observer.error(
+                formMetadataObject.display +
+                  ":This formMetadataObject has no resource"
+              );
+            }
+          },
+          (err) => {
+            console.error(err);
+            observer.error(err);
           }
-
-        },
-        (err) => {
-          console.error(err);
-          observer.error(err);
-        });
-
+        );
     }).pipe(first());
   }
 
@@ -208,5 +218,4 @@ export class FormSchemaService {
     });
     return formUuids;
   }
-
 }

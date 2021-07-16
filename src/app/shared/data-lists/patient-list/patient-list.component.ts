@@ -1,16 +1,13 @@
-import {
-  Component, OnInit, Input
-} from '@angular/core';
-import { PatientListColumns } from './patient-list-columns.data';
-import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
-const _ = require('lodash');
+import { Component, OnInit, Input } from "@angular/core";
+import { PatientListColumns } from "./patient-list-columns.data";
+import { Router } from "@angular/router";
+import { BehaviorSubject } from "rxjs";
+const _ = require("lodash");
 
 @Component({
-  selector: 'patient-list',
-  templateUrl: './patient-list.component.html'
+  selector: "patient-list",
+  templateUrl: "./patient-list.component.html",
 })
-
 export class PatientListComponent implements OnInit {
   @Input() public extraColumns: any;
   @Input() public overrideColumns: any;
@@ -34,16 +31,12 @@ export class PatientListComponent implements OnInit {
   @Input() public hivColumns = false;
   private _data = new BehaviorSubject<any>([]);
   private _dataSource = new BehaviorSubject<any>({});
-  constructor(
-    private router: Router
-  ) {
-  }
+  constructor(private router: Router) {}
 
   public ngOnInit() {
-    this._data
-      .subscribe((x) => {
-        this.loadedTab = x;
-      });
+    this._data.subscribe((x) => {
+      this.loadedTab = x;
+    });
   }
 
   get columns() {
@@ -55,7 +48,7 @@ export class PatientListComponent implements OnInit {
     if (this.overrideColumns && _.isArray(this.overrideColumns)) {
       _.each(this.overrideColumns, (col) => {
         _.each(columns, (_col) => {
-          if (col['field'] === _col['field']) {
+          if (col["field"] === _col["field"]) {
             _.extend(_col, col);
           }
         });
@@ -64,20 +57,22 @@ export class PatientListComponent implements OnInit {
     if (this.hivColumns) {
       const loadHivColumns = PatientListColumns.hivColumns();
       columns = _.concat(columns, loadHivColumns as Array<object>);
-
     }
     return columns;
   }
 
   get rowData() {
-
     const d: any = this.data || [];
     let count = 1;
     // console.log('Data', this.data);
     _.forEach(d, (row) => {
-      if (!row['person_name']) {
-        row['person_name'] = row['given_name'] + ' ' + row['family_name']
-          + ' ' + row['middle_name'];
+      if (!row["person_name"]) {
+        row["person_name"] =
+          row["given_name"] +
+          " " +
+          row["family_name"] +
+          " " +
+          row["middle_name"];
       }
       count++;
     });
@@ -88,7 +83,7 @@ export class PatientListComponent implements OnInit {
   }
 
   public loadSelectedPatient(event: any) {
-    let patientUuid = '';
+    let patientUuid = "";
     if (event) {
       patientUuid = event.node.data.uuid;
     }
@@ -97,7 +92,10 @@ export class PatientListComponent implements OnInit {
       return;
     }
 
-    this.router.navigate(['/patient-dashboard/patient/' + patientUuid +
-      '/general/general/landing-page']);
+    this.router.navigate([
+      "/patient-dashboard/patient/" +
+        patientUuid +
+        "/general/general/landing-page",
+    ]);
   }
 }

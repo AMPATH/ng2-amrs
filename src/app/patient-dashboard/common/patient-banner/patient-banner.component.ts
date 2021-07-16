@@ -1,27 +1,35 @@
-import { Component, OnInit, OnDestroy, ViewEncapsulation, OnChanges, SimpleChanges, Input, TemplateRef } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
-import * as Moment from 'moment';
-import * as _ from 'lodash';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ViewEncapsulation,
+  OnChanges,
+  SimpleChanges,
+  Input,
+  TemplateRef,
+} from "@angular/core";
+import { Router, ActivatedRoute } from "@angular/router";
+import { Subscription } from "rxjs";
+import { take } from "rxjs/operators";
+import * as Moment from "moment";
+import * as _ from "lodash";
+import { BsModalRef, BsModalService } from "ngx-bootstrap";
 
-import { PatientService } from '../../services/patient.service';
-import { Patient } from '../../../models/patient.model';
-import { PatientRelationshipService } from '../patient-relationships/patient-relationship.service';
-import { Person } from '../../../models/person.model';
-import { Relationship } from 'src/app/models/relationship.model';
+import { PatientService } from "../../services/patient.service";
+import { Patient } from "../../../models/patient.model";
+import { PatientRelationshipService } from "../patient-relationships/patient-relationship.service";
+import { Person } from "../../../models/person.model";
+import { Relationship } from "src/app/models/relationship.model";
 
-import { UserDefaultPropertiesService } from 'src/app/user-default-properties/user-default-properties.service';
-import { FamilyTestingService } from 'src/app/etl-api/family-testing-resource.service';
-import { EncounterResourceService } from 'src/app/openmrs-api/encounter-resource.service';
+import { UserDefaultPropertiesService } from "src/app/user-default-properties/user-default-properties.service";
+import { FamilyTestingService } from "src/app/etl-api/family-testing-resource.service";
+import { EncounterResourceService } from "src/app/openmrs-api/encounter-resource.service";
 @Component({
-  selector: 'patient-banner',
-  templateUrl: './patient-banner.component.html',
-  styleUrls: ['./patient-banner.component.css'],
-  encapsulation: ViewEncapsulation.None
+  selector: "patient-banner",
+  templateUrl: "./patient-banner.component.html",
+  styleUrls: ["./patient-banner.component.css"],
+  encapsulation: ViewEncapsulation.None,
 })
-
 export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public patientChanged: any;
   public showingAddToCohort = false;
@@ -39,7 +47,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   modalRef: BsModalRef;
   modalConfig = {
     backdrop: true,
-    ignoreBackdropClick: true
+    ignoreBackdropClick: true,
   };
   private enrolled: boolean;
   private enrolledToHEIProgram: boolean;
@@ -68,21 +76,33 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
         if (patient) {
           this.patient = patient;
           this.searchIdentifiers = patient.searchIdentifiers;
-          this.getOvcEnrollments(patient.enrolledPrograms, patient.person.birthdate);
+          this.getOvcEnrollments(
+            patient.enrolledPrograms,
+            patient.person.birthdate
+          );
           const attributes = patient.person.attributes;
           _.each(attributes, (attribute) => {
             // get the test patient attribute
-            if (attribute.attributeType.uuid === '1e38f1ca-4257-4a03-ad5d-f4d972074e69') {
+            if (
+              attribute.attributeType.uuid ===
+              "1e38f1ca-4257-4a03-ad5d-f4d972074e69"
+            ) {
               this.attributes = attribute;
             }
           });
 
-          this.birthdate = Moment(patient.person.birthdate).format('l');
-          this.formattedPatientAge = this.getPatientAge(patient.person.birthdate);
+          this.birthdate = Moment(patient.person.birthdate).format("l");
+          this.formattedPatientAge = this.getPatientAge(
+            patient.person.birthdate
+          );
           this.getPatientRelationships(patient.uuid);
-          this.isPatientEligableForCCCNumber(_.filter(patient.enrolledPrograms, 'isEnrolled'));
-          this.isEnrolledToHEIProgram(_.filter(patient.enrolledPrograms, 'isEnrolled'));
-          this.getHIVPatient(_.filter(patient.enrolledPrograms, 'isEnrolled'));
+          this.isPatientEligableForCCCNumber(
+            _.filter(patient.enrolledPrograms, "isEnrolled")
+          );
+          this.isEnrolledToHEIProgram(
+            _.filter(patient.enrolledPrograms, "isEnrolled")
+          );
+          this.getHIVPatient(_.filter(patient.enrolledPrograms, "isEnrolled"));
           this.familyTestingService
             .getPatientEncounters(this.patient.uuid)
             .subscribe((response: any) => {
@@ -99,7 +119,10 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public ngOnChanges(changes: SimpleChanges) {
-    if (changes['patientChanged'].currentValue !== changes['patientChanged'].previousValue) {
+    if (
+      changes["patientChanged"].currentValue !==
+      changes["patientChanged"].previousValue
+    ) {
       this.ngOnInit();
     }
   }
@@ -133,60 +156,76 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
     this.modalRef.hide();
     const snapshot = this.router.url;
     // if person in patient info then dont navigate
-    const patientInfo = snapshot.indexOf('patient-info');
-    this.patientServiceSubscription = this.patientService.setCurrentlyLoadedPatientByUuid(patientUuid).subscribe((patient) => {
-      if (patient) {
-        if (patientInfo === -1) {
-          this.router.navigate(['/patient-dashboard/patient/' + patientUuid + '/general/general/patient-info'], {
-            queryParams: {
-              scrollSection: 'relationship'
-            }
-          });
+    const patientInfo = snapshot.indexOf("patient-info");
+    this.patientServiceSubscription = this.patientService
+      .setCurrentlyLoadedPatientByUuid(patientUuid)
+      .subscribe((patient) => {
+        if (patient) {
+          if (patientInfo === -1) {
+            this.router.navigate(
+              [
+                "/patient-dashboard/patient/" +
+                  patientUuid +
+                  "/general/general/patient-info",
+              ],
+              {
+                queryParams: {
+                  scrollSection: "relationship",
+                },
+              }
+            );
+          }
         }
-
-      }
-    });
+      });
   }
   private getPatientAge(birthdate) {
     if (birthdate) {
       const todayMoment: any = Moment();
       const birthDateMoment: any = Moment(birthdate);
-      const years = todayMoment.diff(birthDateMoment, 'year');
-      birthDateMoment.add(years, 'years');
-      const months = todayMoment.diff(birthDateMoment, 'months');
-      birthDateMoment.add(months, 'months');
-      const days = todayMoment.diff(birthDateMoment, 'days');
-      return years + ' y ' + months + ' m ' + days + ' d';
+      const years = todayMoment.diff(birthDateMoment, "year");
+      birthDateMoment.add(years, "years");
+      const months = todayMoment.diff(birthDateMoment, "months");
+      birthDateMoment.add(months, "months");
+      const days = todayMoment.diff(birthDateMoment, "days");
+      return years + " y " + months + " m " + days + " d";
     }
     return null;
   }
   private getPatientRelationships(patientUuid): void {
-    this.patientRelationshipService.getRelationships(patientUuid).pipe(
-      take(1)).subscribe((results) => {
-        this.relationships = results;
-      }, (err) => {
-        console.error(err);
-      });
+    this.patientRelationshipService
+      .getRelationships(patientUuid)
+      .pipe(take(1))
+      .subscribe(
+        (results) => {
+          this.relationships = results;
+        },
+        (err) => {
+          console.error(err);
+        }
+      );
   }
 
   private isPatientEligableForCCCNumber(enrolledPrograms: Array<any>) {
     _.filter(
       enrolledPrograms,
       ({ concept }) =>
-        concept.uuid === '23e234c3-5d8a-46ca-8465-3b746143dd68' ||
-        concept.uuid === '75149ac3-2804-4e84-8220-0861523bbea1' ||
-        concept.uuid === '9c64af03-f712-411e-8880-16e98dcdb4a6'
+        concept.uuid === "23e234c3-5d8a-46ca-8465-3b746143dd68" ||
+        concept.uuid === "75149ac3-2804-4e84-8220-0861523bbea1" ||
+        concept.uuid === "9c64af03-f712-411e-8880-16e98dcdb4a6"
     ).length > 0
       ? (this.enrolled = true)
       : (this.enrolled = false);
   }
 
   private isEnrolledToHEIProgram(enrolledPrograms: Array<any>) {
-    this.enrolledToHEIProgram = enrolledPrograms.some(program => program.concept.uuid === '9c64af03-f712-411e-8880-16e98dcdb4a6');
+    this.enrolledToHEIProgram = enrolledPrograms.some(
+      (program) =>
+        program.concept.uuid === "9c64af03-f712-411e-8880-16e98dcdb4a6"
+    );
   }
 
   private getHIVPatient(enrolledPrograms: Array<any>) {
-    _.filter(enrolledPrograms, ({ baseRoute }) => baseRoute === 'hiv').length >
+    _.filter(enrolledPrograms, ({ baseRoute }) => baseRoute === "hiv").length >
     0
       ? (this.isPatientEnrolledToHIVProgram = true)
       : (this.isPatientEnrolledToHIVProgram = false);
@@ -195,8 +234,11 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   private getOvcEnrollments(enrolledPrograms, birthdate) {
     const todayMoment: any = Moment();
     const birthDateMoment: any = Moment(birthdate);
-    const years = todayMoment.diff(birthDateMoment, 'year');
-    const ovc = enrolledPrograms.filter(program => program.concept.uuid === 'a89fbb12-1350-11df-a1f1-0026b9348838');
+    const years = todayMoment.diff(birthDateMoment, "year");
+    const ovc = enrolledPrograms.filter(
+      (program) =>
+        program.concept.uuid === "a89fbb12-1350-11df-a1f1-0026b9348838"
+    );
     if (ovc.length > 0 && ovc[0].isEnrolled && years <= 19) {
       this.ovcEnrollment = true;
     }
@@ -219,12 +261,12 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
     this.displayContacts = false;
   }
   public updateContacts() {
-    console.log('this.patient.uuid ', this.patient.uuid);
+    console.log("this.patient.uuid ", this.patient.uuid);
     const encounterUuid = _.first(this.patientEncounters).uuid;
     const familyPartnerHistoryForm = `3fbc8512-b37b-4bc2-a0f4-8d0ac7955127`;
     const url = `/patient-dashboard/patient/${this.patient.uuid}/general/general/formentry/${familyPartnerHistoryForm}`;
     this.router.navigate([url], {
-      queryParams: { encounter: encounterUuid, visitTypeUuid: '' }
+      queryParams: { encounter: encounterUuid, visitTypeUuid: "" },
     });
     this.displayContacts = false;
   }
@@ -235,7 +277,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
 
   public getPatientEncounters() {
     const familyAndPartnerTestingFormUuid =
-      '3fbc8512-b37b-4bc2-a0f4-8d0ac7955127';
+      "3fbc8512-b37b-4bc2-a0f4-8d0ac7955127";
     this.encounterResourceService
       .getEncountersByPatientUuid(this.patient.uuid, false, null)
       .pipe(take(1))

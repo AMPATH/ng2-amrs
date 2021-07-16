@@ -2,70 +2,72 @@
   "id": "patientDashboard",
   "name": "Patient Dashboard",
   "baseRoute": "patient-dashboard",
-  "programs": [{
-    "programName": "General Info",
-    "programUuid": "general-uuid",
-    "baseRoute": "general",
-    "alias": "general",
-    "published": true,
-    "requiresPatientEnrollment": false,
-    "routes": [{
-      "url": "patient-info",
-      "label": "Patient Info",
-      "icon": "fa fa-clipboard"
+  "programs": [
+    {
+      "programName": "General Info",
+      "programUuid": "general-uuid",
+      "baseRoute": "general",
+      "alias": "general",
+      "published": true,
+      "requiresPatientEnrollment": false,
+      "routes": [
+        {
+          "url": "patient-info",
+          "label": "Patient Info",
+          "icon": "fa fa-clipboard"
+        },
+        {
+          "url": "patient-vitals",
+          "label": "Vitals",
+          "icon": "fa fa-heartbeat"
+        },
+        {
+          "url": "patient-encounters",
+          "label": "Encounters",
+          "icon": "icon-i-immunizations"
+        },
+        {
+          "url": "forms",
+          "label": "Forms",
+          "icon": "fa fa-file"
+        },
+        {
+          "url": "lab-data-summary",
+          "label": "Lab Data Summary",
+          "icon": "icon-i-laboratory"
+        },
+        {
+          "url": "lab-orders",
+          "label": "Lab Orders",
+          "icon": "icon-i-pathology"
+        },
+        {
+          "url": "program-manager",
+          "label": "Program Manager",
+          "icon": "icon-i-administration"
+        },
+        {
+          "url": "patient-imaging",
+          "label": "Imaging",
+          "icon": "icon-i-radiology"
+        },
+        {
+          "url": "group-enrollment",
+          "label": "Group Enrollment",
+          "icon": "fa fa-users"
+        },
+        {
+          "url": "patient-gene-xpert-images",
+          "label": "Gene Xpert Images",
+          "icon": "icon-i-laboratory"
+        },
+        {
+          "url": "patient-ovc-enrollment",
+          "label": "OVC",
+          "icon": "fa fa-child"
+        }
+      ]
     },
-      {
-        "url": "patient-vitals",
-        "label": "Vitals",
-        "icon": "fa fa-heartbeat"
-      },
-      {
-        "url": "patient-encounters",
-        "label": "Encounters",
-        "icon": "icon-i-immunizations"
-      },
-      {
-        "url": "forms",
-        "label": "Forms",
-        "icon": "fa fa-file"
-      },
-      {
-        "url": "lab-data-summary",
-        "label": "Lab Data Summary",
-        "icon": "icon-i-laboratory"
-      },
-      {
-        "url": "lab-orders",
-        "label": "Lab Orders",
-        "icon": "icon-i-pathology"
-      },
-      {
-        "url": "program-manager",
-        "label": "Program Manager",
-        "icon": "icon-i-administration"
-      },
-      {
-        "url": "patient-imaging",
-        "label": "Imaging",
-        "icon": "icon-i-radiology"
-      },
-      {
-        "url": "group-enrollment",
-        "label": "Group Enrollment",
-        "icon": "fa fa-users"
-      },
-      {
-        "url": "patient-gene-xpert-images",
-        "label": "Gene Xpert Images",
-        "icon": "icon-i-laboratory"
-      },
-      {
-        "url": "patient-ovc-enrollment",
-        "label": "OVC",
-        "icon": "fa fa-child"
-      }
-    ]
-  },
     {
       "programName": "Standard HIV Treatment",
       "programUuid": "781d85b0-1359-11df-a1f1-0026b9348838",
@@ -343,11 +345,12 @@
       "alias": "hiv",
       "published": true,
       "requiresPatientEnrollment": true,
-      "routes": [{
-        "url": "visit",
-        "label": "Visit",
-        "icon": "icon-i-outpatient"
-      },
+      "routes": [
+        {
+          "url": "visit",
+          "label": "Visit",
+          "icon": "icon-i-outpatient"
+        },
         {
           "url": "patient-encounters",
           "label": "Encounters",
@@ -372,11 +375,12 @@
       "alias": "bsg",
       "published": false,
       "requiresPatientEnrollment": true,
-      "routes": [{
-        "url": "visit",
-        "label": "Visit",
-        "icon": "icon-i-outpatient"
-      },
+      "routes": [
+        {
+          "url": "visit",
+          "label": "Visit",
+          "icon": "icon-i-outpatient"
+        },
         {
           "url": "patient-encounters",
           "label": "Encounters",
@@ -401,11 +405,12 @@
       "alias": "dermatology",
       "published": true,
       "requiresPatientEnrollment": true,
-      "routes": [{
-        "url": "visit",
-        "label": "Visit",
-        "icon": "icon-i-outpatient"
-      },
+      "routes": [
+        {
+          "url": "visit",
+          "label": "Visit",
+          "icon": "icon-i-outpatient"
+        },
         {
           "url": "patient-encounters",
           "label": "Encounters",
@@ -420,7 +425,8 @@
           "url": "lab-data-summary",
           "label": "Lab Data Summary",
           "icon": "icon-i-laboratory"
-        },{
+        },
+        {
           "url": "patient-imaging",
           "label": "Imaging",
           "icon": "icon-i-radiology"
@@ -560,11 +566,12 @@
   ],
 
   "sharedRoutes": {
-    "hiv": [{
-      "url": "visit",
-      "label": "Visit",
-      "icon": "icon-i-outpatient"
-    },
+    "hiv": [
+      {
+        "url": "visit",
+        "label": "Visit",
+        "icon": "icon-i-outpatient"
+      },
       {
         "url": "patient-encounters",
         "label": "Encounters",
@@ -606,11 +613,12 @@
         "icon": "icon-i-radiology"
       }
     ],
-    "oncology": [{
-      "url": "visit",
-      "label": "Visit",
-      "icon": "icon-i-outpatient"
-    },
+    "oncology": [
+      {
+        "url": "visit",
+        "label": "Visit",
+        "icon": "icon-i-outpatient"
+      },
       {
         "url": "patient-encounters",
         "label": "Encounters",
@@ -642,11 +650,12 @@
         "icon": "icon-i-radiology"
       }
     ],
-    "cdm": [{
-      "url": "visit",
-      "label": "Visit",
-      "icon": "icon-i-outpatient"
-    },
+    "cdm": [
+      {
+        "url": "visit",
+        "label": "Visit",
+        "icon": "icon-i-outpatient"
+      },
       {
         "url": "patient-encounters",
         "label": "Encounters",

@@ -1,12 +1,12 @@
-import { Component, OnInit, Output } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import * as _ from 'lodash';
-import * as Moment from 'moment';
-import { PrepResourceService } from 'src/app/etl-api/prep-resource.service';
+import { Component, OnInit, Output } from "@angular/core";
+import { Router, ActivatedRoute } from "@angular/router";
+import * as _ from "lodash";
+import * as Moment from "moment";
+import { PrepResourceService } from "src/app/etl-api/prep-resource.service";
 @Component({
-  selector: 'prep-report-base',
-  templateUrl: './prep-report-base.component.html',
-  styleUrls: ['./prep-report-base.component.css']
+  selector: "prep-report-base",
+  templateUrl: "./prep-report-base.component.html",
+  styleUrls: ["./prep-report-base.component.css"],
 })
 export class PrepReportBaseComponent implements OnInit {
   @Output()
@@ -15,18 +15,18 @@ export class PrepReportBaseComponent implements OnInit {
   public selectedIndicators = [];
   public prepReportSummaryData: any = [];
   public columnDefs: any = [];
-  public reportName = 'PrEP Report';
-  public currentView = 'monthly';
-  public currentViewBelow = 'pdf';
+  public reportName = "PrEP Report";
+  public currentView = "monthly";
+  public currentViewBelow = "pdf";
   public month: string;
 
   public statusError = false;
-  public errorMessage = '';
+  public errorMessage = "";
   public showInfoMessage = false;
   public isLoading = false;
   public reportHead: any;
   public pinnedBottomRowData: any = [];
-  public enabledControls = 'monthControl';
+  public enabledControls = "monthControl";
   public _month: string;
   public isReleased = true;
 
@@ -53,20 +53,19 @@ export class PrepReportBaseComponent implements OnInit {
     this.route.queryParams.subscribe((data) => {
       data.month === undefined
         ? (this._month = Moment()
-            .subtract(1, 'M')
-            .endOf('month')
-            .format('YYYY-MM-DD'))
+            .subtract(1, "M")
+            .endOf("month")
+            .format("YYYY-MM-DD"))
         : (this._month = data.month);
 
       this.showDraftReportAlert(this._month);
     });
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   public onMonthChange(value): any {
-    this._month = Moment(value).endOf('month').format('YYYY-MM-DD');
+    this._month = Moment(value).endOf("month").format("YYYY-MM-DD");
   }
 
   public generateReport() {
@@ -79,22 +78,21 @@ export class PrepReportBaseComponent implements OnInit {
 
   public storeParamsInUrl(param) {
     this.params = {
-      'locationUuids': param,
-      '_month': Moment(this._month).endOf('month').format('YYYY-MM-DD'),
-      'month': Moment(this._month).endOf('month').format('YYYY-MM-DD'),
-      'reportName': this.reportName,
-      '_date': Moment(this._month).format('DD-MM-YYYY')
+      locationUuids: param,
+      _month: Moment(this._month).endOf("month").format("YYYY-MM-DD"),
+      month: Moment(this._month).endOf("month").format("YYYY-MM-DD"),
+      reportName: this.reportName,
+      _date: Moment(this._month).format("DD-MM-YYYY"),
     };
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: this.params
+      queryParams: this.params,
     });
   }
 
   public getPrepMonthlyReport(params: any) {
-
     this.isLoading = true;
-    this.prepReport.getPrepMonthlyReport(params).subscribe(data => {
+    this.prepReport.getPrepMonthlyReport(params).subscribe((data) => {
       if (data.error) {
         this.showInfoMessage = true;
         this.errorMessage = `There has been an error while loading the report, please retry again`;
@@ -114,9 +112,9 @@ export class PrepReportBaseComponent implements OnInit {
     const totalsRow = [];
     if (this.prepReportSummaryData.length > 0) {
       const totalObj = {
-        location: 'Totals'
+        location: "Totals",
       };
-      _.each(this.prepReportSummaryData, row => {
+      _.each(this.prepReportSummaryData, (row) => {
         Object.keys(row).map((key) => {
           if (Number.isInteger(row[key]) === true) {
             if (totalObj[key]) {
@@ -135,26 +133,26 @@ export class PrepReportBaseComponent implements OnInit {
           }
         });
       });
-      totalObj.location = 'Totals';
+      totalObj.location = "Totals";
       totalsRow.push(totalObj);
       this.pinnedBottomRowData = totalsRow;
     }
   }
   public onIndicatorSelected(value) {
-    this.router.navigate(['patient-list'], {
+    this.router.navigate(["patient-list"], {
       relativeTo: this.route,
       queryParams: {
         indicators: value.field,
         indicatorHeader: value.headerName,
-        month: Moment(this._month).endOf('month').format('YYYY-MM-DD'),
+        month: Moment(this._month).endOf("month").format("YYYY-MM-DD"),
         locationUuids: value.location,
-        currentView: this.currentView
-      }
+        currentView: this.currentView,
+      },
     });
   }
 
   public showDraftReportAlert(date) {
-    if (date != null && date >= Moment().endOf('month').format('YYYY-MM-DD')) {
+    if (date != null && date >= Moment().endOf("month").format("YYYY-MM-DD")) {
       this.isReleased = false;
     } else {
       this.isReleased = true;

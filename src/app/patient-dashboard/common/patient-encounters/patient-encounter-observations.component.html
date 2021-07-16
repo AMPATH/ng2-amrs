@@ -1,34 +1,72 @@
-<div class="modal fade" bsModal #staticModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
-  aria-hidden="true">
+<div
+  class="modal fade"
+  bsModal
+  #staticModal="bs-modal"
+  [config]="{ backdrop: 'static' }"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="mySmallModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title pull-left">Observations</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="staticModal.hide()">
+        <button
+          type="button"
+          class="close pull-right"
+          aria-label="Close"
+          (click)="staticModal.hide()"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <div class="obs-wrapper" *ngIf="onEncounterDetail&&!pretty">
+        <div class="obs-wrapper" *ngIf="onEncounterDetail && !pretty">
           <ul class="obs-list">
-            <li *ngFor="let _obs of obs, let _index = index" [ngSwitch]="_obs.has_children" tabindex="{{_index}}" class="obs_parent">
-              <div *ngSwitchCase="false"><span class="obs_label">{{_obs.label}}</span> > <span class="obs_value">{{_obs.value}}</span></div>
-              <div *ngSwitchCase="true">
-                <a class="title" (click)="updateOpenState(_index)" href="javascript:;;"><span class="obs_parent_label">{{_obs.label}}</span>
-              <ul *ngSwitchCase="true" [hidden]="isHidden[_index]" class="obs_children description desc-{{_index}}">
-                <li *ngFor="let _value of _obs.value"><span class="obs_label">{{_value.label}}</span> > <span
-                  class="obs_value">{{_value.value}} </span></li>
-              </ul>
-              <span *ngSwitchCase="isHidden[_index]" class="fa fa-fw fa-caret-down"></span>
-              <span *ngSwitchCase="!isHidden[_index]" class="fa fa-fw fa-caret-up"></span>
-            </a>
+            <li
+              *ngFor="let _obs of obs; let _index = index"
+              [ngSwitch]="_obs.has_children"
+              tabindex="{{ _index }}"
+              class="obs_parent"
+            >
+              <div *ngSwitchCase="false">
+                <span class="obs_label">{{ _obs.label }}</span> >
+                <span class="obs_value">{{ _obs.value }}</span>
               </div>
-
+              <div *ngSwitchCase="true">
+                <a
+                  class="title"
+                  (click)="updateOpenState(_index)"
+                  href="javascript:;;"
+                  ><span class="obs_parent_label">{{ _obs.label }}</span>
+                  <ul
+                    *ngSwitchCase="true"
+                    [hidden]="isHidden[_index]"
+                    class="obs_children description desc-{{ _index }}"
+                  >
+                    <li *ngFor="let _value of _obs.value">
+                      <span class="obs_label">{{ _value.label }}</span> >
+                      <span class="obs_value">{{ _value.value }} </span>
+                    </li>
+                  </ul>
+                  <span
+                    *ngSwitchCase="isHidden[_index]"
+                    class="fa fa-fw fa-caret-down"
+                  ></span>
+                  <span
+                    *ngSwitchCase="!isHidden[_index]"
+                    class="fa fa-fw fa-caret-up"
+                  ></span>
+                </a>
+              </div>
             </li>
           </ul>
         </div>
         <div class="obs-wrapper" *ngIf="pretty">
-          <pretty-encounter-viewer [encounter]="selectedEncounter"></pretty-encounter-viewer>
+          <pretty-encounter-viewer
+            [encounter]="selectedEncounter"
+          ></pretty-encounter-viewer>
         </div>
       </div>
     </div>

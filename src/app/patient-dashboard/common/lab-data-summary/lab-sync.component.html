@@ -1,17 +1,22 @@
-<div style="padding: 4px;">
+<div style="padding: 4px">
   <div class="alert" role="alert" *ngIf="fetchingResults">
     <p>
-      <i class="fa fa-spinner" aria-hidden="true"></i> Contacting lab for new results...</p>
+      <i class="fa fa-spinner" aria-hidden="true"></i> Contacting lab for new
+      results...
+    </p>
   </div>
   <div class="alert alert-error" role="alert" *ngIf="error">
     <p>
-      <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> An error occurred while contacting lab for new results.
-      Reload the patient dashboard to retry.</p>
+      <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> An error
+      occurred while contacting lab for new results. Reload the patient
+      dashboard to retry.
+    </p>
   </div>
-  <div *ngIf="results.length>0">
-
-    <div class="alert  alert-success" role="alert" style="margin-bottom:0;">
-      <p class="text-success"> <span class="fa fa-info "></span> New results synced from the labs.</p>
+  <div *ngIf="results.length > 0">
+    <div class="alert alert-success" role="alert" style="margin-bottom: 0">
+      <p class="text-success">
+        <span class="fa fa-info"></span> New results synced from the labs.
+      </p>
     </div>
     <table class="table">
       <thead>
@@ -27,28 +32,58 @@
       <tbody>
         <tr *ngFor="let test of results">
           <td>
-            {{test.obsDatetime | date:'yyyy/MM/dd'}}</td>
+            {{ test.obsDatetime | date: "yyyy/MM/dd" }}
+          </td>
           <td>
-            <span *ngIf="!test.isCd4Result && test.concept.uuid==='a898fe80-1350-11df-a1f1-0026b9348838'">{{test.value.display}}</span></td>
+            <span
+              *ngIf="
+                !test.isCd4Result &&
+                test.concept.uuid === 'a898fe80-1350-11df-a1f1-0026b9348838'
+              "
+              >{{ test.value.display }}</span
+            >
+          </td>
           <td>
-            <span *ngIf="test.isCd4Result">{{test.cd4}}</span></td>
+            <span *ngIf="test.isCd4Result">{{ test.cd4 }}</span>
+          </td>
           <td>
-            <span *ngIf="test.isCd4Result">{{test.cd4Percent}}</span></td>
+            <span *ngIf="test.isCd4Result">{{ test.cd4Percent }}</span>
+          </td>
           <td>
-            <span *ngIf="!test.isCd4Result && test.concept.uuid==='a8982474-1350-11df-a1f1-0026b9348838'">{{test.value}}</span></td>
+            <span
+              *ngIf="
+                !test.isCd4Result &&
+                test.concept.uuid === 'a8982474-1350-11df-a1f1-0026b9348838'
+              "
+              >{{ test.value }}</span
+            >
+          </td>
           <td>
-            <span *ngIf="!test.isCd4Result && test.concept.uuid==='457c741d-8f71-4829-b59d-594e0a618892'">
-            <span *ngIf="test.groupMembers.length>0">{{test.groupMembers[0].display}}</span></span>
+            <span
+              *ngIf="
+                !test.isCd4Result &&
+                test.concept.uuid === '457c741d-8f71-4829-b59d-594e0a618892'
+              "
+            >
+              <span *ngIf="test.groupMembers.length > 0">{{
+                test.groupMembers[0].display
+              }}</span></span
+            >
           </td>
         </tr>
       </tbody>
     </table>
   </div>
 
-  <div class="alert" role="alert " *ngIf="!results.length && !fetchingResults && !error">
-    <p><button class="btn btn-default" (click)="getNewResults(true)">Check for New Results</button></p>
+  <div
+    class="alert"
+    role="alert "
+    *ngIf="!results.length && !fetchingResults && !error"
+  >
+    <p>
+      <button class="btn btn-default" (click)="getNewResults(true)">
+        Check for New Results
+      </button>
+    </p>
   </div>
-
-
-
 </div>

@@ -1,18 +1,18 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from "@angular/core";
 
-import * as _ from 'lodash';
-import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import * as _ from "lodash";
+import { Subscription } from "rxjs";
+import { take } from "rxjs/operators";
 
-import { Patient } from '../../../models/patient.model';
-import { PatientService } from '../../services/patient.service';
-import { PersonResourceService } from '../../../openmrs-api/person-resource.service';
-import { LocationResourceService } from '../../../openmrs-api/location-resource.service';
+import { Patient } from "../../../models/patient.model";
+import { PatientService } from "../../services/patient.service";
+import { PersonResourceService } from "../../../openmrs-api/person-resource.service";
+import { LocationResourceService } from "../../../openmrs-api/location-resource.service";
 
 @Component({
-  selector: 'edit-address',
-  templateUrl: './edit-address.component.html',
-  styleUrls: []
+  selector: "edit-address",
+  templateUrl: "./edit-address.component.html",
+  styleUrls: [],
 })
 export class EditAddressComponent implements OnInit, OnDestroy {
   public address1: string;
@@ -34,7 +34,7 @@ export class EditAddressComponent implements OnInit, OnDestroy {
   public showSuccessAlert = false;
   public showErrorAlert = false;
   public subscriptions: Subscription[] = [];
-  public successAlert = '';
+  public successAlert = "";
   public subcounties: any[] = [];
   public wards: string[] = [];
 
@@ -96,18 +96,18 @@ export class EditAddressComponent implements OnInit, OnDestroy {
           for (const location of locations) {
             this.locations.push({
               label: location.name,
-              value: location.uuid
+              value: location.uuid,
             });
             counties.push(location.stateProvince);
           }
           this.counties = _.uniq(counties);
           this.counties = _.remove(this.counties, (n) => {
-            return n !== null || n === '';
+            return n !== null || n === "";
           });
-          this.counties.push('Other');
+          this.counties.push("Other");
         },
         (error: any) => {
-          console.error('Error fetching locations: ', error);
+          console.error("Error fetching locations: ", error);
         }
       );
 
@@ -115,9 +115,9 @@ export class EditAddressComponent implements OnInit, OnDestroy {
   }
 
   public updateLocation(locationName: string) {
-    if (locationName === 'Other') {
+    if (locationName === "Other") {
       this.nonCodedCounty = true;
-      this.address1 = '';
+      this.address1 = "";
     } else {
       this.nonCodedCounty = false;
     }
@@ -133,7 +133,7 @@ export class EditAddressComponent implements OnInit, OnDestroy {
 
   public updatePersonAddress() {
     const person = {
-      uuid: this.patient.person.uuid
+      uuid: this.patient.person.uuid,
     };
     const personAddressPayload = {
       addresses: [
@@ -145,16 +145,16 @@ export class EditAddressComponent implements OnInit, OnDestroy {
           cityVillage: this.cityVillage,
           latitude: this.latitude,
           longitude: this.longitude,
-          uuid: this.preferredAddressUuid
-        }
-      ]
+          uuid: this.preferredAddressUuid,
+        },
+      ],
     };
     const saveUpdatePersonSub = this.personResourceService
       .saveUpdatePerson(person.uuid, personAddressPayload)
       .subscribe(
         (savePersonRes) => {
           if (savePersonRes) {
-            this.displaySuccessAlert('Address saved successfully');
+            this.displaySuccessAlert("Address saved successfully");
             setTimeout(() => {
               this.display = false;
               this.patientService.reloadCurrentPatient();
@@ -162,10 +162,10 @@ export class EditAddressComponent implements OnInit, OnDestroy {
           }
         },
         (error) => {
-          console.error('Error updating address: ', error);
+          console.error("Error updating address: ", error);
           this.errors.push({
-            id: 'patient',
-            message: 'error updating address'
+            id: "patient",
+            message: "error updating address",
           });
         }
       );

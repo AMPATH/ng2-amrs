@@ -1,20 +1,42 @@
-<p-dialog header="Warning!" [(visible)]="showConfirmationDialog" modal="true" width="400" [closable]="false" responsive="true">
+<p-dialog
+  header="Warning!"
+  [(visible)]="showConfirmationDialog"
+  modal="true"
+  width="400"
+  [closable]="false"
+  responsive="true"
+>
   <div class="text-bold">
     <h3 *ngIf="confirmingCancelVisit || confirmingEndVisit">
       <span class="fa-lg">
-        <i class="fa fa-exclamation-triangle"></i>
-      </span>{{message.title}}</h3>
+        <i class="fa fa-exclamation-triangle"></i> </span
+      >{{ message.title }}
+    </h3>
 
-    <h3 *ngIf="confirmingCancelVisit  || confirmingEndVisit">
-      <span class="fa-lg">
-      </span>{{message.message}}</h3>
+    <h3 *ngIf="confirmingCancelVisit || confirmingEndVisit">
+      <span class="fa-lg"> </span>{{ message.message }}
+    </h3>
   </div>
 
-  <br>
+  <br />
   <footer>
     <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-      <button (click)="onYesDialogConfirmation()" type="button" id="onYes" class="btn btn-primary">Yes</button>
-      <button (click)="onNoDialogConfirmation()" type="button" id="onNo" class="btn btn-danger">No</button>
+      <button
+        (click)="onYesDialogConfirmation()"
+        type="button"
+        id="onYes"
+        class="btn btn-primary"
+      >
+        Yes
+      </button>
+      <button
+        (click)="onNoDialogConfirmation()"
+        type="button"
+        id="onNo"
+        class="btn btn-danger"
+      >
+        No
+      </button>
     </div>
   </footer>
 </p-dialog>
@@ -22,27 +44,53 @@
 <div *ngIf="isBusy">Loading..</div>
 
 <div *ngIf="error !== ''" class="alert alert-danger alert-dismissible">
-  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error}}
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+    ×
+  </button>
+  {{ error }}
 </div>
 
 <div *ngIf="visit">
   <!-- <div class="visit-panel-heading"> -->
   <div class="locationdetails">
-    <visit-period [visitUuid]="visit.uuid" (editedLocation)="onVisitLocationEditted($event)" [iseditLocation]="editingLocation"></visit-period>
-    <edit-visit-types [visit]="visit" [isEditVisitType]="editingVisitType" [programUuid]="programUuid" (visitTypeEdited)="onVisitTypeEditted($event)"
-      [programEnrollmentUuid]="programEnrollmentUuid"></edit-visit-types>
-    <edit-retro-provider (retroVisitProviderChanged)="onVisitProviderChanged($event)" [visit]="visit" [isEditRetroProvider]="editingProvider"></edit-retro-provider>
+    <visit-period
+      [visitUuid]="visit.uuid"
+      (editedLocation)="onVisitLocationEditted($event)"
+      [iseditLocation]="editingLocation"
+    ></visit-period>
+    <edit-visit-types
+      [visit]="visit"
+      [isEditVisitType]="editingVisitType"
+      [programUuid]="programUuid"
+      (visitTypeEdited)="onVisitTypeEditted($event)"
+      [programEnrollmentUuid]="programEnrollmentUuid"
+    ></edit-visit-types>
+    <edit-retro-provider
+      (retroVisitProviderChanged)="onVisitProviderChanged($event)"
+      [visit]="visit"
+      [isEditRetroProvider]="editingProvider"
+    ></edit-retro-provider>
   </div>
   <!-- </div> -->
 
   <div class="button-nav">
-    <div class="add-borders ">
+    <div class="add-borders">
       <div class="btn-group blocks">
         <ng-container *ngIf="!hideButtonNav">
-          <a style="cursor: pointer;" *ngIf="!editingLocation" (click)="toggleEditLocation()">
-            <i class="glyphicon glyphicon-edit"></i> Edit Visit Location</a>
+          <a
+            style="cursor: pointer"
+            *ngIf="!editingLocation"
+            (click)="toggleEditLocation()"
+          >
+            <i class="glyphicon glyphicon-edit"></i> Edit Visit Location</a
+          >
 
-          <a style="cursor: pointer;" *ngIf="editingLocation" class="cancel-edit" (click)="toggleEditLocation()">
+          <a
+            style="cursor: pointer"
+            *ngIf="editingLocation"
+            class="cancel-edit"
+            (click)="toggleEditLocation()"
+          >
             <i class="glyphicon glyphicon-remove"></i> Cancel Edit Location
           </a>
           <!--<a style="cursor: pointer;" *ngIf="!editingProvider" (click)="toggleEditVisitProvider()">
@@ -51,45 +99,83 @@
           <!--<a style="cursor: pointer;" *ngIf="editingProvider" class="cancel-edit" (click)="toggleEditVisitProvider()">
             <i class="glyphicon glyphicon-remove"></i> Cancel Edit Provider
           </a>-->
-          <a style="cursor: pointer;" *ngIf="!editingVisitType" (click)="toggleEditVisitType()">
-            <i class="glyphicon glyphicon-edit"></i> Edit Visit Type</a>
+          <a
+            style="cursor: pointer"
+            *ngIf="!editingVisitType"
+            (click)="toggleEditVisitType()"
+          >
+            <i class="glyphicon glyphicon-edit"></i> Edit Visit Type</a
+          >
 
-          <a style="cursor: pointer;" *ngIf="editingVisitType" class="cancel-edit" (click)="toggleEditVisitType()">
+          <a
+            style="cursor: pointer"
+            *ngIf="editingVisitType"
+            class="cancel-edit"
+            (click)="toggleEditVisitType()"
+          >
             <i class="glyphicon glyphicon-remove"></i> Cancel Edit Visit Type
           </a>
         </ng-container>
 
-        <a style="cursor: pointer;" *ngIf="!isVisitEnded" id="endVisitButton" (click)="confirmAction('end-visit')">
-          <i class="glyphicon glyphicon-check"></i> End Visit</a>
+        <a
+          style="cursor: pointer"
+          *ngIf="!isVisitEnded"
+          id="endVisitButton"
+          (click)="confirmAction('end-visit')"
+        >
+          <i class="glyphicon glyphicon-check"></i> End Visit</a
+        >
 
-        <a style="cursor: pointer;" id="cancelVisitButton" (click)="confirmAction('cancel-visit')">
-          <i class="glyphicon glyphicon-remove"></i> Cancel Visit</a>
+        <a
+          style="cursor: pointer"
+          id="cancelVisitButton"
+          (click)="confirmAction('cancel-visit')"
+        >
+          <i class="glyphicon glyphicon-remove"></i> Cancel Visit</a
+        >
       </div>
     </div>
   </div>
   <!-- class="list-group-item" -->
   <div>
     <!-- <h4 class="component-title"><span class="icon-i-immunizations"></span>Visit Encounters</h4> -->
-    <button (click)="voidVisitEncounters()" *ngIf="showDeleteEncountersButton" type="button" class="btn btn-danger">Delete Encounters</button>
+    <button
+      (click)="voidVisitEncounters()"
+      *ngIf="showDeleteEncountersButton"
+      type="button"
+      class="btn btn-danger"
+    >
+      Delete Encounters
+    </button>
     <!-- class="visit-panel-body" -->
     <div>
-      <encounter-list *ngIf="!visitWithNoEncounters" [showPagination]="false" [showFilterers]="false" [encounters]="visitEncounters"
-        (onEncounterEdit)="onEncounterSelected($event)"></encounter-list>
-      <div *ngIf="visitWithNoEncounters">
-        Patient yet to see provider
-      </div>
+      <encounter-list
+        *ngIf="!visitWithNoEncounters"
+        [showPagination]="false"
+        [showFilterers]="false"
+        [encounters]="visitEncounters"
+        (onEncounterEdit)="onEncounterSelected($event)"
+      ></encounter-list>
+      <div *ngIf="visitWithNoEncounters">Patient yet to see provider</div>
     </div>
   </div>
-  <span style="padding:10px;"></span>
+  <span style="padding: 10px"></span>
 
   <div>
-    <div class="reverse-flow" (click)="formsCollapsed = !formsCollapsed;">
-      <i  *ngIf="formsCollapsed" class="glyphicon glyphicon-chevron-down"></i>
-      <i  *ngIf="!formsCollapsed" class="glyphicon glyphicon-chevron-up"></i>
+    <div class="reverse-flow" (click)="formsCollapsed = !formsCollapsed">
+      <i *ngIf="formsCollapsed" class="glyphicon glyphicon-chevron-down"></i>
+      <i *ngIf="!formsCollapsed" class="glyphicon glyphicon-chevron-up"></i>
     </div>
-    <div id="formsComponent"  [ngClass]="[formsCollapsed ? 'collapse':'']" *ngIf="!confirmStartVisitForDiffProgram">
-      <form-list [excludedForms]="completedEncounterTypesUuids" [encounterTypeFilter]="allowedEncounterTypesUuids" (onFormSelected)="onFormSelected($event)"></form-list>
+    <div
+      id="formsComponent"
+      [ngClass]="[formsCollapsed ? 'collapse' : '']"
+      *ngIf="!confirmStartVisitForDiffProgram"
+    >
+      <form-list
+        [excludedForms]="completedEncounterTypesUuids"
+        [encounterTypeFilter]="allowedEncounterTypesUuids"
+        (onFormSelected)="onFormSelected($event)"
+      ></form-list>
     </div>
   </div>
-
 </div>

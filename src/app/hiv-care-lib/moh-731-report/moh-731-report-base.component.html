@@ -1,33 +1,71 @@
-<h4 class="component-title" style="color: green;"><span class="glyphicon glyphicon-equalizer"></span> MOH 731 Report</h4>
-<div class="loader" *ngIf="isLoadingReport||showPatientListLoader"><span><i class="fa fa-spinner fa-spin">
-      </i>Loading...</span></div>
-<moh-731-report-filters [(startDate)]="startDate" [(endDate)]="endDate" [(isLegacyVersion)]="isLegacyReport" [(isAggregated)]="isAggregated"
-[parentIsBusy]="isLoadingReport"
-[(locationUuids)]="locationUuids"
-[showLocationsControl] = "showLocationsControl"
-                [showIsAggregateControl] = "showIsAggregateControl"
-    (generateReport)="generateReport()">
-
+<h4 class="component-title" style="color: green">
+  <span class="glyphicon glyphicon-equalizer"></span> MOH 731 Report
+</h4>
+<div class="loader" *ngIf="isLoadingReport || showPatientListLoader">
+  <span><i class="fa fa-spinner fa-spin"> </i>Loading...</span>
+</div>
+<moh-731-report-filters
+  [(startDate)]="startDate"
+  [(endDate)]="endDate"
+  [(isLegacyVersion)]="isLegacyReport"
+  [(isAggregated)]="isAggregated"
+  [parentIsBusy]="isLoadingReport"
+  [(locationUuids)]="locationUuids"
+  [showLocationsControl]="showLocationsControl"
+  [showIsAggregateControl]="showIsAggregateControl"
+  (generateReport)="generateReport()"
+>
 </moh-731-report-filters>
 <div class="alert alert-danger fade in" *ngIf="showInfoMessage">
-    <a href="#" class="close" data-dismiss="alert">&times;</a>
-    <h4 *ngIf="!statusError"><strong><span class="glyphicon glyphicon-warning-sign"></span> </strong> An error occurred while trying to load the report.
-        Please try again.
-    </h4>
-    <p>
-        <small >{{errorMessage}}</small>
-    </p>
+  <a href="#" class="close" data-dismiss="alert">&times;</a>
+  <h4 *ngIf="!statusError">
+    <strong><span class="glyphicon glyphicon-warning-sign"></span> </strong> An
+    error occurred while trying to load the report. Please try again.
+  </h4>
+  <p>
+    <small>{{ errorMessage }}</small>
+  </p>
 </div>
 <div *ngIf="!isLoadingReport && !showInfoMessage">
-    <p-tabView (onChange)="onTabChanged($event)">
-        <p-tabPanel header="Report View" leftIcon="fa-file-pdf-o " [selected]="currentView === 'pdf'">
-            <moh-731-pdf #mohPdf [selectedLocations]="locationUuids" [isAggregated]="isAggregated" [startDate]="startDate" [endDate]="endDate" [data]="data" [sectionsDef]="sectionsDef" [isReleased]="isReleased"></moh-731-pdf>
-        </p-tabPanel>
-        <p-tabPanel header="Tabular View"  leftIcon="fa-table" [selected]="currentView === 'tabular'">
-          <button class="btn btn-primary" (click)="toggleMohTables()" *ngIf="!showTabularView">Go back to tabular view</button>
-          <div class="loader" *ngIf="showPatientListLoader">Loading patient list....</div>
-             <moh-731-tabular [hidden]="!showTabularView" [sectionDefs]="sectionsDef" (indicatorSelected)="onIndicatorSelected($event)" [rowData]="data" [isReleased]="isReleased"></moh-731-tabular>
-        </p-tabPanel>
-    </p-tabView>
-
+  <p-tabView (onChange)="onTabChanged($event)">
+    <p-tabPanel
+      header="Report View"
+      leftIcon="fa-file-pdf-o "
+      [selected]="currentView === 'pdf'"
+    >
+      <moh-731-pdf
+        #mohPdf
+        [selectedLocations]="locationUuids"
+        [isAggregated]="isAggregated"
+        [startDate]="startDate"
+        [endDate]="endDate"
+        [data]="data"
+        [sectionsDef]="sectionsDef"
+        [isReleased]="isReleased"
+      ></moh-731-pdf>
+    </p-tabPanel>
+    <p-tabPanel
+      header="Tabular View"
+      leftIcon="fa-table"
+      [selected]="currentView === 'tabular'"
+    >
+      <button
+        class="btn btn-primary"
+        (click)="toggleMohTables()"
+        *ngIf="!showTabularView"
+      >
+        Go back to tabular view
+      </button>
+      <div class="loader" *ngIf="showPatientListLoader">
+        Loading patient list....
+      </div>
+      <moh-731-tabular
+        [hidden]="!showTabularView"
+        [sectionDefs]="sectionsDef"
+        (indicatorSelected)="onIndicatorSelected($event)"
+        [rowData]="data"
+        [isReleased]="isReleased"
+      ></moh-731-tabular>
+    </p-tabPanel>
+  </p-tabView>
 </div>

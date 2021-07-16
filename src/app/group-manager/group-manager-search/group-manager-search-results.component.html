@@ -15,23 +15,45 @@
           </tr>
         </thead>
         <tbody>
-          <tr style="cursor: pointer;" *ngFor="let group of _groups | paginate: { itemsPerPage: 10, currentPage: page }; let i = index; "
-            (click)="selectGroup(group.uuid)">
+          <tr
+            style="cursor: pointer"
+            *ngFor="
+              let group of _groups
+                | paginate: { itemsPerPage: 10, currentPage: page };
+              let i = index
+            "
+            (click)="selectGroup(group.uuid)"
+          >
             <td>{{ group.groupNumber }}</td>
             <td>{{ group.display }}</td>
             <td>{{ group.program }}</td>
             <td>{{ group.facility.display }}</td>
             <td>{{ group.landmark }}</td>
             <td>{{ group.status }}</td>
-            <td  *ngIf="group.endDate == null"><button class="btn btn-sm btn-danger" (click)="$event.stopPropagation(); showDisbandDateModal(group)">Disband
+            <td *ngIf="group.endDate == null">
+              <button
+                class="btn btn-sm btn-danger"
+                (click)="$event.stopPropagation(); showDisbandDateModal(group)"
+              >
+                Disband
               </button>
             </td>
-            <td *ngIf="group.endDate"><button class="btn btn-sm btn-success" (click)="$event.stopPropagation(); activateGroup(group)">Activate
+            <td *ngIf="group.endDate">
+              <button
+                class="btn btn-sm btn-success"
+                (click)="$event.stopPropagation(); activateGroup(group)"
+              >
+                Activate
               </button>
             </td>
           </tr>
         </tbody>
       </table>
-      <pagination-controls *ngIf="_groups.length > 10" (pageChange)="page = $event" style="cursor: pointer;"></pagination-controls>
+      <pagination-controls
+        *ngIf="_groups.length > 10"
+        (pageChange)="page = $event"
+        style="cursor: pointer"
+      ></pagination-controls>
     </div>
   </div>
+</div>

@@ -13,7 +13,11 @@
           <span class="hidden-xs hidden-sm">Clinic Dashboard</span>
         </a>
       </li>
-      <li class="dropdown more menu-left more-menu"  dropdown routerLinkActive="trail">
+      <li
+        class="dropdown more menu-left more-menu"
+        dropdown
+        routerLinkActive="trail"
+      >
         <a dropdownToggle class="dropdown-toggle" data-toggle="dropdown">
           <i class="fa fa-th mr-1"></i>
           <span class="hidden-xs hidden-sm mr-1">More</span>
@@ -27,15 +31,18 @@
             </a>
           </li>
           <li class="data-analytics">
-            <a routerLink="/data-analytics"  routerLinkActive="active">
+            <a routerLink="/data-analytics" routerLinkActive="active">
               <i class="fa fa-line-chart"></i>
               <span>Data Analytics</span>
             </a>
           </li>
         </ul>
       </li>
-      <li class="dropdown user user-menu pull-right" dropdown routerLinkActive="trail">
-
+      <li
+        class="dropdown user user-menu pull-right"
+        dropdown
+        routerLinkActive="trail"
+      >
         <a dropdownToggle class="dropdown-toggle" data-toggle="dropdown">
           <i class="fa fa-user"></i>
           <span class="username hidden-xs mr-1">{{ user.display }}</span>
@@ -44,16 +51,16 @@
         <ul *dropdownMenu class="dropdown-menu">
           <li class="dropdown-header">
             <dl>
-              <dt>{{user.display}}</dt>
-              </dl>
+              <dt>{{ user.display }}</dt>
+            </dl>
           </li>
           <li role="separator" class="divider"></li>
           <li class="dropdown-header">
             <dl>
               <dt>Location:</dt>
-              <dd>{{userLocation}}</dd>
+              <dd>{{ userLocation }}</dd>
               <dt>Role(s):</dt>
-              <dd>- {{ user.roleDisplay.split(',').join("\n- ").trim() }}</dd>
+              <dd>- {{ user.roleDisplay.split(",").join("\n- ").trim() }}</dd>
             </dl>
           </li>
           <li role="separator" class="divider"></li>
@@ -64,12 +71,14 @@
           </li>
           <li>
             <a routerLink="/user-default-properties" routerLinkActive="active">
-              <span class="glyphicon glyphicon-user"></span> User Default Settings
+              <span class="glyphicon glyphicon-user"></span> User Default
+              Settings
             </a>
           </li>
           <li>
             <a routerLink="/useful-links" routerLinkActive="active">
-              <span class="glyphicon glyphicon-question-sign"></span> Useful Links
+              <span class="glyphicon glyphicon-question-sign"></span> Useful
+              Links
             </a>
           </li>
           <!-- <li>
@@ -83,7 +92,7 @@
             </a>
           </li>
           <li>
-            <a (click)="updateForms()" style="cursor:pointer;">
+            <a (click)="updateForms()" style="cursor: pointer">
               <span class="glyphicon glyphicon-refresh"></span> Update Forms
             </a>
           </li>
@@ -99,7 +108,6 @@
           </li>
         </ul>
       </li>
-
     </ul>
   </div>
 </nav>

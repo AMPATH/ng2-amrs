@@ -1,4 +1,4 @@
-import { take } from 'rxjs/operators';
+import { take } from "rxjs/operators";
 import {
   Component,
   OnInit,
@@ -7,25 +7,25 @@ import {
   forwardRef,
   ViewEncapsulation,
   AfterViewInit,
-  ChangeDetectorRef
-} from '@angular/core';
-import { Output, Input } from '@angular/core';
-import { IndicatorResourceService } from '../../etl-api/indicator-resource.service';
-import * as Moment from 'moment';
-import * as _ from 'lodash';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { DataAnalyticsDashboardService } from '../../data-analytics-dashboard/services/data-analytics-dashboard.services';
-import { ProgramResourceService } from '../../openmrs-api/program-resource.service';
-import { ProgramWorkFlowResourceService } from '../../openmrs-api/program-workflow-resource.service';
+  ChangeDetectorRef,
+} from "@angular/core";
+import { Output, Input } from "@angular/core";
+import { IndicatorResourceService } from "../../etl-api/indicator-resource.service";
+import * as Moment from "moment";
+import * as _ from "lodash";
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
+import { DataAnalyticsDashboardService } from "../../data-analytics-dashboard/services/data-analytics-dashboard.services";
+import { ProgramResourceService } from "../../openmrs-api/program-resource.service";
+import { ProgramWorkFlowResourceService } from "../../openmrs-api/program-workflow-resource.service";
 declare var jQuery;
-require('ion-rangeslider');
-import { DepartmentProgramsConfigService } from '../../etl-api/department-programs-config.service';
-import { SelectDepartmentService } from './../services/select-department.service';
+require("ion-rangeslider");
+import { DepartmentProgramsConfigService } from "../../etl-api/department-programs-config.service";
+import { SelectDepartmentService } from "./../services/select-department.service";
 
 @Component({
-  selector: 'report-filters',
+  selector: "report-filters",
   // styleUrls: ['report-filters.component.css'],
-  templateUrl: 'report-filters.component.html',
+  templateUrl: "report-filters.component.html",
   styles: [
     `
       ng-select > div > div.multiple input {
@@ -40,20 +40,20 @@ import { SelectDepartmentService } from './../services/select-department.service
       .mr-1 {
         margin-right: 1rem;
       }
-    `
+    `,
   ],
   encapsulation: ViewEncapsulation.None,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => ReportFiltersComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class ReportFiltersComponent
   implements OnInit, ControlValueAccessor, AfterViewInit {
-  public cervicalScreeningReport = 'cervical-cancer-screening-numbers';
+  public cervicalScreeningReport = "cervical-cancer-screening-numbers";
   @Input() public start: number;
   @Input() public end: number;
   @Input()
@@ -75,27 +75,27 @@ export class ReportFiltersComponent
   @Output() public endingMonthChange = new EventEmitter<any>();
   public genderOptions: Array<any> = [
     {
-      value: 'F',
-      label: 'F'
+      value: "F",
+      label: "F",
     },
     {
-      value: 'M',
-      label: 'M'
-    }
+      value: "M",
+      label: "M",
+    },
   ];
   public periodOptions: Array<any> = [
     {
-      value: 'daily',
-      label: 'Daily'
+      value: "daily",
+      label: "Daily",
     },
     {
-      value: 'monthly',
-      label: 'Monthly'
-    }
+      value: "monthly",
+      label: "Monthly",
+    },
   ];
   public selectedIndicatorTagsSelectedAll = false;
   public selectedProgramTagsSelectedAll = false;
-  @Input() public selectedPeriod = '';
+  @Input() public selectedPeriod = "";
   @Output() public selectedPeriodChange = new EventEmitter<any>();
   @Output() public onGenderChange = new EventEmitter<any>();
   public disableGenerateReportBtn = false;
@@ -129,7 +129,7 @@ export class ReportFiltersComponent
   private _gender: Array<any> = [];
   private _programs: Array<any> = [];
   private _surgeWeeks: any;
-  private _currentDepartment = '';
+  private _currentDepartment = "";
   private _startingMonth: Date;
   private _endingMonth: Date;
   month: any;
@@ -215,13 +215,13 @@ export class ReportFiltersComponent
   }
 
   public get startDateString(): string {
-    return this.startDate ? Moment(this.startDate).format('YYYY-MM-DD') : null;
+    return this.startDate ? Moment(this.startDate).format("YYYY-MM-DD") : null;
   }
   public set startDateString(v: string) {
     this.startDate = new Date(v);
   }
   public get endDateString(): string {
-    return this.endDate ? Moment(this.endDate).format('YYYY-MM-DD') : null;
+    return this.endDate ? Moment(this.endDate).format("YYYY-MM-DD") : null;
   }
   public set endDateString(v: string) {
     this.endDate = new Date(v);
@@ -229,8 +229,8 @@ export class ReportFiltersComponent
   @Input()
   public get monthString(): string {
     return this.month
-      ? Moment(this.month).format('YYYY-MM')
-      : Moment().format('YYYY-MM');
+      ? Moment(this.month).format("YYYY-MM")
+      : Moment().format("YYYY-MM");
   }
   public set monthString(v: string) {
     this.month = new Date(v);
@@ -254,7 +254,7 @@ export class ReportFiltersComponent
   }
   public get startingMonthString(): string {
     return this.startingMonth
-      ? Moment(this.startingMonth).format('YYYY-MM-DD')
+      ? Moment(this.startingMonth).format("YYYY-MM-DD")
       : null;
   }
   public set startingMonthString(v: string) {
@@ -262,7 +262,7 @@ export class ReportFiltersComponent
   }
   public get endingMonthString(): string {
     return this.endingMonth
-      ? Moment(this.endingMonth).format('YYYY-MM-DD')
+      ? Moment(this.endingMonth).format("YYYY-MM-DD")
       : null;
   }
   public set endingMonthString(v: string) {
@@ -271,7 +271,7 @@ export class ReportFiltersComponent
   public ngOnInit() {
     if (this.reportType === this.cervicalScreeningReport) {
       this.genderOptions = this.genderOptions.filter((option) => {
-        return option.value === 'F' && option.label === 'F';
+        return option.value === "F" && option.label === "F";
       });
     }
 
@@ -297,10 +297,10 @@ export class ReportFiltersComponent
     return this.enabledControls.indexOf(control) > -1;
   }
   public renderFilterControls(): void {
-    if (this.isEnabled('indicatorsControl')) {
+    if (this.isEnabled("indicatorsControl")) {
       this.getIndicators();
     }
-    if (this.isEnabled('programsControl')) {
+    if (this.isEnabled("programsControl")) {
       this.getCurrentDepartment();
     }
   }
@@ -322,7 +322,7 @@ export class ReportFiltersComponent
       });
   }
   public getCachedLocations() {
-    if (this._report === 'hiv-summary-report') {
+    if (this._report === "hiv-summary-report") {
       this.dataAnalyticsDashboardService
         .getSelectedIndicatorLocations()
         .pipe(take(1))
@@ -332,8 +332,8 @@ export class ReportFiltersComponent
           }
         });
     } else if (
-      this._report === 'hiv-summary-monthly-report' ||
-      this._report === 'oncology-summary-monthly-report'
+      this._report === "hiv-summary-monthly-report" ||
+      this._report === "oncology-summary-monthly-report"
     ) {
       this.dataAnalyticsDashboardService
         .getSelectedMonthlyIndicatorLocations()
@@ -363,7 +363,7 @@ export class ReportFiltersComponent
     const indicators = [];
     this.indicatorResourceService
       .getReportIndicators({
-        report: this.reportName
+        report: this.reportName,
       })
       .pipe(take(1))
       .subscribe((results: any[]) => {
@@ -372,8 +372,8 @@ export class ReportFiltersComponent
             if (data.hasOwnProperty(r)) {
               const id = data.name;
               const text = data.label;
-              data['value'] = id;
-              data['label'] = text;
+              data["value"] = id;
+              data["label"] = text;
             }
           }
           indicators.push(data);
@@ -419,13 +419,13 @@ export class ReportFiltersComponent
     }
   }
   public getSelectedLocations(locs: any) {
-    if (this._report === 'hiv-summary-report') {
+    if (this._report === "hiv-summary-report") {
       this.dataAnalyticsDashboardService.setSelectedIndicatorLocations(locs);
       return;
     }
     if (
-      this._report === 'hiv-summary-monthly-report' ||
-      this._report === 'oncology-summary-monthly-report'
+      this._report === "hiv-summary-monthly-report" ||
+      this._report === "oncology-summary-monthly-report"
     ) {
       this.dataAnalyticsDashboardService.setSelectedMonthlyIndicatorLocations(
         locs
@@ -448,9 +448,9 @@ export class ReportFiltersComponent
   }
   public ngAfterViewInit() {
     this.cd.detectChanges();
-    this.sliderElt = jQuery(this.elementRef.nativeElement).find('.slider');
+    this.sliderElt = jQuery(this.elementRef.nativeElement).find(".slider");
     this.sliderElt.ionRangeSlider({
-      type: 'double',
+      type: "double",
       grid: true,
       from: this.start,
       to: this.end,
@@ -465,7 +465,7 @@ export class ReportFiltersComponent
       },
       onChange: (data) => {
         this.value = { ageFrom: data.from, ageTo: data.to };
-      }
+      },
     });
     this.initialized = true;
   }
@@ -481,7 +481,7 @@ export class ReportFiltersComponent
   public writeValue(value: any): void {
     if (value != null) {
       if (this.initialized) {
-        this.sliderElt.slider('value', value);
+        this.sliderElt.slider("value", value);
       } else {
         this.value = value;
       }

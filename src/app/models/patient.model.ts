@@ -1,10 +1,10 @@
 /**
  * patient
  */
-import {BaseModel} from './base-model.model';
-import {serializable} from './serializable.decorator';
-import {Person} from './person.model';
-import {PatientIdentifier} from './patient-identifier.model';
+import { BaseModel } from "./base-model.model";
+import { serializable } from "./serializable.decorator";
+import { Person } from "./person.model";
+import { PatientIdentifier } from "./patient-identifier.model";
 
 export class Patient extends BaseModel {
   public _identifier = this.openmrsModel.identifiers;
@@ -20,7 +20,7 @@ export class Patient extends BaseModel {
   @serializable(true, false)
   public get person(): Person {
     if (this._person === null || this._person === undefined) {
-      this.initializeNavigationProperty('person');
+      this.initializeNavigationProperty("person");
       this._person = new Person(this._openmrsModel.person);
     }
     return this._person;
@@ -33,9 +33,14 @@ export class Patient extends BaseModel {
 
   @serializable()
   public get identifiers(): PatientIdentifier {
-    if (this._patientIdentifier === null || this._patientIdentifier === undefined) {
-      this.initializeNavigationProperty('patientIdentifier');
-      this._patientIdentifier = new PatientIdentifier(this._openmrsModel.identifiers);
+    if (
+      this._patientIdentifier === null ||
+      this._patientIdentifier === undefined
+    ) {
+      this.initializeNavigationProperty("patientIdentifier");
+      this._patientIdentifier = new PatientIdentifier(
+        this._openmrsModel.identifiers
+      );
     }
     return this._patientIdentifier;
   }
@@ -47,8 +52,11 @@ export class Patient extends BaseModel {
 
   @serializable()
   public get enrolledPrograms(): any[] {
-    if (this._enrolledPrograms === null || this._enrolledPrograms === undefined) {
-      this.initializeNavigationProperty('enrolledPrograms');
+    if (
+      this._enrolledPrograms === null ||
+      this._enrolledPrograms === undefined
+    ) {
+      this.initializeNavigationProperty("enrolledPrograms");
       this._enrolledPrograms = this._openmrsModel.enrolledPrograms;
     }
     return this._enrolledPrograms;
@@ -60,7 +68,6 @@ export class Patient extends BaseModel {
   }
 
   public get encounters() {
-
     const mappedEncounters: Array<any> = [];
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < this._encounters.length; i++) {
@@ -75,27 +82,34 @@ export class Patient extends BaseModel {
 
   public get allIdentifiers() {
     if (this._identifier.length > 0) {
-      return this._identifier.map(id => id.identifier).toString();
+      return this._identifier.map((id) => id.identifier).toString();
     }
-    return '';
+    return "";
   }
 
-
   public get searchIdentifiers() {
-
     if (this._identifier.length > 0) {
       // return _identifier[0].display.split('=')[1];
       let filteredIdentifiers: any;
       const identifier = this._identifier;
-      const kenyaNationalId = this.getIdentifierByType(identifier, 'KENYAN NATIONAL ID NUMBER');
-      const amrsMrn = this.getIdentifierByType(identifier, 'AMRS Medical Record Number');
-      const ampathMrsUId = this.getIdentifierByType(identifier, 'AMRS Universal ID');
-      const cCC = this.getIdentifierByType(identifier, 'CCC Number');
-      const hei = this.getIdentifierByType(identifier, 'HEI');
-      const nat = this.getIdentifierByType(identifier, 'NAT');
-      const bhim = this.getIdentifierByType(identifier, 'BHIM');
-      const ovcid = this.getIdentifierByType(identifier, 'OVCID');
-      const prep = this.getIdentifierByType(identifier, 'PrEP');
+      const kenyaNationalId = this.getIdentifierByType(
+        identifier,
+        "KENYAN NATIONAL ID NUMBER"
+      );
+      const amrsMrn = this.getIdentifierByType(
+        identifier,
+        "AMRS Medical Record Number"
+      );
+      const ampathMrsUId = this.getIdentifierByType(
+        identifier,
+        "AMRS Universal ID"
+      );
+      const cCC = this.getIdentifierByType(identifier, "CCC Number");
+      const hei = this.getIdentifierByType(identifier, "HEI");
+      const nat = this.getIdentifierByType(identifier, "NAT");
+      const bhim = this.getIdentifierByType(identifier, "BHIM");
+      const ovcid = this.getIdentifierByType(identifier, "OVCID");
+      const prep = this.getIdentifierByType(identifier, "PrEP");
       if (
         kenyaNationalId === undefined &&
         amrsMrn === undefined &&
@@ -107,7 +121,7 @@ export class Patient extends BaseModel {
         if (this._identifier[0].identifier) {
           filteredIdentifiers = { default: this._identifier[0].identifier };
         } else {
-          filteredIdentifiers = {'default': ''};
+          filteredIdentifiers = { default: "" };
         }
       } else {
         filteredIdentifiers = {
@@ -119,30 +133,37 @@ export class Patient extends BaseModel {
           nat: nat,
           bhim: bhim,
           ovcid: ovcid,
-          prep: prep
+          prep: prep,
         };
       }
       return filteredIdentifiers;
     } else {
-      return this._identifier = '';
+      return (this._identifier = "");
     }
-
   }
 
   public get commonIdentifiers() {
-
     if (this._identifier.length > 0) {
       // return _identifier[0].display.split('=')[1];
 
       let filteredIdentifiers: any;
       const identifiers = this._identifier;
 
-      const kenyaNationalId = this.getAllIdentifiersByType(identifiers, 'KENYAN NATIONAL ID NUMBER');
-      const amrsMrn = this.getAllIdentifiersByType(identifiers, 'AMRS Medical Record Number');
-      const ampathMrsUId = this.getAllIdentifiersByType(identifiers, 'AMRS Universal ID');
-      const cCC = this.getAllIdentifiersByType(identifiers, 'CCC Number');
-      const ovcid = this.getIdentifierByType(identifiers, 'OVCID');
-      const prep = this.getIdentifierByType(identifiers, 'PrEP');
+      const kenyaNationalId = this.getAllIdentifiersByType(
+        identifiers,
+        "KENYAN NATIONAL ID NUMBER"
+      );
+      const amrsMrn = this.getAllIdentifiersByType(
+        identifiers,
+        "AMRS Medical Record Number"
+      );
+      const ampathMrsUId = this.getAllIdentifiersByType(
+        identifiers,
+        "AMRS Universal ID"
+      );
+      const cCC = this.getAllIdentifiersByType(identifiers, "CCC Number");
+      const ovcid = this.getIdentifierByType(identifiers, "OVCID");
+      const prep = this.getIdentifierByType(identifiers, "PrEP");
       if (
         kenyaNationalId === undefined &&
         amrsMrn === undefined &&
@@ -153,7 +174,7 @@ export class Patient extends BaseModel {
         if (this._identifier[0].identifier) {
           filteredIdentifiers = { default: this._identifier[0].identifier };
         } else {
-          filteredIdentifiers = {'default': ''};
+          filteredIdentifiers = { default: "" };
         }
       } else {
         filteredIdentifiers = {
@@ -167,14 +188,13 @@ export class Patient extends BaseModel {
             ? this._fromArrayToCommaSeparatedString(ampathMrsUId)
             : ampathMrsUId,
           cCC: cCC ? this._fromArrayToCommaSeparatedString(cCC) : cCC,
-          ovcid: ovcid ? this._fromArrayToCommaSeparatedString(ovcid) : ovcid
+          ovcid: ovcid ? this._fromArrayToCommaSeparatedString(ovcid) : ovcid,
         };
       }
       return filteredIdentifiers;
     } else {
-      return this._identifier = '';
+      return (this._identifier = "");
     }
-
   }
 
   public toUpdatePayload(): any {
@@ -183,7 +203,7 @@ export class Patient extends BaseModel {
 
   public getIdentifierByType(identifierObject, type) {
     for (const e in identifierObject) {
-      if ((identifierObject[e].identifierType) !== undefined) {
+      if (identifierObject[e].identifierType !== undefined) {
         const idType = identifierObject[e].identifierType.name;
         const id = identifierObject[e].identifier;
         if (idType === type) {
@@ -196,7 +216,7 @@ export class Patient extends BaseModel {
   public getAllIdentifiersByType(identifiers, type) {
     const types = [];
     for (const e in identifiers) {
-      if ((identifiers[e].identifierType) !== undefined) {
+      if (identifiers[e].identifierType !== undefined) {
         const idType = identifiers[e].identifierType.name;
         const id = identifiers[e].identifier;
         if (idType === type) {
@@ -209,16 +229,15 @@ export class Patient extends BaseModel {
   }
 
   private _fromArrayToCommaSeparatedString(inputArray) {
-    let returnString = '';
+    let returnString = "";
 
     for (let i = 0; i < inputArray.length; i++) {
       if (i === 0) {
         returnString = inputArray[i] + returnString;
       } else {
-        returnString = returnString + ', ' + inputArray[i];
+        returnString = returnString + ", " + inputArray[i];
       }
     }
     return returnString;
   }
-
 }

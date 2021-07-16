@@ -1,11 +1,11 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed, inject } from "@angular/core/testing";
 
-import { DqaChartAbstractionService } from './dqa-chart-abstraction.service';
+import { DqaChartAbstractionService } from "./dqa-chart-abstraction.service";
 
-describe('DqaChartAbstractionService', () => {
+describe("DqaChartAbstractionService", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [DqaChartAbstractionService]
+      providers: [DqaChartAbstractionService],
     });
   });
 });

@@ -1,106 +1,186 @@
-<p-dialog header="Edit Demographics" [(visible)]="display" closable="true" styleClass="edit-demographics-dialog">
-  <div class="alert alert-success" *ngIf="showSuccessAlert" style="margin-top:10px">
-    <strong>Done!</strong> {{successAlert}}
+<p-dialog
+  header="Edit Demographics"
+  [(visible)]="display"
+  closable="true"
+  styleClass="edit-demographics-dialog"
+>
+  <div
+    class="alert alert-success"
+    *ngIf="showSuccessAlert"
+    style="margin-top: 10px"
+  >
+    <strong>Done!</strong> {{ successAlert }}
   </div>
-  <div class="alert alert-danger" *ngIf="showErrorAlert" style="margin-top:10px">
-    <strong>{{errorTitle}}</strong> {{errorAlert}}
+  <div
+    class="alert alert-danger"
+    *ngIf="showErrorAlert"
+    style="margin-top: 10px"
+  >
+    <strong>{{ errorTitle }}</strong> {{ errorAlert }}
   </div>
   <form name="nameForm">
     <div class="container-fluid">
-    <div class="row" id="edit-demographics-row">
-    <div *ngIf="errors" style="color: red !important">
-      <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-          <div *ngFor="let error of errors">{{error.message}}</div>
+      <div class="row" id="edit-demographics-row">
+        <div *ngIf="errors" style="color: red !important">
+          <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+            <div *ngFor="let error of errors">{{ error.message }}</div>
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+          <div class="form-group">
+            <label for="givenName">Given Name</label>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="givenName"
+              name="givenName"
+              placeholder="Given Name"
+              required
+            />
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+          <div class="form-group">
+            <label for="middleName">Middle Name</label>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="middleName"
+              name="middleName"
+              placeholder="Middle Name"
+            />
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+          <div class="form-group">
+            <label for="familyName">Family Name</label>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="familyName"
+              name="familyName"
+              placeholder="Family Name"
+              required
+            />
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+          <div class="form-group">
+            <label for="gender">Gender</label>
+            <select class="form-control" [(ngModel)]="gender" name="gender">
+              <option *ngFor="let opt of genderOptions" [value]="opt.val">
+                {{ opt.label }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+          <div class="form-group">
+            <label for="birthDate"
+              >Birthdate <span>(Format: dd/mm/yyyy)</span></label
+            ><br />
+            <date-time-picker
+              tabindex="0"
+              [modelValue]="birthDate"
+              [id]="'birthDate'"
+              (onDateChange)="updateBirthDate($event)"
+            ></date-time-picker>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+          <div class="form-group">
+            <label for="birthdateEstimated">Birthdate Estimated?</label>
+            <select
+              class="form-control"
+              [(ngModel)]="birthdateEstimated"
+              name="birthdateEstimated"
+              (ngModelChange)="updateDOBDetails($event)"
+            >
+              <option *ngFor="let opt of preferredOptions" [value]="opt.val">
+                {{ opt.label }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+          <div class="form-group">
+            <label for="preferred">Preferred</label>
+            <select
+              class="form-control"
+              [(ngModel)]="preferred"
+              name="preferred"
+            >
+              <option *ngFor="let opt of preferredOptions" [value]="opt.val">
+                {{ opt.label }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+          <div class="form-group">
+            <label for="dead">Has patient died?</label>
+            <select
+              class="form-control"
+              [(ngModel)]="dead"
+              name="dead"
+              (ngModelChange)="updateDeathDetails($event)"
+            >
+              <option *ngFor="let opt of preferredOptions" [value]="opt.val">
+                {{ opt.label }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+          <div [hidden]="!dead" class="form-group">
+            <label for="deathDate"
+              >Approximate Death Date
+              <span class="pull-right" style="color: red"> *</span></label
+            ><br />
+            <date-time-picker
+              tabindex="0"
+              [modelValue]="deathDate"
+              [id]="'deathDate'"
+              (onDateChange)="updateDeathDate($event)"
+            ></date-time-picker>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+          <div [hidden]="!dead" class="form-group">
+            <label for="causeOfDate"
+              >Cause of Death
+              <span class="pull-right" style="color: red"> *</span></label
+            >
+            <select
+              class="form-control"
+              name="personDeadSelect"
+              [(ngModel)]="causeOfDeath"
+            >
+              <option *ngFor="let cause of causesOfDeath" [value]="cause.uuid">
+                {{ cause.display }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+          <button type="submit" class="btn btn-primary" (click)="updateName()">
+            Submit
+          </button>
+          <button
+            class="btn btn-danger pull-right"
+            type="button"
+            (click)="dismissDialog()"
+          >
+            <span>Cancel</span>
+          </button>
+        </div>
       </div>
-    </div>
-    <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
-        <div class="form-group">
-          <label for="givenName">Given Name</label>
-          <input type="text" class="form-control" [(ngModel)]="givenName" name="givenName"
-                placeholder="Given Name" required>
-        </div>
-    </div>
-    <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
-        <div class="form-group">
-          <label for="middleName">Middle Name</label>
-          <input type="text" class="form-control" [(ngModel)]="middleName" name="middleName"
-                placeholder="Middle Name">
-        </div>
-    </div>
-    <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
-        <div class="form-group">
-          <label for="familyName">Family Name</label>
-          <input type="text" class="form-control" [(ngModel)]="familyName" name="familyName"
-                placeholder="Family Name" required>
-        </div>
-    </div>
-   <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
-        <div class="form-group">
-          <label for="gender">Gender</label>
-          <select class="form-control" [(ngModel)]="gender" name="gender">
-            <option *ngFor="let opt of genderOptions" [value]="opt.val">{{opt.label}}</option>
-          </select>
-        </div>
-   </div>
-   <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
-    <div  class="form-group">
-      <label for="birthDate">Birthdate <span>(Format: dd/mm/yyyy)</span></label><br>
-      <date-time-picker tabindex="0" [modelValue]="birthDate" [id]="'birthDate'"
-                        (onDateChange)="updateBirthDate($event)"></date-time-picker>
-    </div>
-   </div>
-
-   <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
-    <div class="form-group">
-      <label for="birthdateEstimated">Birthdate Estimated?</label>
-      <select class="form-control" [(ngModel)]="birthdateEstimated" name="birthdateEstimated" (ngModelChange)="updateDOBDetails($event)">
-        <option *ngFor="let opt of preferredOptions" [value]="opt.val">{{opt.label}}</option>
-      </select> 
-    </div>
-   </div>
-
-   <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
-      <div class="form-group">
-        <label for="preferred">Preferred</label>
-        <select class="form-control" [(ngModel)]="preferred" name="preferred">
-          <option *ngFor="let opt of preferredOptions" [value]="opt.val">{{opt.label}}</option>
-        </select>
-      </div>
-   </div>
-
-    <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
-        <div class="form-group">
-          <label for="dead">Has patient died?</label>
-          <select class="form-control" [(ngModel)]="dead" name="dead"  (ngModelChange)="updateDeathDetails($event)">
-            <option *ngFor="let opt of preferredOptions" [value]="opt.val">{{opt.label}}</option>
-          </select>
-        </div>
-    </div>
-
-    <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
-        <div [hidden]="!dead" class="form-group">
-          <label for="deathDate">Approximate Death Date <span class="pull-right" style="color: red;"> *</span></label><br>
-          <date-time-picker tabindex="0" [modelValue]="deathDate" [id]="'deathDate'"
-                            (onDateChange)="updateDeathDate($event)"></date-time-picker>
-        </div>
-    </div>
-
-    <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
-      <div [hidden]="!dead" class="form-group">
-        <label for="causeOfDate">Cause of Death <span class="pull-right" style="color: red;"> *</span></label>
-        <select class="form-control" name="personDeadSelect" [(ngModel)]="causeOfDeath">
-          <option *ngFor="let cause of causesOfDeath" [value]="cause.uuid">{{cause.display}}</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-
-    <button type="submit" class="btn btn-primary" (click)="updateName()">Submit</button>
-    <button class="btn btn-danger pull-right" type="button" (click)="dismissDialog()">
-      <span>Cancel</span></button>
-    </div>
-    </div>
     </div>
   </form>
 </p-dialog>

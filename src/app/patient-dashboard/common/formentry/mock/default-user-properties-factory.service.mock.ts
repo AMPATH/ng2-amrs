@@ -1,15 +1,14 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 
 @Injectable()
 export class FakeDefaultUserPropertiesFactory {
-  constructor() {
-  }
+  constructor() {}
 
   public getCurrentUserDefaultLocationObject(): any {
-    return { uuid: 'test-uuid', value: 'test-uuid'};
+    return { uuid: "test-uuid", value: "test-uuid" };
   }
 
   public getUserProperty() {
-    return { value: 'test-uuid' };
+    return { value: "test-uuid" };
   }
 }

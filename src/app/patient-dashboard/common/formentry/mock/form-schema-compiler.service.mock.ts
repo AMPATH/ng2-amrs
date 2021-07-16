@@ -1,15 +1,17 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 
 @Injectable()
 export class FakeFormSchemaCompiler {
-  constructor() {
-  }
+  constructor() {}
 
-  public compileFormSchema(formSchema: object, referencedComponents: object): object {
+  public compileFormSchema(
+    formSchema: object,
+    referencedComponents: object
+  ): object {
     return {
       compiled: true,
       formSchema: formSchema,
-      referencedComponents: referencedComponents
+      referencedComponents: referencedComponents,
     };
   }
 }

@@ -1,22 +1,24 @@
-import { Component, ViewEncapsulation, OnInit } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit } from "@angular/core";
 
-import { AppState } from './app.service';
-import { LicenseManager } from 'ag-grid-enterprise/main';
-import { DataCacheService } from './shared/services/data-cache.service';
-import { PouchdbService } from './pouchdb-service/pouchdb.service';
+import { AppState } from "./app.service";
+import { LicenseManager } from "ag-grid-enterprise/main";
+import { DataCacheService } from "./shared/services/data-cache.service";
+import { PouchdbService } from "./pouchdb-service/pouchdb.service";
 export const AgGridLicence: any = undefined;
 @Component({
-  selector: 'app-root',
+  selector: "app-root",
   encapsulation: ViewEncapsulation.None,
-  styleUrls: ['./app.component.css'],
-  templateUrl: './app.component.html'
+  styleUrls: ["./app.component.css"],
+  templateUrl: "./app.component.html",
 })
 export class AppComponent implements OnInit {
-  public title = 'Ampath POC';
+  public title = "Ampath POC";
   private routes: any[];
-  constructor(public appState: AppState,
+  constructor(
+    public appState: AppState,
     public dataCache: DataCacheService,
-    private pouchdbservice: PouchdbService) {
+    private pouchdbservice: PouchdbService
+  ) {
     this.setUpAgGridLicense();
   }
 

@@ -1,39 +1,55 @@
-<h4 class="component-title" style="color: green;"><span class="fa fa-calendar"></span> Monthly Schedule</h4>
-  <div class="loader" *ngIf="busyIndicator.busy"><span><i class="fa fa-spinner fa-spin">
-  </i>{{busyIndicator.message}}</span>
-  </div>
-  <div>
-  <program-visit-encounter-search 
-        (filterSelected) ="filterSelected($event)"
-        [monthControl]="true"
-        [controlLocation]="'clinic-dashboard'"
+<h4 class="component-title" style="color: green">
+  <span class="fa fa-calendar"></span> Monthly Schedule
+</h4>
+<div class="loader" *ngIf="busyIndicator.busy">
+  <span><i class="fa fa-spinner fa-spin"> </i>{{ busyIndicator.message }}</span>
+</div>
+<div>
+  <program-visit-encounter-search
+    (filterSelected)="filterSelected($event)"
+    [monthControl]="true"
+    [controlLocation]="'clinic-dashboard'"
   ></program-visit-encounter-search>
-  <hr>
+  <hr />
   <div class="row">
-   
-    <div class="col-md-12 text-center" >
-      <h3 style="margin-top: 20px;">{{ viewDate }}</h3>
+    <div class="col-md-12 text-center">
+      <h3 style="margin-top: 20px">{{ viewDate }}</h3>
     </div>
   </div>
-  <hr>
+  <hr />
   <div class="row">
     <div class="col-md-12">
-      <span>Keys:
-      <span class="label label-success">Visits</span>
+      <span
+        >Keys:
+        <span class="label label-success">Visits</span>
         <span class="label label-info">Appointments</span>
         <span class="label label-warning">Not returned</span>
       </span>
     </div>
   </div>
+</div>
+<ng-template #customCellTemplate let-day="day" let-locale="locale">
+  <div class="cal-cell-top">
+    <span class="cal-day-number">{{
+      day.date | calendarDate: "monthViewDayNumber":locale
+    }}</span>
   </div>
-  <ng-template #customCellTemplate let-day="day" let-locale="locale">
-    <div class="cal-cell-top">
-      <span class="cal-day-number">{{ day.date | calendarDate:'monthViewDayNumber':locale }}</span>
-    </div>
 
-    <p *ngFor="let event of day.events;" [ngStyle]="{'margin': '5px'}" (click)="navigateToDaily(event)" [ngClass]="event.class">{{event.title}}</p>
-
-  </ng-template>
-  <mwl-calendar-month-view [activeDayIsOpen]="activeDayIsOpen" [cellTemplate]="customCellTemplate" (dayClicked)="dayClicked($event.day)"
-    [viewDate]="viewDate"  [events]="events" (beforeViewRender)="beforeMonthViewRender($event)">
-  </mwl-calendar-month-view>
+  <p
+    *ngFor="let event of day.events"
+    [ngStyle]="{ margin: '5px' }"
+    (click)="navigateToDaily(event)"
+    [ngClass]="event.class"
+  >
+    {{ event.title }}
+  </p>
+</ng-template>
+<mwl-calendar-month-view
+  [activeDayIsOpen]="activeDayIsOpen"
+  [cellTemplate]="customCellTemplate"
+  (dayClicked)="dayClicked($event.day)"
+  [viewDate]="viewDate"
+  [events]="events"
+  (beforeViewRender)="beforeMonthViewRender($event)"
+>
+</mwl-calendar-month-view>

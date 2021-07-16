@@ -1,14 +1,14 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
 
-import * as rison from 'rison-node';
-import { FamilyTestingService } from 'src/app/etl-api/family-testing-resource.service';
-import { FamilyTestingButtonRendererComponent } from '../button-render/button-renderer.component';
+import * as rison from "rison-node";
+import { FamilyTestingService } from "src/app/etl-api/family-testing-resource.service";
+import { FamilyTestingButtonRendererComponent } from "../button-render/button-renderer.component";
 
 @Component({
-  selector: 'contact-profile',
-  templateUrl: './contact-profile.component.html',
-  styleUrls: ['./contact-profile.component.css']
+  selector: "contact-profile",
+  templateUrl: "./contact-profile.component.html",
+  styleUrls: ["./contact-profile.component.css"],
 })
 export class ContactProfileComponent implements OnInit {
   @Input()
@@ -18,7 +18,7 @@ export class ContactProfileComponent implements OnInit {
   public contactTraceHistory = [];
   private frameworkComponents: any;
   public statusError = false;
-  public errorMessage = '';
+  public errorMessage = "";
   public showInfoMessage = false;
   public isLoading = true;
   public isContactEligible = false;
@@ -29,18 +29,18 @@ export class ContactProfileComponent implements OnInit {
 
   public columnDefs = [
     {
-      headerName: '#',
-      colId: 'rowNum',
-      valueGetter: 'node.rowIndex + 1',
+      headerName: "#",
+      colId: "rowNum",
+      valueGetter: "node.rowIndex + 1",
       width: 40,
-      pinned: 'left'
+      pinned: "left",
     },
-    { field: 'id', headerName: 'ID', hide: true },
-    { field: 'contact_date', headerName: 'Contacted Date' },
-    { field: 'contact_type', headerName: 'Contact Type' },
-    { field: 'contact_status', headerName: 'Contact status' },
-    { field: 'reason_not_contacted', headerName: 'Reason not contacted' },
-    { field: 'remarks', headerName: 'Remarks' }
+    { field: "id", headerName: "ID", hide: true },
+    { field: "contact_date", headerName: "Contacted Date" },
+    { field: "contact_type", headerName: "Contact Type" },
+    { field: "contact_status", headerName: "Contact status" },
+    { field: "reason_not_contacted", headerName: "Reason not contacted" },
+    { field: "remarks", headerName: "Remarks" },
   ];
 
   ngOnInit(): void {
@@ -77,27 +77,27 @@ export class ContactProfileComponent implements OnInit {
     private familyTestingService: FamilyTestingService
   ) {
     this.frameworkComponents = {
-      buttonRenderer: FamilyTestingButtonRendererComponent
+      buttonRenderer: FamilyTestingButtonRendererComponent,
     };
   }
 
   public onEditClicked(e) {
     const { event, rowData } = e;
     const stateUrl = rison.encode(rowData);
-    this.router.navigate(['edit-contact-trace'], {
+    this.router.navigate(["edit-contact-trace"], {
       relativeTo: this.route,
       queryParams: {
-        state: stateUrl
-      }
+        state: stateUrl,
+      },
     });
   }
 
   public openAddTraceModal() {
-    this.router.navigate(['add-contact-trace'], {
+    this.router.navigate(["add-contact-trace"], {
       relativeTo: this.route,
       queryParams: {
-        contact_id: this.contactInformation.obs_group_id
-      }
+        contact_id: this.contactInformation.obs_group_id,
+      },
     });
   }
 }

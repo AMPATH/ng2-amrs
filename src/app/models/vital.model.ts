@@ -1,5 +1,5 @@
-import {BaseModel} from './base-model.model';
-import {VitalView} from '../patient-dashboard/common/todays-vitals/vital-view';
+import { BaseModel } from "./base-model.model";
+import { VitalView } from "../patient-dashboard/common/todays-vitals/vital-view";
 
 export class Vital extends BaseModel {
   constructor(openmrsModel?: any) {
@@ -12,16 +12,15 @@ export class Vital extends BaseModel {
 
   get name() {
     const self = this;
-    if (self['model']) {
-      return self['model'];
+    if (self["model"]) {
+      return self["model"];
     }
-
   }
 
   defineVitalFromOptions(options: any) {
     const self = this;
     this._openmrsModel[options.name] = new VitalView(options);
-    self['model'] = options.name;
+    self["model"] = options.name;
     Object.defineProperty(self, options.name, {
       get: () => {
         return this._openmrsModel[options.name];
@@ -29,7 +28,7 @@ export class Vital extends BaseModel {
       set: (new_value) => {
         this._openmrsModel[options.name] = new VitalView(new_value);
         self[options.name] = this._openmrsModel[options.name];
-      }
+      },
     });
     return self;
   }

@@ -1,8 +1,8 @@
 interface Date {
-    toServerTimezoneString(): string;
+  toServerTimezoneString(): string;
 }
 
-Date.prototype.toServerTimezoneString = function(): string {
-    return this.toISOString();
-    // TODO: convert date based on the server timezone stored somewhere
+Date.prototype.toServerTimezoneString = function (): string {
+  return this.toISOString();
+  // TODO: convert date based on the server timezone stored somewhere
 };

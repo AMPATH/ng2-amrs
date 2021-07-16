@@ -1,17 +1,17 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 
-import { Observable, BehaviorSubject } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { Observable, BehaviorSubject } from "rxjs";
+import { take } from "rxjs/operators";
 
-import * as _ from 'lodash';
-import * as moment from 'moment';
+import * as _ from "lodash";
+import * as moment from "moment";
 
-import { ProgramService } from '../patient-dashboard/programs/program.service';
-import { EncounterResourceService } from '../openmrs-api/encounter-resource.service';
-import { ProgramReferralResourceService } from '../etl-api/program-referral-resource.service';
-import { ProviderResourceService } from '../openmrs-api/provider-resource.service';
-import { PatientProgramResourceService } from '../etl-api/patient-program-resource.service';
-import { PatientReferralResourceService } from '../etl-api/patient-referral-resource.service';
+import { ProgramService } from "../patient-dashboard/programs/program.service";
+import { EncounterResourceService } from "../openmrs-api/encounter-resource.service";
+import { ProgramReferralResourceService } from "../etl-api/program-referral-resource.service";
+import { ProviderResourceService } from "../openmrs-api/provider-resource.service";
+import { PatientProgramResourceService } from "../etl-api/patient-program-resource.service";
+import { PatientReferralResourceService } from "../etl-api/patient-referral-resource.service";
 
 @Injectable()
 export class PatientReferralService {
@@ -77,7 +77,7 @@ export class PatientReferralService {
             }
           );
       } else {
-        reject('User is required');
+        reject("User is required");
       }
     });
   }
@@ -107,7 +107,7 @@ export class PatientReferralService {
     );
 
     if (referralObservable === null) {
-      throw new Error('Null referral provider observable');
+      throw new Error("Null referral provider observable");
     } else {
       referralObservable.take(1).subscribe((referrals) => {
         referralInfo.next(referrals);
@@ -141,8 +141,8 @@ export class PatientReferralService {
   private toOpenmrsDateFormat(dateToConvert: any): string {
     const date = moment(dateToConvert);
     if (date.isValid()) {
-      return date.subtract(3, 'm').format('YYYY-MM-DDTHH:mm:ssZ');
+      return date.subtract(3, "m").format("YYYY-MM-DDTHH:mm:ssZ");
     }
-    return '';
+    return "";
   }
 }

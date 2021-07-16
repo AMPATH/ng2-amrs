@@ -3,8 +3,7 @@
   "name": "Clinic Dashboard",
   "baseRoute": "clinic-dashboard",
   "routeParameter": "locationUuid",
-  "nonProgramRoutes": [
-  ],
+  "nonProgramRoutes": [],
   "programs": [],
   "departments": [
     {

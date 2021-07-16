@@ -1,17 +1,24 @@
-import { Component, OnInit, OnChanges, Input, ViewChild, SimpleChanges } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import {
+  Component,
+  OnInit,
+  OnChanges,
+  Input,
+  ViewChild,
+  SimpleChanges,
+} from "@angular/core";
+import { Router, ActivatedRoute } from "@angular/router";
 
-import * as _ from 'lodash';
-import * as moment from 'moment';
-import { AgGridNg2 } from 'ag-grid-angular';
+import * as _ from "lodash";
+import * as moment from "moment";
+import { AgGridNg2 } from "ag-grid-angular";
 
 @Component({
-  selector: 'oncology-summary-indicators-table',
-  templateUrl: 'oncology-summary-indicators-table.component.html',
-  styleUrls: ['./oncology-summary-indicators-table.component.css']
+  selector: "oncology-summary-indicators-table",
+  templateUrl: "oncology-summary-indicators-table.component.html",
+  styleUrls: ["./oncology-summary-indicators-table.component.css"],
 })
-
-export class OncologySummaryIndicatorsTableComponent implements OnInit, OnChanges {
+export class OncologySummaryIndicatorsTableComponent
+  implements OnInit, OnChanges {
   public startDate: any;
   public endDate: any;
   public locationUuids: any;
@@ -20,16 +27,16 @@ export class OncologySummaryIndicatorsTableComponent implements OnInit, OnChange
     enableSorting: true,
     enableFilter: true,
     showToolPanel: false,
-    onGridSizeChanged: () => { },
-    onGridReady: () => { },
+    onGridSizeChanged: () => {},
+    onGridReady: () => {},
     autoGroupColumnDef: {
-      headerName: 'Location',
-      pinned: true
-    }
+      headerName: "Location",
+      pinned: true,
+    },
   };
   @Input() public monthlySummary: Array<any> = [];
   @Input() public params: any;
-  @Input() public indicator = '';
+  @Input() public indicator = "";
 
   public columns: any = [];
   public data: any = [];
@@ -37,13 +44,11 @@ export class OncologySummaryIndicatorsTableComponent implements OnInit, OnChange
   public oncologySummaryColdef: any = [];
   public pinnedBottomRowData: any = [];
 
-  @ViewChild('agGrid')
+  @ViewChild("agGrid")
   public agGrid: AgGridNg2;
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute) { }
+  constructor(private router: Router, private route: ActivatedRoute) {}
 
-  public ngOnInit() { }
+  public ngOnInit() {}
 
   public ngOnChanges(changes: SimpleChanges) {
     if (changes.monthlySummary) {
@@ -68,63 +73,70 @@ export class OncologySummaryIndicatorsTableComponent implements OnInit, OnChange
   public generateColumns(firstRow) {
     const cols: any = [
       {
-        headerName: 'location_uuid',
-        field: 'location_uuid',
-        hide: true
+        headerName: "location_uuid",
+        field: "location_uuid",
+        hide: true,
       },
       {
-        headerName: 'Period',
-        field: 'encounter_datetime',
+        headerName: "Period",
+        field: "encounter_datetime",
         pinned: true,
-        width: 100
+        width: 100,
       },
       {
-        headerName: 'Location',
-        field: 'location_name',
+        headerName: "Location",
+        field: "location_name",
         width: 250,
         rowGroup: true,
-        hide: true
+        hide: true,
       },
       {
-        headerName: 'Gender',
-        field: 'gender',
-        hide: true
+        headerName: "Gender",
+        field: "gender",
+        hide: true,
       },
       {
-        headerName: 'Hiv Status',
-        field: 'hiv_status',
-        hide: true
-      }
+        headerName: "Hiv Status",
+        field: "hiv_status",
+        hide: true,
+      },
     ];
 
     _.each(firstRow, (data, index) => {
-      if (index === 'encounter_datetime' || index === 'location_uuid' || index === 'location_name' ||
-        index === 'location_id' || index === 'gender' || index === 'hiv_status') {
-        return '';
+      if (
+        index === "encounter_datetime" ||
+        index === "location_uuid" ||
+        index === "location_name" ||
+        index === "location_id" ||
+        index === "gender" ||
+        index === "hiv_status"
+      ) {
+        return "";
       } else {
-        cols.push(
-          {
-            'headerName': this.translateIndicator(index),
-            'field': index,
-            cellRenderer: (column) => {
-              if (typeof column.value === 'undefined') {
-                return '';
-              } else {
-                let value;
-                if (Number.isNaN(column.value)) {
-                  value = 0;
-                }
-                if (column.value === null) {
-                  value = 0;
-                } else {
-                  value = column.value;
-                }
-                return '<a href="javascript:void(0);" title="providercount">'
-                  + value + '</a>';
+        cols.push({
+          headerName: this.translateIndicator(index),
+          field: index,
+          cellRenderer: (column) => {
+            if (typeof column.value === "undefined") {
+              return "";
+            } else {
+              let value;
+              if (Number.isNaN(column.value)) {
+                value = 0;
               }
+              if (column.value === null) {
+                value = 0;
+              } else {
+                value = column.value;
+              }
+              return (
+                '<a href="javascript:void(0);" title="providercount">' +
+                value +
+                "</a>"
+              );
             }
-          }
-        );
+          },
+        });
       }
     });
     this.gridOptions.groupDefaultExpanded = -1;
@@ -132,19 +144,21 @@ export class OncologySummaryIndicatorsTableComponent implements OnInit, OnChange
   }
 
   public translateIndicator(indicator: string) {
-    return indicator.toLowerCase().split('_').map((word) => {
-      return ((word.charAt(0).toUpperCase()) + word.slice(1));
-    }).join(' ');
+    return indicator
+      .toLowerCase()
+      .split("_")
+      .map((word) => {
+        return word.charAt(0).toUpperCase() + word.slice(1);
+      })
+      .join(" ");
   }
 
   public setRowData(allRowsData) {
     const finalRows = [];
     _.each(allRowsData, (rowData) => {
-      const rowObj = {
-      };
+      const rowObj = {};
       _.each(rowData, (data, index) => {
         rowObj[index] = data;
-
       });
       finalRows.push(rowObj);
     });
@@ -154,7 +168,7 @@ export class OncologySummaryIndicatorsTableComponent implements OnInit, OnChange
 
   public setTotalsRow(rowData) {
     const totalObj = {
-      'location_name': ''
+      location_name: "",
     };
     const totalRow = [];
     _.each(rowData, (row) => {
@@ -177,23 +191,34 @@ export class OncologySummaryIndicatorsTableComponent implements OnInit, OnChange
       });
     });
 
-    if (totalObj['normal_findings']) {
-      const averageNormalBreastCallRate = (totalObj['normal_findings'] / totalObj['total_breast_screened']) * 100;
-      const averageAbnormalBreastCallRate = (totalObj['abnormal_findings'] / totalObj['total_breast_screened']) * 100;
+    if (totalObj["normal_findings"]) {
+      const averageNormalBreastCallRate =
+        (totalObj["normal_findings"] / totalObj["total_breast_screened"]) * 100;
+      const averageAbnormalBreastCallRate =
+        (totalObj["abnormal_findings"] / totalObj["total_breast_screened"]) *
+        100;
 
-      totalObj['normal_breast_call_rate%'] = averageNormalBreastCallRate.toFixed(2) + ' % ';
-      totalObj['abnormal_breast_call_rate%'] = averageAbnormalBreastCallRate.toFixed(2) + ' % ';
+      totalObj["normal_breast_call_rate%"] =
+        averageNormalBreastCallRate.toFixed(2) + " % ";
+      totalObj["abnormal_breast_call_rate%"] =
+        averageAbnormalBreastCallRate.toFixed(2) + " % ";
     }
 
-    if (totalObj['abnormal_findings']) {
-      const averageCervicalNormalCallRate = (totalObj['normal_findings'] / totalObj['total_cervical_screened']) * 100;
-      const averageCervicalAbnormalCallRate = (totalObj['abnormal_findings'] / totalObj['total_cervical_screened']) * 100;
+    if (totalObj["abnormal_findings"]) {
+      const averageCervicalNormalCallRate =
+        (totalObj["normal_findings"] / totalObj["total_cervical_screened"]) *
+        100;
+      const averageCervicalAbnormalCallRate =
+        (totalObj["abnormal_findings"] / totalObj["total_cervical_screened"]) *
+        100;
 
-      totalObj['normal_cervical_call_rate%'] = averageCervicalNormalCallRate.toFixed(2) + ' % ';
-      totalObj['abnormal_cervical_call_rate%'] = averageCervicalAbnormalCallRate.toFixed(2) + ' % ';
+      totalObj["normal_cervical_call_rate%"] =
+        averageCervicalNormalCallRate.toFixed(2) + " % ";
+      totalObj["abnormal_cervical_call_rate%"] =
+        averageCervicalAbnormalCallRate.toFixed(2) + " % ";
     }
-    totalObj.location_name = 'Totals';
-    totalObj['encounter_datetime'] = 'Totals';
+    totalObj.location_name = "Totals";
+    totalObj["encounter_datetime"] = "Totals";
     totalRow.push(totalObj);
     this.pinnedBottomRowData = totalRow;
     this.setPinnedRow();
@@ -201,34 +226,42 @@ export class OncologySummaryIndicatorsTableComponent implements OnInit, OnChange
 
   public goToPatientList(data) {
     switch (data.colDef.field) {
-      case 'abnormal_breast_call_rate%':
+      case "abnormal_breast_call_rate%":
         break;
-      case 'normal_breast_call_rate%':
+      case "normal_breast_call_rate%":
         break;
-      case 'abnormal_cervical_call_rate%':
+      case "abnormal_cervical_call_rate%":
         break;
-      case 'normal_cervical_call_rate%':
+      case "normal_cervical_call_rate%":
         break;
-      case 'total_screens':
+      case "total_screens":
         break;
       default:
-
         let startDate;
         let endDate;
         let location;
         const period = this.params.period;
 
-        if (data.data.location_name === 'Totals') {
+        if (data.data.location_name === "Totals") {
           startDate = this.params.startDate;
           endDate = this.params.endDate;
           location = this.params.locationUuids;
         } else {
-          if (period === 'daily') {
-            startDate = moment(data.data.encounter_datetime, 'DD-MM-YYYY').format('YYYY-MM-DD');
-            endDate = moment(data.data.encounter_datetime, 'DD-MM-YYYY').format('YYYY-MM-DD');
-          } else if (period === 'monthly') {
-            startDate = moment(data.data.encounter_datetime, 'MM-YYYY').startOf('month').format('YYYY-MM-DD');
-            endDate = moment(data.data.encounter_datetime, 'MM-YYYY').endOf('month').format('YYYY-MM-DD');
+          if (period === "daily") {
+            startDate = moment(
+              data.data.encounter_datetime,
+              "DD-MM-YYYY"
+            ).format("YYYY-MM-DD");
+            endDate = moment(data.data.encounter_datetime, "DD-MM-YYYY").format(
+              "YYYY-MM-DD"
+            );
+          } else if (period === "monthly") {
+            startDate = moment(data.data.encounter_datetime, "MM-YYYY")
+              .startOf("month")
+              .format("YYYY-MM-DD");
+            endDate = moment(data.data.encounter_datetime, "MM-YYYY")
+              .endOf("month")
+              .format("YYYY-MM-DD");
           }
           location = data.data.location_uuid;
         }
@@ -245,12 +278,12 @@ export class OncologySummaryIndicatorsTableComponent implements OnInit, OnChange
           indicators: data.colDef.field,
           startDate: startDate,
           endDate: endDate,
-          period: period
+          period: period,
         };
 
-        this.router.navigate(['patient-list'], {
+        this.router.navigate(["patient-list"], {
           relativeTo: this.route,
-          queryParams: params
+          queryParams: params,
         });
     }
   }

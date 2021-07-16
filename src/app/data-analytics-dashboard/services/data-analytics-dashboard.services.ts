@@ -1,6 +1,5 @@
-
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject, ReplaySubject } from 'rxjs';
+import { Injectable } from "@angular/core";
+import { BehaviorSubject, Subject, ReplaySubject } from "rxjs";
 @Injectable()
 export class DataAnalyticsDashboardService {
   public dataIsLoading = true;
@@ -17,8 +16,7 @@ export class DataAnalyticsDashboardService {
   private isLoading = new BehaviorSubject(this.dataIsLoading);
   private currentTab = new Subject();
 
-  constructor() {
-  }
+  constructor() {}
 
   public setSelectedReportFilters(filters: any) {
     this.reportFilters.next(filters);
@@ -29,7 +27,6 @@ export class DataAnalyticsDashboardService {
   }
 
   public setSelectedLocations(locations: any) {
-
     this.dataSubject.next(locations);
   }
 
@@ -54,10 +51,10 @@ export class DataAnalyticsDashboardService {
   }
 
   public setUrlSource(source: any) {
-    this.urlSource = source ;
+    this.urlSource = source;
   }
 
   public getUrlSource() {
-   return this.urlSource;
+    return this.urlSource;
   }
 }

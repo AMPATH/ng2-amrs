@@ -1,5 +1,5 @@
-import { BaseModel } from './base-model.model';
-import { serializable } from './serializable.decorator';
+import { BaseModel } from "./base-model.model";
+import { serializable } from "./serializable.decorator";
 export class PersonAttributeType extends BaseModel {
   // private name: string;
   constructor(openmrsModel?: any) {

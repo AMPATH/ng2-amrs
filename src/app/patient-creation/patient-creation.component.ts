@@ -4,41 +4,41 @@ import {
   OnInit,
   OnDestroy,
   ViewChild,
-  EventEmitter
-} from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Location } from '@angular/common';
+  EventEmitter,
+} from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Location } from "@angular/common";
 
-import 'ag-grid-enterprise/main';
-import * as _ from 'lodash';
-import * as moment from 'moment';
-import * as Fuse from 'fuse.js';
-import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import "ag-grid-enterprise/main";
+import * as _ from "lodash";
+import * as moment from "moment";
+import * as Fuse from "fuse.js";
+import { Subscription } from "rxjs";
+import { take } from "rxjs/operators";
 
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { BsModalRef } from 'ngx-bootstrap';
-import { ToastrService } from 'ngx-toastr';
-import { Patient } from '../models/patient.model';
-import { UserService } from '../openmrs-api/user.service';
-import { PatientCreationService } from './patient-creation.service';
-import { PatientCreationResourceService } from '../openmrs-api/patient-creation-resource.service';
-import { LocationResourceService } from '../openmrs-api/location-resource.service';
-import { PatientIdentifierTypeResService } from '../openmrs-api/patient-identifierTypes-resource.service';
-import { ConceptResourceService } from './../openmrs-api/concept-resource.service';
-import { SessionStorageService } from '../utils/session-storage.service';
-import { PatientRelationshipTypeService } from '../patient-dashboard/common/patient-relationships/patient-relation-type.service';
-import { PatientEducationService } from '../etl-api/patient-education.service';
+import { BsModalService } from "ngx-bootstrap/modal";
+import { BsModalRef } from "ngx-bootstrap";
+import { ToastrService } from "ngx-toastr";
+import { Patient } from "../models/patient.model";
+import { UserService } from "../openmrs-api/user.service";
+import { PatientCreationService } from "./patient-creation.service";
+import { PatientCreationResourceService } from "../openmrs-api/patient-creation-resource.service";
+import { LocationResourceService } from "../openmrs-api/location-resource.service";
+import { PatientIdentifierTypeResService } from "../openmrs-api/patient-identifierTypes-resource.service";
+import { ConceptResourceService } from "./../openmrs-api/concept-resource.service";
+import { SessionStorageService } from "../utils/session-storage.service";
+import { PatientRelationshipTypeService } from "../patient-dashboard/common/patient-relationships/patient-relation-type.service";
+import { PatientEducationService } from "../etl-api/patient-education.service";
 
 @Component({
-  selector: 'patient-creation',
-  templateUrl: './patient-creation.component.html',
-  styleUrls: ['./patient-creation.component.css']
+  selector: "patient-creation",
+  templateUrl: "./patient-creation.component.html",
+  styleUrls: ["./patient-creation.component.css"],
 })
 export class PatientCreationComponent implements OnInit, OnDestroy {
   @Output() public patientSelected: EventEmitter<any> = new EventEmitter<any>();
-  @ViewChild('successModal') public successModal: BsModalRef;
-  @ViewChild('confirmModal') public confirmModal: BsModalRef;
+  @ViewChild("successModal") public successModal: BsModalRef;
+  @ViewChild("confirmModal") public confirmModal: BsModalRef;
 
   public patients: Patient = new Patient({});
   public person: any;
@@ -52,12 +52,12 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public ispreferred: boolean;
   public loaderStatus = false;
   public preferredOptions = [
-    { label: 'Yes', val: true },
-    { label: 'No', val: false }
+    { label: "Yes", val: true },
+    { label: "No", val: false },
   ];
   public genderOptions = [
-    { label: 'Female', val: 'F' },
-    { label: 'Male', val: 'M' }
+    { label: "Female", val: "F" },
+    { label: "Male", val: "M" },
   ];
   public patientExists = true;
   public preferredNameuuid: string;
@@ -103,37 +103,37 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public patientResults: Patient[];
   public found = false;
   public selectedLocation: string;
-  public identifierLocation = '';
-  public invalidLocationCheck = '';
+  public identifierLocation = "";
+  public invalidLocationCheck = "";
   public commonIdentifierTypes: any = [];
   public commonIdentifierTypeFormats: any = [];
-  public identifierValidity = '';
+  public identifierValidity = "";
   public isValidIdentifier = false;
   public ageEstimate: number;
   public errors = false;
-  public successAlert: any = '';
+  public successAlert: any = "";
   public showSuccessAlert = false;
   public showErrorAlert = false;
   public errorAlert: boolean;
   public errorTitle: string;
   public editText = false;
-  public errorMessage = '';
+  public errorMessage = "";
   public hasError = false;
   public isError = false;
   public disable = false;
-  public errorMessages = '';
-  public birthError = '';
+  public errorMessages = "";
+  public birthError = "";
   public modalRef: BsModalRef;
   public universal: UniversalID = {};
   public generate = true;
   public preferredIdentifier;
   public errorAlerts = [];
-  public occupationConceptUuid = 'a8a0a00e-1350-11df-a1f1-0026b9348838';
-  public occupationAttributeTypeUuid = '9e86409f-9c20-42d0-aeb3-f29a4ca0a7a0';
+  public occupationConceptUuid = "a8a0a00e-1350-11df-a1f1-0026b9348838";
+  public occupationAttributeTypeUuid = "9e86409f-9c20-42d0-aeb3-f29a4ca0a7a0";
   public occupations = [];
   public occupationConcept: any;
   public occupation: any;
-  public highestEducationConcept = 'a89e48ae-1350-11df-a1f1-0026b9348838';
+  public highestEducationConcept = "a89e48ae-1350-11df-a1f1-0026b9348838";
   public careGivername: any;
   public relationshipToCareGiver: any;
   public careGiverPhoneNumber: any;
@@ -170,7 +170,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     this.selectedRelationshipType = undefined;
     this.userId = this.userService.getLoggedInUser().openmrsModel.systemId;
     this.errorAlert = false;
-    this.person = this.sessionStorageService.getObject('person');
+    this.person = this.sessionStorageService.getObject("person");
     if (this.person) {
       this.givenName = this.person.givenName;
       this.middleName = this.person.middleName;
@@ -207,7 +207,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         }
       },
       (error) => {
-        console.error('Error', error);
+        console.error("Error", error);
       }
     );
   }
@@ -224,7 +224,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     this.levelOfEducation = educationLevels.map((levels) => {
       return {
         value: levels.uuid,
-        name: levels.display
+        name: levels.display,
       };
     });
   }
@@ -244,7 +244,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     this.occupations = occupations.map((occupation: any) => {
       return {
         val: occupation.uuid,
-        label: occupation.display
+        label: occupation.display,
       };
     });
   }
@@ -255,9 +255,9 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     this.ageEstimate = this.getAge(this.birthDate);
 
     if (moment(this.birthDate).isAfter(new Date())) {
-      this.birthError = 'Birth date cannot be in the future!';
+      this.birthError = "Birth date cannot be in the future!";
     } else {
-      this.birthError = '';
+      this.birthError = "";
     }
 
     if (!this.birthDate) {
@@ -268,7 +268,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public updateDOBDetails() {
     setTimeout(() => {
       if (this.ageEstimate < 1) {
-        this.birthDate = '';
+        this.birthDate = "";
       } else {
         this.updateBirthDate(this.calculateAge(this.ageEstimate));
         this.birthdateEstimated = true;
@@ -279,9 +279,9 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
 
   public createPerson() {
     this.errors = false;
-    this.successAlert = '';
+    this.successAlert = "";
     if (this.getAge(this.birthDate) > 116) {
-      this.birthError = 'Please select a valid birthdate or age';
+      this.birthError = "Please select a valid birthdate or age";
     } else if (
       !this.givenName ||
       !this.familyName ||
@@ -301,9 +301,9 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         familyName: this.familyName,
         gender: this.gender,
         birthdate: this.birthDate,
-        birthdateEstimated: this.birthdateEstimated
+        birthdateEstimated: this.birthdateEstimated,
       };
-      this.sessionStorageService.setObject('person', this.person);
+      this.sessionStorageService.setObject("person", this.person);
       const searchString = this.givenName;
       this.patientCreationService
         .searchPatient(searchString, false)
@@ -336,7 +336,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
 
   public filterPatients(results) {
     const options = {
-      keys: ['person.gender']
+      keys: ["person.gender"],
     };
     const fuse = new Fuse(results, options);
     results = fuse.search(this.gender);
@@ -356,9 +356,9 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
 
   public selectPatient(patient) {
     this.router.navigate([
-      '/patient-dashboard/patient/' +
+      "/patient-dashboard/patient/" +
         patient.uuid +
-        '/general/general/patient-info'
+        "/general/general/patient-info",
     ]);
   }
 
@@ -379,14 +379,14 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         const check = this.checkUniversal();
         if (check) {
           this.isError = true;
-          this.errorMessages = 'Identifier has been added.';
+          this.errorMessages = "Identifier has been added.";
         } else {
           this.isError = false;
           this.generate = false;
           this.identifierAdded = true;
           this.universal.identifier = this.patientIdentifier;
           this.identifiers.push(this.universal);
-          this.errorMessages = '';
+          this.errorMessages = "";
         }
       } else {
         this.generate = false;
@@ -395,15 +395,15 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         this.identifiers.push(this.universal);
         this.isError = false;
         this.hasError = false;
-        this.errorMessages = '';
+        this.errorMessages = "";
       }
     }
   }
 
   public setIdentifierType(identifierType) {
     this.patientIdentifierType = identifierType;
-    this.commonIdentifier = '';
-    this.identifierValidity = '';
+    this.commonIdentifier = "";
+    this.identifierValidity = "";
     this.hasError = false;
     this.errorAlert = false;
   }
@@ -418,14 +418,14 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
 
   public setPatientIdentifier(commonIdentifier) {
     this.commonIdentifier = commonIdentifier;
-    this.identifierValidity = '';
-    this.errorMessage = '';
+    this.identifierValidity = "";
+    this.errorMessage = "";
     this.hasError = false;
     this.errorAlert = false;
   }
 
   public checkIdentifier() {
-    if (this.patientIdentifierType || this.patientIdentifierType !== '') {
+    if (this.patientIdentifierType || this.patientIdentifierType !== "") {
       this.hasError = false;
       this.checkIdentifierFormat();
       this.errorAlert = false;
@@ -433,9 +433,9 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   }
 
   public addIdentifier(commonIdentifier) {
-    if (!this.patientIdentifierType || this.patientIdentifierType === '') {
+    if (!this.patientIdentifierType || this.patientIdentifierType === "") {
       this.hasError = true;
-      this.setErroMessage('Identifier Type is required!');
+      this.setErroMessage("Identifier Type is required!");
     } else if (
       this.validateFormFields(commonIdentifier) &&
       this.isValidIdentifier
@@ -444,7 +444,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         const check = this.checkAdded();
         if (check) {
           this.hasError = true;
-          this.setErroMessage('Identifier has been added');
+          this.setErroMessage("Identifier has been added");
         } else {
           this.hasError = false;
           this.identifierAdded = true;
@@ -452,7 +452,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
           this.identifiers.push({
             identifier: commonIdentifier,
             identifierType: this.patientIdentifierType.val,
-            identifierTypeName: this.patientIdentifierType.label
+            identifierTypeName: this.patientIdentifierType.label,
           });
         }
       } else {
@@ -461,7 +461,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         this.identifiers.push({
           identifier: commonIdentifier,
           identifierType: this.patientIdentifierType.val,
-          identifierTypeName: this.patientIdentifierType.label
+          identifierTypeName: this.patientIdentifierType.label,
         });
       }
     }
@@ -472,8 +472,8 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     this.idKey = i;
     this.selectId = identifier;
     this.modalRef = this.modalService.show(this.confirmModal, {
-      backdrop: 'static',
-      keyboard: false
+      backdrop: "static",
+      keyboard: false,
     });
   }
 
@@ -482,16 +482,16 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     if (value) {
       this.identifiers.splice(this.idKey, 1);
       if (this.selectId.identifierType === this.universal.identifierType) {
-        this.patientIdentifier = '';
+        this.patientIdentifier = "";
         this.editText = false;
-        this.errorMessages = '';
+        this.errorMessages = "";
         this.isError = false;
         this.generate = true;
-        this.preferredIdentifier = '';
+        this.preferredIdentifier = "";
       }
       if (this.identifiers.length === 0) {
-        this.commonIdentifier = '';
-        this.patientIdentifierType = '';
+        this.commonIdentifier = "";
+        this.patientIdentifierType = "";
         this.identifierAdded = false;
         this.commonAdded = false;
       }
@@ -503,7 +503,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     this.loaderStatus = false;
     this.errors = false;
     const ids = [];
-    this.successAlert = '';
+    this.successAlert = "";
     if (!this.checkUniversal()) {
       this.identifierAdded = false;
       this.errors = true;
@@ -513,7 +513,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       this.preferredIdentifier = value;
     }
     if (this.getAge(this.birthDate) > 116) {
-      this.birthError = 'Please select a valid birthdate or age';
+      this.birthError = "Please select a valid birthdate or age";
     }
     if (!this.givenName) {
       this.errors = true;
@@ -553,7 +553,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         identifierType: value.identifierType,
         identifier: value.identifier,
         location: this.identifierLocation,
-        preferred: true
+        preferred: true,
       });
     } else if (this.identifiers.length > 1) {
       this.identifiers.forEach((value) => {
@@ -562,14 +562,14 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
             identifierType: value.identifierType,
             identifier: value.identifier,
             location: this.identifierLocation,
-            preferred: true
+            preferred: true,
           });
         } else {
           ids.push({
             identifierType: value.identifierType,
             identifier: value.identifier,
             location: this.identifierLocation,
-            preferred: false
+            preferred: false,
           });
         }
       });
@@ -577,63 +577,63 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
 
     if (!this.errors) {
       this.loaderStatus = true;
-      this.birthError = '';
+      this.birthError = "";
       this.errorAlert = false;
       const attributes = [];
       if (this.patientPhoneNumber) {
         attributes.push({
           value: this.patientPhoneNumber,
-          attributeType: '72a759a8-1359-11df-a1f1-0026b9348838'
+          attributeType: "72a759a8-1359-11df-a1f1-0026b9348838",
         });
       }
       if (this.alternativePhoneNumber) {
         attributes.push({
           value: this.alternativePhoneNumber,
-          attributeType: 'c725f524-c14a-4468-ac19-4a0e6661c930'
+          attributeType: "c725f524-c14a-4468-ac19-4a0e6661c930",
         });
       }
       if (this.partnerPhoneNumber) {
         attributes.push({
           value: this.partnerPhoneNumber,
-          attributeType: 'b0a08406-09c0-4f8b-8cb5-b22b6d4a8e46'
+          attributeType: "b0a08406-09c0-4f8b-8cb5-b22b6d4a8e46",
         });
       }
       if (this.nextofkinPhoneNumber) {
         attributes.push({
           value: this.nextofkinPhoneNumber,
-          attributeType: 'a657a4f1-9c0f-444b-a1fd-445bb91dd12d'
+          attributeType: "a657a4f1-9c0f-444b-a1fd-445bb91dd12d",
         });
       }
       if (this.occupation) {
         attributes.push({
           value: this.occupation,
-          attributeType: this.occupationAttributeTypeUuid
+          attributeType: this.occupationAttributeTypeUuid,
         });
       }
 
       if (this.patientHighestEducation) {
         attributes.push({
           value: this.patientHighestEducation,
-          attributeType: '352b0d51-63c6-47d0-a295-156bebee4fd5'
+          attributeType: "352b0d51-63c6-47d0-a295-156bebee4fd5",
         });
       }
 
       if (this.careGivername) {
         attributes.push({
           value: this.careGivername,
-          attributeType: '48876f06-7493-416e-855d-8413d894ea93'
+          attributeType: "48876f06-7493-416e-855d-8413d894ea93",
         });
       }
       if (this.relationshipToCareGiver) {
         attributes.push({
           value: this.relationshipToCareGiver,
-          attributeType: '06b0da36-e133-4be6-aec0-31e7ed0e1ac2'
+          attributeType: "06b0da36-e133-4be6-aec0-31e7ed0e1ac2",
         });
       }
       if (this.careGiverPhoneNumber) {
         attributes.push({
           value: this.careGiverPhoneNumber,
-          attributeType: 'bb8684a5-ac0b-4c2c-b9a5-1203e99952c2'
+          attributeType: "bb8684a5-ac0b-4c2c-b9a5-1203e99952c2",
         });
       }
       const payload = {
@@ -642,8 +642,8 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
             {
               givenName: this.givenName,
               middleName: this.middleName,
-              familyName: this.familyName
-            }
+              familyName: this.familyName,
+            },
           ],
           gender: this.gender,
           birthdate: this.birthDate,
@@ -658,11 +658,11 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
               cityVillage: this.cityVillage,
               latitude: this.latitude,
               longitude: this.longitude,
-              stateProvince: this.stateProvince
-            }
-          ]
+              stateProvince: this.stateProvince,
+            },
+          ],
         },
-        identifiers: ids
+        identifiers: ids,
       };
       this.errorAlerts = [];
       const savePatientSub = this.patientCreationResourceService
@@ -671,12 +671,12 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         .subscribe(
           (success) => {
             this.loaderStatus = false;
-            this.sessionStorageService.remove('person');
+            this.sessionStorageService.remove("person");
             this.createdPatient = success;
             if (this.createdPatient && !this.patientObsGroupId) {
               this.modalRef = this.modalService.show(this.successModal, {
-                backdrop: 'static',
-                keyboard: false
+                backdrop: "static",
+                keyboard: false,
               });
             } else if (this.patientObsGroupId) {
               const patient: Patient = success as Patient;
@@ -687,9 +687,9 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
                 )
                 .subscribe((response) => {
                   this.router.navigate([
-                    '/patient-dashboard/patient/' +
+                    "/patient-dashboard/patient/" +
                       patient.person.uuid +
-                      '/general/general/landing-page'
+                      "/general/general/landing-page",
                   ]);
                 });
             }
@@ -709,33 +709,33 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public loadDashboard(createdPatient) {
     this.modalRef.hide();
     this.router.navigate([
-      '/patient-dashboard/patient/' +
+      "/patient-dashboard/patient/" +
         createdPatient.person.uuid +
-        '/general/general/patient-info'
+        "/general/general/patient-info",
     ]);
     this.errorAlert = false;
   }
 
   public close() {
     this.modalRef.hide();
-    this.router.navigate(['/patient-dashboard/patient-search']);
+    this.router.navigate(["/patient-dashboard/patient-search"]);
     this.errorAlert = false;
   }
 
   public reset() {
-    this.givenName = '';
-    this.familyName = '';
-    this.middleName = '';
-    this.gender = '';
-    this.birthDate = '';
+    this.givenName = "";
+    this.familyName = "";
+    this.middleName = "";
+    this.gender = "";
+    this.birthDate = "";
     this.ageEstimate = null;
-    this.sessionStorageService.remove('person');
+    this.sessionStorageService.remove("person");
     this.errors = false;
   }
 
   public cancel() {
-    this.sessionStorageService.remove('person');
-    this.router.navigate(['/patient-dashboard/patient-search']);
+    this.sessionStorageService.remove("person");
+    this.router.navigate(["/patient-dashboard/patient-search"]);
     this.errors = false;
   }
 
@@ -756,9 +756,9 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   }
 
   public updateLocation(location) {
-    if (location === 'Other') {
+    if (location === "Other") {
       this.nonCodedCounty = true;
-      this.address1 = '';
+      this.address1 = "";
     } else {
       this.nonCodedCounty = false;
     }
@@ -767,9 +767,9 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public loadProgramManager(createdPatient) {
     this.modalRef.hide();
     this.router.navigate([
-      '/patient-dashboard/patient/' +
+      "/patient-dashboard/patient/" +
         createdPatient.person.uuid +
-        '/general/general/program-manager/new-program'
+        "/general/general/program-manager/new-program",
     ]);
   }
 
@@ -820,38 +820,38 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         (data) => {
           // tslint:disable-next-line:prefer-for-of
           for (let i = 0; i < data.length; i++) {
-            if (data[i].name === 'AMRS Universal ID') {
+            if (data[i].name === "AMRS Universal ID") {
               this.universal = {
                 identifierType: data[i].uuid,
-                identifierTypeName: data[i].name
+                identifierTypeName: data[i].name,
               };
             } else {
               this.commonIdentifierTypes.push({
                 val: data[i].uuid,
-                label: data[i].name
+                label: data[i].name,
               });
             }
 
-            if (data[i].uuid === '58a47054-1359-11df-a1f1-0026b9348838') {
+            if (data[i].uuid === "58a47054-1359-11df-a1f1-0026b9348838") {
               this.commonIdentifierTypeFormats[data[i].uuid] = {
-                format: '^[0-9]*$',
-                checkdigit: data[i].checkDigit
+                format: "^[0-9]*$",
+                checkdigit: data[i].checkDigit,
               };
             } else {
               this.commonIdentifierTypeFormats[data[i].uuid] = {
                 format: data[i].format,
-                checkdigit: data[i].checkDigit
+                checkdigit: data[i].checkDigit,
               };
             }
           }
         },
         () => {
           this.toastrService.error(
-            'Error retrieving common patient identifier types',
-            '',
+            "Error retrieving common patient identifier types",
+            "",
             {
               timeOut: 2000,
-              positionClass: 'toast-bottom-center'
+              positionClass: "toast-bottom-center",
             }
           );
         }
@@ -869,15 +869,15 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
           for (const location of locations) {
             this.locations.push({
               label: location.name,
-              value: location.uuid
+              value: location.uuid,
             });
             counties.push(location.stateProvince);
           }
           this.counties = _.uniq(counties);
           this.counties = _.remove(this.counties, (n) => {
-            return n !== null || n === '';
+            return n !== null || n === "";
           });
-          this.counties.push('Other');
+          this.counties.push("Other");
         },
         (error: any) => {
           console.error(error);
@@ -898,7 +898,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
 
   private validateFormFields(patientIdentifier): boolean {
     if (this.isNullOrUndefined(patientIdentifier)) {
-      this.setErroMessage('Patient identifier is required!');
+      this.setErroMessage("Patient identifier is required!");
       return false;
     }
 
@@ -909,15 +909,15 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     return (
       val === null ||
       val === undefined ||
-      val === '' ||
-      val === 'null' ||
-      val === 'undefined'
+      val === "" ||
+      val === "null" ||
+      val === "undefined"
     );
   }
 
   private checkIdentifierFormat() {
     this.isValidIdentifier = false;
-    this.identifierValidity = '';
+    this.identifierValidity = "";
     const identifierType = this.patientIdentifierType;
     const identifierTypeSpecifiedFormat = this.patientCreationService.getIdentifierTypeFormat(
       (identifierType as any).val
@@ -939,7 +939,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         );
         if (this.isValidIdentifier === false) {
           this.identifierValidity =
-            'Invalid Identifier Format. {' + identifierHasRegex + '}';
+            "Invalid Identifier Format. {" + identifierHasRegex + "}";
         }
         return;
       }
@@ -949,18 +949,18 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   }
 
   private checkLuhnCheckDigit() {
-    const checkDigit = this.commonIdentifier.split('-')[1];
+    const checkDigit = this.commonIdentifier.split("-")[1];
     const expectedCheckDigit = this.patientCreationService.getLuhnCheckDigit(
-      this.commonIdentifier.split('-')[0]
+      this.commonIdentifier.split("-")[0]
     );
-    if (checkDigit === 'undefined' || checkDigit === undefined) {
-      this.identifierValidity = 'Invalid Check Digit';
+    if (checkDigit === "undefined" || checkDigit === undefined) {
+      this.identifierValidity = "Invalid Check Digit";
     }
 
     if (expectedCheckDigit === parseInt(checkDigit, 10)) {
       this.isValidIdentifier = true;
     } else {
-      this.identifierValidity = 'Invalid Check Digit';
+      this.identifierValidity = "Invalid Check Digit";
     }
   }
 
@@ -1015,7 +1015,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       },
       (error) => {
         console.error(
-          'Failed to get relation types because of the following ',
+          "Failed to get relation types because of the following ",
           error
         );
       }

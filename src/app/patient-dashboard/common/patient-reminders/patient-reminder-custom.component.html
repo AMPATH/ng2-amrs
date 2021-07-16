@@ -1,15 +1,32 @@
-<busy *ngIf="enrolling" class="small" [message]="'Enrolling patient.....'"></busy>
-<button *ngIf="_options.closeButton" (click)="remove()" class="toast-close-button">
+<busy
+  *ngIf="enrolling"
+  class="small"
+  [message]="'Enrolling patient.....'"
+></busy>
+<button
+  *ngIf="_options.closeButton"
+  (click)="remove()"
+  class="toast-close-button"
+>
   ×
 </button>
 <div *ngIf="title" [class]="_options.titleClass" [attr.aria-label]="title">
   {{ title }}
 </div>
-<div *ngIf="message && _options.enableHtml" role="alert" aria-live="polite"
-     [class]="_options.messageClass" [innerHTML]="message">
-</div>
-<div *ngIf="message && !_options.enableHtml" role="alert" aria-live="polite"
-     [class]="_options.messageClass" [attr.aria-label]="message">
+<div
+  *ngIf="message && _options.enableHtml"
+  role="alert"
+  aria-live="polite"
+  [class]="_options.messageClass"
+  [innerHTML]="message"
+></div>
+<div
+  *ngIf="message && !_options.enableHtml"
+  role="alert"
+  aria-live="polite"
+  [class]="_options.messageClass"
+  [attr.aria-label]="message"
+>
   {{ message }}
 </div>
 <a

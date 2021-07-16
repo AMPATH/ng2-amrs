@@ -4,122 +4,122 @@ import {
   Input,
   ViewChild,
   EventEmitter,
-  Output
-} from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Location } from '@angular/common';
+  Output,
+} from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Location } from "@angular/common";
 
-import { AgGridNg2 } from 'ag-grid-angular';
-import * as Moment from 'moment';
-import { GridOptions } from 'ag-grid';
+import { AgGridNg2 } from "ag-grid-angular";
+import * as Moment from "moment";
+import { GridOptions } from "ag-grid";
 @Component({
-  selector: 'family-testing-patient-list',
-  templateUrl: './family-testing-patient-list.component.html',
-  styleUrls: ['./family-testing-patient-list.component.css']
+  selector: "family-testing-patient-list",
+  templateUrl: "./family-testing-patient-list.component.html",
+  styleUrls: ["./family-testing-patient-list.component.css"],
 })
 export class FamilyTestingPatientlistComponent implements OnInit {
   public hasLoadedAll: true;
   public hasError: false;
   public gridOptions: GridOptions = {
-    columnDefs: []
+    columnDefs: [],
   };
-  @ViewChild('agGrid')
+  @ViewChild("agGrid")
   public agGrid: AgGridNg2;
   @Input()
   public patientData = [];
   private columnDefs = [
     {
-      field: 'identifiers',
-      headerName: 'Identifiers',
+      field: "identifiers",
+      headerName: "Identifiers",
       rowGroup: true,
-      pinned: 'left',
+      pinned: "left",
       width: 200,
       cellRenderer: (column) => {
         if (column.value === undefined || column.value === null) {
-          return '';
+          return "";
         } else {
           return (
             '<a href="javascript:void(0);" title="Identifiers">' +
             column.value +
-            '</a>'
+            "</a>"
           );
         }
-      }
+      },
     },
     {
-      field: 'person_name',
-      headerName: 'Index Name'
+      field: "person_name",
+      headerName: "Index Name",
     },
     {
-      field: 'index_gender',
-      headerName: 'Index Gender',
-      width: 120
+      field: "index_gender",
+      headerName: "Index Gender",
+      width: 120,
     },
     {
-      field: 'phone_number',
-      headerName: 'Index Phone',
-      width: 120
+      field: "phone_number",
+      headerName: "Index Phone",
+      width: 120,
     },
     {
-      field: 'patient_program_name',
-      headerName: 'Patient Program'
+      field: "patient_program_name",
+      headerName: "Patient Program",
     },
     {
-      field: 'fm_name',
-      headerName: 'Contact Name',
-      filter: 'agTextColumnFilter'
+      field: "fm_name",
+      headerName: "Contact Name",
+      filter: "agTextColumnFilter",
     },
     {
-      field: 'date_elicited',
-      headerName: 'Date Elicited',
+      field: "date_elicited",
+      headerName: "Date Elicited",
       width: 100,
       cellRenderer: (column) => {
-        return Moment(column.value).format('DD/MM/YYYY');
-      }
+        return Moment(column.value).format("DD/MM/YYYY");
+      },
     },
-    { field: 'fm_phone', headerName: 'Telephone Number', width: 130 },
-    { field: 'relationship_type', headerName: 'Relationship', width: 130 },
-    { field: 'fm_age', headerName: 'Age', width: 80 },
-    { field: 'fm_gender', headerName: 'Gender', width: 80 },
+    { field: "fm_phone", headerName: "Telephone Number", width: 130 },
+    { field: "relationship_type", headerName: "Relationship", width: 130 },
+    { field: "fm_age", headerName: "Age", width: 80 },
+    { field: "fm_gender", headerName: "Gender", width: 80 },
     {
-      field: 'modified_fm_status',
-      headerName: 'Reported HIV status',
-      width: 150
-    },
-    {
-      field: 'reported_test_date',
-      headerName: 'Reported test date',
-      width: 150
+      field: "modified_fm_status",
+      headerName: "Reported HIV status",
+      width: 150,
     },
     {
-      field: 'test_eligible',
-      headerName: 'Eligible for testing',
-      width: 150
+      field: "reported_test_date",
+      headerName: "Reported test date",
+      width: 150,
     },
     {
-      field: 'preferred_testing_date',
-      headerName: 'Preferred date of testing',
-      width: 180
+      field: "test_eligible",
+      headerName: "Eligible for testing",
+      width: 150,
     },
     {
-      field: 'modified_current_test_date',
-      headerName: 'Current test date',
-      width: 150
+      field: "preferred_testing_date",
+      headerName: "Preferred date of testing",
+      width: 180,
     },
     {
-      field: 'test_result_value',
-      headerName: 'Current test results',
-      width: 150
-    },
-    { field: 'enrolled', headerName: 'In care', width: 80 },
-    {
-      field: 'fm_facility_enrolled',
-      headerName: 'Location Enrolled',
-      width: 130
+      field: "modified_current_test_date",
+      headerName: "Current test date",
+      width: 150,
     },
     {
-      field: 'ccc_number',
-      headerName: 'CCC Number',
+      field: "test_result_value",
+      headerName: "Current test results",
+      width: 150,
+    },
+    { field: "enrolled", headerName: "In care", width: 80 },
+    {
+      field: "fm_facility_enrolled",
+      headerName: "Location Enrolled",
+      width: 130,
+    },
+    {
+      field: "ccc_number",
+      headerName: "CCC Number",
       width: 130,
       onCellClicked: (column) => {
         if (column.value != null) {
@@ -128,15 +128,15 @@ export class FamilyTestingPatientlistComponent implements OnInit {
       },
       cellRenderer: (column) => {
         if (column.value == null) {
-          return '';
+          return "";
         }
         return (
           '<a href="javascript:void(0);" title="ccc_number">' +
           column.value +
-          '</a>'
+          "</a>"
         );
-      }
-    }
+      },
+    },
   ];
   @Output()
   public patientSelected = new EventEmitter();
@@ -156,12 +156,12 @@ export class FamilyTestingPatientlistComponent implements OnInit {
   ) {}
 
   private setCellSelection(col?) {
-    this.gridOptions.rowSelection = 'single';
+    this.gridOptions.rowSelection = "single";
     let selectedIndicator: any;
     this.gridOptions.onCellClicked = (e) => {
       if (e.data) {
         selectedIndicator = {
-          patient_uuid: e.data.patient_uuid
+          patient_uuid: e.data.patient_uuid,
         };
         this.patientSelected.emit(selectedIndicator);
       }
@@ -173,7 +173,7 @@ export class FamilyTestingPatientlistComponent implements OnInit {
 
   public onContactIdentifierClicked(uuid) {
     this.router.navigate([
-      '/patient-dashboard/patient/' + uuid + '/general/general/landing-page'
+      "/patient-dashboard/patient/" + uuid + "/general/general/landing-page",
     ]);
   }
 }

@@ -1,22 +1,26 @@
 /* tslint:disable:no-inferrable-types */
-import { take } from 'rxjs/operators/take';
+import { take } from "rxjs/operators/take";
 import {
-  Component, OnInit, OnDestroy, DoCheck
-  , Output, Input, EventEmitter
-} from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+  Component,
+  OnInit,
+  OnDestroy,
+  DoCheck,
+  Output,
+  Input,
+  EventEmitter,
+} from "@angular/core";
+import { Router, ActivatedRoute } from "@angular/router";
 
-import { PatientSearchService } from './patient-search.service';
-import { Patient } from '../models/patient.model';
-import { Subscription } from 'rxjs';
-import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytics.service';
+import { PatientSearchService } from "./patient-search.service";
+import { Patient } from "../models/patient.model";
+import { Subscription } from "rxjs";
+import { AppFeatureAnalytics } from "../shared/app-analytics/app-feature-analytics.service";
 
 @Component({
-  selector: 'app-patient-search',
-  templateUrl: './patient-search.component.html',
-  styleUrls: ['./patient-search.component.css'],
+  selector: "app-patient-search",
+  templateUrl: "./patient-search.component.html",
+  styleUrls: ["./patient-search.component.css"],
 })
-
 export class PatientSearchComponent implements OnInit, OnDestroy {
   public patients: Patient[];
   public referred: any[] = [];
@@ -27,14 +31,14 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
   public dataLoaded: boolean = false;
   public hasConductedSearch = false;
   public page: number = 1;
-  public adjustInputMargin: string = '240px';
+  public adjustInputMargin: string = "240px";
   public subscription: Subscription;
   public referralSubscription: Subscription;
-  public title: string = 'Patient Search';
-  public errorMessage: string = '';
+  public title: string = "Patient Search";
+  public errorMessage: string = "";
   public noMatchingResults: boolean = false;
-  public lastSearchString: string = '';
-  public providerUuid: string = '';
+  public lastSearchString: string = "";
+  public providerUuid: string = "";
 
   /*
    patientSelected emits the patient object
@@ -60,33 +64,36 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
     this.hasConductedSearch = false;
   }
 
-  constructor(private patientSearchService: PatientSearchService,
-              private route: ActivatedRoute,
-              private appFeatureAnalytics: AppFeatureAnalytics) {
-  }
+  constructor(
+    private patientSearchService: PatientSearchService,
+    private route: ActivatedRoute,
+    private appFeatureAnalytics: AppFeatureAnalytics
+  ) {}
 
   public ngOnInit() {
     // this.getPatientReferrals();
     if (window.innerWidth <= 768) {
-      this.adjustInputMargin = '0';
+      this.adjustInputMargin = "0";
     }
     this.route.queryParams.subscribe((params) => {
-      if (params['reset'] !== undefined) {
+      if (params["reset"] !== undefined) {
         this.resetSearchList();
       } else {
         // load cached result
-        this.errorMessage = '';
-      if (!this.resetResults) {
-        this.patientSearchService.patientsSearchResults.pipe(take(1)).subscribe(
-          (patients) => {
-            this.onResultsFound(patients);
-          },
-          (error) => {
-            this.onError(error);
-          }
-        );
+        this.errorMessage = "";
+        if (!this.resetResults) {
+          this.patientSearchService.patientsSearchResults
+            .pipe(take(1))
+            .subscribe(
+              (patients) => {
+                this.onResultsFound(patients);
+              },
+              (error) => {
+                this.onError(error);
+              }
+            );
+        }
       }
-    }
     });
   }
 
@@ -110,14 +117,14 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
       this.hideResults = true;
     }
     // clear the search text
-    this.searchString = '';
+    this.searchString = "";
     this.hasConductedSearch = true;
   }
 
   public onError(error) {
     this.isLoading = false;
     this.resetInputMargin();
-    console.error('error', error);
+    console.error("error", error);
     this.errorMessage = error;
     this.hasConductedSearch = false;
   }
@@ -125,34 +132,37 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
   public loadPatient(): void {
     this.totalPatients = 0;
     if (this.subscription) {
-       this.subscription.unsubscribe();
+      this.subscription.unsubscribe();
     }
     if (this.searchString && this.searchString.length > 2) {
       if (window.innerWidth > 768) {
-        this.adjustInputMargin = '267px';
+        this.adjustInputMargin = "267px";
       }
       this.isLoading = true;
       this.patients = [];
-      this.errorMessage = '';
-      this.subscription = this.patientSearchService.searchPatient(this.searchString, false)
+      this.errorMessage = "";
+      this.subscription = this.patientSearchService
+        .searchPatient(this.searchString, false)
         .subscribe(
-        (data) => {
-          this.isLoading = false;
-          const searchTerm = this.searchString;
-          this.onResultsFound(data);
-          if (data.length === 0) {
-            this.noMatchingResults = true;
-            this.lastSearchString = searchTerm;
+          (data) => {
+            this.isLoading = false;
+            const searchTerm = this.searchString;
+            this.onResultsFound(data);
+            if (data.length === 0) {
+              this.noMatchingResults = true;
+              this.lastSearchString = searchTerm;
+            }
+            this.resetInputMargin();
+            // app feature analytics
+            this.appFeatureAnalytics.trackEvent(
+              "Patient Search",
+              "Patients Searched",
+              "loadPatient"
+            );
+          },
+          (error) => {
+            this.onError(error);
           }
-          this.resetInputMargin();
-          // app feature analytics
-          this.appFeatureAnalytics
-            .trackEvent('Patient Search', 'Patients Searched', 'loadPatient');
-
-        },
-        (error) => {
-          this.onError(error);
-        }
         );
 
       this.isResetButton = true;
@@ -161,21 +171,20 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
 
   public updatePatientCount(search) {
     if (this.totalPatients > 0 && search.length > 0) {
-        this.totalPatients = 0;
-
+      this.totalPatients = 0;
     }
     this.noMatchingResults = false;
   }
 
   public selectPatient(patient) {
-      this.patientSelected.emit(patient);
-      this.hideResults = true;
+    this.patientSelected.emit(patient);
+    this.hideResults = true;
   }
 
   public resetSearchList() {
     this.hideResults = true;
     this.patientSearchService.resetPatients();
-    this.searchString = '';
+    this.searchString = "";
     this.totalPatients = 0;
     this.isResetButton = false;
     this.isLoading = false;
@@ -186,7 +195,7 @@ export class PatientSearchComponent implements OnInit, OnDestroy {
 
   public resetInputMargin() {
     if (window.innerWidth > 768) {
-      this.adjustInputMargin = '240px';
+      this.adjustInputMargin = "240px";
     }
   }
 }

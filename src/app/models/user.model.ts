@@ -1,27 +1,24 @@
-import {BaseModel} from './base-model.model';
-import * as _ from 'lodash';
+import { BaseModel } from "./base-model.model";
+import * as _ from "lodash";
 
 export class User extends BaseModel {
-
   constructor(openmrsModel?: any) {
     super(openmrsModel);
   }
 
-
   public get roleDisplay(): string {
-
-    let roleDisplay = '';
+    let roleDisplay = "";
 
     const roles = this._openmrsModel.roles;
 
     if (roles && roles.length > 0) {
-
       let counter = 0;
       _.forEach(roles, (role: any) => {
-
         if (counter <= 1) {
-          roleDisplay = roleDisplay.length === 0 ?
-            role.display : roleDisplay + ', ' + role.display;
+          roleDisplay =
+            roleDisplay.length === 0
+              ? role.display
+              : roleDisplay + ", " + role.display;
         }
         counter++;
       });
@@ -30,7 +27,6 @@ export class User extends BaseModel {
   }
 
   public get roles(): Array<object> {
-
     const roles = this._openmrsModel.roles;
     if (roles && roles.length > 0) {
       return roles;
@@ -40,7 +36,6 @@ export class User extends BaseModel {
   }
 
   public get personUuid(): any {
-
     const personUuid = this._openmrsModel.person.uuid;
     if (personUuid) {
       return personUuid;

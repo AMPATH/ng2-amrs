@@ -2,23 +2,39 @@
   <div class="row">
     <div [ngBusy]="busy">
       <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-				<button class="btn btn-primary" (click)="navigateBack()"><i class="fa fa-angle-left fa-fw"></i>Back</button>
-			</div>
-			<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-				<h4 align="center">{{ title }} Patient List for {{ params.locationName }}
-					<span *ngIf=" params.startDate!=='' && params.endDate!==''">
-						from {{ params.startDate | date: 'dd MMMM yyyy'}} to {{ params.endDate | date: 'dd MMMM yyyy' }}
-					</span>
-				</h4>
-				<hr class="intro-divider" width="40%" />
-				<ag-grid-angular #agGrid style="min-width: 100%; height: 500px;" class="ag-blue" [rowData]="rowData"
-					[gridOptions]="gridOptions" [columnDefs]="oncologySummaryColdef" (cellClicked)='onCellClicked($event)'>
-				</ag-grid-angular>
-				<button class="btn btn-info pull-right" *ngIf="rowData.length > 0" (click)="exportPatientListToCsv()" style="color: #fff;">
-					<i class="inline fa fa-file-excel-o"></i>
-					<span>Export</span>
-				</button>
-			</div>
-		</div>
-	</div>
+        <button class="btn btn-primary" (click)="navigateBack()">
+          <i class="fa fa-angle-left fa-fw"></i>Back
+        </button>
+      </div>
+      <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+        <h4 align="center">
+          {{ title }} Patient List for {{ params.locationName }}
+          <span *ngIf="params.startDate !== '' && params.endDate !== ''">
+            from {{ params.startDate | date: "dd MMMM yyyy" }} to
+            {{ params.endDate | date: "dd MMMM yyyy" }}
+          </span>
+        </h4>
+        <hr class="intro-divider" width="40%" />
+        <ag-grid-angular
+          #agGrid
+          style="min-width: 100%; height: 500px"
+          class="ag-blue"
+          [rowData]="rowData"
+          [gridOptions]="gridOptions"
+          [columnDefs]="oncologySummaryColdef"
+          (cellClicked)="onCellClicked($event)"
+        >
+        </ag-grid-angular>
+        <button
+          class="btn btn-info pull-right"
+          *ngIf="rowData.length > 0"
+          (click)="exportPatientListToCsv()"
+          style="color: #fff"
+        >
+          <i class="inline fa fa-file-excel-o"></i>
+          <span>Export</span>
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

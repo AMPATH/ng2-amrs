@@ -1,4 +1,6 @@
-<h4 class="component-title text-success"><span class="fa fa-table"></span>PrEP Report</h4>
+<h4 class="component-title text-success">
+  <span class="fa fa-table"></span>PrEP Report
+</h4>
 
 <div class="loader" *ngIf="isLoading">
   <span><i class="fa fa-spinner fa-spin"></i>Loading...</span>
@@ -15,19 +17,18 @@
         (generateReport)="generateReport()"
       >
       </report-filters>
-  </p-tabPanel>
-    
+    </p-tabPanel>
   </div>
 </p-tabView>
 
 <div class="alert alert-danger fade in" *ngIf="showInfoMessage">
   <a href="#" class="close" data-dismiss="alert">&times;</a>
-  <h4 *ngIf="!statusError"><strong><span class="glyphicon glyphicon-warning-sign"></span> </strong> An error occurred
-    while trying to load the report.
-    Please try again.
+  <h4 *ngIf="!statusError">
+    <strong><span class="glyphicon glyphicon-warning-sign"></span> </strong> An
+    error occurred while trying to load the report. Please try again.
   </h4>
   <p>
-    <small>{{errorMessage}}</small>
+    <small>{{ errorMessage }}</small>
   </p>
 </div>
 <div *ngIf="!isReleased" class="alert alert-warning">
@@ -36,9 +37,17 @@
 </div>
 <div>
   <p-tabView>
-    <p-tabPanel header="Report View" leftIcon="fa-file-pdf-o" [selected]="currentViewBelow === 'pdf'">
-      <app-report-view [SummaryData]="prepReportSummaryData" [sectionDefs]="columnDefs"
-        (CellSelection)="onIndicatorSelected($event)" [reportDetails]="params"></app-report-view>
+    <p-tabPanel
+      header="Report View"
+      leftIcon="fa-file-pdf-o"
+      [selected]="currentViewBelow === 'pdf'"
+    >
+      <app-report-view
+        [SummaryData]="prepReportSummaryData"
+        [sectionDefs]="columnDefs"
+        (CellSelection)="onIndicatorSelected($event)"
+        [reportDetails]="params"
+      ></app-report-view>
     </p-tabPanel>
   </p-tabView>
 </div>

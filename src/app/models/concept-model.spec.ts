@@ -1,8 +1,8 @@
 /**
  * concept-class
  */
-import { BaseModel } from './base-model.model';
-import { serializable } from './serializable.decorator';
+import { BaseModel } from "./base-model.model";
+import { serializable } from "./serializable.decorator";
 
 export class ConceptClass extends BaseModel {
   constructor(openmrsModel?: any) {
@@ -24,5 +24,3 @@ export class ConceptClass extends BaseModel {
     return this._openmrsModel.retired;
   }
 }
-
-

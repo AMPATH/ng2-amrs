@@ -1,16 +1,15 @@
+import { take } from "rxjs/operators/take";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 
-import {take} from 'rxjs/operators/take';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-
-import { MedicationHistoryResourceService } from '../../../etl-api/medication-history-resource.service';
-import { PatientService } from '../../services/patient.service';
-import { Subscription } from 'rxjs';
-import * as _ from 'lodash';
+import { MedicationHistoryResourceService } from "../../../etl-api/medication-history-resource.service";
+import { PatientService } from "../../services/patient.service";
+import { Subscription } from "rxjs";
+import * as _ from "lodash";
 
 @Component({
-  selector: 'cdm-medication-change-history',
-  templateUrl: './medication-history.component.html',
-  styleUrls: []
+  selector: "cdm-medication-change-history",
+  templateUrl: "./medication-history.component.html",
+  styleUrls: [],
 })
 export class CdmMedicationHistoryComponent implements OnInit, OnDestroy {
   public encounters = [];
@@ -18,42 +17,51 @@ export class CdmMedicationHistoryComponent implements OnInit, OnDestroy {
   public errors: any;
   public subscription: Subscription;
 
-  constructor(private medicationHistoryResourceService: MedicationHistoryResourceService,
-              private patientService: PatientService) {
-  }
+  constructor(
+    private medicationHistoryResourceService: MedicationHistoryResourceService,
+    private patientService: PatientService
+  ) {}
 
   public ngOnInit() {
     this.getPatient();
   }
 
   public getPatient() {
-    this.subscription = this.patientService.currentlyLoadedPatient.pipe(take(1)).subscribe(
-      (patient) => {
-        if (patient) {
-          this.patientUuid = patient.person.uuid;
-          this.getMedicationHistory(this.patientUuid);
+    this.subscription = this.patientService.currentlyLoadedPatient
+      .pipe(take(1))
+      .subscribe(
+        (patient) => {
+          if (patient) {
+            this.patientUuid = patient.person.uuid;
+            this.getMedicationHistory(this.patientUuid);
+          }
+        },
+        (err) => {
+          this.errors.push({
+            id: "patient",
+            message: "error fetching medication history",
+          });
         }
-      }
-      , (err) => {
-        this.errors.push({
-          id: 'patient',
-          message: 'error fetching medication history'
-        });
-      });
+      );
   }
 
   public getMedicationHistory(patientUuid): void {
-    this.medicationHistoryResourceService.getCdmMedicationHistory(patientUuid).pipe(
-    take(1)).subscribe((result) => {
-      this.encounters = _.filter(result, (row) => {
-        return !_.isNil(row.prescriptions);
-      });
-    }, (err) => {
-      this.errors.push({
-        id: 'patient',
-        message: 'error fetching medication history'
-      });
-    });
+    this.medicationHistoryResourceService
+      .getCdmMedicationHistory(patientUuid)
+      .pipe(take(1))
+      .subscribe(
+        (result) => {
+          this.encounters = _.filter(result, (row) => {
+            return !_.isNil(row.prescriptions);
+          });
+        },
+        (err) => {
+          this.errors.push({
+            id: "patient",
+            message: "error fetching medication history",
+          });
+        }
+      );
   }
 
   public ngOnDestroy(): void {
@@ -61,5 +69,4 @@ export class CdmMedicationHistoryComponent implements OnInit, OnDestroy {
       this.subscription.unsubscribe();
     }
   }
-
 }

@@ -1,13 +1,10 @@
-import {
-  Component, OnInit, Input
-} from '@angular/core';
+import { Component, OnInit, Input } from "@angular/core";
 @Component({
-  selector: 'app-hiv-enhanced-patient-list',
-  templateUrl: './hiv-enhanced-patient-list.component.html',
-  styleUrls: []
+  selector: "app-hiv-enhanced-patient-list",
+  templateUrl: "./hiv-enhanced-patient-list.component.html",
+  styleUrls: [],
 })
 export class HivEnhancedPatientListComponent implements OnInit {
-
   @Input() public startDate: Date;
   @Input() public endDate: Date;
   @Input() public patientData: any;
@@ -17,5 +14,4 @@ export class HivEnhancedPatientListComponent implements OnInit {
   constructor() {}
 
   public ngOnInit() {}
-
 }

@@ -1,24 +1,28 @@
-import { Component, AfterViewInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  AfterViewInit,
+  Input,
+  Output,
+  EventEmitter,
+} from "@angular/core";
 
 @Component({
-  selector: 'order-list',
-  templateUrl: './order-list.component.html',
-  styleUrls: []
-
+  selector: "order-list",
+  templateUrl: "./order-list.component.html",
+  styleUrls: [],
 })
 export class OrderListComponent implements AfterViewInit {
-
   @Input() public submittedOrdersModel: any;
-  @Output() public submittedOrdersModelChange: EventEmitter<any> = new EventEmitter();
+  @Output() public submittedOrdersModelChange: EventEmitter<
+    any
+  > = new EventEmitter();
   public orders: Array<any> = [];
 
-  constructor() { }
+  constructor() {}
 
-  public ngAfterViewInit() { }
+  public ngAfterViewInit() {}
 
   get diagnostic() {
     return JSON.stringify(this.submittedOrdersModel);
-
   }
-
 }

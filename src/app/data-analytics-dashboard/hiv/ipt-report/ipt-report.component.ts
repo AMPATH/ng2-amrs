@@ -1,23 +1,23 @@
-import { Router, ActivatedRoute } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
-import { take } from 'rxjs/operators';
-import * as rison from 'rison-node';
-import * as Moment from 'moment';
+import { Router, ActivatedRoute } from "@angular/router";
+import { Component, OnInit } from "@angular/core";
+import { Location } from "@angular/common";
+import { take } from "rxjs/operators";
+import * as rison from "rison-node";
+import * as Moment from "moment";
 
-import { IptReportService } from '../../../etl-api/ipt-report.service';
-import { IptBaseReportComponent } from '../../../hiv-care-lib/ipt-report/ipt-report-base.component';
-import { DataAnalyticsDashboardService } from '../../services/data-analytics-dashboard.services';
+import { IptReportService } from "../../../etl-api/ipt-report.service";
+import { IptBaseReportComponent } from "../../../hiv-care-lib/ipt-report/ipt-report-base.component";
+import { DataAnalyticsDashboardService } from "../../services/data-analytics-dashboard.services";
 
 @Component({
-  selector: 'ipt-base-report',
+  selector: "ipt-base-report",
   templateUrl:
-    './../../../hiv-care-lib/ipt-report/ipt-report-base.component.html'
+    "./../../../hiv-care-lib/ipt-report/ipt-report-base.component.html",
 })
 export class IPTReportComponent
   extends IptBaseReportComponent
   implements OnInit {
-  public enabledControls = 'monthControl,locationControl';
+  public enabledControls = "monthControl,locationControl";
 
   constructor(
     public router: Router,
@@ -39,23 +39,23 @@ export class IPTReportComponent
     if (Array.isArray(this.locationUuids) && this.locationUuids.length > 0) {
       this.params = {
         locationUuids: this.getSelectedLocations(this.locationUuids),
-        endDate: Moment(this.month).endOf('month').format('YYYY-MM-DD'),
-        displayTabularFilters: false
+        endDate: Moment(this.month).endOf("month").format("YYYY-MM-DD"),
+        displayTabularFilters: false,
       };
       super.generateReport();
     } else {
-      this.errorMessage = 'Locations are required!';
+      this.errorMessage = "Locations are required!";
     }
   }
   public storeParamsInUrl() {
     const state = {
       locationUuids: this.getSelectedLocations(this.locationUuids),
-      month: Moment(this.month).endOf('month').format('YYYY-MM-DD')
+      month: Moment(this.month).endOf("month").format("YYYY-MM-DD"),
     };
     const stateUrl = rison.encode(state);
     const path = this.router.parseUrl(this.location.path());
     path.queryParams = {
-      state: stateUrl
+      state: stateUrl,
     };
 
     this.location.replaceState(path.toString());
@@ -64,13 +64,13 @@ export class IPTReportComponent
   public loadReportParamsFromUrl() {
     const path = this.router.parseUrl(this.location.path());
 
-    if (path.queryParams['state']) {
-      const state = rison.decode(path.queryParams['state']);
+    if (path.queryParams["state"]) {
+      const state = rison.decode(path.queryParams["state"]);
       this.month = state.month;
       this.locationUuids = state.locations;
     }
 
-    if (path.queryParams['state']) {
+    if (path.queryParams["state"]) {
       this.generateReport();
     }
   }
@@ -85,6 +85,6 @@ export class IPTReportComponent
       });
   }
   private getSelectedLocations(locationUuids: Array<any>): string {
-    return locationUuids.map((location) => location.value).join(',');
+    return locationUuids.map((location) => location.value).join(",");
   }
 }

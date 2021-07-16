@@ -1,30 +1,27 @@
-import { DatePipe } from '@angular/common';
+import { DatePipe } from "@angular/common";
 
-import { TitleCasePipe } from '../../../shared/pipes/title-case.pipe';
-import { Helpers } from '../../../utils/helpers';
-import * as _ from 'lodash';
+import { TitleCasePipe } from "../../../shared/pipes/title-case.pipe";
+import { Helpers } from "../../../utils/helpers";
+import * as _ from "lodash";
 
 export class ClinicalNotesHelperService {
-
   public arvLine: any = {
-    1: 'First',
-    2: 'Second',
-    3: 'Third',
-    4: 'Fourth'
+    1: "First",
+    2: "Second",
+    3: "Third",
+    4: "Fourth",
   };
 
   public datePipe: DatePipe;
   public titleCasePipe: TitleCasePipe;
 
   constructor() {
-
-    this.datePipe = new DatePipe('en-US');
+    this.datePipe = new DatePipe("en-US");
     this.titleCasePipe = new TitleCasePipe();
   }
 
   public format(notes: Array<any>): Array<any> {
-
-    const notAvailableMessage = 'Not available';
+    const notAvailableMessage = "Not available";
 
     let temp: Array<any> = [];
 
@@ -40,13 +37,13 @@ export class ClinicalNotesHelperService {
 
       // Format scheduled
       if (Helpers.isNullOrEmpty(note.scheduled)) {
-        note.scheduled = 'unscheduled';
+        note.scheduled = "unscheduled";
       } else {
-        note.scheduled = 'scheduled';
+        note.scheduled = "scheduled";
       }
 
       // Format providers
-      this.formatProviders(note.providers, ', ');
+      this.formatProviders(note.providers, ", ");
 
       // Format Viral load
       if (Helpers.isNullOrEmpty(note.lastViralLoad.value)) {
@@ -64,37 +61,48 @@ export class ClinicalNotesHelperService {
       }
 
       // Format ARV Regimen line
-      if (!Helpers.isNullOrEmpty(note.artRegimen.curArvLine)
-        && _.has(this.arvLine, note.artRegimen.curArvLine)) {
+      if (
+        !Helpers.isNullOrEmpty(note.artRegimen.curArvLine) &&
+        _.has(this.arvLine, note.artRegimen.curArvLine)
+      ) {
         note.artRegimen.curArvLine = this.arvLine[note.artRegimen.curArvLine];
       } else {
-        note.artRegimen.curArvLine = 'Not Specified';
+        note.artRegimen.curArvLine = "Not Specified";
       }
 
       if (Helpers.isNullOrEmpty(note.artRegimen.curArvMeds)) {
         note.artRegimen.curArvMeds = false;
       } else {
-        note.artRegimen.curArvMeds = this.titleCasePipe.transform(note.artRegimen.curArvMeds);
-        note.artRegimen.startDate = this.resolveDate(note.artRegimen.arvStartDate);
+        note.artRegimen.curArvMeds = this.titleCasePipe.transform(
+          note.artRegimen.curArvMeds
+        );
+        note.artRegimen.startDate = this.resolveDate(
+          note.artRegimen.arvStartDate
+        );
       }
 
       // Format prophylaxis
-      note.tbProphylaxisPlan.plan = this.titleCasePipe.transform(note.tbProphylaxisPlan.plan);
-      note.tbProphylaxisPlan.startDate = this.resolveDate(note.tbProphylaxisPlan.startDate);
-      note.tbProphylaxisPlan.estimatedEndDate =
-        this.resolveDate(note.tbProphylaxisPlan.estimatedEndDate);
+      note.tbProphylaxisPlan.plan = this.titleCasePipe.transform(
+        note.tbProphylaxisPlan.plan
+      );
+      note.tbProphylaxisPlan.startDate = this.resolveDate(
+        note.tbProphylaxisPlan.startDate
+      );
+      note.tbProphylaxisPlan.estimatedEndDate = this.resolveDate(
+        note.tbProphylaxisPlan.estimatedEndDate
+      );
 
       // format rtc date
       note.rtcDate = this.resolveDate(note.rtcDate);
 
       // format vitals
-      if (note.vitals.systolicBp === '' || note.vitals.diastolicBp === '') {
-        note.vitals.bp = '';
+      if (note.vitals.systolicBp === "" || note.vitals.diastolicBp === "") {
+        note.vitals.bp = "";
       } else {
-        note.vitals.bp = note.vitals.systolicBp + '/' + note.vitals.diastolicBp;
+        note.vitals.bp = note.vitals.systolicBp + "/" + note.vitals.diastolicBp;
       }
 
-      Helpers.formatBlankOrNull(note.vitals, 'Not Available');
+      Helpers.formatBlankOrNull(note.vitals, "Not Available");
 
       // Group ccHpi and Assessemnt
       const grouped = this.groupCCHPIAndAssessment(note.ccHpi, note.assessment);
@@ -104,7 +112,7 @@ export class ClinicalNotesHelperService {
       } else {
         // Formant blank values
         _.each(grouped, (group) => {
-          Helpers.formatBlankOrNull(group, 'Not Provided');
+          Helpers.formatBlankOrNull(group, "Not Provided");
         });
         note.hasCcHpiAssessment = true;
         note.ccHpiAssessment = grouped;
@@ -115,15 +123,13 @@ export class ClinicalNotesHelperService {
 
   // pipe valid dates only
   private resolveDate(date: string) {
-
-    const dateFormat = 'dd-MM-yyyy';
+    const dateFormat = "dd-MM-yyyy";
     const parsedDate = Date.parse(date);
 
     return isNaN(parsedDate) ? date : this.datePipe.transform(date, dateFormat);
   }
 
   private formatProviders(providers, separator) {
-
     if (providers.length <= 1) {
       return;
     }
@@ -147,7 +153,7 @@ export class ClinicalNotesHelperService {
           const o = {
             encounterType: ccHpi.encounterType,
             ccHpi: ccHpi.value,
-            assessment: ''
+            assessment: "",
           };
           ccHpiAssessment.push(o);
         });
@@ -158,13 +164,13 @@ export class ClinicalNotesHelperService {
             const o = {
               encounterType: ccHpi.encounterType,
               ccHpi: ccHpi.value,
-              assessment: ''
+              assessment: "",
             };
             const ass = _.find(assessmentArray, (assItem) => {
-              return ccHpi['encounterType'] === assItem['encounterType'];
+              return ccHpi["encounterType"] === assItem["encounterType"];
             });
             if (ass) {
-              o.assessment = ass['value'];
+              o.assessment = ass["value"];
             }
             ccHpiAssessment.push(o);
           });
@@ -173,14 +179,14 @@ export class ClinicalNotesHelperService {
           _.each(assessmentArray, (assItem: any) => {
             const o = {
               encounterType: assItem.encounterType,
-              ccHpi: '',
-              assessment: assItem.value
+              ccHpi: "",
+              assessment: assItem.value,
             };
             const ass = _.find(ccHpiArray, (ccHpi) => {
-              return ccHpi['encounterType'] === assItem['encounterType'];
+              return ccHpi["encounterType"] === assItem["encounterType"];
             });
             if (ass) {
-              o.ccHpi = ass['value'];
+              o.ccHpi = ass["value"];
             }
             ccHpiAssessment.push(o);
           });
@@ -191,13 +197,12 @@ export class ClinicalNotesHelperService {
       _.each(assessmentArray, (ass: any) => {
         const o = {
           encounterType: ass.encounterType,
-          ccHpi: '',
-          assessment: ass.value
+          ccHpi: "",
+          assessment: ass.value,
         };
         ccHpiAssessment.push(o);
       });
     }
     return ccHpiAssessment;
   }
-
 }

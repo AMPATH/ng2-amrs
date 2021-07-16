@@ -1,8 +1,8 @@
-import {BaseModel} from './base-model.model';
-import {serializable} from './serializable.decorator';
-import {Program} from './program.model';
-import {DatePipe} from '@angular/common';
-import {TitleCasePipe} from '../shared/pipes/title-case.pipe';
+import { BaseModel } from "./base-model.model";
+import { serializable } from "./serializable.decorator";
+import { Program } from "./program.model";
+import { DatePipe } from "@angular/common";
+import { TitleCasePipe } from "../shared/pipes/title-case.pipe";
 
 export class ProgramEnrollment extends BaseModel {
   private _program: Program;
@@ -14,15 +14,14 @@ export class ProgramEnrollment extends BaseModel {
 
   constructor(openmrsModel?: any) {
     super(openmrsModel);
-    this._datePipe = new DatePipe('en-US');
+    this._datePipe = new DatePipe("en-US");
     this._titleCasePipe = new TitleCasePipe();
-
   }
 
   @serializable(true, false)
   public get program(): Program {
     if (this._program === null || this._program === undefined) {
-      this.initializeNavigationProperty('program');
+      this.initializeNavigationProperty("program");
       this._program = new Program(this._openmrsModel.program);
     }
     return this._program;
@@ -84,9 +83,10 @@ export class ProgramEnrollment extends BaseModel {
   }
 
   private resolveDate(date) {
-    const dateFormat = 'MMM dd, yyyy';
+    const dateFormat = "MMM dd, yyyy";
     const parsedDate = Date.parse(date);
-    return isNaN(parsedDate) ? date : this._datePipe.transform(date, dateFormat);
+    return isNaN(parsedDate)
+      ? date
+      : this._datePipe.transform(date, dateFormat);
   }
-
 }

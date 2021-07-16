@@ -1,11 +1,14 @@
-import { TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
-import { AppSettingsService } from '../app-settings/app-settings.service';
-import { ErrorLogResourceService } from './error-log-resource.service';
-import { LocalStorageService } from '../utils/local-storage.service';
-import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
+import { TestBed, async, inject, fakeAsync, tick } from "@angular/core/testing";
+import { AppSettingsService } from "../app-settings/app-settings.service";
+import { ErrorLogResourceService } from "./error-log-resource.service";
+import { LocalStorageService } from "../utils/local-storage.service";
+import {
+  HttpTestingController,
+  HttpClientTestingModule,
+} from "@angular/common/http/testing";
 
 // Load the implementations that should be tested
-describe('ErrorLogResourceService Unit Tests', () => {
+describe("ErrorLogResourceService Unit Tests", () => {
   let s, httpMock;
 
   beforeEach(async(() => {
@@ -15,7 +18,7 @@ describe('ErrorLogResourceService Unit Tests', () => {
       providers: [
         AppSettingsService,
         ErrorLogResourceService,
-        LocalStorageService
+        LocalStorageService,
       ],
     });
     s = TestBed.get(ErrorLogResourceService);
@@ -26,20 +29,22 @@ describe('ErrorLogResourceService Unit Tests', () => {
     TestBed.resetTestingModule();
   });
 
-  it('should have service defined',
-    inject([ErrorLogResourceService],
-      (errorLogResourceService: ErrorLogResourceService) => {
-        expect(errorLogResourceService).toBeDefined();
-      }));
+  it("should have service defined", inject(
+    [ErrorLogResourceService],
+    (errorLogResourceService: ErrorLogResourceService) => {
+      expect(errorLogResourceService).toBeDefined();
+    }
+  ));
 
-  it('should have postFormError defined',
-    inject([ErrorLogResourceService],
-      (errorLogResourceService: ErrorLogResourceService) => {
-        expect(errorLogResourceService.postFormError({})).toBeTruthy();
-      }));
+  it("should have postFormError defined", inject(
+    [ErrorLogResourceService],
+    (errorLogResourceService: ErrorLogResourceService) => {
+      expect(errorLogResourceService.postFormError({})).toBeTruthy();
+    }
+  ));
 
-  it('should Post Error with correct ReguestMethod and correct API call', () => {
-    expect(s.postFormError({ error: 'error' }));
-    const req = httpMock.expectNone('');
+  it("should Post Error with correct ReguestMethod and correct API call", () => {
+    expect(s.postFormError({ error: "error" }));
+    const req = httpMock.expectNone("");
   });
 });

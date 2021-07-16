@@ -1,1 +1,1 @@
-export { PatientDashboardModule } from './patient-dashboard.module';
+export { PatientDashboardModule } from "./patient-dashboard.module";

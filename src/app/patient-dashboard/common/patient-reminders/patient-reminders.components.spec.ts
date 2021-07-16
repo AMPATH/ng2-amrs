@@ -1,40 +1,44 @@
-import { Router } from '@angular/router';
-import { TestBed, async } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Router } from "@angular/router";
+import { TestBed, async } from "@angular/core/testing";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
 
-import { PatientRemindersComponent } from './patient-reminders.component';
-import { PatientReminderService } from './patient-reminders.service';
-import { PatientService } from '../../services/patient.service';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { PatientRemindersComponent } from "./patient-reminders.component";
+import { PatientReminderService } from "./patient-reminders.service";
+import { PatientService } from "../../services/patient.service";
+import { BehaviorSubject, Observable } from "rxjs";
+import { ProgramEnrollmentResourceService } from "../../../openmrs-api/program-enrollment-resource.service";
+import { PatientReminderResourceService } from "../../../etl-api/patient-reminder-resource.service";
+import { AppSettingsService } from "../../../app-settings/app-settings.service";
 import {
-  ProgramEnrollmentResourceService
-} from '../../../openmrs-api/program-enrollment-resource.service';
-import { PatientReminderResourceService } from '../../../etl-api/patient-reminder-resource.service';
-import { AppSettingsService } from '../../../app-settings/app-settings.service';
-import { ToastrConfig, ToastrService, Overlay, OverlayContainer, ToastrModule } from 'ngx-toastr';
-import { PatientResourceService } from '../../../openmrs-api/patient-resource.service';
-import { LocalStorageService } from '../../../utils/local-storage.service';
-import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
-import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
-import { FakeAppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytcis.mock';
-import { PatientProgramService } from '../../programs/patient-programs.service';
-import { RoutesProviderService } from '../../../shared/dynamic-route/route-config-provider.service';
-import { ProgramService } from '../../programs/program.service';
-import { ProgramResourceService } from '../../../openmrs-api/program-resource.service';
-import { ProgramWorkFlowResourceService } from '../../../openmrs-api/program-workflow-resource.service';
-import { ProgramWorkFlowStateResourceService } from '../../../openmrs-api/program-workflow-state-resource.service';
-import { UserDefaultPropertiesService } from '../../../user-default-properties';
-import { Patient } from '../../../models/patient.model';
-import { ProgramManagerService } from '../../../program-manager/program-manager.service';
-import { PatientProgramResourceService } from '../../../etl-api/patient-program-resource.service';
+  ToastrConfig,
+  ToastrService,
+  Overlay,
+  OverlayContainer,
+  ToastrModule,
+} from "ngx-toastr";
+import { PatientResourceService } from "../../../openmrs-api/patient-resource.service";
+import { LocalStorageService } from "../../../utils/local-storage.service";
+import { EncounterResourceService } from "../../../openmrs-api/encounter-resource.service";
+import { AppFeatureAnalytics } from "../../../shared/app-analytics/app-feature-analytics.service";
+import { FakeAppFeatureAnalytics } from "../../../shared/app-analytics/app-feature-analytcis.mock";
+import { PatientProgramService } from "../../programs/patient-programs.service";
+import { RoutesProviderService } from "../../../shared/dynamic-route/route-config-provider.service";
+import { ProgramService } from "../../programs/program.service";
+import { ProgramResourceService } from "../../../openmrs-api/program-resource.service";
+import { ProgramWorkFlowResourceService } from "../../../openmrs-api/program-workflow-resource.service";
+import { ProgramWorkFlowStateResourceService } from "../../../openmrs-api/program-workflow-state-resource.service";
+import { UserDefaultPropertiesService } from "../../../user-default-properties";
+import { Patient } from "../../../models/patient.model";
+import { ProgramManagerService } from "../../../program-manager/program-manager.service";
+import { PatientProgramResourceService } from "../../../etl-api/patient-program-resource.service";
 
 class MockPropertyService {
   getCurrentUserDefaultLocation() {
-    return 'test location';
+    return "test location";
   }
 
   getLocations() {
-    return (new BehaviorSubject(null)).asObservable();
+    return new BehaviorSubject(null).asObservable();
   }
 
   getUserProperty() {
@@ -43,20 +47,26 @@ class MockPropertyService {
 }
 
 class MockProgramManagerService {
-  editProgramEnrollments(theChange: string, patient: Patient, programs: any[], newLoc?) {
-    return (new BehaviorSubject(null)).asObservable();
+  editProgramEnrollments(
+    theChange: string,
+    patient: Patient,
+    programs: any[],
+    newLoc?
+  ) {
+    return new BehaviorSubject(null).asObservable();
   }
 
   enrollPatient() {
-    return (new BehaviorSubject(null)).asObservable();
+    return new BehaviorSubject(null).asObservable();
   }
 }
 
-const patientProgramResourceService =
-  jasmine.createSpyObj('PatientProgramResourceService', ['getAllProgramVisitConfigs']);
+const patientProgramResourceService = jasmine.createSpyObj(
+  "PatientProgramResourceService",
+  ["getAllProgramVisitConfigs"]
+);
 
-describe('Component: PatientReminders', () => {
-
+describe("Component: PatientReminders", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
@@ -76,19 +86,19 @@ describe('Component: PatientReminders', () => {
         PatientRemindersComponent,
         {
           provide: AppFeatureAnalytics,
-          useClass: FakeAppFeatureAnalytics
+          useClass: FakeAppFeatureAnalytics,
         },
         {
           provide: UserDefaultPropertiesService,
-          useClass: MockPropertyService
+          useClass: MockPropertyService,
         },
         {
           provide: ProgramManagerService,
-          useClass: MockProgramManagerService
+          useClass: MockProgramManagerService,
         },
         {
-          provide : PatientProgramResourceService,
-          useValue : patientProgramResourceService
+          provide: PatientProgramResourceService,
+          useValue: patientProgramResourceService,
         },
         AppSettingsService,
         ToastrService,
@@ -97,12 +107,11 @@ describe('Component: PatientReminders', () => {
         {
           provide: Router,
           useClass: class {
-            public navigate = jasmine.createSpy('navigate');
-          }
-        }
+            public navigate = jasmine.createSpy("navigate");
+          },
+        },
       ],
-      imports: [ToastrModule.forRoot(), HttpClientTestingModule]
-
+      imports: [ToastrModule.forRoot(), HttpClientTestingModule],
     });
   });
 
@@ -110,41 +119,38 @@ describe('Component: PatientReminders', () => {
     TestBed.resetTestingModule();
   });
 
-  it('should instantiate the component', (done) => {
-    const component: PatientRemindersComponent = TestBed.get(PatientRemindersComponent);
+  it("should instantiate the component", (done) => {
+    const component: PatientRemindersComponent = TestBed.get(
+      PatientRemindersComponent
+    );
     expect(component).toBeTruthy();
     done();
-
   });
 
-  it('should have all the required functions defined and callable', (done) => {
-    const component: PatientRemindersComponent = TestBed.get(PatientRemindersComponent);
+  it("should have all the required functions defined and callable", (done) => {
+    const component: PatientRemindersComponent = TestBed.get(
+      PatientRemindersComponent
+    );
     const reminders = [];
-    spyOn(component, 'ngOnInit').and.callThrough();
+    spyOn(component, "ngOnInit").and.callThrough();
     component.ngOnInit();
     expect(component.ngOnInit).toHaveBeenCalled();
-    spyOn(component, 'getPatient').and.callThrough();
+    spyOn(component, "getPatient").and.callThrough();
     component.getPatient();
     expect(component.getPatient).toHaveBeenCalled();
-    spyOn(component, 'constructReminders').and.callThrough();
+    spyOn(component, "constructReminders").and.callThrough();
     component.constructReminders(reminders);
     expect(component.constructReminders).toHaveBeenCalled();
 
     done();
-
   });
-
 });
-
 
 class ToastrConfigMock {
   timeOut = 5000;
   closeButton = false;
-  positionClass = 'toast-top-right';
+  positionClass = "toast-top-right";
   extendedTimeOut = 1000;
 
-  constructor() {
-  }
-
+  constructor() {}
 }
-

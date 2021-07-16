@@ -1,30 +1,42 @@
 <div>
-	<button class="btn btn-primary" (click)="goBack()">
-		<span class="glyphicon glyphicon-arrow-left"></span>
-		<span>Go back to tabular view</span>
-	</button>
+  <button class="btn btn-primary" (click)="goBack()">
+    <span class="glyphicon glyphicon-arrow-left"></span>
+    <span>Go back to tabular view</span>
+  </button>
 </div>
-<div class="loader" *ngIf="isLoading"><span><i class="fa fa-spinner fa-spin">
-      </i>Loading...</span></div>
-<h3>
-	Patient List | {{translatedIndicator}}
-</h3>
+<div class="loader" *ngIf="isLoading">
+  <span><i class="fa fa-spinner fa-spin"> </i>Loading...</span>
+</div>
+<h3>Patient List | {{ translatedIndicator }}</h3>
 <h5 class="text-muted">
-	(From: {{startDate | moment:'DD/MM/YYYY'}} To: {{endDate | moment:'DD/MM/YYYY'}})
+  (From: {{ startDate | moment: "DD/MM/YYYY" }} To:
+  {{ endDate | moment: "DD/MM/YYYY" }})
 </h5>
 <hr />
-<patient-list [overrideColumns]="overrideColumns" [data]="patientData" [hivColumns]="true"></patient-list>
-<div *ngIf='!dataLoaded'>
-	<button [disabled]="isLoading" class="btn btn-primary" (click)="loadMorePatients()">
-              <span class="glyphicon glyphicon-refresh"></span> Load More
-              <i *ngIf="isLoading" class="fa fa-spinner fa-spin fa-1x fa-fw"></i>
-      </button>
+<patient-list
+  [overrideColumns]="overrideColumns"
+  [data]="patientData"
+  [hivColumns]="true"
+></patient-list>
+<div *ngIf="!dataLoaded">
+  <button
+    [disabled]="isLoading"
+    class="btn btn-primary"
+    (click)="loadMorePatients()"
+  >
+    <span class="glyphicon glyphicon-refresh"></span> Load More
+    <i *ngIf="isLoading" class="fa fa-spinner fa-spin fa-1x fa-fw"></i>
+  </button>
 </div>
 
-<div *ngIf='dataLoaded'>
-	<p class="bg-info" style="padding:4px;">
-		<b>
-      		<span style="color:green;" class="glyphicon glyphicon-ok">All records loaded {{'[ ' + patientData.length + ' ]'}}</span>
-		</b>
-		<p>
+<div *ngIf="dataLoaded">
+  <p class="bg-info" style="padding: 4px">
+    <b>
+      <span style="color: green" class="glyphicon glyphicon-ok"
+        >All records loaded {{ "[ " + patientData.length + " ]" }}</span
+      >
+    </b>
+  </p>
+
+  <p></p>
 </div>

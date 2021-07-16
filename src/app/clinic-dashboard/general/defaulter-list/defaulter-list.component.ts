@@ -1,22 +1,18 @@
-
-import {take} from 'rxjs/operators';
-import { Component, OnInit, OnChanges, Input, OnDestroy } from '@angular/core';
-import { ClinicDashboardCacheService } from '../../services/clinic-dashboard-cache.service';
-import { Router, ActivatedRoute } from '@angular/router';
-import {
-  DefaulterListResourceService
-} from '../../../etl-api/defaulter-list-resource.service';
-import { DatePipe } from '@angular/common';
-import * as _ from 'lodash';
-import { Subscription } from 'rxjs';
+import { take } from "rxjs/operators";
+import { Component, OnInit, OnChanges, Input, OnDestroy } from "@angular/core";
+import { ClinicDashboardCacheService } from "../../services/clinic-dashboard-cache.service";
+import { Router, ActivatedRoute } from "@angular/router";
+import { DefaulterListResourceService } from "../../../etl-api/defaulter-list-resource.service";
+import { DatePipe } from "@angular/common";
+import * as _ from "lodash";
+import { Subscription } from "rxjs";
 
 @Component({
-  selector: 'app-defaulter-list',
-  templateUrl: './defaulter-list.component.html',
-  styleUrls: ['./defaulter-list.component.css']
+  selector: "app-defaulter-list",
+  templateUrl: "./defaulter-list.component.html",
+  styleUrls: ["./defaulter-list.component.css"],
 })
 export class DefaulterListComponent implements OnInit, OnDestroy {
-
   public minDefaultPeriod: any;
   public maxDefaultPeriod: any;
   public errors: any[] = [];
@@ -32,88 +28,89 @@ export class DefaulterListComponent implements OnInit, OnDestroy {
   public programUuid: any;
   public defaultersControl = true;
 
-  constructor(private clinicDashboardCacheService: ClinicDashboardCacheService,
-              private defaulterListResource: DefaulterListResourceService,
-              private router: Router,
-              private route: ActivatedRoute
-            ) {
-    this._datePipe = new DatePipe('en-US');
+  constructor(
+    private clinicDashboardCacheService: ClinicDashboardCacheService,
+    private defaulterListResource: DefaulterListResourceService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
+    this._datePipe = new DatePipe("en-US");
   }
 
   public extraColumns() {
     return [
       {
-        headerName: 'Rtc Date',
-        field: 'rtc_date',
+        headerName: "Rtc Date",
+        field: "rtc_date",
         width: 100,
         cellStyle: {
-          'white-space': 'normal'
-        }
+          "white-space": "normal",
+        },
       },
       {
-        headerName: 'Last Appointment',
-        field: 'last_appointment',
+        headerName: "Last Appointment",
+        field: "last_appointment",
         width: 160,
         cellStyle: {
-          'white-space': 'normal'
-        }
+          "white-space": "normal",
+        },
       },
       {
-        headerName: 'Filing Id',
-        field: 'filed_id',
+        headerName: "Filing Id",
+        field: "filed_id",
         width: 100,
         cellStyle: {
-          'white-space': 'normal'
-        }
+          "white-space": "normal",
+        },
       },
       {
-        headerName: 'Phone Number',
-        field: 'phone_number',
+        headerName: "Phone Number",
+        field: "phone_number",
         width: 100,
         cellStyle: {
-          'white-space': 'normal'
-        }
+          "white-space": "normal",
+        },
       },
       {
-        headerName: 'Latest Appointment',
+        headerName: "Latest Appointment",
         width: 200,
-        field: 'latest_appointment'
+        field: "latest_appointment",
       },
       {
-        headerName: 'Latest RTC Date',
+        headerName: "Latest RTC Date",
         width: 150,
-        field: 'latest_rtc_date'
+        field: "latest_rtc_date",
       },
       {
-        headerName: 'Current Regimen',
+        headerName: "Current Regimen",
         width: 200,
-        field: 'cur_meds'
+        field: "cur_meds",
       },
       {
-        headerName: 'Latest VL',
+        headerName: "Latest VL",
         width: 75,
-        field: 'latest_vl'
+        field: "latest_vl",
       },
       {
-        headerName: 'Latest VL Date',
+        headerName: "Latest VL Date",
         width: 150,
-        field: 'latest_vl_date'
+        field: "latest_vl_date",
       },
       {
-        headerName: 'Previous VL',
+        headerName: "Previous VL",
         width: 75,
-        field: 'previous_vl'
+        field: "previous_vl",
       },
       {
-        headerName: 'Previous VL Date',
+        headerName: "Previous VL Date",
         width: 150,
-        field: 'previous_vl_date'
+        field: "previous_vl_date",
       },
       {
-        headerName: 'Nearest Center',
+        headerName: "Nearest Center",
         width: 150,
-        field: 'nearest_center'
-      }
+        field: "nearest_center",
+      },
     ];
   }
 
@@ -129,12 +126,16 @@ export class DefaulterListComponent implements OnInit, OnDestroy {
       }
       this.loadDefaulterList();
     }
-}
+  }
 
   public loadDefaulterList() {
     this.initParams();
-    const params = this.getQueryParams(this.minDefaultPeriod,
-      this.maxDefaultPeriod, this.selectedClinic, this.programUuid);
+    const params = this.getQueryParams(
+      this.minDefaultPeriod,
+      this.maxDefaultPeriod,
+      this.selectedClinic,
+      this.programUuid
+    );
 
     if (this.selectedClinic) {
       this.getDefaulterList(params);
@@ -143,7 +144,7 @@ export class DefaulterListComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     this.getLocation();
-    const cachedParams = this.getCachedDefaulterListParam('defaulterListParam');
+    const cachedParams = this.getCachedDefaulterListParam("defaulterListParam");
     if (cachedParams) {
       this.loadDefaulterListFromCachedParams(cachedParams);
     }
@@ -158,14 +159,20 @@ export class DefaulterListComponent implements OnInit, OnDestroy {
 
   public loadMoreDefaulterList() {
     this.loadingDefaulterList = true;
-    const params = this.getQueryParams(this.minDefaultPeriod,
-      this.maxDefaultPeriod, this.selectedClinic, this.programUuid);
+    const params = this.getQueryParams(
+      this.minDefaultPeriod,
+      this.maxDefaultPeriod,
+      this.selectedClinic,
+      this.programUuid
+    );
     this.loadDefaulterListFromCachedParams(params);
   }
 
   private getLocation() {
     const routeSub = this.route.parent.parent.params.subscribe((params) => {
-      this.clinicDashboardCacheService.setCurrentClinic(params['location_uuid']);
+      this.clinicDashboardCacheService.setCurrentClinic(
+        params["location_uuid"]
+      );
     });
 
     this.subs.push(routeSub);
@@ -178,15 +185,16 @@ export class DefaulterListComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToLocationChangeEvent() {
-  const sub = this.clinicDashboardCacheService.getCurrentClinic()
+    const sub = this.clinicDashboardCacheService
+      .getCurrentClinic()
       .subscribe((location) => {
-      this.selectedClinic = location;
-      if (this.minDefaultPeriod) {
-        this.loadDefaulterList();
-      }
-    });
+        this.selectedClinic = location;
+        if (this.minDefaultPeriod) {
+          this.loadDefaulterList();
+        }
+      });
 
-  this.subs.push(sub);
+    this.subs.push(sub);
   }
 
   private getDatePart(datetime: string) {
@@ -197,17 +205,20 @@ export class DefaulterListComponent implements OnInit, OnDestroy {
   }
 
   private formatDefaulterListData(data) {
-
     const formatedData = data.map((dataItem) => {
       const formatedEncDate = this._datePipe.transform(
-        this.getDatePart(dataItem.encounter_datetime), 'dd-MM-yyyy');
+        this.getDatePart(dataItem.encounter_datetime),
+        "dd-MM-yyyy"
+      );
 
-      const formatedRTCDate = this._datePipe.transform(this.getDatePart(dataItem.rtc_date),
-        'dd-MM-yyyy');
+      const formatedRTCDate = this._datePipe.transform(
+        this.getDatePart(dataItem.rtc_date),
+        "dd-MM-yyyy"
+      );
       return {
         uuid: dataItem.patient_uuid,
-        rtc_date: formatedRTCDate + ' (' + dataItem.days_since_rtc
-        + ' days ago)',
+        rtc_date:
+          formatedRTCDate + " (" + dataItem.days_since_rtc + " days ago)",
         days_since_rtc: dataItem.days_since_rtc,
         identifiers: dataItem.identifiers,
         filed_id: dataItem.filed_id,
@@ -215,7 +226,7 @@ export class DefaulterListComponent implements OnInit, OnDestroy {
         age: dataItem.age,
         person_name: dataItem.person_name,
         encounter_type_name: dataItem.encounter_type_name,
-        last_appointment: formatedEncDate + ' ' + dataItem.encounter_type_name,
+        last_appointment: formatedEncDate + " " + dataItem.encounter_type_name,
         encounter_datetime: formatedEncDate,
         phone_number: dataItem.phone_number,
         latest_appointment: dataItem.last_appointment,
@@ -225,7 +236,7 @@ export class DefaulterListComponent implements OnInit, OnDestroy {
         latest_vl_date: dataItem.latest_vl_date,
         previous_vl: dataItem.previous_vl,
         previous_vl_date: dataItem.previous_vl_date,
-        nearest_center: dataItem.nearest_center
+        nearest_center: dataItem.nearest_center,
       };
     });
     return formatedData;
@@ -239,22 +250,26 @@ export class DefaulterListComponent implements OnInit, OnDestroy {
     this.nextStartIndex = 0;
   }
 
-  private getQueryParams(defaulterPeriod, maxDefaultPeriod, selectedLocation, programUuid) {
+  private getQueryParams(
+    defaulterPeriod,
+    maxDefaultPeriod,
+    selectedLocation,
+    programUuid
+  ) {
     const params = {
       maxDefaultPeriod: maxDefaultPeriod,
       defaulterPeriod: defaulterPeriod,
       startIndex: this.nextStartIndex,
       locationUuids: selectedLocation,
       programUuid: programUuid,
-      limit: undefined
+      limit: undefined,
     };
     this.cacheDefaulterListParam(params);
     return params;
-
   }
 
   private cacheDefaulterListParam(params) {
-    this.clinicDashboardCacheService.add('defaulterListParam', params);
+    this.clinicDashboardCacheService.add("defaulterListParam", params);
   }
 
   private getCachedDefaulterListParam(key) {
@@ -266,30 +281,29 @@ export class DefaulterListComponent implements OnInit, OnDestroy {
     const result = this.defaulterListResource.getDefaulterList(params);
 
     if (result === null) {
-      throw new Error('Null Defaulter List observable');
+      throw new Error("Null Defaulter List observable");
     } else {
       result.pipe(take(1)).subscribe(
         (patientList) => {
           if (patientList.length > 0) {
             this.defaulterList = this.defaulterList.concat(
-              this.formatDefaulterListData(patientList));
+              this.formatDefaulterListData(patientList)
+            );
             const size: number = patientList.length;
             this.nextStartIndex = this.nextStartIndex + size;
           } else {
             this.dataLoaded = true;
           }
           this.loadingDefaulterList = false;
-        }
-        ,
+        },
         (error) => {
           this.loadingDefaulterList = false;
           this.errors.push({
-            id: 'Defaulter List',
-            message: 'error fetching a list of defaulters'
+            id: "Defaulter List",
+            message: "error fetching a list of defaulters",
           });
         }
       );
     }
   }
-
 }

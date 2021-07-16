@@ -18,12 +18,18 @@
   [data]="patientData"
 ></patient-list>
 
-<div *ngIf='hasLoadedAll'>
-  <p class="bg-info" style="padding:4px;">
+<div *ngIf="hasLoadedAll">
+  <p class="bg-info" style="padding: 4px">
     <b>
-      <span style="color:green;" class="glyphicon glyphicon-ok">All records loaded {{'[ ' + patientData.length + ' ]'}}</span></b>
-  <p>
+      <span style="color: green" class="glyphicon glyphicon-ok"
+        >All records loaded {{ "[ " + patientData.length + " ]" }}</span
+      ></b
+    >
+  </p>
+
+  <p></p>
 </div>
+
 <div *ngIf="hasError">
-<p class="alert-error alert">Error loading patient list.</p>
+  <p class="alert-error alert">Error loading patient list.</p>
 </div>

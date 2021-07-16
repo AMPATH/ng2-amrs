@@ -1,24 +1,39 @@
-<h3>
-  Patient List | {{translatedIndicator}}
-</h3>
+<h3>Patient List | {{ translatedIndicator }}</h3>
 <h5 class="text-muted">
-  (From: {{startDate | moment:'DD/MM/YYYY'}} To: {{endDate | moment:'DD/MM/YYYY'}})
+  (From: {{ startDate | moment: "DD/MM/YYYY" }} To:
+  {{ endDate | moment: "DD/MM/YYYY" }})
 </h5>
 <hr />
 <div class="loader" *ngIf="isLoading">
   <span><i class="fa fa-spinner fa-spin"></i>Loading...</span>
 </div>
-<patient-list [overrideColumns]="overrideColumns" [data]="patientData" [hivColumns]="true"></patient-list>
-<div *ngIf='!dataLoaded'>
+<patient-list
+  [overrideColumns]="overrideColumns"
+  [data]="patientData"
+  [hivColumns]="true"
+></patient-list>
+<div *ngIf="!dataLoaded">
   <div class="button">
-    <button class="btn btn-primary" [ladda]='isLoading' data-size="xs" data-color="blue" (click)="loadMorePatients()">
-      <span class=""></span>Load More...</button>
+    <button
+      class="btn btn-primary"
+      [ladda]="isLoading"
+      data-size="xs"
+      data-color="blue"
+      (click)="loadMorePatients()"
+    >
+      <span class=""></span>Load More...
+    </button>
   </div>
 </div>
 
-<div *ngIf='dataLoaded'>
-  <p class="bg-info" style="padding:4px;">
+<div *ngIf="dataLoaded">
+  <p class="bg-info" style="padding: 4px">
     <b>
-      <span style="color:green;" class="glyphicon glyphicon-ok">All records loaded {{'[ ' + patientData.length + ' ]'}}</span></b>
-  <p>
+      <span style="color: green" class="glyphicon glyphicon-ok"
+        >All records loaded {{ "[ " + patientData.length + " ]" }}</span
+      ></b
+    >
+  </p>
+
+  <p></p>
 </div>

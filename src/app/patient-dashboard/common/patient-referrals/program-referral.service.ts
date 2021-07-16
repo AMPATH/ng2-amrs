@@ -1,22 +1,20 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 
-import * as moment from 'moment';
+import * as moment from "moment";
 
-import { LocalStorageService } from '../../../utils/local-storage.service';
-import { ProgramManagerService } from '../../../program-manager/program-manager.service';
-import { SelectDepartmentService } from '../../../shared/services/select-department.service';
-import {
-  UserDefaultPropertiesService
-} from '../../../user-default-properties/user-default-properties.service';
+import { LocalStorageService } from "../../../utils/local-storage.service";
+import { ProgramManagerService } from "../../../program-manager/program-manager.service";
+import { SelectDepartmentService } from "../../../shared/services/select-department.service";
+import { UserDefaultPropertiesService } from "../../../user-default-properties/user-default-properties.service";
 
 @Injectable()
 export class ProgramReferralService {
-
   constructor(
     private selectDepartmentService: SelectDepartmentService,
     private localStorageService: LocalStorageService,
     private programManagerService: ProgramManagerService,
-    private userDefaultPropertiesService: UserDefaultPropertiesService) { }
+    private userDefaultPropertiesService: UserDefaultPropertiesService
+  ) {}
 
   /*
     Step 1 is to distinguish between CDM referrals and HEMATO-ONCOLOGY referrals:
@@ -34,20 +32,24 @@ export class ProgramReferralService {
   public referPatient(patient, referralData: any) {
     const department = this.selectDepartmentService.getUserSetDepartment();
 
-    if (department === 'CDM') {
+    if (department === "CDM") {
       // Construct referralPayload
-    } else if (department === 'HEMATO-ONCOLOGY') {
+    } else if (department === "HEMATO-ONCOLOGY") {
       // Construct referralPayload
-      const referralLocation = this.localStorageService.getItem('referralLocation');
-      const referralVisitEncounter = this.localStorageService.getItem('referralVisitEncounter');
+      const referralLocation = this.localStorageService.getItem(
+        "referralLocation"
+      );
+      const referralVisitEncounter = this.localStorageService.getItem(
+        "referralVisitEncounter"
+      );
       const referredFromLocation = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
       const payload = {
         submittedEncounter: JSON.parse(referralVisitEncounter),
         referredToLocation: referralLocation,
         referredFromLocation: referredFromLocation.uuid,
         patient: patient,
-        dateEnrolled: moment().format('YYYY-MM-DD'),
-        programUuid: referralData.programUuid
+        dateEnrolled: moment().format("YYYY-MM-DD"),
+        programUuid: referralData.programUuid,
       };
       return this.programManagerService.referPatient(payload);
     }

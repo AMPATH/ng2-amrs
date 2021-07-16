@@ -1,23 +1,21 @@
-.patient-info-row{
-
-    margin-right: 0px;
-    margin-left: 0px;
-
+.patient-info-row {
+  margin-right: 0px;
+  margin-left: 0px;
 }
-.patient-info-divider{
-    margin-top: 10px;
-    margin-bottom: 10px;
+.patient-info-divider {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
-.info_section_title{
-    font-size: 20px;
-    color:#203864;
+.info_section_title {
+  font-size: 20px;
+  color: #203864;
 }
-.edit_link span{
-    font-size: 1.1em;
+.edit_link span {
+  font-size: 1.1em;
 }
-.edit_link .fa{
-    display: inline;
+.edit_link .fa {
+  display: inline;
 }
-.edit_link:hover{
-    cursor:pointer;
+.edit_link:hover {
+  cursor: pointer;
 }

@@ -9,8 +9,8 @@
 </div>
 <h3>
   <b>{{ indicatorHeader }}</b> between
-  {{ params?.startingMonth | date: 'MMMM yyyy' }} and
-  {{ params?.endingMonth | date: 'MMMM yyyy' }} patient list
+  {{ params?.startingMonth | date: "MMMM yyyy" }} and
+  {{ params?.endingMonth | date: "MMMM yyyy" }} patient list
 </h3>
 <hr />
 <ag-grid-angular
@@ -37,7 +37,7 @@
   <p class="bg-info" style="padding: 4px">
     <b>
       <span style="color: green" class="glyphicon glyphicon-ok"
-        >All records loaded {{ '[ ' + patientData?.length + ' ]' }}</span
+        >All records loaded {{ "[ " + patientData?.length + " ]" }}</span
       ></b
     >
   </p>

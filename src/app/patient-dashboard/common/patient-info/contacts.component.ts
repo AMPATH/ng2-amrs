@@ -1,13 +1,13 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from "@angular/core";
 
-import { PatientService } from '../../services/patient.service';
-import { Patient } from '../../../models/patient.model';
-import { Subscription } from 'rxjs';
+import { PatientService } from "../../services/patient.service";
+import { Patient } from "../../../models/patient.model";
+import { Subscription } from "rxjs";
 
 @Component({
-  selector: 'contacts-info',
-  templateUrl: './contacts.component.html',
-  styleUrls: []
+  selector: "contacts-info",
+  templateUrl: "./contacts.component.html",
+  styleUrls: [],
 })
 export class ContactsComponent implements OnInit, OnDestroy {
   public patient: Patient = new Patient({});
@@ -20,8 +20,7 @@ export class ContactsComponent implements OnInit, OnDestroy {
   private careGivername: string;
   private relationshipToCareGiver: string;
   private careGiverPhoneNumber: number;
-  constructor(private patientService: PatientService) {
-  }
+  constructor(private patientService: PatientService) {}
 
   public ngOnInit() {
     this.getPatient();
@@ -50,5 +49,4 @@ export class ContactsComponent implements OnInit, OnDestroy {
       }
     );
   }
-
 }

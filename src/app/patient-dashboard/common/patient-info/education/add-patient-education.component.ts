@@ -1,19 +1,19 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from "@angular/core";
 
-import { Patient } from 'src/app/models/patient.model';
-import { PersonAttributeResourceService } from './../../../../openmrs-api/person-attribute-resource.service';
-import { PatientService } from 'src/app/patient-dashboard/services/patient.service';
-import * as _ from 'lodash';
-import { PatientEducationService } from '../../../../../app/etl-api/patient-education.service';
-import { Subscription } from 'rxjs';
+import { Patient } from "src/app/models/patient.model";
+import { PersonAttributeResourceService } from "./../../../../openmrs-api/person-attribute-resource.service";
+import { PatientService } from "src/app/patient-dashboard/services/patient.service";
+import * as _ from "lodash";
+import { PatientEducationService } from "../../../../../app/etl-api/patient-education.service";
+import { Subscription } from "rxjs";
 
 @Component({
-  selector: 'add-patient-education',
-  templateUrl: './add-patient-education.component.html',
+  selector: "add-patient-education",
+  templateUrl: "./add-patient-education.component.html",
 })
 export class AddPatientEducationComponent implements OnInit, OnDestroy {
   public displayErrors: boolean;
-  public errorMessage = '';
+  public errorMessage = "";
   public patient: Patient;
   public isLoading: boolean;
   public errors: Array<any>;
@@ -22,7 +22,7 @@ export class AddPatientEducationComponent implements OnInit, OnDestroy {
   public showSuccessAlert = false;
   public showErrorAlert = false;
   public display: boolean;
-  public highestEducationConcept = 'a89e48ae-1350-11df-a1f1-0026b9348838';
+  public highestEducationConcept = "a89e48ae-1350-11df-a1f1-0026b9348838";
   public levelOfEducation: any;
   public patientHighestEducation: string;
   private sub: Array<Subscription> = [];
@@ -70,7 +70,7 @@ export class AddPatientEducationComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     const personAttributePayload = {
       value: this.patientHighestEducation,
-      attributeType: '352b0d51-63c6-47d0-a295-156bebee4fd5',
+      attributeType: "352b0d51-63c6-47d0-a295-156bebee4fd5",
     };
 
     this.personAttributeService
@@ -78,13 +78,13 @@ export class AddPatientEducationComponent implements OnInit, OnDestroy {
       .subscribe(
         (success) => {
           if (success) {
-            this.displaySuccessAlert('Education level save successfully');
+            this.displaySuccessAlert("Education level save successfully");
             this.patientService.reloadCurrentPatient();
           }
         },
         (error) => {
-          console.error('error', error);
-          this.displayErrorAlert('Error adding education');
+          console.error("error", error);
+          this.displayErrorAlert("Error adding education");
         }
       );
   }

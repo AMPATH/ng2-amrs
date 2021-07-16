@@ -1,75 +1,140 @@
-
-<div style="margin-top: 4px; margin-bottom: 4px;">
-  <strong *ngIf="currentEnrollment" style="color: gray;">
+<div style="margin-top: 4px; margin-bottom: 4px">
+  <strong *ngIf="currentEnrollment" style="color: gray">
     <span>
-      Patient enrolled in {{toTitleCase(currentEnrollment?.openmrsModel?.display)}}
+      Patient enrolled in
+      {{ toTitleCase(currentEnrollment?.openmrsModel?.display) }}
     </span>
-    <span *ngIf="currentEnrollment.openmrsModel && currentEnrollment.openmrsModel.location">{{ (' at ' + currentEnrollment.openmrsModel.location.display ) }}
+    <span
+      *ngIf="
+        currentEnrollment.openmrsModel &&
+        currentEnrollment.openmrsModel.location
+      "
+      >{{ " at " + currentEnrollment.openmrsModel.location.display }}
     </span>
-    <span>{{(' since ' + currentEnrollment?.dateEnrolled)}}.</span>
-    <div *ngIf="!patientEnrolledInGroup && !isBusy" class="alert alert-info"> 
-      <i class="fa fa-users"></i> Patient not enrolled in a Community Group. 
-      <button class="btn btn-sm btn-primary pull-right" (click)="enrollInGroup()"> Enroll in a Group </button>
+    <span>{{ " since " + currentEnrollment?.dateEnrolled }}.</span>
+    <div *ngIf="!patientEnrolledInGroup && !isBusy" class="alert alert-info">
+      <i class="fa fa-users"></i> Patient not enrolled in a Community Group.
+      <button
+        class="btn btn-sm btn-primary pull-right"
+        (click)="enrollInGroup()"
+      >
+        Enroll in a Group
+      </button>
     </div>
-  <div *ngIf="communityEnrollmentSuccessMessage" class="alert alert-success">
-    {{communityEnrollmentSuccessMessage}}
-  </div>
-    <span *ngIf="!currentEnrollment?.openmrsModel?.location" style="text-transform:none;"> Please associate this program with a clinic.</span>
+    <div *ngIf="communityEnrollmentSuccessMessage" class="alert alert-success">
+      {{ communityEnrollmentSuccessMessage }}
+    </div>
+    <span
+      *ngIf="!currentEnrollment?.openmrsModel?.location"
+      style="text-transform: none"
+    >
+      Please associate this program with a clinic.</span
+    >
   </strong>
-  <strong *ngIf="!currentEnrollment.openmrsModel" style="color: gray;">Patient not enrolled in the program you loaded please check the patient</strong>
+  <strong *ngIf="!currentEnrollment.openmrsModel" style="color: gray"
+    >Patient not enrolled in the program you loaded please check the
+    patient</strong
+  >
 </div>
 <div>
-  <div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-    {{error?.message}}
+  <div
+    *ngFor="let error of errors"
+    class="alert alert-danger alert-dismissible"
+  >
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+      ×
+    </button>
+    {{ error?.message }}
   </div>
-  <div class="alert alert-success alert-dismissible"
-       *ngIf="showVisitStartedMsg && visit && patient && visit.stopDatetime === null">
+  <div
+    class="alert alert-success alert-dismissible"
+    *ngIf="
+      showVisitStartedMsg && visit && patient && visit.stopDatetime === null
+    "
+  >
     Visit has been successfully started
-    <button type="button" (click)="removeVisitStartedMsg()" class="close" data-dismiss="alert"
-            aria-hidden="true">×
+    <button
+      type="button"
+      (click)="removeVisitStartedMsg()"
+      class="close"
+      data-dismiss="alert"
+      aria-hidden="true"
+    >
+      ×
     </button>
   </div>
 
-  <h3 *ngIf="visit && patient && visit.stopDatetime === null"
-      style="margin-left: -8px; margin-bottom: -4px; margin-top: -8px;">Current Visit</h3>
-  <div *ngIf="visit && patient && visit.stopDatetime === null"
-       style="border:solid #80D651; border-width: 1px 1px 1px 4px; padding: 4px;">
-    <app-visit-details [visit]="visit" (encounterSelected)="onEncounterSelected($event)"
-                       [programVisitTypesConfig]="currentProgramConfig"
-                       [programEnrollmentUuid]="currentProgramEnrollmentUuid"
-                       [programUuid]="programUuid" (formSelected)="onFormSelected($event)"
-                       (visitCancelled)="onVisitStartedOrChanged($event)"
-                       (visitChanged)="onVisitStartedOrChanged($event)">
+  <h3
+    *ngIf="visit && patient && visit.stopDatetime === null"
+    style="margin-left: -8px; margin-bottom: -4px; margin-top: -8px"
+  >
+    Current Visit
+  </h3>
+  <div
+    *ngIf="visit && patient && visit.stopDatetime === null"
+    style="border: solid #80d651; border-width: 1px 1px 1px 4px; padding: 4px"
+  >
+    <app-visit-details
+      [visit]="visit"
+      (encounterSelected)="onEncounterSelected($event)"
+      [programVisitTypesConfig]="currentProgramConfig"
+      [programEnrollmentUuid]="currentProgramEnrollmentUuid"
+      [programUuid]="programUuid"
+      (formSelected)="onFormSelected($event)"
+      (visitCancelled)="onVisitStartedOrChanged($event)"
+      (visitChanged)="onVisitStartedOrChanged($event)"
+    >
     </app-visit-details>
   </div>
 
-  <h3 *ngIf="patient && (!visit || visit.stopDatetime !== null)"
-      style="margin-left: -8px; margin-bottom: -16px; margin-top: -8px;">Start a Visit</h3>
-  <div *ngIf="patient && (!visit || visit.stopDatetime !== null)"
-       style="border:solid lightgray; border-width: 1px 1px 1px 1px; padding: 4px; margin-top:10px;">
+  <h3
+    *ngIf="patient && (!visit || visit.stopDatetime !== null)"
+    style="margin-left: -8px; margin-bottom: -16px; margin-top: -8px"
+  >
+    Start a Visit
+  </h3>
+  <div
+    *ngIf="patient && (!visit || visit.stopDatetime !== null)"
+    style="
+      border: solid lightgray;
+      border-width: 1px 1px 1px 1px;
+      padding: 4px;
+      margin-top: 10px;
+    "
+  >
     <h4>
       <!-- <span class="fa  fa-info"></span>  -->
       Select location, then select visit type to start:
     </h4>
     <div class="box-body forms-list">
-      <app-visit-starter [patientUuid]="patient.uuid"
-                         [programEnrollmentUuid]="currentProgramEnrollmentUuid"
-                         [programUuid]="programUuid"
-                         (visitStarted)="onVisitStartedOrChanged($event)"
-                         [patientEnrolledInGroup]="patientEnrolledInGroup"></app-visit-starter>
+      <app-visit-starter
+        [patientUuid]="patient.uuid"
+        [programEnrollmentUuid]="currentProgramEnrollmentUuid"
+        [programUuid]="programUuid"
+        (visitStarted)="onVisitStartedOrChanged($event)"
+        [patientEnrolledInGroup]="patientEnrolledInGroup"
+      ></app-visit-starter>
     </div>
   </div>
 </div>
 
 <ng-template #enrollModal>
-    <div class="modal-header">
-        Enroll In Group
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-  <group-enrollment [state]="modalState" (hide)="modalRef.hide()" (group)="onEnrollToGroup($event)"></group-enrollment>
-      </div>
+  <div class="modal-header">
+    Enroll In Group
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <group-enrollment
+      [state]="modalState"
+      (hide)="modalRef.hide()"
+      (group)="onEnrollToGroup($event)"
+    ></group-enrollment>
+  </div>
 </ng-template>

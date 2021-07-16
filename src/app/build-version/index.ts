@@ -1,1 +1,1 @@
-export * from './build-version.component';
+export * from "./build-version.component";

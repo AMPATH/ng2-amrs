@@ -1,34 +1,31 @@
+import { shareReplay, take } from "rxjs/operators";
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
 
-import { shareReplay, take } from 'rxjs/operators';
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import * as _ from "lodash";
+import * as moment from "moment";
 
-import * as _ from 'lodash';
-import * as moment from 'moment';
-
-import { PatientService } from '../../patient-dashboard/services/patient.service';
-import { ProgramService } from '../../patient-dashboard/programs/program.service';
-import { DepartmentProgramsConfigService
-} from '../../etl-api/department-programs-config.service';
-import { UserDefaultPropertiesService
-} from '../../user-default-properties/user-default-properties.service';
-import { PatientProgramResourceService } from '../../etl-api/patient-program-resource.service';
-import { Patient } from '../../models/patient.model';
-import { Observable, Subject } from 'rxjs';
-import { LocalStorageService } from '../../utils/local-storage.service';
+import { PatientService } from "../../patient-dashboard/services/patient.service";
+import { ProgramService } from "../../patient-dashboard/programs/program.service";
+import { DepartmentProgramsConfigService } from "../../etl-api/department-programs-config.service";
+import { UserDefaultPropertiesService } from "../../user-default-properties/user-default-properties.service";
+import { PatientProgramResourceService } from "../../etl-api/patient-program-resource.service";
+import { Patient } from "../../models/patient.model";
+import { Observable, Subject } from "rxjs";
+import { LocalStorageService } from "../../utils/local-storage.service";
 
 @Component({
-  selector: 'program-manager-base',
+  selector: "program-manager-base",
   template: `<ng-content></ng-content>`,
-  styleUrls: []
+  styleUrls: [],
 })
 export class ProgramManagerBaseComponent implements OnInit {
   public department: string;
   public program: any;
-  public title = 'Start Program';
+  public title = "Start Program";
   public steps: number[] = [1, 2, 3, 4, 5, 6];
   public showForms = false;
-  public customTitleClass = '';
+  public customTitleClass = "";
   public jumpStep = -1;
   public currentStep = 1;
   public nextStep = false;
@@ -47,7 +44,7 @@ export class ProgramManagerBaseComponent implements OnInit {
   public selectedProgram: any;
   public errors: any[] = [];
   public enrolledProgramsByDepartment: any[] = [];
-  public enrollmentCompleted  = false;
+  public enrollmentCompleted = false;
   public locations: any = [];
   public dateEnrolled: string;
   public dateCompleted: string;
@@ -62,85 +59,109 @@ export class ProgramManagerBaseComponent implements OnInit {
   public allPatientProgramVisitConfigs: any = {};
   public programDepartments: any = [];
   public programVisitConfig: any;
-  public parentComponent = 'landing-page';
+  public parentComponent = "landing-page";
   public stepInfo: any = {};
   public availableDepartmentPrograms: any[] = [];
   public departmentConf: any[];
   public enrollmentEncounters: string[] = [];
-  constructor(public patientService: PatientService,
-              public programService: ProgramService,
-              public router: Router,
-              public route: ActivatedRoute,
-              public departmentProgramService: DepartmentProgramsConfigService,
-              public userDefaultPropertiesService: UserDefaultPropertiesService,
-              public patientProgramResourceService: PatientProgramResourceService,
-              public cdRef: ChangeDetectorRef,
-              public localStorageService: LocalStorageService) {
+  constructor(
+    public patientService: PatientService,
+    public programService: ProgramService,
+    public router: Router,
+    public route: ActivatedRoute,
+    public departmentProgramService: DepartmentProgramsConfigService,
+    public userDefaultPropertiesService: UserDefaultPropertiesService,
+    public patientProgramResourceService: PatientProgramResourceService,
+    public cdRef: ChangeDetectorRef,
+    public localStorageService: LocalStorageService
+  ) {}
 
-  }
-
-  public ngOnInit() {
-  }
+  public ngOnInit() {}
 
   public loadPatientProgramConfig(): Observable<any> {
     const programConfigLoaded: Subject<boolean> = new Subject<boolean>();
-    this.patientService.currentlyLoadedPatient.pipe(shareReplay()).subscribe((patient) => {
+    this.patientService.currentlyLoadedPatient.pipe(shareReplay()).subscribe(
+      (patient) => {
         if (patient) {
           this.patient = patient;
-          this.availablePrograms  =  _.filter(patient.enrolledPrograms,  (item) => {
-            return item.program.uuid !== '781d8a88-1359-11df-a1f1-0026b9348838' &&
-              item.program.uuid !== '781d8880-1359-11df-a1f1-0026b9348838' && !item.isEnrolled;
-          });
-
-          this.enrolledProgrames = _.filter(patient.enrolledPrograms, 'isEnrolled');
-          this.patientProgramResourceService.getPatientProgramVisitConfigs(this.patient.uuid).pipe(shareReplay(),
-            take(1)).subscribe((programConfigs) => {
-            if (programConfigs) {
-              this.allPatientProgramVisitConfigs = programConfigs;
-              this.loaded = true;
-              programConfigLoaded.next(true);
+          this.availablePrograms = _.filter(
+            patient.enrolledPrograms,
+            (item) => {
+              return (
+                item.program.uuid !== "781d8a88-1359-11df-a1f1-0026b9348838" &&
+                item.program.uuid !== "781d8880-1359-11df-a1f1-0026b9348838" &&
+                !item.isEnrolled
+              );
             }
-          }, (error) => {
-            this.loaded = true;
-              programConfigLoaded.error(error);
-          });
+          );
+
+          this.enrolledProgrames = _.filter(
+            patient.enrolledPrograms,
+            "isEnrolled"
+          );
+          this.patientProgramResourceService
+            .getPatientProgramVisitConfigs(this.patient.uuid)
+            .pipe(shareReplay(), take(1))
+            .subscribe(
+              (programConfigs) => {
+                if (programConfigs) {
+                  this.allPatientProgramVisitConfigs = programConfigs;
+                  this.loaded = true;
+                  programConfigLoaded.next(true);
+                }
+              },
+              (error) => {
+                this.loaded = true;
+                programConfigLoaded.error(error);
+              }
+            );
         }
-      }, (err) => {
-      this.loaded = true;
-      programConfigLoaded.error(err);
-      });
+      },
+      (err) => {
+        this.loaded = true;
+        programConfigLoaded.error(err);
+      }
+    );
 
     return programConfigLoaded;
   }
 
   public mapEnrolledProgramsToDepartment(excludeCompleted: boolean = false) {
-        if (this.enrolledProgrames) {
-          const enrolledProgrames = _.filter(this.patient.enrolledPrograms, (eProgram) => {
-            return !_.isNull(eProgram.enrolledProgram);
-          });
-          _.each(this.departmentConf, (config: any) => {
-            let deparmtentPrograms = _.intersectionWith(enrolledProgrames, config.programs,
-              (enrolledProgram: any, departmentProgram: any) => {
-              return enrolledProgram.programUuid === departmentProgram.uuid;
-            });
-            if (excludeCompleted) {
-              deparmtentPrograms = _.filter(deparmtentPrograms, (program) => {
-                return _.isNil(program.dateCompleted);
-              });
-            }
-            if (deparmtentPrograms.length > 0) {
-              config['show'] = true;
-              deparmtentPrograms.sort(this.sortByDateEnrolled);
-              config.programs = deparmtentPrograms;
-              this.enrolledProgramsByDepartment.push(config);
-            }
+    if (this.enrolledProgrames) {
+      const enrolledProgrames = _.filter(
+        this.patient.enrolledPrograms,
+        (eProgram) => {
+          return !_.isNull(eProgram.enrolledProgram);
+        }
+      );
+      _.each(this.departmentConf, (config: any) => {
+        let deparmtentPrograms = _.intersectionWith(
+          enrolledProgrames,
+          config.programs,
+          (enrolledProgram: any, departmentProgram: any) => {
+            return enrolledProgram.programUuid === departmentProgram.uuid;
+          }
+        );
+        if (excludeCompleted) {
+          deparmtentPrograms = _.filter(deparmtentPrograms, (program) => {
+            return _.isNil(program.dateCompleted);
           });
         }
+        if (deparmtentPrograms.length > 0) {
+          config["show"] = true;
+          deparmtentPrograms.sort(this.sortByDateEnrolled);
+          config.programs = deparmtentPrograms;
+          this.enrolledProgramsByDepartment.push(config);
+        }
+      });
+    }
   }
 
   public getDepartmentConf() {
-    this.departmentProgramService.getDartmentProgramsConfig().pipe(
-      take(1)).subscribe((results) => {
+    this.departmentProgramService
+      .getDartmentProgramsConfig()
+      .pipe(take(1))
+      .subscribe((results) => {
         if (results) {
           this.departmentConf = results;
           this._filterDepartmentConfigByName();
@@ -155,8 +176,7 @@ export class ProgramManagerBaseComponent implements OnInit {
     if (department) {
       // Remove already enrolled programs
       return _.filter(department.programs, (program) => {
-        const programs = _.map(this.availablePrograms,
-          (a) => a.programUuid);
+        const programs = _.map(this.availablePrograms, (a) => a.programUuid);
         return _.includes(programs, program.uuid);
       });
     }
@@ -164,12 +184,17 @@ export class ProgramManagerBaseComponent implements OnInit {
   }
 
   public hasStateChangeEncounterTypes(): boolean {
-    return this.programVisitConfig && !_.isUndefined(this.programVisitConfig.enrollmentOptions)
-      && !_.isUndefined(this.programVisitConfig.enrollmentOptions.stateChangeEncounterTypes);
+    return (
+      this.programVisitConfig &&
+      !_.isUndefined(this.programVisitConfig.enrollmentOptions) &&
+      !_.isUndefined(
+        this.programVisitConfig.enrollmentOptions.stateChangeEncounterTypes
+      )
+    );
   }
 
-  public showMessage(message: string, type: string = 'error') {
-    if (type === 'info') {
+  public showMessage(message: string, type: string = "error") {
+    if (type === "info") {
       this.hasNotice = true;
       this.currentNotice = message;
     } else {
@@ -212,11 +237,11 @@ export class ProgramManagerBaseComponent implements OnInit {
   }
 
   public goToProgramSummary() {
-    const _route = '/patient-dashboard/patient/' + this.patient.uuid
-      + '/general/general/program-manager/program-summary';
-    const routeOptions = {
-
-    };
+    const _route =
+      "/patient-dashboard/patient/" +
+      this.patient.uuid +
+      "/general/general/program-manager/program-summary";
+    const routeOptions = {};
     this.router.navigate([_route], routeOptions);
   }
 
@@ -229,12 +254,15 @@ export class ProgramManagerBaseComponent implements OnInit {
     _.extend(this.stepInfo, row);
   }
 
-  public serializeStepInfo(key: string = 'pm-data') {
+  public serializeStepInfo(key: string = "pm-data") {
     const currentPmData = this.localStorageService.getObject(key) || {};
-    this.localStorageService.setObject(key, _.merge(currentPmData, this.stepInfo));
+    this.localStorageService.setObject(
+      key,
+      _.merge(currentPmData, this.stepInfo)
+    );
   }
 
-  public getSerializedStepInfo(key: string, data: string = 'pm-data') {
+  public getSerializedStepInfo(key: string, data: string = "pm-data") {
     const currentPmData = this.localStorageService.getObject(data) || {};
     if (!_.isEmpty(currentPmData)) {
       return currentPmData[key];
@@ -246,14 +274,17 @@ export class ProgramManagerBaseComponent implements OnInit {
     this.incompatibleCount = 0;
     this.incompatibleMessage = [];
     // get programs patient has enrolled in
-    const enrolledList: Array<any> = _.map(this.enrolledProgrames, (program: any) => {
-      return {
-        uuid: program.programUuid,
-        enrolledDate: program.dateEnrolled,
-        enrollmentUuid: program.enrolledProgram._openmrsModel.uuid,
-        name: program.enrolledProgram._openmrsModel.display
-      };
-    });
+    const enrolledList: Array<any> = _.map(
+      this.enrolledProgrames,
+      (program: any) => {
+        return {
+          uuid: program.programUuid,
+          enrolledDate: program.dateEnrolled,
+          enrollmentUuid: program.enrolledProgram._openmrsModel.uuid,
+          name: program.enrolledProgram._openmrsModel.display,
+        };
+      }
+    );
     /* for the selected program.Check if it has compatibilty
        issues with any of the enrolled programs
     */
@@ -286,7 +317,7 @@ export class ProgramManagerBaseComponent implements OnInit {
   }
 
   public setUserDefaultLocation() {
-    const retroLocation = localStorage.getItem('retroLocation');
+    const retroLocation = localStorage.getItem("retroLocation");
     if (retroLocation) {
       this.selectedLocation = JSON.parse(retroLocation);
       return;
@@ -295,25 +326,30 @@ export class ProgramManagerBaseComponent implements OnInit {
     if (location) {
       this.selectedLocation = {
         value: location.uuid,
-        label: location.display
+        label: location.display,
       };
     }
   }
 
   private _filterDepartmentConfigByName() {
     this.programDepartments = _.map(this.departmentConf, (config: any) => {
-      return {name: config.name};
+      return { name: config.name };
     });
   }
 
   private sortByDateEnrolled(a: any, b: any) {
-      if (new Date(a.enrolledProgram.dateEnrolled) < new Date(b.enrolledProgram.dateEnrolled)) {
-        return 1;
-      }
-      if (new Date(a.enrolledProgram.dateEnrolled) > new Date(b.enrolledProgram.dateEnrolled)) {
-        return -1;
-      }
-      return 0;
+    if (
+      new Date(a.enrolledProgram.dateEnrolled) <
+      new Date(b.enrolledProgram.dateEnrolled)
+    ) {
+      return 1;
+    }
+    if (
+      new Date(a.enrolledProgram.dateEnrolled) >
+      new Date(b.enrolledProgram.dateEnrolled)
+    ) {
+      return -1;
+    }
+    return 0;
   }
-
 }

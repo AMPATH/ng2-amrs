@@ -1,16 +1,21 @@
 <div class="snapshot">
   <div *ngIf="hasError">
-    <p class="alert alert-error text-error">Error generating Oncology program snapshot</p>
+    <p class="alert alert-error text-error">
+      Error generating Oncology program snapshot
+    </p>
   </div>
   <div *ngIf="!hasData && !hasError && hasLoadedData">
-    <p class="alert alert-warning">No patient data to generate Oncology program snapshot</p>
+    <p class="alert alert-warning">
+      No patient data to generate Oncology program snapshot
+    </p>
   </div>
   <div *ngIf="!hasError && hasData && !isIntegratedProgram">
     <div class="snapshot-summary">
       <h4 class="component-title">Last Encounter</h4>
       <div class="col-md-12">
         <div class="full-width" *ngIf="latestEncounterLocation">
-          <p>Location:
+          <p>
+            Location:
             <span>{{ latestEncounterLocation?.name }}</span>
           </p>
         </div>
@@ -22,19 +27,35 @@
               <p>Date: {{ summaryData.encounter_datetime }}</p>
             </div>
             <div class="col-md-6 col-xs-12">
-              <p>Type:
-                <span>{{ summaryData.encounter_type_name ? summaryData.encounter_type_name : 'None' }}</span>
+              <p>
+                Type:
+                <span>{{
+                  summaryData.encounter_type_name
+                    ? summaryData.encounter_type_name
+                    : "None"
+                }}</span>
               </p>
             </div>
           </div>
           <div class="col-md-12">
-            <div class="col-md-6 col-xs-12" *ngIf="summaryData.cancer_type || summaryData.cancer_type">
-              <p>Diagnosis:
-                <span *ngIf="summaryData.cancer_type">{{ summaryData.cancer_type }}</span>
-                <span *ngIf="summaryData.cancer_subtype"> - {{ summaryData.cancer_subtype }}</span>
+            <div
+              class="col-md-6 col-xs-12"
+              *ngIf="summaryData.cancer_type || summaryData.cancer_type"
+            >
+              <p>
+                Diagnosis:
+                <span *ngIf="summaryData.cancer_type">{{
+                  summaryData.cancer_type
+                }}</span>
+                <span *ngIf="summaryData.cancer_subtype">
+                  - {{ summaryData.cancer_subtype }}</span
+                >
               </p>
             </div>
-            <div class="col-md-6 col-xs-12" *ngIf="summaryData.oncology_treatment_plan">
+            <div
+              class="col-md-6 col-xs-12"
+              *ngIf="summaryData.oncology_treatment_plan"
+            >
               <p>Treatment Plan: {{ summaryData.oncology_treatment_plan }}</p>
             </div>
           </div>
@@ -42,32 +63,62 @@
             <div clas="col-md-6 col-xs-12" *ngIf="summaryData.chemotherapy">
               <p>Previous Chemotherapy: {{ summaryData.chemotherapy }}</p>
             </div>
-            <div class="col-md-6 col-xs-12" *ngIf="summaryData.medication_history">
-              <p>Current Medication Regimen: {{ summaryData.medication_history }}</p>
+            <div
+              class="col-md-6 col-xs-12"
+              *ngIf="summaryData.medication_history"
+            >
+              <p>
+                Current Medication Regimen: {{ summaryData.medication_history }}
+              </p>
             </div>
           </div>
           <div class="col-md-12">
-            <div class="col-md-6 col-xs-12" *ngIf="summaryData.current_chemo_cycle">
+            <div
+              class="col-md-6 col-xs-12"
+              *ngIf="summaryData.current_chemo_cycle"
+            >
               <p>Current Chemo Cycle: {{ summaryData.current_chemo_cycle }}</p>
             </div>
-            <div class="col-md-6 col-xs-12" *ngIf="summaryData.total_chemo_cycles_planned">
-              <p>Total Chemo Cycles Planned: {{ summaryData.total_chemo_cycles_planned }}</p>
+            <div
+              class="col-md-6 col-xs-12"
+              *ngIf="summaryData.total_chemo_cycles_planned"
+            >
+              <p>
+                Total Chemo Cycles Planned:
+                {{ summaryData.total_chemo_cycles_planned }}
+              </p>
             </div>
           </div>
           <div class="col-md-12">
-            <div class="col-md-6 col-xs-12" *ngIf="summaryData.chemotherapy_plan">
+            <div
+              class="col-md-6 col-xs-12"
+              *ngIf="summaryData.chemotherapy_plan"
+            >
               <p>Chemotherapy Plan: {{ summaryData.chemotherapy_plan }}</p>
             </div>
-            <div class="col-md-6 col-xs-12" *ngIf="summaryData.chemotherapy_regimen">
-              <p>Chemotherapy Regimen: {{ summaryData.chemotherapy_regimen }}</p>
+            <div
+              class="col-md-6 col-xs-12"
+              *ngIf="summaryData.chemotherapy_regimen"
+            >
+              <p>
+                Chemotherapy Regimen: {{ summaryData.chemotherapy_regimen }}
+              </p>
             </div>
           </div>
           <div class="col-md-12">
-            <div class="col-md-6 col-xs-12" *ngIf="summaryData.chemotherapy_intent">
+            <div
+              class="col-md-6 col-xs-12"
+              *ngIf="summaryData.chemotherapy_intent"
+            >
               <p>Chemotherapy Intent: {{ summaryData.chemotherapy_intent }}</p>
             </div>
-            <div class="col-md-6 col-xs-12" *ngIf="summaryData.overall_cancer_stage_group">
-              <p>Cancer Stage Group: {{ summaryData.overall_cancer_stage_group }}</p>
+            <div
+              class="col-md-6 col-xs-12"
+              *ngIf="summaryData.overall_cancer_stage_group"
+            >
+              <p>
+                Cancer Stage Group: {{ summaryData.overall_cancer_stage_group }}
+              </p>
             </div>
           </div>
           <div class="col-md-12">
@@ -87,16 +138,30 @@
           <ng-container *ngFor="let row of summaryData">
             <div class="col-md-12">
               <p>Visit: {{ row.visit_name }}</p>
-              <p>Date: {{ row.encounter_datetime | date: 'longDate' }}</p>
+              <p>Date: {{ row.encounter_datetime | date: "longDate" }}</p>
               <p>Encounter: {{ row.encounter_type_name }}</p>
               <p>Location: {{ row.location }}</p>
-              <p *ngIf="row.breast_exam_findings">Breast screening findings: {{ translateConcept(row.breast_exam_findings) }}</p>
-              <p *ngIf="row.via_test_result">Cervical screening findings this visit: {{ translateConcept(row.via_test_result) }}</p>
-              <p *ngIf="row.prior_via_test_result">Last VIA test result: {{ translateConcept(row.prior_via_test_result) }}</p>
-              <p *ngIf="row.prior_via_test_result_date">Date of last VIA test: {{ row.prior_via_test_result_date | date: 'longDate' }}</p>
-              <p *ngIf="row.hiv_status">HIV status: {{ translateConcept(row.hiv_status) }}</p>
+              <p *ngIf="row.breast_exam_findings">
+                Breast screening findings:
+                {{ translateConcept(row.breast_exam_findings) }}
+              </p>
+              <p *ngIf="row.via_test_result">
+                Cervical screening findings this visit:
+                {{ translateConcept(row.via_test_result) }}
+              </p>
+              <p *ngIf="row.prior_via_test_result">
+                Last VIA test result:
+                {{ translateConcept(row.prior_via_test_result) }}
+              </p>
+              <p *ngIf="row.prior_via_test_result_date">
+                Date of last VIA test:
+                {{ row.prior_via_test_result_date | date: "longDate" }}
+              </p>
+              <p *ngIf="row.hiv_status">
+                HIV status: {{ translateConcept(row.hiv_status) }}
+              </p>
             </div>
-            <hr class="intro-divider" width="100%">
+            <hr class="intro-divider" width="100%" />
           </ng-container>
         </div>
       </div>

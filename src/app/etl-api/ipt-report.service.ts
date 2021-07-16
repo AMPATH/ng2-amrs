@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
 
-import { Observable } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
-import * as Moment from 'moment';
-import { AppSettingsService } from '../app-settings/app-settings.service';
+import { Observable } from "rxjs";
+import { catchError, map } from "rxjs/operators";
+import * as Moment from "moment";
+import { AppSettingsService } from "../app-settings/app-settings.service";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class IptReportService {
   public get url(): string {
@@ -27,14 +27,14 @@ export class IptReportService {
       .get(
         `${this.url}tb-preventive-monthly-summary?locationUuids=${
           params.locationUuids
-        }&endDate=${Moment(params.endDate).format('YYYY-MM-DD')}`
+        }&endDate=${Moment(params.endDate).format("YYYY-MM-DD")}`
       )
       .pipe(
         catchError((err: any) => {
           const error: any = err;
           const errorObj = {
             error: error.status,
-            message: error.statusText
+            message: error.statusText,
           };
           return Observable.of(errorObj);
         }),
@@ -55,7 +55,7 @@ export class IptReportService {
           params.indicators
         }&locationUuids=${params.locationUuids}&endDate=${Moment(
           params.endDate
-        ).format('YYYY-MM-DD')}`
+        ).format("YYYY-MM-DD")}`
       )
       .pipe(
         map((response: any) => response),
@@ -63,7 +63,7 @@ export class IptReportService {
           const error: any = err;
           const errorObj = {
             error: error.status,
-            message: error.statusText
+            message: error.statusText,
           };
           return Observable.of(errorObj);
         })

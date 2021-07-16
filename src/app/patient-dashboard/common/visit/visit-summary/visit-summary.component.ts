@@ -1,13 +1,12 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import * as _ from 'lodash';
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import * as _ from "lodash";
 
 @Component({
-  selector: 'app-visit-summary',
-  templateUrl: './visit-summary.component.html',
-  styleUrls: ['./visit-summary.component.css']
+  selector: "app-visit-summary",
+  templateUrl: "./visit-summary.component.html",
+  styleUrls: ["./visit-summary.component.css"],
 })
 export class VisitSummaryComponent implements OnInit {
-
   @Output()
   public visitSummarySelected = new EventEmitter<any>();
   public visitSummaryDetails: any;
@@ -19,18 +18,15 @@ export class VisitSummaryComponent implements OnInit {
   public set visitSummary(v: Array<any>) {
     this._visitSummary = v;
     this.setVisitSummary(v);
-
   }
 
-  constructor() { }
+  constructor() {}
 
-  public ngOnInit() { }
+  public ngOnInit() {}
   public setVisitSummary(data: Array<any>) {
-    this.visitSummaryDetails = _.uniqBy(data, 'uuid');
+    this.visitSummaryDetails = _.uniqBy(data, "uuid");
   }
   public viewVisitDetails(visitDetails) {
     this.visitSummarySelected.emit(visitDetails);
-
   }
-
 }

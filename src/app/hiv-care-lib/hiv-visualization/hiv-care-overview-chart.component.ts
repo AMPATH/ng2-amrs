@@ -1,16 +1,15 @@
-import { Component, ViewEncapsulation, Input, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import * as _ from 'lodash';
-import { BehaviorSubject } from 'rxjs';
-import { ClinicalSummaryVisualizationService
-} from '../services/clinical-summary-visualization.service';
-const highcharts = require('highcharts');
-import * as Moment from 'moment';
+import { Component, ViewEncapsulation, Input, OnInit } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import * as _ from "lodash";
+import { BehaviorSubject } from "rxjs";
+import { ClinicalSummaryVisualizationService } from "../services/clinical-summary-visualization.service";
+const highcharts = require("highcharts");
+import * as Moment from "moment";
 @Component({
-  selector: 'hiv-care-overview-chart',
-  styleUrls: ['hiv-care-overview-chart.component.css'],
-  templateUrl: 'hiv-care-overview-chart.component.html',
-  encapsulation: ViewEncapsulation.None
+  selector: "hiv-care-overview-chart",
+  styleUrls: ["hiv-care-overview-chart.component.css"],
+  templateUrl: "hiv-care-overview-chart.component.html",
+  encapsulation: ViewEncapsulation.None,
 })
 export class HivCareComparativeChartComponent implements OnInit {
   public indicatorDef: Array<any> = [];
@@ -21,14 +20,16 @@ export class HivCareComparativeChartComponent implements OnInit {
   private patientsOnArt: Array<any> = [];
   private percOnArtWithVl: Array<any> = [];
   private virallySuppressed: Array<any> = [];
-  private chartTitle = 'A comparative graph showing HIV Care analysis';
+  private chartTitle = "A comparative graph showing HIV Care analysis";
   private _options = new BehaviorSubject<any>(null);
   private data: any;
   private _dates: any;
 
-  constructor(private route: ActivatedRoute,
-              private clinicalSummaryVisualizationService: ClinicalSummaryVisualizationService,
-              private router: Router) {
+  constructor(
+    private route: ActivatedRoute,
+    private clinicalSummaryVisualizationService: ClinicalSummaryVisualizationService,
+    private router: Router
+  ) {
     if (!this.options) {
       this.options = {};
     }
@@ -44,7 +45,7 @@ export class HivCareComparativeChartComponent implements OnInit {
   public get dates(): any {
     return this._dates;
   }
-  @Input('dates')
+  @Input("dates")
   public set dates(v: any) {
     this._dates = v;
   }
@@ -63,147 +64,163 @@ export class HivCareComparativeChartComponent implements OnInit {
   }
 
   public goToPatientList(indicator, filters) {
-
     const dateRange = this.clinicalSummaryVisualizationService.getMonthDateRange(
-      filters.split('/')[0] ,
-      filters.split('/')[1] - 1
-       );
+      filters.split("/")[0],
+      filters.split("/")[1] - 1
+    );
 
-    this.router.navigate(['./patient-list', 'clinical-hiv-comparative-overview', indicator,
-        dateRange.startDate.format('DD/MM/YYYY') + '|' +
-        dateRange.endDate.format('DD/MM/YYYY')]
-      , {relativeTo: this.route});
+    this.router.navigate(
+      [
+        "./patient-list",
+        "clinical-hiv-comparative-overview",
+        indicator,
+        dateRange.startDate.format("DD/MM/YYYY") +
+          "|" +
+          dateRange.endDate.format("DD/MM/YYYY"),
+      ],
+      { relativeTo: this.route }
+    );
   }
 
   public renderChart(options) {
     let startDate: any;
     let endDate: any;
     this.processChartData();
-    if ( this._dates) {
-      startDate = Moment(this._dates.startDate).format('DD-MM-YYYY');
-      endDate = Moment(this._dates.endDate).format('DD-MM-YYYY');
+    if (this._dates) {
+      startDate = Moment(this._dates.startDate).format("DD-MM-YYYY");
+      endDate = Moment(this._dates.endDate).format("DD-MM-YYYY");
     }
 
     const that = this;
     _.merge(options, {
-      colors: ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728'],
-      title : { text : this.chartTitle },
+      colors: ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728"],
+      title: { text: this.chartTitle },
       subtitle: {
-        text: 'Starting from ' + startDate + ' To ' + endDate
+        text: "Starting from " + startDate + " To " + endDate,
       },
       chart: {
-        zoomType: 'xy',
+        zoomType: "xy",
         alignTicks: false,
         events: {
-          redraw: true
+          redraw: true,
         },
       },
-      background2: '#F0F0EA',
+      background2: "#F0F0EA",
       plotOptions: {
         candlestick: {
-          lineColor: '#404048'
+          lineColor: "#404048",
         },
         series: {
-          cursor: 'pointer',
+          cursor: "pointer",
           point: {
             events: {
-              click: function() {
-                const indicators = that.clinicalSummaryVisualizationService.flipTranlateColumns;
+              click: function () {
+                const indicators =
+                  that.clinicalSummaryVisualizationService.flipTranlateColumns;
                 that.goToPatientList(
-                  indicators['clinical-hiv-comparative-overview'][this.series.name],
-                  this.category);
-              }
-            }
-          }
-        }
-      },
-      xAxis: [{
-        categories: this.xAxisCategories,
-        gridLineWidth: 1,
-        title: {
-          text: 'Date (Month)'
+                  indicators["clinical-hiv-comparative-overview"][
+                    this.series.name
+                  ],
+                  this.category
+                );
+              },
+            },
+          },
         },
-        crosshair: true
-      }],
+      },
+      xAxis: [
+        {
+          categories: this.xAxisCategories,
+          gridLineWidth: 1,
+          title: {
+            text: "Date (Month)",
+          },
+          crosshair: true,
+        },
+      ],
       yAxis: [
-        { // Primary yAxis
+        {
+          // Primary yAxis
           labels: {
-            format: '{value}',
+            format: "{value}",
             style: {
-              color: highcharts.getOptions().colors[0]
-            }
+              color: highcharts.getOptions().colors[0],
+            },
           },
           tickInterval: 100,
           title: {
-            text: 'Number Of Patients',
+            text: "Number Of Patients",
             style: {
-              color: highcharts.getOptions().colors[0]
-            }
-          }
+              color: highcharts.getOptions().colors[0],
+            },
+          },
         },
-        { // Secondary yAxis
+        {
+          // Secondary yAxis
           title: {
-            text: 'Percent (%)',
+            text: "Percent (%)",
             rotation: -90,
             padding: 10,
             style: {
-              color: highcharts.getOptions().colors[1]
-            }
+              color: highcharts.getOptions().colors[1],
+            },
           },
           tickInterval: 10,
           max: 100,
           endOnTick: true,
           labels: {
-            format: '{value}',
+            format: "{value}",
             style: {
-              color: highcharts.getOptions().colors[1]
-            }
+              color: highcharts.getOptions().colors[1],
+            },
           },
-          opposite: true
-        }],
+          opposite: true,
+        },
+      ],
       tooltip: {
-        shared: true
+        shared: true,
       },
       legend: {
-        layout: 'horizontal',
+        layout: "horizontal",
       },
       series: [
         {
-          name: 'Patients In Care',
-          type: 'spline',
+          name: "Patients In Care",
+          type: "spline",
           yAxis: 0,
           data: this.patientsInCare,
           tooltip: {
-            valueSuffix: ''
-          }
+            valueSuffix: "",
+          },
         },
         {
-          name: 'Patients On ART',
-          type: 'spline',
+          name: "Patients On ART",
+          type: "spline",
           yAxis: 0,
           data: this.patientsOnArt,
           tooltip: {
-            valueSuffix: ''
-          }
+            valueSuffix: "",
+          },
         },
         {
-          name: '% on ART with VL',
-          type: 'spline',
+          name: "% on ART with VL",
+          type: "spline",
           yAxis: 1,
           data: this.percOnArtWithVl,
           tooltip: {
-            valueSuffix: ''
-          }
+            valueSuffix: "",
+          },
         },
         {
-          name: '% Virally Suppressed',
-          type: 'spline',
+          name: "% Virally Suppressed",
+          type: "spline",
           yAxis: 1,
           data: this.virallySuppressed,
           tooltip: {
-            valueSuffix: ''
-          }
-        }],
+            valueSuffix: "",
+          },
+        },
+      ],
     });
   }
 
@@ -224,5 +241,4 @@ export class HivCareComparativeChartComponent implements OnInit {
     this.virallySuppressed = [];
     this.percOnArtWithVl = [];
   }
-
 }

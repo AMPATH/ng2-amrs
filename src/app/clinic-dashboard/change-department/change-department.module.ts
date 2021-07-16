@@ -1,15 +1,11 @@
-import { NgModule } from '@angular/core';
-import { ChangeDepartmentComponent } from '../change-department/change-department.component';
-import { CommonModule } from '@angular/common';
+import { NgModule } from "@angular/core";
+import { ChangeDepartmentComponent } from "../change-department/change-department.component";
+import { CommonModule } from "@angular/common";
 
 @NgModule({
-  imports: [
-      CommonModule
-  ],
+  imports: [CommonModule],
   exports: [ChangeDepartmentComponent],
-  declarations: [
-    ChangeDepartmentComponent
-  ],
+  declarations: [ChangeDepartmentComponent],
   providers: [],
 })
-export class ChangeDepartmentModule { }
+export class ChangeDepartmentModule {}

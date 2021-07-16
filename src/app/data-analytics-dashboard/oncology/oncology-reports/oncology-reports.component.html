@@ -1,11 +1,22 @@
 <div class="container-fluid" id="report-container">
-  <h4 class="component-title" style="color: green;"><span class="fa fa-file fa-fw"></span>{{ title }}</h4>
-  <div class="col-md-12 col-lg-12 col-sm-12" *ngFor="let oncologyReport of oncologyReports">
+  <h4 class="component-title" style="color: green">
+    <span class="fa fa-file fa-fw"></span>{{ title }}
+  </h4>
+  <div
+    class="col-md-12 col-lg-12 col-sm-12"
+    *ngFor="let oncologyReport of oncologyReports"
+  >
     <h3>{{ oncologyReport.program }}</h3>
     <div class="list-group">
-      <a (click)="navigateToReport(report,oncologyReport,i)" class="list-group-item" *ngFor="let report of oncologyReport.reports ; let i = index">
-        {{ report.name}}
-        <i class="glyphicon glyphicon-question-sign question-tooltip pull-right"></i>
+      <a
+        (click)="navigateToReport(report, oncologyReport, i)"
+        class="list-group-item"
+        *ngFor="let report of oncologyReport.reports; let i = index"
+      >
+        {{ report.name }}
+        <i
+          class="glyphicon glyphicon-question-sign question-tooltip pull-right"
+        ></i>
         <div class="info-spacing report-info">
           {{ report.description }}
         </div>

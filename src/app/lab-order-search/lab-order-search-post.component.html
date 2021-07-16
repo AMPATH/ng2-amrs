@@ -1,191 +1,266 @@
 <div class="wrapper" *ngIf="isVisible">
-	<div class="box-body">
-		<h4 style="margin-top: 0px; margin-bottom:2px;">
-			<span class="text-primary">{{ orderType?.display }}</span>
-		</h4>
-		<hr class="header-hr" style="margin-top: 1px; margin-bottom: 2px;" />
-	</div>
-	<div ng-show="order != null" class="order-info">
-		<p class="order-info">
-			<em>Location:
-				<strong>{{ order.encounter.location.display }}</strong>.
-			</em>
-			<em>&nbsp;Date Collected:
-				<strong>{{order.dateActivated | date:'dd-MM-yyyy HH:mm'}}</strong>.
-			</em>
-			<em>&nbsp;Provider:
-				<strong>{{order.orderer.display}}</strong>
-			</em>
-		</p>
-		<p *ngIf="vlJustification != null" class="vl-justification">
-			<em>Justification:&nbsp;
-				<strong>{{ vlJustification }}</strong>.
-			</em>
-		</p>
-		<div *ngIf="hasPDashLink">
-			<a href="#/patient-dashboard/patient/{{ patient?.person.uuid}}/general/landing-page" class="btn btn-primary btn-pdash-link">
-				<span class="icon-i-administration"></span> View Patient
-			</a>
-		</div>
-		<div class="{{ patient.person.dead ? 'banner-danger' : 'banner-info' }}" *ngIf="patient">
-			<div class="row banner-left">
-				<div class="col-sm-3">NAME : {{ patient?.person.display}}</div>
-				<div class="col-sm-3">SEX : {{ patient?.person.gender }}</div>
-				<div class="col-sm-3">DOB : {{ patient?.person.birthdate | date:'dd-MM-yyyy' }} ( {{ patient?.person.age }} Yrs )</div>
-				<div class="col-sm-3">HEALTH CENTER : {{patient.person?.healthCenter}}
-					<span *ngIf="patient.person?.healthCenter == ''"> Not Available</span>
-				</div>
-			</div>
-			<div class="row banner-right">
-				<div class="col-sm-3">
-					<span class="identifier">MUI : </span>
-					<span *ngIf="searchIdentifiers?.ampathMrsUId"> {{ searchIdentifiers?.ampathMrsUId }}</span>
-					<span *ngIf="searchIdentifiers?.ampathMrsUId == null"> Not Available</span>
-				</div>
-				<div class="col-sm-3">
-					<span class="identifier">MRN : </span>
-					<span *ngIf="searchIdentifiers?.amrsMrn"> {{ searchIdentifiers?.amrsMrn }}</span>
-					<span *ngIf="searchIdentifiers?.amrsMrn == null"> Not Available</span>
-				</div>
-				<div class="col-sm-3">
-					<span class="identifier">NID : </span>
-					<span *ngIf="searchIdentifiers?.kenyaNationalId"> {{ searchIdentifiers?.kenyaNationalId }}</span>
-					<span *ngIf="searchIdentifiers?.kenyaNationalId == null"> Not Available</span>
-				</div>
-				<div class="col-sm-3">
-					<span class="identifier">CCC : </span>
-					<span *ngIf="searchIdentifiers?.cCC"> {{ searchIdentifiers?.cCC }}</span>
-					<span *ngIf="searchIdentifiers?.cCC == null"> Not Available</span>
-				</div>
-			</div>
+  <div class="box-body">
+    <h4 style="margin-top: 0px; margin-bottom: 2px">
+      <span class="text-primary">{{ orderType?.display }}</span>
+    </h4>
+    <hr class="header-hr" style="margin-top: 1px; margin-bottom: 2px" />
+  </div>
+  <div ng-show="order != null" class="order-info">
+    <p class="order-info">
+      <em
+        >Location: <strong>{{ order.encounter.location.display }}</strong
+        >.
+      </em>
+      <em
+        >&nbsp;Date Collected:
+        <strong>{{ order.dateActivated | date: "dd-MM-yyyy HH:mm" }}</strong
+        >.
+      </em>
+      <em
+        >&nbsp;Provider:
+        <strong>{{ order.orderer.display }}</strong>
+      </em>
+    </p>
+    <p *ngIf="vlJustification != null" class="vl-justification">
+      <em
+        >Justification:&nbsp; <strong>{{ vlJustification }}</strong
+        >.
+      </em>
+    </p>
+    <div *ngIf="hasPDashLink">
+      <a
+        href="#/patient-dashboard/patient/{{
+          patient?.person.uuid
+        }}/general/landing-page"
+        class="btn btn-primary btn-pdash-link"
+      >
+        <span class="icon-i-administration"></span> View Patient
+      </a>
+    </div>
+    <div
+      class="{{ patient.person.dead ? 'banner-danger' : 'banner-info' }}"
+      *ngIf="patient"
+    >
+      <div class="row banner-left">
+        <div class="col-sm-3">NAME : {{ patient?.person.display }}</div>
+        <div class="col-sm-3">SEX : {{ patient?.person.gender }}</div>
+        <div class="col-sm-3">
+          DOB : {{ patient?.person.birthdate | date: "dd-MM-yyyy" }} (
+          {{ patient?.person.age }} Yrs )
+        </div>
+        <div class="col-sm-3">
+          HEALTH CENTER : {{ patient.person?.healthCenter }}
+          <span *ngIf="patient.person?.healthCenter == ''"> Not Available</span>
+        </div>
+      </div>
+      <div class="row banner-right">
+        <div class="col-sm-3">
+          <span class="identifier">MUI : </span>
+          <span *ngIf="searchIdentifiers?.ampathMrsUId">
+            {{ searchIdentifiers?.ampathMrsUId }}</span
+          >
+          <span *ngIf="searchIdentifiers?.ampathMrsUId == null">
+            Not Available</span
+          >
+        </div>
+        <div class="col-sm-3">
+          <span class="identifier">MRN : </span>
+          <span *ngIf="searchIdentifiers?.amrsMrn">
+            {{ searchIdentifiers?.amrsMrn }}</span
+          >
+          <span *ngIf="searchIdentifiers?.amrsMrn == null"> Not Available</span>
+        </div>
+        <div class="col-sm-3">
+          <span class="identifier">NID : </span>
+          <span *ngIf="searchIdentifiers?.kenyaNationalId">
+            {{ searchIdentifiers?.kenyaNationalId }}</span
+          >
+          <span *ngIf="searchIdentifiers?.kenyaNationalId == null">
+            Not Available</span
+          >
+        </div>
+        <div class="col-sm-3">
+          <span class="identifier">CCC : </span>
+          <span *ngIf="searchIdentifiers?.cCC">
+            {{ searchIdentifiers?.cCC }}</span
+          >
+          <span *ngIf="searchIdentifiers?.cCC == null"> Not Available</span>
+        </div>
+      </div>
       <div class="clear"></div>
-		</div>
-		<div class="panel-info">
-			<h5>
-				<span>HIV Summary Info</span>
-			</h5>
-			<table class="table">
-				<tbody>
-					<tr class="after_table row_0">
-						<td>ART Initial Start Date</td>
-						<td>
-							<span *ngIf="hivSummary?.arv_first_regimen_start_date !== null">
-                  {{(hivSummary?.arv_first_regimen_start_date | date:'dd-MM-yyyy')}}
-                </span>
-						</td>
-					</tr>
-					<tr>
-						<td>ART Current Start Date</td>
-						<td>
-							<span *ngIf="hivSummary?.arv_start_date !== null">{{(hivSummary?.arv_start_date | date:'dd-MM-yyyy')}}</span>
-						</td>
-					</tr>
-					<tr>
-						<td>Current ART Regimen</td>
-						<td>
-							<span *ngIf="hivSummary?.cur_arv_meds !== null">{{hivSummary?.cur_arv_meds}}</span>
-						</td>
-					</tr>
-					<tr *ngIf="patient?.person.gender === 'F'">
-						<td>Pregnant</td>
-						<td>
-							<span>{{ isPregnant ? 'Yes' : 'No' }}</span>
-						</td>
-					</tr>
-					<tr *ngIf="patient?.person.gender === 'F'">
-						<td>Breastfeeding</td>
-						<td>
-							<span>{{ isBreastfeeding ? 'Yes' : 'No' }}</span>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-		<!-- DNAPCR starts-->
-		<div class="panel-info" *ngIf="hasDnaPcr">
-			<h5>
-				<span>DNAPCR Summary Info</span>
-			</h5>
-			<table class="table">
-				<tbody>
-					<tr class="after_table row_0">
-						<td>Hiv Status Of Mother</td>
-						<td>{{ dnaPcrData.hivStatusOfMother }}</td>
-					</tr>
-					<tr>
-						<td>Infant Prophylaxis</td>
-						<td>{{ dnaPcrData.infantProphylaxis }}</td>
-					</tr>
-					<tr>
-						<td>Infant Feeding</td>
-						<td>{{ dnaPcrData.infantFeeding }}</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-		<div class="clear"></div>
-		<!-- DNAPCR ends -->
-			<div *ngIf="!isBusy" class="container-fluid">
-        <div class="row">
-          <div>
-            <div class="form-group">
-              <label for="identifier">Patient Identifier</label>
-              <select class="form-control" id="identifier" [(ngModel)]="selectedIdentifier">
-                <option *ngFor="let identifier of patientIdentifers" [ngValue]="identifier">{{identifier}}</option>
-              </select>
-            </div>
+    </div>
+    <div class="panel-info">
+      <h5>
+        <span>HIV Summary Info</span>
+      </h5>
+      <table class="table">
+        <tbody>
+          <tr class="after_table row_0">
+            <td>ART Initial Start Date</td>
+            <td>
+              <span *ngIf="hivSummary?.arv_first_regimen_start_date !== null">
+                {{
+                  hivSummary?.arv_first_regimen_start_date | date: "dd-MM-yyyy"
+                }}
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td>ART Current Start Date</td>
+            <td>
+              <span *ngIf="hivSummary?.arv_start_date !== null">{{
+                hivSummary?.arv_start_date | date: "dd-MM-yyyy"
+              }}</span>
+            </td>
+          </tr>
+          <tr>
+            <td>Current ART Regimen</td>
+            <td>
+              <span *ngIf="hivSummary?.cur_arv_meds !== null">{{
+                hivSummary?.cur_arv_meds
+              }}</span>
+            </td>
+          </tr>
+          <tr *ngIf="patient?.person.gender === 'F'">
+            <td>Pregnant</td>
+            <td>
+              <span>{{ isPregnant ? "Yes" : "No" }}</span>
+            </td>
+          </tr>
+          <tr *ngIf="patient?.person.gender === 'F'">
+            <td>Breastfeeding</td>
+            <td>
+              <span>{{ isBreastfeeding ? "Yes" : "No" }}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- DNAPCR starts-->
+    <div class="panel-info" *ngIf="hasDnaPcr">
+      <h5>
+        <span>DNAPCR Summary Info</span>
+      </h5>
+      <table class="table">
+        <tbody>
+          <tr class="after_table row_0">
+            <td>Hiv Status Of Mother</td>
+            <td>{{ dnaPcrData.hivStatusOfMother }}</td>
+          </tr>
+          <tr>
+            <td>Infant Prophylaxis</td>
+            <td>{{ dnaPcrData.infantProphylaxis }}</td>
+          </tr>
+          <tr>
+            <td>Infant Feeding</td>
+            <td>{{ dnaPcrData.infantFeeding }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="clear"></div>
+    <!-- DNAPCR ends -->
+    <div *ngIf="!isBusy" class="container-fluid">
+      <div class="row">
+        <div>
+          <div class="form-group">
+            <label for="identifier">Patient Identifier</label>
+            <select
+              class="form-control"
+              id="identifier"
+              [(ngModel)]="selectedIdentifier"
+            >
+              <option
+                *ngFor="let identifier of patientIdentifers"
+                [ngValue]="identifier"
+              >
+                {{ identifier }}
+              </option>
+            </select>
           </div>
         </div>
-				<div class="row">
-					<div>
-						<div class="form-group">
-							<label for="eidServer">Lab Location</label>
-							<select class="form-control" id="eidServer" [(ngModel)]="selectedLabLocation">
-								<option [ngValue]=""></option>
-								<option *ngFor="let lab of labLocations" [ngValue]="lab.value">{{lab.name}}</option>
-							</select>
-						</div>
-					</div>
-				</div>
-				<div class="row" *ngIf="orderType.type === 'VL'">
-					<div>
-						<div class="form-group">
-							<label for="sampleType">Sample Type</label>
-							<select class="form-control" id="sampleType" [(ngModel)]="selectedSampleType">
-								<option [ngValue]=""></option>
-								<option *ngFor="let sample of sampleTypes" [ngValue]="sample.id" >{{ sample.display }}</option>
-							</select>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div>
-						<div class="form-group">
-							<label for="dateReceived">Date Received</label>
-							<input type="date" id="dateReceived" class="form-control" [(ngModel)]="dateReceived">
-							</div>
-						</div>
-					</div>
-				</div>
-				<div *ngIf="error != null" class="alert alert-danger">
-					<span class="text-danger text-bold">
-						<i class="glyphicon glyphicon-exclamation-sign"></i> {{error}}
-					</span>
-				</div>
-				<div>
-					<button id="post-order-btn" class="btn btn-primary" (click)="postOrder()">
-						<span>Post Order
-							<i *ngIf="isBusy" style="font-size: 14px;" class="fa fa-spinner fa-spin ng-hide"></i>
-						</span>
-					</button>
-					<button id="reset-btn" class="btn btn-default" style="margin-left:4px;" (click)="resetOrder()">Cancel</button>
-				</div>
-		</div>
-	</div>
-	<div class="wrapper" *ngIf="orderPostSuccessful">
-		<div class="box-body">
-			<p>
-				<strong class="text-success">The order has been successfully posted to EID</strong>
-			</p>
-		</div>
-	</div>
+      </div>
+      <div class="row">
+        <div>
+          <div class="form-group">
+            <label for="eidServer">Lab Location</label>
+            <select
+              class="form-control"
+              id="eidServer"
+              [(ngModel)]="selectedLabLocation"
+            >
+              <option [ngValue]=""></option>
+              <option *ngFor="let lab of labLocations" [ngValue]="lab.value">
+                {{ lab.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="orderType.type === 'VL'">
+        <div>
+          <div class="form-group">
+            <label for="sampleType">Sample Type</label>
+            <select
+              class="form-control"
+              id="sampleType"
+              [(ngModel)]="selectedSampleType"
+            >
+              <option [ngValue]=""></option>
+              <option *ngFor="let sample of sampleTypes" [ngValue]="sample.id">
+                {{ sample.display }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <div class="form-group">
+            <label for="dateReceived">Date Received</label>
+            <input
+              type="date"
+              id="dateReceived"
+              class="form-control"
+              [(ngModel)]="dateReceived"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="error != null" class="alert alert-danger">
+      <span class="text-danger text-bold">
+        <i class="glyphicon glyphicon-exclamation-sign"></i> {{ error }}
+      </span>
+    </div>
+    <div>
+      <button id="post-order-btn" class="btn btn-primary" (click)="postOrder()">
+        <span
+          >Post Order
+          <i
+            *ngIf="isBusy"
+            style="font-size: 14px"
+            class="fa fa-spinner fa-spin ng-hide"
+          ></i>
+        </span>
+      </button>
+      <button
+        id="reset-btn"
+        class="btn btn-default"
+        style="margin-left: 4px"
+        (click)="resetOrder()"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>
+<div class="wrapper" *ngIf="orderPostSuccessful">
+  <div class="box-body">
+    <p>
+      <strong class="text-success"
+        >The order has been successfully posted to EID</strong
+      >
+    </p>
+  </div>
+</div>

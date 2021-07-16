@@ -1,16 +1,15 @@
+import { take } from "rxjs/operators/take";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 
-import { take } from 'rxjs/operators/take';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-
-import { PatientService } from '../../services/patient.service';
-import { Patient } from '../../../models/patient.model';
-import { PersonResourceService } from '../../../openmrs-api/person-resource.service';
-import { Subscription } from 'rxjs';
-import { LocationResourceService } from '../../../openmrs-api/location-resource.service';
+import { PatientService } from "../../services/patient.service";
+import { Patient } from "../../../models/patient.model";
+import { PersonResourceService } from "../../../openmrs-api/person-resource.service";
+import { Subscription } from "rxjs";
+import { LocationResourceService } from "../../../openmrs-api/location-resource.service";
 
 @Component({
-  selector: 'edit-healthcenter',
-  templateUrl: './edit-healthcenter.component.html',
+  selector: "edit-healthcenter",
+  templateUrl: "./edit-healthcenter.component.html",
   styleUrls: [],
 })
 export class EditHealtCenterComponent implements OnInit, OnDestroy {
@@ -20,16 +19,17 @@ export class EditHealtCenterComponent implements OnInit, OnDestroy {
   public locations = [];
   public display = false;
   public healthCenter: any = {
-    label: '',
-    value: ''
+    label: "",
+    value: "",
   };
   public selectedLocation: any;
   public errors: any = [];
 
-  constructor(private patientService: PatientService,
+  constructor(
+    private patientService: PatientService,
     private locationResourceService: LocationResourceService,
-    private personResourceService: PersonResourceService) {
-  }
+    private personResourceService: PersonResourceService
+  ) {}
 
   public ngOnInit(): void {
     this.getPatient();
@@ -66,59 +66,72 @@ export class EditHealtCenterComponent implements OnInit, OnDestroy {
 
   public updateHealthCenter() {
     this.errors = [];
-    if (this.healthCenter.value === '') {
+    if (this.healthCenter.value === "") {
       this.errors.push({
-        id: 'patient',
-        message: 'Please select location'
+        id: "patient",
+        message: "Please select location",
       });
       return;
     }
     const person = {
-      uuid: this.patients.person.uuid
+      uuid: this.patients.person.uuid,
     };
-    const locationId = this.locationResourceService.getLocationIdByUuid(this.healthCenter.value);
-    const healthCenterPayload = {
-      attributes: [{
-        value: locationId,
-        attributeType: '8d87236c-c2cc-11de-8d13-0010c6dffd0f'
-      }]
-    };
-    this.personResourceService.saveUpdatePerson(person.uuid, healthCenterPayload).pipe(take(1)).subscribe(
-      (success) => {
-        if (success) {
-          this.errors = [];
-          this.healthCenter = {
-            label: '',
-            value: ''
-          };
-          this.patientService.reloadCurrentPatient();
-        }
-      },
-      (error) => {
-        console.error('error', error);
-        this.errors.push({
-          id: 'patient',
-          message: 'error updating address'
-        });
-      }
+    const locationId = this.locationResourceService.getLocationIdByUuid(
+      this.healthCenter.value
     );
+    const healthCenterPayload = {
+      attributes: [
+        {
+          value: locationId,
+          attributeType: "8d87236c-c2cc-11de-8d13-0010c6dffd0f",
+        },
+      ],
+    };
+    this.personResourceService
+      .saveUpdatePerson(person.uuid, healthCenterPayload)
+      .pipe(take(1))
+      .subscribe(
+        (success) => {
+          if (success) {
+            this.errors = [];
+            this.healthCenter = {
+              label: "",
+              value: "",
+            };
+            this.patientService.reloadCurrentPatient();
+          }
+        },
+        (error) => {
+          console.error("error", error);
+          this.errors.push({
+            id: "patient",
+            message: "error updating address",
+          });
+        }
+      );
     this.display = false;
   }
 
   public getLocations() {
     this.loaderStatus = true;
-    this.locationResourceService.getLocations().pipe(take(1)).subscribe((results: any) => {
-      this.locations = results.map((location) => {
-        return {
-          value: location.uuid,
-          label: location.display
-        };
-      });
-      this.loaderStatus = false;
-    }, (error) => {
-      this.loaderStatus = false;
-      console.error(error);
-    });
+    this.locationResourceService
+      .getLocations()
+      .pipe(take(1))
+      .subscribe(
+        (results: any) => {
+          this.locations = results.map((location) => {
+            return {
+              value: location.uuid,
+              label: location.display,
+            };
+          });
+          this.loaderStatus = false;
+        },
+        (error) => {
+          this.loaderStatus = false;
+          console.error(error);
+        }
+      );
   }
 
   public locationChanged(location) {

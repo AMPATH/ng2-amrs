@@ -3,7 +3,8 @@
   "name": "Data Analytics Dashboard",
   "baseRoute": "data-analytics",
   "routeParameter": "",
-  "nonProgramRoutes": [{
+  "nonProgramRoutes": [
+    {
       "url": "hiv/hiv-comparative-chart-analytics",
       "label": "Clinical Visualization",
       "icon": "fa fa-line-chart"
@@ -36,7 +37,6 @@
       "icon": "fa fa-bar-chart",
       "isSideBarOpen": false
     }
-
   ],
   "programs": [],
   "departments": [
@@ -44,7 +44,8 @@
       "departmentName": "HIV",
       "baseRoute": "hiv",
       "alias": "hiv",
-      "routes": [{
+      "routes": [
+        {
           "url": "hiv-comparative-chart-analytics",
           "label": "Clinical Visualization",
           "icon": "fa fa-line-chart"
@@ -108,7 +109,8 @@
       "departmentName": "HEMATO-ONCOLOGY",
       "baseRoute": "hemato-oncology",
       "alias": "hemato-oncology",
-      "routes": [{
+      "routes": [
+        {
           "url": "oncology-reports",
           "label": "Oncology Reports",
           "icon": "fa fa-bar-chart",

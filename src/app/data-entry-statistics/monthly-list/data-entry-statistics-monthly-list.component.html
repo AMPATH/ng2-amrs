@@ -1,26 +1,35 @@
 <div class="container-fluid">
-    <div class="row">
-            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-
-                    <h4 align="center">{{title}} <span *ngIf=" params.startDate!=='' && params.endDate!==''"> from ({{params?.startDate | date:'MMMM,yyyy'}} to {{params?.endDate | date:'MMMM,yyyy'}})</span></h4>
-                                    <hr class="intro-divider" width="40%"/>
-                                       <ag-grid-angular
-                                           style="width: 100%; height: 450px;"
-                                           class="ag-blue"
-                                           #statsGrid
-                                           [rowData]="monthlyRowData"
-                                           [pinnedBottomRowData]="pinnedBottomRowData"
-                                           [columnDefs]="dataEntryEncounterColdef"
-                                           [gridOptions]="gridOptions"
-                                           >
-                                        </ag-grid-angular>
-
-            </div>
-            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-                <p class="bg-info" style="padding:4px;">
-                    <b>
-                      <span style="color:green;" class="glyphicon glyphicon-ok"> Total Encounters : {{totalMonthlyEncounters}}</span></b>
-                  <p>
-           </div>
+  <div class="row">
+    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+      <h4 align="center">
+        {{ title }}
+        <span *ngIf="params.startDate !== '' && params.endDate !== ''">
+          from ({{ params?.startDate | date: "MMMM,yyyy" }} to
+          {{ params?.endDate | date: "MMMM,yyyy" }})</span
+        >
+      </h4>
+      <hr class="intro-divider" width="40%" />
+      <ag-grid-angular
+        style="width: 100%; height: 450px"
+        class="ag-blue"
+        #statsGrid
+        [rowData]="monthlyRowData"
+        [pinnedBottomRowData]="pinnedBottomRowData"
+        [columnDefs]="dataEntryEncounterColdef"
+        [gridOptions]="gridOptions"
+      >
+      </ag-grid-angular>
     </div>
+    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+      <p class="bg-info" style="padding: 4px">
+        <b>
+          <span style="color: green" class="glyphicon glyphicon-ok">
+            Total Encounters : {{ totalMonthlyEncounters }}</span
+          ></b
+        >
+      </p>
+
+      <p></p>
+    </div>
+  </div>
 </div>

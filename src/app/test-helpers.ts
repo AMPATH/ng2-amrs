@@ -1,10 +1,10 @@
-import { DebugElement } from '@angular/core';
-import { ComponentFixture, tick } from '@angular/core/testing';
+import { DebugElement } from "@angular/core";
+import { ComponentFixture, tick } from "@angular/core/testing";
 
 /** Button events to pass to `DebugElement.triggerEventHandler` for RouterLink event handler */
 const ButtonClickEvents = {
   left: { button: 0 },
-  right: { button: 2 }
+  right: { button: 2 },
 };
 
 /** Simulate element click. Defaults to mouse left-button click event. */
@@ -15,7 +15,7 @@ export function click(
   if (el instanceof HTMLElement) {
     el.click();
   } else {
-    el.triggerEventHandler('click', eventObj);
+    el.triggerEventHandler("click", eventObj);
   }
 }
 

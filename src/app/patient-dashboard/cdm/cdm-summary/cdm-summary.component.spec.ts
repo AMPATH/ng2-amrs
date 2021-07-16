@@ -1,21 +1,23 @@
 /* tslint:disable:no-unused-variable */
 
-import { TestBed, async } from '@angular/core/testing';
-import { CdmSummaryComponent } from './cdm-summary.component';
+import { TestBed, async } from "@angular/core/testing";
+import { CdmSummaryComponent } from "./cdm-summary.component";
 
-import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
-import { FakeAppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytcis.mock';
+import { AppFeatureAnalytics } from "../../../shared/app-analytics/app-feature-analytics.service";
+import { FakeAppFeatureAnalytics } from "../../../shared/app-analytics/app-feature-analytcis.mock";
 
-describe('Component: CDM Summary', () => {
+describe("Component: CDM Summary", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         {
-          provide: AppFeatureAnalytics, useFactory: () => {
-          return new FakeAppFeatureAnalytics();
-        }, deps: []
-        }
-      ]
+          provide: AppFeatureAnalytics,
+          useFactory: () => {
+            return new FakeAppFeatureAnalytics();
+          },
+          deps: [],
+        },
+      ],
     });
   });
 
@@ -23,8 +25,10 @@ describe('Component: CDM Summary', () => {
     TestBed.resetTestingModule();
   });
 
-  it('should create an instance', () => {
-    const fakeAppFeatureAnalytics: AppFeatureAnalytics = TestBed.get(AppFeatureAnalytics);
+  it("should create an instance", () => {
+    const fakeAppFeatureAnalytics: AppFeatureAnalytics = TestBed.get(
+      AppFeatureAnalytics
+    );
     const component = new CdmSummaryComponent(fakeAppFeatureAnalytics);
     expect(component).toBeTruthy();
   });

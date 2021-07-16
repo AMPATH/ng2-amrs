@@ -1,20 +1,34 @@
-<div style="margin: 0;margin-top: 8px;" class="component-wrapper location-wrapper">
+<div
+  style="margin: 0; margin-top: 8px"
+  class="component-wrapper location-wrapper"
+>
   <div class="input-group" *ngIf="selectingLocation">
     <div class="input-group-addon">
       <i *ngIf="!loaderStatus" class="fa fa-map-marker"></i>
       <i *ngIf="loaderStatus" class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>
     </div>
-    <ng-select class="sharp-corners" (change)="locationChanged($event)" [(ngModel)]="selectedLocation"
-               [placeholder]="'Select a location or type to search...'"
-               [items]="locations">
+    <ng-select
+      class="sharp-corners"
+      (change)="locationChanged($event)"
+      [(ngModel)]="selectedLocation"
+      [placeholder]="'Select a location or type to search...'"
+      [items]="locations"
+    >
     </ng-select>
-    <div (click)="getLocations()" class="input-group-addon" style="cursor: pointer;">
-        <i *ngIf="!loaderStatus" class="fa  fa-refresh fa-1x fa-fw"></i>
+    <div
+      (click)="getLocations()"
+      class="input-group-addon"
+      style="cursor: pointer"
+    >
+      <i *ngIf="!loaderStatus" class="fa fa-refresh fa-1x fa-fw"></i>
     </div>
   </div>
   <div *ngIf="!selectingLocation" class="selector location">
-    <h2 style="margin-top: 2px; cursor: pointer;" (click)="selectingLocation = true">
-    {{selectedLocation.label}} <i class="fa fa-map-marker pull-right"></i>
+    <h2
+      style="margin-top: 2px; cursor: pointer"
+      (click)="selectingLocation = true"
+    >
+      {{ selectedLocation.label }} <i class="fa fa-map-marker pull-right"></i>
     </h2>
   </div>
 </div>

@@ -1,19 +1,19 @@
 /* tslint:disable:no-inferrable-types */
-import { take } from 'rxjs/operators/take';
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { take } from "rxjs/operators/take";
+import { Component, OnInit, OnDestroy, Input } from "@angular/core";
 
-import { PatientService } from '../../services/patient.service';
-import { HivSummaryService } from './hiv-summary.service';
-import { Patient } from '../../../models/patient.model';
-import { Subscription } from 'rxjs';
-import * as Moment from 'moment';
-import * as _ from 'lodash';
-import { PatientResourceService } from 'src/app/openmrs-api/patient-resource.service';
-import { EncounterResourceService } from 'src/app/openmrs-api/encounter-resource.service';
+import { PatientService } from "../../services/patient.service";
+import { HivSummaryService } from "./hiv-summary.service";
+import { Patient } from "../../../models/patient.model";
+import { Subscription } from "rxjs";
+import * as Moment from "moment";
+import * as _ from "lodash";
+import { PatientResourceService } from "src/app/openmrs-api/patient-resource.service";
+import { EncounterResourceService } from "src/app/openmrs-api/encounter-resource.service";
 @Component({
-  selector: 'hiv-summary-latest',
-  templateUrl: './hiv-summary-latest.component.html',
-  styleUrls: ['./hiv-summary.component.css'],
+  selector: "hiv-summary-latest",
+  templateUrl: "./hiv-summary-latest.component.html",
+  styleUrls: ["./hiv-summary.component.css"],
 })
 export class HivSummaryLatestComponent implements OnInit, OnDestroy {
   @Input() patientUuid: string;
@@ -29,8 +29,12 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
   public colorCode: any;
   public exitedCare: any;
 
-  constructor(private hivSummaryService: HivSummaryService, private _encounterResource: EncounterResourceService,
-    private patientService: PatientService, private patientResourceService: PatientResourceService) { }
+  constructor(
+    private hivSummaryService: HivSummaryService,
+    private _encounterResource: EncounterResourceService,
+    private patientService: PatientService,
+    private patientResourceService: PatientResourceService
+  ) {}
 
   public ngOnInit() {
     this.loadPatient();
@@ -40,20 +44,20 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
   checkOvcStatus() {
     const checkOVCEnrollment = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
-        this.colorCode = 'list-group-item-default';
+        this.colorCode = "list-group-item-default";
         this.patient = new Patient({});
         if (patient) {
           this.patient = patient;
           const enrolledPrograms = patient.enrolledPrograms;
-          const birthdate = Moment(patient.person.birthdate).format('l');
+          const birthdate = Moment(patient.person.birthdate).format("l");
           const todayMoment: any = Moment();
           const birthDateMoment: any = Moment(birthdate);
-          const years = todayMoment.diff(birthDateMoment, 'year');
+          const years = todayMoment.diff(birthDateMoment, "year");
           if (years > 19) {
-            this.ovcStatus = 'Not eligible';
+            this.ovcStatus = "Not eligible";
           } else if (years < 19 && this.getOvcEnrollments(enrolledPrograms)) {
-            this.ovcStatus = 'Enrolled active';
-            this.colorCode = 'list-group-item-success';
+            this.ovcStatus = "Enrolled active";
+            this.colorCode = "list-group-item-success";
           } else if (years < 19 && !this.getOvcEnrollments(enrolledPrograms)) {
             // Check if non-enrollment encounter was filled
             this.checkNonEnrollmentandExitEncounter(patient);
@@ -65,57 +69,64 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
   }
   checkNonEnrollmentandExitEncounter(patient) {
     const encounters = patient.encounters;
-    const nonEnrollmentEncounter = encounters.filter(enc => {
-      if (enc.encounterType.uuid === '824ca90d-c313-4d7e-bc99-119871d927cb') {
+    const nonEnrollmentEncounter = encounters.filter((enc) => {
+      if (enc.encounterType.uuid === "824ca90d-c313-4d7e-bc99-119871d927cb") {
         return enc.uuid;
       }
     });
-    const exitEncounter = encounters.filter(enc => {
-      if (enc.encounterType.uuid === '06e5321e-fc08-4995-aaa3-19c76b48cd22') {
+    const exitEncounter = encounters.filter((enc) => {
+      if (enc.encounterType.uuid === "06e5321e-fc08-4995-aaa3-19c76b48cd22") {
         this.exitedCare = true;
         return enc.uuid;
       }
     });
     if (exitEncounter.length > 0) {
-      this._encounterResource.getEncounterByUuid(exitEncounter[0].uuid).subscribe(data => {
-        this.colorCode = 'list-group-item-danger';
-        data.obs.filter(ob => {
-          if (ob.concept.uuid === 'a89e3f94-1350-11df-a1f1-0026b9348838') {
-            this.ovcStatus = `Exited:  ${ob.value.display}`;
-          }
+      this._encounterResource
+        .getEncounterByUuid(exitEncounter[0].uuid)
+        .subscribe((data) => {
+          this.colorCode = "list-group-item-danger";
+          data.obs.filter((ob) => {
+            if (ob.concept.uuid === "a89e3f94-1350-11df-a1f1-0026b9348838") {
+              this.ovcStatus = `Exited:  ${ob.value.display}`;
+            }
+          });
         });
-      });
     }
     if (nonEnrollmentEncounter.length > 0) {
-      this._encounterResource.getEncounterByUuid(nonEnrollmentEncounter[0].uuid).subscribe(data => {
-        this.colorCode = 'list-group-item-danger';
-        data.obs.filter(ob => {
-          if (ob.concept.uuid === '33d36d0a-4d1b-404c-8f09-e891af4dadbe') {
-            this.ovcStatus = `Decline Reason: ${ob.value}`;
-          } else if (ob.concept.uuid === '06bbb2b0-e2a8-42bc-978f-5dc1eb16ebc1') {
-            this.ovcStatus = `Decline Reason: ${ob.value.display}`;
-          }
+      this._encounterResource
+        .getEncounterByUuid(nonEnrollmentEncounter[0].uuid)
+        .subscribe((data) => {
+          this.colorCode = "list-group-item-danger";
+          data.obs.filter((ob) => {
+            if (ob.concept.uuid === "33d36d0a-4d1b-404c-8f09-e891af4dadbe") {
+              this.ovcStatus = `Decline Reason: ${ob.value}`;
+            } else if (
+              ob.concept.uuid === "06bbb2b0-e2a8-42bc-978f-5dc1eb16ebc1"
+            ) {
+              this.ovcStatus = `Decline Reason: ${ob.value.display}`;
+            }
+          });
         });
-      });
-
     } else {
-      this.ovcStatus = 'Not enrolled. Refer to social worker';
-      this.colorCode = 'list-group-item-warning';
+      this.ovcStatus = "Not enrolled. Refer to social worker";
+      this.colorCode = "list-group-item-warning";
     }
   }
 
   public loadPatient() {
-    this.patientResourceService.getPatientByUuid(this.patientUuid).subscribe((data: Patient) => {
-      this.patient = data;
-    }, (err) => {
-      this.loadingHivSummary = false;
-      this.errors.push({
-        id: 'Hiv Summary',
-        message:
-          'An error occured while loading Hiv Summary. Please try again.',
-      });
-
-    });
+    this.patientResourceService.getPatientByUuid(this.patientUuid).subscribe(
+      (data: Patient) => {
+        this.patient = data;
+      },
+      (err) => {
+        this.loadingHivSummary = false;
+        this.errors.push({
+          id: "Hiv Summary",
+          message:
+            "An error occured while loading Hiv Summary. Please try again.",
+        });
+      }
+    );
   }
 
   public loadHivSummary(patientUuid) {
@@ -152,11 +163,11 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
             ) {
               const filtered = _.find(data, (summaryObj: any) => {
                 const vlDateMoment = Moment(
-                  Moment(summaryObj['vl_1_date']),
-                  'DD-MM-YYYY'
+                  Moment(summaryObj["vl_1_date"]),
+                  "DD-MM-YYYY"
                 );
-                const lastVlDateMoment = Moment(lastVlDate, 'DD-MM-YYYY');
-                if (summaryObj['vl_1_date']) {
+                const lastVlDateMoment = Moment(lastVlDate, "DD-MM-YYYY");
+                if (summaryObj["vl_1_date"]) {
                   if (vlDateMoment.isSame(lastVlDateMoment)) {
                     return true;
                   } else {
@@ -175,9 +186,9 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
         (err) => {
           this.loadingHivSummary = false;
           this.errors.push({
-            id: 'Hiv Summary',
+            id: "Hiv Summary",
             message:
-              'An error occured while loading Hiv Summary. Please try again.',
+              "An error occured while loading Hiv Summary. Please try again.",
           });
         }
       );
@@ -185,8 +196,8 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
   }
 
   public endDateIsBeforeStartDate(startDate: any, endDate: any) {
-    return Moment(endDate, 'DD-MM-YYYY').isBefore(
-      Moment(startDate, 'DD-MM-YYYY')
+    return Moment(endDate, "DD-MM-YYYY").isBefore(
+      Moment(startDate, "DD-MM-YYYY")
     );
   }
 
@@ -217,27 +228,27 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
 
   private getPatientEligibility(summary) {
     if (summary) {
-      if (this.patient.person.gender === 'M') {
-        this.ineligibiltyReason = 'Male Patient';
+      if (this.patient.person.gender === "M") {
+        this.ineligibiltyReason = "Male Patient";
         this.eligiblePatient = false;
       } else if (
         (this.patient.person.age < 14 || this.patient.person.age > 49) &&
-        this.patient.person.gender === 'F'
+        this.patient.person.gender === "F"
       ) {
         this.ineligibiltyReason = `Not in reproductive age ${this.patient.person.age}`;
         this.eligiblePatient = false;
       } else if (
         this.patient.person.age >= 14 &&
         this.patient.person.age <= 49 &&
-        this.patient.person.gender === 'F' &&
+        this.patient.person.gender === "F" &&
         this.isPostmenopausal(summary.menstruation_status)
       ) {
-        this.ineligibiltyReason = 'POSTMENOPAUSAL';
+        this.ineligibiltyReason = "POSTMENOPAUSAL";
         this.eligiblePatient = false;
       } else if (
         this.patient.person.age >= 14 &&
         this.patient.person.age <= 49 &&
-        this.patient.person.gender === 'F'
+        this.patient.person.gender === "F"
       ) {
         this.eligiblePatient = true;
       }
@@ -245,12 +256,19 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
   }
 
   public isPostmenopausal(menstruationStatus: number): boolean {
-      // concept 6496  == post-menopausal
-      if (menstruationStatus === null || menstruationStatus !== 6496) { return false; }
-      if (menstruationStatus === 6496) { return true; }
+    // concept 6496  == post-menopausal
+    if (menstruationStatus === null || menstruationStatus !== 6496) {
+      return false;
+    }
+    if (menstruationStatus === 6496) {
+      return true;
+    }
   }
   private getOvcEnrollments(enrolledPrograms) {
-    const ovc = enrolledPrograms.filter(program => program.concept.uuid === 'a89fbb12-1350-11df-a1f1-0026b9348838');
+    const ovc = enrolledPrograms.filter(
+      (program) =>
+        program.concept.uuid === "a89fbb12-1350-11df-a1f1-0026b9348838"
+    );
     if (ovc.length > 0 && ovc[0].isEnrolled) {
       return true;
     }

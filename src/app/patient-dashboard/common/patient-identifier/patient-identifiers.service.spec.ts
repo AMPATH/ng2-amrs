@@ -1,16 +1,16 @@
 /* tslint:disable:no-unused-variable */
 
-import { TestBed, async } from '@angular/core/testing';
-import { ReplaySubject, BehaviorSubject, Observable } from 'rxjs';
-import { AppSettingsService } from '../../../app-settings/app-settings.service';
-import { PatientIdentifierService } from './patient-identifiers.service';
-import { CacheModule, CacheService } from 'ionic-cache';
-import { PatientResourceService } from '../../../openmrs-api/patient-resource.service';
-import { LocationResourceService } from '../../../openmrs-api/location-resource.service';
-import { LocalStorageService } from '../../../utils/local-storage.service';
-import { DataCacheService } from '../../../shared/services/data-cache.service';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
+import { TestBed, async } from "@angular/core/testing";
+import { ReplaySubject, BehaviorSubject, Observable } from "rxjs";
+import { AppSettingsService } from "../../../app-settings/app-settings.service";
+import { PatientIdentifierService } from "./patient-identifiers.service";
+import { CacheModule, CacheService } from "ionic-cache";
+import { PatientResourceService } from "../../../openmrs-api/patient-resource.service";
+import { LocationResourceService } from "../../../openmrs-api/location-resource.service";
+import { LocalStorageService } from "../../../utils/local-storage.service";
+import { DataCacheService } from "../../../shared/services/data-cache.service";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { CacheStorageService } from "ionic-cache/dist/cache-storage";
 
 class MockCacheStorageService {
   constructor(a, b) {}
@@ -19,7 +19,7 @@ class MockCacheStorageService {
     return true;
   }
 }
-describe('Service: PatientIdentifierService', () => {
+describe("Service: PatientIdentifierService", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [CacheModule, HttpClientTestingModule],
@@ -32,11 +32,12 @@ describe('Service: PatientIdentifierService', () => {
         DataCacheService,
         CacheService,
         {
-          provide: CacheStorageService, useFactory: () => {
+          provide: CacheStorageService,
+          useFactory: () => {
             return new MockCacheStorageService(null, null);
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
   });
 
@@ -44,24 +45,29 @@ describe('Service: PatientIdentifierService', () => {
     TestBed.resetTestingModule();
   });
 
-  it('should create an instance', () => {
-    const service: PatientIdentifierService = TestBed.get(PatientIdentifierService);
+  it("should create an instance", () => {
+    const service: PatientIdentifierService = TestBed.get(
+      PatientIdentifierService
+    );
     expect(service).toBeTruthy();
   });
-  it('should return the correct common identifiers', () => {
-    const service: PatientIdentifierService = TestBed.get(PatientIdentifierService);
+  it("should return the correct common identifiers", () => {
+    const service: PatientIdentifierService = TestBed.get(
+      PatientIdentifierService
+    );
     const commonIdentifiers = service.commonIdentifierTypes();
-    expect(commonIdentifiers[0]).toBe('KENYAN NATIONAL ID NUMBER');
-    expect(commonIdentifiers[1]).toBe('AMRS Medical Record Number');
-    expect(commonIdentifiers[2]).toBe('AMRS Universal ID');
-    expect(commonIdentifiers[3]).toBe('CCC Number');
-    expect(commonIdentifiers[4]).toBe('MTRH Hospital Number');
-    expect(commonIdentifiers[5]).toBe('HEI');
-    expect(commonIdentifiers[6]).toBe('KUZA ID');
+    expect(commonIdentifiers[0]).toBe("KENYAN NATIONAL ID NUMBER");
+    expect(commonIdentifiers[1]).toBe("AMRS Medical Record Number");
+    expect(commonIdentifiers[2]).toBe("AMRS Universal ID");
+    expect(commonIdentifiers[3]).toBe("CCC Number");
+    expect(commonIdentifiers[4]).toBe("MTRH Hospital Number");
+    expect(commonIdentifiers[5]).toBe("HEI");
+    expect(commonIdentifiers[6]).toBe("KUZA ID");
   });
-  it('should return the correct getLuhnCheckDigit', () => {
-    const service: PatientIdentifierService = TestBed.get(PatientIdentifierService);
-    const checkDigit = service.getLuhnCheckDigit('number');
+  it("should return the correct getLuhnCheckDigit", () => {
+    const service: PatientIdentifierService = TestBed.get(
+      PatientIdentifierService
+    );
+    const checkDigit = service.getLuhnCheckDigit("number");
   });
 });
-

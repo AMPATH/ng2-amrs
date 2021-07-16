@@ -1,17 +1,17 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { PatientRelationshipTypeService } from './patient-relation-type.service';
-import * as _ from 'lodash';
-import { PatientService } from '../../services/patient.service';
-import { Relationship } from '../../../models/relationship.model';
-import { RelationshipType } from '../../../models/relationship-type.model';
-import { PatientRelationshipService } from './patient-relationship.service';
-import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
-import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { Component, OnInit, Input, OnDestroy } from "@angular/core";
+import { PatientRelationshipTypeService } from "./patient-relation-type.service";
+import * as _ from "lodash";
+import { PatientService } from "../../services/patient.service";
+import { Relationship } from "../../../models/relationship.model";
+import { RelationshipType } from "../../../models/relationship-type.model";
+import { PatientRelationshipService } from "./patient-relationship.service";
+import { AppFeatureAnalytics } from "../../../shared/app-analytics/app-feature-analytics.service";
+import { Subscription } from "rxjs";
+import { take } from "rxjs/operators";
 
 @Component({
-  selector: 'edit-relationship',
-  templateUrl: './edit-patient-relationship.component.html',
+  selector: "edit-relationship",
+  templateUrl: "./edit-patient-relationship.component.html",
   styleUrls: [],
 })
 export class EditPatientRelationshipComponent implements OnInit, OnDestroy {
@@ -29,15 +29,20 @@ export class EditPatientRelationshipComponent implements OnInit, OnDestroy {
   public patientUuid: string;
   private subscription: Subscription;
 
-  constructor(private patientRelationshipService: PatientRelationshipService,
+  constructor(
+    private patientRelationshipService: PatientRelationshipService,
     private patientRelationshipTypeService: PatientRelationshipTypeService,
     private patientService: PatientService,
-    private appFeatureAnalytics: AppFeatureAnalytics) { }
+    private appFeatureAnalytics: AppFeatureAnalytics
+  ) {}
 
   public ngOnInit(): void {
     this.getPatient();
-    this.appFeatureAnalytics
-      .trackEvent('Patient Dashboard', 'Edit Patient Relationship Loaded', 'ngOnInit');
+    this.appFeatureAnalytics.trackEvent(
+      "Patient Dashboard",
+      "Edit Patient Relationship Loaded",
+      "ngOnInit"
+    );
   }
 
   public ngOnDestroy() {
@@ -58,17 +63,22 @@ export class EditPatientRelationshipComponent implements OnInit, OnDestroy {
     request.pipe(take(1)).subscribe((relationshipTypes: RelationshipType[]) => {
       if (relationshipTypes) {
         this.patientRelationshipTypes = relationshipTypes;
-        this.selectedRelationshipType = _.find(relationshipTypes,
+        this.selectedRelationshipType = _.find(
+          relationshipTypes,
           (patientRelationshipType: RelationshipType) => {
-            const foundRelationshipType = new RelationshipType(patientRelationshipType);
-            if (foundRelationshipType.uuid === this.selectedRelative.relationshipTypeUuId) {
+            const foundRelationshipType = new RelationshipType(
+              patientRelationshipType
+            );
+            if (
+              foundRelationshipType.uuid ===
+              this.selectedRelative.relationshipTypeUuId
+            ) {
               return foundRelationshipType;
             }
-          });
+          }
+        );
       }
-
     });
-
   }
 
   public getPatient() {
@@ -77,29 +87,40 @@ export class EditPatientRelationshipComponent implements OnInit, OnDestroy {
         if (patient) {
           this.patientUuid = patient.person.uuid;
         }
-      });
+      }
+    );
   }
 
   public updateRelationship() {
     this.isLoading = true;
     _.find(this.relationships, (relationship: Relationship) => {
       const relative = relationship;
-      if (this.selectedRelative.relatedPersonUuid === relative.relatedPersonUuid) {
+      if (
+        this.selectedRelative.relatedPersonUuid === relative.relatedPersonUuid
+      ) {
         const patientRelationshipPayload = {
-          relationshipType: this.selectedRelationshipType.uuid
+          relationshipType: this.selectedRelationshipType.uuid,
         };
-        this.patientRelationshipService.updateRelationship(relative.uuid,
-          patientRelationshipPayload).pipe(take(1)).subscribe(
+        this.patientRelationshipService
+          .updateRelationship(relative.uuid, patientRelationshipPayload)
+          .pipe(take(1))
+          .subscribe(
             (success) => {
               if (success) {
-                this.displaySuccessAlert('Relationship updated successfully');
+                this.displaySuccessAlert("Relationship updated successfully");
               }
             },
             (error) => {
               this.isLoading = false;
-              console.error('The request failed because of the following ', error);
-              this.displayErrorAlert('The system encountered an error while updating relationship');
-            });
+              console.error(
+                "The request failed because of the following ",
+                error
+              );
+              this.displayErrorAlert(
+                "The system encountered an error while updating relationship"
+              );
+            }
+          );
       }
     });
   }

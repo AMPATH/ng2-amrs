@@ -1,24 +1,20 @@
-
-import { take } from 'rxjs/operators/take';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Patient } from '../../../models/patient.model';
-import { HivPatientClinicalSummaryService } from './hiv-patient-clinical-summary.service';
-import { PatientService } from '../../services/patient.service';
-import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
-import { HivSummaryService } from '../hiv-summary/hiv-summary.service';
-import {
-  HivPatientClinicalSummaryResourceService
-} from '../../../etl-api/hiv-patient-clinical-summary-resource.service';
-import { Subscription } from 'rxjs';
-import { PDFDocumentProxy } from 'pdfjs-dist';
+import { take } from "rxjs/operators/take";
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Patient } from "../../../models/patient.model";
+import { HivPatientClinicalSummaryService } from "./hiv-patient-clinical-summary.service";
+import { PatientService } from "../../services/patient.service";
+import { SafeResourceUrl, DomSanitizer } from "@angular/platform-browser";
+import { HivSummaryService } from "../hiv-summary/hiv-summary.service";
+import { HivPatientClinicalSummaryResourceService } from "../../../etl-api/hiv-patient-clinical-summary-resource.service";
+import { Subscription } from "rxjs";
+import { PDFDocumentProxy } from "pdfjs-dist";
 
 @Component({
-  selector: 'hiv-patient-clinical-summaries',
-  styleUrls: ['./hiv-patient-clinical-summary.component.css'],
-  templateUrl: './hiv-patient-clinical-summary.component.html'
+  selector: "hiv-patient-clinical-summaries",
+  styleUrls: ["./hiv-patient-clinical-summary.component.css"],
+  templateUrl: "./hiv-patient-clinical-summary.component.html",
 })
 export class HivPatientClinicalSummaryComponent implements OnInit, OnDestroy {
-
   public pdfSrc: string = null; // 'https://vadimdez.github.io/ng2-pdf-viewer/pdf-test.pdf';
   public page = 1;
   public securedUrl: SafeResourceUrl;
@@ -31,13 +27,13 @@ export class HivPatientClinicalSummaryComponent implements OnInit, OnDestroy {
   public errorFlag = false;
   private subscription: Subscription;
 
-  constructor(private patientClinicalSummary: HivPatientClinicalSummaryService,
+  constructor(
+    private patientClinicalSummary: HivPatientClinicalSummaryService,
     private patientClinicalSummaryResource: HivPatientClinicalSummaryResourceService,
     private patientService: PatientService,
     private domSanitizer: DomSanitizer,
-    private hivSummaryService: HivSummaryService) {
-
-  }
+    private hivSummaryService: HivSummaryService
+  ) {}
 
   public ngOnInit() {
     this.generatePdf();
@@ -57,20 +53,32 @@ export class HivPatientClinicalSummaryComponent implements OnInit, OnDestroy {
         this.patient = new Patient({});
         if (patient) {
           this.patient = patient;
-          this.hivSummaryService.getHivSummary(patient.uuid, 0, 1, false).subscribe((data) => {
-            if (data) {
-              for (const summary of data) {
-                      this.patientClinicalSummaryResource.fetchPatientSummary(patient.uuid).pipe(take(1)).subscribe(
-                        (pdfDependencies) => {
-                          if (pdfDependencies) {
-                            pdfDependencies.patient = patient;
-                            pdfDependencies.summaryEndDate = summary.ipt_start_date;
-                            pdfDependencies.summaryStartDate = summary.ipt_stop_date;
-                            this.patientClinicalSummary.generatePdf(pdfDependencies).pipe(take(1)).subscribe(
+          this.hivSummaryService
+            .getHivSummary(patient.uuid, 0, 1, false)
+            .subscribe((data) => {
+              if (data) {
+                for (const summary of data) {
+                  this.patientClinicalSummaryResource
+                    .fetchPatientSummary(patient.uuid)
+                    .pipe(take(1))
+                    .subscribe(
+                      (pdfDependencies) => {
+                        if (pdfDependencies) {
+                          pdfDependencies.patient = patient;
+                          pdfDependencies.summaryEndDate =
+                            summary.ipt_start_date;
+                          pdfDependencies.summaryStartDate =
+                            summary.ipt_stop_date;
+                          this.patientClinicalSummary
+                            .generatePdf(pdfDependencies)
+                            .pipe(take(1))
+                            .subscribe(
                               (pdf) => {
                                 this.pdfSrc = pdf.pdfSrc;
                                 this.pdfMakeProxy = pdf.pdfProxy;
-                                this.securedUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(this.pdfSrc);
+                                this.securedUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
+                                  this.pdfSrc
+                                );
                                 this.isBusy = false;
                               },
                               (err) => {
@@ -79,19 +87,21 @@ export class HivPatientClinicalSummaryComponent implements OnInit, OnDestroy {
                                 this.isBusy = false;
                               }
                             );
-                          }
-                        }, (err) => {
-                          this.errorFlag = true;
-                          this.isBusy = false;
-                          console.error(err);
-                        });
-                    break;
+                        }
+                      },
+                      (err) => {
+                        this.errorFlag = true;
+                        this.isBusy = false;
+                        console.error(err);
+                      }
+                    );
+                  break;
+                }
               }
-            }
-          });
+            });
         }
-
-      });
+      }
+    );
   }
 
   public afterLoadCompletes(pdf: PDFDocumentProxy): void {
@@ -104,8 +114,9 @@ export class HivPatientClinicalSummaryComponent implements OnInit, OnDestroy {
   }
 
   public downloadPdf(): void {
-    this.pdfMakeProxy
-      .download((this.patient.display || 'patient_summary') + '.pdf');
+    this.pdfMakeProxy.download(
+      (this.patient.display || "patient_summary") + ".pdf"
+    );
   }
 
   public nextPage(): void {
@@ -115,5 +126,4 @@ export class HivPatientClinicalSummaryComponent implements OnInit, OnDestroy {
   public prevPage(): void {
     this.page--;
   }
-
 }
