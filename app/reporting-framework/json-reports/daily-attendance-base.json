@@ -64,6 +64,11 @@
       "type": "simple_column",
       "alias": "arv_first_regimen_start_date",
       "column": "date_format(fhs.arv_first_regimen_start_date,'%Y-%m-%d')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "med_pick_up_date",
+      "column": "date_format(t2.med_pickup_rtc_date,'%Y-%m-%d')"
     }
   ],
   "filters": {
