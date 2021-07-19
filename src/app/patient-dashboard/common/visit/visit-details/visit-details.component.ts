@@ -55,6 +55,15 @@ export class VisitDetailsComponent implements OnInit {
   @Input() public programEnrollmentUuid: any;
   public formsCollapsed = false;
 
+  private _patient: any;
+  @Input()
+  public get patient(): any {
+    return this._patient;
+  }
+  public set patient(v: any) {
+    this._patient = v;
+  }
+
   private _visit: any;
   @Input()
   public get visit(): any {
@@ -161,11 +170,27 @@ export class VisitDetailsComponent implements OnInit {
       });
 
       if (visitType && Array.isArray(visitType.encounterTypes)) {
-        this.allowedEncounterTypesUuids = visitType.encounterTypes.map((a) => {
-          return a.uuid;
-        });
+        this.allowedEncounterTypesUuids = this.validateAllowedEncounterTypes(
+          visitType
+        );
       }
     }
+  }
+
+  public validateAllowedEncounterTypes(visitType): Array<String> {
+    const allowedEncounters = [];
+    visitType.encounterTypes.forEach((a) => {
+      if (
+        a.uuid === '238625fc-8a25-44b2-aa5a-8bf48fa0e18d' &&
+        (this.patient.person.age < 25 ||
+          this.patient.person.age > 49 ||
+          this.patient.person.gender === 'M')
+      ) {
+      } else {
+        allowedEncounters.push(a.uuid);
+      }
+    });
+    return allowedEncounters;
   }
 
   public reloadVisit() {
