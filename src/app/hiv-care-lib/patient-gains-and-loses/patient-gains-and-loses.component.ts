@@ -149,4 +149,11 @@ export class PatientGainsAndLosesComponent implements OnInit {
   public calculateNetGainLoss(data: any) {
     this.netGainLoss = data.ending_active - data.starting_active;
   }
+  public filteReset($event: boolean): void {
+    if ($event) {
+      this.patientGainAndLoseSummaryData = [];
+      this.proxyRetention = 0;
+      this.isDraftReport = false;
+    }
+  }
 }
