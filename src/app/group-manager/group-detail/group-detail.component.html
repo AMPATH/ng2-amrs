@@ -90,6 +90,20 @@
       >
       </ag-grid-angular>
       <div class="row" style="margin-top: 15px">
+        <div
+          class="pull-right"
+          style="margin-right: 30px; margin-bottom: -30px"
+        >
+          <button
+            mat-raised-button
+            class="btn btn-info"
+            (click)="exportAllData()"
+            style="color: #fff"
+          >
+            <i class="inline fa fa-file-excel-o"></i>
+            <span>Export as CSV</span>
+          </button>
+        </div>
         <div class="pull-right">
           <div class="card">
             <mat-radio-group
