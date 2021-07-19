@@ -618,4 +618,8 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   public isSameDay(date1, date2) {
     return Moment(date1).isSame(date2, 'day');
   }
+
+  public exportAllData() {
+    this.gridOptions.api.exportDataAsCsv();
+  }
 }
