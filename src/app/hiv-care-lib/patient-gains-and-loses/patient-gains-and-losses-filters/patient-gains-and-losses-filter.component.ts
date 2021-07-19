@@ -28,6 +28,7 @@ export class PatientGainsFiltersComponent implements OnInit, OnChanges {
   @Input() public dashboardType = "";
   @Input() public params: any;
   @Output() public filterSet = new EventEmitter();
+  @Output() public filteReset = new EventEmitter();
   public selectedGender: any = [];
   public locationUuids: Array<string>;
   public isLoadingReport = false;
@@ -63,8 +64,12 @@ export class PatientGainsFiltersComponent implements OnInit, OnChanges {
   }
 
   public setFilter() {
-    this.setParams();
-    this.emitFilterParams();
+    const isFilterValid = this.validateFiltersSelected();
+    this.filteReset.emit(true);
+    if (isFilterValid) {
+      this.setParams();
+      this.emitFilterParams();
+    }
   }
   public setParams() {
     this.params = {
@@ -83,8 +88,33 @@ export class PatientGainsFiltersComponent implements OnInit, OnChanges {
   }
   public resetFilter() {
     this.monthString = Moment()
-      .subtract(2, "months")
-      .endOf("month")
-      .format("YYYY-MM");
+      .subtract(2, 'months')
+      .endOf('month')
+      .format('YYYY-MM');
+    this.filteReset.emit(true);
+  }
+
+  public resetErrorObj() {
+    this.errorObj = {
+      isError: false,
+      message: ''
+    };
+  }
+  public validateFiltersSelected(): Boolean {
+    let isValid = true;
+    this.resetErrorObj();
+    const currentEndMonth = Moment().endOf('month');
+    const filterEndMonth = Moment(this.monthString)
+      .add(1, 'months')
+      .endOf('month');
+    if (filterEndMonth.isAfter(currentEndMonth)) {
+      isValid = false;
+      this.errorObj = {
+        isError: true,
+        message:
+          'For draft report, the end date should not be after the current month.'
+      };
+    }
+    return isValid;
   }
 }
