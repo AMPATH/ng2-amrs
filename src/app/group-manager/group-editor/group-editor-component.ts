@@ -113,7 +113,7 @@ export class GroupEditorComponent implements OnInit {
 
   private autoGenerateGroupNumber() {
     this._communityService
-      .generateGroupNumber(this.facility.value)
+      .generateGroupNumber(this.facility.value ? this.facility.value : '')
       .subscribe((res: any) => {
         this.groupNo = res.groupNumber;
       });

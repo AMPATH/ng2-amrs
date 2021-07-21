@@ -30,8 +30,14 @@
       (hideResults)="hideSearchResults($event)"
     ></group-search-input>
   </div>
-  <div *ngIf="errorMessage">
-    <span class="text-danger">{{ errorMessage }}</span>
+  <div class="alert alert-danger" *ngIf="errorMessage">
+    <button
+      class="btn btn-xs btn-primary pull-right"
+      (click)="enrollPatienttoProgram()"
+    >
+      Enroll
+    </button>
+    {{ errorMessage }}
   </div>
   <div id="search-results" *ngIf="searchResults && !hideResults">
     <div *ngIf="searchResults.length">
@@ -125,15 +131,26 @@
   </div>
 </div>
 <div *ngIf="enrollmentType == 'new'" class="well">
-  <h4 style="font-size: 15px; font-weight: 600" class="text-info">
-    Create Group
-  </h4>
-  <div class="create-group">
-    <group-editor
-      (newGroup)="enroll($event)"
-      [state]="{ actionButtonText: 'Create and Enroll' }"
-      (hide)="hideComponent()"
-    ></group-editor>
+  <div class="alert alert-danger" *ngIf="errorMessage">
+    <button
+      class="btn btn-xs btn-primary pull-right"
+      (click)="enrollPatienttoProgram()"
+    >
+      Enroll
+    </button>
+    {{ errorMessage }}
+  </div>
+  <div *ngIf="!errorMessage">
+    <h4 style="font-size: 15px; font-weight: 600" class="text-info">
+      Create Group
+    </h4>
+    <div class="create-group">
+      <group-editor
+        (newGroup)="enroll($event)"
+        [state]="{ actionButtonText: 'Create and Enroll' }"
+        (hide)="hideComponent()"
+      ></group-editor>
+    </div>
   </div>
 </div>
 

@@ -1,17 +1,19 @@
-import { Injectable } from "@angular/core";
-import { AppSettingsService } from "../app-settings/app-settings.service";
-import { Observable, forkJoin, BehaviorSubject } from "rxjs";
-import * as _ from "lodash";
-import { CommunityGroupAttributeService } from "./community-group-attribute-resource.service";
-import { map, catchError } from "rxjs/operators";
-import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
-import { SessionStorageService } from "../utils/session-storage.service";
-import { Constants } from "../utils/constants";
+import { Injectable } from '@angular/core';
+import { AppSettingsService } from '../app-settings/app-settings.service';
+import { Observable, forkJoin, BehaviorSubject } from 'rxjs';
+import * as _ from 'lodash';
+import { CommunityGroupAttributeService } from './community-group-attribute-resource.service';
+import { map, catchError } from 'rxjs/operators';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { SessionStorageService } from '../utils/session-storage.service';
+import { Constants } from '../utils/constants';
 
 @Injectable()
 export class CommunityGroupService {
   public cachedResults: BehaviorSubject<any[]> = new BehaviorSubject([]);
-  public v = "full";
+  public v = 'full';
+  public _v =
+    'custom:(uuid,name,description,location,startDate,endDate,attributes)';
 
   constructor(
     private http: HttpClient,
@@ -20,12 +22,12 @@ export class CommunityGroupService {
   ) {}
 
   public getOpenMrsBaseUrl(): string {
-    return this._appSettingsService.getOpenmrsRestbaseurl() + "cohortm";
+    return this._appSettingsService.getOpenmrsRestbaseurl() + 'cohortm';
   }
 
   public getCohortVisitUrl(): string {
     return (
-      this._appSettingsService.getOpenmrsRestbaseurl() + "cohortm/cohortvisit"
+      this._appSettingsService.getOpenmrsRestbaseurl() + 'cohortm/cohortvisit'
     );
   }
 
@@ -45,45 +47,45 @@ export class CommunityGroupService {
 
   public getGroupByGroupNumber(groupNumber: string): Observable<any> {
     const params = new HttpParams()
-      .set("attributes", `"groupNumber":"${groupNumber}"`)
-      .set("v", this.v)
-      .set("cohortType", "community_group");
+      .set('attributes', `"groupNumber":"${groupNumber}"`)
+      .set('v', this._v)
+      .set('cohortType', 'community_group');
 
-    const url = this.getOpenMrsBaseUrl() + "/cohort";
+    const url = this.getOpenMrsBaseUrl() + '/cohort';
     return this.http
       .get<any>(url, {
-        params: params,
+        params: params
       })
       .pipe(map((response) => response.results));
   }
 
   public getGroupByName(name: string): Observable<any> {
     const params = new HttpParams()
-      .set("v", this.v)
-      .set("q", name)
-      .set("cohortType", "community_group");
+      .set('v', this._v)
+      .set('q', name)
+      .set('cohortType', 'community_group');
 
     return this.http
-      .get<any>(this.getOpenMrsBaseUrl() + "/cohort", {
-        params: params,
+      .get<any>(this.getOpenMrsBaseUrl() + '/cohort', {
+        params: params
       })
       .pipe(map((response) => response.results));
   }
 
   public getGroupByUuid(groupUuid: string): Observable<any> {
-    const params = new HttpParams().set("v", "full");
-    const url = this.getOpenMrsBaseUrl() + "/cohort" + `/${groupUuid}`;
+    const params = new HttpParams().set('v', this.v);
+    const url = this.getOpenMrsBaseUrl() + '/cohort' + `/${groupUuid}`;
     return this.http.get(url, {
-      params: params,
+      params: params
     });
   }
 
   public getCohortTypes(): Observable<any> {
-    const params = new HttpParams().set("v", this.v);
-    const url = this.getOpenMrsBaseUrl() + "/cohorttype";
+    const params = new HttpParams().set('v', this.v);
+    const url = this.getOpenMrsBaseUrl() + '/cohorttype';
     return this.http
       .get<any>(url, {
-        params: params,
+        params: params
       })
       .pipe(
         map((response) => {
@@ -94,11 +96,11 @@ export class CommunityGroupService {
 
   public getCohortPrograms() {
     const params = new HttpParams();
-    params.set("v", this.v);
-    const url = this.getOpenMrsBaseUrl() + "/cohortprogram";
+    params.set('v', this.v);
+    const url = this.getOpenMrsBaseUrl() + '/cohortprogram';
     return this.http
       .get<any>(url, {
-        params: params,
+        params: params
       })
       .pipe(
         map((response) => {
@@ -112,20 +114,20 @@ export class CommunityGroupService {
       return null;
     }
 
-    const params = new HttpParams().set("v", this.v);
+    const params = new HttpParams().set('v', this.v);
     const headers = new HttpHeaders({
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json'
     });
-    const url = this.getOpenMrsBaseUrl() + "/cohort";
+    const url = this.getOpenMrsBaseUrl() + '/cohort';
     return this.http.post(url, JSON.stringify(payload), { headers });
   }
 
   public disbandGroup(uuid: string, endDate: Date, reason: string): any {
-    const url = this.getOpenMrsBaseUrl() + "/cohort" + ` /${uuid}`;
+    const url = this.getOpenMrsBaseUrl() + '/cohort' + `/${uuid}`;
     const body = {
       endDate: endDate,
       voided: true,
-      voidReason: reason,
+      voidReason: reason
     };
     console.log(body);
     return this.http.post(url, body);
@@ -143,9 +145,9 @@ export class CommunityGroupService {
       return null;
     }
     const headers = new HttpHeaders({
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json'
     });
-    const url = this.getOpenMrsBaseUrl() + "/cohort/" + uuid;
+    const url = this.getOpenMrsBaseUrl() + '/cohort/' + uuid;
     return this.http.post(url, JSON.stringify(payload), { headers });
   }
 
@@ -153,7 +155,7 @@ export class CommunityGroupService {
     const body = {
       endDate: null,
       voided: false,
-      voidReason: null,
+      voidReason: null
     };
     const url = this.getOpenMrsBaseUrl() + `/cohort/${uuid}`;
     return this.http.post(url, body);
@@ -171,14 +173,14 @@ export class CommunityGroupService {
 
   public getGroupsByLandmark(landmark: string) {
     const params = new HttpParams()
-      .set("attributes", `"landmark":"${landmark}"`)
-      .set("v", this.v)
-      .set("cohortType", "community_group");
+      .set('attributes', `"landmark":"${landmark}"`)
+      .set('v', this._v)
+      .set('cohortType', 'community_group');
 
-    const url = this.getOpenMrsBaseUrl() + "/cohort";
+    const url = this.getOpenMrsBaseUrl() + '/cohort';
     return this.http
       .get<any>(url, {
-        params: params,
+        params: params
       })
       .pipe(map((response) => response.results));
   }
@@ -192,22 +194,22 @@ export class CommunityGroupService {
 
   public getGroupsByLocationUuid(locationUuid: string) {
     const params = new HttpParams()
-      .set("location", `${locationUuid}`)
-      .set("v", this.v);
-    const url = this.getOpenMrsBaseUrl() + "/cohort";
+      .set('location', `${locationUuid}`)
+      .set('v', this._v);
+    const url = this.getOpenMrsBaseUrl() + '/cohort';
     return this.http
       .get<any>(url, { params })
       .pipe(map((response) => response.results));
   }
 
-  public generateGroupNumber(locationUuid: string, test = "true") {
+  public generateGroupNumber(locationUuid: string, test = 'true') {
     const url = `https://ngx.ampath.or.ke/group-idgen/generategroupnumber/${locationUuid}`;
     const credentials = this.sessionStorageService.getItem(
       Constants.CREDENTIALS_KEY
     );
-    const params = new HttpParams().set("test", test);
+    const params = new HttpParams().set('test', test);
     const headers = new HttpHeaders().set(
-      "Authorization",
+      'Authorization',
       `Basic ${credentials}`
     );
     return this.http.get(url);

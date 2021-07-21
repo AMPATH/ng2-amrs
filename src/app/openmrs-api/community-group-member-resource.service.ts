@@ -116,8 +116,8 @@ export class CommunityGroupMemberService {
   getMemberCohortsByPatientUuid(patientUuid: string): Observable<any> {
     const url = this.getOpenMrsGroupModuleUrl();
     const params = new HttpParams()
-      .set("v", "default")
-      .set("patient", patientUuid);
+      .set('v', 'full')
+      .set('patient', patientUuid);
     return this.http
       .get<any>(url, {
         params: params,

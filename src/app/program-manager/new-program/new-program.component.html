@@ -14,6 +14,9 @@
   <p class="alert alert-danger" *ngIf="hasValidationErrors">
     <span [innerHTML]="currentError"></span>
   </p>
+  <p class="alert alert-info" *ngIf="hasNotice">
+    <span [innerHTML]="currentNotice"></span>
+  </p>
   <program-wizard-step [name]="'Department Step'">
     <div class="wizard-body component">
       <div class="step" *ngIf="programDepartments">
@@ -205,7 +208,9 @@
             *ngIf="!showForms"
             class="btn btn-primary pull-right"
             [disabled]="!isButtonVisible"
-            (click)="showEnrollmentFormsOrEnrollOnValidation()"
+            (click)="
+              showDcGroupUnEnrollmentModal(dcGroupAutoUnEnrollmentWarning)
+            "
           >
             <span *ngIf="isReferral">Refer</span>
             <span *ngIf="!isReferral">Enroll</span>
@@ -220,7 +225,10 @@
       *ngIf="refreshingPatient"
       [message]="'Refreshing Patient Info...'"
     ></busy>
-    <div class="wizard-body component" *ngIf="enrollToGroup">
+    <div
+      class="wizard-body component"
+      *ngIf="'enrollToGroup' || 'enrollPatientToGroup'"
+    >
       <div class="step" *ngIf="availableDepartmentPrograms">
         <div class="step-name">
           <h2><i class="fa fa-arrow-right"></i> Enroll to Group</h2>
@@ -361,3 +369,27 @@
   Error loading patient program config. Please make sure that your network is
   working fine.
 </p>
+<ng-template #dcGroupAutoUnEnrollmentWarning>
+  <div class="modal-header">
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Patient will be auto unenrolled from DC group, do you wish to proceed</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" (click)="modalRef.hide()">Cancel</button>
+    <button
+      class="btn btn-danger"
+      (click)="showEnrollmentFormsOrEnrollOnValidation()"
+    >
+      Continue
+    </button>
+  </div>
+</ng-template>

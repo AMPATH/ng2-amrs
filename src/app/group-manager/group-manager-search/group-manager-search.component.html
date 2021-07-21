@@ -73,7 +73,7 @@
     *ngIf="rowData && groupsInCurrentFacility.length"
   >
     <p></p>
-    <div class="margin: 30px">
+    <div *ngIf="!fetchingGroups" class="margin: 30px">
       <p class="text-primary">Groups In Current Location</p>
       <div class="input-group" style="width: 50%">
         <span class="input-group-addon"><i class="fa fa-filter"></i></span>

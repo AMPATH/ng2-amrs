@@ -1,5 +1,5 @@
 <div class="alert alert-danger" *ngIf="group.endDate">
-  <h4 class="text-danger">Ended on {{ group.endDate | date: "medium" }}</h4>
+  <h4 class="text-danger">Ended on {{ group.endDate | date: 'medium' }}</h4>
   <h4 class="text-danger">
     Reason: <span *ngIf="group.voidReason"> {{ group.voidReason }} </span>
     <span *ngIf="!group.voidReason"> not provided </span>
@@ -57,12 +57,12 @@
         <tr>
           <td>
             <strong>Active Since: </strong>
-            {{ group.startDate | date: "mediumDate" }}
+            {{ group.startDate | date: 'mediumDate' }}
           </td>
           <td>
             <strong>Last Meeting: </strong>
-            <span *ngIf="group.cohortVisits[0]">{{
-              group.cohortVisits[0]["startDate"] | date: "medium"
+            <span *ngIf="group.cohortVisits && group.cohortVisits[0]">{{
+              group.cohortVisits[0]['startDate'] | date: 'medium'
             }}</span>
             <span *ngIf="!group.cohortVisits">None</span>
           </td>
@@ -74,7 +74,7 @@
               <span *ngIf="currentLeader.person">
                 {{ currentLeader.person.display }} ({{ leadershipType }}),
               </span>
-              <span>since {{ currentLeader.startDate | date: "medium" }}</span>
+              <span>since {{ currentLeader.startDate | date: 'medium' }}</span>
             </ng-container>
             <ng-container *ngIf="!currentLeader">
               No active leader.
@@ -288,10 +288,10 @@
             >
               <td *ngIf="leader.endDate">{{ leader.person.display }}</td>
               <td *ngIf="leader.endDate">
-                {{ leader.startDate | date: "medium" }}
+                {{ leader.startDate | date: 'medium' }}
               </td>
               <td *ngIf="leader.endDate">
-                {{ leader.endDate | date: "medium" }}
+                {{ leader.endDate | date: 'medium' }}
               </td>
             </tr>
           </tbody>

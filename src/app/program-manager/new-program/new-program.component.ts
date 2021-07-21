@@ -1,33 +1,35 @@
-import { take } from "rxjs/operators";
+import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { take } from 'rxjs/operators';
 import {
   Component,
   OnInit,
   OnDestroy,
   ChangeDetectorRef,
   SimpleChanges,
-} from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+  TemplateRef
+} from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import * as _ from "lodash";
-import * as moment from "moment";
-import { PatientProgramResourceService } from "../../etl-api/patient-program-resource.service";
-import { ProgramManagerBaseComponent } from "../base/program-manager-base.component";
-import { PatientService } from "../../patient-dashboard/services/patient.service";
-import { ProgramService } from "../../patient-dashboard/programs/program.service";
-import { DepartmentProgramsConfigService } from "../../etl-api/department-programs-config.service";
-import { UserDefaultPropertiesService } from "../../user-default-properties/user-default-properties.service";
+import * as _ from 'lodash';
+import * as moment from 'moment';
+import { PatientProgramResourceService } from '../../etl-api/patient-program-resource.service';
+import { ProgramManagerBaseComponent } from '../base/program-manager-base.component';
+import { PatientService } from '../../patient-dashboard/services/patient.service';
+import { ProgramService } from '../../patient-dashboard/programs/program.service';
+import { DepartmentProgramsConfigService } from '../../etl-api/department-programs-config.service';
+import { UserDefaultPropertiesService } from '../../user-default-properties/user-default-properties.service';
 
-import { LocalStorageService } from "../../utils/local-storage.service";
-import { ProgramManagerService } from "../program-manager.service";
-import { RoutesProviderService } from "../../shared/dynamic-route/route-config-provider.service";
-import { CommunityGroupMemberService } from "../../openmrs-api/community-group-member-resource.service";
-import { LocationResourceService } from "../../openmrs-api/location-resource.service";
-import { RisonService } from "../../shared/services/rison-service";
+import { LocalStorageService } from '../../utils/local-storage.service';
+import { ProgramManagerService } from '../program-manager.service';
+import { RoutesProviderService } from '../../shared/dynamic-route/route-config-provider.service';
+import { CommunityGroupMemberService } from '../../openmrs-api/community-group-member-resource.service';
+import { LocationResourceService } from '../../openmrs-api/location-resource.service';
+import { RisonService } from '../../shared/services/rison-service';
 
 @Component({
-  selector: "new-program",
-  templateUrl: "./new-program.component.html",
-  styleUrls: ["./new-program.component.css"],
+  selector: 'new-program',
+  templateUrl: './new-program.component.html',
+  styleUrls: ['./new-program.component.css']
 })
 export class NewProgramComponent
   extends ProgramManagerBaseComponent
@@ -48,6 +50,9 @@ export class NewProgramComponent
   public groupEnrollmentState: any;
   public patientCurrentGroups: any;
   public retroSettings: any;
+  public enrollPatientToGroup = false;
+  public modalRef: BsModalRef;
+  public autoEnrolFromGroup = false;
 
   constructor(
     public patientService: PatientService,
@@ -63,7 +68,8 @@ export class NewProgramComponent
     private programManagerService: ProgramManagerService,
     private locationResourceService: LocationResourceService,
     private groupMemberService: CommunityGroupMemberService,
-    private risonService: RisonService
+    private risonService: RisonService,
+    private modalService: BsModalService
   ) {
     super(
       patientService,
@@ -76,8 +82,8 @@ export class NewProgramComponent
       cdRef,
       localStorageService
     );
-    this.maxDate = moment().format("YYYY-MM-DD");
-    this.dateEnrolled = moment().format("YYYY-MM-DD");
+    this.maxDate = moment().format('YYYY-MM-DD');
+    this.dateEnrolled = moment().format('YYYY-MM-DD');
   }
 
   public ngOnInit() {
@@ -94,15 +100,14 @@ export class NewProgramComponent
               this.loaded = true;
               this.getCurrentPatientGroups(this.patient.uuid);
               const dept = JSON.parse(
-                this.localStorageService.getItem("userDefaultDepartment")
+                this.localStorageService.getItem('userDefaultDepartment')
               );
               this.department = dept[0].itemName;
               this.selectDepartment(dept[0].itemName);
-              console.log("Group", this.route.snapshot.queryParams.program);
               if (this.route.snapshot.queryParams.program) {
                 this.selectProgram(this.route.snapshot.queryParams.program);
               }
-              if (params["step"]) {
+              if (params['step']) {
                 this.loadOnParamInit(params);
               }
               this.loadQueryParams();
@@ -120,7 +125,7 @@ export class NewProgramComponent
     // remove any error message before validating again
     this.removeMessage();
     this.addToStepInfo({
-      department: value,
+      department: value
     });
     this.department = value;
     this.goToProgram();
@@ -134,7 +139,7 @@ export class NewProgramComponent
     this.programVisitConfig = this.allPatientProgramVisitConfigs[this.program];
     this.addToStepInfo({
       selectedProgram: this.selectedProgram,
-      programVisitConfig: this.programVisitConfig,
+      programVisitConfig: this.programVisitConfig
     });
     this.checkForRequiredQuestions();
     this.checkIfEnrollmentIsAllowed();
@@ -146,20 +151,20 @@ export class NewProgramComponent
       this.removeMessage();
       this.availableDepartmentPrograms = _.orderBy(
         this.getProgramsByDepartmentName(),
-        ["name"],
-        ["asc"]
+        ['name'],
+        ['asc']
       );
       if (this.availableDepartmentPrograms.length === 0) {
-        this.showMessage("No Active programs in this department");
+        this.showMessage('No Active programs in this department');
       } else {
         this.tick().then(() => {
           this.nextStep = true;
           this.currentStep++;
-          this.title = "Start " + this.department + " Program";
+          this.title = 'Start ' + this.department + ' Program';
         });
       }
     } else {
-      this.showMessage("Please select a department to continue");
+      this.showMessage('Please select a department to continue');
     }
   }
 
@@ -170,7 +175,7 @@ export class NewProgramComponent
     }
     this.jumpStep = this.currentStep;
     this.nextStep = true;
-    this.title = "Start";
+    this.title = 'Start';
     this.checkForRequiredQuestions();
     this.checkIfEnrollmentIsAllowed();
   }
@@ -198,11 +203,14 @@ export class NewProgramComponent
     if (this.program) {
       this.unenrollAndGoToDetails();
     } else {
-      this.showMessage("Please select a program to continue");
+      this.showMessage('Please select a program to continue');
     }
   }
 
   public showEnrollmentFormsOrEnrollOnValidation() {
+    if (this.modalRef) {
+      this.modalRef.hide();
+    }
     if (this.formValidated() && !this.hasValidationErrors) {
       this.filterStateChangeEncounterTypes();
       // if there are no required forms, go ahead and enroll the patient
@@ -227,22 +235,22 @@ export class NewProgramComponent
       dateEnrolled: this.dateEnrolled,
       dateCompleted: this.dateCompleted,
       location: this.selectedLocation.value,
-      enrollmentUuid: "",
+      enrollmentUuid: ''
     };
     this.programManagerService
       .enrollPatient(payload)
       .subscribe((enrollment) => {
         if (
-          enrollment.program.uuid === "c4246ff0-b081-460c-bcc5-b0678012659e"
+          enrollment.program.uuid === 'c4246ff0-b081-460c-bcc5-b0678012659e'
         ) {
-          enrollment.display = "VIREMIA PROGRAM";
+          enrollment.display = 'VIREMIA PROGRAM';
           this.newlyEnrolledProgram = enrollment;
         } else {
           this.newlyEnrolledProgram = enrollment;
         }
         if (this.enrollmentEncounters.length > 0) {
           _.extend(this.newlyEnrolledProgram, {
-            formFilled: this.getFilledForm(_.first(this.enrollmentEncounters)),
+            formFilled: this.getFilledForm(_.first(this.enrollmentEncounters))
           });
         }
         this.enrolling = false;
@@ -256,16 +264,16 @@ export class NewProgramComponent
       .patientDashboardConfig;
     const route: any = _.find(
       dashboardRoutesConfig.programs,
-      (_r: any) => _r["programUuid"] === this.newlyEnrolledProgram.program.uuid
+      (_r: any) => _r['programUuid'] === this.newlyEnrolledProgram.program.uuid
     );
     const _route =
-      "/patient-dashboard/patient/" +
+      '/patient-dashboard/patient/' +
       this.patient.uuid +
-      "/" +
+      '/' +
       route.alias +
-      "/" +
+      '/' +
       route.baseRoute +
-      "/visit";
+      '/visit';
 
     this.router.navigate([_route], {});
   }
@@ -282,7 +290,7 @@ export class NewProgramComponent
       referredFromLocation: location.uuid,
       patient: this.patient,
       dateEnrolled: this.dateEnrolled,
-      programUuid: this.selectedProgram.programUuid,
+      programUuid: this.selectedProgram.programUuid
     };
     this.programManagerService.referPatient(payload).subscribe(
       (enrollment) => {
@@ -290,9 +298,7 @@ export class NewProgramComponent
           this.newlyEnrolledProgram = enrollment;
           if (this.enrollmentEncounters.length > 0) {
             _.extend(this.newlyEnrolledProgram, {
-              formFilled: this.getFilledForm(
-                _.first(this.enrollmentEncounters)
-              ),
+              formFilled: this.getFilledForm(_.first(this.enrollmentEncounters))
             });
           }
 
@@ -300,7 +306,7 @@ export class NewProgramComponent
           this.completeEnrollment();
         } else {
           this.enrolling = false;
-          this.showMessage("Error. Could not refer the patient");
+          this.showMessage('Error. Could not refer the patient');
         }
       },
       (error) => {
@@ -311,7 +317,7 @@ export class NewProgramComponent
           error.error.message.match(/Duplicate record exists/)
         ) {
           this.showMessage(
-            "This patient has already been referred to this location in same program"
+            'This patient has already been referred to this location in same program'
           );
         } else {
           console.log(error);
@@ -322,18 +328,18 @@ export class NewProgramComponent
 
   public fillEnrollmentForm(form) {
     const _route =
-      "/patient-dashboard/patient/" +
+      '/patient-dashboard/patient/' +
       this.patient.uuid +
-      "/general/general/formentry";
+      '/general/general/formentry';
     const routeOptions = {
       queryParams: {
         step: 4,
-        parentComponent: "programManager:new",
-      },
+        parentComponent: 'programManager:new'
+      }
     };
 
     this.addToStepInfo({
-      enrollmentEncounters: [form.encounterType.uuid],
+      enrollmentEncounters: [form.encounterType.uuid]
     });
     this.serializeStepInfo();
     this.router.navigate([_route, form.uuid], routeOptions);
@@ -346,7 +352,7 @@ export class NewProgramComponent
       this.selectedLocation = null;
     }
     this.addToStepInfo({
-      selectedLocation: this.selectedLocation,
+      selectedLocation: this.selectedLocation
     });
     this.checkIfEnrollmentIsAllowed();
     this.checkIfSameEnrollmentLocationAllowed();
@@ -355,7 +361,7 @@ export class NewProgramComponent
   public saveEnrollmentDate(date) {
     this.dateEnrolled = date;
     this.addToStepInfo({
-      dateEnrolled: date,
+      dateEnrolled: date
     });
     this.checkIfEnrollmentIsAllowed();
   }
@@ -376,7 +382,7 @@ export class NewProgramComponent
         return question.qtype === q.qtype && q.value !== q.enrollIf;
       }
     );
-    if (question.qtype === "enrollToGroup") {
+    if (question.qtype === 'enrollToGroup') {
       this.enrollToGroup = question.value;
     }
 
@@ -390,9 +396,9 @@ export class NewProgramComponent
 
   public editProgram(program) {
     const _route =
-      "/patient-dashboard/patient/" +
+      '/patient-dashboard/patient/' +
       this.patient.uuid +
-      "/general/general/program-manager/edit-program";
+      '/general/general/program-manager/edit-program';
     const routeOptions = {};
     this.router.navigate([_route], routeOptions);
   }
@@ -409,19 +415,19 @@ export class NewProgramComponent
       }
       if (unenrollmentEncounterTypes) {
         this.unenrollmentForms = _.map(
-          _.filter(unenrollmentEncounterTypes, "required"),
-          "uuid"
+          _.filter(unenrollmentEncounterTypes, 'required'),
+          'uuid'
         );
       }
       this.enrollmentEncounters = _.map(
-        _.filter(encounterTypes, "required"),
-        "uuid"
+        _.filter(encounterTypes, 'required'),
+        'uuid'
       );
     }
   }
 
   public deserializeStepInfo() {
-    const stepInfo = this.localStorageService.getObject("pm-data");
+    const stepInfo = this.localStorageService.getObject('pm-data');
     if (stepInfo) {
       this.department = stepInfo.department;
       this.selectedProgram = stepInfo.selectedProgram;
@@ -438,13 +444,13 @@ export class NewProgramComponent
         this.allPatientProgramVisitConfigs[this.program];
       this.availableDepartmentPrograms = this.getProgramsByDepartmentName();
     } else {
-      console.log("Going Back to new");
+      console.log('Going Back to new');
       this.currentStep = 1;
       this.jumpStep = -1;
       const _route =
-        "/patient-dashboard/patient/" +
+        '/patient-dashboard/patient/' +
         this.patient.uuid +
-        "/general/general/program-manager/new-program";
+        '/general/general/program-manager/new-program';
       this.router.navigate([_route], {});
     }
   }
@@ -452,7 +458,7 @@ export class NewProgramComponent
   private checkRelatedQuestions(question: any): any {
     question = this.resetRequiredQuestion(question);
     // check if it has related questions
-    const questionsHasRelations = _.get(question, "relatedQuestions");
+    const questionsHasRelations = _.get(question, 'relatedQuestions');
     if (questionsHasRelations) {
       // show based on the parent answer
       _.each(question.relatedQuestions, (rq) => {
@@ -472,7 +478,7 @@ export class NewProgramComponent
     }
     this.requiredProgramQuestions = _.uniqBy(
       this.requiredProgramQuestions,
-      "qtype"
+      'qtype'
     );
     return question;
   }
@@ -487,10 +493,15 @@ export class NewProgramComponent
   }
 
   private loadOnParamInit(params: any) {
-    console.log("Params", params);
     this.currentStep = parseInt(params.step, 10);
     this.jumpStep = this.currentStep;
 
+    const queryParams: any = this.route.snapshot.queryParams;
+    const enrollMentQuestionsObject = this.risonService.decode(
+      queryParams.enrollMentQuestions
+    );
+
+    this.enrollPatientToGroup = enrollMentQuestionsObject.enrollPatient;
     this.deserializeStepInfo();
     if (this.currentStep === 3) {
       this.unenrollAndGoToDetails();
@@ -499,7 +510,7 @@ export class NewProgramComponent
       this.jumpStep = 6;
       if (this.isReferral) {
         this.referPatient();
-      } else {
+      } else if (!this.enrollPatientToGroup) {
         this.enrollPatientToProgram();
       }
     }
@@ -510,7 +521,7 @@ export class NewProgramComponent
       .subscribe((location) => {
         this.selectedLocation = {
           value: location.uuid,
-          label: location.name,
+          label: location.name
         };
       });
   }
@@ -546,18 +557,42 @@ export class NewProgramComponent
   }
 
   private completeEnrollment() {
-    if (this.enrollToGroup === "true") {
+    if (this.enrollPatientToGroup) {
       let count = 1;
       this.refreshPatient().subscribe((refreshing) => {
         if (!refreshing) {
           this.groupEnrollmentState = {
             patient: this.patient,
-            action: "Enroll",
+            action: 'Enroll',
             currentEnrolledPrograms: _.filter(
               this.enrolledProgrames,
               (program) => program.isEnrolled
             ),
-            currentGroups: this.patientCurrentGroups,
+            currentGroups: this.patientCurrentGroups
+          };
+          if (count === 1) {
+            this.currentStep++;
+            this.nextStep = true;
+            count++;
+            this.showMessage(
+              `Patient auto-enrolled into DC program, Continue enrolling patient into existing or new DC group`,
+              `info`
+            );
+          }
+        }
+      });
+    } else if (this.enrollToGroup === 'true') {
+      let count = 1;
+      this.refreshPatient().subscribe((refreshing) => {
+        if (!refreshing) {
+          this.groupEnrollmentState = {
+            patient: this.patient,
+            action: 'Enroll',
+            currentEnrolledPrograms: _.filter(
+              this.enrolledProgrames,
+              (program) => program.isEnrolled
+            ),
+            currentGroups: this.patientCurrentGroups
           };
           if (count === 1) {
             this.currentStep++;
@@ -570,13 +605,13 @@ export class NewProgramComponent
       this.enrollmentCompleted = true;
       this.currentStep = this.currentStep + 2;
       this.jumpStep = this.currentStep;
-      this.title = "Program Successfully Started";
+      this.title = 'Program Successfully Started';
       this.unenrolledProgrames = this.getSerializedStepInfo(
-        "incompatibleProgrames"
+        'incompatibleProgrames'
       );
       this.tick(3000).then(() => {
         this.refreshPatient();
-        this.localStorageService.remove("pm-data");
+        this.localStorageService.remove('pm-data');
         const queryParams: any = this.route.snapshot.queryParams;
         if (queryParams.groupUuid && queryParams.enrollMentQuestions) {
           const enrollMentQuestionsObject = this.risonService.decode(
@@ -600,7 +635,7 @@ export class NewProgramComponent
           this.navigateToRoute(queryParams.redirectUrl);
         },
         (error) => {
-          console.error("Error", error);
+          console.error('Error', error);
         }
       );
   }
@@ -614,32 +649,42 @@ export class NewProgramComponent
   private unenrollAndGoToDetails() {
     if (this.isIncompatibleChoice()) {
       _.each(this.incompatibleProgrames, (program) => {
+        if (program.uuid === '334c9e98-173f-4454-a8ce-f80b20b7fdf0') {
+          this.autoEnrolFromGroup = true;
+        }
         _.extend(program, {
-          formFilled: this.getFilledForm(_.first(this.unenrollmentForms)),
+          formFilled: this.getFilledForm(_.first(this.unenrollmentForms))
         });
       });
       // update step info with the filled forms
       this.addToStepInfo({ incompatibleProgrames: this.incompatibleProgrames });
       if (this.enrollmentEncounters.length > 0) {
         this.addToStepInfo({
-          enrollmentEncounters: this.enrollmentEncounters,
+          enrollmentEncounters: this.enrollmentEncounters
         });
       }
       this.filterStateChangeEncounterTypes();
       this.serializeStepInfo();
       this.unenrollExpressely = true;
+      if (this.enrollPatientToGroup) {
+        this.enrollPatientToProgram();
+      }
     } else {
       this.skipIncompatibilityStep();
     }
   }
 
   private skipIncompatibilityStep() {
-    const program = this.route.snapshot.queryParams.program;
-    this.currentStep = this.currentStep + (program ? 1 : 2);
-    this.jumpStep = this.currentStep;
-    this.title = "Start";
-    // Had to add this to make the next step work
-    this.localStorageService.setObject("pm-data", this.stepInfo);
+    if (this.enrollPatientToGroup) {
+      this.enrollPatientToProgram();
+    } else {
+      const program = this.route.snapshot.queryParams.program;
+      this.currentStep = this.currentStep + (program ? 1 : 2);
+      this.jumpStep = this.currentStep;
+      this.title = 'Start';
+      // Had to add this to make the next step work
+      this.localStorageService.setObject('pm-data', this.stepInfo);
+    }
   }
 
   private checkIfEnrollmentIsAllowed(): void {
@@ -649,8 +694,8 @@ export class NewProgramComponent
     ) {
       if (!this.programVisitConfig.enrollmentAllowed) {
         this.showMessage(
-          "The patient is not allowed to be enrolled in this program. " +
-            "Please confirm the sex of the patient."
+          'The patient is not allowed to be enrolled in this program. ' +
+            'Please confirm the sex of the patient.'
         );
         this.isButtonVisible = false;
       } else {
@@ -675,7 +720,7 @@ export class NewProgramComponent
         hasLocation.uuid === this.selectedLocation.value
       ) {
         this.showMessage(
-          "Patient is already enrolled in this location in same program."
+          'Patient is already enrolled in this location in same program.'
         );
       } else {
         this.removeMessage();
@@ -701,7 +746,7 @@ export class NewProgramComponent
 
   private validateRequiredQuestions() {
     if (this.requiredProgramQuestions.length > 0) {
-      this.onRequiredQuestionChange("");
+      this.onRequiredQuestionChange('');
     }
   }
 
@@ -717,17 +762,17 @@ export class NewProgramComponent
     // when date is reset, the date remains an empty string instead of undefined.
     // Hence empty validation
     if (_.isNil(this.dateEnrolled) || _.isEmpty(this.dateEnrolled)) {
-      this.showMessage("Date Enrolled is required.");
+      this.showMessage('Date Enrolled is required.');
       checkedForm = false;
     }
 
     if (_.isNil(this.selectedLocation)) {
-      this.showMessage("Location Enrolled is required.");
+      this.showMessage('Location Enrolled is required.');
       checkedForm = false;
     }
 
     if (this.isFutureDate(this.dateEnrolled)) {
-      this.showMessage("Date Enrolled should not be in future");
+      this.showMessage('Date Enrolled should not be in future');
       checkedForm = false;
     }
 
@@ -743,7 +788,7 @@ export class NewProgramComponent
         }
       );
       if (unAnsweredQuestions.length > 0) {
-        this.showMessage("All required questions must be filled");
+        this.showMessage('All required questions must be filled');
         return false;
       }
       this.validateRequiredQuestions();
@@ -769,6 +814,7 @@ export class NewProgramComponent
     this.currentStep++;
     this.nextStep = true;
     this.newlyEnrolledGroup = newGroup;
+    this.removeMessage();
   }
 
   public getCurrentPatientGroups(patientUuid: string) {
@@ -777,5 +823,13 @@ export class NewProgramComponent
       .subscribe((groups) => {
         this.patientCurrentGroups = _.filter(groups, (group) => !group.voided);
       });
+  }
+
+  public showDcGroupUnEnrollmentModal(modal: TemplateRef<any>) {
+    if (this.autoEnrolFromGroup && this.patientCurrentGroups.length > 0) {
+      this.modalRef = this.modalService.show(modal, { class: 'modal-lg' });
+    } else {
+      this.showEnrollmentFormsOrEnrollOnValidation();
+    }
   }
 }
