@@ -171,20 +171,22 @@ export class VisitDetailsComponent implements OnInit {
 
       if (visitType && Array.isArray(visitType.encounterTypes)) {
         this.allowedEncounterTypesUuids = this.validateAllowedEncounterTypes(
-          visitType
+          visitType,
+          this._programVisitTypesConfig.name
         );
       }
     }
   }
 
-  public validateAllowedEncounterTypes(visitType): Array<String> {
+  public validateAllowedEncounterTypes(visitType, programName): Array<String> {
     const allowedEncounters = [];
     visitType.encounterTypes.forEach((a) => {
       if (
         a.uuid === '238625fc-8a25-44b2-aa5a-8bf48fa0e18d' &&
         (this.patient.person.age < 25 ||
           this.patient.person.age > 49 ||
-          this.patient.person.gender === 'M')
+          this.patient.person.gender === 'M') &&
+        programName === 'Standard HIV TREATMENT'
       ) {
       } else {
         allowedEncounters.push(a.uuid);
