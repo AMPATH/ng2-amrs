@@ -270,6 +270,9 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public showModal(templateRef: TemplateRef<any>) {
+    if (this.modalRef) {
+      this.modalRef.hide();
+    }
     this.modalRef = this.modalService.show(templateRef, {
       animated: true,
       class: 'modal-lg'
@@ -611,6 +614,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       if (settings) {
         this.retrospectiveOn = settings.enabled;
         this.retroVisitDate = settings.visitDate;
+        this.getVisitTypes();
       }
     });
   }
@@ -621,5 +625,11 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public exportAllData() {
     this.gridOptions.api.exportDataAsCsv();
+  }
+
+  public navigateBack() {
+    this.router.navigate([
+      `/clinic-dashboard/${this.group.location.uuid}/hiv/group-manager`
+    ]);
   }
 }
