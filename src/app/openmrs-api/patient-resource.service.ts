@@ -35,7 +35,8 @@ export class PatientResourceService {
     const url = this.getUrl();
     const params: HttpParams = new HttpParams()
       .set("q", searchText)
-      .set("v", v && v.length > 0 ? v : this.v);
+      .set("v", v && v.length > 0 ? v : this.v)
+      .set('includeDead', 'true');
     return this.http
       .get(url, {
         params: params,

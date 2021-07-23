@@ -6,8 +6,9 @@ import { NgBusyModule } from "ng-busy";
 import { UserService } from "../openmrs-api/user.service";
 import { UserDefaultPropertiesService } from "../user-default-properties/user-default-properties.service";
 
-import { FormsModule } from "@angular/forms";
-import { DepartmentProgramsConfigService } from "../etl-api/department-programs-config.service";
+import { FormsModule } from '@angular/forms';
+import { DepartmentProgramsConfigService } from '../etl-api/department-programs-config.service';
+import { PersonResourceService } from 'src/app/openmrs-api/person-resource.service';
 import {
   async,
   ComponentFixture,
@@ -23,7 +24,8 @@ class DataStub {
 }
 class UserServiceStub {
   person = {
-    display: "test persion",
+    display: 'test persion',
+    uuid: '27be282a-fbe8-4a1c-9eb7-16be47a5f783'
   };
   getLoggedInUser() {
     return {
@@ -45,7 +47,18 @@ class FakeDepartmentProgramsConfigService {
   }
 }
 
-describe("FeedBackComponent", () => {
+class PersonResourceServiceStub {
+  person = {
+    display: 'test person'
+  };
+  getPersonByUuid(uuid): Observable<any> {
+    return of({
+      person: this.person
+    });
+  }
+}
+
+describe('FeedBackComponent', () => {
   let fixture: ComponentFixture<FeedBackComponent>;
   let comp: FeedBackComponent;
   let dataStub: FeedBackService;
@@ -68,8 +81,12 @@ describe("FeedBackComponent", () => {
             },
             { provide: FeedBackService, useClass: DataStub },
             { provide: UserService, useClass: UserServiceStub },
-          ],
-        },
+            {
+              provide: PersonResourceService,
+              useClass: PersonResourceServiceStub
+            }
+          ]
+        }
       })
       .compileComponents()
       .then(() => {

@@ -1,11 +1,12 @@
-import { take } from "rxjs/operators";
-import { Component, OnInit, OnDestroy } from "@angular/core";
-import { FeedBackService } from "./feedback.service";
-import { UserService } from "../openmrs-api/user.service";
-import { UserDefaultPropertiesService } from "../user-default-properties/user-default-properties.service";
-import { Subscription } from "rxjs";
-import * as _ from "lodash";
-import { DepartmentProgramsConfigService } from "../etl-api/department-programs-config.service";
+import { take } from 'rxjs/operators';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { FeedBackService } from './feedback.service';
+import { UserService } from '../openmrs-api/user.service';
+import { UserDefaultPropertiesService } from '../user-default-properties/user-default-properties.service';
+import { Subscription } from 'rxjs';
+import * as _ from 'lodash';
+import { DepartmentProgramsConfigService } from '../etl-api/department-programs-config.service';
+import { PersonResourceService } from 'src/app/openmrs-api/person-resource.service';
 @Component({
   // tslint:disable-next-line:component-selector
   selector: "feedback",
@@ -39,7 +40,8 @@ export class FeedBackComponent implements OnInit, OnDestroy {
     private feedBackService: FeedBackService,
     private userService: UserService,
     private userDefaultPropertiesService: UserDefaultPropertiesService,
-    private departmentProgramService: DepartmentProgramsConfigService
+    private departmentProgramService: DepartmentProgramsConfigService,
+    private personResourceService: PersonResourceService
   ) {}
 
   public ngOnInit() {
@@ -56,37 +58,41 @@ export class FeedBackComponent implements OnInit, OnDestroy {
     if (this.isBusy) {
       return;
     }
-    this.validatePhoneNumberField(this.payload.phone);
-    this.payload.name = this.userService.getLoggedInUser().person.display;
-    const location =
-      this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject() ||
-      {};
-    this.payload.location = location.display || "Default location not set";
-    this.payload.department =
-      this.selectedDepartment || "Department not selected";
-    this.isBusy = true;
-    this.postSub = this.feedBackService
-      .postFeedback(this.payload)
-      .pipe(take(1))
-      .subscribe(
-        (res) => {
-          this.success = true;
-          this.isBusy = false;
-          console.log("this.payload", this.payload.phone);
-          this.payload = {
-            name: "",
-            phone: "",
-            message: "",
-            location: "",
-            department: "",
-          };
-        },
-        (error) => {
-          console.log("Error");
-          this.error = true;
-          this.isBusy = false;
-        }
-      );
+    this.personResourceService
+      .getPersonByUuid(this.userService.getLoggedInUser().person.uuid)
+      .subscribe((person) => {
+        this.validatePhoneNumberField(this.payload.phone);
+        this.payload.name = person.display;
+        const location =
+          this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject() ||
+          {};
+        this.payload.location = location.display || 'Default location not set';
+        this.payload.department =
+          this.selectedDepartment || 'Department not selected';
+        this.isBusy = true;
+        this.postSub = this.feedBackService
+          .postFeedback(this.payload)
+          .pipe(take(1))
+          .subscribe(
+            (res) => {
+              this.success = true;
+              this.isBusy = false;
+              console.log('this.payload', this.payload.phone);
+              this.payload = {
+                name: '',
+                phone: '',
+                message: '',
+                location: '',
+                department: ''
+              };
+            },
+            (error) => {
+              console.log('Error');
+              this.error = true;
+              this.isBusy = false;
+            }
+          );
+      });
   }
 
   public goBack() {
