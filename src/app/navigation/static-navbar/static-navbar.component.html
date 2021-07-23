@@ -60,7 +60,14 @@
               <dt>Location:</dt>
               <dd>{{ userLocation }}</dd>
               <dt>Role(s):</dt>
-              <dd>- {{ user.roleDisplay.split(',').join('\n- ').trim() }}</dd>
+              <dd>
+                -
+                {{
+                  user.roleDisplay
+                    ? user.roleDisplay.split(',').join('\n- ').trim()
+                    : ' '
+                }}
+              </dd>
             </dl>
           </li>
           <li role="separator" class="divider"></li>

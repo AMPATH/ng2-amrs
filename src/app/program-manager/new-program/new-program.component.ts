@@ -1,10 +1,12 @@
+import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { take } from 'rxjs/operators';
 import {
   Component,
   OnInit,
   OnDestroy,
   ChangeDetectorRef,
-  SimpleChanges
+  SimpleChanges,
+  TemplateRef
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -48,6 +50,9 @@ export class NewProgramComponent
   public groupEnrollmentState: any;
   public patientCurrentGroups: any;
   public retroSettings: any;
+  public enrollPatientToGroup = false;
+  public modalRef: BsModalRef;
+  public autoEnrolFromGroup = false;
 
   constructor(
     public patientService: PatientService,
@@ -63,7 +68,8 @@ export class NewProgramComponent
     private programManagerService: ProgramManagerService,
     private locationResourceService: LocationResourceService,
     private groupMemberService: CommunityGroupMemberService,
-    private risonService: RisonService
+    private risonService: RisonService,
+    private modalService: BsModalService
   ) {
     super(
       patientService,
@@ -98,7 +104,6 @@ export class NewProgramComponent
               );
               this.department = dept[0].itemName;
               this.selectDepartment(dept[0].itemName);
-              console.log('Group', this.route.snapshot.queryParams.program);
               if (this.route.snapshot.queryParams.program) {
                 this.selectProgram(this.route.snapshot.queryParams.program);
               }
@@ -203,6 +208,9 @@ export class NewProgramComponent
   }
 
   public showEnrollmentFormsOrEnrollOnValidation() {
+    if (this.modalRef) {
+      this.modalRef.hide();
+    }
     if (this.formValidated() && !this.hasValidationErrors) {
       this.filterStateChangeEncounterTypes();
       // if there are no required forms, go ahead and enroll the patient
@@ -485,10 +493,15 @@ export class NewProgramComponent
   }
 
   private loadOnParamInit(params: any) {
-    console.log('Params', params);
     this.currentStep = parseInt(params.step, 10);
     this.jumpStep = this.currentStep;
 
+    const queryParams: any = this.route.snapshot.queryParams;
+    const enrollMentQuestionsObject = this.risonService.decode(
+      queryParams.enrollMentQuestions
+    );
+
+    this.enrollPatientToGroup = enrollMentQuestionsObject.enrollPatient;
     this.deserializeStepInfo();
     if (this.currentStep === 3) {
       this.unenrollAndGoToDetails();
@@ -497,7 +510,7 @@ export class NewProgramComponent
       this.jumpStep = 6;
       if (this.isReferral) {
         this.referPatient();
-      } else {
+      } else if (!this.enrollPatientToGroup) {
         this.enrollPatientToProgram();
       }
     }
@@ -544,7 +557,31 @@ export class NewProgramComponent
   }
 
   private completeEnrollment() {
-    if (this.enrollToGroup === 'true') {
+    if (this.enrollPatientToGroup) {
+      let count = 1;
+      this.refreshPatient().subscribe((refreshing) => {
+        if (!refreshing) {
+          this.groupEnrollmentState = {
+            patient: this.patient,
+            action: 'Enroll',
+            currentEnrolledPrograms: _.filter(
+              this.enrolledProgrames,
+              (program) => program.isEnrolled
+            ),
+            currentGroups: this.patientCurrentGroups
+          };
+          if (count === 1) {
+            this.currentStep++;
+            this.nextStep = true;
+            count++;
+            this.showMessage(
+              `Patient auto-enrolled into DC program, Continue enrolling patient into existing or new DC group`,
+              `info`
+            );
+          }
+        }
+      });
+    } else if (this.enrollToGroup === 'true') {
       let count = 1;
       this.refreshPatient().subscribe((refreshing) => {
         if (!refreshing) {
@@ -612,6 +649,9 @@ export class NewProgramComponent
   private unenrollAndGoToDetails() {
     if (this.isIncompatibleChoice()) {
       _.each(this.incompatibleProgrames, (program) => {
+        if (program.uuid === '334c9e98-173f-4454-a8ce-f80b20b7fdf0') {
+          this.autoEnrolFromGroup = true;
+        }
         _.extend(program, {
           formFilled: this.getFilledForm(_.first(this.unenrollmentForms))
         });
@@ -626,18 +666,25 @@ export class NewProgramComponent
       this.filterStateChangeEncounterTypes();
       this.serializeStepInfo();
       this.unenrollExpressely = true;
+      if (this.enrollPatientToGroup) {
+        this.enrollPatientToProgram();
+      }
     } else {
       this.skipIncompatibilityStep();
     }
   }
 
   private skipIncompatibilityStep() {
-    const program = this.route.snapshot.queryParams.program;
-    this.currentStep = this.currentStep + (program ? 1 : 2);
-    this.jumpStep = this.currentStep;
-    this.title = 'Start';
-    // Had to add this to make the next step work
-    this.localStorageService.setObject('pm-data', this.stepInfo);
+    if (this.enrollPatientToGroup) {
+      this.enrollPatientToProgram();
+    } else {
+      const program = this.route.snapshot.queryParams.program;
+      this.currentStep = this.currentStep + (program ? 1 : 2);
+      this.jumpStep = this.currentStep;
+      this.title = 'Start';
+      // Had to add this to make the next step work
+      this.localStorageService.setObject('pm-data', this.stepInfo);
+    }
   }
 
   private checkIfEnrollmentIsAllowed(): void {
@@ -767,6 +814,7 @@ export class NewProgramComponent
     this.currentStep++;
     this.nextStep = true;
     this.newlyEnrolledGroup = newGroup;
+    this.removeMessage();
   }
 
   public getCurrentPatientGroups(patientUuid: string) {
@@ -775,5 +823,13 @@ export class NewProgramComponent
       .subscribe((groups) => {
         this.patientCurrentGroups = _.filter(groups, (group) => !group.voided);
       });
+  }
+
+  public showDcGroupUnEnrollmentModal(modal: TemplateRef<any>) {
+    if (this.autoEnrolFromGroup && this.patientCurrentGroups.length > 0) {
+      this.modalRef = this.modalService.show(modal, { class: 'modal-lg' });
+    } else {
+      this.showEnrollmentFormsOrEnrollOnValidation();
+    }
   }
 }
