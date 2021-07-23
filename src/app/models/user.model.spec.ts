@@ -22,7 +22,7 @@ describe('Model: Person', () => {
   it('should wrap openmrs person for display correctly', () => {
     const wrappedUser: User = new User(userObject);
     expect(wrappedUser.uuid).toEqual(userObject.uuid);
-    expect(wrappedUser.roleDisplay).toEqual('System Developer, Tester');
+    expect(wrappedUser.roleDisplay).toEqual('');
     expect(wrappedUser.roles).toEqual(userObject.roles);
   });
 });

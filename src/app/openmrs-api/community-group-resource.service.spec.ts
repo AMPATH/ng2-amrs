@@ -33,6 +33,8 @@ describe('CommunityGroupService', () => {
   let communityGroupService: CommunityGroupService;
   let httpMock: HttpTestingController;
   let url: string;
+  const _v =
+    'custom:(uuid,name,description,location,startDate,endDate,attributes)';
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -76,10 +78,10 @@ describe('CommunityGroupService', () => {
     };
     communityGroupService.getGroupByName(gName).subscribe();
     const req = httpMock.expectOne(
-      url + '?v=full&q=' + gName + '&cohortType=community_group'
+      url + `?v=${_v}&q=${gName}&cohortType=community_group`
     );
     expect(req.request.method).toBe('GET');
-    expect(req.request.urlWithParams).toContain('?v=full');
+    expect(req.request.urlWithParams).toContain(`?v=${_v}`);
     expect(req.request.urlWithParams).toContain('&q=' + gName);
     req.flush(response);
   });
@@ -162,7 +164,7 @@ describe('CommunityGroupService', () => {
         expect(res).toEqual('group disbanded successfully');
       });
     const req = httpMock.expectOne(
-      communityGroupService.getOpenMrsBaseUrl() + '/cohort' + ` /${uuid}`
+      communityGroupService.getOpenMrsBaseUrl() + '/cohort' + `/${uuid}`
     );
     expect(req.request.method).toBe('POST');
     req.flush('group disbanded successfully');
@@ -249,10 +251,11 @@ describe('CommunityGroupService', () => {
         '/cohort' +
         '?location=' +
         loc_uuid +
-        '&v=full'
+        '&v=' +
+        _v
     );
     expect(req.request.method).toBe('GET');
-    expect(req.request.urlWithParams).toContain('&v=full');
+    expect(req.request.urlWithParams).toContain('&v=' + _v);
     req.flush(groups);
   });
 

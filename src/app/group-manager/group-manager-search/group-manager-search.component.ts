@@ -86,6 +86,8 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
   }
 
   public showGroupsInFacilty() {
+    this.rowData = [];
+    this.fetchingGroups = true;
     const locationUuid = this.router.url.split('/')[2];
     if (locationUuid !== this.previousLocationUuid) {
       this.fetchingGroups = true;
