@@ -224,6 +224,14 @@ export class FormentryComponent implements OnInit, OnDestroy {
       this.formDataSourceService.getDataSources()['location']
     );
     this.dataSources.registerDataSource(
+      'amrsLocation',
+      this.formDataSourceService.getDataSources()['amrsLocation']
+    );
+    this.dataSources.registerDataSource(
+      'nonAmrsLocation',
+      this.formDataSourceService.getDataSources()['nonAmrsLocation']
+    );
+    this.dataSources.registerDataSource(
       'provider',
       this.formDataSourceService.getDataSources()['provider']
     );
@@ -973,6 +981,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
         // now set default value
         this.loadDefaultValues();
       }
+      // view datassources
+      console.log('Data Sources..', this.dataSources);
       // add valueProcessingInfo
       this.form.valueProcessingInfo.personUuid = this.patient.person.uuid;
       this.form.valueProcessingInfo.formUuid = schema.uuid;
