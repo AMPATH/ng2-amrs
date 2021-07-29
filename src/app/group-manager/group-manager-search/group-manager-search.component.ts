@@ -73,6 +73,7 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
         this.searchResults = results;
       })
     );
+    this.showGroupsInFacilty();
   }
 
   public onGroupSelected(groupUuid: string) {
@@ -229,8 +230,18 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
         filter: "agTextColumnFilter",
       },
       {
-        headerName: "Actions",
-        field: "voided",
+        headerName: 'Group Count',
+        field: 'groupCount',
+        sortable: true,
+        filter: 'agTextColumnFilter',
+        width: 200,
+        filterParams: {
+          caseSensitive: false
+        }
+      },
+      {
+        headerName: 'Actions',
+        field: 'voided',
         cellRenderer: (column) => {
           if (column.value) {
             return `<button class='btn btn-sm btn-success' data-action-type='activate'

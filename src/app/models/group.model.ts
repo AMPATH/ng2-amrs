@@ -57,6 +57,11 @@ export class Group extends BaseModel {
     }
   }
 
+  @serializable()
+  public get groupCount() {
+    return this.getGroupMembersCount(this._openmrsModel.cohortMembers);
+  }
+
   public getAttribute(attributeType, attributes) {
     const attr = _.filter(
       attributes,
@@ -66,5 +71,12 @@ export class Group extends BaseModel {
       return attr.value;
     }
     return null;
+  }
+
+  public getGroupMembersCount(cohortMembers) {
+    const active_members = cohortMembers.filter(
+      (current) => current.endDate == null
+    );
+    return active_members ? active_members.length : 0;
   }
 }

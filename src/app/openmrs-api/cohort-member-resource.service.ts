@@ -75,4 +75,20 @@ export class CohortMemberResourceService {
 
     return this._http.delete(retireCohortUrl, { headers });
   }
+
+  public getCohortMembersByCohort(cohortUuid): Observable<any> {
+    if (!cohortUuid) {
+      return null;
+    }
+    const v = `custom:(startDate,endDate,patient:(identifiers,person:(uuid,display,gender,age,birthdate,preferredName,attributes)))`;
+    const requestUrl = `${this.baseOpenMrsUrl}cohortm/cohortmember?cohort=${cohortUuid}&v=${v}`;
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this._http
+      .get<any>(requestUrl, { headers })
+      .pipe(
+        map((response) => {
+          return response.results;
+        })
+      );
+  }
 }
