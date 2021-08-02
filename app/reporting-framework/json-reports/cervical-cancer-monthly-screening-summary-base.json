@@ -76,55 +76,7 @@
         "expression": "GROUP_CONCAT(DISTINCT p3.identifier SEPARATOR ', ')"
       }
     },
-    {
-      "type": "derived_column",
-      "alias": "type_of_abnormality",
-      "expressionType": "simple_expression",
-      "expressionOptions": {
-        "caseOptions": [
-          {
-            "condition": "cur_via_result = 1",
-            "value": "Normal"
-          },
-          {
-            "condition": "cur_via_result = 2",
-            "value": "Acetowhite Lesion"
-          },
-          {
-            "condition": "cur_via_result = 3",
-            "value": "Friable Tissue"
-          },
-          {
-            "condition": "cur_via_result = 4",
-            "value": "Atypical Blood Vessels"
-          },
-          {
-            "condition": "cur_via_result = 5",
-            "value": "Ulcer"
-          },
-          {
-            "condition": "cur_via_result = 6",
-            "value": "Punctuated Capillaries"
-          },
-          {
-            "condition": "cur_via_result = 7",
-            "value": "Dysfunctional Uterine Bleeding"
-          },
-          {
-            "condition": "cur_via_result = 8",
-            "value": "Pallor"
-          },
-          {
-            "condition": "cur_via_result = 9",
-            "value": "Oysterwhite Lesion"
-          },
-          {
-            "condition": "cur_via_result = 10",
-            "value": "Bright White Lesion"
-          }
-        ]
-      }
-    },
+
     {
       "type": "simple_column",
       "alias": "age",
@@ -174,7 +126,7 @@
     {
       "type": "simple_column",
       "alias": "prior_via_date",
-      "column": "fccs.prior_via_date"
+      "column": "DATE_FORMAT(fccs.prior_via_date, '%Y-%m-%d')"
     },
     {
       "type": "derived_column",
@@ -183,6 +135,57 @@
       "expressionOptions": {
         "expression": "CASE WHEN prior_via_result = 1 THEN 'Positive' WHEN prior_via_result = 2 THEN 'Negative' ELSE NULL END"
       }
+    },
+    {
+      "type": "derived_column",
+      "alias": "screening_method",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "screening_method LIKE '%9434%'",
+            "value": "VIA"
+          },
+          {
+            "condition": "screening_method LIKE '%885%'",
+            "value": "Pap smear"
+          },
+          {
+            "condition": "screening_method LIKE '%10420%'",
+            "value": "VILI"
+          },
+          {
+            "condition": "screening_method LIKE '%2322%'",
+            "value": "HPV"
+          }
+        ]
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "via_or_via_vili_test_result",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "via_or_via_vili_test_result = 1 OR observations_from_positive_via_or_via_vili_test LIKE '%1115%'",
+            "value": "Negative"
+          },
+          {
+            "condition": "via_or_via_vili_test_result = 2",
+            "value": "Positive"
+          },
+          {
+            "condition": "via_or_via_vili_test_result = 3",
+            "value": "Suspicious of cancer"
+          }
+        ]
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "positive_test_observations",
+      "column": "fccs.observations_from_positive_via_or_via_vili_test"
     },
     {
       "type": "derived_column",
@@ -196,7 +199,7 @@
           },
           {
             "condition": "visual_impression_cervix = 2",
-            "value": "Positive VIA with Aceto white area"
+            "value": "Positive VIA with Acetowhite area"
           },
           {
             "condition": "visual_impression_cervix = 3",
@@ -204,15 +207,15 @@
           },
           {
             "condition": "visual_impression_cervix = 4",
-            "value": "Cervical intraepithelial neoplasia grade 1"
+            "value": "CIN 1"
           },
           {
             "condition": "visual_impression_cervix = 5",
-            "value": "Cervical intraepithelial neoplasia grade 2"
+            "value": "CIN 2"
           },
           {
             "condition": "visual_impression_cervix = 6",
-            "value": "Cervical intraepithelial neoplasia grade 3"
+            "value": "CIN 3"
           },
           {
             "condition": "visual_impression_cervix = 7",
@@ -220,11 +223,11 @@
           },
           {
             "condition": "visual_impression_cervix = 8",
-            "value": "Squamous cell carcinoma, not otherwise specified"
+            "value": "Squamous cell carcinoma, NOS"
           },
           {
             "condition": "visual_impression_cervix = 9",
-            "value": "Other (Non-coded)"
+            "value": "Other (non-coded)"
           }
         ]
       }
@@ -241,7 +244,7 @@
           },
           {
             "condition": "visual_impression_vagina = 2",
-            "value": "Warts, Genital"
+            "value": "Genital warts"
           },
           {
             "condition": "visual_impression_vagina = 3",
@@ -257,19 +260,19 @@
           },
           {
             "condition": "visual_impression_vagina = 6",
-            "value": "Vaginal intraepithelial neoplasia grade 1"
+            "value": "VIN 1"
           },
           {
             "condition": "visual_impression_vagina = 7",
-            "value": "Vaginal intraepithelial neoplasia grade 2"
+            "value": "VIN 2"
           },
           {
             "condition": "visual_impression_vagina = 8",
-            "value": "Vaginal intraepithelial neoplasia grade 3"
+            "value": "VIN 3"
           },
           {
             "condition": "visual_impression_vagina = 9",
-            "value": "Other (Non-coded)"
+            "value": "Other (non-coded)"
           }
         ]
       }
@@ -286,7 +289,7 @@
           },
           {
             "condition": "visual_impression_vulva = 2",
-            "value": "Warts, Genital"
+            "value": "Genital warts"
           },
           {
             "condition": "visual_impression_vulva = 3",
@@ -298,19 +301,19 @@
           },
           {
             "condition": "visual_impression_vulva = 5",
-            "value": "Condyloma or vulvar intraepithelial neoplasia grade 1"
+            "value": "Condyloma or VIN 1"
           },
           {
             "condition": "visual_impression_vulva = 6",
-            "value": "Vulvar intraepithelial neoplasia grade 2"
+            "value": "VIN 2"
           },
           {
             "condition": "visual_impression_vulva = 7",
-            "value": "Vulvar intraepithelial neoplasia grade 3"
+            "value": "VIN 3"
           },
           {
             "condition": "visual_impression_vulva = 8",
-            "value": "Other (Non-coded)"
+            "value": "Other (non-coded)"
           }
         ]
       }
@@ -320,7 +323,7 @@
       "alias": "procedures_done",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "if(via_procedure_done != 1, 1, null)"
+        "expression": "if(procedures_done_this_visit != 1, 1, null)"
       }
     },
     {
@@ -328,7 +331,7 @@
       "alias": "excisional_biopsies_done",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "if(via_procedure_done = 2, 1, null)"
+        "expression": "if(procedures_done_this_visit = 2, 1, null)"
       }
     },
     {
@@ -336,7 +339,7 @@
       "alias": "cryotherapies_done",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "if(via_procedure_done = 3, 1, null)"
+        "expression": "if(procedures_done_this_visit = 3, 1, null)"
       }
     },
     {
@@ -344,7 +347,7 @@
       "alias": "leeps_done",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "if(via_procedure_done = 4, 1, null)"
+        "expression": "if(procedures_done_this_visit = 4, 1, null)"
       }
     },
     {
@@ -352,7 +355,7 @@
       "alias": "polypectomies_done",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "if(via_procedure_done = 5, 1, null)"
+        "expression": "if(procedures_done_this_visit = 6, 1, null)"
       }
     },
     {
@@ -360,7 +363,7 @@
       "alias": "core_needle_biopsies_done",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "if(via_procedure_done = 6, 1, null)"
+        "expression": "if(procedures_done_this_visit = 7, 1, null)"
       }
     },
     {
@@ -368,172 +371,148 @@
       "alias": "pap_smears_done",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "if(via_procedure_done = 7, 1, null)"
+        "expression": "if(procedures_done_this_visit = 5, 1, null)"
       }
     },
     {
       "type": "derived_column",
-      "alias": "via_procedure_done",
+      "alias": "procedures_done_this_visit",
       "expressionType": "simple_expression",
       "expressionOptions": {
         "caseOptions": [
           {
-            "condition": "via_procedure_done = 1",
+            "condition": "procedures_done_this_visit = 1",
             "value": "None"
           },
           {
-            "condition": "via_procedure_done = 2",
+            "condition": "procedures_done_this_visit = 2",
             "value": "Excisional/Surgical biopsy"
           },
           {
-            "condition": "via_procedure_done = 3",
+            "condition": "procedures_done_this_visit = 3",
             "value": "Cryotherapy"
           },
           {
-            "condition": "via_procedure_done = 4",
+            "condition": "procedures_done_this_visit = 4",
             "value": "LEEP"
           },
           {
-            "condition": "via_procedure_done = 5",
-            "value": "Cervical Polypectomy"
+            "condition": "procedures_done_this_visit = 5",
+            "value": "Pap smear"
           },
           {
-            "condition": "via_procedure_done = 6",
-            "value": "Core Needle Biopsy"
+            "condition": "procedures_done_this_visit = 6",
+            "value": "Cervical polypectomy"
           },
           {
-            "condition": "via_procedure_done = 7",
-            "value": "Papanicolaou Smear"
+            "condition": "procedures_done_this_visit = 7",
+            "value": "Core needle biopsy"
           },
           {
-            "condition": "via_procedure_done = 8",
-            "value": "Endocervical Curretage"
+            "condition": "procedures_done_this_visit = 8",
+            "value": "Endocervical curretage"
           },
           {
-            "condition": "via_procedure_done = 9",
-            "value": "Closure by suture"
+            "condition": "procedures_done_this_visit = 9",
+            "value": "Cervical biopsy"
           },
           {
-            "condition": "via_procedure_done = 10",
-            "value": "Plaster services"
+            "condition": "procedures_done_this_visit = 10",
+            "value": "Endometrial biopsy"
           },
           {
-            "condition": "via_procedure_done = 11",
-            "value": "Clean and dressing"
+            "condition": "procedures_done_this_visit = 11",
+            "value": "Punch biopsy"
           },
           {
-            "condition": "via_procedure_done = 12",
-            "value": "Circumcized"
+            "condition": "procedures_done_this_visit = 12",
+            "value": "Vaginal biopsy"
           },
           {
-            "condition": "via_procedure_done = 13",
-            "value": "Minor surgical procedure"
+            "condition": "procedures_done_this_visit = 13",
+            "value": "Vault biopsy"
           },
           {
-            "condition": "via_procedure_done = 14",
-            "value": "Visual inspection with acetic acid"
+            "condition": "procedures_done_this_visit = 14",
+            "value": "Vulval biopsy"
           },
           {
-            "condition": "via_procedure_done = 15",
-            "value": "Intrauterine device"
-          },
-          {
-            "condition": "via_procedure_done = 16",
-            "value": "Contraceptive implant"
-          },
-          {
-            "condition": "via_procedure_done = 17",
-            "value": "Other (Non-coded)"
+            "condition": "procedures_done_this_visit = 15",
+            "value": "Other (non-coded)"
           }
         ]
       }
     },
     {
-      "type": "simple_column",
-      "alias": "other_via_procedure_done",
-      "column": "other_via_procedure_done"
-    },
-    {
       "type": "derived_column",
-      "alias": "via_management_plan",
+      "alias": "treatment_method",
       "expressionType": "simple_expression",
       "expressionOptions": {
         "caseOptions": [
           {
-            "condition": "via_management_plan = 1",
-            "value": "Return for result"
-          },
-          {
-            "condition": "via_management_plan = 2",
-            "value": "VIA follow-up in 3 months"
-          },
-          {
-            "condition": "via_management_plan = 3",
-            "value": "Complete VIA in 3 years"
-          },
-          {
-            "condition": "via_management_plan = 4",
-            "value": "Colposcopy"
-          },
-          {
-            "condition": "via_management_plan = 5",
-            "value": "Gynecologic oncology services"
-          },
-          {
-            "condition": "via_management_plan = 6",
-            "value": "Complete VIA in 1 year"
-          },
-          {
-            "condition": "via_management_plan = 7",
-            "value": "Complete VIA or pap smear in six months"
-          },
-          {
-            "condition": "via_management_plan = 8",
-            "value": "Surgery"
-          },
-          {
-            "condition": "via_management_plan = 9",
-            "value": "Cryotherapy"
-          },
-          {
-            "condition": "via_management_plan = 10",
-            "value": "Clinician"
-          },
-          {
-            "condition": "via_management_plan = 11",
+            "condition": "treatment_method = 1",
             "value": "None"
           },
           {
-            "condition": "via_management_plan = 12",
-            "value": "Discontinue"
+            "condition": "treatment_method = 2",
+            "value": "Cryotherapy"
           },
           {
-            "condition": "via_management_plan = 13",
-            "value": "Endocervical curettage"
+            "condition": "treatment_method = 3",
+            "value": "LEEP"
           },
           {
-            "condition": "via_management_plan = 14",
-            "value": "Excisional/Surgical biopsy"
+            "condition": "treatment_method = 4",
+            "value": "Thermocoagulation"
           },
           {
-            "condition": "via_management_plan = 16",
-            "value": "Female sterilization"
+            "condition": "treatment_method = 5",
+            "value": "Other"
+          }
+        ]
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "screening_follow_up_plan",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "screening_follow_up_plan = 1",
+            "value": "Return for result"
           },
           {
-            "condition": "via_management_plan = 17",
-            "value": "Repeat procedure"
+            "condition": "screening_follow_up_plan = 2",
+            "value": "VIA follow-up in 3 to 6 months"
           },
           {
-            "condition": "via_management_plan = 18",
-            "value": "Other (Non-coded)"
+            "condition": "screening_follow_up_plan = 3",
+            "value": "Routine yearly VIA"
+          },
+          {
+            "condition": "screening_follow_up_plan = 4",
+            "value": "Routine 3 year VIA"
+          },
+          {
+            "condition": "screening_follow_up_plan = 5",
+            "value": "Colposcopy planned"
+          },
+          {
+            "condition": "screening_follow_up_plan = 6",
+            "value": "Gynecologic oncology services"
+          },
+          {
+            "condition": "screening_follow_up_plan = 7",
+            "value": "Other (non-coded)"
           }
         ]
       }
     },
     {
       "type": "simple_column",
-      "alias": "via_rtc_date",
-      "column": "DATE_FORMAT(fccs.via_rtc_date, '%Y-%m-%d')"
+      "alias": "screening_rtc_date",
+      "column": "DATE_FORMAT(fccs.screening_rtc_date, '%Y-%m-%d')"
     },
     {
       "type": "derived_column",
@@ -636,7 +615,7 @@
       "alias": "abnormal_findings",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "if(fccs.cur_via_result != 1, 1, null)"
+        "expression": "if(fccs.via_or_via_vili_test_result != 1, 1, null)"
       }
     },
     {
@@ -644,7 +623,7 @@
       "alias": "abnormal_below_30yrs",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "if(fccs.cur_via_result != 1 and age < 30, 1, null)"
+        "expression": "if(fccs.via_or_via_vili_test_result != 1 and age < 30, 1, null)"
       }
     },
     {
@@ -652,7 +631,7 @@
       "alias": "abnormal_30_to_40yrs",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "if(fccs.cur_via_result != 1 and age >= 30 and age <= 40, 1, null)"
+        "expression": "if(fccs.via_or_via_vili_test_result != 1 and age >= 30 and age <= 40, 1, null)"
       }
     },
     {
@@ -660,7 +639,7 @@
       "alias": "abnormal_41_to_50yrs",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "if(fccs.cur_via_result != 1 and age >= 41 and age <= 50, 1, null)"
+        "expression": "if(fccs.via_or_via_vili_test_result != 1 and age >= 41 and age <= 50, 1, null)"
       }
     },
     {
@@ -668,7 +647,7 @@
       "alias": "abnormal_51_to_69yrs",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "if(fccs.cur_via_result != 1 and  age >= 51 and age <= 69, 1, null)"
+        "expression": "if(fccs.via_or_via_vili_test_result != 1 and  age >= 51 and age <= 69, 1, null)"
       }
     },
     {
@@ -676,7 +655,7 @@
       "alias": "abnormal_above_70yrs",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "if(fccs.cur_via_result != 1 and age >= 70, 1, null)"
+        "expression": "if(fccs.via_or_via_vili_test_result != 1 and age >= 70, 1, null)"
       }
     },
     {
@@ -684,7 +663,7 @@
       "alias": "normal_findings",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "if(fccs.cur_via_result =1 or fccs.cur_via_result is null,1,null)"
+        "expression": "if(fccs.via_or_via_vili_test_result =1 or fccs.via_or_via_vili_test_result is null,1,null)"
       }
     },
     {
@@ -692,7 +671,7 @@
       "alias": "normal_below_30yrs",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "if((fccs.cur_via_result = 1 or fccs.cur_via_result is null) and age < 30, 1, null)"
+        "expression": "if((fccs.via_or_via_vili_test_result = 1 or fccs.via_or_via_vili_test_result is null) and age < 30, 1, null)"
       }
     },
     {
@@ -700,7 +679,7 @@
       "alias": "normal_30_to_40yrs",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "if((fccs.cur_via_result = 1 or fccs.cur_via_result is null) and age >= 30 and age <= 40, 1, null)"
+        "expression": "if((fccs.via_or_via_vili_test_result = 1 or fccs.via_or_via_vili_test_result is null) and age >= 30 and age <= 40, 1, null)"
       }
     },
     {
@@ -708,7 +687,7 @@
       "alias": "normal_41_to_50yrs",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "if((fccs.cur_via_result = 1 or fccs.cur_via_result is null) and age >= 41 and age <= 50, 1, null)"
+        "expression": "if((fccs.via_or_via_vili_test_result = 1 or fccs.via_or_via_vili_test_result is null) and age >= 41 and age <= 50, 1, null)"
       }
     },
     {
@@ -716,7 +695,7 @@
       "alias": "normal_51_to_69yrs",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "if((fccs.cur_via_result = 1 or fccs.cur_via_result is null) and  age >= 51 and age <= 69, 1, null)"
+        "expression": "if((fccs.via_or_via_vili_test_result = 1 or fccs.via_or_via_vili_test_result is null) and  age >= 51 and age <= 69, 1, null)"
       }
     },
     {
@@ -724,66 +703,20 @@
       "alias": "normal_above_70yrs",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "if((fccs.cur_via_result = 1 or fccs.cur_via_result is null) and age >= 70, 1, null)"
-      }
-    },
-    {
-      "type": "derived_column",
-      "alias": "cancer_stage",
-      "expressionType": "case_statement",
-      "expressionOptions": {
-        "caseOptions": [
-          {
-            "condition": "cancer_staging = 1",
-            "value": "Stage I"
-          },
-          {
-            "condition": "cancer_staging = 2",
-            "value": "Stage II"
-          },
-          {
-            "condition": "cancer_staging = 3",
-            "value": "stage III"
-          },
-          {
-            "condition": "cancer_staging = 4",
-            "value": "Stage IV"
-          }
-        ]
-      }
-    },
-    {
-      "type": "derived_column",
-      "alias": "clients_staged_before_treatment",
-      "expressionType": "simple_expression",
-      "expressionOptions": {
-        "expression": "(if(cancer_staging in (1,2,3,4),1,null))"
+        "expression": "if((fccs.via_or_via_vili_test_result = 1 or fccs.via_or_via_vili_test_result is null) and age >= 70, 1, null)"
       }
     },
     {
       "type": "simple_column",
-      "alias": "date_patient_informed_of_results",
-      "column": "(select DATE_FORMAT(date_patient_informed_referred, '%d-%M-%Y') from etl.flat_cervical_cancer_screening where encounter_type = 147 and (select date_patient_informed_referred from etl.flat_cervical_cancer_screening where encounter_type = 147 and person_id = p2.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_cervical_cancer_screening where encounter_type = 69 and person_id = p2.person_id order by encounter_datetime desc limit 1) and person_id = p2.person_id order by encounter_datetime desc limit 1)"
+      "alias": "date_patient_notified_of_results",
+      "column": "(select DATE_FORMAT(gynp_date_patient_notified_of_results, '%d-%M-%Y') from etl.flat_cervical_cancer_screening where encounter_type = 147 and (select gynp_date_patient_notified_of_results from etl.flat_cervical_cancer_screening where encounter_type = 147 and person_id = p2.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_cervical_cancer_screening where encounter_type = 69 and person_id = p2.person_id order by encounter_datetime desc limit 1) and person_id = p2.person_id order by encounter_datetime desc limit 1)"
     },
     {
       "type": "derived_column",
       "alias": "diagnostic_interval",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "(SELECT CONCAT(TIMESTAMPDIFF(DAY, DATE(encounter_datetime), (SELECT date_patient_informed_referred FROM etl.flat_cervical_cancer_screening WHERE encounter_type = 147 AND person_id = p2.person_id ORDER BY encounter_datetime DESC LIMIT 1)), ' day(s)') FROM etl.flat_cervical_cancer_screening WHERE person_id = p2.person_id AND encounter_type = 69 and (select date_patient_informed_referred from etl.flat_cervical_cancer_screening where encounter_type = 147 and person_id = p2.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_cervical_cancer_screening where encounter_type = 69 and person_id = p2.person_id order by encounter_datetime desc limit 1) ORDER BY encounter_datetime DESC LIMIT 1)"
-      }
-    },
-    {
-      "type": "derived_column",
-      "alias": "biopsy_results_within_2wks",
-      "expressionType": "case_statement",
-      "expressionOptions": {
-        "caseOptions": [
-          {
-            "condition": "TIMESTAMPDIFF(day, DATE(fccs.encounter_datetime), DATE(prior_biopsy_result_date)) <= 14",
-            "value": 1
-          }
-        ]
+        "expression": "(SELECT CONCAT(TIMESTAMPDIFF(DAY, DATE(encounter_datetime), (SELECT gynp_date_patient_notified_of_results FROM etl.flat_cervical_cancer_screening WHERE encounter_type = 147 AND person_id = p2.person_id ORDER BY encounter_datetime DESC LIMIT 1)), ' day(s)') FROM etl.flat_cervical_cancer_screening WHERE person_id = p2.person_id AND encounter_type = 69 and (select gynp_date_patient_notified_of_results from etl.flat_cervical_cancer_screening where encounter_type = 147 and person_id = p2.person_id order by encounter_datetime desc limit 1) > (select encounter_datetime from etl.flat_cervical_cancer_screening where encounter_type = 69 and person_id = p2.person_id order by encounter_datetime desc limit 1) ORDER BY encounter_datetime DESC LIMIT 1)"
       }
     }
   ],

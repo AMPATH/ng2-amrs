@@ -1,5 +1,5 @@
-const Promise = require('bluebird');
 const _ = require('lodash');
+const Promise = require('bluebird');
 const oncologyReportsService = require('../oncology-reports/oncology-reports-service');
 import { BaseMysqlReport } from '../app/reporting-framework/base-mysql.report';
 import { PatientlistMysqlReport } from '../app/reporting-framework/patientlist-mysql.report';
@@ -28,12 +28,12 @@ export class CervicalCancerMonthlySummaryService {
         results.result = result;
         delete results['results'];
         resolve(results);
-        //TODO Do some post processing
       }).catch((errors) => {
         reject(errors);
       });
     });
   }
+
   getPatientListReport(reportParams) {
     let indicators = reportParams.indicators
       ? reportParams.indicators.split(',')
@@ -54,7 +54,6 @@ export class CervicalCancerMonthlySummaryService {
     );
 
     return new Promise(function (resolve, reject) {
-      //TODO: Do some pre processing
       Promise.join(report.generatePatientListReport(indicators), (results) => {
         for (const key in results.results.results) {
           if (results.results.results.hasOwnProperty(key)) {
@@ -62,6 +61,27 @@ export class CervicalCancerMonthlySummaryService {
               results.results.results[key].person_name = titleCase(
                 results.results.results[key].person_name
               );
+            }
+            if (
+              results.results.results[key]
+                .observations_from_positive_via_or_via_vili_test
+            ) {
+              // convert each observation to sentence case and remove duplicates
+              results.results.results[
+                key
+              ].observations_from_positive_via_or_via_vili_test = Array.from(
+                new Set(
+                  results.results.results[
+                    key
+                  ].observations_from_positive_via_or_via_vili_test.split(',')
+                )
+              )
+                .map(
+                  (s) =>
+                    s.charAt(0).toUpperCase() + s.slice(1).toLowerCase().trim()
+                )
+                .sort()
+                .join(', ');
             }
           }
         }
@@ -75,11 +95,17 @@ export class CervicalCancerMonthlySummaryService {
             resolve(results);
           })
           .catch((error) => {
-            console.error('ERROR: Error getting patient list cols', error);
+            console.error(
+              'Error fetching cervical screening patient list columns: ',
+              error
+            );
             reject(error);
           });
       }).catch((errors) => {
-        console.error('Error', errors);
+        console.error(
+          'Error generating cervical screening patient list report: ',
+          errors
+        );
         reject(errors);
       });
     });
