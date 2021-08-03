@@ -141,8 +141,8 @@ const mockSummaryData = [
     diagnosis: 'Breast Cancer - Inflammatory Breast Cancer',
     result_of_diagnosis: 0,
     diagnosis_date: '03-07-2019',
-    breast_exam_findings: '',
-    via_test_result: '',
+    breast_exam_findings_this_visit: '',
+    via_or_via_vili_test_result: '',
     cancer_type: 'Breast Cancer',
     cancer_subtype: 'Inflammatory Breast Cancer',
     breast_cancer_type: 6545,
@@ -180,9 +180,9 @@ const mockIntegratedSummaryData = [
     encounter_type_name: 'BREASTCANCERSCREENING',
     visit_name: 'Breast Cancer Screening',
     location: 'MTRH Oncology',
-    breast_exam_findings: 1115,
-    prior_via_test_result: null,
-    via_test_result: null,
+    breast_exam_findings_this_visit: 1115,
+    prior_via_result: null,
+    via_or_via_vili_test_result: null,
     hiv_status: 664
   },
   {
@@ -191,10 +191,10 @@ const mockIntegratedSummaryData = [
     encounter_type_name: 'ONCOLOGYVIA',
     visit_name: 'Cervical Cancer Screening',
     location: 'MTRH Oncology',
-    breast_exam_findings: null,
-    prior_via_test_result: 703,
+    breast_exam_findings_this_visit: null,
+    prior_via_result: 'Positive',
     prior_via_test_result_date: '2019-05-05T00:00:00.000Z',
-    via_test_result: 6497,
+    via_or_via_vili_test_result: 'Positive',
     hiv_status: 664
   }
 ];
@@ -349,7 +349,7 @@ describe('Component: OncologyProgramSnapshotComponent', () => {
       expect(snapshot.textContent).toContain('Date: January 2, 2020');
       expect(snapshot.textContent).toContain('Location: MTRH Oncology');
       expect(snapshot.textContent).toContain(
-        'Breast screening findings: Normal'
+        'Breast screening findings this visit: Normal'
       );
       expect(snapshot.textContent).toContain('HIV status: Negative');
       expect(snapshot.textContent).toContain(
@@ -360,7 +360,7 @@ describe('Component: OncologyProgramSnapshotComponent', () => {
       expect(snapshot.textContent).toContain('Location: MTRH Oncology');
       expect(snapshot.textContent).toContain('Last VIA test result: Positive');
       expect(snapshot.textContent).toContain(
-        'Date of last VIA test: May 5, 2019'
+        'Cervical screening findings this visit: Positive'
       );
       expect(snapshot.textContent).toContain('HIV status: Negative');
     });
