@@ -140,11 +140,11 @@ const mockSummaryData = [
     rtc_date: "14-08-2019",
     diagnosis: "Breast Cancer - Inflammatory Breast Cancer",
     result_of_diagnosis: 0,
-    diagnosis_date: "03-07-2019",
-    breast_exam_findings: "",
-    via_test_result: "",
-    cancer_type: "Breast Cancer",
-    cancer_subtype: "Inflammatory Breast Cancer",
+    diagnosis_date: '03-07-2019',
+    breast_exam_findings_this_visit: '',
+    via_or_via_vili_test_result: '',
+    cancer_type: 'Breast Cancer',
+    cancer_subtype: 'Inflammatory Breast Cancer',
     breast_cancer_type: 6545,
     non_cancer_diagnosis: null,
     cancer_stage: "",
@@ -176,27 +176,27 @@ const mockSummaryData = [
 const mockIntegratedSummaryData = [
   {
     encounter_id: 6731943,
-    encounter_datetime: "2020-01-02T12:31:51.000Z",
-    encounter_type_name: "BREASTCANCERSCREENING",
-    visit_name: "Breast Cancer Screening",
-    location: "MTRH Oncology",
-    breast_exam_findings: 1115,
-    prior_via_test_result: null,
-    via_test_result: null,
-    hiv_status: 664,
+    encounter_datetime: '2020-01-02T12:31:51.000Z',
+    encounter_type_name: 'BREASTCANCERSCREENING',
+    visit_name: 'Breast Cancer Screening',
+    location: 'MTRH Oncology',
+    breast_exam_findings_this_visit: 1115,
+    prior_via_result: null,
+    via_or_via_vili_test_result: null,
+    hiv_status: 664
   },
   {
     encounter_id: 1354963,
-    encounter_datetime: "2020-01-02T12:29:12.000Z",
-    encounter_type_name: "ONCOLOGYVIA",
-    visit_name: "Cervical Cancer Screening",
-    location: "MTRH Oncology",
-    breast_exam_findings: null,
-    prior_via_test_result: 703,
-    prior_via_test_result_date: "2019-05-05T00:00:00.000Z",
-    via_test_result: 6497,
-    hiv_status: 664,
-  },
+    encounter_datetime: '2020-01-02T12:29:12.000Z',
+    encounter_type_name: 'ONCOLOGYVIA',
+    visit_name: 'Cervical Cancer Screening',
+    location: 'MTRH Oncology',
+    breast_exam_findings_this_visit: null,
+    prior_via_result: 'Positive',
+    prior_via_test_result_date: '2019-05-05T00:00:00.000Z',
+    via_or_via_vili_test_result: 'Positive',
+    hiv_status: 664
+  }
 ];
 
 const mockLocationObj = {
@@ -349,7 +349,7 @@ describe("Component: OncologyProgramSnapshotComponent", () => {
       expect(snapshot.textContent).toContain("Date: January 2, 2020");
       expect(snapshot.textContent).toContain("Location: MTRH Oncology");
       expect(snapshot.textContent).toContain(
-        "Breast screening findings: Normal"
+        'Breast screening findings this visit: Normal'
       );
       expect(snapshot.textContent).toContain("HIV status: Negative");
       expect(snapshot.textContent).toContain(
@@ -360,7 +360,7 @@ describe("Component: OncologyProgramSnapshotComponent", () => {
       expect(snapshot.textContent).toContain("Location: MTRH Oncology");
       expect(snapshot.textContent).toContain("Last VIA test result: Positive");
       expect(snapshot.textContent).toContain(
-        "Date of last VIA test: May 5, 2019"
+        'Cervical screening findings this visit: Positive'
       );
       expect(snapshot.textContent).toContain("HIV status: Negative");
     });

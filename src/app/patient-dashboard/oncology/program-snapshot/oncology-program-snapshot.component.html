@@ -141,21 +141,25 @@
               <p>Date: {{ row.encounter_datetime | date: "longDate" }}</p>
               <p>Encounter: {{ row.encounter_type_name }}</p>
               <p>Location: {{ row.location }}</p>
-              <p *ngIf="row.breast_exam_findings">
-                Breast screening findings:
-                {{ translateConcept(row.breast_exam_findings) }}
+              <p *ngIf="row.breast_exam_findings_this_visit">
+                Breast screening findings this visit:
+                {{ translateConcept(row.breast_exam_findings_this_visit) }}
               </p>
-              <p *ngIf="row.via_test_result">
+              <p *ngIf="row.past_clinical_breast_exam_results">
+                Last clinical breast exam test result:
+                {{ row.past_clinical_breast_exam_results }}
+              </p>
+              <p *ngIf="row.via_or_via_vili_test_result">
                 Cervical screening findings this visit:
-                {{ translateConcept(row.via_test_result) }}
+                {{ row.via_or_via_vili_test_result }}
               </p>
-              <p *ngIf="row.prior_via_test_result">
+              <p *ngIf="row.prior_via_result">
                 Last VIA test result:
-                {{ translateConcept(row.prior_via_test_result) }}
+                {{ row.prior_via_result }}
               </p>
-              <p *ngIf="row.prior_via_test_result_date">
-                Date of last VIA test:
-                {{ row.prior_via_test_result_date | date: "longDate" }}
+              <p *ngIf="row.prior_via_result_date">
+                Last VIA test happened on:
+                {{ row.prior_via_result_date | date: 'longDate' }}
               </p>
               <p *ngIf="row.hiv_status">
                 HIV status: {{ translateConcept(row.hiv_status) }}
