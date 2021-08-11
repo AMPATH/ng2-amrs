@@ -94,92 +94,262 @@
       }
     },
     {
-      "type": "simple_column",
-      "alias": "date_patient_informed_of_results",
-      "column": "date_patient_informed_and_referred_for_management"
-    },
-    {
       "type": "derived_column",
-      "alias": "diagnostic_interval",
+      "alias": "past_clinical_breast_exam_results",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "timestampdiff(day,date(encounter_datetime),date(date_patient_informed_and_referred_for_management))"
+        "caseOptions": [
+          {
+            "condition": "past_clinical_breast_exam_results LIKE '%1115%'",
+            "value": "Normal"
+          },
+          {
+            "condition": "past_clinical_breast_exam_results LIKE '%1116%'",
+            "value": "Abnormal"
+          },
+          {
+            "condition": "past_clinical_breast_exam_results LIKE '%6250%'",
+            "value": "Breast lumps"
+          },
+          {
+            "condition": "past_clinical_breast_exam_results LIKE '%1067%'",
+            "value": "Unknown"
+          },
+          {
+            "condition": "past_clinical_breast_exam_results LIKE '%6493%'",
+            "value": "Nipple discharge"
+          },
+          {
+            "condition": "past_clinical_breast_exam_results LIKE '%9689%'",
+            "value": "Fine nodularity"
+          },
+          {
+            "condition": "past_clinical_breast_exam_results LIKE '%9690%'",
+            "value": "Dense nodularity"
+          },
+          {
+            "condition": "past_clinical_breast_exam_results LIKE '%1481%'",
+            "value": "Breast abscess"
+          },
+          {
+            "condition": "past_clinical_breast_exam_results LIKE '%9688%'",
+            "value": "Nipple areolar change"
+          },
+          {
+            "condition": "past_clinical_breast_exam_results LIKE '%9687%'",
+            "value": "Skin edema"
+          },
+          {
+            "condition": "past_clinical_breast_exam_results LIKE '%5622%'",
+            "value": "Other (non-coded)"
+          }
+        ]
       }
     },
     {
       "type": "derived_column",
-      "alias": "procedure_done",
-      "expressionType": "case_statement",
+      "alias": "past_mammogram_results",
+      "expressionType": "simple_expression",
       "expressionOptions": {
         "caseOptions": [
           {
-            "condition": "procedure_done = 1",
-            "value": "Ultrasound"
+            "condition": "past_mammogram_results = 1",
+            "value": "Normal"
           },
           {
-            "condition": "procedure_done = 2",
+            "condition": "past_mammogram_results = 2",
+            "value": "Abnormal"
+          },
+          {
+            "condition": "past_mammogram_results = 3",
+            "value": "Unknown"
+          }
+        ]
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "personal_history_of_breast_cancer",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "personal_history_of_breast_cancer = 1",
+            "value": "Yes"
+          },
+          {
+            "condition": "personal_history_of_breast_cancer = 2",
+            "value": "No"
+          },
+          {
+            "condition": "personal_history_of_breast_cancer = 3",
+            "value": "Unknown"
+          }
+        ]
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "family_history_of_breast_cancer",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "family_history_of_breast_cancer = 1",
+            "value": "Yes"
+          },
+          {
+            "condition": "family_history_of_breast_cancer = 2",
+            "value": "No"
+          },
+          {
+            "condition": "family_history_of_breast_cancer = 3",
+            "value": "Unknown"
+          }
+        ]
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "breast_exam_findings_this_visit",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "breast_exam_findings_this_visit LIKE '%1115%'",
+            "value": "Normal"
+          },
+          {
+            "condition": "breast_exam_findings_this_visit LIKE '%5313%'",
+            "value": "Muscle tenderness"
+          },
+          {
+            "condition": "breast_exam_findings_this_visit LIKE '%6250%'",
+            "value": "Breast lumps"
+          },
+          {
+            "condition": "breast_exam_findings_this_visit LIKE '%9689%'",
+            "value": "Fine nodularity"
+          },
+          {
+            "condition": "breast_exam_findings_this_visit LIKE '%1116%'",
+            "value": "Abnormal"
+          },
+          {
+            "condition": "breast_exam_findings_this_visit LIKE '%6493%'",
+            "value": "Nipple discharge"
+          },
+          {
+            "condition": "breast_exam_findings_this_visit LIKE '%9690%'",
+            "value": "Dense nodularity"
+          },
+          {
+            "condition": "breast_exam_findings_this_visit LIKE '%9688%'",
+            "value": "Nipple areolar change"
+          },
+          {
+            "condition": "breast_exam_findings_this_visit LIKE '%9687%'",
+            "value": "Skin edema"
+          },
+          {
+            "condition": "breast_exam_findings_this_visit LIKE '%5622%'",
+            "value": "Other (non-coded)"
+          },
+          {
+            "condition": "breast_exam_findings_this_visit LIKE '%1481%'",
+            "value": "Breast abscess"
+          }
+        ]
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "breast_symmetry",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "breast_symmetry = 1",
+            "value": "Yes"
+          },
+          {
+            "condition": "breast_symmetry = 2",
+            "value": "No"
+          }
+        ]
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "histological_investigations_done",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "histological_investigations_done = 1",
+            "value": "Core needle biopsy"
+          },
+          {
+            "condition": "histological_investigations_done = 2",
+            "value": "Excisional biopsy"
+          },
+          {
+            "condition": "histological_investigations_done = 2",
+            "value": "Incisional biopsy"
+          },
+          {
+            "condition": "histological_investigations_done = 2",
+            "value": "Cytology"
+          },
+          {
+            "condition": "histological_investigations_done = 2",
+            "value": "None"
+          }
+        ]
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "radiological_investigations_done",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "radiological_investigations_done = 1",
             "value": "Mammogram"
           },
           {
-            "condition": "procedure_done = 3",
-            "value": "Core Needle Biopsy"
+            "condition": "radiological_investigations_done = 2",
+            "value": "Breast ultrasound"
           },
           {
-            "condition": "procedure_done = 4",
-            "value": "FNA"
-          },
-          {
-            "condition": "procedure_done = 5",
-            "value": "Surgical Biopsy"
-          },
-          {
-            "condition": "procedure_done = 6",
-            "value": "Incisional Biopsy"
+            "condition": "radiological_investigations_done = 2",
+            "value": "None"
           }
         ]
       }
     },
     {
       "type": "derived_column",
-      "alias": "diagnosis",
-      "expressionType": "case_statement",
+      "alias": "lymph_node_exam_findings",
+      "expressionType": "simple_expression",
       "expressionOptions": {
         "caseOptions": [
           {
-            "condition": "diagnosis in (9618,6544,6250,6243,2220,115)",
-            "value": "1"
+            "condition": "fbcs.lymph_node_exam_findings = 1",
+            "value": "Normal"
           },
           {
-            "condition": "else",
-            "value": "null"
-          }
-        ]
-      }
-    },
-    {
-      "type": "derived_column",
-      "alias": "cancer_stage",
-      "expressionOptions": {
-        "caseOptions": [
-          {
-            "condition": "cancer_staging = 1",
-            "value": "Stage I"
+            "condition": "fbcs.lymph_node_exam_findings = 2",
+            "value": "Lymphadenopathy"
           },
           {
-            "condition": "else",
-            "value": "null"
+            "condition": "lymph_node_exam_findings = 3",
+            "value": "Fixed"
           },
           {
-            "condition": "cancer_staging = 2",
-            "value": "Stage II"
-          },
-          {
-            "condition": "cancer_staging = 3",
-            "value": "Stage III"
-          },
-          {
-            "condition": "cancer_staging = 4",
-            "value": "Stage IV"
+            "condition": "fbcs.lymph_node_exam_findings = 4",
+            "value": "Mobile"
           }
         ]
       }

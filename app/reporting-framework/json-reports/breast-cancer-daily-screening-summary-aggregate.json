@@ -22,11 +22,6 @@
       "column": "location_name"
     },
     {
-      "type": "simple_column",
-      "alias": "location_uuid",
-      "column": "location_uuid"
-    },
-    {
       "type": "derived_column",
       "alias": "encounter_datetime",
       "expressionType": "simple_expression",

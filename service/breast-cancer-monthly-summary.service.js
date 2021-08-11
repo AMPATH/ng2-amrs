@@ -4,7 +4,6 @@ const _ = require('lodash');
 const oncologyReportsService = require('../oncology-reports/oncology-reports-service');
 import { BaseMysqlReport } from '../app/reporting-framework/base-mysql.report';
 import { PatientlistMysqlReport } from '../app/reporting-framework/patientlist-mysql.report';
-import { titleCase } from '../etl-helpers';
 
 export class BreastCancerMonthlySummaryService {
   getAggregateReport(reportParams) {
@@ -29,7 +28,6 @@ export class BreastCancerMonthlySummaryService {
         results.result = result;
         delete results['results'];
         resolve(results);
-        // TODO Do some post processing
       }).catch((errors) => {
         reject(errors);
       });
@@ -57,17 +55,7 @@ export class BreastCancerMonthlySummaryService {
     );
 
     return new Promise((resolve, reject) => {
-      // TODO: Do some pre processing
       Promise.join(report.generatePatientListReport(indicators), (results) => {
-        for (const key in results.results.results) {
-          if (results.results.results.hasOwnProperty(key)) {
-            if (results.results.results[key].person_name) {
-              results.results.results[key].person_name = titleCase(
-                results.results.results[key].person_name
-              );
-            }
-          }
-        }
         oncologyReportsService
           .getPatientListCols(
             reportParams.indicators,
@@ -78,11 +66,17 @@ export class BreastCancerMonthlySummaryService {
             resolve(results);
           })
           .catch((error) => {
-            console.error('ERROR: Error getting patient list cols', error);
+            console.error(
+              'Error fetching breast screening patient list columns',
+              error
+            );
             reject(error);
           });
       }).catch((errors) => {
-        console.error('Error', errors);
+        console.error(
+          'Error generating breast screening patient list report: ',
+          errors
+        );
         reject(errors);
       });
     });
