@@ -121,7 +121,7 @@ export class OncologyProgramSnapshotComponent implements OnInit, OnDestroy {
       '1115': 'Normal',
       '1116': 'Abnormal',
       '1118': 'Not done',
-      '1481': 'Abscess, breast',
+      '1481': 'Breast abscess',
       '5245': 'Pallor',
       '5313': 'Muscle tenderness',
       '5622': 'Other, non-coded',
