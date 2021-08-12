@@ -80,7 +80,7 @@ export class CohortMemberResourceService {
     if (!cohortUuid) {
       return null;
     }
-    const v = `custom:(startDate,endDate,patient:(identifiers,person:(uuid,display,gender,age,birthdate,preferredName,attributes)))`;
+    const v = `custom:(startDate,endDate,patient:(identifiers,person:(uuid,display,gender,age,birthdate,preferredName,attributes)),uuid)`;
     const requestUrl = `${this.baseOpenMrsUrl}cohortm/cohortmember?cohort=${cohortUuid}&v=${v}`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this._http

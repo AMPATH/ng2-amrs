@@ -73,7 +73,6 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
         this.searchResults = results;
       })
     );
-    this.showGroupsInFacilty();
   }
 
   public onGroupSelected(groupUuid: string) {

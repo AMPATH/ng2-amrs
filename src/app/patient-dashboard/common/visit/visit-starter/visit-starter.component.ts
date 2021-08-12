@@ -207,7 +207,8 @@ export class VisitStarterComponent implements OnInit, OnDestroy {
                 return attribute !== undefined;
               });
               if (this.patientCohort) {
-                this.cohostVisitsDropdownOptions = this.patientCohort.cohort.cohortVisits.map(
+                let activeVisits = this.patientCohort.cohort.cohortVisits.filter(v => v.voided == false)
+                this.cohostVisitsDropdownOptions = activeVisits.map(
                   (v) => {
                     return {
                       value: v.uuid,

@@ -318,6 +318,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       const patient = new Patient(member.patient);
       patient["startDate"] = member["startDate"];
       patient["endDate"] = member["endDate"];
+      patient["uuid"] = member.patient.person.uuid;
       patients.push(patient);
     });
     return patients;
@@ -446,18 +447,20 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     );
     let index = 0;
     for (const cohortVisit of cohortVisits) {
-      columns.push({
-        headerName: `${this.datePipe.transform(cohortVisit.startDate)} Meeting`,
-        field: `group_visit_${index}`,
-        cellRenderer: (column) => {
-          if (column.value) {
-            return `<i class="fa fa-check text-success"></i>`;
-          } else {
-            return `<i class="fa fa-times text-danger"></i>`;
-          }
-        },
-      });
-      index = index + 1;
+      if(!cohortVisit.voided) {
+        columns.push({
+          headerName: `${this.datePipe.transform(cohortVisit.startDate)} Meeting`,
+          field: `group_visit_${index}`,
+          cellRenderer: (column) => {
+            if (column.value) {
+              return `<i class="fa fa-check text-success"></i>`;
+            } else {
+              return `<i class="fa fa-times text-danger"></i>`;
+            }
+          },
+        });
+        index = index + 1;
+      }
     }
     return columns;
   }
