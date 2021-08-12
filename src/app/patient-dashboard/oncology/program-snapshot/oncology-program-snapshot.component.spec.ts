@@ -193,7 +193,7 @@ const mockIntegratedSummaryData = [
     location: 'MTRH Oncology',
     breast_exam_findings_this_visit: null,
     prior_via_result: 'Positive',
-    prior_via_test_result_date: '2019-05-05T00:00:00.000Z',
+    prior_via_date: '2019-05-05T00:00:00.000Z',
     via_or_via_vili_test_result: 'Positive',
     hiv_status: 664
   }
