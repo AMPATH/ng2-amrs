@@ -115,7 +115,7 @@ function getOncologyIntegratedProgramSnapshot(request) {
   let patientUuid = request.uuid;
   let queryParts = {
     columns:
-      "t1.encounter_id, t1.encounter_datetime, t6.name AS `encounter_type_name`, REPLACE(t3.name, 'Oncology ', '') AS `visit_name`, t5.name AS `location`, t7.breast_exam_findings_this_visit, t7.past_clinical_breast_exam_results, CASE WHEN t8.via_or_via_vili_test_result = 1 THEN 'Negative' WHEN t8.via_or_via_vili_test_result = 2 THEN 'Positive' WHEN t8.via_or_via_vili_test_result = 3 THEN 'Suspicious of cancer' ELSE NULL END, t8.hiv_status, CASE WHEN t8.prior_via_result = 1 THEN 'Positive' WHEN t8.prior_via_result = 1 THEN 'Negative' ELSE NULL END, t8.prior_via_result_date",
+      "t1.encounter_id, t1.encounter_datetime, t6.name AS `encounter_type_name`, REPLACE(t3.name, 'Oncology ', '') AS `visit_name`, t5.name AS `location`, t7.breast_exam_findings_this_visit, t7.past_clinical_breast_exam_results, CASE WHEN t8.via_or_via_vili_test_result = 1 THEN 'Negative' WHEN t8.via_or_via_vili_test_result = 2 THEN 'Positive' WHEN t8.via_or_via_vili_test_result = 3 THEN 'Suspicious of cancer' ELSE NULL END, t8.hiv_status, CASE WHEN t8.prior_via_result = 1 THEN 'Positive' WHEN t8.prior_via_result = 1 THEN 'Negative' ELSE NULL END, t8.prior_via_date",
     order: [
       {
         column: 'encounter_datetime',
