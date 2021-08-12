@@ -157,9 +157,9 @@
                 Last VIA test result:
                 {{ row.prior_via_result }}
               </p>
-              <p *ngIf="row.prior_via_result_date">
+              <p *ngIf="row.prior_via_date">
                 Last VIA test happened on:
-                {{ row.prior_via_result_date | date: 'longDate' }}
+                {{ row.prior_via_date | date: 'longDate' }}
               </p>
               <p *ngIf="row.hiv_status">
                 HIV status: {{ translateConcept(row.hiv_status) }}
