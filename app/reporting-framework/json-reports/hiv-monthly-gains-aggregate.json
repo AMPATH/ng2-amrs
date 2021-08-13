@@ -94,6 +94,22 @@
     },
     {
       "type": "derived_column",
+      "alias": "newly_enrolled_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.newly_enrolled_art)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "newly_enrolled_pre_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.newly_enrolled_pre_art)"
+      }
+    },
+    {
+      "type": "derived_column",
       "alias": "transferred_in",
       "expressionType": "simple_expression",
       "expressionOptions": {

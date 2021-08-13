@@ -121,6 +121,22 @@
     },
     {
       "type": "derived_column",
+      "alias": "newly_enrolled_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(c.enrolled_this_month = 1 AND c.transfer_in_this_month = 0 AND c.started_art_this_month = 1, 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "newly_enrolled_pre_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(c.enrolled_this_month = 1 AND c.transfer_in_this_month = 0 AND c.started_art_this_month = 0, 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
       "alias": "transferred_in",
       "expressionType": "simple_expression",
       "expressionOptions": {
