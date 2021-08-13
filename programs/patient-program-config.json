@@ -147,6 +147,10 @@
             "allowedIf": "age >= 25 && age <= 49 && gender === 'F'"
           },
           {
+            "uuid": "cb5c0abd-0817-40e3-9413-8669561fadb9",
+            "display": "HIVHOMEVISIT"
+          },
+          {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
             "display": "FAMILYSTATUS"
           },
@@ -210,6 +214,10 @@
             "uuid": "238625fc-8a25-44b2-aa5a-8bf48fa0e18d",
             "display": "ONCOLOGYVIA",
             "allowedIf": "age >= 25 && age <= 49 && gender === 'F'"
+          },
+          {
+            "uuid": "cb5c0abd-0817-40e3-9413-8669561fadb9",
+            "display": "HIVHOMEVISIT"
           },
           {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
@@ -311,6 +319,10 @@
             "display": "DERMATOLOGYREFERRAL"
           },
           {
+            "uuid": "cb5c0abd-0817-40e3-9413-8669561fadb9",
+            "display": "HIVHOMEVISIT"
+          },
+          {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
             "display": "FAMILYSTATUS"
           },
@@ -361,6 +373,10 @@
           {
             "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
             "display": "DERMATOLOGYREFERRAL"
+          },
+          {
+            "uuid": "cb5c0abd-0817-40e3-9413-8669561fadb9",
+            "display": "HIVHOMEVISIT"
           },
           {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
@@ -463,6 +479,10 @@
             "display": "DERMATOLOGYREFERRAL"
           },
           {
+            "uuid": "cb5c0abd-0817-40e3-9413-8669561fadb9",
+            "display": "HIVHOMEVISIT"
+          },
+          {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
             "display": "FAMILYSTATUS"
           },
@@ -513,6 +533,10 @@
           {
             "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
             "display": "DERMATOLOGYREFERRAL"
+          },
+          {
+            "uuid": "cb5c0abd-0817-40e3-9413-8669561fadb9",
+            "display": "HIVHOMEVISIT"
           },
           {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
@@ -1257,6 +1281,10 @@
             "allowedIf": "age >= 25 && age <= 49 && gender === 'F'"
           },
           {
+            "uuid": "cb5c0abd-0817-40e3-9413-8669561fadb9",
+            "display": "HIVHOMEVISIT"
+          },
+          {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
             "display": "FAMILYSTATUS"
           },
@@ -1320,6 +1348,10 @@
             "uuid": "238625fc-8a25-44b2-aa5a-8bf48fa0e18d",
             "display": "ONCOLOGYVIA",
             "allowedIf": "age >= 25 && age <= 49 && gender === 'F'"
+          },
+          {
+            "uuid": "cb5c0abd-0817-40e3-9413-8669561fadb9",
+            "display": "HIVHOMEVISIT"
           },
           {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
@@ -1444,6 +1476,10 @@
             "allowedIf": "age >= 25 && age <= 49 && gender === 'F'"
           },
           {
+            "uuid": "cb5c0abd-0817-40e3-9413-8669561fadb9",
+            "display": "HIVHOMEVISIT"
+          },
+          {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
             "display": "FAMILYSTATUS"
           },
@@ -1564,6 +1600,10 @@
             "uuid": "238625fc-8a25-44b2-aa5a-8bf48fa0e18d",
             "display": "ONCOLOGYVIA",
             "allowedIf": "age >= 25 && age <= 49 && gender === 'F'"
+          },
+          {
+            "uuid": "cb5c0abd-0817-40e3-9413-8669561fadb9",
+            "display": "HIVHOMEVISIT"
           },
           {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
@@ -2661,6 +2701,10 @@
             "display": "POCLAB"
           },
           {
+            "uuid": "cb5c0abd-0817-40e3-9413-8669561fadb9",
+            "display": "HIVHOMEVISIT"
+          },
+          {
             "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
             "display": "HIVTRIAGE"
           },
@@ -2723,6 +2767,10 @@
             "uuid": "238625fc-8a25-44b2-aa5a-8bf48fa0e18d",
             "display": "ONCOLOGYVIA",
             "allowedIf": "age >= 25 && age <= 49 && gender === 'F'"
+          },
+          {
+            "uuid": "cb5c0abd-0817-40e3-9413-8669561fadb9",
+            "display": "HIVHOMEVISIT"
           },
           {
             "uuid": "466d6707-8429-4e61-b5a0-d63444f5ad35",
@@ -2845,6 +2893,10 @@
           {
             "uuid": "987009c6-6f24-43f7-9640-c285d6553c63",
             "display": "DRUGPICKUP"
+          },
+          {
+            "uuid": "cb5c0abd-0817-40e3-9413-8669561fadb9",
+            "display": "HIVHOMEVISIT"
           },
           {
             "uuid": "466d6707-8429-4e61-b5a0-d63444f5ad35",
