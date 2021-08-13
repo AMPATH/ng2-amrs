@@ -14,11 +14,11 @@ export class User extends BaseModel {
     if (roles && roles.length > 0) {
       let counter = 0;
       _.forEach(roles, (role: any) => {
-        if (counter <= 1 && roleDisplay) {
+        if (counter <= 1) {
           roleDisplay =
             roleDisplay.length === 0
-              ? role.display
-              : roleDisplay + ', ' + role.display;
+              ? role.name
+              : roleDisplay + ', ' + role.name;
         }
         counter++;
       });

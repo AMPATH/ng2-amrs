@@ -6,15 +6,15 @@ describe('Model: Person', () => {
     display: 'the user',
     roles: [
       {
-        display: 'System Developer',
+        name: 'System Developer',
         uuid: 'role1 uuid'
       },
       {
-        display: 'Tester',
+        name: 'Tester',
         uuid: 'role2 uuid'
       },
       {
-        display: 'Role 3',
+        name: 'Role 3',
         uuid: 'role3 uuid'
       }
     ]
@@ -22,7 +22,6 @@ describe('Model: Person', () => {
   it('should wrap openmrs person for display correctly', () => {
     const wrappedUser: User = new User(userObject);
     expect(wrappedUser.uuid).toEqual(userObject.uuid);
-    expect(wrappedUser.roleDisplay).toEqual('');
-    expect(wrappedUser.roles).toEqual(userObject.roles);
+    expect(wrappedUser.roleDisplay).toEqual('System Developer, Tester');
   });
 });
