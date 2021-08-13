@@ -243,19 +243,59 @@
                   </thead>
                   <tbody>
                     <tr>
-                      <td class="report-indicators">Newly Enrolled</td>
-                      <td class="numbers_link report-indicators">
-                        <a
-                          (click)="
-                            onIndicatorSelected(
-                              'newly_enrolled',
-                              'New enrolled'
-                            )
-                          "
-                          >{{
-                            patientGainAndLoseSummaryData?.newly_enrolled
-                          }}</a
+                      <td class="report-indicators">Enrolled in Care</td>
+                      <td>
+                        <span class="numbers_link report-indicators"
+                          ><a
+                            (click)="
+                              onIndicatorSelected(
+                                'newly_enrolled',
+                                'New enrolled'
+                              )
+                            "
+                            >{{
+                              patientGainAndLoseSummaryData?.newly_enrolled
+                            }}</a
+                          ></span
                         >
+                        <span>
+                          <table class="table table-striped">
+                            <thead>
+                              <th>Pre-ART</th>
+                              <th>Started ART</th>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td class="numbers_link report-indicators">
+                                  <a
+                                    (click)="
+                                      onIndicatorSelected(
+                                        'newly_enrolled_pre_art',
+                                        'Enrolled in Care and Pre-ART'
+                                      )
+                                    "
+                                    >{{
+                                      patientGainAndLoseSummaryData?.newly_enrolled_pre_art
+                                    }}</a
+                                  >
+                                </td>
+                                <td class="numbers_link report-indicators">
+                                  <a
+                                    (click)="
+                                      onIndicatorSelected(
+                                        'newly_enrolled_art',
+                                        'Enrolled in Care and started ART'
+                                      )
+                                    "
+                                    >{{
+                                      patientGainAndLoseSummaryData?.newly_enrolled_art
+                                    }}</a
+                                  >
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </span>
                       </td>
                     </tr>
                     <tr>
@@ -300,7 +340,7 @@
                     </tr>
 
                     <tr>
-                      <th class="report-indicators"><b>Gains</b></th>
+                      <td class="report-indicators"><b>Gains</b></td>
                       <td class="numbers_link report-indicators">
                         <a (click)="onIndicatorSelected('gain', 'Gains')"
                           ><b>{{
