@@ -13,17 +13,24 @@ import * as _ from 'lodash';
 import { ZscoreService } from '../../../shared/services/zscore.service';
 @Injectable()
 export class FormDataSourceService {
+  private amrsLocations = [];
+  private nonAmrsLocations = [];
   constructor(
     private providerResourceService: ProviderResourceService,
     private locationResourceService: LocationResourceService,
     private conceptResourceService: ConceptResourceService,
     private localStorageService: LocalStorageService,
     private zscoreService: ZscoreService
-  ) {}
+  ) {
+    this.getAllAmrsLocations();
+    this.getAllNonAmrsLocations();
+  }
 
   public getDataSources() {
     const formData: any = {
       location: this.getLocationDataSource(),
+      amrsLocation: this.getAmrsLocationsDataSource(),
+      nonAmrsLocation: this.getNonAmrsLocationsDataSource(),
       provider: this.getProviderDataSource(),
       drug: this.getDrugDataSource(),
       problem: this.getProblemDataSource(),
@@ -39,6 +46,35 @@ export class FormDataSourceService {
 
     const find = (text: string) => {
       return this.findLocation(text);
+    };
+
+    return {
+      resolveSelectedValue: resolve,
+      searchOptions: find
+    };
+  }
+
+  public getAmrsLocationsDataSource() {
+    const resolve = (uuid: string) => {
+      return this.getAmrsLocations(uuid);
+    };
+
+    const find = (text: string) => {
+      return this.findAmrsLocation(text);
+    };
+
+    return {
+      resolveSelectedValue: resolve,
+      searchOptions: find
+    };
+  }
+  public getNonAmrsLocationsDataSource() {
+    const resolve = (uuid: string) => {
+      return this.getNonAmrsLocations(uuid);
+    };
+
+    const find = (text: string) => {
+      return this.findNonAmrsLocation(text);
     };
 
     return {
@@ -332,6 +368,105 @@ export class FormDataSourceService {
       );
   }
 
+  public getAmrsLocations(uuid: string): Observable<any> {
+    const locationSearchResults: BehaviorSubject<any> = new BehaviorSubject<
+      any
+    >([]);
+    const filteredLocations = this.filterLocationsByUuid(
+      uuid,
+      this.amrsLocations
+    );
+    const locationOptions = this.transformLocationArrayToSelectOptions(
+      filteredLocations
+    );
+    if (uuid.length > 0 && locationOptions.length === 1) {
+      locationSearchResults.next(locationOptions[0]);
+    } else {
+      locationSearchResults.next(locationOptions);
+    }
+
+    return locationSearchResults;
+  }
+  public getNonAmrsLocations(uuid: string): Observable<any> {
+    const locationSearchResults: BehaviorSubject<any> = new BehaviorSubject<
+      any
+    >([]);
+    const filteredLocations = this.filterLocationsByUuid(
+      uuid,
+      this.nonAmrsLocations
+    );
+    const locationOptions = this.transformLocationArrayToSelectOptions(
+      filteredLocations
+    );
+    if (uuid.length > 0 && locationOptions.length === 1) {
+      locationSearchResults.next(locationOptions[0]);
+    } else {
+      locationSearchResults.next(locationOptions);
+    }
+
+    return locationSearchResults;
+  }
+  public findAmrsLocation(searchString: string): Observable<Location[]> {
+    const locationSearchResults: BehaviorSubject<any> = new BehaviorSubject<
+      any
+    >([]);
+    const mappedLocations = this.filterLocatonByName(
+      searchString,
+      this.amrsLocations
+    );
+    locationSearchResults.next(mappedLocations);
+
+    return locationSearchResults;
+  }
+  public findNonAmrsLocation(searchString: string): Observable<Location[]> {
+    const locationSearchResults: BehaviorSubject<any> = new BehaviorSubject<
+      any
+    >([]);
+
+    const mappedLocations = this.filterLocatonByName(
+      searchString,
+      this.nonAmrsLocations
+    );
+    locationSearchResults.next(mappedLocations);
+
+    return locationSearchResults;
+  }
+
+  public filterLocatonByName(searchString: string, searchArray: Array<any>) {
+    const filteredLocations = searchArray
+      .filter((amrsLocation: any) => {
+        const searchStringSc = searchString.toLowerCase();
+        const amrsLocationSc = amrsLocation.display.toLowerCase();
+        const patt = new RegExp(searchStringSc);
+        const matchResult = patt.test(amrsLocationSc);
+        if (matchResult) {
+          return amrsLocation;
+        }
+      })
+      .map((filteredLocation: any) => {
+        return {
+          value: filteredLocation.uuid,
+          label: filteredLocation.display
+        };
+      });
+
+    return filteredLocations;
+  }
+  public filterLocationsByUuid(uuid: string, locationData: any): any {
+    return locationData.filter((l: any) => {
+      return l.uuid === uuid;
+    });
+  }
+
+  public transformLocationArrayToSelectOptions(locationArray: any): any {
+    return locationArray.map((m: any) => {
+      return {
+        value: m.uuid,
+        label: m.display
+      };
+    });
+  }
+
   public resolveConcept(uuid): Observable<any> {
     return new Observable((observer) => {
       this.conceptResourceService.getConceptByUuid(uuid).subscribe(
@@ -462,5 +597,25 @@ export class FormDataSourceService {
   private setCachedProviderSearchResults(searchProviderResults): void {
     const sourcekey = 'cachedproviders';
     this.localStorageService.setObject(sourcekey, searchProviderResults);
+  }
+  private getAllAmrsLocations() {
+    this.locationResourceService.getAmrsLocations().subscribe(
+      (amrsLocations) => {
+        this.amrsLocations = amrsLocations;
+      },
+      (error) => {
+        console.log('getAmrsLocationError', error);
+      }
+    );
+  }
+  private getAllNonAmrsLocations() {
+    this.locationResourceService.getNonAmrsLocations().subscribe(
+      (nonAmrsLocations) => {
+        this.nonAmrsLocations = nonAmrsLocations;
+      },
+      (error) => {
+        console.log('getAmrsLocationError', error);
+      }
+    );
   }
 }

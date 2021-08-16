@@ -1,6 +1,6 @@
 import { take } from 'rxjs/operators';
 
-import { map } from 'rxjs/operators';
+import { map, filter } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { ReplaySubject, Observable } from 'rxjs';
 import { AppSettingsService } from '../app-settings/app-settings.service';
@@ -11,6 +11,7 @@ import * as locationIds from '../shared/locations/location_data.json';
 export class LocationResourceService {
   private locations = new ReplaySubject(1);
   private v = 'full';
+  private amrsSiteAttributeTypeUuid = 'a147d88e-3bc5-4807-8194-d7885f4058b1';
 
   constructor(
     protected http: HttpClient,
@@ -98,5 +99,68 @@ export class LocationResourceService {
           return response.results;
         })
       );
+  }
+  public getAmrsLocations(): Observable<any> {
+    const url =
+      this.appSettingsService.getOpenmrsRestbaseurl().trim() + 'location';
+    const params = new HttpParams().set('v', 'full');
+    const request = this.http.get(url, { params: params }).pipe(
+      map((results: any) => {
+        return results.results;
+      }),
+      map((results: any) => {
+        const sites = results.filter((result: any) => {
+          if (result.attributes.length > 0) {
+            const attributes = result.attributes;
+            const isAmrsSite = attributes.some((att: any) => {
+              return (
+                att.attributeType.uuid === this.amrsSiteAttributeTypeUuid &&
+                att.value === true &&
+                att.voided === false
+              );
+            });
+            if (isAmrsSite) {
+              return result;
+            }
+          }
+        });
+        return sites;
+      })
+    );
+
+    return this.cacheService.cacheRequest(url, {}, request);
+  }
+
+  public getNonAmrsLocations(): Observable<any> {
+    const url =
+      this.appSettingsService.getOpenmrsRestbaseurl().trim() + 'location';
+    const params = new HttpParams().set('v', 'full');
+    const request = this.http.get(url, { params: params }).pipe(
+      map((results: any) => {
+        return results.results;
+      }),
+      map((results: any) => {
+        const sites = results.filter((result: any) => {
+          if (result.attributes.length === 0) {
+            return result;
+          } else {
+            const attributes = result.attributes;
+            const isNonAmrsSite = attributes.some((att: any) => {
+              return (
+                att.attributeType.uuid === this.amrsSiteAttributeTypeUuid &&
+                att.value === false &&
+                att.voided === false
+              );
+            });
+            if (isNonAmrsSite) {
+              return result;
+            }
+          }
+        });
+        return sites;
+      })
+    );
+
+    return this.cacheService.cacheRequest(url, {}, request);
   }
 }
