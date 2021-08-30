@@ -112,47 +112,53 @@ function getPatientOncologyDiagnosis(request) {
 }
 
 function getOncologyIntegratedProgramSnapshot(request) {
-  let patientUuid = request.uuid;
-  let queryParts = {
-    columns:
-      "t1.encounter_id, t1.encounter_datetime, t6.name AS `encounter_type_name`, REPLACE(t3.name, 'Oncology ', '') AS `visit_name`, t5.name AS `location`, t7.breast_exam_findings_this_visit, t7.past_clinical_breast_exam_results, CASE WHEN t8.via_or_via_vili_test_result = 1 THEN 'Negative' WHEN t8.via_or_via_vili_test_result = 2 THEN 'Positive' WHEN t8.via_or_via_vili_test_result = 3 THEN 'Suspicious of cancer' ELSE NULL END, t8.hiv_status, CASE WHEN t8.prior_via_result = 1 THEN 'Positive' WHEN t8.prior_via_result = 1 THEN 'Negative' ELSE NULL END, t8.prior_via_date",
-    order: [
-      {
-        column: 'encounter_datetime',
-        asc: false
-      }
-    ],
-    group: ['t1.visit_id'],
-    joins: [
-      ['amrs.visit', 't2', 't2.visit_id = t1.visit_id'],
-      ['amrs.visit_type', 't3', 't3.visit_type_id = t2.visit_type_id'],
-      ['amrs.person', 't4', 't4.person_id = t1.patient_id'],
-      ['amrs.location', 't5', 't5.location_id = t1.location_id'],
-      ['amrs.encounter_type', 't6', 't6.encounter_type_id = t1.encounter_type'],
-      [
-        'etl.flat_breast_cancer_screening',
-        't7',
-        't7.encounter_id = t1.encounter_id'
-      ],
-      [
-        'etl.flat_cervical_cancer_screening',
-        't8',
-        't8.encounter_id = t1.encounter_id'
-      ]
-    ],
-    table: 'amrs.encounter',
-    where: [
-      't4.uuid = ? and t2.visit_type_id in ? and t1.voided = ?',
-      patientUuid,
-      // Visit types: Breast screening, Cervical screening, Lung screening, Sickle cell screening
-      [5, 6, 70, 71],
-      0
-    ],
-    offset: request.startIndex,
-    limit: request.limit
-  };
+  return new Promise((resolve, reject) => {
+    let patientUuid = request.uuid;
+    let queryParts = {};
+    let sql = `SELECT 
+          t1.encounter_id,
+          t1.encounter_datetime,
+          t1.encounter_type_name,
+          REPLACE(t3.name, 'Oncology ', '') AS \`visit_name\`,
+          t2.name AS \`location\`,
+          IF(breast_exam_findings_this_visit IS NOT NULL,
+              REPLACE(breast_exam_findings_this_visit,
+                  '#',
+                  ''),
+              NULL),
+          CASE
+              WHEN t1.via_or_via_vili_test_result = 1 THEN 'Negative'
+              WHEN t1.via_or_via_vili_test_result = 2 THEN 'Positive'
+              WHEN t1.via_or_via_vili_test_result = 3 THEN 'Suspicious of cancer'
+              ELSE NULL
+          END AS \`via_or_via_vili_test_result\`,
+          t1.observations_from_positive_via_or_via_vili_test AS \`positive_via_test_observations\`,
+          CASE
+              WHEN t1.prior_via_result = 1 THEN 'Positive'
+              WHEN t1.prior_via_result = 2 THEN 'Negative'
+              ELSE NULL
+          END AS prior_via_result,
+          t1.prior_via_date,
+          t1.hiv_status
+        FROM
+          etl.flat_onc_patient_history \`t1\`
+            LEFT JOIN
+          amrs.location \`t2\` ON (t2.location_id = t1.location_id)
+            LEFT JOIN
+          amrs.visit_type \`t3\` ON (t3.visit_type_id = t1.visit_type_id)
+        WHERE
+            t1.encounter_type IN (69, 86)
+        AND t1.uuid = '${patientUuid}';`;
 
-  return db.queryDb(queryParts);
+    queryParts = {
+      sql: sql
+    };
+
+    return db.queryServer(queryParts, (result) => {
+      result.sql = sql;
+      result.error ? reject(result.error) : resolve(result);
+    });
+  });
 }
 
 export {
