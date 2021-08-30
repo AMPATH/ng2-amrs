@@ -121,11 +121,10 @@ function getOncologyIntegratedProgramSnapshot(request) {
           t1.encounter_type_name,
           REPLACE(t3.name, 'Oncology ', '') AS \`visit_name\`,
           t2.name AS \`location\`,
-          IF(breast_exam_findings_this_visit IS NOT NULL,
-              REPLACE(breast_exam_findings_this_visit,
-                  '#',
-                  ''),
-              NULL),
+          IF (breast_exam_findings_this_visit IS NOT NULL,
+            REPLACE(breast_exam_findings_this_visit, '#', ''),
+            NULL
+          ) AS \`breast_exam_findings_this_visit\`,
           CASE
               WHEN t1.via_or_via_vili_test_result = 1 THEN 'Negative'
               WHEN t1.via_or_via_vili_test_result = 2 THEN 'Positive'
