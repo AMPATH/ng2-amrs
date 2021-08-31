@@ -18,7 +18,7 @@
   </div>
   <hr />
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
       <span
         >Keys:
         <span class="label label-success">Visits</span>
@@ -27,6 +27,22 @@
       </span>
     </div>
   </div>
+  <hr />
+  <div class="row">
+    <div class="col-md-6 col-lg-6 col-xs-12 col-sm-6">
+      <span>Counts : </span>
+      <span class="label label-success" style="font-size: 18px">{{
+        monthlyCounts?.attended
+      }}</span>
+      <span class="label label-info" style="font-size: 18px">{{
+        monthlyCounts?.scheduled
+      }}</span>
+      <span class="label label-warning" style="font-size: 18px">{{
+        monthlyCounts?.hasNotReturned
+      }}</span>
+    </div>
+  </div>
+  <hr />
 </div>
 <ng-template #customCellTemplate let-day="day" let-locale="locale">
   <div class="cal-cell-top">

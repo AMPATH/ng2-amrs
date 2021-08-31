@@ -47,7 +47,7 @@ export class MonthlyScheduleResourceService {
       })
       .pipe(
         map((response) => {
-          return response.results;
+          return response;
         })
       );
 
