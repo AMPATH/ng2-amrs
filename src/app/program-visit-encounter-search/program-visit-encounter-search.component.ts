@@ -203,6 +203,9 @@ export class ProgramVisitEncounterSearchComponent
     if (params.startDate) {
       newParams.startDate = params.startDate;
     }
+    if (params.endDate) {
+      newParams.endDate = params.endDate;
+    }
     if (params.resetFilter) {
       newParams.resetFilter = params.resetFilter;
     }

@@ -37,13 +37,13 @@ const testParams = {
   visitType: ["5033fbfc-ddc9-4f7f-853d-379659e48bdd"],
 };
 const mockEmittedParams = {
-  department: "",
-  programType: ["b731ba72-cf99-4176-9fcd-37cd186400c7"],
-  visitType: ["5033fbfc-ddc9-4f7f-853d-379659e48bdd"],
-  encounterType: ["f5381269-c889-4c5a-b384-d017441eedae"],
-  startDate: "2018-12-18",
-  endDate: "",
-  resetFilter: "false",
+  department: '',
+  programType: ['b731ba72-cf99-4176-9fcd-37cd186400c7'],
+  visitType: ['5033fbfc-ddc9-4f7f-853d-379659e48bdd'],
+  encounterType: ['f5381269-c889-4c5a-b384-d017441eedae'],
+  startDate: '2018-12-18',
+  endDate: '2018-12-18',
+  resetFilter: 'false'
 };
 
 const departmentConfig = {

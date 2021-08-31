@@ -72,6 +72,7 @@ export class MonthlyScheduleBaseComponent implements OnInit, OnDestroy {
   public programVisitsEncounters: any = [];
   public encounterTypes: any[];
   public monthControl = true;
+  public monthlyCounts: any;
   public trackEncounterTypes: any = [];
   private subs: Subscription[] = [];
   private _datePipe: DatePipe;
@@ -135,6 +136,7 @@ export class MonthlyScheduleBaseComponent implements OnInit, OnDestroy {
 
   public getAppointments() {
     this.fetchError = false;
+    this.resetMonthCouts();
     this.setBusy();
     this.viewDate = Moment(this.params.startDate, "YYYY-MM-DD").format(
       "MMMM YYYY"
@@ -153,7 +155,8 @@ export class MonthlyScheduleBaseComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe(
         (results) => {
-          this.events = this.processEvents(results);
+          this.events = this.processEvents(results.results);
+          this.monthlyCounts = results.totals;
           this.setFree();
         },
         (error) => {
@@ -272,6 +275,13 @@ export class MonthlyScheduleBaseComponent implements OnInit, OnDestroy {
     this.busyIndicator = {
       busy: false,
       message: "",
+    };
+  }
+  public resetMonthCouts(): void {
+    this.monthlyCounts = {
+      attended: 0,
+      scheduled: 0,
+      hasNotReturned: 0
     };
   }
 }
