@@ -1,0 +1,26 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+      <ag-grid-angular
+        #agGrid
+        style="width: 100%; height: 500px"
+        class="ag-blue"
+        [rowData]="data"
+        [gridOptions]="gridOptions"
+        [columnDefs]="moh412SummaryColdef"
+        (cellClicked)="onCellClick($event)"
+        [pinnedBottomRowData]="pinnedBottomRowData"
+      >
+      </ag-grid-angular>
+      <button
+        class="btn btn-info pull-right"
+        *ngIf="data.length > 0"
+        (click)="exportCountsListToCsv()"
+        style="color: #fff"
+      >
+        <i class="inline fa fa-file-excel-o"></i>
+        <span>Export</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -19,6 +19,9 @@ import { Moh731MonthlyVizComponent } from './moh-731-monthly-viz/moh-731-monthly
 
 import { DashboardsViewerComponent } from '../../kibana-lib';
 
+import { MOH412HIVDataAnalyticsComponent } from './moh-412-report/moh-412-hiv-data-analytics.component';
+import { MOH412HIVDataAnalyticsPatientListComponent } from './moh-412-report/moh-412-hiv-data-analytics-patient-list.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -103,6 +106,19 @@ const routes: Routes = [
                 path:
                   'patient-list/:indicator/:period/:gender/:age/:locationUuids',
                 component: HivMonthlySummaryIndicatorsPatientListComponent
+              }
+            ]
+          },
+          {
+            path: 'moh-412-report',
+            children: [
+              {
+                path: 'patient-list',
+                component: MOH412HIVDataAnalyticsPatientListComponent
+              },
+              {
+                path: '',
+                component: MOH412HIVDataAnalyticsComponent
               }
             ]
           }

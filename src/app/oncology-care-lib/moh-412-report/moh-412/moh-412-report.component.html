@@ -1,0 +1,62 @@
+<div class="container-fluid">
+  <div class="loader" *ngIf="busyIndicator.busy">
+    <span
+      ><i class="fa fa-spinner fa-spin"> </i>{{ busyIndicator.message }}</span
+    >
+  </div>
+  <div class="row">
+    <h4 class="component-title" style="color: green">
+      <span class="fa fa-file fa-fw"></span>{{ title }}
+    </h4>
+  </div>
+  <div class="row">
+    <div *ngIf="error.error" class="alert alert-danger alert-dismissible">
+      <button
+        type="button"
+        class="close"
+        data-dismiss="alert"
+        aria-hidden="true"
+      >
+        ×
+      </button>
+      {{ error.message }}
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <app-moh-412-filter
+        [dashboardType]="dashboardType"
+        [dashboardLocation]="dashboardLocation"
+        [currentView]="currentView"
+      ></app-moh-412-filter>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <p-tabView (onChange)="onTabChanged($event)">
+        <p-tabPanel
+          header=" Report View"
+          leftIcon="fa-file-pdf-o "
+          [selected]="currentView === 'pdf'"
+        >
+          <app-moh-412-report-view
+            [reportData]="moh412Data"
+            [totalsData]="totalsData"
+            [sectionDefs]="reportDef"
+            [params]="params"
+          >
+          </app-moh-412-report-view>
+        </p-tabPanel>
+        <p-tabPanel
+          header=" Tabular View"
+          leftIcon="fa-table"
+          [selected]="currentView === 'tabular'"
+        >
+          <app-moh-412-tabular-table
+            [moh412Data]="moh412Data"
+            [totalsData]="totalsData"
+            [reportDef]="reportDef"
+            [params]="params"
+          >
+          </app-moh-412-tabular-table>
+        </p-tabPanel>
+      </p-tabView>
+    </div>
+  </div>
+</div>
