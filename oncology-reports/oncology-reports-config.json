@@ -18,6 +18,11 @@
         "name": "C1. Cervical cancer screening numbers",
         "type": "cervical-cancer-screening-numbers",
         "description": "Cervical cancer screening numbers contains the following indicators - total cervical screened, normal cervical screened,abnormal cervical screening findings, cervical call rate, biopsy within 2 weeks, clients staged before treatment and total referred for follow up"
+      },
+      {
+        "name": "C2. Cancer Screening Monthly Summary",
+        "type": "moh-412-report",
+        "description": "MOH 412 Report"
       }
     ]
   },

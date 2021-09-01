@@ -1,0 +1,127 @@
+{
+  "name": "hivCervicalCancerTreatmentMonthlyPcfAggregate",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [
+    {
+      "name": "hivCervicalCancerTreatmentMonthlyBase",
+      "version": "1.0",
+      "type": "dataset_def"
+    }
+  ],
+  "sources": [
+    {
+      "dataSet": "hivCervicalCancerTreatmentMonthlyBase",
+      "alias": "hc"
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "reporting_month",
+      "column": "hc.reporting_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "hc.primary_care_facility_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "hc.primary_care_facility"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "hc.primary_care_facility_location_uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "screening_visit_type",
+      "column": "hc.screening_visit_type"
+    },
+    {
+      "type": "simple_column",
+      "alias": "age_range",
+      "column": "hc.age_range"
+    },
+    {
+      "type": "simple_column",
+      "alias": "hiv_status",
+      "column": "hiv_status"
+    },
+    {
+      "type": "derived_column",
+      "alias": "treated_via_cyrotherapy",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.treated_via_cyrotherapy)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "treated_via_thermo_coagulation",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.treated_via_thermo_coagulation)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "treated_via_leep",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.treated_via_leep)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "treated_via_other",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.treated_via_other)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "treated_via_other",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.treated_via_other)"
+      }
+    }
+  ],
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": [
+      "hc.reporting_month",
+      "hc.primary_care_facility_id",
+      "hc.screening_visit_type",
+      "hc.hiv_status",
+      "hc.age_range"
+    ],
+    "excludeParam": "excludeParam"
+  },
+  "transFormDirectives": {
+    "joinColumn": "location_id",
+    "skipColumns": ["join_location"],
+    "disaggregationColumns": ["screening_visit_type", "age_range", "hiv_status"]
+  },
+  "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+      "useTemplate": "combined_breast_cervical_cancer_patient_list_template",
+      "useTemplateVersion": "1.0",
+      "generatingDirectives": {
+        "joinDirectives": {
+          "joinType": "INNER",
+          "joinCondition": "<<base_column>> = <<template_column>>",
+          "baseColumn": "person_id",
+          "templateColumn": "person_id"
+        }
+      },
+      "skipParams": []
+    }
+  }
+}

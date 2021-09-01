@@ -1,0 +1,280 @@
+{
+  "name": "hivPositiveCervicalCancerScreeningMonthlyBase",
+  "version": "1.0",
+  "tag": "hiv_positive_cervical_cancer_screening_monthly_base",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "etl.cervical_screening_monthly_report_dataset",
+      "alias": "c"
+    },
+    {
+      "table": "amrs.location",
+      "alias": "l",
+      "join": {
+        "type": "left",
+        "joinCondition": "c.location_id = l.location_id"
+      }
+    },
+    {
+      "table": "amrs.location",
+      "alias": "p",
+      "join": {
+        "type": "left",
+        "joinCondition": "c.primary_care_facility = p.location_id"
+      }
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "c.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "c.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "l.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "primary_care_facility",
+      "column": "p.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "primary_care_facility_id",
+      "column": "c.primary_care_facility"
+    },
+    {
+      "type": "simple_column",
+      "alias": "primary_care_facility_location_uuid",
+      "column": "p.uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "l.uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "reporting_month",
+      "column": "DATE_FORMAT(c.encounter_datetime,'%Y-%m')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "screening_date",
+      "column": "DATE_FORMAT(c.encounter_datetime,'%Y-%m-%d')"
+    },
+    {
+      "type": "derived_column",
+      "alias": "age_range",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "c.age < 25",
+            "value": "less_than_25"
+          },
+          {
+            "condition": "c.age between 25 and 49",
+            "value": "25_to_49"
+          },
+          {
+            "condition": "c.age >= 50",
+            "value": "50_and_above"
+          }
+        ]
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "via_or_via_vili_test_result",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "c.via_or_via_vili_test_result = 1",
+            "value": "Negative"
+          },
+          {
+            "condition": "c.via_or_via_vili_test_result = 2",
+            "value": "Positive"
+          },
+          {
+            "condition": "c.via_or_via_vili_test_result = 3",
+            "value": "Suspicious of cancer"
+          }
+        ]
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "screening_visit_type",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "c.reasons_for_current_visit = 1",
+            "value": "initial"
+          },
+          {
+            "condition": "c.reasons_for_current_visit = 2",
+            "value": "routine"
+          },
+          {
+            "condition": "c.reasons_for_current_visit = 3",
+            "value": "post_treatment"
+          },
+          {
+            "condition": "c.reasons_for_current_visit NOT IN (1,2,3)",
+            "value": "unknown"
+          }
+        ]
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "screening_method",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "c.screening_method in (9434,10420)",
+            "value": "via_or_via_vili"
+          },
+          {
+            "condition": "c.screening_method = 885",
+            "value": "pap_smear"
+          },
+          {
+            "condition": "c.screening_method = 2322",
+            "value": "hpv"
+          }
+        ]
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_status",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "c.hiv_status = 2",
+            "value": "positive"
+          },
+          {
+            "condition": "c.hiv_status = 1",
+            "value": "negative"
+          }
+        ]
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "screened",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(c.person_id IS NOT NULL,1,NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "screened_positive",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "c.via_or_via_vili_test_result = 2",
+            "value": 1
+          },
+          {
+            "condition": "c.hpv_test_result = 2 ",
+            "value": 1
+          },
+          {
+            "condition": "c.pap_smear_test_result in (2,3,4,5,6)",
+            "value": 1
+          }
+        ]
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "treatment_method",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "c.treatment_method = 1",
+            "value": "None"
+          },
+          {
+            "condition": "c.treatment_method = 2",
+            "value": "Cryotherapy"
+          },
+          {
+            "condition": "c.treatment_method = 3",
+            "value": "LEEP"
+          },
+          {
+            "condition": "c.treatment_method = 4",
+            "value": "Thermocoagulation"
+          },
+          {
+            "condition": "c.treatment_method = 5",
+            "value": "Other"
+          }
+        ]
+      }
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "c.endDate <= ?",
+        "parameterName": "endDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "c.endDate >= ?",
+        "parameterName": "startDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "c.location_id in ?",
+        "parameterName": "locations"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "c.primary_care_facility in ?",
+        "parameterName": "primaryCareLocations"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "c.hiv_status = 2"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "c.screening_method IS NOT NULL"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "c.screened_this_month_for_cervical_cancer = 1"
+      }
+    ]
+  },
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["person_id"]
+  }
+}

@@ -73,6 +73,7 @@ import { PatientGainLosesService } from './service/patient-gain-loses.service';
 import { PrepReminderService } from './service/prep-reminder/prep-reminder.service';
 import { HIVGainsAndLossesService } from './service/gains-and-losses/hiv-gains-losses-service';
 const cervicalCancerScreeningService = require('./service/cervical-cancer-screening-service');
+import { MOH412Service } from './service/moh-412/moh-412';
 
 module.exports = (function () {
   var routes = [
@@ -5873,6 +5874,103 @@ module.exports = (function () {
               reply(Boom.internal('An error occured', error));
             });
         }
+      }
+    },
+    {
+      method: 'GET',
+      path: '/etl/moh-412-report',
+      config: {
+        auth: 'simple',
+        plugins: {},
+        handler: function (request, reply) {
+          if (request.query.locationUuids) {
+            preRequest.resolveLocationIdsToLocationUuids(request, function () {
+              let requestParams = Object.assign(
+                {},
+                request.query,
+                request.params
+              );
+              let reportParams = etlHelpers.getReportParams(
+                'hiv-cervical-cancer-screening-monthly-report',
+                ['startDate', 'endDate', 'locationUuids'],
+                requestParams
+              );
+              let report = 'MOH-412-report';
+              if (request.query.locationType === 'primary_care_facility') {
+                reportParams.requestParams['primaryCareLocations'] =
+                  reportParams.requestParams.locations;
+                delete reportParams.requestParams.locations;
+                report = 'MOH-412-PCF-report';
+              }
+
+              const moh412Service = new MOH412Service(
+                report,
+                reportParams.requestParams
+              );
+              moh412Service
+                .generateReport()
+                .then((result) => {
+                  reply(result);
+                })
+                .catch((error) => {
+                  reply(error);
+                });
+            });
+          }
+        },
+        description: 'MOH-412 Report',
+        notes: 'Returns Report for HIV Cervical Cancer Screening',
+        tags: ['api']
+      }
+    },
+    {
+      method: 'GET',
+      path: '/etl/moh-412-report/patient-list',
+      config: {
+        auth: 'simple',
+        plugins: {},
+        handler: function (request, reply) {
+          if (request.query.locationUuids) {
+            request.query.reportName =
+              'hiv-cervical-cancer-screening-monthly-report';
+            preRequest.resolveLocationIdsToLocationUuids(request, function () {
+              let requestParams = Object.assign(
+                {},
+                request.query,
+                request.params
+              );
+
+              let requestCopy = _.cloneDeep(requestParams);
+              let reportParams = etlHelpers.getReportParams(
+                request.query.reportName,
+                ['startDate', 'endDate', 'locationUuids', 'locations'],
+                requestParams
+              );
+              let report = 'MOH-412-report';
+              if (request.query.locationType === 'primary_care_facility') {
+                requestCopy['primaryCareLocations'] =
+                  reportParams.requestParams.locations;
+                delete requestCopy.locations;
+                report = 'MOH-412-PCF-report';
+              } else {
+                requestCopy.locations = reportParams.requestParams.locations;
+              }
+              let moh412Service = new MOH412Service(report, requestCopy);
+
+              moh412Service
+                .getPatientListReport(requestParams)
+                .then((results) => {
+                  reply(results);
+                })
+                .catch((err) => {
+                  reply(Boom.internal('An error occured', err));
+                });
+            });
+          }
+        },
+        description: 'MOH-412 Report',
+        notes: 'Returns Report for HIV Cervical Cancer Screening',
+        tags: ['api']
       }
     }
   ];

@@ -1,0 +1,1034 @@
+{
+  "indicators": [
+    {
+      "label": "Less than 25 yrs HIV Positive Patients, VIA OR VIA/VILI Initial Screening",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__less_than_25__hiv_status__positive__screened_via_or_via_vili"
+    },
+    {
+      "label": " 25-49 yrs HIV Positive Patients, VIA OR VIA/VILI Initial Screening",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__25_to_49__hiv_status__positive__screened_via_or_via_vili"
+    },
+    {
+      "label": "50 yrs and above HIV Positive Patients, VIA OR VIA/VILI Initial Screening",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__50_and_above__hiv_status__positive__screened_via_or_via_vili"
+    },
+    {
+      "label": "Total HIV Positive VIA OR VIA/VILI Initial Screening",
+      "description": "",
+      "indicator": "screened_via_or_via_vili_initial_visit_hiv_positive"
+    },
+    {
+      "label": "Less than 25 yrs HIV Negative Patients, VIA OR VIA/VILI Initial Screening",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__less_than_25__hiv_status__negative__screened_via_or_via_vili"
+    },
+    {
+      "label": " 25-49 yrs HIV Negative Patients, VIA OR VIA/VILI Initial Screening",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__25_to_49__hiv_status__negative__screened_via_or_via_vili"
+    },
+    {
+      "label": " 50 yrs and above HIV Negative Patients, VIA OR VIA/VILI Initial Screening",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__50_and_above__hiv_status__negative__screened_via_or_via_vili"
+    },
+    {
+      "label": "Total HIV Negative VIA OR VIA/VILI Initial Sceenings",
+      "description": "",
+      "indicator": "screened_via_or_via_vili_initial_visit_hiv_negative"
+    },
+    {
+      "label": "Total VIA OR VIA/VILI Initial Screenings",
+      "description": "",
+      "indicator": "screened_initial_visit"
+    },
+    {
+      "label": "Less than 25 yrs HIV Positive Patients, VIA OR VIA/VILI Routine Screening",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__less_than_25__hiv_status__positive__screened_via_or_via_vili"
+    },
+    {
+      "label": " 25-49 yrs HIV Positive Patients, VIA OR VIA/VILI Routine Screening",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__25_to_49__hiv_status__positive__screened_via_or_via_vili"
+    },
+    {
+      "label": "50 yrs and above HIV Positive Patients, VIA OR VIA/VILI Routine Screening",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__50_and_above__hiv_status__positive__screened_via_or_via_vili"
+    },
+    {
+      "label": "Total HIV Positive VIA OR VIA/VILI Routine Screenings",
+      "description": "",
+      "indicator": "screened_via_or_via_vili_routine_visit_hiv_positive"
+    },
+    {
+      "label": "Less than 25 yrs HIV Negative Patients, VIA OR VIA/VILI Routine Screening",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__less_than_25__hiv_status__negative__screened_via_or_via_vili"
+    },
+    {
+      "label": "25-49 yrs HIV Negative Patients, VIA OR VIA/VILI Routine Screening",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__25_to_49__hiv_status__negative__screened_via_or_via_vili"
+    },
+    {
+      "label": "50 yrs and above HIV Negative Patients,  Routine Screening",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__50_and_above__hiv_status__negative__screened_via_or_via_vili"
+    },
+    {
+      "label": "Total HIV Negative VIA OR VIA/VILI Routine Screenings",
+      "description": "",
+      "indicator": "screened_via_or_via_vili_routine_visit_hiv_negative"
+    },
+    {
+      "label": "Total VIA OR VIA/VILI Routine Screenings",
+      "description": "",
+      "indicator": "screened_routine_visit"
+    },
+    {
+      "label": "Less than 25 yrs HIV Positive Patients, VIA OR VIA/VILI Post Treatment Screening",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__less_than_25__hiv_status__positive__screened_via_or_via_vili"
+    },
+    {
+      "label": " 25-49 yrs HIV Positive Patients, VIA OR VIA/VILI Post Treatment Screening",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__25_to_49__hiv_status__positive__screened_via_or_via_vili"
+    },
+    {
+      "label": "50 yrs and above HIV Positive Patients, VIA OR VIA/VILI Post Treatment Screening",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__50_and_above__hiv_status__positive__screened_via_or_via_vili"
+    },
+    {
+      "label": "Total HIV Positive VIA OR VIA/VILI Post Treatment Screenings",
+      "description": "",
+      "indicator": "screened_via_or_via_vili_post_treatment_visit_hiv_positive"
+    },
+    {
+      "label": "Less than 25 yrs  HIV Negative Patients, VIA OR VIA/VILI Post Treatment Screening",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__less_than_25__hiv_status__negative__screened_via_or_via_vili"
+    },
+    {
+      "label": " 25-49 yrs HIV Negative Patients, VIA OR VIA/VILI Post Treatment Screening",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__25_to_49__hiv_status__negative__screened_via_or_via_vili"
+    },
+    {
+      "label": "50 yrs and above HIV Negative Patients, VIA OR VIA/VILI Post Treatment Screening",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__50_and_above__hiv_status__negative__screened_via_or_via_vili"
+    },
+    {
+      "label": "Total HIV Negative VIA OR VIA/VILI Post Treatment Screenings",
+      "description": "",
+      "indicator": "screened_via_or_via_vili_post_treatment_visit_hiv_negative"
+    },
+    {
+      "label": "Total VIA OR VIA/VILI Post Treatment Screenings",
+      "description": "",
+      "indicator": "screened_via_or_via_vili_post_treatment_visit"
+    },
+    {
+      "label": "Total VIA OR VIA/VILI Screened (Initial + Routine + Post Treatment)",
+      "description": "",
+      "indicator": "screened_via_or_via_vili_all_visit"
+    },
+    {
+      "label": "Less than 25 yrs  HIV Positive Patients, Positive VIA OR VIA/VILI Initial Screening",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__less_than_25__hiv_status__positive__screened_positive_via_or_via_vili"
+    },
+    {
+      "label": " 25-49 yrs HIV Positive Patients, Positive VIA OR VIA/VILI Initial Screening",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__25_to_49__hiv_status__positive__screened_positive_via_or_via_vili"
+    },
+    {
+      "label": "50 yrs and above HIV Positive Patients, Positive VIA OR VIA/VILI Initial Screening",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__50_and_above__hiv_status__positive__screened_positive_via_or_via_vili"
+    },
+    {
+      "label": "Total VIA OR VIA/VILI HIV Positive Initial Screenings",
+      "description": "",
+      "indicator": "screened_positive_via_or_via_vili_initial_visit_hiv_positive"
+    },
+    {
+      "label": "Less than 25 yrs  HIV Negative Patients, Positive VIA OR VIA/VILI Initial Screening",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__less_than_25__hiv_status__negative__screened_positive_via_or_via_vili"
+    },
+    {
+      "label": " 25-49 yrs HIV Negative Patients, Positive VIA OR VIA/VILI Initial Screening",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__25_to_49__hiv_status__negative__screened_positive_via_or_via_vili"
+    },
+    {
+      "label": " 50 yrs and above HIV Negative Patients, Positive VIA OR VIA/VILI Initial Screening",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__50_and_above__hiv_status__negative__screened_positive_via_or_via_vili"
+    },
+    {
+      "label": "Total VIA OR VIA/VILI Positive Screenings HIV Negative Patients Initial Screening Visit",
+      "description": "",
+      "indicator": "screened_positive_via_or_via_vili_initial_visit_hiv_negative"
+    },
+    {
+      "label": "Total Positive VIA OR VIA/VILI Routine Screening",
+      "description": "",
+      "indicator": "screened_postive_via_or_via_vili_initial_visit"
+    },
+    {
+      "label": "Less than 25 yrs HIV Positive Patients, Positive VIA OR VIA/VILI Routine Screening",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__less_than_25__hiv_status__positive__screened_positive_via_or_via_vili"
+    },
+    {
+      "label": " 25-49 yrs HIV Positive Patients, Positive VIA OR VIA/VILI Routine Screening",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__25_to_49__hiv_status__positive__screened_positive_via_or_via_vili"
+    },
+    {
+      "label": "50 yrs and above HIV Positive Patients, Positive VIA OR VIA/VILI Routine Screening",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__50_and_above__hiv_status__positive__screened_positive_via_or_via_vili"
+    },
+    {
+      "label": "Total VIA OR VIA/VILI HIV Positive Routine Screenings",
+      "description": "",
+      "indicator": "screened_positive_via_or_via_vili_routine_visit_hiv_positive"
+    },
+    {
+      "label": "Less than 25 yrs HIV Negative Patients, Positive VIA OR VIA/VILI Routine Screening",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__less_than_25__hiv_status__negative__screened_positive_via_or_via_vili"
+    },
+    {
+      "label": " 25-49 yrs HIV Negative Patients, Positive VIA OR VIA/VILI Routine Screening",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__25_to_49__hiv_status__negative__screened_positive_via_or_via_vili"
+    },
+    {
+      "label": " 50 yrs and above HIV Negative Patients, Positive VIA OR VIA/VILI Routine Screening",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__50_and_above__hiv_status__negative__screened_positive_via_or_via_vili"
+    },
+    {
+      "label": "Total VIA OR VIA/VILI HIV Negative Routine Screenings",
+      "description": "",
+      "indicator": "screened_positive_via_or_via_vili_routine_visit_hiv_negative"
+    },
+    {
+      "label": "Total Positive Routine Screening",
+      "description": "",
+      "indicator": "screened_positive_via_or_via_vili_routine_visit"
+    },
+    {
+      "label": "Less than 25 yrs HIV Positive Patients, Positive VIA OR VIA/VILI Post Treatment Screening",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__less_than_25__hiv_status__positive__screened_positive_via_or_via_vili"
+    },
+    {
+      "label": " 25-49 yrs HIV Positive Patients, Positive VIA OR VIA/VILI Post Treatment Screening",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__25_to_49__hiv_status__positive__screened_positive_via_or_via_vili"
+    },
+    {
+      "label": "50 yrs and above HIV Positive Patients, Positive VIA OR VIA/VILI Post Treatment Screening",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__50_and_above__hiv_status__positive__screened_positive_via_or_via_vili"
+    },
+    {
+      "label": "Total Positive VIA OR VIA/VILI HIV Positive Post Treatment Screenings",
+      "description": "",
+      "indicator": "screened_positive_via_or_via_vili_post_treatment_visit_hiv_positive"
+    },
+    {
+      "label": "Less than 25 yrs HIV Negative Patients, Positive VIA OR VIA/VILI Post Treatment Screening",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__less_than_25__hiv_status__negative__screened_positive_via_or_via_vili"
+    },
+    {
+      "label": " 25-49 yrs HIV Negative Patients, Positive VIA OR VIA/VILI Post Treatment Screening",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__25_to_49__hiv_status__negative__screened_positive_via_or_via_vili"
+    },
+    {
+      "label": "50 yrs and above HIV Negative Patients, Positive VIA OR VIA/VILI Post Treatment Screening",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__50_and_above__hiv_status__negative__screened_positive_via_or_via_vili"
+    },
+    {
+      "label": "Total Positive VIA OR VIA/VILI HIV Negative Post Treatment Screenings",
+      "description": "",
+      "indicator": "screened_positive_via_or_via_vili_post_treatment_visit_hiv_negative"
+    },
+    {
+      "label": "Total Positive VIA/VILI Post Treatment Screening",
+      "description": "",
+      "indicator": "screened_positive_via_or_via_vili_post_treatment_visit"
+    },
+    {
+      "label": "Total Positive VIA OR VIA/VILI (Initial + Routine + Post Treatment) Screenings",
+      "description": "",
+      "indicator": "screened_positive_via_or_via_vili_all_visit"
+    },
+    {
+      "label": "Less than 25 yrs HIV Positive Patients, Treated via CyroTherapy on Initial Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__less_than_25__hiv_status__positive__treated_via_cyrotherapy"
+    },
+    {
+      "label": " 25-49 yrs HIV Positive Patients, Treated via CyroTherapy on Initial Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__25_to_49__hiv_status__positive__treated_via_cyrotherapy"
+    },
+    {
+      "label": "50 yrs and above HIV Positive Patients, Treated via CyroTherapy on Initial Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__50_and_above__hiv_status__positive__treated_via_cyrotherapy"
+    },
+    {
+      "label": "Total HIV Positive Patients, Treated via CyroTherapy on Initial Screening Visit",
+      "description": "",
+      "indicator": "treatment_method_cyrotherapy_initial_visit_hiv_positive"
+    },
+    {
+      "label": "Less than 25 yrs HIV Negative Patients, Treated via CyroTherapy on Initial Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__less_than_25__hiv_status__negative__treated_via_cyrotherapy"
+    },
+    {
+      "label": " 25-49 yrs HIV Negative Patients, Treated via CyroTherapy on Initial Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__25_to_49__hiv_status__negative__treated_via_cyrotherapy"
+    },
+    {
+      "label": " 50 yrs and above HIV Negative Patients, Treated via CyroTherapy on Initial Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__50_and_above__hiv_status__negative__treated_via_cyrotherapy"
+    },
+    {
+      "label": "Total HIV Negative Patients, Treated via CyroTherapy on Initial Screening Visit",
+      "description": "",
+      "indicator": "treatment_method_cyrotherapy_initial_visit_hiv_negative"
+    },
+    {
+      "label": "Total Patients treated via CyroTherapy on Initial Screening Visit",
+      "description": "",
+      "indicator": "treatment_method_cyrotherapy_initial_visit"
+    },
+    {
+      "label": "Less than 25 yrs HIV Positive Patients, Treated via Thermocoagulation on Initial Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__less_than_25__hiv_status__positive__treated_via_thermo_coagulation"
+    },
+    {
+      "label": " 25-49 yrs HIV Positive Patients, Treated via Thermocoagulation on Initial Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__25_to_49__hiv_status__positive__treated_via_thermo_coagulation"
+    },
+    {
+      "label": "50 yrs and above HIV Positive Patients, Treated via Thermocoagulation on Initial Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__50_and_above__hiv_status__positive__treated_via_thermo_coagulation"
+    },
+    {
+      "label": "Total HIV Positive Patients, Treated via Thermocoagulation on Initial Screening Visit",
+      "description": "",
+      "indicator": "treatment_method_thermo_coagulation_initial_visit_hiv_positive"
+    },
+    {
+      "label": "Less than 25 yrs HIV Negative Patients, Treated via Thermocoagulation on Initial Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__less_than_25__hiv_status__negative__treated_via_thermo_coagulation"
+    },
+    {
+      "label": " 25-49 yrs HIV Negative Patients, Treated via Thermocoagulation on Initial Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__25_to_49__hiv_status__negative__treated_via_thermo_coagulation"
+    },
+    {
+      "label": " 50 yrs and above HIV Negative Patients, Treated via Thermocoagulation on Initial Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__50_and_above__hiv_status__negative__treated_via_thermo_coagulation"
+    },
+    {
+      "label": "Total HIV Negative Patients, Treated via Thermocoagulation on Initial Screening Visit",
+      "description": "",
+      "indicator": "treatment_method_thermo_coagulation_initial_visit_hiv_negative"
+    },
+    {
+      "label": "Total Patients, Treated via Thermocoagulation on Initial Screening Visit",
+      "description": "",
+      "indicator": "treatment_method_thermo_coagulation_initial_visit"
+    },
+    {
+      "label": "Less than 25 yrs HIV Positive Patients, Treated via LEEP on Initial Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__less_than_25__hiv_status__positive__treated_via_leep"
+    },
+    {
+      "label": " 25-49 yrs HIV Positive Patients, Treated via LEEP on Initial Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__25_to_49__hiv_status__positive__treated_via_leep"
+    },
+    {
+      "label": "50 yrs and above HIV Positive Patients, Treated via LEEP on Initial Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__50_and_above__hiv_status__positive__treated_via_leep"
+    },
+    {
+      "label": "Total HIV Positive Patients, Treated via LEEP on Initial Screening Visit",
+      "description": "",
+      "indicator": "treatment_method_leep_initial_visit_hiv_positive"
+    },
+    {
+      "label": "Less than 25 yrs HIV Negative Patients, Treated via LEEP on Initial Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__less_than_25__hiv_status__negative__treated_via_leep"
+    },
+    {
+      "label": "25-49 yrs HIV Negative Patients, Treated via LEEP on Initial Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__25_to_49__hiv_status__negative__treated_via_leep"
+    },
+    {
+      "label": "50 yrs and above HIV Negative Patients, Treated via LEEP on Initial Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__50_and_above__hiv_status__negative__treated_via_leep"
+    },
+    {
+      "label": "Total HIV Negative Patients, Treated via LEEP on Initial Screening Visit",
+      "description": "",
+      "indicator": "treatment_method_leep_initial_visit_hiv_negative"
+    },
+    {
+      "label": "Total HIV Negative Patients, Treated via LEEP on Initial Screening Visit",
+      "description": "",
+      "indicator": "treatment_method_leep_initial_visit"
+    },
+    {
+      "label": "Less than 25 yrs HIV Positive Patients, Treated via Other methods on Initial Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__less_than_25__hiv_status__positive__treated_via_other"
+    },
+    {
+      "label": "25-49 yrs HIV Positive Patients, Treated via Other methods on Initial Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__25_to_49__hiv_status__positive__treated_via_other"
+    },
+    {
+      "label": "50 yrs and above HIV Positive Patients, Treated via Other methods on Initial Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__50_and_above__hiv_status__positive__treated_via_other"
+    },
+    {
+      "label": "Total HIV Positive Patients, Treated via Other methods on Initial Screening Visit",
+      "description": "",
+      "indicator": "treatment_method_other_initial_visit_hiv_positive"
+    },
+    {
+      "label": "Less than 25 yrs HIV Negative Patients, Treated via Other methods on Initial Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__less_than_25__hiv_status__negative__treated_via_other"
+    },
+    {
+      "label": " 25-49 yrs HIV Negative Patients, Treated via Other methods on Initial Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__25_to_49__hiv_status__negative__treated_via_other"
+    },
+    {
+      "label": " 50 yrs and above HIV Negative Patients, Treated via Other methods on Initial Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__50_and_above__hiv_status__negative__treated_via_other"
+    },
+    {
+      "label": "Total HIV Negative Patients, Treated via Other methods on Initial Screening Visit",
+      "description": "",
+      "indicator": "treatment_method_other_initial_visit_hiv_negative"
+    },
+    {
+      "label": "Total HIV Negative Patients, Treated via Other methods on Initial Screening Visit",
+      "description": "",
+      "indicator": "treatment_method_other_initial_visit"
+    },
+    {
+      "label": "Less than 25 yrs HIV Positive Patients, Treated via CyroTherapy methods on Routine Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__less_than_25__hiv_status__positive__treated_via_cyrotherapy"
+    },
+    {
+      "label": " 25-49 yrs HIV Positive Patients, Treated via CyroTherapy methods on Routine Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__25_to_49__hiv_status__positive__treated_via_cyrotherapy"
+    },
+    {
+      "label": "50 yrs and above HIV Positive Patients, Treated via CyroTherapy methods on Routine Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__50_and_above__hiv_status__positive__treated_via_cyrotherapy"
+    },
+    {
+      "label": "Total HIV Positive Patients, Treated via CyroTherapy methods on Routine Screening Visit",
+      "description": "",
+      "indicator": "treatment_method_cyrotherapy_routine_visit_hiv_positive"
+    },
+    {
+      "label": "Less than 25 yrs HIV Negative Patients, Treated via CyroTherapy methods on Routine Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__less_than_25__hiv_status__negative__treated_via_cyrotherapy"
+    },
+    {
+      "label": " 25-49 yrs HIV Negative Patients, Treated via CyroTherapy methods on Routine Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__25_to_49__hiv_status__negative__treated_via_cyrotherapy"
+    },
+    {
+      "label": " 50 yrs and above HIV Negative Patients, Treated via CyroTherapy methods on Routine Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__50_and_above__hiv_status__negative__treated_via_cyrotherapy"
+    },
+    {
+      "label": "Total HIV Negative Patients, Treated via CyroTherapy methods on Routine Screening Visit",
+      "description": "",
+      "indicator": "treatment_method_cyrotherapy_routine_visit_hiv_negative"
+    },
+    {
+      "label": "Patients Treated via CyroTherapy methods on Routine Screening Visit",
+      "description": "",
+      "indicator": "treatment_method_cyrotherapy_routine_visit"
+    },
+    {
+      "label": "Less than 25 yrs HIV Positive Patients, Treated via Thermocoagulation methods on Routine Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__less_than_25__hiv_status__positive__treated_via_thermo_coagulation"
+    },
+    {
+      "label": " 25-49 yrs HIV Positive Patients, Treated via Thermocoagulation methods on Routine Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__25_to_49__hiv_status__positive__treated_via_thermo_coagulation"
+    },
+    {
+      "label": "50 yrs and above HIV Positive Patients, Treated via Thermocoagulation methods on Routine Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__50_and_above__hiv_status__positive__treated_via_thermo_coagulation"
+    },
+    {
+      "label": "HIV Positive Patients, Treated via Thermocoagulation methods on Routine Screening Visit",
+      "description": "",
+      "indicator": "treatment_method_thermo_coagulation_routine_visit_hiv_positive"
+    },
+    {
+      "label": "Less than 25 yrs HIV Negative Patients, Treated via Thermocoagulation methods on Routine Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__less_than_25__hiv_status__negative__treated_via_thermo_coagulation"
+    },
+    {
+      "label": " 25-49 yrs HIV Negative Patients, Treated via Thermocoagulation methods on Routine Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__25_to_49__hiv_status__negative__treated_via_thermo_coagulation"
+    },
+    {
+      "label": " 50 yrs and above HIV Negative Patients, Treated via Thermocoagulation methods on Routine Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__50_and_above__hiv_status__negative__treated_via_thermo_coagulation"
+    },
+    {
+      "label": "HIV Negative Patients, Treated via Thermocoagulation methods on Routine Screening Visit",
+      "description": "",
+      "indicator": "treatment_method_thermo_coagulation_routine_visit_hiv_negative"
+    },
+    {
+      "label": "Patients Treated via Thermocoagulation methods on Routine Screening Visit",
+      "description": "",
+      "indicator": "treatment_method_thermo_coagulation_routine_visit"
+    },
+    {
+      "label": "Less than 25 yrs HIV Positive Patients, Treated via LEEP methods on Routine Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__less_than_25__hiv_status__positive__treated_via_leep"
+    },
+    {
+      "label": "25-49 yrs HIV Positive Patients, Treated via LEEP methods on Routine Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__25_to_49__hiv_status__positive__treated_via_leep"
+    },
+    {
+      "label": "50 yrs and above HIV Positive Patients, Treated via LEEP methods on Routine Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__50_and_above__hiv_status__positive__treated_via_leep"
+    },
+    {
+      "label": "HIV Positive Patients Treated via LEEP methods on Routine Screening Visit",
+      "description": "",
+      "indicator": "treatment_method_leep_routine_visit_hiv_positive"
+    },
+    {
+      "label": "Less than 25 yrs HIV Negative Patients, Treated via LEEP methods on Routine Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__less_than_25__hiv_status__negative__treated_via_leep"
+    },
+    {
+      "label": " 25-49 yrs HIV Negative Patients, Treated via LEEP methods on Routine Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__25_to_49__hiv_status__negative__treated_via_leep"
+    },
+    {
+      "label": " 50 yrs and above HIV Negative Patients, Treated via LEEP methods on Routine Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__50_and_above__hiv_status__negative__treated_via_leep"
+    },
+    {
+      "label": "Total HIV Negative Patients, Treated via LEEP methods on Routine Screening Visit",
+      "description": "",
+      "indicator": "treatment_method_leep_routine_visit_hiv_negative"
+    },
+    {
+      "label": "Patients, Treated via LEEP methods on Routine Screening Visit",
+      "description": "",
+      "indicator": "treatment_method_leep_routine_visit"
+    },
+    {
+      "label": "Less than 25 yrs HIV Positive Patients, Treated via Other methods on Routine Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__less_than_25__hiv_status__positive__treated_via_other"
+    },
+    {
+      "label": " 25-49 yrs HIV Positive Patients, Treated via Other methods on Routine Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__25_to_49__hiv_status__positive__treated_via_other"
+    },
+    {
+      "label": "50 yrs and above HIV Positive Patients, Treated via Other methods on Routine Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__50_and_above__hiv_status__positive__treated_via_other"
+    },
+    {
+      "label": "HIV Positive Patients, Treated via Other methods on Routine Screening Visit",
+      "description": "",
+      "indicator": "treatment_method_other_routine_visit_hiv_positive"
+    },
+    {
+      "label": "Less than 25 yrs HIV Negative Patients, Treated via Other methods on Routine Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__less_than_25__hiv_status__negative__treated_via_other"
+    },
+    {
+      "label": " 25-49 yrs HIV Negative Patients, Treated via Other methods on Routine Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__25_to_49__hiv_status__negative__treated_via_other"
+    },
+    {
+      "label": " 50 yrs and above HIV Negative Patients, Treated via Other methods on Routine Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__50_and_above__hiv_status__negative__treated_via_other"
+    },
+    {
+      "label": "HIV Negative Patients, Treated via Other methods on Routine Screening Visit",
+      "description": "",
+      "indicator": "treatment_method_other_routine_visit_hiv_negative"
+    },
+    {
+      "label": "Patients treated via Other methods on Routine Screening Visit",
+      "description": "",
+      "indicator": "treatment_method_other_routine_visit"
+    },
+    {
+      "label": "Less than 25 yrs HIV Positive Patients, Treated via CyroTherapy on Routine Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__less_than_25__hiv_status__positive__treated_via_cyrotherapy"
+    },
+    {
+      "label": " 25-49 yrs HIV Positive Patients, Treated via CyroTherapy on Routine Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__25_to_49__hiv_status__positive__treated_via_cyrotherapy"
+    },
+    {
+      "label": "50 yrs and above HIV Positive Patients, Treated via CyroTherapy on Routine Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__50_and_above__hiv_status__positive__treated_via_cyrotherapy"
+    },
+    {
+      "label": "Total HIV Positive Patients, Treated via CyroTherapy on Routine Screening Visit",
+      "description": "",
+      "indicator": "treatment_method_cyrotherapy_post_treatment_visit_hiv_positive"
+    },
+    {
+      "label": "Less than 25 yrs HIV Negative Patients, Treated via CyroTherapy on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__less_than_25__hiv_status__negative__treated_via_cyrotherapy"
+    },
+    {
+      "label": " 25-49 yrs HIV Negative Patients, Treated via CyroTherapy on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__25_to_49__hiv_status__negative__treated_via_cyrotherapy"
+    },
+    {
+      "label": " 50 yrs and above HIV Negative Patients, Treated via CyroTherapy on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__50_and_above__hiv_status__negative__treated_via_cyrotherapy"
+    },
+    {
+      "label": "HIV Negative Patients, Treated via CyroTherapy on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "treatment_method_cyrotherapy_post_treatment_visit_hiv_negative"
+    },
+    {
+      "label": "Patients treated via CyroTherapy on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "treatment_method_cyrotherapy_post_treatment_visit"
+    },
+    {
+      "label": "Less than 25 yrs HIV Postive Patients, Treated via Thermocoagulation on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__less_than_25__hiv_status__positive__treated_via_thermo_coagulation"
+    },
+    {
+      "label": " 25-49 yrs HIV Postive Patients, Treated via Thermocoagulation on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__25_to_49__hiv_status__positive__treated_via_thermo_coagulation"
+    },
+    {
+      "label": "50 yrs and above HIV Postive Patients, Treated via Thermocoagulation on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__50_and_above__hiv_status__positive__treated_via_thermo_coagulation"
+    },
+    {
+      "label": "HIV Postive Patients treated via Thermocoagulation on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "treatment_method_thermo_coagulation_post_treatment_visit_hiv_positive"
+    },
+    {
+      "label": "Less than 25 yrs HIV Negative Patients, Treated via Thermocoagulation on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__less_than_25__hiv_status__negative__treated_via_thermo_coagulation"
+    },
+    {
+      "label": " 25-49 yrs HIV Negative Patients, Treated via Thermocoagulation on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__25_to_49__hiv_status__negative__treated_via_thermo_coagulation"
+    },
+    {
+      "label": " 50 yrs and above HIV Negative Patients, Treated via Thermocoagulation on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__50_and_above__hiv_status__negative__treated_via_thermo_coagulation"
+    },
+    {
+      "label": "HIV Negative Patients, Treated via Thermocoagulation on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "treatment_method_thermo_coagulation_post_treatment_visit_hiv_negative"
+    },
+    {
+      "label": "Patients treated via Thermocoagulation on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "treatment_method_thermo_coagulation_post_treatment_visit"
+    },
+    {
+      "label": "Less than 25 yrs HIV Positive Patients, Treated via LEEP on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__less_than_25__hiv_status__positive__treated_via_leep"
+    },
+    {
+      "label": " 25-49 yrs HIV Positive Patients, Treated via LEEP on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__25_to_49__hiv_status__positive__treated_via_leep"
+    },
+    {
+      "label": "50 yrs and above HIV Positive Patients, Treated via LEEP on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__50_and_above__hiv_status__positive__treated_via_leep"
+    },
+    {
+      "label": "Total HIV Positive Patients, Treated via LEEP on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "treatment_method_leep_post_treatment_visit_hiv_positive"
+    },
+    {
+      "label": "Less than 25 yrs HIV Negative Patients, Treated via LEEP on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__less_than_25__hiv_status__negative__treated_via_leep"
+    },
+    {
+      "label": " 25-49 yrs HIV Negative Patients, Treated via LEEP on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__25_to_49__hiv_status__negative__treated_via_leep"
+    },
+    {
+      "label": " 50 yrs and above HIV Negative Patients, Treated via LEEP on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__50_and_above__hiv_status__negative__treated_via_leep"
+    },
+    {
+      "label": "HIV Negative Patients, Treated via LEEP on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "treatment_method_leep_post_treatment_visit_hiv_negative"
+    },
+    {
+      "label": "Patients, Treated via LEEP on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "treatment_method_leep_post_treatment_visit"
+    },
+    {
+      "label": "Less than 25 yrs HIV Positive Patients, Treated via Other Methods on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__less_than_25__hiv_status__positive__treated_via_other"
+    },
+    {
+      "label": " 25-49 yrs HIV Positive Patients, Treated via Other Methods on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__25_to_49__hiv_status__positive__treated_via_other"
+    },
+    {
+      "label": "50 yrs and above HIV Positive Patients, Treated via Other Methods on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__50_and_above__hiv_status__positive__treated_via_other"
+    },
+    {
+      "label": "HIV Positive Patients, Treated via Other Methods on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "treatment_method_other_post_treatment_visit_hiv_positive"
+    },
+    {
+      "label": "Less than 25 yrs HIV Negative Patients, Treated via Other Methods on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__less_than_25__hiv_status__negative__treated_via_other"
+    },
+    {
+      "label": "25-49 yrs HIV Negative Patients, Treated via Other Methods on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__25_to_49__hiv_status__negative__treated_via_other"
+    },
+    {
+      "label": " 50 yrs and above HIV Negative Patients, Treated via Other Methods on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__50_and_above__hiv_status__negative__treated_via_other"
+    },
+    {
+      "label": "HIV Negative Patients, Treated via Other Methods on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "treatment_method_other_post_treatment_visit_hiv_negative"
+    },
+    {
+      "label": "Patients treated via Other Methods on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "treatment_method_other_post_treatment_visit"
+    },
+    {
+      "label": "Screened VIA or VIA/VILI (Initial + Routine + Post Treatment)",
+      "description": "",
+      "indicator": "screened_via_or_via_vili_all_visit"
+    },
+    {
+      "label": "Less than 25 yrs HIV Positive Patients screend on Initial Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__less_than_25__screened"
+    },
+    {
+      "label": " 25-49 yrs HIV Positive Patients screend on Initial Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__25_to_49__screened"
+    },
+    {
+      "label": "50 yrs and above HIV Positive Patients screend on Initial Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__50_and_above__screened"
+    },
+    {
+      "label": "HIV Positive Patients screend on Initial Screening Visit",
+      "description": "",
+      "indicator": "hiv_positive_screened_initial_visit"
+    },
+    {
+      "label": "Less than 25 yrs HIV Positive Patients screened on Routine Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__less_than_25__screened"
+    },
+    {
+      "label": " 25-49 yrs HIV Positive Patients screened on Routine Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__25_to_49__screened"
+    },
+    {
+      "label": "50 yrs and above HIV Positive Patients screened on Routine Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__50_and_above__screened"
+    },
+    {
+      "label": "HIV Positive Patients screend on Routine Screening Visit",
+      "description": "",
+      "indicator": "hiv_positive_screened_routine_visit"
+    },
+    {
+      "label": "Less than 25 yrs HIV Positive Patients screened on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__less_than_25__screened"
+    },
+    {
+      "label": "25-49 yrs HIV Positive Patients screened on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__25_to_49__screened"
+    },
+    {
+      "label": "50 yrs and above HIV Positive Patients screened on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__50_and_above__screened"
+    },
+    {
+      "label": "HIV Positive Patients screened on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "hiv_positive_screened_post_treatment_visit"
+    },
+    {
+      "label": "HIV Positive Screenings (Initial + Routine + Post Treatment)",
+      "description": "",
+      "indicator": "hiv_positive_screened_all_visit"
+    },
+    {
+      "label": "Less than 25 yrs HIV Positive Suspicious Cancer Patients screened on Initial Treatment Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__less_than_25__hiv_status__positive__suspicious_cancer_lesions"
+    },
+    {
+      "label": "25-49 yrs HIV Positive Patients screened on Initial Treatment Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__25_to_49__hiv_status__positive__suspicious_cancer_lesions"
+    },
+    {
+      "label": "50 yrs and above HIV Positive Patients screened on Initial Treatment Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__50_and_above__hiv_status__positive__suspicious_cancer_lesions"
+    },
+    {
+      "label": "HIV Positive Patients screened on Initial Treatment Screening Visit",
+      "description": "",
+      "indicator": "hiv_positive_via_or_via_vili_suspicious_lesion_initial_visit"
+    },
+    {
+      "label": "Less than 25 yrs HIV Negative Suspicious Cancer Patients screened on Initial Treatment Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__less_than_25__hiv_status__negative__suspicious_cancer_lesions"
+    },
+    {
+      "label": "25-49 yrs HIV Negative Suspicious Cancer Patients screened on Initial Treatment Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__25_to_49__hiv_status__negative__suspicious_cancer_lesions"
+    },
+    {
+      "label": "50 yrs and above HIV Negative Suspicious Cancer Patients screened on Initial Treatment Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__initial__age_range__50_and_above__hiv_status__negative__suspicious_cancer_lesions"
+    },
+    {
+      "label": "HIV Negative Suspicious Cancer Patients screened on Initial Treatment Screening Visit",
+      "description": "",
+      "indicator": "hiv_negative_via_or_via_vili_suspicious_lesion_initial_visit"
+    },
+    {
+      "label": "Suspicious Cancer Patients screened on Initial Treatment Screening Visit",
+      "description": "",
+      "indicator": "via_or_via_vili_suspicious_lesion_initial_visit"
+    },
+    {
+      "label": "Less than 25 yrs HIV Positive Suspicious Cancer Patients screened on Routine Treatment Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__less_than_25__hiv_status__positive__suspicious_cancer_lesions"
+    },
+    {
+      "label": "25-49 yrs and above HIV Positive Suspicious Cancer Patients screened on Routine Treatment Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__25_to_49__hiv_status__positive__suspicious_cancer_lesions"
+    },
+    {
+      "label": "50 yrs and above HIV Positive Suspicious Cancer Patients screened on Routine Treatment Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__50_and_above__hiv_status__positive__suspicious_cancer_lesions"
+    },
+    {
+      "label": "HIV Positive Suspicious Cancer Patients screened on Routine Treatment Screening Visit",
+      "description": "",
+      "indicator": "hiv_positive_via_or_via_vili_suspicious_lesion_routine_visit"
+    },
+    {
+      "label": "Less than 25 yrs HIV Negative Suspicious Cancer Patients screened on Routine Treatment Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__less_than_25__hiv_status__negative__suspicious_cancer_lesions"
+    },
+    {
+      "label": "25-49 yrs HIV Negative Suspicious Cancer Patients screened on Routine Treatment Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__25_to_49__hiv_status__negative__suspicious_cancer_lesions"
+    },
+    {
+      "label": "50 yrs and above HIV Negative Suspicious Cancer Patients screened on Routine Treatment Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__routine__age_range__50_and_above__hiv_status__negative__suspicious_cancer_lesions"
+    },
+    {
+      "label": "HIV Negative Suspicious Cancer Patients screened on Routine Treatment Screening Visit",
+      "description": "",
+      "indicator": "hiv_negative_via_or_via_vili_suspicious_lesion_routine_visit"
+    },
+    {
+      "label": "Suspicious Cancer Patients screened on Routine Treatment Screening Visit",
+      "description": "",
+      "indicator": "via_or_via_vili_suspicious_lesion_routine_visit"
+    },
+    {
+      "label": "Less than 25 yrs HIV Positive Suspicious Cancer Patients screened on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__less_than_25__hiv_status__positive__suspicious_cancer_lesions"
+    },
+    {
+      "label": "25-49 HIV Positive Suspicious Cancer Patients screened on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__25_to_49__hiv_status__positive__suspicious_cancer_lesions"
+    },
+    {
+      "label": "50 yrs and above HIV Positive Suspicious Cancer Patients screened on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__50_and_above__hiv_status__positive__suspicious_cancer_lesions"
+    },
+    {
+      "label": "HIV Positive Suspicious Cancer Patients screened on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "hiv_positive_via_or_via_vili_suspicious_lesion_post_treatment_visit"
+    },
+    {
+      "label": "Less than 25 yrs HIV Negative Suspicious Cancer Patients screened on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__less_than_25__hiv_status__negative__suspicious_cancer_lesions"
+    },
+    {
+      "label": "25-49 HIV Negative Suspicious Cancer Patients screened on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__25_to_49__hiv_status__negative__suspicious_cancer_lesions"
+    },
+    {
+      "label": "50 yrs and above HIV Negative Suspicious Cancer Patients screened on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "dc__screening_visit_type__post_treatment__age_range__50_and_above__hiv_status__negative__suspicious_cancer_lesions"
+    },
+    {
+      "label": "HIV Negative Suspicious Cancer Patients screened on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "hiv_negative_via_or_via_vili_suspicious_lesion_post_treatment_visit"
+    },
+    {
+      "label": "Suspicious Cancer Patients screened on Post Treatment Screening Visit",
+      "description": "",
+      "indicator": "via_or_via_vili_suspicious_lesion_post_treatment_visit"
+    },
+    {
+      "label": "Suspicious Cancer Patients",
+      "description": "",
+      "indicator": "via_or_via_vili_suspicious_lesion"
+    }
+  ]
+}
