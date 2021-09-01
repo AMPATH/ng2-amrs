@@ -26,6 +26,9 @@ import { SurgeReportComponent } from "./surge/surge-report.component";
 import { ReportingUtilitiesModule } from "src/app/reporting-utilities/reporting-utilities.module";
 import { PrepReportComponent } from "./prep-report/prep-report.component";
 import { IPTReportComponent } from "./ipt-report/ipt-report.component";
+import { MOH412HIVDataAnalyticsComponent } from './moh-412-report/moh-412-hiv-data-analytics.component';
+import { MOH412HIVDataAnalyticsPatientListComponent } from './moh-412-report/moh-412-hiv-data-analytics-patient-list.component';
+import { OncologyProgramModule } from './../../oncology-care-lib/oncology-care-lib.module';
 
 @NgModule({
   imports: [
@@ -41,12 +44,15 @@ import { IPTReportComponent } from "./ipt-report/ipt-report.component";
     PatientProgramEnrollmentModule,
     ChangeDepartmentModule,
     ReportingUtilitiesModule,
+    OncologyProgramModule
   ],
   exports: [
     RouterModule,
     AdminDashboardClinicFlowComponent,
     HivSummaryIndicatorsComponent,
     HivCareComparativeAnalyticsComponent,
+    MOH412HIVDataAnalyticsComponent,
+    MOH412HIVDataAnalyticsPatientListComponent
   ],
   declarations: [
     AdminDashboardClinicFlowComponent,
@@ -58,6 +64,8 @@ import { IPTReportComponent } from "./ipt-report/ipt-report.component";
     SurgeReportComponent,
     PrepReportComponent,
     IPTReportComponent,
+    MOH412HIVDataAnalyticsComponent,
+    MOH412HIVDataAnalyticsPatientListComponent
   ],
   providers: [
     DataAnalyticsDashboardService,

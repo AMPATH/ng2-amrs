@@ -53,6 +53,8 @@ import { FamilyTestingBaseComponent } from "src/app/hiv-care-lib/family-testing/
 import { FamilyTestingContactComponent } from "src/app/hiv-care-lib/family-testing/family-testing-contact-list.component";
 import { AddContactTraceComponent } from "src/app/hiv-care-lib/family-testing/contact-trace/add-contact-trace.component";
 import { EditContactTraceComponent } from "src/app/hiv-care-lib/family-testing/contact-trace/edit-contact-trace.component";
+import { MOH412ClinicDashboardComponent } from './moh-412-report/moh-412-clinic-dashboard.component';
+import { MOH412ClinicDashboardPatientListComponent } from './moh-412-report/moh-412-clinic-dashboard-patient-list.component';
 
 const routes: Routes = [
   {
@@ -279,6 +281,19 @@ const routes: Routes = [
             component: PatientGainsAndLosesPatientListComponent,
           },
         ],
+      },
+      {
+        path: 'moh-412-report',
+        children: [
+          {
+            path: '',
+            component: MOH412ClinicDashboardComponent
+          },
+          {
+            path: 'patient-list',
+            component: MOH412ClinicDashboardPatientListComponent
+          }
+        ]
       },
       {
         path: "cross-border-report",

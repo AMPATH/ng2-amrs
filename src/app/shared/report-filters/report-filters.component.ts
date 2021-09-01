@@ -73,6 +73,7 @@ export class ReportFiltersComponent
   @Output() public onMonthChange = new EventEmitter<any>();
   @Output() public startingMonthChange = new EventEmitter<any>();
   @Output() public endingMonthChange = new EventEmitter<any>();
+  @Output() public locationTypeChange = new EventEmitter<any>();
   public genderOptions: Array<any> = [
     {
       value: "F",
@@ -93,6 +94,17 @@ export class ReportFiltersComponent
       label: "Monthly",
     },
   ];
+  public locationTypeOptions = [
+    {
+      label: 'Screening Location',
+      value: 'screening_location'
+    },
+    {
+      label: 'Primary Care Facility',
+      value: 'primary_care_facility'
+    }
+  ];
+  public selectedLoactionType: any;
   public selectedIndicatorTagsSelectedAll = false;
   public selectedProgramTagsSelectedAll = false;
   @Input() public selectedPeriod = "";
@@ -504,5 +516,9 @@ export class ReportFiltersComponent
   }
   public monthChange(value) {
     this.onMonthChange.emit(value);
+  }
+  public onlocationTypeChange($event: any): void {
+    console.log('Location Type Change', $event);
+    this.locationTypeChange.emit($event.value);
   }
 }

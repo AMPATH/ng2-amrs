@@ -1,0 +1,142 @@
+<div class="container-fluid">
+  <div class="row" id="report-body">
+    <div
+      class="col-md-12 col-lg-12 col-sm-12 col-xs-12"
+      *ngIf="sectionData.length > 0"
+    >
+      <div
+        class="panel panel-primary"
+        *ngFor="let section of sectionData; let i = index"
+      >
+        <div
+          class="panel-heading"
+          data-toggle="collapse"
+          [attr.data-target]="'#section' + i"
+        >
+          {{ section.page }}
+        </div>
+        <div class="panel-body collapse" [attr.id]="'section' + i">
+          <div class="row">
+            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+              <ul
+                class="list-group report-section"
+                *ngFor="let pageBody of section.pageBody"
+              >
+                <li class="list-group-item">
+                  <b>{{ pageBody.sectionTitle }}</b>
+                </li>
+                <div class="panel-body">
+                  <div class="row">
+                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                      <ul
+                        class="list-group report-section"
+                        *ngFor="let section of pageBody.sections"
+                      >
+                        <li class="list-group-item">
+                          <b>{{ section.name }}</b>
+                        </li>
+                        <div class="panel-body">
+                          <div class="row">
+                            <div
+                              class="col-md-12 col-lg-12 col-sm-12 col-xs-12"
+                            >
+                              <ul
+                                class="list-group report-section"
+                                *ngFor="let body of section.body"
+                              >
+                                <li class="list-group-item">
+                                  <b>{{ body.title }}</b>
+                                </li>
+                                <div class="panel-body">
+                                  <div class="row">
+                                    <div
+                                      class="col-md-12 col-lg-12 col-sm-12 col-xs-12"
+                                    >
+                                      <table class="table table-striped">
+                                        <th
+                                          colspan="2"
+                                          class="indicator-header"
+                                        >
+                                          Age Range
+                                        </th>
+                                        <th
+                                          colspan="1"
+                                          class="location-header"
+                                          *ngFor="let header of colHeaders"
+                                        >
+                                          {{ header.location }}
+                                        </th>
+                                        <tbody>
+                                          <tr
+                                            *ngFor="
+                                              let indicator of body.indicators
+                                            "
+                                          >
+                                            <td
+                                              colspan="2"
+                                              class="indicator-td"
+                                              [ngClass]="{
+                                                'totals-count':
+                                                  indicator.label === 'Total'
+                                              }"
+                                            >
+                                              {{ indicator.label }}
+                                            </td>
+                                            <td
+                                              colspan="1"
+                                              class="indicator-data-td"
+                                              [ngClass]="{
+                                                'totals-count':
+                                                  indicator.label === 'Total'
+                                              }"
+                                              *ngFor="
+                                                let data of indicator.indicatorData
+                                              "
+                                            >
+                                              <span
+                                                *ngIf="
+                                                  indicator.label === 'Total'
+                                                "
+                                                (click)="
+                                                  navigateToPatientList(
+                                                    data,
+                                                    indicator.indicator
+                                                  )
+                                                "
+                                                >{{ data.count }}</span
+                                              >
+                                              <a
+                                                *ngIf="
+                                                  indicator.label !== 'Total'
+                                                "
+                                                (click)="
+                                                  navigateToPatientList(
+                                                    data,
+                                                    indicator.indicator
+                                                  )
+                                                "
+                                                >{{ data.count }}</a
+                                              >
+                                            </td>
+                                          </tr>
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </div>
+                                </div>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -10,7 +10,8 @@ import { DataEntryStatisticsPatientListComponent } from "../../data-entry-statis
 import { PatientsProgramEnrollmentComponent } from "../../patients-program-enrollment/patients-program-enrollment.component";
 import { ProgramEnrollmentPatientListComponent } from "../../patients-program-enrollment/program-enrollent-patient-list.component";
 import { ChangeDepartmentComponent } from "../change-department/change-department.component";
-
+import { MOH412OncologyDataAnalyticsComponent } from './oncology-reports/moh-412-report/moh-412-data-analytics.component';
+import { MOH412OncologyDataAnalyticsPatientListComponent } from './oncology-reports/moh-412-report/moh-412-data-analytics-patient-list.component';
 const routes: Routes = [
   {
     path: "oncology-reports",
@@ -30,6 +31,14 @@ const routes: Routes = [
       {
         path: ":screening-program/patient-list",
         component: OncologySummaryIndicatorsPatientListComponent,
+      },
+      {
+        path: 'moh-412-report',
+        component: MOH412OncologyDataAnalyticsComponent
+      },
+      {
+        path: 'moh-412-report/patient-list',
+        component: MOH412OncologyDataAnalyticsPatientListComponent
       },
       {
         path: "combined-breast-cervical-cancer-screening-numbers",
