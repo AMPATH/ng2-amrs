@@ -44,6 +44,8 @@ import { MonthlyReportComponent } from 'src/app/hiv-care-lib/monthly-report/mont
 // tslint:disable-next-line: max-line-length
 import { ClinicDashboardGainsAndLossesComponent } from './patient-gain-and-loses-report/clinic-dashboard-gains-and-losses.component';
 import { PatientGainsAndLosesPatientListComponent } from 'src/app/hiv-care-lib/patient-gains-and-loses/patient-gains-and-loses-patient-list/patient-gains-and-loses-patient-list.component';
+import { IptReportComponent } from './ipt-report/ipt-report.component';
+import { IptReportPatientListComponent } from 'src/app/hiv-care-lib/ipt-report/ipt-report-patient-list.component';
 
 import { ClinicDashboardHeiReportComponent } from './clinic-dashboard-hei-indicators-report/clinic-dashboard-hei-report.component';
 import { HeiIndicatorsPatientListComponent } from './../../hiv-care-lib/hei-indicators-report/hei-indicators-patient-list.component';
@@ -413,6 +415,19 @@ const routes: Routes = [
           {
             path: 'patient-list',
             component: PatientGainsAndLosesPatientListComponent
+          }
+        ]
+      },
+      {
+        path: 'ipt-report',
+        children: [
+          {
+            path: '',
+            component: IptReportComponent
+          },
+          {
+            path: 'ipt-report-patientlist',
+            component: IptReportPatientListComponent
           }
         ]
       },

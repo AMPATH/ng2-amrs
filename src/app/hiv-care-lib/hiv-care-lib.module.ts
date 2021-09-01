@@ -110,6 +110,8 @@ import { AddContactTraceComponent } from './family-testing/contact-trace/add-con
 import { EditContactTraceComponent } from './family-testing/contact-trace/edit-contact-trace.component';
 import { ContactListComponent } from './family-testing/contact-list/contact-list.component';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown'; // import { ProgramVisitEncounterSearchModule } from '../program-visit-encounter-search/program-visit-encounter-search.module';
+import { IptReportPatientListComponent } from 'src/app/hiv-care-lib/ipt-report/ipt-report-patient-list.component';
+import { IptBaseReportComponent } from 'src/app/hiv-care-lib/ipt-report/ipt-report-base.component';
 
 import { PatientGainsFiltersComponent } from './patient-gains-and-loses/patient-gains-and-losses-filters/patient-gains-and-losses-filter.component';
 @NgModule({
@@ -261,7 +263,9 @@ import { PatientGainsFiltersComponent } from './patient-gains-and-loses/patient-
     EditContactTraceComponent,
     ContactListComponent,
     PatientGainsAndLosesComponent,
-    PatientGainsFiltersComponent
+    PatientGainsFiltersComponent,
+    IptBaseReportComponent,
+    IptReportPatientListComponent
   ],
   providers: [
     MOHReportService,

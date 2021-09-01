@@ -78,6 +78,8 @@ import { ClinicDashboardGainsAndLossesComponent } from './patient-gain-and-loses
 import { MOH412ClinicDashboardComponent } from './moh-412-report/moh-412-clinic-dashboard.component';
 import { MOH412ClinicDashboardPatientListComponent } from './moh-412-report/moh-412-clinic-dashboard-patient-list.component';
 import { OncologyProgramModule } from './../../oncology-care-lib/oncology-care-lib.module';
+import { IptReportComponent } from './ipt-report/ipt-report.component';
+
 @NgModule({
   imports: [
     clinicDashboardHivRouting,
@@ -171,7 +173,8 @@ import { OncologyProgramModule } from './../../oncology-care-lib/oncology-care-l
     FamilyTestingComponent,
     ClinicDashboardGainsAndLossesComponent,
     MOH412ClinicDashboardComponent,
-    MOH412ClinicDashboardPatientListComponent
+    MOH412ClinicDashboardPatientListComponent,
+    IptReportComponent
   ],
   providers: [ClinicalSummaryVisualizationService],
   entryComponents: [PatientStatusDatalistCellComponent]
