@@ -235,6 +235,22 @@
           (onLocationChange)="getSelectedLocations($event)"
         ></location-filter>
       </div>
+      <div *ngIf="isEnabled('locationTypeControl')">
+        <div class="form-group col-md-12">
+          <div class="form-row">
+            <label for="location_type">Location Type: </label>
+            <ng-select
+              [items]="locationTypeOptions"
+              bindLabel="name"
+              bind
+              placeholder="Select Location Type"
+              [(ngModel)]="selectedLocationType"
+              (change)="onlocationTypeChange($event)"
+            >
+            </ng-select>
+          </div>
+        </div>
+      </div>
       <div class="date-range" *ngIf="isEnabled('monthControl')">
         <div class="form-group col-md-12">
           <div class="form-row">
