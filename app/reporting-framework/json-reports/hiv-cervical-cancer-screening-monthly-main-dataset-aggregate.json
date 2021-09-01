@@ -1,0 +1,670 @@
+{
+  "name": "hivCervicalCancerScreeningMonthlyMainDatasetAggregate",
+  "version": "1.0",
+  "tag": "hiv_cervical_cancer_treatment_monthly_aggregate",
+  "description": "",
+  "uses": [
+    {
+      "name": "hivCervicalCancerScreeningMonthlyMainDatasetBase",
+      "version": "1.0",
+      "type": "dataset_def"
+    }
+  ],
+  "sources": [
+    {
+      "dataSet": "hivCervicalCancerScreeningMonthlyMainDatasetBase",
+      "alias": "hc"
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "hc.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "hc.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "hc.location_uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "reporting_month",
+      "column": "hc.reporting_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "hc.location"
+    },
+    {
+      "type": "simple_column",
+      "alias": "age_range",
+      "column": "hc.age_range"
+    },
+    {
+      "type": "simple_column",
+      "alias": "hiv_status",
+      "column": "hc.hiv_status"
+    },
+    {
+      "type": "simple_column",
+      "alias": "screening_visit_type",
+      "column": "hc.screening_visit_type"
+    },
+    {
+      "type": "derived_column",
+      "alias": "screened_initial_visit",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.screened_initial_visit)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "screened_via_or_via_vili_initial_visit",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.screened_via_or_via_vili_initial_visit)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "screened_via_or_via_vili_initial_visit_hiv_positive",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.screened_via_or_via_vili_initial_visit_hiv_positive)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "screened_via_or_via_vili_initial_visit_hiv_negative",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.screened_via_or_via_vili_initial_visit_hiv_negative)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "screened_routine_visit",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.screened_routine_visit)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "screened_via_or_via_vili_routine_visit",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.screened_via_or_via_vili_routine_visit)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "screened_via_or_via_vili_routine_visit_hiv_positive",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.screened_via_or_via_vili_routine_visit_hiv_positive)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "screened_via_or_via_vili_routine_visit_hiv_negative",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.screened_via_or_via_vili_routine_visit_hiv_negative)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "screened_post_treatment_visit",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.screened_post_treatment_visit)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "screened_via_or_via_vili_post_treatment_visit",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.screened_via_or_via_vili_post_treatment_visit)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "screened_via_or_via_vili_post_treatment_visit_hiv_positive",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.screened_via_or_via_vili_post_treatment_visit_hiv_positive)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "screened_via_or_via_vili_post_treatment_visit_hiv_negative",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.screened_via_or_via_vili_post_treatment_visit_hiv_negative)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "screened_positive_via_or_via_vili_initial_visit_hiv_positive",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.screened_positive_via_or_via_vili_initial_visit_hiv_positive)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "screened_positive_via_or_via_vili_initial_visit_hiv_negative",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.screened_postive_via_or_via_vili_initial_visit_hiv_negative)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "screened_postive_via_or_via_vili_initial_visit",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.screened_postive_via_or_via_vili_initial_visit)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "screened_positive_via_or_via_vili_routine_visit_hiv_positive",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.screened_positive_via_or_via_vili_routine_visit_hiv_positive)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "screened_positive_via_or_via_vili_routine_visit_hiv_negative",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.screened_positive_via_or_via_vili_routine_visit_hiv_negative)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "screened_positive_via_or_via_vili_routine_visit",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.screened_positive_via_or_via_vili_routine_visit)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "screened_positive_via_or_via_vili_post_treatment_visit_hiv_positive",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.screened_positive_via_or_via_vili_post_treatment_visit_hiv_positive)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "screened_positive_via_or_via_vili_post_treatment_visit_hiv_negative",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.screened_positive_via_or_via_vili_post_treatment_visit_hiv_negative)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "screened_positive_via_or_via_vili_post_treatment_visit",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.screened_positive_via_or_via_vili_post_treatment_visit)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "treatment_method_cyrotherapy_initial_visit_hiv_positive",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.treatment_method_cyrotherapy_initial_visit_hiv_positive)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "treatment_method_cyrotherapy_initial_visit_hiv_negative",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.treatment_method_cyrotherapy_initial_visit_hiv_negative)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "treatment_method_cyrotherapy_initial_visit",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.treatment_method_cyrotherapy_initial_visit)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "treatment_method_thermo_coagulation_initial_visit_hiv_positive",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.treatment_method_thermo_coagulation_initial_visit_hiv_positive)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "treatment_method_thermo_coagulation_initial_visit_hiv_negative",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.treatment_method_thermo_coagulation_initial_visit_hiv_negative)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "treatment_method_thermo_coagulation_initial_visit",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.treatment_method_thermo_coagulation_initial_visit)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "treatment_method_leep_initial_visit_hiv_positive",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.treatment_method_leep_initial_visit_hiv_positive)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "treatment_method_leep_initial_visit_hiv_negative",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.treatment_method_leep_initial_visit_hiv_negative)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "treatment_method_leep_initial_visit",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.treatment_method_leep_initial_visit)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "treatment_method_other_initial_visit_hiv_positive",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.treatment_method_other_initial_visit_hiv_positive)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "treatment_method_other_initial_visit_hiv_negative",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.treatment_method_other_initial_visit_hiv_negative)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "treatment_method_other_initial_visit",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.treatment_method_other_initial_visit)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "treatment_method_cyrotherapy_routine_visit_hiv_positive",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.treatment_method_cyrotherapy_routine_visit_hiv_positive)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "treatment_method_cyrotherapy_routine_visit_hiv_negative",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.treatment_method_cyrotherapy_routine_visit_hiv_negative)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "treatment_method_cyrotherapy_routine_visit",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.treatment_method_cyrotherapy_routine_visit)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "treatment_method_thermo_coagulation_routine_visit_hiv_positive",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.treatment_method_thermo_coagulation_routine_visit_hiv_positive)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "treatment_method_thermo_coagulation_routine_visit_hiv_negative",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.treatment_method_thermo_coagulation_routine_visit_hiv_negative)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "treatment_method_thermo_coagulation_routine_visit",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.treatment_method_thermo_coagulation_routine_visit)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "treatment_method_leep_routine_visit_hiv_positive",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.treatment_method_leep_routine_visit_hiv_positive)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "treatment_method_leep_routine_visit_hiv_negative",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.treatment_method_leep_routine_visit_hiv_negative)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "treatment_method_leep_routine_visit",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.treatment_method_leep_routine_visit)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "treatment_method_other_routine_visit_hiv_positive",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.treatment_method_other_routine_visit_hiv_positive)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "treatment_method_other_routine_visit_hiv_negative",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.treatment_method_other_routine_visit_hiv_negative)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "treatment_method_other_routine_visit",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.treatment_method_other_routine_visit)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "treatment_method_cyrotherapy_post_treatment_visit_hiv_positive",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.treatment_method_cyrotherapy_post_treatment_visit_hiv_positive)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "treatment_method_cyrotherapy_post_treatment_visit_hiv_negative",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.treatment_method_cyrotherapy_post_treatment_visit_hiv_negative)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "treatment_method_cyrotherapy_post_treatment_visit",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.treatment_method_cyrotherapy_post_treatment_visit)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "treatment_method_thermo_coagulation_post_treatment_visit_hiv_positive",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.treatment_method_thermo_coagulation_post_treatment_visit_hiv_positive)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "treatment_method_thermo_coagulation_post_treatment_visit_hiv_negative",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.treatment_method_thermo_coagulation_post_treatment_visit_hiv_negative)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "treatment_method_thermo_coagulation_post_treatment_visit",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.treatment_method_thermo_coagulation_post_treatment_visit)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "treatment_method_leep_post_treatment_visit_hiv_positive",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.treatment_method_leep_post_treatment_visit_hiv_positive)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "treatment_method_leep_post_treatment_visit_hiv_negative",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.treatment_method_leep_post_treatment_visit_hiv_negative)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "treatment_method_leep_post_treatment_visit",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.treatment_method_leep_post_treatment_visit)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "treatment_method_other_post_treatment_visit_hiv_positive",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.treatment_method_other_post_treatment_visit_hiv_positive)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "treatment_method_other_post_treatment_visit_hiv_negative",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.treatment_method_other_post_treatment_visit_hiv_negative)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "treatment_method_other_post_treatment_visit",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.treatment_method_other_post_treatment_visit)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_positive_screened_initial_visit",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.hiv_positive_screened_initial_visit)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_positive_screened_routine_visit",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.hiv_positive_screened_routine_visit)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_positive_screened_post_treatment_visit",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.hiv_positive_screened_post_treatment_visit)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "screened_via_or_via_vili_all_visit",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.screened_via_or_via_vili_all_visit)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "screened_positive_via_or_via_vili_all_visit",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.screened_positive_via_or_via_vili_all_visit)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_positive_screened_all_visit",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.hiv_positive_screened_all_visit)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_positive_via_or_via_vili_suspicious_lesion_initial_visit",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.hiv_positive_via_or_via_vili_suspicious_lesion_initial_visit)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_negative_via_or_via_vili_suspicious_lesion_initial_visit",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.hiv_negative_via_or_via_vili_suspicious_lesion_initial_visit)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "via_or_via_vili_suspicious_lesion_initial_visit",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.via_or_via_vili_suspicious_lesion_initial_visit)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_positive_via_or_via_vili_suspicious_lesion_routine_visit",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.hiv_positive_via_or_via_vili_suspicious_lesion_routine_visit)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_negative_via_or_via_vili_suspicious_lesion_routine_visit",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.hiv_negative_via_or_via_vili_suspicious_lesion_routine_visit)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "via_or_via_vili_suspicious_lesion_routine_visit",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.via_or_via_vili_suspicious_lesion_routine_visit)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_positive_via_or_via_vili_suspicious_lesion_post_treatment_visit",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.hiv_positive_via_or_via_vili_suspicious_lesion_post_treatment_visit)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_negative_via_or_via_vili_suspicious_lesion_post_treatment_visit",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.hiv_negative_via_or_via_vili_suspicious_lesion_post_treatment_visit)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "via_or_via_vili_suspicious_lesion_post_treatment_visit",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.via_or_via_vili_suspicious_lesion_post_treatment_visit)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "via_or_via_vili_suspicious_lesion",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.via_or_via_vili_suspicious_lesion)"
+      }
+    }
+  ],
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["hc.reporting_month", "hc.location_id"],
+    "excludeParam": "excludeParam"
+  },
+  "transFormDirectives": {
+    "joinColumn": "location_id",
+    "skipColumns": [],
+    "disaggregationColumns": []
+  },
+  "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+      "useTemplate": "combined_breast_cervical_cancer_patient_list_template",
+      "useTemplateVersion": "1.0",
+      "generatingDirectives": {
+        "joinDirectives": {
+          "joinType": "INNER",
+          "joinCondition": "<<base_column>> = <<template_column>>",
+          "baseColumn": "person_id",
+          "templateColumn": "person_id"
+        }
+      },
+      "skipParams": []
+    }
+  }
+}
