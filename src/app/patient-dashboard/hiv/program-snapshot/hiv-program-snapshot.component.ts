@@ -21,9 +21,13 @@ const stdProgramUuid = '781d85b0-1359-11df-a1f1-0026b9348838';
   templateUrl: './hiv-program-snapshot.component.html'
 })
 export class HivProgramSnapshotComponent implements OnInit {
+  @Input() public set enrolledProgrames(enrolledProgrames) {
+    this.patientPrograms = enrolledProgrames;
+  }
   @Input() public set program(program) {
     this.showViremiaAlert = program.uuid === mdtProgramUuid ? true : false;
     this.hasMoriskyScore = program.uuid === stdProgramUuid ? true : false;
+    this.curProgram = program;
   }
   @Input() public patient: Patient;
   @Output() public addBackground = new EventEmitter();
@@ -66,6 +70,9 @@ export class HivProgramSnapshotComponent implements OnInit {
   public latestCervicalScreeningSummary = [];
   public cervicalScreeningSummary = [];
   private obs: any[] = [];
+  private gbvScreeningResult: any;
+  private curProgram: any;
+  private patientPrograms: any;
 
   constructor(
     private hivSummaryResourceService: HivSummaryResourceService,
@@ -117,6 +124,9 @@ export class HivProgramSnapshotComponent implements OnInit {
           if (this.showViremiaAlert) {
             this.checkViremia(latestVl);
           }
+          this.gbvScreeningResult = this.checkGbvScreening(
+            results[0].gbv_screening_result
+          );
         }
 
         this.clinicalEncounters = this.getClinicalEncounters(results);
@@ -343,6 +353,18 @@ export class HivProgramSnapshotComponent implements OnInit {
       this.highViremia = true;
       this.viremiaAlert = 'High';
     }
+  }
+
+  private checkGbvScreening(screeningResult) {
+    if (
+      screeningResult === 1 &&
+      this.curProgram.uuid === this.patientPrograms[0].programUuid
+        ? true
+        : false
+    ) {
+      return 'POSITIVE';
+    }
+    return false;
   }
 
   public getMoriskyScore() {
