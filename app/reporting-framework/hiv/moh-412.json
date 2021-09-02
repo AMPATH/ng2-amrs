@@ -1,0 +1,1528 @@
+[
+  {
+    "page": "1. SCREENING METHOD",
+    "pageBody": [
+      {
+        "sectionTitle": "Initial Screening",
+        "sections": [
+          {
+            "name": "VIA OR VIA/VILI",
+            "body": [
+              {
+                "title": "HIV Positive",
+                "indicators": [
+                  {
+                    "label": " < 25 yrs",
+                    "ref": "",
+                    "indicator": "dc__screening_visit_type__initial__age_range__less_than_25__hiv_status__positive__screened_via_or_via_vili"
+                  },
+                  {
+                    "label": " 25-49 yrs",
+                    "ref": "",
+                    "indicator": "dc__screening_visit_type__initial__age_range__25_to_49__hiv_status__positive__screened_via_or_via_vili"
+                  },
+                  {
+                    "label": "50 yrs and above",
+                    "ref": "",
+                    "indicator": "dc__screening_visit_type__initial__age_range__50_and_above__hiv_status__positive__screened_via_or_via_vili"
+                  },
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "screened_via_or_via_vili_initial_visit_hiv_positive"
+                  }
+                ]
+              },
+              {
+                "title": "HIV Negative",
+                "indicators": [
+                  {
+                    "label": " < 25 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__initial__age_range__less_than_25__hiv_status__negative__screened_via_or_via_vili"
+                  },
+                  {
+                    "label": " 25-49 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__initial__age_range__25_to_49__hiv_status__negative__screened_via_or_via_vili"
+                  },
+                  {
+                    "label": " 50 yrs and above",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__initial__age_range__50_and_above__hiv_status__negative__screened_via_or_via_vili"
+                  },
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "screened_via_or_via_vili_initial_visit_hiv_negative"
+                  }
+                ]
+              },
+              {
+                "title": "Total",
+                "indicators": [
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "screened_initial_visit"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "sectionTitle": "Routine Screening",
+        "sections": [
+          {
+            "name": "VIA OR VIA/VILI",
+            "body": [
+              {
+                "title": "HIV Positive",
+                "indicators": [
+                  {
+                    "label": " < 25 yrs",
+                    "ref": "",
+                    "indicator": "dc__screening_visit_type__routine__age_range__less_than_25__hiv_status__positive__screened_via_or_via_vili"
+                  },
+                  {
+                    "label": " 25-49 yrs",
+                    "ref": "",
+                    "indicator": "dc__screening_visit_type__routine__age_range__25_to_49__hiv_status__positive__screened_via_or_via_vili"
+                  },
+                  {
+                    "label": "50 yrs and above",
+                    "ref": "",
+                    "indicator": "dc__screening_visit_type__routine__age_range__50_and_above__hiv_status__positive__screened_via_or_via_vili"
+                  },
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "screened_via_or_via_vili_routine_visit_hiv_positive"
+                  }
+                ]
+              },
+              {
+                "title": "HIV Negative",
+                "indicators": [
+                  {
+                    "label": " < 25 yrs",
+                    "ref": "",
+                    "indicator": "dc__screening_visit_type__routine__age_range__less_than_25__hiv_status__negative__screened_via_or_via_vili"
+                  },
+                  {
+                    "label": " 25-49 yrs",
+                    "ref": "",
+                    "indicator": "dc__screening_visit_type__routine__age_range__25_to_49__hiv_status__negative__screened_via_or_via_vili"
+                  },
+                  {
+                    "label": "50 yrs and above",
+                    "ref": "",
+                    "indicator": "dc__screening_visit_type__routine__age_range__50_and_above__hiv_status__negative__screened_via_or_via_vili"
+                  },
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "screened_via_or_via_vili_routine_visit_hiv_negative"
+                  }
+                ]
+              },
+              {
+                "title": "Total",
+                "indicators": [
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "screened_routine_visit"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "sectionTitle": "Post Treatment Screening",
+        "sections": [
+          {
+            "name": "VIA OR VIA/VILI",
+            "body": [
+              {
+                "title": "HIV Positive",
+                "indicators": [
+                  {
+                    "label": " < 25 yrs",
+                    "ref": "",
+                    "indicator": "dc__screening_visit_type__post_treatment__age_range__less_than_25__hiv_status__positive__screened_via_or_via_vili"
+                  },
+                  {
+                    "label": " 25-49 yrs",
+                    "ref": "",
+                    "indicator": "dc__screening_visit_type__post_treatment__age_range__25_to_49__hiv_status__positive__screened_via_or_via_vili"
+                  },
+                  {
+                    "label": "50 yrs and above",
+                    "ref": "",
+                    "indicator": "dc__screening_visit_type__post_treatment__age_range__50_and_above__hiv_status__positive__screened_via_or_via_vili"
+                  },
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "screened_via_or_via_vili_post_treatment_visit_hiv_positive"
+                  }
+                ]
+              },
+              {
+                "title": "HIV Negative",
+                "indicators": [
+                  {
+                    "label": " < 25 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__post_treatment__age_range__less_than_25__hiv_status__negative__screened_via_or_via_vili"
+                  },
+                  {
+                    "label": " 25-49 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__post_treatment__age_range__25_to_49__hiv_status__negative__screened_via_or_via_vili"
+                  },
+                  {
+                    "label": "50 yrs and above",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__post_treatment__age_range__50_and_above__hiv_status__negative__screened_via_or_via_vili"
+                  },
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "screened_via_or_via_vili_post_treatment_visit_hiv_negative"
+                  }
+                ]
+              },
+              {
+                "title": "Total",
+                "indicators": [
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "screened_via_or_via_vili_post_treatment_visit"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "sectionTitle": "Total Screened (Initial + Routine + Post Treatment)",
+        "sections": [
+          {
+            "name": "VIA OR VIA/VILI",
+            "body": [
+              {
+                "title": "Total",
+                "indicators": [
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "screened_via_or_via_vili_all_visit"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "page": "2. POSITIVE SCREENINGS",
+    "pageBody": [
+      {
+        "sectionTitle": "Initial Screening",
+        "sections": [
+          {
+            "name": "VIA OR VIA/VILI",
+            "body": [
+              {
+                "title": "HIV Positive",
+                "indicators": [
+                  {
+                    "label": " < 25 yrs",
+                    "ref": "",
+                    "indicator": "dc__screening_visit_type__initial__age_range__less_than_25__hiv_status__positive__screened_positive_via_or_via_vili"
+                  },
+                  {
+                    "label": " 25-49 yrs",
+                    "ref": "",
+                    "indicator": "dc__screening_visit_type__initial__age_range__25_to_49__hiv_status__positive__screened_positive_via_or_via_vili"
+                  },
+                  {
+                    "label": "50 yrs and above",
+                    "ref": "",
+                    "indicator": "dc__screening_visit_type__initial__age_range__50_and_above__hiv_status__positive__screened_positive_via_or_via_vili"
+                  },
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "screened_positive_via_or_via_vili_initial_visit_hiv_positive"
+                  }
+                ]
+              },
+              {
+                "title": "HIV Negative",
+                "indicators": [
+                  {
+                    "label": " < 25 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__initial__age_range__less_than_25__hiv_status__negative__screened_positive_via_or_via_vili"
+                  },
+                  {
+                    "label": " 25-49 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__initial__age_range__25_to_49__hiv_status__negative__screened_positive_via_or_via_vili"
+                  },
+                  {
+                    "label": " 50 yrs and above",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__initial__age_range__50_and_above__hiv_status__negative__screened_positive_via_or_via_vili"
+                  },
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "screened_positive_via_or_via_vili_initial_visit_hiv_negative"
+                  }
+                ]
+              },
+              {
+                "title": "Total",
+                "indicators": [
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "screened_postive_via_or_via_vili_initial_visit"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "sectionTitle": "Routine Screening",
+        "sections": [
+          {
+            "name": "VIA OR VIA/VILI",
+            "body": [
+              {
+                "title": "HIV Positive",
+                "indicators": [
+                  {
+                    "label": " < 25 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__routine__age_range__less_than_25__hiv_status__positive__screened_positive_via_or_via_vili"
+                  },
+                  {
+                    "label": " 25-49 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__routine__age_range__25_to_49__hiv_status__positive__screened_positive_via_or_via_vili"
+                  },
+                  {
+                    "label": "50 yrs and above",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__routine__age_range__50_and_above__hiv_status__positive__screened_positive_via_or_via_vili"
+                  },
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "screened_positive_via_or_via_vili_routine_visit_hiv_positive"
+                  }
+                ]
+              },
+              {
+                "title": "HIV Negative",
+                "indicators": [
+                  {
+                    "label": " < 25 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__routine__age_range__less_than_25__hiv_status__negative__screened_positive_via_or_via_vili"
+                  },
+                  {
+                    "label": " 25-49 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__routine__age_range__25_to_49__hiv_status__negative__screened_positive_via_or_via_vili"
+                  },
+                  {
+                    "label": " 50 yrs and above",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__routine__age_range__50_and_above__hiv_status__negative__screened_positive_via_or_via_vili"
+                  },
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "screened_positive_via_or_via_vili_routine_visit_hiv_negative"
+                  }
+                ]
+              },
+              {
+                "title": "Total",
+                "indicators": [
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "screened_positive_via_or_via_vili_routine_visit"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "sectionTitle": "Post Treatment Screening",
+        "sections": [
+          {
+            "name": "VIA OR VIA/VILI",
+            "body": [
+              {
+                "title": "HIV Positive",
+                "indicators": [
+                  {
+                    "label": " < 25 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__post_treatment__age_range__less_than_25__hiv_status__positive__screened_positive_via_or_via_vili"
+                  },
+                  {
+                    "label": " 25-49 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__post_treatment__age_range__25_to_49__hiv_status__positive__screened_positive_via_or_via_vili"
+                  },
+                  {
+                    "label": "50 yrs and above",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__post_treatment__age_range__50_and_above__hiv_status__positive__screened_positive_via_or_via_vili"
+                  },
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "screened_positive_via_or_via_vili_post_treatment_visit_hiv_positive"
+                  }
+                ]
+              },
+              {
+                "title": "HIV Negative",
+                "indicators": [
+                  {
+                    "label": " < 25 yrs",
+                    "ref": "",
+                    "indicator": "dc__screening_visit_type__post_treatment__age_range__less_than_25__hiv_status__negative__screened_positive_via_or_via_vili"
+                  },
+                  {
+                    "label": " 25-49 yrs",
+                    "ref": "",
+                    "indicator": "dc__screening_visit_type__post_treatment__age_range__25_to_49__hiv_status__negative__screened_positive_via_or_via_vili"
+                  },
+                  {
+                    "label": " 50 yrs and above",
+                    "ref": "",
+                    "indicator": "dc__screening_visit_type__post_treatment__age_range__50_and_above__hiv_status__negative__screened_positive_via_or_via_vili"
+                  },
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "screened_positive_via_or_via_vili_post_treatment_visit_hiv_negative"
+                  }
+                ]
+              },
+              {
+                "title": "Total",
+                "indicators": [
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "screened_positive_via_or_via_vili_post_treatment_visit"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "sectionTitle": "Total Positive Screenings (Initial + Routine + Post Treatment)",
+        "sections": [
+          {
+            "name": "VIA OR VIA/VILI",
+            "body": [
+              {
+                "title": "Total",
+                "indicators": [
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "screened_positive_via_or_via_vili_all_visit"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "page": "3. LESION OUTCOMES",
+    "pageBody": [
+      {
+        "sectionTitle": "Initial Screening",
+        "sections": [
+          {
+            "name": "",
+            "body": [
+              {
+                "title": "HIV Positive",
+                "indicators": [
+                  {
+                    "label": " < 25 yrs",
+                    "ref": "",
+                    "indicator": "dc__screening_visit_type__initial__age_range__less_than_25__hiv_status__positive__suspicious_cancer_lesions"
+                  },
+                  {
+                    "label": " 25-49 yrs",
+                    "ref": "",
+                    "indicator": "dc__screening_visit_type__initial__age_range__25_to_49__hiv_status__positive__suspicious_cancer_lesions"
+                  },
+                  {
+                    "label": "50 yrs and above",
+                    "ref": "",
+                    "indicator": "dc__screening_visit_type__initial__age_range__50_and_above__hiv_status__positive__suspicious_cancer_lesions"
+                  },
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "hiv_positive_via_or_via_vili_suspicious_lesion_initial_visit"
+                  }
+                ]
+              },
+              {
+                "title": "HIV Negative",
+                "indicators": [
+                  {
+                    "label": " < 25 yrs",
+                    "ref": "",
+                    "indicator": "dc__screening_visit_type__initial__age_range__less_than_25__hiv_status__negative__suspicious_cancer_lesions"
+                  },
+                  {
+                    "label": " 25-49 yrs",
+                    "ref": "",
+                    "indicator": "dc__screening_visit_type__initial__age_range__25_to_49__hiv_status__negative__suspicious_cancer_lesions"
+                  },
+                  {
+                    "label": "50 yrs and above",
+                    "ref": "",
+                    "indicator": "dc__screening_visit_type__initial__age_range__50_and_above__hiv_status__negative__suspicious_cancer_lesions"
+                  },
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "hiv_negative_via_or_via_vili_suspicious_lesion_initial_visit"
+                  }
+                ]
+              },
+              {
+                "title": "Total",
+                "indicators": [
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "via_or_via_vili_suspicious_lesion_initial_visit"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "sectionTitle": "Routine Screening",
+        "sections": [
+          {
+            "name": "",
+            "body": [
+              {
+                "title": "HIV Positive",
+                "indicators": [
+                  {
+                    "label": " < 25 yrs",
+                    "ref": "",
+                    "indicator": "dc__screening_visit_type__routine__age_range__less_than_25__hiv_status__positive__suspicious_cancer_lesions"
+                  },
+                  {
+                    "label": " 25-49 yrs",
+                    "ref": "",
+                    "indicator": "dc__screening_visit_type__routine__age_range__25_to_49__hiv_status__positive__suspicious_cancer_lesions"
+                  },
+                  {
+                    "label": "50 yrs and above",
+                    "ref": "",
+                    "indicator": "dc__screening_visit_type__routine__age_range__50_and_above__hiv_status__positive__suspicious_cancer_lesions"
+                  },
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "hiv_positive_via_or_via_vili_suspicious_lesion_routine_visit"
+                  }
+                ]
+              },
+              {
+                "title": "HIV Negative",
+                "indicators": [
+                  {
+                    "label": " < 25 yrs",
+                    "ref": "",
+                    "indicator": "dc__screening_visit_type__routine__age_range__less_than_25__hiv_status__negative__suspicious_cancer_lesions"
+                  },
+                  {
+                    "label": " 25-49 yrs",
+                    "ref": "",
+                    "indicator": "dc__screening_visit_type__routine__age_range__25_to_49__hiv_status__negative__suspicious_cancer_lesions"
+                  },
+                  {
+                    "label": "50 yrs and above",
+                    "ref": "",
+                    "indicator": "dc__screening_visit_type__routine__age_range__50_and_above__hiv_status__negative__suspicious_cancer_lesions"
+                  },
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "hiv_negative_via_or_via_vili_suspicious_lesion_routine_visit"
+                  }
+                ]
+              },
+              {
+                "title": "Total",
+                "indicators": [
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "via_or_via_vili_suspicious_lesion_routine_visit"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "sectionTitle": "Post Treatment Screening",
+        "sections": [
+          {
+            "name": "",
+            "body": [
+              {
+                "title": "HIV Positive",
+                "indicators": [
+                  {
+                    "label": " < 25 yrs",
+                    "ref": "",
+                    "indicator": "dc__screening_visit_type__post_treatment__age_range__less_than_25__hiv_status__positive__suspicious_cancer_lesions"
+                  },
+                  {
+                    "label": " 25-49 yrs",
+                    "ref": "",
+                    "indicator": "dc__screening_visit_type__post_treatment__age_range__25_to_49__hiv_status__positive__suspicious_cancer_lesions"
+                  },
+                  {
+                    "label": "50 yrs and above",
+                    "ref": "",
+                    "indicator": "dc__screening_visit_type__post_treatment__age_range__50_and_above__hiv_status__positive__suspicious_cancer_lesions"
+                  },
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "hiv_positive_via_or_via_vili_suspicious_lesion_post_treatment_visit"
+                  }
+                ]
+              },
+              {
+                "title": "HIV Negative",
+                "indicators": [
+                  {
+                    "label": " < 25 yrs",
+                    "ref": "",
+                    "indicator": "dc__screening_visit_type__post_treatment__age_range__less_than_25__hiv_status__negative__suspicious_cancer_lesions"
+                  },
+                  {
+                    "label": " 25-49 yrs",
+                    "ref": "",
+                    "indicator": "dc__screening_visit_type__post_treatment__age_range__25_to_49__hiv_status__negative__suspicious_cancer_lesions"
+                  },
+                  {
+                    "label": "50 yrs and above",
+                    "ref": "",
+                    "indicator": "dc__screening_visit_type__post_treatment__age_range__50_and_above__hiv_status__negative__suspicious_cancer_lesions"
+                  },
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "hiv_negative_via_or_via_vili_suspicious_lesion_post_treatment_visit"
+                  }
+                ]
+              },
+              {
+                "title": "Total",
+                "indicators": [
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "via_or_via_vili_suspicious_lesion_post_treatment_visit"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "sectionTitle": "Total VIA OR VIA/VILI Lesion Outcomes (Initial + Routine + Post Treatment)",
+        "sections": [
+          {
+            "name": "",
+            "body": [
+              {
+                "title": "Total",
+                "indicators": [
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "via_or_via_vili_suspicious_lesion"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "page": "4. TREATMENT METHOD",
+    "pageBody": [
+      {
+        "sectionTitle": "Initial Screening",
+        "sections": [
+          {
+            "name": "Cyrotherapy",
+            "body": [
+              {
+                "title": "HIV Positive",
+                "indicators": [
+                  {
+                    "label": " < 25 yrs",
+                    "ref": "",
+                    "indicator": "dc__screening_visit_type__initial__age_range__less_than_25__hiv_status__positive__treated_via_cyrotherapy"
+                  },
+                  {
+                    "label": " 25-49 yrs",
+                    "ref": "",
+                    "indicator": "dc__screening_visit_type__initial__age_range__25_to_49__hiv_status__positive__treated_via_cyrotherapy"
+                  },
+                  {
+                    "label": "50 yrs and above",
+                    "ref": "",
+                    "indicator": "dc__screening_visit_type__initial__age_range__50_and_above__hiv_status__positive__treated_via_cyrotherapy"
+                  },
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "treatment_method_cyrotherapy_initial_visit_hiv_positive"
+                  }
+                ]
+              },
+              {
+                "title": "HIV Negative",
+                "indicators": [
+                  {
+                    "label": " < 25 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__initial__age_range__less_than_25__hiv_status__negative__treated_via_cyrotherapy"
+                  },
+                  {
+                    "label": " 25-49 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__initial__age_range__25_to_49__hiv_status__negative__treated_via_cyrotherapy"
+                  },
+                  {
+                    "label": " 50 yrs and above",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__initial__age_range__50_and_above__hiv_status__negative__treated_via_cyrotherapy"
+                  },
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "treatment_method_cyrotherapy_initial_visit_hiv_negative"
+                  }
+                ]
+              },
+              {
+                "title": "Total",
+                "indicators": [
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "treatment_method_cyrotherapy_initial_visit"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Thermocoagulation",
+            "body": [
+              {
+                "title": "HIV Positive",
+                "indicators": [
+                  {
+                    "label": " < 25 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__initial__age_range__less_than_25__hiv_status__positive__treated_via_thermo_coagulation"
+                  },
+                  {
+                    "label": " 25-49 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__initial__age_range__25_to_49__hiv_status__positive__treated_via_thermo_coagulation"
+                  },
+                  {
+                    "label": "50 yrs and above",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__initial__age_range__50_and_above__hiv_status__positive__treated_via_thermo_coagulation"
+                  },
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "treatment_method_thermo_coagulation_initial_visit_hiv_positive"
+                  }
+                ]
+              },
+              {
+                "title": "HIV Negative",
+                "indicators": [
+                  {
+                    "label": " < 25 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__initial__age_range__less_than_25__hiv_status__negative__treated_via_thermo_coagulation"
+                  },
+                  {
+                    "label": " 25-49 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__initial__age_range__25_to_49__hiv_status__negative__treated_via_thermo_coagulation"
+                  },
+                  {
+                    "label": " 50 yrs and above",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__initial__age_range__50_and_above__hiv_status__negative__treated_via_thermo_coagulation"
+                  },
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "treatment_method_thermo_coagulation_initial_visit_hiv_negative"
+                  }
+                ]
+              },
+              {
+                "title": "Total",
+                "indicators": [
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "treatment_method_thermo_coagulation_initial_visit"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Leep",
+            "body": [
+              {
+                "title": "HIV Positive",
+                "indicators": [
+                  {
+                    "label": " < 25 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__initial__age_range__less_than_25__hiv_status__positive__treated_via_leep"
+                  },
+                  {
+                    "label": " 25-49 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__initial__age_range__25_to_49__hiv_status__positive__treated_via_leep"
+                  },
+                  {
+                    "label": "50 yrs and above",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__initial__age_range__50_and_above__hiv_status__positive__treated_via_leep"
+                  },
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "treatment_method_leep_initial_visit_hiv_positive"
+                  }
+                ]
+              },
+              {
+                "title": "HIV Negative",
+                "indicators": [
+                  {
+                    "label": " < 25 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__initial__age_range__less_than_25__hiv_status__negative__treated_via_leep"
+                  },
+                  {
+                    "label": " 25-49 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__initial__age_range__25_to_49__hiv_status__negative__treated_via_leep"
+                  },
+                  {
+                    "label": " 50 yrs and above",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__initial__age_range__50_and_above__hiv_status__negative__treated_via_leep"
+                  },
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "treatment_method_leep_initial_visit_hiv_negative"
+                  }
+                ]
+              },
+              {
+                "title": "Total",
+                "indicators": [
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "treatment_method_leep_initial_visit"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Other e.g Hysteroctomy, cone biopsy",
+            "body": [
+              {
+                "title": "HIV Positive",
+                "indicators": [
+                  {
+                    "label": " < 25 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__initial__age_range__less_than_25__hiv_status__positive__treated_via_other"
+                  },
+                  {
+                    "label": " 25-49 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__initial__age_range__25_to_49__hiv_status__positive__treated_via_other"
+                  },
+                  {
+                    "label": "50 yrs and above",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__initial__age_range__50_and_above__hiv_status__positive__treated_via_other"
+                  },
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "treatment_method_other_initial_visit_hiv_positive"
+                  }
+                ]
+              },
+              {
+                "title": "HIV Negative",
+                "indicators": [
+                  {
+                    "label": " < 25 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__initial__age_range__less_than_25__hiv_status__negative__treated_via_other"
+                  },
+                  {
+                    "label": " 25-49 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__initial__age_range__25_to_49__hiv_status__negative__treated_via_other"
+                  },
+                  {
+                    "label": " 50 yrs and above",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__initial__age_range__50_and_above__hiv_status__negative__treated_via_other"
+                  },
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "treatment_method_other_initial_visit_hiv_negative"
+                  }
+                ]
+              },
+              {
+                "title": "Total",
+                "indicators": [
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "treatment_method_other_initial_visit"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "sectionTitle": "Routine Screening",
+        "sections": [
+          {
+            "name": "Cyrotherapy",
+            "body": [
+              {
+                "title": "HIV Positive",
+                "indicators": [
+                  {
+                    "label": " < 25 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__routine__age_range__less_than_25__hiv_status__positive__treated_via_cyrotherapy"
+                  },
+                  {
+                    "label": " 25-49 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__routine__age_range__25_to_49__hiv_status__positive__treated_via_cyrotherapy"
+                  },
+                  {
+                    "label": "50 yrs and above",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__routine__age_range__50_and_above__hiv_status__positive__treated_via_cyrotherapy"
+                  },
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "treatment_method_cyrotherapy_routine_visit_hiv_positive"
+                  }
+                ]
+              },
+              {
+                "title": "HIV Negative",
+                "indicators": [
+                  {
+                    "label": " < 25 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__routine__age_range__less_than_25__hiv_status__negative__treated_via_cyrotherapy"
+                  },
+                  {
+                    "label": " 25-49 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__routine__age_range__25_to_49__hiv_status__negative__treated_via_cyrotherapy"
+                  },
+                  {
+                    "label": " 50 yrs and above",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__routine__age_range__50_and_above__hiv_status__negative__treated_via_cyrotherapy"
+                  },
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "treatment_method_cyrotherapy_routine_visit_hiv_negative"
+                  }
+                ]
+              },
+              {
+                "title": "Total",
+                "indicators": [
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "treatment_method_cyrotherapy_routine_visit"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Thermocoagulation",
+            "body": [
+              {
+                "title": "HIV Positive",
+                "indicators": [
+                  {
+                    "label": " < 25 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__routine__age_range__less_than_25__hiv_status__positive__treated_via_thermo_coagulation"
+                  },
+                  {
+                    "label": " 25-49 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__routine__age_range__25_to_49__hiv_status__positive__treated_via_thermo_coagulation"
+                  },
+                  {
+                    "label": "50 yrs and above",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__routine__age_range__50_and_above__hiv_status__positive__treated_via_thermo_coagulation"
+                  },
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "treatment_method_thermo_coagulation_routine_visit_hiv_positive"
+                  }
+                ]
+              },
+              {
+                "title": "HIV Negative",
+                "indicators": [
+                  {
+                    "label": " < 25 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__routine__age_range__less_than_25__hiv_status__negative__treated_via_thermo_coagulation"
+                  },
+                  {
+                    "label": " 25-49 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__routine__age_range__25_to_49__hiv_status__negative__treated_via_thermo_coagulation"
+                  },
+                  {
+                    "label": " 50 yrs and above",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__routine__age_range__50_and_above__hiv_status__negative__treated_via_thermo_coagulation"
+                  },
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "treatment_method_thermo_coagulation_routine_visit_hiv_negative"
+                  }
+                ]
+              },
+              {
+                "title": "Total",
+                "indicators": [
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "treatment_method_thermo_coagulation_routine_visit"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Leep",
+            "body": [
+              {
+                "title": "HIV Positive",
+                "indicators": [
+                  {
+                    "label": " < 25 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__routine__age_range__less_than_25__hiv_status__positive__treated_via_leep"
+                  },
+                  {
+                    "label": " 25-49 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__routine__age_range__25_to_49__hiv_status__positive__treated_via_leep"
+                  },
+                  {
+                    "label": "50 yrs and above",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__routine__age_range__50_and_above__hiv_status__positive__treated_via_leep"
+                  },
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "treatment_method_leep_routine_visit_hiv_positive"
+                  }
+                ]
+              },
+              {
+                "title": "HIV Negative",
+                "indicators": [
+                  {
+                    "label": " < 25 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__routine__age_range__less_than_25__hiv_status__negative__treated_via_leep"
+                  },
+                  {
+                    "label": " 25-49 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__routine__age_range__25_to_49__hiv_status__negative__treated_via_leep"
+                  },
+                  {
+                    "label": " 50 yrs and above",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__routine__age_range__50_and_above__hiv_status__negative__treated_via_leep"
+                  },
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "treatment_method_leep_routine_visit_hiv_negative"
+                  }
+                ]
+              },
+              {
+                "title": "Total",
+                "indicators": [
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "treatment_method_leep_routine_visit"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Other e.g Hysteroctomy, cone biopsy",
+            "body": [
+              {
+                "title": "HIV Positive",
+                "indicators": [
+                  {
+                    "label": " < 25 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__routine__age_range__less_than_25__hiv_status__positive__treated_via_other"
+                  },
+                  {
+                    "label": " 25-49 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__routine__age_range__25_to_49__hiv_status__positive__treated_via_other"
+                  },
+                  {
+                    "label": "50 yrs and above",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__routine__age_range__50_and_above__hiv_status__positive__treated_via_other"
+                  },
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "treatment_method_other_routine_visit_hiv_positive"
+                  }
+                ]
+              },
+              {
+                "title": "HIV Negative",
+                "indicators": [
+                  {
+                    "label": " < 25 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__routine__age_range__less_than_25__hiv_status__negative__treated_via_other"
+                  },
+                  {
+                    "label": " 25-49 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__routine__age_range__25_to_49__hiv_status__negative__treated_via_other"
+                  },
+                  {
+                    "label": " 50 yrs and above",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__routine__age_range__50_and_above__hiv_status__negative__treated_via_other"
+                  },
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "treatment_method_other_routine_visit_hiv_negative"
+                  }
+                ]
+              },
+              {
+                "title": "Total",
+                "indicators": [
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "treatment_method_other_routine_visit"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "sectionTitle": "Post Treatment Screening",
+        "sections": [
+          {
+            "name": "CyroTherapy",
+            "body": [
+              {
+                "title": "HIV Positive",
+                "indicators": [
+                  {
+                    "label": " < 25 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__post_treatment__age_range__less_than_25__hiv_status__positive__treated_via_cyrotherapy"
+                  },
+                  {
+                    "label": " 25-49 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__post_treatment__age_range__25_to_49__hiv_status__positive__treated_via_cyrotherapy"
+                  },
+                  {
+                    "label": "50 yrs and above",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__post_treatment__age_range__50_and_above__hiv_status__positive__treated_via_cyrotherapy"
+                  },
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "treatment_method_cyrotherapy_post_treatment_visit_hiv_positive"
+                  }
+                ]
+              },
+              {
+                "title": "HIV Negative",
+                "indicators": [
+                  {
+                    "label": " < 25 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__post_treatment__age_range__less_than_25__hiv_status__negative__treated_via_cyrotherapy"
+                  },
+                  {
+                    "label": " 25-49 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__post_treatment__age_range__25_to_49__hiv_status__negative__treated_via_cyrotherapy"
+                  },
+                  {
+                    "label": " 50 yrs and above",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__post_treatment__age_range__50_and_above__hiv_status__negative__treated_via_cyrotherapy"
+                  },
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "treatment_method_cyrotherapy_post_treatment_visit_hiv_negative"
+                  }
+                ]
+              },
+              {
+                "title": "Total",
+                "indicators": [
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "treatment_method_cyrotherapy_post_treatment_visit"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Thermocoagulation",
+            "body": [
+              {
+                "title": "HIV Positive",
+                "indicators": [
+                  {
+                    "label": " < 25 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__post_treatment__age_range__less_than_25__hiv_status__positive__treated_via_thermo_coagulation"
+                  },
+                  {
+                    "label": " 25-49 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__post_treatment__age_range__25_to_49__hiv_status__positive__treated_via_thermo_coagulation"
+                  },
+                  {
+                    "label": "50 yrs and above",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__post_treatment__age_range__50_and_above__hiv_status__positive__treated_via_thermo_coagulation"
+                  },
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "treatment_method_thermo_coagulation_post_treatment_visit_hiv_positive"
+                  }
+                ]
+              },
+              {
+                "title": "HIV Negative",
+                "indicators": [
+                  {
+                    "label": " < 25 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__post_treatment__age_range__less_than_25__hiv_status__negative__treated_via_thermo_coagulation"
+                  },
+                  {
+                    "label": " 25-49 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__post_treatment__age_range__25_to_49__hiv_status__negative__treated_via_thermo_coagulation"
+                  },
+                  {
+                    "label": " 50 yrs and above",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__post_treatment__age_range__50_and_above__hiv_status__negative__treated_via_thermo_coagulation"
+                  },
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "treatment_method_thermo_coagulation_post_treatment_visit_hiv_negative"
+                  }
+                ]
+              },
+              {
+                "title": "Total",
+                "indicators": [
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "treatment_method_thermo_coagulation_post_treatment_visit"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Leep",
+            "body": [
+              {
+                "title": "HIV Positive",
+                "indicators": [
+                  {
+                    "label": " < 25 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__post_treatment__age_range__less_than_25__hiv_status__positive__treated_via_leep"
+                  },
+                  {
+                    "label": " 25-49 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__post_treatment__age_range__25_to_49__hiv_status__positive__treated_via_leep"
+                  },
+                  {
+                    "label": "50 yrs and above",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__post_treatment__age_range__50_and_above__hiv_status__positive__treated_via_leep"
+                  },
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "treatment_method_leep_post_treatment_visit_hiv_positive"
+                  }
+                ]
+              },
+              {
+                "title": "HIV Negative",
+                "indicators": [
+                  {
+                    "label": " < 25 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__post_treatment__age_range__less_than_25__hiv_status__negative__treated_via_leep"
+                  },
+                  {
+                    "label": " 25-49 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__post_treatment__age_range__25_to_49__hiv_status__negative__treated_via_leep"
+                  },
+                  {
+                    "label": " 50 yrs and above",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__post_treatment__age_range__50_and_above__hiv_status__negative__treated_via_leep"
+                  },
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "treatment_method_leep_post_treatment_visit_hiv_negative"
+                  }
+                ]
+              },
+              {
+                "title": "Total",
+                "indicators": [
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "treatment_method_leep_post_treatment_visit"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Other e.g Hysteroctomy, cone biopsy",
+            "body": [
+              {
+                "title": "HIV Positive",
+                "indicators": [
+                  {
+                    "label": " < 25 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__post_treatment__age_range__less_than_25__hiv_status__positive__treated_via_other"
+                  },
+                  {
+                    "label": " 25-49 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__post_treatment__age_range__25_to_49__hiv_status__positive__treated_via_other"
+                  },
+                  {
+                    "label": "50 yrs and above",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__post_treatment__age_range__50_and_above__hiv_status__positive__treated_via_other"
+                  },
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "treatment_method_other_post_treatment_visit_hiv_positive"
+                  }
+                ]
+              },
+              {
+                "title": "HIV Negative",
+                "indicators": [
+                  {
+                    "label": " < 25 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__post_treatment__age_range__less_than_25__hiv_status__negative__treated_via_other"
+                  },
+                  {
+                    "label": " 25-49 yrs",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__post_treatment__age_range__25_to_49__hiv_status__negative__treated_via_other"
+                  },
+                  {
+                    "label": " 50 yrs and above",
+                    "ref": "HV02-44",
+                    "indicator": "dc__screening_visit_type__post_treatment__age_range__50_and_above__hiv_status__negative__treated_via_other"
+                  },
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "treatment_method_other_post_treatment_visit_hiv_negative"
+                  }
+                ]
+              },
+              {
+                "title": "Total",
+                "indicators": [
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "treatment_method_other_post_treatment_visit"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "sectionTitle": "Total Screened (Initial + Routine + Post Treatment)",
+        "sections": [
+          {
+            "name": "VIA OR VIA/VILI",
+            "body": [
+              {
+                "title": "Total",
+                "indicators": [
+                  {
+                    "label": "Total",
+                    "ref": "",
+                    "indicator": "screened_via_or_via_vili_all_visit"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

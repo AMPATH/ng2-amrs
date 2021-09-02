@@ -1,0 +1,9 @@
+{
+  "reports": [
+    "hivCervicalCancerScreeningMonthlyMainDatasetAggregate",
+    "hivCervicalCancerScreeningMonthlyAggregate",
+    "hivCervicalCancerPositiveScreeningMonthlyAggregate",
+    "hivCervicalCancerTreatmentMonthlyAggregate",
+    "hivCervicalCancerMonthlySummaryLesionsAggregate"
+  ]
+}

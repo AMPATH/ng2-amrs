@@ -275,6 +275,10 @@
             "value": "INTRA-AMPATH"
           },
           {
+            "condition": "c.location_id != n.location_id AND NOT (cl.parent_location <=> nl.parent_location)",
+            "value": "INTER-AMPATH"
+          },
+          {
             "condition": "c.location_id != n.location_id AND cl.parent_location != nl.parent_location",
             "value": "INTER-AMPATH"
           },

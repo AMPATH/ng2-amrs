@@ -617,13 +617,12 @@
     }
 
     // Calculate estimated end date of plan (6 months after starting)
-    var tempDate = moment(hivSummary.tb_prophylaxis_start_date);
+    var tempDate = moment(hivSummary.ipt_start_date);
     if (tempDate.isValid()) {
-      tbProphy.startDate = hivSummary.tb_prophylaxis_start_date;
-      tbProphy.estimatedEndDate = moment(hivSummary.tb_prophylaxis_start_date)
-        .add(TB_PROPHY_PERIOD, 'months')
-        .toDate()
-        .toISOString();
+      tbProphy.startDate = hivSummary.ipt_start_date;
+      tbProphy.estimatedEndDate = moment(
+        hivSummary.ipt_stop_date
+      ).toISOString();
     } else {
       tbProphy.startDate = 'Not available';
       tbProphy.estimatedEndDate = 'N/A';

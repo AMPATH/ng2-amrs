@@ -1,0 +1,102 @@
+{
+  "name": "hivPositiveCervicalCancerScreeningMonthlyPcfAggregate",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [
+    {
+      "name": "hivPositiveCervicalCancerScreeningMonthlyBase",
+      "version": "1.0",
+      "type": "dataset_def"
+    }
+  ],
+  "sources": [
+    {
+      "dataSet": "hivPositiveCervicalCancerScreeningMonthlyBase",
+      "alias": "hc"
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "reporting_month",
+      "column": "hc.reporting_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "hc.primary_care_facility_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "hc.primary_care_facility"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "hc.primary_care_facility_location_uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "screening_visit_type",
+      "column": "hc.screening_visit_type"
+    },
+    {
+      "type": "simple_column",
+      "alias": "age_range",
+      "column": "hc.age_range"
+    },
+    {
+      "type": "simple_column",
+      "alias": "hiv_status",
+      "column": "hiv_status"
+    },
+    {
+      "type": "derived_column",
+      "alias": "screened",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.screened)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "screened_positive",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(hc.screened_positive)"
+      }
+    }
+  ],
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": [
+      "hc.reporting_month",
+      "hc.primary_care_facility_id",
+      "hc.screening_visit_type",
+      "hc.age_range"
+    ],
+    "excludeParam": "excludeParam"
+  },
+  "transFormDirectives": {
+    "joinColumn": "location_id",
+    "skipColumns": ["join_location"],
+    "disaggregationColumns": ["screening_visit_type", "age_range"]
+  },
+  "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+      "useTemplate": "combined_breast_cervical_cancer_patient_list_template",
+      "useTemplateVersion": "1.0",
+      "generatingDirectives": {
+        "joinDirectives": {
+          "joinType": "INNER",
+          "joinCondition": "<<base_column>> = <<template_column>>",
+          "baseColumn": "person_id",
+          "templateColumn": "person_id"
+        }
+      },
+      "skipParams": []
+    }
+  }
+}

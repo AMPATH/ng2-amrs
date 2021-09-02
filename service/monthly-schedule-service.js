@@ -43,11 +43,28 @@ export class MonthlyScheduleService {
               };
             })
             .value();
+          const attendedTotal = self.getMonthlyTotals(
+            attended.results.results,
+            'attended'
+          );
+          const scheduledTotal = self.getMonthlyTotals(
+            scheduled.results.results,
+            'scheduled'
+          );
+          const hasNotReturnedTotal = self.getMonthlyTotals(
+            hasNotReturned.results.results,
+            'has_not_returned'
+          );
           resolve({
             reports: {
               attended: attended,
               scheduled: scheduled,
               hasNotReturned: hasNotReturned
+            },
+            totals: {
+              attended: attendedTotal,
+              scheduled: scheduledTotal,
+              hasNotReturned: hasNotReturnedTotal
             },
             results: results
           });
@@ -131,5 +148,12 @@ export class MonthlyScheduleService {
       console.error(error);
       throw error;
     }
+  }
+  getMonthlyTotals(totalsArray, scheduleType) {
+    let initialValue = 0;
+    const sum = totalsArray.reduce((previousValue, currentValue) => {
+      return previousValue + currentValue[scheduleType];
+    }, initialValue);
+    return sum;
   }
 }
