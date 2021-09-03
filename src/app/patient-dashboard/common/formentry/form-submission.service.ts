@@ -273,18 +273,26 @@ export class FormSubmissionService {
       message =
         'Please check your internet connection, you seem to be offline.';
     } else {
-      if (!_.isEmpty(response.error.error.fieldErrors)) {
+      const hasFieldErrors = _.has(response, 'error.error.fieldErrors');
+      let fieldErrors = [];
+      if (hasFieldErrors) {
+        fieldErrors = response.error.error.fieldErrors;
+      }
+      if (!_.isEmpty(fieldErrors)) {
         // handle field errors
         const arrayErrors: Array<any> = [];
-        _.each(_.values(response.error.error.fieldErrors), (fieldErrors) => {
-          _.each(fieldErrors, (error: any) => {
+        _.each(_.values(fieldErrors), (fieldError) => {
+          _.each(fieldError, (error: any) => {
             arrayErrors.push(error.message);
           });
         });
         message = JSON.stringify(arrayErrors);
-      } else if (!_.isEmpty(response.error.detail)) {
+      } else if (
+        !_.isEmpty(response.error.detail ? response.error.detail : [])
+      ) {
         // process internal server errors
-        message = response.error.detail.split('\n')[0]; // gets the first line
+        const detail = response.error.detail ? response.error.detail : '';
+        message = detail.split('\n')[0]; // gets the first line
         const startPos = message.indexOf(': ') + 1;
         const endPos = message.length;
         message = message.substring(startPos, endPos);
