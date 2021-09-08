@@ -1,14 +1,18 @@
 # Build, publish & deploy $branch
 name: Deploy test-build
+
 on:
-  create:
-    branches: '*'
+  push:
+    branches-ignore:
+      - 'master'
+
 jobs:
-  docker:
-    name: Build Publish and Deploy
+  build_and_publish:
+    name: build, publish, & deploy
+
     runs-on: ubuntu-latest
+
     steps:
-      # Check out code
       - 
         name: Checkout
         uses: actions/checkout@v2
