@@ -2689,6 +2689,11 @@
             "display": "DRUGPICKUP"
           },
           {
+            "uuid": "238625fc-8a25-44b2-aa5a-8bf48fa0e18d",
+            "display": "ONCOLOGYVIA",
+            "allowedIf": "age >= 25 && age <= 49 && gender === 'F'"
+          },
+          {
             "uuid": "5ef97eed-18f5-40f6-9fbf-a11b1f06484a",
             "display": "LABORDERENCOUNTER"
           },
