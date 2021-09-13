@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x, 10.x]
+        node-version: [12.x]
 
     steps:
       - uses: actions/checkout@v1
@@ -29,6 +29,8 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+      - name: Install angular cli
+        run: npm install -g @angular/cli
       - name: Install dependencies
         run: npm i
       - name: Install brfs
@@ -42,4 +44,4 @@ jobs:
       - name: Run headless tests
         uses: GabrielBB/xvfb-action@v1
         with:
-          run: npm run test
+          run: ng test
