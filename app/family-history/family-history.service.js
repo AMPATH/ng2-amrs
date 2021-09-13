@@ -33,7 +33,8 @@ export class FamilyTestingService {
           when fm_status is null then 'UNKNOWN' 
           else fm_status 
         end as modified_fm_status,
-        date_format(current_test_date,"%d-%m-%Y") as modified_current_test_date
+        date_format(current_test_date,"%d-%m-%Y") as modified_current_test_date,
+        extract(year from (from_days(datediff(now(),p.birthdate)))) as age 
         FROM
             etl.flat_family_testing t1
                 INNER JOIN
