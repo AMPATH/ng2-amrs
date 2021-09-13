@@ -34,6 +34,7 @@ export class SurgeReportBaseComponent implements OnInit {
   public selectedYearWeek: any;
   public startDate: any;
   public pinnedBottomRowData: any = [];
+  public isWeekDateLoaded = false;
 
   public _locationUuids: any = [];
   public get locationUuids(): Array<string> {
@@ -57,13 +58,7 @@ export class SurgeReportBaseComponent implements OnInit {
   ) {
     this.generateSurgeWeeks();
     this.route.queryParams.subscribe((data) => {
-      data.year_week === undefined
-        ? (this.yearWeek = Moment(new Date())
-            .subtract(1, 'week')
-            .format('YYYY-[W]WW'))
-        : (this.yearWeek = data.year_week);
       this.displayTabularFilters = data.displayTabularFilters;
-
       data._date === undefined
         ? (this.startDate = Moment(new Date()).format('MM-DD-YYYY'))
         : (this.startDate = Moment(data._date).format('MM-DD-YYYY'));
@@ -252,26 +247,31 @@ export class SurgeReportBaseComponent implements OnInit {
     }
   }
 
-  public generateSurgeWeeks() {
-    for (let i = 0; i < 105; i++) {
-      const date = Moment(this.getStartDate()).subtract(i, 'week');
-      this.calendarWeeks.push({
-        yearWeek: Moment(date).format('YYYY-[W]WW'),
-        name:
-          Moment(date).format('[Week] WW, YYYY') +
-          ' From ' +
-          Moment(date).format('ddd-DD MMM-YYYY') +
-          ' To ' +
-          Moment(date).add(6, 'day').format('ddd-DD MMM-YYYY')
-      });
-    }
-  }
-
-  public getStartDate(): any {
-    const now = Moment();
-    const startDate = Moment(new Date(now.year(), 11)).add(4, 'week');
-    return Moment(startDate)
-      .subtract(Moment(startDate).weekday(), 'days')
-      .format('YYYY-MM-DD');
+  public generateSurgeWeeks(): void {
+    this.surgeReport.getSurgeWeeks().subscribe((res: any) => {
+      if (res.hasOwnProperty('result') && res.result.length > 0) {
+        res.result.forEach((element: any) => {
+          this.calendarWeeks.push({
+            yearWeek: element.formatted_week,
+            name:
+              `Week ${Moment(element.start_date, 'YYYY-MM-DD').week()} ${Moment(
+                element.start_date,
+                'YYYY-MM-DD'
+              ).year()}` +
+              ' From ' +
+              Moment(element.start_date).format('ddd-DD MMM-YYYY') +
+              ' To ' +
+              Moment(element.end_date).format('ddd-DD MMM-YYYY')
+          });
+          if (
+            new Date().getTime() >= new Date(element.start_date).getTime() &&
+            new Date().getTime() <= new Date(element.end_date).getTime()
+          ) {
+            this.yearWeek = element.formatted_week;
+          }
+        });
+      }
+      this.isWeekDateLoaded = true;
+    });
   }
 }
