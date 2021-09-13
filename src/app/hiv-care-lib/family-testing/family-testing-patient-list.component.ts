@@ -51,9 +51,14 @@ export class FamilyTestingPatientlistComponent implements OnInit {
       headerName: "Index Name",
     },
     {
-      field: "index_gender",
-      headerName: "Index Gender",
-      width: 120,
+      field: 'index_gender',
+      headerName: 'Index Gender',
+      width: 100
+    },
+    {
+      field: 'age',
+      headerName: 'Index Age',
+      width: 100
     },
     {
       field: "phone_number",
