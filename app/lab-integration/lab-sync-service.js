@@ -261,7 +261,12 @@ export class LabSyncService {
     const promises = [];
     const labExceptions = this.getLabExceptions();
     for (let obs of payload) {
-      promises.push(obsService.postObsToAMRS(obs));
+      if (typeof obs === 'undefined') {
+      } else {
+        if (obs.hasOwnProperty('value')) {
+          promises.push(obsService.postObsToAMRS(obs));
+        }
+      }
     }
     return promises;
   }
@@ -270,7 +275,12 @@ export class LabSyncService {
     let combined = [];
     for (let o of obs) {
       if (o) {
-        combined = combined.concat(o[key]);
+        if (typeof o === 'undefined') {
+        } else {
+          if (o.hasOwnProperty(key)) {
+            combined = combined.concat(o[key]);
+          }
+        }
       }
     }
     return combined;
