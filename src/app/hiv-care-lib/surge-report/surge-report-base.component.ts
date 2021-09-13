@@ -249,28 +249,26 @@ export class SurgeReportBaseComponent implements OnInit {
 
   public generateSurgeWeeks(): void {
     this.surgeReport.getSurgeWeeks().subscribe((res: any) => {
-      if (res.hasOwnProperty('result') && res.result.length > 0) {
-        res.result.forEach((element: any) => {
-          this.calendarWeeks.push({
-            yearWeek: element.formatted_week,
-            name:
-              `Week ${Moment(element.start_date, 'YYYY-MM-DD').week()} ${Moment(
-                element.start_date,
-                'YYYY-MM-DD'
-              ).year()}` +
-              ' From ' +
-              Moment(element.start_date).format('ddd-DD MMM-YYYY') +
-              ' To ' +
-              Moment(element.end_date).format('ddd-DD MMM-YYYY')
-          });
-          if (
-            new Date().getTime() >= new Date(element.start_date).getTime() &&
-            new Date().getTime() <= new Date(element.end_date).getTime()
-          ) {
-            this.yearWeek = element.formatted_week;
-          }
+      res.result.forEach((element: any) => {
+        this.calendarWeeks.push({
+          yearWeek: element.formatted_week,
+          name:
+            `Week ${Moment(element.start_date, 'YYYY-MM-DD').week()} ${Moment(
+              element.start_date,
+              'YYYY-MM-DD'
+            ).year()}` +
+            ' From ' +
+            Moment(element.start_date).format('ddd-DD MMM-YYYY') +
+            ' To ' +
+            Moment(element.end_date).format('ddd-DD MMM-YYYY')
         });
-      }
+        if (
+          new Date().getTime() >= new Date(element.start_date).getTime() &&
+          new Date().getTime() <= new Date(element.end_date).getTime()
+        ) {
+          this.yearWeek = element.formatted_week;
+        }
+      });
       this.isWeekDateLoaded = true;
     });
   }
