@@ -72,6 +72,7 @@ import { PocHttpInteceptor } from "./services/poc-http-interceptor";
 import { SelectDepartmentService } from "./services/select-department.service";
 import { RisonService } from "./services/rison-service";
 import { SnakeCaseToTitlePipe } from "./pipes/snake-case-to-title.pipe";
+import { ProgramSnapshotNegativesComponent } from '../patient-dashboard/hiv/program-snapshot-negatives/program-snapshot-negatives.component';
 
 @NgModule({
   imports: [
@@ -138,6 +139,7 @@ import { SnakeCaseToTitlePipe } from "./pipes/snake-case-to-title.pipe";
     Ng2FilterPipe,
     OnlineTrackerComponent,
     HivProgramSnapshotComponent,
+    ProgramSnapshotNegativesComponent,
     BuildVersionComponent,
     FormListComponent,
     ReportFiltersComponent,
@@ -177,6 +179,7 @@ import { SnakeCaseToTitlePipe } from "./pipes/snake-case-to-title.pipe";
     ZeroVlPipe,
     Ng2FilterPipe,
     HivProgramSnapshotComponent,
+    ProgramSnapshotNegativesComponent,
     FormListComponent,
     ReportFiltersComponent,
     OnlineTrackerComponent,

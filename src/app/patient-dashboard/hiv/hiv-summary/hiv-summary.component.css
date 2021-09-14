@@ -5,3 +5,14 @@
 .warning_text {
   color: #e2d114;
 }
+
+.hiv-alert {
+  padding: 7px;
+  text-align: center;
+  border-radius: 3px;
+  color: white;
+  font-size: 14px;
+  line-height: 10px;
+  margin-right: 25px;
+  font-weight: bold;
+}

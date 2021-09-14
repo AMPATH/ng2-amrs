@@ -52,4 +52,41 @@ export class HivSummaryResourceService {
         })
       );
   }
+
+  public getHivNegativesPatientSummary(p): Observable<any> {
+    let url = this.getUrl();
+    url += '/' + p.patientUuid + '/patient-summary';
+    if (!p.program) {
+      return;
+    }
+
+    if (!p.startIndex) {
+      p.startIndex = 0;
+    }
+    if (!p.limit) {
+      p.limit = 10;
+    }
+    if (p.includeNonClinicalEncounter !== undefined) {
+      p.includeNonClinicalEncounter = false;
+    }
+
+    const params: HttpParams = new HttpParams()
+      .set('startIndex', (p.startIndex as any) as string)
+      .set('limit', (p.limit as any) as string)
+      .set('program', (p.program as any) as string)
+      .set(
+        'includeNonClinicalEncounter',
+        (p.includeNonClinicalEncounter as any) as string
+      );
+
+    return this.http
+      .get<any>(url, {
+        params: params
+      })
+      .pipe(
+        map((response) => {
+          return response;
+        })
+      );
+  }
 }

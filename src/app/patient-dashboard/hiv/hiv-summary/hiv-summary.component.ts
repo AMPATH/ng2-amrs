@@ -16,6 +16,8 @@ export class HivSummaryComponent implements OnInit, OnDestroy {
   lowViremia: boolean;
   highViremia: boolean;
   patientUuid: string;
+  gbvScreeningLabel: String;
+  gbvScreeningResult: any;
   public subscription = new Subscription();
 
   constructor(
@@ -42,6 +44,9 @@ export class HivSummaryComponent implements OnInit, OnDestroy {
       (patient) => {
         if (patient) {
           this.patientUuid = patient.person.uuid;
+          patient.person.age > 19
+            ? (this.gbvScreeningLabel = 'GBV Screening')
+            : (this.gbvScreeningLabel = 'VAC Screening');
         }
       },
       (err) => {
@@ -58,6 +63,9 @@ export class HivSummaryComponent implements OnInit, OnDestroy {
       )
       .subscribe((data) => {
         if (data) {
+          this.gbvScreeningResult = this.checkGbvScreening(
+            data[0].gbv_screening_result
+          );
           for (const summary of data) {
             if (summary.is_clinical_encounter === 1 && this.showViremiaAlert) {
               this.checkViremia(summary.vl_1);
@@ -80,6 +88,13 @@ export class HivSummaryComponent implements OnInit, OnDestroy {
     if (alert) {
       this.viremiaAlert = alert;
     }
+  }
+
+  public checkGbvScreening(screeningResult) {
+    if (screeningResult === 1 ? true : false) {
+      return 'POSITIVE';
+    }
+    return false;
   }
 
   ngOnDestroy(): void {

@@ -9,6 +9,10 @@
     }"
     >{{ viremiaAlert }}</span
   >
+
+  <span *ngIf="gbvScreeningResult" class="hiv-alert" style="background: orange"
+    >{{ gbvScreeningLabel }}: {{ gbvScreeningResult }}</span
+  >
 </h4>
 <div>
   <p-tabView>

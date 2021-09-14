@@ -60,6 +60,11 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   public lastEnrolledPrograms: any = [];
   private _datePipe: DatePipe;
   private subscriptions: Subscription[] = [];
+  private HivNegativesProgram = [
+    'c19aec66-1a40-4588-9b03-b6be55a8dd1d',
+    '96047aaf-7ab3-45e9-be6a-b61810fe617d'
+  ];
+  private showProgramSnapshotNegatives = false;
 
   constructor(
     private patientService: PatientService,
@@ -266,6 +271,14 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
             patient.enrolledPrograms,
             "isEnrolled"
           );
+
+          _.each(this.HivNegativesProgram, (p) => {
+            _.each(this.enrolledProgrames, (ep) => {
+              if (p === ep.programUuid) {
+                this.showProgramSnapshotNegatives = true;
+              }
+            });
+          });
           this.checkPatientReferrals();
         }
       },
