@@ -22,6 +22,10 @@ export class SurgeResourceServiceMock extends SurgeResourceService {
     return Observable.of('data');
   }
 
+  public getSurgeWeeks() {
+    return Observable.of('weeks');
+  }
+
   public testWeeklySurgeData() {
     return {
       schemas: {
