@@ -5,9 +5,8 @@ const rp = require('request-promise');
 export class SlackService {
   getBaseUrl() {
     var host = config.slackserver.host;
-    var port = config.slackserver.port;
 
-    return host + ':' + port;
+    return host;
   }
   //post and get from a poc
   postFeedbackToPoc(message) {
