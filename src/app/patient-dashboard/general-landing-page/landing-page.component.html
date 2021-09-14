@@ -38,14 +38,25 @@
           <div *ngIf="row.isEnrolled" class="program-info">
             <div class="program-snapshot">
               <div [ngSwitch]="row.baseRoute">
-                <hiv-snapshot
-                  (addBackground)="onAddBackground($event)"
-                  *ngSwitchCase="'hiv'"
-                  [patient]="patient"
-                  [program]="row.program"
-                  [enrolledProgrames]="enrolledProgrames"
-                >
-                </hiv-snapshot>
+                <div>
+                  <hiv-snapshot
+                    (addBackground)="onAddBackground($event)"
+                    *ngSwitchCase="'hiv'"
+                    [patient]="patient"
+                    [program]="row.program"
+                    [enrolledProgrames]="enrolledProgrames"
+                  >
+                  </hiv-snapshot>
+                </div>
+                <div *ngIf="showProgramSnapshotNegatives">
+                  <hiv-snapshot-negatives
+                    (addBackground)="onAddBackground($event)"
+                    *ngSwitchCase="'hiv'"
+                    [patient]="patient"
+                    [program]="row.program"
+                  >
+                  </hiv-snapshot-negatives>
+                </div>
                 <cdm-snapshot
                   (addBackground)="onAddBackground($event)"
                   *ngSwitchCase="'cdm'"

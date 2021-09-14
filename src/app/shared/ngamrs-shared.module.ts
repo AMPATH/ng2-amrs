@@ -74,6 +74,7 @@ import { RisonService } from './services/rison-service';
 import { KibanaVizHostComponent } from './kibana-viz-host/kibana-viz-host.component';
 import { KibanaVizComponent } from './kibana-viz/kibana-viz.component';
 import { SnakeCaseToTitlePipe } from './pipes/snake-case-to-title.pipe';
+import { ProgramSnapshotNegativesComponent } from '../patient-dashboard/hiv/program-snapshot-negatives/program-snapshot-negatives.component';
 
 @NgModule({
   imports: [
@@ -140,6 +141,7 @@ import { SnakeCaseToTitlePipe } from './pipes/snake-case-to-title.pipe';
     Ng2FilterPipe,
     OnlineTrackerComponent,
     HivProgramSnapshotComponent,
+    ProgramSnapshotNegativesComponent,
     BuildVersionComponent,
     FormListComponent,
     ReportFiltersComponent,
@@ -181,6 +183,7 @@ import { SnakeCaseToTitlePipe } from './pipes/snake-case-to-title.pipe';
     ZeroVlPipe,
     Ng2FilterPipe,
     HivProgramSnapshotComponent,
+    ProgramSnapshotNegativesComponent,
     FormListComponent,
     ReportFiltersComponent,
     OnlineTrackerComponent,

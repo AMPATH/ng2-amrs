@@ -1,0 +1,141 @@
+<div class="snapshot">
+  <div *ngIf="hasError">
+    <p class="alert alert-error text-error">
+      Error generating patient program snapshot
+    </p>
+  </div>
+  <div *ngIf="!hasData && !hasError && hasLoadedData">
+    <p class="alert alert-warning">
+      No patient data to generate HIV program snapshot
+    </p>
+  </div>
+  <div *ngIf="!hasError && hasData && displayPrep">
+    <div class="row">
+      <div *ngIf="gbvScreeningResult" style="display: inline-block">
+        <p>
+          <span class="hiv-alert" style="background: orange"
+            >{{ gbvScreeningLabel }}: {{ gbvScreeningResult }}</span
+          >
+        </p>
+      </div>
+    </div>
+    <div class="snapshot-summary">
+      <h4 class="component-title">Last Encounter</h4>
+      <div class="col-md-12">
+        <div class="full-width">
+          <p>Location: {{ latestEncounterLocation?.name }}</p>
+        </div>
+      </div>
+      <div class="snapshot-body">
+        <div class="col-md-12">
+          <div class="col-md-6 col-xs-12">
+            <p>
+              Date: {{ patientData?.encounter_datetime | date: 'dd-MM-yyyy' }}
+            </p>
+          </div>
+          <div class="col-md-6 col-xs-12">
+            <p>
+              Type:
+              {{
+                patientData?.encounter_type_name
+                  ? patientData?.encounter_type_name
+                  : 'None'
+              }}
+            </p>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="col-md-6 col-xs-12">
+            <p>Current PrEP Regimen: {{ patientData?.cur_prep_meds_names }}</p>
+          </div>
+          <div class="col-md-6 col-xs-12" *ngIf="showCareStatus">
+            <p>
+              Rapid test date:
+              {{ patientData?.hiv_rapid_test_date | date: 'dd-MM-yyyy' }}
+            </p>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="col-md-6 col-xs-12">
+            <p>RTC Date: {{ patientData?.rtc_date | date: 'dd-MM-yyyy' }}</p>
+          </div>
+          <div class="col-md-6 col-xs-12" *ngIf="showCareStatus">
+            <p>
+              Rapid test result:
+              <span style="text-transform: capitalize">
+                {{ patientData?.hiv_rapid_test_result_val }}
+              </span>
+            </p>
+          </div>
+          <div class="col-md-6 col-xs-12">
+            <p>Population Type: {{ patientData?.population_type_name }}</p>
+          </div>
+        </div>
+        <div class="clear"></div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!hasError && hasData && displayPep">
+    <div class="row">
+      <div *ngIf="gbvScreeningResult" style="display: inline-block">
+        <p>
+          <span class="hiv-alert" style="background: orange"
+            >GBV Screening: {{ gbvScreeningResult }}</span
+          >
+        </p>
+      </div>
+    </div>
+    <div class="snapshot-summary">
+      <h4 class="component-title">Last Encounter</h4>
+      <div class="col-md-12">
+        <div class="full-width">
+          <p>Location: {{ latestEncounterLocation?.name }}</p>
+        </div>
+      </div>
+      <div class="snapshot-body">
+        <div class="col-md-12">
+          <div class="col-md-6 col-xs-12">
+            <p>
+              Encounter Date:
+              {{ patientData?.encounter_datetime | date: 'dd-MM-yyyy' }}
+            </p>
+          </div>
+          <div class="col-md-6 col-xs-12">
+            <p>
+              Type:
+              {{
+                patientData?.encounter_type_name
+                  ? patientData?.encounter_type_name
+                  : 'None'
+              }}
+            </p>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="col-md-6 col-xs-12">
+            <p>
+              PEP Start Date: {{ patientData?.rtc_date | date: 'dd-MM-yyyy' }}
+            </p>
+          </div>
+          <div class="col-md-6 col-xs-12" *ngIf="showCareStatus">
+            <p>
+              Hiv Exposed Occupational:
+              <span style="text-transform: capitalize">
+                {{ patientData.pep_occupation }}
+              </span>
+            </p>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="col-md-6 col-xs-12">
+            <p>RTC Date: {{ patientData?.rtc_date | date: 'dd-MM-yyyy' }}</p>
+          </div>
+        </div>
+        <div class="clear"></div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!hasLoadedData && !hasError">
+    <p>Loading patient data....</p>
+  </div>
+</div>
