@@ -510,10 +510,10 @@ function getIptCompletionReminder(data) {
   return reminders;
 }
 
-function getFamilyTestingReminder(patientUuid) {
+function getFamilyTestingReminder(data) {
   let reminders = [];
-  return getEncountersByEncounterType(patientUuid).then((res) => {
-    if (res.results.length == 0) {
+  return getEncountersByEncounterType(data[0].person_uuid).then((res) => {
+    if (res.results.length === 0) {
       reminders.push({
         message:
           'No contact tracing has been done for this index, please fill the contact tracing form',
@@ -527,7 +527,7 @@ function getFamilyTestingReminder(patientUuid) {
         addContacts: true
       });
       return reminders;
-    } else {
+    } else if (res.results.length > 0) {
       let months = 0;
       if (res.results[0].auditInfo.dateChanged != null) {
         months = Moment().diff(res.results[0].auditInfo.dateChanged, 'months');
@@ -610,9 +610,7 @@ async function generateReminders(etlResults, eidResults) {
   let gene_xpert_result = geneXpertReminders(data);
   let not_completed_ipt = getIptCompletionReminder(data);
   let unenrol_ovc_reminder = await ovcUnenrollmentReminder(data);
-  let contact_tracing_reminder = await getFamilyTestingReminder(
-    etlResults[0].person_uuid
-  );
+  let contact_tracing_reminder = await getFamilyTestingReminder(etlResults);
 
   let cervical_screening_reminder = await getCerivalScreeningReminder(
     person_id

@@ -879,6 +879,8 @@ module.exports = (function () {
                 config.hivLabSystem
               )
                 .then((eidReminders) => {
+                  combineRequestParams.referenceDate =
+                    combineRequestParams.referenceDate + ' 23:59:59';
                   let reportParams = etlHelpers.getReportParams(
                     'clinical-reminder-report',
                     [
@@ -897,7 +899,10 @@ module.exports = (function () {
                     .generateReport()
                     .then((results) => {
                       try {
-                        if (results.results.results.length > 0) {
+                        if (
+                          results.results.results.length > 0 &&
+                          results.results.results.hide_patient_reminder === 0
+                        ) {
                           patientReminderService
                             .generateReminders(
                               results.results.results,

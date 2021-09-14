@@ -312,6 +312,24 @@
       "expressionOptions": {
         "expression": "case when (timestampdiff(day,t1.ipt_start_date,curdate()) > 180) and t1.ipt_completion_date is null and t1.ipt_stop_date is null then 1 else 0 end"
       }
+    },
+    {
+      "type": "simple_column",
+      "alias": "transfer_out_date",
+      "column": "t1.transfer_out_date"
+    },
+    {
+      "type": "simple_column",
+      "alias": "death_status",
+      "column": "t5.dead"
+    },
+    {
+      "type": "derived_column",
+      "alias": "hide_patient_reminder",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "case when t1.patient_care_status in (10502,1287,9068,1593,159,5622,9083) then 1 else 0 end"
+      }
     }
   ],
   "indexDirectives": [
