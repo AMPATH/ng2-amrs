@@ -144,6 +144,8 @@ export class ReportFiltersComponent
   private _currentDepartment = '';
   private _startingMonth: Date;
   private _endingMonth: Date;
+  @Input()
+  public dateRange: String;
   month: any;
   constructor(
     private indicatorResourceService: IndicatorResourceService,

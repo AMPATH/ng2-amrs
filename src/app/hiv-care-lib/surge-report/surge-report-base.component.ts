@@ -35,6 +35,7 @@ export class SurgeReportBaseComponent implements OnInit {
   public startDate: any;
   public pinnedBottomRowData: any = [];
   public isWeekDateLoaded = false;
+  public dateRange: String;
 
   public _locationUuids: any = [];
   public get locationUuids(): Array<string> {
@@ -196,6 +197,7 @@ export class SurgeReportBaseComponent implements OnInit {
 
   public onYearWeekChange(value) {
     this.yearWeek = value.yearWeek;
+    this.formatSurgeDates();
   }
 
   public onStartDateChange(value) {
@@ -268,10 +270,24 @@ export class SurgeReportBaseComponent implements OnInit {
             new Date().getTime() <= new Date(element.end_date).getTime()
           ) {
             this.yearWeek = element.formatted_week;
+            this.formatSurgeDates();
           }
         });
       }
       this.isWeekDateLoaded = true;
+    });
+  }
+
+  public formatSurgeDates() {
+    _.each(this.calendarWeeks, (c) => {
+      if (this.yearWeek === c.yearWeek) {
+        const date = c.name.split(' ');
+        let dateVal = '';
+        for (let i = 3; i < date.length; i++) {
+          dateVal += ' ' + date[i];
+        }
+        this.dateRange = dateVal;
+      }
     });
   }
 }
