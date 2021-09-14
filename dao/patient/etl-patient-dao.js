@@ -215,6 +215,70 @@ module.exports = (function () {
     return db.queryDb(query);
   }
 
+  function getHivNegativesPatientSummary(request, callback) {
+    let patientUuid = request.params.uuid;
+    var PrEPQueryParts = {
+      columns:
+        '*,t3.uuid as `location_uuid`, t2.name as `encounter_type_name`, ' +
+        ' case when hiv_rapid_test_result = 664 then "Negative" when hiv_rapid_test_result = 703 then "Positive"  end as `hiv_rapid_test_result_val`, ' +
+        ' case when population_type = 1 then "DISCORDANT COUPLE" when population_type = 2 then "PRIORITY POPULATION"  ' +
+        ' when population_type = 3 then "GENERAL POPULATION" when population_type = 4 then "AT RISK PERSON FOR GETTING HIV INFECTION" end as `population_type_name` ',
+      table: 'etl.flat_prep_summary_v1_1',
+      leftOuterJoins: [
+        ['amrs.location', 't3', 't1.location_id = t3.location_id'],
+        [
+          'amrs.encounter_type',
+          't2',
+          't2.encounter_type_id = t1.encounter_type'
+        ]
+      ],
+      where: ['t1.uuid = ?', patientUuid],
+      offset: request.query.startIndex,
+      limit: 10
+    };
+    var PEPQueryParts = {
+      columns:
+        '*,name as `encounter_type_name`,case when hiv_exposed_occupational = 1 then "YES" else "NO" end as `pep_occupation` ',
+      table: 'etl.flat_pep_summary',
+      leftOuterJoins: [
+        [
+          'amrs.encounter_type',
+          't2',
+          't2.encounter_type_id = t1.encounter_type'
+        ]
+      ],
+      where: ['t1.uuid = ?', patientUuid],
+      offset: request.query.startIndex,
+      limit: 10
+    };
+    const PrEPResults = db.queryDb(PrEPQueryParts);
+    const PEPResults = db.queryDb(PEPQueryParts);
+    var promise = Promise.all([PrEPResults, PEPResults])
+      .then(function (data) {
+        let results = {};
+        data[0].cur_prep_meds = helpers.getARVNames(data[0].cur_arv_meds);
+        results['PrEP'] = data[0];
+        results['PEP'] = data[1];
+
+        return results;
+      })
+      .catch((error) => {
+        console.error('ERROR : GetPatientSummary', error);
+      });
+
+    if (_.isFunction(callback)) {
+      promise
+        .then(function (result) {
+          callback(result);
+        })
+        .catch(function (err) {
+          callback(err);
+        });
+    }
+
+    return promise;
+  }
+
   function getPatientVitals(request, callback) {
     var uuid = request.params.uuid;
     var order = helpers.getSortOrder(request.query.order);
@@ -605,6 +669,7 @@ module.exports = (function () {
     getPatient: getPatient,
     getHivPatientClinicalSummary: getHivPatientClinicalSummary,
     getPatientCountGroupedByLocation: getPatientCountGroupedByLocation,
-    getPatientDetailsGroupedByLocation: getPatientDetailsGroupedByLocation
+    getPatientDetailsGroupedByLocation: getPatientDetailsGroupedByLocation,
+    getHivNegativesPatientSummary: getHivNegativesPatientSummary
   };
 })();

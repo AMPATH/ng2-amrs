@@ -1275,6 +1275,39 @@ module.exports = (function () {
     },
     {
       method: 'GET',
+      path: '/etl/patient/{uuid}/patient-summary',
+      config: {
+        auth: 'simple',
+        plugins: {
+          hapiAuthorization: {
+            role: privileges.canViewPatient
+          }
+        },
+        handler: function (request, reply) {
+          dao.getHivNegativesPatientSummary(request).then((summary) => {
+            reply(summary);
+          });
+        },
+        description: 'Get patient summary',
+        notes:
+          "Returns a list of historical patient's summary with the given patient uuid. " +
+          "A patient's summary includes details such as last appointment date, " +
+          "current ARV regimen etc. as at that encounter's date. ",
+        tags: ['api'],
+        validate: {
+          options: {
+            allowUnknown: true
+          },
+          params: {
+            uuid: Joi.string()
+              .required()
+              .description("The patient's uuid(universally unique identifier).")
+          }
+        }
+      }
+    },
+    {
+      method: 'GET',
       path: '/etl/location/{uuid}/clinic-encounter-data',
       config: {
         auth: 'simple',
