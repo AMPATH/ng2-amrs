@@ -139,7 +139,14 @@
       <div class="date-range" *ngIf="isEnabled('weekControl')">
         <div class="form-group col-md-12">
           <div class="form-row">
-            <label for="startDate">Week Year:</label>
+            <label for="startDate" style="margin-top: 10px"
+              >Surge Dates : {{ dateRange }}</label
+            >
+          </div>
+        </div>
+        <div class="form-group col-md-12">
+          <div class="form-row">
+            <label for="startDate">Surge Week:</label>
             <ng-select
               [items]="surgeWeeks"
               bindLabel="name"

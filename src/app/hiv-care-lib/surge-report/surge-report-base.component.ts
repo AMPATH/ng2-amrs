@@ -35,6 +35,7 @@ export class SurgeReportBaseComponent implements OnInit {
   public startDate: any;
   public pinnedBottomRowData: any = [];
   public isWeekDateLoaded = false;
+  public dateRange: String;
 
   public _locationUuids: any = [];
   public get locationUuids(): Array<string> {
@@ -196,6 +197,7 @@ export class SurgeReportBaseComponent implements OnInit {
 
   public onYearWeekChange(value) {
     this.yearWeek = value.yearWeek;
+    this.formatSurgeDates();
   }
 
   public onStartDateChange(value) {
@@ -247,29 +249,45 @@ export class SurgeReportBaseComponent implements OnInit {
     }
   }
 
-  public generateSurgeWeeks() {
-    this.surgeReport.getSurgeWeeks().subscribe((res) => {
-      res.result.forEach((element) => {
-        this.calendarWeeks.push({
-          yearWeek: element.formatted_week,
-          name:
-            `Week ${Moment(element.start_date, "YYYY-MM-DD").week()} ${Moment(
-              element.start_date,
-              "YYYY-MM-DD"
-            ).year()}` +
-            " From " +
-            Moment(element.start_date).format("ddd-DD MMM-YYYY") +
-            " To " +
-            Moment(element.end_date).format("ddd-DD MMM-YYYY"),
+  public generateSurgeWeeks(): void {
+    this.surgeReport.getSurgeWeeks().subscribe((res: any) => {
+      if (res.hasOwnProperty('result') && res.result.length > 0) {
+        res.result.forEach((element: any) => {
+          this.calendarWeeks.push({
+            yearWeek: element.formatted_week,
+            name:
+              `Week ${Moment(element.start_date, 'YYYY-MM-DD').week()} ${Moment(
+                element.start_date,
+                'YYYY-MM-DD'
+              ).year()}` +
+              ' From ' +
+              Moment(element.start_date).format('ddd-DD MMM-YYYY') +
+              ' To ' +
+              Moment(element.end_date).format('ddd-DD MMM-YYYY')
+          });
+          if (
+            new Date().getTime() >= new Date(element.start_date).getTime() &&
+            new Date().getTime() <= new Date(element.end_date).getTime()
+          ) {
+            this.yearWeek = element.formatted_week;
+            this.formatSurgeDates();
+          }
         });
-        if (
-          new Date().getTime() >= new Date(element.start_date).getTime() &&
-          new Date().getTime() <= new Date(element.end_date).getTime()
-        ) {
-          this.yearWeek = element.formatted_week;
-        }
-      });
+      }
       this.isWeekDateLoaded = true;
+    });
+  }
+
+  public formatSurgeDates() {
+    _.each(this.calendarWeeks, (c) => {
+      if (this.yearWeek === c.yearWeek) {
+        const date = c.name.split(' ');
+        let dateVal = '';
+        for (let i = 3; i < date.length; i++) {
+          dateVal += ' ' + date[i];
+        }
+        this.dateRange = dateVal;
+      }
     });
   }
 }
