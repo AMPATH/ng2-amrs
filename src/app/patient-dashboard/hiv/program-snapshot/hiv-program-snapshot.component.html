@@ -4,22 +4,32 @@
       Error generating hiv program snapshot
     </p>
   </div>
-  <div *ngIf="!hasData && !hasError && hasLoadedData">
+  <div *ngIf="!hasData && !hasError && hasLoadedData && displayProgram">
     <p class="alert alert-warning">
       No patient data to generate HIV program snapshot
     </p>
   </div>
-  <div *ngIf="!hasError && hasData">
-    <div *ngIf="viremiaAlert">
-      <p
-        [ngClass]="{
-          label: true,
-          'label-danger': highViremia,
-          'label-warning': lowViremia
-        }"
-      >
-        {{ viremiaAlert }} Viremia
-      </p>
+  <div *ngIf="!hasError && hasData && displayProgram">
+    <div class="row">
+      <div *ngIf="viremiaAlert" style="display: inline-block">
+        <p
+          class="hiv-alert"
+          [ngClass]="{
+            label: true,
+            'label-danger': highViremia,
+            'label-warning': lowViremia
+          }"
+        >
+          <span class="hiv-alert">{{ viremiaAlert }} Viremia</span>
+        </p>
+      </div>
+      <div *ngIf="gbvScreeningResult" style="display: inline-block">
+        <p>
+          <span class="hiv-alert" style="background: orange"
+            >{{ gbvScreeningLabel }}: POSITIVE</span
+          >
+        </p>
+      </div>
     </div>
     <div class="snapshot-summary">
       <h4 class="component-title">Last Encounter</h4>

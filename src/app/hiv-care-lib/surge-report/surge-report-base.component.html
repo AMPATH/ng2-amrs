@@ -13,32 +13,39 @@
       leftIcon="fa-calendar-o "
       [selected]="currentView === 'daily'"
     >
-      <report-filters
-        [enabledControls]="enabledControls"
-        (startDateChange)="onStartDateChange($event)"
-        [startDate]="startDate"
-        [endDate]="startDate"
-        [reportName]="reportName"
-        (generateReport)="generateReport()"
-      >
-      </report-filters>
+      <div *ngIf="isWeekDateLoaded">
+        <report-filters
+          *ngIf="isWeekDateLoaded"
+          [enabledControls]="enabledControls"
+          (startDateChange)="onStartDateChange($event)"
+          [startDate]="startDate"
+          [endDate]="startDate"
+          [reportName]="reportName"
+          (generateReport)="generateReport()"
+        >
+        </report-filters>
+      </div>
     </p-tabPanel>
   </div>
+
   <p-tabPanel
     header=" Weekly"
     leftIcon="fa-calendar"
     [selected]="currentView != 'daily'"
   >
-    <report-filters
-      [enabledControls]="enabledControls"
-      [startWeekString]="yearWeek"
-      [reportName]="reportName"
-      [selectedYearWeek]="yearWeek"
-      (onYearWeekChange)="onYearWeekChange($event)"
-      [surgeWeeks]="calendarWeeks"
-      (generateReport)="generateReport()"
-    >
-    </report-filters>
+    <div *ngIf="isWeekDateLoaded">
+      <report-filters
+        [enabledControls]="enabledControls"
+        [startWeekString]="yearWeek"
+        [reportName]="reportName"
+        [selectedYearWeek]="yearWeek"
+        (onYearWeekChange)="onYearWeekChange($event)"
+        [surgeWeeks]="calendarWeeks"
+        (generateReport)="generateReport()"
+        [dateRange]="dateRange"
+      >
+      </report-filters>
+    </div>
   </p-tabPanel>
 </p-tabView>
 

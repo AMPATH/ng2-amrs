@@ -29,6 +29,10 @@ import { DqaReportBaseComponent } from 'src/app/hiv-care-lib/dqa-reports/dqa-rep
 import { PrepReportPatientListComponent } from './../../hiv-care-lib/prep-report/prep-report-patient-list/prep-report-patient-list.component';
 import { PrepReportComponent } from './prep-report/prep-report.component';
 import { MonthlyReportComponent } from 'src/app/hiv-care-lib/monthly-report/monthly-report.component';
+import { MOH412HIVDataAnalyticsComponent } from './moh-412-report/moh-412-hiv-data-analytics.component';
+import { MOH412HIVDataAnalyticsPatientListComponent } from './moh-412-report/moh-412-hiv-data-analytics-patient-list.component';
+import { IptReportPatientListComponent } from 'src/app/hiv-care-lib/ipt-report/ipt-report-patient-list.component';
+import { IPTReportComponent } from './ipt-report/ipt-report.component';
 
 const routes: Routes = [
   {
@@ -165,6 +169,32 @@ const routes: Routes = [
           {
             path: 'patient-list',
             component: PrepReportPatientListComponent
+          }
+        ]
+      },
+      {
+        path: 'moh-412-report',
+        children: [
+          {
+            path: '',
+            component: MOH412HIVDataAnalyticsComponent
+          },
+          {
+            path: 'patient-list',
+            component: MOH412HIVDataAnalyticsPatientListComponent
+          }
+        ]
+      },
+      {
+        path: 'ipt-report',
+        children: [
+          {
+            path: '',
+            component: IPTReportComponent
+          },
+          {
+            path: 'ipt-report-patientlist',
+            component: IptReportPatientListComponent
           }
         ]
       }

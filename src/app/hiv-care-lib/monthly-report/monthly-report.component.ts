@@ -21,6 +21,12 @@ export class MonthlyReportComponent implements OnInit {
         icon: 'fa'
       },
       {
+        title: 'TB Treatment Therapy report',
+        description: '',
+        url: 'ipt-report',
+        icon: 'fa'
+      },
+      {
         title: 'Cross Border and Ovc Report',
         description: '',
         url: 'cross-border-report',
@@ -31,6 +37,12 @@ export class MonthlyReportComponent implements OnInit {
         description: '',
         url: 'patient-gains-and-loses',
         icon: 'fa'
+      },
+      {
+        title: 'Cervical Cancer Screening',
+        description: '',
+        url: 'moh-412-report',
+        icon: 'fa'
       }
     ];
 
@@ -39,7 +51,10 @@ export class MonthlyReportComponent implements OnInit {
 
   public removeCrossBorderReport() {
     if (this.router.url.includes('data-analytics')) {
-      this.dashboards.splice(-1, 1);
+      this.dashboards.filter((d) => {
+        return d.url !== 'cross-border-report';
+      });
+      // this.dashboards.splice(-1, 1);
     }
   }
 

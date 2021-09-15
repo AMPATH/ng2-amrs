@@ -42,7 +42,7 @@ const mockEmittedParams = {
   visitType: ['5033fbfc-ddc9-4f7f-853d-379659e48bdd'],
   encounterType: ['f5381269-c889-4c5a-b384-d017441eedae'],
   startDate: '2018-12-18',
-  endDate: '',
+  endDate: '2018-12-18',
   resetFilter: 'false'
 };
 

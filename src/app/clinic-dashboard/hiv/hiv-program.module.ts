@@ -75,6 +75,11 @@ import { HIVListsMicroFrontendComponent } from './hiv-lists-microfrontend-report
 import { FamilyTestingComponent } from './family-testing/family-testing.component';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 import { ClinicDashboardGainsAndLossesComponent } from './patient-gain-and-loses-report/clinic-dashboard-gains-and-losses.component';
+import { MOH412ClinicDashboardComponent } from './moh-412-report/moh-412-clinic-dashboard.component';
+import { MOH412ClinicDashboardPatientListComponent } from './moh-412-report/moh-412-clinic-dashboard-patient-list.component';
+import { OncologyProgramModule } from './../../oncology-care-lib/oncology-care-lib.module';
+import { IptReportComponent } from './ipt-report/ipt-report.component';
+
 @NgModule({
   imports: [
     clinicDashboardHivRouting,
@@ -106,7 +111,8 @@ import { ClinicDashboardGainsAndLossesComponent } from './patient-gain-and-loses
     KibanaLibModule,
     ReportingUtilitiesModule,
     BsDatepickerModule.forRoot(),
-    AngularMultiSelectModule
+    AngularMultiSelectModule,
+    OncologyProgramModule
   ],
   exports: [
     HivSummaryIndicatorComponent,
@@ -123,7 +129,9 @@ import { ClinicDashboardGainsAndLossesComponent } from './patient-gain-and-loses
     RangeSliderComponent,
     RouterModule,
     ClinicDashboardHeiReportComponent,
-    ClinicDashboardGainsAndLossesComponent
+    ClinicDashboardGainsAndLossesComponent,
+    MOH412ClinicDashboardComponent,
+    MOH412ClinicDashboardPatientListComponent
   ],
   declarations: [
     Moh731ReportComponent,
@@ -163,7 +171,10 @@ import { ClinicDashboardGainsAndLossesComponent } from './patient-gain-and-loses
     ClinicDashboardHeiReportComponent,
     HIVListsMicroFrontendComponent,
     FamilyTestingComponent,
-    ClinicDashboardGainsAndLossesComponent
+    ClinicDashboardGainsAndLossesComponent,
+    MOH412ClinicDashboardComponent,
+    MOH412ClinicDashboardPatientListComponent,
+    IptReportComponent
   ],
   providers: [ClinicalSummaryVisualizationService],
   entryComponents: [PatientStatusDatalistCellComponent]

@@ -27,6 +27,10 @@ import { Moh731MonthlyVizComponent } from './moh-731-monthly-viz/moh-731-monthly
 import { SurgeReportComponent } from './surge/surge-report.component';
 import { ReportingUtilitiesModule } from 'src/app/reporting-utilities/reporting-utilities.module';
 import { PrepReportComponent } from './prep-report/prep-report.component';
+import { MOH412HIVDataAnalyticsComponent } from './moh-412-report/moh-412-hiv-data-analytics.component';
+import { MOH412HIVDataAnalyticsPatientListComponent } from './moh-412-report/moh-412-hiv-data-analytics-patient-list.component';
+import { OncologyProgramModule } from './../../oncology-care-lib/oncology-care-lib.module';
+import { IPTReportComponent } from './ipt-report/ipt-report.component';
 
 @NgModule({
   imports: [
@@ -42,13 +46,16 @@ import { PrepReportComponent } from './prep-report/prep-report.component';
     PatientProgramEnrollmentModule,
     ChangeDepartmentModule,
     KibanaLibModule,
-    ReportingUtilitiesModule
+    ReportingUtilitiesModule,
+    OncologyProgramModule
   ],
   exports: [
     RouterModule,
     AdminDashboardClinicFlowComponent,
     HivSummaryIndicatorsComponent,
-    HivCareComparativeAnalyticsComponent
+    HivCareComparativeAnalyticsComponent,
+    MOH412HIVDataAnalyticsComponent,
+    MOH412HIVDataAnalyticsPatientListComponent
   ],
   declarations: [
     AdminDashboardClinicFlowComponent,
@@ -59,7 +66,10 @@ import { PrepReportComponent } from './prep-report/prep-report.component';
     HivCareComparativeAnalyticsComponent,
     HivSummaryMonthlyIndicatorsComponent,
     SurgeReportComponent,
-    PrepReportComponent
+    PrepReportComponent,
+    MOH412HIVDataAnalyticsComponent,
+    MOH412HIVDataAnalyticsPatientListComponent,
+    IPTReportComponent
   ],
   providers: [
     DataAnalyticsDashboardService,
