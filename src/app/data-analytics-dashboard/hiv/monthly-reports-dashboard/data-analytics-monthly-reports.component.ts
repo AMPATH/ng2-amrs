@@ -1,0 +1,44 @@
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+
+@Component({
+  selector: 'app-data-analytics-monthly-reports',
+  templateUrl: './data-analytics-monthly-reports.component.html',
+  styleUrls: ['./data-analytics-monthly-reports.component.css']
+})
+export class DataAnalyticsMonthlyReportComponent implements OnInit {
+  public isBusy = false;
+  public errorMessage = '';
+
+  public dashboards: Array<any> = [];
+  constructor(public router: Router, public route: ActivatedRoute) {}
+
+  ngOnInit() {
+    this.dashboards = [
+      {
+        title: 'PrEP Monthly Report',
+        description: '',
+        url: 'prep-report',
+        icon: 'fa'
+      },
+      {
+        title: 'TB Treatment Therapy report',
+        description: '',
+        url: 'ipt-report',
+        icon: 'fa'
+      },
+      {
+        title: 'Cervical Cancer Screening',
+        description: '',
+        url: 'moh-412-report',
+        icon: 'fa'
+      }
+    ];
+  }
+
+  public viewDashboard(dashboard: any) {
+    this.router.navigate([dashboard.url], {
+      relativeTo: this.route
+    });
+  }
+}
