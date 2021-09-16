@@ -43,7 +43,7 @@ export class HIVListsMicroFrontendComponent implements OnDestroy, OnInit {
       this.locationUuid = params.location_uuid;
     });
     this.url = this.sanitizer.bypassSecurityTrustResourceUrl(
-      `${this.baseUrl}/amrs/spa/home`
+      `${this.baseUrl}/pocreports/hiv-clinic-dashboard`
     );
     window.addEventListener('message', this.messageHandler.bind(this), false);
   }
