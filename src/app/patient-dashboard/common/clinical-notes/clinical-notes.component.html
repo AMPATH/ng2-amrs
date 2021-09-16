@@ -139,7 +139,11 @@
               <td><span class="note-info">None</span></td>
             </tr>
             <tr *ngIf="note.homeVisit.display">
-              <td><strong class="note-label">Home Visit Findings: </strong></td>
+              <td>
+                <strong class="note-label-home-visit"
+                  >Home Visit Findings:
+                </strong>
+              </td>
               <td>
                 <span
                   *ngIf="note.homeVisit.findings.length > 0"
@@ -150,7 +154,9 @@
             </tr>
             <tr *ngIf="note.homeVisit.display">
               <td>
-                <strong class="note-label">Previous Interventions: </strong>
+                <strong class="note-label-home-visit"
+                  >Previous Intervention:
+                </strong>
               </td>
               <td>
                 <span
@@ -161,7 +167,11 @@
               </td>
             </tr>
             <tr *ngIf="note.homeVisit.display">
-              <td><strong class="note-label">Interventions Plan: </strong></td>
+              <td>
+                <strong class="note-label-home-visit"
+                  >Intervention Plan:
+                </strong>
+              </td>
               <td>
                 <span
                   *ngIf="note.homeVisit.current_interventions.length > 0"
@@ -172,7 +182,9 @@
             </tr>
             <tr *ngIf="note.homeVisit.display">
               <td>
-                <strong class="note-label">ARV Consumption Mode: </strong>
+                <strong class="note-label-home-visit"
+                  >ARV Consumption Mode:
+                </strong>
               </td>
               <td>
                 <span
