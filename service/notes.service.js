@@ -35,7 +35,11 @@
     EAC3_REFERRAL_FOLLOW_UP: 'e7517430-55a4-4673-9d17-736fc1445aaa',
     EAC3_ADHERENCE_PLAN: 'cb7eaa9d-a3b1-4f68-8d29-fd2be936be33',
     EAC_VIRAL_LOAD_TEST: '08d99781-41c2-42a1-b8bc-d50b3c84e5d5',
-    EAC_VIRAL_LOAD_RESULT: 'abb4c3f3-2a2f-4736-96e0-5b9cf63cd6b2'
+    EAC_VIRAL_LOAD_RESULT: 'abb4c3f3-2a2f-4736-96e0-5b9cf63cd6b2',
+    HOME_VISIT_FINDINGS: '743bee17-bb4d-4bf5-bbfe-a58a7cca5a3f',
+    HOME_VISIT_PREVIOUS_INTERVENTIONS: 'b8faad87-bfa9-40e5-b842-3411acb5e5c4',
+    HOME_VISIT_CURRENT_INTERVENTIONS: 'e194e1cc-3975-4bb2-85e1-c71597ebcd64',
+    HOME_VISIT_ARV_CONSUMPTION_MODE: 'f9a3b1c2-dd2c-41d6-85cd-16f8d52b35ea'
   };
 
   var encOrder = {
@@ -215,6 +219,13 @@
           viral_load_results: ''
         },
         hasEacSession: false
+      },
+      homeVisit: {
+        findings: '',
+        previous_interventions: '',
+        current_interventions: '',
+        arv_consumption_mode: '',
+        display: false
       }
     };
 
@@ -479,6 +490,55 @@
       });
 
       note.eacSession.hasEacSession = hasEacSessionData(note.eacSession);
+
+      note.homeVisit.findings = _findTextObsValue(
+        encounters,
+        CONCEPT_UUIDS.HOME_VISIT_FINDINGS,
+        __findObsWithGivenConcept
+      );
+
+      note.homeVisit.findings.sort(function (ass1, ass2) {
+        return moment(ass1.obsDatetime).diff(ass2.obsDatetime);
+      });
+
+      note.homeVisit.previous_interventions = _findTextObsValue(
+        encounters,
+        CONCEPT_UUIDS.HOME_VISIT_PREVIOUS_INTERVENTIONS,
+        __findObsWithGivenConcept
+      );
+
+      note.homeVisit.previous_interventions.sort(function (ass1, ass2) {
+        return moment(ass1.obsDatetime).diff(ass2.obsDatetime);
+      });
+
+      note.homeVisit.current_interventions = _findTextObsValue(
+        encounters,
+        CONCEPT_UUIDS.HOME_VISIT_CURRENT_INTERVENTIONS,
+        __findObsWithGivenConcept
+      );
+
+      note.homeVisit.current_interventions.sort(function (ass1, ass2) {
+        return moment(ass1.obsDatetime).diff(ass2.obsDatetime);
+      });
+
+      note.homeVisit.arv_consumption_mode = _findTextObsValue(
+        encounters,
+        CONCEPT_UUIDS.HOME_VISIT_ARV_CONSUMPTION_MODE,
+        __findObsWithGivenConcept
+      );
+
+      note.homeVisit.arv_consumption_mode.sort(function (ass1, ass2) {
+        return moment(ass1.obsDatetime).diff(ass2.obsDatetime);
+      });
+
+      if (
+        note.homeVisit.arv_consumption_mode.length > 0 ||
+        note.homeVisit.current_interventions.length > 0 ||
+        note.homeVisit.findings.length > 0 ||
+        note.homeVisit.previous_interventions.length > 0
+      ) {
+        note.homeVisit.display = true;
+      }
     } else {
       console.log('encounters array is null or empty');
     }
