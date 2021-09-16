@@ -21,6 +21,11 @@ hr {
   color: #5379b7;
 }
 
+.note-label-home-visit {
+  text-align: right;
+  color: #0000ff;
+}
+
 .table-striped,
 .wrapper {
   border: 1px solid #ddd;
