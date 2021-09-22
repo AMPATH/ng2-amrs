@@ -20,7 +20,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { BsModalService } from 'ngx-bootstrap/modal';
-import { DateTimePickerModule } from 'ngx-openmrs-formentry';
+import { DateTimePickerModule } from '@ampath-kenya/ngx-openmrs-formentry';
 
 import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytics.service';
 import { FakeAppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytcis.mock';

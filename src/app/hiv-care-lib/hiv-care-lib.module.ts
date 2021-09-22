@@ -29,7 +29,7 @@ import { Moh731ReportFiltersComponent } from './moh-731-report/moh-731-report-fi
 import { Moh731ReportBaseComponent } from './moh-731-report/moh-731-report-base.component';
 import { EtlApi } from '../etl-api/etl-api.module';
 import { Moh731PatientListComponent } from './moh-731-report/moh-731-patientlist.component';
-import { DateTimePickerModule } from 'ngx-openmrs-formentry/';
+import { DateTimePickerModule } from '@ampath-kenya/ngx-openmrs-formentry';
 import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 import { MOHReportComponent } from './moh-731-report/moh-731-report-pdf-view.component';
 import { MOHReportService } from './moh-731-report/moh-731-report-pdf-view.service';

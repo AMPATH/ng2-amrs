@@ -18,7 +18,7 @@ import {
   AccordionModule
 } from 'primeng/primeng';
 import { AgGridModule } from 'ag-grid-angular/main';
-import { DateTimePickerModule } from 'ngx-openmrs-formentry/';
+import { DateTimePickerModule } from '@ampath-kenya/ngx-openmrs-formentry';
 import { CalendarModule } from 'angular-calendar';
 import { ChartModule } from 'angular2-highcharts';
 import { Moh731ReportComponent } from './moh-731/moh-731-report.component';

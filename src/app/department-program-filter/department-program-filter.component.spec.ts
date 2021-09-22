@@ -16,7 +16,7 @@ import { DepartmentProgramFilterComponent } from './department-program-filter.co
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 import { AppFeatureAnalytics } from './../shared/app-analytics/app-feature-analytics.service';
 import { FakeAppFeatureAnalytics } from './../shared/app-analytics/app-feature-analytcis.mock';
-import { DateTimePickerModule } from 'ngx-openmrs-formentry/';
+import { DateTimePickerModule } from '@ampath-kenya/ngx-openmrs-formentry';
 import { UserService } from './../openmrs-api/user.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
 import { CacheService } from 'ionic-cache';
