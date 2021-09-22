@@ -28,7 +28,7 @@ import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { CommonModule } from '@angular/common';
 import { Angulartics2Module } from 'angulartics2';
-import { DateTimePickerModule } from 'ngx-openmrs-formentry/';
+import { DateTimePickerModule } from '@ampath-kenya/ngx-openmrs-formentry';
 import { ProgramVisitEncounterSearchComponent } from './../../program-visit-encounter-search/program-visit-encounter-search.component';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 import { DepartmentProgramsConfigService } from './../../etl-api/department-programs-config.service';

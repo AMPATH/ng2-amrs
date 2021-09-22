@@ -1,6 +1,6 @@
 import { FormsModule } from '@angular/forms';
 import { NgamrsSharedModule } from 'src/app/shared/ngamrs-shared.module';
-import { DateTimePickerModule } from 'ngx-openmrs-formentry/';
+import { DateTimePickerModule } from '@ampath-kenya/ngx-openmrs-formentry';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { CaseManagementFiltersComponent } from './case-management-filters.component';

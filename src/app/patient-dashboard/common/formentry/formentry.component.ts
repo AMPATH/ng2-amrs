@@ -16,7 +16,7 @@ import {
   interval
 } from 'rxjs';
 
-import { DataSources } from 'ngx-openmrs-formentry';
+import { DataSources } from '@ampath-kenya/ngx-openmrs-formentry';
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
 import { ConceptResourceService } from '../../../openmrs-api/concept-resource.service';
 import { ConfirmationService } from 'primeng/primeng';
@@ -27,7 +27,7 @@ import {
   Form,
   PersonAttribuAdapter,
   HistoricalEncounterDataService
-} from 'ngx-openmrs-formentry';
+} from '@ampath-kenya/ngx-openmrs-formentry';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
 import { FileUploadResourceService } from '../../../etl-api/file-upload-resource.service';
 import { FormentryHelperService } from './formentry-helper.service';
