@@ -5,7 +5,7 @@ import * as moment from "moment";
 import { Observable, Subject, forkJoin } from "rxjs";
 import { take } from "rxjs/operators";
 
-import { Form } from "ngx-openmrs-formentry";
+import { Form } from '@ampath-kenya/ngx-openmrs-formentry';
 import { Patient } from "../../../models/patient.model";
 
 import { DifferentiatedCareReferralService } from "../patient-referrals/differentiated-care-referral.service";

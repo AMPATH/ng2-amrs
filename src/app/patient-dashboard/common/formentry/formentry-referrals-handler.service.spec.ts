@@ -4,7 +4,7 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import * as moment from "moment";
 import { Subject, Observable, of } from "rxjs";
 import { delay } from "rxjs/operators";
-import { Form } from "ngx-openmrs-formentry";
+import { Form } from '@ampath-kenya/ngx-openmrs-formentry';
 
 import { Patient } from "../../../models/patient.model";
 import { PatientReferralsModule } from "../patient-referrals/patient-referrals.module";

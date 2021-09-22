@@ -14,7 +14,7 @@ import {
   ObsValueAdapter,
   ObsAdapterHelper,
   Form,
-} from "ngx-openmrs-formentry";
+} from '@ampath-kenya/ngx-openmrs-formentry';
 import { AppSettingsService } from "../../../app-settings/app-settings.service";
 import { EncounterResourceService } from "../../../openmrs-api/encounter-resource.service";
 import { PersonResourceService } from "../../../openmrs-api/person-resource.service";

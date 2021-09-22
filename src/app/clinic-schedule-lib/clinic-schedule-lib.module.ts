@@ -7,7 +7,7 @@ import { RouterModule } from "@angular/router";
 // } from '@angular/material';
 import { CalendarModule } from "angular-calendar";
 import { ClinicDashboardCacheService } from "../clinic-dashboard/services/clinic-dashboard-cache.service";
-import { DateTimePickerModule } from "ngx-openmrs-formentry/";
+import { DateTimePickerModule } from '@ampath-kenya/ngx-openmrs-formentry';
 import { MatTabsModule } from "@angular/material/tabs";
 import { NgxMyDatePickerModule } from "ngx-mydatepicker";
 import { NgamrsSharedModule } from "../shared/ngamrs-shared.module";

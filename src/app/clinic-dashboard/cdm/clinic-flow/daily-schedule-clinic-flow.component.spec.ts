@@ -1,8 +1,8 @@
 import { ComponentFixture, async, TestBed } from "@angular/core/testing";
 
-import { DateTimePickerModule } from "ngx-openmrs-formentry";
-import { CalendarModule } from "angular-calendar";
-import { NgxMyDatePickerModule } from "ngx-mydatepicker";
+import { DateTimePickerModule } from '@ampath-kenya/ngx-openmrs-formentry';
+import { CalendarModule } from 'angular-calendar';
+import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 
 import { DailyScheduleClinicFlowComponent } from "./daily-schedule-clinic-flow.component";
 import { ClinicFlowCacheService } from "../../../hiv-care-lib/clinic-flow/clinic-flow-cache.service";

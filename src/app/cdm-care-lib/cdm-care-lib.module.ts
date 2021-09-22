@@ -7,9 +7,9 @@ import {
   MatTabsModule,
 } from "@angular/material";
 
-import { DateTimePickerModule } from "ngx-openmrs-formentry/";
-import { EtlApi } from "../etl-api/etl-api.module";
-import { DataListsModule } from "../shared/data-lists/data-lists.module";
+import { DateTimePickerModule } from '@ampath-kenya/ngx-openmrs-formentry';
+import { EtlApi } from '../etl-api/etl-api.module';
+import { DataListsModule } from '../shared/data-lists/data-lists.module';
 
 @NgModule({
   imports: [

@@ -1,7 +1,7 @@
-import { TestBed, ComponentFixture } from "@angular/core/testing";
-import { DateTimePickerModule } from "ngx-openmrs-formentry";
-import { NgxMyDatePickerModule } from "ngx-mydatepicker";
-import { RangeSliderComponent } from "./range-slider.component";
+import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { DateTimePickerModule } from '@ampath-kenya/ngx-openmrs-formentry';
+import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
+import { RangeSliderComponent } from './range-slider.component';
 
 describe("Date-range component Tests", () => {
   let comp: RangeSliderComponent;

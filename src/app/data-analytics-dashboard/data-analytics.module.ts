@@ -16,7 +16,7 @@ import {
   GrowlModule,
   TabViewModule,
 } from "primeng/primeng";
-import { DateTimePickerModule } from "ngx-openmrs-formentry/";
+import { DateTimePickerModule } from '@ampath-kenya/ngx-openmrs-formentry';
 import { NgamrsSharedModule } from "../shared/ngamrs-shared.module";
 import { AgGridModule } from "ag-grid-angular";
 import { NgxMyDatePickerModule } from "ngx-mydatepicker";

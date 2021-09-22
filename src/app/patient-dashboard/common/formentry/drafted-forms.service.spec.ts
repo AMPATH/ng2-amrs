@@ -8,7 +8,7 @@ import { ChangeDetectorRef } from "@angular/core";
 import { Pipe, PipeTransform } from "@angular/core";
 
 import { DraftedFormsService } from "./drafted-forms.service";
-import { Form } from "ngx-openmrs-formentry";
+import { Form } from '@ampath-kenya/ngx-openmrs-formentry';
 
 describe("Drafted Forms Service:", () => {
   beforeEach(() => {

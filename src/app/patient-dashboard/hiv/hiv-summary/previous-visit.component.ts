@@ -9,7 +9,7 @@ import {
   Form,
   EncounterAdapter,
   DataSources,
-} from "ngx-openmrs-formentry";
+} from '@ampath-kenya/ngx-openmrs-formentry';
 import { Patient } from "../../../models/patient.model";
 import { Encounter } from "../../../models/encounter.model";
 import { Subscription } from "rxjs";
