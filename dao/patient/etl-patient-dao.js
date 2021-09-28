@@ -233,6 +233,12 @@ module.exports = (function () {
         ]
       ],
       where: ['t1.uuid = ?', patientUuid],
+      order: [
+        {
+          column: 'encounter_datetime',
+          asc: false
+        }
+      ],
       offset: request.query.startIndex,
       limit: 10
     };
@@ -248,6 +254,12 @@ module.exports = (function () {
         ]
       ],
       where: ['t1.uuid = ?', patientUuid],
+      order: [
+        {
+          column: 'encounter_datetime',
+          asc: false
+        }
+      ],
       offset: request.query.startIndex,
       limit: 10
     };
