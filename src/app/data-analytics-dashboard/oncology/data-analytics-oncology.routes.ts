@@ -22,35 +22,81 @@ const routes: Routes = [
       },
       {
         path: 'breast-cancer-screening-numbers',
-        component: OncologySummaryIndicatorsComponent
+        children: [
+          {
+            path: '',
+            component: OncologySummaryIndicatorsComponent
+          },
+          {
+            path: 'patient-list',
+            component: OncologySummaryIndicatorsPatientListComponent
+          }
+        ]
       },
       {
         path: 'cervical-cancer-screening-numbers',
-        component: OncologySummaryIndicatorsComponent
+        children: [
+          {
+            path: '',
+            component: OncologySummaryIndicatorsComponent
+          },
+          {
+            path: 'patient-list',
+            component: OncologySummaryIndicatorsPatientListComponent
+          }
+        ]
       },
       {
         path: 'moh-412-report',
-        component: MOH412OncologyDataAnalyticsComponent
-      },
-      {
-        path: 'moh-412-report/patient-list',
-        component: MOH412OncologyDataAnalyticsPatientListComponent
-      },
-      {
-        path: ':screening-program/patient-list',
-        component: OncologySummaryIndicatorsPatientListComponent
+        children: [
+          {
+            path: '',
+            component: MOH412OncologyDataAnalyticsComponent
+          },
+          {
+            path: 'patient-list',
+            component: MOH412OncologyDataAnalyticsPatientListComponent
+          }
+        ]
       },
       {
         path: 'combined-breast-cervical-cancer-screening-numbers',
-        component: OncologySummaryIndicatorsComponent
+        children: [
+          {
+            path: '',
+            component: OncologySummaryIndicatorsComponent
+          },
+          {
+            path: 'patient-list',
+            component: OncologySummaryIndicatorsPatientListComponent
+          }
+        ]
       },
       {
         path: 'lung-cancer-treatment-numbers',
-        component: OncologySummaryIndicatorsComponent
+        children: [
+          {
+            path: '',
+            component: OncologySummaryIndicatorsComponent
+          },
+          {
+            path: 'patient-list',
+            component: OncologySummaryIndicatorsPatientListComponent
+          }
+        ]
       },
       {
         path: 'lung-cancer-screening-numbers',
-        component: OncologySummaryIndicatorsComponent
+        children: [
+          {
+            path: '',
+            component: OncologySummaryIndicatorsComponent
+          },
+          {
+            path: 'patient-list',
+            component: OncologySummaryIndicatorsPatientListComponent
+          }
+        ]
       }
     ]
   },
