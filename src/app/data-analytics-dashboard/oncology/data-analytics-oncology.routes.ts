@@ -14,80 +14,126 @@ import { MOH412OncologyDataAnalyticsComponent } from './oncology-reports/moh-412
 import { MOH412OncologyDataAnalyticsPatientListComponent } from './oncology-reports/moh-412-report/moh-412-data-analytics-patient-list.component';
 const routes: Routes = [
   {
-    path: "oncology-reports",
+    path: 'oncology-reports',
     children: [
       {
-        path: "",
-        component: OncologyReportsComponent,
+        path: '',
+        component: OncologyReportsComponent
       },
       {
-        path: "breast-cancer-screening-numbers",
-        component: OncologySummaryIndicatorsComponent,
+        path: 'breast-cancer-screening-numbers',
+        children: [
+          {
+            path: '',
+            component: OncologySummaryIndicatorsComponent
+          },
+          {
+            path: 'patient-list',
+            component: OncologySummaryIndicatorsPatientListComponent
+          }
+        ]
       },
       {
-        path: "cervical-cancer-screening-numbers",
-        component: OncologySummaryIndicatorsComponent,
-      },
-      {
-        path: ":screening-program/patient-list",
-        component: OncologySummaryIndicatorsPatientListComponent,
+        path: 'cervical-cancer-screening-numbers',
+        children: [
+          {
+            path: '',
+            component: OncologySummaryIndicatorsComponent
+          },
+          {
+            path: 'patient-list',
+            component: OncologySummaryIndicatorsPatientListComponent
+          }
+        ]
       },
       {
         path: 'moh-412-report',
-        component: MOH412OncologyDataAnalyticsComponent
+        children: [
+          {
+            path: '',
+            component: MOH412OncologyDataAnalyticsComponent
+          },
+          {
+            path: 'patient-list',
+            component: MOH412OncologyDataAnalyticsPatientListComponent
+          }
+        ]
       },
       {
-        path: 'moh-412-report/patient-list',
-        component: MOH412OncologyDataAnalyticsPatientListComponent
+        path: 'combined-breast-cervical-cancer-screening-numbers',
+        children: [
+          {
+            path: '',
+            component: OncologySummaryIndicatorsComponent
+          },
+          {
+            path: 'patient-list',
+            component: OncologySummaryIndicatorsPatientListComponent
+          }
+        ]
       },
       {
-        path: "combined-breast-cervical-cancer-screening-numbers",
-        component: OncologySummaryIndicatorsComponent,
+        path: 'lung-cancer-treatment-numbers',
+        children: [
+          {
+            path: '',
+            component: OncologySummaryIndicatorsComponent
+          },
+          {
+            path: 'patient-list',
+            component: OncologySummaryIndicatorsPatientListComponent
+          }
+        ]
       },
       {
-        path: "lung-cancer-treatment-numbers",
-        component: OncologySummaryIndicatorsComponent,
-      },
-      {
-        path: "lung-cancer-screening-numbers",
-        component: OncologySummaryIndicatorsComponent,
-      },
-    ],
+        path: 'lung-cancer-screening-numbers',
+        children: [
+          {
+            path: '',
+            component: OncologySummaryIndicatorsComponent
+          },
+          {
+            path: 'patient-list',
+            component: OncologySummaryIndicatorsPatientListComponent
+          }
+        ]
+      }
+    ]
   },
   {
-    path: "clinic-flow",
-    component: AdminDashboardClinicFlowComponent,
+    path: 'clinic-flow',
+    component: AdminDashboardClinicFlowComponent
   },
   {
-    path: "program-enrollment",
+    path: 'program-enrollment',
     children: [
       {
-        path: "",
-        component: PatientsProgramEnrollmentComponent,
+        path: '',
+        component: PatientsProgramEnrollmentComponent
       },
       {
-        path: "patient-list",
-        component: ProgramEnrollmentPatientListComponent,
-      },
-    ],
+        path: 'patient-list',
+        component: ProgramEnrollmentPatientListComponent
+      }
+    ]
   },
   {
-    path: "data-entry-statistics",
+    path: 'data-entry-statistics',
     children: [
       {
-        path: "",
-        component: DataEntryStatisticsComponent,
+        path: '',
+        component: DataEntryStatisticsComponent
       },
       {
-        path: "patient-list",
-        component: DataEntryStatisticsPatientListComponent,
-      },
-    ],
+        path: 'patient-list',
+        component: DataEntryStatisticsPatientListComponent
+      }
+    ]
   },
   {
-    path: "select-department",
-    component: ChangeDepartmentComponent,
-  },
+    path: 'select-department',
+    component: ChangeDepartmentComponent
+  }
 ];
 
 export const DataAnalyticsDashboardOncologyRouting: ModuleWithProviders = RouterModule.forChild(
