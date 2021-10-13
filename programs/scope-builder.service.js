@@ -8,7 +8,10 @@ const def = {
 module.exports = def;
 
 function buildScope(dataDictionary) {
-  const scope = {};
+  const scope = {
+    isPatientTransferredOut: false,
+    isFirstAMPATHHIVVisit: true
+  };
 
   if (dataDictionary.patient) {
     buildPatientScopeMembers(scope, dataDictionary.patient);
@@ -42,14 +45,6 @@ function buildScope(dataDictionary) {
     }
   }
 
-  if (dataDictionary.hivLastTenClinicalEncounters) {
-    buildHivScopeMembers(
-      scope,
-      dataDictionary.hivLastTenClinicalEncounters,
-      dataDictionary.intendedVisitLocationUuid
-    );
-  }
-
   if (dataDictionary.hivLastEncounter) {
     if (dataDictionary.hivLastEncounter.months_from_last_visit >= 5) {
       scope.qualifiesForStandardVisit = true;
@@ -65,7 +60,11 @@ function buildScope(dataDictionary) {
   if (dataDictionary.patientEncounters) {
     scope.patientEncounters = dataDictionary.patientEncounters;
     scope.programUuid = dataDictionary.programUuid;
-    buildHivScopeMembers(scope, dataDictionary.patientEncounters);
+    buildHivScopeMembers(
+      scope,
+      dataDictionary.patientEncounters,
+      dataDictionary?.intendedVisitLocationUuid
+    );
     buildOncologyScopeMembers(
       scope,
       dataDictionary.patientEncounters,
@@ -74,7 +73,7 @@ function buildScope(dataDictionary) {
   }
 
   if (dataDictionary.isPatientTransferredOut) {
-    scope.isPatientTransferredOut = dataDictionary.isPatientTransferredOut;
+    scope['isPatientTransferredOut'] = dataDictionary.isPatientTransferredOut;
   }
 
   // add other methods to build the scope objects
@@ -86,16 +85,50 @@ function buildPatientScopeMembers(scope, patient) {
   scope.gender = patient.person.gender;
 }
 
-function isIntraTransfer(lastTenHivSummary, intendedVisitLocationUuid) {
-  if (
-    intendedVisitLocationUuid &&
-    Array.isArray(lastTenHivSummary) &&
-    lastTenHivSummary.length > 0
-  ) {
-    return intendedVisitLocationUuid !== lastTenHivSummary[0].location_uuid;
-  } else {
-    return false;
-  }
+function getPreviousHIVClinicallocation(patientEncounters) {
+  const hivClinicalEncounterTypeUuids = [
+    '8d5b27bc-c2cc-11de-8d13-0010c6dffd0f', // adult initial
+    '8d5b2be0-c2cc-11de-8d13-0010c6dffd0f', // Adult Return
+    '8d5b2dde-c2cc-11de-8d13-0010c6dffd0f', // Peds Initial
+    '8d5b3108-c2cc-11de-8d13-0010c6dffd0f', //peds return
+    'df553c4a-1350-11df-a1f1-0026b9348838', // PMTCTANC
+    'df55406e-1350-11df-a1f1-0026b9348838', // ADULTNONCLINICALMEDICATION
+    'df55417c-1350-11df-a1f1-0026b9348838', // PEDSNONCLINICALMEDICATION
+    'df554398-1350-11df-a1f1-0026b9348838', // ECSTABLE
+    'df5545aa-1350-11df-a1f1-0026b9348838', // ECHIGHRISK
+    'df555306-1350-11df-a1f1-0026b9348838', // ECPeds
+    'df555950-1350-11df-a1f1-0026b9348838', // ANCINITIAL
+    'df555a5e-1350-11df-a1f1-0026b9348838', // ANCRETURN
+    'df555b62-1350-11df-a1f1-0026b9348838', // POSTNATAL
+    'b1e9ed0f-5222-4d47-98f7-5678b8a21ebd', // PMTCTPOSTNATAL
+    'fc8c1694-90fc-46a8-962b-73ce9a99a78f', // YOUTHINITIAL
+    '4e7553b4-373d-452f-bc89-3f4ad9a01ce7', // YOUTHRETURN
+    '56b6a3cf-4552-45f9-a80b-bd8ab61a232f', // GENERALNOTE
+    '485ba2f3-8529-4255-804e-278c3a14f6ef', // CLINICREVIEW
+    '8e942fd1-135d-42bd-9701-04560f180ec5', // MOH257BLUECARD
+    '425ee5d1-bf39-4e09-b372-fc86abfea0c1', // RESISTANCECLINIC
+    '386eedd9-e835-48e5-9da9-59b2641ea742', // NONCLINICALMEDICATION
+    'e3202a01-8cd5-4224-b0dd-760557f85310', // DIFFERENTIATEDCARE
+    'fb8aa28d-ca10-4f9a-a913-3233afb4c22a', // HIVCOMMUNITYBASEDRESEARCH
+    '3c8cd5d4-cdc2-4136-8326-224b682b6543', // MDTFORM
+    '0ea8bfc4-fd3b-40bb-bb34-d5c5d9199c96', // DIFFERENTIATEDCARECLINICIAN
+    'b70a7e18-9ed1-4bf5-800e-740d7eaa3514', // DIFFERENTIATEDCARERETENTION
+    '693559d3-4e44-4d33-83f9-bc70ca56fe34', // TXSUPPORTERMEDREFILL
+    'fed9ffa5-da88-484a-8259-bee7daa6d6f2', // PEDSTHIRDLINE
+    'b690e24a-6dc7-40a8-8cbd-0924dd507dca', // YOUTHTHIRDLINE
+    'de78a6be-bfc5-4634-adc3-5f1a280455cc', // HIV Enrollment
+    'a0034eee-1940-4e35-847f-97537a35d05e' // HIV Consultation
+  ];
+  const encountersFromLatest = patientEncounters.reverse();
+  const latestHivClinicalLocation = [
+    encountersFromLatest.find((e) => {
+      const encounterType = e?.encounterType?.uuid;
+      return hivClinicalEncounterTypeUuids.includes(encounterType);
+    })
+  ].map((r) => {
+    return r?.encounterType?.uuid;
+  });
+  return latestHivClinicalLocation[0] ? latestHivClinicalLocation[0] : null;
 }
 
 function isInitialPrepVisit(patientEncounters) {
@@ -231,29 +264,35 @@ function buildProgramScopeMembers(scope, programEnrollment) {
 
 function buildHivScopeMembers(
   scope,
-  lastTenHivSummary,
+  patientEncounters,
   intendedVisitLocationUuid
 ) {
-  if (Array.isArray(lastTenHivSummary) && lastTenHivSummary.length > 0) {
-    scope.isFirstAMPATHHIVVisit = false;
-    scope.previousHIVClinicallocation = lastTenHivSummary[0].location_uuid;
-  } else {
-    // its first AMPATH visit if its not an intra transfer
-    scope.isFirstAMPATHHIVVisit = !isIntraTransfer(
-      lastTenHivSummary,
-      intendedVisitLocationUuid
-    );
-    scope.previousHIVClinicallocation = null;
-  }
-
-  scope.isFirstPrEPVisit = isInitialPrepVisit(scope.patientEncounters);
-  scope.isFirstPEPVisit = isInitialPepVisit(scope.patientEncounters);
-  scope.isFirstPMTCTVisit = isInitialPMTCTVisit(scope.patientEncounters);
+  scope.isFirstPrEPVisit = isInitialPrepVisit(patientEncounters);
+  scope.isFirstPEPVisit = isInitialPepVisit(patientEncounters);
+  scope.isFirstPMTCTVisit = isInitialPMTCTVisit(patientEncounters);
+  scope.isFirstAMPATHHIVVisit = !isInitialHivVisit(patientEncounters);
+  scope.previousHIVClinicallocation = getPreviousHIVClinicallocation(
+    patientEncounters
+  );
 }
 
 function buildOncologyScopeMembers(scope, patientEncounters, programUuid) {
   scope.isFirstOncologyVisit = isInitialOncologyVisit(
-    scope.patientEncounters,
+    patientEncounters,
     programUuid
   );
+}
+function isInitialHivVisit(patientEncounters) {
+  const adultInitial = '8d5b27bc-c2cc-11de-8d13-0010c6dffd0f';
+  const youthInitial = 'fc8c1694-90fc-46a8-962b-73ce9a99a78f';
+  const pedsInitial = '8d5b2dde-c2cc-11de-8d13-0010c6dffd0f';
+
+  const initialEncounters = [youthInitial, adultInitial, pedsInitial];
+  const hasInitial = patientEncounters.some((e) => {
+    const encounterType = e?.encounterType?.uuid;
+    return initialEncounters.some((i) => {
+      return i === encounterType;
+    });
+  });
+  return hasInitial;
 }

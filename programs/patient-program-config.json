@@ -4,7 +4,7 @@
     "dataDependencies": [
       "patient",
       "enrollment",
-      "hivLastTenClinicalEncounters",
+      "patientEncounters",
       "isPatientTransferredOut"
     ],
     "enrollmentOptions": {
@@ -2615,6 +2615,7 @@
       "enrollment",
       "hivLastTenClinicalEncounters",
       "hivLastEncounter",
+      "patientEncounters",
       "isPatientTransferredOut"
     ],
     "enrollmentOptions": {
@@ -4094,7 +4095,8 @@
       "enrollment",
       "hivLastTenClinicalEncounters",
       "patientEnrollment",
-      "isPatientTransferredOut"
+      "isPatientTransferredOut",
+      "patientEncounters"
     ],
     "enrollmentOptions": {
       "requiredProgramQuestions": [
