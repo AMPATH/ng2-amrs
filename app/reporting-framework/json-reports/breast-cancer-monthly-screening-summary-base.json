@@ -84,6 +84,11 @@
       "column": "fbcs.location_id"
     },
     {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "fbcs.location_uuid"
+    },
+    {
       "type": "derived_column",
       "alias": "past_clinical_breast_exam_results",
       "expressionType": "simple_expression",
@@ -636,7 +641,7 @@
       },
       {
         "filterType": "tableColumns",
-        "conditionExpression": "l.uuid in ?",
+        "conditionExpression": "fbcs.location_uuid in ?",
         "parameterName": "locationUuids"
       },
       {

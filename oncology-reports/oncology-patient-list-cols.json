@@ -8,6 +8,7 @@
         "patientListCols": [
           "encounter_datetime",
           "location_name",
+          "location_uuid",
           "identifiers",
           "person_name",
           "age",
@@ -30,6 +31,7 @@
         "patientListCols": [
           "encounter_datetime",
           "location_name",
+          "location_uuid",
           "identifiers",
           "person_name",
           "age",
@@ -52,6 +54,7 @@
         "patientListCols": [
           "encounter_datetime",
           "location_name",
+          "location_uuid",
           "identifiers",
           "person_name",
           "age",
@@ -74,6 +77,7 @@
         "patientListCols": [
           "encounter_datetime",
           "location_name",
+          "location_uuid",
           "identifiers",
           "person_name",
           "age",
@@ -96,6 +100,7 @@
         "patientListCols": [
           "encounter_datetime",
           "location_name",
+          "location_uuid",
           "identifiers",
           "person_name",
           "age",
@@ -118,6 +123,7 @@
         "patientListCols": [
           "encounter_datetime",
           "location_name",
+          "location_uuid",
           "identifiers",
           "person_name",
           "age",
@@ -140,6 +146,7 @@
         "patientListCols": [
           "encounter_datetime",
           "location_name",
+          "location_uuid",
           "identifiers",
           "person_name",
           "age",
@@ -162,6 +169,7 @@
         "patientListCols": [
           "encounter_datetime",
           "location_name",
+          "location_uuid",
           "identifiers",
           "person_name",
           "age",
@@ -184,6 +192,7 @@
         "patientListCols": [
           "encounter_datetime",
           "location_name",
+          "location_uuid",
           "identifiers",
           "person_name",
           "age",
@@ -206,6 +215,7 @@
         "patientListCols": [
           "encounter_datetime",
           "location_name",
+          "location_uuid",
           "identifiers",
           "person_name",
           "age",
@@ -228,6 +238,7 @@
         "patientListCols": [
           "encounter_datetime",
           "location_name",
+          "location_uuid",
           "identifiers",
           "person_name",
           "age",
@@ -250,6 +261,7 @@
         "patientListCols": [
           "encounter_datetime",
           "location_name",
+          "location_uuid",
           "identifiers",
           "person_name",
           "age",
@@ -272,6 +284,7 @@
         "patientListCols": [
           "encounter_datetime",
           "location_name",
+          "location_uuid",
           "identifiers",
           "person_name",
           "age",
@@ -302,6 +315,7 @@
         "patientListCols": [
           "encounter_datetime",
           "location_name",
+          "location_uuid",
           "identifiers",
           "person_name",
           "age",
@@ -324,6 +338,7 @@
         "patientListCols": [
           "encounter_datetime",
           "location_name",
+          "location_uuid",
           "identifiers",
           "person_name",
           "age",
@@ -346,6 +361,7 @@
         "patientListCols": [
           "encounter_datetime",
           "location_name",
+          "location_uuid",
           "identifiers",
           "person_name",
           "age",
@@ -368,6 +384,7 @@
         "patientListCols": [
           "encounter_datetime",
           "location_name",
+          "location_uuid",
           "identifiers",
           "person_name",
           "age",
@@ -390,6 +407,7 @@
         "patientListCols": [
           "encounter_datetime",
           "location_name",
+          "location_uuid",
           "identifiers",
           "person_name",
           "age",
@@ -412,6 +430,7 @@
         "patientListCols": [
           "encounter_datetime",
           "location_name",
+          "location_uuid",
           "identifiers",
           "person_name",
           "age",
@@ -434,6 +453,7 @@
         "patientListCols": [
           "encounter_datetime",
           "location_name",
+          "location_uuid",
           "identifiers",
           "person_name",
           "age",
@@ -456,6 +476,7 @@
         "patientListCols": [
           "encounter_datetime",
           "location_name",
+          "location_uuid",
           "identifiers",
           "person_name",
           "age",
@@ -478,6 +499,7 @@
         "patientListCols": [
           "encounter_datetime",
           "location_name",
+          "location_uuid",
           "identifiers",
           "person_name",
           "age",
@@ -500,6 +522,7 @@
         "patientListCols": [
           "encounter_datetime",
           "location_name",
+          "location_uuid",
           "identifiers",
           "person_name",
           "age",
@@ -522,6 +545,7 @@
         "patientListCols": [
           "encounter_datetime",
           "location_name",
+          "location_uuid",
           "identifiers",
           "person_name",
           "age",
@@ -544,6 +568,7 @@
         "patientListCols": [
           "encounter_datetime",
           "location_name",
+          "location_uuid",
           "identifiers",
           "person_name",
           "age",
@@ -566,6 +591,7 @@
         "patientListCols": [
           "encounter_datetime",
           "location_name",
+          "location_uuid",
           "identifiers",
           "person_name",
           "age",
@@ -588,6 +614,7 @@
         "patientListCols": [
           "encounter_datetime",
           "location_name",
+          "location_uuid",
           "identifiers",
           "person_name",
           "age",
@@ -610,6 +637,7 @@
         "patientListCols": [
           "encounter_datetime",
           "location_name",
+          "location_uuid",
           "identifiers",
           "person_name",
           "age",
