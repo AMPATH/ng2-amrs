@@ -1,0 +1,84 @@
+{
+  "name": "defaulterListBase",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "etl.flat_defaulters",
+      "alias": "fd"
+    },
+    {
+      "table": "etl.flat_hiv_summary_v15b",
+      "alias": "de",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "de.encounter_id = fd.encounter_id"
+      }
+    },
+    {
+      "table": "etl.program_visit_map",
+      "alias": "pm",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "de.visit_type = pm.visit_type_id"
+      }
+    },
+    {
+      "table": "amrs.program",
+      "alias": "p",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "p.program_id = pm.program_type_id"
+      }
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "fd.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "filed_id",
+      "column": "fd.filed_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "days_since_rtc",
+      "column": "fd.days_since_rtc"
+    },
+    {
+      "type": "simple_column",
+      "alias": "program",
+      "column": "p.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rtc_date",
+      "column": "DATE_FORMAT(fd.rtc_date,'%Y-%m-%d')"
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "fd.days_since_rtc >= ?",
+        "parameterName": "defaulterPeriod"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "fd.days_since_rtc <= ?",
+        "parameterName": "maxDefaultPeriod"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "fd.location_id in (?)",
+        "parameterName": "locations"
+      }
+    ]
+  }
+}

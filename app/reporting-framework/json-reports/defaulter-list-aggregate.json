@@ -1,0 +1,50 @@
+{
+  "name": "defaulterListAggregate",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [
+    {
+      "name": "defaulterListBase",
+      "version": "1.0",
+      "type": "dataset_def"
+    }
+  ],
+  "sources": [
+    {
+      "dataSet": "defaulterListBase",
+      "alias": "t2"
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "t2.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "total_defaulted",
+      "column": "count(distinct t2.person_id)"
+    }
+  ],
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["person_id"],
+    "excludeParam": "excludeParam"
+  },
+  "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+      "useTemplate": "patient-list-template",
+      "useTemplateVersion": "1.0",
+      "generatingDirectives": {
+        "joinDirectives": {
+          "joinType": "INNER",
+          "joinCondition": "<<base_column>> = <<template_column>>",
+          "baseColumn": "person_id",
+          "templateColumn": "person_id"
+        }
+      }
+    }
+  }
+}

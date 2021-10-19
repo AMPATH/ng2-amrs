@@ -74,6 +74,7 @@ import { PrepReminderService } from './service/prep-reminder/prep-reminder.servi
 import { HIVGainsAndLossesService } from './service/gains-and-losses/hiv-gains-losses-service';
 const cervicalCancerScreeningService = require('./service/cervical-cancer-screening-service');
 import { MOH412Service } from './service/moh-412/moh-412';
+import { DefaulterListService } from './service/defaulter-list-service';
 
 module.exports = (function () {
   var routes = [
@@ -709,7 +710,37 @@ module.exports = (function () {
       config: {
         auth: 'simple',
         handler: function (request, reply) {
-          dao.getDefaulterList(request, reply);
+          if (request.query.locationUuids) {
+            request.query.reportName = 'defaulter-list';
+            preRequest.resolveLocationIdsToLocationUuids(request, function () {
+              let requestParams = Object.assign(
+                {},
+                request.query,
+                request.params
+              );
+
+              let requestCopy = _.cloneDeep(requestParams);
+              let reportParams = etlHelpers.getReportParams(
+                request.query.reportName,
+                ['locationUuids', 'locations'],
+                requestParams
+              );
+
+              const defaulterService = new DefaulterListService();
+
+              defaulterService
+                .getPatientListReport(requestParams)
+                .then((results) => {
+                  _.each(results.result, (item) => {
+                    item.cur_meds = etlHelpers.getARVNames(item.cur_meds);
+                  });
+                  reply(results);
+                })
+                .catch((err) => {
+                  reply(Boom.internal('An error occured', err));
+                });
+            });
+          }
         },
         plugins: {
           hapiAuthorization: {
