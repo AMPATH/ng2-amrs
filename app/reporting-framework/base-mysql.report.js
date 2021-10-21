@@ -221,6 +221,10 @@ import * as hiv_cervical_cancer_screening_monthly_main_dataset_base from './json
 import * as hiv_cervical_cancer_monthly_summary_lesions_base from './json-reports/hiv-cervical-cancer-monthly-summary-lesions-base.json';
 import * as hiv_cervical_cancer_monthly_summary_lesions_aggregate from './json-reports/hiv-cervical-cancer-monthly-summary-lesions-aggregate.json';
 import * as hiv_cervical_cancer_monthly_summary_lesions_pcf_aggregate from './json-reports/hiv-cervical-cancer-monthly-summary-lesions-pcf-aggregate.json';
+
+import * as defaulter_list_aggregate from './json-reports/defaulter-list-aggregate.json';
+import * as defaulter_list_base from './json-reports/defaulter-list-base.json';
+
 export class BaseMysqlReport {
   constructor(reportName, params) {
     this.reportName = reportName;
@@ -1182,6 +1186,11 @@ export class BaseMysqlReport {
             hivCervicalCancerMonthlySummaryLesionsBase: this.cloneJsonSchema(
               hiv_cervical_cancer_monthly_summary_lesions_base
             )
+          });
+        case 'defaulterListAggregate':
+          resolve({
+            main: this.cloneJsonSchema(defaulter_list_aggregate),
+            defaulterListBase: this.cloneJsonSchema(defaulter_list_base)
           });
         default:
           reject('Unknown report ', reportName);
