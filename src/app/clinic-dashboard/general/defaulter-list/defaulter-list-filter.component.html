@@ -1,0 +1,42 @@
+<div class="row" id="defaulter-list-filter">
+  <div class="container-fluid">
+    <form class="form-horizontal">
+      <div class="row">
+        <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+          <label for="number-days">Enter Minimum Days Missing</label>
+          <input
+            type="number"
+            class="form-control"
+            [(ngModel)]="minDefaultPeriod"
+            min="0"
+            name="min-default"
+          />
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+          <label for="number-days">Enter Maximum Days Missing</label>
+          <input
+            type="number"
+            class="form-control"
+            [(ngModel)]="maxDefaultPeriod"
+            min="0"
+            name="max-default"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12" id="filter-btns">
+          <div class="pull-left">
+            <button class="btn btn-primary btn-search" (click)="setFilter()">
+              Generate Report<i class="fa fa-gear fa-fw"></i>
+            </button>
+          </div>
+          <div class="pull-right">
+            <button class="btn btn-danger btn-search" (click)="resetFilters()">
+              Clear Filters <i class="fa fa-trash fa-fw"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

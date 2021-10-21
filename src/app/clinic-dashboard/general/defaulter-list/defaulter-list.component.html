@@ -4,11 +4,11 @@
 <div class="loader" *ngIf="loadingDefaulterList">
   <span><i class="fa fa-spinner fa-spin"></i>Loading defaulter list...</span>
 </div>
-<program-visit-encounter-search
-  (filterSelected)="filterSelected($event)"
-  [defaultersControl]="defaultersControl"
+<app-defaulter-list-filter
+  [currentLocation]="locationUuids"
+  (resetFilter)="resetFilter($event)"
 >
-</program-visit-encounter-search>
+</app-defaulter-list-filter>
 
 <div *ngIf="errors" style="color: red !important">
   <div *ngFor="let error of errors">{{ error.message }}</div>
@@ -18,28 +18,11 @@
   [data]="defaulterList"
   [extraColumns]="extraColumns()"
 ></patient-list>
-<div *ngIf="!dataLoaded">
-  <div class="button">
-    <button
-      class="btn btn-primary"
-      [ladda]="isLoading"
-      data-size="xs"
-      data-color="blue"
-      (click)="loadMoreDefaulterList()"
-    >
-      <span class=""></span>Load More...
-    </button>
-  </div>
-</div>
 
-<div *ngIf="dataLoaded">
-  <p class="bg-info" style="padding: 4px">
-    <b>
-      <span style="color: green" class="glyphicon glyphicon-ok"
-        >All records loaded {{ '[ ' + defaulterList.length + ']' }}</span
-      ></b
-    >
-  </p>
-
-  <p></p>
-</div>
+<p class="bg-info" style="padding: 4px" *ngIf="defaulterList.length > 0">
+  <b>
+    <span style="color: green" class="glyphicon glyphicon-ok"
+      >All records loaded {{ '[ ' + defaulterList.length + ']' }}</span
+    ></b
+  >
+</p>
