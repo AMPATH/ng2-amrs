@@ -79,6 +79,7 @@ import { MOH412ClinicDashboardComponent } from './moh-412-report/moh-412-clinic-
 import { MOH412ClinicDashboardPatientListComponent } from './moh-412-report/moh-412-clinic-dashboard-patient-list.component';
 import { OncologyProgramModule } from './../../oncology-care-lib/oncology-care-lib.module';
 import { IptReportComponent } from './ipt-report/ipt-report.component';
+import { DefaulterListFilterComponent } from './../general/defaulter-list/defaulter-list-filter-component';
 
 @NgModule({
   imports: [
@@ -131,7 +132,8 @@ import { IptReportComponent } from './ipt-report/ipt-report.component';
     ClinicDashboardHeiReportComponent,
     ClinicDashboardGainsAndLossesComponent,
     MOH412ClinicDashboardComponent,
-    MOH412ClinicDashboardPatientListComponent
+    MOH412ClinicDashboardPatientListComponent,
+    DefaulterListFilterComponent
   ],
   declarations: [
     Moh731ReportComponent,
@@ -174,7 +176,8 @@ import { IptReportComponent } from './ipt-report/ipt-report.component';
     ClinicDashboardGainsAndLossesComponent,
     MOH412ClinicDashboardComponent,
     MOH412ClinicDashboardPatientListComponent,
-    IptReportComponent
+    IptReportComponent,
+    DefaulterListFilterComponent
   ],
   providers: [ClinicalSummaryVisualizationService],
   entryComponents: [PatientStatusDatalistCellComponent]
