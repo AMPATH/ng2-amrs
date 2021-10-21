@@ -11,25 +11,16 @@ export class DefaulterListResourceService {
     private cacheService: DataCacheService
   ) {}
 
-  public getUrl(reportName): string {
+  public getUrl(reportName: string): string {
     return this.appSettingsService.getEtlRestbaseurl().trim() + reportName;
   }
 
-  public getDefaulterList(params) {
-    if (!params.startIndex) {
-      params.startIndex = "0";
-    }
-    if (!params.limit) {
-      params.limit = "300";
-    }
+  public getDefaulterList(params: any) {
     const urlParams: HttpParams = new HttpParams()
-      .set("startIndex", params.startIndex)
-      .set("defaulterPeriod", params.defaulterPeriod)
-      .set("maxDefaultPeriod", params.maxDefaultPeriod)
-      .set("locationUuids", params.locationUuids)
-      .set("limit", params.limit)
-      .set("programUuid", params.programUuid);
-    const url = this.getUrl("defaulter-list");
+      .set('defaulterPeriod', params.minDefaultPeriod)
+      .set('maxDefaultPeriod', params.maxDefaultPeriod)
+      .set('locationUuids', params.locationUuids);
+    const url = this.getUrl('defaulter-list');
     const request = this.http
       .get<any>(url, {
         params: urlParams,

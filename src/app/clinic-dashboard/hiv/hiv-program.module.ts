@@ -76,6 +76,8 @@ import { ClinicDashboardGainsAndLossesComponent } from "./patient-gain-and-loses
 import { MOH412ClinicDashboardComponent } from './moh-412-report/moh-412-clinic-dashboard.component';
 import { MOH412ClinicDashboardPatientListComponent } from './moh-412-report/moh-412-clinic-dashboard-patient-list.component';
 import { OncologyProgramModule } from './../../oncology-care-lib/oncology-care-lib.module';
+import { DefaulterListFilterComponent } from './../general/defaulter-list/defaulter-list-filter-component';
+
 @NgModule({
   imports: [
     clinicDashboardHivRouting,
@@ -126,7 +128,8 @@ import { OncologyProgramModule } from './../../oncology-care-lib/oncology-care-l
     ClinicDashboardHeiReportComponent,
     ClinicDashboardGainsAndLossesComponent,
     MOH412ClinicDashboardComponent,
-    MOH412ClinicDashboardPatientListComponent
+    MOH412ClinicDashboardPatientListComponent,
+    DefaulterListFilterComponent
   ],
   declarations: [
     Moh731ReportComponent,
@@ -167,7 +170,8 @@ import { OncologyProgramModule } from './../../oncology-care-lib/oncology-care-l
     IptReportComponent,
     ClinicDashboardGainsAndLossesComponent,
     MOH412ClinicDashboardComponent,
-    MOH412ClinicDashboardPatientListComponent
+    MOH412ClinicDashboardPatientListComponent,
+    DefaulterListFilterComponent
   ],
   providers: [ClinicalSummaryVisualizationService],
   entryComponents: [PatientStatusDatalistCellComponent],
