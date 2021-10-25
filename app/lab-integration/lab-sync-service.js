@@ -263,8 +263,10 @@ export class LabSyncService {
     for (let obs of payload) {
       if (typeof obs === 'undefined') {
       } else {
-        if (obs.hasOwnProperty('value')) {
+        if (obs.hasOwnProperty('value') || obs.hasOwnProperty('groupMembers')) {
           promises.push(obsService.postObsToAMRS(obs));
+        } else {
+          console.log('Obs has no value or groupmembers', obs);
         }
       }
     }
