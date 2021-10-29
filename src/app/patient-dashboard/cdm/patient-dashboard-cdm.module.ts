@@ -27,6 +27,7 @@ import { CdmSummaryComponent } from './cdm-summary/cdm-summary.component';
 import { CdmSummaryLatestComponent } from './cdm-summary/cdm-summary-latest.component';
 import { CdmSummaryHistoricalComponent } from './cdm-summary/cdm-summary-historical.component';
 import { CdmMedicationHistoryComponent } from './cdm-summary/medication-history.component';
+import { CdmClinicalSummaryComponent } from './patient-clinical-summaries/cdm-clinical-summary.component';
 
 @NgModule({
   imports: [
@@ -43,7 +44,8 @@ import { CdmMedicationHistoryComponent } from './cdm-summary/medication-history.
     CdmSummaryComponent,
     CdmSummaryLatestComponent,
     CdmSummaryHistoricalComponent,
-    CdmMedicationHistoryComponent
+    CdmMedicationHistoryComponent,
+    CdmClinicalSummaryComponent
   ]
 })
 export class PatientDashboardCdmModule {}
