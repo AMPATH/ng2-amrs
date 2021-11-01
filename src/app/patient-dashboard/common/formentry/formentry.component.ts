@@ -45,6 +45,8 @@ import { PatientTransferService } from './patient-transfer.service';
 import { UserDefaultPropertiesService } from '../../../user-default-properties/user-default-properties.service';
 import { UserService } from '../../../openmrs-api/user.service';
 import { PatientConsentResourceService } from './../../../openmrs-api/patient-consent-resource.service';
+import { PatientEACSessionResourceService } from './../../../etl-api/patient-eac-session-resource.service';
+
 @Component({
   selector: 'app-formentry',
   templateUrl: './formentry.component.html',
@@ -109,6 +111,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
   private hasCallConsent = false;
   private familyTestingEncounterUuid: any;
   private updateContacts: boolean;
+  private eacSessionNo = null;
 
   constructor(
     private appFeatureAnalytics: AppFeatureAnalytics,
@@ -135,7 +138,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
     public router: Router,
     private userService: UserService,
     public userDefaultPropertiesService: UserDefaultPropertiesService,
-    public patientConsentResourceService: PatientConsentResourceService
+    public patientConsentResourceService: PatientConsentResourceService,
+    private patientEacService: PatientEACSessionResourceService
   ) {}
 
   public ngOnInit() {
@@ -144,6 +148,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
       'Formentry Component Loaded',
       'ngOnInit'
     );
+    // this.getEacSessionNo();
     this.wireDataSources();
     const componentRef = this;
     this.route.params.subscribe((routeParams) => {
@@ -250,6 +255,10 @@ export class FormentryComponent implements OnInit, OnDestroy {
     this.dataSources.registerDataSource(
       'patient',
       this.formDataSourceService.getDataSources()['hasCallConsent']
+    );
+    this.dataSources.registerDataSource(
+      'patient',
+      this.formDataSourceService.getDataSources()['eacSessionNo']
     );
   }
 
@@ -786,8 +795,21 @@ export class FormentryComponent implements OnInit, OnDestroy {
             .subscribe(
               (results: any) => {
                 this.hasCallConsent = results.hasCallConsent;
-                this.renderForm();
-                this.isBusyIndicator(false);
+                this.patientEacService
+                  .getPatientLatesSessionNumber(this.patient.uuid)
+                  .subscribe((result: any) => {
+                    console.log('eac result', result);
+                    if (result) {
+                      this.eacSessionNo = result.eacSessionNo;
+                      this.dataSources.registerDataSource(
+                        'patient',
+                        { eacSessionNo: this.eacSessionNo },
+                        true
+                      );
+                    }
+                    this.renderForm();
+                    this.isBusyIndicator(false);
+                  });
               },
               (error) => {
                 this.renderForm();
@@ -906,6 +928,11 @@ export class FormentryComponent implements OnInit, OnDestroy {
         true
       );
       this.dataSources.registerDataSource(
+        'patient',
+        { eacSessionNo: this.eacSessionNo },
+        true
+      );
+      this.dataSources.registerDataSource(
         'userLocation',
         this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject()
       );
@@ -925,6 +952,11 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
       if (this.encounter) {
         // editing existing form
+        this.dataSources.registerDataSource(
+          'patient',
+          { eacSessionNo: null },
+          true
+        );
         this.form = this.formFactory.createForm(
           schema,
           this.dataSources.dataSources

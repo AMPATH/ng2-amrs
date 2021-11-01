@@ -81,6 +81,7 @@ import { ProgramManagerService } from '../../../program-manager/program-manager.
 import { ProgramWorkFlowResourceService } from '../../../openmrs-api/program-workflow-resource.service';
 import { ProgramWorkFlowStateResourceService } from '../../../openmrs-api/program-workflow-state-resource.service';
 import { PatientConsentResourceService } from './../../../openmrs-api/patient-consent-resource.service';
+import { PatientEACSessionResourceService } from './../../../etl-api/patient-eac-session-resource.service';
 
 export class FakeConceptResourceService {
   constructor() {}
@@ -170,6 +171,20 @@ export class FakePatientConsentResourceService {
   public getPatientCallConsent(patientUuid): Observable<any> {
     return Observable.of({
       hasCallConsent: false
+    });
+  }
+}
+
+export class FakePatientEACSessionResourceService {
+  public getPatientLatesSessionNumber(patientUuid): Observable<any> {
+    return Observable.of({
+      patientUuid: 'uuid',
+      eacSessionNo: 3,
+      data: {
+        encounter_datetime: '2020-08-10T06:55:49.000Z',
+        mdt_session_number: 3,
+        vl_1: 138
+      }
     });
   }
 }
@@ -400,6 +415,12 @@ describe('Component: FormentryComponent', () => {
           provide: PatientConsentResourceService,
           useFactory: () => {
             return new FakePatientConsentResourceService();
+          }
+        },
+        {
+          provide: PatientEACSessionResourceService,
+          useFactory: () => {
+            return new FakePatientEACSessionResourceService();
           }
         }
       ]
