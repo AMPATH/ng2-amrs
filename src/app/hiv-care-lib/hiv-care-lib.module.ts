@@ -42,6 +42,7 @@ import { ClinicFlowSummaryComponent } from './clinic-flow/clinic-flow-summary.co
 import { ClinicFlowVisitsComponent } from './clinic-flow/clinic-flow-visits.component';
 import { ClinicFlowLocationStatsComponent } from './clinic-flow/clinic-flow-location-stats.component';
 import { ClinicFlowProviderStatsComponent } from './clinic-flow/clinic-flow-provider-stats.component';
+import { ClinicFlowProviderStatsPatientListComponent } from './clinic-flow/clinic-flow-provider-stats-patient-list.component';
 import { ReportingUtilitiesModule } from '../reporting-utilities/reporting-utilities.module';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { HivCareComparativeOverviewBaseComponent } from './hiv-visualization/hiv-care-overview-base.component';
@@ -165,6 +166,7 @@ import { PatientGainsFiltersComponent } from './patient-gains-and-loses/patient-
     ClinicFlowVisitsComponent,
     ClinicFlowLocationStatsComponent,
     ClinicFlowProviderStatsComponent,
+    ClinicFlowProviderStatsPatientListComponent,
     HivCareComparativeOverviewBaseComponent,
     HivCareComparativeChartComponent,
     HivCareIndicatorDefComponent,
@@ -218,6 +220,7 @@ import { PatientGainsFiltersComponent } from './patient-gains-and-loses/patient-
     ClinicFlowVisitsComponent,
     ClinicFlowLocationStatsComponent,
     ClinicFlowProviderStatsComponent,
+    ClinicFlowProviderStatsPatientListComponent,
     HivCareComparativeOverviewBaseComponent,
     HivCareComparativeChartComponent,
     HivCareIndicatorDefComponent,

@@ -51,12 +51,17 @@ import { MockHivClinicFlowResourceService } from '../../etl-api/hiv-clinic-flow-
 import { ClinicFlowProviderStatsComponent } from './clinic-flow-provider-stats.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
+class MockActivatedRoute {
+  public params = Observable.of([{ id: 1 }]);
+}
+
 describe('Component: ClinicFlowProviderStatsComponent', () => {
   let component,
     clinicDashBoardCacheService: ClinicDashboardCacheService,
     clinicFlowCacheService: ClinicFlowCacheService,
     clinicFlowResource: ClinicFlowResource,
     router: Router,
+    route: ActivatedRoute,
     fixture;
 
   beforeEach(() => {
@@ -102,6 +107,10 @@ describe('Component: ClinicFlowProviderStatsComponent', () => {
           }
         },
         {
+          provide: ActivatedRoute,
+          useClass: MockActivatedRoute
+        },
+        {
           provide: AppFeatureAnalytics,
           useFactory: () => {
             return new FakeAppFeatureAnalytics();
@@ -129,10 +138,11 @@ describe('Component: ClinicFlowProviderStatsComponent', () => {
     clinicFlowResource = TestBed.get(HivClinicFlowResourceService);
     clinicDashBoardCacheService = TestBed.get(ClinicDashboardCacheService);
     router = TestBed.get(Router);
-    router = TestBed.get(Router);
+    route = TestBed.get(ActivatedRoute);
     component = new ClinicFlowProviderStatsComponent(
       clinicFlowCacheService,
       router,
+      route,
       clinicFlowResource
     );
     expect(component).toBeTruthy();
