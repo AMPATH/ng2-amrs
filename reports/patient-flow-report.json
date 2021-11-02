@@ -232,6 +232,11 @@
         "sql": "t7.person_id"
       },
       {
+        "label": "provider_uuid",
+        "type": "single",
+        "sql": "t7.uuid"
+      },
+      {
         "label": "visit_person_id",
         "type": "single",
         "sql": "t10.person_id"
@@ -280,6 +285,11 @@
         "label": "location_id",
         "type": "single",
         "sql": "t12.location_id"
+      },
+      {
+        "label": "location_uuid",
+        "type": "single",
+        "sql": "t12.uuid"
       }
     ],
     "indicatorHandlers": [

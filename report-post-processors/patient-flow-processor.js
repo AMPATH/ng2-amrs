@@ -122,6 +122,7 @@ function _handleEncouters(result, visit) {
       encounter_end: result.encounter_end,
       encounter_type_name: result.encounter_type_name,
       location: result.location,
+      encounter_location: result.location_uuid,
 
       person_name:
         (result.provider_given_name && result.provider_given_name != null
@@ -133,7 +134,8 @@ function _handleEncouters(result, visit) {
         (result.provider_family_name && result.provider_family_name != null
           ? ' ' + result.provider_family_name
           : ''),
-      person_id: result.person_id
+      person_id: result.person_id,
+      provider_uuid: result.provider_uuid
     };
 
     visit.encounters.push(encounter);

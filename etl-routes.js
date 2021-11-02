@@ -75,6 +75,7 @@ import { HIVGainsAndLossesService } from './service/gains-and-losses/hiv-gains-l
 const cervicalCancerScreeningService = require('./service/cervical-cancer-screening-service');
 import { MOH412Service } from './service/moh-412/moh-412';
 import { DefaulterListService } from './service/defaulter-list-service';
+import { ClinicFlowService } from './service/clinic-flow-service';
 
 module.exports = (function () {
   var routes = [
@@ -2134,6 +2135,43 @@ module.exports = (function () {
         description: "Get a location's patient movement and waiting time data",
         notes:
           "Returns a location's patient flow with the given location uuid.",
+        tags: ['api'],
+        validate: {
+          options: {
+            allowUnknown: true
+          },
+          params: {}
+        }
+      }
+    },
+    {
+      method: 'GET',
+      path: '/etl/clinic-flow-provider-statistics/patient-list',
+      config: {
+        auth: 'simple',
+        plugins: {
+          hapiAuthorization: {
+            role: privileges.canViewClinicDashBoard
+          }
+        },
+        handler: function (request, reply) {
+          let requestParams = Object.assign({}, request.query, request.params);
+          requestParams.reportName = 'clinic-flow-provider-statistics-report';
+          const clinicFlowService = new ClinicFlowService();
+          clinicFlowService
+            .getPatientListReport(requestParams)
+            .then((results) => {
+              reply(results);
+            })
+            .catch((error) => {
+              console.error(error);
+              reply(error);
+            });
+        },
+        description:
+          'Get patient list for the provider statistics in clinic flow',
+        notes:
+          'Returns a patient list for the provider statistics in clinic flow.',
         tags: ['api'],
         validate: {
           options: {

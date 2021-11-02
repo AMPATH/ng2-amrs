@@ -225,6 +225,9 @@ import * as hiv_cervical_cancer_monthly_summary_lesions_pcf_aggregate from './js
 import * as defaulter_list_aggregate from './json-reports/defaulter-list-aggregate.json';
 import * as defaulter_list_base from './json-reports/defaulter-list-base.json';
 
+//clinic clow report
+import * as clinic_flow_provider_statistics_aggregate from './json-reports/clinic-flow-provider-statistics-aggregate.json';
+import * as clinic_flow_provider_statistics_base from './json-reports/clinic-flow-provider-statistics-base.json';
 export class BaseMysqlReport {
   constructor(reportName, params) {
     this.reportName = reportName;
@@ -1191,6 +1194,15 @@ export class BaseMysqlReport {
           resolve({
             main: this.cloneJsonSchema(defaulter_list_aggregate),
             defaulterListBase: this.cloneJsonSchema(defaulter_list_base)
+          });
+        case 'clinicFlowProviderStatisticsAggregate':
+          resolve({
+            main: this.cloneJsonSchema(
+              clinic_flow_provider_statistics_aggregate
+            ),
+            clinicFlowProviderStatisticsBase: this.cloneJsonSchema(
+              clinic_flow_provider_statistics_base
+            )
           });
         default:
           reject('Unknown report ', reportName);

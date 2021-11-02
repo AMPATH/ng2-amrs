@@ -1,0 +1,174 @@
+{
+  "name": "clinicFlowProviderStatisticsBase",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "etl.flat_appointment",
+      "alias": "t2"
+    },
+    {
+      "table": "amrs.encounter",
+      "alias": "ae",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "ae.encounter_id = t2.encounter_id"
+      }
+    },
+    {
+      "table": "amrs.visit",
+      "alias": "v",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "ae.visit_id = v.visit_id"
+      }
+    },
+    {
+      "table": "amrs.users",
+      "alias": "t10",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "v.creator = t10.user_id"
+      }
+    },
+    {
+      "table": "amrs.person",
+      "alias": "t11",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t10.person_id = t11.person_id"
+      }
+    },
+    {
+      "table": "amrs.encounter_provider",
+      "alias": "t6",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "t2.encounter_id = t6.encounter_id"
+      }
+    },
+    {
+      "table": "amrs.provider",
+      "alias": "t7",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "t7.provider_id = t6.provider_id"
+      }
+    },
+    {
+      "table": "amrs.person",
+      "alias": "pp",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "t7.person_id = pp.person_id AND pp.voided = 0"
+      }
+    },
+    {
+      "table": "amrs.person_name",
+      "alias": "provider_name",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "provider_name.person_id = pp.person_id AND provider_name.voided = 0"
+      }
+    },
+    {
+      "table": "amrs.encounter_type",
+      "alias": "t9",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "t9.encounter_type_id = t2.encounter_type"
+      }
+    },
+    {
+      "table": "amrs.location",
+      "alias": "l",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "t2.location_id = l.location_id"
+      }
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "visit_start",
+      "column": "v.date_started"
+    },
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "t2.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "visit_person_id",
+      "column": "t10.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "Encounter Type",
+      "column": "t9.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "l.name"
+    },
+    {
+      "type": "derived_column",
+      "alias": "provider",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": " CONCAT(COALESCE(provider_name.given_name, ''), ' ', COALESCE(provider_name.middle_name, ''), ' ', COALESCE(provider_name.family_name, ''))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "seen",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(t2.encounter_id IS NOT NULL,1,NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "visit_started",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "t7.person_id = t11.person_id",
+            "value": 1
+          }
+        ]
+      }
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "t7.uuid = ?",
+        "parameterName": "providerUuid"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "DATE(t2.encounter_datetime) = ?",
+        "parameterName": "encounterDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "t2.encounter_type in (?)",
+        "parameterName": "encounterTypeId"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "l.uuid in (?)",
+        "parameterName": "locationUuid"
+      }
+    ]
+  }
+}
