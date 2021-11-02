@@ -8,7 +8,11 @@
         <div class="loader" *ngIf="dataLoading">
           <span><i class="fa fa-spinner fa-spin"></i>Loading...</span>
         </div>
-        <mat-tab-group [selectedIndex]="selectedTab" *ngIf="!hasError">
+        <mat-tab-group
+          [selectedIndex]="selectedTab"
+          *ngIf="!hasError"
+          (selectedTabChange)="selectedTabChange($event)"
+        >
           <mat-tab label="Summary">
             <clinic-flow-summary></clinic-flow-summary>
           </mat-tab>

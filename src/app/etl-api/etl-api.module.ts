@@ -40,6 +40,7 @@ import { PatientEducationService } from './patient-education.service';
 import { HeiReportService } from './hei-report.service';
 import { CervicalCancerScreeningSummaResourceService } from './cervical-cancer-screening-summary-resource.service';
 import { MOH412ResourceService } from './moh-412-resource.service';
+import { ClinicFlowResourceService } from './clinic-flow-resource.service';
 @NgModule({
   imports: [CommonModule, AppSettingsModule],
   declarations: [],
@@ -84,7 +85,8 @@ import { MOH412ResourceService } from './moh-412-resource.service';
     HeiReportService,
     PatientEducationService,
     CervicalCancerScreeningSummaResourceService,
-    MOH412ResourceService
+    MOH412ResourceService,
+    ClinicFlowResourceService
   ],
   exports: []
 })

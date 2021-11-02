@@ -33,11 +33,21 @@ import { MOH412HIVDataAnalyticsComponent } from './moh-412-report/moh-412-hiv-da
 import { MOH412HIVDataAnalyticsPatientListComponent } from './moh-412-report/moh-412-hiv-data-analytics-patient-list.component';
 import { IptReportPatientListComponent } from 'src/app/hiv-care-lib/ipt-report/ipt-report-patient-list.component';
 import { IPTReportComponent } from './ipt-report/ipt-report.component';
+import { ClinicFlowProviderStatsPatientListComponent } from './../../hiv-care-lib/clinic-flow/clinic-flow-provider-stats-patient-list.component';
 
 const routes: Routes = [
   {
     path: 'clinic-flow',
-    component: AdminDashboardClinicFlowComponent
+    children: [
+      {
+        path: '',
+        component: AdminDashboardClinicFlowComponent
+      },
+      {
+        path: 'patient-list',
+        component: ClinicFlowProviderStatsPatientListComponent
+      }
+    ]
   },
   {
     path: 'program-enrollment',

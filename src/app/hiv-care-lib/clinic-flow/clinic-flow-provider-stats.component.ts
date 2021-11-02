@@ -1,19 +1,13 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  Input,
-  SimpleChange,
-  ViewChild
-} from '@angular/core';
-import { Injectable, Inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Inject } from '@angular/core';
 
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { ClinicFlowResource } from '../../etl-api/clinic-flow-resource-interface';
 import { ClinicFlowCacheService } from './clinic-flow-cache.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash';
 import { AgGridNg2 } from 'ag-grid-angular';
+import * as moment from 'moment';
 @Component({
   selector: 'clinic-flow-provider-stats',
   templateUrl: './clinic-flow-provider-stats.component.html'
@@ -40,6 +34,7 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
   constructor(
     private clinicFlowCacheService: ClinicFlowCacheService,
     private router: Router,
+    public route: ActivatedRoute,
     @Inject('ClinicFlowResource') private clinicFlowResource: ClinicFlowResource
   ) {}
 
@@ -104,10 +99,17 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
       header = header.filter((el) => {
         return el.label !== personName;
       });
-      _.each(header, (keys) => {
+      _.each(header, (keys: any) => {
         defs.push({
           headerName: this.titleCase(keys.label),
-          field: keys.label
+          field: keys.label,
+          hide:
+            keys.label === 'provider_uuid' ||
+            keys.label === 'provider_ecounters' ||
+            keys.label === 'visit_date' ||
+            keys.label === 'location_uuid'
+              ? true
+              : false
         });
       });
       this.gridOptions.columnDefs = defs;
@@ -152,8 +154,7 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
       throw new Error('Null clinic flow observable');
     } else {
       this.clinicFlowSubscription = result.take(1).subscribe(
-        (dataList) => {
-          console.log('Datalist :::::>>', dataList);
+        (dataList: any) => {
           this.patientStatuses = dataList.result;
           this.transformVisitsToDummyEncounters(this.patientStatuses);
           this.groupEncountersByProvider();
@@ -177,7 +178,7 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
       );
     }
   }
-  public transformVisitsToDummyEncounters(result) {
+  public transformVisitsToDummyEncounters(result: any) {
     _.each(result, (data: any) => {
       // reconstructing an array of objects to contain all provider encounters
       this.providerEncounters.push.apply(
@@ -193,7 +194,6 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
         location: data.location,
         encounter_type: 8888,
         person_id: data.visit_person_id,
-
         encounter_type_name: 'Visits_Started'
       });
     });
@@ -215,7 +215,7 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
     }
     this._constructFinalProviderReport(providersPersonIds);
   }
-  public getTotalPatientSeenByProvider(arrayOfObjects, visits) {
+  public getTotalPatientSeenByProvider(arrayOfObjects: any, visits: string) {
     const result = [];
 
     for (const i of arrayOfObjects) {
@@ -237,11 +237,24 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
   }
   private _constructFinalProviderReport(providersPersonIds) {
     _.each(providersPersonIds, (provider) => {
-      const row = {};
+      const row = {
+        provider_ecounters: []
+      };
       _.each(this.providerEncounters, (result: any) => {
         if (provider === result.person_id) {
           row['Person_Name'] = result.person_name;
           row['Location'] = result.location;
+          row['provider_uuid'] = result.provider_uuid;
+          row['visit_date'] = moment(result.encounter_start).format(
+            'YYYY-MM-DD'
+          );
+          row['location_uuid'] = result.encounter_location;
+          row['provider_ecounters'].push({
+            encounter_type: result.encounter_type_name,
+            encounter_type_id: result.encounter_type,
+            encounter_date: moment(result.encounter_start).format('YYYY-MM-DD'),
+            encounter_location: result.encounter_location
+          });
           // count encounter type per provider
           row[result.encounter_type_name] =
             (row[result.encounter_type_name] || 0) + 1;
@@ -266,5 +279,65 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
     this.gridOptions.columnDefs = [];
     this.patientStatuses = [];
     this.providerEncounters = [];
+  }
+
+  public onCellClicked($event: any): void {
+    const params = this.generatePatientListParams($event);
+    this.navigateToPatientList(params);
+  }
+  private generatePatientListParams(colData: any) {
+    const field: string = colData.colDef.field;
+    const indicator = this.getIndicator(field);
+    let encounter = {
+      encounter_type_id: '',
+      encounter_date: colData.data.visit_date,
+      encounter_location: colData.data.location_uuid
+    };
+    const providerEncounters = colData.data.provider_ecounters;
+    const hasNonPatientListIndicators = [
+      'Location',
+      'Person_Name',
+      '#_Seen',
+      'Visits_Started',
+      'Location_Uuid'
+    ].some((e: string) => e === field);
+    if (!hasNonPatientListIndicators) {
+      encounter = providerEncounters.find((enc: any) => {
+        return enc.encounter_type === field && enc.encounter_type_id !== 8888;
+      });
+    }
+    const params = {
+      providerUuid: colData.data.provider_uuid,
+      encounterTypeId: encounter.encounter_type_id,
+      encounterDate: encounter.encounter_date,
+      indicators: indicator,
+      location_uuid: encounter.encounter_location
+    };
+
+    return params;
+  }
+  public navigateToPatientList(params: any) {
+    if (params.encounterTypeId.length === 0 && params.indicators.length === 0) {
+      return false;
+    }
+    this.router.navigate(['patient-list'], {
+      relativeTo: this.route,
+      queryParams: params
+    });
+  }
+  public getIndicator(field: string): string {
+    let indicator = '';
+    switch (field) {
+      case '#_Seen':
+        indicator = 'seen';
+        break;
+      case 'Visits_Started':
+        indicator = 'visit_started';
+        break;
+      default:
+        indicator = '';
+    }
+
+    return indicator;
   }
 }

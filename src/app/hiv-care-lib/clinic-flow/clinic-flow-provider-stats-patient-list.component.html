@@ -1,0 +1,32 @@
+<div class="container-fluid">
+  <busy
+    *ngIf="loadingData"
+    [message]="'Fetching Patient List report...'"
+  ></busy>
+  <div class="row">
+    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+      <h4 align="center">{{ title }}</h4>
+      <hr class="intro-divider" />
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+      <button class="btn btn-primary" (click)="navigateBack()">
+        <span class="glyphicon glyphicon-arrow-left"></span>
+        <span>Back To Counts </span>
+      </button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+      <patient-list
+        [data]="patientData"
+        [extraColumns]="extraColumns"
+        [hivColumns]="true"
+      >
+      </patient-list>
+    </div>
+  </div>
+</div>
