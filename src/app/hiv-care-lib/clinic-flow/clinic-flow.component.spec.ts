@@ -61,6 +61,9 @@ import "rxjs/add/observable/of";
 
 class MockActivatedRoute {
   public params = Observable.of([{ id: 1 }]);
+  public queryParams = Observable.of({
+    selectedTab: 0
+  });
 }
 
 describe("Component: ClinicFlowComponent", () => {
@@ -155,12 +158,13 @@ describe("Component: ClinicFlowComponent", () => {
     clinicFlowCacheService = TestBed.get(ClinicFlowCacheService);
     clinicFlowResource = TestBed.get(HivClinicFlowResourceService);
     clinicDashBoardCacheService = TestBed.get(ClinicDashboardCacheService);
-    router = TestBed.get(Router);
+    activatedRoute = TestBed.get(ActivatedRoute);
     router = TestBed.get(Router);
 
     component = new ClinicFlowComponent(
       clinicFlowCacheService,
       activatedRoute,
+      router,
       clinicFlowResource
     );
     expect(component).toBeTruthy();

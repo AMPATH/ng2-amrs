@@ -29,42 +29,43 @@ import { Moh731ReportBaseComponent } from "./moh-731-report/moh-731-report-base.
 import { EtlApi } from "../etl-api/etl-api.module";
 import { Moh731PatientListComponent } from "./moh-731-report/moh-731-patientlist.component";
 import { DateTimePickerModule } from '@ampath-kenya/ngx-openmrs-formentry';
-import { NgamrsSharedModule } from "../shared/ngamrs-shared.module";
-import { MOHReportComponent } from "./moh-731-report/moh-731-report-pdf-view.component";
-import { MOHReportService } from "./moh-731-report/moh-731-report-pdf-view.service";
-import { LocationResourceService } from "../openmrs-api/location-resource.service";
-import { HivSummaryIndicatorBaseComponent } from "./hiv-summary-indicators/hiv-summary-report-base.component";
-import { HivSummaryTabularComponent } from "./hiv-summary-indicators/hiv-summary-tabular.component";
-import { ClinicFlowComponent } from "./clinic-flow/clinic-flow.component";
-import { ClinicFlowHourlyStatsVizComponent } from "./clinic-flow/clinic-flow-hourly-stats-viz.component";
-import { ClinicFlowSummaryComponent } from "./clinic-flow/clinic-flow-summary.component";
-import { ClinicFlowVisitsComponent } from "./clinic-flow/clinic-flow-visits.component";
-import { ClinicFlowLocationStatsComponent } from "./clinic-flow/clinic-flow-location-stats.component";
-import { ClinicFlowProviderStatsComponent } from "./clinic-flow/clinic-flow-provider-stats.component";
-import { ReportingUtilitiesModule } from "../reporting-utilities/reporting-utilities.module";
-import { NgxMyDatePickerModule } from "ngx-mydatepicker";
-import { HivCareComparativeOverviewBaseComponent } from "./hiv-visualization/hiv-care-overview-base.component";
-import { HivCareComparativeChartComponent } from "./hiv-visualization/hiv-care-overview-chart.component";
-import { HivCareIndicatorDefComponent } from "./hiv-visualization/indicator-definitions.component";
-import { HivCareTabularViewComponent } from "./hiv-visualization/hiv-care-tabularView.component";
-import { VisualizationPatientListComponent } from "./hiv-visualization/visualization-patient-list.component";
-import { ClinicalSummaryVisualizationService } from "./services/clinical-summary-visualization.service";
-import { HivSummaryIndicatorsPatientListComponent } from "./hiv-summary-indicators/patient-list.component";
-import { PatientsRequiringVLBaseComponent } from "./patients-requiring-vl/patients-requiring-vl-base.component";
-import { PatientsRequiringVLReportFiltersComponent } from "./patients-requiring-vl/patients-requiring-vl-report-filters.component";
-import { HivMonthlySummaryIndicatorBaseComponent } from "./hiv-monthly-summary-indicators/hiv-monthly-summary-report-base";
-import { HivSummaryMonthlyTabularComponent } from "./hiv-monthly-summary-indicators/hiv-monthly-summary-tabular.component";
-import { HivMonthlySummaryIndicatorsPatientListComponent } from "./hiv-monthly-summary-indicators/patient-list.component";
-import { ProgramWorkFlowResourceService } from "../openmrs-api/program-workflow-resource.service";
-import { HeiIndicatorsReportComponent } from "./hei-indicators-report/hei-indicators-report.component";
-import { HeiIndicatorsFilterComponent } from "./hei-indicators-report/hei-indicators-filter.component";
-import { HeiIndicatorsTabularComponent } from "./hei-indicators-report/hei-indicators-tabular-component";
-import { HeiIndicatorsPatientListComponent } from "./hei-indicators-report/hei-indicators-patient-list.component";
-import { HeiIndicatorsPdfViewComponent } from "./hei-indicators-report/hei-indicators-pdf-view.component";
-import { HighchartsStatic } from "angular2-highcharts/dist/HighchartsService";
-import { SurgeReportTabularComponent } from "./surge-report/surge-report-tabular.component";
-import { SurgeReportBaseComponent } from "./surge-report/surge-report-base.component";
-import { SurgeReportPatientListComponent } from "./surge-report/surge-report-patient-list.component";
+import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
+import { MOHReportComponent } from './moh-731-report/moh-731-report-pdf-view.component';
+import { MOHReportService } from './moh-731-report/moh-731-report-pdf-view.service';
+import { LocationResourceService } from '../openmrs-api/location-resource.service';
+import { HivSummaryIndicatorBaseComponent } from './hiv-summary-indicators/hiv-summary-report-base.component';
+import { HivSummaryTabularComponent } from './hiv-summary-indicators/hiv-summary-tabular.component';
+import { ClinicFlowComponent } from './clinic-flow/clinic-flow.component';
+import { ClinicFlowHourlyStatsVizComponent } from './clinic-flow/clinic-flow-hourly-stats-viz.component';
+import { ClinicFlowSummaryComponent } from './clinic-flow/clinic-flow-summary.component';
+import { ClinicFlowVisitsComponent } from './clinic-flow/clinic-flow-visits.component';
+import { ClinicFlowLocationStatsComponent } from './clinic-flow/clinic-flow-location-stats.component';
+import { ClinicFlowProviderStatsComponent } from './clinic-flow/clinic-flow-provider-stats.component';
+import { ClinicFlowProviderStatsPatientListComponent } from './clinic-flow/clinic-flow-provider-stats-patient-list.component';
+import { ReportingUtilitiesModule } from '../reporting-utilities/reporting-utilities.module';
+import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
+import { HivCareComparativeOverviewBaseComponent } from './hiv-visualization/hiv-care-overview-base.component';
+import { HivCareComparativeChartComponent } from './hiv-visualization/hiv-care-overview-chart.component';
+import { HivCareIndicatorDefComponent } from './hiv-visualization/indicator-definitions.component';
+import { HivCareTabularViewComponent } from './hiv-visualization/hiv-care-tabularView.component';
+import { VisualizationPatientListComponent } from './hiv-visualization/visualization-patient-list.component';
+import { ClinicalSummaryVisualizationService } from './services/clinical-summary-visualization.service';
+import { HivSummaryIndicatorsPatientListComponent } from './hiv-summary-indicators/patient-list.component';
+import { PatientsRequiringVLBaseComponent } from './patients-requiring-vl/patients-requiring-vl-base.component';
+import { PatientsRequiringVLReportFiltersComponent } from './patients-requiring-vl/patients-requiring-vl-report-filters.component';
+import { HivMonthlySummaryIndicatorBaseComponent } from './hiv-monthly-summary-indicators/hiv-monthly-summary-report-base';
+import { HivSummaryMonthlyTabularComponent } from './hiv-monthly-summary-indicators/hiv-monthly-summary-tabular.component';
+import { HivMonthlySummaryIndicatorsPatientListComponent } from './hiv-monthly-summary-indicators/patient-list.component';
+import { ProgramWorkFlowResourceService } from '../openmrs-api/program-workflow-resource.service';
+import { HeiIndicatorsReportComponent } from './hei-indicators-report/hei-indicators-report.component';
+import { HeiIndicatorsFilterComponent } from './hei-indicators-report/hei-indicators-filter.component';
+import { HeiIndicatorsTabularComponent } from './hei-indicators-report/hei-indicators-tabular-component';
+import { HeiIndicatorsPatientListComponent } from './hei-indicators-report/hei-indicators-patient-list.component';
+import { HeiIndicatorsPdfViewComponent } from './hei-indicators-report/hei-indicators-pdf-view.component';
+import { HighchartsStatic } from 'angular2-highcharts/dist/HighchartsService';
+import { SurgeReportTabularComponent } from './surge-report/surge-report-tabular.component';
+import { SurgeReportBaseComponent } from './surge-report/surge-report-base.component';
+import { SurgeReportPatientListComponent } from './surge-report/surge-report-patient-list.component';
 export function highchartsFactory() {
   const hc = require("highcharts");
   const hcm = require("highcharts/highcharts-more");
@@ -164,6 +165,7 @@ import { PatientGainsFiltersComponent } from "./patient-gains-and-loses/patient-
     ClinicFlowVisitsComponent,
     ClinicFlowLocationStatsComponent,
     ClinicFlowProviderStatsComponent,
+    ClinicFlowProviderStatsPatientListComponent,
     HivCareComparativeOverviewBaseComponent,
     HivCareComparativeChartComponent,
     HivCareIndicatorDefComponent,
@@ -217,6 +219,7 @@ import { PatientGainsFiltersComponent } from "./patient-gains-and-loses/patient-
     ClinicFlowVisitsComponent,
     ClinicFlowLocationStatsComponent,
     ClinicFlowProviderStatsComponent,
+    ClinicFlowProviderStatsPatientListComponent,
     HivCareComparativeOverviewBaseComponent,
     HivCareComparativeChartComponent,
     HivCareIndicatorDefComponent,
