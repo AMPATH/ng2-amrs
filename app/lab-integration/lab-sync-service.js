@@ -12,25 +12,39 @@ import { VLAdapter } from './adapters/vl-adapter';
 import { DNAPCRAdapter } from './adapters/dnapcr-adpater';
 import { CD4Adapter } from './adapters/cd4-adapter';
 import { EidCompareOperator } from './utils/eid-compare-operator';
+import { PatientLastOrderLocationService } from '../../service/eid/eid-patient-last-order-location.service';
 
 export class LabSyncService {
   syncAllLabsByPatientUuid(patientUuid, reply) {
     let tasks = [];
-    Object.keys(config.hivLabSystem).forEach((labLocation) => {
-      tasks.push((cb) => {
-        // delay alupe for a few ms
-        cb(
-          null,
-          this.syncLabsByPatientUuid(
-            patientUuid,
-            labLocation,
-            labLocation === 'alupe' ? 50 : 0
-          ).then((result) => {
-            return result;
-          })
-        );
+    const service = new PatientLastOrderLocationService();
+    service
+      .isPatientLastOrderLocationAffliatedToAlupe(patientUuid)
+      .then((isAffliated) => {
+        Object.keys(config.hivLabSystem).forEach((labLocation) => {
+          tasks.push((cb) => {
+            // delay alupe for a few ms
+            cb(
+              null,
+              this.syncLabsByPatientUuid(
+                patientUuid,
+                labLocation,
+                labLocation === 'alupe' ? 50 : 0
+              )
+                .then((result) => {
+                  return result;
+                })
+                .catch((error) => {
+                  return error;
+                })
+            );
+          });
+        });
+        this.syncLabsParallel(tasks, reply);
       });
-    });
+  }
+
+  syncLabsParallel(tasks, reply) {
     async.parallel(async.reflectAll(tasks), (err, results) => {
       // currently we have duplicate data in db. Try to remove here
       Promise.all(results.map((result) => result.value))
@@ -44,7 +58,6 @@ export class LabSyncService {
           reply(_lab_data);
         })
         .catch((err) => {
-          console.log('sync service error', err);
           reply(Boom.notFound('Sorry, sync service temporarily unavailable.'));
         });
     });
@@ -73,7 +86,7 @@ export class LabSyncService {
                 };
               })
               .catch((error) => {
-                console.log('ERROR', error);
+                return Promise.reject(error);
               });
           } else {
             return this.syncAndGetPatientLabResults(patientUuid, labLocation)
@@ -81,7 +94,7 @@ export class LabSyncService {
                 return this.syncLabsByPatientUuid(patientUuid, labLocation);
               })
               .catch((err) => {
-                console.log('ERROR Getting results', err);
+                return Promise.reject(err);
               });
           }
         } else {
@@ -90,12 +103,13 @@ export class LabSyncService {
               return this.syncLabsByPatientUuid(patientUuid, labLocation);
             })
             .catch((error) => {
-              console.log('ERROR', error);
+              return Promise.reject(error);
             });
         }
       })
       .catch((error) => {
         console.error('getLabSyncLog error', error);
+        return Promise.reject(error);
       });
   }
 
@@ -240,19 +254,30 @@ export class LabSyncService {
                     return eidService
                       .saveEidSyncLog(table, fields, savedObs)
                       .catch((error) => {
-                        console.log('ERROR saving logs', error);
+                        return Promise.reject(error);
                       });
                   })
                   .catch((error) => {
-                    console.error('ERROR : combineObsPostPromises', error);
+                    return new Promise((resolve, reject) => {
+                      fields[0].status = 1;
+                      fields[0].message = error.toString();
+                      eidService
+                        .saveEidSyncLog(table, fields, [])
+                        .then((result) => {
+                          reject(error);
+                        })
+                        .catch((error) => {
+                          reject(error);
+                        });
+                    });
                   });
               })
               .catch((error) => {
-                console.error('ERROR : labResultsPromises', error);
+                return Promise.reject(error);
               });
           })
           .catch((error) => {
-            console.error('ERROR : Fetching results', error);
+            return Promise.reject(error);
           });
       });
   }

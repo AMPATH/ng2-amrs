@@ -74,6 +74,7 @@ import { PrepReminderService } from './service/prep-reminder/prep-reminder.servi
 import { HIVGainsAndLossesService } from './service/gains-and-losses/hiv-gains-losses-service';
 const cervicalCancerScreeningService = require('./service/cervical-cancer-screening-service');
 import { MOH412Service } from './service/moh-412/moh-412';
+const syncPreproc = require('./app/lab-integration/lab-sync-pre-processor.service');
 import { DefaulterListService } from './service/defaulter-list-service';
 import { ClinicFlowService } from './service/clinic-flow-service';
 
@@ -4003,10 +4004,22 @@ module.exports = (function () {
         handler: function (request, reply) {
           if (config.eidSyncOn === true) {
             const labSyncService = new LabSyncService();
-            labSyncService.syncAllLabsByPatientUuid(
-              request.query.patientUuId,
-              reply
-            );
+            syncPreproc
+              .processLabSyncReqest(request.query)
+              .then((validRequest) => {
+                if (validRequest) {
+                  labSyncService.syncAllLabsByPatientUuid(
+                    request.query.patientUuId,
+                    reply
+                  );
+                } else {
+                  reply(validRequest);
+                }
+              })
+              .catch((error) => {
+                console.error('ERROR: ', error);
+                reply(error);
+              });
           } else {
             reply(
               Boom.notImplemented(
