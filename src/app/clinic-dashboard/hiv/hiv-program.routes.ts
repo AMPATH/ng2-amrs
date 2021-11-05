@@ -20,6 +20,7 @@ import { ClinicFlowVisitsComponent } from '../../hiv-care-lib/clinic-flow/clinic
 import { ClinicFlowLocationStatsComponent } from '../../hiv-care-lib/clinic-flow/clinic-flow-location-stats.component';
 import { ClinicFlowProviderStatsComponent } from '../../hiv-care-lib/clinic-flow/clinic-flow-provider-stats.component';
 import { ClinicFlowSummaryComponent } from '../../hiv-care-lib/clinic-flow/clinic-flow-summary.component';
+import { ClinicFlowProviderStatsPatientListComponent } from './../../hiv-care-lib/clinic-flow/clinic-flow-provider-stats-patient-list.component';
 import { HivEnhancedComponent } from './hiv-enhanced-program/hiv-enhanced-program.component';
 import { DefaulterListComponent } from '../general/defaulter-list/defaulter-list.component';
 import { PatientsProgramEnrollmentComponent } from '../../patients-program-enrollment/patients-program-enrollment.component';
@@ -139,7 +140,16 @@ const routes: Routes = [
       },
       {
         path: 'clinic-flow',
-        component: DailyScheduleClinicFlowComponent
+        children: [
+          {
+            path: '',
+            component: DailyScheduleClinicFlowComponent
+          },
+          {
+            path: 'patient-list',
+            component: ClinicFlowProviderStatsPatientListComponent
+          }
+        ]
       },
       {
         path: 'daily-schedule',

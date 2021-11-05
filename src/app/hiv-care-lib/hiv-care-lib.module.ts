@@ -29,7 +29,7 @@ import { Moh731ReportFiltersComponent } from './moh-731-report/moh-731-report-fi
 import { Moh731ReportBaseComponent } from './moh-731-report/moh-731-report-base.component';
 import { EtlApi } from '../etl-api/etl-api.module';
 import { Moh731PatientListComponent } from './moh-731-report/moh-731-patientlist.component';
-import { DateTimePickerModule } from 'ngx-openmrs-formentry/';
+import { DateTimePickerModule } from '@ampath-kenya/ngx-openmrs-formentry';
 import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 import { MOHReportComponent } from './moh-731-report/moh-731-report-pdf-view.component';
 import { MOHReportService } from './moh-731-report/moh-731-report-pdf-view.service';
@@ -42,6 +42,7 @@ import { ClinicFlowSummaryComponent } from './clinic-flow/clinic-flow-summary.co
 import { ClinicFlowVisitsComponent } from './clinic-flow/clinic-flow-visits.component';
 import { ClinicFlowLocationStatsComponent } from './clinic-flow/clinic-flow-location-stats.component';
 import { ClinicFlowProviderStatsComponent } from './clinic-flow/clinic-flow-provider-stats.component';
+import { ClinicFlowProviderStatsPatientListComponent } from './clinic-flow/clinic-flow-provider-stats-patient-list.component';
 import { ReportingUtilitiesModule } from '../reporting-utilities/reporting-utilities.module';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { HivCareComparativeOverviewBaseComponent } from './hiv-visualization/hiv-care-overview-base.component';
@@ -165,6 +166,7 @@ import { PatientGainsFiltersComponent } from './patient-gains-and-loses/patient-
     ClinicFlowVisitsComponent,
     ClinicFlowLocationStatsComponent,
     ClinicFlowProviderStatsComponent,
+    ClinicFlowProviderStatsPatientListComponent,
     HivCareComparativeOverviewBaseComponent,
     HivCareComparativeChartComponent,
     HivCareIndicatorDefComponent,
@@ -218,6 +220,7 @@ import { PatientGainsFiltersComponent } from './patient-gains-and-loses/patient-
     ClinicFlowVisitsComponent,
     ClinicFlowLocationStatsComponent,
     ClinicFlowProviderStatsComponent,
+    ClinicFlowProviderStatsPatientListComponent,
     HivCareComparativeOverviewBaseComponent,
     HivCareComparativeChartComponent,
     HivCareIndicatorDefComponent,

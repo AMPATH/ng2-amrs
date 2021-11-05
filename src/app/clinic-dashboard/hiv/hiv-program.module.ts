@@ -18,7 +18,7 @@ import {
   AccordionModule
 } from 'primeng/primeng';
 import { AgGridModule } from 'ag-grid-angular/main';
-import { DateTimePickerModule } from 'ngx-openmrs-formentry/';
+import { DateTimePickerModule } from '@ampath-kenya/ngx-openmrs-formentry';
 import { CalendarModule } from 'angular-calendar';
 import { ChartModule } from 'angular2-highcharts';
 import { Moh731ReportComponent } from './moh-731/moh-731-report.component';
@@ -79,6 +79,7 @@ import { MOH412ClinicDashboardComponent } from './moh-412-report/moh-412-clinic-
 import { MOH412ClinicDashboardPatientListComponent } from './moh-412-report/moh-412-clinic-dashboard-patient-list.component';
 import { OncologyProgramModule } from './../../oncology-care-lib/oncology-care-lib.module';
 import { IptReportComponent } from './ipt-report/ipt-report.component';
+import { DefaulterListFilterComponent } from './../general/defaulter-list/defaulter-list-filter-component';
 
 @NgModule({
   imports: [
@@ -131,7 +132,8 @@ import { IptReportComponent } from './ipt-report/ipt-report.component';
     ClinicDashboardHeiReportComponent,
     ClinicDashboardGainsAndLossesComponent,
     MOH412ClinicDashboardComponent,
-    MOH412ClinicDashboardPatientListComponent
+    MOH412ClinicDashboardPatientListComponent,
+    DefaulterListFilterComponent
   ],
   declarations: [
     Moh731ReportComponent,
@@ -174,7 +176,8 @@ import { IptReportComponent } from './ipt-report/ipt-report.component';
     ClinicDashboardGainsAndLossesComponent,
     MOH412ClinicDashboardComponent,
     MOH412ClinicDashboardPatientListComponent,
-    IptReportComponent
+    IptReportComponent,
+    DefaulterListFilterComponent
   ],
   providers: [ClinicalSummaryVisualizationService],
   entryComponents: [PatientStatusDatalistCellComponent]

@@ -10,7 +10,7 @@ import { DataListsModule } from '../../shared/data-lists/data-lists.module';
 import { AgGridModule } from 'ag-grid-angular';
 import { NgamrsSharedModule } from '../../shared/ngamrs-shared.module';
 import { Moh731ReportBaseComponent } from './moh-731-report-base.component';
-import { DateTimePickerModule } from 'ngx-openmrs-formentry';
+import { DateTimePickerModule } from '@ampath-kenya/ngx-openmrs-formentry';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EtlApi } from '../../etl-api/etl-api.module';
 import { Moh731PatientListResourceService } from '../../etl-api/moh-731-patientlist-resource.service';

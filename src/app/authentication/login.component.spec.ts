@@ -8,7 +8,7 @@ import { SwUpdate } from '@angular/service-worker';
 import { of, Subject } from 'rxjs';
 
 import { CookieModule, CookieService } from 'ngx-cookie';
-import { FormSchemaCompiler } from 'ngx-openmrs-formentry';
+import { FormSchemaCompiler } from '@ampath-kenya/ngx-openmrs-formentry';
 import { LoginComponent } from './login.component';
 import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 import { ToastrService, ToastrModule } from 'ngx-toastr';

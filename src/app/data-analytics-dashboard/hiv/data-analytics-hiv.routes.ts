@@ -28,16 +28,26 @@ import { ChartAbstractionPatientlistComponent } from 'src/app/hiv-care-lib/dqa-r
 import { DqaReportBaseComponent } from 'src/app/hiv-care-lib/dqa-reports/dqa-report-base/dqa-report-base.component';
 import { PrepReportPatientListComponent } from './../../hiv-care-lib/prep-report/prep-report-patient-list/prep-report-patient-list.component';
 import { PrepReportComponent } from './prep-report/prep-report.component';
-import { MonthlyReportComponent } from 'src/app/hiv-care-lib/monthly-report/monthly-report.component';
+import { DataAnalyticsMonthlyReportComponent } from './monthly-reports-dashboard/data-analytics-monthly-reports.component';
 import { MOH412HIVDataAnalyticsComponent } from './moh-412-report/moh-412-hiv-data-analytics.component';
 import { MOH412HIVDataAnalyticsPatientListComponent } from './moh-412-report/moh-412-hiv-data-analytics-patient-list.component';
 import { IptReportPatientListComponent } from 'src/app/hiv-care-lib/ipt-report/ipt-report-patient-list.component';
 import { IPTReportComponent } from './ipt-report/ipt-report.component';
+import { ClinicFlowProviderStatsPatientListComponent } from './../../hiv-care-lib/clinic-flow/clinic-flow-provider-stats-patient-list.component';
 
 const routes: Routes = [
   {
     path: 'clinic-flow',
-    component: AdminDashboardClinicFlowComponent
+    children: [
+      {
+        path: '',
+        component: AdminDashboardClinicFlowComponent
+      },
+      {
+        path: 'patient-list',
+        component: ClinicFlowProviderStatsPatientListComponent
+      }
+    ]
   },
   {
     path: 'program-enrollment',
@@ -157,7 +167,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: MonthlyReportComponent
+        component: DataAnalyticsMonthlyReportComponent
       },
       {
         path: 'prep-report',

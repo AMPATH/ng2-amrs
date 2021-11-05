@@ -1,5 +1,5 @@
 import { Observable, BehaviorSubject } from 'rxjs';
-import { Form } from 'ngx-openmrs-formentry/';
+import { Form } from '@ampath-kenya/ngx-openmrs-formentry';
 import { ActivatedRouteSnapshot } from '@angular/router';
 
 export class DraftedFormsService {

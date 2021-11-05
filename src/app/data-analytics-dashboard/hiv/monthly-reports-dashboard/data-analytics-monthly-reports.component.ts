@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-monthly-report',
-  templateUrl: './monthly-report.component.html'
+  selector: 'app-data-analytics-monthly-reports',
+  templateUrl: './data-analytics-monthly-reports.component.html',
+  styleUrls: ['./data-analytics-monthly-reports.component.css']
 })
-export class MonthlyReportComponent implements OnInit {
+export class DataAnalyticsMonthlyReportComponent implements OnInit {
   public isBusy = false;
   public errorMessage = '';
 
@@ -24,18 +25,6 @@ export class MonthlyReportComponent implements OnInit {
         title: 'TB Treatment Therapy report',
         description: '',
         url: 'ipt-report',
-        icon: 'fa'
-      },
-      {
-        title: 'Cross Border and Ovc Report',
-        description: '',
-        url: 'cross-border-report',
-        icon: 'fa'
-      },
-      {
-        title: 'Patient gains and loses',
-        description: '',
-        url: 'patient-gains-and-loses',
         icon: 'fa'
       },
       {
