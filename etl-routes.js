@@ -934,7 +934,7 @@ module.exports = (function () {
                       try {
                         if (
                           results.results.results.length > 0 &&
-                          results.results.results.hide_patient_reminder === 0
+                          results.results.results[0].hide_patient_reminder === 0
                         ) {
                           patientReminderService
                             .generateReminders(
