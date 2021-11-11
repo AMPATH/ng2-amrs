@@ -5,6 +5,7 @@ import { User } from '../models/user.model';
 import { LocalStorageService } from '../utils/local-storage.service';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { filter } from 'rxjs/operators';
 
 @Injectable()
 export class UserDefaultPropertiesService {
@@ -23,7 +24,16 @@ export class UserDefaultPropertiesService {
       this.appSettingsService.getOpenmrsServer() +
       '/ws/rest/v1/location?v=default';
 
-    return this.http.get(api);
+    return this.http.get(api).pipe(
+      filter((locations: any) => {
+        locations.results = locations.results.filter((l: any) => {
+          return (
+            l.childLocations.length === 0 || !l.hasOwnProperty('childLocations')
+          );
+        });
+        return locations;
+      })
+    );
   }
 
   public getCurrentUserDefaultLocation() {

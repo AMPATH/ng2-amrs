@@ -224,6 +224,10 @@ export class FormentryComponent implements OnInit, OnDestroy {
       this.formDataSourceService.getDataSources()['location']
     );
     this.dataSources.registerDataSource(
+      'interFacilityLocation',
+      this.formDataSourceService.getDataSources()['interFacilityLocation']
+    );
+    this.dataSources.registerDataSource(
       'provider',
       this.formDataSourceService.getDataSources()['provider']
     );

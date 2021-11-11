@@ -13,6 +13,8 @@ import * as _ from 'lodash';
 import { ZscoreService } from '../../../shared/services/zscore.service';
 @Injectable()
 export class FormDataSourceService {
+  public selectedEncounterLocation: any;
+  public interFacilitylLocations = [];
   constructor(
     private providerResourceService: ProviderResourceService,
     private locationResourceService: LocationResourceService,
@@ -24,6 +26,7 @@ export class FormDataSourceService {
   public getDataSources() {
     const formData: any = {
       location: this.getLocationDataSource(),
+      interFacilityLocation: this.getinterFacilitylLocationDataSource(),
       provider: this.getProviderDataSource(),
       drug: this.getDrugDataSource(),
       problem: this.getProblemDataSource(),
@@ -39,6 +42,20 @@ export class FormDataSourceService {
 
     const find = (text: string) => {
       return this.findLocation(text);
+    };
+
+    return {
+      resolveSelectedValue: resolve,
+      searchOptions: find
+    };
+  }
+  public getinterFacilitylLocationDataSource() {
+    const resolve = (uuid: string) => {
+      return this.findInterFacilityLocationsByUuid(uuid);
+    };
+
+    const find = (text: string) => {
+      return this.findInterFacilityLocation(text);
     };
 
     return {
@@ -314,6 +331,8 @@ export class FormDataSourceService {
       .getLocationByUuid(uuid, false)
       .pipe(
         map((location) => {
+          this.selectedEncounterLocation = location;
+          this.setInterFacilityLocations(location);
           return {
             label: location.display,
             value: location.uuid
@@ -322,6 +341,7 @@ export class FormDataSourceService {
       )
       .pipe(
         flatMap((mappedLocation) => {
+          // console.log('Mapped Location', mappedLocation);
           locationSearchResults.next(mappedLocation);
           return locationSearchResults.asObservable();
         }),
@@ -330,6 +350,37 @@ export class FormDataSourceService {
           return locationSearchResults.asObservable();
         })
       );
+  }
+  public findInterFacilityLocationsByUuid(uuid: string): Observable<any> {
+    const locationSearchResults: BehaviorSubject<any> = new BehaviorSubject<
+      any
+    >([]);
+    const filteredLocations = this.filterLocationsByUuid(
+      uuid,
+      this.interFacilitylLocations
+    );
+    const locationOptions = this.transformLocationArrayToSelectOptions(
+      filteredLocations
+    );
+    if (uuid.length > 0 && locationOptions.length === 1) {
+      locationSearchResults.next(locationOptions[0]);
+      return locationSearchResults.asObservable();
+    } else {
+      locationSearchResults.next(locationOptions);
+      return locationSearchResults.asObservable();
+    }
+  }
+  public findInterFacilityLocation(searchString: string): Observable<any> {
+    const locationSearchResults: BehaviorSubject<any> = new BehaviorSubject<
+      any
+    >([]);
+    const mappedLocations = this.filterLocatonByName(
+      searchString,
+      this.interFacilitylLocations
+    );
+    locationSearchResults.next(mappedLocations);
+
+    return locationSearchResults.asObservable();
   }
 
   public resolveConcept(uuid): Observable<any> {
@@ -462,5 +513,57 @@ export class FormDataSourceService {
   private setCachedProviderSearchResults(searchProviderResults): void {
     const sourcekey = 'cachedproviders';
     this.localStorageService.setObject(sourcekey, searchProviderResults);
+  }
+  private filterLocationsByUuid(uuid: string, locationData: any): any {
+    return locationData.filter((l: any) => {
+      return l.uuid === uuid;
+    });
+  }
+  private transformLocationArrayToSelectOptions(locationArray: any): any {
+    return locationArray.map((m: any) => {
+      return {
+        value: m.uuid,
+        label: m.display
+      };
+    });
+  }
+  private filterLocatonByName(searchString: string, searchArray: Array<any>) {
+    const filteredLocations = searchArray
+      .filter((amrsLocation: any) => {
+        const searchStringSc = searchString.toLowerCase();
+        const amrsLocationSc = amrsLocation.display.toLowerCase();
+        const patt = new RegExp(searchStringSc);
+        const matchResult = patt.test(amrsLocationSc);
+        if (matchResult) {
+          return amrsLocation;
+        }
+      })
+      .map((filteredLocation: any) => {
+        return {
+          value: filteredLocation.uuid,
+          label: filteredLocation.display
+        };
+      });
+
+    return filteredLocations;
+  }
+  private setInterFacilityLocations(currentLocation: any): any {
+    let childLocations = [];
+    if (
+      currentLocation.hasOwnProperty('parentLocation') &&
+      currentLocation.parentLocation !== null
+    ) {
+      const parentLocations = currentLocation.parentLocation;
+      childLocations = parentLocations.childLocations
+        ? parentLocations.childLocations
+        : [];
+      childLocations.map((c) => {
+        return {
+          label: c.display,
+          value: c.uuid
+        };
+      });
+    }
+    this.interFacilitylLocations = childLocations;
   }
 }
