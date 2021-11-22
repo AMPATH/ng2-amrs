@@ -4,6 +4,10 @@
 
 <report-filters
   [enabledControls]="enabledControls"
+  [(startDate)]="startDate"
+  [(endDate)]="endDate"
+  (patientTypeChange)="patientTypeChange($event)"
+  (sampleSizeChange)="sampleSizeChange($event)"
   (generateReport)="generateReport()"
 >
 </report-filters>

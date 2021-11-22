@@ -170,12 +170,6 @@
           "isSideBarOpen": false
         },
         {
-          "url": "dqa-reports",
-          "label": "DQA Reports",
-          "icon": "fa fa-pie-chart",
-          "isSideBarOpen": false
-        },
-        {
           "url": "hei-report",
           "label": "HEI Report",
           "icon": "fa fa-line-chart",

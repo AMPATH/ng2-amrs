@@ -74,6 +74,8 @@ export class ReportFiltersComponent
   @Output() public startingMonthChange = new EventEmitter<any>();
   @Output() public endingMonthChange = new EventEmitter<any>();
   @Output() public locationTypeChange = new EventEmitter<any>();
+  @Output() public patientTypeChange = new EventEmitter<any>();
+  @Output() public sampleSizeChange = new EventEmitter<any>();
   public genderOptions: Array<any> = [
     {
       value: "F",
@@ -102,6 +104,66 @@ export class ReportFiltersComponent
     {
       label: 'Primary Care Facility',
       value: 'primary_care_facility'
+    }
+  ];
+  public patientTypeOptions = [
+    {
+      label: 'Adult',
+      value: 'adult'
+    },
+    {
+      label: 'Pediatric',
+      value: 'PEADS'
+    },
+    {
+      label: 'PMTCT',
+      value: 'PMTCT'
+    }
+  ];
+  public sampleSize = [
+    {
+      label: '10',
+      value: '10'
+    },
+    {
+      label: '20',
+      value: '20'
+    },
+    {
+      label: '40',
+      value: '40'
+    },
+    {
+      label: '60',
+      value: '60'
+    },
+    {
+      label: '80',
+      value: '80'
+    },
+    {
+      label: '100',
+      value: '100'
+    },
+    {
+      label: '120',
+      value: '120'
+    },
+    {
+      label: '140',
+      value: '140'
+    },
+    {
+      label: '160',
+      value: '160'
+    },
+    {
+      label: '180',
+      value: '180'
+    },
+    {
+      label: '200',
+      value: '200'
     }
   ];
   public selectedLoactionType: any;
@@ -522,5 +584,14 @@ export class ReportFiltersComponent
   public onlocationTypeChange($event: any): void {
     console.log('Location Type Change', $event);
     this.locationTypeChange.emit($event.value);
+  }
+
+  public onpatientTypeChange($event: any): void {
+    console.log('Patient Type Change', $event);
+    this.patientTypeChange.emit($event.value);
+  }
+  public onsampleSizeChange($event: any): void {
+    console.log('Sample size Change', $event);
+    this.sampleSizeChange.emit($event.value);
   }
 }

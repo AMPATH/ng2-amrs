@@ -1,11 +1,11 @@
-import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { AppSettingsService } from "../app-settings/app-settings.service";
-import { catchError, map } from "rxjs/operators";
-import { of, Observable } from "rxjs";
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { AppSettingsService } from '../app-settings/app-settings.service';
+import { catchError, map } from 'rxjs/operators';
+import { of, Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class DqaChartAbstractionService {
   constructor(
@@ -18,21 +18,30 @@ export class DqaChartAbstractionService {
   }
 
   public getDqaChartAbstractionReport(params: any): Observable<any> {
+    let extraParams = '';
+    if (params.startDate && params.endDate) {
+      extraParams +=
+        '&startDate=' + params.startDate + '&endDate=' + params.endDate;
+    }
+    if (params.patientType) {
+      extraParams += '&patientType=' + params.patientType;
+    }
     const sampleUrl =
       this.url +
-      "dqa-chart-abstraction?locationUuids=" +
+      'dqa-chart-abstraction?locationUuids=' +
       params.locations +
-      "&limit=" +
+      '&limit=' +
       params.limit +
-      "&offset=" +
-      params.offset;
+      '&offset=' +
+      params.offset +
+      extraParams;
 
     return this.http.get(sampleUrl, {}).pipe(
       map((response: any) => {
         return response.results.results;
       }),
       catchError((err: any) => {
-        console.log("Err", err);
+        console.log('Err', err);
         const error: any = err;
         const errorObj = {
           error: error.status,

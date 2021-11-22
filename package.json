@@ -18,6 +18,7 @@
   },
   "private": true,
   "dependencies": {
+    "@ampath-kenya/ngx-openmrs-formentry": "^2.12.13",
     "@angular/animations": "^6.1.0",
     "@angular/cdk": "^6.1.0",
     "@angular/common": "^6.1.0",
@@ -36,7 +37,6 @@
     "@ng-select/ng-select": "^1.5.0",
     "@types/jasmine": "^2.5.53",
     "@types/lodash": "^4.14.50",
-    "@ampath-kenya/ngx-openmrs-formentry": "^2.12.13",
     "ag-grid": "17.0.0",
     "ag-grid-angular": "17.0.0",
     "ag-grid-enterprise": "17.0.0",
