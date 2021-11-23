@@ -83,7 +83,6 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
       vl_1: 'Latest Valid VL',
       last_appointment_date: 'Date Of Last Appointment',
       next_appointment: 'Date Of Next Appointment ',
-      visit_type: 'Visit Type',
       muac: 'MUAC',
       tb_screened_this_visit: 'TB screening'
     };
@@ -155,10 +154,6 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
       },
       {
         field: 'Height',
-        width: 150
-      },
-      {
-        field: 'visit_type',
         width: 150
       },
       {
