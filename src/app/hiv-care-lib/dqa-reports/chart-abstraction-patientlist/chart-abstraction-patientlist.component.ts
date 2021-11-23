@@ -55,6 +55,7 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
   }
   private getPatientList(params: any) {
     this.dqaResource.getDqaChartAbstractionReport(params).subscribe((data) => {
+      console.log('patientData', data);
       this.patientData = this.patientData.concat(data);
       this.isLoading = false;
       console.log(this.allDataLoaded);
@@ -73,6 +74,7 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
     const extraColumns = {
       person_id: 'CCC Number',
       birthdate: 'DOB',
+      sex_gender: 'Sex/Gender',
       drugs_given: 'Current Regimen',
       drugs_duration: 'Drug dosage given (duration)',
       weight: 'Weight(kg)',
