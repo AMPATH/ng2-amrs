@@ -134,6 +134,10 @@ export class ReportFiltersComponent
       value: '40'
     },
     {
+      label: '50',
+      value: '50'
+    },
+    {
       label: '60',
       value: '60'
     },
