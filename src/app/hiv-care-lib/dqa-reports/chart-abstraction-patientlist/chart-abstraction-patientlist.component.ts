@@ -29,17 +29,22 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
 
   ngOnInit() {
     let requestParams: any;
-    this.addExtraColumns();
+
     this.route.queryParams.subscribe(
       (params) => {
         if (params) {
+          this.patientData = [];
+          this.isLoading = true;
           this.params = params;
+          this.addExtraColumns(this.params.patientType);
           requestParams = {
             locations: this.params.locationUuids,
-            limit: 300,
+            startDate: this.params.startDate,
+            endDate: this.params.endDate,
+            patientType: this.params.patientType,
+            limit: this.params.limit ? this.params.limit : 10,
             offset: 0
           };
-
           this.getPatientList(requestParams);
         }
       },
@@ -60,19 +65,27 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
       }
     });
   }
-  public addExtraColumns() {
+  public addExtraColumns(patientType) {
+    let hide = true;
+    if (patientType === 'PMTCT') {
+      hide = false;
+    }
     const extraColumns = {
-      person_id: 'Unique Patient ID',
+      person_id: 'CCC Number',
       birthdate: 'DOB',
+      sex_gender: 'Sex/Gender',
+      drugs_given: 'Current Regimen',
+      drugs_duration: 'Drug dosage given (duration)',
+      weight: 'Weight(kg)',
+      height: 'Height(cm)',
+      last_ipt_start_date: 'TPT initiated',
+      nutrition: 'Nutrition Assessment Done',
+      DSD: 'DSD Model',
+      vl_1: 'Latest Valid VL',
       last_appointment_date: 'Date Of Last Appointment',
       next_appointment: 'Date Of Next Appointment ',
-      drugs_given: 'Drugs Given',
-      weight: 'Weight',
-      height: 'Height',
-      BMI: 'BMI',
-      condom_provided_this_visit: 'Condom Issued',
-      tb_screened_this_visit: 'TB screening',
-      last_ipt_start_date: 'IPT initiated'
+      muac: 'MUAC',
+      tb_screened_this_visit: 'TB screening'
     };
     for (const indicator in extraColumns) {
       if (indicator) {
@@ -89,7 +102,8 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
           if (column.value != null) {
             return moment(column.value).format('YYYY-MM-DD');
           }
-        }
+        },
+        pinned: true
       },
       {
         field: 'last_appointment_date',
@@ -108,7 +122,7 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
         }
       },
       {
-        field: 'condom_provided_this_visit',
+        field: 'tb_screened_this_visit',
         width: 150,
         cellRenderer: (column) => {
           if (column.value === 0) {
@@ -118,13 +132,13 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
         }
       },
       {
-        field: 'tb_screened_this_visit',
+        field: 'nutrition',
         width: 150,
         cellRenderer: (column) => {
-          if (column.value === 0) {
-            return 'NO';
+          if (column.value === 'YES') {
+            return 'YES';
           }
-          return 'YES';
+          return 'NO';
         }
       },
       {
@@ -144,16 +158,51 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
         width: 150
       },
       {
-        field: 'BMI',
-        width: 150
+        field: 'muac',
+        width: 150,
+        hide: hide
       },
       {
         field: 'person_id',
-        width: 200
+        width: 200,
+        pinned: true
       },
       {
         field: 'drugs_given',
         width: 280
+      },
+      {
+        field: 'vl_1',
+        width: 150
+      },
+      {
+        field: 'drugs_duration',
+        width: 150
+      },
+      {
+        field: 'person_name',
+        width: 150,
+        hide: true
+      },
+      {
+        field: 'identifiers',
+        width: 150,
+        hide: true
+      },
+      {
+        field: 'age',
+        width: 150,
+        hide: true
+      },
+      {
+        field: 'gender',
+        width: 150,
+        hide: true
+      },
+      {
+        field: '#',
+        width: 150,
+        hide: true
       }
     );
   }
