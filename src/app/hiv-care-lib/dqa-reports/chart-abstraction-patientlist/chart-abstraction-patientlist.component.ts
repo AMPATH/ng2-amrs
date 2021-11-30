@@ -96,7 +96,7 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
       }
     }
     this.overrideColumns.push(
-      {
+           {
         field: 'birthdate',
         cellRenderer: (column) => {
           if (column.value != null) {

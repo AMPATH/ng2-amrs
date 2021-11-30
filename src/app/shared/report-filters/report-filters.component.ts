@@ -586,10 +586,8 @@ export class ReportFiltersComponent
     this.onMonthChange.emit(value);
   }
   public onlocationTypeChange($event: any): void {
-    console.log('Location Type Change', $event);
     this.locationTypeChange.emit($event.value);
   }
-
   public onpatientTypeChange($event: any): void {
     this.patientTypeChange.emit($event.value);
   }
