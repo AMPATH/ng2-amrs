@@ -1,6 +1,5 @@
 import { take } from 'rxjs/operators';
-
-import { map } from 'rxjs/operators';
+import { map, filter } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { ReplaySubject, Observable } from 'rxjs';
 import { AppSettingsService } from '../app-settings/app-settings.service';
@@ -39,7 +38,18 @@ export class LocationResourceService {
             params: params
           }
         )
-        .pipe(take(1))
+        .pipe(
+          take(1),
+          filter((locations: any) => {
+            locations.results = locations.results.filter((l: any) => {
+              return (
+                l.childLocations.length === 0 ||
+                !l.hasOwnProperty('childLocations')
+              );
+            });
+            return locations;
+          })
+        )
         .subscribe(
           (data) => this.locations.next(data.results),
           (error) => this.locations.error(error)
