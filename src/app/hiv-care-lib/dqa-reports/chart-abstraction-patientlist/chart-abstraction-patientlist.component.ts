@@ -73,17 +73,17 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
     const extraColumns = {
       person_id: 'CCC Number',
       birthdate: 'DOB',
+      sex_gender: 'Sex/Gender',
       drugs_given: 'Current Regimen',
       drugs_duration: 'Drug dosage given (duration)',
-      weight: 'Weight',
-      height: 'Height',
+      weight: 'Weight(kg)',
+      height: 'Height(cm)',
       last_ipt_start_date: 'TPT initiated',
       nutrition: 'Nutrition Assessment Done',
       DSD: 'DSD Model',
       vl_1: 'Latest Valid VL',
       last_appointment_date: 'Date Of Last Appointment',
       next_appointment: 'Date Of Next Appointment ',
-      visit_type: 'Visit Type',
       muac: 'MUAC',
       tb_screened_this_visit: 'TB screening'
     };
@@ -96,7 +96,7 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
       }
     }
     this.overrideColumns.push(
-      {
+           {
         field: 'birthdate',
         cellRenderer: (column) => {
           if (column.value != null) {
@@ -155,10 +155,6 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
       },
       {
         field: 'Height',
-        width: 150
-      },
-      {
-        field: 'visit_type',
         width: 150
       },
       {

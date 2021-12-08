@@ -134,6 +134,10 @@ export class ReportFiltersComponent
       value: '40'
     },
     {
+      label: '50',
+      value: '50'
+    },
+    {
       label: '60',
       value: '60'
     },
@@ -582,16 +586,12 @@ export class ReportFiltersComponent
     this.onMonthChange.emit(value);
   }
   public onlocationTypeChange($event: any): void {
-    console.log('Location Type Change', $event);
     this.locationTypeChange.emit($event.value);
   }
-
   public onpatientTypeChange($event: any): void {
-    console.log('Patient Type Change', $event);
     this.patientTypeChange.emit($event.value);
   }
   public onsampleSizeChange($event: any): void {
-    console.log('Sample size Change', $event);
     this.sampleSizeChange.emit($event.value);
   }
 }
