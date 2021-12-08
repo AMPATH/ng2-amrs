@@ -3356,6 +3356,7 @@ module.exports = (function () {
                 'startDate',
                 'endDate',
                 'locationUuids',
+                'locations',
                 'indicators',
                 'gender',
                 'startAge',
@@ -3427,19 +3428,32 @@ module.exports = (function () {
         },
         handler: function (request, reply) {
           request.query.reportName = 'hiv-summary-report';
-          let requestParams = Object.assign({}, request.query, request.params);
-          let service = new HivSummaryIndicatorsService();
-          service
-            .getPatientListReport(requestParams)
-            .then((result) => {
-              _.each(result.result, (item) => {
-                item.cur_meds = etlHelpers.getARVNames(item.cur_meds);
+          preRequest.resolveLocationIdsToLocationUuids(request, function () {
+            let locations = [];
+            if (request.query.locations) {
+              _.each(request.query.locations.split(','), function (loc) {
+                locations.push(Number(loc));
               });
-              reply(result);
-            })
-            .catch((error) => {
-              reply(error);
-            });
+              request.query.locations = locations;
+            }
+            let requestParams = Object.assign(
+              {},
+              request.query,
+              request.params
+            );
+            let service = new HivSummaryIndicatorsService();
+            service
+              .getPatientListReport(requestParams)
+              .then((result) => {
+                _.each(result.result, (item) => {
+                  item.cur_meds = etlHelpers.getARVNames(item.cur_meds);
+                });
+                reply(result);
+              })
+              .catch((error) => {
+                reply(error);
+              });
+          });
         },
         description:
           "Get hiv summary indicator's patient list for selected clinic",

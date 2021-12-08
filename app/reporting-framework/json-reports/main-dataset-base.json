@@ -224,9 +224,33 @@
       }
     },
     {
+      "type": "derived_column",
+      "alias": "women_of_reproductive_age",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(hmsd.gender='F' AND hmsd.age>=15 AND hmsd.age<50 AND hmsd.status = 'active', 1 , 0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "women_eligible_for_contraception",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(hmsd.pregnant_this_month = 0 AND hmsd.gender='F' AND hmsd.age>=15 AND hmsd.age<50 AND hmsd.status = 'active' and hmsd.with_pregnancy_intentions_this_month is null, 1 , 0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "women_with_pregnancy_intentions",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(hmsd.pregnant_this_month = 0 AND hmsd.gender='F' AND hmsd.age>=15 AND hmsd.age<50 AND hmsd.status = 'active' and hmsd.with_pregnancy_intentions_this_month = 1, 1 , 0)"
+      }
+    },
+    {
       "type": "simple_column",
       "alias": "on_modern_contraception",
-      "column": "hmsd.on_modern_contraception_this_month"
+      "column": "IF(hmsd.on_modern_contraception_this_month = 1 AND hmsd.gender='F' AND hmsd.age<50 AND hmsd.status = 'active', 1 , 0)"
     },
     {
       "type": "simple_column",

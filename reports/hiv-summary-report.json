@@ -227,8 +227,33 @@
         "sql": "count(distinct if($expression,t1.person_id,null))"
       },
       {
+        "label": "women_of_reproductive_age",
+        "expression": "women_of_reproductive_age",
+        "sql": "count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label": "women_with_pregnancy_intentions",
+        "expression": "women_with_pregnancy_intentions",
+        "sql": "count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label": "eligible_for_family_planning",
+        "expression": "eligible_for_family_planning",
+        "sql": "count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label": "due_for_contraception_refill",
+        "expression": "due_for_contraception_refill",
+        "sql": "count(distinct if($expression,t1.person_id,null))"
+      },
+      {
         "label": "on_modern_contraception",
         "expression": "on_modern_contraception",
+        "sql": "count(distinct if($expression,t1.person_id,null))"
+      },
+      {
+        "label": "on_other_contraception",
+        "expression": "on_other_contraception",
         "sql": "count(distinct if($expression,t1.person_id,null))"
       },
       {

@@ -498,9 +498,24 @@
         "indicator": "f_gte_18_visits"
       },
       {
+        "label": "Women of reproductive age",
+        "ref": "HV03-090",
+        "indicator": "women_of_reproductive_age"
+      },
+      {
+        "label": "Women eligible for contraception",
+        "ref": "HV03-090",
+        "indicator": "women_eligible_for_contraception"
+      },
+      {
+        "label": "Women with pregnancy intentions",
+        "ref": "HV03-090",
+        "indicator": "women_with_pregnancy_intentions"
+      },
+      {
         "label": "On modern FP F15+",
         "ref": "HV03-090",
-        "indicator": "dc__age_range__15_and_above__on_modern_contraception"
+        "indicator": "on_modern_contraception"
       }
     ]
   },

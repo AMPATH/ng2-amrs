@@ -582,7 +582,104 @@ function ovcUnenrollmentReminder(data) {
   });
 }
 
+function generateContraceptionRefillReminder(data) {
+  let reminders = [];
+  const years = Moment(data.last_encounter_date, 'DD-MM-YYYY').diff(
+    Moment(data.modern_contraceptive_method_start_date, 'DD-MM-YYYY'),
+    'years'
+  );
+  if (data.due_for_contraception_refill) {
+    if (data.contraceptive_method == 9510 && years > 3) {
+      return reminders;
+    }
+    if (data.contraceptive_method == 9511 && years > 5) {
+      return reminders;
+    }
+    if (
+      (data.contraceptive_method == 9734 ||
+        data.contraceptive_method == 9735) &&
+      years > 10
+    ) {
+      return reminders;
+    }
+    reminders.push({
+      message:
+        'Patient was last screened on ' +
+        Moment(data.modern_contraceptive_reporting_date).format('DD-MM-YYYY') +
+        ' and is due for a followup screening',
+      title: 'Modern Contraception screening reminder',
+      type: 'warning',
+      display: {
+        banner: true,
+        toast: true
+      }
+    });
+  }
+  return reminders;
+}
+
+function generateStartContraceptionReminder(data) {
+  let reminders = [];
+
+  if (data.not_on_modern_contraception) {
+    reminders.push({
+      message:
+        'Female client within the reproductive age but not started on any contraception',
+      title: 'Contraception start reminder',
+      type: 'info',
+      display: {
+        banner: true,
+        toast: true
+      }
+    });
+  }
+  return reminders;
+}
+
+function generateDiscontinueContraceptionReminder(data) {
+  let reminders = [];
+
+  if (data.has_contraception_expired) {
+    reminders.push({
+      message:
+        'Patient started ' +
+        data.contraception_method_name +
+        ' on ' +
+        data.modern_contraceptive_method_start_date +
+        ' and needs discontinuation since it expired on ' +
+        getFPExpiryDate(data) +
+        '',
+      title: 'Contraception discontinuation reminder',
+      type: 'danger',
+      display: {
+        banner: true,
+        toast: true
+      }
+    });
+  }
+  return reminders;
+}
+
+function getFPExpiryDate(data) {
+  if (data.contraceptive_method == 9510) {
+    return Moment(data.modern_contraceptive_method_start_date, 'DD-MM-YYYY')
+      .add(3, 'years')
+      .format('DD-MM-YYYY');
+  }
+  if (data.contraceptive_method == 9511) {
+    return Moment(data.modern_contraceptive_method_start_date, 'DD-MM-YYYY')
+      .add(5, 'years')
+      .format('DD-MM-YYYY');
+  }
+  if (data.contraceptive_method == 9734 || data.contraception_method == 9735) {
+    return Moment(data.modern_contraceptive_method_start_date, 'DD-MM-YYYY')
+      .add(10, 'years')
+      .format('DD-MM-YYYY');
+  }
+}
+
 async function generateReminders(etlResults, eidResults) {
+  console.log('REMINDERS generateReminders');
   let reminders = [];
   let patientReminder;
   if (etlResults && etlResults.length > 0) {
@@ -615,6 +712,11 @@ async function generateReminders(etlResults, eidResults) {
   let cervical_screening_reminder = await getCerivalScreeningReminder(
     person_id
   );
+  let due_for_contraception_refill = generateContraceptionRefillReminder(data);
+  let not_on_modern_contraception = generateStartContraceptionReminder(data);
+  let fp_discontinuation_reminder = generateDiscontinueContraceptionReminder(
+    data
+  );
 
   let currentReminder = [];
   if (pending_vl_lab_result.length > 0) {
@@ -633,7 +735,10 @@ async function generateReminders(etlResults, eidResults) {
       not_completed_ipt,
       contact_tracing_reminder,
       unenrol_ovc_reminder,
-      cervical_screening_reminder
+      cervical_screening_reminder,
+      due_for_contraception_refill,
+      not_on_modern_contraception,
+      fp_discontinuation_reminder
     );
   }
 

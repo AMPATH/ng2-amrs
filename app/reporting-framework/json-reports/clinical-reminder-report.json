@@ -330,6 +330,58 @@
       "expressionOptions": {
         "expression": "case when t1.patient_care_status in (10502,1287,9068,1593,159,5622,9083) then 1 else 0 end"
       }
+    },
+    {
+      "type": "derived_column",
+      "alias": "due_for_contraception_refill",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "case when (contraceptive_method in (9510,9511,9734,9735) AND continue_on_fp = 1 and on_modern_contraceptive is null and date(encounter_datetime) not between modern_contraceptive_reporting_date and date_add(modern_contraceptive_reporting_date, interval 6 month)) OR (contraceptive_method in (8300,5279) and on_modern_contraceptive is null and date(encounter_datetime) not between modern_contraceptive_reporting_date and date_add(modern_contraceptive_reporting_date, interval 3 month))  then 1 else 0 end"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "not_on_modern_contraception",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "case when extract(year from (from_days(datediff(now(),t5.birthdate)))) between 10 and 49 and t5.gender = 'F' and t1.is_pregnant is null and t1.with_pregnancy_intentions is null and (t1.contraceptive_method IS NULL OR t1.contraceptive_method NOT IN (190 , 780, 907, 6218, 6217, 5841, 6717, 6718, 6725, 8134, 5274, 8300, 5279 , 5278, 5275, 5276, 6220, 6700, 6701, 9510, 9511, 9734, 9735, 10817)) then 1 else 0 end"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "modern_contraceptive_reporting_date",
+      "column": "t1.modern_contraceptive_reporting_date"
+    },
+    {
+      "type": "simple_column",
+      "alias": "contraceptive_method",
+      "column": "t1.contraceptive_method"
+    },
+    {
+      "type": "simple_column",
+      "alias": "modern_contraceptive_method_start_date",
+      "column": "date_format(modern_contraceptive_method_start_date,'%d-%m-%Y')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "contraceptive_method",
+      "column": "contraceptive_method"
+    },
+    {
+      "type": "derived_column",
+      "alias": "contraception_method_name",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "case when contraceptive_method = 9510 then '3-year implant' when contraceptive_method = 9511 then '5-year implant' else null  end"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "has_contraception_expired",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "case when ((contraceptive_method = 9510 AND TIMESTAMPDIFF(MONTH, modern_contraceptive_method_start_date, encounter_datetime) > 36) OR (contraceptive_method = 9511 AND TIMESTAMPDIFF(MONTH, modern_contraceptive_method_start_date, encounter_datetime) > 60) OR (contraceptive_method in (9734,9735) AND TIMESTAMPDIFF(MONTH, modern_contraceptive_method_start_date, encounter_datetime) > 120)) then 1 else 0 end"
+      }
     }
   ],
   "indexDirectives": [

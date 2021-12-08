@@ -156,6 +156,36 @@
     "expression": "timestampdiff(week,arv_start_date,encounter_datetime) <= 52 and timestampdiff(week,vl_1_date,encounter_datetime) <= 52 and vl_1 <= 1000"
   },
   {
+    "name": "women_of_reproductive_age",
+    "label": "Women of reproductive age",
+    "description": "# of female clients of reproductive age",
+    "expression": "extract(year from (from_days(datediff(now(),p.birthdate)))) between 15 and 49"
+  },
+  {
+    "name": "women_with_pregnancy_intentions",
+    "label": "Women with pregnancy intentions",
+    "description": "# of female clients of reproductive age pregnant or having pregnancy intentions",
+    "expression": "extract(year from (from_days(datediff(now(),p.birthdate)))) between 15 and 49 and fhs.is_pregnant is not null"
+  },
+  {
+    "name": "eligible_for_family_planning",
+    "label": "Women eligible for contraceptives",
+    "description": "# of female clients of reproductive age not pregnant and not having pregnancy intentions",
+    "expression": "extract(year from (from_days(datediff(now(),p.birthdate)))) between 15 and 49 and fhs.is_pregnant is null"
+  },
+  {
+    "name": "due_for_contraception_refill",
+    "label": "Due for modern contraception screening",
+    "description": "# of female clients of reproductive age not pregnant and not having pregnancy intentions",
+    "expression": "extract(year from (from_days(datediff(now(),p.birthdate)))) between 15 and 49 and fhs.is_pregnant is null and fhs.on_modern_contraceptive is null AND fhs.contraceptive_method IN (6701, 5276,9510,9511,9734,9735,8300,5279,6218,6217)"
+  },
+  {
+    "name": "on_other_contraception",
+    "label": "on other contraception",
+    "description": "# of patients on modern contraception in a given time period",
+    "expression": "fhs.contraceptive_method IS NOT NULL AND fhs.contraceptive_method NOT IN (190 , 780, 907, 6218, 6217, 5841, 6717, 6718, 6725, 8134, 5274, 8300, 5279 , 5278, 5275, 5276, 6220, 6700, 6701, 9510, 9511, 9734, 9735, 10817)"
+  },
+  {
     "name": "not_on_modern_contraception",
     "label": "not on modern contraception",
     "description": "# of patients not on modern contraception in a given time period",

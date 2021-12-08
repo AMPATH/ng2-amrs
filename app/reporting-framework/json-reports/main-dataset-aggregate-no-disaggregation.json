@@ -180,6 +180,30 @@
     },
     {
       "type": "derived_column",
+      "alias": "women_of_reproductive_age",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.women_of_reproductive_age)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "women_eligible_for_contraception",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.women_eligible_for_contraception)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "women_with_pregnancy_intentions",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.women_with_pregnancy_intentions)"
+      }
+    },
+    {
+      "type": "derived_column",
       "alias": "on_modern_contraception",
       "expressionType": "simple_expression",
       "expressionOptions": {

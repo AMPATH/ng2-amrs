@@ -234,50 +234,50 @@
     },
     {
       "type": "derived_column",
+      "alias": "women_of_reproductive_age",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(extract(year from (from_days(datediff(now(),p.birthdate)))) between 10 and 49 and p.gender = 'F',1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "women_with_pregnancy_intentions",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(extract(year from (from_days(datediff(now(),p.birthdate)))) between 10 and 49 and p.gender = 'F' and fhs.is_pregnant is null and fhs.with_pregnancy_intentions = 1 ,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "eligible_for_family_planning",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(extract(year from (from_days(datediff(now(),p.birthdate)))) between 10 and 49 and p.gender = 'F' and fhs.is_pregnant is null and fhs.with_pregnancy_intentions is null,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "due_for_contraception_refill",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(extract(year from (from_days(datediff(now(),p.birthdate)))) between 10 and 49 and p.gender = 'F' and fhs.is_pregnant is null and fhs.with_pregnancy_intentions is null and fhs.on_modern_contraceptive is null AND fhs.continue_on_fp = 1 AND fhs.contraceptive_method IN (9510,9511,9734,9735,8300,5279),1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_other_contraception",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(extract(year from (from_days(datediff(now(),p.birthdate)))) between 10 and 49 and p.gender = 'F' and fhs.is_pregnant is null and (fhs.contraceptive_method IS NOT NULL AND fhs.contraceptive_method NOT IN (5276,6701,9510,9511,9734,9735,5279,6218,6217,8300,1107)),1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
       "alias": "on_modern_contraception",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "if((fhs.contraceptive_method IS NOT NULL AND fhs.contraceptive_method IN (190 , 780, 907, 6218, 6217, 5841, 6717, 6718, 6725, 8134, 5274, 8300, 5279 , 5278, 5275, 5276, 6220, 6700, 6701, 9510, 9511, 9734, 9735, 10817)),1,null)"
-      }
-    },
-    {
-      "type": "derived_column",
-      "alias": "on_short_term_modern_contraception",
-      "expressionType": "simple_expression",
-      "expressionOptions": {
-        "expression": "if(fhs.contraceptive_method is not null AND fhs.contraceptive_method in (190,780,907,6218,6217,5841,6717,6718,6725,8134,5274,8300),1,null)"
-      }
-    },
-    {
-      "type": "derived_column",
-      "alias": "on_long_term_modern_contraception",
-      "expressionType": "simple_expression",
-      "expressionOptions": {
-        "expression": "if(fhs.contraceptive_method in (5279,5278,5275,5276,6220,6700,6701,9510,9511,9734,9735,10817),1,null)"
-      }
-    },
-    {
-      "type": "derived_column",
-      "alias": "on_short_term_modern_contraception_pnc",
-      "expressionType": "simple_expression",
-      "expressionOptions": {
-        "expression": "if(fhs.visit_type in (68, 55, 52, 18) AND fhs.contraceptive_method is not null AND fhs.contraceptive_method in (190,780,907,6218,6217,5841,6717,6718,6725,8134,5274,8300), 1, null)"
-      }
-    },
-    {
-      "type": "derived_column",
-      "alias": "on_long_term_modern_contraception_pnc",
-      "expressionType": "simple_expression",
-      "expressionOptions": {
-        "expression": "if(fhs.visit_type in (68, 55, 52, 18) AND fhs.contraceptive_method in (5279,5278,5275,5276,6220,6700,6701,9510,9511,9734,9735,10817), 1, null)"
-      }
-    },
-    {
-      "type": "derived_column",
-      "alias": "on_modern_contraception_pnc",
-      "expressionType": "simple_expression",
-      "expressionOptions": {
-        "expression": "if(fhs.contraceptive_method IS NOT NULL AND fhs.contraceptive_method IN (190 , 780, 907, 6218, 6217, 5841, 6717, 6718, 6725, 8134, 5274, 8300, 5279 , 5278, 5275, 5276, 6220, 6700, 6701, 9510, 9511, 9734, 9735, 10817) AND fhs.visit_type in (68, 55, 52, 18), 1, null)"
+        "expression": "if(extract(year from (from_days(datediff(now(),p.birthdate)))) between 10 and 49 and p.gender = 'F' and fhs.is_pregnant is null and fhs.with_pregnancy_intentions is null and (fhs.on_modern_contraceptive = 1 or fhs.contraceptive_method in (6218,6217) and fhs.rtc_date >= '{endDate}'),1,null)"
       }
     },
     {
@@ -285,7 +285,55 @@
       "alias": "not_on_modern_contraception",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "if((fhs.contraceptive_method IS NULL or fhs.contraceptive_method in (6219 , 1624, 6707, 1067, 1107, 10956, 5622, 5277)),1,null)"
+        "expression": "if(extract(year from (from_days(datediff(now(),p.birthdate)))) between 10 and 49 and p.gender = 'F' and fhs.is_pregnant is null and (fhs.contraceptive_method IS NULL OR fhs.contraceptive_method NOT IN (190 , 780, 907, 6218, 6217, 5841, 6717, 6718, 6725, 8134, 5274, 8300, 5279 , 5278, 5275, 5276, 6220, 6700, 6701, 9510, 9511, 9734, 9735, 10817)),1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_art_and_not_on_modern_contraception",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fhs.cur_arv_line is not null and extract(year from (from_days(datediff(now(),p.birthdate)))) between 10 and 49 and p.gender = 'F' and fhs.is_pregnant is null and (fhs.contraceptive_method IS NULL OR fhs.contraceptive_method = 1107),1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_short_term_modern_contraception",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fhs.contraceptive_method is not null AND fhs.contraceptive_method in (190,780,907,6218,6217,5841,6717,6718,6725,8134,5274,8300) and extract(year from (from_days(datediff(now(),p.birthdate)))) between 10 and 49 and p.gender = 'F',1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_long_term_modern_contraception",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fhs.contraceptive_method in (5279,5278,5275,5276,6220,6700,6701,9510,9511,9734,9735,10817) and extract(year from (from_days(datediff(now(),p.birthdate)))) between 10 and 49 and p.gender = 'F',1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_short_term_modern_contraception_pnc",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fhs.visit_type in (68, 55, 52, 18) AND fhs.contraceptive_method is not null AND fhs.contraceptive_method in (190,780,907,6218,6217,5841,6717,6718,6725,8134,5274,8300) and extract(year from (from_days(datediff(now(),p.birthdate)))) between 10 and 49 and p.gender = 'F', 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_long_term_modern_contraception_pnc",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fhs.visit_type in (68, 55, 52, 18) AND fhs.contraceptive_method in (5279,5278,5275,5276,6220,6700,6701,9510,9511,9734,9735,10817) and extract(year from (from_days(datediff(now(),p.birthdate)))) between 10 and 49 and p.gender = 'F', 1, null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_modern_contraception_pnc",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(fhs.contraceptive_method IS NOT NULL AND fhs.contraceptive_method IN (190 , 780, 907, 6218, 6217, 5841, 6717, 6718, 6725, 8134, 5274, 8300, 5279 , 5278, 5275, 5276, 6220, 6700, 6701, 9510, 9511, 9734, 9735, 10817) AND fhs.visit_type in (68, 55, 52, 18) and extract(year from (from_days(datediff(now(),p.birthdate)))) between 10 and 49 and p.gender = 'F', 1, null)"
       }
     },
     {
@@ -293,7 +341,7 @@
       "alias": "not_on_modern_contraception_pnc",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "if((fhs.contraceptive_method IS NULL or fhs.contraceptive_method in (6219 , 1624, 6707, 1067, 1107, 10956, 5622, 5277)) AND fhs.visit_type in (68, 55, 52, 18) ,1,null)"
+        "expression": "if((fhs.contraceptive_method IS NULL or fhs.contraceptive_method in (6219 , 1624, 6707, 1067, 1107, 10956, 5622, 5277)) AND fhs.visit_type in (68, 55, 52, 18) and extract(year from (from_days(datediff(now(),p.birthdate)))) between 10 and 49 and p.gender = 'F',1,null)"
       }
     },
     {
@@ -306,18 +354,10 @@
     },
     {
       "type": "derived_column",
-      "alias": "on_art_and_not_on_modern_contraception",
-      "expressionType": "simple_expression",
-      "expressionOptions": {
-        "expression": "if((fhs.contraceptive_method IS NULL OR fhs.contraceptive_method = 1107) and fhs.cur_arv_line is not null,1,null)"
-      }
-    },
-    {
-      "type": "derived_column",
       "alias": "started_modern_contraception",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "if(date(fhs.modern_contraceptive_method_start_date) between '{startDate}' and '{endDate}',1,null)"
+        "expression": "if(date(fhs.modern_contraceptive_method_start_date) between '{startDate}' and '{endDate}' and extract(year from (from_days(datediff(now(),p.birthdate)))) between 10 and 49 and p.gender = 'F',1,null)"
       }
     },
     {
@@ -325,7 +365,7 @@
       "alias": "pregnant",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "if(fhs.is_pregnant is not null,1,null)"
+        "expression": "if(extract(year from (from_days(datediff(now(),p.birthdate)))) between 10 and 49 and fhs.is_pregnant is not null and p.gender = 'F',1,null)"
       }
     },
     {
@@ -333,7 +373,7 @@
       "alias": "pregnant_and_on_arvs",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "if(fhs.is_pregnant is not null and fhs.cur_arv_line is not null,1,null)"
+        "expression": "if(fhs.is_pregnant is not null and p.gender = 'F' and fhs.cur_arv_line is not null,1,null)"
       }
     },
     {
@@ -341,7 +381,7 @@
       "alias": "pregnant_and_started_art",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "if(fhs.is_pregnant is not null and date(fhs.arv_first_regimen_start_date) between '{startDate}' and '{endDate}',1,null)"
+        "expression": "if(fhs.is_pregnant is not null and p.gender = 'F' and date(fhs.arv_first_regimen_start_date) between '{startDate}' and '{endDate}',1,null)"
       }
     },
     {
@@ -494,8 +534,8 @@
       },
       {
         "filterType": "tableColumns",
-        "conditionExpression": "fhs.location_uuid in ?",
-        "parameterName": "locationUuids"
+        "conditionExpression": "fhs.location_id in ?",
+        "parameterName": "locations"
       },
       {
         "filterType": "tableColumns",

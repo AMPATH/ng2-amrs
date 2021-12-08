@@ -227,6 +227,46 @@
     },
     {
       "type": "derived_column",
+      "alias": "women_of_reproductive_age",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(women_of_reproductive_age, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "women_with_pregnancy_intentions",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(women_with_pregnancy_intentions, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "eligible_for_family_planning",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(eligible_for_family_planning, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "due_for_contraception_refill",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(due_for_contraception_refill, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_other_contraception",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "count(distinct concat(on_other_contraception, hsb.person_id))"
+      }
+    },
+    {
+      "type": "derived_column",
       "alias": "on_short_term_modern_contraception",
       "expressionType": "simple_expression",
       "expressionOptions": {
