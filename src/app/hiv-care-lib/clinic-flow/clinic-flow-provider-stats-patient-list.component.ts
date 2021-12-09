@@ -69,7 +69,10 @@ export class ClinicFlowProviderStatsPatientListComponent implements OnInit {
   }
 
   public generatePatientCols() {
-    const dataRows = Object.keys(this.patientData[0]);
+    let dataRows = [];
+    if (this.patientData.length > 0) {
+      dataRows = Object.keys(this.patientData[0]);
+    }
     const patientListColDefs = dataRows.map((r) => {
       return {
         headerName: r,
