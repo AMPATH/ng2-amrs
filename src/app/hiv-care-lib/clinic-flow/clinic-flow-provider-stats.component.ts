@@ -84,8 +84,8 @@ export class ClinicFlowProviderStatsComponent implements OnInit, OnDestroy {
       }, {})
     );
     // move the #seen column to be at index 2
-    uniqueKeys.splice(uniqueKeys.indexOf("#_Seen"), 1);
-    uniqueKeys.splice(2, 0, "#_Seen");
+    uniqueKeys.splice(uniqueKeys.indexOf('#_Seen'), 1);
+    uniqueKeys.splice(3, 0, '#_Seen');
     for (const i of uniqueKeys) {
       header.push({ label: i });
     }
