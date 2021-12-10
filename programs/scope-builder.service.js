@@ -286,8 +286,18 @@ function isInitialHivVisit(patientEncounters) {
   const adultInitial = '8d5b27bc-c2cc-11de-8d13-0010c6dffd0f';
   const youthInitial = 'fc8c1694-90fc-46a8-962b-73ce9a99a78f';
   const pedsInitial = '8d5b2dde-c2cc-11de-8d13-0010c6dffd0f';
+  const adultReturn = '8d5b2be0-c2cc-11de-8d13-0010c6dffd0f';
+  const youthReturn = '4e7553b4-373d-452f-bc89-3f4ad9a01ce7';
+  const pedsReturn = '8d5b3108-c2cc-11de-8d13-0010c6dffd0f';
 
-  const initialEncounters = [youthInitial, adultInitial, pedsInitial];
+  const initialEncounters = [
+    youthInitial,
+    adultInitial,
+    pedsInitial,
+    adultReturn,
+    youthReturn,
+    pedsReturn
+  ];
   const hasInitial = patientEncounters.some((e) => {
     const encounterType = e?.encounterType?.uuid;
     return initialEncounters.some((i) => {
