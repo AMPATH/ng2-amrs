@@ -175,7 +175,7 @@
       },
       {
         "filterType": "tableColumns",
-        "conditionExpression": "t2.encounter_type != 110",
+        "conditionExpression": "t2.encounter_type != 116",
         "parameterName": ""
       },
       {
