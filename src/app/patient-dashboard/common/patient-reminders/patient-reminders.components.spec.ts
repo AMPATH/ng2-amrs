@@ -1,3 +1,4 @@
+import { ObsResourceService } from 'src/app/openmrs-api/obs-resource.service';
 import { Router } from '@angular/router';
 import { TestBed, async } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -83,6 +84,7 @@ describe('Component: PatientReminders', () => {
         PatientReminderResourceService,
         ProgramEnrollmentResourceService,
         EncounterResourceService,
+        ObsResourceService,
         PatientRemindersComponent,
         {
           provide: AppFeatureAnalytics,

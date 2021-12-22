@@ -1,7 +1,48 @@
-<h3 *ngIf="hasContacts" style="margin-top: 0px">
-  Last date of elicitation
-  <span style="color: firebrick">{{ maxElicitationDate }}</span>
-</h3>
+<div class="row" *ngIf="hasContacts">
+  <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+    <label for="number-days">Last date of elicitation :</label>
+  </div>
+  <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+    <span style="color: firebrick">{{ maxElicitationDate }}</span>
+  </div>
+</div>
+
+<div class="row" *ngIf="hasContacts && children_status">
+  <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+    <label for="number-days">Children below 19 years :</label>
+  </div>
+  <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+    <span style="color: firebrick">{{ children_status }}</span>
+  </div>
+</div>
+
+<div class="row" *ngIf="hasContacts && children_elicitation_status">
+  <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+    <label for="number-days">Children elicited by partner :</label>
+  </div>
+  <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+    <span style="color: firebrick">{{ children_elicitation_status }}</span>
+  </div>
+</div>
+
+<div class="row" *ngIf="hasContacts && hasChildrenBeenElicited">
+  <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+    <label for="number-days">Children elicited :</label>
+  </div>
+  <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+    <span style="color: firebrick">{{ hasChildrenBeenElicited }}</span>
+  </div>
+</div>
+
+<div class="row" *ngIf="hasContacts && childrenTestingConsentGiven">
+  <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+    <label for="number-days">Children Testing Consent Given :</label>
+  </div>
+  <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+    <span style="color: firebrick">{{ childrenTestingConsentGiven }}</span>
+  </div>
+</div>
+
 <div style="margin-top: 1rem">
   <ag-grid-angular
     *ngIf="indexContacts.length"
