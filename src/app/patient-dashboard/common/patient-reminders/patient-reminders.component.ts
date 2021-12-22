@@ -1,5 +1,8 @@
-import { Router } from "@angular/router";
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { ObsResourceService } from 'src/app/openmrs-api/obs-resource.service';
+import { LocalStorageService } from 'src/app/utils/local-storage.service';
+import { EncounterResourceService } from 'src/app/openmrs-api/encounter-resource.service';
+import { Router } from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { ActiveToast, ToastPackage, ToastrService } from "ngx-toastr";
 import { PatientReminderService } from "./patient-reminders.service";
@@ -31,7 +34,7 @@ export class PatientRemindersComponent implements OnInit, OnDestroy {
     preventDuplicates: true,
   };
   private remindersLoaded = false;
-  private encounterUuid: string;
+  private familyTestingEnc: any;
 
   constructor(
     private toastrService: ToastrService,
@@ -41,6 +44,9 @@ export class PatientRemindersComponent implements OnInit, OnDestroy {
     private programManagerService: ProgramManagerService,
     public patientProgramResourceService: PatientProgramResourceService,
     private appFeatureAnalytics: AppFeatureAnalytics,
+    private encounterResource: EncounterResourceService,
+    private localStorageService: LocalStorageService,
+    private obsResourceService: ObsResourceService,
     private router: Router
   ) {}
 
@@ -263,20 +269,78 @@ export class PatientRemindersComponent implements OnInit, OnDestroy {
 
   public updateContacts(toast) {
     const url = `/patient-dashboard/patient/${this.patient.uuid}/general/general/formentry/3fbc8512-b37b-4bc2-a0f4-8d0ac7955127`;
-    this.router.navigate([url], {
-      queryParams: {
-        encounter: this.encounterUuid,
-        visitTypeUuid: "",
-      },
-    });
+    const elicitationAction = this.localStorageService.getItem(
+      'elicitationAction'
+    );
+    if (elicitationAction === 'addContacts') {
+      this.router.navigate([url], {
+        queryParams: {
+          encounter: this.familyTestingEnc.uuid,
+          visitTypeUuid: ''
+        }
+      });
+    }
+
+    if (elicitationAction === 'updateDate') {
+      this.voidObs(this.familyTestingEnc);
+    }
     this.toastrService.remove(toast.toastId);
+    this.localStorageService.remove('elicitationAction');
   }
 
-  public getFamilyHistoryEncounter(encounters) {
-    encounters.forEach((enc) => {
-      if (enc.encounterType.uuid === "975ae894-7660-4224-b777-468c2e710a2a") {
-        this.encounterUuid = enc.uuid;
+  public getFamilyHistoryEncounter(data) {
+    let encounters = [];
+    const dates = [];
+    data.forEach((enc) => {
+      if (enc.encounterType.uuid === '975ae894-7660-4224-b777-468c2e710a2a') {
+        encounters.push(enc);
+        dates.push(new Date(enc.encounterDatetime));
       }
+    });
+
+    encounters = encounters.filter(
+      (enc) =>
+        new Date(enc.encounterDatetime) >= new Date(Math.max.apply(null, dates))
+    );
+    this.familyTestingEnc = encounters[0];
+  }
+
+  public updateElicitationDate(enc: any) {
+    const payload = {
+      encounterDatetime: enc.encounterDatetime,
+      encounterProviders: [
+        {
+          provider: enc.encounterProviders.slice(-1)[0].provider.uuid,
+          encounterRole: 'a0b03050-c99b-11e0-9572-0800200c9a66'
+        }
+      ],
+      location: enc.location.uuid,
+      encounterType: enc.encounterType.uuid,
+      form: enc.form.uuid,
+      patient: this.patient.person.uuid,
+      obs: [
+        {
+          concept: 'af9b3035-8570-4d32-af7d-4f1ae0374f7c',
+          value: new Date()
+        }
+      ],
+      orders: []
+    };
+
+    this.encounterResource.updateEncounter(enc.uuid, payload).subscribe((r) => {
+      console.log('ELICITATION DATE UPDATED');
+    });
+  }
+
+  public voidObs(enc: any) {
+    this.encounterResource.getEncounterByUuid(enc.uuid).subscribe((r) => {
+      r.obs.forEach((ob) => {
+        if (ob.concept.uuid === 'af9b3035-8570-4d32-af7d-4f1ae0374f7c') {
+          console.log('ob.concept.uuid ', ob.concept.uuid);
+          this.obsResourceService.voidObs(ob.uuid).subscribe(r);
+        }
+      });
+      this.updateElicitationDate(enc);
     });
   }
 }

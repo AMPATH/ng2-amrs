@@ -256,10 +256,7 @@ export class SurgeReportBaseComponent implements OnInit {
           this.calendarWeeks.push({
             yearWeek: element.formatted_week,
             name:
-              `Week ${Moment(element.start_date, 'YYYY-MM-DD').week()} ${Moment(
-                element.start_date,
-                'YYYY-MM-DD'
-              ).year()}` +
+              `Week ${element.week.slice(4)} ${element.week.slice(0, 4)}` +
               ' From ' +
               Moment(element.start_date).format('ddd-DD MMM-YYYY') +
               ' To ' +

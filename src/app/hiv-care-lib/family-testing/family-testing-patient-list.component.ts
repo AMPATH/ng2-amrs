@@ -20,13 +20,22 @@ import { GridOptions } from "ag-grid";
 export class FamilyTestingPatientlistComponent implements OnInit {
   public hasLoadedAll: true;
   public hasError: false;
+  public showList = false;
   public gridOptions: GridOptions = {
     columnDefs: [],
   };
   @ViewChild("agGrid")
   public agGrid: AgGridNg2;
+  public _patientData = [];
+
   @Input()
-  public patientData = [];
+  public get patientData(): any {
+    return this._patientData;
+  }
+  public set patientData(patientData: any) {
+    this._patientData = patientData;
+  }
+
   private columnDefs = [
     {
       field: "identifiers",
@@ -66,8 +75,12 @@ export class FamilyTestingPatientlistComponent implements OnInit {
       width: 120,
     },
     {
-      field: "patient_program_name",
-      headerName: "Patient Program",
+      field: 'arv_first_regimen_start_date',
+      headerName: 'ART Initiation Date'
+    },
+    {
+      field: 'patient_program_name',
+      headerName: 'Patient Program'
     },
     {
       field: "fm_name",

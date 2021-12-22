@@ -22,10 +22,12 @@ export class FamilyTestingBaseComponent implements OnInit {
   public showInfoMessage = false;
   public params: any;
   public familyTestingPatientList: Array<any>;
-  public reportName = "FamilyTesting";
-  public isEligible = "";
-  public elicitedStartDate = "";
-  public elicitedEndDate = "";
+  public reportName = 'FamilyTesting';
+  public isEligible = '';
+  public childStatus = '';
+  public elicitedClients = '';
+  public elicitedStartDate = '';
+  public elicitedEndDate = '';
   public programDropdownSettings: any = {
     singleSelection: false,
     text: "Select or enter to search",
@@ -56,6 +58,44 @@ export class FamilyTestingBaseComponent implements OnInit {
     },
   ];
 
+  public childStatusOptions = [
+    {
+      label: '',
+      value: ''
+    },
+    {
+      label: 'No Child',
+      value: 0
+    },
+    {
+      label: 'Children Above 19yrs',
+      value: 1
+    }
+  ];
+
+  public elicitedClientsOptions = [
+    {
+      label: '',
+      value: ''
+    },
+    {
+      label: 'All Index',
+      value: 0
+    },
+    {
+      label: 'Index Without Contacts',
+      value: -1
+    },
+    {
+      label: 'Index With Contacts',
+      value: 1
+    },
+    {
+      label: 'All contacts',
+      value: ''
+    }
+  ];
+
   public ngOnInit() {
     this.route.queryParams.subscribe((params: any) => {
       if (_.isEmpty(params)) {
@@ -81,10 +121,14 @@ export class FamilyTestingBaseComponent implements OnInit {
             this.locationUuid
           );
         } else {
-          this.locationUuid = params.location_uuid ? params.location_uuid : "";
-          this.elicitedStartDate = params.start_date ? params.start_date : "";
-          this.elicitedEndDate = params.end_date ? params.end_date : "";
-          this.isEligible = params.eligible ? params.eligible : "";
+          this.locationUuid = params.location_uuid ? params.location_uuid : '';
+          this.elicitedStartDate = params.start_date ? params.start_date : '';
+          this.elicitedEndDate = params.end_date ? params.end_date : '';
+          this.isEligible = params.eligible ? params.eligible : '';
+          this.childStatus = params.childStatus ? params.childStatus : '';
+          this.elicitedClients = params.elicitedClients
+            ? params.elicitedClients
+            : '';
           const cachedPrograms = this.localStorage.getItem(
             "familyTestingSelectedPrograms"
           );
@@ -140,6 +184,8 @@ export class FamilyTestingBaseComponent implements OnInit {
       queryParams: {
         location_uuid: this.locationUuid,
         eligible: this.isEligible,
+        childStatus: this.childStatus,
+        elicitedClients: this.elicitedClients,
         start_date: this.elicitedStartDate,
         end_date: this.elicitedEndDate,
         program_type: this.programUuids.toString(),
@@ -170,6 +216,14 @@ export class FamilyTestingBaseComponent implements OnInit {
     this.isEligible = $event;
   }
 
+  public childStatusChange($event) {
+    this.childStatus = $event;
+  }
+
+  public onElicitedClientsChange($event) {
+    this.elicitedClients = $event;
+  }
+
   public getSelectedElicitedStartDate($event) {
     this.elicitedStartDate = Moment($event).format("YYYY-MM-DD");
   }
@@ -195,6 +249,8 @@ export class FamilyTestingBaseComponent implements OnInit {
     this.params = {
       locationUuid: this.locationUuid,
       isEligible: this.isEligible,
+      childStatus: this.childStatus,
+      elicitedClients: this.elicitedClients,
       start_date: this.elicitedStartDate,
       end_date: this.elicitedEndDate,
       programType: this.programUuids.toString(),
@@ -202,9 +258,11 @@ export class FamilyTestingBaseComponent implements OnInit {
   }
 
   public resetFilters() {
-    this.isEligible = "";
-    this.elicitedStartDate = "";
-    this.elicitedEndDate = "";
+    this.isEligible = '';
+    this.childStatus = '';
+    this.elicitedClients = '';
+    this.elicitedStartDate = '';
+    this.elicitedEndDate = '';
     this.programUuids = [];
     this.program = [];
     this.localStorage.remove("familyTestingSelectedPrograms");

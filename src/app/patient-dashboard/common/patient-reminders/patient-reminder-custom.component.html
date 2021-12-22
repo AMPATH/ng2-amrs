@@ -46,12 +46,27 @@
 >
   Add Contacts
 </a>
-
-<a
-  *ngIf="_options.reminder && _options.reminder.updateContacts"
-  style="margin-top: 5px; display: block"
-  class="btn btn-default"
-  (click)="updateContacts($event)"
->
-  Update Contacts
-</a>
+<div class="row">
+  <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+    <a
+      *ngIf="_options.reminder && _options.reminder.updateContacts"
+      style="margin-top: 5px; display: block"
+      class="btn btn-default"
+      (click)="updateContacts($event)"
+    >
+      Yes
+    </a>
+  </div>
+  <div>
+    <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+      <a
+        *ngIf="_options.reminder && _options.reminder.updateContacts"
+        style="margin-top: 5px; display: block"
+        class="btn btn-default"
+        (click)="updateElicitationDate($event)"
+      >
+        No
+      </a>
+    </div>
+  </div>
+</div>

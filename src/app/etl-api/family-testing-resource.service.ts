@@ -61,6 +61,12 @@ export class FamilyTestingService {
     if (params.programType && params.programType !== "") {
       urlParams = urlParams.set("program_type", params.programType);
     }
+    if (params.childStatus && params.childStatus !== '') {
+      urlParams = urlParams.set('child_status', params.childStatus);
+    }
+    if (params.elicitedClients && params.elicitedClients !== '') {
+      urlParams = urlParams.set('elicited_clients', params.elicitedClients);
+    }
 
     return urlParams;
   }
