@@ -9,7 +9,7 @@ import {
 import { Component } from '@angular/core';
 
 import { Toast, ToastrService, ToastPackage } from 'ngx-toastr';
-
+import { LocalStorageService } from 'src/app/utils/local-storage.service';
 @Component({
   selector: 'custom-toast-reminder',
   styleUrls: ['./patient-reminder-custom.component.css'],
@@ -40,7 +40,8 @@ export class PatientReminderCustomComponent extends Toast {
 
   constructor(
     protected toastrService: ToastrService,
-    public toastPackage: ToastPackage
+    public toastPackage: ToastPackage,
+    public localStorageService: LocalStorageService
   ) {
     super(toastrService, toastPackage);
     this.options['timeOut'] = 0;
@@ -69,6 +70,16 @@ export class PatientReminderCustomComponent extends Toast {
     setTimeout(() => {
       this.toastPackage.triggerAction((this.options as any).reminder);
     }, 500);
+    this.localStorageService.setItem('elicitationAction', 'addContacts');
+    return false;
+  }
+
+  public updateElicitationDate(event) {
+    event.stopPropagation();
+    setTimeout(() => {
+      this.toastPackage.triggerAction((this.options as any).reminder);
+    }, 500);
+    this.localStorageService.setItem('elicitationAction', 'updateDate');
     return false;
   }
 }

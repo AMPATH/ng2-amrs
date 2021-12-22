@@ -9,7 +9,7 @@
     <div class="row row-separator">
       <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
         <div class="form-group row">
-          <div class="col-md-3 col-lg-3 col-sm-6 col-xs-12">
+          <div class="col-md-4 col-lg-4 col-sm-6 col-xs-12">
             <label for="elicitedStartDate">Date Elicited Start Date</label>
             <date-time-picker
               tabindex="0"
@@ -18,7 +18,7 @@
               (onDateChange)="getSelectedElicitedStartDate($event)"
             ></date-time-picker>
           </div>
-          <div class="col-md-3 col-lg-3 col-sm-6 col-xs-12">
+          <div class="col-md-4 col-lg-4 col-sm-6 col-xs-12">
             <label for="elicitedEndDate"> Date Elicited End Date</label>
             <date-time-picker
               tabindex="0"
@@ -27,7 +27,26 @@
               (onDateChange)="getSelectedElicitedEndDate($event)"
             ></date-time-picker>
           </div>
-          <div class="col-md-3 col-lg-3 col-sm-6 col-xs-12">
+          <div class="col-md-4 col-lg-4 col-sm-6 col-xs-12">
+            <label for="programSelect">Program</label>
+            <angular2-multiselect
+              #programSelect
+              [data]="programs"
+              [(ngModel)]="program"
+              [settings]="programDropdownSettings"
+              (onSelect)="selectProgram($event)"
+              (onDeSelect)="DeSelectProgram($event)"
+              (onSelectAll)="onSelectAllPrograms($event)"
+              (onDeSelectAll)="onDeSelectAllPrograms($event)"
+              name="program-filter"
+            >
+            </angular2-multiselect>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+        <div class="form-group row">
+          <div class="col-md-4 col-lg-4 col-sm-6 col-xs-12">
             <label for="isEligible">Eligible for Testing</label>
             <select
               style="height: 39px"
@@ -43,20 +62,40 @@
               </option>
             </select>
           </div>
-          <div class="col-md-3 col-lg-3 col-sm-6 col-xs-12">
-            <label for="programSelect">Program</label>
-            <angular2-multiselect
-              #programSelect
-              [data]="programs"
-              [(ngModel)]="program"
-              [settings]="programDropdownSettings"
-              (onSelect)="selectProgram($event)"
-              (onDeSelect)="DeSelectProgram($event)"
-              (onSelectAll)="onSelectAllPrograms($event)"
-              (onDeSelectAll)="onDeSelectAllPrograms($event)"
-              name="program-filter"
+          <div class="col-md-4 col-lg-4 col-sm-6 col-xs-12">
+            <label for="childStatus">Index Child Status</label>
+            <select
+              style="height: 39px"
+              class="form-control"
+              [(ngModel)]="childStatus"
+              id="childStatus"
+              name="childStatus"
+              (ngModelChange)="childStatusChange($event)"
+              required
             >
-            </angular2-multiselect>
+              <option *ngFor="let p of childStatusOptions" [value]="p.value">
+                {{ p.label }}
+              </option>
+            </select>
+          </div>
+          <div class="col-md-4 col-lg-4 col-sm-6 col-xs-12">
+            <label for="elicitedClients">Elicited Index</label>
+            <select
+              style="height: 39px"
+              class="form-control"
+              [(ngModel)]="elicitedClients"
+              id="elicitedClients"
+              name="elicitedClients"
+              (ngModelChange)="onElicitedClientsChange($event)"
+              required
+            >
+              <option
+                *ngFor="let p of elicitedClientsOptions"
+                [value]="p.value"
+              >
+                {{ p.label }}
+              </option>
+            </select>
           </div>
         </div>
       </div>

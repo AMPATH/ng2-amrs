@@ -15,7 +15,13 @@ export class ContactListComponent implements OnInit {
   public indexContacts: Array<any> = [];
   public gridOptions = { columnDefs: [] };
   public maxElicitationDate = '';
+  public children_status = '';
+  public children_elicitation_status = '';
+  public partner_status = '';
+  public hasChildrenBeenElicited = '';
   public hasContacts = true;
+  public childrenTestingConsentGiven = '';
+  public gender = '';
   private columnDefs = [
     {
       headerName: '#',
@@ -65,6 +71,7 @@ export class ContactListComponent implements OnInit {
     this.patientService.currentlyLoadedPatient.subscribe((patient) => {
       if (patient) {
         this.patientUuid = patient.person.uuid;
+        this.gender = patient.person.gender;
         this.getFamilyTestingContactListData(this.patientUuid);
       }
     });
@@ -75,18 +82,36 @@ export class ContactListComponent implements OnInit {
     this.familyTestingService
       .getFamilyTestingReportData(patientId)
       .subscribe((data) => {
-        if (data.error) {
-          console.log('error ', data.error);
-        } else {
-          this.indexContacts = data.result;
+        if (data.result && data.result.length > 0) {
+          this.getContacts(data.result);
           if (data.result !== undefined && data.result.length > 0) {
             this.hasContacts = true;
           } else {
             this.hasContacts = false;
           }
+          if (data.result[0].children_elicited_by_partner === 'YES') {
+            this.children_elicitation_status = 'YES';
+          } else if (data.result[0].children_elicited_by_partner === 'NO') {
+            this.children_elicitation_status = `NO. Partner  ${data.result[0].female_partner_status}`;
+          }
+          data.result[0].child_status_reason
+            ? (this.children_status =
+                data.result[0].child_status +
+                ', ' +
+                data.result[0].child_status_reason)
+            : (this.children_status = data.result[0].child_status);
+
+          if (data.result[0].child_status !== 'YES' || this.gender === 'F') {
+            this.children_elicitation_status = '';
+          }
           this.maxElicitationDate = Moment(
             this.getMaxElicitationDate(data.result)
           ).format('DD/MM/YYYY');
+          this.hasChildrenBeenElicited = data.result[0].children_elicited;
+          if (data.result[0].child_status === 'YES') {
+            this.childrenTestingConsentGiven =
+              data.result[0].children_testing_consent_given;
+          }
         }
       });
   }
@@ -94,9 +119,20 @@ export class ContactListComponent implements OnInit {
   public getMaxElicitationDate(contacts) {
     const dates = [];
     _.each(contacts, (c) => {
+      dates.push(new Date(c.encounter_datetime));
       dates.push(new Date(c.date_elicited));
+      dates.push(new Date(c.updated_elicitation_date));
+      dates.push(new Date(c.updated_elicitation_date_alert));
     });
 
     return new Date(Math.max.apply(null, dates));
+  }
+
+  public getContacts(contacts) {
+    _.each(contacts, (c) => {
+      if (c.obs_group_id != null) {
+        this.indexContacts = contacts;
+      }
+    });
   }
 }
