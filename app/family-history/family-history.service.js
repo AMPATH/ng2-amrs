@@ -6,8 +6,8 @@ export class FamilyTestingService {
     return new Promise((resolve, reject) => {
       let queryParts = {};
       let where = '';
-      let sql = `SELECT 
-      t1.*, t2.contacts_count,p.gender as index_gender,
+      let sql = 'SELECT ';
+      const columns = `t1.*,tx.*, tx.encounter_datetime as last_date_elicited, t2.contacts_count,tx.gender as index_gender,
       case 
           when eligible_for_testing = 1065 then 'YES' 
           when eligible_for_testing = 1066 then 'No' 
@@ -34,28 +34,29 @@ export class FamilyTestingService {
           else fm_status 
         end as modified_fm_status,
         date_format(current_test_date,"%d-%m-%Y") as modified_current_test_date,
-        extract(year from (from_days(datediff(now(),p.birthdate)))) as age 
-        FROM
-            etl.flat_family_testing t1
-                INNER JOIN
-            (SELECT 
-                patient_id, COUNT(*) AS 'contacts_count'
-            FROM
-                etl.flat_family_testing
-                WHERE
-            location_uuid = '${params.locationUuid}'
-        GROUP BY patient_id) t2 ON (t1.patient_id = t2.patient_id)
-            INNER JOIN amrs.person p on (t1.patient_id = p.person_id)
-        `;
+        extract(year from (from_days(datediff(now(),tx.birthdate)))) as age `;
+
+      const from = `FROM
+      etl.flat_family_testing_index tx
+        LEFT JOIN
+      etl.flat_family_testing t1 on (tx.person_id = t1.patient_id)
+          LEFT JOIN
+      (SELECT 
+          patient_id, COUNT(*) AS 'contacts_count'
+      FROM
+          etl.flat_family_testing
+          WHERE
+       location_uuid = '${params.locationUuid}'
+      GROUP BY patient_id) t2 ON (t1.patient_id = t2.patient_id) `;
 
       where = `
       WHERE
-      location_uuid = '${params.locationUuid}'`;
+      tx.location_uuid = '${params.locationUuid}' `;
 
       if (params.start_date != null && params.end_date != null) {
         where =
           where +
-          `  and date(date_elicited) between date('${params.start_date}') and date('${params.end_date}')`;
+          `  and date(tx.encounter_datetime) between date('${params.start_date}') and date('${params.end_date}')`;
       }
 
       if (params.eligible != null) {
@@ -73,11 +74,33 @@ export class FamilyTestingService {
           }
         }
 
-        where = where + `  and patient_program_uuid in (${program})`;
+        where = where + `  and tx.patient_program_uuid in (${program})`;
+      }
+
+      switch (params.child_status) {
+        case '1':
+          where = where + `  and tx.child_status_reason = 11890`;
+          break;
+        case '0':
+          where = where + `  and tx.child_status_reason = 11891`;
+          break;
+      }
+
+      if (params.elicited_clients == 0) {
+        where = `${where}  group by tx.person_id`;
+        sql = sql + ' tx.* ' + from + where;
+      } else if (params.elicited_clients < 0) {
+        where = `${where} and obs_group_id is null `;
+        sql = sql + ' tx.* ' + from + where;
+      } else if (params.elicited_clients > 0) {
+        where = `${where} and tx.person_id in (select patient_id from etl.flat_family_testing where location_uuid = '${params.locationUuid}' ) group by tx.person_id`;
+        sql = sql + ' tx.* ' + from + where;
+      } else {
+        sql = sql + columns + from + where + ' and obs_group_id is not null ';
       }
 
       queryParts = {
-        sql: sql + where
+        sql: sql
       };
       return db.queryServer(queryParts, function (result) {
         result.sql = sql;
@@ -89,7 +112,29 @@ export class FamilyTestingService {
   getPatientContacts = (params) => {
     return new Promise((resolve, reject) => {
       let queryParts = {};
-      let sql = `select *,
+      let sql = `select t1.*,
+    case 
+        when children_testing_consent_given = 1065 then 'YES' 
+        when children_testing_consent_given = 1066 then 'NO'
+    end as children_testing_consent_given,
+    case 
+        when child_status = 1065 then 'YES' 
+        when child_status = 1066 then 'NO'
+        when child_status = 1175 then 'Not Applicable' 
+     end as child_status,
+      case 
+        when child_status_reason = 11890 then 'Children above 19yrs' 
+        when child_status_reason = 11891 then 'No child' 
+      end as child_status_reason,
+      case 
+        when children_elicited_by_partner = 1065 then 'YES' 
+        when children_elicited_by_partner = 1066 then 'NO' 
+      end as children_elicited_by_partner,
+      case 
+        when female_partner_status = 10901 then 'unknown HIV status' 
+        when female_partner_status = 9584 then 'Not in care' 
+        when female_partner_status = 159 then 'Deceased' 
+      end as female_partner_status,
       case 
         when fm_uuid is not null then true
         when fm_status = 'POSITIVE' or test_result = 703 then false
@@ -126,8 +171,29 @@ export class FamilyTestingService {
         when fm_status is null then 'UNKNOWN' 
           else fm_status 
         end as modified_fm_status,
-        date_format(current_test_date,"%d-%m-%Y") as modified_current_test_date
-      from etl.flat_family_testing where patient_uuid = '${params.patientUuid}'`;
+        date_format(current_test_date,"%d-%m-%Y") as modified_current_test_date,
+        case 
+          when children_count > 0 and child_status is null then 'YES' 
+          when children_count is null and child_status is null then 'NO'
+          end as children_elicited,
+        tx.encounter_datetime,
+        t1.date_elicited,
+        tx.updated_elicitation_date,
+        tx.updated_elicitation_date_alert
+        
+      FROM
+            etl.flat_family_testing_index tx
+              LEFT JOIN
+            etl.flat_family_testing t1 on (tx.person_id = t1.patient_id) 
+              LEFT JOIN
+            (SELECT patient_id, COUNT(*) AS 'children_count'
+              FROM
+            etl.flat_family_testing
+              WHERE
+            patient_uuid = '${params.patientUuid}'
+              and fm_age < 20) t2
+            ON (t1.patient_id = t2.patient_id) 
+            where tx.patient_uuid = '${params.patientUuid}'`;
       /*
       1.eligible_for_tracing = 0, not eligible for testing 
       2.eligible_for_tracing = 1, traced and tested

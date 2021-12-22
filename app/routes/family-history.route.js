@@ -19,7 +19,9 @@ const routes = [
           eligible: request.query.eligible,
           start_date: request.query.start_date,
           end_date: request.query.end_date,
-          programs: request.query.program_type
+          programs: request.query.program_type,
+          child_status: request.query.child_status,
+          elicited_clients: request.query.elicited_clients
         };
 
         familyTestingService.getPatientList(params).then((result) => {

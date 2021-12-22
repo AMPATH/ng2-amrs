@@ -7,6 +7,7 @@ var config = require('../conf/config.json');
 var encounter_service = require('./openmrs-rest/encounter');
 var program_service = require('./openmrs-rest/program.service');
 const cervicalCancerScreeningService = require('./cervical-cancer-screening-service');
+import { FamilyTestingService } from './../app/family-history/family-history.service';
 
 var serviceDef = {
   generateReminders: generateReminders,
@@ -516,8 +517,8 @@ function getFamilyTestingReminder(data) {
     if (res.results.length === 0) {
       reminders.push({
         message:
-          'No contact tracing has been done for this index, please fill the contact tracing form',
-        title: 'Contact Tracing Reminder',
+          'No elicitation has been done for this index, please elicit for contacts',
+        title: 'Contact Elicitation Reminder',
         type: 'warning',
         display: {
           banner: true,
@@ -527,18 +528,20 @@ function getFamilyTestingReminder(data) {
         addContacts: true
       });
       return reminders;
-    } else if (res.results.length > 0) {
-      let months = 0;
-      if (res.results[0].auditInfo.dateChanged != null) {
-        months = Moment().diff(res.results[0].auditInfo.dateChanged, 'months');
-      } else {
-        months = Moment().diff(res.results[0].encounterDatetime, 'months');
-      }
-      if (months > 6) {
+    }
+    let params = {
+      patientUuid: data[0].person_uuid
+    };
+    const service = new FamilyTestingService();
+    return service.getPatientContacts(params).then((r) => {
+      const maxDate = getMaxElicitationDate(r.result);
+      const months = Moment().diff(Moment(maxDate), 'months');
+
+      if (months > 12) {
         reminders.push({
           message:
-            "It's been six months since the patient's contacts were last updated, click update to add more contacts",
-          title: 'Contact Tracing Reminder',
+            'It has been one year since last elicitation. Do you have more contacts to add?',
+          title: 'Contact Elicitation Reminder',
           type: 'info',
           display: {
             banner: true,
@@ -549,8 +552,20 @@ function getFamilyTestingReminder(data) {
         });
       }
       return reminders;
-    }
+    });
   });
+}
+
+function getMaxElicitationDate(contacts) {
+  const dates = [];
+  _.each(contacts, (c) => {
+    dates.push(new Date(c.encounter_datetime));
+    dates.push(new Date(c.date_elicited));
+    dates.push(new Date(c.updated_elicitation_date));
+    dates.push(new Date(c.updated_elicitation_date_alert));
+  });
+
+  return new Date(Math.max.apply(null, dates));
 }
 
 function ovcUnenrollmentReminder(data) {
