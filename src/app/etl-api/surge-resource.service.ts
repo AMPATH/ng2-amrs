@@ -22,9 +22,10 @@ export class SurgeResourceService {
     // tslint:disable-next-line: max-line-length
     return this.http
       .get(
-        `${this.url}surge-report?year_week=${Moment(params.year_week)
-          .add(6, "day")
-          .format("YYYYWW")}&locationUuids=${params.locationUuids}`
+        `${this.url}surge-report?year_week=${params.year_week.replace(
+          '-W',
+          ''
+        )}&locationUuids=${params.locationUuids}`
       )
       .pipe(
         catchError((err: any) => {
