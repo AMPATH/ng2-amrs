@@ -134,6 +134,10 @@ import { AddPatientEducationComponent } from './patient-info/education/add-patie
 import { EditPatientEducationComponent } from './patient-info/education/edit-patient-education.component';
 import { OvcSnapshotComponent } from './ovc-snapshot/ovc-snapshot.component';
 import { UserDefaultPropertiesService } from 'src/app/user-default-properties/user-default-properties.service';
+import { DrugOrdersComponent } from './drug-orders/drug-orders.component';
+import { EPrescriptionComponent } from './drug-orders/e-prescription/e-prescription.component';
+import { DrugOrderListComponent } from './drug-orders/drug-order-list/drug-order-list.component';
+import { PdfViewComponent } from './drug-orders/pdf-view/pdf-view.component';
 
 @NgModule({
   imports: [
@@ -228,7 +232,8 @@ import { UserDefaultPropertiesService } from 'src/app/user-default-properties/us
     EditOccupationComponent,
     PatientEducationComponent,
     AddPatientEducationComponent,
-    EditPatientEducationComponent
+    EditPatientEducationComponent,
+    DrugOrdersComponent
   ],
   declarations: [
     VisitSummaryComponent,
@@ -288,7 +293,11 @@ import { UserDefaultPropertiesService } from 'src/app/user-default-properties/us
     PatientEducationComponent,
     AddPatientEducationComponent,
     EditPatientEducationComponent,
-    OvcSnapshotComponent
+    OvcSnapshotComponent,
+    DrugOrdersComponent,
+    EPrescriptionComponent,
+    DrugOrderListComponent,
+    PdfViewComponent
   ],
   providers: [
     {
