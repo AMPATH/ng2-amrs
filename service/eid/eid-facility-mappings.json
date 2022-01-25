@@ -264,7 +264,7 @@
     "mrsId": 31,
     "mrsDisplay": "Uasin Gishu District Hospital",
     "cityVillage": "",
-    "county": "",
+    "county": "Uasin Gishu",
     "description": "Uasin Gishu District Hospital (DH)",
     "mflCode": "15758",
     "eidDisplay": ""
@@ -507,9 +507,9 @@
     "mrsId": 58,
     "mrsDisplay": "Ngeria Prison",
     "cityVillage": null,
-    "county": null,
+    "county": "Uasin Gishu",
     "description": "Satellite Clinic of MTRH Module 3",
-    "mflCode": "15204",
+    "mflCode": "14524",
     "eidDisplay": ""
   },
   "0900871a-1352-11df-a1f1-0026b9348838": {
@@ -633,7 +633,7 @@
     "mrsId": 72,
     "mrsDisplay": "Moi University",
     "cityVillage": "Kesses",
-    "county": "",
+    "county": "Uasin Gishu",
     "description": "Moi University  Main Campus clinic",
     "mflCode": "15205",
     "eidDisplay": ""
@@ -1317,7 +1317,7 @@
     "mrsId": 148,
     "mrsDisplay": "St. Luke",
     "cityVillage": null,
-    "county": null,
+    "county": "Uasin Gishu",
     "description": "A Private Hospital in Eldoret",
     "mflCode": "18776",
     "eidDisplay": ""
@@ -1362,9 +1362,9 @@
     "mrsId": 153,
     "mrsDisplay": "Reale Hospital",
     "cityVillage": "Eldoret",
-    "county": "Uasin-Gishu",
+    "county": "Uasin Gishu",
     "description": "Private Hospital in Eldoret\r\nunder the Private Sector Engagement program\r\n(formally PPP)",
-    "mflCode": "18983",
+    "mflCode": "17243",
     "eidDisplay": ""
   },
   "402e0744-82be-4784-bb6e-e5a30d1055cf": {
@@ -1731,7 +1731,7 @@
     "mrsId": 211,
     "mrsDisplay": "Alphima Medical Clinic",
     "cityVillage": "Eldoret",
-    "county": "",
+    "county": "Uasin Gishu",
     "description": "A Private Hospital in Eldoret.",
     "mflCode": "23646",
     "eidDisplay": ""
@@ -2174,6 +2174,105 @@
     "description": "Matayos Health Centre MCH",
     "mflCode": "16004",
     "county": "Busia",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "617c45c9-558d-4e6e-bbc8-f149bfb20396": {
+    "mrsId": 353,
+    "mrsDisplay": "Kesses Health Center",
+    "description": "",
+    "mflCode": "14841",
+    "county": "Uasin Gishu",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "1ddf35dc-c9de-4ee1-b184-5ebc5ffa6c11": {
+    "mrsId": 363,
+    "mrsDisplay": "Chepsaita Dispensary",
+    "description": "",
+    "mflCode": "14358",
+    "county": "Uasin Gishu",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "31531310-9384-4482-8526-5fe710928ff0": {
+    "mrsId": 365,
+    "mrsDisplay": "Huruma District Hospital",
+    "description": "",
+    "mflCode": "14555",
+    "county": "Uasin Gishu",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "93546e76-54cc-4564-8eb9-97029c9ee623": {
+    "mrsId": 373,
+    "mrsDisplay": "Langas RCEA",
+    "description": "",
+    "mflCode": "15011",
+    "county": "Uasin Gishu",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "93bbe821-63cb-4075-9f87-fae70bb6c2de": {
+    "mrsId": 377,
+    "mrsDisplay": "Moi's Bridge Health Centre",
+    "description": "",
+    "mflCode": "15209",
+    "county": "Uasin Gishu",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "fea6ab04-91bc-4e0a-8d25-9d4815e47ffd": {
+    "mrsId": 378,
+    "mrsDisplay": "Moiben Health Centre",
+    "description": "",
+    "mflCode": "15206",
+    "county": "Uasin Gishu",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "1c78f94e-14cc-4549-abb4-9402c3509dda": {
+    "mrsId": 383,
+    "mrsDisplay": "Pioneer Health Centre",
+    "description": "",
+    "mflCode": "15463",
+    "county": "Uasin Gishu",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "7dfb608d-7587-4114-961c-5306caf2823b": {
+    "mrsId": 384,
+    "mrsDisplay": "Plateau Hospital",
+    "description": "",
+    "mflCode": "15464",
+    "county": "Uasin Gishu",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "de91bba1-5510-4a9e-90a5-c0caa2d30605": {
+    "mrsId": 387,
+    "mrsDisplay": "Soy Health Centre",
+    "description": "",
+    "mflCode": "15623",
+    "county": "Uasin Gishu",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "625585ab-0b93-490f-bf64-b85dd97a0621": {
+    "mrsId": 390,
+    "mrsDisplay": "Turbo Health Centre",
+    "description": "",
+    "mflCode": "15753",
+    "county": "Uasin Gishu",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "aa14b55e-9b33-4132-ae3b-310960b7d3f6": {
+    "mrsId": 392,
+    "mrsDisplay": "Ziwa Sub-District Hospital",
+    "description": "",
+    "mflCode": "15788",
+    "county": "Uasin Gishu",
     "cityVillage": "",
     "eidDisplay": ""
   }
