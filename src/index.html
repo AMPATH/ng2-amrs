@@ -1,27 +1,28 @@
 <!DOCTYPE html>
 <html lang="">
-
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>
-    Ampath POC
-  </title>
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" href="./assets/css/bootstrap.min.css"/>
-  <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico"/>
-  <!-- <link href="./assets/css/material.font.css" rel="stylesheet"> -->
-     <!-- <script src="./assets/rgbcolor/index.js"></script>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ampath POC</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css" />
+    <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="assets/img/favicon.ico"
+    />
+    <!-- <link href="./assets/css/material.font.css" rel="stylesheet"> -->
+    <!-- <script src="./assets/rgbcolor/index.js"></script>
     <script src="./assets/StackBlur/StackBlur.js"></script>
     <script src="./assets/canvg/dist/canvg.js"></script> -->
-  <!-- <link rel="stylesheet" href="./assets/app.css"/> -->
+    <!-- <link rel="stylesheet" href="./assets/app.css"/> -->
 
-  <!-- Piwik: currently pointing to NG2-AMRS-Localhost on test1.ampath.or.ke/piwik -->
-  <script type="text/javascript">
-    /*var _paq = _paq || [];
+    <!-- Piwik: currently pointing to NG2-AMRS-Localhost on test1.ampath.or.ke/piwik -->
+    <script type="text/javascript">
+      /*var _paq = _paq || [];
     _paq.push(["setDomains", ["*.localhost"]]);
     _paq.push(['trackPageView']);
     _paq.push(['enableLinkTracking']);
@@ -36,152 +37,163 @@
       g.src = u + 'piwik.js';
       s.parentNode.insertBefore(g, s);
     })();*/
-  </script>
-  <script type="text/javascript">
-    window.onbeforeunload = function() {
-      return "Are you sure you want to exit the page?";
-    }
-  </script>
-  <style>
-    html, body, app, .app-loader {
-      height: 100%;
-      min-height: 100%;
-      margin: 0;
-    }
+    </script>
+    <script type="text/javascript">
+      window.onbeforeunload = function () {
+        return 'Are you sure you want to exit the page?';
+      };
+    </script>
+    <style>
+      html,
+      body,
+      app,
+      .app-loader {
+        height: 100%;
+        min-height: 100%;
+        margin: 0;
+      }
 
-    app {
-      display: block;
-    }
+      app {
+        display: block;
+      }
 
-    .app-loader-center {
-      position: relative;
-      top: 50%;
-      transform: translateY(-50%);
-    }
+      .app-loader-center {
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+      }
 
-    .app-loader-center {
-      margin: 0 auto;
-      width: 320px;
-    }
+      .app-loader-center {
+        margin: 0 auto;
+        width: 320px;
+      }
 
-    .app-loader-logo, .app-loader-spinner, .app-loader-logo-man {
-      position: absolute;
-      height: 70px;
-      top: 0;
-    }
+      .app-loader-logo,
+      .app-loader-spinner,
+      .app-loader-logo-man {
+        position: absolute;
+        height: 70px;
+        top: 0;
+      }
 
-    .app-loader-logo {
-      z-index: 1;
-      width: 320px;
-    }
+      .app-loader-logo {
+        z-index: 1;
+        width: 320px;
+      }
 
-    .app-loader-logo img {
-      max-width: 100%;
-    }
+      .app-loader-logo img {
+        max-width: 100%;
+      }
 
-    .app-loader-logo-man {
-      width: 70px;
-      background-color: #fff;
-      z-index: 2;
-    }
+      .app-loader-logo-man {
+        width: 70px;
+        background-color: #fff;
+        z-index: 2;
+      }
 
-    .app-loader-spinner {
-      z-index: 3;
-      width: 45px;
-      height: 45px;
-      margin: 12px;
-      display: inline-block;
-      position: relative;
-    }
+      .app-loader-spinner {
+        z-index: 3;
+        width: 45px;
+        height: 45px;
+        margin: 12px;
+        display: inline-block;
+        position: relative;
+      }
 
-    .double-bounce1, .double-bounce2, .double-bounce3 {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      font-size: 24px;
-      background-color: #5774A4;
-      opacity: 0.9;
-      position: absolute;
-      top: 0;
-      left: 0;
+      .double-bounce1,
+      .double-bounce2,
+      .double-bounce3 {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        font-size: 24px;
+        background-color: #5774a4;
+        opacity: 0.9;
+        position: absolute;
+        top: 0;
+        left: 0;
 
-      -webkit-animation: sk-bounce 3.0s infinite ease-in-out;
-      animation: sk-bounce 3.0s infinite ease-in-out;
-    }
+        -webkit-animation: sk-bounce 3s infinite ease-in-out;
+        animation: sk-bounce 3s infinite ease-in-out;
+      }
 
-    .double-bounce2 {
-      -webkit-animation-delay: -2.0s;
-      background-color: #7ED5D3;
-      animation-delay: -2.0s;
-    }
+      .double-bounce2 {
+        -webkit-animation-delay: -2s;
+        background-color: #7ed5d3;
+        animation-delay: -2s;
+      }
 
-    .double-bounce3 {
-      -webkit-animation-delay: -1.0s;
-      background-color: #C1E8C6;
-      animation-delay: -1.0s;
-    }
-    @media (max-width: 1024px) {
-
+      .double-bounce3 {
+        -webkit-animation-delay: -1s;
+        background-color: #c1e8c6;
+        animation-delay: -1s;
+      }
+      @media (max-width: 1024px) {
         .option {
-        font-size: 12px !important;
+          font-size: 12px !important;
         }
-    }
-
-    @-webkit-keyframes sk-bounce {
-      0%, 100% {
-        -webkit-transform: scale(0.0)
       }
-      50% {
-        -webkit-transform: scale(1.0)
+
+      @-webkit-keyframes sk-bounce {
+        0%,
+        100% {
+          -webkit-transform: scale(0);
+        }
+        50% {
+          -webkit-transform: scale(1);
+        }
       }
-    }
 
-    @keyframes sk-bounce {
-      0%, 100% {
-        transform: scale(0.0);
-        -webkit-transform: scale(0.0);
+      @keyframes sk-bounce {
+        0%,
+        100% {
+          transform: scale(0);
+          -webkit-transform: scale(0);
+        }
+        50% {
+          transform: scale(1);
+          -webkit-transform: scale(1);
+        }
       }
-      50% {
-        transform: scale(1.0);
-        -webkit-transform: scale(1.0);
-      }
-    }
-  </style>
+    </style>
 
-  <noscript>
-    <p>
-      <img src="//test1.ampath.or.ke/piwik/piwik.php?idsite=4" style="border:0;" alt=""/></p>
-  </noscript>
-  <!-- End Piwik Code -->
+    <noscript>
+      <p>
+        <img
+          src="//test1.ampath.or.ke/piwik/piwik.php?idsite=4"
+          style="border: 0"
+          alt=""
+        />
+      </p>
+    </noscript>
+    <!-- End Piwik Code -->
 
+    <!-- base url -->
+    <base href="./" />
 
-  <!-- base url -->
-  <base href="./">
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#1976d2" />
+  </head>
 
-
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#1976d2">
-</head>
-
-<body class="hold-transition skin-black-light fixed sidebar-mini sidebar-collapse">
-
-<app-root>
-  <div class="app-loader">
-    <div class="app-loader-center">
-      <div class="app-loader-center-wrapper">
-        <div class="app-loader-spinner">
-          <div class="double-bounce1"></div>
-          <div class="double-bounce2"></div>
-          <div class="double-bounce3"></div>
-        </div>
-        <div class="app-loader-logo-man">&nbsp;</div>
-        <div class="app-loader-logo">
-          <img src="./assets/img/ampath.png"/>
+  <body
+    class="hold-transition skin-black-light fixed sidebar-mini sidebar-collapse"
+  >
+    <app-root>
+      <div class="app-loader">
+        <div class="app-loader-center">
+          <div class="app-loader-center-wrapper">
+            <div class="app-loader-spinner">
+              <div class="double-bounce1"></div>
+              <div class="double-bounce2"></div>
+              <div class="double-bounce3"></div>
+            </div>
+            <div class="app-loader-logo-man">&nbsp;</div>
+            <div class="app-loader-logo">
+              <img src="./assets/img/logo.svg" />
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-</app-root>
-</body>
-
+    </app-root>
+  </body>
 </html>
