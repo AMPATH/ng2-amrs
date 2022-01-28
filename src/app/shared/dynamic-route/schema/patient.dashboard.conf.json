@@ -42,6 +42,11 @@
           "icon": "icon-i-pathology"
         },
         {
+          "url": "drug-orders",
+          "label": "Drug Orders",
+          "icon": "icon-i-pathology"
+        },
+        {
           "url": "program-manager",
           "label": "Program Manager",
           "icon": "icon-i-administration"
