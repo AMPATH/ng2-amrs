@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
 import { CommonModule, DatePipe } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
 
 import {
@@ -43,6 +43,7 @@ import { GeneralLandingPageComponent } from './general-landing-page/landing-page
   imports: [
     HttpClientModule,
     CommonModule,
+    ReactiveFormsModule,
     RouterModule,
     FormsModule,
     ConfirmDialogModule,

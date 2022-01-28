@@ -1,14 +1,208 @@
 <mat-card>
-  <div class="row">
-    <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
-    <div class="col-md-5 col-lg-5 col-sm-5 col-xs-5">
-      <h3>Current ARV Regimen: TDF/3TC/DTG</h3>
+  <section>
+    <div class="row">
+      <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2"></div>
+      <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3">
+        <h3>Current ARV Regimen: TDF/3TC/DTG</h3>
+      </div>
+      <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1">
+        <br />
+        <span class="btn">
+          <button type="button" class="btn btn-primary">Prescribe</button
+          >&nbsp;&nbsp;
+          <button type="button" class="btn btn-secondary">Edit Regimen</button>
+        </span>
+      </div>
+      <div class="col-md-5 col-lg-5 col-sm-5 col-xs-5"></div>
     </div>
-    <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1">
-      <span class="btn">
-        <button type="button" class="btn btn-primary">Prescribe</button>&nbsp;&nbsp;
-        <button type="button" class="btn btn-secondary">Edit Regimen</button> 
-      </span> 
+  </section>
+  <br />
+  <section>
+    <div class="row">
+      <div class="col-md-7 col-lg-7 col-sm-7 col-xs-7">
+        <section>
+          <div class="row">
+            <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+            <div class="col-md-5 col-lg-5 col-sm-5 col-xs-5">
+              <h3>Create E Prescription</h3>
+            </div>
+          </div>
+        </section>
+        <br />
+        <div>
+          <form>
+            <div class="row">
+              <div class="col-md-5 col-lg-5 col-sm-5 col-xs-5">
+                <div class="row">
+                  <div class="col-md-2 col-lg-2 col-sm-3 col-xs-4"></div>
+                  <div class="col-md-9 col-lg-9 col-sm-8 col-xs-8">
+                    <div class="form-group">
+                      <div class="form-row">
+                        <label>Drug name</label>
+                        <ng-select
+                          [items]="drugList"
+                          bindLabel="drug_name"
+                          bind
+                          placeholder="Select drugs"
+                          [(ngModel)]="newSelectedDrug"
+                          (change)="onDrugChange($event)"
+                          name="newSelectedDrug"
+                        ></ng-select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-5 col-lg-5 col-sm-5 col-xs-5">
+                <div class="row">
+                  <div class="col-md-2 col-lg-2 col-sm-3 col-xs-4"></div>
+                  <div class="col-md-9 col-xl-9 col-lg-9 col-sm-8 col-xs-8">
+                    <div class="form-group">
+                      <div class="form-row">
+                        <label>Frequency</label>
+                        <ng-select
+                          [items]="frequencyList"
+                          bindLabel="display"
+                          bind
+                          placeholder="Select frequency"
+                          [(ngModel)]="selectedFrequency"
+                          (change)="onFrequencyChange($event)"
+                          name="selectedFrequency"
+                        ></ng-select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-5 col-lg-5 col-sm-5 col-xs-5">
+                <div class="row">
+                  <div class="col-md-2 col-lg-2 col-sm-3 col-xs-4"></div>
+                  <div class="col-md-9 col-lg-9 col-sm-8 col-xs-8">
+                    <mat-form-field
+                      class="example-full-width"
+                      appearance="fill"
+                    >
+                      <input
+                        [(ngModel)]="drugDuration"
+                        name="drugDuration"
+                        matInput
+                        placeholder="Enter duration"
+                      />
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-5 col-lg-5 col-sm-5 col-xs-5">
+                <div class="row">
+                  <div class="col-md-2 col-lg-2 col-sm-3 col-xs-4"></div>
+                  <div class="col-md-9 col-xl-9 col-lg-9 col-sm-8 col-xs-8">
+                    <div class="form-group">
+                      <div class="form-row">
+                        <label>Duration units</label>
+                        <ng-select
+                          [items]="durationUnits"
+                          bindLabel="display"
+                          bind
+                          placeholder="Select frequency"
+                          [(ngModel)]="selectedDuration"
+                          (change)="onDurationUnitChange($event)"
+                          name="selectedDuration"
+                        ></ng-select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-5 col-lg-5 col-sm-5 col-xs-5">
+                <div class="row">
+                  <div class="col-md-2 col-lg-2 col-sm-3 col-xs-4"></div>
+                  <div class="col-md-9 col-lg-9 col-sm-8 col-xs-8">
+                    <div class="form-group">
+                      <div class="form-row">
+                        <label>Drug route</label>
+                        <ng-select
+                          [items]="routesList"
+                          bindLabel="display"
+                          bind
+                          placeholder="Select route"
+                          [(ngModel)]="selectedRoute"
+                          (change)="onRouteChange($event)"
+                          name="selectedRoute"
+                        ></ng-select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-5 col-lg-5 col-sm-5 col-xs-5">
+                <div class="row">
+                  <div class="col-md-3 col-lg-3 col-sm-4 col-xs-4"></div>
+                  <div class="col-md-9 col-lg-9 col-sm-8 col-xs-8">
+                    <br />
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      (click)="addDrug()"
+                    >
+                      Add Drug
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="col-md-5 col-lg-5 col-sm-5 col-xs-5">
+        <section>
+          <div class="row">
+            <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1"></div>
+            <div class="col-md-5 col-lg-5 col-sm-5 col-xs-5">
+              <h3>Selected Drugs</h3>
+            </div>
+          </div>
+        </section>
+        <br />
+        <section>
+          <div class="row">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col"></th>
+                  <th scope="col">Drug details</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of dataSource">
+                  <td>{{ data.position }}</td>
+                  <td>{{ data.name }}</td>
+                  <button (click)="removeItem(data)">
+                    <span
+                      style="color: red"
+                      class="glyphicon glyphicon-remove"
+                    ></span>
+                  </button>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <button
+            style="margin: 15px; margin-right: -15px"
+            type="button"
+            class="btn btn-success pull-right"
+            (click)="drugPayload()"
+          >
+            Post order to ADT
+          </button>
+        </section>
+      </div>
     </div>
-  </div>
+  </section>
 </mat-card>
