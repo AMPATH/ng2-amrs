@@ -138,6 +138,11 @@ import { DrugOrdersComponent } from './drug-orders/drug-orders.component';
 import { EPrescriptionComponent } from './drug-orders/e-prescription/e-prescription.component';
 import { DrugOrderListComponent } from './drug-orders/drug-order-list/drug-order-list.component';
 import { PdfViewComponent } from './drug-orders/pdf-view/pdf-view.component';
+import {
+  MatAutocompleteModule,
+  MatSelectModule,
+  MatTableModule
+} from '@angular/material';
 
 @NgModule({
   imports: [
@@ -163,6 +168,9 @@ import { PdfViewComponent } from './drug-orders/pdf-view/pdf-view.component';
     PanelModule,
     FormEntryModule,
     ReactiveFormsModule,
+    MatAutocompleteModule,
+    MatSelectModule,
+    MatTableModule,
     ConfirmDialogModule,
     DialogModule,
     EtlApi,
