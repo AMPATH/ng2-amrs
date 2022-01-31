@@ -34,7 +34,9 @@ export class FamilyTestingService {
           else fm_status 
         end as modified_fm_status,
         date_format(current_test_date,"%d-%m-%Y") as modified_current_test_date,
-        extract(year from (from_days(datediff(now(),tx.birthdate)))) as age `;
+        extract(year from (from_days(datediff(now(),tx.birthdate)))) as age , 
+        extract(year from (from_days(datediff(now(),t1.fm_dob)))) as fm_current_age ,  
+        extract(year from (from_days(datediff(t1.date_elicited,t1.fm_dob)))) as age_at_elicitation `;
 
       const from = `FROM
       etl.flat_family_testing_index tx
@@ -56,7 +58,10 @@ export class FamilyTestingService {
       if (params.start_date != null && params.end_date != null) {
         where =
           where +
-          `  and date(tx.encounter_datetime) between date('${params.start_date}') and date('${params.end_date}')`;
+          `  and date(t1.date_elicited) between date('${params.start_date}') and date('${params.end_date}')`;
+      } else if (params.end_date != null) {
+        where =
+          where + `  and date(t1.date_elicited) <= date('${params.end_date}')`;
       }
 
       if (params.eligible != null) {
@@ -88,13 +93,25 @@ export class FamilyTestingService {
 
       if (params.elicited_clients == 0) {
         where = `${where}  group by tx.person_id`;
-        sql = sql + ' tx.* ' + from + where;
+        sql =
+          sql +
+          ' tx.*, extract(year from (from_days(datediff(now(),tx.birthdate)))) as age, tx.gender as index_gender ' +
+          from +
+          where;
       } else if (params.elicited_clients < 0) {
         where = `${where} and obs_group_id is null `;
-        sql = sql + ' tx.* ' + from + where;
+        sql =
+          sql +
+          ' tx.*, extract(year from (from_days(datediff(now(),tx.birthdate)))) as age, tx.gender as index_gender ' +
+          from +
+          where;
       } else if (params.elicited_clients > 0) {
         where = `${where} and tx.person_id in (select patient_id from etl.flat_family_testing where location_uuid = '${params.locationUuid}' ) group by tx.person_id`;
-        sql = sql + ' tx.* ' + from + where;
+        sql =
+          sql +
+          ' tx.*, extract(year from (from_days(datediff(now(),tx.birthdate)))) as age, tx.gender as index_gender ' +
+          from +
+          where;
       } else {
         sql = sql + columns + from + where + ' and obs_group_id is not null ';
       }
@@ -180,7 +197,7 @@ export class FamilyTestingService {
         t1.date_elicited,
         tx.updated_elicitation_date,
         tx.updated_elicitation_date_alert
-        
+          
       FROM
             etl.flat_family_testing_index tx
               LEFT JOIN
