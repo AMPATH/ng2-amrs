@@ -92,13 +92,21 @@ export class FamilyTestingPatientlistComponent implements OnInit {
       headerName: "Date Elicited",
       width: 100,
       cellRenderer: (column) => {
-        return Moment(column.value).format("DD/MM/YYYY");
-      },
+        if (column.value) {
+          return Moment(column.value).format('DD/MM/YYYY');
+        }
+        return null;
+      }
     },
-    { field: "fm_phone", headerName: "Telephone Number", width: 130 },
-    { field: "relationship_type", headerName: "Relationship", width: 130 },
-    { field: "fm_age", headerName: "Age", width: 80 },
-    { field: "fm_gender", headerName: "Gender", width: 80 },
+    { field: 'fm_phone', headerName: 'Telephone Number', width: 130 },
+    { field: 'relationship_type', headerName: 'Relationship', width: 130 },
+    { field: 'fm_current_age', headerName: 'Current age', width: 100 },
+    {
+      field: 'age_at_elicitation',
+      headerName: 'Age at elicitation',
+      width: 130
+    },
+    { field: 'fm_gender', headerName: 'Gender', width: 80 },
     {
       field: "modified_fm_status",
       headerName: "Reported HIV status",
