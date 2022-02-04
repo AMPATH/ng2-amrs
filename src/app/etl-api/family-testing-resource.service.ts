@@ -43,7 +43,7 @@ export class FamilyTestingService {
     let urlParams: HttpParams = new HttpParams();
 
     if (params.locationUuid && params.locationUuid !== "") {
-      urlParams = urlParams.set("locationUuid", params.locationUuid);
+      urlParams = urlParams.set("locationUuids", params.locationUuid);
     }
 
     if (params.isEligible && params.isEligible !== "") {
