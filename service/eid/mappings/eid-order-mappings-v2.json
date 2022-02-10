@@ -862,7 +862,7 @@
   "dnaPcrEntryPoint": {
     "a8a09ac8-1350-11df-a1f1-0026b9348838": {
       "eidDisplay": "OPD",
-      "eidId": 1,
+      "eidId": 2,
       "eidCode": "",
       "mrsDisplay": "OPD"
     },
@@ -874,13 +874,13 @@
     },
     "a8a17d80-1350-11df-a1f1-0026b9348838": {
       "eidDisplay": "MCH/PMTCT",
-      "eidId": 3,
+      "eidId": 5,
       "eidCode": "",
       "mrsDisplay": "MCH"
     },
     "a89fbedc-1350-11df-a1f1-0026b9348838": {
       "eidDisplay": "MCH/PMTCT",
-      "eidId": 3,
+      "eidId": 5,
       "eidCode": "",
       "mrsDisplay": "PMTCT"
     },
@@ -892,7 +892,7 @@
     },
     "materrnity-uuid": {
       "eidDisplay": "Materrnity",
-      "eidId": 5,
+      "eidId": 3,
       "eidCode": "",
       "mrsDisplay": "Materrnity"
     },
