@@ -2275,5 +2275,14 @@
     "county": "Uasin Gishu",
     "cityVillage": "",
     "eidDisplay": ""
+  },
+  "8b6f450b-8a61-4051-b4bd-b1a79cb541ee": {
+    "mrsId": 325,
+    "mrsDisplay": "Moi's Bridge MCH",
+    "description": "",
+    "mflCode": "15209",
+    "county": "Uasin Gishu",
+    "cityVillage": "",
+    "eidDisplay": ""
   }
 }
