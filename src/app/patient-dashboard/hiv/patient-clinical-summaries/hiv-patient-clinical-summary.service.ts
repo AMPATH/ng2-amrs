@@ -7,6 +7,10 @@ declare let pdfMake: any;
 declare let $: any;
 import { VERSION } from '../../../../environments/version';
 import { first } from 'rxjs/operators';
+
+interface AssessmentNote {
+  value: string;
+}
 export class HivPatientClinicalSummaryService {
   public static data: object = null;
 
@@ -1253,7 +1257,11 @@ export class HivPatientClinicalSummaryService {
 
   private static _generateFreeText(notes: Array<any>): string {
     if (notes.length > 0) {
-      return notes[0].value || 'N/A';
+      let combinedNotes = '';
+      notes.forEach((note: AssessmentNote) => {
+        combinedNotes += note.value;
+      });
+      return combinedNotes.length > 0 ? combinedNotes : 'N/A';
     } else {
       return 'None';
     }
