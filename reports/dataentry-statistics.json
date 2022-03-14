@@ -12,7 +12,7 @@
         "schema": "amrs",
         "tableName": "encounter",
         "alias": "t2",
-        "joinExpression": "t1.encounter_id = t2.encounter_id"
+        "joinExpression": "t1.encounter_id = t2.encounter_id and t2.voided = 0"
       },
       {
         "joinType": "JOIN",
@@ -155,7 +155,7 @@
         "schema": "amrs",
         "tableName": "encounter",
         "alias": "t2",
-        "joinExpression": "t1.encounter_id = t2.encounter_id"
+        "joinExpression": "t1.encounter_id = t2.encounter_id and t2.voided = 0"
       },
       {
         "joinType": "JOIN",
@@ -312,7 +312,7 @@
         "schema": "amrs",
         "tableName": "encounter",
         "alias": "t2",
-        "joinExpression": "t1.encounter_id = t2.encounter_id"
+        "joinExpression": "t1.encounter_id = t2.encounter_id and t2.voided = 0"
       },
       {
         "joinType": "JOIN",
@@ -486,7 +486,7 @@
         "schema": "amrs",
         "tableName": "encounter",
         "alias": "t2",
-        "joinExpression": "t1.encounter_id = t2.encounter_id"
+        "joinExpression": "t1.encounter_id = t2.encounter_id and t2.voided = 0"
       },
       {
         "joinType": "JOIN",
@@ -679,7 +679,7 @@
         "schema": "amrs",
         "tableName": "encounter",
         "alias": "t2",
-        "joinExpression": "t1.encounter_id = t2.encounter_id"
+        "joinExpression": "t1.encounter_id = t2.encounter_id and t2.voided = 0"
       },
       {
         "joinType": "JOIN",
