@@ -860,41 +860,41 @@
     }
   },
   "dnaPcrEntryPoint": {
+    "a8a8b0b4-1350-11df-a1f1-0026b9348838": {
+      "eidDisplay": "IPD",
+      "eidId": 1,
+      "eidCode": "",
+      "mrsDisplay": "IPD"
+    },
     "a8a09ac8-1350-11df-a1f1-0026b9348838": {
       "eidDisplay": "OPD",
       "eidId": 2,
       "eidCode": "",
       "mrsDisplay": "OPD"
     },
-    "3e5ad07b-2ced-4925-8264-cc4d8d1438d4": {
-      "eidDisplay": "Paediatric Ward",
-      "eidId": 2,
+    "50d22d55-e6af-4a77-9283-2e901c3060ad": {
+      "eidDisplay": "Maternity",
+      "eidId": 3,
       "eidCode": "",
-      "mrsDisplay": "Peadiatric ward"
+      "mrsDisplay": "Maternity"
+    },
+    "a8a3899a-1350-11df-a1f1-0026b9348838": {
+      "eidDisplay": "CCC",
+      "eidId": 4,
+      "eidCode": "",
+      "mrsDisplay": "CCC"
     },
     "a8a17d80-1350-11df-a1f1-0026b9348838": {
-      "eidDisplay": "MCH/PMTCT",
+      "eidDisplay": "MCH",
       "eidId": 5,
       "eidCode": "",
       "mrsDisplay": "MCH"
     },
     "a89fbedc-1350-11df-a1f1-0026b9348838": {
-      "eidDisplay": "MCH/PMTCT",
+      "eidDisplay": "PMTCT",
       "eidId": 5,
       "eidCode": "",
       "mrsDisplay": "PMTCT"
-    },
-    "a8a3899a-1350-11df-a1f1-0026b9348838": {
-      "eidDisplay": "CCC/PSC",
-      "eidId": 4,
-      "eidCode": "",
-      "mrsDisplay": "CCC"
-    },
-    "materrnity-uuid": {
-      "eidDisplay": "Materrnity",
-      "eidId": 3,
-      "eidCode": "",
-      "mrsDisplay": "Materrnity"
     },
     "a8aaf3e2-1350-11df-a1f1-0026b9348838": {
       "eidDisplay": "Other",
