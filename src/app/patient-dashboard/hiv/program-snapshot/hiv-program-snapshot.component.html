@@ -101,6 +101,15 @@
               </span>
             </p>
           </div>
+          <div
+            class="col-md-6 col-xs-12"
+            *ngIf="patientData.med_pickup_rtc_date"
+          >
+            <p>
+              Medication Pickup Date:
+              {{ patientData?.med_pickup_rtc_date | date: 'dd-MM-yyyy' }}
+            </p>
+          </div>
           <div class="col-md-6 col-xs-12" *ngIf="showCareStatus">
             <p>
               Disclosure Status:
