@@ -2817,6 +2817,18 @@
         ]
       },
       {
+        "uuid": "8c29c6af-5df1-4cf3-919f-606690652f58",
+        "name": "Differentiated Care Pharmacy Visit",
+        "allowedIf": "programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
+        "message": "Patient has to be the same location from location he was enrolled into HIV care and treatment program and must have a prior clinical encounter",
+        "encounterTypes": [
+          {
+            "uuid": "987009c6-6f24-43f7-9640-c285d6553c63",
+            "display": "DRUGPICKUP"
+          }
+        ]
+      },
+      {
         "uuid": "dddea595-9814-430d-bed6-cee9ac59b579",
         "name": "Between Care Visit",
         "allowedIf": "programLocation !== intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
