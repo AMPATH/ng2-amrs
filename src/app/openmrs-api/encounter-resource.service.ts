@@ -60,14 +60,14 @@ export class EncounterResourceService {
       return null;
     }
     const _customDefaultRep =
-      "custom:(uuid,encounterDatetime," +
-      "patient:(uuid,uuid,person,identifiers:full),form:(uuid,name)," +
-      "visit:(uuid,visitType,display,startDatetime,stopDatetime)," +
-      "location:ref,encounterType:ref," +
-      "encounterProviders:(uuid,display,provider:(uuid,display)),orders:full," +
-      "obs:(uuid,obsDatetime,concept:(uuid,uuid,name:(display)),value:ref,groupMembers))";
-    const params = new HttpParams().set("v", _customDefaultRep);
-    const url = this.getUrl() + "encounter/" + uuid;
+      'custom:(uuid,encounterDatetime,' +
+      'patient:(uuid,uuid,person,identifiers:full),form:(uuid,name),' +
+      'visit:(uuid,visitType,display,startDatetime,stopDatetime),' +
+      'location:ref,encounterType:ref,' +
+      'encounterProviders:(uuid,display,provider:(uuid,display)),orders:full,' +
+      'obs:(uuid,obsDatetime,concept:(uuid,uuid,name:(display),datatype),value:ref,groupMembers))';
+    const params = new HttpParams().set('v', _customDefaultRep);
+    const url = this.getUrl() + 'encounter/' + uuid;
     return this.http.get(url, { params: params });
   }
   public getEncounterTypes(v: string) {

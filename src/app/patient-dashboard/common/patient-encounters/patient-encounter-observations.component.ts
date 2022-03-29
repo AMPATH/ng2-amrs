@@ -9,13 +9,14 @@ import {
   EventEmitter,
   Output,
   OnChanges,
-  SimpleChange,
-} from "@angular/core";
-import { Encounter } from "../../../models/encounter.model";
-import * as _ from "lodash";
-import { EncounterResourceService } from "../../../openmrs-api/encounter-resource.service";
-import { ModalComponent } from "ng2-bs3-modal/ng2-bs3-modal";
-import { ModalDirective } from "ngx-bootstrap/modal";
+  SimpleChange
+} from '@angular/core';
+import { Encounter } from '../../../models/encounter.model';
+import * as _ from 'lodash';
+import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
+import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { ModalDirective } from 'ngx-bootstrap/modal';
+import * as Moment from 'moment';
 
 @Component({
   selector: "patient-encounter-observations",
@@ -42,7 +43,8 @@ export class PatientEncounterObservationsComponent
   @Output() public onClose = new EventEmitter();
   @Output() public isDone = new EventEmitter();
   @Output() public onDismiss = new EventEmitter();
-  public cssClass = "obs-dialog";
+  public cssClass = 'obs-dialog';
+  public timeDataTypeUuid = '8d4a591e-c2cc-11de-8d13-0010c6dffd0f';
 
   constructor(private encounterResource: EncounterResourceService) {}
 
@@ -130,10 +132,14 @@ export class PatientEncounterObservationsComponent
       const _b = b.concept.name.display.toUpperCase();
       return _a < _b ? -1 : _a > _b ? 1 : 0;
     });
-
     _.each(obs, (v: any, i) => {
       this.isHidden[i] = true;
-      let _value: any = _.isObject(v.value) ? v.value.display : v.value;
+      const dataTypeUuid = v.concept.datatype.uuid || '';
+      let _value: any = _.isObject(v.value)
+        ? v.value.display
+        : dataTypeUuid === this.timeDataTypeUuid
+        ? this.convertDateTimeToTime(v.value)
+        : v.value;
       const _arrValue: Array<any> = [];
       if (_.isNil(_value) && !_.isNil(v.groupMembers)) {
         _.each(v.groupMembers, (group: any, index) => {
@@ -152,5 +158,10 @@ export class PatientEncounterObservationsComponent
     });
     this.isDone.emit(false);
     return processedObs;
+  }
+
+  public convertDateTimeToTime(dateTimeString: string): string {
+    const obsTime = Moment(dateTimeString).format('HH:mm');
+    return obsTime;
   }
 }

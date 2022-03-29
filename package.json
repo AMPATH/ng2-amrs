@@ -85,6 +85,7 @@
     "ngx-bootstrap": "^3.0.0",
     "ngx-cookie": "^4.0.2",
     "ngx-file-uploader": "0.0.18",
+    "ngx-file-uploader-ampath": "0.0.10",
     "ngx-mydatepicker": "^2.4.9",
     "ngx-pagination": "^3.1.1",
     "ngx-select": "^0.0.1",
