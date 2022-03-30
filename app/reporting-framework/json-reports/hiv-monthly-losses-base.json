@@ -59,7 +59,27 @@
     {
       "type": "simple_column",
       "alias": "end_date",
-      "column": "DATE(n.endDate)"
+      "column": "DATE_FORMAT(n.endDate,'%Y-%m-%d')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "start_month",
+      "column": "DATE_FORMAT(c.endDate,'%Y-%m')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "end_month",
+      "column": "DATE_FORMAT(n.endDate,'%Y-%m')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "cl.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "cl.uuid"
     },
     {
       "type": "simple_column",
@@ -101,6 +121,22 @@
       "expressionType": "simple_expression",
       "expressionOptions": {
         "expression": "IF(n.status = 'dead' AND c.location_id = n.location_id, 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "dead_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(n.status = 'dead' AND n.cur_arv_meds IS NOT NULL AND c.location_id = n.location_id, 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "dead_not_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(n.status = 'dead' AND c.cur_arv_meds IS NULL AND c.location_id = n.location_id, 1, NULL)"
       }
     },
     {
@@ -242,6 +278,22 @@
     },
     {
       "type": "derived_column",
+      "alias": "transfer_out_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "CASE when n.status = 'transfer_out' AND n.cur_arv_meds IS NOT NULL then 1 when n.status != 'transfer_out' AND n.cur_arv_meds IS NOT NULL AND n.location_id != c.location_id then 1 ELSE NULL END"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "transfer_out_not_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "CASE when n.status = 'transfer_out' AND n.cur_arv_meds IS NULL then 1 when n.status != 'transfer_out' AND n.cur_arv_meds IS NULL AND n.location_id != c.location_id then 1 ELSE NULL END"
+      }
+    },
+    {
+      "type": "derived_column",
       "alias": "transfer_out_date",
       "expressionType": "simple_expression",
       "expressionOptions": {
@@ -323,10 +375,42 @@
     },
     {
       "type": "derived_column",
+      "alias": "ltfu_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(n.status IN ('ltfu') AND n.cur_arv_meds IS NOT NULL AND c.location_id = n.location_id,1,NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "ltfu_not_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(n.status IN ('ltfu') AND n.cur_arv_meds IS NULL AND c.location_id = n.location_id,1,NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
       "alias": "defaulter",
       "expressionType": "simple_expression",
       "expressionOptions": {
         "expression": "IF(n.status IN ('defaulter') AND c.location_id = n.location_id,1,NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "defaulter_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(n.status IN ('defaulter') AND n.cur_arv_meds IS NOT NULL AND c.location_id = n.location_id,1,NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "defaulter_not_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(n.status IN ('defaulter') AND n.cur_arv_meds IS NULL AND c.location_id = n.location_id,1,NULL)"
       }
     },
     {
@@ -352,6 +436,22 @@
     },
     {
       "type": "derived_column",
+      "alias": "loss_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "CASE WHEN n.status = 'transfer_out' AND n.cur_arv_meds IS NOT NULL THEN 1 WHEN n.status != 'transfer_out' AND n.cur_arv_meds IS NOT NULL AND n.location_id != c.location_id THEN 1 WHEN n.status = 'dead' AND n.cur_arv_meds IS NOT NULL AND c.location_id = n.location_id THEN 1 WHEN n.status IN ('ltfu') AND n.cur_arv_meds IS NOT NULL AND c.location_id = n.location_id THEN 1 WHEN n.status IN ('defaulter') AND n.cur_arv_meds IS NOT NULL AND c.location_id = n.location_id THEN 1 ELSE NULL END"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "loss_not_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "CASE WHEN n.status = 'transfer_out' AND n.cur_arv_meds IS NULL THEN 1 WHEN n.status != 'transfer_out' AND n.cur_arv_meds IS NULL AND n.location_id != c.location_id THEN 1 WHEN n.status = 'dead' AND n.cur_arv_meds IS NULL AND c.location_id = n.location_id THEN 1 WHEN n.status IN ('ltfu') AND n.cur_arv_meds IS NULL AND c.location_id = n.location_id THEN 1 WHEN n.status IN ('defaulter') AND n.cur_arv_meds IS NULL AND c.location_id = n.location_id THEN 1 ELSE NULL END"
+      }
+    },
+    {
+      "type": "derived_column",
       "alias": "loss_status",
       "expressionType": "simple_expression",
       "expressionOptions": {
@@ -369,7 +469,7 @@
       },
       {
         "filterType": "tableColumns",
-        "conditionExpression": "c.location_id in (?)",
+        "conditionExpression": "c.location_id in ? ",
         "parameterName": "locations"
       },
       {
