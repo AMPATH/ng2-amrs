@@ -6,7 +6,7 @@ import { LabOrderResourceService } from '../etl-api/lab-order-resource.service';
 export class LabOrderPostService {
   constructor(private resouceService: LabOrderResourceService) {}
 
-  public postOrderToEid(location, payload: any): Observable<any> {
+  public postOrderToEid(location: string, payload: any): Observable<any> {
     return this.resouceService.postOrderToEid(location, payload);
   }
 }
